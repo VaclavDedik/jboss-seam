@@ -9,6 +9,7 @@ options
 	k=2;
 }
 {   
+    private int newLinesSinceWord = 0;
     private StringBuilder builder = new StringBuilder();
     
     public String toString() {
@@ -17,7 +18,11 @@ options
     
     public void append(String... strings) {
         for (String string: strings) builder.append(string);
-    }   
+    }
+    
+    private static boolean hasMultiple(String string, char c) {
+        return string.indexOf(c)!=string.lastIndexOf(c);
+    }
 }
 
 startRule: { append("<p>\n"); }
@@ -25,19 +30,20 @@ startRule: { append("<p>\n"); }
            { append("\n</p>\n"); }
     ;
 
-text: (word|punctuation|formatting|escape|ws|para|span)*
+text: (word|punctuation|formatting|escape|space|para|span|list)*
     ;
     
 formatting: bold|underline|italic|monospace|superscript|deleted|preformatted|quoted
     ;
 
-word: w:WORD { append( w.getText() ); }
+word: w:WORD { append( w.getText() ); newLinesSinceWord=0; }
     ;
     
-punctuation: p:PUNCTUATION { append( p.getText() ); }
+punctuation: p:PUNCTUATION { append( p.getText() ); newLinesSinceWord=0; }
     ;
     
-escape: ESCAPE ( q:QUOTE { append( q.getText() ); } | specialChars | htmlSpecialChars )
+escape: ESCAPE { newLinesSinceWord=0; } 
+        ( q:QUOTE { append( q.getText() ); } | specialChars | htmlSpecialChars )
     ;
     
 specialChars:
@@ -48,9 +54,9 @@ specialChars:
         | m:MINUS { append( m.getText() ); } 
         | p:PLUS { append( p.getText() ); } 
         | eq:EQ { append( eq.getText() ); }
+        | hh:HASH { append( hh.getText() ); }
         | e:ESCAPE { append( e.getText() ); }
         | u:UNDERSCORE { append( u.getText() ); }
-        | n:NEWLINE { append( n.getText() ); }
     ;
 
 htmlSpecialChars: 
@@ -61,55 +67,68 @@ htmlSpecialChars:
     ;
     
 bold: STAR { append("<b>"); }
-      (word|punctuation|escape|underline|italic|monospace|superscript|deleted|ws)*
+      (word|punctuation|escape|underline|italic|monospace|superscript|deleted|space|newline)*
       STAR { append("</b>"); }
     ;
     
 underline: UNDERSCORE { append("<u>"); }
-           (word|punctuation|escape|bold|italic|monospace|superscript|deleted|ws)*
+           (word|punctuation|escape|bold|italic|monospace|superscript|deleted|space|newline)*
            UNDERSCORE { append("</u>"); }
     ;
     
 italic: SLASH { append("<i>"); }
-        (word|punctuation|escape|bold|underline|monospace|superscript|deleted|ws)*
+        (word|punctuation|escape|bold|underline|monospace|superscript|deleted|space|newline)*
         SLASH { append("</i>"); }
     ;
     
 monospace: BAR { append("<tt>"); }
-           (word|punctuation|escape|bold|underline|italic|superscript|deleted|ws)*
+           (word|punctuation|escape|bold|underline|italic|superscript|deleted|space|newline)*
            BAR { append("</tt>"); }
     ;
     
 superscript: HAT { append("<sup>"); }
-             (word|punctuation|escape|bold|underline|italic|monospace|deleted|ws)*
+             (word|punctuation|escape|bold|underline|italic|monospace|deleted|space|newline)*
              HAT { append("</sup>"); }
     ;
     
 deleted: MINUS { append("<del>"); }
-         (word|punctuation|escape|bold|underline|italic|monospace|superscript|ws)*
+         (word|punctuation|escape|bold|underline|italic|monospace|superscript|space|newline)*
          MINUS { append("</del>"); }
     ;
     
 preformatted: QUOTE { append("<pre>"); }
-              (word|punctuation|specialChars|htmlSpecialChars|ws)*
+              (word|punctuation|specialChars|htmlSpecialChars|space|newline)*
               QUOTE { append("</pre>"); }
     ;
     
-quoted: DOUBLEQUOTE { append("<quote>"); }
-        (word|punctuation|escape|bold|underline|italic|monospace|superscript|deleted|preformatted|ws|para|span)*
-        DOUBLEQUOTE { append("</quote>"); }
+quoted: DOUBLEQUOTE { append("<quote><p>"); newLinesSinceWord=0; }
+        (word|punctuation|escape|bold|underline|italic|monospace|superscript|deleted|preformatted|space|para|span)*
+        DOUBLEQUOTE { append("</p></quote>"); newLinesSinceWord=0; }
     ;
     
-ws: w:WS { append( w.getText() ); }
+list: para { append("<ol>\n"); } (listItem)+ { append("</ol>\n"); }
     ;
-        
-para: n:NEWLINE { append( n.getText() ); } 
-      NEWLINE { append("</p>\n<p>\n"); }
+    
+listItem: HASH { append("<li>"); newLinesSinceWord=0; }
+      (word|punctuation|escape|bold|underline|italic|monospace|superscript|deleted|space)*
+      { append("</li>"); } 
+      para
+    ;
+    
+space: s:SPACE { append( s.getText() ); }
     ;
 
-span: LT tag:WORD { append("<" + tag.getText()); } 
+newline: n:NEWLINE { append( n.getText() ); }
+    ;
+        
+para: { if (newLinesSinceWord>0) append("</p>\n"); } 
+      newline 
+      { if (newLinesSinceWord>0) append("<p>\n"); newLinesSinceWord++; } 
+    ;
+
+span: LT tag:WORD { append("<" + tag.getText()); }
           (
-              ws att:WORD EQ 
+              space att:WORD EQ 
               DOUBLEQUOTE { append(att.getText() + "=\""); } 
               attributeValue 
               DOUBLEQUOTE { append("\""); } 
@@ -117,7 +136,7 @@ span: LT tag:WORD { append("<" + tag.getText()); }
       (
           (
               GT { append(">"); } 
-              text 
+              { newLinesSinceWord=0; } text { newLinesSinceWord=0; }
               LT SLASH WORD GT { append("</" + tag.getText() + ">"); }
           )
       |   (
@@ -126,7 +145,7 @@ span: LT tag:WORD { append("<" + tag.getText()); }
       )
     ;
     
-attributeValue: ( AMPERSAND { append("&amp;"); } | word | punctuation | ws | specialChars )*
+attributeValue: ( AMPERSAND { append("&amp;"); } | word | punctuation | space | specialChars )*
     ;
 
 class L extends Lexer;
@@ -186,10 +205,9 @@ LT: '<'
 AMPERSAND: '&'
     ;
     
-WS: (' '|'\t')+
+SPACE: (' '|'\t')+
     ;
-
-NEWLINE: '\r' '\n'   // DOS
-    |    '\n'        // UNIX
-    |    '\r'        // Mac
+    
+NEWLINE: '\r' '\n' | '\r' | '\n'
     ;
+    
