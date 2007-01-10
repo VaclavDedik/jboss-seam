@@ -13,3 +13,5 @@ insert into MemberImage (imageid, member_id, contentType, data) values (2, 2, 'i
 
 update Member set picture_id = 1 where memberid = 1;
 update Member set picture_id = 2 where memberid = 2;
+
+insert into MemberBlog (blogid, member_id, entrydate, title, text) values (1, 1, '2007-01-09', 'Test blog entry', 'This is a sample blog entry');

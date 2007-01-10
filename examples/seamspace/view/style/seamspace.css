@@ -5,7 +5,7 @@ body {
   margin: 0;
 }
 
-h1 {
+h1 h2 h3 {
   margin-top: 2px;
   margin-bottom: 6px;
 }
@@ -39,6 +39,16 @@ h1 {
   height: 800px;
 }
 
+#content a, #content a:visited {
+  font-weight: bold;
+  color: #003399;
+}
+
+#content a:hover {
+  font-weight: bold;
+  color: #7799dd;
+}
+
 #contentMain {
   float: left;
   width: 430px;
@@ -63,6 +73,8 @@ h1 {
 
 #memberCard {
   width: 350px;
+  float: left;
+  margin-left: 10px;
   border: 2px solid #eeeeee;
   background-color: #f5f5f5;
   padding: 2px;
@@ -76,6 +88,18 @@ h1 {
 #memberCardText {
   width: 170px;
   float: right;
+}
+
+#memberBlog {
+  width: 400px;
+  float: right;
+  margin-right: 10px;
+  border: 2px solid #eeeeee;
+  padding: 2px;
+}
+
+div.blogSummary {
+  padding: 4px 2px 4px 2px;
 }
 
 div.headerRight {
@@ -93,6 +117,14 @@ div.advertising {
   background: url(advertising.png) no-repeat top left;
   width: 307px;
   height: 86px;  
+}
+
+div.sectionHeader {
+  font-weight: bold;
+  font-size: normal;
+  background-color: #eeeeee;
+  padding: 2px 2px 2px 2px;
+  margin-bottom: 6px;
 }
 
 span.tagline {
@@ -149,6 +181,7 @@ div.loginHeader {
 
 div.newMembers {
   width: 300px;
+  margin-top: 8px;
   border: 1px solid #ffcc99;
 }
 
@@ -163,14 +196,6 @@ div.newMember {
   float: left;
   width: 99px;
   text-align: center;
-}
-
-div.newMember a, a:visited {
-  color: #003399;
-}
-
-div.newMember a:hover {
-  color: #7799dd;
 }
 
 div.newMember img {
