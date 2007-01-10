@@ -68,6 +68,7 @@ public class BagWrapper extends BaseWrapper implements Wrapper
     out.write(BAG_TAG_CLOSE);
   }
 
+  @SuppressWarnings("unchecked")
   public Object convert(Type type)
       throws ConversionException
   {

@@ -98,7 +98,7 @@ public class SeamSecurityManager
    /**
     * Returns the application-scoped instance of the security manager
     * 
-    * @return SeamSecurityManager
+    * @return SeamSecurityManager The application-scoped instance of the SecurityManager
     */
    public static SeamSecurityManager instance()
    {
@@ -121,8 +121,8 @@ public class SeamSecurityManager
     * Evaluates the specified security expression, which must return a boolean
     * value.
     * 
-    * @param expr String
-    * @return boolean
+    * @param expr String The expression to evaluate
+    * @return boolean The result of the expression evaluation
     */
    public boolean evaluateExpression(String expr)
    {
@@ -133,8 +133,8 @@ public class SeamSecurityManager
    /**
     * Checks if the authenticated Identity is a member of the specified role.
     * 
-    * @param name String
-    * @return boolean
+    * @param name String The name of the role to check
+    * @return boolean True if the user is a member of the specified role
     */
    public static boolean hasRole(String name)
    {
@@ -150,10 +150,10 @@ public class SeamSecurityManager
    /**
     * Performs a permission check for the specified name and action
     * 
-    * @param name String
-    * @param action String
-    * @param args Object[]
-    * @return boolean
+    * @param name String The permission name
+    * @param action String The permission action
+    * @param args Object[] Optional number of objects used to make a permission decision
+    * @return boolean True if the user has the specified permission
     */
    public static boolean hasPermission(String name, String action,
          Object... args)
@@ -229,12 +229,26 @@ public class SeamSecurityManager
       }
    }
    
+   /**
+    * Creates a LoginContext without a callback handler
+    * 
+    * @throws LoginException
+    */
    public LoginContext createLoginContext()
       throws LoginException
    {
       return createLoginContext(null);
    }
       
+   /**
+    * A factory method for creating a LoginContext instance.  Users must use this
+    * method instead of creating their own LoginContext as this factory method
+    * creates a LoginContext with a custom configuration and overridden login()
+    * method.
+    * 
+    * @param cbHandler The callback handler provided to the LoginContext
+    * @throws LoginException
+    */
    public LoginContext createLoginContext(CallbackHandler cbHandler)
        throws LoginException
    {     
@@ -253,7 +267,7 @@ public class SeamSecurityManager
     * according to the role memberships contained within the current 
     * SecurityConfiguration
     * 
-    * @param ctx The subject containing the role group.
+    * @param subject The subject containing the role group.
     */
    private void populateRoles(Subject subject)
    {
@@ -309,6 +323,13 @@ public class SeamSecurityManager
       
    }
    
+   /**
+    * Creates a callback handler that can handle a standard username/password
+    * callback, using the specified username and password parameters.
+    * 
+    * @param username The username to provide for a NameCallback
+    * @param password The password to provide for a PasswordCallback
+    */
    public CallbackHandler createCallbackHandler(final String username, 
          final String password)
    {
