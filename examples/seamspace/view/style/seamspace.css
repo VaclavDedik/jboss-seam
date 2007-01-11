@@ -5,7 +5,7 @@ body {
   margin: 0;
 }
 
-h1 h2 h3 {
+h1, h2, h3 {
   margin-top: 2px;
   margin-bottom: 6px;
 }
@@ -98,8 +98,58 @@ h1 h2 h3 {
   padding: 2px;
 }
 
+#blogMemberCard {
+  width: 140px;
+  float: left;
+  margin-left: 10px;
+  border: 2px solid #eeeeee;
+  background-color: #f5f5f5;
+  padding: 2px;
+  text-align: center;
+}
+
+#blog {
+  float: right;
+  width: 600px;
+  margin-right: 10px;
+  padding: 2px;  
+}
+
 div.blogSummary {
-  padding: 4px 2px 4px 2px;
+  padding: 0px 2px 4px 2px;
+  margin-bottom: 8px;
+}
+
+div.blogEntry {
+  background-color: #bbddff;
+  padding: 8px 8px 8px 8px;
+  margin-bottom: 12px;
+}
+
+div.blogEntry a, div.blogEntry a:visited, div.blogEntry a:hover {
+  text-decoration: underline;
+  margin-right: 8px;
+}
+
+div.blogDate {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+div.blogTitle {
+  font-weight: bold;
+  margin-left: 24px;
+  margin-bottom: 8px;
+}
+
+div.blogText {
+  margin-left: 24px;
+  margin-bottom: 8px;
+  text-align: justify;
+}
+
+div.blogFooter {
+  margin-bottom: 8px;
 }
 
 div.headerRight {
@@ -124,7 +174,7 @@ div.sectionHeader {
   font-size: normal;
   background-color: #eeeeee;
   padding: 2px 2px 2px 2px;
-  margin-bottom: 6px;
+  margin-bottom: 12px;
 }
 
 span.tagline {

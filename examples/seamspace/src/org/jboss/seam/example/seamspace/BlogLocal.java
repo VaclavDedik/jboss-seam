@@ -8,5 +8,6 @@ import javax.ejb.Local;
 public interface BlogLocal
 {
    List getLatestBlogs();
+   void getMemberBlogs();
    void destroy();
 }

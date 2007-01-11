@@ -40,7 +40,7 @@
           
           <ui:repeat value="#{blog.latestBlogs}" var="latestBlog">
             <div class="blogSummary">#{latestBlog.title} 
-              (<h:outputLink value="blogdetail.seam?blogId=#{latestBlog.blogId}">view more</h:outputLink>)
+              (<h:outputLink value="blogentry.seam?blogId=#{latestBlog.blogId}">view more</h:outputLink>)
             </div>
           </ui:repeat>            
           

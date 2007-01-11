@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:s="http://jboss.com/products/seam/taglib">
+
+  <ui:composition template="template.xhtml">
+    <ui:define name="content">
+      
+      <div class="errors"><h:messages globalOnly="true"/></div>       
+
+      <s:div rendered="#{selectedMember == null}">
+        Sorry, but this member does not exist.
+      </s:div>
+    
+      <s:div rendered="#{selectedMember != null}">
+      
+        <s:div id="blogMemberCard">
+          <h:outputLink value="profile.seam?name=#{selectedMember.name}">
+	          #{selectedMember.name}<br/>
+	          <h:graphicImage value="/content/images?id=#{selectedMember.picture.imageId}&amp;width=90"/>
+	        </h:outputLink>
+                           
+          <br style="clear:both"/>          
+        </s:div>
+
+				<s:div id="blog">
+	        <ui:repeat value="#{memberBlogs}" var="memberBlog">
+	          <div class="blogEntry">
+  	          <div class="blogDate">#{memberBlog.formattedEntryDate}</div>
+	            <div class="blogTitle">#{memberBlog.title}</div>
+	            <div class="blogText">#{memberBlog.text}</div>
+	            <div class="blogFooter">
+	              <h:outputLink value="blogentry.seam?blogId=#{memberBlog.blogId}">
+	                #{memberBlog.commentCount} Comments
+	              </h:outputLink>
+	              <s:link value="Add Comment"/>
+	            </div>
+	          </div>
+	        </ui:repeat>
+	      </s:div>
+                
+      </s:div>                
+          
+    </ui:define>
+    
+  </ui:composition>
+</html>
