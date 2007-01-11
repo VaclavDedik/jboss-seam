@@ -10,6 +10,21 @@
     </component>
 
     <component>
+        <component-type>org.jboss.seam.pdf.ui.UIHeader</component-type>
+        <component-class>org.jboss.seam.pdf.ui.UIHeader</component-class>
+    </component>
+
+    <component>
+        <component-type>org.jboss.seam.pdf.ui.UIFooter</component-type>
+        <component-class>org.jboss.seam.pdf.ui.UIFooter</component-class>
+    </component>
+
+    <component>
+        <component-type>org.jboss.seam.pdf.ui.UIPageNumber</component-type>
+        <component-class>org.jboss.seam.pdf.ui.UIPageNumber</component-class>
+    </component>
+
+    <component>
         <component-type>org.jboss.seam.pdf.ui.UIParagraph</component-type>
         <component-class>org.jboss.seam.pdf.ui.UIParagraph</component-class>
     </component>

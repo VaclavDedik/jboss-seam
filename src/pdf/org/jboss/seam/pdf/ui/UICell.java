@@ -10,7 +10,7 @@ import java.awt.Color;
 import javax.faces.context.FacesContext;
 
 public class UICell
-    extends ITextComponent
+    extends UIRectangle
 {
     public static final String COMPONENT_TYPE   = "org.jboss.seam.pdf.ui.UICell";
 
@@ -37,41 +37,11 @@ public class UICell
     Integer runDirection;
     Integer arabicOptions;
     Boolean useAscender;
-    Integer rotation; 
-    Color borderColor;
-    Color borderColorLeft;
-    Color borderColorRight;
-    Color borderColorTop;
-    Color borderColorBottom;
-    Color backgroundColor;
-    Float grayFill;
-    Float borderWidth;
-    Float borderWidthLeft;
-    Float borderWidthRight; 
-    Float borderWidthTop;
-    Float borderWidthBottom;
+    Float   grayFill;
+    Integer rotation;
     
-    public void setBorderWidth(Float borderWidth) {
-		this.borderWidth = borderWidth;
-	}
-
-	public void setBorderWidthBottom(Float borderWidthBottom) {
-		this.borderWidthBottom = borderWidthBottom;
-	}
-
-	public void setBorderWidthLeft(Float borderWidthLeft) {
-		this.borderWidthLeft = borderWidthLeft;
-	}
-
-	public void setBorderWidthRight(Float borderWidthRight) {
-		this.borderWidthRight = borderWidthRight;
-	}
-
-	public void setBorderWidthTop(Float borderWidthTop) {
-		this.borderWidthTop = borderWidthTop;
-	}
-
-	public void setGrayFill(Float grayFill) {
+    
+    public void setGrayFill(Float grayFill) {
         this.grayFill = grayFill;
     }
 
@@ -162,35 +132,11 @@ public class UICell
     public void setUseAscender(Boolean useAscender) {
         this.useAscender = useAscender;
     }
-
+    
     public void setRotation(Integer rotation) {
         this.rotation = rotation;
     }
-    
-	public void setBackgroundColor(String backgroundColor) {
-		this.backgroundColor = ITextUtils.colorValue(backgroundColor);
-	}
-	
-	public void setBorderColor(String borderColor) {
-    	this.borderColor = ITextUtils.colorValue(borderColor);
-    }
 
-	public void setBorderColorBottom(String borderColorBottom) {
-		this.borderColorBottom =  ITextUtils.colorValue(borderColorBottom);
-	}
-
-	public void setBorderColorLeft(String borderColorLeft) {
-		this.borderColorLeft = ITextUtils.colorValue(borderColorLeft)  ;
-	}
-
-	public void setBorderColorRight(String borderColorRight) {
-		this.borderColorRight = ITextUtils.colorValue(borderColorRight);
-	}
-
-	public void setBorderColorTop(String borderColorTop) {
-		this.borderColorTop = ITextUtils.colorValue(borderColorTop);
-	}
-	
     public Object getITextObject() {
         return cell;
     }
@@ -308,70 +254,18 @@ public class UICell
         if (useAscender != null) {
             cell.setUseAscender(useAscender);
         }
-        rotation = (Integer) valueBinding(context, "rotation", rotation);
-        if (rotation != null) {
-            cell.setRotation(rotation);
-        }
-
-        backgroundColor = (Color) valueBinding(context, "backgroundColor", backgroundColor);
-        if (backgroundColor != null) {
-        	cell.setBackgroundColor(backgroundColor);
-        }
-        
-        borderColor = (Color) valueBinding(context, "borderColor", borderColor);
-        if (borderColor != null) {
-        	cell.setBorderColor(borderColor);
-        }
-        
-        borderColorLeft = (Color) valueBinding(context, "borderColorLeft", borderColorLeft);
-        if (borderColorLeft != null) {
-        	cell.setBorderColorLeft(borderColorLeft);
-        }
-        
-        borderColorRight = (Color) valueBinding(context, "borderColorRight", borderColorRight);
-        if (borderColorRight != null) {
-        	cell.setBorderColorRight(borderColorRight);
-        }     
-        
-        borderColorTop = (Color) valueBinding(context, "borderColorTop", borderColorTop);
-        if (borderColorTop != null) {
-        	cell.setBorderColorTop(borderColorTop);
-        }
-        
-        borderColorBottom = (Color) valueBinding(context, "borderColorBottom", borderColorBottom);
-        if (borderColorBottom != null) {
-        	cell.setBorderColorBottom(borderColorBottom);
-        }    
-        
-        borderWidth = (Float) valueBinding(context, "borderWidth", borderWidth);
-        if (borderWidth != null) {
-        	cell.setBorderWidth(borderWidth);
-        }
-        
-        borderWidthLeft = (Float) valueBinding(context, "borderWidthLeft", borderWidthLeft);
-        if (borderWidthLeft != null) {
-        	cell.setBorderWidthLeft(borderWidthLeft);
-        }
-        
-        borderWidthRight = (Float) valueBinding(context, "borderWidthRight", borderWidthRight);
-        if (borderWidthRight != null) {
-        	cell.setBorderWidthRight(borderWidthRight);
-        }     
-        
-        borderWidthTop = (Float) valueBinding(context, "borderWidthTop", borderWidthTop);
-        if (borderWidthTop != null) {
-        	cell.setBorderWidthTop(borderWidthTop);
-        }
-        
-        borderWidthBottom = (Float) valueBinding(context, "borderWidthBottom", borderWidthBottom);
-        if (borderWidthBottom != null) {
-        	cell.setBorderWidthBottom(borderWidthBottom);
-        }    
-        
+      
         grayFill = (Float) valueBinding(context, "grayFill", grayFill);
         if (grayFill != null) {
            cell.setGrayFill(grayFill);
         }
+        
+        rotation = (Integer) valueBinding(context, "rotation", rotation);
+        if (rotation != null) {
+            cell.setRotation(rotation);
+        }
+        
+        applyRectangleProperties(context, cell);
     }
 
     private PdfPCell getDefaultCellFromTable() {

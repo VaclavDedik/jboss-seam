@@ -79,7 +79,6 @@ public class UIList
                 }
             } else if (style.equalsIgnoreCase(STYLE_DINGBATS)) {
                 charNumber = (Integer) valueBinding(context, "charNumber", charNumber);
-                System.out.println("charNumber is " + charNumber);
                 list = new ZapfDingbatsList(charNumber, (int) indent); 
             } else if (style.equalsIgnoreCase(STYLE_DINGBATS_NUMBER)) {
                 numberType = (Integer) valueBinding(context, "numberType", numberType);

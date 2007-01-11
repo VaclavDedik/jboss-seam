@@ -67,7 +67,6 @@ public class UIDocument
 
     public void createITextObject(FacesContext context) {
         document = new Document();
-        
         // most of this needs to be done BEFORE document.open();
         
         pageSize = (String) valueBinding(context, "pageSize", pageSize);
@@ -172,8 +171,8 @@ public class UIDocument
     {
         document.close();
 
-        PDFStore.instance().saveData(id,stream.toByteArray());
-        
+        PDFStore.instance().saveData(id,stream.toByteArray());        
+
         ResponseWriter response = context.getResponseWriter();
         response.endElement("body");
         response.endElement("html");

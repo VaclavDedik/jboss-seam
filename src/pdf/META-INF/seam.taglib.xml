@@ -14,6 +14,27 @@
     </tag>
 
     <tag>
+        <tag-name>header</tag-name>
+        <component>
+            <component-type>org.jboss.seam.pdf.ui.UIHeader</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <tag-name>footer</tag-name>
+        <component>
+            <component-type>org.jboss.seam.pdf.ui.UIFooter</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <tag-name>pageNumber</tag-name>
+        <component>
+            <component-type>org.jboss.seam.pdf.ui.UIPageNumber</component-type>
+        </component>
+    </tag>
+
+    <tag>
         <tag-name>paragraph</tag-name>
         <component>
             <component-type>org.jboss.seam.pdf.ui.UIParagraph</component-type>

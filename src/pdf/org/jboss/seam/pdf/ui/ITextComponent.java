@@ -46,7 +46,7 @@ public abstract class ITextComponent
     
     final public void add(Object other) {
         if (inFacet != null) {
-           handleFacet(inFacet, other);
+            handleFacet(inFacet, other);
         } else {
             handleAdd(other);
         }
@@ -87,13 +87,13 @@ public abstract class ITextComponent
     /**
      * find the first parent that is an itext component of a given type
      */
-    public ITextComponent findITextParent(UIComponent parent, Class c) {
+    public ITextComponent findITextParent(UIComponent parent, Class<?> c) {
         if (parent == null) {
             return null;
         }
         
         if (parent instanceof ITextComponent) {
-            if (c==null || parent.getClass().equals(c)) {
+            if (c==null || c.isAssignableFrom(parent.getClass())) {
                 return (ITextComponent) parent;
             }
         }
