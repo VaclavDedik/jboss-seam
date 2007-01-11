@@ -152,6 +152,23 @@ div.blogFooter {
   margin-bottom: 8px;
 }
 
+table.blogComment {
+  margin-bottom: 2px;
+  width: 100%;
+}
+
+td.blogCommentor {
+  width: 160px;
+  background-color: #ff9933;
+  text-align: center;
+  vertical-align: top;
+}
+
+td.blogCommentText {
+  background-color: #ffddbb;
+  padding: 12px 4px 4px 8px;
+}
+
 div.headerRight {
   float: right;
   width: 440px;

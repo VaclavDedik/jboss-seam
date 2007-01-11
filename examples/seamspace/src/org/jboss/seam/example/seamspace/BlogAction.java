@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Destroy;
@@ -23,6 +24,9 @@ public class BlogAction implements BlogLocal
    @RequestParameter
    private String name;   
    
+   @RequestParameter
+   private Integer blogId;
+   
    @In(create=true)
    private EntityManager entityManager;
    
@@ -32,6 +36,12 @@ public class BlogAction implements BlogLocal
    @Out(required = false)
    private List memberBlogs;
    
+   @Out(required = false)
+   private MemberBlog selectedBlog;
+   
+   /**
+    * Returns the 5 latest blog entries for a member
+    */
    public List getLatestBlogs()
    {
       return entityManager.createQuery(
@@ -41,6 +51,9 @@ public class BlogAction implements BlogLocal
            .getResultList();
    }
    
+   /**
+    * Used to read all blog entries for a member
+    */
    @Factory("memberBlogs")
    public void getMemberBlogs()
    {
@@ -48,6 +61,23 @@ public class BlogAction implements BlogLocal
             "from MemberBlog b where b.member.name = :name order by b.entryDate desc")
             .setParameter("name", name)
             .getResultList();
+   }
+   
+   /**
+    * Used to read a single blog entry for a member
+    */
+   @Factory("selectedBlog")
+   public void getBlog()
+   {
+      try
+      {
+         selectedBlog = (MemberBlog) entityManager.createQuery(
+           "from MemberBlog b where b.blogId = :blogId and b.member.name = :name")
+           .setParameter("blogId", blogId)
+           .setParameter("name", name)
+           .getSingleResult();
+      }
+      catch (NoResultException ex) { }
    }
    
    @Remove @Destroy

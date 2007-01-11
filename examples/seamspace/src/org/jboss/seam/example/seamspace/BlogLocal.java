@@ -9,5 +9,6 @@ public interface BlogLocal
 {
    List getLatestBlogs();
    void getMemberBlogs();
+   void getBlog();
    void destroy();
 }

@@ -1,12 +1,14 @@
 package org.jboss.seam.example.seamspace;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 import org.hibernate.validator.NotNull;
 import org.jboss.seam.annotations.Name;
@@ -16,6 +18,8 @@ import org.jboss.seam.annotations.Name;
 public class BlogComment implements Serializable
 {
    private static final long serialVersionUID = 5495139096911872039L;
+
+   private static SimpleDateFormat df = new SimpleDateFormat("EEEE, MMMM d, yyyy 'at' hh:mm a");   
    
    private Integer commentId;
    private MemberBlog blog;
@@ -35,6 +39,7 @@ public class BlogComment implements Serializable
    }   
    
    @ManyToOne
+   @JoinColumn(name = "BLOG_ID")
    public MemberBlog getBlog()
    {
       return blog;
@@ -65,9 +70,15 @@ public class BlogComment implements Serializable
    {
       this.commentDate = commentDate;
    }
+   
+   @Transient
+   public String getFormattedCommentDate()
+   {
+     return df.format(commentDate);  
+   }
 
    @ManyToOne
-   @JoinColumn(name = "MEMBER_ID")
+   @JoinColumn(name = "COMMENTOR_ID")
    public Member getCommentor()
    {
       return commentor;

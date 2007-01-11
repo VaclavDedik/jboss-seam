@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:s="http://jboss.com/products/seam/taglib">
+
+  <ui:composition template="template.xhtml">
+    <ui:define name="content">
+      
+      <div class="errors"><h:messages globalOnly="true"/></div>       
+
+      <s:div rendered="#{selectedBlog == null}">
+        Sorry, but this blog entry does not exist.
+      </s:div>
+    
+      <s:div rendered="#{selectedBlog != null}">
+      
+        <s:div id="blogMemberCard">
+          <h:outputLink value="profile.seam?name=#{selectedMember.name}">
+	          #{selectedMember.name}<br/>
+	          <h:graphicImage value="/content/images?id=#{selectedMember.picture.imageId}&amp;width=90"/>
+	        </h:outputLink>
+                           
+          <br style="clear:both"/>          
+        </s:div>
+
+				<s:div id="blog">
+          <div class="blogEntry">
+	          <div class="blogDate">#{selectedBlog.formattedEntryDate}</div>
+            <div class="blogTitle">#{selectedBlog.title}</div>
+            <div class="blogText">#{selectedBlog.text}</div>
+            <div class="blogFooter">
+              #{selectedBlog.commentCount} Comment#{selectedBlog.commentCount != 1 ? "s" : ""}
+              - <s:link value="Add Comment"/>
+            </div>
+          </div>
+                    
+	        <ui:repeat value="#{selectedBlog.comments}" var="comment">
+	          <table class="blogComment">
+	            <tr>
+		            <td class="blogCommentor">
+				          <h:outputLink value="profile.seam?name=#{comment.commentor.name}">
+					          #{comment.commentor.name}<br/>
+					          <h:graphicImage value="/content/images?id=#{comment.commentor.picture.imageId}&amp;width=90"/>
+					        </h:outputLink>
+		            </td>
+		            
+		            <td class="blogCommentText">
+		              <p>#{comment.comment}</p>
+		              <p>Posted by 
+		                <h:outputLink value="profile.seam?name=#{comment.commentor.name}">
+					            #{comment.commentor.name}
+					          </h:outputLink> on #{comment.formattedCommentDate}
+  					      </p>
+		            </td>	            
+	            </tr>
+	          </table>
+	        </ui:repeat>          
+	      </s:div>
+	                      
+      </s:div>                
+          
+    </ui:define>
+    
+  </ui:composition>
+</html>

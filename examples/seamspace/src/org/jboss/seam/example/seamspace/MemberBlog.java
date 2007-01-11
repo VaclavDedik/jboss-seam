@@ -90,7 +90,7 @@ public class MemberBlog implements Serializable
       this.title = title;
    }
    
-   @OneToMany
+   @OneToMany(mappedBy = "blog")
    public List<BlogComment> getComments()
    {
       return comments;

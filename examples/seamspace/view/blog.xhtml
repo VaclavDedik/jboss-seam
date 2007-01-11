@@ -31,8 +31,8 @@
 	            <div class="blogTitle">#{memberBlog.title}</div>
 	            <div class="blogText">#{memberBlog.text}</div>
 	            <div class="blogFooter">
-	              <h:outputLink value="blogentry.seam?blogId=#{memberBlog.blogId}">
-	                #{memberBlog.commentCount} Comments
+	              <h:outputLink value="blogentry.seam?name=#{selectedMember.name}&amp;blogId=#{memberBlog.blogId}">
+	                #{memberBlog.commentCount} Comment#{memberBlog.commentCount != 1 ? "s" : ""}
 	              </h:outputLink>
 	              <s:link value="Add Comment"/>
 	            </div>
