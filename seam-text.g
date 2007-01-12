@@ -110,7 +110,8 @@ preformatted: QUOTE { append("<pre>"); }
     ;
     
 quoted: DOUBLEQUOTE { append("<quote>"); }
-        line (newline line)*
+        (plain|formatted|preformatted|html|(list newline)|newline)*
+        //line (newline line)*
         DOUBLEQUOTE { append("</quote>"); }        
     ;
 
