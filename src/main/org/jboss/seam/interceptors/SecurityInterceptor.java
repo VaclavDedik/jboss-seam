@@ -2,6 +2,7 @@ package org.jboss.seam.interceptors;
 
 import java.lang.reflect.Method;
 
+import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.security.Restrict;
@@ -39,11 +40,33 @@ public class SecurityInterceptor extends AbstractInterceptor
          if (!Identity.instance().isLoggedIn())
             throw new NotLoggedInException();
          
-         if (!SeamSecurityManager.instance().evaluateExpression(r.value()))
+         String expr = r.value() != null && !"".equals(r.value()) ? r.value() : 
+            createDefaultExpr(method);
+                  
+         if (!SeamSecurityManager.instance().evaluateExpression(expr))
             throw new AuthorizationException(String.format(
                   "Authorization check failed for expression [%s]", r.value()));
       }
 
       return invocation.proceed();
+   }
+   
+   /**
+    * Creates a default security expression for a specified method.  The method must
+    * be a method of a Seam component.
+    * 
+    * @param method The method for which to create a default permission expression 
+    * @return The generated security expression.
+    */
+   private String createDefaultExpr(Method method)
+   {
+      String name = Seam.getComponentName(method.getDeclaringClass());
+      if (name == null)
+      {
+         throw new IllegalArgumentException(String.format(
+                  "Method %s is not a component method", method));
+      }
+      
+      return String.format("#{s:hasPermission('%s','%s')}", name, method.getName());
    }
 }

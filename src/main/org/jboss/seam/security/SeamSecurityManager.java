@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.faces.context.FacesContext;
 import javax.security.auth.Subject;
 import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.CallbackHandler;
@@ -48,6 +49,7 @@ import org.jboss.seam.security.config.SecurityConfiguration;
 import org.jboss.seam.security.config.SecurityConfiguration.Role;
 import org.jboss.seam.security.rules.PermissionCheck;
 import org.jboss.seam.util.Resources;
+import org.jboss.seam.util.UnifiedELValueBinding;
 
 /**
  * Holds configuration settings and provides functionality for the security API
@@ -124,10 +126,13 @@ public class SeamSecurityManager
     * @param expr String The expression to evaluate
     * @return boolean The result of the expression evaluation
     */
-   public boolean evaluateExpression(String expr)
+   public boolean evaluateExpression(String expr) throws AuthorizationException
    {
-      return ((Boolean) Expressions.instance().createValueBinding(expr)
-            .getValue());
+      // TODO it seems that neither of the following two methods work with EL Functions
+      
+      return (Boolean) new UnifiedELValueBinding(expr).getValue(FacesContext.getCurrentInstance());
+      //return ((Boolean) Expressions.instance().createValueBinding(expr)
+            //.getValue());
    }
 
    /**
