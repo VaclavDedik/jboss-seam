@@ -27,15 +27,18 @@ options
 startRule: ( (heading)? text (heading text)* )?
     ;
 
-text: ( (paragraph|list|preformatted|quoted|html) (newline)* )+
+text: ( (paragraph|special|html) (newline)* )+
+    ;
+    
+special: (preformatted|quoted|list) newlineOrEof
+    ;
+
+paragraph: { append("<p>\n"); } (line newline)+ { append("</p>\n"); } newlineOrEof
     ;
     
 line: (plain|formatted) (plain|formatted|inlineTag)*
     ;
     
-paragraph: { append("<p>\n"); } (line newline)+ { append("</p>\n"); } newlineOrEof
-    ;
-
 plain: word|punctuation|escape|space
     ;
   
@@ -104,13 +107,11 @@ deleted: MINUS { append("<del>"); }
 preformatted: QUOTE { append("<pre>"); }
               (word|punctuation|specialChars|htmlSpecialChars|space|newline)*
               QUOTE { append("</pre>"); }
-              newlineOrEof
     ;
     
-quoted: DOUBLEQUOTE { append("<quote><p>"); }
+quoted: DOUBLEQUOTE { append("<quote>"); }
         line (newline line)*
-        DOUBLEQUOTE { append("</p></quote>"); }
-        newlineOrEof
+        DOUBLEQUOTE { append("</quote>"); }        
     ;
 
 heading: ( h1 | h2 | h3 ) newlineOrEof
@@ -125,7 +126,7 @@ h2: PLUS PLUS { append("<h2>"); } line { append("</h2>"); }
 h3: PLUS PLUS PLUS { append("<h3>"); } line { append("</h3>"); }
     ;
  
-list: ( olist | ulist ) newlineOrEof
+list: olist | ulist
     ;
     
 olist: { append("<ol>\n"); } (olistLine newline)+ { append("</ol>\n"); }
@@ -152,7 +153,7 @@ newlineOrEof: newline | EOF
 html: openTag (attribute)* ( ( tagContent htmlText closeTagWithContent ) | closeTagWithNoContent ) 
     ;
 
-htmlText: (plain|formatted|list|preformatted|quoted|html|newline)*
+htmlText: (plain|formatted|(list newline)|preformatted|quoted|html|newline)*
     ;
     
 inlineTag: openTag (attribute)* ( ( tagContent inlineTagText closeTagWithContent ) | closeTagWithNoContent )
