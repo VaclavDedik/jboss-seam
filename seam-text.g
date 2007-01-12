@@ -170,7 +170,7 @@ closeTagWithNoBody: SLASH GT { append("/>"); }
     ;
     
 attribute: space att:WORD EQ 
-           DOUBLEQUOTE { append(att.getText() + "=\""); } 
+           DOUBLEQUOTE { append(att.getText()); append("=\""); } 
            attributeValue 
            DOUBLEQUOTE { append("\""); } 
     ;
