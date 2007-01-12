@@ -6,7 +6,9 @@ import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.intercept.InvocationContext;
+import org.jboss.seam.security.AuthorizationException;
 import org.jboss.seam.security.Identity;
+import org.jboss.seam.security.NotLoggedInException;
 import org.jboss.seam.security.SeamSecurityManager;
 
 /**
@@ -14,7 +16,8 @@ import org.jboss.seam.security.SeamSecurityManager;
  * 
  * @author Shane Bryzak
  */
-@Interceptor(stateless = true, around = ValidationInterceptor.class, within = BijectionInterceptor.class)
+@Interceptor(stateless = true, around = ValidationInterceptor.class, 
+         within = {BijectionInterceptor.class, ExceptionInterceptor.class})
 public class SecurityInterceptor extends AbstractInterceptor
 {
    private static final long serialVersionUID = -6567750187000766925L;
@@ -34,10 +37,10 @@ public class SecurityInterceptor extends AbstractInterceptor
       if (r != null)
       {
          if (!Identity.instance().isLoggedIn())
-            throw new SecurityException("Not logged in");
+            throw new NotLoggedInException();
          
          if (!SeamSecurityManager.instance().evaluateExpression(r.value()))
-            throw new SecurityException(String.format(
+            throw new AuthorizationException(String.format(
                   "Authorization check failed for expression [%s]", r.value()));
       }
 
