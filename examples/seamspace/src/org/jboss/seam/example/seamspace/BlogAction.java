@@ -7,18 +7,15 @@ import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
-import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.RequestParameter;
-import org.jboss.seam.annotations.Scope;
 
 @Stateful
 @Name("blog")
-@Scope(ScopeType.EVENT)
 public class BlogAction implements BlogLocal
 {    
    @RequestParameter

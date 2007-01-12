@@ -7,7 +7,8 @@
   <ui:composition template="template.xhtml">
     <ui:define name="content">
       <div id="contentMain">
-        Main content
+        Welcome to seamspace, a mock-up of a well known social networking site.  This example application
+        makes use of the Seam Security API.
       </div>
 
       <div id="contentDivider">
@@ -40,7 +41,10 @@
               <h:message for="password"/>
             </div>          
             
-            <h:commandButton value="LOGIN" action="#{login.login}" styleClass="loginButton"/>
+            <div class="loginButtons">
+              <h:commandButton value="LOGIN" action="#{login.login}" styleClass="loginButton"/>
+              <h:commandButton value="SIGN UP!" action="/register.seam" styleClass="registerButton"/>
+            </div>
 
             <br class="clear"/>
           

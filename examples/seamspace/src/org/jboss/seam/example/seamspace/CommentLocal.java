@@ -5,5 +5,7 @@ import javax.ejb.Local;
 @Local
 public interface CommentLocal
 {
-  void destroy();
+   void create(MemberBlog blog);
+   void save();
+   void destroy();
 }

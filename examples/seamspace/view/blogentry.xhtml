@@ -31,7 +31,7 @@
             <div class="blogText">#{selectedBlog.text}</div>
             <div class="blogFooter">
               #{selectedBlog.commentCount} Comment#{selectedBlog.commentCount != 1 ? "s" : ""}
-              - <s:link value="Add Comment"/>
+              - <s:link value="Add Comment" action="#{commentAction.create(selectedBlog)}"/>
             </div>
           </div>
                     

@@ -1,0 +1,8 @@
+<exceptions>
+
+  <exception class="org.jboss.seam.security.NotLoggedInException">
+    <redirect view-id="/register.xhtml">You must be a member to use this feature</redirect>
+    <end-conversation/>
+  </exception>
+
+</exceptions>

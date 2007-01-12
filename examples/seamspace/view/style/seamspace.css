@@ -280,14 +280,32 @@ label.loginLabel {
   padding: 2px 2px 2px 2px;
 }
 
-input.loginButton {
+div.loginButtons {
   float: right;
-  margin-right: 100px;
+  margin-right: 60px;  
+}
+
+input.loginButton {
+  display: inline;
+  margin-right: 8px;
   margin-top: 4px;
   margin-bottom: 4px;  
   border: 1px solid #003399;
   background-color: #ffffff;
   color: #003399;
+  font-size: 10px;
+  padding: 3px 8px 3px 8px;
+}
+
+input.registerButton {
+  display: inline;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  border: 1px solid #ffa76d;
+  background-color: #ff6600;
+  color: #ffffff;
+  font-size: 10px;
+  padding: 3px 8px 3px 8px;
 }
 
 div.loginRow input {
@@ -297,4 +315,28 @@ div.loginRow input {
 .clear {
 	clear: both;
 	font-size: 0px;
+}
+
+div.errors {
+  color: #ff0000;
+  font-weight: bold;
+  font-size: normal;
+}
+
+div.errors ul {
+  list-style: none;
+}
+
+#register {
+  float: left;
+  width: 400px;
+  border: 1px solid #5a8cc0;
+}
+
+div.registerHeader {
+  font-size: normal;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #5a8cc0;
+  padding: 8px 4px 8px 12px;
 }
