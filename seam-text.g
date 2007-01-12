@@ -24,7 +24,7 @@ options
     }
 }
 
-startRule: ( (heading)? text (heading text)* )?
+startRule: (newline)* ( (heading)? text (heading text)* )?
     ;
 
 text: ( (paragraph|special|html) (newline)* )+
@@ -64,6 +64,7 @@ specialChars:
         | eq:EQ { append( eq.getText() ); }
         | hh:HASH { append( hh.getText() ); }
         | e:ESCAPE { append( e.getText() ); }
+        | t:TWIDDLE { append( t.getText() ); }
         | u:UNDERSCORE { append( u.getText() ); }
     ;
 
@@ -104,9 +105,9 @@ deleted: MINUS { append("<del>"); }
          MINUS { append("</del>"); }
     ;
     
-preformatted: QUOTE { append("<pre>"); }
+preformatted: BACKTICK { append("<pre>"); }
               (word|punctuation|specialChars|htmlSpecialChars|space|newline)*
-              QUOTE { append("</pre>"); }
+              BACKTICK { append("</pre>"); }
     ;
     
 quoted: DOUBLEQUOTE { append("<quote>"); }
@@ -187,7 +188,7 @@ options
 WORD: ('a'..'z'|'A'..'Z'|'0'..'9')+
     ;
     
-PUNCTUATION: ':' | ';' | '(' | ')' | '?' | '!' | '@' | '%' | '.' | ','
+PUNCTUATION: ':' | ';' | '(' | ')' | '?' | '!' | '@' | '%' | '.' | ',' | '\''
     ;
     
 EQ: '='
@@ -214,7 +215,10 @@ BAR: '|'
 MINUS: '-'
     ;
     
-QUOTE: '\''
+BACKTICK: '`'
+    ;
+    
+TWIDDLE: '~'
     ;
 
 DOUBLEQUOTE: '"'
