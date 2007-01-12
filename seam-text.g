@@ -152,7 +152,7 @@ newlineOrEof: newline | EOF
 html: openTag (attribute)* ( ( tagContent htmlText closeTagWithContent ) | closeTagWithNoContent ) 
     ;
 
-htmlText: (plain|formatted|html|newline)*
+htmlText: (plain|formatted|list|preformatted|quoted|html|newline)*
     ;
     
 inlineTag: openTag (attribute)* ( ( tagContent inlineTagText closeTagWithContent ) | closeTagWithNoContent )
