@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src/main"/>
+	<classpathentry kind="src" path="src/pdf"/>
+	<classpathentry kind="src" path="src/test/misc"/>
 	<classpathentry kind="src" path="src/gen"/>
 	<classpathentry kind="src" path="src/debug"/>
 	<classpathentry kind="src" path="src/ui"/>
@@ -10,7 +12,6 @@
 	<classpathentry kind="lib" path="lib/javax.servlet.jsp.jar"/>
 	<classpathentry kind="lib" path="lib/testng-4.5.1-jdk15.jar"/>
 	<classpathentry kind="lib" path="lib/thirdparty-all.jar"/>
-	<classpathentry kind="lib" path="facelets/lib/jsf-facelets.jar"/>
 	<classpathentry kind="lib" path="lib/hibernate-all.jar"/>
 	<classpathentry kind="lib" path="lib/jboss-ejb3-all.jar"/>
 	<classpathentry kind="lib" path="lib/jgroups.jar"/>
@@ -25,5 +26,8 @@
 	<classpathentry kind="lib" path="embedded-ejb/conf"/>
 	<classpathentry kind="lib" path="drools/lib/drools-compiler-3.0.5.jar"/>
 	<classpathentry kind="lib" path="drools/lib/drools-core-3.0.5.jar"/>
+	<classpathentry kind="lib" path="lib/jsf-facelets.jar"/>
+	<classpathentry kind="lib" path="lib/mail.jar"/>
+	<classpathentry kind="lib" path="lib/itext-1.4.7.jar"/>
 	<classpathentry kind="output" path="output/classes"/>
 </classpath>
