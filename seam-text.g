@@ -39,12 +39,12 @@ paragraph: { append("<p>\n"); } (line newline)+ { append("</p>\n"); } newlineOrE
 line: (plain|formatted) (plain|formatted|preformatted|quoted|html)*
     ;
     
-plain: word|punctuation|escape|space
-    ;
-  
 formatted: bold|underline|italic|monospace|superscript|deleted
     ;
 
+plain: word|punctuation|escape|space
+    ;
+  
 word: w:WORD { append( w.getText() ); }
     ;
     
