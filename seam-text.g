@@ -9,7 +9,6 @@ options
 	k=3;
 }
 {   
-    private int newLinesSinceWord = 0;
     private StringBuilder builder = new StringBuilder();
     
     public String toString() {
@@ -28,7 +27,13 @@ options
 startRule: ( (heading)? text (heading text)* )?
     ;
 
-text: { append("<p>\n"); } (plain|formatted|preformatted|quoted|para|span|list)+ { append("\n</p>\n"); } 
+text: ( (paragraph|list|preformatted|quoted|html) (newline)* )+
+    ;
+    
+line: (plain|formatted) (plain|formatted|inlineTag)*
+    ;
+    
+paragraph: { append("<p>\n"); } (line newline)+ { append("</p>\n"); } newlineOrEof
     ;
 
 plain: word|punctuation|escape|space
@@ -37,14 +42,13 @@ plain: word|punctuation|escape|space
 formatted: bold|underline|italic|monospace|superscript|deleted
     ;
 
-word: w:WORD { append( w.getText() ); newLinesSinceWord=0; }
+word: w:WORD { append( w.getText() ); }
     ;
     
-punctuation: p:PUNCTUATION { append( p.getText() ); newLinesSinceWord=0; }
+punctuation: p:PUNCTUATION { append( p.getText() ); }
     ;
     
-escape: ESCAPE { newLinesSinceWord=0; } 
-        ( q:QUOTE { append( q.getText() ); } | specialChars | htmlSpecialChars )
+escape: ESCAPE ( q:QUOTE { append( q.getText() ); } | specialChars | htmlSpecialChars )
     ;
     
 specialChars:
@@ -100,44 +104,40 @@ deleted: MINUS { append("<del>"); }
 preformatted: QUOTE { append("<pre>"); }
               (word|punctuation|specialChars|htmlSpecialChars|space|newline)*
               QUOTE { append("</pre>"); }
+              newlineOrEof
     ;
     
-quoted: DOUBLEQUOTE { append("<quote><p>"); newLinesSinceWord=0; }
-        (plain|formatted|preformatted|para|span|list)*
-        DOUBLEQUOTE { append("</p></quote>"); newLinesSinceWord=0; }
+quoted: DOUBLEQUOTE { append("<quote><p>"); }
+        line (newline line)*
+        DOUBLEQUOTE { append("</p></quote>"); }
+        newlineOrEof
     ;
 
-heading: ( h1 | h2 | h3 ) newline
-    ;
-    
-headingText: (plain|formatted)+
+heading: ( h1 | h2 | h3 ) newlineOrEof
     ;
   
-h1: PLUS { append("<h1>"); } headingText { append("</h1>"); }
+h1: PLUS { append("<h1>"); } line { append("</h1>"); }
     ;
  
-h2: PLUS PLUS { append("<h2>"); } headingText { append("</h2>"); }
+h2: PLUS PLUS { append("<h2>"); } line { append("</h2>"); }
     ;
  
-h3: PLUS PLUS PLUS { append("<h3>"); } headingText { append("</h3>"); }
+h3: PLUS PLUS PLUS { append("<h3>"); } line { append("</h3>"); }
     ;
  
-list: olist | ulist
+list: ( olist | ulist ) newlineOrEof
     ;
     
-listItemText: (plain|bold|underline|italic|monospace|superscript|deleted)*
+olist: { append("<ol>\n"); } (olistLine newline)+ { append("</ol>\n"); }
     ;
     
-olist: para { append("<ol>\n"); } (olistItem)+ { append("</ol>\n"); }
+olistLine: HASH { append("<li>"); } line { append("</li>"); }
     ;
     
-olistItem: HASH { append("<li>"); newLinesSinceWord=0; } listItemText { append("</li>"); } para
+ulist: { append("<ul>\n"); } (ulistLine newline)+ { append("</ul>\n"); }
     ;
     
-ulist: para { append("<ul>\n"); } (ulistItem)+ { append("</ul>\n"); }
-    ;
-    
-ulistItem: EQ { append("<li>"); newLinesSinceWord=0; } listItemText { append("</li>"); } para
+ulistLine: EQ { append("<li>"); } line { append("</li>"); }
     ;
 
 space: s:SPACE { append( s.getText() ); }
@@ -145,36 +145,43 @@ space: s:SPACE { append( s.getText() ); }
 
 newline: n:NEWLINE { append( n.getText() ); }
     ;
-        
-para: { if (newLinesSinceWord>0) append("</p>\n"); } 
-      newline 
-      { if (newLinesSinceWord>0) append("<p>\n"); newLinesSinceWord++; } 
+    
+newlineOrEof: newline | EOF
     ;
 
-span: LT tag:WORD { append("<" + tag.getText()); }
-          (
-              space att:WORD EQ 
-              DOUBLEQUOTE { append(att.getText() + "=\""); } 
-              attributeValue 
-              DOUBLEQUOTE { append("\""); } 
-          )* 
-      (
-          (
-              GT { append(">"); } 
-              { newLinesSinceWord=0; } 
-              (plain|formatted|preformatted|quoted|newline|span|list)* 
-              { newLinesSinceWord=0; }
-              LT SLASH WORD GT { append("</" + tag.getText() + ">"); }
-          )
-      |   (
-              SLASH GT { append("/>"); } 
-          )
-      )
+html: openTag (attribute)* ( ( tagContent htmlText closeTagWithContent ) | closeTagWithNoContent ) 
+    ;
+
+htmlText: (plain|formatted|html|newline)*
     ;
     
-attributeValue: ( AMPERSAND { append("&amp;"); } | word | punctuation | space | specialChars )*
+inlineTag: openTag (attribute)* ( ( tagContent inlineTagText closeTagWithContent ) | closeTagWithNoContent )
+    ;
+    
+inlineTagText: (plain|formatted)*
     ;
 
+openTag: LT name:WORD { append("<"); append(name.getText()); }
+    ;
+    
+tagContent: GT { append(">"); }
+    ;
+    
+closeTagWithContent: LT SLASH name:WORD GT { append("</"); append(name.getText()); append(">"); }
+    ;
+    
+closeTagWithNoContent: SLASH GT { append("/>"); } 
+    ;
+    
+attribute: space att:WORD EQ 
+           DOUBLEQUOTE { append(att.getText() + "=\""); } 
+           attributeValue 
+           DOUBLEQUOTE { append("\""); } 
+    ;
+        
+attributeValue: ( AMPERSAND { append("&amp;"); } | word | punctuation | space | specialChars )*
+    ;
+    
 class L extends Lexer;
 options
 {
@@ -235,6 +242,8 @@ AMPERSAND: '&'
 SPACE: (' '|'\t')+
     ;
     
-NEWLINE: '\r' '\n' | '\r' | '\n'
+NEWLINE: "\r\n" | '\r' | '\n'
     ;
     
+EOF : '\uFFFF'
+    ;
