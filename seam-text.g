@@ -36,7 +36,7 @@ special: (preformatted|quoted|list) newlineOrEof
 paragraph: { append("<p>\n"); } (line newline)+ { append("</p>\n"); } newlineOrEof
     ;
     
-line: (plain|formatted) (plain|formatted|inlineTag)*
+line: (plain|formatted) (plain|formatted|preformatted|quoted|html)*
     ;
     
 plain: word|punctuation|escape|space
@@ -151,28 +151,22 @@ newline: n:NEWLINE { append( n.getText() ); }
 newlineOrEof: newline | EOF
     ;
 
-html: openTag (attribute)* ( ( tagContent htmlText closeTagWithContent ) | closeTagWithNoContent ) 
+html: openTag (attribute)* ( ( beforeBody body closeTagWithBody ) | closeTagWithNoBody ) 
     ;
 
-htmlText: (plain|formatted|preformatted|quoted|html|(list newline)|newline)*
-    ;
-    
-inlineTag: openTag (attribute)* ( ( tagContent inlineTagText closeTagWithContent ) | closeTagWithNoContent )
-    ;
-    
-inlineTagText: (plain|formatted)*
+body: (plain|formatted|preformatted|quoted|html|(list newline)|newline)*
     ;
 
 openTag: LT name:WORD { append("<"); append(name.getText()); }
     ;
     
-tagContent: GT { append(">"); }
+beforeBody: GT { append(">"); }
     ;
     
-closeTagWithContent: LT SLASH name:WORD GT { append("</"); append(name.getText()); append(">"); }
+closeTagWithBody: LT SLASH name:WORD GT { append("</"); append(name.getText()); append(">"); }
     ;
     
-closeTagWithNoContent: SLASH GT { append("/>"); } 
+closeTagWithNoBody: SLASH GT { append("/>"); } 
     ;
     
 attribute: space att:WORD EQ 
