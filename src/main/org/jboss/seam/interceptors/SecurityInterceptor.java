@@ -45,7 +45,7 @@ public class SecurityInterceptor extends AbstractInterceptor
                   
          if (!SeamSecurityManager.instance().evaluateExpression(expr))
             throw new AuthorizationException(String.format(
-                  "Authorization check failed for expression [%s]", r.value()));
+                  "Authorization check failed for expression [%s]", expr));
       }
 
       return invocation.proceed();
@@ -67,6 +67,6 @@ public class SecurityInterceptor extends AbstractInterceptor
                   "Method %s is not a component method", method));
       }
       
-      return String.format("#{s:hasPermission('%s','%s')}", name, method.getName());
+      return String.format("#{s:hasPermission('%s','%s', null)}", name, method.getName());
    }
 }

@@ -8,7 +8,7 @@ import javax.ejb.ApplicationException;
  * @author Shane Bryzak
  */
 @ApplicationException
-public class AuthorizationException extends Exception
+public class AuthorizationException extends RuntimeException
 {
   public AuthorizationException()
   {

@@ -42,7 +42,6 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.core.Expressions;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.security.config.SecurityConfiguration;
@@ -127,12 +126,8 @@ public class SeamSecurityManager
     * @return boolean The result of the expression evaluation
     */
    public boolean evaluateExpression(String expr) throws AuthorizationException
-   {
-      // TODO it seems that neither of the following two methods work with EL Functions
-      
+   {     
       return (Boolean) new UnifiedELValueBinding(expr).getValue(FacesContext.getCurrentInstance());
-      //return ((Boolean) Expressions.instance().createValueBinding(expr)
-            //.getValue());
    }
 
    /**
@@ -172,11 +167,14 @@ public class SeamSecurityManager
       WorkingMemory wm = mgr.getWorkingMemoryForSession();
       handles.add(wm.assertObject(check));
 
-      for (Object o : args)
+      if (args != null)
       {
-         if (o != null)
-           handles.add(wm.assertObject(o));
-      }
+         for (Object o : args)
+         {
+            if (o != null)
+              handles.add(wm.assertObject(o));
+         }
+      }      
 
       wm.fireAllRules();
 
