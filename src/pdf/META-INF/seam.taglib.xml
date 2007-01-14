@@ -98,6 +98,13 @@
     </tag>
 
     <tag>
+        <tag-name>title</tag-name>
+        <component>
+            <component-type>org.jboss.seam.pdf.ui.UITitle</component-type>
+        </component>
+    </tag>
+
+    <tag>
         <tag-name>table</tag-name>
         <component>
             <component-type>org.jboss.seam.pdf.ui.UITable</component-type>

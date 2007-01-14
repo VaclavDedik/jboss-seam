@@ -5,8 +5,6 @@ import org.jboss.seam.pdf.ITextUtils;
 import com.lowagie.text.*;
 import com.lowagie.text.pdf.*;
 
-import java.awt.Color;
-
 import javax.faces.context.FacesContext;
 
 public class UICell

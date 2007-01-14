@@ -11,7 +11,8 @@ public class UISection
     Section section;
     
     public Object getITextObject() {
-        return section;
+        return null; // don't add to parent - already added.
+        //return section;
     }
 
     public void removeITextObject() {
@@ -20,6 +21,9 @@ public class UISection
 
     public void createITextObject(FacesContext context) {
         Chapter chapter = ((UIChapter)findITextParent(this, UIChapter.class)).getChapter();
+        if (chapter == null) {
+            throw new RuntimeException("section must have a parent chapter");
+        }
         section = chapter.addSection(new Paragraph("*fake title*"), 1);
         section.setTitle(new Paragraph("*section title*"));
     }

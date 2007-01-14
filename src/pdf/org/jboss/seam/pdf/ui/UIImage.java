@@ -8,7 +8,7 @@ import java.net.URL;
 import com.lowagie.text.*;
 
 public class UIImage
-    extends ITextComponent
+    extends UIRectangle
 {
     public static final String COMPONENT_TYPE   = "org.jboss.seam.pdf.ui.UIImage";
 
@@ -182,10 +182,11 @@ public class UIImage
             int[] dpiValues = ITextUtils.stringToIntArray(dpi);
             image.setDpi(dpiValues[0], dpiValues[1]);
          }
+        
+        applyRectangleProperties(context, image);
     }
 
     public void handleAdd(Object o) {
         throw new RuntimeException("can't add " + o.getClass().getName() + " to image");
-        //image.add(o);
     }
 }

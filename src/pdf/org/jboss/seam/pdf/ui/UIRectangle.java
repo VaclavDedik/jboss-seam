@@ -11,22 +11,28 @@ import com.lowagie.text.Rectangle;
 public abstract class UIRectangle 
 extends ITextComponent 
 {
-    protected Color borderColor;
-    protected Color borderColorLeft;
-    protected Color borderColorRight;
-    protected Color borderColorTop;
-    protected Color borderColorBottom;
-    protected Color backgroundColor;
-    protected Float borderWidth;
-    protected Float borderWidthLeft;
-    protected Float borderWidthRight;
-    protected Float borderWidthTop;
-    protected Float borderWidthBottom;
+    protected Integer border;
+    protected Color   borderColor;
+    protected Color   borderColorLeft;
+    protected Color   borderColorRight;
+    protected Color   borderColorTop;
+    protected Color   borderColorBottom;
+    protected Color   backgroundColor;
+    protected Float   borderWidth;
+    protected Float   borderWidthLeft;
+    protected Float   borderWidthRight;
+    protected Float   borderWidthTop;
+    protected Float   borderWidthBottom;
 
     public UIRectangle() {
         super();
     }
 
+    // xxx - use string
+    public void setBorder(Integer border) {
+        this.border = border;
+    }
+    
     public void setBorderWidth(Float borderWidth) {
         this.borderWidth = borderWidth;
     }
@@ -73,6 +79,12 @@ extends ITextComponent
 
 
     public void applyRectangleProperties(FacesContext context, Rectangle rectangle) {
+        
+        border = (Integer) valueBinding(context, "border", border);
+        if (border != null) {
+            rectangle.setBorder(border);
+        }
+        
         backgroundColor = (Color) valueBinding(context, "backgroundColor", backgroundColor);
         if (backgroundColor != null) {
             rectangle.setBackgroundColor(backgroundColor);

@@ -70,6 +70,11 @@
     </component>
 
     <component>
+        <component-type>org.jboss.seam.pdf.ui.UITitle</component-type>
+        <component-class>org.jboss.seam.pdf.ui.UITitle</component-class>
+    </component>
+
+    <component>
         <component-type>org.jboss.seam.pdf.ui.UITable</component-type>
         <component-class>org.jboss.seam.pdf.ui.UITable</component-class>
     </component>
