@@ -85,7 +85,7 @@
     </component>
 
     <lifecycle>
-        <phase-listener>org.jboss.seam.pdf.PDFPhaseListener</phase-listener>
+        <phase-listener>org.jboss.seam.pdf.DocumentStorePhaseListener</phase-listener>
     </lifecycle>
 
     <!--

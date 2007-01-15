@@ -1,23 +1,42 @@
 package org.jboss.seam.pdf.ui;
 
 import org.jboss.seam.pdf.ITextUtils;
-import org.jboss.seam.pdf.PDFStore;
+import org.jboss.seam.pdf.DocumentStore;
 
 import javax.faces.context.*;
 import java.io.*;
 
 import com.lowagie.text.*;
 import com.lowagie.text.pdf.*;
+import com.lowagie.text.rtf.RtfWriter;
+import com.lowagie.text.rtf.RtfWriter2;
 
 public class UIDocument 
     extends ITextComponent
 {
     public static final String COMPONENT_TYPE   = "org.jboss.seam.pdf.ui.UIDocument";
+    
+    enum DocType { 
+           PDF("application/pdf"), 
+           RTF("text/rtf");
+           
+           private String mimeType;
 
+           DocType(String mimeType) {
+               this.mimeType = mimeType;
+           }
+           
+           public String getMimeType() {
+               return mimeType;
+           }
+    }
+    
     Document document;
     ByteArrayOutputStream stream;
     String id;
-
+    DocType docType;
+    
+    String type;
     String title;
     String subject;
     String keywords;
@@ -28,7 +47,10 @@ public class UIDocument
     String margins;
     Boolean marginMirroring;
  
-
+    public void setType(String type) {
+        this.type = type;
+    }
+    
     public void setMargins(String margins) {
        this.margins = margins;
     }
@@ -66,6 +88,9 @@ public class UIDocument
     }
 
     public void createITextObject(FacesContext context) {
+        type = (String) valueBinding(context, "type", type);        
+        docType = docTypeForName(type);
+        
         document = new Document();
         // most of this needs to be done BEFORE document.open();
         
@@ -139,11 +164,19 @@ public class UIDocument
     {
         super.encodeBegin(context);
         
-        id = PDFStore.instance().newId();
+        id = DocumentStore.instance().newId();
         stream = new ByteArrayOutputStream();
-
+              
         try {
-            PdfWriter.getInstance(document, stream);
+            switch (docType) {
+            case PDF:
+                PdfWriter.getInstance(document, stream);
+                break;
+            case RTF:
+                RtfWriter2.getInstance(document, stream);
+                break;
+            }
+
             
             initMetaData(context);
             
@@ -157,7 +190,7 @@ public class UIDocument
         response.startElement("head", this);
         response.startElement("meta", this);
         response.writeAttribute("http-equiv", "Refresh", null);
-        response.writeAttribute("content", "0; URL=seam-pdf.seam?pdfId="+id, null);
+        response.writeAttribute("content", "0; URL=seam-doc.seam?docId="+id, null);
 
         response.endElement("meta");
         response.endElement("head");
@@ -171,7 +204,9 @@ public class UIDocument
     {
         document.close();
 
-        PDFStore.instance().saveData(id,stream.toByteArray());        
+        DocumentStore.instance().saveData(id,
+                                          docType.getMimeType(),
+                                          stream.toByteArray());        
 
         ResponseWriter response = context.getResponseWriter();
         response.endElement("body");
@@ -180,5 +215,14 @@ public class UIDocument
         removeITextObject();
     }
 
-
+    private DocType docTypeForName(String typeName) {    
+        if (typeName != null) {
+            if (typeName.equalsIgnoreCase(DocType.PDF.name())) {
+                return DocType.PDF;
+            } else if (typeName.equalsIgnoreCase(DocType.RTF.name())) {
+                return DocType.RTF;
+            }
+        }
+        return DocType.PDF;
+    }
 }
