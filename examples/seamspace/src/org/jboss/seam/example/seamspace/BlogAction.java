@@ -44,7 +44,7 @@ public class BlogAction implements BlogLocal
    @In(required = false) @Out(required = false, scope = CONVERSATION)
    private BlogComment comment;   
    
-   @In
+   @In(required = false)
    private Member authenticatedMember;
    
    /**
