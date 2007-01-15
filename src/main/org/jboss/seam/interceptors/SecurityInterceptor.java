@@ -67,6 +67,6 @@ public class SecurityInterceptor extends AbstractInterceptor
                   "Method %s is not a component method", method));
       }
       
-      return String.format("#{s:hasPermission('%s','%s', null)}", name, method.getName());
+      return String.format("#{s:hasPermission('%s','%s')}", name, method.getName());
    }
 }

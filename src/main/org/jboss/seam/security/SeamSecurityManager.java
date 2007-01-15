@@ -14,6 +14,8 @@ import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.faces.context.FacesContext;
 import javax.security.auth.Subject;
@@ -117,6 +119,8 @@ public class SeamSecurityManager
 
       return instance;
    }
+   
+   private static Pattern EXPR_PATTERN = Pattern.compile("(hasPermission\\s*\\(\\s*'[^']*'\\s*,\\s*'[^']*')(\\s*\\))");
 
    /**
     * Evaluates the specified security expression, which must return a boolean
@@ -125,9 +129,14 @@ public class SeamSecurityManager
     * @param expr String The expression to evaluate
     * @return boolean The result of the expression evaluation
     */
-   public boolean evaluateExpression(String expr) throws AuthorizationException
+   public boolean evaluateExpression(String expr) 
+       throws AuthorizationException
    {     
-      return (Boolean) new UnifiedELValueBinding(expr).getValue(FacesContext.getCurrentInstance());
+      // TODO Ugly hack!  Fix this once varargs work with EL      
+      Matcher m = EXPR_PATTERN.matcher(expr);
+      String replaced = m.replaceAll("$1, null$2");
+      
+      return (Boolean) new UnifiedELValueBinding(replaced).getValue(FacesContext.getCurrentInstance());
    }
 
    /**
@@ -216,9 +225,12 @@ public class SeamSecurityManager
                      Principal role = (Principal) e.nextElement();
                      
                      Role r = config.getSecurityRole(role.getName());
-                     for (Permission perm : r.getPermissions())
+                     if (r.getPermissions() != null)
                      {
-                        wm.assertObject(perm);
+                        for (Permission perm : r.getPermissions())
+                        {
+                           wm.assertObject(perm);
+                        }
                      }
                   }
                }
