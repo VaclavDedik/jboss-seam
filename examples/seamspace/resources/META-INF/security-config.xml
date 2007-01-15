@@ -14,32 +14,16 @@
   <roles>
     <role name="admin">
       <memberships>superuser</memberships>
-      
-      <permissions>
-        <permission name="user" action="create"/>
-        <permission name="user" action="modify"/>
-        <permission name="user" action="delete"/>
-      </permissions>
     </role>
     
     <role name="superuser">
-      <memberships>user</memberships>
-    
-      <permissions>
-        <permission name="account" action="create"/>
-        <permission name="account" action="delete"/>
-      </permissions>      
+      <memberships>user</memberships>   
     </role>
     
     <role name="user">
-      <permissions>
-        <permission name="customer" action="create"/>
-        <permission name="customer" action="delete"/>
+      <permissions>       
+        <permission name="blog" action="createComment"/>
       </permissions>    
-    </role>
-    
-    <role name="guest">
-      
     </role>
     
   </roles>

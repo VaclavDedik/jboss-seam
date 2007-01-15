@@ -1,5 +1,8 @@
 package org.jboss.seam.example.seamspace;
 
+import static org.jboss.seam.ScopeType.CONVERSATION;
+
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Remove;
@@ -7,12 +10,14 @@ import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
+import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.RequestParameter;
+import org.jboss.seam.annotations.security.Restrict;
 
 @Stateful
 @Name("blog")
@@ -33,8 +38,14 @@ public class BlogAction implements BlogLocal
    @Out(required = false)
    private List memberBlogs;
    
-   @Out(required = false)
+   @In(required = false) @Out(required = false)
    private MemberBlog selectedBlog;
+   
+   @In(required = false) @Out(required = false, scope = CONVERSATION)
+   private BlogComment comment;   
+   
+   @In
+   private Member authenticatedMember;
    
    /**
     * Returns the 5 latest blog entries for a member
@@ -63,7 +74,7 @@ public class BlogAction implements BlogLocal
    /**
     * Used to read a single blog entry for a member
     */
-   @Factory("selectedBlog")
+   @Factory("selectedBlog") @Begin  
    public void getBlog()
    {
       try
@@ -76,6 +87,27 @@ public class BlogAction implements BlogLocal
       }
       catch (NoResultException ex) { }
    }
+   
+   @Factory("comment") @Restrict @Begin(join = true)
+   public void createComment()
+   {      
+      comment = new BlogComment();
+      comment.setCommentor(authenticatedMember);
+      
+      if (selectedBlog == null && name != null && blogId != null)
+         getBlog();         
+      
+      comment.setBlog(selectedBlog);
+   }
+   
+   public void saveComment()
+   {      
+      comment.setCommentDate(new Date());
+      entityManager.persist(comment);
+      
+      // Reload the blog entry
+      entityManager.refresh(selectedBlog);
+   }     
    
    @Remove @Destroy
    public void destroy() { }     

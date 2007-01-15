@@ -10,5 +10,7 @@ public interface BlogLocal
    List getLatestBlogs();
    void getMemberBlogs();
    void getBlog();
+   void createComment();
+   void saveComment();
    void destroy();
 }

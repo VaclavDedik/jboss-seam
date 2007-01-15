@@ -4,5 +4,10 @@
     <redirect view-id="/register.xhtml">You must be a member to use this feature</redirect>
     <end-conversation/>
   </exception>
+  
+  <exception class="org.jboss.seam.security.AuthorizationException">
+    <redirect view-id="/security_error.xhtml">You do not have the necessary privileges to carry out the requested action.</redirect>
+    <end-conversation/>
+  </exception>
 
 </exceptions>

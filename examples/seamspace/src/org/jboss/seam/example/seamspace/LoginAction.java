@@ -41,7 +41,10 @@ public class LoginAction implements LoginLocal
    Member member;
    
    @In(create=true)
-   private EntityManager entityManager;   
+   private EntityManager entityManager;
+   
+   @Out(required = false)
+   private Member authenticatedMember;
    
    public void login()
    {
@@ -63,13 +66,13 @@ public class LoginAction implements LoginLocal
    {
       try
       {            
-         Member member = (Member) entityManager.createQuery(
+         authenticatedMember = (Member) entityManager.createQuery(
             "from Member where username = :username and password = :password")
             .setParameter("username", username)
             .setParameter("password", password)
             .getSingleResult();
 
-         for (MemberRole mr : member.getRoles())
+         for (MemberRole mr : authenticatedMember.getRoles())
             roles.add(mr.getName());
          
          return true;

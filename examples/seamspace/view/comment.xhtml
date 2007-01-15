@@ -9,8 +9,8 @@
       
       <div class="errors"><h:messages globalOnly="true"/></div>       
 
-      <s:div rendered="#{selectedMember == null}">
-        Sorry, but this member does not exist.
+      <s:div rendered="#{comment == null}">
+        Sorry, but this blogmember does not exist.
       </s:div>
     
       <s:div rendered="#{selectedMember != null}">
@@ -25,22 +25,27 @@
         </s:div>
 
 				<s:div id="blog">
-	        <ui:repeat value="#{memberBlogs}" var="memberBlog">
-	          <div class="blogEntry">
-  	          <div class="blogDate">#{memberBlog.formattedEntryDate}</div>
-	            <div class="blogTitle">#{memberBlog.title}</div>
-	            <div class="blogText">#{memberBlog.text}</div>
-	            <div class="blogFooter">
-	              <h:outputLink value="blogentry.seam?name=#{selectedMember.name}&amp;blogId=#{memberBlog.blogId}">
-	                #{memberBlog.commentCount} Comment#{memberBlog.commentCount != 1 ? "s" : ""}
-	              </h:outputLink>
-	              <h:outputLink value="comment.seam?name=#{selectedMember.name}&amp;blogId=#{memberBlog.blogId}">
-	                Add Comment
-	              </h:outputLink>
-	            </div>
-	          </div>
-	        </ui:repeat>
-	      </s:div>
+          <div class="blogEntry">
+	          <div class="blogDate">#{selectedBlog.formattedEntryDate}</div>
+            <div class="blogTitle">#{selectedBlog.title}</div>
+            <div class="blogText">#{selectedBlog.text}</div>
+          </div>
+          
+          <div class="commentEntry">
+            <h:form>
+              
+              <h:outputLabel for="comment">Please type your comment</h:outputLabel><br/>
+              <h:inputTextarea name="comment" value="#{comment.comment}"/><br/>
+
+              <div class="buttons">
+                <h:commandButton action="#{blog.saveComment}" value="Add comment" styleClass="action"/>            
+              </div>
+              
+              <br class="clear"/>
+            </h:form>
+          </div>
+          
+        </s:div>
                 
       </s:div>                
           

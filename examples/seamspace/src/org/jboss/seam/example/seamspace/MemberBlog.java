@@ -2,11 +2,12 @@ package org.jboss.seam.example.seamspace;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -99,6 +100,18 @@ public class MemberBlog implements Serializable
    public void setComments(List<BlogComment> comments)
    {
       this.comments = comments;
+   }
+   
+   @Transient
+   public List<BlogComment> getSortedComments()
+   {
+      Collections.sort(comments, new Comparator<BlogComment>() {
+         public int compare(BlogComment o1, BlogComment o2) {
+            return (int) (o1.getCommentDate().getTime() - o2.getCommentDate().getTime());
+         }
+      });
+      
+      return comments;
    }
    
    @Transient

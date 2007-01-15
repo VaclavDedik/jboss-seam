@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -27,7 +28,7 @@ public class BlogComment implements Serializable
    private Date commentDate;
    private String comment;
    
-   @Id
+   @Id @GeneratedValue
    public Integer getCommentId()
    {
       return commentId;

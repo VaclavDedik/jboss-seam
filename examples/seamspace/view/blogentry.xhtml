@@ -31,11 +31,11 @@
             <div class="blogText">#{selectedBlog.text}</div>
             <div class="blogFooter">
               #{selectedBlog.commentCount} Comment#{selectedBlog.commentCount != 1 ? "s" : ""}
-              - <s:link value="Add Comment" action="#{commentAction.create(selectedBlog)}"/>
+              - <s:link value="Add Comment" action="#{blog.createComment}"/>
             </div>
           </div>
                     
-	        <ui:repeat value="#{selectedBlog.comments}" var="comment">
+	        <ui:repeat value="#{selectedBlog.sortedComments}" var="comment">
 	          <table class="blogComment">
 	            <tr>
 		            <td class="blogCommentor">

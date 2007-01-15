@@ -169,6 +169,40 @@ td.blogCommentText {
   padding: 12px 4px 4px 8px;
 }
 
+div.commentEntry {
+  background-color: #ff9933;
+  padding: 4px 4px 4px 4px;
+}
+
+div.commentEntry label {
+  font-weight: bold;
+  color: #ffffff;
+}
+
+div.commentEntry textarea {
+  font-family: verdana, arial, sans-serif, helvetica;
+  font-size:11px;
+  margin: 8px 16px 8px 16px;
+  width: 540px;
+  height: 100px;
+}
+
+div.buttons {
+  float: right;
+}
+
+input.action {
+  display: inline;
+  margin-right: 8px;
+  margin-top: 4px;
+  margin-bottom: 4px;  
+  border: 1px solid #003399;
+  background-color: #ffffff;
+  color: #003399;
+  font-size: 10px;
+  padding: 3px 8px 3px 8px;
+}
+
 div.headerRight {
   float: right;
   width: 440px;

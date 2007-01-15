@@ -3,12 +3,27 @@ package SeamSpacePermissions;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.rules.PermissionCheck;
 import org.jboss.seam.example.seamspace.MemberImage;
+import org.jboss.seam.security.SeamPermission;
 
 rule ViewImage
+  no-loop
+  activation-group "permissions"
 when
-  c: PermissionCheck(name == "memberImage", action == "view")
+  c: PermissionCheck(name == "memberImage", action == "view", granted == false)
   img: MemberImage()
   eval( img.getMember().getPicture() == img )
+then
+  c.grant();
+  modify(c);
+end;
+
+rule DefaultPolicy
+  salience -10
+  activation-group "permissions"  
+when
+  c: PermissionCheck(granted == false)
+  p: SeamPermission()
+  eval( p.getName().equals(c.getName()) && p.getAction().equals(c.getAction()))
 then
   c.grant();
 end;
