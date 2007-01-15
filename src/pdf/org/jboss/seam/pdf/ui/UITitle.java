@@ -27,12 +27,12 @@ public class UITitle extends ITextComponent {
             throw new RuntimeException("title must be a paragraph");
         }
         
-        UIChapter chapter = (UIChapter) findITextParent(this,UIChapter.class);
-        if (chapter == null) {
-            throw new RuntimeException("cannot find parent chapter for title");
+        UISection section = (UISection) findITextParent(this,UISection.class);
+        if (section == null) {
+            throw new RuntimeException("cannot find parent chapter/section for title");
         }
         
-        chapter.getChapter().setTitle(paragraph);
+        section.getSection().setTitle(paragraph);
     }
 
     @Override

@@ -8,27 +8,54 @@ public class UISection
 {
     public static final String COMPONENT_TYPE   = "org.jboss.seam.pdf.ui.UISection";
 
-    Section section;
+    Section section;    
+    Integer numberDepth;
+    
+    public void setNumberDepth(Integer numberDepth) {
+        this.numberDepth = numberDepth;
+    }
+    
+    public Section getSection() {
+        return section;
+    }
     
     public Object getITextObject() {
         return null; // don't add to parent - already added.
-        //return section;
     }
 
     public void removeITextObject() {
         section = null;
     }
 
-    public void createITextObject(FacesContext context) {
-        Chapter chapter = ((UIChapter)findITextParent(this, UIChapter.class)).getChapter();
-        if (chapter == null) {
-            throw new RuntimeException("section must have a parent chapter");
-        }
-        section = chapter.addSection(new Paragraph("*fake title*"), 1);
-        section.setTitle(new Paragraph("*section title*"));
-    }
-
     public void handleAdd(Object o) {
         section.add(o);
+    }
+    
+    public void createITextObject(FacesContext context) {
+        UISection uiParent = (UISection)findITextParent(getParent(), UISection.class); 
+        
+        Section sectionParent = uiParent.getSection();
+        if (sectionParent == null) {
+            throw new RuntimeException("section must have a parent chapter/section");
+        }
+        
+        numberDepth = (Integer) valueBinding(context, "numberDepth", numberDepth);
+        if (numberDepth == null) {
+            numberDepth = countSectionParents(this, 0);
+        }
+
+        section = sectionParent.addSection(new Paragraph(""), numberDepth);
+    }
+
+    private int countSectionParents(UISection component, int level) {
+        if (component == null) {
+           return level;
+        }
+        return countSectionParents((UISection)findITextParent(component.getParent(), UISection.class),
+                                   level+1);
+    }
+
+    public void setTitle(Paragraph title) {
+        section.setTitle(title);
     }
 }
