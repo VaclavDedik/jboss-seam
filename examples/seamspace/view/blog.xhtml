@@ -34,7 +34,7 @@
 	              <h:outputLink value="blogentry.seam?name=#{selectedMember.name}&amp;blogId=#{memberBlog.blogId}">
 	                #{memberBlog.commentCount} Comment#{memberBlog.commentCount != 1 ? "s" : ""}
 	              </h:outputLink>
-	              <h:outputLink value="comment.seam?name=#{selectedMember.name}&amp;blogId=#{memberBlog.blogId}">
+	              <h:outputLink rendered="#{s:hasPermission('blog','createComment', null)}" value="comment.seam?name=#{selectedMember.name}&amp;blogId=#{memberBlog.blogId}">
 	                Add Comment
 	              </h:outputLink>
 	            </div>

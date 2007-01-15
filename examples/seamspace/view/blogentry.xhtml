@@ -30,8 +30,7 @@
             <div class="blogTitle">#{selectedBlog.title}</div>
             <div class="blogText">#{selectedBlog.text}</div>
             <div class="blogFooter">
-              #{selectedBlog.commentCount} Comment#{selectedBlog.commentCount != 1 ? "s" : ""}
-              - <s:link value="Add Comment" action="#{blog.createComment}"/>
+              <s:link value="Add Comment" action="#{blog.createComment}"/>
             </div>
           </div>
                     
