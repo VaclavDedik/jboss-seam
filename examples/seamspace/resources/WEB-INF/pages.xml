@@ -11,17 +11,10 @@
             </rule>
         </navigation>
     </page>
-    
-    <page view-id="">
-    
-    </page>
-    
-    <page view-id="/comment.xhtml">
+       
+    <page view-id="/comment.xhtml">    
       <navigation from-action="#{blog.saveComment}">
-        <redirect view-id="/blogentry.xhtml">
-          <!--param name="name" value="#{comment.blog.member.name}"/-->
-          <!--param name="blogId" value="#{comment.blog.blogId}"/-->
-        </redirect>
+        <redirect view-id="/blogentry.xhtml"/>
       </navigation>
     </page>
        
