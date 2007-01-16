@@ -24,7 +24,7 @@ options
     }
 }
 
-startRule: (newline)* ( (heading)? text (heading text)* )?
+startRule: (newline)* ( (heading (newline)* )? text (heading (newline)* text)* )?
     ;
 
 text: ( (paragraph|special|html) (newline)* )+
