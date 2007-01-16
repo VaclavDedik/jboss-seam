@@ -9,6 +9,9 @@ options
 	k=3;
 }
 {   
+	private java.util.Set htmlElements = new java.util.HashSet( java.util.Arrays.asList( new String[] { "a", "p", "quote", "code", "pre", "table", "tr", "td", "th", "ul", "ol", "li", "b", "i", "u", "tt", "del", "em", "hr", "br", "div", "span", "h1", "h2", "h3" } ) );
+	private java.util.Set htmlAttributes = new java.util.HashSet( java.util.Arrays.asList( new String[] { "src", "href", "lang", "class", "id" } ) );
+	
     private StringBuilder builder = new StringBuilder();
     
     public String toString() {
@@ -22,6 +25,19 @@ options
     private static boolean hasMultiple(String string, char c) {
         return string.indexOf(c)!=string.lastIndexOf(c);
     }
+    
+    private void validateElement(Token t) throws NoViableAltException {
+        if ( !htmlElements.contains( t.getText().toLowerCase() ) ) {
+            throw new NoViableAltException(t, null);
+        }
+    }
+
+    private void validateAttribute(Token t) throws NoViableAltException {
+        if ( !htmlAttributes.contains( t.getText().toLowerCase() ) ) {
+            throw new NoViableAltException(t, null);
+        }
+    }
+
 }
 
 startRule: (newline)* ( (heading (newline)* )? text (heading (newline)* text)* )?
@@ -158,7 +174,7 @@ html: openTag (attribute)* ( ( beforeBody body closeTagWithBody ) | closeTagWith
 body: (plain|formatted|preformatted|quoted|html|(list newline)|newline)*
     ;
 
-openTag: LT name:WORD { append("<"); append(name.getText()); }
+openTag: LT name:WORD { validateElement(name); append("<"); append(name.getText()); }
     ;
     
 beforeBody: GT { append(">"); }
@@ -171,7 +187,7 @@ closeTagWithNoBody: SLASH GT { append("/>"); }
     ;
     
 attribute: space att:WORD EQ 
-           DOUBLEQUOTE { append(att.getText()); append("=\""); } 
+           DOUBLEQUOTE {  validateAttribute(att); append(att.getText()); append("=\""); } 
            attributeValue 
            DOUBLEQUOTE { append("\""); } 
     ;
