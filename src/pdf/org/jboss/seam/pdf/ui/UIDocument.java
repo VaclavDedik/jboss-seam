@@ -7,8 +7,8 @@ import javax.faces.context.*;
 import java.io.*;
 
 import com.lowagie.text.*;
+import com.lowagie.text.html.HtmlWriter;
 import com.lowagie.text.pdf.*;
-import com.lowagie.text.rtf.RtfWriter;
 import com.lowagie.text.rtf.RtfWriter2;
 
 public class UIDocument 
@@ -18,7 +18,8 @@ public class UIDocument
     
     enum DocType { 
            PDF("application/pdf"), 
-           RTF("text/rtf");
+           RTF("text/rtf"),
+           HTML("text/html");
            
            private String mimeType;
 
@@ -175,6 +176,9 @@ public class UIDocument
             case RTF:
                 RtfWriter2.getInstance(document, stream);
                 break;
+            case HTML:
+                HtmlWriter.getInstance(document, stream);
+                break;
             }
 
             
@@ -221,6 +225,8 @@ public class UIDocument
                 return DocType.PDF;
             } else if (typeName.equalsIgnoreCase(DocType.RTF.name())) {
                 return DocType.RTF;
+            } else if (typeName.equalsIgnoreCase(DocType.HTML.name())) {
+                return DocType.HTML;
             }
         }
         return DocType.PDF;
