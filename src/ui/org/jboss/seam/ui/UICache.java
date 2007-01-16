@@ -45,6 +45,8 @@ public class UICache extends UIComponentBase
    @Override
    public void encodeChildren(FacesContext facesContext) throws IOException
    {
+      if ( !isRendered() ) return;
+      
       ResponseWriter response = facesContext.getResponseWriter();
       boolean enabled = isEnabled(facesContext);
       if (enabled)

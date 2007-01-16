@@ -396,7 +396,7 @@
     </target>
 
     <target name="deploypresentation" 
-            depends="jar"
+            depends="build"
             description="Deploy all examples used in Seam presentations">
         <ant dir="examples/booking" target="deploy" inheritall="false"/>
         <ant dir="examples/issues" target="deploy" inheritall="false"/>
@@ -492,7 +492,22 @@
     </target>
 
     <target name="compile" depends="init,select-compiler"
-            description="Compile the Java source code">
+            description="Compile the Java source code of the example">
+        <javac
+            source="1.5"
+            target="1.5"
+            destdir="${classes.dir}"
+            classpathref="build.classpath"
+            debug="${javac.debug}"
+            deprecation="${javac.deprecation}"
+            nowarn="on">
+            <src path="${src.java.dir}"/>
+            <src path="${src.test.dir}"/>
+        </javac>
+    </target>
+    
+    <target name="compilecore" depends="init,select-compiler,antlr"
+            description="Compile the Java source code for the core package">
         <javac
             source="1.5"
             target="1.5"
@@ -590,7 +605,7 @@
     </target>
     
 
-  <target name="testall" depends="testcore,jar"
+  <target name="testall" depends="testcore,build"
           description="Run the core unit tests and all example tests">
       
       <mkdir dir="report"/>
@@ -836,11 +851,11 @@
         </copy>
     </target>
     
-    <target name="build" depends="jar,jarui,jarpdf,jardebug,jargen"
+    <target name="build" depends="jarcore,jarui,jarpdf,jardebug,jargen"
         description="Build all four distribution .jar files"/>
 
-    <target name="jar" depends="compile"
-            description="Build the distribution .jar file">
+    <target name="jarcore" depends="compilecore"
+            description="Build the distribution .jar file for the core package">
         <mkdir dir="${dist.dir}"/>
         
         <jar jarfile="${basedir}/${name}.jar" basedir="${classes.dir}">

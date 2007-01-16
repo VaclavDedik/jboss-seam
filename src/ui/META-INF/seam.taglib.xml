@@ -98,6 +98,13 @@
     </tag>
 
     <tag>
+        <tag-name>formattedText</tag-name>
+        <component>
+            <component-type>org.jboss.seam.ui.UIFormattedText</component-type>
+        </component>
+    </tag>
+    
+    <tag>
         <tag-name>selectDate</tag-name>
         <component>
             <component-type>org.jboss.seam.ui.SelectDate</component-type>

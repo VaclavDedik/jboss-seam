@@ -442,6 +442,15 @@
     </component>
 
     <component>
+        <component-type>org.jboss.seam.ui.UIFormattedText</component-type>
+        <component-class>org.jboss.seam.ui.UIFormattedText</component-class>
+        <property>
+            <property-name>value</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
+    </component>
+
+    <component>
         <component-type>org.jboss.seam.ui.SelectDate</component-type>
         <component-class>org.jboss.seam.ui.SelectDate</component-class>
         <property>

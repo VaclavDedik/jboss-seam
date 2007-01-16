@@ -2,6 +2,7 @@
 This page demonstrates Seam Text.
 
 ++Some examples:
+
 Here is some wiki text: 
 *bold* |mono| -deleted- _underline_ /italic/ ^super^
 

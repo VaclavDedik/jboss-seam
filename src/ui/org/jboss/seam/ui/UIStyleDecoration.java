@@ -50,6 +50,8 @@ public abstract class UIStyleDecoration extends UIComponentBase
    @Override
    public void encodeBegin(FacesContext context) throws IOException
    {
+      if ( !isRendered() ) return;
+
       super.encodeBegin(context);
       ResponseWriter response = context.getResponseWriter();
       response.startElement( getElement(), this );
@@ -76,6 +78,8 @@ public abstract class UIStyleDecoration extends UIComponentBase
    @Override
    public void encodeEnd(FacesContext context) throws IOException
    {
+      if ( !isRendered() ) return;
+      
       ResponseWriter response = context.getResponseWriter();
       response.endElement( getElement() );
       response.flush();
