@@ -298,8 +298,8 @@
         <para>
             This action method is called at the beginning of the render response
             phase, any time the page is about to be rendered. If a page action
-            returns a non-null outcome, Seam will process any appropriate JSF 
-            navigation rules, possibly resulting in a completely different page 
+            returns a non-null outcome, Seam will process any appropriate JSF and
+            Seam navigation rules, possibly resulting in a completely different page 
             being rendered.
         </para>
         
@@ -605,7 +605,7 @@ public String approveDocument() { ... }]]></programlisting>
             <listitem>
             <para>
                 Provide <emphasis>description</emphasis> text for each view id 
-                (when using JSF navigation rules) or page node (when using 
+                (when using JSF or Seam navigation rules) or page node (when using 
                 jPDL pageflows). This description text is displayed to the user 
                 by the workspace switchers.
             </para>
@@ -623,7 +623,7 @@ public String approveDocument() { ... }]]></programlisting>
         <section>
             <title>Workspace management and JSF navigation</title>
             <para>
-                When you use JSF navigation rules, Seam switches to a
+                When you use JSF or Seam navigation rules, Seam switches to a
                 conversation by restoring the current <literal>view-id</literal>
                 for that conversation. The descriptive text for the
                 workspace is defined in a file called <literal>pages.xml</literal>

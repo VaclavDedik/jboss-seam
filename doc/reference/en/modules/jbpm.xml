@@ -50,7 +50,7 @@
     
     <para>
         You don't have to know jDPL to use Seam. If you're perfectly happy defining
-        pageflow using JSF's navigation rules, and if your application is more 
+        pageflow using JSF or Seam navigation rules, and if your application is more 
         data-driven that process-driven, you probably don't need jBPM. But we're
         finding that thinking of user interaction in terms of a well-defined graphical 
         representation is helping us build more robust applications.
@@ -65,7 +65,7 @@
 	    <itemizedlist>
 	        <listitem>
 	        <para>
-	            Using JSF navigation rules - the <emphasis>stateless navigation 
+	            Using JSF or Seam navigation rules - the <emphasis>stateless navigation 
 	            model</emphasis>
 	        </para>
 	        </listitem>
@@ -119,6 +119,27 @@
         <from-outcome>lose</from-outcome>
         <to-view-id>/lose.jsp</to-view-id>
         <redirect/>
+    </navigation-case>
+
+</navigation-rule>]]></programlisting>
+
+        <para>
+            Here is the same example page flow definition using Seam navigation 
+            rules:
+        </para>
+        
+        <programlisting><![CDATA[<page view-id="/numberGuess.jsp">
+        
+    <navigation>
+        <rule if-outcome="guess">
+            <redirect view-id="/numberGuess.jsp"/>
+        </rule>
+        <rule if-outcome="win">
+            <redirect view-id="/win.jsp"/>
+        </rule>
+        <rule if-outcome="lose">
+            <redirect view-id="/lose.jsp"/>
+        </rule>
     </navigation-case>
 
 </navigation-rule>]]></programlisting>
@@ -202,7 +223,7 @@
 	    <itemizedlist>
 	        <listitem>
 	        <para>
-	            The JSF navigation rules are <emphasis>much</emphasis> simpler.
+	            The JSF/Seam navigation rules are <emphasis>much</emphasis> simpler.
 	            (However, this obscures the fact that the underlying Java code
 	            is more complex.)
 	        </para>
@@ -248,7 +269,7 @@
 	        <title>Seam and the back button</title>
 	    
 	    <para>
-	        When JSF navigation rules are used, Seam lets the user freely 
+	        When JSF or Seam navigation rules are used, Seam lets the user freely 
 	        navigate via the back, forward and refresh buttons. It is the
 	        responsibility of the application to ensure that conversational
 	        state remains internally consistent when this occurs. Experience

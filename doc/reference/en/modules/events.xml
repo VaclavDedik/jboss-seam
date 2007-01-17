@@ -89,8 +89,8 @@
 
         <para>
             The page action method can return a JSF outcome. If the outcome is
-            non-null, Seam will delegate to the defined JSF navigation rules and
-            a different view may end up being rendered.
+            non-null, Seam will delegate to the defined JSFadn Seam navigation rules 
+            and a different view may end up being rendered.
         </para>
         
         <para>

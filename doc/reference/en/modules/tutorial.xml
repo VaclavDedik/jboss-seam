@@ -1669,7 +1669,7 @@ public class TodoList {
       <title>Seam pageflow: the numberguess example</title>
       
       <para>
-          For Seam applications with relatively freeform (ad hoc) navigation, JSF
+          For Seam applications with relatively freeform (ad hoc) navigation, JSF/Seam
           navigation rules are a perfectly good way to define the page flow.
           For applications with a more constrained style of navigation, especially
           for user interfaces which are more stateful, navigation rules make it
