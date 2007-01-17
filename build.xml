@@ -471,9 +471,9 @@
             </copy>            
     </target>
     
-	<target name="antlr"
-		    description="Generate ANTLR parser">
-		<mkdir dir="${src.java.dir}/org/jboss/seam/text"/>
+    <target name="antlr"
+            description="Generate ANTLR parser">
+        <mkdir dir="${src.java.dir}/org/jboss/seam/text"/>
         <taskdef name="antlrtask" classname="org.apache.tools.ant.taskdefs.optional.ANTLR">
             <classpath>
                 <fileset dir="${lib.dir}">
@@ -482,8 +482,15 @@
                 </fileset>
             </classpath>
         </taskdef>
-		<antlrtask target="seam-text.g" outputdirectory="${src.java.dir}/org/jboss/seam/text"/>
-	</target>
+        <antlrtask target="seam-text.g" outputdirectory="${src.java.dir}/org/jboss/seam/text">
+            <classpath>
+                <fileset dir="${lib.dir}">
+                    <include name="ant-antlr-*.jar"/>
+                    <include name="antlr-*.jar"/>
+                </fileset>
+            </classpath>
+        </antlrtask>
+    </target>
 
     <target name="select-compiler">
         <available classname="org.eclipse.jdt.core.JDTCompilerAdapter" 
