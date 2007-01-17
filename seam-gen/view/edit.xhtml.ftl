@@ -30,12 +30,13 @@
 <#assign propertyIsId = property.equals(pojo.identifierProperty)>
 <#if !propertyIsId || property.value.identifierGeneratorStrategy == "assigned">
 <#assign column = property.columnIterator.next()>
+<#assign propertyType = property.value.typeName>
 
                     <tr class="prop">
                         <td class="name">${property.name}</td>
                         <td class="value">
                             <s:decorate>
-<#if property.value.typeName == "date">
+<#if propertyType == "date">
 	        		           <h:inputText id="${property.name}" 
 	        		                 maxlength="10"
 	        		                      size="10"
@@ -51,7 +52,7 @@
 		        	           <s:selectDate for="${property.name}">
 		        	               <h:graphicImage url="img/dtpick.gif" style="margin-left:5px"/>
 		        	           </s:selectDate>
-<#elseif property.value.typeName == "time">
+<#elseif propertyType == "time">
 		        	           <h:inputText id="${property.name}" 
 	        		                      size="5"
 <#if !column.nullable>
@@ -60,7 +61,7 @@
 		        	                     value="${'#'}{${homeName}.instance.${property.name}}">
 		        	               <f:convertDateTime type="time"/>
 		        	           </h:inputText>
-<#elseif property.value.typeName == "timestamp">
+<#elseif propertyType == "timestamp">
 		        	           <h:inputText id="${property.name}" 
 	        		                      size="16"
 <#if !column.nullable>
@@ -69,14 +70,14 @@
 			                             value="${'#'}{${homeName}.instance.${property.name}}">
 			                       <f:convertDateTime type="both" dateStyle="short"/>
 			                   </h:inputText>
-<#elseif property.value.typeName == "big_decimal">
+<#elseif propertyType == "big_decimal">
 			                   <h:inputText id="${property.name}" 
 <#if !column.nullable>
                                       required="true"
 </#if>
 			                             value="${'#'}{${homeName}.instance.${property.name}}"
 			                              size="${column.precision+7}"/>
-<#elseif property.value.typeName == "big_integer">
+<#elseif propertyType == "big_integer">
 			                   <h:inputText id="${property.name}" 
 <#if propertyIsId>
                                       disabled="${'#'}{${homeName}.managed}"
@@ -86,13 +87,13 @@
 </#if>
 			                             value="${'#'}{${homeName}.instance.${property.name}}"
 			                              size="${column.precision+6}"/>
-<#elseif property.value.typeName == "boolean">
+<#elseif propertyType == "boolean" || propertyType == "yes_no" || propertyType == "true_false">
 			                   <h:selectBooleanCheckbox id="${property.name}"
 <#if !column.nullable>
                                                   required="true"
 </#if>
 		        	                                 value="${'#'}{${homeName}.instance.${property.name}}"/>
-<#elseif property.value.typeName == "string">
+<#elseif propertyType == "string">
 <#if column.length gt 160>
 <#if column.length gt 800>
 <#assign rows = 10>
