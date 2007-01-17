@@ -16,10 +16,12 @@
     </role>
   </roles>
   
-  <loginmodules>
-    <loginmodule class="org.jboss.seam.security.spi.SeamLoginModule" flag="required">
-      <option name="authMethod">#{login.authenticate}</option>
-    </loginmodule>
-  </loginmodules>
+  <application-policy>
+    <authentication>
+	    <login-module code="org.jboss.seam.security.spi.SeamLoginModule" flag="required">
+	      <module-option name="authMethod">#{login.authenticate}</module-option>
+	    </login-module>
+	  </authentication>
+  </application-policy>
 
 </security-config>

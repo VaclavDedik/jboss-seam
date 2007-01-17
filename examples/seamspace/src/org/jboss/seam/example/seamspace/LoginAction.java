@@ -53,7 +53,7 @@ public class LoginAction implements LoginLocal
          CallbackHandler cbh = SeamSecurityManager.instance().createCallbackHandler(
                member.getUsername(), member.getPassword());
          
-         LoginContext lc = SeamSecurityManager.instance().createLoginContext(cbh);
+         LoginContext lc = SeamSecurityManager.instance().createLoginContext(null, cbh);
          lc.login();
       }
       catch (LoginException ex)
