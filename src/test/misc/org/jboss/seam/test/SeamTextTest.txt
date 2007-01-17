@@ -24,8 +24,7 @@ characters get escaped automagically:
 "a string" 
 a_variable_name 
 a||b 
-x=y*z/2
-</tag>`
+x=y*z/2`
 
 We wrap quoted text in double quotes:
 
