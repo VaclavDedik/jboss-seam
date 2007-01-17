@@ -16,6 +16,7 @@
 <!ENTITY validation             SYSTEM "modules/validation.xml">
 <!ENTITY configuration          SYSTEM "modules/configuration.xml">
 <!ENTITY framework              SYSTEM "modules/framework.xml">
+<!ENTITY text                   SYSTEM "modules/text.xml">
 <!ENTITY annotations            SYSTEM "modules/annotations.xml">
 <!ENTITY components             SYSTEM "modules/components.xml">
 <!ENTITY controls               SYSTEM "modules/controls.xml">
@@ -262,6 +263,7 @@
     &validation;
     &configuration;
     &framework;
+    &text;
     &annotations;
     &components;
     &controls;

@@ -28,6 +28,14 @@
            </listitem>
        </varlistentry>
        <varlistentry>
+           <term><literal>&lt;s:formattedText&gt;</literal></term>
+           <listitem>
+               <para>
+                   Output <emphasis>Seam Text</emphasis>.
+               </para>
+           </listitem>
+       </varlistentry>
+       <varlistentry>
            <term><literal>&lt;s:convertDateTime&gt;</literal></term>
            <listitem>
                <para>

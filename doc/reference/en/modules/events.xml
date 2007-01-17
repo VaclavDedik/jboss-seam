@@ -225,6 +225,191 @@
 </pages>]]></programlisting>
 
         </sect3>
+        
+        <sect3>
+            <title>Navigation</title>
+            
+            <para>
+                You can use standard JSF navigation rules defined in <literal>faces-config.xml</literal>
+                in a Seam application. However, JSF navigation rules have a number of annoying
+                limitations:
+            </para>
+            
+            <itemizedlist>
+                <listitem>
+                    <para>
+                        It is not possible to specify request parameters to be used when redirecting.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        It is not possible to begin or end conversations from a rule.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        Rules work by evaluating the return value of the action method; it is not
+                        possible to evaluate an arbitrary EL expression.
+                    </para>
+                </listitem>
+            </itemizedlist>
+            
+            <para>
+                A further problem is that "orchestration" logic gets scattered between <literal>pages.xml</literal>
+                and <literal>faces-config.xml</literal>. It's better to unify this logic into <literal>pages.xml</literal>.
+            </para>
+            
+            <para>
+                This JSF navigation rule:
+            </para>
+            
+            <programlisting><![CDATA[<navigation-rule>
+    <from-view-id>/editDocument.xhtml</from-view-id>
+    
+    <navigation-case>
+        <from-action>#{documentEditor.update}</from-action>
+        <from-outcome>success</from-outcome>
+        <to-view-id>/viewDocument.xhtml</to-view-id>
+        <redirect/>
+    </navigation-case>
+    
+</navigation-rule>]]></programlisting>
+        
+            <para>
+                Can be rewritten as follows:
+            </para>
+            
+            <programlisting><![CDATA[<page view-id="/editDocument.xhtml">
+    
+    <navigation from-action="#{documentEditor.update}">
+        <rule if-outcome="success">
+            <redirect view-id="/viewDocument.xhtml"/>
+        <rule/>
+    </navigation-case>
+    
+</navigation-rule>]]></programlisting>
+        
+            <para>
+                But it would be even nicer if we didn't have to pollute our <literal>DocumentEditor</literal> 
+                component with string-valued return values (the JSF outcomes). So Seam lets us write:
+            </para>
+        
+            <programlisting><![CDATA[<page view-id="/editDocument.xhtml">
+    
+    <navigation from-action="#{documentEditor.update}" 
+                   evaluate="#{documentEditor.errors.size}">
+        <rule if-outcome="0">
+            <redirect view-id="/viewDocument.xhtml"/>
+        <rule/>
+    </navigation-case>
+    
+</navigation-rule>]]></programlisting>
+
+            <para>
+                Or even:
+            </para>
+        
+            <programlisting><![CDATA[<page view-id="/editDocument.xhtml">
+    
+    <navigation from-action="#{documentEditor.update}">
+        <rule if="#{documentEditor.errors.empty}">
+            <redirect view-id="/viewDocument.xhtml"/>
+        <rule/>
+    </navigation-case>
+    
+</navigation-rule>]]></programlisting>
+
+            <para>
+                The first form evaluates a value binding to determine the outcome value
+                to be used by the subsequent rules.
+                The second approach ignores the outcome and evaluates a value binding
+                for each possible rule.
+            </para>
+            
+            <para>
+                Of course, when an update succeeds, we probably want to end the current
+                conversation. We can do that like this:
+            </para>
+
+            <programlisting><![CDATA[<page view-id="/editDocument.xhtml">
+    
+    <navigation from-action="#{documentEditor.update}">
+        <rule if="#{documentEditor.errors.empty}">
+            <end-conversation/>
+            <redirect view-id="/viewDocument.xhtml"/>
+        <rule/>
+    </navigation-case>
+    
+</navigation-rule>]]></programlisting>
+
+            <para>
+                But ending the conversation loses any state associated with the conversation,
+                including the document we are currently interested in! One solution would be
+                to use an immediate render instead of a redirect:
+            </para>
+
+            <programlisting><![CDATA[<page view-id="/editDocument.xhtml">
+    
+    <navigation from-action="#{documentEditor.update}">
+        <rule if="#{documentEditor.errors.empty}">
+            <end-conversation/>
+            <render view-id="/viewDocument.xhtml"/>
+        <rule/>
+    </navigation-case>
+    
+</navigation-rule>]]></programlisting>
+
+            <para>
+                But the correct solution is to pass the document id as a request parameter:
+            </para>
+
+            <programlisting><![CDATA[<page view-id="/editDocument.xhtml">
+    
+    <navigation from-action="#{documentEditor.update}">
+        <rule if="#{documentEditor.errors.empty}">
+            <end-conversation/>
+            <redirect view-id="/viewDocument.xhtml">
+                <param name="documentId" value="#{documentEditor.documentId}"/>
+            </redirect>
+        <rule/>
+    </navigation-case>
+    
+</navigation-rule>]]></programlisting>
+
+            <para>
+                Null outcomes are a special case in JSF. The null outcome is interpreted to
+                mean "redisplay the page". The following navigation rule matches any non-null
+                outcome, but <emphasis>not</emphasis> the null outcome:
+            </para>
+            
+            <programlisting><![CDATA[<page view-id="/editDocument.xhtml">
+    
+    <navigation from-action="#{documentEditor.update}">
+        <rule>
+            <render view-id="/viewDocument.xhtml"/>
+        <rule/>
+    </navigation-case>
+    
+</navigation-rule>]]></programlisting>
+
+            <para>
+                If you want to perform navigation when a null outcome occurs, use the
+                following form instead:
+            </para>
+            
+            <programlisting><![CDATA[<page view-id="/editDocument.xhtml">
+    
+    <navigation from-action="#{documentEditor.update}">
+        <render view-id="/viewDocument.xhtml"/>
+    </navigation-case>
+    
+</navigation-rule>]]></programlisting>
+
+            
+
+        </sect3>
+        
+        
 
         <sect3>
             <title>Fine-grained files for definition of page actions and parameters</title>
