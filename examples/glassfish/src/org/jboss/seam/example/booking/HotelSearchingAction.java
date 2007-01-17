@@ -17,7 +17,7 @@ import org.jboss.seam.annotations.datamodel.DataModel;
 @Stateful
 @Name("hotelSearch")
 @Scope(ScopeType.SESSION)
-@LoggedIn
+// @LoggedIn
 public class HotelSearchingAction implements HotelSearching
 {
    

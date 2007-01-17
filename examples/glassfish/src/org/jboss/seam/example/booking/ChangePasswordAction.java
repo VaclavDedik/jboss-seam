@@ -18,7 +18,7 @@ import org.jboss.seam.core.FacesMessages;
 @Stateful
 @Scope(EVENT)
 @Name("changePassword")
-@LoggedIn
+// @LoggedIn
 public class ChangePasswordAction implements ChangePassword
 {
 

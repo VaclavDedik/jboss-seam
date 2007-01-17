@@ -23,7 +23,7 @@ import org.jboss.seam.log.Log;
 
 @Stateful
 @Name("hotelBooking")
-@LoggedIn
+// @LoggedIn
 public class HotelBookingAction implements HotelBooking
 {
    

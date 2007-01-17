@@ -28,7 +28,7 @@ import org.jboss.seam.log.Log;
 @Stateful
 @Scope(SESSION)
 @Name("bookingList")
-@LoggedIn
+// @LoggedIn
 @TransactionAttribute(REQUIRES_NEW)
 public class BookingListAction implements BookingList, Serializable
 {
