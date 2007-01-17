@@ -94,4 +94,21 @@ public class Identity implements Serializable
       
       return false;
    }
+      
+   /**
+    * Performs an authorization check, based on the specified security expression.
+    * 
+    * @param expr The security expression to evaluate
+    * @throws NotLoggedInException Thrown if the user is not authenticated
+    * @throws AuthorizationException if the authorization check fails
+    */
+   public void checkRestriction(String expr)
+   {
+      if (!isLoggedIn())
+         throw new NotLoggedInException();
+      
+      if (!SeamSecurityManager.instance().evaluateExpression(expr))
+         throw new AuthorizationException(String.format(
+               "Authorization check failed for expression [%s]", expr));      
+   }
 }
