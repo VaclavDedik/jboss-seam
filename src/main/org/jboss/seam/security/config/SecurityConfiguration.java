@@ -45,7 +45,7 @@ import org.jboss.seam.util.Resources;
 @Intercept(InterceptionType.NEVER)
 public class SecurityConfiguration
 {
-   public static final String LOGIN_MODULE_NAME = "seam";
+   public static final String DEFAULT_LOGIN_MODULE_NAME = "default";
    
    private static final String SECURITY_CONFIG_FILENAME = "/META-INF/security-config.xml";
 
@@ -68,11 +68,13 @@ public class SecurityConfiguration
    private static final String SECURITY_PERMISSION = "permission";
 
    // login modules
-   private static final String LOGIN_MODULES = "loginmodules";
-   private static final String LOGIN_MODULE = "loginmodule";
-   private static final String LOGIN_MODULE_CLASS = "class";
+   private static final String APPLICATION_POLICY = "application-policy";
+   private static final String APPLICATION_POLICY_NAME = "name";
+   private static final String AUTHENTICATION = "authentication";
+   private static final String LOGIN_MODULE = "login-module";
+   private static final String LOGIN_MODULE_CODE = "code";
    private static final String LOGIN_MODULE_FLAG = "flag";
-   private static final String LOGIN_MODULE_OPTION = "option"; 
+   private static final String LOGIN_MODULE_OPTION = "module-option"; 
    private static final String LOGIN_MODULE_OPTION_NAME = "name";
    
    // login module flags
@@ -199,8 +201,8 @@ public class SecurityConfiguration
          if (env.element(SECURITY_ROLES) != null)
             loadSecurityRoles(env.element(SECURITY_ROLES));
          
-         if (env.element(LOGIN_MODULES) != null)
-            loadLoginModules(env.element(LOGIN_MODULES));
+         List<Element> policies = env.elements(APPLICATION_POLICY);
+         loadLoginModules(policies);
       }
       catch (Exception ex)
       {
@@ -323,36 +325,42 @@ public class SecurityConfiguration
    }
 
    @SuppressWarnings("unchecked")
-   protected void loadLoginModules(Element loginModulesElement)
+   protected void loadLoginModules(List<Element> policies)
          throws SecurityConfigException
    {
       loginModuleConfig = new LoginModuleConfiguration();
       List<AppConfigurationEntry> entries = new ArrayList<AppConfigurationEntry>();
 
-      List<Element> moduleElements = loginModulesElement.elements(LOGIN_MODULE);
-      if (moduleElements != null)
-      {
-         for (Element loginModule : moduleElements)
+      for (Element policy : policies)
+      {      
+         List<Element> modules = policy.element(AUTHENTICATION).elements(LOGIN_MODULE);
+         if (modules != null)
          {
-            Map<String, String> options = new HashMap<String, String>();
-   
-            for (Element option : (List<Element>) loginModule.elements(LOGIN_MODULE_OPTION))
+            for (Element module : modules)
             {
-               options.put(option.attributeValue(LOGIN_MODULE_OPTION_NAME), 
-                           option.getTextTrim());
+               Map<String, String> options = new HashMap<String, String>();
+      
+               for (Element option : (List<Element>) module.elements(LOGIN_MODULE_OPTION))
+               {
+                  options.put(option.attributeValue(LOGIN_MODULE_OPTION_NAME), 
+                              option.getTextTrim());
+               }
+               
+               AppConfigurationEntry entry = new AppConfigurationEntry(module
+                     .attributeValue(LOGIN_MODULE_CODE), getControlFlag(module
+                     .attributeValue(LOGIN_MODULE_FLAG)), options);
+               entries.add(entry);
             }
             
-            AppConfigurationEntry entry = new AppConfigurationEntry(loginModule
-                  .attributeValue(LOGIN_MODULE_CLASS), getControlFlag(loginModule
-                  .attributeValue(LOGIN_MODULE_FLAG)), options);
-            entries.add(entry);
+            AppConfigurationEntry[] e = new AppConfigurationEntry[entries.size()];
+            entries.toArray(e);
+            
+            if (policy.attribute(APPLICATION_POLICY_NAME) != null)
+               loginModuleConfig.addEntry(policy.attributeValue(APPLICATION_POLICY_NAME), e);
+            else
+               loginModuleConfig.addEntry(DEFAULT_LOGIN_MODULE_NAME, e);
          }
-         
-         AppConfigurationEntry[] e = new AppConfigurationEntry[entries.size()];
-         entries.toArray(e);
-         
-         loginModuleConfig.addEntry(LOGIN_MODULE_NAME, e);
-      }      
+      }
    }
 
    private AppConfigurationEntry.LoginModuleControlFlag getControlFlag(

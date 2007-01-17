@@ -252,7 +252,19 @@ public class SeamSecurityManager
    public LoginContext createLoginContext()
       throws LoginException
    {
-      return createLoginContext(null);
+      return createLoginContext(null, null);
+   }
+   
+   /**
+    * Creates a LoginContext using a configuration specified by name.
+    *  
+    * @param policyName The name of the security configuration policy to use
+    * @throws LoginException
+    */
+   public LoginContext createLoginContext(String policyName)
+      throws LoginException
+   {
+      return createLoginContext(policyName, null);      
    }
       
    /**
@@ -264,11 +276,12 @@ public class SeamSecurityManager
     * @param cbHandler The callback handler provided to the LoginContext
     * @throws LoginException
     */
-   public LoginContext createLoginContext(CallbackHandler cbHandler)
+   public LoginContext createLoginContext(String policyName, CallbackHandler cbHandler)
        throws LoginException
    {     
-      return new LoginContext(SecurityConfiguration.LOGIN_MODULE_NAME, 
-            Identity.instance().getSubject(), cbHandler,
+      String name = policyName != null ? policyName : SecurityConfiguration.DEFAULT_LOGIN_MODULE_NAME;
+      
+      return new LoginContext(name, Identity.instance().getSubject(), cbHandler,
             SecurityConfiguration.instance().getLoginModuleConfiguration()) {
          @Override public void login() throws LoginException {
             super.login();

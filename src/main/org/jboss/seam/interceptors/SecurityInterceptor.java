@@ -37,15 +37,10 @@ public class SecurityInterceptor extends AbstractInterceptor
 
       if (r != null)
       {
-         if (!Identity.instance().isLoggedIn())
-            throw new NotLoggedInException();
-         
          String expr = r.value() != null && !"".equals(r.value()) ? r.value() : 
-            createDefaultExpr(method);
-                  
-         if (!SeamSecurityManager.instance().evaluateExpression(expr))
-            throw new AuthorizationException(String.format(
-                  "Authorization check failed for expression [%s]", expr));
+            createDefaultExpr(method);         
+         
+         Identity.instance().checkRestriction(expr);
       }
 
       return invocation.proceed();
