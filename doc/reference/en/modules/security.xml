@@ -92,17 +92,17 @@
     <sect2>
       <title>security-config.xml</title>
 
-	    <para>
-	      The next step is to configure roles.  While this step is optional (it is possible for a user to
-	      belong to a role even if it is not configured here), it is necessary if either 1) explicit permissions 
-	      are required by your application, or 2) roles require membership of other roles.	Create a file called 
-	      <literal>security-config.xml</literal>, which goes in the <literal>META-INF</literal> directory of the 
-	      Seam application's jar file.  Here's an example <literal>security-config.xml</literal> file with a few 
-	      roles defined.
-	    </para>
+      <para>
+        The next step is to configure roles.  While this step is optional (it is possible for a user to
+        belong to a role even if it is not configured here), it is necessary if either 1) explicit permissions 
+        are required by your application, or 2) roles require membership of other roles.  Create a file called 
+        <literal>security-config.xml</literal>, which goes in the <literal>META-INF</literal> directory of the 
+        Seam application's jar file.  Here's an example <literal>security-config.xml</literal> file with a few 
+        roles defined.
+      </para>
 
-	    <programlisting>
-	      <![CDATA[
+      <programlisting>
+        <![CDATA[
 <security-config>
 
   <roles>
@@ -139,238 +139,238 @@
   </roles>
 
 </security-config>
-	      ]]>
-	    </programlisting>
+        ]]>
+      </programlisting>
 
-	    <para>
-	      In the above example, we can see that there are four distinct roles: <literal>admin</literal>,
-	      <literal>superuser</literal>, <literal>user</literal> and <literal>guest</literal>.  Strictly
-	      speaking, the <literal>guest</literal> entry is redundant as it declares no permissions nor contains
-	      any memberships of other roles.  What is most of interest here are the permissions and role memberships,
-	      which are explained in further detail as follows.
-	    </para>
+      <para>
+        In the above example, we can see that there are four distinct roles: <literal>admin</literal>,
+        <literal>superuser</literal>, <literal>user</literal> and <literal>guest</literal>.  Strictly
+        speaking, the <literal>guest</literal> entry is redundant as it declares no permissions nor contains
+        any memberships of other roles.  What is most of interest here are the permissions and role memberships,
+        which are explained in further detail as follows.
+      </para>
 
-	    <sect3>
-	      <title>Explicit Permissions</title>
-	      <para>
-	        These are permissions which are explicitly granted to members of a role.  Explicit permissions are
-	        used to address simple security concerns, such as <emphasis>"may this user create a new customer
-	        record?"</emphasis>, or <emphasis>"may this user view customer details?"</emphasis>.  While it is
-	        possible to perform a more complex contextual-based decision to grant a specific permission or not,
-	        explicit permissions allow simple decision-less permissions to be easily granted to certain groups
-	        of users.  How these permissions are used will be explained further on.
-	      </para>
-	    </sect3>
+      <sect3>
+        <title>Explicit Permissions</title>
+        <para>
+          These are permissions which are explicitly granted to members of a role.  Explicit permissions are
+          used to address simple security concerns, such as <emphasis>"may this user create a new customer
+          record?"</emphasis>, or <emphasis>"may this user view customer details?"</emphasis>.  While it is
+          possible to perform a more complex contextual-based decision to grant a specific permission or not,
+          explicit permissions allow simple decision-less permissions to be easily granted to certain groups
+          of users.  How these permissions are used will be explained further on.
+        </para>
+      </sect3>
 
-	    <sect3>
-	      <title>Role memberships</title>
+      <sect3>
+        <title>Role memberships</title>
 
-	      <para>
-	        Role memberships are a simple inheritence feature designed to make it easier to build a security
-	        model from the ground up.  In the above example, it can be seen that the <literal>admin</literal>
-	        role contains a membership of the <literal>superuser</literal> role.  What this means, is that any
-	        explicit permissions that the <literal>superuser</literal> has, whether they were granted to the
-	        <literal>superuser</literal> role directly or inherited from further up, are automatically granted
-	        to the <literal>admin</literal> user also, as a result of its membership.
-	      </para>
+        <para>
+          Role memberships are a simple inheritence feature designed to make it easier to build a security
+          model from the ground up.  In the above example, it can be seen that the <literal>admin</literal>
+          role contains a membership of the <literal>superuser</literal> role.  What this means, is that any
+          explicit permissions that the <literal>superuser</literal> has, whether they were granted to the
+          <literal>superuser</literal> role directly or inherited from further up, are automatically granted
+          to the <literal>admin</literal> user also, as a result of its membership.
+        </para>
 
-	      <para>
-	        The following table illustrates this concept by showing the permissions granted to each role based 
-	        on the above <literal>security-config.xml</literal> example.
-	      </para>
+        <para>
+          The following table illustrates this concept by showing the permissions granted to each role based 
+          on the above <literal>security-config.xml</literal> example.
+        </para>
 
-	      <table>
-	        <title>Permissions granted to example roles</title>
+        <table>
+          <title>Permissions granted to example roles</title>
 
-	        <tgroup cols="3">
-	          <colspec colnum="1" colwidth="1*" />
-	          <colspec colnum="2" colwidth="1*" />
-	          <colspec colnum="3" colwidth="1*" />
+          <tgroup cols="3">
+            <colspec colnum="1" colwidth="1*" />
+            <colspec colnum="2" colwidth="1*" />
+            <colspec colnum="3" colwidth="1*" />
 
-	          <thead>
-	            <row>
-	              <entry align="center">
-	                <para>Role</para>
-	              </entry>
+            <thead>
+              <row>
+                <entry align="center">
+                  <para>Role</para>
+                </entry>
 
-	              <entry align="center">
-	                <para>Permission</para>
-	              </entry>
+                <entry align="center">
+                  <para>Permission</para>
+                </entry>
 
-	              <entry align="center">
-	                <para>Source</para>
-	              </entry>
-	            </row>
-	          </thead>
+                <entry align="center">
+                  <para>Source</para>
+                </entry>
+              </row>
+            </thead>
 
-	          <tbody>
-	            <row>
-	              <entry>
-	                <para>user</para>
-	              </entry>
-	              <entry>
-	                <para>customer:create</para>
-	              </entry>
-	              <entry>
-	                <para>Assigned directly</para>
-	              </entry>
-	            </row>
-	            <row>
-	              <entry>
-	                <para>user</para>
-	              </entry>
-	              <entry>
-	                <para>customer:delete</para>
-	              </entry>
-	              <entry>
-	                <para>Assigned directly</para>
-	              </entry>
-	            </row>
-	            <row>
-	              <entry>
-	                <para>superuser</para>
-	              </entry>
-	              <entry>
-	                <para>customer:create</para>
-	              </entry>
-	              <entry>
-	                <para>Inherited from user</para>
-	              </entry>
-	            </row>
-	            <row>
-	              <entry>
-	                <para>superuser</para>
-	              </entry>
-	              <entry>
-	                <para>customer:delete</para>
-	              </entry>
-	              <entry>
-	                <para>Inherited from user</para>
-	              </entry>
-	            </row>
-	            <row>
-	              <entry>
-	                <para>superuser</para>
-	              </entry>
-	              <entry>
-	                <para>account:create</para>
-	              </entry>
-	              <entry>
-	                <para>Assigned directly</para>
-	              </entry>
-	            </row>
-	            <row>
-	              <entry>
-	                <para>superuser</para>
-	              </entry>
-	              <entry>
-	                <para>account:delete</para>
-	              </entry>
-	              <entry>
-	                <para>Assigned directly</para>
-	              </entry>
-	            </row>
-	            <row>
-	              <entry>
-	                <para>admin</para>
-	              </entry>
-	              <entry>
-	                <para>customer:create</para>
-	              </entry>
-	              <entry>
-	                <para>Inherited from superuser</para>
-	              </entry>
-	            </row>
-	            <row>
-	              <entry>
-	                <para>admin</para>
-	              </entry>
-	              <entry>
-	                <para>customer:delete</para>
-	              </entry>
-	              <entry>
-	                <para>Inherited from superuser</para>
-	              </entry>
-	            </row>
-	            <row>
-	              <entry>
-	                <para>admin</para>
-	              </entry>
-	              <entry>
-	                <para>account:create</para>
-	              </entry>
-	              <entry>
-	                <para>Inherited from superuser</para>
-	              </entry>
-	            </row>
-	            <row>
-	              <entry>
-	                <para>admin</para>
-	              </entry>
-	              <entry>
-	                <para>account:delete</para>
-	              </entry>
-	              <entry>
-	                <para>Inherited from superuser</para>
-	              </entry>
-	            </row>
-	            <row>
-	              <entry>
-	                <para>admin</para>
-	              </entry>
-	              <entry>
-	                <para>user:create</para>
-	              </entry>
-	              <entry>
-	                <para>Assigned directly</para>
-	              </entry>
-	            </row>
-	            <row>
-	              <entry>
-	                <para>admin</para>
-	              </entry>
-	              <entry>
-	                <para>user:modify</para>
-	              </entry>
-	              <entry>
-	                <para>Assigned directly</para>
-	              </entry>
-	            </row>
-	            <row>
-	              <entry>
-	                <para>admin</para>
-	              </entry>
-	              <entry>
-	                <para>user:delete</para>
-	              </entry>
-	              <entry>
-	                <para>Assigned directly</para>
-	              </entry>
-	            </row>
-	          </tbody>
+            <tbody>
+              <row>
+                <entry>
+                  <para>user</para>
+                </entry>
+                <entry>
+                  <para>customer:create</para>
+                </entry>
+                <entry>
+                  <para>Assigned directly</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para>user</para>
+                </entry>
+                <entry>
+                  <para>customer:delete</para>
+                </entry>
+                <entry>
+                  <para>Assigned directly</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para>superuser</para>
+                </entry>
+                <entry>
+                  <para>customer:create</para>
+                </entry>
+                <entry>
+                  <para>Inherited from user</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para>superuser</para>
+                </entry>
+                <entry>
+                  <para>customer:delete</para>
+                </entry>
+                <entry>
+                  <para>Inherited from user</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para>superuser</para>
+                </entry>
+                <entry>
+                  <para>account:create</para>
+                </entry>
+                <entry>
+                  <para>Assigned directly</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para>superuser</para>
+                </entry>
+                <entry>
+                  <para>account:delete</para>
+                </entry>
+                <entry>
+                  <para>Assigned directly</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para>admin</para>
+                </entry>
+                <entry>
+                  <para>customer:create</para>
+                </entry>
+                <entry>
+                  <para>Inherited from superuser</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para>admin</para>
+                </entry>
+                <entry>
+                  <para>customer:delete</para>
+                </entry>
+                <entry>
+                  <para>Inherited from superuser</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para>admin</para>
+                </entry>
+                <entry>
+                  <para>account:create</para>
+                </entry>
+                <entry>
+                  <para>Inherited from superuser</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para>admin</para>
+                </entry>
+                <entry>
+                  <para>account:delete</para>
+                </entry>
+                <entry>
+                  <para>Inherited from superuser</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para>admin</para>
+                </entry>
+                <entry>
+                  <para>user:create</para>
+                </entry>
+                <entry>
+                  <para>Assigned directly</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para>admin</para>
+                </entry>
+                <entry>
+                  <para>user:modify</para>
+                </entry>
+                <entry>
+                  <para>Assigned directly</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para>admin</para>
+                </entry>
+                <entry>
+                  <para>user:delete</para>
+                </entry>
+                <entry>
+                  <para>Assigned directly</para>
+                </entry>
+              </row>
+            </tbody>
 
-	        </tgroup>
+          </tgroup>
         </table>
 
-	    </sect3>
-	    
-	    <sect3>
-	      <title>Page security</title>
-	      
-	      <para>
-	        Page security is used to restrict direct access to web resources based on the user's roles. It
-	        requires the Seam security filter (a servlet filter - see the next section) to be installed.  
-	        To configure page security, <literal>security-constraint</literal> entries must be created within 
-	        <literal>security-config.xml</literal> to control which web resources are accessible to which roles.
-	        The restricted web resources are defined using a url-pattern expression.  The following example
-	        demonstrates how all of the <literal>*.seam</literal> resources in the <literal>/secure</literal>
-	        directory are restricted to users in the <literal>admin</literal> role.
-	      </para>
-	      
-	      <programlisting>
-	        <![CDATA[
+      </sect3>
+      
+      <sect3>
+        <title>Page security</title>
+        
+        <para>
+          Page security is used to restrict direct access to web resources based on the user's roles. It
+          requires the Seam security filter (a servlet filter - see the next section) to be installed.  
+          To configure page security, <literal>security-constraint</literal> entries must be created within 
+          <literal>security-config.xml</literal> to control which web resources are accessible to which roles.
+          The restricted web resources are defined using a url-pattern expression.  The following example
+          demonstrates how all of the <literal>*.seam</literal> resources in the <literal>/secure</literal>
+          directory are restricted to users in the <literal>admin</literal> role.
+        </para>
+        
+        <programlisting>
+          <![CDATA[
 <security-config>
-	        
+          
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>Secure Page</web-resource-name>
@@ -380,36 +380,36 @@
     <auth-constraint>
       <role-name>admin</role-name>
     </auth-constraint>
-  </security-constraint>	        
+  </security-constraint>          
   
 </security-config>  
-	        ]]>
-	      </programlisting>
-	      
-	      <para>
-	        This configuration may look familiar, because it is the same format defined by the servlet 
-	        specification, and as such follows the same wildcard conventions.  I.e. at the end of a pattern, 
-	        <literal>/*</literal> matches any sequence of characters from that point forward, and the pattern
-	        <literal>*.extension</literal> matches any resources ending with <literal>.extension</literal>. An
-	        asterisk in any other position is not a wildcard.
-	      </para>   
-	      
-	      <para>
-	        So what happens when a user tries to access a page that they don't have the necessary rights for? 
-	        By default, the security filter redirects these requests to the <literal>/securityError.seam</literal>
-	        page.  This page can be overridden by setting the <literal>securityErrorPage</literal> property
-	        of the <literal>SecurityConfiguration</literal> component in <literal>components.xml</literal>:
-	      </para>
-	      
-	      <programlisting>
-	        <![CDATA[
+          ]]>
+        </programlisting>
+        
+        <para>
+          This configuration may look familiar, because it is the same format defined by the servlet 
+          specification, and as such follows the same wildcard conventions.  I.e. at the end of a pattern, 
+          <literal>/*</literal> matches any sequence of characters from that point forward, and the pattern
+          <literal>*.extension</literal> matches any resources ending with <literal>.extension</literal>. An
+          asterisk in any other position is not a wildcard.
+        </para>   
+        
+        <para>
+          So what happens when a user tries to access a page that they don't have the necessary rights for? 
+          By default, the security filter redirects these requests to the <literal>/securityError.seam</literal>
+          page.  This page can be overridden by setting the <literal>securityErrorPage</literal> property
+          of the <literal>SecurityConfiguration</literal> component in <literal>components.xml</literal>:
+        </para>
+        
+        <programlisting>
+          <![CDATA[
   <component class="org.jboss.seam.security.config.SecurityConfiguration">
     <property name="securityErrorPage">/security/generalSecurityError.seam</property>
   </component>
-	        ]]>	      
-	      </programlisting>
-	      
-	    </sect3>	    
+          ]]>       
+        </programlisting>
+        
+      </sect3>      
     </sect2>
 
     <sect2>
@@ -456,27 +456,51 @@
     <title>Authentication</title>
 
     <para>
-      It is a relatively straight forward process to set up authentication.  The first step is to configure
-      the login modules that are to be used within the project by adding a <literal>loginmodules</literal>
-      section to <literal>security-config.xml</literal>: 
+      It is a relatively straight forward process to set up authentication.  The first step is to 
+      configure the login modules that are to be used within the project by adding one or more
+      <literal>application-policy</literal> entries to <literal>security-config.xml</literal>.
     </para>
     
     <programlisting>
-      <![CDATA[
-  <loginmodules>
-    <loginmodule class="org.jboss.seam.security.spi.SeamLoginModule" flag="required">
-      <option name="authMethod">#{login.authenticate}</option>
-    </loginmodule>
-  </loginmodules>      
+      <![CDATA[ 
+  <application-policy>
+    <authentication>
+      <login-module code="org.jboss.seam.security.spi.SeamLoginModule" flag="required">
+        <module-option name="authMethod">#{login.authenticate}</module-option>
+      </login-module>
+    </authentication>
+  </application-policy>  
+      ]]>
+    </programlisting>
+    
+    <para>
+      An <literal>application-policy</literal> without a specified name will be given a default name.  It is
+      possible to create multiple application policies if required, with each one having its own set of login 
+      modules.
+    </para>
+
+    <programlisting>
+      <![CDATA[ 
+  <application-policy>  <!-- default policy -->
+    <authentication>
+      <login-module ...
+    </authentication>
+  </application-policy>      
+      
+  <application-policy name="special">
+    <authentication>
+      <login-module ...
+    </authentication>
+  </application-policy>
       ]]>
     </programlisting>
     
     <para>
       The login module configuration should look familiar if you've ever used JAAS before.  Each login module
-      should have its own <literal>loginmodule</literal> entry, specifying the fully qualified class name of 
+      should have its own <literal>login-module</literal> entry, specifying the fully qualified class name of 
       the login module class, plus the flag for the login module.  It is also possible to configure additional 
-      options for each login module, by including <literal>option</literal> entries as children of the 
-      <literal>loginmodule</literal> entry. Flag values are found in the JSE API documentation for 
+      options for each login module, by including <literal>module-option</literal> entries as children of the 
+      <literal>login-module</literal> entry. Flag values are found in the JSE API documentation for 
       <literal>javax.security.auth.login.Configuration</literal>, but are repeated here for convenience:
     </para>
     
@@ -528,7 +552,7 @@
             </entry>
             <entry>
               <para>
-	              The LoginModule is not required to succeed.  If it does succeed, control immediately
+                The LoginModule is not required to succeed.  If it does succeed, control immediately
                 returns to the application (authentication does not proceed down the LoginModule list).
                 If it fails, authentication continues down the LoginModule list.
               </para>
@@ -548,8 +572,10 @@
         </tbody>
       </tgroup>
     </table>
+        
+    <para>
     
-    
+    </para>    
         
     <sect2>
       <title>Using <literal>SeamLoginModule</literal> to authenticate</title>
@@ -622,7 +648,7 @@ public class AuthenticatorAction
          CallbackHandler cbh = SeamSecurityManager.instance().createCallbackHandler(
                user.getUsername(), user.getPassword());
          
-         LoginContext lc = SeamSecurityManager.instance().createLoginContext(cbh);
+         LoginContext lc = SeamSecurityManager.instance().createLoginContext(null, cbh);
          lc.login();
       }
       catch (LoginException ex)
@@ -644,10 +670,23 @@ public class AuthenticatorAction
       <para>
         The next thing that happens is the creation of a <literal>LoginContext</literal>.  There is a factory
         method in <literal>SeamSecurityManager</literal> for creating this, as the login context doesn't
-        use the standard configuration (it uses an application-specific configuration).  The final step is the
-        call to <literal>lc.login()</literal>, which calls each of the configured login modules in turn, 
-        passing in the callback handler to each one and performing an authentication based on the configured
-        login module flags.        
+        use the standard configuration (it uses an application-specific configuration).  If the application
+        policy isn't configured with a name, then it will have a default name and the String parameter
+        passed to <literal>createLoginContext()</literal> can be null.  If your application has multiple
+        application policies configured, then you can specify which one to use by providing the policy name
+        to <literal>createLoginContext()</literal>:
+      </para>
+      
+      <programlisting>
+        <![CDATA[
+  LoginContext lc = SeamSecurityManager.instance().createLoginContext("special", cbh);        
+        ]]>
+      </programlisting>
+        
+      <para>
+        The final step is the call to <literal>lc.login()</literal>, which calls each of the configured login 
+        modules in turn,  passing in the callback handler to each one and performing an authentication based on 
+        the configured login module flags.        
       </para>
       
       <para>
