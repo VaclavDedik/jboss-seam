@@ -45,7 +45,7 @@
           </ui:repeat>            
           
           [<h:outputLink value="blog.seam?name=#{selectedMember.name}">View all blog entries</h:outputLink>]
-          
+          [<s:link action="#{blog.createEntry}" value="Create new blog entry"/>]
         </s:div>
         
       </s:div>                

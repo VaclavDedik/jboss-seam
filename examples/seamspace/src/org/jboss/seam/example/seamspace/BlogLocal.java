@@ -11,6 +11,8 @@ public interface BlogLocal
    void getMemberBlogs();
    void getBlog();
    void createComment();
+   void previewComment();
    void saveComment();
+   void createEntry();
    void destroy();
 }

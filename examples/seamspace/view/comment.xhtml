@@ -31,6 +31,17 @@
             <div class="blogText">#{selectedBlog.text}</div>
           </div>
           
+          <s:div rendered="#{comment.comment != null}">
+            Preview:
+	          <table class="blogComment">
+	            <tr>		            
+		            <td class="blogCommentText">
+		              <p><s:formattedText value="#{comment.comment}"/></p>
+		            </td>	            
+	            </tr>
+	          </table>          
+          </s:div>
+          
           <div class="commentEntry">
             <h:form>
               
@@ -39,6 +50,7 @@
 
               <div class="buttons">
                 <h:commandButton action="#{blog.saveComment}" value="Add comment" styleClass="action"/>            
+                <h:commandButton action="#{blog.previewComment}" value="Preview" styleClass="action"/>                            
               </div>
               
               <br class="clear"/>
@@ -48,6 +60,8 @@
         </s:div>
                 
       </s:div>                
+      
+      <br class="clear"/>
           
     </ui:define>
     

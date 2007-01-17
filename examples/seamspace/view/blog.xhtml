@@ -29,7 +29,7 @@
 	          <div class="blogEntry">
   	          <div class="blogDate">#{memberBlog.formattedEntryDate}</div>
 	            <div class="blogTitle">#{memberBlog.title}</div>
-	            <div class="blogText">#{memberBlog.text}</div>
+	            <div class="blogText"><s:formattedText value="#{memberBlog.text}"/></div>
 	            <div class="blogFooter">
 	              <h:outputLink value="blogentry.seam?name=#{selectedMember.name}&amp;blogId=#{memberBlog.blogId}">
 	                #{memberBlog.commentCount} Comment#{memberBlog.commentCount != 1 ? "s" : ""}
@@ -42,7 +42,9 @@
 	        </ui:repeat>
 	      </s:div>
                 
-      </s:div>                
+      </s:div>  
+      
+      <br class="clear"/>                    
           
     </ui:define>
     

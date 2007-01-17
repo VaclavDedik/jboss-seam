@@ -28,7 +28,7 @@
           <div class="blogEntry">
 	          <div class="blogDate">#{selectedBlog.formattedEntryDate}</div>
             <div class="blogTitle">#{selectedBlog.title}</div>
-            <div class="blogText">#{selectedBlog.text}</div>
+            <div class="blogText"><s:formattedText value="#{selectedBlog.text}"/></div>
             <div class="blogFooter">
               <s:link value="Add Comment" action="#{blog.createComment}"/>
             </div>
@@ -45,7 +45,7 @@
 		            </td>
 		            
 		            <td class="blogCommentText">
-		              <p>#{comment.comment}</p>
+		              <p><s:formattedText value="#{comment.comment}"/></p>
 		              <p>Posted by 
 		                <h:outputLink value="profile.seam?name=#{comment.commentor.name}">
 					            #{comment.commentor.name}
@@ -58,6 +58,8 @@
 	      </s:div>
 	                      
       </s:div>                
+          
+      <br class="clear"/>          
           
     </ui:define>
     

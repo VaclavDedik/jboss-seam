@@ -1,16 +1,5 @@
 <security-config>
   
-  <security-constraint>
-    <web-resource-collection>
-      <web-resource-name>Secure Page</web-resource-name>
-      <url-pattern>/welcome.seam</url-pattern>
-    </web-resource-collection>
-    
-    <auth-constraint>
-      <role-name>user</role-name>
-    </auth-constraint>
-  </security-constraint>
-  
   <roles>
     <role name="admin">
       <memberships>superuser</memberships>
@@ -25,7 +14,6 @@
         <permission name="blog" action="createComment"/>
       </permissions>    
     </role>
-    
   </roles>
   
   <loginmodules>

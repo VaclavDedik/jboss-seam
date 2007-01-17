@@ -16,6 +16,7 @@
       <navigation from-action="#{blog.saveComment}">
         <redirect view-id="/blogentry.xhtml"/>
       </navigation>
+
     </page>
        
     <page view-id="*">

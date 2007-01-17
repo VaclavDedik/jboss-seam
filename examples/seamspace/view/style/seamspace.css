@@ -36,7 +36,7 @@ h1, h2, h3 {
   margin-right: auto;
   width: 800px;
   background-color: #ffffff;
-  height: 800px;
+  min-height: 800px;
 }
 
 #content a, #content a:visited {

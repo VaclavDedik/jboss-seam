@@ -18,6 +18,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.RequestParameter;
 import org.jboss.seam.annotations.security.Restrict;
+import org.jboss.seam.security.Identity;
 
 @Stateful
 @Name("blog")
@@ -100,6 +101,11 @@ public class BlogAction implements BlogLocal
       comment.setBlog(selectedBlog);
    }
    
+   public void previewComment()
+   {
+      // don't really need to do anything here...
+   }
+   
    public void saveComment()
    {      
       comment.setCommentDate(new Date());
@@ -108,6 +114,12 @@ public class BlogAction implements BlogLocal
       // Reload the blog entry
       entityManager.refresh(selectedBlog);
    }     
+   
+   public void createEntry()
+   {
+      Identity.instance().checkRestriction("#{s:hasPermission('blog', 'createEntry', selectedMember, authenticatedMember)}"); 
+//      MemberBlog selectedBlog = new MemberBlog();              
+   }
    
    @Remove @Destroy
    public void destroy() { }     
