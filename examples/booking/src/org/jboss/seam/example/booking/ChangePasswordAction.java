@@ -32,17 +32,20 @@ public class ChangePasswordAction implements ChangePassword
    
    private boolean changed;
    
+   @In
+   private FacesMessages facesMessages;
+   
    public void changePassword()
    {
       if ( user.getPassword().equals(verify) )
       {
          user = em.merge(user);
-         FacesMessages.instance().add("Password updated");
+         facesMessages.add("Password updated");
          changed = true;
       }
       else 
       {
-         FacesMessages.instance().add("verify", "Re-enter new password");
+         facesMessages.add("verify", "Re-enter new password");
          revertUser();
          verify=null;
       }
