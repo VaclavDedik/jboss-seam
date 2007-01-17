@@ -280,6 +280,11 @@ public class Initialization
 
          if (name == null)
          {
+            if (!clazz.isAnnotationPresent(Name.class))
+               throw new IllegalArgumentException(String.format(
+                        "Component class %s must have @Name annotation or name must be specified in components.xml",
+                        clazz.getName()));
+            
             name = clazz.getAnnotation(Name.class).value();
          }
 
