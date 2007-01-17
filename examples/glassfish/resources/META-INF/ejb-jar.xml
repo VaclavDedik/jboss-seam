@@ -4,6 +4,18 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_0.xsd"
          version="3.0">
          
+   <enterprise-beans>
+     <session>
+       <ejb-name>HotelBookingAction</ejb-name>
+       <ejb-local-ref>       
+         <ejb-ref-name>jboss-seam-glassfish/TransactionListener/local</ejb-ref-name>       
+         <ejb-ref-type>Session</ejb-ref-type>       
+         <local>org.jboss.seam.core.LocalTransactionListener</local>       
+         <ejb-link>TransactionListener</ejb-link>    
+       </ejb-local-ref>
+     </session>
+   </enterprise-beans>
+   
    <interceptors>
      <interceptor>
        <interceptor-class>org.jboss.seam.ejb.SeamInterceptor</interceptor-class>
@@ -16,5 +28,5 @@
          <interceptor-class>org.jboss.seam.ejb.SeamInterceptor</interceptor-class>
       </interceptor-binding>
    </assembly-descriptor>
-   
+
 </ejb-jar>

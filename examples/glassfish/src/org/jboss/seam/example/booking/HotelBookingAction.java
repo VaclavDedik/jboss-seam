@@ -91,8 +91,8 @@ public class HotelBookingAction implements HotelBooking
       return bookingValid;
    }
 
-   @Out (required=false, scope=SESSION)
-   List <Booking> bookings;
+   // @Out (required=false, scope=SESSION)
+   // List <Booking> bookings;
    
    @End
    public void confirm()
@@ -100,9 +100,9 @@ public class HotelBookingAction implements HotelBooking
       em.persist(booking);
       facesMessages.add("Thank you, #{user.name}, your confimation number for #{hotel.name} is #{booking.id}");
       log.info("New booking: #{booking.id} for #{user.username}");
-      // events.raiseTransactionSuccessEvent("bookingConfirmed");
+      events.raiseTransactionSuccessEvent("bookingConfirmed");
 
-      bookings = null;
+      // bookings = null;
    }
    
    @End
