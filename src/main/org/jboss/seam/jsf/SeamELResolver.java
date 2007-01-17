@@ -9,6 +9,7 @@ import javax.el.ELResolver;
 import javax.faces.model.DataModel;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Init;
 
 public class SeamELResolver extends ELResolver
@@ -37,6 +38,12 @@ public class SeamELResolver extends ELResolver
    {
       if (base==null)
       {
+         if ( !Contexts.isApplicationContextActive() )
+         {
+            //if no Seam contexts, bypass straight through to JSF
+            return null;
+         }
+         
          String name = (String) property;
          name = name.replace('$', '.');
          Object result = Component.getInstance(name);

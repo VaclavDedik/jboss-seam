@@ -14,6 +14,7 @@ import javax.faces.el.VariableResolver;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.Component;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Init;
 
 /**
@@ -40,6 +41,12 @@ public class SeamVariableResolver extends VariableResolver
    @Override
    public Object resolveVariable(FacesContext facesContext, String name) throws EvaluationException
    {
+      if ( !Contexts.isApplicationContextActive() )
+      {
+         //if no Seam contexts, bypass straight through to JSF
+         return jsfVariableResolver.resolveVariable(facesContext, name);
+      }
+      
       name = name.replace('$', '.');
       
       log.debug("resolving name: " + name);
