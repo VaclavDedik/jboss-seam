@@ -20,6 +20,7 @@
 <!ENTITY annotations            SYSTEM "modules/annotations.xml">
 <!ENTITY components             SYSTEM "modules/components.xml">
 <!ENTITY controls               SYSTEM "modules/controls.xml">
+<!ENTITY itext                  SYSTEM "modules/itext.xml">
 <!ENTITY elenhancements         SYSTEM "modules/elenhancements.xml">
 <!ENTITY testing                SYSTEM "modules/testing.xml">
 <!ENTITY tools                  SYSTEM "modules/tools.xml">
@@ -27,7 +28,6 @@
 ]>
 
 <book lang="en">
-
     <bookinfo>
         <title>Seam - Contextual Components</title>
         <subtitle>A Framework for Java EE 5</subtitle>
@@ -267,10 +267,10 @@
     &annotations;
     &components;
     &controls;
+    &itext;
     &elenhancements;
     &testing;
     &tools;
     &security;
-
 </book>
 
