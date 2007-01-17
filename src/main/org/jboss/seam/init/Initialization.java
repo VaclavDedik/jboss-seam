@@ -280,10 +280,12 @@ public class Initialization
 
          if (name == null)
          {
-            if (!clazz.isAnnotationPresent(Name.class))
-               throw new IllegalArgumentException(String.format(
-                        "Component class %s must have @Name annotation or name must be specified in components.xml",
-                        clazz.getName()));
+            if ( !clazz.isAnnotationPresent(Name.class) )
+            {
+               throw new IllegalArgumentException(
+                        "Component class must have @Name annotation or name must be specified in components.xml: " +
+                        clazz.getName());
+            }
             
             name = clazz.getAnnotation(Name.class).value();
          }
@@ -294,8 +296,7 @@ public class Initialization
       }
       else if (name == null)
       {
-         throw new IllegalArgumentException(
-                  "must specify either class or name in <component/> declaration");
+         throw new IllegalArgumentException("must specify either class or name in <component/> declaration");
       }
 
       for (Element prop : (List<Element>) component.elements())
