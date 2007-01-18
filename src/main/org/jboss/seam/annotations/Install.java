@@ -61,6 +61,13 @@ public @interface Install {
     */
    Class[] genericDependencies() default {};
    /**
+    * Indicates that the component should not be installed unless the
+    * the given class definitions are available on the classpath
+    *  
+    * @return the dependent classes
+    */
+   String[] classDependencies() default {};
+   /**
     * The precedence of the component. If multiple components with
     * the same name exist, the one with the higher precedence will
     * be installed.

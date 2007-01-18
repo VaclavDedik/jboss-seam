@@ -727,6 +727,19 @@ public class Initialization
             }
          }
       }
+      String[] classDependencies = descriptor.getClassDependencies();
+      if (classDependencies != null) {
+          for (String className: classDependencies) {
+              try {
+                  System.out.println("** trying to load " + className);
+                  descriptor.getComponentClass().getClassLoader().loadClass(className); 
+                  System.out.println("** loading " + className);
+              } catch (Exception e) {
+                  System.out.println("** couldn't load " + className);
+                  return false;
+              }
+          }
+      }
       return true;
    }
 
@@ -943,6 +956,15 @@ public class Initialization
          return install.genericDependencies();
       }
 
+      public String[] getClassDependencies() {
+          Install install = componentClass.getAnnotation(Install.class);
+          if (install == null)
+          {
+             return null;
+          }
+          return install.classDependencies();  
+      }
+      
       public boolean isInstalled()
       {
          if (installed != null)
