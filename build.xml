@@ -387,6 +387,7 @@
         <ant dir="examples/hibernate" target="undeploy.tomcat" inheritall="false"/>
         <ant dir="examples/icefaces" target="undeploy.tomcat" inheritall="false"/>
         <ant dir="examples/dvdstore" target="undeploy.tomcat" inheritall="false"/>
+    	<ant dir="examples/pdf" target="undeploy.tomcat" inheritall="false"/>
         <ant dir="examples/blog" target="undeploy.tomcat" inheritall="false"/>
         <ant dir="examples/issues" target="undeploy.tomcat" inheritall="false"/>
         <ant dir="examples/contactlist" target="undeploy.tomcat" inheritall="false"/>
