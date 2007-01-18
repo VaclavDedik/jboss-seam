@@ -16,8 +16,8 @@
       <s:div rendered="#{selectedBlog != null}">
       
         <s:div id="blogMemberCard">
-          <h:outputLink value="profile.seam?name=#{selectedMember.name}">
-	          #{selectedMember.name}<br/>
+          <h:outputLink value="profile.seam?name=#{selectedMember.memberName}">
+	          #{selectedMember.memberName}<br/>
 	          <h:graphicImage value="/content/images?id=#{selectedMember.picture.imageId}&amp;width=90"/>
 	        </h:outputLink>
                            
@@ -38,8 +38,8 @@
 	          <table class="blogComment">
 	            <tr>
 		            <td class="blogCommentor">
-				          <h:outputLink value="profile.seam?name=#{comment.commentor.name}">
-					          #{comment.commentor.name}<br/>
+				          <h:outputLink value="profile.seam?name=#{comment.commentor.memberName}">
+					          #{comment.commentor.memberName}<br/>
 					          <h:graphicImage value="/content/images?id=#{comment.commentor.picture.imageId}&amp;width=90"/>
 					        </h:outputLink>
 		            </td>
@@ -47,8 +47,8 @@
 		            <td class="blogCommentText">
 		              <p><s:formattedText value="#{comment.comment}"/></p>
 		              <p>Posted by 
-		                <h:outputLink value="profile.seam?name=#{comment.commentor.name}">
-					            #{comment.commentor.name}
+		                <h:outputLink value="profile.seam?name=#{comment.commentor.memberName}">
+					            #{comment.commentor.memberName}
 					          </h:outputLink> on #{comment.formattedCommentDate}
   					      </p>
 		            </td>	            

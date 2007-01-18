@@ -10,13 +10,25 @@
                 <redirect view-id="/profile.xhtml"/>
             </rule>
         </navigation>
+        <navigation from-action="#{register.start}">
+          <redirect view-id="/register.xhtml"/>
+        </navigation>
     </page>
        
     <page view-id="/comment.xhtml">    
       <navigation from-action="#{blog.saveComment}">
         <redirect view-id="/blogentry.xhtml"/>
       </navigation>
-
+    </page>
+    
+    <page view-id="/register.xhtml">
+      <navigation from-action="#{register.next}">
+        <rule if="#{register.confirm != newMember.password}">
+          <redirect view-id="/register.xhtml"/>
+        </rule>
+      
+        <redirect view-id="/register2.xhtml"/>
+      </navigation>
     </page>
        
     <page view-id="*">

@@ -45,9 +45,9 @@
               <h:message for="password"/>
             </div>          
             
-            <div class="loginButtons">
+            <div class="buttons">
               <h:commandButton value="LOGIN" action="#{login.login}" styleClass="loginButton"/>
-              <h:commandButton value="SIGN UP!" action="/register.seam" styleClass="registerButton"/>
+              <h:commandButton value="SIGN UP!" action="#{register.start}" styleClass="registerButton"/>
             </div>
 
             <br class="clear"/>
@@ -63,8 +63,8 @@
           <ui:repeat value="#{newMembers}" var="newMember">
             <div class="newMember">
             
-              <h:outputLink value="profile.seam?name=#{newMember.name}">
-                #{newMember.name}<br/>
+              <h:outputLink value="profile.seam?name=#{newMember.memberName}">
+                #{newMember.memberName}<br/>
                 <h:graphicImage value="/content/images?id=#{newMember.picture.imageId}&amp;width=90"/>
               </h:outputLink>
               

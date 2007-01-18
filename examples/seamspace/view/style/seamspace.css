@@ -182,9 +182,9 @@ div.commentEntry label {
 div.commentEntry textarea {
   font-family: verdana, arial, sans-serif, helvetica;
   font-size:11px;
-  margin: 8px 16px 8px 16px;
-  width: 540px;
-  height: 100px;
+  margin: 8px 12px 8px 12px;
+  width: 560px;
+  height: 120px;
 }
 
 div.buttons {
@@ -314,7 +314,7 @@ label.loginLabel {
   padding: 2px 2px 2px 2px;
 }
 
-div.loginButtons {
+div.buttons {
   float: right;
   margin-right: 60px;  
 }
@@ -373,4 +373,52 @@ div.registerHeader {
   color: #ffffff;
   background-color: #5a8cc0;
   padding: 8px 4px 8px 12px;
+}
+
+div.formRow {
+  padding: 3px 4px 3px 2px;
+}
+
+form.register label {
+  float: left;
+  display: block;
+  vertical-align: top;
+  width: 120px;  
+  margin-top: 2px;
+}
+
+form.register input.wide {
+  width: 240px;
+}
+
+form.register em {
+  font-size: normal;
+  font-weight: bold;
+  color: #ff0000;
+}
+
+form.register div.validationError {
+  margin-left: 120px;
+  font-weight: bold;
+  color: #ff0000;
+}
+
+img.ellipsis {
+  width: 18px;
+  height: 18px;
+  border: none;
+  margin-bottom: 2px;
+  margin-left: 2px;
+  vertical-align: bottom;
+}
+
+div.seam-date {
+  background-color: #ffffff;
+  border: 1px solid #5a8cc0;
+}
+
+td.seam-date-hover {
+  background-color: #5a8cc0;
+  color: #ffffff;
+  cursor: pointer;
 }

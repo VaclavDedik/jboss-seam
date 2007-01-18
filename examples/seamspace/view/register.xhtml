@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
     xmlns:s="http://jboss.com/products/seam/taglib">
 
   <ui:composition template="template.xhtml">
@@ -14,8 +15,59 @@
             JOIN SEAMSPACE HERE!
           </div>
           
-          <h:form>
-          
+          <h:form styleClass="register">
+            <s:validateAll>
+              <div class="formRow">
+                <h:outputLabel for="email">Email address<em>*</em></h:outputLabel>
+                <h:inputText id="email" value="#{newMember.email}" required="true" styleClass="wide"/>
+                <div class="validationError"><h:message for="email"/></div>
+              </div>
+
+              <div class="formRow">
+                <h:outputLabel for="firstName">First name<em>*</em></h:outputLabel>
+                <h:inputText id="firstName" value="#{newMember.firstName}" required="true"/>
+                <div class="validationError"><h:message for="firstName"/></div>
+              </div>
+              
+              <div class="formRow">
+                <h:outputLabel for="lastName">Last name<em>*</em></h:outputLabel>
+                <h:inputText id="lastName" value="#{newMember.lastName}" required="true"/>
+                <div class="validationError"><h:message for="lastName"/></div>
+              </div>    
+              
+              <div class="formRow">
+                <h:outputLabel for="password">Password<em>*</em></h:outputLabel>
+                <h:inputSecret id="password" value="#{newMember.password}" required="true"/>
+                <div class="validationError"><h:message for="password"/></div>
+              </div>   
+              
+              <div class="formRow">
+                <h:outputLabel for="confirmPassword">Confirm password<em>*</em></h:outputLabel>
+                <h:inputSecret id="confirmPassword" value="#{register.confirm}" required="true"/>
+                <div class="validationError"><h:message for="confirmPassword"/></div>
+              </div>         
+              
+              <div class="formRow">
+                <h:outputLabel for="gender">Gender<em>*</em></h:outputLabel>
+                <h:selectOneRadio id="gender" value="#{register.gender}" required="true">
+                  <f:selectItem itemValue="Male"/>
+                  <f:selectItem itemValue="Female"/>
+                </h:selectOneRadio>
+                <div class="validationError"><h:message for="gender"/></div>
+              </div>                                                   
+
+              <div class="formRow">
+                <h:outputLabel for="dob">Date of birth<em>*</em></h:outputLabel>
+                <h:inputText id="dob" value="#{newMember.dob}" required="true"/>
+                <s:selectDate for="dob"><img src="images/ellipsis.png" class="ellipsis"/></s:selectDate>
+                <div class="validationError"><h:message for="dob"/></div>
+              </div>           
+              
+            </s:validateAll>
+            
+            <div class="buttons">
+              <h:commandButton value="Next" action="#{register.next}" styleClass="registerButton"/>            
+            </div>
           
           </h:form>
           

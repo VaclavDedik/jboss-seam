@@ -18,6 +18,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
+import org.hibernate.validator.Email;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
 import org.hibernate.validator.Pattern;
@@ -30,7 +31,7 @@ import org.jboss.seam.annotations.Name;
  */
 @Entity
 @Name("member")
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = "name"))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = "membername"))
 public class Member implements Serializable
 {
    private static final long serialVersionUID = 5179242727836683375L;
@@ -51,7 +52,10 @@ public class Member implements Serializable
    private Integer memberId;
    private String username;
    private String password;
-   private String name;
+   private String memberName;
+   private String firstName;
+   private String lastName;
+   private String email;
    private MemberImage picture;
    
    private String tagline;
@@ -88,7 +92,7 @@ public class Member implements Serializable
    }
 
    @NotNull
-   @Length(min = 6, max = 20)
+   @Length(min = 3, max = 20)
    public String getPassword()
    {
       return password;
@@ -103,14 +107,51 @@ public class Member implements Serializable
    @Length(min = 3, max = 40)
    @Pattern(regex="[a-zA-Z]?[a-zA-Z0-9_]+", 
          message="Member name must start with a letter, and only contain letters, numbers or underscores")
-   public String getName()
+   public String getMemberName()
    {
-      return name;
+      return memberName;
    }
 
-   public void setName(String name)
+   public void setMemberName(String memberName)
    {
-      this.name = name;
+      this.memberName = memberName;
+   }
+   
+   @NotNull
+   @Length(min = 3, max = 40)
+   @Pattern(regex="[a-zA-Z]+", message="First name must only contain letters")
+   public String getFirstName()
+   {
+      return firstName;
+   }
+   
+   public void setFirstName(String firstName)
+   {
+      this.firstName = firstName;
+   }
+   
+   @NotNull
+   @Length(min = 3, max = 40)
+   @Pattern(regex="[a-zA-Z]+", message="Last name must only contain letters")
+   public String getLastName()
+   {
+      return lastName;
+   }
+   
+   public void setLastName(String lastName)
+   {
+      this.lastName = lastName;
+   }   
+   
+   @NotNull @Email
+   public String getEmail()
+   {
+      return email;
+   }
+   
+   public void setEmail(String email)
+   {
+      this.email = email;
    }
 
    @ManyToMany

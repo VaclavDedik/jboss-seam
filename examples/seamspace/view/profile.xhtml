@@ -16,7 +16,7 @@
       <s:div rendered="#{selectedMember != null}">
       
         <s:div id="memberCard">
-          <h1>#{selectedMember.name}'s profile</h1>
+          <h1>#{selectedMember.memberName}'s profile</h1>
                     
           <s:div id="memberCardPicture" rendered="#{selectedMember.picture != null}">
             <h:graphicImage value="/content/images?id=#{selectedMember.picture.imageId}&amp;width=170"/>
@@ -36,15 +36,15 @@
         </s:div>
         
         <s:div id="memberBlog">
-          <div class="sectionHeader">#{selectedMember.name}'s latest blog entries</div>
+          <div class="sectionHeader">#{selectedMember.memberName}'s latest blog entries</div>
           
           <ui:repeat value="#{blog.latestBlogs}" var="latestBlog">
             <div class="blogSummary">#{latestBlog.title} 
-              (<h:outputLink value="blogentry.seam?name=#{selectedMember.name}&amp;blogId=#{latestBlog.blogId}">view more</h:outputLink>)
+              (<h:outputLink value="blogentry.seam?name=#{selectedMember.memberName}&amp;blogId=#{latestBlog.blogId}">view more</h:outputLink>)
             </div>
           </ui:repeat>            
           
-          [<h:outputLink value="blog.seam?name=#{selectedMember.name}">View all blog entries</h:outputLink>]
+          [<h:outputLink value="blog.seam?name=#{selectedMember.memberName}">View all blog entries</h:outputLink>]
           [<s:link action="#{blog.createEntry}" value="Create new blog entry"/>]
         </s:div>
         

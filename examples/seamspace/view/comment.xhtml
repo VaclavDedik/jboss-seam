@@ -16,8 +16,8 @@
       <s:div rendered="#{selectedMember != null}">
       
         <s:div id="blogMemberCard">
-          <h:outputLink value="profile.seam?name=#{selectedMember.name}">
-	          #{selectedMember.name}<br/>
+          <h:outputLink value="profile.seam?name=#{selectedMember.memberName}">
+	          #{selectedMember.memberName}<br/>
 	          <h:graphicImage value="/content/images?id=#{selectedMember.picture.imageId}&amp;width=90"/>
 	        </h:outputLink>
                            
@@ -28,7 +28,7 @@
           <div class="blogEntry">
 	          <div class="blogDate">#{selectedBlog.formattedEntryDate}</div>
             <div class="blogTitle">#{selectedBlog.title}</div>
-            <div class="blogText">#{selectedBlog.text}</div>
+            <div class="blogText"><s:formattedText value="#{selectedBlog.text}"/></div>
           </div>
           
           <s:div rendered="#{comment.comment != null}">
@@ -55,6 +55,25 @@
               
               <br class="clear"/>
             </h:form>
+          </div>
+          
+          <div>
+            <b>Seam Text Quick Reference</b><br/>
+            <pre><code>
+*bold* /italic/ |monospace| -strikethrough- ^super^ _underline_
+
++Big Heading
+Headings must be followed by text
+
+++Smaller heading
+Paragraphs are ended with a blank line.
+
+#ordered list item
+
+=unordered list item
+
+"quoted text"
+            </code></pre>
           </div>
           
         </s:div>
