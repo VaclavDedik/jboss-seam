@@ -1,7 +1,7 @@
 JBoss Seam Changelog
 ====================
-Changes in version 1.1.1.GA (December 2006)
--------------------------------------------
+Changes in version 1.1.1.GA (January 2007)
+------------------------------------------
 Changes in version 1.1.0.GA (December 2006)
 -------------------------------------------
 ** Bug

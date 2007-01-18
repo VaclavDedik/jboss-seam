@@ -345,6 +345,7 @@
         <ant dir="examples/dvdstore" target="clean" inheritall="false"/>
         <ant dir="examples/contactlist" target="clean" inheritall="false"/>
         <ant dir="examples/seampay" target="clean" inheritall="false"/>
+    	<ant dir="examples/pdf" target="clean" inheritall="false"/>
         <ant dir="examples/messages" target="clean" inheritall="false"/>
         <ant dir="examples/numberguess" target="clean" inheritall="false"/>
         <ant dir="examples/registration" target="clean" inheritall="false"/>
@@ -370,6 +371,7 @@
         <ant dir="examples/dvdstore" target="undeploy" inheritall="false"/>
         <ant dir="examples/contactlist" target="undeploy" inheritall="false"/>
         <ant dir="examples/seampay" target="undeploy" inheritall="false"/>
+    	<ant dir="examples/pdf" target="undeploy" inheritall="false"/>
         <ant dir="examples/messages" target="undeploy" inheritall="false"/>
         <ant dir="examples/numberguess" target="undeploy" inheritall="false"/>
         <ant dir="examples/registration" target="undeploy" inheritall="false"/>
@@ -839,6 +841,7 @@
                 <include name="issues/**/*"/>
                 <include name="registration/**/*"/>
                 <include name="dvdstore/**/*"/>
+            	<include name="pdf/**/*"/>
                 <include name="seampay/**/*"/>
                 <include name="messages/**/*"/>
                 <include name="todo/**/*"/>
