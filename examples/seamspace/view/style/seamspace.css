@@ -422,3 +422,11 @@ td.seam-date-hover {
   color: #ffffff;
   cursor: pointer;
 }
+
+quote {
+  border: 1px solid #fac289;
+  margin: 4px 8px 4px 8px;
+  padding: 12px 12px 12px 12px;
+  background-color: #fbf4ec;
+  display: block;
+}

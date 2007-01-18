@@ -67,8 +67,8 @@ public class BlogAction implements BlogLocal
    public void getMemberBlogs()
    {
       memberBlogs = entityManager.createQuery(
-            "from MemberBlog b where b.member.name = :name order by b.entryDate desc")
-            .setParameter("name", name)
+            "from MemberBlog b where b.member.memberName = :memberName order by b.entryDate desc")
+            .setParameter("memberName", name)
             .getResultList();
    }
    
@@ -81,9 +81,9 @@ public class BlogAction implements BlogLocal
       try
       {
          selectedBlog = (MemberBlog) entityManager.createQuery(
-           "from MemberBlog b where b.blogId = :blogId and b.member.name = :name")
+           "from MemberBlog b where b.blogId = :blogId and b.member.memberName = :memberName")
            .setParameter("blogId", blogId)
-           .setParameter("name", name)
+           .setParameter("memberName", name)
            .getSingleResult();
       }
       catch (NoResultException ex) { }

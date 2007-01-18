@@ -49,8 +49,8 @@ public class ProfileAction implements ProfileLocal
          try
          {
             selectedMember = (Member) entityManager.createQuery(
-            "from Member where name = :name")
-            .setParameter("name", name)
+            "from Member where memberName = :memberName")
+            .setParameter("memberName", name)
             .getSingleResult(); 
          }
          catch (NoResultException ex) { }
