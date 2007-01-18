@@ -3,6 +3,8 @@ package org.jboss.seam.pdf.ui;
 import org.jboss.seam.pdf.ITextUtils;
 
 import javax.faces.context.*;
+
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import com.lowagie.text.*;
@@ -10,7 +12,7 @@ import com.lowagie.text.*;
 public class UIImage
     extends UIRectangle
 {
-    public static final String COMPONENT_TYPE   = "org.jboss.seam.pdf.ui.UIImage";
+    public static final String COMPONENT_TYPE = "org.jboss.seam.pdf.ui.UIImage";
 
     Image image;
     
@@ -102,8 +104,15 @@ public class UIImage
     }
 
     public void createITextObject(FacesContext context) {
+       
         resource = (String) valueBinding(context, "resource", resource);
-        URL url = Thread.currentThread().getContextClassLoader().getResource(resource);
+        
+        URL url;
+        try {
+            url = context.getExternalContext().getResource(resource);
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
         if (url == null) {
             throw new RuntimeException("cannot locate image resource " + resource);
         }

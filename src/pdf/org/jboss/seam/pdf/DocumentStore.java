@@ -1,5 +1,6 @@
 package org.jboss.seam.pdf;
 
+import java.io.Serializable;
 import java.util.*;
 
 import org.jboss.seam.*;
@@ -7,7 +8,11 @@ import org.jboss.seam.annotations.*;
 
 @Name("documentStore")
 @Scope(ScopeType.SESSION)
-public class DocumentStore {    
+public class DocumentStore 
+    implements Serializable
+{    
+    private static final long serialVersionUID = -357154201942127711L;
+
     Map<String,DocumentData> dataStore = new HashMap<String,DocumentData>();   
 
     long nextId = 1;
