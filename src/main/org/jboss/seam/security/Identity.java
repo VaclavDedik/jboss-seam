@@ -5,6 +5,7 @@ import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.Serializable;
 import java.security.Principal;
+import java.security.acl.Group;
 import java.util.Set;
 
 import javax.security.auth.Subject;
@@ -62,7 +63,7 @@ public class Identity implements Serializable
    {
       if (principal == null)
       {
-         Set<SimplePrincipal> principals = subject.getPrincipals(SimplePrincipal.class);
+         Set<Principal> principals = subject.getPrincipals(Principal.class);
          if (!principals.isEmpty())
             principal = principals.iterator().next();
       }
@@ -84,7 +85,7 @@ public class Identity implements Serializable
     */
    public boolean isUserInRole(String role)
    {
-      for (SimpleGroup sg : subject.getPrincipals(SimpleGroup.class))      
+      for (Group sg : subject.getPrincipals(Group.class))      
       {
          if ("roles".equals(sg.getName()))
          {
