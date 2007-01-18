@@ -6,10 +6,10 @@ package org.jboss.seam.text;
 class P extends Parser;
 options
 {
-	k=3;
+	k=4;
 }
 {   
-	private java.util.Set htmlElements = new java.util.HashSet( java.util.Arrays.asList( new String[] { "a", "p", "quote", "code", "pre", "table", "tr", "td", "th", "ul", "ol", "li", "b", "i", "u", "tt", "del", "em", "hr", "br", "div", "span", "h1", "h2", "h3", "img" } ) );
+	private java.util.Set htmlElements = new java.util.HashSet( java.util.Arrays.asList( new String[] { "a", "p", "quote", "code", "pre", "table", "tr", "td", "th", "ul", "ol", "li", "b", "i", "u", "tt", "del", "em", "hr", "br", "div", "span", "h1", "h2", "h3", "h4", "img" } ) );
 	private java.util.Set htmlAttributes = new java.util.HashSet( java.util.Arrays.asList( new String[] { "src", "href", "lang", "class", "id" } ) );
 	
     private StringBuilder builder = new StringBuilder();
@@ -132,7 +132,7 @@ quoted: DOUBLEQUOTE { append("<quote>"); }
         DOUBLEQUOTE { append("</quote>"); }        
     ;
 
-heading: ( h1 | h2 | h3 ) newlineOrEof
+heading: ( h1 | h2 | h3 | h4 ) newlineOrEof
     ;
   
 h1: PLUS { append("<h1>"); } line { append("</h1>"); }
@@ -142,6 +142,9 @@ h2: PLUS PLUS { append("<h2>"); } line { append("</h2>"); }
     ;
  
 h3: PLUS PLUS PLUS { append("<h3>"); } line { append("</h3>"); }
+    ;
+ 
+h4: PLUS PLUS PLUS PLUS { append("<h4>"); } line { append("</h4>"); }
     ;
  
 list: olist | ulist
