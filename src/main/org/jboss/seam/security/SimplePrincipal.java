@@ -1,5 +1,6 @@
 package org.jboss.seam.security;
 
+import java.io.Serializable;
 import java.security.Principal;
 
 /**
@@ -7,8 +8,10 @@ import java.security.Principal;
  * 
  * @author Shane Bryzak
  */
-public class SimplePrincipal implements Principal
+public class SimplePrincipal implements Principal, Serializable
 {
+   private static final long serialVersionUID = 5609375932836425908L;   
+   
    private String name;
    
    public SimplePrincipal(String name)
