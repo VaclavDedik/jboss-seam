@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 
-<project name="pdf" default="deploy" basedir=".">
+<project name="document" default="deploy" basedir=".">
 
     <!-- Example name -->
-    <property name="Name"                   value="PDF Example"/>
-    <property name="example.name"           value="jboss-seam-pdf"/>
+    <property name="Name"                   value="iText document example"/>
+    <property name="example.name"           value="jboss-seam-document"/>
 
     <!-- Overrides -->
     <property name="example.webinf.lib.dir"  value="."/>
