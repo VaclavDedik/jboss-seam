@@ -25,6 +25,6 @@
         <java>el-ri.jar</java>
     </module>
     <module>
-        <java>jbpm-3.1.2.jar</java>
+        <java>jbpm-3.1.3.jar</java>
     </module>
 </application>
