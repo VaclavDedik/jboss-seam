@@ -148,7 +148,7 @@ public class BlogTest extends SeamTest
          @Override
          protected void beforeRequest()
          {
-            setParameter("searchPattern", "seam");
+            setParameter("searchPattern", "seam text");
          }
          
          @Override
