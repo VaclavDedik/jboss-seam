@@ -28,6 +28,9 @@ public class ProfileAction implements ProfileLocal
    @Out(required = false)
    private Member selectedMember;
    
+   @In(required = false)
+   private Member authenticatedMember;
+   
    @Out(required = false)
    private List newMembers;
    
@@ -37,12 +40,10 @@ public class ProfileAction implements ProfileLocal
    @Factory("selectedMember")
    public void display()
    {      
-      if (name == null && Identity.instance().isLoggedIn())
+      if (name == null && authenticatedMember != null)
       {
-         selectedMember = (Member) entityManager.createQuery(
-               "from Member where username = :username")
-               .setParameter("username", Identity.instance().getPrincipal().getName())
-               .getSingleResult();
+         selectedMember = authenticatedMember;
+         entityManager.refresh(selectedMember);
       }
       else if (name != null)
       {

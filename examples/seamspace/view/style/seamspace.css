@@ -410,6 +410,7 @@ img.ellipsis {
   margin-bottom: 2px;
   margin-left: 2px;
   vertical-align: bottom;
+  cursor: pointer;
 }
 
 div.seam-date {
