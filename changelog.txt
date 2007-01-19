@@ -2,6 +2,61 @@ JBoss Seam Changelog
 ====================
 Changes in version 1.1.1.GA (January 2007)
 ------------------------------------------
+** Bug
+    * [JBSEAM-580] - org.jboss.seam.core.Validation.validate() method does not work for alternative property expression format: #{entity[fieldName]}
+    * [JBSEAM-581] - Seam logging does not report correct line number/class name/method name under Log4J or JDK1.4 logging
+    * [JBSEAM-588] - seam.bat fails if seam is installed path with space
+    * [JBSEAM-590] - framework.xsd and framework  documentation reference eqbql not ejbql (typo)
+    * [JBSEAM-591] - EntityQuery, criteria & conversations
+    * [JBSEAM-592] - Reinstate the ability to specify an outcome for s:link action attribute
+    * [JBSEAM-593] - workspace management + nested conversations broken in 1.1
+    * [JBSEAM-594] - Query Framework documentation
+    * [JBSEAM-597] - precedence="..." in components.xml
+    * [JBSEAM-608] - <begin-conversation pageflow="...'/> broken in pages.xml
+    * [JBSEAM-612] - s:link and s:button do not propagate conversation id if begin occurs while rendering the view
+    * [JBSEAM-615] - seam.bat not working if not executed from seam install directory
+    * [JBSEAM-616] - @Begin(id="...') causes NPE
+    * [JBSEAM-618] - Removing conversation components from current thread instead of timed-out thread
+    * [JBSEAM-624] - Interpolator class does not handle null argument arrays and arrays with only one argument
+    * [JBSEAM-625] - s:link ignore rendererd attribute
+    * [JBSEAM-631] - seam disinjection fails for reentrant calls
+    * [JBSEAM-639] - @Startup + @Create causes exception
+    * [JBSEAM-640] - org.jboss.seam.timeToneSelected event is a misspelling in TimeZoneSelector
+    * [JBSEAM-656] - The JPA example fails to deploy in Glassfish
+    * [JBSEAM-665] - Seam throws NPE when a component without a @Name is specified in components.xml
+
+** Feature Request
+    * [JBSEAM-180] - navigation-rules.xml to allow redirection with parameters
+    * [JBSEAM-477] - real search screens for entities
+    * [JBSEAM-478] - ELResolver for Collection and DataModel
+    * [JBSEAM-539] - Add in support for enterprisedb
+    * [JBSEAM-546] - seam-gen should be runnable from outside of the seam dir
+    * [JBSEAM-564] - "this" reference in EL
+    * [JBSEAM-567] - BigDecimal and BigInteger validation
+    * [JBSEAM-572] - processing events after the transaction
+    * [JBSEAM-579] - Component creation restriction for Component-driven events
+    * [JBSEAM-595] - @Transactional(REQUIRED|REQUIRES_NEW|SUPPORTS|....)
+    * [JBSEAM-598] - seam-gen should let the user define a schema to use
+    * [JBSEAM-600] - METHOD context
+    * [JBSEAM-602] - sorting for list screens in seam-gen
+    * [JBSEAM-603] - <page requires-conversation="true" no-conversation-view-id="..."/>
+    * [JBSEAM-605] - navigation-rules.xml to allow outcome expression
+    * [JBSEAM-607] - Refinements to pages.xml
+    * [JBSEAM-609] - validation failed events
+    * [JBSEAM-611] - assign variables from an outcome in pages.xml
+    * [JBSEAM-644] - test database in seam-gen app
+    * [JBSEAM-645] - separate test src tree in seam-gen
+    * [JBSEAM-654] - Add <s:cache/> to blog example!
+    * [JBSEAM-662] - s:formattedText for wikitext rendering
+
+** Patch
+    * [JBSEAM-536] - Add locale / theme / timezone change notifications
+    * [JBSEAM-610] - Localised theme names
+    
+** Task
+    * [JBSEAM-545] - use loadXXXXInstanceForUpdate() in jBPM code
+    * [JBSEAM-617] - Run s:link/s:button actions *after* the page actions
+
 Changes in version 1.1.0.GA (December 2006)
 -------------------------------------------
 ** Bug
