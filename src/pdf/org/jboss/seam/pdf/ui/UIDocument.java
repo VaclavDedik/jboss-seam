@@ -92,10 +92,7 @@ public class UIDocument
             document.setPageSize(ITextUtils.pageSizeValue(pageSize));
         }
   
-        System.out.println("page size was " + document.getPageSize().width() +
-                "x" + document.getPageSize().height());
-        orientation = (String) valueBinding(context, "orientation", orientation);  
-        System.out.println("orientation: " + orientation);
+        orientation = (String) valueBinding(context, "orientation", orientation);    
         if (orientation != null) {
             if (orientation.equalsIgnoreCase("portrait")) {
                 // do nothing
@@ -108,8 +105,6 @@ public class UIDocument
                 throw new RuntimeException("orientation value " + orientation + "unknown");
             }
         }
-        System.out.println("page size is " + document.getPageSize().width() +
-                "x" + document.getPageSize().height());
         
         margins = (String) valueBinding(context, "margins", margins);
         if (margins != null) {
