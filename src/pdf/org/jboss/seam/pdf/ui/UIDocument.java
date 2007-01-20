@@ -2,6 +2,7 @@ package org.jboss.seam.pdf.ui;
 
 import org.jboss.seam.pdf.ITextUtils;
 import org.jboss.seam.pdf.DocumentStore;
+import org.jboss.seam.pdf.DocumentStore.DocType;
 
 import javax.faces.context.*;
 import java.io.*;
@@ -16,21 +17,7 @@ public class UIDocument
 {
     public static final String COMPONENT_TYPE   = "org.jboss.seam.pdf.ui.UIDocument";
     
-    enum DocType { 
-           PDF("application/pdf"), 
-           RTF("text/rtf"),
-           HTML("text/html");
-           
-           private String mimeType;
-
-           DocType(String mimeType) {
-               this.mimeType = mimeType;
-           }
-           
-           public String getMimeType() {
-               return mimeType;
-           }
-    }
+    
     
     Document document;
     ByteArrayOutputStream stream;
@@ -165,7 +152,8 @@ public class UIDocument
     {
         super.encodeBegin(context);
         
-        id = DocumentStore.instance().newId();
+        DocumentStore store = DocumentStore.instance();
+        id = store.newId();
         stream = new ByteArrayOutputStream();
               
         try {
@@ -194,8 +182,10 @@ public class UIDocument
         response.startElement("head", this);
         response.startElement("meta", this);
         response.writeAttribute("http-equiv", "Refresh", null);
-        response.writeAttribute("content", "0; URL=seam-doc.seam?docId="+id, null);
-
+        
+        String url = store.preferredUrlForContent(docType, id);
+        response.writeAttribute("content", "0; URL=" + url, null);
+ 
         response.endElement("meta");
         response.endElement("head");
 
@@ -209,7 +199,7 @@ public class UIDocument
         document.close();
 
         DocumentStore.instance().saveData(id,
-                                          docType.getMimeType(),
+                                          docType,
                                           stream.toByteArray());        
 
         ResponseWriter response = context.getResponseWriter();

@@ -20,7 +20,7 @@ public class DocumentStorePhaseListener
 
 
     public void afterPhase(PhaseEvent phaseEvent) {
-        //String rootId = phaseEvent.getFacesContext().getViewRoot().getViewId();
+        // ...
     }
 
 
@@ -30,8 +30,7 @@ public class DocumentStorePhaseListener
         String id = (String)
         Parameters.convertMultiValueRequestParameter(Parameters.getRequestParameters(),
                                                      "docId",
-                                                     String.class);
-        
+                                                     String.class);              
         if (rootId.startsWith("/seam-doc")) {            
             sendContent(phaseEvent.getFacesContext(), id);
         }
