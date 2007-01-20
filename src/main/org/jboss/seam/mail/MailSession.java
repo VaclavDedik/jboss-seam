@@ -87,6 +87,11 @@ public class MailSession extends AbstractMutable implements Serializable
 				}
 			};
 		}
+      
+      
+      // Use TLS (if supported) by default.
+      properties.put("mail.smtp.starttls.enable", "true");
+      properties.put("mail.imap.starttls.enable", "true");
 
 		session = javax.mail.Session.getInstance(properties, authenticator);
 		session.setDebug( isDebug() );
