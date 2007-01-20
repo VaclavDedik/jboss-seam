@@ -49,7 +49,7 @@ text: ( (paragraph|special|html) (newline)* )+
 special: (preformatted|quoted|list) newlineOrEof
     ;
 
-paragraph: { append("<p>\n"); } (line newline)+ { append("</p>\n"); } newlineOrEof
+paragraph: { append("<p>\n"); } (line newlineOrEof)+ { append("</p>\n"); } newlineOrEof
     ;
     
 line: (plain|formatted) (plain|formatted|preformatted|quoted|html)*
@@ -128,7 +128,6 @@ preformatted: BACKTICK { append("<pre>"); }
     
 quoted: DOUBLEQUOTE { append("<quote>"); }
         (plain|formatted|preformatted|html|(list newline)|newline)*
-        //line (newline line)*
         DOUBLEQUOTE { append("</quote>"); }        
     ;
 
@@ -150,13 +149,13 @@ h4: PLUS PLUS PLUS PLUS { append("<h4>"); } line { append("</h4>"); }
 list: olist | ulist
     ;
     
-olist: { append("<ol>\n"); } (olistLine newline)+ { append("</ol>\n"); }
+olist: { append("<ol>\n"); } (olistLine newlineOrEof)+ { append("</ol>\n"); }
     ;
     
 olistLine: HASH { append("<li>"); } line { append("</li>"); }
     ;
     
-ulist: { append("<ul>\n"); } (ulistLine newline)+ { append("</ul>\n"); }
+ulist: { append("<ul>\n"); } (ulistLine newlineOrEof)+ { append("</ul>\n"); }
     ;
     
 ulistLine: EQ { append("<li>"); } line { append("</li>"); }
