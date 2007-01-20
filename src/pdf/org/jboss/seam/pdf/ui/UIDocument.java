@@ -30,6 +30,7 @@ public class UIDocument
     String keywords;
     String author;
     String creator;
+    String orientation; 
     
     String pageSize;
     String margins;
@@ -71,6 +72,10 @@ public class UIDocument
         this.title = title;
     }
     
+    public void setOrientation(String orientation) {
+        this.orientation = orientation;
+    }
+    
     public Object getITextObject() {
         return document;
     }
@@ -86,6 +91,25 @@ public class UIDocument
         if (pageSize != null) {
             document.setPageSize(ITextUtils.pageSizeValue(pageSize));
         }
+  
+        System.out.println("page size was " + document.getPageSize().width() +
+                "x" + document.getPageSize().height());
+        orientation = (String) valueBinding(context, "orientation", orientation);  
+        System.out.println("orientation: " + orientation);
+        if (orientation != null) {
+            if (orientation.equalsIgnoreCase("portrait")) {
+                // do nothing
+            } else if (orientation.equalsIgnoreCase("landscape")) {
+                Rectangle currentSize = document.getPageSize();
+                document.setPageSize(new Rectangle(currentSize.height(),
+                                                   currentSize.width()));
+
+            } else {
+                throw new RuntimeException("orientation value " + orientation + "unknown");
+            }
+        }
+        System.out.println("page size is " + document.getPageSize().width() +
+                "x" + document.getPageSize().height());
         
         margins = (String) valueBinding(context, "margins", margins);
         if (margins != null) {
