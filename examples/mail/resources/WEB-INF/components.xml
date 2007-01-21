@@ -1,0 +1,10 @@
+<components xmlns:pay="http://jboss.com/products/seam/examples/seampay"
+            xmlns:core="http://jboss.com/products/seam/core"
+            xmlns:framework="http://jboss.com/products/seam/framework"
+            xmlns:mail="http://jboss.com/products/seam/mail">
+
+    <core:init debug="true" jndi-pattern="@jndiPattern@" />
+    <core:ejb installed="@embeddedEjb@" /> 
+    
+    <mail:mailSession host="bigbob.splendid.co.uk" username="spm" password="eclipse" />
+</components>

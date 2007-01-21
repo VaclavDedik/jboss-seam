@@ -1,0 +1,29 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:s="http://jboss.com/products/seam/taglib"
+      xmlns:m="http://jboss.com/products/seam/mail"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+      <m:message>
+	      <m:from name="Peter Muir" address="pmuir@bleepbleep.org.uk" />
+	      <m:to name="Peter Muir" address="pmuir@tardis.ed.ac.uk" />
+	      <m:subject>Seam Mail</m:subject>
+	      <m:body>
+	      	<html>
+	      		<body>
+	      			<p><b>Peter,</b></p>
+	      			<p>This is an example <i>HTML</i> email sent by Seam.</p>
+	      			<p>It has an alternative text body for mail readers that don't support html.</p>
+	      		</body>
+	      	</html>
+	      	<f:facet name="alternative">
+	      		<h:outputText>This is the alternative text body for mail readers that don't support html</h:outputText>
+	      	</f:facet>
+	      </m:body>
+     </m:message>
+     <html>
+	     <body>
+	     	<p>The email has been successfully sent. <s:link view="/index.xhtml">Click here</s:link> to return to the index.</p>
+	     </body>
+     </html>
+</ui:composition>

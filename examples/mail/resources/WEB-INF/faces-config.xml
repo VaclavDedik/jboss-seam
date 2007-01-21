@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE faces-config PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN" 
+                              "http://java.sun.com/dtd/web-facesconfig_1_0.dtd">
+<faces-config>
+    <!-- Facelets support -->
+    <application>
+        <view-handler>org.jboss.seam.ui.facelet.SeamFaceletViewHandler</view-handler>
+    </application>
+
+    <!-- Phase listener needed for all Seam applications -->
+    <lifecycle>
+        <phase-listener>org.jboss.seam.jsf.TransactionalSeamPhaseListener</phase-listener>
+    </lifecycle>
+    
+    <navigation-rule>
+    	<navigation-case>
+    		<from-action>plainText</from-action>
+    		<to-view-id>/plainText.xhtml</to-view-id>
+    	</navigation-case>
+    	
+    	<navigation-case>
+    		<from-action>html</from-action>
+    		<to-view-id>/html.xhtml</to-view-id>
+    	</navigation-case>
+    </navigation-rule>
+</faces-config>

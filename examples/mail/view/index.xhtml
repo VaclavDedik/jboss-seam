@@ -1,0 +1,33 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:s="http://jboss.com/products/seam/taglib"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>Seam Mail</title>
+    <ui:remove><link href="screen.css" rel="stylesheet" type="text/css" /></ui:remove>
+</head>
+<body>
+   
+    <h1>Sample Emails</h1>
+    
+    <p>If you aren't running a smtp server on localhost:25 you set one in components.xml</p>
+    
+    <h:form>
+    	<h:panelGrid columns="2">
+	    	<h:outputText value="Name" />
+	    	<h:panelGroup>
+		    	<h:inputText value="#{person.firstname}" required="true" />
+		    	<h:inputText value="#{person.lastname}" required="true" />
+		    </h:panelGroup>
+		    <h:outputText value="Email Address" />
+		    <h:inputText value="#{person.address}" rerquired="true"/>
+		    <h:commandButton action="plainText" value="Send Plain Text Email" />
+	        <h:commandButton action="html" value="Send HTML Email" />
+		</h:panelGrid>
+    </h:form>
+</body>
+</html>
