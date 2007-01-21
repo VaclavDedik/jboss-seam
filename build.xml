@@ -81,7 +81,10 @@
     <property name="example.ds"              value="${example.name}-ds.xml"/>
 
     <path id="example.path" />
-    
+    <fileset id="example.local.jar" dir=".">
+        <exclude name="**/*" />
+    </fileset>
+
     <fileset id="lib" 
             dir="${imported.basedir}"
         description="compile-time dependencies">
@@ -119,7 +122,7 @@
       description="the facelets jar">
         <include name="jsf-facelets.jar" if="example.facelets.lib"/>
     </zipfileset>
-    
+
     <zipfileset id="example.extra.jar" 
                dir="${lib.dir}" 
        description="extra jars for the EAR">
@@ -127,7 +130,8 @@
         <include name="jbpm*.jar" if="example.jbpm.lib"/>
         <include name="jboss-cache-jdk50.jar" if="example.cache.lib"/>
         <include name="jboss-aop-jdk50.jar" if="example.cache.lib"/>
-        <include name="jgroups.jar" if="example.cache.lib"/>
+        <include name="jgroups.jar" if="example.cache.lib"/> 
+        <include name="jgroups.jar" if="example.cache.lib"/> 
     </zipfileset>
     
     <zipfileset id="example.drools.jar" 
@@ -1058,6 +1062,7 @@
             <fileset refid="example.seam.main.jar"/>
             <fileset refid="example.drools.jar"/>
             <fileset refid="example.extra.jar"/>
+            <fileset refid="example.local.jar" />
             <zipfileset dir="${build.dir}">
                 <include name="${example.name}.jar"/>
             </zipfileset>
