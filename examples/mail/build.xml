@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 
-<project name="mail" default="deploy" basedir=".">
+<project name="email" default="deploy" basedir=".">
 
     <!-- Example name -->
     <property name="Name"                   value="Mail example"/>
-    <property name="example.name"           value="jboss-seam-mail"/>
+    <property name="example.name"           value="jboss-seam-email"/>
 
     <!-- Overrides -->
     <property name="example.webinf.lib.dir"  value="."/>

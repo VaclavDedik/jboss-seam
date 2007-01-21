@@ -8,12 +8,12 @@
     
     <module>
         <web>
-            <web-uri>jboss-seam-mail.war</web-uri>
+            <web-uri>jboss-seam-email.war</web-uri>
             <context-root>/seam-mail</context-root>
         </web>
     </module>
     <module>
-        <ejb>jboss-seam-mail.jar</ejb>
+        <ejb>jboss-seam-email.jar</ejb>
     </module>
     <module>
         <java>jboss-seam.jar</java>

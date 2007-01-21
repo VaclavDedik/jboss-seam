@@ -13,6 +13,8 @@
     </lifecycle>
     
     <navigation-rule>
+    	<from-view-id>/index.xhtml</from-view-id>
+    
     	<navigation-case>
     		<from-action>plainText</from-action>
     		<to-view-id>/plainText.xhtml</to-view-id>
@@ -22,5 +24,11 @@
     		<from-action>html</from-action>
     		<to-view-id>/html.xhtml</to-view-id>
     	</navigation-case>
+    	
+    	<navigation-case>
+    		<from-action>templating</from-action>
+    		<to-view-id>/templating.xhtml</to-view-id>
+    	</navigation-case>
+    	
     </navigation-rule>
 </faces-config>

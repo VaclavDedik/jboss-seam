@@ -6,5 +6,6 @@
     <core:init debug="true" jndi-pattern="@jndiPattern@" />
     <core:ejb installed="@embeddedEjb@" /> 
     
-    <mail:mailSession host="bigbob.splendid.co.uk" username="spm" password="eclipse" />
+    <!--  <mail:mailSession host="smtp.example.com" />-->
+    
 </components>
