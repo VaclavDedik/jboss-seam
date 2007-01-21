@@ -1,0 +1,17 @@
+<components xmlns="http://jboss.com/products/seam/components"
+            xmlns:spring="http://jboss.com/products/seam/spring"
+            xmlns:core="http://jboss.com/products/seam/core"
+            xmlns:framework="http://jboss.com/products/seam/framework">
+            
+    <spring:bean-factory name="beanFactory" 
+                         scope="APPLICATION" 
+                         bean-file="spring-beans.xml" />
+
+    <spring:application-context name="springContext" 
+                                scope="APPLICATION" 
+                                bean-files="spring-beans.xml test-beans.xml" />
+                                                  
+
+	<core:init debug="true" jndi-pattern="@jndiPattern@" />
+    <core:ejb installed="@embeddedEjb@" />
+</components>
