@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE faces-config PUBLIC
+    "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.1//EN"
+    "http://java.sun.com/dtd/web-facesconfig_1_1.dtd">
+
+<faces-config>
+    <component>
+        <component-type>org.jboss.seam.mail.ui.UIMessage</component-type>
+        <component-class>org.jboss.seam.mail.ui.UIMessage</component-class>
+    </component>
+    <component>
+        <component-type>org.jboss.seam.mail.ui.UIBcc</component-type>
+        <component-class>org.jboss.seam.mail.ui.UIBcc</component-class>
+    </component>
+    <component>
+        <component-type>org.jboss.seam.mail.ui.UITo</component-type>
+        <component-class>org.jboss.seam.mail.ui.UITo</component-class>
+    </component>
+    <component>
+        <component-type>org.jboss.seam.mail.ui.UICc</component-type>
+        <component-class>org.jboss.seam.mail.ui.UICc</component-class>
+    </component>
+    <component>
+        <component-type>org.jboss.seam.mail.ui.UIFrom</component-type>
+        <component-class>org.jboss.seam.mail.ui.UIFrom</component-class>
+    </component>
+    <component>
+        <component-type>org.jboss.seam.mail.ui.UIBody</component-type>
+        <component-class>org.jboss.seam.mail.ui.UIBody</component-class>
+    </component>
+    <component>
+        <component-type>org.jboss.seam.mail.ui.UISubject</component-type>
+        <component-class>org.jboss.seam.mail.ui.UISubject</component-class>
+    </component>
+    <component>
+        <component-type>org.jboss.seam.mail.ui.UIReplyTo</component-type>
+        <component-class>org.jboss.seam.mail.ui.UIReplyTo</component-class>
+    </component>
+</faces-config>
