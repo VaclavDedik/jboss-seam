@@ -112,6 +112,7 @@ public class UITable
     public void createITextObject(FacesContext context) {
         table = new PdfPTable(columns);
         
+        widths = (String) valueBinding(context, "widths", widths);
         if (widths != null) {
         	try {
 				table.setWidths(ITextUtils.stringToFloatArray(widths));
