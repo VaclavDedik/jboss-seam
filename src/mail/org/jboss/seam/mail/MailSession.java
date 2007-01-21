@@ -10,6 +10,7 @@ import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 
+import org.jboss.seam.Component;
 import org.jboss.seam.InterceptionType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Install;
@@ -22,7 +23,7 @@ import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
 @Name("org.jboss.seam.mail.mailSession")
-@Install(value=false, precedence=BUILT_IN)
+@Install(precedence=BUILT_IN)
 @Scope(APPLICATION)
 @Intercept(InterceptionType.NEVER)
 public class MailSession extends AbstractMutable implements Serializable
@@ -170,5 +171,9 @@ public class MailSession extends AbstractMutable implements Serializable
 	{
 		return port;
 	}
+   
+   public static Session instance() {
+      return (Session) Component.getInstance(MailSession.class);
+   }
 
 }
