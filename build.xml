@@ -21,6 +21,7 @@
     <property name="classes.dir"          value="${build.dir}/classes"/>    
     <property name="uiclasses.dir"        value="${build.dir}/uiclasses"/>
     <property name="pdfclasses.dir"       value="${build.dir}/pdfclasses"/>
+	<property name="mailclasses.dir"       value="${build.dir}/mailclasses"/>
     <property name="debugclasses.dir"     value="${build.dir}/debugclasses"/>
     <property name="coverage.dir"         value="${build.dir}/coverage"/>
     
@@ -29,6 +30,7 @@
     <property name="src.java.dir"         value="src/main"/>
     <property name="src.ui.dir"           value="src/ui"/>
     <property name="src.pdf.dir"          value="src/pdf"/>
+	<property name="src.mail.dir"          value="src/mail"/>
     <property name="src.debug.dir"        value="src/debug"/>
     <property name="src.gen.dir"          value="src/gen"/>
     <property name="src.test.dir"         value="src/test/misc"/>
@@ -56,6 +58,7 @@
     <property name="dist.src.java.dir"    value="${dist.dir}/src/main"/>
     <property name="dist.src.ui.dir"      value="${dist.dir}/src/ui"/>
     <property name="dist.src.pdf.dir"     value="${dist.dir}/src/pdf"/>
+	<property name="dist.src.mail.dir"     value="${dist.dir}/src/mail"/>
     <property name="dist.src.debug.dir"   value="${dist.dir}/src/debug"/>
     <property name="dist.src.gen.dir"     value="${dist.dir}/src/gen"/>
     <property name="dist.src.test.dir"    value="${dist.dir}/src/test"/>
@@ -99,6 +102,7 @@
         <include name="jboss-seam-debug.jar" if="example.seam.debug.lib"/>
         <include name="jboss-seam-ui.jar"    if="example.seam.ui.lib"/>
         <include name="jboss-seam-pdf.jar"   if="example.seam.pdf.lib"/>
+    	<include name="jboss-seam-mail.jar"   if="example.seam.mail.lib"/>
     </zipfileset>
     
 
@@ -108,6 +112,7 @@
       description="the itext jar">
         <include name="itext-*.jar" if="example.seam.pdf.lib"/>
     </zipfileset>
+
 
 
     <zipfileset id="example.seam.main.jar" 
@@ -452,6 +457,19 @@
         </copy>
         
     </target>
+	
+	<target name="initmail"
+	            description="Initialize the build for the Mail package">
+	        <echo message="Build ${Name} Mail ${version}"/>
+
+	        <mkdir dir="${mailclasses.dir}"/>
+	        <copy todir="${mailclasses.dir}">
+	            <fileset dir="${src.mail.dir}">
+	                <patternset refid="meta.files"/>
+	            </fileset>
+	        </copy>
+	        
+	    </target>
 
     <target name="initdebug"
             description="Initialize the build for the debug package">
@@ -567,6 +585,25 @@
             </classpath>
         </javac>
     </target>
+	
+	<target name="compilemail" depends="initmail,select-compiler"
+	            description="Compile the Java source code for the Mail package">
+	        <javac
+	            source="1.5"
+	            target="1.5"
+	            destdir="${mailclasses.dir}"
+	            debug="${javac.debug}"
+	            deprecation="${javac.deprecation}"
+	            nowarn="on">
+	            <src path="${src.mail.dir}"/>
+	            <classpath>
+	                <path refid="build.classpath" />
+	                <fileset dir="${imported.basedir}">
+	                    <include name="jboss-seam-ui.jar" />
+	                </fileset>
+	            </classpath>
+	        </javac>
+	    </target>
     
     <target name="compiledebug" depends="initdebug,select-compiler"
             description="Compile the Java source code for the debug package">
@@ -700,6 +737,16 @@
                 <patternset refid="meta.files"/>
             </fileset>
         </copy>
+    	
+    	<mkdir dir="${dist.src.mail.dir}"/>
+    	        <copy todir="${dist.src.mail.dir}">
+    	            <fileset dir="${src.mail.dir}">
+    	                <patternset refid="src.files"/>
+    	            </fileset>
+    	            <fileset dir="${src.mail.dir}">
+    	                <patternset refid="meta.files"/>
+    	            </fileset>
+    	        </copy>
 
         <mkdir dir="${dist.src.debug.dir}"/>
         <copy todir="${dist.src.debug.dir}">
@@ -866,7 +913,7 @@
         </copy>
     </target>
     
-    <target name="build" depends="jarcore,jarui,jarpdf,jardebug,jargen"
+    <target name="build" depends="jarcore,jarui,jarpdf,jarmail,jardebug,jargen"
         description="Build all four distribution .jar files"/>
 
     <target name="jarcore" depends="compilecore"
@@ -914,6 +961,21 @@
         <copy file="${basedir}/${name}-pdf.jar" todir="${dist.dir}"/>
         
     </target>
+	
+	 <target name="jarmail" depends="compilemail"
+	            description="Build the distribution .jar file for the Mail package">
+	        <mkdir dir="${dist.dir}"/>
+	        
+	        <jar jarfile="${basedir}/${name}-mail.jar" basedir="${mailclasses.dir}">
+	            <include name="**/*.class"/>
+	            <patternset refid="meta.files"/>
+	            <manifest>
+	                <attribute name="Seam-Version" value="${version}.${patchlevel}"/>
+	            </manifest>
+	        </jar>
+	        <copy file="${basedir}/${name}-mail.jar" todir="${dist.dir}"/>
+	        
+	    </target>
 
 
     <target name="jardebug" depends="compiledebug"

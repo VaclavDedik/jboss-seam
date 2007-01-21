@@ -12,3 +12,4 @@ test-output
 testng-failures.xml
 report
 output
+jboss-seam-mail.jar
