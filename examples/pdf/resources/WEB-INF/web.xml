@@ -8,6 +8,17 @@
         <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
     </listener>
     
+
+    <filter>
+        <filter-name>Seam Servlet Filter</filter-name>
+        <filter-class>org.jboss.seam.servlet.SeamServletFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>Seam Servlet Filter</filter-name>
+        <url-pattern>*.pdf</url-pattern>
+    </filter-mapping>
+
     <filter>
         <filter-name>Seam Redirect Filter</filter-name>
         <filter-class>org.jboss.seam.servlet.SeamRedirectFilter</filter-class>
@@ -22,6 +33,7 @@
         <filter-name>Seam Exception Filter</filter-name>
         <filter-class>org.jboss.seam.servlet.SeamExceptionFilter</filter-class>
     </filter>
+
     <filter-mapping>
         <filter-name>Seam Exception Filter</filter-name>
         <url-pattern>*.seam</url-pattern>
@@ -36,7 +48,6 @@
         <param-name>facelets.DEVELOPMENT</param-name>
         <param-value>true</param-value>
     </context-param>
-
     <!-- MyFaces -->
 
     <listener>
@@ -58,6 +69,18 @@
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.seam</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>Document Store Servlet</servlet-name>
+        <servlet-class>org.jboss.seam.pdf.DocumentStoreServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Document Store Servlet</servlet-name>
+        <url-pattern>*.pdf</url-pattern>
     </servlet-mapping>
     
 </web-app>

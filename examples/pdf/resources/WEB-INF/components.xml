@@ -1,6 +1,8 @@
-<components xmlns:pay="http://jboss.com/products/seam/examples/seampay"
+<components xmlns:pdf="http://jboss.com/products/seam/pdf"
             xmlns:core="http://jboss.com/products/seam/core"
             xmlns:framework="http://jboss.com/products/seam/framework">
+
+    <pdf:documentStore useExtensions="true" />
 
     <core:init debug="true" jndi-pattern="@jndiPattern@" />
     <core:ejb installed="@embeddedEjb@" /> 
