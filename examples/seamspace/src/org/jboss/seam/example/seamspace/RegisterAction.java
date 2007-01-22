@@ -2,7 +2,6 @@ package org.jboss.seam.example.seamspace;
 
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
-import javax.faces.application.FacesMessage;
 import javax.persistence.EntityManager;
 
 import org.jboss.seam.annotations.Begin;
@@ -12,6 +11,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.core.FacesMessages;
+import org.jboss.seam.util.UploadedFile;
 
 @Stateful
 @Name("register")
@@ -29,6 +29,8 @@ public class RegisterAction implements Register
    private String confirm;
    
    private String gender;
+   
+   private byte[] picture;
 
    @Factory("newMember") @Begin
    public void start()
@@ -42,6 +44,13 @@ public class RegisterAction implements Register
          FacesMessages.instance().add("confirmPassword", "Passwords do not match");
       
       newMember.setGender(Member.Gender.valueOf(gender.toLowerCase()));
+   }
+   
+   public void uploadPicture() 
+   {
+      MemberImage img = new MemberImage();
+      img.setData(picture);
+      newMember.setPicture(img);
    }
    
    public String getConfirm()
@@ -62,6 +71,16 @@ public class RegisterAction implements Register
    public void setGender(String gender)
    {
       this.gender = gender;
+   }
+   
+   public void setPicture(byte[] picture)
+   {
+      this.picture = picture;
+   }
+   
+   public byte[] getPicture()
+   {
+      return picture;
    }
    
    @Destroy @Remove
