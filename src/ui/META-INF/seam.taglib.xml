@@ -138,6 +138,13 @@
             <converter-id>org.jboss.seam.ui.EnumConverter</converter-id>
         </converter>
     </tag>
+    
+    <tag>
+        <tag-name>fileUpload</tag-name>
+        <component>
+            <component-type>org.jboss.seam.ui.FileUpload</component-type>
+        </component>
+    </tag>
 	  
     <function>
         <function-name>hasRole</function-name>

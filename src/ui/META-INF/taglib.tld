@@ -943,6 +943,12 @@
     </attribute>
   </tag>
   
+  <tag>
+    <name>fileUpload</name>
+    <tag-class>org.jboss.seam.ui.tag.FileUploadTag</tag-class>
+    <body-content>empty</body-content>
+  </tag>
+  
   <!-- Security functions -->
   
   <function>

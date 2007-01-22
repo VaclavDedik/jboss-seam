@@ -14,12 +14,9 @@
  * limitations under the License.
  */
 package org.jboss.seam.ui;
-
 import java.io.IOException;
-
 import javax.faces.component.UIComponent;
 import javax.faces.context.ResponseWriter;
-
 /**
  * Constant declarations for HTML rendering.
  * @author Manfred Geiler
@@ -28,7 +25,7 @@ import javax.faces.context.ResponseWriter;
  */
 public final class HTML
 {
-   
+  
    private static String[] concat(String[]... x)
    {
       int len = 0;
@@ -44,7 +41,6 @@ public final class HTML
       }
       return result;
    }
-
    /**
     * @return true, if an attribute was written
     * @throws java.io.IOException
@@ -60,7 +56,6 @@ public final class HTML
        }
        return somethingDone;
    }
-
    /**
     * @return true, if the attribute was written
     * @throws java.io.IOException
@@ -72,7 +67,6 @@ public final class HTML
        return renderHTMLAttribute(writer, componentProperty, htmlAttrName,
                value);
    }
-
    /**
     * @return true, if the attribute was written
     * @throws java.io.IOException
@@ -87,10 +81,8 @@ public final class HTML
            writer.writeAttribute(htmlAttrName, value, componentProperty);
            return true;
        }
-
        return false;
    }
-
    /**
     * See JSF Spec. 8.5 Table 8-1
     * @param value
@@ -135,12 +127,10 @@ public final class HTML
        }
        return false;
    }
-
     private HTML()
     {
         // disable instantiation
     }
-
     // Common attributes
     public static final String ALIGN_ATTR = "align";
     public static final String DATAFLD_ATTR = "datafld";
@@ -149,8 +139,8 @@ public final class HTML
     public static final String BORDER_ATTR = "border";
     public static final String WIDTH_ATTR = "width";
     public static final String READONLY_ATTR = "readonly";
+    public static final String FILE_ATTR = "file";
     public static final String ACCEPT_ATTR = "accept";
-
     // Common event handler attributes
     public static final String ONCLICK_ATTR     = "onclick";
     public static final String ONDBLCLICK_ATTR  = "ondblclick";
@@ -178,7 +168,6 @@ public final class HTML
             concat(
                 EVENT_HANDLER_ATTRIBUTES_WITHOUT_ONCLICK,
                 new String[] {ONCLICK_ATTR});
-
     // Input field event handler attributes
     public static final String ONFOCUS_ATTR = "onfocus";
     public static final String ONBLUR_ATTR = "onblur";
@@ -191,14 +180,12 @@ public final class HTML
         ONSELECT_ATTR,
         ONCHANGE_ATTR
     };
-
     public static final String[] COMMON_FIELD_EVENT_ATTRIBUTES_WITHOUT_ONFOCUS =
     {
         ONBLUR_ATTR,
         ONSELECT_ATTR,
         ONCHANGE_ATTR
     };
-
     // universal attributes
     public static final String DIR_ATTR   = "dir";
     public static final String LANG_ATTR  = "lang";
@@ -210,18 +197,15 @@ public final class HTML
         DIR_ATTR,
         LANG_ATTR,
         TITLE_ATTR,
-
         //NOTE: if changed, please verify universal attributes in HtmlMessageRenderer !
     };
     public static final String[] UNIVERSAL_ATTRIBUTES =
             concat(
                 UNIVERSAL_ATTRIBUTES_WITHOUT_STYLE,
                 new String[] {STYLE_ATTR, STYLE_CLASS_ATTR});
-
     //universal, but not the same property-name -
     //styleClass attribute is rendered as such
     public static final String CLASS_ATTR = "class";
-
     // common form field attributes
     public static final String ACCESSKEY_ATTR   = "accesskey";
     public static final String TABINDEX_ATTR    = "tabindex";
@@ -235,7 +219,6 @@ public final class HTML
         concat(
             COMMON_FIELD_ATTRIBUTES_WITHOUT_DISABLED,
             new String[] {DISABLED_ATTR});
-
     // Common Attributes
     public static final String[] COMMON_PASSTROUGH_ATTRIBUTES =
         concat(
@@ -273,7 +256,6 @@ public final class HTML
             COMMON_PASSTROUGH_ATTRIBUTES_WITHOUT_ONCLICK,
             COMMON_FIELD_ATTRIBUTES_WITHOUT_DISABLED,
             COMMON_FIELD_EVENT_ATTRIBUTES);
-
     // <a>
     public static final String TARGET_ATTR = "target";  //used by <a> and <form>
     public static final String CHARSET_ATTR     = "charset";
@@ -309,7 +291,6 @@ public final class HTML
         concat(
             ANCHOR_ATTRIBUTES,
             COMMON_PASSTROUGH_ATTRIBUTES_WITHOUT_ONCLICK_WITHOUT_STYLE);
-
     // <form>
     public static final String ACCEPT_CHARSET_ATTR = "accept-charset";
     public static final String ENCTYPE_ATTR = "enctype";
@@ -328,7 +309,6 @@ public final class HTML
         concat(
             FORM_ATTRIBUTES,
             COMMON_PASSTROUGH_ATTRIBUTES);
-
     // <img>
     public static final String SRC_ATTR = "src";
     public static final String ALT_ATTR = "alt";
@@ -338,7 +318,6 @@ public final class HTML
     public static final String LONGDESC_ATTR = "longdesc";
     public static final String USEMAP_ATTR = "usemap";
     public static final String VSPACE_ATTR = "vspace";
-
     public static final String[] IMG_ATTRIBUTES =
     {
         ALIGN_ATTR,
@@ -356,13 +335,11 @@ public final class HTML
         concat(
            IMG_ATTRIBUTES,
            COMMON_PASSTROUGH_ATTRIBUTES);
-
     // <input>
     public static final String SIZE_ATTR = "size";
     private static final String AUTOCOMPLETE_ATTR = "autocomplete";
     public static final String CHECKED_ATTR = "checked";
     public static final String MAXLENGTH_ATTR = "maxlength";
-
     public static final String[] INPUT_ATTRIBUTES = {
         ALIGN_ATTR,
         ALT_ATTR,
@@ -379,12 +356,10 @@ public final class HTML
         concat(
                 INPUT_ATTRIBUTES,
                 COMMON_FIELD_PASSTROUGH_ATTRIBUTES_WITHOUT_DISABLED);
-
     public static final String[] INPUT_PASSTHROUGH_ATTRIBUTES_WITHOUT_DISABLED_AND_ONFOCUS_AND_ONCLICK =
         concat(
                 INPUT_ATTRIBUTES,
                 COMMON_FIELD_PASSTROUGH_ATTRIBUTES_WITHOUT_DISABLED_AND_ONFOCUS_AND_ONCLICK);
-
     //values for input-type attribute
     public static final String INPUT_TYPE_SUBMIT = "submit";
     public static final String INPUT_TYPE_IMAGE = "image";
@@ -394,7 +369,6 @@ public final class HTML
     public static final String INPUT_TYPE_TEXT = "text";
     public static final String INPUT_TYPE_RADIO = "radio";
     public static final String INPUT_TYPE_BUTTON = "button";
-
     // <button>
     public static final String[] BUTTON_ATTRIBUTES =
     {
@@ -412,11 +386,9 @@ public final class HTML
         concat(
             BUTTON_ATTRIBUTES,
             COMMON_FIELD_PASSTROUGH_ATTRIBUTES_WITHOUT_DISABLED_AND_ONCLICK);
-
     // <iframe>
     public static final String FRAMEBORDER_ATTR = "frameborder";
     public static final String SCROLLING_ATTR = "scrolling";
-
     // <label>
     public static final String FOR_ATTR = "for";
     public static final String[] LABEL_ATTRIBUTES =
@@ -430,10 +402,8 @@ public final class HTML
         concat(
             LABEL_ATTRIBUTES,
             COMMON_PASSTROUGH_ATTRIBUTES);
-
     // <select>
     public static final String MULTIPLE_ATTR = "multiple";
-
     public static final String[] SELECT_ATTRIBUTES =
     {
         DATAFLD_ATTR,
@@ -444,7 +414,6 @@ public final class HTML
         concat(
             SELECT_ATTRIBUTES,
             COMMON_FIELD_PASSTROUGH_ATTRIBUTES_WITHOUT_DISABLED);
-
     // <table>
     public static final String BGCOLOR_ATTR = "bgcolor";
     public static final String CELLPADDING_ATTR = "cellpadding";
@@ -470,7 +439,6 @@ public final class HTML
         concat(
             TABLE_ATTRIBUTES,
             COMMON_PASSTROUGH_ATTRIBUTES);
-
     // <textarea>
     public static final String COLS_ATTR = "cols";
     public static final String ROWS_ATTR = "rows";
@@ -487,7 +455,6 @@ public final class HTML
         concat(
             TEXTAREA_ATTRIBUTES,
             COMMON_FIELD_PASSTROUGH_ATTRIBUTES_WITHOUT_DISABLED);
-
     // <input type=file>
     public static final String[] INPUT_FILE_UPLOAD_ATTRIBUTES =
     {
@@ -497,25 +464,19 @@ public final class HTML
         concat(
             INPUT_FILE_UPLOAD_ATTRIBUTES,
             INPUT_PASSTHROUGH_ATTRIBUTES_WITHOUT_DISABLED);
-
-
     /*
     public static final String[] MESSAGE_PASSTHROUGH_ATTRIBUTES =
         concat(
             new String[] {DIR_ATTR, LANG_ATTR, TITLE_ATTR, STYLE_ATTR, STYLE_CLASS_ATTR},
             EVENT_HANDLER_ATTRIBUTES);
             */
-
     public static final String[] MESSAGE_PASSTHROUGH_ATTRIBUTES_WITHOUT_TITLE_STYLE_AND_STYLE_CLASS =
         concat(
             new String[] {DIR_ATTR, LANG_ATTR},
             EVENT_HANDLER_ATTRIBUTES);
-
-
     // selectOne/Many table
     public static final String[] SELECT_TABLE_PASSTHROUGH_ATTRIBUTES =
         new String[] {STYLE_ATTR, STYLE_CLASS_ATTR, BORDER_ATTR};
-
     public static final String COMPACT_ATTR = "compact";
     public static final String[] UL_ATTRIBUTES = {
         COMPACT_ATTR,
@@ -525,8 +486,6 @@ public final class HTML
         concat(
             UL_ATTRIBUTES,
             COMMON_PASSTROUGH_ATTRIBUTES);
-
-
     //HTML attributes needed for renderding only
     public static final String ID_ATTR = "id";
     public static final String NAME_ATTR = "name";
@@ -537,10 +496,8 @@ public final class HTML
     public static final String SCOPE_ATTR = "scope";
     public static final String LABEL_ATTR = "label";
     public static final String SELECTED_ATTR = "selected";
-
     //HTML attributes values
     public static final String SCOPE_COLGROUP_VALUE = "colgroup";
-
     //HTML element constants
     public static final String SPAN_ELEM = "span";
     public static final String DIV_ELEM = "div";
@@ -574,22 +531,15 @@ public final class HTML
     public static final String SCRIPT_TYPE_TEXT_JAVASCRIPT = "text/javascript";
     public static final String SCRIPT_LANGUAGE_ATTR = "language";
     public static final String SCRIPT_LANGUAGE_JAVASCRIPT = "JavaScript";
-
     public static final String UL_ELEM = "ul";
     public static final String OL_ELEM = "ol";
     public static final String LI_ELEM = "li";
-
-
     //HTML simple element constants
     public static final String BR_ELEM = "br";
-
-
     //HTML entities
     public static final String NBSP_ENTITY = "&#160;";
-
     public static final String HREF_PATH_SEPARATOR = "/";
     public static final String HREF_PATH_FROM_PARAM_SEPARATOR = "?";
     public static final String HREF_PARAM_SEPARATOR = "&";
     public static final String HREF_PARAM_NAME_FROM_VALUE_SEPARATOR = "=";
-
 }

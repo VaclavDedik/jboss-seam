@@ -471,7 +471,11 @@
             <property-class>java.lang.String</property-class>
         </property>
     </component>
-
+    
+    <component>
+        <component-type>org.jboss.seam.ui.FileUpload</component-type>
+        <component-class>org.jboss.seam.ui.FileUpload</component-class>
+    </component>
 
     <validator>
         <validator-id>org.jboss.seam.ui.ModelValidator</validator-id>
