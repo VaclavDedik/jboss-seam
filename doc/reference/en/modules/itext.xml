@@ -76,7 +76,19 @@
                     <listitem>
                         <para>The size of the page to be generate. The most commonly used values would be
                                 <literal>LETTER</literal> and <literal>A4</literal>. A full list of supported pages
-                            sizes can be found in <literal>com.lowagie.text.PageSize</literal> class.</para>
+                            sizes can be found in <literal>com.lowagie.text.PageSize</literal> class.   Alternatively, pageSize can provide the width and height of the page directly.  The value "612 792", for example, is equizalent to the LETTER page size.</para>
+                    </listitem>
+                </varlistentry>
+
+                <varlistentry>
+                    <term>
+                        <literal>orientation</literal>
+                    </term>
+                    <listitem>
+                        <para>The orientation of the page.  Valid values are 
+                        <literal>portrait</literal> and <literal>landscape</literal>.  In 
+                        landscape mode, the height and width page size values are reversed.
+                    </para>
                     </listitem>
                 </varlistentry>
 
