@@ -31,7 +31,7 @@ public class DocumentStorePhaseListener
         Parameters.convertMultiValueRequestParameter(Parameters.getRequestParameters(),
                                                      "docId",
                                                      String.class);              
-        if (rootId.startsWith("/seam-doc")) {            
+        if (rootId.contains("/seam-doc")) {            
             sendContent(phaseEvent.getFacesContext(), id);
         }
     }
