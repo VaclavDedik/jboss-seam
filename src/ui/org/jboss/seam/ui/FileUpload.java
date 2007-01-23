@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import javax.faces.el.ValueBinding;
 
 import org.jboss.seam.servlet.MultipartRequest;
 
@@ -29,9 +30,20 @@ public class FileUpload extends UIComponentBase
       {
          MultipartRequest req = (MultipartRequest) request;
          
-         byte[] fileData = req.getFileBytes(getClientId(context));
+         String clientId = getClientId(context);
+         byte[] fileData = req.getFileBytes(clientId);
+         String contentType = req.getFileContentType(clientId);
+         String fileName = req.getFileName(clientId);
          
-         getValueBinding("value").setValue(context, fileData);
+         getValueBinding("data").setValue(context, fileData);
+         
+         ValueBinding vb = getValueBinding("contentType");
+         if (vb != null)
+            vb.setValue(context, contentType);
+         
+         vb = getValueBinding("fileName");
+         if (vb != null)
+            vb.setValue(context, fileName);
       }      
    }
       

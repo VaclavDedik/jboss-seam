@@ -947,6 +947,24 @@
     <name>fileUpload</name>
     <tag-class>org.jboss.seam.ui.tag.FileUploadTag</tag-class>
     <body-content>empty</body-content>
+    <attribute>
+      <name>data</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+      <description>value binding for the file data</description>
+    </attribute>
+    <attribute>
+      <name>fileName</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+      <description>value binding for the file name</description>
+    </attribute>
+    <attribute>
+      <name>contentType</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+      <description>value binding for the file content type</description>
+    </attribute>
   </tag>
   
   <!-- Security functions -->

@@ -26,6 +26,8 @@ public class MultipartRequest extends HttpServletRequestWrapper
    {
       private Map<String,String> params;
       private byte[] data;
+      private String contentType;
+      private String fileName;
       
       public PartWrapper()
       {
@@ -45,6 +47,26 @@ public class MultipartRequest extends HttpServletRequestWrapper
       public byte[] getData()
       {
          return data;
+      }
+      
+      public String getContentType()
+      {
+         return contentType;
+      }
+      
+      public void setContentType(String contentType)
+      {
+         this.contentType = contentType;
+      }
+      
+      public String getFileName()
+      {
+         return fileName;
+      }
+      
+      public void setFileName(String fileName)
+      {
+         this.fileName = fileName;
       }
    }
 
@@ -96,6 +118,9 @@ public class MultipartRequest extends HttpServletRequestWrapper
       }
    }
    
+   private static final String FILE_CONTENT_TYPE = "Content-Type";
+   private static final String FILE_NAME = "filename";
+   
    private void parseBoundary(byte[] boundary)
    {
       PartWrapper entry = new PartWrapper();
@@ -119,6 +144,18 @@ public class MultipartRequest extends HttpServletRequestWrapper
                break;
             }            
          }         
+      }
+      
+      for (String key : entry.getParams().keySet())
+      {
+         String val = entry.getParams().get(key);
+         if (val != null)
+         {        
+            if (entry.getContentType() == null && FILE_CONTENT_TYPE.equalsIgnoreCase(key))
+               entry.setContentType(val);
+            else if (entry.getFileName() == null && FILE_NAME.equalsIgnoreCase(key))
+               entry.setFileName(val);
+         }
       }
       
       byte[] data = new byte[boundary.length - start];
@@ -315,7 +352,25 @@ public class MultipartRequest extends HttpServletRequestWrapper
       PartWrapper wrapper = parameters.get(name);
       return wrapper != null ? wrapper.getData() : null;
    }
-
+   
+   public String getFileContentType(String name)
+   {
+      if (parameters == null)
+         parseRequest();
+      
+      PartWrapper wrapper = parameters.get(name);      
+      return wrapper != null ? wrapper.getContentType() : null;
+   }
+   
+   public String getFileName(String name)
+   {
+      if (parameters == null)
+         parseRequest();
+      
+      PartWrapper wrapper = parameters.get(name);
+      return wrapper != null ? wrapper.getFileName() : null;
+   }   
+   
    @Override
    public String getParameter(String name)
    {

@@ -11,6 +11,10 @@ import org.jboss.seam.ui.FileUpload;
  */
 public class FileUploadTag extends UIComponentTagBase
 { 
+   private String data;
+   private String contentType;
+   private String fileName;
+   
    @Override
    public String getComponentType()
    {
@@ -27,5 +31,35 @@ public class FileUploadTag extends UIComponentTagBase
    protected void setProperties(UIComponent component)
    {
        super.setProperties(component);
+   }
+   
+   public String getData()
+   {
+      return data;
+   }
+   
+   public void setData(String data)
+   {
+      this.data = data;
+   }
+   
+   public String getContentType()
+   {
+      return contentType;
+   }
+   
+   public void setContentType(String contentType)
+   {
+      this.contentType = contentType;
+   }
+   
+   public String getFileName()
+   {
+      return fileName;
+   }
+   
+   public void setFileName(String fileName)
+   {
+      this.fileName = fileName;
    }
 }
