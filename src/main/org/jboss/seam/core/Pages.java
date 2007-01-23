@@ -725,6 +725,7 @@ public class Pages
       if ( endConversation!=null )
       {
          control.setEndConversation(true);
+         control.setEndConversationBeforeRedirect( "true".equals( endConversation.attributeValue("before-redirect") ) );
       }
       
       Element beginConversation = element.element("begin-conversation");

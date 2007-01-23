@@ -43,6 +43,7 @@
 <!ATTLIST begin-conversation flush-mode (manual|auto|commit|MANUAL|AUTO|COMMIT) #IMPLIED>
 
 <!ELEMENT end-conversation EMPTY>
+<!ATTLIST end-conversation before-redirect (true|false) "false">
 
 <!ELEMENT in EMPTY>
 <!ATTLIST in name CDATA #REQUIRED>

@@ -2,8 +2,8 @@ package org.jboss.seam.pageflow;
 
 import org.dom4j.Element;
 import org.jboss.seam.core.BusinessProcess;
+import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Interpolator;
-import org.jboss.seam.core.Manager;
 import org.jbpm.graph.def.Node;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.jpdl.xml.JpdlXmlReader;
@@ -24,6 +24,7 @@ public class Page extends Node implements Parsable
    
    private String viewId;
    private boolean isConversationEnd = false;
+   private boolean isConversationEndBeforeRedirect = false;
    private boolean isTaskEnd = false;
    private String transition;
    private String processToCreate;
@@ -52,6 +53,7 @@ public class Page extends Node implements Parsable
       if ( endConversationElement!=null )
       {
          isConversationEnd = true;
+         isConversationEndBeforeRedirect = "true".equals( endConversationElement.attributeValue("before-redirect") );
          processToCreate = endConversationElement.attributeValue("create-process");
       }
       Element endTaskElement = pageElement.element("end-task");
@@ -95,7 +97,14 @@ public class Page extends Node implements Parsable
 
       if (isConversationEnd || isTaskEnd ) 
       {
-         Manager.instance().endConversation(false);
+         if (isConversationEndBeforeRedirect)
+         {
+            Conversation.instance().endBeforeRedirect();
+         }
+         else
+         {
+            Conversation.instance().end();
+         }
       }
    }
 
@@ -155,5 +164,10 @@ public class Page extends Node implements Parsable
    protected String getProcessToCreate()
    {
       return processToCreate;
+   }
+
+   public boolean isConversationEndBeforeRedirect()
+   {
+      return isConversationEndBeforeRedirect;
    }
 }

@@ -12,6 +12,7 @@ public class ConversationControl
 
    private boolean isBeginConversation;
    private boolean isEndConversation;
+   private boolean isEndConversationBeforeRedirect;
    private boolean join;
    private boolean nested;
    private FlushModeType flushMode;
@@ -41,7 +42,14 @@ public class ConversationControl
    {
       if ( isEndConversation )
       {
-         Conversation.instance().end();
+         if (isEndConversationBeforeRedirect)
+         {
+            Conversation.instance().endBeforeRedirect();
+         }
+         else
+         {
+            Conversation.instance().end();
+         }
       }
       if ( isBeginConversation )
       {
@@ -98,6 +106,16 @@ public class ConversationControl
    public void setPageflow(String pageflow)
    {
       this.pageflow = pageflow;
+   }
+
+   public boolean isEndConversationBeforeRedirect()
+   {
+      return isEndConversationBeforeRedirect;
+   }
+
+   public void setEndConversationBeforeRedirect(boolean isEndConversationBeforeRedirect)
+   {
+      this.isEndConversationBeforeRedirect = isEndConversationBeforeRedirect;
    }
    
 }
