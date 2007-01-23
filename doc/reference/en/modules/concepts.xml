@@ -918,7 +918,6 @@ public class Account
     
     public void setBalance(BigDecimal balance)
     {
-        setDirty(this.balance, balance);
         this.balance = balance;
     }
     
