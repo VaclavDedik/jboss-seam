@@ -396,8 +396,11 @@ public class Lifecycle
             log.debug("destroying conversation context");
             Contexts.destroy( Contexts.getConversationContext() );
          }
-         if ( !Seam.isSessionInvalid() && !Init.instance().isClientSideConversations() )
+         if ( !Init.instance().isClientSideConversations() )
          {
+            //note that we need to flush even if the session is
+            //about to be invalidated, since we still need
+            //to destroy the conversation context in endSession()
             log.debug("flushing server-side conversation context");
             Contexts.getConversationContext().flush();
          }
