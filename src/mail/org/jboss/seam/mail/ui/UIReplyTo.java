@@ -19,6 +19,9 @@ public class UIReplyTo extends AddressComponent
       try
       {
          MimeMessage mimeMessage = findMimeMessage();
+         if (mimeMessage.getReplyTo() != null && mimeMessage.getReplyTo().length > 0) {
+            throw new UnsupportedOperationException("Email cannot have more than one from address");
+         }
          Address[] replyTo = {getInternetAddress(facesContext)}; 
          mimeMessage.setReplyTo(replyTo);
       }

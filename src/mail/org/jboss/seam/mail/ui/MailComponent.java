@@ -7,7 +7,9 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 import org.jboss.seam.ui.JSF;
 
@@ -54,7 +56,7 @@ public abstract class MailComponent extends UIComponentBase
    /**
     * look up the tree for mail message
     */
-   public MimeMessage findMimeMessage() {
+   public MimeMessage findMimeMessage() throws MessagingException {
        UIMessage parent = (UIMessage) findParent(this, UIMessage.class);
        if (parent != null) 
        {
@@ -64,6 +66,10 @@ public abstract class MailComponent extends UIComponentBase
        {
            return null;
        }
+   }
+   
+   public MimeMultipart getRootMultipart() throws IOException, MessagingException {
+      return (MimeMultipart) findMimeMessage().getContent();
    }
    
    public MailComponent findParent(UIComponent parent) {

@@ -17,7 +17,11 @@ public class UIFrom extends AddressComponent
    {
       try
       {
+         
          MimeMessage mimeMessage = findMimeMessage();
+        if (mimeMessage.getFrom() != null && mimeMessage.getFrom().length > 0) {
+           throw new UnsupportedOperationException("Email cannot have more than one from address");
+        }
          mimeMessage.setFrom(getInternetAddress(facesContext));
       }
       catch (Exception e)

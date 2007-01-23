@@ -13,7 +13,7 @@ import org.jboss.seam.mail.MailSession;
 /**
  * JSF component which delimites the start and end of the mail message.  
  */
-// TODO Support Priority,read receipt, encoding
+// TODO Support Priority,read receipt, encoding, precedence
 // TODO Support getting session from JNDI
 public class UIMessage extends MailComponent
 {
@@ -54,6 +54,7 @@ public class UIMessage extends MailComponent
       super.encodeEnd(arg0);
       try
       {
+         // TODO Can we improve upon this?
          Transport.send(getMimeMessage());
       }
       catch (Exception e)
