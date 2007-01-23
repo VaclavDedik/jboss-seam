@@ -377,7 +377,7 @@ Person_updated=Person #{person.firstName} #{person.lastName} updated]]></program
         </para>
         
         <programlisting><![CDATA[<h1>List of people</h1>
-<h:dataTable value="#{people}" var="person">
+<h:dataTable value="#{people.resultList}" var="person">
     <h:column>
         <s:link view-id="/editPerson.jsp" value="#{person.firstName} #{person.lastName}">
             <f:param name="personId" value="#{person.id}"/>
