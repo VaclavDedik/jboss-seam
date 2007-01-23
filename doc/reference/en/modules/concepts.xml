@@ -867,7 +867,7 @@ public Order createOrder(User user, Product product, int quantity) {
             application calls <literal>setAttribute()</literal> explicitly. This is a source of bugs that can not
             effectively be tested for at development time, since they will only manifest when failover occurs.
             Furthermore, the actual replication message contains the entire serialized object graph bound to the session
-            attribute, which inefficient. 
+            attribute, which is inefficient. 
         </para>
 
         <para> 
