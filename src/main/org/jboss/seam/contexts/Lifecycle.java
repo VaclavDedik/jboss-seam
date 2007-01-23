@@ -43,7 +43,7 @@ public class Lifecycle
       Contexts.sessionContext.set( new WebSessionContext( ContextAdaptor.getSession(externalContext) ) );
       Contexts.applicationContext.set( new FacesApplicationContext(externalContext) );
       Contexts.conversationContext.set(null); //in case endRequest() was never called
-      Events.instance(); //TODO: only for now, until we have a way to do EL outside of JSF!
+      //Events.instance(); //TODO: only for now, until we have a way to do EL outside of JSF!
    }
 
    public static void beginRequest(ServletContext servletContext, HttpSession session, ServletRequest request) {
@@ -83,12 +83,12 @@ public class Lifecycle
 
    }
 
-   public static void beginApplication()
+   public static void mockApplication()
    {
       Contexts.applicationContext.set( new WebApplicationContext( getServletContext() ) );
    }
 
-   public static void endApplication()
+   public static void unmockApplication()
    {
       Contexts.applicationContext.set(null);
    }
@@ -109,6 +109,7 @@ public class Lifecycle
    {
       Contexts.applicationContext.set( new WebApplicationContext(servletContext) );
       Contexts.eventContext.set( new MapContext(ScopeType.EVENT) );
+      Contexts.conversationContext.set( new MapContext(ScopeType.CONVERSATION) );
    }
 
    public static void beginExceptionRecovery(ServletContext servletContext, HttpServletRequest request)
@@ -120,8 +121,7 @@ public class Lifecycle
 
    public static void endInitialization()
    {
-      //TODO: put this back in when we have non-JSF-dependent EL!
-      //startup( Component.forName( Seam.getComponentName(Events.class) ) );
+      startup( Component.forName( Seam.getComponentName(Events.class) ) );
 
 	   //instantiate all application-scoped @Startup components
       Context context = Contexts.getApplicationContext();
@@ -138,6 +138,8 @@ public class Lifecycle
     	   }
       }
 
+      Contexts.destroy( Contexts.getConversationContext() );
+      Contexts.conversationContext.set(null);
       Contexts.destroy( Contexts.getEventContext() );
       Contexts.eventContext.set(null);
       Contexts.applicationContext.set(null);
@@ -188,6 +190,7 @@ public class Lifecycle
 
       boolean applicationContextActive = Contexts.isApplicationContextActive();
       boolean eventContextActive = Contexts.isEventContextActive();
+      boolean conversationContextActive = Contexts.isConversationContextActive();
       if ( !applicationContextActive )
       {
          Context tempApplicationContext = new WebApplicationContext(servletContext);
@@ -197,7 +200,13 @@ public class Lifecycle
       if ( !eventContextActive )
       {
          tempEventContext = new MapContext(ScopeType.EVENT);
-         Contexts.applicationContext.set(tempEventContext);
+         Contexts.eventContext.set(tempEventContext);
+      }
+      Context tempConversationContext = null;
+      if ( !conversationContextActive )
+      {
+         tempConversationContext = new MapContext(ScopeType.CONVERSATION);
+         Contexts.conversationContext.set(tempConversationContext);
       }
 
       Context tempSessionContext = new WebSessionContext(session);
@@ -218,6 +227,12 @@ public class Lifecycle
       }
 
       Contexts.sessionContext.set(null);
+      
+      if ( !conversationContextActive )
+      {
+         Contexts.destroy(tempConversationContext);
+         Contexts.conversationContext.set(null);
+      }
       if ( !eventContextActive ) 
       {
          Contexts.destroy(tempEventContext);
