@@ -21,7 +21,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Synchronized;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.log.Log;
-import org.jboss.seam.security.SeamSecurityManager;
+import org.jboss.seam.security.Security;
 
 /**
  * Login action
@@ -43,6 +43,9 @@ public class LoginAction implements LoginLocal
    @In(create=true)
    private EntityManager entityManager;
    
+   @In 
+   private Security security;
+   
    @Out(required = false)
    private Member authenticatedMember;
    
@@ -50,10 +53,10 @@ public class LoginAction implements LoginLocal
    {
       try
       {
-         CallbackHandler cbh = SeamSecurityManager.instance().createCallbackHandler(
+         CallbackHandler cbh = security.createCallbackHandler(
                member.getUsername(), member.getPassword());
          
-         LoginContext lc = SeamSecurityManager.instance().createLoginContext(null, cbh);
+         LoginContext lc = security.createLoginContext(null, cbh);
          lc.login();
       }
       catch (LoginException ex)

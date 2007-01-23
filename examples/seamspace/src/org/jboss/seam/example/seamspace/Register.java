@@ -2,8 +2,6 @@ package org.jboss.seam.example.seamspace;
 
 import javax.ejb.Local;
 
-import org.jboss.seam.util.UploadedFile;
-
 @Local
 public interface Register
 {
