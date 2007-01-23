@@ -15,7 +15,6 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.RequestParameter;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.security.Identity;
 
 @Stateful
 @Name("profile")

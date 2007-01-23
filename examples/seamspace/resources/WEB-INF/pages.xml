@@ -30,6 +30,12 @@
         <redirect view-id="/register2.xhtml"/>
       </navigation>
     </page>
+    
+    <page view-id="/register2.xhtml">
+      <navigation from-action="#{register.upload}">
+        <redirect view-id="/home.xhtml"/>
+      </navigation>
+    </page>
        
     <page view-id="*">
         <navigation from-action="#{login.logout}">

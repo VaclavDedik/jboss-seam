@@ -1,5 +1,7 @@
 package org.jboss.seam.example.seamspace;
 
+import java.util.Date;
+
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
@@ -11,7 +13,6 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.core.FacesMessages;
-import org.jboss.seam.util.UploadedFile;
 
 @Stateful
 @Name("register")
@@ -50,7 +51,12 @@ public class RegisterAction implements Register
    {
       MemberImage img = new MemberImage();
       img.setData(picture);
+      img.setMember(newMember);
       newMember.setPicture(img);
+      newMember.setMemberSince(new Date());
+      
+      entityManager.persist(img);
+      entityManager.persist(newMember);
    }
    
    public String getConfirm()

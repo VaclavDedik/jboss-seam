@@ -3,8 +3,10 @@ package org.jboss.seam.example.seamspace;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
 import org.jboss.seam.annotations.Name;
@@ -20,7 +22,7 @@ public class MemberImage implements Serializable
    private byte[] data;
    private String contentType;
    
-   @Id
+   @Id @GeneratedValue
    public Integer getImageId()
    {
       return imageId;
@@ -53,6 +55,7 @@ public class MemberImage implements Serializable
       this.contentType = contentType;
    }
 
+   @Lob
    public byte[] getData()
    {
       return data;
