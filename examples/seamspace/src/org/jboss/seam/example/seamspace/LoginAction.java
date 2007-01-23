@@ -72,8 +72,11 @@ public class LoginAction implements LoginLocal
             .setParameter("password", password)
             .getSingleResult();
 
-         for (MemberRole mr : authenticatedMember.getRoles())
-            roles.add(mr.getName());
+         if (authenticatedMember.getRoles() != null)
+         {
+            for (MemberRole mr : authenticatedMember.getRoles())
+               roles.add(mr.getName());
+         }
          
          return true;
       }

@@ -14,7 +14,12 @@ public interface Register
    void setConfirm(String confirm);
    String getGender();
    void setGender(String gender);
+   
    byte[] getPicture();
    void setPicture(byte[] picture);
+   
+   String getPictureContentType();
+   void setPictureContentType(String contentType);
+   
    void destroy();
 }

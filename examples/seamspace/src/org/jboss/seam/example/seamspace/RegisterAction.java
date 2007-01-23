@@ -1,6 +1,7 @@
 package org.jboss.seam.example.seamspace;
 
 import java.util.Date;
+import java.util.HashSet;
 
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
@@ -8,6 +9,7 @@ import javax.persistence.EntityManager;
 
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
@@ -24,6 +26,12 @@ public class RegisterAction implements Register
    @In(create = true)
    private EntityManager entityManager;
    
+   @In(create = true)
+   private LoginLocal login;
+   
+   @In(required = false)
+   Member member;   
+   
    /**
     * Password confirmation
     */
@@ -32,6 +40,7 @@ public class RegisterAction implements Register
    private String gender;
    
    private byte[] picture;
+   private String pictureContentType;
 
    @Factory("newMember") @Begin
    public void start()
@@ -46,17 +55,37 @@ public class RegisterAction implements Register
       
       newMember.setGender(Member.Gender.valueOf(gender.toLowerCase()));
    }
-   
+
+   @End
    public void uploadPicture() 
    {
-      MemberImage img = new MemberImage();
-      img.setData(picture);
-      img.setMember(newMember);
-      newMember.setPicture(img);
       newMember.setMemberSince(new Date());
+      newMember.setRoles(new HashSet<MemberRole>());
       
-      entityManager.persist(img);
+      MemberRole userRole = (MemberRole) entityManager.createQuery(
+            "from MemberRole where name = 'user'")
+            .getSingleResult();
+      
+      newMember.getRoles().add(userRole);
+
       entityManager.persist(newMember);
+
+      if (picture != null)
+      {
+         MemberImage img = new MemberImage();
+         img.setData(picture);
+         img.setMember(newMember);
+         img.setContentType(pictureContentType);
+         entityManager.persist(img);
+         newMember.setPicture(img);
+         
+         newMember = entityManager.merge(newMember);
+      }
+      
+      // Login the user
+      member.setUsername(newMember.getUsername());
+      member.setPassword(newMember.getPassword());
+      login.login();
    }
    
    public String getConfirm()
@@ -87,6 +116,16 @@ public class RegisterAction implements Register
    public byte[] getPicture()
    {
       return picture;
+   }
+   
+   public String getPictureContentType()
+   {
+      return pictureContentType;  
+   }
+   
+   public void setPictureContentType(String contentType)
+   {
+      this.pictureContentType = contentType;
    }
    
    @Destroy @Remove

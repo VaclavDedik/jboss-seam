@@ -32,8 +32,8 @@
     </page>
     
     <page view-id="/register2.xhtml">
-      <navigation from-action="#{register.upload}">
-        <redirect view-id="/home.xhtml"/>
+      <navigation from-action="#{register.uploadPicture}">
+        <redirect view-id="/profile.xhtml"/>
       </navigation>
     </page>
        

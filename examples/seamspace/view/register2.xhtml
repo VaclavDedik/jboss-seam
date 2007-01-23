@@ -19,7 +19,8 @@
               
               <div class="formRow">
                 <h:outputLabel for="picture">Member photo</h:outputLabel>
-                <s:fileUpload id="picture" value="#{register.picture}"/>
+                <s:fileUpload id="picture" data="#{register.picture}" 
+                              contentType="#{register.pictureContentType}" />
                 <div class="validationError"><h:message for="picture"/></div>
               </div>               
 
