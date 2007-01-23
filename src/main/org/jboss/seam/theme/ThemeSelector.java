@@ -4,6 +4,7 @@ import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -50,7 +51,10 @@ public class ThemeSelector extends Selector
    public void initDefaultTheme()
    {
       String themeName = getCookieValue();
-      if (themeName!=null) setTheme(themeName);
+      if ( themeName!=null && Arrays.asList(availableThemes).contains(themeName) ) 
+      {
+         setTheme(themeName);
+      }
       
       if (theme==null)
       {
