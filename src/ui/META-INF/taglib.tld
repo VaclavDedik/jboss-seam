@@ -965,19 +965,25 @@
       <rtexprvalue>true</rtexprvalue>
       <description>value binding for the file content type</description>
     </attribute>
+    <attribute>
+      <name>accept</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+      <description>acceptable content types for the file</description>
+    </attribute>
   </tag>
   
   <!-- Security functions -->
   
   <function>
     <name>hasRole</name>
-    <function-class>org.jboss.seam.security.SeamSecurityManager</function-class>
+    <function-class>org.jboss.seam.security.SecurityFunctions</function-class>
     <function-signature>java.lang.Boolean hasRole( java.lang.String )</function-signature>
   </function>
   
   <function>
     <name>hasPermission</name>
-    <function-class>org.jboss.seam.security.SeamSecurityManager</function-class>
+    <function-class>org.jboss.seam.security.SecurityFunctions</function-class>
     <function-signature>java.lang.Boolean hasPermission( java.lang.String, java.lang.String, java.lang.Object[] )</function-signature>
   </function>
 </taglib>

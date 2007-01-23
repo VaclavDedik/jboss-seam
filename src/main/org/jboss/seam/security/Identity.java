@@ -108,7 +108,7 @@ public class Identity implements Serializable
       if (!isLoggedIn())
          throw new NotLoggedInException();
       
-      if (!SeamSecurityManager.instance().evaluateExpression(expr))
+      if (!Security.instance().evaluateExpression(expr))
          throw new AuthorizationException(String.format(
                "Authorization check failed for expression [%s]", expr));      
    }

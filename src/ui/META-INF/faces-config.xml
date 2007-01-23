@@ -487,6 +487,10 @@
             <property-name>fileName</property-name>
             <property-class>java.lang.String</property-class>
         </property>
+        <property>
+            <property-name>accept</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
     </component>
 
     <validator>

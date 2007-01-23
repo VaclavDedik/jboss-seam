@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
-import org.jboss.seam.security.SeamSecurityManager;
+import org.jboss.seam.security.SecurityFunctions;
 
 import com.sun.el.lang.FunctionMapperImpl;
 
@@ -25,9 +25,9 @@ public class SeamELFunctionMapper extends FunctionMapperImpl
    .getLogProvider(SeamELFunctionMapper.class);
    
    static {
-      cacheMethod("hasPermission", SeamSecurityManager.class, "hasPermission", 
+      cacheMethod("hasPermission", SecurityFunctions.class, "hasPermission", 
                new Class[] {String.class, String.class, Object[].class});
-      cacheMethod("hasRole", SeamSecurityManager.class, "hasRole",
+      cacheMethod("hasRole", SecurityFunctions.class, "hasRole",
                new Class[] { String.class });      
    }
 

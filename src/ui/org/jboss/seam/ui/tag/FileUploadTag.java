@@ -15,6 +15,12 @@ public class FileUploadTag extends UIComponentTagBase
    private String contentType;
    private String fileName;
    
+   private String accept;
+   private String required;
+   private String disabled;
+   private String styleClass;
+   private String style;
+   
    @Override
    public String getComponentType()
    {
@@ -38,6 +44,56 @@ public class FileUploadTag extends UIComponentTagBase
       return data;
    }
    
+   public String getAccept()
+   {
+      return accept;
+   }
+
+   public void setAccept(String accept)
+   {
+      this.accept = accept;
+   }
+
+   public String getDisabled()
+   {
+      return disabled;
+   }
+
+   public void setDisabled(String disabled)
+   {
+      this.disabled = disabled;
+   }
+
+   public String getRequired()
+   {
+      return required;
+   }
+
+   public void setRequired(String required)
+   {
+      this.required = required;
+   }
+
+   public String getStyle()
+   {
+      return style;
+   }
+
+   public void setStyle(String style)
+   {
+      this.style = style;
+   }
+
+   public String getStyleClass()
+   {
+      return styleClass;
+   }
+
+   public void setStyleClass(String styleClass)
+   {
+      this.styleClass = styleClass;
+   }
+
    public void setData(String data)
    {
       this.data = data;
