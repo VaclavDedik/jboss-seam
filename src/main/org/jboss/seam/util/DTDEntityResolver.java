@@ -15,11 +15,11 @@ import org.xml.sax.InputSource;
  * various systemId URLs to local classpath lookups<ol>
  * <li>Any systemId URL beginning with <tt>http://jboss.com/products/seam/</tt> is
  * searched for as a classpath resource in the classloader which loaded the
- * Hibernate classes.</li>
+ * Seam classes.</li>
  * <li>Any systemId URL using <tt>classpath</tt> as the scheme (i.e. starting
  * with <tt>classpath://</tt> is searched for as a classpath resource using first
  * the current thread context classloader and then the classloader which loaded
- * the Hibernate classes.
+ * the Seam classes.
  * </ol>
  * <p/>
  * Any entity references which cannot be resolved in relation to the above
@@ -32,21 +32,18 @@ public class DTDEntityResolver implements EntityResolver, Serializable {
 
    private static final LogProvider log = Logging.getLogProvider(DTDEntityResolver.class );
 
-	private static final String HIBERNATE_NAMESPACE = "http://jboss.com/products/seam/";
+	private static final String SEAM_NAMESPACE = "http://jboss.com/products/seam/";
 	private static final String USER_NAMESPACE = "classpath://";
 
 	public InputSource resolveEntity(String publicId, String systemId) {
 		if ( systemId != null ) {
 			log.debug( "trying to resolve system-id [" + systemId + "]" );
-			if ( systemId.startsWith( HIBERNATE_NAMESPACE ) ) {
-				log.debug( "recognized hibernate namespace; attempting to resolve on classpath under org/jboss/seam/" );
-				String path = "org/jboss/seam/" + systemId.substring( HIBERNATE_NAMESPACE.length() );
-				InputStream dtdStream = resolveInHibernateNamespace( path );
+			if ( systemId.startsWith( SEAM_NAMESPACE) ) {
+				log.debug( "recognized Seam namespace; attempting to resolve on classpath under org/jboss/seam/" );
+				String path = "org/jboss/seam/" + systemId.substring( SEAM_NAMESPACE.length() );
+				InputStream dtdStream = resolveInSeamNamespace( path );
 				if ( dtdStream == null ) {
 					log.debug( "unable to locate [" + systemId + "] on classpath" );
-					if ( systemId.substring( HIBERNATE_NAMESPACE.length() ).indexOf( "2.0" ) > -1 ) {
-						log.error( "Don't use old DTDs, read the Hibernate 3.x Migration Guide!" );
-					}
 				}
 				else {
 					log.debug( "located [" + systemId + "] in classpath" );
@@ -76,7 +73,7 @@ public class DTDEntityResolver implements EntityResolver, Serializable {
 		return null;
 	}
 
-	protected InputStream resolveInHibernateNamespace(String path) {
+	protected InputStream resolveInSeamNamespace(String path) {
 		return this.getClass().getClassLoader().getResourceAsStream( path );
 	}
 
