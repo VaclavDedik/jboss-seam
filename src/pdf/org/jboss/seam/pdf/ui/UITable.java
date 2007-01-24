@@ -110,6 +110,7 @@ public class UITable
     }
    
     public void createITextObject(FacesContext context) {
+        columns = (Integer) valueBinding(context, "columns", columns);
         table = new PdfPTable(columns);
         
         widths = (String) valueBinding(context, "widths", widths);
