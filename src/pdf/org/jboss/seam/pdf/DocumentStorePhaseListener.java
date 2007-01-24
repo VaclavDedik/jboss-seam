@@ -43,6 +43,10 @@ public class DocumentStorePhaseListener
 
             HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
             response.setContentType(store.typeForId(contentId));
+
+            response.setHeader("Content-Disposition", 
+                               "inline; filename=\"" + store.fileNameForId(contentId) + "\"");
+            
             if (data != null) {
                 response.getOutputStream().write(data);
             }

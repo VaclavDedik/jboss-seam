@@ -7,7 +7,7 @@ import org.jboss.seam.*;
 import org.jboss.seam.annotations.*;
 
 @Name("documentStore")
-@Scope(ScopeType.SESSION)
+@Scope(ScopeType.CONVERSATION)
 @Install(precedence=Install.BUILT_IN)
 public class DocumentStore 
     implements Serializable
@@ -27,8 +27,8 @@ public class DocumentStore
         return String.valueOf(nextId++);
     }
 
-    public void saveData(String id, DocType type, byte[] data) {
-        dataStore.put(id, new DocumentData(type,data));
+    public void saveData(String id, String baseName, DocType type, byte[] data) {
+        dataStore.put(id, new DocumentData(baseName, type, data));
     }
 
     public byte[] dataForId(String id) {
@@ -37,6 +37,10 @@ public class DocumentStore
     
     public String typeForId(String id) {
         return dataStore.get(id).getDocType().getMimeType();
+    }
+   
+    public String fileNameForId(String id) {
+        return dataStore.get(id).getBaseName() + "." + dataStore.get(id).getDocType().getExtension();
     }
 
     public static DocumentStore instance()
@@ -47,28 +51,33 @@ public class DocumentStore
     static class DocumentData {
         byte[] data;
         DocType docType;
+        String baseName;
         
-        public DocumentData(DocType docType,byte[] data) {
+        public DocumentData(String baseName, DocType docType, byte[] data) {
             super();
             this.data = data;
             this.docType = docType;
+            this.baseName = baseName;
         }
         public byte[] getData() {
             return data;
         }
         public DocType getDocType() {
             return docType;
-        }      
+        }
+        public String getBaseName() {
+            return baseName;
+        }
     }
 
-    public String preferredUrlForContent(DocType docType, String id) {
-        String extension = "seam";
-
+    public String preferredUrlForContent(String baseName, DocType docType, String id) {
+        String baseUrl = "seam-doc.seam";
+        
         if (useExtensions) {
-            extension = docType.getExtension();
+            baseUrl = baseName + "." + docType.getExtension();
         } 
         
-        return "seam-doc." + extension + "?docId="+id;
+        return baseUrl + "?docId=" + id;
     }
     
     

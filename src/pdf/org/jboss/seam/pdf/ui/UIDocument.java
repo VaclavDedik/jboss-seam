@@ -1,5 +1,6 @@
 package org.jboss.seam.pdf.ui;
 
+import org.jboss.seam.core.Manager;
 import org.jboss.seam.pdf.ITextUtils;
 import org.jboss.seam.pdf.DocumentStore;
 import org.jboss.seam.pdf.DocumentStore.DocType;
@@ -17,11 +18,10 @@ public class UIDocument
 {
     public static final String COMPONENT_TYPE   = "org.jboss.seam.pdf.ui.UIDocument";
     
-    
-    
     Document document;
     ByteArrayOutputStream stream;
     String id;
+    String baseName;
     DocType docType;
     
     String type;
@@ -187,7 +187,6 @@ public class UIDocument
                 HtmlWriter.getInstance(document, stream);
                 break;
             }
-
             
             initMetaData(context);
             
@@ -202,13 +201,31 @@ public class UIDocument
         response.startElement("meta", this);
         response.writeAttribute("http-equiv", "Refresh", null);
         
-        String url = store.preferredUrlForContent(docType, id);
+        baseName = baseNameForViewId(FacesContext.getCurrentInstance().getViewRoot().getViewId()); 
+        String url = store.preferredUrlForContent(baseName, docType, id);
+        
+        url = Manager.instance().encodeConversationId(url);
+        
         response.writeAttribute("content", "0; URL=" + url, null);
  
         response.endElement("meta");
         response.endElement("head");
 
         response.startElement("body",this);
+    }
+
+    private String baseNameForViewId(String viewId) {
+        int pos = viewId.lastIndexOf("/");
+        if (pos != -1) {
+            viewId = viewId.substring(pos+1);
+        }
+
+        pos = viewId.lastIndexOf(".");
+        if (pos!=-1) {
+            viewId = viewId.substring(0,pos);
+        }
+        
+        return viewId;
     }
 
     @Override
@@ -218,6 +235,7 @@ public class UIDocument
         document.close();
 
         DocumentStore.instance().saveData(id,
+                                          baseName,
                                           docType,
                                           stream.toByteArray());        
 
@@ -226,6 +244,8 @@ public class UIDocument
         response.endElement("html");
     
         removeITextObject();
+        
+        Manager.instance().beforeRedirect();
     }
 
     private DocType docTypeForName(String typeName) {    

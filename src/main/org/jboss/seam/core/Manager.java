@@ -569,6 +569,7 @@ public class Manager
 
          boolean removeAfterRedirect = ce.isRemoveAfterRedirect() && !(
                Init.instance().isDebug() &&
+               (FacesContext.getCurrentInstance() != null) &&
                "/debug.xhtml".equals( FacesContext.getCurrentInstance().getViewRoot().getViewId() )
             );
          

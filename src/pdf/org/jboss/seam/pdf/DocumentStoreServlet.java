@@ -28,6 +28,9 @@ public class DocumentStoreServlet
         byte[] data = store.dataForId(contentId);          
           
         response.setContentType(store.typeForId(contentId));
+        response.setHeader("Content-Disposition", 
+                           "inline; filename=\"" + store.fileNameForId(contentId) + "\"");
+                
         if (data != null) {
             response.getOutputStream().write(data);
         }
