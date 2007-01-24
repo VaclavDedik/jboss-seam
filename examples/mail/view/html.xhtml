@@ -7,19 +7,19 @@
       
     <m:message>
         <m:from name="Seam" address="do-not-reply@jboss.com" />
-	    <m:to name="#{person.firstname} #{person.lastname}">#{person.address}</m:to>
-	    <m:subject>Seam Mail</m:subject>
-	    <m:body>
-	        <html>
-	            <body>
-	                <p><b>#{person.firstname},</b></p>
-	                <p>This is an example <i>HTML</i> email sent by Seam.</p>
-	                <p>It has an alternative text body for mail readers that don't support html.</p>
-	            </body>
-	        </html>
-	        <f:facet name="alternative">
-	            <h:outputText>This is the alternative text body for mail readers that don't support html</h:outputText>
-	        </f:facet>
+        <m:to name="#{person.firstname} #{person.lastname}">#{person.address}</m:to>
+        <m:subject>Seam Mail</m:subject>
+        <m:body>
+            <html>
+                <body>
+                    <p><b>#{person.firstname},</b></p>
+                    <p>This is an example <i>HTML</i> email sent by Seam.</p>
+                    <p>It has an alternative text body for mail readers that don't support html.</p>
+                </body>
+            </html>
+            <f:facet name="alternative">
+                <h:outputText>This is the alternative text body for mail readers that don't support html</h:outputText>
+            </f:facet>
         </m:body>
     </m:message>
      

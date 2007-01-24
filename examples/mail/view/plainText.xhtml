@@ -6,22 +6,22 @@
                xmlns:f="http://java.sun.com/jsf/core">
       
     <m:message>
-	    <m:from name="Seam" address="do-not-reply@jboss.com" />
-	    <m:to name="#{person.firstname} #{person.lastname}">#{person.address}</m:to>
-	    <m:subject>Plain text email sent by Seam</m:subject>
-	    <m:body type="plain">Dear #{person.firstname},
-	      
+        <m:from name="Seam" address="do-not-reply@jboss.com" />
+        <m:to name="#{person.firstname} #{person.lastname}">#{person.address}</m:to>
+        <m:subject>Plain text email sent by Seam</m:subject>
+        <m:body type="plain">Dear #{person.firstname},
+          
 This is a simple, plain text, email.
-	      
+          
 Regards
-	      
+          
 JBoss Seam Mail</m:body>
     </m:message>
      
     <html>
-	    <body>
-	        <p>The email has been successfully sent. <s:link view="/index.xhtml">Click here</s:link> to return to the index.</p>
-	    </body>
+        <body>
+            <p>The email has been successfully sent. <s:link view="/index.xhtml">Click here</s:link> to return to the index.</p>
+        </body>
     </html>
      
 </ui:composition>
