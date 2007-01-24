@@ -18,9 +18,18 @@ public class DocumentStore
 
     long nextId = 1;
     boolean useExtensions = false;
+    String errorPage = null;
     
     public void setUseExtensions(boolean useExtensions) {
         this.useExtensions = useExtensions;
+    }
+    
+    public void setErrorPage(String errorPage) {
+        this.errorPage = errorPage;
+    }
+    
+    public String getErrorPage() {
+        return errorPage;
     }
     
     public String newId() {
@@ -31,6 +40,10 @@ public class DocumentStore
         dataStore.put(id, new DocumentData(baseName, type, data));
     }
 
+    public boolean idIsValid(String id) {
+        return dataStore.get(id) != null;
+    }
+    
     public byte[] dataForId(String id) {
         return dataStore.get(id).getData();
     }
