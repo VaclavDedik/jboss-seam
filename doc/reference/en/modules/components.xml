@@ -949,6 +949,51 @@
         </variablelist>
     </section>
     
+        <section id="components.mail">
+        <title>Mail-related components</title>
+        <para>
+            These components are for use with Seam's Email support 
+        </para>
+        
+        <variablelist>
+            <varlistentry>
+                <term><literal>org.jboss.seam.mail.mailSession</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for a JavaMail <literal>Session</literal> .
+                    </para>
+                     <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.mail.mailSession.host</literal> &mdash; the hostname of the SMTP server to use
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.mail.mailSession.port</literal> &mdash; the port of the SMTP server to use
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.mail.mailSession.username</literal> &mdash;  the username to use to connect to the SMTP server.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.mail.mailSession.password</literal> &mdash; the password to use to connect to the SMTP server
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.mail.mailSession.debug</literal> &mdash; enable JavaMail debugging (very verbose)
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+    </section>
+    
     <section>
         <title>Infrastructural components</title>
         <para>

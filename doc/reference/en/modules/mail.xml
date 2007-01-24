@@ -1,0 +1,194 @@
+<chapter id="mail">
+    <title>Email Generation and Sending</title>
+    <para>Seam now includes an optional component set for generating and sending emails.</para>
+
+    <section>
+        <title>Using Email Support</title>
+        <para>Email support is provided by <literal>jboss-seam-mail.jar</literal>. This JAR contains the mail JSF controls, which are used
+            to construct emails, and the <literal>mailSession</literal> component, which sends the generated email. 
+       	</para>
+
+        <para> The examples/mail project contains an example of the email support in action. It demonstrates proper
+            deployment packaging, and it contains a number of examples that demonstrate the key email generation features
+            currently supported. </para>
+    </section>
+
+	<section>
+		<title>Configuration</title>
+		<para>To include Email support in your application, include <literal>jboss-seam-mail.jar</literal> in your
+            WEB-INF/lib directory. If you are using JBoss AS there is no further configuration needed to use Seam's
+            email support otherwise you need to make sure you have the JavaMail API, an implementation of the JavaMail API present 
+            (distributed with seam as <literal>lib/mail.jar</literal>), and a copy of the Java Activation Framework (distributed with seam as <literal>lib/activation.jar</literal>.</para>
+        <para>The Seam Email module requires the use of Facelets as the view technology. Future versions of the library
+            may also support the use of JSP. Additionally, it requires the use of the seam-ui package.</para>
+		<para>The mailSession component uses JavaMail to talk to a 'real' SMTP server.  If you have one running on localhost, then no further 
+		configuration is required. Otherwise, the mailSession component can be configured in <literal>components.xml</literal>. Here, we tell 
+		Seam to use <literal>smtp.example.com</literal> as the smtp server, see <xref linkend="components.mail"/> for all the possible properties</para>
+            <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components" 
+            xmlns:core="http://jboss.com/products/seam/core"
+            xmlns:mail="http://jboss.com/products/seam/mail">
+    <mail:mailSession host="smtp.example.com" />
+</components>]]></programlisting>
+		
+	</section>
+
+    <section>
+        <title>Creating a message</title>
+
+        <para>Emails are generated using tags in the
+                <literal>http://jboss.com/products/seam/mail</literal> namespace. Documents should always have the
+                <literal>message</literal> tag at the root of the message. The message tag prepares Seam to generate
+            an email. </para>
+            
+            <para>The standard templating tags of facelets can be used as normal.  Inside the body you can use any JSF tag which doesn't require access to external resources (stylesheets, javascript).</para>
+            
+        <variablelist>
+        	<varlistentry>
+        		<term>&lt;m:message&gt;</term>
+        		 <listitem>
+	               <para>
+	                   Root tag of a mail message
+	               </para>
+	              <!-- <itemizedlist>
+	                   <listitem>
+	                   <para>
+	                       <literal>importance</literal> &mdash; low, normal or high.  By default normal, this sets the importance of the mail message.
+	                       value.  
+	                   </para>
+	                   </listitem>
+	                   <listitem>
+	                   <para>
+	                       <literal>precedence</literal> &mdash; sets the precedence of the message (e.g. bulk).
+	                   </para>
+	                   </listitem>
+	                   <listitem>
+	                   <para>
+	                       <literal>requestReadReceipt</literal> &mdash; by default false, if set, a read receipt will be requested.
+	                   </para>
+	                   </listitem>
+	                   </itemizedlist>-->
+	           </listitem>
+        	</varlistentry>
+        	<varlistentry>
+        		<term>&lt;m:from&gt;</term>
+        		 <listitem>
+	               <para>
+	                  Set's the From: address for the email.  You can only have one of these per email.
+	               </para>
+	              <itemizedlist>
+	                   <listitem>
+	                   <para>
+	                       <literal>name</literal> &mdash; the name the email should come from.
+	                   </para>
+	                   </listitem>
+	                   <listitem>
+	                   <para>
+	                       <literal>address</literal> &mdash; the email address the email should come from.
+	                   </para>
+	                   </listitem>
+	                   </itemizedlist>
+	           </listitem>
+        	</varlistentry>
+        	<varlistentry>
+        		<term>&lt;m:replyTo&gt;</term>
+        		 <listitem>
+	               <para>
+	                  Set's the Reply-to: address for the email.  You can only have one of these per email.
+	               </para>
+	              <itemizedlist>
+	                   <listitem>
+	                   <para>
+	                       <literal>address</literal> &mdash; the email address the email should come from.
+	                   </para>
+	                   </listitem>
+	                   </itemizedlist>
+	           </listitem>
+        	</varlistentry>
+        	<varlistentry>
+        		<term>&lt;m:to&gt;</term>
+        		 <listitem>
+	               <para>
+	                  Add a recipient to the email. Use multiple &lt;m:to&gt; tags for multiple recipients.  This tag can be safely placed inside a repeat tag such as &lt;ui:repeat&gt;.
+	               </para>
+	              <itemizedlist>
+	                   <listitem>
+	                   <para>
+	                       <literal>name</literal> &mdash; the name of the recipient.
+	                   </para>
+	                   </listitem>
+	                   <listitem>
+	                   <para>
+	                       <literal>address</literal> &mdash; the email address of the recipient.
+	                   </para>
+	                   </listitem>
+	                   </itemizedlist>
+	           </listitem>
+        	</varlistentry>
+        	<varlistentry>
+        		<term>&lt;m:cc&gt;</term>
+        		 <listitem>
+	               <para>
+	                  Add a cc recipient to the email. Use multiple &lt;m:cc&gt; tags for multiple ccs.  This tag can be safely placed inside a repeat tag such as &lt;ui:repeat&gt;.
+	               </para>
+	              <itemizedlist>
+	                   <listitem>
+	                   <para>
+	                       <literal>name</literal> &mdash; the name of the recipient.
+	                   </para>
+	                   </listitem>
+	                   <listitem>
+	                   <para>
+	                       <literal>address</literal> &mdash;  the email address of the recipient.
+	                   </para>
+	                   </listitem>
+	                   </itemizedlist>
+	           </listitem>
+        	</varlistentry>
+        	<varlistentry>
+        		<term>&lt;m:bcc&gt;</term>
+        		 <listitem>
+	               <para>
+	                  Add a bcc recipient to the email. Use multiple &lt;m:bcc&gt; tags for multiple bccs.  This tag can be safely placed inside a repeat tag such as &lt;ui:repeat&gt;.
+	               </para>
+	              <itemizedlist>
+	                   <listitem>
+	                   <para>
+	                       <literal>name</literal> &mdash; the name of the recipient.
+	                   </para>
+	                   </listitem>
+	                   <listitem>
+	                   <para>
+	                       <literal>address</literal> &mdash; the email address of the recipient.
+	                   </para>
+	                   </listitem>
+	                   </itemizedlist>
+	           </listitem>
+        	</varlistentry>
+        	<varlistentry>
+        		<term>&lt;m:subject&gt;</term>
+        		 <listitem>
+	               <para>
+	                  Set's the subject for the email.
+	               </para>
+	           </listitem>
+        	</varlistentry>
+        	<varlistentry>
+        		<term>&lt;m:body&gt;</term>
+        		 <listitem>
+	               <para>
+	                  Set's the body for the email.  Supports an <literal>alternative</literal> facet which, if an HTML email is generated can contain alternative text for a mail reader which doesn't support html.
+	               </para>
+	              <itemizedlist>
+	                   <listitem>
+	                   <para>
+	                       <literal>type</literal> &mdash; If set to <literal>plain</literal> then a plain text email will be generated otherwise an HTML email is generated.  
+	                   </para>
+	                   </listitem>
+	                   </itemizedlist>
+	           </listitem>
+        	</varlistentry>
+        </variablelist>
+
+       
+    </section>
+</chapter>
