@@ -118,4 +118,11 @@
         </component>
     </tag>
 
+    <tag>
+        <tag-name>text</tag-name>
+        <component>
+            <component-type>org.jboss.seam.pdf.ui.UIOutputText</component-type>
+        </component>
+    </tag>
+
 </facelet-taglib>

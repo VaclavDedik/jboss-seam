@@ -84,6 +84,11 @@
         <component-class>org.jboss.seam.pdf.ui.UICell</component-class>
     </component>
 
+    <component>
+        <component-type>org.jboss.seam.pdf.ui.UIOutputText</component-type>
+        <component-class>org.jboss.seam.pdf.ui.UIOutputText</component-class>
+    </component>
+
     <lifecycle>
         <phase-listener>org.jboss.seam.pdf.DocumentStorePhaseListener</phase-listener>
     </lifecycle>

@@ -2,7 +2,6 @@ package org.jboss.seam.pdf;
 
 import java.io.IOException;
 
-import javax.faces.context.FacesContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +12,6 @@ import org.jboss.seam.util.Parameters;
 public class DocumentStoreServlet 
     extends HttpServlet 
 {
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
         throws ServletException, 
