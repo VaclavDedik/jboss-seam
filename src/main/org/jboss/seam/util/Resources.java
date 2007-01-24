@@ -1,6 +1,7 @@
 package org.jboss.seam.util;
 
 import java.io.InputStream;
+import java.net.URL;
 
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
@@ -64,6 +65,64 @@ public class Resources {
          stream = Seam.class.getClassLoader().getResourceAsStream(stripped);
       }
       return stream;
+   }
+   
+   public static URL getResource(String resource) 
+   {
+      String stripped = resource.startsWith("/") ? 
+               resource.substring(1) : resource;
+      
+         URL url = null; 
+
+         try
+         {
+            url = FacesContext.getCurrentInstance().getExternalContext()
+                  .getResource(resource);
+         }
+         catch (Exception e) {}
+         
+         if (url==null)
+         {
+            url = getResource(resource, stripped);
+         }
+         
+         return url;
+   }
+   
+   public static URL getResource(String resource, ServletContext servletContext) {
+      String stripped = resource.startsWith("/") ? 
+            resource.substring(1) : resource;
+   
+      URL url  = null; 
+
+      try
+      {
+         url = servletContext.getResource(resource);
+      }
+      catch (Exception e) {}
+      
+      if (url==null)
+      {
+        url = getResource(resource, stripped);
+      }
+      
+      return url;
+   }
+   
+   private static URL  getResource(String resource, String stripped)
+   {
+      ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+      URL url = null;
+      if (classLoader!=null) {
+         url = classLoader.getResource(stripped);
+      }
+      if ( url == null ) {
+        url = Seam.class.getResource(resource);
+      }
+      if ( url == null ) {
+         url = Seam.class.getClassLoader().getResource(stripped);
+      }
+      return url;
    }
 
 }
