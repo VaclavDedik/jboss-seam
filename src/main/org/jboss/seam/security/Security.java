@@ -207,7 +207,7 @@ public class Security
          return (WorkingMemory) Contexts.getSessionContext().get(SECURITY_CONTEXT_NAME);
       else         
       {
-         WorkingMemory wm = securityRules.newWorkingMemory();
+         WorkingMemory wm = securityRules.newWorkingMemory(false);
   
          if (Identity.instance().isLoggedIn())
          {
