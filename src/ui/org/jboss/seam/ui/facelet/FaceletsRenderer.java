@@ -1,5 +1,6 @@
 package org.jboss.seam.ui.facelet;
 
+import java.io.InputStream;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.io.IOException;
@@ -8,12 +9,14 @@ import java.net.URL;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import javax.servlet.ServletContext;
 
 import org.jboss.seam.*;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.core.Renderer;
 
 import org.jboss.seam.ui.JSF;
+import org.jboss.seam.util.Resources;
 
 import com.sun.facelets.Facelet;
 import com.sun.facelets.compiler.SAXCompiler;
@@ -46,7 +49,7 @@ public class FaceletsRenderer extends Renderer
             StringWriter stringWriter = new StringWriter();
             wrapResponseWriter(facesContext, stringWriter);
 
-            renderFacelet(facesContext, faceletForURL(resourceURL(classLoader, viewId)));
+            renderFacelet(facesContext, faceletForURL(resourceURL(viewId)));
 
             return stringWriter.getBuffer().toString();
         } 
@@ -64,9 +67,10 @@ public class FaceletsRenderer extends Renderer
     }
 
 
-    protected URL resourceURL(ClassLoader classLoader, String viewId) 
+    protected URL resourceURL(String viewId) 
     {
-        URL url = classLoader.getResource(viewId); 
+       
+        URL url = Resources.getResource(viewId);
 
         if (url == null) 
         {
