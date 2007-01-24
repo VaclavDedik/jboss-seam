@@ -27,10 +27,10 @@
 		    <h:inputText value="#{person.address}" rerquired="true"/>
 		</h:panelGrid>
 		<h:panelGrid>
-			<h:commandButton action="plainText" value="Send Plain Text Email" />
-	        <h:commandButton action="html" value="Send HTML Email" />
+		<h:commandButton action="#{mailExample.send}" value="Send a simple email" />
+			<h:commandButton action="#{mailExample.sendPlain}" value="Send Plain Text Email" />
+	        <h:commandButton action="#{mailExample.sendHtml}" value="Send HTML Email" />
 	        <h:commandButton action="templating" value="Send Templated Email" />
-	        <h:commandButton action="#{rendererExample.send}" value="Send Email via Seam Component" />
 	    </h:panelGrid>
 	    <h:messages />
     </h:form>

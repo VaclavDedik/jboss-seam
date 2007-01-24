@@ -2,8 +2,6 @@
     <title>Email Generation and Sending</title>
     <para>Seam now includes an optional component set for generating and sending emails.</para>
 
-    <section>
-        <title>Using Email Support</title>
         <para>Email support is provided by <literal>jboss-seam-mail.jar</literal>. This JAR contains the mail JSF controls, which are used
             to construct emails, and the <literal>mailSession</literal> component, which sends the generated email. 
        	</para>
@@ -11,6 +9,55 @@
         <para> The examples/mail project contains an example of the email support in action. It demonstrates proper
             deployment packaging, and it contains a number of examples that demonstrate the key email generation features
             currently supported. </para>
+    
+    <section>
+    	<title>Introduction</title>
+    	<para>In Seam Mail, an email template is just facelet:</para>
+    	<programlisting>
+&lt;m:message xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:m="http://jboss.com/products/seam/mail"
+    xmlns:h="http://java.sun.com/jsf/html"&gt;
+  
+    &lt;m:from name="Peter" address="peter@example.com" /&gt;
+    &lt;m:to name="#{person.firstname} #{person.lastname}"&gt;#{person.address}&lt;/m:to&gt;
+    &lt;m:subject&gt;Try out Seam!&lt;/m:subject&gt;
+    
+    &lt;m:body&gt;
+        &lt;p&gt;&lt;h:outputText value="Dear #{person.firstname}" /&gt;,&lt;/p&gt;
+        &lt;p&gt;You can try out Seam by visiting &lt;a href="http://labs.jboss.com/jbossseam"&gt;http://labs.jboss.com/jbossseam&lt;/a&gt;.&lt;/p&gt;
+        &lt;p&gt;Regards&lt;/p&gt;
+        &lt;p&gt;Peter&lt;/p&gt;
+    &lt;/m:body&gt;
+    
+&lt;/m:message&gt;
+    	</programlisting>
+    	
+    	<para>The <literal>m:message</literal> wraps the whole message, and tells Seam to start rendering an email.  Inside the 
+    	<literal>m:message</literal> tag we use an <literal>m:from</literal> to set who the message is from, a <literal>m:to</literal> to
+    	specify a sender (notice how we are able to use EL just like in a normal facelet), and a <literal>m:subject</literal>.</para>
+    	
+    	<para>The <literal>m:body</literal> tag wraps the body of the email.  You can use regular HTML tags inside the body as well as
+    	JSF tags</para>
+    	
+    	<para>So, now you have your email template, how do you go about sending it?  Well, at the end of rendering the 
+    	<literal>m:message</literal> the <literal>mailSession</literal> is called to send the email, so all you have to do is
+    	ask Seam to render the view:</para>
+    	
+    	<programlisting>@In(create=true)
+private Renderer renderer;
+   
+public void send() {
+    try {
+       renderer.render("/simple.xhtml");
+       facesMessages.add("Email sent successfully");
+   } catch (Exception e) {
+       facesMessages.add("Email sending failed: " + e.getMessage());
+   }
+}</programlisting>
+    	
+   	<para>If, for example, you entered an invalid email address, then an exception would be thrown, which is caught and then displayed to the user.</para>
+    	
     </section>
 
 	<section>
@@ -33,7 +80,7 @@
 	</section>
 
     <section>
-        <title>Creating a message</title>
+        <title>Tags</title>
 
         <para>Emails are generated using tags in the
                 <literal>http://jboss.com/products/seam/mail</literal> namespace. Documents should always have the
