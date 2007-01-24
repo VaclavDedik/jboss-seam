@@ -307,6 +307,79 @@
                </para>
            </listitem>
        </varlistentry>
+       <varlistentry>
+           <term><literal>&lt;s:fileUpload&gt;</literal></term>
+           <listitem>
+               <para>
+                   Renders a file upload control.  This control must be used within a form with
+                   an encoding type of <literal>multipart/form-data</literal>, i.e:
+               </para>
+                   
+               <programlisting>
+                 <![CDATA[
+  <h:form enctype="multipart/form-data">
+                 ]]>                   
+               </programlisting>
+               
+               <para>
+                   For multipart requests, the Seam Multipart servlet filter must also be configured
+                   in <literal>web.xml</literal>:
+               </para>
+               
+               <programlisting>
+                 <![CDATA[
+    <filter>
+        <filter-name>Seam Multipart Filter</filter-name>
+        <filter-class>org.jboss.seam.servlet.SeamMultipartFilter</filter-class>
+    </filter>
+    
+    <filter-mapping>
+        <filter-name>Seam Multipart Filter</filter-name>
+        <url-pattern>*.seam</url-pattern>
+    </filter-mapping>                 
+                 ]]>
+               </programlisting>
+               
+               <itemizedlist>
+                   <listitem>
+                   <para>
+                       <literal>data</literal> &mdash; this value binding receives the binary file data.  
+                       The receiving field should be declared as a <literal>byte[]</literal> (required).
+                   </para>
+                   </listitem>
+                   <listitem>
+                   <para>
+                       <literal>contentType</literal> &mdash; this value binding receives the file's
+                       content type (optional).
+                   </para>
+                   </listitem>
+                   <listitem>
+                   <para>
+                       <literal>fileName</literal> &mdash; this value binding receives the filename (optional).
+                   </para>
+                   </listitem>
+                   <listitem>
+                   <para>
+                       <literal>accept</literal> &mdash; a comma-separated list of content types to accept,
+                       may not be supported by the browser.  E.g. <literal>"images/png,images/jpg"</literal>, 
+                       <literal>"images/*"</literal>.
+                   </para>
+                   </listitem>       
+                   <listitem>
+                   <para>
+                       <literal>style</literal> &mdash; The control's style
+                   </para>
+                   </listitem>
+                   <listitem>
+                   <para>
+                       <literal>styleClass</literal> &mdash; The control's style class
+                   </para>
+                   </listitem>                                                                   
+               </itemizedlist>               
+               
+           </listitem>
+       </varlistentry>
+       
        <!-- varlistentry>
            <term><literal>&lt;s:action&gt;</literal></term>
            <listitem>
