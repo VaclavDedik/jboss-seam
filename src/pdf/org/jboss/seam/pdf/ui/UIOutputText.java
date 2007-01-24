@@ -54,7 +54,6 @@ public class UIOutputText extends ITextComponent implements ValueHolder
 
     @Override
     public Object getITextObject() {
-        System.out.println("--> chunk --> " + chunk);
         return chunk;
     }
 
