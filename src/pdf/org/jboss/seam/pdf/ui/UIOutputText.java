@@ -23,20 +23,16 @@ public class UIOutputText extends ITextComponent implements ValueHolder
     public void encodeEnd(FacesContext context) 
         throws IOException
     {
-        String stringValue;
+        String stringValue = "";
         
         Object myValue = getValue();
-        System.out.println("VALUE IS: " + myValue);
-        System.out.println("converter: " + converter);
         
         if (converter != null) {
             stringValue = converter.getAsString(context, this, myValue);
         } else {
             if (myValue != null) {
                 stringValue = myValue.toString();
-            } else {
-                stringValue = "XXX no value";
-            }
+            } 
         }
         
         chunk.append(stringValue);
