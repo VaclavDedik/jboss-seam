@@ -28,6 +28,7 @@ import com.sun.facelets.impl.DefaultResourceResolver;
 public class FaceletsRenderer extends Renderer
 {
 
+    @Override
     public String render(String viewId) 
     {
         return render(viewId,
