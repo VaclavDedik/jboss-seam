@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.faces.FacesException;
 import javax.faces.context.FacesContext;
+import javax.mail.MessagingException;
 
 /**
  * JSF component for rendering subject line
@@ -18,9 +19,9 @@ public class UISubject extends MailComponent
          String subject = encode(facesContext);
          findMimeMessage().setSubject(subject);
       }
-      catch (Exception e)
+      catch (MessagingException e)
       {
-        throw new FacesException(e);
+         throw new FacesException(e.getMessage(), e);
       }
    }
 }

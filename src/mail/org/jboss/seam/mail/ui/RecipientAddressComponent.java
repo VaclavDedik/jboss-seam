@@ -4,7 +4,9 @@ import java.io.IOException;
 
 import javax.faces.FacesException;
 import javax.faces.context.FacesContext;
+import javax.mail.MessagingException;
 import javax.mail.Message.RecipientType;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.MimeMessage;
 
 /**
@@ -22,9 +24,13 @@ public abstract class RecipientAddressComponent extends AddressComponent
          MimeMessage mimeMessage = findMimeMessage();
          mimeMessage.addRecipient(getRecipientType(), getInternetAddress(facesContext));
       }
-      catch (Exception e)
+      catch (AddressException e)
       {
-         throw new FacesException(e);
+         throw new FacesException(e.getMessage() + " (" + e.getRef() +")", e);
+      }
+      catch (MessagingException e)
+      {
+         throw new FacesException(e.getMessage(), e);
       }
    }
   

@@ -56,7 +56,7 @@ public abstract class MailComponent extends UIComponentBase
    /**
     * look up the tree for mail message
     */
-   public MimeMessage findMimeMessage() throws MessagingException {
+   public MimeMessage findMimeMessage() {
        UIMessage parent = (UIMessage) findParent(this, UIMessage.class);
        if (parent != null) 
        {
@@ -68,7 +68,7 @@ public abstract class MailComponent extends UIComponentBase
        }
    }
    
-   public MimeMultipart getRootMultipart() throws IOException, MessagingException {
+   public MimeMultipart getRootMultipart() throws IOException, MessagingException  {
       return (MimeMultipart) findMimeMessage().getContent();
    }
    

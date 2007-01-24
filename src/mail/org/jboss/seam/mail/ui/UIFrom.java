@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import javax.faces.FacesException;
 import javax.faces.context.FacesContext;
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.MimeMessage;
 
 /**
@@ -20,13 +22,17 @@ public class UIFrom extends AddressComponent
          
          MimeMessage mimeMessage = findMimeMessage();
         if (mimeMessage.getFrom() != null && mimeMessage.getFrom().length > 0) {
-           throw new UnsupportedOperationException("Email cannot have more than one from address");
+           throw new AddressException("Email cannot have more than one from address", getAddress());
         }
          mimeMessage.setFrom(getInternetAddress(facesContext));
       }
-      catch (Exception e)
+      catch (AddressException e)
       {
-        throw new FacesException(e);
+        throw new FacesException(e.getMessage() +"(" + e.getRef() + ")", e);
+      }
+      catch (MessagingException e)
+      {
+       throw new FacesException(e.getMessage(), e);
       }
    }
 }

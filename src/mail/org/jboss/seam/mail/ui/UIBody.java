@@ -6,6 +6,7 @@ import javax.faces.FacesException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.mail.BodyPart;
+import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
@@ -56,9 +57,9 @@ public class UIBody extends MailComponent
            }
         }
       }
-      catch (Exception e)
+      catch (MessagingException e)
       {
-        throw new FacesException(e);
+         throw new FacesException(e.getMessage(), e);
       }
    }
    

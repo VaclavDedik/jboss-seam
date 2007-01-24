@@ -3,7 +3,7 @@ package org.jboss.seam.mail.ui;
 import java.io.IOException;
 
 import javax.faces.context.FacesContext;
-import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
 public abstract class AddressComponent extends MailComponent
@@ -19,8 +19,10 @@ public abstract class AddressComponent extends MailComponent
 
    /**
     * get an InternetAddress object based upon name, address
+    * @throws IOException 
+    * @throws AddressException 
     */
-   protected InternetAddress getInternetAddress(FacesContext facesContext) throws MessagingException, IOException
+   protected InternetAddress getInternetAddress(FacesContext facesContext) throws IOException, AddressException 
    {
        InternetAddress address = new InternetAddress();
       address.setAddress(getAddress() != null ? getAddress() : encode(facesContext));

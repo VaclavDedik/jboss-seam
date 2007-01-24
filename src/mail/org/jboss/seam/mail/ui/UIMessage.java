@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.faces.FacesException;
 import javax.faces.context.FacesContext;
+import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.MimeMessage;
@@ -54,12 +55,11 @@ public class UIMessage extends MailComponent
       super.encodeEnd(arg0);
       try
       {
-         // TODO Can we improve upon this?
          Transport.send(getMimeMessage());
       }
-      catch (Exception e)
+      catch (MessagingException e)
       {
-         throw new FacesException(e);
+         throw new FacesException(e.getMessage(), e);
       }
    }
    
