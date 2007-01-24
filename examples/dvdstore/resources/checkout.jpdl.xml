@@ -20,7 +20,8 @@
     </page>    
 
     <page name="cancel" view-id="/browse.xhtml">
-        <end-conversation/>
+        <redirect/>
+        <end-conversation before-redirect="true"/>
     </page>
 
 </pageflow-definition>

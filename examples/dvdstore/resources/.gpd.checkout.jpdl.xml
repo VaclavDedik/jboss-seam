@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<pageflow-diagram name="checkout" width="808" height="631">
+<pageflow-diagram name="checkout" width="811" height="1003">
   <node name="start" x="152" y="55" width="140" height="40">
     <transition>
       <label x="5" y="-10"/>
