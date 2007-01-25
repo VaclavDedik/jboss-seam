@@ -1,0 +1,34 @@
+<?xml version="1.0"?>        
+<feed xmlns="http://www.w3.org/2005/Atom" 
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:s="http://jboss.com/products/seam/taglib">
+      
+<f:view contentType="application/xhtml+xml">
+
+  <title>#{blog.name}</title>
+  <subtitle>#{blog.description}</subtitle>
+  <link href="http://localhost:8080/seam-blog"/>
+  <rights>This is open source, silly!</rights>
+  
+  <ui:repeat value="#{blog.recentBlogEntries}" var="blogEntry">
+  <entry>
+    <title>#{blogEntry.title}</title>
+    <link href="http://localhost:8080/seam-blog/seam/entry.xhtml?blogEntryId=#{blogEntry.id}"/>
+    <published>
+        <h:outputText value="#{blogEntry.date}">
+            <f:convertDateTime timezone="#{blog.timeZone}" pattern="yyyy-MM-dd'T'HH:mm:ss'Z'"/>
+        </h:outputText>
+    </published>
+    <summary type="xhtml">
+        <div xmlns="http://www.w3.org/1999/xhtml">
+            <s:formattedText value="#{blogEntry.excerpt==null ? blogEntry.body : blogEntry.excerpt}"/>
+        </div>
+    </summary>
+  </entry>
+  </ui:repeat>
+
+</f:view>
+
+</feed>
