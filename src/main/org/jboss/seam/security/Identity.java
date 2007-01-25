@@ -13,8 +13,6 @@ import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.faces.context.FacesContext;
 import javax.security.auth.Subject;
@@ -47,7 +45,7 @@ import org.jboss.seam.util.UnifiedELValueBinding;
 
 @Name("org.jboss.seam.security.identity")
 @Scope(SESSION)
-@Install(precedence = BUILT_IN)
+@Install(precedence = BUILT_IN, classDependencies="org.drools.WorkingMemory")
 public class Identity implements Serializable
 {  
    private static final long serialVersionUID = 3751659008033189259L;
