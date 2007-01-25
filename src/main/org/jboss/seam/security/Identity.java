@@ -177,7 +177,7 @@ public class Identity implements Serializable
          return false;
       }
      
-      return Identity.instance().isUserInRole(name);
+      return isUserInRole(name);
    }
 
    /**
@@ -283,7 +283,7 @@ public class Identity implements Serializable
    {     
       String name = policyName != null ? policyName : SecurityConfiguration.DEFAULT_LOGIN_MODULE_NAME;
       
-      return new LoginContext(name, Identity.instance().getSubject(), cbHandler,
+      return new LoginContext(name, subject, cbHandler,
             SecurityConfiguration.instance().getLoginModuleConfiguration()) {
          @Override public void login() throws LoginException {
             super.login();
@@ -380,8 +380,6 @@ public class Identity implements Serializable
       }      
    }      
    
-   private static Pattern EXPR_PATTERN = Pattern.compile("(hasPermission\\s*\\(\\s*'[^']*'\\s*,\\s*'[^']*')(\\s*\\))");
-
    /**
     * Evaluates the specified security expression, which must return a boolean
     * value.
@@ -392,11 +390,7 @@ public class Identity implements Serializable
    public boolean evaluateExpression(String expr) 
        throws AuthorizationException
    {     
-      // TODO Ugly hack!  Fix this once varargs work with EL      
-      Matcher m = EXPR_PATTERN.matcher(expr);
-      String replaced = m.replaceAll("$1, null$2");
-      
-      return (Boolean) new UnifiedELValueBinding(replaced).getValue(FacesContext.getCurrentInstance());
+      return (Boolean) new UnifiedELValueBinding(expr).getValue(FacesContext.getCurrentInstance());
    }   
    
    public String getUsername()

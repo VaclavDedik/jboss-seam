@@ -1,8 +1,11 @@
 package org.jboss.seam.security.filter;
 
 import java.io.IOException;
-import java.util.Set;
 
+import javax.faces.FactoryFinder;
+import javax.faces.context.FacesContext;
+import javax.faces.context.FacesContextFactory;
+import javax.faces.lifecycle.LifecycleFactory;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -13,17 +16,15 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jboss.seam.Seam;
-import org.jboss.seam.contexts.Context;
-import org.jboss.seam.contexts.ContextAdaptor;
-import org.jboss.seam.contexts.WebApplicationContext;
-import org.jboss.seam.contexts.WebSessionContext;
+import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.core.Pages;
+import org.jboss.seam.pages.Page;
+import org.jboss.seam.security.AuthorizationException;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.config.SecurityConfiguration;
-import org.jboss.seam.security.config.SecurityConstraint;
 
 /**
- * A servlet filter that performs authentication within a Seam application.
+ * A servlet filter that checks page security restrictions
  * 
  * @author Shane Bryzak
  */
@@ -36,8 +37,6 @@ public class SeamSecurityFilter implements Filter
    public void init(FilterConfig filterConfig) throws ServletException
    {
       servletContext = filterConfig.getServletContext();
-      WebApplicationContext ctx = new WebApplicationContext(servletContext);
-      config = (SecurityConfiguration) ctx.get(SecurityConfiguration.class);
    }
 
    /**
@@ -54,63 +53,80 @@ public class SeamSecurityFilter implements Filter
       HttpServletRequest hRequest = (HttpServletRequest) request;
       HttpServletResponse hResponse = (HttpServletResponse) response;
 
-      Context sessionContext = new WebSessionContext(ContextAdaptor.getSession(hRequest
-               .getSession()));
+      // Need this so that Pages doesn't throw a NPE
+      FacesContext facesContext = getFacesContext(request, response);
 
-      Identity ident = (Identity) sessionContext.get(Seam.getComponentName(Identity.class));
+      // TODO - calculate the view ID from the servlet path
+//      String viewID = null; // ?
 
-      if (!checkSecurityConstraints(hRequest.getServletPath(), hRequest.getMethod(), ident))
+      try
       {
-         hResponse.sendRedirect(String.format("%s%s", hRequest.getContextPath(), config
-                  .getSecurityErrorPage()));
-      }
-      else
-      {
-         chain.doFilter(request, response);
-      }
-   }
-
-   /**
-    * Performs a security check for a specified uri and method, for the
-    * specified Identity
-    * 
-    * @param uri String
-    * @param method String
-    * @param ident Identity
-    * @return boolean
-    */
-   protected boolean checkSecurityConstraints(String uri, String method, Identity ident)
-   {
-      for (SecurityConstraint c : config.getSecurityConstraints())
-      {
-         if (c.included(uri, method))
+         Lifecycle.beginRequest(servletContext, hRequest.getSession(), hRequest);
+         Identity identity = Identity.instance();
+         Page page = Pages.instance().getPage(hRequest.getServletPath());
+   
+         if (page != null && page.isRestricted())
          {
-            if (ident == null || !userHasRole(ident, c.getAuthConstraint().getRoles())) return false;
+            try
+            {
+               String expr = page.getRestriction();
+               if (expr == null)
+                  expr = String.format("#{s:hasPermission('%s', '%s')}", 
+                           page.getViewId(), hRequest.getMethod());
+               
+               identity.checkRestriction(expr);
+   
+            }
+            catch (AuthorizationException ex)
+            {
+               hResponse.sendRedirect(String.format("%s%s", hRequest.getContextPath(), config
+                        .getSecurityErrorPage()));
+               return;
+            }
          }
       }
-
-      return true;
-   }
-
-   /**
-    * Returns true if the specified Identity has any one of a number of
-    * specified roles.
-    * 
-    * @param ident Identity
-    * @param roles String[]
-    * @return boolean
-    */
-   private boolean userHasRole(Identity ident, Set<String> roles)
-   {
-      for (String role : roles)
+      finally
       {
-         if (ident.isUserInRole(role)) return true;
-      }
-
-      return false;
+         Lifecycle.endRequest();
+      }         
+         
+      chain.doFilter(request, response);
    }
 
    public void destroy()
    {
    }
+   
+   
+   private abstract static class LocalFacesContext extends FacesContext
+   {
+     protected static void setFacesContextAsCurrentInstance(FacesContext facesContext) 
+     {
+       FacesContext.setCurrentInstance(facesContext);
+     }
+   }
+
+   /**
+    * Hack to get the FacesContext
+    */
+   private FacesContext getFacesContext(ServletRequest request, ServletResponse response) 
+   {
+     FacesContext facesContext = FacesContext.getCurrentInstance();
+     if (facesContext != null) return facesContext;
+
+     FacesContextFactory contextFactory = (FacesContextFactory) FactoryFinder.getFactory(
+              FactoryFinder.FACES_CONTEXT_FACTORY);
+     
+     LifecycleFactory lifecycleFactory = (LifecycleFactory) FactoryFinder.getFactory(
+              FactoryFinder.LIFECYCLE_FACTORY);
+     
+     javax.faces.lifecycle.Lifecycle lifecycle = lifecycleFactory.getLifecycle(
+              LifecycleFactory.DEFAULT_LIFECYCLE);
+
+     facesContext = contextFactory.getFacesContext(servletContext, request, response, lifecycle);
+
+     LocalFacesContext.setFacesContextAsCurrentInstance(facesContext);
+
+     return facesContext;
+   }   
 }

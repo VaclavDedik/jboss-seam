@@ -1,8 +1,6 @@
 package org.jboss.seam.core;
-
 import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
-
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,10 +12,8 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
-
 import javax.faces.application.ViewHandler;
 import javax.faces.context.FacesContext;
-
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.jboss.seam.Component;
@@ -46,7 +42,6 @@ import org.jboss.seam.pages.Output;
 import org.jboss.seam.util.Parameters;
 import org.jboss.seam.util.Resources;
 import org.jboss.seam.util.XML;
-
 /**
  * Holds metadata for pages defined in pages.xml, including
  * page actions and page descriptions.
@@ -58,14 +53,13 @@ import org.jboss.seam.util.XML;
 @Name("org.jboss.seam.core.pages")
 @Install(precedence=BUILT_IN)
 public class Pages
-{
-   
+{   
    private static final LogProvider log = Logging.getLogProvider(Pages.class);
    
    private Map<String, Page> pagesByViewId = Collections.synchronizedMap( new HashMap<String, Page>() );   
    private Map<String, List<Page>> pageStacksByViewId = Collections.synchronizedMap( new HashMap<String, List<Page>>() );   
    private String noConversationViewId;
-   
+ 
    private SortedSet<String> wildcardViewIds = new TreeSet<String>( 
          new Comparator<String>() {
             public int compare(String x, String y)
@@ -91,7 +85,6 @@ public class Pages
          parse(stream);
       }
    }
-
    /**
     * Run any navigation rule defined in pages.xml
     * 
@@ -120,7 +113,6 @@ public class Pages
       }
       return false;
    }
-
    /**
     * Get the Page object for the given view id.
     * 
@@ -146,7 +138,6 @@ public class Pages
          }
       }
    }
-
    /**
     * Create a new Page object for a JSF view id,
     * by searching for a viewId.page.xml file.
@@ -168,7 +159,6 @@ public class Pages
          return getCachedPage(viewId);
       }
    }
-
    private Page getCachedPage(String viewId)
    {
       Page result = pagesByViewId.get(viewId);
@@ -206,7 +196,6 @@ public class Pages
       }
       return stack;
    }
-
    /**
     * Create the stack of pages that match a JSF view id
     */
@@ -253,15 +242,12 @@ public class Pages
       //run the s:link / s:button action after checking the
       //conversation existence!
       result = callAction(facesContext) || result;
-
       return result;
    }
-
    public static String toString(Object returnValue)
    {
       return returnValue == null ? null : returnValue.toString();
    }
-
    /**
     * Call the JSF navigation handler
     */
@@ -279,7 +265,6 @@ public class Pages
       }
       return (Pages) Component.getInstance(Pages.class, ScopeType.APPLICATION);
    }
-
    /**
     * Call the action requested by s:link or s:button.
     */
@@ -407,7 +392,6 @@ public class Pages
       }
       return parameters;
    }
-
    /**
     * Get the current value of a page parameter, looking in the page context
     * if there is no value binding
@@ -424,7 +408,6 @@ public class Pages
          return pageParameter.getValueFromModel(facesContext);
       }
    }
-
    /**
     * Apply any page parameters passed as parameter values to the model.
     */
@@ -453,7 +436,6 @@ public class Pages
          }
       }
    }
-
    /**
     * Apply any page parameters passed as view root attributes to the model.
     */
@@ -476,7 +458,6 @@ public class Pages
          }
       }
    }
-
    /**
     * The global setting for no-conversation-viewid.
     * 
@@ -486,7 +467,6 @@ public class Pages
    {
       return noConversationViewId;
    }
-
    public void setNoConversationViewId(String noConversationViewId)
    {
       this.noConversationViewId = noConversationViewId;
@@ -504,7 +484,6 @@ public class Pages
       Map<String, Object> parameters = getConvertedParameters(facesContext, viewId);
       return Manager.instance().encodeParameters(url, parameters);
    }
-
    /**
     * Store the page parameters to the JSF view root
     */
@@ -516,7 +495,6 @@ public class Pages
          Contexts.getPageContext().set( param.getKey(), param.getValue() );
       }
    }
-
    /**
     * Search for a defined no-conversation-view-id, beginning with
     * the most specific view id, then wildcarded view ids, and 
@@ -536,7 +514,6 @@ public class Pages
       }
       return this.noConversationViewId;
    }
-
    /**
     * Search for a defined conversation timeout, beginning with
     * the most specific view id, then wildcarded view ids, and 
@@ -556,7 +533,6 @@ public class Pages
       }
       return Manager.instance().getConversationTimeout();
    }
-
    public static String getSuffix()
    {
       String defaultSuffix = FacesContext.getCurrentInstance().getExternalContext()
@@ -564,7 +540,6 @@ public class Pages
       return defaultSuffix == null ? ViewHandler.DEFAULT_SUFFIX : defaultSuffix;
    
    }
-
    /**
     * Parse a pages.xml file
     */
@@ -581,7 +556,6 @@ public class Pages
          parse( page, page.attributeValue("view-id") );
       } 
    }
-
    /**
     * Parse a viewId.page.xml file
     */
@@ -589,7 +563,6 @@ public class Pages
    {
       parse( getDocumentRoot(stream), viewId );
    }
-
    /**
     * Get the root element of the document
     */
@@ -604,7 +577,6 @@ public class Pages
          throw new RuntimeException(de);
       }
    }
-
    /**
     * Parse a page element and add a Page to the map
     */
@@ -621,10 +593,8 @@ public class Pages
       }
       Page page = new Page(viewId);
       pagesByViewId.put(viewId, page);
-
       parsePage(page, element, viewId);
       parseConversationControl( element, page.getConversationControl() );
-
       List<Element> children = element.elements("param");
       for (Element param: children)
       {
@@ -636,8 +606,16 @@ public class Pages
       {
          parseActionNavigation(page, fromAction);
       }
+      
+      Element restrict = element.element("restrict");
+      if (restrict != null)
+      {
+         page.setRestricted(true);
+         
+         String expr = restrict.getTextTrim();
+         if (!"".equals(expr)) page.setRestriction(expr);
+      }
    }
-
    /**
     * Parse the attributes of page
     */
@@ -676,7 +654,6 @@ public class Pages
       {
          page.setResourceBundleName(bundle);
       }
-
       List<Element> moreChildElements = element.elements("in");
       for (Element child: moreChildElements)
       {
@@ -693,7 +670,6 @@ public class Pages
       
       return page;
    }
-
    private static Action parseAction(Element element, String actionAtt)
    {
       Action action = new Action();
@@ -715,7 +691,6 @@ public class Pages
       }
       return action;
    }
-
    /**
     * Parse end-conversation and begin-conversation
     */
@@ -747,7 +722,6 @@ public class Pages
          throw new IllegalStateException("cannot use both <begin-conversation/> and <end-conversation/>");
       }
    }
-
    /**
     * Parse navigation
     */
@@ -781,7 +755,6 @@ public class Pages
          entry.getNavigations().put(expression, navigation);
       }
    }
-
    /**
     * Parse param
     */
@@ -810,7 +783,6 @@ public class Pages
       }
       return param;
    }
-
    /**
     * Parse rule
     */
@@ -830,7 +802,6 @@ public class Pages
       
       return rule;
    }
-
    private static void parseNavigationHandler(Element element, Rule rule)
    {
       Element render = element.element("render");
@@ -870,5 +841,4 @@ public class Pages
       }
       
    }
-
 }

@@ -1,17 +1,13 @@
 package org.jboss.seam.pages;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.MissingResourceException;
-
 import javax.faces.context.FacesContext;
-
 import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.core.Locale;
 import org.jboss.seam.core.Pages;
-
 /**
  * Metadata about page actions, page parameters, action navigation,
  * resource bundle, etc, for a particular JSF view id.
@@ -31,6 +27,18 @@ public final class Page
    private Navigation defaultNavigation;
    private boolean conversationRequired;
    private ConversationControl conversationControl = new ConversationControl();
+   
+   /**
+    * Indicates whether this view id has a security restriction.  
+    */
+   private boolean restricted;
+   
+   /**
+    * A security restriction expression to evaluate when requesting this view id.
+    * If the view is restricted but no restriction expression is set, the implied
+    * permission restriction will be name="[viewid]", action="[get or post]" 
+    */
+   private String restriction;
    
    public Page(String viewId)
    {
@@ -74,12 +82,10 @@ public final class Page
    {
       return "Page(" + getViewId() + ")";
    }
-
    public String getViewId()
    {
       return viewId;
    }
-
    public String renderDescription()
    {
       return Interpolator.instance().interpolate( getDescription() );
@@ -89,62 +95,50 @@ public final class Page
    {
       this.description = description;
    }
-
    public String getDescription()
    {
       return description;
    }
-
    public void setTimeout(Integer timeout)
    {
       this.timeout = timeout;
    }
-
    public Integer getTimeout()
    {
       return timeout;
    }
-
    public void setNoConversationViewId(String noConversationViewId)
    {
       this.noConversationViewId = noConversationViewId;
    }
-
    public String getNoConversationViewId()
    {
       return noConversationViewId;
    }
-
    public void setResourceBundleName(String resourceBundleName)
    {
       this.resourceBundleName = resourceBundleName;
    }
-
    public String getResourceBundleName()
    {
       return resourceBundleName;
    }
-
    public void setSwitchEnabled(boolean switchEnabled)
    {
       this.switchEnabled = switchEnabled;
    }
-
    public boolean isSwitchEnabled()
    {
       return switchEnabled;
    }
-
    public List<Param> getParameters()
    {
       return parameters;
    }
-
    public Map<String, Navigation> getNavigations()
    {
       return navigations;
    }
-
    public boolean hasDescription()
    {
       return description!=null;
@@ -154,32 +148,26 @@ public final class Page
    {
       return conversationRequired;
    }
-
    public void setConversationRequired(boolean conversationRequired)
    {
       this.conversationRequired = conversationRequired;
    }
-
    public Navigation getDefaultNavigation()
    {
       return defaultNavigation;
    }
-
    public void setDefaultNavigation(Navigation defaultActionOutcomeMapping)
    {
       this.defaultNavigation = defaultActionOutcomeMapping;
    }
-
    public ConversationControl getConversationControl()
    {
       return conversationControl;
    }
-
    public List<Action> getActions()
    {
       return actions;
    }
-
    /**
     * Call page actions, in order they appear in XML, and
     * handle conversation begin/end 
@@ -216,10 +204,27 @@ public final class Page
       return result;
    
    }
-
    public List<Input> getInputs()
    {
       return inputs;
    }
-
+   
+   public boolean isRestricted()
+   {
+      return restricted;
+   }
+   
+   public void setRestricted(boolean restricted)
+   {
+      this.restricted = restricted;
+   }
+   public String getRestriction()
+   {
+      return restriction;
+   }
+   
+   public void setRestriction(String restriction)
+   {
+      this.restriction = restriction;
+   }
 }
