@@ -17,22 +17,22 @@
     <p>If you aren't running a smtp server on localhost:25 you need to setup mailSession in components.xml</p>
     
     <h:form>
-    	<h:panelGrid columns="2">
-	    	<h:outputText value="Name" />
-	    	<h:panelGroup>
-		    	<h:inputText value="#{person.firstname}" required="true" />
-		    	<h:inputText value="#{person.lastname}" required="true" />
-		    </h:panelGroup>
-		    <h:outputText value="Email Address" />
-		    <h:inputText value="#{person.address}" rerquired="true"/>
-		</h:panelGrid>
-		<h:panelGrid>
-		<h:commandButton action="#{mailExample.send}" value="Send a simple email" />
-			<h:commandButton action="#{mailExample.sendPlain}" value="Send Plain Text Email" />
-	        <h:commandButton action="#{mailExample.sendHtml}" value="Send HTML Email" />
-	        <h:commandButton action="templating" value="Send Templated Email" />
-	    </h:panelGrid>
-	    <h:messages />
+        <h:panelGrid columns="2">
+            <h:outputText value="Name" />
+            <h:panelGroup>
+                <h:inputText value="#{person.firstname}" required="true" />
+                <h:inputText value="#{person.lastname}" required="true" />
+            </h:panelGroup>
+            <h:outputText value="Email Address" />
+            <h:inputText value="#{person.address}" rerquired="true"/>
+        </h:panelGrid>
+        <h:panelGrid>
+        <h:commandButton action="#{mailExample.send}" value="Send a simple email" />
+        <h:commandButton action="#{mailExample.sendPlain}" value="Send Plain Text Email" />
+        <h:commandButton action="#{mailExample.sendHtml}" value="Send HTML Email" />
+        <h:commandButton action="templating" value="Send Templated Email" />
+        </h:panelGrid>
+        <h:messages />
     </h:form>
 </body>
 </html>

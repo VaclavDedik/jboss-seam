@@ -1,8 +1,9 @@
 <m:message xmlns:m="http://jboss.com/products/seam/mail">
-	<m:from name="Seam" address="do-not-reply@jboss.com" />
-	<m:to name="#{person.firstname} #{person.lastname}">#{person.address}</m:to>
-	<m:subject>Plain text email sent by Seam</m:subject>
-	<m:body type="plain">Dear #{person.firstname},
+
+    <m:from name="Seam" address="do-not-reply@jboss.com" />
+    <m:to name="#{person.firstname} #{person.lastname}">#{person.address}</m:to>
+    <m:subject>Plain text email sent by Seam</m:subject>
+    <m:body type="plain">Dear #{person.firstname},
           
 This is a simple, plain text, email.
           
