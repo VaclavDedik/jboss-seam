@@ -52,14 +52,6 @@ public class SecurityConfiguration
    private static final LogProvider log = Logging
          .getLogProvider(SecurityConfiguration.class);
 
-   // <security-constraint>
-   private static final String SECURITY_CONSTRAINT = "security-constraint";
-   private static final String WEB_RESOURCE_COLLECTION = "web-resource-collection";
-   private static final String URL_PATTERN = "url-pattern";
-   private static final String HTTP_METHOD = "http-method";
-   private static final String AUTH_CONSTRAINT = "auth-constraint";
-   private static final String ROLE_NAME = "role-name";
-
    // roles
    private static final String SECURITY_ROLES = "roles";
    private static final String SECURITY_ROLE = "role";
@@ -82,8 +74,6 @@ public class SecurityConfiguration
    private static final String LM_FLAG_OPTIONAL = "OPTIONAL";
    private static final String LM_FLAG_SUFFICIENT = "SUFFICIENT";
    private static final String LM_FLAG_REQUISITE = "REQUISITE";
-
-   private Set<SecurityConstraint> securityConstraints = new HashSet<SecurityConstraint>();
    
    public final class Role
    {
@@ -195,9 +185,6 @@ public class SecurityConfiguration
          Document doc = xmlReader.read(config);
          Element env = doc.getRootElement();
 
-         if (env.elements(SECURITY_CONSTRAINT) != null)
-            loadSecurityConstraints(env.elements(SECURITY_CONSTRAINT));
-         
          if (env.element(SECURITY_ROLES) != null)
             loadSecurityRoles(env.element(SECURITY_ROLES));
          
@@ -215,74 +202,12 @@ public class SecurityConfiguration
    }
 
    /**
-    * Returns the configured security constraints
-    * 
-    * @return Set
-    */
-   public Set<SecurityConstraint> getSecurityConstraints()
-   {
-      return securityConstraints;
-   }
-   
-   /**
     * Returns the login module configuration
     * 
     */
    public Configuration getLoginModuleConfiguration()
    {
       return loginModuleConfig;
-   }
-
-   /**
-    * Load security constraints
-    * 
-    * @param elements List
-    * @throws SecurityConfigException
-    */
-   @SuppressWarnings("unchecked")
-   protected void loadSecurityConstraints(List elements)
-         throws SecurityConfigException
-   {
-      try
-      {
-         for (Element element : (List<Element>) elements)
-         {
-            SecurityConstraint securityConstraint = new SecurityConstraint();
-            securityConstraints.add(securityConstraint);
-
-            for (Element wrcElement : (List<Element>) element
-                  .elements(WEB_RESOURCE_COLLECTION))
-            {
-               WebResourceCollection wrc = new WebResourceCollection();
-               securityConstraint.getResourceCollections().add(wrc);
-
-               for (Element urlPatternElement : (List<Element>) wrcElement
-                     .elements(URL_PATTERN))
-               {
-                  wrc.getUrlPatterns().add(urlPatternElement.getTextTrim());
-               }
-
-               for (Element httpMethodElement : (List<Element>) wrcElement
-                     .elements(HTTP_METHOD))
-               {
-                  wrc.getHttpMethods().add(httpMethodElement.getTextTrim());
-               }
-            }
-
-            securityConstraint.setAuthConstraint(new AuthConstraint());
-            for (Element roleNameElement : (List<Element>) element.element(
-                  AUTH_CONSTRAINT).elements(ROLE_NAME))
-            {
-               securityConstraint.getAuthConstraint().getRoles().add(
-                     roleNameElement.getTextTrim());
-            }
-         }
-      }
-      catch (Exception ex)
-      {
-         throw new SecurityConfigException(
-               "Error loading security constraints", ex);
-      }
    }
    
    /**
