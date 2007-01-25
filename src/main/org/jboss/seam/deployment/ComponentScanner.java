@@ -58,7 +58,7 @@ public class ComponentScanner extends Scanner
             if (installable)
             {
                if ( log.isDebugEnabled() ) log.debug("found component class: " + name);
-               classes.add((Class<Object>) classLoader.loadClass(classname));
+               classes.add( (Class<Object>) classLoader.loadClass(classname) );
             }
          }
          catch (ClassNotFoundException cnfe)

@@ -542,11 +542,15 @@ public class Initialization
       addNamespace(org.jboss.seam.remoting.RequestContext.class.getPackage());
       addNamespace(org.jboss.seam.theme.Theme.class.getPackage());
 
-      for (Package pkg : new NamespaceScanner("seam.properties").getPackages())
+      for ( Package pkg : new NamespaceScanner("seam.properties").getPackages() )
       {
          addNamespace(pkg);
       }
-      for (Package pkg : new NamespaceScanner("META-INF/components.xml").getPackages())
+      for ( Package pkg : new NamespaceScanner("META-INF/seam.properties").getPackages() )
+      {
+         addNamespace(pkg);
+      }
+      for ( Package pkg : new NamespaceScanner("META-INF/components.xml").getPackages() )
       {
          addNamespace(pkg);
       }
