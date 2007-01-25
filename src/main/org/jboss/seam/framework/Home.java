@@ -149,6 +149,12 @@ public class Home<E> extends AbstractMutable implements Serializable
 
    public void setId(Object id)
    {
+      if ( setDirty(this.id, id) ) setInstance(null);
+      this.id = id;
+   }
+   
+   protected void assignId(Object id)
+   {
       setDirty(this.id, id);
       this.id = id;
    }

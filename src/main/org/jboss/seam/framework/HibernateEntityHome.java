@@ -36,7 +36,7 @@ public class HibernateEntityHome<E> extends Home<E>
    {
       getSession().persist( getInstance() );
       getSession().flush();
-      setId( getSession().getIdentifier( getInstance() ) );
+      assignId( getSession().getIdentifier( getInstance() ) );
       createdMessage();
       return "persisted";
    }

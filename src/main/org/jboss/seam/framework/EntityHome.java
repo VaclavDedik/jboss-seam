@@ -42,7 +42,7 @@ public class EntityHome<E> extends Home<E>
       getEntityManager().joinTransaction();
       getEntityManager().persist( getInstance() );
       getEntityManager().flush();
-      setId( PersistenceProvider.instance().getId( getInstance(), getEntityManager() ) );
+      assignId( PersistenceProvider.instance().getId( getInstance(), getEntityManager() ) );
       createdMessage();
       return "persisted";
    }
