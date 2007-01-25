@@ -40,7 +40,8 @@ public final class ConfigRedirectHandler extends RedirectHandler
    public boolean isHandler(Exception e)
    {
       return clazz.isInstance(e) && 
-            Lifecycle.getPhaseId()!=PhaseId.RENDER_RESPONSE;
+            Lifecycle.getPhaseId()!=PhaseId.RENDER_RESPONSE && 
+            Lifecycle.getPhaseId()!=null;
    }
 
    @Override
