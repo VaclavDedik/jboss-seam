@@ -446,9 +446,9 @@ public class Initialization
       installScannedComponentAndRoles(scannedClass);
       installComponentsFromDescriptor(classDescriptorFilename(scannedClass), scannedClass);
       Package pkg = scannedClass.getPackage();
-      if (pkg != null && scannedPackages.add(pkg))
+      if (pkg != null && scannedPackages.add(pkg) )
       {
-         installComponentsFromDescriptor(packageDescriptorFilename(pkg), scannedClass);
+         installComponentsFromDescriptor( packageDescriptorFilename(pkg), scannedClass );
       }
    }
 

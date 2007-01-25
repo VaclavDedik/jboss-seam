@@ -41,23 +41,25 @@ public abstract class Scanner
    
    public static String filenameToClassname(String filename)
    {
-      return filename.substring(0, filename.lastIndexOf(".class"))
+      return filename.substring( 0, filename.lastIndexOf(".class") )
             .replace('/', '.').replace('\\', '.');
    }
    
 
-    protected void scan() {
+    protected void scan() 
+    {
       Enumeration<URL> urls;
       try
       {
          urls = classLoader.getResources(resourceName);
       }
-      catch (IOException ioe) {
+      catch (IOException ioe) 
+      {
          log.warn("could not read: " + resourceName, ioe);
          return;
       }
       
-      while (urls.hasMoreElements())
+      while ( urls.hasMoreElements() )
       {
          try
          {
@@ -94,7 +96,8 @@ public abstract class Scanner
                handleArchive(file);
             }
          }
-         catch (IOException ioe) {
+         catch (IOException ioe) 
+         {
             log.warn("could not read entries", ioe);
          }
       }

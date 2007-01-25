@@ -45,24 +45,33 @@ public class NamespaceScanner
     @Override
     protected void handleItem(String name)
     {
-        if (name.endsWith("/package-info.class")) {
+        if ( name.endsWith("/package-info.class") ) 
+        {
             String packageName = filenameToPackageName(name);
             Package pkg = getPackage(packageName);
-            if (pkg == null) {
+            if (pkg == null) 
+            {
                 log.warn("Cannot load package Dinfo for " + packageName);
-            } else {
-                if (pkg.getAnnotation(Namespace.class) != null) {
+            } 
+            else 
+            {
+                if (pkg.getAnnotation(Namespace.class) != null) 
+                {
                     packages.add(pkg);
                 }
             }
         }
     }
 
-    protected Package getPackage(String name) {
-        try {
+    protected Package getPackage(String name) 
+    {
+        try 
+        {
             Class c = classLoader.loadClass(name + ".package-info");
             return c != null ? c.getPackage() : null;
-        } catch (Exception e) {
+        } 
+        catch (Exception e) 
+        {
             return null;
         }
     }
