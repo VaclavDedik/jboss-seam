@@ -18,6 +18,7 @@ public class UIDocument
 {
     public static final String COMPONENT_TYPE   = "org.jboss.seam.pdf.ui.UIDocument";
     
+    DocWriter writer;
     Document document;
     ByteArrayOutputStream stream;
     String id;
@@ -175,16 +176,17 @@ public class UIDocument
         id = store.newId();
         stream = new ByteArrayOutputStream();
               
+        
         try {
             switch (docType) {
             case PDF:
-                PdfWriter.getInstance(document, stream);
+                writer = PdfWriter.getInstance(document, stream);
                 break;
             case RTF:
-                RtfWriter2.getInstance(document, stream);
+                writer = RtfWriter2.getInstance(document, stream);
                 break;
             case HTML:
-                HtmlWriter.getInstance(document, stream);
+                writer = HtmlWriter.getInstance(document, stream);
                 break;
             }
             
@@ -248,6 +250,10 @@ public class UIDocument
         Manager.instance().beforeRedirect();
     }
 
+    public DocWriter getWriter() {
+        return writer;
+    }    
+    
     private DocType docTypeForName(String typeName) {    
         if (typeName != null) {
             if (typeName.equalsIgnoreCase(DocType.PDF.name())) {

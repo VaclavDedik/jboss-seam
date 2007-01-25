@@ -119,6 +119,13 @@
     </tag>
 
     <tag>
+        <tag-name>signature</tag-name>
+        <component>
+            <component-type>org.jboss.seam.pdf.ui.UISignature</component-type>
+        </component>
+    </tag>
+
+    <tag>
         <tag-name>text</tag-name>
         <component>
             <component-type>org.jboss.seam.pdf.ui.UIOutputText</component-type>

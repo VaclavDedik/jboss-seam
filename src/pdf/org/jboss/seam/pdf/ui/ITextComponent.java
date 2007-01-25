@@ -74,8 +74,7 @@ public abstract class ITextComponent
         } else {
             return null;
         }
-    }
-
+    }    
 
     /**
      * find the first parent that is an itext component);

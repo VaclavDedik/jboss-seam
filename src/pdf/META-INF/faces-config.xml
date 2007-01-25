@@ -89,6 +89,11 @@
         <component-class>org.jboss.seam.pdf.ui.UIOutputText</component-class>
     </component>
 
+    <component>
+        <component-type>org.jboss.seam.pdf.ui.UISignature</component-type>
+        <component-class>org.jboss.seam.pdf.ui.UISignature</component-class>
+    </component>
+
     <lifecycle>
         <phase-listener>org.jboss.seam.pdf.DocumentStorePhaseListener</phase-listener>
     </lifecycle>
@@ -106,6 +111,6 @@
             </renderer-class>
         </renderer>
 
-    </render-kit>
+A    </render-kit>
     -->
 </faces-config>
