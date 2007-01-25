@@ -8,7 +8,9 @@ import javax.faces.convert.Converter;
 
 import com.lowagie.text.Chunk;
 
-public class UIOutputText extends ITextComponent implements ValueHolder
+public class UIOutputText 
+    extends ITextComponent 
+    implements ValueHolder
 
 {
     Chunk chunk;
@@ -35,8 +37,7 @@ public class UIOutputText extends ITextComponent implements ValueHolder
             } 
         }
         
-        chunk.append(stringValue);
-        System.out.println("String value:" + stringValue);
+        chunk.append(stringValue);        
                 
         super.encodeEnd(context);
     }

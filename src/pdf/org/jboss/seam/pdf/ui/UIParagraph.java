@@ -10,7 +10,6 @@ public class UIParagraph
 
     Paragraph paragraph;
     String alignment;
-
     
     Float firstLineIndent;
     Float extraParagraphSpace;
@@ -26,11 +25,9 @@ public class UIParagraph
     public void setAlignment(String alignment) {
         this.alignment = alignment;
     }
-
     public void setFirstLineIndent(Float firstLineIndent) {
         this.firstLineIndent = firstLineIndent;
     }
-
     public void setExtraParagraphSpace(Float extraParagraphSpace) {
         this.extraParagraphSpace = extraParagraphSpace;
     }
