@@ -444,7 +444,7 @@ public class Initialization
    private void installScannedClass(Set<Package> scannedPackages, Class<Object> scannedClass)
    {
       installScannedComponentAndRoles(scannedClass);
-      installComponentsFromDescriptor(classDescriptorFilename(scannedClass), scannedClass);
+      installComponentsFromDescriptor( classDescriptorFilename(scannedClass), scannedClass );
       Package pkg = scannedClass.getPackage();
       if (pkg != null && scannedPackages.add(pkg) )
       {
