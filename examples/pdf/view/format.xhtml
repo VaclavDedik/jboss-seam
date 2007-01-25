@@ -14,7 +14,7 @@
     <p:paragraph>Dear #{currentOrder.customerName},</p:paragraph>
 
     <p:paragraph>
-Your order on <p:text value=" #{currentOrder.orderDate}"><f:convertDateTime style="date" format="short" /></p:text> has been processed and will ship shortly.  Your order number is #{currentOrder.orderId}.  If you have any questions, please see our <p:anchor reference="http://www.jboss.org/index.html?module=bb&amp;op=viewforum&amp;f=231"> support forums</p:anchor>.
+Your order on <p:text value=" " /><p:text value="#{currentOrder.orderDate}"><f:convertDateTime type="date" dateStyle="short" /></p:text> has been processed and will ship shortly.  Your order number is #{currentOrder.orderId}.  If you have any questions, please see our <p:anchor reference="http://www.jboss.org/index.html?module=bb&amp;op=viewforum&amp;f=231"> support forums</p:anchor>.
     </p:paragraph>
 
     <p:table columns="2" width="3 1" widthPercentage="35" horizontalAlignment="right" spacingBefore="40">
@@ -51,5 +51,4 @@ Your order on <p:text value=" #{currentOrder.orderDate}"><f:convertDateTime styl
             </p:paragraph>
         </p:cell>
     </p:table>
-        
 </p:document>
