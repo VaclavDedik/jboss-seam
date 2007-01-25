@@ -7,10 +7,7 @@ import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.intercept.InvocationContext;
-import org.jboss.seam.security.AuthorizationException;
 import org.jboss.seam.security.Identity;
-import org.jboss.seam.security.NotLoggedInException;
-import org.jboss.seam.security.Security;
 
 /**
  * Provides authorization services for component invocations.
