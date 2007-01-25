@@ -36,6 +36,10 @@
         <redirect view-id="/profile.xhtml"/>
       </navigation>
     </page>
+    
+    <page view-id="/admin.xhtml">
+      <restrict>#{s:hasRole('admin')}</restrict>    
+    </page>
        
     <page view-id="*">
         <navigation from-action="#{login.logout}">
@@ -46,5 +50,6 @@
           <redirect view-id="/comment.xhtml"/>
         </navigation>
     </page>
+    
 
 </pages>

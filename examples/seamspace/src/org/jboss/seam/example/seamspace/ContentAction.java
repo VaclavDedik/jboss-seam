@@ -12,13 +12,12 @@ import org.jboss.seam.security.Identity;
 public class ContentAction implements ContentLocal
 {
    @In(create = true) EntityManager entityManager;   
-   @In(create = true) Identity identity;
    
    public MemberImage getImage(int imageId)
    {
       MemberImage img = entityManager.find(MemberImage.class, imageId);
       
-      if (img == null || !identity.hasPermission("memberImage", "view", img))
+      if (img == null || !Identity.instance().hasPermission("memberImage", "view", img))
          return null;
       else
          return img;
