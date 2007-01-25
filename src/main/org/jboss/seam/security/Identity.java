@@ -36,8 +36,6 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.log.LogProvider;
-import org.jboss.seam.log.Logging;
 import org.jboss.seam.security.config.SecurityConfiguration;
 import org.jboss.seam.security.config.SecurityConfiguration.Role;
 import org.jboss.seam.security.rules.PermissionCheck;
@@ -60,8 +58,6 @@ public class Identity implements Serializable
    private RuleBase securityRules;
    
    private WorkingMemory securityContext;
-   
-   private static final LogProvider log = Logging.getLogProvider(Identity.class);   
    
    @Create
    public void create()
