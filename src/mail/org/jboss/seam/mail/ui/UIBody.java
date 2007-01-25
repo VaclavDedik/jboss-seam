@@ -33,7 +33,7 @@ public class UIBody extends MailComponent
      {
         String body = encode(facesContext);
         MimeMessage mimeMessage = findMimeMessage();
-        if (PLAIN.equals(type)) 
+        if (PLAIN.equalsIgnoreCase(type)) 
         {
           mimeMessage.setText(body);
         }

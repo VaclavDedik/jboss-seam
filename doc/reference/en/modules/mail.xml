@@ -11,11 +11,10 @@
             currently supported. </para>
     
     <section>
-    	<title>Introduction</title>
-    	<para>In Seam Mail, an email template is just facelet:</para>
+    	<title>Creating a message</title>
+    	<para>In Seam Mail, an email is just facelet:</para>
     	<programlisting>
 &lt;m:message xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:m="http://jboss.com/products/seam/mail"
     xmlns:h="http://java.sun.com/jsf/html"&gt;
   
@@ -25,8 +24,9 @@
     
     &lt;m:body&gt;
         &lt;p&gt;&lt;h:outputText value="Dear #{person.firstname}" /&gt;,&lt;/p&gt;
-        &lt;p&gt;You can try out Seam by visiting &lt;a href="http://labs.jboss.com/jbossseam"&gt;http://labs.jboss.com/jbossseam&lt;/a&gt;.&lt;/p&gt;
-        &lt;p&gt;Regards&lt;/p&gt;
+        &lt;p&gt;You can try out Seam by visiting 
+        &lt;a href="http://labs.jboss.com/jbossseam"&gt;http://labs.jboss.com/jbossseam&lt;/a&gt;.&lt;/p&gt;
+        &lt;p&gt;Regards,&lt;/p&gt;
         &lt;p&gt;Peter&lt;/p&gt;
     &lt;/m:body&gt;
     
@@ -56,9 +56,52 @@ public void send() {
    }
 }</programlisting>
     	
-   	<para>If, for example, you entered an invalid email address, then an exception would be thrown, which is caught and then displayed to the user.</para>
-    	
-    </section>
+   	<para>If, for example, you entered an invalid email address, then an exception would be thrown, which is caught
+   	and then displayed to the user.</para>
+    
+	    <section>
+	    	<title>HTML/Text alternative part</title>
+	    	<para>Whilst most mail readers nowadays support HTML, some don't, so you can add a plain text alternative
+	    	 to your email body:</para>
+	    	<programlisting>&lt;m:body&gt;
+    &lt;f:facet name="alternative"&gt;Sorry, your email reader can't show our fancy email, 
+please go to http://labs.jboss.com/jbossseam to explore Seam.&lt;/f:facet&gt;
+&lt;/m:body&gt;</programlisting>
+	    </section>
+	    
+	    <section>
+	    	<title>Multiple recipients</title>
+	    	<para>Often you'll want to send an email to a group of recipients (for example your users).  All of the recipient
+	    	 mail tags can be placed inside a <literal>&lt;ui:repeat&gt;</literal>:</para>
+	    	<programlisting>&lt;ui:repeat value="#{allUsers} var="user"&gt;
+    &lt;m:to name="#{user.firstname} #{user.lastname}" address="#{user.emailAddress}" /&gt;
+&lt;/ui:repeat&gt;</programlisting>
+	    </section>
+	    
+	    <section>
+	    	<title>Templating</title>
+	    	<para>The mail templating example shows that facelets templating 'just works' with the Seam mail tags.</para>
+	    	<para>Our <literal>template.xhtml</literal> contains:</para>
+	    	<programlisting>&lt;m:message&gt;
+   &lt;m:from name="Seam" address="do-not-reply@jboss.com" /&gt;
+   &lt;m:to name="#{person.firstname} #{person.lastname}"&gt;#{person.address}&lt;/m:to&gt;
+   &lt;m:subject&gt;#{subject}&lt;/m:subject&gt;
+   &lt;m:body&gt;
+       &lt;html&gt;
+           &lt;body&gt;
+               &lt;ui:insert name="body"&gt; This is the default body, specified by the template.&lt;/ui:insert&gt;
+           &lt;/body&gt;
+       &lt;/html&gt;
+   &lt;/m:body&gt;
+&lt;/m:message&gt;</programlisting>
+	    	<para>Our <literal>templating.xhtml</literal> contains:</para>
+	    	<programlisting>&lt;ui:param name="subject" value="Templating with Seam Mail" /&gt;
+&lt;ui:define name="body"&gt;
+    &lt;p&gt;This email demonstrates that you can easily use &lt;i&gt;facelets templating features&lt;/i&gt; in your code!&lt;/p&gt;
+&lt;/ui:define&gt;</programlisting>
+	    </section>
+
+	</section>
 
 	<section>
 		<title>Configuration</title>
