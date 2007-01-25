@@ -45,7 +45,10 @@
           </ui:repeat>            
           
           [<h:outputLink value="blog.seam?name=#{selectedMember.memberName}">View all blog entries</h:outputLink>]
-          [<s:link action="#{blog.createEntry}" value="Create new blog entry"/>]
+          
+          <s:span rendered="#{s:hasPermission('blog', 'create', selectedMember)}">
+            [<s:link action="#{blog.createEntry}" value="Create new blog entry"/>]
+          </s:span>
         </s:div>
         
       </s:div>                

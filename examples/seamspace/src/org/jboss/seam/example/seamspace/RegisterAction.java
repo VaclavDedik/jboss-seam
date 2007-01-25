@@ -6,6 +6,7 @@ import java.util.HashSet;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
+import javax.security.auth.login.LoginException;
 
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Destroy;
@@ -15,6 +16,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.core.FacesMessages;
+import org.jboss.seam.security.Identity;
 
 @Stateful
 @Name("register")
@@ -27,10 +29,7 @@ public class RegisterAction implements Register
    private EntityManager entityManager;
    
    @In(create = true)
-   private LoginLocal login;
-   
-   @In(required = false)
-   Member member;   
+   private Identity identity;
    
    /**
     * Password confirmation
@@ -58,6 +57,7 @@ public class RegisterAction implements Register
 
    @End
    public void uploadPicture() 
+      throws LoginException
    {
       newMember.setMemberSince(new Date());
       newMember.setRoles(new HashSet<MemberRole>());
@@ -83,9 +83,9 @@ public class RegisterAction implements Register
       }
       
       // Login the user
-      member.setUsername(newMember.getUsername());
-      member.setPassword(newMember.getPassword());
-      login.login();
+      identity.setUsername(newMember.getUsername());
+      identity.setPassword(newMember.getPassword());
+      identity.login();
    }
    
    public String getConfirm()

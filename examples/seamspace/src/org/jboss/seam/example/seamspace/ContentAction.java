@@ -5,22 +5,22 @@ import javax.persistence.EntityManager;
 
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.security.Security;
+import org.jboss.seam.security.Identity;
 
 @Stateless
 @Name("contentAction")
 public class ContentAction implements ContentLocal
 {
-   @In(create = true) EntityManager entityManager;
-   @In Security security;
+   @In(create = true) EntityManager entityManager;   
+   @In(create = true) Identity identity;
    
    public MemberImage getImage(int imageId)
    {
       MemberImage img = entityManager.find(MemberImage.class, imageId);
-
-      if (img != null && security.hasPermission("memberImage", "view", img))      
-         return img;
-      else
+      
+      if (img == null || !identity.hasPermission("memberImage", "view", img))
          return null;
+      else
+         return img;
    }
 }

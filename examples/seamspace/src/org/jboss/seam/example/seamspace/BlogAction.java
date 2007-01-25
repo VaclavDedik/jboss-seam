@@ -18,7 +18,6 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.RequestParameter;
 import org.jboss.seam.annotations.security.Restrict;
-import org.jboss.seam.security.Identity;
 
 @Stateful
 @Name("blog")
@@ -117,8 +116,7 @@ public class BlogAction implements BlogLocal
    
    public void createEntry()
    {
-      Identity.instance().checkRestriction("#{s:hasPermission('blog', 'createEntry', selectedMember, authenticatedMember)}"); 
-//      MemberBlog selectedBlog = new MemberBlog();              
+      MemberBlog selectedBlog = new MemberBlog();              
    }
    
    @Remove @Destroy

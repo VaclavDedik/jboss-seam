@@ -41,8 +41,8 @@ public class ProfileAction implements ProfileLocal
    {      
       if (name == null && authenticatedMember != null)
       {
-         selectedMember = authenticatedMember;
-         entityManager.refresh(selectedMember);
+         selectedMember = (Member) entityManager.find(Member.class, 
+               authenticatedMember.getMemberId());
       }
       else if (name != null)
       {

@@ -1,9 +1,13 @@
 package SeamSpacePermissions;
 
+import java.security.Principal;
+
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.rules.PermissionCheck;
-import org.jboss.seam.example.seamspace.MemberImage;
 import org.jboss.seam.security.SeamPermission;
+
+import org.jboss.seam.example.seamspace.Member;
+import org.jboss.seam.example.seamspace.MemberImage;
 
 rule ViewImage
   no-loop
@@ -17,13 +21,25 @@ then
   modify(c);
 end;
 
+rule CreateBlog
+  no-loop
+  activation-group "permissions"
+when
+  c: PermissionCheck(name == "blog", action == "create", granted == false)
+  p: Principal()
+  Member(username == (p.getName()))
+then
+  c.grant();
+  modify(c);
+end;
+
 rule DefaultPolicy
   salience -10
   activation-group "permissions"  
 when
   c: PermissionCheck(granted == false)
-  p: SeamPermission()
-  eval( p.getName().equals(c.getName()) && p.getAction().equals(c.getAction()))
+  SeamPermission(name == (c.getName()), action == (c.getAction()))
 then
   c.grant();
 end;
+

@@ -29,7 +29,7 @@
             
             <div class="loginRow">
               <h:outputLabel for="name" value="Member name" styleClass="loginLabel"/>
-              <h:inputText id="name" value="#{member.username}"/>
+              <h:inputText id="name" value="#{identity.username}"/>
             </div>
             
             <div class="validationMsg">
@@ -38,7 +38,7 @@
             
             <div class="loginRow">
               <h:outputLabel for="password" value="Password" styleClass="loginLabel"/>
-              <h:inputSecret id="password" value="#{member.password}"/>
+              <h:inputSecret id="password" value="#{identity.password}"/>
             </div>
             
             <div class="validationMsg">
@@ -46,7 +46,7 @@
             </div>          
             
             <div class="buttons">
-              <h:commandButton value="LOGIN" action="#{login.login}" styleClass="loginButton"/>
+              <h:commandButton value="LOGIN" action="#{identity.login}" styleClass="loginButton"/>
               <h:commandButton value="SIGN UP!" action="#{register.start}" styleClass="registerButton"/>
             </div>
 
