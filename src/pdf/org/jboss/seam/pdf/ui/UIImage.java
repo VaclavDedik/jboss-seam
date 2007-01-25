@@ -30,6 +30,7 @@ public class UIImage
     Float widthPercentage;
     Float initialRotation;
     String dpi;
+    String scalePercent;
     
     Boolean wrap;
     Boolean underlying;
@@ -93,6 +94,10 @@ public class UIImage
 
     public void setWidthPercentage(Float widthPercentage) {
         this.widthPercentage = widthPercentage;
+    }
+    
+    public void setScalePercent(String scalePercent) { 
+        this.scalePercent = scalePercent; 
     }
 
     public Object getITextObject() {
@@ -193,6 +198,18 @@ public class UIImage
          }
         
         applyRectangleProperties(context, image);
+        
+        scalePercent = (String) valueBinding(context, "scalePercent", scalePercent);
+        if (scalePercent != null) {
+            float[] scale = ITextUtils.stringToFloatArray(scalePercent);
+            if (scale.length == 1) {
+                image.scalePercent(scale[0]); 
+            } else if (scale.length == 2) {
+                image.scalePercent(scale[0], scale[1]);
+            } else {
+                throw new RuntimeException("scalePercent must contain one or two scale percentages");
+            }
+        }
     }
 
     public void handleAdd(Object o) {
