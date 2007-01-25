@@ -54,7 +54,7 @@
 
         <section>
             <title>p:document</title>
-            <para> The p:document tag supports the following attributes: </para>
+            <para> The <literal>p:document</literal> tag supports the following attributes: </para>
 
             <variablelist>
                 <varlistentry>
@@ -76,7 +76,9 @@
                     <listitem>
                         <para>The size of the page to be generate. The most commonly used values would be
                                 <literal>LETTER</literal> and <literal>A4</literal>. A full list of supported pages
-                            sizes can be found in <literal>com.lowagie.text.PageSize</literal> class.   Alternatively, pageSize can provide the width and height of the page directly.  The value "612 792", for example, is equizalent to the LETTER page size.</para>
+                            sizes can be found in <literal>com.lowagie.text.PageSize</literal> class. Alternatively,
+                            pageSize can provide the width and height of the page directly. The value "612 792", for
+                            example, is equizalent to the LETTER page size.</para>
                     </listitem>
                 </varlistentry>
 
@@ -85,10 +87,9 @@
                         <literal>orientation</literal>
                     </term>
                     <listitem>
-                        <para>The orientation of the page.  Valid values are 
-                        <literal>portrait</literal> and <literal>landscape</literal>.  In 
-                        landscape mode, the height and width page size values are reversed.
-                    </para>
+                        <para>The orientation of the page. Valid values are <literal>portrait</literal> and
+                                <literal>landscape</literal>. In landscape mode, the height and width page size values
+                            are reversed. </para>
                     </listitem>
                 </varlistentry>
 
@@ -398,8 +399,9 @@
                         <literal>widths</literal>
                     </term>
                     <listitem>
-                        <para>The relative widths of each column.  There should be one value for each column.  For example: widths="2 1 1" would
-                        indicate that there are 3 columns and the first column should be twice the size of the second and third column.</para>
+                        <para>The relative widths of each column. There should be one value for each column. For
+                            example: widths="2 1 1" would indicate that there are 3 columns and the first column should
+                            be twice the size of the second and third column.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -419,7 +421,7 @@
                         <para>The number of rows that are considered to be footer rows. This value is subtracted from
                             the <literal>headerRows</literal> value. If document has 2 rows which make up the header and
                             one row that makes up the footer, <literal>headerRows</literal> should be set to 3 and
-                            <literal>footerRows</literal> should be set to 1</para>
+                                <literal>footerRows</literal> should be set to 1</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -435,7 +437,8 @@
                         <literal>horizontalAlignment</literal>
                     </term>
                     <listitem>
-                        <para>The horizontal alignment of the table.  (See <xref linkend="itext.alignment"/> for possible values)</para>
+                        <para>The horizontal alignment of the table. (See <xref linkend="itext.alignment"/> for possible
+                            values)</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -523,7 +526,7 @@
 
 
         <section>
-            <title>p:cell></title>
+            <title>p:cell</title>
 
             <para><literal>p:cell</literal> supports the following attributes.</para>
 
@@ -710,8 +713,13 @@
     <section>
         <title>Basic Text Elements</title>
 
+        <para>Text can be placed anywhere in the document template, but it is often desirable to surround text with
+            either structural tags or formatting tags to control the rendering of the text. </para>
+
         <section>
             <title>p:paragraph</title>
+            <para>Most uses of text should be sectioned into paragraphs so that text fragments can be flowed, formatted
+                and styled in logical groups. </para>
             <variablelist>
                 <varlistentry>
                     <term>
@@ -789,14 +797,43 @@
         </section>
 
         <section>
+            <title>p:text</title>
+            <para>The <literal>text</literal> tag allows text fragments to be produced from application data using
+                normal JSF converter mechanisms. It is very similar to the <literal>outputText</literal> tag used when
+                rendering HTML documents. Here is an example: </para>
+
+            <programlisting>
+&lt;p:paragraph&gt;
+    The item costs &lt;p:text value=&quot;#{product.price}&quot;&gt;
+        &lt;f:convertNumber type=&quot;currency&quot; currencySymbol=&quot;$&quot;/&gt;
+    &lt;/p:text&gt;
+&lt;/p:paragraph&gt;
+            </programlisting>
+
+            <variablelist>
+                <varlistentry>
+                    <term>
+                        <literal>value</literal>
+                    </term>
+                    <listitem>
+                        <para>The value to be displayed. This will typically be a value binding expression.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+        </section>
+
+        <section>
             <title>p:font</title>
+            <para>Font declarations have no direct </para>
             <variablelist>
                 <varlistentry>
                     <term>
                         <literal>familyName</literal>
                     </term>
                     <listitem>
-                        <para> </para>
+                        <para>The font family. One of: <literal>COURIER</literal>, <literal>HELVETICA</literal>,
+                                <literal>TIMES-ROMAN</literal>, <literal>SYMBOL</literal> or
+                            <literal>ZAPFDINGBATS</literal>.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -804,7 +841,7 @@
                         <literal>size</literal>
                     </term>
                     <listitem>
-                        <para> </para>
+                        <para>The point size of the font.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -812,7 +849,8 @@
                         <literal>style</literal>
                     </term>
                     <listitem>
-                        <para> </para>
+                        <para>The font styles. Any combination of : <literal>NORMAL</literal>, <literal>BOLD</literal>,
+                            <literal>ITALIC</literal>, <literal>OBLIQUE</literal>, <literal>UNDERLINE</literal>, <literal>LINE-THROUGH</literal></para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -875,7 +913,7 @@
                         <literal>alt</literal>
                     </term>
                     <listitem>
-                        <para> </para>
+                        <para>Alternative text representation for the image.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -915,7 +953,7 @@
                         <literal>widthPercentage</literal>
                     </term>
                     <listitem>
-                        <para> </para>
+                        <para/>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -931,7 +969,17 @@
                         <literal>dpi</literal>
                     </term>
                     <listitem>
-                        <para> </para>
+                        <para/>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>
+                        <literal>scalePercent</literal>
+                    </term>
+                    <listitem>
+                        <para>The scaling factor (as a percentage) to use for the image. This can be expressed as a
+                            single percentage value or as two percentage values representing separate x and y scaling
+                            percentages.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -954,7 +1002,7 @@
         </section>
 
         <section>
-            <title>p:anchor></title>
+            <title>p:anchor</title>
 
             <para><literal>p:anchor</literal> defines clickable links from a document. It supports the following
                 attributes:</para>
