@@ -155,7 +155,7 @@
     <function>
         <function-name>hasPermission</function-name>
         <function-class>org.jboss.seam.security.SecurityFunctions</function-class>
-        <function-signature>java.lang.Boolean hasPermission( java.lang.String, java.lang.String, java.lang.Object[] )</function-signature>
+        <function-signature>java.lang.Boolean hasPermission( java.lang.String, java.lang.String, java.lang.Object )</function-signature>
     </function>
     
 </facelet-taglib>

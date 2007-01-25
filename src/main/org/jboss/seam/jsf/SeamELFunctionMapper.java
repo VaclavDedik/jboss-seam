@@ -26,7 +26,7 @@ public class SeamELFunctionMapper extends FunctionMapperImpl
    
    static {
       cacheMethod("hasPermission", SecurityFunctions.class, "hasPermission", 
-               new Class[] {String.class, String.class, Object[].class});
+               new Class[] {String.class, String.class, Object.class});
       cacheMethod("hasRole", SecurityFunctions.class, "hasRole",
                new Class[] { String.class });      
    }

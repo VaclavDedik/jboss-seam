@@ -9,12 +9,12 @@ public class SecurityFunctions
 {
    public static boolean hasRole(String name)
    {
-      return Security.instance().hasRole(name);
+      return Identity.instance().hasRole(name);
    }
    
    public static boolean hasPermission(String name, String action,
-            Object... args)
+            Object arg)
    {
-      return Security.instance().hasPermission(name, action, args);
+      return Identity.instance().hasPermission(name, action, arg);
    }
 }
