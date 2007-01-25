@@ -18,6 +18,7 @@ public abstract class Query
 {
    private static final Pattern FROM_PATTERN = Pattern.compile("(^|\\s)(from)\\s", Pattern.CASE_INSENSITIVE);
    private static final Pattern ORDER_PATTERN = Pattern.compile("\\s(order)(\\s)+by\\s", Pattern.CASE_INSENSITIVE);
+   private static final Pattern WHERE_PATTERN = Pattern.compile("\\s(where)\\s", Pattern.CASE_INSENSITIVE);
 
    private String ejbql;
    private Integer firstResult;
@@ -185,7 +186,7 @@ public abstract class Query
          Object parameterValue = restrictionParameters.get(i).getValue();
          if ( isRestrictionParameterSet(parameterValue) )
          {
-            if ( builder.toString().toLowerCase().indexOf("where")>0 )
+            if ( WHERE_PATTERN.matcher(builder).find() )
             {
                builder.append(" and ");
             }
