@@ -23,15 +23,16 @@ public abstract class AbstractMutable implements Mutable
     * 
     * @param oldValue the old value of an attribute
     * @param newValue the new value of an attribute
+    * @return true if the newValue is not equal to the oldValue
     */
    protected <T> boolean setDirty(T oldValue, T newValue)
    {
-      boolean reallyDirty = oldValue!=newValue && (
+      boolean attributeDirty = oldValue!=newValue && (
             oldValue==null || 
             !oldValue.equals(newValue) 
          );
-      dirty = dirty || reallyDirty;
-      return reallyDirty;
+      dirty = dirty || attributeDirty;
+      return attributeDirty;
    }
    
    /**
