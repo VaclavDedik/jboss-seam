@@ -3,6 +3,8 @@ package org.jboss.seam.framework;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.faces.model.DataModel;
 
@@ -14,6 +16,9 @@ import org.jboss.seam.jsf.ListDataModel;
 
 public abstract class Query
 {
+   private static final Pattern FROM_PATTERN = Pattern.compile("(^|\\s)(from)\\s", Pattern.CASE_INSENSITIVE);
+   private static final Pattern ORDER_PATTERN = Pattern.compile("\\s(order)(\\s)+by\\s", Pattern.CASE_INSENSITIVE);
+
    private String ejbql;
    private Integer firstResult;
    private Integer maxResults;
@@ -204,10 +209,18 @@ public abstract class Query
 
    protected String getCountEjbql()
    {
-      String ejbql = getRenderedEjbql();    
-      int fromLoc = ejbql.indexOf("from");
-      int orderLoc = ejbql.indexOf("order");
-      if (orderLoc<0) orderLoc = ejbql.length();
+      String ejbql = getRenderedEjbql();
+      
+      Matcher fromMatcher = FROM_PATTERN.matcher(ejbql);
+      if ( !fromMatcher.find() )
+      {
+         throw new IllegalArgumentException("no from clause found in query");
+      }
+      int fromLoc = fromMatcher.start(2);
+      
+      Matcher orderMatcher = ORDER_PATTERN.matcher(ejbql);
+      int orderLoc = orderMatcher.find() ? orderMatcher.start(1) : ejbql.length();
+
       return "select count(*) " + ejbql.substring(fromLoc, orderLoc);
    }
    
