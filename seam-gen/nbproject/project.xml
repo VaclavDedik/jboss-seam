@@ -71,7 +71,7 @@
         <java-data xmlns="http://www.netbeans.org/ns/freeform-project-java/1">
             <compilation-unit>
                 <package-root>src</package-root>
-                <classpath mode="compile">lib/ant.jar:lib/commons-beanutils-1.7.0.jar:lib/commons-codec-1.3.jar:lib/commons-collections-3.1.jar:lib/commons-digester-1.6.jar:lib/commons-el-1.0.jar:lib/commons-lang-2.1.jar:lib/el-api.jar:lib/el-ri.jar:lib/hibernate-all.jar:lib/hsqldb.jar:lib/javax.servlet.jsp.jar:lib/jboss-aop-jdk50.jar:lib/jboss-cache-jdk50.jar:lib/jboss-ejb3-all.jar:lib/jboss-seam-debug.jar:lib/jboss-seam-ui.jar:lib/jboss-seam.jar:lib/jbpm-3.1.3.jar:lib/jgroups.jar:lib/jsf-facelets.jar:lib/jstl-1.1.0.jar:lib/mailstuff.jar:lib/myfaces-api-1.1.4.jar:lib/myfaces-impl-1.1.4.jar:lib/portlet-api-lib.jar:lib/servlet-api.jar:lib/testng-4.5.1-jdk15.jar:lib/thirdparty-all.jar</classpath>
+                <classpath mode="compile">lib/ant.jar:lib/commons-beanutils-1.7.0.jar:lib/commons-codec-1.3.jar:lib/commons-collections-3.1.jar:lib/commons-digester-1.6.jar:lib/commons-el-1.0.jar:lib/commons-lang-2.1.jar:lib/el-api.jar:lib/el-ri.jar:lib/hibernate-all.jar:lib/hsqldb.jar:lib/javax.servlet.jsp.jar:lib/jboss-aop-jdk50.jar:lib/jboss-cache-jdk50.jar:lib/jboss-ejb3-all.jar:lib/jboss-seam-debug.jar:lib/jboss-seam-ui.jar:lib/jboss-seam.jar:lib/jbpm-3.1.4.jar:lib/jgroups.jar:lib/jsf-facelets.jar:lib/jstl-1.1.0.jar:lib/mailstuff.jar:lib/myfaces-api-1.1.4.jar:lib/myfaces-impl-1.1.4.jar:lib/portlet-api-lib.jar:lib/servlet-api.jar:lib/testng-4.5.1-jdk15.jar:lib/thirdparty-all.jar</classpath>
                 <source-level>1.5</source-level>
             </compilation-unit>
         </java-data>
