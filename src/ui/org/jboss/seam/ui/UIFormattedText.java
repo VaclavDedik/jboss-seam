@@ -2,10 +2,13 @@ package org.jboss.seam.ui;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+
 import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
-import org.jboss.seam.text.L;
-import org.jboss.seam.text.P;
+
+import org.jboss.seam.text.SeamTextLexer;
+import org.jboss.seam.text.SeamTextParser;
+
 import antlr.ANTLRException;
 public class UIFormattedText extends UIOutput             
 {
@@ -20,8 +23,8 @@ public class UIFormattedText extends UIOutput
    {
       if ( !isRendered() || getValue() == null) return;
       Reader r = new StringReader( (String) getValue() );
-      L lexer = new L(r);
-      P parser = new P(lexer);
+      SeamTextLexer lexer = new SeamTextLexer(r);
+      SeamTextParser parser = new SeamTextParser(lexer);
       try
       {
          parser.startRule();
