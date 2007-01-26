@@ -166,6 +166,28 @@ Any ideas?
     </section>
     
     <section>
+        <title>Links</title>
+        
+        <para>
+            A link may be created using the following syntax:
+        </para>
+
+        <programlisting><![CDATA[Go to the Seam website at [=>http://jboss.com/products/seam].]]></programlisting>
+        
+        <para>
+            Or, if you want to specify the text of the link:
+        </para>
+
+        <programlisting><![CDATA[Go to [the Seam website=>http://jboss.com/products/seam].]]></programlisting>
+        
+        <para>
+            For advanced users, it is even possible to customize the Seam Text parser to understand
+            wikiword links written using this syntax.
+        </para>
+        
+    </section>
+    
+    <section>
         <title>Entering HTML</title>
         
         <para>
