@@ -12,18 +12,15 @@ options
 	private java.util.Set htmlElements = new java.util.HashSet( java.util.Arrays.asList( new String[] { "a", "p", "quote", "code", "pre", "table", "tr", "td", "th", "ul", "ol", "li", "b", "i", "u", "tt", "del", "em", "hr", "br", "div", "span", "h1", "h2", "h3", "h4", "img" } ) );
 	private java.util.Set htmlAttributes = new java.util.HashSet( java.util.Arrays.asList( new String[] { "src", "href", "lang", "class", "id" } ) );
 	
-    private StringBuilder builder = new StringBuilder();
+    private StringBuilder mainBuilder = new StringBuilder();
+    private StringBuilder builder = mainBuilder;
     
     public String toString() {
         return builder.toString();
     }
     
-    public void append(String... strings) {
+    private void append(String... strings) {
         for (String string: strings) builder.append(string);
-    }
-    
-    public void append(StringBuilder sb) {
-        builder.append(sb);
     }
     
     private static boolean hasMultiple(String string, char c) {
@@ -40,6 +37,22 @@ options
         if ( !htmlAttributes.contains( t.getText().toLowerCase() ) ) {
             throw new NoViableAltException(t, null);
         }
+    }
+    
+    private void beginCapture() {
+        builder = new StringBuilder();
+    }
+    
+    private String endCapture() {
+        String result = builder.toString();
+        builder = mainBuilder;
+        return result;
+    }
+    
+    protected String linkUrl(String linkText) { return linkText.trim(); }
+    
+    protected String linkDescription(String descriptionText, String linkText) { 
+        return descriptionText.toString().trim().length()>0 ? descriptionText : linkText; 
     }
 
 }
@@ -96,13 +109,13 @@ htmlSpecialChars:
     ;
     
 link: OPEN 
-      { StringBuilder main=builder; builder = new StringBuilder(); } 
+      { beginCapture(); } 
       (plain)* 
-      { StringBuilder text=builder; builder=main; } 
+      { String text=endCapture(); } 
       EQ GT 
-      { append("<a href=\""); } 
+      { beginCapture(); }
       attributeValue 
-      { append("\">"); append(text); append("</a>"); } 
+      { String link = endCapture(); append("<a href=\""); append( linkUrl(link) ); append("\">"); append( linkDescription(text, link) ); append("</a>"); } 
       CLOSE
     ;
     
