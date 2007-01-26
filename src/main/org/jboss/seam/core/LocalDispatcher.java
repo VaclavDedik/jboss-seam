@@ -15,5 +15,5 @@ public interface LocalDispatcher
    public Timer scheduleInvocation(InvocationContext invocation, Component component);
    public Timer scheduleEvent(String type, Long duration, Date expiration, Long intervalDuration, Object... parameters);
     
-    public Object call(Callable task);
+   public Object call(Callable task);
 }
