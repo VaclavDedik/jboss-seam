@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:s="http://jboss.com/products/seam/taglib">
+
+  <ui:composition template="template.xhtml">
+    <ui:define name="content">
+      
+      <div class="errors"><h:messages globalOnly="true"/></div>       
+
+      <s:div rendered="#{selectedBlog == null}">
+        Sorry, but this blog entry does not exist.
+      </s:div>
+    
+      <s:div rendered="#{selectedBlog != null}">
+      
+        <s:div id="blogMemberCard">
+          <h:outputLink value="profile.seam?name=#{selectedMember.memberName}">
+	          #{selectedMember.memberName}<br/>
+	          <h:graphicImage value="/content/images?id=#{selectedMember.picture.imageId}&amp;width=90"/>
+	        </h:outputLink>
+                           
+          <br style="clear:both"/>          
+        </s:div>
+
+				<s:div id="blog">
+          <div class="blogEntry">
+            <h:form>
+              
+              <div class="formRow">
+                <h:outputLabel for="title">Title</h:outputLabel><br/>
+                <h:inputText name="title" value="#{selectedBlog.title}"/>
+              </div>
+              
+              <h:inputText name="text" value="#{selectedBlog.text}"/>
+
+              <div class="buttons">
+                <h:commandButton action="#{blog.saveEntry}" value="Add entry" styleClass="action"/>            
+                <h:commandButton action="#{blog.previewEntry}" value="Preview" styleClass="action"/>                            
+              </div>
+              
+              <br class="clear"/>
+            </h:form>                      
+          </div>
+                    
+	      </s:div>
+	                      
+      </s:div>                
+          
+      <br class="clear"/>          
+          
+    </ui:define>
+    
+  </ui:composition>
+</html>

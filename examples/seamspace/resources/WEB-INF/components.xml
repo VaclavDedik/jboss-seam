@@ -22,5 +22,9 @@
     <component class="org.jboss.seam.drools.RuleBase" name="securityRules">
         <property name="ruleFiles">/META-INF/security-rules.drl</property>
     </component>
+    
+    <component class="org.jboss.seam.security.Identity">
+        <property name="authMethod">#{authenticator.authenticate}</property>
+    </component>
         
 </components>

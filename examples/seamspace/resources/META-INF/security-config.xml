@@ -15,13 +15,5 @@
       </permissions>    
     </role>
   </roles>
-  
-  <application-policy>
-    <authentication>
-	    <login-module code="org.jboss.seam.security.spi.SeamLoginModule" flag="required">
-	      <module-option name="authMethod">#{authenticator.authenticate}</module-option>
-	    </login-module>
-	  </authentication>
-  </application-policy>
 
 </security-config>
