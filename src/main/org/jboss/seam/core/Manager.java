@@ -896,16 +896,22 @@ public class Manager
             {
                builder.append('&')
                   .append(parameterName)
-                  .append('=')
-                  .append(value);
+                  .append('=');
+               if (value!=null)
+               {
+                  builder.append(value);
+               }
             }
          }
          else
          {
             builder.append('&')
                   .append(parameterName)
-                  .append('=')
-                  .append(parameterValue);
+                  .append('=');
+            if (parameterValue!=null)
+            {
+               builder.append(parameterValue);
+            }
          }
       }
       if ( url.indexOf('?')<0 ) 
