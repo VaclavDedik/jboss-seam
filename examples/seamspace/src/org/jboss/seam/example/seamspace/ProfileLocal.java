@@ -14,5 +14,7 @@ public interface ProfileLocal
   List getLatestBlogs();
   void getMemberBlogs();
   
+  List getFriends();  
+  
   void destroy();  
 }

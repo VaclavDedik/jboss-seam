@@ -115,6 +115,30 @@ h1, h2, h3 {
   padding: 2px;  
 }
 
+#memberFriends {
+  width: 400px;
+  float: right;
+  margin-right: 10px;
+  margin-top: 12px;
+  border: 2px solid #eeeeee;
+  padding: 2px;
+}
+
+div.friend {
+  float: left;
+  width: 99px;
+  text-align: center;
+}
+
+#friendComments {
+  width: 400px;
+  float: right;
+  margin-right: 10px;
+  margin-top: 12px;
+  border: 2px solid #eeeeee;
+  padding: 2px;
+}
+
 div.blogSummary {
   padding: 0px 2px 4px 2px;
   margin-bottom: 8px;

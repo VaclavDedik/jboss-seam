@@ -68,7 +68,6 @@ public class Member implements Serializable
    private Set<MemberRole> roles;
    private Set<MemberImage> images;   
 
-
    @Id @GeneratedValue
    public Integer getMemberId()
    {

@@ -51,6 +51,26 @@
           </s:span>
         </s:div>
         
+        <s:div id="memberFriends">
+          <div class="sectionHeader">#{selectedMember.memberName}'s friends</div>
+          
+          <ui:repeat value="#{profile.friends}" var="f">
+            <div class="friend">
+            
+              <h:outputLink value="profile.seam?name=#{f.memberName}">
+                #{f.memberName}<br/>
+                <h:graphicImage value="/content/images?id=#{f.picture.imageId}&amp;width=90"/>
+              </h:outputLink>
+              
+            </div>          
+          </ui:repeat>          
+        
+        </s:div>
+        
+        <s:div id="friendComments">
+          <div class="sectionHeader">#{selectedMember.memberName}'s friend's comments</div>
+          
+        </s:div>        
       </s:div>                
           
     </ui:define>
