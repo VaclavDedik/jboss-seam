@@ -6,6 +6,7 @@ import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.el.ValueBinding;
+import javax.servlet.http.HttpServletRequestWrapper;
 
 import org.jboss.seam.servlet.MultipartRequest;
 
@@ -31,6 +32,11 @@ public class FileUpload extends UIComponentBase
       super.decode(context);
       
       Object request = context.getExternalContext().getRequest();
+      
+      if (request instanceof HttpServletRequestWrapper)
+      {
+         request = ((HttpServletRequestWrapper) request).getRequest();
+      }
 
       if (request instanceof MultipartRequest)
       {
