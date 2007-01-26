@@ -100,6 +100,17 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.&lt;/f:facet&gt;
     &lt;p&gt;This email demonstrates that you can easily use &lt;i&gt;facelets templating features&lt;/i&gt; in your code!&lt;/p&gt;
 &lt;/ui:define&gt;</programlisting>
 	    </section>
+	    
+	    <section>
+	    	<title>Other Headers</title>
+	    	<para>Sometimes you'll want to add other headers to your email.  Seam provides support for some (see <xref linkend="mail.tags" />).
+	    	For example, we can set the importance of the email, and ask for a read receipt:</para>
+	    	<programlisting>&lt;m:message xmlns:m="http://jboss.com/products/seam/mail"
+   importance="low"
+   requestReadReceipt="true"&gt;</programlisting>
+	    	<para>Otherise you can add any header to the message using the <literal>&lt;m:header&gt;</literal> tag:</para>
+	    	<programlisting>&lt;m:header name="X-Sent-From" value="JBoss Seam" /&gt;</programlisting>
+	    </section>
 
 	</section>
 
@@ -107,8 +118,9 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.&lt;/f:facet&gt;
 		<title>Configuration</title>
 		<para>To include Email support in your application, include <literal>jboss-seam-mail.jar</literal> in your
             WEB-INF/lib directory. If you are using JBoss AS there is no further configuration needed to use Seam's
-            email support otherwise you need to make sure you have the JavaMail API, an implementation of the JavaMail API present 
-            (distributed with seam as <literal>lib/mail.jar</literal>), and a copy of the Java Activation Framework (distributed with seam as <literal>lib/activation.jar</literal>.</para>
+            email support.  Otherwise you need to make sure you have the JavaMail API, an implementation of the JavaMail API present 
+            (the API and impl used in JBoss AS are distributed with seam as <literal>lib/mail.jar</literal>), and a copy 
+            of the Java Activation Framework (distributed with seam as <literal>lib/activation.jar</literal>.</para>
         <para>The Seam Email module requires the use of Facelets as the view technology. Future versions of the library
             may also support the use of JSP. Additionally, it requires the use of the seam-ui package.</para>
 		<para>The mailSession component uses JavaMail to talk to a 'real' SMTP server.  If you have one running on localhost, then no further 
@@ -122,7 +134,7 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.&lt;/f:facet&gt;
 		
 	</section>
 
-    <section>
+    <section id="mail.tags">
         <title>Tags</title>
 
         <para>Emails are generated using tags in the
@@ -139,11 +151,10 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.&lt;/f:facet&gt;
 	               <para>
 	                   Root tag of a mail message
 	               </para>
-	              <!-- <itemizedlist>
+	              <itemizedlist>
 	                   <listitem>
 	                   <para>
 	                       <literal>importance</literal> &mdash; low, normal or high.  By default normal, this sets the importance of the mail message.
-	                       value.  
 	                   </para>
 	                   </listitem>
 	                   <listitem>
@@ -153,10 +164,11 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.&lt;/f:facet&gt;
 	                   </listitem>
 	                   <listitem>
 	                   <para>
-	                       <literal>requestReadReceipt</literal> &mdash; by default false, if set, a read receipt will be requested.
+	                       <literal>requestReadReceipt</literal> &mdash; by default false, if set, a read receipt will be request will be added, with the 
+	                       read receipt being sent to the <literal>From:</literal> address.
 	                   </para>
 	                   </listitem>
-	                   </itemizedlist>-->
+	                   </itemizedlist>
 	           </listitem>
         	</varlistentry>
         	<varlistentry>
@@ -249,6 +261,26 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.&lt;/f:facet&gt;
 	                   <listitem>
 	                   <para>
 	                       <literal>address</literal> &mdash; the email address of the recipient.
+	                   </para>
+	                   </listitem>
+	                   </itemizedlist>
+	           </listitem>
+        	</varlistentry>
+        	<varlistentry>
+        		<term>&lt;m:header&gt;</term>
+        		 <listitem>
+	               <para>
+	                  Add a header to the email (e.g. <literal>X-Sent-From: JBoss Seam</literal>
+	               </para>
+	              <itemizedlist>
+	                   <listitem>
+	                   <para>
+	                       <literal>name</literal> &mdash; The name of the header to add (e.g. <literal>X-Sent-From</literal>).
+	                   </para>
+	                   </listitem>
+	                   <listitem>
+	                   <para>
+	                       <literal>value</literal> &mdash; The value of the header to add (e.g. <literal>JBoss Seam</literal>).
 	                   </para>
 	                   </listitem>
 	                   </itemizedlist>

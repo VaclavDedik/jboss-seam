@@ -1,7 +1,9 @@
 <m:message xmlns="http://www.w3.org/1999/xhtml"
             xmlns:m="http://jboss.com/products/seam/mail"
             xmlns:h="http://java.sun.com/jsf/html"
-            xmlns:f="http://java.sun.com/jsf/core">
+            xmlns:f="http://java.sun.com/jsf/core"
+            importance="low" requestReadReceipt="true">
+    <m:header name="X-Sent-From" value="JBoss Seam" />
     <m:from name="Seam" address="do-not-reply@jboss.com" />
     <m:to name="#{person.firstname} #{person.lastname}">#{person.address}</m:to>
     <m:subject>Seam Mail</m:subject>

@@ -33,7 +33,7 @@ public class MailExample
          renderer.render("/html.xhtml");
          facesMessages.add("Email sent successfully");
       } catch (Exception e) {
-         facesMessages.add("Email sending failed");
+         facesMessages.add("Email sending failed:" + e.getMessage());
       }
     }
 
@@ -42,7 +42,7 @@ public class MailExample
          renderer.render("/plain.xhtml");
          facesMessages.add("Email sent successfully");
       } catch (Exception e) {
-         facesMessages.add("Email sending failed");
+         facesMessages.add("Email sending failed: " + e.getMessage());
       }
     }
    
