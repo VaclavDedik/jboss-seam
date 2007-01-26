@@ -86,11 +86,11 @@ public class ManagedJbpmContext implements Synchronization
    public void beforeCompletion()
    {
       log.debug( "flushing seam managed jBPM context" );
-      org.jbpm.graph.exe.ProcessInstance processInstance = ProcessInstance.instance();
+      /*org.jbpm.graph.exe.ProcessInstance processInstance = ProcessInstance.instance();
       if (processInstance!=null)
       {
          jbpmContext.save(processInstance);
-      }
+      }*/
       Contexts.getBusinessProcessContext().flush();
       jbpmContext.getSession().flush();
       log.debug( "done flushing seam managed jBPM context" );
