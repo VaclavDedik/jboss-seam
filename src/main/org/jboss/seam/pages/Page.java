@@ -8,6 +8,8 @@ import javax.faces.context.FacesContext;
 import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.core.Locale;
 import org.jboss.seam.core.Pages;
+import org.jboss.seam.security.AuthorizationException;
+import org.jboss.seam.security.Identity;
 /**
  * Metadata about page actions, page parameters, action navigation,
  * resource bundle, etc, for a particular JSF view id.
@@ -174,6 +176,17 @@ public final class Page
     */
    public boolean enter(FacesContext facesContext)
    {
+      if (isRestricted())
+      {
+         String expr = restriction;
+         // If no expression is configured, create a default one
+         if (expr == null)
+            expr = String.format("#{s:hasPermission('%s', 'view', null)}", 
+                     getViewId());
+            
+            Identity.instance().checkRestriction(expr);
+      }      
+      
       boolean result = false;
       
       getConversationControl().beginOrEndConversation();

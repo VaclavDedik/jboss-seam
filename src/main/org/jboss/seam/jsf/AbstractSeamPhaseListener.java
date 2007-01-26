@@ -1,9 +1,6 @@
 package org.jboss.seam.jsf;
-
 import static javax.faces.event.PhaseId.ANY_PHASE;
-
 import java.util.Map;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -11,7 +8,6 @@ import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 import javax.faces.model.DataModel;
-
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.Seam;
@@ -31,7 +27,6 @@ import org.jboss.seam.core.Pages;
 import org.jboss.seam.core.Switcher;
 import org.jboss.seam.core.Validation;
 import org.jboss.seam.util.Transactions;
-
 public abstract class AbstractSeamPhaseListener implements PhaseListener
 {
    
@@ -41,7 +36,6 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
    {
       return ANY_PHASE;
    }
-
    /**
     * Restore the page and conversation contexts during a JSF request
     */
@@ -66,7 +60,7 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
          log.debug( "After restoring conversation context: " + Contexts.getConversationContext() );
       }
    }
-   
+  
    /**
     * Look for a DataModel row selection in the request parameters,
     * and apply it to the DataModel.
@@ -138,7 +132,6 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
          Pageflow.instance().processEvents(name);
       }
    }
-
    public void afterPhase(PhaseEvent event)
    {
       if ( Contexts.isApplicationContextActive() )
@@ -146,18 +139,15 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
          Events.instance().raiseEvent("org.jboss.seam.afterPhase", event);
       }
    }
-
    protected void beforeUpdateModelValues(PhaseEvent event)
    {
       Pages.instance().applyViewRootValues( event.getFacesContext() );
       Manager.instance().setUpdateModelValuesCalled(true);
    }
-
    /**
     * Give the subclasses an opportunity to do stuff
     */
    protected void afterInvokeApplication() {}
-
    /**
     * Add a faces message when Seam-managed transactions fail.
     */
@@ -176,12 +166,10 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       }
       catch (Exception e) {} //swallow silently, not important
    }
-
    protected void beforeRender(PhaseEvent event)
    {  
       
       FacesContext facesContext = event.getFacesContext();
-
       if ( !Manager.instance().isUpdateModelValuesCalled() )
       {
          Pages.instance().applyRequestParameterValues(facesContext);
@@ -199,7 +187,6 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
          pageContext.remove( Seam.getComponentName(Switcher.class) );
          pageContext.remove( Seam.getComponentName(ConversationStack.class) );
       }
-
       selectDataModelRow( facesContext.getExternalContext().getRequestParameterMap() );
       
       enterPage(event);
@@ -235,7 +222,6 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       Manager.instance().endRequest( ContextAdaptor.getSession(externalContext) );
       Lifecycle.endRequest(externalContext);
    }
-
    protected void afterResponseComplete(FacesContext facesContext)
    {
       //responseComplete() was called by one of the other phases, 
@@ -246,7 +232,6 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       Manager.instance().endRequest( ContextAdaptor.getSession(externalContext) );
       Lifecycle.endRequest( facesContext.getExternalContext() );
    }
-
    private boolean enterPage(PhaseEvent event)
    {
       Lifecycle.setPhaseId( PhaseId.INVOKE_APPLICATION );
@@ -284,7 +269,6 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       if (exists) log.warn("There should only be one Seam phase listener per application");
       exists=true;
    }
-
    /////////Do not really belong here:
    
    void begin(PhaseId phaseId) {
@@ -302,7 +286,6 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
          throw new IllegalStateException("Could not start transaction", e);
       }
    }
-
    void commitOrRollback(PhaseId phaseId) {
       try 
       {
@@ -323,10 +306,8 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
          throw new IllegalStateException("Could not commit transaction", e);
       }
    }
-
    protected void afterProcessValidations(FacesContext facesContext)
    {
       Validation.instance().afterProcessValidations(facesContext);
    }
-
 }
