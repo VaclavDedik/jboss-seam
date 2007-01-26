@@ -35,7 +35,7 @@
       <navigation from-action="#{register.uploadPicture}">
         <redirect view-id="/profile.xhtml"/>
       </navigation>
-    </page>
+    </page>    
     
     <page view-id="/admin.xhtml">
       <restrict>#{s:hasRole('admin')}</restrict>    
@@ -48,6 +48,10 @@
         
         <navigation from-action="#{blog.createComment}">
           <redirect view-id="/comment.xhtml"/>
+        </navigation>
+        
+        <navigation from-action="#{blog.createEntry}">
+          <redirect view-id="/createBlog.xhtml"/>
         </navigation>
     </page>
     

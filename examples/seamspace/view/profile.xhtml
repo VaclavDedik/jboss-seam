@@ -38,7 +38,7 @@
         <s:div id="memberBlog">
           <div class="sectionHeader">#{selectedMember.memberName}'s latest blog entries</div>
           
-          <ui:repeat value="#{blog.latestBlogs}" var="latestBlog">
+          <ui:repeat value="#{profile.latestBlogs}" var="latestBlog">
             <div class="blogSummary">#{latestBlog.title} 
               (<h:outputLink value="blogentry.seam?name=#{selectedMember.memberName}&amp;blogId=#{latestBlog.blogId}">view more</h:outputLink>)
             </div>

@@ -24,18 +24,6 @@
         <url-pattern>*.seam</url-pattern>
     </filter-mapping>
     
-    <!-- Seam security filter -->
-    
-    <filter>
-      <filter-name>Seam Security Filter</filter-name>
-      <filter-class>org.jboss.seam.security.filter.SeamSecurityFilter</filter-class>
-    </filter>
-    
-    <filter-mapping>
-      <filter-name>Seam Security Filter</filter-name>
-      <url-pattern>*.seam</url-pattern>
-    </filter-mapping>
-    
     <!-- Seam exception filter -->
     
     <filter>

@@ -3,7 +3,6 @@ package org.jboss.seam.example.seamspace;
 import static org.jboss.seam.ScopeType.CONVERSATION;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
@@ -12,6 +11,7 @@ import javax.persistence.NoResultException;
 
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
@@ -35,9 +35,6 @@ public class BlogAction implements BlogLocal
    @In(required = false)
    private Member selectedMember;   
    
-   @Out(required = false)
-   private List memberBlogs;
-   
    @In(required = false) @Out(required = false)
    private MemberBlog selectedBlog;
    
@@ -48,33 +45,9 @@ public class BlogAction implements BlogLocal
    private Member authenticatedMember;
    
    /**
-    * Returns the 5 latest blog entries for a member
-    */
-   public List getLatestBlogs()
-   {
-      return entityManager.createQuery(
-           "from MemberBlog b where b.member = :member order by b.entryDate desc")
-           .setParameter("member", selectedMember)
-           .setMaxResults(5)
-           .getResultList();
-   }
-   
-   /**
-    * Used to read all blog entries for a member
-    */
-   @Factory("memberBlogs")
-   public void getMemberBlogs()
-   {
-      memberBlogs = entityManager.createQuery(
-            "from MemberBlog b where b.member.memberName = :memberName order by b.entryDate desc")
-            .setParameter("memberName", name)
-            .getResultList();
-   }
-   
-   /**
     * Used to read a single blog entry for a member
     */
-   @Factory("selectedBlog") @Begin  
+   @Factory("selectedBlog") @Begin
    public void getBlog()
    {
       try
@@ -88,7 +61,7 @@ public class BlogAction implements BlogLocal
       catch (NoResultException ex) { }
    }
    
-   @Factory("comment") @Restrict @Begin(join = true)
+   @Restrict 
    public void createComment()
    {      
       comment = new BlogComment();
@@ -105,6 +78,7 @@ public class BlogAction implements BlogLocal
       // don't really need to do anything here...
    }
    
+   @End
    public void saveComment()
    {      
       comment.setCommentDate(new Date());
@@ -114,9 +88,18 @@ public class BlogAction implements BlogLocal
       entityManager.refresh(selectedBlog);
    }     
    
+   @Begin
    public void createEntry()
    {
-      MemberBlog selectedBlog = new MemberBlog();              
+      selectedBlog = new MemberBlog();              
+   }
+   
+   public void saveEntry()
+   {
+      selectedBlog.setMember(authenticatedMember);
+      selectedBlog.setEntryDate(new Date());
+      
+      entityManager.persist(selectedBlog);
    }
    
    @Remove @Destroy

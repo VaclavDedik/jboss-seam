@@ -33,6 +33,9 @@ public class ProfileAction implements ProfileLocal
    @Out(required = false)
    private List newMembers;
    
+   @Out(required = false)
+   private List memberBlogs;   
+   
    @In(create=true)
    private EntityManager entityManager;
 
@@ -56,6 +59,30 @@ public class ProfileAction implements ProfileLocal
          catch (NoResultException ex) { }
       }
    }
+   
+   /**
+    * Returns the 5 latest blog entries for a member
+    */
+   public List getLatestBlogs()
+   {
+      return entityManager.createQuery(
+           "from MemberBlog b where b.member = :member order by b.entryDate desc")
+           .setParameter("member", selectedMember)
+           .setMaxResults(5)
+           .getResultList();
+   }
+   
+   /**
+    * Used to read all blog entries for a member
+    */
+   @Factory("memberBlogs")
+   public void getMemberBlogs()
+   {
+      memberBlogs = entityManager.createQuery(
+            "from MemberBlog b where b.member.memberName = :memberName order by b.entryDate desc")
+            .setParameter("memberName", name)
+            .getResultList();
+   }   
    
    @Factory("newMembers")
    public void newMembers()
