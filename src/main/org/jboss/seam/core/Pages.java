@@ -255,6 +255,10 @@ public class Pages
    {
       facesContext.getApplication().getNavigationHandler()
             .handleNavigation(facesContext, fromAction, outcome);
+      //after every time that the view may have changed,
+      //we need to flush the page context, since the 
+      //attribute map is being discarder
+      Contexts.getPageContext().flush();
    }
    
    public static Pages instance()

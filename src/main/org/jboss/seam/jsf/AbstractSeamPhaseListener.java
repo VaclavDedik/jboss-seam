@@ -190,6 +190,9 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       if ( Contexts.isPageContextActive() )
       {
          Context pageContext = Contexts.getPageContext();
+         //after every time that the view may have changed,
+         //we need to flush the page context, since the 
+         //attribute map is being discarder
          pageContext.flush();
          //force refresh of the conversation lists (they are kept in PAGE context)
          pageContext.remove( Seam.getComponentName(ConversationList.class) );
