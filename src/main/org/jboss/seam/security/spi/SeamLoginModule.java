@@ -13,10 +13,10 @@ import javax.security.auth.callback.PasswordCallback;
 import javax.security.auth.login.LoginException;
 import javax.security.auth.spi.LoginModule;
 
-import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Expressions.MethodBinding;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.SimpleGroup;
 import org.jboss.seam.security.SimplePrincipal;
 import org.jboss.seam.util.Reflections;
@@ -28,7 +28,6 @@ import org.jboss.seam.util.Reflections;
  */
 public class SeamLoginModule implements LoginModule
 {
-   private static final String OPTS_AUTH_METHOD = "authMethod";
    private static final String OPTS_PARAM_TYPES = "paramTypes";
    
    private static final LogProvider log = Logging.getLogProvider(SeamLoginModule.class);   
@@ -72,8 +71,7 @@ public class SeamLoginModule implements LoginModule
    public boolean login() 
       throws LoginException
    {
-      MethodBinding mb = Expressions.instance().createMethodBinding(
-            (String) options.get(OPTS_AUTH_METHOD));
+      MethodBinding mb = Identity.instance().getAuthMethod();
       
       Object[] params = null;
       

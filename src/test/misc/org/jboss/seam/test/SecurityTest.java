@@ -1,57 +1,8 @@
 package org.jboss.seam.test;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-
-import org.jboss.seam.security.config.SecurityConfigException;
-import org.jboss.seam.security.config.SecurityConfiguration;
-import org.testng.annotations.Test;
 
 public class SecurityTest
 {
-  private static final String ROLES_CONFIG = "<roles><role name=\"admin\">" +
-      "<members>superuser</members><permissions>" +
-      "<permission name=\"user\" action=\"create\"/>" +
-      "</permissions></role><role name=\"superuser\">" +
-      "<members>user</members><permissions>" +
-      "<permission name=\"account\" action=\"create\"/>" +
-      "</permissions></role><role name=\"user\"><permissions>" +
-      "<permission name=\"customer\" action=\"create\"/>" +
-      "</permissions></role></roles>";
-
-  class CustomSecurityConfiguration extends SecurityConfiguration 
-  {
-     @Override
-     public void loadConfigFromStream(InputStream config) throws SecurityConfigException {
-        super.loadConfigFromStream(config);
-     }
-  }
-
-  @Test
-  public void testRoleConfiguration()
-      throws Exception
-  {
-    String securityConfig = String.format("<security-config>%s</security-config>",
-                                          ROLES_CONFIG);
-
-    CustomSecurityConfiguration config = new CustomSecurityConfiguration();
-    config.loadConfigFromStream(new ByteArrayInputStream(securityConfig.getBytes()));
-
-//    assert config.getSecurityRoles().contains(new Role("admin"));
-//    assert config.getSecurityRoles().contains(new Role("superuser"));
-//    assert config.getSecurityRoles().contains(new Role("user"));
-
-//    for (Role r : config.getSecurityRoles())
-//    {
-//      if ("admin".equals(r.getName()))
-//      {
-//        assert r.hasPermission(new SeamPermission("user", "create"));
-//        assert r.isMember(new Role("superuser"));
-//        break;
-//      }
-//    }
-  }
-
   /*@Name("mock")
   class MockSecureEntityMethodId {
     private Integer id;

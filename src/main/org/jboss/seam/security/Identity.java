@@ -10,8 +10,10 @@ import java.security.acl.Group;
 import java.security.acl.Permission;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.faces.context.FacesContext;
@@ -21,8 +23,11 @@ import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.callback.NameCallback;
 import javax.security.auth.callback.PasswordCallback;
 import javax.security.auth.callback.UnsupportedCallbackException;
+import javax.security.auth.login.AppConfigurationEntry;
+import javax.security.auth.login.Configuration;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
+import javax.security.auth.login.AppConfigurationEntry.LoginModuleControlFlag;
 
 import org.drools.FactHandle;
 import org.drools.RuleBase;
@@ -36,9 +41,11 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.core.Expressions.MethodBinding;
 import org.jboss.seam.security.config.SecurityConfiguration;
 import org.jboss.seam.security.config.SecurityConfiguration.Role;
 import org.jboss.seam.security.rules.PermissionCheck;
+import org.jboss.seam.security.spi.SeamLoginModule;
 import org.jboss.seam.util.UnifiedELValueBinding;
 
 @Name("org.jboss.seam.security.identity")
@@ -47,9 +54,35 @@ import org.jboss.seam.util.UnifiedELValueBinding;
 public class Identity implements Serializable
 {  
    private static final long serialVersionUID = 3751659008033189259L;
+   
+   private static final String DEFAULT_CONFIG_NAME = "default";   
+   
+   private class LoginModuleConfiguration extends Configuration
+   {
+      private Map<String,AppConfigurationEntry[]> entries = new HashMap<String,AppConfigurationEntry[]>();
+      
+      public void addEntry(String name, AppConfigurationEntry[] entry)
+      {
+         entries.put(name, entry);
+      }
+      
+      @Override
+      public AppConfigurationEntry[] getAppConfigurationEntry(String name)
+      {
+         return entries.get(name);
+      }
+      
+      @Override
+      public void refresh() { }
+   }
+   
+   private static LoginModuleConfiguration defaultConfig = null;
       
    private String username;
    private String password;
+   
+   private MethodBinding authMethod;
+   private String postLoginMethod;
 
    protected Principal principal;   
    protected Subject subject;
@@ -58,7 +91,7 @@ public class Identity implements Serializable
    private RuleBase securityRules;
    
    private WorkingMemory securityContext;
-   
+      
    @Create
    public void create()
    {
@@ -146,10 +179,23 @@ public class Identity implements Serializable
    public void login()
       throws LoginException
    {
-      CallbackHandler cbh = createCallbackHandler(username, password);
-         
-      LoginContext lc = createLoginContext(null, cbh);
-      lc.login();      
+      login(null);      
+   }
+   
+   public void login(LoginContext loginContext)
+      throws LoginException
+   {
+      CallbackHandler handler = createCallbackHandler(username, password);
+   
+      if (loginContext == null)
+      {
+         loginContext = new LoginContext(DEFAULT_CONFIG_NAME, subject, handler, 
+                  getConfiguration());
+      }
+      
+      loginContext.login();
+      
+      postLogin();
    }
    
    public void logout()
@@ -238,52 +284,29 @@ public class Identity implements Serializable
          }
       };
    }
-   
-   
-   /**
-    * Creates a LoginContext without a callback handler
-    * 
-    * @throws LoginException
-    */
-   public LoginContext createLoginContext()
-      throws LoginException
+
+   protected Configuration getConfiguration()
    {
-      return createLoginContext(null, null);
+      if (defaultConfig == null)
+      {
+         createDefaultConfig();
+      }
+      
+      return defaultConfig;
    }
    
-   /**
-    * Creates a LoginContext using a configuration specified by name.
-    *  
-    * @param policyName The name of the security configuration policy to use
-    * @throws LoginException
-    */
-   public LoginContext createLoginContext(String policyName)
-      throws LoginException
+   private synchronized void createDefaultConfig()
    {
-      return createLoginContext(policyName, null);      
-   }
-      
-   /**
-    * A factory method for creating a LoginContext instance.  Users must use this
-    * method instead of creating their own LoginContext as this factory method
-    * creates a LoginContext with a custom configuration and overridden login()
-    * method.
-    * 
-    * @param cbHandler The callback handler provided to the LoginContext
-    * @throws LoginException
-    */
-   public LoginContext createLoginContext(String policyName, CallbackHandler cbHandler)
-       throws LoginException
-   {     
-      String name = policyName != null ? policyName : SecurityConfiguration.DEFAULT_LOGIN_MODULE_NAME;
-      
-      return new LoginContext(name, subject, cbHandler,
-            SecurityConfiguration.instance().getLoginModuleConfiguration()) {
-         @Override public void login() throws LoginException {
-            super.login();
-            postLogin();
-         }
-      };
+      if (defaultConfig == null)
+      {
+         defaultConfig = new LoginModuleConfiguration();
+         Map<String,String> options = new HashMap<String,String>();
+         AppConfigurationEntry[] entries = new AppConfigurationEntry[] {
+            new AppConfigurationEntry(SeamLoginModule.class.getName(), 
+                     LoginModuleControlFlag.REQUIRED, options)
+         };
+         defaultConfig.addEntry(DEFAULT_CONFIG_NAME, entries);
+      }
    }
    
    /**
@@ -410,5 +433,15 @@ public class Identity implements Serializable
    public WorkingMemory getSecurityContext()
    {
       return securityContext;
+   }
+   
+   public MethodBinding getAuthMethod()
+   {
+      return authMethod;
+   }
+   
+   public void setAuthMethod(MethodBinding authMethod)
+   {
+      this.authMethod = authMethod;
    }
 }

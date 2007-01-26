@@ -5,17 +5,14 @@ import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.InputStream;
 import java.security.acl.Permission;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.security.auth.login.AppConfigurationEntry;
-import javax.security.auth.login.Configuration;
-
 import org.dom4j.Document;
+import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.jboss.seam.Component;
@@ -44,9 +41,7 @@ import org.jboss.seam.util.Resources;
 @Install(value = false, precedence = BUILT_IN)
 @Intercept(InterceptionType.NEVER)
 public class SecurityConfiguration
-{
-   public static final String DEFAULT_LOGIN_MODULE_NAME = "default";
-   
+{   
    private static final String SECURITY_CONFIG_FILENAME = "/META-INF/security-config.xml";
 
    private static final LogProvider log = Logging
@@ -58,22 +53,6 @@ public class SecurityConfiguration
    private static final String SECURITY_MEMBERSHIPS = "memberships";
    private static final String SECURITY_PERMISSIONS = "permissions";
    private static final String SECURITY_PERMISSION = "permission";
-
-   // login modules
-   private static final String APPLICATION_POLICY = "application-policy";
-   private static final String APPLICATION_POLICY_NAME = "name";
-   private static final String AUTHENTICATION = "authentication";
-   private static final String LOGIN_MODULE = "login-module";
-   private static final String LOGIN_MODULE_CODE = "code";
-   private static final String LOGIN_MODULE_FLAG = "flag";
-   private static final String LOGIN_MODULE_OPTION = "module-option"; 
-   private static final String LOGIN_MODULE_OPTION_NAME = "name";
-   
-   // login module flags
-   private static final String LM_FLAG_REQUIRED = "REQUIRED";
-   private static final String LM_FLAG_OPTIONAL = "OPTIONAL";
-   private static final String LM_FLAG_SUFFICIENT = "SUFFICIENT";
-   private static final String LM_FLAG_REQUISITE = "REQUISITE";
    
    public final class Role
    {
@@ -117,17 +96,12 @@ public class SecurityConfiguration
 
    private Map<String, Role> securityRoles = new HashMap<String, Role>();
 
-   private String securityErrorPage = "/securityError.seam";
-
-   private LoginModuleConfiguration loginModuleConfig;
-
    /**
     * Initialization
-    * 
-    * @throws SecurityConfigException
     */
    @Create
-   public void init() throws SecurityConfigException
+   public void init()
+      throws DocumentException
    {
       InputStream in = Resources.getResourceAsStream(SECURITY_CONFIG_FILENAME);
       if (in != null)
@@ -152,17 +126,7 @@ public class SecurityConfiguration
       }
 
       return instance;
-   }   
-   
-   public void setSecurityErrorPage(String securityErrorPage)
-   {
-      this.securityErrorPage = securityErrorPage;
-   }
-
-   public String getSecurityErrorPage()
-   {
-      return securityErrorPage;
-   }     
+   }    
    
    public Role getSecurityRole(String name)
    {
@@ -173,52 +137,26 @@ public class SecurityConfiguration
     * Loads the security configuration from the specified InputStream.
     * 
     * @param config InputStream
-    * @throws SecurityConfigException
     */
    protected void loadConfigFromStream(InputStream config)
-         throws SecurityConfigException
+      throws DocumentException
    {
-      try
-      {
-         // Parse the incoming request as XML
-         SAXReader xmlReader = new SAXReader();
-         Document doc = xmlReader.read(config);
-         Element env = doc.getRootElement();
+      // Parse the incoming request as XML
+      SAXReader xmlReader = new SAXReader();
+      Document doc = xmlReader.read(config);
+      Element env = doc.getRootElement();
 
-         if (env.element(SECURITY_ROLES) != null)
-            loadSecurityRoles(env.element(SECURITY_ROLES));
-         
-         List<Element> policies = env.elements(APPLICATION_POLICY);
-         loadLoginModules(policies);
-      }
-      catch (Exception ex)
-      {
-         if (ex instanceof SecurityConfigException)
-            throw (SecurityConfigException) ex;
-         else
-            throw new SecurityConfigException(
-                  "Error loading security configuration", ex);
-      }
-   }
-
-   /**
-    * Returns the login module configuration
-    * 
-    */
-   public Configuration getLoginModuleConfiguration()
-   {
-      return loginModuleConfig;
+      if (env.element(SECURITY_ROLES) != null)
+         loadSecurityRoles(env.element(SECURITY_ROLES));
    }
    
    /**
     * Load the security roles
     * 
     * @param securityRoleElement Element
-    * @throws SecurityConfigException
     */
    @SuppressWarnings("unchecked")   
    protected void loadSecurityRoles(Element securityRoleElement)
-         throws SecurityConfigException
    {
       for (Element role : (List<Element>) securityRoleElement.elements(SECURITY_ROLE))
       {
@@ -248,59 +186,4 @@ public class SecurityConfiguration
          securityRoles.put(r.getName(), r);
       }
    }
-
-   @SuppressWarnings("unchecked")
-   protected void loadLoginModules(List<Element> policies)
-         throws SecurityConfigException
-   {
-      loginModuleConfig = new LoginModuleConfiguration();
-      List<AppConfigurationEntry> entries = new ArrayList<AppConfigurationEntry>();
-
-      for (Element policy : policies)
-      {      
-         List<Element> modules = policy.element(AUTHENTICATION).elements(LOGIN_MODULE);
-         if (modules != null)
-         {
-            for (Element module : modules)
-            {
-               Map<String, String> options = new HashMap<String, String>();
-      
-               for (Element option : (List<Element>) module.elements(LOGIN_MODULE_OPTION))
-               {
-                  options.put(option.attributeValue(LOGIN_MODULE_OPTION_NAME), 
-                              option.getTextTrim());
-               }
-               
-               AppConfigurationEntry entry = new AppConfigurationEntry(module
-                     .attributeValue(LOGIN_MODULE_CODE), getControlFlag(module
-                     .attributeValue(LOGIN_MODULE_FLAG)), options);
-               entries.add(entry);
-            }
-            
-            AppConfigurationEntry[] e = new AppConfigurationEntry[entries.size()];
-            entries.toArray(e);
-            
-            if (policy.attribute(APPLICATION_POLICY_NAME) != null)
-               loginModuleConfig.addEntry(policy.attributeValue(APPLICATION_POLICY_NAME), e);
-            else
-               loginModuleConfig.addEntry(DEFAULT_LOGIN_MODULE_NAME, e);
-         }
-      }
-   }
-
-   private AppConfigurationEntry.LoginModuleControlFlag getControlFlag(
-         String flag) throws SecurityConfigException
-   {
-      if (LM_FLAG_REQUIRED.equalsIgnoreCase(flag))
-         return AppConfigurationEntry.LoginModuleControlFlag.REQUIRED;
-      else if (LM_FLAG_OPTIONAL.equalsIgnoreCase(flag))
-         return AppConfigurationEntry.LoginModuleControlFlag.OPTIONAL;
-      else if (LM_FLAG_SUFFICIENT.equalsIgnoreCase(flag))
-         return AppConfigurationEntry.LoginModuleControlFlag.SUFFICIENT;
-      else if (LM_FLAG_REQUISITE.equalsIgnoreCase(flag))
-         return AppConfigurationEntry.LoginModuleControlFlag.REQUISITE;
-      else
-         throw new SecurityConfigException(String.format(
-               "Unrecognized login module control flag [%s]", flag));
-   }   
 }
