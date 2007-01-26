@@ -39,20 +39,46 @@ public class FacesMessages implements Serializable
    private static final long serialVersionUID = -5395975397632138270L;
    private transient List<Runnable> tasks;
    
-   private List<FacesMessage> facesMessages = new ArrayList<FacesMessage>();
-   private Map<String, List<FacesMessage>> keyedFacesMessages = new HashMap<String, List<FacesMessage>>();
+   private List<Message> facesMessages = new ArrayList<Message>();
+   private Map<String, List<Message>> keyedFacesMessages = new HashMap<String, List<Message>>();
+   
+   /**
+    * Workaround for non-serializability of
+    * JSF FacesMessage.Severity class.
+    * 
+    * @author Gavin King
+    *
+    */
+   class Message implements Serializable
+   {
+      private String summary;
+      private String detail;
+      private int severityOrdinal;
+      
+      Message(FacesMessage fm)
+      {
+         summary = fm.getSummary();
+         detail = fm.getDetail();
+         severityOrdinal = fm.getSeverity().getOrdinal();
+      }
+      
+      FacesMessage toFacesMessage()
+      {
+         return new FacesMessage( (Severity) FacesMessage.VALUES.get(severityOrdinal), summary, detail );
+      }
+   }
 
    public void beforeRenderResponse() 
    {
-      for (FacesMessage facesMessage: facesMessages)
+      for (Message message: facesMessages)
       {
-         FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+         FacesContext.getCurrentInstance().addMessage( null,message.toFacesMessage() );
       }
-      for ( Map.Entry<String, List<FacesMessage>> entry: keyedFacesMessages.entrySet() )
+      for ( Map.Entry<String, List<Message>> entry: keyedFacesMessages.entrySet() )
       {
-         for ( FacesMessage msg: entry.getValue() )
+         for ( Message msg: entry.getValue() )
          {
-            FacesContext.getCurrentInstance().addMessage( entry.getKey(), msg );
+            FacesContext.getCurrentInstance().addMessage( entry.getKey(), msg.toFacesMessage() );
          }
       }
       clear();
@@ -122,7 +148,7 @@ public class FacesMessages implements Serializable
     */
    public void add(FacesMessage facesMessage) 
    {
-      facesMessages.add(facesMessage);
+      facesMessages.add( new Message(facesMessage) );
    }
    
    /**
@@ -132,13 +158,13 @@ public class FacesMessages implements Serializable
    public void add(String id, FacesMessage facesMessage)
    {
       String clientId = getClientId(id);
-      List<FacesMessage> list = keyedFacesMessages.get(clientId);
+      List<Message> list = keyedFacesMessages.get(clientId);
       if (list==null)
       {
-         list = new ArrayList<FacesMessage>();
+         list = new ArrayList<Message>();
          keyedFacesMessages.put(clientId, list);
       }
-      list.add(facesMessage);
+      list.add( new Message(facesMessage) );
    }
    
    /**
