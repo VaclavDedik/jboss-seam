@@ -22,6 +22,7 @@ import org.jboss.seam.core.AbstractMutable;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
+//TODO Support this being a manager component for a javax.mail.Session from JNDI
 @Name("org.jboss.seam.mail.mailSession")
 @Install(precedence=BUILT_IN)
 @Scope(APPLICATION)

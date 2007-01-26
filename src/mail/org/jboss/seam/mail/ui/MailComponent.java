@@ -117,4 +117,20 @@ public abstract class MailComponent extends UIComponentBase
          return getValueBinding(localName).getValue(getFacesContext());
       }
    }
+   
+   /**
+    * Get a valuebinding as a Boolean 
+    */
+   protected Boolean getBoolean(String localName) {
+      Object o = getValue(localName);
+      if (o != null) {
+         if (o instanceof Boolean) {
+            return (Boolean) o;
+         } else {
+            return Boolean.valueOf(o.toString());
+         }
+      } else {
+         return null;
+      }
+   }
 }

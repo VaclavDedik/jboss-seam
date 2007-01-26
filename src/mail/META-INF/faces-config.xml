@@ -36,4 +36,8 @@
         <component-type>org.jboss.seam.mail.ui.UIReplyTo</component-type>
         <component-class>org.jboss.seam.mail.ui.UIReplyTo</component-class>
     </component>
+    <component>
+        <component-type>org.jboss.seam.mail.ui.UIHeader</component-type>
+        <component-class>org.jboss.seam.mail.ui.UIHeader</component-class>
+    </component>
 </faces-config>
