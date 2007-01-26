@@ -54,10 +54,7 @@ public class SeamSecurityFilter implements Filter
       HttpServletResponse hResponse = (HttpServletResponse) response;
 
       // Need this so that Pages doesn't throw a NPE
-      FacesContext facesContext = getFacesContext(request, response);
-
-      // TODO - calculate the view ID from the servlet path
-//      String viewID = null; // ?
+      getFacesContext(request, response);
 
       try
       {
