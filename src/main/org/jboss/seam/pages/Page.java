@@ -8,7 +8,6 @@ import javax.faces.context.FacesContext;
 import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.core.Locale;
 import org.jboss.seam.core.Pages;
-import org.jboss.seam.security.AuthorizationException;
 import org.jboss.seam.security.Identity;
 /**
  * Metadata about page actions, page parameters, action navigation,
