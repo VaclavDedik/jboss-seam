@@ -22,3 +22,5 @@ insert into BlogComment (commentid, blog_id, commentor_id, commentdate, comment)
 
 insert into Friend (id, member_id, friend_id, authorized) values (1, 1, 2, 1);
 insert into Friend (id, member_id, friend_id, authorized) values (2, 2, 1, 1);
+
+insert into FriendComment (id, member_id, friend_id, commentDate, comment) values (1, 1, 2, '2007-01-25', 'Cheer up!');

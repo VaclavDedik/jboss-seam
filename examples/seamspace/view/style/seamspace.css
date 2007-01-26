@@ -139,6 +139,17 @@ div.friend {
   padding: 2px;
 }
 
+table.friendComments {
+  width: 100%;
+}
+
+table.friendComments td {
+  border: 1px solid #dddddd;
+  background-color: #eeeeee;
+  text-align: center;
+  vertical-align: top;
+}
+
 div.blogSummary {
   padding: 0px 2px 4px 2px;
   margin-bottom: 8px;

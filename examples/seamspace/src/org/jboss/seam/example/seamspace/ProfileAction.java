@@ -106,6 +106,14 @@ public class ProfileAction implements ProfileLocal
             .getResultList();
    }
    
+   public List getFriendComments()
+   {
+      return entityManager.createQuery(
+            "from FriendComment c where c.member = :member order by commentDate desc")
+            .setParameter("member", selectedMember)
+            .getResultList();
+   }
+   
    @Remove @Destroy
    public void destroy() { }   
 }

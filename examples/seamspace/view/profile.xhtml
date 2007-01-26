@@ -70,6 +70,24 @@
         <s:div id="friendComments">
           <div class="sectionHeader">#{selectedMember.memberName}'s friend's comments</div>
           
+	        <ui:repeat value="#{profile.friendComments}" var="c">
+	          <table class="friendComments">
+	            <tr>
+		            <td>
+				          <h:outputLink value="profile.seam?name=#{c.friend.memberName}">
+					          #{c.friend.memberName}<br/>
+					          <h:graphicImage value="/content/images?id=#{c.friend.picture.imageId}&amp;width=90"/>
+					        </h:outputLink>
+		            </td>
+		            
+		            <td style="text-align: left">
+                  <b>#{c.formattedCommentDate}</b><br/>
+		              <p><s:formattedText value="#{c.comment}"/></p>
+		            </td>	            
+	            </tr>
+	          </table>
+	        </ui:repeat>            
+          
         </s:div>        
       </s:div>                
           
