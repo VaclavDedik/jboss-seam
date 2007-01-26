@@ -78,6 +78,11 @@ public class ProfileAction implements ProfileLocal
    @Factory("memberBlogs")
    public void getMemberBlogs()
    {
+      if (name == null && authenticatedMember != null)
+      {
+         name = authenticatedMember.getMemberName();
+      }      
+      
       memberBlogs = entityManager.createQuery(
             "from MemberBlog b where b.member.memberName = :memberName order by b.entryDate desc")
             .setParameter("memberName", name)

@@ -25,26 +25,53 @@
         </s:div>
 
 				<s:div id="blog">
+          <s:div rendered="#{selectedBlog.text != null}" styleClass="blogEntry">
+            Preview:
+            <p><s:formattedText value="#{selectedBlog.text}"/></p>
+          </s:div>				
+				
           <div class="blogEntry">
             <h:form>
               
               <div class="formRow">
-                <h:outputLabel for="title">Title</h:outputLabel><br/>
-                <h:inputText name="title" value="#{selectedBlog.title}"/>
+                <h:outputLabel for="title">Please type a title for your blog entry</h:outputLabel><br/>
+                <h:inputText name="title" value="#{selectedBlog.title}" styleClass="title"/>
               </div>
               
-              <h:inputText name="text" value="#{selectedBlog.text}"/>
+              <div class="formRow">
+                <h:outputLabel for="text">Type your blog entry here</h:outputLabel><br/>
+                <h:inputTextarea name="text" value="#{selectedBlog.text}"/>
+              </div>
 
               <div class="buttons">
                 <h:commandButton action="#{blog.saveEntry}" value="Add entry" styleClass="action"/>            
-                <h:commandButton action="#{blog.previewEntry}" value="Preview" styleClass="action"/>                            
+                <h:commandButton value="Preview" styleClass="action"/>                            
               </div>
               
               <br class="clear"/>
             </h:form>                      
           </div>
+                	      
+          <div>
+            <b>Seam Text Quick Reference</b><br/>
+            <pre><code>
+*bold* /italic/ |monospace| -strikethrough- ^super^ _underline_
+
++Big Heading
+Headings must be followed by text
+
+++Smaller heading
+Paragraphs are ended with a blank line.
+
+#ordered list item
+
+=unordered list item
+
+"quoted text"
+            </code></pre>
+          </div>                
                     
-	      </s:div>
+	      </s:div>      
 	                      
       </s:div>                
           

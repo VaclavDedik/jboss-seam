@@ -131,6 +131,22 @@ div.blogEntry a, div.blogEntry a:visited, div.blogEntry a:hover {
   margin-right: 8px;
 }
 
+div.blogEntry label {
+  font-weight: bold;
+}
+
+div.blogEntry input.title {
+  width: 560px;
+}
+
+div.blogEntry textarea {
+  font-family: verdana, arial, sans-serif, helvetica;
+  font-size:11px;
+  margin: 4px 12px 8px 0px;
+  width: 560px;
+  height: 120px;
+}
+
 div.blogDate {
   font-weight: bold;
   margin-bottom: 8px;
@@ -177,12 +193,13 @@ div.commentEntry {
 div.commentEntry label {
   font-weight: bold;
   color: #ffffff;
+  margin-bottom: 4px;
 }
 
 div.commentEntry textarea {
   font-family: verdana, arial, sans-serif, helvetica;
   font-size:11px;
-  margin: 8px 12px 8px 12px;
+  margin: 8px 12px 8px 6px;
   width: 560px;
   height: 120px;
 }

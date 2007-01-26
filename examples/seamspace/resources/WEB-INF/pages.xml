@@ -37,6 +37,12 @@
       </navigation>
     </page>    
     
+    <page view-id="/createBlog.xhtml">
+      <navigation from-action="#{blog.saveEntry}">
+        <redirect view-id="/blog.xhtml"/>
+      </navigation>
+    </page>
+    
     <page view-id="/admin.xhtml">
       <restrict>#{s:hasRole('admin')}</restrict>    
     </page>

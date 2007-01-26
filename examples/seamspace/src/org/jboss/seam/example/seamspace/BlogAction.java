@@ -2,6 +2,7 @@ package org.jboss.seam.example.seamspace;
 
 import static org.jboss.seam.ScopeType.CONVERSATION;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.ejb.Remove;
@@ -49,7 +50,7 @@ public class BlogAction implements BlogLocal
     */
    @Factory("selectedBlog") @Begin
    public void getBlog()
-   {
+   {     
       try
       {
          selectedBlog = (MemberBlog) entityManager.createQuery(
@@ -61,7 +62,7 @@ public class BlogAction implements BlogLocal
       catch (NoResultException ex) { }
    }
    
-   @Restrict 
+   @Factory("comment") @Restrict @Begin(join = true)
    public void createComment()
    {      
       comment = new BlogComment();
@@ -85,7 +86,8 @@ public class BlogAction implements BlogLocal
       entityManager.persist(comment);
       
       // Reload the blog entry
-      entityManager.refresh(selectedBlog);
+      selectedBlog = (MemberBlog) entityManager.find(MemberBlog.class, 
+            comment.getBlog().getBlogId());
    }     
    
    @Begin
@@ -94,10 +96,12 @@ public class BlogAction implements BlogLocal
       selectedBlog = new MemberBlog();              
    }
    
+   @End
    public void saveEntry()
    {
       selectedBlog.setMember(authenticatedMember);
       selectedBlog.setEntryDate(new Date());
+      selectedBlog.setComments(new ArrayList<BlogComment>());
       
       entityManager.persist(selectedBlog);
    }
