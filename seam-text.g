@@ -3,7 +3,7 @@ header
 package org.jboss.seam.text;
 }
 
-class P extends Parser;
+class SeamTextParser extends Parser;
 options
 {
 	k=4;
@@ -20,6 +20,10 @@ options
     
     public void append(String... strings) {
         for (String string: strings) builder.append(string);
+    }
+    
+    public void append(StringBuilder sb) {
+        builder.append(sb);
     }
     
     private static boolean hasMultiple(String string, char c) {
@@ -58,7 +62,7 @@ line: (plain|formatted) (plain|formatted|preformatted|quoted|html)*
 formatted: bold|underline|italic|monospace|superscript|deleted
     ;
 
-plain: word|punctuation|escape|space
+plain: word|punctuation|escape|space|link
     ;
   
 word: w:WORD { append( w.getText() ); }
@@ -89,6 +93,17 @@ htmlSpecialChars:
     | LT { append("&lt;"); } 
     | DOUBLEQUOTE { append("&quot;"); } 
     | AMPERSAND { append("&amp;"); }
+    ;
+    
+link: OPEN 
+      { StringBuilder main=builder; builder = new StringBuilder(); } 
+      (plain)* 
+      { StringBuilder text=builder; builder=main; } 
+      EQ GT 
+      { append("<a href=\""); } 
+      attributeValue 
+      { append("\">"); append(text); append("</a>"); } 
+      CLOSE
     ;
     
 bold: STAR { append("<b>"); }
@@ -197,7 +212,7 @@ attribute: space att:WORD EQ
 attributeValue: ( AMPERSAND { append("&amp;"); } | word | punctuation | space | specialChars )*
     ;
     
-class L extends Lexer;
+class SeamTextLexer extends Lexer;
 options
 {
 	k=2;
@@ -240,6 +255,12 @@ TWIDDLE: '~'
     ;
 
 DOUBLEQUOTE: '"'
+    ;
+    
+OPEN: '['
+    ;
+    
+CLOSE: ']'
     ;
 
 HASH: '#'
