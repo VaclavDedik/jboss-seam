@@ -75,7 +75,7 @@ line: (plain|formatted) (plain|formatted|preformatted|quoted|html)*
 formatted: bold|underline|italic|monospace|superscript|deleted
     ;
 
-plain: word|punctuation|escape|space|link
+plain: word|punctuation|escape|space|link|entity
     ;
   
 word: w:WORD { append( w.getText() ); }
@@ -99,6 +99,7 @@ specialChars:
         | e:ESCAPE { append( e.getText() ); }
         | t:TWIDDLE { append( t.getText() ); }
         | u:UNDERSCORE { append( u.getText() ); }
+        | sc:SEMICOLON { append( sc.getText() ); }
     ;
 
 htmlSpecialChars: 
@@ -106,6 +107,12 @@ htmlSpecialChars:
     | LT { append("&lt;"); } 
     | DOUBLEQUOTE { append("&quot;"); } 
     | AMPERSAND { append("&amp;"); }
+    ;
+    
+entity: AMPERSAND { append("&amp;"); } 
+        ( HASH { append("#"); } )? 
+        word 
+        SEMICOLON { append(";"); }
     ;
     
 link: OPEN 
@@ -150,7 +157,7 @@ deleted: MINUS { append("<del>"); }
     ;
     
 preformatted: BACKTICK { append("<pre>"); }
-              (word|punctuation|specialChars|htmlSpecialChars|space|newline)*
+              (word|punctuation|specialChars|htmlSpecialChars|space|simpleNewline)*
               BACKTICK { append("</pre>"); }
     ;
     
@@ -191,8 +198,11 @@ ulistLine: EQ { append("<li>"); } line { append("</li>"); }
 
 space: s:SPACE { append( s.getText() ); }
     ;
+    
+simpleNewline: n:NEWLINE { append( n.getText() ); }
+    ;
 
-newline: n:NEWLINE { append( n.getText() ); }
+newline: SEMICOLON { append("\n"); } | simpleNewline
     ;
     
 newlineOrEof: newline | EOF
@@ -234,7 +244,7 @@ options
 WORD: ('a'..'z'|'A'..'Z'|'0'..'9')+
     ;
     
-PUNCTUATION: ':' | ';' | '(' | ')' | '?' | '!' | '@' | '%' | '.' | ',' | '\''
+PUNCTUATION: ':' | '(' | ')' | '?' | '!' | '@' | '%' | '.' | ',' | '\''
     ;
     
 EQ: '='
@@ -286,6 +296,9 @@ GT: '>'
     ;
     
 LT: '<'
+    ;
+    
+SEMICOLON: ';'
     ;
     
 AMPERSAND: '&'
