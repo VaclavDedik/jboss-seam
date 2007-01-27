@@ -5,6 +5,8 @@ import java.util.Map;
 import javax.faces.context.FacesContext;
 
 import org.hibernate.validator.ClassValidator;
+import org.jboss.seam.Component;
+import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
@@ -21,7 +23,7 @@ import org.jboss.seam.core.Validators;
 import org.jboss.seam.log.Log;
 
 /**
- * Superclass for controller objects. Provides various
+ * Base class for controller objects. Provides various
  * helper methods that help slightly reduce the code
  * required to create a Seam component that acts as
  * a controller.
@@ -29,7 +31,7 @@ import org.jboss.seam.log.Log;
  * @author Gavin King
  *
  */
-public class Controller
+public abstract class Controller
 {
 
    @Logger Log log;
@@ -227,6 +229,21 @@ public class Controller
    protected void raiseTransactionSuccessEvent(String type, Object... parameters)
    {
       getEvents().raiseTransactionSuccessEvent(type, parameters);
+   }
+   
+   protected Object getComponentInstance(String name)
+   {
+      return Component.getInstance(name);
+   }
+
+   protected Object getComponentInstance(Class clazz)
+   {
+      return Component.getInstance(clazz);
+   }
+   
+   protected void invalidateSession()
+   {
+      Seam.invalidateSession();
    }
 
 }

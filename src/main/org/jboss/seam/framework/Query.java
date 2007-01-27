@@ -1,5 +1,6 @@
 package org.jboss.seam.framework;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -15,7 +16,7 @@ import org.jboss.seam.core.Expressions.ValueBinding;
 import org.jboss.seam.jsf.ListDataModel;
 
 /**
- * Superclass for components which manage a query
+ * Base class for components which manage a query
  * result set. This class may be reused by either
  * configuration or extension, and may be bound
  * directly to a view, or accessed by some
@@ -24,7 +25,7 @@ import org.jboss.seam.jsf.ListDataModel;
  * @author Gavin King
  *
  */
-public abstract class Query
+public abstract class Query extends Controller implements Serializable //TODO: extend MutableController!
 {
    private static final Pattern FROM_PATTERN = Pattern.compile("(^|\\s)(from)\\s", Pattern.CASE_INSENSITIVE);
    private static final Pattern ORDER_PATTERN = Pattern.compile("\\s(order)(\\s)+by\\s", Pattern.CASE_INSENSITIVE);

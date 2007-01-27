@@ -12,7 +12,7 @@ import org.hibernate.Session;
 import org.jboss.seam.Component;
 
 /**
- * Superclass for controller objects that perform
+ * Base class for controller objects that perform
  * persistence operations using Hibernate. Adds
  * convenience methods for access to the Hibernate
  * Session object.

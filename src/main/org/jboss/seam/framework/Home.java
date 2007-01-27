@@ -2,21 +2,17 @@ package org.jboss.seam.framework;
 
 import static javax.faces.application.FacesMessage.SEVERITY_INFO;
 
-import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
-import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Transactional;
-import org.jboss.seam.core.AbstractMutable;
-import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Expressions.ValueBinding;
 
 /**
- * Superclass for components which provide persistence
+ * Base class for components which provide persistence
  * operations to a managed entity instance. This class 
  * may be reused by either configuration or extension, 
  * and may be bound directly to a view, or accessed by 
@@ -26,9 +22,10 @@ import org.jboss.seam.core.Expressions.ValueBinding;
  *
  */
 @Scope(ScopeType.CONVERSATION)
-public class Home<E> extends AbstractMutable implements Serializable
+public abstract class Home<E> extends MutableController
 {
    private static final long serialVersionUID = -5462396456614090423L;
+   
    private Object id;
    protected E instance;
    private Class<E> entityClass;
@@ -37,23 +34,20 @@ public class Home<E> extends AbstractMutable implements Serializable
    private String deletedMessage = "Successfully deleted";
    private String createdMessage = "Successfully created";
    private String updatedMessage = "Successfully updated";
-
-   @In(create=true) 
-   private FacesMessages facesMessages; 
    
    protected void updatedMessage()
    {
-      facesMessages.addFromResourceBundle( SEVERITY_INFO, getUpdatedMessageKey(), getUpdatedMessage() );
+      getFacesMessages().addFromResourceBundle( SEVERITY_INFO, getUpdatedMessageKey(), getUpdatedMessage() );
    }
    
    protected void deletedMessage()
    {
-      facesMessages.addFromResourceBundle( SEVERITY_INFO, getDeletedMessageKey(), getDeletedMessage() );
+      getFacesMessages().addFromResourceBundle( SEVERITY_INFO, getDeletedMessageKey(), getDeletedMessage() );
    }
    
    protected void createdMessage()
    {
-      facesMessages.addFromResourceBundle( SEVERITY_INFO, getCreatedMessageKey(), getCreatedMessage() );
+      getFacesMessages().addFromResourceBundle( SEVERITY_INFO, getCreatedMessageKey(), getCreatedMessage() );
    }
 
    @Create

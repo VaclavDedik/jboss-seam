@@ -1,13 +1,22 @@
-package org.jboss.seam.core;
+package org.jboss.seam.framework;
+
+import java.io.Serializable;
+
+import org.jboss.seam.core.Mutable;
 
 /**
- * Base helper implementation of Mutable
+ * Base class for controllers which implement the
+ * Mutable interface.
  * 
  * @author Gavin King
  *
  */
-public abstract class AbstractMutable implements Mutable
+public abstract class MutableController 
+      extends Controller 
+      implements Serializable, Mutable
 {
+   //copy/paste from AbstractMutable
+   
    private transient boolean dirty;
 
    public boolean clearDirty()
@@ -23,13 +32,16 @@ public abstract class AbstractMutable implements Mutable
     * 
     * @param oldValue the old value of an attribute
     * @param newValue the new value of an attribute
+    * @return true if the newValue is not equal to the oldValue
     */
-   protected <T> void setDirty(T oldValue, T newValue)
+   protected <T> boolean setDirty(T oldValue, T newValue)
    {
-      dirty = dirty || (oldValue!=newValue && (
+      boolean attributeDirty = oldValue!=newValue && (
             oldValue==null || 
             !oldValue.equals(newValue) 
-         ));
+         );
+      dirty = dirty || attributeDirty;
+      return attributeDirty;
    }
    
    /**

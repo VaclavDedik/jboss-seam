@@ -6,7 +6,7 @@ import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.persistence.PersistenceProvider;
 
 /**
- * A Home object for JPA.
+ * Base class for Home objects of JPA entities.
  * 
  * @author Gavin King
  *

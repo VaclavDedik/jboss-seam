@@ -6,7 +6,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Transactional;
 
 /**
- * A Home object for Hibernate.
+ * Base class for Home objects for Hibernate entities.
  * 
  * @author Gavin King
  *
