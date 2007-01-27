@@ -521,4 +521,58 @@ Person_updated=Person #{person.firstName} #{person.lastName} updated]]></program
 </core:managed-persistence-context>]]></programlisting>
         
     </section>    
+
+    <section>
+        <title>Controller objects</title>
+        <para>
+            A totally optional part of the Seam Application Framework is the class
+            <literal>Controller</literal> and its subclasses 
+            <literal>EntityController</literal>
+            <literal>HibernateEntityController</literal> and
+            <literal>BusinessProcessController</literal>. These classes provide 
+            nothing more than some convenience methods for access to commonly
+            used built-in components and methods of built-in components. They help
+            save a few keystrokes (characters can add up!) and provide a great
+            launchpad for new users to explore the rich functionality built in
+            to Seam.
+        </para>
+        <para>
+            For example, here is what <literal>RegisterAction</literal> from the
+            Seam registration example would look like:
+        </para>
+        
+        <programlisting><![CDATA[@Stateless
+@Name("register")
+public class RegisterAction extends EntityController implements Register
+{
+
+   @In private User user;
+   
+   public String register()
+   {
+      List existing = createQuery("select u.username from User u where u.username=:username")
+         .setParameter("username", user.getUsername())
+         .getResultList();
+      
+      if ( existing.size()==0 )
+      {
+         persist(user);
+         info("Registered new user #{user.username}");
+         return "/registered.jspx";
+      }
+      else
+      {
+         addFacesMessage("User #{user.username} already exists");
+         return null;
+      }
+   }
+
+}]]></programlisting>
+
+        <para>
+            As you can see, its not an earthshattering improvement...
+        </para>
+
+    </section>
+    
 </chapter>
