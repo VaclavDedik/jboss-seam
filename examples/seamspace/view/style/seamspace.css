@@ -150,6 +150,10 @@ table.friendComments td {
   vertical-align: top;
 }
 
+td.friendCommentor {
+  width: 100px;
+}
+
 div.blogSummary {
   padding: 0px 2px 4px 2px;
   margin-bottom: 8px;

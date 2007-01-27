@@ -65,7 +65,9 @@ public class ContentServlet extends HttpServlet
       {
          ContentLocal contentAction = (ContentLocal) Component.getInstance(ContentAction.class);
 
-         MemberImage mi = contentAction.getImage(Integer.parseInt(request.getParameter("id")));
+         String id = request.getParameter("id");
+         MemberImage mi = (id != null && !"".equals(id)) ? 
+               contentAction.getImage(Integer.parseInt(id)) : null;
          
          String contentType = null;
          byte[] data = null;

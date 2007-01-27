@@ -101,7 +101,7 @@ public class ProfileAction implements ProfileLocal
    public List getFriends()
    {
       return entityManager.createQuery(
-            "select f.friend from Friend f where f.member = :member and authorized = true")
+            "select f.friend from MemberFriend f where f.member = :member and authorized = true")
             .setParameter("member", selectedMember)
             .getResultList();
    }

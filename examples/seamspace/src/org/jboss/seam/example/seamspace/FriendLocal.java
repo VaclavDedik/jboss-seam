@@ -3,15 +3,9 @@ package org.jboss.seam.example.seamspace;
 import javax.ejb.Local;
 
 @Local
-public interface BlogLocal
+public interface FriendLocal
 {
-   void getBlog();
-   
    void createComment();
    void saveComment();
-   
-   void createEntry();
-   void saveEntry();
-   
-   void destroy();
+   void destroy(); 
 }

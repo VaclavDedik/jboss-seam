@@ -46,9 +46,23 @@
     <page view-id="/admin.xhtml">
       <restrict>#{s:hasRole('admin')}</restrict>    
     </page>
+    
+    <page view-id="/profile.xhtml">
+      <navigation from-action="#{friend.createComment}">
+        <redirect view-id="/friendcomment.xhtml"/>
+      </navigation>
+    </page>
+    
+    <page view-id="/friendcomment.xhtml">
+      <navigation from-action="#{friend.saveComment}">        
+        <redirect view-id="/profile.xhtml">
+          <param name="name" value="#{friendComment.member.memberName}"/>
+        </redirect>
+      </navigation>
+    </page>
        
     <page view-id="*">
-        <navigation from-action="#{login.logout}">
+        <navigation from-action="#{identity.logout}">
             <redirect view-id="/home.xhtml"/>
         </navigation>
         

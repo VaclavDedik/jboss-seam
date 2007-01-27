@@ -67,6 +67,7 @@ public class Member implements Serializable
    
    private Set<MemberRole> roles;
    private Set<MemberImage> images;   
+   private Set<MemberFriend> friends;
 
    @Id @GeneratedValue
    public Integer getMemberId()
@@ -240,6 +241,28 @@ public class Member implements Serializable
    public void setImages(Set<MemberImage> images)
    {
       this.images = images;
+   }
+   
+   @OneToMany(mappedBy = "member")
+   public Set<MemberFriend> getFriends()
+   {
+      return friends;
+   }
+   
+   public void setFriends(Set<MemberFriend> friends)
+   {
+      this.friends = friends;
+   }
+   
+   @Transient
+   public boolean isFriend(Member member)
+   {
+      for (MemberFriend f : getFriends())
+      {
+         if (f.getFriend().equals(member) && f.isAuthorized())
+            return true;
+      }
+      return false;
    }
    
    @Transient

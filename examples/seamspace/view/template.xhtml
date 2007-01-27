@@ -17,6 +17,7 @@
       <div class="headerMenu">
         <!--s:link action="" value="SignUp"/-->
         <s:link action="#{identity.logout}" value="Log out" rendered="#{identity.loggedIn}"/>
+        <h:outputLink value="home.seam" rendered="#{not identity.loggedIn}">Log in</h:outputLink>
       </div>
       <br style="clear:both"/>
       <h:form>

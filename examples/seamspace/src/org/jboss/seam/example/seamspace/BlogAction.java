@@ -74,11 +74,6 @@ public class BlogAction implements BlogLocal
       comment.setBlog(selectedBlog);
    }
    
-   public void previewComment()
-   {
-      // don't really need to do anything here...
-   }
-   
    @End
    public void saveComment()
    {      

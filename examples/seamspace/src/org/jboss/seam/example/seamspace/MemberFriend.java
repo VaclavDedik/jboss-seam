@@ -11,8 +11,8 @@ import javax.persistence.ManyToOne;
 import org.jboss.seam.annotations.Name;
 
 @Entity
-@Name("friend")
-public class Friend implements Serializable
+@Name("memberFriend")
+public class MemberFriend implements Serializable
 {
    private static final long serialVersionUID = -167586088947004386L;
    
