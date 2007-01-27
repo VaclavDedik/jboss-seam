@@ -56,7 +56,7 @@ public class Identity implements Serializable
 {  
    private static final long serialVersionUID = 3751659008033189259L;
    
-   private static final String DEFAULT_CONFIG_NAME = "default";   
+   private static final String DEFAULT_JAAS_CONFIG_NAME = "default";   
    
    private class LoginModuleConfiguration extends Configuration
    {
@@ -95,8 +95,7 @@ public class Identity implements Serializable
       
    @Create
    public void create()
-   {
-      subject = new Subject();      
+   {     
       securityContext = securityRules.newWorkingMemory(false);
    }
 
@@ -190,11 +189,13 @@ public class Identity implements Serializable
    public void login(LoginContext loginContext)
       throws LoginException
    {
+      subject = new Subject();
+      
       CallbackHandler handler = createCallbackHandler(username, password);
    
       if (loginContext == null)
       {
-         loginContext = new LoginContext(DEFAULT_CONFIG_NAME, subject, handler, 
+         loginContext = new LoginContext(DEFAULT_JAAS_CONFIG_NAME, subject, handler, 
                   getConfiguration());
       }
       
@@ -255,7 +256,7 @@ public class Identity implements Serializable
             {
                if (securityContext.getFactHandle(value) == null)
                {
-                  handles.add(securityContext.assertObject(arg));
+                  handles.add(securityContext.assertObject(value));
                }
             }
          }
@@ -264,12 +265,6 @@ public class Identity implements Serializable
             handles.add(securityContext.assertObject(arg));
          }
       }      
-      
-      // this doesn't work?
-//      for (String nm : Contexts.getMethodContext().getNames())
-//      {
-//         handles.add(securityContext.assertObject(Contexts.getMethodContext().get(nm)));
-//      }
 
       securityContext.fireAllRules();
 
@@ -329,7 +324,7 @@ public class Identity implements Serializable
             new AppConfigurationEntry(SeamLoginModule.class.getName(), 
                      LoginModuleControlFlag.REQUIRED, options)
          };
-         defaultConfig.addEntry(DEFAULT_CONFIG_NAME, entries);
+         defaultConfig.addEntry(DEFAULT_JAAS_CONFIG_NAME, entries);
       }
    }
    
