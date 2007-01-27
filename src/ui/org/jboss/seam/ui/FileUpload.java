@@ -33,7 +33,8 @@ public class FileUpload extends UIComponentBase
       
       Object request = context.getExternalContext().getRequest();
       
-      if (request instanceof HttpServletRequestWrapper)
+      if (!(request instanceof MultipartRequest) && 
+               request instanceof HttpServletRequestWrapper)
       {
          request = ((HttpServletRequestWrapper) request).getRequest();
       }

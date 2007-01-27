@@ -9,7 +9,7 @@ import javax.ejb.ApplicationException;
  */
 @ApplicationException
 public class NotLoggedInException extends RuntimeException
-{
+{  
   public NotLoggedInException() 
   {
      super();

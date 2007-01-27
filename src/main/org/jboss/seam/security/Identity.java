@@ -82,7 +82,6 @@ public class Identity implements Serializable
    private String password;
    
    private MethodBinding authMethod;
-   private String postLoginMethod;
 
    protected Principal principal;   
    protected Subject subject;
@@ -166,14 +165,25 @@ public class Identity implements Serializable
     * Performs an authorization check, based on the specified security expression.
     * 
     * @param expr The security expression to evaluate
-    * @throws NotLoggedInException Thrown if the user is not authenticated
-    * @throws AuthorizationException if the authorization check fails
+    * @throws NotLoggedInException Thrown if the authorization check fails and 
+    * the user is not authenticated
+    * @throws AuthorizationException Thrown if the authorization check fails and
+    * the user is authenticated
     */
    public void checkRestriction(String expr)
    {      
       if (!evaluateExpression(expr))
-         throw new AuthorizationException(String.format(
-               "Authorization check failed for expression [%s]", expr));      
+      {
+         if (!isLoggedIn())
+         {
+            throw new NotLoggedInException();
+         }
+         else
+         {
+            throw new AuthorizationException(String.format(
+               "Authorization check failed for expression [%s]", expr));
+         }
+      }
    }
    
    public void login()
@@ -195,12 +205,18 @@ public class Identity implements Serializable
       
       loginContext.login();
       
+      password = null;
       postLogin();
    }
    
    public void logout()
    {
+      username = null;
+      password = null;
+      principal = null;
+      
       subject = new Subject();
+      securityContext = securityRules.newWorkingMemory(false);
    }
 
    /**
