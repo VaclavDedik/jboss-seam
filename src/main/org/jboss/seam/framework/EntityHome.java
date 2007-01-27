@@ -1,7 +1,7 @@
 package org.jboss.seam.framework;
 
 import javax.persistence.EntityManager;
-import org.jboss.seam.Component;
+
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.persistence.PersistenceProvider;
 
@@ -11,11 +11,9 @@ import org.jboss.seam.persistence.PersistenceProvider;
  * @author Gavin King
  *
  */
-public class EntityHome<E> extends Home<E>
+public class EntityHome<E> extends Home<EntityManager, E>
 {
    private static final long serialVersionUID = -3140094990727574632L;
-   
-   private EntityManager entityManager;
    
    @Override
    public void create()
@@ -76,16 +74,12 @@ public class EntityHome<E> extends Home<E>
    
    public EntityManager getEntityManager()
    {
-      if (entityManager==null)
-      {
-         entityManager = (EntityManager) Component.getInstance("entityManager");
-      }
-      return entityManager;
+      return getPersistenceContext();
    }
    
    public void setEntityManager(EntityManager entityManager)
    {
-      this.entityManager = entityManager;
+      setPersistenceContext(entityManager);
    }
    
 }

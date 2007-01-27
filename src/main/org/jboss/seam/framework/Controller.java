@@ -1,5 +1,6 @@
 package org.jboss.seam.framework;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import javax.faces.context.FacesContext;
@@ -31,7 +32,7 @@ import org.jboss.seam.log.Log;
  * @author Gavin King
  *
  */
-public abstract class Controller
+public abstract class Controller implements Serializable
 {
 
    @Logger Log log;

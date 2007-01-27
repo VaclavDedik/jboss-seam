@@ -3,7 +3,6 @@ package org.jboss.seam.framework;
 import java.util.List;
 
 import org.hibernate.Session;
-import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Transactional;
 
 /**
@@ -12,9 +11,8 @@ import org.jboss.seam.annotations.Transactional;
  * @author Gavin King
  *
  */
-public class HibernateEntityQuery extends Query
+public class HibernateEntityQuery extends Query<Session>
 {
-   private Session session;
 
    private List resultList;
    private Object singleResult;
@@ -83,16 +81,12 @@ public class HibernateEntityQuery extends Query
    
    public Session getSession()
    {
-      if (session==null)
-      {
-         session = (Session) Component.getInstance("session");
-      }
-      return session;
+      return getPersistenceContext();
    }
 
    public void setSession(Session session)
    {
-      this.session = session;
+      setPersistenceContext(session);
    }
 
    protected org.hibernate.Query createQuery()

@@ -1,6 +1,5 @@
 package org.jboss.seam.framework;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -25,7 +24,8 @@ import org.jboss.seam.jsf.ListDataModel;
  * @author Gavin King
  *
  */
-public abstract class Query extends Controller implements Serializable //TODO: extend MutableController!
+public abstract class Query<T> 
+      extends PersistenceController<T> //TODO: extend MutableController!
 {
    private static final Pattern FROM_PATTERN = Pattern.compile("(^|\\s)(from)\\s", Pattern.CASE_INSENSITIVE);
    private static final Pattern ORDER_PATTERN = Pattern.compile("\\s(order)(\\s)+by\\s", Pattern.CASE_INSENSITIVE);

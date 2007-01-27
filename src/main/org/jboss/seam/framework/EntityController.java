@@ -4,8 +4,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
 import javax.persistence.Query;
 
-import org.jboss.seam.Component;
-
 /**
  * Base class for controller objects that perform
  * persistence operations using JPA. Adds
@@ -15,72 +13,67 @@ import org.jboss.seam.Component;
  * @author Gavin King
  *
  */
-public class EntityController extends Controller
+public class EntityController extends PersistenceController<EntityManager>
 {
-   private EntityManager entityManager;
    
    public EntityManager getEntityManager()
    {
-      if (entityManager==null)
-      {
-         entityManager = (EntityManager) Component.getInstance("entityManager");
-      }
-      return entityManager;
+      return getPersistenceContext();
    }
    
    public void setEntityManager(EntityManager entityManager)
    {
-      this.entityManager = entityManager;
+      setPersistenceContext(entityManager);
    }
 
    protected Query createNamedQuery(String name)
    {
-      return entityManager.createNamedQuery(name);
+      return getEntityManager().createNamedQuery(name);
    }
 
    protected Query createQuery(String ejbql)
    {
-      return entityManager.createQuery(ejbql);
+      return getEntityManager().createQuery(ejbql);
    }
 
    protected <T> T find(Class<T> clazz, Object id)
    {
-      return entityManager.find(clazz, id);
+      return getEntityManager().find(clazz, id);
    }
 
    protected void flush()
    {
-      entityManager.flush();
+      getEntityManager().flush();
    }
 
    protected <T> T getReference(Class<T> clazz, Object id)
    {
-      return entityManager.getReference(clazz, id);
+      return getEntityManager().getReference(clazz, id);
    }
 
    protected void lock(Object entity, LockModeType lockMode)
    {
-      entityManager.lock(entity, lockMode);
+      getEntityManager().lock(entity, lockMode);
    }
 
    protected <T> T merge(T entity)
    {
-      return entityManager.merge(entity);
+      return getEntityManager().merge(entity);
    }
 
    protected void persist(Object entity)
    {
-      entityManager.persist(entity);
+      getEntityManager().persist(entity);
    }
 
    protected void refresh(Object entity)
    {
-      entityManager.refresh(entity);
+      getEntityManager().refresh(entity);
    }
 
    protected void remove(Object entity)
    {
-      entityManager.remove(entity);
+      getEntityManager().remove(entity);
    }
    
 }

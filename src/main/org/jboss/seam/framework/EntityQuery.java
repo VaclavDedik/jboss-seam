@@ -5,7 +5,6 @@ import java.util.Map;
 
 import javax.persistence.EntityManager;
 
-import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Transactional;
 
 /**
@@ -14,9 +13,8 @@ import org.jboss.seam.annotations.Transactional;
  * @author Gavin King
  *
  */
-public class EntityQuery extends Query
+public class EntityQuery extends Query<EntityManager>
 {
-   private EntityManager entityManager;
 
    private List resultList;
    private Object singleResult;
@@ -82,16 +80,12 @@ public class EntityQuery extends Query
    
    public EntityManager getEntityManager()
    {
-      if (entityManager==null)
-      {
-         entityManager = (EntityManager) Component.getInstance("entityManager");
-      }
-      return entityManager;
+      return getPersistenceContext();
    }
 
    public void setEntityManager(EntityManager entityManager)
    {
-      this.entityManager = entityManager;
+      setPersistenceContext(entityManager);
    }
 
    protected javax.persistence.Query createQuery()

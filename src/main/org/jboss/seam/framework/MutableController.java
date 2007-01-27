@@ -11,8 +11,8 @@ import org.jboss.seam.core.Mutable;
  * @author Gavin King
  *
  */
-public abstract class MutableController 
-      extends Controller 
+public abstract class MutableController<T> 
+      extends PersistenceController<T> 
       implements Serializable, Mutable
 {
    //copy/paste from AbstractMutable
@@ -34,7 +34,7 @@ public abstract class MutableController
     * @param newValue the new value of an attribute
     * @return true if the newValue is not equal to the oldValue
     */
-   protected <T> boolean setDirty(T oldValue, T newValue)
+   protected <U> boolean setDirty(U oldValue, U newValue)
    {
       boolean attributeDirty = oldValue!=newValue && (
             oldValue==null || 

@@ -22,7 +22,7 @@ import org.jboss.seam.core.Expressions.ValueBinding;
  *
  */
 @Scope(ScopeType.CONVERSATION)
-public abstract class Home<E> extends MutableController
+public abstract class Home<T, E> extends MutableController<T>
 {
    private static final long serialVersionUID = -5462396456614090423L;
    
@@ -125,7 +125,7 @@ public abstract class Home<E> extends MutableController
          if (type instanceof ParameterizedType)
          {
             ParameterizedType paramType = (ParameterizedType) type;
-            entityClass = (Class<E>) paramType.getActualTypeArguments()[0];
+            entityClass = (Class<E>) paramType.getActualTypeArguments()[1];
          }
          else
          {

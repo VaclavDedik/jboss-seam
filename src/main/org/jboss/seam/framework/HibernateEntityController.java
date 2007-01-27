@@ -9,7 +9,6 @@ import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
-import org.jboss.seam.Component;
 
 /**
  * Base class for controller objects that perform
@@ -20,102 +19,97 @@ import org.jboss.seam.Component;
  * @author Gavin King
  *
  */
-public class HibernateEntityController extends Controller
+public class HibernateEntityController extends PersistenceController<Session>
 {
-   private Session session;
    
    public Session getSession()
    {
-      if (session==null)
-      {
-         session = (Session) Component.getInstance("session");
-      }
-      return session;
+      return getPersistenceContext();
    }
    
    public void setSession(Session session)
    {
-      this.session = session;
+      setPersistenceContext(session);
    }
 
    protected Criteria createCriteria(Class clazz)
    {
-      return session.createCriteria(clazz);
+      return getSession().createCriteria(clazz);
    }
 
    protected Query createQuery(String hql) throws HibernateException
    {
-      return session.createQuery(hql);
+      return getSession().createQuery(hql);
    }
 
    protected SQLQuery createSQLQuery(String sql) throws HibernateException
    {
-      return session.createSQLQuery(sql);
+      return getSession().createSQLQuery(sql);
    }
 
    protected void delete(Object entity) throws HibernateException
    {
-      session.delete(entity);
+      getSession().delete(entity);
    }
 
    protected Filter enableFilter(String name)
    {
-      return session.enableFilter(name);
+      return getSession().enableFilter(name);
    }
 
    protected void flush() throws HibernateException
    {
-      session.flush();
+      getSession().flush();
    }
 
    protected <T> T get(Class<T> clazz, Serializable id, LockMode lockMode) throws HibernateException
    {
-      return (T) session.get(clazz, id, lockMode);
+      return (T) getSession().get(clazz, id, lockMode);
    }
 
    protected <T> T get(Class<T> clazz, Serializable id) throws HibernateException
    {
-      return (T) session.get(clazz, id);
+      return (T) getSession().get(clazz, id);
    }
 
    protected Query getNamedQuery(String name) throws HibernateException
    {
-      return session.getNamedQuery(name);
+      return getSession().getNamedQuery(name);
    }
 
    protected <T> T load(Class<T> clazz, Serializable id, LockMode lockMode) throws HibernateException
    {
-      return (T) session.load(clazz, id, lockMode);
+      return (T) getSession().load(clazz, id, lockMode);
    }
 
    protected <T> T load(Class<T> clazz, Serializable id) throws HibernateException
    {
-      return (T) session.load(clazz, id);
+      return (T) getSession().load(clazz, id);
    }
 
    protected void lock(Object entity, LockMode lockMode) throws HibernateException
    {
-      session.lock(entity, lockMode);
+      getSession().lock(entity, lockMode);
    }
 
    protected <T> T merge(T entity) throws HibernateException
    {
-      return (T) session.merge(entity);
+      return (T) getSession().merge(entity);
    }
 
    protected void persist(Object entity) throws HibernateException
    {
-      session.persist(entity);
+      getSession().persist(entity);
    }
 
    protected void refresh(Object entity, LockMode lockMode) throws HibernateException
    {
-      session.refresh(entity, lockMode);
+      getSession().refresh(entity, lockMode);
    }
 
    protected void refresh(Object entity) throws HibernateException
    {
-      session.refresh(entity);
+      getSession().refresh(entity);
    }
 
 }
