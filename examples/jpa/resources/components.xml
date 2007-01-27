@@ -16,6 +16,7 @@
     <core:entity-manager-factory name="bookingDatabase"/>
     
     <core:managed-persistence-context name="em" 
-        entity-manager-factory="#{bookingDatabase}"/>
+                               auto-create="true" 
+                    entity-manager-factory="#{bookingDatabase}"/>
     
 </components>

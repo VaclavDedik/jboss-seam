@@ -25,8 +25,7 @@ import org.jboss.seam.log.Log;
 public class HotelBookingAction
 {
    
-   // @PersistenceContext(type=EXTENDED)
-   @In (create=true)
+   @In
    private EntityManager em;
    
    @In 

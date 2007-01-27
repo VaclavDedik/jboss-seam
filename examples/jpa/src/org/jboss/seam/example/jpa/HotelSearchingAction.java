@@ -19,7 +19,7 @@ import org.jboss.seam.annotations.In;
 public class HotelSearchingAction
 {
    
-   @In (create=true)
+   @In
    private EntityManager em;
    
    private String searchString;

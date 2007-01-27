@@ -29,7 +29,7 @@ import org.jboss.seam.log.Log;
 public class BookingListAction implements Serializable
 {
    
-   @In (create=true)
+   @In
    private EntityManager em;
    
    @In
