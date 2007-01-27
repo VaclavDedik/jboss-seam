@@ -9,6 +9,7 @@ import java.security.Principal;
 import java.security.acl.Group;
 import java.security.acl.Permission;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -82,6 +83,7 @@ public class Identity implements Serializable
    private String password;
    
    private MethodBinding authMethod;
+   private MethodBinding postLogin;
 
    protected Principal principal;   
    protected Subject subject;
@@ -126,13 +128,6 @@ public class Identity implements Serializable
 
    public Principal getPrincipal()
    {
-      if (principal == null)
-      {
-         Set<Principal> principals = subject.getPrincipals(Principal.class);
-         if (!principals.isEmpty())
-            principal = principals.iterator().next();
-      }
-      
       return principal;
    }
    
@@ -252,9 +247,22 @@ public class Identity implements Serializable
 
       handles.add(securityContext.assertObject(check));
 
-      if (arg != null)
+      if (arg != null && securityContext.getFactHandle(arg) == null)
       {
-         handles.add(securityContext.assertObject(arg));
+         if (arg instanceof Collection)
+         {
+            for (Object value : ((Collection) arg))
+            {
+               if (securityContext.getFactHandle(value) == null)
+               {
+                  handles.add(securityContext.assertObject(arg));
+               }
+            }
+         }
+         else
+         {
+            handles.add(securityContext.assertObject(arg));
+         }
       }      
       
       // this doesn't work?
@@ -358,6 +366,8 @@ public class Identity implements Serializable
          }
          else
          {
+            if (principal == null) principal = p;
+            
             securityContext.assertObject(p);            
          }
       }
@@ -382,6 +392,9 @@ public class Identity implements Serializable
             break;
          }
       }
+      
+      if (postLogin != null)
+         postLogin.invoke();
    }
    
    /**
@@ -459,5 +472,15 @@ public class Identity implements Serializable
    public void setAuthMethod(MethodBinding authMethod)
    {
       this.authMethod = authMethod;
+   }
+   
+   public MethodBinding getPostLogin()
+   {
+      return postLogin;
+   }
+   
+   public void setPostLogin(MethodBinding postLogin)
+   {
+      this.postLogin = postLogin;
    }
 }
