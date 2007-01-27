@@ -69,6 +69,16 @@ public class Controller
       return FacesMessages.instance();
    }
    
+   protected void addFacesMessage(String messageTemplate, Object... params)
+   {
+      getFacesMessages().add(messageTemplate, params);
+   }
+   
+   protected void addFacesMessageFromResourceBundle(String key, Object... params)
+   {
+      getFacesMessages().addFromResourceBundle(key, params);
+   }
+   
    protected String render(String path)
    {
       return Renderer.instance().render(path);
