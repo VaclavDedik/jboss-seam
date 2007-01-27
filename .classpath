@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src/main"/>
+	<classpathentry kind="src" path="src/mail"/>
 	<classpathentry kind="src" path="src/pdf"/>
 	<classpathentry kind="src" path="src/test/misc"/>
 	<classpathentry kind="src" path="src/gen"/>
@@ -17,7 +18,6 @@
 	<classpathentry kind="lib" path="lib/jgroups.jar"/>
 	<classpathentry kind="lib" path="lib/jboss-aop-jdk50.jar"/>
 	<classpathentry kind="lib" path="lib/jboss-cache-jdk50.jar"/>
-	<classpathentry kind="lib" path="lib/jbpm-3.1.3.jar"/>
 	<classpathentry kind="lib" path="lib/el-api.jar"/>
 	<classpathentry kind="lib" path="lib/el-ri.jar"/>
 	<classpathentry kind="lib" path="lib/myfaces-api-1.1.4.jar"/>
@@ -29,5 +29,6 @@
 	<classpathentry kind="lib" path="lib/jsf-facelets.jar"/>
 	<classpathentry kind="lib" path="lib/mail.jar"/>
 	<classpathentry kind="lib" path="lib/itext-1.4.7.jar"/>
+	<classpathentry kind="lib" path="lib/jbpm-3.1.4.jar"/>
 	<classpathentry kind="output" path="output/classes"/>
 </classpath>
