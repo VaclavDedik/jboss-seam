@@ -25,7 +25,7 @@ public class LoginAction
    @Out(required=false)
    private User user;
    
-   @In (create=true)
+   @In
    private Session bookingDatabase;
    
    @In

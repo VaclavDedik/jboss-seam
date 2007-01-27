@@ -29,7 +29,7 @@ import org.hibernate.Session;
 public class BookingListAction implements Serializable
 {
    
-   @In (create=true)
+   @In
    private Session bookingDatabase;
    
    @In

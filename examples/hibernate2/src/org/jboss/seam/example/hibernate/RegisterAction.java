@@ -21,7 +21,7 @@ public class RegisterAction
    @In
    private User user;
    
-   @In (create=true)
+   @In
    private Session bookingDatabase;
    
    @In

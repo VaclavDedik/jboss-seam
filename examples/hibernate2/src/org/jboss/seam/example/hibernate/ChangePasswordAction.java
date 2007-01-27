@@ -20,7 +20,7 @@ public class ChangePasswordAction
    @In @Out
    private User user;
    
-   @In (create=true)
+   @In
    private Session bookingDatabase;
    
    private String verify;

@@ -18,7 +18,7 @@ import org.hibernate.Session;
 public class HotelSearchingAction
 {
    
-   @In (create=true)
+   @In
    private Session bookingDatabase;
    
    private String searchString;
