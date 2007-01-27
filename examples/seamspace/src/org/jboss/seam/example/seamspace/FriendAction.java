@@ -16,6 +16,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.RequestParameter;
 import org.jboss.seam.core.FacesMessages;
+import org.jboss.seam.security.Identity;
 
 @Stateful
 @Name("friend")
@@ -27,7 +28,7 @@ public class FriendAction implements FriendLocal
    @Out(required = false)
    private FriendComment friendComment;
    
-   @In
+   @In(required = false)
    private Member authenticatedMember;
    
    @In(create = true)
@@ -41,11 +42,18 @@ public class FriendAction implements FriendLocal
          Member member = (Member) entityManager.createQuery(
          "from Member where memberName = :memberName")
          .setParameter("memberName", name)
-         .getSingleResult(); 
-
-         friendComment = new FriendComment();
-         friendComment.setFriend(authenticatedMember);
-         friendComment.setMember(member);         
+         .getSingleResult();
+                  
+         if (!Identity.instance().hasPermission("friendComment", "create", member.getFriends()))
+         {
+            FacesMessages.instance().add("You cannot leave a comment for this member");
+         }
+         else
+         {
+            friendComment = new FriendComment();
+            friendComment.setFriend(authenticatedMember);
+            friendComment.setMember(member);
+         }
       }
       catch (NoResultException ex) 
       { 

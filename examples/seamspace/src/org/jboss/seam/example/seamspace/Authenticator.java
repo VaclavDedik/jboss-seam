@@ -12,7 +12,6 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Synchronized;
 import org.jboss.seam.core.FacesMessages;
-import org.jboss.seam.security.Identity;
 
 /**
  * Authenticator bean - authenticates the user against the database
