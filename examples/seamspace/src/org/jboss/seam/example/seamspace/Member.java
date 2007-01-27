@@ -255,17 +255,6 @@ public class Member implements Serializable
    }
    
    @Transient
-   public boolean isFriend(Member member)
-   {
-      for (MemberFriend f : getFriends())
-      {
-         if (f.getFriend().equals(member) && f.isAuthorized())
-            return true;
-      }
-      return false;
-   }
-   
-   @Transient
    public String getAge()
    {
       Calendar birthday = new GregorianCalendar();

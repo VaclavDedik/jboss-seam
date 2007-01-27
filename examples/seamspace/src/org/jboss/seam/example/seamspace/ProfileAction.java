@@ -31,10 +31,10 @@ public class ProfileAction implements ProfileLocal
    private Member authenticatedMember;
    
    @Out(required = false)
-   private List newMembers;
+   List newMembers;
    
    @Out(required = false)
-   private List memberBlogs;   
+   List memberBlogs;   
    
    @In(create=true)
    private EntityManager entityManager;

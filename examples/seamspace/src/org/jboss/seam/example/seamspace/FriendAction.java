@@ -15,6 +15,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.RequestParameter;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.security.Identity;
 
@@ -44,16 +45,12 @@ public class FriendAction implements FriendLocal
          .setParameter("memberName", name)
          .getSingleResult();
                   
-         if (!Identity.instance().hasPermission("friendComment", "create", member.getFriends()))
-         {
-            FacesMessages.instance().add("You cannot leave a comment for this member");
-         }
-         else
-         {
-            friendComment = new FriendComment();
-            friendComment.setFriend(authenticatedMember);
-            friendComment.setMember(member);
-         }
+         Contexts.getMethodContext().set("friends", member.getFriends());
+         Identity.instance().checkRestriction("#{s:hasPermission('friendComment', 'create', friends)}");
+
+         friendComment = new FriendComment();
+         friendComment.setFriend(authenticatedMember);
+         friendComment.setMember(member);
       }
       catch (NoResultException ex) 
       { 

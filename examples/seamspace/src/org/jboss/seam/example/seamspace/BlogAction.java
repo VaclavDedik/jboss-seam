@@ -34,7 +34,7 @@ public class BlogAction implements BlogLocal
    private EntityManager entityManager;
    
    @In(required = false)
-   private Member selectedMember;   
+   Member selectedMember;   
    
    @In(required = false) @Out(required = false)
    private MemberBlog selectedBlog;
