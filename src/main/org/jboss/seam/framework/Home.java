@@ -16,7 +16,11 @@ import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Expressions.ValueBinding;
 
 /**
- * Manager component for an instance of any class.
+ * Superclass for components which provide persistence
+ * operations to a managed entity instance. This class 
+ * may be reused by either configuration or extension, 
+ * and may be bound directly to a view, or accessed by 
+ * some intermediate Seam component.
  * 
  * @author Gavin King
  *

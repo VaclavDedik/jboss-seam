@@ -14,6 +14,16 @@ import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Expressions.ValueBinding;
 import org.jboss.seam.jsf.ListDataModel;
 
+/**
+ * Superclass for components which manage a query
+ * result set. This class may be reused by either
+ * configuration or extension, and may be bound
+ * directly to a view, or accessed by some
+ * intermediate Seam component.
+ * 
+ * @author Gavin King
+ *
+ */
 public abstract class Query
 {
    private static final Pattern FROM_PATTERN = Pattern.compile("(^|\\s)(from)\\s", Pattern.CASE_INSENSITIVE);

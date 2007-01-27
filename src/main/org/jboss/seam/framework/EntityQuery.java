@@ -8,6 +8,12 @@ import javax.persistence.EntityManager;
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Transactional;
 
+/**
+ * A Query object for JPA.
+ * 
+ * @author Gavin King
+ *
+ */
 public class EntityQuery extends Query
 {
    private EntityManager entityManager;

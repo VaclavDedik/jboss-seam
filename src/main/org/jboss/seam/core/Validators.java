@@ -34,6 +34,12 @@ public class Validators
 
    private Map<Class, ClassValidator> classValidators = Collections.synchronizedMap( new HashMap<Class, ClassValidator>() ); 
    
+   /**
+    * Get the cached ClassValidator instance.
+    * 
+    * @param modelClass the class to be validated
+    * @param name the component name
+    */
    public ClassValidator getValidator(Class modelClass, String name)
    {
       ClassValidator result = classValidators.get(modelClass);
@@ -45,7 +51,25 @@ public class Validators
       return result;
    }
    
-   public ClassValidator createValidator(Class modelClass, String name)
+   /**
+    * Get the cached ClassValidator instance.
+    * 
+    * @param modelClass the class to be validated
+    */
+   public <T> ClassValidator<T> getValidator(Class<T> modelClass)
+   {
+      return getValidator(modelClass);
+   }
+   
+   /**
+    * Create a new ClassValidator, or get it from the
+    * Component object for the default role of the 
+    * class.
+    * 
+    * @param modelClass the class to be validated
+    * @param name the component name
+    */
+   protected ClassValidator createValidator(Class modelClass, String name)
    {
       Component component = name==null ? null : Component.forName(name);
       if (component==null)
@@ -61,6 +85,15 @@ public class Validators
       }
    }
 
+   /**
+    * Validate that a value can be assigned to the property
+    * identified by a value expression.
+    * 
+    * @param context the FacesContext
+    * @param propertyExpression a value expression
+    * @param value the value that is to be assigned
+    * @return the validation failures, as InvalidValues
+    */
    public InvalidValue[] validate(FacesContext context, String propertyExpression, Object value)
    {
       int dot = propertyExpression.lastIndexOf('.');

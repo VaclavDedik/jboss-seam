@@ -5,6 +5,12 @@ import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.persistence.PersistenceProvider;
 
+/**
+ * A Home object for JPA.
+ * 
+ * @author Gavin King
+ *
+ */
 public class EntityHome<E> extends Home<E>
 {
    private static final long serialVersionUID = -3140094990727574632L;
@@ -27,6 +33,7 @@ public class EntityHome<E> extends Home<E>
       return getInstance()!=null && 
             getEntityManager().contains( getInstance() );
    }
+   
    @Transactional
    public String update()
    {
@@ -46,6 +53,7 @@ public class EntityHome<E> extends Home<E>
       createdMessage();
       return "persisted";
    }
+   
    @Transactional
    public String remove()
    {
@@ -65,6 +73,7 @@ public class EntityHome<E> extends Home<E>
       if (result==null) result = handleNotFound();
       return result;
    }
+   
    public EntityManager getEntityManager()
    {
       if (entityManager==null)
@@ -73,8 +82,10 @@ public class EntityHome<E> extends Home<E>
       }
       return entityManager;
    }
+   
    public void setEntityManager(EntityManager entityManager)
    {
       this.entityManager = entityManager;
    }
+   
 }

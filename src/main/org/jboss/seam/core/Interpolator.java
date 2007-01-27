@@ -48,7 +48,8 @@ public class Interpolator {
     * @param string a template
     * @return the interpolated string
     */
-   public String interpolate(String string, Object... params) {
+   public String interpolate(String string, Object... params) 
+   {
       if (params == null) 
       {
          params = new Object[0];

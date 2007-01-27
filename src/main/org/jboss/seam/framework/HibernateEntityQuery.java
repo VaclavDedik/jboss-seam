@@ -6,6 +6,12 @@ import org.hibernate.Session;
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Transactional;
 
+/**
+ * A Query object for Hibernate.
+ * 
+ * @author Gavin King
+ *
+ */
 public class HibernateEntityQuery extends Query
 {
    private Session session;

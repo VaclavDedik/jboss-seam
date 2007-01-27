@@ -10,6 +10,12 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 
+/**
+ * The current date, as an instance of java.util.Date.
+ * 
+ * @author Gavin King
+ *
+ */
 @Name("org.jboss.seam.framework.currentDate")
 @Install(precedence=BUILT_IN)
 @Scope(ScopeType.STATELESS)
