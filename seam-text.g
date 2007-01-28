@@ -84,7 +84,7 @@ word: w:WORD { append( w.getText() ); }
 punctuation: p:PUNCTUATION { append( p.getText() ); }
     ;
     
-escape: ESCAPE ( q:QUOTE { append( q.getText() ); } | specialChars | htmlSpecialChars )
+escape: ESCAPE ( specialChars | moreSpecialChars | evenMoreSpecialChars | htmlSpecialChars )
     ;
     
 specialChars:
@@ -100,6 +100,15 @@ specialChars:
         | t:TWIDDLE { append( t.getText() ); }
         | u:UNDERSCORE { append( u.getText() ); }
         | sc:SEMICOLON { append( sc.getText() ); }
+    ;
+    
+moreSpecialChars:
+          o:OPEN { append( o.getText() ); }
+        | c:CLOSE { append( c.getText() ); }
+    ;
+    
+evenMoreSpecialChars: 
+          q:QUOTE { append( q.getText() ); }
     ;
 
 htmlSpecialChars: 
@@ -157,7 +166,7 @@ deleted: MINUS { append("<del>"); }
     ;
     
 preformatted: BACKTICK { append("<pre>"); }
-              (word|punctuation|specialChars|htmlSpecialChars|space|simpleNewline)*
+              (word|punctuation|specialChars|moreSpecialChars|htmlSpecialChars|space|simpleNewline)*
               BACKTICK { append("</pre>"); }
     ;
     
