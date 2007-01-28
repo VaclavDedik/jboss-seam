@@ -143,7 +143,7 @@
            <listitem>
                <para>
                    A link that supports invocation of an action with control over conversation 
-                   propagation. Does not submit the form.
+                   propagation. <emphasis>Does not submit the form.</emphasis>
                </para>
                <itemizedlist>
                    <listitem>
@@ -194,7 +194,7 @@
            <listitem>
                <para>
                    A button that supports invocation of an action with control
-                   over conversation propagation. Does not submit the form.
+                   over conversation propagation. <emphasis>Does not submit the form.</emphasis>
                </para>
                <itemizedlist>
                    <listitem>
