@@ -2,6 +2,8 @@ package org.jboss.seam.util;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,8 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.math.BigInteger;
-import java.math.BigDecimal;
 @SuppressWarnings("serial")
 public class Conversions
 {
@@ -185,11 +185,25 @@ public class Conversions
          Converter elementConverter = converters.get(elementType);
          for (int i=0; i<strings.length; i++)
          {
-            Object element = elementConverter.toObject( new FlatPropertyValue(strings[i]), elementType );
-            list.add(element);
+            list.add( getElementValue( elementType, elementConverter, strings[i] ) );
          }
          return list;
       }
+
+   }
+   
+   private static Object getElementValue(Class elementType, Converter elementConverter, String string)
+   {
+      PropertyValue propertyValue = new FlatPropertyValue(string);
+      if ( propertyValue.isExpression() )
+      {
+         throw new IllegalArgumentException("No expressions allowed here");
+      }
+      if (elementConverter==null)
+      {
+         throw new IllegalArgumentException("No converter for element type: " + elementType.getName());
+      }
+      return elementConverter.toObject(propertyValue, elementType);
    }
    
    public static class MapConverter implements Converter<Map>
@@ -200,11 +214,9 @@ public class Conversions
          Class elementType = Reflections.getCollectionElementType(type);
          Map map = new HashMap( keyedValues.size() );
          Converter elementConverter = converters.get(elementType);
-         for (Map.Entry<String, String> me: keyedValues.entrySet())
+         for ( Map.Entry<String, String> me: keyedValues.entrySet() )
          {
-            String key = me.getKey();
-            Object element = elementConverter.toObject( new FlatPropertyValue( me.getValue() ), elementType );
-            map.put(key, element);
+            map.put( me.getKey(), getElementValue( elementType, elementConverter, me.getValue() ) );
          }
          return map;
       }
@@ -248,6 +260,7 @@ public class Conversions
       String[] getMultiValues();
       String getSingleValue();
       boolean isExpression();
+      boolean isMultiValued();
    }
    
    public static class FlatPropertyValue implements PropertyValue
@@ -275,6 +288,12 @@ public class Conversions
       {
          return string.startsWith("#{");
       }
+      
+      public boolean isMultiValued()
+      {
+         return false;
+      }
+      
       public Map<String, String> getKeyedValues()
       {
          throw new UnsupportedOperationException("not a keyed property value");
@@ -291,15 +310,18 @@ public class Conversions
    public static class MultiPropertyValue implements PropertyValue
    {     
       private String[] strings;
+      
       public MultiPropertyValue(String[] strings)
       {
          if (strings==null) throw new IllegalArgumentException();
          this.strings = strings;
       }
+      
       public String[] getMultiValues()
       {
          return strings;
       }
+      
       public String getSingleValue()
       {
          throw new UnsupportedOperationException("not a flat property value");
@@ -309,6 +331,12 @@ public class Conversions
       {
          throw new UnsupportedOperationException("not a keyed property value");
       }
+      
+      public boolean isMultiValued()
+      {
+         return true;
+      }
+      
       public boolean isExpression()
       {
          return false;
@@ -325,15 +353,18 @@ public class Conversions
    public static class AssociativePropertyValue implements PropertyValue
    {      
       private Map<String, String> keyedValues;
+      
       public AssociativePropertyValue(Map<String, String> keyedValues)
       {
          if (keyedValues==null) throw new IllegalArgumentException();
          this.keyedValues = keyedValues;
       }
+      
       public String[] getMultiValues()
       {
          throw new UnsupportedOperationException("not a multi-valued property value");
       }
+      
       public String getSingleValue()
       {
          throw new UnsupportedOperationException("not a flat property value");
@@ -345,6 +376,11 @@ public class Conversions
       }
       
       public boolean isExpression()
+      {
+         return false;
+      }
+      
+      public boolean isMultiValued()
       {
          return false;
       }

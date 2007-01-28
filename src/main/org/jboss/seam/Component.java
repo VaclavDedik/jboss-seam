@@ -396,6 +396,10 @@ public class Component
       {
          return new ELInitialValue(propertyValue, parameterClass, parameterType);
       }
+      else if ( propertyValue.isMultiValued() )
+      {
+         return new ListInitialValue(propertyValue, parameterClass, parameterType);
+      }
       else
       {
          return new ConstantInitialValue(propertyValue, parameterClass, parameterType);
@@ -2059,6 +2063,48 @@ public class Component
 
    }
 
+   public static class ListInitialValue implements InitialValue
+   {
+      private InitialValue[] initialValues;
+      private Class elementType;
+
+      public ListInitialValue(PropertyValue propertyValue, Class collectionClass, Type collectionType)
+      {
+         String[] expressions = propertyValue.getMultiValues();
+         this.initialValues = new InitialValue[expressions.length];
+         elementType = Reflections.getCollectionElementType(collectionType);
+         for ( int i=0; i<expressions.length; i++ )
+         {
+            PropertyValue elementValue = new Conversions.FlatPropertyValue( expressions[i] );
+            if ( elementValue.isExpression() )
+            {
+               initialValues[i] = new ELInitialValue(elementValue, elementType, elementType);
+            }
+            else
+            {
+               initialValues[i] = new ConstantInitialValue(elementValue, elementType, elementType);
+            }
+         }
+      }
+
+      public Object getValue(Class type)
+      {
+         List result = new ArrayList(initialValues.length);
+         for (InitialValue iv: initialValues)
+         {
+            result.add( iv.getValue(elementType) );
+         }
+         return result;
+      }
+      
+      @Override
+      public String toString()
+      {
+         return "ListInitialValue(" + elementType.getSimpleName() + ")";
+      }
+
+   }
+   
    public Method getPostActivateMethod()
    {
       return postActivateMethod;
