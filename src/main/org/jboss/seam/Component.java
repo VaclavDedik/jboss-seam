@@ -51,8 +51,6 @@ import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.Factory;
 import net.sf.cglib.proxy.MethodInterceptor;
 
-import org.jboss.seam.log.LogProvider;
-import org.jboss.seam.log.Logging;
 import org.hibernate.validator.ClassValidator;
 import org.jboss.seam.annotations.Asynchronous;
 import org.jboss.seam.annotations.Conversational;
@@ -108,6 +106,8 @@ import org.jboss.seam.interceptors.SecurityInterceptor;
 import org.jboss.seam.interceptors.SynchronizationInterceptor;
 import org.jboss.seam.interceptors.TransactionInterceptor;
 import org.jboss.seam.interceptors.ValidationInterceptor;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.util.Conversions;
 import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Parameters;
@@ -376,7 +376,7 @@ public class Component
                if ( !setterMethod.isAccessible() ) setterMethod.setAccessible(true);
                Class parameterClass = setterMethod.getParameterTypes()[0];
                Type parameterType = setterMethod.getGenericParameterTypes()[0];
-               initializerSetters.put( setterMethod, getInitialValue(propertyValue, parameterClass, parameterType) );
+               initializerSetters.put( setterMethod, getTopInitialValue(propertyValue, parameterClass, parameterType) );
             }
             else
             {
@@ -389,16 +389,32 @@ public class Component
       }
    }
 
-   private InitialValue getInitialValue(Conversions.PropertyValue propertyValue, Class parameterClass, Type parameterType)
+   private InitialValue getTopInitialValue(Conversions.PropertyValue propertyValue, Class parameterClass, Type parameterType)
    {
       //note that org.jboss.seam.core.init.jndiPattern looks like an EL expression but is not one!
-      if ( propertyValue.isExpression() && !beanClass.equals(Init.class) ) //TODO: support #{...} in <value> element
+      if ( propertyValue.isExpression() && getBeanClass().equals(Init.class) )
+      {
+         return new ConstantInitialValue(propertyValue, parameterClass, parameterType);
+      }
+      else
+      {
+         return getInitialValue(propertyValue, parameterClass, parameterType);
+      }
+   }
+
+   private static InitialValue getInitialValue(Conversions.PropertyValue propertyValue, Class parameterClass, Type parameterType)
+   {
+      if ( propertyValue.isExpression() )
       {
          return new ELInitialValue(propertyValue, parameterClass, parameterType);
       }
       else if ( propertyValue.isMultiValued() )
       {
          return new ListInitialValue(propertyValue, parameterClass, parameterType);
+      }
+      else if ( propertyValue.isAssociativeValued() )
+      {
+         return new MapInitialValue(propertyValue, parameterClass, parameterType);
       }
       else
       {
@@ -2071,19 +2087,12 @@ public class Component
       public ListInitialValue(PropertyValue propertyValue, Class collectionClass, Type collectionType)
       {
          String[] expressions = propertyValue.getMultiValues();
-         this.initialValues = new InitialValue[expressions.length];
+         initialValues = new InitialValue[expressions.length];
          elementType = Reflections.getCollectionElementType(collectionType);
          for ( int i=0; i<expressions.length; i++ )
          {
             PropertyValue elementValue = new Conversions.FlatPropertyValue( expressions[i] );
-            if ( elementValue.isExpression() )
-            {
-               initialValues[i] = new ELInitialValue(elementValue, elementType, elementType);
-            }
-            else
-            {
-               initialValues[i] = new ConstantInitialValue(elementValue, elementType, elementType);
-            }
+            initialValues[i] = getInitialValue(elementValue, elementType, elementType);
          }
       }
 
@@ -2101,6 +2110,44 @@ public class Component
       public String toString()
       {
          return "ListInitialValue(" + elementType.getSimpleName() + ")";
+      }
+
+   }
+   
+   public static class MapInitialValue implements InitialValue
+   {
+      private Map<InitialValue, InitialValue> initialValues;
+      private Class elementType;
+      private Class keyType;
+
+      public MapInitialValue(PropertyValue propertyValue, Class collectionClass, Type collectionType)
+      {
+         Map<String, String> expressions = propertyValue.getKeyedValues();
+         initialValues = new HashMap<InitialValue, InitialValue>(expressions.size());
+         elementType = Reflections.getCollectionElementType(collectionType);
+         keyType = Reflections.getMapKeyType(collectionType);
+         for ( Map.Entry<String, String> me: expressions.entrySet() )
+         {
+            PropertyValue keyValue = new Conversions.FlatPropertyValue( me.getKey() );
+            PropertyValue elementValue = new Conversions.FlatPropertyValue( me.getValue() );
+            initialValues.put( getInitialValue(keyValue, keyType, keyType), getInitialValue(elementValue, elementType, elementType) ); 
+         }
+      }
+
+      public Object getValue(Class type)
+      {
+         Map result = new HashMap(initialValues.size());
+         for ( Map.Entry<InitialValue, InitialValue> me : initialValues.entrySet() )
+         {
+            result.put( me.getKey().getValue(keyType), me.getValue().getValue(elementType) );
+         }
+         return result;
+      }
+      
+      @Override
+      public String toString()
+      {
+         return "MapInitialValue(" + keyType.getSimpleName() + "," + elementType.getSimpleName() + ")";
       }
 
    }

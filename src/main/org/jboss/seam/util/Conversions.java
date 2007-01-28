@@ -261,6 +261,7 @@ public class Conversions
       String getSingleValue();
       boolean isExpression();
       boolean isMultiValued();
+      boolean isAssociativeValued();
    }
    
    public static class FlatPropertyValue implements PropertyValue
@@ -290,6 +291,11 @@ public class Conversions
       }
       
       public boolean isMultiValued()
+      {
+         return false;
+      }
+      
+      public boolean isAssociativeValued()
       {
          return false;
       }
@@ -335,6 +341,11 @@ public class Conversions
       public boolean isMultiValued()
       {
          return true;
+      }
+      
+      public boolean isAssociativeValued()
+      {
+         return false;
       }
       
       public boolean isExpression()
@@ -383,6 +394,11 @@ public class Conversions
       public boolean isMultiValued()
       {
          return false;
+      }
+      
+      public boolean isAssociativeValued()
+      {
+         return true;
       }
       
       @Override

@@ -162,6 +162,25 @@ public class Reflections
       return (Class) typeArgument;
    }
    
+   public static Class getMapKeyType(Type collectionType)
+   {
+      if ( !(collectionType instanceof ParameterizedType) )
+      {
+         throw new IllegalArgumentException("collection type not parameterized");
+      }
+      Type[] typeArguments = ( (ParameterizedType) collectionType ).getActualTypeArguments();
+      if (typeArguments.length==0)
+      {
+         throw new IllegalArgumentException("no type arguments for collection type");
+      }
+      Type typeArgument = typeArguments[0];
+      if ( !(typeArgument instanceof Class) )
+      {
+         throw new IllegalArgumentException("type argument not a class");
+      }
+      return (Class) typeArgument;
+   }
+   
    public static Method getSetterMethod(Class clazz, String name)
    {
       Method[] methods = clazz.getMethods();
