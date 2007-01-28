@@ -1,21 +1,10 @@
 /**
-Datepicker, based on the work of Julian Robichaux -- http://www.nsftools.com
-history deleted for file size
-*/
+ * Datepicker, based on the work of Julian Robichaux -- http://www.nsftools.com
+ * history deleted for file size
+ */
 
 var datePickerDivID = "datepicker";
 var iFrameDivID = "datepickeriframe";
-
-// text label variables generate by selectDate component
-
-// these variables define the date formatting we're expecting and outputting.
-// If you want to use a different format by default, change the defaultDateSeparator
-// and defaultDateFormat variables either here or on your HTML page.
-var defaultDateSeparator = "/";        // common values would be "/" or "."
-var defaultDateFormat = "mdy"    // valid values are "mdy", "dmy", and "ymd"
-var dateSeparator = defaultDateSeparator;
-var dateFormat = defaultDateFormat;
-
 
 function displayDatePicker(dateFieldName, displayBelowThisObject, dtFormat, dtSep)
 {
@@ -25,18 +14,6 @@ function displayDatePicker(dateFieldName, displayBelowThisObject, dtFormat, dtSe
   // beneath the date field we're updating
   if (!displayBelowThisObject)
     displayBelowThisObject = targetDateField;
- 
-  // if a date separator character was given, update the dateSeparator variable
-  if (dtSep)
-    dateSeparator = dtSep;
-  else
-    dateSeparator = defaultDateSeparator;
- 
-  // if a date format was given, update the dateFormat variable
-  if (dtFormat)
-    dateFormat = dtFormat;
-  else
-    dateFormat = defaultDateFormat;
  
   var x = displayBelowThisObject.offsetLeft;
   var y = displayBelowThisObject.offsetTop + displayBelowThisObject.offsetHeight ;
@@ -54,12 +31,12 @@ function displayDatePicker(dateFieldName, displayBelowThisObject, dtFormat, dtSe
 
 
 /**
-Draw the datepicker object (which is just a table with calendar elements) at the
-specified x and y coordinates, using the targetDateField object as the input tag
-that will ultimately be populated with a date.
-
-This function will normally be called by the displayDatePicker function.
-*/
+ * Draw the datepicker object (which is just a table with calendar elements) at the
+ * specified x and y coordinates, using the targetDateField object as the input tag
+ * that will ultimately be populated with a date.
+ *
+ * This function will normally be called by the displayDatePicker function.
+ */
 function drawDatePicker(targetDateField, x, y)
 {
   var dt = getFieldDate(targetDateField.value );
@@ -93,8 +70,8 @@ function drawDatePicker(targetDateField, x, y)
 
 
 /**
-This is the function that actually draws the datepicker calendar.
-*/
+ * This is the function that actually draws the datepicker calendar.
+ */
 function refreshDatePicker(dateFieldName, year, month, day)
 {
   // if no arguments are passed, use today's date; otherwise, month and year
@@ -214,11 +191,11 @@ function getDayName(day) {
 }
 
 function getDay(day) {
-     var convertedDay = day - firstDayInWeek;
-     if (convertedDay < 0) {
-         convertedDay += 7;
-     }
-     return convertedDay;
+    var convertedDay = day - firstDayInWeek;
+    if (convertedDay < 0) {
+        convertedDay += 7;
+    }
+    return convertedDay;
 }
 
 function isWeekend(day) {
@@ -226,9 +203,9 @@ function isWeekend(day) {
 }
 
 /**
-Convenience function for writing the code for the buttons that bring us back or forward
-a month.
-*/
+ * Convenience function for writing the code for the buttons that bring us back or forward
+ * a month.
+ */
 function getButtonCode(dateFieldName, dateVal, adjust, label)
 {
   var newMonth = (dateVal.getMonth () + adjust) % 12;
@@ -243,112 +220,251 @@ function getButtonCode(dateFieldName, dateVal, adjust, label)
 
 
 /**
-Convert a JavaScript Date object to a string, based on the dateFormat and dateSeparator
-variables at the beginning of this script library.
-*/
+ * Convert a JavaScript Date object to a string, based on the dateFormat and dateSeparator
+ * variables at the beginning of this script library.
+ */
 function getDateString(dateVal)
 {
-  var dayString = "00" + dateVal.getDate();
-  var monthString = "00" + (dateVal.getMonth()+1);
-  dayString = dayString.substring(dayString.length - 2);
-  monthString = monthString.substring(monthString.length - 2);
- 
-  switch (dateFormat) {
-    case "dmy" :
-      return dayString + dateSeparator + monthString + dateSeparator + dateVal.getFullYear();
-    case "ymd" :
-      return dateVal.getFullYear() + dateSeparator + monthString + dateSeparator + dayString;
-    case "mdy" :
-    default :
-      return monthString + dateSeparator + dayString + dateSeparator + dateVal.getFullYear();
-  }
+    return formatDate(dateVal, dateFormat);
+}
+
+/**
+ * formatDate (date_object, format)
+ * Returns a date in the output format specified.
+ * The format string uses the same abbreviations as in getDateFromFormat()
+ */
+function formatDate(date,format)
+{
+	format=format+"";
+	var result="";
+	var i_format=0;
+	var c="";
+	var token="";
+	var y=date.getYear()+"";
+	var M=date.getMonth()+1;
+	var d=date.getDate();
+	var E=date.getDay();
+	var H=date.getHours();
+	var m=date.getMinutes();
+	var s=date.getSeconds();
+	var yyyy,yy,MMM,MM,dd,hh,h,mm,ss,ampm,HH,H,KK,K,kk,k;
+	// Convert real date parts into formatted versions
+	var value=new Object();
+	if (y.length < 4) {y=""+(y-0+1900);}
+	value["y"]=""+y;
+	value["yyyy"]=y;
+	value["yy"]=y.substring(2,4);
+	value["M"]=M;
+	value["MM"]=LZ(M);
+	value["MMM"]=monthArrayLong[M-1];
+	value["NNN"]=monthArrayShort[M-1];
+	value["d"]=d;
+	value["dd"]=LZ(d);
+	value["E"]=dayArrayShort[E];
+	value["EE"]=dayArrayLong[E];
+	value["H"]=H;
+	value["HH"]=LZ(H);
+	if (H==0){value["h"]=12;}
+	else if (H>12){value["h"]=H-12;}
+	else {value["h"]=H;}
+	value["hh"]=LZ(value["h"]);
+	if (H>11){value["K"]=H-12;} else {value["K"]=H;}
+	value["k"]=H+1;
+	value["KK"]=LZ(value["K"]);
+	value["kk"]=LZ(value["k"]);
+	if (H > 11) { value["a"]="PM"; }
+	else { value["a"]="AM"; }
+	value["m"]=m;
+	value["mm"]=LZ(m);
+	value["s"]=s;
+	value["ss"]=LZ(s);
+	while (i_format < format.length) {
+		c=format.charAt(i_format);
+		token="";
+		while ((format.charAt(i_format)==c) && (i_format < format.length)) {
+			token += format.charAt(i_format++);
+			}
+		if (value[token] != null) { result=result + value[token]; }
+		else { result=result + token; }
+		}
+	return result;
 }
 
 
 /**
-Convert a string to a JavaScript Date object.
-*/
+ * Convert a string to a JavaScript Date object.
+ */
 function getFieldDate(dateString)
 {
-  var dateVal;
-  var dArray;
-  var d, m, y;
-
-  var limit, twoDigitYear;
-  var now = new Date();
-
-  try {
-    dArray = splitDateString(dateString);
-    if (dArray) {
-      switch (dateFormat) {
-        case "dmy" :
-          d = parseInt(dArray[0], 10);
-          m = parseInt(dArray[1], 10) - 1;
-          y = parseInt(dArray[2], 10);
-          break;
-        case "ymd" :
-          d = parseInt(dArray[2], 10);
-          m = parseInt(dArray[1], 10) - 1;
-          y = parseInt(dArray[0], 10);
-          break;
-        case "mdy" :
-        default :
-          d = parseInt(dArray[1], 10);
-          m = parseInt(dArray[0], 10) - 1;
-          y = parseInt(dArray[2], 10);
-          break;
-      }
-      
-      // The logic for years with two digits is documented in
-      // http://java.sun.com/j2se/1.5.0/docs/api/java/text/SimpleDateFormat.html
-      
-      twoDigitYear = y < 100;
-      if (twoDigitYear) {
-        limit = new Date(now.getFullYear() + 20, now.getMonth(), now.getDate());
-      	y += limit.getFullYear() - (limit.getFullYear() % 100);
-      }      
-      
-      dateVal = new Date(y, m, d);
-      
-      if (twoDigitYear) {
-      	if (dateVal > limit) {
-      	  dateVal.setFullYear(dateVal.getFullYear() - 100);
-      	}
-      }
-
-    } else if (dateString) {
-      dateVal = new Date(dateString);
-    } else {
-      dateVal = now;
-    }
-  } catch(e) {
-    dateVal = now;
-  }
- 
-  return dateVal;
+	var dateObj = getDateFromFormat(dateString,dateFormat);
+	if (!dateObj) {
+		dateObj = new Date();
+	}
+	return dateObj;
 }
 
 
-/**
-Try to split a date string into an array of elements, using common date separators.
-If the date is split, an array is returned; otherwise, we just return false.
-*/
-function splitDateString(dateString)
-{
-  var dArray;
-  if (dateString.indexOf("/") >= 0)
-    dArray = dateString.split("/");
-  else if (dateString.indexOf(".") >= 0)
-    dArray = dateString.split(".");
-  else if (dateString.indexOf("-") >= 0)
-    dArray = dateString.split("-");
-  else if (dateString.indexOf("\\") >= 0)
-    dArray = dateString.split("\\");
-  else
-    dArray = false;
- 
-  return dArray;
+// ------------------------------------------------------------------
+// Utility functions for parsing in getDateFromFormat()
+// ------------------------------------------------------------------
+function _isInteger(val) {
+	var digits="1234567890";
+	for (var i=0; i < val.length; i++) {
+		if (digits.indexOf(val.charAt(i))==-1) { return false; }
+	}
+	return true;
 }
+
+function _getInt(str,i,minlength,maxlength) {
+	for (var x=maxlength; x>=minlength; x--) {
+		var token=str.substring(i,i+x);
+		if (token.length < minlength) { return null; }
+		if (_isInteger(token)) { return token; }
+	}
+	return null;
+}
+	
+// ------------------------------------------------------------------
+// getDateFromFormat( date_string , format_string )
+//
+// This function takes a date string and a format string. It matches
+// If the date string matches the format string, it returns the 
+// getTime() of the date. If it does not match, it returns 0.
+// ------------------------------------------------------------------
+function getDateFromFormat(val,format) {
+	val=val+"";
+	format=format+"";
+	var i_val=0;
+	var i_format=0;
+	var c="";
+	var token="";
+	var token2="";
+	var x,y;
+	var now=new Date();
+	var year=now.getYear();
+	var month=now.getMonth()+1;
+	var date=1;
+	var hh=now.getHours();
+	var mm=now.getMinutes();
+	var ss=now.getSeconds();
+	var ampm="";
+	
+	while (i_format < format.length) {
+		// Get next token from format string
+		c=format.charAt(i_format);
+		token="";
+		while ((format.charAt(i_format)==c) && (i_format < format.length)) {
+			token += format.charAt(i_format++);
+			}
+		// Extract contents of value based on format token
+		if (token=="yyyy" || token=="yy" || token=="y") {
+			if (token=="yyyy") { x=4;y=4; }
+			if (token=="yy")   { x=2;y=2; }
+			if (token=="y")    { x=2;y=4; }
+			year=_getInt(val,i_val,x,y);
+			if (year==null) { return 0; }
+			i_val += year.length;
+			if (year.length==2) {
+				if (year > 70) { year=1900+(year-0); }
+				else { year=2000+(year-0); }
+				}
+			}
+		else if (token=="MMM"||token=="NNN"){
+			month=0;
+			for (var i=0; i<monthArrayLong.length; i++) {
+				var month_name=monthArrayLong[i];
+				if (val.substring(i_val,i_val+month_name.length).toLowerCase()==month_name.toLowerCase()) {
+					if (token=="MMM"||(token=="NNN"&&i>11)) {
+						month=i+1;
+						if (month>12) { month -= 12; }
+						i_val += month_name.length;
+						break;
+						}
+					}
+				}
+			if ((month < 1)||(month>12)){return 0;}
+			}
+		else if (token=="EE"||token=="E"){
+			for (var i=0; i<dayArrayLong.length; i++) {
+				var day_name=dayArrayLong[i];
+				if (val.substring(i_val,i_val+day_name.length).toLowerCase()==day_name.toLowerCase()) {
+					i_val += day_name.length;
+					break;
+					}
+				}
+			}
+		else if (token=="MM"||token=="M") {
+			month=_getInt(val,i_val,token.length,2);
+			if(month==null||(month<1)||(month>12)){return 0;}
+			i_val+=month.length;}
+		else if (token=="dd"||token=="d") {
+			date=_getInt(val,i_val,token.length,2);
+			if(date==null||(date<1)||(date>31)){return 0;}
+			i_val+=date.length;}
+		else if (token=="hh"||token=="h") {
+			hh=_getInt(val,i_val,token.length,2);
+			if(hh==null||(hh<1)||(hh>12)){return 0;}
+			i_val+=hh.length;}
+		else if (token=="HH"||token=="H") {
+			hh=_getInt(val,i_val,token.length,2);
+			if(hh==null||(hh<0)||(hh>23)){return 0;}
+			i_val+=hh.length;}
+		else if (token=="KK"||token=="K") {
+			hh=_getInt(val,i_val,token.length,2);
+			if(hh==null||(hh<0)||(hh>11)){return 0;}
+			i_val+=hh.length;}
+		else if (token=="kk"||token=="k") {
+			hh=_getInt(val,i_val,token.length,2);
+			if(hh==null||(hh<1)||(hh>24)){return 0;}
+			i_val+=hh.length;hh--;}
+		else if (token=="mm"||token=="m") {
+			mm=_getInt(val,i_val,token.length,2);
+			if(mm==null||(mm<0)||(mm>59)){return 0;}
+			i_val+=mm.length;}
+		else if (token=="ss"||token=="s") {
+			ss=_getInt(val,i_val,token.length,2);
+			if(ss==null||(ss<0)||(ss>59)){return 0;}
+			i_val+=ss.length;}
+		else if (token=="a") {
+			if (val.substring(i_val,i_val+2).toLowerCase()=="am") {ampm="AM";}
+			else if (val.substring(i_val,i_val+2).toLowerCase()=="pm") {ampm="PM";}
+			else {return 0;}
+			i_val+=2;}
+		else {
+			if (val.substring(i_val,i_val+token.length)!=token) {return 0;}
+			else {i_val+=token.length;}
+			}
+		}
+	// If there are any trailing characters left in the value, it doesn't match
+	if (i_val != val.length) { return 0; }
+	// Is date valid for month?
+	if (month==2) {
+		// Check for leap year
+		if ( ( (year%4==0)&&(year%100 != 0) ) || (year%400==0) ) { // leap year
+			if (date > 29){ return 0; }
+			}
+		else { if (date > 28) { return 0; } }
+		}
+	if ((month==4)||(month==6)||(month==9)||(month==11)) {
+		if (date > 30) { return 0; }
+		}
+	// Correct hours value
+	if (hh<12 && ampm=="PM") {
+		hh=hh-0+12;
+	} else if (hh>11 && ampm=="AM") {
+		hh-=12;
+	}
+	var newdate = new Date(year,month-1,date,hh,mm,ss);
+	
+	return newdate;
+}
+
+function LZ(x) {
+    return(x<0||x>9?"":"0")+x
+}
+
+
+
 
 /**
 Update the field with the given dateFieldName with the dateString that has been passed,

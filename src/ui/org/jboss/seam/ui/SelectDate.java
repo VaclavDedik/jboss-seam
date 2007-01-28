@@ -25,14 +25,19 @@ public class SelectDate
 
     private String forField;
     
+    private String dateFormat = "MM/dd/yyyy";
     
-    public String getFor()
-    {
-        return forField;
+    public String getDateFormat(){
+        return dateFormat;
+    }
+    public void setDateFormat(String dateFormat){
+        this.dateFormat = dateFormat;
     }
     
-    public void setFor(String forField)
-    {
+    public String getFor(){
+        return forField;
+    }    
+    public void setFor(String forField) {
         this.forField = forField;
     }    
 
@@ -153,6 +158,8 @@ public class SelectDate
         response.write("var monthArrayLong = " + getArray(symbols.getMonths(), 0) + ";\r");
         response.write("var firstDayInWeek = " + (cal.getFirstDayOfWeek() - 1) + ";\r");
 
+        response.write("var dateFormat = '" + getDateFormat() + "';\r");
+        
         response.write("var thisMonthButton = '" + messageForKey(COMPONENT_TYPE + ".thisMonth", "this month") + "';\r");
         response.write("var closeButton = '" + messageForKey(COMPONENT_TYPE + ".close", "close") + "';\r");
         
