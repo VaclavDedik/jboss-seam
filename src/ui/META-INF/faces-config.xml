@@ -472,6 +472,31 @@
         </property>
     </component>
     
+    	<component>
+		<component-type>org.jboss.seam.ui.UISelectItems</component-type>
+		<component-class>org.jboss.seam.ui.UISelectItems</component-class>
+		<property>
+			<property-name>noSelectionLabel</property-name>
+			<property-class>java.lang.String</property-class>
+		</property>
+		<property>
+			<property-name>hideNoSelection</property-name>
+			<property-class>java.lang.String</property-class>
+		</property>
+		<property>
+			<property-name>var</property-name>
+			<property-class>java.lang.String</property-class>
+		</property>
+		<property>
+			<property-name>label</property-name>
+			<property-class>java.lang.String</property-class>
+		</property>
+		<property>
+			<property-name>disabled</property-name>
+			<property-class>java.lang.Boolean</property-class>
+		</property>
+	</component>
+    
     <component>
         <component-type>org.jboss.seam.ui.FileUpload</component-type>
         <component-class>org.jboss.seam.ui.FileUpload</component-class>

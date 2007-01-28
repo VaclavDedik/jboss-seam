@@ -145,6 +145,13 @@
             <component-type>org.jboss.seam.ui.FileUpload</component-type>
         </component>
     </tag>
+    
+    <tag>
+		<tag-name>selectItems</tag-name>
+		<component>
+			<component-type>org.jboss.seam.ui.UISelectItems</component-type>
+		</component>
+	</tag>
 	  
     <function>
         <function-name>hasRole</function-name>
