@@ -146,7 +146,8 @@
             <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components" 
             xmlns:core="http://jboss.com/products/seam/core"
 
-  <core:managed-persistence-context name="productDatabase" scope="session"
+  <core:managed-persistence-context name="productDatabase" 
+                                   scope="session"
               persistence-unit-jndi-name="java:/productEntityManagerFactory"/>        
 
 </components>]]></programlisting>
@@ -155,6 +156,32 @@
             
     <component name="productDatabase"
               scope="session"
+              class="org.jboss.seam.core.ManagedPersistenceContext">
+        <property name="persistenceUnitJndiName">java:/productEntityManagerFactory</property>
+    </component>
+
+</components>]]></programlisting>
+
+            <para>
+                It is common to use the <literal>auto-create</literal> option for infrastructural
+                objects like persistence contexts, which saves you from having to explicitly
+                specify <literal>create=true</literal> when you use the <literal>@In</literal>
+                annotation.
+            </para>
+
+            <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components" 
+            xmlns:core="http://jboss.com/products/seam/core"
+
+  <core:managed-persistence-context name="productDatabase" 
+                             auto-create="true"
+              persistence-unit-jndi-name="java:/productEntityManagerFactory"/>        
+
+</components>]]></programlisting>
+
+            <programlisting><![CDATA[<components>
+            
+    <component name="productDatabase"
+        auto-create="true"
               class="org.jboss.seam.core.ManagedPersistenceContext">
         <property name="persistenceUnitJndiName">java:/productEntityManagerFactory</property>
     </component>
@@ -190,6 +217,17 @@
             <programlisting><![CDATA[<components>
 
     <factory name="contact" value="#{contactManager.contact}" scope="STATELESS"/>
+
+</components>]]></programlisting>
+
+            <para>
+                It is especially common to see the use of <literal>auto-create="true"</literal> with the
+                <literal>&lt;factory&gt;</literal> declaration:
+            </para>
+
+            <programlisting><![CDATA[<components>
+
+    <factory name="session" value="#{entityManager.delegate}" scope="STATELESS" auto-create="true"/>
 
 </components>]]></programlisting>
 
