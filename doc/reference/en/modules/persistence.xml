@@ -339,7 +339,7 @@ public void commitClaim() {
         <title>Using the JPA "delegate"</title>
         
         <para>
-            The <literal>EntityManager</literal> interface let's you access a vendor-specific
+            The <literal>EntityManager</literal> interface lets you access a vendor-specific
             API via the <literal>getDelegate()</literal> method. Naturally, the most interesting
             vendor is Hibernate, and the most powerful delegate interface is
             <literal>org.hibernate.Session</literal>. You'd be nuts to use anything else. Trust
@@ -367,9 +367,9 @@ public void init() {
         </para>
         
         <programlisting><![CDATA[<factory name="session" 
-        scope="STATELESS" 
-        auto-create="true" 
-        value="#{entityManager.delegate}"/>]]></programlisting>
+         scope="STATELESS" 
+         auto-create="true" 
+         value="#{entityManager.delegate}"/>]]></programlisting>
         
         <para>
             Now we can inject the session directly:
@@ -384,4 +384,48 @@ public void init() {
 
     </section>
     
+    <section>
+        <title>Using Hibernate filters</title>
+        
+        <para>
+            The coolest, and most unique, feature of Hibernate is <emphasis>filters</emphasis>.
+            Filters let you provide a restricted view of the data in the database. You can find 
+            out more about filters in the Hibernate documentation. But we thought we'd mention
+            an easy way to incorporate filters into a Seam application, one that works especially
+            well with the Seam Application Framework.
+        </para>
+        
+        <para>
+            Seam-managed persistence contexts may have a list of filters defined, which will be
+            enabled whenever an <literal>EntityManager</literal> or Hibernate <literal>Session</literal>
+            is first created. (Of course, they may only be used when Hibernate is the underlying
+            persistence provider.)
+        </para>
+        
+        <programlisting><![CDATA[<core:filter name="regionFilter">
+    <core:name>region</core:name>
+    <core:parameters>
+        <key>regionCode</key>
+        <value>#{region.code}</value>
+    </core:parameters>
+</core:filter>
+
+<core:filter name="currentFilter">
+    <core:name>current</core:name>
+    <core:parameters>
+        <key>date</key>
+        <value>#{currentDate}</value>
+    </core:parameters>
+</core:filter>
+
+<core:managed-persistence-context name="personDatabase"
+    persistence-unit-jndi-name="java:/EntityManagerFactories/personDatabase">
+    <core:filters>
+        <value>#{regionFilter}</value>
+        <value>#{currentFilter}</value>
+    </core:filters>
+</core:managed-persistence-context>]]></programlisting>
+        
+    </section>    
+
 </chapter>

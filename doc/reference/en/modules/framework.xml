@@ -479,50 +479,6 @@ Person_updated=Person #{person.firstName} #{person.lastName} updated]]></program
     </section>
     
     <section>
-        <title>Using Hibernate filters</title>
-        
-        <para>
-            The coolest, and most unique, feature of Hibernate is <emphasis>filters</emphasis>.
-            Filters let you provide a restricted view of the data in the database. You can find 
-            out more about filters in the Hibernate documentation. But we thought we'd mention
-            an easy way to incorporate filters into a Seam application, one that works especially
-            well with the Seam Application Framework.
-        </para>
-        
-        <para>
-            Seam-managed persistence contexts may have a list of filters defined, which will be
-            enabled whenever an <literal>EntityManager</literal> or Hibernate <literal>Session</literal>
-            is first created. (Of course, they may only be used when Hibernate is the underlying
-            persistence provider.)
-        </para>
-        
-        <programlisting><![CDATA[<core:filter name="regionFilter">
-    <core:name>region</core:name>
-    <core:parameters>
-        <key>regionCode</key>
-        <value>#{region.code}</value>
-    </core:parameters>
-</core:filter>
-
-<core:filter name="currentFilter">
-    <core:name>current</core:name>
-    <core:parameters>
-        <key>date</key>
-        <value>#{currentDate}</value>
-    </core:parameters>
-</core:filter>
-
-<core:managed-persistence-context name="personDatabase"
-    persistence-unit-jndi-name="java:/EntityManagerFactories/personDatabase">
-    <core:filters>
-        <value>#{regionFilter}</value>
-        <value>#{currentFilter}</value>
-    </core:filters>
-</core:managed-persistence-context>]]></programlisting>
-        
-    </section>    
-
-    <section>
         <title>Controller objects</title>
         <para>
             A totally optional part of the Seam Application Framework is the class
