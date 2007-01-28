@@ -14,7 +14,12 @@
    
     <h1>Sample Emails</h1>
     
-    <p>If you aren't running a smtp server on localhost:25 you need to setup mailSession in components.xml</p>
+    <p>If you are using JBoss AS, you should configure deploy/mail-service.xml and set a SMTP gateway server.</p>
+    
+    <p>Otherwise you should configure a mailSession using components.</p>
+    
+    <p>See the reference manual for more.</p>
+    
     
     <h:form>
         <h:panelGrid columns="2">

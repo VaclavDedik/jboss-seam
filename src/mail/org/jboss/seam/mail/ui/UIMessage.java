@@ -11,12 +11,11 @@ import javax.mail.internet.MimeMessage;
 
 import org.jboss.seam.mail.MailSession;
 
-import sun.security.action.GetBooleanAction;
 
 /**
  * JSF component which delimites the start and end of the mail message.  
  */
-// TODO Support read receipt, encoding
+// TODO Support encoding
 public class UIMessage extends MailComponent
 {
    

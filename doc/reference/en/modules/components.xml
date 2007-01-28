@@ -988,6 +988,16 @@
                             <literal>org.jboss.seam.mail.mailSession.debug</literal> &mdash; enable JavaMail debugging (very verbose)
                         </para>
                         </listitem>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.mail.mailSession.lookupService</literal> &mdash; if false, Seam won't attempt to get a Session from JNDI (by default true)
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.mail.mailSession.serviceName</literal> &mdash; the name under which the session is bound to JNDI (by default <literal>java:/Mail</literal>)
+                        </para>
+                        </listitem>
                     </itemizedlist>
                 </listitem>
             </varlistentry>

@@ -1,20 +1,18 @@
 <chapter id="mail">
-    <title>Email Generation and Sending</title>
-    <para>Seam now includes an optional component set for generating and sending emails.</para>
+    <title>Email</title>
+    <para>Seam now includes an optional components for templating and sending emails.</para>
 
         <para>Email support is provided by <literal>jboss-seam-mail.jar</literal>. This JAR contains the mail JSF controls, which are used
-            to construct emails, and the <literal>mailSession</literal> component, which sends the generated email. 
+            to construct emails, and the <literal>mailSession</literal> manager component. 
        	</para>
 
         <para> The examples/mail project contains an example of the email support in action. It demonstrates proper
-            deployment packaging, and it contains a number of examples that demonstrate the key email generation features
-            currently supported. </para>
+            packaging, and it contains a number of example that demonstrate the key features currently supported. </para>
     
     <section>
     	<title>Creating a message</title>
     	<para>In Seam Mail, an email is just facelet:</para>
-    	<programlisting>
-&lt;m:message xmlns="http://www.w3.org/1999/xhtml"
+    	<programlisting>&lt;m:message xmlns="http://www.w3.org/1999/xhtml"
     xmlns:m="http://jboss.com/products/seam/mail"
     xmlns:h="http://java.sun.com/jsf/html"&gt;
   
@@ -30,15 +28,14 @@
         &lt;p&gt;Peter&lt;/p&gt;
     &lt;/m:body&gt;
     
-&lt;/m:message&gt;
-    	</programlisting>
+&lt;/m:message&gt;</programlisting>
     	
-    	<para>The <literal>m:message</literal> wraps the whole message, and tells Seam to start rendering an email.  Inside the 
-    	<literal>m:message</literal> tag we use an <literal>m:from</literal> to set who the message is from, a <literal>m:to</literal> to
-    	specify a sender (notice how we are able to use EL just like in a normal facelet), and a <literal>m:subject</literal>.</para>
+    	<para>The <literal>&lt;m:message&gt;</literal> tag wraps the whole message, and tells Seam to start rendering an email.  Inside the 
+    	<literal>&lt;m:message&gt;</literal> tag we use an <literal>&lt;m:from&gt;</literal> tag to set who the message is from, a <literal>&lt;m:to&gt;</literal> tag to
+    	specify a sender (notice how we use EL as we would in a normal facelet), and a <literal>&lt;m:subject&gt;</literal> tag.</para>
     	
-    	<para>The <literal>m:body</literal> tag wraps the body of the email.  You can use regular HTML tags inside the body as well as
-    	JSF tags</para>
+    	<para>The <literal>&lt;m:body&gt;</literal> tag wraps the body of the email.  You can use regular HTML tags inside the body as well as
+    	JSF components.</para>
     	
     	<para>So, now you have your email template, how do you go about sending it?  Well, at the end of rendering the 
     	<literal>m:message</literal> the <literal>mailSession</literal> is called to send the email, so all you have to do is
@@ -123,15 +120,34 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.&lt;/f:facet&gt;
             of the Java Activation Framework (distributed with seam as <literal>lib/activation.jar</literal>.</para>
         <para>The Seam Email module requires the use of Facelets as the view technology. Future versions of the library
             may also support the use of JSP. Additionally, it requires the use of the seam-ui package.</para>
-		<para>The mailSession component uses JavaMail to talk to a 'real' SMTP server.  If you have one running on localhost, then no further 
-		configuration is required. Otherwise, the mailSession component can be configured in <literal>components.xml</literal>. Here, we tell 
-		Seam to use <literal>smtp.example.com</literal> as the smtp server, see <xref linkend="components.mail"/> for all the possible properties</para>
-            <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components" 
-            xmlns:core="http://jboss.com/products/seam/core"
-            xmlns:mail="http://jboss.com/products/seam/mail">
+		<para>The <literal>mailSession</literal> component uses JavaMail to talk to a 'real' SMTP server.</para>
+		
+        <section>
+	        <title><literal>mailSession</literal></title>
+	        
+	        <para>A JavaMail Session may be available via a JNDI lookup if you are working in an JEE environment.  If a Session is available
+	        via a JNDI lookup, Seam will simply wrap this Session.  Otherwise, you can use a Seam configured Session.</para>
+	        
+	        <para>The mailSession component's properties are described in more detail in <xref linkend="components.mail"/>.</para>
+	        
+	        <section>
+		        <title>JEE enviroments</title>
+		        <para>The JBossAS <literal>deploy/mail-service.xml</literal> configures a JavaMail session binding into JNDI.  The default service configuration will
+		        need altering for your network.  <ulink url="http://wiki.jboss.org/wiki/Wiki.jsp?page=JavaMail">http://wiki.jboss.org/wiki/Wiki.jsp?page=JavaMail</ulink>
+		        describes the service in more detail.</para>
+	        </section>
+	        
+	       	<section>
+	        	<title>Seam configured Session</title>
+	      		<para>A mail session can be configured via <literal>components.xml</literal>.  Here we tell Seam to use <literal>smtp.example.com</literal>
+	      	 	as the smtp server, </para>
+	            <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components" 
+        xmlns:core="http://jboss.com/products/seam/core"
+        xmlns:mail="http://jboss.com/products/seam/mail">
     <mail:mailSession host="smtp.example.com" />
 </components>]]></programlisting>
-		
+		    </section>
+		</section>
 	</section>
 
     <section id="mail.tags">
