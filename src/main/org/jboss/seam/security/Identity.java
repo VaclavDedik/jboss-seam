@@ -7,15 +7,12 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.security.Principal;
 import java.security.acl.Group;
-import java.security.acl.Permission;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.faces.context.FacesContext;
 import javax.security.auth.Subject;
@@ -43,9 +40,8 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Expressions.MethodBinding;
-import org.jboss.seam.security.config.SecurityConfiguration;
-import org.jboss.seam.security.config.SecurityConfiguration.Role;
 import org.jboss.seam.security.rules.PermissionCheck;
+import org.jboss.seam.security.rules.Role;
 import org.jboss.seam.security.spi.SeamLoginModule;
 import org.jboss.seam.util.UnifiedELValueBinding;
 
@@ -342,21 +338,11 @@ public class Identity implements Serializable
       {         
          if (p instanceof Group && "roles".equals(((Group) p).getName()))
          {
-            SecurityConfiguration config = SecurityConfiguration.instance();
-            
             Enumeration e = ((Group) p).members();
             while (e.hasMoreElements())
             {
                Principal role = (Principal) e.nextElement();
-               
-               Role r = config.getSecurityRole(role.getName());
-               if (r.getPermissions() != null)
-               {
-                  for (Permission perm : r.getPermissions())
-                  {
-                     securityContext.assertObject(perm);
-                  }
-               }
+               securityContext.assertObject(new Role(role.getName()));
             }
          }
          else
@@ -367,59 +353,9 @@ public class Identity implements Serializable
          }
       }
       
-      for (SimpleGroup grp : subject.getPrincipals(SimpleGroup.class))
-      {
-         if ("roles".equals(grp.getName()))
-         {
-            Set<Principal> memberships = new HashSet<Principal>();
-            SecurityConfiguration config = SecurityConfiguration.instance();
-            
-            Enumeration e = grp.members();
-            while (e.hasMoreElements())
-            {
-               Principal role = (Principal) e.nextElement();
-               addRoleMemberships(memberships, role.getName(), config);               
-            }
-            
-            for (Principal r : memberships)
-               grp.addMember(r);
-            
-            break;
-         }
-      }
-      
       if (postLogin != null)
          postLogin.invoke();
    }
-   
-   /**
-    * Recursively adds role memberships to the specified role set, for the
-    * specified role name.  The security configuration is passed in each time
-    * so that a context lookup doesn't need to take place each time.
-    * 
-    * @param roles The set that role memberships are to be added to
-    * @param roleName The name of the role to add memberships for
-    * @param config The security configuration
-    */
-   private void addRoleMemberships(Set<Principal> roles, String roleName, 
-         SecurityConfiguration config)
-   {
-      // Retrieve the role configuration
-      Role role = config.getSecurityRole(roleName);
-      
-      // For each of the role's configured memberships, check if the roles
-      // parameter already contains the membership.  If it doesn't add it,
-      // and make a recursive call to add the membership role's memberships.
-      for (String membership : role.getMemberships())
-      {
-         SimplePrincipal r = new SimplePrincipal(membership);
-         if (!roles.contains(r))
-         {
-            roles.add(r);
-            addRoleMemberships(roles, membership, config);
-         }
-      }      
-   }      
    
    /**
     * Evaluates the specified security expression, which must return a boolean
