@@ -11,6 +11,8 @@ import org.jboss.seam.example.seamspace.MemberFriend;
 import org.jboss.seam.example.seamspace.MemberImage;
 
 rule AssignAdminUserRole
+  salience 10
+  no-loop
 when
   Role(name == "admin")
   not Role(name == "user")
