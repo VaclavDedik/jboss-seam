@@ -58,14 +58,11 @@ public class ThemeSelector extends Selector
       
       if (theme==null)
       {
-         if (availableThemes.length==0)
+         if (availableThemes==null || availableThemes.length==0)
          {
             throw new IllegalStateException("no themes defined");
          }
-         if (theme==null) 
-         {
-            theme = availableThemes[0];
-         }
+         theme = availableThemes[0];
       }
    }
    
