@@ -195,8 +195,9 @@ function refreshDatePicker(dateFieldName, year, month, day)
   var today = new Date();
   var todayString = "Today is " + dayArrayMed[today.getDay()] + ", " + monthArrayMed[ today.getMonth()] + " " + today.getDate();
   html += TR_todaybutton + TD_todaybutton;
-  html += "<button class='dpTodayButton' onclick='refreshDatePicker(\"" + dateFieldName + "\");'>this month</button> ";
-  html += "<button class='dpTodayButton' onclick='updateDateField(\"" + dateFieldName + "\");'>close</button>";
+
+  html += "<button onclick='refreshDatePicker(\"" + dateFieldName + "\");'>" + thisMonthButton + "</button> ";
+  html += "<button onclick='updateDateField(\"" + dateFieldName + "\");'>" + closeButton + "</button>";
   html += xTD + xTR;
  
   // and finally, close the table
@@ -272,7 +273,10 @@ function getFieldDate(dateString)
   var dateVal;
   var dArray;
   var d, m, y;
- 
+
+  var limit, twoDigitYear;
+  var now = new Date();
+
   try {
     dArray = splitDateString(dateString);
     if (dArray) {
@@ -294,14 +298,31 @@ function getFieldDate(dateString)
           y = parseInt(dArray[2], 10);
           break;
       }
+      
+      // The logic for years with two digits is documented in
+      // http://java.sun.com/j2se/1.5.0/docs/api/java/text/SimpleDateFormat.html
+      
+      twoDigitYear = y < 100;
+      if (twoDigitYear) {
+        limit = new Date(now.getFullYear() + 20, now.getMonth(), now.getDate());
+      	y += limit.getFullYear() - (limit.getFullYear() % 100);
+      }      
+      
       dateVal = new Date(y, m, d);
+      
+      if (twoDigitYear) {
+      	if (dateVal > limit) {
+      	  dateVal.setFullYear(dateVal.getFullYear() - 100);
+      	}
+      }
+
     } else if (dateString) {
       dateVal = new Date(dateString);
     } else {
-      dateVal = new Date();
+      dateVal = now;
     }
   } catch(e) {
-    dateVal = new Date();
+    dateVal = now;
   }
  
   return dateVal;

@@ -13,6 +13,8 @@ import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
+import org.jboss.seam.core.Messages;
+
 public class SelectDate 
     extends UIComponentBase
 {
@@ -150,9 +152,21 @@ public class SelectDate
         response.write("var monthArrayMed = " + getArray(symbols.getShortMonths(), 0) + ";\r");
         response.write("var monthArrayLong = " + getArray(symbols.getMonths(), 0) + ";\r");
         response.write("var firstDayInWeek = " + (cal.getFirstDayOfWeek() - 1) + ";\r");
+
+        response.write("var thisMonthButton = '" + messageForKey(COMPONENT_TYPE + ".thisMonth", "this month") + "';\r");
+        response.write("var closeButton = '" + messageForKey(COMPONENT_TYPE + ".close", "close") + "';\r");
         
         response.endElement("script");
     }
+
+    private String messageForKey(String key, String defaultTranslation) {
+        String translation = (String) Messages.instance().get(key);
+        if (key.equals(translation)) {
+            translation = defaultTranslation; 
+        }
+        return translation;
+    }
+
     
     private StringBuilder getArray(String[] values, int start) throws IOException {
         StringBuilder s = new StringBuilder();
