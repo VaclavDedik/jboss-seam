@@ -49,7 +49,7 @@
         
         <para>
             If you are using Sun's JSF 1.2 reference implementation, you should
-            add this to <literal>faces-config.xml</literal>:
+            also add this to <literal>faces-config.xml</literal>:
         </para>
         
         <programlisting><![CDATA[<application>
@@ -98,10 +98,8 @@
             that Seam can use to calculate the JNDI name from the EJB name.
             Unfortunately, there is no standard mapping to global JNDI
             defined in the EJB3 specification, so this mapping is 
-            vendor-specific. We must specify a pattern using the configuration
-            property named <literal>org.jboss.seam.core.init.jndiPattern</literal>.
-            We may specify this using <literal>components.xml</literal>,
-            <literal>web.xml</literal> or even <literal>seam.properties</literal>.
+            vendor-specific. We usually specify this option in 
+            <literal>components.xml</literal>.
         </para>
         
         <para>
@@ -111,48 +109,36 @@
         <programlisting><![CDATA[<core:init jndi-name="myEarName/#{ejbName}/local" />]]></programlisting>
 
         <para>
-            Or:
-        </para>
-
-        <programlisting><![CDATA[<context-param>
-    <param-name>org.jboss.seam.core.init.jndiPattern</param-name>
-    <param-value>myEarName/#{ejbName}/local</param-value>
-</context-param>]]></programlisting>
-
-        <para>
             Where <literal>myEarName</literal> is the name of the EAR in which
             the bean is deployed. 
         </para>
         
         <para>
-            Outside the context of an EAR (when using
-            the JBoss Embeddable EJB3 container), the following pattern is
-            the one to use:
+            Outside the context of an EAR (when using the JBoss Embeddable EJB3 container), 
+            the following pattern is the one to use:
         </para>
         
         <programlisting><![CDATA[<core:init jndi-name="#{ejbName}/local" />]]></programlisting>
 
         <para>
-            Or:
+            You'll have to experiment to find the right setting for other application
+            servers. Note that some servers (such as GlassFish) require you to specify
+            JNDI names for all EJB components explicitly (and tediously). In this case, 
+            you can pick your own pattern ;-) 
         </para>
-
-        <programlisting><![CDATA[<context-param>
-    <param-name>org.jboss.seam.core.init.jndiPattern</param-name>
-    <param-value>#{ejbName}/local</param-value>
-</context-param>]]></programlisting>
 
         </sect2>
         
         <sect2>
             <title>Enabling conversation propagation with redirects</title>
 
-        <para>
-            If you want to use post-then-redirect in JSF, and you want Seam to
-            propagate the conversation context across the browser redirects,
-            you need to register a servlet filter:
-        </para>
+            <para>
+                If you want to use post-then-redirect in JSF, and you want Seam to
+                propagate the conversation context across the browser redirects,
+                you need to register a servlet filter:
+            </para>
 
-<programlisting><![CDATA[<filter>
+            <programlisting><![CDATA[<filter>
     <filter-name>Seam Redirect Filter</filter-name>
     <filter-class>org.jboss.seam.servlet.SeamRedirectFilter</filter-class>
 </filter>
@@ -162,10 +148,10 @@
     <url-pattern>*.jsf</url-pattern>
 </filter-mapping>]]></programlisting>
 
-        <para>
-            This filter intercepts any browser redirects and adds a request
-            parameter that specifies the Seam conversation id.
-        </para>
+            <para>
+                This filter intercepts any browser redirects and adds a request
+                parameter that specifies the Seam conversation id.
+            </para>
         
         </sect2>
         
@@ -191,6 +177,33 @@
 </context-param>]]></programlisting>
 
         </sect2>
+        
+        <sect2>
+            <title>Don't forget!</title>
+            
+            <para>
+                There is one final item you need to know about. You must place a <literal>seam.properties</literal>, 
+                <literal>META-INF/seam.properties</literal> or <literal>META-INF/components.xml</literal>
+                file in any archive in which your Seam components are deployed (even an empty 
+                properties file will do). At startup, Seam will scan any archives with
+                <literal>seam.properties</literal> files for seam components.
+            </para>
+            
+            <para>
+                That's why all the Seam examples have an empty <literal>seam.properties</literal>
+                file. You can't just delete this file and expect everything to still work! 
+            </para>
+            
+            <para>
+                You might think this is silly and what kind of idiot framework designers would
+                make an empty file affect the behavior of their software?? Well, this is a 
+                workaround for a limitation of the JVM&mdash;if we didn't use this mechanism,
+                our next best option would be to force you to list every component explicitly
+                in <literal>components.xml</literal>, just like some other competing 
+                frameworks do! I think you'll like our way better.
+            </para>
+            
+        </sect2>
 
     </sect1>
     
@@ -208,25 +221,18 @@
         
         <para>
             If you're running in a Java EE 5 environment, this is all the configuration
-            required to start using Seam! But there is one final item you need to know about. 
-            You must place a <literal>seam.properties</literal>, 
-            <literal>META-INF/seam.properties</literal> or <literal>META-INF/components.xml</literal>
-            file in any archive in which your Seam components are deployed (even an empty 
-            properties file will do). At startup, Seam will scan any archives with
-            <literal>seam.properties</literal> files for seam components. If that doesn't
-            work for you, you can also add components by installing them explicitly via
-            <literal>components.xml</literal>. (We don't recommend this alternative approach.)
+            required to start using Seam! 
         </para>
         
         <sect2>
             <title>Packaging</title>
         
-        <para>
-            Once you've packaged all this stuff together into an EAR, the archive structure
-            will look something like this:
-        </para>
+            <para>
+                Once you've packaged all this stuff together into an EAR, the archive structure
+                will look something like this:
+            </para>
         
-        <programlisting><![CDATA[my-application.ear/
+            <programlisting><![CDATA[my-application.ear/
     jboss-seam.jar
     el-api.jar
     el-ri.jar
@@ -261,39 +267,41 @@
                     RegisterBean.class
                     ...]]></programlisting>
         
-        <para>
-            You must include <literal>jboss-seam.jar</literal>, <literal>el-api.jar</literal> and 
-            <literal>el-ri.jar</literal> in the EAR classpath. Make sure you reference all of these 
-            jars from <literal>application.xml</literal>.
-        </para>
+            <para>
+                You must include <literal>jboss-seam.jar</literal>, <literal>el-api.jar</literal> and 
+                <literal>el-ri.jar</literal> in the EAR classpath. Make sure you reference all of these 
+                jars from <literal>application.xml</literal>.
+            </para>
         
-        <para>
-            If you want to use jBPM or Drools, you must include the needed jars in the EAR classpath. 
-            Make sure you reference all of the jars from <literal>application.xml</literal>.
-        </para>
+            <para>
+                If you want to use jBPM or Drools, you must include the needed jars in the EAR classpath. 
+                Make sure you reference all of the jars from <literal>application.xml</literal>.
+            </para>
         
-        <para>
-            If you want to use facelets (our recommendation), you must include
-            <literal>jsf-facelets.jar</literal> in the <literal>WEB-INF/lib</literal> directory
-            of the WAR.
-        </para>
+            <para>
+                If you want to use facelets (our recommendation), you must include
+                <literal>jsf-facelets.jar</literal> in the <literal>WEB-INF/lib</literal> directory
+                of the WAR.
+            </para>
         
-        <para>
-            If you want to use the Seam tag library (most Seam applications do), you must include
-            <literal>jboss-seam-ui.jar</literal> in the <literal>WEB-INF/lib</literal> directory
-            of the WAR.
-        </para>
+            <para>
+                If you want to use the Seam tag library (most Seam applications do), you must include
+                <literal>jboss-seam-ui.jar</literal> in the <literal>WEB-INF/lib</literal> directory
+                of the WAR. If you want to use the PDF or email tag libraries, you need to put 
+                <literal>jboss-seam-pdf.jar</literal> or <literal>jboss-seam-mail.jar</literal>
+                in <literal>WEB-INF/lib</literal>.
+            </para>
         
-        <para>
-            If you want to use the Seam debug page (only works for applications using facelets), you 
-            must include <literal>jboss-seam-debug.jar</literal> in the <literal>WEB-INF/lib</literal> 
-            directory of the WAR.
-        </para>
+            <para>
+                If you want to use the Seam debug page (only works for applications using facelets), you 
+                must include <literal>jboss-seam-debug.jar</literal> in the <literal>WEB-INF/lib</literal> 
+                directory of the WAR.
+            </para>
         
-        <para>
-            Seam ships with several example applications that are deployable in any Java EE 
-            container that supports EJB 3.0.
-        </para>
+            <para>
+                Seam ships with several example applications that are deployable in any Java EE 
+                container that supports EJB 3.0.
+            </para>
         
         </sect2>
         
@@ -307,7 +315,8 @@
     </sect1>
     
     <sect1>
-        <title>Configuring Seam with the JBoss Embeddable EJB3 container</title>
+        <title>Configuring Seam in Java SE, with the JBoss Embeddable EJB3 container</title>
+        
         <para>
             The JBoss Embeddable EJB3 container lets you run EJB3 components outside the context
             of the Java EE 5 application server. This is especially, but not only, useful for testing. 
@@ -343,36 +352,36 @@
       <sect2>
             <title>Installing the Embeddable EJB3 container</title>
         
-        <para>
-            Seam ships with a build of the Embeddable EJB3 container in the <literal>embedded-ejb</literal>
-            directory. To use the Embeddable EJB3 container with Seam, add the 
-            <literal>embedded-ejb/conf</literal> directory, and all jars in the <literal>lib</literal> 
-            and <literal>embedded-ejb/lib</literal> directories to your classpath. Then, add the 
-            following line to <literal>components.xml</literal>:
-        </para>
+            <para>
+                Seam ships with a build of the Embeddable EJB3 container in the <literal>embedded-ejb</literal>
+                directory. To use the Embeddable EJB3 container with Seam, add the 
+                <literal>embedded-ejb/conf</literal> directory, and all jars in the <literal>lib</literal> 
+                and <literal>embedded-ejb/lib</literal> directories to your classpath. Then, add the 
+                following line to <literal>components.xml</literal>:
+            </para>
         
-        <programlisting><![CDATA[<core:ejb />]]></programlisting>
+            <programlisting><![CDATA[<core:ejb />]]></programlisting>
 
-        <para>
-            This setting installs the built-in component named <literal>org.jboss.seam.core.ejb</literal>.
-            This component is responsible for bootstrapping the EJB container when Seam is started,
-            and shutting it down when the web application is undeployed.
-        </para>
+            <para>
+                This setting installs the built-in component named <literal>org.jboss.seam.core.ejb</literal>.
+                This component is responsible for bootstrapping the EJB container when Seam is started,
+                and shutting it down when the web application is undeployed.
+            </para>
         
         </sect2>
         
         <sect2>
             <title>Configuring a datasource with the Embeddable EJB3 container</title>
         
-        <para>
-            You should refer to the Embeddable EJB3 container documentation for more information about
-            configuring the container. You'll probably at least need to set up your own datasource. 
-            Embeddable EJB3 is implemented using the JBoss Microcontainer, so it's very easy to add 
-            new services to the minimal set of services provided by default. For example, I can add a 
-            new datasource by putting this <literal>jboss-beans.xml</literal> file in my classpath:
-        </para>
+            <para>
+                You should refer to the Embeddable EJB3 container documentation for more information about
+                configuring the container. You'll probably at least need to set up your own datasource. 
+                Embeddable EJB3 is implemented using the JBoss Microcontainer, so it's very easy to add 
+                new services to the minimal set of services provided by default. For example, I can add a 
+                new datasource by putting this <literal>jboss-beans.xml</literal> file in my classpath:
+            </para>
         
-        <programlisting><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+            <programlisting><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 
 <deployment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation="urn:jboss:bean-deployer bean-deployer_1_0.xsd"
@@ -412,12 +421,12 @@
         <sect2>
             <title>Packaging</title>
         
-        <para>
-            The archive structure of a WAR-based deployment on an servlet engine like Tomcat 
-            will look something like this:
-        </para>
+            <para>
+                The archive structure of a WAR-based deployment on an servlet engine like Tomcat 
+                will look something like this:
+            </para>
         
-        <programlisting><![CDATA[my-application.war/
+            <programlisting><![CDATA[my-application.war/
     META-INF/
         MANIFEST.MF
     WEB-INF/
@@ -464,145 +473,27 @@
     register.jsp
     ...]]></programlisting>
     
-        <para>
-            The <literal>mc-conf.jar</literal> just contains the standard
-            JBoss Microcontainer configuration files for Embeddable EJB3.
-            You won't usually need to edit these files yourself.
-        </para>
+            <para>
+                The <literal>mc-conf.jar</literal> just contains the standard
+                JBoss Microcontainer configuration files for Embeddable EJB3.
+                You won't usually need to edit these files yourself.
+            </para>
         
-        <para>
-            Most of the Seam example applications may be deployed to Tomcat by running
-            <literal>ant deploy.tomcat</literal>.
-        </para>
+            <para>
+                Most of the Seam example applications may be deployed to Tomcat by running
+                <literal>ant deploy.tomcat</literal>.
+            </para>
         
         </sect2>
 
     </sect1>
     
     <sect1>
-        <title>Seam managed transactions</title>
-        <para>
-            EJB session beans feature declarative transaction management. The EJB container is able
-            to start a transaction transparently when the bean is invoked, and end it when the
-            invocation ends. If we write a session bean method that acts as a JSF action listener, 
-            we can do all the work associated with that action in one transaction, and be sure that
-            it is committed or rolled back when we finish processing the action. This is a great feature, 
-            and all that is needed by many Seam applications.
-        </para>
+        <title>Configuring Seam in J2EE</title>
         
-        <para>
-            There is just one problem with this approach. ORM solutions like Hibernate and EJB 3.0
-            persistence support lazy fetching of entity associations inside a transaction context, 
-            but throw <literal>LazyInitializationException</literal>s if you try to access an unfetched
-            association outside the context of a transaction. This is a problem if your view page
-            tries to access data that was not fetched during the transaction. Hibernate users developed 
-            the <emphasis>open session in view</emphasis> pattern to work around this problem. This
-            pattern is usually implemented as a transaction which spans the entire request. There are
-            several problems with this idea, the most serious being that we can't be sure that a
-            transaction has been successful until we commit it, but by the time we commit the transaction,
-            we have already rendered the view. Furthermore, this is at best a partial solution to the
-            problem, because we can still meet the dreaded <literal>LazyInitializationException</literal>
-            if we try to re-use the entity object in the next request.
-        </para>
-        
-        <para>
-            Seam <emphasis>completely solves</emphasis> the problem of unwanted
-            <literal>LazyInitializationException</literal>s, while working around the biggest problem
-            in the <emphasis>open session in view</emphasis> pattern. The solution comes in two parts:
-        </para>
-        
-        <itemizedlist>
-            <listitem>
-                <para>
-                    use an extended persistence context that is scoped to the conversation, 
-                    instead of to the request
-                </para>
-            </listitem>
-            <listitem>
-                <para>
-                    use two transactions per request; the first spans the beginning of the update model
-                    values phase until the end of the invoke application phase; the second spans the
-                    render response phase
-                </para>
-            </listitem>
-        </itemizedlist>
-        
-        <sect2>
-            <title>Enabling Seam-managed transactions</title>
-        
-        <para>
-            To make use of <emphasis>Seam managed transactions</emphasis>, you need to use 
-            <literal>SeamExtendedManagedPersistencePhaseListener</literal> in place of
-            <literal>SeamPhaseListener</literal>.
-        </para>
-        
-        <programlisting><![CDATA[<lifecycle>
-     <phase-listener>
-        org.jboss.seam.jsf.SeamExtendedManagedPersistencePhaseListener
-    </phase-listener>
-</lifecycle>]]></programlisting>
-
-        <para>
-            It's also a good idea to add a servlet filter to rollback uncommitted transactions 
-            when uncaught exceptions occur.
-        </para>
-        
-<programlisting><![CDATA[<filter>
-    <filter-name>Seam Exception Filter</filter-name>
-    <filter-class>org.jboss.seam.servlet.SeamExceptionFilter</filter-class>
-</filter>
-
-<filter-mapping>
-    <filter-name>Seam Exception Filter</filter-name>
-    <url-pattern>*.jsf</url-pattern>
-</filter-mapping>]]></programlisting>
-
-        </sect2>
-        
-        <sect2>
-            <title>Using a Seam-managed persistence context</title>
-
-        <para>
-            You'll need to use a <emphasis>managed persistence context</emphasis> (for EJB3) or
-            <emphasis>managed session</emphasis> (for Hibernate) in your components. We'll see how to 
-            use a managed session later. Configuring a managed persistence context is easy. In
-            <literal>components.xml</literal>, we can write:
-        </para>
-
-        <programlisting><![CDATA[<core:managed-persistence-context name="bookingDatabase" auto-create="true"
-    persistence-unit-jndi-name="java:/EntityManagerFactories/bookingData"/>]]></programlisting>
-
-        <para>
-            This configuration creates a conversation-scoped Seam component named 
-            <literal>bookingDatabase</literal> that manages the lifecycle of <literal>EntityManager</literal> 
-            instances for the persistence unit (<literal>EntityManagerFactory</literal> instance) 
-            with JNDI name <literal>java:/EntityManagerFactories/bookingData</literal>.
-        </para>
-        
-        <para>
-            Of course, you need to make sure that you have bound the <literal>EntityManagerFactory</literal> 
-            into JNDI. In JBoss, you can do this by adding the following property setting to 
-            <literal>persistence.xml</literal>.
-        </para>
-        
-        <programlisting><![CDATA[<property name="jboss.entity.manager.factory.jndi.name" 
-          value="java:/EntityManagerFactories/bookingData"/>]]></programlisting>
-        
-        <para>
-            Now we can have our <literal>EntityManager</literal> injected using:
-        </para>
-
-        <programlisting><![CDATA[@In EntityManager bookingDatabase;]]></programlisting>
-        
-        </sect2>
-                
-    </sect1>
-    
-    <sect1>
-        <title>Configuring Seam with Hibernate in Java EE</title>
         <para>
             Seam is useful even if you're not yet ready to take the plunge into EJB 3.0. In this 
-            case you would use Hibernate3 instead of EJB 3.0 persistence, and plain JavaBeans
+            case you would use Hibernate3 or JPA instead of EJB 3.0 persistence, and plain JavaBeans
             instead of session beans. You'll miss out on some of the nice features of session 
             beans but it will be very easy to migrate to EJB 3.0 when you're ready and, in the
             meantime, you'll be able to take advantage of Seam's unique declarative state
@@ -623,82 +514,60 @@
             beans do. You <emphasis>could</emphasis> manage your transactions manually using the
             JTA <literal>UserTransaction</literal> (you could even implement your own declarative
             transaction management in a Seam interceptor). But most applications will use Seam managed 
-            transactions when using Hibernate with JavaBeans. Follow the instructions above to
-            enable <literal>SeamExtendedManagedPersistencePhaseListener</literal>.
+            transactions when using Hibernate with JavaBeans. Follow the instructions in the
+            persistence chapter to install <literal>TransactionalSeamPhaseListener</literal>.
         </para>
         
         <para>
             The Seam distribution includes a version of the booking example application that 
-            uses Hibernate and JavaBeans instead of EJB3. This example application is ready to 
-            deploy into any J2EE application server.
+            uses Hibernate3 and JavaBeans instead of EJB3, and another version that uses
+            JPA and JavaBeans. These example applications are ready to deploy into any J2EE 
+            application server.
         </para>
         
         <sect2>
             <title>Boostrapping Hibernate in Seam</title>
         
-        <para>
-            Seam will bootstrap a Hibernate <literal>SessionFactory</literal> from your
-            <literal>hibernate.cfg.xml</literal> file if you install the built-in component
-            named <literal>org.jboss.seam.core.hibernate</literal>. 
-        </para>
+            <para>
+                Seam will bootstrap a Hibernate <literal>SessionFactory</literal> from your
+                <literal>hibernate.cfg.xml</literal> file if you install a built-in component: 
+            </para>
+            
+            <programlisting><![CDATA[<core:hibernate-session-factory name="hibernateSessionFactory"/>]]></programlisting>
+
+            <para>
+                You will also need to configure a <emphasis>managed session</emphasis> if you want 
+                a Seam managed Hibernate <literal>Session</literal> to be available via injection. 
+            </para>
         
         </sect2>
         
         <sect2>
-            <title>Using a Seam-managed Hibernate Session</title>
+            <title>Boostrapping JPA in Seam</title>
         
-        <para>
-            We will also need to configure a <emphasis>managed session</emphasis> if we want a Seam 
-            managed Hibernate <literal>Session</literal> to be available via injection. 
-        </para>
-        
-        <para>
-            To configure our Seam component, as usual, we use <literal>components.xml</literal>:
-        </para>
-        
-        <programlisting><![CDATA[<core:managed-hibernate-session name="hibernateSessionFactory"/>
+            <para>
+                Seam will bootstrap a JPA <literal>EntityManagerFactory</literal> from your
+                <literal>persistence.xml</literal> file if you install this built-in component: 
+            </para>
+            
+            <programlisting><![CDATA[<core:entity-manager-factory name="entityManagerFactory"/>]]></programlisting>
 
-<core:managed-hibernate-session name="bookingDatabase" auto-create="true"
-    session-factory-jndi-name="java:/bookingSessionFactory"/>]]></programlisting>
-
-        <para>
-            Where <literal>java:/bookingSessionFactory</literal> is the name of the session factory 
-            specified in <literal>hibernate.cfg.xml</literal>. 
-        </para>
+            <para>
+                You will also need to configure a <emphasis>managed persistencece context</emphasis> 
+                if you want a Seam managed JPA <literal>EntityManager</literal> to be available via 
+                injection. 
+            </para>
         
-        <programlisting><![CDATA[<session-factory name="java:/bookingSessionFactory">
-		<property name="transaction.flush_before_completion">true</property>
-		<property name="connection.release_mode">after_statement</property>
-		<property name="transaction.manager_lookup_class">org.hibernate.transaction.JBossTransactionManagerLookup</property>
-		<property name="transaction.factory_class">org.hibernate.transaction.JTATransactionFactory</property>
-		<property name="connection.datasource">java:/bookingDatasource</property>
-    ...
-</session-factory>]]></programlisting>
-
-        <para>
-            Note that Seam does not flush the session, so you should always enable
-            <literal>hibernate.transaction.flush_before_completion</literal> to 
-            ensure that the session is automatically flushed before the JTA transaction
-            commits.
-        </para>
-        
-        <para>
-            We can now have a managed Hibernate <literal>Session</literal> injected into our
-            JavaBean components using the following code:
-        </para>
-        
-        <programlisting><![CDATA[@In Session bookingDatabase;]]></programlisting>
-
         </sect2>
         
         <sect2>
             <title>Packaging</title>
             
-        <para>
-            We can package our application as a WAR, in the following structure:
-        </para>
+            <para>
+                We can package our application as a WAR, in the following structure:
+            </para>
             
-        <programlisting><![CDATA[my-application.war/
+            <programlisting><![CDATA[my-application.war/
     META-INF/
         MANIFEST.MF
     WEB-INF/
@@ -712,6 +581,7 @@
             el-ri.jar
             jsf-facelets.jar
             hibernate3.jar
+            hibernate-annotations.jar
             ...
             my-application.jar/
                 META-INF/
@@ -739,15 +609,15 @@
     </sect1>
     
     <sect1>
-        <title>Configuring Seam with Hibernate in Java SE</title>
+        <title>Configuring Seam in Java SE, with the JBoss Microcontainer</title>
         <para>
-            The Seam support for Hibernate requires JTA and a JCA datasource. If you are running in
-            a non-EE environment like Tomcat or TestNG, you can run these services, and Hibernate 
-            itself, in the JBoss Microcontainer. 
+            The Seam support for Hibernate and JPA requires JTA and a JCA datasource. If you are 
+            running in a non-EE environment like Tomcat or TestNG you can run these services, 
+            and Hibernate itself, in the JBoss Microcontainer. 
         </para>
         
         <para>
-            You can even deploy the Hibernate version of the booking example in Tomcat.
+            You can even deploy the Hibernate and JPA versions of the booking example in Tomcat.
         </para>
         
         <mediaobject>
@@ -771,27 +641,27 @@
         <sect2>
             <title>Using Hibernate and the JBoss Microcontainer</title>
         
-        <para>
-            The built-in Seam component named <literal>org.jboss.seam.core.microcontainer</literal>
-            bootstraps the microcontainer. As before, we probably want to use a Seam managed session.
-        </para>
+            <para>
+                The built-in Seam component named <literal>org.jboss.seam.core.microcontainer</literal>
+                bootstraps the microcontainer. As before, we probably want to use a Seam managed session.
+            </para>
 
-        <programlisting><![CDATA[<core:microcontainer/>
+            <programlisting><![CDATA[<core:microcontainer/>
 
 <core:managed-hibernate-session name="bookingDatabase" auto-create="true"
     session-factory-jndi-name="java:/bookingSessionFactory"/>]]></programlisting>
 
-        <para>
-            Where <literal>java:/bookingSessionFactory</literal> is the name of the Hibernate session
-            factory specified in <literal>hibernate.cfg.xml</literal>.
-        </para>
+            <para>
+                Where <literal>java:/bookingSessionFactory</literal> is the name of the Hibernate session
+                factory specified in <literal>hibernate.cfg.xml</literal>.
+            </para>
         
-        <para>
-            You'll need to provide a <literal>jboss.beans.xml</literal> file that installs JNDI,
-            JTA, your JCA datasource and Hibernate into the microcontainer:
-        </para>
+            <para>
+                You'll need to provide a <literal>jboss.beans.xml</literal> file that installs JNDI,
+                JTA, your JCA datasource and Hibernate into the microcontainer:
+            </para>
         
-<programlisting><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+            <programlisting><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 
 <deployment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation="urn:jboss:bean-deployer bean-deployer_1_0.xsd"
@@ -823,10 +693,10 @@
       </constructor>
    </bean>
    
-   <bean name="bookingDatabaseFactory" class="org.jboss.seam.microcontainer.HibernateFactory"/>
-   <bean name="bookingDatabase" class="java.lang.Object">
+   <bean name="bookingSessionFactoryFactory" class="org.jboss.seam.microcontainer.HibernateFactory"/>
+   <bean name="bookingSessionFactory" class="java.lang.Object">
       <constructor factoryMethod="getSessionFactory">
-         <factory bean="bookingDatabaseFactory"/>
+         <factory bean="bookingSessionFactoryFactory"/>
       </constructor>
       <depends>bookingDatasource</depends>
    </bean>
@@ -838,11 +708,11 @@
         <sect2>
             <title>Packaging</title>
             
-        <para>
-            The WAR could have the following structure:
-        </para>
+            <para>
+                The WAR could have the following structure:
+            </para>
             
-        <programlisting><![CDATA[my-application.war/
+            <programlisting><![CDATA[my-application.war/
     META-INF/
         MANIFEST.MF
     WEB-INF/
@@ -940,6 +810,7 @@
         
         <sect2>
             <title>Packaging</title>
+            
             <para>
                 There is not yet any well-defined packaging format for jBPM configuration
                 and process/pageflow definition files. In the Seam examples we've decided
@@ -1013,10 +884,12 @@
         <para>
             In addition, you'll need to use a portlet-specific phase listener
             instead of <literal>SeamPhaseListener</literal> or 
-            <literal>SeamExtendedManagedPersistencePhaseListener</literal>.
+            <literal>TransactionalSeamPhaseListener</literal>.
             The <literal>SeamPortletPhaseListener</literal> and
-            <literal>SeamExtendedManagedPersistencePortletPhaseListener</literal>
-            are adapted to the portlet lifecycle.
+            <literal>TransactionalSeamPortletPhaseListener</literal>
+            are adapted to the portlet lifecycle. I would like to offer my
+            sincerest apologies for the name of that last class. I really
+            couldn't think of anything better. Sorry.
         </para>
         
     </sect1>

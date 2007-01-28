@@ -9,6 +9,7 @@
 <!ENTITY events                 SYSTEM "modules/events.xml">
 <!ENTITY conversations          SYSTEM "modules/conversations.xml">
 <!ENTITY jbpm                   SYSTEM "modules/jbpm.xml">
+<!ENTITY persistence            SYSTEM "modules/persistence.xml">
 <!ENTITY i18n                   SYSTEM "modules/i18n.xml">
 <!ENTITY jms                    SYSTEM "modules/jms.xml">
 <!ENTITY remoting               SYSTEM "modules/remoting.xml">
@@ -257,6 +258,7 @@
     &events;
     &conversations;
     &jbpm;
+    &persistence;
     &i18n;
     &jms;
     &remoting;
