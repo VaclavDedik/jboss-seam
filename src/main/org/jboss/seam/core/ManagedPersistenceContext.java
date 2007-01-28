@@ -51,6 +51,7 @@ public class ManagedPersistenceContext
    {
       return true;
    }
+   
    @Create
    public void create(Component component)
    {
@@ -76,6 +77,7 @@ public class ManagedPersistenceContext
          }
       }
    }
+   
    private void createEntityManager()
    {
       entityManager = getEntityManagerFactoryFromJndiOrValueBinding().createEntityManager();      
@@ -85,6 +87,7 @@ public class ManagedPersistenceContext
          PersistenceProvider.instance().enableFilter(f, entityManager);
       }
    }
+   
    @Unwrap
    public EntityManager getEntityManager() throws NamingException, SystemException
    {
@@ -151,6 +154,7 @@ public class ManagedPersistenceContext
    {
       return entityManagerFactory;
    }
+   
    public void setEntityManagerFactory(ValueBinding<EntityManagerFactory> entityManagerFactory)
    {
       this.entityManagerFactory = entityManagerFactory;
@@ -164,24 +168,29 @@ public class ManagedPersistenceContext
    {
       return persistenceUnitJndiName;
    }
+   
    public void setPersistenceUnitJndiName(String persistenceUnitName)
    {
       this.persistenceUnitJndiName = persistenceUnitName;
    }
+   
    public String getComponentName() {
       return componentName;
    }
+   
    /**
     * Hibernate filters to enable automatically
     */
-   protected List<Filter> getFilters()
+   public List<Filter> getFilters()
    {
       return filters;
    }
-   protected void setFilters(List<Filter> filters)
+   
+   public void setFilters(List<Filter> filters)
    {
       this.filters = filters;
    }
+   
    public void setFlushMode(org.jboss.seam.annotations.FlushModeType flushMode)
    {
       switch (flushMode)
