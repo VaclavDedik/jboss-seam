@@ -17,8 +17,6 @@
         <property name="persistenceUnitJndiName">java:/seamspaceEntityManagerFactory</property>
     </component>    
     
-    <component class="org.jboss.seam.security.config.SecurityConfiguration"/>
-    
     <component class="org.jboss.seam.drools.RuleBase" name="securityRules">
         <property name="ruleFiles">/META-INF/security-rules.drl</property>
     </component>

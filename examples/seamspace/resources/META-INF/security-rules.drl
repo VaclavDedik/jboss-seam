@@ -4,11 +4,19 @@ import java.security.Principal;
 
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.rules.PermissionCheck;
-import org.jboss.seam.security.SeamPermission;
+import org.jboss.seam.security.rules.Role;
 
 import org.jboss.seam.example.seamspace.Member;
 import org.jboss.seam.example.seamspace.MemberFriend;
 import org.jboss.seam.example.seamspace.MemberImage;
+
+rule AssignAdminUserRole
+when
+  Role(name == "admin")
+  not Role(name == "user")
+then
+  assert(new Role("user"));
+end;
 
 rule ViewImage
   no-loop
@@ -17,6 +25,17 @@ when
   c: PermissionCheck(name == "memberImage", action == "view", granted == false)
   img: MemberImage()
   eval( img.getMember().getPicture() == img )
+then
+  c.grant();
+  modify(c);
+end;
+
+rule CreateBlogComment
+  no-loop
+  activation-group "permissions"
+when
+  c: PermissionCheck(name == "blog", action == "createComment", granted == false)
+  Role(name == "user")
 then
   c.grant();
   modify(c);
@@ -44,14 +63,4 @@ when
 then
   c.grant();
   modify(c);
-end;
-
-rule DefaultPolicy
-  salience -10
-  activation-group "permissions"  
-when
-  c: PermissionCheck(granted == false)
-  SeamPermission(name == (c.getName()), action == (c.getAction()))
-then
-  c.grant();
 end;
