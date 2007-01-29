@@ -479,6 +479,7 @@
             <fileset dir="${basedir}/resources/">
                 <exclude name="META-INF/application-wtp.xml" />
             	<exclude name="datasource-ds.xml"/>
+            	<exclude name="import.sql"/>
             </fileset>
             <filterset refid="project"/>
             <filterset refid="jdbc"/>
@@ -503,6 +504,12 @@
         </copy>
         
         <copy tofile="${project.home}/resources/import-prod.sql" 
+                file="${basedir}/resources/import.sql">
+            <filterset refid="project"/>
+            <filterset refid="jdbc"/>
+        </copy>
+        
+        <copy tofile="${project.home}/resources/import-test.sql" 
                 file="${basedir}/resources/import.sql">
             <filterset refid="project"/>
             <filterset refid="jdbc"/>

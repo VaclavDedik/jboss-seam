@@ -199,6 +199,8 @@
 		<delete dir="${test.dir}" />
 		<delete dir="${ear.dir}" />
 		<delete dir="${war.dir}" />
+		<delete dir="${basedir}/test-report"/>
+		<delete dir="${basedir}/test-output"/>
 		<delete>
 			<fileset dir="${jar.dir}">
 				<exclude name="**/*.class" if="eclipse.running"/>
@@ -218,8 +220,17 @@
                 <src path="${src.test.dir}" />
         </javac>
 		<copy todir="${test.dir}">
-			<fileset dir="${basedir}/resources" />
+			<fileset dir="${basedir}/resources">
+				<exclude name="persistence*.xml"/>
+				<exclude name="import*.sql"/>
+			</fileset>
 		</copy>
+		<copy tofile="${test.dir}/META-INF/persistence.xml" 
+			    file="${basedir}/resources/META-INF/persistence-test.xml"
+		   overwrite="true"/>
+		<copy tofile="${test.dir}/import.sql" 
+			    file="${basedir}/resources/import-test.sql"
+		   overwrite="true"/>
 		<copy todir="${test.dir}" flatten="true">
 			<fileset dir="${src.test.dir}">
 				<include name="**/*Test.xml" />
@@ -227,7 +238,7 @@
 		</copy>
 		
 		<taskdef resource="testngtasks" classpath="${testng.jar}" />
-		<testng outputdir="${basedir}/testng-report">
+		<testng outputdir="${basedir}/test-report">
 			<classpath path="${test.dir}" />
 			<classpath path="${embedded-ejb3.dir}" />
 			<classpath refid="build.classpath" />

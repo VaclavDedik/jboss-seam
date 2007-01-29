@@ -14,6 +14,7 @@
 	<stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.eclipse.ant.ui.AntClasspathProvider"/>
 	<stringAttribute key="org.eclipse.ant.ui.ATTR_ANT_MANUAL_TARGETS" value="clean,unexplode,restart,"/>
 	<stringAttribute key="org.eclipse.ant.ui.ATTR_ANT_AUTO_TARGETS" value="explode,"/>
+    <stringAttribute key="org.eclipse.ui.externaltools.ATTR_TOOL_ARGUMENTS" value="-Dprofile=test"/>
 	<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="@projectName@"/>
 	<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
 		<listEntry value="/@projectName@/build.xml"/>
