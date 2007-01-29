@@ -41,8 +41,7 @@
 	</target>
 
 	<target name="compile" depends="init" 
-			description="Compile the Java source code" 
-			unless="eclipse.running">
+			description="Compile the Java source code">
 		<javac classpathref="build.classpath" 
 			        destdir="${jar.dir}" 
 			          debug="${javac.debug}" 
@@ -175,7 +174,7 @@
 				<exclude name="**/*.jar"/>
 			</fileset>
 		</delete>
-		<delete file="${deploy.dir}/${project.name}-ds.xml" failonerror="no"/>
+		<delete file="${deploy.dir}/${project.name}-${profile}-ds.xml" failonerror="no"/>
 		<delete dir="${ear.deploy.dir}" failonerror="no"/>
 	</target>
 	
@@ -195,21 +194,20 @@
 	</target>
 
 	<target name="clean" description="Cleans up the build directory">
-		<delete dir="${dist.dir}" />
-		<delete dir="${test.dir}" />
-		<delete dir="${ear.dir}" />
-		<delete dir="${war.dir}" />
+		<delete dir="${dist.dir}"/>
+		<delete dir="${ear.dir}"/>
+		<delete dir="${war.dir}"/>
+		<delete dir="${jar.dir}"/>
 		<delete dir="${basedir}/test-report"/>
 		<delete dir="${basedir}/test-output"/>
-		<delete>
-			<fileset dir="${jar.dir}">
+		<delete failonerror="no">
+			<fileset dir="${test.dir}">
 				<exclude name="**/*.class" if="eclipse.running"/>
 			</fileset>
 		</delete>
 	</target>
 
-	<target name="test" depends="jar,war,ear" description="Run the tests">
-
+	<target name="compiletest" unless="eclipse.running">
         <mkdir dir="${test.dir}"/>
         <javac classpathref="build.classpath"
                         destdir="${test.dir}"
@@ -219,10 +217,14 @@
                 <src path="${src.java.dir}" />
                 <src path="${src.test.dir}" />
         </javac>
+	</target>
+	
+	<target name="buildtest" depends="compiletest" description="Build the tests">
 		<copy todir="${test.dir}">
 			<fileset dir="${basedir}/resources">
-				<exclude name="persistence*.xml"/>
+				<exclude name="META-INF/persistence*.xml"/>
 				<exclude name="import*.sql"/>
+				<exclude name="${project.name}-*-ds.xml"/>
 			</fileset>
 		</copy>
 		<copy tofile="${test.dir}/META-INF/persistence.xml" 
@@ -236,7 +238,9 @@
 				<include name="**/*Test.xml" />
 			</fileset>
 		</copy>
-		
+	</target>
+
+	<target name="test" depends="buildtest" description="Run the tests">		
 		<taskdef resource="testngtasks" classpath="${testng.jar}" />
 		<testng outputdir="${basedir}/test-report">
 			<classpath path="${test.dir}" />
@@ -244,7 +248,6 @@
 			<classpath refid="build.classpath" />
 			<xmlfileset dir="${test.dir}" includes="*Test.xml" />
 		</testng>
-		
 	</target>
 	
 </project>
