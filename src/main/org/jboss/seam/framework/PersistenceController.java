@@ -1,7 +1,5 @@
 package org.jboss.seam.framework;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 
 /**
  * Base class for controller objects which require a persistence
@@ -14,7 +12,6 @@ import java.lang.reflect.Type;
 public abstract class PersistenceController<T> extends Controller
 {
    private transient T persistenceContext;
-   private String persistenceContextName;
    
    public T getPersistenceContext()
    {
@@ -30,24 +27,6 @@ public abstract class PersistenceController<T> extends Controller
       this.persistenceContext = persistenceContext;
    }
 
-   protected String getPersistenceContextName()
-   {
-      if (persistenceContextName==null)
-      {
-         Type type = getClass().getGenericSuperclass();
-         if (type instanceof ParameterizedType)
-         {
-            ParameterizedType paramType = (ParameterizedType) type;
-            String className = ( (Class<T>) paramType.getActualTypeArguments()[0] ).getName();
-            int loc = className.lastIndexOf('.');
-            persistenceContextName = className.substring(loc+1,loc+2).toLowerCase() + className.substring(loc+2);
-         }
-         else
-         {
-            throw new IllegalArgumentException("Could not guess persistence context class by reflection");
-         }
-      }
-      return persistenceContextName;
-   }
+   protected abstract String getPersistenceContextName();
 
 }

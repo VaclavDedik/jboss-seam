@@ -128,7 +128,7 @@ public abstract class Home<T, E> extends MutableController<T>
          if (type instanceof ParameterizedType)
          {
             ParameterizedType paramType = (ParameterizedType) type;
-            entityClass = (Class<E>) paramType.getActualTypeArguments()[1];
+            entityClass = (Class<E>) paramType.getActualTypeArguments()[0];
          }
          else
          {

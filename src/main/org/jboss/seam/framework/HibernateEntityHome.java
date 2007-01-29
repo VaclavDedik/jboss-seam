@@ -79,4 +79,10 @@ public class HibernateEntityHome<E> extends Home<Session, E>
       setPersistenceContext(session);
    }
    
+   @Override
+   protected String getPersistenceContextName()
+   {
+      return "session";
+   }
+   
 }

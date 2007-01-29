@@ -89,6 +89,12 @@ public class HibernateEntityQuery extends Query<Session>
       setPersistenceContext(session);
    }
 
+   @Override
+   protected String getPersistenceContextName()
+   {
+      return "session";
+   }
+   
    protected org.hibernate.Query createQuery()
    {
       parseEjbql();

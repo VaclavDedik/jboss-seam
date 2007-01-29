@@ -26,6 +26,12 @@ public class EntityController extends PersistenceController<EntityManager>
       setPersistenceContext(entityManager);
    }
 
+   @Override
+   protected String getPersistenceContextName()
+   {
+      return "entityManager";
+   }
+   
    protected Query createNamedQuery(String name)
    {
       return getEntityManager().createNamedQuery(name);

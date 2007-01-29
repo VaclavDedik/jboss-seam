@@ -32,6 +32,12 @@ public class HibernateEntityController extends PersistenceController<Session>
       setPersistenceContext(session);
    }
 
+   @Override
+   protected String getPersistenceContextName()
+   {
+      return "session";
+   }
+   
    protected Criteria createCriteria(Class clazz)
    {
       return getSession().createCriteria(clazz);

@@ -82,4 +82,10 @@ public class EntityHome<E> extends Home<EntityManager, E>
       setPersistenceContext(entityManager);
    }
    
+   @Override
+   protected String getPersistenceContextName()
+   {
+      return "entityManager";
+   }
+   
 }

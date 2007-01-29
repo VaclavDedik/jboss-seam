@@ -88,6 +88,12 @@ public class EntityQuery extends Query<EntityManager>
       setPersistenceContext(entityManager);
    }
 
+   @Override
+   protected String getPersistenceContextName()
+   {
+      return "entityManager";
+   }
+   
    protected javax.persistence.Query createQuery()
    {
       parseEjbql();
