@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:s="http://jboss.com/products/seam/taglib"
+      >
+<head>
+<title>UI Example</title>
+<ui:debug id="debug" />
+</head>
+
+<body>
+	<h1>UI Example</h1>
+	<h2>This example shows off some the Seam UI Tags</h2>
+	<ul>
+		<li>
+			<s:link view="/selectItems.xhtml">
+				<code>s:selectItems</code>
+				<f:param name="personId" value="1" />
+			</s:link>
+		</li>
+	</ul>
+</body>
+
+</html>

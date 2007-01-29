@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:si="http://jboss.com/products/seam/selectitems/taglib"
+      xmlns:s="http://jboss.com/products/seam/taglib"
+      >
+<head>
+<title>SelectItems example</title>
+<ui:debug id="debug" />
+<style>
+	.error {color: red}
+</style>
+</head>
+
+<body>
+	<h1><code>s:selectItems</code></h1>
+	<p>This example shows example usage of the <code>s:selectItems</code> tag being used for CRUD on a  <code>Person</code> entity.</p>
+	<p>The example also uses:</p>
+	<ul>
+		<li><code>s:span</code></li>
+		<li><code>s:message</code></li>
+		<li><code>s:decorate</code></li>
+		<li><code>s:link</code></li>
+		<li><code>s:conversationPropagation</code></li>
+	</ul>
+
+	<h:form>
+	    <f:facet name="aroundInvalidField">
+	        <s:span styleClass="error"/>
+	    </f:facet>
+	    <f:facet name="afterInvalidField">
+	        <s:message />
+	    </f:facet>
+		<h:panelGrid columns="2">
+			<h:outputText value="Name" />
+			<s:decorate>
+				<h:inputText value="#{person.name}" />
+			</s:decorate>
+			<h:outputText value="Country of Birth" />
+			<s:decorate>
+				<h:selectOneMenu value="#{person.country}"  converter="#{converters.countryConverter}">
+					<s:selectItems value="#{countries.resultList}" var="country" label="#{country.name} (#{country.continent.name})" noSelectionLabel="Please Select..." hideNoSelectionLabel="true"/>
+				</h:selectOneMenu>
+			</s:decorate>
+		</h:panelGrid>
+		<h:commandButton value="Apply" action="#{personHome.update}">
+			<s:conversationPropagation type="join" />
+		</h:commandButton>
+		<h:messages globalOnly="true" />
+		<p><s:link view="/index.xhtml" propagation="end">Back to index</s:link></p>
+	</h:form>
+</body>
+
+</html>

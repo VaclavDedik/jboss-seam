@@ -1,0 +1,14 @@
+<!DOCTYPE pages PUBLIC
+  "-//JBoss/Seam Pages Configuration DTD 1.1//EN"
+  "http://jboss.com/products/seam/pages-1.1.dtd">
+
+<pages>
+
+	<page view-id="/index.xhtml">
+		<param name="personId" converterId="javax.faces.Integer" value="#{personHome.id}" />
+	</page>
+	<page view-id="/selectItems.xhtml">
+		<param name="personId" converterId="javax.faces.Integer" value="#{personHome.id}" />
+	</page>
+
+</pages>

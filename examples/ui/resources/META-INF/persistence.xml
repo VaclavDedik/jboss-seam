@@ -1,0 +1,11 @@
+<persistence>
+   <persistence-unit name="uiDatabase">
+      <provider>org.hibernate.ejb.HibernatePersistence</provider>
+      <jta-data-source>java:/uiDatasource</jta-data-source>
+      <properties>
+         <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+         <property name="hibernate.show_sql" value="true"/>
+         <property name="jboss.entity.manager.factory.jndi.name" value="java:/uiEntityManagerFactory"/>
+      </properties>
+   </persistence-unit>
+</persistence>

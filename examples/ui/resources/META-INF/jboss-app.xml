@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<jboss-app>
+  	<loader-repository>
+   		seam.jboss.org:loader=seam-ui
+	</loader-repository>
+</jboss-app>
