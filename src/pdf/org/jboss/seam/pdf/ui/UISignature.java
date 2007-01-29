@@ -1,20 +1,38 @@
 package org.jboss.seam.pdf.ui;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.security.KeyStore;
+import java.security.PrivateKey;
+import java.security.cert.Certificate;
 
 import javax.faces.context.FacesContext;
 
 import org.jboss.seam.pdf.ITextUtils;
+import org.jboss.seam.util.Resources;
 
 import com.lowagie.text.DocWriter;
 import com.lowagie.text.pdf.PdfAcroForm;
+import com.lowagie.text.pdf.PdfReader;
+import com.lowagie.text.pdf.PdfSignatureAppearance;
+import com.lowagie.text.pdf.PdfStamper;
 import com.lowagie.text.pdf.PdfWriter;
 
 public class UISignature 
     extends ITextComponent 
 {
+    // signature box
     String field;
     String size;
+    String reason;
+    String location;
+    
+    // keystore
+    String keyStore         = null;
+    String keyStorePassword = null;
+    String keyPassword      = null;
+    String keyAlias         = null;   
     
     public void setField(String field) {
         this.field = field;
@@ -22,6 +40,28 @@ public class UISignature
     
     public void setSize(String size) {
         this.size = size;
+    }
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+    public void setLocation(String location) {
+        this.location = location;
+    }
+       
+    public void setKeyAlias(String keyAlias) {
+        this.keyAlias = keyAlias;
+    }
+
+    public void setKeyPassword(String keyPassword) {
+        this.keyPassword = keyPassword;
+    }
+
+    public void setKeyStore(String keyStore) {
+        this.keyStore = keyStore;
+    }
+
+    public void setKeyStorePassword(String keyStorePassword) {
+        this.keyStorePassword = keyStorePassword;
     }
     
     @Override
@@ -64,6 +104,9 @@ public class UISignature
         }
         form.addSignature(field, rect[0], rect[1], rect[2], rect[3]);
         
+        UIDocument doc = (UIDocument) findITextParent(this, UIDocument.class);
+        doc.addSignature(this);
+        
         super.encodeEnd(context);
     }
 
@@ -79,4 +122,37 @@ public class UISignature
         return null;
     }    
 
+    public byte[] sign(byte[] originalBytes) {         
+        try {                        
+            InputStream is = Resources.getResourceAsStream(keyStore);
+            
+            KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType()); 
+            ks.load(is, keyStorePassword.toCharArray());
+
+            PrivateKey key = (PrivateKey) ks.getKey(keyAlias, keyPassword.toCharArray());
+            Certificate[] chain =  ks.getCertificateChain(keyAlias); 
+
+            PdfReader reader = new PdfReader(originalBytes); 
+            ByteArrayOutputStream os = new ByteArrayOutputStream();                 
+
+            PdfStamper stamper = PdfStamper.createSignature(reader, os, '\0'); 
+            PdfSignatureAppearance appearance = stamper.getSignatureAppearance(); 
+            appearance.setCrypto(key, chain, null, 
+                                 PdfSignatureAppearance.SELF_SIGNED); 
+            
+            appearance.setReason(reason); 
+            appearance.setLocation(location); 
+            
+            appearance.setVisibleSignature(field); 
+            stamper.close();      
+            
+            return os.toByteArray();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+
+    
 }

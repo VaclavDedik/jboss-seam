@@ -37,6 +37,8 @@ public class UIDocument
     String margins;
     Boolean marginMirroring;
  
+    UISignature signatureField;
+    
     public void setType(String type) {
         this.type = type;
     }
@@ -76,6 +78,7 @@ public class UIDocument
     public void setOrientation(String orientation) {
         this.orientation = orientation;
     }
+    
     
     public Object getITextObject() {
         return document;
@@ -165,6 +168,10 @@ public class UIDocument
             throw new IllegalArgumentException("cannot add " + o);
         }
     }
+    
+    public void addSignature(UISignature signatureField) {
+        this.signatureField = signatureField;
+    }
 
     @Override
     public void encodeBegin(FacesContext context) 
@@ -235,11 +242,17 @@ public class UIDocument
         throws IOException
     {
         document.close();
+        
+        byte[] bytes = stream.toByteArray();
 
+        if (signatureField != null) {
+            bytes = signatureField.sign(bytes);
+        }
+        
         DocumentStore.instance().saveData(id,
                                           baseName,
                                           docType,
-                                          stream.toByteArray());        
+                                          bytes);        
 
         ResponseWriter response = context.getResponseWriter();
         response.endElement("body");
@@ -249,6 +262,8 @@ public class UIDocument
         
         Manager.instance().beforeRedirect();
     }
+
+       
 
     public DocWriter getWriter() {
         return writer;
