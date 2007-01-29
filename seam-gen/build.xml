@@ -127,13 +127,6 @@
               defaultvalue="${workspace.home}"/>
     	<pathFixer property="workspace.home.new" />
         
-        <property name="eclipse.wtp" value="n"/>
-        <!--input addproperty="eclipse.wtp.new" 
-                   message="Is this an Eclipse WTP workspace [${eclipse.wtp}] " 
-                 validargs="y,n," 
-              defaultvalue="${eclipse.wtp}"/-->
-    	<property name="eclipse.wtp.new" value="n"/>
-        
         <property name="jboss.home" value="C:/Program Files/jboss-4.0.5.GA"/>
         <input addproperty="jboss.home.new" 
                    message="Enter your JBoss home directory [${jboss.home}]" 
@@ -334,7 +327,6 @@
             <entry key="workspace.home" value="${workspace.home.new}"/>
             <entry key="project.name" value="${project.name.new}"/>
             <entry key="jboss.home" value="${jboss.home.new}"/>
-            <entry key="eclipse.wtp" value="${eclipse.wtp.new}"/>
             <entry key="action.package" value="${action.package.new}"/>
             <entry key="model.package" value="${model.package.new}"/>
             <entry key="test.package" value="${test.package.new}"/>
@@ -472,12 +464,11 @@
         
     </target>
     
-    <target name="file-copy" unless="${wtp}">
+    <target name="file-copy">
         <echo message="Copying project resources ..." />
                 
         <copy todir="${project.home}/resources">
             <fileset dir="${basedir}/resources/">
-                <exclude name="META-INF/application-wtp.xml" />
             	<exclude name="datasource-ds.xml"/>
             	<exclude name="import.sql"/>
             </fileset>
@@ -535,85 +526,6 @@
         </copy>
 
     </target>
-
-    <target name="file-copy-wtp" if="${wtp}">
-        <echo message="Copying project resources ..." />
-        
-        <copy todir="${project.home}EJB/ejbModule" overwrite="true">
-            <fileset dir="${basedir}/resources/">
-                <exclude name="WEB-INF/**" />
-                <exclude name="META-INF/application.xml" />
-                <exclude name="META-INF/application-wtp.xml" />
-                <exclude name="META-INF/jboss-app.xml" />
-                <exclude name="META-INF/jboss-beans.xml" />
-                <exclude name="datasource-ds.xml" />
-                <exclude name="messages*.properties" />
-            </fileset>
-            <filterset refid="project"/>
-        </copy>
-        
-        <copy todir="${project.home}/EarContent" overwrite="true">
-            <fileset dir="${basedir}/resources">
-                <exclude name="WEB-INF/**" />
-                <exclude name="META-INF/ejb-jar.xml" />
-                <exclude name="META-INF/persistence*.xml" />
-                <exclude name="META-INF/application.xml" />
-            	<exclude name="datasource-ds.xml"/>
-            	<exclude name="application-wtp.xml"/>
-            </fileset>
-            <filterset refid="project"/>
-            <filterset refid="jdbc"/>
-        </copy>
-        
-        <copy file="${basedir}/resources/META-INF/application-wtp.xml" 
-            tofile="${project.home}/EarContent/META-INF/application.xml">
-            <filterset refid="project"/>
-        </copy>
-            
-        <copy file="${basedir}/resources/datasource-ds.xml"
-    	    tofile="${jboss.home}/server/default/deploy/${project.name}-ds.xml">
-            <filterset refid="project"/>
-            <filterset refid="jdbc"/>
-        </copy>
-        
-        <copy todir="${project.home}/EarContent" overwrite="true">
-            <fileset dir="../lib">
-                <include name="jbpm-*.jar" />
-            </fileset>
-            <fileset dir="..">
-                <include name="jboss-seam.jar" />
-            </fileset>
-        </copy>
-        
-        <copy todir="${project.home}Web/WebContent">
-            <fileset refid="view"/>
-            <filterset refid="project"/>
-        </copy>
-        
-        <copy todir="${project.home}Web/WebContent/WEB-INF" overwrite="true">
-            <fileset dir="${basedir}/resources/WEB-INF" />
-            <filterset refid="project"/>
-        </copy>
-        
-        <copy todir="${project.home}Web/WebContent/WEB-INF/lib" overwrite="true">
-            <fileset dir="../lib">
-            	<include name="jsf-facelets.jar"/>
-            	<include name="el-*.jar"/>
-            </fileset>
-            <fileset file="../jboss-seam-debug.jar"/>
-            <fileset file="../jboss-seam-ui.jar"/>
-        </copy>
-        
-        <copy todir="${project.home}">
-            <fileset dir="${basedir}/build-scripts-wtp"/>
-            <filterset refid="project"/>
-        </copy>
-        
-        <copy todir="${project.home}/embedded-ejb">
-            <fileset dir="../embedded-ejb" />
-        </copy>
-        
-    </target>
     
     <target name="validate-project" depends="validate-workspace">
         <fail message="No project name specified (run 'seam new-project' first)">
@@ -637,10 +549,7 @@
         </fail>
     </target>
 
-    <target name="new-project" depends="validate-project,copy-lib,file-copy-wtp,file-copy">
-    	<condition property="wtp">
-    		<equals arg1="${eclipse.wtp}" arg2="y"/>
-    	</condition>
+    <target name="new-project" depends="validate-project,copy-lib,file-copy">
         <echo message="A new Seam project was created in the ${workspace.home} directory"/>
     	<echo message="Type 'seam explode' and go to http://localhost:8080/${project.name}"/>
     	<echo message="Eclipse Users: Add the project as a new Java project from inside Eclipse"/>
