@@ -12,10 +12,4 @@ testng-failures.xml
 report
 output
 build
-build/classes
-build/debugclasses
-build/genclasses
-build/uiclasses
-build/mailclasses
-build/pdfclasses
 
