@@ -4,6 +4,11 @@
 
     <pdf:documentStore useExtensions="true" errorPage="/pdfMissing.seam" />
 
+    <pdf:keyStoreConfig keyStore="pdf.keystore"
+                        keyStorePassword="storepass"
+                        keyPassword="keypass"
+                        keyAlias="pdfKey" />
+
     <core:init debug="true" jndi-pattern="@jndiPattern@" />
     <core:ejb installed="@embeddedEjb@" /> 
 </components>
