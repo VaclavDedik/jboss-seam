@@ -7,880 +7,235 @@
     <emphasis>granularity</emphasis>, making it capable of performing either simple role-based security checks,
     or at the other end of the scale complex rule-based permission checks on domain objects using JBoss Rules.
   </para>
-
-  <sect1>
-    <title>Overview</title>
-    
-    <para>
-      The Seam security API provides the following features for securing a Seam application.
-    </para>
-    
-    <sect2>
-      <title>JAAS-based Authentication</title>
-      
-      <para>
-        The authentication component of the security API is based on JAAS, allowing authentication to be 
-        carried out against one or more configurable login modules.  The security API provides a login module 
-        that delegates authentication to a Seam component, making it easy to authenticate a user using the
-        application's domain objects.
-      </para>
-    </sect2>
-    
-    <sect2>
-      <title>Page Security</title>
-      
-      <para>
-        This feature allows direct access to page resources to be controlled based on the set of roles granted
-        to the requesting user.  Using a servlet filter, each request to a protected resource is validated to
-        ensure that the user has the necessary roles to access the resource.
-      </para>
-    </sect2>
-    
-    <sect2>
-      <title>EL Integration</title>
-      
-      <para>
-        The <literal>s:hasRole()</literal> and <literal>s:hasPermission()</literal> EL functions can be used
-        within the pages of an application to control which parts of a page are rendered based on the security
-        level of the user.  On the model side, component classes and/or their methods can also be annotated with
-        the very same EL expressions to restrict the execution of methods based on the current security context.
-      </para>
-    </sect2>    
-    
-    <sect2>
-      <title>Rule-based Authorization</title>
-      
-      <para>
-        By integrating with JBoss Rules, the security API is able to make security decisions by evaluating
-        a set of user-defined security rules defined at deployment time.  This feature allows any security
-        checks to carry out a decision-making process which can be as simple or as complex as required, while 
-        taking into account the state of any objects asserted into the security context for the check.
-      </para>
-    </sect2>
-    
-  </sect1>
-
-  <sect1>
-    <title>Configuration</title>
-
-    <para>
-      The first step in configuring Seam Security is to install the <literal>SeamSecurityManager</literal> and
-      <literal>SecurityConfiguration</literal> components, as they are not installed by default.  The
-      <literal>SeamSecurityManager</literal> component is the core of the Seam Security API, and is
-      responsible for loading security rules, and performing role and permission checks.
-      <literal>SecurityConfiguration</literal> is used to load role and page security configuration from
-      a configuration file (or can be extended to load this configuration from an alternative source, such as
-      a database). The following entries in <literal>components.xml</literal> will install these two components:
-    </para>
-
-    <programlisting>
-      <![CDATA[
-<!DOCTYPE components PUBLIC "-//JBoss/Seam Component Configuration DTD 1.1//EN"
-  "http://jboss.com/products/seam/components-1.1.dtd">
-
-<components>
-  <!-- Install a Security Configuration -->
-  <component class="org.jboss.seam.security.config.SecurityConfiguration"/>
-
-  <!-- Install the Seam Security Manager -->
-  <component class="org.jboss.seam.security.SeamSecurityManager"/>
-
-</components>
-      ]]>
-    </programlisting>
-
-    <sect2>
-      <title>security-config.xml</title>
-
-      <para>
-        The next step is to configure roles.  While this step is optional (it is possible for a user to
-        belong to a role even if it is not configured here), it is necessary if either 1) explicit permissions 
-        are required by your application, or 2) roles require membership of other roles.  Create a file called 
-        <literal>security-config.xml</literal>, which goes in the <literal>META-INF</literal> directory of the 
-        Seam application's jar file.  Here's an example <literal>security-config.xml</literal> file with a few 
-        roles defined.
-      </para>
-
-      <programlisting>
-        <![CDATA[
-<security-config>
-
-  <roles>
-    <role name="admin">
-      <memberships>superuser</memberships>
-
-      <permissions>
-        <permission name="user" action="create"/>
-        <permission name="user" action="modify"/>
-        <permission name="user" action="delete"/>
-      </permissions>
-    </role>
-
-    <role name="superuser">
-      <memberships>user</memberships>
-
-      <permissions>
-        <permission name="account" action="create"/>
-        <permission name="account" action="delete"/>
-      </permissions>
-    </role>
-
-    <role name="user">
-      <permissions>
-        <permission name="customer" action="create"/>
-        <permission name="customer" action="delete"/>
-      </permissions>
-    </role>
-
-    <role name="guest">
-
-    </role>
-
-  </roles>
-
-</security-config>
-        ]]>
-      </programlisting>
-
-      <para>
-        In the above example, we can see that there are four distinct roles: <literal>admin</literal>,
-        <literal>superuser</literal>, <literal>user</literal> and <literal>guest</literal>.  Strictly
-        speaking, the <literal>guest</literal> entry is redundant as it declares no permissions nor contains
-        any memberships of other roles.  What is most of interest here are the permissions and role memberships,
-        which are explained in further detail as follows.
-      </para>
-
-      <sect3>
-        <title>Explicit Permissions</title>
-        <para>
-          These are permissions which are explicitly granted to members of a role.  Explicit permissions are
-          used to address simple security concerns, such as <emphasis>"may this user create a new customer
-          record?"</emphasis>, or <emphasis>"may this user view customer details?"</emphasis>.  While it is
-          possible to perform a more complex contextual-based decision to grant a specific permission or not,
-          explicit permissions allow simple decision-less permissions to be easily granted to certain groups
-          of users.  How these permissions are used will be explained further on.
-        </para>
-      </sect3>
-
-      <sect3>
-        <title>Role memberships</title>
-
-        <para>
-          Role memberships are a simple inheritence feature designed to make it easier to build a security
-          model from the ground up.  In the above example, it can be seen that the <literal>admin</literal>
-          role contains a membership of the <literal>superuser</literal> role.  What this means, is that any
-          explicit permissions that the <literal>superuser</literal> has, whether they were granted to the
-          <literal>superuser</literal> role directly or inherited from further up, are automatically granted
-          to the <literal>admin</literal> user also, as a result of its membership.
-        </para>
-
-        <para>
-          The following table illustrates this concept by showing the permissions granted to each role based 
-          on the above <literal>security-config.xml</literal> example.
-        </para>
-
-        <table>
-          <title>Permissions granted to example roles</title>
-
-          <tgroup cols="3">
-            <colspec colnum="1" colwidth="1*" />
-            <colspec colnum="2" colwidth="1*" />
-            <colspec colnum="3" colwidth="1*" />
-
-            <thead>
-              <row>
-                <entry align="center">
-                  <para>Role</para>
-                </entry>
-
-                <entry align="center">
-                  <para>Permission</para>
-                </entry>
-
-                <entry align="center">
-                  <para>Source</para>
-                </entry>
-              </row>
-            </thead>
-
-            <tbody>
-              <row>
-                <entry>
-                  <para>user</para>
-                </entry>
-                <entry>
-                  <para>customer:create</para>
-                </entry>
-                <entry>
-                  <para>Assigned directly</para>
-                </entry>
-              </row>
-              <row>
-                <entry>
-                  <para>user</para>
-                </entry>
-                <entry>
-                  <para>customer:delete</para>
-                </entry>
-                <entry>
-                  <para>Assigned directly</para>
-                </entry>
-              </row>
-              <row>
-                <entry>
-                  <para>superuser</para>
-                </entry>
-                <entry>
-                  <para>customer:create</para>
-                </entry>
-                <entry>
-                  <para>Inherited from user</para>
-                </entry>
-              </row>
-              <row>
-                <entry>
-                  <para>superuser</para>
-                </entry>
-                <entry>
-                  <para>customer:delete</para>
-                </entry>
-                <entry>
-                  <para>Inherited from user</para>
-                </entry>
-              </row>
-              <row>
-                <entry>
-                  <para>superuser</para>
-                </entry>
-                <entry>
-                  <para>account:create</para>
-                </entry>
-                <entry>
-                  <para>Assigned directly</para>
-                </entry>
-              </row>
-              <row>
-                <entry>
-                  <para>superuser</para>
-                </entry>
-                <entry>
-                  <para>account:delete</para>
-                </entry>
-                <entry>
-                  <para>Assigned directly</para>
-                </entry>
-              </row>
-              <row>
-                <entry>
-                  <para>admin</para>
-                </entry>
-                <entry>
-                  <para>customer:create</para>
-                </entry>
-                <entry>
-                  <para>Inherited from superuser</para>
-                </entry>
-              </row>
-              <row>
-                <entry>
-                  <para>admin</para>
-                </entry>
-                <entry>
-                  <para>customer:delete</para>
-                </entry>
-                <entry>
-                  <para>Inherited from superuser</para>
-                </entry>
-              </row>
-              <row>
-                <entry>
-                  <para>admin</para>
-                </entry>
-                <entry>
-                  <para>account:create</para>
-                </entry>
-                <entry>
-                  <para>Inherited from superuser</para>
-                </entry>
-              </row>
-              <row>
-                <entry>
-                  <para>admin</para>
-                </entry>
-                <entry>
-                  <para>account:delete</para>
-                </entry>
-                <entry>
-                  <para>Inherited from superuser</para>
-                </entry>
-              </row>
-              <row>
-                <entry>
-                  <para>admin</para>
-                </entry>
-                <entry>
-                  <para>user:create</para>
-                </entry>
-                <entry>
-                  <para>Assigned directly</para>
-                </entry>
-              </row>
-              <row>
-                <entry>
-                  <para>admin</para>
-                </entry>
-                <entry>
-                  <para>user:modify</para>
-                </entry>
-                <entry>
-                  <para>Assigned directly</para>
-                </entry>
-              </row>
-              <row>
-                <entry>
-                  <para>admin</para>
-                </entry>
-                <entry>
-                  <para>user:delete</para>
-                </entry>
-                <entry>
-                  <para>Assigned directly</para>
-                </entry>
-              </row>
-            </tbody>
-
-          </tgroup>
-        </table>
-
-      </sect3>
-      
-      <sect3>
-        <title>Page security</title>
-        
-        <para>
-          Page security is used to restrict direct access to web resources based on the user's roles. It
-          requires the Seam security filter (a servlet filter - see the next section) to be installed.  
-          To configure page security, <literal>security-constraint</literal> entries must be created within 
-          <literal>security-config.xml</literal> to control which web resources are accessible to which roles.
-          The restricted web resources are defined using a url-pattern expression.  The following example
-          demonstrates how all of the <literal>*.seam</literal> resources in the <literal>/secure</literal>
-          directory are restricted to users in the <literal>admin</literal> role.
-        </para>
-        
-        <programlisting>
-          <![CDATA[
-<security-config>
-          
-  <security-constraint>
-    <web-resource-collection>
-      <web-resource-name>Secure Page</web-resource-name>
-      <url-pattern>/secure/*</url-pattern>
-    </web-resource-collection>
-    
-    <auth-constraint>
-      <role-name>admin</role-name>
-    </auth-constraint>
-  </security-constraint>          
   
-</security-config>  
-          ]]>
-        </programlisting>
-        
-        <para>
-          This configuration may look familiar, because it is the same format defined by the servlet 
-          specification, and as such follows the same wildcard conventions.  I.e. at the end of a pattern, 
-          <literal>/*</literal> matches any sequence of characters from that point forward, and the pattern
-          <literal>*.extension</literal> matches any resources ending with <literal>.extension</literal>. An
-          asterisk in any other position is not a wildcard.
-        </para>   
-        
-        <para>
-          So what happens when a user tries to access a page that they don't have the necessary rights for? 
-          By default, the security filter redirects these requests to the <literal>/securityError.seam</literal>
-          page.  This page can be overridden by setting the <literal>securityErrorPage</literal> property
-          of the <literal>SecurityConfiguration</literal> component in <literal>components.xml</literal>:
-        </para>
-        
-        <programlisting>
-          <![CDATA[
-  <component class="org.jboss.seam.security.config.SecurityConfiguration">
-    <property name="securityErrorPage">/security/generalSecurityError.seam</property>
-  </component>
-          ]]>       
-        </programlisting>
-        
-      </sect3>      
-    </sect2>
-
-    <sect2>
-      <title>Seam Security Filter</title>
-    
-      <para>
-        The Seam security filter is a servlet filter that provides page security features.  It is an optional
-        component in that if your application does not require page security, then there is no requirement to
-        install the security filter.  To configure which pages are secure, see the previous section on page
-        security.  To configure the security filter, add the following entries to <literal>web.xml</literal>:
-      </para>
-      
-      <programlisting>
-        <![CDATA[
-    <!-- Seam security filter -->
-    
-    <filter>
-      <filter-name>Seam Security Filter</filter-name>
-      <filter-class>org.jboss.seam.security.filter.SeamSecurityFilter</filter-class>
-    </filter>
-    
-    <filter-mapping>
-      <filter-name>Seam Security Filter</filter-name>
-      <url-pattern>*.seam</url-pattern>
-    </filter-mapping>        
-        ]]>
-      </programlisting>
-    </sect2>    
-    
-    <sect2>
-      <title>security-rules.drl</title>
-      
-      <para>
-        This file also goes into the Seam application's <literal>META-INF</literal> directory.  It contains
-        all the rules that make up an application's authorization policy, and is described further down in the
-        Authorization section.
-      </para>
-      
-    </sect2>    
-
-  </sect1>
-
   <sect1>
     <title>Authentication</title>
-
+    
     <para>
-      It is a relatively straight forward process to set up authentication.  The first step is to 
-      configure the login modules that are to be used within the project by adding one or more
-      <literal>application-policy</literal> entries to <literal>security-config.xml</literal>.
+      The authentication features provided by Seam Security are built upon JAAS (Java Authentication and Authorization Service), 
+      and as such provide a robust and highly configurable API for handling user authentication.  However, for less complex 
+      authentication requirements Seam offers a much more simplified method of authentication that hides the complexity of JAAS.  
     </para>
     
-    <programlisting>
-      <![CDATA[ 
-  <application-policy>
-    <authentication>
-      <login-module code="org.jboss.seam.security.spi.SeamLoginModule" flag="required">
-        <module-option name="authMethod">#{login.authenticate}</module-option>
-      </login-module>
-    </authentication>
-  </application-policy>  
-      ]]>
-    </programlisting>
-    
-    <para>
-      An <literal>application-policy</literal> without a specified name will be given a default name.  It is
-      possible to create multiple application policies if required, with each one having its own set of login 
-      modules.
-    </para>
-
-    <programlisting>
-      <![CDATA[ 
-  <application-policy>  <!-- default policy -->
-    <authentication>
-      <login-module ...
-    </authentication>
-  </application-policy>      
-      
-  <application-policy name="special">
-    <authentication>
-      <login-module ...
-    </authentication>
-  </application-policy>
-      ]]>
-    </programlisting>
-    
-    <para>
-      The login module configuration should look familiar if you've ever used JAAS before.  Each login module
-      should have its own <literal>login-module</literal> entry, specifying the fully qualified class name of 
-      the login module class, plus the flag for the login module.  It is also possible to configure additional 
-      options for each login module, by including <literal>module-option</literal> entries as children of the 
-      <literal>login-module</literal> entry. Flag values are found in the JSE API documentation for 
-      <literal>javax.security.auth.login.Configuration</literal>, but are repeated here for convenience:
-    </para>
-    
-    <table>
-      <title>JAAS Configuration Flags</title>
-
-      <tgroup cols="2">
-        <colspec colnum="1" colwidth="1*" />
-        <colspec colnum="2" colwidth="1*" />
-
-        <thead>
-          <row>
-            <entry align="center">
-              <para>Flag</para>
-            </entry>
-            <entry align="center">
-              <para>Description</para>
-            </entry>
-          </row>
-        </thead>
-
-        <tbody>
-          <row>
-            <entry>
-              <para>Required</para>
-            </entry>
-            <entry>
-              <para>
-                The LoginModule is required to succeed. If it succeeds or fails, authentication still 
-                continues to proceed down the LoginModule list.
-              </para>
-            </entry>
-          </row>
-          <row>
-            <entry>
-              <para>Requisite</para>
-            </entry>
-            <entry>
-              <para>
-                The LoginModule is required to succeed.  If it succeeds, authentication continues down the
-                LoginModule list.  If it fails, control immediately returns to the application (authentication 
-                does not proceed down the LoginModule list).
-              </para>
-            </entry>
-          </row>
-          <row>
-            <entry>
-              <para>Sufficient</para>
-            </entry>
-            <entry>
-              <para>
-                The LoginModule is not required to succeed.  If it does succeed, control immediately
-                returns to the application (authentication does not proceed down the LoginModule list).
-                If it fails, authentication continues down the LoginModule list.
-              </para>
-            </entry>
-          </row>
-          <row>
-            <entry>
-              <para>Optional</para>
-            </entry>
-            <entry>
-              <para>
-                The LoginModule is not required to succeed.  If it succeeds or fails, authentication still 
-                continues to proceed down the LoginModule list.
-              </para>
-            </entry>
-          </row>
-        </tbody>
-      </tgroup>
-    </table>
-        
-    <para>
-    
-    </para>    
-        
     <sect2>
-      <title>Using <literal>SeamLoginModule</literal> to authenticate</title>
-      
+      <title>Configuration</title>
+    
       <para>
-        One of the simplest ways to authenticate a user is to delegate the authentication to a Seam component.
-        There is a special login module, <literal>SeamLoginModule</literal> that allows this.  Configure this
-        login module in <literal>security-config.xml</literal>, and in its <literal>authMethod</literal> 
-        option specify an EL method expression.  By default the method that you specify should accept the 
-        parameters [<literal>java.lang.String, java.lang.String, java.util.Set</literal>], however this can be 
-        customised (see section further down).  The third <literal>java.util.Set</literal> parameter is a set
-        to which the authentication method should add any roles that the authenticating user is a member of. 
-        Here's a complete example:
+        The simplified authentication method uses a built-in JAAS login module, <literal>SeamLoginModule</literal>, which
+        delegates authentication to one of your own Seam components.  This login module is already configured inside Seam as 
+        part of a default application policy and as such does not require any additional configuration files.  It allows you to 
+        write an authentication method using the entity classes that are provided by your own application.  Configuring this 
+        simplified form of authentication requires the <literal>Identity</literal> component to be configured in 
+        <literal>components.xml</literal>:
       </para>
-           
+      
       <programlisting>
         <![CDATA[
-@Name("authenticator")
-public class AuthenticatorAction 
-{
-  @In(create=true)
-    private EntityManager entityManager;
-
-  public boolean authenticate(String username, String password, Set<String> roles) 
-  {
-    try
-    {            
-       User user = (User) entityManager.createQuery(
-          "from User where username = :username and password = :password")
-          .setParameter("username", username)
-          .setParameter("password", password)
-          .getSingleResult();
-  
-       for (UserRole r : user.getRoles())
-          roles.add(r.getName());
-       
-       return true;
-    }
-    catch (NoResultException ex)
-    {
-       log.warn("Invalid username/password");
-       return false;
-    }      
-  }   
-}        
+      <component class="org.jboss.seam.security.Identity">
+          <property name="authMethod">#{authenticator.authenticate}</property>
+      </component>      
         ]]>
       </programlisting>
       
       <para>
-        Based on the above example, the EL expression that would need to be specified in the 
-        <literal>authMethod</literal> option for the login module would be 
-        <literal>#{authenticator.authenticate}</literal>.
+        The EL expression <literal>#{authenticator.authenticate}</literal> is a method binding indicating the
+        <literal>authenticate</literal> method of the <literal>authenticator</literal> component.
       </para>
+      
     </sect2>
     
     <sect2>
-      <title>Logging in the user</title>
-      
-      <para>
-        Now that the login module has been configured, and an authentication method written, all that is left
-        is to perform a JAAS login.  This is the easiest step, as shown by the following example:
-      </para>
-      
-      <programlisting>
-        <![CDATA[
-   public void login()
-   {
-      try
-      {
-         CallbackHandler cbh = SeamSecurityManager.instance().createCallbackHandler(
-               user.getUsername(), user.getPassword());
-         
-         LoginContext lc = SeamSecurityManager.instance().createLoginContext(null, cbh);
-         lc.login();
-      }
-      catch (LoginException ex)
-      {
-         FacesMessages.instance().add("Invalid login");
-      }
-   }        
-        ]]>
-      </programlisting>
-      
-      <para>
-        The first thing that happens in the above code is the creation of a <literal>CallbackHandler</literal>
-        which is going to be responsible for providing the user's credentials (their username and password) to
-        the login module.  The <literal>CallbackHandler</literal> is created by a convenience method in
-        <literal>SeamSecurityManager</literal>, and knows how to handle <literal>NameCallback</literal> and
-        <literal>PasswordCallback</literal> callback types.
-      </para>
-        
-      <para>
-        The next thing that happens is the creation of a <literal>LoginContext</literal>.  There is a factory
-        method in <literal>SeamSecurityManager</literal> for creating this, as the login context doesn't
-        use the standard configuration (it uses an application-specific configuration).  If the application
-        policy isn't configured with a name, then it will have a default name and the String parameter
-        passed to <literal>createLoginContext()</literal> can be null.  If your application has multiple
-        application policies configured, then you can specify which one to use by providing the policy name
-        to <literal>createLoginContext()</literal>:
-      </para>
-      
-      <programlisting>
-        <![CDATA[
-  LoginContext lc = SeamSecurityManager.instance().createLoginContext("special", cbh);        
-        ]]>
-      </programlisting>
-        
-      <para>
-        The final step is the call to <literal>lc.login()</literal>, which calls each of the configured login 
-        modules in turn,  passing in the callback handler to each one and performing an authentication based on 
-        the configured login module flags.        
-      </para>
-      
-      <para>
-        Once the user is successfully authenticated, calls to <literal>Identity.loggedIn()</literal> will 
-        return true for the duration of the session.
-      </para>
-    </sect2>
+      <title>Writing an authentication method</title>
     
-    <sect2>
-      <title>Customising the Authentication process</title>
-      
       <para>
-        In some situations it may be necessary to perform authentication that isn't based on a simple
-        username/password combination.  The good news is that this is not very difficult, however it requires a
-        few additional steps.  This section will walk through an example where authentication requires a
-        Company ID in addition to a username and password.
+        The <literal>authMethod</literal> property in <literal>components.xml</literal> specifies which method will be 
+        used by <literal>SeamLoginModule</literal> to authenticate users.  The prototype for this method is expected to be:
       </para>
-      
-      <para>
-        The first step is to subclass the <literal>SeamLoginModule</literal> class and override the 
-        <literal>getLoginParams()</literal> method to return the appropriate parameters for the custom
-        authentication method.
-      </para>      
-      
-      <programlisting>
-        <![CDATA[
-public class CustomLoginModule extends SeamLoginModule 
-{           
-   @Override public Object[] getLoginParams()
-      throws Exception
-   {
-      CompanyCallback cbCompany = new CompanyCallback("Enter company ID");
-      NameCallback cbName = new NameCallback("Enter username");
-      PasswordCallback cbPassword = new PasswordCallback("Enter password", false);
-
-      // Get the username and password from the callback handler
-      callbackHandler.handle(new Callback[] { cbCompany, cbName, cbPassword });
-      username = cbName.getName();
-      
-      return new Object[] { cbCompany.getCompanyId(), username, 
-                            new String(cbPassword.getPassword()), roles };
-   }        
-}
-        ]]>
-      </programlisting>
-      
-      <para>
-        Since <literal>CompanyCallback</literal> is a custom callback it needs to be created also:
-      </para>
-      
-      <programlisting>
-        <![CDATA[
-public class CompanyCallback implements Callback, Serializable {
-  private String prompt;
-  private int companyId;
-  public CompanyCallback(String prompt) {
-    if (prompt == null || "".equals(prompt))
-      throw new IllegalArgumentException();
-    this.prompt = prompt;
-  }        
-  public String getPrompt() {
-    return prompt;
-  }
-  public int getCompanyId() {
-    return companyId;
-  }
-  public void setCompanyId(int companyId) {
-    this.companyId = companyId;
-  }
-}  
-        ]]>
-      </programlisting>
-      
-      <para>
-        So far so good, now it's time to configure the custom login module in <literal>security-config.xml</literal>:
-      </para>
-      
-      <programlisting>
-        <![CDATA[
-  <loginmodules>
-    <loginmodule class="com.acme.security.CustomLoginModule" flag="required">
-      <option name="paramTypes">java.lang.Integer,java.lang.String,java.lang.String,java.util.Set</option>
-      <option name="authMethod">#{authenticator.authenticate}</option>      
-    </loginmodule>
-  </loginmodules>         
-        ]]>
-      </programlisting>
-      
-      <para>
-        The important thing to note above is that the <literal>paramTypes</literal> option is specified, based
-        on the customised parameters that are going to be sent to the authentication method.  Now that they
-        have been configured, it is time to write the authentication method:
-      </para>
-      
-      <programlisting>
-        <![CDATA[
-@Name("authenticator")       
-public class CustomAuthenticator {
-  @In(create=true)
-  private EntityManager entityManager;
-
-  public boolean authenticate(int companyId, String username, String password, Set<String> roles) 
-  {
-    try
-    {            
-       User user = (User) entityManager.createQuery(
-          "from User where companyId = :companyId and username = :username and password = :password")
-          .setParameter("companyId", companyId)
-          .setParameter("username", username)
-          .setParameter("password", password)          
-          .getSingleResult();
-  
-       for (UserRole r : user.getRoles())
-          roles.add(r.getName());
-       
-       return true;
-    }
-    catch (NoResultException ex)
-    {
-       log.warn("Invalid username/password");
-       return false;
-    }      
-  }  
-}
-        ]]>
-      </programlisting>
-      
-      <para>
-        As can be seen in the above example, the customised authentication method contains the additional 
-        <literal>companyId</literal> parameter.  The last thing to do is write a login method:
-      </para>
-      
-      <programlisting>
-        <![CDATA[
-@Name("loginAction")
-public class LoginAction implements LoginLocal {
-   @In(create = true) EntityManager entityManager;
-   @In(required = false) User user;
-
-   public void login()
-   {
-      try
-      {
-         CallbackHandler cbh = createCallbackHandler(user.getCompanyId(), 
-               user.getUsername(), user.getPassword());
-         
-         LoginContext lc = SeamSecurityManager.instance().createLoginContext(cbh);
-         lc.login();
-      }
-      catch (LoginException ex)
-      {
-         FacesMessages.instance().add("Invalid login");
-      }
-   }  
         
-   private CallbackHandler createCallbackHandler(final int companyId, 
-         final String username, final String password)
-   {
-      return new CallbackHandler() {
-         public void handle(Callback[] callbacks) 
-            throws IOException, UnsupportedCallbackException 
+      <programlisting>
+        <![CDATA[
+  boolean (java.lang.String username, java.lang.String password, java.util.Set roles)
+        ]]>
+      </programlisting>
+  
+      <para>
+        The first and second parameters should hopefully be self-explanatory.  The third parameter (<literal>roles</literal>) 
+        is a Set object that should be populated with the user's roles only if authentication is successful.  The return value should
+        be set to <literal>true</literal> for a successful authentication, or <literal>false</literal> for an unsuccessful 
+        authentication. Here's a complete example of an authentication method inside a JavaBean component:
+      </para>
+    
+      <programlisting>
+        <![CDATA[
+@Name("authenticator")      
+public class Authenticator {
+   @In EntityManager entityManager;
+   public boolean authenticate(String username, String password, Set<String> roles) {
+      try
+      {            
+         authenticatedUser = (User) entityManager.createQuery(
+            "from User where username = :username and password = :password")
+            .setParameter("username", username)
+            .setParameter("password", password)
+            .getSingleResult();
+
+         if (authenticatedUser.getRoles() != null)
          {
-            for (int i = 0; i < callbacks.length; i++)
-            {
-               if (callbacks[i] instanceof CompanyCallback)
-                  ((CompanyCallback) callbacks[i]).setCompanyId(companyId);
-               else if (callbacks[i] instanceof NameCallback)
-                  ((NameCallback) callbacks[i]).setName(username);
-               else if (callbacks[i] instanceof PasswordCallback)
-                  ((PasswordCallback) callbacks[i]).setPassword(password.toCharArray());
-               else
-                  throw new UnsupportedCallbackException(callbacks[i],
-                        "Unsupported callback");
-            }
-            
+            for (UserRole mr : authenticatedUser.getRoles())
+               roles.add(mr.getName());
          }
-      };
-   }        
+         
+         return true;
+      }
+      catch (NoResultException ex)
+      {
+         FacesMessages.instance().add("Invalid username/password");
+         return false;
+      }      
+   }       
         ]]>
       </programlisting>
-      
+    
       <para>
-        The most significant thing to note in the above code is the <literal>createCallbackHandler()</literal>
-        method.  It returns a callback handler that knows how to handle a <literal>CompanyCallback</literal>, 
-        in addition to the standard <literal>NameCallback</literal> and <literal>PasswordCallback</literal>.
+        In the above example, both <literal>User</literal> and <literal>UserRole</literal> are application-specific
+        entity beans.  The <literal>roles</literal> parameter is populated with the roles that the user is a member
+        of, which should be added to the <literal>Set</literal> as literal string values, e.g. "admin", "user".
+        If the user record is not found and a <literal>NoResultException</literal> thrown, the authentication method
+        returns <literal>false</literal> to indicate the authentication failed.      
       </para>
       
+    </sect2>
+    
+    <sect2>
+      <title>Writing a login page</title>
+      
       <para>
-        That wraps up the creation of a customised authentication process.  Based on the above steps, it should
-        be possible to create a customised authentication based on any combination of credentials.
+        The <literal>Identity</literal> component provides both <literal>username</literal> and <literal>password</literal> 
+        properties, catering for the most common authentication scenario. These properties can be bound directly to the 
+        username and password fields on a login form.  Once these properties are set, the <literal>identity.login()</literal> 
+        method will authenticate the user using the provided credentials.  Here's an example of a simple login form:
+      </para>
+      
+      <programlisting>
+        <![CDATA[
+    <div>
+      <h:outputLabel for="name" value="Username"/>
+      <h:inputText id="name" value="#{identity.username}"/>
+    </div>
+    
+    <div>
+      <h:outputLabel for="password" value="Password"/>
+      <h:inputSecret id="password" value="#{identity.password}"/>
+    </div>
+    
+    <div>
+      <h:commandButton value="Login" action="#{identity.login}"/>
+    </div>                
+        ]]>
+      </programlisting>
+    </sect2>
+    
+  </sect1>
+  
+  <sect1>
+    <title>Identity</title>
+    
+    <para>
+      The <literal>Identity</literal> component is the core component of the Security API.  It is a session-scoped
+      component that 1) contains the current state of the user's security, and 2) provides a number of useful 
+      security-related methods.  This section details the most useful features of the <literal>Identity</literal> component.
+    </para>
+    
+    <sect2>
+      <title>Obtaining a reference</title>
+      
+      <para>
+        There are two ways of obtaining a reference to the <literal>Identity</literal> for the current user's session.
+        The first, inline method is to simply call <literal>Identity.instance()</literal>.  Alternatively, you may inject
+        the <literal>Identity</literal> directly into your own components:
+      </para>
+      
+      <programlisting>
+        <![CDATA[
+  @In Identity identity;        
+        ]]>
+      </programlisting>
+    </sect2>
+    
+    <sect2>
+      <title>isLoggedIn()</title>      
+      <para>
+        The <literal>isLoggedIn()</literal> method returns a boolean value indicating whether the user has been
+        successfully authenticated or not. It may be useful for controlling the rendering of certain sections of a page,
+        depending if the user is logged in or not.
       </para>
     </sect2>
+    
+    <sect2>
+      <title>getSubject()</title>
+      <para>
+        The <literal>getSubject()</literal> method returns the <literal>javax.security.auth.Subject</literal> instance
+        for the user's session.  The subject contains all of an authenticated user's principals.  If
+        you are authenticating with your own <literal>LoginContext</literal>, it should be instantiated with the
+        <literal>identity</literal>'s subject.
+      </para>
+    </sect2>
+    
+    <sect2>
+      <title>isUserInRole()</title>
+      <para>
+        This method accepts a <literal>java.lang.String</literal> parameter and returns a <literal>boolean</literal>
+        indicating whether the user is a member of the specified role.  Here's an example:
+      </para>
+      
+      <programlisting>
+        <![CDATA[
+  if (!Identity.instance().isUserInRole("admin"))
+    throw new AuthorizationException("Insufficient privileges");
+        ]]>
+      </programlisting>
+    </sect2>
+    
+    <sect2>
+      <title>checkRestriction()</title>
+      <para>
+        The <literal>checkRestriction()</literal> method accepts a <literal>java.lang.String</literal> parameter
+        specifying a security EL expression to evaluate.  If the expression evaluates to <literal>false</literal>,
+        one of two things happen; 1) if the user is not logged in, a <literal>NotLoggedInException</literal> is
+        thrown, or 2) if the user is logged in, an <literal>AuthorizationException</literal> is thrown.  EL security
+        functions are discussed in the Authorization section of this chapter.
+      </para>
+      
+      <programlisting>
+        <![CDATA[
+  public void deleteCustomer() {
+    Identity.instance().checkRestriction("#{s:hasPermission('customer', 'delete', customer)}");
+    //...code
+  }        
+        ]]>
+      </programlisting>
+    </sect2>
+    
+    <sect2>
+      <title>login()</title>
+      <para>
+        This method attempts to authenticate using the set values of the <literal>username</literal> and 
+        <literal>password</literal> properties.  An overloaded version of this method, 
+        <literal>login(LoginContext ctx)</literal> authenticates using an externally provided 
+        <literal>LoginContext</literal>.  This method throws a <literal>LoginException</literal> if authentication
+        is not successful.
+      </para>
+    </sect2>
+    
+    <sect2>
+      <title>logout()</title>
+      <para>
+        This method clears the security state for the currently authenticated user.
+      </para>
+    </sect2>
+    
   </sect1>
-
+                
   <sect1>
     <title>Authorization</title>
 
@@ -944,107 +299,9 @@ public class SecureAction {
   }  
         ]]>
       </programlisting>
-      
-
-
-                
+                    
     </sect2>
     
-    <sect2>
-      <title>The Security Context</title>
-      
-      <para>
-        The first time that a permission check is performed after a user is authenticated, a security context is
-        created for that user and placed into the user's session context.  This security context (which in 
-        fact is an instance of <literal>org.drools.WorkingMemory</literal>) is populated with all of the 
-        <literal>Principal</literal>s for the authenticated user, plus all of the explicitly granted
-        permissions granted to the user's role/s, as instances of<literal>org.jboss.seam.security.SeamPermission</literal>.
-        To make this a little clearer, here's a diagram:
-      </para>
-      
-      <mediaobject>
-        <imageobject role="fo">
-          <imagedata fileref="images/security-context.png" align="center"/>
-        </imageobject>
-        <imageobject role="html">
-          <imagedata fileref="../shared/images/security-context.png" align="center"/>
-        </imageobject>
-      </mediaobject>      
-      
-      <para>
-        In this diagram, the database contains a user "bob", who is a member of the "user" role. The
-        security configuration file, <literal>security-config.xml</literal> defines a role called "user"
-        that has the explicitly assigned permissions <literal>customer:create</literal>, 
-        <literal>account:create</literal> and <literal>invoice:create</literal>.  After bob authenticates,
-        his Security Context will contain all of the permissions granted to him through his role 
-        memberships, as well as any <literal>Principal</literal>s created as a result of the authentication
-        process.  This includes his roles, which exist in a <literal>SimpleGroup</literal> principal with the
-        name of "roles".                
-      </para>
-    
-    </sect2>
-    
-    <sect2>
-      <title>How do permission checks work?</title>
-      
-      <para>
-      
-      </para>
-    </sect2>
-
-    <sect2>
-      <title>Establishing a default security policy</title>
-      
-      <para>
-        As mentioned previously, permissions can either be explicitly granted, or they can be granted as the 
-        result of a rule-based decision.  Strictly speaking though, <emphasis>all</emphasis> permissions must 
-        be granted via a security rule; this includes explicit permissions also.  By having all
-        permissioning under the control of the rule engine, it is easier to configure any custom security 
-        requirements for your application.  So what does this mean?  For starters, granting explicit permissions
-        without specifying a minimal security policy will mean that any security checks for those permissions
-        will fail.  What does a minimal security policy look like?  Here's an example 
-        <literal>security-rules.drl</literal> file with a default security policy defined:
-      </para>
-      
-      <programlisting>
-        <![CDATA[
-package MyProjectPermissions;
-
-import org.jboss.seam.security.Identity;
-import org.jboss.seam.security.rules.PermissionCheck;
-import org.jboss.seam.security.SeamPermission;        
-        
-rule DefaultPolicy
-  salience -10
-  activation-group "permissions"  
-when
-  c: PermissionCheck(granted == false)
-  p: SeamPermission()
-  eval( p.getName().equals(c.getName()) && p.getAction().equals(c.getAction()))
-then
-  c.grant();
-end;        
-        ]]>
-      </programlisting>
-      
-      <para>
-        If you're familiar with JBoss Rules then this example should make at least some sense already.  In a
-        nutshell, what this rule does is "catch" any permission checks that haven't already been granted by
-        any higher priority rules, and grant the permission if a <literal>SeamPermission</literal> instance 
-        having the same name and action as the <literal>PermissionCheck</literal> exists within the security 
-        context.  
-      </para>
-      
-      <para>
-        A couple of notes about this rule; first of all, the <literal>salience -10</literal> line means that 
-        this rule will have a lower priority than any other rules with a higher salience (the default 
-        salience if not specified is 0).  This assigns rules for any dynamic permissions (that don't have an explicit 
-        <literal>SeamPermission</literal> in the security context) a higher firing priority.
-        Secondly, the <literal>activation-group</literal> value means that once the first rule within the
-        activation group fires, no other rules within the same activation group will fire.
-      </para>
-    </sect2>
-
   </sect1>
 
 </chapter>
