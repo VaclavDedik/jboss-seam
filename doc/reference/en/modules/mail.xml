@@ -125,16 +125,21 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.&lt;/f:facet&gt;
         <section>
 	        <title><literal>mailSession</literal></title>
 	        
-	        <para>A JavaMail Session may be available via a JNDI lookup if you are working in an JEE environment.  If a Session is available
-	        via a JNDI lookup, Seam will simply wrap this Session.  Otherwise, you can use a Seam configured Session.</para>
+	        <para>A JavaMail Session may be available via a JNDI lookup if you are working in an JEE environment or you can use a Seam configured Session.</para>
 	        
 	        <para>The mailSession component's properties are described in more detail in <xref linkend="components.mail"/>.</para>
 	        
 	        <section>
-		        <title>JEE enviroments</title>
+		        <title>JNDI lookup in JBoss AS</title>
 		        <para>The JBossAS <literal>deploy/mail-service.xml</literal> configures a JavaMail session binding into JNDI.  The default service configuration will
 		        need altering for your network.  <ulink url="http://wiki.jboss.org/wiki/Wiki.jsp?page=JavaMail">http://wiki.jboss.org/wiki/Wiki.jsp?page=JavaMail</ulink>
 		        describes the service in more detail.</para>
+		         <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components" 
+        xmlns:core="http://jboss.com/products/seam/core"
+        xmlns:mail="http://jboss.com/products/seam/mail">
+    <mail:mailSession sessionJndiName="java:/Mail" />
+</components>]]></programlisting>
+		        <para>Here we tell Seam to get the mail session bound to <literal>java:/Mail</literal> from JNDI.</para>
 	        </section>
 	        
 	       	<section>

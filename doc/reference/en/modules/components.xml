@@ -990,12 +990,7 @@
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>org.jboss.seam.mail.mailSession.lookupService</literal> &mdash; if false, Seam won't attempt to get a Session from JNDI (by default true)
-                        </para>
-                        </listitem>
-                        <listitem>
-                        <para>
-                            <literal>org.jboss.seam.mail.mailSession.serviceName</literal> &mdash; the name under which the session is bound to JNDI (by default <literal>java:/Mail</literal>)
+                            <literal>org.jboss.seam.mail.mailSession.sessionJndiName</literal> &mdash; name under which a javax.mail.Session is bound to JNDI
                         </para>
                         </listitem>
                     </itemizedlist>
