@@ -10,6 +10,7 @@ import java.security.cert.Certificate;
 import javax.faces.context.FacesContext;
 
 import org.jboss.seam.pdf.ITextUtils;
+import org.jboss.seam.pdf.KeyStoreConfig;
 import org.jboss.seam.util.Resources;
 
 import com.lowagie.text.DocWriter;
@@ -28,12 +29,6 @@ public class UISignature
     String reason;
     String location;
     
-    // keystore
-    String keyStore         = null;
-    String keyStorePassword = null;
-    String keyPassword      = null;
-    String keyAlias         = null;   
-    
     public void setField(String field) {
         this.field = field;
     }
@@ -48,21 +43,7 @@ public class UISignature
         this.location = location;
     }
        
-    public void setKeyAlias(String keyAlias) {
-        this.keyAlias = keyAlias;
-    }
-
-    public void setKeyPassword(String keyPassword) {
-        this.keyPassword = keyPassword;
-    }
-
-    public void setKeyStore(String keyStore) {
-        this.keyStore = keyStore;
-    }
-
-    public void setKeyStorePassword(String keyStorePassword) {
-        this.keyStorePassword = keyStorePassword;
-    }
+  
     
     @Override
     public void createITextObject(FacesContext context) {}
@@ -122,15 +103,18 @@ public class UISignature
         return null;
     }    
 
-    public byte[] sign(byte[] originalBytes) {         
+    public byte[] sign(byte[] originalBytes) {     
+        KeyStoreConfig store = KeyStoreConfig.instance();
+        
         try {                        
-            InputStream is = Resources.getResourceAsStream(keyStore);
+            InputStream is = Resources.getResourceAsStream(store.getKeyStore());
             
             KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType()); 
-            ks.load(is, keyStorePassword.toCharArray());
+            ks.load(is, store.getKeyStorePassword().toCharArray());
 
-            PrivateKey key = (PrivateKey) ks.getKey(keyAlias, keyPassword.toCharArray());
-            Certificate[] chain =  ks.getCertificateChain(keyAlias); 
+            PrivateKey key = (PrivateKey) ks.getKey(store.getKeyAlias(),
+                        store.getKeyPassword().toCharArray());
+            Certificate[] chain =  ks.getCertificateChain(store.getKeyAlias()); 
 
             PdfReader reader = new PdfReader(originalBytes); 
             ByteArrayOutputStream os = new ByteArrayOutputStream();                 
