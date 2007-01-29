@@ -92,6 +92,7 @@ public class Identity implements Serializable
    @Create
    public void create()
    {     
+      subject = new Subject();
       securityContext = securityRules.newWorkingMemory(false);
    }
 
@@ -184,9 +185,7 @@ public class Identity implements Serializable
    
    public void login(LoginContext loginContext)
       throws LoginException
-   {
-      subject = new Subject();
-      
+   {      
       CallbackHandler handler = createCallbackHandler(username, password);
    
       if (loginContext == null)
