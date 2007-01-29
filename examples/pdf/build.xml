@@ -18,5 +18,12 @@
     <property name="tomcat.conf"             value="eejb.conf"/>  
     
     <import file="../../build.xml"/>
+
+    <zipfileset id="example.ear.resources"
+               dir="${example.resources.dir}">
+        <include name="META-INF/application.xml"/>
+        <include name="META-INF/jboss-app.xml"/>
+        <include name="*.keystore"/>
+    </zipfileset>
 </project>
 
