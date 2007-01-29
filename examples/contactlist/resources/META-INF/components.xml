@@ -10,15 +10,13 @@
 
     <factory name="contact" value="#{contactHome.instance}"/>
     <fwk:entity-home name="contactHome" 
-                     entity-class="org.jboss.seam.example.contactlist.Contact" 
-                     entity-manager="#{entityManager}"/>
+             entity-class="org.jboss.seam.example.contactlist.Contact"/>
     
     
     <factory name="comment" value="#{commentHome.instance}"/>
     <fwk:entity-home name="commentHome" 
-                     entity-class="org.jboss.seam.example.contactlist.Comment" 
-                     entity-manager="#{entityManager}"
-                     new-instance="#{newComment}"/>
+             entity-class="org.jboss.seam.example.contactlist.Comment"
+             new-instance="#{newComment}"/>
                      
     <component name="newComment" 
               class="org.jboss.seam.example.contactlist.Comment">
@@ -28,8 +26,7 @@
 
 
     <fwk:entity-query name="contacts" 
-                      max-results="20" 
-                      entity-manager="#{entityManager}">
+               max-results="20">
         <fwk:ejbql>from Contact</fwk:ejbql>
         <fwk:order>lastName</fwk:order>
         <fwk:restrictions>
