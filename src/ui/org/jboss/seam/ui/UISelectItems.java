@@ -9,16 +9,32 @@ import javax.faces.component.ValueHolder;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 import javax.faces.model.DataModel;
-import javax.faces.model.SelectItem;
 
 public class UISelectItems extends javax.faces.component.UISelectItems {
+
+   private class NullableSelectItem extends javax.faces.model.SelectItem {
+      
+      private Object value;
+      
+      private NullableSelectItem(Object value, String label) {
+         super.setLabel(label);
+         this.value = value;
+      }
+      
+      @Override
+      public Object getValue()
+      {
+        return value;
+      }
+      
+   }
 	
 	public static final String COMPONENT_TYPE = "org.jboss.seam.ui.UISelectItems";
    
-   private static final String NO_SELECTION_VALUE = "";
+   private static final String NO_SELECTION_VALUE = null;
 	
 	private String noSelectionLabel;
-	private Boolean hideNoSelection;
+	private Boolean hideNoSelectionLabel;
 	private String var;
 	private String label;
 	private Boolean disabled;
@@ -35,16 +51,17 @@ public class UISelectItems extends javax.faces.component.UISelectItems {
 		this.noSelectionLabel = noSelectionLabel;
 	}
 
-	public boolean isHideNoSelection() {
-		if (hideNoSelection != null) {
-			return hideNoSelection;
+	public boolean isHideNoSelectionLabel() {
+		if (hideNoSelectionLabel != null) {
+			return hideNoSelectionLabel;
 		} else {
-			return getBoolean("hideNoSelection");
+         Boolean value = getBoolean("hideNoSelectionLabel");
+			return value == null ? false : value;
 		}
 	}
 
-	public void setHideNoSelection(boolean hideNoSelection) {
-		this.hideNoSelection = hideNoSelection;
+	public void setHideNoSelectionLabel(boolean hideNoSelection) {
+		this.hideNoSelectionLabel = hideNoSelection;
 	}
 	
 	public String getVar() {
@@ -85,7 +102,7 @@ public class UISelectItems extends javax.faces.component.UISelectItems {
 		Object[] values = (Object[]) state;
 		super.restoreState(context, values[0]);
 		noSelectionLabel = (String) values[1];
-		hideNoSelection = (Boolean) values[2];
+		hideNoSelectionLabel = (Boolean) values[2];
 		var = (String) values[3];
 		label = (String) values[4];
 		disabled = (Boolean) values[5];
@@ -97,7 +114,7 @@ public class UISelectItems extends javax.faces.component.UISelectItems {
 		Object[] values = new Object[6];
 		values[0] = super.saveState(context);
 		values[1] = noSelectionLabel;
-		values[2] = hideNoSelection;
+		values[2] = hideNoSelectionLabel;
 		values[3] = var;
 		values[4] = label;
 		values[5] = disabled;
@@ -144,11 +161,11 @@ public class UISelectItems extends javax.faces.component.UISelectItems {
 			iterable = (Iterable) value;
 		}
 		if (iterable != null) {
-			List<SelectItem> selectItems = new ArrayList<SelectItem>();
+			List<javax.faces.model.SelectItem> selectItems = new ArrayList<javax.faces.model.SelectItem>();
 			addNoSelectionLabel(selectItems, iterable);
 			for (Object o : iterable) {
 				initVar(o);
-				selectItems.add(new SelectItem(o, getLabel(), "", isDisabled()));
+				selectItems.add(new javax.faces.model.SelectItem(o, getLabel(), "", isDisabled()));
 				destroyVar();
 			}
 			return selectItems;
@@ -163,13 +180,13 @@ public class UISelectItems extends javax.faces.component.UISelectItems {
 		}
 	}
 	
-	private boolean addNoSelectionLabel(List<SelectItem> selectItems, Object originalValue) {
+	private boolean addNoSelectionLabel(List<javax.faces.model.SelectItem> selectItems, Object originalValue) {
 		boolean add = true;
-		if (isHideNoSelection() &&  getParentValue() != null){
+		if (isHideNoSelectionLabel() &&  getParentValue() != null){
 			add = false;
 		}
 		if (add && getNoSelectionLabel() != null) {
-			SelectItem s = new SelectItem(NO_SELECTION_VALUE, getNoSelectionLabel());
+			NullableSelectItem s = new NullableSelectItem(NO_SELECTION_VALUE, getNoSelectionLabel());
 			selectItems.add(s);
 			return true;
 		} else {
