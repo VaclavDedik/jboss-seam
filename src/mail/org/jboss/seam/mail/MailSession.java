@@ -27,15 +27,12 @@ import org.jboss.seam.util.Naming;
 /**
  * Manager component for a javax.mail.Session
  */
-
 @Name("org.jboss.seam.mail.mailSession")
 @Install(precedence=BUILT_IN)
 @Scope(APPLICATION)
 @Intercept(InterceptionType.NEVER)
 public class MailSession extends AbstractMutable implements Serializable
 {
-   
-   public static final String SERVICE_NAME = "java:/Mail";
    
    private static final LogProvider log = Logging.getLogProvider(MailSession.class);
 
@@ -46,18 +43,16 @@ public class MailSession extends AbstractMutable implements Serializable
 	private String username;
 	private String password;
 	private boolean debug = false;
-   private String serviceName ;
-   private Boolean lookupService;
-   private boolean doJndi = false;
+   private String sessionJndiName;
 
    @Unwrap
    public Session getSession() throws NamingException
    {
-      if (doJndi) 
+      if ( session==null ) 
       {
          // TODO Is this the best way to do this?
          // This simulates an EVENT scope component
-         return  (Session) Naming.getInitialContext().lookup(getServiceName());
+         return  (Session) Naming.getInitialContext().lookup( getSessionJndiName() );
       }
       else 
       {
@@ -75,100 +70,63 @@ public class MailSession extends AbstractMutable implements Serializable
    @Create
 	public void create()
 	{
-     
-      if (isDoJndi()) {
-         doJndi = true;
-       }
-      else
+      if ( getSessionJndiName()==null ) 
       {
-         log.info("Using Seam managed mail session (" + getHost() + ':' + getPort() + ")");
-         
-   		Properties properties = new Properties();
-   
-   		// Enable debugging if set
-   		properties.put("mail.debug", isDebug());
-   
-   		if ( getHost()!=null )
-   		{
-   			properties.put("mail.host", getHost());
-   		}
-   		if ( getPort()!=null ) {
-   			properties.put("mail.smtp.port", getPort());
-   			properties.put("mail.imap.port", getPort());
-   			properties.put("mail.pop3.port", getPort());
-   		}
-   
-   		if ( getUsername()!=null && getPassword()==null )
-   		{
-   			log.warn("username supplied without a password (if an empty password is required supply an empty string)");
-   		}
-   		if ( getUsername()==null && getPassword()!=null )
-   		{
-   			log.warn("password supplied without a username (if no authentication required supply neither)");
-   		}
-   
-   		// Authentication if required
-   		Authenticator authenticator = null;
-   		if ( getUsername()!=null && getPassword()!=null )
-   		{
-   			properties.put("mail.smtp.auth", "true");
-   			authenticator = new Authenticator()
-   			{
-   				@Override
-   				protected PasswordAuthentication getPasswordAuthentication()
-   				{
-   					return new PasswordAuthentication(getUsername(), getPassword());
-   				}
-   			};
-   		}
-         
-         
-         // Use TLS (if supported) by default.
-         properties.put("mail.smtp.starttls.enable", "true");
-         properties.put("mail.imap.starttls.enable", "true");
-   
-   		session = javax.mail.Session.getInstance(properties, authenticator);
-   		session.setDebug( isDebug() );
-         
-         log.info("connected to mail server");
+         createSession();
       }
 	}
-   
-   private boolean isDoJndi() {
-      if (getLookupService() != null && !getLookupService()) 
+
+   private void createSession()
+   {
+      log.info("Creating JavaMail Session (" + getHost() + ':' + getPort() + ")");
+      
+      Properties properties = new Properties();
+  
+      // Enable debugging if set
+      properties.put("mail.debug", isDebug());
+  
+      if ( getHost()!=null )
       {
-         return false;
+      	properties.put("mail.host", getHost());
       }
-      else 
+      if ( getPort()!=null ) {
+      	properties.put("mail.smtp.port", getPort());
+      	properties.put("mail.imap.port", getPort());
+      	properties.put("mail.pop3.port", getPort());
+      }
+  
+      if ( getUsername()!=null && getPassword()==null )
       {
-         Session s = null;
-         try
-         {
-            s = (Session) Naming.getInitialContext().lookup(getServiceName());
-         }
-         catch (NamingException e)
-         { 
-            // Swallow
-         }
-         
-         if (lookupService == null && serviceName == null  && s == null) 
-         {
-            log.debug("Unable to get Session from JNDI: " + getServiceName());
-            return false;
-         }
-         else if (s == null)
-         {
-            // The user has explicitly set a property that suggests they want a 
-            // session from JNDI.  Log this at a high level as a result.
-            log.warn("Unable to get Session from JNDI: " + getServiceName());
-            return false;
-         }
-         else
-         {
-            log.info("Using Session from JNDI: " + getServiceName());
-            return true;
-         }
+      	log.warn("username supplied without a password (if an empty password is required supply an empty string)");
       }
+      if ( getUsername()==null && getPassword()!=null )
+      {
+      	log.warn("password supplied without a username (if no authentication required supply neither)");
+      }
+  
+      // Authentication if required
+      Authenticator authenticator = null;
+      if ( getUsername()!=null && getPassword()!=null )
+      {
+      	properties.put("mail.smtp.auth", "true");
+      	authenticator = new Authenticator()
+      	{
+      		@Override
+      		protected PasswordAuthentication getPasswordAuthentication()
+      		{
+      			return new PasswordAuthentication(getUsername(), getPassword());
+      		}
+      	};
+      }
+      
+      // Use TLS (if supported) by default.
+      properties.put("mail.smtp.starttls.enable", "true");
+      properties.put("mail.imap.starttls.enable", "true");
+  
+      session = javax.mail.Session.getInstance(properties, authenticator);
+      session.setDebug( isDebug() );
+      
+      log.info("connected to mail server");
    }
 
 	public String getPassword()
@@ -243,37 +201,18 @@ public class MailSession extends AbstractMutable implements Serializable
 		return port;
 	}
    
-   public String getServiceName()
+   public String getSessionJndiName()
    {
-      if (serviceName == null) 
-      {
-         return SERVICE_NAME;
-      }
-      else
-      {
-         return serviceName;
-      }
+      return sessionJndiName;
    }
 
-   public void setServiceName(String jndiName)
+   public void setSessionJndiName(String jndiName)
    {
-      this.serviceName = jndiName;
-   }
-
-   public Boolean getLookupService()
-   {
-      return lookupService;
-   }
-
-   public void setLookupService(Boolean useJndi)
-   {
-      this.lookupService = useJndi;
+      this.sessionJndiName = jndiName;
    }
 
    public static Session instance() {
       return (Session) Component.getInstance(MailSession.class);
    }
-   
-   
 
 }
