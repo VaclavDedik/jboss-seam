@@ -1,4 +1,4 @@
-package org.jboss.seam.security.spi;
+package org.jboss.seam.security.jaas;
 
 import java.security.acl.Group;
 import java.util.HashSet;

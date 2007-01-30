@@ -1,4 +1,4 @@
-package org.jboss.seam.security.rules;
+package org.jboss.seam.security;
 
 import java.io.Serializable;
 

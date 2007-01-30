@@ -1,4 +1,4 @@
-package org.jboss.seam.security.rules;
+package org.jboss.seam.security;
 
 /**
  * Used to assert permission requirements into a WorkingMemory when evaluating

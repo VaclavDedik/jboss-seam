@@ -3,9 +3,11 @@ package org.jboss.seam.servlet;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,17 +26,17 @@ public class MultipartRequest extends HttpServletRequestWrapper
    
    private class PartWrapper 
    {
-      private Map<String,String> params;
+      private Map<String,Object> params;
       private byte[] data;
       private String contentType;
       private String fileName;
       
       public PartWrapper()
       {
-         params = new HashMap<String,String>();
+         params = new HashMap<String,Object>();
       }
       
-      public Map<String,String> getParams()
+      public Map<String,Object> getParams()
       {
          return params;
       }
@@ -146,15 +148,20 @@ public class MultipartRequest extends HttpServletRequestWrapper
          }         
       }
       
+      // Extract the content type and filename
       for (String key : entry.getParams().keySet())
       {
-         String val = entry.getParams().get(key);
-         if (val != null)
-         {        
-            if (entry.getContentType() == null && FILE_CONTENT_TYPE.equalsIgnoreCase(key))
-               entry.setContentType(val);
-            else if (entry.getFileName() == null && FILE_NAME.equalsIgnoreCase(key))
-               entry.setFileName(val);
+         Object val = entry.getParams().get(key);
+         if (val instanceof String)
+         {
+            String s = (String) entry.getParams().get(key);
+            if (s != null)
+            {        
+               if (entry.getContentType() == null && FILE_CONTENT_TYPE.equalsIgnoreCase(key))
+                  entry.setContentType(s);
+               else if (entry.getFileName() == null && FILE_NAME.equalsIgnoreCase(key))
+                  entry.setFileName(s);
+            }
          }
       }
       
@@ -163,7 +170,7 @@ public class MultipartRequest extends HttpServletRequestWrapper
       entry.setData(data);
       
       if (entry.getParams().containsKey("name"))
-         parameters.put(entry.getParams().get("name"), entry);
+         parameters.put((String) entry.getParams().get("name"), entry);
    }
    
    /**
@@ -290,8 +297,8 @@ public class MultipartRequest extends HttpServletRequestWrapper
    
    private byte[] getBoundary(String contentType)
    {
-      Map<String, String> params = parseParams(contentType, ";");
-      String boundaryStr = params.get("boundary");
+      Map<String, Object> params = parseParams(contentType, ";");
+      String boundaryStr = (String) params.get("boundary");
 
       if (boundaryStr == null) return null;
 
@@ -308,7 +315,7 @@ public class MultipartRequest extends HttpServletRequestWrapper
    private static final Pattern PARAM_VALUE_PATTERN = Pattern
             .compile("^\\s*([^\\s=]+)\\s*[=:]\\s*([^\\s]+)\\s*$");
 
-   private void parseParams(String paramStr, String separator, Map<String,String> target)
+   private void parseParams(String paramStr, String separator, Map<String,Object> target)
    {
       String[] parts = paramStr.split("[" + separator + "]");
 
@@ -317,20 +324,42 @@ public class MultipartRequest extends HttpServletRequestWrapper
          Matcher m = PARAM_VALUE_PATTERN.matcher(part);
          if (m.matches())
          {
+            String key = m.group(1);
             String value = m.group(2);
             
             // Strip double quotes
             if (value.startsWith("\"") && value.endsWith("\""))
                value = value.substring(1, value.length() - 1);
             
-            target.put(m.group(1), value);
+            if (target.containsKey(key))
+            {
+               Object v = target.get(key);
+               if (v instanceof List)
+                  ((List) v).add(value);
+               else if (v instanceof String)
+               {
+                  List<String> vals = new ArrayList<String>();
+                  vals.add((String) v);
+                  vals.add(value);
+                  target.put(key, value);
+               }
+               else
+               {
+                  List vals = new ArrayList();
+                  vals.add(v);
+                  vals.add(value);
+                  target.put(key, value);
+               }
+            }
+            else
+               target.put(key, value);
          }
       }      
    }
    
-   private Map<String, String> parseParams(String paramStr, String separator)
+   private Map<String, Object> parseParams(String paramStr, String separator)
    {
-      Map<String, String> target = new HashMap<String, String>();
+      Map<String, Object> target = new HashMap<String, Object>();
       parseParams(paramStr, separator, target);
       return target;      
    }

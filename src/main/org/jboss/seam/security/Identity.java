@@ -40,9 +40,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Expressions.MethodBinding;
-import org.jboss.seam.security.rules.PermissionCheck;
-import org.jboss.seam.security.rules.Role;
-import org.jboss.seam.security.spi.SeamLoginModule;
+import org.jboss.seam.security.jaas.SeamLoginModule;
 import org.jboss.seam.util.UnifiedELValueBinding;
 
 @Name("org.jboss.seam.security.identity")
