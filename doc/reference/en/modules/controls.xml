@@ -78,12 +78,12 @@
            </listitem>
        </varlistentry>   
               <varlistentry>
-           <term><literal>&lt;s:selectItem&gt;</literal></term>
+           <term><literal>&lt;s:selectItems&gt;</literal></term>
            <listitem>
                <para>
-                   Creates a  <literal>List&lt;SelectItem&gt;</literal> from a List, Set, DataModel or Array.
+                   Creates a <literal>List&lt;SelectItem&gt;</literal> from a List, Set, DataModel or Array.
                </para>
-                              <itemizedlist>
+               <itemizedlist>
                    <listitem>
                    <para>
                        <literal>value</literal> &mdash; an EL expression specifying the data that backs the <literal>List&lt;SelectItem&gt;</literal>
