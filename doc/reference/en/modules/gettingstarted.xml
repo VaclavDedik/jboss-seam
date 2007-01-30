@@ -394,8 +394,11 @@ C:\Projects\jboss-seam>]]></programlisting>
     
     <para>
       You can even define new deployment profiles for your application.
-      Just add appropriately named files to your project, and select the
-      name of the profile using <literal>-Dprofile=myprofile</literal>.
+      Just add appropriately named files to your project&mdash;for example,
+      <literal>persistence-staging.xml</literal>, 
+      <literal>import-staging.sql</literal> and 
+      <literal>myproject-staging-ds.xml</literal>&mdash;and select the
+      name of the profile using <literal>-Dprofile=staging</literal>.
     </para>
     
   </section>

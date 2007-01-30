@@ -124,6 +124,15 @@
             </listitem>
         </itemizedlist>
         
+        <para>
+            In the next section, we'll tell you how to set up a conversation-scope persistence
+            context. But first we need to tell you how to enable Seam transaction management.
+            Note that you can use conversation-scoped persistence contexts without Seam
+            transaction management, and there are good reasons to use Seam transaction management
+            even when you're not using Seam-managed persistence contexts. However, the two
+            facilities were designed to work together, and work best when used together.
+        </para>
+        
         <section>
             <title>Enabling Seam-managed transactions</title>
         
@@ -185,6 +194,15 @@
             A Seam-managed persistence context is just a built-in Seam component that manages an
             instance of <literal>EntityManager</literal> or <literal>Session</literal> in the
             conversation context. You can inject it with <literal>@In</literal>.
+        </para>
+        
+        <para>
+            Seam-managed persistence contexts are extremely efficient in a clustered environment.
+            Seam is able to perform an optimization that EJB 3.0 specification does not allow 
+            containers to use for container-managed extended persistence contexts. Seam supports
+            transparent failover of extended persisence contexts, without the need to replicate
+            any persistence context state between nodes. (We hope to fix this oversight in the
+            next revision of the EJB spec.)
         </para>
         
         <section>
