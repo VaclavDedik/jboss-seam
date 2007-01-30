@@ -46,8 +46,8 @@ public class FriendAction implements FriendLocal
          .getSingleResult();
                   
          // TODO this doesn't work - check with Gavin
-//         Contexts.getMethodContext().set("friends", member.getFriends());
-//         Identity.instance().checkRestriction("#{s:hasPermission('friendComment', 'create', friends)}");
+         Contexts.getMethodContext().set("friends", member.getFriends());
+         Identity.instance().checkRestriction("#{s:hasPermission('friendComment', 'create', friends)}");
 
          friendComment = new FriendComment();
          friendComment.setFriend(authenticatedMember);

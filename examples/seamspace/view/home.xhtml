@@ -21,7 +21,7 @@
       <div id="contentSide">
         <div class="advertising"></div>
         
-        <h:form rendered="#{identity.loggedIn == false}">
+        <h:form rendered="#{not identity.loggedIn}">
           <div class="memberLogin">
             <div class="loginHeader">Member Login</div>
             
