@@ -10,15 +10,12 @@ import javax.persistence.NoResultException;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
-import org.jboss.seam.annotations.Synchronized;
-import org.jboss.seam.core.FacesMessages;
 
 /**
  * Authenticator bean - authenticates the user against the database
  * 
  * @author Shane Bryzak
  */
-@Synchronized
 @Name("authenticator")
 public class Authenticator
 {
