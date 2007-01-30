@@ -48,7 +48,6 @@ public class Authenticator
       }
       catch (NoResultException ex)
       {
-         FacesMessages.instance().add("Invalid username/password");
          return false;
       }      
    }   
