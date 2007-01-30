@@ -123,7 +123,7 @@
        
         <para>
             This pattern is usually implemented as a single transaction which spans the entire request. 
-            There are several problems with this idea, the most serious being that we 
+            There are several problems with this implementation, the most serious being that we 
             can never be sure that a transaction is successful until we commit it&mdash;but by the 
             time the "open session in view" transaction is committed, the view is fully rendered, and 
             the rendered response may already have been flushed to the client. How can we notify the 
