@@ -32,7 +32,7 @@ public class FriendAction implements FriendLocal
    @In(required = false)
    private Member authenticatedMember;
    
-   @In(create = true)
+   @In
    private EntityManager entityManager;
    
    @Factory("friendComment") @Begin

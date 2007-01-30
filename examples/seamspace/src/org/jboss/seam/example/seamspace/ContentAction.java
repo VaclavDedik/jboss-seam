@@ -11,7 +11,7 @@ import org.jboss.seam.security.Identity;
 @Name("contentAction")
 public class ContentAction implements ContentLocal
 {
-   @In(create = true) EntityManager entityManager;   
+   @In EntityManager entityManager;   
    
    public MemberImage getImage(int imageId)
    {

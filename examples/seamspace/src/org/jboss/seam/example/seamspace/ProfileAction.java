@@ -36,7 +36,7 @@ public class ProfileAction implements ProfileLocal
    @Out(required = false)
    List memberBlogs;   
    
-   @In(create=true)
+   @In
    private EntityManager entityManager;
 
    @Factory("selectedMember")

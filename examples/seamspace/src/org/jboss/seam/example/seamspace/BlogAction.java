@@ -30,7 +30,7 @@ public class BlogAction implements BlogLocal
    @RequestParameter
    private Integer blogId;
    
-   @In(create=true)
+   @In
    private EntityManager entityManager;
    
    @In(required = false)

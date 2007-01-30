@@ -13,7 +13,7 @@
         <property name="conversationTimeout">120000</property>
     </component>
     
-    <component name="entityManager" class="org.jboss.seam.core.ManagedPersistenceContext">
+    <component name="entityManager" auto-create="true" class="org.jboss.seam.core.ManagedPersistenceContext">
         <property name="persistenceUnitJndiName">java:/seamspaceEntityManagerFactory</property>
     </component>    
     

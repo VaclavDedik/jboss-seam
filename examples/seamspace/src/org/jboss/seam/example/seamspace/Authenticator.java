@@ -23,7 +23,7 @@ import org.jboss.seam.core.FacesMessages;
 @Name("authenticator")
 public class Authenticator
 {
-   @In(create=true)
+   @In
    private EntityManager entityManager;
    
    @Out(required = false, scope = SESSION)
