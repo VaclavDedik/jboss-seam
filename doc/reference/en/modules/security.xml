@@ -112,8 +112,9 @@ public class Authenticator {
       <para>
         The <literal>Identity</literal> component provides both <literal>username</literal> and <literal>password</literal>
         properties, catering for the most common authentication scenario. These properties can be bound directly to the
-        username and password fields on a login form.  Once these properties are set, the <literal>identity.login()</literal>
-        method will authenticate the user using the provided credentials.  Here's an example of a simple login form:
+        username and password fields on a login form.  Once these properties are set, calling the 
+        <literal>identity.login()</literal> method will authenticate the user using the provided credentials.  
+        Here's an example of a simple login form:
       </para>
 
       <programlisting>
@@ -133,12 +134,18 @@ public class Authenticator {
     </div>
         ]]>
       </programlisting>
+      
+      <para>
+        Similarly, logging out the user is done by calling <literal>#{identity.logout}</literal>. Calling this
+        action will clear the security state of the currently authenticated user.
+      </para>
+      
     </sect2>
 
     <sect2>
       <title>Summary</title>
       <para>
-        So to sum up, here are the steps for configuring authentication:
+        So to sum up, there are the three easy steps to configure authentication:
       </para>
 
       <itemizedlist>
@@ -159,144 +166,6 @@ public class Authenticator {
         </listitem>
       </itemizedlist>
 
-    </sect2>
-
-  </sect1>
-
-  <sect1>
-    <title>Identity</title>
-
-    <para>
-      The <literal>Identity</literal> component is the core component of the Security API.  It is a session-scoped
-      component that 1) contains the current state of the user's security, and 2) provides a number of useful
-      security-related methods.  This section details the most useful features of the <literal>Identity</literal>
-      component.  Please note that the alias <literal>identity</literal> can be used in EL expressions, including
-      the body of a web page.
-    </para>
-
-    <sect2>
-      <title>Obtaining a reference</title>
-
-      <para>
-        There are two ways of obtaining a reference to the <literal>Identity</literal> for the current user's session.
-        The first, inline method is to simply call <literal>Identity.instance()</literal>.  Alternatively, you may inject
-        the <literal>Identity</literal> directly into your own components:
-      </para>
-
-      <programlisting>
-        <![CDATA[
-  @In Identity identity;
-        ]]>
-      </programlisting>
-    </sect2>
-
-    <sect2>
-      <title>isLoggedIn()</title>
-      <para>
-        The <literal>isLoggedIn()</literal> method returns a boolean value indicating whether the user has been
-        successfully authenticated or not. It may be useful for controlling the rendering of certain sections of a page,
-        depending if the user is logged in or not.  For example:
-      </para>
-
-      <programlisting>
-        <![CDATA[
-    <h:outputLink value="login.seam" rendered="#{not identity.loggedIn}">Log in</h:outputLink>
-        ]]>
-      </programlisting>
-    </sect2>
-
-    <sect2>
-      <title>getSubject()</title>
-      <para>
-        The <literal>getSubject()</literal> method returns the <literal>javax.security.auth.Subject</literal> instance
-        for the user's session.  The subject contains all of an authenticated user's principals.  If
-        you are authenticating with your own <literal>LoginContext</literal>, it should be instantiated with the
-        <literal>identity</literal>'s subject, for example:
-      </para>
-
-      <programlisting>
-        <![CDATA[
-  LoginContext ctx = new LoginContext("custom", Identity.instance().getSubject());
-        ]]>
-      </programlisting>
-    </sect2>
-
-    <sect2>
-      <title>checkRestriction()</title>
-      <para>
-        The <literal>checkRestriction()</literal> method accepts a <literal>java.lang.String</literal> parameter
-        specifying a security EL expression to evaluate.  If the expression evaluates to <literal>false</literal>,
-        one of two things happen; 1) if the user is not logged in, a <literal>NotLoggedInException</literal> is
-        thrown, or 2) if the user is logged in, an <literal>AuthorizationException</literal> is thrown.  EL security
-        functions are discussed in the Authorization section of this chapter.
-      </para>
-
-      <programlisting>
-        <![CDATA[
-  public void deleteCustomer() {
-    Identity.instance().checkRestriction("#{s:hasPermission('customer', 'delete', customer)}");
-    //...code
-  }
-        ]]>
-      </programlisting>
-    </sect2>
-
-    <sect2>
-      <title>login()</title>
-      <para>
-        This method attempts to authenticate using the set values of the <literal>username</literal> and
-        <literal>password</literal> properties.  An overloaded version of this method,
-        <literal>login(LoginContext ctx)</literal> authenticates using an externally provided
-        <literal>LoginContext</literal>.  This method throws a <literal>LoginException</literal>
-        if authentication is not successful.
-      </para>
-    </sect2>
-
-    <sect2>
-      <title>logout()</title>
-      <para>
-        This method clears the security state for the currently authenticated user.
-      </para>
-    </sect2>
-
-    <sect2>
-      <title>hasRole()</title>
-      <para>
-        Returns <literal>true</literal> if the authenticated user is a member of the specified role.
-      </para>
-
-      <programlisting>
-        <![CDATA[
-  if (!Identity.instance().hasRole("admin"))
-    throw new AuthorizationException("Insufficient privileges");
-        ]]>
-      </programlisting>
-    </sect2>
-
-    <sect2>
-      <title>hasPermission()</title>
-      <para>
-        Returns <literal>true</literal> if the user (either authenticated or not) has the specified permission.
-        This method accepts an object that can be used to determine if the permission should be granted or not.
-        The object is temporarily asserted into the security context while the permission check is performed.
-        If the object is a <literal>java.util.Collection</literal> then each object in the collection is asserted.
-      </para>
-
-      <programlisting>
-        <![CDATA[
-  if (!Identity.instance().hasPermission("customer", "delete", customer))
-    throw new AuthorizationException("Insufficient privileges");
-        ]]>
-      </programlisting>
-    </sect2>
-
-    <sect2>
-      <title>getSecurityContext()</title>
-      <para>
-        Returns the session-scoped <literal>org.drools.WorkingMemory</literal> used to evaluate security rules
-        within the context of the current user.  Additional objects may be asserted into the working memory if
-        required by the security rules.
-      </para>
     </sect2>
 
   </sect1>
@@ -329,7 +198,7 @@ public class Authenticator {
     </sect2>
 
     <sect2>
-      <title>Securing your components</title>
+      <title>Securing components</title>
       <para>
         Let's start by examining the simplest form of authorization, component security, starting with the
         <literal>@Restrict</literal> annotation.
@@ -345,7 +214,7 @@ public class Authenticator {
           invocation fails a security check, then an exception will be thrown as per the contract for
           <literal>Identity.checkRestriction()</literal>.
         </para>
-
+        
         <para>
           An empty <literal>@Restrict</literal> implies a permission check of <literal>componentName:methodName</literal>.
           Take for example the following component method:
@@ -429,7 +298,7 @@ public class Authenticator {
         <para>
           Sometimes it might be desirable to perform a security check in code, without using the
           <literal>@Restrict</literal> annotation.  In this situation, simply use
-          <literal>Identity.checkRestriction()</literal>, like this:
+          <literal>Identity.checkRestriction()</literal> to evaluate a security expression, like this:
         </para>
 
         <programlisting>
@@ -441,10 +310,12 @@ public class Authenticator {
         </programlisting>
 
         <para>
-          If the expression specified doesn't evaluate to <literal>true</literal>, an exception is thrown. It is
-          also possible to call the <literal>hasRole</literal> and <literal>hasPermission</literal> methods
-          directly:
-        </para>
+          If the expression specified doesn't evaluate to <literal>true</literal>, either 1) a
+          <literal>NotLoggedInException</literal> exception is thrown if the user is not logged in, or
+          2) <literal>AuthorizationException</literal> is thrown if the user is logged in.
+          It is also possible to call the <literal>hasRole</literal> and <literal>hasPermission</literal> 
+          methods directly:
+        </para>                       
 
         <programlisting>
           <![CDATA[
@@ -459,7 +330,7 @@ public class Authenticator {
     </sect2>
     
     <sect2>
-      <title>Securing your interface</title>
+      <title>Securing the user interface</title>
       
       <para>
         One indication of a well designed user interface is that the user is not presented with options for 
@@ -531,11 +402,11 @@ public class Authenticator {
     </sect2>
     
     <sect2>
-      <title>Securing your pages</title>      
+      <title>Securing pages</title>      
       <para>
-        Page security requires that your application is using a <literal>pages.xml</literal> file, however is
+        Page security requires that the application is using a <literal>pages.xml</literal> file, however is
         extremely simple to configure.  Simply include a <literal>&lt;restrict/&gt;</literal> element within
-        the <literal>page</literal> element.  By default, if a value is not provided for the
+        the <literal>page</literal> elements that you wish to secure.  By default, if a value is not provided for the
         <literal>restrict</literal> element, an implied permission of <literal>{viewId}:view</literal> will
         be checked for whenever accessing that page.  Otherwise the value will be evaluated as a standard
         security expression.  Here's a couple of examples:
@@ -564,11 +435,11 @@ public class Authenticator {
   </sect1>
   
   <sect1>
-    <title>Authoring Security Rules</title>
+    <title>Writing Security Rules</title>
     
     <para>
       Up to this point there has been a lot of mention of permissions, but no information about how permissions
-      are actually defined or granted.  This section completes the circle, by explaining how permission 
+      are actually defined or granted.  This section completes the picture, by explaining how permission 
       checks are processed, and how to implement permission checks for a Seam application.
     </para>
     
@@ -576,8 +447,169 @@ public class Authenticator {
       <title>Permissions Overview</title>
       
       <para>
-        Seam Security provides quite a novel method for determining user permissions. 
+        So how does the security API know whether a user has the <literal>customer:modify</literal> permission 
+        for a specific customer?  Seam Security provides quite a novel method for determining user permissions,
+        based on JBoss Rules.  A couple of the advantages of using a rule engine are 1) a centralized location 
+        for the business logic that is behind each user permission, and 2) speed - JBoss Rules uses very efficient 
+        algorithms for evaluating large numbers of complex rules involving multiple conditions.
+      </para>            
+      
+    </sect2>
+    
+    <sect2>
+      <title>Configuring a rules file</title>
+      
+      <para>
+        Seam Security expects to find a <literal>RuleBase</literal> component called <literal>securityRules</literal>
+        which it uses to evaluate permission checks.  This is configured in <literal>pages.xml</literal> as follows:
       </para>
+      
+      <programlisting>
+        <![CDATA[
+    <component class="org.jboss.seam.drools.RuleBase" name="securityRules">
+        <property name="ruleFiles">/META-INF/security-rules.drl</property>
+    </component>        
+        ]]>
+      </programlisting>
+      
+      <para>
+        Once the <literal>RuleBase</literal> component is configured, it's time to write the security rules.
+      </para>
+    </sect2>
+    
+    <sect2>
+      <title>Creating a security rules file</title>
+      <para>
+        For this step you need to create a file called <literal>security-rules.drl</literal> in the 
+        <literal>/META-INF</literal> of your application's jar file.  In actual fact this file can be called
+        anything you want, and exist in any location as long as it is configured appropriately in
+        <literal>pages.xml</literal>.
+      </para>
+      
+      <para>
+        So what should the security rules file contain?  At this stage it might be a good idea to at least skim 
+        through the JBoss Rules documentation, however to get started here's an extremely simple example:
+      </para>
+      
+      <programlisting>
+        <![CDATA[
+package MyApplicationPermissions;
+
+import org.jboss.seam.security.PermissionCheck;
+import org.jboss.seam.security.Role;
+
+rule CanUserDeleteCustomers
+when
+  c: PermissionCheck(name == "customer", action == "delete")
+  Role(name == "admin")
+then
+  c.grant()
+end;        
+        ]]>
+      </programlisting>
+      
+      <para>
+        Let's break this down.  The first thing we see is the package declaration.  A package in JBoss Rules
+        is essentially a collection of rules.  The package name can be anything you want - it doesn't relate
+        to anything else outside the scope of the rule base.
+      </para>
+      
+      <para>
+        The next thing we can notice is a couple of import statements for the <literal>PermissionCheck</literal>
+        and <literal>Role</literal> classes. These imports inform the rules engine that we'll be referencing 
+        these classes within our rules.
+      </para>
+      
+      <para>
+        Finally we have the code for the rule.  Each rule within a package should be given a unique name (usually 
+        describing the purpose of the rule).  In this case our rule is called <literal>CanUserDeleteCustomers</literal> 
+        and will be used to check whether a user is allowed to delete a customer record.
+      </para>
+      
+      <para>
+        Looking at the body of the rule definition we can notice two distinct sections.  Rules have what is known
+        as a left hand side (LHS) and a right hand side (RHS).  The LHS consists of the conditional part of the 
+        rule, i.e. a list of conditions which must be satisfied for the rule to fire.  The LHS is represented by 
+        the <literal>when</literal> section.  The RHS is the consequence, or action section of the rule that will
+        only be fired if all of the conditions in the LHS are met.  The RHS is represented by the
+        <literal>then</literal> section.  The end of the rule is denoted by the <literal>end;</literal> line.
+      </para>
+      
+      <para>
+        If we look at the LHS of the rule, we see two conditions listed there.  Let's examine the first condition:
+      </para>
+      
+      <programlisting>
+        <![CDATA[
+  c: PermissionCheck(name == "customer", action == "delete")        
+        ]]>
+      </programlisting>
+      
+      <para>
+        In plain english, this condition is stating that there must exist a <literal>PermissionCheck</literal> object 
+        with a <literal>name</literal> property equal to "customer", and an <literal>action</literal> property equal
+        to "delete" within the working memory.  What is the working memory?  It is a session-scoped object that contains 
+        the contextual information that is required by the rules engine to make a decision about a permission check.
+        Each time the <literal>hasPermission()</literal> method is called, a temporary <literal>PermissionCheck</literal>
+        object, or <emphasis>Fact</emphasis>, is asserted into the working memory.  This <literal>PermissionCheck</literal>
+        corresponds exactly to the permission that is being checked, so for example if you call 
+        <literal>hasPermission("account", "create", null)</literal> then a <literal>PermissionCheck</literal>
+        object with a <literal>name</literal> equal to "account" and <literal>action</literal> equal to "create" will be
+        asserted into the working memory for the duration of the permission check.
+      </para>
+      
+      <para>
+        So what else is in the working memory?  Besides the short-lived temporary facts asserted during a permission
+        check, there are some longer-lived objects in the working memory that stay there for the entire duration of
+        a user being authenticated.  These include any <literal>java.security.Principal</literal> objects that
+        are created as part of the authentication process, plus a <literal>org.jboss.seam.security.Role</literal>
+        object for each of the roles that the user is a member of.  It is also possible to assert additional 
+        long-lived facts into the working memory by calling <literal>Identity.instance().getSecurityContext().assertObject()</literal>,
+        passing the object as a parameter.
+      </para>
+      
+      <para>
+        Getting back to our simple example, we can also notice that the first line of our LHS is prefixed with
+        <literal>c:</literal>.  This is a variable binding, and is used to refer back to the object that is
+        matched by the condition.  Moving onto the second line of our LHS, we see this:
+      </para>
+      
+      <programlisting>
+        <![CDATA[
+  Role(name == "admin")   
+        ]]>
+      </programlisting>      
+      
+      <para>
+        This condition simply states that there must be a <literal>Role</literal> object with
+        a <literal>name</literal> of "admin" within the working memory.  As mentioned, user roles are asserted 
+        into the working memory as long-lived facts.  So, putting both conditions together, this rule is essentially 
+        saying "I will fire if you are checking for the <literal>customer:delete</literal> permission and the user
+        is a member of the <literal>admin</literal> role".
+      </para>
+      
+      <para>
+        So what is the consequence of the rule firing?  Let's take a look at the RHS of the rule:
+      </para>
+      
+      <programlisting>
+        <![CDATA[
+  c.grant()        
+        ]]>
+      </programlisting>
+      
+      <para>
+        The RHS consists of Java code, and in this case is invoking the <literal>grant()</literal> 
+        method of the <literal>c</literal> object, which as already mentioned is a variable binding 
+        for the <literal>PermissionCheck</literal> object.  Besides the <literal>name</literal> and
+        <literal>action</literal> properties of the <literal>PermissionCheck</literal> object, there
+        is also a <literal>granted</literal> property which is initially set to <literal>false</literal>.
+        Calling <literal>grant()</literal> on a <literal>PermissionCheck</literal> sets the 
+        <literal>granted</literal> property to <literal>true</literal>, which means that the permission
+        check was successful, allowing the user to carry out whatever action the permission check was
+        intended for.
+      </para>
+      
     </sect2>
   </sect1>
 
