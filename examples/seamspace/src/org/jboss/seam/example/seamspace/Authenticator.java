@@ -6,7 +6,6 @@ import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import javax.security.auth.login.LoginException;
 
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
@@ -29,8 +28,7 @@ public class Authenticator
    @Out(required = false, scope = SESSION)
    private Member authenticatedMember;
 
-   public void authenticate(String username, String password, Set<String> roles)
-      throws LoginException
+   public boolean authenticate(String username, String password, Set<String> roles) 
    {
       try
       {            
@@ -45,10 +43,13 @@ public class Authenticator
             for (MemberRole mr : authenticatedMember.getRoles())
                roles.add(mr.getName());
          }
+         
+         return true;
       }
       catch (NoResultException ex)
       {
-         throw new LoginException();
+         FacesMessages.instance().add("Invalid username/password");
+         return false;
       }      
    }   
 }
