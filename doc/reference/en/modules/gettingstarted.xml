@@ -203,6 +203,23 @@ C:\Projects\jboss-seam>]]></programlisting>
       Seam projects. (They are so easy to write that even seam-gen can do it.)
     </para>
     
+    <para>
+      The generated project includes three database and persistence configurations.
+      The <literal>jboss-beans.xml</literal>, <literal>persistence-test.xml</literal>
+      and <literal>import-test.sql</literal> files are used when running the TestNG
+      unit tests against HSQLDB. The database schema and the test data in 
+      <literal>import-test.sql</literal> is always exported to the database before 
+      running tests. The <literal>myproject-dev-ds.xml</literal>, 
+      <literal>persistence-dev.xml</literal>and <literal>import-dev.sql</literal>
+      files are for use when deploying the application to your development database.
+      The schema might be exported automatically at deployment, depending upon 
+      whether you told seam-gen that you are working with an existing database.
+      The <literal>myproject-prod-ds.xml</literal>, 
+      <literal>persistence-prod.xml</literal>and <literal>import-prod.sql</literal>
+      files are for use when deploying the application to your production database.
+      The schema is not exported automatically at deployment.
+    </para>
+    
   </section>
   
   <section>
@@ -353,6 +370,7 @@ C:\Projects\jboss-seam>]]></programlisting>
   
   <section>
     <title>Deploying the application as an EAR</title>
+    
     <para>
       Finally, we want to be able to deploy the application using standard
       Java EE 5 packaging. First, we need to remove the exploded directory
@@ -362,6 +380,24 @@ C:\Projects\jboss-seam>]]></programlisting>
       build script. You can undeploy using <literal>seam undeploy</literal>
       or the <literal>undeploy</literal> target.
     </para>
+    
+    <para>
+      By default, the application will be deployed with the 
+      <emphasis>dev profile</emphasis>. The EAR will include the 
+      <literal>persistence-dev.xml</literal> and <literal>import-dev.sql</literal>
+      files, and the <literal>myproject-dev-ds.xml</literal> file
+      will be deployed. You can change the profile, and use the 
+      <emphasis>prod profile</emphasis>, by typing
+    </para>
+    
+    <programlisting>seam -Dprofile=prod deploy</programlisting>
+    
+    <para>
+      You can even define new deployment profiles for your application.
+      Just add appropriately named files to your project, and select the
+      name of the profile using <literal>-Dprofile=myprofile</literal>.
+    </para>
+    
   </section>
   
 </chapter>
