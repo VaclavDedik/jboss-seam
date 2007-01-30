@@ -17,6 +17,15 @@ WebLogic 9.2:
   * Deploy build/jboss-seam-jpa.war
   * Access the app at http://localhost:7001/jboss-seam-jpa/
 
+WebSphere 6.1:
+
+  * Install and run WebSphere 6.1
+  * ant websphere
+  * Install build/jboss-seam-jpa.war and specify a context_root
+  * From the "Enterprise Applications" list select: "jboss-seam-jpa" --> "Manager Modules" --> "jboss-seam-jpa.war" --> "Classes loaded with application class loader first", and then Apply
+  * Start the application
+  * Access it at http://localhost:9080/context_root/index.html
+
 Tomcat (no embedded EJB3):
   * Install Tomcat
   * ant tomcat
