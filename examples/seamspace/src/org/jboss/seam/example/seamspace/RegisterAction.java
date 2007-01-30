@@ -40,6 +40,8 @@ public class RegisterAction implements Register
    
    private byte[] picture;
    private String pictureContentType;
+   
+   private boolean verified;
 
    @Factory("newMember") @Begin
    public void start()
@@ -49,10 +51,14 @@ public class RegisterAction implements Register
    
    public void next()
    {
-      if (confirm == null || !confirm.equals(newMember.getPassword()))
-         FacesMessages.instance().add("confirmPassword", "Passwords do not match");
-      
       newMember.setGender(Member.Gender.valueOf(gender.toLowerCase()));
+      
+      verified = (confirm != null && confirm.equals(newMember.getPassword()));
+      
+      if (!verified)
+      {
+         FacesMessages.instance().add("confirmPassword", "Passwords do not match");
+      }
    }
 
    @End
@@ -126,6 +132,11 @@ public class RegisterAction implements Register
    public void setPictureContentType(String contentType)
    {
       this.pictureContentType = contentType;
+   }
+   
+   public boolean isVerified()
+   {
+      return verified;
    }
    
    @Destroy @Remove

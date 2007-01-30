@@ -20,5 +20,7 @@ public interface Register
    String getPictureContentType();
    void setPictureContentType(String contentType);
    
+   boolean isVerified();
+   
    void destroy();
 }

@@ -16,6 +16,7 @@
     </page>
        
     <page view-id="/comment.xhtml">    
+      <restrict>#{s:hasRole('user')}</restrict>
       <navigation from-action="#{blog.saveComment}">
         <redirect view-id="/blogentry.xhtml"/>
       </navigation>
@@ -23,11 +24,13 @@
     
     <page view-id="/register.xhtml">
       <navigation from-action="#{register.next}">
-        <rule if="#{register.confirm != newMember.password}">
+        <rule if="#{not register.verified}">
           <redirect view-id="/register.xhtml"/>
         </rule>
       
-        <redirect view-id="/register2.xhtml"/>
+        <rule if="#{register.verified}">
+          <redirect view-id="/register2.xhtml"/>
+        </rule>
       </navigation>
     </page>
     

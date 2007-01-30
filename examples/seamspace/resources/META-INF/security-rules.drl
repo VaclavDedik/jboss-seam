@@ -10,7 +10,7 @@ import org.jboss.seam.example.seamspace.Member;
 import org.jboss.seam.example.seamspace.MemberFriend;
 import org.jboss.seam.example.seamspace.MemberImage;
 
-rule AssignAdminUserRole
+rule AdminIsAUser
   salience 10
   no-loop
 when
