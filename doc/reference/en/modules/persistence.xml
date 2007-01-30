@@ -84,28 +84,56 @@
             invocation ends. If we write a session bean method that acts as a JSF action listener, 
             we can do all the work associated with that action in one transaction, and be sure that
             it is committed or rolled back when we finish processing the action. This is a great feature, 
-            and all that is needed by many Seam applications.
+            and all that is needed by some Seam applications.
         </para>
         
         <para>
-            There is just one problem with this approach. ORM solutions like Hibernate and EJB 3.0
-            persistence support lazy fetching of entity associations inside a transaction context, 
-            but throw <literal>LazyInitializationException</literal>s if you try to access an unfetched
-            association outside the context of a transaction. This is a problem if your view page
-            tries to access data that was not fetched during the transaction. Hibernate users developed 
-            the <emphasis>open session in view</emphasis> pattern to work around this problem. This
-            pattern is usually implemented as a transaction which spans the entire request. There are
-            several problems with this idea, the most serious being that we can't be sure that a
-            transaction has been successful until we commit it, but by the time we commit the transaction,
-            we have already rendered the view. Furthermore, this is at best a partial solution to the
-            problem, because we can still meet the dreaded <literal>LazyInitializationException</literal>
-            if we try to re-use the entity object in the next request.
+            However, there is a problem with this approach. A Seam application may not perform all data
+            access for a request from a single method call to a session bean.
+        </para>
+        
+        <itemizedlist>
+            <listitem>
+                <para>
+                    The request might require processing by several loosly-coupled components, each
+                    of which is called independently from the web layer. It is common to see several
+                    or even many calls per request from the web layer to EJB components in Seam.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Rendering of the view might require lazy fetching of associations.
+                </para>
+            </listitem>
+        </itemizedlist>
+        
+        <para>
+            The more transactions per request, the more likely we are to encounter atomicity
+            and isolation problems when our application is processing many concurrent requests.
+            Certainly, all write operations should occur in the same transaction!
         </para>
         
         <para>
-            Seam <emphasis>completely solves</emphasis> the problem of unwanted
-            <literal>LazyInitializationException</literal>s, while working around the biggest problem
-            in the <emphasis>open session in view</emphasis> pattern. The solution comes in two parts:
+            Hibernate users developed the <emphasis>"open session in view"</emphasis> pattern to work 
+            around this problem. In the Hibernate community, "open session in view" was historically 
+            even more important because frameworks like Spring use transaction-scoped persistence contexts. 
+            So rendering the view would cause <literal>LazyInitializationException</literal>s when 
+            unfetched associations were accessed.
+        </para>
+       
+        <para>
+            This pattern is usually implemented as a single transaction which spans the entire request. 
+            There are several problems with this idea, the most serious being that we 
+            can never be sure that a transaction is successful until we commit it&mdash;but by the 
+            time the "open session in view" transaction is committed, the view is fully rendered, and 
+            the rendered response may already have been flushed to the client. How can we notify the 
+            user that their transaction was unsuccessful? 
+        </para>
+        
+        <para>
+            Seam solves both the transaction isolation problem and the association fetching problem, 
+            while working around the problems with "open session in view". The solution comes in two 
+            parts:
         </para>
         
         <itemizedlist>
