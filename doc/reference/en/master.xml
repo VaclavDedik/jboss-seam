@@ -10,23 +10,23 @@
 <!ENTITY conversations          SYSTEM "modules/conversations.xml">
 <!ENTITY jbpm                   SYSTEM "modules/jbpm.xml">
 <!ENTITY persistence            SYSTEM "modules/persistence.xml">
+<!ENTITY validation             SYSTEM "modules/validation.xml">
+<!ENTITY framework              SYSTEM "modules/framework.xml">
+<!ENTITY drools                 SYSTEM "modules/drools.xml">
+<!ENTITY security               SYSTEM "modules/security.xml">
 <!ENTITY i18n                   SYSTEM "modules/i18n.xml">
+<!ENTITY text                   SYSTEM "modules/text.xml">
+<!ENTITY itext                  SYSTEM "modules/itext.xml">
+<!ENTITY mail                   SYSTEM "modules/mail.xml">
 <!ENTITY jms                    SYSTEM "modules/jms.xml">
 <!ENTITY remoting               SYSTEM "modules/remoting.xml">
-<!ENTITY drools                 SYSTEM "modules/drools.xml">
-<!ENTITY validation             SYSTEM "modules/validation.xml">
 <!ENTITY configuration          SYSTEM "modules/configuration.xml">
-<!ENTITY framework              SYSTEM "modules/framework.xml">
-<!ENTITY text                   SYSTEM "modules/text.xml">
 <!ENTITY annotations            SYSTEM "modules/annotations.xml">
 <!ENTITY components             SYSTEM "modules/components.xml">
 <!ENTITY controls               SYSTEM "modules/controls.xml">
-<!ENTITY itext                  SYSTEM "modules/itext.xml">
-<!ENTITY mail                  SYSTEM "modules/mail.xml">
 <!ENTITY elenhancements         SYSTEM "modules/elenhancements.xml">
 <!ENTITY testing                SYSTEM "modules/testing.xml">
 <!ENTITY tools                  SYSTEM "modules/tools.xml">
-<!ENTITY security               SYSTEM "modules/security.xml">
 ]>
 
 <book lang="en">
@@ -259,22 +259,22 @@
     &conversations;
     &jbpm;
     &persistence;
+    &validation;
+    &framework;
+    &drools;
+    &security;
     &i18n;
+    &text;
+    &itext;
+    &mail;
     &jms;
     &remoting;
-    &drools;
-    &validation;
     &configuration;
-    &framework;
-    &text;
     &annotations;
     &components;
     &controls;
-    &itext;
-    &mail;
     &elenhancements;
     &testing;
     &tools;
-    &security;
 </book>
 
