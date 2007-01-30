@@ -81,7 +81,15 @@ public class HtmlButton extends HtmlOutputButton implements ActionSource
       
       ResponseWriter writer = context.getResponseWriter();
       writer.startElement("input", this);
-      writer.writeAttribute("type", "button", null);
+
+      String image = getImage();
+      if (image == null) {
+          writer.writeAttribute("type", "button", null);
+      } else {
+          writer.writeAttribute("type", "image", null);
+          writer.writeAttribute("src", image, null);
+      }
+
       if ( isDisabled() ) writer.writeAttribute("disabled", true, "disabled");
       writer.writeAttribute("id", getClientId(context), "id");
 
