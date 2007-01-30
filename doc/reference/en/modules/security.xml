@@ -2,79 +2,77 @@
   <title>Security</title>
 
   <para>
-    The Seam Security API is an optional Seam module that provides authentication and authorization features
-    for securing both domain and page resources within your Seam project.  It supports multiple levels of security
-    <emphasis>granularity</emphasis>, making it capable of performing either simple role-based security checks,
-    or at the other end of the scale complex rule-based permission checks on domain objects using JBoss Rules.
+    The Seam Security API is an optional Seam feature that provides authentication and authorization features
+    for securing both domain and page resources within your Seam project.  
   </para>
-  
+
   <sect1>
     <title>Authentication</title>
-    
+
     <para>
-      The authentication features provided by Seam Security are built upon JAAS (Java Authentication and Authorization Service), 
-      and as such provide a robust and highly configurable API for handling user authentication.  However, for less complex 
-      authentication requirements Seam offers a much more simplified method of authentication that hides the complexity of JAAS.  
+      The authentication features provided by Seam Security are built upon JAAS (Java Authentication and Authorization Service),
+      and as such provide a robust and highly configurable API for handling user authentication.  However, for less complex
+      authentication requirements Seam offers a much more simplified method of authentication that hides the complexity of JAAS.
     </para>
-    
+
     <sect2>
       <title>Configuration</title>
-    
+
       <para>
         The simplified authentication method uses a built-in JAAS login module, <literal>SeamLoginModule</literal>, which
-        delegates authentication to one of your own Seam components.  This login module is already configured inside Seam as 
-        part of a default application policy and as such does not require any additional configuration files.  It allows you to 
-        write an authentication method using the entity classes that are provided by your own application.  Configuring this 
-        simplified form of authentication requires the <literal>Identity</literal> component to be configured in 
+        delegates authentication to one of your own Seam components.  This login module is already configured inside Seam as
+        part of a default application policy and as such does not require any additional configuration files.  It allows you to
+        write an authentication method using the entity classes that are provided by your own application.  Configuring this
+        simplified form of authentication requires the <literal>Identity</literal> component to be configured in
         <literal>components.xml</literal>:
       </para>
-      
+
       <programlisting>
         <![CDATA[
       <component class="org.jboss.seam.security.Identity">
           <property name="authMethod">#{authenticator.authenticate}</property>
-      </component>      
+      </component>
         ]]>
       </programlisting>
-      
+
       <para>
         The EL expression <literal>#{authenticator.authenticate}</literal> is a method binding indicating that
         the <literal>authenticate</literal> method of the <literal>authenticator</literal> component will be used
         to authenticate the user.
       </para>
-      
+
     </sect2>
-    
+
     <sect2>
       <title>Writing an authentication method</title>
-    
+
       <para>
-        The <literal>authMethod</literal> property specified for <literal>Identity</literal> in 
-        <literal>components.xml</literal> specifies which method will be used by <literal>SeamLoginModule</literal> 
+        The <literal>authMethod</literal> property specified for <literal>Identity</literal> in
+        <literal>components.xml</literal> specifies which method will be used by <literal>SeamLoginModule</literal>
         to authenticate users.  The prototype for this method is expected to be:
       </para>
-        
+
       <programlisting>
         <![CDATA[
   boolean (java.lang.String username, java.lang.String password, java.util.Set roles)
         ]]>
       </programlisting>
-  
+
       <para>
-        The first and second parameters should hopefully be self-explanatory.  The third parameter (<literal>roles</literal>) 
+        The first and second parameters should hopefully be self-explanatory.  The third parameter (<literal>roles</literal>)
         is a Set object that should be populated with the user's roles only if authentication is successful.  The return value should
-        be set to <literal>true</literal> for a successful authentication, or <literal>false</literal> for an unsuccessful 
+        be set to <literal>true</literal> for a successful authentication, or <literal>false</literal> for an unsuccessful
         authentication. Here's a complete example of an authentication method inside a JavaBean component:
       </para>
-    
+
       <programlisting>
         <![CDATA[
-@Name("authenticator")      
+@Name("authenticator")
 public class Authenticator {
    @In EntityManager entityManager;
    public boolean authenticate(String username, String password, Set<String> roles) {
       try
-      {            
+      {
          User user = (User) entityManager.createQuery(
             "from User where username = :username and password = :password")
             .setParameter("username", username)
@@ -86,63 +84,63 @@ public class Authenticator {
             for (UserRole mr : user.getRoles())
                roles.add(mr.getName());
          }
-         
+
          return true;
       }
       catch (NoResultException ex)
       {
          FacesMessages.instance().add("Invalid username/password");
          return false;
-      }      
-   }       
+      }
+   }
         ]]>
       </programlisting>
-    
+
       <para>
         In the above example, both <literal>User</literal> and <literal>UserRole</literal> are application-specific
         entity beans.  The <literal>roles</literal> parameter is populated with the roles that the user is a member
         of, which should be added to the <literal>Set</literal> as literal string values, e.g. "admin", "user".
-        In this case, if the user record is not found and a <literal>NoResultException</literal> thrown, the 
-        authentication method returns <literal>false</literal> to indicate the authentication failed.      
+        In this case, if the user record is not found and a <literal>NoResultException</literal> thrown, the
+        authentication method returns <literal>false</literal> to indicate the authentication failed.
       </para>
-      
+
     </sect2>
-    
+
     <sect2>
       <title>Writing a login form</title>
-      
+
       <para>
-        The <literal>Identity</literal> component provides both <literal>username</literal> and <literal>password</literal> 
-        properties, catering for the most common authentication scenario. These properties can be bound directly to the 
-        username and password fields on a login form.  Once these properties are set, the <literal>identity.login()</literal> 
+        The <literal>Identity</literal> component provides both <literal>username</literal> and <literal>password</literal>
+        properties, catering for the most common authentication scenario. These properties can be bound directly to the
+        username and password fields on a login form.  Once these properties are set, the <literal>identity.login()</literal>
         method will authenticate the user using the provided credentials.  Here's an example of a simple login form:
       </para>
-      
+
       <programlisting>
         <![CDATA[
     <div>
       <h:outputLabel for="name" value="Username"/>
       <h:inputText id="name" value="#{identity.username}"/>
     </div>
-    
+
     <div>
       <h:outputLabel for="password" value="Password"/>
       <h:inputSecret id="password" value="#{identity.password}"/>
     </div>
-    
+
     <div>
       <h:commandButton value="Login" action="#{identity.login}"/>
-    </div>                
+    </div>
         ]]>
       </programlisting>
     </sect2>
-    
+
     <sect2>
       <title>Summary</title>
       <para>
-        So to sum up, here are the steps for configuring authentication:                
+        So to sum up, here are the steps for configuring authentication:
       </para>
-      
+
       <itemizedlist>
         <listitem>
           <para>
@@ -160,53 +158,53 @@ public class Authenticator {
           </para>
         </listitem>
       </itemizedlist>
-      
+
     </sect2>
-    
+
   </sect1>
-  
+
   <sect1>
     <title>Identity</title>
-    
+
     <para>
       The <literal>Identity</literal> component is the core component of the Security API.  It is a session-scoped
-      component that 1) contains the current state of the user's security, and 2) provides a number of useful 
-      security-related methods.  This section details the most useful features of the <literal>Identity</literal> 
+      component that 1) contains the current state of the user's security, and 2) provides a number of useful
+      security-related methods.  This section details the most useful features of the <literal>Identity</literal>
       component.  Please note that the alias <literal>identity</literal> can be used in EL expressions, including
       the body of a web page.
     </para>
-    
+
     <sect2>
       <title>Obtaining a reference</title>
-      
+
       <para>
         There are two ways of obtaining a reference to the <literal>Identity</literal> for the current user's session.
         The first, inline method is to simply call <literal>Identity.instance()</literal>.  Alternatively, you may inject
         the <literal>Identity</literal> directly into your own components:
       </para>
-      
+
       <programlisting>
         <![CDATA[
-  @In Identity identity;        
+  @In Identity identity;
         ]]>
       </programlisting>
     </sect2>
-    
+
     <sect2>
-      <title>isLoggedIn()</title>      
+      <title>isLoggedIn()</title>
       <para>
         The <literal>isLoggedIn()</literal> method returns a boolean value indicating whether the user has been
         successfully authenticated or not. It may be useful for controlling the rendering of certain sections of a page,
         depending if the user is logged in or not.  For example:
       </para>
-      
+
       <programlisting>
         <![CDATA[
-    <h:outputLink value="login.seam" rendered="#{not identity.loggedIn}">Log in</h:outputLink>        
+    <h:outputLink value="login.seam" rendered="#{not identity.loggedIn}">Log in</h:outputLink>
         ]]>
       </programlisting>
     </sect2>
-    
+
     <sect2>
       <title>getSubject()</title>
       <para>
@@ -215,14 +213,14 @@ public class Authenticator {
         you are authenticating with your own <literal>LoginContext</literal>, it should be instantiated with the
         <literal>identity</literal>'s subject, for example:
       </para>
-      
+
       <programlisting>
         <![CDATA[
-  LoginContext ctx = new LoginContext("custom", Identity.instance().getSubject());        
+  LoginContext ctx = new LoginContext("custom", Identity.instance().getSubject());
         ]]>
       </programlisting>
     </sect2>
-    
+
     <sect2>
       <title>checkRestriction()</title>
       <para>
@@ -232,41 +230,41 @@ public class Authenticator {
         thrown, or 2) if the user is logged in, an <literal>AuthorizationException</literal> is thrown.  EL security
         functions are discussed in the Authorization section of this chapter.
       </para>
-      
+
       <programlisting>
         <![CDATA[
   public void deleteCustomer() {
     Identity.instance().checkRestriction("#{s:hasPermission('customer', 'delete', customer)}");
     //...code
-  }        
+  }
         ]]>
       </programlisting>
     </sect2>
-    
+
     <sect2>
       <title>login()</title>
       <para>
-        This method attempts to authenticate using the set values of the <literal>username</literal> and 
-        <literal>password</literal> properties.  An overloaded version of this method, 
-        <literal>login(LoginContext ctx)</literal> authenticates using an externally provided 
-        <literal>LoginContext</literal>.  This method throws a <literal>LoginException</literal> 
+        This method attempts to authenticate using the set values of the <literal>username</literal> and
+        <literal>password</literal> properties.  An overloaded version of this method,
+        <literal>login(LoginContext ctx)</literal> authenticates using an externally provided
+        <literal>LoginContext</literal>.  This method throws a <literal>LoginException</literal>
         if authentication is not successful.
       </para>
     </sect2>
-    
+
     <sect2>
       <title>logout()</title>
       <para>
-        This method clears the security state for the currently authenticated user. 
+        This method clears the security state for the currently authenticated user.
       </para>
     </sect2>
-    
+
     <sect2>
       <title>hasRole()</title>
       <para>
         Returns <literal>true</literal> if the authenticated user is a member of the specified role.
       </para>
-      
+
       <programlisting>
         <![CDATA[
   if (!Identity.instance().hasRole("admin"))
@@ -274,16 +272,16 @@ public class Authenticator {
         ]]>
       </programlisting>
     </sect2>
-    
+
     <sect2>
       <title>hasPermission()</title>
       <para>
-        Returns <literal>true</literal> if the user (either authenticated or not) has the specified permission. 
+        Returns <literal>true</literal> if the user (either authenticated or not) has the specified permission.
         This method accepts an object that can be used to determine if the permission should be granted or not.
         The object is temporarily asserted into the security context while the permission check is performed.
         If the object is a <literal>java.util.Collection</literal> then each object in the collection is asserted.
       </para>
-      
+
       <programlisting>
         <![CDATA[
   if (!Identity.instance().hasPermission("customer", "delete", customer))
@@ -291,18 +289,18 @@ public class Authenticator {
         ]]>
       </programlisting>
     </sect2>
-    
+
     <sect2>
       <title>getSecurityContext()</title>
       <para>
         Returns the session-scoped <literal>org.drools.WorkingMemory</literal> used to evaluate security rules
-        within the context of the current user.  Additional objects may be asserted into the working memory if 
-        required by the security rules.        
+        within the context of the current user.  Additional objects may be asserted into the working memory if
+        required by the security rules.
       </para>
     </sect2>
-    
+
   </sect1>
-                
+
   <sect1>
     <title>Authorization</title>
 
@@ -315,44 +313,44 @@ public class Authenticator {
       <title>Core concepts</title>
       <para>
         Each of the authorization mechanisms provided by the Seam Security API are built upon the concept of a user
-        being granted roles and/or permissions.  A role is a <emphasis>group</emphasis>, or <emphasis>type</emphasis>, 
-        of user that may have been granted certain privileges for performing one or more specific actions within an 
-        application. A permission on the other hand is a privilege (sometimes once-off) for performing a single, 
+        being granted roles and/or permissions.  A role is a <emphasis>group</emphasis>, or <emphasis>type</emphasis>,
+        of user that may have been granted certain privileges for performing one or more specific actions within an
+        application. A permission on the other hand is a privilege (sometimes once-off) for performing a single,
         specific action.  It is entirely possible to build an application using nothing but permissions, however
         roles offer a higher level of convenience when granting privileges to groups of users.
       </para>
-      
+
       <para>
         Roles are simple, consisting of only a name such as "admin", "user", "customer", etc.  Permissions consist of
         both a name and an action, and are represented within this documentation in the form <literal>name:action</literal>,
         for example <literal>customer:delete</literal>, or <literal>customer:insert</literal>.
-      </para>    
-      
+      </para>
+
     </sect2>
-      
+
     <sect2>
       <title>Securing your components</title>
       <para>
-        Let's start by examining the simplest form of authorization, component security, starting with the 
+        Let's start by examining the simplest form of authorization, component security, starting with the
         <literal>@Restrict</literal> annotation.
       </para>
-      
+
       <sect3>
         <title>The @Restrict annotation</title>
-      
+
         <para>
           Seam components may be secured either at the method or the class level, using the <literal>@Restrict</literal>
-          annotation.  If both a method and it's declaring class are annotated with <literal>@Restrict</literal>, 
+          annotation.  If both a method and it's declaring class are annotated with <literal>@Restrict</literal>,
           the method restriction will take precendence (and the class restriction will not apply).  If a method
           invocation fails a security check, then an exception will be thrown as per the contract for
           <literal>Identity.checkRestriction()</literal>.
         </para>
-        
+
         <para>
           An empty <literal>@Restrict</literal> implies a permission check of <literal>componentName:methodName</literal>.
           Take for example the following component method:
         </para>
-        
+
         <programlisting>
           <![CDATA[
   @Name("account")
@@ -363,14 +361,14 @@ public class Authenticator {
   }
           ]]>
         </programlisting>
-        
+
         <para>
           In this example, the implied permission required to call the <literal>delete()</literal> method is
           <literal>account:delete</literal>.  The equivalent of this would be to write
-          <literal>@Restrict("#{s:hasPermission('account','delete',null)}")</literal>.  Now let's look at 
+          <literal>@Restrict("#{s:hasPermission('account','delete',null)}")</literal>.  Now let's look at
           another example:
         </para>
-        
+
         <programlisting>
           <![CDATA[
   @Restrict @Name("account")
@@ -380,32 +378,32 @@ public class Authenticator {
     }
     @Restrict("#{s:hasRole('admin')}") public void delete() {
       // code
-    }  
+    }
   }
           ]]>
         </programlisting>
-        
+
         <para>
           This time, the component class itself is annotated with <literal>@Restrict</literal>.  This means that
           any methods without an overriding <literal>@Restrict</literal> annotation require an implicit permission check.
-          In the case of this example, the <literal>insert()</literal> method requires a permission of 
-          <literal>account:insert</literal>, while the <literal>delete()</literal> method requires that the user is a 
+          In the case of this example, the <literal>insert()</literal> method requires a permission of
+          <literal>account:insert</literal>, while the <literal>delete()</literal> method requires that the user is a
           member of the <literal>admin</literal> role.
         </para>
-        
+
         <para>
-          Before we go any further, let's address the <literal>#{s:hasRole()}</literal> expression seen in the above 
+          Before we go any further, let's address the <literal>#{s:hasRole()}</literal> expression seen in the above
           example.  Both <literal>s:hasRole</literal> and <literal>s:hasPermission</literal> are EL functions, which
           delegate to the correspondingly named methods of the <literal>Identity</literal> class. These
           functions can be used within any EL expression throughout the entirity of the security API.
         </para>
-        
+
         <para>
           Being an EL expression, the value of the <literal>@Restrict</literal> annotation may reference objects that
           exist within a Seam context.  This is extremely useful when performing permission checks for a specific
           object instance.  Look at this example:
         </para>
-        
+
         <programlisting>
   @Name("account")
   public class AccountAction {
@@ -414,53 +412,173 @@ public class Authenticator {
     public void modify() {
       selectedAccount.modify();
     }
-  }        
+  }
         </programlisting>
-        
+
         <para>
           The interesting thing to note from this example is the reference to <literal>selectedAccount</literal>
           seen within the <literal>hasPermission()</literal> function call.  The value of this variable will be
-          looked up from within the Seam context, and passed to the <literal>hasPermission()</literal> method 
-          in <literal>Identity</literal>, which in this case can then determine if the user has the required 
+          looked up from within the Seam context, and passed to the <literal>hasPermission()</literal> method
+          in <literal>Identity</literal>, which in this case can then determine if the user has the required
           permission for modifying the specified <literal>Account</literal> object.
         </para>
       </sect3>
-      
+
       <sect3>
-        <title>Inline restrictions</title>        
+        <title>Inline restrictions</title>
         <para>
-          Sometimes it might be desirable to perform a security check in code, without using the 
-          <literal>@Restrict</literal> annotation.  In this situation, simply use 
+          Sometimes it might be desirable to perform a security check in code, without using the
+          <literal>@Restrict</literal> annotation.  In this situation, simply use
           <literal>Identity.checkRestriction()</literal>, like this:
-        </para>   
-        
+        </para>
+
         <programlisting>
           <![CDATA[
   public void deleteCustomer() {
     Identity.instance().checkRestriction("#{s:hasPermission('customer','delete',selectedCustomer)}");
-  }          
+  }
           ]]>
-        </programlisting>     
-        
+        </programlisting>
+
         <para>
           If the expression specified doesn't evaluate to <literal>true</literal>, an exception is thrown. It is
-          also possible to call the <literal>hasRole</literal> and <literal>hasPermission</literal> methods 
+          also possible to call the <literal>hasRole</literal> and <literal>hasPermission</literal> methods
           directly:
         </para>
-        
+
         <programlisting>
           <![CDATA[
   if (!Identity.instance().hasRole("admin"))
      throw new AuthorizationException("Must be admin to perform this action");
-     
+
   if (!Identity.instance().hasPermission("customer", "create", null))
      throw new AuthorizationException("You may not create new customers");
           ]]>
-        </programlisting>        
+        </programlisting>
       </sect3>
     </sect2>
-
     
+    <sect2>
+      <title>Securing your interface</title>
+      
+      <para>
+        One indication of a well designed user interface is that the user is not presented with options for 
+        which they don't have the necessary privileges to use.  Seam Security allows conditional rendering of 
+        either 1) sections of a page or 2) individual controls, based upon the privileges of the user, using
+        the very same EL expressions that are used for component security.
+      </para>
+      
+      <para>
+        Let's take a look at some examples of interface security.  First of all, let's pretend that we have a 
+        login form that should only be rendered if the user is not already logged in.  Using the 
+        <literal>identity.isLoggedIn()</literal> property, we can write this:
+      </para>
+      
+      <programlisting>
+        <![CDATA[
+  <h:form class="loginForm" rendered="#{not identity.loggedIn}">        
+        ]]>
+      </programlisting>
+      
+      <para>
+        If the user isn't logged in, then the login form will be rendered - very straight forward so far.  
+        Now let's pretend there is a menu on the page that contains some actions which should only be accessible
+        to users in the <literal>manager</literal> role.  Here's one way that these could be written:
+      </para>
+      
+      <programlisting>
+        <![CDATA[
+    <h:outputLink action="#{reports.listManagerReports}" rendered="#{s:hasRole('manager')}">
+      Manager Reports
+    </h:outputLink>]
+        ]]>
+      </programlisting>
+      
+      <para>
+        This is also quite straight forward.  If the user is not a member of the <literal>manager</literal>
+        role, then the outputLink will not be rendered. The <literal>rendered</literal> attribute can
+        generally be used on the control itself, or on a surrounding <literal>&lt;s:div&gt;</literal> or 
+        <literal>&lt;s:span&gt;</literal> control.
+      </para>
+      
+      <para>
+        Now for something more complex.  Let's say you have a <literal>h:dataTable</literal> control on a 
+        page listing records for which you may or may not wish to render action links depending on the
+        user's privileges.  The <literal>s:hasPermission</literal> EL function allows us to pass in an
+        object parameter which can be used to determine whether the user has the requested permission 
+        for that object or not. Here's how a dataTable with secured links might look:
+      </para>
+      
+      <programlisting>
+        <![CDATA[
+	<h:dataTable value="#{clients}" var="cl">
+		<h:column>
+			<f:facet name="header">Name</f:facet>
+			#{cl.name}
+		</h:column>
+		<h:column>
+			<f:facet name="header">City</f:facet>
+			#{cl.city}
+		</h:column>   
+		<h:column>
+			<f:facet name="header">Action</f:facet>
+			<s:link value="Modify Client" action="#{clientAction.modify}" rendered="#{s:hasPermission('client','modify',cl)"/>
+   		<s:link value="Delete Client" action="#{clientAction.delete}" rendered="#{s:hasPermission('client','delete',cl)"/>
+		</h:column>
+	</h:dataTable>
+        ]]>
+      </programlisting>
+    </sect2>
+    
+    <sect2>
+      <title>Securing your pages</title>      
+      <para>
+        Page security requires that your application is using a <literal>pages.xml</literal> file, however is
+        extremely simple to configure.  Simply include a <literal>&lt;restrict/&gt;</literal> element within
+        the <literal>page</literal> element.  By default, if a value is not provided for the
+        <literal>restrict</literal> element, an implied permission of <literal>{viewId}:view</literal> will
+        be checked for whenever accessing that page.  Otherwise the value will be evaluated as a standard
+        security expression.  Here's a couple of examples:
+      </para>
+            
+      <programlisting>
+        <![CDATA[
+    <page view-id="/settings.xhtml">
+      <restrict/>
+    </page>
+        
+    <page view-id="/reports.xhtml">    
+      <restrict>#{s:hasRole('admin')}</restrict>
+    </page>        
+        ]]>
+      </programlisting>
+      
+      <para>
+        In the above example, the first page has an implied permission restriction of 
+        <literal>/settings.xhtml:view</literal>, while the second one checks that the user 
+        is a member of the <literal>admin</literal> role.
+      </para>
+        
+    </sect2>
+
+  </sect1>
+  
+  <sect1>
+    <title>Authoring Security Rules</title>
+    
+    <para>
+      Up to this point there has been a lot of mention of permissions, but no information about how permissions
+      are actually defined or granted.  This section completes the circle, by explaining how permission 
+      checks are processed, and how to implement permission checks for a Seam application.
+    </para>
+    
+    <sect2>
+      <title>Permissions Overview</title>
+      
+      <para>
+        Seam Security provides quite a novel method for determining user permissions. 
+      </para>
+    </sect2>
   </sect1>
 
 </chapter>
