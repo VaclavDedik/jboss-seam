@@ -41,6 +41,7 @@ import org.jboss.seam.pages.RenderNavigationHandler;
 import org.jboss.seam.pages.Output;
 import org.jboss.seam.util.Parameters;
 import org.jboss.seam.util.Resources;
+import org.jboss.seam.util.Strings;
 import org.jboss.seam.util.XML;
 /**
  * Holds metadata for pages defined in pages.xml, including
@@ -615,9 +616,8 @@ public class Pages
       if (restrict != null)
       {
          page.setRestricted(true);
-         
          String expr = restrict.getTextTrim();
-         if (!"".equals(expr)) page.setRestriction(expr);
+         if ( !Strings.isEmpty(expr) ) page.setRestriction(expr);
       }
    }
    /**

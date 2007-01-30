@@ -407,7 +407,7 @@ public class Authenticator {
         Page security requires that the application is using a <literal>pages.xml</literal> file, however is
         extremely simple to configure.  Simply include a <literal>&lt;restrict/&gt;</literal> element within
         the <literal>page</literal> elements that you wish to secure.  By default, if a value is not provided for the
-        <literal>restrict</literal> element, an implied permission of <literal>{viewId}:view</literal> will
+        <literal>restrict</literal> element, an implied permission of <literal>{viewId}:render</literal> will
         be checked for whenever accessing that page.  Otherwise the value will be evaluated as a standard
         security expression.  Here's a couple of examples:
       </para>
@@ -426,7 +426,7 @@ public class Authenticator {
       
       <para>
         In the above example, the first page has an implied permission restriction of 
-        <literal>/settings.xhtml:view</literal>, while the second one checks that the user 
+        <literal>/settings.xhtml:render</literal>, while the second one checks that the user 
         is a member of the <literal>admin</literal> role.
       </para>
         

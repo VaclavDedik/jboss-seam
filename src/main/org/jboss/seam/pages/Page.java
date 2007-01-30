@@ -175,15 +175,15 @@ public final class Page
     */
    public boolean enter(FacesContext facesContext)
    {
-      if (isRestricted())
+      if ( isRestricted() )
       {
          String expr = restriction;
          // If no expression is configured, create a default one
          if (expr == null)
-            expr = String.format("#{s:hasPermission('%s', 'view', null)}", 
-                     getViewId());
-            
+         {
+            expr = String.format("#{s:hasPermission('%s', 'render', null)}", getViewId());
             Identity.instance().checkRestriction(expr);
+         }
       }      
       
       boolean result = false;
