@@ -140,7 +140,7 @@
             <listitem>
                 <para>
                     use an extended persistence context that is scoped to the conversation, 
-                    instead of to the request
+                    instead of to the transaction
                 </para>
             </listitem>
             <listitem>
