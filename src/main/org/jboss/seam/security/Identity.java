@@ -1,5 +1,6 @@
 package org.jboss.seam.security;
 
+import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.ScopeType.SESSION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
@@ -33,8 +34,8 @@ import org.drools.WorkingMemory;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
-import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Install;
+import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
@@ -47,6 +48,7 @@ import org.jboss.seam.util.UnifiedELValueBinding;
 @Name("org.jboss.seam.security.identity")
 @Scope(SESSION)
 @Install(precedence = BUILT_IN, classDependencies="org.drools.WorkingMemory")
+@Intercept(NEVER)
 public class Identity implements Serializable
 {  
    private static final long serialVersionUID = 3751659008033189259L;
@@ -83,16 +85,23 @@ public class Identity implements Serializable
    protected Principal principal;   
    protected Subject subject;
    
-   @In(create = true, required = false)
-   private RuleBase securityRules;
-   
    private WorkingMemory securityContext;
       
    @Create
    public void create()
    {     
       subject = new Subject();
-      securityContext = securityRules.newWorkingMemory(false);
+      initSecurityContext();
+   }
+   
+   private void initSecurityContext()
+   {
+      RuleBase securityRules = (RuleBase) Component.getInstance("securityRules", true);
+      
+      if (securityRules != null)
+      {
+         securityContext = securityRules.newWorkingMemory(false);
+      }            
    }
 
    public static Identity instance()
@@ -186,7 +195,7 @@ public class Identity implements Serializable
       principal = null;
       
       subject = new Subject();
-      securityContext = securityRules.newWorkingMemory(false);
+      initSecurityContext();
    }
 
    /**
