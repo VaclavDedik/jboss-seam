@@ -461,7 +461,7 @@ public class Authenticator {
       
       <para>
         Seam Security expects to find a <literal>RuleBase</literal> component called <literal>securityRules</literal>
-        which it uses to evaluate permission checks.  This is configured in <literal>pages.xml</literal> as follows:
+        which it uses to evaluate permission checks.  This is configured in <literal>components.xml</literal> as follows:
       </para>
       
       <programlisting>
