@@ -32,7 +32,6 @@ import org.drools.RuleBase;
 import org.drools.WorkingMemory;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Install;
@@ -131,26 +130,6 @@ public class Identity implements Serializable
    {
       return subject;
    }
-
-   /**
-    * Checks if the authenticated user contains the specified role.
-    * 
-    * @param role String
-    * @return boolean Returns true if the authenticated user contains the role,
-    *         or false if otherwise.
-    */
-   public boolean isUserInRole(String role)
-   {
-      for (Group sg : subject.getPrincipals(Group.class))      
-      {
-         if ("roles".equals(sg.getName()))
-         {
-            return sg.isMember(new SimplePrincipal(role));
-         }
-      }
-      
-      return false;
-   }
       
    /**
     * Performs an authorization check, based on the specified security expression.
@@ -213,18 +192,19 @@ public class Identity implements Serializable
    /**
     * Checks if the authenticated Identity is a member of the specified role.
     * 
-    * @param name String The name of the role to check
+    * @param role String The name of the role to check
     * @return boolean True if the user is a member of the specified role
     */
-   public boolean hasRole(String name)
+   public boolean hasRole(String role)
    {
-      if (!Contexts.isSessionContextActive() || !Contexts.getSessionContext().isSet(
-            Seam.getComponentName(Identity.class)))
+      for (Group sg : subject.getPrincipals(Group.class))      
       {
-         return false;
+         if ("roles".equals(sg.getName()))
+         {
+            return sg.isMember(new SimplePrincipal(role));
+         }
       }
-     
-      return isUserInRole(name);
+      return false;
    }
 
    /**
@@ -364,7 +344,6 @@ public class Identity implements Serializable
     * @return boolean The result of the expression evaluation
     */
    public boolean evaluateExpression(String expr) 
-       throws AuthorizationException
    {     
       return (Boolean) new UnifiedELValueBinding(expr).getValue(FacesContext.getCurrentInstance());
    }   
