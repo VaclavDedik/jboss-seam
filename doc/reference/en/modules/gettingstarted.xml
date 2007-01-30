@@ -117,10 +117,19 @@ C:\Projects\jboss-seam>]]></programlisting>
     </para>
     
     <para>
-      The most important choice you need to make is between a EAR deployment and WAR
+      The most important choice you need to make is between EAR deployment and WAR
       deployment of your project. EAR projects support EJB 3.0 and require Java EE 5.
       WAR projects do not support EJB 3.0, but may be deployed to a J2EE environment.
-      The packaging of a WAR is also simpler to understand.
+      The packaging of a WAR is also simpler to understand. If you installed JBoss
+      with the ejb3 profile, choose <literal>ear</literal>. Otherwise, choose
+      <literal>war</literal>. We'll assume that you've chosen an EAR deployment for 
+      the rest of the tutorial, but you can follow exactly the same steps for a
+      WAR deployment.  
+    </para>
+    
+    <para>
+      If you are working with an existing data model, make sure you tell seam-gen that
+      the tables already exist in the database.
     </para>
     
     <para>
@@ -250,8 +259,10 @@ C:\Projects\jboss-seam>]]></programlisting>
       Because we've added a new Seam component, we need to restart the exploded
       directory deployment. You can do this by typing <literal>seam restart</literal>,
       or by running the <literal>restart</literal> target in the generated project 
-      <literal>build.xml</literal> file from inside Eclipse. <emphasis>You do not
-      need to restart JBoss each time you change the application.</emphasis>
+      <literal>build.xml</literal> file from inside Eclipse. Another way to force
+      a restart is to edit the file <literal>resources/META-INF/application.xml</literal>
+      in Eclipse. <emphasis>Note that you do not need to restart JBoss each time you 
+      change the application.</emphasis>
     </para>
     
     <para>
@@ -259,7 +270,8 @@ C:\Projects\jboss-seam>]]></programlisting>
       the button. You can see the code behind this action by looking in the project 
       <literal>src</literal> directory. Put a breakpoint in the <literal>ping()</literal>
       method, and click the button again. Finally, locate the <literal>PingTest.xml</literal>
-      file in the test package and run the integration tests using the TestNG plugin.
+      file in the test package and run the integration tests using the TestNG plugin for
+      Eclipse.
     </para>
     
   </section>
@@ -334,7 +346,7 @@ C:\Projects\jboss-seam>]]></programlisting>
       You can browse the database, edit existing objects, and create new 
       objects. If you look at the generated code, you'll probably be amazed 
       how simple it is! Seam was designed so that data access code is easy to 
-      write by hand, even for people who don't want to cheat using seam-gen.
+      write by hand, even for people who don't want to cheat by using seam-gen.
     </para>
     
   </section>
