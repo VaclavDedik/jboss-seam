@@ -129,14 +129,6 @@ public class UISelectItems extends javax.faces.component.UISelectItems {
 		}
 	}
 	
-	private Object getObject(String localName) {
-		if (getValueBinding(localName) == null) {
-			return null;
-		} else {
-			return getValueBinding(localName).getValue(getFacesContext());
-		}
-	}
-	
 	private Boolean getBoolean(String localName) {
 		if (getString(localName) != null) {
 			return Boolean.valueOf(getString(localName));
