@@ -16,9 +16,9 @@
    <core:pages no-conversation-view-id="/home.xhtml"/>
    
    <core:managed-persistence-context name="entityManager"
-           persistence-unit-jndi-name="java:/@projectName@EntityManagerFactory"/>
+               persistence-unit-jndi-name="java:/@projectName@EntityManagerFactory"/>
 
-   <core:ejb installed="@embeddedEjb@"/>
+   <core:ejb installed="@embeddedEjb"/>
     
    <!-- For use with jBPM pageflow or process management -->
    <!--  
