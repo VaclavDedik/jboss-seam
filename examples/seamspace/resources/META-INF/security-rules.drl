@@ -2,9 +2,8 @@ package SeamSpacePermissions;
 
 import java.security.Principal;
 
-import org.jboss.seam.security.Identity;
-import org.jboss.seam.security.rules.PermissionCheck;
-import org.jboss.seam.security.rules.Role;
+import org.jboss.seam.security.PermissionCheck;
+import org.jboss.seam.security.Role;
 
 import org.jboss.seam.example.seamspace.Member;
 import org.jboss.seam.example.seamspace.MemberFriend;
