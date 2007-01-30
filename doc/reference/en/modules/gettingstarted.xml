@@ -16,9 +16,10 @@
   </para>
   
   <para>
-    In this release, seam-gen only works for people who want to use 
-    Seam with EJB 3.0 in JBoss AS. Future versions will support other
-    deployment environments.
+    In this release, seam-gen works best for people with JBoss AS. 
+    You can use the generated project with other J2EE or Java EE 5
+    application servers by making a few manual changes to the 
+    project configuration.
   </para>
   
   <para>
@@ -76,6 +77,8 @@ setup:
 
     [input] Enter the project name [myproject]
 helloworld
+    [input] Is this project deployed as an EAR (with EJB components) or a WAR (with no EJB support) [ear] (ear,war,)
+
     [input] Enter the Java package name for your session beans [com.mydomain.helloworld]
 org.jboss.helloworld
     [input] Enter the Java package name for your entity beans [org.jboss.helloworld]
@@ -98,6 +101,8 @@ gavin
 
     [input] Are you working with tables that already exist in the database? [n] (y,n,)
 y
+    [input] Do you want to drop and recreate the database tables and data in import.sql each time you deploy? [n] (y,n,)
+n
 [propertyfile] Creating new property file: C:\Projects\jboss-seam\seam-gen\build.properties
      [echo] Installing JDBC driver jar to JBoss server
      [echo] Type 'seam new-project' to create the new project
@@ -109,6 +114,13 @@ C:\Projects\jboss-seam>]]></programlisting>
     <para>
       The tool provides sensible defaults, which you can accept by just pressing enter
       at the prompt.
+    </para>
+    
+    <para>
+      The most important choice you need to make is between a EAR deployment and WAR
+      deployment of your project. EAR projects support EJB 3.0 and require Java EE 5.
+      WAR projects do not support EJB 3.0, but may be deployed to a J2EE environment.
+      The packaging of a WAR is also simpler to understand.
     </para>
     
     <para>
