@@ -16,6 +16,7 @@
     <core:hibernate-session-factory name="hibernateSessionFactory"/>
     
     <core:managed-hibernate-session name="bookingDatabase"
+                          auto-create="true"
                           session-factory-jndi-name="bookingDatabase"/>
     
 </components>

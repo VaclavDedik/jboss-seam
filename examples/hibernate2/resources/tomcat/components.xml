@@ -15,7 +15,8 @@
                   
     <core:hibernate-session-factory name="hibernateSessionFactory"/>
     
-    <core:managed-hibernate-session name="bookingDatabase"/>
+    <core:managed-hibernate-session name="bookingDatabase"
+                                    auto-create="true"/>
     
     <core:microcontainer installed="true"/>
     
