@@ -53,6 +53,9 @@
     <condition property="hibernate.hbm2ddl.auto" value="create-drop">
         <equals arg1="${database.drop}" arg2="y"/>
     </condition>
+    <condition property="project.war" value="true">
+        <equals arg1="${project.type}" arg2="war"/>
+    </condition>
     
     <property name="project.home" value="${workspace.home}/${project.name}"/>
     
@@ -137,6 +140,12 @@
         <input addproperty="project.name.new" 
                    message="Enter the project name [${project.name}]" 
               defaultvalue="${project.name}"/>
+        
+        <property name="project.type" value="ear"/>
+        <input addproperty="project.type.new" 
+                   message="Is this project deployed as an EAR (with EJB components) or a WAR (with no EJB support) [${project.type}] " 
+        	     validargs="ear,war,"
+              defaultvalue="${project.type}"/>
         
         <property name="action.package" value="com.mydomain.${project.name.new}"/>
         <input addproperty="action.package.new" 
@@ -326,6 +335,7 @@
         <propertyfile file="build.properties">
             <entry key="workspace.home" value="${workspace.home.new}"/>
             <entry key="project.name" value="${project.name.new}"/>
+        	<entry key="project.type" value="${project.type.new}"/>
             <entry key="jboss.home" value="${jboss.home.new}"/>
             <entry key="action.package" value="${action.package.new}"/>
             <entry key="model.package" value="${model.package.new}"/>
