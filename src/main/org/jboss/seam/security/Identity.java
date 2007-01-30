@@ -39,7 +39,10 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Expressions.MethodBinding;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.security.jaas.SeamLoginModule;
 import org.jboss.seam.util.UnifiedELValueBinding;
 
@@ -52,6 +55,8 @@ public class Identity implements Serializable
    private static final long serialVersionUID = 3751659008033189259L;
    
    private static final String DEFAULT_JAAS_CONFIG_NAME = "default";   
+   
+   private static final LogProvider log = Logging.getLogProvider(Identity.class);
    
    private class LoginModuleConfiguration extends Configuration
    {
@@ -180,10 +185,17 @@ public class Identity implements Serializable
                   getConfiguration());
       }
       
-      loginContext.login();
-      
-      password = null;
-      postLogin();
+      try
+      {
+         loginContext.login();
+         password = null;
+         postLogin();
+      }
+      catch (LoginException ex)
+      {
+         log.error("Login failed", ex);
+         FacesMessages.instance().add("Login failed.");
+      }
    }
    
    public void logout()
@@ -223,7 +235,7 @@ public class Identity implements Serializable
     * @return boolean True if the user has the specified permission
     */
    public boolean hasPermission(String name, String action, Object arg)
-   {
+   {      
       List<FactHandle> handles = new ArrayList<FactHandle>();
 
       PermissionCheck check = new PermissionCheck(name, action);
