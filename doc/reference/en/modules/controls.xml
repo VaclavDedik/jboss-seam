@@ -8,6 +8,10 @@
         recommend the use of the Tomahawk tag library.
     </para>
     
+    <para>
+    	The ui example demonstrates the use of a number of these tags.
+    </para>
+    
     <variablelist>
        <varlistentry>
            <term><literal>&lt;s:validate&gt;</literal></term>
@@ -73,6 +77,44 @@
                    </itemizedlist>
            </listitem>
        </varlistentry>   
+              <varlistentry>
+           <term><literal>&lt;s:selectItem&gt;</literal></term>
+           <listitem>
+               <para>
+                   Creates a  <literal>List&lt;SelectItem&gt;</literal> from a List, Set, DataModel or Array.
+               </para>
+                              <itemizedlist>
+                   <listitem>
+                   <para>
+                       <literal>value</literal> &mdash; an EL expression specifying the data that backs the <literal>List&lt;SelectItem&gt;</literal>
+                   </para>
+                   </listitem>
+                    <listitem>
+                   <para>
+                       <literal>var</literal> &mdash; defines the name of the local variable that holds the current object during iteration
+                   </para>
+                   </listitem>
+                   <listitem>
+                   <para>
+                       <literal>label</literal> &mdash; the label to be used when rendering the <literal>SelectItem</literal>.  Can reference 
+                       the <literal>var</literal> variable
+                   </para>
+                   </listitem>
+                   <listitem>
+                   <para>
+                       <literal>noSelectionLabel</literal> &mdash; specifies the (optional) label to place at the top of list (if 
+                       <literal>required="true"</literal> is also specified then selecting this value will cause a validation error)
+                   </para>
+                   </listitem>
+                    <listitem>
+                   <para>
+                       <literal>hideNoSelectionLabel</literal> &mdash; if true, the <literal>noSelectionLabel</literal> will be hidden
+                       when a value is selected
+                   </para>
+                   </listitem>
+                   </itemizedlist>                        
+           </listitem>
+       </varlistentry>
        <varlistentry>
            <term><literal>&lt;s:decorate&gt;</literal></term>
            <listitem>
