@@ -1,20 +1,21 @@
 package org.jboss.seam.ui.facelet;
 
-import java.io.InputStream;
+import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.io.IOException;
 import java.net.URL;
 
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-import javax.servlet.ServletContext;
 
-import org.jboss.seam.*;
-import org.jboss.seam.annotations.*;
+import org.jboss.seam.InterceptionType;
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Install;
+import org.jboss.seam.annotations.Intercept;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.core.Renderer;
-
 import org.jboss.seam.ui.JSF;
 import org.jboss.seam.util.Resources;
 
