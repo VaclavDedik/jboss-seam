@@ -463,19 +463,66 @@
         </copy>
         
     </target>
+	
+	<target name="file-copy-war" if="project.war">
+        <copy tofile="${project.home}/resources/WEB-INF/components.xml" 
+                file="${basedir}/resources/WEB-INF/components-war.xml">
+            <filterset refid="project"/>
+        </copy>
+        <copy tofile="${project.home}/build.xml" 
+                file="${basedir}/build-scripts/build-war.xml">
+            <filterset refid="project"/>
+        </copy>
+        <copy todir="${project.home}/resources">
+            <fileset dir="${basedir}/resources/">
+            	<include name="META-INF/persistence*-war.xml"/>
+            	<include name="WEB-INF/jboss-web.xml"/>
+            </fileset>
+            <filterset refid="project"/>
+            <filterset refid="jdbc"/>
+        </copy>
+	</target>
     
-    <target name="file-copy">
+	<target name="file-copy-ear" unless="project.war">
+	    <copy tofile="${project.home}/resources/WEB-INF/components.xml" 
+	             file="${basedir}/resources/WEB-INF/components.xml">
+	         <filterset refid="project"/>
+	     </copy>
+        <copy tofile="${project.home}/build.xml" 
+                file="${basedir}/build-scripts/build.xml">
+            <filterset refid="project"/>
+        </copy>
+        <copy todir="${project.home}/resources">
+            <fileset dir="${basedir}/resources/">
+            	<include name="META-INF/application.xml"/>
+            	<include name="META-INF/jboss-app.xml"/>
+            	<include name="META-INF/ejb-jar.xml"/>
+            	<include name="META-INF/persistence*.xml"/>
+            	<exclude name="META-INF/persistence*-war.xml"/>
+            </fileset>
+            <filterset refid="project"/>
+            <filterset refid="jdbc"/>
+        </copy>
+	</target>
+    
+    <target name="file-copy" depends="file-copy-war,file-copy-ear">
         <echo message="Copying project resources ..." />
                 
         <copy todir="${project.home}/resources">
             <fileset dir="${basedir}/resources/">
             	<exclude name="datasource-ds.xml"/>
             	<exclude name="import.sql"/>
+            	<exclude name="WEB-INF/components*.xml"/>
+            	<exclude name="META-INF/persistence*.xml"/>
+            	<exclude name="META-INF/application.xml"/>
+            	<exclude name="META-INF/jboss-app.xml"/>
+            	<exclude name="META-INF/ejb-jar.xml"/>
+            	<exclude name="WEB-INF/jboss-web.xml"/>
             </fileset>
             <filterset refid="project"/>
             <filterset refid="jdbc"/>
         </copy>
-        
+               
         <copy tofile="${project.home}/resources/${project.name}-dev-ds.xml" 
                 file="${basedir}/resources/datasource-ds.xml">
             <filterset refid="project"/>
@@ -512,10 +559,12 @@
         </copy>
         
         <copy todir="${project.home}">
-            <fileset dir="${basedir}/build-scripts" />
+            <fileset dir="${basedir}/build-scripts">
+            	<exclude name="build*.xml"/>
+            </fileset>
             <filterset refid="project"/>
         </copy>
-        
+                        
         <mkdir dir="${project.home}/src"/>
     	<mkdir dir="${project.home}/test"/>
 
@@ -602,11 +651,14 @@
     </target>
 
     <target name="delete-project" depends="validate-project">
-        <echo message="Deleting the entire project's contents ..." />
+        <echo message="Deleting the entire project in ${project.home}" />
         <delete dir="${project.home}" />
     </target>
+	
+	<target name="new-action" depends="new-action-ear,new-action-war"/>
+	<target name="new-form" depends="new-form-ear,new-form-war"/>
 
-    <target name="new-action" depends="validate-project,action-input,setup-filters">
+    <target name="new-action-ear" depends="validate-project,action-input,setup-filters" unless="project.war">
         <echo message="Creating a new stateless session bean component with an action method" />
         <copy file="src/ActionBean.java" tofile="${bean.file}">
             <filterset refid="filters"/>
@@ -626,7 +678,41 @@
         <echo message="Type 'seam restart' and go to http://localhost:8080/${project.name}/${page.name}.seam"/>
     </target>
 
-    <target name="new-form" depends="validate-project,action-input,setup-filters">
+    <target name="new-action-war" depends="validate-project,action-input,setup-filters" if="project.war">
+        <echo message="Creating a new JavaBean component with an action method" />
+        <copy file="src/ActionJavaBean.java" tofile="${interface.file}">
+            <filterset refid="filters"/>
+        </copy>
+        <copy file="test/ActionTest.java" tofile="${test.file}">
+            <filterset refid="filters"/>
+        </copy>
+        <copy file="test/testng.xml" tofile="${testng.file}">
+            <filterset refid="filters"/>
+        </copy>
+        <copy file="view/action.xhtml" tofile="${page.file}">
+            <filterset refid="filters"/>
+        </copy>
+        <echo message="Type 'seam restart' and go to http://localhost:8080/${project.name}/${page.name}.seam"/>
+    </target>
+
+    <target name="new-form-war" depends="validate-project,action-input,setup-filters" if="project.war">
+        <echo message="Creating a new JavaBean component with an action method" />
+        <copy file="src/FormActionJavaBean.java" tofile="${interface.file}">
+            <filterset refid="filters"/>
+        </copy>
+        <copy file="test/FormTest.java" tofile="${test.file}">
+            <filterset refid="filters"/>
+        </copy>
+        <copy file="view/form.xhtml" tofile="${page.file}">
+            <filterset refid="filters"/>
+        </copy>
+        <copy file="test/testng.xml" tofile="${testng.file}">
+            <filterset refid="filters"/>
+        </copy>
+        <echo message="Type 'seam restart' and go to http://localhost:8080/${project.name}/${page.name}.seam"/>
+    </target>
+
+    <target name="new-form-ear" depends="validate-project,action-input,setup-filters" unless="project.war">
         <echo message="Creating a new stateful session bean component with an action method" />
         <copy file="src/FormActionBean.java" tofile="${bean.file}">
             <filterset refid="filters"/>

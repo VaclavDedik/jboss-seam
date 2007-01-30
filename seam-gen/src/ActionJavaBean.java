@@ -1,15 +1,13 @@
 package @actionPackage@;
 
-import javax.ejb.Stateless;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.core.FacesMessages;
 
-@Stateless
 @Name("@componentName@")
-public class @beanName@ implements @interfaceName@ {
+public class @interfaceName@ {
 	
     @Logger private Log log;
 	
@@ -24,7 +22,7 @@ public class @beanName@ implements @interfaceName@ {
         facesMessages.add("@methodName@");
         return "success";
     }
-    
-    //add additional action methods
-    
+	
+   //add additional action methods
+	
 }
