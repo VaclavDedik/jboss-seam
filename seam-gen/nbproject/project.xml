@@ -13,6 +13,11 @@
                     <location>src</location>
                 </source-folder>
                 <source-folder>
+                    <label>test</label>
+                    <type>java</type>
+                    <location>test</location>
+                </source-folder>
+                <source-folder>
                     <label>view</label>
                     <type>doc_root</type>
                     <location>view</location>
@@ -45,6 +50,10 @@
                     <source-folder style="packages">
                         <label>src</label>
                         <location>src</location>
+                    </source-folder>
+                    <source-folder style="packages">
+                        <label>test</label>
+                        <location>test</location>
                     </source-folder>
                     <source-folder style="tree">
                         <label>view</label>
