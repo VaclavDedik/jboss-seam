@@ -103,11 +103,8 @@
     </fileset>
 	
     <fileset id="seam" dir="../">
-       <include name="jboss-seam.jar"/>
-       <include name="jboss-seam-ui.jar"/>
-       <include name="jboss-seam-debug.jar"/>
-       <include name="jboss-seam-pdf.jar"/>
-       <include name="jboss-seam-mail.jar"/>
+       <include name="jboss-seam*.jar"/>
+       <exclude name="jboss-seam-gen.jar"/>
    </fileset>
 	
 	<!-- targets -->
