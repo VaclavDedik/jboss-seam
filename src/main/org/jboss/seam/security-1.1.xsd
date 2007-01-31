@@ -4,13 +4,13 @@
     xmlns:components="http://jboss.com/products/seam/components" attributeFormDefault="unqualified">
     <xs:import namespace="http://jboss.com/products/seam/components" schemaLocation="components-1.1.xsd"/>
 
-    <xs:element name="security-config">
+    <xs:element name="identity">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="security:attlist.securityConfig"/>
+            <xs:attributeGroup ref="security:attlist.identity"/>
         </xs:complexType>
     </xs:element>
-    <xs:attributeGroup name="attlist.securityConfig">
+    <xs:attributeGroup name="attlist.identity">
         <xs:attribute name="authenticate-method" />
     </xs:attributeGroup>
     
