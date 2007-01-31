@@ -82,7 +82,7 @@ public class Identity implements Serializable
    private String username;
    private String password;
    
-   private MethodBinding authMethod;
+   private MethodBinding authenticateMethod;
    private MethodBinding postLogin;
 
    protected Principal principal;   
@@ -400,14 +400,14 @@ public class Identity implements Serializable
       return securityContext;
    }
    
-   public MethodBinding getAuthMethod()
+   public MethodBinding getAuthenticateMethod()
    {
-      return authMethod;
+      return authenticateMethod;
    }
    
-   public void setAuthMethod(MethodBinding authMethod)
+   public void setAuthenticateMethod(MethodBinding authMethod)
    {
-      this.authMethod = authMethod;
+      this.authenticateMethod = authMethod;
    }
    
    public MethodBinding getPostLogin()

@@ -71,7 +71,7 @@ public class SeamLoginModule implements LoginModule
    public boolean login() 
       throws LoginException
    {
-      MethodBinding mb = Identity.instance().getAuthMethod();
+      MethodBinding mb = Identity.instance().getAuthenticateMethod();
       
       Object[] params = null;
       

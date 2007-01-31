@@ -22,7 +22,7 @@
     </component>
     
     <component class="org.jboss.seam.security.Identity">
-        <property name="authMethod">#{authenticator.authenticate}</property>
+        <property name="authenticateMethod">#{authenticator.authenticate}</property>
     </component>
         
 </components>
