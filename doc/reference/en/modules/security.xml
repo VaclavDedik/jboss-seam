@@ -23,15 +23,13 @@
         delegates authentication to one of your own Seam components.  This login module is already configured inside Seam as
         part of a default application policy and as such does not require any additional configuration files.  It allows you to
         write an authentication method using the entity classes that are provided by your own application.  Configuring this
-        simplified form of authentication requires the <literal>Identity</literal> component to be configured in
+        simplified form of authentication requires the <literal>identity</literal> component to be configured in
         <literal>components.xml</literal>:
       </para>
 
       <programlisting>
         <![CDATA[
-      <component class="org.jboss.seam.security.Identity">
-          <property name="authMethod">#{authenticator.authenticate}</property>
-      </component>
+    <security:identity authenticate-method="#{authenticator.authenticate}"/>          
         ]]>
       </programlisting>
 
@@ -47,9 +45,9 @@
       <title>Writing an authentication method</title>
 
       <para>
-        The <literal>authMethod</literal> property specified for <literal>Identity</literal> in
+        The <literal>authenticate-method</literal> property specified for <literal>identity</literal> in
         <literal>components.xml</literal> specifies which method will be used by <literal>SeamLoginModule</literal>
-        to authenticate users.  The prototype for this method is expected to be:
+        to authenticate users.  This method is expected to conform to the following prototype:
       </para>
 
       <programlisting>
