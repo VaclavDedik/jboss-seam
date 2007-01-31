@@ -1,6 +1,7 @@
 package org.jboss.seam.example.seamspace;
 
 import java.util.List;
+import java.util.Random;
 
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
@@ -94,8 +95,15 @@ public class ProfileAction implements ProfileLocal
    {
       newMembers = entityManager.createQuery(
             "from Member order by memberSince desc")
-            .setMaxResults(3)
+            .setMaxResults(10)
             .getResultList();
+      
+      // Randomly select 3 of the latest 10 members
+      Random rnd = new Random(System.currentTimeMillis());
+      while (newMembers.size() > 3)
+      {
+         newMembers.remove(rnd.nextInt(newMembers.size()));
+      }
    }
    
    public List getFriends()
