@@ -12,9 +12,11 @@ public class SecurityFunctions
       return Identity.instance().hasRole(name);
    }
    
-   public static boolean hasPermission(String name, String action,
-            Object arg)
+   public static boolean hasPermission(String name, String action, Object arg)
    {
-      return Identity.instance().hasPermission(name, action, arg);
+      if (arg != null)
+         return Identity.instance().hasPermission(name, action, arg);
+      else
+         return Identity.instance().hasPermission(name, action);
    }
 }

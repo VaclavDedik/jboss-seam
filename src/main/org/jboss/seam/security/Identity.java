@@ -241,7 +241,7 @@ public class Identity implements Serializable
     * @param arg Object Optional object parameter used to make a permission decision
     * @return boolean True if the user has the specified permission
     */
-   public boolean hasPermission(String name, String action, Object arg)
+   public boolean hasPermission(String name, String action, Object...arg)
    {      
       List<FactHandle> handles = new ArrayList<FactHandle>();
 
@@ -250,24 +250,24 @@ public class Identity implements Serializable
       synchronized(securityContext)
       {
          handles.add(securityContext.assertObject(check));
-   
-         if (arg!=null && securityContext.getFactHandle(arg) == null)
+         
+         for (int i = 0; i < arg.length; i++)
          {
-            if (arg instanceof Collection)
+            if (i == 0 && arg[0] instanceof Collection)
             {
-               for (Object value : (Collection) arg)
+               for (Object value : (Collection) arg[i])
                {
                   if (securityContext.getFactHandle(value) == null)
                   {
                      handles.add( securityContext.assertObject(value) );
                   }
-               }
+               }               
             }
             else
             {
-               handles.add( securityContext.assertObject(arg) );
+               handles.add(securityContext.assertObject(arg[i]));
             }
-         }      
+         }
    
          securityContext.fireAllRules();
    
