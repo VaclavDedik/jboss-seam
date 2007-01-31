@@ -64,7 +64,14 @@ public class FacesMessages implements Serializable
       
       FacesMessage toFacesMessage()
       {
-         return new FacesMessage( (Severity) FacesMessage.VALUES.get(severityOrdinal), summary, detail );
+         Severity severity = null;
+         for (Object o : FacesMessage.VALUES) {
+            severity = (Severity) o;
+            if (severity.getOrdinal() == severityOrdinal) {
+               break;
+            }
+         }
+         return new FacesMessage(severity, summary, detail );
       }
    }
 
