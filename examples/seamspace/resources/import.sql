@@ -20,7 +20,7 @@ insert into MemberBlog (blogid, member_id, entrydate, title, text) values (2, 1,
 insert into BlogComment (commentid, blog_id, commentor_id, commentdate, comment) values (1, 1, 2, '2007-01-06', 'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.');
 insert into BlogComment (commentid, blog_id, commentor_id, commentdate, comment) values (2, 1, 1, '2007-01-07', 'Et harum quidem rerum facilis est et expedita distinctio.');
 
-#insert into MemberFriend (id, member_id, friend_id, authorized) values (1, 1, 2, 1);
-#insert into MemberFriend (id, member_id, friend_id, authorized) values (2, 2, 1, 1);
+insert into MemberFriend (id, member_id, friend_id, authorized) values (1, 1, 2, 1);
+insert into MemberFriend (id, member_id, friend_id, authorized) values (2, 2, 1, 1);
 
 insert into FriendComment (id, member_id, friend_id, commentDate, comment) values (1, 1, 2, '2007-01-25', 'Cheer up!');
