@@ -7,13 +7,29 @@ import javax.faces.convert.ConverterException;
 import javax.persistence.EntityManager;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Transactional;
 
 @Name("converters")
 public class Converters
 {
+   
+   public Converter getAgeConverter() {
+      return new Converter() {
+
+         public Object getAsObject(FacesContext context, UIComponent component, String value) throws ConverterException
+         {
+            Integer i = new Integer(value);
+            return i.intValue();
+         }
+
+         public String getAsString(FacesContext context, UIComponent component, Object value) throws ConverterException
+         {
+            return value + "";
+         }
+         
+      };
+   }
    
    
    @Transactional

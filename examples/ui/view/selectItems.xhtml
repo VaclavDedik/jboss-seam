@@ -44,6 +44,12 @@
 					<s:selectItems value="#{countries.resultList}" var="country" label="#{country.name} (#{country.continent.name})" noSelectionLabel="Please Select..." hideNoSelectionLabel="true"/>
 				</h:selectOneMenu>
 			</s:decorate>
+			<h:outputText value="Age" />
+			<s:decorate>
+				<h:selectOneMenu value="#{person.age}"  converter="#{converters.ageConverter}">
+					<s:selectItems value="#{ages}" var="age" label="#{age}" />
+				</h:selectOneMenu>
+			</s:decorate>
 		</h:panelGrid>
 		<h:commandButton value="Apply" action="#{personHome.update}">
 			<s:conversationPropagation type="join" />

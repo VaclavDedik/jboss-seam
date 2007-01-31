@@ -16,6 +16,8 @@ public class Person
    
    @ManyToOne
    private Country country;
+   
+   private int age;
 
    public Country getCountry()
    {
@@ -47,6 +49,13 @@ public class Person
       this.name = name;
    }
    
+   public int getAge()
+   {
+      return age;
+   }
    
-
+   public void setAge(int age)
+   {
+      this.age = age;
+   }
 }
