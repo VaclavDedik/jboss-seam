@@ -10,7 +10,6 @@ import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.naming.NamingException;
-
 import org.jboss.seam.Component;
 import org.jboss.seam.InterceptionType;
 import org.jboss.seam.annotations.Create;
@@ -50,7 +49,6 @@ public class MailSession extends AbstractMutable implements Serializable
    {
       if ( session==null ) 
       {
-         // TODO Is this the best way to do this?
          // This simulates an EVENT scope component
          return  (Session) Naming.getInitialContext().lookup( getSessionJndiName() );
       }
@@ -90,9 +88,7 @@ public class MailSession extends AbstractMutable implements Serializable
       	properties.put("mail.host", getHost());
       }
       if ( getPort()!=null ) {
-      	properties.put("mail.smtp.port", getPort());
-      	properties.put("mail.imap.port", getPort());
-      	properties.put("mail.pop3.port", getPort());
+      	properties.put("mail.smtp.port", getPort().toString());
       }
   
       if ( getUsername()!=null && getPassword()==null )
@@ -121,7 +117,6 @@ public class MailSession extends AbstractMutable implements Serializable
       
       // Use TLS (if supported) by default.
       properties.put("mail.smtp.starttls.enable", "true");
-      properties.put("mail.imap.starttls.enable", "true");
   
       session = javax.mail.Session.getInstance(properties, authenticator);
       session.setDebug( isDebug() );
