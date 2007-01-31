@@ -1,7 +1,46 @@
 JBoss Seam Changelog
 ====================
 Changes in version 1.1.5.GA (February 2007)
-------------------------------------------
+-------------------------------------------
+** Bug
+    * [JBSEAM-663] - jboss cache and redeploy
+    * [JBSEAM-670] - Obsolete theme is not redirected to default and is invalid causing exceptions
+    * [JBSEAM-674] - h:commandLink and action in pages.xml
+    * [JBSEAM-682] - seam-gen edit page doesn't support saving after deletion
+    * [JBSEAM-684] - Bug in documentation example section 3.6
+    * [JBSEAM-685] - JSF postback doesn't include conversation identifier
+    * [JBSEAM-686] - Conversation cleanup does not work for a request that invaldiates the session
+    * [JBSEAM-689] - Seam framework Query too sensitive about keyword case
+    * [JBSEAM-691] - Ability to turn off page parameter appending for <redirect/> in pages.xml
+    * [JBSEAM-692] - javax.faces.FacesMessage is declared Serializable but is not serializable
+    * [JBSEAM-707] - Filters for managed PCs don't work
+    * [JBSEAM-712] - seam-gen project tests cannot be run from eclipse if persistence is used
+    * [JBSEAM-725] - Bug in FacesMessage Serializability workaround
+
+** Feature Request
+    * [JBSEAM-508] - Seam/Security
+    * [JBSEAM-630] - Create a Seam file upload component
+    * [JBSEAM-646] - Controller abstract superclass
+    * [JBSEAM-677] - iText support should allow .pdf and .html file extensions
+    * [JBSEAM-678] - Digital Signature support for iText (PDF) support in seam
+    * [JBSEAM-679] - Temp conversation context during startup
+    * [JBSEAM-680] - seam pdf should support h:outputText or provide the equivalent
+    * [JBSEAM-687] - Port the booking example to WAS
+    * [JBSEAM-688] - <end-conversation before-redirect="true"/>
+    * [JBSEAM-703] - Link syntax in seam text [text=>link]
+    * [JBSEAM-708] - Make EL work in List and Map <value> in components.xml
+    * [JBSEAM-709] - Add s:selectItems tag to seam-ui
+    * [JBSEAM-710] - Allow the user to select whether a seam-gen project uses EJBs or plain JavaBeans.
+    * [JBSEAM-711] - Make seam-gen use the new Controller fwk
+    * [JBSEAM-719] - login page for seam-gen'd app, using Seam/Security
+
+** Patch
+    * [JBSEAM-623] - <s:selectDate> localization
+    * [JBSEAM-626] - Support Email (send and receive)
+    
+** Task
+    * [JBSEAM-704] - Upgrade to jBPM 3.1.4
+
 Changes in version 1.1.1.GA (January 2007)
 ------------------------------------------
 ** Bug
