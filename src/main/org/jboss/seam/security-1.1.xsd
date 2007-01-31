@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
-    targetNamespace="http://jboss.com/products/seam/security" xmlns:remoting="http://jboss.com/products/seam/security"
+    targetNamespace="http://jboss.com/products/seam/security" xmlns:security="http://jboss.com/products/seam/security"
     xmlns:components="http://jboss.com/products/seam/components" attributeFormDefault="unqualified">
     <xs:import namespace="http://jboss.com/products/seam/components" schemaLocation="components-1.1.xsd"/>
 
@@ -13,4 +13,5 @@
     <xs:attributeGroup name="attlist.securityConfig">
         <xs:attribute name="authenticate-method" />
     </xs:attributeGroup>
+    
 </xs:schema>
