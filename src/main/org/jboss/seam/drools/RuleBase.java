@@ -5,7 +5,6 @@ import static org.jboss.seam.InterceptionType.NEVER;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.util.List;
 
 import org.drools.RuleBaseFactory;
 import org.drools.compiler.DrlParser;
@@ -29,7 +28,7 @@ import org.jboss.seam.util.Resources;
 @Intercept(NEVER)
 public class RuleBase
 {
-   private List<String> ruleFiles;
+   private String[] ruleFiles;
    private String dslFile;
    private org.drools.RuleBase ruleBase;
    
@@ -76,11 +75,11 @@ public class RuleBase
    {
       return ruleBase;
    }
-   public List<String> getRuleFiles()
+   public String[] getRuleFiles()
    {
       return ruleFiles;
    }
-   public void setRuleFiles( List<String> ruleFiles)
+   public void setRuleFiles(String[] ruleFiles)
    {
       this.ruleFiles = ruleFiles;
    }
