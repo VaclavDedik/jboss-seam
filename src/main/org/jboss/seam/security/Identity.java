@@ -168,34 +168,42 @@ public class Identity implements Serializable
       }
    }
    
-   public void login()
+   public String login()
       throws LoginException
    {
-      login(null);      
+      return login(null);      
    }
    
-   public void login(LoginContext loginContext)
+   public String login(LoginContext loginContext)
       throws LoginException
    {      
-      CallbackHandler handler = createCallbackHandler(username, password);
+      try
+      {
+         authenticate(loginContext);
+         return "success";
+      }
+      catch (LoginException ex)
+      {
+         log.error("Login error", ex);
+         FacesMessages.instance().add("Login failed.");
+         return null;
+      }
+   }
    
+   public void authenticate(LoginContext loginContext)
+      throws LoginException
+   {
+      CallbackHandler handler = createCallbackHandler(username, password);
+      
       if (loginContext == null)
       {
          loginContext = new LoginContext(DEFAULT_JAAS_CONFIG_NAME, subject, handler, 
                   getConfiguration());
       }
       
-      try
-      {
-         loginContext.login();
-         password = null;
-         postLogin();
-      }
-      catch (LoginException ex)
-      {
-         log.error("Login failed", ex);
-         FacesMessages.instance().add("Login failed.");
-      }
+      loginContext.login();
+      password = null;
+      postLogin();
    }
    
    public void logout()
