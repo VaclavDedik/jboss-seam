@@ -4,12 +4,6 @@
     <classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="embedded-ejb/conf"/>
-	<classpathentry kind="lib" path="lib/commons-beanutils-1.7.0.jar"/>
-	<classpathentry kind="lib" path="lib/commons-codec-1.3.jar"/>
-	<classpathentry kind="lib" path="lib/commons-collections-3.1.jar"/>
-	<classpathentry kind="lib" path="lib/commons-digester-1.6.jar"/>
-	<classpathentry kind="lib" path="lib/commons-el-1.0.jar"/>
-	<classpathentry kind="lib" path="lib/commons-lang-2.1.jar"/>
 	<classpathentry kind="lib" path="lib/hibernate-all.jar"/>
 	<classpathentry kind="lib" path="lib/javax.servlet.jsp.jar"/>
 	<classpathentry kind="lib" path="lib/jboss-aop-jdk50.jar"/>
@@ -17,8 +11,15 @@
 	<classpathentry kind="lib" path="lib/jboss-ejb3-all.jar"/>
 	<classpathentry kind="lib" path="lib/jboss-seam.jar"/>
 	<classpathentry kind="lib" path="lib/jboss-seam-debug.jar"/>
-	<classpathentry kind="lib" path="lib/jboss-seam-ui.jar"/>
 	<classpathentry kind="lib" path="lib/jbpm-3.1.4.jar"/>
+	<classpathentry kind="lib" path="lib/drools-core-3.0.5.jar"/>
+	<classpathentry kind="lib" path="lib/drools-compiler-3.0.5.jar"/>
+	<classpathentry kind="lib" path="lib/janino-2.4.3.jar"/>
+	<classpathentry kind="lib" path="lib/antlr-2.7.6.jar"/>
+	<classpathentry kind="lib" path="lib/antlr-3.0ea8.jar"/>
+	<classpathentry kind="lib" path="lib/commons-jci-core-1.0-406301.jar"/>
+	<classpathentry kind="lib" path="lib/commons-jci-janino-2.4.3.jar"/>
+	<classpathentry kind="lib" path="lib/stringtemplate-2.3b6.jar"/>
 	<classpathentry kind="lib" path="lib/jgroups.jar"/>
 	<classpathentry kind="lib" path="lib/jsf-facelets.jar"/>
 	<classpathentry kind="lib" path="lib/jstl-1.1.0.jar"/>
