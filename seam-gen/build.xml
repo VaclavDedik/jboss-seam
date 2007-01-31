@@ -465,10 +465,8 @@
             <fileset dir="../drools/lib"/>
              <fileset dir="../">
                 <include name="jboss-seam.jar"/>
-                <include name="jboss-seam-ui.jar"/>
-                <include name="jboss-seam-debug.jar"/>
-                <include name="jboss-seam-pdf.jar"/>
-                <include name="jboss-seam-mail.jar"/>
+                <include name="jboss-seam-*.jar"/>
+                <exclude name="jboss-seam-gen.jar"/>
             </fileset>
         	<fileset file="${driver.jar}"/>
         </copy>
@@ -650,10 +648,8 @@
         <echo message="Copying seam/jsf jars to project's exploded war archive ..." />
         <copy todir="${project.home}/exploded-archives/${project.name}.war/WEB-INF/lib" overwrite="true">
             <fileset dir="../">
-                <include name="jboss-seam-ui.jar" />
-                <include name="jboss-seam-debug.jar" />
-                <include name="jboss-seam-pdf.jar" />
-                <include name="jboss-seam-mail.jar" />
+                <include name="jboss-seam-*.jar" />
+                <exclude name="jboss-seam-gen.jar" />
             </fileset>
             <fileset dir="../lib">
                 <include name="el-*.jar" />
