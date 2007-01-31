@@ -39,6 +39,7 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.core.Events;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Expressions.MethodBinding;
 import org.jboss.seam.log.LogProvider;
@@ -83,7 +84,6 @@ public class Identity implements Serializable
    private String password;
    
    private MethodBinding authenticateMethod;
-   private MethodBinding postLogin;
 
    protected Principal principal;   
    protected Subject subject;
@@ -167,19 +167,12 @@ public class Identity implements Serializable
          }
       }
    }
-   
+
    public String login()
-      throws LoginException
    {
-      return login(null);      
-   }
-   
-   public String login(LoginContext loginContext)
-      throws LoginException
-   {      
       try
       {
-         authenticate(loginContext);
+         authenticate();
          return "success";
       }
       catch (LoginException ex)
@@ -190,20 +183,25 @@ public class Identity implements Serializable
       }
    }
    
-   public void authenticate(LoginContext loginContext)
-      throws LoginException
+   public void authenticate() throws LoginException
    {
-      CallbackHandler handler = createCallbackHandler(username, password);
-      
-      if (loginContext == null)
-      {
-         loginContext = new LoginContext(DEFAULT_JAAS_CONFIG_NAME, subject, handler, 
-                  getConfiguration());
-      }
-      
+      authenticate( getLoginContext() );
+   }
+
+   public void authenticate(LoginContext loginContext) throws LoginException
+   {
       loginContext.login();
       password = null;
-      postLogin();
+      postAuthenticate();
+   }
+
+   protected LoginContext getLoginContext() throws LoginException
+   {
+      return new LoginContext(DEFAULT_JAAS_CONFIG_NAME, 
+            subject, 
+            createCallbackHandler(username, password), 
+            getConfiguration()
+         );
    }
    
    public void logout()
@@ -284,22 +282,28 @@ public class Identity implements Serializable
     * @param username The username to provide for a NameCallback
     * @param password The password to provide for a PasswordCallback
     */
-   public CallbackHandler createCallbackHandler(final String username, 
+   protected CallbackHandler createCallbackHandler(final String username, 
          final String password)
    {
-      return new CallbackHandler() {
+      return new CallbackHandler() 
+      {
          public void handle(Callback[] callbacks) 
             throws IOException, UnsupportedCallbackException 
          {
             for (int i = 0; i < callbacks.length; i++)
             {
                if (callbacks[i] instanceof NameCallback)
-                  ((NameCallback) callbacks[i]).setName(username);
+               {
+                  ( (NameCallback) callbacks[i] ).setName(username);
+               }
                else if (callbacks[i] instanceof PasswordCallback)
-                  ((PasswordCallback) callbacks[i]).setPassword(password.toCharArray());
+               {
+                  ( (PasswordCallback) callbacks[i] ).setPassword( password.toCharArray() );
+               }
                else
-                  throw new UnsupportedCallbackException(callbacks[i],
-                        "Unsupported callback");
+               {
+                  throw new UnsupportedCallbackException(callbacks[i], "Unsupported callback");
+               }
             }
             
          }
@@ -322,7 +326,8 @@ public class Identity implements Serializable
       {
          defaultConfig = new LoginModuleConfiguration();
          Map<String,String> options = new HashMap<String,String>();
-         AppConfigurationEntry[] entries = new AppConfigurationEntry[] {
+         AppConfigurationEntry[] entries = new AppConfigurationEntry[] 
+         {
             new AppConfigurationEntry(SeamLoginModule.class.getName(), 
                      LoginModuleControlFlag.REQUIRED, options)
          };
@@ -334,33 +339,30 @@ public class Identity implements Serializable
     * Populates the specified subject's roles with any inherited roles
     * according to the role memberships contained within the current 
     * SecurityConfiguration
-    * 
-    * @param subject The subject containing the role group.
     */
-   private void postLogin()
+   protected void postAuthenticate()
    {
       // Populate the working memory with the user's principals
-      for (Principal p : subject.getPrincipals())
+      for ( Principal p : subject.getPrincipals() )
       {         
-         if (p instanceof Group && "roles".equals(((Group) p).getName()))
+         if ( (p instanceof Group) && "roles".equals( ( (Group) p ).getName() ) )
          {
             Enumeration e = ((Group) p).members();
-            while (e.hasMoreElements())
+            while ( e.hasMoreElements() )
             {
                Principal role = (Principal) e.nextElement();
-               securityContext.assertObject(new Role(role.getName()));
+               securityContext.assertObject( new Role( role.getName() ) );
             }
          }
          else
          {
             if (principal == null) principal = p;
-            
             securityContext.assertObject(p);            
          }
+         
+         Events.instance().raiseEvent("org.jboss.seam.postAuthenticate");
       }
       
-      if (postLogin != null)
-         postLogin.invoke();
    }
    
    /**
@@ -372,7 +374,7 @@ public class Identity implements Serializable
     */
    public boolean evaluateExpression(String expr) 
    {     
-      return (Boolean) new UnifiedELValueBinding(expr).getValue(FacesContext.getCurrentInstance());
+      return (Boolean) new UnifiedELValueBinding(expr).getValue( FacesContext.getCurrentInstance() );
    }   
    
    public String getUsername()
@@ -410,13 +412,4 @@ public class Identity implements Serializable
       this.authenticateMethod = authMethod;
    }
    
-   public MethodBinding getPostLogin()
-   {
-      return postLogin;
-   }
-   
-   public void setPostLogin(MethodBinding postLogin)
-   {
-      this.postLogin = postLogin;
-   }
 }
