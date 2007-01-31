@@ -19,26 +19,45 @@
     <h1>Guess a number...</h1>
     <f:view>
 	  <h:form styleClass="niceform">
+	    
+	    <div>
 	    <h:messages globalOnly="true"/>
 	    <h:outputText value="Higher!" 
 	                  rendered="#{numberGuess.randomNumber gt numberGuess.currentGuess}"/>
 	    <h:outputText value="Lower!" 
 	                  rendered="#{numberGuess.randomNumber lt numberGuess.currentGuess}"/>
-		<br />
+		</div>
+		
+		<div>
         I'm thinking of a number between <h:outputText value="#{numberGuess.smallest}"/> and 
         <h:outputText value="#{numberGuess.biggest}"/>. You have 
         <h:outputText value="#{numberGuess.remainingGuesses}"/> guesses.
-        <br />
+        </div>
+        
+        <div>
         Your guess: 
-        <h:inputText value="#{numberGuess.currentGuess}" id="guess" required="true" size="3">
+        <h:inputText value="#{numberGuess.currentGuess}" id="inputGuess" required="true" size="3" 
+                 rendered="#{(numberGuess.biggest-numberGuess.smallest) gt 20}">
           <f:validateLongRange maximum="#{numberGuess.biggest}" 
                                minimum="#{numberGuess.smallest}"/>
         </h:inputText>
+        <h:selectOneMenu value="#{numberGuess.currentGuess}" id="selectGuessMenu" required="true"
+                       rendered="#{(numberGuess.biggest-numberGuess.smallest) le 20 and (numberGuess.biggest-numberGuess.smallest) gt 4}">
+          <s:selectItems value="#{numberGuess.possibilities}" var="i" label="#{i}"/>
+        </h:selectOneMenu>
+        <h:selectOneRadio value="#{numberGuess.currentGuess}" id="selectGuessRadio" required="true"
+                       rendered="#{(numberGuess.biggest-numberGuess.smallest) le 4}">
+          <s:selectItems value="#{numberGuess.possibilities}" var="i" label="#{i}"/>
+        </h:selectOneRadio>
 		<h:commandButton value="Guess" action="guess"/>
         <s:button value="Cheat" view="/confirm.jspx"/>
         <s:button value="Give up" action="giveup"/>
-		<br/>
-        <h:message for="guess" style="color: red"/>
+		</div>
+		
+		<div>
+        <h:message for="inputGuess" style="color: red"/>
+        </div>
+        
 	  </h:form>
     </f:view>
   </body>

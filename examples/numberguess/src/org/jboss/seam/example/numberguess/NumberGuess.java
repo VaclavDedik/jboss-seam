@@ -1,5 +1,7 @@
 package org.jboss.seam.example.numberguess;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import org.jboss.seam.ScopeType;
@@ -100,6 +102,13 @@ public class NumberGuess {
    
    public boolean isCheat() {
       return cheated;
+   }
+   
+   public List<Integer> getPossibilities()
+   {
+      List<Integer> result = new ArrayList<Integer>();
+      for(int i=smallest; i<=biggest; i++) result.add(i);
+      return result;
    }
    
 }
