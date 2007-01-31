@@ -124,11 +124,17 @@
 				<include name="*jpdl.xml" />
 				<include name="hibernate.cfg.xml" />
 				<include name="jbpm.cfg.xml" />
+				<include name="security.drl" />
 			</fileset>
 			<fileset dir="${lib.dir}">
 				<include name="jboss-seam.jar" />
 				<include name="jbpm*.jar" />
 				<include name="el-*.jar" />
+				<include name="drools-*.jar"/>
+				<include name="janino-*.jar"/>
+				<include name="antlr-*.jar"/>
+				<include name="commons-jci-*.jar"/>
+				<include name="stringtemplate-*.jar"/>
 			</fileset>
 		</copy>
 		<copy todir="${ear.dir}/META-INF">

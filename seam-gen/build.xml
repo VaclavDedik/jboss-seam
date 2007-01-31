@@ -93,6 +93,8 @@
     
     <fileset id="view" dir="${basedir}/view">
         <include name="home.xhtml"/>
+    	<include name="login.xhtml"/>
+    	<include name="login.page.xml"/>
         <include name="index.html"/>
         <include name="layout/template.xhtml"/>
     	<include name="layout/menu.xhtml"/>
@@ -460,7 +462,8 @@
 
         <copy todir="${project.home}/lib">
             <fileset dir="../lib"/>
-            <fileset dir="../">
+            <fileset dir="../drools/lib"/>
+             <fileset dir="../">
                 <include name="jboss-seam.jar"/>
                 <include name="jboss-seam-ui.jar"/>
                 <include name="jboss-seam-debug.jar"/>
@@ -515,7 +518,7 @@
         </copy>
 	</target>
     
-    <target name="file-copy" depends="file-copy-war,file-copy-ear">
+    <target name="file-copy" depends="file-copy-war,file-copy-ear,setup-filters">
         <echo message="Copying project resources ..." />
                 
         <copy todir="${project.home}/resources">
@@ -566,6 +569,10 @@
         <copy todir="${project.home}/view">
             <fileset refid="view"/>
             <filterset refid="project"/>
+        </copy>
+    	
+        <copy todir="${project.home}/src/${action.dir}" file="${basedir}/src/Authenticator.java">
+            <filterset refid="filters"/>
         </copy>
         
         <copy todir="${project.home}">
