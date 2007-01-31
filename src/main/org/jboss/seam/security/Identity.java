@@ -247,30 +247,33 @@ public class Identity implements Serializable
 
       PermissionCheck check = new PermissionCheck(name, action);
 
-      handles.add(securityContext.assertObject(check));
-
-      if (arg!=null && securityContext.getFactHandle(arg) == null)
+      synchronized(securityContext)
       {
-         if (arg instanceof Collection)
+         handles.add(securityContext.assertObject(check));
+   
+         if (arg!=null && securityContext.getFactHandle(arg) == null)
          {
-            for (Object value : (Collection) arg)
+            if (arg instanceof Collection)
             {
-               if (securityContext.getFactHandle(value) == null)
+               for (Object value : (Collection) arg)
                {
-                  handles.add( securityContext.assertObject(value) );
+                  if (securityContext.getFactHandle(value) == null)
+                  {
+                     handles.add( securityContext.assertObject(value) );
+                  }
                }
             }
-         }
-         else
-         {
-            handles.add( securityContext.assertObject(arg) );
-         }
-      }      
-
-      securityContext.fireAllRules();
-
-      for (FactHandle handle : handles)
-         securityContext.retractObject(handle);
+            else
+            {
+               handles.add( securityContext.assertObject(arg) );
+            }
+         }      
+   
+         securityContext.fireAllRules();
+   
+         for (FactHandle handle : handles)
+            securityContext.retractObject(handle);
+      }
       
       return check.isGranted();
    }
