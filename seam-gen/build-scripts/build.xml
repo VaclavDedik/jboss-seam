@@ -109,6 +109,8 @@
 				<include name="jsf-facelets.jar" />
 				<include name="jboss-seam-debug.jar" />
 				<include name="jboss-seam-ui.jar" />
+				<include name="jboss-seam-pdf.jar" />
+				<include name="jboss-seam-mail.jar" />
 			</fileset>
 		</copy>
 		<copy todir="${war.dir}/WEB-INF/classes">

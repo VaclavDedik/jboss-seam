@@ -103,6 +103,8 @@
 				<include name="jsf-facelets.jar" />
 				<include name="jboss-seam-debug.jar" />
 				<include name="jboss-seam-ui.jar" />
+				<include name="jboss-seam-pdf.jar" />
+				<include name="jboss-seam-mail.jar" />
 				<include name="drools-*.jar"/>
 				<include name="janino-*.jar"/>
 				<include name="antlr-*.jar"/>
