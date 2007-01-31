@@ -1,5 +1,6 @@
 package org.jboss.seam.ui;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -144,17 +145,35 @@ public class UISelectItems extends javax.faces.component.UISelectItems {
 			return createSelectItems(super.getValue());
 	}
 	
-	private Object createSelectItems(Object value) {
+	private Object createSelectItems(Object value) 
+   {
 		Iterable<?> iterable = null;
-		if (value instanceof DataModel) {
+		if (value instanceof DataModel) 
+      {
 			value = ((DataModel) value).getWrappedData();
 		}
-		if (value.getClass().isArray()) {
-			iterable = Arrays.asList((Object[]) value);
-		} else if (value instanceof Iterable) {
+		if (value.getClass().isArray()) 
+      {
+         if (value.getClass().getComponentType().isPrimitive()) 
+         {
+            List list = new ArrayList();
+            for (int i = 0; i < Array.getLength(value); i++)
+            {
+               list.add(Array.get(value, i));
+            }
+            iterable = list;
+         } 
+         else 
+         {
+            iterable = Arrays.asList((Object[]) value);
+         }
+		}
+      else if (value instanceof Iterable) 
+      {
 			iterable = (Iterable) value;
 		}
-		if (iterable != null) {
+		if (iterable != null) 
+      {
 			List<javax.faces.model.SelectItem> selectItems = new ArrayList<javax.faces.model.SelectItem>();
 			addNoSelectionLabel(selectItems, iterable);
 			for (Object o : iterable) {
