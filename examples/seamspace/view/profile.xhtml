@@ -64,6 +64,8 @@
               
             </div>          
           </ui:repeat>          
+          
+          <br class="clear"/>
         
           <s:span rendered="#{selectedMember.memberId != authenticatedMember.memberId and s:hasPermission('friendRequest', 'create', selectedMember.friends)}">
             [<h:outputLink value="friendrequest.seam?name=#{selectedMember.memberName}">
