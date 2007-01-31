@@ -102,6 +102,14 @@
     	<exclude name="**/*.ftl"/>
     </fileset>
 	
+    <fileset id="seam" dir="../">
+       <include name="jboss-seam.jar"/>
+       <include name="jboss-seam-ui.jar"/>
+       <include name="jboss-seam-debug.jar"/>
+       <include name="jboss-seam-pdf.jar"/>
+       <include name="jboss-seam-mail.jar"/>
+   </fileset>
+	
 	<!-- targets -->
 
     <target name="setup-filters">
@@ -124,7 +132,8 @@
     
     </target>
     
-    <target name="setup">
+    <target name="setup"
+    	description="Prompt for settings">
         <echo message="Welcome to seam-gen :-)"/>
         <property name="workspace.home" value="C:/Projects"/>
         <input addproperty="workspace.home.new" 
@@ -458,27 +467,26 @@
 
 
     <target name="copy-lib">
-        <echo message="Copying project jars ..." />
+        <echo message="Copying Seam jars to the ${project.home}/lib directory..." />
 
-        <copy todir="${project.home}/lib">
+        <copy todir="${project.home}/lib" overwrite="true">
             <fileset dir="../lib"/>
             <fileset dir="../drools/lib"/>
-             <fileset dir="../">
-                <include name="jboss-seam.jar"/>
-                <include name="jboss-seam-*.jar"/>
-                <exclude name="jboss-seam-gen.jar"/>
-            </fileset>
+            <fileset refid="seam"/>
         	<fileset file="${driver.jar}"/>
         </copy>
 
-        <copy todir="${project.home}/embedded-ejb">
+        <echo message="Copying Embeddable EJB3 configuration to the ${project.home}/embedded-ejb directory..." />
+          <copy todir="${project.home}/embedded-ejb" overwrite="true">
             <fileset dir="../embedded-ejb" />
         </copy>
         
     </target>
 	
 	<target name="file-copy-war" if="project.war">
-        <copy tofile="${project.home}/resources/WEB-INF/components.xml" 
+        <echo message="Copying resources needed for WAR deployment to the ${project.home}/resources directory..." />
+
+		<copy tofile="${project.home}/resources/WEB-INF/components.xml" 
                 file="${basedir}/resources/WEB-INF/components-war.xml">
             <filterset refid="project"/>
         </copy>
@@ -497,6 +505,8 @@
 	</target>
     
 	<target name="file-copy-ear" unless="project.war">
+        <echo message="Copying resources needed for EAR deployment to the ${project.home}/resources directory..." />
+		
 	    <copy tofile="${project.home}/resources/WEB-INF/components.xml" 
 	             file="${basedir}/resources/WEB-INF/components.xml">
 	         <filterset refid="project"/>
@@ -519,7 +529,6 @@
 	</target>
     
     <target name="file-copy" depends="file-copy-war,file-copy-ear,setup-filters">
-        <echo message="Copying project resources ..." />
                 
         <copy todir="${project.home}/resources">
             <fileset dir="${basedir}/resources/">
@@ -615,65 +624,30 @@
         </fail>
     </target>
 
-    <target name="new-project" depends="validate-project,copy-lib,file-copy">
-        <echo message="A new Seam project was created in the ${workspace.home} directory"/>
+    <target name="new-project" depends="validate-project,copy-lib,file-copy"
+            description="Create a new project">
+        <echo message="A new Seam project named '${project.name}' was created in the ${workspace.home} directory"/>
     	<echo message="Type 'seam explode' and go to http://localhost:8080/${project.name}"/>
     	<echo message="Eclipse Users: Add the project as a new Java project from inside Eclipse"/>
     	<echo message="NetBeans Users: Open the project in NetBeans"/>
     </target>
 
-    <target name="update-project" depends="validate-project">
-        <echo message="Copying jars to project /lib directory ..." />
-        
-        <copy todir="${project.home}/lib" overwrite="true">
-            <fileset dir="../lib" />
-        </copy>
-
-        <echo message="Copying new components.xml to project ..." />
-        <copy todir="${project.home}/resources/WEB-INF" overwrite="false" 
-               file="${basedir}/resources/WEB-INF/components.xml/" />
-
-        <echo message="Copying ebmedded-ejb to project ..." />
-        <copy todir="${project.home}/embedded-ejb" overwrite="true">
-            <fileset dir="../embedded-ejb" />
-        </copy>
-
-        <echo message="Copying jbpm jars to project's exploded jar archive ..." />
-        <copy todir="${project.home}/exploded-archives/${project.name}.jar" overwrite="true">
-            <fileset dir="../lib">
-                <include name="jbpm-*.jar" />
-            </fileset>
-        </copy>
-
-        <echo message="Copying seam/jsf jars to project's exploded war archive ..." />
-        <copy todir="${project.home}/exploded-archives/${project.name}.war/WEB-INF/lib" overwrite="true">
-            <fileset dir="../">
-                <include name="jboss-seam-*.jar" />
-                <exclude name="jboss-seam-gen.jar" />
-            </fileset>
-            <fileset dir="../lib">
-                <include name="el-*.jar" />
-                <include name="jsf-facelets.jar" />
-            </fileset>
-        </copy>
-
-        <echo message="Copying seam jar to project's exploded ear archive ..." />
-        <copy todir="${project.home}/exploded-archives/${project.name}.ear" overwrite="true">
-            <fileset dir="../">
-                <include name="jboss-seam.jar" />
-            </fileset>
-        </copy>
-        
-        <echo message="'${project.name}' has been updated with the latest/seam jars" />
+    <target name="update-project" depends="validate-project,copy-lib"
+        description="Update project dependencies">
+        <echo message="Updated project '${project.name}' with the latest Seam jars" />
+    	<echo message="Type 'seam restart' to update the exploded deployment"/>
     </target>
 
-    <target name="delete-project" depends="validate-project">
+    <target name="delete-project" depends="validate-project"
+        description="Delete the project">
         <echo message="Deleting the entire project in ${project.home}" />
         <delete dir="${project.home}" />
     </target>
 	
-	<target name="new-action" depends="new-action-ear,new-action-war"/>
-	<target name="new-form" depends="new-form-ear,new-form-war"/>
+	<target name="new-action" depends="new-action-ear,new-action-war"
+        description="Create a new action"/>
+	<target name="new-form" depends="new-form-ear,new-form-war"
+        description="Create a new form action"/>
 
     <target name="new-action-ear" depends="validate-project,action-input,setup-filters" unless="project.war">
         <echo message="Creating a new stateless session bean component with an action method" />
@@ -776,7 +750,8 @@
         <echo message="Type 'seam restart' and go to http://localhost:8080/${project.name}/${page.name}.seam"/>
     </target>
 
-    <target name="new-entity" depends="validate-project,entity-input,setup-filters">
+    <target name="new-entity" depends="validate-project,entity-input,setup-filters"
+        description="Create a new entity">
         <echo message="Creating a new entity bean, with home and list components" />
         <copy file="src/Entity.java" tofile="${entity.file}">
             <filterset refid="filters"/>
@@ -796,7 +771,8 @@
         <echo message="Type 'seam restart' and go to http://localhost:8080/${project.name}/${masterPage.name}.seam"/>
     </target>
 
-	<target name="generate-entities" depends="validate-project">
+	<target name="generate-entities" depends="validate-project"
+        description="Reverse engineer entities from the database">
 
 	    <taskdef name="hibernate" 
 	             classname="org.hibernate.tool.ant.HibernateToolTask">
@@ -865,49 +841,59 @@
 
     </target>
 	
-    <target name="deploy" depends="validate-project">
+    <target name="deploy" depends="validate-project"
+        description="Deploy the EAR or WAR">
         <echo message="Deploying project '${project.name}' to JBoss" />
         <ant antfile="${project.home}/build.xml" target="deploy" inheritall="false"/>
     </target>
 
-    <target name="undeploy" depends="validate-project">
+    <target name="undeploy" depends="validate-project"
+        description="Undeploy the EAR or WAR archive">
         <echo message="Undeploying project '${project.name}'" />
         <ant antfile="${project.home}/build.xml" target="undeploy" inheritall="false"/>
     </target>
 
-    <target name="explode" depends="validate-project">
+    <target name="explode" depends="validate-project"
+        description="Deploy the project as an exploded directory">
         <echo message="Deploying project '${project.name}' to JBoss as an exploded directory" />
         <ant antfile="${project.home}/build.xml" target="explode" inheritall="false"/>
     </target>
 
-    <target name="restart" depends="validate-project">
+    <target name="restart" depends="validate-project"
+        description="Restart the exploded directory">
         <echo message="Restarting project '${project.name}'" />
         <ant antfile="${project.home}/build.xml" target="restart" inheritall="false"/>
     </target>
 
-    <target name="unexplode" depends="validate-project">
+    <target name="unexplode" depends="validate-project"
+        description="Undeploy the exploded directory">
         <echo message="Undeploying exploded directory for project '${project.name}'" />
         <ant antfile="${project.home}/build.xml" target="unexplode" inheritall="false"/>
     </target>
     
-    <target name="test" depends="validate-project">
+    <target name="test" depends="validate-project"
+        description="Run the automated tests">
         <echo message="Running tests for project '${project.name}'" />
         <ant antfile="${project.home}/build.xml" target="test" inheritall="false"/>
     </target>
 
-    <target name="clean" depends="validate-project">
+    <target name="clean" depends="validate-project"
+        description="Clean the project directory">
         <echo message="Cleaning project '${project.name}'" />
         <ant antfile="${project.home}/build.xml" target="clean" inheritall="false"/>
     </target>
 
-	<target name="reset">
+	<target name="reset"
+        description="Delete the settings">
 		<delete file="build.properties"/>
 	</target>
 	
-	<target name="settings">
+	<target name="settings"
+        description="Print the settings">
 		<echo message="Java project workspace: ${workspace.home}"/>
 		<echo message="JBoss home: ${jboss.home}"/>
 		<echo message="Project name: ${project.name}"/>
+		<echo message="Project type: ${project.type}"/>
 		<echo message="Hibernate dialect: ${hibernate.dialect}"/>
 		<echo message="JDBC URL: ${hibernate.connection.url}"/>
 		<echo message="JDBC driver class: ${hibernate.connection.driver_class}"/>

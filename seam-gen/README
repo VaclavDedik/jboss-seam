@@ -24,6 +24,16 @@ SEAM PROJECT SETUP/DEPLOYMENT COMMANDS
 	     
       Example: seam new-project
          
+   update-project
+      Update the eclipse project with the latest dependencies.
+	     
+      Example: seam update-project
+         
+   delete-project
+      Delete the entire eclipse project.
+	     
+      Example: seam delete-project
+         
    deploy
       Deploy the project EAR and datasource to JBoss. This command
       will not work if you created a WTP project.
