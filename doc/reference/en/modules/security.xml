@@ -481,7 +481,7 @@ public class Authenticator {
         For this step you need to create a file called <literal>security-rules.drl</literal> in the 
         <literal>/META-INF</literal> of your application's jar file.  In actual fact this file can be called
         anything you want, and exist in any location as long as it is configured appropriately in
-        <literal>pages.xml</literal>.
+        <literal>components.xml</literal>.
       </para>
       
       <para>
