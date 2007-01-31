@@ -1,17 +1,21 @@
-<!DOCTYPE components PUBLIC
-  "-//JBoss/Seam Component Configuration DTD 1.1//EN"
-  "http://jboss.com/products/seam/components-1.1.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<components xmlns="http://jboss.com/products/seam/components"
+            xmlns:core="http://jboss.com/products/seam/core"
+            xmlns:security="http://jboss.com/products/seam/security"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation=
+                "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-1.1.xsd 
+                 http://jboss.com/products/seam/components http://jboss.com/products/seam/components-1.1.xsd
+                 http://jboss.com/products/seam/security http://jboss.com/products/seam/security-1.1.xsd">
 
-<components>
-
-    <component name="org.jboss.seam.core.init">
-        <property name="jndiPattern">@jndiPattern@</property>
-        <property name="debug">false</property>
-    </component>
+    <core:init jndi-pattern="@jndiPattern@" debug="false"/>  
  
-    <component name="org.jboss.seam.core.manager">
-        <property name="conversationTimeout">120000</property>
-    </component>
+    <core:manager conversation-timeout="120000" 
+                  concurrent-request-timeout="500"
+                  conversation-id-parameter="cid"
+                  conversation-is-long-running-parameter="clr"/>
+    
+    <security:identity authenticate-method="#{authenticator.authenticate}"/>    
     
     <component name="entityManager" auto-create="true" class="org.jboss.seam.core.ManagedPersistenceContext">
         <property name="persistenceUnitJndiName">java:/seamspaceEntityManagerFactory</property>
@@ -20,9 +24,5 @@
     <component class="org.jboss.seam.drools.RuleBase" name="securityRules">
         <property name="ruleFiles">/META-INF/security-rules.drl</property>
     </component>
-    
-    <component class="org.jboss.seam.security.Identity">
-        <property name="authenticateMethod">#{authenticator.authenticate}</property>
-    </component>
-        
+            
 </components>
