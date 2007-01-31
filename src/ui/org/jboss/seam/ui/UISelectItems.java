@@ -122,16 +122,18 @@ public class UISelectItems extends javax.faces.component.UISelectItems {
 	}
 	
 	private String getString(String localName) {
-		if (getValueBinding(localName) == null) {
+		ValueBinding vb = getValueBinding(localName);
+      if (vb == null) {
 			return null;
 		} else {
-			return (String) getValueBinding(localName).getValue(getFacesContext());
+			return vb.getValue(getFacesContext()).toString();
 		}
 	}
 	
 	private Boolean getBoolean(String localName) {
-		if (getString(localName) != null) {
-			return Boolean.valueOf(getString(localName));
+		String string = getString(localName);
+      if (string != null) {
+			return Boolean.valueOf(string);
 		} else {
 			return null;
 		}
