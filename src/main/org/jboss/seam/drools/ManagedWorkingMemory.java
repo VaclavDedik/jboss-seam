@@ -1,6 +1,9 @@
 package org.jboss.seam.drools;
+
 import static org.jboss.seam.InterceptionType.NEVER;
+
 import java.io.Serializable;
+
 import org.drools.RuleBase;
 import org.drools.WorkingMemory;
 import org.jboss.seam.Component;
@@ -11,6 +14,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.core.Mutable;
 import org.jboss.seam.core.Expressions.ValueBinding;
+
 /**
  * A conversation-scoped Drools WorkingMemory for a named RuleBase
  * 

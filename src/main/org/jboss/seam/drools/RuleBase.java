@@ -1,7 +1,12 @@
 package org.jboss.seam.drools;
+
 import static org.jboss.seam.InterceptionType.NEVER;
+
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.List;
+
 import org.drools.RuleBaseFactory;
 import org.drools.compiler.DrlParser;
 import org.drools.compiler.PackageBuilder;
@@ -13,11 +18,18 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.util.Resources;
+
+/**
+ * Manager component for a Drools RuleBase
+ * 
+ * @author Gavin King
+ *
+ */
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
 public class RuleBase
 {
-   private String[] ruleFiles;
+   private List<String> ruleFiles;
    private String dslFile;
    private org.drools.RuleBase ruleBase;
    
@@ -32,8 +44,13 @@ public class RuleBase
       {
          for (String ruleFile: ruleFiles)
          {
+            InputStream stream = Resources.getResourceAsStream(ruleFile);
+            if (stream==null)
+            {
+               throw new IllegalStateException("could not locate rule file: " + ruleFile);
+            }
             // read in the source
-            Reader drlReader = new InputStreamReader( Resources.getResourceAsStream(ruleFile) );
+            Reader drlReader = new InputStreamReader(stream);
             PackageDescr packageDescr;
             if (dslFile==null)
             {
@@ -59,11 +76,11 @@ public class RuleBase
    {
       return ruleBase;
    }
-   public String[] getRuleFiles()
+   public List<String> getRuleFiles()
    {
       return ruleFiles;
    }
-   public void setRuleFiles(String[] ruleFiles)
+   public void setRuleFiles( List<String> ruleFiles)
    {
       this.ruleFiles = ruleFiles;
    }
