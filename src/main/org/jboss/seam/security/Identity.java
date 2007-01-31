@@ -199,7 +199,7 @@ public class Identity implements Serializable
    {
       return new LoginContext(DEFAULT_JAAS_CONFIG_NAME, 
             subject, 
-            createCallbackHandler(username, password), 
+            getCallbackHandler(username, password), 
             getConfiguration()
          );
    }
@@ -248,21 +248,21 @@ public class Identity implements Serializable
 
       handles.add(securityContext.assertObject(check));
 
-      if (arg != null && securityContext.getFactHandle(arg) == null)
+      if (arg!=null && securityContext.getFactHandle(arg) == null)
       {
          if (arg instanceof Collection)
          {
-            for (Object value : ((Collection) arg))
+            for (Object value : (Collection) arg)
             {
                if (securityContext.getFactHandle(value) == null)
                {
-                  handles.add(securityContext.assertObject(value));
+                  handles.add( securityContext.assertObject(value) );
                }
             }
          }
          else
          {
-            handles.add(securityContext.assertObject(arg));
+            handles.add( securityContext.assertObject(arg) );
          }
       }      
 
@@ -282,15 +282,14 @@ public class Identity implements Serializable
     * @param username The username to provide for a NameCallback
     * @param password The password to provide for a PasswordCallback
     */
-   protected CallbackHandler createCallbackHandler(final String username, 
-         final String password)
+   protected CallbackHandler getCallbackHandler(final String username, final String password)
    {
       return new CallbackHandler() 
       {
          public void handle(Callback[] callbacks) 
             throws IOException, UnsupportedCallbackException 
          {
-            for (int i = 0; i < callbacks.length; i++)
+            for (int i=0; i<callbacks.length; i++)
             {
                if (callbacks[i] instanceof NameCallback)
                {
@@ -314,13 +313,12 @@ public class Identity implements Serializable
    {
       if (defaultConfig == null)
       {
-         createDefaultConfig();
+         initDefaultConfig();
       }
-      
       return defaultConfig;
    }
    
-   private synchronized void createDefaultConfig()
+   private synchronized void initDefaultConfig()
    {
       if (defaultConfig == null)
       {
