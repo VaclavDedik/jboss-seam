@@ -182,11 +182,6 @@ div.blogEntry {
   margin-bottom: 12px;
 }
 
-div.blogEntry a, div.blogEntry a:visited, div.blogEntry a:hover {
-  text-decoration: underline;
-  margin-right: 8px;
-}
-
 div.blogEntry label {
   font-weight: bold;
 }

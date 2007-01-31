@@ -30,10 +30,12 @@
             <div class="blogTitle">#{selectedBlog.title}</div>
             <div class="blogText"><s:formattedText value="#{selectedBlog.text}"/></div>
             <div class="blogFooter">
-              <h:outputLink rendered="#{s:hasPermission('blog','createComment', null)}" 
-                      value="comment.seam?name=#{selectedMember.memberName}&amp;blogId=#{selectedBlog.blogId}">
+              <s:span rendered="#{s:hasPermission('blog','createComment', null)}">              
+                [<h:outputLink value="comment.seam?name=#{selectedMember.memberName}&amp;blogId=#{selectedBlog.blogId}">
                  Add Comment
-              </h:outputLink>                            
+                </h:outputLink>]
+              </s:span>
+              [<h:outputLink value="blog.seam?name=#{selectedMember.memberName}">View all blog entries</h:outputLink>]                            
             </div>
           </div>
                     

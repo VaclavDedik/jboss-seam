@@ -31,13 +31,14 @@
 	            <div class="blogTitle">#{memberBlog.title}</div>
 	            <div class="blogText"><s:formattedText value="#{memberBlog.text}"/></div>
 	            <div class="blogFooter">
-	              <h:outputLink value="blogentry.seam?name=#{selectedMember.memberName}&amp;blogId=#{memberBlog.blogId}">
+	              [<h:outputLink value="blogentry.seam?name=#{selectedMember.memberName}&amp;blogId=#{memberBlog.blogId}">
 	                #{memberBlog.commentCount} Comment#{memberBlog.commentCount != 1 ? "s" : ""}
-	              </h:outputLink>
-	              <h:outputLink rendered="#{s:hasPermission('blog','createComment', null)}" 
-	                      value="comment.seam?name=#{selectedMember.memberName}&amp;blogId=#{memberBlog.blogId}">
+	              </h:outputLink>]
+	              <s:span rendered="#{s:hasPermission('blog','createComment', null)}">
+  	              [<h:outputLink value="comment.seam?name=#{selectedMember.memberName}&amp;blogId=#{memberBlog.blogId}">
 	                 Add Comment
-	              </h:outputLink>
+	                </h:outputLink>]
+	              </s:span>
 	            </div>
 	          </div>
 	        </ui:repeat>
