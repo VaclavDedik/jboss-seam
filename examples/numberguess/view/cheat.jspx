@@ -8,16 +8,20 @@
               doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
               doctype-system="http://www.w3c.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
   <jsp:directive.page contentType="text/html"/>
+  <html>
   <head>
     <title>You cheater!</title>
+    <link href="niceforms.css" rel="stylesheet" type="text/css" />
+    <script language="javascript" type="text/javascript" src="niceforms.js"><!--  --></script>
   </head>
   <body>
     <h1>You cheater!</h1>
     <f:view>
-    <h:form>
+    <h:form styleClass="niceform">
       (The answer is <h:outputText value="#{numberGuess.randomNumber}"/>.)
       <h:commandButton value="Done"/>
     </h:form>
     </f:view>
   </body>
+  </html>
 </jsp:root>
