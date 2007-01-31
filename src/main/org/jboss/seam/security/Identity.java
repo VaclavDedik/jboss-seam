@@ -173,12 +173,13 @@ public class Identity implements Serializable
       try
       {
          authenticate();
+         log.debug("Login successful for: " + getUsername());
          return "success";
       }
       catch (LoginException ex)
       {
-         log.error("Login error", ex);
-         FacesMessages.instance().add("Login failed.");
+         log.debug("Login failed for:" + getUsername(), ex);
+         FacesMessages.instance().add("Login failed");
          return null;
       }
    }
