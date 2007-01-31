@@ -29,6 +29,7 @@ import static org.jboss.seam.util.EJB.value;
 
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
@@ -2083,12 +2084,16 @@ public class Component
    {
       private InitialValue[] initialValues;
       private Class elementType;
+      private boolean isArray;
 
       public ListInitialValue(PropertyValue propertyValue, Class collectionClass, Type collectionType)
       {
          String[] expressions = propertyValue.getMultiValues();
          initialValues = new InitialValue[expressions.length];
-         elementType = Reflections.getCollectionElementType(collectionType);
+         isArray = collectionClass.isArray();
+         elementType = isArray ? 
+                  collectionClass.getComponentType() : 
+                  Reflections.getCollectionElementType(collectionType);
          for ( int i=0; i<expressions.length; i++ )
          {
             PropertyValue elementValue = new Conversions.FlatPropertyValue( expressions[i] );
@@ -2098,12 +2103,24 @@ public class Component
 
       public Object getValue(Class type)
       {
-         List result = new ArrayList(initialValues.length);
-         for (InitialValue iv: initialValues)
+         if (isArray)
          {
-            result.add( iv.getValue(elementType) );
+            Object array = Array.newInstance(elementType, initialValues.length);
+            for (int i=0; i<initialValues.length; i++)
+            {
+               Array.set( array, i, initialValues[i].getValue(elementType) );
+            }
+            return array;
          }
-         return result;
+         else
+         {
+            List list = new ArrayList(initialValues.length);
+            for (InitialValue iv: initialValues)
+            {
+               list.add( iv.getValue(elementType) );
+            }
+            return list;
+         }
       }
       
       @Override
