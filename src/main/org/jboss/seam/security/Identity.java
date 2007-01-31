@@ -370,8 +370,11 @@ public class Identity implements Serializable
     * @param expr String The expression to evaluate
     * @return boolean The result of the expression evaluation
     */
-   public boolean evaluateExpression(String expr) 
-   {     
+   protected boolean evaluateExpression(String expr) 
+   {    
+      // The following line doesn't work because of a bug in MyFaces      
+      //return (Boolean) Expressions.instance().createValueBinding(expr).getValue();
+
       return (Boolean) new UnifiedELValueBinding(expr).getValue( FacesContext.getCurrentInstance() );
    }   
    
