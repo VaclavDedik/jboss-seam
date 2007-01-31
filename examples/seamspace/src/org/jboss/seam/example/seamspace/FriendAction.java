@@ -29,12 +29,15 @@ public class FriendAction implements FriendLocal
    @Out(required = false)
    private FriendComment friendComment;
    
+   @Out(required = false)
+   private MemberFriend friendRequest;
+   
    @In(required = false)
    private Member authenticatedMember;
-   
+      
    @In
    private EntityManager entityManager;
-   
+      
    @Factory("friendComment") @Begin
    public void createComment()
    {      
@@ -45,7 +48,6 @@ public class FriendAction implements FriendLocal
          .setParameter("memberName", name)
          .getSingleResult();
                   
-         // TODO this doesn't work - check with Gavin
          Contexts.getMethodContext().set("friends", member.getFriends());
          Identity.instance().checkRestriction("#{s:hasPermission('friendComment', 'create', friends)}");
 
@@ -64,6 +66,36 @@ public class FriendAction implements FriendLocal
    {
       friendComment.setCommentDate(new Date());
       entityManager.persist(friendComment);
+   }
+   
+   @Factory("friendRequest") @Begin
+   public void createRequest()
+   {
+      try
+      {
+         Member member = (Member) entityManager.createQuery(
+         "from Member where memberName = :memberName")
+         .setParameter("memberName", name)
+         .getSingleResult();
+                  
+         Contexts.getMethodContext().set("friends", member.getFriends());
+         Identity.instance().checkRestriction("#{s:hasPermission('friendRequest', 'create', friends)}");
+
+         friendRequest = new MemberFriend();
+         friendRequest.setFriend(authenticatedMember);
+         friendRequest.setMember(member);
+      }
+      catch (NoResultException ex) 
+      { 
+         FacesMessages.instance().add("Member not found.");
+      }
+   }
+
+   @End
+   public void saveRequest()
+   {
+      friendRequest.getMember().getFriends().add(friendRequest);
+      entityManager.persist(friendRequest);      
    }
    
    @Remove @Destroy

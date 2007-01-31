@@ -65,6 +65,12 @@
             </div>          
           </ui:repeat>          
         
+          <s:span rendered="#{selectedMember != authenticatedMember and s:hasPermission('friendRequest', 'create', selectedMember.friends)}">
+            [<h:outputLink value="friendrequest.seam?name=#{selectedMember.memberName}">
+              Send a friend request
+            </h:outputLink>]
+          </s:span>
+          
         </s:div>
         
         <s:div id="friendComments">

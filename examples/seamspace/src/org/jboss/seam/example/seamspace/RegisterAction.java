@@ -63,7 +63,6 @@ public class RegisterAction implements Register
 
    @End
    public void uploadPicture() 
-      throws LoginException
    {
       newMember.setMemberSince(new Date());
       newMember.setRoles(new HashSet<MemberRole>());

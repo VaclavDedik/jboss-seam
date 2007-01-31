@@ -154,6 +154,23 @@ td.friendCommentor {
   width: 100px;
 }
 
+div.friendRequest {
+  background-color: #bbddff;
+  width: 600px;
+  float: right;
+  margin-right: 10px;
+  border: 2px solid #eeeeee;
+  padding: 4px;
+}
+
+div.friendRequest textarea {
+  font-family: verdana, arial, sans-serif, helvetica;
+  font-size:11px;
+  margin: 4px 12px 8px 0px;
+  width: 560px;
+  height: 120px;
+}
+
 div.blogSummary {
   padding: 0px 2px 4px 2px;
   margin-bottom: 8px;

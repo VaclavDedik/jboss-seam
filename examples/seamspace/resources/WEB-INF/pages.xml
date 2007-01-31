@@ -63,6 +63,14 @@
         </redirect>
       </navigation>
     </page>
+    
+    <page view-id="/friendrequest.xhtml">
+      <navigation from-action="#{friend.saveRequest}">
+        <redirect view-id="/profile.xhtml">
+          <param name="name" value="#{friendRequest.member.memberName}"/>
+        </redirect>
+      </navigation>    
+    </page>
        
     <page view-id="*">
         <navigation from-action="#{identity.logout}">

@@ -65,3 +65,15 @@ then
   c.grant();
   modify(c);
 end;
+
+rule CreateFriendRequest
+  no-loop
+  activation-group "permissions"
+when
+  c: PermissionCheck(name == "friendRequest", action == "create", granted == false)
+  Principal(nm : name)
+  not MemberFriend(f : friend -> (f.getUsername().equals(nm)))
+then
+  c.grant();
+  modify(c);
+end;

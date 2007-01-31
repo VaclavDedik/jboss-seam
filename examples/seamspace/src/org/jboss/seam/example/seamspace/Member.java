@@ -38,15 +38,22 @@ public class Member implements Serializable
    private static final long serialVersionUID = 5179242727836683375L;
    
    public enum Gender {
-      male("Male"), 
-      female("Female");
+      male("Male", "his"), 
+      female("Female", "her");
       
      private String descr;
-     Gender(String descr) {
+     private String possessive;
+     
+     Gender(String descr, String possessive) {
        this.descr = descr;
+       this.possessive = possessive;
       }
      public String getDescr() {
         return descr;
+     }
+     
+     public String getPossessive() {
+        return possessive;
      }
    };
    

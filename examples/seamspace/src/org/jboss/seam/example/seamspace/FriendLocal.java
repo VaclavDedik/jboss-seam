@@ -7,5 +7,9 @@ public interface FriendLocal
 {
    void createComment();
    void saveComment();
+   
+   void createRequest();
+   void saveRequest();
+   
    void destroy(); 
 }
