@@ -96,10 +96,10 @@
     	<include name="login.xhtml"/>
     	<include name="login.page.xml"/>
         <include name="index.html"/>
-        <include name="layout/template.xhtml"/>
-    	<include name="layout/menu.xhtml"/>
+        <include name="layout/*"/>
         <include name="stylesheet/*"/>
     	<include name="img/*"/>
+    	<exclude name="**/*.ftl"/>
     </fileset>
 	
 	<!-- targets -->

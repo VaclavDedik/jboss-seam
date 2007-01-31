@@ -28,6 +28,22 @@ a:hover {
     color: #FF6600; /*#8CAFCD*/
 }
 
+.loginout {
+	font-family: Arial,sans-serif;
+	text-align: right;
+	padding-right: 10px;
+	padding-top: 5px;
+	font-size: 0.85em;
+}
+.loginout a {
+	text-decoration: none;
+}
+
+.footer {
+	text-align: center;
+	font-size: 0.8em;
+}
+
 .actionButtons {
 	width: 100%;
 	text-align: center;
