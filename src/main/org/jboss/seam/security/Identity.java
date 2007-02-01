@@ -11,9 +11,7 @@ import java.security.acl.Group;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.faces.context.FacesContext;
 import javax.security.auth.Subject;
@@ -22,11 +20,8 @@ import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.callback.NameCallback;
 import javax.security.auth.callback.PasswordCallback;
 import javax.security.auth.callback.UnsupportedCallbackException;
-import javax.security.auth.login.AppConfigurationEntry;
-import javax.security.auth.login.Configuration;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
-import javax.security.auth.login.AppConfigurationEntry.LoginModuleControlFlag;
 
 import org.drools.FactHandle;
 import org.drools.RuleBase;
@@ -39,54 +34,31 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.core.AbstractMutable;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Expressions.MethodBinding;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
-import org.jboss.seam.security.jaas.SeamLoginModule;
 import org.jboss.seam.util.UnifiedELValueBinding;
 
 @Name("org.jboss.seam.security.identity")
 @Scope(SESSION)
 @Install(precedence = BUILT_IN, classDependencies="org.drools.WorkingMemory")
 @Intercept(NEVER)
-public class Identity implements Serializable
+public class Identity extends AbstractMutable implements Serializable
 {  
    private static final long serialVersionUID = 3751659008033189259L;
    
-   private static final String DEFAULT_JAAS_CONFIG_NAME = "default";   
-   
    private static final LogProvider log = Logging.getLogProvider(Identity.class);
-   
-   private class LoginModuleConfiguration extends Configuration
-   {
-      private Map<String,AppConfigurationEntry[]> entries = new HashMap<String,AppConfigurationEntry[]>();
-      
-      public void addEntry(String name, AppConfigurationEntry[] entry)
-      {
-         entries.put(name, entry);
-      }
-      
-      @Override
-      public AppConfigurationEntry[] getAppConfigurationEntry(String name)
-      {
-         return entries.get(name);
-      }
-      
-      @Override
-      public void refresh() { }
-   }
-   
-   private static LoginModuleConfiguration defaultConfig = null;
       
    private String username;
    private String password;
    
    private MethodBinding authenticateMethod;
 
-   protected Principal principal;   
-   protected Subject subject;
+   private Principal principal;   
+   private Subject subject;
    
    private WorkingMemory securityContext;
       
@@ -97,28 +69,28 @@ public class Identity implements Serializable
       initSecurityContext();
    }
    
-   private void initSecurityContext()
+   protected void initSecurityContext()
    {
       RuleBase securityRules = (RuleBase) Component.getInstance("securityRules", true);
-      
       if (securityRules != null)
       {
          securityContext = securityRules.newWorkingMemory(false);
+         setDirty();
       }            
    }
 
    public static Identity instance()
    {
-      if (!Contexts.isSessionContextActive())
+      if ( !Contexts.isSessionContextActive() )
+      {
          throw new IllegalStateException("No active session context");
+      }
 
-      Identity instance = (Identity) Component.getInstance(Identity.class,
-            ScopeType.SESSION, true);
+      Identity instance = (Identity) Component.getInstance(Identity.class, ScopeType.SESSION, true);
 
       if (instance == null)
       {
-         throw new IllegalStateException(
-               "No Identity could be created");
+         throw new IllegalStateException("No Identity could be created");
       }
 
       return instance;
@@ -154,9 +126,9 @@ public class Identity implements Serializable
     */
    public void checkRestriction(String expr)
    {      
-      if (!evaluateExpression(expr))
+      if ( !evaluateExpression(expr) )
       {
-         if (!isLoggedIn())
+         if ( !isLoggedIn() )
          {
             throw new NotLoggedInException();
          }
@@ -191,17 +163,24 @@ public class Identity implements Serializable
 
    public void authenticate(LoginContext loginContext) throws LoginException
    {
+      preAuthenticate();
       loginContext.login();
       password = null;
+      setDirty();
       postAuthenticate();
+   }
+   
+   protected void preAuthenticate()
+   {
+      Events.instance().raiseEvent("org.jboss.seam.preAuthenticate");
    }
 
    protected LoginContext getLoginContext() throws LoginException
    {
-      return new LoginContext(DEFAULT_JAAS_CONFIG_NAME, 
+      return new LoginContext(Configuration.DEFAULT_JAAS_CONFIG_NAME, 
             subject, 
             getCallbackHandler(username, password), 
-            getConfiguration()
+            Configuration.instance()
          );
    }
    
@@ -210,9 +189,9 @@ public class Identity implements Serializable
       username = null;
       password = null;
       principal = null;
-      
       subject = new Subject();
       initSecurityContext();
+      setDirty();
    }
 
    /**
@@ -223,14 +202,48 @@ public class Identity implements Serializable
     */
    public boolean hasRole(String role)
    {
-      for (Group sg : subject.getPrincipals(Group.class))      
+      for ( Group sg : subject.getPrincipals(Group.class) )      
       {
-         if ("roles".equals(sg.getName()))
+         if ( "roles".equals( sg.getName() ) )
          {
-            return sg.isMember(new SimplePrincipal(role));
+            return sg.isMember( new SimplePrincipal(role) );
          }
       }
       return false;
+   }
+   
+   /**
+    * Assert that the current authenticated Identity is a member of
+    * the specified role.
+    * 
+    * @param role String The name of the role to check
+    * @throws AuthorizationException if not a member
+    */
+   public void checkRole(String role)
+   {
+      if ( !hasRole(role) )
+      {
+         throw new AuthorizationException(String.format(
+                  "Authorization check failed for role [%s]", role));
+      }
+   }
+
+   /**
+    * Assert that the current authenticated Identity has permission for
+    * the specified name and action
+    * 
+    * @param name String The permission name
+    * @param action String The permission action
+    * @param arg Object Optional object parameter used to make a permission decision
+    * @throws AuthorizationException if the user does not have the specified permission
+    */
+   public void checkPermission(String name, String action, Object...arg)
+   {
+      if ( !hasPermission(name, action, arg) )
+      {
+         throw new AuthorizationException(String.format(
+                  "Authorization check failed for permission [%s,%s]", name, action));
+      }
    }
 
    /**
@@ -312,30 +325,6 @@ public class Identity implements Serializable
          }
       };
    }
-
-   protected Configuration getConfiguration()
-   {
-      if (defaultConfig == null)
-      {
-         initDefaultConfig();
-      }
-      return defaultConfig;
-   }
-   
-   private synchronized void initDefaultConfig()
-   {
-      if (defaultConfig == null)
-      {
-         defaultConfig = new LoginModuleConfiguration();
-         Map<String,String> options = new HashMap<String,String>();
-         AppConfigurationEntry[] entries = new AppConfigurationEntry[] 
-         {
-            new AppConfigurationEntry(SeamLoginModule.class.getName(), 
-                     LoginModuleControlFlag.REQUIRED, options)
-         };
-         defaultConfig.addEntry(DEFAULT_JAAS_CONFIG_NAME, entries);
-      }
-   }
    
    /**
     * Populates the specified subject's roles with any inherited roles
@@ -349,7 +338,7 @@ public class Identity implements Serializable
       {         
          if ( (p instanceof Group) && "roles".equals( ( (Group) p ).getName() ) )
          {
-            Enumeration e = ((Group) p).members();
+            Enumeration e = ( (Group) p ).members();
             while ( e.hasMoreElements() )
             {
                Principal role = (Principal) e.nextElement();
@@ -358,7 +347,11 @@ public class Identity implements Serializable
          }
          else
          {
-            if (principal == null) principal = p;
+            if (principal == null) 
+            {
+               principal = p;
+               setDirty();
+            }
             securityContext.assertObject(p);            
          }
          
@@ -389,9 +382,16 @@ public class Identity implements Serializable
    
    public void setUsername(String username)
    {
+      setDirty(this.username, username);
       this.username = username;
    }
    
+   /**
+    * Needed by EL value bindings, always
+    * returns null.
+    * 
+    * @return null
+    */
    public String getPassword()
    {
       return null;
@@ -399,6 +399,7 @@ public class Identity implements Serializable
    
    public void setPassword(String password)
    {
+      setDirty(this.password, password);
       this.password = password;
    }
    
