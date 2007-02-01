@@ -29,7 +29,7 @@ public class BijectionInterceptor extends AbstractInterceptor
    
    private static final LogProvider log = Logging.getLogProvider(BijectionInterceptor.class);
    
-   private ThreadLocal<Boolean> reentrant = new ThreadLocal<Boolean>();
+   private boolean reentrant; //OK, since all Seam components are single-threaded
    
    private static boolean isLifecycleMethod(Method method)
    {
@@ -42,7 +42,7 @@ public class BijectionInterceptor extends AbstractInterceptor
    @AroundInvoke
    public Object bijectComponent(InvocationContext invocation) throws Exception
    {
-      if ( reentrant.get()!=null )
+      if (reentrant)
       {
          if ( log.isTraceEnabled() )
          {
@@ -52,14 +52,14 @@ public class BijectionInterceptor extends AbstractInterceptor
       }
       else
       {
-         reentrant.set(true);
+         reentrant = true;
          try
          {
             return bijectNonreentrantComponent(invocation);
          }
          finally
          {
-            reentrant.set(null);
+            reentrant = false;
          }
       }
    }
