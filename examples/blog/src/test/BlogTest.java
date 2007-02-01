@@ -102,7 +102,7 @@ public class BlogTest extends SeamTest
          @Override
          protected void beforeRequest()
          {
-            setParameter("blogEntryId", "i18n");
+            setParameter("blogEntryId", "seamtext");
          }
          
          @Override
@@ -110,7 +110,11 @@ public class BlogTest extends SeamTest
          {
             BlogEntry blogEntry = (BlogEntry) Contexts.getEventContext().get("blogEntry");
             assert blogEntry!=null;
-            assert blogEntry.getId().equals("i18n");
+            assert blogEntry.getId().equals("seamtext");
+
+            // make sure the entry is really there
+            assert blogEntry.getBody().length() > 0;
+            assert blogEntry.getTitle().equals("Introducing Seam Text");
          }
          
       }.run();
