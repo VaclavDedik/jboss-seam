@@ -333,7 +333,8 @@ public class Identity extends Selector
                }
                else if (callbacks[i] instanceof PasswordCallback)
                {
-                  ( (PasswordCallback) callbacks[i] ).setPassword( password.toCharArray() );
+                  ( (PasswordCallback) callbacks[i] ).setPassword( password != null ? 
+                           password.toCharArray() : null );
                }
                else
                {
