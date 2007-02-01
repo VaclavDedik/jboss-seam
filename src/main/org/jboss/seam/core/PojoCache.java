@@ -36,16 +36,16 @@ public class PojoCache
       log.debug("starting JBoss Cache");
       cache = new org.jboss.cache.aop.PojoCache();
       new PropertyConfigurator().configure(cache, cfgResourceName);
-      cache.create();
-      cache.start();
+      cache.createService();
+      cache.startService();
    }
    
    @Destroy
    public void stop() 
    {
       log.debug("stopping JBoss Cache");
-      cache.stop();
-      cache.destroy();
+      cache.stopService();
+      cache.destroyService();
       cache = null;
    }
 
