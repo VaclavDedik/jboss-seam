@@ -10,6 +10,7 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
+import org.jboss.seam.contexts.Contexts;
 
 /**
  * Manager component for the current user's locale
@@ -27,10 +28,13 @@ public class Locale {
    {
       return LocaleSelector.instance().getLocale();
    }
-   
+     
    public static java.util.Locale instance()
    {
-      return (java.util.Locale) Component.getInstance(Locale.class, ScopeType.STATELESS);
+       if (Contexts.isApplicationContextActive()) {
+          return (java.util.Locale) Component.getInstance(Locale.class, ScopeType.STATELESS);
+       } else {
+          return java.util.Locale.US; // testing
+       }
    }
-   
 }

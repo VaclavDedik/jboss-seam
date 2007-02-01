@@ -14,6 +14,7 @@
        <class name="org.jboss.seam.test.RemotingTest"/>
        <class name="org.jboss.seam.test.MethodExpressionParserTest"/>
        <class name="org.jboss.seam.test.SecurityTest"/>
+       <class name="org.jboss.seam.test.InterpolatorTest"/>
      </classes>
    </test>
 	

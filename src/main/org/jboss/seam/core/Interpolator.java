@@ -59,14 +59,11 @@ public class Interpolator {
       {
          throw new IllegalArgumentException("more than 10 parameters");
       }
-      if ( string.indexOf('#')>=0 )
-      {
-         string = interpolateExpressions(string, params);
+
+      if (string.indexOf('#')>=0 || string.indexOf('{')>=0) {
+          string = interpolateExpressions(string, params);
       }
-      if (params.length>0 && string.indexOf('{')>=0 )
-      {
-         string = new MessageFormat(string, Locale.instance()).format(params);
-      }
+
       return string;
    }
 
@@ -115,9 +112,33 @@ public class Interpolator {
                   builder.append("#").append(nextTok);
                }
             }
-         }
-         else
-         {
+         } else if ("{".equals(tok)) {
+             StringBuilder expr = new StringBuilder();
+             
+             expr.append(tok);
+             int level = 1;
+
+             while (tokens.hasMoreTokens()) {
+                 String nextTok = tokens.nextToken();
+                 expr.append(nextTok);
+                 
+                 if (nextTok.equals("{")) {
+                     ++level;
+                 } else if (nextTok.equals("}")) {
+                     if (--level == 0) {
+                         String value = new MessageFormat(expr.toString(), Locale.instance()).format(params);
+                         builder.append(value);
+                         
+                         expr = null;
+                         break;
+                     }
+                 }
+             } 
+
+             if (expr != null) {
+                 builder.append(expr);
+             }
+         } else {
             builder.append(tok);
          }
       }
