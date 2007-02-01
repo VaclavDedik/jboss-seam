@@ -82,6 +82,7 @@ public class Identity extends Selector
    {
       setCookieEnabled(true);
       username = getCookieValue();
+      setDirty();
       setCookieEnabled(false);
       if (username!=null)
       {
