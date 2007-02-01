@@ -279,9 +279,11 @@ public class Identity extends Selector
 
       PermissionCheck check = new PermissionCheck(name, action);
 
-      synchronized( getSecurityContext() )
+      WorkingMemory securityContext = getSecurityContext();
+      assertSecurityContextExists();
+      synchronized( securityContext )
       {
-         handles.add( getSecurityContext().assertObject(check) );
+         handles.add( securityContext.assertObject(check) );
          
          for (int i = 0; i < arg.length; i++)
          {
@@ -289,22 +291,22 @@ public class Identity extends Selector
             {
                for (Object value : (Collection) arg[i])
                {
-                  if ( getSecurityContext().getFactHandle(value) == null )
+                  if ( securityContext.getFactHandle(value) == null )
                   {
-                     handles.add( getSecurityContext().assertObject(value) );
+                     handles.add( securityContext.assertObject(value) );
                   }
                }               
             }
             else
             {
-               handles.add( getSecurityContext().assertObject(arg[i]) );
+               handles.add( securityContext.assertObject(arg[i]) );
             }
          }
    
-         getSecurityContext().fireAllRules();
+         securityContext.fireAllRules();
    
          for (FactHandle handle : handles)
-            getSecurityContext().retractObject(handle);
+            securityContext.retractObject(handle);
       }
       
       return check.isGranted();
@@ -366,6 +368,9 @@ public class Identity extends Selector
 
    protected void populateSecurityContext()
    {
+      WorkingMemory securityContext = getSecurityContext();
+      assertSecurityContextExists();
+
       // Populate the working memory with the user's principals
       for ( Principal p : getSubject().getPrincipals() )
       {         
@@ -375,7 +380,7 @@ public class Identity extends Selector
             while ( e.hasMoreElements() )
             {
                Principal role = (Principal) e.nextElement();
-               getSecurityContext().assertObject( new Role( role.getName() ) );
+               securityContext.assertObject( new Role( role.getName() ) );
             }
          }
          else
@@ -385,9 +390,17 @@ public class Identity extends Selector
                principal = p;
                setDirty();
             }
-            getSecurityContext().assertObject(p);            
+            securityContext.assertObject(p);            
          }
          
+      }
+   }
+
+   private void assertSecurityContextExists()
+   {
+      if (securityContext==null)
+      {
+         throw new IllegalStateException("no security rule base available - please install a RuleBase with the name 'securityContext'");
       }
    }
    
