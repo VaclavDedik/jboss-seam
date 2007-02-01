@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 3.0//EN"
+        "http://tuckey.org/res/dtds/urlrewrite3.0.dtd">
+
+<!--
+
+    Configuration file for UrlRewriteFilter
+    http://tuckey.org/urlrewrite/
+
+-->
+<urlrewrite>
+
+    <rule>
+         <from>^/([0-9]+)\.html$</from>
+         <to last="true">/doc/browse.seam?nodeId=$1</to>
+     </rule>
+
+<!--
+    <rule>
+        <from casesensitive="true">^/([A-Z0-9]+[A-Za-z0-9]*)/([A-Z0-9]+[A-Za-z0-9]*)$</from>
+        <to type="redirect">/wiki/docDisplay.seam?dirName=$1&amp;docName=$2</to>
+    </rule>
+-->
+
+    <!--
+
+    INSTALLATION
+
+        in your web.xml add...
+
+        <filter>
+            <filter-name>UrlRewriteFilter</filter-name>
+            <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+            <init-param>
+                <param-name>logLevel</param-name>
+                <param-value>WARN</param-value>
+            </init-param>
+        </filter>
+        <filter-mapping>
+            <filter-name>UrlRewriteFilter</filter-name>
+            <url-pattern>/*</url-pattern>
+        </filter-mapping>
+
+     EXAMPLES
+
+     Redirect one url
+        <rule>
+            <from>/some/old/page.html</from>
+            <to type="redirect">/very/new/page.html</to>
+        </rule>
+
+    Redirect a directory
+        <rule>
+            <from>/some/olddir/(.*)</from>
+            <to type="redirect">/very/newdir/$1</to>
+        </rule>
+
+    Clean a url
+        <rule>
+            <from>/products/([0-9]+)</from>
+            <to>/products/index.jsp?product_id=$1</to>
+        </rule>
+    eg, /products/1234 will be passed on to /products/index.jsp?product_id=1234 without the user noticing.
+
+    Browser detection
+        <rule>
+            <condition name="user-agent">Mozilla/[1-4]</condition>
+            <from>/some/page.html</from>
+            <to>/some/page-for-old-browsers.html</to>
+        </rule>
+    eg, will pass the request for /some/page.html on to /some/page-for-old-browsers.html only for older
+    browsers whose user agent srtings match Mozilla/1, Mozilla/2, Mozilla/3 or Mozilla/4.
+
+
+CoWiki:
+
+  <IfModule mod_env.c>
+    SetEnv COWIKI_URL_REWRITE On
+    RewriteRule ^([0-9]+)\.html$ index.php?node=$1&%{QUERY_STRING}
+    RewriteRule ^([0-9]+)\.([0-9]+)\.html$ index.php?node=$1&comid=$2%{QUERY_STRING}
+  </IfModule>
+
+  #
+  # Handle WikiWord URLs
+  #
+  RewriteRule ^([A-Z0-9]+[A-Za-z0-9]*)/([A-Z0-9]+[A-Za-z0-9]*)/*$ index.php?webname=$1&docname=$2&%{QUERY_STRING}
+  RewriteRule ^([A-Z0-9]+[A-Za-z0-9]*)/*$ index.php?webname=$1&%{QUERY_STRING}
+  
+
+
+
+
+
+    -->
+
+</urlrewrite>
+

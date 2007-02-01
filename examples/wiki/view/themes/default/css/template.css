@@ -1,0 +1,359 @@
+/* Setup defaults since variable in browsers
+
+dd, dt, dl, img, ul, ol, li, p, h1, h2, h3, h4, h5,
+----------------------------------------------- */
+body, div, form, hr, fieldset {
+	margin: 0;
+	padding: 0;
+}
+/* Element Defaults
+----------------------------------------------- */
+html {
+	height: 100%;
+	background-color: #DBD4C6;
+	margin: 0;
+	padding: 0;
+}
+img {
+	border: 0;
+}
+body {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: small;
+	line-height: 1.25em;
+	margin: 0;
+	padding: 0;
+}
+label {
+	color: #000000;
+}
+input, textarea {
+	border: 1px solid #C3BBB6;
+    background: #fff url(../img/input.bg.gif) 0 0 no-repeat;
+    font-size: 85%;
+    padding: 2px;
+    font-family: Andale Mono, Courier New, monospace;
+}
+ol, ul {
+	margin: 10px 0px 10px 6px;
+}
+li {
+	margin: 10px 12px;
+}
+fieldset {
+	border: 0;
+}
+
+a:link {color: #962325}     /* unvisited link */
+a:visited {color: #666}  /* visited link */
+a:hover {color: #000}   /* mouse over link */
+a:active {color: #aaa}   /* selected link */
+
+/* Layout
+----------------------------------------------- */
+#screen {
+	background-color: #eee;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	border-bottom: 1px solid #C3BBB6;
+}
+#header {
+    background: #362f2d url(../img/hdr.bg.gif) 0 0 repeat-x;
+	color: #fff;
+    padding: 10px;
+}
+#headerTopLeft {
+    float: left;
+    margin-bottom: 5px;
+}
+#headerTopRight {
+    text-align: right;
+    margin-bottom: 5px;
+}
+#headerBottomLeft {
+    clear: both;
+    float: left;
+}
+#headerBottomRight {
+    text-align: right;
+}
+
+#sidebar {
+    background-color: #eee;
+	float: left;
+	width: 15%;
+}
+#body {
+    background-color: #fff;
+	margin-left: 15%;
+}
+
+#control {
+	background-color: #362f2d;
+    text-align: right;
+    vertical-align: bottom;
+    border-bottom: 1px solid #fff;
+    padding-right: 8px;
+}
+
+#content {}
+
+#footer {
+	clear: both;
+	padding: 10px;
+	background-color: #eee;
+	text-align: right;
+}
+
+
+/* Header
+----------------------------------------------- */
+#header .screenname {
+	font-family: "Trebuchet MS", Arial, sans-serif;
+	font-size: large;
+	color: #fff;
+}
+
+
+
+/* Sidebar
+----------------------------------------------- */
+
+/* Messages
+----------------------------------------------- */
+
+#messageBox {
+    background-color: #87786e;
+}
+.infoMessage {
+    font-size: 85%;
+    font-weight: bold;
+    color: #fff;
+}
+
+.infoImage {
+    vertical-align: text-top;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+/* General
+----------------------------------------------- */
+
+.documentDisplay {
+    padding: 10px;
+}
+
+.button {
+	font-weight: bold;
+	color: #fff;
+	font-size: 85%;
+	padding: 2;
+    background: #fff url(../img/btn.bg.gif) 0 0 repeat-x;
+	border-style: none;
+    margin: 0 5px 0 5px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+.buttonNonpersistent {
+	font-weight: bold;
+	color: #fff;
+	font-size: 85%;
+	padding: 2;
+    background: #fff url(../img/btn.nonpersistent.bg.gif) 0 0 repeat-x;
+	border-style: none;
+    margin: 0 5px 0 5px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+.linkNavigation {
+	color: #fff;
+    text-decoration:none;
+    font-size: 85%;
+    font-weight: bold;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    background: #5a4d46 url(../img/menu.bg.gif) 0 0 repeat-x;
+    border: 1px solid #fff;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    margin: 0 5px 0 5px;
+}
+
+.linkNavigation:link {color: #fff}     /* unvisited link */
+.linkNavigation:visited {color: #fff}  /* visited link */
+.linkNavigation:hover {color: #ccc}   /* mouse over link */
+.linkNavigation:active {color: #aaa}   /* selected link */
+
+/* Forms
+----------------------------------------------- */
+
+.form {}
+
+.formHead {
+    background: #fff url(../img/th.bg.inverse.gif) 0 0 repeat-x;
+    font-size: 85%;
+    font-weight: bold;
+    color: #555;
+    padding-left: 13px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+}
+
+.formFields {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.formControls {
+    background: #c2bcaf url(../img/th.bg.gif) 0 0 repeat-x;
+    padding: 5px;
+}
+
+.entry {
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+.entry .label {
+	float: left;
+    padding-top: 1px;
+    padding-right: 2%;
+    font-size: 85%;
+    width: 10%;
+	text-align: right;
+}
+.entry .output {
+    padding-top: 1px;
+    text-align: left;
+    font-size: 85%;
+}
+.entry .input {
+    text-align: left;
+}
+.errorDiv {
+    background: #fff url(../img/input.error.bg.gif) 0 0 no-repeat;
+}
+.attentionImage {
+    vertical-align: text-top;
+    padding-left: 12%;
+    padding-right: 10px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+.errorMessage {
+    font-size: 85%;
+	color: #600;
+}
+
+/* Directory Browser
+----------------------------------------------- */
+
+.directoryPathPanel {
+    width: auto;
+    background: #fff url(../img/th.bg.inverse.gif) 0 0 repeat-x;
+    padding-left: 11px;
+}
+
+.directoryPathPanel .directoryButton {
+	font-weight: bold;
+    color: #fff;
+	font-size: 85%;
+	padding: 2px;
+	border-style: none;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    background: #fff url(../img/menu.bg.gif) 0 0 repeat-x;
+}
+
+.directoryPathPanel .directorySeparator {
+	font-weight: bold;
+	color: #888;
+	padding: 2px;
+ 	border-style: none;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+.directoryList {
+    padding: 0;
+    margin: 0;
+    font-size: 85%;
+    border-style: solid;
+    border-color: #C3BBB6;
+}
+
+.directoryListHeader {
+    white-space: nowrap;
+    background: #fff url(../img/th.bg.gif) 0 0 repeat-x;
+    font-weight: normal;
+    text-align: center;
+    color: #555;
+}
+
+.directoryList .iconColumn {
+    width: 1%;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 10px;
+    padding-right: 5px;
+    white-space: nowrap;
+}
+
+.directoryList .nameColumn {
+    padding-left: 5px;
+    padding-right: 10px;
+    white-space: nowrap;
+}
+
+.directoryList .permissionsColumn {
+    width: 20%;
+    padding-left: 10px;
+    padding-right: 10px;
+    white-space: nowrap;
+}
+
+.directoryList .lastModifiedColumn {
+    width: 20%;
+    padding-left: 10px;
+    padding-right: 10px;
+    white-space: nowrap;
+}
+
+.directoryList .positionUpColumn {
+    width: 5%;
+    padding-left: 10px;
+    white-space: nowrap;
+}
+
+.directoryList .positionDownColumn {
+    width: 5%;
+    padding-right: 10px;
+    white-space: nowrap;
+}
+
+.directoryList .menuControlColumn {
+    width: 10%;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.directoryList .defaultDocumentSelectColumn{
+    width: 10%;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.directoryList .rowOdd {
+    background-color: #fff;
+}
+
+.directoryList .rowEven {
+    background-color: #eae8e5;
+}
+

@@ -1,0 +1,117 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:wiki="http://jboss.com/products/seam/wikitaglib"
+                template="themes/default/template.xhtml">
+
+<ui:define name="pluginCSS">
+    <link href="themes/default/css/languageSelector.css" rel="stylesheet" type="text/css"/>
+    <link href="themes/default/css/mainMenu.css" rel="stylesheet" type="text/css"/>
+</ui:define>
+
+<ui:define name="screenname">
+    <h:outputText value="Create document" rendered="#{!documentHome.managed}"/>
+    <h:outputText value="Edit document" rendered="#{documentHome.managed}"/>
+</ui:define>
+
+<ui:define name="headerTopRight">
+    <ui:include src="plugins/languageSelector/plugin.xhtml"/>
+</ui:define>
+<ui:define name="headerBottomLeft">&#160;</ui:define>
+<ui:define name="headerBottomRight">&#160;</ui:define>
+
+<ui:define name="sidebar">
+    <ui:include src="plugins/mainMenu/plugin.xhtml"/>
+</ui:define>
+
+<ui:define name="control">
+    <s:link id="exit" value="Exit Editor" styleClass="linkNavigation" action="#{browser.redirectToLastBrowsedPage()}"
+              propagation="end"/>
+</ui:define>
+
+<ui:define name="content">
+
+    <h:form>
+        <div class="form">
+            <div class="formHead">
+                <h:outputText value="New document: #{documentHome.instance.name}" rendered="#{!documentHome.managed}"/>
+                <h:outputText value="Editing document: #{documentHome.instance.name}"
+                              rendered="#{documentHome.managed}"/>
+            </div>
+
+            <div class="formFields">
+
+                <s:validateAll>
+
+                    <div class="entry">
+                        <div class="label">Directory:</div>
+                        <div class="output">#{currentDirectory.name}</div>
+                    </div>
+
+                    <s:decorate>
+                        <div class="entry">
+                            <div class="label">Name:</div>
+                            <div class="input">
+                                <h:inputText size="80" maxlength="255" id="name" required="true"
+                                             value="#{documentHome.instance.name}"/>
+                            </div>
+                        </div>
+                    </s:decorate>
+
+                    <s:decorate>
+                        <div class="entry">
+                            <div class="label">Content:</div>
+                            <div class="input">
+                                <h:inputTextarea id="content" required="true" cols="80" rows="30"
+                                                 value="#{documentHome.formContent}"/>
+                            </div>
+                        </div>
+                    </s:decorate>
+
+                </s:validateAll>
+
+            </div>
+            <div class="formControls">
+
+                <div class="entry">
+                    <div class="label">&#160;</div>
+                    <div class="input">
+                        <h:commandButton id="preview" value="Preview" styleClass="buttonNonpersistent"
+                                         action="#{documentHome.setEnabledPreview(true)}"/>
+
+                        <h:commandButton id="save" value="Save" styleClass="button"
+                                         action="#{documentHome.persist}"
+                                         rendered="#{!documentHome.managed}"/>
+
+                        <h:commandButton id="update" value="Update" styleClass="button"
+                                         action="#{documentHome.update}"
+                                         rendered="#{documentHome.managed}"/>
+
+                        <h:commandButton id="delete" value="Delete" styleClass="button"
+                                         action="#{documentHome.remove}"
+                                         rendered="#{documentHome.managed}"/>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </h:form>
+
+    <s:div styleClass="documentDisplay" rendered="#{documentHome.enabledPreview}">
+        <wiki:formattedText value="#{currentDocument.content}"/>
+    </s:div>
+
+</ui:define>
+
+<ui:define name="footer">
+
+</ui:define>
+
+</ui:composition>
+

@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:s="http://jboss.com/products/seam/taglib">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Wiki&#160;-&#160;
+        <ui:insert name="screenname"/>
+    </title>
+    <link href="themes/default/css/template.css" rel="stylesheet" type="text/css"/>
+    <ui:insert name="pluginCSS"/>
+</head>
+
+<body>
+
+<div id="screen">
+
+    <div id="header">
+        <div id="headerTopLeft">
+            <div class="screenname">
+                <ui:insert name="screenname"/>
+            </div>
+        </div>
+        <div id="headerTopRight">
+            <ui:insert name="headerTopRight"/>
+        </div>
+        <div id="headerBottomLeft">
+            <ui:insert name="headerBottomLeft"/>
+        </div>
+        <div id="headerBottomRight">
+            <ui:insert name="headerBottomRight"/>
+        </div>
+    </div>
+
+    <div id="control">
+        <ui:insert name="control"/>
+    </div>
+
+    <div id="sidebar">
+        <ui:insert name="sidebar"/>
+    </div>
+
+    <div id="body">
+        <div id="messageBox">
+            <h:panelGrid columns="2" rendered="#{!empty facesMessages.currentGlobalMessages}" styleClass="messageTable">
+                <ui:repeat var="message" value="#{facesMessages.currentGlobalMessages}">
+                    <h:graphicImage value="themes/default/img/info.gif"
+                                    width="18" height="18"
+                                    styleClass="infoImage"/>
+                    <h:outputText styleClass="infoMessage" value="#{message.summary}"/>
+                </ui:repeat>
+            </h:panelGrid>
+        </div>
+        <div id="content">
+
+            <f:facet name="beforeInvalidField">
+                <h:panelGroup>
+                    <h:graphicImage value="themes/default/img/attention.gif"
+                                    width="18" height="18"
+                                    styleClass="attentionImage"/>
+                    <s:span styleClass="errorMessage">&#160;
+                        <s:message/>
+                    </s:span>
+                </h:panelGroup>
+            </f:facet>
+            <f:facet name="aroundInvalidField">
+                <s:div styleClass="errorDiv"/>
+            </f:facet>
+
+            <ui:insert name="content"/>
+        </div>
+    </div>
+
+    <div id="footer">
+        <ui:insert name="footer"/>
+    </div>
+
+    <!-- Remove this to disable Facelets JSF debugging -->
+    <ui:debug hotkey="D"/>
+
+</div>
+
+</body>
+</html>

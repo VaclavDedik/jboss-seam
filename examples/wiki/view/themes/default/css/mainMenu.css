@@ -1,0 +1,54 @@
+#mainMenu tbody, table, tr, td {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+#mainMenu .areaMenuTable {
+    width: 100%;
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+#mainMenu .subMenuTable {
+    width: 90%;
+    border: 0;
+    margin-top: 5px;
+    margin-left: auto;
+    padding: 0;
+}
+#mainMenu .firstLevelItem {
+    background: #3e3532 url(../img/menu.bg.gif) 0 0 repeat-x;
+    border-style: none;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+#mainMenu .firstLevelItemLink {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 85%;
+    font-weight: bold;
+    color: #fff;
+    text-decoration: none;
+    margin-left: 10px;
+}
+
+#mainMenu .firstLevelItemLink:hover {color: #ccc}   /* mouse over link */
+
+#mainMenu .secondLevelItem {
+    background-color: #3e3532;
+    border-style: none;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+#mainMenu .secondLevelItemLink {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 70%;
+    font-weight: bold;
+    color: #fff;
+    text-decoration: none;
+    margin-left: 10px;
+    white-space: nowrap;
+}
+
+#mainMenu .secondLevelItemLink:hover {color: #ccc}   /* mouse over link */

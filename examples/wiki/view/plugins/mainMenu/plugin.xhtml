@@ -1,0 +1,37 @@
+<div id="mainMenu"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <h:dataTable id="areaMenuList" var="menuItem"
+                 value="#{menu.items}"
+                 styleClass="areaMenuTable"
+                 cellpadding="0" cellspacing="0" border="0"
+                 columnClasses="firstLevelItem"
+                 rendered="#{!empty menu.items}">
+
+        <h:column>
+            <h:outputLink styleClass="firstLevelItemLink"
+                          value="#{menuItem.node.id}.html">#{menuItem.node.name}
+            </h:outputLink>
+
+            <h:dataTable id="subMenuList" var="subMenuItem"
+                         value="#{menuItem.subItems}"
+                         styleClass="subMenuTable"
+                         cellpadding="0" cellspacing="0" border="0"
+                         columnClasses="secondLevelItem"
+                         rendered="#{!empty menuItem.subItems}">
+                <h:column>
+                    <h:outputLink styleClass="secondLevelItemLink"
+                                  value="#{subMenuItem.node.id}.html">#{subMenuItem.node.name}
+                    </h:outputLink>
+                </h:column>
+            </h:dataTable>
+
+        </h:column>
+
+    </h:dataTable>
+    
+</div>

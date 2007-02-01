@@ -1,0 +1,181 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="themes/default/template.xhtml">
+
+
+<ui:define name="pluginCSS">
+    <link href="themes/default/css/languageSelector.css" rel="stylesheet" type="text/css"/>
+    <link href="themes/default/css/mainMenu.css" rel="stylesheet" type="text/css"/>
+</ui:define>
+
+<ui:define name="screenname">
+    <h:outputText value="Create directory" rendered="#{!directoryHome.managed}"/>
+    <h:outputText value="Edit directory" rendered="#{directoryHome.managed}"/>
+</ui:define>
+
+<ui:define name="headerTopRight">
+    <ui:include src="plugins/languageSelector/plugin.xhtml"/>
+</ui:define>
+<ui:define name="headerBottomLeft">&#160;</ui:define>
+<ui:define name="headerBottomRight">&#160;</ui:define>
+
+<ui:define name="sidebar">
+    <ui:include src="plugins/mainMenu/plugin.xhtml"/>
+</ui:define>
+
+<ui:define name="control">
+    <s:link id="exit" value="Exit Editor" styleClass="linkNavigation" action="#{directoryBrowser.redirectToLastBrowsedPage()}"
+              propagation="end"/>
+</ui:define>
+
+<ui:define name="content">
+
+<h:form>
+<div class="form">
+<div class="formHead">
+    <h:outputText value="New directory: #{directoryHome.instance.name}"
+                  rendered="#{!directoryHome.managed}"/>
+    <h:outputText value="Editing directory: #{directoryHome.instance.name}"
+                  rendered="#{directoryHome.managed}"/>
+</div>
+
+<div class="formFields">
+
+    <s:validateAll>
+
+        <s:div styleClass="entry" rendered="#{directoryHome.managed and !empty directoryHome.instance.parent}">
+            <div class="label">Parent:</div>
+            <div class="output">
+                <h:outputText value="#{directoryHome.instance.parent.name}"/>
+            </div>
+        </s:div>
+
+        <s:div styleClass="entry" rendered="#{!directoryHome.managed}">
+            <div class="label">Parent:</div>
+            <div class="output">
+                <h:outputText value="#{directoryHome.parentDirectory.name}"/>
+            </div>
+        </s:div>
+
+        <s:decorate>
+            <div class="entry">
+                <div class="label">Name:</div>
+                <div class="input">
+                    <h:inputText size="40" maxlength="255" id="name" required="true"
+                                 value="#{directoryHome.instance.name}"/>
+                </div>
+            </div>
+        </s:decorate>
+
+    </s:validateAll>
+
+    <s:div styleClass="entry" rendered="#{childNodes.rowCount>0}">
+        <div class="label">Content:</div>
+        <div class="input">
+            <h:dataTable id="directoryFormTable" var="node" width="75%" style="border-width: 1px;"
+                         value="#{childNodes}"
+                         binding="#{uiBindings.childNodeTable}"
+                         styleClass="directoryList"
+                         headerClass="directoryListHeader"
+                         columnClasses="positionUpColumn,positionDownColumn,menuControlColumn,defaultDocumentSelectColumn,iconColumn,nameColumn"
+                         rowClasses="rowOdd,rowEven"
+                         cellpadding="0" cellspacing="0" border="0">
+
+                <h:column>
+                    <h:commandLink id="nodeUp"
+                                   action="#{directoryHome.moveNodeUpInList}"
+                                   rendered="#{uiBindings.childNodeTable.rowIndex > 0}">
+                        <h:graphicImage value="themes/default/img/up.gif" width="18" height="18"/>
+                    </h:commandLink>
+                </h:column>
+                <h:column>
+                    <h:commandLink id="nodeDown"
+                                   action="#{directoryHome.moveNodeDownInList}"
+                                   rendered="#{uiBindings.childNodeTable.rowIndex+1 lt uiBindings.childNodeTable.rowCount}">
+                        <h:graphicImage value="themes/default/img/down.gif" width="18" height="18"/>
+                    </h:commandLink>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        Menu Item
+                    </f:facet>
+                    <h:selectBooleanCheckbox value="#{node.menuItem}"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        Start Document
+                    </f:facet>
+                    <h:commandLink id="defaultDocument"
+                                   action="#{directoryHome.selectDefaultDocument}"
+                                   rendered="#{directoryHome.instance.defaultDocument != node and node.class.simpleName == 'Document'}">
+                        <h:graphicImage value="themes/default/img/right.gif" width="18" height="18"/>
+                    </h:commandLink>
+
+                    <h:graphicImage value="themes/default/img/check.gif" width="18" height="18"
+                                    rendered="#{directoryHome.instance.defaultDocument == node}"/>
+
+                    <h:outputText value="-" rendered="#{node.class.simpleName == 'Directory'}"/>
+                </h:column>
+
+                <h:column>
+                    <h:graphicImage value="themes/default/img/icon.dir.gif"
+                                    width="18" height="20"
+                                    rendered="#{node.class.simpleName == 'Directory'}"/>
+                    <h:graphicImage value="themes/default/img/icon.doc.gif"
+                                    width="18" height="20"
+                                    rendered="#{node.class.simpleName == 'Document'}"/>
+                </h:column>
+
+                <h:column>
+                    <h:outputText value="#{node.name}"/>
+                </h:column>
+
+            </h:dataTable>
+        </div>
+    </s:div>
+
+</div>
+<div class="formControls">
+
+    <div class="entry">
+        <div class="label">&#160;</div>
+        <div class="input">
+            <h:commandButton id="preview" value="Preview" styleClass="buttonNonpersistent"
+                             action="#{directoryHome.previewMenuItems()}"/>
+            <h:commandButton id="save" value="Save" styleClass="button"
+                             action="#{directoryHome.persist}"
+                             rendered="#{!directoryHome.managed}"/>
+
+            <h:commandButton id="update" value="Update" styleClass="button"
+                             action="#{directoryHome.update}"
+                             rendered="#{directoryHome.managed}"/>
+
+            <h:commandButton id="delete" value="Delete" styleClass="button"
+                             action="#{directoryHome.remove}"
+                             rendered="#{directoryHome.managed
+                                        and !empty directoryHome.instance.parent
+                                        and empty directoryHome.instance.children}"/>
+
+        </div>
+    </div>
+
+</div>
+
+</div>
+</h:form>
+
+</ui:define>
+
+<ui:define name="footer">
+
+</ui:define>
+
+</ui:composition>
+

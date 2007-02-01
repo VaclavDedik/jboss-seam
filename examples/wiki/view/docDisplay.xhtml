@@ -1,0 +1,56 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:wiki="http://jboss.com/products/seam/wikitaglib"
+                template="themes/default/template.xhtml">
+
+<ui:define name="pluginCSS">
+    <link href="themes/default/css/languageSelector.css" rel="stylesheet" type="text/css"/>
+    <link href="themes/default/css/breadcrumb.css" rel="stylesheet" type="text/css"/>
+    <link href="themes/default/css/mainMenu.css" rel="stylesheet" type="text/css"/>
+</ui:define>
+
+<ui:define name="screenname">Display Document</ui:define>
+
+<ui:define name="headerTopRight">
+    <ui:include src="plugins/languageSelector/plugin.xhtml"/>
+</ui:define>
+<ui:define name="headerBottomLeft">
+    <ui:include src="plugins/breadcrumb/plugin.xhtml"/>
+</ui:define>
+<ui:define name="headerBottomRight">&#160;</ui:define>
+
+
+<ui:define name="sidebar">
+    <ui:include src="plugins/mainMenu/plugin.xhtml"/>
+</ui:define>
+
+<ui:define name="control">
+    <div>
+        <h:panelGroup>
+
+            <s:link id="createDoc" styleClass="linkNavigation" value="Create" action="createDoc"/>
+            <s:link id="editDoc" styleClass="linkNavigation" value="Edit" view="/doc/edit.xhtml"/>
+            <s:link id="discussDoc" styleClass="linkNavigation" value="Discuss"/>
+            <s:link id="browseDir" styleClass="linkNavigation" value="Browse" action="browseDir" propagation="none"/>
+
+        </h:panelGroup>
+    </div>
+</ui:define>
+
+<ui:define name="content">
+    <s:div styleClass="documentDisplay">
+        <wiki:formattedText value="#{currentDocument.content}"/>
+    </s:div>
+</ui:define>
+
+<ui:define name="footer">
+    Footer
+</ui:define>
+
+</ui:composition>
+

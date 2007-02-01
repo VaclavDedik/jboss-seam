@@ -1,0 +1,21 @@
+<div id="breadcrumb"
+	 xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <h:panelGroup>
+        <ui:repeat var="directory" value="#{currentDirectoryPath}">
+            <h:outputLink value="#{directory.id}.html" styleClass="itemLink" rendered="#{!empty directory.parent}">
+                #{directory.name}
+            </h:outputLink>
+            <h:outputText styleClass="itemSeparator" value="&#183;"
+                          rendered="#{!empty currentDocument and !empty directory.parent}"/>
+        </ui:repeat>
+
+        <h:outputText styleClass="itemText" value="#{currentDocument.name}"/>
+
+    </h:panelGroup>
+
+</div>
