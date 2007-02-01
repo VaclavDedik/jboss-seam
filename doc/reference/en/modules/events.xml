@@ -71,7 +71,7 @@
 
         <programlisting><![CDATA[<pages>
     <page view-id="/hello.jsp" action="#{helloWorld.sayHello}"/>
-<pages>]]></programlisting>
+</pages>]]></programlisting>
 
         <para>
             Or we can use a wildcard to specify an action that applies to all 
@@ -80,7 +80,7 @@
 
         <programlisting><![CDATA[<pages>
     <page view-id="/hello/*" action="#{helloWorld.sayHello}"/>
-<pages>]]></programlisting>
+</pages>]]></programlisting>
 
         <para>
             If multiple wildcarded page actions match the current view-id, Seam
@@ -129,7 +129,7 @@
         <param name="firstName" value="#{person.firstName}"/>
         <param name="lastName" value="#{person.lastName}"/>
     </page>
-<pages>]]></programlisting>
+</pages>]]></programlisting>
 
             <para>
                 The <literal>&lt;param&gt;</literal> declaration is bidirectional, just
@@ -202,7 +202,7 @@
         <param name="firstName" value="#{person.firstName}"/>
         <param name="lastName" value="#{person.lastName}"/>
     </page>
-<pages>]]></programlisting>
+</pages>]]></programlisting>
 
             <para>
                 You can even specify a JSF converter:
@@ -214,7 +214,7 @@
         <param name="y" value="#{calculator.rhs}"/>
         <param name="op" converterId="com.my.calculator.OperatorConverter" value="#{calculator.op}"/>
     </page>
-<pages>]]></programlisting>
+</pages>]]></programlisting>
 
             <programlisting><![CDATA[<pages>
     <page view-id="/calculator.jsp" action="#{calculator.calculate}">
@@ -453,7 +453,7 @@
         <action expression="#{helloListener.sayHelloBack}"/>
         <action expression="#{logger.logHello}"/>
     </event>
-<events>]]></programlisting>
+</events>]]></programlisting>
 
             <para>
                 Where the <emphasis>event type</emphasis> is just an arbitrary string.
