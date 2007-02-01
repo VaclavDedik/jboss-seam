@@ -12,6 +12,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import javax.faces.el.ValueBinding;
 
 import org.jboss.seam.core.Messages;
 
@@ -35,7 +36,8 @@ public class SelectDate
     }
     
     public String getFor(){
-        return forField;
+        ValueBinding vb = getValueBinding("for");
+        return (vb != null) ? JSF.getStringValue(getFacesContext(), vb) : forField;
     }    
     public void setFor(String forField) {
         this.forField = forField;
@@ -72,7 +74,7 @@ public class SelectDate
     @Override
     public void encodeBegin(FacesContext context) throws IOException
     {
-        UIComponent forComponent = findComponent(forField);
+        UIComponent forComponent = findComponent(getFor());
 
         writeScript(context, SELECTDATE_JS);
         ResponseWriter response = context.getResponseWriter();
