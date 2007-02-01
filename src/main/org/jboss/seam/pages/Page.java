@@ -182,8 +182,8 @@ public final class Page
          if (expr == null)
          {
             expr = String.format("#{s:hasPermission('%s', 'render', null)}", getViewId());
-            Identity.instance().checkRestriction(expr);
          }
+         Identity.instance().checkRestriction(expr);
       }      
       
       boolean result = false;
