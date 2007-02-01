@@ -210,7 +210,7 @@ public class Authenticator {
           annotation.  If both a method and it's declaring class are annotated with <literal>@Restrict</literal>,
           the method restriction will take precendence (and the class restriction will not apply).  If a method
           invocation fails a security check, then an exception will be thrown as per the contract for
-          <literal>Identity.checkRestriction()</literal>.
+          <literal>Identity.checkRestriction()</literal> (see Inline Restrictions).
         </para>
         
         <para>
@@ -262,11 +262,11 @@ public class Authenticator {
           Before we go any further, let's address the <literal>#{s:hasRole()}</literal> expression seen in the above
           example.  Both <literal>s:hasRole</literal> and <literal>s:hasPermission</literal> are EL functions, which
           delegate to the correspondingly named methods of the <literal>Identity</literal> class. These
-          functions can be used within any EL expression throughout the entirity of the security API.
+          functions can be used within any EL expression throughout the entirety of the security API.
         </para>
 
         <para>
-          Being an EL expression, the value of the <literal>@Restrict</literal> annotation may reference objects that
+          Being an EL expression, the value of the <literal>@Restrict</literal> annotation may reference any objects that
           exist within a Seam context.  This is extremely useful when performing permission checks for a specific
           object instance.  Look at this example:
         </para>
@@ -328,7 +328,7 @@ public class Authenticator {
     </sect2>
     
     <sect2>
-      <title>Securing the user interface</title>
+      <title>Security in the user interface</title>
       
       <para>
         One indication of a well designed user interface is that the user is not presented with options for 
@@ -380,21 +380,21 @@ public class Authenticator {
       
       <programlisting>
         <![CDATA[
-	<h:dataTable value="#{clients}" var="cl">
-		<h:column>
-			<f:facet name="header">Name</f:facet>
-			#{cl.name}
-		</h:column>
-		<h:column>
-			<f:facet name="header">City</f:facet>
-			#{cl.city}
-		</h:column>   
-		<h:column>
-			<f:facet name="header">Action</f:facet>
-			<s:link value="Modify Client" action="#{clientAction.modify}" rendered="#{s:hasPermission('client','modify',cl)"/>
-   		<s:link value="Delete Client" action="#{clientAction.delete}" rendered="#{s:hasPermission('client','delete',cl)"/>
-		</h:column>
-	</h:dataTable>
+  <h:dataTable value="#{clients}" var="cl">
+    <h:column>
+      <f:facet name="header">Name</f:facet>
+      #{cl.name}
+    </h:column>
+    <h:column>
+      <f:facet name="header">City</f:facet>
+      #{cl.city}
+    </h:column>   
+    <h:column>
+      <f:facet name="header">Action</f:facet>
+      <s:link value="Modify Client" action="#{clientAction.modify}" rendered="#{s:hasPermission('client','modify',cl)"/>
+      <s:link value="Delete Client" action="#{clientAction.delete}" rendered="#{s:hasPermission('client','delete',cl)"/>
+    </h:column>
+  </h:dataTable>
         ]]>
       </programlisting>
     </sect2>
