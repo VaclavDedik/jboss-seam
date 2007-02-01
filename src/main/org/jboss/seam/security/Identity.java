@@ -65,7 +65,7 @@ public class Identity extends Selector
    @Override
    protected String getCookieName()
    {
-      return "org.jboss.seam.security.credentials";
+      return "org.jboss.seam.security.username";
    }
       
    @Create
@@ -81,6 +81,15 @@ public class Identity extends Selector
       setCookieEnabled(true);
       username = getCookieValue();
       setCookieEnabled(false);
+      if (username!=null)
+      {
+         postRememberMe();
+      }
+   }
+
+   protected void postRememberMe()
+   {
+      Events.instance().raiseEvent("org.jboss.seam.rememberMe");
    }
    
    protected void initSecurityContext()

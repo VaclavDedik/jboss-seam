@@ -410,7 +410,7 @@ input.registerButton {
   padding: 3px 8px 3px 8px;
 }
 
-div.loginRow input {
+div.loginRow input[type='text'], div.loginRow input[type='password'] {
   width: 180px;
 }
 
