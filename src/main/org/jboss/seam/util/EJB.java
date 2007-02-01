@@ -25,6 +25,7 @@ public class EJB
    public static final Class<Annotation> REMOVE;
    public static final Class<Annotation> LOCAL;
    public static final Class<Annotation> APPLICATION_EXCEPTION;
+   public static final Class<Annotation> PERSISTENCE_CONTEXT;
    public static final Class<Annotation> INTERCEPTORS;
    public static final Class<Annotation> AROUND_INVOKE;
    public static boolean INVOCATION_CONTEXT_AVAILABLE;
@@ -47,6 +48,7 @@ public class EJB
       STATEFUL = classForName("javax.ejb.Stateful");
       MESSAGE_DRIVEN = classForName("javax.ejb.MessageDriven");
       APPLICATION_EXCEPTION = classForName("javax.ejb.ApplicationException");
+      PERSISTENCE_CONTEXT = classForName("javax.persistence.PersistenceContext");
       REMOVE = classForName("javax.ejb.Remove");
       REMOTE = classForName("javax.ejb.Remote");
       LOCAL = classForName("javax.ejb.Local");

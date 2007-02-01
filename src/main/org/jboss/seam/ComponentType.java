@@ -27,6 +27,11 @@ public enum ComponentType
       return this==STATELESS_SESSION_BEAN || this==STATEFUL_SESSION_BEAN;
    }
    
+   public boolean isStateless()
+   {
+      return this==STATELESS_SESSION_BEAN || this==MESSAGE_DRIVEN_BEAN;
+   }
+   
    public ScopeType getDefaultScope()
    {
       switch (this)

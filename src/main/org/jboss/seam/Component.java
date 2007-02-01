@@ -25,6 +25,7 @@ import static org.jboss.seam.util.EJB.PRE_DESTROY;
 import static org.jboss.seam.util.EJB.PRE_PASSIVATE;
 import static org.jboss.seam.util.EJB.REMOTE;
 import static org.jboss.seam.util.EJB.REMOVE;
+import static org.jboss.seam.util.EJB.PERSISTENCE_CONTEXT;
 import static org.jboss.seam.util.EJB.value;
 
 import java.io.Serializable;
@@ -521,6 +522,13 @@ public class Component
             if ( method.isAnnotationPresent(PRE_DESTROY) )
             {
                preDestroyMethod = method;
+            }
+            if ( method.isAnnotationPresent(PERSISTENCE_CONTEXT) )
+            {
+               if ( !type.isSessionBean() && type!=MESSAGE_DRIVEN_BEAN )
+               {
+                  throw new IllegalArgumentException("@PersistenceContext may only be used on session bean or message driven bean components: " + name);
+               }
             }
 
             for ( Annotation ann: method.getAnnotations() )
