@@ -5,7 +5,6 @@ import static org.jboss.seam.ScopeType.SESSION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.security.Principal;
 import java.security.acl.Group;
 import java.util.ArrayList;
@@ -28,15 +27,16 @@ import org.drools.RuleBase;
 import org.drools.WorkingMemory;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.core.AbstractMutable;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.FacesMessages;
+import org.jboss.seam.core.Selector;
 import org.jboss.seam.core.Expressions.MethodBinding;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -46,7 +46,7 @@ import org.jboss.seam.util.UnifiedELValueBinding;
 @Scope(SESSION)
 @Install(precedence = BUILT_IN, classDependencies="org.drools.WorkingMemory")
 @Intercept(NEVER)
-public class Identity extends AbstractMutable implements Serializable
+public class Identity extends Selector
 {  
    private static final long serialVersionUID = 3751659008033189259L;
    
@@ -61,12 +61,26 @@ public class Identity extends AbstractMutable implements Serializable
    private Subject subject;
    
    private WorkingMemory securityContext;
+   
+   @Override
+   protected String getCookieName()
+   {
+      return "org.jboss.seam.security.credentials";
+   }
       
    @Create
    public void create()
    {     
       subject = new Subject();
       initSecurityContext();
+      initCredentialsFromCookie();
+   }
+
+   private void initCredentialsFromCookie()
+   {
+      setCookieEnabled(true);
+      username = getCookieValue();
+      setCookieEnabled(false);
    }
    
    protected void initSecurityContext()
@@ -165,8 +179,6 @@ public class Identity extends AbstractMutable implements Serializable
    {
       preAuthenticate();
       loginContext.login();
-      password = null;
-      setDirty();
       postAuthenticate();
    }
    
@@ -186,12 +198,7 @@ public class Identity extends AbstractMutable implements Serializable
    
    public void logout()
    {
-      username = null;
-      password = null;
-      principal = null;
-      subject = new Subject();
-      initSecurityContext();
-      setDirty();
+      Seam.invalidateSession();
    }
 
    /**
@@ -260,9 +267,9 @@ public class Identity extends AbstractMutable implements Serializable
 
       PermissionCheck check = new PermissionCheck(name, action);
 
-      synchronized(securityContext)
+      synchronized( getSecurityContext() )
       {
-         handles.add(securityContext.assertObject(check));
+         handles.add( getSecurityContext().assertObject(check) );
          
          for (int i = 0; i < arg.length; i++)
          {
@@ -270,22 +277,22 @@ public class Identity extends AbstractMutable implements Serializable
             {
                for (Object value : (Collection) arg[i])
                {
-                  if (securityContext.getFactHandle(value) == null)
+                  if ( getSecurityContext().getFactHandle(value) == null )
                   {
-                     handles.add( securityContext.assertObject(value) );
+                     handles.add( getSecurityContext().assertObject(value) );
                   }
                }               
             }
             else
             {
-               handles.add(securityContext.assertObject(arg[i]));
+               handles.add( getSecurityContext().assertObject(arg[i]) );
             }
          }
    
-         securityContext.fireAllRules();
+         getSecurityContext().fireAllRules();
    
          for (FactHandle handle : handles)
-            securityContext.retractObject(handle);
+            getSecurityContext().retractObject(handle);
       }
       
       return check.isGranted();
@@ -333,8 +340,21 @@ public class Identity extends AbstractMutable implements Serializable
     */
    protected void postAuthenticate()
    {
+      populateSecurityContext();
+      
+      setCookieValue( getUsername() );
+      
+      password = null;
+      setDirty();
+
+      Events.instance().raiseEvent("org.jboss.seam.postAuthenticate");
+
+   }
+
+   protected void populateSecurityContext()
+   {
       // Populate the working memory with the user's principals
-      for ( Principal p : subject.getPrincipals() )
+      for ( Principal p : getSubject().getPrincipals() )
       {         
          if ( (p instanceof Group) && "roles".equals( ( (Group) p ).getName() ) )
          {
@@ -342,7 +362,7 @@ public class Identity extends AbstractMutable implements Serializable
             while ( e.hasMoreElements() )
             {
                Principal role = (Principal) e.nextElement();
-               securityContext.assertObject( new Role( role.getName() ) );
+               getSecurityContext().assertObject( new Role( role.getName() ) );
             }
          }
          else
@@ -352,12 +372,10 @@ public class Identity extends AbstractMutable implements Serializable
                principal = p;
                setDirty();
             }
-            securityContext.assertObject(p);            
+            getSecurityContext().assertObject(p);            
          }
          
-         Events.instance().raiseEvent("org.jboss.seam.postAuthenticate");
       }
-      
    }
    
    /**
@@ -386,15 +404,9 @@ public class Identity extends AbstractMutable implements Serializable
       this.username = username;
    }
    
-   /**
-    * Needed by EL value bindings, always
-    * returns null.
-    * 
-    * @return null
-    */
    public String getPassword()
    {
-      return null;
+      return password;
    }
    
    public void setPassword(String password)
@@ -416,6 +428,16 @@ public class Identity extends AbstractMutable implements Serializable
    public void setAuthenticateMethod(MethodBinding authMethod)
    {
       this.authenticateMethod = authMethod;
+   }
+   
+   public boolean isRememberMe()
+   {
+      return isCookieEnabled();
+   }
+   
+   public void setRememberMe(boolean remember)
+   {
+      setCookieEnabled(remember);
    }
    
 }

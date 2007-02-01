@@ -12,6 +12,7 @@
     </xs:element>
     <xs:attributeGroup name="attlist.identity">
         <xs:attribute name="authenticate-method" />
+        <xs:attribute name="remember-me" type="xs:boolean"/>
     </xs:attributeGroup>
     
 </xs:schema>

@@ -38,13 +38,18 @@
             
             <div class="loginRow">
               <h:outputLabel for="password" value="Password" styleClass="loginLabel"/>
-              <h:inputSecret id="password" value="#{identity.password}"/>
+              <h:inputSecret id="password" value="#{identity.password}" redisplay="true"/>
             </div>
             
             <div class="validationMsg">
               <h:message for="password"/>
             </div>          
             
+            <div class="loginRow">
+              <h:outputLabel for="rememberMe" value="Remember me" styleClass="loginLabel"/>
+              <h:selectBooleanCheckbox id="rememberMe" value="#{identity.rememberMe}"/>
+            </div>
+
             <div class="buttons">
               <h:commandButton value="LOGIN" action="#{identity.login}" styleClass="loginButton"/>
               <h:commandButton value="SIGN UP!" action="#{register.start}" styleClass="registerButton"/>
