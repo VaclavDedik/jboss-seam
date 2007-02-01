@@ -33,6 +33,7 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.FacesMessages;
@@ -46,6 +47,7 @@ import org.jboss.seam.util.UnifiedELValueBinding;
 @Scope(SESSION)
 @Install(precedence = BUILT_IN, classDependencies="org.drools.WorkingMemory")
 @Intercept(NEVER)
+@Startup
 public class Identity extends Selector
 {  
    private static final long serialVersionUID = 3751659008033189259L;
