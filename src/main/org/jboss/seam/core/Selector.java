@@ -1,11 +1,8 @@
 package org.jboss.seam.core;
-
 import java.io.Serializable;
-
 import javax.faces.context.FacesContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-
 /**
  * Support for selector objects which remember their selection as a cookie
  * 
@@ -24,13 +21,11 @@ public abstract class Selector extends AbstractMutable implements Serializable
    {
       return cookieEnabled;
    }
-
    public void setCookieEnabled(boolean cookieEnabled)
    {
       setDirty(this.cookieEnabled, cookieEnabled);
       this.cookieEnabled = cookieEnabled;
    }
-
    /**
     * The max age of the cookie
     * @return 1 year by default
@@ -39,7 +34,6 @@ public abstract class Selector extends AbstractMutable implements Serializable
    {
       return cookieMaxAge;
    }
-
    public void setCookieMaxAge(int cookieMaxAge)
    {
       this.cookieMaxAge = cookieMaxAge;
@@ -55,16 +49,19 @@ public abstract class Selector extends AbstractMutable implements Serializable
     */
    protected String getCookieValue()
    {
+      Cookie cookie = null;
+      
       if ( isCookieEnabled() )
       {
-         Cookie cookie = (Cookie) FacesContext.getCurrentInstance().getExternalContext()
-               .getRequestCookieMap().get( getCookieName() );
-         return cookie==null ? null : cookie.getValue();
+         FacesContext ctx = FacesContext.getCurrentInstance();
+         if (ctx != null)
+         {
+            cookie = (Cookie) ctx.getExternalContext().getRequestCookieMap()
+               .get( getCookieName() );
+         }
       }
-      else
-      {
-         return null;
-      }
+      
+      return cookie==null ? null : cookie.getValue();      
    }
    
    /**
