@@ -2,6 +2,7 @@ package org.jboss.seam.mail.ui;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 
 import javax.activation.DataHandler;
@@ -13,6 +14,7 @@ import javax.faces.context.FacesContext;
 import javax.mail.BodyPart;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeBodyPart;
+import javax.mail.util.ByteArrayDataSource;
 
 import org.jboss.seam.util.Resources;
 
@@ -22,6 +24,8 @@ public class UIAttachment extends MailComponent
    private Object value;
 
    private String contentType;
+
+   private String fileName;
 
    public Object getValue()
    {
@@ -45,8 +49,6 @@ public class UIAttachment extends MailComponent
    {
       DataSource ds = null;
       // TODO Support seam-pdf
-      // TODO Support byte array, input stream
-      // TODO Override content type, file name
       try
       {
          if (getValue() instanceof URL)
@@ -64,12 +66,24 @@ public class UIAttachment extends MailComponent
             String string = (String) getValue();
             ds = new URLDataSource(Resources.getResource(string));
          }
+         else if (getValue() instanceof InputStream)
+         {
+            InputStream is = (InputStream) getValue();
+            ds = new ByteArrayDataSource(is, getContentType());
+         }
+         else if (getValue() != null && getValue().getClass().isArray())
+         {
+            if (getValue().getClass().getComponentType().isAssignableFrom(Byte.class))
+            {
+               byte[] b = (byte[]) getValue();
+               ds = new ByteArrayDataSource(b, getContentType());
+            }
+         }
          if (ds != null)
          {
             BodyPart attachment = new MimeBodyPart();
             attachment.setDataHandler(new DataHandler(ds));
-            // TODO Make this default to just the filename
-            attachment.setFileName(ds.getName());
+            attachment.setFileName(getName(ds.getName()));
             super.getRootMultipart().addBodyPart(attachment);
          }
       }
@@ -100,6 +114,47 @@ public class UIAttachment extends MailComponent
    public void setContentType(String contentType)
    {
       this.contentType = contentType;
+   }
+
+   public String getFileName()
+   {
+      if (fileName == null)
+      {
+         return getString("fileName");
+      }
+      else
+      {
+         return fileName;
+      }
+   }
+
+   public void setFileName(String fileName)
+   {
+      this.fileName = fileName;
+   }
+
+   private String removePath(String fileName)
+   {
+      if (fileName.lastIndexOf("/") > 0)
+      {
+         return fileName.substring(fileName.lastIndexOf("/"));
+      }
+      else
+      {
+         return fileName;
+      }
+   }
+
+   private String getName(String name)
+   {
+      if (getFileName() != null)
+      {
+         return getFileName();
+      }
+      else
+      {
+         return removePath(name);
+      }
    }
 
 }
