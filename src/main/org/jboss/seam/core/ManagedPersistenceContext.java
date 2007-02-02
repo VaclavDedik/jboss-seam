@@ -131,22 +131,7 @@ public class ManagedPersistenceContext
    }
    
    //we can't use @PostActivate because it is intercept NEVER
-   public void sessionDidActivate(HttpSessionEvent event)
-   {
-      boolean createContext = !Contexts.isApplicationContextActive();
-      if (createContext) Lifecycle.beginCall();
-      try
-      {
-         if (entityManager==null)
-         {
-            initEntityManager();
-         }
-      }
-      finally
-      {
-         if (createContext) Lifecycle.endCall();
-      }
-   }
+   public void sessionDidActivate(HttpSessionEvent event) {}
    
    @Destroy
    public void destroy()
