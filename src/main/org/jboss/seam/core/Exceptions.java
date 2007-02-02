@@ -78,13 +78,10 @@ public class Exceptions
    @Create
    public void initialize() throws Exception 
    {
-      InputStream stream = Resources.getResourceAsStream("/WEB-INF/exceptions.xml");
+      InputStream stream = Resources.getResourceAsStream("/WEB-INF/exceptions.xml"); //deprecated
+      if (stream==null) stream = Resources.getResourceAsStream("/WEB-INF/pages.xml");
       ExceptionHandler anyhandler = null;
-      if (stream==null)
-      {
-         log.info("no exceptions.xml file found");
-      }
-      else
+      if (stream!=null)
       {
          log.info("reading exceptions.xml");
          List<Element> elements = XML.getRootElement(stream).elements("exception");
