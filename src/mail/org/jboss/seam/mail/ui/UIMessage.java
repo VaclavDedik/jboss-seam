@@ -5,9 +5,11 @@ import java.io.IOException;
 import javax.faces.FacesException;
 import javax.faces.context.FacesContext;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 import org.jboss.seam.mail.MailSession;
 
@@ -55,9 +57,11 @@ public class UIMessage extends MailComponent
       this.session = session;
    }
    
-   public MimeMessage getMimeMessage() {
+   public MimeMessage getMimeMessage() throws MessagingException {
       if (mimeMessage == null) {
          mimeMessage = new MimeMessage(getMailSession());
+         Multipart root = new MimeMultipart();
+         mimeMessage.setContent(root);
       }
       return mimeMessage;
    }

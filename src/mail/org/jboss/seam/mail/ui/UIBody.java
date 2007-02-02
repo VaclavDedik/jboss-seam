@@ -32,10 +32,11 @@ public class UIBody extends MailComponent
      try
      {
         String body = encode(facesContext);
-        MimeMessage mimeMessage = findMimeMessage();
+        
+        BodyPart bodyPart = new MimeBodyPart();
         if (PLAIN.equalsIgnoreCase(type)) 
         {
-          mimeMessage.setText(body);
+          bodyPart.setText(body);
         }
         else if (HTML.equals(type)) 
         {
@@ -49,13 +50,14 @@ public class UIBody extends MailComponent
               Multipart multipart = new MimeMultipart("alternative");
               multipart.addBodyPart(html);
               multipart.addBodyPart(text);
-              mimeMessage.setContent(multipart);
+              bodyPart.setContent(multipart);
            }
            else
            {   
-              mimeMessage.setContent(body, "text/html");
+              bodyPart.setContent(body, "text/html");
            }
         }
+        getRootMultipart().addBodyPart(bodyPart);
       }
       catch (MessagingException e)
       {

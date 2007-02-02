@@ -68,4 +68,10 @@
             <component-type>org.jboss.seam.mail.ui.UIHeader</component-type>
         </component>
     </tag>
+    <tag>
+        <tag-name>attachment</tag-name>
+        <component>
+            <component-type>org.jboss.seam.mail.ui.UIAttachment</component-type>
+        </component>
+    </tag>
 </facelet-taglib>

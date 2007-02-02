@@ -55,8 +55,9 @@ public abstract class MailComponent extends UIComponentBase
    
    /**
     * look up the tree for mail message
+    * @throws MessagingException 
     */
-   public MimeMessage findMimeMessage() {
+   public MimeMessage findMimeMessage() throws MessagingException {
        UIMessage parent = (UIMessage) findParent(this, UIMessage.class);
        if (parent != null) 
        {

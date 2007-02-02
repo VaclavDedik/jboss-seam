@@ -40,4 +40,8 @@
         <component-type>org.jboss.seam.mail.ui.UIHeader</component-type>
         <component-class>org.jboss.seam.mail.ui.UIHeader</component-class>
     </component>
+     <component>
+        <component-type>org.jboss.seam.mail.ui.UIAttachment</component-type>
+        <component-class>org.jboss.seam.mail.ui.UIAttachment</component-class>
+    </component>
 </faces-config>
