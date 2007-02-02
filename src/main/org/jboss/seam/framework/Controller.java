@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Map;
 
 import javax.faces.context.FacesContext;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.validator.ClassValidator;
 import org.jboss.seam.Component;
@@ -22,6 +24,7 @@ import org.jboss.seam.core.Renderer;
 import org.jboss.seam.core.Validation;
 import org.jboss.seam.core.Validators;
 import org.jboss.seam.log.Log;
+import org.jboss.seam.security.Identity;
 
 /**
  * Base class for controller objects. Provides various
@@ -70,6 +73,23 @@ public abstract class Controller implements Serializable
    protected FacesMessages getFacesMessages()
    {
       return FacesMessages.instance();
+   }
+   
+   protected Identity getIdentity()
+   {
+      return Identity.instance();
+   }
+   
+   protected Cookie getCookie(String name)
+   {
+      return (Cookie) FacesContext.getCurrentInstance().getExternalContext()
+                                  .getRequestCookieMap().get(name);
+   }
+   
+   protected void addCookie(Cookie cookie)
+   {
+      ( (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext()
+                                          .getResponse() ).addCookie(cookie);
    }
    
    protected void addFacesMessage(String messageTemplate, Object... params)
