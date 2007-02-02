@@ -12,8 +12,6 @@ import javax.naming.NamingException;
 import javax.servlet.http.HttpSessionActivationListener;
 import javax.servlet.http.HttpSessionEvent;
 
-import org.jboss.seam.log.LogProvider;
-import org.jboss.seam.log.Logging;
 import org.hibernate.FlushMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -27,6 +25,8 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Expressions.ValueBinding;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.util.Naming;
 
 /**
@@ -53,6 +53,8 @@ public class ManagedHibernateSession
    private ValueBinding<SessionFactory> sessionFactory;
    private List<Filter> filters = new ArrayList<Filter>(0);
    
+   private FlushModeType flushMode;
+   
    public boolean clearDirty()
    {
       return true;
@@ -66,6 +68,9 @@ public class ManagedHibernateSession
       {
          sessionFactoryJndiName = "java:/" + componentName;
       }
+      
+      flushMode = PersistenceContexts.instance().getFlushMode();
+      
       createSession();
       
       PersistenceContexts.instance().touch(componentName);
@@ -79,7 +84,7 @@ public class ManagedHibernateSession
    private void createSession()
    {
       session = getSessionFactoryFromJndiOrValueBinding().openSession();
-      setFlushMode( PersistenceContexts.instance().getFlushMode() );
+      setSessionFlushMode();
       for (Filter f: filters)
       {
          enableFilter(f);
@@ -163,7 +168,13 @@ public class ManagedHibernateSession
       return componentName;
    }
    
-   public void setFlushMode(FlushModeType flushMode)
+   public void changeFlushMode(FlushModeType flushMode)
+   {
+      this.flushMode = flushMode;
+      setSessionFlushMode();
+   }
+
+   public void setSessionFlushMode()
    {
       switch (flushMode)
       {

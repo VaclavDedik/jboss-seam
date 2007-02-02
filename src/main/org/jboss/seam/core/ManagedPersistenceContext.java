@@ -1,5 +1,6 @@
 //$Id$
 package org.jboss.seam.core;
+
 import static org.jboss.seam.InterceptionType.NEVER;
 
 import java.io.Serializable;
@@ -17,6 +18,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Scope;
@@ -51,6 +53,8 @@ public class ManagedPersistenceContext
    private String componentName;
    private ValueBinding<EntityManagerFactory> entityManagerFactory;
    private List<Filter> filters = new ArrayList<Filter>(0);
+   
+   private FlushModeType flushMode;
   
    public boolean clearDirty()
    {
@@ -65,6 +69,8 @@ public class ManagedPersistenceContext
       {
          persistenceUnitJndiName = "java:/" + componentName;
       }
+      
+      flushMode = PersistenceContexts.instance().getFlushMode(); //can't do this inside createEntityManager()
       
       createEntityManager();
       
@@ -85,8 +91,9 @@ public class ManagedPersistenceContext
    
    private void createEntityManager()
    {
-      entityManager = getEntityManagerFactoryFromJndiOrValueBinding().createEntityManager();      
-      setFlushMode( PersistenceContexts.instance().getFlushMode() );
+      entityManager = getEntityManagerFactoryFromJndiOrValueBinding().createEntityManager();
+      setEntityManagerFlushMode();
+
       for (Filter f: filters)
       {
          PersistenceProvider.instance().enableFilter(f, entityManager);
@@ -128,9 +135,18 @@ public class ManagedPersistenceContext
    //we can't use @PostActivate because it is intercept NEVER
    public void sessionDidActivate(HttpSessionEvent event)
    {
-      if (entityManager==null)
+      boolean createContext = !Contexts.isApplicationContextActive();
+      if (createContext) Lifecycle.beginCall();
+      try
       {
-         createEntityManager();
+         if (entityManager==null)
+         {
+            createEntityManager();
+         }
+      }
+      finally
+      {
+         if (createContext) Lifecycle.endCall();
       }
    }
    
@@ -208,7 +224,13 @@ public class ManagedPersistenceContext
       this.filters = filters;
    }
    
-   public void setFlushMode(org.jboss.seam.annotations.FlushModeType flushMode)
+   public void changeFlushMode(FlushModeType flushMode)
+   {
+      this.flushMode = flushMode;
+      setEntityManagerFlushMode();
+   }
+   
+   public void setEntityManagerFlushMode()
    {
       switch (flushMode)
       {

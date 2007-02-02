@@ -57,7 +57,7 @@ public class PersistenceContexts extends AbstractMutable implements Serializable
          PersistenceContextManager pcm = (PersistenceContextManager) Contexts.getConversationContext().get(name);
          if (pcm!=null)
          {
-            pcm.setFlushMode(flushMode);
+            pcm.changeFlushMode(flushMode);
          }
       }
       
