@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.Enumeration;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.security.auth.Subject;
 import javax.security.auth.callback.Callback;
@@ -171,13 +172,14 @@ public class Identity extends Selector
       try
       {
          authenticate();
-         log.debug("Login successful for: " + getUsername());
+         log.debug("Login successful for: #0" + getUsername());
+         FacesMessages.instance().addFromResourceBundle(FacesMessage.SEVERITY_INFO, "org.jboss.seam.loginSuccessful", "Welcome, #0", getUsername());
          return "success";
       }
       catch (LoginException ex)
       {
          log.debug("Login failed for:" + getUsername(), ex);
-         FacesMessages.instance().add("Login failed");
+         FacesMessages.instance().addFromResourceBundle(FacesMessage.SEVERITY_INFO, "org.jboss.seam.loginFailed", "Login failed", ex);
          return null;
       }
    }
