@@ -53,8 +53,6 @@ public class ManagedPersistenceContext
    private String componentName;
    private ValueBinding<EntityManagerFactory> entityManagerFactory;
    private List<Filter> filters = new ArrayList<Filter>(0);
-   
-   private FlushModeType flushMode;
   
    public boolean clearDirty()
    {
@@ -70,12 +68,19 @@ public class ManagedPersistenceContext
          persistenceUnitJndiName = "java:/" + componentName;
       }
       
-      flushMode = PersistenceContexts.instance().getFlushMode(); //can't do this inside createEntityManager()
-      
-      createEntityManager();
-      
-      PersistenceContexts.instance().touch(componentName);
-      
+      PersistenceContexts.instance().touch(componentName);      
+   }
+   
+   private void initEntityManager()
+   {
+      entityManager = getEntityManagerFactoryFromJndiOrValueBinding().createEntityManager();
+      setEntityManagerFlushMode( PersistenceContexts.instance().getFlushMode() );
+
+      for (Filter f: filters)
+      {
+         PersistenceProvider.instance().enableFilter(f, entityManager);
+      }
+
       if ( log.isDebugEnabled() )
       {
          if (entityManagerFactory==null)
@@ -89,24 +94,17 @@ public class ManagedPersistenceContext
       }
    }
    
-   private void createEntityManager()
-   {
-      entityManager = getEntityManagerFactoryFromJndiOrValueBinding().createEntityManager();
-      setEntityManagerFlushMode();
-
-      for (Filter f: filters)
-      {
-         PersistenceProvider.instance().enableFilter(f, entityManager);
-      }
-   }
-   
    @Unwrap
    public EntityManager getEntityManager() throws NamingException, SystemException
    {
+      if (entityManager==null) initEntityManager();
+      
+      //join the transaction
       if ( !Lifecycle.isDestroying() && Transactions.isTransactionActive() )
       {
          entityManager.joinTransaction();
       }
+      
       return entityManager;
    }
    
@@ -141,7 +139,7 @@ public class ManagedPersistenceContext
       {
          if (entityManager==null)
          {
-            createEntityManager();
+            initEntityManager();
          }
       }
       finally
@@ -226,11 +224,10 @@ public class ManagedPersistenceContext
    
    public void changeFlushMode(FlushModeType flushMode)
    {
-      this.flushMode = flushMode;
-      setEntityManagerFlushMode();
+      setEntityManagerFlushMode(flushMode);
    }
    
-   public void setEntityManagerFlushMode()
+   protected void setEntityManagerFlushMode(FlushModeType flushMode)
    {
       switch (flushMode)
       {

@@ -53,8 +53,6 @@ public class ManagedHibernateSession
    private ValueBinding<SessionFactory> sessionFactory;
    private List<Filter> filters = new ArrayList<Filter>(0);
    
-   private FlushModeType flushMode;
-   
    public boolean clearDirty()
    {
       return true;
@@ -68,26 +66,22 @@ public class ManagedHibernateSession
       {
          sessionFactoryJndiName = "java:/" + componentName;
       }
-      
-      flushMode = PersistenceContexts.instance().getFlushMode();
-      
-      createSession();
-      
+            
       PersistenceContexts.instance().touch(componentName);
-      
-      if ( log.isDebugEnabled() )
-      {
-         log.debug("created seam managed session for session factory: "+ sessionFactoryJndiName);
-      }
    }
 
-   private void createSession()
+   private void initSession()
    {
       session = getSessionFactoryFromJndiOrValueBinding().openSession();
-      setSessionFlushMode();
+      setSessionFlushMode( PersistenceContexts.instance().getFlushMode() );
       for (Filter f: filters)
       {
          enableFilter(f);
+      }
+
+      if ( log.isDebugEnabled() )
+      {
+         log.debug("created seam managed session for session factory: "+ sessionFactoryJndiName);
       }
    }
 
@@ -104,10 +98,14 @@ public class ManagedHibernateSession
    @Unwrap
    public Session getSession()
    {
+      if (session==null) initSession();
+      
+      //join the transaction
       if ( !Lifecycle.isDestroying() ) 
       {
          session.isOpen();
       }
+      
       return session;
    }
    
@@ -122,13 +120,7 @@ public class ManagedHibernateSession
    }
    
    //we can't use @PostActivate because it is intercept NEVER
-   public void sessionDidActivate(HttpSessionEvent event)
-   {
-      if (session==null)
-      {
-         createSession();
-      }
-   }
+   public void sessionDidActivate(HttpSessionEvent event) {}
    
    @Destroy
    public void destroy()
@@ -170,11 +162,10 @@ public class ManagedHibernateSession
    
    public void changeFlushMode(FlushModeType flushMode)
    {
-      this.flushMode = flushMode;
-      setSessionFlushMode();
+      setSessionFlushMode(flushMode);
    }
 
-   public void setSessionFlushMode()
+   protected void setSessionFlushMode(FlushModeType flushMode)
    {
       switch (flushMode)
       {
