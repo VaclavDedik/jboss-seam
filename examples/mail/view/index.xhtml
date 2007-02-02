@@ -34,8 +34,8 @@
     </h:form>
     
     <h1>Help!</h1>
-    <p>If you have problems sending emails from this example it's likely you have a firewall blocking outgoing email.  You'll need to edit <code>&lt;mail:mailSession&gt;</code> in <code>resources/WEB-INF/components.xml</code> a<code>&lt;mail:mailSession&gt;</code>, set a SMTP gateway to relay via and then run the <code>ant deploy</code> again.</p>
+    <p>If you have problems sending emails from this example you might have a firewall blocking outgoing email.  You'll need to edit <code>&lt;mail:mailSession&gt;</code> in <code>resources/WEB-INF/components.xml</code> a <code>&lt;mail:mailSession&gt;</code>, set a SMTP gateway to relay via and then run the <code>ant deploy</code> again.</p>
     
-    <p>This example deploys an SMTP server (<code>buni-mail.ear</code>) which listens for authenticated connections on <code>localhost:2525</code>.  This might fail if you another service using port 2525 (you'll get a lot of errors when the applicaiton is deployed), set a SMTP gateway as descrived above.</p>
+    <p>This example deploys an SMTP server (<code>buni-mail.ear</code>) which listens for authenticated connections on <code>localhost:2525</code>.  This might fail if you have another service using port 2525 (you'll get a lot of errors when the applicaiton is deployed).  To get around this you can set a SMTP gateway as descrived above.</p>
 </body>
 </html>
