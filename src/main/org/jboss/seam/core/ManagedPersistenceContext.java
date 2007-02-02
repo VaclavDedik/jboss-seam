@@ -1,17 +1,18 @@
 //$Id$
 package org.jboss.seam.core;
 import static org.jboss.seam.InterceptionType.NEVER;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.http.HttpSessionActivationListener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.transaction.SystemException;
-import org.jboss.seam.log.LogProvider;
-import org.jboss.seam.log.Logging;
+
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
@@ -20,11 +21,15 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Expressions.ValueBinding;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.persistence.PersistenceProvider;
 import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Transactions;
+
 /**
  * A Seam component that manages a conversation-scoped extended
  * persistence context that can be shared by arbitrary other
@@ -101,10 +106,22 @@ public class ManagedPersistenceContext
    //we can't use @PrePassivate because it is intercept NEVER
    public void sessionWillPassivate(HttpSessionEvent event)
    {
-      if ( !PersistenceProvider.instance().isDirty(entityManager) )
+      //need to create a context, because this can get called
+      //outside the JSF request, and we want to use the
+      //PersistenceProvider object
+      boolean createContext = !Contexts.isApplicationContextActive();
+      if (createContext) Lifecycle.beginCall();
+      try
       {
-         entityManager.close();
-         entityManager = null;
+         if ( !PersistenceProvider.instance().isDirty(entityManager) )
+         {
+            entityManager.close();
+            entityManager = null;
+         }
+      }
+      finally
+      {
+         if (createContext) Lifecycle.endCall();
       }
    }
    

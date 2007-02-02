@@ -12,11 +12,12 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.core.Filter;
+import org.jboss.seam.core.ManagedPersistenceContext;
 
 @Name("org.jboss.seam.persistence.persistenceProvider")
 @Scope(ScopeType.STATELESS)
 @Intercept(InterceptionType.NEVER)
-@Install(value=false, precedence=BUILT_IN)
+@Install(precedence=BUILT_IN, genericDependencies=ManagedPersistenceContext.class)
 public class PersistenceProvider
 {
 

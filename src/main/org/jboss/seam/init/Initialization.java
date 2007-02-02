@@ -36,15 +36,12 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Jbpm;
-import org.jboss.seam.core.ManagedPersistenceContext;
 import org.jboss.seam.core.PojoCache;
 import org.jboss.seam.debug.Introspector;
 import org.jboss.seam.deployment.ComponentScanner;
 import org.jboss.seam.deployment.NamespaceScanner;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
-import org.jboss.seam.persistence.HibernatePersistenceProvider;
-import org.jboss.seam.persistence.PersistenceProvider;
 import org.jboss.seam.util.Conversions;
 import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Reflections;
@@ -643,19 +640,6 @@ public class Initialization
       catch (NoClassDefFoundError e) {
          //temp solution due to broken JEMS installer portal profile!
          log.warn("Did not install PojoCache due to NoClassDefFoundError: " + e.getMessage());
-      } 
-
-      if (installedComponents.contains(ManagedPersistenceContext.class))
-      {
-         try
-         {
-            Reflections.classForName("org.hibernate.Session");
-            addComponentDescriptor( new ComponentDescriptor(HibernatePersistenceProvider.class, true) );
-         }
-         catch (ClassNotFoundException cnfe)
-         {
-            addComponentDescriptor( new ComponentDescriptor(PersistenceProvider.class, true) );
-         }
       }
 
       if ( init.isDebug() )

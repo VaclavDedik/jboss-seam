@@ -1,6 +1,6 @@
 package org.jboss.seam.persistence;
 
-import static org.jboss.seam.annotations.Install.BUILT_IN;
+import static org.jboss.seam.annotations.Install.FRAMEWORK;
 
 import java.util.Map;
 
@@ -15,12 +15,13 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.core.Filter;
+import org.jboss.seam.core.ManagedPersistenceContext;
 import org.jboss.seam.core.Expressions.ValueBinding;
 
 @Name("org.jboss.seam.persistence.persistenceProvider")
 @Scope(ScopeType.STATELESS)
 @Intercept(InterceptionType.NEVER)
-@Install(value=false, precedence=BUILT_IN)
+@Install(precedence=FRAMEWORK, classDependencies="org.hibernate.Session", genericDependencies=ManagedPersistenceContext.class)
 public class HibernatePersistenceProvider extends PersistenceProvider
 {
 
