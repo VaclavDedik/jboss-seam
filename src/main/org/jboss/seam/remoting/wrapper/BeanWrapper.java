@@ -67,49 +67,93 @@ public class BeanWrapper extends BaseWrapper implements Wrapper
 
       Class cls = value.getClass();
 
+      // We're going to try a combination of ways to set the property value here
+      Method method = null;
       Field field = null;
-
-      while (field == null && !cls.equals(Object.class))
+              
+      // First try to find the best matching method
+      String setter = "set" + Character.toUpperCase(name.charAt(0)) + name.substring(1);
+      
+      ConversionScore score = ConversionScore.nomatch;
+      for (Method m : cls.getMethods())
       {
-        try
-        {
-          // First check the declared fields
-          field = cls.getDeclaredField(name);
-        }
-        catch (NoSuchFieldException ex)
-        {
-          // Couldn't find the field.. try the superclass
-          cls = cls.getSuperclass();
-        }
+         if (setter.equals(m.getName()) && m.getParameterTypes().length == 1)
+         {
+            ConversionScore s = w.conversionScore(m.getParameterTypes()[0]);
+            if (s.getScore() > score.getScore())
+            {
+               method = m;
+               score = s;
+            }
+         }
+      }    
+      
+      // If we can't find a method, look for a matching field name
+      if (method == null)
+      {
+         while (field == null && !cls.equals(Object.class))
+         {
+           try
+           {
+             // First check the declared fields
+             field = cls.getDeclaredField(name);
+           }
+           catch (NoSuchFieldException ex)
+           {
+             // Couldn't find the field.. try the superclass
+             cls = cls.getSuperclass();
+           }
+         }
+
+         if (field == null)
+         {
+           throw new RuntimeException(String.format(
+             "Error while unmarshalling - property [%s] not found in class [%s]",
+             name, value.getClass().getName()));
+         }      
       }
-
-      if (field == null)
-        throw new RuntimeException(String.format(
-          "Error while unmarshalling - field [%s] not found in class [%s]",
-          name, value.getClass().getName()));
-
+      
+      // Now convert the field value to the correct target type
       Object fieldValue = null;
       try {
-        fieldValue = w.convert(field.getGenericType());
+        fieldValue = w.convert(method != null ? method.getGenericParameterTypes()[0] : 
+           field.getGenericType());
       }
       catch (ConversionException ex) {
         throw new RuntimeException("Could not convert value while unmarshaling", ex);
       }
 
-      boolean accessible = field.isAccessible();
-      try
+      // If we have a setter method, invoke it
+      if (method != null)
       {
-        if (!accessible)
-          field.setAccessible(true);
-        field.set(value, fieldValue);
+         try
+         {
+            method.invoke(value, fieldValue);
+         }
+         catch (Exception e)
+         {
+            throw new RuntimeException(String.format(
+                     "Could not invoke setter method [%s]", method.getName()));
+         }
       }
-      catch (Exception ex)
+      else
       {
-        throw new RuntimeException("Could not set field value.", ex);
-      }
-      finally
-      {
-        field.setAccessible(accessible);
+         // Otherwise try to set the field value directly
+         boolean accessible = field.isAccessible();
+         try
+         {
+           if (!accessible)
+             field.setAccessible(true);
+           field.set(value, fieldValue);
+         }
+         catch (Exception ex)
+         {
+           throw new RuntimeException("Could not set field value.", ex);
+         }
+         finally
+         {
+           field.setAccessible(accessible);
+         }
       }
     }
   }
