@@ -102,6 +102,18 @@
         <url-pattern>/content/*</url-pattern>
     </filter-mapping>      
     
+    <!-- Captcha Servlet -->
+    
+    <servlet>
+      <servlet-name>Captcha Servlet</servlet-name>
+      <servlet-class>org.jboss.seam.servlet.CaptchaServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+      <servlet-name>Captcha Servlet</servlet-name>
+      <url-pattern>/captcha</url-pattern>
+    </servlet-mapping>
+    
     <!-- Seam Remoting -->
     
     <servlet>

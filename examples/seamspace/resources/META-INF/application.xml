@@ -65,4 +65,8 @@
     <java>antlr-3.0ea8.jar</java>
   </module>
   
+  <module>
+    <java>jcaptcha-all-1.0-RC3.jar</java>
+  </module>
+  
 </application>

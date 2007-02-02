@@ -46,10 +46,10 @@ public class CaptchaServlet extends HttpServlet
          Lifecycle.beginRequest(context, request.getSession(), request);
          
          // TODO - The captchaId should come from conversation scope
-         String captchaId = request.getSession().getId();
+         String captchaId = request.getQueryString();
          
-         BufferedImage challenge = CaptchaService.instance().getImageChallengeForID(
-                  captchaId, request.getLocale());
+         BufferedImage challenge = CaptchaService.instance().getService().
+            getImageChallengeForID(captchaId, request.getLocale());
          
          ImageIO.write(challenge, "jpeg", out);
       }

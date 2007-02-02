@@ -77,6 +77,16 @@
                 <div class="validationError"><h:message for="dob"/></div>
               </div>           
               
+              <div class="formRow">
+                <h:graphicImage value="/captcha?#{register.captchaId}"/>
+              </div>
+              
+              <div class="formRow">
+                <h:outputLabel for="verifyCaptcha">Enter the above letters<em>*</em></h:outputLabel>
+                <h:inputText id="verifyCaptcha" value="#{register.verifyCaptcha}" required="true"/>
+                <div class="validationError"><h:message for="verifyCaptcha"/></div>
+              </div>
+              
             </s:validateAll>
             
             <div class="buttons">

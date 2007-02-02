@@ -144,6 +144,12 @@
        description="the Drools jars">
         <include name="*.jar" if="example.drools.lib"/>
     </zipfileset>
+    
+    <zipfileset id="example.jcaptcha.jar"
+               dir="${lib.dir}"
+       description="JCaptcha jar">
+        <include name="jcaptcha-all*.jar" if="example.jcaptcha.lib"/>
+    </zipfileset>
             
     <fileset id="example.resources" 
             dir="${example.resources.dir}">
@@ -1129,6 +1135,7 @@
             <fileset refid="example.drools.jar"/>
             <fileset refid="example.extra.jar"/>
             <fileset refid="example.local.jar" />
+            <fileset refid="example.jcaptcha.jar"/>
             <zipfileset dir="${build.dir}">
                 <include name="${example.name}.jar"/>
             </zipfileset>
