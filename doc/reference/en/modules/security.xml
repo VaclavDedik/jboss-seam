@@ -5,6 +5,50 @@
     The Seam Security API is an optional Seam feature that provides authentication and authorization features
     for securing both domain and page resources within your Seam project.  
   </para>
+  
+  <sect1>
+    <title>Requirements</title>
+    
+    <para>
+      The following jar files are required to be configured as modules in <literal>application.xml</literal> to use
+      Seam Security:
+    </para>
+    
+    <itemizedlist>
+      <listitem>
+        <para>drools-compiler-3.0.5.jar</para>
+      </listitem>
+      <listitem>
+        <para>drools-core-3.0.5.jar</para>
+      </listitem>
+      <listitem>
+        <para>commons-jci-core-1.0-406301.jar</para>
+      </listitem>
+      <listitem>
+        <para>commons-jci-janino-2.4.3.jar</para>
+      </listitem>
+      <listitem>
+        <para>commons-lang-2.1.jar</para>
+      </listitem>
+      <listitem>
+        <para>janino-2.4.3.jar</para>
+      </listitem>
+      <listitem>
+        <para>stringtemplate-2.3b6.jar</para>
+      </listitem>                                
+      <listitem>
+        <para>antlr-2.7.6.jar</para>
+      </listitem>
+      <listitem>
+        <para>antlr-3.0ea8.jar</para>
+      </listitem>                    
+    </itemizedlist>     
+    
+    <para>
+      For web-based security, <literal>jboss-seam-ui.jar</literal> must also be included in the application's war file.
+    </para>
+    
+  </sect1>
 
   <sect1>
     <title>Authentication</title>
@@ -29,7 +73,7 @@
 
       <programlisting>
         <![CDATA[
-    <security:identity authenticate-method="#{authenticator.authenticate}"/>          
+    <security:identity authenticate-method="#{authenticator.authenticate}"/>
         ]]>
       </programlisting>
 
@@ -141,7 +185,7 @@ public class Authenticator {
     </sect2>
 
     <sect2>
-      <title>Summary</title>
+      <title>Simplified Configuration - Summary</title>
       <para>
         So to sum up, there are the three easy steps to configure authentication:
       </para>
@@ -164,6 +208,33 @@ public class Authenticator {
         </listitem>
       </itemizedlist>
 
+    </sect2>
+        
+    <sect2>
+      <title>Advanced Authentication Features</title>
+      
+      <para>
+        This section explores some of the advanced features provided by the security API for addressing more complex
+        security requirements.
+      </para>
+      
+      <sect3>
+        <title>Using your container's JAAS configuration</title>
+        
+        <para>
+          If you would rather not use the simplified JAAS configuration provided by the Seam Security API, you may
+          instead delegate to the default system JAAS configuration by providing a <literal>jaasConfigName</literal>
+          property in <literal>components.xml</literal>.  For example, if you are using JBoss AS and wish to use
+          the <literal>other</literal> policy (which uses the <literal>UsersRolesLoginModule</literal> login module
+          provided by JBoss AS), then the entry in <literal>components.xml</literal> would look like this:
+        </para>
+        
+        <programlisting>
+          <![CDATA[
+    <security:identity authenticate-method="#{authenticator.authenticate}" jaasConfigName="other"/>          
+          ]]>
+        </programlisting>
+      </sect3>
     </sect2>
 
   </sect1>
@@ -609,6 +680,55 @@ end;
       </para>
       
     </sect2>
+  </sect1>
+  
+  <sect1>
+    <title>Handling Security Exceptions</title>
+    
+    <para>
+      To prevent users from receiving the default error page in response to a security error, it's recommended that 
+      <literal>exceptions.xml</literal> is configured to redirect security errors to a more "pretty" page.  The two
+      main types of exceptions thrown by the security API are:
+    </para>
+    
+    <itemizedlist>
+      <listitem>
+        <para>
+          <literal>NotLoggedInException</literal> - This exception is thrown if the user attempts to access a 
+          restricted action or page when they are not logged in.
+        </para>
+      </listitem>    
+      <listitem>
+        <para>
+          <literal>AuthorizationException</literal> - This exception is only thrown if the user is already logged in,
+          and they have attempted to access a restricted action or page for which they do not have the necessary
+          privileges.
+        </para>
+      </listitem>    
+    </itemizedlist>
+    
+    <para>
+      Here's an example of an <literal>exceptions.xml</literal> file that redirects these security exceptions:      
+    </para>
+    
+    <programlisting>
+      <![CDATA[
+<exceptions>
+
+  <exception class="org.jboss.seam.security.NotLoggedInException">
+    <redirect view-id="/login.xhtml">You must be logged in to perform this action</redirect>
+    <end-conversation/>
+  </exception>
+  
+  <exception class="org.jboss.seam.security.AuthorizationException">
+    <redirect view-id="/security_error.xhtml">You do not have the necessary security privileges to perform this action.</redirect>
+    <end-conversation/>
+  </exception>
+
+</exceptions>      
+      ]]>
+    </programlisting>
+    
   </sect1>
 
 </chapter>
