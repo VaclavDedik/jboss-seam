@@ -28,6 +28,7 @@ public class EJB
    public static final Class<Annotation> PERSISTENCE_CONTEXT;
    public static final Class<Annotation> INTERCEPTORS;
    public static final Class<Annotation> AROUND_INVOKE;
+   public static final Class<Annotation> EJB_EXCEPTION;
    public static boolean INVOCATION_CONTEXT_AVAILABLE;
    
    private static Class classForName(String name)
@@ -58,12 +59,39 @@ public class EJB
       POST_CONSTRUCT = classForName("javax.annotation.PostConstruct");
       INTERCEPTORS = classForName("javax.interceptor.Interceptors");
       AROUND_INVOKE = classForName("javax.interceptor.AroundInvoke");
+      EJB_EXCEPTION = classForName("javax.ejb.EJBException");
       INVOCATION_CONTEXT_AVAILABLE = !classForName("javax.interceptor.InvocationContext").equals(Dummy.class);
    }
    
    public static String name(Annotation annotation)
    {
       return (String) Reflections.invokeAndWrap( Reflections.getMethod(annotation, "name"), annotation );
+   }
+
+   public static Exception getCause(Exception exception)
+   {
+      if ( EJB_EXCEPTION.isInstance(exception) )
+      {
+         try
+         {
+            return (Exception) Reflections.getGetterMethod(EJB_EXCEPTION, "causedByException").invoke(exception);
+         }
+         catch (Exception x)
+         {
+            return null;
+         }
+      }
+      else
+      {
+         try
+         {
+            return (Exception) exception.getCause();
+         }
+         catch (Exception x)
+         {
+            return null;
+         }
+      }
    }
 
    public static Class[] value(Annotation annotation)

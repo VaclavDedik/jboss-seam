@@ -27,6 +27,7 @@ import org.jboss.seam.exceptions.AnnotationRedirectHandler;
 import org.jboss.seam.exceptions.AnnotationRenderHandler;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.util.EJB;
 import org.jboss.seam.util.Reflections;
 import org.jboss.seam.util.Resources;
 import org.jboss.seam.util.Strings;
@@ -50,13 +51,27 @@ public class Exceptions
    
    public Object handle(Exception e) throws Exception
    {
+      //build a list of the nested exceptions
+      List<Exception> causes = new ArrayList<Exception>();
+      for (Exception cause=e; cause!=null; cause=EJB.getCause(cause))
+      {
+         causes.add(cause);
+      }
+      //try to match each handler in turn
       for (ExceptionHandler eh: exceptionHandlers)
       {
-         if ( eh.isHandler(e) )
+         //Try to handle most-nested exception before least-nested
+         for (int i=causes.size()-1; i>=0; i--)
          {
-            return eh.handle(e);
+            Exception cause = causes.get(i);
+            if ( eh.isHandler(cause) )
+            {
+               return eh.handle(cause);
+            }
          }
       }
+      
+      //finally, rethrow it, since no handler was found
       throw e;
    }
    
@@ -73,7 +88,7 @@ public class Exceptions
       {
          log.info("reading exceptions.xml");
          List<Element> elements = XML.getRootElement(stream).elements("exception");
-         for (Element exception: elements)
+         for (final Element exception: elements)
          {
             String className = exception.attributeValue("class");
             if (className==null)
