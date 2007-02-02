@@ -81,7 +81,7 @@ plain: word|punctuation|escape|space|link|entity
   
 word: w:WORD { append( w.getText() ); }
     ;
-    
+
 punctuation: p:PUNCTUATION { append( p.getText() ); }
     ;
     
@@ -132,7 +132,7 @@ link: OPEN
       EQ GT 
       { beginCapture(); }
       attributeValue 
-      { String link = endCapture(); append("<a class=\""); append( linkClass(link) ); append("\" href=\""); append( linkUrl(link) ); append("\">"); append( linkDescription(text, link) ); append("</a>"); }
+      { String link = endCapture(); append("<a href=\""); append( linkUrl(link) ); append("\" class=\""); append( linkClass(link) ); append("\">"); append( linkDescription(text, link) ); append("</a>"); }
       CLOSE
     ;
     
@@ -248,10 +248,22 @@ attributeValue: ( AMPERSAND { append("&amp;"); } | word | punctuation | space | 
 class SeamTextLexer extends Lexer;
 options
 {
-	k=2;
+   k=2;
+
+   // Allow any char but \uFFFF (16 bit -1)
+   charVocabulary='\u0000'..'\uFFFE';
 }
 
-WORD: ('a'..'z'|'A'..'Z'|'0'..'9')+
+WORD: ('a'..'z'|'A'..'Z'|'0'..'9'|
+      '\u00c0'..'\u00d6' |
+      '\u00d8'..'\u00f6' |
+      '\u00f8'..'\u00ff' |
+      '\u0100'..'\u1fff' |
+      '\u3040'..'\u318f' |
+      '\u3300'..'\u337f' |
+      '\u3400'..'\u3d2d' |
+      '\u4e00'..'\u9fff' |
+      '\uf900'..'\ufaff')+
     ;
     
 PUNCTUATION: ':' | '(' | ')' | '?' | '!' | '@' | '%' | '.' | ',' | '\''
@@ -319,6 +331,6 @@ SPACE: (' '|'\t')+
     
 NEWLINE: "\r\n" | '\r' | '\n'
     ;
-    
+
 EOF : '\uFFFF'
     ;
