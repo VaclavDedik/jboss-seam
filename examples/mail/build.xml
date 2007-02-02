@@ -2,22 +2,34 @@
 
 <project name="email" default="deploy" basedir=".">
 
-    <!-- Example name -->
-    <property name="Name"                   value="Mail example"/>
-    <property name="example.name"           value="jboss-seam-email"/>
+	<!-- Example name -->
+	<property name="Name" value="Mail example" />
+	<property name="example.name" value="jboss-seam-email" />
 
-    <!-- Overrides -->
-    <property name="example.webinf.lib.dir"  value="."/>
-    <property name="example.seam.ui.lib"     value="yes"/>
-	<property name="example.seam.mail.lib"     value="yes"/>
-    <property name="example.seam.debug.lib"  value="yes"/>
-    <property name="example.facelets.lib"    value="yes"/>
-    <property name="src.java.dir"            value="src"/>
-    <property name="src.test.dir"            value="src"/>
-    <property name="test.classpath"          value="test.eejb.classpath"/>
-    <property name="tomcat.conf"             value="eejb.conf"/>  
-    
-    <import file="../../build.xml"/>
+	<!-- Overrides -->
+	<property name="example.webinf.lib.dir" value="." />
+	<property name="example.seam.ui.lib" value="yes" />
+	<property name="example.seam.mail.lib" value="yes" />
+	<property name="example.seam.debug.lib" value="yes" />
+	<property name="example.facelets.lib" value="yes" />
+	<property name="src.java.dir" value="src" />
+	<property name="src.test.dir" value="src" />
+	<property name="test.classpath" value="test.eejb.classpath" />
+	<property name="tomcat.conf" value="eejb.conf" />
+
+	<import file="../../build.xml" />
 	
+	<fileset id="example.deploy" dir="${example.resources.dir}">
+			<include name="${example.ds}" />
+			<include name="buni-mail.ear" />
+			<include name="buni-mail-ds.xml" />
+		</fileset>
+
+		<patternset id="example.undeploy">
+			<include name="${example.ds}" />
+			<include name="buni-mail.ear" />
+			<include name="buni-mail-ds.xml" />
+		</patternset>
+
 </project>
 

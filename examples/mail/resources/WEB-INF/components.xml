@@ -6,6 +6,11 @@
     <core:init debug="true" jndi-pattern="@jndiPattern@" />
     <core:ejb installed="@embeddedEjb@" /> 
     
-    <!--  <mail:mailSession host="smtp.example.com" />-->
+     <!-- If you need to alter the SMTP gateway, comment out this mailSession, -->
+    <mail:mailSession host="localhost" port="2525" username="seam" password="seam" />
+    
+    <!-- uncomment this one and set the host attribute to the name or IP address of your SMTP gateway-->
+    <!-- <mail:mailSession host="smtp.foo.com" />-->
+   
     
 </components>
