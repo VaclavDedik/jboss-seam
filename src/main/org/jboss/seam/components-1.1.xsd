@@ -26,14 +26,14 @@
       <xs:simpleType>
         <xs:restriction base="xs:token">
           <xs:enumeration value="stateless"/>
-          <xs:enumeration value="request"/>
+          <xs:enumeration value="event"/>
           <xs:enumeration value="page"/>
           <xs:enumeration value="conversation"/>
           <xs:enumeration value="session"/>
           <xs:enumeration value="business_process"/>
           <xs:enumeration value="application"/>
           <xs:enumeration value="STATELESS"/>
-          <xs:enumeration value="REQUEST"/>
+          <xs:enumeration value="EVENT"/>
           <xs:enumeration value="PAGE"/>
           <xs:enumeration value="CONVERSATION"/>
           <xs:enumeration value="SESSION"/>
@@ -67,14 +67,14 @@
       <xs:simpleType>
         <xs:restriction base="xs:token">
           <xs:enumeration value="stateless"/>
-          <xs:enumeration value="request"/>
+          <xs:enumeration value="event"/>
           <xs:enumeration value="page"/>
           <xs:enumeration value="conversation"/>
           <xs:enumeration value="session"/>
           <xs:enumeration value="business_process"/>
           <xs:enumeration value="application"/>
           <xs:enumeration value="STATELESS"/>
-          <xs:enumeration value="REQUEST"/>
+          <xs:enumeration value="EVENT"/>
           <xs:enumeration value="PAGE"/>
           <xs:enumeration value="CONVERSATION"/>
           <xs:enumeration value="SESSION"/>

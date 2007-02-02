@@ -6,12 +6,12 @@
 
 -->
 
-<!ELEMENT components (component|factory)*>
+<!ELEMENT components (component|factory|event)*>
 
 <!ELEMENT component (property*)>
 <!ATTLIST component name CDATA #IMPLIED>
 <!ATTLIST component class CDATA #IMPLIED>
-<!ATTLIST component scope (stateless|request|page|conversation|session|business_process|application|STATELESS|REQUEST|PAGE|CONVERSATION|SESSION|BUSINESS_PROCESS|APPLICATION) #IMPLIED>
+<!ATTLIST component scope (stateless|event|page|conversation|session|business_process|application|STATELESS|EVENT|PAGE|CONVERSATION|SESSION|BUSINESS_PROCESS|APPLICATION) #IMPLIED>
 <!ATTLIST component jndi-name CDATA #IMPLIED>
 <!ATTLIST component installed CDATA #IMPLIED>
 <!ATTLIST component precedence CDATA #IMPLIED>
@@ -21,7 +21,7 @@
 <!ATTLIST factory name CDATA #REQUIRED>
 <!ATTLIST factory method CDATA #IMPLIED>
 <!ATTLIST factory value CDATA #IMPLIED>
-<!ATTLIST factory scope (stateless|request|page|conversation|session|business_process|application|STATELESS|REQUEST|PAGE|CONVERSATION|SESSION|BUSINESS_PROCESS|APPLICATION) #IMPLIED>
+<!ATTLIST factory scope (stateless|event|page|conversation|session|business_process|application|STATELESS|EVENT|PAGE|CONVERSATION|SESSION|BUSINESS_PROCESS|APPLICATION) #IMPLIED>
 <!ATTLIST factory auto-create (true|false) "false">
 
 <!ELEMENT property (#PCDATA|key|value)*>
