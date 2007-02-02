@@ -65,6 +65,8 @@ public class Identity extends Selector
    
    private WorkingMemory securityContext;
    
+   private String jaasConfigName = null;
+   
    @Override
    protected String getCookieName()
    {
@@ -203,11 +205,14 @@ public class Identity extends Selector
 
    protected LoginContext getLoginContext() throws LoginException
    {
+      if (getJaasConfigName() != null)
+      {
+         return new LoginContext(getJaasConfigName(), subject, 
+                  getDefaultCallbackHandler());
+      }
+      
       return new LoginContext(Configuration.DEFAULT_JAAS_CONFIG_NAME, 
-            subject, 
-            getCallbackHandler(username, password), 
-            Configuration.instance()
-         );
+            subject, getDefaultCallbackHandler(), Configuration.instance());
    }
    
    public void logout()
@@ -317,12 +322,9 @@ public class Identity extends Selector
    
    /**
     * Creates a callback handler that can handle a standard username/password
-    * callback, using the specified username and password parameters.
-    * 
-    * @param username The username to provide for a NameCallback
-    * @param password The password to provide for a PasswordCallback
+    * callback, using the username and password properties.
     */
-   protected CallbackHandler getCallbackHandler(final String username, final String password)
+   protected CallbackHandler getDefaultCallbackHandler()
    {
       return new CallbackHandler() 
       {
@@ -333,12 +335,12 @@ public class Identity extends Selector
             {
                if (callbacks[i] instanceof NameCallback)
                {
-                  ( (NameCallback) callbacks[i] ).setName(username);
+                  ( (NameCallback) callbacks[i] ).setName(getUsername());
                }
                else if (callbacks[i] instanceof PasswordCallback)
                {
-                  ( (PasswordCallback) callbacks[i] ).setPassword( password != null ? 
-                           password.toCharArray() : null );
+                  ( (PasswordCallback) callbacks[i] ).setPassword( getPassword() != null ? 
+                           getPassword().toCharArray() : null );
                }
                else
                {
@@ -468,4 +470,13 @@ public class Identity extends Selector
       setCookieEnabled(remember);
    }
    
+   public String getJaasConfigName()
+   {
+      return jaasConfigName;
+   }
+   
+   public void setJaasConfigName(String jaasConfigName)
+   {
+      this.jaasConfigName = jaasConfigName;
+   }   
 }
