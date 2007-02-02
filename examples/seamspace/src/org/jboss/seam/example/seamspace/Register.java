@@ -9,6 +9,8 @@ public interface Register
    void start();
    void next();
    void uploadPicture() throws LoginException;
+   String getPassword();
+   void setPassword(String password);
    String getConfirm();
    void setConfirm(String confirm);
    String getGender();

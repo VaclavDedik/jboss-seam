@@ -15,7 +15,6 @@ import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
-import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.security.CaptchaService;
 import org.jboss.seam.security.Identity;
@@ -32,11 +31,13 @@ public class RegisterAction implements Register
    
    @In
    private Identity identity;
-   
+      
    /**
     * Password confirmation
     */
+   private String password;
    private String confirm;
+   
    
    private String gender;
    
@@ -59,13 +60,15 @@ public class RegisterAction implements Register
    {
       newMember.setGender(Member.Gender.valueOf(gender.toLowerCase()));
       
-      verified = (confirm != null && confirm.equals(newMember.getPassword()));
+      verified = (confirm != null && confirm.equals(password));
       
       if (!verified)
       {
          FacesMessages.instance().add("confirmPassword", "Passwords do not match");
       }
-      
+            
+      newMember.setHashedPassword(Hash.instance().hash(password));
+            
       try
       {
          if (!CaptchaService.instance().getService().validateResponseForID(
@@ -109,8 +112,18 @@ public class RegisterAction implements Register
       
       // Login the user
       identity.setUsername(newMember.getUsername());
-      identity.setPassword(newMember.getPassword());
+      identity.setPassword(password);
       identity.login();
+   }
+   
+   public String getPassword()
+   {
+      return password;
+   }
+   
+   public void setPassword(String password)
+   {
+      this.password = password;
    }
    
    public String getConfirm()

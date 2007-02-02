@@ -59,7 +59,8 @@ public class Member implements Serializable
    
    private Integer memberId;
    private String username;
-   private String password;
+
+   private String hashedPassword;
    private String memberName;
    private String firstName;
    private String lastName;
@@ -100,17 +101,16 @@ public class Member implements Serializable
    }
 
    @NotNull
-   @Length(min = 3, max = 20)
-   public String getPassword()
+   public String getHashedPassword()
    {
-      return password;
+      return hashedPassword;
    }
 
-   public void setPassword(String password)
+   public void setHashedPassword(String hashedPassword)
    {
-      this.password = password;
+      this.hashedPassword = hashedPassword;
    }
-
+   
    @NotNull
    @Length(min = 3, max = 40)
    @Pattern(regex="[a-zA-Z]?[a-zA-Z0-9_]+", 

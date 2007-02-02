@@ -29,12 +29,17 @@ public class Authenticator
    {
       try
       {            
-         authenticatedMember = (Member) entityManager.createQuery(
-            "from Member where username = :username and password = :password")
+         Member member = (Member) entityManager.createQuery(
+            "from Member where username = :username")
             .setParameter("username", username)
-            .setParameter("password", password)
             .getSingleResult();
-
+         
+         if (!compareHash(member.getHashedPassword(), password)) {
+             return false;
+         }
+         
+         authenticatedMember = member;
+         
          if (authenticatedMember.getRoles() != null)
          {
             for (MemberRole mr : authenticatedMember.getRoles())
@@ -47,5 +52,19 @@ public class Authenticator
       {
          return false;
       }      
-   }   
+   }
+   
+   private boolean compareHash(String hash, String password) {
+       if (hash == null || password == null) {
+           return false;
+       }
+       
+       String newHash = Hash.instance().hash(password);
+       if (newHash == null) {
+           return false;
+       }
+
+       return hash.equalsIgnoreCase(newHash);
+   }
+
 }
