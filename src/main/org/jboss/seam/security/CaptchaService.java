@@ -4,6 +4,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
+import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -16,6 +17,7 @@ import com.octo.captcha.service.image.ImageCaptchaService;
 @Name("org.jboss.seam.security.captcha")
 @Intercept(InterceptionType.NEVER)
 @Scope(ScopeType.APPLICATION)
+@Install(classDependencies="com.octo.captcha.service.image.ImageCaptchaService")
 public class CaptchaService
 {
    private ImageCaptchaService service;
