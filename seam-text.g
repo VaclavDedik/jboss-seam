@@ -9,8 +9,8 @@ options
 	k=4;
 }
 {   
-	private java.util.Set htmlElements = new java.util.HashSet( java.util.Arrays.asList( new String[] { "a", "p", "quote", "code", "pre", "table", "tr", "td", "th", "ul", "ol", "li", "b", "i", "u", "tt", "del", "em", "hr", "br", "div", "span", "h1", "h2", "h3", "h4", "img" } ) );
-	private java.util.Set htmlAttributes = new java.util.HashSet( java.util.Arrays.asList( new String[] { "src", "href", "lang", "class", "id" } ) );
+	private java.util.Set htmlElements = new java.util.HashSet( java.util.Arrays.asList( new String[] { "a", "p", "q", "code", "pre", "table", "tr", "td", "th", "ul", "ol", "li", "b", "i", "u", "tt", "del", "em", "hr", "br", "div", "span", "h1", "h2", "h3", "h4", "img" } ) );
+	private java.util.Set htmlAttributes = new java.util.HashSet( java.util.Arrays.asList( new String[] { "src", "href", "lang", "class", "id", "style" } ) );
 	
     private StringBuilder mainBuilder = new StringBuilder();
     private StringBuilder builder = mainBuilder;
@@ -76,7 +76,7 @@ line: (plain|formatted) (plain|formatted|preformatted|quoted|html)*
 formatted: bold|underline|italic|monospace|superscript|deleted
     ;
 
-plain: word|punctuation|escape|space|link|entity
+plain: word|punctuation|escape|space|link
     ;
   
 word: w:WORD { append( w.getText() ); }
@@ -93,14 +93,12 @@ specialChars:
         | sl:SLASH { append( sl.getText() ); } 
         | b:BAR { append( b.getText() ); } 
         | h:HAT { append( h.getText() ); }
-        | m:MINUS { append( m.getText() ); } 
-        | p:PLUS { append( p.getText() ); } 
+        | p:PLUS { append( p.getText() ); }
         | eq:EQ { append( eq.getText() ); }
         | hh:HASH { append( hh.getText() ); }
         | e:ESCAPE { append( e.getText() ); }
         | t:TWIDDLE { append( t.getText() ); }
         | u:UNDERSCORE { append( u.getText() ); }
-        | sc:SEMICOLON { append( sc.getText() ); }
     ;
     
 moreSpecialChars:
@@ -118,14 +116,8 @@ htmlSpecialChars:
     | DOUBLEQUOTE { append("&quot;"); } 
     | AMPERSAND { append("&amp;"); }
     ;
-    
-entity: AMPERSAND { append("&amp;"); } 
-        ( HASH { append("#"); } )? 
-        word 
-        SEMICOLON { append(";"); }
-    ;
-    
-link: OPEN 
+
+link: OPEN
       { beginCapture(); } 
       (plain)* 
       { String text=endCapture(); } 
@@ -161,19 +153,19 @@ superscript: HAT { append("<sup>"); }
              HAT { append("</sup>"); }
     ;
     
-deleted: MINUS { append("<del>"); }
+deleted: TWIDDLE { append("<del>"); }
          (plain|bold|underline|italic|monospace|superscript|newline)+
-         MINUS { append("</del>"); }
+         TWIDDLE { append("</del>"); }
     ;
     
 preformatted: BACKTICK { append("<pre>"); }
-              (word|punctuation|specialChars|moreSpecialChars|htmlSpecialChars|space|simpleNewline)*
+              (word|punctuation|specialChars|moreSpecialChars|htmlSpecialChars|space|newline)*
               BACKTICK { append("</pre>"); }
     ;
     
-quoted: DOUBLEQUOTE { append("<quote>"); }
+quoted: DOUBLEQUOTE { append("<q>"); }
         (plain|formatted|preformatted|html|(list newline)|newline)*
-        DOUBLEQUOTE { append("</quote>"); }        
+        DOUBLEQUOTE { append("</q>"); }
     ;
 
 heading: ( h1 | h2 | h3 | h4 ) newlineOrEof
@@ -209,12 +201,9 @@ ulistLine: EQ { append("<li>"); } line { append("</li>"); }
 space: s:SPACE { append( s.getText() ); }
     ;
     
-simpleNewline: n:NEWLINE { append( n.getText() ); }
+newline: n:NEWLINE { append( n.getText() ); }
     ;
 
-newline: SEMICOLON { append("\n"); } | simpleNewline
-    ;
-    
 newlineOrEof: newline | EOF
     ;
 
@@ -266,7 +255,7 @@ WORD: ('a'..'z'|'A'..'Z'|'0'..'9'|
       '\uf900'..'\ufaff')+
     ;
     
-PUNCTUATION: ':' | '(' | ')' | '?' | '!' | '@' | '%' | '.' | ',' | '\''
+PUNCTUATION: '-' | ';' | ':' | '(' | ')' | '{' | '}' | '?' | '!' | '@' | '%' | '.' | ',' | '\''
     ;
     
 EQ: '='
@@ -288,9 +277,6 @@ ESCAPE: '\\'
     ;
     
 BAR: '|'
-    ;
-    
-MINUS: '-'
     ;
     
 BACKTICK: '`'
@@ -319,13 +305,10 @@ GT: '>'
     
 LT: '<'
     ;
-    
-SEMICOLON: ';'
-    ;
-    
+
 AMPERSAND: '&'
     ;
-    
+
 SPACE: (' '|'\t')+
     ;
     

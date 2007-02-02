@@ -16,7 +16,7 @@
         </para>
         
         <programlisting><![CDATA[It's easy to make *bold text*, /italic text/, |monospace|, 
--deleted text-, super^scripts^ or _underlines_.]]></programlisting>
+~deleted text~, super^scripts^ or _underlines_.]]></programlisting>
     
         <para>
             If we display this using <literal>&lt;s:formattedText/&gt;</literal>, we will get
@@ -43,7 +43,8 @@ lines, but we must end it with a blank line.
 This is the second paragraph.]]></programlisting>
 
         <para>
-            This is the HTML that results:
+            (Note that a simple newline is ignored, you need an additional blank line to wrap text into a new paragraph.)
+           This is the HTML that results:
         </para>
     
         <programlisting><![CDATA[<h1>This is a big heading</h1>
@@ -111,11 +112,11 @@ But what do you think he means by "nyeah-nee"?]]></programlisting>
 The other guy said:
 </p>
         
-<quote>Nyeah nyeah-nee 
-<i>nyeah</i> nyeah!</quote>
+<q>Nyeah nyeah-nee
+<i>nyeah</i> nyeah!</q>
 
 <p>
-But what do you think he means by <quote>nyeah-nee</quote>?
+But what do you think he means by <q>nyeah-nee</q>?
 </p>]]></programlisting>
 
     </section>
