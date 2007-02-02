@@ -112,7 +112,7 @@ public class ManagedHibernateSession
    //we can't use @PrePassivate because it is intercept NEVER
    public void sessionWillPassivate(HttpSessionEvent event)
    {
-      if ( !session.isDirty() )
+      if ( session!=null && !session.isDirty() )
       {
          session.close();
          session = null;
@@ -129,7 +129,10 @@ public class ManagedHibernateSession
       {
          log.debug("destroying seam managed session for session factory: " + sessionFactoryJndiName);
       }
-      session.close();
+      if (session!=null)
+      {
+         session.close();
+      }
    }
    
    private SessionFactory getSessionFactoryFromJndiOrValueBinding()
@@ -162,7 +165,10 @@ public class ManagedHibernateSession
    
    public void changeFlushMode(FlushModeType flushMode)
    {
-      setSessionFlushMode(flushMode);
+      if (session!=null)
+      {
+         setSessionFlushMode(flushMode);
+      }
    }
 
    protected void setSessionFlushMode(FlushModeType flushMode)

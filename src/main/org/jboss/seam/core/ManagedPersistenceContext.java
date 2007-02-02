@@ -118,7 +118,7 @@ public class ManagedPersistenceContext
       if (createContext) Lifecycle.beginCall();
       try
       {
-         if ( !PersistenceProvider.instance().isDirty(entityManager) )
+         if ( entityManager!=null && !PersistenceProvider.instance().isDirty(entityManager) )
          {
             entityManager.close();
             entityManager = null;
@@ -140,7 +140,10 @@ public class ManagedPersistenceContext
       {
          log.debug("destroying seam managed persistence context for persistence unit: " + persistenceUnitJndiName);
       }
-      entityManager.close();
+      if (entityManager!=null)
+      {
+         entityManager.close();
+      }
    }
    
    public EntityManagerFactory getEntityManagerFactoryFromJndiOrValueBinding()
@@ -209,7 +212,10 @@ public class ManagedPersistenceContext
    
    public void changeFlushMode(FlushModeType flushMode)
    {
-      setEntityManagerFlushMode(flushMode);
+      if (entityManager!=null)
+      {
+         setEntityManagerFlushMode(flushMode);
+      }
    }
    
    protected void setEntityManagerFlushMode(FlushModeType flushMode)
