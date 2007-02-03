@@ -16,10 +16,9 @@ public class Hash {
             MessageDigest md = MessageDigest.getInstance(hashFunction);
             md.update(password.getBytes(charset));
             byte[] raw = md.digest();
-                                
-            String result = new String(Hex.encodeHex(raw));            
-            return result;
-        } catch (Exception e) {
+            return new String(Hex.encodeHex(raw));            
+        } 
+        catch (Exception e) {
             throw new RuntimeException(e);        
         }
     }
