@@ -5,6 +5,8 @@ import org.jboss.seam.pdf.ITextUtils;
 import org.jboss.seam.pdf.DocumentStore;
 import org.jboss.seam.pdf.DocumentStore.DocType;
 
+import javax.faces.component.UIComponent;
+import javax.faces.component.ValueHolder;
 import javax.faces.context.*;
 import java.io.*;
 
@@ -17,6 +19,7 @@ public class UIDocument
     extends ITextComponent
 {
     public static final String COMPONENT_TYPE   = "org.jboss.seam.pdf.ui.UIDocument";
+    
     
     DocWriter writer;
     Document document;
@@ -37,7 +40,12 @@ public class UIDocument
     String margins;
     Boolean marginMirroring;
  
+    boolean sendRedirect = true;
+    
+    
     UISignature signatureField;
+    
+   
     
     public void setType(String type) {
         this.type = type;
@@ -77,6 +85,15 @@ public class UIDocument
     
     public void setOrientation(String orientation) {
         this.orientation = orientation;
+    }
+    
+    
+    public void setSendRedirect(boolean sendRedirect) {
+        this.sendRedirect = sendRedirect;
+    }
+    
+    public boolean getSendRedirect() {
+        return sendRedirect;
     }
     
     
@@ -179,11 +196,8 @@ public class UIDocument
     {
         super.encodeBegin(context);
         
-        DocumentStore store = DocumentStore.instance();
-        id = store.newId();
         stream = new ByteArrayOutputStream();
-              
-        
+                      
         try {
             switch (docType) {
             case PDF:
@@ -204,23 +218,28 @@ public class UIDocument
             throw new RuntimeException(e);
         }
 
-        ResponseWriter response = context.getResponseWriter();
-        response.startElement("html", this);
-        response.startElement("head", this);
-        response.startElement("meta", this);
-        response.writeAttribute("http-equiv", "Refresh", null);
-        
-        baseName = baseNameForViewId(FacesContext.getCurrentInstance().getViewRoot().getViewId()); 
-        String url = store.preferredUrlForContent(baseName, docType, id);
-        
-        url = Manager.instance().encodeConversationId(url);
-        
-        response.writeAttribute("content", "0; URL=" + url, null);
- 
-        response.endElement("meta");
-        response.endElement("head");
+        if (sendRedirect) {
+            DocumentStore store = DocumentStore.instance();
+            id = store.newId();
+            
+            ResponseWriter response = context.getResponseWriter();
+            response.startElement("html", this);
+            response.startElement("head", this);
+            response.startElement("meta", this);
+            response.writeAttribute("http-equiv", "Refresh", null);
 
-        response.startElement("body",this);
+            baseName = baseNameForViewId(FacesContext.getCurrentInstance().getViewRoot().getViewId()); 
+            String url = store.preferredUrlForContent(baseName, docType, id);
+
+            url = Manager.instance().encodeConversationId(url);
+
+            response.writeAttribute("content", "0; URL=" + url, null);
+
+            response.endElement("meta");
+            response.endElement("head");
+
+            response.startElement("body",this);
+        }
     }
 
     private String baseNameForViewId(String viewId) {
@@ -249,18 +268,28 @@ public class UIDocument
             bytes = signatureField.sign(bytes);
         }
         
-        DocumentStore.instance().saveData(id,
-                                          baseName,
-                                          docType,
-                                          bytes);        
+        if (sendRedirect) {
+            DocumentStore.instance().saveData(id,
+                    baseName,
+                    docType,
+                    bytes);        
 
-        ResponseWriter response = context.getResponseWriter();
-        response.endElement("body");
-        response.endElement("html");
-    
-        removeITextObject();
-        
-        Manager.instance().beforeRedirect();
+            ResponseWriter response = context.getResponseWriter();
+            response.endElement("body");
+            response.endElement("html");
+
+            removeITextObject();
+
+            Manager.instance().beforeRedirect();
+        } else {
+            UIComponent parent = getParent();
+            
+            if (parent instanceof ValueHolder) {
+                ValueHolder holder = (ValueHolder) parent;
+                holder.setValue(bytes);
+            }
+
+        }
     }
 
        
