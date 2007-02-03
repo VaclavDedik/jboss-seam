@@ -69,6 +69,7 @@ public class UIMessage extends MailComponent
    @Override
    public void encodeBegin(FacesContext context) throws IOException
    {
+      mimeMessage = null;
       try {
          if (Importance.HIGH.equalsIgnoreCase(getImportance())) 
          {
