@@ -594,7 +594,7 @@
         </javac>
     </target>
 	
-	<target name="compilemail" depends="initmail,select-compiler"
+	<target name="compilemail" depends="initmail,select-compiler,jarpdf,jarui"
 	            description="Compile the Java source code for the Mail package">
 	        <javac
 	            source="1.5"
@@ -608,7 +608,7 @@
 	                <path refid="build.classpath" />
 	                <fileset dir="${imported.basedir}">
 	                    <include name="jboss-seam-ui.jar" />
-	                    <include name="jboss-seam-pdf.jar" />
+	                	<include name="jboss-seam-pdf.jar" />
 	                </fileset>
 	            </classpath>
 	        </javac>
