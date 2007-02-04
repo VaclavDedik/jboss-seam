@@ -538,6 +538,7 @@ public class Pages
       }
       return Manager.instance().getConversationTimeout();
    }
+   
    public static String getSuffix()
    {
       String defaultSuffix = FacesContext.getCurrentInstance().getExternalContext()

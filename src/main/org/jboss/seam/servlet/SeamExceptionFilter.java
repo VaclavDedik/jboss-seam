@@ -8,10 +8,7 @@ package org.jboss.seam.servlet;
 
 import java.io.IOException;
 
-import javax.servlet.Filter;
 import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -33,16 +30,10 @@ import org.jboss.seam.util.Transactions;
  * 
  * @author Gavin King
  */
-public class SeamExceptionFilter implements Filter
+public class SeamExceptionFilter extends SeamFilter
 {
    
    private static final LogProvider log = Logging.getLogProvider(SeamExceptionFilter.class);
-   private ServletContext context;
-
-   public void init(FilterConfig cfg) throws ServletException 
-   {
-      context = cfg.getServletContext();
-   }
 
    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) 
          throws IOException, ServletException
@@ -80,7 +71,7 @@ public class SeamExceptionFilter implements Filter
       //the FacesContext is gone - create a fake one for Redirect and HttpError to call
       MockFacesContext facesContext = createFacesContext(request, response);
       facesContext.setCurrent();
-      Lifecycle.beginExceptionRecovery(context, request); //the faces ExternalContext is useless to us at this point
+      Lifecycle.beginExceptionRecovery( getServletContext(), request ); //the faces ExternalContext is useless to us at this point
       try
       {
          Exceptions.instance().handle(e);
@@ -114,7 +105,7 @@ public class SeamExceptionFilter implements Filter
 
    private MockFacesContext createFacesContext(HttpServletRequest request, HttpServletResponse response)
    {
-      return new MockFacesContext( new MockExternalContext(context, request, response), new MockApplication() );
+      return new MockFacesContext( new MockExternalContext(getServletContext(), request, response), new MockApplication() );
    }
 
    private void rollbackTransactionIfNecessary()
@@ -131,7 +122,5 @@ public class SeamExceptionFilter implements Filter
          log.error("could not roll back transaction", te);
       }
    }
-
-   public void destroy() {}
 
 }

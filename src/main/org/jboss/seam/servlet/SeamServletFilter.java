@@ -3,21 +3,18 @@ package org.jboss.seam.servlet;
 import java.io.IOException;
 
 import javax.faces.event.PhaseId;
-import javax.servlet.Filter;
 import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.jboss.seam.contexts.ContextAdaptor;
+import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.core.Manager;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
-import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.contexts.ContextAdaptor;
-import org.jboss.seam.core.Manager;
 
 /**
  * Manages the Seam contexts associated with a request
@@ -25,21 +22,18 @@ import org.jboss.seam.core.Manager;
  * 
  * @author Gavin King
  */
-public class SeamServletFilter implements Filter {
+public class SeamServletFilter extends SeamFilter 
+{
    
    private static final LogProvider log = Logging.getLogProvider(SeamServletFilter.class);
    
-   private ServletContext servletContext;
-
-   public void destroy() {}
-
    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
       log.debug("beginning request");
       
       HttpSession session = ( (HttpServletRequest) request ).getSession(true);
       Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
       Lifecycle.setServletRequest(request);
-      Lifecycle.beginRequest(servletContext, session, request);
+      Lifecycle.beginRequest(getServletContext(), session, request);
       Manager.instance().restoreConversation( request.getParameterMap() );
       Lifecycle.resumeConversation(session);
       Manager.instance().handleConversationPropagation( request.getParameterMap() );
@@ -62,10 +56,6 @@ public class SeamServletFilter implements Filter {
          Lifecycle.setPhaseId(null);
          log.debug("ended request");
       }
-   }
-
-   public void init(FilterConfig config) throws ServletException {
-      servletContext = config.getServletContext();
    }
 
 }

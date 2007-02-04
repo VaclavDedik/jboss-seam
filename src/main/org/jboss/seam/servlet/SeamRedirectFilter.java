@@ -2,10 +2,9 @@ package org.jboss.seam.servlet;
 
 import java.io.IOException;
 
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.servlet.Filter;
 import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -21,10 +20,8 @@ import org.jboss.seam.core.Pages;
  * 
  * @author Gavin King
  */
-public class SeamRedirectFilter implements Filter 
+public class SeamRedirectFilter extends SeamFilter 
 {
-
-   public void init(FilterConfig config) throws ServletException {}
 
    public void doFilter(ServletRequest request, ServletResponse response,
          FilterChain chain) throws IOException, ServletException 
@@ -54,22 +51,25 @@ public class SeamRedirectFilter implements Filter
       };
    }
 
-   public void destroy() {}  
-
    public static String getViewId(String url)
    {
-      //for /seam/* style servlet mappings
-      String pathInfo = FacesContext.getCurrentInstance().getExternalContext().getRequestPathInfo();
-      String servletPath = FacesContext.getCurrentInstance().getExternalContext().getRequestServletPath();
-      String contextPath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+      ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+      String pathInfo = externalContext.getRequestPathInfo();
+      String servletPath = externalContext.getRequestServletPath();
+      String contextPath = externalContext.getRequestContextPath();
+      return getViewId(url, pathInfo, servletPath, contextPath);
+   }
+
+   protected static String getViewId(String url, String pathInfo, String servletPath, String contextPath)
+   {
       if (pathInfo!=null)
       {
+         //for /seam/* style servlet mappings
          return url.substring( contextPath.length() + servletPath.length(), getParamLoc(url) );
       }
-      
-      //for *.seam style servlet mappings
-      if ( url.startsWith(contextPath) )
+      else if ( url.startsWith(contextPath) )
       {
+         //for *.seam style servlet mappings
          String extension = servletPath.substring( servletPath.lastIndexOf('.') );
          if ( url.endsWith(extension) || url.contains(extension + '?') )
          {
@@ -93,4 +93,5 @@ public class SeamRedirectFilter implements Filter
       if (loc<0) loc = url.length();
       return loc;
    }
+
 }

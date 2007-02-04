@@ -119,9 +119,9 @@ public class MockExternalContext extends ExternalContext
    }
 
    @Override
-   public String getInitParameter(String arg0)
+   public String getInitParameter(String name)
    {
-      return context.getInitParameter(arg0);
+      return context.getInitParameter(name);
    }
 
    @Override

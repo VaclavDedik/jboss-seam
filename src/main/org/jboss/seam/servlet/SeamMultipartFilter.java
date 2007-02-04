@@ -2,16 +2,14 @@ package org.jboss.seam.servlet;
 
 import java.io.IOException;
 
-import javax.servlet.Filter;
 import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class SeamMultipartFilter implements Filter
+public class SeamMultipartFilter extends SeamFilter
 {
    public static final String MULTIPART = "multipart/";   
    
@@ -57,6 +55,4 @@ public class SeamMultipartFilter implements Filter
       return false;     
    }
 
-   public void init(FilterConfig filterConfig) { }
-   public void destroy() { }
 }

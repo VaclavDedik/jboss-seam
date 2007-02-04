@@ -946,6 +946,10 @@ public class Manager
          url = encodeConversationId(url);
          beforeRedirect();
       }
+      if ( log.isDebugEnabled() )
+      {
+         log.debug("redirecting to: " + url);
+      }
       ExternalContext externalContext = context.getExternalContext();
       controllingRedirect = true;
       try
