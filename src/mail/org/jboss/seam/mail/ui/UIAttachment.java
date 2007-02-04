@@ -58,9 +58,11 @@ public class UIAttachment extends MailComponent implements ValueHolder
             // TODO Set contenttype and filename
             JSF.renderChildren(context, this);
          } else {
-            // Assume this is an HTML document
             setValue(encode(context).getBytes());
-            setContentType("text/html");
+            if (getContentType() == null) {
+               // User hasn't specified content, assume html
+               setContentType("text/html");
+            }
          }
       }
    }
@@ -69,7 +71,6 @@ public class UIAttachment extends MailComponent implements ValueHolder
    public void encodeEnd(FacesContext context) throws IOException
    {
       DataSource ds = null;
-      // TODO Support seam-pdf
       try
       {
          if (getValue() instanceof URL)
@@ -94,7 +95,6 @@ public class UIAttachment extends MailComponent implements ValueHolder
          }
          else if (getValue() != null && getValue().getClass().isArray())
          {
-            Class clazz = getValue().getClass().getComponentType();
             if (getValue().getClass().getComponentType().isAssignableFrom(Byte.TYPE))
             {
                byte[] b = (byte[]) getValue();
