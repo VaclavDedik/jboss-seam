@@ -450,6 +450,11 @@ public class Identity extends Selector
       return securityContext;
    }
    
+   public void setSecurityContext(WorkingMemory securityContext)
+   {
+      this.securityContext = securityContext;
+   }
+   
    public MethodBinding getAuthenticateMethod()
    {
       return authenticateMethod;

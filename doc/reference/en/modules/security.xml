@@ -544,10 +544,10 @@ public class Authenticator {
       </para>
       
       <programlisting>
-        <![CDATA[
-    <component class="org.jboss.seam.drools.RuleBase" name="securityRules">
-        <property name="ruleFiles">/META-INF/security-rules.drl</property>
-    </component>        
+        <![CDATA[    
+   <drools:rule-base name="securityRules">
+       <drools:rule-files>/META-INF/security.drl</drools:rule-files>
+   </drools:rule-base>    
         ]]>
       </programlisting>
       
@@ -559,8 +559,8 @@ public class Authenticator {
     <sect2>
       <title>Creating a security rules file</title>
       <para>
-        For this step you need to create a file called <literal>security-rules.drl</literal> in the 
-        <literal>/META-INF</literal> of your application's jar file.  In actual fact this file can be called
+        For this step you need to create a file called <literal>security.drl</literal> in the 
+        <literal>/META-INF</literal> directory of your application's jar file.  In actual fact this file can be called
         anything you want, and exist in any location as long as it is configured appropriately in
         <literal>components.xml</literal>.
       </para>
