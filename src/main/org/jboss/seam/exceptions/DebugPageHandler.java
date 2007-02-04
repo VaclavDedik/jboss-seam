@@ -3,8 +3,6 @@
  */
 package org.jboss.seam.exceptions;
 
-import javax.faces.event.PhaseId;
-
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
@@ -15,7 +13,7 @@ public class DebugPageHandler extends ExceptionHandler
 {
 
    @Override
-   public Object handle(Exception e) throws Exception
+   public void handle(Exception e) throws Exception
    {
       Exceptions.log.error("redirecting to debug page", e);
       Context conversationContext = Contexts.getConversationContext();
@@ -28,15 +26,13 @@ public class DebugPageHandler extends ExceptionHandler
       redirect.setParameter( manager.getConversationIdParameter(), manager.getCurrentConversationId() );
       redirect.execute();
       conversationContext.flush();
-      return rethrow(e);
+      //(e);
    }
 
    @Override
    public boolean isHandler(Exception e)
    {
-      return Lifecycle.getPhaseId()!=PhaseId.RENDER_RESPONSE && 
-            Lifecycle.getPhaseId()!=null &&
-            Contexts.isConversationContextActive();
+      return true;
    }
    
    @Override

@@ -35,7 +35,7 @@ import org.jboss.seam.log.Logging;
 public class Lifecycle
 {
 
-   private static final LogProvider log = Logging.getLogProvider( Lifecycle.class );
+   private static final LogProvider log = Logging.getLogProvider(Lifecycle.class);
 
    public static void beginRequest(ExternalContext externalContext) {
       log.debug( ">>> Begin web request" );
@@ -117,6 +117,7 @@ public class Lifecycle
       Contexts.applicationContext.set( new WebApplicationContext(servletContext) );
       Contexts.eventContext.set( new WebRequestContext( ContextAdaptor.getRequest(request) ) );
       Contexts.sessionContext.set( new WebSessionContext( ContextAdaptor.getSession( request.getSession() ) ) );
+      Contexts.conversationContext.set( new MapContext(ScopeType.CONVERSATION) );
    }
 
    public static void endInitialization()

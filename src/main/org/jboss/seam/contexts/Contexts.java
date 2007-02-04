@@ -20,7 +20,7 @@ import org.jboss.seam.core.Events;
  */
 public class Contexts {
 
-   private static final LogProvider log = Logging.getLogProvider( Contexts.class );
+   private static final LogProvider log = Logging.getLogProvider(Contexts.class);
 
    static final ThreadLocal<Context> applicationContext = new ThreadLocal<Context>();
    static final ThreadLocal<Context> methodContext = new ThreadLocal<Context>();

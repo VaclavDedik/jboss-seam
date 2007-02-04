@@ -45,7 +45,6 @@ public final class ConfigErrorHandler extends ErrorHandler
       return conversation;
    }
 
-   @Override
    protected boolean isRollback(Exception e)
    {
       return rollback;

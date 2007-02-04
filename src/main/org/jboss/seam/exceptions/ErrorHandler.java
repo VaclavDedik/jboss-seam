@@ -1,21 +1,24 @@
 package org.jboss.seam.exceptions;
 
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Interpolator;
-import org.jboss.seam.util.Transactions;
 
 public abstract class ErrorHandler extends ExceptionHandler
 {
 
+   protected abstract int getCode(Exception e);
+
    @Override
-   public Object handle(Exception e) throws Exception
+   public void handle(Exception e) throws Exception
    {
-      if ( isEnd(e) ) Conversation.instance().end();
-      if ( isRollback(e) ) Transactions.setTransactionRollbackOnly();
+      if ( Contexts.isConversationContextActive() && isEnd(e) ) 
+      {
+         Conversation.instance().end();
+      }
       String message = getMessage(e);
       //addFacesMessage(e, message);
       error( getCode(e), Interpolator.instance().interpolate( getDisplayMessage(e, message) ) );
-      return rethrow(e);
    }
 
 }

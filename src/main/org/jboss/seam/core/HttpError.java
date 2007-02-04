@@ -71,7 +71,7 @@ public class HttpError
       {
          throw new IllegalStateException("No active application scope");
       }
-      return (HttpError) Component.getInstance(HttpError.class, true);
+      return (HttpError) Component.getInstance(HttpError.class, ScopeType.APPLICATION);
    }
    
 }

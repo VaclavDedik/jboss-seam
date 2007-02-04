@@ -16,10 +16,15 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.core.Exceptions;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
-import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.mock.MockApplication;
+import org.jboss.seam.mock.MockExternalContext;
+import org.jboss.seam.mock.MockFacesContext;
 import org.jboss.seam.util.Transactions;
 
 /**
@@ -34,7 +39,8 @@ public class SeamExceptionFilter implements Filter
    private static final LogProvider log = Logging.getLogProvider(SeamExceptionFilter.class);
    private ServletContext context;
 
-   public void init(FilterConfig cfg) throws ServletException {
+   public void init(FilterConfig cfg) throws ServletException 
+   {
       context = cfg.getServletContext();
    }
 
@@ -53,37 +59,62 @@ public class SeamExceptionFilter implements Filter
       }
       catch (Exception e)
       {
-         rollbackTransactionIfNecessary();
-         endWebRequestAfterException(request);
-         if ( !isExceptionHandled(request) )
+         log.error("uncaught exception", e);
+         if (e instanceof ServletException)
          {
-            log.error("uncaught exception handled by Seam", e);
-            throw new ServletException(e);
+            log.error("exception root cause", ( (ServletException) e ).getRootCause() );
          }
+         rollbackTransactionIfNecessary();
+         endWebRequestAfterException( (HttpServletRequest) request, (HttpServletResponse) response, e);
       }
       finally
       {
          Lifecycle.setPhaseId(null);
-         log.debug("ended request");
       }
    }
 
-   private boolean isExceptionHandled(ServletRequest request)
+   private void endWebRequestAfterException(HttpServletRequest request, HttpServletResponse response, Exception e) 
+         throws ServletException, IOException
    {
-      return request.getAttribute("org.jboss.seam.exceptionHandled")!=null;
+      log.debug("ending request");
+      //the FacesContext is gone - create a fake one for Redirect and HttpError to call
+      MockFacesContext facesContext = createFacesContext(request, response);
+      facesContext.setCurrent();
+      Lifecycle.beginExceptionRecovery(context, request); //the faces ExternalContext is useless to us at this point
+      try
+      {
+         Exceptions.instance().handle(e);
+      }
+      catch (ServletException se)
+      {
+         throw se;
+      }
+      catch (IOException ioe)
+      {
+         throw ioe;
+      }
+      catch (Exception ehe)
+      {
+         throw new ServletException(ehe);
+      }
+      finally
+      {
+         try 
+         {
+            Lifecycle.endRequest();
+            facesContext.release();
+            log.debug("ended request");
+         }
+         catch (Exception ere)
+         {
+            log.error("could not destroy contexts", e);
+         }
+      }
    }
 
-   private void endWebRequestAfterException(ServletRequest request)
+   private MockFacesContext createFacesContext(HttpServletRequest request, HttpServletResponse response)
    {
-      try 
-      {
-         Lifecycle.beginExceptionRecovery( context, (HttpServletRequest) request ); //the faces ExternalContext is useless to us at this point
-         Lifecycle.endRequest();
-      }
-      catch (Exception e)
-      {
-         log.error("could not destroy contexts", e);
-      }
+      return new MockFacesContext( new MockExternalContext(context, request, response), new MockApplication() );
    }
 
    private void rollbackTransactionIfNecessary()
@@ -91,7 +122,7 @@ public class SeamExceptionFilter implements Filter
       try {
          if ( Transactions.isTransactionActiveOrMarkedRollback() )
          {
-            log.info("killing transaction");
+            log.debug("killing transaction");
             Transactions.getUserTransaction().rollback();
          }
       }

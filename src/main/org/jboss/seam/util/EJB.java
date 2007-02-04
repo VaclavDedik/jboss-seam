@@ -5,6 +5,7 @@ import java.lang.annotation.Annotation;
 import javax.ejb.EJBContext;
 import javax.naming.NameNotFoundException;
 import javax.naming.NamingException;
+import javax.servlet.ServletException;
 
 
 public class EJB
@@ -70,28 +71,27 @@ public class EJB
 
    public static Exception getCause(Exception exception)
    {
-      if ( EJB_EXCEPTION.isInstance(exception) )
+      Throwable cause = null;
+      try
       {
-         try
+         if ( EJB_EXCEPTION.isInstance(exception) )
          {
-            return (Exception) Reflections.getGetterMethod(EJB_EXCEPTION, "causedByException").invoke(exception);
+            cause = (Throwable) Reflections.getGetterMethod(EJB_EXCEPTION, "causedByException").invoke(exception);
          }
-         catch (Exception x)
+         else if (exception instanceof ServletException)
          {
-            return null;
+            cause = ( (ServletException) exception ).getRootCause();
+         }
+         else
+         {
+            cause = exception.getCause();
          }
       }
-      else
+      catch (Exception x)
       {
-         try
-         {
-            return (Exception) exception.getCause();
-         }
-         catch (Exception x)
-         {
-            return null;
-         }
+         return null;
       }
+      return cause==exception || !(cause instanceof Exception) ? null : (Exception) cause;
    }
 
    public static Class[] value(Annotation annotation)

@@ -20,7 +20,10 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -30,8 +33,9 @@ import javax.servlet.http.HttpSession;
  */
 public class MockExternalContext extends ExternalContext
 {
-   private MockServletContext context;
+   private ServletContext context;
    private HttpServletRequest request;
+   private HttpServletResponse response;
    
    
    public MockExternalContext()
@@ -40,22 +44,29 @@ public class MockExternalContext extends ExternalContext
       this.request = new MockHttpServletRequest( new MockHttpSession(context) );
    }
 
-   public MockExternalContext(MockServletContext context)
+   public MockExternalContext(ServletContext context)
    {
       this.context = context;
       this.request = new MockHttpServletRequest( new MockHttpSession(context) );
    }
 
-   public MockExternalContext(MockServletContext context, HttpSession session)
+   public MockExternalContext(ServletContext context, HttpSession session)
    {
       this.context = context;
       this.request = new MockHttpServletRequest(session);
    }
 
-   public MockExternalContext(MockServletContext context, HttpServletRequest request)
+   public MockExternalContext(ServletContext context, HttpServletRequest request)
    {
       this.context = context;
       this.request = request;
+   }
+   
+   public MockExternalContext(ServletContext context, HttpServletRequest request, HttpServletResponse response)
+   {
+      this.context = context;
+      this.request = request;
+      this.response = response;
    }
    
    @Override
@@ -85,7 +96,14 @@ public class MockExternalContext extends ExternalContext
    @Override
    public Map getApplicationMap()
    {
-      return context.getAttributes();
+      Map result = new HashMap();
+      Enumeration e = context.getAttributeNames();
+      while ( e.hasMoreElements() )
+      {
+         String name = (String) e.nextElement();
+         result.put( name, context.getAttribute(name) );
+      }
+      return result;
    }
 
    @Override
@@ -109,7 +127,14 @@ public class MockExternalContext extends ExternalContext
    @Override
    public Map getInitParameterMap()
    {
-      return context.getInitParameters();
+      Map result = new HashMap();
+      Enumeration e = context.getInitParameterNames();
+      while ( e.hasMoreElements() )
+      {
+         String name = (String) e.nextElement();
+         result.put( name, context.getInitParameter(name) );
+      }
+      return result;
    }
 
    @Override
@@ -176,7 +201,14 @@ public class MockExternalContext extends ExternalContext
    @Override
    public Map getRequestMap()
    {
-      return ( (MockHttpServletRequest) request ).getAttributes();
+      Map result = new HashMap();
+      Enumeration e = request.getAttributeNames();
+      while ( e.hasMoreElements() )
+      {
+         String name = (String) e.nextElement();
+         result.put( name, request.getAttribute(name) );
+      }
+      return result;
    }
 
    @Override
@@ -237,7 +269,7 @@ public class MockExternalContext extends ExternalContext
    @Override
    public Object getResponse()
    {
-      return null;
+      return response;
    }
 
    @Override
@@ -249,7 +281,15 @@ public class MockExternalContext extends ExternalContext
    @Override
    public Map getSessionMap()
    {
-      return ( (MockHttpSession) request.getSession() ).getAttributes();
+      Map result = new HashMap();
+      HttpSession session = request.getSession(true);
+      Enumeration e = session.getAttributeNames();
+      while ( e.hasMoreElements() )
+      {
+         String name = (String) e.nextElement();
+         result.put( name, session.getAttribute(name) );
+      }
+      return result;
    }
 
    @Override
@@ -265,20 +305,21 @@ public class MockExternalContext extends ExternalContext
    }
 
    @Override
-   public void log(String arg0, Throwable arg1)
+   public void log(String message, Throwable t)
    {
       
    }
 
    @Override
-   public void log(String arg0)
+   public void log(String t)
    {
    }
 
    @Override
    public void redirect(String url) throws IOException
    {
-      
+      response.sendRedirect(url);
+      FacesContext.getCurrentInstance().responseComplete(); 
    }
 
 }

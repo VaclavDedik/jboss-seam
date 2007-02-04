@@ -98,7 +98,6 @@ import org.jboss.seam.interceptors.BusinessProcessInterceptor;
 import org.jboss.seam.interceptors.ConversationInterceptor;
 import org.jboss.seam.interceptors.ConversationalInterceptor;
 import org.jboss.seam.interceptors.EventInterceptor;
-import org.jboss.seam.interceptors.ExceptionInterceptor;
 import org.jboss.seam.interceptors.ManagedEntityIdentityInterceptor;
 import org.jboss.seam.interceptors.MethodContextInterceptor;
 import org.jboss.seam.interceptors.OutcomeInterceptor;
@@ -764,7 +763,6 @@ public class Component
       {
          addInterceptor( new Interceptor( new AsynchronousInterceptor(), this ) );
       }
-      addInterceptor( new Interceptor( new ExceptionInterceptor(), this ) );
       if ( getType()==STATEFUL_SESSION_BEAN )
       {
          addInterceptor( new Interceptor( new RemoveInterceptor(), this ) );

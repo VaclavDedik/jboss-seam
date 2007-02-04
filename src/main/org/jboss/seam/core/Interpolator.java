@@ -10,6 +10,7 @@ import java.util.StringTokenizer;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.Component;
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
@@ -25,7 +26,8 @@ import org.jboss.seam.contexts.Contexts;
 @Scope(STATELESS)
 @Name("org.jboss.seam.core.interpolator")
 @Install(precedence=BUILT_IN)
-public class Interpolator {
+public class Interpolator 
+{
 
    private static final LogProvider log = Logging.getLogProvider(Interpolator.class);
    
@@ -33,7 +35,7 @@ public class Interpolator {
    {
       if ( Contexts.isApplicationContextActive() )
       {
-         return (Interpolator) Component.getInstance(Interpolator.class, true);         
+         return (Interpolator) Component.getInstance(Interpolator.class, ScopeType.APPLICATION);         
       }
       else
       {
@@ -60,7 +62,8 @@ public class Interpolator {
          throw new IllegalArgumentException("more than 10 parameters");
       }
 
-      if (string.indexOf('#')>=0 || string.indexOf('{')>=0) {
+      if (string.indexOf('#')>=0 || string.indexOf('{')>=0) 
+      {
           string = interpolateExpressions(string, params);
       }
 
@@ -112,19 +115,25 @@ public class Interpolator {
                   builder.append("#").append(nextTok);
                }
             }
-         } else if ("{".equals(tok)) {
+         } 
+         else if ("{".equals(tok)) 
+         {
              StringBuilder expr = new StringBuilder();
              
              expr.append(tok);
              int level = 1;
 
-             while (tokens.hasMoreTokens()) {
+             while (tokens.hasMoreTokens()) 
+             {
                  String nextTok = tokens.nextToken();
                  expr.append(nextTok);
                  
-                 if (nextTok.equals("{")) {
+                 if (nextTok.equals("{")) 
+                 {
                      ++level;
-                 } else if (nextTok.equals("}")) {
+                 } 
+                 else if (nextTok.equals("}")) 
+                 {
                      if (--level == 0) {
                          String value = new MessageFormat(expr.toString(), Locale.instance()).format(params);
                          builder.append(value);
@@ -135,10 +144,13 @@ public class Interpolator {
                  }
              } 
 
-             if (expr != null) {
+             if (expr != null) 
+             {
                  builder.append(expr);
              }
-         } else {
+         } 
+         else 
+         {
             builder.append(tok);
          }
       }

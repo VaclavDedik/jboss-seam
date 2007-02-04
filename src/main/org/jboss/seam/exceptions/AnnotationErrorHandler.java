@@ -31,7 +31,6 @@ public class AnnotationErrorHandler extends ErrorHandler
       return e.getClass().getAnnotation(HttpError.class).end();
    }
    
-   @Override
    protected boolean isRollback(Exception e)
    {
       return e.getClass().getAnnotation(HttpError.class).rollback();

@@ -15,7 +15,7 @@ import org.jboss.seam.security.Identity;
  * @author Shane Bryzak
  */
 @Interceptor(stateless = true, around = ValidationInterceptor.class, 
-         within = {BijectionInterceptor.class, ExceptionInterceptor.class})
+         within = BijectionInterceptor.class)
 public class SecurityInterceptor extends AbstractInterceptor
 {
    private static final long serialVersionUID = -6567750187000766925L;
@@ -28,9 +28,13 @@ public class SecurityInterceptor extends AbstractInterceptor
       Method method = invocation.getMethod();
 
       if (method.isAnnotationPresent(Restrict.class))
+      {
          r = method.getAnnotation(Restrict.class);
+      }
       else if (method.getDeclaringClass().isAnnotationPresent(Restrict.class))
+      {
          r = method.getDeclaringClass().getAnnotation(Restrict.class);
+      }
 
       if (r != null)
       {

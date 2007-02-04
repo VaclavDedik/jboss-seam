@@ -3,9 +3,6 @@
  */
 package org.jboss.seam.exceptions;
 
-import javax.faces.event.PhaseId;
-
-import org.jboss.seam.contexts.Lifecycle;
 
 public final class ConfigRedirectHandler extends RedirectHandler
 {
@@ -39,9 +36,7 @@ public final class ConfigRedirectHandler extends RedirectHandler
    @Override
    public boolean isHandler(Exception e)
    {
-      return clazz.isInstance(e) && 
-            Lifecycle.getPhaseId()!=PhaseId.RENDER_RESPONSE && 
-            Lifecycle.getPhaseId()!=null;
+      return clazz.isInstance(e);
    }
 
    @Override
@@ -50,7 +45,6 @@ public final class ConfigRedirectHandler extends RedirectHandler
       return conversation;
    }
 
-   @Override
    protected boolean isRollback(Exception e)
    {
       return rollback;

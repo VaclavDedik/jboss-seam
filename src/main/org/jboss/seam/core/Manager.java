@@ -954,7 +954,7 @@ public class Manager
       }
       catch (IOException ioe)
       {
-         throw new RuntimeException("could not redirect to: " + url, ioe);
+         throw new RedirectException(ioe);
       }
       finally
       {

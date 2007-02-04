@@ -29,3 +29,11 @@
 
 <!ELEMENT key (#PCDATA)>
 <!ELEMENT value (#PCDATA)>
+
+<!-- event handling -->
+
+<!ELEMENT event (action*)>
+<!ATTLIST event type CDATA #REQUIRED>
+
+<!ELEMENT action EMPTY>
+<!ATTLIST action expression CDATA #REQUIRED>

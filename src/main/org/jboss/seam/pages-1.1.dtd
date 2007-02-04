@@ -67,17 +67,13 @@
 
 <!-- exception handling -->
 
-<!ELEMENT exception ((http-error|redirect|render),end-conversation?,rollback?)>
+<!ELEMENT exception ((http-error|redirect),end-conversation?)>
 <!ATTLIST exception class CDATA #IMPLIED>
 
 <!ELEMENT redirect (#PCDATA)>
 <!ATTLIST redirect view-id CDATA #IMPLIED>
 
-<!ELEMENT render (#PCDATA)>
-<!ATTLIST render view-id CDATA #IMPLIED>
-
 <!ELEMENT http-error (#PCDATA)>
 <!ATTLIST http-error error-code CDATA #IMPLIED>
 
 <!ELEMENT end-conversation EMPTY>
-<!ELEMENT rollback EMPTY>

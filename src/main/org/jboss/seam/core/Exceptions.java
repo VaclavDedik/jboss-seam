@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import org.dom4j.Element;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
@@ -17,14 +16,12 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.exceptions.AnnotationErrorHandler;
+import org.jboss.seam.exceptions.AnnotationRedirectHandler;
 import org.jboss.seam.exceptions.ConfigErrorHandler;
 import org.jboss.seam.exceptions.ConfigRedirectHandler;
-import org.jboss.seam.exceptions.ConfigRenderHandler;
 import org.jboss.seam.exceptions.DebugPageHandler;
-import org.jboss.seam.exceptions.AnnotationErrorHandler;
 import org.jboss.seam.exceptions.ExceptionHandler;
-import org.jboss.seam.exceptions.AnnotationRedirectHandler;
-import org.jboss.seam.exceptions.AnnotationRenderHandler;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.util.EJB;
@@ -49,7 +46,7 @@ public class Exceptions
    
    private List<ExceptionHandler> exceptionHandlers = new ArrayList<ExceptionHandler>();
    
-   public Object handle(Exception e) throws Exception
+   public void handle(Exception e) throws Exception
    {
       //build a list of the nested exceptions
       List<Exception> causes = new ArrayList<Exception>();
@@ -66,7 +63,8 @@ public class Exceptions
             Exception cause = causes.get(i);
             if ( eh.isHandler(cause) )
             {
-               return eh.handle(cause);
+               eh.handle(cause);
+               return;
             }
          }
       }
@@ -78,12 +76,14 @@ public class Exceptions
    @Create
    public void initialize() throws Exception 
    {
-      InputStream stream = Resources.getResourceAsStream("/WEB-INF/exceptions.xml"); //deprecated
-      if (stream==null) stream = Resources.getResourceAsStream("/WEB-INF/pages.xml");
+      String fileName = "/WEB-INF/exceptions.xml";
+      InputStream stream = Resources.getResourceAsStream(fileName); //deprecated
+      fileName = "/WEB-INF/pages.xml";
+      if (stream==null) stream = Resources.getResourceAsStream(fileName);
       ExceptionHandler anyhandler = null;
       if (stream!=null)
       {
-         log.info("reading exceptions.xml");
+         log.info("reading exception mappings from " + fileName);
          List<Element> elements = XML.getRootElement(stream).elements("exception");
          for (final Element exception: elements)
          {
@@ -100,7 +100,6 @@ public class Exceptions
          }
       }
       
-      exceptionHandlers.add( new AnnotationRenderHandler() );
       exceptionHandlers.add( new AnnotationRedirectHandler() );
       exceptionHandlers.add( new AnnotationErrorHandler() );
       if ( Init.instance().isDebug() ) 
@@ -115,14 +114,6 @@ public class Exceptions
    {
       final boolean endConversation = exception.elementIterator("end-conversation").hasNext();
       final boolean rollback = exception.elementIterator("rollback").hasNext();
-
-      Element render = exception.element("render");
-      if (render!=null)
-      {
-         final String viewId = render.attributeValue("view-id");
-         final String message = render.getTextTrim();
-         return new ConfigRenderHandler(message, viewId, clazz, rollback, endConversation);
-      }
       
       Element redirect = exception.element("redirect");
       if (redirect!=null)
