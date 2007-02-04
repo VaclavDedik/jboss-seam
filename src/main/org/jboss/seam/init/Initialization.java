@@ -34,6 +34,7 @@ import org.jboss.seam.annotations.Roles;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Jbpm;
 import org.jboss.seam.core.PojoCache;
@@ -65,7 +66,8 @@ public class Initialization
    private List<FactoryDescriptor> factoryDescriptors = new ArrayList<FactoryDescriptor>();
    private Set<Class> installedComponents = new HashSet<Class>();
    private Set<String> importedPackages = new HashSet<String>();
-   private Map<String, NamespaceInfo> namespaceMap = new HashMap<String, NamespaceInfo>();
+   private Map<String, NamespaceDescriptor> namespaceMap = new HashMap<String, NamespaceDescriptor>();
+   private final Map<String, EventListenerDescriptor> eventListenerDescriptors = new HashMap<String, EventListenerDescriptor>();
 
    public Initialization(ServletContext servletContext)
    {
@@ -169,10 +171,16 @@ public class Initialization
          installFactoryFromXmlElement(factory);
       }
 
+      List<Element> elements = rootElement.elements("event");
+      for (Element event: elements)
+      {
+         installEventListenerFromXmlElement(event);
+      }
+      
       for (Element elem : (List<Element>) rootElement.elements())
       {
          String ns = elem.getNamespace().getURI();
-         NamespaceInfo nsInfo = namespaceMap.get(ns);
+         NamespaceDescriptor nsInfo = namespaceMap.get(ns);
          if (nsInfo != null)
          {
             String name = elem.attributeValue("name");
@@ -202,6 +210,32 @@ public class Initialization
 
             installComponentFromXmlElement(elem, name, className, replacements);
          }
+      }
+   }
+
+   private void installEventListenerFromXmlElement(Element event)
+   {
+      String type = event.attributeValue("type");
+      if (type==null)
+      {
+         throw new IllegalArgumentException("must specify type for <event/> declaration");
+      }
+      EventListenerDescriptor eventListener = eventListenerDescriptors.get(type);
+      if (eventListener==null) 
+      {
+         eventListener = new EventListenerDescriptor(type);
+         eventListenerDescriptors.put(type, eventListener);
+      }
+      
+      List<Element> actions = event.elements("action");
+      for (Element action: actions)
+      {
+         String actionExpression = action.attributeValue("expression");
+         if (actionExpression==null)
+         {
+            throw new IllegalArgumentException("must specify expression for <action/> declaration");
+         }
+         eventListener.getListenerMethodBindings().add(actionExpression);
       }
    }
 
@@ -524,7 +558,7 @@ public class Initialization
          if (ns != null)
          {
             log.info("Namespace: " + ns.value() + ", package: " + pkg.getName() + ", prefix: " + ns.prefix());
-            namespaceMap.put(ns.value(), new NamespaceInfo(ns, pkg));
+            namespaceMap.put(ns.value(), new NamespaceDescriptor(ns, pkg));
          }
       }
    }
@@ -687,6 +721,14 @@ public class Initialization
             init.addAutocreateVariable(factoryDescriptor.getName());
          }
       }
+      
+      for (EventListenerDescriptor listenerDescriptor: eventListenerDescriptors.values())
+      {
+         for (String expression: listenerDescriptor.getListenerMethodBindings())
+         {
+            init.addObserverMethodBinding( listenerDescriptor.getType(), Expressions.instance().createMethodBinding(expression) );
+         }
+      }
    }
 
    protected boolean dependenciesMet(Context context, ComponentDescriptor descriptor)
@@ -777,7 +819,7 @@ public class Initialization
       private String value;
       private boolean autoCreate;
 
-      public FactoryDescriptor(String name, ScopeType scope, String method, String value,
+      FactoryDescriptor(String name, ScopeType scope, String method, String value,
                boolean autoCreate)
       {
          super();
@@ -825,12 +867,12 @@ public class Initialization
       }
    }
 
-   private static class NamespaceInfo
+   private static class NamespaceDescriptor
    {
       private Namespace namespace;
       private Package pkg;
 
-      public NamespaceInfo(Namespace namespace, Package pkg)
+      NamespaceDescriptor(Namespace namespace, Package pkg)
       {
          this.namespace = namespace;
          this.pkg = pkg;
@@ -846,6 +888,38 @@ public class Initialization
          return pkg;
       }
 
+      @Override
+      public String toString()
+      {
+         return "EventListenerDescriptor(" + namespace + ')';
+      }
+   }
+   
+   private static class EventListenerDescriptor
+   {
+      private String type;
+      private List<String> listenerMethodBindings = new ArrayList<String>();
+      
+      EventListenerDescriptor(String type)
+      {
+         this.type = type;
+      }
+      
+      public String getType()
+      {
+         return type;
+      }
+
+      public List<String> getListenerMethodBindings()
+      {
+         return listenerMethodBindings;
+      }
+      
+      @Override
+      public String toString()
+      {
+         return "EventListenerDescriptor(" + type + ')';
+      }
    }
 
    private static class ComponentDescriptor
@@ -861,7 +935,7 @@ public class Initialization
       /**
        * For components.xml
        */
-      public ComponentDescriptor(String name, Class<?> componentClass, ScopeType scope,
+      ComponentDescriptor(String name, Class<?> componentClass, ScopeType scope,
                boolean autoCreate, String jndiName, Boolean installed, Integer precedence)
       {
          this.name = name;

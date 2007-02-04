@@ -48,7 +48,8 @@ public class Init
    private String userTransactionName;
    //private String transactionManagerName;
    
-   private Map<String, List<ObserverMethod>> observers = new HashMap<String, List<ObserverMethod>>();
+   private Map<String, List<ObserverMethod>> observerMethods = new HashMap<String, List<ObserverMethod>>();
+   private Map<String, List<ObserverMethodBinding>> observerMethodBindings = new HashMap<String, List<ObserverMethodBinding>>();
    private Map<String, FactoryMethod> factories = new HashMap<String, FactoryMethod>();
    private Map<String, FactoryBinding> factoryMethodBindings = new HashMap<String, FactoryBinding>();
    private Map<String, FactoryBinding> factoryValueBindings = new HashMap<String, FactoryBinding>();
@@ -185,16 +186,34 @@ public class Init
       factoryValueBindings.put( variable, new FactoryBinding(valueBindingExpression, scope) );
    }
    
-   public static class ObserverMethod {
-      public Method method;
-      public Component component;
-      public boolean create;
+   public static class ObserverMethod 
+   {
+      private Method method;
+      private Component component;
+      private boolean create;
+      
       ObserverMethod(Method method, Component component, boolean create)
       {
          this.method = method;
          this.component = component;
          this.create = create;
       }
+
+      public Component getComponent()
+      {
+         return component;
+      }
+
+      public Method getMethod()
+      {
+         return method;
+      }
+
+      public boolean isCreate()
+      {
+         return create;
+      }
+
       @Override
       public String toString()
       {
@@ -202,20 +221,57 @@ public class Init
       }
    }
    
-   public List<ObserverMethod> getObservers(String eventType)
+   public static class ObserverMethodBinding
    {
-      return observers.get(eventType);
+      private MethodBinding methodBinding;
+      
+      ObserverMethodBinding(MethodBinding method)
+      {
+         this.methodBinding = method;
+      }
+
+      public MethodBinding getMethodBinding()
+      {
+         return methodBinding;
+      }
+
+      @Override
+      public String toString()
+      {
+         return "ObserverMethodBinding(" + methodBinding + ')';
+      }
+   }
+   
+   public List<ObserverMethod> getObserverMethods(String eventType)
+   {
+      return observerMethods.get(eventType);
+   }
+   
+   public List<ObserverMethodBinding> getObserverMethodBindings(String eventType)
+   {
+      return observerMethodBindings.get(eventType);
    }
    
    public void addObserverMethod(String eventType, Method method, Component component, boolean create)
    {
-      List<ObserverMethod> observerList = observers.get(eventType);
+      List<ObserverMethod> observerList = observerMethods.get(eventType);
       if (observerList==null)
       {
          observerList = new ArrayList<ObserverMethod>();
-         observers.put(eventType, observerList);
+         observerMethods.put(eventType, observerList);
       }
       observerList.add( new ObserverMethod(method, component, create) );
+   }
+   
+   public void addObserverMethodBinding(String eventType, MethodBinding methodBinding)
+   {
+      List<ObserverMethodBinding> observerList = observerMethodBindings.get(eventType);
+      if (observerList==null)
+      {
+         observerList = new ArrayList<ObserverMethodBinding>();
+         observerMethodBindings.put(eventType, observerList);
+      }
+      observerList.add( new ObserverMethodBinding(methodBinding) );
    }
    
    public boolean isJbpmInstalled()
