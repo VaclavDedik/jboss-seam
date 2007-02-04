@@ -11,6 +11,8 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.Principal;
+import java.util.AbstractSet;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -25,6 +27,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.jboss.seam.util.EnumerationIterator;
 
 /**
  * @author Gavin King
@@ -100,14 +104,24 @@ public class MockExternalContext extends ExternalContext
    @Override
    public Map getApplicationMap()
    {
-      Map result = new HashMap();
-      Enumeration e = context.getAttributeNames();
-      while ( e.hasMoreElements() )
+      return new AttributeMap()
       {
-         String name = (String) e.nextElement();
-         result.put( name, context.getAttribute(name) );
-      }
-      return result;
+         @Override
+         public Enumeration keys()
+         {
+            return context.getAttributeNames();
+         }
+         @Override
+         public Object getAttribute(String key)
+         {
+            return context.getAttribute(key);
+         }
+         @Override
+         public void setAttribute(String key, Object value)
+         {
+            context.setAttribute(key, value);
+         }
+      };
    }
 
    @Override
@@ -205,14 +219,24 @@ public class MockExternalContext extends ExternalContext
    @Override
    public Map getRequestMap()
    {
-      Map result = new HashMap();
-      Enumeration e = request.getAttributeNames();
-      while ( e.hasMoreElements() )
+      return new AttributeMap()
       {
-         String name = (String) e.nextElement();
-         result.put( name, request.getAttribute(name) );
-      }
-      return result;
+         @Override
+         public Enumeration keys()
+         {
+            return request.getAttributeNames();
+         }
+         @Override
+         public Object getAttribute(String key)
+         {
+            return request.getAttribute(key);
+         }
+         @Override
+         public void setAttribute(String key, Object value)
+         {
+            request.setAttribute(key, value);
+         }
+      };
    }
 
    @Override
@@ -285,16 +309,138 @@ public class MockExternalContext extends ExternalContext
    @Override
    public Map getSessionMap()
    {
-      Map result = new HashMap();
-      HttpSession session = request.getSession(true);
-      Enumeration e = session.getAttributeNames();
-      while ( e.hasMoreElements() )
+      final HttpSession session = request.getSession(true);
+      return new AttributeMap()
       {
-         String name = (String) e.nextElement();
-         result.put( name, session.getAttribute(name) );
-      }
-      return result;
+         @Override
+         public Enumeration keys()
+         {
+            return session.getAttributeNames();
+         }
+         @Override
+         public Object getAttribute(String key)
+         {
+            return session.getAttribute(key);
+         }
+         @Override
+         public void setAttribute(String key, Object value)
+         {
+            session.setAttribute(key, value);
+         }
+      };
    }
+   
+   static abstract class AttributeMap implements Map
+   {
+      
+      public abstract Enumeration keys();
+
+      public Object get(Object key)
+      {
+         return getAttribute((String)key);
+      }
+      
+      public Object put(Object key, Object value)
+      {
+         Object result = get(key);
+         setAttribute((String)key, value);
+         return result;
+      }
+      
+      public void clear()
+      {
+         Enumeration e = keys();
+         while (e.hasMoreElements())
+         {
+            remove( e.nextElement() );
+         }
+      }
+
+      public boolean containsKey(Object key)
+      {
+         Enumeration e = keys();
+         while (e.hasMoreElements())
+         {
+            if( key.equals( e.nextElement() ) ) return true;
+         }
+         return false;
+      }
+
+      public boolean containsValue(Object value)
+      {
+         Enumeration e = keys();
+         while (e.hasMoreElements())
+         {
+            if ( value.equals( get( e.nextElement() ) ) ) return true;
+         }
+         return false;
+      }
+
+      public Set entrySet()
+      {
+         throw new UnsupportedOperationException();
+      }
+
+      public abstract Object getAttribute(String key);
+      
+      public boolean isEmpty()
+      {
+         return size()==0;
+      }
+
+      public Set keySet()
+      {
+         return new AbstractSet()
+         {
+
+            @Override
+            public Iterator iterator()
+            {
+               return new EnumerationIterator( keys() );
+            }
+
+            @Override
+            public int size()
+            {
+               return AttributeMap.this.size();
+            }
+            
+         };
+      }
+
+      public abstract void setAttribute(String key, Object value);
+
+      public void putAll(Map t)
+      {
+         for (Map.Entry me: (Set<Map.Entry>) t.entrySet())
+         {
+            put( me.getKey(), me.getValue() );
+         }
+      }
+
+      public Object remove(Object key)
+      {
+         return put(key, null);
+      }
+
+      public int size()
+      {
+         int i=0;
+         Enumeration e = keys();
+         while (e.hasMoreElements())
+         {
+            e.nextElement();
+            i++;
+         }
+         return i;
+       }
+
+      public Collection values()
+      {
+         throw new UnsupportedOperationException();
+      }
+      
+   };
 
    @Override
    public Principal getUserPrincipal()
