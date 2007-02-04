@@ -93,6 +93,7 @@
     
     <fileset id="view" dir="${basedir}/view">
         <include name="home.xhtml"/>
+    	<include name="error.xhtml"/>
     	<include name="login.xhtml"/>
     	<include name="login.page.xml"/>
         <include name="index.html"/>

@@ -1,0 +1,37 @@
+<!DOCTYPE pages PUBLIC
+          "-//JBoss/Seam Pages Configuration DTD 1.1//EN"
+          "http://jboss.com/products/seam/pages-1.1.dtd">
+
+<pages>
+
+    <exception class="javax.persistence.EntityNotFoundException">
+        <redirect view-id="/error.xhtml">
+            <faces-message>Not found</faces-message>
+        </redirect>
+    </exception>
+    
+    <exception class="javax.persistence.OptimisticLockException">
+        <redirect view-id="/error.xhtml">
+            <faces-message>Another user changed the same data, please try again</faces-message>
+        </redirect>
+    </exception>
+    
+    <exception class="org.jboss.seam.security.AuthorizationException">
+        <redirect view-id="/error.xhtml">
+            <faces-message>You don't have permission to do this</faces-message>
+        </redirect>
+    </exception>
+    
+    <exception class="org.jboss.seam.security.NotLoggedInException">
+        <redirect view-id="/login.xhtml">
+            <faces-message>Please log in first</faces-message>
+        </redirect>
+    </exception>
+     
+    <exception>
+        <redirect view-id="/error.xhtml">
+            <faces-message>Unexpected error, please try again</faces-message>
+        </redirect>
+    </exception>
+    
+</pages>
