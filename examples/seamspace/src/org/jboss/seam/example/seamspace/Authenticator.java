@@ -2,8 +2,6 @@ package org.jboss.seam.example.seamspace;
 
 import static org.jboss.seam.ScopeType.SESSION;
 
-import java.util.Set;
-
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
