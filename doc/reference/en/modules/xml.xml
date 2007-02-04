@@ -1,6 +1,7 @@
 <chapter id="xml">
 
         <title>Configuring Seam components</title>
+        
         <para> 
             The philosophy of minimizing XML-based configuration is extremely strong in Seam. Nevertheless,
             there are various reasons why we might want to configure a Seam component using XML: to isolate
@@ -35,6 +36,7 @@
 
         <sect1>
             <title>Configuring components via <literal>components.xml</literal></title>
+            
             <para> 
                 The <literal>components.xml</literal> file is a bit more powerful than property settings. It lets
                 you: 
@@ -498,29 +500,34 @@ public class Payment
             </para>
 
             <para>The following are the the namespaces used by Seam:</para>
-        <itemizedlist>
-            <listitem>
-                <para>components &mdash; <literal>http://jboss.com/products/seam/components</literal></para>
-            </listitem>
-            <listitem>
-                <para>core &mdash; <literal>http://jboss.com/products/seam/core</literal></para>
-            </listitem>
-            <listitem>
-                <para>drools &mdash; <literal>http://jboss.com/products/seam/drools</literal></para>
-            </listitem>
-            <listitem>
-                <para>framework &mdash; <literal>http://jboss.com/products/seam/framework</literal></para>
-            </listitem>
-            <listitem>
-                <para>jms &mdash; <literal>http://jboss.com/products/seam/jms</literal></para>
-            </listitem>
-            <listitem>
-                <para>remoting &mdash; <literal>http://jboss.com/products/seam/remoting</literal></para>
-            </listitem>
-            <listitem>
-                <para>theme &mdash; <literal>http://jboss.com/products/seam/theme</literal></para>
-            </listitem>
-        </itemizedlist>
+            
+            <itemizedlist>
+                <listitem>
+                    <para>components &mdash; <literal>http://jboss.com/products/seam/components</literal></para>
+                </listitem>
+                <listitem>
+                    <para>core &mdash; <literal>http://jboss.com/products/seam/core</literal></para>
+                </listitem>
+                <listitem>
+                    <para>drools &mdash; <literal>http://jboss.com/products/seam/drools</literal></para>
+                </listitem>
+                <listitem>
+                    <para>framework &mdash; <literal>http://jboss.com/products/seam/framework</literal></para>
+                </listitem>
+                <listitem>
+                    <para>jms &mdash; <literal>http://jboss.com/products/seam/jms</literal></para>
+                </listitem>
+                <listitem>
+                    <para>remoting &mdash; <literal>http://jboss.com/products/seam/remoting</literal></para>
+                </listitem>
+                <listitem>
+                    <para>theme &mdash; <literal>http://jboss.com/products/seam/theme</literal></para>
+                </listitem>
+                <listitem>
+                    <para>security &mdash; <literal>http://jboss.com/products/seam/security</literal></para>
+                </listitem>
+            </itemizedlist>
+            
         </sect1>
 
 

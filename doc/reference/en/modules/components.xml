@@ -213,7 +213,7 @@
                     <para>
                         An API for raising events that can be observed via
                         <literal>@Observer</literal> methods, or method
-                        bindings in <literal>WEB-INF/events.xml</literal>.
+                        bindings in <literal>components.xml</literal>.
                     </para>
                     <itemizedlist>
                         <listitem>

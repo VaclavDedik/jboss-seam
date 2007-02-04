@@ -177,23 +177,6 @@
 </lifecycle>]]></programlisting>
 
             <para>
-                It's also a good idea to add a servlet filter to rollback uncommitted transactions 
-                when uncaught exceptions occur. (According to the Java EE specification, the
-                web container should do this automatically, but we've found that this behavior
-                cannot be relied upon in all application servers.)
-            </para>
-        
-            <programlisting><![CDATA[<filter>
-    <filter-name>Seam Exception Filter</filter-name>
-    <filter-class>org.jboss.seam.servlet.SeamExceptionFilter</filter-class>
-</filter>
-
-<filter-mapping>
-    <filter-name>Seam Exception Filter</filter-name>
-    <url-pattern>*.jsf</url-pattern>
-</filter-mapping>]]></programlisting>
-            
-            <para>
                 Seam transaction management is useful even if you're using EJB 3.0 
                 container-managed persistence contexts. But it is especially useful
                 if you use Seam outside a Java EE 5 environment, or in any other

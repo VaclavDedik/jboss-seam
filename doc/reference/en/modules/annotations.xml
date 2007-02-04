@@ -752,6 +752,7 @@
 
     <section>
         <title>Annotations for exceptions</title>
+        
         <para> These annotations let you specify how Seam should handle an exception that propagates out of a Seam
             component. </para>
 
@@ -763,32 +764,6 @@
                 <listitem>
                     <programlisting><![CDATA[@Redirect(viewId="error.jsp")]]></programlisting>
                     <para> Specifies that the annotated exception causes a browser redirect to a specified view id. </para>
-                    <itemizedlist>
-                        <listitem>
-                            <para>
-                                <literal>viewId</literal> &mdash; specifies the JSF view id to redirect to. </para>
-                        </listitem>
-                        <listitem>
-                            <para>
-                                <literal>message</literal> &mdash; a message to be displayed, default to the
-                                exception message. </para>
-                        </listitem>
-                        <listitem>
-                            <para>
-                                <literal>end</literal> &mdash; specifies that the long-running conversation should
-                                end, default to <literal>false</literal>. </para>
-                        </listitem>
-                    </itemizedlist>
-                </listitem>
-            </varlistentry>
-            <varlistentry id="render-annotation">
-                <term>
-                    <literal>@Render</literal>
-                </term>
-                <listitem>
-                    <programlisting><![CDATA[@Render(viewId="error.jsp")]]></programlisting>
-                    <para> Specifies that the annotated exception causes immediate rendering of the view. This
-                        annotation is ignored unless the exception is thrown during the JSF INVOKE_APPLICATION phase. </para>
                     <itemizedlist>
                         <listitem>
                             <para>

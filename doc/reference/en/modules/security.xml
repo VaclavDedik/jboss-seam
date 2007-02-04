@@ -689,7 +689,7 @@ end;
     
     <para>
       To prevent users from receiving the default error page in response to a security error, it's recommended that 
-      <literal>exceptions.xml</literal> is configured to redirect security errors to a more "pretty" page.  The two
+      <literal>pages.xml</literal> is configured to redirect security errors to a more "pretty" page.  The two
       main types of exceptions thrown by the security API are:
     </para>
     
@@ -710,24 +710,28 @@ end;
     </itemizedlist>
     
     <para>
-      Here's an example of an <literal>exceptions.xml</literal> file that redirects these security exceptions:      
+      Here's an example of a <literal>pages.xml</literal> file that redirects these security exceptions:      
     </para>
     
     <programlisting>
       <![CDATA[
-<exceptions>
+<pages>
 
   <exception class="org.jboss.seam.security.NotLoggedInException">
-    <redirect view-id="/login.xhtml">You must be logged in to perform this action</redirect>
     <end-conversation/>
+    <redirect view-id="/login.xhtml">
+          <faces-message>You must be logged in to perform this action</faces-message>
+    </redirect>
   </exception>
   
   <exception class="org.jboss.seam.security.AuthorizationException">
-    <redirect view-id="/security_error.xhtml">You do not have the necessary security privileges to perform this action.</redirect>
     <end-conversation/>
+    <redirect view-id="/security_error.xhtml">
+          <faces-message>You do not have the necessary security privileges to perform this action.</faces-message>
+    </redirect>
   </exception>
 
-</exceptions>      
+</pages>      
       ]]>
     </programlisting>
     

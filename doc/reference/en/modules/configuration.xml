@@ -130,6 +130,36 @@
         </sect2>
         
         <sect2>
+            <title>Enabling Seam exception handling</title>
+            
+            <para>
+                If you want to use Seam's exception mapping functionality
+                in <literal>pages.xml</literal> (almost all applications
+                will need this), you need to add a servlet filter to
+                <literal>web.xml</literal>:
+            </para>
+
+            <programlisting><![CDATA[<filter>
+    <filter-name>Seam Exception Filter</filter-name>
+    <filter-class>org.jboss.seam.servlet.SeamExceptionFilter</filter-class>
+</filter>
+
+<filter-mapping>
+    <filter-name>Seam Exception Filter</filter-name>
+    <url-pattern>*.seam</url-pattern>
+</filter-mapping>]]></programlisting>
+            
+            <para>
+                This servlet filter also takes care of rolling back uncommitted transactions 
+                when uncaught exceptions occur. (According to the Java EE specification, the
+                web container should do this automatically, but we've found that this behavior
+                cannot be relied upon in all application servers. And it is certainly not 
+                required of plain servlet engines like Tomcat.)
+            </para>
+        
+        </sect2>
+        
+        <sect2>
             <title>Enabling conversation propagation with redirects</title>
 
             <para>

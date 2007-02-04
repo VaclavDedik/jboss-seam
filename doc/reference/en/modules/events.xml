@@ -109,16 +109,19 @@
         
         <sect3>
             <title>Page parameters</title>
+            
             <para>
                 A JSF faces request (a form submission) encapsulates both an "action"
                 (a method binding) and "parameters" (input value bindings). A page 
                 action might also needs parameters!
             </para>
+            
             <para>
                 Since GET requests are bookmarkable, page parameters are passed as 
                 human-readable request parameters. (Unlike JSF form inputs, which are
                 anything but!) 
             </para>
+            
             <para>
                 Seam lets us provide a value binding that maps a named request parameter 
                 to an attribute of a model object.
@@ -405,14 +408,11 @@
     
 </navigation-rule>]]></programlisting>
 
-            
-
         </sect3>
-        
-        
 
         <sect3>
             <title>Fine-grained files for definition of page actions and parameters</title>
+            
             <para>
                 If you have a lot of different page actions and page parameters,
                 you will almost certainly want to split the declarations up over
@@ -445,15 +445,15 @@
             </para>
             
             <para>
-                We specify event listeners (observers) in <literal>WEB-INF/events.xml</literal>.
+                We specify event listeners (observers) in <literal>components.xml</literal>.
             </para>
             
-        <programlisting><![CDATA[<events>
+        <programlisting><![CDATA[<components>
     <event type="hello">
         <action expression="#{helloListener.sayHelloBack}"/>
         <action expression="#{logger.logHello}"/>
     </event>
-</events>]]></programlisting>
+</components>]]></programlisting>
 
             <para>
                 Where the <emphasis>event type</emphasis> is just an arbitrary string.
@@ -461,7 +461,7 @@
             
             <para>
                 When an event occurs, the actions registered for that event will be called
-                in the order they appear in <literal>events.xml</literal>. How does a
+                in the order they appear in <literal>components.xml</literal>. How does a
                 component raise an event? Seam provides a built-in component for this.
             </para>
             
@@ -470,6 +470,18 @@ public class HelloWorld {
     public void sayHello() {
         FacesMessages.instance().add("Hello World!");
         Events.instance().raiseEvent("hello");
+    }
+}]]></programlisting>
+
+            <para>
+                Or you can use an annotation.
+            </para>
+
+            <programlisting><![CDATA[@Name("helloWorld")
+public class HelloWorld {
+    @RaiseEvent("hello")
+    public void sayHello() {
+        FacesMessages.instance().add("Hello World!");
     }
 }]]></programlisting>
 
@@ -487,8 +499,10 @@ public class HelloListener {
 }]]></programlisting>
 
             <para>
-                If you don't like the <literal>events.xml</literal> file, we can use an
-                annotation instead:
+                The method binding defined in <literal>components.xml</literal> above 
+                takes care of mapping the event to the consumer.
+                If you don't like futzing about in the <literal>components.xml</literal> 
+                file, you can use an annotation instead:
             </para>
 
             <programlisting><![CDATA[@Name("helloListener")
@@ -554,11 +568,13 @@ public class HelloListener {
             <listitem><para><literal>org.jboss.seam.preDestroy.&lt;name&gt; </literal>&mdash; called when the component &lt;name&gt; is destroyed</para></listitem>
             <listitem><para><literal>org.jboss.seam.beforePhase </literal>&mdash; called before the start of a JSF phase</para></listitem>
             <listitem><para><literal>org.jboss.seam.afterPhase </literal>&mdash; called after the end of a JSF phase</para></listitem>
+            <listitem><para><literal>org.jboss.seam.postAuthenticate.&lt;name&gt; </literal>&mdash; called after a user is authenticated</para></listitem>
+            <listitem><para><literal>org.jboss.seam.preAuthenticate.&lt;name&gt; </literal>&mdash; called before attempting to authenticate a user</para></listitem>
             </itemizedlist>
              
              <para>
                  Seam components may observe any of these events in just the same way they
-                 observe component-driven events.
+                 observe any other component-driven events.
              </para>
         </sect2>
         
@@ -566,6 +582,7 @@ public class HelloListener {
     
     <sect1>
       <title>Seam interceptors</title>
+      
       <para>
         EJB 3.0 introduced a standard interceptor model for session bean components. To add an
         interceptor to a bean, you need to write a class with a method annotated 
@@ -680,6 +697,7 @@ public class LoggedInInterceptor
       
     <sect1>
         <title>Managing exceptions</title>
+        
         <para>
             JSF is surprisingly limited when it comes to exception handling. As a partial 
             workaround for this problem, Seam lets you define how a particular class of 
@@ -689,20 +707,71 @@ public class LoggedInInterceptor
             specifies whether the exception should cause a transaction rollback.
         </para>
         
-        <para>
-            Note that Seam applies the EJB 3.0 exception rollback rules also to Seam JavaBean 
-            components: <emphasis>system exceptions</emphasis> always cause a transaction 
-            rollback, <emphasis>application exceptions</emphasis> do not cause a rollback
-            by default, but do if <literal>@ApplicationException(rollback=true)</literal>
-            is specified. (An application exception is any checked exception, or any
-            unchecked exception annotated <literal>@ApplicationException</literal>.
-            A system exception is any unchecked exception without an 
-            <literal>@ApplicationException</literal> annotation.)
-        </para>
+        <sect2>
+            <title>Exceptions and transactions</title>
+            
+            <para>
+                EJB specifies well-defined rules that let us control whether an exception 
+                immediately marks the current transaction for rollback when it is thrown by 
+                a business method of the bean: <emphasis>system exceptions</emphasis> always 
+                cause a transaction rollback, <emphasis>application exceptions</emphasis> do 
+                not cause a rollback by default, but they do if 
+                <literal>@ApplicationException(rollback=true)</literal>
+                is specified. (An application exception is any checked exception, or any
+                unchecked exception annotated <literal>@ApplicationException</literal>.
+                A system exception is any unchecked exception without an 
+                <literal>@ApplicationException</literal> annotation.)
+            </para>
+            
+            <para>
+                Note that there is a difference between marking a transaction for rollback,
+                and actually rolling it back. The exception rules say that the transaction
+                should be marked rollback only, but it may still be active after the 
+                exception is thrown.
+            </para>
+        
+            <para>
+                Seam applies the EJB 3.0 exception rollback rules also to Seam JavaBean 
+                components.
+            </para>
+        
+            <para>
+                But these rules only apply in the Seam component layer. What about an exception 
+                that is uncaught and propagates out of the Seam component layer, and out of the JSF 
+                layer? Well, it is always wrong to leave a dangling transaction open, so Seam
+                rolls back any active transaction when an exception occurs and is uncaught
+                in the Seam component layer.
+            </para>
+        </sect2>
+        
+        <sect2>
+            <title>Enabling Seam exception handling</title>
         
         <para>
-            This exception results in a HTTP 404 error whenever it propagates out of the
-            Seam component layer. It does not roll back the current transaction.
+            To enable Seam's exception handling, we need to add a servlet filter to
+            <literal>web.xml</literal>:
+        </para>
+        
+        <programlisting><![CDATA[<filter>
+    <filter-name>Seam Exception Filter</filter-name>
+    <filter-class>org.jboss.seam.servlet.SeamExceptionFilter</filter-class>
+</filter>
+
+<filter-mapping>
+    <filter-name>Seam Exception Filter</filter-name>
+    <url-pattern>*.seam</url-pattern>
+</filter-mapping>]]></programlisting>
+
+        </sect2>
+        
+        <sect2>
+            <title>Using annotations for exception handling</title>
+            
+        <para>
+            The following exception results in a HTTP 404 error whenever it propagates out of the
+            Seam component layer. It does not roll back the current transaction immediately when 
+            thrown, but the transaction will be rolled back if it the exception is not caught by
+            another Seam component.
         </para>
         
         <programlisting><![CDATA[@HttpError(errorCode=404)
@@ -710,8 +779,8 @@ public class ApplicationException extends Exception { ... }]]></programlisting>
 
         <para>
             This exception results in a browser redirect whenever it propagates out of the
-            Seam component layer. It also ends the current conversation. It also rolls back 
-            the current transaction.
+            Seam component layer. It also ends the current conversation. It causes an immediate 
+            rollback of the current transaction.
         </para>
         
         <programlisting><![CDATA[@Redirect(viewId="/failure.xhtml", end=true)
@@ -724,47 +793,53 @@ public class UnrecoverableApplicationException extends RuntimeException { ... }]
         </para>
 
         <para>
-            This exception results in immediate rendering of the view, along with a
-            message to the user, when it propagates out of the
-            Seam component layer. It also rolls back the current transaction.
+            This exception results in a redirect, along with a message to the user, when it 
+            propagates out of the Seam component layer. It also immediately rolls back the 
+            current transaction.
         </para>
         
-        <programlisting><![CDATA[@Render(viewId="/error.xhtml", message="Unexpected error")
+        <programlisting><![CDATA[@Redirect(viewId="/error.xhtml", message="Unexpected error")
 public class SystemException extends RuntimeException { ... }]]></programlisting>
 
-        <para>
-            Note that <literal>@Render</literal> only works when the exception occurs during the 
-            <literal>INVOKE_APPLICATION</literal> phase.
-        </para>
+        </sect2>
+        
+        <sect2>
+            <title>Using XML for exception handling</title>
 
         <para>
             Since we can't add annotations to all the exception classes we are interested in,
-            Seam also lets us specify this functionality in <literal>WEB-INF/exceptions.xml</literal>.
+            Seam also lets us specify this functionality in <literal>pages.xml</literal>.
         </para>
         
-        <programlisting><![CDATA[<exceptions>
+        <programlisting><![CDATA[<pages>
    
    <exception class="javax.persistence.EntityNotFoundException">
       <http-error error-code="404"/>
    </exception>
    
    <exception class="javax.persistence.PersistenceException">
-      <render>Database access failed</render>
       <end-conversation/>
+      <redirect view-id="/error.xhtml">
+          <faces-message>Database access failed</faces-message>
+      </redirect>
    </exception>
    
    <exception>
-      <redirect view-id="/search.xhtml">Unexpected failure</redirect>
       <end-conversation/>
+      <redirect view-id="/error.xhtml">
+          <faces-message>Unexpected failure</faces-message>
+      </redirect>
    </exception>
    
-</exceptions>]]></programlisting>
+</pages>]]></programlisting>
 
         <para>
             The last <literal>&lt;exception&gt;</literal> declaration does not specify a class,
             and is a catch-all for any exception for which handling is not otherwise specified
-            via annotations or in <literal>exceptions.xml</literal>.
+            via annotations or in <literal>pages.xml</literal>.
         </para>
+        
+        </sect2>
 
     </sect1>
     
