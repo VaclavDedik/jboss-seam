@@ -608,6 +608,7 @@
 	                <path refid="build.classpath" />
 	                <fileset dir="${imported.basedir}">
 	                    <include name="jboss-seam-ui.jar" />
+	                    <include name="jboss-seam-pdf.jar" />
 	                </fileset>
 	            </classpath>
 	        </javac>
