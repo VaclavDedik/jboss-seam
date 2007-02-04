@@ -100,12 +100,15 @@ public class Identity extends Selector
    
    protected void initSecurityContext()
    {
-      RuleBase securityRules = (RuleBase) Component.getInstance("securityRules", true);
-      if (securityRules != null)
+      if (securityContext==null) //it might have been configured via components.xml
       {
-         securityContext = securityRules.newWorkingMemory(false);
-         setDirty();
-      }            
+         RuleBase securityRules = (RuleBase) Component.getInstance("securityRules", true);
+         if (securityRules != null)
+         {
+            securityContext = securityRules.newWorkingMemory(false);
+            setDirty();
+         }
+      }
    }
 
    public static Identity instance()
