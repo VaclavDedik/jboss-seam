@@ -42,7 +42,7 @@ import org.jboss.seam.util.XML;
 @Name("org.jboss.seam.core.exceptions")
 public class Exceptions
 {
-   public static final LogProvider log = Logging.getLogProvider(Exceptions.class);
+   private static final LogProvider log = Logging.getLogProvider(Exceptions.class);
    
    private List<ExceptionHandler> exceptionHandlers = new ArrayList<ExceptionHandler>();
    

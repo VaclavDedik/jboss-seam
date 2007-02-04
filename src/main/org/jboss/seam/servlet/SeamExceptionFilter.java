@@ -71,7 +71,7 @@ public class SeamExceptionFilter extends SeamFilter
       //the FacesContext is gone - create a fake one for Redirect and HttpError to call
       MockFacesContext facesContext = createFacesContext(request, response);
       facesContext.setCurrent();
-      Lifecycle.beginExceptionRecovery( getServletContext(), request ); //the faces ExternalContext is useless to us at this point
+      Lifecycle.beginExceptionRecovery( facesContext.getExternalContext() );
       try
       {
          Exceptions.instance().handle(e);

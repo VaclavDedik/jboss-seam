@@ -36,9 +36,4 @@ public class AnnotationRedirectHandler extends RedirectHandler
       return e.getClass().getAnnotation(Redirect.class).rollback();
    }
    
-   @Override
-   public String toString()
-   {
-      return "RedirectHandler";
-   }
 }

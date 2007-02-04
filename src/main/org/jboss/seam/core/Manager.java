@@ -174,7 +174,7 @@ public class Manager
       return currentConversationIdStack;
    }
 
-   private void setCurrentConversationIdStack(List<String> stack)
+   public void setCurrentConversationIdStack(List<String> stack)
    {
       currentConversationIdStack = stack;
    }

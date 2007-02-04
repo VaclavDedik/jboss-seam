@@ -16,9 +16,13 @@ public abstract class ErrorHandler extends ExceptionHandler
       {
          Conversation.instance().end();
       }
-      String message = getMessage(e);
-      //addFacesMessage(e, message);
-      error( getCode(e), Interpolator.instance().interpolate( getDisplayMessage(e, message) ) );
+      
+      error( getCode(e), Interpolator.instance().interpolate( getDisplayMessage( e, getMessage(e) ) ) );
    }
 
+   @Override
+   public String toString()
+   {
+      return "ErrorHandler";
+   }
 }

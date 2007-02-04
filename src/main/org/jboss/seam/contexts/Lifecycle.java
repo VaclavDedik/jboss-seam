@@ -12,7 +12,6 @@ import javax.faces.context.ExternalContext;
 import javax.faces.event.PhaseId;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.jboss.seam.Component;
@@ -37,7 +36,8 @@ public class Lifecycle
 
    private static final LogProvider log = Logging.getLogProvider(Lifecycle.class);
 
-   public static void beginRequest(ExternalContext externalContext) {
+   public static void beginRequest(ExternalContext externalContext) 
+   {
       log.debug( ">>> Begin web request" );
       Contexts.eventContext.set( new WebRequestContext( ContextAdaptor.getRequest(externalContext) ) );
       Contexts.sessionContext.set( new WebSessionContext( ContextAdaptor.getSession(externalContext) ) );
@@ -46,7 +46,8 @@ public class Lifecycle
       //Events.instance(); //TODO: only for now, until we have a way to do EL outside of JSF!
    }
 
-   public static void beginRequest(ServletContext servletContext, HttpSession session, ServletRequest request) {
+   public static void beginRequest(ServletContext servletContext, HttpSession session, ServletRequest request) 
+   {
       log.debug( ">>> Begin web request" );
       Contexts.eventContext.set( new WebRequestContext( ContextAdaptor.getRequest(request) ) );
       Contexts.sessionContext.set( new WebSessionContext( ContextAdaptor.getSession(session) ) );
@@ -112,12 +113,12 @@ public class Lifecycle
       Contexts.conversationContext.set( new MapContext(ScopeType.CONVERSATION) );
    }
 
-   public static void beginExceptionRecovery(ServletContext servletContext, HttpServletRequest request)
+   public static void beginExceptionRecovery(ExternalContext externalContext)
    {
-      Contexts.applicationContext.set( new WebApplicationContext(servletContext) );
-      Contexts.eventContext.set( new WebRequestContext( ContextAdaptor.getRequest(request) ) );
-      Contexts.sessionContext.set( new WebSessionContext( ContextAdaptor.getSession( request.getSession() ) ) );
-      Contexts.conversationContext.set( new MapContext(ScopeType.CONVERSATION) );
+      Contexts.applicationContext.set( new FacesApplicationContext(externalContext) );
+      Contexts.eventContext.set( new WebRequestContext( ContextAdaptor.getRequest(externalContext) ) );
+      Contexts.sessionContext.set( new WebSessionContext( ContextAdaptor.getSession(externalContext) ) );
+      Contexts.conversationContext.set( new ServerConversationContext( ContextAdaptor.getSession(externalContext) ) );
    }
 
    public static void endInitialization()
