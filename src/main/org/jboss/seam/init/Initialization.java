@@ -72,9 +72,9 @@ public class Initialization
    public Initialization(ServletContext servletContext)
    {
       this.servletContext = servletContext;
-
       addNamespaces();
-      initComponentsFromXmlDocument();
+      initComponentsFromXmlDocument("/WEB-INF/components.xml");
+      initComponentsFromXmlDocument("/WEB-INF/events.xml"); //deprecated
       initComponentsFromXmlDocuments();
       initPropertiesFromServletContext();
       initPropertiesFromResource();
@@ -86,8 +86,7 @@ public class Initialization
       Enumeration<URL> resources;
       try
       {
-         resources = Thread.currentThread().getContextClassLoader().getResources(
-                  "META-INF/components.xml");
+         resources = Thread.currentThread().getContextClassLoader().getResources("META-INF/components.xml");
       }
       catch (IOException ioe)
       {
@@ -111,16 +110,12 @@ public class Initialization
 
    }
 
-   private void initComponentsFromXmlDocument()
+   private void initComponentsFromXmlDocument(String resource)
    {
-      InputStream stream = Resources.getResourceAsStream("/WEB-INF/components.xml", servletContext);
-      if (stream == null)
+      InputStream stream = Resources.getResourceAsStream(resource, servletContext);
+      if (stream != null)
       {
-         log.info("no /WEB-INF/components.xml file found");
-      }
-      else
-      {
-         log.info("reading /WEB-INF/components.xml");
+         log.info("reading " + resource);
          try
          {
             installComponentsFromXmlElements( XML.getRootElement(stream), getReplacements() );
