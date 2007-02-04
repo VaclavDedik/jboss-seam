@@ -12,18 +12,18 @@
     <section>
     	<title>Creating a message</title>
     	<para>In Seam Mail, an email is just facelet:</para>
-    	<programlisting>&lt;m:message xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:m="http://jboss.com/products/seam/mail"
-    xmlns:h="http://java.sun.com/jsf/html"&gt;
+    	<programlisting>&lt;m:message xmlns=&quot;http://www.w3.org/1999/xhtml&quot;
+    xmlns:m=&quot;http://jboss.com/products/seam/mail&quot;
+    xmlns:h=&quot;http://java.sun.com/jsf/html&quot;&gt;
   
-    &lt;m:from name="Peter" address="peter@example.com" /&gt;
-    &lt;m:to name="#{person.firstname} #{person.lastname}"&gt;#{person.address}&lt;/m:to&gt;
+    &lt;m:from name=&quot;Peter&quot; address=&quot;peter@example.com&quot; /&gt;
+    &lt;m:to name=&quot;#{person.firstname} #{person.lastname}&quot;&gt;#{person.address}&lt;/m:to&gt;
     &lt;m:subject&gt;Try out Seam!&lt;/m:subject&gt;
     
     &lt;m:body&gt;
-        &lt;p&gt;&lt;h:outputText value="Dear #{person.firstname}" /&gt;,&lt;/p&gt;
+        &lt;p&gt;&lt;h:outputText value=&quot;Dear #{person.firstname}&quot; /&gt;,&lt;/p&gt;
         &lt;p&gt;You can try out Seam by visiting 
-        &lt;a href="http://labs.jboss.com/jbossseam"&gt;http://labs.jboss.com/jbossseam&lt;/a&gt;.&lt;/p&gt;
+        &lt;a href=&quot;http://labs.jboss.com/jbossseam&quot;&gt;http://labs.jboss.com/jbossseam&lt;/a&gt;.&lt;/p&gt;
         &lt;p&gt;Regards,&lt;/p&gt;
         &lt;p&gt;Peter&lt;/p&gt;
     &lt;/m:body&gt;
@@ -46,22 +46,64 @@ private Renderer renderer;
    
 public void send() {
     try {
-       renderer.render("/simple.xhtml");
-       facesMessages.add("Email sent successfully");
+       renderer.render(&quot;/simple.xhtml&quot;);
+       facesMessages.add(&quot;Email sent successfully&quot;);
    } catch (Exception e) {
-       facesMessages.add("Email sending failed: " + e.getMessage());
+       facesMessages.add(&quot;Email sending failed: &quot; + e.getMessage());
    }
 }</programlisting>
     	
    	<para>If, for example, you entered an invalid email address, then an exception would be thrown, which is caught
    	and then displayed to the user.</para>
+   	
+   	<section>
+   		<title>Attachments</title>
+   		<para>Seam makes it easy to attach files to an email.  It supports most of the standard java types used when working with files.</para>
+   		
+   		<para>If you wanted to email the <literal>jboss-seam-mail.jar</literal>:</para>
+   		
+   		<programlisting>&lt;m:attachment value=&quot;/WEB-INF/lib/jboss-seam-mail.jar&quot; /&gt;</programlisting>
+   		    	
+   		<para>Seam will load the file from the classpath, and attach it to the email.  By default it would be attached as <literal>jboss-seam-mail.jar</literal>;
+   		if you wanted it to have another name you would just add the <literal>fileName</literal> attribute:</para>
+   		
+   		<programlisting>&lt;m:attachment value=&quot;/WEB-INF/lib/jboss-seam-mail.jar&quot; fileName=&quot;this-is-so-cool.jar&quot; /&gt;</programlisting>
+   		
+   		<para>You could also attach a <literal>java.io.File</literal>, a <literal>java.net.URL</literal>:</para>
+   		
+   		<programlisting>&lt;m:attachment value=&quot;#{exampleSpreadsheet}&quot; /&gt;</programlisting>
+   		
+   		<para> a <literal>byte[]</literal> or a <literal>java.io.InputStream</literal>:</para>
+   		
+   		<programlisting>&lt;m:attachment value=&quot;#{photo}&quot; contentType=&quot;image/jpeg&quot; /&gt;</programlisting>
+   		
+   		<para>You'll notice that for a <literal>byte[]</literal> and a <literal>java.io.InputStream</literal> you need to specify the MIME type
+   		of the attachment (as that information is not carried as part of the file).</para>
+   		
+   		<para>And it gets even better, you can attach a Seam generated PDF, or any standard JSF view, just by wrapping a 
+   		<literal>&lt;m:attachment&gt;</literal> around the normal tags you would use:</para>
+   		
+   		<programlisting>&lt;m:attachment&gt;
+    &lt;p:document&gt;                                                      
+        A very tiny PDF                                                                                                
+    &lt;/p:document&gt;
+&lt;/m:attachment&gt;</programlisting>
+
+		<para>If you had a set of files you wanted to attach (for example a set of pictures loaded from a database) you can just
+		use a  <literal>&lt;ui:repeat&gt;</literal>:</para>
+		
+		<programlisting>&lt;ui:repeat value=&quot;#{photos}&quot; var=&quot;photo&quot;&gt;
+    &lt;m:attachment value=&quot;#{photo}&quot; contentType=&quot;image/jpeg&quot; /&gt;
+&lt;/ui:repeat&gt;</programlisting>
+   		
+   	</section>
     
 	    <section>
 	    	<title>HTML/Text alternative part</title>
 	    	<para>Whilst most mail readers nowadays support HTML, some don't, so you can add a plain text alternative
 	    	 to your email body:</para>
 	    	<programlisting>&lt;m:body&gt;
-    &lt;f:facet name="alternative"&gt;Sorry, your email reader can't show our fancy email, 
+    &lt;f:facet name=&quot;alternative&quot;&gt;Sorry, your email reader can't show our fancy email, 
 please go to http://labs.jboss.com/jbossseam to explore Seam.&lt;/f:facet&gt;
 &lt;/m:body&gt;</programlisting>
 	    </section>
@@ -70,8 +112,8 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.&lt;/f:facet&gt;
 	    	<title>Multiple recipients</title>
 	    	<para>Often you'll want to send an email to a group of recipients (for example your users).  All of the recipient
 	    	 mail tags can be placed inside a <literal>&lt;ui:repeat&gt;</literal>:</para>
-	    	<programlisting>&lt;ui:repeat value="#{allUsers} var="user"&gt;
-    &lt;m:to name="#{user.firstname} #{user.lastname}" address="#{user.emailAddress}" /&gt;
+	    	<programlisting>&lt;ui:repeat value=&quot;#{allUsers} var=&quot;user&quot;&gt;
+    &lt;m:to name=&quot;#{user.firstname} #{user.lastname}&quot; address=&quot;#{user.emailAddress}&quot; /&gt;
 &lt;/ui:repeat&gt;</programlisting>
 	    </section>
 	    
@@ -80,20 +122,20 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.&lt;/f:facet&gt;
 	    	<para>The mail templating example shows that facelets templating 'just works' with the Seam mail tags.</para>
 	    	<para>Our <literal>template.xhtml</literal> contains:</para>
 	    	<programlisting>&lt;m:message&gt;
-   &lt;m:from name="Seam" address="do-not-reply@jboss.com" /&gt;
-   &lt;m:to name="#{person.firstname} #{person.lastname}"&gt;#{person.address}&lt;/m:to&gt;
+   &lt;m:from name=&quot;Seam&quot; address=&quot;do-not-reply@jboss.com&quot; /&gt;
+   &lt;m:to name=&quot;#{person.firstname} #{person.lastname}&quot;&gt;#{person.address}&lt;/m:to&gt;
    &lt;m:subject&gt;#{subject}&lt;/m:subject&gt;
    &lt;m:body&gt;
        &lt;html&gt;
            &lt;body&gt;
-               &lt;ui:insert name="body"&gt; This is the default body, specified by the template.&lt;/ui:insert&gt;
+               &lt;ui:insert name=&quot;body&quot;&gt; This is the default body, specified by the template.&lt;/ui:insert&gt;
            &lt;/body&gt;
        &lt;/html&gt;
    &lt;/m:body&gt;
 &lt;/m:message&gt;</programlisting>
 	    	<para>Our <literal>templating.xhtml</literal> contains:</para>
-	    	<programlisting>&lt;ui:param name="subject" value="Templating with Seam Mail" /&gt;
-&lt;ui:define name="body"&gt;
+	    	<programlisting>&lt;ui:param name=&quot;subject&quot; value=&quot;Templating with Seam Mail&quot; /&gt;
+&lt;ui:define name=&quot;body&quot;&gt;
     &lt;p&gt;This email demonstrates that you can easily use &lt;i&gt;facelets templating features&lt;/i&gt; in your code!&lt;/p&gt;
 &lt;/ui:define&gt;</programlisting>
 	    </section>
@@ -102,11 +144,11 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.&lt;/f:facet&gt;
 	    	<title>Other Headers</title>
 	    	<para>Sometimes you'll want to add other headers to your email.  Seam provides support for some (see <xref linkend="mail.tags" />).
 	    	For example, we can set the importance of the email, and ask for a read receipt:</para>
-	    	<programlisting>&lt;m:message xmlns:m="http://jboss.com/products/seam/mail"
-   importance="low"
-   requestReadReceipt="true"&gt;</programlisting>
+	    	<programlisting>&lt;m:message xmlns:m=&quot;http://jboss.com/products/seam/mail&quot;
+   importance=&quot;low&quot;
+   requestReadReceipt=&quot;true&quot;&gt;</programlisting>
 	    	<para>Otherise you can add any header to the message using the <literal>&lt;m:header&gt;</literal> tag:</para>
-	    	<programlisting>&lt;m:header name="X-Sent-From" value="JBoss Seam" /&gt;</programlisting>
+	    	<programlisting>&lt;m:header name=&quot;X-Sent-From&quot; value=&quot;JBoss Seam&quot; /&gt;</programlisting>
 	    </section>
 
 	</section>
@@ -134,10 +176,10 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.&lt;/f:facet&gt;
 		        <para>The JBossAS <literal>deploy/mail-service.xml</literal> configures a JavaMail session binding into JNDI.  The default service configuration will
 		        need altering for your network.  <ulink url="http://wiki.jboss.org/wiki/Wiki.jsp?page=JavaMail">http://wiki.jboss.org/wiki/Wiki.jsp?page=JavaMail</ulink>
 		        describes the service in more detail.</para>
-		         <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components" 
-        xmlns:core="http://jboss.com/products/seam/core"
-        xmlns:mail="http://jboss.com/products/seam/mail">
-    <mail:mailSession sessionJndiName="java:/Mail" />
+		         <programlisting><![CDATA[<components xmlns=&quot;http://jboss.com/products/seam/components&quot; 
+        xmlns:core=&quot;http://jboss.com/products/seam/core&quot;
+        xmlns:mail=&quot;http://jboss.com/products/seam/mail&quot;>
+    <mail:mailSession sessionJndiName=&quot;java:/Mail&quot; />
 </components>]]></programlisting>
 		        <para>Here we tell Seam to get the mail session bound to <literal>java:/Mail</literal> from JNDI.</para>
 	        </section>
@@ -146,10 +188,10 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.&lt;/f:facet&gt;
 	        	<title>Seam configured Session</title>
 	      		<para>A mail session can be configured via <literal>components.xml</literal>.  Here we tell Seam to use <literal>smtp.example.com</literal>
 	      	 	as the smtp server, </para>
-	            <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components" 
-        xmlns:core="http://jboss.com/products/seam/core"
-        xmlns:mail="http://jboss.com/products/seam/mail">
-    <mail:mailSession host="smtp.example.com" />
+	            <programlisting><![CDATA[<components xmlns=&quot;http://jboss.com/products/seam/components&quot; 
+        xmlns:core=&quot;http://jboss.com/products/seam/core&quot;
+        xmlns:mail=&quot;http://jboss.com/products/seam/mail&quot;>
+    <mail:mailSession host=&quot;smtp.example.com&quot; />
 </components>]]></programlisting>
 		    </section>
 		</section>
