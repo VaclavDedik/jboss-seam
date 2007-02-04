@@ -11,13 +11,14 @@
     </exception>
     
     <exception class="javax.persistence.OptimisticLockException">
+        <end-conversation/>
         <redirect view-id="/error.xhtml">
             <faces-message>Another user changed the same data, please try again</faces-message>
         </redirect>
     </exception>
     
     <exception class="org.jboss.seam.security.AuthorizationException">
-        <redirect view-id="/error.xhtml">
+        <redirect>
             <faces-message>You don't have permission to do this</faces-message>
         </redirect>
     </exception>
