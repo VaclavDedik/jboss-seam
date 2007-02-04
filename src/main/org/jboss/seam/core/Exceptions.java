@@ -119,7 +119,8 @@ public class Exceptions
       if (redirect!=null)
       {
          final String viewId = redirect.attributeValue("view-id");
-         final String message = redirect.getTextTrim();
+         Element facesMessage = redirect.element("faces-message");
+         final String message = facesMessage==null ? null : facesMessage.getTextTrim();
          return new ConfigRedirectHandler(viewId, clazz, endConversation, rollback, message);
       }
       
