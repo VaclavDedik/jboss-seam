@@ -20,4 +20,13 @@
     <component class="org.jboss.seam.core.Ejb" 
            installed="@embeddedEjb@"/>
 
+    <event type="issueUpdate">
+        <action expression="#{issueFinder.refresh}"/>
+        <action expression="#{projectFinder.refresh}"/>
+    </event>
+    
+    <event type="projectUpdate">
+        <action expression="#{projectFinder.refresh}"/>
+    </event>
+
 </components>
