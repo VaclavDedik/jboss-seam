@@ -25,11 +25,13 @@ public class DocumentStoreServlet
         DocumentStore store = DocumentStore.instance();
         
         if (store.idIsValid(contentId)) {
-            byte[] data = store.dataForId(contentId);          
+            DocumentData documentData = store.getDocumentData(contentId);
+            
+            byte[] data = documentData.getData();       
 
-            response.setContentType(store.typeForId(contentId));
+            response.setContentType(documentData.getDocType().getMimeType());
             response.setHeader("Content-Disposition", 
-                    "inline; filename=\"" + store.fileNameForId(contentId) + "\"");
+                    "inline; filename=\"" + documentData.getFileName() + "\"");
 
             if (data != null) {
                 response.getOutputStream().write(data);

@@ -14,6 +14,8 @@ import org.jboss.seam.util.Parameters;
 public class DocumentStorePhaseListener 
     implements PhaseListener 
 {
+    private static final long serialVersionUID = 7308251684939658978L;
+
     public PhaseId getPhaseId() {
         return PhaseId.RENDER_RESPONSE;
     }
@@ -37,15 +39,16 @@ public class DocumentStorePhaseListener
     }
 
     public void sendContent(FacesContext context, String contentId) {
-        try {
-            DocumentStore store = DocumentStore.instance();
-            byte[] data = store.dataForId(contentId);
+        try {            
+            DocumentData documentData = DocumentStore.instance().getDocumentData(contentId);
+            
+            byte[] data = documentData.getData();
 
             HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
-            response.setContentType(store.typeForId(contentId));
-
+            response.setContentType(documentData.getDocType().getMimeType());
+            
             response.setHeader("Content-Disposition", 
-                               "inline; filename=\"" + store.fileNameForId(contentId) + "\"");
+                               "inline; filename=\"" + documentData.getFileName() + "\"");
             
             if (data != null) {
                 response.getOutputStream().write(data);

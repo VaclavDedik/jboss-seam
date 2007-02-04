@@ -1,9 +1,10 @@
 package org.jboss.seam.pdf.ui;
 
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.pdf.DocumentData;
 import org.jboss.seam.pdf.ITextUtils;
 import org.jboss.seam.pdf.DocumentStore;
-import org.jboss.seam.pdf.DocumentStore.DocType;
+import org.jboss.seam.pdf.DocumentData.DocType;
 
 import javax.faces.component.UIComponent;
 import javax.faces.component.ValueHolder;
@@ -19,13 +20,13 @@ public class UIDocument
     extends ITextComponent
 {
     public static final String COMPONENT_TYPE   = "org.jboss.seam.pdf.ui.UIDocument";
-    
-    
+        
     DocWriter writer;
     Document document;
     ByteArrayOutputStream stream;
     String id;
     String baseName;
+    
     DocType docType;
     
     String type;
@@ -268,11 +269,10 @@ public class UIDocument
             bytes = signatureField.sign(bytes);
         }
         
+        DocumentData documentData = new DocumentData(baseName, docType, bytes);
+        
         if (sendRedirect) {
-            DocumentStore.instance().saveData(id,
-                    baseName,
-                    docType,
-                    bytes);        
+            DocumentStore.instance().saveData(id,documentData);
 
             ResponseWriter response = context.getResponseWriter();
             response.endElement("body");
@@ -286,7 +286,7 @@ public class UIDocument
             
             if (parent instanceof ValueHolder) {
                 ValueHolder holder = (ValueHolder) parent;
-                holder.setValue(bytes);
+                holder.setValue(documentData);
             }
 
         }
