@@ -54,6 +54,7 @@ public class Identity extends Selector
    private static final long serialVersionUID = 3751659008033189259L;
    
    private static final LogProvider log = Logging.getLogProvider(Identity.class);
+   public static final String RULES_COMPONENT_NAME = "securityRules";
       
    private String username;
    private String password;
@@ -105,7 +106,7 @@ public class Identity extends Selector
    {
       if (securityRules==null) //it might have been configured via components.xml
       {
-         securityRules = (RuleBase) Component.getInstance("securityRules", true);
+         securityRules = (RuleBase) Component.getInstance(RULES_COMPONENT_NAME, true);
       }
       if (securityRules != null)
       {
@@ -270,7 +271,9 @@ public class Identity extends Selector
    {
       if (securityContext==null)
       {
-         throw new IllegalStateException("no security rule base available - please install a RuleBase with the name 'securityContext'");
+         throw new IllegalStateException(
+            "no security rule base available - please install a RuleBase with the name '" +
+            RULES_COMPONENT_NAME + "'");
       }
    }   
    
