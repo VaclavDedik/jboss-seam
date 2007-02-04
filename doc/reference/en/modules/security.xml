@@ -101,20 +101,12 @@
       <para>
         The <literal>authenticate-method</literal> property specified for <literal>identity</literal> in
         <literal>components.xml</literal> specifies which method will be used by <literal>SeamLoginModule</literal>
-        to authenticate users.  This method is expected to conform to the following prototype:
-      </para>
-
-      <programlisting>
-        <![CDATA[
-  boolean (java.lang.String username, java.lang.String password, java.util.Set roles)
-        ]]>
-      </programlisting>
-
-      <para>
-        The first and second parameters should hopefully be self-explanatory.  The third parameter (<literal>roles</literal>)
-        is a Set object that should be populated with the user's roles only if authentication is successful.  The return value should
-        be set to <literal>true</literal> for a successful authentication, or <literal>false</literal> for an unsuccessful
-        authentication. Here's a complete example of an authentication method inside a JavaBean component:
+        to authenticate users.  This method takes no parameters, and is expected to return a boolean indicating 
+        whether authentication is successful or not.  The user's username and password can be obtained from
+        <literal>Identity.instance().getUsername()</literal> and <literal>Identity.instance().getPassword()</literal>,
+        respectively.  Any roles that the user is a member of should be assigned using
+        <literal>Identity.instance().addRole()</literal>. Here's a complete example of an authentication method 
+        inside a JavaBean component:
       </para>
 
       <programlisting>
@@ -122,19 +114,19 @@
 @Name("authenticator")
 public class Authenticator {
    @In EntityManager entityManager;
-   public boolean authenticate(String username, String password, Set<String> roles) {
+   public boolean authenticate() {
       try
       {
          User user = (User) entityManager.createQuery(
             "from User where username = :username and password = :password")
-            .setParameter("username", username)
-            .setParameter("password", password)
+            .setParameter("username", Identity.instance().getUsername())
+            .setParameter("password", Identity.instance().getPassword())
             .getSingleResult();
 
          if (user.getRoles() != null)
          {
             for (UserRole mr : user.getRoles())
-               roles.add(mr.getName());
+               Identity.instance().addRole(mr.getName());
          }
 
          return true;
