@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
@@ -76,11 +77,25 @@ public class Exceptions
    @Create
    public void initialize() throws Exception 
    {
-      String fileName = "/WEB-INF/exceptions.xml";
-      InputStream stream = Resources.getResourceAsStream(fileName); //deprecated
-      fileName = "/WEB-INF/pages.xml";
-      if (stream==null) stream = Resources.getResourceAsStream(fileName);
+      ExceptionHandler anyhandler1 = parse("/WEB-INF/exceptions.xml"); //deprecated
+      ExceptionHandler anyhandler2 = parse("/WEB-INF/pages.xml");
+      
+      exceptionHandlers.add( new AnnotationRedirectHandler() );
+      exceptionHandlers.add( new AnnotationErrorHandler() );
+      
+      if ( Init.instance().isDebug() ) 
+      {
+         exceptionHandlers.add( new DebugPageHandler() );
+      }
+      
+      if (anyhandler1!=null) exceptionHandlers.add(anyhandler1);
+      if (anyhandler2!=null) exceptionHandlers.add(anyhandler2);
+   }
+
+   private ExceptionHandler parse(String fileName) throws DocumentException, ClassNotFoundException
+   {
       ExceptionHandler anyhandler = null;
+      InputStream stream = Resources.getResourceAsStream(fileName);
       if (stream!=null)
       {
          log.info("reading exception mappings from " + fileName);
@@ -99,15 +114,7 @@ public class Exceptions
             }
          }
       }
-      
-      exceptionHandlers.add( new AnnotationRedirectHandler() );
-      exceptionHandlers.add( new AnnotationErrorHandler() );
-      if ( Init.instance().isDebug() ) 
-      {
-         exceptionHandlers.add( new DebugPageHandler() );
-      }
-      
-      if (anyhandler!=null) exceptionHandlers.add(anyhandler);
+      return anyhandler;
    }
 
    private ExceptionHandler createHandler(Element exception, final Class clazz)

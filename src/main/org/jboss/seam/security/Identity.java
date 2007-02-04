@@ -370,7 +370,6 @@ public class Identity extends Selector
       setDirty();
 
       Events.instance().raiseEvent("org.jboss.seam.postAuthenticate");
-
    }
 
    protected void populateSecurityContext()
