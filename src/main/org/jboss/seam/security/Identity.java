@@ -64,6 +64,7 @@ public class Identity extends Selector
    private Subject subject;
    
    private WorkingMemory securityContext;
+   private RuleBase securityRules;
    
    private String jaasConfigName = null;
    
@@ -100,14 +101,13 @@ public class Identity extends Selector
    
    protected void initSecurityContext()
    {
-      if (securityContext==null) //it might have been configured via components.xml
+      if (securityRules==null) //it might have been configured via components.xml
       {
-         RuleBase securityRules = (RuleBase) Component.getInstance("securityRules", true);
-         if (securityRules != null)
-         {
-            securityContext = securityRules.newWorkingMemory(false);
-            setDirty();
-         }
+         securityRules = (RuleBase) Component.getInstance("securityRules", true);
+      }
+      if (securityRules != null)
+      {
+         securityContext = securityRules.newWorkingMemory(false);
       }
    }
 
@@ -486,5 +486,15 @@ public class Identity extends Selector
    public void setJaasConfigName(String jaasConfigName)
    {
       this.jaasConfigName = jaasConfigName;
+   }
+
+   public RuleBase getSecurityRules()
+   {
+      return securityRules;
+   }
+
+   public void setSecurityRules(RuleBase securityRules)
+   {
+      this.securityRules = securityRules;
    }   
 }
