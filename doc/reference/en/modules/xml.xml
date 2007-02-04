@@ -526,6 +526,9 @@ public class Payment
                 <listitem>
                     <para>security &mdash; <literal>http://jboss.com/products/seam/security</literal></para>
                 </listitem>
+                <listitem>
+                    <para>mail &mdash; <literal>http://jboss.com/products/seam/mail</literal></para>
+                </listitem>
             </itemizedlist>
             
         </sect1>
