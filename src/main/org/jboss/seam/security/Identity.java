@@ -68,6 +68,8 @@ public class Identity extends Selector
    
    private String jaasConfigName = null;
    
+   private List<String> preAuthenticationRoles = new ArrayList<String>();
+   
    @Override
    protected String getCookieName()
    {
@@ -194,7 +196,8 @@ public class Identity extends Selector
       authenticate( getLoginContext() );
    }
 
-   public void authenticate(LoginContext loginContext) throws LoginException
+   public void authenticate(LoginContext loginContext) 
+      throws LoginException
    {
       preAuthenticate();
       loginContext.login();
@@ -203,7 +206,94 @@ public class Identity extends Selector
    
    protected void preAuthenticate()
    {
+      preAuthenticationRoles.clear();
       Events.instance().raiseEvent("org.jboss.seam.preAuthenticate");
+   }   
+   
+   /**
+    * Populates the specified subject's roles with any inherited roles
+    * according to the role memberships contained within the current 
+    * SecurityConfiguration
+    */
+   protected void postAuthenticate()
+   {
+      populateSecurityContext();
+      
+      if (!preAuthenticationRoles.isEmpty() && isLoggedIn())
+      {
+         for (String role : preAuthenticationRoles)
+         {
+            addRole(role);
+         }
+         preAuthenticationRoles.clear();
+      }
+      
+      setCookieValue( getUsername() );
+      
+      password = null;
+      setDirty();
+
+      Events.instance().raiseEvent("org.jboss.seam.postAuthenticate");
+   }
+
+   protected void populateSecurityContext()
+   {
+      WorkingMemory securityContext = getSecurityContext();
+      assertSecurityContextExists();
+
+      // Populate the working memory with the user's principals
+      for ( Principal p : getSubject().getPrincipals() )
+      {         
+         if ( (p instanceof Group) && "roles".equals( ( (Group) p ).getName() ) )
+         {
+            Enumeration e = ( (Group) p ).members();
+            while ( e.hasMoreElements() )
+            {
+               Principal role = (Principal) e.nextElement();
+               securityContext.assertObject( new Role( role.getName() ) );
+            }
+         }
+         else
+         {
+            if (principal == null) 
+            {
+               principal = p;
+               setDirty();
+            }
+            securityContext.assertObject(p);            
+         }
+         
+      }
+   }
+
+   private void assertSecurityContextExists()
+   {
+      if (securityContext==null)
+      {
+         throw new IllegalStateException("no security rule base available - please install a RuleBase with the name 'securityContext'");
+      }
+   }   
+   
+   /**
+    * Removes all Role objects from the security context, removes the "roles"
+    * group from the user's subject.
+    *
+    */
+   protected void unAuthenticate()
+   {
+      for (Role role : (List<Role>) getSecurityContext().getObjects(Role.class))
+      {
+         getSecurityContext().retractObject(getSecurityContext().getFactHandle(role));
+      }
+      
+      for ( Group sg : subject.getPrincipals(Group.class) )      
+      {
+         if ( "roles".equals( sg.getName() ) )
+         {
+            subject.getPrincipals().remove(sg);
+            break;
+         }
+      }
    }
 
    protected LoginContext getLoginContext() throws LoginException
@@ -240,6 +330,73 @@ public class Identity extends Selector
       }
       return false;
    }
+   
+   /**
+    * Adds a role to the user's subject, and their security context
+    * 
+    * @param role The name of the role to add
+    */
+   public void addRole(String role)
+   {
+      if (!isLoggedIn())
+      {
+         preAuthenticationRoles.add(role);
+      }
+      else
+      {
+         for ( Group sg : subject.getPrincipals(Group.class) )      
+         {
+            if ( "roles".equals( sg.getName() ) )
+            {
+               getSecurityContext().assertObject(new Role(role));
+               sg.addMember(new SimplePrincipal(role));
+               return;
+            }
+         }
+         
+         getSecurityContext().assertObject(new Role(role));
+         
+         SimpleGroup roleGroup = new SimpleGroup("roles");
+         roleGroup.addMember(new SimplePrincipal(role));
+         subject.getPrincipals().add(roleGroup);
+      }
+   }
+
+   /**
+    * Removes a role from the user's subject and their security context
+    * 
+    * @param role The name of the role to remove
+    */
+   public void removeRole(String role)
+   {
+      for (Role r : (List<Role>) getSecurityContext().getObjects(Role.class))
+      {
+         if (r.getName().equals(role))
+         {
+            FactHandle fh = getSecurityContext().getFactHandle(r);
+            getSecurityContext().retractObject(fh);
+            break;
+         }
+      }
+      
+      for ( Group sg : subject.getPrincipals(Group.class) )      
+      {
+         if ( "roles".equals( sg.getName() ) )
+         {
+            Enumeration e = sg.members();
+            while (e.hasMoreElements())
+            {
+               Principal member = (Principal) e.nextElement();
+               if (member.getName().equals(role))
+               {
+                  sg.removeMember(member);
+                  break;
+               }
+            }
+
+         }
+      }      
+   }   
    
    /**
     * Assert that the current authenticated Identity is a member of
@@ -353,61 +510,6 @@ public class Identity extends Selector
             
          }
       };
-   }
-   
-   /**
-    * Populates the specified subject's roles with any inherited roles
-    * according to the role memberships contained within the current 
-    * SecurityConfiguration
-    */
-   protected void postAuthenticate()
-   {
-      populateSecurityContext();
-      
-      setCookieValue( getUsername() );
-      
-      password = null;
-      setDirty();
-
-      Events.instance().raiseEvent("org.jboss.seam.postAuthenticate");
-   }
-
-   protected void populateSecurityContext()
-   {
-      WorkingMemory securityContext = getSecurityContext();
-      assertSecurityContextExists();
-
-      // Populate the working memory with the user's principals
-      for ( Principal p : getSubject().getPrincipals() )
-      {         
-         if ( (p instanceof Group) && "roles".equals( ( (Group) p ).getName() ) )
-         {
-            Enumeration e = ( (Group) p ).members();
-            while ( e.hasMoreElements() )
-            {
-               Principal role = (Principal) e.nextElement();
-               securityContext.assertObject( new Role( role.getName() ) );
-            }
-         }
-         else
-         {
-            if (principal == null) 
-            {
-               principal = p;
-               setDirty();
-            }
-            securityContext.assertObject(p);            
-         }
-         
-      }
-   }
-
-   private void assertSecurityContextExists()
-   {
-      if (securityContext==null)
-      {
-         throw new IllegalStateException("no security rule base available - please install a RuleBase with the name 'securityContext'");
-      }
    }
    
    /**

@@ -3,7 +3,7 @@ package org.jboss.seam.security;
 import java.io.Serializable;
 
 /**
- * A user role
+ * Represents a user role exclusively within the scope of security rules.
  *  
  * @author Shane Bryzak
  */

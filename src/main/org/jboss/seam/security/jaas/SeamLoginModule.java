@@ -19,7 +19,6 @@ import org.jboss.seam.log.Logging;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.SimpleGroup;
 import org.jboss.seam.security.SimplePrincipal;
-import org.jboss.seam.util.Reflections;
 
 /**
  * Performs authentication using a Seam component
@@ -27,9 +26,7 @@ import org.jboss.seam.util.Reflections;
  * @author Shane Bryzak
  */
 public class SeamLoginModule implements LoginModule
-{
-   private static final String OPTS_PARAM_TYPES = "paramTypes";
-   
+{   
    private static final LogProvider log = Logging.getLogProvider(SeamLoginModule.class);   
    
    protected Set<String> roles = new HashSet<String>();
@@ -49,7 +46,19 @@ public class SeamLoginModule implements LoginModule
    {        
       subject.getPrincipals().add(new SimplePrincipal(username));
       
-      Group roleGroup = new SimpleGroup("roles");
+      Group roleGroup = null;
+      
+      for ( Group g : subject.getPrincipals(Group.class) )      
+      {
+         if ( "roles".equals( g.getName() ) )
+         {
+            roleGroup = g;
+            break;
+         }
+      }
+
+      if (roleGroup == null) roleGroup = new SimpleGroup("roles");
+
       for (String role : roles)
       {
          roleGroup.addMember(new SimplePrincipal(role));
@@ -71,73 +80,32 @@ public class SeamLoginModule implements LoginModule
    public boolean login() 
       throws LoginException
    {
+      try
+      {
+         NameCallback cbName = new NameCallback("Enter username");
+         PasswordCallback cbPassword = new PasswordCallback("Enter password", false);
+   
+         // Get the username and password from the callback handler
+         callbackHandler.handle(new Callback[] { cbName, cbPassword });
+         username = cbName.getName();
+      }
+      catch (Exception ex)
+      {
+         log.error("Error logging in", ex);
+         return false;
+      }
+      
       MethodBinding mb = Identity.instance().getAuthenticateMethod();
       
-      Object[] params = null;
-      
       try
       {
-         params = getLoginParams();
-      }
-      catch (Exception e)
-      {         
-         log.error("Error logging in", e);         
-         throw new LoginException(e.getMessage());
-      }
-      
-      try
-      {
-        return (Boolean) mb.invoke(getLoginParamTypes(), params);      
+        return (Boolean) mb.invoke();      
       }
       catch (RuntimeException ex)
       {
          log.error("Error invoking login method", ex);
          return false;
       }
-      catch (ClassNotFoundException ex)
-      {
-         log.error("Error determining parameter types", ex);
-         return false;
-      }
-   }
-   
-   /**
-    * Returns the authentication method param types as a Class array.
-    * 
-    * @throws ClassNotFoundException
-    */
-   public Class[] getLoginParamTypes()
-      throws ClassNotFoundException
-   {
-      if (!options.containsKey(OPTS_PARAM_TYPES))
-         return new Class[] {String.class, String.class, Set.class };
-
-      String[] paramTypes = ((String) options.get(OPTS_PARAM_TYPES)).split("[,]");
-      Class[] types = new Class[paramTypes.length];
-      for (int i = 0; i < paramTypes.length; i++)
-         types[i] = Reflections.classForName(paramTypes[i].trim());
-            
-      return types;
-   }
-   
-   /**
-    * Override this method if this isn't a standard username/password-based
-    * authentication.
-    * 
-    * @throws Exception
-    */
-   public Object[] getLoginParams()
-      throws Exception
-   {
-      NameCallback cbName = new NameCallback("Enter username");
-      PasswordCallback cbPassword = new PasswordCallback("Enter password", false);
-
-      // Get the username and password from the callback handler
-      callbackHandler.handle(new Callback[] { cbName, cbPassword });
-      username = cbName.getName();
-      
-      return new Object[] { username, new String(cbPassword.getPassword()), 
-            roles };
    }
 
    public boolean logout() throws LoginException
