@@ -69,7 +69,7 @@
 
 <!-- exception handling -->
 
-<!ELEMENT exception ((http-error|redirect),end-conversation?)>
+<!ELEMENT exception (end-conversation?,(http-error|redirect))>
 <!ATTLIST exception class CDATA #IMPLIED>
 
 <!ELEMENT http-error (#PCDATA)>

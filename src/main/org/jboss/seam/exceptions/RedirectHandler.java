@@ -1,7 +1,11 @@
 package org.jboss.seam.exceptions;
 
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Conversation;
+import org.jboss.seam.core.Pages;
 import org.jboss.seam.core.RedirectException;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -17,6 +21,11 @@ public abstract class RedirectHandler extends ExceptionHandler
    public void handle(Exception e) throws Exception
    {
       String viewId = getViewId(e);
+      if (viewId==null)
+      {
+         String servletPath = ( (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest() ).getServletPath();
+         viewId = servletPath.substring(0, servletPath.lastIndexOf('.')) + Pages.getSuffix();
+      }
       
       if (log.isDebugEnabled())
       {
