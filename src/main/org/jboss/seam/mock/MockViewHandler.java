@@ -36,7 +36,7 @@ public class MockViewHandler extends ViewHandler {
       String contextPath = ctx.getExternalContext().getRequestContextPath();
       String pathInfo = ctx.getExternalContext().getRequestPathInfo();
       String servletPath = ctx.getExternalContext().getRequestServletPath();
-      if ( Strings.isEmpty( pathInfo ) ) 
+      if ( Strings.isEmpty(pathInfo) ) 
       {
          return contextPath + viewId.substring( 0, viewId.lastIndexOf('.') ) + 
                servletPath.substring( servletPath.lastIndexOf('.') );

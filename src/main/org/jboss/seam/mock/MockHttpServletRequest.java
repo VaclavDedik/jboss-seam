@@ -118,8 +118,7 @@ public class MockHttpServletRequest implements HttpServletRequest
 
    public String getContextPath()
    {
-      //TODO
-      return null;
+      return "/project";
    }
 
    public String getQueryString()
@@ -169,8 +168,7 @@ public class MockHttpServletRequest implements HttpServletRequest
 
    public String getServletPath()
    {
-      //TODO
-      return null;
+      return "/page.seam";
    }
 
    public HttpSession getSession(boolean create)
