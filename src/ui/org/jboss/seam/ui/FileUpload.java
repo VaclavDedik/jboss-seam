@@ -1,6 +1,7 @@
 package org.jboss.seam.ui;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
@@ -43,12 +44,16 @@ public class FileUpload extends UIComponentBase
       {
          MultipartRequest req = (MultipartRequest) request;
          
-         String clientId = getClientId(context);
-         byte[] fileData = req.getFileBytes(clientId);
+         String clientId = getClientId(context);         
          String contentType = req.getFileContentType(clientId);
          String fileName = req.getFileName(clientId);
-         
-         getValueBinding("data").setValue(context, fileData);
+                  
+         ValueBinding dataBinding = getValueBinding("data");
+         Class cls = dataBinding.getType(context);
+         if (cls.isAssignableFrom(InputStream.class))
+            dataBinding.setValue(context, req.getFileInputStream(clientId));
+         else if (cls.isAssignableFrom(byte[].class))
+            dataBinding.setValue(context, req.getFileBytes(clientId));
          
          ValueBinding vb = getValueBinding("contentType");
          if (vb != null)
