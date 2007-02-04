@@ -36,16 +36,16 @@ public class Authenticator
             .setParameter("username", identity.getUsername())
             .getSingleResult();
          
-         if (!compareHash(member.getHashedPassword(), identity.getPassword())) {
+         if ( !compareHash( member.getHashedPassword(), identity.getPassword() ) ) 
+         {
              return false;
          }
          
          authenticatedMember = member;
          
-         if (authenticatedMember.getRoles() != null)
+         for ( MemberRole mr : member.getRoles() )
          {
-            for (MemberRole mr : authenticatedMember.getRoles())
-               identity.addRole(mr.getName());
+            identity.addRole(mr.getName());
          }
          
          return true;
@@ -56,13 +56,16 @@ public class Authenticator
       }      
    }
    
-   private boolean compareHash(String hash, String password) {
-       if (hash == null || password == null) {
+   private boolean compareHash(String hash, String password) 
+   {
+       if (hash == null || password == null) 
+       {
            return false;
        }
        
        String newHash = Hash.instance().hash(password);
-       if (newHash == null) {
+       if (newHash == null) 
+       {
            return false;
        }
 
