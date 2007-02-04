@@ -1,13 +1,21 @@
-<exceptions>
+<!DOCTYPE pages PUBLIC
+  "-//JBoss/Seam Exceptions Configuration DTD 1.1//EN"
+  "http://jboss.com/products/seam/pages-1.1.dtd">
+
+<pages>
 
   <exception class="org.jboss.seam.security.NotLoggedInException">
-    <redirect view-id="/register.xhtml">You must be a member to use this feature</redirect>
-    <end-conversation/>
+      <redirect view-id="/register.xhtml">
+          <faces-message>You must be a member to use this feature</faces-message>
+      </redirect>
+      <end-conversation/>
   </exception>
   
   <exception class="org.jboss.seam.security.AuthorizationException">
-    <redirect view-id="/security_error.xhtml">You do not have the necessary privileges to carry out the requested action.</redirect>
-    <end-conversation/>
+      <redirect view-id="/security_error.xhtml">
+          <faces-message>You do not have the necessary privileges to carry out the requested action.</faces-message>
+      </redirect>
+      <end-conversation/>
   </exception>
 
-</exceptions>
+</pages>

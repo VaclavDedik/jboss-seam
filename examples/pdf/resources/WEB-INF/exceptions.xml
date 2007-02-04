@@ -1,10 +1,10 @@
-<!DOCTYPE exceptions PUBLIC
+<!DOCTYPE pages PUBLIC
   "-//JBoss/Seam Exceptions Configuration DTD 1.1//EN"
-  "http://jboss.com/products/seam/exceptions-1.1.dtd">
+  "http://jboss.com/products/seam/pages-1.1.dtd">
 
-<exceptions>
+<pages>
    <exception>
       <redirect view-id="/error.xhtml"/>
       <end-conversation/>
    </exception>
-</exceptions>
+</pages>

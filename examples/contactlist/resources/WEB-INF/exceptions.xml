@@ -1,11 +1,13 @@
-<!DOCTYPE exceptions PUBLIC
+<!DOCTYPE pages PUBLIC
   "-//JBoss/Seam Exceptions Configuration DTD 1.1//EN"
-  "http://jboss.com/products/seam/exceptions-1.1.dtd">
+  "http://jboss.com/products/seam/pages-1.1.dtd">
 
-<exceptions>
+<pages>
    
    <exception class="javax.persistence.PersistenceException">
-      <render>Database access failed</render>
+      <redirect>
+          <faces-message>Database access failed</faces-message>
+      </redirect>
       <end-conversation/>
    </exception>
    
@@ -14,8 +16,10 @@
    </exception>
    
    <exception>
-      <redirect view-id="/search.xhtml">Unexpected failure</redirect>
+      <redirect view-id="/search.xhtml">
+          <faces-message>Unexpected failure</faces-message>
+      </redirect>
       <end-conversation/>
    </exception>
    
-</exceptions>
+</pages>
