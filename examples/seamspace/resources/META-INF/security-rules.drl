@@ -31,6 +31,17 @@ then
   modify(c);
 end;
 
+rule RestrictCommentPage
+  no-loop
+  activation-group "permissions"
+when
+  c: PermissionCheck(name == "/comment.xhtml", action == "render", granted == false)
+  Role(name == "user")
+then
+  c.grant();
+  modify(c);
+end;
+
 rule CreateBlogComment
   no-loop
   activation-group "permissions"
