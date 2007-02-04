@@ -18,6 +18,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.util.ByteArrayDataSource;
 
+import org.jboss.seam.pdf.DocumentData;
 import org.jboss.seam.pdf.ui.UIDocument;
 import org.jboss.seam.ui.JSF;
 import org.jboss.seam.util.Resources;
@@ -55,7 +56,6 @@ public class UIAttachment extends MailComponent implements ValueHolder
          if (this.getChildren().get(0) instanceof UIDocument) {
             UIDocument document = (UIDocument) this.getChildren().get(0);
             document.setSendRedirect(false);
-            // TODO Set contenttype and filename
             JSF.renderChildren(context, this);
          } else {
             setValue(encode(context).getBytes());
@@ -92,6 +92,12 @@ public class UIAttachment extends MailComponent implements ValueHolder
          {
             InputStream is = (InputStream) getValue();
             ds = new ByteArrayDataSource(is, getContentType());
+         }
+         else if (getValue() instanceof DocumentData)
+         {
+            DocumentData documentData = (DocumentData) getValue();
+            ds = new ByteArrayDataSource(documentData.getData(), documentData.getDocType().getMimeType());
+            setFileName(documentData.getFileName());
          }
          else if (getValue() != null && getValue().getClass().isArray())
          {
@@ -153,7 +159,7 @@ public class UIAttachment extends MailComponent implements ValueHolder
    {
       if (fileName.lastIndexOf("/") > 0)
       {
-         return fileName.substring(fileName.lastIndexOf("/"));
+         return fileName.substring(fileName.lastIndexOf("/") + 1);
       }
       else
       {

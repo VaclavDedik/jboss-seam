@@ -71,11 +71,11 @@ public void send() {
    		
    		<para>You could also attach a <literal>java.io.File</literal>, a <literal>java.net.URL</literal>:</para>
    		
-   		<programlisting>&lt;m:attachment value=&quot;#{exampleSpreadsheet}&quot; /&gt;</programlisting>
+   		<programlisting>&lt;m:attachment value=&quot;#{numbers}&quot; /&gt;</programlisting>
    		
    		<para> a <literal>byte[]</literal> or a <literal>java.io.InputStream</literal>:</para>
    		
-   		<programlisting>&lt;m:attachment value=&quot;#{photo}&quot; contentType=&quot;image/jpeg&quot; /&gt;</programlisting>
+   		<programlisting>&lt;m:attachment value=&quot;#{person.photo}&quot; contentType=&quot;image/png&quot; /&gt;</programlisting>
    		
    		<para>You'll notice that for a <literal>byte[]</literal> and a <literal>java.io.InputStream</literal> you need to specify the MIME type
    		of the attachment (as that information is not carried as part of the file).</para>
@@ -92,8 +92,8 @@ public void send() {
 		<para>If you had a set of files you wanted to attach (for example a set of pictures loaded from a database) you can just
 		use a  <literal>&lt;ui:repeat&gt;</literal>:</para>
 		
-		<programlisting>&lt;ui:repeat value=&quot;#{photos}&quot; var=&quot;photo&quot;&gt;
-    &lt;m:attachment value=&quot;#{photo}&quot; contentType=&quot;image/jpeg&quot; /&gt;
+		<programlisting>&lt;ui:repeat value=&quot;#{personList}&quot; var=&quot;person&quot;&gt;
+    &lt;m:attachment value=&quot;#{person.photo}&quot; contentType=&quot;image/png&quot; /&gt;
 &lt;/ui:repeat&gt;</programlisting>
    		
    	</section>

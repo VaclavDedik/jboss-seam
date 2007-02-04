@@ -10,6 +10,7 @@
 	<property name="example.webinf.lib.dir" value="." />
 	<property name="example.seam.ui.lib" value="yes" />
 	<property name="example.seam.mail.lib" value="yes" />
+	<property name="example.seam.pdf.lib"    value="yes"/>
 	<property name="example.seam.debug.lib" value="yes" />
 	<property name="example.facelets.lib" value="yes" />
 	<property name="src.java.dir" value="src" />
