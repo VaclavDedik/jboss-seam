@@ -29,11 +29,6 @@ public class AnnotationRedirectHandler extends RedirectHandler
    protected boolean isEnd(Exception e)
    {
       return e.getClass().getAnnotation(Redirect.class).end();
-   } 
-
-   protected boolean isRollback(Exception e)
-   {
-      return e.getClass().getAnnotation(Redirect.class).rollback();
    }
    
 }

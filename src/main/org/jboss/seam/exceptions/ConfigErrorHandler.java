@@ -10,15 +10,13 @@ public final class ConfigErrorHandler extends ErrorHandler
    private final boolean conversation;
    private final Class clazz;
    private final int code;
-   private final boolean rollback;
 
-   public ConfigErrorHandler(String message, boolean conversation, Class clazz, int code, boolean rollback)
+   public ConfigErrorHandler(String message, boolean conversation, Class clazz, int code)
    {
       this.message = message;
       this.conversation = conversation;
       this.clazz = clazz;
       this.code = code;
-      this.rollback = rollback;
    }
 
    @Override
@@ -45,8 +43,4 @@ public final class ConfigErrorHandler extends ErrorHandler
       return conversation;
    }
 
-   protected boolean isRollback(Exception e)
-   {
-      return rollback;
-   }
 }

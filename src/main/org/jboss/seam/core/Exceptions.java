@@ -120,7 +120,6 @@ public class Exceptions
    private ExceptionHandler createHandler(Element exception, final Class clazz)
    {
       final boolean endConversation = exception.elementIterator("end-conversation").hasNext();
-      final boolean rollback = exception.elementIterator("rollback").hasNext();
       
       Element redirect = exception.element("redirect");
       if (redirect!=null)
@@ -128,7 +127,7 @@ public class Exceptions
          final String viewId = redirect.attributeValue("view-id");
          Element facesMessage = redirect.element("faces-message");
          final String message = facesMessage==null ? null : facesMessage.getTextTrim();
-         return new ConfigRedirectHandler(viewId, clazz, endConversation, rollback, message);
+         return new ConfigRedirectHandler(viewId, clazz, endConversation, message);
       }
       
       Element error = exception.element("http-error");
@@ -138,7 +137,7 @@ public class Exceptions
          final int code = Strings.isEmpty(errorCode) ? 
                500 : Integer.parseInt(errorCode);
          final String message = error.getTextTrim();
-         return new ConfigErrorHandler(message, endConversation, clazz, code, rollback);
+         return new ConfigErrorHandler(message, endConversation, clazz, code);
       }
       
       return null;
