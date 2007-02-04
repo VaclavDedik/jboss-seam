@@ -10,15 +10,19 @@ import javax.activation.DataSource;
 import javax.activation.FileDataSource;
 import javax.activation.URLDataSource;
 import javax.faces.FacesException;
+import javax.faces.component.ValueHolder;
 import javax.faces.context.FacesContext;
+import javax.faces.convert.Converter;
 import javax.mail.BodyPart;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.util.ByteArrayDataSource;
 
+import org.jboss.seam.pdf.ui.UIDocument;
+import org.jboss.seam.ui.JSF;
 import org.jboss.seam.util.Resources;
 
-public class UIAttachment extends MailComponent
+public class UIAttachment extends MailComponent implements ValueHolder
 {
 
    private Object value;
@@ -43,9 +47,26 @@ public class UIAttachment extends MailComponent
    {
       this.value = value;
    }
-
+   
    @Override
    public void encodeBegin(FacesContext context) throws IOException
+   {
+      if (this.getChildCount() > 0) {
+         if (this.getChildren().get(0) instanceof UIDocument) {
+            UIDocument document = (UIDocument) this.getChildren().get(0);
+            document.setSendRedirect(false);
+            // TODO Set contenttype and filename
+            JSF.renderChildren(context, this);
+         } else {
+            // Assume this is an HTML document
+            setValue(encode(context).getBytes());
+            setContentType("text/html");
+         }
+      }
+   }
+
+   @Override
+   public void encodeEnd(FacesContext context) throws IOException
    {
       DataSource ds = null;
       // TODO Support seam-pdf
@@ -73,7 +94,8 @@ public class UIAttachment extends MailComponent
          }
          else if (getValue() != null && getValue().getClass().isArray())
          {
-            if (getValue().getClass().getComponentType().isAssignableFrom(Byte.class))
+            Class clazz = getValue().getClass().getComponentType();
+            if (getValue().getClass().getComponentType().isAssignableFrom(Byte.TYPE))
             {
                byte[] b = (byte[]) getValue();
                ds = new ByteArrayDataSource(b, getContentType());
@@ -91,12 +113,6 @@ public class UIAttachment extends MailComponent
       {
          throw new FacesException(e.getMessage(), e);
       }
-   }
-
-   @Override
-   public void encodeChildren(FacesContext context) throws IOException
-   {
-      // No children
    }
 
    public String getContentType()
@@ -155,6 +171,21 @@ public class UIAttachment extends MailComponent
       {
          return removePath(name);
       }
+   }
+
+   public Converter getConverter()
+   {
+      return null;
+   }
+
+   public Object getLocalValue()
+   {
+      return value;
+   }
+
+   public void setConverter(Converter converter)
+   {
+      throw new UnsupportedOperationException("Cannot attach a converter to an attachment");
    }
 
 }

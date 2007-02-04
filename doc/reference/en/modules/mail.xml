@@ -307,6 +307,75 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.&lt;/f:facet&gt;
 	                   </itemizedlist>
 	           </listitem>
         	</varlistentry>
+        	        	<varlistentry>
+        		<term>&lt;m:attachment&gt;</term>
+        		 <listitem>
+	               <para>
+	                  Add an attachment to the email.
+	               </para>
+	              <itemizedlist>
+	                   <listitem>
+	                   <para>
+	                       <literal>value</literal> &mdash; The file to attach:
+	                   </para>
+               			  <itemizedlist>
+		               		<listitem>
+    		           			<para>
+    		           				<literal>String</literal> &mdash; A <literal>String</literal> is interpreted as a path to file within the classpath
+    		           			</para>
+    		           		</listitem>
+    		           		<listitem>
+    		           			<para>
+    		           				<literal>java.io.File</literal> &mdash; An EL expression can reference a <literal>File</literal> object
+    		           			</para>
+    		           		</listitem>
+    		           		<listitem>
+    		           			<para>
+    		           				<literal>java.net.URL</literal> &mdash; An EL expression can reference a <literal>URL</literal> object
+    		           			</para>
+    		           		</listitem>
+    		           		<listitem>
+    		           			<para>
+    		           				<literal>java.io.InputStream</literal> &mdash; An EL expression can reference an <literal>InputStream</literal>.
+    		           				In this case both a <literal>fileName</literal> and a <literal>contentType</literal> must be specified.
+    		           			</para>
+    		           		</listitem>
+    		           		<listitem>
+    		           			<para>
+    		           				<literal>byte[]</literal> &mdash; An EL expression can reference an <literal>byte[]</literal>.
+    		           				In this case both a <literal>fileName</literal> and a <literal>contentType</literal> must be specified.
+    		           			</para>
+    		           		</listitem>
+    		           	</itemizedlist>
+	    		         <para>If the value attribute is ommitted:</para>
+	    		         <itemizedlist>
+	    		         <listitem>
+	               			<para>
+	               				If this tag contains a <literal>&lt;p:document&gt;</literal> tag, the document described will be
+	                  generated and attached to the email.
+	                  		</para>
+	                  	</listitem>
+	                  	<listitem>
+	               			<para>
+	               				If this tag contains other JSF tags a HTML document will be generated from them
+	               				and attached to the email.
+	                  		</para>
+	                  	</listitem>
+	               </itemizedlist>
+	                   </listitem>
+	                   <listitem>
+	                   <para>
+	                       <literal>fileName</literal> &mdash; Specify the file name to use for the attached file.
+	                   </para>
+	                   </listitem>
+	                    <listitem>
+	                   <para>
+	                       <literal>contentType</literal> &mdash; Specify the MIME type of the attached file
+	                   </para>
+	                   </listitem>
+	                   </itemizedlist>
+	           </listitem>
+        	</varlistentry>
         	<varlistentry>
         		<term>&lt;m:subject&gt;</term>
         		 <listitem>
