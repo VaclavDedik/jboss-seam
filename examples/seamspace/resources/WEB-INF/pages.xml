@@ -41,6 +41,7 @@
     </page>    
     
     <page view-id="/createBlog.xhtml">
+      <restrict>#{identity.loggedIn}</restrict>
       <navigation from-action="#{blog.saveEntry}">
         <redirect view-id="/blog.xhtml"/>
       </navigation>
@@ -57,6 +58,7 @@
     </page>
     
     <page view-id="/friendcomment.xhtml">
+      <restrict>#{identity.loggedIn}</restrict>
       <navigation from-action="#{friend.saveComment}">        
         <redirect view-id="/profile.xhtml">
           <param name="name" value="#{friendComment.member.memberName}"/>
@@ -65,6 +67,7 @@
     </page>
     
     <page view-id="/friendrequest.xhtml">
+      <restrict>#{identity.loggedIn}</restrict>
       <navigation from-action="#{friend.saveRequest}">
         <redirect view-id="/profile.xhtml">
           <param name="name" value="#{friendRequest.member.memberName}"/>
@@ -86,5 +89,19 @@
         </navigation>
     </page>
     
+    <exception class="org.jboss.seam.security.NotLoggedInException">
+        <redirect view-id="/register.xhtml">
+            <faces-message>You must be a member to use this feature</faces-message>
+        </redirect>
+        <end-conversation/>
+    </exception>
+  
+    <exception class="org.jboss.seam.security.AuthorizationException">
+        <redirect view-id="/security_error.xhtml">
+            <faces-message>You do not have permission to do this</faces-message>
+        </redirect>
+        <end-conversation/>
+    </exception>
+
 
 </pages>
