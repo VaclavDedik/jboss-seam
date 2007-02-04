@@ -10,6 +10,7 @@ import javax.persistence.NoResultException;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
+import org.jboss.seam.security.Identity;
 
 /**
  * Authenticator bean - authenticates the user against the database
@@ -24,17 +25,20 @@ public class Authenticator
    
    @Out(required = false, scope = SESSION)
    private Member authenticatedMember;
+   
+   @In
+   private Identity identity;
 
-   public boolean authenticate(String username, String password, Set<String> roles) 
+   public boolean authenticate() 
    {
       try
       {            
          Member member = (Member) entityManager.createQuery(
             "from Member where username = :username")
-            .setParameter("username", username)
+            .setParameter("username", identity.getUsername())
             .getSingleResult();
          
-         if (!compareHash(member.getHashedPassword(), password)) {
+         if (!compareHash(member.getHashedPassword(), identity.getPassword())) {
              return false;
          }
          
@@ -43,7 +47,7 @@ public class Authenticator
          if (authenticatedMember.getRoles() != null)
          {
             for (MemberRole mr : authenticatedMember.getRoles())
-               roles.add(mr.getName());
+               identity.addRole(mr.getName());
          }
          
          return true;
