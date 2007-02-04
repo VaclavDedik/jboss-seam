@@ -18,6 +18,7 @@ import javax.faces.event.PhaseEvent;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.core.Exceptions;
 import org.jboss.seam.core.FacesMessages;
 
 /**
@@ -41,23 +42,40 @@ public class SeamPhaseListener extends AbstractSeamPhaseListener
       
       Lifecycle.setPhaseId( event.getPhaseId() );
 
-      //delegate to subclass:
-      handleTransactionsBeforePhase(event);
-      
-      if ( event.getPhaseId() == RESTORE_VIEW )
+      try
       {
-         Lifecycle.beginRequest( event.getFacesContext().getExternalContext() );
+         
+         //delegate to subclass:
+         handleTransactionsBeforePhase(event);
+         
+         if ( event.getPhaseId() == RESTORE_VIEW )
+         {
+            Lifecycle.beginRequest( event.getFacesContext().getExternalContext() );
+         }
+         else if ( event.getPhaseId() == RENDER_RESPONSE )
+         {
+            beforeRender(event);
+         }
+         else if ( event.getPhaseId() == APPLY_REQUEST_VALUES )
+         {
+            beforeUpdateModelValues(event);
+         }
+         
+         super.beforePhase(event);
+         
       }
-      else if ( event.getPhaseId() == RENDER_RESPONSE )
+      catch (Exception e)
       {
-         beforeRender(event);
+         log.error("uncaught exception", e);
+         try
+         {
+            Exceptions.instance().handle(e);
+         }
+         catch (Exception ehe) 
+         {
+            log.error("swallowing exception", e);
+         }
       }
-      else if ( event.getPhaseId() == APPLY_REQUEST_VALUES )
-      {
-         beforeUpdateModelValues(event);
-      }
-      
-      super.beforePhase(event);
 
    }
    
@@ -66,39 +84,56 @@ public class SeamPhaseListener extends AbstractSeamPhaseListener
    {
       log.trace( "after phase: " + event.getPhaseId() );
       
-      super.afterPhase(event);
+      try
+      {
+         
+         super.afterPhase(event);
+   
+         FacesContext facesContext = event.getFacesContext();
+         
+         if ( event.getPhaseId() == RESTORE_VIEW )
+         {
+            afterRestoreView(facesContext);
+         }      
+         else if ( event.getPhaseId() == INVOKE_APPLICATION )
+         {
+            afterInvokeApplication();
+         }
+         else if ( event.getPhaseId() == PROCESS_VALIDATIONS )
+         {
+            afterProcessValidations( event.getFacesContext() );
+         }
+               
+         //has to happen after, since restoreAnyConversationContext() 
+         //can add messages
+         FacesMessages.afterPhase();
+         
+         //delegate to subclass:
+         handleTransactionsAfterPhase(event);
+               
+         if ( event.getPhaseId() == RENDER_RESPONSE )
+         {
+            afterRender(facesContext);
+         }
+         else if ( facesContext.getResponseComplete() )
+         {
+            afterResponseComplete(facesContext);
+         }
+      
+      }
+      catch (Exception e)
+      {
+         log.error("uncaught exception", e);
+         try
+         {
+            Exceptions.instance().handle(e);
+         }
+         catch (Exception ehe) 
+         {
+            log.error("swallowing exception", e);
+         }
+      }
 
-      FacesContext facesContext = event.getFacesContext();
-      
-      if ( event.getPhaseId() == RESTORE_VIEW )
-      {
-         afterRestoreView(facesContext);
-      }      
-      else if ( event.getPhaseId() == INVOKE_APPLICATION )
-      {
-         afterInvokeApplication();
-      }
-      else if ( event.getPhaseId() == PROCESS_VALIDATIONS )
-      {
-         afterProcessValidations( event.getFacesContext() );
-      }
-            
-      //has to happen after, since restoreAnyConversationContext() 
-      //can add messages
-      FacesMessages.afterPhase();
-      
-      //delegate to subclass:
-      handleTransactionsAfterPhase(event);
-            
-      if ( event.getPhaseId() == RENDER_RESPONSE )
-      {
-         afterRender(facesContext);
-      }
-      else if ( facesContext.getResponseComplete() )
-      {
-         afterResponseComplete(facesContext);
-      }
-      
       Lifecycle.setPhaseId(null);
       
    }

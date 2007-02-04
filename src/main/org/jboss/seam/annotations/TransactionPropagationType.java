@@ -17,31 +17,24 @@ public enum TransactionPropagationType
    
    public boolean isNewTransactionRequired(boolean transactionActive)
    {
-      try
+      switch (this)
       {
-         switch (this)
-         {
-            case REQUIRED:
-               return !transactionActive;
-            case SUPPORTS:
-               return false;
-            case MANDATORY:
-               if ( !transactionActive )
-               {
-                  throw new IllegalStateException("No transaction active on call to MANDATORY method");
-               }
-            case NEVER:
-               if ( transactionActive )
-               {
-                  throw new IllegalStateException("Transaction active on call to NEVER method");
-               }
-            default:
-               throw new IllegalArgumentException();
-         }
-      }
-      catch (Exception e)
-      {
-         throw new RuntimeException(e);
+         case REQUIRED:
+            return !transactionActive;
+         case SUPPORTS:
+            return false;
+         case MANDATORY:
+            if ( !transactionActive )
+            {
+               throw new IllegalStateException("No transaction active on call to MANDATORY method");
+            }
+         case NEVER:
+            if ( transactionActive )
+            {
+               throw new IllegalStateException("Transaction active on call to NEVER method");
+            }
+         default:
+            throw new IllegalArgumentException();
       }
    }
    

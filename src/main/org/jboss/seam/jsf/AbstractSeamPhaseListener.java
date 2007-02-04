@@ -11,6 +11,7 @@ import javax.faces.model.DataModel;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.Seam;
+import org.jboss.seam.TransactionException;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.ContextAdaptor;
 import org.jboss.seam.contexts.Contexts;
@@ -241,14 +242,6 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
          actionsWereCalled = Pages.instance().enterPage( event.getFacesContext() );
          return actionsWereCalled;
       }
-      catch (RuntimeException re)
-      {
-         //we have to handle exceptions here because of
-         //how JSF defines exception handling from
-         //PhaseListener.beforePhase()
-         log.error("Swallowing exception thrown by page action", re);
-         return actionsWereCalled;
-      }
       finally
       {
          Lifecycle.setPhaseId( PhaseId.RENDER_RESPONSE );
@@ -282,8 +275,7 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       }
       catch (Exception e)
       {
-         //TODO: what should we *really* do here??
-         throw new IllegalStateException("Could not start transaction", e);
+         throw new TransactionException("Could not start transaction", e);
       }
    }
    void commitOrRollback(PhaseId phaseId) {
@@ -302,8 +294,7 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       }
       catch (Exception e)
       {
-         //TODO: what should we *really* do here??
-         throw new IllegalStateException("Could not commit transaction", e);
+         throw new TransactionException("Could not commit transaction", e);
       }
    }
    protected void afterProcessValidations(FacesContext facesContext)
