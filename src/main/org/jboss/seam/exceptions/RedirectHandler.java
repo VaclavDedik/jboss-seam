@@ -23,6 +23,8 @@ public abstract class RedirectHandler extends ExceptionHandler
       String viewId = getViewId(e);
       if (viewId==null)
       {
+         //we want to perform a redirect straight back to the current page
+         //there is no ViewRoot available, so lets do it the hard way
          String servletPath = ( (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest() ).getServletPath();
          viewId = servletPath.substring(0, servletPath.lastIndexOf('.')) + Pages.getSuffix();
       }

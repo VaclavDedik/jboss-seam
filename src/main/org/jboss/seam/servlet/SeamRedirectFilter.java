@@ -74,7 +74,7 @@ public class SeamRedirectFilter extends SeamFilter
          if ( url.endsWith(extension) || url.contains(extension + '?') )
          {
             String suffix = Pages.getSuffix();
-            return url.substring(contextPath.length(), getParamLoc(url) - extension.length()) + suffix;
+            return url.substring( contextPath.length(), getParamLoc(url) - extension.length() ) + suffix;
          }
          else
          {
