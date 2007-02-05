@@ -6,32 +6,32 @@
 
     <exception class="javax.persistence.EntityNotFoundException">
         <redirect view-id="/error.xhtml">
-            <faces-message>Not found</faces-message>
+            <message>Not found</message>
         </redirect>
     </exception>
     
     <exception class="javax.persistence.OptimisticLockException">
         <end-conversation/>
         <redirect view-id="/error.xhtml">
-            <faces-message>Another user changed the same data, please try again</faces-message>
+            <message>Another user changed the same data, please try again</message>
         </redirect>
     </exception>
     
     <exception class="org.jboss.seam.security.AuthorizationException">
         <redirect>
-            <faces-message>You don't have permission to do this</faces-message>
+            <message>You don't have permission to do this</message>
         </redirect>
     </exception>
     
     <exception class="org.jboss.seam.security.NotLoggedInException">
         <redirect view-id="/login.xhtml">
-            <faces-message>Please log in first</faces-message>
+            <message>Please log in first</message>
         </redirect>
     </exception>
      
     <exception>
         <redirect view-id="/error.xhtml">
-            <faces-message>Unexpected error, please try again</faces-message>
+            <message>Unexpected error, please try again</message>
         </redirect>
     </exception>
     
