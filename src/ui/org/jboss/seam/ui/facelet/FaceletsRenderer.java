@@ -40,7 +40,8 @@ public class FaceletsRenderer extends Renderer
     }
     
 
-    public String render(String viewId, ClassLoader classLoader) {
+    public String render(String viewId, ClassLoader classLoader) 
+    {
         FacesContext facesContext = FacesContext.getCurrentInstance();
 
         ResponseWriter originalWriter = null;
