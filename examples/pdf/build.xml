@@ -17,13 +17,23 @@
     <property name="test.classpath"          value="test.eejb.classpath"/>
     <property name="tomcat.conf"             value="eejb.conf"/>  
     
+
     <import file="../../build.xml"/>
 
+    <fileset id="example.local.jar" dir="lib">
+        <include name="**/*.jar" />
+    </fileset>
+
+    <path id="example.path">
+        <fileset refid="example.local.jar" />
+    </path>
+   
     <zipfileset id="example.ear.resources"
                dir="${example.resources.dir}">
         <include name="META-INF/application.xml"/>
         <include name="META-INF/jboss-app.xml"/>
         <include name="*.keystore"/>
+        <include name="lib/*.jar" />
     </zipfileset>
 </project>
 

@@ -12,6 +12,7 @@
             <context-root>/seam-document</context-root>
         </web>
     </module>
+
     <module>
         <ejb>jboss-seam-document.jar</ejb>
     </module>
@@ -24,5 +25,10 @@
     <module>
         <java>el-ri.jar</java>
     </module>
-
+    <module>
+        <java>jcommon-1.0.6.jar</java>
+    </module>
+    <module>
+        <java>jfreechart-1.0.3.jar</java>
+    </module>
 </application>
