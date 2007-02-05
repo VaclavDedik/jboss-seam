@@ -39,6 +39,7 @@ public class MultipartRequest extends HttpServletRequestWrapper
    private static final int CHUNK_SIZE = 512;
    
    private boolean createTempFiles = false;
+   private String encoding = null;
    
    private Map<String,Param> parameters = null;
    
@@ -85,8 +86,10 @@ public class MultipartRequest extends HttpServletRequestWrapper
       }
       
       public void complete()
+         throws UnsupportedEncodingException
       {
-         String val = new String(buf.toByteArray());
+         String val = encoding == null ? new String(buf.toByteArray()) :
+                                         new String(buf.toByteArray(), encoding);
          if (value == null)
          {
             value = val;
@@ -242,7 +245,7 @@ public class MultipartRequest extends HttpServletRequestWrapper
                   + "no multipart boundary was found");
       }
       
-//      String charEncoding = request.getCharacterEncoding();    
+      encoding = request.getCharacterEncoding();    
       
       parameters = new HashMap<String,Param>();      
       
@@ -482,7 +485,7 @@ public class MultipartRequest extends HttpServletRequestWrapper
    {
       Param p = getParam(name);    
       return (p != null && p instanceof FileParam) ? 
-               ((FileParam) p).getContentType() : null;
+               ((FileParam) p).getFilename() : null;
    }   
    
    @Override
