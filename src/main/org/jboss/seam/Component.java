@@ -33,6 +33,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -580,6 +581,11 @@ public class Component
                else
                {
                   logInstance = org.jboss.seam.log.Logging.getLog(category);
+               }
+               if ( Modifier.isStatic( field.getModifiers() ) )
+               {
+                  Reflections.setAndWrap(field, null, logInstance);
+                  logInstance = null;
                }
             }
             for ( Annotation ann: field.getAnnotations() )
