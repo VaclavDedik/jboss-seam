@@ -1,13 +1,16 @@
 package org.jboss.seam.example.mail;
 
-import java.io.InputStream;
-
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Create;
+import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.util.Resources;
+
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 @Name("person")
 @Scope(ScopeType.CONVERSATION)
@@ -16,6 +19,7 @@ public class Person
    private String firstname;
    private String lastname;
    private String address;
+   private InputStream photo = Resources.getResourceAsStream("/no_image.png");
    
    @Create
    @Begin(join=true)
@@ -24,6 +28,35 @@ public class Person
       
    }
    
+   @Factory("people")
+   public List<Person> getPeople() {
+      List<Person> people = new ArrayList<Person>();
+      people.add(new Person("Gavin", "King", "gavin.king@jboss.com", "/gavin.jpg"));
+      people.add(new Person("Shane", "Bryzak", "shane.bryzak@jboss.com", "/shane.jpg"));
+      return people;
+   }
+   
+   public Person()
+   {
+   }
+   
+   
+   
+   public Person(String firstname, String lastname, String address, String photoPath)
+   {
+      this.firstname = firstname;
+      this.lastname = lastname;
+      this.address = address;
+      this.photo = Resources.getResourceAsStream(photoPath);
+   }
+   
+   public Person(String firstname, String lastname, String address)
+   {
+      this.firstname = firstname;
+      this.lastname = lastname;
+      this.address = address;
+   }
+
    public String getAddress()
    {
       return address;
@@ -50,7 +83,8 @@ public class Person
    }
    
    public InputStream getPhoto() {
-      return Resources.getResourceAsStream("/no_image.png");
+      return photo;
    }
+
    
 }

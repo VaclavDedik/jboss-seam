@@ -2,6 +2,7 @@ package org.jboss.seam.example.mail;
 
 
 import java.net.URL;
+import java.util.List;
 
 import javax.faces.application.FacesMessage;
 
