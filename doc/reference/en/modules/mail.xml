@@ -83,7 +83,7 @@ public void send() {
    		<para>And it gets even better, you can attach a Seam generated PDF, or any standard JSF view, just by wrapping a 
    		<literal>&lt;m:attachment&gt;</literal> around the normal tags you would use:</para>
    		
-   		<programlisting>&lt;m:attachment&gt;
+   		<programlisting>&lt;m:attachment fileName=&quot;tiny.pdf&quot;&gt;
     &lt;p:document&gt;                                                      
         A very tiny PDF                                                                                                
     &lt;/p:document&gt;
@@ -92,8 +92,8 @@ public void send() {
 		<para>If you had a set of files you wanted to attach (for example a set of pictures loaded from a database) you can just
 		use a  <literal>&lt;ui:repeat&gt;</literal>:</para>
 		
-		<programlisting>&lt;ui:repeat value=&quot;#{personList}&quot; var=&quot;person&quot;&gt;
-    &lt;m:attachment value=&quot;#{person.photo}&quot; contentType=&quot;image/png&quot; /&gt;
+		<programlisting>&lt;ui:repeat value=&quot;#{people}&quot; var=&quot;person&quot;&gt;
+    &lt;m:attachment value=&quot;#{person.photo}&quot; contentType=&quot;image/jpeg&quot; fileName=&quot;#{person.firstname}_#{person.lastname}.jpg&quot;/&gt;
 &lt;/ui:repeat&gt;</programlisting>
    		
    	</section>
@@ -394,13 +394,13 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.&lt;/f:facet&gt;
 	    		         <listitem>
 	               			<para>
 	               				If this tag contains a <literal>&lt;p:document&gt;</literal> tag, the document described will be
-	                  generated and attached to the email.
+	                  generated and attached to the email.  A <literal>fileName</literal> should be specfied.
 	                  		</para>
 	                  	</listitem>
 	                  	<listitem>
 	               			<para>
 	               				If this tag contains other JSF tags a HTML document will be generated from them
-	               				and attached to the email.
+	               				and attached to the email. A <literal>fileName</literal> should be specfied.
 	                  		</para>
 	                  	</listitem>
 	               </itemizedlist>

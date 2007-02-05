@@ -97,7 +97,6 @@ public class UIAttachment extends MailComponent implements ValueHolder
          {
             DocumentData documentData = (DocumentData) getValue();
             ds = new ByteArrayDataSource(documentData.getData(), documentData.getDocType().getMimeType());
-            setFileName(documentData.getFileName());
          }
          else if (getValue() != null && getValue().getClass().isArray())
          {

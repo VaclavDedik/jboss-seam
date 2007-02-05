@@ -9,9 +9,12 @@
           <m:attachment value="/WEB-INF/lib/jboss-seam-mail.jar" /> 
            <m:attachment value="#{numbers}" />
            <m:attachment value="#{person.photo}" contentType="image/png" fileName="#{person.firstname}_#{person.lastname}.jpg" />
-           <m:attachment>
+           <m:attachment fileName="whyseam.pdf">
            		<ui:include src="/whyseam.xhtml" />
            </m:attachment>
+           <ui:repeat value="#{people}" var="person">
+	           <m:attachment value="#{person.photo}" contentType="image/jpeg" fileName="#{person.firstname}_#{person.lastname}.jpg" />
+           </ui:repeat>
           <m:body>
               <p><h:outputText value="Dear #{person.firstname}" />,</p>
               <p>This example email demonstrates how easy it is to add attachments to an email!</p>
