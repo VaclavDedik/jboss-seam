@@ -201,6 +201,8 @@ public class UISelectItems extends javax.faces.component.UISelectItems {
 		if (add && getNoSelectionLabel() != null) {
 			NullableSelectItem s = new NullableSelectItem(NO_SELECTION_VALUE, getNoSelectionLabel());
 			selectItems.add(s);
+			ConverterChain converterChain = new ConverterChain(this.getParent());
+			converterChain.addConverterToChain(new NoSelectionConverter(), ConverterChain.CHAIN_START);
 			return true;
 		} else {
 			return false;
