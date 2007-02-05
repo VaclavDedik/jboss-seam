@@ -144,6 +144,8 @@
                     <para> Specifies that a component should only be installed if a component that is implemented by a
                         certain class is installed. This is useful when the dependency doesn't have a single well-known
                         name. </para>
+                     <programlisting><![CDATA[@Install(classDependencies="org.hibernate.Session")]]></programlisting>
+                    <para> Specifies that a component should only be installed if the named class is in the classpath.</para>
                     <programlisting><![CDATA[@Install(precedence=BUILT_IN)]]></programlisting>
                     <para>Specifies the precedence of the component. If multiple components with the same name exist,
                         the one with the higher precedence will be installed. The defined precendence values are: </para>

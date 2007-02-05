@@ -777,23 +777,27 @@ public class LoginAction implements Login {
 
     <sect1>
         <title>Lifecycle methods</title>
+        
         <para> 
             Session bean and entity bean Seam components support all the usual EJB 3.0 lifecycle callback
             (<literal>@PostConstruct</literal>, <literal>@PreDestroy</literal>, etc). Seam extends all of these
             callbacks except <literal>@PreDestroy</literal> to JavaBean components. But Seam also defines its own
             component lifecycle callbacks. 
         </para>
+        
         <para> 
             The <literal>@Create</literal> method is called every time Seam instantiates a component. Unlike the
             <literal>@PostConstruct</literal> method, this method is called after the component is fully constructed
             by the EJB container, and has access to all the usual Seam functionality (bijection, etc). Components may
             define only one <literal>@Create</literal> method. 
         </para>
+        
         <para> 
             The <literal>@Destroy</literal> method is called when the context that the Seam component is bound to
             ends. Components may define only one <literal>@Destroy</literal> method. Stateful session bean components
             <emphasis>must</emphasis> define a method annotated <literal>@Destroy @Remove</literal>. 
         </para>
+        
         <para> 
             Finally, a related annotation is the <literal>@Startup</literal> annotation, which may be applied to any
             application or session scoped component. The <literal>@Startup</literal> annotation tells Seam to
@@ -801,10 +805,130 @@ public class LoginAction implements Login {
             referenced by a client. It is possible to control the order of instantiation of startup components by
             specifying <literal>@Startup(depends={....})</literal>. 
         </para>
+        
+    </sect1>
+    
+    <sect1>
+        <title>Conditional installation</title>
+        
+        <para>
+            The <literal>@Install</literal> annotation lets you control conditional installation of components that
+            are required in some deployment scenarios and not in others. This is useful if:
+        </para>
+        
+        <itemizedlist>
+        	<listitem>
+        		<para>
+        		    You want to mock out some infrastructural component in tests.
+        		</para>
+        	</listitem>
+        	<listitem>
+        		<para>
+        		    You want change the implementation of a component in certain
+        		    deployment scenarios.
+        		</para>
+        	</listitem>
+        	<listitem>
+        		<para>
+        		    You want to install some components only if their dependencies are
+        		    available (useful for framework authors).
+        		</para>
+        	</listitem>
+        </itemizedlist>
+        
+        <para>
+            <literal>@Install</literal> works by letting you specify <emphasis>precedence</emphasis>
+            and <emphasis>dependencies</emphasis>. 
+        </para>
+        
+        <para>
+            The precedence of a component is a number that Seam uses to decide which component to
+            install when there are multiple classes with the same component name in the classpath.
+            Seam will choose the component with the higher precendence. There are some predefined
+            precedence values:
+        </para>
+        
+        <orderedlist>
+        	<listitem>
+        		<para>
+        		    <literal>BUILT_IN</literal> &mdash; the lowest precedece components are
+        		    the components built in to Seam. 
+        		</para>
+        	</listitem>
+        	<listitem>
+        		<para>
+        		    <literal>FRAMEWORK</literal> &mdash; components defined by third-party 
+        		    frameworks may override built-in components, but are overridden by
+        		    application components. 
+        		</para>
+        	</listitem>
+        	<listitem>
+        		<para>
+        		    <literal>APPLICATION</literal> &mdash; the default precedence. This is 
+                    appropriate for most application components.
+        		</para>
+        	</listitem>
+        	<listitem>
+        		<para>
+        		    <literal>DEPLOYMENT</literal> &mdash; for application components which
+        		    are deployment-specific. 
+        		</para>
+        	</listitem>
+        	<listitem>
+        		<para>
+        		    <literal>MOCK</literal> &mdash; for mock objects used in testing. 
+        		</para>
+        	</listitem>
+        </orderedlist>
+        
+        <para>
+            Suppose we have a component named <literal>messageSender</literal> that talks to
+            a JMS queue. 
+        </para>
+        
+        <programlisting><![CDATA[@Name("messageSender") 
+public class MessageSender {
+    public void sendMessage() {
+        //do something with JMS
+    }
+}]]></programlisting>
+        
+        <para>
+            In our unit tests, we don't have a JMS queue available, so we would like to stub
+            out this method. We'll create a <emphasis>mock</emphasis> component that exists
+            in the classpath when unit tests are running, but is never deployed with the
+            application:
+        </para>
+        
+        <programlisting><![CDATA[@Name("messageSender") 
+@Install(precedence=MOCK)
+public class MockMessageSender extends MessageSender {
+    public void sendMessage() {
+        //do nothing!
+    }
+}]]></programlisting>
+
+        <para>
+            The <literal>precedence</literal> helps Seam decide which version to use when it finds
+            both components in the classpath.
+        </para>
+        
+        <para>
+            This is nice if we are able to control exactly which classes are in the classpath. But
+            if I'm writing a reusable framework with many dependecies, I don't want to have to 
+            break that framework across many jars. I want to be able to decide which components
+            to install depending upon what other components are installed, and upon what classes
+            are available in the classpath. The <literal>@Install</literal> annotation also 
+            controls this functionality. Seam uses this mechanism internally to enable conditional 
+            installation of many of the built-in components. However, you probably won't need to
+            use it in your application.
+        </para>
+        
     </sect1>
 
     <sect1>
         <title>Logging</title>
+        
         <para> 
             Who is not totally fed up with seeing noisy code like this? 
          </para>
@@ -838,13 +962,18 @@ public Order createOrder(User user, Product product, int quantity) {
     return new Order(user, product, quantity);
 }]]></programlisting>
 
+        <para>
+            It doesn't matter if you declare the <literal>log</literal> variable static or not&mdash;it will work 
+            either way.
+        </para>
+
         <para> 
             Note that we don't need the noisy <literal>if ( log.isDebugEnabled() )</literal> guard, since string
             concatenation happens <emphasis>inside</emphasis> the <literal>debug()</literal> method. Note also that we
             don't usually need to specify the log category explicitly, since Seam knows what component it is injecting
             the <literal>Log</literal> into. 
         </para>
-
+        
         <para> 
             If <literal>User</literal> and <literal>Product</literal> are Seam components available in the current
             contexts, it gets even better: 
