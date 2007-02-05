@@ -820,14 +820,14 @@ public class SystemException extends RuntimeException { ... }]]></programlisting
    <exception class="javax.persistence.PersistenceException">
       <end-conversation/>
       <redirect view-id="/error.xhtml">
-          <faces-message>Database access failed</faces-message>
+          <message>Database access failed</message>
       </redirect>
    </exception>
    
    <exception>
       <end-conversation/>
       <redirect view-id="/error.xhtml">
-          <faces-message>Unexpected failure</faces-message>
+          <message>Unexpected failure</message>
       </redirect>
    </exception>
    

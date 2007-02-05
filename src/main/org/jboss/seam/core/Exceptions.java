@@ -125,8 +125,8 @@ public class Exceptions
       if (redirect!=null)
       {
          final String viewId = redirect.attributeValue("view-id");
-         Element facesMessage = redirect.element("faces-message");
-         final String message = facesMessage==null ? null : facesMessage.getTextTrim();
+         Element messageElement = redirect.element("message");
+         final String message = messageElement==null ? null : messageElement.getTextTrim();
          return new ConfigRedirectHandler(viewId, clazz, endConversation, message);
       }
       
@@ -136,7 +136,8 @@ public class Exceptions
          String errorCode = error.attributeValue("error-code");
          final int code = Strings.isEmpty(errorCode) ? 
                500 : Integer.parseInt(errorCode);
-         final String message = error.getTextTrim();
+         Element messageElement = redirect.element("message");
+         final String message = messageElement==null ? null : messageElement.getTextTrim();
          return new ConfigErrorHandler(message, endConversation, clazz, code);
       }
       

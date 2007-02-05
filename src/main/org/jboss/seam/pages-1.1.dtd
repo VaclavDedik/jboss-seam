@@ -60,10 +60,10 @@
 <!ELEMENT render EMPTY>
 <!ATTLIST render view-id CDATA #IMPLIED>
 
-<!ELEMENT redirect (faces-message?,param*)>
+<!ELEMENT redirect (message?,param*)>
 <!ATTLIST redirect view-id CDATA #IMPLIED>
 
-<!ELEMENT faces-message (#PCDATA)>
+<!ELEMENT message (#PCDATA)>
 
 <!ELEMENT description (#PCDATA)>
 
@@ -72,7 +72,7 @@
 <!ELEMENT exception (end-conversation?,(http-error|redirect))>
 <!ATTLIST exception class CDATA #IMPLIED>
 
-<!ELEMENT http-error (#PCDATA)>
+<!ELEMENT http-error (message?)>
 <!ATTLIST http-error error-code CDATA #IMPLIED>
 
 <!ELEMENT end-conversation EMPTY>
