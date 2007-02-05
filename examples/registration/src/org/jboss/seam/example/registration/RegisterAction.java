@@ -25,7 +25,7 @@ public class RegisterAction implements Register
    private EntityManager em;
    
    @Logger
-   private Log log;
+   private static Log log;
    
    public String register()
    {
