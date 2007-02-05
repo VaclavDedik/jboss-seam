@@ -813,7 +813,9 @@ public class Pages
       if (render!=null)
       {
          final String viewId = render.attributeValue("view-id");
-         rule.setNavigationHandler( new RenderNavigationHandler(viewId) );
+         Element messageElement = render.element("message");
+         String message = messageElement==null ? null : messageElement.getTextTrim();
+         rule.setNavigationHandler( new RenderNavigationHandler(viewId, message) );
       }
       Element redirect = element.element("redirect");
       if (redirect!=null)
@@ -825,7 +827,9 @@ public class Pages
             params.add( parseParam(child) );
          }
          final String viewId = redirect.attributeValue("view-id");
-         rule.setNavigationHandler( new RedirectNavigationHandler(viewId, params) );
+         Element messageElement = redirect.element("message");
+         String message = messageElement==null ? null : messageElement.getTextTrim();
+         rule.setNavigationHandler( new RedirectNavigationHandler(viewId, params, message) );
       }
       List<Element> childElements = element.elements("out");
       for (Element child: childElements)

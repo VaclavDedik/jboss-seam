@@ -16,6 +16,8 @@ public abstract class RedirectHandler extends ExceptionHandler
    private static final LogProvider log = Logging.getLogProvider(RedirectHandler.class);
 
    protected abstract String getViewId(Exception e);
+   protected abstract String getMessage(Exception e);
+   protected abstract boolean isEnd(Exception e);
 
    @Override
    public void handle(Exception e) throws Exception
@@ -29,12 +31,7 @@ public abstract class RedirectHandler extends ExceptionHandler
          viewId = servletPath.substring(0, servletPath.lastIndexOf('.')) + Pages.getSuffix();
       }
       
-      if (log.isDebugEnabled())
-      {
-         log.debug("redirecting to: " + viewId);
-      }
-      
-      addFacesMessage( e, getMessage(e) );
+      addFacesMessage( getDisplayMessage(e, getMessage(e)) );
       
       if ( Contexts.isConversationContextActive() && isEnd(e) ) 
       {

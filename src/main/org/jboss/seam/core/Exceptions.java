@@ -136,7 +136,7 @@ public class Exceptions
          String errorCode = error.attributeValue("error-code");
          final int code = Strings.isEmpty(errorCode) ? 
                500 : Integer.parseInt(errorCode);
-         Element messageElement = redirect.element("message");
+         Element messageElement = error.element("message");
          final String message = messageElement==null ? null : messageElement.getTextTrim();
          return new ConfigErrorHandler(message, endConversation, clazz, code);
       }

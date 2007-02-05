@@ -9,6 +9,9 @@
 <!ELEMENT pages (page*,exception*)>
 <!ATTLIST pages no-conversation-view-id CDATA #IMPLIED>
 
+<!ELEMENT exception (end-conversation?,(http-error|redirect))>
+<!ATTLIST exception class CDATA #IMPLIED>
+
 <!ELEMENT page (#PCDATA|restrict|description|param|in|begin-conversation|end-conversation|action|navigation)*>
 <!ATTLIST page action CDATA #IMPLIED>
 <!ATTLIST page view-id CDATA #IMPLIED>
@@ -57,22 +60,15 @@
 <!ATTLIST out scope (stateless|request|page|conversation|session|business_process|application|STATELESS|REQUEST|PAGE|CONVERSATION|SESSION|BUSINESS_PROCESS|APPLICATION) "CONVERSATION">
 <!ATTLIST out value CDATA #REQUIRED>
 
-<!ELEMENT render EMPTY>
+<!ELEMENT render (message?)>
 <!ATTLIST render view-id CDATA #IMPLIED>
 
 <!ELEMENT redirect (message?,param*)>
 <!ATTLIST redirect view-id CDATA #IMPLIED>
 
-<!ELEMENT message (#PCDATA)>
-
-<!ELEMENT description (#PCDATA)>
-
-<!-- exception handling -->
-
-<!ELEMENT exception (end-conversation?,(http-error|redirect))>
-<!ATTLIST exception class CDATA #IMPLIED>
-
 <!ELEMENT http-error (message?)>
 <!ATTLIST http-error error-code CDATA #IMPLIED>
 
-<!ELEMENT end-conversation EMPTY>
+<!ELEMENT message (#PCDATA)>
+
+<!ELEMENT description (#PCDATA)>

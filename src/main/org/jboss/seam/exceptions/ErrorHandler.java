@@ -8,6 +8,8 @@ public abstract class ErrorHandler extends ExceptionHandler
 {
 
    protected abstract int getCode(Exception e);
+   protected abstract String getMessage(Exception e);
+   protected abstract boolean isEnd(Exception e);
 
    @Override
    public void handle(Exception e) throws Exception
@@ -17,7 +19,8 @@ public abstract class ErrorHandler extends ExceptionHandler
          Conversation.instance().end();
       }
       
-      error( getCode(e), Interpolator.instance().interpolate( getDisplayMessage( e, getMessage(e) ) ) );
+      String message = Interpolator.instance().interpolate( getDisplayMessage( e, getMessage(e) ) );
+      error( getCode(e), message );
    }
 
    @Override

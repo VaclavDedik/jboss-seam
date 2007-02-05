@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.util.Strings;
@@ -63,4 +64,27 @@ public abstract class Navigator
       facesContext.renderResponse();
    }
 
+   protected static String getDisplayMessage(Exception e, String message)
+   {
+      if ( Strings.isEmpty(message) && e.getMessage()!=null ) 
+      {
+         return e.getMessage();
+      }
+      else
+      {
+         return message;
+      }
+   }
+   
+   protected static void addFacesMessage(String message)
+   {
+      if ( Contexts.isConversationContextActive() )
+      {
+         if ( !Strings.isEmpty(message) )
+         {
+            FacesMessages.instance().add(message);
+         }
+      }
+   }
+   
 }
