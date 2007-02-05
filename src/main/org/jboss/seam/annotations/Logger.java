@@ -16,7 +16,8 @@ import java.lang.annotation.Target;
 @Target(FIELD)
 @Retention(RUNTIME)
 @Documented
-public @interface Logger {
+public @interface Logger 
+{
    /**
     * @return the log category
     */

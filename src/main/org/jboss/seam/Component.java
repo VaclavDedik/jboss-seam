@@ -554,6 +554,12 @@ public class Component
 
          for (Field field: clazz.getDeclaredFields())
          {
+
+            if ( !field.isAccessible() )
+            {
+               field.setAccessible(true);
+            }
+
             if ( field.isAnnotationPresent(In.class) )
             {
                inFields.add(field);
@@ -585,7 +591,7 @@ public class Component
                if ( Modifier.isStatic( field.getModifiers() ) )
                {
                   Reflections.setAndWrap(field, null, logInstance);
-                  logInstance = null;
+                  logField = null;
                }
             }
             for ( Annotation ann: field.getAnnotations() )
@@ -600,11 +606,6 @@ public class Component
                   selectionFields.add(field);
                   dataModelSelectionFieldAnnotations.put(field, ann);
                }
-            }
-
-            if ( !field.isAccessible() )
-            {
-               field.setAccessible(true);
             }
 
          }
