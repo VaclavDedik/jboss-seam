@@ -122,7 +122,7 @@ public abstract class ITextComponent
         Object value = defaultValue; 
         ValueBinding binding = getValueBinding(property);
         if (binding != null) {
-            value = binding.getValue(context);    
+            value = binding.getValue(context);
         }
         return value;
     }

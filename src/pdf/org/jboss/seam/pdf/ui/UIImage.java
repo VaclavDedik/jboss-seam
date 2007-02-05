@@ -34,6 +34,8 @@ public class UIImage
     
     Boolean wrap;
     Boolean underlying;
+    
+    java.awt.Image imageData;
 
     public void setResource(String resource) {
         this.resource = resource;
@@ -67,7 +69,6 @@ public class UIImage
         this.underlying = underlying;
     }
 
- 
     public void setDpi(String dpi) {
         this.dpi = dpi;
     }
@@ -99,7 +100,12 @@ public class UIImage
     public void setScalePercent(String scalePercent) { 
         this.scalePercent = scalePercent; 
     }
+    
+    public void setImageData(java.awt.Image imageData) {
+        this.imageData = imageData;
+    }
 
+    
     public Object getITextObject() {
         return image;
     }
@@ -107,26 +113,44 @@ public class UIImage
     public void removeITextObject() {
         image = null;
     }
-
-    public void createITextObject(FacesContext context) {
-       
-        resource = (String) valueBinding(context, "resource", resource);
-        
+    
+    
+    private Image createFromResource(FacesContext context, String resource) {
         URL url;
         try {
             url = context.getExternalContext().getResource(resource);
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
+        
         if (url == null) {
             throw new RuntimeException("cannot locate image resource " + resource);
         }
         try {
-            image = Image.getInstance(url);
+            return Image.getInstance(url);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
+    }
+    
+    private Image createFromImage(java.awt.Image awtImage) {
+        try {
+            return Image.getInstance(awtImage, null);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }        
+    }
+    
+    public void createITextObject(FacesContext context) {       
+        resource = (String) valueBinding(context,"resource", resource);
+       
+        if (resource != null) {
+            image = createFromResource(context, resource);
+        } else {
+            imageData = (java.awt.Image)  valueBinding(context, "imageData", imageData);
+            image = createFromImage(imageData);            
+        }
+                        
         rotation = (Float) valueBinding(context, "rotation", rotation);
         if (rotation != 0) {
             image.setRotationDegrees(rotation);
