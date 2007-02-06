@@ -388,11 +388,46 @@
                  ]]>
                </programlisting>
                
+               <para>
+                  The following configuration options for multipart requests may be configured in components.xml:
+               </para>
+               
+               <itemizedlist>
+                 <listitem>
+                 <para>
+                   <literal>createTempFiles</literal> &mdash; if this option is set to true, uploaded files are
+                   streamed to a temporary file instead of in memory.
+                 </para>
+                 </listitem>
+                 <listitem>
+                 <para>
+                    <literal>maxRequestSize</literal> &mdash; the maximum size of a file upload request, in bytes.
+                 </para>
+                 </listitem>
+               </itemizedlist>
+               
+               <para>
+                 Here's an example:
+               </para>
+               
+               <programlisting>
+                 <![CDATA[
+    <component class="org.jboss.seam.servlet.MultipartConfig">
+        <property name="createTempFiles">true</property>
+        <property name="maxRequestSize">1000000</property>
+    </component>                 
+                 ]]>
+               </programlisting>
+               
+               <para>
+                 And here's a list of the supported attributes for the <literal>fileUpload</literal> control:
+               </para>
+               
                <itemizedlist>
                    <listitem>
                    <para>
                        <literal>data</literal> &mdash; this value binding receives the binary file data.  
-                       The receiving field should be declared as a <literal>byte[]</literal> (required).
+                       The receiving field should be declared as a <literal>byte[]</literal> or <literal>InputStream</literal> (required).
                    </para>
                    </listitem>
                    <listitem>
