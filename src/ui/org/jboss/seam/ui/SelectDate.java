@@ -29,7 +29,8 @@ public class SelectDate
     private String dateFormat = "MM/dd/yyyy";
     
     public String getDateFormat(){
-        return dateFormat;
+        ValueBinding vb = getValueBinding("dateFormat");
+        return (vb != null) ? JSF.getStringValue(getFacesContext(), vb) : dateFormat;
     }
     public void setDateFormat(String dateFormat){
         this.dateFormat = dateFormat;
@@ -61,13 +62,15 @@ public class SelectDate
       Object[] values = (Object[]) state;
       super.restoreState(context, values[0]);
       forField = (String) values[1];
+      dateFormat = (String) values[2];
    }
 
    @Override
    public Object saveState(FacesContext context) {
-      Object[] values = new Object[2];
+      Object[] values = new Object[3];
       values[0] = super.saveState(context);
       values[1] = forField;
+      values[2] = dateFormat;
       return values;
    }
     
