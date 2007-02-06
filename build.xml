@@ -1071,6 +1071,7 @@
         <copy file="build.properties"           todir="${dist.dir}"/>
         <copy file="build.xml"                  todir="${dist.dir}"/>
         <copy file="seam"                       todir="${dist.dir}"/>
+    	<copy file="seam-text.g"                todir="${dist.dir}"/>
         <copy file="seam.bat"                   todir="${dist.dir}"/>
         <replace file="${dist.dir}/build.xml">
             <replacetoken><![CDATA[${name}-${version}.${patchlevel}]]></replacetoken>
