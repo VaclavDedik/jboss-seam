@@ -165,7 +165,8 @@ public class Identity extends Selector
       {
          if ( !isLoggedIn() )
          {
-            throw new NotLoggedInException();
+            throw new NotLoggedInException(String.format(
+               "Error evaluating expression [%s] - User not logged in", expr));
          }
          else
          {

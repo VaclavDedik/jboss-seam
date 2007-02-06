@@ -14,4 +14,9 @@ public class NotLoggedInException extends RuntimeException
   {
      super();
   }
+  
+  public NotLoggedInException(String message)
+  {
+     super(message);
+  }
 }
