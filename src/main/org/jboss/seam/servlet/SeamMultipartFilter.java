@@ -10,22 +10,23 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jboss.seam.contexts.Context;
+import org.jboss.seam.contexts.WebApplicationContext;
+
 public class SeamMultipartFilter extends SeamFilter
 {
    public static final String MULTIPART = "multipart/";
    
-   private boolean createTempFiles = false;
+   private MultipartConfig config;
   
    @Override
    public void init(FilterConfig filterConfig) 
        throws ServletException
    {
-      super.init(filterConfig);
-      String param = filterConfig.getInitParameter("createTempFiles");
-      if (param != null) 
-      {
-         createTempFiles = "true".equals(param);
-      }
+      super.init(filterConfig);      
+      
+      Context appContext = new WebApplicationContext(getServletContext());
+      config = (MultipartConfig) appContext.get(MultipartConfig.class);
    }
    
    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -41,7 +42,7 @@ public class SeamMultipartFilter extends SeamFilter
 
       if (isMultipartRequest(httpRequest))
       {
-         chain.doFilter(new MultipartRequest(httpRequest, createTempFiles), response);
+         chain.doFilter(new MultipartRequest(httpRequest, config), response);
       }
       else
       {

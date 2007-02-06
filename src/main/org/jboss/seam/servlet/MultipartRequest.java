@@ -38,7 +38,7 @@ public class MultipartRequest extends HttpServletRequestWrapper
    private static final int BUFFER_SIZE = 2048;
    private static final int CHUNK_SIZE = 512;
    
-   private boolean createTempFiles = false;
+   private MultipartConfig config;
    private String encoding = null;
    
    private Map<String,Param> parameters = null;
@@ -49,7 +49,6 @@ public class MultipartRequest extends HttpServletRequestWrapper
    private static final byte LF = 0x0a;   
    private static final byte[] CR_LF = {CR,LF};
          
-   
    private abstract class Param
    {
       private String name;
@@ -229,11 +228,18 @@ public class MultipartRequest extends HttpServletRequestWrapper
    
    private HttpServletRequest request;
 
-   public MultipartRequest(HttpServletRequest request, boolean createTempFiles)
+   public MultipartRequest(HttpServletRequest request, MultipartConfig config)
    {
       super(request);
       this.request = request;
-      this.createTempFiles = createTempFiles;
+      this.config = config;
+      
+      String contentLength = request.getHeader("Content-Length");
+      if (contentLength != null && config.getMaxRequestSize() > 0 && 
+               Integer.parseInt(contentLength) > config.getMaxRequestSize())
+      {
+         throw new RuntimeException("Multipart request is larger than allowed size");
+      }
    }
 
    private void parseRequest()
@@ -295,7 +301,7 @@ public class MultipartRequest extends HttpServletRequestWrapper
                               if (headers.containsKey(PARAM_FILENAME))
                               {
                                  FileParam fp = new FileParam(paramName);
-                                 if (createTempFiles) fp.createTempFile();                                 
+                                 if (config.getCreateTempFiles()) fp.createTempFile();                                 
                                  fp.setContentType(headers.get(PARAM_CONTENT_TYPE));
                                  fp.setFilename(headers.get(PARAM_FILENAME));
                                  p = fp;                                 
