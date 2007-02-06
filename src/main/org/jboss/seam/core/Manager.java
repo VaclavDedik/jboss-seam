@@ -71,6 +71,7 @@ public class Manager
    private String parentConversationIdParameter = "parentConversationId";
    private String conversationIsLongRunningParameter = "conversationIsLongRunning";
 
+   // DONT BREAK, icefaces uses this
    public String getCurrentConversationId()
    {
       return currentConversationId;
@@ -225,6 +226,7 @@ public class Manager
             null : currentConversationIdStack.get( currentConversationIdStack.size()-1 );
    }
 
+   // DONT BREAK, icefaces uses this
    public boolean isLongRunningConversation()
    {
       return isLongRunningConversation;
@@ -783,6 +785,7 @@ public class Manager
     */
    public void beforeRedirect()
    {
+      //DONT BREAK, icefaces uses this
       if (!destroyBeforeRedirect)
       {
          ConversationEntry ce = getCurrentConversationEntry();
@@ -799,7 +802,9 @@ public class Manager
    /**
     * Add the conversation id to a URL, if necessary
     */
-   public String encodeConversationId(String url) {
+   public String encodeConversationId(String url) 
+   {
+      //DONT BREAK, icefaces uses this
       if ( Seam.isSessionInvalid() )
       {
          return url;
