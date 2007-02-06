@@ -997,7 +997,8 @@ public class Manager
     * view id for the current page, to support conversation switching.
     * Called just before the render phase.
     */
-   public void prepareBackswitch(FacesContext facesContext) {
+   public void prepareBackswitch(FacesContext facesContext) 
+   {
       
       Conversation conversation = Conversation.instance();
 
