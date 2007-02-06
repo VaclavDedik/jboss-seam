@@ -26,5 +26,10 @@
     <component name="entityManager" auto-create="true" class="org.jboss.seam.core.ManagedPersistenceContext">
         <property name="persistenceUnitJndiName">java:/seamspaceEntityManagerFactory</property>
     </component>        
+    
+    <component class="org.jboss.seam.servlet.MultipartConfig">
+        <property name="createTempFiles">true</property>
+        <property name="maxRequestSize">1000000</property>
+    </component>
             
 </components>
