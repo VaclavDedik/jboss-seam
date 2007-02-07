@@ -6,6 +6,7 @@ import org.jboss.seam.pdf.ITextUtils;
 import org.jboss.seam.pdf.DocumentStore;
 import org.jboss.seam.pdf.DocumentData.DocType;
 
+import javax.faces.FacesException;
 import javax.faces.component.UIComponent;
 import javax.faces.component.ValueHolder;
 import javax.faces.context.*;
@@ -214,6 +215,8 @@ public class UIDocument
             
             initMetaData(context);
             
+            processHeaders();
+            
             document.open();
         } catch (DocumentException e) {
             throw new RuntimeException(e);
@@ -242,6 +245,26 @@ public class UIDocument
             response.startElement("body",this);
         }
     }
+
+    private void processHeaders() {
+       Object facet = getFacet("header");      
+       
+       if (facet == null) {
+           return;
+       }
+       
+       if (facet instanceof UIComponent) {
+           try {
+            encode(FacesContext.getCurrentInstance(), (UIComponent) facet);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } 
+       }
+       
+       
+    }
+    
+    
 
     private String baseNameForViewId(String viewId) {
         int pos = viewId.lastIndexOf("/");

@@ -6,11 +6,7 @@ import javax.faces.component.*;
 import javax.faces.el.ValueBinding;
 
 import java.io.*;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import org.jboss.seam.ui.JSF;
 
 import com.lowagie.text.*;
@@ -21,7 +17,8 @@ public abstract class ITextComponent
     public static final String COMPONENT_FAMILY = "org.jboss.seam.pdf";
 	
     protected String inFacet;
-	protected Map<String,Object> facets = new HashMap<String,Object>();   
+    protected Object currentFacet;
+	//protected Map<String,Object> facets = new HashMap<String,Object>();   
   
     /**
      * get the current Itext object
@@ -53,7 +50,8 @@ public abstract class ITextComponent
     }
     
     public void handleFacet(String facetName, Object obj) {
-        facets.put(facetName,obj);
+       currentFacet = obj;
+       // facets.put(facetName,obj);
 	}
 
     /**
@@ -115,6 +113,28 @@ public abstract class ITextComponent
         
     }
 
+    public Object processFacet(String facetName) {
+        if (inFacet!=null && inFacet.equals(facetName)) {
+            return null;
+        }
+        
+        UIComponent facet = this.getFacet(facetName);
+        Object result = null;
+        if (facet != null) {
+            currentFacet = null;
+            inFacet = facetName;
+            try {
+                encode(FacesContext.getCurrentInstance(), facet);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            } finally {
+                inFacet = null;
+                result = currentFacet;
+                currentFacet = null;
+            }
+        }        
+        return result;              
+    }
    
     public Object valueBinding(FacesContext context, 
                                String property, 
@@ -163,12 +183,6 @@ public abstract class ITextComponent
     public void encodeChildren(FacesContext context)
         throws IOException
     {
-        for (String name: (Collection<String>) this.getFacets().keySet()) {
-            inFacet = name;
-    		encode(context, this.getFacet(name));
-    		inFacet = null;
-    	}
-    	
         for (UIComponent child: (List<UIComponent>) this.getChildren()) {
             // ugly hack to be able to capture facelets text
             if (child.getFamily().equals("facelets.LiteralText")) {

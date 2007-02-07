@@ -204,7 +204,8 @@ public class UITable
     }
 
 	public PdfPCell getDefaultCellFacet() {
-		Object facet = facets.get("defaultCell");
+        Object facet = processFacet("defaultCell");
+        
 		if (facet != null) {
 		    if (!(facet instanceof PdfPCell)) {
 		    	throw new RuntimeException("UITable defaultCell facet must be a PdfPCell - found " + facet.getClass());
