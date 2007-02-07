@@ -8,13 +8,13 @@
     
     <module>
         <web>
-            <web-uri>jboss-seam-pdf.war</web-uri>
-            <context-root>/seam-pdf</context-root>
+            <web-uri>jboss-seam-document.war</web-uri>
+            <context-root>/seam-document</context-root>
         </web>
     </module>
 
     <module>
-        <ejb>jboss-seam-pdf.jar</ejb>
+        <ejb>jboss-seam-document.jar</ejb>
     </module>
     <module>
         <java>jboss-seam.jar</java>

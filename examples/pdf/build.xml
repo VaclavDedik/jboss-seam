@@ -4,10 +4,10 @@
 
     <!-- Example name -->
     <property name="Name"                   value="iText PDF document example"/>
-    <property name="example.name"           value="jboss-seam-pdf"/>
+    <property name="example.name"           value="jboss-seam-document"/>
 
     <!-- Overrides -->
-    <property name="example.webinf.lib.dir"  value="."/>
+    <property name="example.webinf.lib.dir"  value="lib"/>
     <property name="example.seam.ui.lib"     value="yes"/>
     <property name="example.seam.pdf.lib"    value="yes"/>
     <property name="example.seam.debug.lib"  value="yes"/>
@@ -35,5 +35,6 @@
         <include name="*.keystore"/>
         <include name="lib/*.jar" />
     </zipfileset>
+
 </project>
 
