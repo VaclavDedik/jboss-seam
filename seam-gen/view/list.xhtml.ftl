@@ -26,7 +26,7 @@
         <div class="dialog">
             <table>
 <#foreach property in pojo.allPropertiesIterator>
-<#if !c2h.isCollection(property) && !c2h.isManyToOne(property)>
+<#if !c2h.isCollection(property) && !c2h.isManyToOne(property) && !c2h.isOneToMany(property)>
 <#if property.value.typeName == "string">
                 <tr class="prop">
                     <td class="name">${property.name}</td>
@@ -59,7 +59,7 @@
               value="${'#'}{${listName}.resultList}" 
            rendered="${'#'}{not empty ${listName}.resultList}">
 <#foreach property in pojo.allPropertiesIterator>
-<#if !c2h.isCollection(property) && !c2h.isManyToOne(property)>
+<#if !c2h.isCollection(property) && !c2h.isManyToOne(property) && !c2h.isOneToMany(property)>
         <h:column>
             <f:facet name="header">
                 <s:link styleClass="columnHeader"

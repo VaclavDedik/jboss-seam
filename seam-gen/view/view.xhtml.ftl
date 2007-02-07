@@ -23,7 +23,7 @@
     <div id="${componentName}" class="dialog">
         <table>
 <#foreach property in pojo.allPropertiesIterator>
-<#if !c2h.isCollection(property) && !c2h.isManyToOne(property)>
+<#if !c2h.isCollection(property) && !c2h.isManyToOne(property) && !c2h.isOneToMany(property)>
 <#if !property.equals(pojo.identifierProperty) || property.value.identifierGeneratorStrategy == "assigned">
 
             <tr class="prop">
@@ -92,7 +92,7 @@
               rowClasses="rvgRowOne,rvgRowTwo"
                       id="${property.name}">
 <#foreach parentProperty in parentPojo.allPropertiesIterator>
-<#if !c2h.isCollection(parentProperty) && !c2h.isManyToOne(parentProperty)>
+<#if !c2h.isCollection(parentProperty) && !c2h.isManyToOne(parentProperty) && !c2h.isOneToMany(parentProperty)>
             <h:column>
                 <f:facet name="header">${parentProperty.name}</f:facet>
                 ${'#'}{${parentName}.${parentProperty.name}}
@@ -139,7 +139,7 @@
                 rowClasses="rvgRowOne,rvgRowTwo"
                         id="${property.name}">
 <#foreach childProperty in childPojo.allPropertiesIterator>
-<#if !c2h.isCollection(childProperty) && !c2h.isManyToOne(childProperty)>
+<#if !c2h.isCollection(childProperty) && !c2h.isManyToOne(childProperty) && !c2h.isOneToMany(childProperty)>
             <h:column>
                 <f:facet name="header">${childProperty.name}</f:facet>
                 <h:outputText value="${'#'}{${childName}.${childProperty.name}}"/>
