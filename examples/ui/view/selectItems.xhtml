@@ -3,7 +3,6 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:si="http://jboss.com/products/seam/selectitems/taglib"
       xmlns:s="http://jboss.com/products/seam/taglib"
       >
 <head>
@@ -40,7 +39,7 @@
 			</s:decorate>
 			<h:outputText value="Country of Birth" />
 			<s:decorate>
-				<h:selectOneMenu value="#{person.country}"  converter="#{converters.countryConverter}">
+				<h:selectOneMenu value="#{person.country}"  converter="#{converters.countryConverter}" required="true">
 					<s:selectItems value="#{countries.resultList}" var="country" label="#{country.name} (#{country.continent.name})" noSelectionLabel="Please Select..." hideNoSelectionLabel="true"/>
 				</h:selectOneMenu>
 			</s:decorate>
