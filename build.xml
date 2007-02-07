@@ -269,7 +269,10 @@
     <property name="test.classpath" value="test.classpath"/>
     
     <path id="test.classpath">
-        <path refid="build.classpath"/>
+        <path path="${build.dir}/test"/>
+        <path path="${coverage.dir}/classes"/>
+        <path refid="classpath.emma"/>
+    	<fileset refid="lib"/>
      </path>
     
     <path id="test.mc.classpath">
@@ -648,17 +651,14 @@
         <taskdef resource="testngtasks"
                  classpath="${testng.jar}"/>
         
-        <copy todir="${build.dir}/test" >
+        <copy todir="${build.dir}/test">
             <fileset dir="${classes.dir}" includes="**/*.*"/>
         </copy>
         
         <delete dir="test-output"/>             
        
         <testng>
-            <classpath path="${coverage.dir}/classes"/>
-            <classpath path="${build.dir}/test"/>
             <classpath refid="test.classpath"/>
-            <classpath refid="classpath.emma"/>
             <xmlfileset dir="${src.test.dir}" includes="**/*.xml"/>
         </testng>
         
