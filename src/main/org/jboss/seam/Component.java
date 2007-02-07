@@ -173,7 +173,7 @@ public class Component
    private Map<Field, Annotation> dataModelSelectionFieldAnnotations = new HashMap<Field, Annotation>();
 
    private List<Field> logFields = new ArrayList<Field>();
-   private org.jboss.seam.log.Log logInstance;
+   private List<org.jboss.seam.log.Log> logInstances = new ArrayList<org.jboss.seam.log.Log>();
 
    private Hashtable<Locale, ClassValidator> validators = new Hashtable<Locale, ClassValidator>();
 
@@ -578,8 +578,8 @@ public class Component
             }
             if ( field.isAnnotationPresent(org.jboss.seam.annotations.Logger.class) )
             {
-               logFields.add(field);
                String category = field.getAnnotation(org.jboss.seam.annotations.Logger.class).value();
+               org.jboss.seam.log.Log logInstance;
                if ( "".equals( category ) )
                {
                   logInstance = org.jboss.seam.log.Logging.getLog(beanClass);
@@ -591,7 +591,11 @@ public class Component
                if ( Modifier.isStatic( field.getModifiers() ) )
                {
                   Reflections.setAndWrap(field, null, logInstance);
-                  logFields = null;
+               }
+               else
+               {
+                  logFields.add(field);
+                  logInstances.add(logInstance);
                }
             }
             for ( Annotation ann: field.getAnnotations() )
@@ -1167,9 +1171,9 @@ public class Component
 
    private void injectLog(Object bean)
    {
-      for (Field logField: logFields)
+      for (int i=0; i<logFields.size(); i++)
       {
-         setFieldValue(bean, logField, "log", logInstance);
+         setFieldValue( bean, logFields.get(i), "log", logInstances.get(i) );
       }
    }
 
