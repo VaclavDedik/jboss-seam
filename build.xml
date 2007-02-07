@@ -362,7 +362,7 @@
         <ant dir="examples/seampay" target="clean" inheritall="false"/>
         <ant dir="examples/seamspace" target="clean" inheritall="false"/>
         <ant dir="examples/mail" target="clean" inheritall="false"/>
-    	<ant dir="examples/pdf" target="clean" inheritall="false"/>
+    	<ant dir="examples/itext" target="clean" inheritall="false"/>
         <ant dir="examples/messages" target="clean" inheritall="false"/>
         <ant dir="examples/numberguess" target="clean" inheritall="false"/>
         <ant dir="examples/registration" target="clean" inheritall="false"/>
@@ -389,7 +389,7 @@
         <ant dir="examples/contactlist" target="undeploy" inheritall="false"/>
         <ant dir="examples/seampay" target="undeploy" inheritall="false"/>
         <ant dir="examples/seamspace" target="undeploy" inheritall="false"/>
-    	<ant dir="examples/pdf" target="undeploy" inheritall="false"/>
+    	<ant dir="examples/itext" target="undeploy" inheritall="false"/>
     	<ant dir="examples/mail" target="undeploy" inheritall="false"/>
         <ant dir="examples/messages" target="undeploy" inheritall="false"/>
         <ant dir="examples/numberguess" target="undeploy" inheritall="false"/>
@@ -406,7 +406,7 @@
         <ant dir="examples/hibernate" target="undeploy.tomcat" inheritall="false"/>
         <ant dir="examples/icefaces" target="undeploy.tomcat" inheritall="false"/>
         <ant dir="examples/dvdstore" target="undeploy.tomcat" inheritall="false"/>
-    	<ant dir="examples/pdf" target="undeploy.tomcat" inheritall="false"/>
+    	<ant dir="examples/itext" target="undeploy.tomcat" inheritall="false"/>
     	<ant dir="examples/mail" target="undeploy.tomcat" inheritall="false"/>
         <ant dir="examples/blog" target="undeploy.tomcat" inheritall="false"/>
         <ant dir="examples/issues" target="undeploy.tomcat" inheritall="false"/>
