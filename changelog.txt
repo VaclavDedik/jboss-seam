@@ -2,6 +2,56 @@ JBoss Seam Changelog
 ====================
 Changes in version 1.1.5.GA (February 2007)
 -------------------------------------------
+Release Notes - JBoss Seam - Version 1.1.6.GA
+
+** Bug
+    * [JBSEAM-661] - s:selectDate dynamic for-id in facelets
+    * [JBSEAM-700] - Remoting: Unable to pass normal POJO (JavaBean) into Bean as parameter
+    * [JBSEAM-706] - Support for select multiple="true" in multipart form
+    * [JBSEAM-724] - test failure due to PojoCache
+    * [JBSEAM-726] - Log interpolation throws exception when toString() uses braces
+    * [JBSEAM-745] - BijectionInterceptor not serializable
+    * [JBSEAM-746] - Seam text and emoticons
+    * [JBSEAM-747] - Seam text doesn't support Unicode
+    * [JBSEAM-749] - components.xml and @Scope are inconsistently named for request/event scoping
+    * [JBSEAM-751] - NPE if password is null
+    * [JBSEAM-752] - SeamSpace: NotLoggedInException isn't actually caught by exceptions.xml 
+    * [JBSEAM-753] - Security docs
+    * [JBSEAM-755] - s:selectItems noSelectionLabel broken
+    * [JBSEAM-760] - Setting <distributable /> in web.xml results in java.lang.IllegalStateException in logs, application works otherwise
+    * [JBSEAM-762] - Exceptions problem restricting access using pages.xml
+    * [JBSEAM-775] - Seam should fail to startup if duplicate factory names are detected
+    * [JBSEAM-778] - MultipartRequest does not work with h:selectManyCheckbox
+    * [JBSEAM-784] - @Observer(create=false) documentation
+    * [JBSEAM-788] - s:selectDate dateFormat attribute can't contain ValueBinding
+
+** Feature Request
+    * [JBSEAM-606] - merge exceptions.xml into pages.xml and events.xml into components.xml
+    * [JBSEAM-693] - Support attachments in Seam Mail
+    * [JBSEAM-694] - Remove need to specify external smtp server for Seam mail
+    * [JBSEAM-705] - Improvements for fileUpload control
+    * [JBSEAM-727] - checkPermission() and checkRole() methods on Identity
+    * [JBSEAM-734] - Security example should use encrypted passwords 
+    * [JBSEAM-735] - remember me
+    * [JBSEAM-736] - Identity extends AbstractMutable
+    * [JBSEAM-738] - integrate JCaptcha
+    * [JBSEAM-742] - Delegate to the JAAS "default configuration"
+    * [JBSEAM-748] - Wrap exception handlers around tx management in TransactionSeamPhaseListener
+    * [JBSEAM-756] - exceptions.xml file for seam-gen
+    * [JBSEAM-759] - Search causes when looking for an exception handler
+    * [JBSEAM-765] - get/set pair for Identity.securityContext
+    * [JBSEAM-767] - Major redesign of exception handling
+    * [JBSEAM-768] - Uniform <redirect/> tag functionality in pages.xml
+    * [JBSEAM-773] - Easy redirection to login page and back.
+    * [JBSEAM-774] - size limits for file upload
+    * [JBSEAM-787] - Allow multiple @Logger fields
+
+** Patch
+    * [JBSEAM-750] - invalid XML in chapter 5 pages.xml examples 
+    * [JBSEAM-758] - Fix for NPE in org.jboss.seam.core.Selector
+
+Changes in version 1.1.5.GA (February 2007)
+-------------------------------------------
 ** Bug
     * [JBSEAM-663] - jboss cache and redeploy
     * [JBSEAM-670] - Obsolete theme is not redirected to default and is invalid causing exceptions
