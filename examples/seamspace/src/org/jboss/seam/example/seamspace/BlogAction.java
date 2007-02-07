@@ -48,7 +48,8 @@ public class BlogAction implements BlogLocal
    /**
     * Used to read a single blog entry for a member
     */
-   @Factory("selectedBlog") @Begin
+   @Factory("selectedBlog") 
+   @Begin(join=true)
    public void getBlog()
    {     
       try
