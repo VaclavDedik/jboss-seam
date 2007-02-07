@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 
-<project name="document" default="deploy" basedir=".">
+<project name="pdf" default="deploy" basedir=".">
 
     <!-- Example name -->
-    <property name="Name"                   value="iText document example"/>
+    <property name="Name"                   value="iText PDF document example"/>
     <property name="example.name"           value="jboss-seam-pdf"/>
 
     <!-- Overrides -->
