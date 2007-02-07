@@ -8,8 +8,7 @@
 <#assign idName = componentName + util.upper(pojo.identifierProperty.name)>
 <#assign masterPageName = entityName + "List">
 <#assign pageName = entityName>
-<page no-conversation-view-id="/${masterPageName}.xhtml"
-        conversation-required="true">
+<page no-conversation-view-id="/${masterPageName}.xhtml">
    <restrict>${'#'}{identity.loggedIn}</restrict>
    
    <param name="${componentName}From"/>
