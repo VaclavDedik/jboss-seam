@@ -315,6 +315,7 @@ public class Identity extends Selector
    
    public void logout()
    {
+      principal = null;
       Seam.invalidateSession();
    }
 
