@@ -10,6 +10,8 @@ import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -818,7 +820,7 @@ public class Manager
                   .append( url.contains("?") ? '&' : '?' )
                   .append(conversationIdParameter)
                   .append('=')
-                  .append( getParentConversationId() )
+                  .append( encode( getParentConversationId() ) )
                   .append('&')
                   .append(conversationIsLongRunningParameter)
                   .append("=true")
@@ -836,13 +838,13 @@ public class Manager
                .append( url.contains("?") ? '&' : '?' )
                .append(conversationIdParameter)
                .append('=')
-               .append( getCurrentConversationId() );
+               .append( encode( getCurrentConversationId() ) );
          if ( isNestedConversation() && !isReallyLongRunningConversation() )
          {
             builder.append('&')
                   .append(parentConversationIdParameter)
                   .append('=')
-                  .append( getParentConversationId() );
+                  .append( encode( getParentConversationId() ) );
          }
          if ( isReallyLongRunningConversation() )
          {
@@ -904,7 +906,7 @@ public class Manager
                   .append('=');
                if (value!=null)
                {
-                  builder.append(value);
+                  builder.append(encode(value));
                }
             }
          }
@@ -915,7 +917,7 @@ public class Manager
                   .append('=');
             if (parameterValue!=null)
             {
-               builder.append(parameterValue);
+               builder.append(encode(parameterValue));
             }
          }
       }
@@ -924,6 +926,18 @@ public class Manager
          builder.setCharAt( url.length() ,'?' );
       }
       return builder.toString();
+   }
+
+   private String encode(Object value)
+   {
+      try
+      {
+         return URLEncoder.encode(String.valueOf(value),"UTF-8");
+      }
+      catch (UnsupportedEncodingException iee)
+      {
+         throw new RuntimeException(iee);
+      }
    }
    
    /**
