@@ -6,7 +6,7 @@
 
     <page view-id="/home.xhtml">
         <navigation from-action="#{identity.login}">
-            <rule if="#{identity.loggedIn}">
+            <rule if-outcome="success">
                 <redirect view-id="/profile.xhtml"/>
             </rule>
         </navigation>
@@ -90,17 +90,17 @@
     </page>
     
     <exception class="org.jboss.seam.security.NotLoggedInException">
+        <end-conversation/>
         <redirect view-id="/register.xhtml">
             <message>You must be a member to use this feature</message>
         </redirect>
-        <end-conversation/>
     </exception>
   
     <exception class="org.jboss.seam.security.AuthorizationException">
+        <end-conversation/>
         <redirect view-id="/security_error.xhtml">
             <message>You do not have permission to do this</message>
         </redirect>
-        <end-conversation/>
     </exception>
 
 </pages>

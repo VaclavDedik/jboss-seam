@@ -17,10 +17,10 @@
                   conversation-id-parameter="cid"
                   conversation-is-long-running-parameter="clr"/>
     
-    <security:identity authenticate-method="#{authenticator.authenticate}"/>    
-    
+    <security:identity authenticate-method="#{authenticator.authenticate}"/>
+
     <drools:rule-base name="securityRules">
-       <drools:rule-files>/META-INF/security-rules.drl</drools:rule-files>
+       <drools:rule-files><value>/META-INF/security-rules.drl</value></drools:rule-files>
    </drools:rule-base>
     
     <component name="entityManager" auto-create="true" class="org.jboss.seam.core.ManagedPersistenceContext">
