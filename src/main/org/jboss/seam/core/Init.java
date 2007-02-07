@@ -171,18 +171,29 @@ public class Init
       return factoryValueBindings.get(variable);
    }
    
-   public void addFactoryMethod(String variable, Method method, Component component)
+   private void checkDuplicateFactory(String variable)
    {
-	   factories.put( variable, new FactoryMethod(method, component) );
+      if ( factories.containsKey(variable) || factoryMethodBindings.containsKey(variable) || factoryValueBindings.containsKey(variable) )
+      {
+         throw new IllegalStateException("duplicate factory for: " + variable);
+      }
    }
    
+   public void addFactoryMethod(String variable, Method method, Component component)
+   {
+      checkDuplicateFactory(variable);
+	   factories.put( variable, new FactoryMethod(method, component) );
+   }
+
    public void addFactoryMethodBinding(String variable, String methodBindingExpression, ScopeType scope)
    {
+      checkDuplicateFactory(variable);
       factoryMethodBindings.put( variable, new FactoryBinding(methodBindingExpression, scope) );
    }
    
    public void addFactoryValueBinding(String variable, String valueBindingExpression, ScopeType scope)
    {
+      checkDuplicateFactory(variable);
       factoryValueBindings.put( variable, new FactoryBinding(valueBindingExpression, scope) );
    }
    
