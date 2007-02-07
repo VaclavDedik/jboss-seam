@@ -420,7 +420,7 @@ public class MultipartRequest extends HttpServletRequestWrapper
    }
 
    private static final Pattern PARAM_VALUE_PATTERN = Pattern
-            .compile("^\\s*([^\\s=]+)\\s*[=:]\\s*([^\\s]+)\\s*$");
+            .compile("^\\s*([^\\s=]+)\\s*[=:]\\s*(.+)\\s*$");
 
    private Map parseParams(String paramStr, String separator)
    {
