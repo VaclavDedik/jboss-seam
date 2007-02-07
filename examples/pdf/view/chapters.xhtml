@@ -2,9 +2,11 @@
             xmlns:ui="http://java.sun.com/jsf/facelets"
             xmlns:p="http://jboss.com/products/seam/pdf">
 
-    <p:font size="12">
-        <p:footer borderWidthTop="1" borderColorTop="blue" borderWidthBottom="0" alignment="center">Why Seam? [<p:pageNumber />]</p:footer>
-    </p:font>
+    <f:facet name="header">
+        <p:font size="12">
+            <p:footer borderWidthTop="1" borderColorTop="blue" borderWidthBottom="0" alignment="center">Why Seam? [<p:pageNumber />]</p:footer>
+        </p:font>
+    </f:facet>
 
     <p:paragraph spacingAfter="200" />
 

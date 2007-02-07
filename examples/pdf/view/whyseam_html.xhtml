@@ -1,4 +1,5 @@
 <p:document xmlns:ui="http://java.sun.com/jsf/facelets"
+            xmlns:f="http://java.sun.com/jsf/core"
             xmlns:p="http://jboss.com/products/seam/pdf"
             type="html"
             title="Why Seam"
@@ -7,9 +8,11 @@
             author="Seam Team"
             creator="Seam PDF example app">
 
+    <f:facet name="header">
     <p:font size="12">
         <p:footer borderWidthTop="1" borderColorTop="blue" borderWidthBottom="0" alignment="center">Why Seam? [<p:pageNumber />]</p:footer>
     </p:font>
+    </f:facet>
 
 <ui:remove><p:image alignment="right" wrap="true" resource="/jboss.jpg" /> </ui:remove>
     <p:font size="24"><p:paragraph spacingAfter="50">Ten Good Reasons To Use Seam</p:paragraph></p:font>  
