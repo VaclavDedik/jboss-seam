@@ -4,7 +4,7 @@
 
     <!-- Example name -->
     <property name="Name"                   value="iText document example"/>
-    <property name="example.name"           value="jboss-seam-document"/>
+    <property name="example.name"           value="jboss-seam-pdf"/>
 
     <!-- Overrides -->
     <property name="example.webinf.lib.dir"  value="."/>
