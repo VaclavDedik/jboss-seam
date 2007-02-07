@@ -1,0 +1,25 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:s="http://jboss.com/products/seam/taglib"
+      template="template.xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>Seam Pay</title>
+    <link href="screen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+      
+
+    <s:link action="#{foo.hi(param.message)}" value="now">
+        <f:param name="message" value="whatever" />
+    </s:link>
+    ::
+    <s:link action="#{foo.hi('one')}" value="now" />
+    :: 
+    <s:link action="#{foo.bye}" value="later" />
+    
+</body>
+</html>

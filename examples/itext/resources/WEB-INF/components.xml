@@ -1,0 +1,14 @@
+<components xmlns:pdf="http://jboss.com/products/seam/pdf"
+            xmlns:core="http://jboss.com/products/seam/core"
+            xmlns:framework="http://jboss.com/products/seam/framework">
+
+    <pdf:documentStore useExtensions="true" errorPage="/pdfMissing.seam" />
+
+    <pdf:keyStoreConfig keyStore="pdf.keystore"
+                        keyStorePassword="storepass"
+                        keyPassword="keypass"
+                        keyAlias="pdfKey" />
+
+    <core:init debug="true" jndi-pattern="@jndiPattern@" />
+    <core:ejb installed="@embeddedEjb@" /> 
+</components>
