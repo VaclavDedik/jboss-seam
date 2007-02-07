@@ -29,6 +29,13 @@
    </drools:rule-base>
 
    <security:identity authenticate-method="#{authenticator.authenticate}"/>
+   
+   <event type="org.jboss.seam.notLoggedIn">
+       <action expression="#{redirect.captureCurrentView}"/>
+   </event>
+   <event type="org.jboss.seam.postAuthenticate">
+       <action expression="#{redirect.ifInitializedExecute}"/>
+   </event>
         
    <!-- For use with jBPM pageflow or process management -->
    <!--  

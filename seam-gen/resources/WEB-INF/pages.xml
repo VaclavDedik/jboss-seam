@@ -4,6 +4,22 @@
 
 <pages>
 
+    <page view-id="*">
+        <navigation>
+            <rule if-outcome="home">
+                <redirect view-id="/home.xhtml"/>
+            </rule>
+        </navigation>
+    </page>
+
+    <page view-id="/login.xhtml">
+        <navigation from-action="#{identity.login}">
+            <rule if-outcome="success">
+                <redirect view-id="/home.xhtml"/>
+            </rule>
+        </navigation>
+    </page>
+
     <exception class="javax.persistence.EntityNotFoundException">
         <redirect view-id="/error.xhtml">
             <message>Not found</message>

@@ -82,6 +82,19 @@ public class Redirect extends AbstractMutable implements Serializable
    }
    
    /**
+    * Capture the view id and page parameters from the
+    * current request and squirrel them away so we can
+    * return here later in the conversation.
+    */
+   public void captureCurrentView()
+   {
+      FacesContext context = FacesContext.getCurrentInstance();
+      parameters = Pages.instance().getViewRootValues(context);
+      viewId = context.getViewRoot().getViewId();
+      setDirty();
+   }
+   
+   /**
     * Should the conversation be propagated across the redirect?
     * @return true by default
     */
@@ -104,6 +117,14 @@ public class Redirect extends AbstractMutable implements Serializable
    public void execute()
    {
       Manager.instance().redirect(viewId, parameters, conversationPropagationEnabled);
+   }
+   
+   public void ifInitializedExecute()
+   {
+      if (viewId!=null)
+      {
+         execute();
+      }
    }
    
    public static Redirect instance()

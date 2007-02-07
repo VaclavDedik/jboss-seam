@@ -397,6 +397,7 @@ public class Pages
       }
       return parameters;
    }
+   
    /**
     * Get the current value of a page parameter, looking in the page context
     * if there is no value binding
@@ -413,6 +414,7 @@ public class Pages
          return pageParameter.getValueFromModel(facesContext);
       }
    }
+   
    /**
     * Apply any page parameters passed as parameter values to the model.
     */
@@ -441,6 +443,7 @@ public class Pages
          }
       }
    }
+   
    /**
     * Apply any page parameters passed as view root attributes to the model.
     */
@@ -463,6 +466,25 @@ public class Pages
          }
       }
    }
+
+   public Map<String, Object> getViewRootValues(FacesContext facesContext)
+   {
+      Map<String, Object> parameters = new HashMap<String, Object>();
+      String viewId = facesContext.getViewRoot().getViewId();
+      for ( Page page: getPageStack(viewId) )
+      {
+         for ( Param pageParameter: page.getParameters() )
+         {
+            Object object = Contexts.getPageContext().get( pageParameter.getName() );
+            if (object!=null)
+            {
+               parameters.put(  pageParameter.getName(), object );
+            }
+         }
+      }
+      return parameters;
+   }
+   
    /**
     * The global setting for no-conversation-viewid.
     * 

@@ -10,7 +10,8 @@
 <#assign pageName = entityName>
 <page no-conversation-view-id="/${masterPageName}.xhtml"
         conversation-required="true">
-        
+   <restrict>${'#'}{identity.loggedIn}</restrict>
+   
    <param name="${componentName}From"/>
    <param name="${idName}" value="${'#'}{${homeName}.${idName}}"/>
 <#include "param.xml.ftl">

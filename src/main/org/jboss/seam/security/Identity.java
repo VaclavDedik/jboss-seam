@@ -165,8 +165,9 @@ public class Identity extends Selector
       {
          if ( !isLoggedIn() )
          {
+            Events.instance().raiseEvent("org.jboss.seam.notLoggedIn");
             throw new NotLoggedInException(String.format(
-               "Error evaluating expression [%s] - User not logged in", expr));
+                "Error evaluating expression [%s] - User not logged in", expr));
          }
          else
          {
@@ -413,8 +414,16 @@ public class Identity extends Selector
    {
       if ( !hasRole(role) )
       {
-         throw new AuthorizationException(String.format(
+         if ( !isLoggedIn() )
+         {
+            Events.instance().raiseEvent("org.jboss.seam.notLoggedIn");
+            throw new NotLoggedInException();
+         }
+         else
+         {
+            throw new AuthorizationException(String.format(
                   "Authorization check failed for role [%s]", role));
+         }
       }
    }
 
@@ -431,8 +440,16 @@ public class Identity extends Selector
    {
       if ( !hasPermission(name, action, arg) )
       {
-         throw new AuthorizationException(String.format(
+         if ( !isLoggedIn() )
+         {
+            Events.instance().raiseEvent("org.jboss.seam.notLoggedIn");
+            throw new NotLoggedInException();
+         }
+         else
+         {
+            throw new AuthorizationException(String.format(
                   "Authorization check failed for permission [%s,%s]", name, action));
+         }
       }
    }
 
