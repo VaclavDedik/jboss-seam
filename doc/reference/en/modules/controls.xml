@@ -294,15 +294,20 @@
             <listitem>
                 <para>
                     Displays a dynamic date picker component that selects a date 
-                    for the specified input field.  The body of the selectDate element should
+                    for the specified input field.  The body of the <literal>selectDate</literal> element should
                     contain HTML elements, such as text or an image, that prompt the user to click
-                    to display the date picker. 
+                    to display the date picker.  The date picker can be styled using CSS.  An example CSS file
+                    can be found in the Seam booking demo as <literal>date.css</literal>.
                 </para>
                 
                 <itemizedlist>
                     <listitem><para><literal>for</literal> &mdash;
                         The id of the input field that the date picker will insert the
                         selected date into.
+                    </para></listitem>
+                    <listitem><para><literal>dateFormat</literal> &mdash;
+                        The date format string.  This should match the date format of the 
+                        input field.  
                     </para></listitem>
                 </itemizedlist>
                 

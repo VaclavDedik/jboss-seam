@@ -435,6 +435,11 @@
                     <programlisting><![CDATA[@Observer("somethingChanged")]]></programlisting>
                     <para> Specifies that the method should be called when a component-driven event of the specified
                         type occurs. </para>
+                    <programlisting><![CDATA[@Observer(value="somethingChanged",create=false)]]></programlisting>
+                    <para>Specifies that the method should be called when an event of the specified type occurs but
+                        that an instance should not be created if one doesn't exist.  If an instance does not exist
+                        and create is false, the event will not be observed.  The default value for create is true.
+                    </para>
                 </listitem>
             </varlistentry>
         </variablelist>
