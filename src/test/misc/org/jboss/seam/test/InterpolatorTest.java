@@ -29,6 +29,9 @@ public class InterpolatorTest
                    
         Assert.assertEquals("12/31/69", interpolator.interpolate("{0,date,short}", new Date(0)));
  
+        
+        // test that a messageformat error doesn't blow up
+        Assert.assertEquals("{nosuchmessage}", interpolator.interpolate("{nosuchmessage}"));
     }
 
 }

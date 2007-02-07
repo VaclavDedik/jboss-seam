@@ -135,9 +135,13 @@ public class Interpolator
                  else if (nextTok.equals("}")) 
                  {
                      if (--level == 0) {
-                         String value = new MessageFormat(expr.toString(), Locale.instance()).format(params);
-                         builder.append(value);
-                         
+                         try {
+                             String value = new MessageFormat(expr.toString(), Locale.instance()).format(params);
+                             builder.append(value);
+                         } catch (Exception e) {    
+                             // if it is a bad message, use the expression itself
+                             builder.append(expr);                             
+                         }
                          expr = null;
                          break;
                      }
