@@ -135,8 +135,7 @@
     <div class="actionButtons">
         <s:button view="/${editPageName}.xhtml"
                     id="create" 
-                 value="Create ${componentName}"
-           propagation="begin"/>
+                 value="Create ${componentName}"/>
     </div>
     
 </ui:define>

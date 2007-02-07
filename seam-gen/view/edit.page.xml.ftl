@@ -19,10 +19,14 @@
    <navigation from-action="${'#'}{${homeName}.persist}">
        <redirect view-id="/${pageName}.xhtml"/>
    </navigation>
+   
    <navigation from-action="${'#'}{${homeName}.update}">
+       <end-conversation/>
        <redirect view-id="/${pageName}.xhtml"/>
    </navigation>
+   
    <navigation from-action="${'#'}{${homeName}.remove}">
+       <end-conversation/>
        <redirect view-id="/${masterPageName}.xhtml"/>
    </navigation>
    

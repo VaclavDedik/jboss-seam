@@ -160,22 +160,19 @@
                          action="${'#'}{${homeName}.update}"
                        rendered="${'#'}{${homeName}.managed}"/>
                         			  
-            <s:button id="delete" 
-                   value="Delete" 
-                  action="${'#'}{${homeName}.remove}"
-                rendered="${'#'}{${homeName}.managed}"
-             propagation="end"
-                    view="/${masterPageName}.xhtml"/>
+            <h:commandButton id="delete" 
+                          value="Delete" 
+                         action="${'#'}{${homeName}.remove}"
+                       rendered="${'#'}{${homeName}.managed}"/>
                     
             <s:button id="done" 
                    value="Done"
-             propagation="end" 
+             propagation="end"
                     view="/${pageName}.xhtml"
                 rendered="${'#'}{${homeName}.managed}"/>
                 
             <s:button id="cancel" 
                    value="Cancel"
-             propagation="end" 
                     view="/${masterPageName}.xhtml"
                 rendered="${'#'}{!${homeName}.managed}"/>
                 
