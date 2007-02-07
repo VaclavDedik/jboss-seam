@@ -24,6 +24,7 @@ Release Notes - JBoss Seam - Version 1.1.6.GA
     * [JBSEAM-778] - MultipartRequest does not work with h:selectManyCheckbox
     * [JBSEAM-784] - @Observer(create=false) documentation
     * [JBSEAM-788] - s:selectDate dateFormat attribute can't contain ValueBinding
+    * [JBSEAM-791] - Restful paramameter values are not URL encoded
 
 ** Feature Request
     * [JBSEAM-606] - merge exceptions.xml into pages.xml and events.xml into components.xml
