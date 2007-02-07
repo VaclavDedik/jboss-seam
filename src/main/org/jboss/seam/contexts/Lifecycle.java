@@ -379,7 +379,7 @@ public class Lifecycle
             //      this would also require changes to BusinessProcessContext
             boolean destroyBusinessProcessContext = !Init.instance().isJbpmInstalled() ||
                   !BusinessProcess.instance().hasActiveProcess();
-            if ( destroyBusinessProcessContext )
+            if (destroyBusinessProcessContext)
             {
                //TODO: note that this occurs from Lifecycle.endRequest(), after
                //      the Seam-managed txn was committed, but Contexts.destroy()

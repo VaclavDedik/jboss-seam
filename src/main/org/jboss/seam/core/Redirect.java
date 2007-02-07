@@ -1,9 +1,13 @@
 package org.jboss.seam.core;
+
 import static org.jboss.seam.annotations.Install.BUILT_IN;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.faces.context.FacesContext;
+
 import org.jboss.seam.Component;
 import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
@@ -12,6 +16,7 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
+
 /**
  * Convenient API for performing browser redirects with
  * parameters.
@@ -28,6 +33,7 @@ public class Redirect extends AbstractMutable implements Serializable
    private String viewId;
    private Map<String, Object> parameters = new HashMap<String, Object>();
    private boolean conversationPropagationEnabled = true;
+   private boolean conversationBegun;
    
    /**
     * Get the JSF view id to redirect to
@@ -71,6 +77,8 @@ public class Redirect extends AbstractMutable implements Serializable
     * Capture the view id and request parameters from the
     * current request and squirrel them away so we can
     * return here later in the conversation.
+    * 
+    * @deprecated use captureCurrentView()
     */
    public void captureCurrentRequest()
    {
@@ -84,14 +92,22 @@ public class Redirect extends AbstractMutable implements Serializable
    /**
     * Capture the view id and page parameters from the
     * current request and squirrel them away so we can
-    * return here later in the conversation.
+    * return here later in the conversation. If no
+    * conversation is active, begin a conversation.
+    * 
+    * @see Redirect#returnToCapturedView()
     */
    public void captureCurrentView()
    {
       FacesContext context = FacesContext.getCurrentInstance();
       parameters = Pages.instance().getViewRootValues(context);
       viewId = context.getViewRoot().getViewId();
+      conversationBegun = Conversation.instance().begin(true, false);
       setDirty();
+      //if the request ends with an exception,
+      //the conversation context never gets
+      //flushed....
+      Contexts.getConversationContext().flush();
    }
    
    /**
@@ -119,10 +135,20 @@ public class Redirect extends AbstractMutable implements Serializable
       Manager.instance().redirect(viewId, parameters, conversationPropagationEnabled);
    }
    
-   public void ifInitializedExecute()
+   /**
+    * Redirect to the captured view, and end any conversation
+    * that began in captureCurrentView(). 
+    *
+    *@see Redirect#captureCurrentView()
+    */
+   public void returnToCapturedView()
    {
       if (viewId!=null)
       {
+         if (conversationBegun)
+         {
+            Conversation.instance().end();
+         }
          execute();
       }
    }

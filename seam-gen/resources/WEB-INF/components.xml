@@ -25,7 +25,9 @@
    <core:ejb installed="@embeddedEjb@"/>
    
    <drools:rule-base name="securityRules">
-       <drools:rule-files><value>/security.drl</value></drools:rule-files>
+       <drools:rule-files>
+           <value>/security.drl</value>
+       </drools:rule-files>
    </drools:rule-base>
 
    <security:identity authenticate-method="#{authenticator.authenticate}"/>
@@ -34,7 +36,7 @@
        <action expression="#{redirect.captureCurrentView}"/>
    </event>
    <event type="org.jboss.seam.postAuthenticate">
-       <action expression="#{redirect.ifInitializedExecute}"/>
+       <action expression="#{redirect.returnToCapturedView}"/>
    </event>
         
    <!-- For use with jBPM pageflow or process management -->

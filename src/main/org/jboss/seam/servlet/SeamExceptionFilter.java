@@ -92,7 +92,7 @@ public class SeamExceptionFilter extends SeamFilter
       {
          try 
          {
-            Lifecycle.endRequest();
+            Lifecycle.endRequest( facesContext.getExternalContext() );
             facesContext.release();
             log.debug("ended request");
          }
