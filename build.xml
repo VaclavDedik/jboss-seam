@@ -902,7 +902,7 @@
                 <include name="issues/**/*"/>
                 <include name="registration/**/*"/>
                 <include name="dvdstore/**/*"/>
-            	<include name="pdf/**/*"/>
+            	<include name="itext/**/*"/>
                 <include name="seampay/**/*"/>
             	<include name="seamspace/**/*"/>
             	<include name="mail/**/*"/>
