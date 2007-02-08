@@ -30,7 +30,8 @@
        </drools:rule-files>
    </drools:rule-base>
 
-   <security:identity authenticate-method="#{authenticator.authenticate}"/>
+   <security:identity authenticate-method="#{authenticator.authenticate}"
+                              remember-me="true"/>
    
    <event type="org.jboss.seam.notLoggedIn">
        <action expression="#{redirect.captureCurrentView}"/>
