@@ -1,6 +1,5 @@
 package org.jboss.seam.example.seamspace;
 
-import java.rmi.server.UID;
 import java.util.Date;
 import java.util.HashSet;
 
@@ -16,7 +15,6 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.core.FacesMessages;
-import org.jboss.seam.security.CaptchaService;
 import org.jboss.seam.security.Identity;
 
 @Stateful
@@ -46,14 +44,10 @@ public class RegisterAction implements Register
    
    private boolean verified;
 
-   private String captchaId;
-   private String verifyCaptcha;   
-
    @Factory("newMember") @Begin
    public void start()
    {
       newMember = new Member();
-      captchaId = new UID().toString().replace(":", "-");
    }
    
    public void next()
@@ -69,19 +63,6 @@ public class RegisterAction implements Register
             
       newMember.setHashedPassword(Hash.instance().hash(password));
             
-      try
-      {
-         if (!CaptchaService.instance().getService().validateResponseForID(
-               getCaptchaId(), verifyCaptcha))
-         {
-            FacesMessages.instance().add("verifyCaptcha", "Verification incorrect");
-            verified = false;            
-         }
-      }
-      catch (Exception ex)
-      {
-         verified = false;
-      }
    }
 
    @End
@@ -171,21 +152,6 @@ public class RegisterAction implements Register
       return verified;
    }
    
-   public String getCaptchaId()
-   {
-      return captchaId;
-   }
-   
-   public String getVerifyCaptcha()
-   {
-      return verifyCaptcha;
-   }
-   
-   public void setVerifyCaptcha(String verifyCaptcha)
-   {
-      this.verifyCaptcha = verifyCaptcha;
-   }
-      
    @Destroy @Remove
    public void destroy() {}
 }

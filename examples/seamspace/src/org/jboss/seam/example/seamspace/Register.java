@@ -24,9 +24,5 @@ public interface Register
    
    boolean isVerified();
    
-   String getCaptchaId();
-   String getVerifyCaptcha();
-   void setVerifyCaptcha(String verifyCaptcha);
-   
    void destroy();
 }
