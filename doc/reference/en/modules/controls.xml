@@ -154,6 +154,14 @@
            </listitem>
        </varlistentry>
        <varlistentry>
+           <term><literal>&lt;s:fragment&gt;</literal></term>
+           <listitem>
+               <para>
+                   A non-rendering component useful for hiding or showing it's children
+               </para>
+           </listitem>
+       </varlistentry>
+       <varlistentry>
            <term><literal>&lt;s:cache&gt;</literal></term>
            <listitem>
                <para>

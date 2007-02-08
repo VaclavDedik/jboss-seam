@@ -80,6 +80,15 @@
             <property-class>java.lang.String</property-class>
         </property>
     </component>
+    
+        <component>
+        <component-type>org.jboss.seam.ui.UIFragment</component-type>
+        <component-class>org.jboss.seam.ui.UIFragment</component-class>
+        <property>
+            <property-name>rendered</property-name>
+            <property-class>java.lang.Boolean</property-class>
+        </property>
+    </component>
 
     <component>
         <component-type>org.jboss.seam.ui.HtmlLink</component-type>

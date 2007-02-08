@@ -152,6 +152,12 @@
 			<component-type>org.jboss.seam.ui.UISelectItems</component-type>
 		</component>
 	</tag>
+	<tag>
+		<tag-name>fragment</tag-name>
+		<component>
+			<component-type>org.jboss.seam.ui.UIFragment</component-type>
+		</component>
+	</tag>
 	  
     <function>
         <function-name>hasRole</function-name>
