@@ -3,5 +3,8 @@
   "http://jboss.com/products/seam/pages-1.1.dtd">
 
 <pages>
-
+   <exception>
+      <end-conversation/>
+      <redirect view-id="/error.xhtml"/>
+   </exception>
 </pages>
