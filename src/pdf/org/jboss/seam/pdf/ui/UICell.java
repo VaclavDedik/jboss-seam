@@ -186,7 +186,7 @@ public class UICell
             cell.setPaddingBottom(paddingBottom);
         }
         
-        useBorderPadding = (Boolean) valueBinding(context, "userBorderPadding", useBorderPadding);
+        useBorderPadding = (Boolean) valueBinding(context, "useBorderPadding", useBorderPadding);
         if (useBorderPadding != null) {
             cell.setUseBorderPadding(useBorderPadding);          
         }
