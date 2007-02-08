@@ -17,5 +17,4 @@
     <!-- uncomment this one and set the host attribute to the name or IP address of your SMTP gateway-->
     <!-- <mail:mail-session host="smtp.foo.com" />-->
    
-    
 </components>
