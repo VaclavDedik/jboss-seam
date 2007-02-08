@@ -38,7 +38,10 @@ public class MultipartRequest extends HttpServletRequestWrapper
    private static final int BUFFER_SIZE = 2048;
    private static final int CHUNK_SIZE = 512;
    
-   private MultipartConfig config;
+   private boolean createTempFiles;
+   
+   private int maxRequestSize;
+   
    private String encoding = null;
    
    private Map<String,Param> parameters = null;
@@ -228,15 +231,17 @@ public class MultipartRequest extends HttpServletRequestWrapper
    
    private HttpServletRequest request;
 
-   public MultipartRequest(HttpServletRequest request, MultipartConfig config)
+   public MultipartRequest(HttpServletRequest request, boolean createTempFiles,
+            int maxRequestSize)
    {
       super(request);
       this.request = request;
-      this.config = config;
+      this.createTempFiles = createTempFiles;
+      this.maxRequestSize = maxRequestSize;
       
       String contentLength = request.getHeader("Content-Length");
-      if (contentLength != null && config.getMaxRequestSize() > 0 && 
-               Integer.parseInt(contentLength) > config.getMaxRequestSize())
+      if (contentLength != null && maxRequestSize > 0 && 
+               Integer.parseInt(contentLength) > maxRequestSize)
       {
          throw new RuntimeException("Multipart request is larger than allowed size");
       }
@@ -301,7 +306,7 @@ public class MultipartRequest extends HttpServletRequestWrapper
                               if (headers.containsKey(PARAM_FILENAME))
                               {
                                  FileParam fp = new FileParam(paramName);
-                                 if (config.getCreateTempFiles()) fp.createTempFile();                                 
+                                 if (createTempFiles) fp.createTempFile();                                 
                                  fp.setContentType(headers.get(PARAM_CONTENT_TYPE));
                                  fp.setFilename(headers.get(PARAM_FILENAME));
                                  p = fp;                                 
