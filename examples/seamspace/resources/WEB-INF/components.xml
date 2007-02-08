@@ -27,6 +27,14 @@
         <property name="persistenceUnitJndiName">java:/seamspaceEntityManagerFactory</property>
     </component>        
     
+    <event type="org.jboss.seam.notLoggedIn">
+        <action expression="#{redirect.captureCurrentView}"/>
+    </event>
+    
+    <event type="org.jboss.seam.postAuthenticate">
+        <action expression="#{redirect.returnToCapturedView}"/>
+    </event>    
+    
     <component class="org.jboss.seam.servlet.MultipartConfig">
         <property name="createTempFiles">true</property>
         <property name="maxRequestSize">1000000</property>
