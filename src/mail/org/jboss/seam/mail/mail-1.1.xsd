@@ -10,9 +10,10 @@
         <xs:attribute name="host" type="xs:string"/>
         <xs:attribute name="port" type="xs:string"/>
         <xs:attribute name="debug" type="xs:string"/>
+        <xs:attribute name="session-jndi-name" type="xs:string"/>
     </xs:attributeGroup>
 
-    <xs:element name="mailSession">
+    <xs:element name="mail-session">
         <xs:complexType>
             <xs:attributeGroup ref="components:attlist.component" />
             <xs:attributeGroup ref="mail:attlist.mailSession" />
