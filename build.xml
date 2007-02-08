@@ -315,6 +315,7 @@
     
     <patternset id="meta.files">
         <include name="**/*.dtd"/>
+    	<include name="**/*.xsd"/>
         <include name="**/*.xml"/>
         <include name="**/*.tld"/>
         <include name="**/*.xslt"/>
