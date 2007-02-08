@@ -7,6 +7,7 @@
       <xs:choice minOccurs="0" maxOccurs="unbounded">
         <xs:element ref="components:component"/>
         <xs:element ref="components:factory"/>
+        <xs:element ref="components:event"/>
         <xs:any namespace="##other" processContents="strict"/>
       </xs:choice>
     </xs:complexType>
@@ -120,4 +121,25 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:element name="event">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="components:action"/>
+      </xs:choice>
+      <xs:attributeGroup ref="components:attlist.event"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:attributeGroup name="attlist.event">
+    <xs:attribute name="type" use="required"/>
+  </xs:attributeGroup>
+  
+  <xs:element name="action">
+    <xs:complexType>
+      <xs:attributeGroup ref="components:attlist.action"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:attributeGroup name="attlist.action">
+    <xs:attribute name="expression" use="required"/>
+  </xs:attributeGroup>
+  
 </xs:schema>
