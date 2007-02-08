@@ -118,6 +118,20 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.&lt;/f:facet&gt;
 	    </section>
 	    
 	    <section>
+	    	<title>Multiple messages</title>
+	    	<para>Sometimes however you need to send a slightly different message to each recipient (e.g. a password
+	    	reset).  The best way to do this is to place the whole message inside a <literal>&lt;ui:repeat&gt;</literal>:</para>
+	    	<programlisting>&lt;ui:repeat value=&quot;#{people}&quot; var=&quot;p&quot;&gt;
+    &lt;m:message&gt;
+        &lt;m:from name=&quot;#{person.firstname} #{person.lastname}&quot;&gt;#{person.address}&lt;/m:from&gt;
+        &lt;m:to name=&quot;#{p.firstname}&quot;&gt;#{p.address}&lt;/m:to&gt;
+            ...
+    &lt;/m:message&gt;
+&lt;/ui:repeat&gt;
+			</programlisting>
+	    </section>
+	    
+	    <section>
 	    	<title>Templating</title>
 	    	<para>The mail templating example shows that facelets templating 'just works' with the Seam mail tags.</para>
 	    	<para>Our <literal>template.xhtml</literal> contains:</para>
