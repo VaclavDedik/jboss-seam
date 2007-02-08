@@ -20,6 +20,7 @@
    <core:pages no-conversation-view-id="/home.xhtml"/>
    
    <core:managed-persistence-context name="entityManager"
+                              auto-create="true"
                    entity-manager-factory="#{@projectName@EntityManagerFactory}"/>
 
    <core:entity-manager-factory name="@projectName@EntityManagerFactory" 
