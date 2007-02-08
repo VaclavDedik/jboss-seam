@@ -5,10 +5,10 @@
 <pages>
    
    <exception class="javax.persistence.PersistenceException">
+      <end-conversation/>
       <redirect>
           <message>Database access failed</message>
       </redirect>
-      <end-conversation/>
    </exception>
    
    <exception class="org.jboss.seam.framework.EntityNotFoundException">
@@ -16,10 +16,10 @@
    </exception>
    
    <exception>
+      <end-conversation/>
       <redirect view-id="/search.xhtml">
           <message>Unexpected failure</message>
       </redirect>
-      <end-conversation/>
    </exception>
    
 </pages>
