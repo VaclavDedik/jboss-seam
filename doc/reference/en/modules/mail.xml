@@ -179,7 +179,7 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.&lt;/f:facet&gt;
 		         <programlisting><![CDATA[<components xmlns=&quot;http://jboss.com/products/seam/components&quot; 
         xmlns:core=&quot;http://jboss.com/products/seam/core&quot;
         xmlns:mail=&quot;http://jboss.com/products/seam/mail&quot;>
-    <mail:mailSession sessionJndiName=&quot;java:/Mail&quot; />
+    <mail:mail-session session-jndi-name=&quot;java:/Mail&quot; />
 </components>]]></programlisting>
 		        <para>Here we tell Seam to get the mail session bound to <literal>java:/Mail</literal> from JNDI.</para>
 	        </section>
@@ -191,7 +191,7 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.&lt;/f:facet&gt;
 	            <programlisting><![CDATA[<components xmlns=&quot;http://jboss.com/products/seam/components&quot; 
         xmlns:core=&quot;http://jboss.com/products/seam/core&quot;
         xmlns:mail=&quot;http://jboss.com/products/seam/mail&quot;>
-    <mail:mailSession host=&quot;smtp.example.com&quot; />
+    <mail:mail-session host=&quot;smtp.example.com&quot; />
 </components>]]></programlisting>
 		    </section>
 		</section>
