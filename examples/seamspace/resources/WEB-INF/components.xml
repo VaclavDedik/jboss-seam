@@ -3,11 +3,13 @@
             xmlns:core="http://jboss.com/products/seam/core"
             xmlns:security="http://jboss.com/products/seam/security"
             xmlns:drools="http://jboss.com/products/seam/drools"
+            xmlns:filter="http://jboss.com/products/seam/filter"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation=
                 "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-1.1.xsd 
                  http://jboss.com/products/seam/components http://jboss.com/products/seam/components-1.1.xsd
                  http://jboss.com/products/seam/security http://jboss.com/products/seam/security-1.1.xsd
+                 http://jboss.com/products/seam/filter http://jboss.com/products/seam/filter-1.1.xsd
                  http://jboss.com/products/seam/drools http://jboss.com/products/seam/drools-1.1.xsd">
 
     <core:init jndi-pattern="@jndiPattern@" debug="false"/>  
@@ -18,10 +20,12 @@
                   conversation-is-long-running-parameter="clr"/>
     
     <security:identity authenticate-method="#{authenticator.authenticate}"/>
+    
+    <filter:multipart-filter create-temp-files="true" max-request-size="1000000" url-pattern="*.seam"/>
 
     <drools:rule-base name="securityRules">
        <drools:rule-files><value>/META-INF/security-rules.drl</value></drools:rule-files>
-   </drools:rule-base>
+    </drools:rule-base>
     
     <component name="entityManager" auto-create="true" class="org.jboss.seam.core.ManagedPersistenceContext">
         <property name="persistenceUnitJndiName">java:/seamspaceEntityManagerFactory</property>
@@ -34,10 +38,5 @@
     <event type="org.jboss.seam.postAuthenticate">
         <action expression="#{redirect.returnToCapturedView}"/>
     </event>    
-    
-    <component class="org.jboss.seam.servlet.MultipartConfig">
-        <property name="createTempFiles">true</property>
-        <property name="maxRequestSize">1000000</property>
-    </component>
             
 </components>

@@ -10,6 +10,16 @@
     <listener>
         <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
     </listener>
+    
+    <filter>
+      <filter-name>Seam Filter</filter-name>
+      <filter-class>org.jboss.seam.servlet.SeamFilter</filter-class>
+    </filter>
+    
+    <filter-mapping>
+      <filter-name>Seam Filter</filter-name>
+      <url-pattern>*.seam</url-pattern>
+    </filter-mapping>
 
     
     <!-- Propagate conversations across redirects -->
@@ -36,7 +46,7 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>    
     
-    <filter>
+    <!--filter>
         <filter-name>Seam Multipart Filter</filter-name>
         <filter-class>org.jboss.seam.servlet.SeamMultipartFilter</filter-class>
     </filter>
@@ -44,7 +54,7 @@
     <filter-mapping>
         <filter-name>Seam Multipart Filter</filter-name>
         <url-pattern>*.seam</url-pattern>
-    </filter-mapping>
+    </filter-mapping-->
 
     <!-- MyFaces -->
 
