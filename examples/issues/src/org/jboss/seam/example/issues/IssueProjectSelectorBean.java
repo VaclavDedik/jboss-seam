@@ -25,7 +25,7 @@ public class IssueProjectSelectorBean implements IssueProjectSelector {
    @In(create=true)
    private transient ProjectFinder projectFinder;
 
-   @In
+   @In(required=false)
    private transient IssueEditor issueEditor;
    
    @Begin(join=true)
@@ -40,7 +40,7 @@ public class IssueProjectSelectorBean implements IssueProjectSelector {
    }
    
    private String getIssueDescription() {
-      Integer issueId = issueEditor.getInstance().getId();
+      Integer issueId = issueEditor==null ? null : issueEditor.getInstance().getId();
       return issueId==null ? "New Issue" : "Issue [" + issueId + "]";
    }
 
