@@ -5,16 +5,21 @@
  * See terms of license at gnu.org.
  */
 package org.jboss.seam.servlet;
-
+import static org.jboss.seam.InterceptionType.NEVER;
+import static org.jboss.seam.ScopeType.APPLICATION;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
 import java.io.IOException;
-
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import org.jboss.seam.annotations.Install;
+import org.jboss.seam.annotations.Intercept;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Exceptions;
 import org.jboss.seam.log.LogProvider;
@@ -23,18 +28,22 @@ import org.jboss.seam.mock.MockApplication;
 import org.jboss.seam.mock.MockExternalContext;
 import org.jboss.seam.mock.MockFacesContext;
 import org.jboss.seam.util.Transactions;
-
 /**
  * As a last line of defence, rollback uncommitted transactions 
  * at the very end of the request.
  * 
  * @author Gavin King
  */
+@Startup
+@Scope(APPLICATION)
+@Name("org.jboss.seam.servlet.exceptionFilter")
+@Install(precedence = BUILT_IN)
+@Intercept(NEVER)
 public class SeamExceptionFilter extends SeamFilter
 {
    
    private static final LogProvider log = Logging.getLogProvider(SeamExceptionFilter.class);
-
+   @Override
    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) 
          throws IOException, ServletException
    {
@@ -63,7 +72,6 @@ public class SeamExceptionFilter extends SeamFilter
          Lifecycle.setPhaseId(null);
       }
    }
-
    private void endWebRequestAfterException(HttpServletRequest request, HttpServletResponse response, Exception e) 
          throws ServletException, IOException
    {
@@ -102,12 +110,10 @@ public class SeamExceptionFilter extends SeamFilter
          }
       }
    }
-
    private MockFacesContext createFacesContext(HttpServletRequest request, HttpServletResponse response)
    {
       return new MockFacesContext( new MockExternalContext(getServletContext(), request, response), new MockApplication() );
    }
-
    private void rollbackTransactionIfNecessary()
    {
       try {
@@ -122,5 +128,4 @@ public class SeamExceptionFilter extends SeamFilter
          log.error("could not roll back transaction", te);
       }
    }
-
 }

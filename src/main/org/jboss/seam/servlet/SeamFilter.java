@@ -23,37 +23,30 @@ public class SeamFilter implements Filter
    
    private Set<Filter> filters = new HashSet<Filter>();   
    
+   /**
+    * By default the filter is enabled
+    */
    private boolean disabled = false;
-   private String urlPattern = null; 
+   
+   /**
+    * By default match all requests
+    */
+   private String urlPattern = "/*"; 
    
    private class FilterChainImpl implements FilterChain
-   {      
+   {  
+      private FilterChain chain;      
       private Iterator<Filter> iter;
-      
-      private ServletRequest request;
-      private ServletResponse response;
-      
-      public FilterChainImpl(Iterator<Filter> iter)
+           
+      public FilterChainImpl(FilterChain chain, Iterator<Filter> iter)
       {
-        this.iter = iter;  
-      }
-      
-      public ServletRequest getRequest()
-      {
-         return request;
-      }
-      
-      public ServletResponse getResponse()
-      {
-         return response;
+         this.chain = chain;
+         this.iter = iter;  
       }
       
       public void doFilter(ServletRequest request, ServletResponse response)
           throws IOException, ServletException
-      {
-         this.request = request;
-         this.response = response;
-         
+      {         
          if (iter.hasNext())
          {
             Filter filter = iter.next();
@@ -75,6 +68,10 @@ public class SeamFilter implements Filter
                filter.doFilter(request, response, this);
             }
          }
+         else
+         {
+            chain.doFilter(request, response);
+         }
       }
    }
 
@@ -85,18 +82,22 @@ public class SeamFilter implements Filter
    
    public void init(FilterConfig filterConfig) 
       throws ServletException 
-   {
+   {      
       servletContext = filterConfig.getServletContext();      
-      initFilters();
+      initFilters(filterConfig);
    }
    
-   protected void initFilters()
+   protected void initFilters(FilterConfig filterConfig)
+      throws ServletException
    {
       if (getClass().equals(SeamFilter.class)) 
       {
          Context ctx = new WebApplicationContext(servletContext); 
          
-         addFilter((Filter) ctx.get(MultipartFilter.class));
+         addFilter((Filter) ctx.get(MultipartFilter.class), filterConfig);
+         addFilter((Filter) ctx.get(SeamRedirectFilter.class), filterConfig);
+         addFilter((Filter) ctx.get(SeamExceptionFilter.class), filterConfig);
+         addFilter((Filter) ctx.get(SeamServletFilter.class), filterConfig);
       }
    }
    
@@ -104,16 +105,16 @@ public class SeamFilter implements Filter
                         FilterChain chain)
        throws IOException, ServletException
    {
-      FilterChainImpl fc = new FilterChainImpl(filters.iterator());
-      fc.doFilter(request, response);
-      chain.doFilter(fc.getRequest(), fc.getResponse());
+      new FilterChainImpl(chain, filters.iterator()).doFilter(request, response);
    }
    
-   protected boolean addFilter(Filter filter)
+   protected boolean addFilter(Filter filter, FilterConfig filterConfig)
+      throws ServletException
    {
       if (filter instanceof SeamFilter && ((SeamFilter) filter).isDisabled())
          return false;
          
+      filter.init(filterConfig);
       return filters.add(filter);
    }
    

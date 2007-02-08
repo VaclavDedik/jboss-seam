@@ -21,7 +21,7 @@ import org.jboss.seam.annotations.Startup;
 
 @Startup
 @Scope(APPLICATION)
-@Name("org.jboss.seam.filter.multipartFilter")
+@Name("org.jboss.seam.servlet.multipartFilter")
 @Install(precedence = BUILT_IN)
 @Intercept(NEVER)
 public class MultipartFilter extends SeamFilter
