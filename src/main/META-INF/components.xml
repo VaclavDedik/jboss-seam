@@ -60,5 +60,6 @@
   <factory scope="stateless" auto-create="true" name="mailSession" value="#{org.jboss.seam.mail.mailSession}"/>
 
   <factory scope="stateless" auto-create="true" name="identity" value="#{org.jboss.seam.security.identity}"/>
+  <factory scope="stateless" auto-create="true" name="captcha" value="#{org.jboss.seam.captcha.captcha}"/>
 
 </components>

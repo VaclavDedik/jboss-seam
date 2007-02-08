@@ -1,4 +1,4 @@
-package org.jboss.seam.security;
+package org.jboss.seam.captcha;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.InterceptionType;
@@ -13,7 +13,7 @@ import org.jboss.seam.contexts.Contexts;
 import com.octo.captcha.service.image.DefaultManageableImageCaptchaService;
 import com.octo.captcha.service.image.ImageCaptchaService;
 
-@Name("org.jboss.seam.security.captchaService")
+@Name("org.jboss.seam.captcha.captchaService")
 @Intercept(InterceptionType.NEVER)
 @Scope(ScopeType.APPLICATION)
 @Install(classDependencies="com.octo.captcha.service.image.ImageCaptchaService")

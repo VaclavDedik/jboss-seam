@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jboss.seam.captcha.CaptchaService;
 import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.security.CaptchaService;
 
 import com.octo.captcha.service.CaptchaServiceException;
 
@@ -45,7 +45,6 @@ public class CaptchaServlet extends HttpServlet
       {
          Lifecycle.beginRequest(context, request.getSession(), request);
          
-         // TODO - The captchaId should come from conversation scope
          String captchaId = request.getQueryString();
          
          BufferedImage challenge = CaptchaService.instance().getService().

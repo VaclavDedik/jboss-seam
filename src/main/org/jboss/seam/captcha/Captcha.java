@@ -6,13 +6,14 @@ import java.rmi.server.UID;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
+import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.security.CaptchaService;
 
-@Name("captcha")
+@Name("org.jboss.seam.captcha.captcha")
 @Scope(ScopeType.PAGE)
+@Install(dependencies="org.jboss.seam.captcha.captchaService")
 public class Captcha implements Serializable
 {
    private String id;
