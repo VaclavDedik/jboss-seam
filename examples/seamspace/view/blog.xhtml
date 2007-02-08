@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:s="http://jboss.com/products/seam/taglib">
 
@@ -15,11 +16,11 @@
     
       <s:div rendered="#{selectedMember != null}">
       
-        <s:div id="blogMemberCard">
-          <h:outputLink value="profile.seam?name=#{selectedMember.memberName}">
+        <s:div id="blogMemberCard">	        
+	        <s:link view="/profile.seam" propagation="none">
 	          #{selectedMember.memberName}<br/>
-	          <h:graphicImage value="/content/images?id=#{selectedMember.picture.imageId}&amp;width=90"/>
-	        </h:outputLink>
+	          <h:graphicImage value="/content/images?id=#{selectedMember.picture.imageId}&amp;width=90"/>	          
+	        </s:link>
                            
           <br style="clear:both"/>          
         </s:div>
@@ -31,13 +32,16 @@
 	            <div class="blogTitle">#{memberBlog.title}</div>
 	            <div class="blogText"><s:formattedText value="#{memberBlog.text}"/></div>
 	            <div class="blogFooter">
-	              [<h:outputLink value="blogentry.seam?name=#{selectedMember.memberName}&amp;blogId=#{memberBlog.blogId}">
-	                #{memberBlog.commentCount} Comment#{memberBlog.commentCount != 1 ? "s" : ""}
-	              </h:outputLink>]
+
+	              [<s:link view="/blogentry.seam" propagation="none">
+	                <f:param name="blogId" value="#{memberBlog.blogId}"/>
+  	              #{memberBlog.commentCount} Comment#{memberBlog.commentCount != 1 ? "s" : ""}
+  	             </s:link>]
+	              
 	              <s:span rendered="#{s:hasPermission('blog','createComment', null)}">
-  	              [<h:outputLink value="comment.seam?name=#{selectedMember.memberName}&amp;blogId=#{memberBlog.blogId}">
-	                 Add Comment
-	                </h:outputLink>]
+	                [<s:link view="/comment.seam" value="Add Comment" propagation="none">
+	                   <f:param name="blogId" value="#{memberBlog.blogId}"/>
+	                 </s:link>]
 	              </s:span>
 	            </div>
 	          </div>

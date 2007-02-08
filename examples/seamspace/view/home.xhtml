@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
     xmlns:s="http://jboss.com/products/seam/taglib">
 
   <ui:composition template="template.xhtml">
@@ -67,11 +68,12 @@
                     
           <ui:repeat value="#{newMembers}" var="newMember">
             <div class="newMember">
-            
-              <h:outputLink value="profile.seam?name=#{newMember.memberName}">
+
+              <s:link view="/profile.seam">
+                <f:param name="name" value="#{newMember.memberName}"/>
                 #{newMember.memberName}<br/>
                 <h:graphicImage value="/content/images?id=#{newMember.picture.imageId}&amp;width=90"/>
-              </h:outputLink>
+              </s:link>
               
             </div>
           </ui:repeat>          

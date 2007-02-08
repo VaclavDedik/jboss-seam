@@ -6,22 +6,22 @@
 
   <ui:composition template="template.xhtml">
     <ui:define name="content">
-      
-      <div class="errors"><h:messages globalOnly="true"/></div>       
+
+      <div class="errors"><h:messages globalOnly="true"/></div>
 
       <s:div rendered="#{comment == null}">
         Could not create comment.
       </s:div>
-    
+
       <s:div rendered="#{selectedMember != null}">
-      
+
         <s:div id="blogMemberCard">
-          <h:outputLink value="profile.seam?name=#{selectedMember.memberName}">
+	        <s:link view="/profile.seam" propagation="none">
 	          #{selectedMember.memberName}<br/>
 	          <h:graphicImage value="/content/images?id=#{selectedMember.picture.imageId}&amp;width=90"/>
-	        </h:outputLink>
-                           
-          <br style="clear:both"/>          
+	        </s:link>
+
+          <br style="clear:both"/>
         </s:div>
 
 				<s:div id="blog">
@@ -30,33 +30,33 @@
             <div class="blogTitle">#{selectedBlog.title}</div>
             <div class="blogText"><s:formattedText value="#{selectedBlog.text}"/></div>
           </div>
-          
+
           <s:div rendered="#{comment.comment != null}">
             Preview:
 	          <table class="blogComment">
-	            <tr>		            
+	            <tr>
 		            <td class="blogCommentText">
 		              <p><s:formattedText value="#{comment.comment}"/></p>
-		            </td>	            
+		            </td>
 	            </tr>
-	          </table>          
+	          </table>
           </s:div>
-          
+
           <div class="commentEntry">
             <h:form>
-              
+
               <h:outputLabel for="comment">Please type your comment</h:outputLabel><br/>
-              <h:inputTextarea name="comment" value="#{comment.comment}"/><br/>
+              <h:inputTextarea id="comment" value="#{comment.comment}"/><br/>
 
               <div class="buttons">
-                <h:commandButton action="#{blog.saveComment}" value="Add comment" styleClass="action"/>            
-                <h:commandButton value="Preview" styleClass="action"/>                            
+                <h:commandButton action="#{blog.saveComment}" value="Add comment" styleClass="action"/>
+                <h:commandButton value="Preview" styleClass="action"/>
               </div>
-              
+
               <br class="clear"/>
             </h:form>
           </div>
-          
+
           <div>
             <b>Seam Text Quick Reference</b><br/>
             <pre><code>
@@ -75,14 +75,14 @@ Paragraphs are ended with a blank line.
 "quoted text"
             </code></pre>
           </div>
-          
+
         </s:div>
-                
-      </s:div>                
-      
+
+      </s:div>
+
       <br class="clear"/>
-          
+
     </ui:define>
-    
+
   </ui:composition>
 </html>

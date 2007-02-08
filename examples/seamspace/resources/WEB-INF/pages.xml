@@ -17,6 +17,10 @@
        
     <page view-id="/comment.xhtml">    
       <restrict/>
+      
+      <param name="name" value="#{selectedMember.memberName}"/>
+      <param name="blogId" value="#{selectedBlog.blogId}"/>
+      
       <navigation from-action="#{blog.saveComment}">
         <redirect view-id="/blogentry.xhtml"/>
       </navigation>
@@ -47,17 +51,30 @@
       </navigation>
     </page>
     
+    <page view-id="/blog.xhtml">
+      <param name="name" value="#{selectedMember.memberName}"/>
+    </page>   
+    
+    <page view-id="/blogentry.xhtml">
+      <param name="name" value="#{selectedMember.memberName}"/>
+      <param name="blogId" value="#{latestBlog.blogId}"/>
+    </page>
+    
     <page view-id="/admin.xhtml">
       <restrict>#{s:hasRole('admin')}</restrict>    
     </page>
     
     <page view-id="/profile.xhtml">
+      <param name="name" value="#{selectedMember.memberName}"/>
+    
       <navigation from-action="#{friend.createComment}">
         <redirect view-id="/friendcomment.xhtml"/>
       </navigation>
     </page>
     
     <page view-id="/friendcomment.xhtml">
+      <param name="name" value="#{selectedMember.memberName}"/>
+    
       <restrict>#{identity.loggedIn}</restrict>
       <navigation from-action="#{friend.saveComment}">        
         <redirect view-id="/profile.xhtml">
@@ -68,6 +85,7 @@
     
     <page view-id="/friendrequest.xhtml">
       <restrict>#{identity.loggedIn}</restrict>
+      <param name="name" value="#{selectedMember.memberName}"/>
       <navigation from-action="#{friend.saveRequest}">
         <redirect view-id="/profile.xhtml">
           <param name="name" value="#{friendRequest.member.memberName}"/>
