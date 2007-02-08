@@ -157,7 +157,7 @@
            <term><literal>&lt;s:fragment&gt;</literal></term>
            <listitem>
                <para>
-                   A non-rendering component useful for hiding or showing it's children
+                   A non-rendering component useful for enabling/disabling rendering of it's children
                </para>
            </listitem>
        </varlistentry>
