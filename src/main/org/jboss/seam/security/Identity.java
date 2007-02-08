@@ -183,15 +183,25 @@ public class Identity extends Selector
       {
          authenticate();
          log.debug("Login successful for: #0" + getUsername());
-         FacesMessages.instance().addFromResourceBundle(FacesMessage.SEVERITY_INFO, "org.jboss.seam.loginSuccessful", "Welcome, #0", getUsername());
+         addLoginSuccessfulMessage();
          return "success";
       }
       catch (LoginException ex)
       {
          log.debug("Login failed for:" + getUsername(), ex);
-         FacesMessages.instance().addFromResourceBundle(FacesMessage.SEVERITY_INFO, "org.jboss.seam.loginFailed", "Login failed", ex);
+         addLoginFailedMessage(ex);
          return null;
       }
+   }
+
+   protected void addLoginFailedMessage(LoginException ex)
+   {
+      FacesMessages.instance().addFromResourceBundle(FacesMessage.SEVERITY_INFO, "org.jboss.seam.loginFailed", "Login failed", ex);
+   }
+
+   protected void addLoginSuccessfulMessage()
+   {
+      FacesMessages.instance().addFromResourceBundle(FacesMessage.SEVERITY_INFO, "org.jboss.seam.loginSuccessful", "Welcome, #0", getUsername());
    }
    
    public void authenticate() throws LoginException
