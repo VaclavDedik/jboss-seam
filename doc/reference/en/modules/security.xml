@@ -222,6 +222,91 @@ public class Authenticator {
       </itemizedlist>
 
     </sect2>
+    
+    <sect2>
+      <title>Handling Security Exceptions</title>
+      
+      <para>
+        To prevent users from receiving the default error page in response to a security error, it's recommended that 
+        <literal>pages.xml</literal> is configured to redirect security errors to a more "pretty" page.  The two
+        main types of exceptions thrown by the security API are:
+      </para>
+      
+      <itemizedlist>
+        <listitem>
+          <para>
+            <literal>NotLoggedInException</literal> - This exception is thrown if the user attempts to access a 
+            restricted action or page when they are not logged in.
+          </para>
+        </listitem>    
+        <listitem>
+          <para>
+            <literal>AuthorizationException</literal> - This exception is only thrown if the user is already logged in,
+            and they have attempted to access a restricted action or page for which they do not have the necessary
+            privileges.
+          </para>
+        </listitem>    
+      </itemizedlist>
+      
+      <para>
+        In the case of a <literal>NotLoggedInException</literal>, it is recommended that the user is redirected to
+        either a login or registration page so that they can log in.  For an <literal>AuthorizationException</literal>,
+        it may be useful to redirect the user to an error page. Here's an example of a <literal>pages.xml</literal> 
+        file that redirects both of these security exceptions:      
+      </para>
+      
+      <programlisting>
+        <![CDATA[
+  <pages>
+  
+    <exception class="org.jboss.seam.security.NotLoggedInException">
+      <end-conversation/>
+      <redirect view-id="/login.xhtml">
+            <message>You must be logged in to perform this action</message>
+      </redirect>
+    </exception>
+    
+    <exception class="org.jboss.seam.security.AuthorizationException">
+      <end-conversation/>
+      <redirect view-id="/security_error.xhtml">
+            <message>You do not have the necessary security privileges to perform this action.</message>
+      </redirect>
+    </exception>
+  
+  </pages>      
+        ]]>
+      </programlisting>
+      
+    </sect2>
+    
+    <sect2>
+      <title>Login Redirection</title>
+      
+      <para>
+        In conjunction with the exception handlers, Seam Security provides a feature for dealing with session 
+        timeouts.  By adding the following event actions to <literal>components.xml</literal>, attempts to 
+        access a restricted view while not logged in will be remembered, so that upon the user successfully 
+        logging in they will be redirected to the originally requested view.
+      </para>
+      
+      <programlisting>
+        <![CDATA[
+    <event type="org.jboss.seam.notLoggedIn">
+        <action expression="#{redirect.captureCurrentView}"/>
+    </event>
+    
+    <event type="org.jboss.seam.postAuthenticate">
+        <action expression="#{redirect.returnToCapturedView}"/>
+    </event>            
+        ]]>
+      </programlisting>
+      
+      <para>
+        It is important to note that login redirection is implemented as a conversation-scoped mechanism,
+        meaning that for this feature to work, conversation propagation must be enabled until the user is 
+        successfully logged in.
+      </para>
+    </sect2>
         
     <sect2>
       <title>Advanced Authentication Features</title>
@@ -694,60 +779,7 @@ end;
       
     </sect2>
   </sect1>
-  
-  <sect1>
-    <title>Handling Security Exceptions</title>
     
-    <para>
-      To prevent users from receiving the default error page in response to a security error, it's recommended that 
-      <literal>pages.xml</literal> is configured to redirect security errors to a more "pretty" page.  The two
-      main types of exceptions thrown by the security API are:
-    </para>
-    
-    <itemizedlist>
-      <listitem>
-        <para>
-          <literal>NotLoggedInException</literal> - This exception is thrown if the user attempts to access a 
-          restricted action or page when they are not logged in.
-        </para>
-      </listitem>    
-      <listitem>
-        <para>
-          <literal>AuthorizationException</literal> - This exception is only thrown if the user is already logged in,
-          and they have attempted to access a restricted action or page for which they do not have the necessary
-          privileges.
-        </para>
-      </listitem>    
-    </itemizedlist>
-    
-    <para>
-      Here's an example of a <literal>pages.xml</literal> file that redirects these security exceptions:      
-    </para>
-    
-    <programlisting>
-      <![CDATA[
-<pages>
-
-  <exception class="org.jboss.seam.security.NotLoggedInException">
-    <end-conversation/>
-    <redirect view-id="/login.xhtml">
-          <message>You must be logged in to perform this action</message>
-    </redirect>
-  </exception>
-  
-  <exception class="org.jboss.seam.security.AuthorizationException">
-    <end-conversation/>
-    <redirect view-id="/security_error.xhtml">
-          <message>You do not have the necessary security privileges to perform this action.</message>
-    </redirect>
-  </exception>
-
-</pages>      
-      ]]>
-    </programlisting>
-    
-  </sect1>
-  
   <sect1>
     <title>Implementing a Captcha Test</title>
     
@@ -758,14 +790,15 @@ end;
       <emphasis>C</emphasis>omputers and <emphasis>H</emphasis>umans <emphasis>A</emphasis>part) to 
       prevent automated bots from interacting with your application.  Seam provides seamless integration with
       JCaptcha, an excellent library for generating Captcha challenges.  If you wish to use the captcha
-      feature in your application you need to include the jcaptcha-* jar file from the Seam lib directory in your project.
+      feature in your application you need to include the jcaptcha-* jar file from the Seam lib directory in 
+      your project, and register it in <literal>application.xml</literal> as a java module.
     </para>
     
     <sect2>
       <title>Configuring the Captcha Servlet</title>
       <para>
-        To get up and running, it is necessary to configure the Captcha Servlet, a servlet that will provide
-        Captcha images to your pages.  This requires the following entry in <literal>web.xml</literal>:
+        To get up and running, it is necessary to configure the Captcha Servlet, which will provide the Captcha 
+        challenge images to your pages.  This requires the following entry in <literal>web.xml</literal>:
       </para>
       
       <programlisting>
