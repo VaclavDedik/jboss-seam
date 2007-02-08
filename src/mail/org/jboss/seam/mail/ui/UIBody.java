@@ -9,7 +9,6 @@ import javax.mail.BodyPart;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
 /**
@@ -32,11 +31,11 @@ public class UIBody extends MailComponent
      try
      {
         String body = encode(facesContext);
-        
         BodyPart bodyPart = new MimeBodyPart();
         if (PLAIN.equalsIgnoreCase(type)) 
         {
           bodyPart.setText(body);
+          bodyPart.setDisposition("inline");
         }
         else if (HTML.equals(type)) 
         {
@@ -45,10 +44,11 @@ public class UIBody extends MailComponent
            {
               BodyPart text = new MimeBodyPart();
               text.setText(encode(facesContext,alternative));
-              text.addHeader("Content-Disposition", "inline");
+              text.setDisposition("inline");
+              
               BodyPart html = new MimeBodyPart();
               html.setContent(body, "text/html");
-              text.addHeader("Content-Disposition", "inline");
+              html.setDisposition("inline");
               Multipart multipart = new MimeMultipart("alternative");
               multipart.addBodyPart(text);
               multipart.addBodyPart(html);
@@ -58,6 +58,7 @@ public class UIBody extends MailComponent
            else
            {   
               bodyPart.setContent(body, "text/html");
+              bodyPart.setDisposition("inline");
            }
         }
         getRootMultipart().addBodyPart(bodyPart);
