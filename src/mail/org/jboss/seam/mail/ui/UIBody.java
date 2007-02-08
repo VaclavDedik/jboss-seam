@@ -45,12 +45,15 @@ public class UIBody extends MailComponent
            {
               BodyPart text = new MimeBodyPart();
               text.setText(encode(facesContext,alternative));
+              text.addHeader("Content-Disposition", "inline");
               BodyPart html = new MimeBodyPart();
               html.setContent(body, "text/html");
+              text.addHeader("Content-Disposition", "inline");
               Multipart multipart = new MimeMultipart("alternative");
-              multipart.addBodyPart(html);
               multipart.addBodyPart(text);
+              multipart.addBodyPart(html);
               bodyPart.setContent(multipart);
+              
            }
            else
            {   
