@@ -12,7 +12,16 @@ import org.jboss.seam.text.SeamTextParser;
 import antlr.ANTLRException;
 public class UIFormattedText extends UIOutput             
 {
+   public static final String COMPONENT_TYPE   = "org.jboss.seam.ui.FormattedText";      
    public static final String COMPONENT_FAMILY = "org.jboss.seam.ui.FormattedText";
+   
+   public static final String DEFAULT_RENDERER_TYPE = null;
+   
+   public UIFormattedText()
+   {
+      setRendererType(DEFAULT_RENDERER_TYPE);
+   }
+   
    @Override
    public String getFamily()
    {
