@@ -40,7 +40,7 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
    private static final LogProvider log = Logging.getLogProvider( BusinessProcessInterceptor.class );
 
    @AroundInvoke
-   public Object manageBusinessProcessContext(InvocationContext invocation) throws Exception
+   public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
       if ( !beforeInvocation(invocation) )
       {

@@ -13,6 +13,7 @@ import java.lang.reflect.Method;
 import org.jboss.seam.Component;
 import org.jboss.seam.InterceptorType;
 import org.jboss.seam.annotations.AroundInvoke;
+import org.jboss.seam.interceptors.OptimizedInterceptor;
 import org.jboss.seam.util.Reflections;
 
 /**
@@ -34,6 +35,7 @@ public final class Interceptor extends Reflections
    private InterceptorType type;
    private Annotation annotation;
    private Component component;
+   private boolean optimized;
 
    private boolean isStateless()
    {
@@ -162,6 +164,13 @@ public final class Interceptor extends Reflections
       type = userInterceptorClass.isAnnotationPresent(org.jboss.seam.annotations.Interceptor.class) ?
             userInterceptorClass.getAnnotation(org.jboss.seam.annotations.Interceptor.class).type() :
             InterceptorType.SERVER;
+            
+      optimized = OptimizedInterceptor.class.isAssignableFrom(userInterceptorClass);
+   }
+   
+   public boolean isOptimized()
+   {
+      return optimized;
    }
    
    public Object aroundInvoke(InvocationContext invocation, Object userInterceptor) throws Exception

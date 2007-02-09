@@ -40,7 +40,7 @@ public class BijectionInterceptor extends AbstractInterceptor
    }
 
    @AroundInvoke
-   public Object bijectComponent(InvocationContext invocation) throws Exception
+   public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
       if (reentrant)
       {

@@ -1,11 +1,14 @@
 package org.jboss.seam.interceptors;
+
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
+
 import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.util.Work;
+
 /**
  * Implements transaction propagation rules for Seam JavaBean components.
  * 
@@ -17,8 +20,9 @@ import org.jboss.seam.util.Work;
 public class TransactionInterceptor extends AbstractInterceptor
 {
    private static final long serialVersionUID = -4364203056333738988L;
+   
    @AroundInvoke
-   public Object doInTransactionIfNecessary(final InvocationContext invocation) throws Exception
+   public Object aroundInvoke(final InvocationContext invocation) throws Exception
    {
       return new Work()
       {

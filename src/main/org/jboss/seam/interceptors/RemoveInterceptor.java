@@ -29,7 +29,7 @@ public class RemoveInterceptor extends AbstractInterceptor
    private static final LogProvider log = Logging.getLogProvider(RemoveInterceptor.class);
 
    @AroundInvoke
-   public Object removeIfNecessary(InvocationContext invocation) throws Exception
+   public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
       //we have the method from the local interface, get the corresponding one
       //for the actual bean class (it has the @Remove annotation)

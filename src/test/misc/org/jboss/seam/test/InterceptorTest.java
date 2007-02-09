@@ -71,7 +71,7 @@ public class InterceptorTest
       
       BijectionInterceptor bi = new BijectionInterceptor();
       bi.setComponent( new Component(Bar.class, appContext) );
-      String result = (String) bi.bijectComponent( new MockInvocationContext() {
+      String result = (String) bi.aroundInvoke( new MockInvocationContext() {
          @Override
          public Object getTarget()
          {
@@ -103,7 +103,7 @@ public class InterceptorTest
          throw new RuntimeException(e);
       }
 
-      bi.bijectComponent( new MockInvocationContext() {
+      bi.aroundInvoke( new MockInvocationContext() {
          @Override
          public Object getTarget()
          {
@@ -129,7 +129,7 @@ public class InterceptorTest
       try 
       {
          Contexts.getSessionContext().remove("otherFoo");
-         bi.bijectComponent( new MockInvocationContext() {
+         bi.aroundInvoke( new MockInvocationContext() {
             @Override
             public Object getTarget()
             {
@@ -169,7 +169,7 @@ public class InterceptorTest
       biba.setComponent( new Component(BrokenAction.class, appContext) );
       try
       {
-         biba.bijectComponent( new MockInvocationContext() {
+         biba.aroundInvoke( new MockInvocationContext() {
    
             @Override
             public Object getTarget() {
@@ -208,7 +208,7 @@ public class InterceptorTest
       final Action action = new Action();
       BijectionInterceptor bia = new BijectionInterceptor();
       bia.setComponent( new Component(Action.class, appContext) );
-      result = (String) bia.bijectComponent( new MockInvocationContext() {
+      result = (String) bia.aroundInvoke( new MockInvocationContext() {
 
          @Override
          public Object getTarget() {
@@ -262,7 +262,7 @@ public class InterceptorTest
       
       assert !Manager.instance().isLongRunningConversation();
 
-      String result = (String) ci.endOrBeginLongRunningConversation( new MockInvocationContext() {
+      String result = (String) ci.aroundInvoke( new MockInvocationContext() {
          @Override
          public Method getMethod()
          {
@@ -280,7 +280,7 @@ public class InterceptorTest
       
       Manager.instance().initializeTemporaryConversation();
       
-      result = (String) ci.endOrBeginLongRunningConversation( new MockInvocationContext() {
+      result = (String) ci.aroundInvoke( new MockInvocationContext() {
          @Override
          public Method getMethod()
          {
@@ -296,7 +296,7 @@ public class InterceptorTest
       assert Manager.instance().isLongRunningConversation();
       assert "begun".equals(result);
 
-      result = (String) ci.endOrBeginLongRunningConversation( new MockInvocationContext() {
+      result = (String) ci.aroundInvoke( new MockInvocationContext() {
          @Override
          public Method getMethod()
          {
@@ -312,7 +312,7 @@ public class InterceptorTest
       assert Manager.instance().isLongRunningConversation();
       assert "foo".equals(result);
 
-      result = (String) ci.endOrBeginLongRunningConversation( new MockInvocationContext() {
+      result = (String) ci.aroundInvoke( new MockInvocationContext() {
          @Override
          public Method getMethod()
          {
@@ -328,7 +328,7 @@ public class InterceptorTest
       assert !Manager.instance().isLongRunningConversation();
       assert "ended".equals(result);
       
-      result = (String) ci.endOrBeginLongRunningConversation( new MockInvocationContext() {
+      result = (String) ci.aroundInvoke( new MockInvocationContext() {
          @Override
          public Method getMethod()
          {
@@ -344,7 +344,7 @@ public class InterceptorTest
       assert !Manager.instance().isLongRunningConversation();
       assert result==null;
 
-      result = (String) ci.endOrBeginLongRunningConversation( new MockInvocationContext() {
+      result = (String) ci.aroundInvoke( new MockInvocationContext() {
          @Override
          public Method getMethod()
          {
@@ -360,7 +360,7 @@ public class InterceptorTest
       assert Manager.instance().isLongRunningConversation();
       assert result==null;
 
-      result = (String) ci.endOrBeginLongRunningConversation( new MockInvocationContext() {
+      result = (String) ci.aroundInvoke( new MockInvocationContext() {
          @Override
          public Method getMethod()
          {
@@ -376,7 +376,7 @@ public class InterceptorTest
       assert Manager.instance().isLongRunningConversation();
       assert "foo".equals(result);
 
-      result = (String) ci.endOrBeginLongRunningConversation( new MockInvocationContext() {
+      result = (String) ci.aroundInvoke( new MockInvocationContext() {
          @Override
          public Method getMethod()
          {
@@ -392,7 +392,7 @@ public class InterceptorTest
       assert Manager.instance().isLongRunningConversation();
       assert result==null;
 
-      result = (String) ci.endOrBeginLongRunningConversation( new MockInvocationContext() {
+      result = (String) ci.aroundInvoke( new MockInvocationContext() {
          @Override
          public Method getMethod()
          {
@@ -408,7 +408,7 @@ public class InterceptorTest
       assert !Manager.instance().isLongRunningConversation();
       assert result==null;
       
-      result = (String) ci.endOrBeginLongRunningConversation( new MockInvocationContext() {
+      result = (String) ci.aroundInvoke( new MockInvocationContext() {
          @Override
          public Method getMethod()
          {
@@ -424,7 +424,7 @@ public class InterceptorTest
       assert !Manager.instance().isLongRunningConversation();
       assert "failure".equals(result);
 
-      result = (String) ci.endOrBeginLongRunningConversation( new MockInvocationContext() {
+      result = (String) ci.aroundInvoke( new MockInvocationContext() {
          @Override
          public Method getMethod()
          {
@@ -440,7 +440,7 @@ public class InterceptorTest
       assert Manager.instance().isLongRunningConversation();
       assert "success".equals(result);
 
-      result = (String) ci.endOrBeginLongRunningConversation( new MockInvocationContext() {
+      result = (String) ci.aroundInvoke( new MockInvocationContext() {
          @Override
          public Method getMethod()
          {
@@ -456,7 +456,7 @@ public class InterceptorTest
       assert Manager.instance().isLongRunningConversation();
       assert "foo".equals(result);
 
-      result = (String) ci.endOrBeginLongRunningConversation( new MockInvocationContext() {
+      result = (String) ci.aroundInvoke( new MockInvocationContext() {
          @Override
          public Method getMethod()
          {
@@ -472,7 +472,7 @@ public class InterceptorTest
       assert Manager.instance().isLongRunningConversation();
       assert "failure".equals(result);
 
-      result = (String) ci.endOrBeginLongRunningConversation( new MockInvocationContext() {
+      result = (String) ci.aroundInvoke( new MockInvocationContext() {
          @Override
          public Method getMethod()
          {
@@ -520,7 +520,7 @@ public class InterceptorTest
       
       assert !Manager.instance().isLongRunningConversation();
 
-      String result = (String) ci.checkConversationForConversationalBean( new MockInvocationContext() {
+      String result = (String) ci.aroundInvoke( new MockInvocationContext() {
          @Override
          public Method getMethod()
          {
@@ -537,7 +537,7 @@ public class InterceptorTest
       //assert !Manager.instance().isLongRunningConversation();
       assert "error".equals(result);
       
-      result = (String) ci.checkConversationForConversationalBean( new MockInvocationContext() {
+      result = (String) ci.aroundInvoke( new MockInvocationContext() {
          @Override
          public Method getMethod()
          {
@@ -556,7 +556,7 @@ public class InterceptorTest
       //assert Manager.instance().isLongRunningConversation();
       assert "begun".equals(result);
 
-      result = (String) ci.checkConversationForConversationalBean( new MockInvocationContext() {
+      result = (String) ci.aroundInvoke( new MockInvocationContext() {
          @Override
          public Method getMethod()
          {
@@ -572,7 +572,7 @@ public class InterceptorTest
       //assert Manager.instance().isLongRunningConversation();
       assert "foo".equals(result);
 
-      result = (String) ci.checkConversationForConversationalBean( new MockInvocationContext() {
+      result = (String) ci.aroundInvoke( new MockInvocationContext() {
          @Override
          public Method getMethod()
          {
@@ -629,7 +629,7 @@ public class InterceptorTest
 
       final Foo foo = new Foo();
       
-      String result = (String) vi.validateTargetComponent( new MockInvocationContext() {
+      String result = (String) vi.aroundInvoke( new MockInvocationContext() {
          @Override
          public Method getMethod()
          {
@@ -653,7 +653,7 @@ public class InterceptorTest
       FacesMessages.instance().beforeRenderResponse();
       assert !FacesContext.getCurrentInstance().getMessages().hasNext();      
       
-      result = (String) vi.validateTargetComponent( new MockInvocationContext() {
+      result = (String) vi.aroundInvoke( new MockInvocationContext() {
          @Override
          public Method getMethod()
          {
@@ -680,7 +680,7 @@ public class InterceptorTest
 
       foo.setValue("not null");
       
-      result = (String) vi.validateTargetComponent( new MockInvocationContext() {
+      result = (String) vi.aroundInvoke( new MockInvocationContext() {
          @Override
          public Method getMethod()
          {
@@ -711,7 +711,7 @@ public class InterceptorTest
       
       OutcomeInterceptor oi = new OutcomeInterceptor();
       
-      String outcome = (String) oi.interceptOutcome( new MockInvocationContext() {
+      String outcome = (String) oi.aroundInvoke( new MockInvocationContext() {
          @Override
          public Object proceed() throws Exception
          {
@@ -720,7 +720,7 @@ public class InterceptorTest
       } );
       assert outcome==null;
       
-      outcome = (String) oi.interceptOutcome( new MockInvocationContext() {
+      outcome = (String) oi.aroundInvoke( new MockInvocationContext() {
          @Override
          public Object proceed() throws Exception
          {
@@ -729,7 +729,7 @@ public class InterceptorTest
       } );
       assert outcome=="success";
       
-      Object result = oi.interceptOutcome( new MockInvocationContext() {
+      Object result = oi.aroundInvoke( new MockInvocationContext() {
          @Override
          public Object proceed() throws Exception
          {
@@ -761,7 +761,7 @@ public class InterceptorTest
       RemoveInterceptor ri = new RemoveInterceptor();
       ri.setComponent( new Component(Foo.class, appContext) );
       
-      ri.removeIfNecessary( new MockInvocationContext() {
+      ri.aroundInvoke( new MockInvocationContext() {
          @Override
          public Method getMethod()
          {
@@ -771,7 +771,7 @@ public class InterceptorTest
       
       assert Contexts.getSessionContext().isSet("foo");
       
-      ri.removeIfNecessary( new MockInvocationContext() {
+      ri.aroundInvoke( new MockInvocationContext() {
          @Override
          public Method getMethod()
          {

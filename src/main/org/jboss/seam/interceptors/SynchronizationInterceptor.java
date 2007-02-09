@@ -22,7 +22,7 @@ public class SynchronizationInterceptor extends AbstractInterceptor
    private ReentrantLock lock = new ReentrantLock(true);
    
    @AroundInvoke
-   public synchronized Object serialize(InvocationContext invocation) throws Exception
+   public synchronized Object aroundInvoke(InvocationContext invocation) throws Exception
    {
       if ( lock.tryLock( getComponent().getTimeout(), TimeUnit.MILLISECONDS ) )
       {

@@ -1,8 +1,11 @@
 //$Id$
 package org.jboss.seam.interceptors;
+
 import java.lang.reflect.Method;
+
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
+
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.hibernate.Session;
@@ -13,6 +16,7 @@ import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.intercept.InvocationContext;
+
 /**
  * Validate the method receiver using Hibernate validator before
  * invoking the method. If a validation failure occurs, put
@@ -30,8 +34,9 @@ public class ValidationInterceptor extends AbstractInterceptor
    private static final long serialVersionUID = 4724500409653141512L;
   
    private static final LogProvider log = Logging.getLogProvider(ValidationInterceptor.class);
+   
    @AroundInvoke
-   public Object validateTargetComponent(InvocationContext invocation) throws Exception
+   public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
       Method method = invocation.getMethod();
       if ( method.isAnnotationPresent(IfInvalid.class) )
@@ -63,6 +68,7 @@ public class ValidationInterceptor extends AbstractInterceptor
          return invocation.proceed();
       }
    }
+   
    private void refreshInvalidEntity(IfInvalid ifInvalid, Object entity) {
       Object persistenceContext = Component.getInstance( ifInvalid.persistenceContext(), false );
       if (persistenceContext==null) 

@@ -36,7 +36,7 @@ public class ConversationalInterceptor extends AbstractInterceptor
    private static final LogProvider log = Logging.getLogProvider(ConversationalInterceptor.class);
 
    @AroundInvoke
-   public Object checkConversationForConversationalBean(InvocationContext invocation) throws Exception
+   public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
       Method method = invocation.getMethod();
 

@@ -10,7 +10,7 @@ import org.jboss.seam.Component;
  * 
  * @author Gavin King
  */
-public class AbstractInterceptor implements Serializable
+public abstract class AbstractInterceptor implements Serializable, OptimizedInterceptor
 {
    private static final long serialVersionUID = -8838873111255032911L;
    private transient Component component; //a cache of the Component reference

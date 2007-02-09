@@ -49,7 +49,7 @@ public class ClientSideInterceptor extends RootInterceptor
             return this;
          }
       }
-      Object result = interceptInvocation(method, params, methodProxy);
+      Object result = invoke( createInvocationContext(method, params, methodProxy), EventType.AROUND_INVOKE );
       return sessionBeanReturnedThis(result) ? proxy : result;
    }
 
@@ -60,9 +60,9 @@ public class ClientSideInterceptor extends RootInterceptor
          );
    }
 
-   private Object interceptInvocation(final Method method, final Object[] params, final MethodProxy methodProxy) throws Exception
+   private RootInvocationContext createInvocationContext(final Method method, final Object[] params, final MethodProxy methodProxy)
    {
-      RootInvocationContext context = new RootInvocationContext(bean, method, params, methodProxy)
+      return new RootInvocationContext(bean, method, params, methodProxy)
       {
          @Override
          public Object proceed() throws Exception
@@ -78,9 +78,7 @@ public class ClientSideInterceptor extends RootInterceptor
                SeamInterceptor.COMPONENT.set(old);
             }
          }
-      
       };
-      return invoke(context, EventType.AROUND_INVOKE);
    }
    
    //TODO: copy/paste from JavaBean interceptor

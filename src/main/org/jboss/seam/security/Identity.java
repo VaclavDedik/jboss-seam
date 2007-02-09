@@ -55,7 +55,7 @@ public class Identity extends Selector
    
    private static final LogProvider log = Logging.getLogProvider(Identity.class);
    public static final String RULES_COMPONENT_NAME = "securityRules";
-      
+   
    private String username;
    private String password;
    

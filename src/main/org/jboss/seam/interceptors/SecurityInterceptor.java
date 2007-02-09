@@ -21,7 +21,7 @@ public class SecurityInterceptor extends AbstractInterceptor
    private static final long serialVersionUID = -6567750187000766925L;
 
    @AroundInvoke
-   public Object checkSecurity(InvocationContext invocation) throws Exception
+   public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
       Restrict r = null;
 

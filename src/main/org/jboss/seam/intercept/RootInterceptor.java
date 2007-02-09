@@ -99,7 +99,7 @@ public class RootInterceptor implements Serializable
       else if ( Contexts.isEventContextActive() || Contexts.isApplicationContextActive() ) //not sure about the second bit (only needed at init time!)
       {
          //a Seam component, and Seam contexts exist
-         return invokeInContexts(invocation, invocationType);
+         return createInvocationContext(invocation, invocationType).proceed();
       }
       else
       {
@@ -109,7 +109,7 @@ public class RootInterceptor implements Serializable
          Lifecycle.beginCall();
          try
          {
-            return invokeInContexts(invocation, invocationType);
+            return createInvocationContext(invocation, invocationType).proceed();
          }
          finally
          {
@@ -118,7 +118,7 @@ public class RootInterceptor implements Serializable
       }
    }
 
-   private Object invokeInContexts(InvocationContext invocation, EventType eventType) throws Exception
+   private InvocationContext createInvocationContext(InvocationContext invocation, EventType eventType) throws Exception
    {
       if ( isProcessInterceptors() )
       {
@@ -133,19 +133,19 @@ public class RootInterceptor implements Serializable
          {
             log.trace( "not intercepted: " + getInterceptionMessage(invocation, eventType) );
          }
-         return invocation.proceed();
+         return invocation;
       }
    }
 
-   private Object createSeamInvocationContext(InvocationContext invocation, EventType eventType) throws Exception
+   private SeamInvocationContext createSeamInvocationContext(InvocationContext invocation, EventType eventType) throws Exception
    {
       if ( EJB.INVOCATION_CONTEXT_AVAILABLE )
       {
-         return new EE5SeamInvocationContext( invocation, eventType, userInterceptors, getComponent().getInterceptors(type) ).proceed();
+         return new EE5SeamInvocationContext( invocation, eventType, userInterceptors, getComponent().getInterceptors(type) );
       }
       else
       {
-         return new SeamInvocationContext( invocation, eventType, userInterceptors, getComponent().getInterceptors(type) ).proceed();
+         return new SeamInvocationContext( invocation, eventType, userInterceptors, getComponent().getInterceptors(type) );
       }
    }
 

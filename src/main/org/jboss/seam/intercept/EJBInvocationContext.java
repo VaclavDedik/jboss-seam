@@ -37,8 +37,8 @@ public class EJBInvocationContext implements InvocationContext, javax.intercepto
       return context.proceed();
    }
 
-   public void setParameters(Object[] arg0)
+   public void setParameters(Object[] params)
    {
-      context.setParameters(arg0);
+      context.setParameters(params);
    }
 }

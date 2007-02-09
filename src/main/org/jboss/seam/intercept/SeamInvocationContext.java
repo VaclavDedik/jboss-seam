@@ -5,6 +5,8 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 
+import org.jboss.seam.interceptors.OptimizedInterceptor;
+
 
 /**
  * Adapts from EJB interception to Seam component interceptors
@@ -59,9 +61,17 @@ public class SeamInvocationContext implements InvocationContext
          Object userInterceptor = userInterceptors.get(location);
          Interceptor interceptor = interceptors.get(location);
          location++;
-         switch(eventType)
+         switch (eventType)
          {
-            case AROUND_INVOKE: return interceptor.aroundInvoke(this, userInterceptor);
+            case AROUND_INVOKE:
+               if ( interceptor.isOptimized() )
+               {
+                  return ( (OptimizedInterceptor) userInterceptor ).aroundInvoke(this);
+               }
+               else
+               {
+                  return interceptor.aroundInvoke(this, userInterceptor);
+               }
             case POST_CONSTRUCT: return interceptor.postConstruct(this, userInterceptor);
             case PRE_DESTORY: return interceptor.preDestroy(this, userInterceptor);
             case PRE_PASSIVATE: return interceptor.prePassivate(this, userInterceptor);

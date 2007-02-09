@@ -1,17 +1,21 @@
 //$Id$
 package org.jboss.seam.interceptors;
+
 import static org.jboss.seam.ComponentType.JAVA_BEAN;
 import static org.jboss.seam.util.EJB.APPLICATION_EXCEPTION;
 import static org.jboss.seam.util.EJB.rollback;
+
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
+
 import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.Outcome;
 import org.jboss.seam.annotations.Rollback;
 import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.util.Transactions;
+
 /**
  * Automatically sets transactions to rollback only.
  * 
@@ -21,8 +25,9 @@ import org.jboss.seam.util.Transactions;
 public class RollbackInterceptor extends AbstractInterceptor 
 {
    private static final long serialVersionUID = 5551801508325093417L;
+   
    @AroundInvoke
-   public Object rollbackIfNecessary(InvocationContext invocation) throws Exception 
+   public Object aroundInvoke(InvocationContext invocation) throws Exception 
    {
       try
       {
