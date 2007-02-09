@@ -79,7 +79,17 @@ public class Events
    
    public void raiseAsynchronousEvent(String type, Object... parameters)
    {
-      Dispatcher.instance().scheduleEvent(type, 0l, null, null, parameters);
+      getDispatcher().scheduleEvent(type, 0l, null, null, parameters);
+   }
+
+   protected LocalDispatcher getDispatcher()
+   {
+      LocalDispatcher dispatcher = Dispatcher.instance();
+      if (dispatcher==null)
+      {
+         throw new IllegalStateException("org.jboss.seam.core.dispatcher is not installed");
+      }
+      return dispatcher;
    }
    
    public void raiseTransactionSuccessEvent(String type, Object... parameters)
@@ -94,22 +104,22 @@ public class Events
    
    public void raiseTimedEvent(String type, long duration, Object... parameters)
    {
-      Dispatcher.instance().scheduleEvent(type, duration, null, null, parameters);
+      getDispatcher().scheduleEvent(type, duration, null, null, parameters);
    }
    
    public void raiseTimedEvent(String type, Date expiration, Object... parameters)
    {
-      Dispatcher.instance().scheduleEvent(type, null, expiration, null, parameters);
+      getDispatcher().scheduleEvent(type, null, expiration, null, parameters);
    }
    
    public void raiseTimedEvent(String type, Date expiration, long intervalDuration, Object... parameters)
    {
-      Dispatcher.instance().scheduleEvent(type, null, expiration, intervalDuration, parameters);
+      getDispatcher().scheduleEvent(type, null, expiration, intervalDuration, parameters);
    }
    
    public void raiseTimedEvent(String type, long duration, long intervalDuration)
    {
-      Dispatcher.instance().scheduleEvent(type, duration, null, intervalDuration);
+      getDispatcher().scheduleEvent(type, duration, null, intervalDuration);
    }
    
    public static boolean exists()
