@@ -99,7 +99,7 @@
            </h:dataTable>
 
           <span class="rvgPage">
-            <h:commandButton type="submit" value="#{messages.Select} #{messages.Project}" action="#{issueProjectSelector.selectProject}" />
+            <h:commandButton type="submit" value="#{messages.Select} #{messages.Project}" action="#{issueEditor.selectProject}" />
           </span>
 
         </div>

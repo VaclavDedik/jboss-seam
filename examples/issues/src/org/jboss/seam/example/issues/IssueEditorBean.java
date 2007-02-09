@@ -2,6 +2,7 @@ package org.jboss.seam.example.issues;
 // Generated Dec 27, 2005 10:28:30 AM by Hibernate Tools 3.1.0 beta3
 
 import static javax.ejb.TransactionAttributeType.NOT_SUPPORTED;
+import static org.jboss.seam.ScopeType.CONVERSATION;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,6 +14,7 @@ import javax.ejb.TransactionAttribute;
 import javax.persistence.EntityManager;
 
 import org.hibernate.validator.Valid;
+import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Create;
@@ -160,6 +162,13 @@ public class IssueEditorBean implements IssueEditor {
        issue.setProject( projectEditor.getInstance() );
        doneOutcome = "editProject";
        return "editIssue";
+    }
+    
+    @Begin(join=true)
+    public String selectProject() {
+       CONVERSATION.getContext().set("projectSelector",
+             Component.getInstance("issueProjectSelector", true) );
+        return "selectProject";
     }
     
     @Begin(nested=true)

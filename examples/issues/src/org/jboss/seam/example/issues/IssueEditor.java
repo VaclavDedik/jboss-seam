@@ -17,6 +17,8 @@ public interface IssueEditor {
    
    public Comment getSelectedComment();
    
+   public String selectProject();
+
    public String select();
    
    public String createIssue();

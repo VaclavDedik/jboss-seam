@@ -5,6 +5,7 @@ package org.jboss.seam.example.issues;
 
 import static org.jboss.seam.ScopeType.CONVERSATION;
 
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import javax.ejb.Stateless;
@@ -19,21 +20,14 @@ import org.jboss.seam.annotations.Name;
 @Name("issueProjectSelector")
 public class IssueProjectSelectorBean implements IssueProjectSelector {
    
-   @In(create=true)
-   private transient ResourceBundle resourceBundle;
+   @In
+   private transient Map<String, String> messages;
 
    @In(create=true)
    private transient ProjectFinder projectFinder;
 
    @In(required=false)
    private transient IssueEditor issueEditor;
-   
-   @Begin(join=true)
-   public String selectProject() {
-      CONVERSATION.getContext().set("projectSelector",
-            Component.getInstance("issueProjectSelector", true) );
-       return "selectProject";
-   }
    
    public String getDescription() {
        return "Select Project for " + getIssueDescription();
@@ -61,7 +55,7 @@ public class IssueProjectSelectorBean implements IssueProjectSelector {
    }
 
    public String getButtonLabel() {
-      return resourceBundle.getString("Select");
+      return messages.get("Select");
    }
 
    public boolean isCreateEnabled() {

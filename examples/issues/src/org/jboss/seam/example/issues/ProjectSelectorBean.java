@@ -3,6 +3,7 @@
  */
 package org.jboss.seam.example.issues;
 
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import javax.ejb.Stateless;
@@ -15,8 +16,8 @@ import org.jboss.seam.annotations.Name;
 @Name("projectSelector")
 public class ProjectSelectorBean implements ProjectSelector {
 
-   @In(create=true)
-   private transient ResourceBundle resourceBundle;
+   @In
+   private transient Map<String, String> messages;
 
    @In(create=true)
    private transient ProjectEditor projectEditor;
@@ -31,7 +32,7 @@ public class ProjectSelectorBean implements ProjectSelector {
    }
    
    public String getButtonLabel() {
-      return resourceBundle.getString("View");
+      return messages.get("View");
    }
    
    public boolean isCreateEnabled() {
