@@ -166,8 +166,9 @@ public class Identity extends Selector
          if ( !isLoggedIn() )
          {
             Events.instance().raiseEvent("org.jboss.seam.notLoggedIn");
-            throw new NotLoggedInException(String.format(
-                "Error evaluating expression [%s] - User not logged in", expr));
+            log.debug(String.format(
+               "Error evaluating expression [%s] - User not logged in", expr));
+            throw new NotLoggedInException();
          }
          else
          {
