@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<xsd:schema xmlns="http://jboss.com/products/seam/spring" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:tool="http://www.springframework.org/schema/tool"
+            targetNamespace="http://jboss.com/products/seam/spring"
+            elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+   <xsd:import namespace="http://www.springframework.org/schema/tool"
+               schemaLocation="http://www.springframework.org/schema/tool/spring-tool-2.0.xsd"/>
+
+   <xsd:element name="instance">
+      <xsd:annotation>
+         <xsd:documentation>
+            Obtains an instance of a seam
+         </xsd:documentation>
+
+         <xsd:appinfo>
+            <tool:annotation>
+               <tool:exports/>
+            </tool:annotation>
+         </xsd:appinfo>
+      </xsd:annotation>
+      <xsd:complexType>
+         <xsd:attribute name="id" type="xsd:ID"/>
+         <xsd:attribute name="name" type="xsd:string" use="required"/>
+         <xsd:attribute name="scope" use="optional">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:enumeration value="STATELESS"/>
+                  <xsd:enumeration value="METHOD"/>
+                  <xsd:enumeration value="EVENT"/>
+                  <xsd:enumeration value="PAGE"/>
+                  <xsd:enumeration value="CONVERSATION"/>
+                  <xsd:enumeration value="SESSION"/>
+                  <xsd:enumeration value="APPLICATION"/>
+                  <xsd:enumeration value="BUSINESS_PROCESS"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:attribute>
+         <xsd:attribute name="create" type="xsd:boolean" use="optional"/>
+      </xsd:complexType>
+   </xsd:element>
+</xsd:schema>
