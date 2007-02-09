@@ -39,11 +39,10 @@ import org.jboss.seam.util.Transactions;
 @Name("org.jboss.seam.servlet.exceptionFilter")
 @Install(precedence = BUILT_IN)
 @Intercept(NEVER)
-public class SeamExceptionFilter extends SeamFilter
+public class SeamExceptionFilter extends BaseFilter
 {
    
    private static final LogProvider log = Logging.getLogProvider(SeamExceptionFilter.class);
-   @Override
    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) 
          throws IOException, ServletException
    {

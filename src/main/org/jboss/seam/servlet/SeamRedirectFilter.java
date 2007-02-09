@@ -29,9 +29,8 @@ import org.jboss.seam.core.Pages;
 @Name("org.jboss.seam.servlet.redirectFilter")
 @Install(precedence = BUILT_IN)
 @Intercept(NEVER)
-public class SeamRedirectFilter extends SeamFilter 
+public class SeamRedirectFilter extends BaseFilter 
 {
-   @Override
    public void doFilter(ServletRequest request, ServletResponse response,
          FilterChain chain) throws IOException, ServletException 
    {

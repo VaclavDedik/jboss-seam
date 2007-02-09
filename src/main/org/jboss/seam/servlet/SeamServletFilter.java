@@ -30,7 +30,7 @@ import org.jboss.seam.log.Logging;
 @Name("org.jboss.seam.servlet.servletFilter")
 @Install(precedence = BUILT_IN)
 @Intercept(NEVER)
-public class SeamServletFilter extends SeamFilter 
+public class SeamServletFilter extends BaseFilter 
 {
    private static final LogProvider log = Logging.getLogProvider(SeamServletFilter.class);
    private boolean explicitDisabled = false;
@@ -57,7 +57,6 @@ public class SeamServletFilter extends SeamFilter
       if (disabled) explicitDisabled = true;
    }
  
-   @Override
    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) 
        throws IOException, ServletException 
    {

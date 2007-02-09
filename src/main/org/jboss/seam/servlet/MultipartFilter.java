@@ -24,7 +24,7 @@ import org.jboss.seam.annotations.Startup;
 @Name("org.jboss.seam.servlet.multipartFilter")
 @Install(precedence = BUILT_IN)
 @Intercept(NEVER)
-public class MultipartFilter extends SeamFilter
+public class MultipartFilter extends BaseFilter
 {
    public static final String MULTIPART = "multipart/";
    
@@ -58,7 +58,6 @@ public class MultipartFilter extends SeamFilter
       this.maxRequestSize = maxFileSize;
    }   
    
-   @Override
    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException
    {
