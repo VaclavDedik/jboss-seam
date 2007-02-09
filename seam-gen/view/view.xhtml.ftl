@@ -63,10 +63,19 @@
                       id="${property.name}">
 <#foreach parentProperty in parentPojo.allPropertiesIterator>
 <#if !c2h.isCollection(parentProperty) && !c2h.isManyToOne(parentProperty)>
+<#if parentPojo.isComponent(parentProperty)>
+<#foreach componentProperty in parentProperty.value.propertyIterator>
+            <h:column>
+                <f:facet name="header">${componentProperty.name}</f:facet>
+                ${'#'}{${parentName}.${parentProperty.name}.${componentProperty.name}}
+            </h:column>
+</#foreach>
+<#else>
             <h:column>
                 <f:facet name="header">${parentProperty.name}</f:facet>
                 ${'#'}{${parentName}.${parentProperty.name}}
             </h:column>
+</#if>
 </#if>
 <#if c2h.isManyToOne(parentProperty)>
 <#assign parentParentPojo = c2j.getPOJOClass(cfg.getClassMapping(parentProperty.value.referencedEntityName))>
@@ -81,8 +90,15 @@
                 <s:link id="view${parentName}" 
                      value="View" 
                       view="/${parentPageName}.xhtml">
+<#if parentPojo.isComponent(parentPojo.identifierProperty)>
+<#foreach componentProperty in parentPojo.identifierProperty.value.propertyIterator>
+                    <f:param name="${parentName}${util.upper(componentProperty.name)}" 
+                            value="${'#'}{${parentName}.${parentPojo.identifierProperty.name}.${componentProperty.name}}"/>
+</#foreach>
+<#else>
                     <f:param name="${parentName}${util.upper(parentPojo.identifierProperty.name)}" 
                            value="${'#'}{${parentName}.${parentPojo.identifierProperty.name}}"/>
+</#if>
                 </s:link>
             </h:column>
         </h:dataTable>
@@ -110,10 +126,19 @@
                         id="${property.name}">
 <#foreach childProperty in childPojo.allPropertiesIterator>
 <#if !c2h.isCollection(childProperty) && !c2h.isManyToOne(childProperty)>
+<#if childPojo.isComponent(childProperty)>
+<#foreach componentProperty in childProperty.value.propertyIterator>
+            <h:column>
+                <f:facet name="header">${componentProperty.name}</f:facet>
+                ${'#'}{${childName}.${childProperty.name}.${componentProperty.name}}
+            </h:column>
+</#foreach>
+<#else>
             <h:column>
                 <f:facet name="header">${childProperty.name}</f:facet>
                 <h:outputText value="${'#'}{${childName}.${childProperty.name}}"/>
             </h:column>
+</#if>
 </#if>
 </#foreach>
             <h:column>
@@ -121,8 +146,15 @@
                 <s:link id="select${childName}" 
                      value="Select" 
                       view="/${childPageName}.xhtml">
+<#if childPojo.isComponent(childPojo.identifierProperty)>
+<#foreach componentProperty in childPojo.identifierProperty.value.propertyIterator>
+                    <f:param name="${childName}${util.upper(componentProperty.name)}" 
+                            value="${'#'}{${childName}.${childPojo.identifierProperty.name}.${componentProperty.name}}"/>
+</#foreach>
+<#else>
                     <f:param name="${childName}${util.upper(childPojo.identifierProperty.name)}" 
                             value="${'#'}{${childName}.${childPojo.identifierProperty.name}}"/>
+</#if>
                     <f:param name="${childName}From" value="${entityName}"/>
                 </s:link>
             </h:column>
