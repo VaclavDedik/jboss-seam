@@ -79,15 +79,12 @@ public class SeamFilter implements Filter
    protected void initFilters(FilterConfig filterConfig)
       throws ServletException
    {
-      if (getClass().equals(SeamFilter.class)) 
-      {
-         Context ctx = new WebApplicationContext(servletContext); 
-         
-         addFilter((Filter) ctx.get(MultipartFilter.class), filterConfig);
-         addFilter((Filter) ctx.get(SeamRedirectFilter.class), filterConfig);
-         addFilter((Filter) ctx.get(SeamExceptionFilter.class), filterConfig);
-         addFilter((Filter) ctx.get(SeamServletFilter.class), filterConfig);
-      }
+      Context ctx = new WebApplicationContext(servletContext); 
+      
+      addFilter((Filter) ctx.get(MultipartFilter.class), filterConfig);
+      addFilter((Filter) ctx.get(SeamRedirectFilter.class), filterConfig);
+      addFilter((Filter) ctx.get(SeamExceptionFilter.class), filterConfig);
+      addFilter((Filter) ctx.get(SeamServletFilter.class), filterConfig);
    }
    
    public void doFilter(ServletRequest request, ServletResponse response, 
