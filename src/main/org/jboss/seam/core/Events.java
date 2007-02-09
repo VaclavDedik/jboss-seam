@@ -84,7 +84,12 @@ public class Events
    
    public void raiseTransactionSuccessEvent(String type, Object... parameters)
    {
-      TransactionListener.instance().scheduleEvent(type, parameters);
+      LocalTransactionListener transactionListener = TransactionListener.instance();
+      if (transactionListener==null)
+      {
+         throw new IllegalStateException("org.jboss.seam.core.transactionListener is not installed");
+      }
+      transactionListener.scheduleEvent(type, parameters);
    }
    
    public void raiseTimedEvent(String type, long duration, Object... parameters)
