@@ -8,8 +8,10 @@ package org.jboss.seam.mock;
 
 import java.lang.reflect.Field;
 import java.util.AbstractSet;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -21,6 +23,7 @@ import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
@@ -192,6 +195,11 @@ public class SeamTest
                throw new UnsupportedOperationException();
             }
          };
+      }
+      
+      public List<Cookie> getCookies()
+      {
+         return Collections.EMPTY_LIST;
       }
       
       /**
@@ -396,7 +404,7 @@ public class SeamTest
        */
       public String run() throws Exception
       {   
-         HttpServletRequest request = new MockHttpServletRequest( session, getPrincipalName(), getPrincipalRoles() );
+         HttpServletRequest request = new MockHttpServletRequest( session, getPrincipalName(), getPrincipalRoles(), getCookies().toArray( new Cookie[]{} ) );
          externalContext = new MockExternalContext(servletContext, request);
          application = new SeamApplication11(SeamTest.this.application);
          facesContext = new MockFacesContext( externalContext, application );

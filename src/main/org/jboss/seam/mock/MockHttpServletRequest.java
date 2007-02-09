@@ -37,6 +37,7 @@ public class MockHttpServletRequest implements HttpServletRequest
    private Map<String, String[]> headers = new HashMap<String, String[]>();
    private String principalName;
    private Set<String> principalRoles;
+   private Cookie[] cookies;
    
    public MockHttpServletRequest(HttpSession session)
    {
@@ -44,6 +45,13 @@ public class MockHttpServletRequest implements HttpServletRequest
    }
 
    public MockHttpServletRequest(HttpSession session, String principalName, Set<String> principalRoles)
+   {
+      this.session = session;
+      this.principalName = principalName;
+      this.principalRoles = principalRoles;
+   }
+
+   public MockHttpServletRequest(HttpSession session, String principalName, Set<String> principalRoles, Cookie[] cookies)
    {
       this.session = session;
       this.principalName = principalName;
@@ -68,8 +76,7 @@ public class MockHttpServletRequest implements HttpServletRequest
 
    public Cookie[] getCookies()
    {
-      //TODO
-      return null;
+      return cookies;
    }
 
    public long getDateHeader(String arg0)

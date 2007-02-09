@@ -24,6 +24,7 @@ import java.util.Set;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -176,7 +177,12 @@ public class MockExternalContext extends ExternalContext
    @Override
    public Map getRequestCookieMap()
    {
-      return null;
+      Map<String, Cookie> cookieMap = new HashMap<String, Cookie>();
+      for ( Cookie cookie : request.getCookies() ) 
+      {
+         cookieMap.put(cookie.getName(), cookie);
+      }
+      return cookieMap;
    }
 
    @Override
