@@ -599,6 +599,66 @@ public class Authenticator {
       </para>
         
     </sect2>
+    
+    <sect2>
+      <title>Securing Entities</title>
+      
+      <para>      
+        Seam security also makes it possible to apply security restrictions to insert, update and 
+        delete actions for entities.  The security check performed for these operations (on entities
+        for which security is enabled) is the permission check <literal>entityName:action</literal>,
+        where <literal>entityName</literal> is the name of the entity (or the class name if no @Name is 
+        specified), and the <literal>action</literal> is either <literal>insert</literal>, 
+        <literal>update</literal>, or <literal>delete</literal>.  Here's an example of an entity
+        permission rule from the seamspace example:
+      </para>
+      
+      <programlisting>
+        <![CDATA[
+rule InsertMemberBlog
+  no-loop
+  activation-group "permissions"
+when
+  c: PermissionCheck(name == "memberBlog", action == "insert", granted == false)
+  Principal(nm : name)
+  MemberBlog(mbr : member -> (mbr.getUsername().equals(nm)))
+then
+  c.grant();
+  modify(c);
+end;        
+        ]]>
+      </programlisting>
+      
+      <para>
+        To enable entity security for your entities, refer to the following sections.
+      </para>
+      
+      <sect3>
+        <title>Entity security using JPA</title>
+        <para>
+          Security checks for EJB3 entity beans are performed with an <literal>EntityListener</literal>.
+          To secure individual entity beans, add the <literal>@EntityListeners</literal> annotation like so:
+        </para>
+        
+        <programlisting>
+          <![CDATA[
+import javax.persistence.EntityListeners;          
+import org.jboss.seam.security.SecurityEntityListener;          
+          
+@Entity          
+@Name("customer")          
+@EntityListeners(SecurityEntityListener.class)
+public class Customer {
+  ...
+}         
+          ]]>
+        </programlisting>
+      </sect3>
+      
+      <para>
+      
+      </para>
+    </sect2>
 
   </sect1>
   
