@@ -37,8 +37,18 @@ public class ${entityName}Home extends ${pojo.importType("org.jboss.seam.framewo
     {
         set${idName}( new ${entityName}Id() );
     }
-</#if>
+    
+    @Override
+    public boolean isIdDefined()
+    {
+<#foreach property in pojo.identifierProperty.value.propertyIterator>
+<#assign getter = "get" + pojo.getPropertyName(property)>
+        if ( get${idName}().${getter}()==null ) return false;
+</#foreach>
+        return true;
+    }
 
+</#if>
     @Override
     protected ${entityName} createInstance()
     {
