@@ -6,6 +6,7 @@ import org.jboss.seam.security.PermissionCheck;
 import org.jboss.seam.security.Role;
 
 import org.jboss.seam.example.seamspace.Member;
+import org.jboss.seam.example.seamspace.MemberBlog;
 import org.jboss.seam.example.seamspace.MemberFriend;
 import org.jboss.seam.example.seamspace.MemberImage;
 
@@ -60,6 +61,18 @@ when
   c: PermissionCheck(name == "blog", action == "create", granted == false)
   Principal(nm : name)
   Member(username == nm)
+then
+  c.grant();
+  modify(c);
+end;
+
+rule InsertMemberBlog
+  no-loop
+  activation-group "permissions"
+when
+  c: PermissionCheck(name == "memberBlog", action == "insert", granted == false)
+  Principal(nm : name)
+  MemberBlog(mbr : member -> (mbr.getUsername().equals(nm)))
 then
   c.grant();
   modify(c);
