@@ -17,7 +17,11 @@ public class ${entityName}Home extends ${pojo.importType("org.jboss.seam.framewo
 </#foreach>
 
 <#assign idName = entityName + util.upper(pojo.identifierProperty.name)>
+<#if c2j.isComponent(pojo.identifierProperty)>
+<#assign idType = entityName + "Id">
+<#else>
 <#assign idType = pojo.importType(pojo.identifierProperty.type.returnedClass.name)>
+</#if>
     public void set${idName}(${idType} id)
     {
         setId(id);
@@ -28,17 +32,27 @@ public class ${entityName}Home extends ${pojo.importType("org.jboss.seam.framewo
         return (${idType}) getId();
     }
 
+<#if pojo.isComponent(pojo.identifierProperty)>
+    public ${entityName}Home()
+    {
+        set${idName}( new ${entityName}Id() );
+    }
+</#if>
+
     @Override
     protected ${entityName} createInstance()
     {
-        ${entityName} result = new ${entityName}();
+        ${entityName} ${componentName} = new ${entityName}();
+<#if pojo.isComponent(pojo.identifierProperty)>
+        ${componentName}.setId( new ${entityName}Id() );
+</#if>
 <#foreach property in pojo.allPropertiesIterator>
 <#if c2h.isManyToOne(property)>
 <#assign setter = "set" + pojo.getPropertyName(property)>
-        result.${setter}(${property.name});
+        ${componentName}.${setter}(${property.name});
 </#if>
 </#foreach>
-        return result;
+        return ${componentName};
     }
  	
 <#foreach property in pojo.allPropertiesIterator>

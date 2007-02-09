@@ -23,38 +23,8 @@
     <div id="${componentName}" class="dialog">
         <table>
 <#foreach property in pojo.allPropertiesIterator>
-<#if !c2h.isCollection(property) && !c2h.isManyToOne(property) && !c2h.isOneToMany(property)>
-<#if !property.equals(pojo.identifierProperty) || property.value.identifierGeneratorStrategy == "assigned">
-
-            <tr class="prop">
-                <td class="name">${property.name}</td>
-                <td class="value" id="${property.name}">
-<#if property.value.typeName == "date">
-                    <h:outputText value="${'#'}{${homeName}.instance.${property.name}}">
-                        <f:convertDateTime type="date" dateStyle="short"/>
-                    </h:outputText>
-<#elseif property.value.typeName == "time">
-                    <h:outputText value="${'#'}{${homeName}.instance.${property.name}}">
-                        <f:convertDateTime type="time"/>
-                    </h:outputText>
-<#elseif property.value.typeName == "timestamp">
-                    <h:outputText value="${'#'}{${homeName}.instance.${property.name}}">
-                        <f:convertDateTime type="both" dateStyle="short"/>
-                    </h:outputText>
-<#elseif property.value.typeName == "big_decimal">
-                    <h:outputText value="${'#'}{${homeName}.instance.${property.name}}">
-                        <f:convertNumber/>
-                    </h:outputText>
-<#elseif property.value.typeName == "big_integer">
-                    <h:outputText value="${'#'}{${homeName}.instance.${property.name}}">
-                        <f:convertNumber integerOnly="true"/>
-                    </h:outputText>
-<#else>
-                    ${'#'}{${homeName}.instance.${property.name}}
-</#if>
-                </td>
-            </tr>
-</#if>
+<#if !c2h.isCollection(property) && !c2h.isManyToOne(property)>
+<#include "viewproperty.xhtml.ftl">
 </#if>
 </#foreach>
 
@@ -92,7 +62,7 @@
               rowClasses="rvgRowOne,rvgRowTwo"
                       id="${property.name}">
 <#foreach parentProperty in parentPojo.allPropertiesIterator>
-<#if !c2h.isCollection(parentProperty) && !c2h.isManyToOne(parentProperty) && !c2h.isOneToMany(parentProperty)>
+<#if !c2h.isCollection(parentProperty) && !c2h.isManyToOne(parentProperty)>
             <h:column>
                 <f:facet name="header">${parentProperty.name}</f:facet>
                 ${'#'}{${parentName}.${parentProperty.name}}
@@ -139,7 +109,7 @@
                 rowClasses="rvgRowOne,rvgRowTwo"
                         id="${property.name}">
 <#foreach childProperty in childPojo.allPropertiesIterator>
-<#if !c2h.isCollection(childProperty) && !c2h.isManyToOne(childProperty) && !c2h.isOneToMany(childProperty)>
+<#if !c2h.isCollection(childProperty) && !c2h.isManyToOne(childProperty)>
             <h:column>
                 <f:facet name="header">${childProperty.name}</f:facet>
                 <h:outputText value="${'#'}{${childName}.${childProperty.name}}"/>

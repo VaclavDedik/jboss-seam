@@ -26,7 +26,20 @@
         <div class="dialog">
             <table>
 <#foreach property in pojo.allPropertiesIterator>
-<#if !c2h.isCollection(property) && !c2h.isManyToOne(property) && !c2h.isOneToMany(property)>
+<#if !c2h.isCollection(property) && !c2h.isManyToOne(property)>
+<#if c2j.isComponent(property)>
+<#foreach componentProperty in property.value.propertyIterator>
+<#if componentProperty.value.typeName == "string">
+                <tr class="prop">
+                    <td class="name">${componentProperty.name}</td>
+                    <td class="value">
+                        <h:inputText id="${componentProperty.name}" 
+                                  value="${'#'}{${listName}.${componentName}.${property.name}.${componentProperty.name}}"/>
+                    </td>
+                </tr>
+</#if>
+</#foreach>
+<#else>
 <#if property.value.typeName == "string">
                 <tr class="prop">
                     <td class="name">${property.name}</td>
@@ -35,6 +48,7 @@
                                   value="${'#'}{${listName}.${componentName}.${property.name}}"/>
                     </td>
                 </tr>
+</#if>
 </#if>
 </#if>
 </#foreach>
@@ -59,7 +73,15 @@
               value="${'#'}{${listName}.resultList}" 
            rendered="${'#'}{not empty ${listName}.resultList}">
 <#foreach property in pojo.allPropertiesIterator>
-<#if !c2h.isCollection(property) && !c2h.isManyToOne(property) && !c2h.isOneToMany(property)>
+<#if !c2h.isCollection(property) && !c2h.isManyToOne(property)>
+<#if pojo.isComponent(property)>
+<#foreach componentProperty in property.value.propertyIterator>
+        <h:column>
+            <f:facet name="header">${componentProperty.name}</f:facet>
+            ${'#'}{${componentName}.${property.name}.${componentProperty.name}}
+        </h:column>
+</#foreach>
+<#else>
         <h:column>
             <f:facet name="header">
                 <s:link styleClass="columnHeader"
@@ -69,6 +91,7 @@
             </f:facet>
             ${'#'}{${componentName}.${property.name}}
         </h:column>
+</#if>
 </#if>
 <#if c2h.isManyToOne(property)>
 <#assign parentPojo = c2j.getPOJOClass(cfg.getClassMapping(property.value.referencedEntityName))>
@@ -89,12 +112,19 @@
             <s:link view="/${pageName}.xhtml" 
                    value="Select" 
                       id="${componentName}">
+<#if pojo.isComponent(pojo.identifierProperty)>
+<#foreach componentProperty in pojo.identifierProperty.value.propertyIterator>
+                <f:param name="${componentName}${util.upper(componentProperty.name)}" 
+                        value="${'#'}{${componentName}.${pojo.identifierProperty.name}.${componentProperty.name}}"/>
+</#foreach>
+<#else>
                 <f:param name="${componentName}${util.upper(pojo.identifierProperty.name)}" 
                         value="${'#'}{${componentName}.${pojo.identifierProperty.name}}"/>
+</#if>
             </s:link>
         </h:column>
     </h:dataTable>
-    
+
     </div>
 
     <div class="tableControl">

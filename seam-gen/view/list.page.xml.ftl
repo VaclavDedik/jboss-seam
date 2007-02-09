@@ -10,8 +10,16 @@
    <param name="order" value="${'#'}{${listName}.order}"/>
 <#foreach property in pojo.allPropertiesIterator>
 <#if !c2h.isCollection(property) && !c2h.isManyToOne(property)>
+<#if c2j.isComponent(property)>
+<#foreach componentProperty in property.value.propertyIterator>
+<#if componentProperty.value.typeName == "string">
+   <param name="${componentProperty.name}" value="${'#'}{${listName}.${componentName}.${property.name}.${componentProperty.name}}"/>
+</#if>
+</#foreach>
+<#else>
 <#if property.value.typeName == "string">
    <param name="${property.name}" value="${'#'}{${listName}.${componentName}.${property.name}}"/>
+</#if>
 </#if>
 </#if>
 </#foreach>

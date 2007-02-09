@@ -5,14 +5,21 @@
 <#assign entityName = pojo.shortName>
 <#assign componentName = util.lower(entityName)>
 <#assign homeName = componentName + "Home">
-<#assign idName = componentName + util.upper(pojo.identifierProperty.name)>
 <#assign masterPageName = entityName + "List">
 <#assign pageName = entityName>
 <page no-conversation-view-id="/${masterPageName}.xhtml">
    <restrict>${'#'}{identity.loggedIn}</restrict>
    
    <param name="${componentName}From"/>
+<#assign idName = componentName + util.upper(pojo.identifierProperty.name)>
+<#if c2j.isComponent(pojo.identifierProperty)>
+<#foreach componentProperty in pojo.identifierProperty.value.propertyIterator>
+<#assign cidName = componentName + util.upper(componentProperty.name)>
+   <param name="${cidName}" value="${'#'}{${homeName}.${idName}.${componentProperty.name}}"/>
+</#foreach>
+<#else>
    <param name="${idName}" value="${'#'}{${homeName}.${idName}}"/>
+</#if>
 <#include "param.xml.ftl">
 
    <navigation from-action="${'#'}{${homeName}.persist}">
