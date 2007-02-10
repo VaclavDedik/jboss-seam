@@ -18,6 +18,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import javax.servlet.Filter;
 import javax.servlet.ServletContext;
 
 import org.dom4j.Attribute;
@@ -49,7 +50,6 @@ import org.jboss.seam.util.Reflections;
 import org.jboss.seam.util.Resources;
 import org.jboss.seam.util.Strings;
 import org.jboss.seam.util.XML;
-import org.jboss.seam.web.BaseFilter;
 
 /**
  * @author Gavin King
@@ -1061,7 +1061,7 @@ public class Initialization
       public boolean isInstalledFilter()
       {
          // They must extend BaseFilter so that they can be disabled
-         return BaseFilter.class.isAssignableFrom(componentClass) && isInstalled();
+         return Filter.class.isAssignableFrom(componentClass) && isInstalled();
       }
 
       @Override
