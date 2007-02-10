@@ -31,7 +31,9 @@
 <#foreach componentProperty in property.value.propertyIterator>
 <#if componentProperty.value.typeName == "string">
                 <tr class="prop">
-                    <td class="name">${componentProperty.name}</td>
+                    <td class="name">
+                        <h:outputLabel for="${componentProperty.name}">${componentProperty.name}</h:outputLabel>
+                    </td>
                     <td class="value">
                         <h:inputText id="${componentProperty.name}" 
                                   value="${'#'}{${listName}.${componentName}.${property.name}.${componentProperty.name}}"/>
@@ -42,7 +44,9 @@
 <#else>
 <#if property.value.typeName == "string">
                 <tr class="prop">
-                    <td class="name">${property.name}</td>
+                    <td class="name">
+                        <h:outputLabel for="${property.name}">${property.name}</h:outputLabel>
+                    </td>
                     <td class="value">
                         <h:inputText id="${property.name}" 
                                   value="${'#'}{${listName}.${componentName}.${property.name}}"/>

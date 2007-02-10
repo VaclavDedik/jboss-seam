@@ -7,7 +7,9 @@
 <#assign propertyType = componentProperty.value.typeName>
 
                     <tr class="prop">
-                        <td class="name">${componentProperty.name}</td>
+                        <td class="name">
+                            <h:outputLabel for="${componentProperty.name}">${componentProperty.name}</h:ouputLabel>
+                        </td>
                         <td class="value">
                             <s:decorate>
 <#if propertyType == "date">
@@ -123,7 +125,9 @@
 <#assign propertyType = property.value.typeName>
 
                     <tr class="prop">
-                        <td class="name">${property.name}</td>
+                        <td class="name">
+                            <h:outputLabel for="${property.name}">${property.name}</h:outputLabel>
+                        </td>
                         <td class="value">
                             <s:decorate>
 <#if propertyType == "date">
