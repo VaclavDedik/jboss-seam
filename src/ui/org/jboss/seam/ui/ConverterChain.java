@@ -1,6 +1,6 @@
 package org.jboss.seam.ui;
 
-
+import org.jboss.seam.core.AbstractMutable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,6 +47,8 @@ public class ConverterChain implements Converter, StateHolder
    public static final int CHAIN_START = 0;
 
    private List<PrioritizableConverter> converters;
+   
+   private boolean dirty;
 
    public ConverterChain()
    {
@@ -82,8 +84,7 @@ public class ConverterChain implements Converter, StateHolder
             throws ConverterException
    {
       Object output = null;
-      Collections.sort(converters);
-      for (Converter converter : converters)
+      for (Converter converter : getConverters())
       {
          Object result = converter.getAsObject(context, component, value);
          if (!CONTINUE.equals(result))
@@ -99,8 +100,7 @@ public class ConverterChain implements Converter, StateHolder
             throws ConverterException
    {
       String output = null;
-      Collections.sort(converters);
-      for (Converter converter : converters)
+      for (Converter converter : getConverters())
       {
          String result = converter.getAsString(context, component, value);
          if (!CONTINUE.equals(result)) 
@@ -135,6 +135,7 @@ public class ConverterChain implements Converter, StateHolder
    {
       if (c != null)
       {
+         dirty = true;
          return converters.add(new PrioritizableConverter(c, priority));
       }
       else
@@ -150,6 +151,7 @@ public class ConverterChain implements Converter, StateHolder
    {
       if (c != null)
       {
+         dirty = true;
          return converters.add(new PrioritizableConverter(c, priority));
       }
       else
@@ -183,6 +185,13 @@ public class ConverterChain implements Converter, StateHolder
    {
       this._transient = newTransientValue;
 
+   }
+   
+   private List<PrioritizableConverter> getConverters() {
+      if (dirty) {
+         Collections.sort(converters);
+      }
+      return converters;
    }
 
 }
