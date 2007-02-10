@@ -3,13 +3,13 @@
             xmlns:core="http://jboss.com/products/seam/core"
             xmlns:security="http://jboss.com/products/seam/security"
             xmlns:drools="http://jboss.com/products/seam/drools"
-            xmlns:servlet="http://jboss.com/products/seam/servlet"
+            xmlns:web="http://jboss.com/products/seam/web"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation=
                 "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-1.1.xsd 
                  http://jboss.com/products/seam/components http://jboss.com/products/seam/components-1.1.xsd
                  http://jboss.com/products/seam/security http://jboss.com/products/seam/security-1.1.xsd
-                 http://jboss.com/products/seam/servlet http://jboss.com/products/seam/servlet-1.1.xsd
+                 http://jboss.com/products/seam/web http://jboss.com/products/seam/web-1.1.xsd
                  http://jboss.com/products/seam/drools http://jboss.com/products/seam/drools-1.1.xsd">
 
     <core:init jndi-pattern="@jndiPattern@" debug="false"/>
@@ -21,8 +21,8 @@
     
     <security:identity authenticate-method="#{authenticator.authenticate}"/>
     
-    <servlet:multipart-filter create-temp-files="true" max-request-size="1000000" url-pattern="*.seam"/>
-    <servlet:seam-servlet-filter url-pattern="/content/*"/>
+    <web:multipart-filter create-temp-files="true" max-request-size="1000000" url-pattern="*.seam"/>
+    <web:servlet-filter url-pattern="/content/*"/>
 
     <drools:rule-base name="securityRules">
        <drools:rule-files><value>/META-INF/security-rules.drl</value></drools:rule-files>
