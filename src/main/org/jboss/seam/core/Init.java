@@ -55,8 +55,7 @@ public class Init
    private Map<String, FactoryBinding> factoryValueBindings = new HashMap<String, FactoryBinding>();
    
    private Set<String> autocreateVariables = new HashSet<String>();
-
-   private Set<Class> installedFilters = new HashSet<Class>();
+   private Set<String> installedFilters = new HashSet<String>();
    
    @Create
    public void create()
@@ -366,12 +365,12 @@ public class Init
       return rootNamespace;
    }
 
-   public void addInstalledFilter(Class filterClass)
+   public void addInstalledFilter(String name)
    {
-      installedFilters.add(filterClass);
+      installedFilters.add(name);
    }
    
-   public Set<Class> getInstalledFilters()
+   public Set<String> getInstalledFilters()
    {
       return installedFilters;
    }

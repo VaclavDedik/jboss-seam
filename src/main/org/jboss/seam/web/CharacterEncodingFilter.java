@@ -26,9 +26,9 @@ import org.jboss.seam.annotations.Startup;
 @Startup
 @Scope(APPLICATION)
 @Name("org.jboss.seam.servlet.characterEncodingFilter")
-@Install(precedence = BUILT_IN)
+@Install(value=false, precedence = BUILT_IN)
 @Intercept(NEVER)
-public class CharacterEncodingFilter extends BaseFilter
+public class CharacterEncodingFilter extends AbstractFilter
 {
    private String encoding;
    private boolean overrideClient;

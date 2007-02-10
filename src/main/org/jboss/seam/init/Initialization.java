@@ -689,16 +689,16 @@ public class Initialization
             if ( !context.isSet(compName) && dependenciesMet(context, componentDescriptor) )
             {
                addComponent(componentDescriptor, context);
-               if (componentDescriptor.isAutoCreate())
+               if ( componentDescriptor.isAutoCreate() )
                {
-                  init.addAutocreateVariable(componentDescriptor.getName());
+                  init.addAutocreateVariable( componentDescriptor.getName() );
                }
                installedSomething = true;
             }
             
-            if (componentDescriptor.isInstalledFilter())
+            if ( componentDescriptor.isInstalledFilter() )
             {
-               init.addInstalledFilter(componentDescriptor.getComponentClass());
+               init.addInstalledFilter( componentDescriptor.getName() );
             }
          }
 

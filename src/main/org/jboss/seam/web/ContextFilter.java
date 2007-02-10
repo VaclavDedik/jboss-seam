@@ -33,34 +33,11 @@ import org.jboss.seam.log.Logging;
 @Startup
 @Scope(APPLICATION)
 @Name("org.jboss.seam.servlet.contextFilter")
-@Install(precedence = BUILT_IN)
+@Install(value=false, precedence = BUILT_IN)
 @Intercept(NEVER)
-public class ContextFilter extends BaseFilter 
+public class ContextFilter extends AbstractFilter 
 {
    private static final LogProvider log = Logging.getLogProvider(ContextFilter.class);
-   private boolean explicitDisabled = false;
-   
-   /**
-    * This filter is disabled by default, unless a urlPattern is set    
-    */
-   public ContextFilter()
-   {
-      super.setDisabled(true);
-   }
-   
-   @Override
-   public void setUrlPattern(String urlPattern)
-   {
-      super.setUrlPattern(urlPattern);
-      if (!explicitDisabled) setDisabled(false);
-   }
-   
-   @Override
-   public void setDisabled(boolean disabled)
-   {
-      super.setDisabled(disabled);
-      if (disabled) explicitDisabled = true;
-   }
  
    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) 
        throws IOException, ServletException 

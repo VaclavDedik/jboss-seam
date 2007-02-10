@@ -44,7 +44,7 @@ import org.jboss.seam.util.Transactions;
 @Name("org.jboss.seam.servlet.exceptionFilter")
 @Install(precedence = BUILT_IN)
 @Intercept(NEVER)
-public class ExceptionFilter extends BaseFilter
+public class ExceptionFilter extends AbstractFilter
 {
    
    private static final LogProvider log = Logging.getLogProvider(ExceptionFilter.class);

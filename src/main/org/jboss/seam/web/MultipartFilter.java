@@ -24,7 +24,7 @@ import org.jboss.seam.annotations.Startup;
 @Name("org.jboss.seam.servlet.multipartFilter")
 @Install(precedence = BUILT_IN)
 @Intercept(NEVER)
-public class MultipartFilter extends BaseFilter
+public class MultipartFilter extends AbstractFilter
 {
    public static final String MULTIPART = "multipart/";
    

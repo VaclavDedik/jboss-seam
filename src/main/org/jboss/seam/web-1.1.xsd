@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
-    targetNamespace="http://jboss.com/products/seam/web" xmlns:filter="http://jboss.com/products/seam/web"
+    targetNamespace="http://jboss.com/products/seam/web" xmlns:web="http://jboss.com/products/seam/web"
     xmlns:components="http://jboss.com/products/seam/components" attributeFormDefault="unqualified">
     <xs:import namespace="http://jboss.com/products/seam/components" schemaLocation="components-1.1.xsd"/>
 
@@ -35,18 +35,10 @@
     
     <xs:attributeGroup name="attlist.filter">
         <xs:attribute name="url-pattern" type="xs:string"/>
-        <xs:attribute name="disabled"/>
-            <xs:simpleType>
-                <xs:restriction base="xs:token">
-                    <xs:enumeration value="true"/>
-                    <xs:enumeration value="false"/>
-                </xs:restriction>
-            </xs:simpleType>
-        </xs:attribute>
     </xs:attributeGroup>
     
     <xs:attributeGroup name="attlist.multipartFilter">
-        <xs:attribute name="create-temp-files"/>
+        <xs:attribute name="create-temp-files">
             <xs:simpleType>
                 <xs:restriction base="xs:token">
                     <xs:enumeration value="true"/>

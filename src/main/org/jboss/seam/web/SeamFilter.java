@@ -41,10 +41,10 @@ public class SeamFilter implements Filter
          {
             Filter filter = filters.get(index);
             
-            if (filter instanceof BaseFilter)
+            if (filter instanceof AbstractFilter)
             {
-               BaseFilter bf = (BaseFilter) filter;
-               if ( bf.getUrlPattern() == null || bf.matchesRequestPath(request) )
+               AbstractFilter bf = (AbstractFilter) filter;
+               if ( bf.matchesRequestPath(request) )
                {
                   filter.doFilter(request, response, this);
                }
@@ -65,35 +65,25 @@ public class SeamFilter implements Filter
       }
    }
 
-   public void init(FilterConfig filterConfig) 
-      throws ServletException 
+   public void init(FilterConfig filterConfig) throws ServletException 
    {
       Context tempApplicationContext = new WebApplicationContext( filterConfig.getServletContext() ); 
       Init init = (Init) tempApplicationContext.get(Init.class);
-      for ( Class filterClass : init.getInstalledFilters() )
+      for ( String filterName: init.getInstalledFilters() )
       {
-         Filter filter = (Filter) tempApplicationContext.get(filterClass);
-         if ( !isDisabled(filter) ) 
-         {
-            log.info( "Initializing filter: " + filterClass.getName() );
-            filter.init(filterConfig);
-            filters.add(filter);
-         }
+         Filter filter = (Filter) tempApplicationContext.get(filterName);
+         log.info( "Initializing filter: " + filterName );
+         filter.init(filterConfig);
+         filters.add(filter);
       }
    }
    
-   public void doFilter(ServletRequest request, ServletResponse response, 
-                        FilterChain chain)
+   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
        throws IOException, ServletException
    {
       new FilterChainImpl(chain).doFilter(request, response);
    }
    
-   private boolean isDisabled(Filter filter)
-   {
-      return filter instanceof BaseFilter && ( (BaseFilter) filter ).isDisabled();
-   }     
-
    public void destroy() 
    {
       for (Filter filter: filters)
