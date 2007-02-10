@@ -22,15 +22,14 @@
     <security:identity authenticate-method="#{authenticator.authenticate}"/>
     
     <web:multipart-filter create-temp-files="true" max-request-size="1000000" url-pattern="*.seam"/>
-    <web:servlet-filter url-pattern="/content/*"/>
+    <web:context-filter url-pattern="/content/*"/>
 
     <drools:rule-base name="securityRules">
        <drools:rule-files><value>/META-INF/security-rules.drl</value></drools:rule-files>
     </drools:rule-base>
     
-    <component name="entityManager" auto-create="true" class="org.jboss.seam.core.ManagedPersistenceContext">
-        <property name="persistenceUnitJndiName">java:/seamspaceEntityManagerFactory</property>
-    </component>        
+    <core:managed-persistence-context name="entityManager" auto-create="true"
+                persistence-unit-jndi-name="java:/seamspaceEntityManagerFactory"/>
     
     <event type="org.jboss.seam.notLoggedIn">
         <action expression="#{redirect.captureCurrentView}"/>
