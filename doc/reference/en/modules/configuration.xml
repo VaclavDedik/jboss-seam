@@ -251,6 +251,13 @@
             <sect3>
                 <title>Context filter</title>
                 <para>
+                    Requests sent direct to some servlet other than the JSF servlet are not
+                    processed through the JSF lifecycle, so Seam provides a servlet filter 
+                    that can be applied to any other servlet that needs access to Seam 
+                    components.
+                </para>
+                
+                <para>
                     This filter allows custom servlets to interact with the Seam contexts. It
                     sets up the Seam contexts at the beginning of each request, and tears 
                     them down at the end of the request. You should make sure that this filter
@@ -263,8 +270,7 @@
                     <literal>components.xml</literal> to enable it:
                 </para>
 
-                <programlisting><![CDATA[<web:context-filter installed="true" 
-        url-pattern="/custom/*"/>]]></programlisting>
+                <programlisting><![CDATA[<web:context-filter url-pattern="/media/*"/>]]></programlisting>
 
                 <itemizedlist>
                     <listitem>
@@ -276,6 +282,19 @@
                         </para>
                     </listitem>
                 </itemizedlist>
+
+                <para>
+                    The context filter expects to find the conversation id of any
+                    conversation context in a request parameter named <literal>conversationId</literal>.
+                    You are responsible for ensuring that it gets sent in the request.
+                </para>
+        
+                <para>
+                    You are also responsible for ensuring propagation of any new conversation id back 
+                    to the client. Seam exposes the conversation id as a property of the built in
+                    component <literal>conversation</literal>.
+               </para>
+               
             </sect3>
 
         </sect2>
@@ -1073,4 +1092,27 @@
 
     </sect1>
 
+    <sect1>
+        <title>Seam and custom servlets</title>
+        
+        <para>
+            Requests sent direct to some servlet other than the JSF servlet are not
+            processed through the JSF lifecycle, so Seam provides a servlet filter 
+            that can be applied to any servlet that needs access to Seam components.
+        </para>
+        <para>
+            This servlet filter is responsible for initializing all Seam contexts before
+            passing control to the servlet. It expects to find the conversation id of any
+            conversation context in a request parameter named <literal>conversationId</literal>.
+            You are responsible for ensuring that it gets sent in the request.
+        </para>
+        
+        <para>
+            You are also responsible for ensuring propagation of any new conversation id back 
+            to the client. Seam exposes the conversation id as a property of the built in
+            component <literal>conversation</literal>.
+        </para>
+        
+    </sect1>
+        
 </chapter>

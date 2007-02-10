@@ -748,17 +748,17 @@ public class LoggedInInterceptor
             <title>Enabling Seam exception handling</title>
         
         <para>
-            To enable Seam's exception handling, we need to add a servlet filter to
-            <literal>web.xml</literal>:
+            To enable Seam's exception handling, we need to make sure we have the master servlet 
+            filter declared in <literal>web.xml</literal>:
         </para>
         
         <programlisting><![CDATA[<filter>
-    <filter-name>Seam Exception Filter</filter-name>
-    <filter-class>org.jboss.seam.servlet.SeamExceptionFilter</filter-class>
+    <filter-name>Seam Filter</filter-name>
+    <filter-class>org.jboss.seam.servlet.SeamFilter</filter-class>
 </filter>
 
 <filter-mapping>
-    <filter-name>Seam Exception Filter</filter-name>
+    <filter-name>Seam Filter</filter-name>
     <url-pattern>*.seam</url-pattern>
 </filter-mapping>]]></programlisting>
 
