@@ -2,7 +2,6 @@ package org.jboss.seam.web;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.Filter;
@@ -29,26 +28,26 @@ public class SeamFilter implements Filter
    
    private class FilterChainImpl implements FilterChain
    {  
-      private FilterChain chain;      
-      private Iterator<Filter> iter;
+      private FilterChain chain;
+      private int index;
            
-      public FilterChainImpl(FilterChain chain, Iterator<Filter> iter)
+      public FilterChainImpl(FilterChain chain)
       {
          this.chain = chain;
-         this.iter = iter;  
+         index = -1;
       }
       
       public void doFilter(ServletRequest request, ServletResponse response)
           throws IOException, ServletException
-      {         
-         if (iter.hasNext())
+      {
+         if ( ++index < filters.size() )
          {
-            Filter filter = iter.next();
+            Filter filter = filters.get(index);
             
             if (filter instanceof BaseFilter)
             {
                BaseFilter bf = (BaseFilter) filter;
-               if (bf.getUrlPattern() == null || bf.matchesRequestPath(request))
+               if ( bf.getUrlPattern() == null || bf.matchesRequestPath(request) )
                {
                   filter.doFilter(request, response, this);
                }
@@ -87,10 +86,15 @@ public class SeamFilter implements Filter
       Context ctx = new WebApplicationContext(servletContext); 
       
       Init init = (Init) ctx.get(Init.class);
-      for (Class filterClass : init.getInstalledFilters())
+      for ( Class filterClass : init.getInstalledFilters() )
       {
-         log.info("Installed filter " + filterClass.getName());
-         addFilter((Filter) ctx.get(filterClass), filterConfig);
+         Filter filter = (Filter) ctx.get(filterClass);
+         if ( !isDisabled(filter) ) 
+         {
+            log.info( "Installed filter " + filterClass.getName() );
+            filter.init(filterConfig);
+            filters.add(filter);
+         }
       }
    }
    
@@ -98,17 +102,12 @@ public class SeamFilter implements Filter
                         FilterChain chain)
        throws IOException, ServletException
    {
-      new FilterChainImpl(chain, filters.iterator()).doFilter(request, response);
+      new FilterChainImpl(chain).doFilter(request, response);
    }
    
-   protected boolean addFilter(Filter filter, FilterConfig filterConfig)
-      throws ServletException
+   private boolean isDisabled(Filter filter)
    {
-      if (filter instanceof BaseFilter && ((BaseFilter) filter).isDisabled())
-         return false;
-         
-      filter.init(filterConfig);
-      return filters.add(filter);
+      return filter instanceof BaseFilter && ((BaseFilter) filter).isDisabled();
    }     
 
    public void destroy() {}

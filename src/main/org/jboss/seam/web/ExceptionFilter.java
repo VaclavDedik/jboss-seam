@@ -5,16 +5,20 @@
  * See terms of license at gnu.org.
  */
 package org.jboss.seam.web;
+
 import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
+
 import java.io.IOException;
+
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
@@ -28,6 +32,7 @@ import org.jboss.seam.mock.MockApplication;
 import org.jboss.seam.mock.MockExternalContext;
 import org.jboss.seam.mock.MockFacesContext;
 import org.jboss.seam.util.Transactions;
+
 /**
  * As a last line of defence, rollback uncommitted transactions 
  * at the very end of the request.
@@ -43,6 +48,7 @@ public class ExceptionFilter extends BaseFilter
 {
    
    private static final LogProvider log = Logging.getLogProvider(ExceptionFilter.class);
+   
    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) 
          throws IOException, ServletException
    {
@@ -71,6 +77,7 @@ public class ExceptionFilter extends BaseFilter
          Lifecycle.setPhaseId(null);
       }
    }
+   
    private void endWebRequestAfterException(HttpServletRequest request, HttpServletResponse response, Exception e) 
          throws ServletException, IOException
    {
@@ -109,10 +116,12 @@ public class ExceptionFilter extends BaseFilter
          }
       }
    }
+   
    private MockFacesContext createFacesContext(HttpServletRequest request, HttpServletResponse response)
    {
       return new MockFacesContext( new MockExternalContext(getServletContext(), request, response), new MockApplication() );
    }
+   
    private void rollbackTransactionIfNecessary()
    {
       try {

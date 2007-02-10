@@ -1,8 +1,11 @@
 package org.jboss.seam.web;
+
 import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
+
 import java.io.IOException;
+
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.FilterChain;
@@ -11,6 +14,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
+
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
@@ -19,6 +23,7 @@ import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Pages;
+
 /**
  * Propagates the conversation context across a browser redirect
  * 
@@ -57,6 +62,7 @@ public class RedirectFilter extends BaseFilter
          }
       };
    }
+   
    public static String getViewId(String url)
    {
       ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
@@ -65,6 +71,7 @@ public class RedirectFilter extends BaseFilter
       String contextPath = externalContext.getRequestContextPath();
       return getViewId(url, pathInfo, servletPath, contextPath);
    }
+   
    protected static String getViewId(String url, String pathInfo, String servletPath, String contextPath)
    {
       if (pathInfo!=null)
@@ -91,6 +98,7 @@ public class RedirectFilter extends BaseFilter
          return null;
       }
    }
+   
    private static int getParamLoc(String url)
    {
       int loc = url.indexOf('?');

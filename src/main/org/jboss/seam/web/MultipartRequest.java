@@ -40,8 +40,6 @@ public class MultipartRequest extends HttpServletRequestWrapper
    
    private boolean createTempFiles;
    
-   private int maxRequestSize;
-   
    private String encoding = null;
    
    private Map<String,Param> parameters = null;
@@ -245,7 +243,6 @@ public class MultipartRequest extends HttpServletRequestWrapper
       super(request);
       this.request = request;
       this.createTempFiles = createTempFiles;
-      this.maxRequestSize = maxRequestSize;
       
       String contentLength = request.getHeader("Content-Length");
       if (contentLength != null && maxRequestSize > 0 && 
