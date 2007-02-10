@@ -706,7 +706,9 @@ public class Customer {
                  http://jboss.com/products/seam/security http://jboss.com/products/seam/security-1.1.xsd">                 
         
    <drools:rule-base name="securityRules">
-       <drools:rule-files>/META-INF/security.drl</drools:rule-files>
+       <drools:rule-files>
+           <value>/META-INF/security.drl</value>
+       </drools:rule-files>
    </drools:rule-base>    
    
 </components>   
