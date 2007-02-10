@@ -97,14 +97,14 @@ public class Messages implements Serializable {
    }
 
    @Unwrap
-   public Map getMessages()
+   public Map<String, String> getMessages()
    {
       if (messages==null) init();
       return messages;
    }
    
-   public static Map instance()
+   public static Map<String, String> instance()
    {
-      return (Map) Component.getInstance(Messages.class, true );
+      return (Map<String, String>) Component.getInstance(Messages.class, true );
    }
 }

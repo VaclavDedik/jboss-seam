@@ -177,13 +177,15 @@ public final class Page
    {
       if ( isRestricted() )
       {
-         String expr = restriction;
          // If no expression is configured, create a default one
-         if (expr == null)
+         if (restriction == null)
          {
-            expr = String.format("#{s:hasPermission('%s', 'render', null)}", getViewId());
+            Identity.instance().checkPermission( facesContext.getViewRoot().getViewId(), "render" );
          }
-         Identity.instance().checkRestriction(expr);
+         else
+         {
+            Identity.instance().checkRestriction(restriction);
+         }
       }      
       
       boolean result = false;
