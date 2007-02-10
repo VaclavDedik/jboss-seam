@@ -13,6 +13,7 @@ import javax.mail.internet.MimeMultipart;
 
 import org.jboss.seam.mail.MailSession;
 import org.jboss.seam.mail.ui.context.MailFacesContextImpl;
+import org.jboss.seam.ui.JSF;
 
 /**
  * JSF component which delimites the start and end of the mail message.
@@ -42,8 +43,6 @@ public class UIMessage extends MailComponent
    private Boolean requestReadReceipt;
 
    private String urlBase;
-
-   private String absoluteUrlBase;
 
    /**
     * Get the JavaMail Session to use. If not set the default session is used
@@ -83,13 +82,10 @@ public class UIMessage extends MailComponent
    @Override
    public void encodeBegin(FacesContext context) throws IOException
    {
-      if ( getAbsoluteUrlBase() != null ) 
+      if (getUrlBase() != null)
       {
-         MailFacesContextImpl.start( getAbsoluteUrlBase() );
-      } 
-      else if ( getUrlBase() != null ) 
-      {
-         MailFacesContextImpl.start( getUrlBase() + context.getExternalContext().getRequestContextPath() );
+         MailFacesContextImpl.start(getUrlBase()
+                  + context.getExternalContext().getRequestContextPath());
       }
       mimeMessage = null;
       try
@@ -123,7 +119,6 @@ public class UIMessage extends MailComponent
    @Override
    public void encodeEnd(FacesContext ctx) throws IOException
    {
-      super.encodeEnd(ctx);
       try
       {
          if (isRequestReadReceipt() && getMimeMessage().getFrom() != null
@@ -138,13 +133,22 @@ public class UIMessage extends MailComponent
       {
          throw new FacesException(e.getMessage(), e);
       }
-      MailFacesContextImpl.stop();
+      finally
+      {
+         MailFacesContextImpl.stop();
+      }
    }
 
    @Override
    public boolean getRendersChildren()
    {
-      return false;
+      return true;
+   }
+
+   @Override
+   public void encodeChildren(FacesContext context) throws IOException
+   {
+      JSF.renderChildren(FacesContext.getCurrentInstance(), this);
    }
 
    public String getImportance()
@@ -196,23 +200,6 @@ public class UIMessage extends MailComponent
    public void setRequestReadReceipt(boolean requestReadReceipt)
    {
       this.requestReadReceipt = requestReadReceipt;
-   }
-
-   public String getAbsoluteUrlBase()
-   {
-      if (absoluteUrlBase == null)
-      {
-         return getString("absoluteUrlBase");
-      }
-      else
-      {
-         return absoluteUrlBase;
-      }
-   }
-
-   public void setAbsoluteUrlBase(String absoluteUrlBase)
-   {
-      this.absoluteUrlBase = absoluteUrlBase;
    }
 
    public String getUrlBase()
