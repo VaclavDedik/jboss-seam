@@ -14,6 +14,7 @@ public class FileUploadTag extends UIComponentTagBase
    private String data;
    private String contentType;
    private String fileName;
+   private String fileSize;
    
    private String accept;
    private String required;
@@ -117,5 +118,15 @@ public class FileUploadTag extends UIComponentTagBase
    public void setFileName(String fileName)
    {
       this.fileName = fileName;
+   }
+   
+   public String getFileSize()
+   {
+      return fileSize;
+   }
+   
+   public void setFileSize(String fileSize)
+   {
+      this.fileSize = fileSize;
    }
 }

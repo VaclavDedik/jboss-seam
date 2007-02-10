@@ -120,6 +120,7 @@ public class MultipartRequest extends HttpServletRequestWrapper
    {
       private String filename;
       private String contentType;
+      private int fileSize;
            
       private ByteArrayOutputStream bOut = null;
       private FileOutputStream fOut = null;
@@ -150,6 +151,11 @@ public class MultipartRequest extends HttpServletRequestWrapper
          this.contentType = contentType;
       }
       
+      public int getFileSize()
+      {
+         return fileSize;
+      }      
+      
       public void createTempFile()
       {
          try
@@ -177,6 +183,8 @@ public class MultipartRequest extends HttpServletRequestWrapper
             if (bOut == null) bOut = new ByteArrayOutputStream();
             bOut.write(data, start, length);
          }
+         
+         fileSize += length;
       }
       
       public byte[] getData()
@@ -498,6 +506,13 @@ public class MultipartRequest extends HttpServletRequestWrapper
       return (p != null && p instanceof FileParam) ? 
                ((FileParam) p).getFilename() : null;
    }   
+   
+   public int getFileSize(String name)
+   {
+      Param p = getParam(name);    
+      return (p != null && p instanceof FileParam) ? 
+               ((FileParam) p).getFileSize() : -1;      
+   }
    
    @Override
    public String getParameter(String name)

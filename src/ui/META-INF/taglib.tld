@@ -960,6 +960,12 @@
       <description>value binding for the file name</description>
     </attribute>
     <attribute>
+      <name>fileSize</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+      <description>value binding for the file name</description>
+    </attribute>    
+    <attribute>
       <name>contentType</name>
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>

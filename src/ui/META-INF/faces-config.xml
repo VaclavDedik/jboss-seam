@@ -522,9 +522,13 @@
             <property-class>java.lang.String</property-class>
         </property>
         <property>
-            <property-name>accept</property-name>
+            <property-name>fileSize</property-name>
             <property-class>java.lang.String</property-class>
         </property>
+        <property>
+            <property-name>accept</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>        
     </component>
 
     <validator>

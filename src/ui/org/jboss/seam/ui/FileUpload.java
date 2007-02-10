@@ -69,6 +69,7 @@ public class FileUpload extends UIComponentBase
          String clientId = getClientId(context);         
          String contentType = req.getFileContentType(clientId);
          String fileName = req.getFileName(clientId);
+         int fileSize = req.getFileSize(clientId);
                   
          ValueBinding dataBinding = getValueBinding("data");
          Class cls = dataBinding.getType(context);
@@ -84,6 +85,10 @@ public class FileUpload extends UIComponentBase
          vb = getValueBinding("fileName");
          if (vb != null)
             vb.setValue(context, fileName);
+         
+         vb = getValueBinding("fileSize");
+         if (vb != null)
+            vb.setValue(context, fileSize);
       }      
    }
       
