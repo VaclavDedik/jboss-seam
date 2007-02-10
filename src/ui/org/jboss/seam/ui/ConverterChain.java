@@ -1,5 +1,7 @@
 package org.jboss.seam.ui;
 
+
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -16,20 +18,19 @@ import javax.faces.el.ValueBinding;
 /**
  * This class provides a chainable converter for JSF.
  * 
- * This has been done to support noSelections on s:selectItems.
- * 
- * Converters that are not first/last (the converter specfied on the component)
- *  need careful implementation
+ * Any JSF converter can be placed at the end of the chain.  A converter that is
+ * placed higher up the chain should return ConverterChain.CONTINUE if
+ * conversion has failed.  If the all converters run return
+ * ConverterChain.CONTINUE an unconverted value will be returned.
  * 
  * A converter can be placed in the chain with a priority, the order in which
  * converters with the same priority is run is not specified.
  * 
- * The chain will be processed in ascending order for getAsString, descending order
- * for getAsObject
- * 
  */
 public class ConverterChain implements Converter, StateHolder
 {
+   
+   public static final String CONTINUE = "org.jboss.seam.ui.ConverterChain.continue";
 
    /**
     * This places the converter at the end of the chain. No garuntee is made
@@ -80,45 +81,35 @@ public class ConverterChain implements Converter, StateHolder
    public Object getAsObject(FacesContext context, UIComponent component, String value)
             throws ConverterException
    {
-      Object result = null;
+      Object output = null;
       Collections.sort(converters);
-      Collections.reverse(converters);
       for (Converter converter : converters)
       {
-         result = converter.getAsObject(context, component, value);
-         // We can only process more converters if we still have a string
-         if (!(result instanceof String))
+         Object result = converter.getAsObject(context, component, value);
+         if (!CONTINUE.equals(result))
          {
+            output = result;
             break;
          }
-         else
-         {
-            value = result.toString();
-         }
       }
-      return result;
+      return output;
    }
 
    public String getAsString(FacesContext context, UIComponent component, Object value)
             throws ConverterException
    {
+      String output = null;
       Collections.sort(converters);
       for (Converter converter : converters)
       {
-         value = converter.getAsString(context, component, value);
-         if (value instanceof String)
+         String result = converter.getAsString(context, component, value);
+         if (!CONTINUE.equals(result)) 
          {
+            output = result;
             break;
          }
       }
-      if (value == null)
-      {
-         return null;
-      }
-      else
-      {
-         return value.toString();
-      }
+      return output;
    }
 
    /**

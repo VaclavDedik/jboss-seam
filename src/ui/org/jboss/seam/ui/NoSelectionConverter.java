@@ -16,7 +16,7 @@ public class NoSelectionConverter implements Converter
       } else if (value.equals(NO_SELECTION_VALUE)) {
     	  return null;
       } else {
-    	  return value;
+    	  return ConverterChain.CONTINUE;
       }
    }
 
@@ -25,7 +25,7 @@ public class NoSelectionConverter implements Converter
       if (value == null) {
     	  return NO_SELECTION_VALUE;
       } else {
-    	  return value.toString();
+    	  return ConverterChain.CONTINUE;
       }
    }
 
