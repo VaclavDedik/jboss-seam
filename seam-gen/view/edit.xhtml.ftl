@@ -76,6 +76,9 @@
     
         <h3>${property.name}</h3>
     
+        <h:outputText value="No ${property.name}" 
+                   rendered="${'#'}{${homeName}.instance.${property.name} == null}"/>
+        
         <h:dataTable var="${parentName}" 
                    value="${'#'}{${homeName}.instance.${property.name}}" 
                 rendered="${'#'}{${homeName}.instance.${property.name} != null}"
