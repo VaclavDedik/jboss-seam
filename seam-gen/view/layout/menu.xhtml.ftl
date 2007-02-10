@@ -6,6 +6,8 @@
 		xmlns:s="http://jboss.com/products/seam/taglib">
 	<s:link view="/home.xhtml" value="Home"/>
 <#foreach entity in c2j.getPOJOIterator(cfg.classMappings)>
-	<s:link view="/${entity.shortName}List.xhtml" value="${entity.shortName} List" propagation="none"/>
+	<s:link view="/${entity.shortName}List.xhtml" 
+	       value="${entity.shortName} List" 
+	 propagation="none"/>
 </#foreach>         
 </div>

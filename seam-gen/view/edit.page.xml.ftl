@@ -10,6 +10,8 @@
 <page no-conversation-view-id="/${masterPageName}.xhtml">
    <restrict>${'#'}{identity.loggedIn}</restrict>
    
+   <begin-conversation if="${'#'}{${homeName}.managed}"/>
+   
    <param name="${componentName}From"/>
 <#assign idName = componentName + util.upper(pojo.identifierProperty.name)>
 <#if c2j.isComponent(pojo.identifierProperty)>

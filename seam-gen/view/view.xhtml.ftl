@@ -35,8 +35,7 @@
 
         <s:button view="/${editPageName}.xhtml" 
                     id="edit" 
-                 value="Edit"     
-           propagation="begin"/>
+                 value="Edit"/>
 
         <s:button view="/${'#'}{empty ${componentName}From ? '${masterPageName}' : ${componentName}From}.xhtml"
                     id="done"
