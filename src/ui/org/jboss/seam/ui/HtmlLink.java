@@ -112,8 +112,11 @@ public class HtmlLink extends HtmlOutputLink implements ActionSource
          if (child instanceof UIParameter)
          {
             UIParameter uip = (UIParameter) child;
-            encodedUrl += getParameterString(characterEncoding, uip, first);
-            first = false;
+            if ( uip.getValue()!=null )
+            {
+               encodedUrl += getParameterString(characterEncoding, uip, first);
+               first = false;
+            }
             usedParameters.add( uip.getName() );
          }
       }
