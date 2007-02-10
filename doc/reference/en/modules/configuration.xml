@@ -24,8 +24,8 @@
             </para>
 
             <programlisting><![CDATA[<listener>
-        <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
-    </listener>]]></programlisting>
+    <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
+</listener>]]></programlisting>
 
             <para>
                 This listener is responsible for bootstrapping Seam, and for destroying
@@ -39,8 +39,8 @@
             </para>
 
             <programlisting><![CDATA[<lifecycle>
-        <phase-listener>org.jboss.seam.jsf.SeamPhaseListener</phase-listener>
-    </lifecycle>]]></programlisting>
+    <phase-listener>org.jboss.seam.jsf.SeamPhaseListener</phase-listener>
+</lifecycle>]]></programlisting>
 
             <para>
                 The actual listener class here varies depending upon how you want to
@@ -53,8 +53,8 @@
             </para>
 
             <programlisting><![CDATA[<application>
-        <el-resolver>org.jboss.seam.jsf.SeamELResolver</el-resolver>
-    </application>]]></programlisting>
+    <el-resolver>org.jboss.seam.jsf.SeamELResolver</el-resolver>
+</application>]]></programlisting>
 
             <para>
                 (This line should not strictly speaking be necessary, but it works
@@ -69,37 +69,35 @@
             </para>
 
     <programlisting><![CDATA[<context-param>
-        <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
-        <param-value>client</param-value>
-    </context-param>]]></programlisting>
+    <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+    <param-value>client</param-value>
+</context-param>]]></programlisting>
 
         </sect2>
 
         <sect2>
-            <title>Seam servlet filter</title>
+            <title>Seam servlet filters</title>
 
             <para>
-                Seam also comes with a master servlet filter that enables a number of
-                built-in Seam filters. Configuring the master filter requires the following
-                entry in <literal>web.xml</literal>:
+                Seam doesn't need any servlet filters for basic operation. However, there are several
+                features which depend upon the use of filters. To make things easier for you guys,
+                Seam lets you add and configure servlet filters just like you would configure other
+                built-in Seam components. To take advantage of this feature, we must first install a
+                master filter in <literal>web.xml</literal>:
             </para>
 
-            <programlisting>
-              <![CDATA[
-    <filter>
-      <filter-name>Seam Filter</filter-name>
-      <filter-class>org.jboss.seam.web.SeamFilter</filter-class>
-    </filter>
+            <programlisting><![CDATA[<filter>
+    <filter-name>Seam Filter</filter-name>
+    <filter-class>org.jboss.seam.web.SeamFilter</filter-class>
+</filter>
 
-    <filter-mapping>
-      <filter-name>Seam Filter</filter-name>
-      <url-pattern>/*</url-pattern>
-    </filter-mapping>
-              ]]>
-            </programlisting>
+<filter-mapping>
+    <filter-name>Seam Filter</filter-name>
+    <url-pattern>/*</url-pattern>
+</filter-mapping>]]></programlisting>
 
             <para>
-                Adding the master filter enables each of the following built-in filters.
+                Adding the master filter enables the following built-in filters.
             </para>
 
             <sect3>
@@ -121,9 +119,7 @@
                     <literal>components.xml</literal>, as shown in this example:
                 </para>
 
-                <programlisting>
-                  <![CDATA[
-<components xmlns="http://jboss.com/products/seam/components"
+                <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
             xmlns:core="http://jboss.com/products/seam/core"
             xmlns:web="http://jboss.com/products/seam/web"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -134,9 +130,7 @@
 
     <web:exception-filter url-pattern="*.seam"/>
 
-</components>
-                  ]]>
-                </programlisting>
+</components>]]></programlisting>
 
                 <itemizedlist>
                     <listitem>
@@ -145,46 +139,29 @@
                             are filtered, the default is all requests.
                         </para>
                     </listitem>
-                    <listitem>
-                        <para>
-                            <literal>disabled</literal>  &mdash; Used to disable this filter.
-                            Default is <literal>false</literal> (enabled).
-                        </para>
-                    </listitem>
                 </itemizedlist>
             </sect3>
 
             <sect3>
                 <title>Conversation propagation with redirects</title>
                 <para>
-                    This filter enables post-then-redirect in JSF, and allows Seam to
-                    propagate the conversation context across browser redirects.  It
-                    intercepts any browser redirects and adds a request parameter that
-                    specifies the Seam conversation ID.
+                    This filter allows Seam to propagate the conversation context across 
+                    browser redirects.  It intercepts any browser redirects and adds a 
+                    request parameter that specifies the Seam conversation identifier.
                 </para>
 
                 <para>
-                    The redirect filter will also process all requests by default, but this
+                    The redirect filter will process all requests by default, but this
                     behavior can also be adjusted in <literal>components.xml</literal>:
                 </para>
 
-                <programlisting>
-                  <![CDATA[
-    <web:redirect-filter url-pattern="*.seam"/>
-                  ]]>
-                </programlisting>
+                <programlisting><![CDATA[<web:redirect-filter url-pattern="*.seam"/>]]></programlisting>
 
                 <itemizedlist>
                     <listitem>
                         <para>
                             <literal>url-pattern</literal> &mdash; Used to specify which requests
                             are filtered, the default is all requests.
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <literal>disabled</literal> &mdash; Used to disable this filter.
-                            Default is <literal>false</literal> (enabled).
                         </para>
                     </listitem>
                 </itemizedlist>
@@ -195,15 +172,13 @@
                 <para>
                     This feature is necessary when using the Seam file upload JSF control. It
                     detects multipart form requests and processes them according to the
-                    multipart/form-data specification (rfc-2388).  To override the default
+                    multipart/form-data specification (RFC-2388). To override the default
                     settings, add the following entry to <literal>components.xml</literal>:
                 </para>
 
-                <programlisting>
-                  <![CDATA[
-    <web:multipart-filter create-temp-files="true" max-request-size="1000000" url-pattern="*.seam"/>
-                  ]]>
-                </programlisting>
+                <programlisting><![CDATA[<web:multipart-filter create-temp-files="true" 
+        max-request-size="1000000" 
+        url-pattern="*.seam"/>]]></programlisting>
 
                 <itemizedlist>
                     <listitem>
@@ -229,26 +204,23 @@
                             are filtered, the default is all requests.
                         </para>
                     </listitem>
-                    <listitem>
-                        <para>
-                            <literal>disabled</literal> &mdash; Used to disable this filter.
-                            Default is <literal>false</literal> (enabled).
-                        </para>
-                    </listitem>
                 </itemizedlist>
             </sect3>
 
             <sect3>
                 <title>Character encoding</title>
                 <para>
-                    Sets the character encoding of submitted data.
+                    Sets the character encoding of submitted form data.
                 </para>
 
-                <programlisting>
-                  <![CDATA[
-    <web:character-encoding-filter encoding="UTF-16" override-client="true" url-pattern="*.seam"/>
-                  ]]>
-                </programlisting>
+                <para>
+                    This filter is not installed by default and requires an entry in 
+                    <literal>components.xml</literal> to enable it:
+                </para>
+
+                <programlisting><![CDATA[<web:character-encoding-filter encoding="UTF-16" 
+        override-client="true" 
+        url-pattern="*.seam"/>]]></programlisting>
 
                 <itemizedlist>
                     <listitem>
@@ -273,32 +245,26 @@
                             are filtered, the default is all requests.
                         </para>
                     </listitem>
-                    <listitem>
-                        <para>
-                            <literal>disabled</literal> &mdash; Used to disable this filter.
-                            Default is <literal>false</literal> (enabled).
-                        </para>
-                    </listitem>
                 </itemizedlist>
             </sect3>
 
             <sect3>
                 <title>Context filter</title>
                 <para>
-                    This filter allows custom servlets to interact with the Seam context, by
-                    setting up the Seam context before the request, and tearing it down after.
+                    This filter allows custom servlets to interact with the Seam contexts. It
+                    sets up the Seam contexts at the beginning of each request, and tears 
+                    them down at the end of the request. You should make sure that this filter
+                    is <emphasis>never</emphasis> applied to the JSF <literal>FacesServlet</literal>. 
+                    Seam uses the phase listener for context management in a JSF request.
                 </para>
 
                 <para>
-                    Contrary to the other filters, this filter is disabled by default and
-                    requires an entry in <literal>components.xml</literal> to enable it:
+                    This filter is not installed by default and requires an entry in 
+                    <literal>components.xml</literal> to enable it:
                 </para>
 
-                <programlisting>
-                  <![CDATA[
-    <web:context-filter url-pattern="/custom/*"/>
-                  ]]>
-                </programlisting>
+                <programlisting><![CDATA[<web:context-filter installed="true" 
+        url-pattern="/custom/*"/>]]></programlisting>
 
                 <itemizedlist>
                     <listitem>
@@ -307,12 +273,6 @@
                             are filtered, the default is all requests.  If the url-pattern
                             is specified for the context filter, then the filter will be
                             enabled (unless explicitly disabled).
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <literal>disabled</literal> &mdash; Used to disable this filter.
-                            Default is <literal>true</literal> (disabled).
                         </para>
                     </listitem>
                 </itemizedlist>
