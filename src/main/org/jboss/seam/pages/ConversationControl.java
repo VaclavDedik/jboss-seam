@@ -6,6 +6,7 @@ package org.jboss.seam.pages;
 import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Pageflow;
+import org.jboss.seam.core.Expressions.ValueBinding;
 
 public class ConversationControl
 {
@@ -17,6 +18,8 @@ public class ConversationControl
    private boolean nested;
    private FlushModeType flushMode;
    private String pageflow;
+   private ValueBinding<Boolean> beginConversationCondition;
+   private ValueBinding<Boolean> endConversationCondition;
    
    public boolean isBeginConversation()
    {
@@ -40,7 +43,7 @@ public class ConversationControl
    
    public void beginOrEndConversation()
    {
-      if ( isEndConversation )
+      if ( endConversation() )
       {
          if (isEndConversationBeforeRedirect)
          {
@@ -51,21 +54,33 @@ public class ConversationControl
             Conversation.instance().end();
          }
       }
-      if ( isBeginConversation )
+      if ( beginConversation() )
       {
          boolean begun = Conversation.instance().begin(join, nested);
          if (begun)
          {
-            if (flushMode!=null)
+            if ( flushMode!=null )
             {
                Conversation.instance().changeFlushMode(flushMode);
             }
-            if ( pageflow!=null  )
+            if ( pageflow!=null )
             {
                Pageflow.instance().begin(pageflow);
             }
          }
       }
+   }
+
+   private boolean beginConversation()
+   {
+      return isBeginConversation && 
+         (beginConversationCondition==null || Boolean.TRUE.equals( beginConversationCondition.getValue() ) );
+   }
+
+   private boolean endConversation()
+   {
+      return isEndConversation && 
+         (endConversationCondition==null || Boolean.TRUE.equals( endConversationCondition.getValue() ) );
    }
 
    public FlushModeType getFlushMode()
@@ -116,6 +131,26 @@ public class ConversationControl
    public void setEndConversationBeforeRedirect(boolean isEndConversationBeforeRedirect)
    {
       this.isEndConversationBeforeRedirect = isEndConversationBeforeRedirect;
+   }
+
+   public ValueBinding<Boolean> getBeginConversationCondition()
+   {
+      return beginConversationCondition;
+   }
+
+   public void setBeginConversationCondition(ValueBinding<Boolean> beginConversationCondition)
+   {
+      this.beginConversationCondition = beginConversationCondition;
+   }
+
+   public ValueBinding<Boolean> getEndConversationCondition()
+   {
+      return endConversationCondition;
+   }
+
+   public void setEndConversationCondition(ValueBinding<Boolean> endConversationCondition)
+   {
+      this.endConversationCondition = endConversationCondition;
    }
    
 }

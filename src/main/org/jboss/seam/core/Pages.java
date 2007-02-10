@@ -728,6 +728,11 @@ public class Pages
       {
          control.setEndConversation(true);
          control.setEndConversationBeforeRedirect( "true".equals( endConversation.attributeValue("before-redirect") ) );
+         String expression = endConversation.attributeValue("if");
+         if (expression!=null)
+         {
+            control.setEndConversationCondition( Expressions.instance().createValueBinding(expression) );
+         }
       }
       
       Element beginConversation = element.element("begin-conversation");
@@ -741,6 +746,11 @@ public class Pages
          if (flushMode!=null)
          {
             control.setFlushMode( FlushModeType.valueOf( flushMode.toUpperCase() ) );
+         }
+         String expression = beginConversation.attributeValue("if");
+         if (expression!=null)
+         {
+            control.setBeginConversationCondition( Expressions.instance().createValueBinding(expression) );
          }
       }
       

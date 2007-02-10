@@ -46,9 +46,11 @@
 <!ATTLIST begin-conversation nested (true|false) "false">
 <!ATTLIST begin-conversation pageflow CDATA #IMPLIED>
 <!ATTLIST begin-conversation flush-mode (manual|auto|commit|MANUAL|AUTO|COMMIT) #IMPLIED>
+<!ATTLIST begin-conversation if CDATA #IMPLIED>
 
 <!ELEMENT end-conversation EMPTY>
 <!ATTLIST end-conversation before-redirect (true|false) "false">
+<!ATTLIST end-conversation if CDATA #IMPLIED>
 
 <!ELEMENT in EMPTY>
 <!ATTLIST in name CDATA #REQUIRED>
