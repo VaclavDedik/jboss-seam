@@ -21,14 +21,14 @@
     <h:messages globalOnly="true" styleClass="message" id="globalMessages"/>
     
     <div id="${componentName}" class="dialog">
-        <table>
+        <h:panelGrid columns="2" rowClasses="prop" columnClasses="name,value">
 <#foreach property in pojo.allPropertiesIterator>
 <#if !c2h.isCollection(property) && !c2h.isManyToOne(property)>
 <#include "viewproperty.xhtml.ftl">
 </#if>
 </#foreach>
 
-        </table>
+        </h:panelGrid>
     </div>
     
     <div class="actionButtons">      

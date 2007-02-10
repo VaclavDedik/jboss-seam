@@ -24,39 +24,30 @@
     <h:form id="${componentName}" styleClass="edit">
     
         <div class="dialog">
-            <table>
+            <h:panelGrid columns="2" rowClasses="prop" columnClasses="name,value">
+
 <#foreach property in pojo.allPropertiesIterator>
 <#if !c2h.isCollection(property) && !c2h.isManyToOne(property)>
 <#if c2j.isComponent(property)>
 <#foreach componentProperty in property.value.propertyIterator>
 <#if componentProperty.value.typeName == "string">
-                <tr class="prop">
-                    <td class="name">
-                        <h:outputLabel for="${componentProperty.name}">${componentProperty.name}</h:outputLabel>
-                    </td>
-                    <td class="value">
-                        <h:inputText id="${componentProperty.name}" 
-                                  value="${'#'}{${listName}.${componentName}.${property.name}.${componentProperty.name}}"/>
-                    </td>
-                </tr>
+                <h:outputLabel for="${componentProperty.name}">${componentProperty.name}</h:outputLabel>
+                <h:inputText id="${componentProperty.name}" 
+                          value="${'#'}{${listName}.${componentName}.${property.name}.${componentProperty.name}}"/>
+
 </#if>
 </#foreach>
 <#else>
 <#if property.value.typeName == "string">
-                <tr class="prop">
-                    <td class="name">
-                        <h:outputLabel for="${property.name}">${property.name}</h:outputLabel>
-                    </td>
-                    <td class="value">
-                        <h:inputText id="${property.name}" 
-                                  value="${'#'}{${listName}.${componentName}.${property.name}}"/>
-                    </td>
-                </tr>
+                <h:outputLabel for="${property.name}">${property.name}</h:outputLabel>
+                <h:inputText id="${property.name}" 
+                          value="${'#'}{${listName}.${componentName}.${property.name}}"/>
+
 </#if>
 </#if>
 </#if>
 </#foreach>
-            </table>
+            </h:panelGrid>
         </div>
         
         <div class="actionButtons">

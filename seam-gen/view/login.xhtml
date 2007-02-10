@@ -17,35 +17,17 @@
     <h:form id="login">
     
         <div class="dialog">
-        <table>
-            <tr class="prop">
-                <td class="name">
-                    <h:outputLabel for="username">Username</h:outputLabel>
-                </td>
-                <td class="value">
-                    <h:inputText id="username" 
-                              value="#{identity.username}"/>
-                </td>
-            </tr>
-            <tr class="prop">
-                <td class="name">
-                    <h:outputLabel for="password">Password</h:outputLabel>
-                </td>
-                <td class="value">
-                    <h:inputSecret id="password" 
-                                value="#{identity.password}"/>
-                </td>
-            </tr>
-            <tr class="prop">
-              <td class="name">
-                  <h:outputLabel for="rememberMe">Remember me</h:outputLabel>
-              </td>
-              <td class="value">
-                  <h:selectBooleanCheckbox id="rememberMe" 
-                                        value="#{identity.rememberMe}"/>
-              </td>
-            </tr>
-        </table>
+        <h:panelGrid columns="2" rowClasses="prop" columnClasses="name,value">
+            <h:outputLabel for="username">Username</h:outputLabel>
+            <h:inputText id="username" 
+                      value="#{identity.username}"/>
+            <h:outputLabel for="password">Password</h:outputLabel>
+            <h:inputSecret id="password" 
+                        value="#{identity.password}"/>
+            <h:outputLabel for="rememberMe">Remember me</h:outputLabel>
+            <h:selectBooleanCheckbox id="rememberMe" 
+                                  value="#{identity.rememberMe}"/>
+        </h:panelGrid>
         </div>
             
         <div class="actionButtons">

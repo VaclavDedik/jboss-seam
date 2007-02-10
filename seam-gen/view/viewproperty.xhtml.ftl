@@ -3,65 +3,61 @@
 <#foreach componentProperty in property.value.propertyIterator>
 <#assign propertyType = componentProperty.value.typeName>
 
-            <tr class="prop">
-                <td class="name">${componentProperty.name}</td>
-                <td class="value" id="${componentProperty.name}">
+            <h:panelGroup>${componentProperty.name}</h:panelGroup>
+            <s:span id="${componentProperty.name}">
 <#if propertyType == "date">
-                    <h:outputText value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
-                        <s:convertDateTime type="date" dateStyle="short"/>
-                    </h:outputText>
+                <h:outputText value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
 <#elseif propertyType == "time">
-                    <h:outputText value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
-                        <s:convertDateTime type="time"/>
-                    </h:outputText>
+                <h:outputText value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
+                    <s:convertDateTime type="time"/>
+                </h:outputText>
 <#elseif propertyType == "timestamp">
-                    <h:outputText value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
-                        <s:convertDateTime type="both" dateStyle="short"/>
-                    </h:outputText>
+                <h:outputText value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
+                    <s:convertDateTime type="both" dateStyle="short"/>
+                </h:outputText>
 <#elseif propertyType == "big_decimal">
-                    <h:outputText value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
-                        <f:convertNumber/>
-                    </h:outputText>
+                <h:outputText value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
+                    <f:convertNumber/>
+                </h:outputText>
 <#elseif propertyType == "big_integer">
-                    <h:outputText value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
-                        <f:convertNumber integerOnly="true"/>
-                    </h:outputText>
+                <h:outputText value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
+                    <f:convertNumber integerOnly="true"/>
+                </h:outputText>
 <#else>
-                    ${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}
+                ${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}
 </#if>
-                </td>
-            </tr>
+            </s:span>
 </#foreach>
 <#else>
 <#assign propertyType = property.value.typeName>
 
-            <tr class="prop">
-                <td class="name">${property.name}</td>
-                <td class="value" id="${property.name}">
+            <h:panelGroup>${property.name}</h:panelGroup>
+            <s:span id="${property.name}">
 <#if propertyType == "date">
-                    <h:outputText value="${'#'}{${homeName}.instance.${property.name}}">
-                        <s:convertDateTime type="date" dateStyle="short"/>
-                    </h:outputText>
+                <h:outputText value="${'#'}{${homeName}.instance.${property.name}}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
 <#elseif propertyType == "time">
-                    <h:outputText value="${'#'}{${homeName}.instance.${property.name}}">
-                        <s:convertDateTime type="time"/>
-                    </h:outputText>
+                <h:outputText value="${'#'}{${homeName}.instance.${property.name}}">
+                    <s:convertDateTime type="time"/>
+                </h:outputText>
 <#elseif propertyType == "timestamp">
-                    <h:outputText value="${'#'}{${homeName}.instance.${property.name}}">
-                        <s:convertDateTime type="both" dateStyle="short"/>
-                    </h:outputText>
+                <h:outputText value="${'#'}{${homeName}.instance.${property.name}}">
+                    <s:convertDateTime type="both" dateStyle="short"/>
+                </h:outputText>
 <#elseif propertyType == "big_decimal">
-                    <h:outputText value="${'#'}{${homeName}.instance.${property.name}}">
-                        <f:convertNumber/>
-                    </h:outputText>
+                <h:outputText value="${'#'}{${homeName}.instance.${property.name}}">
+                    <f:convertNumber/>
+                </h:outputText>
 <#elseif propertyType == "big_integer">
-                    <h:outputText value="${'#'}{${homeName}.instance.${property.name}}">
-                        <f:convertNumber integerOnly="true"/>
-                    </h:outputText>
+                <h:outputText value="${'#'}{${homeName}.instance.${property.name}}">
+                    <f:convertNumber integerOnly="true"/>
+                </h:outputText>
 <#else>
-                    ${'#'}{${homeName}.instance.${property.name}}
+                ${'#'}{${homeName}.instance.${property.name}}
 </#if>
-                </td>
-            </tr>
+            </s:span>
 </#if>
 </#if>

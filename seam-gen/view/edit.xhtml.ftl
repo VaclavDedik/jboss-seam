@@ -23,14 +23,14 @@
     <h:form id="${componentName}" styleClass="edit">
     
         <div class="dialog">
-            <table>
-                <s:validateAll>
+            <s:validateAll>
+                <h:panelGrid columns="2" rowClasses="prop" columnClasses="name,value">
 <#foreach property in pojo.allPropertiesIterator>
 <#include "editproperty.xhtml.ftl">
 </#foreach>
 
-               </s:validateAll>
-            </table>
+                </h:panelGrid>
+            </s:validateAll>
         </div>
         
         <div class="actionButtons">
