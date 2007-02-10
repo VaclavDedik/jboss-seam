@@ -127,6 +127,7 @@
             </h:column>
         </h:dataTable>
 
+<#if parentPojo.shortName!=pojo.shortName>
         <div class="actionButtons">
             <s:button value="Select ${property.name}"
                        view="/${parentPageName}List.xhtml">
@@ -134,6 +135,7 @@
             </s:button>
         </div>
         
+</#if>
     </div>
 </#if>
 <#if c2h.isOneToManyCollection(property)>

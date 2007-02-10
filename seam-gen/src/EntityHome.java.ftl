@@ -63,11 +63,14 @@ public class ${entityName}Home extends ${pojo.importType("org.jboss.seam.framewo
     {
 <#foreach property in pojo.allPropertiesIterator>
 <#if c2h.isManyToOne(property)>
+<#assign parentPojo = c2j.getPOJOClass(cfg.getClassMapping(property.value.referencedEntityName))>
+<#if parentPojo.shortName!=pojo.shortName>
 <#assign setter = "set" + pojo.getPropertyName(property)>
         if ( ${property.name}!=null )
         {
            getInstance().${setter}(${property.name});
         }
+</#if>
 </#if>
 </#foreach>
     }
