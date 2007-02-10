@@ -145,16 +145,19 @@ public class MailFacesContextImpl extends FacesContext
       delegate.setViewRoot(root);
    }
    
-   public FacesContext getDelegate() {
+   public FacesContext getDelegate() 
+   {
       return delegate;
    }
    
-   public static void start(String urlBase) {
+   public static void start(String urlBase) 
+   {
       FacesContext mailFacesContext = new MailFacesContextImpl(getCurrentInstance(), urlBase);
       setCurrentInstance(mailFacesContext);
    }
    
-   public static void stop() {
+   public static void stop() 
+   {
       if (getCurrentInstance() instanceof MailFacesContextImpl)
       {
          MailFacesContextImpl mailFacesContextImpl = (MailFacesContextImpl) getCurrentInstance();
