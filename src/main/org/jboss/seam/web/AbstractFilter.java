@@ -7,19 +7,11 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
-public abstract class BaseFilter implements Filter
+public abstract class AbstractFilter implements Filter
 {
    private ServletContext servletContext;
-   
-   /**
-    * By default the filter is enabled
-    */
-   private boolean disabled = false;
-   
-   /**
-    * By default match all requests
-    */
-   private String urlPattern = "/*";    
+
+   private String urlPattern;
 
    public void init(FilterConfig filterConfig) throws ServletException
    {
@@ -41,17 +33,6 @@ public abstract class BaseFilter implements Filter
       this.urlPattern = urlPattern;
    }
    
-   public boolean isDisabled()
-   {
-      return disabled;
-   }
-   
-   public void setDisabled(boolean disabled)
-   {
-      this.disabled = disabled;
-   }   
-   
-   
    /**
     * Pattern matching code, adapted from Tomcat. This method checks to see if
     * the specified path matches the specified pattern.
@@ -66,6 +47,8 @@ public abstract class BaseFilter implements Filter
       
       String path = ((HttpServletRequest) request).getServletPath();      
       String pattern = getUrlPattern();
+      
+      if (pattern==null) return true;
 
       if (path == null || "".equals(path)) path = "/";
       if (pattern == null || "".equals(pattern)) pattern = "/";
