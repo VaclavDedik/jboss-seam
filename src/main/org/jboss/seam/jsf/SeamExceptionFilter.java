@@ -14,4 +14,4 @@ package org.jboss.seam.jsf;
  * @deprecated use org.jboss.seam.servlet.SeamExceptionFilter
  * @author Gavin King
  */
-public class SeamExceptionFilter extends org.jboss.seam.servlet.SeamExceptionFilter {}
+public class SeamExceptionFilter extends org.jboss.seam.web.ExceptionFilter {}

@@ -17,7 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.servlet.SeamServletFilter;
+import org.jboss.seam.web.ServletFilter;
+
 import javax.servlet.http.HttpSession;
 import javax.servlet.ServletRequest;
 
@@ -31,7 +32,7 @@ public class SeamRemotingServlet extends HttpServlet
    private static final long serialVersionUID = -701000241772063743L;
 
    private static final LogProvider log = Logging
-         .getLogProvider(SeamServletFilter.class);
+         .getLogProvider(ServletFilter.class);
 
    private static final Pattern pathPattern = Pattern.compile("/(.*?)/([^/]+)");
 

@@ -49,6 +49,7 @@ import org.jboss.seam.util.Reflections;
 import org.jboss.seam.util.Resources;
 import org.jboss.seam.util.Strings;
 import org.jboss.seam.util.XML;
+import org.jboss.seam.web.BaseFilter;
 
 /**
  * @author Gavin King
@@ -694,6 +695,11 @@ public class Initialization
                }
                installedSomething = true;
             }
+            
+            if (componentDescriptor.isInstalledFilter())
+            {
+               init.addInstalledFilter(componentDescriptor.getComponentClass());
+            }
          }
 
       }
@@ -771,7 +777,7 @@ public class Initialization
    }
 
    /**
-    * This actually creates a propert component and should only be called when
+    * This actually creates a proper component and should only be called when
     * we want to install a component
     */
    protected void addComponent(ComponentDescriptor descriptor, Context context)
@@ -1050,6 +1056,12 @@ public class Initialization
             return Install.APPLICATION;
          }
          return install.precedence();
+      }
+      
+      public boolean isInstalledFilter()
+      {
+         // They must extend BaseFilter so that they can be disabled
+         return BaseFilter.class.isAssignableFrom(componentClass) && isInstalled();
       }
 
       @Override

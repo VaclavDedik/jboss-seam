@@ -9,7 +9,7 @@ import javax.faces.context.ResponseWriter;
 import javax.faces.el.ValueBinding;
 import javax.servlet.http.HttpServletRequestWrapper;
 
-import org.jboss.seam.servlet.MultipartRequest;
+import org.jboss.seam.web.MultipartRequest;
 
 /**
  * A file upload component.

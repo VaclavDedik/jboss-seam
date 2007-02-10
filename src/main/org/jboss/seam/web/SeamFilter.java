@@ -1,9 +1,9 @@
-package org.jboss.seam.servlet;
+package org.jboss.seam.web;
 
 import java.io.IOException;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Set;
+import java.util.List;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -15,12 +15,17 @@ import javax.servlet.ServletResponse;
 
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.WebApplicationContext;
+import org.jboss.seam.core.Init;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 
 public class SeamFilter implements Filter
 {
+   private static final LogProvider log = Logging.getLogProvider(SeamFilter.class);   
+   
    private ServletContext servletContext;
    
-   private Set<Filter> filters = new HashSet<Filter>();   
+   private List<Filter> filters = new ArrayList<Filter>();   
    
    private class FilterChainImpl implements FilterChain
    {  
@@ -81,10 +86,12 @@ public class SeamFilter implements Filter
    {
       Context ctx = new WebApplicationContext(servletContext); 
       
-      addFilter((Filter) ctx.get(MultipartFilter.class), filterConfig);
-      addFilter((Filter) ctx.get(SeamRedirectFilter.class), filterConfig);
-      addFilter((Filter) ctx.get(SeamExceptionFilter.class), filterConfig);
-      addFilter((Filter) ctx.get(SeamServletFilter.class), filterConfig);
+      Init init = (Init) ctx.get(Init.class);
+      for (Class filterClass : init.getInstalledFilters())
+      {
+         log.info("Installed filter " + filterClass.getName());
+         addFilter((Filter) ctx.get(filterClass), filterConfig);
+      }
    }
    
    public void doFilter(ServletRequest request, ServletResponse response, 

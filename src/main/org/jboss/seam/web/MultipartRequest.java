@@ -1,4 +1,4 @@
-package org.jboss.seam.servlet;
+package org.jboss.seam.web;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

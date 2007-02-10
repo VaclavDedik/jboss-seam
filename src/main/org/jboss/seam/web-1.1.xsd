@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
-    targetNamespace="http://jboss.com/products/seam/servlet" xmlns:filter="http://jboss.com/products/seam/servlet"
+    targetNamespace="http://jboss.com/products/seam/web" xmlns:filter="http://jboss.com/products/seam/web"
     xmlns:components="http://jboss.com/products/seam/components" attributeFormDefault="unqualified">
     <xs:import namespace="http://jboss.com/products/seam/components" schemaLocation="components-1.1.xsd"/>
 
     <xs:element name="multipart-filter">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="servlet:attlist.filter"/>
-            <xs:attributeGroup ref="servlet:attlist.multipartFilter"/>
+            <xs:attributeGroup ref="web:attlist.filter"/>
+            <xs:attributeGroup ref="web:attlist.multipartFilter"/>
         </xs:complexType>
     </xs:element>
     
-    <xs:element name="seam-redirect-filter">
+    <xs:element name="redirect-filter">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="servlet:attlist.filter"/>
+            <xs:attributeGroup ref="web:attlist.filter"/>
         </xs:complexType>    
     </xs:element>    
     
-    <xs:element name="seam-exception-filter">
+    <xs:element name="exception-filter">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="servlet:attlist.filter"/>
+            <xs:attributeGroup ref="web:attlist.filter"/>
         </xs:complexType>
     </xs:element>
     
-    <xs:element name="seam-servlet-filter">
+    <xs:element name="servlet-filter">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="servlet:attlist.filter"/>
+            <xs:attributeGroup ref="web:attlist.filter"/>
         </xs:complexType>
     </xs:element>    
     

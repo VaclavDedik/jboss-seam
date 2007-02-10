@@ -1,4 +1,4 @@
-package org.jboss.seam.servlet;
+package org.jboss.seam.web;
 
 import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.ScopeType.APPLICATION;

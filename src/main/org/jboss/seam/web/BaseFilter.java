@@ -1,4 +1,4 @@
-package org.jboss.seam.servlet;
+package org.jboss.seam.web;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterConfig;
