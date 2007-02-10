@@ -7,7 +7,6 @@ import java.util.List;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -22,8 +21,6 @@ public class SeamFilter implements Filter
 {
    private static final LogProvider log = Logging.getLogProvider(SeamFilter.class);   
    
-   private ServletContext servletContext;
-   
    private List<Filter> filters = new ArrayList<Filter>();   
    
    private class FilterChainImpl implements FilterChain
@@ -31,7 +28,7 @@ public class SeamFilter implements Filter
       private FilterChain chain;
       private int index;
            
-      public FilterChainImpl(FilterChain chain)
+      private FilterChainImpl(FilterChain chain)
       {
          this.chain = chain;
          index = -1;
@@ -68,30 +65,17 @@ public class SeamFilter implements Filter
       }
    }
 
-   protected ServletContext getServletContext()
-   {
-      return servletContext;
-   }   
-   
    public void init(FilterConfig filterConfig) 
       throws ServletException 
-   {      
-      servletContext = filterConfig.getServletContext();      
-      initFilters(filterConfig);
-   }
-   
-   protected void initFilters(FilterConfig filterConfig)
-      throws ServletException
    {
-      Context ctx = new WebApplicationContext(servletContext); 
-      
-      Init init = (Init) ctx.get(Init.class);
+      Context tempApplicationContext = new WebApplicationContext( filterConfig.getServletContext() ); 
+      Init init = (Init) tempApplicationContext.get(Init.class);
       for ( Class filterClass : init.getInstalledFilters() )
       {
-         Filter filter = (Filter) ctx.get(filterClass);
+         Filter filter = (Filter) tempApplicationContext.get(filterClass);
          if ( !isDisabled(filter) ) 
          {
-            log.info( "Installed filter " + filterClass.getName() );
+            log.info( "Initializing filter: " + filterClass.getName() );
             filter.init(filterConfig);
             filters.add(filter);
          }
@@ -107,8 +91,14 @@ public class SeamFilter implements Filter
    
    private boolean isDisabled(Filter filter)
    {
-      return filter instanceof BaseFilter && ((BaseFilter) filter).isDisabled();
+      return filter instanceof BaseFilter && ( (BaseFilter) filter ).isDisabled();
    }     
 
-   public void destroy() {}
+   public void destroy() 
+   {
+      for (Filter filter: filters)
+      {
+         filter.destroy();
+      }
+   }
 }

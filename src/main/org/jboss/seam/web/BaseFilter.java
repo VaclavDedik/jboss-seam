@@ -107,7 +107,8 @@ public abstract class BaseFilter implements Filter
       if (pattern.equals("/")) return true;
 
       return false;
-   }      
+   }
    
-   public void destroy() { }
+   public void destroy() {}
+   
 }
