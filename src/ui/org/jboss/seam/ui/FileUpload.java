@@ -2,6 +2,7 @@ package org.jboss.seam.ui;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
@@ -19,7 +20,9 @@ import org.jboss.seam.web.MultipartRequest;
 public class FileUpload extends UIComponentBase
 {
    public static final String COMPONENT_TYPE   = "org.jboss.seam.ui.FileUpload";
-   public static final String COMPONENT_FAMILY = "org.jboss.seam.ui.FileUpload";   
+   public static final String COMPONENT_FAMILY = "org.jboss.seam.ui.FileUpload";
+   
+   private static final String TOMAHAWK_WRAPPER_CLASS = "org.apache.myfaces.webapp.filter.MultipartRequestWrapper";
    
    private String accept;
    private String required;
@@ -38,6 +41,25 @@ public class FileUpload extends UIComponentBase
                request instanceof HttpServletRequestWrapper)
       {
          request = ((HttpServletRequestWrapper) request).getRequest();
+      }
+      
+      if (!(request instanceof MultipartRequest) &&
+               request.getClass().getName().equals(TOMAHAWK_WRAPPER_CLASS))
+      {
+         Field f = null;         
+         try
+         {
+           f = request.getClass().getDeclaredField("request");
+           f.setAccessible(true);
+           request = f.get(request);
+         }
+         catch (Exception ex) { 
+            // too bad            
+         }
+         finally
+         {
+            if (f != null) f.setAccessible(false);
+         }
       }
 
       if (request instanceof MultipartRequest)
