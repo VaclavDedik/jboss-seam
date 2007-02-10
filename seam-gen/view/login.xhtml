@@ -23,7 +23,7 @@
                     <h:outputLabel for="username">Username</h:outputLabel>
                 </td>
                 <td class="value">
-                    <h:inputText for="username" 
+                    <h:inputText id="username" 
                               value="#{identity.username}"/>
                 </td>
             </tr>
@@ -38,7 +38,7 @@
             </tr>
             <tr class="prop">
               <td class="name">
-                  <h:outputLabel id="rememberMe">Remember me</h:outputLabel>
+                  <h:outputLabel for="rememberMe">Remember me</h:outputLabel>
               </td>
               <td class="value">
                   <h:selectBooleanCheckbox id="rememberMe" 
