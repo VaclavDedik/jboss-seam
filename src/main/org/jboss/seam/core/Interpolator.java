@@ -134,11 +134,15 @@ public class Interpolator
                  } 
                  else if (nextTok.equals("}")) 
                  {
-                     if (--level == 0) {
-                         try {
+                     if (--level == 0) 
+                     {
+                         try 
+                         {
                              String value = new MessageFormat(expr.toString(), Locale.instance()).format(params);
                              builder.append(value);
-                         } catch (Exception e) {    
+                         } 
+                         catch (Exception e) 
+                         {
                              // if it is a bad message, use the expression itself
                              builder.append(expr);                             
                          }
