@@ -36,7 +36,7 @@ public class CharacterEncodingFilter extends BaseFilter
    public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
          throws ServletException, IOException
    {
-      if ( overrideClient || request.getCharacterEncoding() == null )
+      if ( encoding!=null && ( overrideClient || request.getCharacterEncoding() == null ) )
       {
          request.setCharacterEncoding(encoding);
       }
