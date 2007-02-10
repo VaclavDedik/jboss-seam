@@ -38,6 +38,7 @@
             <h:commandButton id="save" 
                           value="Save" 
                          action="${'#'}{${homeName}.persist}"
+                       disabled="${'#'}{!${homeName}.wired}"
                        rendered="${'#'}{!${homeName}.managed}"/>  
                           			  
             <h:commandButton id="update" 
@@ -58,6 +59,7 @@
                 
             <s:button id="cancel" 
                    value="Cancel"
+             propagation="end"
                     view="/${'#'}{empty ${componentName}From ? '${masterPageName}' : ${componentName}From}.xhtml"
                 rendered="${'#'}{!${homeName}.managed}"/>
                 
@@ -73,9 +75,6 @@
     <div class="association" id="${property.name}">
     
         <h3>${property.name}</h3>
-    
-        <h:outputText value="No ${property.name}" 
-                   rendered="${'#'}{${homeName}.instance.${property.name} == null}"/>
     
         <h:dataTable var="${parentName}" 
                    value="${'#'}{${homeName}.instance.${property.name}}" 
@@ -125,6 +124,13 @@
             </h:column>
         </h:dataTable>
 
+        <div class="actionButtons">
+            <s:button value="Select ${property.name}"
+                           view="/${parentPageName}List.xhtml">
+                <f:param name="from" value="${pageName}Edit"/>
+            </s:button>
+        </div>
+        
     </div>
 </#if>
 <#if c2h.isOneToManyCollection(property)>

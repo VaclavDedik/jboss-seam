@@ -109,7 +109,7 @@
 </#foreach>
         <h:column>
             <f:facet name="header">action</f:facet>
-            <s:link view="/${pageName}.xhtml" 
+            <s:link view="/${'#'}{empty from ? '${pageName}' : from}.xhtml" 
                    value="Select" 
                       id="${componentName}">
 <#if pojo.isComponent(pojo.identifierProperty)>
@@ -162,11 +162,21 @@
         
     </div>
     
-    <div class="actionButtons">
+    <s:div styleClass="actionButtons" rendered="${'#'}{empty from}">
         <s:button view="/${editPageName}.xhtml"
                     id="create" 
-                 value="Create ${componentName}"/>
-    </div>
+                 value="Create ${componentName}">
+<#assign idName = componentName + util.upper(pojo.identifierProperty.name)>
+<#if c2j.isComponent(pojo.identifierProperty)>
+<#foreach componentProperty in pojo.identifierProperty.value.propertyIterator>
+<#assign cidName = componentName + util.upper(componentProperty.name)>
+            <f:param name="${cidName}"/>
+</#foreach>
+<#else>
+            <f:param name="${idName}"/>
+</#if>
+        </s:button>
+    </s:div>
     
 </ui:define>
 

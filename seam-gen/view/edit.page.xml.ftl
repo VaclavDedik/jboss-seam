@@ -10,7 +10,9 @@
 <page no-conversation-view-id="/${masterPageName}.xhtml">
    <restrict>${'#'}{identity.loggedIn}</restrict>
    
-   <begin-conversation if="${'#'}{${homeName}.managed}"/>
+   <begin-conversation join="true"/>
+   
+   <action execute="${'#'}{${homeName}.wire}"/>
    
    <param name="${componentName}From"/>
 <#assign idName = componentName + util.upper(pojo.identifierProperty.name)>
@@ -25,6 +27,7 @@
 <#include "param.xml.ftl">
 
    <navigation from-action="${'#'}{${homeName}.persist}">
+       <end-conversation/>
        <redirect view-id="/${pageName}.xhtml"/>
    </navigation>
    

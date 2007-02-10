@@ -11,7 +11,7 @@ public class ${entityName}Home extends ${pojo.importType("org.jboss.seam.framewo
 <#if c2h.isManyToOne(property)>
 <#assign parentPojo = c2j.getPOJOClass(cfg.getClassMapping(property.value.referencedEntityName))>
 <#assign parentHomeName = util.lower(parentPojo.shortName) + "Home">
-    @${pojo.importType("org.jboss.seam.annotations.In")}(value="${'#'}{${parentHomeName}.instance}", required=false)
+    @${pojo.importType("org.jboss.seam.annotations.In")}(value="${'#'}{${parentHomeName}.managedInstance}", required=false)
     ${parentPojo.shortName} ${property.name};
 </#if>
 </#foreach>
@@ -56,13 +56,36 @@ public class ${entityName}Home extends ${pojo.importType("org.jboss.seam.framewo
 <#if pojo.isComponent(pojo.identifierProperty)>
         ${componentName}.setId( new ${entityName}Id() );
 </#if>
+        return ${componentName};
+    }
+    
+    public void wire()
+    {
 <#foreach property in pojo.allPropertiesIterator>
 <#if c2h.isManyToOne(property)>
 <#assign setter = "set" + pojo.getPropertyName(property)>
-        ${componentName}.${setter}(${property.name});
+        if ( ${property.name}!=null )
+        {
+           getInstance().${setter}(${property.name});
+        }
 </#if>
 </#foreach>
-        return ${componentName};
+    }
+    
+    public boolean isWired()
+    {
+<#foreach property in pojo.allPropertiesIterator>
+<#if (c2h.isManyToOne(property) && !property.optional)>
+<#assign getter = "get" + pojo.getPropertyName(property)>
+        if ( getInstance().${getter}()==null ) return false;
+</#if>
+</#foreach>
+        return true;
+    }
+    
+    public ${entityName} getManagedInstance()
+    {
+        return isManaged() ? getInstance() : null;
     }
  	
 <#foreach property in pojo.allPropertiesIterator>
