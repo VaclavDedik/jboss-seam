@@ -72,7 +72,7 @@
 <#assign parentPageName = parentPojo.shortName>
 <#assign parentName = util.lower(parentPojo.shortName)>
 
-    <div class="association" id="${property.name}">
+    <div class="association" id="${property.name}Parent">
     
         <h3>${property.name}</h3>
     
@@ -83,7 +83,7 @@
                    value="${'#'}{${homeName}.instance.${property.name}}" 
                 rendered="${'#'}{${homeName}.instance.${property.name} != null}"
               rowClasses="rvgRowOne,rvgRowTwo"
-                      id="${property.name}">
+                      id="${property.name}Table">
 <#foreach parentProperty in parentPojo.allPropertiesIterator>
 <#if !c2h.isCollection(parentProperty) && !c2h.isManyToOne(parentProperty)>
 <#if parentPojo.isComponent(parentProperty)>
@@ -140,7 +140,7 @@
 
     <f:subview rendered="${'#'}{${homeName}.managed}" id="${property.name}">
     
-        <div class="association" id="${property.name}">
+        <div class="association" id="${property.name}Children">
         
             <h3>${property.name}</h3>
         
@@ -155,7 +155,7 @@
                            var="${childName}" 
                       rendered="${'#'}{not empty ${homeName}.${property.name}}" 
                     rowClasses="rvgRowOne,rvgRowTwo"
-                            id="${property.name}">
+                            id="${property.name}Table">
 <#foreach childProperty in childPojo.allPropertiesIterator>
 <#if !c2h.isCollection(childProperty) && !c2h.isManyToOne(childProperty)>
 <#if childPojo.isComponent(childProperty)>

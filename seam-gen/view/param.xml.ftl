@@ -1,6 +1,7 @@
 <#foreach property in pojo.allPropertiesIterator>
 <#if c2h.isManyToOne(property)>
 <#assign parentPojo = c2j.getPOJOClass(cfg.getClassMapping(property.value.referencedEntityName))>
+<#if parentPojo.shortName!=pojo.shortName>
 <#assign parentComponentName = util.lower(parentPojo.shortName)>
 <#assign parentHomeName = parentComponentName + "Home">
 <#assign parentIdName = parentComponentName + util.upper(parentPojo.identifierProperty.name)>
@@ -10,5 +11,6 @@
 <#assign pojo = parentPojo>
 <#include "param.xml.ftl">
 <#assign pojo = p>
+</#if>
 </#if>
 </#foreach>
