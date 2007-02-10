@@ -1150,7 +1150,7 @@
         <para> The default implementation serves PDF documents from a generic URL, <literal>/seam-doc.seam</literal>.
             Many browsers (and users) would prefer to see URLs that contain the actual PDF name like
                 <literal>/myDocument.pdf</literal>. This capability requires some configuration. To serve PDF files, all
-            *.pdf resources should be mapped to the Seam Servlet Filter, as shown here:</para>
+            *.pdf resources should be mapped to the Seam Servlet Filter and to the DocumentStoreServlet:</para>
 
         <programlisting>
 &lt;filter&gt;
@@ -1162,8 +1162,17 @@
     &lt;filter-name&gt;Seam Servlet Filter&lt;/filter-name&gt;
     &lt;url-pattern&gt;*.pdf&lt;/url-pattern&gt;
 &lt;/filter-mapping&gt;
-</programlisting>
 
+&lt;servlet&gt;
+    &lt;servlet-name&gt;Document Store Servlet&lt;/servlet-name&gt;
+    &lt;servlet-class&gt;org.jboss.seam.pdf.DocumentStoreServlet&lt;/servlet-class&gt;
+&lt;/servlet&gt;
+
+&lt;servlet-mapping&gt;
+    &lt;servlet-name&gt;Document Store Servlet&lt;/servlet-name&gt;
+    &lt;url-pattern&gt;*.pdf&lt;/url-pattern&gt;
+&lt;/servlet-mapping&gt;</programlisting>
+        
         <para> The <literal>useExtensions</literal> option on the document store component completes the functionality
             by instructing the document store to generate URLs with the correct filename extension for the document type
             being generated. </para>
@@ -1175,6 +1184,10 @@
 &lt;/components&gt;
 </programlisting>
 
+           
+        
+
+        
         <para> Generated documents are stored in conversation scope and will expire when the conversation ends. At that
             point, references to the document will be invalid. To You can specify a default view to be shown when a
             document does not exist using the <literal>errorPage</literal> property of the documentStore. </para>
