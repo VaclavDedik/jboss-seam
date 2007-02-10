@@ -1,6 +1,6 @@
 package org.jboss.seam.servlet;
 
-import org.jboss.seam.web.ServletFilter;
+import org.jboss.seam.web.ContextFilter;
 
 /**
  * Manages the Seam contexts associated with a request to any servlet.
@@ -8,7 +8,7 @@ import org.jboss.seam.web.ServletFilter;
  * @author Gavin King
  */
 @Deprecated
-public class SeamServletFilter extends ServletFilter 
+public class SeamServletFilter extends ContextFilter 
 {
    
 }

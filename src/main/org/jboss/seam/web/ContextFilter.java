@@ -1,8 +1,11 @@
 package org.jboss.seam.web;
+
 import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
+
 import java.io.IOException;
+
 import javax.faces.event.PhaseId;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -10,6 +13,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
@@ -20,6 +24,7 @@ import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+
 /**
  * Manages the Seam contexts associated with a request to any servlet.
  * 
@@ -30,15 +35,15 @@ import org.jboss.seam.log.Logging;
 @Name("org.jboss.seam.servlet.servletFilter")
 @Install(precedence = BUILT_IN)
 @Intercept(NEVER)
-public class ServletFilter extends BaseFilter 
+public class ContextFilter extends BaseFilter 
 {
-   private static final LogProvider log = Logging.getLogProvider(ServletFilter.class);
+   private static final LogProvider log = Logging.getLogProvider(ContextFilter.class);
    private boolean explicitDisabled = false;
    
    /**
     * This filter is disabled by default, unless a urlPattern is set    
     */
-   public ServletFilter()
+   public ContextFilter()
    {
       super.setDisabled(true);
    }

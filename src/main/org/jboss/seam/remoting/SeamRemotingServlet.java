@@ -7,20 +7,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
-import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.web.ServletFilter;
-
-import javax.servlet.http.HttpSession;
-import javax.servlet.ServletRequest;
 
 /**
  * Provides remoting capabilities for Seam.
@@ -31,8 +30,7 @@ public class SeamRemotingServlet extends HttpServlet
 {
    private static final long serialVersionUID = -701000241772063743L;
 
-   private static final LogProvider log = Logging
-         .getLogProvider(ServletFilter.class);
+   private static final LogProvider log = Logging.getLogProvider(SeamRemotingServlet.class);
 
    private static final Pattern pathPattern = Pattern.compile("/(.*?)/([^/]+)");
 
