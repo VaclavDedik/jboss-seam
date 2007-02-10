@@ -61,7 +61,7 @@
 	<property name="dist.src.mail.dir"     value="${dist.dir}/src/mail"/>
     <property name="dist.src.debug.dir"   value="${dist.dir}/src/debug"/>
     <property name="dist.src.gen.dir"     value="${dist.dir}/src/gen"/>
-    <property name="dist.src.test.dir"    value="${dist.dir}/src/test"/>
+    <property name="dist.src.test.dir"    value="${dist.dir}/src/test/misc"/>
     <property name="dist.lib.dir"         value="${dist.dir}/lib"/>
     <property name="dist.eejb.conf.dir"   value="${dist.dir}/embedded-ejb/conf"/>
     <property name="dist.mc.conf.dir"     value="${dist.dir}/microcontainer/conf"/>
