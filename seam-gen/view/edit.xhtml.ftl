@@ -58,7 +58,7 @@
                 
             <s:button id="cancel" 
                    value="Cancel"
-                    view="/${masterPageName}.xhtml"
+                    view="/${'#'}{empty ${componentName}From ? '${masterPageName}' : ${componentName}From}.xhtml"
                 rendered="${'#'}{!${homeName}.managed}"/>
                 
         </div>
