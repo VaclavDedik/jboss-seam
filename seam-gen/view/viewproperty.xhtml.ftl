@@ -8,15 +8,15 @@
                 <td class="value" id="${componentProperty.name}">
 <#if propertyType == "date">
                     <h:outputText value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
-                        <f:convertDateTime type="date" dateStyle="short"/>
+                        <s:convertDateTime type="date" dateStyle="short"/>
                     </h:outputText>
 <#elseif propertyType == "time">
                     <h:outputText value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
-                        <f:convertDateTime type="time"/>
+                        <s:convertDateTime type="time"/>
                     </h:outputText>
 <#elseif propertyType == "timestamp">
                     <h:outputText value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
-                        <f:convertDateTime type="both" dateStyle="short"/>
+                        <s:convertDateTime type="both" dateStyle="short"/>
                     </h:outputText>
 <#elseif propertyType == "big_decimal">
                     <h:outputText value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
@@ -40,15 +40,15 @@
                 <td class="value" id="${property.name}">
 <#if propertyType == "date">
                     <h:outputText value="${'#'}{${homeName}.instance.${property.name}}">
-                        <f:convertDateTime type="date" dateStyle="short"/>
+                        <s:convertDateTime type="date" dateStyle="short"/>
                     </h:outputText>
 <#elseif propertyType == "time">
                     <h:outputText value="${'#'}{${homeName}.instance.${property.name}}">
-                        <f:convertDateTime type="time"/>
+                        <s:convertDateTime type="time"/>
                     </h:outputText>
 <#elseif propertyType == "timestamp">
                     <h:outputText value="${'#'}{${homeName}.instance.${property.name}}">
-                        <f:convertDateTime type="both" dateStyle="short"/>
+                        <s:convertDateTime type="both" dateStyle="short"/>
                     </h:outputText>
 <#elseif propertyType == "big_decimal">
                     <h:outputText value="${'#'}{${homeName}.instance.${property.name}}">

@@ -21,7 +21,7 @@
                                       required="true"
 </#if>
 		        	                     value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
-		        	               <f:convertDateTime type="date" dateStyle="short" pattern="MM/dd/yyyy"/>
+		        	               <s:convertDateTime type="date" dateStyle="short" pattern="MM/dd/yyyy"/>
 		        	           </h:inputText>
 		        	           <s:selectDate for="${property.name}">
 		        	               <h:graphicImage url="img/dtpick.gif" style="margin-left:5px"/>
@@ -33,7 +33,7 @@
                                       required="true"
 </#if>
 		        	                     value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
-		        	               <f:convertDateTime type="time"/>
+		        	               <s:convertDateTime type="time"/>
 		        	           </h:inputText>
 <#elseif propertyType == "timestamp">
 		        	           <h:inputText id="${componentProperty.name}" 
@@ -42,7 +42,7 @@
                                       required="true"
 </#if>
 			                             value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
-			                       <f:convertDateTime type="both" dateStyle="short"/>
+			                       <s:convertDateTime type="both" dateStyle="short"/>
 			                   </h:inputText>
 <#elseif propertyType == "big_decimal">
 			                   <h:inputText id="${componentProperty.name}" 
@@ -137,7 +137,7 @@
                                       required="true"
 </#if>
 		        	                     value="${'#'}{${homeName}.instance.${property.name}}">
-		        	               <f:convertDateTime type="date" dateStyle="short" pattern="MM/dd/yyyy"/>
+		        	               <s:convertDateTime type="date" dateStyle="short" pattern="MM/dd/yyyy"/>
 		        	           </h:inputText>
 		        	           <s:selectDate for="${property.name}">
 		        	               <h:graphicImage url="img/dtpick.gif" style="margin-left:5px"/>
@@ -149,7 +149,7 @@
                                       required="true"
 </#if>
 		        	                     value="${'#'}{${homeName}.instance.${property.name}}">
-		        	               <f:convertDateTime type="time"/>
+		        	               <s:convertDateTime type="time"/>
 		        	           </h:inputText>
 <#elseif propertyType == "timestamp">
 		        	           <h:inputText id="${property.name}" 
@@ -158,7 +158,7 @@
                                       required="true"
 </#if>
 			                             value="${'#'}{${homeName}.instance.${property.name}}">
-			                       <f:convertDateTime type="both" dateStyle="short"/>
+			                       <s:convertDateTime type="both" dateStyle="short"/>
 			                   </h:inputText>
 <#elseif propertyType == "big_decimal">
 			                   <h:inputText id="${property.name}" 

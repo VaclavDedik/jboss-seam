@@ -129,7 +129,7 @@
 
         <div class="actionButtons">
             <s:button value="Select ${property.name}"
-                           view="/${parentPageName}List.xhtml">
+                       view="/${parentPageName}List.xhtml">
                 <f:param name="from" value="${pageName}Edit"/>
             </s:button>
         </div>
@@ -199,7 +199,7 @@
             <s:button id="add${childName}" 
                    value="Add ${childName}"
                     view="/${childEditPageName}.xhtml"
-                    propagation="none">
+             propagation="none">
                  <f:param name="${componentName}${util.upper(pojo.identifierProperty.name)}" 
                          value="${'#'}{${homeName}.instance.${pojo.identifierProperty.name}}"/>
                  <f:param name="${childName}From" value="${entityName}"/>
