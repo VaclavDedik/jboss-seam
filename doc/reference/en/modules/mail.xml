@@ -245,6 +245,12 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.&lt;/f:facet&gt;
 	                       read receipt being sent to the <literal>From:</literal> address.
 	                   </para>
 	                   </listitem>
+	                   <listitem>
+	                   <para>
+	                       <literal>urlBase</literal> &mdash; If set, the value is prepended to the <literal>requestContextPath</literal> allowing
+	                       you to use components such as <literal>&lt;h:graphicImage&gt;</literal> in your emails.
+	                   </para>
+	                   </listitem>
 	                   </itemizedlist>
 	           </listitem>
         	</varlistentry>
