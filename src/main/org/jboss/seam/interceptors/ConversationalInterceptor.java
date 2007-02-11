@@ -28,7 +28,7 @@ import org.jboss.seam.intercept.InvocationContext;
  * @author Gavin King
  */
 @Interceptor(stateless=true,
-             around={ValidationInterceptor.class, BijectionInterceptor.class, OutcomeInterceptor.class, BusinessProcessInterceptor.class})
+             around={ValidationInterceptor.class, BijectionInterceptor.class, BusinessProcessInterceptor.class})
 public class ConversationalInterceptor extends AbstractInterceptor
 {
    private static final long serialVersionUID = 1127583515811479385L;

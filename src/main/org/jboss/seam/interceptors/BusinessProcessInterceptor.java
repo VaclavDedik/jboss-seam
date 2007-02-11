@@ -32,7 +32,7 @@ import org.jboss.seam.log.Logging;
  * @version $Revision$
  */
 @Interceptor(stateless=true,
-             around={ValidationInterceptor.class, BijectionInterceptor.class, OutcomeInterceptor.class})
+             around={ValidationInterceptor.class, BijectionInterceptor.class})
 public class BusinessProcessInterceptor extends AbstractInterceptor
 {
    private static final long serialVersionUID = 758197867958840918L;

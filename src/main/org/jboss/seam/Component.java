@@ -19,13 +19,13 @@ import static org.jboss.seam.ScopeType.STATELESS;
 import static org.jboss.seam.ScopeType.UNSPECIFIED;
 import static org.jboss.seam.util.EJB.INTERCEPTORS;
 import static org.jboss.seam.util.EJB.LOCAL;
+import static org.jboss.seam.util.EJB.PERSISTENCE_CONTEXT;
 import static org.jboss.seam.util.EJB.POST_ACTIVATE;
 import static org.jboss.seam.util.EJB.POST_CONSTRUCT;
 import static org.jboss.seam.util.EJB.PRE_DESTROY;
 import static org.jboss.seam.util.EJB.PRE_PASSIVATE;
 import static org.jboss.seam.util.EJB.REMOTE;
 import static org.jboss.seam.util.EJB.REMOVE;
-import static org.jboss.seam.util.EJB.PERSISTENCE_CONTEXT;
 import static org.jboss.seam.util.EJB.value;
 
 import java.io.Serializable;
@@ -101,7 +101,6 @@ import org.jboss.seam.interceptors.ConversationalInterceptor;
 import org.jboss.seam.interceptors.EventInterceptor;
 import org.jboss.seam.interceptors.ManagedEntityIdentityInterceptor;
 import org.jboss.seam.interceptors.MethodContextInterceptor;
-import org.jboss.seam.interceptors.OutcomeInterceptor;
 import org.jboss.seam.interceptors.RemoveInterceptor;
 import org.jboss.seam.interceptors.RollbackInterceptor;
 import org.jboss.seam.interceptors.SecurityInterceptor;
@@ -156,6 +155,7 @@ public class Component
    private Method postActivateMethod;
    private Map<String, Method> removeMethods = new HashMap<String, Method>();
    private Set<Method> validateMethods = new HashSet<Method>();
+   private Set<Method> lifecycleMethods = new HashSet<Method>();
    
    private List<BijectedAttribute<In>> inAttributes = new ArrayList<BijectedAttribute<In>>();
    private List<BijectedAttribute<Out>> outAttributes = new ArrayList<BijectedAttribute<Out>>();
@@ -447,6 +447,7 @@ public class Component
                   throw new IllegalStateException("component has two @Destroy methods: " + name);
                }
                destroyMethod = method;
+               lifecycleMethods.add(method);
             }
             if ( method.isAnnotationPresent(Create.class) )
             {
@@ -459,6 +460,7 @@ public class Component
                   throw new IllegalStateException("component has two @Create methods: " + name);
                }
                createMethod = method;
+               lifecycleMethods.add(method);
             }
             if ( method.isAnnotationPresent(In.class) )
             {
@@ -509,18 +511,22 @@ public class Component
             if ( method.isAnnotationPresent(PRE_PASSIVATE) )
             {
                prePassivateMethod = method;
+               lifecycleMethods.add(method);
             }
             if ( method.isAnnotationPresent(POST_ACTIVATE) )
             {
                postActivateMethod = method;
+               lifecycleMethods.add(method);
             }
             if ( method.isAnnotationPresent(POST_CONSTRUCT) )
             {
                postConstructMethod = method;
+               lifecycleMethods.add(method);
             }
             if ( method.isAnnotationPresent(PRE_DESTROY) )
             {
                preDestroyMethod = method;
+               lifecycleMethods.add(method);
             }
             if ( method.isAnnotationPresent(PERSISTENCE_CONTEXT) )
             {
@@ -529,7 +535,7 @@ public class Component
                   throw new IllegalArgumentException("@PersistenceContext may only be used on session bean or message driven bean components: " + name);
                }
             }
-
+            
             for ( Annotation ann: method.getAnnotations() )
             {
                if ( ann.annotationType().isAnnotationPresent(DataBinderClass.class) )
@@ -804,7 +810,6 @@ public class Component
          }
       }
       addInterceptor( new Interceptor( new ConversationInterceptor(), this ) );
-      addInterceptor( new Interceptor( new OutcomeInterceptor(), this ) );
       if ( needsInjection() || needsOutjection() )
       {
          addInterceptor( new Interceptor( new BijectionInterceptor(), this ) );
@@ -1146,6 +1151,10 @@ public class Component
     */
    public void inject(Object bean, boolean enforceRequired)
    {
+      if ( log.isTraceEnabled() )
+      {
+         log.trace("injecting dependencies of: " + getName());
+      }
       //injectLog(bean);
       injectAttributes(bean, enforceRequired);
       injectDataModelSelections(bean);
@@ -1159,6 +1168,10 @@ public class Component
     */
    public void disinject(Object bean)
    {
+      if ( log.isTraceEnabled() )
+      {
+         log.trace("disinjecting dependencies of: " + getName());
+      }
       disinjectAttributes(bean);
    }
 
@@ -1190,6 +1203,10 @@ public class Component
     */
    public void outject(Object bean, boolean enforceRequired)
    {
+      if ( log.isTraceEnabled() )
+      {
+         log.trace("outjecting dependencies of: " + getName());
+      }
       outjectAttributes(bean, enforceRequired);
       outjectDataModels(bean);
    }
@@ -1935,6 +1952,12 @@ public class Component
    public String[] getDependencies()
    {
       return dependencies;
+   }
+
+   public boolean isLifecycleMethod(Method method)
+   {
+      return method==null || //EJB 3 JavaDoc says InvocationContext.getMethod() returns null for lifecycle callbacks!
+            lifecycleMethods.contains(method);
    }
 
    public static interface InitialValue

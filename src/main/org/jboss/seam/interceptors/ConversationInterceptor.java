@@ -27,7 +27,7 @@ import org.jboss.seam.intercept.InvocationContext;
  * @author Gavin King
  */
 @Interceptor(stateless=true,
-             around={ValidationInterceptor.class, BijectionInterceptor.class, OutcomeInterceptor.class},
+             around={ValidationInterceptor.class, BijectionInterceptor.class},
              within=BusinessProcessInterceptor.class)
 public class ConversationInterceptor extends AbstractInterceptor
 {

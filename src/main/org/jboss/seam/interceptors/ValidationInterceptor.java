@@ -14,6 +14,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.Interceptor;
+import org.jboss.seam.annotations.Outcome;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.intercept.InvocationContext;
 
@@ -26,8 +27,7 @@ import org.jboss.seam.intercept.InvocationContext;
  * @deprecated
  * @author Gavin King
  */
-@Interceptor(stateless=true,
-             within={BijectionInterceptor.class, OutcomeInterceptor.class})
+@Interceptor(stateless=true, within=BijectionInterceptor.class)
 @SuppressWarnings("deprecation")
 public class ValidationInterceptor extends AbstractInterceptor
 {
@@ -60,7 +60,8 @@ public class ValidationInterceptor extends AbstractInterceptor
                }
                FacesMessages.instance().add(iv);
             }
-            return ifInvalid.outcome();
+            String outcome = ifInvalid.outcome();
+            return Outcome.REDISPLAY.equals(outcome) ? null : outcome;
          }
       }
       else

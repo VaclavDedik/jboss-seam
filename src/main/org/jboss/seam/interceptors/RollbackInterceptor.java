@@ -21,7 +21,7 @@ import org.jboss.seam.util.Transactions;
  * 
  * @author Gavin King
  */
-@Interceptor(stateless=true, around=OutcomeInterceptor.class)
+@Interceptor(stateless=true)
 public class RollbackInterceptor extends AbstractInterceptor 
 {
    private static final long serialVersionUID = 5551801508325093417L;

@@ -10,7 +10,6 @@ import javax.faces.event.PhaseId;
 import org.jboss.seam.Component;
 import org.jboss.seam.RequiredException;
 import org.jboss.seam.Seam;
-import org.jboss.seam.annotations.Outcome;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.FacesApplicationContext;
@@ -24,7 +23,6 @@ import org.jboss.seam.core.PersistenceContexts;
 import org.jboss.seam.interceptors.BijectionInterceptor;
 import org.jboss.seam.interceptors.ConversationInterceptor;
 import org.jboss.seam.interceptors.ConversationalInterceptor;
-import org.jboss.seam.interceptors.OutcomeInterceptor;
 import org.jboss.seam.interceptors.RemoveInterceptor;
 import org.jboss.seam.interceptors.ValidationInterceptor;
 import org.jboss.seam.mock.MockApplication;
@@ -702,41 +700,6 @@ public class InterceptorTest
       assert "bar".equals(result);
       
       Lifecycle.endApplication(servletContext);
-   }
-   
-   @Test
-   public void testOutcomeInterceptor() throws Exception
-   {
-      Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
-      
-      OutcomeInterceptor oi = new OutcomeInterceptor();
-      
-      String outcome = (String) oi.aroundInvoke( new MockInvocationContext() {
-         @Override
-         public Object proceed() throws Exception
-         {
-            return Outcome.REDISPLAY;
-         } 
-      } );
-      assert outcome==null;
-      
-      outcome = (String) oi.aroundInvoke( new MockInvocationContext() {
-         @Override
-         public Object proceed() throws Exception
-         {
-            return "success";
-         } 
-      } );
-      assert outcome=="success";
-      
-      Object result = oi.aroundInvoke( new MockInvocationContext() {
-         @Override
-         public Object proceed() throws Exception
-         {
-            return InterceptorTest.this;
-         } 
-      } );
-      assert result==this;
    }
    
    @Test 
