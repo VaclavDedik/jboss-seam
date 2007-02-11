@@ -1,7 +1,5 @@
 package org.jboss.seam.ui;
 
-import org.jboss.seam.core.AbstractMutable;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
