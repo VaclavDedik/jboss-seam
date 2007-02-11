@@ -70,7 +70,9 @@
         <description>Book hotel: #{hotel.name}</description>
         
         <navigation from-action="#{hotelBooking.setBookingDetails}">
-            <redirect view-id="/confirm.xhtml"/>
+            <rule if="#{hotelBooking.bookingValid}">
+                <redirect view-id="/confirm.xhtml"/>
+            </rule>
         </navigation>
         
     </page>
