@@ -1,5 +1,6 @@
 package org.jboss.seam.exceptions;
 
+import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,6 +19,7 @@ public abstract class RedirectHandler extends ExceptionHandler
    protected abstract String getViewId(Exception e);
    protected abstract String getMessage(Exception e);
    protected abstract boolean isEnd(Exception e);
+   protected abstract Severity getMessageSeverity(Exception e);
 
    @Override
    public void handle(Exception e) throws Exception
@@ -31,7 +33,7 @@ public abstract class RedirectHandler extends ExceptionHandler
          viewId = servletPath.substring(0, servletPath.lastIndexOf('.')) + Pages.getSuffix();
       }
       
-      addFacesMessage( getDisplayMessage(e, getMessage(e)) );
+      addFacesMessage( getDisplayMessage(e, getMessage(e)), getMessageSeverity(e), e );
       
       if ( Contexts.isConversationContextActive() && isEnd(e) ) 
       {

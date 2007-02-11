@@ -3,6 +3,9 @@
  */
 package org.jboss.seam.exceptions;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
+
 import org.jboss.seam.annotations.Redirect;
 
 public class AnnotationRedirectHandler extends RedirectHandler
@@ -17,6 +20,12 @@ public class AnnotationRedirectHandler extends RedirectHandler
    protected String getMessage(Exception e)
    {
       return e.getClass().getAnnotation(Redirect.class).message();
+   }
+   
+   @Override
+   protected Severity getMessageSeverity(Exception e)
+   {
+      return FacesMessage.SEVERITY_INFO;
    }
    
    @Override

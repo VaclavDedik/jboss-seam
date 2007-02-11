@@ -72,5 +72,6 @@
 <!ATTLIST http-error error-code CDATA #IMPLIED>
 
 <!ELEMENT message (#PCDATA)>
+<!ATTLIST message severity (info|warn|error|fatal|INFO|WARN|ERROR|FATAL) "INFO">
 
 <!ELEMENT description (#PCDATA)>

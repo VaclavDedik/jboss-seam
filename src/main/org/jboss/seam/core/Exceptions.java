@@ -7,6 +7,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
+
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.jboss.seam.Component;
@@ -127,7 +130,11 @@ public class Exceptions
          final String viewId = redirect.attributeValue("view-id");
          Element messageElement = redirect.element("message");
          final String message = messageElement==null ? null : messageElement.getTextTrim();
-         return new ConfigRedirectHandler(viewId, clazz, endConversation, message);
+         Element severityElement = redirect.element("severity");
+         Severity severity = severityElement==null ? 
+                  FacesMessage.SEVERITY_INFO : 
+                  (Severity) FacesMessage.VALUES_MAP.get( severityElement.getText().toUpperCase() );
+         return new ConfigRedirectHandler(viewId, clazz, endConversation, message, severity);
       }
       
       Element error = exception.element("http-error");

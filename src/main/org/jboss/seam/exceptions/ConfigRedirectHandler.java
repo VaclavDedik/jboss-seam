@@ -3,6 +3,8 @@
  */
 package org.jboss.seam.exceptions;
 
+import javax.faces.application.FacesMessage.Severity;
+
 
 public final class ConfigRedirectHandler extends RedirectHandler
 {
@@ -10,13 +12,15 @@ public final class ConfigRedirectHandler extends RedirectHandler
    private final Class clazz;
    private final boolean conversation;
    private final String message;
+   private final Severity messageSeverity;
 
-   public ConfigRedirectHandler(String id, Class clazz, boolean conversation, String message)
+   public ConfigRedirectHandler(String id, Class clazz, boolean conversation, String message, Severity messageSeverity)
    {
       this.id = id;
       this.clazz = clazz;
       this.conversation = conversation;
       this.message = message;
+      this.messageSeverity = messageSeverity;
    }
 
    @Override
@@ -41,6 +45,12 @@ public final class ConfigRedirectHandler extends RedirectHandler
    protected boolean isEnd(Exception e)
    {
       return conversation;
+   }
+
+   @Override
+   public Severity getMessageSeverity(Exception e)
+   {
+      return messageSeverity;
    }
 
 }

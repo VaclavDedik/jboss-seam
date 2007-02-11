@@ -2,6 +2,7 @@ package org.jboss.seam.core;
 
 import java.util.Map;
 
+import javax.faces.application.FacesMessage.Severity;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
@@ -76,13 +77,13 @@ public abstract class Navigator
       }
    }
    
-   protected static void addFacesMessage(String message)
+   protected static void addFacesMessage(String message, Severity severity, Object... params)
    {
       if ( Contexts.isConversationContextActive() )
       {
          if ( !Strings.isEmpty(message) )
          {
-            FacesMessages.instance().add(message);
+            FacesMessages.instance().add(severity, message, params);
          }
       }
    }

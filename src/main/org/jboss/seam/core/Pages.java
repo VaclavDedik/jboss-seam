@@ -12,7 +12,10 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+
+import javax.faces.application.FacesMessage;
 import javax.faces.application.ViewHandler;
+import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -847,7 +850,11 @@ public class Pages
          final String viewId = render.attributeValue("view-id");
          Element messageElement = render.element("message");
          String message = messageElement==null ? null : messageElement.getTextTrim();
-         rule.setNavigationHandler( new RenderNavigationHandler(viewId, message) );
+         Element severityElement = render.element("severity");
+         Severity severity = severityElement==null ? 
+                  FacesMessage.SEVERITY_INFO : 
+                  (Severity) FacesMessage.VALUES_MAP.get( severityElement.getText().toUpperCase() );
+         rule.setNavigationHandler( new RenderNavigationHandler(viewId, message, severity) );
       }
       Element redirect = element.element("redirect");
       if (redirect!=null)
@@ -861,7 +868,11 @@ public class Pages
          final String viewId = redirect.attributeValue("view-id");
          Element messageElement = redirect.element("message");
          String message = messageElement==null ? null : messageElement.getTextTrim();
-         rule.setNavigationHandler( new RedirectNavigationHandler(viewId, params, message) );
+         Element severityElement = redirect.element("severity");
+         Severity severity = severityElement==null ? 
+                  FacesMessage.SEVERITY_INFO : 
+                  (Severity) FacesMessage.VALUES_MAP.get( severityElement.getText().toUpperCase() );
+         rule.setNavigationHandler( new RedirectNavigationHandler(viewId, params, message, severity) );
       }
       List<Element> childElements = element.elements("out");
       for (Element child: childElements)
