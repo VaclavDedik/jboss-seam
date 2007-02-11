@@ -13,11 +13,6 @@
         <filter-class>org.jboss.seam.servlet.SeamServletFilter</filter-class>
     </filter>
 
-    <filter-mapping>
-        <filter-name>Seam Servlet Filter</filter-name>
-        <url-pattern>*.pdf</url-pattern>
-    </filter-mapping>
-
     <filter>
         <filter-name>Seam Redirect Filter</filter-name>
         <filter-class>org.jboss.seam.servlet.SeamRedirectFilter</filter-class>
