@@ -161,7 +161,7 @@ public class Component
    private Map<String, Method> removeMethods = new HashMap<String, Method>();
    private Set<Method> validateMethods = new HashSet<Method>();
    private Set<Method> lifecycleMethods = new HashSet<Method>();
-   private Set<Method> conversationManagementMethods;
+   private Set<Method> conversationManagementMethods = new HashSet<Method>();
    
    private List<BijectedAttribute<In>> inAttributes = new ArrayList<BijectedAttribute<In>>();
    private List<BijectedAttribute<Out>> outAttributes = new ArrayList<BijectedAttribute<Out>>();
