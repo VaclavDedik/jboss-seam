@@ -56,11 +56,15 @@ import net.sf.cglib.proxy.MethodInterceptor;
 
 import org.hibernate.validator.ClassValidator;
 import org.jboss.seam.annotations.Asynchronous;
+import org.jboss.seam.annotations.Begin;
+import org.jboss.seam.annotations.BeginTask;
 import org.jboss.seam.annotations.Conversational;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.DataBinderClass;
 import org.jboss.seam.annotations.DataSelectorClass;
 import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.annotations.End;
+import org.jboss.seam.annotations.EndTask;
 import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Interceptors;
@@ -71,6 +75,7 @@ import org.jboss.seam.annotations.RaiseEvent;
 import org.jboss.seam.annotations.RequestParameter;
 import org.jboss.seam.annotations.Rollback;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.StartTask;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.Synchronized;
 import org.jboss.seam.annotations.Transactional;
@@ -156,6 +161,7 @@ public class Component
    private Map<String, Method> removeMethods = new HashMap<String, Method>();
    private Set<Method> validateMethods = new HashSet<Method>();
    private Set<Method> lifecycleMethods = new HashSet<Method>();
+   private Set<Method> conversationManagementMethods;
    
    private List<BijectedAttribute<In>> inAttributes = new ArrayList<BijectedAttribute<In>>();
    private List<BijectedAttribute<Out>> outAttributes = new ArrayList<BijectedAttribute<Out>>();
@@ -535,6 +541,14 @@ public class Component
                   throw new IllegalArgumentException("@PersistenceContext may only be used on session bean or message driven bean components: " + name);
                }
             }
+            if ( method.isAnnotationPresent(Begin.class) || 
+                 method.isAnnotationPresent(End.class) || 
+                 method.isAnnotationPresent(StartTask.class) ||
+                 method.isAnnotationPresent(BeginTask.class) ||
+                 method.isAnnotationPresent(EndTask.class) ) 
+            {
+               conversationManagementMethods.add(method);
+            }
             
             for ( Annotation ann: method.getAnnotations() )
             {
@@ -809,7 +823,10 @@ public class Component
             addInterceptor( new Interceptor( new BusinessProcessInterceptor(), this ) );
          }
       }
-      addInterceptor( new Interceptor( new ConversationInterceptor(), this ) );
+      if ( !conversationManagementMethods.isEmpty() )
+      {
+         addInterceptor( new Interceptor( new ConversationInterceptor(), this ) );
+      }
       if ( needsInjection() || needsOutjection() )
       {
          addInterceptor( new Interceptor( new BijectionInterceptor(), this ) );
@@ -1945,7 +1962,8 @@ public class Component
       return interceptionType;
    }
 
-   public boolean isStartup() {
+   public boolean isStartup() 
+   {
       return startup;
    }
 
@@ -1958,6 +1976,12 @@ public class Component
    {
       return method==null || //EJB 3 JavaDoc says InvocationContext.getMethod() returns null for lifecycle callbacks!
             lifecycleMethods.contains(method);
+   }
+   
+   public boolean isConversationManagementMethod(Method method)
+   {
+      return method!=null && 
+            conversationManagementMethods.contains(method);
    }
 
    public static interface InitialValue

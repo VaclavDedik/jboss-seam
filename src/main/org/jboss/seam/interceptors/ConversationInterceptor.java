@@ -37,22 +37,30 @@ public class ConversationInterceptor extends AbstractInterceptor
    public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
       Method method = invocation.getMethod();
-
-      if ( isMissingJoin(method) )
+      if ( getComponent().isConversationManagementMethod(method) ) //performance optimization 
       {
-         throw new IllegalStateException("begin method invoked from a long running conversation, try using @Begin(join=true)");
-      }
-      
-      if ( redirectToExistingConversation(method) ) 
-      {
-         return null;
+   
+         if ( isMissingJoin(method) )
+         {
+            throw new IllegalStateException("begin method invoked from a long running conversation, try using @Begin(join=true)");
+         }
+         
+         if ( redirectToExistingConversation(method) ) 
+         {
+            return null;
+         }
+         else
+         {
+            Object result = invocation.proceed();   
+            beginConversationIfNecessary(method, result);
+            endConversationIfNecessary(method, result);
+            return result;
+         }
+         
       }
       else
       {
-         Object result = invocation.proceed();   
-         beginConversationIfNecessary(method, result);
-         endConversationIfNecessary(method, result);
-         return result;
+         return invocation.proceed();
       }
    }
    
