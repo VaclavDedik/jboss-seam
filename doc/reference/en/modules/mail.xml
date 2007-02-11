@@ -1,6 +1,6 @@
 <chapter id="mail">
     <title>Email</title>
-    <para>Seam now includes an optional components for templating and sending emails.</para>
+    	<para>Seam now includes an optional components for templating and sending emails.</para>
 
         <para>Email support is provided by <literal>jboss-seam-mail.jar</literal>. This JAR contains the mail JSF controls, which are used
             to construct emails, and the <literal>mailSession</literal> manager component. 
@@ -166,6 +166,40 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.&lt;/f:facet&gt;
 	    </section>
 
 	</section>
+<!-- <section>
+		<title>Receiving emails</title>
+		<para>If you are using EJB then you can use a MDB (Message Driven Bean) to receive email.  JBoss AS comes with <literal>mail-ra.rar</literal> :</para>
+		<programlisting>@MessageDriven(activationConfig={
+         @ActivationConfigProperty(propertyName="mailServer", propertyValue="localhost"),
+         @ActivationConfigProperty(propertyName="mailFolder", propertyValue="INBOX"),
+         @ActivationConfigProperty(propertyName="storeProtocol", propertyValue="pop3"),
+         @ActivationConfigProperty(propertyName="userName", propertyValue="seam"),
+         @ActivationConfigProperty(propertyName="password", propertyValue="seam")
+})
+@ResourceAdapter("mail-ra.rar")
+@Name("mailListener")
+public class MailListenerMDB implements MailListener {
+
+   @In(create=true)
+   private OrderProcessor orderProcessor;
+
+   public void onMessage(Message message) {
+      // Process the message
+      orderProcessor.process(message.getSubject());
+   }
+   
+}</programlisting>
+
+		<para>Each message received will cause <literal>onMessage(Message message)</literal> to be called.  Most seam
+		annotations will work inside a MDB but you musn't access the persistence context.</para>
+
+		<para>You can find more information on <literal>mail-ra.rar</literal> at 
+		<ulink url="hhttp://wiki.jboss.org/wiki/Wiki.jsp?page=InboundJavaMail">http://wiki.jboss.org/wiki/Wiki.jsp?page=InboundJavaMail</ulink>.</para>
+	
+		<para>If you aren't using JBoss AS you can still use <literal>mail-ra.rar</literal> (included with Seam in the mail directory),
+		or you may find your application server includes a similar adapter.</para>
+	
+	</section>-->
 
 	<section>
 		<title>Configuration</title>
