@@ -83,3 +83,34 @@
     border: 1px solid #AAAAAA;
     font-weight: bold;
 }
+
+.seam-date-month {
+    cursor: pointer;
+}
+
+.seam-date-months {
+    background-color: #CCCCCC;
+    border-color:#DDDDDD rgb(68, 68, 68) rgb(68, 68, 68) rgb(221, 221, 221);
+    border-style:solid;
+    border-width:1px 3px;
+    position: absolute;
+    top: 0px;
+    cursor:pointer;
+    visibility: hidden;
+}
+
+.seam-date-year {
+    cursor: pointer;
+}
+
+.seam-date-years {
+    background-color: #CCCCCC;
+    border-color:#DDDDDD rgb(68, 68, 68) rgb(68, 68, 68) rgb(221, 221, 221);
+    border-style:solid;
+    border-width:1px 3px;
+    position: absolute;
+    top: 0px;
+    right: 40px;
+    cursor:pointer;
+    visibility: hidden;
+}
