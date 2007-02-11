@@ -119,16 +119,43 @@ function refreshDatePicker(dateFieldName, year, month, day)
   // go back to a previous month or forward to the next month
   html += TR_title;
   html += TD_buttons + getButtonCode(dateFieldName, thisDay, -1, "&lt;") + xTD;
-  html += TD_title + DIV + monthArrayLong[ thisDay.getMonth()] + " " + thisDay.getFullYear() + xDIV + xTD;
-  html += TD_buttons + getButtonCode(dateFieldName, thisDay, 1, "&gt;") + xTD;
-  html += xTR;
- 
-  // this is the row that indicates which day of the week we're on
-  html += TR_days;
-  for(i = 0; i < 7; i++) {
-    html += TD_days + getDayName(i) + xTD;
+
+  html += TD_title + DIV;
+
+  monthId = datePickerDivID + ":months";
+  yearId   =datePickerDivID + ":years";
+
+  html += "<span class='seam-date-month' onClick='javascript:toggle(\"" + monthId + "\");'>";
+  html += monthArrayLong[ thisDay.getMonth()];
+  html += "</span>";
+
+  html += "<div id='" + monthId + "' class='seam-date-months' style='visibility:hidden;'>";
+  for (months=0; months<12; months++) {
+    html += "<a onClick='javascript:refreshDatePicker(\"" + dateFieldName +"\", " + thisDay.getFullYear() + ", " + months + ");'>";
+    html += monthArrayLong[months];
+    html += "</a><br />";
   }
-  html += xTR;
+  html += "</div>";
+
+  html += " ";
+
+  html += "<div id='" + yearId + "' class='seam-date-years' style='visibility:hidden;'>";
+  for (year=thisDay.getFullYear()-5; year<thisDay.getFullYear()+5; year++) {
+    html += "<a onClick='javascript:refreshDatePicker(\"" + dateFieldName +"\", " + year + ", " + thisDay.getMonth() + ");'>";
+    html += year
+    html += "</a><br />";
+  }
+  html += "</div>";
+
+  html += "<span class='seam-date-year' onClick='javascript:toggle(\"" + yearId + "\");'>";
+  html += thisDay.getFullYear();
+  html += "</span>";
+
+
+  html += xDIV + xTD;
+  html += TD_buttons + getButtonCode(dateFieldName, thisDay, 1, "&gt;") + xTD;
+  html += "</tr>";
+
  
   // now we'll start populating the table with days of the month
   html += TR;
@@ -570,5 +597,14 @@ function adjustiFrame(pickerDiv, iFrameDiv)
  
   } catch (ee) {
   }
- 
+}
+
+
+function toggle(elemId) {
+   elem = document.getElementById(elemId);
+   if (elem.style.visibility != "visible") {
+      elem.style.visibility="visible";
+   } else {
+      elem.style.visibility="hidden";
+   }
 }
