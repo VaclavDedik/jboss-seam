@@ -16,8 +16,7 @@ import javax.faces.el.ValueBinding;
 
 import org.jboss.seam.core.Messages;
 
-public class SelectDate 
-    extends UIComponentBase
+public class SelectDate extends UIComponentBase
 {
     public static final String COMPONENT_TYPE   = "org.jboss.seam.ui.SelectDate";
     public static final String COMPONENT_FAMILY = "org.jboss.seam.ui.SelectDate";
@@ -28,19 +27,25 @@ public class SelectDate
     
     private String dateFormat = "MM/dd/yyyy";
     
-    public String getDateFormat(){
+    public String getDateFormat()
+    {
         ValueBinding vb = getValueBinding("dateFormat");
         return (vb != null) ? JSF.getStringValue(getFacesContext(), vb) : dateFormat;
     }
-    public void setDateFormat(String dateFormat){
+    
+    public void setDateFormat(String dateFormat)
+    {
         this.dateFormat = dateFormat;
     }
     
-    public String getFor(){
+    public String getFor()
+    {
         ValueBinding vb = getValueBinding("for");
         return (vb != null) ? JSF.getStringValue(getFacesContext(), vb) : forField;
-    }    
-    public void setFor(String forField) {
+    }
+    
+    public void setFor(String forField)
+    {
         this.forField = forField;
     }    
 
@@ -52,13 +57,15 @@ public class SelectDate
     }
     
     @Override
-    public boolean getRendersChildren() {
+    public boolean getRendersChildren() 
+    {
         return false;
     }
 
 
    @Override
-   public void restoreState(FacesContext context, Object state) {
+   public void restoreState(FacesContext context, Object state) 
+   {
       Object[] values = (Object[]) state;
       super.restoreState(context, values[0]);
       forField = (String) values[1];
@@ -66,7 +73,8 @@ public class SelectDate
    }
 
    @Override
-   public Object saveState(FacesContext context) {
+   public Object saveState(FacesContext context) 
+   {
       Object[] values = new Object[3];
       values[0] = super.saveState(context);
       values[1] = forField;
@@ -171,16 +179,19 @@ public class SelectDate
         response.endElement("script");
     }
 
-    private String messageForKey(String key, String defaultTranslation) {
-        String translation = (String) Messages.instance().get(key);
-        if (key.equals(translation)) {
+    private String messageForKey(String key, String defaultTranslation) 
+    {
+        String translation =  Messages.instance().get(key);
+        if ( key.equals(translation) ) 
+        {
             translation = defaultTranslation; 
         }
         return translation;
     }
 
     
-    private StringBuilder getArray(String[] values, int start) throws IOException {
+    private StringBuilder getArray(String[] values, int start) throws IOException 
+    {
         StringBuilder s = new StringBuilder();
         s.append("new Array(");
         for (int i = start; i < values.length; i++) {
