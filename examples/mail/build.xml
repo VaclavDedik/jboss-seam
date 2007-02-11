@@ -10,6 +10,7 @@
 	<property name="example.webinf.lib.dir" value="." />
 	<property name="example.seam.ui.lib" value="yes" />
 	<property name="example.seam.mail.lib" value="yes" />
+	<property name="example.seam.meldware" value="yes" />
 	<property name="example.seam.pdf.lib"    value="yes"/>
 	<property name="example.seam.debug.lib" value="yes" />
 	<property name="example.facelets.lib" value="yes" />
@@ -19,18 +20,6 @@
 	<property name="tomcat.conf" value="eejb.conf" />
 
 	<import file="../../build.xml" />
-	
-	<fileset id="example.deploy" dir="${example.resources.dir}">
-			<include name="${example.ds}" />
-			<include name="buni-mail.ear" />
-			<include name="buni-mail-ds.xml" />
-		</fileset>
-
-		<patternset id="example.undeploy">
-			<include name="${example.ds}" />
-			<include name="buni-mail.ear" />
-			<include name="buni-mail-ds.xml" />
-		</patternset>
 
 </project>
 

@@ -37,6 +37,7 @@
 
     <property name="lib.dir"              value="${imported.basedir}/lib"/>
     <property name="drools.lib.dir"       value="${imported.basedir}/drools/lib"/>
+	<property name="mail.lib.dir"       value="${imported.basedir}/mail"/>
     <property name="eejb.conf.dir"        value="${imported.basedir}/embedded-ejb/conf"/>
     <property name="mc.conf.dir"          value="${imported.basedir}/microcontainer/conf"/>
     <property name="example.coverage.dir" value="${imported.basedir}/build/coverage"/>
@@ -112,9 +113,7 @@
       description="the itext jar">
         <include name="itext-*.jar" if="example.seam.pdf.lib"/>
     </zipfileset>
-
-
-
+	
     <zipfileset id="example.seam.main.jar" 
                dir="${imported.basedir}"
        description="the main Seam jar">
@@ -206,6 +205,18 @@
     
     <patternset id="example.undeploy">
         <include name="${example.ds}"/>
+    </patternset>
+	
+	<zipfileset id="meldware.deploy"
+	           dir="${mail.lib.dir}"
+	  description="the meldware ear and ds">
+	    <include name="meldware-ds.xml" if="example.seam.meldware"/>
+		<include name="meldware.ear" if="example.seam.meldware" /> 
+	</zipfileset>
+	
+    <patternset id="meldware.undeploy">
+        <include name="meldware.ear"/>
+    	<include name="meldware-ds.xml" />
     </patternset>
     
     <zipfileset id="example.tomcat.war.webinf"
@@ -1155,6 +1166,7 @@
         <fail unless="jboss.home">jboss.home MUST be set. Update build.properties to point to a valid JBoss installation.</fail>
         <copy todir="${deploy.dir}">
             <fileset refid="example.deploy"/>
+        	<fileset refid="meldware.deploy" />
         </copy>
         <copy file="${build.dir}/${example.name}.${unit.ext}" todir="${deploy.dir}"/>
     </target>
@@ -1166,6 +1178,7 @@
         <delete>
             <fileset dir="${deploy.dir}">
                 <patternset refid="example.undeploy"/>
+            	<patternset refid="meldware.undeploy" />
             </fileset>
         </delete>
     </target>
