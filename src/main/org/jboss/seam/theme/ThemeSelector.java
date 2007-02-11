@@ -156,7 +156,7 @@ public class ThemeSelector extends Selector
    public String getLocalizedThemeName(String name) 
    {
        String key = "org.jboss.seam.theme." + name;
-       String localizedName = (String) Messages.instance().get(key);
+       String localizedName = Messages.instance().get(key);
        return key.equals(localizedName) ? name : localizedName;
    }
    

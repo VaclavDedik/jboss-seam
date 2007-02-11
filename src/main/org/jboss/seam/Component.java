@@ -145,6 +145,8 @@ public class Component
    private boolean synchronize;
    private long timeout;
 
+   private Set<Class> businessInterfaces;
+
    private Method destroyMethod;
    private Method createMethod;
    private Method unwrapMethod;
@@ -154,33 +156,23 @@ public class Component
    private Method postActivateMethod;
    private Map<String, Method> removeMethods = new HashMap<String, Method>();
    private Set<Method> validateMethods = new HashSet<Method>();
-   private Set<Method> inMethods = new HashSet<Method>();
-   private Set<Field> inFields = new HashSet<Field>();
-   private Set<Method> outMethods = new HashSet<Method>();
-   private Set<Field> outFields = new HashSet<Field>();
-   private Set<Field> parameterFields = new HashSet<Field>();
-   private Set<Method> parameterSetters = new HashSet<Method>();
+   
+   private List<BijectedAttribute<In>> inAttributes = new ArrayList<BijectedAttribute<In>>();
+   private List<BijectedAttribute<Out>> outAttributes = new ArrayList<BijectedAttribute<Out>>();
+   private List<BijectedAttribute> parameterSetters = new ArrayList<BijectedAttribute>();
+   private List<BijectedAttribute> dataModelGetters = new ArrayList<BijectedAttribute>();
+   private Map<String, BijectedAttribute> dataModelSelectionSetters = new HashMap<String, BijectedAttribute>();
+   
+   private List<Interceptor> interceptors = new ArrayList<Interceptor>();
+   private List<Interceptor> clientSideInterceptors = new ArrayList<Interceptor>();
+
    private Map<Method, InitialValue> initializerSetters = new HashMap<Method, InitialValue>();
    private Map<Field, InitialValue> initializerFields = new HashMap<Field, InitialValue>();
-
-   private List<Method> dataModelGetters = new ArrayList<Method>();
-   private Map<Method, Annotation> dataModelGetterAnnotations = new HashMap<Method, Annotation>();
-   private Map<String, Method> dataModelSelectionSetters = new HashMap<String, Method>();
-   private Map<Method, Annotation> dataModelSelectionSetterAnnotations = new HashMap<Method, Annotation>();
-   private List<Field> dataModelFields = new ArrayList<Field>();
-   private Map<Field, Annotation> dataModelFieldAnnotations = new HashMap<Field, Annotation>();
-   private Map<String, Field> dataModelSelectionFields = new HashMap<String, Field>();
-   private Map<Field, Annotation> dataModelSelectionFieldAnnotations = new HashMap<Field, Annotation>();
 
    private List<Field> logFields = new ArrayList<Field>();
    private List<org.jboss.seam.log.Log> logInstances = new ArrayList<org.jboss.seam.log.Log>();
 
    private Hashtable<Locale, ClassValidator> validators = new Hashtable<Locale, ClassValidator>();
-
-   private List<Interceptor> interceptors = new ArrayList<Interceptor>();
-   private List<Interceptor> clientSideInterceptors = new ArrayList<Interceptor>();
-
-   private Set<Class> businessInterfaces;
 
    private Class<Factory> factory;
 
@@ -427,8 +419,9 @@ public class Component
 
    private void initMembers(Class<?> clazz, Context applicationContext)
    {
-      List<Method> selectionSetters = new ArrayList<Method>();
-      List<Field> selectionFields = new ArrayList<Field>();
+      Map<Method, Annotation> selectionSetters = new HashMap<Method, Annotation>();
+      Map<Field, Annotation> selectionFields = new HashMap<Field, Annotation>();
+      Set<String> dataModelNames = new HashSet<String>();
 
       for (;clazz!=Object.class; clazz = clazz.getSuperclass())
       {
@@ -469,11 +462,15 @@ public class Component
             }
             if ( method.isAnnotationPresent(In.class) )
             {
-               inMethods.add(method);
+               In in = method.getAnnotation(In.class);
+               String name = toName( in.value(), method );
+               inAttributes.add( new BijectedMethod(name, method, in) );
             }
             if ( method.isAnnotationPresent(Out.class) )
             {
-               outMethods.add(method);
+               Out out = method.getAnnotation(Out.class);
+               String name = toName( out.value(), method );
+               outAttributes.add( new BijectedMethod(name, method, out) );
             }
             if ( method.isAnnotationPresent(Unwrap.class) )
             {
@@ -505,7 +502,9 @@ public class Component
             }
             if ( method.isAnnotationPresent(RequestParameter.class) )
             {
-               parameterSetters.add(method);
+               RequestParameter rp = method.getAnnotation(RequestParameter.class);
+               String name = toName( rp.value(), method );
+               parameterSetters.add( new BijectedMethod(name, method, rp) );
             }
             if ( method.isAnnotationPresent(PRE_PASSIVATE) )
             {
@@ -535,13 +534,13 @@ public class Component
             {
                if ( ann.annotationType().isAnnotationPresent(DataBinderClass.class) )
                {
-                  dataModelGetters.add(method);
-                  dataModelGetterAnnotations.put(method, ann);
+                  String name = toName( createWrapper(ann).getVariableName(ann), method );
+                  dataModelGetters.add( new BijectedMethod(name, method, ann) );
+                  dataModelNames.add(name);
                }
                if ( ann.annotationType().isAnnotationPresent(DataSelectorClass.class) )
                {
-                  selectionSetters.add(method);
-                  dataModelSelectionSetterAnnotations.put(method, ann);
+                  selectionSetters.put(method, ann);
                }
             }
 
@@ -562,11 +561,15 @@ public class Component
 
             if ( field.isAnnotationPresent(In.class) )
             {
-               inFields.add(field);
+               In in = field.getAnnotation(In.class);
+               String name = toName( in.value(), field );
+               inAttributes.add( new BijectedField(name, field, in) );
             }
             if ( field.isAnnotationPresent(Out.class) )
             {
-               outFields.add(field);
+               Out out = field.getAnnotation(Out.class);
+               String name = toName( out.value(), field );
+               outAttributes.add(new BijectedField(name, field, out) );
             }
             if ( field.isAnnotationPresent(DataModel.class) ) //TODO: generalize
             {
@@ -574,7 +577,9 @@ public class Component
             }
             if ( field.isAnnotationPresent(RequestParameter.class) )
             {
-               parameterFields.add(field);
+               RequestParameter rp = field.getAnnotation(RequestParameter.class);
+               String name = toName( rp.value(), field );
+               parameterSetters.add( new BijectedField(name, field, rp) );
             }
             if ( field.isAnnotationPresent(org.jboss.seam.annotations.Logger.class) )
             {
@@ -602,13 +607,13 @@ public class Component
             {
                if ( ann.annotationType().isAnnotationPresent(DataBinderClass.class) )
                {
-                  dataModelFields.add(field);
-                  dataModelFieldAnnotations.put(field, ann);
+                  String name = toName( createWrapper(ann).getVariableName(ann), field );
+                  dataModelGetters.add( new BijectedField(name, field, ann) );
+                  dataModelNames.add(name);
                }
                if ( ann.annotationType().isAnnotationPresent(DataSelectorClass.class) )
                {
-                  selectionFields.add(field);
-                  dataModelSelectionFieldAnnotations.put(field, ann);
+                  selectionFields.put(field, ann);
                }
             }
 
@@ -616,64 +621,65 @@ public class Component
 
       }
 
-      final boolean hasMultipleDataModels = dataModelGetters.size() + dataModelFields.size() > 1;
+      final boolean hasMultipleDataModels = dataModelGetters.size() > 1;
       String defaultDataModelName = null;
       if ( !hasMultipleDataModels )
       {
          if ( !dataModelGetters.isEmpty() )
          {
-            Method dataModelGetter = dataModelGetters.get(0);
-            Annotation ann = dataModelGetterAnnotations.get(dataModelGetter);
-            String name = createWrapper(ann).getVariableName(ann);
-            defaultDataModelName = toName( name, dataModelGetter );
-         }
-         else if ( !dataModelFields.isEmpty() )
-         {
-            Field dataModelField = dataModelFields.get(0);
-            Annotation ann = dataModelFieldAnnotations.get(dataModelField);
-            String name = createWrapper(ann).getVariableName(ann);
-            defaultDataModelName = toName( name, dataModelField );
+            defaultDataModelName = dataModelGetters.get(0).getName();
          }
       }
 
-      for (Method method: selectionSetters)
+      for (Map.Entry<Method, Annotation> annotatedMethod: selectionSetters.entrySet())
       {
-         Annotation ann = dataModelSelectionSetterAnnotations.get(method);
-         String name = createUnwrapper(ann).getVariableName(ann);
-         if ( name.length() == 0 )
-         {
-            if ( hasMultipleDataModels )
-            {
-               throw new IllegalStateException( "Missing value() for @DataModelSelection with multiple @DataModels" );
-            }
-            name = defaultDataModelName;
-         }
-         Method existing = dataModelSelectionSetters.put( name, method );
+         Method method = annotatedMethod.getKey();
+         Annotation ann = annotatedMethod.getValue();
+         String name = getDataModelSelectionName(dataModelNames, hasMultipleDataModels, defaultDataModelName, ann);
+         Object existing = dataModelSelectionSetters.put( name, new BijectedMethod(name, method, ann) );
          if (existing!=null)
          {
             throw new IllegalStateException("Multiple @DataModelSelection setters for: " + name);
          }
       }
 
-      for (Field field: selectionFields)
+      for (Map.Entry<Field, Annotation> annotatedField: selectionFields.entrySet())
       {
-         Annotation ann = dataModelSelectionFieldAnnotations.get(field);
-         String name = createUnwrapper(ann).getVariableName(ann);
-         if ( name.length() == 0 )
-         {
-            if ( hasMultipleDataModels )
-            {
-               throw new IllegalStateException( "Missing value() for @DataModelSelection with multiple @DataModels" );
-            }
-            name = defaultDataModelName;
-         }
-         Field existing = dataModelSelectionFields.put( name, field );
+         Field field = annotatedField.getKey();
+         Annotation ann = annotatedField.getValue();
+         String name = getDataModelSelectionName(dataModelNames, hasMultipleDataModels, defaultDataModelName, ann);
+         Object existing = dataModelSelectionSetters.put( name, new BijectedField(name, field, ann) );
          if (existing!=null)
          {
             throw new IllegalStateException("Multiple @DataModelSelection fields for: " + name);
          }
       }
 
+   }
+
+   private String getDataModelSelectionName(Set<String> dataModelNames, boolean hasMultipleDataModels, String defaultDataModelName, Annotation ann)
+   {
+      String name = createUnwrapper(ann).getVariableName(ann);
+      if ( name.length() == 0 )
+      {
+         if ( hasMultipleDataModels )
+         {
+            throw new IllegalStateException( "Missing value() for @DataModelSelection with multiple @DataModels" );
+         }
+         if ( defaultDataModelName==null )
+         {
+            throw new IllegalStateException("No @DataModel for @DataModelSelection: " + name);
+         }
+         return defaultDataModelName;
+      }
+      else
+      {
+         if ( !dataModelNames.contains(name) )
+         {
+            throw new IllegalStateException("No @DataModel for @DataModelSelection: " + name);
+         }
+         return name;
+      }
    }
 
    private void checkDataModelScope(DataModel dataModel) {
@@ -1009,40 +1015,29 @@ public class Component
       return unwrapMethod;
    }
 
-   public Set<Field> getOutFields()
+   public List<BijectedAttribute<Out>> getOutAttributes()
    {
-      return outFields;
+      return outAttributes;
    }
 
-   public Set<Method> getOutMethods()
+   public List<BijectedAttribute<In>> getInAttributes()
    {
-      return outMethods;
+      return inAttributes;
    }
 
-   public Set<Method> getInMethods()
-   {
-      return inMethods;
-   }
-
-   public Set<Field> getInFields()
-   {
-      return inFields;
-   }
-
-    public boolean needsInjection() {
-        return !getInFields().isEmpty() ||
-            !getInMethods().isEmpty() ||
+    public boolean needsInjection() 
+    {
+        return 
+            !getInAttributes().isEmpty() ||
             !dataModelSelectionSetters.isEmpty() ||
-            !dataModelSelectionFields.isEmpty() ||
-            !parameterFields.isEmpty() ||
             !parameterSetters.isEmpty();
     }
 
-    public boolean needsOutjection() {
-        return !getOutFields().isEmpty() ||
-            !getOutMethods().isEmpty() ||
-            !dataModelGetters.isEmpty() ||
-            !dataModelFields.isEmpty();
+    public boolean needsOutjection() 
+    {
+        return 
+            !getOutAttributes().isEmpty() ||
+            !dataModelGetters.isEmpty();
     }
 
     protected Object instantiate() throws Exception
@@ -1152,9 +1147,8 @@ public class Component
    public void inject(Object bean, boolean enforceRequired)
    {
       //injectLog(bean);
-      injectMethods(bean, enforceRequired);
-      injectFields(bean, enforceRequired);
-      injectDataModelSelection(bean);
+      injectAttributes(bean, enforceRequired);
+      injectDataModelSelections(bean);
       injectParameters(bean);
    }
 
@@ -1165,8 +1159,7 @@ public class Component
     */
    public void disinject(Object bean)
    {
-      disinjectMethods(bean);
-      disinjectFields(bean);
+      disinjectAttributes(bean);
    }
 
    private void injectLog(Object bean)
@@ -1181,19 +1174,10 @@ public class Component
    {
       Map<String, String[]> requestParameters = Parameters.getRequestParameters();
 
-      for (Method setter: parameterSetters)
+      for (BijectedAttribute setter: parameterSetters)
       {
-         String name = toName( setter.getAnnotation(RequestParameter.class).value(), setter );
-         Class<?> setterType = setter.getParameterTypes()[0];
-         Object convertedValue = Parameters.convertMultiValueRequestParameter(requestParameters, name, setterType);
-         setPropertyValue( bean, setter, name, convertedValue );
-      }
-      for (Field field: parameterFields)
-      {
-         String name = toName( field.getAnnotation(RequestParameter.class).value(), field );
-         Class<?> fieldType = field.getType();
-         Object convertedValue = Parameters.convertMultiValueRequestParameter(requestParameters, name, fieldType);
-         setFieldValue( bean, field, name, convertedValue );
+         Object convertedValue = Parameters.convertMultiValueRequestParameter(requestParameters, setter.getName(), setter.getType());
+         setter.set(bean, convertedValue);
       }
    }
 
@@ -1206,91 +1190,84 @@ public class Component
     */
    public void outject(Object bean, boolean enforceRequired)
    {
-      outjectMethods(bean, enforceRequired);
-      outjectFields(bean, enforceRequired);
+      outjectAttributes(bean, enforceRequired);
       outjectDataModels(bean);
    }
 
-   private void injectDataModelSelection(Object bean)
+   private void injectDataModelSelections(Object bean)
    {
-      for ( Method dataModelGetter: dataModelGetters )
+      for ( BijectedAttribute dataModelGetter: dataModelGetters )
       {
-         Annotation dataModelAnn = dataModelGetterAnnotations.get(dataModelGetter);
-         DataBinder wrapper = createWrapper(dataModelAnn);
-         final String name = toName( wrapper.getVariableName(dataModelAnn), dataModelGetter );
-         injectDataModelSelection( bean, name, null, wrapper, dataModelAnn );
-      }
-      for ( Field dataModelField: dataModelFields )
-      {
-         Annotation dataModelAnn = dataModelFieldAnnotations.get(dataModelField);
-         DataBinder wrapper = createWrapper(dataModelAnn);
-         final String name = toName( wrapper.getVariableName(dataModelAnn), dataModelField );
-         injectDataModelSelection( bean, name, dataModelField, wrapper, dataModelAnn );
+         injectDataModelSelection(bean, dataModelGetter);
       }
    }
 
-   private void injectDataModelSelection(Object bean, String name, Field dataModelField, DataBinder wrapper, Annotation dataModelAnn)
+   private void injectDataModelSelection(Object bean, BijectedAttribute dataModelGetter)
    {
+      DataBinder wrapper = createWrapper( dataModelGetter.getAnnotation() );
+      String name = dataModelGetter.getName();
+      Annotation dataModelAnn = dataModelGetter.getAnnotation();
       ScopeType scope = wrapper.getVariableScope(dataModelAnn);
-
+      
       Object dataModel = getOutScope(scope, this).getContext().get(name);
-      if ( dataModel != null )
+      if ( dataModel!=null )
       {
-
-         if (dataModelField!=null)
+      
+         if (null!=null)
          {
-            setFieldValue( bean, dataModelField, name, wrapper.getWrappedData(dataModelAnn, dataModel) ); //for PAGE scope datamodels (does not work for properties!)
+            setFieldValue( bean, null, name, wrapper.getWrappedData(dataModelAnn, dataModel) ); //for PAGE scope datamodels (does not work for properties!)
          }
-
+      
          Object selectedIndex = wrapper.getSelection(dataModelAnn, dataModel);
-
+      
          if ( log.isDebugEnabled() ) log.debug( "selected row: " + selectedIndex );
-
+      
          if ( selectedIndex!=null )
          {
-            Method setter = dataModelSelectionSetters.get(name);
+            BijectedAttribute setter = dataModelSelectionSetters.get(name);
             if (setter != null)
             {
-               Annotation dataModelSelectionAnn = dataModelSelectionSetterAnnotations.get(setter);
+               Annotation dataModelSelectionAnn = setter.getAnnotation();
                Object selection = createUnwrapper(dataModelSelectionAnn).getSelection(dataModelSelectionAnn, dataModel);
-               setPropertyValue(bean, setter, name, selection);
-            }
-            Field field = dataModelSelectionFields.get(name);
-            if (field != null)
-            {
-               Annotation dataModelSelectionAnn = dataModelSelectionFieldAnnotations.get(field);
-               Object selection = createUnwrapper(dataModelSelectionAnn).getSelection(dataModelSelectionAnn, dataModel);
-               setFieldValue(bean, field, name, selection);
+               setter.set(bean, selection);
             }
          }
-
+      
       }
    }
 
    private void outjectDataModels(Object bean)
    {
-      for ( Method dataModelGetter: dataModelGetters )
+      for ( BijectedAttribute dataModelGetter: dataModelGetters )
       {
-         final Object list;
-         final String name;
-         Annotation dataModelAnn = dataModelGetterAnnotations.get(dataModelGetter);
-         DataBinder wrapper = createWrapper(dataModelAnn);
-         name = toName( wrapper.getVariableName(dataModelAnn), dataModelGetter );
-         list = getPropertyValue( bean, dataModelGetter, name );
-         outjectDataModelList( name, list, wrapper, dataModelAnn );
+         outjectDataModel(bean, dataModelGetter);
       }
+   }
 
-      for ( Field dataModelField: dataModelFields )
+   private void outjectDataModel(Object bean, BijectedAttribute dataModelGetter)
+   {
+      DataBinder wrapper = createWrapper( dataModelGetter.getAnnotation() );
+      Object list = dataModelGetter.get(bean);
+      String name = dataModelGetter.getName();
+      Annotation dataModelAnn = dataModelGetter.getAnnotation();
+      ScopeType scope = wrapper.getVariableScope(dataModelAnn);
+      
+      Context context = getOutScope(scope, this).getContext();
+      Object existingDataModel = context.get(name);
+      boolean dirty = existingDataModel == null || scope==PAGE ||
+            wrapper.isDirty(dataModelAnn, existingDataModel, list);
+      
+      if (dirty)
       {
-         final Object list;
-         final String name;
-         Annotation dataModelAnn = dataModelFieldAnnotations.get(dataModelField);
-         DataBinder wrapper = createWrapper(dataModelAnn);
-         name = toName( wrapper.getVariableName(dataModelAnn), dataModelField );
-         list = getFieldValue( bean, dataModelField, name );
-         outjectDataModelList( name, list, wrapper, dataModelAnn );
+         if ( list!=null )
+         {
+            context.set( name, wrapper.wrap(dataModelAnn, list) );
+         }
+         else
+         {
+            context.remove(name);
+         }
       }
-
    }
 
    private static DataBinder createWrapper(Annotation dataModelAnn)
@@ -1317,30 +1294,6 @@ public class Component
       }
    }
 
-   private void outjectDataModelList(String name, Object list, DataBinder wrapper, Annotation dataModelAnn)
-   {
-
-      ScopeType scope = wrapper.getVariableScope(dataModelAnn);
-
-      Context context = getOutScope(scope, this).getContext();
-      Object existingDataModel = context.get(name);
-      boolean dirty = existingDataModel == null || scope==PAGE ||
-            wrapper.isDirty(dataModelAnn, existingDataModel, list);
-
-      if ( dirty )
-      {
-         if ( list != null )
-         {
-            context.set( name, wrapper.wrap(dataModelAnn, list) );
-         }
-         else
-         {
-            context.remove( name );
-         }
-      }
-
-   }
-
    private static ScopeType getOutScope(ScopeType specifiedScope, Component component)
    {
       ScopeType scope = component==null ? EVENT : component.getScope();
@@ -1355,82 +1308,40 @@ public class Component
       return scope;
    }
 
-   private void injectMethods(Object bean, boolean enforceRequired)
+   private void injectAttributes(Object bean, boolean enforceRequired)
    {
-      for (Method method : getInMethods())
+      for ( BijectedAttribute<In> att : getInAttributes() )
       {
-         In in = method.getAnnotation(In.class);
-         String name = toName(in.value(), method);
-         setPropertyValue( bean, method, name, getInstanceToInject(in, name, bean, enforceRequired) );
+         att.set( bean, getValueToInject( att.getAnnotation(), att.getName(), bean, enforceRequired ) );
       }
    }
 
-   private void disinjectMethods(Object bean)
+   private void disinjectAttributes(Object bean)
    {
-      for (Method method : getInMethods())
+      for ( BijectedAttribute att: getInAttributes() )
       {
-         if ( !method.getParameterTypes()[0].isPrimitive() )
+         if ( !att.getType().isPrimitive() )
          {
-            String name = toName( method.getAnnotation(In.class).value(), method );
-            setPropertyValue(bean, method, name, null);
+            att.set(bean, null);
          }
       }
    }
 
-   private void injectFields(Object bean, boolean enforceRequired)
+   private void outjectAttributes(Object bean, boolean enforceRequired)
    {
-      for (Field field : getInFields())
+      for ( BijectedAttribute<Out> att: getOutAttributes() )
       {
-         In in = field.getAnnotation(In.class);
-         String name = toName(in.value(), field);
-         setFieldValue( bean, field, name, getInstanceToInject(in, name, bean, enforceRequired) );
+         outjectAttribute( att.getAnnotation(), att.getName(), bean, att.get(bean), enforceRequired );
       }
    }
 
-   private void disinjectFields(Object bean)
+   private void outjectAttribute(Out out, String name, Object bean, Object value, boolean enforceRequired)
    {
-      for (Field field : getInFields())
-      {
-         if ( !field.getType().isPrimitive() )
-         {
-            String name = toName( field.getAnnotation(In.class).value(), field );
-            setFieldValue(bean, field, name, null);
-         }
-      }
-   }
-
-   private void outjectFields(Object bean, boolean enforceRequired)
-   {
-      for (Field field : getOutFields())
-      {
-         Out out = field.getAnnotation(Out.class);
-         if (out != null)
-         {
-            String name = toName(out.value(), field);
-            setOutjectedValue( out, name, getFieldValue(bean, field, name), enforceRequired );
-         }
-      }
-   }
-
-   private void outjectMethods(Object bean, boolean enforceRequired)
-   {
-      for (Method method : getOutMethods())
-      {
-         Out out = method.getAnnotation(Out.class);
-         if (out != null)
-         {
-            String name = toName(out.value(), method);
-            setOutjectedValue( out, name, getPropertyValue(bean, method, name), enforceRequired );
-         }
-      }
-   }
-
-   private void setOutjectedValue(Out out, String name, Object value, boolean enforceRequired)
-   {
+      
       if (value==null && enforceRequired && out.required())
       {
          throw new RequiredException(
-               "Out attribute requires value for component: " +
+               "@Out attribute requires non-null value: " +
                getAttributeMessage(name)
             );
       }
@@ -1445,7 +1356,7 @@ public class Component
                if ( !component.isInstance(value) )
                {
                   throw new IllegalArgumentException(
-                        "attempted to bind an Out attribute of the wrong type to: " +
+                        "attempted to bind an @Out attribute of the wrong type to: " +
                         getAttributeMessage(name)
                      );
                }
@@ -1458,11 +1369,11 @@ public class Component
                   getAttributeMessage(name)
                );
          }
-
+      
          ScopeType outScope = component==null ?
                getOutScope( out.scope(), this ) :
                component.getScope();
-
+      
          if ( enforceRequired || outScope.isContextActive() )
          {
             if (value==null)
@@ -1824,6 +1735,31 @@ public class Component
       }
    }
 
+   public Method getPostActivateMethod()
+   {
+      return postActivateMethod;
+   }
+
+   public Method getPrePassivateMethod()
+   {
+      return prePassivateMethod;
+   }
+
+   public Method getPostConstructMethod()
+   {
+      return postConstructMethod;
+   }
+
+   public Method getPreDestroyMethod()
+   {
+      return preDestroyMethod;
+   }
+
+   public long getTimeout()
+   {
+      return timeout;
+   }
+
    public Object callComponentMethod(Object instance, Method method, Object... parameters) {
       Class[] paramTypes = method.getParameterTypes();
       String methodName = method.getName();
@@ -1866,7 +1802,7 @@ public class Component
       }
    }
 
-   private Object getInstanceToInject(In in, String name, Object bean, boolean enforceRequired)
+   private Object getValueToInject(In in, String name, Object bean, boolean enforceRequired)
    {
       Object result;
       if ( name.startsWith("#") )
@@ -1918,7 +1854,7 @@ public class Component
       if ( result==null && enforceRequired && in.required() )
       {
          throw new RequiredException(
-               "In attribute requires value for component: " +
+               "In attribute requires non-null value: " +
                getAttributeMessage(name)
             );
       }
@@ -2186,29 +2122,99 @@ public class Component
 
    }
    
-   public Method getPostActivateMethod()
+   public interface BijectedAttribute<T extends Annotation>
    {
-      return postActivateMethod;
+      public String getName();
+      public T getAnnotation();
+      public Class getType();
+      public void set(Object bean, Object value);
+      public Object get(Object bean);
    }
 
-   public Method getPrePassivateMethod()
+   public final class BijectedMethod<T extends Annotation> implements BijectedAttribute<T>
    {
-      return prePassivateMethod;
+      private final String name;
+      private final Method method;
+      private final T annotation;
+      
+      private BijectedMethod(String name, Method method, T annotation)
+      {
+         this.name = name;
+         this.method = method;
+         this.annotation = annotation;
+      }
+      public String getName()
+      {
+         return name;
+      }
+      public Method getMethod()
+      {
+         return method;
+      }
+      public T getAnnotation()
+      {
+         return annotation;
+      }
+      public void set(Object bean, Object value)
+      {
+         setPropertyValue(bean, method, name, value);
+      }
+      public Object get(Object bean)
+      {
+         return getPropertyValue(bean, method, name);
+      }
+      public Class getType()
+      {
+         return method.getParameterTypes()[0];
+      }
+      @Override
+      public String toString()
+      {
+         return "BijectedMethod(" + name + ')';
+      }
    }
-
-   public Method getPostConstructMethod()
+   
+   public final class BijectedField<T extends Annotation> implements BijectedAttribute<T>
    {
-      return postConstructMethod;
+      private final String name;
+      private final Field field;
+      private final T annotation;
+      
+      private BijectedField(String name, Field field, T annotation)
+      {
+         this.name = name;
+         this.field = field;
+         this.annotation = annotation;
+      }
+      public String getName()
+      {
+         return name;
+      }
+      public Field getField()
+      {
+         return field;
+      }
+      public T getAnnotation()
+      {
+         return annotation;
+      }
+      public Class getType()
+      {
+         return field.getType();
+      }
+      public void set(Object bean, Object value)
+      {
+         setFieldValue(bean, field, name, value);
+      }
+      public Object get(Object bean)
+      {
+         return getFieldValue(bean, field, name);
+      }
+      @Override
+      public String toString()
+      {
+         return "BijectedField(" + name + ')';
+      }
    }
-
-   public Method getPreDestroyMethod()
-   {
-      return preDestroyMethod;
-   }
-
-   public long getTimeout()
-   {
-      return timeout;
-   }
-
+   
 }

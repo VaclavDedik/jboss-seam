@@ -446,7 +446,7 @@ public class MockExternalContext extends ExternalContext
          throw new UnsupportedOperationException();
       }
       
-   };
+   }
 
    @Override
    public Principal getUserPrincipal()

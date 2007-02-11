@@ -41,11 +41,9 @@ public class ComponentTest
       assert c.hasCreateMethod();
       assert c.getCreateMethod().getName().equals("create");
       assert c.getDestroyMethod().getName().equals("destroy");
-      assert c.getInFields().size()==2;
-      assert c.getInMethods().size()==0;
+      assert c.getInAttributes().size()==2;
       assert c.getUnwrapMethod()==null;
-      assert c.getOutFields().size()==2;
-      assert c.getOutMethods().size()==0;
+      assert c.getOutAttributes().size()==2;
       assert c.getRemoveMethods().size()==0;
       assert c.getValidateMethods().size()==0;
       assert c.isInstance( new Bar() );
@@ -59,11 +57,9 @@ public class ComponentTest
       assert !c.hasCreateMethod();
       assert c.getCreateMethod()==null;
       assert c.getDestroyMethod()==null;
-      assert c.getInFields().size()==0;
-      assert c.getInMethods().size()==0;
+      assert c.getInAttributes().size()==0;
       assert c.getUnwrapMethod()==null;
-      assert c.getOutFields().size()==0;
-      assert c.getOutMethods().size()==0;
+      assert c.getOutAttributes().size()==0;
       assert c.getRemoveMethods().size()==1;
       assert c.getValidateMethods().size()==1;
       assert c.isInstance( new Foo() );
@@ -77,11 +73,9 @@ public class ComponentTest
       assert !c.hasCreateMethod();
       assert c.getCreateMethod()==null;
       assert c.getDestroyMethod()!=null;
-      assert c.getInFields().size()==0;
-      assert c.getInMethods().size()==0;
+      assert c.getInAttributes().size()==0;
       assert c.getUnwrapMethod()==null;
-      assert c.getOutFields().size()==0;
-      assert c.getOutMethods().size()==0;
+      assert c.getOutAttributes().size()==0;
       assert c.getRemoveMethods().size()==1;
       assert c.getValidateMethods().size()==0;
       assert c.isInstance( new Ejb() {
@@ -101,11 +95,9 @@ public class ComponentTest
       assert !c.hasCreateMethod();
       assert c.getCreateMethod()==null;
       assert c.getDestroyMethod().getName().equals("destroy");
-      assert c.getInFields().size()==0;
-      assert c.getInMethods().size()==0;
+      assert c.getInAttributes().size()==0;
       assert c.getUnwrapMethod()==null;
-      assert c.getOutFields().size()==0;
-      assert c.getOutMethods().size()==0;
+      assert c.getOutAttributes().size()==0;
       assert c.getRemoveMethods().size()==0;
       assert c.getValidateMethods().size()==0;
 
@@ -118,11 +110,9 @@ public class ComponentTest
       assert !c.hasCreateMethod();
       assert c.getCreateMethod()==null;
       assert c.getDestroyMethod()==null;
-      assert c.getInFields().size()==0;
-      assert c.getInMethods().size()==0;
+      assert c.getInAttributes().size()==0;
       assert c.getUnwrapMethod()==null;
-      assert c.getOutFields().size()==0;
-      assert c.getOutMethods().size()==0;
+      assert c.getOutAttributes().size()==0;
       assert c.getRemoveMethods().size()==0;
       assert c.getValidateMethods().size()==0;
 
@@ -135,11 +125,9 @@ public class ComponentTest
       assert c.hasCreateMethod();
       assert c.getCreateMethod().getName().equals("create");
       assert c.getDestroyMethod().getName().equals("destroy");
-      assert c.getInFields().size()==0;
-      assert c.getInMethods().size()==0;
+      assert c.getInAttributes().size()==0;
       assert c.getUnwrapMethod().getName().equals("getEntityManager");
-      assert c.getOutFields().size()==0;
-      assert c.getOutMethods().size()==0;
+      assert c.getOutAttributes().size()==0;
       assert c.getRemoveMethods().size()==0;
       assert c.getValidateMethods().size()==0;
 
@@ -152,11 +140,9 @@ public class ComponentTest
       assert c.hasCreateMethod();
       assert c.getCreateMethod().getName().equals("create");
       assert c.getDestroyMethod().getName().equals("destroy");
-      assert c.getInFields().size()==0;
-      assert c.getInMethods().size()==0;
+      assert c.getInAttributes().size()==0;
       assert c.getUnwrapMethod().getName().equals("getSession");
-      assert c.getOutFields().size()==0;
-      assert c.getOutMethods().size()==0;
+      assert c.getOutAttributes().size()==0;
       assert c.getRemoveMethods().size()==0;
       assert c.getValidateMethods().size()==0;
    }
