@@ -33,6 +33,7 @@ public class MockFacesContext extends FacesContext
    private UIViewRoot viewRoot;// = new UIViewRoot();
    private Map<FacesMessage, String> messages = new HashMap<FacesMessage, String>();
    private ExternalContext externalContext;
+   private ResponseWriter responseWriter;
    
    public MockFacesContext(ExternalContext externalContext, Application application)
    {
@@ -131,13 +132,13 @@ public class MockFacesContext extends FacesContext
    @Override
    public ResponseWriter getResponseWriter()
    {
-      throw new UnsupportedOperationException();
+      return responseWriter;
    }
 
    @Override
    public void setResponseWriter(ResponseWriter writer)
    {
-      throw new UnsupportedOperationException();
+      responseWriter = writer;
    }
 
    @Override

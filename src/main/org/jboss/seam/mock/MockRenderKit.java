@@ -9,33 +9,38 @@ import javax.faces.render.RenderKit;
 import javax.faces.render.Renderer;
 import javax.faces.render.ResponseStateManager;
 
-public class MockRenderKit extends RenderKit {
+public class MockRenderKit extends RenderKit 
+{
    
    public static final MockRenderKit INSTANCE = new MockRenderKit();
 
    @Override
-   public void addRenderer(String x, String y, Renderer renderer) {
+   public void addRenderer(String x, String y, Renderer renderer) 
+   {
       throw new UnsupportedOperationException();
    }
 
    @Override
-   public Renderer getRenderer(String x, String y) {
+   public Renderer getRenderer(String x, String y) 
+   {
       throw new UnsupportedOperationException();
    }
 
    @Override
-   public ResponseStateManager getResponseStateManager() {
+   public ResponseStateManager getResponseStateManager() 
+   {
       return new MockResponseStateManager();
    }
 
    @Override
-   public ResponseWriter createResponseWriter(Writer writer, String x,
-         String y) {
-      throw new UnsupportedOperationException();
+   public ResponseWriter createResponseWriter(Writer writer, String x, String y) 
+   {
+      return new MockResponseWriter();
    }
    
    @Override
-   public ResponseStream createResponseStream(OutputStream stream) {
+   public ResponseStream createResponseStream(OutputStream stream) 
+   {
       throw new UnsupportedOperationException();
    }
    
