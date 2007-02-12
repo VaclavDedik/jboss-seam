@@ -110,14 +110,14 @@
     <exception class="org.jboss.seam.security.NotLoggedInException">
         <end-conversation/>
         <redirect view-id="/register.xhtml">
-            <message>You must be a member to use this feature</message>
+            <message severity="warn">You must be a member to use this feature</message>
         </redirect>
     </exception>
   
     <exception class="org.jboss.seam.security.AuthorizationException">
         <end-conversation/>
         <redirect view-id="/security_error.xhtml">
-            <message>You do not have permission to do this</message>
+            <message severity="error">You do not have permission to do this</message>
         </redirect>
     </exception>
 
