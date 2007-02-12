@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<application xmlns="http://java.sun.com/xml/ns/javaee" 
+<application xmlns="http://java.sun.com/xml/ns/javaee"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_5.xsd"
              version="5">
-    
+
     <display-name>Seam Spring Integration Example</display-name>
-    
+
     <module>
         <web>
             <web-uri>jboss-seam-spring.war</web-uri>
@@ -13,7 +13,7 @@
         </web>
     </module>
     <module>
-        <ejb>jboss-seam-spring.jar</ejb>
+        <java>jboss-seam-spring.jar</java>
     </module>
     <module>
         <java>jboss-seam.jar</java>

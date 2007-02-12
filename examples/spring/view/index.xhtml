@@ -7,12 +7,27 @@
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>Seam/Spring Integration Example</title>
 </head>
-<body>      
-    name is #{testBean.name}
-
+<body>
     <h:form>
-        <h:commandButton action="#{app.loadBeans}" value="load through factory" />
-        <h:commandButton action="#{app.loadBeans2}" value="load through context" />
+    	<h:inputText value="#{manageStrings.string}"/><h:commandButton value="Add String" action="#{manageStrings.storeString}"/>
     </h:form>
+    <h:dataTable value="#{manageStrings.stringStores}" var="store">
+    	<h:column>
+    		<f:facet name="header">
+    			Strong
+    		</f:facet>
+    		#{store.beanName}
+    	</h:column>
+    	<h:column>
+    		<f:facet name="header">
+    			values
+    		</f:facet>
+    		<h:dataTable value="#{store.strings}" var="string">
+	    		<h:column>
+	    			#{string}
+	    		</h:column>
+    		</h:dataTable>
+    	</h:column>
+    </h:dataTable>
 </body>
 </html>

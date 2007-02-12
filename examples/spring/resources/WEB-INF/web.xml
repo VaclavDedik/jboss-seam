@@ -7,6 +7,15 @@
     <listener>
         <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
     </listener>
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:/spring-beans.xml</param-value>
+    </context-param>
     
     <filter>
         <filter-name>Seam Servlet Filter</filter-name>

@@ -55,7 +55,6 @@ public class SeamPostProcessor implements BeanFactoryPostProcessor, Initializing
     */
    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException
    {
-
       for (ScopeType scope : ScopeType.values())
       {
          // Don't create a scope for UnSpecified
