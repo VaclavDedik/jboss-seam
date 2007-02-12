@@ -604,13 +604,14 @@ public class Authenticator {
       <title>Securing Entities</title>
       
       <para>      
-        Seam security also makes it possible to apply security restrictions to insert, update and 
+        Seam security also makes it possible to apply security restrictions to read, insert, update and 
         delete actions for entities.  The security check performed for these operations (on entities
         for which security is enabled) is the permission check <literal>entityName:action</literal>,
         where <literal>entityName</literal> is the name of the entity (or the class name if no @Name is 
-        specified), and the <literal>action</literal> is either <literal>insert</literal>, 
-        <literal>update</literal>, or <literal>delete</literal>.  Here's an example of an entity
-        permission rule from the seamspace example:
+        specified), and the <literal>action</literal> is either <literal>read</literal>, 
+        <literal>insert</literal>, <literal>update</literal>, or <literal>delete</literal>.  Here's an 
+        example of an entity permission rule that checks if the authenticated user is allowed to create
+        a new blog entry (from the seamspace example):
       </para>
       
       <programlisting>
@@ -634,20 +635,22 @@ end;
       </para>
       
       <sect3>
-        <title>Entity security using JPA</title>
+        <title>Entity security with JPA</title>
         <para>
           Security checks for EJB3 entity beans are performed with an <literal>EntityListener</literal>.
-          To secure individual entity beans, add the <literal>@EntityListeners</literal> annotation like so:
+          To secure individual entity beans, add both <literal>@Restrict</literal> and 
+          <literal>@EntityListeners</literal> annotations like so:
         </para>
         
         <programlisting>
           <![CDATA[
 import javax.persistence.EntityListeners;          
-import org.jboss.seam.security.SecurityEntityListener;          
+import org.jboss.seam.security.JPASecurityListener;          
           
 @Entity          
 @Name("customer")          
-@EntityListeners(SecurityEntityListener.class)
+@EntityListeners(JPASecurityListener.class)
+@Restrict
 public class Customer {
   ...
 }         
@@ -655,9 +658,17 @@ public class Customer {
         </programlisting>
       </sect3>
       
-      <para>
-      
-      </para>
+      <sect3>
+        <title>Entity security with Hibernate</title>
+        <para>
+          If you are using Hibernate as your application's ORM, securing entity beans is as simple as
+          adding a <literal>@Restrict</literal> annotation, as long as you use the
+          <literal>HibernateSessionFactory</literal> provided with Seam.  This component will create
+          a <literal>SessionFactory</literal> that is configured to use <literal>HibernateSecurityInterceptor</literal>,
+          a Hibernate interceptor similar to the JPA entity listener described above that checks for permissions
+          on restricted entities.
+        </para>
+      </sect3>
     </sect2>
 
   </sect1>
