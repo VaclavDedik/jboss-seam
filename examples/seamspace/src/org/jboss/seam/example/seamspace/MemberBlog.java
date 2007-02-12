@@ -17,11 +17,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.security.SecurityEntityListener;
 
 @Entity
 @Name("memberBlog")
 @EntityListeners(SecurityEntityListener.class)
+@Restrict
 public class MemberBlog implements Serializable
 {
    private static final long serialVersionUID = 7824113911888715595L;
