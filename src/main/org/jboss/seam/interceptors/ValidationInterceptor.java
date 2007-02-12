@@ -58,7 +58,7 @@ public class ValidationInterceptor extends AbstractInterceptor
                {
                   refreshInvalidEntity( ifInvalid, iv.getBean() );
                }
-               FacesMessages.instance().add(iv);
+               FacesMessages.instance().addToControl(iv);
             }
             String outcome = ifInvalid.outcome();
             return Outcome.REDISPLAY.equals(outcome) ? null : outcome;

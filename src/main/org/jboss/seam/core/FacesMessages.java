@@ -162,7 +162,7 @@ public class FacesMessages implements Serializable
     * Add a FacesMessage instance to a particular component id
     * @param id a JSF component id
     */
-   public void add(String id, FacesMessage facesMessage)
+   public void addToControl(String id, FacesMessage facesMessage)
    {
       String clientId = getClientId(id);
       List<Message> list = keyedFacesMessages.get(clientId);
@@ -175,52 +175,39 @@ public class FacesMessages implements Serializable
    }
    
    /**
-    * Add a templated FacesMessage to a particular component id
-    * @param id a JSF component id
-    */
-   public void add(String id, String messageTemplate, Object... params)
-   {
-      add(id, FacesMessage.SEVERITY_INFO, messageTemplate, params);
-   }
-   
-   /**
-    * Add a templated FacesMessage to a particular component id
-    * @param id a JSF component id
-    */
-   public void add(final String id, final Severity severity, final String messageTemplate, final Object... params)
-   {
-      getTasks().add( new Runnable() {
-         public void run() { add( id, createFacesMessage(severity, messageTemplate, params) ); }
-      } );
-   }
-
-   public static FacesMessages instance()
-   {
-      if ( !Contexts.isConversationContextActive() )
-      {
-         throw new IllegalStateException("No active conversation context");
-      }
-      return (FacesMessages) Component.getInstance(FacesMessages.class, ScopeType.CONVERSATION);
-   }
-   
-   /**
     * Add a templated FacesMessage that will be used
     * the next time a page is rendered.
     */
    public void add(String messageTemplate, Object... params)
    {
-      add(FacesMessage.SEVERITY_INFO, messageTemplate, params);
+      addToTasks(FacesMessage.SEVERITY_INFO, null, messageTemplate, params);
    }
    
    /**
     * Add a templated FacesMessage that will be used
     * the next time a page is rendered.
     */
-   public void add(final Severity severity, final String messageTemplate, final Object... params)
+   public void add(Severity severity, String messageTemplate, Object... params)
    {
-      getTasks().add( new Runnable() {
-         public void run() { add( createFacesMessage(severity, messageTemplate, params) ); }
-      } );
+      addToTasks(severity, null, messageTemplate, params);
+   }
+   
+   /**
+    * Add a templated FacesMessage to a particular JSF control
+    * @param id a JSF component id
+    */
+   public void addToControl(String id, String messageTemplate, Object... params)
+   {
+      addToControl(id, FacesMessage.SEVERITY_INFO, messageTemplate, params);
+   }
+   
+   /**
+    * Add a templated FacesMessage to a particular JSF control
+    * @param id a JSF component id
+    */
+   public void addToControl(String id, Severity severity, String messageTemplate, Object... params)
+   {
+      addToTasks(id, severity, null, messageTemplate, params);
    }
    
    /**
@@ -238,25 +225,7 @@ public class FacesMessages implements Serializable
     */
    public void addFromResourceBundle(Severity severity, String key, Object... params)
    {
-      addFromResourceBundle(severity, key, key, params);
-   }
-   
-   /**
-    * Add a templated FacesMessage to a particular component id by looking 
-    * for the message template in the resource bundle. 
-    */
-   public void addFromResourceBundle(String id, String key, Object... params)
-   {
-      addFromResourceBundle(id, FacesMessage.SEVERITY_INFO, key, params);
-   }
-   
-   /**
-    * Add a templated FacesMessage to a particular component id by looking 
-    * for the message template in the resource bundle. 
-    */
-   public void addFromResourceBundle(String id, Severity severity, String key, Object... params)
-   {
-      addFromResourceBundle(id, severity, key, key, params);
+      addFromResourceBundleOrDefault(severity, key, key, params);
    }
    
    /**
@@ -264,9 +233,9 @@ public class FacesMessages implements Serializable
     * for the message template in the resource bundle. If it is missing, use
     * the given message template.
     */
-   public void addFromResourceBundle(Severity severity, String key, String defaultMessageTemplate, Object... params)
+   public void addFromResourceBundleOrDefault(String key, String defaultMessageTemplate, Object... params)
    {
-      add( severity, interpolateBundleMessage(key, defaultMessageTemplate), params );
+      addFromResourceBundleOrDefault(FacesMessage.SEVERITY_INFO, key, defaultMessageTemplate, params);
    }
 
    /**
@@ -274,32 +243,68 @@ public class FacesMessages implements Serializable
     * for the message template in the resource bundle. If it is missing, use
     * the given message template.
     */
-   public void addFromResourceBundle(String id, Severity severity, String key, String defaultMessageTemplate, Object... params)
+   public void addFromResourceBundleOrDefault(Severity severity, String key, String defaultMessageTemplate, Object... params)
    {
-      add( id, severity, interpolateBundleMessage(key, defaultMessageTemplate), params );
+      addToTasks(severity, key, defaultMessageTemplate, params);
    }
 
-   private String interpolateBundleMessage(String key, String defaultMessageTemplate)
+   /**
+    * Add a templated FacesMessage to a particular component id by looking 
+    * for the message template in the resource bundle. 
+    */
+   public void addToControlFromResourceBundle(String id, String key, Object... params)
+   {
+      addToControlFromResourceBundle(id, FacesMessage.SEVERITY_INFO, key, params);
+   }
+   
+   /**
+    * Add a templated FacesMessage to a particular component id by looking 
+    * for the message template in the resource bundle. 
+    */
+   public void addToControlFromResourceBundle(String id, Severity severity, String key, Object... params)
+   {
+      addToControlFromResourceBundleOrDefault(id, severity, key, key, params);
+   }
+   
+   /**
+    * Add a templated FacesMessage to a particular component id by looking 
+    * for the message template in the resource bundle. If it is missing, use
+    * the given message template.
+    */
+   public void addToControlFromResourceBundleOrDefault(String id, String key, String defaultMessageTemplate, Object... params)
+   {
+      addToControlFromResourceBundleOrDefault(id, FacesMessage.SEVERITY_INFO, key, defaultMessageTemplate, params);
+   }
+
+   /**
+    * Add a templated FacesMessage to a particular component id by looking 
+    * for the message template in the resource bundle. If it is missing, use
+    * the given message template.
+    */
+   public void addToControlFromResourceBundleOrDefault(String id, Severity severity, String key, String defaultMessageTemplate, Object... params)
+   {
+      addToTasks(id, severity, key, defaultMessageTemplate, params);
+   }
+
+   private static String interpolateBundleMessage(String key, String defaultMessageTemplate)
    {
       String messageTemplate = defaultMessageTemplate;
-      java.util.ResourceBundle resourceBundle = ResourceBundle.instance();
-      if ( resourceBundle!=null && key!=null ) 
+      if ( key!=null )
       {
-         try
+         java.util.ResourceBundle resourceBundle = ResourceBundle.instance();
+         if ( resourceBundle!=null ) 
          {
-            String bundleMessage = resourceBundle.getString(key);
-            if (bundleMessage!=null) messageTemplate = bundleMessage;
+            try
+            {
+               String bundleMessage = resourceBundle.getString(key);
+               if (bundleMessage!=null) messageTemplate = bundleMessage;
+            }
+            catch (MissingResourceException mre) {} //swallow
          }
-         catch (MissingResourceException mre) {} //swallow
       }
       return messageTemplate;
    }
 
-   public void add(String id, InvalidValue iv)
-   {
-      add( id, FacesMessage.SEVERITY_WARN, iv.getMessage() );
-   }
-   
    public void add(InvalidValue[] ivs)
    {
       for (InvalidValue iv: ivs)
@@ -308,14 +313,37 @@ public class FacesMessages implements Serializable
       }
    }
    
+   public void addToControls(InvalidValue[] ivs)
+   {
+      for (InvalidValue iv: ivs)
+      {
+         addToControl(iv);
+      }
+   }
+   
    public void add(InvalidValue iv)
    {
-      add( iv.getPropertyName(), iv );
+      add( FacesMessage.SEVERITY_WARN, iv.getMessage() );
+   }
+   
+   public void addToControl(InvalidValue iv)
+   {
+      addToControl( iv.getPropertyName(), iv );
+   }
+   
+   public void addToControl(String id, InvalidValue iv)
+   {
+      addToControl( id, FacesMessage.SEVERITY_WARN, iv.getMessage() );
    }
    
    public static FacesMessage createFacesMessage(Severity severity, String messageTemplate, Object... params)
    {
       return new FacesMessage( severity, Interpolator.instance().interpolate(messageTemplate, params), null );
+   }
+   
+   public static FacesMessage createFacesMessage(Severity severity, String key, String defaultMessageTemplate, Object... params)
+   {
+      return createFacesMessage( severity, interpolateBundleMessage(key, defaultMessageTemplate), params );
    }
    
    private String getClientId(String id)
@@ -353,4 +381,27 @@ public class FacesMessages implements Serializable
       return tasks;
    }
   
+   private void addToTasks(final Severity severity, final String key, final String messageTemplate, final Object... params)
+   {
+      getTasks().add( new Runnable() {
+         public void run() { add( createFacesMessage(severity, key, messageTemplate, params) ); }
+      } );
+   }
+      
+   private void addToTasks(final String id, final Severity severity, final String key, final String messageTemplate, final Object... params)
+   {
+      getTasks().add( new Runnable() {
+         public void run() { addToControl( id, createFacesMessage(severity, key, messageTemplate, params) ); }
+      } );
+   }
+
+   public static FacesMessages instance()
+   {
+      if ( !Contexts.isConversationContextActive() )
+      {
+         throw new IllegalStateException("No active conversation context");
+      }
+      return (FacesMessages) Component.getInstance(FacesMessages.class, ScopeType.CONVERSATION);
+   }
+   
 }

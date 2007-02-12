@@ -1118,7 +1118,7 @@ public class Manager
 
    protected void noConversation()
    {
-      FacesMessages.instance().addFromResourceBundle( 
+      FacesMessages.instance().addFromResourceBundleOrDefault( 
             FacesMessage.SEVERITY_WARN, 
             "org.jboss.seam.NoConversation", 
             "The conversation ended, timed out or was processing another request" 

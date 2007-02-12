@@ -158,7 +158,7 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       {
          if ( Transactions.isTransactionMarkedRollback() )
          {
-            FacesMessages.instance().addFromResourceBundle(
+            FacesMessages.instance().addFromResourceBundleOrDefault(
                      FacesMessage.SEVERITY_WARN, 
                      "org.jboss.seam.TransactionFailed", 
                      "Transaction failed"

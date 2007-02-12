@@ -61,7 +61,7 @@ public class ConversationalInterceptor extends AbstractInterceptor
                {
                   log.debug( "no long-running conversation for @Conversational bean: " + getComponent().getName() );
                }
-               FacesMessages.instance().addFromResourceBundle( 
+               FacesMessages.instance().addFromResourceBundleOrDefault( 
                      FacesMessage.SEVERITY_WARN, 
                      "org.jboss.seam.NoConversation", 
                      "No conversation" 

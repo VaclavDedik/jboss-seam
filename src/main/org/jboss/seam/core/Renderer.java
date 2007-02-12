@@ -12,6 +12,6 @@ public abstract class Renderer
     
     public static Renderer instance()
     {
-        return (Renderer) Component.getInstance(Renderer.class, true);
+        return (Renderer) Component.getInstance(Renderer.class);
     }
 }

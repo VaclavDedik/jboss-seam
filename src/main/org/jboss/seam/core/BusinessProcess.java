@@ -265,7 +265,7 @@ public class BusinessProcess extends AbstractMutable implements Serializable {
    }
    protected void taskNotFound(Long taskId)
    {
-      FacesMessages.instance().addFromResourceBundle(
+      FacesMessages.instance().addFromResourceBundleOrDefault(
             FacesMessage.SEVERITY_WARN, 
             "org.jboss.seam.TaskNotFound", 
             "Task #0 not found", 
@@ -274,7 +274,7 @@ public class BusinessProcess extends AbstractMutable implements Serializable {
    }
    protected void taskEnded(Long taskId)
    {
-      FacesMessages.instance().addFromResourceBundle(
+      FacesMessages.instance().addFromResourceBundleOrDefault(
             FacesMessage.SEVERITY_WARN, 
             "org.jboss.seam.TaskEnded", 
             "Task #0 already ended", 
@@ -283,7 +283,7 @@ public class BusinessProcess extends AbstractMutable implements Serializable {
    }
    protected void processEnded(Long processId)
    {
-      FacesMessages.instance().addFromResourceBundle(
+      FacesMessages.instance().addFromResourceBundleOrDefault(
             FacesMessage.SEVERITY_WARN, 
             "org.jboss.seam.ProcessEnded", 
             "Process #0 already ended", 
@@ -292,7 +292,7 @@ public class BusinessProcess extends AbstractMutable implements Serializable {
    }
    protected void processNotFound(Long processId)
    {
-      FacesMessages.instance().addFromResourceBundle(
+      FacesMessages.instance().addFromResourceBundleOrDefault(
             FacesMessage.SEVERITY_WARN, 
             "org.jboss.seam.ProcessNotFound", 
             "Process #0 not found", 

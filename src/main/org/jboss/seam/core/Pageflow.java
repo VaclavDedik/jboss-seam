@@ -136,7 +136,7 @@ public class Pageflow extends AbstractMutable implements Serializable
     */
    protected void illegalNavigation()
    {
-      FacesMessages.instance().addFromResourceBundle( 
+      FacesMessages.instance().addFromResourceBundleOrDefault( 
             FacesMessage.SEVERITY_WARN, 
             "org.jboss.seam.IllegalNavigation", 
             "Illegal navigation" 
