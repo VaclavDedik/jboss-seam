@@ -35,13 +35,18 @@ public class SeamPostProcessor implements BeanFactoryPostProcessor, Initializing
 
    private String scopePrefix;
 
-   /**
+    public SeamPostProcessor() {
+        System.out.println("****************** new seam post processor");
+    }
+
+    /**
     * Null is not a valid scopePrefix so make it the default is used if null or empty.
     *
     * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
     */
    public void afterPropertiesSet() throws Exception
    {
+       System.out.println("****************** after properties set");
       if (scopePrefix == null || "".equals(scopePrefix))
       {
          scopePrefix = DEFAULT_SCOPE_PREFIX;
@@ -55,6 +60,7 @@ public class SeamPostProcessor implements BeanFactoryPostProcessor, Initializing
     */
    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException
    {
+       System.out.println("****************** post process");
       for (ScopeType scope : ScopeType.values())
       {
          // Don't create a scope for UnSpecified

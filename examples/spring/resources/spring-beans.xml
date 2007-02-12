@@ -38,5 +38,5 @@
 
     <bean id="applicationSeamStringStore" class="org.jboss.seam.example.spring.StringStore" scope="seam.APPLICATION"/>
 
-    <bean class="org.jboss.seam.ioc.spring.SeamPostProcessorz"/>
+    <bean class="org.jboss.seam.ioc.spring.SeamPostProcessor"/>
 </beans>
