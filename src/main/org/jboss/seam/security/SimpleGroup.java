@@ -39,14 +39,18 @@ public class SimpleGroup implements Group, Serializable
 
    public boolean isMember(Principal member)
    {
-      if (members.contains(member))
+      if ( members.contains(member) )
+      {
          return true;
+      }
       else
       {
          for (Principal m : members)
          {
             if (m instanceof Group && ((Group) m).isMember(member))
+            {
                return true;
+            }
          }
       }
       return false;
@@ -70,12 +74,15 @@ public class SimpleGroup implements Group, Serializable
    @Override
    public boolean equals(Object obj)
    {
-      if (!(obj instanceof SimpleGroup))
+      if (obj instanceof SimpleGroup)
+      {
+         SimpleGroup other = (SimpleGroup) obj;
+         return other.name.equals(name);
+      }
+      else
+      {
          return false;
-
-      SimpleGroup other = (SimpleGroup) obj;
-
-      return other.name.equals(name);
+      }
    }
 
    @Override

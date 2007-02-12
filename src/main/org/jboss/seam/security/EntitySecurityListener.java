@@ -1,40 +1,44 @@
 package org.jboss.seam.security;
 
+import static org.jboss.seam.security.EntityAction.DELETE;
+import static org.jboss.seam.security.EntityAction.INSERT;
+import static org.jboss.seam.security.EntityAction.READ;
+import static org.jboss.seam.security.EntityAction.UPDATE;
+
 import javax.persistence.PostLoad;
 import javax.persistence.PrePersist;
 import javax.persistence.PreRemove;
 import javax.persistence.PreUpdate;
 
-import org.jboss.seam.security.EntitySecurity.Action;
 
 /**
  * Facilitates security checks for entity beans.
  * 
  * @author Shane Bryzak
  */
-public class JPASecurityListener
+public class EntitySecurityListener
 {
    @PostLoad
    public void postLoad(Object entity)
    {
-      EntitySecurity.check(entity, Action.read);
+      Identity.instance().checkEntityPermission(entity, READ);
    }
    
    @PrePersist
    public void prePersist(Object entity)
    { 
-      EntitySecurity.check(entity, Action.insert);
+      Identity.instance().checkEntityPermission(entity, INSERT);
    }
    
    @PreUpdate
    public void preUpdate(Object entity)
    {
-      EntitySecurity.check(entity, Action.update);
+      Identity.instance().checkEntityPermission(entity, UPDATE);
    }
    
    @PreRemove
    public void preRemove(Object entity)
    {
-      EntitySecurity.check(entity, Action.delete);
+      Identity.instance().checkEntityPermission(entity, DELETE);
    }
 }

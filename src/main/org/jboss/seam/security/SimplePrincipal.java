@@ -27,21 +27,23 @@ public class SimplePrincipal implements Principal, Serializable
    @Override
    public boolean equals(Object obj)
    {
-      if (!(obj instanceof Principal))
-         return false;
-      
-      Principal other = (Principal) obj;
-      
-      if (name == null)
-         return other.getName() == null;
+      if (obj instanceof Principal)
+      {
+         Principal other = (Principal) obj;
+         return name == null ?
+                  other.getName() == null :
+                  name.equals( other.getName() );
+      }
       else
-         return name.equals(other.getName());
+      {
+         return false;
+      }
    }
 
    @Override
    public int hashCode()
    {
-      return name == null ? 0 : name.hashCode();
+      return name==null ? 0 : name.hashCode();
    }
 
    @Override

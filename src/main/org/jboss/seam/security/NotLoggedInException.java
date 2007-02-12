@@ -7,11 +7,5 @@ import javax.ejb.ApplicationException;
  * 
  * @author Shane Bryzak
  */
-@ApplicationException
-public class NotLoggedInException extends RuntimeException
-{  
-  public NotLoggedInException() 
-  {
-     super();
-  }
-}
+@ApplicationException(rollback=true)
+public class NotLoggedInException extends RuntimeException {}

@@ -7,16 +7,11 @@ import javax.ejb.ApplicationException;
  * 
  * @author Shane Bryzak
  */
-@ApplicationException
+@ApplicationException(rollback=true)
 public class AuthorizationException extends RuntimeException
-{
-  public AuthorizationException()
-  {
-     super();
-  }
-  
-  public AuthorizationException(String message)
-  {
-     super(message);
-  }
+{ 
+   public AuthorizationException(String message)
+   {
+      super(message);
+   }
 }

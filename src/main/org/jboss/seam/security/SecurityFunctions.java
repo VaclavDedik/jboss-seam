@@ -15,8 +15,12 @@ public class SecurityFunctions
    public static boolean hasPermission(String name, String action, Object arg)
    {
       if (arg != null)
+      {
          return Identity.instance().hasPermission(name, action, arg);
+      }
       else
+      {
          return Identity.instance().hasPermission(name, action);
+      }
    }
 }
