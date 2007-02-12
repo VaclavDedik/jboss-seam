@@ -16,6 +16,13 @@ import java.lang.annotation.Target;
 @Target({TYPE,METHOD})
 @Documented
 @Retention(RUNTIME)
-public @interface Restrict {
-  String value() default "";
+public @interface Restrict 
+{
+   /**
+    * Restrictions may be expressed using any EL expression, and usually
+    * include the use of s:hasRole(...) or s:hasPermission(..., /..).
+    * 
+    * @return An EL expression that defines the restriction to be checked
+    */
+   String value() default "";
 }
