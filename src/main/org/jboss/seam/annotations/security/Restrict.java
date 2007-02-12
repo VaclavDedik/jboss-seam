@@ -9,7 +9,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Used to restrict access to a Seam component or component method.
+ * Used to restrict access to a Seam component, component method or entity.
  *
  * @author Shane Bryzak
  */

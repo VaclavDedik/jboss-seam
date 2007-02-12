@@ -23,7 +23,7 @@ public class HibernateSecurityInterceptor extends EmptyInterceptor
                       String[] propertyNames, Type[] types)
    {
       Identity.instance().checkEntityPermission(entity, READ);
-      return true;
+      return false;
    }
    
    @Override
@@ -38,7 +38,7 @@ public class HibernateSecurityInterceptor extends EmptyInterceptor
                    Object[] previousState, String[] propertyNames, Type[] types)
    {
       Identity.instance().checkEntityPermission(entity, UPDATE);
-      return true;
+      return false;
    }
    
    @Override
@@ -46,6 +46,6 @@ public class HibernateSecurityInterceptor extends EmptyInterceptor
                       String[] propertyNames, Type[] types)
    {
       Identity.instance().checkEntityPermission(entity, INSERT);      
-      return true;
+      return false;
    }       
 }

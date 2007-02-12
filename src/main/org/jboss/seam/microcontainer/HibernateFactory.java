@@ -1,18 +1,16 @@
 //$Id$
 package org.jboss.seam.microcontainer;
-
 import java.io.File;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.cfg.Environment;
 import org.hibernate.util.ReflectHelper;
+import org.jboss.seam.security.HibernateSecurityInterceptor;
 import org.jboss.seam.util.Naming;
-
 /**
  * A factory that bootstraps a Hibernate SessionFactory.
  * <p>
@@ -43,7 +41,6 @@ import org.jboss.seam.util.Naming;
  */
 public class HibernateFactory
 {
-
    private String cfgResourceName;
    private Map<String, String> cfgProperties;
    private List<String> mappingClasses;
@@ -51,16 +48,13 @@ public class HibernateFactory
    private List<String> mappingJars;
    private List<String> mappingPackages;
    private List<String> mappingResources;
-
    public SessionFactory getSessionFactory() throws Exception
    {
       return createSessionFactory();
    }
-
    protected SessionFactory createSessionFactory() throws ClassNotFoundException
    {
       AnnotationConfiguration configuration = new AnnotationConfiguration();
-
       // Programmatic configuration
       if (cfgProperties != null)
       {
@@ -68,7 +62,6 @@ public class HibernateFactory
          props.putAll(cfgProperties);
          configuration.setProperties(props);
       }
-
       Hashtable<String, String> jndiProperties = Naming.getInitialContextProperties();
       if ( jndiProperties!=null )
       {
@@ -78,7 +71,6 @@ public class HibernateFactory
             configuration.setProperty( Environment.JNDI_PREFIX + "." + entry.getKey(), entry.getValue() );
          }
       }
-
       // hibernate.cfg.xml configuration
       if (cfgProperties==null && cfgResourceName==null)
       {
@@ -88,7 +80,6 @@ public class HibernateFactory
       {
          configuration.configure(cfgResourceName);
       }
-
       // Mapping metadata
       if (mappingClasses!=null)
       {
@@ -97,7 +88,6 @@ public class HibernateFactory
             configuration.addAnnotatedClass(ReflectHelper.classForName(className));
          }
       }
-
       if (mappingFiles!=null)
       {
          for (String fileName: mappingFiles) 
@@ -105,7 +95,6 @@ public class HibernateFactory
             configuration.addFile(fileName);
          }
       }
-
       if (mappingJars!=null)
       {
          for (String jarName: mappingJars) 
@@ -113,7 +102,6 @@ public class HibernateFactory
             configuration.addJar(new File(jarName));
          }
       }
-
       if (mappingPackages!= null)
       {
          for (String packageName: mappingPackages) 
@@ -121,7 +109,6 @@ public class HibernateFactory
             configuration.addPackage(packageName);
          }
       }
-
       if (mappingResources!= null)
       {
          for (String resourceName : mappingResources) 
@@ -129,78 +116,64 @@ public class HibernateFactory
             configuration.addResource(resourceName);
          }
       }
-
+      
+      configuration.setInterceptor(new HibernateSecurityInterceptor());
       return configuration.buildSessionFactory();
    }
-
    public String getCfgResourceName()
    {
       return cfgResourceName;
    }
-
    public void setCfgResourceName(String cfgFileName)
    {
       this.cfgResourceName = cfgFileName;
    }
-
    public Map<String, String> getCfgProperties()
    {
       return cfgProperties;
    }
-
    public void setCfgProperties(Map<String, String> cfgProperties)
    {
       this.cfgProperties = cfgProperties;
    }
-
    public List<String> getMappingClasses()
    {
       return mappingClasses;
    }
-
    public void setMappingClasses(List<String> mappingClasses)
    {
       this.mappingClasses = mappingClasses;
    }
-
    public List<String> getMappingFiles()
    {
       return mappingFiles;
    }
-
    public void setMappingFiles(List<String> mappingFiles)
    {
       this.mappingFiles = mappingFiles;
    }
-
    public List<String> getMappingJars()
    {
       return mappingJars;
    }
-
    public void setMappingJars(List<String> mappingJars)
    {
       this.mappingJars = mappingJars;
    }
-
    public List<String> getMappingPackages()
    {
       return mappingPackages;
    }
-
    public void setMappingPackages(List<String> mappingPackages)
    {
       this.mappingPackages = mappingPackages;
    }
-
    public List<String> getMappingResources()
    {
       return mappingResources;
    }
-
    public void setMappingResources(List<String> mappingResources)
    {
       this.mappingResources = mappingResources;
    }
-
 }

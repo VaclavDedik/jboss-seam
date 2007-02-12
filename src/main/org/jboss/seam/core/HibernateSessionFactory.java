@@ -1,8 +1,6 @@
 //$Id$
 package org.jboss.seam.core;
-
 import static org.jboss.seam.InterceptionType.NEVER;
-
 import org.hibernate.SessionFactory;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
@@ -12,7 +10,6 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.microcontainer.HibernateFactory;
-
 /**
  * A Seam component that boostraps a Hibernate SessionFactory
  * 
@@ -23,7 +20,6 @@ import org.jboss.seam.microcontainer.HibernateFactory;
 @Startup(depends="org.jboss.seam.core.microcontainer")
 public class HibernateSessionFactory extends HibernateFactory
 {
-
    private SessionFactory sessionFactory;
    
    @Unwrap
@@ -44,5 +40,4 @@ public class HibernateSessionFactory extends HibernateFactory
    {
       sessionFactory.close();
    }
-
 }
