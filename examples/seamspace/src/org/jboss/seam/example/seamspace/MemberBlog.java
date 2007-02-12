@@ -18,11 +18,11 @@ import javax.persistence.Transient;
 
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.security.Restrict;
-import org.jboss.seam.security.JPASecurityListener;
+import org.jboss.seam.security.EntitySecurityListener;
 
 @Entity
 @Name("memberBlog")
-@EntityListeners(JPASecurityListener.class)
+@EntityListeners(EntitySecurityListener.class)
 @Restrict
 public class MemberBlog implements Serializable
 {
