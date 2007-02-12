@@ -13,6 +13,7 @@ import java.security.Principal;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -41,14 +42,12 @@ public class MockHttpServletRequest implements HttpServletRequest
    
    public MockHttpServletRequest(HttpSession session)
    {
-      this.session = session;
+      this(session, null, new HashSet<String>());
    }
 
    public MockHttpServletRequest(HttpSession session, String principalName, Set<String> principalRoles)
    {
-      this.session = session;
-      this.principalName = principalName;
-      this.principalRoles = principalRoles;
+      this(session, principalName, principalRoles, new Cookie[] {});
    }
 
    public MockHttpServletRequest(HttpSession session, String principalName, Set<String> principalRoles, Cookie[] cookies)
@@ -56,6 +55,7 @@ public class MockHttpServletRequest implements HttpServletRequest
       this.session = session;
       this.principalName = principalName;
       this.principalRoles = principalRoles;
+      this.cookies = cookies;
    }
 
    public Map<String, String[]> getParameters()
@@ -147,12 +147,14 @@ public class MockHttpServletRequest implements HttpServletRequest
 
    public Principal getUserPrincipal()
    {
-      return new Principal() {
-         public String getName()
+      return principalName==null ? null : 
+         new Principal() 
          {
-            return principalName;
-         }
-      };
+            public String getName()
+            {
+               return principalName;
+            }
+         };
    }
 
    public String getRequestedSessionId()
@@ -190,25 +192,21 @@ public class MockHttpServletRequest implements HttpServletRequest
 
    public boolean isRequestedSessionIdValid()
    {
-      //TODO
-      return false;
+      return true;
    }
 
    public boolean isRequestedSessionIdFromCookie()
    {
-      //TODO
-      return false;
+      return true;
    }
 
    public boolean isRequestedSessionIdFromURL()
    {
-      //TODO
       return false;
    }
 
    public boolean isRequestedSessionIdFromUrl()
    {
-      //TODO
       return false;
    }
 
@@ -228,7 +226,7 @@ public class MockHttpServletRequest implements HttpServletRequest
       return null;
    }
 
-   public void setCharacterEncoding(String arg0)
+   public void setCharacterEncoding(String enc)
          throws UnsupportedEncodingException
    {
       //TODO
@@ -344,13 +342,13 @@ public class MockHttpServletRequest implements HttpServletRequest
       return false;
    }
 
-   public RequestDispatcher getRequestDispatcher(String arg0)
+   public RequestDispatcher getRequestDispatcher(String path)
    {
       //TODO
       return null;
    }
 
-   public String getRealPath(String arg0)
+   public String getRealPath(String path)
    {
       //TODO
       return null;
