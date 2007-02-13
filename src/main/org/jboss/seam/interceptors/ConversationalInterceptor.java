@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import javax.faces.application.FacesMessage;
 import javax.faces.event.PhaseId;
 
+import org.jboss.seam.NoConversationException;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.annotations.AroundInvoke;
@@ -49,7 +50,7 @@ public class ConversationalInterceptor extends AbstractInterceptor
          
          if ( "".equals(outcome) )
          {
-            throw new IllegalStateException( "no long-running conversation for @Conversational bean: " + getComponent().getName() );
+            throw new NoConversationException( "no long-running conversation for @Conversational bean: " + getComponent().getName() );
          }
          else
          {
