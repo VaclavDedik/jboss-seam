@@ -50,13 +50,9 @@
       it in <literal>faces-config.xml</literal> like this:
     </para>
     
-    <programlisting>
-      <![CDATA[
-    <application>
+    <programlisting><![CDATA[<application>
         <view-handler>org.jboss.seam.ui.facelet.SeamFaceletViewHandler</view-handler>
-    </application>      
-      ]]>
-    </programlisting>
+    </application>]]></programlisting>
         
   </sect1>
 
@@ -81,9 +77,7 @@
         <literal>components.xml</literal>:
       </para>
 
-      <programlisting>
-        <![CDATA[
-<components xmlns="http://jboss.com/products/seam/components"
+      <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
             xmlns:core="http://jboss.com/products/seam/core"
             xmlns:security="http://jboss.com/products/seam/security"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -95,9 +89,7 @@
         
     <security:identity authenticate-method="#{authenticator.authenticate}"/>
     
-</components>    
-        ]]>
-      </programlisting>
+</components>]]></programlisting>
 
       <para>
         The EL expression <literal>#{authenticator.authenticate}</literal> is a method binding indicating that
@@ -121,11 +113,10 @@
         inside a JavaBean component:
       </para>
 
-      <programlisting>
-        <![CDATA[
-@Name("authenticator")
+      <programlisting><![CDATA[@Name("authenticator")
 public class Authenticator {
    @In EntityManager entityManager;
+   
    public boolean authenticate() {
       try
       {
@@ -148,9 +139,10 @@ public class Authenticator {
          FacesMessages.instance().add("Invalid username/password");
          return false;
       }
+      
    }
-        ]]>
-      </programlisting>
+   
+}]]></programlisting>
 
       <para>
         In the above example, both <literal>User</literal> and <literal>UserRole</literal> are application-specific
@@ -173,23 +165,19 @@ public class Authenticator {
         Here's an example of a simple login form:
       </para>
 
-      <programlisting>
-        <![CDATA[
-    <div>
-      <h:outputLabel for="name" value="Username"/>
-      <h:inputText id="name" value="#{identity.username}"/>
-    </div>
+      <programlisting><![CDATA[<div>
+    <h:outputLabel for="name" value="Username"/>
+    <h:inputText id="name" value="#{identity.username}"/>
+</div>
 
-    <div>
-      <h:outputLabel for="password" value="Password"/>
-      <h:inputSecret id="password" value="#{identity.password}"/>
-    </div>
+<div>
+    <h:outputLabel for="password" value="Password"/>
+    <h:inputSecret id="password" value="#{identity.password}"/>
+</div>
 
-    <div>
-      <h:commandButton value="Login" action="#{identity.login}"/>
-    </div>
-        ]]>
-      </programlisting>
+<div>
+    <h:commandButton value="Login" action="#{identity.login}"/>
+</div>]]></programlisting>
       
       <para>
         Similarly, logging out the user is done by calling <literal>#{identity.logout}</literal>. Calling this
@@ -256,27 +244,27 @@ public class Authenticator {
         file that redirects both of these security exceptions:      
       </para>
       
-      <programlisting>
-        <![CDATA[
-  <pages>
+      <programlisting><![CDATA[<pages>
   
     <exception class="org.jboss.seam.security.NotLoggedInException">
-      <end-conversation/>
-      <redirect view-id="/login.xhtml">
+        <redirect view-id="/login.xhtml">
             <message>You must be logged in to perform this action</message>
-      </redirect>
+        </redirect>
     </exception>
     
     <exception class="org.jboss.seam.security.AuthorizationException">
-      <end-conversation/>
-      <redirect view-id="/security_error.xhtml">
+        <end-conversation/>
+        <redirect view-id="/security_error.xhtml">
             <message>You do not have the necessary security privileges to perform this action.</message>
-      </redirect>
+        </redirect>
     </exception>
   
-  </pages>      
-        ]]>
-      </programlisting>
+</pages>]]></programlisting>
+      
+      <para>
+        Most web applications require even more sophisticated handling of login redirection, so
+        Seam includes some special functionality for handling this problem.
+      </para>
       
     </sect2>
     
@@ -284,23 +272,35 @@ public class Authenticator {
       <title>Login Redirection</title>
       
       <para>
-        In conjunction with the exception handlers, Seam Security provides a feature for dealing with session 
-        timeouts.  By adding the following event actions to <literal>components.xml</literal>, attempts to 
-        access a restricted view while not logged in will be remembered, so that upon the user successfully 
-        logging in they will be redirected to the originally requested view.
+        You can ask Seam to redirect the user to a login screen when an unauthenticated user tries 
+        to access a particular view (or wildcarded view id) as follows:
       </para>
       
-      <programlisting>
-        <![CDATA[
-    <event type="org.jboss.seam.notLoggedIn">
-        <action expression="#{redirect.captureCurrentView}"/>
-    </event>
+      <programlisting><![CDATA[<pages" login-view-id="/login.xhtml">
+    <page view-id="/members/*" login-required="true"/>
+</pages>]]></programlisting>
+
+      <para>
+        (This is less of a blunt instrument than the exception handler shown above, but should 
+        probably be used in conjunction with it.)
+      </para>
+      
+      <para>
+        After the user logs in, we want to automatically send them back where they came from, so
+        they can retry the action that required logging in. If you add the following event listeners 
+        to <literal>components.xml</literal>, attempts to access a restricted view while not logged 
+        in will be remembered, so that upon the user successfully logging in they will be redirected 
+        to the originally requested view, with any page parameters that existed in the original
+        request.
+      </para>
+      
+      <programlisting><![CDATA[<event type="org.jboss.seam.notLoggedIn">
+    <action expression="#{redirect.captureCurrentView}"/>
+</event>
     
-    <event type="org.jboss.seam.postAuthenticate">
-        <action expression="#{redirect.returnToCapturedView}"/>
-    </event>            
-        ]]>
-      </programlisting>
+<event type="org.jboss.seam.postAuthenticate">
+    <action expression="#{redirect.returnToCapturedView}"/>
+</event>]]></programlisting>
       
       <para>
         It is important to note that login redirection is implemented as a conversation-scoped mechanism,
@@ -328,12 +328,11 @@ public class Authenticator {
           provided by JBoss AS), then the entry in <literal>components.xml</literal> would look like this:
         </para>
         
-        <programlisting>
-          <![CDATA[
-    <security:identity authenticate-method="#{authenticator.authenticate}" jaas-config-name="other"/>          
-          ]]>
-        </programlisting>
+        <programlisting><![CDATA[<security:identity authenticate-method="#{authenticator.authenticate}" 
+                      jaas-config-name="other"/>]]></programlisting>
+                     
       </sect3>
+      
     </sect2>
 
   </sect1>
@@ -390,16 +389,12 @@ public class Authenticator {
           Take for example the following component method:
         </para>
 
-        <programlisting>
-          <![CDATA[
-  @Name("account")
-  public class AccountAction {
+        <programlisting><![CDATA[@Name("account")
+public class AccountAction {
     @Restrict public void delete() {
-      // code
+      ...
     }
-  }
-          ]]>
-        </programlisting>
+}]]></programlisting>
 
         <para>
           In this example, the implied permission required to call the <literal>delete()</literal> method is
@@ -408,19 +403,16 @@ public class Authenticator {
           another example:
         </para>
 
-        <programlisting>
-          <![CDATA[
-  @Restrict @Name("account")
-  public class AccountAction {
+        <programlisting><![CDATA[@Restrict @Name("account")
+public class AccountAction {
     public void insert() {
-      // code
+      ...
     }
-    @Restrict("#{s:hasRole('admin')}") public void delete() {
-      // code
+    @Restrict("#{s:hasRole('admin')}") 
+    public void delete() {
+      ...
     }
-  }
-          ]]>
-        </programlisting>
+}]]></programlisting>
 
         <para>
           This time, the component class itself is annotated with <literal>@Restrict</literal>.  This means that
@@ -443,16 +435,14 @@ public class Authenticator {
           object instance.  Look at this example:
         </para>
 
-        <programlisting>
-  @Name("account")
-  public class AccountAction {
+        <programlisting><![CDATA[@Name("account")
+public class AccountAction {
     @In Account selectedAccount;
     @Restrict("#{s:hasPermission('account','modify',selectedAccount)}")
     public void modify() {
-      selectedAccount.modify();
+        selectedAccount.modify();
     }
-  }
-        </programlisting>
+}]]></programlisting>
 
         <para>
           The interesting thing to note from this example is the reference to <literal>selectedAccount</literal>
@@ -471,13 +461,9 @@ public class Authenticator {
           <literal>Identity.checkRestriction()</literal> to evaluate a security expression, like this:
         </para>
 
-        <programlisting>
-          <![CDATA[
-  public void deleteCustomer() {
+        <programlisting><![CDATA[public void deleteCustomer() {
     Identity.instance().checkRestriction("#{s:hasPermission('customer','delete',selectedCustomer)}");
-  }
-          ]]>
-        </programlisting>
+}]]></programlisting>
 
         <para>
           If the expression specified doesn't evaluate to <literal>true</literal>, either 1) a
@@ -487,15 +473,12 @@ public class Authenticator {
           methods directly:
         </para>                       
 
-        <programlisting>
-          <![CDATA[
-  if (!Identity.instance().hasRole("admin"))
+        <programlisting><![CDATA[if (!Identity.instance().hasRole("admin"))
      throw new AuthorizationException("Must be admin to perform this action");
 
-  if (!Identity.instance().hasPermission("customer", "create", null))
-     throw new AuthorizationException("You may not create new customers");
-          ]]>
-        </programlisting>
+if (!Identity.instance().hasPermission("customer", "create", null))
+     throw new AuthorizationException("You may not create new customers");]]></programlisting>
+          
       </sect3>
     </sect2>
     
@@ -515,11 +498,7 @@ public class Authenticator {
         <literal>identity.isLoggedIn()</literal> property, we can write this:
       </para>
       
-      <programlisting>
-        <![CDATA[
-  <h:form class="loginForm" rendered="#{not identity.loggedIn}">        
-        ]]>
-      </programlisting>
+      <programlisting><![CDATA[<h:form class="loginForm" rendered="#{not identity.loggedIn}">]]></programlisting>
       
       <para>
         If the user isn't logged in, then the login form will be rendered - very straight forward so far.  
@@ -527,13 +506,9 @@ public class Authenticator {
         to users in the <literal>manager</literal> role.  Here's one way that these could be written:
       </para>
       
-      <programlisting>
-        <![CDATA[
-    <h:outputLink action="#{reports.listManagerReports}" rendered="#{s:hasRole('manager')}">
-      Manager Reports
-    </h:outputLink>]
-        ]]>
-      </programlisting>
+      <programlisting><![CDATA[<h:outputLink action="#{reports.listManagerReports}" rendered="#{s:hasRole('manager')}">
+    Manager Reports
+</h:outputLink>]]></programlisting>
       
       <para>
         This is also quite straight forward.  If the user is not a member of the <literal>manager</literal>
@@ -550,25 +525,22 @@ public class Authenticator {
         for that object or not. Here's how a dataTable with secured links might look:
       </para>
       
-      <programlisting>
-        <![CDATA[
-  <h:dataTable value="#{clients}" var="cl">
+      <programlisting><![CDATA[<h:dataTable value="#{clients}" var="cl">
     <h:column>
-      <f:facet name="header">Name</f:facet>
-      #{cl.name}
+        <f:facet name="header">Name</f:facet>
+        #{cl.name}
     </h:column>
     <h:column>
-      <f:facet name="header">City</f:facet>
-      #{cl.city}
+        <f:facet name="header">City</f:facet>
+        #{cl.city}
     </h:column>   
     <h:column>
-      <f:facet name="header">Action</f:facet>
-      <s:link value="Modify Client" action="#{clientAction.modify}" rendered="#{s:hasPermission('client','modify',cl)"/>
-      <s:link value="Delete Client" action="#{clientAction.delete}" rendered="#{s:hasPermission('client','delete',cl)"/>
+        <f:facet name="header">Action</f:facet>
+        <s:link value="Modify Client" action="#{clientAction.modify}" rendered="#{s:hasPermission('client','modify',cl)"/>
+        <s:link value="Delete Client" action="#{clientAction.delete}" rendered="#{s:hasPermission('client','delete',cl)"/>
     </h:column>
-  </h:dataTable>
-        ]]>
-      </programlisting>
+</h:dataTable>]]></programlisting>
+
     </sect2>
     
     <sect2>
@@ -582,17 +554,13 @@ public class Authenticator {
         security expression.  Here's a couple of examples:
       </para>
             
-      <programlisting>
-        <![CDATA[
-    <page view-id="/settings.xhtml">
-      <restrict/>
-    </page>
+      <programlisting><![CDATA[<page view-id="/settings.xhtml">
+    <restrict/>
+</page>
         
-    <page view-id="/reports.xhtml">    
-      <restrict>#{s:hasRole('admin')}</restrict>
-    </page>        
-        ]]>
-      </programlisting>
+<page view-id="/reports.xhtml">    
+    <restrict>#{s:hasRole('admin')}</restrict>
+</page>]]></programlisting>
       
       <para>
         In the above example, the first page has an implied permission restriction of 
@@ -616,9 +584,7 @@ public class Authenticator {
         a new blog entry (from the seamspace example):
       </para>
       
-      <programlisting>
-        <![CDATA[
-rule InsertMemberBlog
+      <programlisting><![CDATA[rule InsertMemberBlog
   no-loop
   activation-group "permissions"
 when
@@ -628,9 +594,7 @@ when
 then
   c.grant();
   modify(c);
-end;        
-        ]]>
-      </programlisting>
+end;]]></programlisting>
       
       <para>
         To enable entity security for your entities, refer to the following sections.
@@ -644,9 +608,7 @@ end;
           <literal>@EntityListeners</literal> annotations like so:
         </para>
         
-        <programlisting>
-          <![CDATA[
-import javax.persistence.EntityListeners;          
+        <programlisting><![CDATA[import javax.persistence.EntityListeners;          
 import org.jboss.seam.security.JPASecurityListener;          
           
 @Entity          
@@ -655,9 +617,8 @@ import org.jboss.seam.security.JPASecurityListener;
 @Restrict
 public class Customer {
   ...
-}         
-          ]]>
-        </programlisting>
+}]]></programlisting>
+
       </sect3>
       
       <sect3>
@@ -671,6 +632,7 @@ public class Customer {
           on restricted entities.
         </para>
       </sect3>
+      
     </sect2>
 
   </sect1>
