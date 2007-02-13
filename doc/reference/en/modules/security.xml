@@ -575,11 +575,25 @@ if (!Identity.instance().hasPermission("customer", "create", null))
       
       <para>      
         Seam security also makes it possible to apply security restrictions to read, insert, update and 
-        delete actions for entities.  The security check performed for these operations (on entities
-        for which security is enabled) is the permission check <literal>entityName:action</literal>,
+        delete actions for entities.
+      </para>
+        
+      <para>
+        To secure an entity class, add a <literal>@Restrict</literal> annotation:
+      </para>
+        
+      <programlisting><![CDATA[@Entity
+@Name("customer")
+@Restrict
+public class Customer {
+  ...
+}]]></programlisting>
+
+      <para>
+        The security checks performed are permission checks like <literal>entityName:action</literal>,
         where <literal>entityName</literal> is the name of the entity (or the class name if no @Name is 
         specified), and the <literal>action</literal> is either <literal>read</literal>, 
-        <literal>insert</literal>, <literal>update</literal>, or <literal>delete</literal>.  Here's an 
+        <literal>insert</literal>, <literal>update</literal> or <literal>delete</literal>. Here's an 
         example of an entity permission rule that checks if the authenticated user is allowed to create
         a new blog entry (from the seamspace example):
       </para>
@@ -595,42 +609,46 @@ then
   c.grant();
   modify(c);
 end;]]></programlisting>
-      
-      <para>
-        To enable entity security for your entities, refer to the following sections.
-      </para>
-      
+
+       <para>
+         Finally, we need to install a listener class that integrates Seam security with
+         your JPA provider.
+       </para>
+            
       <sect3>
         <title>Entity security with JPA</title>
+        
         <para>
           Security checks for EJB3 entity beans are performed with an <literal>EntityListener</literal>.
-          To secure individual entity beans, add both <literal>@Restrict</literal> and 
-          <literal>@EntityListeners</literal> annotations like so:
+          You can install this listener by using the following <literal>META-INF/orm.xml</literal> file:
         </para>
         
-        <programlisting><![CDATA[import javax.persistence.EntityListeners;          
-import org.jboss.seam.security.JPASecurityListener;          
-          
-@Entity          
-@Name("customer")          
-@EntityListeners(JPASecurityListener.class)
-@Restrict
-public class Customer {
-  ...
-}]]></programlisting>
+        <programlisting><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd"
+                 version="1.0">
+                 
+    <persistence-unit-metadata>
+        <persistence-unit-defaults>
+            <entity-listeners>
+                <entity-listener class="org.jboss.seam.security.EntitySecurityListener"/>
+            </entity-listeners>
+        </persistence-unit-defaults>
+    </persistence-unit-metadata>
+    
+</entity-mappings>]]></programlisting>
 
       </sect3>
       
       <sect3>
         <title>Entity security with Hibernate</title>
+        
         <para>
-          If you are using Hibernate as your application's ORM, securing entity beans is as simple as
-          adding a <literal>@Restrict</literal> annotation, as long as you use the
-          <literal>HibernateSessionFactory</literal> provided with Seam.  This component will create
-          a <literal>SessionFactory</literal> that is configured to use <literal>HibernateSecurityInterceptor</literal>,
-          a Hibernate interceptor similar to the JPA entity listener described above that checks for permissions
-          on restricted entities.
+          If you are using a Hibernate <literal>SessionFactory</literal> configured via Seam, you don't 
+          need to do anything special to use entity security.
         </para>
+        
       </sect3>
       
     </sect2>
