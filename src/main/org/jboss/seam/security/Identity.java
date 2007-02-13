@@ -184,13 +184,19 @@ public class Identity extends Selector
       try
       {
          authenticate();
-         log.debug("Login successful for: #0" + getUsername());
+         if ( log.isDebugEnabled() )
+         {
+            log.debug("Login successful for: " + getUsername());
+         }
          addLoginSuccessfulMessage();
          return "success";
       }
       catch (LoginException ex)
       {
-         log.debug("Login failed for:" + getUsername(), ex);
+         if ( log.isDebugEnabled() )
+         {
+             log.debug("Login failed for: " + getUsername(), ex);
+         }
          addLoginFailedMessage(ex);
          return null;
       }
