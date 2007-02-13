@@ -25,6 +25,7 @@ import javax.security.auth.login.LoginException;
 
 import org.drools.FactHandle;
 import org.drools.RuleBase;
+import org.drools.RuleBaseFactory;
 import org.drools.WorkingMemory;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
@@ -109,9 +110,29 @@ public class Identity extends Selector
       {
          securityRules = (RuleBase) Component.getInstance(RULES_COMPONENT_NAME, true);
       }
+      
+      if (securityRules == null)
+      {
+         log.warn("No securityRules component found, creating empty rule base.");
+         createDefaultSecurityRules();         
+      }
+      
       if (securityRules != null)
       {
          securityContext = securityRules.newWorkingMemory(false);
+      }
+   }
+   
+   private synchronized void createDefaultSecurityRules()
+   {
+      if (Contexts.getApplicationContext().get(RULES_COMPONENT_NAME) == null)
+      {
+         securityRules = RuleBaseFactory.newRuleBase();         
+         Contexts.getApplicationContext().set(RULES_COMPONENT_NAME, securityRules);
+      }
+      else
+      {
+         securityRules = (RuleBase) Contexts.getApplicationContext().get(RULES_COMPONENT_NAME);
       }
    }
 
@@ -204,12 +225,16 @@ public class Identity extends Selector
 
    protected void addLoginFailedMessage(LoginException ex)
    {
-      FacesMessages.instance().addFromResourceBundleOrDefault(FacesMessage.SEVERITY_INFO, "org.jboss.seam.loginFailed", "Login failed", ex);
+      FacesMessages.instance().addFromResourceBundleOrDefault(
+               FacesMessage.SEVERITY_INFO, "org.jboss.seam.loginFailed", 
+               "Login failed", ex);
    }
 
    protected void addLoginSuccessfulMessage()
    {
-      FacesMessages.instance().addFromResourceBundleOrDefault(FacesMessage.SEVERITY_INFO, "org.jboss.seam.loginSuccessful", "Welcome, #0", getUsername());
+      FacesMessages.instance().addFromResourceBundleOrDefault(
+               FacesMessage.SEVERITY_INFO, "org.jboss.seam.loginSuccessful", 
+               "Welcome, #0", getUsername());
    }
    
    public void authenticate() throws LoginException
