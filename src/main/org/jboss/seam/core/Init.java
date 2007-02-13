@@ -56,6 +56,7 @@ public class Init
    
    private Set<String> autocreateVariables = new HashSet<String>();
    private Set<String> installedFilters = new HashSet<String>();
+   private Set<String> resourceProviders = new HashSet<String>();
    
    @Create
    public void create()
@@ -373,5 +374,15 @@ public class Init
    public Set<String> getInstalledFilters()
    {
       return installedFilters;
+   }
+   
+   public void addResourceProvider(String name)
+   {
+      resourceProviders.add(name);
+   }
+   
+   public Set<String> getResourceProviders()
+   {
+      return resourceProviders;
    }
 }

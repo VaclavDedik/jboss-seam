@@ -30,6 +30,7 @@ import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Namespace;
+import org.jboss.seam.annotations.ResourceProvider;
 import org.jboss.seam.annotations.Role;
 import org.jboss.seam.annotations.Roles;
 import org.jboss.seam.contexts.Context;
@@ -44,6 +45,7 @@ import org.jboss.seam.deployment.ComponentScanner;
 import org.jboss.seam.deployment.NamespaceScanner;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.servlet.AbstractResourceProvider;
 import org.jboss.seam.util.Conversions;
 import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Reflections;
@@ -700,6 +702,11 @@ public class Initialization
             {
                init.addInstalledFilter( componentDescriptor.getName() );
             }
+            
+            if ( componentDescriptor.isResourceProvider() )
+            {
+               init.addResourceProvider( componentDescriptor.getName() );
+            }
          }
 
       }
@@ -1062,6 +1069,12 @@ public class Initialization
       {
          // They must extend BaseFilter so that they can be disabled
          return Filter.class.isAssignableFrom(componentClass) && isInstalled();
+      }
+      
+      public boolean isResourceProvider()
+      {
+         return AbstractResourceProvider.class.isAssignableFrom(componentClass) &&
+                componentClass.isAnnotationPresent(ResourceProvider.class);
       }
 
       @Override

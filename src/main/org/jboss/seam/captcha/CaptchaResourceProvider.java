@@ -1,55 +1,56 @@
-package org.jboss.seam.servlet;
+package org.jboss.seam.captcha;
+
+import static org.jboss.seam.InterceptionType.NEVER;
+import static org.jboss.seam.ScopeType.APPLICATION;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jboss.seam.captcha.CaptchaService;
+import org.jboss.seam.annotations.Install;
+import org.jboss.seam.annotations.Intercept;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.ResourceProvider;
+import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.servlet.AbstractResourceProvider;
 
 import com.octo.captcha.service.CaptchaServiceException;
 
 /**
- * A servlet that provides captcha images
+ * Provides Captcha image resources
  * 
  * @author Shane Bryzak
  */
-public class CaptchaServlet extends HttpServlet 
+@Startup
+@Scope(APPLICATION)
+@Name("org.jboss.seam.captcha.captchaResourceProvider")
+@Install(precedence = BUILT_IN)
+@Intercept(NEVER)
+@ResourceProvider("/captcha")
+public class CaptchaResourceProvider extends AbstractResourceProvider
 {
-   private ServletContext context;
-   
    @Override
-   public void init(ServletConfig config)
-      throws ServletException
-   {      
-      super.init(config);
-      
-      context = config.getServletContext();
-   }
-   
-   @Override
-   public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException
-   {     
+   public void getResource(HttpServletRequest request, HttpServletResponse response)
+       throws IOException
+   {
       ByteArrayOutputStream out = new ByteArrayOutputStream();
-      
+
       try
       {
-         Lifecycle.beginRequest(context, request.getSession(), request);
-         
+         Lifecycle.beginRequest(getServletContext(), request.getSession(), request);
+
          String captchaId = request.getQueryString();
-         
-         BufferedImage challenge = CaptchaService.instance().getService().
-            getImageChallengeForID(captchaId, request.getLocale());
-         
+
+         BufferedImage challenge = CaptchaService.instance().getService().getImageChallengeForID(
+                  captchaId, request.getLocale());
+
          ImageIO.write(challenge, "jpeg", out);
       }
       catch (IllegalArgumentException e)
@@ -64,9 +65,9 @@ public class CaptchaServlet extends HttpServlet
       }
       finally
       {
-         Lifecycle.endRequest();  
+         Lifecycle.endRequest();
       }
-      
+
       response.setHeader("Cache-Control", "no-store");
       response.setHeader("Pragma", "no-cache");
       response.setDateHeader("Expires", 0);
