@@ -20,7 +20,7 @@
     <page view-id="/home.xhtml">
     
         <navigation>
-            <rule if="#{login.loggedIn}">
+            <rule if="#{identity.loggedIn}">
                 <redirect view-id="/main.xhtml"/>
             </rule>
         </navigation>
@@ -38,11 +38,9 @@
     </page>
 
     <page view-id="/main.xhtml">
-    
-        <action execute="#{login.validateLogin}"/>
-        
-        <navigation from-action="#{login.validateLogin}">
-            <rule if="#{not login.loggedIn}">
+            
+        <navigation>
+            <rule if="#{not identity.loggedIn}">
                 <redirect view-id="/home.xhtml"/>
             </rule>
         </navigation>
@@ -90,7 +88,7 @@
     
     <page view-id="*">
     
-        <navigation from-action="#{login.logout}">
+        <navigation from-action="#{identity.logout}">
             <redirect view-id="/home.xhtml"/>
         </navigation>
 

@@ -1,0 +1,6 @@
+package BookingPermissions;
+
+import java.security.Principal;
+
+import org.jboss.seam.security.PermissionCheck;
+import org.jboss.seam.security.Role;
