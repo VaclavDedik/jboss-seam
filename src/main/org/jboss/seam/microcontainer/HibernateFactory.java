@@ -117,7 +117,7 @@ public class HibernateFactory
          }
       }
       
-      configuration.setInterceptor(new HibernateSecurityInterceptor());
+      configuration.setInterceptor(new HibernateSecurityInterceptor(configuration.getInterceptor()));
       return configuration.buildSessionFactory();
    }
    public String getCfgResourceName()

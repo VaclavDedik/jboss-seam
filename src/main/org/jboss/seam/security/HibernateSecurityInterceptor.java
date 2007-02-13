@@ -8,6 +8,7 @@ import static org.jboss.seam.security.EntityAction.UPDATE;
 import java.io.Serializable;
 
 import org.hibernate.EmptyInterceptor;
+import org.hibernate.Interceptor;
 import org.hibernate.type.Type;
 
 /**
@@ -18,19 +19,30 @@ import org.hibernate.type.Type;
  */
 public class HibernateSecurityInterceptor extends EmptyInterceptor
 {
+   private Interceptor wrappedInterceptor;
+   
+   public HibernateSecurityInterceptor(Interceptor wrappedInterceptor)
+   {
+      this.wrappedInterceptor = wrappedInterceptor;
+   }
+   
    @Override
    public boolean onLoad(Object entity, Serializable id, Object[] state,
                       String[] propertyNames, Type[] types)
    {
       Identity.instance().checkEntityPermission(entity, READ);
-      return false;
+      return wrappedInterceptor != null ? 
+               wrappedInterceptor.onLoad(entity, id, state, propertyNames, types) : 
+               false;
    }
    
    @Override
    public void onDelete(Object entity, Serializable id, Object[] state, 
                         String[] propertyNames, Type[] types)
    {
-      Identity.instance().checkEntityPermission(entity, DELETE);      
+      Identity.instance().checkEntityPermission(entity, DELETE);   
+      if (wrappedInterceptor != null)
+         wrappedInterceptor.onDelete(entity, id, state, propertyNames, types);
    }
    
    @Override
@@ -38,7 +50,9 @@ public class HibernateSecurityInterceptor extends EmptyInterceptor
                    Object[] previousState, String[] propertyNames, Type[] types)
    {
       Identity.instance().checkEntityPermission(entity, UPDATE);
-      return false;
+      return wrappedInterceptor != null ? 
+               wrappedInterceptor.onFlushDirty(entity, id, currentState, 
+                        previousState, propertyNames, types) : false;
    }
    
    @Override
@@ -46,6 +60,8 @@ public class HibernateSecurityInterceptor extends EmptyInterceptor
                       String[] propertyNames, Type[] types)
    {
       Identity.instance().checkEntityPermission(entity, INSERT);      
-      return false;
+      return wrappedInterceptor != null ? 
+               wrappedInterceptor.onSave(entity, id, state, propertyNames, types) : 
+               false;
    }       
 }
