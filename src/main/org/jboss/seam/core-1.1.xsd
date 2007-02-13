@@ -141,6 +141,7 @@
     </xs:element>
     <xs:attributeGroup name="attlist.pages">
         <xs:attribute name="no-conversation-view-id"/>
+        <xs:attribute name="login-view-id"/>
     </xs:attributeGroup>
 
     <xs:element name="pojo-cache">

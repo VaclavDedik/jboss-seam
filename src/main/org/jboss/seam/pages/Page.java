@@ -27,6 +27,7 @@ public final class Page
    private Map<String, Navigation> navigations = new HashMap<String, Navigation>();
    private Navigation defaultNavigation;
    private boolean conversationRequired;
+   private boolean loginRequired;
    private ConversationControl conversationControl = new ConversationControl();
    
    /**
@@ -240,5 +241,15 @@ public final class Page
    public void setRestriction(String restriction)
    {
       this.restriction = restriction;
+   }
+
+   public boolean isLoginRequired()
+   {
+      return loginRequired;
+   }
+
+   public void setLoginRequired(boolean loginRequired)
+   {
+      this.loginRequired = loginRequired;
    }
 }

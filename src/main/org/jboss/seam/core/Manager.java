@@ -19,7 +19,6 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseId;
@@ -1084,47 +1083,6 @@ public class Manager
    public void setConversationIsLongRunningParameter(String conversationIdLongRunning)
    {
       this.conversationIsLongRunningParameter = conversationIdLongRunning;
-   }
-
-   public void redirectToNoConversationView()
-   {
-      noConversation();
-      
-      //stuff from jPDL takes precedence
-      org.jboss.seam.core.FacesPage facesPage = org.jboss.seam.core.FacesPage.instance();
-      String pageflowName = facesPage.getPageflowName();
-      String pageflowNodeName = facesPage.getPageflowNodeName();
-      
-      String noConversationViewId = null;
-      if (pageflowName==null || pageflowNodeName==null)
-      {
-         String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
-         Pages pages = Pages.instance();
-         if (pages!=null) //for tests
-         {
-            noConversationViewId = pages.getNoConversationViewId(viewId);
-         }
-      }
-      else
-      {
-         noConversationViewId = Pageflow.instance().getNoConversationViewId(pageflowName, pageflowNodeName);
-      }
-      
-      if (noConversationViewId!=null)
-      {
-         redirect( noConversationViewId );
-      }
-   }
-
-   protected void noConversation()
-   {
-      Events.instance().raiseEvent("org.jboss.seam.noConversation");
-      
-      FacesMessages.instance().addFromResourceBundleOrDefault( 
-            FacesMessage.SEVERITY_WARN, 
-            "org.jboss.seam.NoConversation", 
-            "The conversation ended, timed out or was processing another request" 
-         );
    }
 
    public boolean isUpdateModelValuesCalled()

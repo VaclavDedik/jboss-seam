@@ -48,7 +48,7 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       Lifecycle.resumeConversation( facesContext.getExternalContext() );
       if (!conversationFound)
       {
-         Manager.instance().redirectToNoConversationView();
+         Pages.instance().redirectToNoConversationView();
       }
       if ( Init.instance().isJbpmInstalled() )
       {

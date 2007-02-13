@@ -42,6 +42,7 @@ import org.jboss.seam.pages.Param;
 import org.jboss.seam.pages.RedirectNavigationHandler;
 import org.jboss.seam.pages.RenderNavigationHandler;
 import org.jboss.seam.pages.Output;
+import org.jboss.seam.security.Identity;
 import org.jboss.seam.util.Parameters;
 import org.jboss.seam.util.Resources;
 import org.jboss.seam.util.Strings;
@@ -63,6 +64,7 @@ public class Pages
    private Map<String, Page> pagesByViewId = Collections.synchronizedMap( new HashMap<String, Page>() );   
    private Map<String, List<Page>> pageStacksByViewId = Collections.synchronizedMap( new HashMap<String, List<Page>>() );   
    private String noConversationViewId;
+   private String loginViewId;
  
    private SortedSet<String> wildcardViewIds = new TreeSet<String>( 
          new Comparator<String>() {
@@ -234,7 +236,12 @@ public class Pages
       {
          if ( page.isConversationRequired() && !Manager.instance().isLongRunningConversation() )
          {
-            Manager.instance().redirectToNoConversationView();
+            redirectToNoConversationView();
+            return result;
+         }
+         else if ( page.isLoginRequired() && !Identity.instance().isLoggedIn() )
+         {
+            redirectToLoginView();
             return result;
          }
          else
@@ -248,10 +255,71 @@ public class Pages
       result = callAction(facesContext) || result;
       return result;
    }
+   
+   public void redirectToLoginView()
+   {
+      notLoggedIn();
+      
+      String noConversationViewId = getLoginViewId();
+      if (noConversationViewId!=null)
+      {
+         Manager.instance().redirect(noConversationViewId);
+      }
+   }
+   
+   public void redirectToNoConversationView()
+   {
+      noConversation();
+      
+      //stuff from jPDL takes precedence
+      org.jboss.seam.core.FacesPage facesPage = org.jboss.seam.core.FacesPage.instance();
+      String pageflowName = facesPage.getPageflowName();
+      String pageflowNodeName = facesPage.getPageflowNodeName();
+      
+      String noConversationViewId = null;
+      if (pageflowName==null || pageflowNodeName==null)
+      {
+         String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
+         noConversationViewId = getNoConversationViewId(viewId);
+      }
+      else
+      {
+         noConversationViewId = Pageflow.instance().getNoConversationViewId(pageflowName, pageflowNodeName);
+      }
+      
+      if (noConversationViewId!=null)
+      {
+         Manager.instance().redirect(noConversationViewId);
+      }
+   }
+
+   protected void noConversation()
+   {
+      Events.instance().raiseEvent("org.jboss.seam.noConversation");
+      
+      FacesMessages.instance().addFromResourceBundleOrDefault( 
+            FacesMessage.SEVERITY_WARN, 
+            "org.jboss.seam.NoConversation", 
+            "The conversation ended, timed out or was processing another request" 
+         );
+   }
+
+   protected void notLoggedIn()
+   {
+      Events.instance().raiseEvent("org.jboss.seam.notLoggedIn");
+      
+      FacesMessages.instance().addFromResourceBundleOrDefault( 
+            FacesMessage.SEVERITY_WARN, 
+            "org.jboss.seam.NotLoggedIn", 
+            "Please log in first" 
+         );
+   }
+
    public static String toString(Object returnValue)
    {
       return returnValue == null ? null : returnValue.toString();
    }
+   
    /**
     * Call the JSF navigation handler
     */
@@ -581,6 +649,10 @@ public class Pages
       {
          noConversationViewId = root.attributeValue("no-conversation-view-id");
       }
+      if (loginViewId==null) //let the setting in components.xml override the pages.xml
+      {
+         loginViewId = root.attributeValue("login-view-id");
+      }
       List<Element> elements = root.elements("page");
       for (Element page: elements)
       {
@@ -670,6 +742,7 @@ public class Pages
       
       page.setNoConversationViewId( element.attributeValue("no-conversation-view-id") );
       page.setConversationRequired( "true".equals( element.attributeValue("conversation-required") ) );
+      page.setLoginRequired( "true".equals( element.attributeValue("login-required") ) );
       
       Action action = parseAction(element, "action");
       if (action!=null) page.getActions().add(action);
@@ -892,5 +965,13 @@ public class Pages
          rule.getOutputs().add(output);
       }
       
+   }
+   public String getLoginViewId()
+   {
+      return loginViewId;
+   }
+   public void setLoginViewId(String loginViewId)
+   {
+      this.loginViewId = loginViewId;
    }
 }

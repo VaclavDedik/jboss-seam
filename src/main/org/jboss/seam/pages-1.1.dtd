@@ -8,6 +8,7 @@
 
 <!ELEMENT pages (page*,exception*)>
 <!ATTLIST pages no-conversation-view-id CDATA #IMPLIED>
+<!ATTLIST pages login-view-id CDATA #IMPLIED>
 
 <!ELEMENT exception (end-conversation?,(http-error|redirect))>
 <!ATTLIST exception class CDATA #IMPLIED>
@@ -18,6 +19,7 @@
 <!ATTLIST page switch (enabled|disabled) "enabled">
 <!ATTLIST page no-conversation-view-id CDATA #IMPLIED>
 <!ATTLIST page conversation-required (true|false) "false">
+<!ATTLIST page login-required (true|false) "false">
 <!ATTLIST page timeout CDATA #IMPLIED>
 <!ATTLIST page bundle CDATA #IMPLIED>
 
