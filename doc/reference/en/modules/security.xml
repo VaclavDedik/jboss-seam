@@ -466,11 +466,27 @@ public class AccountAction {
 }]]></programlisting>
 
         <para>
-          If the expression specified doesn't evaluate to <literal>true</literal>, either 1) a
-          <literal>NotLoggedInException</literal> exception is thrown if the user is not logged in, or
-          2) <literal>AuthorizationException</literal> is thrown if the user is logged in.
-          It is also possible to call the <literal>hasRole</literal> and <literal>hasPermission</literal> 
-          methods directly:
+          If the expression specified doesn't evaluate to <literal>true</literal>, either
+        </para>
+        
+        <numberedlist>
+            <listitem>
+                <para>
+                    if the user is not logged in, a <literal>NotLoggedInException</literal> 
+                    exception is thrown or
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    if the user is logged in, an <literal>AuthorizationException</literal> 
+                    exception is thrown.
+                </para>
+            </listitem>
+        </numberedlist>
+        
+        <para>
+          It is also possible to call the <literal>hasRole()</literal> and <literal>hasPermission()</literal> 
+          methods directly from Java code:
         </para>                       
 
         <programlisting><![CDATA[if (!Identity.instance().hasRole("admin"))
@@ -685,9 +701,7 @@ end;]]></programlisting>
         which it uses to evaluate permission checks.  This is configured in <literal>components.xml</literal> as follows:
       </para>
       
-      <programlisting>
-        <![CDATA[    
-<components xmlns="http://jboss.com/products/seam/components"
+      <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
             xmlns:core="http://jboss.com/products/seam/core"
             xmlns:security="http://jboss.com/products/seam/security"
             xmlns:drools="http://jboss.com/products/seam/drools"
@@ -704,9 +718,7 @@ end;]]></programlisting>
        </drools:rule-files>
    </drools:rule-base>    
    
-</components>   
-        ]]>
-      </programlisting>
+</components>]]></programlisting>
       
       <para>
         Once the <literal>RuleBase</literal> component is configured, it's time to write the security rules.
@@ -727,9 +739,7 @@ end;]]></programlisting>
         through the JBoss Rules documentation, however to get started here's an extremely simple example:
       </para>
       
-      <programlisting>
-        <![CDATA[
-package MyApplicationPermissions;
+      <programlisting><![CDATA[package MyApplicationPermissions;
 
 import org.jboss.seam.security.PermissionCheck;
 import org.jboss.seam.security.Role;
@@ -740,9 +750,7 @@ when
   Role(name == "admin")
 then
   c.grant()
-end;        
-        ]]>
-      </programlisting>
+end;]]></programlisting>
       
       <para>
         Let's break this down.  The first thing we see is the package declaration.  A package in JBoss Rules
@@ -775,11 +783,7 @@ end;
         If we look at the LHS of the rule, we see two conditions listed there.  Let's examine the first condition:
       </para>
       
-      <programlisting>
-        <![CDATA[
-  c: PermissionCheck(name == "customer", action == "delete")        
-        ]]>
-      </programlisting>
+      <programlisting><![CDATA[c: PermissionCheck(name == "customer", action == "delete")]]></programlisting>
       
       <para>
         In plain english, this condition is stating that there must exist a <literal>PermissionCheck</literal> object 
@@ -810,11 +814,7 @@ end;
         matched by the condition.  Moving onto the second line of our LHS, we see this:
       </para>
       
-      <programlisting>
-        <![CDATA[
-  Role(name == "admin")   
-        ]]>
-      </programlisting>      
+      <programlisting><![CDATA[Role(name == "admin")]]></programlisting>
       
       <para>
         This condition simply states that there must be a <literal>Role</literal> object with
@@ -828,11 +828,7 @@ end;
         So what is the consequence of the rule firing?  Let's take a look at the RHS of the rule:
       </para>
       
-      <programlisting>
-        <![CDATA[
-  c.grant()        
-        ]]>
-      </programlisting>
+      <programlisting><![CDATA[c.grant()]]></programlisting>
       
       <para>
         The RHS consists of Java code, and in this case is invoking the <literal>grant()</literal> 
@@ -870,19 +866,15 @@ end;
         challenge images to your pages.  This requires the following entry in <literal>web.xml</literal>:
       </para>
       
-      <programlisting>
-        <![CDATA[
-    <servlet>
-      <servlet-name>Captcha Servlet</servlet-name>
-      <servlet-class>org.jboss.seam.servlet.CaptchaServlet</servlet-class>
-    </servlet>
+      <programlisting><![CDATA[<servlet>
+    <servlet-name>Captcha Servlet</servlet-name>
+    <servlet-class>org.jboss.seam.servlet.CaptchaServlet</servlet-class>
+</servlet>
     
-    <servlet-mapping>
-      <servlet-name>Captcha Servlet</servlet-name>
-      <url-pattern>/captcha</url-pattern>
-    </servlet-mapping>        
-        ]]>
-      </programlisting>
+<servlet-mapping>
+    <servlet-name>Captcha Servlet</servlet-name>
+    <url-pattern>/captcha</url-pattern>
+</servlet-mapping>]]></programlisting>
       
     </sect2>
     
@@ -895,19 +887,15 @@ end;
         validation.  Here's an example:
       </para>
       
-      <programlisting>
-        <![CDATA[
-  <div>
+      <programlisting><![CDATA[<div>
     <h:graphicImage value="/captcha?#{captcha.id}"/>
-  </div>
+</div>
   
-  <div>
+<div>
     <h:outputLabel for="verifyCaptcha">Enter the above letters</h:outputLabel>
     <h:inputText id="verifyCaptcha" value="#{captcha.response}" required="true"/>
     <div class="validationError"><h:message for="verifyCaptcha"/></div>
-  </div>        
-        ]]>
-      </programlisting>
+</div>]]></programlisting>
       
       <para>
         That's all there is to it.  The <literal>graphicImage</literal> control displays the Captcha challenge,
