@@ -330,7 +330,7 @@ public class Authenticator {
         
         <programlisting>
           <![CDATA[
-    <security:identity authenticate-method="#{authenticator.authenticate}" jaasConfigName="other"/>          
+    <security:identity authenticate-method="#{authenticator.authenticate}" jaas-config-name="other"/>          
           ]]>
         </programlisting>
       </sect3>
@@ -378,9 +378,11 @@ public class Authenticator {
         <para>
           Seam components may be secured either at the method or the class level, using the <literal>@Restrict</literal>
           annotation.  If both a method and it's declaring class are annotated with <literal>@Restrict</literal>,
-          the method restriction will take precendence (and the class restriction will not apply).  If a method
+          the method restriction will take precedence (and the class restriction will not apply).  If a method
           invocation fails a security check, then an exception will be thrown as per the contract for
-          <literal>Identity.checkRestriction()</literal> (see Inline Restrictions).
+          <literal>Identity.checkRestriction()</literal> (see Inline Restrictions).  A <literal>@Restrict</literal>
+          on just the component class itself is equivalent to adding <literal>@Restrict</literal> to each of its
+          methods.
         </para>
         
         <para>
