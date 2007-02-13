@@ -665,10 +665,12 @@ public class Identity extends Selector
    }
 
    public void checkEntityPermission(Object entity, EntityAction action)
-   {
+   {      
       if ( entity.getClass().isAnnotationPresent(Restrict.class) )
       {
-         checkPermission( entity.getClass().getName(), action.toString(), entity );
+         String name = Seam.getComponentName(entity.getClass());
+         if (name == null) name = entity.getClass().getName();         
+         checkPermission( name, action.toString(), entity );
       }
    }   
 }
