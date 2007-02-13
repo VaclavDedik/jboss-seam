@@ -88,16 +88,16 @@ public class SeamApplication11 extends Application
    }
 
    @Override
-   public MethodBinding createMethodBinding(String ref, Class[] params)
+   public MethodBinding createMethodBinding(String expression, Class[] params)
          throws ReferenceSyntaxException
    {
       if (params!=null && params.length>0)
       {
-         return application.createMethodBinding(ref, params);
+         return application.createMethodBinding(expression, params);
       }
       else
       {
-         return new ActionParamMethodBinding(application, ref);
+         return new ActionParamMethodBinding(application, expression);
       }
    }
 
