@@ -31,7 +31,7 @@ import com.octo.captcha.service.CaptchaServiceException;
 @Startup
 @Scope(APPLICATION)
 @Name("org.jboss.seam.captcha.captchaResourceProvider")
-@Install(precedence = BUILT_IN)
+@Install(precedence = BUILT_IN, dependencies="org.jboss.seam.captcha.captchaService")
 @Intercept(NEVER)
 @ResourceProvider("/captcha")
 public class CaptchaResourceProvider extends AbstractResourceProvider

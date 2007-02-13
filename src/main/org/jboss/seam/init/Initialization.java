@@ -784,16 +784,27 @@ public class Initialization
    }
 
    /**
-    * This actually creates a proper component and should only be called when
+    * This actually creates a real Component and should only be called when
     * we want to install a component
     */
    protected void addComponent(ComponentDescriptor descriptor, Context context)
    {
       String name = descriptor.getName();
       String componentName = name + COMPONENT_SUFFIX;
-      Component component = new Component(descriptor.getComponentClass(), name, descriptor
-               .getScope(), descriptor.getJndiName());
-      context.set(componentName, component);
+      try
+      {
+         Component component = new Component(
+               descriptor.getComponentClass(), 
+               name, 
+               descriptor.getScope(), 
+               descriptor.getJndiName()
+            );
+         context.set(componentName, component);
+      }
+      catch (Throwable e)
+      {
+         throw new RuntimeException("Could not create Component: " + name, e);
+      }
    }
 
    private static String toCamelCase(String hyphenated, boolean initialUpper)
