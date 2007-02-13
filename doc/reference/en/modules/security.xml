@@ -245,7 +245,9 @@ public class Authenticator {
       </para>
       
       <programlisting><![CDATA[<pages>
-  
+
+    ...
+    
     <exception class="org.jboss.seam.security.NotLoggedInException">
         <redirect view-id="/login.xhtml">
             <message>You must be logged in to perform this action</message>
@@ -276,8 +278,12 @@ public class Authenticator {
         to access a particular view (or wildcarded view id) as follows:
       </para>
       
-      <programlisting><![CDATA[<pages" login-view-id="/login.xhtml">
+      <programlisting><![CDATA[<pages login-view-id="/login.xhtml">
+
     <page view-id="/members/*" login-required="true"/>
+    
+    ...
+    
 </pages>]]></programlisting>
 
       <para>
@@ -303,10 +309,10 @@ public class Authenticator {
 </event>]]></programlisting>
       
       <para>
-        It is important to note that login redirection is implemented as a conversation-scoped mechanism,
-        meaning that for this feature to work, conversation propagation must be enabled until the user is 
-        successfully logged in.
+        Note that login redirection is implemented as a conversation-scoped mechanism, so don't end 
+        the conversation in your <literal>authenticate()</literal> method.
       </para>
+      
     </sect2>
         
     <sect2>
@@ -347,6 +353,7 @@ public class Authenticator {
 
     <sect2>
       <title>Core concepts</title>
+      
       <para>
         Each of the authorization mechanisms provided by the Seam Security API are built upon the concept of a user
         being granted roles and/or permissions.  A role is a <emphasis>group</emphasis>, or <emphasis>type</emphasis>,
@@ -366,6 +373,7 @@ public class Authenticator {
 
     <sect2>
       <title>Securing components</title>
+      
       <para>
         Let's start by examining the simplest form of authorization, component security, starting with the
         <literal>@Restrict</literal> annotation.
