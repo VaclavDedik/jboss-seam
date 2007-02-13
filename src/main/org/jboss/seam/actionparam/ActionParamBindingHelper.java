@@ -43,8 +43,7 @@ class ActionParamBindingHelper
 
     private MethodExpressionParser parser;
     
-    ActionParamBindingHelper(Application application,
-                      String expWithParams) 
+    ActionParamBindingHelper(Application application, String expWithParams) 
     {
         this.application = application;
         this.expWithParams = expWithParams;

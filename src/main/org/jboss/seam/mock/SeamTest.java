@@ -31,6 +31,7 @@ import javax.transaction.UserTransaction;
 import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.Component;
+import org.jboss.seam.actionparam.ActionParamMethodBinding;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.FacesMessages;
@@ -395,7 +396,7 @@ public class SeamTest
        */
       protected Object invokeMethod(String methodExpression)
       {
-         return application.createMethodBinding(methodExpression, null).invoke(facesContext, null);
+         return new ActionParamMethodBinding(application, methodExpression).invoke(facesContext, null);
       }
 
       /**

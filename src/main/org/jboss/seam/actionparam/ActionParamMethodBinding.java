@@ -19,7 +19,6 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-
 package org.jboss.seam.actionparam;
 
 import javax.faces.application.Application;
@@ -37,7 +36,8 @@ import org.jboss.seam.jsf.SeamApplication11;
  *
  * @author Stan Silvert
  */
-public class ActionParamMethodBinding extends MethodBinding implements StateHolder {
+public class ActionParamMethodBinding extends MethodBinding implements StateHolder 
+{
     
     private String expWithParams;
     private ActionParamBindingHelper helper;
@@ -70,7 +70,8 @@ public class ActionParamMethodBinding extends MethodBinding implements StateHold
     }
 
     @Override
-    public Object invoke(FacesContext facesContext, Object[] object) throws EvaluationException, MethodNotFoundException {
+    public Object invoke(FacesContext facesContext, Object[] object) throws EvaluationException, MethodNotFoundException 
+    {
         return this.helper.invokeTheExpression(facesContext);
     }
 
