@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -22,7 +21,6 @@ import org.jboss.seam.security.EntitySecurityListener;
 
 @Entity
 @Name("memberBlog")
-@EntityListeners(EntitySecurityListener.class)
 @Restrict
 public class MemberBlog implements Serializable
 {
