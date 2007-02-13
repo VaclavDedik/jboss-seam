@@ -178,6 +178,7 @@
         <include name="seam.properties"/>
         <include name="META-INF/persistence.xml"/>
         <include name="META-INF/ejb-jar.xml"/>
+    	<include name="META-INF/orm.xml"/>
         <include name="META-INF/components.xml"/>
         <include name="META-INF/jboss.xml"/>
         <include name="META-INF/security-config.xml"/>
