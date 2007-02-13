@@ -8,7 +8,6 @@
 <#assign masterPageName = entityName + "List">
 <#assign pageName = entityName>
 <page no-conversation-view-id="/${masterPageName}.xhtml"
-        conversation-required="true"
                login-required="true">
    
    <begin-conversation join="true"/>
