@@ -32,7 +32,9 @@ public class BookingTest extends SeamTest
          protected void invokeApplication() throws Exception
          {
             Contexts.getSessionContext().set("user", new User("Gavin King", "foobar", "gavin"));
-            invokeMethod("#{login.login}");
+            setValue("#{identity.username}", "gavin");
+            setValue("#{identity.password}", "foobar");            
+            invokeMethod("#{identity.login}");
          }
          
       }.run();

@@ -20,7 +20,9 @@ public class ChangePasswordTest extends SeamTest
          protected void invokeApplication() throws Exception
          {
             Contexts.getSessionContext().set("user", new User("Gavin King", "foobar", "gavin"));
-            invokeMethod("#{login.login}");
+            setValue("#{identity.username}", "gavin");
+            setValue("#{identity.password}", "foobar");
+            invokeMethod("#{identity.login}");
          }
          
       }.run();
@@ -41,7 +43,7 @@ public class ChangePasswordTest extends SeamTest
             assert getValue("#{user.username}").equals("gavin");
             assert getValue("#{user.password}").equals("foobar");
             assert !Manager.instance().isLongRunningConversation();
-            assert getValue("#{login.loggedIn}").equals(true);
+            assert getValue("#{identity.loggedIn}").equals(true);
 
          }
          
@@ -69,7 +71,7 @@ public class ChangePasswordTest extends SeamTest
             assert getValue("#{user.username}").equals("gavin");
             assert getValue("#{user.password}").equals("foobar");
             assert !Manager.instance().isLongRunningConversation();
-            assert getValue("#{login.loggedIn}").equals(true);
+            assert getValue("#{identity.loggedIn}").equals(true);
          }
          
       }.run();
@@ -96,7 +98,7 @@ public class ChangePasswordTest extends SeamTest
             assert getValue("#{user.username}").equals("gavin");
             assert getValue("#{user.password}").equals("xxxyyy");
             assert !Manager.instance().isLongRunningConversation();
-            assert getValue("#{login.loggedIn}").equals(true);
+            assert getValue("#{identity.loggedIn}").equals(true);
 
          }
          
@@ -125,7 +127,7 @@ public class ChangePasswordTest extends SeamTest
             assert getValue("#{user.username}").equals("gavin");
             assert getValue("#{user.password}").equals("foobar");
             assert !Manager.instance().isLongRunningConversation();
-            assert getValue("#{login.loggedIn}").equals(true);
+            assert getValue("#{identity.loggedIn}").equals(true);
 
          }
          
