@@ -469,7 +469,7 @@ public class AccountAction {
           If the expression specified doesn't evaluate to <literal>true</literal>, either
         </para>
         
-        <numberedlist>
+        <itemizedlist>
             <listitem>
                 <para>
                     if the user is not logged in, a <literal>NotLoggedInException</literal> 
@@ -482,7 +482,7 @@ public class AccountAction {
                     exception is thrown.
                 </para>
             </listitem>
-        </numberedlist>
+        </itemizedlist>
         
         <para>
           It is also possible to call the <literal>hasRole()</literal> and <literal>hasPermission()</literal> 

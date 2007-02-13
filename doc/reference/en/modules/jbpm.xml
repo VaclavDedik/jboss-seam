@@ -365,9 +365,11 @@
             Seam configuration in <literal>components.xml</literal>.
         </para>
         
-        <programlisting><![CDATA[<component class="org.jboss.seam.core.Jbpm">
-    <property name="pageflowDefinitions">pageflow.jpdl.xml</property>
-</component>]]></programlisting>
+        <programlisting><![CDATA[<core:jbpm>
+    <core:pageflow-definitions>
+        <value>pageflow.jpdl.xml</value>
+    </core:pageflow-definitions>
+</core:jbpm>]]></programlisting>
 
         <para>
             The first line installs jBPM, the second points to a jPDL-based
@@ -627,9 +629,11 @@ public void begin() { ... }]]></programlisting>
             business process definitions:
         </para>
         
-        <programlisting><![CDATA[<component class="org.jboss.seam.core.Jbpm">
-    <property name="processDefinitions">todo.jpdl.xml</property>
-</component>]]></programlisting>
+        <programlisting><![CDATA[<core:jbpm>
+    <core:process-definitions>
+        <value>todo.jpdl.xml</value>
+    </core:process-definitions>
+</core:jbpm>]]></programlisting>
 
         </section>
         
