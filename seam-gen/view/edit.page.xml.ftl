@@ -7,8 +7,9 @@
 <#assign homeName = componentName + "Home">
 <#assign masterPageName = entityName + "List">
 <#assign pageName = entityName>
-<page no-conversation-view-id="/${masterPageName}.xhtml">
-   <restrict>${'#'}{identity.loggedIn}</restrict>
+<page no-conversation-view-id="/${masterPageName}.xhtml"
+        conversation-required="true"
+               login-required="true">
    
    <begin-conversation join="true"/>
    

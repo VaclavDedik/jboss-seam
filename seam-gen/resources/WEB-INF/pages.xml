@@ -2,19 +2,12 @@
           "-//JBoss/Seam Pages Configuration DTD 1.1//EN"
           "http://jboss.com/products/seam/pages-1.1.dtd">
 
-<pages>
+<pages no-conversation-view-id="/home.xhtml"
+                 login-view-id="/login.xhtml">
 
     <page view-id="*">
         <navigation>
             <rule if-outcome="home">
-                <redirect view-id="/home.xhtml"/>
-            </rule>
-        </navigation>
-    </page>
-
-    <page view-id="/login.xhtml">
-        <navigation from-action="#{identity.login}">
-            <rule if-outcome="success">
                 <redirect view-id="/home.xhtml"/>
             </rule>
         </navigation>
