@@ -1118,6 +1118,8 @@ public class Manager
 
    protected void noConversation()
    {
+      Events.instance().raiseEvent("org.jboss.seam.noConversation");
+      
       FacesMessages.instance().addFromResourceBundleOrDefault( 
             FacesMessage.SEVERITY_WARN, 
             "org.jboss.seam.NoConversation", 

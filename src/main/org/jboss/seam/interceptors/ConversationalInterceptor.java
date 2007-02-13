@@ -18,6 +18,7 @@ import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.StartTask;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.core.Events;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.intercept.InvocationContext;
@@ -50,6 +51,7 @@ public class ConversationalInterceptor extends AbstractInterceptor
          
          if ( "".equals(outcome) )
          {
+            Events.instance().raiseEvent("org.jboss.seam.noConversation");
             throw new NoConversationException( "no long-running conversation for @Conversational bean: " + getComponent().getName() );
          }
          else
@@ -62,6 +64,9 @@ public class ConversationalInterceptor extends AbstractInterceptor
                {
                   log.debug( "no long-running conversation for @Conversational bean: " + getComponent().getName() );
                }
+               
+               Events.instance().raiseEvent("org.jboss.seam.noConversation");
+               
                FacesMessages.instance().addFromResourceBundleOrDefault( 
                      FacesMessage.SEVERITY_WARN, 
                      "org.jboss.seam.NoConversation", 
