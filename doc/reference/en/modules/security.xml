@@ -51,8 +51,8 @@
     </para>
     
     <programlisting><![CDATA[<application>
-        <view-handler>org.jboss.seam.ui.facelet.SeamFaceletViewHandler</view-handler>
-    </application>]]></programlisting>
+    <view-handler>org.jboss.seam.ui.facelet.SeamFaceletViewHandler</view-handler>
+</application>]]></programlisting>
         
   </sect1>
 
