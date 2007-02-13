@@ -20,10 +20,6 @@
     <core:transactionListener/>
 
     <core:ejb installed="@embeddedEjb@"/>
-    
-    <drools:rule-base name="securityRules">
-       <drools:rule-files><value>/META-INF/security-rules.drl</value></drools:rule-files>
-    </drools:rule-base>    
 
     <security:identity authenticate-method="#{authenticator.authenticate}"/>
 
