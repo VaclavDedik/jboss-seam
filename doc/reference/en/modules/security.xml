@@ -603,7 +603,8 @@ if (!Identity.instance().hasPermission("customer", "create", null))
       </para>
         
       <para>
-        To secure an entity class, add a <literal>@Restrict</literal> annotation:
+        To secure all actions for an entity class, add a <literal>@Restrict</literal> annotation on the class
+        itself:
       </para>
         
       <programlisting><![CDATA[@Entity
@@ -614,12 +615,59 @@ public class Customer {
 }]]></programlisting>
 
       <para>
-        The security checks performed are permission checks like <literal>entityName:action</literal>,
+        If no expression is specified in the <literal>@Restrict</literal> annotation, the default security check 
+        that is performed is a permission check of <literal>entityName:action</literal>,
         where <literal>entityName</literal> is the name of the entity (or the class name if no @Name is 
         specified), and the <literal>action</literal> is either <literal>read</literal>, 
-        <literal>insert</literal>, <literal>update</literal> or <literal>delete</literal>. Here's an 
-        example of an entity permission rule that checks if the authenticated user is allowed to create
-        a new blog entry (from the seamspace example):
+        <literal>insert</literal>, <literal>update</literal> or <literal>delete</literal>. 
+      </para>
+      
+      <para>
+        It is also possible to only restrict certain actions, by placing a <literal>@Restrict</literal> annotation 
+        on the relevent entity lifecycle method (annotated as follows):
+      </para>
+      
+      <itemizedlist>
+        <listitem>
+          <para>
+            <literal>@PostLoad</literal> - Called after an entity instance is loaded from the database. Use this
+            method to configure a <literal>read</literal> permission.
+          </para>
+        </listitem>    
+        <listitem>
+          <para>
+            <literal>@PrePersist</literal> - Called before a new instance of the entity is inserted. Use this method
+            to configure an <literal>insert</literal> permission.
+          </para>
+        </listitem>  
+        <listitem>
+          <para>
+            <literal>@PreUpdate</literal> - Called before an entity is updated. Use this method
+            to configure an <literal>update</literal> permission.
+          </para>
+        </listitem>         
+        <listitem>
+          <para>
+            <literal>@PreRemove</literal> - Called before an entity is deleted. Use this method
+            to configure a <literal>delete</literal> permission.
+          </para>
+        </listitem>             
+      </itemizedlist>      
+      
+      <para>
+        Here's an example of how an entity would be configured to perform a security check for any <literal>insert</literal>
+        operations.  Please note that the method is not required to do anything, the only important thing in regard to 
+        security is how it is annotated:
+      </para>
+      
+      <programlisting><![CDATA[
+  @PrePersist @Restrict
+  public void prePersist() {}      
+   ]]></programlisting>
+      
+      <para>
+        And here's an example of an entity permission rule that checks if the authenticated user is allowed to create
+        a new blog entry (from the seamspace example):      
       </para>
       
       <programlisting><![CDATA[rule InsertMemberBlog
