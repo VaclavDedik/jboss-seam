@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jboss.seam.annotations.ResourceProvider;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.WebApplicationContext;
 import org.jboss.seam.core.Init;
@@ -25,7 +24,7 @@ public class ResourceServlet extends HttpServlet
 {
    private ServletContext context;
       
-   private Map<String,AbstractResourceProvider> providers = new HashMap<String,AbstractResourceProvider>();
+   private Map<String,AbstractResource> providers = new HashMap<String,AbstractResource>();
    
    @Override
    public void init(ServletConfig config)
@@ -43,13 +42,11 @@ public class ResourceServlet extends HttpServlet
       Init init = (Init) tempApplicationContext.get(Init.class);
       for ( String name: init.getResourceProviders() )
       {
-         AbstractResourceProvider provider = (AbstractResourceProvider) tempApplicationContext.get(name);
+         AbstractResource provider = (AbstractResource) tempApplicationContext.get(name);
          if (provider != null)
-         {
-            ResourceProvider p = provider.getClass().getAnnotation(ResourceProvider.class);      
-            
+         {        
             provider.setServletContext(context);
-            providers.put(p.value(), provider);
+            providers.put(provider.getResourcePath(), provider);
          }
       }      
    }
@@ -73,7 +70,7 @@ public class ResourceServlet extends HttpServlet
          int index = path.indexOf('/', 1);
          if (index != -1) path = path.substring(0, index);
          
-         AbstractResourceProvider provider = providers.get(path);
+         AbstractResource provider = providers.get(path);
          if (provider != null)
          {
             provider.getResource(request, response);

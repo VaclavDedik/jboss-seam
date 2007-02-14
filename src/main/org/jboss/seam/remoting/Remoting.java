@@ -19,40 +19,36 @@ import javax.servlet.http.HttpSession;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.ResourceProvider;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
-import org.jboss.seam.servlet.AbstractResourceProvider;
+import org.jboss.seam.servlet.AbstractResource;
 
 @Startup
 @Scope(APPLICATION)
 @Name("org.jboss.seam.remoting.remotingResourceProvider")
 @Install(precedence = BUILT_IN)
 @Intercept(NEVER)
-@ResourceProvider("/remoting")
-public class RemotingResourceProvider extends AbstractResourceProvider
-{
+public class Remoting extends AbstractResource
+{   
    /**
     * We use a Map for this because a Servlet can serve requests for more than
     * one context path.
     */
    private Map<String, byte[]> cachedConfig = new HashMap<String, byte[]>();
    
-   private static final LogProvider log = Logging.getLogProvider(RemotingResourceProvider.class);
+   private static final LogProvider log = Logging.getLogProvider(Remoting.class);
 
    private static final Pattern pathPattern = Pattern.compile("/(.*?)/([^/]+)");
 
-   private static final String RESOURCE_PATH = "resource";   
-   
-   private String resourcePath;
-   
-   public RemotingResourceProvider()
+   private static final String REMOTING_RESOURCE_PATH = "resource";   
+      
+   @Override
+   protected String getResourcePath()
    {
-     ResourceProvider p = getClass().getAnnotation(ResourceProvider.class);
-     resourcePath = p.value();
+      return "/remoting";
    }
    
    private synchronized void initConfig(String contextPath,
@@ -68,7 +64,7 @@ public class RemotingResourceProvider extends AbstractResourceProvider
             sb.append("\nSeam.Remoting.resourcePath = \"");
             sb.append(contextPath);
             sb.append(request.getServletPath());
-            sb.append(resourcePath);
+            sb.append(getResourcePath());
             sb.append("\";");
             sb.append("\nSeam.Remoting.debug = ");
             sb.append(RemotingConfig.instance().getDebug() ? "true" : "false");
@@ -95,7 +91,7 @@ public class RemotingResourceProvider extends AbstractResourceProvider
    {
       try
       {         
-         String pathInfo = request.getPathInfo().substring(resourcePath.length());      
+         String pathInfo = request.getPathInfo().substring(getResourcePath().length());      
          
          RequestHandler handler = RequestHandlerFactory.getInstance()
                .getRequestHandler(pathInfo);
@@ -113,7 +109,7 @@ public class RemotingResourceProvider extends AbstractResourceProvider
                String resource = m.group(2);
                HttpSession session = request.getSession();
 
-               if (RESOURCE_PATH.equals(path))
+               if (REMOTING_RESOURCE_PATH.equals(path))
                {
                   writeResource(resource, response.getOutputStream());
                   if ("remote.js".equals(resource))

@@ -15,11 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.ResourceProvider;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.servlet.AbstractResourceProvider;
+import org.jboss.seam.servlet.AbstractResource;
 
 import com.octo.captcha.service.CaptchaServiceException;
 
@@ -33,9 +32,14 @@ import com.octo.captcha.service.CaptchaServiceException;
 @Name("org.jboss.seam.captcha.captchaResourceProvider")
 @Install(precedence = BUILT_IN, dependencies="org.jboss.seam.captcha.captchaService")
 @Intercept(NEVER)
-@ResourceProvider("/captcha")
-public class CaptchaResourceProvider extends AbstractResourceProvider
+public class CaptchaImage extends AbstractResource
 {
+   @Override
+   protected String getResourcePath()
+   {
+      return "/captcha";
+   }
+   
    @Override
    public void getResource(HttpServletRequest request, HttpServletResponse response)
        throws IOException
