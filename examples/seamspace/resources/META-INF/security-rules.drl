@@ -68,7 +68,7 @@ end;
 
 rule InsertMemberBlog
   no-loop
-  activation-group "permissions"
+  activation-group "permissions"  
 when
   c: PermissionCheck(name == "memberBlog", action == "insert", granted == false)
   Principal(nm : name)

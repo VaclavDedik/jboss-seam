@@ -5,6 +5,7 @@ import static org.jboss.seam.ScopeType.SESSION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.security.Principal;
 import java.security.acl.Group;
 import java.util.ArrayList;
@@ -28,6 +29,8 @@ import org.drools.RuleBase;
 import org.drools.RuleBaseFactory;
 import org.drools.WorkingMemory;
 import org.jboss.seam.Component;
+import org.jboss.seam.Entity;
+import org.jboss.seam.Model;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Create;
@@ -44,6 +47,7 @@ import org.jboss.seam.core.Selector;
 import org.jboss.seam.core.Expressions.MethodBinding;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.util.Strings;
 import org.jboss.seam.util.UnifiedELValueBinding;
 
 @Name("org.jboss.seam.security.identity")
@@ -666,11 +670,51 @@ public class Identity extends Selector
 
    public void checkEntityPermission(Object entity, EntityAction action)
    {      
-      if ( entity.getClass().isAnnotationPresent(Restrict.class) )
+      Entity e = (Entity) Model.forClass(entity.getClass());
+      
+      if (e != null)
       {
          String name = Seam.getComponentName(entity.getClass());
-         if (name == null) name = entity.getClass().getName();         
-         checkPermission( name, action.toString(), entity );
+         if (name == null) name = entity.getClass().getName();  
+         
+         Method m = null;
+         switch (action)
+         {
+            case READ:
+               m = e.getPostLoadMethod();
+               break;
+            case INSERT:
+               m = e.getPrePersistMethod();
+               break;
+            case UPDATE:
+               m = e.getPreUpdateMethod();
+               break;
+            case DELETE:
+               m = e.getPreRemoveMethod();
+         }
+         
+         Restrict restrict = null;
+         
+         if (m != null && m.isAnnotationPresent(Restrict.class))
+         {
+            restrict = m.getAnnotation(Restrict.class);
+         }
+         else if (entity.getClass().isAnnotationPresent(Restrict.class))
+         {
+            restrict = entity.getClass().getAnnotation(Restrict.class);
+         }
+
+         if (restrict != null)
+         {
+            if (Strings.isEmpty(restrict.value()))
+            {
+               checkPermission(name, action.toString(), entity);
+            }
+            else
+            {
+               checkRestriction(restrict.value());
+            }
+         }
       }
    }   
 }

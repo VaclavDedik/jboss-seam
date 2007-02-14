@@ -13,15 +13,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Transient;
 
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.security.Restrict;
-import org.jboss.seam.security.EntitySecurityListener;
 
 @Entity
 @Name("memberBlog")
-@Restrict
 public class MemberBlog implements Serializable
 {
    private static final long serialVersionUID = 7824113911888715595L;
@@ -35,6 +34,15 @@ public class MemberBlog implements Serializable
    private String text;
    
    private List<BlogComment> comments;
+   
+   /**
+    * This is an example of a security restriction.  Any attempts to persist a
+    * new memberBlog instance requires the user to pass a permission check.  In 
+    * this case, because the method is annotated with <code>@PrePersist</code> 
+    * the required permission is memberBlog:insert    
+    */
+   @PrePersist @Restrict
+   public void prePersist() {}
    
    @Id @GeneratedValue
    public Integer getBlogId()
