@@ -28,10 +28,18 @@ public enum TransactionPropagationType
             {
                throw new IllegalStateException("No transaction active on call to MANDATORY method");
             }
+            else
+            {
+               return false;
+            }
          case NEVER:
             if ( transactionActive )
             {
                throw new IllegalStateException("Transaction active on call to NEVER method");
+            }
+            else
+            {
+               return false;
             }
          default:
             throw new IllegalArgumentException();
