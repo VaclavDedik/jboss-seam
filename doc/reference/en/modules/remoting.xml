@@ -525,7 +525,7 @@
 
     <para> Or configure it via components.xml: </para>
 
-    <programlisting>&lt;remoting:remoting-config debug=&quot;true&quot;/&gt;</programlisting>
+    <programlisting>&lt;remoting:remoting debug=&quot;true&quot;/&gt;</programlisting>
 
     <para> To turn off debugging, call <literal>setDebug(false)</literal>. If you want to write your own messages to the
       debug log, call <literal>Seam.Remoting.log(message)</literal>. </para>
@@ -708,7 +708,7 @@ public class Widget
           <literal>org.jboss.seam.remoting.messaging.subscriptionRegistry.allowedTopics</literal> in
           <literal>seam.properties</literal>, <literal>web.xml</literal> or <literal>components.xml</literal>. </para>
 
-      <programlisting><![CDATA[<remoting:remoting-config poll-timeout="5" poll-interval="1"/>]]></programlisting>
+      <programlisting><![CDATA[<remoting:remoting poll-timeout="5" poll-interval="1"/>]]></programlisting>
 
     </sect2>
 
@@ -773,14 +773,7 @@ public class Widget
 
       <para> Via components.xml: </para>
 
-      <programlisting>
-          <![CDATA[
-    <component name="org.jboss.seam.remoting.remotingConfig">
-      <property name="pollTimeout">5</property>
-      <property name="pollInterval">1</property>
-    </component>
-          ]]>
-        </programlisting>
+      <programlisting><![CDATA[<remoting:remoting poll-timeout="5" poll-interval="1"/>]]></programlisting>    
 
       <para> Via JavaScript: </para>
 
