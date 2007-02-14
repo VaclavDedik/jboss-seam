@@ -16,7 +16,7 @@ public class HibernateEntityQuery extends Query<Session>
 
    private List resultList;
    private Object singleResult;
-   private Integer resultCount;
+   private Long resultCount;
    
    private Boolean cacheable;
    private String cacheRegion;
@@ -61,13 +61,13 @@ public class HibernateEntityQuery extends Query<Session>
    @Override
    public Long getResultCount()
    {
-      if (resultCount==null || isAnyParameterDirty())
+      if ( resultCount==null || isAnyParameterDirty() )
       {
          org.hibernate.Query query = createCountQuery();
          resultCount = query==null ? 
-               null : (Integer) query.uniqueResult();
+               null : (Long) query.uniqueResult();
       }
-      return resultCount.longValue();
+      return resultCount;
    }
 
    @Override
