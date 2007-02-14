@@ -11,6 +11,12 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 
+/**
+ * Supports captcha functionality for any JSF page.
+ * 
+ * @author Gavin King
+ *
+ */
 @Name("org.jboss.seam.captcha.captcha")
 @Scope(ScopeType.PAGE)
 @Install(dependencies="org.jboss.seam.captcha.captchaService")
@@ -27,7 +33,7 @@ public class Captcha implements Serializable
    
    boolean validateResponse(String response)
    {
-      boolean valid = CaptchaService.instance().getService().validateResponseForID(id, response);
+      boolean valid = CaptchaService.instance().validateResponseForID(id, response);
       if (!valid) 
       {
          init();

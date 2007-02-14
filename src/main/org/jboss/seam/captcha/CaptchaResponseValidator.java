@@ -4,6 +4,13 @@ import java.lang.annotation.Annotation;
 
 import org.hibernate.validator.Validator;
 
+/**
+ * Validates that the input entered by the user matches
+ * the captcha image.
+ * 
+ * @author Gavin King
+ *
+ */
 public class CaptchaResponseValidator implements Validator
 {
 

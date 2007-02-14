@@ -8,6 +8,7 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.contexts.Contexts;
 
 import com.octo.captcha.service.image.DefaultManageableImageCaptchaService;
@@ -27,17 +28,18 @@ public class CaptchaService
       service = new DefaultManageableImageCaptchaService();
    }
    
+   @Unwrap
    public ImageCaptchaService getService()
    {
       return service;
    }
    
-   public static CaptchaService instance()
+   public static ImageCaptchaService instance()
    {
       if ( !Contexts.isApplicationContextActive() )
       {
          throw new IllegalStateException("No active application scope");
       }
-      return (CaptchaService) Component.getInstance(CaptchaService.class);
+      return (ImageCaptchaService) Component.getInstance(CaptchaService.class);
    }
 }

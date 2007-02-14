@@ -12,6 +12,7 @@ import org.hibernate.validator.ValidatorClass;
 @Documented
 @Target(ElementType.METHOD)
 @ValidatorClass(CaptchaResponseValidator.class)
-public @interface CaptchaResponse {
+public @interface CaptchaResponse 
+{
    String message() default "input characters did not match";
 }

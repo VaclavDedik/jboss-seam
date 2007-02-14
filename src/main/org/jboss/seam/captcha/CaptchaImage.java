@@ -48,12 +48,12 @@ public class CaptchaImage extends AbstractResource
 
       try
       {
-         Lifecycle.beginRequest(getServletContext(), request.getSession(), request);
+         Lifecycle.beginRequest( getServletContext(), request.getSession(), request );
 
          String captchaId = request.getQueryString();
 
-         BufferedImage challenge = CaptchaService.instance().getService().getImageChallengeForID(
-                  captchaId, request.getLocale());
+         BufferedImage challenge = CaptchaService.instance()
+               .getImageChallengeForID( captchaId, request.getLocale() );
 
          ImageIO.write(challenge, "jpeg", out);
       }
@@ -76,7 +76,7 @@ public class CaptchaImage extends AbstractResource
       response.setHeader("Pragma", "no-cache");
       response.setDateHeader("Expires", 0);
       response.setContentType("image/jpeg");
-      response.getOutputStream().write(out.toByteArray());
+      response.getOutputStream().write( out.toByteArray() );
       response.getOutputStream().flush();
       response.getOutputStream().close();
    }
