@@ -87,20 +87,14 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
          {
             Object reference = pe.toEntityReference();
             if (reference!=null)
-               for (; beanClass!=Object.class; beanClass=beanClass.getSuperclass())
-               {
-                  try
-                  {
-                     Field field = beanClass.getDeclaredField( pe.getFieldName() );
-                     if ( !field.isAccessible() ) field.setAccessible(true);
-                     field.set(bean, reference);
-                     break;
-                  }
-                  catch (NoSuchFieldException nsfe) {}
-               }
+            {
+               Field field = Reflections.getField( beanClass, pe.getFieldName() );
+               if ( !field.isAccessible() ) field.setAccessible(true);
+               field.set(bean, reference);
             }
          }
          passivatedEntities.clear();
       }
+   }
    
 }

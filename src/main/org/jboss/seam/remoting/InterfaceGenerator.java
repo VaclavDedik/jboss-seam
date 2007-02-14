@@ -457,7 +457,7 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
     String getMethodName = null;
     String setMethodName = null;
 
-    for (String propertyName : getAccessibleProperties(classType))
+    for ( String propertyName : getAccessibleProperties(classType) )
     {
       Type propertyType = null;
 

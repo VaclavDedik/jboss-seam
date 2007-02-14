@@ -48,6 +48,7 @@ import org.jboss.seam.jsf.SeamPhaseListener;
 import org.jboss.seam.jsf.SeamStateManager;
 import org.jboss.seam.servlet.ServletSessionImpl;
 import org.jboss.seam.util.Naming;
+import org.jboss.seam.util.Reflections;
 import org.jboss.seam.util.Transactions;
 import org.testng.annotations.Configuration;
 
@@ -724,32 +725,24 @@ public class SeamTest
       return Transactions.getUserTransaction();
    }
    
+   /**
+    * Get the value of an object field, by reflection.
+    */
    protected Object getField(Object object, String fieldName)
    {
-      try
-      {
-         Field declaredField = object.getClass().getDeclaredField(fieldName);
-         if ( !declaredField.isAccessible() ) declaredField.setAccessible(true);
-         return declaredField.get(object);
-      }
-      catch (Exception e)
-      {
-         throw new IllegalArgumentException("could not get field value: " + fieldName, e);
-      }
+      Field field = Reflections.getField( object.getClass(), fieldName );
+      if ( !field.isAccessible() ) field.setAccessible(true);
+      return Reflections.getAndWrap(field, object);
    }
    
+   /**
+    * Set the value of an object field, by reflection.
+    */
    protected void setField(Object object, String fieldName, Object value)
    {
-      try
-      {
-         Field declaredField = object.getClass().getDeclaredField(fieldName);
-         if ( !declaredField.isAccessible() ) declaredField.setAccessible(true);
-         declaredField.set(object, value);
-      }
-      catch (Exception e)
-      {
-         throw new IllegalArgumentException("could not set field value: " + fieldName, e);
-      }
+      Field field = Reflections.getField( object.getClass(), fieldName );
+      if ( !field.isAccessible() ) field.setAccessible(true);
+      Reflections.setAndWrap(field, object, value);
    }
 
 }
