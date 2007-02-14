@@ -9,7 +9,6 @@ import java.lang.reflect.Method;
 import java.security.Principal;
 import java.security.acl.Group;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -24,10 +23,6 @@ import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
 
-import org.drools.FactHandle;
-import org.drools.RuleBase;
-import org.drools.RuleBaseFactory;
-import org.drools.WorkingMemory;
 import org.jboss.seam.Component;
 import org.jboss.seam.Entity;
 import org.jboss.seam.Model;
@@ -52,7 +47,7 @@ import org.jboss.seam.util.UnifiedELValueBinding;
 
 @Name("org.jboss.seam.security.identity")
 @Scope(SESSION)
-@Install(precedence = BUILT_IN, classDependencies="org.drools.WorkingMemory")
+@Install(precedence = BUILT_IN)
 @Intercept(NEVER)
 @Startup
 public class Identity extends Selector
@@ -60,7 +55,6 @@ public class Identity extends Selector
    private static final long serialVersionUID = 3751659008033189259L;
    
    private static final LogProvider log = Logging.getLogProvider(Identity.class);
-   public static final String RULES_COMPONENT_NAME = "securityRules";
    
    private String username;
    private String password;
@@ -69,9 +63,6 @@ public class Identity extends Selector
 
    private Principal principal;   
    private Subject subject;
-   
-   private WorkingMemory securityContext;
-   private RuleBase securityRules;
    
    private String jaasConfigName = null;
    
@@ -87,7 +78,6 @@ public class Identity extends Selector
    public void create()
    {     
       subject = new Subject();
-      initSecurityContext();
       initCredentialsFromCookie();
    }
 
@@ -106,38 +96,6 @@ public class Identity extends Selector
    protected void postRememberMe()
    {
       Events.instance().raiseEvent("org.jboss.seam.rememberMe");
-   }
-   
-   protected void initSecurityContext()
-   {
-      if (securityRules==null) //it might have been configured via components.xml
-      {
-         securityRules = (RuleBase) Component.getInstance(RULES_COMPONENT_NAME, true);
-      }
-      
-      if (securityRules == null)
-      {
-         log.warn("No securityRules component found, creating empty rule base.");
-         createDefaultSecurityRules();         
-      }
-      
-      if (securityRules != null)
-      {
-         securityContext = securityRules.newWorkingMemory(false);
-      }
-   }
-   
-   private synchronized void createDefaultSecurityRules()
-   {
-      if (Contexts.getApplicationContext().get(RULES_COMPONENT_NAME) == null)
-      {
-         securityRules = RuleBaseFactory.newRuleBase();         
-         Contexts.getApplicationContext().set(RULES_COMPONENT_NAME, securityRules);
-      }
-      else
-      {
-         securityRules = (RuleBase) Contexts.getApplicationContext().get(RULES_COMPONENT_NAME);
-      }
    }
 
    public static Identity instance()
@@ -260,14 +218,21 @@ public class Identity extends Selector
       Events.instance().raiseEvent("org.jboss.seam.preAuthenticate");
    }   
    
-   /**
-    * Populates the specified subject's roles with any inherited roles
-    * according to the role memberships contained within the current 
-    * SecurityConfiguration
-    */
    protected void postAuthenticate()
    {
-      populateSecurityContext();
+      // Populate the working memory with the user's principals
+      for ( Principal p : getSubject().getPrincipals() )
+      {         
+         if ( !(p instanceof Group))
+         {
+            if (principal == null) 
+            {
+               principal = p;
+               setDirty();
+               break;
+            }            
+         }         
+      }      
       
       if (!preAuthenticationRoles.isEmpty() && isLoggedIn())
       {
@@ -285,46 +250,6 @@ public class Identity extends Selector
 
       Events.instance().raiseEvent("org.jboss.seam.postAuthenticate");
    }
-
-   protected void populateSecurityContext()
-   {
-      WorkingMemory securityContext = getSecurityContext();
-      assertSecurityContextExists();
-
-      // Populate the working memory with the user's principals
-      for ( Principal p : getSubject().getPrincipals() )
-      {         
-         if ( (p instanceof Group) && "roles".equals( ( (Group) p ).getName() ) )
-         {
-            Enumeration e = ( (Group) p ).members();
-            while ( e.hasMoreElements() )
-            {
-               Principal role = (Principal) e.nextElement();
-               securityContext.assertObject( new Role( role.getName() ) );
-            }
-         }
-         else
-         {
-            if (principal == null) 
-            {
-               principal = p;
-               setDirty();
-            }
-            securityContext.assertObject(p);            
-         }
-         
-      }
-   }
-
-   private void assertSecurityContextExists()
-   {
-      if (securityContext==null)
-      {
-         throw new IllegalStateException(
-            "no security rule base available - please install a RuleBase with the name '" +
-            RULES_COMPONENT_NAME + "'");
-      }
-   }   
    
    /**
     * Removes all Role objects from the security context, removes the "roles"
@@ -332,12 +257,7 @@ public class Identity extends Selector
     *
     */
    protected void unAuthenticate()
-   {
-      for (Role role : (List<Role>) getSecurityContext().getObjects(Role.class))
-      {
-         getSecurityContext().retractObject(getSecurityContext().getFactHandle(role));
-      }
-      
+   {      
       for ( Group sg : subject.getPrincipals(Group.class) )      
       {
          if ( "roles".equals( sg.getName() ) )
@@ -389,11 +309,12 @@ public class Identity extends Selector
     * 
     * @param role The name of the role to add
     */
-   public void addRole(String role)
+   public boolean addRole(String role)
    {
       if (!isLoggedIn())
       {
          preAuthenticationRoles.add(role);
+         return false;
       }
       else
       {
@@ -401,17 +322,14 @@ public class Identity extends Selector
          {
             if ( "roles".equals( sg.getName() ) )
             {
-               getSecurityContext().assertObject(new Role(role));
-               sg.addMember(new SimplePrincipal(role));
-               return;
+               return sg.addMember(new SimplePrincipal(role));
             }
          }
-         
-         getSecurityContext().assertObject(new Role(role));
-         
+                  
          SimpleGroup roleGroup = new SimpleGroup("roles");
          roleGroup.addMember(new SimplePrincipal(role));
          subject.getPrincipals().add(roleGroup);
+         return true;
       }
    }
 
@@ -421,17 +339,7 @@ public class Identity extends Selector
     * @param role The name of the role to remove
     */
    public void removeRole(String role)
-   {
-      for (Role r : (List<Role>) getSecurityContext().getObjects(Role.class))
-      {
-         if (r.getName().equals(role))
-         {
-            FactHandle fh = getSecurityContext().getFactHandle(r);
-            getSecurityContext().retractObject(fh);
-            break;
-         }
-      }
-      
+   {     
       for ( Group sg : subject.getPrincipals(Group.class) )      
       {
          if ( "roles".equals( sg.getName() ) )
@@ -511,43 +419,8 @@ public class Identity extends Selector
     */
    public boolean hasPermission(String name, String action, Object...arg)
    {      
-      List<FactHandle> handles = new ArrayList<FactHandle>();
-
-      PermissionCheck check = new PermissionCheck(name, action);
-
-      WorkingMemory securityContext = getSecurityContext();
-      assertSecurityContextExists();
-      synchronized( securityContext )
-      {
-         handles.add( securityContext.assertObject(check) );
-         
-         for (int i = 0; i < arg.length; i++)
-         {
-            if (i == 0 && arg[0] instanceof Collection)
-            {
-               for (Object value : (Collection) arg[i])
-               {
-                  if ( securityContext.getFactHandle(value) == null )
-                  {
-                     handles.add( securityContext.assertObject(value) );
-                  }
-               }               
-            }
-            else
-            {
-               handles.add( securityContext.assertObject(arg[i]) );
-            }
-         }
-   
-         securityContext.fireAllRules();
-   
-         for (FactHandle handle : handles)
-            securityContext.retractObject(handle);
-      }
-      
-      return check.isGranted();
-   }
-   
+      return false;
+   }   
    
    /**
     * Creates a callback handler that can handle a standard username/password
@@ -618,16 +491,6 @@ public class Identity extends Selector
       this.password = password;
    }
    
-   public WorkingMemory getSecurityContext()
-   {
-      return securityContext;
-   }
-   
-   public void setSecurityContext(WorkingMemory securityContext)
-   {
-      this.securityContext = securityContext;
-   }
-   
    public MethodBinding getAuthenticateMethod()
    {
       return authenticateMethod;
@@ -656,16 +519,6 @@ public class Identity extends Selector
    public void setJaasConfigName(String jaasConfigName)
    {
       this.jaasConfigName = jaasConfigName;
-   }
-
-   public RuleBase getSecurityRules()
-   {
-      return securityRules;
-   }
-
-   public void setSecurityRules(RuleBase securityRules)
-   {
-      this.securityRules = securityRules;
    }
 
    public void checkEntityPermission(Object entity, EntityAction action)

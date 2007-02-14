@@ -19,7 +19,7 @@
                   conversation-id-parameter="cid"
                   conversation-is-long-running-parameter="clr"/>
     
-    <security:identity authenticate-method="#{authenticator.authenticate}"/>
+    <security:drools-identity authenticate-method="#{authenticator.authenticate}"/>
     
     <web:multipart-filter create-temp-files="true" max-request-size="1000000" url-pattern="*.seam"/>
     <web:context-filter url-pattern="/content/*"/>

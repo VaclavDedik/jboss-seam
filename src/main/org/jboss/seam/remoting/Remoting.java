@@ -136,7 +136,6 @@ public class Remoting extends AbstractResource
          log.error("Error", ex);
       }      
    }
-   
 
    /**
     * Appends various configuration options to the remoting javascript client
