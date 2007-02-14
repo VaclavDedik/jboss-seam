@@ -29,7 +29,7 @@ import com.octo.captcha.service.CaptchaServiceException;
  */
 @Startup
 @Scope(APPLICATION)
-@Name("org.jboss.seam.captcha.captchaResourceProvider")
+@Name("org.jboss.seam.captcha.captchaImage")
 @Install(precedence = BUILT_IN, dependencies="org.jboss.seam.captcha.captchaService")
 @Intercept(NEVER)
 public class CaptchaImage extends AbstractResource

@@ -28,7 +28,7 @@ import org.jboss.seam.servlet.AbstractResource;
 
 @Startup
 @Scope(APPLICATION)
-@Name("org.jboss.seam.remoting.remotingResourceProvider")
+@Name("org.jboss.seam.remoting.remoting")
 @Install(precedence = BUILT_IN)
 @Intercept(NEVER)
 public class Remoting extends AbstractResource
