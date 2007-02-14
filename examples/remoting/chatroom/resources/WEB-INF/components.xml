@@ -20,7 +20,7 @@
         <property name="conversationTimeout">120000</property>
     </component>
     
-    <component name="org.jboss.seam.remoting.remotingConfig">
+    <component name="org.jboss.seam.remoting.remoting">
       <property name="debug">false</property>
       <property name="pollTimeout">2</property>
       <property name="pollInterval">1</property>

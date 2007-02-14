@@ -12,7 +12,7 @@
         <property name="conversationTimeout">120000</property>
     </component>
     
-    <component name="org.jboss.seam.remoting.remotingConfig">
+    <component name="org.jboss.seam.remoting.remoting">
       <property name="debug">true</property>
     </component>
 
