@@ -56,23 +56,15 @@ public class Model
          throw new IllegalStateException("No application context active");
       }
       
-      String componentName = Seam.getComponentName(clazz);
-      if (componentName!=null)
+      String name = clazz.getName() + ".model";
+      Model model = (Model) Contexts.getApplicationContext().get(name);
+      if ( model==null )
       {
-         return Component.forName(componentName);
+         model = clazz.isAnnotationPresent(javax.persistence.Entity.class) ? 
+                  new Entity(clazz) : new Model(clazz);
+         Contexts.getApplicationContext().set(name, model);
       }
-      else
-      {
-         String name = clazz.getName() + ".model";
-         Model model = (Model) Contexts.getApplicationContext().get(name);
-         if ( model==null )
-         {
-            model = clazz.isAnnotationPresent(javax.persistence.Entity.class) ? 
-                     new Entity(clazz) : new Model(clazz);
-            Contexts.getApplicationContext().set(name, model);
-         }
-         return model;
-      }
+      return model;
    }
 
 }

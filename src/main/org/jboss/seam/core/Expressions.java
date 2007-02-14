@@ -8,6 +8,7 @@ import java.io.Serializable;
 
 import javax.faces.context.FacesContext;
 
+import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.Component;
 import org.jboss.seam.Model;
@@ -162,22 +163,38 @@ public class Expressions
       {
          return new InvalidValue[0];
       }
-      //String componentName;
+      String componentName;
       String propertyName;
       if (dot>bracket)
       {
-         //componentName = propertyExpression.substring(2, dot);
+         componentName = propertyExpression.substring(2, dot);
          propertyName = propertyExpression.substring( dot+1, propertyExpression.length()-1 );
       }
       else
       {
-         //componentName = propertyExpression.substring(2, bracket);
+         componentName = propertyExpression.substring(2, bracket);
          propertyName = propertyExpression.substring( bracket+1, propertyExpression.length()-2 );
       }
       String modelExpression = propertyExpression.substring(0, dot) + '}';
       
-      Object model = createValueBinding(modelExpression).getValue(); //TODO: cache the ValueBinding object!
-      return Model.forClass( model.getClass() ).getValidator().getPotentialInvalidValues(propertyName, value);
+      Object modelInstance = createValueBinding(modelExpression).getValue(); //TODO: cache the ValueBinding object!
+      return getValidator(modelInstance, componentName).getPotentialInvalidValues(propertyName, value);
+   }
+   
+   /**
+    * Gets the validator from the Component object (if this is a Seam
+    * component, we need to use the validator for the bean class, not
+    * the proxy class) or from a Model object (if it is not a Seam
+    * component, there isn't any proxy).
+    * 
+    * @param instance the object to be validated
+    * @param componentName the name of the context variable, which might be a component name
+    * @return a ClassValidator object
+    */
+   private static ClassValidator getValidator(Object instance, String componentName)
+   {
+      Component component = Component.forName(componentName);
+      return ( component==null ? Model.forClass( instance.getClass() ) : component ).getValidator();
    }
 
    public static interface ValueBinding<T> extends Serializable
