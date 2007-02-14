@@ -33,6 +33,15 @@ import org.jboss.seam.servlet.AbstractResource;
 @Intercept(NEVER)
 public class Remoting extends AbstractResource
 {   
+   public static final int DEFAULT_POLL_TIMEOUT = 10; // 10 seconds
+   public static final int DEFAULT_POLL_INTERVAL = 1; // 1 second
+
+   private int pollTimeout = DEFAULT_POLL_TIMEOUT;
+   
+   private int pollInterval = DEFAULT_POLL_INTERVAL;
+   
+   private boolean debug = false;   
+   
    /**
     * We use a Map for this because a Servlet can serve requests for more than
     * one context path.
@@ -44,7 +53,7 @@ public class Remoting extends AbstractResource
    private static final Pattern pathPattern = Pattern.compile("/(.*?)/([^/]+)");
 
    private static final String REMOTING_RESOURCE_PATH = "resource";   
-      
+   
    @Override
    protected String getResourcePath()
    {
@@ -67,13 +76,13 @@ public class Remoting extends AbstractResource
             sb.append(getResourcePath());
             sb.append("\";");
             sb.append("\nSeam.Remoting.debug = ");
-            sb.append(RemotingConfig.instance().getDebug() ? "true" : "false");
+            sb.append(getDebug() ? "true" : "false");
             sb.append(";");
             sb.append("\nSeam.Remoting.pollInterval = ");
-            sb.append(RemotingConfig.instance().getPollInterval());
+            sb.append(getPollInterval());
             sb.append(";");
             sb.append("\nSeam.Remoting.pollTimeout = ");
-            sb.append(RemotingConfig.instance().getPollTimeout());
+            sb.append(getPollTimeout());
             sb.append(";");
 
             cachedConfig.put(contextPath, sb.toString().getBytes());
@@ -171,5 +180,35 @@ public class Remoting extends AbstractResource
          else
             log.error(String.format("Resource [%s] not found.", resourceName));
       }
+   }   
+   
+   public int getPollTimeout()
+   {
+     return pollTimeout;
+   }
+
+   public void setPollTimeout(int pollTimeout)
+   {
+     this.pollTimeout = pollTimeout;
+   }
+
+   public int getPollInterval()
+   {
+     return pollInterval;
+   }
+
+   public void setPollInterval(int pollInterval)
+   {
+     this.pollInterval = pollInterval;
+   }
+
+   public boolean getDebug()
+   {
+     return debug;
+   }
+
+   public void setDebug(boolean debug)
+   {
+     this.debug = debug;
    }   
 }
