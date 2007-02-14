@@ -7,11 +7,51 @@
   </para>
   
   <sect1>
+    <title>Overview</title>
+    
+    <para>
+      Seam Security provides two different modes of operation:
+    </para>
+    
+    <itemizedlist>
+      <listitem>
+        <para>
+          <emphasis>simplified mode</emphasis> - this mode supports authentication services
+          and simple role-based security checks.
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          <emphasis>advanced mode</emphasis> - this mode supports all the same features as the simplified mode, 
+          plus it offers rule-based security checks using JBoss Rules.        
+        </para>
+      </listitem>
+    </itemizedlist>
+    
+    <sect2>
+      <title>Which mode is right for my application?</title>
+      
+      <para>
+        That all depends on the requirements of your application.  If you have minimal security requirements, for example
+        if you only wish to restrict certain pages and actions to users who are logged in, or who belong to a certain role,
+        then the simplified mode will probably be sufficient.  The advantages of this is a more simplified configuration, 
+        significantly less libraries to include, and a smaller memory footprint.
+      </para>
+      
+      <para>
+        If on the other hand, your application requires security checks based on contextual state or complex business rules, 
+        then you will require the features provided by the advanced mode.
+      </para>
+    </sect2>
+  </sect1>
+  
+  <sect1>
     <title>Requirements</title>
     
     <para>
-      The following jar files are required to be configured as modules in <literal>application.xml</literal> to use
-      Seam Security:
+      If using the advanced mode features of Seam Security, the following jar files are required to be configured as modules in 
+      <literal>application.xml</literal>.  If you are using Seam Security in simplified mode, these are <emphasis>not</emphasis>
+      required:
     </para>
     
     <itemizedlist>
@@ -88,6 +128,17 @@
                  http://jboss.com/products/seam/security http://jboss.com/products/seam/security-1.1.xsd">                
         
     <security:identity authenticate-method="#{authenticator.authenticate}"/>
+    
+</components>]]></programlisting>
+
+      <para>
+        If you wish to use the advanced security features such as rule-based permission checks, you must instead
+        configure the identity like this:
+      </para>
+
+      <programlisting><![CDATA[        
+      
+    <security:drools-identity authenticate-method="#{authenticator.authenticate}"/>
     
 </components>]]></programlisting>
 
@@ -348,7 +399,10 @@ public class Authenticator {
 
     <para>
       There are a number of authorization features provided by the Seam Security API for securing access to
-      components, component methods, and pages.  This section describes each of these.
+      components, component methods, and pages.  This section describes each of these.  An important thing to 
+      note is that if you wish to use any of the advanced features (such as rule-based permissions) then 
+      your <literal>components.xml</literal> must be configured to support this - see the Configuration section
+      above.
     </para>
 
     <sect2>
