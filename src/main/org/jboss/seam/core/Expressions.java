@@ -8,7 +8,9 @@ import java.io.Serializable;
 
 import javax.faces.context.FacesContext;
 
+import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.Component;
+import org.jboss.seam.Model;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
@@ -141,6 +143,41 @@ public class Expressions
       
       };
       
+   }
+
+   /**
+    * Validate that a value can be assigned to the property
+    * identified by a value expression.
+    * 
+    * @param propertyExpression a value expression
+    * @param value the value that is to be assigned
+    * 
+    * @return the validation failures, as InvalidValues
+    */
+   public InvalidValue[] validate(String propertyExpression, Object value)
+   {
+      int dot = propertyExpression.lastIndexOf('.');
+      int bracket = propertyExpression.lastIndexOf('[');
+      if (dot<=0 && bracket<=0) 
+      {
+         return new InvalidValue[0];
+      }
+      //String componentName;
+      String propertyName;
+      if (dot>bracket)
+      {
+         //componentName = propertyExpression.substring(2, dot);
+         propertyName = propertyExpression.substring( dot+1, propertyExpression.length()-1 );
+      }
+      else
+      {
+         //componentName = propertyExpression.substring(2, bracket);
+         propertyName = propertyExpression.substring( bracket+1, propertyExpression.length()-2 );
+      }
+      String modelExpression = propertyExpression.substring(0, dot) + '}';
+      
+      Object model = createValueBinding(modelExpression).getValue(); //TODO: cache the ValueBinding object!
+      return Model.forClass( model.getClass() ).getValidator().getPotentialInvalidValues(propertyName, value);
    }
 
    public static interface ValueBinding<T> extends Serializable

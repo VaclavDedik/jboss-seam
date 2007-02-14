@@ -45,7 +45,6 @@
   <factory scope="stateless" auto-create="true" name="uiComponent" value="#{org.jboss.seam.core.uiComponent}"/>
   <factory scope="stateless" auto-create="true" name="userPrincipal" value="#{org.jboss.seam.core.userPrincipal}"/>
   <factory scope="stateless" auto-create="true" name="validation" value="#{org.jboss.seam.core.validation}"/>
-  <factory scope="stateless" auto-create="true" name="validators" value="#{org.jboss.seam.core.validators}"/>
 
   <factory scope="stateless" auto-create="true" name="currentTime" value="#{org.jboss.seam.framework.currentTime}"/>
   <factory scope="stateless" auto-create="true" name="currentDate" value="#{org.jboss.seam.framework.currentDate}"/>

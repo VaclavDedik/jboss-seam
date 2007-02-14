@@ -40,9 +40,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Hashtable;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -54,7 +52,6 @@ import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.Factory;
 import net.sf.cglib.proxy.MethodInterceptor;
 
-import org.hibernate.validator.ClassValidator;
 import org.jboss.seam.annotations.Asynchronous;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.BeginTask;
@@ -88,7 +85,6 @@ import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Mutable;
-import org.jboss.seam.core.ResourceBundle;
 import org.jboss.seam.core.Expressions.MethodBinding;
 import org.jboss.seam.core.Expressions.ValueBinding;
 import org.jboss.seam.databinding.DataBinder;
@@ -123,16 +119,17 @@ import org.jboss.seam.util.SorterNew;
 import org.jboss.seam.util.Conversions.PropertyValue;
 
 /**
- * A Seam component is any POJO managed by Seam.
- * A POJO is recognized as a Seam component if it has a @Name annotation
+ * Metamodel class for component classes.
+ * 
+ * A Seam component is any class with a @Name annotation.
  *
- * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
+ * @author Thomas Heute
  * @author Gavin King
- * @version $Revision$
+ * 
  */
 @Scope(ScopeType.APPLICATION)
 @SuppressWarnings("deprecation")
-public class Component
+public class Component extends Model
 {
    public static final String PROPERTIES = "org.jboss.seam.properties";
 
@@ -141,7 +138,6 @@ public class Component
    private ComponentType type;
    private String name;
    private ScopeType scope;
-   private Class<?> beanClass;
    private String jndiName;
    private InterceptionType interceptionType;
    private boolean startup;
@@ -178,8 +174,6 @@ public class Component
    private List<Field> logFields = new ArrayList<Field>();
    private List<org.jboss.seam.log.Log> logInstances = new ArrayList<org.jboss.seam.log.Log>();
 
-   private Hashtable<Locale, ClassValidator> validators = new Hashtable<Locale, ClassValidator>();
-
    private Class<Factory> factory;
 
    //only used for tests
@@ -205,13 +199,14 @@ public class Component
       this(clazz, componentName, componentScope, jndiName, Contexts.getApplicationContext());
    }
 
-   private Component(Class<?> clazz, String componentName, ScopeType componentScope, String componentJndiName, Context applicationContext)
+   private Component(Class<?> beanClass, String componentName, ScopeType componentScope, String componentJndiName, Context applicationContext)
    {
-      beanClass = clazz;
+      super(beanClass);
+      
       name = componentName;
       scope = componentScope;
-      type = Seam.getComponentType(beanClass);
-      interceptionType = Seam.getInterceptionType(beanClass);
+      type = Seam.getComponentType(getBeanClass());
+      interceptionType = Seam.getInterceptionType(getBeanClass());
 
       initNamespaces(componentName, applicationContext);
 
@@ -220,7 +215,7 @@ public class Component
       jndiName = componentJndiName == null ?
             getJndiName(applicationContext) : componentJndiName;
 
-      startup = beanClass.isAnnotationPresent(Startup.class);
+      startup = getBeanClass().isAnnotationPresent(Startup.class);
       if (startup)
       {
          if (scope!=SESSION && scope!=APPLICATION)
@@ -231,15 +226,15 @@ public class Component
       }
 
       synchronize = ( scope==SESSION /*&& ! beanClass.isAnnotationPresent(ReadOnly.class)*/ ) ||
-            beanClass.isAnnotationPresent(Synchronized.class);
+            getBeanClass().isAnnotationPresent(Synchronized.class);
       if (synchronize)
       {
          if (scope==STATELESS)
          {
             throw new IllegalArgumentException("@Synchronized not meaningful for stateless components: " + name);
          }
-         timeout = beanClass.isAnnotationPresent(Synchronized.class) ?
-               beanClass.getAnnotation(Synchronized.class).timeout() :
+         timeout = getBeanClass().isAnnotationPresent(Synchronized.class) ?
+               getBeanClass().getAnnotation(Synchronized.class).timeout() :
                Synchronized.DEFAULT_TIMEOUT;
       }
 
@@ -247,14 +242,14 @@ public class Component
             "Component: " + getName() +
             ", scope: " + getScope() +
             ", type: " + getType() +
-            ", class: " + beanClass.getName() +
+            ", class: " + getBeanClass().getName() +
             ( jndiName==null ? "" : ", JNDI: " + jndiName )
          );
 
-      initMembers(clazz, applicationContext);
+      initMembers(beanClass, applicationContext);
       checkDestroyMethod();
 
-      businessInterfaces = getBusinessInterfaces(beanClass);
+      businessInterfaces = getBusinessInterfaces(getBeanClass());
 
       if ( interceptionType!=InterceptionType.NEVER)
       {
@@ -310,7 +305,7 @@ public class Component
 
       boolean serializableScope = scope==PAGE || scope==SESSION || scope==CONVERSATION;
       boolean serializableType = type==JAVA_BEAN || type==ENTITY_BEAN;
-      if ( serializableType && serializableScope && !Serializable.class.isAssignableFrom(beanClass) )
+      if ( serializableType && serializableScope && !Serializable.class.isAssignableFrom(getBeanClass()) )
       {
          log.warn("Component class should be serializable: " + name);
       }
@@ -326,9 +321,9 @@ public class Component
 
    private String getJndiName(Context applicationContext)
    {
-      if ( beanClass.isAnnotationPresent(JndiName.class) )
+      if ( getBeanClass().isAnnotationPresent(JndiName.class) )
       {
-         return beanClass.getAnnotation(JndiName.class).value();
+         return getBeanClass().getAnnotation(JndiName.class).value();
       }
       else
       {
@@ -343,7 +338,7 @@ public class Component
                {
                   throw new IllegalArgumentException("You must specify org.jboss.seam.core.init.jndiPattern or use @JndiName: " + name);
                }
-               return jndiPattern.replace( "#{ejbName}", Seam.getEjbName(beanClass) );
+               return jndiPattern.replace( "#{ejbName}", Seam.getEjbName(getBeanClass()) );
          }
       }
    }
@@ -370,7 +365,7 @@ public class Component
             }*/
 
             String propertyName = key.substring( name.length()+1, key.length() );
-            Method setterMethod = Reflections.getSetterMethod(beanClass, propertyName);
+            Method setterMethod = Reflections.getSetterMethod(getBeanClass(), propertyName);
             if (setterMethod!=null)
             {
                if ( !setterMethod.isAccessible() ) setterMethod.setAccessible(true);
@@ -380,7 +375,7 @@ public class Component
             }
             else
             {
-               Field field = Reflections.getField(beanClass, propertyName);
+               Field field = Reflections.getField(getBeanClass(), propertyName);
                if ( !field.isAccessible() ) field.setAccessible(true);
                initializerFields.put( field, getInitialValue(propertyValue, field.getType(), field.getGenericType()) );
             }
@@ -429,10 +424,10 @@ public class Component
       Map<Field, Annotation> selectionFields = new HashMap<Field, Annotation>();
       Set<String> dataModelNames = new HashSet<String>();
 
-      for (;clazz!=Object.class; clazz = clazz.getSuperclass())
+      for ( ; clazz!=Object.class; clazz = clazz.getSuperclass() )
       {
 
-         for (Method method: clazz.getDeclaredMethods())
+         for ( Method method: clazz.getDeclaredMethods() )
          {
             if ( method.isAnnotationPresent(IfInvalid.class) )
             {
@@ -571,7 +566,7 @@ public class Component
 
          }
 
-         for (Field field: clazz.getDeclaredFields())
+         for ( Field field: clazz.getDeclaredFields() )
          {
 
             if ( !field.isAccessible() )
@@ -607,7 +602,7 @@ public class Component
                org.jboss.seam.log.Log logInstance;
                if ( "".equals( category ) )
                {
-                  logInstance = org.jboss.seam.log.Logging.getLog(beanClass);
+                  logInstance = org.jboss.seam.log.Logging.getLog(getBeanClass());
                }
                else
                {
@@ -714,7 +709,7 @@ public class Component
    {
       initDefaultInterceptors();
 
-      for ( Annotation annotation: beanClass.getAnnotations() )
+      for ( Annotation annotation: getBeanClass().getAnnotations() )
       {
          if ( annotation.annotationType().isAnnotationPresent(INTERCEPTORS) )
          {
@@ -889,11 +884,6 @@ public class Component
       return false;
    }
 
-   public Class<?> getBeanClass()
-   {
-      return beanClass;
-   }
-
    public String getName()
    {
       return name;
@@ -907,23 +897,6 @@ public class Component
    public ScopeType getScope()
    {
       return scope;
-   }
-
-   public ClassValidator getValidator()
-   {
-      java.util.ResourceBundle bundle = Contexts.isApplicationContextActive() ? //yew, just for testing!
-            ResourceBundle.instance() : null;
-      Locale locale = bundle==null ?
-            new Locale("DUMMY") : bundle.getLocale();
-      ClassValidator validator = validators.get(locale);
-      if (validator==null)
-      {
-         validator = bundle==null ?
-               new ClassValidator(beanClass) :
-               new ClassValidator(beanClass, bundle);
-         validators.put(locale, validator);
-      }
-      return validator;
    }
 
    public List<Interceptor> getInterceptors(InterceptorType type)
@@ -1096,14 +1069,14 @@ public class Component
 
    protected Object instantiateEntityBean() throws Exception
    {
-      Object bean = beanClass.newInstance();
+      Object bean = getBeanClass().newInstance();
       initialize(bean);
       return bean;
    }
 
    protected Object instantiateJavaBean() throws Exception
    {
-      Object bean = beanClass.newInstance();
+      Object bean = getBeanClass().newInstance();
       if (interceptionType==InterceptionType.NEVER)
       {
          initialize(bean);
@@ -1428,7 +1401,7 @@ public class Component
       {
          case JAVA_BEAN:
          case ENTITY_BEAN:
-            return beanClass.isInstance(bean);
+            return getBeanClass().isInstance(bean);
          default:
             Class clazz = bean.getClass();
             for ( Class businessInterface: businessInterfaces )

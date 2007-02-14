@@ -18,6 +18,13 @@ import org.jboss.seam.core.Filter;
 import org.jboss.seam.core.ManagedPersistenceContext;
 import org.jboss.seam.core.Expressions.ValueBinding;
 
+/**
+ * Support for non-standardized features of Hibernate, when
+ * used as the JPA persistence provider.
+ * 
+ * @author Gavin King
+ *
+ */
 @Name("org.jboss.seam.persistence.persistenceProvider")
 @Scope(ScopeType.STATELESS)
 @Intercept(InterceptionType.NEVER)

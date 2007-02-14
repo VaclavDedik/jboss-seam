@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.validator.ClassValidator;
 import org.jboss.seam.Component;
+import org.jboss.seam.Model;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.contexts.Context;
@@ -22,7 +23,6 @@ import org.jboss.seam.core.Messages;
 import org.jboss.seam.core.Redirect;
 import org.jboss.seam.core.Renderer;
 import org.jboss.seam.core.Validation;
-import org.jboss.seam.core.Validators;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.security.Identity;
 
@@ -174,7 +174,7 @@ public abstract class Controller implements Serializable
 
    protected <T> ClassValidator<T> getValidator(Class<T> modelClass)
    {
-      return Validators.instance().getValidator(modelClass);
+      return Model.forClass(modelClass).getValidator();
    } 
 
    protected void debug(Object object, Object... params)

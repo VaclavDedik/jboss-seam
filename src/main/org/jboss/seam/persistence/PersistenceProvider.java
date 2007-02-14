@@ -5,7 +5,9 @@ import static org.jboss.seam.annotations.Install.BUILT_IN;
 import javax.persistence.EntityManager;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.Entity;
 import org.jboss.seam.InterceptionType;
+import org.jboss.seam.Model;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
@@ -14,6 +16,15 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.core.Filter;
 import org.jboss.seam.core.ManagedPersistenceContext;
 
+/**
+ * Abstraction layer for persistence providers (JPA implementations).
+ * This class provides a working base implementation that can be
+ * optimized for performance and non-standardized features by extending
+ * and overriding the methods. 
+ * 
+ * @author Gavin King
+ *
+ */
 @Name("org.jboss.seam.persistence.persistenceProvider")
 @Scope(ScopeType.STATELESS)
 @Intercept(InterceptionType.NEVER)
@@ -31,9 +42,9 @@ public class PersistenceProvider
       return true; //best we can do!
    }
 
-   public Object getId(Object bean, EntityManager entityManager) 
+   public Object getId(Object bean, EntityManager entityManager)
    {
-      throw new UnsupportedOperationException("For Seam-managed persistence contexts, please use Hibernate as the persistence provider or use a custom PersistenceProvider");
+      return ( (Entity) Model.forClass( bean.getClass() ) ).getIdentifier(bean);
    }
    
    public void enableFilter(Filter f, EntityManager entityManager)

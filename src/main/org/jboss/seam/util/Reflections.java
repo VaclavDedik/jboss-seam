@@ -76,6 +76,25 @@ public class Reflections
       }
    }
    
+   public static Object getAndWrap(Field field, Object target)
+   {
+      try
+      {
+         return get(field, target);
+      }
+      catch (Exception e)
+      {
+         if (e instanceof RuntimeException)
+         {
+            throw (RuntimeException) e;
+         }
+         else
+         {
+            throw new IllegalArgumentException("exception setting: " + field.getName(), e);
+         }
+      }
+   }
+   
    public static void setAndWrap(Field field, Object target, Object value)
    {
       try

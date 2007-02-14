@@ -31,14 +31,15 @@ import javax.transaction.UserTransaction;
 import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.Component;
+import org.jboss.seam.Model;
 import org.jboss.seam.actionparam.ActionParamMethodBinding;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Pageflow;
-import org.jboss.seam.core.Validators;
 import org.jboss.seam.init.Initialization;
 import org.jboss.seam.jsf.AbstractSeamPhaseListener;
 import org.jboss.seam.jsf.SeamApplication11;
@@ -327,7 +328,7 @@ public class SeamTest
        */
       protected void validate(Class modelClass, String property, Object value)
       {
-         ClassValidator validator = Validators.instance().getValidator(modelClass, null);
+         ClassValidator validator = Model.forClass(modelClass).getValidator();
          InvalidValue[] ivs = validator.getPotentialInvalidValues(property, value);
          if (ivs.length>0)
          {
@@ -378,7 +379,7 @@ public class SeamTest
        */
       protected boolean validateValue(String valueExpression, Object value)
       {
-         InvalidValue[] ivs = Validators.instance().validate(facesContext, valueExpression, value);
+         InvalidValue[] ivs = Expressions.instance().validate(valueExpression, value);
          if (ivs.length>0)
          {
             validationFailed = true;
