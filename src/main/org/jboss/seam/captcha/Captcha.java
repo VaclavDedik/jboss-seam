@@ -19,7 +19,7 @@ import org.jboss.seam.contexts.Contexts;
  */
 @Name("org.jboss.seam.captcha.captcha")
 @Scope(ScopeType.PAGE)
-@Install(dependencies="org.jboss.seam.captcha.captchaService")
+@Install(dependencies="org.jboss.seam.captcha.captchaImage")
 public class Captcha implements Serializable
 {
    private String id;
@@ -33,7 +33,7 @@ public class Captcha implements Serializable
    
    boolean validateResponse(String response)
    {
-      boolean valid = CaptchaService.instance().validateResponseForID(id, response);
+      boolean valid = CaptchaImage.instance().validateResponse(id, response);
       if (!valid) 
       {
          init();

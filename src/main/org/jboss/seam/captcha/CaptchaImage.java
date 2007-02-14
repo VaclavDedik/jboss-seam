@@ -12,15 +12,19 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.servlet.AbstractResource;
 
 import com.octo.captcha.service.CaptchaServiceException;
+import com.octo.captcha.service.image.DefaultManageableImageCaptchaService;
+import com.octo.captcha.service.image.ImageCaptchaService;
 
 /**
  * Provides Captcha image resources
@@ -30,10 +34,33 @@ import com.octo.captcha.service.CaptchaServiceException;
 @Startup
 @Scope(APPLICATION)
 @Name("org.jboss.seam.captcha.captchaImage")
-@Install(precedence = BUILT_IN, dependencies="org.jboss.seam.captcha.captchaService")
 @Intercept(NEVER)
+@Install(precedence = BUILT_IN,  
+         classDependencies="com.octo.captcha.service.image.ImageCaptchaService")
 public class CaptchaImage extends AbstractResource
 {
+   private ImageCaptchaService service;
+   
+   public static CaptchaImage instance()
+   {
+      if ( !Contexts.isApplicationContextActive() )
+      {
+         throw new IllegalStateException("No application context active");
+      }
+      return (CaptchaImage) Contexts.getApplicationContext().get(CaptchaImage.class);
+   }
+   
+   public boolean validateResponse(String id, String response)
+   {
+      return service.validateResponseForID(id, response);
+   }
+   
+   @Create
+   public void create()
+   {
+      service = new DefaultManageableImageCaptchaService();
+   }
+   
    @Override
    protected String getResourcePath()
    {
@@ -52,8 +79,7 @@ public class CaptchaImage extends AbstractResource
 
          String captchaId = request.getQueryString();
 
-         BufferedImage challenge = CaptchaService.instance()
-               .getImageChallengeForID( captchaId, request.getLocale() );
+         BufferedImage challenge = service.getImageChallengeForID( captchaId, request.getLocale() );
 
          ImageIO.write(challenge, "jpeg", out);
       }
@@ -80,4 +106,5 @@ public class CaptchaImage extends AbstractResource
       response.getOutputStream().flush();
       response.getOutputStream().close();
    }
+   
 }
