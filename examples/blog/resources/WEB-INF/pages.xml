@@ -2,7 +2,7 @@
           "-//JBoss/Seam Pages Configuration DTD 1.1//EN"
           "http://jboss.com/products/seam/pages-1.1.dtd">
 
-<pages>
+<pages login-view-id="/login.xhtml">
 
    <page view-id="/search.xhtml">
    
@@ -20,10 +20,8 @@
       
    </page>
 
-   <page view-id="/post.xhtml"> 
-   
-      <action execute="#{loginAction.challenge}"/>
-      
+   <page view-id="/post.xhtml" login-required="true"> 
+         
       <action execute="#{postAction.post}"
                    if="#{validation.succeeded}"/>
                    
@@ -38,11 +36,11 @@
    
    <page view-id="/login.xhtml">
    
-      <action execute="#{loginAction.login}"
+      <action execute="#{identity.login}"
                    if="#{validation.succeeded}"/>
                    
       <navigation>
-         <rule if="#{loginAction.loggedIn}">
+         <rule if="#{identity.loggedIn}">
             <redirect view-id="/post.xhtml"/>
          </rule>
       </navigation>
