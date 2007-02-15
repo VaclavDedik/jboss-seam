@@ -6,52 +6,60 @@ import org.apache.log4j.Logger;
 public final class Log4JProvider implements LogProvider
 {
    private final Logger logger;
+   private final boolean isWrapped;
    
-   private static final String FQCN = LogImpl.class.getName();
+   private static final String LOG_IMPL_FQCN = LogImpl.class.getName();
+   private static final String LOG_PROVIDER_FQCN = Log4JProvider.class.getName();
    
-   Log4JProvider(String category)
+   Log4JProvider(String category, boolean wrapped)
    {
       logger = Logger.getLogger(category);
+      isWrapped = wrapped;
    }
    
+   private String getFQCN()
+   {
+      return isWrapped ? LOG_IMPL_FQCN : LOG_PROVIDER_FQCN;
+   }
+
    public void debug(Object object)
    {
-      logger.log(FQCN, Level.DEBUG, object, null);
+      logger.log( getFQCN(), Level.DEBUG, object, null);
    }
 
    public void debug(Object object, Throwable t)
    {
-      logger.log(FQCN, Level.DEBUG, object, t);
+      logger.log( getFQCN(), Level.DEBUG, object, t);
    }
 
    public void error(Object object)
    {
-      logger.log(FQCN, Level.ERROR, object, null);
+      logger.log( getFQCN(), Level.ERROR, object, null);
    }
 
    public void error(Object object, Throwable t)
    {
-      logger.log(FQCN, Level.ERROR, object, t);
+      logger.log( getFQCN(), Level.ERROR, object, t);
    }
 
    public void fatal(Object object)
    {
-      logger.log(FQCN, Level.FATAL, object, null);
+      logger.log( getFQCN(), Level.FATAL, object, null);
    }
 
    public void fatal(Object object, Throwable t)
    {
-      logger.log(FQCN, Level.DEBUG, object, t);
+      logger.log( getFQCN(), Level.DEBUG, object, t);
    }
 
    public void info(Object object)
    {
-      logger.log(FQCN, Level.INFO, object, null);
+      logger.log( getFQCN(), Level.INFO, object, null);
    }
 
    public void info(Object object, Throwable t)
    {
-      logger.log(FQCN, Level.INFO, object, t);
+      logger.log( getFQCN(), Level.INFO, object, t);
    }
 
    public boolean isDebugEnabled()
@@ -86,22 +94,22 @@ public final class Log4JProvider implements LogProvider
 
    public void trace(Object object)
    {
-      logger.log(FQCN, Level.DEBUG, object, null);
+      logger.log( getFQCN(), Level.DEBUG, object, null);
    }
 
    public void trace(Object object, Throwable t)
    {
-      logger.log(FQCN, Level.DEBUG, object, t);
+      logger.log( getFQCN(), Level.DEBUG, object, t);
    }
 
    public void warn(Object object)
    {
-      logger.log(FQCN, Level.WARN, object, null);
+      logger.log( getFQCN(), Level.WARN, object, null);
    }
 
    public void warn(Object object, Throwable t)
    {
-      logger.log(FQCN, Level.WARN, object, t);
+      logger.log( getFQCN(), Level.WARN, object, t);
    }
 
 }

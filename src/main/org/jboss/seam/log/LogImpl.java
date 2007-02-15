@@ -1,9 +1,12 @@
 package org.jboss.seam.log;
+
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+
 import org.jboss.seam.core.Interpolator;
+
 /**
  * Implementation of the Log interface using commons logging.
  * 
@@ -12,13 +15,16 @@ import org.jboss.seam.core.Interpolator;
 public class LogImpl implements Log, Externalizable
 {
    private static final long serialVersionUID = -1664298172030714342L;
+   
    private transient LogProvider log;
    private String category;
+   
    public LogImpl() {} //for Externalizable
+   
    LogImpl(String category)
    {
       this.category = category;
-      this.log = Logging.getLogProvider(category);
+      this.log = Logging.getLogProvider(category, true);
    }
    public boolean isDebugEnabled()
    {
@@ -143,7 +149,7 @@ public class LogImpl implements Log, Externalizable
    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException
    {
       category = (String) in.readObject();
-      log = Logging.getLogProvider(category);
+      log = Logging.getLogProvider(category, true);
    }
    public void writeExternal(ObjectOutput out) throws IOException
    {

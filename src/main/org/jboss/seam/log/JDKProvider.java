@@ -6,10 +6,12 @@ import java.util.logging.Logger;
 public class JDKProvider implements LogProvider
 {
    private final Logger logger;
+   private final boolean isWrapped;
 
-   JDKProvider(String category)
+   JDKProvider(String category, boolean wrapped)
    {
       this.logger = Logger.getLogger(category);
+      this.isWrapped = wrapped;
    }
 
    private void log( Level level, Object object, Throwable ex ) 
@@ -21,9 +23,10 @@ public class JDKProvider implements LogProvider
           StackTraceElement locations[]=dummyException.getStackTrace();
           String className="unknown";
           String methodName="unknown";
-          if( locations!=null && locations.length>3 ) 
+          int depth = isWrapped ? 3 : 2;
+          if( locations!=null && locations.length>depth ) 
           {
-              StackTraceElement caller=locations[3];
+              StackTraceElement caller=locations[depth];
               className=caller.getClassName();
               methodName=caller.getMethodName();
           }

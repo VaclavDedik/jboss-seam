@@ -30,16 +30,16 @@ public class Logging
       return new LogImpl( clazz.getName() );
    }
    
-   public static LogProvider getLogProvider(String category)
+   static LogProvider getLogProvider(String category, boolean wrapped)
    {
       return isLog4JAvailable ? 
-               new Log4JProvider(category) : 
-               new JDKProvider(category);
+               new Log4JProvider(category, wrapped) : 
+               new JDKProvider(category, wrapped);
    }
 
    public static LogProvider getLogProvider(Class clazz)
    {
-       return getLogProvider(clazz.getName());
+       return getLogProvider( clazz.getName(), false );
    }
    
 }
