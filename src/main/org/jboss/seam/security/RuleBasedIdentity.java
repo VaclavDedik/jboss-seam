@@ -27,13 +27,12 @@ import org.jboss.seam.annotations.Startup;
 @Intercept(NEVER)
 @Install(precedence=FRAMEWORK, classDependencies="org.drools.WorkingMemory")
 @Startup
-public class DroolsIdentity extends Identity
+public class RuleBasedIdentity extends Identity
 {  
    public static final String RULES_COMPONENT_NAME = "securityRules";   
    
    private WorkingMemory securityContext;
    
-   @In
    private RuleBase securityRules;
    
    @Override
@@ -45,16 +44,16 @@ public class DroolsIdentity extends Identity
    
    protected void initSecurityContext()
    {
-      if (securityRules==null) //it might have been configured via components.xml
+      securityRules = (RuleBase) Component.getInstance(RULES_COMPONENT_NAME, true);
+      
+      if (securityRules != null)
       {
-         securityRules = (RuleBase) Component.getInstance(RULES_COMPONENT_NAME, true);
+         securityContext = securityRules.newWorkingMemory(false);
       }
       
-      assertSecurityContextExists();      
-      securityContext = securityRules.newWorkingMemory(false);
+      assertSecurityContextExists();
    }
 
-   
    @Override
    protected void postAuthenticate()
    {
