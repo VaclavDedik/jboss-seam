@@ -106,7 +106,7 @@
                         </h:panelGrid>
                         
                         
-                        <f:subview rendered="#{login.loggedIn}">
+                        <f:subview rendered="#{identity.loggedIn}">
                             <h:form>
                                 <h:commandButton action="#{checkout.createOrder}"  
                                                  value="#{messages.checkoutPurchaseButton}"  />
@@ -114,7 +114,7 @@
                         </f:subview>
                     </div>
                     
-                    <f:subview rendered="#{!login.loggedIn}">
+                    <f:subview rendered="#{!identity.loggedIn}">
                         <p class="warning">You must be logged in to place an order</p>
                     </f:subview>
                 </div>

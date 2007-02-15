@@ -27,6 +27,7 @@ import org.jboss.seam.annotations.Out;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.core.Actor;
 import org.jboss.seam.core.FacesMessages;
+import org.jboss.seam.security.Identity;
 
 @Stateful
 @Name("editCustomer")
@@ -48,6 +49,8 @@ public class EditCustomerAction
     
     @In(create=true)
     FacesMessages facesMessages;
+    
+    @In Identity identity;
 
     String password = null;    
 
@@ -105,6 +108,10 @@ public class EditCustomerAction
             em.persist(customer);
             sessionContext.set("currentUser", customer);
             Actor.instance().setId(customer.getUserName());
+            
+            identity.setUsername(customer.getUserName());
+            identity.setPassword(customer.getPassword());
+            identity.login();
             
             facesMessages.addFromResourceBundle("createCustomerSuccess");
             return "success";

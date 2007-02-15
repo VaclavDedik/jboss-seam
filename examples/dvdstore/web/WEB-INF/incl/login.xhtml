@@ -5,7 +5,7 @@
           xmlns:h="http://java.sun.com/jsf/html"
           xmlns:c="http://java.sun.com/jstl/core"> 
     
-    <c:when test="#{currentUser==null}">
+    <c:when test="#{not identity.loggedIn}">
         <div class="menu">
             <h:form>
                 <dl>
@@ -13,12 +13,12 @@
                     <dd class="menuForm">
                         <dl>
                             <dt><h:outputText value="#{messages.loginUser}" /></dt>
-                            <dd><h:inputText value="#{login.userName}" size="16" /></dd>
+                            <dd><h:inputText value="#{identity.username}" size="16" /></dd>
                             <dt><h:outputText value="#{messages.loginPass}" /></dt>
-                            <dd><h:inputSecret value="#{login.password}" size="16"/></dd>
+                            <dd><h:inputSecret value="#{identity.password}" size="16"/></dd>
                             
                             <dd>
-                                <h:commandButton action="#{login.login}" value="#{messages.loginPrompt}"
+                                <h:commandButton action="#{identity.login}" value="#{messages.loginPrompt}"
                                                  styleClass="formButton" style="width: 166px;"/>
                             </dd>
                             
@@ -43,7 +43,7 @@
                         <dl>
                             <dd>Thank you for choosing the DVD Store</dd>
                             <dd>
-                                <h:commandButton action="#{login.logout}" value="Logout"
+                                <h:commandButton action="#{identity.logout}" value="Logout"
                                                  styleClass="formButton" style="width: 166px;"/>
                             </dd>
                         </dl>

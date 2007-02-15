@@ -11,6 +11,8 @@
             no-conversation-view-id="/admin/admin.xhtml"/>
 
     <!-- this action ensures that only admin users can access anything under /admin" -->
-    <page view-id="/admin/*" action="#{login.adminCheck}" />
+    <page view-id="/admin/*">
+      <restrict>#{s:hasRole('admin')}</restrict>
+    </page>
     
 </pages>

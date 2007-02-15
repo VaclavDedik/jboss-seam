@@ -18,7 +18,7 @@
         </ui:define>
        
         <ui:define name="body">
-            <f:subview rendered="#{login.loggedIn}">
+            <f:subview rendered="#{identity.loggedIn}">
                 <h1>Welcome to the DVD Store</h1>
 
                 <p>Your account has been created, and you have been automatically logged in.
@@ -26,7 +26,7 @@
                 </p>
             </f:subview>
 
-            <f:subview rendered="#{!login.loggedIn}">
+            <f:subview rendered="#{!identity.loggedIn}">
                 <h1>Sorry</h1>
 
                 <p>
