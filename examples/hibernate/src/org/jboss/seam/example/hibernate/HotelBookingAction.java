@@ -1,12 +1,9 @@
 //$Id$
 package org.jboss.seam.example.hibernate;
-
 import static org.jboss.seam.ScopeType.CONVERSATION;
-
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
-
 import org.hibernate.Session;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.End;
@@ -17,13 +14,10 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelectionIndex;
 import org.jboss.seam.core.FacesMessages;
-
 @Name("hotelBooking")
 @Scope(CONVERSATION)
-@LoggedIn
 public class HotelBookingAction implements Serializable
 {
-
    @In
    private Session bookingDatabase;
    
@@ -49,17 +43,14 @@ public class HotelBookingAction implements Serializable
    
    @In
    private transient FacesMessages facesMessages;
-
    public String getSearchString()
    {
       return searchString;
    }
-
    public void setSearchString(String searchString)
    {
       this.searchString = searchString;
    }
-
    @Begin(join=true)
    public String find()
    {
@@ -72,14 +63,12 @@ public class HotelBookingAction implements Serializable
       
       return "main";
    }
-
    public String selectHotel()
    {
       if ( hotels==null ) return "main";
       setHotel();
       return "selected";
    }
-
    public String nextHotel()
    {
       if ( hotelIndex<hotels.size()-1 )
@@ -89,7 +78,6 @@ public class HotelBookingAction implements Serializable
       }
       return "browse";
    }
-
    public String lastHotel()
    {
       if (hotelIndex>0)
@@ -99,7 +87,6 @@ public class HotelBookingAction implements Serializable
       }
        return "browse";
    }
-
    private void setHotel()
    {
       hotel = hotels.get(hotelIndex);
@@ -117,7 +104,6 @@ public class HotelBookingAction implements Serializable
       
       return "book";
    }
-
    public String setBookingDetails()
    {
       if (booking==null || hotel==null) return "main";
@@ -132,7 +118,6 @@ public class HotelBookingAction implements Serializable
          return "confirm";
       }
    }
-
    @End
    public String confirm()
    {

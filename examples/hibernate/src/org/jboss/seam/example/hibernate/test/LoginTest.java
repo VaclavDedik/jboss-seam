@@ -1,19 +1,16 @@
 //$Id$
 package org.jboss.seam.example.hibernate.test;
-
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.example.hibernate.HotelBookingAction;
-import org.jboss.seam.example.hibernate.LoginAction;
-import org.jboss.seam.example.hibernate.LogoutAction;
 import org.jboss.seam.example.hibernate.User;
 import org.jboss.seam.jsf.SeamPhaseListener;
 import org.jboss.seam.jsf.TransactionalSeamPhaseListener;
 import org.jboss.seam.mock.SeamTest;
+import org.jboss.seam.security.Identity;
 import org.testng.annotations.Test;
-
 public class LoginTest extends SeamTest
 {
    
@@ -31,19 +28,16 @@ public class LoginTest extends SeamTest
             String outcome = hb.find();
             assert "login".equals( outcome );
          }
-
          @Override
          protected void renderResponse()
          {
             assert !Manager.instance().isLongRunningConversation();
             assert Contexts.getSessionContext().get("loggedIn")==null;
-
          }
          
       }.run();
-      
+     
       new FacesRequest("/home.xhtml") {
-
          @Override
          protected void updateModelValues() throws Exception
          {
@@ -52,15 +46,13 @@ public class LoginTest extends SeamTest
             user.setUsername("gavin");
             user.setPassword("foobar");
          }
-
          @Override
          protected void invokeApplication()
          {
-            LoginAction login = (LoginAction) Component.getInstance("login", true);
-            String outcome = login.login();
+            Identity identity = (Identity) Component.getInstance("identity", true);
+            String outcome = identity.login();
             assert "main".equals( outcome );
          }
-
          @Override
          protected void renderResponse()
          {
@@ -69,14 +61,10 @@ public class LoginTest extends SeamTest
             assert user.getUsername().equals("gavin");
             assert user.getPassword().equals("foobar");
             assert !Manager.instance().isLongRunningConversation();
-            assert Contexts.getSessionContext().get("loggedIn").equals(true);
-
-         }
-         
+         }         
       }.run();
       
       String id = new FacesRequest("/home.xhtml") {
-
          @Override
          protected void invokeApplication()
          {
@@ -84,35 +72,29 @@ public class LoginTest extends SeamTest
             String outcome = hb.find();
             assert "main".equals( outcome );
          }
-
          @Override
          protected void renderResponse()
          {
             assert Manager.instance().isLongRunningConversation();
-            assert Contexts.getSessionContext().get("loggedIn").equals(true);
-
          }
          
       }.run();
       
       new FacesRequest("/main.xhtml", id) {
-
          @Override
          protected void invokeApplication()
          {
             assert Manager.instance().isLongRunningConversation();
-            LogoutAction logout = (LogoutAction) Component.getInstance("logout", true);
-            String outcome = logout.logout();
-            assert "login".equals( outcome );
+            Identity identity = (Identity) Component.getInstance("identity", true);
+            identity.logout();
             assert Seam.isSessionInvalid();
          }
-
          @Override
          protected void renderResponse()
          {
             assert Seam.isSessionInvalid();
          }
-         
+        
       }.run();
       
       assert isSessionInvalid();

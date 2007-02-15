@@ -2,8 +2,19 @@
   "-//JBoss/Seam Pages Configuration DTD 1.1//EN"
   "http://jboss.com/products/seam/pages-1.1.dtd">
 
-<pages>
-	<page view-id="/main.xhtml" timeout="300000">Search hotels: #{hotelBooking.searchString}</page>
+<pages login-view-id="/home.xhtml">
+
+    <page view-id="/home.xhtml">
+    
+        <navigation>
+            <rule if="#{identity.loggedIn}">
+                <redirect view-id="/main.xhtml"/>
+            </rule>
+        </navigation>
+        
+    </page>
+
+	<page view-id="/main.xhtml" timeout="300000" login-required="true">Search hotels: #{hotelBooking.searchString}</page>
 	<page view-id="/hotel.xhtml" timeout="300000">View hotel: #{hotel.name}</page>
 	<page view-id="/book.xhtml" timeout="600000">Book hotel: #{hotel.name}</page>
 	<page view-id="/confirm.xhtml" timeout="600000">Confirm: #{booking.description}</page>

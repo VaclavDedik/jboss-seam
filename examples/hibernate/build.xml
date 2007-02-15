@@ -45,8 +45,8 @@
             <zipfileset refid="example.tomcat.seam.jar"/>
             <zipfileset refid="example.war.docroot"/>
             <zipfileset refid="example.war.webinf.lib"/>
-	        <zipfileset refid="facelets.jar"/>
-            <zipfileset refid="seam.extra.jar"/>
+	          <zipfileset refid="example.facelets.jar"/>
+            <!--zipfileset refid="seam.extra.jar"/-->
             <zipfileset dir="${lib.dir}" prefix="WEB-INF/lib">
                 <include name="el-*.jar"/>
             </zipfileset>

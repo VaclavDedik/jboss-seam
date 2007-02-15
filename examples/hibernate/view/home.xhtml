@@ -18,14 +18,14 @@
 			<fieldset>
 				<div>
 					<h:outputLabel for="username">Login Name</h:outputLabel>
-					<h:inputText id="username" value="#{user.username}" style="width: 175px;" />
+					<h:inputText id="username" value="#{identity.username}" style="width: 175px;" />
 				</div>
 				<div>
 					<h:outputLabel for="password">Password</h:outputLabel>
-					<h:inputSecret id="password" value="#{user.password}" style="width: 175px;" />
+					<h:inputSecret id="password" value="#{identity.password}" style="width: 175px;" />
 				</div>
 				<div class="errors"><h:messages globalOnly="true"/></div>
-				<div class="buttonBox"><h:commandButton action="#{login.login}" value="Account Login" class="button" /></div>
+				<div class="buttonBox"><h:commandButton action="#{identity.login}" value="Account Login" class="button" /></div>
 				<div class="notes"><h:commandLink action="register">Register User</h:commandLink> | Ask for Help</div>
 			</fieldset>
 		</div>

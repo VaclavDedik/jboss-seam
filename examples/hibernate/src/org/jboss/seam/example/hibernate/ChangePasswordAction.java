@@ -1,17 +1,13 @@
 //$Id$
 package org.jboss.seam.example.hibernate;
-
 import org.hibernate.Session;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.core.FacesMessages;
-
 @Name("changePassword")
-@LoggedIn
 public class ChangePasswordAction
 {
-
    @In @Out
    private User user;
    
@@ -35,21 +31,17 @@ public class ChangePasswordAction
          return null;
       }
    }
-
    public String cancel()
    {
       bookingDatabase.refresh(user);
       return "main";
    }
-
    public String getVerify()
    {
       return verify;
    }
-
    public void setVerify(String verify)
    {
       this.verify = verify;
    }
-
 }
