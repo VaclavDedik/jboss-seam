@@ -5,10 +5,7 @@
     <!-- Facelets support -->
     <application>
         <variable-resolver>org.springframework.web.jsf.DelegatingVariableResolver</variable-resolver>
-        <!--
-            <view-handler>org.jboss.seam.ui.facelet.SeamFaceletViewHandler</view-handler>
-        -->
-        <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
+        <view-handler>org.jboss.seam.ui.facelet.SeamFaceletViewHandler</view-handler>
     </application>
 
     <!-- Phase listener needed for all Seam applications -->
