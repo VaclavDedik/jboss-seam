@@ -32,6 +32,7 @@
              dir="${example.resources.dir}">
         <include name="META-INF/application.xml"/>
         <include name="META-INF/jboss-app.xml"/>
+        <include name="META-INF/spring.handlers" />
         <include name="*-beans.xml" />
     </fileset>
 
