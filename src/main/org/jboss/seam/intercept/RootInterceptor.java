@@ -139,14 +139,19 @@ public class RootInterceptor implements Serializable
 
    private SeamInvocationContext createSeamInvocationContext(InvocationContext invocation, EventType eventType) throws Exception
    {
-      if ( EJB.INVOCATION_CONTEXT_AVAILABLE )
-      {
-         return new EE5SeamInvocationContext( invocation, eventType, userInterceptors, getComponent().getInterceptors(type) );
-      }
-      else
-      {
-         return new SeamInvocationContext( invocation, eventType, userInterceptors, getComponent().getInterceptors(type) );
-      }
+      return EJB.INVOCATION_CONTEXT_AVAILABLE ?
+            createEE5SeamInvocationContext(invocation, eventType) :
+            createNonEE5SeamInvocationContext(invocation, eventType);
+   }
+
+   private SeamInvocationContext createNonEE5SeamInvocationContext(InvocationContext invocation, EventType eventType)
+   {
+      return new SeamInvocationContext( invocation, eventType, userInterceptors, getComponent().getInterceptors(type) );
+   }
+
+   private SeamInvocationContext createEE5SeamInvocationContext(InvocationContext invocation, EventType eventType)
+   {
+      return new EE5SeamInvocationContext( invocation, eventType, userInterceptors, getComponent().getInterceptors(type) );
    }
 
    private String getInterceptionMessage(InvocationContext invocation, EventType eventType)

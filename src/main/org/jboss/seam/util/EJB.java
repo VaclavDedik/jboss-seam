@@ -30,7 +30,7 @@ public class EJB
    public static final Class<Annotation> INTERCEPTORS;
    public static final Class<Annotation> AROUND_INVOKE;
    public static final Class<Annotation> EJB_EXCEPTION;
-   public static boolean INVOCATION_CONTEXT_AVAILABLE;
+   public static final boolean INVOCATION_CONTEXT_AVAILABLE;
    
    private static Class classForName(String name)
    {
