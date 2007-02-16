@@ -1,42 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:aop="http://www.springframework.org/schema/aop"
-        xmlns:util="http://www.springframework.org/schema/util" xmlns:lds="http://icslib.wh.ldsglobal.net/schema/ldsutil"
-        xmlns:seam="http://jboss.com/products/seam/spring"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
-                            http://icslib.wh.ldsglobal.net/schema/ldsutil http://icslib.wh.ldsglobal.net/schema/ldsutil/spring-ldsutil-2.0.xsd
-                            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
-                            http://jboss.com/products/seam/spring http://jboss.com/products/seam/spring.xsd"
-        default-lazy-init="true">
-
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:util="http://www.springframework.org/schema/util" 
+       xmlns:lds="http://icslib.wh.ldsglobal.net/schema/ldsutil"
+       xmlns:seam="http://jboss.com/products/seam/spring"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+                           http://icslib.wh.ldsglobal.net/schema/ldsutil http://icslib.wh.ldsglobal.net/schema/ldsutil/spring-ldsutil-2.0.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
+                           http://jboss.com/products/seam/spring file:/Users/orb/proj/jboss/jboss-seam/examples/spring/src/org/jboss/seam/ioc/spring/spring.xsd"
+       default-lazy-init="true">
+    
+    <bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor" />
+    
+    <bean id="manageStrings" class="org.jboss.seam.example.spring.ManageStrings">
+        <property name="singletonSpringStringStore">
+            <seam:instance name="pageSeamStringStore2" proxy="true"/>
+        </property>
+        <seam:component intercept="ALWAYS" />
+    </bean>
+    
     <bean id="testBean" class="org.jboss.seam.example.spring.TestBean">
         <property name="name" value="Loaded from spring-beans.xml" />
     </bean>
     
-    <bean id="singletonSpringStringStore" class="org.jboss.seam.example.spring.StringStore"/>
+    <bean id="singletonSeamSpringStringStore" class="org.jboss.seam.example.spring.StringStore" init-method="init">
+        <seam:component intercept="NEVER" />
+    </bean>
+    
+    <bean id="singletonSpringStringStore" class="org.jboss.seam.example.spring.StringStore" init-method="init" />
 
-    <!--
+    <bean id="sessionSeamStringStore" 
+          class="org.jboss.seam.example.spring.StringStore" 
+          scope="seam.SESSION"
+          init-method="init" />   
 
-    <bean id="requestSpringStringStore" class="org.jboss.seam.example.spring.StringStore" scope="request"/>
+    <bean id="applicationSeamStringStore" class="org.jboss.seam.example.spring.StringStore" scope="seam.APPLICATION" init-method="init" />                                                                         
+    
+    <bean id="statelessSeamStringStore" class="org.jboss.seam.example.spring.StringStore" scope="seam.STATELESS"
+          init-method="init" />
+    
+    <bean id="methodSeamStringStore" class="org.jboss.seam.example.spring.StringStore" scope="seam.METHOD"
+          init-method="init" />
+    
+    <bean id="eventSeamStringStore" class="org.jboss.seam.example.spring.StringStore" scope="seam.EVENT"
+          init-method="init">
+    </bean>
 
-    <bean id="sessionSpringStringStore" class="org.jboss.seam.example.spring.StringStore" scope="session"/>
+    <bean id="pageSeamStringStore" class="org.jboss.seam.example.spring.StringStore" scope="seam.PAGE"
+          init-method="init">
+    </bean>
+    
+    <bean id="pageSeamStringStore2" class="org.jboss.seam.example.spring.StringStore" scope="seam.PAGE"
+          init-method="init">
+    </bean>
+    
+    <bean id="conversationSeamStringStore" class="org.jboss.seam.example.spring.StringStore" scope="seam.CONVERSATION"
+          init-method="init" />
+    
+<!--
+    <bean id="someSpringBean" class="org.jboss.seam.example.spring.SpringWithSeam"> 
+        <property name="writer">
+            <seam:instance name="write"/> 
+        </property> 
+        
+        <property name="locale">
+            <seam:instance name="locale"/> 
+        </property> 
+    </bean> 
+-->
 
-    -->
-
-    <bean id="statelessSeamStringStore" class="org.jboss.seam.example.spring.StringStore" scope="seam.STATELESS"/>
-
-    <bean id="methodSeamStringStore" class="org.jboss.seam.example.spring.StringStore" scope="seam.METHOD"/>
-
-    <bean id="eventSeamStringStore" class="org.jboss.seam.example.spring.StringStore" scope="seam.EVENT"/>
-
-    <bean id="pageSeamStringStore" class="org.jboss.seam.example.spring.StringStore" scope="seam.PAGE"/>
-
-    <bean id="conversationSeamStringStore" class="org.jboss.seam.example.spring.StringStore" scope="seam.CONVERSATION"/>
-
-    <bean id="sessionSeamStringStore" class="org.jboss.seam.example.spring.StringStore" scope="seam.SESSION"/>
-
-    <bean id="applicationSeamStringStore" class="org.jboss.seam.example.spring.StringStore" scope="seam.APPLICATION"/>
-
-    <bean class="org.jboss.seam.ioc.spring.SeamPostProcessor"/>
+    <seam:configure-scopes prefix="seam." override="false" />
 </beans>

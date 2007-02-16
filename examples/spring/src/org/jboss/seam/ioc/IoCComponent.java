@@ -66,7 +66,7 @@ public abstract class IoCComponent extends Component
     *
     * @see org.jboss.seam.Component#instantiateJavaBean()
     */
-   protected Object instantiateJavaBean() throws Exception
+/*   protected Object instantiateJavaBean() throws Exception
    {
       Object bean = instantiateIoCBean();
       // initialize the bean following Component.instantiateJavaBean()'s
@@ -89,6 +89,6 @@ public abstract class IoCComponent extends Component
          bean = ProxyUtils.enhance(bean, interfaces, this);
       }
       return bean;
-   }
+   }*/
 
 }

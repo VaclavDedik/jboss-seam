@@ -4,13 +4,4 @@
 
 <pages>
 
-   <page view-id="/search.xhtml">
-      <param name="accountId" value="#{accountHome.id}" converterId="javax.faces.Long" />
-   </page>
-
-   <exception>
-      <end-conversation/>
-      <redirect view-id="/error.xhtml"/>
-   </exception>
-
 </pages>
