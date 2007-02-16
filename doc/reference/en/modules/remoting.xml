@@ -8,18 +8,18 @@
 
   <sect1>
     <title>Configuration</title>
-    <para> To use remoting, the Seam Remoting servlet must first be configured in your <literal>web.xml</literal> file: </para>
+    <para> To use remoting, the Seam Resource servlet must first be configured in your <literal>web.xml</literal> file: </para>
 
     <programlisting>
           <![CDATA[
   <servlet>
-    <servlet-name>Seam Remoting</servlet-name>
-    <servlet-class>org.jboss.seam.remoting.SeamRemotingServlet</servlet-class>
+    <servlet-name>Seam Resource Servlet</servlet-name>
+    <servlet-class>org.jboss.seam.servlet.ResourceServlet</servlet-class>
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>Seam Remoting</servlet-name>
-    <url-pattern>/seam/remoting/*</url-pattern>
+    <servlet-name>Seam Resource Servlet</servlet-name>
+    <url-pattern>/seam/resource/*</url-pattern>
   </servlet-mapping>
         ]]>
         </programlisting>
