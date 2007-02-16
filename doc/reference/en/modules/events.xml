@@ -288,9 +288,9 @@
         <rule if-outcome="success">
             <redirect view-id="/viewDocument.xhtml"/>
         <rule/>
-    </navigation-case>
+    </navigation>
     
-</navigation-rule>]]></programlisting>
+</page>]]></programlisting>
         
             <para>
                 But it would be even nicer if we didn't have to pollute our <literal>DocumentEditor</literal> 
@@ -304,9 +304,9 @@
         <rule if-outcome="0">
             <redirect view-id="/viewDocument.xhtml"/>
         <rule/>
-    </navigation-case>
+    </navigation>
     
-</navigation-rule>]]></programlisting>
+</page>]]></programlisting>
 
             <para>
                 Or even:
@@ -318,9 +318,9 @@
         <rule if="#{documentEditor.errors.empty}">
             <redirect view-id="/viewDocument.xhtml"/>
         <rule/>
-    </navigation-case>
+    </navigation>
     
-</navigation-rule>]]></programlisting>
+</page>]]></programlisting>
 
             <para>
                 The first form evaluates a value binding to determine the outcome value
@@ -341,9 +341,9 @@
             <end-conversation/>
             <redirect view-id="/viewDocument.xhtml"/>
         <rule/>
-    </navigation-case>
+    </navigation>
     
-</navigation-rule>]]></programlisting>
+</page>]]></programlisting>
 
             <para>
                 But ending the conversation loses any state associated with the conversation,
@@ -358,9 +358,9 @@
             <end-conversation/>
             <render view-id="/viewDocument.xhtml"/>
         <rule/>
-    </navigation-case>
+    </navigation>
     
-</navigation-rule>]]></programlisting>
+</page>]]></programlisting>
 
             <para>
                 But the correct solution is to pass the document id as a request parameter:
@@ -375,9 +375,9 @@
                 <param name="documentId" value="#{documentEditor.documentId}"/>
             </redirect>
         <rule/>
-    </navigation-case>
+    </navigation>
     
-</navigation-rule>]]></programlisting>
+</page>]]></programlisting>
 
             <para>
                 Null outcomes are a special case in JSF. The null outcome is interpreted to
@@ -391,9 +391,9 @@
         <rule>
             <render view-id="/viewDocument.xhtml"/>
         <rule/>
-    </navigation-case>
+    </navigation>
     
-</navigation-rule>]]></programlisting>
+</page>]]></programlisting>
 
             <para>
                 If you want to perform navigation when a null outcome occurs, use the
@@ -404,17 +404,18 @@
     
     <navigation from-action="#{documentEditor.update}">
         <render view-id="/viewDocument.xhtml"/>
-    </navigation-case>
+    </navigation>
     
-</navigation-rule>]]></programlisting>
+</page>]]></programlisting>
 
         </sect3>
 
         <sect3>
-            <title>Fine-grained files for definition of page actions and parameters</title>
+            <title>Fine-grained files for definition of navigation, page actions and parameters</title>
             
             <para>
                 If you have a lot of different page actions and page parameters,
+                or even just a lot of navigation rules,
                 you will almost certainly want to split the declarations up over
                 multiple files. You can define actions and parameters for a page
                 with the view id <literal>/calc/calculator.jsp</literal> in a 
