@@ -14,7 +14,7 @@
 
         <h:column>
             <h:outputLink styleClass="firstLevelItemLink"
-                          value="#{menuItem.node.id}.html">#{menuItem.node.name}
+                          value="#{menuItem.url}">#{menuItem.node.name}
             </h:outputLink>
 
             <h:dataTable id="subMenuList" var="subMenuItem"
@@ -25,7 +25,8 @@
                          rendered="#{!empty menuItem.subItems}">
                 <h:column>
                     <h:outputLink styleClass="secondLevelItemLink"
-                                  value="#{subMenuItem.node.id}.html">#{subMenuItem.node.name}
+                                  value="#{subMenuItem.url}">
+                        #{subMenuItem.node.name}
                     </h:outputLink>
                 </h:column>
             </h:dataTable>

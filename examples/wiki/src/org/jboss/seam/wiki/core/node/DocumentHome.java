@@ -7,6 +7,7 @@ import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.wiki.core.links.WikiLinkResolver;
 import org.jboss.seam.core.FacesMessages;
+import org.jboss.seam.core.Events;
 import org.jboss.seam.ScopeType;
 
 import java.util.List;
@@ -43,7 +44,7 @@ public class DocumentHome extends EntityHome<Document> {
         }
     }
 
-    @Begin(flushMode = FlushModeType.MANUAL)
+    @Begin(flushMode = FlushModeType.MANUAL, join = true)
     @Transactional
     public void create() {
         super.create();
@@ -85,6 +86,8 @@ public class DocumentHome extends EntityHome<Document> {
             wikiLinkResolver.convertToWikiLinks(parentDirectory, getFormContent())
         );
 
+        Events.instance().raiseEvent("Nodes.menuStructureModified");
+
         return super.update();
     }
 
@@ -93,13 +96,15 @@ public class DocumentHome extends EntityHome<Document> {
         // Unlink the document from its directory
         getInstance().getParent().removeChild(getInstance());
 
+        Events.instance().raiseEvent("Nodes.menuStructureModified");
+
         return super.remove();
     }
 
     public String getFormContent() {
         // Load the document content and resolve links
         if (formContent == null)
-            formContent = wikiLinkResolver.convertFromWikiLinks(getInstance().getContent());
+            formContent = wikiLinkResolver.convertFromWikiLinks(parentDirectory, getInstance().getContent());
         return formContent;
     }
 
@@ -152,7 +157,7 @@ public class DocumentHome extends EntityHome<Document> {
     private boolean isUniqueWikinameInArea() {
         getEntityManager().joinTransaction();
         // Unique document name within area
-        Document foundDocument = wikiLinkResolver.findDocumentInArea(parentDirectory, getInstance().getWikiname());
+        Document foundDocument = wikiLinkResolver.findDocumentInArea(parentDirectory.getAreaNumber(), getInstance().getWikiname());
         if ( foundDocument != null && foundDocument != getInstance()) {
             facesMessages.addFromResourceBundle(
                 "name",

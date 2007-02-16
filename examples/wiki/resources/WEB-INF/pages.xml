@@ -3,7 +3,7 @@
 
 <pages>
 
-    <page view-id="/doc/browse.xhtml" action="#{browser.prepareAndCapture()}">
+    <page view-id="/display.xhtml" action="#{browser.prepare()}">
         <param name="nodeId" value="#{browser.nodeId}"/>
 
         <navigation>
@@ -11,68 +11,49 @@
                 <render view-id="/docDisplay.xhtml"/>
             </rule>
             <rule>
-                <render view-id="/dirBrowser.xhtml"/>
+                <render view-id="/dirDisplay.xhtml"/>
             </rule>
         </navigation>
-        
     </page>
 
-    <page view-id="/doc/edit.xhtml" action="#{browser.prepare()}">
+    <page view-id="/docDisplay.xhtml" action="#{browser.prepare()}">
         <param name="nodeId" value="#{browser.nodeId}"/>
-        <navigation>
-            <redirect view-id="/docEdit.xhtml">
-                <param name="docId"         value="#{currentDocument.id}"/>
-                <param name="parentDirId"   value="#{currentDirectory.id}"/>
-            </redirect>
-        </navigation>
-    </page>
-
-    <!--
-    <page view-id="/docDisplay.xhtml" action="#{documentBrowser.prepare()}">
-        <param name="docId" value="#{documentBrowser.docId}"/>
 
         <navigation>
-            <rule if-outcome="browseDir" if="#{!empty currentDirectory}">
-                <redirect view-id="/dirBrowser.xhtml">
-                    <param name="dirId" value="#{currentDirectory.id}"/>
-                </redirect>
-            </rule>
-            <rule if-outcome="browseDir">
-                <redirect view-id="/dirBrowser.xhtml"/>
-            </rule>
             <rule if-outcome="createDoc">
                 <redirect view-id="/docEdit.xhtml">
-                    <param name="dirId" value="#{currentDirectory.id}"/>
+                    <param name="parentDirId" value="#{currentDirectory.id}"/>
                 </redirect>
             </rule>
             <rule if-outcome="editDoc">
                 <redirect view-id="/docEdit.xhtml">
-                    <param name="dirId" value="#{currentDirectory.id}"/>
-                    <param name="docId" value="#{currentDocument.id}"/>
+                    <param name="docId"         value="#{currentDocument.id}"/>
+                    <param name="parentDirId"   value="#{currentDirectory.id}"/>
                 </redirect>
+            </rule>
+            <rule if-outcome="browseDir">
+                <render view-id="/dirDisplay.xhtml"/>
             </rule>
         </navigation>
 
     </page>
 
     <page view-id="/docEdit.xhtml">
-
         <navigation from-action="#{documentHome.remove}">
             <end-conversation/>
-            <redirect view-id="/dirBrowser.xhtml">
-                <param name="dirId" value="#{currentDirectory.id}"/>
+            <redirect view-id="/display.xhtml">
+                <param name="nodeId" value="#{currentDirectory.id}"/>
             </redirect>
         </navigation>
-
     </page>
 
-    <page view-id="/dirBrowser.xhtml" action="#{directoryBrowser.prepare()}">
-        <param name="dirId" value="#{directoryBrowser.dirId}" converterId="javax.faces.Long"/>
+    <page view-id="/dirDisplay.xhtml" action="#{browser.prepare()}">
+        <param name="nodeId" value="#{browser.nodeId}"/>
 
         <navigation>
             <rule if-outcome="createDir">
                 <redirect view-id="/dirEdit.xhtml">
-                    <param name="parentDirectoryId" value="#{currentDirectory.id}"/>
+                    <param name="parentDirId" value="#{currentDirectory.id}"/>
                 </redirect>
             </rule>
             <rule if-outcome="editDir">
@@ -82,13 +63,7 @@
             </rule>
             <rule if-outcome="createDoc">
                 <redirect view-id="/docEdit.xhtml">
-                    <param name="dirId" value="#{currentDirectory.id}"/>
-                </redirect>
-            </rule>
-            <rule if-outcome="editDoc">
-                <redirect view-id="/docEdit.xhtml">
-                    <param name="docId" value="#{param.docId}"/>
-                    <param name="dirId" value="#{currentDirectory.id}"/>
+                    <param name="parentDirId" value="#{currentDirectory.id}"/>
                 </redirect>
             </rule>
         </navigation>
@@ -100,18 +75,19 @@
         <navigation from-action="#{directoryHome.remove}">
             <rule if="#{!empty directoryHome.parentDirectory}">
                 <end-conversation/>
-                <redirect view-id="/dirBrowser.xhtml">
-                    <param name="dirId" value="#{directoryHome.parentDirectory.id}"/>
+                <redirect view-id="/dirDisplay.xhtml">
+                    <param name="nodeId" value="#{directoryHome.parentDirectory.id}"/>
                 </redirect>
             </rule>
             <rule>
                 <end-conversation/>
-                <redirect view-id="/dirBrowser.xhtml"/>
+                <redirect view-id="/dirDisplay.xhtml">
+                    <param name="nodeId" value="#{wikiRoot.id}"/>
+                </redirect>
             </rule>
         </navigation>
 
     </page>
--->
 
 </pages>
 

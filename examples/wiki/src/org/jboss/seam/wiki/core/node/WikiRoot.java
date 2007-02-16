@@ -22,6 +22,7 @@ public class WikiRoot {
 
     @Transactional
     private void loadWikiRoot() {
+        entityManager.joinTransaction();
         try {
             wikiRoot =(Directory)entityManager
                     .createQuery("select d from Directory d where d.parent is null")

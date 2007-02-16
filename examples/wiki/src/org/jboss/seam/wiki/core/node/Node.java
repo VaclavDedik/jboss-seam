@@ -155,4 +155,13 @@ public abstract class Node implements Serializable {
         setLastModifiedOn(new Date());
     }
 
+    public Directory getArea() {
+        Node currentNode = this;
+        // TODO: This is hardcoding the "parentless parent" logic for the wiki root
+        while (currentNode.getParent() != null && currentNode.getParent().getParent() != null) {
+            currentNode = currentNode.getParent();
+        }
+        return (Directory)currentNode;
+    }
+
 }

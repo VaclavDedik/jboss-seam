@@ -5,13 +5,13 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:wiki="http://jboss.com/products/seam/wikitaglib"
-                template="themes/default/template.xhtml">
+                xmlns:wiki="http://jboss.com/products/seam/wiki"
+                template="themes/#{globalPrefs.themeName}/template.xhtml">
 
 <ui:define name="pluginCSS">
-    <link href="themes/default/css/languageSelector.css" rel="stylesheet" type="text/css"/>
-    <link href="themes/default/css/breadcrumb.css" rel="stylesheet" type="text/css"/>
-    <link href="themes/default/css/mainMenu.css" rel="stylesheet" type="text/css"/>
+    <link href="#{themePath}/css/languageSelector.css" rel="stylesheet" type="text/css"/>
+    <link href="#{themePath}/css/breadcrumb.css" rel="stylesheet" type="text/css"/>
+    <link href="#{themePath}/css/mainMenu.css" rel="stylesheet" type="text/css"/>
 </ui:define>
 
 <ui:define name="screenname">Display Document</ui:define>
@@ -34,9 +34,9 @@
         <h:panelGroup>
 
             <s:link id="createDoc" styleClass="linkNavigation" value="Create" action="createDoc"/>
-            <s:link id="editDoc" styleClass="linkNavigation" value="Edit" view="/doc/edit.xhtml"/>
+            <s:link id="editDoc" styleClass="linkNavigation" value="Edit" action="editDoc"/>
             <s:link id="discussDoc" styleClass="linkNavigation" value="Discuss"/>
-            <s:link id="browseDir" styleClass="linkNavigation" value="Browse" action="browseDir" propagation="none"/>
+            <s:link id="browseDir" styleClass="linkNavigation" value="Browse" action="browseDir"/>
 
         </h:panelGroup>
     </div>
@@ -44,7 +44,7 @@
 
 <ui:define name="content">
     <s:div styleClass="documentDisplay">
-        <wiki:formattedText value="#{currentDocument.content}"/>
+        <wiki:formattedText value="#{currentDocument.content}" linkStyleClass="regularLink" brokenLinkStyleClass="brokenLink"/>
     </s:div>
 </ui:define>
 

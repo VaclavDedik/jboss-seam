@@ -77,7 +77,9 @@
 		<copy tofile="${jar.dir}/import.sql" 
 			    file="${basedir}/resources/import-${profile}.sql"
 		   overwrite="true"/>
-	</target>
+        <!-- Replace @@LF@@ in import.sql with real SQL char(10) linefeed (concat)-->
+        <replace file="${jar.dir}/import.sql" token="@@LF@@" value="'+char(10)+'"/>
+    </target>
 
 	<target name="war" depends="compile" 
 			description="Build the distribution .war file">

@@ -6,33 +6,31 @@
                     "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-1.1.xsd
                  http://jboss.com/products/seam/components http://jboss.com/products/seam/components-1.1.xsd">
 
-    <core:init debug="true" jndi-pattern="@jndiPattern@"/>
+    <core:init debug="false" jndi-pattern="@jndiPattern@"/>
 
     <core:manager concurrent-request-timeout="500"
                   conversation-timeout="120000"
                   conversation-id-parameter="cid"
                   conversation-is-long-running-parameter="clr"/>
 
-    <!-- See Node.java -->
-    <core:filter name="onlyMenuItemsFilter">
-        <core:name>Node.onlyMenuItems</core:name>
-    </core:filter>
-
     <core:managed-persistence-context name="entityManager"
                                       persistence-unit-jndi-name="java:/wikiEntityManagerFactory"/>
 
-    <core:managed-persistence-context name="filteringMenuItemsEntityManager"
-                                      persistence-unit-jndi-name="java:/wikiEntityManagerFactory">
-    </core:managed-persistence-context>
-
     <core:ejb installed="@embeddedEjb@"/>
 
-    <!-- For use with jBPM pageflow or process management -->
-    <!--
-    <core:jbpm>
-       <core:process-definitions></core:process-definitions>
-       <core:pageflow-definitions></core:pageflow-definitions>
-    </core:jbpm>
-    -->
+    <!-- ##### WIKI CONFIGURATION ##### -->
+
+    <component name="globalPrefs" class="org.jboss.seam.wiki.core.prefs.GlobalPreferences"
+               scope="application" auto-create="true">
+
+        <property name="defaultURLRendering">WIKILINK</property>
+        <property name="permlinkSuffix">.html</property>
+        <property name="themeName">default</property>
+
+    </component>
+
+    <!-- ##### END OF CONFIGURATION ##### -->
+
+    <factory name="themePath" value="#{facesContext.externalContext.request.contextPath}/themes/#{globalPrefs.themeName}"/>
 
 </components>

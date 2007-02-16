@@ -145,6 +145,12 @@ a:active {color: #aaa}   /* selected link */
     padding: 10px;
 }
 
+.brokenLink {
+    color: #ff0000;
+    text-decoration: line-through;
+    font-style: italic;
+}
+
 .button {
 	font-weight: bold;
 	color: #fff;

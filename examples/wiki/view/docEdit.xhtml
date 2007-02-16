@@ -5,12 +5,12 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:wiki="http://jboss.com/products/seam/wikitaglib"
-                template="themes/default/template.xhtml">
+                xmlns:wiki="http://jboss.com/products/seam/wiki"
+                template="themes/#{globalPrefs.themeName}/template.xhtml">
 
 <ui:define name="pluginCSS">
-    <link href="themes/default/css/languageSelector.css" rel="stylesheet" type="text/css"/>
-    <link href="themes/default/css/mainMenu.css" rel="stylesheet" type="text/css"/>
+    <link href="#{themePath}/css/languageSelector.css" rel="stylesheet" type="text/css"/>
+    <link href="#{themePath}/css/mainMenu.css" rel="stylesheet" type="text/css"/>
 </ui:define>
 
 <ui:define name="screenname">
@@ -29,8 +29,8 @@
 </ui:define>
 
 <ui:define name="control">
-    <s:link id="exit" value="Exit Editor" styleClass="linkNavigation" action="#{browser.redirectToLastBrowsedPage()}"
-              propagation="end"/>
+    <s:link id="exit" value="Exit Editor" styleClass="linkNavigation"
+            action="#{browser.redirectToLastBrowsedPage()}" propagation="end"/>
 </ui:define>
 
 <ui:define name="content">
@@ -104,7 +104,7 @@
     </h:form>
 
     <s:div styleClass="documentDisplay" rendered="#{documentHome.enabledPreview}">
-        <wiki:formattedText value="#{currentDocument.content}"/>
+        <wiki:formattedText value="#{documentHome.instance.content}" linkStyleClass="regularLink" brokenLinkStyleClass="brokenLink"/>
     </s:div>
 
 </ui:define>

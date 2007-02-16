@@ -12,15 +12,18 @@
 
     <rule>
          <from>^/([0-9]+)\.html$</from>
-         <to last="true">/doc/browse.seam?nodeId=$1</to>
+         <to last="true">/display.seam?nodeId=$1</to>
      </rule>
 
-<!--
+    <rule>
+        <from casesensitive="true">^/([A-Z0-9]+[A-Za-z0-9]*)$</from>
+        <to last="true">/display.seam?areaName=$1</to>
+    </rule>
+
     <rule>
         <from casesensitive="true">^/([A-Z0-9]+[A-Za-z0-9]*)/([A-Z0-9]+[A-Za-z0-9]*)$</from>
-        <to type="redirect">/wiki/docDisplay.seam?dirName=$1&amp;docName=$2</to>
+        <to last="true">/display.seam?areaName=$1&amp;nodeName=$2</to>
     </rule>
--->
 
     <!--
 
@@ -70,26 +73,6 @@
         </rule>
     eg, will pass the request for /some/page.html on to /some/page-for-old-browsers.html only for older
     browsers whose user agent srtings match Mozilla/1, Mozilla/2, Mozilla/3 or Mozilla/4.
-
-
-CoWiki:
-
-  <IfModule mod_env.c>
-    SetEnv COWIKI_URL_REWRITE On
-    RewriteRule ^([0-9]+)\.html$ index.php?node=$1&%{QUERY_STRING}
-    RewriteRule ^([0-9]+)\.([0-9]+)\.html$ index.php?node=$1&comid=$2%{QUERY_STRING}
-  </IfModule>
-
-  #
-  # Handle WikiWord URLs
-  #
-  RewriteRule ^([A-Z0-9]+[A-Za-z0-9]*)/([A-Z0-9]+[A-Za-z0-9]*)/*$ index.php?webname=$1&docname=$2&%{QUERY_STRING}
-  RewriteRule ^([A-Z0-9]+[A-Za-z0-9]*)/*$ index.php?webname=$1&%{QUERY_STRING}
-  
-
-
-
-
 
     -->
 

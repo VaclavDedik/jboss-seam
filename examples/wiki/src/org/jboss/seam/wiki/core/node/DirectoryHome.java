@@ -25,7 +25,7 @@ public class DirectoryHome extends EntityHome<Directory> {
     Long dirId;
 
     @RequestParameter
-    Long parentDirectoryId;
+    Long parentDirId;
 
     Directory parentDirectory;
 
@@ -58,8 +58,8 @@ public class DirectoryHome extends EntityHome<Directory> {
         currentDirectory = getInstance(); // Prepare for outjection
 
         getEntityManager().joinTransaction();
-        if (parentDirectoryId != null) {
-            parentDirectory = getEntityManager().find(Directory.class, parentDirectoryId);
+        if (parentDirId != null) {
+            parentDirectory = getEntityManager().find(Directory.class, parentDirId);
         } else {
             parentDirectory = getInstance().getParent();
         }
@@ -105,11 +105,7 @@ public class DirectoryHome extends EntityHome<Directory> {
         if (!isUniqueWikinameInDirectory(getInstance()) ||
             !isUniqueWikinameInArea()) return null;
 
-        Events.instance().raiseEvent("Nodes.directoryStructureModified");
-
-// TODO: What the superclass.update() is doing breaks the menu preview http://jira.jboss.com/jira/browse/JBSEAM-713
-//        FacesMessages.instance().add("Updated object");
-//        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Updated Object"));
+        Events.instance().raiseEvent("Nodes.menuStructureModified");
 
         return super.update();
     }
@@ -122,9 +118,10 @@ public class DirectoryHome extends EntityHome<Directory> {
         // Null the outjected value
         currentDirectory = null;
 
+        Events.instance().raiseEvent("Nodes.menuStructureModified");
+
         return super.remove();
     }
-
 
     public Directory getParentDirectory() {
         return parentDirectory;
@@ -177,7 +174,7 @@ public class DirectoryHome extends EntityHome<Directory> {
     }
 
     public void previewMenuItems() {
-        Events.instance().raiseEvent("Nodes.directoryStructureModified");
+        Events.instance().raiseEvent("Nodes.menuStructureModified");
     }
 
     // Validation rules for persist(), update(), and remove();
@@ -223,7 +220,7 @@ public class DirectoryHome extends EntityHome<Directory> {
         getEntityManager().joinTransaction();
         // Unique directory name within area
         Directory foundDirectory =
-                wikiLinkResolver.findDirectoryInArea(parentDirectory, getInstance().getWikiname());
+                wikiLinkResolver.findDirectoryInArea(parentDirectory.getAreaNumber(), getInstance().getWikiname());
         if (foundDirectory != null && foundDirectory != getInstance()) {
             facesMessages.addFromResourceBundle(
                 "name",

@@ -2,6 +2,8 @@ package org.jboss.seam.wiki.core.node;
 
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Component;
+import org.jboss.seam.wiki.core.links.WikiLinkResolver;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -32,7 +34,7 @@ public class Menu {
      * implementation might use a nested set approach (we need one anyway for recursive
      * deletion of subtrees).
      */
-    @Observer("Nodes.directoryStructureModified")
+    @Observer("Nodes.menuStructureModified")
     @Transactional
     public void refreshMenuItems() {
         items = new ArrayList<MenuItem>();
@@ -43,7 +45,7 @@ public class Menu {
 
     // Recursive
     private void addNodesToMenuTree(List<MenuItem> menuItems, int i, Node node) {
-        MenuItem menuItem = new MenuItem(node);
+        MenuItem menuItem = new MenuItem(node, WikiLinkResolver.renderURL(node));
         menuItem.setLevel(i);
         if (node.isMenuItem()) menuItems.add(menuItem); // Check flag in-memory
         if (node.getChildren() != null && node.getChildren().size() > 0) {
@@ -62,8 +64,9 @@ public class Menu {
         private Node node;
         private int level;
         private List<MenuItem> subItems = new ArrayList<MenuItem>();
+        private String url;
 
-        public MenuItem(Node node) { this.node = node; }
+        public MenuItem(Node node, String url) { this.node = node; this.url = url; }
 
         public Node getNode() { return node; }
         public void setNode(Node node) { this.node = node; }
@@ -73,6 +76,9 @@ public class Menu {
 
         public List<MenuItem> getSubItems() { return subItems; }
         public void setSubItems(List<MenuItem> subItems) { this.subItems = subItems; }
+
+        public String getUrl() { return url; }
+        public void setUrl(String url) { this.url = url; }
     }
 
     

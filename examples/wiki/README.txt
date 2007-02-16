@@ -5,5 +5,4 @@ This is configured for standalone HSQL DB on localhost (I like being able to acc
 the database with a SQL client). So start it with 'java -cp hsqldb.jar org.hsqldb.Server'
 before deploying.
 
-The start document is hardcoded in index.html to be one of the records from import.sql. Don't use
-'1' as the start document, this is the special wiki root directory.
+The start document is hardcoded in index.html to be one of the records from import.sql.

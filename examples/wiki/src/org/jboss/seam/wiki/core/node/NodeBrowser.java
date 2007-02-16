@@ -2,9 +2,8 @@ package org.jboss.seam.wiki.core.node;
 
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.wiki.core.links.WikiLinkResolver;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
 import java.util.*;
 
 /**
@@ -15,42 +14,42 @@ import java.util.*;
  * <pre>
  * http://host/         -- rewrite filter --> http://host/docDisplay.seam (DONE)
  * http://host/123.html -- rewrite filter --> http://host/docDisplay.seam?nodeId=123 (DONE)
- * http://host/Foo      -- rewrite filter --> http://host/docDisplay.seam?dirName=Foo (PLANNED)
- * http://host/Foo/Bar  -- rewrite filter --> http://host/docDisplay.seam?dirName=Foo&docName=Bar (PLANNED)
+ * http://host/Foo      -- rewrite filter --> http://host/docDisplay.seam?areaName=Foo (PLANNED)
+ * http://host/Foo/Bar  -- rewrite filter --> http://host/docDisplay.seam?areaName=Foo&nodeName=Bar (PLANNED)
  * </pre>
  * 'Foo' is a WikiName of a directory with a parentless parent (ROOT), we call this a logical area.
- * 'Bar' is a WikiName of a document in that logical area, unique within that directory subtree.
+ * 'Bar' is a WikiName of a node in that logical area, unique within that area subtree.
  * <p>
  * We _never_ have URLs like <tt>http://host/Foo/Baz/Bar</tt> because 'Baz' would be a subdirectory
- * we don't need. An area name and a document name is enough, the document name is unique within
- * a subtree. We also never have <tt>http://host/Bar</tt>, a document name alone is not enough to
- * identify a document, we also need the area name. In that case, 'Bar' would be treated like an
- * area name and the default document of that area would be shown.
+ * we don't need. An area name and a node name is enough, the node name is unique within
+ * a subtree. We also never have <tt>http://host/Bar</tt>, a node name alone is not enough to
+ * identify a node, we also need the area name.
  *
  * @author Christian Bauer
  */
 @Name("browser")
+@Scope(ScopeType.EVENT)
 public class NodeBrowser {
 
 
     @RequestParameter
-    protected String dirName;
+    protected String areaName;
 
     @RequestParameter
-    protected String docName;
+    protected String nodeName;
 
     protected Long nodeId;
     public Long getNodeId() { return nodeId; }
     public void setNodeId(Long nodeId) { this.nodeId = nodeId; }
-
-    @In(create = true)
-    protected EntityManager entityManager;
 
     @In
     protected org.jboss.seam.core.Redirect redirect;
 
     @In(create = true)
     protected Directory wikiRoot;
+
+    @In(create = true)
+    protected WikiLinkResolver wikiLinkResolver;
 
     // These are only EVENT scoped, we don't want them to jump from DocumentBrowser to
     // DirectoryBrowser over redirects
@@ -75,7 +74,7 @@ public class NodeBrowser {
      * to redirect out of).
      */
     public void redirectToLastBrowsedPage() {
-/*
+
         // We don't want to redirect to an action, so if the last browsed page was called with an action, remove it
         redirect.getParameters().remove("actionOutcome");
         redirect.getParameters().remove("actionMethod");
@@ -85,8 +84,8 @@ public class NodeBrowser {
 
         // We also don't want to redirect the long-running conversation, the caller has ended it already
         redirect.setConversationPropagationEnabled(false);
-*/
-        redirect.execute();
+
+        redirect.returnToCapturedView();
     }
 
     // Just a convenience method for recursive calling
@@ -96,62 +95,74 @@ public class NodeBrowser {
             addDirectoryToPath(path, directory.getParent());
     }
 
-    public String prepareAndCapture() {
-        // Store the view-id that called this method (as a page action) for return (exit of a later conversation)
-        redirect.captureCurrentRequest();
-        return prepare();
-    }
-
     @Transactional
     public String prepare() {
 
-        // Have we been called with a nodeId request parameter, could be document or directory
-        if (nodeId != null) {
+        // Store the view-id that called this method (as a page action) for return (exit of a later conversation)
+        redirect.captureCurrentRequest();
+        // TODO: I'm not using captureCurrentView() because it starts a conversation
 
-            entityManager.joinTransaction();
+        // Have we been called with a nodeId request parameter, could be document or directory
+        if (nodeId != null && !nodeId.equals(wikiRoot.getId())) {
 
             // Try to find a document
-            try {
-                currentDocument = entityManager.find(Document.class, nodeId);
-            } catch (EntityNotFoundException ex) {}
+            currentDocument = wikiLinkResolver.findDocument(nodeId);
 
             // Document not found, see if it is a directory
             if (currentDocument == null) {
-                try {
-                    currentDirectory = entityManager.find(Directory.class, nodeId);
-                } catch (EntityNotFoundException ex) {}
+                currentDirectory = wikiLinkResolver.findDirectory(nodeId);
 
                 // Try to get a default document of that directory
-                if (currentDirectory != null) {
-                    currentDocument = currentDirectory.getDefaultDocument();
-                } else {
-                }
+                if (currentDirectory != null) currentDocument = currentDirectory.getDefaultDocument();
+
             } else {
                 // Document found, take its directory
                 currentDirectory = currentDocument.getParent();
             }
+
+        // Have we been called with an areaName and nodeName request parameter
+        } else if (areaName != null && nodeName != null) {
+
+            // Try to find the area
+            Directory area = wikiLinkResolver.findArea(areaName);
+            if (area != null) {
+                Node node = wikiLinkResolver.findNodeInArea(area.getAreaNumber(), nodeName);
+                if (isDirectory(node)) {
+                    currentDirectory = (Directory)node;
+                    currentDocument = currentDirectory.getDefaultDocument();
+                 } else {
+                    currentDocument = (Document)node;
+                    currentDirectory = currentDocument != null ? currentDocument.getParent() : area;
+                }
+            }
+
+        // Or have we been called just with an areaName request parameter
+        } else if (areaName != null) {
+            currentDirectory = wikiLinkResolver.findArea(areaName);
+            if (currentDirectory != null) currentDocument = currentDirectory.getDefaultDocument();
         }
 
         // Fall back to wiki root
         if (currentDirectory== null) currentDirectory = wikiRoot;
 
+        // Set the id for later
+        nodeId = currentDocument != null ? currentDocument.getId() : currentDirectory.getId();
+
         // Prepare directory path for breadcrumb
         addDirectoryToPath(currentDirectoryPath, currentDirectory);
         Collections.reverse(currentDirectoryPath);
-
-        // This handles the wiki names in dirName and docName request parameters.
-        // The logic here is the same as the code that will resolve wiki URLs during rendering of
-        // pages, so we need to do that later...
-        if (dirName != null) {
-            System.out.println("#### NEED TO RESOLVE DIR NAME: " + dirName);
-        }
-        if (docName != null) {
-            System.out.println("#### NEED TO RESOLVE DOC NAME: " + docName);
-        }
 
         // Return not-null outcome so we can navigate from here
         return "prepared";
     }
 
+    // Replacement for missing instaceOf in EL (can't use string comparison, might be proxy)
+    public static boolean isDirectory(Node node) {
+        return node != null && Directory.class.isAssignableFrom(node.getClass());
+    }
+
+    public static boolean isDocument(Node node) {
+        return node != null && Document.class.isAssignableFrom(node.getClass());
+    }
 
 }

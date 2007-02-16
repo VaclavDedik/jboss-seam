@@ -29,8 +29,10 @@ public class UIWikiFormattedText extends UIOutput {
         SeamTextLexer lexer = new SeamTextLexer(r);
 
         // Use the WikiTextParser to resolve links
-        SeamTextParser parser = new WikiTextParser(lexer, "", "");
-//        SeamTextParser parser = new SeamTextParser(lexer);
+        SeamTextParser parser =
+                new WikiTextParser(lexer,
+                                   getAttributes().get("linkStyleClass").toString(),
+                                   getAttributes().get("brokenLinkStyleClass").toString());
 
         try {
             parser.startRule();

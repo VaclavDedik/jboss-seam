@@ -5,12 +5,11 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
-                template="themes/default/template.xhtml">
-
+                template="themes/#{globalPrefs.themeName}/template.xhtml">
 
 <ui:define name="pluginCSS">
-    <link href="themes/default/css/languageSelector.css" rel="stylesheet" type="text/css"/>
-    <link href="themes/default/css/mainMenu.css" rel="stylesheet" type="text/css"/>
+    <link href="#{themePath}/css/languageSelector.css" rel="stylesheet" type="text/css"/>
+    <link href="#{themePath}/css/mainMenu.css" rel="stylesheet" type="text/css"/>
 </ui:define>
 
 <ui:define name="screenname">
@@ -29,8 +28,8 @@
 </ui:define>
 
 <ui:define name="control">
-    <s:link id="exit" value="Exit Editor" styleClass="linkNavigation" action="#{directoryBrowser.redirectToLastBrowsedPage()}"
-              propagation="end"/>
+    <s:link id="exit" value="Exit Editor" styleClass="linkNavigation"
+            action="#{browser.redirectToLastBrowsedPage()}" propagation="end"/>
 </ui:define>
 
 <ui:define name="content">
@@ -148,7 +147,9 @@
         <div class="label">&#160;</div>
         <div class="input">
             <h:commandButton id="preview" value="Preview" styleClass="buttonNonpersistent"
-                             action="#{directoryHome.previewMenuItems()}"/>
+                             action="#{directoryHome.previewMenuItems()}"
+                             rendered="#{childNodes.rowCount>0}"/>
+
             <h:commandButton id="save" value="Save" styleClass="button"
                              action="#{directoryHome.persist}"
                              rendered="#{!directoryHome.managed}"/>

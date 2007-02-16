@@ -5,11 +5,12 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
-                template="themes/default/template.xhtml">
+                xmlns:wiki="http://jboss.com/products/seam/wiki"
+                template="themes/#{globalPrefs.themeName}/template.xhtml">
 
 <ui:define name="pluginCSS">
-    <link href="themes/default/css/languageSelector.css" rel="stylesheet" type="text/css"/>
-    <link href="themes/default/css/mainMenu.css" rel="stylesheet" type="text/css"/>
+    <link href="#{themePath}/css/languageSelector.css" rel="stylesheet" type="text/css"/>
+    <link href="#{themePath}/css/mainMenu.css" rel="stylesheet" type="text/css"/>
 </ui:define>
 
 <ui:define name="screenname">Browse Directory</ui:define>
@@ -48,8 +49,8 @@
     <div class="directoryPathPanel">
         <h:panelGroup>
             <ui:repeat var="directory" value="#{currentDirectoryPath}">
-                <s:button view="/dirBrowser.xhtml" value="#{directory.name}" styleClass="directoryButton" propagation="none">
-                    <f:param name="dirId" value="#{directory.id}"/>
+                <s:button view="/dirDisplay.xhtml" value="#{directory.name}" styleClass="directoryButton" propagation="none">
+                    <f:param name="nodeId" value="#{directory.id}"/>
                 </s:button>
                 <h:outputText value="/" styleClass="directorySeparator" rendered="#{directory != currentDirectory}"/>
             </ui:repeat>
@@ -68,25 +69,24 @@
                  rowClasses="rowOdd,rowEven"
                  cellpadding="0" cellspacing="0" border="0">
 
+
         <h:column>
             <h:graphicImage value="themes/default/img/icon.dir.gif"
                             width="18" height="20"
-                            rendered="#{node.class.simpleName == 'Directory'}"/>
+                            rendered="#{wiki:isDirectory(node)}"/>
             <h:graphicImage value="themes/default/img/icon.doc.gif"
                             width="18" height="20"
-                            rendered="#{node.class.simpleName == 'Document'}"/>
+                            rendered="#{wiki:isDocument(node)}"/>
         </h:column>
 
         <h:column>
-            <s:div rendered="#{node.class.simpleName == 'Directory'}">
-                <s:link id="browseDirectory" value="#{node.name}" propagation="none">
-                    <f:param name="dirId" value="#{node.id}"/>
+            <s:div rendered="#{wiki:isDirectory(node)}">
+                <s:link id="browseDirectory" value="#{node.name}" view="/dirDisplay.xhtml" propagation="none">
+                    <f:param name="nodeId" value="#{node.id}"/>
                 </s:link>
             </s:div>
-            <s:div rendered="#{node.class.simpleName == 'Document'}">
-                <s:link id="displayDoc" value="#{node.name}" view="/docDisplay.xhtml" propagation="none">
-                    <f:param name="docId" value="#{node.id}"/>
-                </s:link>
+            <s:div rendered="#{wiki:isDocument(node)}">
+                <h:outputLink value="#{wiki:renderURL(node)}">#{node.name}</h:outputLink>
             </s:div>
         </h:column>
 

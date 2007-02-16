@@ -3,11 +3,12 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:wiki="http://jboss.com/products/seam/wiki"
      xmlns:s="http://jboss.com/products/seam/taglib">
 
     <h:panelGroup>
         <ui:repeat var="directory" value="#{currentDirectoryPath}">
-            <h:outputLink value="#{directory.id}.html" styleClass="itemLink" rendered="#{!empty directory.parent}">
+            <h:outputLink value="#{wiki:renderURL(directory)}" styleClass="itemLink" rendered="#{!empty directory.parent}">
                 #{directory.name}
             </h:outputLink>
             <h:outputText styleClass="itemSeparator" value="&#183;"

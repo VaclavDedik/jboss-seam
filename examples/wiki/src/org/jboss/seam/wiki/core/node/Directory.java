@@ -7,7 +7,7 @@ import javax.persistence.*;
 @DiscriminatorValue("DIRECTORY")
 public class Directory extends Node {
 
-    @ManyToOne(fetch = FetchType.EAGER) // Lazy would break UI logic that relies on classnames (proxy doesn't work)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DEFAULT_DOCUMENT_ID", nullable = true)
     private Document defaultDocument;
 
