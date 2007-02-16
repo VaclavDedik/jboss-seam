@@ -7,6 +7,7 @@
 package org.jboss.seam.intercept;
 
 import java.io.Serializable;
+import java.lang.reflect.Constructor;
 import java.util.List;
 
 import org.jboss.seam.log.LogProvider;
@@ -148,10 +149,39 @@ public class RootInterceptor implements Serializable
    {
       return new SeamInvocationContext( invocation, eventType, userInterceptors, getComponent().getInterceptors(type) );
    }
+   
+   private static final Constructor CONSTRUCTOR;
+   static
+   {
+      if ( EJB.INVOCATION_CONTEXT_AVAILABLE )
+      {
+         try
+         {
+            Class[] paramTypes = {InvocationContext.class, EventType.class, List.class, List.class};
+            CONSTRUCTOR = Class.forName("org.jboss.seam.intercept.EE5SeamInvocationContext").getConstructor(paramTypes);
+         }
+         catch (Exception e)
+         {
+            throw new RuntimeException(e);
+         }
+      }
+      else
+      {
+         CONSTRUCTOR = null;
+      }
+      
+   }
 
    private SeamInvocationContext createEE5SeamInvocationContext(InvocationContext invocation, EventType eventType)
    {
-      return new EE5SeamInvocationContext( invocation, eventType, userInterceptors, getComponent().getInterceptors(type) );
+      try
+      {
+         return (SeamInvocationContext) CONSTRUCTOR.newInstance( invocation, eventType, userInterceptors, getComponent().getInterceptors(type) );
+      }
+      catch (Exception e)
+      {
+         throw new RuntimeException(e);
+      }
    }
 
    private String getInterceptionMessage(InvocationContext invocation, EventType eventType)
