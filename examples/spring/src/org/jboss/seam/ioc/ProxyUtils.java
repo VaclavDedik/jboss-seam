@@ -49,13 +49,9 @@ public class ProxyUtils
          throw new RuntimeException("Seam cannot wrap JDK proxied IoC beans. Please use CGLib or Javassist proxying instead");
       }
       //
-      if (isCglibProxyClass(beanClass))
+      if (isCglibProxyClass(beanClass) || isJavassistProxyClass(beanClass))
       {
          beanClass = beanClass.getSuperclass();
-      }
-      else if (isJavassistProxyClass(beanClass))
-      {
-         // todo
       }
       if (log.isDebugEnabled())
       {
@@ -81,7 +77,7 @@ public class ProxyUtils
 
    public static boolean isJavassistProxyClass(Class clazz)
    {
-      return clazz != null && clazz.getName().contains("$$");
+      return false; // todo
    }
 
 }
