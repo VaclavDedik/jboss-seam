@@ -80,7 +80,7 @@
 <#assign parentParentPojo = c2j.getPOJOClass(cfg.getClassMapping(parentProperty.value.referencedEntityName))>
             <h:column>
                 <f:facet name="header">${parentProperty.name} ${parentParentPojo.identifierProperty.name}</f:facet>
-                ${'#'}{${parentName}.${parentProperty.name}.${parentPojo.identifierProperty.name}}
+                ${'#'}{${parentName}.${parentProperty.name}.${parentParentPojo.identifierProperty.name}}
             </h:column>
 </#if>
 </#foreach>
