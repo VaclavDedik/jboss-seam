@@ -20,7 +20,8 @@ import java.lang.annotation.Target;
 @Target(METHOD)
 @Retention(RUNTIME)
 @Documented
-public @interface RaiseEvent {
+public @interface RaiseEvent 
+{
    
    /**
     * The event name, defaults to the name

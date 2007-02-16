@@ -25,7 +25,8 @@ import org.jboss.seam.ScopeType;
 @Target({FIELD, METHOD/*, PARAMETER*/})
 @Retention(RUNTIME)
 @Documented
-public @interface In {
+public @interface In 
+{
    /**
     * The context variable name. Defaults to the name of 
     * the annotated field or getter method.

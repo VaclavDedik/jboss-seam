@@ -15,7 +15,8 @@ import java.lang.annotation.*;
 @Target(ElementType.PACKAGE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Namespace {
+public @interface Namespace 
+{
     /**
      * @return the configuration namespace
      */

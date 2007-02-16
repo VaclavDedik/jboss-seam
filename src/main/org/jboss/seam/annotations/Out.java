@@ -24,7 +24,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({FIELD, METHOD})
 @Retention(RUNTIME)
 @Documented
-public @interface Out {
+public @interface Out 
+{
    /**
     * The context variable name. Defaults to the name of 
     * the annotated field or getter method.

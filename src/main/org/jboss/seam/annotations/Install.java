@@ -15,7 +15,8 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Install {
+public @interface Install 
+{
    /**
     * Precedence of all built-in Seam components
     */

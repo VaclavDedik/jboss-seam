@@ -17,7 +17,8 @@ import java.lang.annotation.Target;
 @Target({METHOD, FIELD/*, PARAMETER*/})
 @Retention(RUNTIME)
 @Documented
-public @interface RequestParameter {
+public @interface RequestParameter 
+{
    /**
     * The name of the request parameter
     */

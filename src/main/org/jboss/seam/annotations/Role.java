@@ -28,7 +28,8 @@ import org.jboss.seam.ScopeType;
 @Target(TYPE)
 @Retention(RUNTIME)
 @Documented
-public @interface Role {
+public @interface Role 
+{
    String name();
    ScopeType scope() default ScopeType.UNSPECIFIED;
 }
