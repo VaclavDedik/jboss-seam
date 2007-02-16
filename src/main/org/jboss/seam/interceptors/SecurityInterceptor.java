@@ -40,11 +40,11 @@ public class SecurityInterceptor extends AbstractInterceptor
       {
          return method.getAnnotation(Restrict.class);
       }
-      else if ( method.getDeclaringClass().isAnnotationPresent(Restrict.class) )
+      else if ( getComponent().getBeanClass().isAnnotationPresent(Restrict.class) )
       {
          if ( !getComponent().isLifecycleMethod(method) )
          {
-            return method.getDeclaringClass().getAnnotation(Restrict.class);
+            return getComponent().getBeanClass().getAnnotation(Restrict.class);
          }
       }
       return null;
