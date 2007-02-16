@@ -2,6 +2,7 @@ package org.jboss.seam.interceptors;
 
 import java.lang.reflect.Method;
 
+import org.jboss.seam.InterceptorType;
 import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.security.Restrict;
@@ -14,8 +15,7 @@ import org.jboss.seam.util.Strings;
  * 
  * @author Shane Bryzak
  */
-@Interceptor(stateless = true, around = ValidationInterceptor.class, 
-         within = BijectionInterceptor.class)
+@Interceptor(stateless = true, type=InterceptorType.CLIENT)
 public class SecurityInterceptor extends AbstractInterceptor
 {
    private static final long serialVersionUID = -6567750187000766925L;
