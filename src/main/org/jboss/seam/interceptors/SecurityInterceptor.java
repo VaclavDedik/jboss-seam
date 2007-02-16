@@ -15,7 +15,8 @@ import org.jboss.seam.util.Strings;
  * 
  * @author Shane Bryzak
  */
-@Interceptor(stateless = true, type=InterceptorType.CLIENT)
+@Interceptor(stateless = true, type=InterceptorType.CLIENT, 
+         around=AsynchronousInterceptor.class)
 public class SecurityInterceptor extends AbstractInterceptor
 {
    private static final long serialVersionUID = -6567750187000766925L;

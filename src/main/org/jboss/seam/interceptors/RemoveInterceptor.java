@@ -21,7 +21,7 @@ import org.jboss.seam.intercept.InvocationContext;
  * 
  * @author Gavin King
  */
-@Interceptor(type=InterceptorType.CLIENT)
+@Interceptor(stateless=true, type=InterceptorType.CLIENT)
 public class RemoveInterceptor extends AbstractInterceptor
 {
    private static final long serialVersionUID = -6693606158918954699L;
@@ -74,7 +74,8 @@ public class RemoveInterceptor extends AbstractInterceptor
       }
    }
 
-   private void remove() {
+   private void remove() 
+   {
       getComponent().getScope().getContext().remove( getComponent().getName() );
       if ( log.isDebugEnabled() )
       {
