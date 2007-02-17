@@ -139,6 +139,9 @@ input[type="submit"], input[type="button"] {
 	text-align: center;
 	color: #600;
 }
+.errors div {
+	text-align: left;
+}
 .errors input {
 	border: 1px solid #600;
 }
