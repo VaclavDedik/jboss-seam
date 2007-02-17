@@ -106,7 +106,7 @@ public class SpringComponent extends IoCComponent {
 	 * Just like Component.forName() but mocks the applicationContext and you provide it with the spring bean name
 	 * instead of the seam component name.
 	 *
-	 * @param name the spring bean name.
+	 * @param springBeanName the spring bean name.
 	 * @return the SpringComponent mapped to that spring bean name.
 	 */
 	public static SpringComponent forSpringBeanName(String springBeanName) {
@@ -133,10 +133,11 @@ public class SpringComponent extends IoCComponent {
 	 * @param springBeanName the spring bean name
 	 * @param scope component scope
 	 * @param factory the beanfactory this spring component should use
+	 * @param interception the interception type
 	 */
-	public SpringComponent(Class clazz, String componenentName, String springBeanName, ScopeType scope,
+	public SpringComponent(Class clazz, String componentName, String springBeanName, ScopeType scope,
 			BeanFactory factory, InterceptionType interception) {
-		super(clazz, componenentName, scope);
+		super(clazz, componentName, scope);
 		this.springBeanName = springBeanName;
 		this.beanfactory = factory;
 		this.interceptionType = interception;

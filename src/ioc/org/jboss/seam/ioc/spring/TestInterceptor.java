@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.jboss.seam.example.spring;
+package org.jboss.seam.ioc.spring;
 
 import java.io.Serializable;
 

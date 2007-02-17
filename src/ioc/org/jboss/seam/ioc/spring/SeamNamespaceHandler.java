@@ -115,7 +115,7 @@ public class SeamNamespaceHandler
         public BeanDefinitionHolder decorate(Node node, BeanDefinitionHolder definition, ParserContext parserContext) {
             // Add the Seam Component Post Processor to the bean factory if it doesn't already exist
             if (!parserContext.getRegistry().containsBeanDefinition(SEAM_COMPONENT_POST_PROCESSOR_BEAN_NAME)) {
-                Class cls = null;
+                Class cls;
                 try {
                     cls = ClassUtils.forName(SEAM_COMPONENT_POST_PROCESSOR);
                 } catch (ClassNotFoundException e) {
@@ -124,9 +124,8 @@ public class SeamNamespaceHandler
                 }
                 RootBeanDefinition beanDefinition = new RootBeanDefinition(cls);
                 beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
-                beanDefinition.getPropertyValues().addPropertyValue("order", new Integer(Ordered.LOWEST_PRECEDENCE));
-                parserContext.getRegistry().registerBeanDefinition(SEAM_COMPONENT_POST_PROCESSOR_BEAN_NAME,
-						beanDefinition);
+                beanDefinition.getPropertyValues().addPropertyValue("order", Ordered.LOWEST_PRECEDENCE);
+                parserContext.getRegistry().registerBeanDefinition(SEAM_COMPONENT_POST_PROCESSOR_BEAN_NAME, beanDefinition);
             }
             // get the optional beanClass
             String beanClassName = definition.getBeanDefinition().getBeanClassName();

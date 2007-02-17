@@ -58,7 +58,7 @@ public class SeamScope
      *      java.lang.Runnable)
      */
     public void registerDestructionCallback(String name, Runnable callback) {
-        ((SpringComponent) SpringComponent.forSpringBeanName(name)).registerDestroyCallback(name, callback);
+        SpringComponent.forSpringBeanName(name).registerDestroyCallback(name, callback);
     }
     
     /**
@@ -71,8 +71,9 @@ public class SeamScope
         // reason spring doesn't use the destroy callback.
         log.debug("destroying: " + name);
         Component component = SpringComponent.forSpringBeanName(name);
-        Object bean = scope.getContext().get(component.getName());
+        Object bean = null;
         if (component != null) {
+            bean = scope.getContext().get(component.getName());
             if (bean != null) { // in a portal environment, this is possible
                 if (Events.exists())
                     Events.instance().raiseEvent("org.jboss.seam.preDestroy." + name);
@@ -84,8 +85,8 @@ public class SeamScope
                     log.warn("Could not destroy component: " + component.getName(), e);
                 }
             }
+            scope.getContext().remove(component.getName());
         }
-        scope.getContext().remove(component.getName());
         return bean;
     }
 }

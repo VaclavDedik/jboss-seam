@@ -21,16 +21,8 @@
 */
 package org.jboss.seam.ioc;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-import javax.servlet.http.HttpSessionActivationListener;
-
 import org.jboss.seam.Component;
-import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.core.Mutable;
-import org.jboss.seam.intercept.Proxy;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 

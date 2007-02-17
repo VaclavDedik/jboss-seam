@@ -6,8 +6,6 @@ import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.log.LogProvider;
-import org.jboss.seam.log.Logging;
 import org.springframework.aop.TargetSource;
 
 /**
@@ -18,7 +16,6 @@ import org.springframework.aop.TargetSource;
  */
 @SuppressWarnings("serial")
 public class SeamTargetSource implements TargetSource, Serializable {
-	private static final LogProvider log = Logging.getLogProvider(SeamTargetSource.class);
 
 	private ScopeType scope;
 
@@ -69,7 +66,7 @@ public class SeamTargetSource implements TargetSource, Serializable {
 	/**
 	 * Get the component for this TargetSource
 	 *
-	 * @return
+	 * @return component
 	 */
 	public Component getComponent() {
 		// TODO reuse

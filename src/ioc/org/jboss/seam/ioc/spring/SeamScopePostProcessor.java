@@ -108,14 +108,14 @@ public class SeamScopePostProcessor
     }
     
     /**
-     * @param casesensitive prefix the prefix to use to identify seam scopes for spring beans. Default is "seam."
+     * @param prefix casesensitive the prefix to use to identify seam scopes for spring beans. Default is "seam."
      */
     public void setPrefix(String prefix) {
         this.prefix = prefix;
     }
     
     /**
-     * @param duplicate set to tell the postprocessor to duplicate any preexisting seam components that may have the same
+     * @param override set to tell the postprocessor to duplicate any preexisting seam components that may have the same
      *        name as the candidate spring bean. Default: false
      */
     public void setOverride(boolean override) {
