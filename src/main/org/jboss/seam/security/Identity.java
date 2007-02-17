@@ -105,7 +105,7 @@ public class Identity extends Selector
          throw new IllegalStateException("No active session context");
       }
 
-      Identity instance = (Identity) Component.getInstance(Identity.class, ScopeType.SESSION, true);
+      Identity instance = (Identity) Component.getInstance(Identity.class, ScopeType.SESSION);
 
       if (instance == null)
       {

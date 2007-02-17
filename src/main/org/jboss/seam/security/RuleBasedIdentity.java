@@ -15,7 +15,6 @@ import org.drools.FactHandle;
 import org.drools.RuleBase;
 import org.drools.WorkingMemory;
 import org.jboss.seam.Component;
-import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;

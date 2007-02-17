@@ -16,7 +16,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.SortedSet;
 import java.util.StringTokenizer;
+import java.util.TreeSet;
 
 import javax.servlet.Filter;
 import javax.servlet.ServletContext;
@@ -64,7 +66,7 @@ public class Initialization
 
    private ServletContext servletContext;
    private Map<String, Conversions.PropertyValue> properties = new HashMap<String, Conversions.PropertyValue>();
-   private Map<String, ComponentDescriptor> componentDescriptors = new HashMap<String, ComponentDescriptor>();
+   private Map<String, SortedSet<ComponentDescriptor>> componentDescriptors = new HashMap<String, SortedSet<ComponentDescriptor>>();
    private List<FactoryDescriptor> factoryDescriptors = new ArrayList<FactoryDescriptor>();
    private Set<Class> installedComponents = new HashSet<Class>();
    private Set<String> importedPackages = new HashSet<String>();
@@ -359,18 +361,17 @@ public class Initialization
    private void addComponentDescriptor(ComponentDescriptor descriptor)
    {
       String name = descriptor.getName();
-      ComponentDescriptor existing = componentDescriptors.get( name );
-      boolean newHasPrecedence = existing!=null && existing.getPrecedence()<descriptor.getPrecedence();
-      boolean oldHasPrecedence = existing!=null && existing.getPrecedence()>descriptor.getPrecedence();
-      if ( newHasPrecedence || oldHasPrecedence )
+      SortedSet<ComponentDescriptor> set = componentDescriptors.get(name);
+      if (set==null)
+      {
+         set = new TreeSet<ComponentDescriptor>();
+         componentDescriptors.put(name, set);
+      }
+      if ( !set.isEmpty() )
       {
          log.info("two components with same name, higher precedence wins: " + name);
       }
-      if ( existing==null || newHasPrecedence )
-      {
-         componentDescriptors.put(name, descriptor);
-      }
-      else if ( existing.getPrecedence()==descriptor.getPrecedence() )
+      if ( !set.add(descriptor) )
       {
          throw new IllegalStateException("Two components with the same name and precedence: " + name);
       }
@@ -638,11 +639,14 @@ public class Initialization
 
    protected ComponentDescriptor findDescriptor(Class<?> componentClass)
    {
-      for (ComponentDescriptor component : componentDescriptors.values())
+      for (SortedSet<ComponentDescriptor> components : componentDescriptors.values())
       {
-         if ( component.getComponentClass().equals(componentClass) )
+         for (ComponentDescriptor component: components)
          {
-            return component;
+            if ( component.getComponentClass().equals(componentClass) )
+            {
+               return component;
+            }
          }
       }
       return null;
@@ -684,27 +688,35 @@ public class Initialization
       do
       {
          installedSomething = false;
-         for (ComponentDescriptor componentDescriptor : componentDescriptors.values())
+         for ( SortedSet<ComponentDescriptor> descriptors: componentDescriptors.values() )
          {
-            String compName = componentDescriptor.getName() + COMPONENT_SUFFIX;
-            if ( !context.isSet(compName) && dependenciesMet(context, componentDescriptor) )
+            //iterate over them from highest precedence to lowest
+            for (ComponentDescriptor componentDescriptor: descriptors)
             {
-               addComponent(componentDescriptor, context);
-               if ( componentDescriptor.isAutoCreate() )
+               String compName = componentDescriptor.getName() + COMPONENT_SUFFIX;
+               if ( !context.isSet(compName) && dependenciesMet(context, componentDescriptor) )
                {
-                  init.addAutocreateVariable( componentDescriptor.getName() );
+                  addComponent(componentDescriptor, context);
+                  
+                  installedSomething = true;
+
+                  if ( componentDescriptor.isAutoCreate() )
+                  {
+                     init.addAutocreateVariable( componentDescriptor.getName() );
+                  }
+                  
+                  if ( componentDescriptor.isFilter() )
+                  {
+                     init.addInstalledFilter( componentDescriptor.getName() );
+                  }
+                  
+                  if ( componentDescriptor.isResourceProvider() )
+                  {
+                     init.addResourceProvider( componentDescriptor.getName() );
+                  }
+                  
+                  break;
                }
-               installedSomething = true;
-            }
-            
-            if ( componentDescriptor.isInstalledFilter() )
-            {
-               init.addInstalledFilter( componentDescriptor.getName() );
-            }
-            
-            if ( componentDescriptor.isResourceProvider() )
-            {
-               init.addResourceProvider( componentDescriptor.getName() );
             }
          }
 
@@ -940,7 +952,7 @@ public class Initialization
       }
    }
 
-   private static class ComponentDescriptor
+   private static class ComponentDescriptor implements Comparable<ComponentDescriptor>
    {
       private String name;
       private Class<?> componentClass;
@@ -1075,10 +1087,26 @@ public class Initialization
          return install.precedence();
       }
       
-      public boolean isInstalledFilter()
+      public int compareTo(ComponentDescriptor other)
       {
-         // They must extend BaseFilter so that they can be disabled
-         return Filter.class.isAssignableFrom(componentClass) && isInstalled();
+         return other.getPrecedence() - getPrecedence();
+      }
+      
+      @Override
+      public boolean equals(Object other)
+      {
+         return getPrecedence() == ( (ComponentDescriptor) other ).getPrecedence(); 
+      }
+      
+      @Override
+      public int hashCode()
+      {
+         return getPrecedence();
+      }
+      
+      public boolean isFilter()
+      {
+         return Filter.class.isAssignableFrom(componentClass);
       }
       
       public boolean isResourceProvider()
