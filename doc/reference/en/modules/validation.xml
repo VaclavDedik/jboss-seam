@@ -236,6 +236,9 @@
     <f:facet name="beforeInvalidField">
         <h:graphicImage src="img/error.gif"/>
     </f:facet>
+    <f:facet name="afterInvalidField">
+        <s:message/>
+    </f:facet>
     <f:facet name="aroundInvalidField">
         <s:span styleClass="error"/>
     </f:facet>
@@ -245,20 +248,18 @@
     <s:validateAll>
         <div>
             Country:
-            <s:decorate>
+            <s:decorate id="country">
                 <h:inputText value="#{location.country}" required="true">
-                    <a:support event="onblur" reRender="countryError"/>
+                    <a:support event="onblur" reRender="country"/>
                 </h:inputText>
-                <a:outputPanel id="countryError><s:message/></a:outputPanel>
             </s:decorate>
         </div>
         <div>
             Zip code:
-            <s:decorate>
+            <s:decorate id="zip">
                 <h:inputText value="#{location.zip}" required="true">
-                    <a:support event="onblur" reRender="zipError"/>
+                    <a:support event="onblur" reRender="zip"/>
                 </h:inputText>
-                <a:outputPanel id="zipError><s:message/></a:outputPanel>
             </s:decorate>
         </div>
         <div>
