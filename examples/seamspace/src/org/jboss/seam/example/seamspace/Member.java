@@ -89,7 +89,7 @@ public class Member implements Serializable
    }
 
    @NotNull
-   @Length(min = 6, max = 20)
+   @Length(min = 4, max = 20)
    public String getUsername()
    {
       return username;
