@@ -93,6 +93,8 @@ public class SeamApplication11 extends Application
    {
       if (params!=null && params.length>0)
       {
+         //TODO: if ( paramTypes.length==1 && FacesEvent.class.isAssignableFrom( paramTypes[0] ) )
+         //      return new OptionalParamMethodBinding(expression,params)
          return application.createMethodBinding(expression, params);
       }
       else
