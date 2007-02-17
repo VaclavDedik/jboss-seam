@@ -22,14 +22,15 @@
 
 package org.jboss.seam.ui.facelet;
 
-import com.sun.facelets.compiler.SAXCompiler;
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.el.MethodExpression;
 import javax.el.ValueExpression;
-import javax.faces.event.ActionEvent;
+import javax.faces.event.FacesEvent;
 
 import org.jboss.seam.actionparam.MethodExpressionParser;
+
+import com.sun.facelets.compiler.SAXCompiler;
 
 /**
  * This ExpressionFactory replaces the one normally used in Facelets.  It
@@ -77,8 +78,7 @@ public class SeamExpressionFactory extends ExpressionFactory
         {
             return new ParamMethodExpression(parser, elContext);
         }
-        
-        if ( paramTypes.length==1 && ActionEvent.class.isAssignableFrom( paramTypes[0] ) )
+        else if ( paramTypes.length==1 && FacesEvent.class.isAssignableFrom( paramTypes[0] ) )
         {
            //so that JSF action listeners don't have to declare 
            //the totally frickin useless ActionEvent parameter
@@ -87,8 +87,10 @@ public class SeamExpressionFactory extends ExpressionFactory
                  faceletsExpressionFactory.createMethodExpression(elContext, expression, returnType, new Class[0])
               );
         }
-        
-        return faceletsExpressionFactory.createMethodExpression(elContext, expression, returnType, paramTypes);
+        else
+        {
+           return faceletsExpressionFactory.createMethodExpression(elContext, expression, returnType, paramTypes);
+        }
     }
     
     @Override
