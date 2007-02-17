@@ -9,9 +9,10 @@
     <!-- Overrides -->
     <property name="example.webinf.lib.dir"  value="."/>  
     <property name="example.seam.ui.lib"     value="yes"/>
-    <property name="example.seam.pdf.lib"    value="no"/>
     <property name="example.seam.debug.lib"  value="yes"/>
+    <property name="example.seam.pdf.lib"    value="no"/>
     <property name="example.facelets.lib"    value="yes"/>
+    <property name="example.seam.ioc.lib"    value="yes"/>
     <property name="src.java.dir"            value="src"/>
     <property name="src.test.dir"            value="src"/>
     <property name="test.classpath"          value="test.eejb.classpath"/>
@@ -19,9 +20,8 @@
 
     <import file="../../build.xml"/>
 
-
-    <fileset id="example.local.jar" dir="lib">
-        <include name="**/*.jar" />
+    <fileset id="example.local.jar" dir="../..">
+        <include name="jboss-seam-ioc.jar" />
     </fileset>
 
     <path id="example.path">
@@ -35,6 +35,5 @@
         <include name="META-INF/spring.handlers" />
         <include name="*-beans.xml" />
     </fileset>
-
 </project>
 
