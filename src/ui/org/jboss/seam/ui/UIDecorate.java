@@ -107,6 +107,8 @@ public class UIDecorate extends UIComponentBase
    public void encodeBegin(FacesContext context) throws IOException
    {
       super.encodeBegin(context);
+      context.getResponseWriter().startElement("span", this);
+      context.getResponseWriter().writeAttribute("id", getClientId(context), "id");
       boolean hasMessage = hasMessage();
       UIComponent aroundDecoration = getDecoration("aroundField");
       UIComponent aroundInvalidDecoration = getDecoration("aroundInvalidField");
@@ -138,6 +140,7 @@ public class UIDecorate extends UIComponentBase
          aroundInvalidDecoration.setParent(this);
          aroundInvalidDecoration.encodeEnd(context);
       }
+      context.getResponseWriter().endElement("span");
       super.encodeEnd(context);
    }
 
