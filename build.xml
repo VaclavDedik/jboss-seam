@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 
 <project name="Seam" default="build" basedir=".">
-    
     <tstamp/>
 
     <!-- Allow this to be overriden by others importing this project. -->
@@ -21,7 +20,8 @@
     <property name="classes.dir"          value="${build.dir}/classes"/>    
     <property name="uiclasses.dir"        value="${build.dir}/uiclasses"/>
     <property name="pdfclasses.dir"       value="${build.dir}/pdfclasses"/>
-	<property name="mailclasses.dir"       value="${build.dir}/mailclasses"/>
+    <property name="iocclasses.dir"       value="${build.dir}/iocclasses"/>
+    <property name="mailclasses.dir"      value="${build.dir}/mailclasses"/>
     <property name="debugclasses.dir"     value="${build.dir}/debugclasses"/>
     <property name="coverage.dir"         value="${build.dir}/coverage"/>
     
@@ -30,14 +30,15 @@
     <property name="src.java.dir"         value="src/main"/>
     <property name="src.ui.dir"           value="src/ui"/>
     <property name="src.pdf.dir"          value="src/pdf"/>
-	<property name="src.mail.dir"          value="src/mail"/>
+    <property name="src.ioc.dir"          value="src/ioc"/>
+    <property name="src.mail.dir"         value="src/mail"/>
     <property name="src.debug.dir"        value="src/debug"/>
     <property name="src.gen.dir"          value="src/gen"/>
     <property name="src.test.dir"         value="src/test/misc"/>
 
     <property name="lib.dir"              value="${imported.basedir}/lib"/>
     <property name="drools.lib.dir"       value="${imported.basedir}/drools/lib"/>
-	<property name="mail.lib.dir"       value="${imported.basedir}/mail"/>
+    <property name="mail.lib.dir"       value="${imported.basedir}/mail"/>
     <property name="eejb.conf.dir"        value="${imported.basedir}/embedded-ejb/conf"/>
     <property name="mc.conf.dir"          value="${imported.basedir}/microcontainer/conf"/>
     <property name="example.coverage.dir" value="${imported.basedir}/build/coverage"/>
@@ -59,7 +60,8 @@
     <property name="dist.src.java.dir"    value="${dist.dir}/src/main"/>
     <property name="dist.src.ui.dir"      value="${dist.dir}/src/ui"/>
     <property name="dist.src.pdf.dir"     value="${dist.dir}/src/pdf"/>
-	<property name="dist.src.mail.dir"     value="${dist.dir}/src/mail"/>
+    <property name="dist.src.ioc.dir"     value="${dist.dir}/src/ioc"/>
+    <property name="dist.src.mail.dir"    value="${dist.dir}/src/mail"/>
     <property name="dist.src.debug.dir"   value="${dist.dir}/src/debug"/>
     <property name="dist.src.gen.dir"     value="${dist.dir}/src/gen"/>
     <property name="dist.src.test.dir"    value="${dist.dir}/src/test/misc"/>
@@ -103,17 +105,25 @@
         <include name="jboss-seam-debug.jar" if="example.seam.debug.lib"/>
         <include name="jboss-seam-ui.jar"    if="example.seam.ui.lib"/>
         <include name="jboss-seam-pdf.jar"   if="example.seam.pdf.lib"/>
-    	<include name="jboss-seam-mail.jar"   if="example.seam.mail.lib"/>
+        <include name="jboss-seam-ioc.jar"   if="example.seam.ioc.lib"/>
+        <include name="jboss-seam-mail.jar"  if="example.seam.mail.lib"/>
     </zipfileset>
     
-
     <zipfileset id="example.itext.jar"
                dir="${lib.dir}"
            prefix="WEB-INF/lib"
       description="the itext jar">
         <include name="itext-*.jar" if="example.seam.pdf.lib"/>
     </zipfileset>
-	
+
+<!-- prefix="WEB-INF/lib" -->
+    <zipfileset id="example.spring.jar"
+               dir="${lib.dir}"
+           
+      description="the spring jar">
+        <include name="spring*.jar" if="example.seam.ioc.lib"/>
+    </zipfileset>        
+
     <zipfileset id="example.seam.main.jar" 
                dir="${imported.basedir}"
        description="the main Seam jar">
@@ -178,7 +188,7 @@
         <include name="seam.properties"/>
         <include name="META-INF/persistence.xml"/>
         <include name="META-INF/ejb-jar.xml"/>
-    	<include name="META-INF/orm.xml"/>
+        <include name="META-INF/orm.xml"/>
         <include name="META-INF/components.xml"/>
         <include name="META-INF/jboss.xml"/>
         <include name="META-INF/security-config.xml"/>
@@ -207,17 +217,17 @@
     <patternset id="example.undeploy">
         <include name="${example.ds}"/>
     </patternset>
-	
-	<zipfileset id="meldware.deploy"
-	           dir="${mail.lib.dir}"
-	  description="the meldware ear and ds">
-	    <include name="meldware-ds.xml" if="example.seam.meldware"/>
-		<include name="meldware.ear" if="example.seam.meldware" /> 
-	</zipfileset>
-	
+        
+        <zipfileset id="meldware.deploy"
+                   dir="${mail.lib.dir}"
+          description="the meldware ear and ds">
+            <include name="meldware-ds.xml" if="example.seam.meldware"/>
+                <include name="meldware.ear" if="example.seam.meldware" /> 
+        </zipfileset>
+        
     <patternset id="meldware.undeploy">
         <include name="meldware.ear"/>
-    	<include name="meldware-ds.xml" />
+        <include name="meldware-ds.xml" />
     </patternset>
     
     <zipfileset id="example.tomcat.war.webinf"
@@ -254,6 +264,7 @@
         <include name="jboss-seam-debug.jar" if="example.seam.debug.lib"/>
         <include name="jboss-seam-ui.jar"    if="example.seam.ui.lib"/>
         <include name="jboss-seam-pdf.jar"   if="example.seam.pdf.lib"/>
+        <include name="jboss-seam-ioc.jar"   if="example.seam.ioc.lib"/>
     </zipfileset>
     
     <zipfileset id="example.tomcat.drools.jar" 
@@ -270,6 +281,7 @@
         <include name="jboss-aop-jdk50.jar" if="example.cache.lib"/>
         <include name="jgroups.jar" if="example.cache.lib"/>
         <include name="jbpm*.jar" if="example.jbpm.lib"/>
+        <include name="spring*.jar" if="example.ioc.lib" />
     </zipfileset>
         
     <path id="build.classpath">
@@ -284,7 +296,7 @@
         <path path="${build.dir}/test"/>
         <path path="${coverage.dir}/classes"/>
         <path refid="classpath.emma"/>
-    	<fileset refid="lib"/>
+        <fileset refid="lib"/>
      </path>
     
     <path id="test.mc.classpath">
@@ -327,7 +339,7 @@
     
     <patternset id="meta.files">
         <include name="**/*.dtd"/>
-    	<include name="**/*.xsd"/>
+        <include name="**/*.xsd"/>
         <include name="**/*.xml"/>
         <include name="**/*.tld"/>
         <include name="**/*.xslt"/>
@@ -378,7 +390,7 @@
         <ant dir="examples/seampay" target="clean" inheritall="false"/>
         <ant dir="examples/seamspace" target="clean" inheritall="false"/>
         <ant dir="examples/mail" target="clean" inheritall="false"/>
-    	<ant dir="examples/itext" target="clean" inheritall="false"/>
+        <ant dir="examples/itext" target="clean" inheritall="false"/>
         <ant dir="examples/messages" target="clean" inheritall="false"/>
         <ant dir="examples/numberguess" target="clean" inheritall="false"/>
         <ant dir="examples/registration" target="clean" inheritall="false"/>
@@ -405,8 +417,8 @@
         <ant dir="examples/contactlist" target="undeploy" inheritall="false"/>
         <ant dir="examples/seampay" target="undeploy" inheritall="false"/>
         <ant dir="examples/seamspace" target="undeploy" inheritall="false"/>
-    	<ant dir="examples/itext" target="undeploy" inheritall="false"/>
-    	<ant dir="examples/mail" target="undeploy" inheritall="false"/>
+        <ant dir="examples/itext" target="undeploy" inheritall="false"/>
+        <ant dir="examples/mail" target="undeploy" inheritall="false"/>
         <ant dir="examples/messages" target="undeploy" inheritall="false"/>
         <ant dir="examples/numberguess" target="undeploy" inheritall="false"/>
         <ant dir="examples/registration" target="undeploy" inheritall="false"/>
@@ -422,8 +434,8 @@
         <ant dir="examples/hibernate" target="undeploy.tomcat" inheritall="false"/>
         <ant dir="examples/icefaces" target="undeploy.tomcat" inheritall="false"/>
         <ant dir="examples/dvdstore" target="undeploy.tomcat" inheritall="false"/>
-    	<ant dir="examples/itext" target="undeploy.tomcat" inheritall="false"/>
-    	<ant dir="examples/mail" target="undeploy.tomcat" inheritall="false"/>
+        <ant dir="examples/itext" target="undeploy.tomcat" inheritall="false"/>
+        <ant dir="examples/mail" target="undeploy.tomcat" inheritall="false"/>
         <ant dir="examples/blog" target="undeploy.tomcat" inheritall="false"/>
         <ant dir="examples/issues" target="undeploy.tomcat" inheritall="false"/>
         <ant dir="examples/contactlist" target="undeploy.tomcat" inheritall="false"/>
@@ -481,19 +493,32 @@
         </copy>
         
     </target>
-	
-	<target name="initmail"
-	            description="Initialize the build for the Mail package">
-	        <echo message="Build ${Name} Mail ${version}"/>
 
-	        <mkdir dir="${mailclasses.dir}"/>
-	        <copy todir="${mailclasses.dir}">
-	            <fileset dir="${src.mail.dir}">
-	                <patternset refid="meta.files"/>
-	            </fileset>
-	        </copy>
-	        
-	    </target>
+    <target name="initioc"
+            description="Initialize the build for the ioc package">
+        <echo message="Build ${Name} ioc ${version}"/>
+
+        <mkdir dir="${iocclasses.dir}"/>
+        <copy todir="${iocclasses.dir}">
+            <fileset dir="${src.ioc.dir}">
+                <patternset refid="meta.files"/>
+            </fileset>
+        </copy>
+        
+    </target>
+        
+    <target name="initmail"
+            description="Initialize the build for the Mail package">
+        <echo message="Build ${Name} Mail ${version}"/>
+        
+        <mkdir dir="${mailclasses.dir}"/>
+        <copy todir="${mailclasses.dir}">
+            <fileset dir="${src.mail.dir}">
+                <patternset refid="meta.files"/>
+            </fileset>
+        </copy>
+        
+    </target>
 
     <target name="initdebug"
             description="Initialize the build for the debug package">
@@ -609,26 +634,45 @@
             </classpath>
         </javac>
     </target>
-	
-	<target name="compilemail" depends="initmail,select-compiler,jarpdf,jarui"
-	            description="Compile the Java source code for the Mail package">
-	        <javac
-	            source="1.5"
-	            target="1.5"
-	            destdir="${mailclasses.dir}"
-	            debug="${javac.debug}"
-	            deprecation="${javac.deprecation}"
-	            nowarn="on">
-	            <src path="${src.mail.dir}"/>
-	            <classpath>
-	                <path refid="build.classpath" />
-	                <fileset dir="${imported.basedir}">
-	                    <include name="jboss-seam-ui.jar" />
-	                	<include name="jboss-seam-pdf.jar" />
-	                </fileset>
-	            </classpath>
-	        </javac>
-	    </target>
+
+    <target name="compileioc" depends="initioc,select-compiler"
+            description="Compile the Java source code for the IOC package">
+        <javac
+            source="1.5"
+            target="1.5"
+            destdir="${iocclasses.dir}"
+            debug="${javac.debug}"
+            deprecation="${javac.deprecation}"
+            nowarn="on">
+            <src path="${src.ioc.dir}"/>
+            <classpath>
+                <path refid="build.classpath" />
+                <fileset dir="${imported.basedir}">
+                    <include name="jboss-seam-ui.jar" />
+                </fileset>
+            </classpath>
+        </javac>
+    </target>
+        
+    <target name="compilemail" depends="initmail,select-compiler,jarpdf,jarui"
+            description="Compile the Java source code for the Mail package">
+        <javac
+            source="1.5"
+            target="1.5"
+            destdir="${mailclasses.dir}"
+            debug="${javac.debug}"
+            deprecation="${javac.deprecation}"
+            nowarn="on">
+            <src path="${src.mail.dir}"/>
+            <classpath>
+                <path refid="build.classpath" />
+                <fileset dir="${imported.basedir}">
+                    <include name="jboss-seam-ui.jar" />
+                    <include name="jboss-seam-pdf.jar" />
+                </fileset>
+            </classpath>
+        </javac>
+    </target>
     
     <target name="compiledebug" depends="initdebug,select-compiler"
             description="Compile the Java source code for the debug package">
@@ -759,16 +803,26 @@
                 <patternset refid="meta.files"/>
             </fileset>
         </copy>
-    	
-    	<mkdir dir="${dist.src.mail.dir}"/>
-    	        <copy todir="${dist.src.mail.dir}">
-    	            <fileset dir="${src.mail.dir}">
-    	                <patternset refid="src.files"/>
-    	            </fileset>
-    	            <fileset dir="${src.mail.dir}">
-    	                <patternset refid="meta.files"/>
-    	            </fileset>
-    	        </copy>
+
+        <mkdir dir="${dist.src.ioc.dir}"/>
+        <copy todir="${dist.src.ioc.dir}">
+            <fileset dir="${src.ioc.dir}">
+                <patternset refid="src.files"/>
+            </fileset>
+            <fileset dir="${src.ioc.dir}">
+                <patternset refid="meta.files"/>
+            </fileset>
+        </copy>
+        
+        <mkdir dir="${dist.src.mail.dir}"/>
+                <copy todir="${dist.src.mail.dir}">
+                    <fileset dir="${src.mail.dir}">
+                        <patternset refid="src.files"/>
+                    </fileset>
+                    <fileset dir="${src.mail.dir}">
+                        <patternset refid="meta.files"/>
+                    </fileset>
+                </copy>
 
         <mkdir dir="${dist.src.debug.dir}"/>
         <copy todir="${dist.src.debug.dir}">
@@ -915,10 +969,10 @@
                 <include name="issues/**/*"/>
                 <include name="registration/**/*"/>
                 <include name="dvdstore/**/*"/>
-            	<include name="itext/**/*"/>
+                <include name="itext/**/*"/>
                 <include name="seampay/**/*"/>
-            	<include name="seamspace/**/*"/>
-            	<include name="mail/**/*"/>
+                <include name="seamspace/**/*"/>
+                <include name="mail/**/*"/>
                 <include name="messages/**/*"/>
                 <include name="todo/**/*"/>
                 <include name="numberguess/**/*"/>
@@ -937,7 +991,7 @@
         </copy>
     </target>
     
-    <target name="build" depends="jarcore,jarui,jarpdf,jarmail,jardebug,jargen"
+    <target name="build" depends="jarcore,jarui,jarpdf,jarioc,jarmail,jardebug,jargen"
         description="Build all four distribution .jar files"/>
 
     <target name="jarcore" depends="compilecore"
@@ -985,21 +1039,36 @@
         <copy file="${basedir}/${name}-pdf.jar" todir="${dist.dir}"/>
         
     </target>
-	
-	 <target name="jarmail" depends="compilemail"
-	            description="Build the distribution .jar file for the Mail package">
-	        <mkdir dir="${dist.dir}"/>
-	        
-	        <jar jarfile="${basedir}/${name}-mail.jar" basedir="${mailclasses.dir}">
-	            <include name="**/*.class"/>
-	            <patternset refid="meta.files"/>
-	            <manifest>
-	                <attribute name="Seam-Version" value="${version}.${patchlevel}"/>
-	            </manifest>
-	        </jar>
-	        <copy file="${basedir}/${name}-mail.jar" todir="${dist.dir}"/>
-	        
-	    </target>
+
+    <target name="jarioc" depends="compileioc"
+            description="Build the distribution .jar file for the IOC package">
+        <mkdir dir="${dist.dir}"/>
+        
+        <jar jarfile="${basedir}/${name}-ioc.jar" basedir="${iocclasses.dir}">
+            <include name="**/*.class"/>
+            <patternset refid="meta.files"/>
+            <manifest>
+                <attribute name="Seam-Version" value="${version}.${patchlevel}"/>
+            </manifest>
+        </jar>
+        <copy file="${basedir}/${name}-ioc.jar" todir="${dist.dir}"/>
+        
+    </target>
+        
+    <target name="jarmail" depends="compilemail"
+            description="Build the distribution .jar file for the Mail package">
+        <mkdir dir="${dist.dir}"/>
+        
+        <jar jarfile="${basedir}/${name}-mail.jar" basedir="${mailclasses.dir}">
+            <include name="**/*.class"/>
+            <patternset refid="meta.files"/>
+            <manifest>
+                <attribute name="Seam-Version" value="${version}.${patchlevel}"/>
+            </manifest>
+        </jar>
+        <copy file="${basedir}/${name}-mail.jar" todir="${dist.dir}"/>
+        
+    </target>
 
 
     <target name="jardebug" depends="compiledebug"
@@ -1084,7 +1153,7 @@
         <copy file="build.properties"           todir="${dist.dir}"/>
         <copy file="build.xml"                  todir="${dist.dir}"/>
         <copy file="seam"                       todir="${dist.dir}"/>
-    	<copy file="seam-text.g"                todir="${dist.dir}"/>
+        <copy file="seam-text.g"                todir="${dist.dir}"/>
         <copy file="seam.bat"                   todir="${dist.dir}"/>
         <replace file="${dist.dir}/build.xml">
             <replacetoken><![CDATA[${name}-${version}.${patchlevel}]]></replacetoken>
@@ -1151,6 +1220,7 @@
             <fileset refid="example.extra.jar"/>
             <fileset refid="example.local.jar" />
             <fileset refid="example.jcaptcha.jar"/>
+            <fileset refid="example.spring.jar"/>
             <zipfileset dir="${build.dir}">
                 <include name="${example.name}.jar"/>
             </zipfileset>
@@ -1167,7 +1237,7 @@
         <fail unless="jboss.home">jboss.home MUST be set. Update build.properties to point to a valid JBoss installation.</fail>
         <copy todir="${deploy.dir}">
             <fileset refid="example.deploy"/>
-        	<fileset refid="meldware.deploy" />
+                <fileset refid="meldware.deploy" />
         </copy>
         <copy file="${build.dir}/${example.name}.${unit.ext}" todir="${deploy.dir}"/>
     </target>
@@ -1179,7 +1249,7 @@
         <delete>
             <fileset dir="${deploy.dir}">
                 <patternset refid="example.undeploy"/>
-            	<patternset refid="meldware.undeploy" />
+                <patternset refid="meldware.undeploy" />
             </fileset>
         </delete>
     </target>
