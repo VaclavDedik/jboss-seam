@@ -36,19 +36,19 @@ public class MailExample
         renderer.render("/simple.xhtml");
         facesMessages.add("Email sent successfully");
       } catch (Exception e) {
-         log.debug("Error send mail", e);
+         log.error("Error sending mail", e);
          facesMessages.add(FacesMessage.SEVERITY_INFO, "Email sending failed: " + e.getMessage());
       }
    }
    
    public void sendAttachment() {
-      //try {
+      try {
         renderer.render("/attachment.xhtml");
         facesMessages.add("Email sent successfully");
-      //} catch (Exception e) {
-      //   log.debug("Error sending mail", e);
-      //   facesMessages.add(FacesMessage.SEVERITY_INFO, "Email sending failed: " + e.getMessage());
-    //  }
+      } catch (Exception e) {
+         log.error("Error sending mail", e);
+         facesMessages.add(FacesMessage.SEVERITY_INFO, "Email sending failed: " + e.getMessage());
+      }
    }
    
    public void sendHtml() {
@@ -56,6 +56,7 @@ public class MailExample
          renderer.render("/html.xhtml");
          facesMessages.add("Email sent successfully");
       } catch (Exception e) {
+         log.error("Error sending mail", e);
          facesMessages.add("Email sending failed:" + e.getMessage());
       }
     }
@@ -65,6 +66,7 @@ public class MailExample
          renderer.render("/plain.xhtml");
          facesMessages.add("Email sent successfully");
       } catch (Exception e) {
+         log.error("Error sending mail", e);
          facesMessages.add("Email sending failed: " + e.getMessage());
       }
     }
