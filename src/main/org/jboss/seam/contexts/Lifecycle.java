@@ -118,6 +118,8 @@ public class Lifecycle
       Contexts.eventContext.set( new WebRequestContext( ContextAdaptor.getRequest(externalContext) ) );
       Contexts.sessionContext.set( new WebSessionContext( ContextAdaptor.getSession(externalContext) ) );
       Contexts.conversationContext.set( new ServerConversationContext( ContextAdaptor.getSession(externalContext) ) );
+      Contexts.pageContext.set(null);
+      Contexts.businessProcessContext.set(null); //TODO: is this really correct?
    }
 
    public static void endInitialization()
