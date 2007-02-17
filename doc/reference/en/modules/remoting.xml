@@ -30,7 +30,7 @@
 
     <programlisting>
           <![CDATA[
-  <script type="text/javascript" src="seam/remoting/resource/remote.js"></script>
+  <script type="text/javascript" src="seam/resource/remoting/resource/remote.js"></script>
             ]]>
         </programlisting>
 
@@ -42,7 +42,7 @@
 
     <programlisting>
           <![CDATA[
-  <script type="text/javascript" src="seam/remoting/interface.js?customerAction"></script>
+  <script type="text/javascript" src="seam/resource/remoting/interface.js?customerAction"></script>
         ]]>
         </programlisting>
 
@@ -51,7 +51,7 @@
 
     <programlisting>
           <![CDATA[
-  <script type="text/javascript" src="seam/remoting/interface.js?customerAction&accountAction"></script>
+  <script type="text/javascript" src="seam/resource/remoting/interface.js?customerAction&accountAction"></script>
         ]]>
         </programlisting>
 
@@ -102,8 +102,8 @@
 
       <programlisting>
           <![CDATA[
-  <script type="text/javascript" src="seam/remoting/resource/remote.js"></script>
-  <script type="text/javascript" src="seam/remoting/interface.js?helloAction"></script>
+  <script type="text/javascript" src="seam/resource/remoting/resource/remote.js"></script>
+  <script type="text/javascript" src="seam/resource/remoting/interface.js?helloAction"></script>
           ]]>
         </programlisting>
 
@@ -301,11 +301,11 @@
     <title>Client Interfaces</title>
 
     <para> In the configuration section above, the interface, or "stub" for our component is imported into our page via
-        <literal>seam/remoting/interface.js</literal>: </para>
+        <literal>seam/resource/remoting/interface.js</literal>: </para>
 
     <programlisting>
         <![CDATA[
-  <script type="text/javascript" src="seam/remoting/interface.js?customerAction"></script>
+  <script type="text/javascript" src="seam/resource/remoting/interface.js?customerAction"></script>
         ]]>
       </programlisting>
 
@@ -430,7 +430,7 @@
 
       <programlisting>
           <![CDATA[        
-  <script type="text/javascript" src="seam/remoting/interface.js?myAction&myWidget"></script>
+  <script type="text/javascript" src="seam/resource/remoting/interface.js?myAction&myWidget"></script>
           ]]>
         </programlisting>
 
