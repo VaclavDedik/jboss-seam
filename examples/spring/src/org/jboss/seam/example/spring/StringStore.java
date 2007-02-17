@@ -4,18 +4,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Scope;
 import org.springframework.beans.factory.BeanNameAware;
 
 /**
  * @author youngm
  */
-@TestAnnotation
 public class StringStore 
     implements BeanNameAware, 
                Serializable 
