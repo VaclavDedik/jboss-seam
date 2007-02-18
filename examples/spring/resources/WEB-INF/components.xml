@@ -2,6 +2,14 @@
             xmlns:spring="http://jboss.com/products/seam/spring"
             xmlns:core="http://jboss.com/products/seam/core"
             xmlns:framework="http://jboss.com/products/seam/framework">
+
+
+    <core:entity-manager-factory name="bookingDatabase"/>
+    <core:managed-persistence-context name="em" 
+                                      auto-create="true" 
+                                      entity-manager-factory="#{bookingDatabase}"/>
+    
+
     <core:init debug="true" jndi-pattern="@jndiPattern@" />
     <!--<core:ejb installed="@embeddedEjb@" />-->
 </components>

@@ -59,17 +59,12 @@
     <bean id="conversationSeamStringStore" class="org.jboss.seam.example.spring.StringStore" scope="seam.CONVERSATION"
           init-method="init" />
     
-<!--
-    <bean id="someSpringBean" class="org.jboss.seam.example.spring.SpringWithSeam"> 
-        <property name="writer">
-            <seam:instance name="write"/> 
-        </property> 
-        
-        <property name="locale">
-            <seam:instance name="locale"/> 
+
+    <bean id="springBookingDao" class="org.jboss.seam.example.spring.SpringBookingDao"> 
+        <property name="entityManagerFactory">
+            <seam:instance name="bookingDatabase"/> 
         </property> 
     </bean> 
--->
 
     <seam:configure-scopes prefix="seam." override="false" />
 </beans>
