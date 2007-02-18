@@ -99,7 +99,7 @@ public void send() {
     <m:attachment value="#{person.photo}" contentType="image/jpeg" fileName="#{person.firstname}_#{person.lastname}.jpg"/>
 </ui:repeat>]]></programlisting>
    		
-   	</section>
+   		</section>
     
 	    <section>
 	    	<title>HTML/Text alternative part</title>
@@ -183,7 +183,7 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.</f:facet>
    
 	    	<para>Otherise you can add any header to the message using the <literal>&lt;m:header&gt;</literal> tag:</para>
 	    	
-	    	<programlisting><![CDATA[<m:header name="X-Sent-From" value="JBoss Seam"/>![CDATA[</programlisting>
+	    	<programlisting><![CDATA[<m:header name="X-Sent-From" value="JBoss Seam"/>]]></programlisting>
 	    	
 	    </section>
 
