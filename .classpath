@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src/main"/>
+	<classpathentry kind="src" path="src/ioc"/>
 	<classpathentry kind="src" path="src/mail"/>
 	<classpathentry kind="src" path="src/pdf"/>
 	<classpathentry kind="src" path="src/test/misc"/>
@@ -33,5 +34,6 @@
 	<classpathentry kind="lib" path="lib/jcaptcha-all-1.0-RC3.jar"/>
 	<classpathentry kind="lib" path="lib/activation.jar"/>
 	<classpathentry kind="lib" path="lib/mail-ra.jar"/>
+	<classpathentry kind="lib" path="lib/spring.jar"/>
 	<classpathentry kind="output" path="output/classes"/>
 </classpath>
