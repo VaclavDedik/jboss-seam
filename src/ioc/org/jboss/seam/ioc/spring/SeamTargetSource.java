@@ -6,6 +6,8 @@ import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.core.Expressions;
+import org.jboss.seam.core.Expressions.ValueBinding;
 import org.springframework.aop.TargetSource;
 
 /**
@@ -17,111 +19,116 @@ import org.springframework.aop.TargetSource;
 @SuppressWarnings("serial")
 public class SeamTargetSource implements TargetSource, Serializable 
 {
+    private ScopeType scope;
+    private String name;
+    private Boolean create;
+    private ValueBinding valueBinding;
 
-	private ScopeType scope;
+    
+    /**
+     * @param name Name of the component: required
+     * @param scope Name of the scope the component is in: optional
+     * @param create Whether to create a new instance if one doesn't already exist: optional
+     */
+    public SeamTargetSource(String name, ScopeType scope, Boolean create) 
+    {
+        if (name == null || "".equals(name)) 
+        {
+            throw new IllegalArgumentException("Name is required.");
+        }
+        this.name = name;
+        this.scope = scope;
+        this.create = create;
+        
+        if (name.startsWith("#")) {
+            this.valueBinding = Expressions.instance().createValueBinding(name);
+        }
+    }
 
-	private String name;
+    /**
+     * Returns a component instance for this TargetSource.
+     *
+     * @see org.springframework.aop.TargetSource#getTarget()
+     */
+    public Object getTarget() 
+        throws Exception 
+    {
+        if (valueBinding != null) {
+            return valueBinding.getValue();
+        } else {
+            if (scope == null && create == null) {
+                return Component.getInstance(name);
+            } else if (scope == null){
+                return Component.getInstance(name, create);
+            } else if (create == null) {
+                return Component.getInstance(name, scope);
+            } else{
+                return Component.getInstance(name, scope, create);
+            }
+        }
+    }
 
-	private Boolean create;
+    /**
+     * Obtains the seam component beanClass for this TargetSource.
+     *
+     * @see org.springframework.aop.TargetSource#getTargetClass()
+     */
+    public Class getTargetClass() 
+    {
+        if (valueBinding != null) {
+            return valueBinding.getClass();
+        } else {
+            return getComponent().getBeanClass();
+        }
+    }
 
-	/**
-	 * @param name Name of the component: required
-	 * @param scope Name of the scope the component is in: optional
-	 * @param create Whether to create a new instance if one doesn't already exist: optional
-	 */
-	public SeamTargetSource(String name, ScopeType scope, Boolean create) 
-   {
-		if (name == null || "".equals(name)) 
-      {
-			throw new IllegalArgumentException("Name is required.");
-		}
-		this.name = name;
-		this.scope = scope;
-		this.create = create;
-	}
+    /**
+     * Get the component for this TargetSource
+     *
+     * @return component
+     */
+    public Component getComponent() 
+    {
+        if (valueBinding == null) {
+            return null; 
+        } else {
+            // TODO reuse
+            boolean unmockApplication = false;
+            if (!Contexts.isApplicationContextActive()) {
+                Lifecycle.mockApplication();
+                unmockApplication = true;
+            }
+            try {
+                Component component = Component.forName(name);
+                if (component == null) 
+                {
+                    throw new IllegalStateException("Cannot find targetClass for seam component: " + name
+                            + ".  Make sure Seam is being configured before Spring.");
+                }
+                return component;
+            } finally {
+                if (unmockApplication) {
+                    Lifecycle.unmockApplication();
+                }
+            }
+        }
+    }
 
-	/**
-	 * Returns a component instance for this TargetSource.
-	 *
-	 * @see org.springframework.aop.TargetSource#getTarget()
-	 */
-	public Object getTarget() throws Exception 
-   {
-		if (scope == null && create == null) 
-      {
-			return Component.getInstance(name);
-		} 
-      else if (scope == null) 
-      {
-			return Component.getInstance(name, create);
-		} 
-      else if (create == null) 
-      {
-			return Component.getInstance(name, scope);
-		} 
-      else 
-      {
-			return Component.getInstance(name, scope, create);
-		}
-	}
+    /**
+     * @see org.springframework.aop.TargetSource#isStatic()
+     */
+    public boolean isStatic() 
+    {
+        return false;
+    }
 
-	/**
-	 * Obtains the seam component beanClass for this TargetSource.
-	 *
-	 * @see org.springframework.aop.TargetSource#getTargetClass()
-	 */
-	public Class getTargetClass() 
-   {
-		return getComponent().getBeanClass();
-	}
-
-	/**
-	 * Get the component for this TargetSource
-	 *
-	 * @return component
-	 */
-	public Component getComponent() 
-   {
-		// TODO reuse
-		boolean unmockApplication = false;
-		if (!Contexts.isApplicationContextActive()) 
-      {
-			Lifecycle.mockApplication();
-			unmockApplication = true;
-		}
-		try {
-			Component component = Component.forName(name);
-			if (component == null) 
-         {
-				throw new IllegalStateException("Cannot find targetClass for seam component: " + name
-						+ ".  Make sure Seam is being configured before Spring.");
-			}
-			return component;
-		} 
-      finally 
-      {
-			if (unmockApplication) 
-         {
-				Lifecycle.unmockApplication();
-			}
-		}
-	}
-
-	/**
-	 * @see org.springframework.aop.TargetSource#isStatic()
-	 */
-	public boolean isStatic() 
-   {
-		return false;
-	}
-
-	/**
-	 * Don't think we need to do anything here.
-	 *
-	 * @see org.springframework.aop.TargetSource#releaseTarget(java.lang.Object)
-	 */
-	public void releaseTarget(Object target) throws Exception 
-   {
-		// Do Nothing
-	}
+    /**
+     * Don't think we need to do anything here.
+     *
+     * @see org.springframework.aop.TargetSource#releaseTarget(java.lang.Object)
+     */
+    public void releaseTarget(Object target) throws Exception 
+    {
+        // Do Nothing
+    }
 }

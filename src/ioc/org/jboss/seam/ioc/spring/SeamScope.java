@@ -21,14 +21,14 @@ public class SeamScope
     implements Scope 
 {
     private static final LogProvider log = Logging.getLogProvider(SeamScope.class);
-    
+
     private ScopeType scope;
-    
+
     public SeamScope(ScopeType scope) 
     {
         this.scope = scope;
     }
-    
+
     /**
      * Gets an instance of a Seam component providing the current ObjectFactory if needed.
      *
@@ -48,7 +48,7 @@ public class SeamScope
             SpringComponent.setObjectFactory(null);
         }
     }
-    
+
     /**
      * Not used yet.
      *
@@ -58,7 +58,7 @@ public class SeamScope
     {
         return null;
     }
-    
+
     /**
      * @see org.springframework.beans.factory.config.Scope#registerDestructionCallback(java.lang.String,
      *      java.lang.Runnable)
@@ -67,7 +67,7 @@ public class SeamScope
     {
         SpringComponent.forSpringBeanName(name).registerDestroyCallback(name, callback);
     }
-    
+
     /**
      * On remove destroys the seam component.
      *

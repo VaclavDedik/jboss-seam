@@ -25,10 +25,8 @@ import org.w3c.dom.Node;
 public class SeamNamespaceHandler 
     extends NamespaceHandlerSupport 
 {
-    public static final String SEAM_SCOPE_POST_PROCESSOR = "org.jboss.seam.ioc.spring.SeamScopePostProcessor";
-    
-    public static final String SEAM_COMPONENT_POST_PROCESSOR = "org.jboss.seam.ioc.spring.SeamComponentPostProcessor";
-    
+    public static final String SEAM_SCOPE_POST_PROCESSOR = "org.jboss.seam.ioc.spring.SeamScopePostProcessor";    
+    public static final String SEAM_COMPONENT_POST_PROCESSOR = "org.jboss.seam.ioc.spring.SeamComponentPostProcessor";    
     public static final String SEAM_COMPONENT_POST_PROCESSOR_BEAN_NAME = "org.jboss.seam.ioc.spring.seamComponentPostProcessor";
     
     /**

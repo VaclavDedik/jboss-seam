@@ -67,7 +67,7 @@ public class SeamFactoryBean
             // to our proxy.
             List<Class> interfaces = new ArrayList<Class>();
             Component component = targetSource.getComponent();
-            if (component.getInterceptionType() != InterceptionType.NEVER) 
+            if (component!=null && component.getInterceptionType() != InterceptionType.NEVER) 
             {
                 if (component.getType().isSessionBean()) 
                 {
