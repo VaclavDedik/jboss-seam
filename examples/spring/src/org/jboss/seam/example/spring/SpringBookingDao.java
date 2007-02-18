@@ -25,7 +25,7 @@ public class SpringBookingDao {
             public Object doInJpa(EntityManager em) 
                 throws PersistenceException 
             {
-                return em.createQuery("from Product as p where p.category = :category").getResultList();
+                return em.createQuery("select h from Hotel h").getResultList();
             }
         });
     }
