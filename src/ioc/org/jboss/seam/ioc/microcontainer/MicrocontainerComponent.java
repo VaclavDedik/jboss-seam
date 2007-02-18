@@ -38,11 +38,13 @@ public class MicrocontainerComponent extends IoCComponent
       this.controller = controller;
    }
 
+   @Override
    protected String getIoCName()
    {
       return "Microcontainer";
    }
 
+   @Override
    protected Object instantiateIoCBean() throws Exception
    {
       return controller.getInstalledContext(getName()).getTarget();

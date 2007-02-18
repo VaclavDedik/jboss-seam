@@ -34,7 +34,8 @@ public class SeamNamespaceHandler
     /**
      * @see org.springframework.beans.factory.xml.NamespaceHandler#init()
      */
-    public void init() {
+    public void init() 
+    {
         registerBeanDefinitionParser("configure-scopes", new SeamConfigureScopeParser());
         registerBeanDefinitionParser("instance", new SeamInstanceBeanDefinitionParser());
         registerBeanDefinitionDecorator("component", new SeamComponentBeanDefinitionDecorator());
@@ -81,10 +82,12 @@ public class SeamNamespaceHandler
      */
     private static class SeamInstanceBeanDefinitionParser 
         extends AbstractSimpleBeanDefinitionParser 
-    {        
-        protected Class getBeanClass(Element element) {
-            return SeamFactoryBean.class;
-        }
+    {   
+       @Override
+       protected Class getBeanClass(Element element) 
+       {
+          return SeamFactoryBean.class;
+       }
     }
     
     /**
@@ -100,7 +103,8 @@ public class SeamNamespaceHandler
      *
      * @author youngm
      */
-    private static class SeamComponentBeanDefinitionDecorator implements BeanDefinitionDecorator {
+    private static class SeamComponentBeanDefinitionDecorator implements BeanDefinitionDecorator 
+    {
         private static final String INTERCEPT_ATTR = "intercept";
         private static final String SPRING_NAME_ATTR = "springName";
         private static final String SEAM_NAME_ATTR = "seamName";
@@ -112,11 +116,14 @@ public class SeamNamespaceHandler
          *      org.springframework.beans.factory.config.BeanDefinitionHolder,
          *      org.springframework.beans.factory.xml.ParserContext)
          */
-        public BeanDefinitionHolder decorate(Node node, BeanDefinitionHolder definition, ParserContext parserContext) {
+        public BeanDefinitionHolder decorate(Node node, BeanDefinitionHolder definition, ParserContext parserContext) 
+        {
             // Add the Seam Component Post Processor to the bean factory if it doesn't already exist
-            if (!parserContext.getRegistry().containsBeanDefinition(SEAM_COMPONENT_POST_PROCESSOR_BEAN_NAME)) {
+            if (!parserContext.getRegistry().containsBeanDefinition(SEAM_COMPONENT_POST_PROCESSOR_BEAN_NAME)) 
+            {
                 Class cls;
-                try {
+                try 
+                {
                     cls = ClassUtils.forName(SEAM_COMPONENT_POST_PROCESSOR);
                 } catch (ClassNotFoundException e) {
                     throw new IllegalStateException("Unable to load class '" + SEAM_COMPONENT_POST_PROCESSOR
@@ -129,27 +136,34 @@ public class SeamNamespaceHandler
             }
             // get the optional beanClass
             String beanClassName = definition.getBeanDefinition().getBeanClassName();
-            if (node.getAttributes().getNamedItem(BEAN_CLASS_ATTR) != null) {
+            if (node.getAttributes().getNamedItem(BEAN_CLASS_ATTR) != null) 
+            {
                 beanClassName = node.getAttributes().getNamedItem(BEAN_CLASS_ATTR).getNodeValue();
             }
             String beanName = definition.getBeanName();
             // get the name of the seam component to create
             String seamName = beanName;
-            if (node.getAttributes().getNamedItem(SEAM_NAME_ATTR) != null) {
+            if (node.getAttributes().getNamedItem(SEAM_NAME_ATTR) != null) 
+            {
                 seamName = node.getAttributes().getNamedItem(SEAM_NAME_ATTR).getNodeValue();
             }
             // get the name of the spring bean to use
             String springName = beanName;
-            if (node.getAttributes().getNamedItem(SPRING_NAME_ATTR) != null) {
+            if (node.getAttributes().getNamedItem(SPRING_NAME_ATTR) != null) 
+            {
                 springName = node.getAttributes().getNamedItem(SPRING_NAME_ATTR).getNodeValue();
             }
             // get the interception type to use
             InterceptionType interceptionType = null;
-            if (AUTO_INTERCEPTION_TYPE.equals(node.getAttributes().getNamedItem(INTERCEPT_ATTR).getNodeValue())) {
-                if (definition.getBeanDefinition().isSingleton()) {
+            if (AUTO_INTERCEPTION_TYPE.equals(node.getAttributes().getNamedItem(INTERCEPT_ATTR).getNodeValue())) 
+            {
+                if (definition.getBeanDefinition().isSingleton()) 
+                {
                     interceptionType = InterceptionType.NEVER;
                 }
-            } else {
+            } 
+            else 
+            {
                 interceptionType = InterceptionType.valueOf(node.getAttributes().getNamedItem(INTERCEPT_ATTR)
                                                             .getNodeValue());
             }
@@ -157,14 +171,16 @@ public class SeamNamespaceHandler
             // get the requested scope
             ScopeType scope = ScopeType.valueOf(node.getAttributes().getNamedItem("scope").getNodeValue());
             if (scope != ScopeType.STATELESS
-                && !BeanDefinition.SCOPE_PROTOTYPE.equals(definition.getBeanDefinition().getScope())) {
+                && !BeanDefinition.SCOPE_PROTOTYPE.equals(definition.getBeanDefinition().getScope())) 
+            {
                 throw new IllegalStateException(
 						"The spring bean scope must be prototype to use a seam scope other than STATELESS.");
             }
             // determine if we want to override any existing seam component definitions
             boolean override = Boolean.parseBoolean(node.getAttributes().getNamedItem("override").getNodeValue());
             
-            if (!(parserContext.getRegistry() instanceof BeanFactory)) {
+            if (!(parserContext.getRegistry() instanceof BeanFactory)) 
+            {
                 throw new RuntimeException("For some reason your registry is not a BeanFactory");
             }
             SpringComponent.addSpringComponent(seamName, springName, beanClassName, scope, (BeanFactory) parserContext

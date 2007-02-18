@@ -15,7 +15,8 @@ import org.springframework.aop.TargetSource;
  * @author youngm
  */
 @SuppressWarnings("serial")
-public class SeamTargetSource implements TargetSource, Serializable {
+public class SeamTargetSource implements TargetSource, Serializable 
+{
 
 	private ScopeType scope;
 
@@ -28,8 +29,10 @@ public class SeamTargetSource implements TargetSource, Serializable {
 	 * @param scope Name of the scope the component is in: optional
 	 * @param create Whether to create a new instance if one doesn't already exist: optional
 	 */
-	public SeamTargetSource(String name, ScopeType scope, Boolean create) {
-		if (name == null || "".equals(name)) {
+	public SeamTargetSource(String name, ScopeType scope, Boolean create) 
+   {
+		if (name == null || "".equals(name)) 
+      {
 			throw new IllegalArgumentException("Name is required.");
 		}
 		this.name = name;
@@ -42,14 +45,22 @@ public class SeamTargetSource implements TargetSource, Serializable {
 	 *
 	 * @see org.springframework.aop.TargetSource#getTarget()
 	 */
-	public Object getTarget() throws Exception {
-		if (scope == null && create == null) {
+	public Object getTarget() throws Exception 
+   {
+		if (scope == null && create == null) 
+      {
 			return Component.getInstance(name);
-		} else if (scope == null) {
+		} 
+      else if (scope == null) 
+      {
 			return Component.getInstance(name, create);
-		} else if (create == null) {
+		} 
+      else if (create == null) 
+      {
 			return Component.getInstance(name, scope);
-		} else {
+		} 
+      else 
+      {
 			return Component.getInstance(name, scope, create);
 		}
 	}
@@ -59,7 +70,8 @@ public class SeamTargetSource implements TargetSource, Serializable {
 	 *
 	 * @see org.springframework.aop.TargetSource#getTargetClass()
 	 */
-	public Class getTargetClass() {
+	public Class getTargetClass() 
+   {
 		return getComponent().getBeanClass();
 	}
 
@@ -68,22 +80,28 @@ public class SeamTargetSource implements TargetSource, Serializable {
 	 *
 	 * @return component
 	 */
-	public Component getComponent() {
+	public Component getComponent() 
+   {
 		// TODO reuse
 		boolean unmockApplication = false;
-		if (!Contexts.isApplicationContextActive()) {
+		if (!Contexts.isApplicationContextActive()) 
+      {
 			Lifecycle.mockApplication();
 			unmockApplication = true;
 		}
 		try {
 			Component component = Component.forName(name);
-			if (component == null) {
+			if (component == null) 
+         {
 				throw new IllegalStateException("Cannot find targetClass for seam component: " + name
 						+ ".  Make sure Seam is being configured before Spring.");
 			}
 			return component;
-		} finally {
-			if (unmockApplication) {
+		} 
+      finally 
+      {
+			if (unmockApplication) 
+         {
 				Lifecycle.unmockApplication();
 			}
 		}
@@ -92,7 +110,8 @@ public class SeamTargetSource implements TargetSource, Serializable {
 	/**
 	 * @see org.springframework.aop.TargetSource#isStatic()
 	 */
-	public boolean isStatic() {
+	public boolean isStatic() 
+   {
 		return false;
 	}
 
@@ -101,7 +120,8 @@ public class SeamTargetSource implements TargetSource, Serializable {
 	 *
 	 * @see org.springframework.aop.TargetSource#releaseTarget(java.lang.Object)
 	 */
-	public void releaseTarget(Object target) throws Exception {
+	public void releaseTarget(Object target) throws Exception 
+   {
 		// Do Nothing
 	}
 }

@@ -40,8 +40,10 @@ public class SeamScopePostProcessor
      *
      * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
      */
-    public void afterPropertiesSet() throws Exception {
-        if (prefix == null || "".equals(prefix)) {
+    public void afterPropertiesSet() throws Exception 
+    {
+        if (prefix == null || "".equals(prefix)) 
+        {
             prefix = DEFAULT_SCOPE_PREFIX;
         }
     }
@@ -54,44 +56,57 @@ public class SeamScopePostProcessor
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) 
         throws BeansException 
     {
-        for (ScopeType scope : ScopeType.values()) {
+        for (ScopeType scope : ScopeType.values()) 
+        {
             // Don't create a scope for Unspecified
-            if (scope != ScopeType.UNSPECIFIED) {
+            if (scope != ScopeType.UNSPECIFIED) 
+            {
                 beanFactory.registerScope(prefix + scope.name(), new SeamScope(scope));
             }
         }
         // Create a mock application context if not available.
         // TODO Reuse
         boolean unmockApplication = false;
-        if (!Contexts.isApplicationContextActive()) {
+        if (!Contexts.isApplicationContextActive()) 
+        {
             Lifecycle.mockApplication();
             unmockApplication = true;
         }
-        try {
+        try 
+        {
             // Iterate through all the beans in the factory
-            for (String beanName : beanFactory.getBeanDefinitionNames()) {
+            for (String beanName : beanFactory.getBeanDefinitionNames()) 
+            {
                 BeanDefinition definition = beanFactory.getBeanDefinition(beanName);
                 ScopeType scope;
-                if (definition.getScope().startsWith(prefix)) {
+                if (definition.getScope().startsWith(prefix)) 
+                {
                     // Will throw an error if the scope is not found.
                     scope = ScopeType.valueOf(definition.getScope().replaceFirst(prefix, "").toUpperCase());
-                } else {
-                    if (log.isDebugEnabled()) {
+                } 
+                else 
+                {
+                    if (log.isDebugEnabled()) 
+                    {
                         log.debug("No scope could be derived for bean with name: " + beanName);
                     }
                     continue;
                 }
-                if (scope == ScopeType.UNSPECIFIED) {
-                    if (log.isDebugEnabled()) {
+                if (scope == ScopeType.UNSPECIFIED) 
+                {
+                    if (log.isDebugEnabled()) 
+                    {
                         log.debug("Discarding bean with scope UNSPECIFIED.  Spring will throw an error later: "
                                   + beanName);
-                                        }
+                    }
                     continue;
                 }
                 // Cannot be a seam component without a specified class seam:component will need to be used for this
                 // bean.
-                if (definition.getBeanClassName() == null) {
-                    if (log.isDebugEnabled()) {
+                if (definition.getBeanClassName() == null) 
+                {
+                    if (log.isDebugEnabled()) 
+                    {
                         log.debug("Unable to create component for bean: " + beanName
                                   + ".  No class defined try seam:component instead.");
                     }
@@ -100,8 +115,11 @@ public class SeamScopePostProcessor
                 SpringComponent.addSpringComponent(beanName, beanName, definition.getBeanClassName(), scope, beanFactory, null,
                                                    override);
             }
-        } finally {
-            if (unmockApplication) {
+        } 
+        finally 
+        {
+            if (unmockApplication) 
+            {
                 Lifecycle.unmockApplication();
             }
         }
@@ -110,7 +128,8 @@ public class SeamScopePostProcessor
     /**
      * @param prefix casesensitive the prefix to use to identify seam scopes for spring beans. Default is "seam."
      */
-    public void setPrefix(String prefix) {
+    public void setPrefix(String prefix) 
+    {
         this.prefix = prefix;
     }
     
@@ -118,7 +137,8 @@ public class SeamScopePostProcessor
      * @param override set to tell the postprocessor to duplicate any preexisting seam components that may have the same
      *        name as the candidate spring bean. Default: false
      */
-    public void setOverride(boolean override) {
+    public void setOverride(boolean override) 
+    {
         this.override = override;
     }
 }

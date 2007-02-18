@@ -40,8 +40,10 @@ public class SeamFactoryBean
      * @see org.springframework.beans.factory.config.AbstractFactoryBean#afterPropertiesSet()
      */
     @Override
-    public void afterPropertiesSet() throws Exception {
-        if (name == null) {
+    public void afterPropertiesSet() throws Exception 
+    {
+        if (name == null) 
+        {
             throw new IllegalArgumentException("name must not be null");
         }
         // If we're creating a proxy then we want this to be a singleton
@@ -49,7 +51,8 @@ public class SeamFactoryBean
         
         this.targetSource = new SeamTargetSource(name, scope, create);
         
-        if (proxy) {
+        if (proxy) 
+        {
             // Not sure if I should allow people to change these proxy
             // parameters or not. We'll see what issues we get hard coding them.
             ProxyFactory pf = new ProxyFactory();
@@ -64,10 +67,14 @@ public class SeamFactoryBean
             // to our proxy.
             List<Class> interfaces = new ArrayList<Class>();
             Component component = targetSource.getComponent();
-            if (component.getInterceptionType() != InterceptionType.NEVER) {
-                if (component.getType().isSessionBean()) {
+            if (component.getInterceptionType() != InterceptionType.NEVER) 
+            {
+                if (component.getType().isSessionBean()) 
+                {
                     interfaces.addAll(component.getBusinessInterfaces());
-                } else {
+                } 
+                else 
+                {
                     interfaces.add(HttpSessionActivationListener.class);
                     interfaces.add(Mutable.class);
                 }
@@ -86,10 +93,14 @@ public class SeamFactoryBean
      * @see org.springframework.beans.factory.config.AbstractFactoryBean#createInstance()
      */
     @Override
-    protected Object createInstance() throws Exception {
-        if (proxy) {
+    protected Object createInstance() throws Exception 
+    {
+        if (proxy) 
+        {
             return proxyInstance;
-        } else {
+        } 
+        else 
+        {
             return targetSource.getTarget();
         }
     }
@@ -101,7 +112,8 @@ public class SeamFactoryBean
      * @see org.springframework.beans.factory.config.AbstractFactoryBean#getObjectType()
      */
     @Override
-    public Class getObjectType() {
+    public Class getObjectType() 
+    {
         return targetSource.getTargetClass();
     }
     
@@ -110,7 +122,8 @@ public class SeamFactoryBean
      *
      * @param name the name of the component
      */
-    public void setName(String name) {
+    public void setName(String name) 
+    {
         this.name = name;
     }
 
@@ -119,7 +132,8 @@ public class SeamFactoryBean
      *
      * @param scope the scope of the component
      */
-    public void setScope(ScopeType scope) {
+    public void setScope(ScopeType scope) 
+    {
         this.scope = scope;
     }
     
@@ -131,7 +145,8 @@ public class SeamFactoryBean
      *
      * @param create do we create an instance if needed
      */
-    public void setCreate(Boolean create) {
+    public void setCreate(Boolean create) 
+    {
         this.create = create;
     }
     
@@ -141,7 +156,8 @@ public class SeamFactoryBean
      *
      * @param proxy true to proxy the component
      */
-    public void setProxy(boolean proxy) {
+    public void setProxy(boolean proxy) 
+    {
         this.proxy = proxy;
     }
 }
