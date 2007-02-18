@@ -32,5 +32,6 @@
 	<classpathentry kind="lib" path="lib/jbpm-3.1.4.jar"/>
 	<classpathentry kind="lib" path="lib/jcaptcha-all-1.0-RC3.jar"/>
 	<classpathentry kind="lib" path="lib/activation.jar"/>
+	<classpathentry kind="lib" path="lib/mail-ra.jar"/>
 	<classpathentry kind="output" path="output/classes"/>
 </classpath>
