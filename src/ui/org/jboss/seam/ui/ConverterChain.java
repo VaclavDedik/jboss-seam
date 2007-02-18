@@ -16,9 +16,9 @@ import javax.faces.el.ValueBinding;
 /**
  * This class provides a chainable converter for JSF.
  * 
- * Any JSF converter can be placed at the end of the chain.  A converter that is
+ * Any JSF converter can be placed at the end of the chain. A converter that is
  * placed higher up the chain should return ConverterChain.CONTINUE if
- * conversion has failed.  If the all converters run return
+ * conversion has failed. If the all converters run return
  * ConverterChain.CONTINUE an unconverted value will be returned.
  * 
  * A converter can be placed in the chain with a priority, the order in which
@@ -27,7 +27,7 @@ import javax.faces.el.ValueBinding;
  */
 public class ConverterChain implements Converter, StateHolder
 {
-   
+
    public static final String CONTINUE = "org.jboss.seam.ui.ConverterChain.continue";
 
    /**
@@ -45,7 +45,7 @@ public class ConverterChain implements Converter, StateHolder
    public static final int CHAIN_START = 0;
 
    private List<PrioritizableConverter> converters;
-   
+
    private boolean dirty;
 
    public ConverterChain()
@@ -68,11 +68,24 @@ public class ConverterChain implements Converter, StateHolder
       if (component instanceof ValueHolder)
       {
          ValueHolder valueHolder = (ValueHolder) component;
-         ValueBinding vb =component.getValueBinding("converter");
-         if (vb != null) {
-            addConverterToChain(vb);
-         } else {
+         ValueBinding converterValueBinding = component.getValueBinding("converter");
+         if (converterValueBinding != null)
+         {
+            addConverterToChain(converterValueBinding);
+         }
+         else if (valueHolder.getConverter() != null)
+         {
             addConverterToChain(valueHolder.getConverter());
+         }
+         else
+         {
+            ValueBinding valueBinding = component.getValueBinding("value");
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            if (valueBinding != null)
+            {
+               addConverterToChain(facesContext.getApplication().createConverter(
+                        valueBinding.getType(facesContext)));
+            }
          }
          valueHolder.setConverter(this);
       }
@@ -101,7 +114,7 @@ public class ConverterChain implements Converter, StateHolder
       for (Converter converter : getConverters())
       {
          String result = converter.getAsString(context, component, value);
-         if (!CONTINUE.equals(result)) 
+         if (!CONTINUE.equals(result))
          {
             output = result;
             break;
@@ -117,7 +130,7 @@ public class ConverterChain implements Converter, StateHolder
    {
       return addConverterToChain(c, CHAIN_END);
    }
-   
+
    /**
     * Add a converter to the end of the chain
     */
@@ -141,7 +154,7 @@ public class ConverterChain implements Converter, StateHolder
          return false;
       }
    }
-   
+
    /**
     * Add a converter to the chain with a defined priority
     */
@@ -184,12 +197,13 @@ public class ConverterChain implements Converter, StateHolder
       this._transient = newTransientValue;
 
    }
-   
-   private List<PrioritizableConverter> getConverters() {
-      if (dirty) {
+
+   private List<PrioritizableConverter> getConverters()
+   {
+      if (dirty)
+      {
          Collections.sort(converters);
       }
       return converters;
    }
-
 }
