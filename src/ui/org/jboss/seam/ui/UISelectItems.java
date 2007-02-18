@@ -152,7 +152,7 @@ public class UISelectItems extends javax.faces.component.UISelectItems {
       {
 			value = ((DataModel) value).getWrappedData();
 		}
-		if (value.getClass().isArray()) 
+		if (value != null && value.getClass().isArray()) 
       {
          if (value.getClass().getComponentType().isPrimitive()) 
          {
