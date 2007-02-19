@@ -28,10 +28,16 @@
         </navigation-case>
 
         <navigation-case>
-            <from-outcome>main</from-outcome>
+            <from-outcome>loggedIn</from-outcome>
             <to-view-id>/main.jsp</to-view-id>
             <redirect />
         </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>main</from-outcome>
+            <to-view-id>/main.jsp</to-view-id>
+            <redirect />
+        </navigation-case>        
 
     </navigation-rule>
 

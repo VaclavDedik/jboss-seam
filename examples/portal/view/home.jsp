@@ -5,14 +5,14 @@
 			<fieldset>
 				<div>
 					<h:outputLabel for="username" value="Login Name"/>
-					<h:inputText id="username" value="#{user.username}" style="width: 175px;"/>
+					<h:inputText id="username" value="#{identity.username}" style="width: 175px;"/>
 				</div>
 				<div>
 					<h:outputLabel for="password" value="Password"/>
-					<h:inputSecret id="password" value="#{user.password}" style="width: 175px;"/>
+					<h:inputSecret id="password" value="#{identity.password}" style="width: 175px;"/>
 				</div>
 				<div class="errors"><h:messages globalOnly="true"/></div>
-				<div class="buttonBox"><h:commandButton action="#{login.login}" value="Account Login" styleClass="button" /></div>
+				<div class="buttonBox"><h:commandButton action="#{identity.login}" value="Account Login" styleClass="button" /></div>
 				<div class="notes"><h:commandLink action="register" value="Register User"/></div>
 			</fieldset>
     </h:form>
