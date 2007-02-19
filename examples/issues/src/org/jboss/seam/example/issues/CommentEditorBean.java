@@ -18,11 +18,11 @@ import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Outcome;
+import org.jboss.seam.annotations.security.Restrict;
 
 
 @Name("commentEditor")
 @Stateful
-@CheckLoggedIn
 public class CommentEditorBean implements CommentEditor {
 
     @In(create=true)
@@ -42,20 +42,20 @@ public class CommentEditorBean implements CommentEditor {
     public boolean isNew() {
        return isNew;
     }
-    
-    @In(required=false)
-    private Login login;
         
     @In 
     private IssueEditor issueEditor;
+    
+    @In(required = false)
+    private User authenticatedUser;
 
-    @LoggedIn
     @Begin(nested=true)
+    @Restrict("#{identity.loggedIn}")
     public String createComment() {
        isNew = true;
        comment = new Comment();
        comment.setIssue( issueEditor.getInstance() );
-       comment.setUser( login.getInstance() );
+       comment.setUser( authenticatedUser );
        comment.setSubmitted( new Date() );
        return "editComment";
     }
@@ -68,7 +68,7 @@ public class CommentEditorBean implements CommentEditor {
     }
 
     @End
-    @LoggedIn
+    @Restrict("#{identity.loggedIn}")
     @IfInvalid(outcome=Outcome.REDISPLAY)
     public String create() {
        entityManager.persist(comment);
@@ -80,14 +80,14 @@ public class CommentEditorBean implements CommentEditor {
     }
 
     @End
-    @LoggedIn
+    @Restrict("#{identity.loggedIn}")
     @IfInvalid(outcome=Outcome.REDISPLAY, refreshEntities=true)
     public String update() {
        return "editIssue";
     }
 
     @End
-    @LoggedIn
+    @Restrict("#{identity.loggedIn}")
     public String delete() {
        entityManager.remove(comment);
        comment.getIssue().getComments().remove(comment);

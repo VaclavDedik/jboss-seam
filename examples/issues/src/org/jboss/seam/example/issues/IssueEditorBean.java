@@ -27,13 +27,13 @@ import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Outcome;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
+import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.FacesMessages;
 
 
 @Name("issueEditor")
 @Stateful
-@CheckLoggedIn
 public class IssueEditorBean implements IssueEditor {
 
     @In(create=true)
@@ -42,23 +42,20 @@ public class IssueEditorBean implements IssueEditor {
     @Valid
     private Issue issue;
     
+    @In(required = false)
+    private User authenticatedUser;    
+    
     @TransactionAttribute(NOT_SUPPORTED)
     public Issue getInstance() {
        return issue;
     }
-    
-    @In(required=false)
-    private Login login;
         
     @Create
     public void initialize()
     {
        issue = new Issue();
        issue.setSubmitted( new Date() );
-       if ( login!=null )
-       {
-          issue.setUser( login.getInstance() );
-       }
+       issue.setUser( authenticatedUser );
     }
 
     private boolean isNew = true;
@@ -73,7 +70,7 @@ public class IssueEditorBean implements IssueEditor {
     @In(required=false)
     private transient IssueFinder issueFinder;
     
-    @LoggedIn
+    @Restrict("#{identity.loggedIn}")
     @Begin(join=true)
     @IfInvalid(outcome=Outcome.REDISPLAY)
     public String create() {
@@ -101,7 +98,7 @@ public class IssueEditorBean implements IssueEditor {
        }
     }
     
-    @LoggedIn
+    @Restrict("#{identity.loggedIn}")
     @IfInvalid(outcome=Outcome.REDISPLAY, refreshEntities=true)
     public String update() 
     {
@@ -110,7 +107,7 @@ public class IssueEditorBean implements IssueEditor {
     }
     
     @End
-    @LoggedIn
+    @Restrict("#{identity.loggedIn}")
     public String delete() {
        entityManager.remove(issue);
        issue.getProject().getIssues().remove(issue);
@@ -152,12 +149,12 @@ public class IssueEditorBean implements IssueEditor {
        return "editIssue";
     }
     
-    @LoggedIn
+    @Restrict("#{identity.loggedIn}")
     @Begin(nested=true)
     public String createIssue() {
        isNew = true;
        issue = new Issue();
-       issue.setUser( login.getInstance() );
+       issue.setUser( authenticatedUser );
        issue.setSubmitted( new Date() );
        issue.setProject( projectEditor.getInstance() );
        doneOutcome = "editProject";

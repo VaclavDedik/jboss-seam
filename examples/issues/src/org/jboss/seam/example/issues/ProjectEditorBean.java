@@ -23,13 +23,12 @@ import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Outcome;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
+import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.FacesMessages;
 
-
 @Name("projectEditor")
 @Stateful
-@CheckLoggedIn
 public class ProjectEditorBean implements ProjectEditor {
 
     @In(create=true)
@@ -54,7 +53,7 @@ public class ProjectEditorBean implements ProjectEditor {
        return isNew;
     }
     
-    @LoggedIn
+    @Restrict("#{identity.loggedIn}")
     @Begin(join=true)
     @IfInvalid(outcome=Outcome.REDISPLAY)
     public String create() {
@@ -69,7 +68,7 @@ public class ProjectEditorBean implements ProjectEditor {
        return "editProject";
     }
     
-    @LoggedIn
+    @Restrict("#{identity.loggedIn}")
     @Begin
     public String createProject() {
        isNew = true;
@@ -83,7 +82,7 @@ public class ProjectEditorBean implements ProjectEditor {
              "New Project" : "Project [" + project.getName() + "]";
     }
 
-    @LoggedIn
+    @Restrict("#{identity.loggedIn}")
     @IfInvalid(outcome=Outcome.REDISPLAY, refreshEntities=true)
     public String update() {
        refreshFinder();
@@ -91,7 +90,7 @@ public class ProjectEditorBean implements ProjectEditor {
     }
 
     @End
-    @LoggedIn
+    @Restrict("#{identity.loggedIn}")
     public String delete() {
        if ( project.getIssues().isEmpty() )
        {

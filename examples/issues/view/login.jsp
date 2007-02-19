@@ -26,17 +26,17 @@
        <span class="rvgInputs">
          <span class="rvgMessage"><h:messages globalOnly="true"/></span>
          <h:outputLabel value="#{messages.User_username}" for="username">
-           <h:inputText value="#{login.instance.username}" id="username"/>
+           <h:inputText value="#{identity.username}" id="username"/>
            <span class="rvgMessage"><h:message for="username"/></span>
          </h:outputLabel>
          <h:outputLabel value="#{messages.User_password}" for="password">
-           <h:inputSecret value="#{login.instance.password}" id="password"/>
+           <h:inputSecret value="#{identity.password}" id="password"/>
            <span class="rvgMessage"><h:message for="password"/></span>
          </h:outputLabel>
        </span>
 
        <span class="rvgActions">
-         <h:commandButton type="submit" value="#{messages.Login}" action="#{login.login}"/>
+         <h:commandButton type="submit" value="#{messages.Login}" action="#{identity.login}"/>
          <h:commandButton type="submit" value="#{messages.Register}" action="editUser"/>
        </span>
      
