@@ -60,7 +60,9 @@ public class SeamFactoryBean extends AbstractFactoryBean implements Initializing
          List<Class> interfaces = targetSource.getSeamInterfaces();
          pf.setInterfaces(interfaces.toArray(new Class[interfaces.size()]));
 
-         this.proxyInstance = pf.getProxy();
+
+         this.proxyInstance = pf.getProxy(Thread.currentThread().getContextClassLoader());
+
       }
       super.afterPropertiesSet();
    }
