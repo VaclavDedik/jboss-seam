@@ -2,7 +2,7 @@
           "-//JBoss/Seam Pages Configuration DTD 1.1//EN"
           "http://jboss.com/products/seam/pages-1.1.dtd">
 
-<pages>
+<pages login-view-id="/home.xhtml">
 
     <page view-id="/home.xhtml">
         <navigation from-action="#{identity.login}">
@@ -15,7 +15,7 @@
         </navigation>
     </page>
        
-    <page view-id="/comment.xhtml">    
+    <page view-id="/comment.xhtml" login-required="true">    
       <restrict/>
       
       <param name="name" value="#{selectedMember.memberName}"/>

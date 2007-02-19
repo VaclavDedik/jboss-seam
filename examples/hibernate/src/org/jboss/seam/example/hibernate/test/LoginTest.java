@@ -50,8 +50,10 @@ public class LoginTest extends SeamTest
          protected void invokeApplication()
          {
             Identity identity = (Identity) Component.getInstance("identity", true);
+            identity.setUsername("gavin");
+            identity.setPassword("foobar");
             String outcome = identity.login();
-            assert "main".equals( outcome );
+            assert "loggedIn".equals( outcome );
          }
          @Override
          protected void renderResponse()
