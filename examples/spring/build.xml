@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 
 <project name="spring" default="deploy" basedir=".">
-
     <!-- Example name -->
     <property name="Name"                   value="spring integration example"/>
     <property name="example.name"           value="jboss-seam-spring"/>
@@ -10,7 +9,6 @@
     <property name="example.webinf.lib.dir"  value="."/>  
     <property name="example.seam.ui.lib"     value="yes"/>
     <property name="example.seam.debug.lib"  value="yes"/>
-    <property name="example.seam.pdf.lib"    value="no"/>
     <property name="example.facelets.lib"    value="yes"/>
     <property name="example.seam.ioc.lib"    value="yes"/>
     <property name="src.java.dir"            value="src"/>
@@ -20,20 +18,13 @@
 
     <import file="../../build.xml"/>
 
-    <fileset id="example.local.jar" dir="../..">
-        <include name="jboss-seam-ioc.jar" />
-    </fileset>
-
-    <path id="example.path">
-        <fileset refid="example.local.jar" />
-    </path>
-
     <fileset id="example.ear.resources"
              dir="${example.resources.dir}">
         <include name="META-INF/application.xml"/>
         <include name="META-INF/jboss-app.xml"/>
-        <include name="META-INF/spring.handlers" />
-        <include name="*-beans.xml" />
+        <include name="META-INF/spring.*" />
+        <include name="applicationContext.xml" />
+        <include name="hibernate*" />
     </fileset>
 </project>
 

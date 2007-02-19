@@ -14,7 +14,7 @@
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:/spring-beans.xml</param-value>
+        <param-value>classpath:/applicationContext.xml</param-value>
     </context-param>
     
     <filter>

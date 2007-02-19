@@ -1,6 +1,8 @@
+//$Id$
 package org.jboss.seam.example.spring;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.util.Date;
 
@@ -16,10 +18,11 @@ import javax.persistence.Transient;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
 import org.hibernate.validator.Pattern;
+import org.jboss.seam.annotations.Name;
 
 @Entity
-public class Booking 
-    implements Serializable
+@Name("booking")
+public class Booking implements Serializable
 {
    private Long id;
    private User user;
@@ -40,6 +43,18 @@ public class Booking
       this.hotel = hotel;
       this.user = user;
    }
+   
+   @Transient
+   public BigDecimal getTotal()
+   {
+      return hotel.getPrice().multiply( new BigDecimal( getNights() ) );
+   }
+
+   @Transient
+   public int getNights()
+   {
+      return (int) ( checkoutDate.getTime() - checkinDate.getTime() ) / 1000 / 60 / 60 / 24;
+   }
 
    @Id @GeneratedValue
    public Long getId()
@@ -50,6 +65,7 @@ public class Booking
    {
       this.id = id;
    }
+   
    @NotNull
    @Basic @Temporal(TemporalType.DATE) 
    public Date getCheckinDate()
@@ -94,7 +110,7 @@ public class Booking
    
    @NotNull(message="Credit card number is required")
    @Length(min=16, max=16, message="Credit card number must 16 digits long")
-   @Pattern(regex="\\d*", message="Credit card number must be numeric")
+   @Pattern(regex="^\\d*$", message="Credit card number must be numeric")
    public String getCreditCard()
    {
       return creditCard;
@@ -109,11 +125,11 @@ public class Booking
    public String getDescription()
    {
       DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
-      return hotel.getName() + 
+      return hotel==null ? null : hotel.getName() + 
             ", " + df.format( getCheckinDate() ) + 
             " to " + df.format( getCheckoutDate() );
    }
-   
+
    public boolean isSmoking()
    {
       return smoking;
@@ -170,4 +186,5 @@ public class Booking
    {
       return "Booking(" + user + ","+ hotel + ")";
    }
+
 }

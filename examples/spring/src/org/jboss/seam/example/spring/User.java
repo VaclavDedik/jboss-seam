@@ -1,3 +1,4 @@
+//$Id$
 package org.jboss.seam.example.spring;
 
 import static org.jboss.seam.ScopeType.SESSION;
@@ -6,12 +7,19 @@ import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
+import org.hibernate.validator.Pattern;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
 
 @Entity
-public class User 
-    implements Serializable
+@Name("user")
+@Scope(SESSION)
+@Table(name="Customer")
+public class User implements Serializable
 {
    private String username;
    private String password;
@@ -50,6 +58,7 @@ public class User
    
    @Id
    @Length(min=5, max=15)
+   @Pattern(regex="^\\w*$", message="not a valid username")
    public String getUsername()
    {
       return username;

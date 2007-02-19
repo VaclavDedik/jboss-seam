@@ -1,14 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <components xmlns="http://jboss.com/products/seam/components"
-            xmlns:spring="http://jboss.com/products/seam/spring"
             xmlns:core="http://jboss.com/products/seam/core"
-            xmlns:framework="http://jboss.com/products/seam/framework">
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation=
+                "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-1.1.xsd 
+                 http://jboss.com/products/seam/components http://jboss.com/products/seam/components-1.1.xsd">
 
+    <core:init debug="true"/>    
 
-    <core:entity-manager-factory name="bookingDatabase"/>
-    <core:managed-persistence-context name="em" 
-                                      auto-create="true" 
-                                      entity-manager-factory="#{bookingDatabase}"/>
+    <core:manager conversation-timeout="120000" 
+                  concurrent-request-timeout="500"
+                  conversation-id-parameter="cid"
+                  conversation-is-long-running-parameter="clr"/>
+                  
+    <core:hibernate-session-factory name="hibernateSessionFactory"/>
     
-
-    <core:init debug="true" jndi-pattern="@jndiPattern@" />
+    <core:managed-hibernate-session name="bookingDatabase"
+                                    auto-create="true"/>
+    
 </components>
+
+<!--
+<components>
+
+    <component name="org.jboss.seam.core.init">
+        <property name="debug">true</property>
+    </component>
+
+    <component name="org.jboss.seam.core.manager">
+        <property name="conversationTimeout">120000</property>
+    </component>
+    
+    <component name="bookingDatabase" 
+              class="org.jboss.seam.core.ManagedHibernateSession"/>
+    <component name="hibernateSessionFactory"
+              class="org.jboss.seam.core.HibernateSessionFactory"/> 
+    
+</components>
+-->

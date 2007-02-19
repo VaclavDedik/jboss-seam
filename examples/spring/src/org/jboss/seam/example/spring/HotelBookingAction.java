@@ -1,92 +1,104 @@
+//$Id$
 package org.jboss.seam.example.spring;
 
+import static org.jboss.seam.ScopeType.SESSION;
+import static javax.persistence.PersistenceContextType.EXTENDED;
+
 import java.util.Calendar;
+import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceException;
+import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
 
-//import org.jboss.seam.core.Events;
+import org.jboss.seam.annotations.Begin;
+import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.annotations.End;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Logger;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Out;
+import org.jboss.seam.core.Events;
 import org.jboss.seam.core.FacesMessages;
-//import org.jboss.seam.log.Log;
-import org.springframework.orm.jpa.JpaCallback;
-import org.springframework.orm.jpa.JpaTemplate;
+import org.jboss.seam.log.Log;
 
-public class HotelBookingAction
-{   
-    private JpaTemplate jpaTemplate;
+import org.hibernate.Session;
 
-    private User user;
-    private Hotel hotel;
-    private Booking booking;
-    private FacesMessages facesMessages;
-//    private Events events;
-//    private Log log;
+@Name("hotelBooking")
+public class HotelBookingAction {
 
-    private boolean bookingValid;
+	@In("#{bookingService}")
+	private BookingService bookingService;
 
-    //@Begin
-    public void selectHotel(final Hotel selectedHotel)
-    {
-        hotel = (Hotel) jpaTemplate.execute(new JpaCallback() {        
-            public Object doInJpa(EntityManager em) 
-                throws PersistenceException 
-            {
-                return em.merge(selectedHotel);
-            }
-        });
-    }
+	@In
+	private User user;
 
-    public void bookHotel()
-    {      
-        booking = new Booking(hotel, user);
-        Calendar calendar = Calendar.getInstance();
-        booking.setCheckinDate(calendar.getTime());
-        calendar.add(Calendar.DAY_OF_MONTH, 1);
-        booking.setCheckoutDate(calendar.getTime());
-    }
+	@In(required = false)
+	@Out
+	private Hotel hotel;
 
-    public void setBookingDetails()
-    {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DAY_OF_MONTH, -1);
-        if (booking.getCheckinDate().before(calendar.getTime())) {
-            facesMessages.add("Check in date must be a future date");
-            bookingValid=false;
-        } else if (!booking.getCheckinDate().before(booking.getCheckoutDate())) {
-            facesMessages.add("Check out date must be later than check in date");
-            bookingValid=false;
-        } else {
-            bookingValid=true;
-        }
-    }
-    public boolean isBookingValid()
-    {
-        return bookingValid;
-    }
+	@In(required = false)
+	@Out(required = false)
+	private Booking booking;
 
-    //@End
-    public void confirm()
-    {
-        jpaTemplate.execute(new JpaCallback() {        
-            public Object doInJpa(EntityManager em) 
-                throws PersistenceException 
-            {
-                System.out.println("PERSIST: " + booking);
-                em.persist(booking);
-                return null;
-            }
-        });
-       
-        //facesMessages.add("Thank you, #{user.name}, your confimation number for #{hotel.name} is #{booking.id}");
-        //log.info("New booking: #{booking.id} for #{user.username}");
-        //events.raiseTransactionSuccessEvent("bookingConfirmed");
-    }
+	@In
+	private FacesMessages facesMessages;
 
-    //@End
-    public void cancel() {}
-    
-    public void setEntityManagerFactory(EntityManagerFactory emf) {
-        jpaTemplate = new JpaTemplate(emf);
-    }
+	@In
+	private Events events;
+
+	@Logger
+	private Log log;
+
+	private boolean bookingValid;
+
+	@Begin
+	public void selectHotel(Hotel selectedHotel) {
+		hotel = bookingService.findHotelById(selectedHotel.getId());
+	}
+
+	public void bookHotel() {
+		booking = new Booking(hotel, user);
+		Calendar calendar = Calendar.getInstance();
+		booking.setCheckinDate(calendar.getTime());
+		calendar.add(Calendar.DAY_OF_MONTH, 1);
+		booking.setCheckoutDate(calendar.getTime());
+	}
+
+	public void setBookingDetails() {
+		bookingValid = true;
+		try {
+			bookingService.validateBooking(booking);
+		} catch (ValidationException e) {
+			facesMessages.add(FacesMessage.SEVERITY_ERROR, e.getMessage());
+			bookingValid = false;
+		}
+	}
+
+	public boolean isBookingValid() {
+		return bookingValid;
+	}
+
+	@Out(required = false, scope = SESSION)
+	List<Booking> bookings;
+
+	@End
+	public String confirm() {
+		try {
+			bookingService.bookHotel(booking);
+		} catch (ValidationException e) {
+			facesMessages.add(FacesMessage.SEVERITY_ERROR, e.getMessage());
+			return null;
+		}
+		facesMessages.add("Thank you, #{user.name}, your confimation number for #{hotel.name} is #{booking.id}");
+		log.info("New booking: #{booking.id} for #{user.username}");
+
+		// force refresh in main.xhtml
+		bookings = null;
+		return "main";
+	}
+
+	@End
+	public void cancel() {
+	}
+
 }
