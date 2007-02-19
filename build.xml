@@ -973,6 +973,7 @@
                 <include name="seampay/**/*"/>
                 <include name="seamspace/**/*"/>
                 <include name="mail/**/*"/>
+            	<include name="ui/**/*"/>
                 <include name="messages/**/*"/>
                 <include name="todo/**/*"/>
                 <include name="numberguess/**/*"/>
