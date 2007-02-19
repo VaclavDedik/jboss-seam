@@ -86,8 +86,15 @@ public class UIBody extends MailComponent
    {
       BodyPart bodyPart = new MimeBodyPart();
       bodyPart.setDisposition("inline");
-      bodyPart.setContent(body, "text/plain; charset="
+      if ( facesContext.getResponseWriter().getCharacterEncoding() != null) 
+      {
+         bodyPart.setContent(body, "text/plain; charset="
                + facesContext.getResponseWriter().getCharacterEncoding() + "; format=flowed");
+      } 
+      else 
+      {
+         bodyPart.setContent(body, "text/plain");
+      }
       return bodyPart;
    }
 
@@ -96,8 +103,16 @@ public class UIBody extends MailComponent
    {
       BodyPart bodyPart = new MimeBodyPart();
       bodyPart.setDisposition("inline");
-      bodyPart.setContent(body, "text/html; charset="
-               + facesContext.getResponseWriter().getCharacterEncoding());
+      if ( facesContext.getResponseWriter().getCharacterEncoding() != null) 
+      {
+         bodyPart.setContent(body, "text/html; charset="
+                  + facesContext.getResponseWriter().getCharacterEncoding());
+      } 
+      else 
+      {
+         bodyPart.setContent(body, "text/html");
+      }
+      
       return bodyPart;
    }
 
