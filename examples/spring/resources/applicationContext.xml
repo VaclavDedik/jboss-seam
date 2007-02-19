@@ -13,7 +13,7 @@
                            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
        default-lazy-init="true">
     <!-- XX fix schemaloc -->
-<!--
+
     <bean id="userService" class="org.jboss.seam.example.spring.UserService">
         <property name="session" ref="managedSession"/>
     </bean>
@@ -21,7 +21,6 @@
     <bean id="bookingService" class="org.jboss.seam.example.spring.BookingService">
         <property name="session" ref="managedSession"/>
     </bean>
--->
     <seam:instance id="managedSession" name="bookingDatabase" proxy="true"/>
 
 
