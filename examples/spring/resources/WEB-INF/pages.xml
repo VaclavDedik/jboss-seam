@@ -3,5 +3,22 @@
   "http://jboss.com/products/seam/pages-1.1.dtd">
 
 <pages>
+    <page view-id="/main.xhtml"
+          login-required="true">
+        
+        <navigation from-action="#{hotelBooking.selectHotel(hot)}">
+            <redirect view-id="/hotel.xhtml"/>
+        </navigation>
+    </page>
 
+    <page view-id="/hotel.xhtml"
+          conversation-required="true">
+        
+        <description>View hotel: #{hotel.name}</description>
+        
+        <navigation from-action="#{hotelBooking.bookHotel}">
+            <redirect view-id="/book.xhtml"/>
+        </navigation>
+        
+    </page>
 </pages>

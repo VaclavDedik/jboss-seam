@@ -11,5 +11,4 @@
     
 
     <core:init debug="true" jndi-pattern="@jndiPattern@" />
-    <!--<core:ejb installed="@embeddedEjb@" />-->
 </components>

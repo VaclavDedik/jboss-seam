@@ -59,8 +59,13 @@
     <bean id="conversationSeamStringStore" class="org.jboss.seam.example.spring.StringStore" scope="seam.CONVERSATION"
           init-method="init" />
     
+    <bean id="hotelSearch" class="org.jboss.seam.example.spring.HotelSearchingAction" scope="seam.SESSION">
+        <property name="entityManagerFactory">
+            <seam:instance name="bookingDatabase"/> 
+        </property> 
+    </bean> 
 
-    <bean id="springBookingDao" class="org.jboss.seam.example.spring.SpringBookingDao"> 
+    <bean id="hotelBooking" class="org.jboss.seam.example.spring.HotelBookingAction" scope="seam.SESSION">
         <property name="entityManagerFactory">
             <seam:instance name="bookingDatabase"/> 
         </property> 

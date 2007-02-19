@@ -1,0 +1,124 @@
+/* Seam Date Picker */
+
+/* the div that holds the date picker calendar */
+.seam-date {
+
+}
+
+
+/* the table (within the div) that holds the date picker calendar */
+.seam-date table {
+    font-family: Tahoma, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    text-align: center;
+    color: #505050;
+    background: #fff url(../img/input.bg.gif) 0 0 repeat-x;
+    background-color: #FFFFFF;
+    border: 1px solid #AAAAAA;
+    margin-top: 5px;
+}
+
+
+.seam-date-title div {
+    font-size: 12px;
+    color: gray;
+    font-weight: bold;
+}
+
+
+/* the forward/backward buttons at the top */
+.seam-date-title button{
+    font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    color: gray;
+    background: #FFFFFF;
+    font-weight: bold;
+    padding: 0px;
+    border: 1px solid #AAAAAA;
+}
+
+
+/* the "This Month" and "Close" buttons at the bottom */
+.seam-date-footer {
+	display: none;
+}
+
+.seam-date-footer button {
+    font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    color: gray;
+    background: #FFFFFF;
+    font-weight: bold;
+    border: 1px solid #AAAAAA;
+}
+
+
+
+/* a table cell that holds the names of days of the week (Mo, Tu, We, etc.) */
+.seam-date-header td {
+    background-color: #CCCCCC;
+    border: 1px solid #AAAAAA;
+    color: white;
+}
+
+
+
+/* a table cell that holds a date number (either blank or 1-31) */
+.seam-date-week td.seam-date-day {
+    border: 1px solid #ece9d8;	
+}
+
+/* the date number table cell that the mouse pointer is currently over (you can use contrasting colors to make it apparent which cell is being hovered over) */
+.seam-date-week td.seam-date-hover  {
+    background-color: #CCCCCC;
+    border: 1px solid #AAAAAA;
+    cursor: pointer;
+    color: red;
+}
+
+
+/* additional style information for the cell that holds a highlighted day (usually either today's date or the current date field value) */ 
+.seam-date-week td.seam-date-selected {
+    background-color: #CCCCCC;        
+    border: 1px solid #AAAAAA;
+    font-weight: bold;
+}
+
+/* style information for weekends */
+/*
+.seam-date td.weekend {
+    color: #c00;
+    border: 1px solid #f99;
+}
+*/
+
+.seam-date-month {
+    cursor: pointer;
+}
+
+.seam-date-months {
+    background-color: #CCCCCC;
+    border-color:#DDDDDD rgb(68, 68, 68) rgb(68, 68, 68) rgb(221, 221, 221);
+    border-style:solid;
+    border-width:1px 3px;
+    position: absolute;
+    top: 0px;
+    cursor:pointer;
+    visibility: hidden;
+}
+
+.seam-date-year {
+    cursor: pointer;
+}
+
+.seam-date-years {
+    background-color: #CCCCCC;
+    border-color:#DDDDDD rgb(68, 68, 68) rgb(68, 68, 68) rgb(221, 221, 221);
+    border-style:solid;
+    border-width:1px 3px;
+    position: absolute;
+    top: 0px;
+    right: 40px;
+    cursor:pointer;
+    visibility: hidden;
+}
