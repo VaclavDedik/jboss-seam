@@ -172,7 +172,7 @@ public class Identity extends Selector
             log.debug("Login successful for: " + getUsername());
          }
          addLoginSuccessfulMessage();
-         return "success";
+         return "loggedIn";
       }
       catch (LoginException ex)
       {
