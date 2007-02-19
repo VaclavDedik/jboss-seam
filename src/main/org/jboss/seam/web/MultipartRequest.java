@@ -318,10 +318,20 @@ public class MultipartRequest extends HttpServletRequestWrapper
                               }
                               else
                               {
-                                 p = new ValueParam(paramName);
+                                 if (parameters.containsKey(paramName))
+                                 {
+                                    p = parameters.get(paramName);
+                                 }
+                                 else
+                                 {
+                                    p = new ValueParam(paramName);
+                                 }
                               }
                               
-                              parameters.put(paramName, p);                              
+                              if (!parameters.containsKey(paramName))
+                              {
+                                 parameters.put(paramName, p);                              
+                              }
                            }
                            
                            headers.clear();
