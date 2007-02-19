@@ -348,6 +348,12 @@
         <include name="**/*.html"/>
         <include name="**/*.xhtml"/>
     </patternset>
+    
+    <patternset id="resource.files">
+        <include name="**/*.js"/>
+        <include name="**/*.css"/>
+        <include name="**/*.png"/>
+    </patternset>
         
     <patternset id="src.files">
         <!-- include everything we want in the src directory
@@ -476,6 +482,7 @@
         <copy todir="${uiclasses.dir}">
             <fileset dir="${src.ui.dir}">
                 <patternset refid="meta.files"/>
+                <patternset refid="resource.files"/>
             </fileset>
         </copy>
         
@@ -1018,6 +1025,7 @@
         <jar jarfile="${basedir}/${name}-ui.jar" basedir="${uiclasses.dir}">
             <include name="**/*.class"/>
             <patternset refid="meta.files"/>
+            <patternset refid="resource.files"/>
             <manifest>
                 <attribute name="Seam-Version" value="${version}.${patchlevel}"/>
             </manifest>
