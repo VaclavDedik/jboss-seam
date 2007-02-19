@@ -43,17 +43,24 @@ public class SelectDateTag
     }
 
     private String forField;
+    private String defaultCss;
 
     @Override
     protected void setProperties(UIComponent component)
     {
         super.setProperties(component);
         setStringProperty(component, "for", forField);
+        setStringProperty(component, "defaultCss", defaultCss);
     }
 
     public void setFor(String forField)
     {
         this.forField = forField;
+    }
+    
+    public void setDefaultCss(String defaultCss)
+    {
+       this.defaultCss = defaultCss;
     }
 
 }

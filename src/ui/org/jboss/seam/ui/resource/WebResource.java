@@ -25,6 +25,8 @@ import org.jboss.seam.util.Resources;
 @Intercept(NEVER)
 public class WebResource extends AbstractResource
 {
+   public static final String WEB_RESOURCE_PATH = "/seam/resource/web";
+   
    private static final String RESOURCE_PATH = "/web";
    
    @Override

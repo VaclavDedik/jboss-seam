@@ -466,6 +466,10 @@
             <property-name>for</property-name>
             <property-class>java.lang.String</property-class>
         </property>
+        <property>
+            <property-name>defaultCss</property-name>
+            <property-class>boolean</property-class>
+        </property>
     </component>
 
     <component>

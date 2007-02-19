@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <web-app version="2.5"
     xmlns="http://java.sun.com/xml/ns/javaee"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
-
     <session-config>
         <session-timeout>3</session-timeout>
     </session-config>
-
     <!-- Ajax4jsf (must come first!) -->
-        
     <filter>
         <display-name>Ajax4jsf Filter</display-name>
         <filter-name>ajax4jsf</filter-name>
@@ -21,18 +17,25 @@
         <filter-name>ajax4jsf</filter-name>
         <url-pattern>*.seam</url-pattern>
     </filter-mapping>
-
     <context-param>
         <param-name>org.ajax4jsf.VIEW_HANDLERS</param-name>
         <param-value>org.jboss.seam.ui.facelet.SeamFaceletViewHandler</param-value>
     </context-param>
     
     <!-- Seam -->
-   
     <listener>
         <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
     </listener>
-
+    
+    <servlet>
+      <servlet-name>Seam Resource Servlet</servlet-name>
+      <servlet-class>org.jboss.seam.servlet.ResourceServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+      <servlet-name>Seam Resource Servlet</servlet-name>
+      <url-pattern>/seam/resource/*</url-pattern>
+    </servlet-mapping>     
     <!-- Propagate conversations across redirects -->
     <filter>
         <filter-name>Seam Redirect Filter</filter-name>
@@ -43,7 +46,6 @@
         <filter-name>Seam Redirect Filter</filter-name>
         <url-pattern>*.seam</url-pattern>
     </filter-mapping>
-
     <filter>
         <filter-name>Seam Exception Filter</filter-name>
         <filter-class>org.jboss.seam.servlet.SeamExceptionFilter</filter-class>
@@ -53,36 +55,30 @@
         <filter-name>Seam Exception Filter</filter-name>
         <url-pattern>*.seam</url-pattern>
     </filter-mapping>
-
     <!-- JSF -->
     
     <context-param>
         <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
         <param-value>client</param-value>
     </context-param>
-
     <context-param>
         <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
         <param-value>.xhtml</param-value>
     </context-param>
-
     <context-param>
         <param-name>facelets.DEVELOPMENT</param-name>
         <param-value>true</param-value>
     </context-param>
-
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
-
     <!-- Faces Servlet Mapping -->
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.seam</url-pattern>
     </servlet-mapping>
-
     <!-- MyFaces -->
     <listener>
         <listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>

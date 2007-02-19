@@ -1,0 +1,180 @@
+ .seam-date 
+{
+  width: 147px;
+  border: 1px solid #333333;
+}
+
+.seam-date-monthNames
+{
+  width: 70px;
+  border: 1px solid #dddddd;
+  border-right: 3px solid #444444;
+  border-bottom: 3px solid #444444;
+  background-color: #ffffff; 
+  font-size: 11px;
+  cursor: pointer;	
+  font-family: arial;
+  font-weight: normal;
+}
+
+a.seam-date-monthNameLink, a.seam-date-monthNameLink:visited
+{
+  text-align: center;
+  display: block;
+  color: #555555;  
+}
+
+a.seam-date-monthNameLink:hover
+{
+  background-color: #FFCC33;
+  color: black;
+}
+
+.seam-date-years
+{
+  height: 10em;
+  overflow: auto;
+  width: 60px;
+  border: 1px solid #dddddd;
+  border-right: 3px solid #444444;
+  border-bottom: 3px solid #444444;
+  background-color: #ffffff; 
+  font-size: 11px;
+  cursor: pointer;	
+  font-family: arial;
+  font-weight: normal;
+}
+
+a.seam-date-yearLink, a.seam-date-yearLink:visited
+{
+  text-align: center;
+  display: block;
+  color: #555555;    
+}
+
+a.seam-date-yearLink:hover
+{
+  background-color: #FFCC33;
+  color: black;
+}  
+  
+.seam-date-header
+{
+  padding: 0px 4px 0px 4px;
+  background-color: #555555; 
+  color: white;
+  font-family: arial;
+  font-weight: bold;
+  font-size: 11px;
+}
+
+table.seam-date td {
+  font-family: arial;
+  font-weight: 11px; 
+  border: 0px;
+}
+
+tr.seam-date-header > td
+{
+  text-align: center;
+  height: 20px;
+}
+
+td.seam-date-header-prevMonth
+{
+  background-image: url("cal-prev.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: 0px 2px 0px 2px;
+  width: 16px;
+}
+
+td.seam-date-header-nextMonth
+{
+  background-image: url("cal-next.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: 0px 2px 0px 2px;
+  width: 16px;
+}
+
+tr.seam-date-headerDays
+{
+  background-color: #555555; 
+  color: white;
+  font-weight: normal;
+}
+
+tr.seam-date-headerDays > td
+{
+  text-align: center;
+  border-top: 1px solid #ffffff;
+/* border-bottom: 1px solid #f1b506;*/
+}
+
+tr.seam-date-footer
+{
+  background-color: #555555; 
+  color: white;
+  font-weight: normal;
+}
+
+tr.seam-date-footer > td
+{
+  text-align: center;
+}
+
+td.seam-date-inMonth
+{
+  background-color: white; 
+  color: black;
+  font-weight: normal;
+  cursor: pointer;
+}
+
+td.seam-date-eventDay
+{
+  background-color: white; 
+  color: blue;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+td.seam-date-outMonth
+{
+  background-color: white; 
+  color: #999999;
+  font-weight: normal;
+  cursor: pointer;
+}
+
+td.seam-date-highlightDay
+{
+  background-color: #ffcc33; 
+  color: black;
+  font-weight: normal;
+}
+
+td.seam-date-today
+{
+  background-color: #fff6ac; 
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+td.seam-date-dayOff-inMonth
+{
+  background-color: #efefef;
+  color: black;
+  font-weight: normal;
+  cursor: pointer;
+}
+
+td.seam-date-dayOff-outMonth
+{
+  background-color: #efefef;
+  color: #999999;
+  font-weight: normal;
+  cursor: pointer;
+}

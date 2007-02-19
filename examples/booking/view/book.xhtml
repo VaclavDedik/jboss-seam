@@ -64,8 +64,8 @@
                                         <s:convertDateTime pattern="MM/dd/yyyy"/>
                                         <a:support event="onblur" reRender="checkinDateDecorate"/>
                                     </h:inputText>
-                                    <s:selectDate for="checkinDate">
-                                        <h:graphicImage url="img/dtpick.gif" style="margin-left:5px"/>
+                                    <s:selectDate for="checkinDate" defaultCss="true">
+                                        <h:graphicImage url="img/dtpick.gif" style="margin-left:5px;cursor:pointer"/>
                                     </s:selectDate>
                                 </s:decorate>
                             </div>
@@ -80,7 +80,7 @@
                                         <a:support event="onblur" reRender="checkoutDateDecorate"/>
                                     </h:inputText>
                                     <s:selectDate for="checkoutDate">
-                                        <h:graphicImage url="img/dtpick.gif" style="margin-left:5px"/>
+                                        <h:graphicImage url="img/dtpick.gif" style="margin-left:5px;cursor:pointer"/>
                                     </s:selectDate>
                                 </s:decorate>
                             </div>
