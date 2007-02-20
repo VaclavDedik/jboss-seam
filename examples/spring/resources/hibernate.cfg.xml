@@ -4,7 +4,7 @@
 
 <hibernate-configuration>
     <session-factory name="java:/bookingDatabase">
-        <property name="show_sql">false</property>
+        <property name="show_sql">true</property>
         <property name="connection.datasource">java:/DefaultDS</property>
         <property name="hbm2ddl.auto">create-drop</property>
         <property name="cache.provider_class">org.hibernate.cache.HashtableCacheProvider</property>

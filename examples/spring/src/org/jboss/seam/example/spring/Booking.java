@@ -22,20 +22,22 @@ import org.jboss.seam.annotations.Name;
 
 @Entity
 @Name("booking")
-public class Booking implements Serializable
+public class Booking 
+    implements Serializable
 {
-   private Long id;
-   private User user;
-   private Hotel hotel;
-   private Date checkinDate;
-   private Date checkoutDate;
-   private String creditCard;
-   private String creditCardName;
-   private int creditCardExpiryMonth;
-   private int creditCardExpiryYear;
-   private boolean smoking;
-   private int beds;
-   
+    private static final long serialVersionUID = 2149196747007576668L;
+    private Long id;
+    private User user;
+    private Hotel hotel;
+    private Date checkinDate;
+    private Date checkoutDate;
+    private String creditCard;
+    private String creditCardName;
+    private int creditCardExpiryMonth;
+    private int creditCardExpiryYear;
+    private boolean smoking;
+    private int beds;
+
    public Booking() {}
    
    public Booking(Hotel hotel, User user)

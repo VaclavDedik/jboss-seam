@@ -16,15 +16,16 @@ public class BookingService {
 	private Session session;
 
 	@SuppressWarnings("unchecked")
-    public List<Hotel> findHotels(String searchPattern, int firstResult, int maxResults) {
-		return session.createQuery("select h from Hotel h where lower(h.name) like :search or lower(h.city) like :search or lower(h.zip) like :search or lower(h.address) like :search")
+    public List<Hotel> findHotels(String searchPattern, int firstResult, int maxResults) {        
+        return session.createQuery("select h from Hotel h where lower(h.name) like :search or lower(h.city) like :search or lower(h.zip) like :search or lower(h.address) like :search")
 	            .setParameter("search", searchPattern)
 	            .setMaxResults(maxResults)
 	            .setFirstResult( firstResult )
 	            .list();
 	}
 
-	public List findBookingsByUsername(String username) {
+	@SuppressWarnings("unchecked")
+    public List<Booking> findBookingsByUsername(String username) {
 		return session.createQuery("select b from Booking b where b.user.username = :username order by b.checkinDate")
 				.setParameter("username", username).list();
 	}
@@ -39,7 +40,9 @@ public class BookingService {
 		}
 	}
 
-	public void validateBooking(Booking booking) throws ValidationException {
+	public void validateBooking(Booking booking) 
+        throws ValidationException 
+   {
 		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.DAY_OF_MONTH, -1);
 		if (booking.getCheckinDate().before(calendar.getTime())) {
@@ -49,9 +52,12 @@ public class BookingService {
 		}
 	}
 
-	public void bookHotel(Booking booking) throws ValidationException {
+	public void bookHotel(Booking booking) 
+        throws ValidationException 
+    {        
 		validateBooking(booking);
 		session.persist(booking);
+        session.flush(); 
 	}
 
 	public Hotel findHotelById(Long hotelId) {
