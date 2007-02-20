@@ -1,7 +1,18 @@
- .seam-date 
+div.seam-date 
 {
-  width: 147px;
-  border: 1px solid #333333;
+  margin-top: 5px;
+  border: 1px solid #AAAAAA;
+  background: #fff url(bg.gif) 0 0 repeat-x;
+  background-color: #FFFFFF;  
+  color: #505050;
+  font-family: Tahoma, Arial, Helvetica, sans-serif;
+  font-size: 12px;
+}
+
+table.seam-date td {
+  font-family: Tahoma, Arial, Helvetica, sans-serif;
+  font-weight: 11px; 
+  border: 0px;
 }
 
 .seam-date-monthNames
@@ -11,9 +22,9 @@
   border-right: 3px solid #444444;
   border-bottom: 3px solid #444444;
   background-color: #ffffff; 
-  font-size: 11px;
+  font-size: 12px;
   cursor: pointer;	
-  font-family: arial;
+  font-family: Tahoma, Arial, Helvetica, sans-serif;
   font-weight: normal;
 }
 
@@ -25,9 +36,9 @@ a.seam-date-monthNameLink, a.seam-date-monthNameLink:visited
 }
 
 a.seam-date-monthNameLink:hover
-{
-  background-color: #FFCC33;
-  color: black;
+{ 
+  background-color: #CCCCCC;
+  color: red;  
 }
 
 .seam-date-years
@@ -39,9 +50,9 @@ a.seam-date-monthNameLink:hover
   border-right: 3px solid #444444;
   border-bottom: 3px solid #444444;
   background-color: #ffffff; 
-  font-size: 11px;
+  font-size: 12px;
   cursor: pointer;	
-  font-family: arial;
+  font-family: Tahoma, Arial, Helvetica, sans-serif;
   font-weight: normal;
 }
 
@@ -54,30 +65,23 @@ a.seam-date-yearLink, a.seam-date-yearLink:visited
 
 a.seam-date-yearLink:hover
 {
-  background-color: #FFCC33;
-  color: black;
+  background-color: #CCCCCC;
+  color: red;    
 }  
+
+tr.seam-date-header
+{
+  padding: 2px 0px 2px 0px;
+}
   
-.seam-date-header
+td.seam-date-header
 {
-  padding: 0px 4px 0px 4px;
-  background-color: #555555; 
-  color: white;
-  font-family: arial;
-  font-weight: bold;
-  font-size: 11px;
-}
-
-table.seam-date td {
-  font-family: arial;
-  font-weight: 11px; 
-  border: 0px;
-}
-
-tr.seam-date-header > td
-{
+  padding: 0px 8px 0px 8px;
   text-align: center;
-  height: 20px;
+  color: gray;
+  font-family: Tahoma, Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  font-size: 12px;  
 }
 
 td.seam-date-header-prevMonth
@@ -86,7 +90,8 @@ td.seam-date-header-prevMonth
   background-repeat: no-repeat;
   background-position: center;
   padding: 0px 2px 0px 2px;
-  width: 16px;
+  width: 17px;
+  margin-left: 2px;
 }
 
 td.seam-date-header-nextMonth
@@ -95,28 +100,30 @@ td.seam-date-header-nextMonth
   background-repeat: no-repeat;
   background-position: center;
   padding: 0px 2px 0px 2px;
-  width: 16px;
+  width: 17px;
+  margin-right: 2px;
 }
 
 tr.seam-date-headerDays
 {
-  background-color: #555555; 
   color: white;
   font-weight: normal;
 }
 
 tr.seam-date-headerDays > td
 {
+  background-color: #CCCCCC;
+  border: 1px solid #AAAAAA;
+  color: white;
   text-align: center;
-  border-top: 1px solid #ffffff;
-/* border-bottom: 1px solid #f1b506;*/
+  width: 26px;   
 }
 
 tr.seam-date-footer
 {
-  background-color: #555555; 
-  color: white;
-  font-weight: normal;
+  background-color: white; 
+  color: #505050;
+  font-weight: bold;
 }
 
 tr.seam-date-footer > td
@@ -130,6 +137,7 @@ td.seam-date-inMonth
   color: black;
   font-weight: normal;
   cursor: pointer;
+  border: 1px solid #ece9d8;
 }
 
 td.seam-date-eventDay
@@ -138,6 +146,7 @@ td.seam-date-eventDay
   color: blue;
   font-weight: bold;
   cursor: pointer;
+  border: 1px solid #ece9d8;
 }
 
 td.seam-date-outMonth
@@ -146,21 +155,32 @@ td.seam-date-outMonth
   color: #999999;
   font-weight: normal;
   cursor: pointer;
+  border: 1px solid #ece9d8;
 }
 
 td.seam-date-highlightDay
 {
-  background-color: #ffcc33; 
+  background-color: #CCCCCC;        
+  border: 1px solid #AAAAAA; 
   color: black;
   font-weight: normal;
 }
 
 td.seam-date-today
 {
-  background-color: #fff6ac; 
   color: black;
   font-weight: bold;
   cursor: pointer;
+  background-color: #dddddd;
+  border: 1px solid #cccccc;
+}
+
+td.seam-date-selected
+{
+  background-color: #CCCCCC;        
+  border: 1px solid #AAAAAA; 
+  color: black;
+  font-weight: normal;
 }
 
 td.seam-date-dayOff-inMonth
@@ -169,6 +189,7 @@ td.seam-date-dayOff-inMonth
   color: black;
   font-weight: normal;
   cursor: pointer;
+  border: 1px solid #ece9d8;
 }
 
 td.seam-date-dayOff-outMonth
@@ -177,4 +198,13 @@ td.seam-date-dayOff-outMonth
   color: #999999;
   font-weight: normal;
   cursor: pointer;
+  border: 1px solid #ece9d8;
+}
+
+td.seam-date-hover 
+{
+  background-color: #CCCCCC;
+  border: 1px solid #AAAAAA;
+  cursor: pointer;
+  color: red;
 }

@@ -133,8 +133,8 @@ function __CalendarFactory()
   this.monthsLong = CAL_MONTHS_LONG.split(',');
 
   this.displayFormat = CAL_DATE_FORMAT.toLowerCase();
-  this.entryFormats = new Array();
-  this.entrySeparators = new Array();    
+  this.entryFormats = [CAL_DATE_FORMAT.toLowerCase()];
+  this.entrySeparators = [' ', '/'];
      
   __CalendarFactory.prototype.setDisplayFormat = function(displayFormat) { this.displayFormat = displayFormat.toLowerCase(); };
   __CalendarFactory.prototype.setEntryFormats = function(entryFormats) { this.entryFormats = entryFormats.split(','); };
@@ -222,21 +222,6 @@ function __CalendarFactory()
     return new Date(dateElements[0], (dateElements[1] * 1) - 1, dateElements[2]);       
   };
 
-  __CalendarFactory.prototype.getJulianDate = function (dateString) {
-  	var julianDate = 0;
-  	if (!dateString) return 0;
-
-    var date = this.validateDate(dateString);
-
-    if (date) {
-    	julianDate = date.year * 1000;
-    	for (var monthIdx = 0; monthIdx < date.month - 1; monthIdx ++)
-    	  julianDate += this.monthDays(date.year, date.month - 1);
-    	julianDate += date.day;
-    }
-    return julianDate;
-  };
-
   __CalendarFactory.prototype.setViewDate = function(valueCtlName)
   {
   	var viewCtl = getObject("__" + valueCtlName + "_view");
@@ -279,6 +264,13 @@ function __CalendarFactory()
     }
     return value.split(" ");
   };
+  
+  __CalendarFactory.prototype.parseDateValue = function(value)
+  {
+    var validatedDate = this.validateDate(value);
+    if (validatedDate)
+      return new Date(validatedDate.year, validatedDate.month - 1, validatedDate.day);
+  }
 
   __CalendarFactory.prototype.validateDate = function(value)
   {
@@ -409,7 +401,7 @@ function __Calendar(calendarNumber, name)
   this.staticCalendar = false;  
 
   this.dayNames = __calendarFactory.daysLong;
-  this.dayHeaders = __calendarFactory.daysShort;
+  this.dayHeaders = __calendarFactory.daysMedium;
   this.monthNames = __calendarFactory.monthsLong;
   this.checkEventDate = null;
   
@@ -474,7 +466,7 @@ function __Calendar(calendarNumber, name)
   {
     var html = "";
 
-    html += "<table width=\"100%\" cellpadding=0 cellspacing=0 border=0 style=\"" + this.styleClass + "\">";
+    html += "<table style=\"" + this.styleClass + "\">";
     html += this.buildDayHeaders();
     html += this.buildDays();
     html += this.buildFooter();
@@ -582,41 +574,51 @@ function __Calendar(calendarNumber, name)
     var eventDate = (this.checkEventDate && this.checkEventDate(dayDate));
     var dayOff = (this.daysOff) && (this.daysOff.contains((dow * 1) + 1)); 
     var thisDate = Math.floor(dayDate);
+    
+    var selectedDate = __calendarFactory.parseDateValue(getObject(this.name).value);
 
     if ((dayIdx % DAYS_IN_WEEK) == 0)
       html += "<tr>";
 
     html += "<td align=\"center\"";
 
+    var suffix = "";
+    
     if (eventDate)
     {
       if (dayOff)
-        html += " class=\"" + this.styleClass + "-eventDay-off\" "; 
+        suffix = "-eventDay-off";
       else
-        html += " class=\"" + this.styleClass + "-eventDay\" "; 
+        suffix = "-eventDay";
     }
-    else if (thisDate == Math.floor(this.today))
+    else if (selectedDate && thisDate == Math.floor(selectedDate))
     {
-      html += " class=\"" + this.styleClass + "-today\" ";
+      suffix = "-selected"; 
     }
+//    else if (thisDate == Math.floor(this.today))
+//    {
+//      suffix = "-today";
+//    }
     else if ((thisDate >= this.highlightStart) && (thisDate <= this.highlightEnd))
     {
-      html += " class=\"" + this.styleClass + "-highlightDay\" ";
+      suffix = "-highlightDay";
       inRange = true;
     }
     else if (dayOff)
     {
       if (inMonth)
-        html += " class=\"" + this.styleClass + "-dayOff-inMonth\" ";
+        suffix = "-dayOff-inMonth";
       else
-        html += " class=\"" + this.styleClass + "-dayOff-outMonth\" ";
+        suffix = "-dayOff-outMonth";
     }
     else if (!inMonth)
-      html += " class=\"" + this.styleClass + "-outMonth\" ";
+      suffix = "-outMonth";
     else
     {
-      html += " class=\"" + this.styleClass + "-inMonth\" ";
+      suffix = "-inMonth";
     }
+    
+    html += " class=\"" + this.styleClass + suffix + "\" ";
 
     if (!inRange && (this.onClickDate) && (!this.checkEventDate || eventDate))
     {
@@ -624,8 +626,11 @@ function __Calendar(calendarNumber, name)
     	if (this.isPopup)
     	  html += ";__calendarFactory.depopupCalendar()";
     	html += "\"";
+    	
+    	html += " onmouseover='this.className=\"" + this.styleClass + "-hover\"'";
+    	html += " onmouseout='this.className=\"" + this.styleClass + suffix + "\"'";
     }
-
+    
     html += " >" + day + "</td>";
 
     if ((dayIdx % DAYS_IN_WEEK) == (DAYS_IN_WEEK - 1))
