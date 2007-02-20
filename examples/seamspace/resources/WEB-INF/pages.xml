@@ -6,7 +6,7 @@
 
     <page view-id="/home.xhtml">
         <navigation from-action="#{identity.login}">
-            <rule if-outcome="success">
+            <rule if-outcome="loggedIn">
                 <redirect view-id="/profile.xhtml"/>
             </rule>
         </navigation>
