@@ -121,14 +121,7 @@
     <local>org.jboss.seam.example.booking.HotelSearching</local>       
     <ejb-link>HotelSearchingAction</ejb-link>    
   </ejb-local-ref>    
-  
-  <ejb-local-ref>       
-    <ejb-ref-name>jboss-seam-glassfish/LoginAction/local</ejb-ref-name>       
-    <ejb-ref-type>Session</ejb-ref-type>       
-    <local>org.jboss.seam.example.booking.Login</local>       
-    <ejb-link>LoginAction</ejb-link>    
-  </ejb-local-ref>
-  
+    
   <ejb-local-ref>       
     <ejb-ref-name>jboss-seam-glassfish/TransactionListener/local</ejb-ref-name>       
     <ejb-ref-type>Session</ejb-ref-type>       
