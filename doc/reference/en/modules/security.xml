@@ -614,8 +614,10 @@ if (!Identity.instance().hasPermission("customer", "create", null))
     </h:column>   
     <h:column>
         <f:facet name="header">Action</f:facet>
-        <s:link value="Modify Client" action="#{clientAction.modify}" rendered="#{s:hasPermission('client','modify',cl)"/>
-        <s:link value="Delete Client" action="#{clientAction.delete}" rendered="#{s:hasPermission('client','delete',cl)"/>
+        <s:link value="Modify Client" action="#{clientAction.modify}"
+                rendered="#{s:hasPermission('client','modify',cl)"/>
+        <s:link value="Delete Client" action="#{clientAction.delete}"
+                rendered="#{s:hasPermission('client','delete',cl)"/>
     </h:column>
 </h:dataTable>]]></programlisting>
 
