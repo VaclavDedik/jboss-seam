@@ -191,6 +191,7 @@ public class UITable
         }
     }
     
+    @Override
     public void handleAdd(Object o) {
         if (o instanceof PdfPCell) {
             table.addCell((PdfPCell) o);

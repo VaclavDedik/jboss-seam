@@ -71,10 +71,11 @@ public class UIListItem
         }
     }
 
+    @Override
     public void removeITextObject() {
         listItem = null;
     }
-
+    @Override
     public void handleAdd(Object o) {
         listItem.add(o);
     }

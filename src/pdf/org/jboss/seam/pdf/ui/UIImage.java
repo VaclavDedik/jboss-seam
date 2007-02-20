@@ -239,6 +239,7 @@ public class UIImage
         }
     }
 
+    @Override
     public void handleAdd(Object o) {
         throw new RuntimeException("can't add " + o.getClass().getName() + " to image");
     }

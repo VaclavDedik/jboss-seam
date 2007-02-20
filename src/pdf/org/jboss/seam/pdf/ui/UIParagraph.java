@@ -124,6 +124,7 @@ public class UIParagraph
         }
     }
 
+    @Override
     public void handleAdd(Object o) {
         paragraph.add(o);
     }

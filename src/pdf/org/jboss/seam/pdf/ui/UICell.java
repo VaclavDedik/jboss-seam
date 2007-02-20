@@ -277,7 +277,8 @@ public class UICell
 		return null;
 	}
 
-	public void handleAdd(Object o) {
+	@Override
+    public void handleAdd(Object o) {
 		if (o instanceof Phrase) {
 		    cell.setPhrase((Phrase) o);
 		} else if (o instanceof Element) {

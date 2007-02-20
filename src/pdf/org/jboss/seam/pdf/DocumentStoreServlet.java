@@ -3,10 +3,7 @@ package org.jboss.seam.pdf;
 import java.io.IOException;
 
 import javax.faces.event.PhaseId;
-import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +13,6 @@ import org.jboss.seam.contexts.ContextAdaptor;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.util.Parameters;
-import org.jboss.seam.web.ContextFilter;
 
 public class DocumentStoreServlet 
     extends HttpServlet 
@@ -28,19 +24,7 @@ public class DocumentStoreServlet
         throws ServletException, 
                IOException 
     {
-//        ContextFilter filter = new ContextFilter();
-//        filter.doFilter(request, response, new FilterChain() {
-//
-//            public void doFilter(ServletRequest request, ServletResponse response) 
-//                throws IOException, ServletException 
-//            {
-//               System.out.println("GOT IT!");
-//               doWork((HttpServletRequest) request, (HttpServletResponse) response);               
-//            }
-//        });   
-               
-        
-        HttpSession session = ( (HttpServletRequest) request ).getSession(true);
+        HttpSession session = request .getSession(true);
         Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
         Lifecycle.setServletRequest(request);
         Lifecycle.beginRequest(getServletContext(), session, request);

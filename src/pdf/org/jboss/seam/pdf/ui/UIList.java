@@ -104,6 +104,7 @@ public class UIList
         }
     }
 
+    @Override
     public void handleAdd(Object o) {
         list.add(o);
     }

@@ -6,7 +6,6 @@ import org.jboss.seam.pdf.ITextUtils;
 import org.jboss.seam.pdf.DocumentStore;
 import org.jboss.seam.pdf.DocumentData.DocType;
 
-import javax.faces.FacesException;
 import javax.faces.component.UIComponent;
 import javax.faces.component.ValueHolder;
 import javax.faces.context.*;

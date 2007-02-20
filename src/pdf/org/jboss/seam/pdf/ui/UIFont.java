@@ -56,6 +56,7 @@ public class UIFont
         }
     }
 
+    @Override
     public void handleAdd(Object o) {
         addToITextParent(o);
     }
