@@ -2239,7 +2239,6 @@ public class NumberGuess {
 @Name("hotelSearch")
 @Scope(ScopeType.SESSION)
 @LoggedIn
-@Synchronized
 public class HotelSearchingAction implements HotelSearching
 {
    
