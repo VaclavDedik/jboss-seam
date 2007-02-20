@@ -15,13 +15,12 @@
     <!-- XX fix schemaloc -->
 
     <bean id="userService" class="org.jboss.seam.example.spring.UserService">
-        <property name="session" ref="managedSession"/>
+        <property name="entityManager" ref="em"/>
     </bean>
 
     <bean id="bookingService" class="org.jboss.seam.example.spring.BookingService">
-        <property name="session" ref="managedSession"/>
+        <property name="entityManager" ref="em"/>
     </bean>
-    <seam:instance id="managedSession" name="bookingDatabase" proxy="true"/>
-
-
+    
+    <seam:instance id="em" name="entityManager" proxy="true"/>
 </beans>

@@ -1,10 +1,9 @@
-/**
- *
- */
 package org.jboss.seam.example.spring;
 
 import java.util.Calendar;
 import java.util.List;
+
+import javax.persistence.EntityManager;
 
 import org.hibernate.Session;
 
@@ -13,30 +12,30 @@ import org.hibernate.Session;
  *
  */
 public class BookingService {
-	private Session session;
+	private EntityManager entityManager;
 
 	@SuppressWarnings("unchecked")
     public List<Hotel> findHotels(String searchPattern, int firstResult, int maxResults) {        
-        return session.createQuery("select h from Hotel h where lower(h.name) like :search or lower(h.city) like :search or lower(h.zip) like :search or lower(h.address) like :search")
+        return entityManager.createQuery("select h from Hotel h where lower(h.name) like :search or lower(h.city) like :search or lower(h.zip) like :search or lower(h.address) like :search")
 	            .setParameter("search", searchPattern)
 	            .setMaxResults(maxResults)
 	            .setFirstResult( firstResult )
-	            .list();
+	            .getResultList();
 	}
 
 	@SuppressWarnings("unchecked")
     public List<Booking> findBookingsByUsername(String username) {
-		return session.createQuery("select b from Booking b where b.user.username = :username order by b.checkinDate")
-				.setParameter("username", username).list();
+		return entityManager.createQuery("select b from Booking b where b.user.username = :username order by b.checkinDate")
+                            .setParameter("username", username).getResultList();
 	}
 
 	public void cancelBooking(Long bookingId) {
 		if (bookingId == null) {
 			throw new IllegalArgumentException("BookingId cannot be null");
 		}
-		Booking cancelled = (Booking) session.get(Booking.class, bookingId);
+		Booking cancelled = (Booking) entityManager.find(Booking.class, bookingId);
 		if (cancelled != null) {
-			session.delete(cancelled);
+			entityManager.remove(cancelled);
 		}
 	}
 
@@ -56,21 +55,21 @@ public class BookingService {
         throws ValidationException 
     {        
 		validateBooking(booking);
-		session.persist(booking);
-        session.flush(); 
+		entityManager.persist(booking);
+        entityManager.flush(); 
 	}
 
 	public Hotel findHotelById(Long hotelId) {
 		if (hotelId == null) {
 			throw new IllegalArgumentException("hotelId cannot be null");
 		}
-		return (Hotel) session.get(Hotel.class, hotelId);
+		return (Hotel) entityManager.find(Hotel.class, hotelId);
 	}
 
 	/**
-	 * @param session the session to set
+	 * @param entityManager the entity manager
 	 */
-	public void setSession(Session session) {
-		this.session = session;
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
 	}
 }
