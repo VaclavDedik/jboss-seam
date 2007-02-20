@@ -24,7 +24,9 @@ public class SecurityInterceptor extends AbstractInterceptor
    @AroundInvoke
    public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
-      Method method = invocation.getMethod();
+      Method interfaceMethod = invocation.getMethod();
+      //TODO: optimize this:
+      Method method = getComponent().getBeanClass().getMethod( interfaceMethod.getName(), interfaceMethod.getParameterTypes() );
       Restrict restrict = getRestriction(method);
       if (restrict != null)
       {
