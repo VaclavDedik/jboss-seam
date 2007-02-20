@@ -21,7 +21,7 @@
                                          value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
                                    <s:convertDateTime type="date" dateStyle="short" pattern="MM/dd/yyyy"/>
                                </h:inputText>
-                               <s:selectDate for="${property.name}">
+                               <s:selectDate for="${property.name}" defaultCss="true">
                                    <h:graphicImage url="img/dtpick.gif" style="margin-left:5px"/>
                                </s:selectDate>
 <#elseif propertyType == "time">
@@ -133,7 +133,7 @@
                                   value="${'#'}{${homeName}.instance.${property.name}}">
                             <s:convertDateTime type="date" dateStyle="short" pattern="MM/dd/yyyy"/>
                         </h:inputText>
-                        <s:selectDate for="${property.name}">
+                        <s:selectDate for="${property.name}" defaultCss="true">
                             <h:graphicImage url="img/dtpick.gif" style="margin-left:5px"/>
                         </s:selectDate>
 <#elseif propertyType == "time">
