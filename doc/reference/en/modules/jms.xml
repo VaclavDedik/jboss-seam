@@ -269,7 +269,7 @@ private QueueSession queueSession;
 public void publish(Payment payment) {
       try
       {
-         paymentQueueSender.publish( queueSession.createObjectMessage(payment) );
+         paymentQueueSender.send( queueSession.createObjectMessage(payment) );
       } 
       catch (Exception ex)
       {
