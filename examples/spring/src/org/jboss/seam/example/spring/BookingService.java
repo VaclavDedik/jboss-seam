@@ -15,7 +15,8 @@ import org.hibernate.Session;
 public class BookingService {
 	private Session session;
 
-	public List<Hotel> findHotels(String searchPattern, int firstResult, int maxResults) {
+	@SuppressWarnings("unchecked")
+    public List<Hotel> findHotels(String searchPattern, int firstResult, int maxResults) {
 		return session.createQuery("select h from Hotel h where lower(h.name) like :search or lower(h.city) like :search or lower(h.zip) like :search or lower(h.address) like :search")
 	            .setParameter("search", searchPattern)
 	            .setMaxResults(maxResults)

@@ -25,7 +25,7 @@ public class HotelSearchingAction
    private List<Hotel> hotels;
 
    public void find()
-   {
+   {       
       page = 0;
       queryHotels();
    }
@@ -39,7 +39,7 @@ public class HotelSearchingAction
    private void queryHotels()
    {
       String searchPattern = searchString==null ? "%" : '%' + searchString.toLowerCase().replace('*', '%') + '%';
-      hotels = bookingService.findHotels(searchPattern, pageSize, page * pageSize);
+      hotels = bookingService.findHotels(searchPattern, page * pageSize, pageSize);      
    }
 
    public boolean isNextPageAvailable()

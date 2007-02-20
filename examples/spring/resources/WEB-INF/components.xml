@@ -19,22 +19,3 @@
                                     auto-create="true"/>
     
 </components>
-
-<!--
-<components>
-
-    <component name="org.jboss.seam.core.init">
-        <property name="debug">true</property>
-    </component>
-
-    <component name="org.jboss.seam.core.manager">
-        <property name="conversationTimeout">120000</property>
-    </component>
-    
-    <component name="bookingDatabase" 
-              class="org.jboss.seam.core.ManagedHibernateSession"/>
-    <component name="hibernateSessionFactory"
-              class="org.jboss.seam.core.HibernateSessionFactory"/> 
-    
-</components>
--->
