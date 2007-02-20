@@ -41,6 +41,16 @@
         <filter-name>Seam Exception Filter</filter-name>
         <url-pattern>*.seam</url-pattern>
     </filter-mapping>
+    
+    <servlet>
+      <servlet-name>Seam Resource Servlet</servlet-name>
+      <servlet-class>org.jboss.seam.servlet.ResourceServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+      <servlet-name>Seam Resource Servlet</servlet-name>
+      <url-pattern>/seam/resource/*</url-pattern>
+    </servlet-mapping>     
 
     <context-param>
         <param-name>javax.faces.DEFAULT_SUFFIX</param-name>

@@ -47,6 +47,16 @@
     <url-pattern>*.seam</url-pattern>    
   </filter-mapping>    
   
+  <servlet>
+    <servlet-name>Seam Resource Servlet</servlet-name>
+    <servlet-class>org.jboss.seam.servlet.ResourceServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>Seam Resource Servlet</servlet-name>
+    <url-pattern>/seam/resource/*</url-pattern>
+  </servlet-mapping>   
+  
   <!-- JSF and Facelets -->        
   <context-param>        
     <param-name>javax.faces.STATE_SAVING_METHOD</param-name>        

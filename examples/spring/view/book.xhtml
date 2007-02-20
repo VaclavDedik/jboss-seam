@@ -57,7 +57,7 @@
                                     <h:inputText id="checkinDate" value="#{booking.checkinDate}" required="true">
                                         <s:convertDateTime pattern="MM/dd/yyyy"/>
                                     </h:inputText>
-                                    <s:selectDate for="checkinDate">
+                                    <s:selectDate for="checkinDate" defaultCss="true">
                                         <h:graphicImage url="img/dtpick.gif" style="margin-left:5px"/>
                                     </s:selectDate>
                                     <br/>
@@ -73,7 +73,7 @@
                                     <h:inputText id="checkoutDate" value="#{booking.checkoutDate}" required="true">
                                         <s:convertDateTime pattern="MM/dd/yyyy"/>
                                     </h:inputText>
-                                    <s:selectDate for="checkoutDate">
+                                    <s:selectDate for="checkoutDate" defaultCss="true">
                                         <h:graphicImage url="img/dtpick.gif" style="margin-left:5px"/>
                                     </s:selectDate>
                                     <br/>
