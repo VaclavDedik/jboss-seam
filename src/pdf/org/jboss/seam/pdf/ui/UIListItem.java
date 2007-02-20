@@ -34,10 +34,12 @@ public class UIListItem
         this.indentationRight = indentationRight;
     }
 
+    @Override
     public Object getITextObject() {
         return listItem;
     }
 
+    @Override
     public void createITextObject(FacesContext context) {
         listItem = new ListItem();
     

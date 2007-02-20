@@ -9,7 +9,7 @@ public class UIAnchor
     public static final String COMPONENT_TYPE   = "org.jboss.seam.pdf.ui.UIAnchor";
 
     Anchor anchor;
-    
+
     String name;
     String reference;
 
@@ -20,14 +20,17 @@ public class UIAnchor
         this.reference = reference;
     }
 
+    @Override
     public Object getITextObject() {
         return anchor;
     }
 
+    @Override
     public void removeITextObject() {
         anchor = null;
     }
 
+    @Override
     public void createITextObject(FacesContext context) {
         anchor = new Anchor();
 
@@ -42,6 +45,7 @@ public class UIAnchor
         }
     }
 
+    @Override
     public void handleAdd(Object o) {
         anchor.add(o);
     }

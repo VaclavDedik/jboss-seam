@@ -19,18 +19,22 @@ public class UISection
         return section;
     }
     
+    @Override
     public Object getITextObject() {
         return null; // don't add to parent - already added.
     }
 
+    @Override
     public void removeITextObject() {
         section = null;
     }
 
+    @Override
     public void handleAdd(Object o) {
         section.add(o);
     }
     
+    @Override
     public void createITextObject(FacesContext context) {
         UISection uiParent = (UISection)findITextParent(getParent(), UISection.class); 
         

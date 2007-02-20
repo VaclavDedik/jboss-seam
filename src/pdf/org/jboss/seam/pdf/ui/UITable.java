@@ -101,14 +101,17 @@ public class UITable
 	
     
     
+    @Override
     public Object getITextObject() {
         return table;
     }
     
+    @Override
     public void removeITextObject() {
         table = null;
     }
    
+    @Override
     public void createITextObject(FacesContext context) {
         columns = (Integer) valueBinding(context, "columns", columns);
         table = new PdfPTable(columns);

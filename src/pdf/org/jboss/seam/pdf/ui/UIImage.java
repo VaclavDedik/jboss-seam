@@ -106,10 +106,12 @@ public class UIImage
     }
 
     
+    @Override
     public Object getITextObject() {
         return image;
     }
    
+    @Override
     public void removeITextObject() {
         image = null;
     }
@@ -141,6 +143,7 @@ public class UIImage
         }        
     }
     
+    @Override
     public void createITextObject(FacesContext context) {       
         resource = (String) valueBinding(context,"resource", resource);
        

@@ -99,10 +99,12 @@ public class UIDocument
     }
     
     
+    @Override
     public Object getITextObject() {
         return document;
     }
 
+    @Override
     public void createITextObject(FacesContext context) {
         type = (String) valueBinding(context, "type", type);        
         docType = docTypeForName(type);
@@ -172,10 +174,12 @@ public class UIDocument
         }
     }
 
+    @Override
     public void removeITextObject() {
         document = null;
     }
 
+    @Override
     public void handleAdd(Object o) {
         if (o instanceof Element) {
             try {

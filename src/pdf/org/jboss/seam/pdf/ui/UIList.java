@@ -51,14 +51,17 @@ public class UIList
         this.lowerCase = lowerCase;
     }
 
+    @Override
     public Object getITextObject() {
         return list;
     }
 
+    @Override
     public void removeITextObject() {
         list = null;
     }
 
+    @Override
     public void createITextObject(FacesContext context) {
         style = (String) valueBinding(context, "style", style);
         lowerCase = (Boolean) valueBinding(context, "lowerCase", lowerCase);

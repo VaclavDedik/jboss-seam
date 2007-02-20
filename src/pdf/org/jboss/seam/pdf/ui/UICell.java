@@ -135,14 +135,17 @@ public class UICell
         this.rotation = rotation;
     }
 
+    @Override
     public Object getITextObject() {
         return cell;
     }
 
+    @Override
     public void removeITextObject() {
         cell = null;
     }
 
+    @Override
     public void createITextObject(FacesContext context) {
     	PdfPCell defaultCell = getDefaultCellFromTable();
     	if (defaultCell != null) {

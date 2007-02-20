@@ -11,18 +11,22 @@ public class UIPage
 {
     public static final String COMPONENT_TYPE   = "org.jboss.seam.pdf.ui.UIPage";
 
+    @Override
     public Object getITextObject() {
         return null;
     }
 
+    @Override
     public void removeITextObject() {
         // nothing to do
     }
 
+    @Override
     public void createITextObject(FacesContext context) {
         // nothing to do
     }
 
+    @Override
     public void handleAdd(Object o) {
         addToITextParent(o);
     }

@@ -27,18 +27,22 @@ public class UIFont
         this.style = style;
     }
 
+    @Override
     public Font getFont() {
         return font;
     }       
             
+    @Override
     public Object getITextObject() {
         return null; // we don't add to this component, so skip
     }
 
+    @Override
     public void removeITextObject() {
         font = null;
     }
     
+    @Override
     public void createITextObject(FacesContext context) {
         familyName = (String) valueBinding(context, "familyName", familyName);
         int family = (familyName==null) ? Font.UNDEFINED :  Font.getFamilyIndex(familyName);        

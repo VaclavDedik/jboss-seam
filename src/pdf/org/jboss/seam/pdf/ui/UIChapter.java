@@ -18,6 +18,7 @@ public class UIChapter
         this.number = number;
     }
     
+    @Override
     public Object getITextObject() {
         return section; 
     }

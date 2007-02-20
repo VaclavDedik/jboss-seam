@@ -53,14 +53,17 @@ public class UIParagraph
         this.keepTogether = keepTogether;
     }
 
+    @Override
     public Object getITextObject() {
         return paragraph;
     }
 
+    @Override
     public void removeITextObject() {
         paragraph = null;
     }
 
+    @Override
     public void createITextObject(FacesContext context) {
         Font font = getFont();
         if (font == null) {
