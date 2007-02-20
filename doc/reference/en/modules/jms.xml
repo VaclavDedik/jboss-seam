@@ -112,7 +112,7 @@ public interface PaymentHandler
     public void processScheduledPayment(Payment payment, @Expiration Date date);
 
     @Asynchronous
-    public void processRecurringPayment(Payment payment, @Expiration Date date, @IntervalDuration Date interval)'
+    public void processRecurringPayment(Payment payment, @Expiration Date date, @IntervalDuration Long interval)'
 }]]></programlisting>
         
         <programlisting><![CDATA[@Stateful
