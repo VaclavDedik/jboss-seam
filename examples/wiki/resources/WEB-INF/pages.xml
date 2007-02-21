@@ -3,7 +3,7 @@
 
 <pages login-view-id="/loginRequired.xhtml">
 
-    <page view-id="/display.xhtml" action="#{browser.prepare()}">
+    <page view-id="/display.xhtml" action="#{browser.prepare}">
         <param name="nodeId" value="#{browser.nodeId}"/>
 
         <end-conversation/>
@@ -18,7 +18,7 @@
         </navigation>
     </page>
 
-    <page view-id="/docDisplay.xhtml" action="#{browser.prepare()}">
+    <page view-id="/docDisplay.xhtml" action="#{browser.prepare}">
         <param name="nodeId" value="#{browser.nodeId}"/>
 
         <end-conversation/>
@@ -52,7 +52,7 @@
         </navigation>
     </page>
 
-    <page view-id="/dirDisplay.xhtml" action="#{browser.prepare()}">
+    <page view-id="/dirDisplay.xhtml" action="#{browser.prepare}">
         <param name="nodeId" value="#{browser.nodeId}"/>
 
         <end-conversation/>
@@ -110,7 +110,7 @@
             </rule>
 
             <rule if-outcome="error">
-                <redirect view-id="/blank.xhtml">
+                <redirect view-id="/message.xhtml">
                     <message severity="ERROR">An unrecoverable error occured!</message>
                 </redirect>
             </rule>
@@ -120,15 +120,15 @@
 
     <!-- Special pages -->
 
-    <page view-id="/confirmRegistration.xhtml" action="#{authenticator.activate()}">
+    <page view-id="/confirmRegistration.xhtml" action="#{authenticator.activate}">
         <navigation>
             <rule if-outcome="activated">
-                <redirect view-id="/blank.xhtml">
+                <redirect view-id="/message.xhtml">
                     <message severity="INFO">Your account has been activated, please log in.</message>
                 </redirect>
             </rule>
             <rule if-outcome="notFound">
-                <redirect view-id="/blank.xhtml">
+                <redirect view-id="/message.xhtml">
                     <message severity="ERROR">Your activation code is invalid.</message>
                 </redirect>
             </rule>
@@ -137,8 +137,8 @@
 
     <!-- These effectively "block" the user from navigating forward, he stays on the last browsed page and
          gets an error message. -->
-    <page view-id="/loginRequired.xhtml" action="#{browser.redirectToLastBrowsedPageWithConversation()}"/>
-    <page view-id="/permissionError.xhtml" action="#{browser.redirectToLastBrowsedPageWithConversation()}"/>
+    <page view-id="/loginRequired.xhtml" action="#{browser.redirectToLastBrowsedPageWithConversation}"/>
+    <page view-id="/permissionError.xhtml" action="#{browser.redirectToLastBrowsedPageWithConversation}"/>
     
     <exception class="org.jboss.seam.security.AuthorizationException">
         <end-conversation/>
