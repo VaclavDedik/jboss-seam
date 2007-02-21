@@ -68,26 +68,29 @@ public class ConverterChain implements Converter, StateHolder
       if (component instanceof ValueHolder)
       {
          ValueHolder valueHolder = (ValueHolder) component;
-         ValueBinding converterValueBinding = component.getValueBinding("converter");
-         if (converterValueBinding != null)
+         if (!(valueHolder.getConverter() instanceof ConverterChain)) 
          {
-            addConverterToChain(converterValueBinding);
-         }
-         else if (valueHolder.getConverter() != null)
-         {
-            addConverterToChain(valueHolder.getConverter());
-         }
-         else
-         {
-            ValueBinding valueBinding = component.getValueBinding("value");
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            if (valueBinding != null)
+            ValueBinding converterValueBinding = component.getValueBinding("converter");
+            if (converterValueBinding != null)
             {
-               addConverterToChain(facesContext.getApplication().createConverter(
-                        valueBinding.getType(facesContext)));
+               addConverterToChain(converterValueBinding);
             }
+            else if (valueHolder.getConverter() != null)
+            {
+               addConverterToChain(valueHolder.getConverter());
+            }
+            else
+            {
+               ValueBinding valueBinding = component.getValueBinding("value");
+               FacesContext facesContext = FacesContext.getCurrentInstance();
+               if (valueBinding != null)
+               {
+                  addConverterToChain(facesContext.getApplication().createConverter(
+                           valueBinding.getType(facesContext)));
+               }
+            }
+            valueHolder.setConverter(this);
          }
-         valueHolder.setConverter(this);
       }
    }
 
@@ -205,5 +208,15 @@ public class ConverterChain implements Converter, StateHolder
          Collections.sort(converters);
       }
       return converters;
+   }
+   
+   public boolean containsConverterType(Converter converter) {
+      // TODO Improve this
+      for (Converter c : converters) {
+         if (c.getClass().equals(converter)) {
+            return true;
+         }
+      }
+      return false;
    }
 }

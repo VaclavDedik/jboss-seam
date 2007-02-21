@@ -8,6 +8,7 @@ import java.util.List;
 import javax.faces.FacesException;
 import javax.faces.component.ValueHolder;
 import javax.faces.context.FacesContext;
+import javax.faces.convert.Converter;
 import javax.faces.el.ValueBinding;
 import javax.faces.model.DataModel;
 
@@ -258,7 +259,13 @@ public class UISelectItems extends javax.faces.component.UISelectItems
          NullableSelectItem s = new NullableSelectItem(NO_SELECTION_VALUE, getNoSelectionLabel());
          selectItems.add(s);
          ConverterChain converterChain = new ConverterChain(this.getParent());
-         converterChain.addConverterToChain(new NoSelectionConverter(), ConverterChain.CHAIN_START);
+         
+
+         Converter noSelectionConverter = new NoSelectionConverter();
+         // Make sure that the converter is only added once
+         if (!converterChain.containsConverterType(noSelectionConverter)) {
+            converterChain.addConverterToChain(noSelectionConverter, ConverterChain.CHAIN_START);
+         }
          return true;
       }
       else
