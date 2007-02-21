@@ -14,11 +14,14 @@
 
     <bean id="userService" class="org.jboss.seam.example.spring.UserService">
         <property name="entityManager" ref="em"/>
+        <seam:component />
     </bean>
 
     <bean id="bookingService" class="org.jboss.seam.example.spring.BookingService">
         <property name="entityManager" ref="em"/>
     </bean>
+
+    <seam:configure-scopes />
     
     <seam:instance id="em" name="entityManager" proxy="true"/>
 </beans>

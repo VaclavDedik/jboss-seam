@@ -19,7 +19,7 @@ public class LoginAction {
 	@Out(required = false)
 	private User user;
 
-	@In("#{userService}")
+	@In(create=true)
 	private UserService userService;
 
 	@In

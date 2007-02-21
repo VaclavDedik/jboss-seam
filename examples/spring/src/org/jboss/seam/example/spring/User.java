@@ -46,7 +46,7 @@ public class User implements Serializable
    }
    
    @NotNull
-   @Length(min=5, max=15)
+   @Length(min=4, max=15)
    public String getPassword()
    {
       return password;
@@ -57,7 +57,7 @@ public class User implements Serializable
    }
    
    @Id
-   @Length(min=5, max=15)
+   @Length(min=4, max=15)
    @Pattern(regex="^\\w*$", message="not a valid username")
    public String getUsername()
    {
