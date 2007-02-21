@@ -1,15 +1,14 @@
 package org.jboss.seam.wiki.core.dao;
 
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Transactional;
-import org.jboss.seam.wiki.core.users.User;
-import org.jboss.seam.wiki.core.users.Role;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
-import javax.persistence.Query;
+
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Transactional;
+import org.jboss.seam.wiki.core.users.Role;
+import org.jboss.seam.wiki.core.users.User;
 
 @Name("userDAO")
 public class UserDAO {
