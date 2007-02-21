@@ -130,10 +130,10 @@ public class Exceptions
          final String viewId = redirect.attributeValue("view-id");
          Element messageElement = redirect.element("message");
          final String message = messageElement==null ? null : messageElement.getTextTrim();
-         Element severityElement = messageElement==null ? null : messageElement.element("severity");
-         Severity severity = severityElement==null ? 
+         String severityName = messageElement==null ? null : messageElement.attributeValue("severity");
+         Severity severity = severityName==null ? 
                   FacesMessage.SEVERITY_INFO : 
-                  (Severity) FacesMessage.VALUES_MAP.get( severityElement.getText().toUpperCase() );
+                  (Severity) FacesMessage.VALUES_MAP.get( severityName.toUpperCase() );
          return new ConfigRedirectHandler(viewId, clazz, endConversation, message, severity);
       }
       

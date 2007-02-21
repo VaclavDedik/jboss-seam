@@ -1016,10 +1016,10 @@ public class Pages
          final String viewId = render.attributeValue("view-id");
          Element messageElement = render.element("message");
          String message = messageElement==null ? null : messageElement.getTextTrim();
-         Element severityElement = messageElement==null ? null : messageElement.element("severity");
-         Severity severity = severityElement==null ? 
+         String severityName = messageElement==null ? null : messageElement.attributeValue("severity");
+         Severity severity = severityName==null ? 
                   FacesMessage.SEVERITY_INFO : 
-                  (Severity) FacesMessage.VALUES_MAP.get( severityElement.getText().toUpperCase() );
+                  (Severity) FacesMessage.VALUES_MAP.get( severityName.toUpperCase() );
          rule.setNavigationHandler( new RenderNavigationHandler(viewId, message, severity) );
       }
       Element redirect = element.element("redirect");
@@ -1034,10 +1034,10 @@ public class Pages
          final String viewId = redirect.attributeValue("view-id");
          Element messageElement = redirect.element("message");
          String message = messageElement==null ? null : messageElement.getTextTrim();
-         Element severityElement = messageElement==null ? null : messageElement.element("severity");
-         Severity severity = severityElement==null ? 
+         String severityName = messageElement==null ? null : messageElement.attributeValue("severity");
+         Severity severity = severityName==null ? 
                   FacesMessage.SEVERITY_INFO : 
-                  (Severity) FacesMessage.VALUES_MAP.get( severityElement.getText().toUpperCase() );
+                  (Severity) FacesMessage.VALUES_MAP.get( severityName.toUpperCase() );
          rule.setNavigationHandler( new RedirectNavigationHandler(viewId, params, message, severity) );
       }
       List<Element> childElements = element.elements("out");
