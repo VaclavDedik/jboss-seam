@@ -11,8 +11,8 @@ import java.util.Enumeration;
 
 import javax.servlet.ServletContext;
 
+import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Seam;
 import org.jboss.seam.core.Events;
 
 /**
@@ -85,7 +85,7 @@ public class WebApplicationContext implements Context
 
    public Object get(Class clazz)
    {
-      return get( Seam.getComponentName(clazz) );
+      return get( Component.getComponentName(clazz) );
    }
 
    public void flush() {}

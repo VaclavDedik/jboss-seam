@@ -11,14 +11,14 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.jboss.seam.log.LogProvider;
-import org.jboss.seam.log.Logging;
+import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Seam;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.ProcessInstance;
 import org.jboss.seam.core.TaskInstance;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jbpm.context.exe.ContextInstance;
 
 /**
@@ -118,7 +118,7 @@ public class BusinessProcessContext implements Context {
 
    public Object get(Class clazz)
    {
-      return get( Seam.getComponentName(clazz) );
+      return get( Component.getComponentName(clazz) );
    }
    
    public void clear()

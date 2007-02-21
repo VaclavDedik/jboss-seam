@@ -11,8 +11,8 @@ import java.util.Map;
 
 import javax.faces.context.FacesContext;
 
+import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Seam;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Manager;
 
@@ -75,7 +75,7 @@ public class ClientConversationContext implements Context {
 
    public Object get(Class clazz)
    {
-      return get( Seam.getComponentName(clazz) );
+      return get( Component.getComponentName(clazz) );
    }
 
    /**

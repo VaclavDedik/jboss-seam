@@ -179,7 +179,7 @@ public class Component extends Model
    //only used for tests
    public Component(Class<?> clazz)
    {
-      this( clazz, Seam.getComponentName(clazz) );
+      this( clazz, getComponentName(clazz) );
    }
 
    // only used for tests
@@ -191,7 +191,7 @@ public class Component extends Model
    // only used for tests
    public Component(Class<?> clazz, Context applicationContext)
    {
-      this( clazz, Seam.getComponentName(clazz), Seam.getComponentScope(clazz), null, applicationContext );
+      this( clazz, getComponentName(clazz), Seam.getComponentScope(clazz), null, applicationContext );
    }
 
    public Component(Class<?> clazz, String componentName, ScopeType componentScope, String jndiName)
@@ -1514,6 +1514,16 @@ public class Component extends Model
       }
    }
 
+   public static String getComponentName(Class<?> clazz)
+   {
+      String componentName = Seam.getComponentName(clazz);
+      if (componentName==null)
+      {
+         throw new IllegalArgumentException("No @Name annotation for class: " + clazz.getName());
+      }
+      return componentName;
+   }
+
    public static Component forName(String name)
    {
       if ( !Contexts.isApplicationContextActive() )
@@ -1530,7 +1540,7 @@ public class Component extends Model
 
    public static Object getInstance(Class<?> clazz, boolean create)
    {
-      return getInstance( Seam.getComponentName(clazz), create );
+      return getInstance( getComponentName(clazz), create );
    }
 
    public static Object getInstance(Class<?> clazz, ScopeType scope)
@@ -1540,7 +1550,7 @@ public class Component extends Model
 
    public static Object getInstance(Class<?> clazz, ScopeType scope, boolean create)
    {
-      return getInstance( Seam.getComponentName(clazz), scope, create );
+      return getInstance( getComponentName(clazz), scope, create );
    }
 
    public static Object getInstance(String name)

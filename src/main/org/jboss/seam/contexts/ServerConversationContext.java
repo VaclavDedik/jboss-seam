@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.PerNestedConversation;
@@ -188,7 +189,7 @@ public class ServerConversationContext implements Context {
 
    public Object get(Class clazz)
    {
-      return get( Seam.getComponentName(clazz) );
+      return get( Component.getComponentName(clazz) );
    }
    
    public void clear()

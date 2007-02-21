@@ -16,8 +16,8 @@ import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseId;
 
+import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Seam;
 import org.jboss.seam.core.Events;
 
 /**
@@ -119,7 +119,7 @@ public class PageContext implements Context {
 
    public Object get(Class clazz)
    {
-      return get( Seam.getComponentName(clazz) );
+      return get( Component.getComponentName(clazz) );
    }
 
    /**
