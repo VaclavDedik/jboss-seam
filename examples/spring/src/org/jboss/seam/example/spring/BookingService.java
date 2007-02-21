@@ -39,7 +39,7 @@ public class BookingService
             throw new IllegalArgumentException("BookingId cannot be null");
         }
 
-        Booking cancelled = (Booking) getJpaTemplate().find(Booking.class, bookingId);
+        Booking cancelled = getJpaTemplate().find(Booking.class, bookingId);
         if (cancelled != null) {
             getJpaTemplate().remove(cancelled);
         }
@@ -74,6 +74,6 @@ public class BookingService
             throw new IllegalArgumentException("hotelId cannot be null");
         }
 
-        return (Hotel) getJpaTemplate().find(Hotel.class, hotelId);
+        return getJpaTemplate().find(Hotel.class, hotelId);
     }
 }

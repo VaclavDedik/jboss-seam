@@ -33,7 +33,7 @@ public class UserService {
         if (username == null || "".equals(username)) {
             throw new IllegalArgumentException("Username cannot be null");
         }
-        return (User) entityManager.find(User.class, username);
+        return entityManager.find(User.class, username);
     }
 
     public User findUser(String username, String password) {
