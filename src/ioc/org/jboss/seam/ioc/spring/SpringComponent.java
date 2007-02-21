@@ -29,7 +29,7 @@ import org.springframework.util.ClassUtils;
  *
  * @author youngm
  */
-public class SpringComponent extends IoCComponent 
+public class SpringComponent extends IoCComponent
 {
     private static final String SPRING_COMPONENT_NAME_MAP = "org.jboss.seam.SpringComponentNameMap";
 
@@ -44,12 +44,12 @@ public class SpringComponent extends IoCComponent
 
     private static final ThreadLocal<ObjectFactory> objectFactory = new ThreadLocal<ObjectFactory>();
 
-    public static ObjectFactory getObjectFactory() 
+    public static ObjectFactory getObjectFactory()
     {
         return objectFactory.get();
     }
 
-    public static void setObjectFactory(ObjectFactory bean) 
+    public static void setObjectFactory(ObjectFactory bean)
     {
         objectFactory.set(bean);
     }
@@ -66,19 +66,19 @@ public class SpringComponent extends IoCComponent
      * @param override If a seam component already exists should we override it?
      */
     public static void addSpringComponent(String componentName, String springBeanName, String beanClassName,
-            ScopeType scopeType, BeanFactory beanFactory, InterceptionType interceptorType, boolean override) 
+            ScopeType scopeType, BeanFactory beanFactory, InterceptionType interceptorType)
     {
         // mock the application context
         // TODO reuse
         boolean unmockApplication = false;
-        if (!Contexts.isApplicationContextActive()) 
+        if (!Contexts.isApplicationContextActive())
         {
             Lifecycle.mockApplication();
             unmockApplication = true;
         }
-        try 
+        try
         {
-            if (!override && Component.forName(componentName) != null) 
+            if (Component.forName(componentName) != null)
             {
                 throw new IllegalStateException("Cannot add spring component to seam with name: " + componentName
                         + ".  There is already a seam component with that name.");
@@ -92,14 +92,14 @@ public class SpringComponent extends IoCComponent
                     componentName + Initialization.COMPONENT_SUFFIX,
                     new SpringComponent(beanClass, componentName, springBeanName, scopeType, beanFactory,
                             interceptorType));
-        } 
-        catch (ClassNotFoundException e) 
+        }
+        catch (ClassNotFoundException e)
         {
             throw new FatalBeanException("Error", e);
-        } 
-        finally 
+        }
+        finally
         {
-            if (unmockApplication) 
+            if (unmockApplication)
             {
                 Lifecycle.unmockApplication();
             }
@@ -107,9 +107,9 @@ public class SpringComponent extends IoCComponent
     }
 
     @SuppressWarnings("unchecked")
-    private static Map<String, String> getSpringComponentNameMap() 
+    private static Map<String, String> getSpringComponentNameMap()
     {
-        if (Contexts.getApplicationContext().get(SPRING_COMPONENT_NAME_MAP) == null) 
+        if (Contexts.getApplicationContext().get(SPRING_COMPONENT_NAME_MAP) == null)
         {
             Contexts.getApplicationContext().set(SPRING_COMPONENT_NAME_MAP, new HashMap<String, String>());
         }
@@ -123,22 +123,22 @@ public class SpringComponent extends IoCComponent
      * @param springBeanName the spring bean name.
      * @return the SpringComponent mapped to that spring bean name.
      */
-    public static SpringComponent forSpringBeanName(String springBeanName) 
+    public static SpringComponent forSpringBeanName(String springBeanName)
     {
         // TODO reuse
         boolean unmockApplication = false;
-        if (!Contexts.isApplicationContextActive()) 
+        if (!Contexts.isApplicationContextActive())
         {
             Lifecycle.mockApplication();
             unmockApplication = true;
         }
-        try 
+        try
         {
             return (SpringComponent) Component.forName(getSpringComponentNameMap().get(springBeanName));
-        } 
-        finally 
+        }
+        finally
         {
-            if (unmockApplication) 
+            if (unmockApplication)
             {
                 Lifecycle.unmockApplication();
             }
@@ -156,7 +156,7 @@ public class SpringComponent extends IoCComponent
      * @param interception the interception type
      */
     public SpringComponent(Class clazz, String componentName, String springBeanName, ScopeType scope,
-            BeanFactory factory, InterceptionType interception) 
+            BeanFactory factory, InterceptionType interception)
     {
         super(clazz, componentName, scope);
         this.springBeanName = springBeanName;
@@ -165,16 +165,16 @@ public class SpringComponent extends IoCComponent
     }
 
     @Override
-    protected String getIoCName() 
+    protected String getIoCName()
     {
         return "Spring";
     }
 
     @Override
-    protected Object instantiateIoCBean() throws Exception 
+    protected Object instantiateIoCBean() throws Exception
     {
         ObjectFactory objectFactory = getObjectFactory();
-        if (objectFactory == null) 
+        if (objectFactory == null)
         {
             return beanfactory.getBean(springBeanName);
         }
@@ -182,16 +182,16 @@ public class SpringComponent extends IoCComponent
         Object bean = objectFactory.getObject();
         // initialize the bean following Component.instantiateJavaBean()'s
         // pattern.
-        if (getInterceptionType() == InterceptionType.NEVER) 
+        if (getInterceptionType() == InterceptionType.NEVER)
         {
             // Only call postConstruct if the bean is not stateless otherwise in the case of a singleton it wowuld be
             // called every time seam request the bean not just when it is created.
-            if (getScope() != ScopeType.STATELESS) 
+            if (getScope() != ScopeType.STATELESS)
             {
                 callPostConstructMethod(bean);
             }
-        } 
-        else if (!(bean instanceof Proxy)) 
+        }
+        else if (!(bean instanceof Proxy))
         {
             // Add all of the interfaces of the bean instance into the Seam
             // proxy bean because spring's proxies add a bunch of interfaces too
@@ -212,7 +212,7 @@ public class SpringComponent extends IoCComponent
      * @see org.jboss.seam.Component#instantiateJavaBean()
      */
     @Override
-    protected Object instantiateJavaBean() throws Exception 
+    protected Object instantiateJavaBean() throws Exception
     {
         return instantiateIoCBean();
     }
@@ -223,14 +223,14 @@ public class SpringComponent extends IoCComponent
      * @see org.jboss.seam.Component#callDestroyMethod(Object)
      */
     @Override
-    public void callDestroyMethod(Object instance) 
+    public void callDestroyMethod(Object instance)
     {
         super.callDestroyMethod(instance);
         // Cannot call the callback on a STATELESS bean because we have no way of storing it.
-        if (getScope() != ScopeType.STATELESS) 
+        if (getScope() != ScopeType.STATELESS)
         {
             Runnable callback = (Runnable) getScope().getContext().get(DESTRUCTION_CALLBACK_NAME_PREFIX + getName());
-            if (callback != null) 
+            if (callback != null)
             {
                 callback.run();
             }
@@ -243,10 +243,10 @@ public class SpringComponent extends IoCComponent
      * @param name bean name
      * @param destroy the destroy to set
      */
-    public void registerDestroyCallback(String name, Runnable destroy) 
+    public void registerDestroyCallback(String name, Runnable destroy)
     {
         // Not sure yet how to register a stateless bean's Destruction callback.
-        if (getScope() != ScopeType.STATELESS) 
+        if (getScope() != ScopeType.STATELESS)
         {
             getScope().getContext().set(DESTRUCTION_CALLBACK_NAME_PREFIX + name, destroy);
         }
@@ -258,19 +258,19 @@ public class SpringComponent extends IoCComponent
      * @see org.jboss.seam.Component#inject(java.lang.Object, boolean)
      */
     @Override
-    public void inject(Object bean, boolean enforceRequired) 
+    public void inject(Object bean, boolean enforceRequired)
     {
-        if (bean instanceof Advised) 
+        if (bean instanceof Advised)
         {
-            try 
+            try
             {
                 inject(((Advised) bean).getTargetSource().getTarget(), enforceRequired);
-            } 
-            catch (RuntimeException e) 
+            }
+            catch (RuntimeException e)
             {
                 throw e;
-            } 
-            catch (Exception e) 
+            }
+            catch (Exception e)
             {
                 throw new RuntimeException(e);
             }
@@ -284,9 +284,9 @@ public class SpringComponent extends IoCComponent
      * @see org.jboss.seam.Component#getInterceptionType()
      */
     @Override
-    public InterceptionType getInterceptionType() 
+    public InterceptionType getInterceptionType()
     {
-        if (interceptionType == null) 
+        if (interceptionType == null)
         {
             return super.getInterceptionType();
         }

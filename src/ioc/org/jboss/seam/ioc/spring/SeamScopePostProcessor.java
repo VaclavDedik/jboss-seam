@@ -15,51 +15,49 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
  * Post processor that makes all of the seam scopes available in
  * spring and takes all of the beans with those scopes and creates
  * Seam Components out of them. <p/> To use simply define the
- * namespace hanlder in in your ApplicationContext.
+ * namespace handler in in your ApplicationContext.
  * &lt;seam:configure-scopes/&gt;
  *
  * @author youngm
  */
-public class SeamScopePostProcessor 
-    implements BeanFactoryPostProcessor, 
-               InitializingBean 
+public class SeamScopePostProcessor
+    implements BeanFactoryPostProcessor,
+               InitializingBean
 {
     private static final LogProvider log = Logging.getLogProvider(SeamScopePostProcessor.class);
-    
+
     /**
      * Default seam scope prefix.
      */
     public static final String DEFAULT_SCOPE_PREFIX = "seam.";
-    
+
     private String prefix;
-    
-    private boolean override = false;
-    
+
     /**
      * Null is not a valid prefix so make it the default is used if null or empty.
      *
      * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
      */
-    public void afterPropertiesSet() throws Exception 
+    public void afterPropertiesSet() throws Exception
     {
-        if (prefix == null || "".equals(prefix)) 
+        if (prefix == null || "".equals(prefix))
         {
             prefix = DEFAULT_SCOPE_PREFIX;
         }
     }
-    
+
     /**
      * Add all of the seam scopes to this beanFactory.
      *
      * @see org.springframework.beans.factory.config.BeanFactoryPostProcessor#postProcessBeanFactory(org.springframework.beans.factory.config.ConfigurableListableBeanFactory)
      */
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) 
-        throws BeansException 
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory)
+        throws BeansException
     {
-        for (ScopeType scope : ScopeType.values()) 
+        for (ScopeType scope : ScopeType.values())
         {
             // Don't create a scope for Unspecified
-            if (scope != ScopeType.UNSPECIFIED) 
+            if (scope != ScopeType.UNSPECIFIED)
             {
                 beanFactory.registerScope(prefix + scope.name(), new SeamScope(scope));
             }
@@ -67,34 +65,34 @@ public class SeamScopePostProcessor
         // Create a mock application context if not available.
         // TODO Reuse
         boolean unmockApplication = false;
-        if (!Contexts.isApplicationContextActive()) 
+        if (!Contexts.isApplicationContextActive())
         {
             Lifecycle.mockApplication();
             unmockApplication = true;
         }
-        try 
+        try
         {
             // Iterate through all the beans in the factory
-            for (String beanName : beanFactory.getBeanDefinitionNames()) 
+            for (String beanName : beanFactory.getBeanDefinitionNames())
             {
                 BeanDefinition definition = beanFactory.getBeanDefinition(beanName);
                 ScopeType scope;
-                if (definition.getScope().startsWith(prefix)) 
+                if (definition.getScope().startsWith(prefix))
                 {
                     // Will throw an error if the scope is not found.
                     scope = ScopeType.valueOf(definition.getScope().replaceFirst(prefix, "").toUpperCase());
-                } 
-                else 
+                }
+                else
                 {
-                    if (log.isDebugEnabled()) 
+                    if (log.isDebugEnabled())
                     {
                         log.debug("No scope could be derived for bean with name: " + beanName);
                     }
                     continue;
                 }
-                if (scope == ScopeType.UNSPECIFIED) 
+                if (scope == ScopeType.UNSPECIFIED)
                 {
-                    if (log.isDebugEnabled()) 
+                    if (log.isDebugEnabled())
                     {
                         log.debug("Discarding bean with scope UNSPECIFIED.  Spring will throw an error later: "
                                   + beanName);
@@ -103,42 +101,32 @@ public class SeamScopePostProcessor
                 }
                 // Cannot be a seam component without a specified class seam:component will need to be used for this
                 // bean.
-                if (definition.getBeanClassName() == null) 
+                if (definition.getBeanClassName() == null)
                 {
-                    if (log.isDebugEnabled()) 
+                    if (log.isDebugEnabled())
                     {
                         log.debug("Unable to create component for bean: " + beanName
                                   + ".  No class defined try seam:component instead.");
                     }
                     continue;
                 }
-                SpringComponent.addSpringComponent(beanName, beanName, definition.getBeanClassName(), scope, beanFactory, null,
-                                                   override);
+                SpringComponent.addSpringComponent(beanName, beanName, definition.getBeanClassName(), scope, beanFactory, null);
             }
-        } 
-        finally 
+        }
+        finally
         {
-            if (unmockApplication) 
+            if (unmockApplication)
             {
                 Lifecycle.unmockApplication();
             }
         }
     }
-    
+
     /**
-     * @param prefix casesensitive the prefix to use to identify seam scopes for spring beans. Default is "seam."
+     * @param prefix case sensitive the prefix to use to identify seam scopes for spring beans. Default is "seam."
      */
-    public void setPrefix(String prefix) 
+    public void setPrefix(String prefix)
     {
         this.prefix = prefix;
-    }
-    
-    /**
-     * @param override set to tell the postprocessor to duplicate any preexisting seam components that may have the same
-     *        name as the candidate spring bean. Default: false
-     */
-    public void setOverride(boolean override) 
-    {
-        this.override = override;
     }
 }

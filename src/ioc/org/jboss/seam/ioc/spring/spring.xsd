@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-        
+
 <xsd:schema xmlns="http://jboss.com/products/seam/spring" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
             xmlns:tool="http://www.springframework.org/schema/tool" targetNamespace="http://jboss.com/products/seam/spring"
             elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:p="http://icslib.wh.ldsglobal.net/schema/ldsutil">
-    
+
     <xsd:import namespace="http://www.springframework.org/schema/tool"
                 schemaLocation="http://www.springframework.org/schema/tool/spring-tool-2.0.xsd" />
-    
+
     <xsd:element name="configure-scopes">
         <xsd:annotation>
             <xsd:documentation>Makes all the seam scopes available in spring.</xsd:documentation>
@@ -22,15 +22,6 @@
                     <xsd:documentation>
                         <![CDATA[
                                  The prefix to use for the seam scopes.  Default: "seam."
-                        ]]>
-                    </xsd:documentation>
-                </xsd:annotation>
-            </xsd:attribute>
-            <xsd:attribute name="override" type="xsd:boolean" use="optional" default="false">
-                <xsd:annotation>
-                    <xsd:documentation>
-                        <![CDATA[
-                                 If a duplicate is found should it override it or throw an error?  Default: false
                         ]]>
                     </xsd:documentation>
                 </xsd:annotation>
@@ -174,15 +165,6 @@
                         <xsd:enumeration value="ALWAYS" />
                     </xsd:restriction>
                 </xsd:simpleType>
-            </xsd:attribute>
-            <xsd:attribute name="override" type="xsd:boolean" use="optional" default="false">
-                <xsd:annotation>
-                    <xsd:documentation>
-                        <![CDATA[
-                                 If a duplicate is found should it override it or throw an error?  Default: false
-                        ]]>
-                    </xsd:documentation>
-                </xsd:annotation>
             </xsd:attribute>
             <xsd:attribute name="scope" use="optional" default="STATELESS">
                 <xsd:annotation>
