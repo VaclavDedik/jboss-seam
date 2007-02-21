@@ -184,22 +184,41 @@ public class Initialization
          {
             String name = elem.attributeValue("name");
             String elemName = toCamelCase( elem.getName(), true );
+            
             String className = nsInfo.getPackage().getName() + '.' + elemName;
             try
             {
+               //get the class implied by the namespaced XML element name
                Class<Object> clazz = Reflections.classForName(className);
-               if (name == null)
+               Name nameAnnotation = clazz.getAnnotation(Name.class);
+               
+               //if the name attribute is not explicitly specified in the XML,
+               //imply the name from the @Name annotation on the class implied
+               //by the XML element name
+               if (name == null && nameAnnotation!=null) 
                {
-                  Name nameAnnotation = clazz.getAnnotation(Name.class);
-                  if (nameAnnotation!=null) name = nameAnnotation.value();
+                  name = nameAnnotation.value();
+               }
+               
+               //if this class already has the @Name annotation, the XML element 
+               //is just adding configuration to the existing component, don't
+               //add another ComponentDescriptor (this is super-important to
+               //allow overriding!)
+               if ( nameAnnotation!=null && nameAnnotation.value().equals(name) )
+               {
+                  className = null;
                }
             }
             catch (ClassNotFoundException cnfe)
             {
-               // if it isn't a classname, set
+               //there is no class implied by the XML element name so the
+               //component must be defined some other way, assume that we are
+               //just adding configuration, don't add a ComponentDescriptor 
                className = null;
             }
 
+            //finally, if we could not get the name from the XML name attribute,
+            //or from an @Name annotation on the class, imply it
             if (name == null)
             {
                String prefix = nsInfo.getNamespace().prefix();
