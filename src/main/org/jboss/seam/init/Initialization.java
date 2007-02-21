@@ -206,7 +206,11 @@ public class Initialization
                //allow overriding!)
                if ( nameAnnotation!=null && nameAnnotation.value().equals(name) )
                {
-                  className = null;
+                  Install install = clazz.getAnnotation(Install.class);
+                  if ( install.value() )
+                  {
+                     className = null;
+                  }
                }
             }
             catch (ClassNotFoundException cnfe)
