@@ -52,7 +52,14 @@ public class CaptchaImage extends AbstractResource
    
    public boolean validateResponse(String id, String response)
    {
-      return service.validateResponseForID(id, response);
+      try
+      {
+         return service.validateResponseForID(id, response);
+      }
+      catch (CaptchaServiceException cse)
+      {
+         return false;
+      }
    }
    
    @Create
