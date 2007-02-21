@@ -390,6 +390,12 @@
         
         <programlisting><![CDATA[@Begin(pageflow="numberguess")
 public void begin() { ... }]]></programlisting>
+
+		<para>Alternatively we can start a pageflow using pages.xml:</para>
+		
+		<programlisting><![CDATA[<page>
+        <begin-conversation pageflow="numberguess"/>
+    </page>]]></programlisting>
         
         <para>
             If we are beginning the pageflow during the <literal>RENDER_RESPONSE</literal>
@@ -670,6 +676,12 @@ public String login() {
         <programlisting><![CDATA[@CreateProcess(definition="todo")
 public void createTodo() { ... }]]></programlisting>
 
+        <para>Alternatively we can initiate a business process using pages.xml:</para>
+        
+        <programlisting><![CDATA[<page>
+    <create-process definition="todo" />
+</page>]]></programlisting>
+
         </section>
         
         <section>
@@ -756,6 +768,12 @@ public void createTodo() { ... }]]></programlisting>
         
         <programlisting><![CDATA[@StartTask
 public String start() { ... }]]></programlisting>
+
+        <para>Alternatively we can begin work on a task using pages.xml:</para>
+        
+        <programlisting><![CDATA[<page>
+    <start-task />
+</page>]]></programlisting>
         
         <para>    
             These annotations begin a special kind of conversation that has 
@@ -771,6 +789,12 @@ public String start() { ... }]]></programlisting>
         
         <programlisting><![CDATA[@EndTask(transition="completed")
 public String completed() { ... }]]></programlisting>
+
+        <para>Alternatively we can use pages.xml:</para>
+        
+        <programlisting><![CDATA[<page>
+    <end-task transition="completed" />
+</page>]]></programlisting>
 
         <para>
             (Alternatively, we could have used <literal>&lt;end-conversation&gt;</literal>
