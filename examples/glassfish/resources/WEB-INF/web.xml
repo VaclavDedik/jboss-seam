@@ -97,6 +97,14 @@
   -->
   
   <!-- Glassfish EJB3 names -->
+  <ejb-local-ref>              
+    <ejb-ref-name>jboss-seam-glassfish/AuthenticatorAction/local</ejb-ref-name>           
+    <ejb-ref-type>Session</ejb-ref-type>
+    <local-home/>
+    <local>org.jboss.seam.example.booking.Authenticator</local>               
+    <ejb-link>AuthenticatorAction</ejb-link>        
+  </ejb-local-ref>	  
+  
   <ejb-local-ref>       
     <ejb-ref-name>jboss-seam-glassfish/BookingListAction/local</ejb-ref-name>       
     <ejb-ref-type>Session</ejb-ref-type>       
