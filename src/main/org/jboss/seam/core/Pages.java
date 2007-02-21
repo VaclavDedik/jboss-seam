@@ -1016,7 +1016,7 @@ public class Pages
          final String viewId = render.attributeValue("view-id");
          Element messageElement = render.element("message");
          String message = messageElement==null ? null : messageElement.getTextTrim();
-         Element severityElement = render.element("severity");
+         Element severityElement = messageElement==null ? null : messageElement.element("severity");
          Severity severity = severityElement==null ? 
                   FacesMessage.SEVERITY_INFO : 
                   (Severity) FacesMessage.VALUES_MAP.get( severityElement.getText().toUpperCase() );
@@ -1034,7 +1034,7 @@ public class Pages
          final String viewId = redirect.attributeValue("view-id");
          Element messageElement = redirect.element("message");
          String message = messageElement==null ? null : messageElement.getTextTrim();
-         Element severityElement = redirect.element("severity");
+         Element severityElement = messageElement==null ? null : messageElement.element("severity");
          Severity severity = severityElement==null ? 
                   FacesMessage.SEVERITY_INFO : 
                   (Severity) FacesMessage.VALUES_MAP.get( severityElement.getText().toUpperCase() );

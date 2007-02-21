@@ -130,7 +130,7 @@ public class Exceptions
          final String viewId = redirect.attributeValue("view-id");
          Element messageElement = redirect.element("message");
          final String message = messageElement==null ? null : messageElement.getTextTrim();
-         Element severityElement = redirect.element("severity");
+         Element severityElement = messageElement==null ? null : messageElement.element("severity");
          Severity severity = severityElement==null ? 
                   FacesMessage.SEVERITY_INFO : 
                   (Severity) FacesMessage.VALUES_MAP.get( severityElement.getText().toUpperCase() );
