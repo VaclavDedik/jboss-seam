@@ -56,12 +56,12 @@
 
 <!ELEMENT in EMPTY>
 <!ATTLIST in name CDATA #REQUIRED>
-<!ATTLIST in scope (stateless|request|page|conversation|session|business_process|application|STATELESS|REQUEST|PAGE|CONVERSATION|SESSION|BUSINESS_PROCESS|APPLICATION) #IMPLIED>
+<!ATTLIST in scope (stateless|event|page|conversation|session|business_process|application|STATELESS|EVENT|PAGE|CONVERSATION|SESSION|BUSINESS_PROCESS|APPLICATION) #IMPLIED>
 <!ATTLIST in value CDATA #REQUIRED>
 
 <!ELEMENT out EMPTY>
 <!ATTLIST out name CDATA #REQUIRED>
-<!ATTLIST out scope (stateless|request|page|conversation|session|business_process|application|STATELESS|REQUEST|PAGE|CONVERSATION|SESSION|BUSINESS_PROCESS|APPLICATION) "CONVERSATION">
+<!ATTLIST out scope (stateless|event|page|conversation|session|business_process|application|STATELESS|EVENT|PAGE|CONVERSATION|SESSION|BUSINESS_PROCESS|APPLICATION) "CONVERSATION">
 <!ATTLIST out value CDATA #REQUIRED>
 
 <!ELEMENT render (message?)>
