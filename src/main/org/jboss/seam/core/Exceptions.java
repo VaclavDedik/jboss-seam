@@ -133,7 +133,7 @@ public class Exceptions
          String severityName = messageElement==null ? null : messageElement.attributeValue("severity");
          Severity severity = severityName==null ? 
                   FacesMessage.SEVERITY_INFO : 
-                  (Severity) FacesMessage.VALUES_MAP.get( severityName.toUpperCase() );
+                  Pages.getFacesMessageValuesMap().get( severityName.toUpperCase() );
          return new ConfigRedirectHandler(viewId, clazz, endConversation, message, severity);
       }
       

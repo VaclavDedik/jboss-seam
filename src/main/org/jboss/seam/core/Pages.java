@@ -1019,7 +1019,7 @@ public class Pages
          String severityName = messageElement==null ? null : messageElement.attributeValue("severity");
          Severity severity = severityName==null ? 
                   FacesMessage.SEVERITY_INFO : 
-                  (Severity) FacesMessage.VALUES_MAP.get( severityName.toUpperCase() );
+                  getFacesMessageValuesMap().get( severityName.toUpperCase() );
          rule.setNavigationHandler( new RenderNavigationHandler(viewId, message, severity) );
       }
       Element redirect = element.element("redirect");
@@ -1037,7 +1037,7 @@ public class Pages
          String severityName = messageElement==null ? null : messageElement.attributeValue("severity");
          Severity severity = severityName==null ? 
                   FacesMessage.SEVERITY_INFO : 
-                  (Severity) FacesMessage.VALUES_MAP.get( severityName.toUpperCase() );
+                  getFacesMessageValuesMap().get( severityName.toUpperCase() );
          rule.setNavigationHandler( new RedirectNavigationHandler(viewId, params, message, severity) );
       }
       List<Element> childElements = element.elements("out");
@@ -1058,6 +1058,15 @@ public class Pages
          rule.getOutputs().add(output);
       }
       
+   }
+   public static Map<String, Severity> getFacesMessageValuesMap()
+   {
+      Map<String, Severity> result = new HashMap<String, Severity>();
+      for (Map.Entry<String, Severity> me: (Set<Map.Entry<String, Severity>>) FacesMessage.VALUES_MAP.entrySet())
+      {
+         result.put( me.getKey().toUpperCase(), me.getValue() );
+      }
+      return result;
    }
    public String getLoginViewId()
    {
