@@ -48,10 +48,12 @@
 
     <!-- Login and security -->
 
-    <security:rule-based-identity authenticate-method="#{authenticator.authenticate}"/>
+    <security:identity authenticate-method="#{authenticator.authenticate}" remember-me="true"/>
 
     <drools:rule-base name="securityRules">
-       <drools:rule-files><value>/META-INF/security-rules.drl</value></drools:rule-files>
+       <drools:rule-files>
+           <value>/META-INF/security-rules.drl</value>
+       </drools:rule-files>
     </drools:rule-base>
 
     <!-- Misc application settings -->
