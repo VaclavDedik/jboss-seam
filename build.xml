@@ -510,6 +510,7 @@
         <copy todir="${iocclasses.dir}">
             <fileset dir="${src.ioc.dir}">
                 <patternset refid="meta.files"/>
+                <include name="META-INF/spring.*" />
             </fileset>
         </copy>
         
@@ -1056,7 +1057,8 @@
         
         <jar jarfile="${basedir}/${name}-ioc.jar" basedir="${iocclasses.dir}">
             <include name="**/*.class"/>
-            <patternset refid="meta.files"/>
+            <include name="META-INF/spring.*" />
+            <patternset refid="meta.files"/>    
             <manifest>
                 <attribute name="Seam-Version" value="${version}.${patchlevel}"/>
             </manifest>
