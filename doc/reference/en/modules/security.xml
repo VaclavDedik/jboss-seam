@@ -132,15 +132,10 @@
 </components>]]></programlisting>
 
       <para>
-        If you wish to use the advanced security features such as rule-based permission checks, you must instead
-        configure the identity like this:
+        If you wish to use the advanced security features such as rule-based permission checks, all you need
+        to do is include the Drools (JBoss Rules) jars in your classpath, and add some additional configuration,
+        described later.
       </para>
-
-      <programlisting><![CDATA[        
-      
-    <security:rule-based-identity authenticate-method="#{authenticator.authenticate}"/>
-    
-</components>]]></programlisting>
 
       <para>
         The EL expression <literal>#{authenticator.authenticate}</literal> is a method binding indicating that
