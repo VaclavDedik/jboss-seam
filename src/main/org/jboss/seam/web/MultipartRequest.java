@@ -218,11 +218,11 @@ public class MultipartRequest extends HttpServletRequestWrapper
       
       public InputStream getInputStream()
       {
-         if (bOut != null)
+         if (bOut!=null)
          {
             return new ByteArrayInputStream(bOut.toByteArray());
          }
-         else
+         else if (tempFile!=null)
          {
             try
             {

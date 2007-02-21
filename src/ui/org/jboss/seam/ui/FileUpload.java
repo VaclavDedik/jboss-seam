@@ -53,7 +53,8 @@ public class FileUpload extends UIComponentBase
            f.setAccessible(true);
            request = f.get(request);
          }
-         catch (Exception ex) { 
+         catch (Exception ex) 
+         { 
             // too bad            
          }
          finally
@@ -76,9 +77,13 @@ public class FileUpload extends UIComponentBase
          {
             Class cls = dataBinding.getType(context);
             if (cls.isAssignableFrom(InputStream.class))
+            {
                dataBinding.setValue(context, req.getFileInputStream(clientId));
+            }
             else if (cls.isAssignableFrom(byte[].class))
+            {
                dataBinding.setValue(context, req.getFileBytes(clientId));
+            }
          }
          
          ValueBinding vb = getValueBinding("contentType");
@@ -111,9 +116,13 @@ public class FileUpload extends UIComponentBase
       
       ValueBinding vb = getValueBinding("accept");
       if (vb != null)
+      {
          writer.writeAttribute(HTML.ACCEPT_ATTR, vb.getValue(context), null);
+      }
       else if (accept != null)
-         writer.writeAttribute(HTML.ACCEPT_ATTR, accept, null);         
+      {
+         writer.writeAttribute(HTML.ACCEPT_ATTR, accept, null);
+      }
       
       writer.endElement(HTML.INPUT_ELEM);
    }
