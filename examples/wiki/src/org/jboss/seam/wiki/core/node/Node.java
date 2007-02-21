@@ -1,12 +1,14 @@
 package org.jboss.seam.wiki.core.node;
 
 import org.hibernate.validator.Length;
+import org.hibernate.validator.Pattern;
 import org.jboss.seam.wiki.core.links.WikiLinkResolver;
 
 import javax.persistence.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Collections;
 import java.io.Serializable;
 
 @Entity
@@ -41,6 +43,7 @@ public abstract class Node implements Serializable {
 
     @Column(name = "NAME", length = 255, nullable = false)
     @Length(min = 3, max = 255)
+    @Pattern(regex="[a-zA-Z]?.+", message="Name must start with a letter")
     protected String name;
 
     @Column(name = "WIKINAME", length = 255, nullable = false)
@@ -49,8 +52,8 @@ public abstract class Node implements Serializable {
     @Column(name = "MENU_ITEM", nullable = false)
     protected boolean menuItem;
 
-    @Column(name = "CREATED_ON", nullable = false)
-    private Date createdOn;
+    @Column(name = "CREATED_ON", nullable = false, updatable = false)
+    private Date createdOn = new Date();
 
     @Column(name = "LAST_MODIFIED_ON")
     private Date lastModifiedOn;
@@ -65,13 +68,11 @@ public abstract class Node implements Serializable {
     @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "PARENT_NODE_ID", nullable = true)
     @org.hibernate.annotations.IndexColumn(name = "NODE_POSITION")
-    @org.hibernate.annotations.Filter(name = "Node.onlyMenuItems")
+    // TODO: We are not really using this: @org.hibernate.annotations.Filter(name = "Node.onlyMenuItems")
     @org.hibernate.annotations.BatchSize(size = 5)
     private List<Node> children = new ArrayList<Node>();
 
-    public Node() {
-        this.createdOn = new Date();
-    }
+    public Node() {}
 
     public Node(String name) {
         this.name = name;
@@ -135,8 +136,6 @@ public abstract class Node implements Serializable {
     }
 
     public List<Node> getChildren() {
-        // Unfortunately, it needs to be modifiable for the virtual root logic...
-        //return Collections.unmodifiableList(children);
         return children;
     }
 

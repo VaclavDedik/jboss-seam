@@ -44,24 +44,30 @@
     </div>
 
     <div id="body">
-        <div id="messageBox">
-            <h:panelGrid columns="2" rendered="#{!empty facesMessages.currentGlobalMessages}" styleClass="messageTable">
-                <ui:repeat var="message" value="#{facesMessages.currentGlobalMessages}">
-                    <h:graphicImage value="themes/default/img/info.gif"
+
+        <s:div id="messageBox" rendered="#{!empty facesMessages.currentGlobalMessages}">
+            <ui:repeat var="message" value="#{facesMessages.currentGlobalMessages}">
+                <h:panelGrid columns="2" rendered="#{message.severity == 'Info'}">
+                    <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/info.gif"
                                     width="18" height="18"
                                     styleClass="infoImage"/>
                     <h:outputText styleClass="infoMessage" value="#{message.summary}"/>
-                </ui:repeat>
-            </h:panelGrid>
-        </div>
-        <div id="content">
-
-            <f:facet name="beforeInvalidField">
-                <h:panelGroup>
-                    <h:graphicImage value="themes/default/img/attention.gif"
+                </h:panelGrid>
+                <h:panelGrid columns="2" rendered="#{message.severity == 'Warn' or message.severity == 'Error'}">
+                    <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/attention.gif"
                                     width="18" height="18"
                                     styleClass="attentionImage"/>
-                    <s:span styleClass="errorMessage">&#160;
+                    <h:outputText styleClass="attentionMessage" value="#{message.summary}"/>
+                </h:panelGrid>
+            </ui:repeat>
+        </s:div>
+        <div id="content">
+            <f:facet name="beforeInvalidField">
+                <h:panelGroup>
+                    <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/attention.gif"
+                                    width="18" height="18"
+                                    styleClass="attentionImage"/>
+                    <s:span styleClass="attentionMessage">&#160;
                         <s:message/>
                     </s:span>
                 </h:panelGroup>
@@ -69,7 +75,6 @@
             <f:facet name="aroundInvalidField">
                 <s:div styleClass="errorDiv"/>
             </f:facet>
-
             <ui:insert name="content"/>
         </div>
     </div>

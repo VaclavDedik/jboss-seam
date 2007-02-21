@@ -5,10 +5,11 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:wiki="http://jboss.com/products/seam/wiki"
                 template="themes/#{globalPrefs.themeName}/template.xhtml">
 
 <ui:define name="pluginCSS">
-    <link href="#{themePath}/css/languageSelector.css" rel="stylesheet" type="text/css"/>
+    <link href="#{themePath}/css/userControl.css" rel="stylesheet" type="text/css"/>
     <link href="#{themePath}/css/mainMenu.css" rel="stylesheet" type="text/css"/>
 </ui:define>
 
@@ -18,7 +19,7 @@
 </ui:define>
 
 <ui:define name="headerTopRight">
-    <ui:include src="plugins/languageSelector/plugin.xhtml"/>
+    <ui:include src="plugins/userControl/plugin.xhtml"/>
 </ui:define>
 <ui:define name="headerBottomLeft">&#160;</ui:define>
 <ui:define name="headerBottomRight">&#160;</ui:define>
@@ -89,14 +90,14 @@
                     <h:commandLink id="nodeUp"
                                    action="#{directoryHome.moveNodeUpInList}"
                                    rendered="#{uiBindings.childNodeTable.rowIndex > 0}">
-                        <h:graphicImage value="themes/default/img/up.gif" width="18" height="18"/>
+                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/up.gif" width="18" height="18"/>
                     </h:commandLink>
                 </h:column>
                 <h:column>
                     <h:commandLink id="nodeDown"
                                    action="#{directoryHome.moveNodeDownInList}"
                                    rendered="#{uiBindings.childNodeTable.rowIndex+1 lt uiBindings.childNodeTable.rowCount}">
-                        <h:graphicImage value="themes/default/img/down.gif" width="18" height="18"/>
+                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/down.gif" width="18" height="18"/>
                     </h:commandLink>
                 </h:column>
 
@@ -113,23 +114,23 @@
                     </f:facet>
                     <h:commandLink id="defaultDocument"
                                    action="#{directoryHome.selectDefaultDocument}"
-                                   rendered="#{directoryHome.instance.defaultDocument != node and node.class.simpleName == 'Document'}">
-                        <h:graphicImage value="themes/default/img/right.gif" width="18" height="18"/>
+                                   rendered="#{directoryHome.instance.defaultDocument != node and wiki:isDocument(node)}">
+                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/right.gif" width="18" height="18"/>
                     </h:commandLink>
 
-                    <h:graphicImage value="themes/default/img/check.gif" width="18" height="18"
+                    <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/check.gif" width="18" height="18"
                                     rendered="#{directoryHome.instance.defaultDocument == node}"/>
 
                     <h:outputText value="-" rendered="#{node.class.simpleName == 'Directory'}"/>
                 </h:column>
 
                 <h:column>
-                    <h:graphicImage value="themes/default/img/icon.dir.gif"
+                    <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/icon.dir.gif"
                                     width="18" height="20"
-                                    rendered="#{node.class.simpleName == 'Directory'}"/>
-                    <h:graphicImage value="themes/default/img/icon.doc.gif"
+                                    rendered="#{wiki:isDirectory(node)}"/>
+                    <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/icon.doc.gif"
                                     width="18" height="20"
-                                    rendered="#{node.class.simpleName == 'Document'}"/>
+                                    rendered="#{wiki:isDocument(node)}"/>
                 </h:column>
 
                 <h:column>
@@ -174,9 +175,7 @@
 
 </ui:define>
 
-<ui:define name="footer">
-
-</ui:define>
+<ui:define name="footer">&#160;</ui:define>
 
 </ui:composition>
 

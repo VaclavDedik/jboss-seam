@@ -1,0 +1,32 @@
+<div id="userControl"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <s:div rendered="#{not identity.loggedIn}">
+        <h:form>
+            <h:panelGroup>
+                <h:outputLabel styleClass="userControlLabel" for="loginUsername" value="Username:"/>
+                <h:inputText styleClass="userControlInput" id="loginUsername" value="#{identity.username}" size="8"/>
+                <h:outputLabel styleClass="userControlLabel" for="loginPassword" value="Password:"/>
+                <h:inputSecret styleClass="userControlInput" id="loginPassword" value="#{identity.password}" size="8"/>
+                <h:commandLink styleClass="userControlLink" value="Login" action="#{identity.login}"/>
+
+                <s:link styleClass="userControlLink" value="Register" action="register"/>
+            </h:panelGroup>
+        </h:form>
+    </s:div>
+
+    <s:div rendered="#{identity.loggedIn}">
+        <h:form>
+            <h:panelGroup>
+                <h:outputText styleClass="userControlLabel" value="(#{authenticatedUser.firstname} #{authenticatedUser.lastname})"/>
+                <h:commandLink styleClass="userControlLink" value="Logout" action="#{identity.logout}"/>
+                <s:link styleClass="userControlLink" value="Profile" action="editMyProfile"/>
+            </h:panelGroup>
+        </h:form>
+    </s:div>
+
+</div>

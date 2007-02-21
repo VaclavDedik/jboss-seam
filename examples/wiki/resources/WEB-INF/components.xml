@@ -1,10 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <components xmlns="http://jboss.com/products/seam/components"
             xmlns:core="http://jboss.com/products/seam/core"
+            xmlns:security="http://jboss.com/products/seam/security"
+            xmlns:drools="http://jboss.com/products/seam/drools"
+            xmlns:web="http://jboss.com/products/seam/web"
+            xmlns:mail="http://jboss.com/products/seam/mail"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation=
-                    "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-1.1.xsd
+                "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-1.1.xsd
+                 http://jboss.com/products/seam/security http://jboss.com/products/seam/security-1.1.xsd
+                 http://jboss.com/products/seam/web http://jboss.com/products/seam/web-1.1.xsd
+                 http://jboss.com/products/seam/drools http://jboss.com/products/seam/drools-1.1.xsd
+                 http://jboss.com/products/seam/mail http://jboss.com/products/seam/mail-1.1.xsd
                  http://jboss.com/products/seam/components http://jboss.com/products/seam/components-1.1.xsd">
+
+    <!-- ##### WIKI USER CONFIGURATION ##### -->
+
+    <component name="globalPrefs" class="org.jboss.seam.wiki.core.prefs.GlobalPreferences"
+               scope="application" auto-create="true">
+
+        <property name="baseURL">http://www.seamframework.org/wiki</property>
+        <property name="defaultURLRendering">PERMLINK</property>
+        <property name="permlinkSuffix">.html</property>
+        <property name="themeName">default</property>
+        <property name="newUserInRole">member</property>
+        <property name="passwordRegex">^[0-9A-Za-z]{6,15}</property>
+        <property name="activationCodeSalt">MySecretSalt123</property>
+
+    </component>
+
+   <mail:mail-session host="mail.bluewin.ch" port="25"/>
+
+    <!-- ##### END OF WIKI USER CONFIGURATION ##### -->
 
     <core:init debug="false" jndi-pattern="@jndiPattern@"/>
 
@@ -14,22 +41,20 @@
                   conversation-is-long-running-parameter="clr"/>
 
     <core:managed-persistence-context name="entityManager"
-                                      persistence-unit-jndi-name="java:/wikiEntityManagerFactory"/>
+                                      persistence-unit-jndi-name="java:/wikiEntityManagerFactory"
+                                      auto-create="true"/>
 
     <core:ejb installed="@embeddedEjb@"/>
 
-    <!-- ##### WIKI CONFIGURATION ##### -->
+    <!-- Login and security -->
 
-    <component name="globalPrefs" class="org.jboss.seam.wiki.core.prefs.GlobalPreferences"
-               scope="application" auto-create="true">
+    <security:rule-based-identity authenticate-method="#{authenticator.authenticate}"/>
 
-        <property name="defaultURLRendering">WIKILINK</property>
-        <property name="permlinkSuffix">.html</property>
-        <property name="themeName">default</property>
+    <drools:rule-base name="securityRules">
+       <drools:rule-files><value>/META-INF/security-rules.drl</value></drools:rule-files>
+    </drools:rule-base>
 
-    </component>
-
-    <!-- ##### END OF CONFIGURATION ##### -->
+    <!-- Misc application settings -->
 
     <factory name="themePath" value="#{facesContext.externalContext.request.contextPath}/themes/#{globalPrefs.themeName}"/>
 

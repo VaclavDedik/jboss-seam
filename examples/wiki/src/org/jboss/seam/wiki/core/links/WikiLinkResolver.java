@@ -7,11 +7,9 @@ import org.jboss.seam.wiki.core.node.Document;
 import org.jboss.seam.wiki.core.node.Directory;
 import org.jboss.seam.wiki.core.node.Node;
 import org.jboss.seam.wiki.core.prefs.GlobalPreferences;
+import org.jboss.seam.wiki.core.dao.NodeDAO;
 import org.jboss.seam.Component;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.NoResultException;
 import javax.faces.context.FacesContext;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -48,7 +46,7 @@ public class WikiLinkResolver {
             "=>" + WIKI_PROTOCOL + Pattern.quote("]");
 
     @In(create = true)
-    protected EntityManager entityManager;
+    private NodeDAO nodeDAO;
 
     @In(required = false)
     private Document currentDocument;
@@ -89,7 +87,7 @@ public class WikiLinkResolver {
         while (matcher.find()) {
 
             // Find the node by PK
-            Node node = findNode(Long.valueOf(matcher.group(2)));
+            Node node = nodeDAO.findNode(Long.valueOf(matcher.group(2)));
 
             // Node is in current area, just use its name
             if (node != null && node.getAreaNumber().equals(area.getAreaNumber())) {
@@ -117,7 +115,7 @@ public class WikiLinkResolver {
         Matcher wikiUrlMatcher = Pattern.compile(WIKI_PROTOCOL).matcher(linkText);
         Matcher knownProtocolMatcher = Pattern.compile(KNOWN_PROTOCOLS).matcher(linkText);
 
-        WikiLink wikiLink = null;
+        WikiLink wikiLink;
 
         // Check if its a common protocol
         if (knownProtocolMatcher.find()) {
@@ -127,7 +125,7 @@ public class WikiLinkResolver {
         } else if (wikiUrlMatcher.find()) {
 
             // Find the node by PK
-            Node node = findNode(Long.valueOf(wikiUrlMatcher.group(1)));
+            Node node = nodeDAO.findNode(Long.valueOf(wikiUrlMatcher.group(1)));
             if (node != null) {
                 wikiLink = new WikiLink(node.getId(), false, renderURL(node), node.getName());
             } else {
@@ -170,12 +168,12 @@ public class WikiLinkResolver {
             // Try to find the node in the referenced area
             String areaName = crossLinkMatcher.group(1);
             String nodeName = crossLinkMatcher.group(2);
-            Node crossLinkArea = findArea(convertToWikiName(areaName));
+            Node crossLinkArea = nodeDAO.findArea(convertToWikiName(areaName));
             if (crossLinkArea != null)
-                return findNodeInArea(crossLinkArea.getAreaNumber(), convertToWikiName(nodeName));
+                return nodeDAO.findNodeInArea(crossLinkArea.getAreaNumber(), convertToWikiName(nodeName));
         } else {
             // Try the current area
-            return findNodeInArea(currentArea.getAreaNumber(), convertToWikiName(linkText));
+            return nodeDAO.findNodeInArea(currentArea.getAreaNumber(), convertToWikiName(linkText));
         }
         return null;
     }
@@ -210,118 +208,6 @@ public class WikiLinkResolver {
                 return contextPath + "/" + node.getArea().getWikiname();
             return contextPath + "/" + node.getArea().getWikiname()  + "/" + node.getWikiname();
         }
-    }
-
-    // #########################################################################################
-
-    // Convenience DAO methods
-
-    @Transactional
-    public Node findNode(Long nodeId) {
-        entityManager.joinTransaction();
-        try {
-            return entityManager.find(Node.class, nodeId);
-        } catch (EntityNotFoundException ex) {
-        }
-        return null;
-    }
-
-    @Transactional
-    public Node findNodeInArea(Long areaNumber, String wikiname) {
-        entityManager.joinTransaction();
-
-        try {
-            return (Node) entityManager
-                    .createQuery("select n from Node n where n.areaNumber = :areaNumber and n.wikiname = :wikiname")
-                    .setParameter("areaNumber", areaNumber)
-                    .setParameter("wikiname", wikiname)
-                    .getSingleResult();
-        } catch (EntityNotFoundException ex) {
-        } catch (NoResultException ex) {
-        }
-        return null;
-    }
-
-    @Transactional
-    public Document findDocumentInArea(Long areaNumber, String wikiname) {
-        entityManager.joinTransaction();
-
-        try {
-            return (Document) entityManager
-                    .createQuery("select d from Document d where d.areaNumber = :areaNumber and d.wikiname = :wikiname")
-                    .setParameter("areaNumber", areaNumber)
-                    .setParameter("wikiname", wikiname)
-                    .getSingleResult();
-        } catch (EntityNotFoundException ex) {
-        } catch (NoResultException ex) {
-        }
-        return null;
-    }
-
-    @Transactional
-    public Directory findDirectoryInArea(Long areaNumber, String wikiname) {
-        entityManager.joinTransaction();
-
-        try {
-            return (Directory) entityManager
-                    .createQuery("select d from Directory d where d.areaNumber = :areaNumber and d.wikiname = :wikiname")
-                    .setParameter("areaNumber", areaNumber)
-                    .setParameter("wikiname", wikiname)
-                    .getSingleResult();
-        } catch (EntityNotFoundException ex) {
-        } catch (NoResultException ex) {
-        }
-        return null;
-    }
-
-    @Transactional
-    public Directory findArea(String wikiname) {
-        entityManager.joinTransaction();
-
-        try {
-            return (Directory) entityManager
-                    .createQuery("select d from Directory d where d.parent = :root and d.wikiname = :wikiname")
-                    .setParameter("root", wikiRoot)
-                    .setParameter("wikiname", wikiname)
-                    .getSingleResult();
-        } catch (EntityNotFoundException ex) {
-        } catch (NoResultException ex) {
-        }
-        return null;
-    }
-
-    // I need these methods because find() is broken, e.g. find(Document,1) would return a Directory if the
-    // persistence context contains a directory with id 1... even more annoying, I need to catch NoResultException,
-    // so there really is no easy and correct way to look for the existence of a row.
-
-    @Transactional
-    public Document findDocument(Long documentId) {
-        entityManager.joinTransaction();
-
-        try {
-            return (Document) entityManager
-                    .createQuery("select d from Document d where d.id = :id")
-                    .setParameter("id", documentId)
-                    .getSingleResult();
-        } catch (EntityNotFoundException ex) {
-        } catch (NoResultException ex) {
-        }
-        return null;
-    }
-
-    @Transactional
-    public Directory findDirectory(Long directoryId) {
-        entityManager.joinTransaction();
-
-        try {
-            return (Directory) entityManager
-                    .createQuery("select d from Directory d where d.id = :id")
-                    .setParameter("id", directoryId)
-                    .getSingleResult();
-        } catch (EntityNotFoundException ex) {
-        } catch (NoResultException ex) {
-        }
-        return null;
     }
 
 }

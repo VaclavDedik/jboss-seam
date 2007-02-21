@@ -1,0 +1,40 @@
+<m:message xmlns="http://www.w3.org/1999/xhtml"
+            xmlns:m="http://jboss.com/products/seam/mail"
+            xmlns:h="http://java.sun.com/jsf/html"
+            xmlns:f="http://java.sun.com/jsf/core">
+    <m:header name="X-Sent-From" value="JBoss Seam" />
+    <m:from name="Seam Wiki" address="do-not-reply@jboss.com" />
+    <m:to name="#{userHome.instance.firstname} #{userHome.instance.lastname}">#{userHome.instance.email}</m:to>
+    <m:subject>[Seam Wiki] Registration Confirmation</m:subject>
+    <m:body>
+        <html>
+            <body>
+            <p>Hello #{userHome.instance.firstname} #{userHome.instance.lastname},</p>
+
+            <p>
+            you registered an account on the Seam Wiki. You need to click the following link to confirm the
+            validity of your e-mail address and to activate your account:</p>
+
+            <h:outputLink value="#{globalPrefs.baseURL}/confirmRegistration.seam?activationCode=#{userHome.instance.activationCode}">Click this link to activate the account '#{userHome.instance.username}'</h:outputLink>
+
+            <p>
+            Regards,<br/>
+            JBoss Seam Wiki
+            </p>
+    </body>
+        </html>
+        <f:facet name="alternative">
+            <h:outputText>
+Hello #{userHome.instance.firstname} #{userHome.instance.lastname},
+
+you registered an account on the Seam Wiki. You need to use the following link to confirm the
+validity of your e-mail address and to activate your account:
+
+#{globalPrefs.baseURL}/confirmRegistration.seam?activationCode=#{userHome.instance.activationCode}
+
+Regards,
+JBoss Seam Wiki
+            </h:outputText>
+        </f:facet>
+    </m:body>
+</m:message>

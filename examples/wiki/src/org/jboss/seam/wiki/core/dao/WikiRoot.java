@@ -1,7 +1,8 @@
-package org.jboss.seam.wiki.core.node;
+package org.jboss.seam.wiki.core.dao;
 
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.wiki.core.node.Directory;
 
 import javax.persistence.EntityManager;
 
@@ -9,7 +10,7 @@ import javax.persistence.EntityManager;
 @Scope(ScopeType.CONVERSATION)
 public class WikiRoot {
 
-    @In(create = true)
+    @In
     protected EntityManager entityManager;
 
     protected Directory wikiRoot;

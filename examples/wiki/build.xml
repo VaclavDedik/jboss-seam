@@ -10,8 +10,10 @@
 	<property name="dist.dir" value="dist" />
 	<property name="src.java.dir" value="src" />
 	<property name="src.test.dir" value="test" />
-	<property name="lib.dir" value="../../lib" />
-    <property name="seamlibs.dir" value="../../"/>
+    <property name="seam.home" value="../../"/>
+    <property name="lib.dir"        value="${seam.home}/lib" />
+    <property name="seamlibs.dir"   value="${seam.home}"/>
+    <property name="drools.lib.dir" value="${seam.home}/drools/lib"/>
     <property name="ear.dir" value="exploded-archives/${project.name}.ear" />
 	<property name="jar.dir" value="exploded-archives/${project.name}.jar" />
 	<property name="war.dir" value="exploded-archives/${project.name}.war" />
@@ -33,6 +35,15 @@
     <fileset id="seamlibs" dir="${seamlibs.dir}">
         <include name="jboss-seam*.jar"/>
     </fileset>
+
+    <zipfileset id="droolslibs"
+               dir="${drools.lib.dir}">
+        <include name="*.jar"/>
+    </zipfileset>
+
+    <zipfileset id="jcaptchalibs" dir="${lib.dir}">
+        <include name="jcaptcha-all*.jar"/>
+    </zipfileset>
 
     <path id="build.classpath">
 		<fileset refid="lib" />
@@ -110,6 +121,7 @@
             <fileset dir="${seamlibs.dir}">
                 <include name="jboss-seam-debug.jar" />
                 <include name="jboss-seam-ui.jar" />
+                <include name="jboss-seam-mail.jar" />
             </fileset>
         </copy>
 		<copy todir="${war.dir}/WEB-INF/classes">
@@ -133,11 +145,14 @@
             <fileset dir="${seamlibs.dir}">
                 <include name="jboss-seam.jar" />
             </fileset>
-		</copy>
+            <fileset refid="droolslibs"/>
+            <fileset refid="jcaptchalibs"/>
+        </copy>
 		<copy todir="${ear.dir}/META-INF">
 			<fileset dir="${basedir}/resources/META-INF">
 				<include name="application.xml" />
 				<include name="jboss-app.xml" />
+                <include name="security-rules.drl" />
 			</fileset>
 		</copy>
 	</target>
@@ -248,5 +263,39 @@
 		</testng>
 		
 	</target>
+
+    <!-- Database schema export -->
+    <path id="tools.classpath">
+        <fileset dir="../../seam-gen/lib">
+            <include name="*.jar"/>
+        </fileset>
+        <fileset dir="../../hibernate/lib">
+            <include name="*.jar"/>
+        </fileset>
+        <fileset dir="../../lib">
+            <include name="thirdparty*.jar"/>
+        </fileset>
+    </path>
+
+    <taskdef name="hibernatetool"
+             classname="org.hibernate.tool.ant.HibernateToolTask"
+             classpathref="tools.classpath"/>
+
+    <target name="schemaexport" depends="jar"
+        description="Exports a generated schema to a file">
+
+        <hibernatetool destdir="${basedir}">
+            <classpath path="${jar.dir}"/>
+            <jpaconfiguration/> <!-- Use META-INF/persistence.xml -->
+            <hbm2ddl
+                drop="false"
+                create="true"
+                export="false"
+                outputfilename="${dist.dir}/wiki-ddl.sql"
+                delimiter=";"
+                format="true"/>
+        </hibernatetool>
+        <echo message="Exported DDL to file: ${dist.dir}/wiki-ddl.sql"/>
+    </target>
 
 </project>

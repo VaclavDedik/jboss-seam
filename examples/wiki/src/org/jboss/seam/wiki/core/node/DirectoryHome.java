@@ -1,16 +1,13 @@
 package org.jboss.seam.wiki.core.node;
 
 import static javax.faces.application.FacesMessage.SEVERITY_ERROR;
-import static javax.faces.application.FacesMessage.SEVERITY_INFO;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
 import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.wiki.core.links.WikiLinkResolver;
+import org.jboss.seam.wiki.core.dao.NodeDAO;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Events;
 
@@ -37,7 +34,7 @@ public class DirectoryHome extends EntityHome<Directory> {
     private FacesMessages facesMessages;
 
     @In(create=true)
-    private WikiLinkResolver wikiLinkResolver;
+    private NodeDAO nodeDAO;
 
     @Override
     public Object getId() {
@@ -141,7 +138,6 @@ public class DirectoryHome extends EntityHome<Directory> {
         return super.getDeletedMessage() + ": '" + getInstance().getName() + "'";
     }
 
-
     public String getCreatedMessage() {
         return super.getCreatedMessage() + ": '" + getInstance().getName() + "'";
     }
@@ -195,7 +191,7 @@ public class DirectoryHome extends EntityHome<Directory> {
                 .setParameter("wikiname", getInstance().getWikiname())
                 .getResultList();
         if (existingChildren.size() >0) {
-            facesMessages.addFromResourceBundle(
+            facesMessages.addToControlFromResourceBundleOrDefault(
                 "name",
                 SEVERITY_ERROR,
                 getMessageKeyPrefix() + "duplicateName",
@@ -220,9 +216,9 @@ public class DirectoryHome extends EntityHome<Directory> {
         getEntityManager().joinTransaction();
         // Unique directory name within area
         Directory foundDirectory =
-                wikiLinkResolver.findDirectoryInArea(parentDirectory.getAreaNumber(), getInstance().getWikiname());
+                nodeDAO.findDirectoryInArea(parentDirectory.getAreaNumber(), getInstance().getWikiname());
         if (foundDirectory != null && foundDirectory != getInstance()) {
-            facesMessages.addFromResourceBundle(
+            facesMessages.addToControlFromResourceBundleOrDefault(
                 "name",
                 SEVERITY_ERROR,
                 getMessageKeyPrefix() + "duplicateNameInArea",
@@ -232,7 +228,5 @@ public class DirectoryHome extends EntityHome<Directory> {
         }
         return true;
     }
-
-
 
 }

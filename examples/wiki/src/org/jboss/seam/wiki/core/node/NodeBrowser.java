@@ -2,7 +2,7 @@ package org.jboss.seam.wiki.core.node;
 
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.wiki.core.links.WikiLinkResolver;
+import org.jboss.seam.wiki.core.dao.NodeDAO;
 
 import java.util.*;
 
@@ -12,10 +12,10 @@ import java.util.*;
  * URLs typically mapped and resolved with these classes:
  * <p>
  * <pre>
- * http://host/         -- rewrite filter --> http://host/docDisplay.seam (DONE)
- * http://host/123.html -- rewrite filter --> http://host/docDisplay.seam?nodeId=123 (DONE)
- * http://host/Foo      -- rewrite filter --> http://host/docDisplay.seam?areaName=Foo (PLANNED)
- * http://host/Foo/Bar  -- rewrite filter --> http://host/docDisplay.seam?areaName=Foo&nodeName=Bar (PLANNED)
+ * http://host/         -- rewrite filter --> http://host/context/display.seam
+ * http://host/123.html -- rewrite filter --> http://host/context/display.seam?nodeId=123
+ * http://host/Foo      -- rewrite filter --> http://host/context/display.seam?areaName=Foo
+ * http://host/Foo/Bar  -- rewrite filter --> http://host/context/display.seam?areaName=Foo&nodeName=Bar
  * </pre>
  * 'Foo' is a WikiName of a directory with a parentless parent (ROOT), we call this a logical area.
  * 'Bar' is a WikiName of a node in that logical area, unique within that area subtree.
@@ -30,7 +30,6 @@ import java.util.*;
 @Name("browser")
 @Scope(ScopeType.EVENT)
 public class NodeBrowser {
-
 
     @RequestParameter
     protected String areaName;
@@ -49,7 +48,7 @@ public class NodeBrowser {
     protected Directory wikiRoot;
 
     @In(create = true)
-    protected WikiLinkResolver wikiLinkResolver;
+    protected NodeDAO nodeDAO;
 
     // These are only EVENT scoped, we don't want them to jump from DocumentBrowser to
     // DirectoryBrowser over redirects
@@ -88,6 +87,18 @@ public class NodeBrowser {
         redirect.returnToCapturedView();
     }
 
+    public void redirectToLastBrowsedPageWithConversation() {
+        // We don't want to redirect to an action, so if the last browsed page was called with an action, remove it
+        redirect.getParameters().remove("actionOutcome");
+        redirect.getParameters().remove("actionMethod");
+
+        // If the last browsed page had a conversation identifier (we assume of a temporary conversation), remove it
+        redirect.getParameters().remove("cid");
+
+        redirect.returnToCapturedView();
+    }
+
+
     // Just a convenience method for recursive calling
     protected void addDirectoryToPath(List<Node> path, Node directory) {
         path.add(directory);
@@ -106,11 +117,11 @@ public class NodeBrowser {
         if (nodeId != null && !nodeId.equals(wikiRoot.getId())) {
 
             // Try to find a document
-            currentDocument = wikiLinkResolver.findDocument(nodeId);
+            currentDocument = nodeDAO.findDocument(nodeId);
 
             // Document not found, see if it is a directory
             if (currentDocument == null) {
-                currentDirectory = wikiLinkResolver.findDirectory(nodeId);
+                currentDirectory = nodeDAO.findDirectory(nodeId);
 
                 // Try to get a default document of that directory
                 if (currentDirectory != null) currentDocument = currentDirectory.getDefaultDocument();
@@ -124,9 +135,9 @@ public class NodeBrowser {
         } else if (areaName != null && nodeName != null) {
 
             // Try to find the area
-            Directory area = wikiLinkResolver.findArea(areaName);
+            Directory area = nodeDAO.findArea(areaName);
             if (area != null) {
-                Node node = wikiLinkResolver.findNodeInArea(area.getAreaNumber(), nodeName);
+                Node node = nodeDAO.findNodeInArea(area.getAreaNumber(), nodeName);
                 if (isDirectory(node)) {
                     currentDirectory = (Directory)node;
                     currentDocument = currentDirectory.getDefaultDocument();
@@ -138,7 +149,7 @@ public class NodeBrowser {
 
         // Or have we been called just with an areaName request parameter
         } else if (areaName != null) {
-            currentDirectory = wikiLinkResolver.findArea(areaName);
+            currentDirectory = nodeDAO.findArea(areaName);
             if (currentDirectory != null) currentDocument = currentDirectory.getDefaultDocument();
         }
 

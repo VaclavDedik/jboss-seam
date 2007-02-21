@@ -2,7 +2,6 @@ package org.jboss.seam.wiki.core.node;
 
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Component;
 import org.jboss.seam.wiki.core.links.WikiLinkResolver;
 
 import javax.persistence.EntityManager;
@@ -12,9 +11,6 @@ import java.util.ArrayList;
 @Name("menu")
 @Scope(ScopeType.CONVERSATION)
 public class Menu {
-
-    @In(create = true)
-    protected EntityManager entityManager;
 
     @In(create = true)
     private Directory wikiRoot;
@@ -35,10 +31,8 @@ public class Menu {
      * deletion of subtrees).
      */
     @Observer("Nodes.menuStructureModified")
-    @Transactional
     public void refreshMenuItems() {
         items = new ArrayList<MenuItem>();
-        entityManager.joinTransaction();
         for(Node area : wikiRoot.getChildren())
             addNodesToMenuTree(items, 0, area);
     }

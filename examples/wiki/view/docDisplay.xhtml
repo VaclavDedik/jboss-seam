@@ -9,7 +9,7 @@
                 template="themes/#{globalPrefs.themeName}/template.xhtml">
 
 <ui:define name="pluginCSS">
-    <link href="#{themePath}/css/languageSelector.css" rel="stylesheet" type="text/css"/>
+    <link href="#{themePath}/css/userControl.css" rel="stylesheet" type="text/css"/>
     <link href="#{themePath}/css/breadcrumb.css" rel="stylesheet" type="text/css"/>
     <link href="#{themePath}/css/mainMenu.css" rel="stylesheet" type="text/css"/>
 </ui:define>
@@ -17,7 +17,7 @@
 <ui:define name="screenname">Display Document</ui:define>
 
 <ui:define name="headerTopRight">
-    <ui:include src="plugins/languageSelector/plugin.xhtml"/>
+    <ui:include src="plugins/userControl/plugin.xhtml"/>
 </ui:define>
 <ui:define name="headerBottomLeft">
     <ui:include src="plugins/breadcrumb/plugin.xhtml"/>
@@ -48,9 +48,7 @@
     </s:div>
 </ui:define>
 
-<ui:define name="footer">
-    Footer
-</ui:define>
+<ui:define name="footer">&#160;</ui:define>
 
 </ui:composition>
 

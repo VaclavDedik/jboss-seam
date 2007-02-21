@@ -6,6 +6,7 @@ import javax.persistence.Query;
 import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.wiki.core.links.WikiLinkResolver;
+import org.jboss.seam.wiki.core.dao.NodeDAO;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.ScopeType;
@@ -30,6 +31,9 @@ public class DocumentHome extends EntityHome<Document> {
 
     @In(create=true)
     private WikiLinkResolver wikiLinkResolver;
+
+    @In(create = true)
+    private NodeDAO nodeDAO;
 
     private String formContent;
     boolean enabledPreview = false;
@@ -142,7 +146,7 @@ public class DocumentHome extends EntityHome<Document> {
                 .setParameter("wikiname", getInstance().getWikiname())
                 .getResultList();
         if (existingChildren.size() >0) {
-            facesMessages.addFromResourceBundle(
+            facesMessages.addToControlFromResourceBundleOrDefault(
                 "name",
                 SEVERITY_ERROR,
                 getMessageKeyPrefix() + "duplicateName",
@@ -157,9 +161,9 @@ public class DocumentHome extends EntityHome<Document> {
     private boolean isUniqueWikinameInArea() {
         getEntityManager().joinTransaction();
         // Unique document name within area
-        Document foundDocument = wikiLinkResolver.findDocumentInArea(parentDirectory.getAreaNumber(), getInstance().getWikiname());
+        Document foundDocument = nodeDAO.findDocumentInArea(parentDirectory.getAreaNumber(), getInstance().getWikiname());
         if ( foundDocument != null && foundDocument != getInstance()) {
-            facesMessages.addFromResourceBundle(
+            facesMessages.addToControlFromResourceBundleOrDefault(
                 "name",
                 SEVERITY_ERROR,
                 getMessageKeyPrefix() + "duplicateNameInArea",

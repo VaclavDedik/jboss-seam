@@ -1,12 +1,23 @@
 package org.jboss.seam.wiki.core.prefs;
 
-import javax.faces.context.FacesContext;
 
 public class GlobalPreferences {
 
+    private String baseURL;
     private URLRendering defaultURLRendering;
     private String permlinkSuffix;
     private String themeName;
+    private String newUserInRole;
+    private String passwordRegex;
+    private String activationCodeSalt;
+
+    public String getBaseURL() {
+        return baseURL;
+    }
+
+    public void setBaseURL(String baseURL) {
+        this.baseURL = baseURL;
+    }
 
     public URLRendering getDefaultURLRendering() {
         return defaultURLRendering;
@@ -30,6 +41,30 @@ public class GlobalPreferences {
 
     public void setThemeName(String themeName) {
         this.themeName = themeName;
+    }
+
+    public String getNewUserInRole() {
+        return newUserInRole;
+    }
+
+    public void setNewUserInRole(String newUserInRole) {
+        this.newUserInRole = newUserInRole;
+    }
+
+    public String getPasswordRegex() {
+        return passwordRegex;
+    }
+
+    public void setPasswordRegex(String passwordRegex) {
+        this.passwordRegex = passwordRegex;
+    }
+
+    public String getActivationCodeSalt() {
+        return activationCodeSalt;
+    }
+
+    public void setActivationCodeSalt(String activationCodeSalt) {
+        this.activationCodeSalt = activationCodeSalt;
     }
 
     public enum URLRendering {

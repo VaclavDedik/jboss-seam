@@ -9,14 +9,14 @@
                 template="themes/#{globalPrefs.themeName}/template.xhtml">
 
 <ui:define name="pluginCSS">
-    <link href="#{themePath}/css/languageSelector.css" rel="stylesheet" type="text/css"/>
+    <link href="#{themePath}/css/userControl.css" rel="stylesheet" type="text/css"/>
     <link href="#{themePath}/css/mainMenu.css" rel="stylesheet" type="text/css"/>
 </ui:define>
 
 <ui:define name="screenname">Browse Directory</ui:define>
 
 <ui:define name="headerTopRight">
-    <ui:include src="plugins/languageSelector/plugin.xhtml"/>
+    <ui:include src="plugins/userControl/plugin.xhtml"/>
 </ui:define>
 <ui:define name="headerBottomLeft">&#160;</ui:define>
 <ui:define name="headerBottomRight">&#160;</ui:define>
@@ -71,12 +71,15 @@
 
 
         <h:column>
-            <h:graphicImage value="themes/default/img/icon.dir.gif"
+            <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/icon.dir.gif"
                             width="18" height="20"
                             rendered="#{wiki:isDirectory(node)}"/>
-            <h:graphicImage value="themes/default/img/icon.doc.gif"
+            <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/icon.doc.gif"
                             width="18" height="20"
-                            rendered="#{wiki:isDocument(node)}"/>
+                            rendered="#{wiki:isDocument(node) and node != currentDirectory.defaultDocument}"/>
+            <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/icon.doc.default.gif"
+                            width="18" height="20"
+                            rendered="#{wiki:isDocument(node) and node == currentDirectory.defaultDocument}"/>
         </h:column>
 
         <h:column>
@@ -104,9 +107,7 @@
 
 </ui:define>
 
-<ui:define name="footer">
-    Footer
-</ui:define>
+<ui:define name="footer">&#160;</ui:define>
 
 </ui:composition>
 

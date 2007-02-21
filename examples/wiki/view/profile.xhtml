@@ -1,0 +1,155 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:wiki="http://jboss.com/products/seam/wiki"
+                template="themes/#{globalPrefs.themeName}/template.xhtml">
+
+<ui:define name="pluginCSS">
+    <link href="#{themePath}/css/mainMenu.css" rel="stylesheet" type="text/css"/>
+</ui:define>
+
+<ui:define name="screenname">
+    <h:outputText value="Registration" rendered="#{!userHome.managed}"/>
+    <h:outputText value="Profile" rendered="#{userHome.managed}"/>
+</ui:define>
+
+<ui:define name="headerTopRight">&#160;</ui:define>
+<ui:define name="headerBottomLeft">&#160;</ui:define>
+<ui:define name="headerBottomRight">&#160;</ui:define>
+
+<ui:define name="sidebar">
+    <ui:include src="plugins/mainMenu/plugin.xhtml"/>
+</ui:define>
+
+<ui:define name="control">
+    <s:link id="cancel" value="Cancel" styleClass="linkNavigation"
+            action="#{browser.redirectToLastBrowsedPage()}" propagation="end"/>
+</ui:define>
+
+<ui:define name="content">
+
+<h:form>
+    <div class="form">
+        <div class="formHead">
+            <h:outputText value="Register a new account" rendered="#{!userHome.managed}"/>
+            <h:outputText value="Editing profile: #{userHome.instance.username}" rendered="#{userHome.managed}"/>
+        </div>
+
+        <div class="formFieldsWideLabels">
+
+            <s:validateAll>
+
+                <s:decorate>
+                    <div class="entry">
+                        <div class="label">First name:</div>
+                        <div class="input">
+                            <h:inputText size="40" maxlength="63" id="firstname" required="true"
+                                         value="#{userHome.instance.firstname}"/>
+                        </div>
+                    </div>
+                </s:decorate>
+
+                <s:decorate>
+                    <div class="entry">
+                        <div class="label">Last name:</div>
+                        <div class="input">
+                            <h:inputText size="40" maxlength="63" id="lastname" required="true"
+                                         value="#{userHome.instance.lastname}"/>
+                        </div>
+                    </div>
+                </s:decorate>
+
+                <s:decorate>
+                    <div class="entry">
+                        <div class="label">E-Mail:</div>
+                        <div class="input">
+                            <h:inputText size="40" maxlength="255" id="email" required="true"
+                                         value="#{userHome.instance.email}"/>
+                        </div>
+                    </div>
+                </s:decorate>
+
+                <s:decorate>
+                    <div class="entry">
+                        <div class="label">Username:</div>
+                        <div class="input">
+                            <h:inputText size="16" maxlength="16" id="username" required="true"
+                                         value="#{userHome.instance.username}"/>
+                        </div>
+                    </div>
+                </s:decorate>
+
+                <s:decorate>
+                    <div class="entry">
+                        <div class="label">Password:</div>
+                        <div class="input">
+                            <h:inputSecret size="15" maxlength="15" id="password"
+                                           value="#{userHome.password}"/>
+                        </div>
+                    </div>
+                </s:decorate>
+
+                <s:decorate>
+                    <div class="entry">
+                        <div class="label">Repeat password:</div>
+                        <div class="input">
+                            <h:inputSecret size="15" maxlength="15" id="passwordControl"
+                                           value="#{userHome.passwordControl}"/>
+                        </div>
+                    </div>
+                </s:decorate>
+
+                <s:div rendered="#{not identity.loggedIn}">
+                    <div class="entry">
+                        <div class="label">Verification image:</div>
+                        <div class="output">
+                            <h:graphicImage value="/seam/resource/captcha?#{captcha.id}" style="border: 1px solid black;"/>
+                        </div>
+                    </div>
+
+                    <s:decorate>
+                        <div class="entry">
+                            <div class="label">Enter the letters:</div>
+                            <div class="input">
+                                <h:inputText id="verifyCaptcha" value="#{captcha.response}" required="true"/>
+                            </div>
+                        </div>
+                    </s:decorate>
+                </s:div>
+
+            </s:validateAll>
+
+        </div>
+
+        <div class="formControlsWideLabels">
+
+            <div class="entry">
+                <div class="label">&#160;</div>
+                <div class="input">
+                    <h:commandButton id="register" value="Register" styleClass="button"
+                                     action="#{userHome.persist}"
+                                     rendered="#{!userHome.managed}"/>
+
+                    <h:commandButton id="update" value="Update" styleClass="button"
+                                     action="#{userHome.update}"
+                                     rendered="#{userHome.managed}"/>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</h:form>
+
+
+</ui:define>
+
+<ui:define name="footer">&#160;</ui:define>
+
+</ui:composition>
+

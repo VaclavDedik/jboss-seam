@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pages PUBLIC "-//Seam/Seam Pages DTD 1.1//EN" "http://jboss.com/products/seam/pages-1.1.dtd">
 
-<pages>
+<pages login-view-id="/loginRequired.xhtml">
 
     <page view-id="/display.xhtml" action="#{browser.prepare()}">
         <param name="nodeId" value="#{browser.nodeId}"/>
+
+        <end-conversation/>
 
         <navigation>
             <rule if="#{!empty currentDocument}">
@@ -18,6 +20,8 @@
 
     <page view-id="/docDisplay.xhtml" action="#{browser.prepare()}">
         <param name="nodeId" value="#{browser.nodeId}"/>
+
+        <end-conversation/>
 
         <navigation>
             <rule if-outcome="createDoc">
@@ -38,7 +42,8 @@
 
     </page>
 
-    <page view-id="/docEdit.xhtml">
+    <page view-id="/docEdit.xhtml" login-required="true">
+        <restrict/>
         <navigation from-action="#{documentHome.remove}">
             <end-conversation/>
             <redirect view-id="/display.xhtml">
@@ -49,6 +54,8 @@
 
     <page view-id="/dirDisplay.xhtml" action="#{browser.prepare()}">
         <param name="nodeId" value="#{browser.nodeId}"/>
+
+        <end-conversation/>
 
         <navigation>
             <rule if-outcome="createDir">
@@ -70,8 +77,8 @@
 
     </page>
 
-    <page view-id="/dirEdit.xhtml">
-
+    <page view-id="/dirEdit.xhtml" login-required="true">
+        <restrict/>
         <navigation from-action="#{directoryHome.remove}">
             <rule if="#{!empty directoryHome.parentDirectory}">
                 <end-conversation/>
@@ -88,6 +95,57 @@
         </navigation>
 
     </page>
+
+    <!-- Global actions -->
+
+    <page view-id="/*">
+        <navigation>
+            <rule if-outcome="register">
+                <redirect view-id="/profile.xhtml"/>
+            </rule>
+            <rule if-outcome="editMyProfile">
+                <redirect view-id="/profile.xhtml">
+                    <param name="userId" value="#{authenticatedUser.id}"/>
+                </redirect>
+            </rule>
+
+            <rule if-outcome="error">
+                <redirect view-id="/blank.xhtml">
+                    <message severity="ERROR">An unrecoverable error occured!</message>
+                </redirect>
+            </rule>
+        </navigation>
+
+    </page>
+
+    <!-- Special pages -->
+
+    <page view-id="/confirmRegistration.xhtml" action="#{authenticator.activate()}">
+        <navigation>
+            <rule if-outcome="activated">
+                <redirect view-id="/blank.xhtml">
+                    <message severity="INFO">Your account has been activated, please log in.</message>
+                </redirect>
+            </rule>
+            <rule if-outcome="notFound">
+                <redirect view-id="/blank.xhtml">
+                    <message severity="ERROR">Your activation code is invalid.</message>
+                </redirect>
+            </rule>
+        </navigation>
+    </page>
+
+    <!-- These effectively "block" the user from navigating forward, he stays on the last browsed page and
+         gets an error message. -->
+    <page view-id="/loginRequired.xhtml" action="#{browser.redirectToLastBrowsedPageWithConversation()}"/>
+    <page view-id="/permissionError.xhtml" action="#{browser.redirectToLastBrowsedPageWithConversation()}"/>
+    
+    <exception class="org.jboss.seam.security.AuthorizationException">
+        <end-conversation/>
+        <redirect view-id="/permissionError.xhtml">
+            <message severity="WARN">You do not have permission for this operation</message>
+        </redirect>
+    </exception>
 
 </pages>
 

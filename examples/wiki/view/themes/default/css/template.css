@@ -125,6 +125,7 @@ a:active {color: #aaa}   /* selected link */
 
 #messageBox {
     background-color: #87786e;
+    width: auto;
 }
 .infoMessage {
     font-size: 85%;
@@ -136,6 +137,31 @@ a:active {color: #aaa}   /* selected link */
     vertical-align: text-top;
     padding-left: 10px;
     padding-right: 10px;
+}
+
+.attentionImage {
+    vertical-align: text-top;
+    padding-left: 12%;
+    padding-right: 10px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.attentionMessage {
+    font-size: 85%;
+	color: #600;
+}
+
+#messageBox .attentionImage {
+    vertical-align: text-top;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#messageBox .attentionMessage {
+    font-size: 85%;
+    font-weight: bold;
+    color: #fff;
 }
 
 /* General
@@ -215,6 +241,11 @@ a:active {color: #aaa}   /* selected link */
     padding-bottom: 10px;
 }
 
+.formFieldsWideLabels {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
 .formControls {
     background: #c2bcaf url(../img/th.bg.gif) 0 0 repeat-x;
     padding: 5px;
@@ -224,6 +255,7 @@ a:active {color: #aaa}   /* selected link */
     padding-top: 3px;
     padding-bottom: 3px;
 }
+
 .entry .label {
 	float: left;
     padding-top: 1px;
@@ -232,27 +264,27 @@ a:active {color: #aaa}   /* selected link */
     width: 10%;
 	text-align: right;
 }
+
 .entry .output {
     padding-top: 1px;
     text-align: left;
     font-size: 85%;
 }
+
 .entry .input {
     text-align: left;
 }
+
+.formFieldsWideLabels .entry .label {
+    width: 20%;
+}
+
+.formControlsWideLabels .entry .label {
+    width: 20%;
+}
+
 .errorDiv {
     background: #fff url(../img/input.error.bg.gif) 0 0 no-repeat;
-}
-.attentionImage {
-    vertical-align: text-top;
-    padding-left: 12%;
-    padding-right: 10px;
-    padding-top: 2px;
-    padding-bottom: 2px;
-}
-.errorMessage {
-    font-size: 85%;
-	color: #600;
 }
 
 /* Directory Browser
