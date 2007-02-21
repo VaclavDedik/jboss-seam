@@ -36,12 +36,14 @@ import org.jboss.seam.pages.Action;
 import org.jboss.seam.pages.Navigation;
 import org.jboss.seam.pages.ConversationControl;
 import org.jboss.seam.pages.Input;
+import org.jboss.seam.pages.ProcessControl;
 import org.jboss.seam.pages.Rule;
 import org.jboss.seam.pages.Page;
 import org.jboss.seam.pages.Param;
 import org.jboss.seam.pages.RedirectNavigationHandler;
 import org.jboss.seam.pages.RenderNavigationHandler;
 import org.jboss.seam.pages.Output;
+import org.jboss.seam.pages.TaskControl;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.util.Parameters;
 import org.jboss.seam.util.Resources;
@@ -698,6 +700,8 @@ public class Pages
       pagesByViewId.put(viewId, page);
       parsePage(page, element, viewId);
       parseConversationControl( element, page.getConversationControl() );
+      parseTaskControl(element, page.getTaskControl());
+      parseProcessControl(element, page.getProcessControl());
       List<Element> children = element.elements("param");
       for (Element param: children)
       {
@@ -835,6 +839,91 @@ public class Pages
          throw new IllegalStateException("cannot use both <begin-conversation/> and <end-conversation/>");
       }
    }
+   
+   /**
+    * Parse begin-task, start-task and end-task
+    */
+   private static void parseTaskControl(Element element, TaskControl control)
+   {
+      Element endTask = element.element("end-task");
+      if ( endTask!=null )
+      {
+         control.setEndTask(true);
+         String transition = endTask.attributeValue("transition");
+         if (transition!=null)
+         {
+            control.setTransition( Expressions.instance().createValueBinding(transition) );
+         }
+      }
+      
+      Element beginTask = element.element("begin-task");
+      if ( beginTask!=null )
+      {
+         control.setBeginTask(true);
+         String taskId = beginTask.attributeValue("task-id");
+         if (taskId==null)
+         {
+           taskId = "#{param.taskId}";
+         }
+         control.setTaskId( Expressions.instance().createValueBinding(taskId) );
+      }
+      
+      Element startTask = element.element("start-task");
+      if ( startTask!=null )
+      {
+         control.setStartTask(true);
+         String taskId = startTask.attributeValue("task-id");
+         if (taskId==null)
+         {
+           taskId = "#{param.taskId}";
+         }
+         control.setTaskId( Expressions.instance().createValueBinding(taskId) );
+      }
+      
+      if ( control.isBeginTask() && control.isEndTask() )
+      {
+         throw new IllegalStateException("cannot use both <begin-task/> and <end-task/>");
+      }
+      else if ( control.isBeginTask() && control.isStartTask() )
+      {
+          throw new IllegalStateException("cannot use both <start-task/> and <begin-task/>");
+       }
+      else if ( control.isStartTask() && control.isEndTask() )
+      {
+           throw new IllegalStateException("cannot use both <start-task/> and <end-task/>");
+       }
+   }
+   
+   /**
+    * Parse create-process and end-process
+    */
+   private static void parseProcessControl(Element element, ProcessControl control)
+   {
+      Element createProcess = element.element("create-process");
+      if ( createProcess!=null )
+      {
+         control.setCreateProcess(true);
+         control.setDefinition( createProcess.attributeValue("definition") );
+      }
+      
+      Element resumeProcess = element.element("resume-process");
+      if ( resumeProcess!=null )
+      {
+         control.setResumeProcess(true);
+         String processId = resumeProcess.attributeValue("process-id");
+         if (processId==null)
+         {
+           processId = "#{param.processId}";
+         }
+         control.setProcessId( Expressions.instance().createValueBinding(processId) );
+      }
+      
+      if ( control.isCreateProcess() && control.isResumeProcess() )
+      {
+         throw new IllegalStateException("cannot use both <create-process/> and <resume-process/>");
+      }
+   }
+   
    /**
     * Parse navigation
     */
@@ -856,6 +945,8 @@ public class Pages
       Rule rule = new Rule();
       parseNavigationHandler(element, rule);
       parseConversationControl( element, rule.getConversationControl() );
+      parseTaskControl(element, rule.getTaskControl());
+      parseProcessControl(element, rule.getProcessControl());
       navigation.setRule(rule);
       
       String expression = element.attributeValue("from-action");
@@ -911,6 +1002,8 @@ public class Pages
       }
       
       parseConversationControl( element, rule.getConversationControl() );
+      parseTaskControl(element, rule.getTaskControl());
+      parseProcessControl(element, rule.getProcessControl());
       parseNavigationHandler(element, rule);
       
       return rule;

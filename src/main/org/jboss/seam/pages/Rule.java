@@ -16,6 +16,8 @@ public final class Rule
    private ValueBinding condition;
    private List<Output> outputs = new ArrayList<Output>();
    private ConversationControl conversationControl = new ConversationControl();
+   private TaskControl taskControl = new TaskControl();
+   private ProcessControl processControl = new ProcessControl();
    private NavigationHandler navigationHandler = new NavigationHandler() { 
       @Override
       public boolean navigate(FacesContext context) 
@@ -44,6 +46,16 @@ public final class Rule
    public ConversationControl getConversationControl()
    {
       return conversationControl;
+   }
+   
+   public TaskControl getTaskControl()
+   {
+      return taskControl;
+   }
+   
+   public ProcessControl getProcessControl()
+   {
+      return processControl;
    }
 
    public ValueBinding getCondition()
@@ -74,6 +86,8 @@ public final class Rule
    public boolean execute(FacesContext context)
    {
       getConversationControl().beginOrEndConversation();
+      getTaskControl().beginOrEndTask();
+      getProcessControl().createOrResumeProcess();
       for ( Output output: getOutputs() ) output.out();
       return getNavigationHandler().navigate(context);
    }

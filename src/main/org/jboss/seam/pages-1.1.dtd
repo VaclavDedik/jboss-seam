@@ -54,6 +54,21 @@
 <!ATTLIST end-conversation before-redirect (true|false) "false">
 <!ATTLIST end-conversation if CDATA #IMPLIED>
 
+<!ELEMENT begin-task EMPTY>
+<!ATTLIST begin-task task-id CDATA #IMPLIED>
+
+<!ELEMENT start-task EMPTY>
+<!ATTLIST start-task task-id CDATA #IMPLIED>
+
+<!ELEMENT end-task EMPTY>
+<!ATTLIST end-task transition CDATA #IMPLIED>
+
+<!ELEMENT create-process EMPTY>
+<!ATTLIST create-process definiton CDATA #IMPLIED>
+
+<!ELEMENT resume-process EMPTY>
+<!ATTLIST resume-process process-id CDATA #IMPLIED>
+
 <!ELEMENT in EMPTY>
 <!ATTLIST in name CDATA #REQUIRED>
 <!ATTLIST in scope (stateless|event|page|conversation|session|business_process|application|STATELESS|EVENT|PAGE|CONVERSATION|SESSION|BUSINESS_PROCESS|APPLICATION) #IMPLIED>

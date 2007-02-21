@@ -29,6 +29,8 @@ public final class Page
    private boolean conversationRequired;
    private boolean loginRequired;
    private ConversationControl conversationControl = new ConversationControl();
+   private TaskControl taskControl = new TaskControl();
+   private ProcessControl processControl = new ProcessControl();
    
    /**
     * Indicates whether this view id has a security restriction.  
@@ -166,6 +168,14 @@ public final class Page
    {
       return conversationControl;
    }
+   public TaskControl getTaskControl()
+   {
+      return taskControl;
+   }
+   public ProcessControl getProcessControl()
+   {
+      return processControl;
+   }  
    public List<Action> getActions()
    {
       return actions;
@@ -192,6 +202,8 @@ public final class Page
       boolean result = false;
       
       getConversationControl().beginOrEndConversation();
+      getTaskControl().beginOrEndTask();
+      getProcessControl().createOrResumeProcess();
       
       for ( Input in: getInputs() ) in.in();
    
