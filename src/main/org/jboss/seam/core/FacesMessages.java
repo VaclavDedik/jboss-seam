@@ -24,6 +24,7 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.util.Strings;
 
 /**
  * A Seam component that TBD.
@@ -155,7 +156,10 @@ public class FacesMessages implements Serializable
     */
    public void add(FacesMessage facesMessage) 
    {
-      facesMessages.add( new Message(facesMessage) );
+      if (facesMessage!=null)
+      {
+         facesMessages.add( new Message(facesMessage) );
+      }
    }
    
    /**
@@ -164,14 +168,17 @@ public class FacesMessages implements Serializable
     */
    public void addToControl(String id, FacesMessage facesMessage)
    {
-      String clientId = getClientId(id);
-      List<Message> list = keyedFacesMessages.get(clientId);
-      if (list==null)
+      if (facesMessage!=null)
       {
-         list = new ArrayList<Message>();
-         keyedFacesMessages.put(clientId, list);
+         String clientId = getClientId(id);
+         List<Message> list = keyedFacesMessages.get(clientId);
+         if (list==null)
+         {
+            list = new ArrayList<Message>();
+            keyedFacesMessages.put(clientId, list);
+         }
+         list.add( new Message(facesMessage) );
       }
-      list.add( new Message(facesMessage) );
    }
    
    /**
@@ -343,7 +350,15 @@ public class FacesMessages implements Serializable
    
    public static FacesMessage createFacesMessage(Severity severity, String key, String defaultMessageTemplate, Object... params)
    {
-      return createFacesMessage( severity, interpolateBundleMessage(key, defaultMessageTemplate), params );
+      String message = interpolateBundleMessage(key, defaultMessageTemplate);
+      if ( !Strings.isEmpty(message) )
+      {
+         return createFacesMessage( severity, message, params );
+      }
+      else
+      {
+         return null;
+      }
    }
    
    private String getClientId(String id)
