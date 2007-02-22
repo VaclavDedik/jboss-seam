@@ -799,11 +799,13 @@ public class Pages
       return action;
    }
    /**
-    * Parse end-conversation and begin-conversation
+    * Parse end-conversation (and end-task) and begin-conversation (start-task and begin-task) 
+    *
     */
    private static void parseConversationControl(Element element, ConversationControl control)
    {
       Element endConversation = element.element("end-conversation");
+      endConversation = endConversation == null ? element.element("end-task") : endConversation;
       if ( endConversation!=null )
       {
          control.setEndConversation(true);
@@ -816,6 +818,8 @@ public class Pages
       }
       
       Element beginConversation = element.element("begin-conversation");
+      beginConversation = beginConversation == null ? element.element("begin-task") : beginConversation;
+      beginConversation = beginConversation == null ? element.element("start-task") : beginConversation;
       if ( beginConversation!=null )
       {
          control.setBeginConversation(true);

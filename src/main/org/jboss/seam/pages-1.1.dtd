@@ -56,12 +56,17 @@
 
 <!ELEMENT begin-task EMPTY>
 <!ATTLIST begin-task task-id CDATA #IMPLIED>
+<!ATTLIST begin-conversation pageflow CDATA #IMPLIED>
+<!ATTLIST begin-conversation flush-mode (manual|auto|commit|MANUAL|AUTO|COMMIT) #IMPLIED>
 
 <!ELEMENT start-task EMPTY>
 <!ATTLIST start-task task-id CDATA #IMPLIED>
+<!ATTLIST begin-conversation pageflow CDATA #IMPLIED>
+<!ATTLIST begin-conversation flush-mode (manual|auto|commit|MANUAL|AUTO|COMMIT) #IMPLIED>
 
 <!ELEMENT end-task EMPTY>
 <!ATTLIST end-task transition CDATA #IMPLIED>
+<!ATTLIST end-conversation before-redirect (true|false) "false">
 
 <!ELEMENT create-process EMPTY>
 <!ATTLIST create-process definiton CDATA #IMPLIED>
