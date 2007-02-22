@@ -60,7 +60,7 @@ public class RuleBasedIdentity extends Identity
       if (securityContext == null)
       {
          log.warn("no security rule base available - please install a RuleBase with the name '" +
-                  RULES_COMPONENT_NAME + "'");
+                  RULES_COMPONENT_NAME + "' if permission checks are required.");
       }
    }
 
