@@ -177,6 +177,8 @@ private BookingService bookingService;]]></programlisting>
         <programlisting><![CDATA[<!-- Only needs to be specified once per bean factory-->
 <seam:configure-scopes/>
 
+...
+
 <bean id="someSpringBean" class="SomeSpringBeanClass" scope="seam.CONVERSATION"/>]]></programlisting>
 
         <para> The prefix of the scope name may be changed by specifying the <literal>prefix</literal> attribute in
