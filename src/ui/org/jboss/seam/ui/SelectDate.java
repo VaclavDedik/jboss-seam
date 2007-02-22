@@ -17,7 +17,6 @@ public class SelectDate extends UIComponentBase
    private String forField;
    private String dateFormat = "MM/dd/yyyy";
    
-   private boolean defaultCss;
    public String getDateFormat()
    {
       ValueBinding vb = getValueBinding("dateFormat");
@@ -36,16 +35,6 @@ public class SelectDate extends UIComponentBase
    {
       this.forField = forField;
    }
-   
-   public boolean getDefaultCss()
-   {
-      return defaultCss;
-   }
-   
-   public void setDefaultCss(boolean defaultCss)
-   {
-      this.defaultCss = defaultCss;
-   }
    @Override
    public String getFamily()
    {
@@ -63,16 +52,14 @@ public class SelectDate extends UIComponentBase
       super.restoreState(context, values[0]);
       forField = (String) values[1];
       dateFormat = (String) values[2];
-      defaultCss = (Boolean) values[3];
    }
    @Override
    public Object saveState(FacesContext context) 
    {
-      Object[] values = new Object[4];
+      Object[] values = new Object[3];
       values[0] = super.saveState(context);
       values[1] = forField;
       values[2] = dateFormat;
-      values[3] = defaultCss;
       return values;
    }
     
@@ -114,16 +101,7 @@ public class SelectDate extends UIComponentBase
         response.writeAttribute("type", "text/javascript", null);
         response.writeAttribute("src", context.getExternalContext().getRequestContextPath() + 
                  WebResource.WEB_RESOURCE_PATH + "/date/calendar.js", null);
-        response.endElement("script");
-        
-        if (defaultCss)
-        {
-           response.startElement("link", null);
-           response.writeAttribute("rel", "stylesheet", null);
-           response.writeAttribute("href", context.getExternalContext().getRequestContextPath() +
-                    WebResource.WEB_RESOURCE_PATH + "/date/calendar.css", null);
-           response.endElement("link");
-        }
+        response.endElement("script");        
     }
     private void writeLocaleInformation(ResponseWriter response, 
                                         Locale locale) throws IOException 

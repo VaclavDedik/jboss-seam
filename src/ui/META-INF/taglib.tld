@@ -876,12 +876,6 @@
       <rtexprvalue>false</rtexprvalue>
       <description>the field identifier of the input item to pick a date for</description>
     </attribute>
-    <attribute>
-      <name>defaultCss</name>
-      <required>false</required>
-      <rtexprvalue>false</rtexprvalue>
-      <description>Set to true to include a default css stylesheet for this control</description>
-    </attribute>
   </tag>
 
   <tag>
