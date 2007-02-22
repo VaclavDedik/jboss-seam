@@ -101,7 +101,7 @@
             </para>
 
             <sect3>
-                <title>Seam exception handling filter</title>
+                <title>Exception handling</title>
                 <para>
                     This filter provides the exception mapping functionality in
                     <literal>pages.xml</literal> (almost all applications will need this).
@@ -168,7 +168,7 @@
             </sect3>
 
             <sect3>
-                <title>Multipart form requests</title>
+                <title>Multipart form submissions</title>
                 <para>
                     This feature is necessary when using the Seam file upload JSF control. It
                     detects multipart form requests and processes them according to the
@@ -249,7 +249,7 @@
             </sect3>
 
             <sect3>
-                <title>Context filter</title>
+                <title>Context management for custom servlets</title>
                 <para>
                     Requests sent direct to some servlet other than the JSF servlet are not
                     processed through the JSF lifecycle, so Seam provides a servlet filter 
