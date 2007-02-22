@@ -31,15 +31,20 @@ public class DocumentStoreServlet
         Manager.instance().restoreConversation(request.getParameterMap());
         Lifecycle.resumeConversation(session);
         Manager.instance().handleConversationPropagation(request.getParameterMap());
-        try {
+        try 
+        {
            doWork(request, response);
            //TODO: conversation timeout
            Manager.instance().endRequest(ContextAdaptor.getSession(session));
            Lifecycle.endRequest(session);
-        } catch (Exception e) {
+        } 
+        catch (Exception e) 
+        {
            Lifecycle.endRequest();           
            throw new ServletException(e);
-        } finally {
+        } 
+        finally 
+        {
            Lifecycle.setServletRequest(null);
            Lifecycle.setPhaseId(null);
         }
@@ -57,7 +62,8 @@ public class DocumentStoreServlet
                 
         DocumentStore store = DocumentStore.instance();
         
-        if (store.idIsValid(contentId)) {
+        if (store.idIsValid(contentId)) 
+        {
             DocumentData documentData = store.getDocumentData(contentId);
             
             byte[] data = documentData.getData();       
@@ -69,14 +75,20 @@ public class DocumentStoreServlet
             if (data != null) {
                 response.getOutputStream().write(data);
             }
-        } else {
+        } 
+        else 
+        {
              String error = store.getErrorPage();             
-             if (error != null) {      
-                 if (error.startsWith("/")) {
+             if (error != null) 
+             {      
+                 if (error.startsWith("/")) 
+                 {
                      error = request.getContextPath() + error;
                  }
                  response.sendRedirect(error);
-             } else {
+             } 
+             else 
+             {
                  response.sendError(404);
              }
         }
