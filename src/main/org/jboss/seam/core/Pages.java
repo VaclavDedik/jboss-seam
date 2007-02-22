@@ -242,11 +242,11 @@ public class Pages
       String requestScheme = getRequestScheme(facesContext);
       if ( requestScheme!=null && !requestScheme.equals( getScheme(viewId) ) )
       {
-         Manager.instance().redirect(viewId);              
+         Manager.instance().redirect( viewId, getConvertedParameters(facesContext, viewId), true );              
          return result;
       }
       
-      for ( Page page: getPageStack(viewId))
+      for ( Page page: getPageStack(viewId) )
       {         
          if ( page.isConversationRequired() && !Manager.instance().isLongRunningConversation() )
          {
@@ -295,7 +295,7 @@ public class Pages
             try
             {
                URL serverUrl = new URL(requestUrl);
-               url = new URL(scheme, serverUrl.getHost(), serverUrl.getPort(), url).toString();
+               url = scheme + "://" + serverUrl.getHost() + ':' + serverUrl.getPort() + '/' + url;
             }
             catch (MalformedURLException ex) 
             {
