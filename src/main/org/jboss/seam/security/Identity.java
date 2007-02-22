@@ -13,6 +13,7 @@ import java.util.Enumeration;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
 import javax.security.auth.Subject;
 import javax.security.auth.callback.Callback;
@@ -189,15 +190,49 @@ public class Identity extends Selector
    protected void addLoginFailedMessage(LoginException ex)
    {
       FacesMessages.instance().addFromResourceBundleOrDefault(
-               FacesMessage.SEVERITY_INFO, "org.jboss.seam.loginFailed", 
-               "Login failed", ex);
+               getLoginFailedMessageSeverity(), 
+               getLoginFailedMessageKey(), 
+               getLoginFailedMessage(), 
+               ex);
+   }
+
+   protected String getLoginFailedMessage()
+   {
+      return "Login failed";
+   }
+
+   protected Severity getLoginFailedMessageSeverity()
+   {
+      return FacesMessage.SEVERITY_INFO;
+   }
+
+   protected String getLoginFailedMessageKey()
+   {
+      return "org.jboss.seam.loginFailed";
    }
 
    protected void addLoginSuccessfulMessage()
    {
       FacesMessages.instance().addFromResourceBundleOrDefault(
-               FacesMessage.SEVERITY_INFO, "org.jboss.seam.loginSuccessful", 
-               "Welcome, #0", getUsername());
+               getLoginSuccessfulMessageSeverity(), 
+               getLoginSuccessfulMessageKey(), 
+               getLoginSuccessfulMessage(), 
+               getUsername());
+   }
+
+   protected Severity getLoginSuccessfulMessageSeverity()
+   {
+      return FacesMessage.SEVERITY_INFO;
+   }
+
+   protected String getLoginSuccessfulMessage()
+   {
+      return "Welcome, #0";
+   }
+
+   protected String getLoginSuccessfulMessageKey()
+   {
+      return "org.jboss.seam.loginSuccessful";
    }
    
    public void authenticate() 
