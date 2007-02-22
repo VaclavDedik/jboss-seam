@@ -83,14 +83,15 @@ public class Identity extends Selector
 
    private void initCredentialsFromCookie()
    {
+      boolean cookie = isCookieEnabled();
       setCookieEnabled(true);
       username = getCookieValue();
-      setDirty();
-      setCookieEnabled(false);
+      setCookieEnabled(cookie);
       if (username!=null)
       {
          postRememberMe();
       }
+      setDirty();
    }
 
    protected void postRememberMe()
