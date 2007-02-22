@@ -6,7 +6,7 @@
 <#assign column = componentProperty.columnIterator.next()>
 <#assign propertyType = componentProperty.value.typeName>
 
-                    <h:outputLabel for="${componentProperty.name}">${componentProperty.name}</h:ouputLabel>
+                    <h:outputLabel for="${componentProperty.name}">${componentProperty.name}</h:outputLabel>
                     <s:decorate>
 <#if propertyType == "date">
                         <h:inputText id="${componentProperty.name}" 
