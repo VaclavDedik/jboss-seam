@@ -21,6 +21,10 @@
         <property name="entityManager" ref="em"/>
     </bean>
 
+    <bean id="hotelSearch" class="org.jboss.seam.example.spring.HotelSearchingAction" scope="seam.SESSION">
+        <property name="pageSize" value="10"/>
+    </bean>
+
     <seam:configure-scopes />
     
     <seam:instance id="em" name="entityManager" proxy="true"/>
