@@ -1,9 +1,11 @@
 //$Id$
 package org.jboss.seam.example.hibernate;
 import static org.jboss.seam.ScopeType.CONVERSATION;
+
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
+
 import org.hibernate.Session;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.End;

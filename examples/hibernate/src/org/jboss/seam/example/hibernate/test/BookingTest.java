@@ -16,7 +16,6 @@ import org.jboss.seam.core.Manager;
 import org.jboss.seam.example.hibernate.Booking;
 import org.jboss.seam.example.hibernate.BookingListAction;
 import org.jboss.seam.example.hibernate.Hotel;
-import org.jboss.seam.example.hibernate.HotelBookingAction;
 import org.jboss.seam.example.hibernate.User;
 import org.jboss.seam.jsf.SeamPhaseListener;
 import org.jboss.seam.jsf.TransactionalSeamPhaseListener;
@@ -30,57 +29,52 @@ public class BookingTest extends SeamTest
    public void testBookHotel() throws Exception
    {
       
-      new FacesRequest()
-      {
-         @Override
-         protected void invokeApplication()
-         {
-            Contexts.getSessionContext().set("loggedIn", true);
-            Contexts.getSessionContext().set("user", new User("Gavin King", "foobar", "gavin"));
-         }
-
-      }.run();
-
-      String id = new FacesRequest("/main.xhtml") 
-      {
-
-         HotelBookingAction hotelBooking;
+      new FacesRequest() {
          
+         @Override
+         protected void invokeApplication() throws Exception
+         {
+            Contexts.getSessionContext().set("user", new User("Gavin King", "foobar", "gavin"));
+            setValue("#{identity.username}", "gavin");
+            setValue("#{identity.password}", "foobar");            
+            invokeMethod("#{identity.login}");
+         }
+         
+      }.run();
+      
+      String id = new FacesRequest("/main.xhtml") {
+
          @Override
          protected void updateModelValues() throws Exception
          {
-            hotelBooking = (HotelBookingAction) Component.getInstance("hotelBooking", true);
-            hotelBooking.setSearchString("Union Square");
+            setValue("#{hotelBooking.searchString}", "Union Square");
          }
 
          @Override
          protected void invokeApplication()
          {
-            String outcome = hotelBooking.find();
-            assert "main".equals(outcome);
+            assert invokeMethod("#{hotelBooking.find}").equals("main");
          }
 
          @Override
          protected void renderResponse()
          {
-            DataModel hotelsDataModel = (DataModel) Contexts.getConversationContext().get("hotels");
-            assert hotelsDataModel.getRowCount()==1;
-            assert ( (Hotel) hotelsDataModel.getRowData() ).getCity().equals("NY");
-            assert "Union Square".equals( hotelBooking.getSearchString() );
+            DataModel hotels = (DataModel) Contexts.getConversationContext().get("hotels");
+            assert hotels.getRowCount()==1;
+            assert ( (Hotel) hotels.getRowData() ).getCity().equals("NY");
+            assert getValue("#{hotelBooking.searchString}").equals("Union Square");
             assert Manager.instance().isLongRunningConversation();
          }
          
       }.run();
       
-      new FacesRequest("/main.xhtml", id) {
-
+      id = new FacesRequest("/hotel.xhtml", id) {
+         
          @Override
-         protected void invokeApplication()
-         {
-            //getRequest().getParameterMap().put("hotelId", "2");
-        	   HotelBookingAction hotelBooking = (HotelBookingAction) Contexts.getConversationContext().get("hotelBooking");
-            String outcome = hotelBooking.selectHotel();
-            assert "selected".equals( outcome );
+         protected void invokeApplication() throws Exception {
+            DataModel hotels = (DataModel) Contexts.getConversationContext().get("hotels");
+            assert hotels.getRowCount()==1;
+            invokeMethod("#{hotelBooking.selectHotel}");
          }
 
          @Override
@@ -94,27 +88,25 @@ public class BookingTest extends SeamTest
          
       }.run();
       
-      new FacesRequest("/hotel.xhtml", id) {
+      id = new FacesRequest("/hotel.xhtml", id) {
 
          @Override
          protected void invokeApplication()
          {
-        	   HotelBookingAction hotelBooking = (HotelBookingAction) Contexts.getConversationContext().get("hotelBooking");
-            String outcome = hotelBooking.bookHotel();
-            assert "book".equals( outcome );
+            invokeMethod("#{hotelBooking.bookHotel}");
          }
 
          @Override
          protected void renderResponse()
          {
+            assert getValue("#{booking.user}")!=null;
+            assert getValue("#{booking.hotel}")!=null;
+            assert getValue("#{booking.creditCard}")==null;
+            assert getValue("#{booking.creditCardName}")==null;
             Booking booking = (Booking) Contexts.getConversationContext().get("booking");
-            assert booking.getUser()!=null;
-            assert booking.getHotel()!=null;
             assert booking.getHotel()==Contexts.getConversationContext().get("hotel");
             assert booking.getUser()==Contexts.getSessionContext().get("user");
             assert Manager.instance().isLongRunningConversation();
-            assert booking.getCreditCard()==null;
-            assert booking.getCreditCardName()==null;
          }
          
       }.run();
@@ -165,22 +157,19 @@ public class BookingTest extends SeamTest
          
          @Override @SuppressWarnings("deprecation")
          protected void updateModelValues() throws Exception
-         {
-            Booking booking = (Booking) Contexts.getConversationContext().get("booking");
-            booking.setCreditCard("1234567891021234");
-            booking.setCreditCardName("GAVIN KING");
-            booking.setBeds(2);
+         {  
+            setValue("#{booking.creditCard}", "1234567891021234");
+            setValue("#{booking.creditCardName}", "GAVIN KING");
+            setValue("#{booking.beds}", 2);
             Date now = new Date();
-            booking.setCheckinDate(now);
-            booking.setCheckoutDate(now);
+            setValue("#{booking.checkinDate}", now);
+            setValue("#{booking.checkoutDate}", now);
          }
 
          @Override
          protected void invokeApplication()
          {
-        	   HotelBookingAction hotelBooking = (HotelBookingAction) Contexts.getConversationContext().get("hotelBooking");
-            String outcome = hotelBooking.setBookingDetails();
-            assert outcome==null;
+            assert invokeMethod("#{hotelBooking.setBookingDetails}")==null;
          }
 
          @Override
@@ -188,7 +177,8 @@ public class BookingTest extends SeamTest
          {
             Iterator messages = FacesContext.getCurrentInstance().getMessages();
             assert messages.hasNext();
-            assert ( (FacesMessage) messages.next() ).getSummary().equals("Check out date must be later than check in date");
+            FacesMessage message = (FacesMessage) messages.next();
+            assert message.getSummary().equals("Check out date must be later than check in date");
             assert !messages.hasNext();
             assert Manager.instance().isLongRunningConversation();
          }
@@ -200,18 +190,15 @@ public class BookingTest extends SeamTest
          @Override @SuppressWarnings("deprecation")
          protected void updateModelValues() throws Exception
          {
-            Booking booking = (Booking) Contexts.getConversationContext().get("booking");
             Calendar cal = Calendar.getInstance();
             cal.add(Calendar.DAY_OF_MONTH, 2);
-            booking.setCheckoutDate( cal.getTime() );
+            setValue("#{booking.checkoutDate}", cal.getTime() );
          }
 
          @Override
          protected void invokeApplication()
          {
-        	   HotelBookingAction hotelBooking = (HotelBookingAction) Contexts.getConversationContext().get("hotelBooking");
-            String outcome = hotelBooking.setBookingDetails();
-            assert "confirm".equals(outcome);
+            assert invokeMethod("#{hotelBooking.setBookingDetails}").equals("confirm");
          }
 
          @Override
@@ -227,15 +214,7 @@ public class BookingTest extends SeamTest
          @Override
          protected void invokeApplication()
          {
-        	   HotelBookingAction hotelBooking = (HotelBookingAction) Contexts.getConversationContext().get("hotelBooking");
-            String outcome = hotelBooking.confirm();
-            assert "confirmed".equals( outcome );
-         }
-
-         @Override
-         protected void renderResponse()
-         {
-            assert !Manager.instance().isLongRunningConversation();
+            assert invokeMethod("#{hotelBooking.confirm}").equals("confirmed");
          }
          
       }.run();
@@ -251,7 +230,7 @@ public class BookingTest extends SeamTest
             Booking booking = (Booking) bookings.getRowData();
             assert booking.getHotel().getCity().equals("NY");
             assert booking.getUser().getUsername().equals("gavin");
-            //assert !Manager.instance().isLongRunningConversation();
+            assert !Manager.instance().isLongRunningConversation();
          }
          
       }.run();
@@ -273,7 +252,7 @@ public class BookingTest extends SeamTest
          {
             ListDataModel bookings = (ListDataModel) Component.getInstance("bookings", true);
             assert bookings.getRowCount()==0;
-            //assert !Manager.instance().isLongRunningConversation();
+            assert !Manager.instance().isLongRunningConversation();
          }
          
       }.run();
