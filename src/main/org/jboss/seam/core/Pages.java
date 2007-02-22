@@ -240,10 +240,14 @@ public class Pages
       String viewId = facesContext.getViewRoot().getViewId();
       
       String requestScheme = getRequestScheme(facesContext);
-      if ( requestScheme!=null && !requestScheme.equals( getScheme(viewId) ) )
+      if ( requestScheme!=null )
       {
-         Manager.instance().redirect( viewId, getConvertedParameters(facesContext, viewId), true );              
-         return result;
+         String scheme = getScheme(viewId);
+         if ( scheme!=null && !requestScheme.equals(scheme) )
+         {
+            Manager.instance().redirect(viewId);              
+            return result;
+         }
       }
       
       for ( Page page: getPageStack(viewId) )
@@ -520,7 +524,7 @@ public class Pages
     * against the model and converting to String.
     * 
     * @param viewId the JSF view id
-    * @param overridden override certain parameter values
+    * @param overridden excluded parameters
     * @return a map of page parameter name to String value
     */
    public Map<String, Object> getConvertedParameters(FacesContext facesContext, String viewId, Set<String> overridden)
@@ -653,7 +657,20 @@ public class Pages
     */
    public String encodePageParameters(FacesContext facesContext, String url, String viewId)
    {
-      Map<String, Object> parameters = getConvertedParameters(facesContext, viewId);
+      return encodePageParameters(facesContext, url, viewId, Collections.EMPTY_SET);
+   }
+   
+   /**
+    * Encode page parameters into a URL
+    * 
+    * @param url the base URL
+    * @param viewId the JSF view id of the page
+    * @param overridden excluded parameters
+    * @return the URL with parameters appended
+    */
+   public String encodePageParameters(FacesContext facesContext, String url, String viewId, Set<String> overridden)
+   {
+      Map<String, Object> parameters = getConvertedParameters(facesContext, viewId, overridden);
       return Manager.instance().encodeParameters(url, parameters);
    }
    

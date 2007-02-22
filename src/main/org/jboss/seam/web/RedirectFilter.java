@@ -25,7 +25,10 @@ import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Pages;
 
 /**
- * Propagates the conversation context across a browser redirect
+ * Propagates the conversation context and page parameters across any 
+ * browser redirect initiated from a JSF navigation rule defined in 
+ * faces-config.xml. Note that this is no longer needed if all
+ * navigation rules are defined in pages.xml.
  * 
  * @author Gavin King
  */

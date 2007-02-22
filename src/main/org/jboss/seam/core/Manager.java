@@ -806,7 +806,7 @@ public class Manager
    public String encodeConversationId(String url) 
    {
       //DONT BREAK, icefaces uses this
-      if ( Seam.isSessionInvalid() )
+      if ( Seam.isSessionInvalid() || containsParameter(url, conversationIdParameter) )
       {
          return url;
       }
@@ -855,17 +855,6 @@ public class Manager
       }
    }
 
-   /**
-    * Redirect to the given view id, encoding the conversation id
-    * into the request URL.
-    * 
-    * @param viewId the JSF view id
-    */
-   public void redirect(String viewId)
-   {
-      redirect(viewId, null, true);
-   }
-   
    public void interpolateAndRedirect(String url)
    {
       Map<String, Object> parameters = new HashMap<String, Object>();
@@ -894,29 +883,32 @@ public class Manager
       StringBuilder builder = new StringBuilder(url);
       for ( Map.Entry<String, Object> param: parameters.entrySet() )
       {
-         Object parameterValue = param.getValue();
          String parameterName = param.getKey();
-         if (parameterValue instanceof Iterable)
+         if ( !containsParameter(url, parameterName) )
          {
-            for ( Object value: (Iterable) parameterValue )
+            Object parameterValue = param.getValue();
+            if (parameterValue instanceof Iterable)
             {
-               builder.append('&')
-                  .append(parameterName)
-                  .append('=');
-               if (value!=null)
+               for ( Object value: (Iterable) parameterValue )
                {
-                  builder.append(encode(value));
+                  builder.append('&')
+                        .append(parameterName)
+                        .append('=');
+                  if (value!=null)
+                  {
+                     builder.append(encode(value));
+                  }
                }
             }
-         }
-         else
-         {
-            builder.append('&')
-                  .append(parameterName)
-                  .append('=');
-            if (parameterValue!=null)
+            else
             {
-               builder.append(encode(parameterValue));
+               builder.append('&')
+                     .append(parameterName)
+                     .append('=');
+               if (parameterValue!=null)
+               {
+                  builder.append(encode(parameterValue));
+               }
             }
          }
       }
@@ -925,6 +917,12 @@ public class Manager
          builder.setCharAt( url.length() ,'?' );
       }
       return builder.toString();
+   }
+
+   private boolean containsParameter(String url, String parameterName)
+   {
+      return url.indexOf('?' + parameterName + '=')>0 || 
+            url.indexOf( '&' + parameterName + '=')>0;
    }
 
    private String encode(Object value)
@@ -937,6 +935,17 @@ public class Manager
       {
          throw new RuntimeException(iee);
       }
+   }
+   
+   /**
+    * Redirect to the given view id, encoding the conversation id
+    * into the request URL.
+    * 
+    * @param viewId the JSF view id
+    */
+   public void redirect(String viewId)
+   {
+      redirect(viewId, null, true);
    }
    
    /**
@@ -960,6 +969,12 @@ public class Manager
       {
          url = encodeParameters(url, parameters);
       }
+      url = Pages.instance().encodePageParameters( 
+               FacesContext.getCurrentInstance(), 
+               url, 
+               viewId, 
+               parameters==null ? null : parameters.keySet() 
+            );
       if (includeConversationId)
       {
          url = encodeConversationId(url);
@@ -996,8 +1011,7 @@ public class Manager
     */
    public String appendConversationIdFromRedirectFilter(String url)
    {
-      boolean appendConversationId = !controllingRedirect && 
-            !url.contains("?" + getConversationIdParameter() +"=");
+      boolean appendConversationId = !controllingRedirect;
       if (appendConversationId)
       {
          
