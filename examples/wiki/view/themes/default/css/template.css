@@ -44,10 +44,14 @@ fieldset {
 	border: 0;
 }
 
-a:link {color: #962325}     /* unvisited link */
-a:visited {color: #666}  /* visited link */
-a:hover {color: #000}   /* mouse over link */
-a:active {color: #aaa}   /* selected link */
+a {
+    color: #962325;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #666;
+}
 
 /* Layout
 ----------------------------------------------- */
@@ -171,6 +175,10 @@ a:active {color: #aaa}   /* selected link */
     padding-left: 10px;
 }
 
+.regularLink{
+    text-decoration: underline;
+}
+
 .brokenLink {
     color: #ff0000;
     text-decoration: line-through;
@@ -178,63 +186,25 @@ a:active {color: #aaa}   /* selected link */
 }
 
 .button {
-	font-weight: bold;
-	color: #fff;
-	font-size: 85%;
-	padding: 2px;
-    padding-right: 5px;
     background: #fff url(../img/btn.bg.gif) 0 0 repeat-x;
-	border-style: none;
-    margin: 0 5px 0 0;
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    cursor: pointer;
+    padding: 2px 5px 2px 5px;
+    margin: 0 5px 0 5px;
 }
 
 .buttonNonpersistent {
-	font-weight: bold;
-	color: #fff;
-	font-size: 85%;
-	padding: 2px;
-    padding-right: 5px;
     background: #fff url(../img/btn.nonpersistent.bg.gif) 0 0 repeat-x;
-	border-style: none;
-    margin: 0 5px 0 0;
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    cursor: pointer;
+    padding: 2px 5px 2px 5px;
+    margin: 0 5px 0 5px;
 }
 
-.buttonNonpersistentHidden {
-    font-weight: bold;
+.buttonLabel{
     color: #fff;
-    font-size: 85%;
-    padding: 2px;
-    background: #fff url(../img/btn.nonpersistent.bg.gif) 0 0 repeat-x;
-    border-style: none;
-    margin: 0 0 0 5px;
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    cursor: pointer;
-}
-
-.buttonNonpersistentHidden:focus {
-    background: #888;
-    outline-style: none;
-}
-
-.buttonHidden {
     font-weight: bold;
-    color: #fff;
     font-size: 85%;
-    padding: 2px;
-    background: #fff url(../img/btn.bg.gif) 0 0 repeat-x;
-    border-style: none;
     font-family: Verdana, Arial, Helvetica, sans-serif;
-    margin: 0 0 0 5px;
-    cursor: pointer;
-}
-
-.buttonHidden:focus {
-    background: #888;
-    outline-style: none;
+    text-decoration:none;
+    padding-top: 2px;
+    padding-bottom: 2px;
 }
 
 .linkNavigation {
@@ -245,10 +215,7 @@ a:active {color: #aaa}   /* selected link */
     font-family: Verdana, Arial, Helvetica, sans-serif;
     background: #5a4d46 url(../img/menu.bg.gif) 0 0 repeat-x;
     border: 1px solid #fff;
-    padding-left: 5px;
-    padding-right: 5px;
-    padding-top: 2px;
-    padding-bottom: 2px;
+    padding: 2px 5px 2px 5px;
     margin: 0 5px 0 5px;
 }
 

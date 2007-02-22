@@ -132,15 +132,15 @@
                 <div class="label">&#160;</div>
                 <div class="input">
 
-                    <h:commandLink id="register" styleClass="buttonHidden" action="#{userHome.persist}"
+                    <h:commandLink id="register" styleClass="button"
+                                   action="#{userHome.persist}"
                                    rendered="#{!userHome.managed}"
-                                   tabindex="8" accesskey="G"/>
-                    <h:outputLabel for="register" styleClass="button" rendered="#{!userHome.managed}">Re<u>g</u>ister</h:outputLabel>
+                                   tabindex="8" accesskey="G"><span class="buttonLabel">Re<u>g</u>ister</span></h:commandLink>
 
-                    <h:commandLink id="update" styleClass="buttonHidden" action="#{userHome.update}"
+                    <h:commandLink id="update" styleClass="button"
+                                   action="#{userHome.update}"
                                    rendered="#{userHome.managed}"
-                                   tabindex="9" accesskey="U"/>
-                    <h:outputLabel for="update" styleClass="button" rendered="#{userHome.managed}"><u>U</u>pdate</h:outputLabel>
+                                   tabindex="9" accesskey="U"><span class="buttonLabel"><u>U</u>pdate</span></h:commandLink>
 
                 </div>
             </div>

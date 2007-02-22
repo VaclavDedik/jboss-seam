@@ -148,33 +148,27 @@
         <div class="label">&#160;</div>
         <div class="input">
 
-            <h:commandLink id="preview" styleClass="buttonNonpersistentHidden"
+            <h:commandLink id="preview" styleClass="buttonNonpersistent"
                            action="#{directoryHome.previewMenuItems()}"
                            rendered="#{childNodes.rowCount>0}"
-                           tabindex="5" accesskey="P"/>
-            <h:outputLabel for="preview" styleClass="buttonNonpersistent" rendered="#{childNodes.rowCount>0}"><u>P</u>review</h:outputLabel>
+                           tabindex="5" accesskey="P"><span class="buttonLabel"><u>P</u>review</span></h:commandLink>
 
-            <h:commandLink id="save" styleClass="buttonHidden" action="#{directoryHome.persist}"
+            <h:commandLink id="save" styleClass="button"
+                           action="#{directoryHome.persist}"
                            rendered="#{!directoryHome.managed}"
-                           tabindex="6" accesskey="S"/>
-            <h:outputLabel for="save" styleClass="button" rendered="#{!directoryHome.managed}"><u>S</u>ave</h:outputLabel>
+                           tabindex="6" accesskey="S"><span class="buttonLabel"><u>S</u>ave</span></h:commandLink>
 
-            <h:commandLink id="update" styleClass="buttonHidden"
+            <h:commandLink id="update" styleClass="button"
                            action="#{directoryHome.update}"
                            rendered="#{directoryHome.managed}"
-                           tabindex="7" accesskey="U"/>
-            <h:outputLabel for="update" styleClass="button" rendered="#{directoryHome.managed}"><u>U</u>pdate</h:outputLabel>
+                           tabindex="7" accesskey="U"><span class="buttonLabel"><u>U</u>pdate</span></h:commandLink>
 
-            <h:commandLink id="delete" styleClass="buttonHidden"
+            <h:commandLink id="delete" styleClass="button"
                            action="#{directoryHome.remove}"
                            rendered="#{directoryHome.managed
                                       and !empty directoryHome.instance.parent
                                       and empty directoryHome.instance.children}"
-                           tabindex="8" accesskey="D"/>
-            <h:outputLabel for="delete" styleClass="button"
-                           rendered="#{directoryHome.managed
-                                      and !empty directoryHome.instance.parent
-                                      and empty directoryHome.instance.children}"><u>D</u>elete</h:outputLabel>
+                           tabindex="8" accesskey="D"><span class="buttonLabel"><u>D</u>elete</span></h:commandLink>
 
         </div>
     </div>

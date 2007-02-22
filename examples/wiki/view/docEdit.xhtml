@@ -81,27 +81,21 @@
                     <div class="label">&#160;</div>
                     <div class="input">
 
-                        <h:commandLink id="preview" styleClass="buttonNonpersistentHidden"
+                        <h:commandLink id="preview"
                                        action="#{documentHome.setEnabledPreview(true)}"
-                                       tabindex="3" accesskey="P"/>
-                        <h:outputLabel for="preview" styleClass="buttonNonpersistent"><u>P</u>review</h:outputLabel>
+                                       tabindex="3" accesskey="P" styleClass="buttonNonpersistent"><span class="buttonLabel"><u>P</u>review</span></h:commandLink>
 
-                        <h:commandLink id="save" styleClass="buttonHidden" action="#{documentHome.persist}"
+                        <h:commandLink id="save" action="#{documentHome.persist}"
                                        rendered="#{!documentHome.managed}"
-                                       tabindex="4" accesskey="S"/>
-                        <h:outputLabel for="save" styleClass="button" rendered="#{!documentHome.managed}"><u>S</u>ave</h:outputLabel>
+                                       tabindex="4" accesskey="S"><span class="button"><u>S</u>ave</span></h:commandLink>
 
-                        <h:commandLink id="update" styleClass="buttonHidden"
-                                       action="#{documentHome.update}"
-                                       rendered="#{documentHome.managed}"
-                                       tabindex="5" accesskey="U"/>
-                        <h:outputLabel for="update" styleClass="button" rendered="#{documentHome.managed}"><u>U</u>pdate</h:outputLabel>
+                        <h:commandLink id="update" action="#{documentHome.update}"
+                                   rendered="#{documentHome.managed}"
+                                   tabindex="4" accesskey="U" styleClass="button"><span class="buttonLabel"><u>U</u>pdate</span></h:commandLink>
 
-                        <h:commandLink id="delete" styleClass="buttonHidden"
-                                       action="#{documentHome.remove}"
+                        <h:commandLink id="delete" action="#{documentHome.remove}"
                                        rendered="#{documentHome.managed}"
-                                       tabindex="6" accesskey="D"/>
-                        <h:outputLabel for="delete" styleClass="button" rendered="#{documentHome.managed}"><u>D</u>elete</h:outputLabel>
+                                       tabindex="5" accesskey="D" styleClass="button"><span class="buttonLabel"><u>D</u>elete</span></h:commandLink>
 
                     </div>
                 </div>
