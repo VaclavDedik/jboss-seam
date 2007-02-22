@@ -188,12 +188,14 @@ private BookingService bookingService;]]></programlisting>
         <para> Seam-scoped Spring beans defined this way can be injected into other Spring beans without the use of
             <literal>&lt;seam:instance/&gt;</literal>. However, care must be taken to ensure scope impedance is 
             maintained. The normal approach used in Spring is to specify <literal>&lt;aop:scoped-proxy/&gt;</literal> 
-            in the bean definition. However, Seam-scoped Spring beans are <emphasis>not</emphasis> compatible with
+            in the bean definition. But Seam-scoped Spring beans are <emphasis>not</emphasis> compatible with
             <literal>&lt;aop:scoped-proxy/&gt;</literal>. So if you need to inject a Seam-scoped Spring bean
             into a singleton, <literal>&lt;seam:instance/&gt;</literal> must be used: </para>
             
         <programlisting><![CDATA[<bean id="someSpringBean" class="SomeSpringBeanClass" scope="seam.CONVERSATION"/>
-        
+
+...
+
 <bean id="someSingleton">
     <property name="someSeamScopedSpringBean">
         <seam:instance name="someSpringBean" proxy="true"/>
