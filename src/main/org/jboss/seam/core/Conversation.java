@@ -28,7 +28,8 @@ import org.jboss.seam.contexts.Contexts;
 @Name("org.jboss.seam.core.conversation")
 @Install(precedence=BUILT_IN)
 @Intercept(NEVER)
-public class Conversation implements Serializable {
+public class Conversation implements Serializable 
+{
    private static final long serialVersionUID = -6131304128727444876L;
    private Integer timeout;
    String description;
@@ -38,7 +39,8 @@ public class Conversation implements Serializable {
     * Get the timeout for this conversation instance.
     * @return the timeout in millis
     */
-   public Integer getTimeout() {
+   public Integer getTimeout() 
+   {
       return timeout==null ?
             Manager.instance().getCurrentConversationTimeout() :
             timeout;
@@ -48,7 +50,8 @@ public class Conversation implements Serializable {
     * Set the timeout for this converstaion instance.
     * @param timeout the timeout in millis
     */
-   public void setTimeout(Integer timeout) {
+   public void setTimeout(Integer timeout) 
+   {
       this.timeout = timeout;
    }
    
@@ -141,8 +144,7 @@ public class Conversation implements Serializable {
    public boolean redirect()
    {
       Manager manager = Manager.instance();
-      String viewId = manager.getCurrentConversationViewId();
-      return redirect(manager, viewId);
+      return redirect( manager, manager.getCurrentConversationViewId() );
    }
 
    private boolean redirect(Manager manager, String viewId)
@@ -166,7 +168,19 @@ public class Conversation implements Serializable {
     */
    public boolean endAndRedirect()
    {
-      end();
+      return endAndRedirect(false);
+   }
+   
+   /**
+    * End a child conversation and redirect to the last defined
+    * view-id for the parent conversation.
+    * 
+    * @param endBeforeRedirect should the conversation be destroyed before the redirect?
+    * @return true if a redirect occurred
+    */
+   public boolean endAndRedirect(boolean endBeforeRedirect)
+   {
+      end(endBeforeRedirect);
       Manager manager = Manager.instance();
       String viewId = manager.getParentConversationViewId();
       return redirect(manager, viewId);
@@ -265,7 +279,7 @@ public class Conversation implements Serializable {
     */
    public void end()
    {
-      Manager.instance().endConversation(false);   
+      end(false);   
    }
    
    /**
@@ -274,8 +288,18 @@ public class Conversation implements Serializable {
     */
    public void endBeforeRedirect()
    {
-      Manager.instance().endConversation(true);   
+      end(true);   
    }   
+   
+   /**
+    * End a long-runnning conversation.
+    * 
+    * @param beforeRedirect should the conversation be destroyed before any redirect?
+    */
+   public void end(boolean beforeRedirect)
+   {
+      Manager.instance().endConversation(beforeRedirect);   
+   }
    
    /**
     * Is this conversation long-running? Note that this method returns
