@@ -16,40 +16,25 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>classpath:/applicationContext.xml</param-value>
     </context-param>
-    
-    <filter>
-        <filter-name>Seam Servlet Filter</filter-name>
-        <filter-class>org.jboss.seam.servlet.SeamServletFilter</filter-class>
-    </filter>
 
     <filter>
-        <filter-name>Seam Redirect Filter</filter-name>
-        <filter-class>org.jboss.seam.servlet.SeamRedirectFilter</filter-class>
-    </filter>
-    
-    <filter-mapping>
-        <filter-name>Seam Redirect Filter</filter-name>
-        <url-pattern>*.seam</url-pattern>
-    </filter-mapping>
-
-    <filter>
-        <filter-name>Seam Exception Filter</filter-name>
-        <filter-class>org.jboss.seam.servlet.SeamExceptionFilter</filter-class>
+        <filter-name>Seam Filter</filter-name>
+        <filter-class>org.jboss.seam.web.SeamFilter</filter-class>
     </filter>
 
     <filter-mapping>
-        <filter-name>Seam Exception Filter</filter-name>
-        <url-pattern>*.seam</url-pattern>
+        <filter-name>Seam Filter</filter-name>
+        <url-pattern>/*</url-pattern>
     </filter-mapping>
     
     <servlet>
-      <servlet-name>Seam Resource Servlet</servlet-name>
-      <servlet-class>org.jboss.seam.servlet.ResourceServlet</servlet-class>
+        <servlet-name>Seam Resource Servlet</servlet-name>
+        <servlet-class>org.jboss.seam.servlet.ResourceServlet</servlet-class>
     </servlet>
     
     <servlet-mapping>
-      <servlet-name>Seam Resource Servlet</servlet-name>
-      <url-pattern>/seam/resource/*</url-pattern>
+        <servlet-name>Seam Resource Servlet</servlet-name>
+        <url-pattern>/seam/resource/*</url-pattern>
     </servlet-mapping>     
 
     <context-param>
@@ -61,6 +46,7 @@
         <param-name>facelets.DEVELOPMENT</param-name>
         <param-value>true</param-value>
     </context-param>
+    
     <!-- MyFaces -->
 
     <listener>
@@ -83,4 +69,5 @@
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.seam</url-pattern>
     </servlet-mapping>
+    
 </web-app>
