@@ -169,6 +169,7 @@ td {
 /* date picker style */
 div.seam-date 
 {
+  width: 300px;
   margin-top: 5px;
   border: 1px solid #AAAAAA;
   background-color: #FFFFFF;  
@@ -179,7 +180,7 @@ div.seam-date
 
 table.seam-date td {
   font-family: Tahoma, Arial, Helvetica, sans-serif;
-  font-weight: 11px; 
+  font-weight: 12px; 
   border: 0px;
 }
 
@@ -254,7 +255,7 @@ td.seam-date-header
 
 td.seam-date-header-prevMonth
 {
-  background-image: url("./img/cal-prev.png");
+  background-image: url("../img/cal-prev.png");
   background-repeat: no-repeat;
   background-position: center;
   padding: 0px 2px 0px 2px;
@@ -265,7 +266,7 @@ td.seam-date-header-prevMonth
 
 td.seam-date-header-nextMonth
 {
-  background-image: url("./img/cal-next.png");
+  background-image: url("../img/cal-next.png");
   background-repeat: no-repeat;
   background-position: center;
   padding: 0px 2px 0px 2px;
