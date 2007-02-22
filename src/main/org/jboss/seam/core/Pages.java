@@ -1,6 +1,7 @@
 package org.jboss.seam.core;
 import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
+
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -37,18 +38,19 @@ import org.jboss.seam.core.Expressions.ValueBinding;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.pages.Action;
-import org.jboss.seam.pages.Navigation;
 import org.jboss.seam.pages.ConversationControl;
 import org.jboss.seam.pages.Input;
-import org.jboss.seam.pages.ProcessControl;
-import org.jboss.seam.pages.Rule;
+import org.jboss.seam.pages.Navigation;
+import org.jboss.seam.pages.Output;
 import org.jboss.seam.pages.Page;
 import org.jboss.seam.pages.Param;
+import org.jboss.seam.pages.ProcessControl;
 import org.jboss.seam.pages.RedirectNavigationHandler;
 import org.jboss.seam.pages.RenderNavigationHandler;
-import org.jboss.seam.pages.Output;
+import org.jboss.seam.pages.Rule;
 import org.jboss.seam.pages.TaskControl;
 import org.jboss.seam.security.Identity;
+import org.jboss.seam.security.NotLoggedInException;
 import org.jboss.seam.util.Parameters;
 import org.jboss.seam.util.Resources;
 import org.jboss.seam.util.Strings;
@@ -252,12 +254,12 @@ public class Pages
       
       for ( Page page: getPageStack(viewId) )
       {         
-         if ( page.isConversationRequired() && !Manager.instance().isLongRunningConversation() )
+         if ( isNoConversationRedirectRequired(page) )
          {
             redirectToNoConversationView();
             return result;
          }
-         else if ( page.isLoginRequired() && !Identity.instance().isLoggedIn() )
+         else if ( isLoginRedirectRequired(viewId, page) )
          {
             redirectToLoginView();
             return result;
@@ -272,6 +274,19 @@ public class Pages
       //conversation existence!
       result = callAction(facesContext) || result;
       return result;
+   }
+   
+   private boolean isNoConversationRedirectRequired(Page page)
+   {
+      return page.isConversationRequired() && 
+            !Manager.instance().isLongRunningConversation();
+   }
+   
+   private boolean isLoginRedirectRequired(String viewId, Page page)
+   {
+      return page.isLoginRequired() && 
+            !viewId.equals( getLoginViewId() ) && 
+            !Identity.instance().isLoggedIn();
    }
    
    private static String getRequestScheme(FacesContext facesContext)
@@ -328,7 +343,11 @@ public class Pages
       notLoggedIn();
       
       String loginViewId = getLoginViewId();
-      if (loginViewId!=null)
+      if (loginViewId==null)
+      {
+         throw new NotLoggedInException();
+      }
+      else
       {
          Manager.instance().redirect(loginViewId);
       }

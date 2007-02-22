@@ -7,8 +7,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.event.PhaseId;
 
 import org.jboss.seam.NoConversationException;
-import org.jboss.seam.log.LogProvider;
-import org.jboss.seam.log.Logging;
 import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.BeginTask;
@@ -22,6 +20,8 @@ import org.jboss.seam.core.Events;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.intercept.InvocationContext;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 
 /**
  * Check that a conversational bean is not being invoked
