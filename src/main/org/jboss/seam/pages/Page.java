@@ -272,7 +272,7 @@ public final class Page
    
    public String getScheme()
    {
-      return scheme == null ? "http" : scheme;
+      return scheme;
    }
    
    public void setScheme(String scheme)

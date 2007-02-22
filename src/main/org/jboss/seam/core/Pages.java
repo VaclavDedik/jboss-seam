@@ -238,15 +238,18 @@ public class Pages
    {
       boolean result = false;
       String viewId = facesContext.getViewRoot().getViewId();
-      String scheme = getRequestScheme(facesContext);
-      for ( Page page: getPageStack(viewId) )
+      String requestScheme = getRequestScheme(facesContext);
+      String scheme = getScheme(viewId);
+
+      if ( requestScheme != null && scheme != null && !requestScheme.equals(scheme) )
+      {            
+         Manager.instance().redirect( viewId, scheme );              
+         return result;
+      }       
+      
+      for ( Page page: getPageStack(viewId))
       {         
-         if ( scheme != null && !scheme.equals(page.getScheme()) )
-         {            
-            Manager.instance().redirect( viewId, page.getScheme() );              
-            return result;
-         }         
-         else if ( page.isConversationRequired() && !Manager.instance().isLongRunningConversation() )
+         if ( page.isConversationRequired() && !Manager.instance().isLongRunningConversation() )
          {
             redirectToNoConversationView();
             return result;
@@ -321,6 +324,17 @@ public class Pages
          Manager.instance().redirect(noConversationViewId);
       }
    }
+   
+   public String getScheme(String viewId)
+   {
+      List<Page> stack = getPageStack(viewId);
+      for ( int i = stack.size() - 1; i >= 0; i-- )
+      {
+         Page page = stack.get(i);
+         if (page.getScheme() != null) return page.getScheme();
+      }
+      return null;
+   }   
 
    protected void noConversation()
    {
