@@ -21,8 +21,10 @@
     <component name="bookingDatabase" 
         auto-create="true"
               class="org.jboss.seam.core.ManagedHibernateSession"/>
+              
     <component name="hibernateSessionFactory"
-              class="org.jboss.seam.core.HibernateSessionFactory"/> 
+              class="org.jboss.seam.core.HibernateSessionFactory"/>
+              
     <component class="org.jboss.seam.core.Microcontainer" 
            installed="@microcontainer@"/>
            

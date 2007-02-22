@@ -29,13 +29,5 @@
          <factory bean="bookingDatasourceFactory"/>
       </constructor>
    </bean>
-   
-   <bean name="bookingDatabaseFactory" class="org.jboss.seam.microcontainer.HibernateFactory"/>
-   <bean name="bookingDatabase" class="java.lang.Object">
-      <constructor factoryMethod="getSessionFactory">
-         <factory bean="bookingDatabaseFactory"/>
-      </constructor>
-      <depends>bookingDatasource</depends>
-   </bean>
 
 </deployment>

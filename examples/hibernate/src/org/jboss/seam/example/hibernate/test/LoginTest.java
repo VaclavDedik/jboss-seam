@@ -9,6 +9,7 @@ import org.jboss.seam.example.hibernate.User;
 import org.jboss.seam.jsf.SeamPhaseListener;
 import org.jboss.seam.jsf.TransactionalSeamPhaseListener;
 import org.jboss.seam.mock.SeamTest;
+import org.jboss.seam.mock.SeamTest.FacesRequest;
 import org.jboss.seam.security.Identity;
 import org.testng.annotations.Test;
 public class LoginTest extends SeamTest
@@ -18,86 +19,78 @@ public class LoginTest extends SeamTest
    public void testLogin() throws Exception
    {
       
-      new FacesRequest("/home.xhtml") {
+      new FacesRequest() {
          
          @Override
          protected void invokeApplication()
          {
             assert !isSessionInvalid();
-            HotelBookingAction hb = (HotelBookingAction) Component.getInstance("hotelBooking", true);
-            String outcome = hb.find();
-            assert "login".equals( outcome );
-         }
-         @Override
-         protected void renderResponse()
-         {
-            assert !Manager.instance().isLongRunningConversation();
-            assert Contexts.getSessionContext().get("loggedIn")==null;
+            assert getValue("#{identity.loggedIn}").equals(false);
          }
          
       }.run();
+      
      
-      new FacesRequest("/home.xhtml") {
+      new FacesRequest() {
+
          @Override
          protected void updateModelValues() throws Exception
          {
             assert !isSessionInvalid();
-            User user = (User) Component.getInstance("user", true);
-            user.setUsername("gavin");
-            user.setPassword("foobar");
+            setValue("#{identity.username}", "gavin");
+            setValue("#{identity.password}", "foobar");
          }
+
          @Override
          protected void invokeApplication()
          {
-            Identity identity = (Identity) Component.getInstance("identity", true);
-            identity.setUsername("gavin");
-            identity.setPassword("foobar");
-            String outcome = identity.login();
-            assert "loggedIn".equals( outcome );
+            invokeMethod("#{identity.login}");
          }
+
          @Override
          protected void renderResponse()
          {
-            User user = (User) Component.getInstance("user", false);
-            assert user.getName().equals("Gavin King");
-            assert user.getUsername().equals("gavin");
-            assert user.getPassword().equals("foobar");
+            assert getValue("#{user.name}").equals("Gavin King");
+            assert getValue("#{user.username}").equals("gavin");
+            assert getValue("#{user.password}").equals("foobar");
             assert !Manager.instance().isLongRunningConversation();
-         }         
-      }.run();
-      
-      String id = new FacesRequest("/home.xhtml") {
-         @Override
-         protected void invokeApplication()
-         {
-            HotelBookingAction hb = (HotelBookingAction) Component.getInstance("hotelBooking", true);
-            String outcome = hb.find();
-            assert "main".equals( outcome );
-         }
-         @Override
-         protected void renderResponse()
-         {
-            assert Manager.instance().isLongRunningConversation();
+            assert getValue("#{identity.loggedIn}").equals(true);
          }
          
       }.run();
       
-      new FacesRequest("/main.xhtml", id) {
+      new FacesRequest() {
+
          @Override
          protected void invokeApplication()
          {
-            assert Manager.instance().isLongRunningConversation();
-            Identity identity = (Identity) Component.getInstance("identity", true);
-            identity.logout();
+            assert !isSessionInvalid();
+            assert getValue("#{identity.loggedIn}").equals(true);
+         }
+         
+      }.run();
+      
+      
+      new FacesRequest() {
+
+         @Override
+         protected void invokeApplication()
+         {
+            assert !Manager.instance().isLongRunningConversation();
+            assert !isSessionInvalid();
+            invokeMethod("#{identity.logout}");
             assert Seam.isSessionInvalid();
          }
+
          @Override
          protected void renderResponse()
          {
+            assert getValue("#{identity.loggedIn}").equals(false);
             assert Seam.isSessionInvalid();
          }
-        
+         
       }.run();
+      
       
       assert isSessionInvalid();
       
