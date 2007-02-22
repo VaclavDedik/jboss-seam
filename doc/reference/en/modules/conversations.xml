@@ -826,7 +826,7 @@ public String approveDocument() { ... }]]></programlisting>
         
         <para>
             To work around this use an event scoped component to store the component bindings and inject 
-            it into conversation scoped component that requires it.
+            it into the conversation scoped component that requires it.
         </para>
 
         <programlisting><![CDATA[@Name("grid")
