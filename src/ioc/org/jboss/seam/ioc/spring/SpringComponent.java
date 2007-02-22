@@ -63,7 +63,6 @@ public class SpringComponent extends IoCComponent
      * @param scopeType the scope of this component
      * @param beanFactory the beanfactory this spring bean exists in
      * @param interceptorType the InterceptorTyp to force the bean to use. Will override any annotations on the bean.
-     * @param override If a seam component already exists should we override it?
      */
     public static void addSpringComponent(String componentName, String springBeanName, String beanClassName,
             ScopeType scopeType, BeanFactory beanFactory, InterceptionType interceptorType)
