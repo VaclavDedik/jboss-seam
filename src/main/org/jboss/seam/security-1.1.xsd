@@ -15,8 +15,6 @@
         <xs:attribute name="remember-me" type="xs:boolean"/>
         <xs:attribute name="jaas-config-name" type="xs:string"/>
         <xs:attribute name="security-rules" type="xs:string"/>
-        <xs:attribute name="login-successful-key" type="xs:string"/>
-        <xs:attribute name="login-failed-key" type="xs:string"/>
     </xs:attributeGroup>
     
 </xs:schema>
