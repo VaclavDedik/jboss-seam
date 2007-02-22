@@ -866,13 +866,8 @@ public class Manager
     */
    public void redirect(String viewId)
    {
-      redirect(viewId, null, true, null);
+      redirect(viewId, null, true);
    }
-   
-   public void redirect(String viewId, String scheme)
-   {
-      redirect(viewId, null, true, scheme);
-   }   
    
    public void interpolateAndRedirect(String url)
    {
@@ -958,12 +953,6 @@ public class Manager
    public void redirect(String viewId, Map<String, Object> parameters, 
             boolean includeConversationId)
    {
-      redirect(viewId, parameters, includeConversationId, null);
-   }
-   
-   public void redirect(String viewId, Map<String, Object> parameters, 
-            boolean includeConversationId, String scheme)
-   {
       /*if ( Lifecycle.getPhaseId()==PhaseId.RENDER_RESPONSE )
       {
          throw new IllegalStateException("attempted to redirect during RENDER_RESPONSE phase");
@@ -979,15 +968,7 @@ public class Manager
          url = encodeConversationId(url);
          beforeRedirect();
       }
-      if (scheme != null)
-      {
-         URL u = getRequestURL(context);         
-         try
-         {
-            url = new URL(scheme, u.getHost(), u.getPort(), url).toString();
-         }
-         catch (MalformedURLException ex) {}
-      }            
+      url = encodeScheme(viewId, context, url);            
       if ( log.isDebugEnabled() )
       {
          log.debug("redirecting to: " + url);
@@ -1007,6 +988,21 @@ public class Manager
          controllingRedirect = false;
       }
       context.responseComplete(); //work around MyFaces bug in 1.1.1
+   }
+
+   private String encodeScheme(String viewId, FacesContext context, String url)
+   {
+      String scheme = Pages.instance().getScheme(viewId);
+      if (scheme != null)
+      {
+         URL u = getRequestURL(context);         
+         try
+         {
+            url = new URL(scheme, u.getHost(), u.getPort(), url).toString();
+         }
+         catch (MalformedURLException ex) {}
+      }
+      return url;
    }
    
    private URL getRequestURL(FacesContext facesContext)

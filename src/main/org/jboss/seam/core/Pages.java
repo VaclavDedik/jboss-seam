@@ -238,14 +238,13 @@ public class Pages
    {
       boolean result = false;
       String viewId = facesContext.getViewRoot().getViewId();
+      
       String requestScheme = getRequestScheme(facesContext);
-      String scheme = getScheme(viewId);
-
-      if ( requestScheme != null && scheme != null && !requestScheme.equals(scheme) )
-      {            
-         Manager.instance().redirect( viewId, scheme );              
+      if ( requestScheme!=null && !requestScheme.equals( getScheme(viewId) ) )
+      {
+         Manager.instance().redirect(viewId);              
          return result;
-      }       
+      }
       
       for ( Page page: getPageStack(viewId))
       {         
