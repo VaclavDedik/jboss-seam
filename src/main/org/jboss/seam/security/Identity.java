@@ -59,6 +59,9 @@ public class Identity extends Selector
    private String username;
    private String password;
    
+   private String loginSuccessfulKey = "org.jboss.seam.loginSuccessful";
+   private String loginFailedKey = "org.jboss.seam.loginFailed";
+   
    private MethodBinding authenticateMethod;
 
    private Principal principal;   
@@ -188,16 +191,22 @@ public class Identity extends Selector
 
    protected void addLoginFailedMessage(LoginException ex)
    {
-      FacesMessages.instance().addFromResourceBundleOrDefault(
-               FacesMessage.SEVERITY_INFO, "org.jboss.seam.loginFailed", 
-               "Login failed", ex);
+      if (!Strings.isEmpty(loginFailedKey))
+      {
+         FacesMessages.instance().addFromResourceBundleOrDefault(
+                  FacesMessage.SEVERITY_INFO, loginFailedKey, 
+                  "Login failed", ex);
+      }
    }
 
    protected void addLoginSuccessfulMessage()
    {
-      FacesMessages.instance().addFromResourceBundleOrDefault(
-               FacesMessage.SEVERITY_INFO, "org.jboss.seam.loginSuccessful", 
-               "Welcome, #0", getUsername());
+      if (!Strings.isEmpty(loginSuccessfulKey))
+      {
+         FacesMessages.instance().addFromResourceBundleOrDefault(
+                  FacesMessage.SEVERITY_INFO, loginSuccessfulKey, 
+                  "Welcome, #0", getUsername());
+      }
    }
    
    public void authenticate() throws LoginException
@@ -520,6 +529,26 @@ public class Identity extends Selector
    public void setJaasConfigName(String jaasConfigName)
    {
       this.jaasConfigName = jaasConfigName;
+   }
+   
+   public String getLoginSuccessfulKey()
+   {
+      return loginSuccessfulKey;
+   }
+   
+   public void setLoginSuccessfulKey(String loginSuccessfulKey)
+   {
+      this.loginSuccessfulKey = loginSuccessfulKey;
+   }
+   
+   public String getLoginFailedKey()
+   {
+      return loginFailedKey;
+   }
+   
+   public void setLoginFailedKey(String loginFailedKey)
+   {
+      this.loginFailedKey = loginFailedKey;
    }
 
    public void checkEntityPermission(Object entity, EntityAction action)
