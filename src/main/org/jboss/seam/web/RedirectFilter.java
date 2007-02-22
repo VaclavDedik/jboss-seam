@@ -51,12 +51,15 @@ public class RedirectFilter extends AbstractFilter
          {
             if ( Contexts.isEventContextActive() )
             {
-               String viewId = getViewId(url);
-               if (viewId!=null)
+               if ( !url.startsWith("http:") && !url.startsWith("https:") ) //yew!
                {
-                  url = Pages.instance().encodePageParameters( FacesContext.getCurrentInstance(), url, viewId );
+                  String viewId = getViewId(url);
+                  if (viewId!=null)
+                  {
+                     url = Pages.instance().encodePageParameters( FacesContext.getCurrentInstance(), url, viewId );
+                  }
+                  url = Manager.instance().appendConversationIdFromRedirectFilter(url);
                }
-               url = Manager.instance().appendConversationIdFromRedirectFilter(url);
             }
             super.sendRedirect(url);
          }
