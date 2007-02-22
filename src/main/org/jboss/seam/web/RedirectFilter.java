@@ -65,11 +65,19 @@ public class RedirectFilter extends AbstractFilter
    
    public static String getViewId(String url)
    {
-      ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-      String pathInfo = externalContext.getRequestPathInfo();
-      String servletPath = externalContext.getRequestServletPath();
-      String contextPath = externalContext.getRequestContextPath();
-      return getViewId(url, pathInfo, servletPath, contextPath);
+      FacesContext facesContext = FacesContext.getCurrentInstance();
+      if (facesContext==null)
+      {
+         return null;
+      }
+      else
+      {
+         ExternalContext externalContext = facesContext.getExternalContext();
+         String pathInfo = externalContext.getRequestPathInfo();
+         String servletPath = externalContext.getRequestServletPath();
+         String contextPath = externalContext.getRequestContextPath();
+         return getViewId(url, pathInfo, servletPath, contextPath);
+      }
    }
    
    protected static String getViewId(String url, String pathInfo, String servletPath, String contextPath)
