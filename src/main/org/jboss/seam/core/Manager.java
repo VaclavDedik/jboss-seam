@@ -1040,7 +1040,7 @@ public class Manager
             {
                conversation.setDescription( pageEntry.renderDescription() );
             }
-            conversation.setTimeout( Pages.instance().getTimeout(viewId) );
+            conversation.setTimeout( pages.getTimeout(viewId) );
          }
       }
       else
