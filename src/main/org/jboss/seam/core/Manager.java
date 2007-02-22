@@ -1000,9 +1000,12 @@ public class Manager
          {
             url = new URL(scheme, u.getHost(), u.getPort(), url).toString();
          }
-         catch (MalformedURLException ex) {}
+         catch (MalformedURLException ex) 
+         {
+            throw new RuntimeException(ex);
+         }
       }
-      return url;
+      return url;   
    }
    
    private URL getRequestURL(FacesContext facesContext)
@@ -1018,7 +1021,7 @@ public class Manager
       }
       catch (MalformedURLException ex)
       {
-         return null;
+         throw new RuntimeException(ex);
       }
    }   
    

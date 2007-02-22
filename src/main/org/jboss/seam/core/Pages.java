@@ -283,7 +283,7 @@ public class Pages
       }
       catch (MalformedURLException ex)
       {
-         return null;
+         throw new RuntimeException(ex);
       }
    }
    
