@@ -29,18 +29,20 @@ public final class RedirectNavigationHandler extends NavigationHandler
    public boolean navigate(FacesContext context)
    {
       addFacesMessage(message, severity);
+      
       Map<String, Object> parameters = new HashMap<String, Object>();
-      for ( Param pageParameter: params )
+      for ( Param parameter: params )
       {
-         Object value = pageParameter.getValueFromModel(context);
+         Object value = parameter.getValueFromModel(context);
          //render it even if the value is null, since we want it
          //to override page parameter values which would be
          //appended by the redirect filter
          //if (value!=null)
          //{
-            parameters.put( pageParameter.getName(), value );
+            parameters.put( parameter.getName(), value );
          //}
       }
+      
       redirect(viewId, parameters);
       return true;
    }
