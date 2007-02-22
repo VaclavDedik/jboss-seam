@@ -6,25 +6,26 @@
         Seam and allows Spring applications to take advantage of key Seam features like 
         conversations and Seam's more sophisticated persistence context management.</para>
 
-    <para> The current Spring support provides the ability to: </para>
+    <para> Seam's support for Spring provides the ability to: </para>
 
     <itemizedlist>
         <listitem>
-            <para>Inject Seam component instances into Spring beans.</para>
+            <para>inject Seam component instances into Spring beans</para>
         </listitem>
         <listitem>
-            <para>Inject Spring components into Seam components.</para>
+            <para>inject Spring beans into Seam components</para>
         </listitem>
         <listitem>
-            <para>Turn Spring beans into Seam components.</para>
+            <para>turn Spring beans into Seam components</para>
         </listitem>
         <listitem>
-            <para>Allow Spring beans to live in any Seam context.</para>
+            <para>allow Spring beans to live in any Seam context</para>
         </listitem>
     </itemizedlist>
 
     <section>
         <title>Injecting Seam Components into Spring Components</title>
+        
         <para> Seam provides extensive support for injection of Seam component instances into Spring beans using the
                 <literal>SeamFactoryBean</literal>. The functionality of the SeamFactoryBean is encapsulated by the
                 <literal>&lt;seam:instance/&gt;</literal> namespace handler. This section will cover use of the
@@ -75,6 +76,7 @@
             singleton will contain the <literal>CONVERSATION</literal> scoped instance available when the Spring bean is
             instantiated for the life of that singleton instance. If another request invokes a method on the Spring
             singleton it could be working with a prior conversation's Seam instance. </para>
+            
         <para>Making Seam-scoped component instances available to Spring singletons requires the use of a proxy.
                 <literal>SeamFactoryBean</literal> provides Spring with provides a proxy for Seam components instead of
             providing the actual Seam component. The target of the proxy, the actual instance executed on, will be
