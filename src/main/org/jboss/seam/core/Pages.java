@@ -272,8 +272,11 @@ public class Pages
    
    private static String getRequestScheme(FacesContext facesContext)
    {
-      URL url = getRequestUrl(facesContext);
-      return url==null ? null : url.getProtocol();
+      Object req = facesContext.getExternalContext().getRequest();       
+      
+      String url = ((HttpServletRequest) req).getRequestURL().toString();
+      int idx = url.indexOf(':');
+      return idx == -1 ? null : url.substring(0, idx);      
    }
    
    public String encodeScheme(String viewId, FacesContext context, String url)
@@ -299,7 +302,7 @@ public class Pages
       Object req = facesContext.getExternalContext().getRequest(); 
       
       if (!(req instanceof HttpServletRequest)) return null;
-      
+
       try
       {
          return new URL(((HttpServletRequest) req).getRequestURL().toString());
