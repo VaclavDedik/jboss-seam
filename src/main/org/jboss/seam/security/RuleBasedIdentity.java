@@ -20,6 +20,8 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 
 @Name("org.jboss.seam.security.identity")
 @Scope(SESSION)
@@ -29,6 +31,8 @@ import org.jboss.seam.annotations.Startup;
 public class RuleBasedIdentity extends Identity
 {  
    public static final String RULES_COMPONENT_NAME = "securityRules";   
+   
+   private static final LogProvider log = Logging.getLogProvider(RuleBasedIdentity.class);
    
    private WorkingMemory securityContext;
    
@@ -53,7 +57,11 @@ public class RuleBasedIdentity extends Identity
          securityContext = securityRules.newWorkingMemory(false);
       }
       
-      assertSecurityContextExists();
+      if (securityContext == null)
+      {
+         log.warn("no security rule base available - please install a RuleBase with the name '" +
+                  RULES_COMPONENT_NAME + "'");
+      }
    }
 
    @Override
@@ -62,32 +70,24 @@ public class RuleBasedIdentity extends Identity
       super.postAuthenticate();
       
       WorkingMemory securityContext = getSecurityContext();
-      assertSecurityContextExists();
 
-      // Populate the working memory with the user's principals
-      for ( Principal p : getSubject().getPrincipals() )
-      {         
-         if ( (p instanceof Group) && "roles".equals( ( (Group) p ).getName() ) )
-         {
-            Enumeration e = ( (Group) p ).members();
-            while ( e.hasMoreElements() )
-            {
-               Principal role = (Principal) e.nextElement();
-               securityContext.assertObject( new Role( role.getName() ) );
-            }
-         }     
-      }
-      
-      securityContext.assertObject(getPrincipal()); 
-   }
-
-   private void assertSecurityContextExists()
-   {
-      if (securityContext==null)
+      if (securityContext != null)
       {
-         throw new IllegalStateException(
-            "no security rule base available - please install a RuleBase with the name '" +
-            RULES_COMPONENT_NAME + "'");
+         // Populate the working memory with the user's principals
+         for ( Principal p : getSubject().getPrincipals() )
+         {         
+            if ( (p instanceof Group) && "roles".equals( ( (Group) p ).getName() ) )
+            {
+               Enumeration e = ( (Group) p ).members();
+               while ( e.hasMoreElements() )
+               {
+                  Principal role = (Principal) e.nextElement();
+                  securityContext.assertObject( new Role( role.getName() ) );
+               }
+            }     
+         }
+         
+         securityContext.assertObject(getPrincipal());
       }
    }
    
@@ -101,13 +101,15 @@ public class RuleBasedIdentity extends Identity
     */
    @Override
    public boolean hasPermission(String name, String action, Object...arg)
-   {      
+   {
+      WorkingMemory securityContext = getSecurityContext();
+      
+      if (securityContext == null) return false;      
+      
       List<FactHandle> handles = new ArrayList<FactHandle>();
 
       PermissionCheck check = new PermissionCheck(name, action);
-
-      WorkingMemory securityContext = getSecurityContext();
-      assertSecurityContextExists();
+      
       synchronized( securityContext )
       {
          handles.add( securityContext.assertObject(check) );
@@ -142,9 +144,14 @@ public class RuleBasedIdentity extends Identity
    @Override
    protected void unAuthenticate()
    {
-      for (Role role : (List<Role>) getSecurityContext().getObjects(Role.class))
+      WorkingMemory securityContext = getSecurityContext();
+      
+      if (securityContext != null)
       {
-         getSecurityContext().retractObject(getSecurityContext().getFactHandle(role));
+         for (Role role : (List<Role>) securityContext.getObjects(Role.class))
+         {
+            getSecurityContext().retractObject(securityContext.getFactHandle(role));
+         }
       }
       
       super.unAuthenticate();
@@ -155,28 +162,36 @@ public class RuleBasedIdentity extends Identity
    {
       if (super.addRole(role)) 
       {
-         getSecurityContext().assertObject(new Role(role));
-         return true;
+         WorkingMemory securityContext = getSecurityContext();
+         
+         if (securityContext != null)
+         {
+            getSecurityContext().assertObject(new Role(role));
+            return true;
+         }
       }
-      else
-      {
-         return false;
-      }
+
+      return false;
    }
    
    @Override
    public void removeRole(String role)
    {
-      for (Role r : (List<Role>) getSecurityContext().getObjects(Role.class))
+      WorkingMemory securityContext = getSecurityContext();      
+      
+      if (securityContext != null)
       {
-         if (r.getName().equals(role))
+         for (Role r : (List<Role>) getSecurityContext().getObjects(Role.class))
          {
-            FactHandle fh = getSecurityContext().getFactHandle(r);
-            getSecurityContext().retractObject(fh);
-            break;
+            if (r.getName().equals(role))
+            {
+               FactHandle fh = getSecurityContext().getFactHandle(r);
+               getSecurityContext().retractObject(fh);
+               break;
+            }
          }
       }
-      
+         
       super.removeRole(role);
    }
    
