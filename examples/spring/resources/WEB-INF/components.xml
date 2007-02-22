@@ -17,4 +17,5 @@
     
     <core:init debug="true"/>
 
+    <core:ejb installed="@embeddedEjb@"/>
 </components>
