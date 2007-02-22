@@ -110,6 +110,7 @@ public class HtmlButton extends HtmlOutputButton implements ActionSource
       
       String url = context.getApplication().getViewHandler().getActionURL(context, viewId);
       String encodedUrl = context.getExternalContext().encodeActionURL(url);
+      encodedUrl = Pages.instance().encodeScheme(viewId, context, encodedUrl);
       
       String characterEncoding = context.getResponseWriter().getCharacterEncoding();
       boolean first = true;

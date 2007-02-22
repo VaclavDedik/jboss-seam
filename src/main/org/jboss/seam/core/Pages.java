@@ -270,7 +270,31 @@ public class Pages
       return result;
    }
    
-   private String getRequestScheme(FacesContext facesContext)
+   private static String getRequestScheme(FacesContext facesContext)
+   {
+      URL url = getRequestUrl(facesContext);
+      return url==null ? null : url.getProtocol();
+   }
+   
+   public String encodeScheme(String viewId, FacesContext context, String url)
+   {
+      String scheme = getScheme(viewId);
+      if (scheme != null)
+      {
+         URL u = getRequestUrl(context);         
+         try
+         {
+            url = new URL(scheme, u.getHost(), u.getPort(), url).toString();
+         }
+         catch (MalformedURLException ex) 
+         {
+            throw new RuntimeException(ex);
+         }
+      }
+      return url;   
+   }
+   
+   private static URL getRequestUrl(FacesContext facesContext)
    {
       Object req = facesContext.getExternalContext().getRequest(); 
       
@@ -278,8 +302,7 @@ public class Pages
       
       try
       {
-         URL url = new URL(((HttpServletRequest) req).getRequestURL().toString());
-         return url.getProtocol();
+         return new URL(((HttpServletRequest) req).getRequestURL().toString());
       }
       catch (MalformedURLException ex)
       {
@@ -624,6 +647,7 @@ public class Pages
       Map<String, Object> parameters = getConvertedParameters(facesContext, viewId);
       return Manager.instance().encodeParameters(url, parameters);
    }
+   
    /**
     * Store the page parameters to the JSF view root
     */
@@ -635,6 +659,7 @@ public class Pages
          Contexts.getPageContext().set( param.getKey(), param.getValue() );
       }
    }
+   
    /**
     * Search for a defined no-conversation-view-id, beginning with
     * the most specific view id, then wildcarded view ids, and 
@@ -654,6 +679,7 @@ public class Pages
       }
       return this.noConversationViewId;
    }
+   
    /**
     * Search for a defined conversation timeout, beginning with
     * the most specific view id, then wildcarded view ids, and 
@@ -701,6 +727,7 @@ public class Pages
          parse( page, page.attributeValue("view-id") );
       } 
    }
+   
    /**
     * Parse a viewId.page.xml file
     */
@@ -708,6 +735,7 @@ public class Pages
    {
       parse( getDocumentRoot(stream), viewId );
    }
+   
    /**
     * Get the root element of the document
     */
@@ -722,6 +750,7 @@ public class Pages
          throw new RuntimeException(de);
       }
    }
+   
    /**
     * Parse a page element and add a Page to the map
     */
@@ -818,6 +847,7 @@ public class Pages
       
       return page;
    }
+   
    private static Action parseAction(Element element, String actionAtt)
    {
       Action action = new Action();
@@ -839,6 +869,7 @@ public class Pages
       }
       return action;
    }
+   
    /**
     * Parse end-conversation (and end-task) and begin-conversation (start-task and begin-task) 
     *
@@ -1015,6 +1046,7 @@ public class Pages
          }
       }
    }
+   
    /**
     * Parse param
     */
@@ -1043,6 +1075,7 @@ public class Pages
       }
       return param;
    }
+   
    /**
     * Parse rule
     */
@@ -1064,8 +1097,10 @@ public class Pages
       
       return rule;
    }
+   
    private static void parseNavigationHandler(Element element, Rule rule)
    {
+      
       Element render = element.element("render");
       if (render!=null)
       {
@@ -1078,6 +1113,7 @@ public class Pages
                   getFacesMessageValuesMap().get( severityName.toUpperCase() );
          rule.setNavigationHandler( new RenderNavigationHandler(viewId, message, severity) );
       }
+      
       Element redirect = element.element("redirect");
       if (redirect!=null)
       {
@@ -1096,6 +1132,7 @@ public class Pages
                   getFacesMessageValuesMap().get( severityName.toUpperCase() );
          rule.setNavigationHandler( new RedirectNavigationHandler(viewId, params, message, severity) );
       }
+      
       List<Element> childElements = element.elements("out");
       for (Element child: childElements)
       {
@@ -1115,6 +1152,7 @@ public class Pages
       }
       
    }
+   
    public static Map<String, Severity> getFacesMessageValuesMap()
    {
       Map<String, Severity> result = new HashMap<String, Severity>();
@@ -1124,6 +1162,7 @@ public class Pages
       }
       return result;
    }
+   
    public String getLoginViewId()
    {
       return loginViewId;
@@ -1132,4 +1171,5 @@ public class Pages
    {
       this.loginViewId = loginViewId;
    }
+   
 }

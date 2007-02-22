@@ -11,8 +11,6 @@ import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +22,6 @@ import java.util.StringTokenizer;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseId;
-import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
@@ -968,7 +965,7 @@ public class Manager
          url = encodeConversationId(url);
          beforeRedirect();
       }
-      url = encodeScheme(viewId, context, url);            
+      url = Pages.instance().encodeScheme(viewId, context, url);            
       if ( log.isDebugEnabled() )
       {
          log.debug("redirecting to: " + url);
@@ -989,41 +986,6 @@ public class Manager
       }
       context.responseComplete(); //work around MyFaces bug in 1.1.1
    }
-
-   private String encodeScheme(String viewId, FacesContext context, String url)
-   {
-      String scheme = Pages.instance().getScheme(viewId);
-      if (scheme != null)
-      {
-         URL u = getRequestURL(context);         
-         try
-         {
-            url = new URL(scheme, u.getHost(), u.getPort(), url).toString();
-         }
-         catch (MalformedURLException ex) 
-         {
-            throw new RuntimeException(ex);
-         }
-      }
-      return url;   
-   }
-   
-   private URL getRequestURL(FacesContext facesContext)
-   {
-      Object req = facesContext.getExternalContext().getRequest(); 
-      
-      if (!(req instanceof HttpServletRequest)) return null;
-      
-      try
-      {
-         URL url = new URL(((HttpServletRequest) req).getRequestURL().toString());
-         return url;
-      }
-      catch (MalformedURLException ex)
-      {
-         throw new RuntimeException(ex);
-      }
-   }   
    
    /**
     * Called by the Seam Redirect Filter when a redirect is called.
