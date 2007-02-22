@@ -984,11 +984,22 @@ public class Pages
       String expression = element.attributeValue("from-action");
       if (expression==null)
       {
-         entry.setDefaultNavigation(navigation);
+         if (entry.getDefaultNavigation()==null)
+         {
+            entry.setDefaultNavigation(navigation);
+         }
+         else
+         {
+            throw new IllegalStateException("multiple catchall <navigation> elements");
+         }
       }
       else
       {
-         entry.getNavigations().put(expression, navigation);
+         Object old = entry.getNavigations().put(expression, navigation);
+         if (old!=null)
+         {
+            throw new IllegalStateException("multiple <navigation> elements for action: " + expression);
+         }
       }
    }
    /**
