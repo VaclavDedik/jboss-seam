@@ -812,5 +812,44 @@ public String approveDocument() { ... }]]></programlisting>
         </para>
         
     </section>
+    
+    <section>
+        <title>Conversational components and JSF component bindings</title>
+
+        <para>
+            Conversational components have one minor limitation: they cannot be used to hold bindings 
+            to JSF components. (We generally prefer not to use this feature of JSF unless absolutely
+            necessary, since it creates a hard dependency from application logic to the view.) On a 
+            postback request, component bindings are updated during the Restore View phase, 
+            before the Seam conversation context has been restored.
+        </para>
+        
+        <para>
+            To work around this use an event scoped component to store the component bindings and inject 
+            it into conversation scoped component that requires it.
+        </para>
+
+        <programlisting><![CDATA[@Name("grid")
+@Scope(ScopeType.EVENT)
+public class Grid
+{
+    private HtmlPanelGrid htmlPanelGrid;
+
+    // getters and setters
+    ...
+}]]></programlisting>
+
+
+        <programlisting><![CDATA[@Name("gridEditor")
+@Scope(ScopeType.CONVERSATION)
+public class GridEditor
+{
+    @In(required=false)
+    private Grid grid;
+    
+    ...
+}]]></programlisting>
+
+    </section>
         
 </chapter>
