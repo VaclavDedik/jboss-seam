@@ -2,6 +2,8 @@ package org.jboss.seam.core;
 import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -17,6 +19,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.application.ViewHandler;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.jboss.seam.Component;
@@ -234,9 +238,15 @@ public class Pages
    {
       boolean result = false;
       String viewId = facesContext.getViewRoot().getViewId();
+      String scheme = getRequestScheme(facesContext);
       for ( Page page: getPageStack(viewId) )
-      {
-         if ( page.isConversationRequired() && !Manager.instance().isLongRunningConversation() )
+      {         
+         if ( scheme != null && !scheme.equals(page.getScheme()) )
+         {            
+            Manager.instance().redirect( viewId, page.getScheme() );              
+            return result;
+         }         
+         else if ( page.isConversationRequired() && !Manager.instance().isLongRunningConversation() )
          {
             redirectToNoConversationView();
             return result;
@@ -258,14 +268,31 @@ public class Pages
       return result;
    }
    
+   private String getRequestScheme(FacesContext facesContext)
+   {
+      Object req = facesContext.getExternalContext().getRequest(); 
+      
+      if (!(req instanceof HttpServletRequest)) return null;
+      
+      try
+      {
+         URL url = new URL(((HttpServletRequest) req).getRequestURL().toString());
+         return url.getProtocol();
+      }
+      catch (MalformedURLException ex)
+      {
+         return null;
+      }
+   }
+   
    public void redirectToLoginView()
    {
       notLoggedIn();
       
-      String noConversationViewId = getLoginViewId();
-      if (noConversationViewId!=null)
+      String loginViewId = getLoginViewId();
+      if (loginViewId!=null)
       {
-         Manager.instance().redirect(noConversationViewId);
+         Manager.instance().redirect(loginViewId);
       }
    }
    
@@ -747,6 +774,7 @@ public class Pages
       page.setNoConversationViewId( element.attributeValue("no-conversation-view-id") );
       page.setConversationRequired( "true".equals( element.attributeValue("conversation-required") ) );
       page.setLoginRequired( "true".equals( element.attributeValue("login-required") ) );
+      page.setScheme( element.attributeValue("scheme") );
       
       Action action = parseAction(element, "action");
       if (action!=null) page.getActions().add(action);

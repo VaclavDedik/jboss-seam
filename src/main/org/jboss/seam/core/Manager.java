@@ -11,6 +11,8 @@ import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +24,7 @@ import java.util.StringTokenizer;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseId;
+import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
@@ -863,8 +866,13 @@ public class Manager
     */
    public void redirect(String viewId)
    {
-      redirect(viewId, null, true);
+      redirect(viewId, null, true, null);
    }
+   
+   public void redirect(String viewId, String scheme)
+   {
+      redirect(viewId, null, true, scheme);
+   }   
    
    public void interpolateAndRedirect(String url)
    {
@@ -947,7 +955,14 @@ public class Manager
     * @param parameters request parameters to be encoded (possibly null)
     * @param includeConversationId determines if the conversation id is to be encoded
     */
-   public void redirect(String viewId, Map<String, Object> parameters, boolean includeConversationId)
+   public void redirect(String viewId, Map<String, Object> parameters, 
+            boolean includeConversationId)
+   {
+      redirect(viewId, parameters, includeConversationId, null);
+   }
+   
+   public void redirect(String viewId, Map<String, Object> parameters, 
+            boolean includeConversationId, String scheme)
    {
       /*if ( Lifecycle.getPhaseId()==PhaseId.RENDER_RESPONSE )
       {
@@ -964,6 +979,15 @@ public class Manager
          url = encodeConversationId(url);
          beforeRedirect();
       }
+      if (scheme != null)
+      {
+         URL u = getRequestURL(context);         
+         try
+         {
+            url = new URL(scheme, u.getHost(), u.getPort(), url).toString();
+         }
+         catch (MalformedURLException ex) {}
+      }            
       if ( log.isDebugEnabled() )
       {
          log.debug("redirecting to: " + url);
@@ -971,7 +995,7 @@ public class Manager
       ExternalContext externalContext = context.getExternalContext();
       controllingRedirect = true;
       try
-      {
+      {         
          externalContext.redirect( externalContext.encodeActionURL(url) );
       }
       catch (IOException ioe)
@@ -984,6 +1008,23 @@ public class Manager
       }
       context.responseComplete(); //work around MyFaces bug in 1.1.1
    }
+   
+   private URL getRequestURL(FacesContext facesContext)
+   {
+      Object req = facesContext.getExternalContext().getRequest(); 
+      
+      if (!(req instanceof HttpServletRequest)) return null;
+      
+      try
+      {
+         URL url = new URL(((HttpServletRequest) req).getRequestURL().toString());
+         return url;
+      }
+      catch (MalformedURLException ex)
+      {
+         return null;
+      }
+   }   
    
    /**
     * Called by the Seam Redirect Filter when a redirect is called.

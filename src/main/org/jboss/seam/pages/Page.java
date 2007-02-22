@@ -33,6 +33,11 @@ public final class Page
    private ProcessControl processControl = new ProcessControl();
    
    /**
+    * The scheme (http/https) required by this page.
+    */
+   private String scheme;
+   
+   /**
     * Indicates whether this view id has a security restriction.  
     */
    private boolean restricted;
@@ -263,5 +268,15 @@ public final class Page
    public void setLoginRequired(boolean loginRequired)
    {
       this.loginRequired = loginRequired;
+   }
+   
+   public String getScheme()
+   {
+      return scheme == null ? "http" : scheme;
+   }
+   
+   public void setScheme(String scheme)
+   {
+      this.scheme = scheme;
    }
 }

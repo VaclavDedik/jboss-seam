@@ -20,6 +20,7 @@
 <!ATTLIST page no-conversation-view-id CDATA #IMPLIED>
 <!ATTLIST page conversation-required (true|false) "false">
 <!ATTLIST page login-required (true|false) "false">
+<!ATTLIST page scheme CDATA #IMPLIED>
 <!ATTLIST page timeout CDATA #IMPLIED>
 <!ATTLIST page bundle CDATA #IMPLIED>
 
