@@ -33,6 +33,7 @@
    </drools:rule-base>
 
    <security:identity authenticate-method="#{authenticator.authenticate}"
+                           security-rules="#{securityRules}"
                               remember-me="true"/>
                               
    <event type="org.jboss.seam.notLoggedIn">

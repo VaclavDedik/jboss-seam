@@ -20,6 +20,7 @@
                   conversation-is-long-running-parameter="clr"/>
     
     <security:identity authenticate-method="#{authenticator.authenticate}" 
+                       security-rules="#{securityRules}"
                        remember-me="true"/>
     
     <drools:rule-base name="securityRules">
