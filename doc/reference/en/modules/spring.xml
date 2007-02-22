@@ -24,7 +24,7 @@
     </itemizedlist>
 
     <section>
-        <title>Injecting Seam Components into Spring Components</title>
+        <title>Injecting Seam components into Spring beans</title>
         
         <para> Seam provides extensive support for injection of Seam component instances into Spring beans using the
                 <literal>SeamFactoryBean</literal>. The functionality of the SeamFactoryBean is encapsulated by the
@@ -95,26 +95,26 @@
     </section>
     
     <section>
-        <title>Injecting Spring into Seam</title>
+        <title>Injecting Spring beans into Seam components</title>
         
         <para> It is often useful to be able to inject Spring beans into Seam component instances. This can be done in
             two ways. </para>
             
         <itemizedlist>
             <listitem>
-                <para> Inject a Spring bean using an EL expression served by
-                    <literal>DelegatingVariableResolver</literal>
-                </para>
+                <para> inject a Spring bean using an EL expression </para>
             </listitem>
             <listitem>
-                <para> Make the Spring bean a Seam STATELESS component. </para>
+                <para> make the Spring bean a Seam component </para>
             </listitem>
         </itemizedlist>
         
-        <section>
-            <title>Using the Spring beans in EL expressions</title>
-            
-            <para> The Spring <literal>DelegatingVariableResolver</literal> is an integration Spring provides for
+        <para>
+            We'll discuss the second option in the next section. The easiest approach is
+            to access the Spring beans via EL.
+        </para>
+                    
+            <para> The Spring <literal>DelegatingVariableResolver</literal> is an integration point Spring provides for
                 integrating Spring with JSF. The <literal>VariableResolver</literal> makes all Spring beans available in
                 EL expressions by simply identifying the name of the Spring bean in an expression such as
                     <literal>#{someSpringBean}</literal>. To enable this approach the Spring
@@ -133,41 +133,48 @@
             <programlisting><![CDATA[@In("#{bookingService}")
 private BookingService bookingService;]]></programlisting>
 
-            <para>The use of Spring beans in EL is not limited to injection. Spring components can be invoked in any
+            <para>The use of Spring beans in EL is not limited to injection. Spring components may be invoked in any
                 place that EL expressions are used in Seam: process and pageflow definitions, working memory assertions,
                 etc... </para>
 
-        </section>
+    </section>
         
         <section>
             <title>Making a Spring bean into a Seam component</title>
             
             <para> The <literal>&lt;seam:component/&gt;</literal> namespace handler can be used to make any
-                Spring bean a Seam component. To use simply place the <literal>&lt;seam:component/&gt;</literal>
-                tag within the bean definition you wish to be a Seam component like so: </para>
+                Spring bean a Seam component. Just place the <literal>&lt;seam:component/&gt;</literal>
+                tag within the declaration of the bean that you wish to be a Seam component: </para>
                 
             <programlisting><![CDATA[<bean id="someSpringBean" class="SomeSpringBeanClass" scope="prototype">
     <seam:component/>
 </bean>]]></programlisting>
 
-            <para> By default <literal>&lt;seam:component/&gt;</literal> will create a STATELESS scoped Seam
-                component with class and name provided in the bean definition. Occasionally the class of a Spring bean
-                may not be the class in a bean definition such as when a FactoryBean is used. In such cases the
-                beanClass type can be explicitly specified. An alternative Seam component name can be provided as well in
-                cases where a conflict may exist. </para>
+            <para> By default, <literal>&lt;seam:component/&gt;</literal> will create a <literal>STATELESS</literal> 
+                Seam component with class and name provided in the bean definition. Occasionally, such as when a 
+                <literal>FactoryBean</literal> is used, the class of the Spring bean may not be the class appearing 
+                in the bean definition. In such cases the <literal>beanClass</literal> should be explicitly specified. 
+                An Seam component name may be explicitly specified in cases where there is potential for a naming 
+                conflict. </para>
                 
-            <para> The <literal>scope</literal> attribute of <literal>&lt;seam:component/&gt;</literal> can also
-                be used if you wish the Spring bean to be managed by a particular Seam scope. However, the Spring bean
-                must be scoped to <literal>prototype</literal> if the scope specified is anything other than STATELESS.
+            <para> The <literal>scope</literal> attribute of <literal>&lt;seam:component/&gt;</literal> may
+                be used if you wish the Spring bean to be managed in a particular Seam scope. The Spring bean
+                must be scoped to <literal>prototype</literal> if the Seam scope specified is anything other than 
+                <literal>STATELESS</literal>. Pre-existing Spring beans usually have a fundamentally
+                stateless character, so this attribute is not usually needed.
             </para>
             
         </section>
-    </section>
     
     <section>
         <title>Seam-scoped Spring beans</title>
         
-        <para> Seam also provides a tighter integration with Spring by utilizing Spring 2.0's custom scopes. </para>
+        <para> The Seam integration package also lets you use Seam's contexts as Spring 2.0 style custom scopes. 
+            This lets you declare any Spring bean in any of Seam's contexts. However, note that Spring's component
+            model was never architected to support statefulness, so please use this feature with great care.
+            In particular, clustering of session or conversation scoped Spring beans is deeply problematic, and 
+            injection of a bean or component from a wider scope into a bean of a narrower scope should be avoided. </para>
+        
         <para> By specifying <literal>&lt;seam:configure-scopes/&gt;</literal> in a Spring bean factory all of
             the Seam scopes will be available to Spring beans as custom scopes. To make a Spring bean managed
             by a Seam scope in this way, specify the Seam scope in the <literal>scope</literal> attribute of the bean
