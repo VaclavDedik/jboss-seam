@@ -43,7 +43,10 @@ public class RuleBasedIdentity extends Identity
    
    protected void initSecurityContext()
    {
-      securityRules = (RuleBase) Component.getInstance(RULES_COMPONENT_NAME, true);
+      if (securityRules==null)
+      {
+         securityRules = (RuleBase) Component.getInstance(RULES_COMPONENT_NAME, true);
+      }
       
       if (securityRules != null)
       {
