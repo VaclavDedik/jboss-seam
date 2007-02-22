@@ -6,4 +6,14 @@
    <param name="contactId" 
           value="#{contactHome.id}" 
           converterId="javax.faces.Long"/>
+          
+    <navigation>
+       <rule if-outcome="persisted">
+          <redirect/>
+       </rule>
+       <rule if-outcome="removed">
+          <redirect view-id="/search.xhtml"/>
+       </rule>
+    </navigation>
+
 </page>
