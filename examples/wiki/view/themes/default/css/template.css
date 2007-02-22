@@ -52,7 +52,7 @@ a:active {color: #aaa}   /* selected link */
 /* Layout
 ----------------------------------------------- */
 #screen {
-	background-color: #eee;
+	background-color: #fff;
 	width: 100%;
 	margin: 0;
 	padding: 0;
@@ -80,7 +80,7 @@ a:active {color: #aaa}   /* selected link */
 }
 
 #sidebar {
-    background-color: #eee;
+    background-color: #fff;
 	float: left;
 	width: 15%;
 }
@@ -90,11 +90,11 @@ a:active {color: #aaa}   /* selected link */
 }
 
 #control {
-	background-color: #362f2d;
+    background-color: #362f2d;
     text-align: right;
-    vertical-align: bottom;
+    vertical-align:bottom;
     border-bottom: 1px solid #fff;
-    padding-right: 8px;
+    padding-right: 15px;
 }
 
 #content {}
@@ -168,7 +168,7 @@ a:active {color: #aaa}   /* selected link */
 ----------------------------------------------- */
 
 .documentDisplay {
-    padding: 10px;
+    padding-left: 10px;
 }
 
 .brokenLink {
@@ -181,22 +181,60 @@ a:active {color: #aaa}   /* selected link */
 	font-weight: bold;
 	color: #fff;
 	font-size: 85%;
-	padding: 2;
+	padding: 2px;
+    padding-right: 5px;
     background: #fff url(../img/btn.bg.gif) 0 0 repeat-x;
 	border-style: none;
-    margin: 0 5px 0 5px;
+    margin: 0 5px 0 0;
     font-family: Verdana, Arial, Helvetica, sans-serif;
+    cursor: pointer;
 }
 
 .buttonNonpersistent {
 	font-weight: bold;
 	color: #fff;
 	font-size: 85%;
-	padding: 2;
+	padding: 2px;
+    padding-right: 5px;
     background: #fff url(../img/btn.nonpersistent.bg.gif) 0 0 repeat-x;
 	border-style: none;
-    margin: 0 5px 0 5px;
+    margin: 0 5px 0 0;
     font-family: Verdana, Arial, Helvetica, sans-serif;
+    cursor: pointer;
+}
+
+.buttonNonpersistentHidden {
+    font-weight: bold;
+    color: #fff;
+    font-size: 85%;
+    padding: 2px;
+    background: #fff url(../img/btn.nonpersistent.bg.gif) 0 0 repeat-x;
+    border-style: none;
+    margin: 0 0 0 5px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    cursor: pointer;
+}
+
+.buttonNonpersistentHidden:focus {
+    background: #888;
+    outline-style: none;
+}
+
+.buttonHidden {
+    font-weight: bold;
+    color: #fff;
+    font-size: 85%;
+    padding: 2px;
+    background: #fff url(../img/btn.bg.gif) 0 0 repeat-x;
+    border-style: none;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    margin: 0 0 0 5px;
+    cursor: pointer;
+}
+
+.buttonHidden:focus {
+    background: #888;
+    outline-style: none;
 }
 
 .linkNavigation {
@@ -219,12 +257,14 @@ a:active {color: #aaa}   /* selected link */
 .linkNavigation:hover {color: #ccc}   /* mouse over link */
 .linkNavigation:active {color: #aaa}   /* selected link */
 
+
 /* Forms
 ----------------------------------------------- */
 
 .form {}
 
 .formHead {
+    text-align: left;
     background: #fff url(../img/th.bg.inverse.gif) 0 0 repeat-x;
     font-size: 85%;
     font-weight: bold;
@@ -233,7 +273,6 @@ a:active {color: #aaa}   /* selected link */
     padding-right: 10px;
     padding-top: 5px;
     padding-bottom: 5px;
-
 }
 
 .formFields {
@@ -281,6 +320,30 @@ a:active {color: #aaa}   /* selected link */
 
 .formControlsWideLabels .entry .label {
     width: 20%;
+}
+
+.formTable {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    width: 100%;
+}
+
+.formTable .entryColumn {
+}
+
+.formTable .entryColumn .label {
+    margin-left: 15px;
+    margin-right: 5px;
+    font-size: 85%;
+}
+
+.formTable .entryColumn .input {
+}
+
+.formTable .formFooter {
+    background: #c2bcaf url(../img/th.bg.gif) 0 0 repeat-x;
+    padding: 5px;
 }
 
 .errorDiv {

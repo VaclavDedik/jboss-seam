@@ -103,6 +103,9 @@
             <rule if-outcome="register">
                 <redirect view-id="/profile.xhtml"/>
             </rule>
+            <rule if-outcome="listUsers">
+                <redirect view-id="/userList.xhtml"/>
+            </rule>
             <rule if-outcome="editMyProfile">
                 <redirect view-id="/profile.xhtml">
                     <param name="userId" value="#{authenticatedUser.id}"/>

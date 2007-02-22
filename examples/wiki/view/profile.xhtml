@@ -26,8 +26,9 @@
 </ui:define>
 
 <ui:define name="control">
-    <s:link id="cancel" value="Cancel" styleClass="linkNavigation"
-            action="#{browser.redirectToLastBrowsedPage()}" propagation="end"/>
+    <s:link id="cancel" styleClass="linkNavigation"
+            action="#{browser.redirectToLastBrowsedPage()}" propagation="end"
+            accesskey="E">Canc<u>e</u>l</s:link>
 </ui:define>
 
 <ui:define name="content">
@@ -47,7 +48,7 @@
                     <div class="entry">
                         <div class="label">First name:</div>
                         <div class="input">
-                            <h:inputText size="40" maxlength="63" id="firstname" required="true"
+                            <h:inputText tabindex="1" size="40" maxlength="63" id="firstname" required="true"
                                          value="#{userHome.instance.firstname}"/>
                         </div>
                     </div>
@@ -57,7 +58,7 @@
                     <div class="entry">
                         <div class="label">Last name:</div>
                         <div class="input">
-                            <h:inputText size="40" maxlength="63" id="lastname" required="true"
+                            <h:inputText tabindex="2" size="40" maxlength="63" id="lastname" required="true"
                                          value="#{userHome.instance.lastname}"/>
                         </div>
                     </div>
@@ -67,7 +68,7 @@
                     <div class="entry">
                         <div class="label">E-Mail:</div>
                         <div class="input">
-                            <h:inputText size="40" maxlength="255" id="email" required="true"
+                            <h:inputText tabindex="3" size="40" maxlength="255" id="email" required="true"
                                          value="#{userHome.instance.email}"/>
                         </div>
                     </div>
@@ -77,7 +78,7 @@
                     <div class="entry">
                         <div class="label">Username:</div>
                         <div class="input">
-                            <h:inputText size="16" maxlength="16" id="username" required="true"
+                            <h:inputText tabindex="4" size="16" maxlength="16" id="username" required="true"
                                          value="#{userHome.instance.username}"/>
                         </div>
                     </div>
@@ -87,7 +88,7 @@
                     <div class="entry">
                         <div class="label">Password:</div>
                         <div class="input">
-                            <h:inputSecret size="15" maxlength="15" id="password"
+                            <h:inputSecret tabindex="5" size="15" maxlength="15" id="password"
                                            redisplay="true"
                                            value="#{userHome.password}"/>
                         </div>
@@ -98,30 +99,28 @@
                     <div class="entry">
                         <div class="label">Repeat password:</div>
                         <div class="input">
-                            <h:inputSecret size="15" maxlength="15" id="passwordControl"
+                            <h:inputSecret tabindex="6" size="15" maxlength="15" id="passwordControl"
                                            redisplay="true"
                                            value="#{userHome.passwordControl}"/>
                         </div>
                     </div>
                 </s:decorate>
 
-                <s:div rendered="#{not identity.loggedIn}">
-                    <div class="entry">
-                        <div class="label">Verification image:</div>
-                        <div class="output">
-                            <h:graphicImage value="/seam/resource/captcha?#{captcha.id}" style="border: 1px solid black;"/>
-                        </div>
+                <s:div styleClass="entry" rendered="#{not identity.loggedIn}">
+                    <div class="label">Verification image:</div>
+                    <div class="output">
+                        <h:graphicImage value="/seam/resource/captcha?#{captcha.id}" style="border: 1px solid black;"/>
                     </div>
-
-                    <s:decorate>
-                        <div class="entry">
-                            <div class="label">Enter the letters:</div>
-                            <div class="input">
-                                <h:inputText id="verifyCaptcha" value="#{captcha.response}" required="true"/>
-                            </div>
-                        </div>
-                    </s:decorate>
                 </s:div>
+
+                <s:decorate>
+                    <s:div styleClass="entry" rendered="#{not identity.loggedIn}">
+                        <div class="label">Enter the letters:</div>
+                        <div class="input">
+                            <h:inputText tabindex="7" size="15" id="verifyCaptcha" value="#{captcha.response}" required="true"/>
+                        </div>
+                    </s:div>
+                </s:decorate>
 
             </s:validateAll>
 
@@ -132,13 +131,16 @@
             <div class="entry">
                 <div class="label">&#160;</div>
                 <div class="input">
-                    <h:commandButton id="register" value="Register" styleClass="button"
-                                     action="#{userHome.persist}"
-                                     rendered="#{!userHome.managed}"/>
 
-                    <h:commandButton id="update" value="Update" styleClass="button"
-                                     action="#{userHome.update}"
-                                     rendered="#{userHome.managed}"/>
+                    <h:commandLink id="register" styleClass="buttonHidden" action="#{userHome.persist}"
+                                   rendered="#{!userHome.managed}"
+                                   tabindex="8" accesskey="G"/>
+                    <h:outputLabel for="register" styleClass="button" rendered="#{!userHome.managed}">Re<u>g</u>ister</h:outputLabel>
+
+                    <h:commandLink id="update" styleClass="buttonHidden" action="#{userHome.update}"
+                                   rendered="#{userHome.managed}"
+                                   tabindex="9" accesskey="U"/>
+                    <h:outputLabel for="update" styleClass="button" rendered="#{userHome.managed}"><u>U</u>pdate</h:outputLabel>
 
                 </div>
             </div>

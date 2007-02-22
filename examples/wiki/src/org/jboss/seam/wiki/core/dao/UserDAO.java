@@ -9,6 +9,13 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.wiki.core.users.Role;
 import org.jboss.seam.wiki.core.users.User;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Example;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.Session;
+import org.hibernate.transform.DistinctRootEntityResultTransformer;
+
+import java.util.List;
 
 @Name("userDAO")
 public class UserDAO {
@@ -63,6 +70,26 @@ public class UserDAO {
         } catch (NoResultException ex) {
         }
         return null;
+    }
+
+    @Transactional
+    public List<User> findByExample(User exampleUser, String orderByProperty, boolean orderDescending,
+                                    int firstResult, int maxResults, String... ignoreProperty) {
+
+        Example example =  Example.create(exampleUser).enableLike(MatchMode.ANYWHERE).ignoreCase();
+
+        for (String s : ignoreProperty) example.excludeProperty(s);
+
+        Session session = (Session)entityManager.getDelegate();
+
+        List result = session.createCriteria(User.class).add(example)
+                .addOrder( orderDescending ? Order.desc(orderByProperty) : Order.asc(orderByProperty))
+                .setFirstResult(firstResult)
+                .setMaxResults(maxResults)
+                .setResultTransformer(new DistinctRootEntityResultTransformer())
+                .list();
+
+        return (List<User>)result;
     }
 
 }

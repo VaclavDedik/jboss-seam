@@ -30,15 +30,15 @@
 
         <!-- Real directory -->
         <h:panelGroup rendered="#{!empty currentDirectory.parent}">
-            <s:link id="createDir"  styleClass="linkNavigation" value="New Subdirectory" action="createDir"/>
-            <s:link id="editDir"    styleClass="linkNavigation" value="Edit Directory" action="editDir"/>
-            <s:link id="createDoc"  styleClass="linkNavigation" value="New Document" action="createDoc"/>
+            <s:link id="createDir"  styleClass="linkNavigation" action="createDir" accesskey="S">New <u>S</u>ubdirectory</s:link>
+            <s:link id="editDir"    styleClass="linkNavigation" action="editDir" accesskey="E"><u>E</u>dit Directory</s:link>
+            <s:link id="createDoc"  styleClass="linkNavigation" action="createDoc" accesskey="N"><u>N</u>ew Document</s:link>
         </h:panelGroup>
 
         <!-- Virtual root directory -->
         <h:panelGroup rendered="#{empty currentDirectory.parent}">
-            <s:link id="createArea"   styleClass="linkNavigation" value="New Area" action="createDir"/>
-            <s:link id="editArea"     styleClass="linkNavigation" value="Edit Areas" action="editDir"/>
+            <s:link id="createArea"   styleClass="linkNavigation" action="createDir" accesskey="N"><u>N</u>ew Area</s:link>
+            <s:link id="editArea"     styleClass="linkNavigation" action="editDir" accesskey="E"><u>E</u>dit Area</s:link>
         </h:panelGroup>
 
     </div>
@@ -49,7 +49,7 @@
     <div class="directoryPathPanel">
         <h:panelGroup>
             <ui:repeat var="directory" value="#{currentDirectoryPath}">
-                <s:button view="/dirDisplay.xhtml" value="#{directory.name}" styleClass="directoryButton" propagation="none">
+                <s:button view="/dirDisplay.xhtml" value="#{directory.name}" styleClass="directoryButton" propagation="none" tabindex="1">
                     <f:param name="nodeId" value="#{directory.id}"/>
                 </s:button>
                 <h:outputText value="/" styleClass="directorySeparator" rendered="#{directory != currentDirectory}"/>
@@ -84,12 +84,12 @@
 
         <h:column>
             <s:div rendered="#{wiki:isDirectory(node)}">
-                <s:link id="browseDirectory" value="#{node.name}" view="/dirDisplay.xhtml" propagation="none">
+                <s:link id="browseDirectory" value="#{node.name}" view="/dirDisplay.xhtml" propagation="none" tabindex="2">
                     <f:param name="nodeId" value="#{node.id}"/>
                 </s:link>
             </s:div>
             <s:div rendered="#{wiki:isDocument(node)}">
-                <h:outputLink value="#{wiki:renderURL(node)}">#{node.name}</h:outputLink>
+                <h:outputLink value="#{wiki:renderURL(node)}" tabindex="2">#{node.name}</h:outputLink>
             </s:div>
         </h:column>
 

@@ -10,6 +10,7 @@
 
 <ui:define name="pluginCSS">
     <link href="#{themePath}/css/userControl.css" rel="stylesheet" type="text/css"/>
+    <link href="#{themePath}/css/searchControl.css" rel="stylesheet" type="text/css"/>
     <link href="#{themePath}/css/breadcrumb.css" rel="stylesheet" type="text/css"/>
     <link href="#{themePath}/css/mainMenu.css" rel="stylesheet" type="text/css"/>
 </ui:define>
@@ -22,7 +23,9 @@
 <ui:define name="headerBottomLeft">
     <ui:include src="plugins/breadcrumb/plugin.xhtml"/>
 </ui:define>
-<ui:define name="headerBottomRight">&#160;</ui:define>
+<ui:define name="headerBottomRight">
+    <ui:include src="plugins/searchControl/plugin.xhtml"/>
+</ui:define>
 
 
 <ui:define name="sidebar">
@@ -33,10 +36,10 @@
     <div>
         <h:panelGroup>
 
-            <s:link id="createDoc" styleClass="linkNavigation" value="Create" action="createDoc"/>
-            <s:link id="editDoc" styleClass="linkNavigation" value="Edit" action="editDoc"/>
-            <s:link id="discussDoc" styleClass="linkNavigation" value="Discuss"/>
-            <s:link id="browseDir" styleClass="linkNavigation" value="Browse" action="browseDir"/>
+            <s:link id="createDoc" styleClass="linkNavigation" action="createDoc" accesskey="C"><u>C</u>reate</s:link>
+            <s:link id="editDoc" styleClass="linkNavigation" action="editDoc" accesskey="E"><u>E</u>dit</s:link>
+            <s:link id="discussDoc" styleClass="linkNavigation" accesskey="D"><u>D</u>iscuss</s:link>
+            <s:link id="browseDir" styleClass="linkNavigation" action="browseDir" accesskey="B"><u>B</u>rowse</s:link>
 
         </h:panelGroup>
     </div>
