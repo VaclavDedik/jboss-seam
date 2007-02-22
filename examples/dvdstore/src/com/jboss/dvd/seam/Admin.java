@@ -10,6 +10,7 @@ import java.io.Serializable;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 
 @Entity
 @DiscriminatorValue("admin")
@@ -17,5 +18,9 @@ public class Admin
     extends User
     implements Serializable
 {
-    
+   @Transient
+   public boolean isAdmin() {
+      return true;
+   }
+   
 }

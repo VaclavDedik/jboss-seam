@@ -19,13 +19,13 @@
         </ui:define>
         
         <ui:define name="body">
-            <f:subview rendered="#{!login.admin}">
+            <f:subview rendered="#{!currentUser.admin}">
                 The admin screen is only administrative users.  Please
                 login to continue.  If you are looking for the store,
                 try <s:link view="/browse.xhtml" value="here" />.
             </f:subview>
 
-            <f:subview rendered="#{login.admin}">
+            <f:subview rendered="#{currentUser.admin}">
             <h1>Order Management</h1>
             
             <p>

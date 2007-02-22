@@ -5,62 +5,6 @@
 
 <faces-config>
 
-    <navigation-rule>
-        <navigation-case>
-            <from-outcome>home</from-outcome>
-            <to-view-id>/home.xhtml</to-view-id>
-            <redirect/>
-        </navigation-case>
-
-        <navigation-case>
-            <from-outcome>browse</from-outcome>
-            <to-view-id>/browse.xhtml</to-view-id>
-            <redirect/>
-        </navigation-case>
-
-        <navigation-case>
-            <from-outcome>checkout</from-outcome>
-            <to-view-id>/checkout.xhtml</to-view-id>
-            <redirect/>
-        </navigation-case>
-
-        <navigation-case>
-            <from-outcome>showorders</from-outcome>
-            <to-view-id>/showorders.xhtml</to-view-id>
-            <redirect/>
-        </navigation-case>
-
-        <navigation-case>
-            <from-outcome>newcustomer</from-outcome>
-            <to-view-id>/newuser/account.xhtml</to-view-id>
-            <redirect/>
-        </navigation-case>
-        
-        <navigation-case>
-            <from-outcome>logout</from-outcome>
-            <to-view-id>/home.xhtml</to-view-id>
-            <redirect/>
-        </navigation-case>
-
-        <navigation-case>
-            <from-outcome>ship</from-outcome>
-            <to-view-id>/admin/ship.xhtml</to-view-id>
-            <redirect/>
-        </navigation-case>
-
-        <navigation-case>
-            <from-outcome>accept</from-outcome>
-            <to-view-id>/admin/accept.xhtml</to-view-id>
-            <redirect/>
-        </navigation-case>
-
-        <navigation-case>  
-            <from-outcome>admin</from-outcome> 
-            <to-view-id>/admin/admin.xhtml</to-view-id>
-            <redirect />
-        </navigation-case> 
-    </navigation-rule>
-
     <!-- temp workaround for facelets/myfaces bug -->
     <navigation-rule>
     	<navigation-case>
