@@ -25,23 +25,16 @@
     <listener>              
       <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>        
     </listener>    
-    <!-- Propagate conversations across redirects -->    
-    <filter>        
-      <filter-name>Seam Redirect Filter</filter-name>        
-      <filter-class>org.jboss.seam.servlet.SeamRedirectFilter</filter-class>    
-    </filter>        
-    <filter-mapping>        
-      <filter-name>Seam Redirect Filter</filter-name>        
-      <url-pattern>*.seam</url-pattern>    
-    </filter-mapping>    
-    <filter>        
-      <filter-name>Seam Exception Filter</filter-name>        
-      <filter-class>org.jboss.seam.servlet.SeamExceptionFilter</filter-class>    
-    </filter>        
-    <filter-mapping>        
-      <filter-name>Seam Exception Filter</filter-name>        
-      <url-pattern>*.seam</url-pattern>    
-    </filter-mapping>      
+
+    <filter>
+      <filter-name>Seam Filter</filter-name>
+      <filter-class>org.jboss.seam.web.SeamFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+      <filter-name>Seam Filter</filter-name>
+      <url-pattern>/*</url-pattern>
+    </filter-mapping>
     
     <servlet>
       <servlet-name>Seam Resource Servlet</servlet-name>
