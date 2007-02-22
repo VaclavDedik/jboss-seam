@@ -20,6 +20,7 @@
 <!ENTITY mail                   SYSTEM "modules/mail.xml">
 <!ENTITY jms                    SYSTEM "modules/jms.xml">
 <!ENTITY remoting               SYSTEM "modules/remoting.xml">
+<!ENTITY spring                 SYSTEM "modules/spring.xml">
 <!ENTITY configuration          SYSTEM "modules/configuration.xml">
 <!ENTITY annotations            SYSTEM "modules/annotations.xml">
 <!ENTITY components             SYSTEM "modules/components.xml">
@@ -269,6 +270,7 @@
     &mail;
     &jms;
     &remoting;
+    &spring;
     &configuration;
     &annotations;
     &components;
