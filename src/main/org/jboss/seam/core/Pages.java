@@ -272,11 +272,16 @@ public class Pages
    
    private static String getRequestScheme(FacesContext facesContext)
    {
-      Object req = facesContext.getExternalContext().getRequest();       
-      
-      String url = ((HttpServletRequest) req).getRequestURL().toString();
-      int idx = url.indexOf(':');
-      return idx == -1 ? null : url.substring(0, idx);      
+      String requestUrl = getRequestUrl(facesContext);
+      if (requestUrl==null)
+      {
+         return null;
+      }
+      else
+      {
+         int idx = requestUrl.indexOf(':');
+         return idx<0 ? null : requestUrl.substring(0, idx);
+      }
    }
    
    public String encodeScheme(String viewId, FacesContext context, String url)
@@ -284,32 +289,33 @@ public class Pages
       String scheme = getScheme(viewId);
       if (scheme != null)
       {
-         URL u = getRequestUrl(context);         
-         try
+         String requestUrl = getRequestUrl(context);
+         if (requestUrl!=null)
          {
-            url = new URL(scheme, u.getHost(), u.getPort(), url).toString();
-         }
-         catch (MalformedURLException ex) 
-         {
-            throw new RuntimeException(ex);
+            try
+            {
+               URL serverUrl = new URL(requestUrl);
+               url = new URL(scheme, serverUrl.getHost(), serverUrl.getPort(), url).toString();
+            }
+            catch (MalformedURLException ex) 
+            {
+               throw new RuntimeException(ex);
+            }
          }
       }
       return url;   
    }
    
-   private static URL getRequestUrl(FacesContext facesContext)
+   private static String getRequestUrl(FacesContext facesContext)
    {
-      Object req = facesContext.getExternalContext().getRequest(); 
-      
-      if (!(req instanceof HttpServletRequest)) return null;
-
-      try
+      Object request = facesContext.getExternalContext().getRequest(); 
+      if (request instanceof HttpServletRequest) 
       {
-         return new URL(((HttpServletRequest) req).getRequestURL().toString());
+         return ( (HttpServletRequest) request).getRequestURL().toString();
       }
-      catch (MalformedURLException ex)
+      else
       {
-         throw new RuntimeException(ex);
+         return null;
       }
    }
    
