@@ -19,15 +19,21 @@
                   conversation-id-parameter="cid"
                   conversation-is-long-running-parameter="clr"/>
     
-    <security:identity authenticate-method="#{authenticator.authenticate}" remember-me="true"/>
+    <security:identity authenticate-method="#{authenticator.authenticate}" 
+                       remember-me="true"/>
     
-    <web:multipart-filter create-temp-files="true" max-request-size="1000000" url-pattern="*.seam"/>
-    <web:context-filter installed="true" url-pattern="/content/*"/>
-
     <drools:rule-base name="securityRules">
-       <drools:rule-files><value>/META-INF/security-rules.drl</value></drools:rule-files>
+       <drools:rule-files>
+           <value>/META-INF/security-rules.drl</value>
+       </drools:rule-files>
     </drools:rule-base>
     
+    <web:multipart-filter create-temp-files="true" 
+                          max-request-size="1000000" 
+                          url-pattern="*.seam"/>
+                          
+    <web:context-filter url-pattern="/content/*"/>
+
     <core:managed-persistence-context name="entityManager" auto-create="true"
                 persistence-unit-jndi-name="java:/seamspaceEntityManagerFactory"/>
     
