@@ -17,7 +17,9 @@
         <listitem>
             <para>Turn Spring beans into Seam components.</para>
         </listitem>
-
+        <listitem>
+            <para>Allow Spring beans to live in any Seam context.</para>
+        </listitem>
     </itemizedlist>
 
     <section>
@@ -47,7 +49,7 @@
     </property>
 </bean>]]></programlisting>
 
-        <para> Expressions can also be used instead of a component name: </para>
+        <para> An EL expression may be used instead of a component name: </para>
 
         <programlisting><![CDATA[<bean id="someSpringBean" class="SomeSpringBeanClass" scope="prototype">
     <property name="someProperty">
@@ -55,12 +57,14 @@
     </property>
 </bean>]]></programlisting>
 
-        <para> Seam component instances can also be made available for injection in Spring beans by id. </para>
+        <para> Seam component instances may even be made available for injection into Spring beans by a Spring bean id. </para>
 
-        <programlisting><![CDATA[<bean id="someSpringBean" class="SomeSpringBeanClass" scope="prototype">
+        <programlisting><![CDATA[<seam:instance name="someComponent" id="someSeamComponentInstance"/>
+
+<bean id="someSpringBean" class="SomeSpringBeanClass" scope="prototype">
     <property name="someProperty" ref="someSeamComponentInstance">
 </bean>
-<seam:instance id="someSeamComponentInstance" name="someComponent"/>]]></programlisting>
+]]></programlisting>
 
         <para> When injecting Seam components into Spring beans care must be taken that scope impedance is maintained.
             Unlike with Seam bijection, instances are not injected into Spring beans on every method invocation. Instead
@@ -77,10 +81,11 @@
             currently utilized (for example) to provide rough Seam extended persistence context support to Spring
             singletons: </para>
 
-        <programlisting><![CDATA[<bean id="someSpringBean" class="SomeSpringBeanClass">
+        <programlisting><![CDATA[<seam:instance id="seamManagedEM" name="someManagedEMComponent" proxy="true"/>
+        
+<bean id="someSpringBean" class="SomeSpringBeanClass">
     <property name="entityManager" ref="seamManagedEM">
-</bean>
-<seam:instance id="seamManagedEM" name="someManagedEMComponent" proxy="true"/>]]></programlisting>
+</bean>]]></programlisting>
 
         <para> (Tighter integration with Seam managed persistence contexts as a replacement for the Spring
                 <literal>OpenEntityManagerInView</literal> filter will be available in a future release) </para>
