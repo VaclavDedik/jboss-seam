@@ -851,12 +851,14 @@ end;]]></programlisting>
 import org.jboss.seam.security.PermissionCheck;
 import org.jboss.seam.security.Role;
 
+import java.security.Principal;
+
 rule CanUserDeleteCustomers
 when
   c: PermissionCheck(name == "customer", action == "delete")
   Role(name == "admin")
 then
-  c.grant()
+  c.grant();
 end;]]></programlisting>
       
       <para>
