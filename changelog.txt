@@ -1,7 +1,80 @@
 JBoss Seam Changelog
 ====================
-Changes in version 1.1.6.GA (February 2007)
+
+Changes in version 1.1.7.RC1 (February 2007)
 -------------------------------------------
+Release Notes - JBoss Seam - Version 1.1.7.RC1
+
+** Bug
+    * [JBSEAM-701] - Typo in UICell's evaluation of the useBorderPadding attribute
+    * [JBSEAM-770] - Gmail displays alternative text part
+    * [JBSEAM-778] - MultipartRequest does not work with h:selectManyCheckbox
+    * [JBSEAM-789] - build of Seam makes bad seam_reference.pdf
+    * [JBSEAM-800] - s:hasPermission vs view-id wildcards
+    * [JBSEAM-801] - Strange exceptions when accessing a restricted page without being logged in
+    * [JBSEAM-803] - Query: getLastFirstResult possible raises an exception
+    * [JBSEAM-805] - Support other encodings
+    * [JBSEAM-809] - seam-gen explodes when it hits a self-association
+    * [JBSEAM-814] - ConverterChain not running all converters for getAsString
+    * [JBSEAM-825] - Overloaded messages on FacesMessages are ambiguous
+    * [JBSEAM-836] - Security interceptor should not be triggered for lifecycle methods
+    * [JBSEAM-839] - Mail example logs errors at DEBUG level
+    * [JBSEAM-840] - Mail example doesn't work ootb on tomcat
+    * [JBSEAM-841] - HibernateSecurityInterceptor hammers any user-defined interceptor
+    * [JBSEAM-848] - TransactionPropagationType.isNewTransactionRequired() logic is incorrect for MANDATORY and NEVER
+    * [JBSEAM-850] - License violation
+    * [JBSEAM-852] - Internal Seam log messages are not producing line numbers or method name under Log4J.
+    * [JBSEAM-856] - @Restrict on a class doesn't restrict access to methods implemented in super-classes
+    * [JBSEAM-860] - Documentation of page navigation is incorrect
+    * [JBSEAM-861] - class not found error javax.interceptor.InvocationContext when running hibernate2 example on head
+    * [JBSEAM-862] - Minor error in view.xhtml.ftl Seam Gen Template
+    * [JBSEAM-879] - UISelectItems doesn't take into account converters registered using converter-for-class
+    * [JBSEAM-890] - UISelectItems leaks memory/state
+    * [JBSEAM-893] - Calling Component.getInstance() and passing a Class that does not have a @Name throws NPE
+    * [JBSEAM-894] - pages-1.1.dtd defines incorrect request scope option
+    * [JBSEAM-896] - seamspace ContentServlet broken
+    * [JBSEAM-897] - namespaced component configuration and component precedence
+    * [JBSEAM-899] - Throw exception for dupe <navigation> elements on a page
+
+
+** Feature Request
+    * [JBSEAM-562] - Support composite keys in seam-gen templates
+    * [JBSEAM-648] - seam-gen should create a Hibernate Console configuration
+    * [JBSEAM-695] - RequestContextPath for mail tags
+    * [JBSEAM-696] - Spring integration
+    * [JBSEAM-732] - Entity security
+    * [JBSEAM-741] - auto-redirect to HTTPS
+    * [JBSEAM-763] - Dropdown for Year and for Month in <s:selectDate>
+    * [JBSEAM-764] - Roles based security without drools jars
+    * [JBSEAM-766] - Use Seam/Security in the examples
+    * [JBSEAM-780] - support message severities in redirect with message
+    * [JBSEAM-790] - Create a universal SeamFilter
+    * [JBSEAM-792] - seamspace example should use page parameters and login redirect-and-back
+    * [JBSEAM-797] - s:fragment
+    * [JBSEAM-799] - security documentation issues
+    * [JBSEAM-810] - optimize stack frames of built-in interceptors
+    * [JBSEAM-811] - many-to-one association editing in seam-gen
+    * [JBSEAM-813] - DocumentStoreServlet should set up its own Seam contexts
+    * [JBSEAM-818] - To add a createFacesMessageFromResourceBundle method to FacesMessages
+    * [JBSEAM-819] - Create a Seam resource servlet
+    * [JBSEAM-837] - <page login-required="true">
+    * [JBSEAM-838] - Should not require empty drl file to use security
+    * [JBSEAM-845] - Allow configuration of which actions are restricted for entity security
+    * [JBSEAM-846] - SeamTest setField() not recognize fields in super classes.
+    * [JBSEAM-858] - Add a explicit section to the conversation section of the documentation about the components bindings in conversation scoped components
+    * [JBSEAM-863] - Remember-Me automatic authentication
+    * [JBSEAM-891] - Better jbpm control through pages.xml
+    * [JBSEAM-901] - Enhance Conversation.endAndRedirect with a boolean parameter to specify destruction of the conversation before the redirect
+    * [JBSEAM-904] - Ajax4JSF support and validation in seam-gen
+
+** Patch
+    * [JBSEAM-795] - allow MockHttpServletRequest and MockExternalContext to support cookies
+    * [JBSEAM-820] - CLONE -allow MockHttpServletRequest and MockExternalContext to support cookies
+    * [JBSEAM-900] - Seam taglibrary descriptor not recogniced
+
+** Task
+    * [JBSEAM-887] - Replicate booking demo fixes to all versions of the demo
+
 Release Notes - JBoss Seam - Version 1.1.6.GA
 
 ** Bug
