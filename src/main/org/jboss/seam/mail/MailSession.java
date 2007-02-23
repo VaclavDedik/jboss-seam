@@ -27,7 +27,7 @@ import org.jboss.seam.util.Naming;
  * Manager component for a javax.mail.Session
  */
 @Name("org.jboss.seam.mail.mailSession")
-@Install(precedence=BUILT_IN)
+@Install(precedence=BUILT_IN, classDependencies="javax.mail.Session")
 @Scope(APPLICATION)
 @Intercept(InterceptionType.NEVER)
 public class MailSession extends AbstractMutable implements Serializable
