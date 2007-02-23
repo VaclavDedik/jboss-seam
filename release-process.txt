@@ -75,12 +75,72 @@ Tag CVS
 Build + Upload
 --------------
 * run "ant cleanall dist"
-* check that the following files/directories exist in the dist
+* check that the following files/directories exist in the dist "ls -1"
 
-build.properties     drools               jboss-seam-debug.jar jboss-seam-ui.jar    microcontainer       seam-text.g
-build.xml            embedded-ejb         jboss-seam-gen.jar   jboss-seam.jar       readme.txt           seam.bat
-changelog.txt        examples             jboss-seam-mail.jar  lgpl.txt             seam                 src
-doc                  hibernate            jboss-seam-pdf.jar   lib                  seam-gen
+build.properties
+build.xml
+changelog.txt
+doc
+drools
+embedded-ejb
+examples
+hibernate
+jboss-seam-debug.jar
+jboss-seam-gen.jar
+jboss-seam-ioc.jar
+jboss-seam-mail.jar
+jboss-seam-pdf.jar
+jboss-seam-ui.jar
+jboss-seam.jar
+lgpl.txt
+lib
+mail
+microcontainer
+readme.txt
+seam
+seam-gen
+seam-text.g
+seam.bat
+src
+
+* check that the following source directories exist in the dist "ls -1 src"
+
+debug
+gen
+ioc
+mail
+main
+pdf
+test
+ui
+
+* check that the following examples exist in the dist "ls -1 examples"
+
+blog
+booking
+contactlist
+drools
+dvdstore
+glassfish
+hibernate
+hibernate2
+icefaces
+issues
+itext
+jpa
+mail
+messages
+numberguess
+portal
+readme.txt
+registration
+remoting
+seam-examples.html
+seampay
+seamspace
+spring
+todo
+ui
 
 * upload .zip and .tar.gz to upload.sf.net
 * do the sf.net file release stuff
