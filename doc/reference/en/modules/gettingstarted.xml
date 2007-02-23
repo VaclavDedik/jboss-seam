@@ -286,9 +286,14 @@ C:\Projects\jboss-seam>]]></programlisting>
       Now go to <literal>http://localhost:8080/helloworld/ping.seam</literal> and click 
       the button. You can see the code behind this action by looking in the project 
       <literal>src</literal> directory. Put a breakpoint in the <literal>ping()</literal>
-      method, and click the button again. Finally, locate the <literal>PingTest.xml</literal>
+      method, and click the button again. 
+    </para>
+    
+    <para>
+      Finally, locate the <literal>PingTest.xml</literal>
       file in the test package and run the integration tests using the TestNG plugin for
-      Eclipse.
+      Eclipse. Alternatively, run the tests using <literal>seam test</literal> or the
+      <literal>test</literal> target of the generated build.
     </para>
     
   </section>
