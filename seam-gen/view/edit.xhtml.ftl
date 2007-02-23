@@ -33,6 +33,7 @@
                 </h:panelGrid>
             </s:validateAll>
         </div>
+        <div><span class="required">*</span> required fields</div>
         
         <div class="actionButtons">
         

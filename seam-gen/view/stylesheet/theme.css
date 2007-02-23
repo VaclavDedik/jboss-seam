@@ -165,6 +165,9 @@ td {
 .errors input {
 	border: 1px solid red;
 }
+.required {
+	color: red;
+}
 
 /* date picker style */
 div.seam-date 
