@@ -158,6 +158,7 @@ td {
 .prop .errors {
 	color: red;
 	text-align: left;
+	font-size: 0.8em;
 }
 /*.value input {
 	width:190px;
