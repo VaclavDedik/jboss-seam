@@ -47,8 +47,15 @@ messages/             The Seam message list example demonstrating use
 mail/                 The Seam mail example demonstrating use of 
                       facelets-based email templating
                       
+mail/                 The Seam mail example demonstrating use of 
+                      facelets-based email templating
+                      
 pdf/                  The Seam PDF example demonstrating use of 
                       facelets-based PDF templating
+                      
+ui/                   Demonstrates some Seam JSF controls
+                      
+spring/               Demonstrates Spring framework integration
                       
 drools/               A version of the number guessing example that
                       uses Drools with jBPM
