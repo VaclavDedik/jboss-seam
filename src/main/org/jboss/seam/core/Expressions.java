@@ -30,6 +30,7 @@ import org.jboss.seam.util.UnifiedELValueBinding;
 @Install(precedence=BUILT_IN)
 @Name("org.jboss.seam.core.expressions")
 public class Expressions
+    implements Serializable
 {
    
    public ValueBinding createValueBinding(final String expression)
