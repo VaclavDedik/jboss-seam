@@ -4,29 +4,30 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
          version="2.4">
 
+    <!-- Ajax4jsf (must come first!) -->
+    
+    <filter>
+        <display-name>Ajax4jsf Filter</display-name>
+        <filter-name>ajax4jsf</filter-name>
+        <filter-class>org.ajax4jsf.Filter</filter-class>
+    </filter>
+    
+    <filter-mapping>
+        <filter-name>ajax4jsf</filter-name>
+        <url-pattern>*.seam</url-pattern>
+    </filter-mapping>
+    
+    <context-param>
+        <param-name>org.ajax4jsf.VIEW_HANDLERS</param-name>
+        <param-value>org.jboss.seam.ui.facelet.SeamFaceletViewHandler</param-value>
+    </context-param>
+    
+    <!-- Seam -->
+    
    <listener>
       <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
    </listener>
     
-   <listener>
-      <listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>
-   </listener>
-    
-   <context-param>
-      <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
-      <param-value>client</param-value>
-   </context-param>
-    
-   <context-param>
-      <param-name>facelets.DEVELOPMENT</param-name>
-      <param-value>true</param-value>
-   </context-param>
-    
-   <context-param>
-      <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
-      <param-value>.xhtml</param-value>
-   </context-param>
-
     <filter>
         <filter-name>Seam Filter</filter-name>
         <filter-class>org.jboss.seam.web.SeamFilter</filter-class>
@@ -45,7 +46,32 @@
    <servlet-mapping>
       <servlet-name>Seam Resource Servlet</servlet-name>
       <url-pattern>/seam/resource/*</url-pattern>
-   </servlet-mapping>    
+   </servlet-mapping>
+   
+   <!-- MyFaces -->   
+
+   <listener>
+      <listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>
+   </listener>
+   
+   <!-- Facelets development mode (disable in production) -->
+   
+   <context-param>
+      <param-name>facelets.DEVELOPMENT</param-name>
+      <param-value>true</param-value>
+   </context-param>
+    
+   <!-- JSF -->
+    
+   <context-param>
+      <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+      <param-value>client</param-value>
+   </context-param>
+    
+   <context-param>
+      <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+      <param-value>.xhtml</param-value>
+   </context-param>
 
    <servlet>
       <servlet-name>Faces Servlet</servlet-name>
@@ -68,4 +94,5 @@
            <role-name>NONE</role-name>
        </auth-constraint>
    </security-constraint>
+   
 </web-app>
