@@ -44,6 +44,7 @@
     <property name="example.coverage.dir" value="${imported.basedir}/build/coverage"/>
     <property name="drools.dir"           value="${imported.basedir}/drools"/>
     <property name="hibernate.dir"        value="${imported.basedir}/hibernate"/>
+    <property name="mail.dir"             value="${imported.basedir}/mail"/>
     <property name="seamgen.dir"          value="${imported.basedir}/seam-gen"/>
 
     <property name="doc.dir"              value="doc"/>
@@ -70,6 +71,7 @@
     <property name="dist.mc.conf.dir"     value="${dist.dir}/microcontainer/conf"/>
     <property name="dist.drools.dir"      value="${dist.dir}/drools"/>
     <property name="dist.hibernate.dir"   value="${dist.dir}/hibernate"/>
+    <property name="dist.mail.dir"        value="${dist.dir}/mail"/>
     <property name="dist.seamgen.dir"     value="${dist.dir}/seam-gen"/>
     
     <property name="deploy.dir"           value="${jboss.home}/server/default/deploy"/>
@@ -900,6 +902,11 @@
         </copy>
         <copy todir="${dist.hibernate.dir}">
             <fileset dir="${hibernate.dir}">
+                <include name="**/*.*"/>
+            </fileset>
+        </copy>
+        <copy todir="${dist.mail.dir}">
+            <fileset dir="${mail.dir}">
                 <include name="**/*.*"/>
             </fileset>
         </copy>
