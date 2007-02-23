@@ -171,8 +171,7 @@ public class MockHttpServletRequest implements HttpServletRequest
 
    public StringBuffer getRequestURL()
    {
-      //TODO
-      return null;
+      return new StringBuffer("http://localhost:8080/myproject/page.seam");
    }
 
    public String getServletPath()
