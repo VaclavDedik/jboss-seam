@@ -76,7 +76,12 @@
 
     <div class="association" id="${property.name}Parent">
     
-        <h3>${property.name}</h3>
+        <h3>
+           ${property.name}
+<#if !property.optional>
+           <s:span styleClass="required" rendered="${'#'}{${homeName}.instance.${property.name} == null}">*</s:span>
+</#if>
+        </h3>
     
         <h:outputText value="No ${property.name}" 
                    rendered="${'#'}{${homeName}.instance.${property.name} == null}"/>
