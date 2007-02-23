@@ -1,0 +1,94 @@
+Seam Release Process
+====================
+
+Updating version numbers
+------------------------
+* Update the version number embedded in:
+  - readme.txt
+  - changelog.txt
+  - build.xml
+  - docs/reference/en/master.xml
+  - org.jboss.seam.servlet.SeamListener
+
+  (Actually, we should fix it so the last three
+  version numbers can be pulled from build.properties.) 
+
+* Finally, update the changelog, by copy/pasting
+  the JIRA text release notes.
+
+Tests
+-----
+* "ant cleanall testall", check report/index.html
+* Sanity check the following example applications on JBoss 4.0.5
+  - booking
+  - dvdstore
+  - jpa
+  - hibernate2
+  - seamspace
+  - contactlist
+  - itext
+  - mail
+* Sanity check the following example applications on Tomcat
+  - booking
+  - dvdstore
+  - jpa
+  - hibernate2
+* Sanity check the folowing example applications on GlassFish
+  - glassfish
+  - jpa
+  - hibernate2
+  
+Test seam-gen
+-------------
+* export the following tables to MySQL:
+
+CREATE TABLE `Person` (
+  `username` varchar(10) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `birthdate` date default NULL,
+  `address` varchar(600) NOT NULL,
+  PRIMARY KEY  (`username`)
+) ENGINE=InnoDB
+
+CREATE TABLE `Vehicle` (
+  `ownerUsername` varchar(10) default NULL,
+  `make` varchar(50) NOT NULL,
+  `model` varchar(50) NOT NULL,
+  `year` int(11) NOT NULL,
+  `registration` varchar(8) NOT NULL,
+  `state` varchar(2) NOT NULL,
+  PRIMARY KEY USING BTREE (`registration`,`state`),
+  KEY `ownerUsername` (`ownerUsername`),
+  CONSTRAINT `owner` FOREIGN KEY (`ownerUsername`) REFERENCES `person` (`username`)
+) ENGINE=InnoDB 
+
+* run "seam setup new-project generate-entities explode"
+  - test the app, at least the list and edit pages for Person
+* run "seam new-action new-form restart"
+  - test both generated pages
+  - run the unit tests in eclipse using the TestNG plugin 
+
+Tag CVS
+-------
+* "cvs rtag JBoss_Seam_x_x_x_XX jboss-seam"
+
+Build + Upload
+--------------
+* run "ant cleanall dist"
+* check that the following files/directories exist in the dist
+
+build.properties     drools               jboss-seam-debug.jar jboss-seam-ui.jar    microcontainer       seam-text.g
+build.xml            embedded-ejb         jboss-seam-gen.jar   jboss-seam.jar       readme.txt           seam.bat
+changelog.txt        examples             jboss-seam-mail.jar  lgpl.txt             seam                 src
+doc                  hibernate            jboss-seam-pdf.jar   lib                  seam-gen
+
+* upload .zip and .tar.gz to upload.sf.net
+* do the sf.net file release stuff
+* upload the doc directory of the dist to docs.jboss.org
+  - remember to update the latest/ dir
+
+Update Demos
+------------
+This step is not needed for every point release:
+* upload the booking and dvdstore examples to demo.jboss.com
+
