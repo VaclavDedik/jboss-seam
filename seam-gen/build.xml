@@ -532,7 +532,6 @@
             <fileset dir="${basedir}/resources/">
             	<exclude name="datasource-ds.xml"/>
             	<exclude name="import.sql"/>
-            	<exclude name="hibernate-console.*"/>
             	<exclude name="WEB-INF/components*.xml"/>
             	<exclude name="META-INF/persistence*.xml"/>
             	<exclude name="META-INF/application.xml"/>
@@ -545,18 +544,24 @@
         </copy>
 
         <copy tofile="${project.home}/${project.name}.launch" 
-                file="${basedir}/resources/hibernate-console.launch">
+                file="${basedir}/hibernatetools/hibernate-console.launch">
             <filterset refid="project"/>
         </copy>
 
         <copy tofile="${project.home}/hibernate-console.properties" 
-                file="${basedir}/resources/hibernate-console.properties">
+                file="${basedir}/hibernatetools/hibernate-console.properties">
             <filterset refid="project"/>
             <filterset refid="jdbc"/>
         	<filterset>
         		<filter token="hibernate.dialect" value="${hibernate.dialect}"/>
         	</filterset>
         </copy>
+    	
+        <copy tofile="${project.home}/.settings/org.hibernate.eclipse.console.prefs" 
+                file="${basedir}/hibernatetools/.settings/org.hibernate.eclipse.console.prefs">
+            <filterset refid="project"/>
+        </copy>
+
         <copy tofile="${project.home}/resources/${project.name}-dev-ds.xml" 
                 file="${basedir}/resources/datasource-ds.xml">
             <filterset refid="project"/>
