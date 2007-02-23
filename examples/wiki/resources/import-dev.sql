@@ -21,3 +21,33 @@ insert into ROLE (ROLE_ID, OBJ_VERSION, DISPLAY_NAME, NAME, CREATED_ON) values (
 
 insert into USER_ROLE (USER_ID, ROLE_ID) values (1,1)
 insert into USER_ROLE (USER_ID, ROLE_ID) values (2,2)
+
+
+insert into USERS (USER_ID, OBJ_VERSION, FIRSTNAME, LASTNAME, USERNAME, PASSWORDHASH, EMAIL, ACTIVATED, CREATED_ON) values (3, 0, 'Foo1', 'Foo1', 'foo1', 'aa08769cdcb26674c6706093503ff0a3', 'member@email.tld', true, '2006-06-27 13:45:00')
+insert into USERS (USER_ID, OBJ_VERSION, FIRSTNAME, LASTNAME, USERNAME, PASSWORDHASH, EMAIL, ACTIVATED, CREATED_ON) values (4, 0, 'Foo2', 'Foo2', 'foo2', 'aa08769cdcb26674c6706093503ff0a3', 'member@email.tld', true, '2006-06-27 13:45:00')
+insert into USERS (USER_ID, OBJ_VERSION, FIRSTNAME, LASTNAME, USERNAME, PASSWORDHASH, EMAIL, ACTIVATED, CREATED_ON) values (5, 0, 'Foo3', 'Foo3', 'foo3', 'aa08769cdcb26674c6706093503ff0a3', 'member@email.tld', true, '2006-06-27 13:45:00')
+insert into USERS (USER_ID, OBJ_VERSION, FIRSTNAME, LASTNAME, USERNAME, PASSWORDHASH, EMAIL, ACTIVATED, CREATED_ON) values (6, 0, 'Foo4', 'Foo4', 'foo4', 'aa08769cdcb26674c6706093503ff0a3', 'member@email.tld', true, '2006-06-27 13:45:00')
+insert into USERS (USER_ID, OBJ_VERSION, FIRSTNAME, LASTNAME, USERNAME, PASSWORDHASH, EMAIL, ACTIVATED, CREATED_ON) values (7, 0, 'Foo5', 'Foo5', 'foo5', 'aa08769cdcb26674c6706093503ff0a3', 'member@email.tld', true, '2006-06-27 13:45:00')
+insert into USERS (USER_ID, OBJ_VERSION, FIRSTNAME, LASTNAME, USERNAME, PASSWORDHASH, EMAIL, ACTIVATED, CREATED_ON) values (8, 0, 'Foo6', 'Foo6', 'foo6', 'aa08769cdcb26674c6706093503ff0a3', 'member@email.tld', true, '2006-06-27 13:45:00')
+insert into USERS (USER_ID, OBJ_VERSION, FIRSTNAME, LASTNAME, USERNAME, PASSWORDHASH, EMAIL, ACTIVATED, CREATED_ON) values (9, 0, 'Foo7', 'Foo7', 'foo7', 'aa08769cdcb26674c6706093503ff0a3', 'member@email.tld', true, '2006-06-27 13:45:00')
+insert into USERS (USER_ID, OBJ_VERSION, FIRSTNAME, LASTNAME, USERNAME, PASSWORDHASH, EMAIL, ACTIVATED, CREATED_ON) values (10, 0, 'Foo8', 'Foo8', 'foo8', 'aa08769cdcb26674c6706093503ff0a3', 'member@email.tld', true, '2006-06-27 13:45:00')
+insert into USERS (USER_ID, OBJ_VERSION, FIRSTNAME, LASTNAME, USERNAME, PASSWORDHASH, EMAIL, ACTIVATED, CREATED_ON) values (11, 0, 'Foo9', 'Foo9', 'foo9', 'aa08769cdcb26674c6706093503ff0a3', 'member@email.tld', true, '2006-06-27 13:45:00')
+insert into USERS (USER_ID, OBJ_VERSION, FIRSTNAME, LASTNAME, USERNAME, PASSWORDHASH, EMAIL, ACTIVATED, CREATED_ON) values (12, 0, 'Foo10', 'Foo10', 'foo10', 'aa08769cdcb26674c6706093503ff0a3', 'member@email.tld', true, '2006-06-27 13:45:00')
+insert into USERS (USER_ID, OBJ_VERSION, FIRSTNAME, LASTNAME, USERNAME, PASSWORDHASH, EMAIL, ACTIVATED, CREATED_ON) values (13, 0, 'Foo11', 'Foo11', 'foo11', 'aa08769cdcb26674c6706093503ff0a3', 'member@email.tld', true, '2006-06-27 13:45:00')
+insert into USERS (USER_ID, OBJ_VERSION, FIRSTNAME, LASTNAME, USERNAME, PASSWORDHASH, EMAIL, ACTIVATED, CREATED_ON) values (14, 0, 'Bar1', 'Bar1', 'bar1', 'aa08769cdcb26674c6706093503ff0a3', 'member@email.tld', true, '2006-06-27 13:45:00')
+insert into USERS (USER_ID, OBJ_VERSION, FIRSTNAME, LASTNAME, USERNAME, PASSWORDHASH, EMAIL, ACTIVATED, CREATED_ON) values (15, 0, 'Bar2', 'Bar2', 'bar2', 'aa08769cdcb26674c6706093503ff0a3', 'member@email.tld', true, '2006-06-27 13:45:00')
+
+insert into USER_ROLE (USER_ID, ROLE_ID) values (3,2)
+insert into USER_ROLE (USER_ID, ROLE_ID) values (4,2)
+insert into USER_ROLE (USER_ID, ROLE_ID) values (5,2)
+insert into USER_ROLE (USER_ID, ROLE_ID) values (6,2)
+insert into USER_ROLE (USER_ID, ROLE_ID) values (7,2)
+insert into USER_ROLE (USER_ID, ROLE_ID) values (8,2)
+insert into USER_ROLE (USER_ID, ROLE_ID) values (9,2)
+insert into USER_ROLE (USER_ID, ROLE_ID) values (10,2)
+insert into USER_ROLE (USER_ID, ROLE_ID) values (11,2)
+insert into USER_ROLE (USER_ID, ROLE_ID) values (12,2)
+insert into USER_ROLE (USER_ID, ROLE_ID) values (13,2)
+insert into USER_ROLE (USER_ID, ROLE_ID) values (14,2)
+insert into USER_ROLE (USER_ID, ROLE_ID) values (15,2)
+

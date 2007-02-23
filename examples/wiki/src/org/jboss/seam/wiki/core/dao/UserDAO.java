@@ -13,6 +13,8 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.Session;
+import org.hibernate.Criteria;
+import org.hibernate.ScrollableResults;
 import org.hibernate.transform.DistinctRootEntityResultTransformer;
 
 import java.util.List;
@@ -75,6 +77,23 @@ public class UserDAO {
     @Transactional
     public List<User> findByExample(User exampleUser, String orderByProperty, boolean orderDescending,
                                     int firstResult, int maxResults, String... ignoreProperty) {
+        Criteria crit = prepareExampleCriteria(exampleUser, orderByProperty, orderDescending, ignoreProperty);
+        crit.setFirstResult(firstResult).setMaxResults(maxResults);
+        return (List<User>)crit.list();
+    }
+
+    @Transactional
+    public int getRowCountByExample(User exampleUser, String... ignoreProperty) {
+
+        Criteria crit = prepareExampleCriteria(exampleUser, null, false, ignoreProperty);
+        ScrollableResults cursor = crit.scroll();
+        cursor.last();
+        int count = cursor.getRowNumber() + 1;
+        cursor.close();
+        return count;
+    }
+
+    private Criteria prepareExampleCriteria(User exampleUser, String orderByProperty, boolean orderDescending, String... ignoreProperty) {
 
         Example example =  Example.create(exampleUser).enableLike(MatchMode.ANYWHERE).ignoreCase();
 
@@ -82,14 +101,11 @@ public class UserDAO {
 
         Session session = (Session)entityManager.getDelegate();
 
-        List result = session.createCriteria(User.class).add(example)
-                .addOrder( orderDescending ? Order.desc(orderByProperty) : Order.asc(orderByProperty))
-                .setFirstResult(firstResult)
-                .setMaxResults(maxResults)
-                .setResultTransformer(new DistinctRootEntityResultTransformer())
-                .list();
+        Criteria crit = session.createCriteria(User.class).add(example);
+        if (orderByProperty != null)
+                crit.addOrder( orderDescending ? Order.desc(orderByProperty) : Order.asc(orderByProperty) );
 
-        return (List<User>)result;
+        return crit.setResultTransformer(new DistinctRootEntityResultTransformer());
     }
 
 }

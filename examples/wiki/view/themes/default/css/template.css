@@ -425,3 +425,55 @@ a:visited {
     background-color: #eae8e5;
 }
 
+
+/* Generic Lists
+----------------------------------------------- */
+
+.datatable {
+    padding: 0;
+    margin: 0;
+    font-size: 85%;
+    border-collapse: separate;
+}
+
+.datatable .rowOdd {
+    background-color: #fff;
+}
+
+.datatable .rowEven {
+    background-color: #eae8e5;
+}
+
+.datatable .sortableHeader {
+    white-space: nowrap;
+    background: #fff url(../img/th.bg.gif) 0 0 repeat-x;
+    text-align: center;
+    padding: 2px;
+    border-top: 1px solid #C3BBB6;
+    border-right: 1px solid #C3BBB6;
+    font-weight: bold;
+}
+
+.datatable .defaultColumn {
+    width: 10%;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: left;
+    white-space: nowrap;
+    border-right: 1px solid #C3BBB6;
+}
+
+.pager {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    background: #fff url(../img/th.bg.gif) 0 0 repeat-x;
+    text-align: center;
+}
+.pager .pagerIconColumn {
+    width: 10%;
+}
+.pager .pagerTextColumn {
+    width: 60%;
+}

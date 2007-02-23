@@ -1,0 +1,209 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:wiki="http://jboss.com/products/seam/wiki"
+                template="themes/#{globalPrefs.themeName}/template.xhtml">
+
+<ui:define name="pluginCSS">
+    <link href="#{themePath}/css/userControl.css" rel="stylesheet" type="text/css"/>
+    <link href="#{themePath}/css/searchControl.css" rel="stylesheet" type="text/css"/>
+    <link href="#{themePath}/css/mainMenu.css" rel="stylesheet" type="text/css"/>
+</ui:define>
+
+<ui:define name="screenname">User List</ui:define>
+
+<ui:define name="headerTopRight">
+    <ui:include src="plugins/userControl/plugin.xhtml"/>
+</ui:define>
+<ui:define name="headerBottomLeft">&#160;</ui:define>
+<ui:define name="headerBottomRight">
+    <ui:include src="plugins/searchControl/plugin.xhtml"/>
+</ui:define>
+
+<ui:define name="sidebar">
+    <ui:include src="plugins/mainMenu/plugin.xhtml"/>
+</ui:define>
+
+<ui:define name="control">
+</ui:define>
+
+<ui:define name="content">
+
+    <h:form id="main">
+
+        <div class="form" id="userSearchControl">
+
+            <h:panelGrid columns="6" styleClass="formTable"
+                         headerClass="formHead" footerClass="formFooter"
+                         columnClasses="entryColumn,entryColumn,entryColumn,entryColumn,entryColumn,entryColumn"
+                         cellpadding="0" cellspacing="0" border="0">
+
+                <f:facet name="header">
+                    <h:outputText value="Search members"/>
+                </f:facet>
+
+                <h:panelGroup>
+                    <h:outputText styleClass="label" value="Username:"/>
+                    <h:inputText styleClass="input" id="username" value="#{userSearch.exampleUser.username}" maxlength="25" size="10" tabindex="1"/>
+                </h:panelGroup>
+
+                <h:panelGroup>
+                    <h:outputText styleClass="label" value="First name:"/>
+                    <h:inputText styleClass="input" id="firstname" value="#{userSearch.exampleUser.firstname}" maxlength="25" size="10" tabindex="2"/>
+                </h:panelGroup>
+
+                <h:panelGroup>
+                    <h:outputText styleClass="label" value="Last name:"/>
+                    <h:inputText styleClass="input" id="lastname" value="#{userSearch.exampleUser.lastname}" maxlength="25" size="10" tabindex="3"/>
+                </h:panelGroup>
+
+                <h:panelGroup>
+                    <h:outputText styleClass="label" value="E-mail:"/>
+                    <h:inputText styleClass="input" id="email" value="#{userSearch.exampleUser.email}" maxlength="25" size="10" tabindex="4"/>
+                </h:panelGroup>
+
+                <h:panelGroup>
+                    <h:outputLabel styleClass="label" for="pageSize">Limit:</h:outputLabel>
+                    <h:selectOneMenu styleClass="input" value="#{userSearch.pageSize}" id="pageSize" tabindex="5">
+                        <f:selectItem itemLabel="5" itemValue="5"/>
+                        <f:selectItem itemLabel="10" itemValue="10"/>
+                        <f:selectItem itemLabel="20" itemValue="20"/>
+                    </h:selectOneMenu>
+                </h:panelGroup>
+
+                <h:commandLink id="find" styleClass="button"
+                               action="#{userSearch.find()}"
+                               tabindex="6" accesskey="F"><span class="buttonLabel"><u>F</u>ind</span></h:commandLink>
+
+                <f:facet name="footer">
+                    &#160;
+                </f:facet>
+
+            </h:panelGrid>
+
+        </div>
+
+        <h:panelGrid columns="5" styleClass="pager"
+                     columnClasses="pagerIconColumn,pagerIconColumn,pagerTextColumn,pagerIconColumn,pagerIconColumn"
+                     cellpadding="0" cellspacing="0" border="0"
+                     rendered="#{userSearch.rowCount > 0}">
+
+            <h:commandLink action="#{userSearch.firstPage()}" rendered="#{userSearch.previousPageAvailable}" tabindex="7">
+                <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/page.first.gif" width="13" height="11"/>
+            </h:commandLink>
+            <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/blank.gif" width="13" height="11"
+                            rendered="#{!userSearch.previousPageAvailable}"/>
+
+            <h:commandLink action="#{userSearch.previousPage()}" rendered="#{userSearch.previousPageAvailable}" tabindex="7">
+                <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/page.previous.gif" width="13" height="11"/>
+            </h:commandLink>
+            <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/blank.gif" width="13" height="11"
+                            rendered="#{!userSearch.previousPageAvailable}"/>
+
+            <h:outputText value="Found: #{userSearch.rowCount} member(s)"/>
+
+            <h:commandLink action="#{userSearch.nextPage()}" rendered="#{userSearch.nextPageAvailable}" tabindex="7">
+                <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/page.next.gif" width="13" height="11"/>
+            </h:commandLink>
+            <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/blank.gif" width="13" height="11"
+                            rendered="#{!userSearch.nextPageAvailable}"/>
+
+            <h:commandLink action="#{userSearch.lastPage()}" rendered="#{userSearch.nextPageAvailable}" tabindex="7">
+                <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/page.last.gif" width="13" height="11"/>
+            </h:commandLink>
+            <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/blank.gif" width="13" height="11"
+                            rendered="#{!userSearch.nextPageAvailable}"/>
+
+        </h:panelGrid>
+
+        <h:dataTable id="userTable" var="u"
+                     value="#{usersList}"
+                     rendered="#{usersList.rowCount >0}"
+                     styleClass="datatable"
+                     headerClass="sortableHeader"
+                     columnClasses="defaultColumn,defaultColumn,defaultColumn,defaultColumn,defaultColumn"
+                     rowClasses="rowOdd,rowEven"
+                     cellpadding="0" cellspacing="0" border="0">
+
+            <h:column>
+                <f:facet name="header">
+                    <h:commandLink action="#{userSearch.sortBy('username')}" tabindex="8">
+                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/sortindicator.up.gif" width="8" height="8"
+                                        rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'username'}"/>
+                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/sortindicator.down.gif" width="8" height="8"
+                                        rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'username'}"/>
+                        Username
+                    </h:commandLink>
+                </f:facet>
+                #{u.username}
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:commandLink action="#{userSearch.sortBy('firstname')}" tabindex="9">
+                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/sortindicator.up.gif" width="8" height="8"
+                                        rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'firstname'}"/>
+                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/sortindicator.down.gif" width="8" height="8"
+                                        rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'firstname'}"/>
+                        First name
+                    </h:commandLink>
+                </f:facet>
+                #{u.firstname}
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:commandLink action="#{userSearch.sortBy('lastname')}" tabindex="10">
+                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/sortindicator.up.gif" width="8" height="8"
+                                        rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'lastname'}"/>
+                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/sortindicator.down.gif" width="8" height="8"
+                                        rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'lastname'}"/>
+                        Last name
+                    </h:commandLink>
+                </f:facet>
+                #{u.lastname}
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:commandLink action="#{userSearch.sortBy('email')}" tabindex="11">
+                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/sortindicator.up.gif" width="8" height="8"
+                                        rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'email'}"/>
+                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/sortindicator.down.gif" width="8" height="8"
+                                        rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'email'}"/>
+                        E-mail address
+                    </h:commandLink>
+                </f:facet>
+                #{u.email}
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:commandLink action="#{userSearch.sortBy('createdOn')}" tabindex="12">
+                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/sortindicator.up.gif" width="8" height="8"
+                                        rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'createdOn'}"/>
+                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/sortindicator.down.gif" width="8" height="8"
+                                        rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'createdOn'}"/>
+                        Joined on
+                    </h:commandLink>
+                </f:facet>
+                <h:outputText value="#{u.createdOn}">
+                    <f:convertDateTime type="both"/>
+                </h:outputText>
+            </h:column>
+
+        </h:dataTable>
+
+
+    </h:form>
+
+</ui:define>
+
+<ui:define name="footer">&#160;</ui:define>
+
+</ui:composition>
+
