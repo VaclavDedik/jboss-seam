@@ -38,7 +38,7 @@
 
     <property name="lib.dir"              value="${imported.basedir}/lib"/>
     <property name="drools.lib.dir"       value="${imported.basedir}/drools/lib"/>
-    <property name="mail.lib.dir"       value="${imported.basedir}/mail"/>
+    <property name="mail.lib.dir"         value="${imported.basedir}/mail"/>
     <property name="eejb.conf.dir"        value="${imported.basedir}/embedded-ejb/conf"/>
     <property name="mc.conf.dir"          value="${imported.basedir}/microcontainer/conf"/>
     <property name="example.coverage.dir" value="${imported.basedir}/build/coverage"/>
@@ -135,6 +135,14 @@
            prefix="WEB-INF/lib"
       description="the facelets jar">
         <include name="jsf-facelets.jar" if="example.facelets.lib"/>
+    </zipfileset>
+
+    <zipfileset id="example.ajax4jsf.jar" 
+               dir="${lib.dir}"
+           prefix="WEB-INF/lib"
+      description="the Ajax4JSF jar">
+        <include name="ajax4jsf.jar" if="example.ajax4jsf.lib"/>
+        <include name="oscache*.jar" if="example.ajax4jsf.lib"/>
     </zipfileset>
 
     <zipfileset id="example.extra.jar" 
@@ -1210,6 +1218,7 @@
             <zipfileset refid="example.war.webinf.lib"/>
             <zipfileset refid="example.seam.misc.jar"/>
             <zipfileset refid="example.facelets.jar"/>
+        	<zipfileset refid="example.ajax4jsf.jar"/>
             <zipfileset refid="example.itext.jar"/>
             <zipfileset dir="${build.dir}/resources">
                 <include name="WEB-INF/**/*.*"/>
