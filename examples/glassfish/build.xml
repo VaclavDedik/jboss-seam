@@ -9,12 +9,10 @@
   <property file="../../build.properties"/>
 
   <property name="lib" location="../../lib" />
-  <property name="applib" location="lib" />
   <property name="seamlib" location="../../" />
   <property name="hibernatelib" location="../../hibernate/lib" />
   <path id="lib.classpath">
     <fileset dir="${lib}" includes="*.jar"/>
-    <fileset dir="${applib}" includes="*.jar"/>
     <fileset dir="${seamlib}" includes="*.jar"/>
   </path>
   
