@@ -17,8 +17,6 @@
                  conversation-id-parameter="cid" 
                  conversation-is-long-running-parameter="clr"/>
     
-   <core:pages no-conversation-view-id="/home.xhtml"/>
-   
    <core:managed-persistence-context name="entityManager"
                               auto-create="true"
                persistence-unit-jndi-name="java:/@projectName@EntityManagerFactory"/>
