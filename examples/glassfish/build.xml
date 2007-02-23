@@ -74,14 +74,12 @@
       </webinf>
       <lib dir="${lib}">
         <include name="jsf-facelets.jar" />
+        <include name="ajax4jsf.jar" />
+        <include name="oscache*.jar" />
       </lib>
       <lib dir="${seamlib}">
         <include name="jboss-seam-ui.jar" />
         <include name="jboss-seam-debug.jar" />
-      </lib>
-      <lib dir="${applib}">
-        <include name="ajax4jsf.jar" />
-        <include name="oscache-2.3.2.jar" />
       </lib>
       <fileset dir="${view}"/>
     </war>

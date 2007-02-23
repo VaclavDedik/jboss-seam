@@ -81,8 +81,6 @@
         <include name="jboss-seam-debug.jar" />
       </lib>
       <lib dir="${applib}">
-        <include name="ajax4jsf.jar" />
-        <include name="oscache-2.3.2.jar" />
         <!-- do not need the following for 4.0.4 and 4.0.5
         <include name="cglib.jar" />
         -->
@@ -91,6 +89,8 @@
         <include name="*.jar" />
       </lib>
       <lib dir="${lib}">
+        <include name="ajax4jsf.jar" />
+        <include name="oscache-2.3.2.jar" />
         <include name="el-api.jar" />
         <include name="el-ri.jar" />
         <include name="jsf-facelets.jar" />
@@ -137,14 +137,12 @@
         <include name="jboss-seam-ui.jar" />
         <include name="jboss-seam-debug.jar" />
       </lib>
-      <lib dir="${applib}">
-        <include name="ajax4jsf.jar" />
-        <include name="oscache-2.3.2.jar" />
-      </lib>
       <lib dir="${applib}/mc">
         <include name="*.jar" />
       </lib>
       <lib dir="${lib}">
+        <include name="ajax4jsf.jar" />
+        <include name="oscache*.jar" />
         <include name="el-api.jar" />
         <include name="el-ri.jar" />
         <include name="jsf-facelets.jar" />
@@ -200,16 +198,14 @@
         <include name="jboss-seam-ui.jar" />
         <include name="jboss-seam-debug.jar" />
       </lib>
-      <lib dir="${applib}">
-        <include name="ajax4jsf.jar" />
-        <include name="oscache-2.3.2.jar" />
-      </lib>
       <!--
       <lib dir="${applib}/mc">
         <include name="*.jar" />
       </lib>
       -->
       <lib dir="${lib}">
+        <include name="ajax4jsf.jar" />
+        <include name="oscache*.jar" />
         <include name="el-api.jar" />
         <include name="el-ri.jar" />
         <include name="jsf-facelets.jar" />
@@ -263,13 +259,11 @@
         <include name="jboss-seam-ui.jar" />
         <include name="jboss-seam-debug.jar" />
       </lib>
-      <lib dir="${applib}">
-        <include name="ajax4jsf.jar" />
-        <include name="oscache-2.3.2.jar" />
-      </lib>
       <lib dir="${lib}">
         <include name="el-api.jar" />
         <include name="el-ri.jar" />
+        <include name="ajax4jsf.jar" />
+        <include name="oscache*.jar" />
         <include name="jsf-facelets.jar" />
         <include name="myfaces-api-1.1.4.jar" />
         <include name="myfaces-impl-1.1.4.jar" />
@@ -321,13 +315,11 @@
         <include name="jboss-seam-ui.jar" />
         <include name="jboss-seam-debug.jar" />
       </lib>
-      <lib dir="${applib}">
-        <include name="ajax4jsf.jar" />
-        <include name="oscache-2.3.2.jar" />
-      </lib>
       <lib dir="${lib}">
         <include name="el-api.jar" />
         <include name="el-ri.jar" />
+        <include name="ajax4jsf.jar" />
+        <include name="oscache*.jar" />
         <include name="jsf-facelets.jar" />
         <include name="thirdparty-all.jar" />
         <include name="commons*.jar" />
