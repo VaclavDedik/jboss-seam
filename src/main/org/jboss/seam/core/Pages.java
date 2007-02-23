@@ -970,11 +970,7 @@ public class Pages
       if ( endTask!=null )
       {
          control.setEndTask(true);
-         String transition = endTask.attributeValue("transition");
-         if (transition!=null)
-         {
-            control.setTransition( Expressions.instance().createValueBinding(transition) );
-         }
+         control.setTransition( endTask.attributeValue("transition") );
       }
       
       Element beginTask = element.element("begin-task");

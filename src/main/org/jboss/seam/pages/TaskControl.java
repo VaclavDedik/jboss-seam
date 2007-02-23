@@ -17,19 +17,14 @@ public class TaskControl
 
    private ValueBinding<String> taskId;
 
-   private ValueBinding<String> transition;
+   private String transition;
 
    public void beginOrEndTask()
    {
       if (endTask())
       {
-         String t = null;
-         if (transition != null) 
-         {
-           t =transition.getValue();
-         } 
          BusinessProcess.instance().validateTask();
-         BusinessProcess.instance().endTask(t);
+         BusinessProcess.instance().endTask(transition);
       }
       if (beginTask() || startTask())
       {
@@ -96,12 +91,12 @@ public class TaskControl
       return taskId;
    }
    
-   public ValueBinding<String> getTransition()
+   public String getTransition()
    {
       return transition;
    }
    
-   public void setTransition(ValueBinding<String> transition)
+   public void setTransition(String transition)
    {
       this.transition = transition;
    }
