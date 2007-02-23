@@ -146,6 +146,8 @@ ui
 * do the sf.net file release stuff
 * upload the doc directory of the dist to docs.jboss.org
   - remember to update the latest/ dir
+* update the documentation and download pages on jboss.org
+* announce the release on the news page on jboss.org
 
 Update Demos
 ------------
