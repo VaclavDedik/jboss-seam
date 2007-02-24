@@ -287,7 +287,7 @@
     <navigation from-action="#{documentEditor.update}">
         <rule if-outcome="success">
             <redirect view-id="/viewDocument.xhtml"/>
-        <rule/>
+        </rule>
     </navigation>
     
 </page>]]></programlisting>
@@ -303,7 +303,7 @@
                    evaluate="#{documentEditor.errors.size}">
         <rule if-outcome="0">
             <redirect view-id="/viewDocument.xhtml"/>
-        <rule/>
+        </rule>
     </navigation>
     
 </page>]]></programlisting>
@@ -317,7 +317,7 @@
     <navigation from-action="#{documentEditor.update}">
         <rule if="#{documentEditor.errors.empty}">
             <redirect view-id="/viewDocument.xhtml"/>
-        <rule/>
+        </rule>
     </navigation>
     
 </page>]]></programlisting>
@@ -340,7 +340,7 @@
         <rule if="#{documentEditor.errors.empty}">
             <end-conversation/>
             <redirect view-id="/viewDocument.xhtml"/>
-        <rule/>
+        </rule>
     </navigation>
     
 </page>]]></programlisting>
@@ -357,7 +357,7 @@
         <rule if="#{documentEditor.errors.empty}">
             <end-conversation/>
             <render view-id="/viewDocument.xhtml"/>
-        <rule/>
+        </rule>
     </navigation>
     
 </page>]]></programlisting>
@@ -374,7 +374,7 @@
             <redirect view-id="/viewDocument.xhtml">
                 <param name="documentId" value="#{documentEditor.documentId}"/>
             </redirect>
-        <rule/>
+        </rule>
     </navigation>
     
 </page>]]></programlisting>
@@ -390,7 +390,7 @@
     <navigation from-action="#{documentEditor.update}">
         <rule>
             <render view-id="/viewDocument.xhtml"/>
-        <rule/>
+        </rule>
     </navigation>
     
 </page>]]></programlisting>
