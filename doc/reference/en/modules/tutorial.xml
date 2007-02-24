@@ -3192,4 +3192,63 @@ public class EntryAction
             
   </section>
   
+  <section>
+      <title>Running the Seam examples in JBoss using the JSF 1.2 RI</title>
+      <para>
+          JBoss AS 4.0 ships with the Apache MyFaces implementation of JSF 1.1. After many months of 
+          waiting, there is <emphasis>still</emphasis> no implementation of JSF 1.2 from MyFaces. 
+          For this and other reasons, JBoss AS 4.2 will embed the JSF 1.2 Reference Implementation
+          by default. Soon after the release of 4.2, we will migrate the Seam examples to JSF 1.2.
+      </para>
+      <para>
+          For those who can't wait, Seam is already compatible with JSF 1.2, and it's easy to get
+          the Seam examples running with JSF 1.2 in JBoss 4.0.5. Let's start with the famous booking
+          example:
+      </para>
+      <itemizedlist>
+          <listitem>
+              <para>
+                  copy <literal>jsf-api.jar</literal>, <literal>jsf-impl.jar</literal>, 
+                  <literal>el-api.jar</literal>, <literal>el-impl.jar</literal> to
+                  <literal>server/default/deploy/tomcat/jbossweb-tomcat55.sar/jsf-libs</literal>.
+              </para>
+          </listitem>
+          <listitem>
+              <para>
+                  delete <literal>myfaces-api.jar</literal> and <literal>myfaces-impl.jar</literal> 
+                  from <literal>server/default/deploy/tomcat/jbossweb-tomcat55.sar/jsf-libs</literal>.
+              </para>
+          </listitem>
+          <listitem>
+              <para>
+                  edit <literal>server/default/deploy/tomcat/jbossweb-tomcat55.sar/conf/web.xml</literal>, 
+                  replacing <literal>myfaces-impl.jar</literal> with <literal>jsf-impl.jar</literal>.
+              </para>
+          </listitem>
+          <listitem>
+              <para>
+                  edit <literal>examples/booking/resources/WEB-INF/web.xml</literal>, deleting the MyFaces 
+                  listener, uncommenting the RI listener
+              </para>
+          </listitem>
+          <listitem>
+              <para>
+                  edit <literal>examples/booking/resources/WEB-INF/faces-config.xml</literal>, uncommenting 
+                  the lines that install the <literal>SeamELResolver</literal> using the new JSF 1.2 XML
+                  schema declaration.
+              </para>
+          </listitem>
+          <listitem>
+              <para>
+                  edit <literal>examples/booking/resources/META-INF/application.xml</literal>, deleting the
+                  lines that declare <literal>el-api.jar</literal> and <literal>el-impl.jar</literal> as Java
+                  modules.
+              </para>
+          </listitem>
+      </itemizedlist>
+      <para>
+          Restart JBoss, and type <literal>ant</literal> in the <literal>examples/booking</literal> directory.
+      </para>
+  </section>
+
 </chapter>
