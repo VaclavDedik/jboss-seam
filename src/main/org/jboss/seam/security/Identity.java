@@ -297,7 +297,7 @@ public class Identity extends Selector
    {      
       for ( Group sg : subject.getPrincipals(Group.class) )      
       {
-         if ( "roles".equals( sg.getName() ) )
+         if ( "roles".equalsIgnoreCase( sg.getName() ) )
          {
             subject.getPrincipals().remove(sg);
             break;
@@ -333,7 +333,7 @@ public class Identity extends Selector
    {
       for ( Group sg : subject.getPrincipals(Group.class) )      
       {
-         if ( "roles".equals( sg.getName() ) )
+         if ( "roles".equalsIgnoreCase( sg.getName() ) )
          {
             return sg.isMember( new SimplePrincipal(role) );
          }
@@ -357,7 +357,7 @@ public class Identity extends Selector
       {
          for ( Group sg : subject.getPrincipals(Group.class) )      
          {
-            if ( "roles".equals( sg.getName() ) )
+            if ( "roles".equalsIgnoreCase( sg.getName() ) )
             {
                return sg.addMember(new SimplePrincipal(role));
             }
@@ -379,7 +379,7 @@ public class Identity extends Selector
    {     
       for ( Group sg : subject.getPrincipals(Group.class) )      
       {
-         if ( "roles".equals( sg.getName() ) )
+         if ( "roles".equalsIgnoreCase( sg.getName() ) )
          {
             Enumeration e = sg.members();
             while (e.hasMoreElements())
