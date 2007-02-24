@@ -388,16 +388,18 @@
                </para>
                
                <programlisting>
-                 <![CDATA[
+                 <![CDATA[             
+    
     <filter>
-        <filter-name>Seam Multipart Filter</filter-name>
-        <filter-class>org.jboss.seam.servlet.SeamMultipartFilter</filter-class>
+      <filter-name>Seam Filter</filter-name>
+      <filter-class>org.jboss.seam.web.SeamFilter</filter-class>
     </filter>
     
     <filter-mapping>
-        <filter-name>Seam Multipart Filter</filter-name>
-        <url-pattern>*.seam</url-pattern>
-    </filter-mapping>                 
+      <filter-name>Seam Filter</filter-name>
+      <url-pattern>/*</url-pattern>
+    </filter-mapping>      
+    
                  ]]>
                </programlisting>
                
