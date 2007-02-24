@@ -851,8 +851,6 @@ end;]]></programlisting>
 import org.jboss.seam.security.PermissionCheck;
 import org.jboss.seam.security.Role;
 
-import java.security.Principal;
-
 rule CanUserDeleteCustomers
 when
   c: PermissionCheck(name == "customer", action == "delete")
