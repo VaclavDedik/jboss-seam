@@ -42,7 +42,7 @@ public class ${entityName}Home extends ${pojo.importType("org.jboss.seam.framewo
     public boolean isIdDefined()
     {
 <#foreach property in pojo.identifierProperty.value.propertyIterator>
-<#assign getter = "get" + pojo.getPropertyName(property)>
+<#assign getter = pojo.getGetterSignature(property)>
         if ( get${idName}().${getter}()==null ) return false;
 </#foreach>
         return true;
@@ -79,7 +79,7 @@ public class ${entityName}Home extends ${pojo.importType("org.jboss.seam.framewo
     {
 <#foreach property in pojo.allPropertiesIterator>
 <#if (c2h.isManyToOne(property) && !property.optional)>
-<#assign getter = "get" + pojo.getPropertyName(property)>
+<#assign getter = pojo.getGetterSignature(property)>
         if ( getInstance().${getter}()==null ) return false;
 </#if>
 </#foreach>
@@ -92,7 +92,7 @@ public class ${entityName}Home extends ${pojo.importType("org.jboss.seam.framewo
     }
  	
 <#foreach property in pojo.allPropertiesIterator>
-<#assign getter = "get" + pojo.getPropertyName(property)>
+<#assign getter = pojo.getGetterSignature(property)>
 <#if c2h.isOneToManyCollection(property)>
 <#assign childPojo = c2j.getPOJOClass(property.value.element.associatedClass)>
     public ${pojo.importType("java.util.List")}<${childPojo.shortName}> ${getter}() {
