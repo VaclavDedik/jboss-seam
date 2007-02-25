@@ -12,12 +12,15 @@ import javax.ejb.PostActivate;
 import javax.ejb.PrePassivate;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
+import javax.persistence.EntityManager;
 
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.persistence.EntityManagerProxy;
 import org.jboss.seam.Component;
 import org.jboss.seam.InterceptorType;
 import org.jboss.seam.Seam;
+import org.jboss.seam.Component.BijectedAttribute;
 import org.jboss.seam.annotations.Name;
 
 /**
@@ -108,6 +111,12 @@ public class SessionBeanInterceptor extends RootInterceptor
             log.trace("post construct phase for non-component bean");
          }
          initNonSeamComponent();
+      }
+      
+      //wrap any @PersistenceContext attributes in our proxy
+      for ( BijectedAttribute ba: invokingComponent.getPersistenceContextAttributes() )
+      {
+         ba.set( bean, new EntityManagerProxy( (EntityManager) ba.get(bean) ) );
       }
       
       postConstruct(bean);

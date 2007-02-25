@@ -134,7 +134,7 @@ public abstract class Query<T>
          
          queryParameters = new ArrayList<ValueBinding>();
          StringTokenizer ejbqlTokens = new StringTokenizer( getEjbql(), "#}", true );
-         StringBuilder ejbqlBuilder = new StringBuilder();
+         StringBuilder ejbqlBuilder = new StringBuilder( getEjbql().length() );
          while ( ejbqlTokens.hasMoreTokens() )
          {
             String token = ejbqlTokens.nextToken();
@@ -158,7 +158,7 @@ public abstract class Query<T>
          for ( String restriction: restrictionFragments )
          {
             StringTokenizer tokens = new StringTokenizer(restriction, "#}", true);
-            StringBuilder builder = new StringBuilder();
+            StringBuilder builder = new StringBuilder( restriction.length() );
             ValueBinding valueBinding = null;
             while ( tokens.hasMoreTokens() )
             {
@@ -181,7 +181,7 @@ public abstract class Query<T>
                throw new IllegalArgumentException("no value binding in restriction: " + restriction);
             }
             
-            parsedRestrictions.add(builder.toString());
+            parsedRestrictions.add( builder.toString() );
             restrictionParameters.add(valueBinding);
          }
          

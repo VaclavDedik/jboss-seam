@@ -163,6 +163,7 @@ public class Component extends Model
    private List<BijectedAttribute<Out>> outAttributes = new ArrayList<BijectedAttribute<Out>>();
    private List<BijectedAttribute> parameterSetters = new ArrayList<BijectedAttribute>();
    private List<BijectedAttribute> dataModelGetters = new ArrayList<BijectedAttribute>();
+   private List<BijectedAttribute> pcAttributes = new ArrayList<BijectedAttribute>();
    private Map<String, BijectedAttribute> dataModelSelectionSetters = new HashMap<String, BijectedAttribute>();
    
    private List<Interceptor> interceptors = new ArrayList<Interceptor>();
@@ -535,6 +536,7 @@ public class Component extends Model
                {
                   throw new IllegalArgumentException("@PersistenceContext may only be used on session bean or message driven bean components: " + name);
                }
+               pcAttributes.add( new BijectedMethod( toName(null, method), method, null ) );
             }
             if ( method.isAnnotationPresent(Begin.class) || 
                  method.isAnnotationPresent(End.class) || 
@@ -624,6 +626,7 @@ public class Component extends Model
                {
                   throw new IllegalArgumentException("@PersistenceContext may only be used on session bean or message driven bean components: " + name);
                }
+               pcAttributes.add( new BijectedField( toName(null, field), field, null ) );
             }
             for ( Annotation ann: field.getAnnotations() )
             {
@@ -2252,6 +2255,11 @@ public class Component extends Model
       {
          return "BijectedField(" + name + ')';
       }
+   }
+
+   public List<BijectedAttribute> getPersistenceContextAttributes()
+   {
+      return pcAttributes;
    }
    
 }
