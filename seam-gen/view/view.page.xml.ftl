@@ -16,5 +16,8 @@
 <#else>
    <param name="${idName}" value="${'#'}{${homeName}.${idName}}"/>
 </#if>
+<#assign entities=util.set()>
+<#if entities.add(pojo.shortName)>
 <#include "param.xml.ftl">
+</#if>
 </page>

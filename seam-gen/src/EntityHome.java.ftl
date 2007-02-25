@@ -11,8 +11,8 @@ public class ${entityName}Home extends ${pojo.importType("org.jboss.seam.framewo
 <#if c2h.isManyToOne(property)>
 <#assign parentPojo = c2j.getPOJOClass(cfg.getClassMapping(property.value.referencedEntityName))>
 <#assign parentHomeName = util.lower(parentPojo.shortName) + "Home">
-    @${pojo.importType("org.jboss.seam.annotations.In")}(value="${'#'}{${parentHomeName}.managedInstance}", required=false)
-    ${parentPojo.shortName} ${property.name};
+    @${pojo.importType("org.jboss.seam.annotations.In")}(create=true)
+    ${parentPojo.shortName}Home ${parentHomeName};
 </#if>
 </#foreach>
 
@@ -65,7 +65,9 @@ public class ${entityName}Home extends ${pojo.importType("org.jboss.seam.framewo
 <#if c2h.isManyToOne(property)>
 <#assign parentPojo = c2j.getPOJOClass(cfg.getClassMapping(property.value.referencedEntityName))>
 <#if parentPojo.shortName!=pojo.shortName>
+<#assign parentHomeName = util.lower(parentPojo.shortName) + "Home">
 <#assign setter = "set" + pojo.getPropertyName(property)>
+        ${parentPojo.shortName} ${property.name}=${parentHomeName}.getDefinedInstance();
         if ( ${property.name}!=null )
         {
            getInstance().${setter}(${property.name});
@@ -86,9 +88,9 @@ public class ${entityName}Home extends ${pojo.importType("org.jboss.seam.framewo
         return true;
     }
     
-    public ${entityName} getManagedInstance()
+    public ${entityName} getDefinedInstance()
     {
-        return isManaged() ? getInstance() : null;
+        return isIdDefined() ? getInstance() : null;
     }
  	
 <#foreach property in pojo.allPropertiesIterator>
