@@ -203,6 +203,11 @@ public class RootInterceptor implements Serializable
       }
       return component;
    }
+   
+   protected boolean isSeamComponent()
+   {
+      return isSeamComponent;
+   }
 
    protected String getComponentName()
    {

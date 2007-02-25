@@ -102,7 +102,7 @@ public class SessionBeanInterceptor extends RootInterceptor
          {
             log.trace("post construct phase for component instantiated outside Seam, assuming default role: " + defaultComponentName);
          }
-         init( Seam.componentForName( defaultComponentName ) );
+         init( Seam.componentForName(defaultComponentName) );
       }
       else
       {
@@ -113,10 +113,10 @@ public class SessionBeanInterceptor extends RootInterceptor
          initNonSeamComponent();
       }
       
-      if ( invokingComponent!=null )
+      if ( isSeamComponent() )
       {
          //wrap any @PersistenceContext attributes in our proxy
-         for ( BijectedAttribute ba: invokingComponent.getPersistenceContextAttributes() )
+         for ( BijectedAttribute ba: getComponent().getPersistenceContextAttributes() )
          {
             ba.set( bean, new EntityManagerProxy( (EntityManager) ba.get(bean) ) );
          }
