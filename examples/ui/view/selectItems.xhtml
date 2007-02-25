@@ -19,6 +19,7 @@
 	<p>The example also uses:</p>
 	<ul>
 		<li><code>s:span</code></li>
+		<li><code>s:convertEnum</code></li>
 		<li><code>s:message</code></li>
 		<li><code>s:decorate</code></li>
 		<li><code>s:link</code></li>
@@ -33,14 +34,27 @@
 	        <s:message />
 	    </f:facet>
 		<h:panelGrid columns="2">
+			<h:outputText value="Title" />
+			<s:decorate>
+				<h:selectOneMenu value="#{person.honorific}">
+					<s:selectItems value="#{honorifics}" var="honorific" label="#{honorific.label}"/>
+					<s:convertEnum />
+				</h:selectOneMenu>
+			</s:decorate>
 			<h:outputText value="Name" />
 			<s:decorate>
 				<h:inputText value="#{person.name}" />
 			</s:decorate>
+			<h:outputText value="Continent of Birth" />
+			<s:decorate>
+				<h:selectOneMenu value="#{person.continent}"  converter="#{converters.continentConverter}" required="true">
+					<s:selectItems value="#{continents.resultList}" var="continent" label="#{continent.name}" noSelectionLabel="Please Select..." hideNoSelectionLabel="true"/>
+				</h:selectOneMenu>
+			</s:decorate>
 			<h:outputText value="Country of Birth" />
 			<s:decorate>
-				<h:selectOneMenu value="#{person.country}"  converter="#{converters.countryConverter}" required="true">
-					<s:selectItems value="#{countries.resultList}" var="country" label="#{country.name} (#{country.continent.name})" noSelectionLabel="Please Select..." hideNoSelectionLabel="true"/>
+				<h:selectOneMenu value="#{person.country}"  converter="#{converters.countryConverter}" required="true" disabled="#{empty person.continent}">
+					<s:selectItems value="#{person.continent.countries}" var="country" label="#{country.name} (#{country.continent.name})" noSelectionLabel="Please Select..." hideNoSelectionLabel="true"/>
 				</h:selectOneMenu>
 			</s:decorate>
 			<h:outputText value="Age" />

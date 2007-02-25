@@ -14,6 +14,8 @@
 	<core:managed-persistence-context name="entityManager" persistence-unit-jndi-name="java:/uiEntityManagerFactory"/>
     
     <framework:entity-query name="countries" ejbql="select c from Country c" />
+    
+    <framework:entity-query name="continents" ejbql="select c from Continent c" />
      
     <framework:entity-home name="personHome" entity-class="org.jboss.seam.example.ui.Person" />
 

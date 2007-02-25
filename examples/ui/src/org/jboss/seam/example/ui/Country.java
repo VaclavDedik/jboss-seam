@@ -1,13 +1,14 @@
 package org.jboss.seam.example.ui;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
-public class Country
+public class Country implements Serializable
 {
    
    @Id @GeneratedValue
@@ -15,7 +16,7 @@ public class Country
    
    private String name;
    
-   @Enumerated(EnumType.STRING)
+   @ManyToOne
    private Continent continent;
 
    public Continent getContinent()

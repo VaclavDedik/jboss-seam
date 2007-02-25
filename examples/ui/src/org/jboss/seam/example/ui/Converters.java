@@ -65,5 +65,39 @@ public class Converters
          
       };
    }
+   
+   @Transactional
+   public Converter getContinentConverter() {
+      return new Converter() {
+
+         @Transactional
+         public Object getAsObject(FacesContext arg0, UIComponent arg1, String arg2) throws ConverterException
+         {
+            if (arg2 == null) {
+               return null;
+            }
+            try {
+               return  ((EntityManager) Component.getInstance("entityManager")).find(Continent.class, Integer.valueOf(arg2));
+            } catch (NumberFormatException e) {
+              throw new ConverterException("Cannot find selected continent", e);
+            }
+         }
+
+         @Transactional
+         public String getAsString(FacesContext arg0, UIComponent arg1, Object arg2) throws ConverterException
+         {
+           if (arg2 instanceof Continent)
+            {
+               Continent continent = (Continent) arg2;
+               return continent.getId().toString();
+            }
+           else
+           {
+              return null;
+           }
+         }
+         
+      };
+   }
 
 }
