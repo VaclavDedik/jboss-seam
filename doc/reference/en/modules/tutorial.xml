@@ -345,6 +345,7 @@ public class User implements Serializable
                     <area id="registration-persistencecontext-annotation" coords="9"/>
                     <area id="registration-logger-annotation" coords="12"/>
                     <area id="registration-action-listener" coords="15"/>
+                    <area id="registration-query" coords="18"/>
                     <area id="registration-log" coords="24"/>
                     <area id="registration-outcome" coords="25"/>
                     <area id="registration-builtin" coords="29"/>
@@ -365,8 +366,8 @@ public class RegisterAction implements Register
    
    public String register()
    {
-      List existing = em.createQuery("select username from User where username=:username")
-         .setParameter("username", user.getUsername())
+      List existing = em.createQuery(
+         "select username from User where username=#{user.username}")
          .getResultList();
          
       if (existing.size()==0)
@@ -417,6 +418,13 @@ public class RegisterAction implements Register
                         API to interact with the database, and returns the JSF outcome. Note that, since
                         this is a sesson bean, a transaction is automatically begun when the 
                         <literal>register()</literal> method is called, and committed when it completes.
+                    </para>
+                </callout>
+                <callout arearefs="registration-query">
+                    <para>
+                        Notice that Seam lets you use a JSF EL expression inside EJB-QL. Under the covers,
+                        this results in an ordinary JPA <literal>setParameter()</literal> call on the
+                        standard JPA <literal>Query</literal> object. Nice, huh?
                     </para>
                 </callout>
                 <callout arearefs="registration-log">

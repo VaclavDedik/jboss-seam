@@ -414,6 +414,38 @@ public void init() {
     </section>
     
     <section>
+        <title>Using EL in EJB-QL/HQL</title>
+        <para>
+            Seam proxies the <literal>EntityManager</literal> or <literal>Session</literal>
+            object whenever you use a Seam-managed persistence context or inject a container
+            managed persistence context using <literal>@PersistenceContext</literal>. This
+            lets you use EL expressions in your query strings, safely and efficiently. For
+            example, this:
+        </para>
+        
+        <programlisting><![CDATA[User user = em.createQuery("from User where username=#{user.username}")
+         .getSingleResult();]]></programlisting>
+         
+        <para>is equivalent to:</para>
+         
+        <programlisting><![CDATA[User user = em.createQuery("from User where username=:username")
+         .setParameter("username", user.getUsername())
+         .getSingleResult();]]></programlisting>
+         
+        <para>
+            Of course, you should never, ever write it like this:
+        </para>
+        
+        <programlisting><![CDATA[User user = em.createQuery("from User where username=" + user.getUsername()) //BAD!
+         .getSingleResult();]]></programlisting>
+         
+        <para>
+            (It is inefficient and vulnerable to SQL injection attacks.)
+        </para>
+        
+    </section>
+    
+    <section>
         <title>Using Hibernate filters</title>
         
         <para>
