@@ -39,7 +39,7 @@ public class OptionalParameterMethodExpression extends MethodExpression
          {
             return withNoParam.invoke(ctx, new Object[0]);
          }
-         catch (Exception e)
+         catch (MethodNotFoundException mnfe2)
          {
             throw mnfe;
          }
