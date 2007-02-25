@@ -14,6 +14,7 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.PerNestedConversation;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 
@@ -27,6 +28,7 @@ import org.jboss.seam.contexts.Contexts;
 @Intercept(InterceptionType.NEVER)
 @Scope(ScopeType.CONVERSATION)
 @Install(precedence=BUILT_IN)
+@PerNestedConversation
 public class Redirect extends AbstractMutable implements Serializable
 {
    private static final long serialVersionUID = 6947384474861235210L;
@@ -141,7 +143,7 @@ public class Redirect extends AbstractMutable implements Serializable
     *
     *@see Redirect#captureCurrentView()
     */
-   public void returnToCapturedView()
+   public boolean returnToCapturedView()
    {
       if (viewId!=null)
       {
@@ -150,8 +152,29 @@ public class Redirect extends AbstractMutable implements Serializable
             Conversation.instance().end();
          }
          execute();
+         return true;
+      }
+      else
+      {
+         return false;
       }
    }
+   
+   //TODO: replacement for Conversation.endAndRedirect()
+   /*public boolean returnToParentView()
+   {
+      Manager manager = Manager.instance();
+      String viewId = manager.getParentConversationViewId();
+      if (viewId==null)
+      {
+         return false;
+      }
+      else
+      {
+         manager.redirect(viewId);
+         return true;
+      }         
+   }*/
    
    public static Redirect instance()
    {

@@ -1152,7 +1152,7 @@ public class Pages
          Severity severity = severityName==null ? 
                   FacesMessage.SEVERITY_INFO : 
                   getFacesMessageValuesMap().get( severityName.toUpperCase() );
-         rule.setNavigationHandler( new RenderNavigationHandler(viewId, message, severity) );
+         rule.addNavigationHandler( new RenderNavigationHandler(viewId, message, severity) );
       }
       
       Element redirect = element.element("redirect");
@@ -1171,7 +1171,7 @@ public class Pages
          Severity severity = severityName==null ? 
                   FacesMessage.SEVERITY_INFO : 
                   getFacesMessageValuesMap().get( severityName.toUpperCase() );
-         rule.setNavigationHandler( new RedirectNavigationHandler(viewId, params, message, severity) );
+         rule.addNavigationHandler( new RedirectNavigationHandler(viewId, params, message, severity) );
       }
       
       List<Element> childElements = element.elements("out");

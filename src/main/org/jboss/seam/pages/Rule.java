@@ -18,13 +18,7 @@ public final class Rule
    private ConversationControl conversationControl = new ConversationControl();
    private TaskControl taskControl = new TaskControl();
    private ProcessControl processControl = new ProcessControl();
-   private NavigationHandler navigationHandler = new NavigationHandler() { 
-      @Override
-      public boolean navigate(FacesContext context) 
-      {
-         return false;
-      }
-   };
+   private List<NavigationHandler> navigationHandlers = new ArrayList<NavigationHandler>();
 
    public boolean matches(String actualValue)
    {
@@ -33,14 +27,14 @@ public final class Rule
             ( condition==null || Boolean.TRUE.equals( condition.getValue() ) );
    }
    
-   public NavigationHandler getNavigationHandler()
+   public List<NavigationHandler> getNavigationHandlers()
    {
-      return navigationHandler;
+      return navigationHandlers;
    }
 
-   public void setNavigationHandler(NavigationHandler result)
+   public void addNavigationHandler(NavigationHandler navigationHandler)
    {
-      this.navigationHandler = result;
+      this.navigationHandlers.add(navigationHandler);
    }
 
    public ConversationControl getConversationControl()
@@ -88,7 +82,14 @@ public final class Rule
       getConversationControl().beginOrEndConversation();
       getTaskControl().beginOrEndTask();
       getProcessControl().createOrResumeProcess();
-      for ( Output output: getOutputs() ) output.out();
-      return getNavigationHandler().navigate(context);
+      for ( Output output: getOutputs() ) 
+      {
+         output.out();
+      }
+      for ( NavigationHandler nh: getNavigationHandlers() )
+      {
+         if ( nh.navigate(context) ) return true;
+      }
+      return false;
    }
 }
