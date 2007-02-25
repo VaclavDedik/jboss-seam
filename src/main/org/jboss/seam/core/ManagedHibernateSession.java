@@ -27,6 +27,7 @@ import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Expressions.ValueBinding;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.persistence.HibernateSessionProxy;
 import org.jboss.seam.util.Naming;
 
 /**
@@ -73,6 +74,7 @@ public class ManagedHibernateSession
    private void initSession()
    {
       session = getSessionFactoryFromJndiOrValueBinding().openSession();
+      session = new HibernateSessionProxy(session);
       setSessionFlushMode( PersistenceContexts.instance().getFlushMode() );
       for (Filter f: filters)
       {

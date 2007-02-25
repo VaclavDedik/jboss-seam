@@ -59,29 +59,37 @@ public class EntityManagerProxy implements EntityManager
 
    public Query createQuery(String ejbql)
    {
-      List<ValueBinding> queryParameters = new ArrayList<ValueBinding>();
-      StringTokenizer ejbqlTokens = new StringTokenizer( ejbql, "#}", true );
-      StringBuilder ejbqlBuilder = new StringBuilder( ejbql.length() );
-      while ( ejbqlTokens.hasMoreTokens() )
+      //TODO: horrible copy/paste from HibernateSessionProxy!
+      if ( ejbql.indexOf('#')>0 )
       {
-         String token = ejbqlTokens.nextToken();
-         if ( "#".equals(token) )
+         List<ValueBinding> queryParameters = new ArrayList<ValueBinding>();
+         StringTokenizer ejbqlTokens = new StringTokenizer( ejbql, "#}", true );
+         StringBuilder ejbqlBuilder = new StringBuilder( ejbql.length() );
+         while ( ejbqlTokens.hasMoreTokens() )
          {
-            String expression = token + ejbqlTokens.nextToken() + ejbqlTokens.nextToken();
-            queryParameters.add( Expressions.instance().createValueBinding(expression) );
-            ejbqlBuilder.append(":el").append( queryParameters.size() );
+            String token = ejbqlTokens.nextToken();
+            if ( "#".equals(token) )
+            {
+               String expression = token + ejbqlTokens.nextToken() + ejbqlTokens.nextToken();
+               queryParameters.add( Expressions.instance().createValueBinding(expression) );
+               ejbqlBuilder.append(":el").append( queryParameters.size() );
+            }
+            else
+            {
+               ejbqlBuilder.append(token);
+            }
          }
-         else
+         Query query = delegate.createQuery( ejbqlBuilder.toString() );
+         for (int i=1; i<=queryParameters.size(); i++)
          {
-            ejbqlBuilder.append(token);
+            query.setParameter( "el" + i, queryParameters.get(i-1).getValue() );
          }
+         return query;
       }
-      Query query = delegate.createQuery( ejbqlBuilder.toString() );
-      for (int i=1; i<=queryParameters.size(); i++)
+      else
       {
-         query.setParameter( "el" + i, queryParameters.get(i-1).getValue() );
+         return delegate.createQuery(ejbql);
       }
-      return query;
    }
 
    public <T> T find(Class<T> clazz, Object id)
