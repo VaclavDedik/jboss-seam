@@ -53,6 +53,8 @@ import org.jboss.seam.util.UnifiedELValueBinding;
 @Startup
 public class Identity extends Selector
 {  
+   public static final String ROLES_GROUP = "Roles";
+   
    private static final long serialVersionUID = 3751659008033189259L;
    
    private static final LogProvider log = Logging.getLogProvider(Identity.class);
@@ -289,7 +291,7 @@ public class Identity extends Selector
    }
    
    /**
-    * Removes all Role objects from the security context, removes the "roles"
+    * Removes all Role objects from the security context, removes the "Roles"
     * group from the user's subject.
     *
     */
@@ -297,7 +299,7 @@ public class Identity extends Selector
    {      
       for ( Group sg : subject.getPrincipals(Group.class) )      
       {
-         if ( "roles".equalsIgnoreCase( sg.getName() ) )
+         if ( ROLES_GROUP.equals( sg.getName() ) )
          {
             subject.getPrincipals().remove(sg);
             break;
@@ -333,7 +335,7 @@ public class Identity extends Selector
    {
       for ( Group sg : subject.getPrincipals(Group.class) )      
       {
-         if ( "roles".equalsIgnoreCase( sg.getName() ) )
+         if ( ROLES_GROUP.equals( sg.getName() ) )
          {
             return sg.isMember( new SimplePrincipal(role) );
          }
@@ -357,13 +359,13 @@ public class Identity extends Selector
       {
          for ( Group sg : subject.getPrincipals(Group.class) )      
          {
-            if ( "roles".equalsIgnoreCase( sg.getName() ) )
+            if ( ROLES_GROUP.equals( sg.getName() ) )
             {
                return sg.addMember(new SimplePrincipal(role));
             }
          }
                   
-         SimpleGroup roleGroup = new SimpleGroup("roles");
+         SimpleGroup roleGroup = new SimpleGroup(ROLES_GROUP);
          roleGroup.addMember(new SimplePrincipal(role));
          subject.getPrincipals().add(roleGroup);
          return true;
@@ -379,7 +381,7 @@ public class Identity extends Selector
    {     
       for ( Group sg : subject.getPrincipals(Group.class) )      
       {
-         if ( "roles".equalsIgnoreCase( sg.getName() ) )
+         if ( ROLES_GROUP.equals( sg.getName() ) )
          {
             Enumeration e = sg.members();
             while (e.hasMoreElements())
