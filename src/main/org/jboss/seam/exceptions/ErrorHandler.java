@@ -19,8 +19,9 @@ public abstract class ErrorHandler extends ExceptionHandler
          Conversation.instance().end();
       }
       
-      String message = Interpolator.instance().interpolate( getDisplayMessage( e, getMessage(e) ) );
-      error( getCode(e), message );
+      String msg = getDisplayMessage( e, getMessage(e) );
+      msg = msg==null ? null : Interpolator.instance().interpolate(msg);
+      error( getCode(e), msg );
    }
 
    @Override
