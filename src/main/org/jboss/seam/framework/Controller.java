@@ -25,6 +25,7 @@ import org.jboss.seam.core.Renderer;
 import org.jboss.seam.core.Validation;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.security.Identity;
+import org.jboss.seam.util.Transactions;
 
 /**
  * Base class for controller objects. Provides various
@@ -265,6 +266,18 @@ public abstract class Controller implements Serializable
    protected void invalidateSession()
    {
       Seam.invalidateSession();
+   }
+
+   protected boolean isTransactionMarkedRollback()
+   {
+      try
+      {
+         return Transactions.isTransactionMarkedRollback();
+      }
+      catch (Exception e)
+      {
+         return false;
+      }
    }
 
 }

@@ -31,7 +31,7 @@ public class EntityHome<E> extends Home<EntityManager, E>
       return getInstance()!=null && 
             getEntityManager().contains( getInstance() );
    }
-   
+
    @Transactional
    public String update()
    {

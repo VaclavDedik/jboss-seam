@@ -76,10 +76,13 @@ public abstract class Home<T, E> extends MutableController<T>
    {
       if ( isIdDefined() )
       {
-         //we cache the instance so that it does not "disappear"
-         //after remove() is called on the instance
-         //is this really a Good Idea??
-         setInstance( find() );
+         if ( !isTransactionMarkedRollback() )
+         {
+            //we cache the instance so that it does not "disappear"
+            //after remove() is called on the instance
+            //is this really a Good Idea??
+            setInstance( find() );
+         }
       }
       else
       {
