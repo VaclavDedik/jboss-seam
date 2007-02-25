@@ -491,7 +491,7 @@ function __Calendar(calendarNumber, name)
   __Calendar.prototype.buildDayHeaders = function()
   {
     var html = "<tr class=\"" + this.styleClass + "-header\">";
-    html += "<td colspan=\"" + DAYS_IN_WEEK + "\"><table cellspacing=0 cellpadding=0 border=0 width=\"100%\"><tr>";
+    html += "<td colspan=\"" + DAYS_IN_WEEK + "\"><table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" width=\"100%\"><tr>";
     if (!this.staticCalendar)
       html += "<td class=\"" + this.styleClass + "-header-prevMonth\" onmouseover=\"this.style.cursor='pointer';\" onclick=\"javascript:__calendarFactory.getCalendar(" + this.calendarNumber + ").incMonth(-1);\"></td>";
 
