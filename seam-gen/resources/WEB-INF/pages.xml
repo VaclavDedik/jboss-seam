@@ -13,6 +13,12 @@
         </navigation>
     </page>
 
+    <exception class="org.jboss.seam.framework.EntityNotFoundException">
+        <redirect view-id="/error.xhtml">
+            <message>Not found</message>
+        </redirect>
+    </exception>
+    
     <exception class="javax.persistence.EntityNotFoundException">
         <redirect view-id="/error.xhtml">
             <message>Not found</message>
