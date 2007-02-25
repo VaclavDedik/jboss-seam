@@ -78,7 +78,10 @@ public class ManagedPersistenceContext
 
       for (Filter f: filters)
       {
-         PersistenceProvider.instance().enableFilter(f, entityManager);
+         if ( f.isFilterEnabled() )
+         {
+            PersistenceProvider.instance().enableFilter(f, entityManager);
+         }
       }
 
       if ( log.isDebugEnabled() )

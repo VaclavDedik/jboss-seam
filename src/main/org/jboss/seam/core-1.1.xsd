@@ -256,10 +256,9 @@
             <xs:attributeGroup ref="components:attlist.component"/>
         </xs:complexType>
     </xs:element>
-    <xs:attributeGroup name="attlist.filter"> </xs:attributeGroup>
-
-
-
+    <xs:attributeGroup name="attlist.filter">
+        <xs:attribute name="enabled"/>
+    </xs:attributeGroup>
 
     <xs:element name="id" type="xs:string"/>
     <xs:element name="name" type="xs:string"/>

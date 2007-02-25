@@ -25,6 +25,7 @@ public class Filter
 {
    private String name;
    private Map<String, ValueBinding> parameters;
+   private ValueBinding enabled;
    
    @Create
    public void create(Component component)
@@ -64,10 +65,34 @@ public class Filter
    {
       this.name = name;
    }
+   
+   public boolean isFilterEnabled()
+   {
+      ValueBinding enabledValueBinding = getEnabled();
+      if (enabledValueBinding==null)
+      {
+         return true;
+      }
+      else
+      {
+         Boolean enabled = (Boolean) enabledValueBinding.getValue();
+         return enabled!=null && enabled;
+      }
+   }
 
    @Override
    public String toString()
    {
       return "Filter(" + name + ")";
+   }
+
+   public ValueBinding getEnabled()
+   {
+      return enabled;
+   }
+
+   public void setEnabled(ValueBinding enabled)
+   {
+      this.enabled = enabled;
    }
 }

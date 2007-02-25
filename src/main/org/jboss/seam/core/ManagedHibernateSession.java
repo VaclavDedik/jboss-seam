@@ -76,7 +76,10 @@ public class ManagedHibernateSession
       setSessionFlushMode( PersistenceContexts.instance().getFlushMode() );
       for (Filter f: filters)
       {
-         enableFilter(f);
+         if ( f.isFilterEnabled() )
+         {
+            enableFilter(f);
+         }
       }
 
       if ( log.isDebugEnabled() )
