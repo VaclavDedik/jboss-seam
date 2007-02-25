@@ -17,6 +17,7 @@ import org.jboss.seam.example.booking.HotelSearchingAction;
 import org.jboss.seam.example.booking.User;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.mock.SeamTest;
+import org.jboss.seam.persistence.EntityManagerProxy;
 import org.testng.annotations.Test;
 
 public class BookingUnitTest extends SeamTest
@@ -27,7 +28,7 @@ public class BookingUnitTest extends SeamTest
    {
       EntityManagerFactory emf = Persistence.createEntityManagerFactory("bookingDatabase");
 
-      EntityManager em = emf.createEntityManager();
+      EntityManager em = new EntityManagerProxy( emf.createEntityManager() );
       
       HotelSearching hs = new HotelSearchingAction();
       
