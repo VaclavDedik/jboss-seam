@@ -76,7 +76,7 @@ public class RuleBasedIdentity extends Identity
          // Populate the working memory with the user's principals
          for ( Principal p : getSubject().getPrincipals() )
          {         
-            if ( (p instanceof Group) && "roles".equals( ( (Group) p ).getName() ) )
+            if ( (p instanceof Group) && "roles".equalsIgnoreCase( ( (Group) p ).getName() ) )
             {
                Enumeration e = ( (Group) p ).members();
                while ( e.hasMoreElements() )
