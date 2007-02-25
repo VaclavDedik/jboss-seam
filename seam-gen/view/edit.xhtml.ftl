@@ -109,10 +109,19 @@
 </#if>
 <#if c2h.isManyToOne(parentProperty)>
 <#assign parentParentPojo = c2j.getPOJOClass(cfg.getClassMapping(parentProperty.value.referencedEntityName))>
+<#if parentParentPojo.isComponent(parentParentPojo.identifierProperty)>
+<#foreach componentProperty in parentParentPojo.identifierProperty.value.propertyIterator>
+            <h:column>
+	    	    <f:facet name="header">${parentProperty.name} ${componentProperty.name}</f:facet>
+		    	${'#'}{${parentName}.${parentProperty.name}.${parentParentPojo.identifierProperty.name}.${componentProperty.name}}
+            </h:column>
+</#foreach>
+<#else>
             <h:column>
 	    	    <f:facet name="header">${parentProperty.name} ${parentParentPojo.identifierProperty.name}</f:facet>
 		    	${'#'}{${parentName}.${parentProperty.name}.${parentParentPojo.identifierProperty.name}}
             </h:column>
+</#if>
 </#if>
 </#foreach>
             <h:column>

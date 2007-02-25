@@ -90,6 +90,20 @@
 </#if>
 <#if c2h.isManyToOne(property)>
 <#assign parentPojo = c2j.getPOJOClass(cfg.getClassMapping(property.value.referencedEntityName))>
+<#if parentPojo.isComponent(parentPojo.identifierProperty)>
+<#foreach componentProperty in parentPojo.identifierProperty.value.propertyIterator>
+        <h:column>
+            <f:facet name="header">
+<#assign propertyPath = property.name + '.' + parentPojo.identifierProperty.name + '.' + componentProperty.name>
+                <s:link styleClass="columnHeader"
+                             value="${property.name} ${componentProperty.name} ${'#'}{${listName}.order=='${propertyPath} asc' ? messages.down : ( ${listName}.order=='${propertyPath} desc' ? messages.up : '' )}">
+                    <f:param name="order" value="${'#'}{${listName}.order=='${propertyPath} asc' ? '${propertyPath} desc' : '${propertyPath} asc'}"/>
+                </s:link>
+            </f:facet>
+            ${'#'}{${componentName}.${propertyPath}}
+        </h:column>
+</#foreach>
+<#else>
         <h:column>
             <f:facet name="header">
 <#assign propertyPath = property.name + '.' + parentPojo.identifierProperty.name>
@@ -98,8 +112,9 @@
                     <f:param name="order" value="${'#'}{${listName}.order=='${propertyPath} asc' ? '${propertyPath} desc' : '${propertyPath} asc'}"/>
                 </s:link>
             </f:facet>
-            ${'#'}{${componentName}.${property.name}.${parentPojo.identifierProperty.name}}
+            ${'#'}{${componentName}.${propertyPath}}
         </h:column>
+</#if>
 </#if>
 </#foreach>
         <h:column>
