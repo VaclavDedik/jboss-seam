@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.datamodel.DataModel;
@@ -41,9 +42,7 @@ public class HotelSearchingAction implements HotelSearching
       
    private void queryHotels()
    {
-      String searchPattern = searchString==null ? "%" : '%' + searchString.toLowerCase().replace('*', '%') + '%';
-      hotels = em.createQuery("select h from Hotel h where lower(h.name) like :search or lower(h.city) like :search or lower(h.zip) like :search or lower(h.address) like :search")
-            .setParameter("search", searchPattern)
+      hotels = em.createQuery("select h from Hotel h where lower(h.name) like #{pattern} or lower(h.city) like #{pattern} or lower(h.zip) like #{pattern} or lower(h.address) like #{pattern}")
             .setMaxResults(pageSize)
             .setFirstResult( page * pageSize )
             .getResultList();
@@ -57,13 +56,23 @@ public class HotelSearchingAction implements HotelSearching
    public int getPageSize() {
       return pageSize;
    }
+   
    public void setPageSize(int pageSize) {
       this.pageSize = pageSize;
    }
+   
+   @Factory(value="pattern", scope=ScopeType.EVENT)
+   public String getSearchPattern()
+   {
+      return searchString==null ? 
+            "%" : '%' + searchString.toLowerCase().replace('*', '%') + '%';
+   }
+   
    public String getSearchString()
    {
       return searchString;
    }
+   
    public void setSearchString(String searchString)
    {
       this.searchString = searchString;
