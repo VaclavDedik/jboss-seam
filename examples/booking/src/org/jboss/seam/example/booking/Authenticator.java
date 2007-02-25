@@ -6,5 +6,4 @@ import javax.ejb.Local;
 public interface Authenticator
 {
    boolean authenticate();
-   void destroy();
 }
