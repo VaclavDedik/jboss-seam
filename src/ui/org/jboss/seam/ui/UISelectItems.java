@@ -220,7 +220,7 @@ public class UISelectItems extends javax.faces.component.UISelectItems
          }
          else 
          {
-            return null;
+            return value;
          }
       }
    }
