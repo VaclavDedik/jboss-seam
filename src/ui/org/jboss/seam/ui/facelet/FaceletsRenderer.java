@@ -16,6 +16,9 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.core.Renderer;
+import org.jboss.seam.mock.MockApplication;
+import org.jboss.seam.mock.MockExternalContext;
+import org.jboss.seam.mock.MockFacesContext;
 import org.jboss.seam.ui.JSF;
 import org.jboss.seam.util.Resources;
 
@@ -35,16 +38,15 @@ public class FaceletsRenderer extends Renderer
     @Override
     public String render(String viewId) 
     {
-        return render(viewId,
-                      Thread.currentThread().getContextClassLoader());
-    }
-    
-
-    public String render(String viewId, ClassLoader classLoader) 
-    {
+       
+       if (FacesContext.getCurrentInstance() == null) 
+       {
+          MockFacesContext mockFacesContext = new MockFacesContext(new MockExternalContext(), new MockApplication()).setCurrent();
+          mockFacesContext.createViewRoot();
+       }
         FacesContext facesContext = FacesContext.getCurrentInstance();
 
-        ResponseWriter originalWriter = null;
+        ResponseWriter originalWriter = facesContext.getResponseWriter();
 
         try 
         {
