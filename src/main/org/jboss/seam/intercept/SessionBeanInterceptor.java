@@ -113,10 +113,13 @@ public class SessionBeanInterceptor extends RootInterceptor
          initNonSeamComponent();
       }
       
-      //wrap any @PersistenceContext attributes in our proxy
-      for ( BijectedAttribute ba: invokingComponent.getPersistenceContextAttributes() )
+      if ( invokingComponent!=null )
       {
-         ba.set( bean, new EntityManagerProxy( (EntityManager) ba.get(bean) ) );
+         //wrap any @PersistenceContext attributes in our proxy
+         for ( BijectedAttribute ba: invokingComponent.getPersistenceContextAttributes() )
+         {
+            ba.set( bean, new EntityManagerProxy( (EntityManager) ba.get(bean) ) );
+         }
       }
       
       postConstruct(bean);
