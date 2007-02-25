@@ -618,6 +618,13 @@ public class Component extends Model
                   logInstances.add(logInstance);
                }
             }
+            if ( field.isAnnotationPresent(PERSISTENCE_CONTEXT) )
+            {
+               if ( !type.isSessionBean() && type!=MESSAGE_DRIVEN_BEAN )
+               {
+                  throw new IllegalArgumentException("@PersistenceContext may only be used on session bean or message driven bean components: " + name);
+               }
+            }
             for ( Annotation ann: field.getAnnotations() )
             {
                if ( ann.annotationType().isAnnotationPresent(DataBinderClass.class) )
