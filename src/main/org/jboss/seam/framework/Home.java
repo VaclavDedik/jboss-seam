@@ -97,7 +97,7 @@ public abstract class Home<T, E> extends MutableController<T>
 
    protected E handleNotFound()
    {
-      throw new EntityNotFoundException();
+      throw new EntityNotFoundException( getId(), getEntityClass() );
    }
 
    protected E createInstance()
