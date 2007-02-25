@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
@@ -973,7 +974,7 @@ public class Manager
                FacesContext.getCurrentInstance(), 
                url, 
                viewId, 
-               parameters==null ? null : parameters.keySet() 
+               parameters==null ? Collections.EMPTY_SET : parameters.keySet() 
             );
       if (includeConversationId)
       {
