@@ -70,7 +70,7 @@
 <!ATTLIST end-task before-redirect (true|false) "false">
 
 <!ELEMENT create-process EMPTY>
-<!ATTLIST create-process definiton CDATA #IMPLIED>
+<!ATTLIST create-process definition CDATA #IMPLIED>
 
 <!ELEMENT resume-process EMPTY>
 <!ATTLIST resume-process process-id CDATA #IMPLIED>
