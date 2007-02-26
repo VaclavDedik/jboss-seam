@@ -20,7 +20,7 @@ import domain.BlogEntry;
 @Scope(STATELESS)
 public class EntryAction
 {
-   @In(create=true) Blog blog;
+   @In Blog blog;
    
    @Out BlogEntry blogEntry;
    

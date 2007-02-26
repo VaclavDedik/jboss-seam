@@ -14,7 +14,7 @@ import domain.BlogEntry;
 public class BlogEntryService
 {
    
-   @In(create=true) Blog blog;
+   @In Blog blog;
    
    @Factory("blogEntry")
    public BlogEntry createBlogEntry()

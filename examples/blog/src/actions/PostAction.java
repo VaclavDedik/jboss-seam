@@ -25,7 +25,7 @@ import domain.BlogEntry;
 @Scope(ScopeType.STATELESS)
 public class PostAction
 {
-   @In(create=true) Blog blog;
+   @In Blog blog;
    
    @In EntityManager entityManager;
    

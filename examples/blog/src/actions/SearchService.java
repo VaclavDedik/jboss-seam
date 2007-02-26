@@ -19,7 +19,7 @@ import domain.BlogEntry;
 public class SearchService 
 {
    
-   @In(create=true)
+   @In
    private EntityManager entityManager;
    
    private String searchPattern;

@@ -13,7 +13,7 @@ import domain.Blog;
 @Name("authenticator")
 public class Authenticator
 {
-   @In(create=true) Blog blog;
+   @In Blog blog;
    @In Identity identity;
    
    public boolean authenticate()
