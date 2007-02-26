@@ -30,7 +30,7 @@ public class DirectoryHome extends EntityHome<Directory> {
     @Out(required = false, scope = ScopeType.CONVERSATION) // Propagate it through the conversation
     Directory currentDirectory;
 
-    @In(create=true)
+    @In
     private FacesMessages facesMessages;
 
     @In(create=true)

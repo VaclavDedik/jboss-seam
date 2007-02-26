@@ -22,7 +22,7 @@ public class UserHome extends EntityHome<User> {
     @RequestParameter
     private Long userId;
 
-    @In(create=true)
+    @In
     private FacesMessages facesMessages;
 
     @In(create = true)
@@ -38,7 +38,7 @@ public class UserHome extends EntityHome<User> {
     @Out(required = false, scope = ScopeType.SESSION)
     private User authenticatedUser;
 
-    @In(create=true)
+    @In
     private Renderer renderer;
 
     private Role defaultRole;

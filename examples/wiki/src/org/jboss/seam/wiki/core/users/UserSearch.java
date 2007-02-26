@@ -16,7 +16,7 @@ public class UserSearch {
     @In(create = true)
     private UserDAO userDAO;
 
-    @In(create=true)
+    @In
     private FacesMessages facesMessages;
 
     private User exampleUser;

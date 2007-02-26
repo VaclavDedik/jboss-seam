@@ -26,7 +26,7 @@ public class DocumentHome extends EntityHome<Document> {
     @Out(required = true, scope = ScopeType.CONVERSATION, value = "currentDirectory")
     Directory parentDirectory;
 
-    @In(create=true)
+    @In
     private FacesMessages facesMessages;
 
     @In(create=true)

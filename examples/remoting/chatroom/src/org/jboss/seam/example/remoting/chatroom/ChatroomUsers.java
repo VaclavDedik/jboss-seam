@@ -16,7 +16,7 @@ import org.jboss.seam.annotations.Unwrap;
 @Scope(ScopeType.STATELESS)
 public class ChatroomUsers
 {
-   @In(create=true) 
+   @In
    private transient PojoCache pojoCache;
    
    @Unwrap
