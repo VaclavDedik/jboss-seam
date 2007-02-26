@@ -3,6 +3,8 @@ package org.jboss.seam.intercept;
 
 import java.lang.reflect.Method;
 
+import javax.servlet.http.HttpSessionEvent;
+
 import net.sf.cglib.proxy.Factory;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
@@ -39,33 +41,40 @@ public class JavaBeanInterceptor extends RootInterceptor
          final MethodProxy methodProxy) throws Throwable
    {
 
-      if ( params!=null && params.length==0 )
+      if ( params!=null )
       {
-         String methodName = method.getName();
-         if ( "finalize".equals(methodName) ) 
+         if ( params.length==0 )
          {
-            return methodProxy.invokeSuper(proxy, params);
+            String methodName = method.getName();
+            if ( "finalize".equals(methodName) ) 
+            {
+               return methodProxy.invokeSuper(proxy, params);
+            }
+            else if ( "writeReplace".equals(methodName) )
+            {
+               return this;
+            }
+            else if ( "clearDirty".equals(methodName) && !(bean instanceof Mutable) )
+            {
+               //clear and return the dirty flag
+               boolean result = dirty;
+               dirty = false;
+               return result;
+            }
          }
-         else if ( "writeReplace".equals(methodName) )
+         else if ( params.length==1 && (params[0] instanceof HttpSessionEvent) )
          {
-            return this;
-         }
-         else if ( "sessionDidActivate".equals(methodName) )
-         {
-            callPostActivate();
-            return null;
-         }
-         else if ( "sessionWillPassivate".equals(methodName) )
-         {
-            callPrePassivate();
-            return null;
-         }
-         else if ( "clearDirty".equals(methodName) && !(bean instanceof Mutable) )
-         {
-            //clear and return the dirty flag
-            boolean result = dirty;
-            dirty = false;
-            return result;
+            String methodName = method.getName();
+            if ( "sessionDidActivate".equals(methodName) )
+            {
+               callPostActivate();
+               return null;
+            }
+            else if ( "sessionWillPassivate".equals(methodName) )
+            {
+               callPrePassivate();
+               return null;
+            }
          }
       }
 
