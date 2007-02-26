@@ -128,5 +128,5 @@ public class Payment
         public long getInterval() {
             return interval;
         }
-    };
+    }
 }

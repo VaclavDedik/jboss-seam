@@ -1,13 +1,16 @@
 package org.jboss.seam.example.seampay;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.io.Serializable;
-
 import java.math.BigDecimal;
+import java.util.List;
 
-import javax.persistence.*;
-import org.hibernate.validator.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import org.hibernate.validator.NotNull;
 
 @Entity
 public class Account

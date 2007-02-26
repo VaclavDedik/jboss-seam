@@ -1,5 +1,6 @@
 package org.jboss.seam.example.seampay;
 
+import javax.ejb.NoSuchObjectLocalException;
 import javax.ejb.Timer;
 import javax.ejb.TimerHandle;
 
@@ -8,6 +9,7 @@ import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.RequestParameter;
 import org.jboss.seam.annotations.Transactional;
+import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.log.Log;
 
@@ -16,7 +18,7 @@ public class PaymentController
     extends EntityHome<Payment>
 {
     @RequestParameter Long paymentId;
-    @In(create=true) PaymentProcessor processor;
+    @In PaymentProcessor processor;
     
     @Logger Log log;
 
@@ -36,6 +38,7 @@ public class PaymentController
         return result;
     }
 
+    @Override
     public Object getId() {
         return paymentId;
     }
@@ -48,7 +51,14 @@ public class PaymentController
         payment.setTimerHandle(null);
         payment.setActive(false);
         
-        handle.getTimer().cancel();
+        try
+        {
+            handle.getTimer().cancel();
+        }
+        catch (NoSuchObjectLocalException nsole)
+        {
+            FacesMessages.instance().add("Payment already processed");
+        }
     }
     
 }

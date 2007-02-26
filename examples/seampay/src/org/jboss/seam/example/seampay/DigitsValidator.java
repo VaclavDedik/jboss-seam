@@ -1,9 +1,9 @@
 package org.jboss.seam.example.seampay;
 
-import java.math.*;
-import org.hibernate.validator.*;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
-import org.hibernate.mapping.*;
+import org.hibernate.validator.Validator;
 
 public class DigitsValidator
     implements Validator<Digits>
