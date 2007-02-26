@@ -77,11 +77,9 @@
   -->        
   
   <!-- JSF RI --> 
-  <!--
   <listener>        
     <listener-class>com.sun.faces.config.ConfigureListener</listener-class>    
   </listener>        
-  -->
   
   <!-- Glassfish EJB3 names -->
   <ejb-local-ref>              

@@ -22,7 +22,7 @@ public class AuthenticatorAction implements Authenticator
    
    public boolean authenticate()
    {
-      List results = em.createQuery("select u from User u where u.username=#{org.jboss.seam.security.identity.username} and u.password=#{org.jboss.seam.security.identity.password}")
+      List results = em.createQuery("select u from User u where u.username=#{identity.username} and u.password=#{identity.password}")
             .getResultList();
       
       if ( results.size()==0 )

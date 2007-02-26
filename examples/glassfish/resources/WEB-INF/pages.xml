@@ -21,7 +21,7 @@
     <page view-id="/home.xhtml">
     
         <navigation>
-            <rule if="#{org.jboss.seam.security.identity.loggedIn}">
+            <rule if="#{identity.loggedIn}">
                 <redirect view-id="/main.xhtml"/>
             </rule>
         </navigation>

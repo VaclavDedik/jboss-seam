@@ -50,6 +50,7 @@
       </fileset>
       <fileset dir="${resources}">
         <include name="seam.properties" />
+        <include name="log4j.xml" />
         <include name="import.sql" />
       </fileset>
       <metainf dir="${resources}/META-INF/">
@@ -89,8 +90,10 @@
       appxml="${resources}/META-INF/application.xml">
       
       <fileset dir="${lib}">
+        <!--
         <include name="el-api.jar" />
         <include name="el-ri.jar" />
+        -->
         <include name="thirdparty-all.jar" />
         <include name="commons-digester-*.jar" />
         <include name="commons-beanutils-*.jar" />

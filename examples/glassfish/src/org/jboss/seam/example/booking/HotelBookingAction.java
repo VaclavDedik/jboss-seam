@@ -42,7 +42,7 @@ public class HotelBookingAction implements HotelBooking
    @Out(required=false)
    private Booking booking;
 
-   @Out(required=false)
+   @Out(required=false, scope=SESSION)
    List<Booking> bookings;
      
    @In
