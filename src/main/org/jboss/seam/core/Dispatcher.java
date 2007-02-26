@@ -342,9 +342,9 @@ public class Dispatcher implements LocalDispatcher
         implements TimerHandle, 
                    Serializable
     {
-      private static final long serialVersionUID = 6913362944260154627L;
+        private static final long serialVersionUID = 6913362944260154627L;
       
-      TimerHandle handle;
+        TimerHandle handle;
 
         public TimerHandleProxy(TimerHandle handle) {
             this.handle = handle;
@@ -360,11 +360,18 @@ public class Dispatcher implements LocalDispatcher
                    EJBException 
         {
             Timer timer = (Timer) callInContext(new Callable() {
-                    public Object call() {
+                public Object call() {
+                    try
+                    {
                         return handle.getTimer();
                     }
-                });
-            return new TimerProxy(timer);  
+                    catch (javax.ejb.NoSuchObjectLocalException nsoe)
+                    {
+                        return null;
+                    }           
+                }
+            });
+            return timer==null ? null : new TimerProxy(timer);  
         }
     }
 }
