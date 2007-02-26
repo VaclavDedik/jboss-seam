@@ -67,7 +67,6 @@
       <webinf dir="${resources}/WEB-INF/">
         <include name="faces-config.xml" />
         <include name="pages.xml" />
-        <include name="navigation.xml" />
         <include name="components.xml" />
       </webinf>
       <lib dir="${lib}">

@@ -16,7 +16,7 @@
 		<ejb>jboss-seam-glassfish.jar</ejb>
 	</module>
 	<module>
-	    <ejb>jboss-seam.jar</ejb>
+	    <java>jboss-seam.jar</java>
 	</module>
 	<module>
 	    <java>el-api.jar</java>

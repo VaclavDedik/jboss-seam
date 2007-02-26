@@ -39,13 +39,15 @@ public class RegisterAction implements Register
    {
       if ( user.getPassword().equals(verify) )
       {
-         List existing = em.createQuery("select u.username from User u where u.username=:username")
-            .setParameter("username", user.getUsername())
+         // List existing = em.createQuery("select u.username from User u where u.username=:username")
+         //   .setParameter("username", user.getUsername())
+         List existing = em.createQuery("select u.username from User u where u.username=#{user.username}")
             .getResultList();
          if (existing.size()==0)
          {
             em.persist(user);
-            facesMessages.add("Successfully registered as #{user.username}");
+            // facesMessages.add("Successfully registered as #{user.username}");
+            facesMessages.addToControl("username", "Username #{user.username} already exists");
             registered = true;
          }
          else

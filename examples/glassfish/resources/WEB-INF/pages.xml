@@ -3,7 +3,7 @@
           "http://jboss.com/products/seam/pages-1.1.dtd">
 
 <pages no-conversation-view-id="/main.xhtml"
-       login-view-id="/home.xhtml">
+                 login-view-id="/home.xhtml">
 
     <page view-id="/register.xhtml">
     
@@ -21,7 +21,7 @@
     <page view-id="/home.xhtml">
     
         <navigation>
-            <rule if="#{identity.loggedIn}">
+            <rule if="#{org.jboss.seam.security.identity.loggedIn}">
                 <redirect view-id="/main.xhtml"/>
             </rule>
         </navigation>
@@ -64,7 +64,9 @@
         <description>Book hotel: #{hotel.name}</description>
         
         <navigation from-action="#{hotelBooking.setBookingDetails}">
-            <redirect view-id="/confirm.xhtml"/>
+            <rule if="#{hotelBooking.bookingValid}">
+                <redirect view-id="/confirm.xhtml"/>
+            </rule>
         </navigation>
         
     </page>
@@ -91,5 +93,11 @@
         </navigation>
         
     </page>
+    
+    <exception class="org.jboss.seam.security.NotLoggedInException">
+        <redirect view-id="/home.xhtml">
+            <message severity="warn">You must be logged in to use this feature</message>
+        </redirect>
+    </exception>
 
 </pages>

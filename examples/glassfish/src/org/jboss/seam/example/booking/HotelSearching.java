@@ -16,6 +16,8 @@ public interface HotelSearching
    public void nextPage();
    public boolean isNextPageAvailable();
 
+   public String getSearchPattern();
+
    public void destroy();
    
 }

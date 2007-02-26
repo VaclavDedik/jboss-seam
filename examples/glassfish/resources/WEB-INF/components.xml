@@ -18,5 +18,4 @@
                   conversation-is-long-running-parameter="clr"/>
                   
     <security:identity authenticate-method="#{authenticator.authenticate}"/>                  
-
 </components>

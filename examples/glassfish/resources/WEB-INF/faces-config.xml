@@ -4,7 +4,7 @@
     "http://java.sun.com/dtd/web-facesconfig_1_0.dtd">
     
 <faces-config>
-    
+
     <!-- Select one of the standard transaction models for the Seam application -->
 
     <lifecycle>

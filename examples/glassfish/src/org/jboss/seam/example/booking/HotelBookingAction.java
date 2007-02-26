@@ -41,6 +41,9 @@ public class HotelBookingAction implements HotelBooking
    @In(required=false) 
    @Out(required=false)
    private Booking booking;
+
+   @Out(required=false)
+   List<Booking> bookings;
      
    @In
    private FacesMessages facesMessages;
@@ -74,11 +77,13 @@ public class HotelBookingAction implements HotelBooking
       calendar.add(Calendar.DAY_OF_MONTH, -1);
       if ( booking.getCheckinDate().before( calendar.getTime() ) )
       {
-         facesMessages.add("Check in date must be a future date");
+         facesMessages.addToControl("checkinDate", "Check in date must be a future date");
+         bookingValid=false;
       }
       else if ( !booking.getCheckinDate().before( booking.getCheckoutDate() ) )
       {
-         facesMessages.add("Check out date must be later than check in date");
+         facesMessages.addToControl("checkoutDate", "Check out date must be later than check in date");
+         bookingValid=false;
       }
       else
       {
@@ -100,9 +105,9 @@ public class HotelBookingAction implements HotelBooking
       em.persist(booking);
       facesMessages.add("Thank you, #{user.name}, your confimation number for #{hotel.name} is #{booking.id}");
       log.info("New booking: #{booking.id} for #{user.username}");
-      events.raiseTransactionSuccessEvent("bookingConfirmed");
+      // events.raiseTransactionSuccessEvent("bookingConfirmed");
 
-      // bookings = null;
+      bookings = null;
    }
    
    @End
