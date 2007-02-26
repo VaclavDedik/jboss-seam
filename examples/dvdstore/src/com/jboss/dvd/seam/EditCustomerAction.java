@@ -47,7 +47,7 @@ public class EditCustomerAction
     @Out
     Customer customer;
     
-    @In(create=true)
+    @In
     FacesMessages facesMessages;
     
     @In Identity identity;

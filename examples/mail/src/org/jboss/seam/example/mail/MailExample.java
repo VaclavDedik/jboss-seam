@@ -25,10 +25,10 @@ public class MailExample
    @Logger
    private Log log;
    
-   @In(create=true)
+   @In
    private FacesMessages facesMessages;
    
-   @In(create=true)
+   @In
    private Renderer renderer;
    
    public void send() {
