@@ -1,5 +1,6 @@
 package org.jboss.seam.example.numberguess;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -12,7 +13,7 @@ import org.jboss.seam.annotations.Scope;
 
 @Name("numberGuess")
 @Scope(ScopeType.CONVERSATION)
-public class NumberGuess {
+public class NumberGuess implements Serializable {
    
    private int randomNumber;
    private Integer currentGuess;
