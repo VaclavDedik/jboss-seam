@@ -147,6 +147,7 @@ ui
 * upload the doc directory of the dist to docs.jboss.org
   - remember to update the latest/ dir
 * update the documentation and download pages on jboss.org
+* update the DTDs and XSDs on jboss.com/products/seam
 * announce the release on the news page on jboss.org
 
 Update Demos
