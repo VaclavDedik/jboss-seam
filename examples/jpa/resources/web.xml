@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app>   
       
-    <context-param>      
-      <param-name>javax.faces.CONFIG_FILES</param-name>      
-      <param-value>/WEB-INF/navigation.xml</param-value>   
-    </context-param>	   
-    
     <!-- Ajax4jsf (must come first!) -->		   
     <filter>     
       <display-name>Ajax4jsf Filter</display-name>     

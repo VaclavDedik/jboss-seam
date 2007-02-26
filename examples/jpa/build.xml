@@ -73,7 +73,6 @@
       <webinf dir="${resources}">
         <include name="faces-config.xml" />
         <include name="pages.xml" />
-        <include name="navigation.xml" />
         <include name="jboss-web.xml" />
         <include name="components.xml" />
       </webinf>
@@ -131,7 +130,6 @@
       <webinf dir="${resources}">
         <include name="faces-config.xml" />
         <include name="pages.xml" />
-        <include name="navigation.xml" />
       </webinf>
       <webinf dir="${resources}/tomcat">
         <include name="components.xml" />
@@ -192,7 +190,6 @@
       <webinf dir="${resources}">
         <include name="faces-config.xml" />
         <include name="pages.xml" />
-        <include name="navigation.xml" />
         <include name="components.xml" />
       </webinf>
       <lib dir="${seamlib}">
@@ -251,7 +248,6 @@
       <webinf dir="${resources}">
         <include name="faces-config.xml" />
         <include name="pages.xml" />
-        <include name="navigation.xml" />
         <include name="components.xml" />
       </webinf>
       <lib dir="${seamlib}">
@@ -307,7 +303,6 @@
       <webinf dir="${resources}">
         <include name="faces-config.xml" />
         <include name="pages.xml" />
-        <include name="navigation.xml" />
         <include name="components.xml" />
       </webinf>
       <lib dir="${seamlib}">
