@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 
 import org.jboss.seam.annotations.Transactional;
+import org.jboss.seam.persistence.QueryParser;
 
 /**
  * A Query object for JPA.
@@ -136,7 +137,7 @@ public class EntityQuery extends Query<EntityManager>
          Object parameterValue = parameters.get(i);
          if ( isRestrictionParameterSet(parameterValue) )
          {
-            query.setParameter( "p" + (start + i), parameterValue );
+            query.setParameter( QueryParser.getParameterName(start + i), parameterValue );
          }
       }
    }

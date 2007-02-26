@@ -2,9 +2,6 @@ package org.jboss.seam.persistence;
 
 import java.io.Serializable;
 import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
 
 import org.hibernate.CacheMode;
 import org.hibernate.Criteria;
@@ -20,8 +17,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.stat.SessionStatistics;
-import org.jboss.seam.core.Expressions;
-import org.jboss.seam.core.Expressions.ValueBinding;
 
 public class HibernateSessionProxy implements Session
 {
@@ -89,30 +84,16 @@ public class HibernateSessionProxy implements Session
 
    public Query createQuery(String hql) throws HibernateException
    {
-      //TODO: horrible copy/paste from EntityManageProxy!
       if ( hql.indexOf('#')>0 )
       {
-         List<ValueBinding> queryParameters = new ArrayList<ValueBinding>();
-         StringTokenizer ejbqlTokens = new StringTokenizer( hql, "#}", true );
-         StringBuilder ejbqlBuilder = new StringBuilder( hql.length() );
-         while ( ejbqlTokens.hasMoreTokens() )
+         QueryParser qp = new QueryParser(hql);
+         Query query = delegate.createQuery( qp.getEjbql() );
+         for (int i=0; i<qp.getParameterValueBindings().size(); i++)
          {
-            String token = ejbqlTokens.nextToken();
-            if ( "#".equals(token) )
-            {
-               String expression = token + ejbqlTokens.nextToken() + ejbqlTokens.nextToken();
-               queryParameters.add( Expressions.instance().createValueBinding(expression) );
-               ejbqlBuilder.append(":el").append( queryParameters.size() );
-            }
-            else
-            {
-               ejbqlBuilder.append(token);
-            }
-         }
-         Query query = delegate.createQuery( ejbqlBuilder.toString() );
-         for (int i=1; i<=queryParameters.size(); i++)
-         {
-            query.setParameter( "el" + i, queryParameters.get(i-1).getValue() );
+            query.setParameter( 
+                     QueryParser.getParameterName(i), 
+                     qp.getParameterValueBindings().get(i).getValue() 
+                  );
          }
          return query;
       }

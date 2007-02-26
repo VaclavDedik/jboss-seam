@@ -1,17 +1,10 @@
 package org.jboss.seam.persistence;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.FlushModeType;
 import javax.persistence.LockModeType;
 import javax.persistence.Query;
-
-import org.jboss.seam.core.Expressions;
-import org.jboss.seam.core.Expressions.ValueBinding;
 
 public class EntityManagerProxy implements EntityManager
 {
@@ -59,30 +52,16 @@ public class EntityManagerProxy implements EntityManager
 
    public Query createQuery(String ejbql)
    {
-      //TODO: horrible copy/paste from HibernateSessionProxy!
       if ( ejbql.indexOf('#')>0 )
       {
-         List<ValueBinding> queryParameters = new ArrayList<ValueBinding>();
-         StringTokenizer ejbqlTokens = new StringTokenizer( ejbql, "#}", true );
-         StringBuilder ejbqlBuilder = new StringBuilder( ejbql.length() );
-         while ( ejbqlTokens.hasMoreTokens() )
+         QueryParser qp = new QueryParser(ejbql);
+         Query query = delegate.createQuery( qp.getEjbql() );
+         for (int i=0; i<qp.getParameterValueBindings().size(); i++)
          {
-            String token = ejbqlTokens.nextToken();
-            if ( "#".equals(token) )
-            {
-               String expression = token + ejbqlTokens.nextToken() + ejbqlTokens.nextToken();
-               queryParameters.add( Expressions.instance().createValueBinding(expression) );
-               ejbqlBuilder.append(":el").append( queryParameters.size() );
-            }
-            else
-            {
-               ejbqlBuilder.append(token);
-            }
-         }
-         Query query = delegate.createQuery( ejbqlBuilder.toString() );
-         for (int i=1; i<=queryParameters.size(); i++)
-         {
-            query.setParameter( "el" + i, queryParameters.get(i-1).getValue() );
+            query.setParameter( 
+                     QueryParser.getParameterName(i), 
+                     qp.getParameterValueBindings().get(i).getValue() 
+                  );
          }
          return query;
       }

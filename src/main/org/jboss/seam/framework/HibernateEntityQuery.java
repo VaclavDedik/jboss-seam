@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 import org.jboss.seam.annotations.Transactional;
+import org.jboss.seam.persistence.QueryParser;
 
 /**
  * A Query object for Hibernate.
@@ -131,7 +132,7 @@ public class HibernateEntityQuery extends Query<Session>
          Object parameterValue = parameters.get(i);
          if ( isRestrictionParameterSet(parameterValue) )
          {
-            query.setParameter( "p" + (start + i), parameterValue );
+            query.setParameter( QueryParser.getParameterName(start + i), parameterValue );
          }
       }
    }

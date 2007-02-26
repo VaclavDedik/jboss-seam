@@ -2,7 +2,6 @@ package org.jboss.seam.framework;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,9 +9,9 @@ import javax.faces.model.DataModel;
 
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Transactional;
-import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Expressions.ValueBinding;
 import org.jboss.seam.jsf.ListDataModel;
+import org.jboss.seam.persistence.QueryParser;
 
 /**
  * Base class for components which manage a query
@@ -131,71 +130,22 @@ public abstract class Query<T>
    {
       if (parsedEjbql==null)
       {
-         
-         queryParameters = new ArrayList<ValueBinding>();
-         StringTokenizer ejbqlTokens = new StringTokenizer( getEjbql(), "#}", true );
-         StringBuilder ejbqlBuilder = new StringBuilder( getEjbql().length() );
-         while ( ejbqlTokens.hasMoreTokens() )
-         {
-            String token = ejbqlTokens.nextToken();
-            if ( "#".equals(token) )
-            {
-               String expression = token + ejbqlTokens.nextToken() + ejbqlTokens.nextToken();
-               queryParameters.add( Expressions.instance().createValueBinding(expression) );
-               ejbqlBuilder.append(":p").append( queryParameters.size() );
-            }
-            else
-            {
-               ejbqlBuilder.append(token);
-            }
-         }
-         parsedEjbql = ejbqlBuilder.toString();
+         QueryParser qp = new QueryParser(ejbql);
+         queryParameters = qp.getParameterValueBindings();
+         parsedEjbql = qp.getEjbql();
          
          List<String> restrictionFragments = getRestrictions();
          parsedRestrictions = new ArrayList<String>( restrictionFragments.size() );
-         restrictionParameters = new ArrayList<ValueBinding>( restrictionFragments.size() );
-         
+         restrictionParameters = new ArrayList<ValueBinding>( restrictionFragments.size() );         
          for ( String restriction: restrictionFragments )
          {
-            StringTokenizer tokens = new StringTokenizer(restriction, "#}", true);
-            StringBuilder builder = new StringBuilder( restriction.length() );
-            ValueBinding valueBinding = null;
-            while ( tokens.hasMoreTokens() )
+            QueryParser rqp = new QueryParser( restriction, queryParameters.size() + restrictionParameters.size() );            
+            if ( rqp.getParameterValueBindings().size()!=1 ) 
             {
-               String token = tokens.nextToken();
-               if ( "#".equals(token) )
-               {
-                  if ( !tokens.hasMoreTokens() )
-                  {
-                     throw new IllegalArgumentException("restriction terminates in #");
-                  }
-                  String expressionToken = tokens.nextToken();
-                  if ( !expressionToken.startsWith("{") )
-                  {
-                     throw new IllegalArgumentException("missing { after # in restriction");
-                  }
-                  if ( !tokens.hasMoreTokens() )
-                  {
-                     throw new IllegalArgumentException("missing } after expression in restriction");
-                  }
-                  String expression = token + expressionToken + tokens.nextToken();
-                  valueBinding = Expressions.instance().createValueBinding(expression);
-                  builder.append(":p").append( queryParameters.size() + restrictionParameters.size() );
-               }
-               else
-               {
-                  builder.append(token);
-               }
-               
-            }
-            
-            if (valueBinding==null) 
-            {
-               throw new IllegalArgumentException("no value binding in restriction: " + restriction);
-            }
-            
-            parsedRestrictions.add( builder.toString() );
-            restrictionParameters.add(valueBinding);
+               throw new IllegalArgumentException("there should be exactly one value binding in a restriction: " + restriction);
+            }            
+            parsedRestrictions.add( rqp.getEjbql() );
+            restrictionParameters.addAll( rqp.getParameterValueBindings() );
          }
          
       }
