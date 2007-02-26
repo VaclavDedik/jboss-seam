@@ -29,6 +29,7 @@ import org.dom4j.Element;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
+import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Namespace;
@@ -1050,7 +1051,7 @@ public class Initialization
 
       public boolean isAutoCreate()
       {
-         return autoCreate;
+         return autoCreate || componentClass.isAnnotationPresent(AutoCreate.class);
       }
 
       public String[] getDependencies()

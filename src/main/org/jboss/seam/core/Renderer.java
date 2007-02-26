@@ -4,7 +4,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 
-@Name("renderer")
+@Name("org.jboss.seam.core.renderer")
 @Install(false)
 public abstract class Renderer
 {

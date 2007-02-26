@@ -33,6 +33,7 @@
   <factory scope="stateless" auto-create="true" name="processInstanceFinder" value="#{org.jboss.seam.core.processInstanceFinder}"/>
   <factory scope="stateless" auto-create="true" name="processInstanceList" value="#{org.jboss.seam.core.processInstanceList}"/>
   <factory scope="stateless" auto-create="true" name="redirect" value="#{org.jboss.seam.core.redirect}"/>
+  <factory scope="stateless" auto-create="true" name="renderer" value="#{org.jboss.seam.core.renderer}"/>
   <factory scope="stateless" auto-create="true" name="resourceBundle" value="#{org.jboss.seam.core.resourceBundle}"/>
   <factory scope="stateless" auto-create="true" name="sessionContext" value="#{org.jboss.seam.core.sessionContext}"/>
   <factory scope="stateless" auto-create="true" name="switcher" value="#{org.jboss.seam.core.switcher}"/>

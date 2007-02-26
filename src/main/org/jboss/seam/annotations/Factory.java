@@ -50,4 +50,11 @@ public @interface Factory {
     * @return the scope to outject any returned value
     */
    ScopeType scope() default ScopeType.UNSPECIFIED;
+   /**
+     * Specifies that this factory method should be automatically
+     * called whenever the variable is asked for, even if @In does
+     * not specify create=true.
+     * 
+    */
+   boolean autoCreate() default false;
 }

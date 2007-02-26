@@ -493,6 +493,10 @@ public class Component extends Model
                Init init = (Init) applicationContext.get( Seam.getComponentName(Init.class) ); //can't use Init.instance() here 'cos of unit tests
                String contextVariable = toName( method.getAnnotation(org.jboss.seam.annotations.Factory.class).value(), method );
                init.addFactoryMethod(contextVariable, method, this);
+               if ( method.getAnnotation(org.jboss.seam.annotations.Factory.class).autoCreate() )
+               {
+                  init.addAutocreateVariable(contextVariable);
+               }
             }
             if ( method.isAnnotationPresent(Observer.class) )
             {

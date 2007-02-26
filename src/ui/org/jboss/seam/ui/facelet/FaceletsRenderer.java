@@ -29,7 +29,7 @@ import com.sun.facelets.impl.DefaultResourceResolver;
 
 @Scope(ScopeType.STATELESS)
 @Intercept(InterceptionType.NEVER)
-@Name("renderer")
+@Name("org.jboss.seam.core.renderer")
 @Install(value=true,precedence=Install.BUILT_IN,
         classDependencies={"com.sun.facelets.Facelet"})
 public class FaceletsRenderer extends Renderer
