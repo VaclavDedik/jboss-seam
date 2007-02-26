@@ -25,7 +25,7 @@ import org.jboss.seam.annotations.security.Restrict;
 @Stateful
 public class CommentEditorBean implements CommentEditor {
 
-    @In(create=true)
+    @In
     private EntityManager entityManager;
 
     @Valid

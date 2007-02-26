@@ -1,4 +1,4 @@
-//$Id: RegisterAction.java,v 1.14 2006/10/12 02:49:35 gavin Exp $
+//$Id: RegisterAction.java,v 1.1 2006/11/20 05:19:01 gavin Exp $
 package org.jboss.seam.example.booking;
 
 import static org.jboss.seam.ScopeType.EVENT;
@@ -28,7 +28,7 @@ public class RegisterAction implements Register
    @PersistenceContext
    private EntityManager em;
    
-   @In(create=true)
+   @In
    private transient FacesMessages facesMessages;
    
    private String verify;

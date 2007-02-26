@@ -53,7 +53,7 @@ public class IssueFinderBean implements IssueFinder {
     @DataModelSelection
     private Issue selectedIssue;
     
-    @In(create=true)
+    @In
     private EntityManager entityManager;
     
     private void executeQuery() {

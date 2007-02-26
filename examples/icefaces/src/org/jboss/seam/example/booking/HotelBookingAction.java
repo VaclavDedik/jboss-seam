@@ -1,4 +1,4 @@
-//$Id: HotelBookingAction.java,v 1.1 2006/11/20 05:19:01 gavin Exp $
+//$Id: HotelBookingAction.java,v 1.2 2006/11/20 09:22:11 gavin Exp $
 package org.jboss.seam.example.booking;
 
 import static javax.persistence.PersistenceContextType.EXTENDED;
@@ -41,10 +41,10 @@ public class HotelBookingAction implements HotelBooking
    @Out(required=false)
    private Booking booking;
      
-   @In(create=true)
+   @In
    private FacesMessages facesMessages;
       
-   @In(create=true)
+   @In
    private Events events;
    
    @Logger 

@@ -16,7 +16,7 @@ import org.jboss.seam.core.FacesMessages;
 @Stateless
 public class UserEditorBean implements UserEditor {
 
-    @In(create=true)
+    @In
     private EntityManager entityManager;
 
     @Valid

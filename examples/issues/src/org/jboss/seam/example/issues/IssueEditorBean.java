@@ -36,7 +36,7 @@ import org.jboss.seam.core.FacesMessages;
 @Stateful
 public class IssueEditorBean implements IssueEditor {
 
-    @In(create=true)
+    @In
     private EntityManager entityManager;
 
     @Valid

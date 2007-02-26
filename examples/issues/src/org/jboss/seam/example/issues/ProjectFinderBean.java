@@ -28,7 +28,7 @@ public class ProjectFinderBean implements ProjectFinder {
     @DataModelSelection
     private Project selectedProject;
     
-    @In(create=true)
+    @In
     private EntityManager entityManager;
     
     @Factory("projectList")

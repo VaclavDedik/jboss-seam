@@ -14,7 +14,7 @@ import org.jboss.seam.security.Identity;
 @Name("authenticator")
 public class Authenticator
 {
-   @In(create=true)
+   @In
    private EntityManager entityManager;   
    
    @In
