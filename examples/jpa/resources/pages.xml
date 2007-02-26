@@ -2,7 +2,8 @@
           "-//JBoss/Seam Pages Configuration DTD 1.1//EN"
           "http://jboss.com/products/seam/pages-1.1.dtd">
 
-<pages no-conversation-view-id="/main.xhtml" login-view-id="/home.xhtml">
+<pages no-conversation-view-id="/main.xhtml"
+                 login-view-id="/home.xhtml">
 
     <page view-id="/register.xhtml">
     
@@ -37,8 +38,9 @@
         
     </page>
 
-    <page view-id="/main.xhtml" login-required="true">
-                  
+    <page view-id="/main.xhtml"
+          login-required="true">
+        
         <navigation from-action="#{hotelBooking.selectHotel(hot)}">
             <redirect view-id="/hotel.xhtml"/>
         </navigation>
@@ -62,7 +64,9 @@
         <description>Book hotel: #{hotel.name}</description>
         
         <navigation from-action="#{hotelBooking.setBookingDetails}">
-            <redirect view-id="/confirm.xhtml"/>
+            <rule if="#{hotelBooking.bookingValid}">
+                <redirect view-id="/confirm.xhtml"/>
+            </rule>
         </navigation>
         
     </page>
@@ -89,5 +93,11 @@
         </navigation>
         
     </page>
+    
+    <exception class="org.jboss.seam.security.NotLoggedInException">
+        <redirect view-id="/home.xhtml">
+            <message severity="warn">You must be logged in to use this feature</message>
+        </redirect>
+    </exception>
 
 </pages>
