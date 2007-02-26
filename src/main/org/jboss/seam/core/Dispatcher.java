@@ -365,13 +365,20 @@ public class Dispatcher implements LocalDispatcher
                     {
                         return handle.getTimer();
                     }
-                    catch (javax.ejb.NoSuchObjectLocalException nsoe)
+                    catch (NoSuchObjectLocalException nsoe)
                     {
                         return null;
                     }           
                 }
             });
-            return timer==null ? null : new TimerProxy(timer);  
+            if (timer==null)
+            {
+               throw new NoSuchObjectLocalException();
+            }
+            else
+            {
+               return new TimerProxy(timer);
+            }
         }
     }
 }
