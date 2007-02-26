@@ -1,23 +1,18 @@
 package org.jboss.seam.example.hibernate;
 
-import static org.jboss.seam.ScopeType.EVENT;
 import static org.jboss.seam.ScopeType.SESSION;
 
 import java.util.List;
-
-import org.hibernate.Session;
-import org.jboss.seam.annotations.In;
+import javax.persistence.EntityManager;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
-import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.security.Identity;
+import org.jboss.seam.annotations.In;
 
-@Scope(EVENT)
+import org.hibernate.Session;
+
 @Name("authenticator")
-public class Authenticator
+public class AuthenticatorAction
 {
-   @In Identity identity;
-   
    @In Session bookingDatabase;
    
    @Out(required=false, scope = SESSION)
@@ -25,10 +20,7 @@ public class Authenticator
    
    public boolean authenticate()
    {
-      List results = bookingDatabase.createQuery(
-            "select u from User u where u.username=:username and u.password=:password")
-            .setParameter("username", identity.getUsername())
-            .setParameter("password", identity.getPassword())
+      List results = bookingDatabase.createQuery("select u from User u where u.username=#{identity.username} and u.password=#{identity.password}")
             .list();
       
       if ( results.size()==0 )
@@ -41,4 +33,5 @@ public class Authenticator
          return true;
       }
    }
+
 }

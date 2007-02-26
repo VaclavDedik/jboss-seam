@@ -42,21 +42,24 @@
                 <h:form id="register">
 				<fieldset>
 				
-					   <s:validateAll>
+                    <s:validateAll>
 
-					    <f:facet name="aroundInvalidField">
-					       <s:span styleClass="errors"/>
-					    </f:facet>
+                       <f:facet name="aroundInvalidField">
+                           <s:span styleClass="errors"/>
+                       </f:facet>
+                       <f:facet name="afterInvalidField">
+                           <s:div styleClass="errors">
+               	               <s:message/>
+               	           </s:div>
+                       </f:facet>
 		    
 						<div class="entry">
 							<div class="label"><h:outputLabel for="username">Username:</h:outputLabel></div>
 							<div class="input">
-								<s:decorate>
+								<s:decorate id="usernameDecorate">
 									<h:inputText id="username" value="#{user.username}" required="true">
-                                        <a:support event="onblur" reRender="usernameErrors"/>
+                                        <a:support event="onblur" reRender="usernameDecorate"/>
                                     </h:inputText>
-                                    <br/>
-                                    <a:outputPanel id="usernameErrors"><s:message/></a:outputPanel>
 								</s:decorate>
 							</div>
 						</div>
@@ -64,12 +67,10 @@
 						<div class="entry">
 							<div class="label"><h:outputLabel for="name">Real Name:</h:outputLabel></div>
 							<div class="input">
-								<s:decorate>
+								<s:decorate id="nameDecorate">
 									<h:inputText id="name" value="#{user.name}" required="true">
-                                        <a:support event="onblur" reRender="nameErrors"/>
+                                        <a:support event="onblur" reRender="nameDecorate"/>
                                     </h:inputText>
-                                    <br/>
-                                    <a:outputPanel id="nameErrors"><s:message/></a:outputPanel>
 								</s:decorate>
 							</div>
 						</div>
@@ -79,8 +80,6 @@
 							<div class="input">
 								<s:decorate>
 									<h:inputSecret id="password" value="#{user.password}" required="true"/>
-                                    <br/>
-                                    <h:message for="password"/>
 								</s:decorate>
 							</div>
 						</div>
@@ -90,8 +89,6 @@
 							<div class="input">
 								<s:decorate>
 									<h:inputSecret id="verify" value="#{register.verify}" required="true"/>
-                                    <br/>
-                                    <h:message for="verify"/>
 								</s:decorate>
 							</div>
 						</div>

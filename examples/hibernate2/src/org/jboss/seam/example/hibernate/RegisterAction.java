@@ -35,8 +35,7 @@ public class RegisterAction
    {
       if ( user.getPassword().equals(verify) )
       {
-         List existing = bookingDatabase.createQuery("select u.username from User u where u.username=:username")
-            .setParameter("username", user.getUsername())
+         List existing = bookingDatabase.createQuery("select u.username from User u where u.username=#{user.username}")
             .list();
          if (existing.size()==0)
          {
@@ -46,7 +45,7 @@ public class RegisterAction
          }
          else
          {
-            facesMessages.add("Username #{user.username} already exists");
+            facesMessages.addToControl("username", "Username #{user.username} already exists");
          }
       }
       else 

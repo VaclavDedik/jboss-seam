@@ -69,11 +69,13 @@ public class HotelBookingAction
       calendar.add(Calendar.DAY_OF_MONTH, -1);
       if ( booking.getCheckinDate().before( calendar.getTime() ) )
       {
-         facesMessages.add("Check in date must be a future date");
+         facesMessages.addToControl("checkinDate", "Check in date must be a future date");
+         bookingValid=false;
       }
       else if ( !booking.getCheckinDate().before( booking.getCheckoutDate() ) )
       {
-         facesMessages.add("Check out date must be later than check in date");
+         facesMessages.addToControl("checkoutDate", "Check out date must be later than check in date");
+         bookingValid=false;
       }
       else
       {
