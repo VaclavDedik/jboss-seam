@@ -13,7 +13,9 @@ import java.math.BigDecimal;
 
 @Name("processor")
 public class PaymentProcessor {
-    @In(create=true) EntityManager entityManager;
+    
+    @In 
+    EntityManager entityManager;
 
     @Logger Log log;
 

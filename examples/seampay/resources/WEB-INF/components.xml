@@ -26,6 +26,7 @@
                             entity-manager="#{entityManager}" />
         
     <core:managed-persistence-context name="entityManager"
+                                      auto-create="true"
                                       persistence-unit-jndi-name="java:/seampayEntityManagerFactory" />
 
     <core:dispatcher />
