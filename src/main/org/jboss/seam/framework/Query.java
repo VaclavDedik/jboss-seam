@@ -165,7 +165,20 @@ public abstract class Query<T>
                String token = tokens.nextToken();
                if ( "#".equals(token) )
                {
-                  String expression = token + tokens.nextToken() + tokens.nextToken();
+                  if ( !tokens.hasMoreTokens() )
+                  {
+                     throw new IllegalArgumentException("restriction terminates in #");
+                  }
+                  String expressionToken = tokens.nextToken();
+                  if ( !expressionToken.startsWith("{") )
+                  {
+                     throw new IllegalArgumentException("missing { after # in restriction");
+                  }
+                  if ( !tokens.hasMoreTokens() )
+                  {
+                     throw new IllegalArgumentException("missing } after expression in restriction");
+                  }
+                  String expression = token + expressionToken + tokens.nextToken();
                   valueBinding = Expressions.instance().createValueBinding(expression);
                   builder.append(":p").append( queryParameters.size() + restrictionParameters.size() );
                }
