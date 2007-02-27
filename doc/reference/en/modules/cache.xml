@@ -147,8 +147,9 @@ public class Chatroom {
          if (userList==null) 
          {
             userList = new HashSet<String>();
-            pojoCache.put("chatroom", "users", username);
+            pojoCache.put("chatroom", "userList", userList);
          }
+         userList.put(username);
       }
       catch (CacheException ce)
       {
