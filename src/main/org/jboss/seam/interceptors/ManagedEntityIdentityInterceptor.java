@@ -25,6 +25,7 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
    private static final long serialVersionUID = 3105217046803964083L;
    
    //TODO: cache much more - the list of fields, PassivatedEntity obects, etc
+   //TODO: optimize serialization of this list
    private List<PassivatedEntity> passivatedEntities = new ArrayList<PassivatedEntity>();
    
    @AroundInvoke

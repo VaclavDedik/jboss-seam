@@ -26,7 +26,6 @@ import javax.security.auth.login.LoginException;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.Entity;
-import org.jboss.seam.Model;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Create;
@@ -562,7 +561,7 @@ public class Identity extends Selector
 
    public void checkEntityPermission(Object entity, EntityAction action)
    {      
-      Entity e = (Entity) Model.forClass(entity.getClass());
+      Entity e = Entity.forClass(entity.getClass());
       
       if (e != null)
       {

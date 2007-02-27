@@ -20,7 +20,7 @@ public class PassivatedEntity implements Serializable
    private Object id;
    private String persistenceContext;
    private String fieldName;
-   private Class<?> entityClass;
+   private Class<?> entityClass; //TODO: make this transient, and serialize only the class name..
    
    private PassivatedEntity(Object id, Class<?> entityClass, String persistenceContext, String fieldName)
    {

@@ -56,7 +56,7 @@ public class Model
          throw new IllegalStateException("No application context active");
       }
       
-      String name = clazz.getName() + ".model";
+      String name = getModelName(clazz);
       Model model = (Model) Contexts.getApplicationContext().get(name);
       if ( model==null )
       {
@@ -65,6 +65,11 @@ public class Model
          Contexts.getApplicationContext().set(name, model);
       }
       return model;
+   }
+
+   static String getModelName(Class clazz)
+   {
+      return clazz.getName() + ".model";
    }
 
 }

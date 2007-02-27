@@ -7,7 +7,6 @@ import javax.persistence.EntityManager;
 import org.jboss.seam.Component;
 import org.jboss.seam.Entity;
 import org.jboss.seam.InterceptionType;
-import org.jboss.seam.Model;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
@@ -41,10 +40,9 @@ public class PersistenceProvider
    {
       return true; //best we can do!
    }
-
    public Object getId(Object bean, EntityManager entityManager)
    {
-      return ( (Entity) Model.forClass( bean.getClass() ) ).getIdentifier(bean);
+      return Entity.forClass( bean.getClass() ).getIdentifier(bean);
    }
    
    public void enableFilter(Filter f, EntityManager entityManager)

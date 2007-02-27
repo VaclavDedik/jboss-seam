@@ -9,6 +9,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreRemove;
 import javax.persistence.PreUpdate;
 
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.util.Reflections;
 
 /**
@@ -121,6 +122,27 @@ public class Entity extends Model
       else
       {
          throw new IllegalStateException("@Id attribute not found for entity class: " + getBeanClass().getName());
+      }
+   }
+
+   public static Entity forClass(Class clazz)
+   {
+      if ( !Contexts.isApplicationContextActive() )
+      {
+         throw new IllegalStateException("No application context active");
+      }
+      
+      String name = getModelName(clazz);
+      Model model = (Model) Contexts.getApplicationContext().get(name);
+      if ( model==null || !(model instanceof Entity) )
+      {
+         Entity entity = new Entity(clazz);
+         Contexts.getApplicationContext().set(name, model);
+         return entity;
+      }
+      else
+      {
+         return (Entity) model;
       }
    }
 
