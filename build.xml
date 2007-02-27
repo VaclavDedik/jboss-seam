@@ -26,6 +26,7 @@
     <property name="coverage.dir"         value="${build.dir}/coverage"/>
     
     <property name="genclasses.dir"       value="${build.dir}/genclasses"/>
+    <property name="remotingclasses.dir"  value="${build.dir}/remotingclasses"/>
 
     <property name="src.java.dir"         value="src/main"/>
     <property name="src.ui.dir"           value="src/ui"/>
@@ -34,6 +35,7 @@
     <property name="src.mail.dir"         value="src/mail"/>
     <property name="src.debug.dir"        value="src/debug"/>
     <property name="src.gen.dir"          value="src/gen"/>
+    <property name="src.remoting.dir"     value="src/remoting"/>
     <property name="src.test.dir"         value="src/test/misc"/>
 
     <property name="lib.dir"              value="${imported.basedir}/lib"/>
@@ -65,6 +67,7 @@
     <property name="dist.src.mail.dir"    value="${dist.dir}/src/mail"/>
     <property name="dist.src.debug.dir"   value="${dist.dir}/src/debug"/>
     <property name="dist.src.gen.dir"     value="${dist.dir}/src/gen"/>
+    <property name="dist.src.remoting.dir" value="${dist.dir}/src/remoting"/>
     <property name="dist.src.test.dir"    value="${dist.dir}/src/test/misc"/>
     <property name="dist.lib.dir"         value="${dist.dir}/lib"/>
     <property name="dist.eejb.conf.dir"   value="${dist.dir}/embedded-ejb/conf"/>
@@ -137,6 +140,13 @@
            prefix="WEB-INF/lib"
       description="the facelets jar">
         <include name="jsf-facelets.jar" if="example.facelets.lib"/>
+    </zipfileset>
+    
+    <zipfileset id="example.remoting.jar"
+                dir="${imported.basedir}"
+                prefix="WEB-INF/lib"
+                description="the Seam Remoting jar">
+        <include name="${name}-remoting.jar" if="example.remoting.lib"/>
     </zipfileset>
 
     <zipfileset id="example.ajax4jsf.jar" 
@@ -298,6 +308,7 @@
         <path refid="example.path"/>
         <fileset refid="lib"/>
         <fileset refid="example.seam.main.jar"/>
+        <fileset refid="example.remoting.jar"/>
     </path>
     
     <property name="test.classpath" value="test.classpath"/>
@@ -569,6 +580,18 @@
             </copy>            
     </target>
     
+    <target name="initremoting"
+            description="Initialize the build for the remoting package">
+            <echo message="Build ${Name} Remoting ${version}"/>
+            
+            <mkdir dir="${remotingclasses.dir}"/>
+            <copy todir="${remotingclasses.dir}">
+                <fileset dir="${src.remoting.dir}">
+                    <patternset refid="meta.files"/>
+                </fileset>
+            </copy>
+    </target>
+    
     <target name="antlr"
             description="Generate ANTLR parser">
         <mkdir dir="${src.java.dir}/org/jboss/seam/text"/>
@@ -622,7 +645,6 @@
             deprecation="${javac.deprecation}"
             nowarn="on">
             <src path="${src.java.dir}"/>
-            <src path="${src.test.dir}"/>
         </javac>
     </target>
     
@@ -725,6 +747,34 @@
                 <src path="${src.gen.dir}"/>
             </javac>
         </target>
+        
+    <target name="compileremoting" depends="initremoting,select-compiler"
+            description="Compile the Java source code for the remoting package">
+        <javac
+            source="1.5"
+            target="1.5"
+            destdir="${remotingclasses.dir}"
+            classpathref="build.classpath"
+            debug="${javac.debug}"
+            deprecation="${javac.deprecation}"
+            nowarn="on">
+            <src path="${src.remoting.dir}"/>
+        </javac>
+    </target>
+    
+    <target name="compiletest" depends="init,select-compiler,antlr,compilecore,compileremoting"
+            description="Compile the Java source code for the core package">
+        <javac
+            source="1.5"
+            target="1.5"
+            destdir="${classes.dir}"
+            classpathref="build.classpath"
+            debug="${javac.debug}"
+            deprecation="${javac.deprecation}"
+            nowarn="on">
+            <src path="${src.test.dir}"/>
+        </javac>
+    </target>    
     
     <target name="testcore" depends="compile"
             description="Run the core unit tests">
@@ -746,7 +796,7 @@
     </target>
     
 
-  <target name="testall" depends="testcore,build"
+  <target name="testall" depends="testcore,build,compiletest"
           description="Run the core unit tests and all example tests">
       
       <mkdir dir="report"/>
@@ -1022,7 +1072,7 @@
         </copy>
     </target>
     
-    <target name="build" depends="jarcore,jarui,jarpdf,jarioc,jarmail,jardebug,jargen"
+    <target name="build" depends="jarcore,jarui,jarpdf,jarioc,jarmail,jardebug,jargen,jarremoting"
         description="Build all four distribution .jar files"/>
 
     <target name="jarcore" depends="compilecore"
@@ -1133,6 +1183,21 @@
             <copy file="${basedir}/${name}-gen.jar" todir="${dist.dir}"/>
             
     </target>
+    
+    <target name="jarremoting" depends="compileremoting"
+            description="Build the distribution .jar file for the remoting package">
+        <mkdir dir="${dist.dir}"/>
+        
+        <jar jarfile="${basedir}/${name}-remoting.jar" basedir="${remotingclasses.dir}">
+            <include name="**/*.class"/>
+            <patternset refid="meta.files"/>
+            <manifest>
+                <attribute name="Seam-Version" value="${version}.${patchlevel}"/>
+            </manifest>
+        </jar>
+        
+        <copy file="${basedir}/${name}-remoting.jar" todir="${dist.dir}"/>
+    </target>
 
     <target name="javadoc"
         description="Compile the Javadoc API documentation to dist dir">
@@ -1231,6 +1296,7 @@
             <zipfileset refid="example.war.webinf.lib"/>
             <zipfileset refid="example.seam.misc.jar"/>
             <zipfileset refid="example.facelets.jar"/>
+            <zipfileset refid="example.remoting.jar"/>            
         	<zipfileset refid="example.ajax4jsf.jar"/>
             <zipfileset refid="example.itext.jar"/>
             <zipfileset dir="${build.dir}/resources">
@@ -1250,7 +1316,7 @@
     <target name="ear" depends="ejb3, war">
         <jar destfile="${build.dir}/${example.name}.ear">
             <fileset refid="example.seam.main.jar"/>
-            <fileset refid="example.drools.jar"/>
+            <fileset refid="example.drools.jar"/>           
             <fileset refid="example.extra.jar"/>
             <fileset refid="example.local.jar" />
             <fileset refid="example.jcaptcha.jar"/>
