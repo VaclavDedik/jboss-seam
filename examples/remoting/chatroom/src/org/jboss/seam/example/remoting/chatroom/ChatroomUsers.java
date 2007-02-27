@@ -19,22 +19,15 @@ public class ChatroomUsers
    private PojoCache pojoCache;
    
    @Unwrap
-   public Set<String> getUsers()
+   public Set<String> getUsers() throws CacheException
    {
-      try
+      Set<String> userList = (Set<String>) pojoCache.get("chatroom", "userList");
+      if (userList==null) 
       {
-         Set<String> userList = (Set<String>) pojoCache.get("chatroom", "userList");
-         if (userList==null) 
-         {
-            userList = new HashSet<String>();
-            pojoCache.put("chatroom", "userList", userList);
-         }
-         return userList;
+         userList = new HashSet<String>();
+         pojoCache.put("chatroom", "userList", userList);
       }
-      catch (CacheException ce)
-      {
-         throw new RuntimeException(ce);
-      }
+      return userList;
    }
 
 }
