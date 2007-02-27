@@ -1,0 +1,14 @@
+<process-definition xmlns="urn:jbpm.org:jpdl-3.1"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="urn:jbpm.org:jpdl-3.1 http://jbpm.org/xsd/jpdl-3.1.xsd"
+name="takeaway">
+   <start-state name="start">
+      <transition name="type" to="selectType">
+         <action name="sendType" expression="#{takeaway.sendType}" />
+      </transition>
+   </start-state>
+   <node name="selectType">
+      <transition name="orderComplete" to="end"></transition>
+   </node>
+   <end-state name="end"></end-state>
+</process-definition>
