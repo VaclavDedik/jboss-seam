@@ -39,7 +39,6 @@
     <property name="lib.dir"              value="${imported.basedir}/lib"/>
     <property name="drools.lib.dir"       value="${imported.basedir}/drools/lib"/>
     <property name="mail.lib.dir"         value="${imported.basedir}/mail"/>
-	<property name="meldware.lib.dir"     value="${mail.lib.dir}/meldware"/>
     <property name="eejb.conf.dir"        value="${imported.basedir}/embedded-ejb/conf"/>
     <property name="mc.conf.dir"          value="${imported.basedir}/microcontainer/conf"/>
     <property name="example.coverage.dir" value="${imported.basedir}/build/coverage"/>
@@ -229,27 +228,16 @@
         <include name="${example.ds}"/>
     </patternset>
         
-    <zipfileset id="meldware.deploy"
-               dir="${meldware.lib.dir}"
-      description="the meldware ear and ds">
-        <include name="meldware-ds.xml" if="example.seam.meldware"/>
-       	<include name="calendar.ear/**" if="example.seam.meldware" /> 
-    	<include name="mail.ear/**" if="example.seam.meldware" /> 
-   		<include name="meldwarebase.sar/**" if="example.seam.meldware" /> 
-  		<include name="runonce.bsh" if="example.seam.meldware" /> 
-    	<include name="webadmin.war" if="example.seam.meldware" /> 
-    	<include name="webmail.war" if="example.seam.meldware" />
-    	<exclude name=""/>
-    </zipfileset>
+        <zipfileset id="meldware.deploy"
+                   dir="${mail.lib.dir}"
+          description="the meldware ear and ds">
+            <include name="meldware-ds.xml" if="example.seam.meldware"/>
+                <include name="meldware.ear" if="example.seam.meldware" /> 
+        </zipfileset>
         
     <patternset id="meldware.undeploy">
+        <include name="meldware.ear"/>
         <include name="meldware-ds.xml" />
-        <include name="calendar.ear/**" />
-        <include name="mail.ear/**" /> 
-       	<include name="meldwarebase.sar/**" /> 
-      	<include name="runonce.bsh" /> 
-        <include name="webadmin.war" /> 
-       	<include name="webmail.war" /> 
     </patternset>
     
     <zipfileset id="example.tomcat.war.webinf"
@@ -1283,17 +1271,7 @@
         <fail unless="jboss.home">jboss.home MUST be set. Update build.properties to point to a valid JBoss installation.</fail>
         <copy todir="${deploy.dir}">
             <fileset refid="example.deploy"/>
-        </copy>
-    	<!-- Need to set up meldware with absolute paths to stuff -->
-    	<copy tofile="${meldware.lib.dir}/mail.ear/mailjmx.sar/META-INF/jboss-service.xml" file="${meldware.lib.dir}/jboss-service.xml">
-    		<filterset>
-    			<filter token="deploy.dir" value="${deploy.dir}"/>
-    			<filter token="jboss.home" value="${jboss.home}"/>
-    		</filterset>
-   		</copy>
-    	<!-- Can't filter all of meldware, causes corruption of classes -->
-       	<copy todir="${deploy.dir}">
-       		<fileset refid="meldware.deploy" />
+                <fileset refid="meldware.deploy" />
         </copy>
         <copy file="${build.dir}/${example.name}.${unit.ext}" todir="${deploy.dir}"/>
     </target>
@@ -1305,13 +1283,9 @@
         <delete>
             <fileset dir="${deploy.dir}">
                 <patternset refid="example.undeploy"/>
+                <patternset refid="meldware.undeploy" />
             </fileset>
         </delete>
-    	<delete includeemptydirs="on">
-	        <fileset dir="${deploy.dir}" >
-	            <patternset refid="meldware.undeploy" />
-	        </fileset>
-		 </delete>
     </target>
     
     <!-- ############################ Tomcat! #############################-->
