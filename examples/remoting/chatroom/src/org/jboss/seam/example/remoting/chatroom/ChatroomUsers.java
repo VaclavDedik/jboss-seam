@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.jboss.cache.CacheException;
-import org.jboss.cache.Fqn;
 import org.jboss.cache.aop.PojoCache;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.In;
@@ -17,20 +16,20 @@ import org.jboss.seam.annotations.Unwrap;
 public class ChatroomUsers
 {
    @In
-   private transient PojoCache pojoCache;
+   private PojoCache pojoCache;
    
    @Unwrap
    public Set<String> getUsers()
    {
       try
       {
-         Set<String> users = (Set<String>) pojoCache.get( new Fqn("chatroom"), "users" );
-         if (users==null) 
+         Set<String> userList = (Set<String>) pojoCache.get("chatroom", "userList");
+         if (userList==null) 
          {
-            users = new HashSet<String>();
-            pojoCache.put( new Fqn("chatroom"), "users", users );
+            userList = new HashSet<String>();
+            pojoCache.put("chatroom", "userList", userList);
          }
-         return users;
+         return userList;
       }
       catch (CacheException ce)
       {
