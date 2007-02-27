@@ -448,7 +448,7 @@ public class LoginAction implements Login {
         <sect2>
             <title>Component names</title>
             <para> 
-                Almost all seam components need a name. We assign a name to a component using the
+                All seam components need a name. We can assign a name to a component using the
                 <literal>@Name</literal> annotation: 
             </para>
 
@@ -462,6 +462,12 @@ public class LoginAction implements Login {
                 This name is the <emphasis>seam component name</emphasis> and is not related to any other name
                 defined by the EJB specification. However, seam component names work just like JSF managed bean names
                 and you can think of the two concepts as identical. 
+            </para>
+
+            <para>
+                <literal>@Name</literal> is not the only way to define a component name, but we always need
+                to specify the name <emphasis>somewhere</emphasis>. If we don't, then none of the other
+                Seam annotations will function.
             </para>
 
             <para> 
