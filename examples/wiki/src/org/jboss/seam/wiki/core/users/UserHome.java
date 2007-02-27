@@ -84,7 +84,7 @@ public class UserHome extends EntityHome<User> {
             if (endBeforeRedirect)
                 browser.redirectToLastBrowsedPage();
             else
-                browser.redirectToLastBrowsedPage();
+                browser.redirectToLastBrowsedPageWithConversation();
         }
     }
 

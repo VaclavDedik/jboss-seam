@@ -59,7 +59,7 @@ public class UserSearch {
             if (endBeforeRedirect)
                 browser.redirectToLastBrowsedPage();
             else
-                browser.redirectToLastBrowsedPage();
+                browser.redirectToLastBrowsedPageWithConversation();
         }
     }
 

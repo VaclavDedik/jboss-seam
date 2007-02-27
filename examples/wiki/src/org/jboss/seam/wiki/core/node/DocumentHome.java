@@ -75,7 +75,7 @@ public class DocumentHome extends EntityHome<Document> {
             if (endBeforeRedirect)
                 browser.redirectToLastBrowsedPage();
             else
-                browser.redirectToLastBrowsedPage();
+                browser.redirectToLastBrowsedPageWithConversation();
         }
     }
 

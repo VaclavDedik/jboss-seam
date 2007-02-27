@@ -81,7 +81,7 @@ public class DirectoryHome extends EntityHome<Directory> {
             if (endBeforeRedirect)
                 browser.redirectToLastBrowsedPage();
             else
-                browser.redirectToLastBrowsedPage();
+                browser.redirectToLastBrowsedPageWithConversation();
         }
     }
 
