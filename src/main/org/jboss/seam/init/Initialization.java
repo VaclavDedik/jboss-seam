@@ -587,23 +587,15 @@ public class Initialization
 
    private void addNamespaces()
    {
-      addNamespace(Init.class.getPackage());
-      // need to solve the problem of forcing a package to load
-      addNamespace(org.jboss.seam.framework.Home.class.getPackage());
-      addNamespace(org.jboss.seam.jms.TopicSession.class.getPackage());
-      addNamespace(org.jboss.seam.drools.RuleBase.class.getPackage());
-      addNamespace(org.jboss.seam.remoting.RequestContext.class.getPackage());
-      addNamespace(org.jboss.seam.theme.Theme.class.getPackage());
-
+      for ( Package pkg : new NamespaceScanner("META-INF/components.xml").getPackages() )
+      {
+         addNamespace(pkg);
+      }
       for ( Package pkg : new NamespaceScanner("seam.properties").getPackages() )
       {
          addNamespace(pkg);
       }
       for ( Package pkg : new NamespaceScanner("META-INF/seam.properties").getPackages() )
-      {
-         addNamespace(pkg);
-      }
-      for ( Package pkg : new NamespaceScanner("META-INF/components.xml").getPackages() )
       {
          addNamespace(pkg);
       }
