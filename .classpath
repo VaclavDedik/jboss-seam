@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src/main"/>
+	<classpathentry kind="src" path="src/remoting"/>
 	<classpathentry kind="src" path="src/ioc"/>
 	<classpathentry kind="src" path="src/mail"/>
 	<classpathentry kind="src" path="src/pdf"/>
