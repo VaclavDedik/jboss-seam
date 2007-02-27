@@ -259,6 +259,16 @@
             stuff happening when you backbutton.
         </para>
         
+        <para>
+            Usually, if a component exists in a parent conversation of the 
+            current nested conversation, the nested conversation will use
+            the same instance. Occasionally, it is useful to have a different
+            instance in each nested conversation, so that the component 
+            instance that exists in the parent conversation is invisible to
+            its child conversations. You can achieve this behavior by 
+            annotating the component <literal>@PerNestedConversation</literal>.
+        </para>
+        
     </section>
     
     <section>

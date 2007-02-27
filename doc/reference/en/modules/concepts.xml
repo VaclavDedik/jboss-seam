@@ -690,6 +690,12 @@ public class LoginAction implements Login {
             bound to the named context variable, you should specify <literal>@In(create=true)</literal>. If the value is
             optional (it can be null), specify <literal>@In(required=false)</literal>. 
         </para>
+        
+        <para>
+            For some components, it can be repetitive to have to specify <literal>@In(create=true)</literal> everywhere
+            they are used. In such cases, you can annotate the component <literal>@AutoCreate</literal>, and then it
+            will always be created, whenever needed, even without the explicit use of <literal>create=true</literal>.
+        </para>
 
         <para> 
             You can even inject the value of an expression: 
