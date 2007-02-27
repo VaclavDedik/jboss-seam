@@ -130,7 +130,7 @@ public abstract class Query<T>
    {
       if (parsedEjbql==null)
       {
-         QueryParser qp = new QueryParser(ejbql);
+         QueryParser qp = new QueryParser( getEjbql() );
          queryParameters = qp.getParameterValueBindings();
          parsedEjbql = qp.getEjbql();
          
