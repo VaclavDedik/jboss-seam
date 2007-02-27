@@ -19,6 +19,7 @@
 <!ENTITY itext                  SYSTEM "modules/itext.xml">
 <!ENTITY mail                   SYSTEM "modules/mail.xml">
 <!ENTITY jms                    SYSTEM "modules/jms.xml">
+<!ENTITY cache                  SYSTEM "modules/cache.xml">
 <!ENTITY remoting               SYSTEM "modules/remoting.xml">
 <!ENTITY spring                 SYSTEM "modules/spring.xml">
 <!ENTITY configuration          SYSTEM "modules/configuration.xml">
@@ -269,6 +270,7 @@
     &itext;
     &mail;
     &jms;
+    &cache;
     &remoting;
     &spring;
     &configuration;
