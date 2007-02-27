@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE pages PUBLIC "-//Seam/Seam Pages DTD 1.1//EN" "http://jboss.com/products/seam/pages-1.1.dtd">
+<!DOCTYPE pages PUBLIC "-//Seam/Seam Pages DTD 1.2//EN" "http://jboss.com/products/seam/pages-1.2.dtd">
 
 <pages login-view-id="/loginRequired.xhtml">
 
