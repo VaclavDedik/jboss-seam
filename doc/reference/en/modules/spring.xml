@@ -36,7 +36,7 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans 
                         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
                         http://jboss.com/products/seam/spring 
-                        http://jboss.com/products/seam/spring-1.1.xsd">]]></programlisting>
+                        http://jboss.com/products/seam/spring-1.2.xsd">]]></programlisting>
 
         <para> Now any Seam component may be injected into any Spring bean: </para>
 
