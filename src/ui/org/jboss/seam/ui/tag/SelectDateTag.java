@@ -24,7 +24,7 @@ package org.jboss.seam.ui.tag;
 
 import javax.faces.component.UIComponent;
 
-import org.jboss.seam.ui.SelectDate;
+import org.jboss.seam.ui.UISelectDate;
 
 
 public class SelectDateTag 
@@ -33,7 +33,7 @@ public class SelectDateTag
     @Override
     public String getComponentType()
     {
-        return SelectDate.COMPONENT_TYPE;
+        return UISelectDate.COMPONENT_TYPE;
     }
 
     @Override

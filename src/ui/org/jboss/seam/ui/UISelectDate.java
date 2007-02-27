@@ -10,9 +10,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.el.ValueBinding;
 import org.jboss.seam.ui.resource.WebResource;
-public class SelectDate extends UIComponentBase
+public class UISelectDate extends UIComponentBase
 {
-   public static final String COMPONENT_TYPE = "org.jboss.seam.ui.SelectDate";
+   public static final String COMPONENT_TYPE = "org.jboss.seam.ui.UISelectDate";
    public static final String COMPONENT_FAMILY = "org.jboss.seam.ui.SelectDate";
    private String forField;
    private String dateFormat = "MM/dd/yyyy";

@@ -17,9 +17,9 @@ import org.jboss.seam.web.MultipartRequest;
  * 
  * @author Shane Bryzak
  */
-public class FileUpload extends UIComponentBase
+public class UIFileUpload extends UIComponentBase
 {
-   public static final String COMPONENT_TYPE   = "org.jboss.seam.ui.FileUpload";
+   public static final String COMPONENT_TYPE   = "org.jboss.seam.ui.UIFileUpload";
    public static final String COMPONENT_FAMILY = "org.jboss.seam.ui.FileUpload";
    
    private static final String TOMAHAWK_WRAPPER_CLASS = "org.apache.myfaces.webapp.filter.MultipartRequestWrapper";

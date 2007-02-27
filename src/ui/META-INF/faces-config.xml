@@ -460,8 +460,8 @@
     </component>
 
     <component>
-        <component-type>org.jboss.seam.ui.SelectDate</component-type>
-        <component-class>org.jboss.seam.ui.SelectDate</component-class>
+        <component-type>org.jboss.seam.ui.UISelectDate</component-type>
+        <component-class>org.jboss.seam.ui.UISelectDate</component-class>
         <property>
             <property-name>for</property-name>
             <property-class>java.lang.String</property-class>
@@ -507,8 +507,8 @@
 	</component>
     
     <component>
-        <component-type>org.jboss.seam.ui.FileUpload</component-type>
-        <component-class>org.jboss.seam.ui.FileUpload</component-class>
+        <component-type>org.jboss.seam.ui.UIFileUpload</component-type>
+        <component-class>org.jboss.seam.ui.UIFileUpload</component-class>
         <property>
             <property-name>data</property-name>
             <property-class>java.lang.String</property-class>

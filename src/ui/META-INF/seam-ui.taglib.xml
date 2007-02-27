@@ -107,7 +107,7 @@
     <tag>
         <tag-name>selectDate</tag-name>
         <component>
-            <component-type>org.jboss.seam.ui.SelectDate</component-type>
+            <component-type>org.jboss.seam.ui.UISelectDate</component-type>
         </component>
     </tag>
     
@@ -142,7 +142,7 @@
     <tag>
         <tag-name>fileUpload</tag-name>
         <component>
-            <component-type>org.jboss.seam.ui.FileUpload</component-type>
+            <component-type>org.jboss.seam.ui.UIFileUpload</component-type>
         </component>
     </tag>
     

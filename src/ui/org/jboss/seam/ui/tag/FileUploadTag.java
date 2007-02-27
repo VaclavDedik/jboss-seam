@@ -2,7 +2,7 @@ package org.jboss.seam.ui.tag;
 
 import javax.faces.component.UIComponent;
 
-import org.jboss.seam.ui.FileUpload;
+import org.jboss.seam.ui.UIFileUpload;
 
 /**
  * File upload tag attributes
@@ -25,7 +25,7 @@ public class FileUploadTag extends UIComponentTagBase
    @Override
    public String getComponentType()
    {
-       return FileUpload.COMPONENT_TYPE;
+       return UIFileUpload.COMPONENT_TYPE;
    }
 
    @Override
