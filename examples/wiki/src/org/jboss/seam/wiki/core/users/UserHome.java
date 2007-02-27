@@ -4,6 +4,7 @@ package org.jboss.seam.wiki.core.users;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Renderer;
+import org.jboss.seam.core.Conversation;
 import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.wiki.core.dao.UserDAO;
 import org.jboss.seam.wiki.core.prefs.GlobalPreferences;
@@ -27,6 +28,9 @@ public class UserHome extends EntityHome<User> {
 
     @In(create = true)
     private UserDAO userDAO;
+
+    @In(create = true)
+    private NodeBrowser browser;
 
     @In(create = true)
     private Hash hashUtil;
@@ -57,7 +61,6 @@ public class UserHome extends EntityHome<User> {
         }
     }
 
-    @Begin(flushMode = FlushModeType.MANUAL, join = true)
     @Transactional
     public void create() {
         super.create();
@@ -66,6 +69,23 @@ public class UserHome extends EntityHome<User> {
         if (defaultRole == null) throw new RuntimeException("Default role for new users not configured");
 
         oldUsername = getInstance().getUsername();
+    }
+
+    // TODO: Typical exit method to get out of a root or nested conversation, JBSEAM-906
+    public void exitConversation(Boolean endBeforeRedirect) {
+        Conversation currentConversation = Conversation.instance();
+        if (currentConversation.isNested()) {
+            // End this nested conversation and return to last rendered view-id of parent
+            currentConversation.endAndRedirect(endBeforeRedirect);
+        } else {
+            // End this root conversation
+            currentConversation.end();
+            // Return to the view-id that was captured when this conversation started
+            if (endBeforeRedirect)
+                browser.redirectToLastBrowsedPage();
+            else
+                browser.redirectToLastBrowsedPage();
+        }
     }
 
     public String persist() {
@@ -107,7 +127,7 @@ public class UserHome extends EntityHome<User> {
                     "A confirmation e-mail has been sent to '" + getInstance().getEmail() + "'. " +
                     "Please read this e-mail to activate your account.");
 
-                ((NodeBrowser) Component.getInstance(NodeBrowser.class)).redirectToLastBrowsedPageWithConversation();
+                exitConversation(false);
 
             } catch (Exception ex) {
                 facesMessages.add(FacesMessage.SEVERITY_ERROR, "Couldn't send confirmation email: " + ex.getMessage());
@@ -151,7 +171,7 @@ public class UserHome extends EntityHome<User> {
         String outcome = super.update();
         if (outcome != null) {
 
-            if (getInstance().getId().equals(authenticatedUser.getId())) {
+            if (authenticatedUser != null && getInstance().getId().equals(authenticatedUser.getId())) {
                 // Updated profile of currently logged-in user
                 authenticatedUser = getInstance();
 
@@ -165,7 +185,7 @@ public class UserHome extends EntityHome<User> {
                     );
                 }
             }
-            ((NodeBrowser) Component.getInstance(NodeBrowser.class)).redirectToLastBrowsedPageWithConversation();
+            exitConversation(false);
         }
 
         return outcome;

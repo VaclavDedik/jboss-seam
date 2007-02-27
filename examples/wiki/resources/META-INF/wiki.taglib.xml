@@ -30,6 +30,13 @@
         <function-signature>java.lang.String convertToWikiName(java.lang.String)</function-signature>
     </function>
 
+    <function>
+        <function-name>sizeOf</function-name>
+        <function-class>org.jboss.seam.wiki.core.ui.JSFUtil</function-class>
+        <function-signature>int sizeOf(java.util.Collection)</function-signature>
+    </function>
+
+
     <tag>
         <tag-name>formattedText</tag-name>
         <component>

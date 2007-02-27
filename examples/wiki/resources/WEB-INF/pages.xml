@@ -6,6 +6,7 @@
     <page view-id="/display.xhtml" action="#{browser.prepare}">
         <param name="nodeId" value="#{browser.nodeId}"/>
 
+        <!-- End any pending long-running conversation that was propagated into his view -->
         <end-conversation/>
 
         <navigation>
@@ -21,29 +22,37 @@
     <page view-id="/docDisplay.xhtml" action="#{browser.prepare}">
         <param name="nodeId" value="#{browser.nodeId}"/>
 
+        <!-- End any pending long-running conversation that was propagated into his view -->
         <end-conversation/>
 
         <navigation>
             <rule if-outcome="createDoc">
+                <begin-conversation flush-mode="MANUAL"/>
                 <redirect view-id="/docEdit.xhtml">
                     <param name="parentDirId" value="#{currentDirectory.id}"/>
                 </redirect>
             </rule>
+
             <rule if-outcome="editDoc">
+                <begin-conversation flush-mode="MANUAL"/>
                 <redirect view-id="/docEdit.xhtml">
                     <param name="docId"         value="#{currentDocument.id}"/>
                     <param name="parentDirId"   value="#{currentDirectory.id}"/>
                 </redirect>
             </rule>
+
             <rule if-outcome="browseDir">
                 <render view-id="/dirDisplay.xhtml"/>
             </rule>
+
         </navigation>
 
     </page>
 
-    <page view-id="/docEdit.xhtml" login-required="true">
+    <page view-id="/docEdit.xhtml" login-required="true" no-conversation-view-id="/message.xhtml">
+        <description>Edit Document '#{documentHome.instance.name}'</description>
         <restrict/>
+
         <navigation from-action="#{documentHome.remove}">
             <end-conversation/>
             <redirect view-id="/display.xhtml">
@@ -55,20 +64,24 @@
     <page view-id="/dirDisplay.xhtml" action="#{browser.prepare}">
         <param name="nodeId" value="#{browser.nodeId}"/>
 
+        <!-- End any pending long-running conversation that was propagated into his view -->
         <end-conversation/>
 
         <navigation>
             <rule if-outcome="createDir">
+                <begin-conversation flush-mode="MANUAL"/>
                 <redirect view-id="/dirEdit.xhtml">
                     <param name="parentDirId" value="#{currentDirectory.id}"/>
                 </redirect>
             </rule>
             <rule if-outcome="editDir">
+                <begin-conversation flush-mode="MANUAL"/>
                 <redirect view-id="/dirEdit.xhtml">
                     <param name="dirId" value="#{currentDirectory.id}"/>
                 </redirect>
             </rule>
             <rule if-outcome="createDoc">
+                <begin-conversation flush-mode="MANUAL"/>
                 <redirect view-id="/docEdit.xhtml">
                     <param name="parentDirId" value="#{currentDirectory.id}"/>
                 </redirect>
@@ -77,8 +90,10 @@
 
     </page>
 
-    <page view-id="/dirEdit.xhtml" login-required="true">
+    <page view-id="/dirEdit.xhtml" login-required="true" no-conversation-view-id="/dirDisplay.xhtml">
+        <description>Edit Directory '#{directoryHome.instance.name}'</description>
         <restrict/>
+
         <navigation from-action="#{directoryHome.remove}">
             <rule if="#{!empty directoryHome.parentDirectory}">
                 <end-conversation/>
@@ -96,20 +111,57 @@
 
     </page>
 
+    <page view-id="/userAccount.xhtml" no-conversation-view-id="/message.xhtml">
+        <description>Managing Member Account '#{userHome.instance.username}'</description>
+    </page>
+    <page view-id="/userProfile.xhtml" no-conversation-view-id="/message.xhtml">
+        <description>Managing Member Profile '#{userHome.instance.username}'</description>
+    </page>
+    <page view-id="/userPrefs.xhtml" no-conversation-view-id="/message.xhtml">
+        <description>Managing Member Preferences '#{userHome.instance.username}'</description>
+    </page>
+    <page view-id="/userList.xhtml" no-conversation-view-id="/message.xhtml">
+        <description>Searching Members (Results: #{userSearch.rowCount})</description>
+    </page>
+
     <!-- Global actions -->
 
     <page view-id="/*">
         <navigation>
             <rule if-outcome="register">
-                <redirect view-id="/profile.xhtml"/>
+                <!-- TODO: I don't want to join, I want a new parallel root conversation: http://jira.jboss.com/jira/browse/JBSEAM-944 -->
+                <begin-conversation join="true" flush-mode="MANUAL"/>
+                <redirect view-id="/userAccount.xhtml"/>
             </rule>
-            <rule if-outcome="listUsers">
-                <redirect view-id="/userList.xhtml"/>
-            </rule>
-            <rule if-outcome="editMyProfile">
-                <redirect view-id="/profile.xhtml">
+            <rule if-outcome="editCurrentUser">
+                <!-- TODO: I don't want to join, I want a new parallel root conversation: http://jira.jboss.com/jira/browse/JBSEAM-944 -->
+                <begin-conversation join="true" flush-mode="MANUAL"/>
+                <redirect view-id="/userProfile.xhtml">
                     <param name="userId" value="#{authenticatedUser.id}"/>
                 </redirect>
+            </rule>
+            <rule if-outcome="editAccount">
+                <begin-conversation join="true" flush-mode="MANUAL"/>
+                <redirect view-id="/userAccount.xhtml">
+                    <param name="userId" value="#{authenticatedUser.id}"/>
+                </redirect>
+            </rule>
+            <rule if-outcome="editProfile">
+                <begin-conversation join="true" flush-mode="MANUAL"/>
+                <redirect view-id="/userProfile.xhtml">
+                    <param name="userId" value="#{authenticatedUser.id}"/>
+                </redirect>
+            </rule>
+            <rule if-outcome="editPreferences">
+                <begin-conversation join="true" flush-mode="MANUAL"/>
+                <redirect view-id="/userPrefs.xhtml">
+                    <param name="userId" value="#{authenticatedUser.id}"/>
+                </redirect>
+            </rule>
+            <rule if-outcome="listUsers">
+                <!-- TODO: I don't want to join, I want a new parallel root conversation: http://jira.jboss.com/jira/browse/JBSEAM-944 -->
+                <begin-conversation join="true" flush-mode="MANUAL"/>
+                <redirect view-id="/userList.xhtml"/>
             </rule>
 
             <rule if-outcome="error">

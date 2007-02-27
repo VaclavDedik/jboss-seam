@@ -2,6 +2,7 @@ package org.jboss.seam.wiki.core.node;
 
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Component;
 import org.jboss.seam.wiki.core.dao.NodeDAO;
 
 import java.util.*;
@@ -71,6 +72,8 @@ public class NodeBrowser {
      * a prepare()ed page that was in a long-running conversation (temporary doesn't matter) or that was last
      * called with an action (that action would probably send us straight back into the conversation we are trying
      * to redirect out of).
+     *
+     * TODO: These methods and the whole navigation strategy can be simplified with http://jira.jboss.com/jira/browse/JBSEAM-906
      */
     public void redirectToLastBrowsedPage() {
 
@@ -98,7 +101,6 @@ public class NodeBrowser {
         redirect.returnToCapturedView();
     }
 
-
     // Just a convenience method for recursive calling
     protected void addDirectoryToPath(List<Node> path, Node directory) {
         path.add(directory);
@@ -106,12 +108,13 @@ public class NodeBrowser {
             addDirectoryToPath(path, directory.getParent());
     }
 
+
     @Transactional
     public String prepare() {
 
         // Store the view-id that called this method (as a page action) for return (exit of a later conversation)
         redirect.captureCurrentRequest();
-        // TODO: I'm not using captureCurrentView() because it starts a conversation
+        // TODO: I'm not using captureCurrentView() because it starts a conversation (and it doesn't capture all request parameters)
 
         // Have we been called with a nodeId request parameter, could be document or directory
         if (nodeId != null && !nodeId.equals(wikiRoot.getId())) {
@@ -160,6 +163,7 @@ public class NodeBrowser {
         nodeId = currentDocument != null ? currentDocument.getId() : currentDirectory.getId();
 
         // Prepare directory path for breadcrumb
+        currentDirectoryPath.clear();
         addDirectoryToPath(currentDirectoryPath, currentDirectory);
         Collections.reverse(currentDirectoryPath);
 

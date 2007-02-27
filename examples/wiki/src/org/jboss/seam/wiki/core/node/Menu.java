@@ -4,7 +4,6 @@ import org.jboss.seam.annotations.*;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.wiki.core.links.WikiLinkResolver;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.ArrayList;
 

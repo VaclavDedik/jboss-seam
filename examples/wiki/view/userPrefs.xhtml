@@ -11,19 +11,16 @@
 <ui:define name="pluginCSS">
     <link href="#{themePath}/css/userControl.css" rel="stylesheet" type="text/css"/>
     <link href="#{themePath}/css/searchControl.css" rel="stylesheet" type="text/css"/>
-    <link href="#{themePath}/css/breadcrumb.css" rel="stylesheet" type="text/css"/>
     <link href="#{themePath}/css/mainMenu.css" rel="stylesheet" type="text/css"/>
 </ui:define>
 
-<ui:define name="screenname">Display Document</ui:define>
+<ui:define name="screenname">Member Preferences</ui:define>
 
 <ui:define name="headerTopRight">
     <ui:include src="plugins/userControl/plugin.xhtml"/>
 </ui:define>
 
-<ui:define name="headerBottomLeft">
-    <ui:include src="plugins/breadcrumb/plugin.xhtml"/>
-</ui:define>
+<ui:define name="headerBottomLeft">&#160;</ui:define>
 
 <ui:define name="headerBottomRight">
     <ui:include src="plugins/searchControl/plugin.xhtml"/>
@@ -33,17 +30,24 @@
     <ui:include src="plugins/mainMenu/plugin.xhtml"/>
 </ui:define>
 
+<ui:define name="controlLeft">
+    <s:div rendered="#{userHome.managed}">
+        <s:link id="editAccount" styleClass="linkTab" action="editAccount">Account</s:link>
+        <s:link id="editProfile" styleClass="linkTab" action="editProfile">Profile</s:link>
+        <s:link id="editPreferences" styleClass="linkTabActive" action="editPreferences">Preferences</s:link>
+    </s:div>
+</ui:define>
+
 <ui:define name="controlRight">
-    <s:link id="createDoc" styleClass="linkNavigation" action="createDoc" accesskey="C"><u>C</u>reate</s:link>
-    <s:link id="editDoc" styleClass="linkNavigation" action="editDoc" accesskey="E"><u>E</u>dit</s:link>
-    <s:link id="discussDoc" styleClass="linkNavigation" accesskey="D"><u>D</u>iscuss</s:link>
-    <s:link id="browseDir" styleClass="linkNavigation" action="browseDir" accesskey="B"><u>B</u>rowse</s:link>
+    <s:link id="exit" styleClass="linkNavigation"
+            action="#{userHome.exitConversation(true)}"
+            accesskey="E"><u>E</u>xit</s:link>
 </ui:define>
 
 <ui:define name="content">
-    <s:div styleClass="documentDisplay">
-        <wiki:formattedText value="#{currentDocument.content}" linkStyleClass="regularLink" brokenLinkStyleClass="brokenLink"/>
-    </s:div>
+
+    Not implemented.
+
 </ui:define>
 
 <ui:define name="footer">&#160;</ui:define>

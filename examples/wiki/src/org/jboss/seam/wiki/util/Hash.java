@@ -5,6 +5,14 @@ import java.security.MessageDigest;
 import org.apache.commons.codec.binary.Hex;
 import org.jboss.seam.annotations.Name;
 
+/**
+ * Not reall save, should use a random salt, prepended later on the digest.
+ * Should also iterate the hashing a few thousand times to make brute force
+ * attacks more difficult. Basically, implement user password encryption with
+ * the same technique as on a typical Linux distribution.
+ *
+ * TODO: Make this more secure - before releasing to public and breaking all stored passwords!
+ */
 @Name("hashUtil")
 public class Hash {
     String hashFunction = "MD5";

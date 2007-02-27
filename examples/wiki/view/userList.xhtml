@@ -19,7 +19,9 @@
 <ui:define name="headerTopRight">
     <ui:include src="plugins/userControl/plugin.xhtml"/>
 </ui:define>
+
 <ui:define name="headerBottomLeft">&#160;</ui:define>
+
 <ui:define name="headerBottomRight">
     <ui:include src="plugins/searchControl/plugin.xhtml"/>
 </ui:define>
@@ -28,9 +30,10 @@
     <ui:include src="plugins/mainMenu/plugin.xhtml"/>
 </ui:define>
 
-<ui:define name="control">
-    <s:link id="exit" styleClass="linkNavigation" accesskey="E"
-            action="#{browser.redirectToLastBrowsedPage()}" propagation="end"><u>E</u>nd Search</s:link>
+<ui:define name="controlRight">
+    <s:link id="exit" styleClass="linkNavigation"
+            action="#{userSearch.exitConversation(true)}"
+            accesskey="E"><u>E</u>xit</s:link>
 </ui:define>
 
 <ui:define name="content">
@@ -69,7 +72,7 @@
                 </h:panelGroup>
 
                 <h:panelGroup>
-                    <h:outputLabel styleClass="label" for="pageSize">Limit:</h:outputLabel>
+                    <h:outputLabel styleClass="label" for="pageSize">Show:</h:outputLabel>
                     <h:selectOneMenu styleClass="input" value="#{userSearch.pageSize}" id="pageSize" tabindex="5">
                         <f:selectItem itemLabel="5" itemValue="5"/>
                         <f:selectItem itemLabel="10" itemValue="10"/>
@@ -135,22 +138,24 @@
                 <f:facet name="header">
                     <h:commandLink action="#{userSearch.sortBy('username')}" tabindex="8">
                         <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/sortindicator.up.gif" width="8" height="8"
-                                        rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'username'}"/>
-                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/sortindicator.down.gif" width="8" height="8"
                                         rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'username'}"/>
+                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/sortindicator.down.gif" width="8" height="8"
+                                        rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'username'}"/>
                         Username
                     </h:commandLink>
                 </f:facet>
-                #{u.username}
+                <s:link view="/userAccount.xhtml" value="#{u.username}" tabindex="13" propagation="nest">
+                    <f:param name="userId" value="#{u.id}"/>
+                </s:link>
             </h:column>
 
             <h:column>
                 <f:facet name="header">
                     <h:commandLink action="#{userSearch.sortBy('firstname')}" tabindex="9">
                         <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/sortindicator.up.gif" width="8" height="8"
-                                        rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'firstname'}"/>
-                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/sortindicator.down.gif" width="8" height="8"
                                         rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'firstname'}"/>
+                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/sortindicator.down.gif" width="8" height="8"
+                                        rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'firstname'}"/>
                         First name
                     </h:commandLink>
                 </f:facet>
@@ -161,9 +166,9 @@
                 <f:facet name="header">
                     <h:commandLink action="#{userSearch.sortBy('lastname')}" tabindex="10">
                         <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/sortindicator.up.gif" width="8" height="8"
-                                        rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'lastname'}"/>
-                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/sortindicator.down.gif" width="8" height="8"
                                         rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'lastname'}"/>
+                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/sortindicator.down.gif" width="8" height="8"
+                                        rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'lastname'}"/>
                         Last name
                     </h:commandLink>
                 </f:facet>
@@ -174,9 +179,9 @@
                 <f:facet name="header">
                     <h:commandLink action="#{userSearch.sortBy('email')}" tabindex="11">
                         <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/sortindicator.up.gif" width="8" height="8"
-                                        rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'email'}"/>
-                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/sortindicator.down.gif" width="8" height="8"
                                         rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'email'}"/>
+                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/sortindicator.down.gif" width="8" height="8"
+                                        rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'email'}"/>
                         E-mail address
                     </h:commandLink>
                 </f:facet>
@@ -187,9 +192,9 @@
                 <f:facet name="header">
                     <h:commandLink action="#{userSearch.sortBy('createdOn')}" tabindex="12">
                         <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/sortindicator.up.gif" width="8" height="8"
-                                        rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'createdOn'}"/>
-                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/sortindicator.down.gif" width="8" height="8"
                                         rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'createdOn'}"/>
+                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/sortindicator.down.gif" width="8" height="8"
+                                        rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'createdOn'}"/>
                         Joined on
                     </h:commandLink>
                 </f:facet>

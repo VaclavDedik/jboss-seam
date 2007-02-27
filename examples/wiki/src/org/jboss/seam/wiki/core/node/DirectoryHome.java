@@ -10,6 +10,7 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.wiki.core.dao.NodeDAO;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Events;
+import org.jboss.seam.core.Conversation;
 
 import javax.persistence.Query;
 import java.util.List;
@@ -33,6 +34,9 @@ public class DirectoryHome extends EntityHome<Directory> {
     @In
     private FacesMessages facesMessages;
 
+    @In(create = true)
+    private NodeBrowser browser;
+
     @In(create=true)
     private NodeDAO nodeDAO;
 
@@ -47,7 +51,6 @@ public class DirectoryHome extends EntityHome<Directory> {
     }
 
     @Override
-    @Begin(flushMode = FlushModeType.MANUAL)
     @Transactional
     public void create() {
         super.create();
@@ -65,6 +68,24 @@ public class DirectoryHome extends EntityHome<Directory> {
         refreshChildNodes();
     }
 
+    // TODO: Typical exit method to get out of a root or nested conversation, JBSEAM-906
+    public void exitConversation(Boolean endBeforeRedirect) {
+        Conversation currentConversation = Conversation.instance();
+        if (currentConversation.isNested()) {
+            // End this nested conversation and return to last rendered view-id of parent
+            currentConversation.endAndRedirect(endBeforeRedirect);
+        } else {
+            // End this root conversation
+            currentConversation.end();
+            // Return to the view-id that was captured when this conversation started
+            if (endBeforeRedirect)
+                browser.redirectToLastBrowsedPage();
+            else
+                browser.redirectToLastBrowsedPage();
+        }
+    }
+
+    @Override
     public String persist() {
 
         // Validate
@@ -96,6 +117,7 @@ public class DirectoryHome extends EntityHome<Directory> {
     }
 
 
+    @Override
     public String update() {
 
         // Validate
@@ -107,6 +129,7 @@ public class DirectoryHome extends EntityHome<Directory> {
         return super.update();
     }
 
+    @Override
     public String remove() {
 
         // Unlink the document from its parent directory
@@ -120,26 +143,28 @@ public class DirectoryHome extends EntityHome<Directory> {
         return super.remove();
     }
 
+    @Override
+    public String getUpdatedMessage() {
+        return super.getUpdatedMessage() + ": '" + getInstance().getName() + "'";
+    }
+
+
+    @Override
+    public String getDeletedMessage() {
+        return super.getDeletedMessage() + ": '" + getInstance().getName() + "'";
+    }
+
+    @Override
+    public String getCreatedMessage() {
+        return super.getCreatedMessage() + ": '" + getInstance().getName() + "'";
+    }
+
     public Directory getParentDirectory() {
         return parentDirectory;
     }
 
     public void setParentDirectory(Directory parentDirectory) {
         this.parentDirectory = parentDirectory;
-    }
-
-
-    public String getUpdatedMessage() {
-        return super.getUpdatedMessage() + ": '" + getInstance().getName() + "'";
-    }
-
-
-    public String getDeletedMessage() {
-        return super.getDeletedMessage() + ": '" + getInstance().getName() + "'";
-    }
-
-    public String getCreatedMessage() {
-        return super.getCreatedMessage() + ": '" + getInstance().getName() + "'";
     }
 
     @DataModel

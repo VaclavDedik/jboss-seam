@@ -11,7 +11,7 @@ public class Directory extends Node {
     @JoinColumn(name = "DEFAULT_DOCUMENT_ID", nullable = true)
     private Document defaultDocument;
 
-    public Directory() { super(); }
+    public Directory() { super("New Directory"); }
 
     public Directory(String name) {
         super(name);

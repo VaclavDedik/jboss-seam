@@ -9,26 +9,42 @@
                 template="themes/#{globalPrefs.themeName}/template.xhtml">
 
 <ui:define name="pluginCSS">
+    <link href="#{themePath}/css/userControl.css" rel="stylesheet" type="text/css"/>
+    <link href="#{themePath}/css/searchControl.css" rel="stylesheet" type="text/css"/>
     <link href="#{themePath}/css/mainMenu.css" rel="stylesheet" type="text/css"/>
 </ui:define>
 
 <ui:define name="screenname">
     <h:outputText value="Registration" rendered="#{!userHome.managed}"/>
-    <h:outputText value="Profile" rendered="#{userHome.managed}"/>
+    <h:outputText value="Member Account" rendered="#{userHome.managed}"/>
 </ui:define>
 
-<ui:define name="headerTopRight">&#160;</ui:define>
+<ui:define name="headerTopRight">
+    <ui:include src="plugins/userControl/plugin.xhtml"/>
+</ui:define>
+
 <ui:define name="headerBottomLeft">&#160;</ui:define>
-<ui:define name="headerBottomRight">&#160;</ui:define>
+
+<ui:define name="headerBottomRight">
+    <ui:include src="plugins/searchControl/plugin.xhtml"/>
+</ui:define>
 
 <ui:define name="sidebar">
     <ui:include src="plugins/mainMenu/plugin.xhtml"/>
 </ui:define>
 
-<ui:define name="control">
-    <s:link id="cancel" styleClass="linkNavigation"
-            action="#{browser.redirectToLastBrowsedPage()}" propagation="end"
-            accesskey="E">Canc<u>e</u>l</s:link>
+<ui:define name="controlLeft">
+    <s:div rendered="#{userHome.managed}">
+        <s:link id="editAccount" styleClass="linkTabActive" action="editAccount">Account</s:link>
+        <s:link id="editProfile" styleClass="linkTab" action="editProfile">Profile</s:link>
+        <s:link id="editPreferences" styleClass="linkTab" action="editPreferences">Preferences</s:link>
+    </s:div>
+</ui:define>
+
+<ui:define name="controlRight">
+    <s:link id="exit" styleClass="linkNavigation"
+            action="#{userHome.exitConversation(true)}"
+            accesskey="E"><u>E</u>xit</s:link>
 </ui:define>
 
 <ui:define name="content">
@@ -37,7 +53,7 @@
     <div class="form">
         <div class="formHead">
             <h:outputText value="Register a new account" rendered="#{!userHome.managed}"/>
-            <h:outputText value="Editing profile: #{userHome.instance.username}" rendered="#{userHome.managed}"/>
+            <h:outputText value="Editing account: #{userHome.instance.username}" rendered="#{userHome.managed}"/>
         </div>
 
         <div class="formFieldsWideLabels">
@@ -106,7 +122,7 @@
                     </div>
                 </s:decorate>
 
-                <s:div styleClass="entry" rendered="#{not identity.loggedIn}">
+                <s:div styleClass="entry" rendered="#{!userHome.managed}">
                     <div class="label">Verification image:</div>
                     <div class="output">
                         <h:graphicImage value="/seam/resource/captcha?#{captcha.id}" style="border: 1px solid black;"/>
@@ -114,7 +130,7 @@
                 </s:div>
 
                 <s:decorate>
-                    <s:div styleClass="entry" rendered="#{not identity.loggedIn}">
+                    <s:div styleClass="entry" rendered="#{!userHome.managed}">
                         <div class="label">Enter the letters:</div>
                         <div class="input">
                             <h:inputText tabindex="7" size="15" id="verifyCaptcha" value="#{captcha.response}" required="true"/>

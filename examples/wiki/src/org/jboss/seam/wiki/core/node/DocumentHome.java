@@ -9,6 +9,7 @@ import org.jboss.seam.wiki.core.links.WikiLinkResolver;
 import org.jboss.seam.wiki.core.dao.NodeDAO;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Events;
+import org.jboss.seam.core.Conversation;
 import org.jboss.seam.ScopeType;
 
 import java.util.List;
@@ -29,6 +30,9 @@ public class DocumentHome extends EntityHome<Document> {
     @In
     private FacesMessages facesMessages;
 
+    @In(create = true)
+    private NodeBrowser browser;
+
     @In(create=true)
     private WikiLinkResolver wikiLinkResolver;
 
@@ -48,7 +52,7 @@ public class DocumentHome extends EntityHome<Document> {
         }
     }
 
-    @Begin(flushMode = FlushModeType.MANUAL, join = true)
+    @Override
     @Transactional
     public void create() {
         super.create();
@@ -58,6 +62,24 @@ public class DocumentHome extends EntityHome<Document> {
         parentDirectory = getEntityManager().find(Directory.class, parentDirId);
     }
 
+    // TODO: Typical exit method to get out of a root or nested conversation, JBSEAM-906
+    public void exitConversation(Boolean endBeforeRedirect) {
+        Conversation currentConversation = Conversation.instance();
+        if (currentConversation.isNested()) {
+            // End this nested conversation and return to last rendered view-id of parent
+            currentConversation.endAndRedirect(endBeforeRedirect);
+        } else {
+            // End this root conversation
+            currentConversation.end();
+            // Return to the view-id that was captured when this conversation started
+            if (endBeforeRedirect)
+                browser.redirectToLastBrowsedPage();
+            else
+                browser.redirectToLastBrowsedPage();
+        }
+    }
+
+    @Override
     public String persist() {
 
         // Validate
@@ -79,6 +101,7 @@ public class DocumentHome extends EntityHome<Document> {
     }
 
 
+    @Override
     public String update() {
 
         // Validate
@@ -95,6 +118,7 @@ public class DocumentHome extends EntityHome<Document> {
         return super.update();
     }
 
+    @Override
     public String remove() {
 
         // Unlink the document from its directory

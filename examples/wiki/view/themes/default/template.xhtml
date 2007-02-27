@@ -3,6 +3,7 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:wiki="http://jboss.com/products/seam/wiki"
       xmlns:s="http://jboss.com/products/seam/taglib">
 
 <head>
@@ -12,6 +13,19 @@
     </title>
     <link href="#{themePath}/css/template.css" rel="stylesheet" type="text/css"/>
     <ui:insert name="pluginCSS"/>
+
+    <script type="text/javascript">
+        function clickClear(thisfield, defaulttext) {
+            if (thisfield.value == defaulttext) {
+                thisfield.value = "";
+            }
+        }
+        function clickRecall(thisfield, defaulttext) {
+            if (thisfield.value == '') {
+                thisfield.value = defaulttext;
+            }
+        }
+    </script>
 </head>
 
 <body>
@@ -36,8 +50,19 @@
     </div>
 
     <div id="control">
-        <ui:insert name="control"/>
+        <div id="controlLeft"><ui:insert name="controlLeft"/></div>
+        <div id="controlRight"><h:form id="workspaceSwitcher" rendered="#{wiki:sizeOf(conversationList) > 0}">
+                                <h:selectOneMenu value="#{switcher.conversationIdOrOutcome}"
+                                                 styleClass="workspaceSwitcherCombobox">
+                                    <f:selectItems value="#{switcher.selectItems}"/>
+                                </h:selectOneMenu>
+                                <h:commandLink action="#{switcher.select}" accesskey="S"
+                                             styleClass="linkNavigation"><u>S</u>witch Workspace</h:commandLink>
+                            
+                            </h:form><ui:insert name="controlRight"/></div>
     </div>
+
+    <div id="controlSeparator"></div>
 
     <div id="sidebar">
         <ui:insert name="sidebar"/>
@@ -81,6 +106,34 @@
 
     <div id="footer">
         <ui:insert name="footer"/>
+
+        <h:form>
+        <h:dataTable value="#{conversationList}" var="entry"
+                     rendered="#{not empty conversationList}"
+                     styleClass="datatable"
+                     headerClass="sortableHeader"
+                     columnClasses="defaultColumn,defaultColumn,defaultColumn"
+                     rowClasses="rowOdd,rowEven"
+                     cellpadding="0" cellspacing="0" border="0">
+            <h:column>
+                <f:facet name="header">Workspace</f:facet>
+                <h:commandLink action="#{entry.select}" value="#{entry.description}"/>
+                <h:outputText value=" [current]" rendered="#{entry.current}"/>
+                <h:outputText value=" [nested]" rendered="#{entry.nested}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Activity</f:facet>
+                <h:outputText value="#{entry.startDatetime}">
+                    <f:convertDateTime type="time" pattern="hh:mm a"/>
+                </h:outputText>
+                <h:outputText value=" - "/>
+                <h:outputText value="#{entry.lastDatetime}">
+                    <f:convertDateTime type="time" pattern="hh:mm a"/>
+                </h:outputText>
+            </h:column>
+        </h:dataTable>
+        </h:form>
+
     </div>
 
     <!-- Remove this to disable Facelets JSF debugging -->

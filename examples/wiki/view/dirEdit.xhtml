@@ -10,6 +10,7 @@
 
 <ui:define name="pluginCSS">
     <link href="#{themePath}/css/userControl.css" rel="stylesheet" type="text/css"/>
+    <link href="#{themePath}/css/searchControl.css" rel="stylesheet" type="text/css"/>
     <link href="#{themePath}/css/mainMenu.css" rel="stylesheet" type="text/css"/>
 </ui:define>
 
@@ -21,16 +22,21 @@
 <ui:define name="headerTopRight">
     <ui:include src="plugins/userControl/plugin.xhtml"/>
 </ui:define>
+
 <ui:define name="headerBottomLeft">&#160;</ui:define>
-<ui:define name="headerBottomRight">&#160;</ui:define>
+
+<ui:define name="headerBottomRight">
+    <ui:include src="plugins/searchControl/plugin.xhtml"/>
+</ui:define>
 
 <ui:define name="sidebar">
     <ui:include src="plugins/mainMenu/plugin.xhtml"/>
 </ui:define>
 
-<ui:define name="control">
-    <s:link id="exit" styleClass="linkNavigation" accesskey="E"
-            action="#{browser.redirectToLastBrowsedPage()}" propagation="end"><u>E</u>xit Editor</s:link>
+<ui:define name="controlRight">
+    <s:link id="exit" styleClass="linkNavigation"
+            action="#{directoryHome.exitConversation(true)}"
+            accesskey="E"><u>E</u>xit Editor</s:link>
 </ui:define>
 
 <ui:define name="content">

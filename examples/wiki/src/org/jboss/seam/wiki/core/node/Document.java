@@ -12,7 +12,7 @@ public class Document extends Node {
     @Length(min = 1, max = 32768)
     private String content;
 
-    public Document() { super(); }
+    public Document() { super("New Document"); }
 
     public Document(String name) {
         super(name);

@@ -18,48 +18,32 @@
   <component name="ChangeListManager">
     <list default="true" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wiki.iml" afterPath="$PROJECT_DIR$/wiki.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../src/org/jboss/seam/wiki/core/dao/WikiRoot.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../src/org/jboss/seam/wiki/core$PROJECT_DIR$/../../../../../../../../../UserImage.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../src/org/jboss/seam/wiki/core/node/WikiRoot.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../resources/META-INF/persistence-dev.xml" afterPath="$PROJECT_DIR$/../resources/META-INF/persistence-dev.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../view/themes/default/template.xhtml" afterPath="$PROJECT_DIR$/../view/themes/default/template.xhtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../resources/WEB-INF/faces-config.xml" afterPath="$PROJECT_DIR$/../resources/WEB-INF/faces-config.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../src/org/jboss/seam/wiki/core/dao/NodeDAO.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../src/org/jboss/seam/wiki/core/dao/UserDAO.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../view/themes/default/img/icon.doc.default.gif" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../view/userPrefs.xhtml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../resources/WEB-INF/pages.xml" afterPath="$PROJECT_DIR$/../resources/WEB-INF/pages.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../resources/WEB-INF/components.xml" afterPath="$PROJECT_DIR$/../resources/WEB-INF/components.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../build.xml" afterPath="$PROJECT_DIR$/../build.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../src/org/jboss/seam/wiki/core/prefs/GlobalPreferences.java" afterPath="$PROJECT_DIR$/../src/org/jboss/seam/wiki/core/prefs/GlobalPreferences.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../resources/META-INF/persistence-prod.xml" afterPath="$PROJECT_DIR$/../resources/META-INF/persistence-prod.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../src/org/jboss/seam/wiki/core/node/DocumentHome.java" afterPath="$PROJECT_DIR$/../src/org/jboss/seam/wiki/core/node/DocumentHome.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../src/org/jboss/seam/wiki/util/Hash.java" afterPath="$PROJECT_DIR$/../src/org/jboss/seam/wiki/util/Hash.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../view/themes/default/css/template.css" afterPath="$PROJECT_DIR$/../view/themes/default/css/template.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../view/message.xhtml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../view/themes/default/css/userControl.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../src/org/jboss/seam/wiki/core/node/DocumentHome.java" afterPath="$PROJECT_DIR$/../src/org/jboss/seam/wiki/core/node/DocumentHome.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../view/plugins/userControl/plugin.xhtml" afterPath="$PROJECT_DIR$/../view/plugins/userControl/plugin.xhtml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../view/profile.xhtml" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../view/dirDisplay.xhtml" afterPath="$PROJECT_DIR$/../view/dirDisplay.xhtml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../src/org/jboss/seam/wiki/core$PROJECT_DIR$/../../../../../../../../../User.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wiki.iws" afterPath="$PROJECT_DIR$/wiki.iws" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../view/userList.xhtml" afterPath="$PROJECT_DIR$/../view/userList.xhtml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../src/org/jboss/seam/wiki/core/node/Menu.java" afterPath="$PROJECT_DIR$/../src/org/jboss/seam/wiki/core/node/Menu.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../src/org/jboss/seam/wiki/core/node/Document.java" afterPath="$PROJECT_DIR$/../src/org/jboss/seam/wiki/core/node/Document.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../view/docDisplay.xhtml" afterPath="$PROJECT_DIR$/../view/docDisplay.xhtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../src/org/jboss/seam/wiki/core/node/NodeBrowser.java" afterPath="$PROJECT_DIR$/../src/org/jboss/seam/wiki/core/node/NodeBrowser.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../src/org/jboss/seam/wiki/core$PROJECT_DIR$/../../../../../../../../../Role.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../src/org/jboss/seam/wiki/core/node/DirectoryHome.java" afterPath="$PROJECT_DIR$/../src/org/jboss/seam/wiki/core/node/DirectoryHome.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../resources/WEB-INF/web.xml" afterPath="$PROJECT_DIR$/../resources/WEB-INF/web.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../resources/import-prod.sql" afterPath="$PROJECT_DIR$/../resources/import-prod.sql" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../src/org/jboss/seam/wiki/core/node/NodeBrowser.java" afterPath="$PROJECT_DIR$/../src/org/jboss/seam/wiki/core/node/NodeBrowser.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../resources/META-INF/wiki.taglib.xml" afterPath="$PROJECT_DIR$/../resources/META-INF/wiki.taglib.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../view/dirEdit.xhtml" afterPath="$PROJECT_DIR$/../view/dirEdit.xhtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../resources/import-dev.sql" afterPath="$PROJECT_DIR$/../resources/import-dev.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../src/org/jboss/seam/wiki/core/links/WikiLinkResolver.java" afterPath="$PROJECT_DIR$/../src/org/jboss/seam/wiki/core/links/WikiLinkResolver.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../src/org/jboss/seam/wiki/core$PROJECT_DIR$/../../../../../../../../../UserHome.java" afterPath="$PROJECT_DIR$/../src/org/jboss/seam/wiki/core$PROJECT_DIR$/../../../../../../../../../UserHome.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../src/org/jboss/seam/wiki/core/node/Directory.java" afterPath="$PROJECT_DIR$/../src/org/jboss/seam/wiki/core/node/Directory.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../view/docEdit.xhtml" afterPath="$PROJECT_DIR$/../view/docEdit.xhtml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../src/org/jboss/seam/wiki/core$PROJECT_DIR$/../../../../../../../../../Authenticator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../resources/META-INF/application.xml" afterPath="$PROJECT_DIR$/../resources/META-INF/application.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../view/profile.xhtml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../view/themes/default/mailtemplates/confirmationRegistration.xhtml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../view/plugins/userControl/plugin.xhtml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../resources/META-INF/security-rules.drl" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../src/org/jboss/seam/wiki/util/Hash.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../build.properties" afterPath="$PROJECT_DIR$/../build.properties" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../src/org/jboss/seam/wiki/core$PROJECT_DIR$/../../../../../../../../../UserHome.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../src/org/jboss/seam/wiki/core/node/Node.java" afterPath="$PROJECT_DIR$/../src/org/jboss/seam/wiki/core/node/Node.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../src/org/jboss/seam/wiki/core/ui/JSFUtil.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../view/userAccount.xhtml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../view/plugins/searchControl/plugin.xhtml" afterPath="$PROJECT_DIR$/../view/plugins/searchControl/plugin.xhtml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../view/userProfile.xhtml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../src/org/jboss/seam/wiki/core$PROJECT_DIR$/../../../../../../../../..earch.java" afterPath="$PROJECT_DIR$/../src/org/jboss/seam/wiki/core$PROJECT_DIR$/../../../../../../../../..earch.java" />
     </list>
   </component>
   <component name="ChangesViewManager" flattened_view="true" />
@@ -304,6 +288,28 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
+          <option name="myItemId" value="Libraries" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.LibraryGroupNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/../resources" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/../resources/META-INF" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="wiki.ipr" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
           <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/.." />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
@@ -408,36 +414,6 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/../view/themes/default/img" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-      </PATH>
-      <PATH>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="wiki.ipr" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="wiki" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/.." />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/../view" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/../view/themes" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/../view/themes/default" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
           <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/../view/themes/default/css" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
@@ -465,6 +441,32 @@
         </PATH_ELEMENT>
         <PATH_ELEMENT>
           <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/../view/plugins/userControl" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="wiki.ipr" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/.." />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/../view" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/../view/plugins" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/../view/plugins/searchControl" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -850,7 +852,7 @@
     </key>
   </component>
   <component name="RestoreUpdateTree">
-    <UpdateInfo date="2/21/07 5:23 PM" ActionInfo="_Update">
+    <UpdateInfo date="2/27/07 2:10 PM" ActionInfo="_Update">
       <UpdatedFiles>
         <FILE-GROUP>
           <option name="myUpdateName" value="Updated from server" />
@@ -864,6 +866,7 @@
             <option name="mySupportsDeletion" value="false" />
             <option name="myCanBeAbsent" value="false" />
             <option name="myId" value="UPDATED" />
+            <PATH>$PROJECT_DIR$/../resources/WEB-INF/components.xml</PATH>
           </FILE-GROUP>
           <FILE-GROUP>
             <option name="myUpdateName" value="Created" />
@@ -914,7 +917,6 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="MERGED" />
-          <PATH>$PROJECT_DIR$/../resources/WEB-INF/web.xml</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Not in repository" />
@@ -1204,7 +1206,7 @@
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="11" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="4" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.09318996" order="1" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="12" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298466" order="12" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32775453" order="2" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24970132" order="2" />
       <window_info id="File View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="5" />
@@ -1226,13 +1228,13 @@
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
-    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="false" />
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="PERFORM_UPDATE_IN_BACKGROUND" value="false" />
     <option name="PERFORM_COMMIT_IN_BACKGROUND" value="false" />
     <option name="PUT_FOCUS_INTO_COMMENT" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="User registration/login and some security&#10;JBSEAM-870&#10;JBSEAM-871&#10;JBSEAM-874" />
+    <option name="LAST_COMMIT_MESSAGE" value="Member search feature" />
     <option name="SAVE_LAST_COMMIT_MESSAGE" value="true" />
     <option name="CHECKIN_DIALOG_SPLITTER_PROPORTION" value="0.8" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
@@ -1240,7 +1242,7 @@
     <option name="REFORMAT_BEFORE_FILE_COMMIT" value="false" />
     <option name="FILE_HISTORY_DIALOG_COMMENTS_SPLITTER_PROPORTION" value="0.8" />
     <option name="FILE_HISTORY_DIALOG_SPLITTER_PROPORTION" value="0.5" />
-    <option name="ERROR_OCCURED" value="true" />
+    <option name="ERROR_OCCURED" value="false" />
     <option name="ACTIVE_VCS_NAME" value="" />
     <option name="UPDATE_GROUP_BY_PACKAGES" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
@@ -1248,6 +1250,9 @@
     <MESSAGE value="Jbpm upgrade, now deploys again" />
     <MESSAGE value="Fixed the Wiki, basics work now" />
     <MESSAGE value="User registration/login and some security&#10;JBSEAM-870&#10;JBSEAM-871&#10;JBSEAM-874" />
+    <MESSAGE value="Full keyboard/shortcut navigation" />
+    <MESSAGE value="Fixed broken buttons (still ugly in IE but I don't care)" />
+    <MESSAGE value="Member search feature" />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
@@ -1272,29 +1277,9 @@
     <option name="myLastEditedConfigurable" value="Default" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../view/dirDisplay.xhtml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="109" column="43" selection-start="4700" selection-end="4700" vertical-scroll-proportion="0.9028401">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="HtmlPreview">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../view/docDisplay.xhtml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="0" selection-start="1986" selection-end="2030" vertical-scroll-proportion="0.4955157">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="HtmlPreview">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../view/dirEdit.xhtml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="178" column="0" selection-start="7466" selection-end="7510" vertical-scroll-proportion="0.91255605">
+        <state line="50" column="0" selection-start="1983" selection-end="1983" vertical-scroll-proportion="0.4857997">
           <folding />
         </state>
       </provider>
@@ -1302,9 +1287,9 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../view/docEdit.xhtml">
+    <entry file="file://$PROJECT_DIR$/../view/dirDisplay.xhtml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="111" column="0" selection-start="4567" selection-end="4567" vertical-scroll-proportion="0.9028401">
+        <state line="89" column="91" selection-start="4207" selection-end="4207" vertical-scroll-proportion="0.6793722">
           <folding />
         </state>
       </provider>
@@ -1312,23 +1297,30 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../src/org/jboss/seam/wiki/core$PROJECT_DIR$/../../../../../../../../../UserHome.java">
+    <entry file="file://$PROJECT_DIR$/../src/org/jboss/seam/wiki/core/node/Document.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="78" column="9" selection-start="1957" selection-end="1957" vertical-scroll-proportion="0.40751445">
+        <state line="14" column="44" selection-start="324" selection-end="324" vertical-scroll-proportion="0.1315029">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../src/org/jboss/seam/wiki/core/dao/UserDAO.java">
+    <entry file="file://$PROJECT_DIR$/../src/org/jboss/seam/wiki/core/node/Directory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="42" selection-start="1200" selection-end="1200" vertical-scroll-proportion="0.35693642">
+        <state line="36" column="5" selection-start="804" selection-end="804" vertical-scroll-proportion="0.3381503">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../view/themes/default/mailtemplates/confirmationRegistration.xhtml">
+    <entry file="file://$PROJECT_DIR$/../src/org/jboss/seam/wiki/core$PROJECT_DIR$/../../../../../../../../..earch.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="61" selection-start="1468" selection-end="1468" vertical-scroll-proportion="0.29478458">
+        <state line="46" column="5" selection-start="1248" selection-end="1248" vertical-scroll-proportion="0.43208092">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../view/themes/default/template.xhtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="109" column="0" selection-start="4408" selection-end="4408" vertical-scroll-proportion="0.59192824">
           <folding />
         </state>
       </provider>
@@ -1336,44 +1328,37 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../src/org/jboss/seam/wiki/core$PROJECT_DIR$/../../../../../../../../../UserImage.java">
+    <entry file="file://$PROJECT_DIR$/../src/org/jboss/seam/wiki/core/node/NodeBrowser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="13" selection-start="231" selection-end="231" vertical-scroll-proportion="0.1033237">
+        <state line="116" column="132" selection-start="4887" selection-end="4887" vertical-scroll-proportion="0.38294798">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../src/org/jboss/seam/wiki/core$PROJECT_DIR$/../../../../../../../../../User.java">
+    <entry file="file://$PROJECT_DIR$/../src/org/jboss/seam/wiki/core/ui/JSFUtil.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="0" selection-start="1571" selection-end="1571" vertical-scroll-proportion="0.47904626">
+        <state line="12" column="0" selection-start="248" selection-end="248" vertical-scroll-proportion="0.112716764">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../src/org/jboss/seam/wiki/core/node/Menu.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="0" selection-start="166" selection-end="166" vertical-scroll-proportion="0.04696532">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../resources/WEB-INF/pages.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="52" column="11" selection-start="1810" selection-end="1810" vertical-scroll-proportion="0.16907515">
+        <state line="26" column="0" selection-start="953" selection-end="953" vertical-scroll-proportion="0.24421965">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../resources/import-dev.sql">
+    <entry file="file://$PROJECT_DIR$/../view/userList.xhtml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="0" selection-start="4768" selection-end="4768" vertical-scroll-proportion="0.2184076">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../resources/WEB-INF/components.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="58" column="59" selection-start="2819" selection-end="2819" vertical-scroll-proportion="0.54479766">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../view/message.xhtml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="0" selection-start="615" selection-end="615" vertical-scroll-proportion="0.11659193">
+        <state line="146" column="31" selection-start="7516" selection-end="7527" vertical-scroll-proportion="0.28101644">
           <folding />
         </state>
       </provider>
@@ -1381,9 +1366,9 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../view/profile.xhtml">
+    <entry file="file://$PROJECT_DIR$/../view/userProfile.xhtml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="140" column="0" selection-start="5793" selection-end="5793" vertical-scroll-proportion="0.7959641">
+        <state line="49" column="0" selection-start="1906" selection-end="1927" vertical-scroll-proportion="0.4760837">
           <folding />
         </state>
       </provider>
@@ -1391,11 +1376,34 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../resources/WEB-INF/web.xml">
+    <entry file="file://$PROJECT_DIR$/../view/userPrefs.xhtml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="41" selection-start="914" selection-end="914" vertical-scroll-proportion="0.24421965">
+        <state line="49" column="0" selection-start="1931" selection-end="1931" vertical-scroll-proportion="0.4760837">
           <folding />
         </state>
+      </provider>
+      <provider editor-type-id="HtmlPreview">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../view/userAccount.xhtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="0" selection-start="564" selection-end="564" vertical-scroll-proportion="0.08744395">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="HtmlPreview">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../view/plugins/userControl/plugin.xhtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="76" selection-start="1678" selection-end="1693" vertical-scroll-proportion="0.28176382">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="HtmlPreview">
+        <state />
       </provider>
     </entry>
   </component>

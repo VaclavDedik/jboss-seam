@@ -97,8 +97,22 @@ a:visited {
     background-color: #362f2d;
     text-align: right;
     vertical-align:bottom;
-    border-bottom: 1px solid #fff;
+}
+
+#controlLeft {
+    float: left;
+    padding-left: 15%;
+    white-space: nowrap;
+}
+
+#controlRight {
     padding-right: 15px;
+}
+
+#controlSeparator {
+    clear:both;
+    background-color:#fff;
+    height:1px;
 }
 
 #content {}
@@ -208,7 +222,6 @@ a:visited {
 }
 
 .linkNavigation {
-	color: #fff;
     text-decoration:none;
     font-size: 85%;
     font-weight: bold;
@@ -219,10 +232,43 @@ a:visited {
     margin: 0 5px 0 5px;
 }
 
-.linkNavigation:link {color: #fff}     /* unvisited link */
-.linkNavigation:visited {color: #fff}  /* visited link */
-.linkNavigation:hover {color: #ccc}   /* mouse over link */
-.linkNavigation:active {color: #aaa}   /* selected link */
+.linkTab {
+    color: #fff;
+    text-decoration:none;
+    font-size: 85%;
+    font-weight: bold;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    background: #fff url(../img/th.bg.gif) 0 0 repeat-x;
+    border: 1px solid #fff;
+    padding: 2px 5px 2px 5px;
+    margin-right: 10px;
+}
+
+.linkTabActive {
+    text-decoration:none;
+    font-size: 85%;
+    font-weight: bold;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    background: #fff url(../img/th.bg.inverse.gif) 0 0 repeat-x;
+    border: 1px solid #fff;
+    padding: 2px 5px 2px 5px;
+    margin-right: 10px;
+}
+
+.linkTab:link {color: #555}
+.linkTab:visited {color: #555}
+.linkTab:hover {color: #000}
+.linkTab:active {color: #aaa}
+
+.linkTabActive:link {color: #555}
+.linkTabActive:visited {color: #555}
+.linkTabActive:hover {color: #000}
+.linkTabActive:active {color: #aaa}
+
+.linkNavigation:link {color: #fff}
+.linkNavigation:visited {color: #fff}
+.linkNavigation:hover {color: #ccc}
+.linkNavigation:active {color: #aaa}
 
 
 /* Forms
@@ -434,6 +480,8 @@ a:visited {
     margin: 0;
     font-size: 85%;
     border-collapse: separate;
+    border-left: 1px solid #C3BBB6;
+    border-bottom: 1px solid #C3BBB6;
 }
 
 .datatable .rowOdd {
@@ -477,3 +525,35 @@ a:visited {
 .pager .pagerTextColumn {
     width: 60%;
 }
+
+/* Workspace switcher
+-----------------------------------------------*/
+
+#workspaceSwitcher {
+    display: inline;
+}
+
+#workspaceSwitcher .workspaceSwitcherCombobox {
+    margin: 0;
+    border: 0;
+    padding: 0;
+    font-size: 75%;
+    color: #C7B299;
+    font-weight: bold;
+    vertical-align: top;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    background-color: #362f2d;
+}
+
+#workspaceSwitcher .workspaceSwitcherLabel {
+    color: #fff;
+    font-weight: bold;
+    font-size: 75%;
+    text-decoration: none;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+
+
+
