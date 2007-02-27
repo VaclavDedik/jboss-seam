@@ -23,17 +23,14 @@ public class UIDecorate extends UIComponentBase
 
    private boolean hasMessage()
    {
-      String id = getInputId();
-      
-      if (id==null) 
+      String clientId = getInputClientId();
+      if (clientId==null)
       {
          return false;
       }
       else
       {
-         UIComponent component = findComponent(id);
-         return component==null ? null : 
-            getFacesContext().getMessages( component.getClientId( getFacesContext() ) ).hasNext();
+         return getFacesContext().getMessages(clientId).hasNext();
       }
    }
 
@@ -42,7 +39,8 @@ public class UIDecorate extends UIComponentBase
       String id = getFor();
       if (id==null)
       {
-         return getInputId(this);
+         UIInput input = getInput(this);
+         return input==null ? null : input.getId();
       }
       else
       {
@@ -50,10 +48,25 @@ public class UIDecorate extends UIComponentBase
       }
    }
 
+   private String getInputClientId()
+   {
+      String id = getFor();
+      if (id==null)
+      {
+         UIInput input = getInput(this);
+         return input==null ? null : input.getClientId( getFacesContext() );
+      }
+      else
+      {
+         UIComponent component = findComponent(id);
+         return component==null ? null : component.getClientId( getFacesContext() );
+      }
+   }
+
    /**
     * A depth-first search for a UIInput
     */
-   private static String getInputId(UIComponent component)
+   private static UIInput getInput(UIComponent component)
    {
       for (Object child: component.getChildren())
       {
@@ -62,13 +75,13 @@ public class UIDecorate extends UIComponentBase
             UIInput input = (UIInput) child;
             if ( input.isRendered() )
             {
-               return input.getId();
+               return input;
             }
          }
          else if (child instanceof UIComponent)
          {
-            String id = getInputId( (UIComponent) child );
-            if (id!=null) return id;
+            UIInput input = getInput( (UIComponent) child );
+            if (input!=null) return input;
          }
       }
       return null;
