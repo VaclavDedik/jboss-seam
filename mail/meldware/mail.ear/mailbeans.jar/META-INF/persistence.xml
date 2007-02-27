@@ -1,6 +1,6 @@
 <persistence>
   <persistence-unit name="mail">
-  <jta-data-source>java:/MeldwareDS</jta-data-source>
+  <jta-data-source>java:/DefaultDS</jta-data-source>
   <properties>
     <property name="jboss.entity.manager.jndi.name"
               value="java:/EntityManagers/mail"/>
