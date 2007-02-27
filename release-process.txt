@@ -7,7 +7,7 @@ Updating version numbers
   - readme.txt
   - changelog.txt
   - build.xml
-  - docs/reference/en/master.xml
+  - doc/reference/en/master.xml
   - org.jboss.seam.servlet.SeamListener
 
   (Actually, we should fix it so the last three
@@ -28,6 +28,7 @@ Tests
   - contactlist
   - itext
   - mail
+  - spring
 * Sanity check the following example applications on Tomcat
   - booking
   - dvdstore

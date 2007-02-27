@@ -1,6 +1,43 @@
 JBoss Seam Changelog
 ====================
 
+Release Notes - JBoss Seam - Version 1.2.0.GA
+
+** Bug
+    * [JBSEAM-916] - Build fails doing "seam restart" 
+    * [JBSEAM-917] - events.xml documentation module contains invalid xml
+    * [JBSEAM-918] - Group principal can be "roles" or "Roles"
+    * [JBSEAM-920] - s:selectDate in Firefox with Ajax4JSF on the JSF 1.2 RI
+    * [JBSEAM-921] - Docs: incorrect MultipartFilter configuration instructions
+    * [JBSEAM-922] - Doc: Section 4.5 lists namespaces, but leaves out web.xsd
+    * [JBSEAM-926] - hibernate console launch config does not work on linux
+    * [JBSEAM-927] - menu buttons padding is very big
+    * [JBSEAM-932] - Circular associations
+    * [JBSEAM-933] - EntityNotFoundException has no message
+    * [JBSEAM-934] - NPE in SessionBeanInterceptor
+    * [JBSEAM-935] - Better exception when invalid EntityQuery restriction is encountered
+    * [JBSEAM-939] - Cleaner handling of expired TimerHandles
+    * [JBSEAM-940] - JavaBean component clustering totally broken
+
+
+** Feature Request
+    * [JBSEAM-604] - "stackable" Redirect
+    * [JBSEAM-776] - Add more information to the exception thrown when a conversation is started illegally
+    * [JBSEAM-910] - s:columns
+    * [JBSEAM-914] - Document scheme="https"
+    * [JBSEAM-925] - <core:filter enabled="#{el}">
+    * [JBSEAM-931] - EL in QL
+    * [JBSEAM-936] - Wanted detail documentaition of using Seam with cache.
+    * [JBSEAM-938] - @AutoCreate and @Factory(autoCreate=true)
+
+** Patch
+    * [JBSEAM-880] - Make UISelectItems more permissive to null-values
+
+** Task
+    * [JBSEAM-887] - Replicate booking demo fixes to all versions of the demo
+    * [JBSEAM-929] - consistent component naming / remove unused files from CVS
+
+
 Changes in version 1.1.7.RC1 (February 2007)
 -------------------------------------------
 Release Notes - JBoss Seam - Version 1.1.7.RC1
