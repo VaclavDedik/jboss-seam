@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE server
+    PUBLIC "-//JBoss//DTD MBean Service 4.0//EN"
+    "http://www.jboss.org/j2ee/dtd/jboss-service_4_0.dtd">
+
+<server>
+
+   <mbean code="org.jboss.security.auth.login.DynamicLoginConfig"
+      name="meldware.mail:type=SecurityConfig,name=LoginConfig">
+      <attribute name="PolicyConfig" serialDataType="jbxb">
+         <jaas:policy
+            xsi:schemaLocation="urn:jboss:security-config:4.1 resource:security-config_4_1.xsd"
+            xmlns:jaas="urn:jboss:security-config:4.1"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            >
+            <jaas:application-policy name="meldware">
+               <jaas:authentication>
+                <jaas:login-module code="org.jboss.security.auth.spi.DatabaseServerLoginModule"
+                    flag="required">
+                        <jaas:module-option name="dsJndiName">java:/DefaultDS</jaas:module-option>
+                        <jaas:module-option name="principalsQuery">SELECT PASSWORD FROM MAIL_USERS WHERE USER_NAME=?</jaas:module-option>
+                        <jaas:module-option name="rolesQuery">SELECT ROLE_NAME, 'Roles' FROM MAIL_ROLES WHERE USER_NAME=?</jaas:module-option>
+                        <jaas:module-option name="unauthenticatedIdentity">guest</jaas:module-option> 
+                 </jaas:login-module>
+               </jaas:authentication>
+            </jaas:application-policy>
+         </jaas:policy>         
+      </attribute>
+      <depends optional-attribute-name="LoginConfigService">
+         jboss.security:service=XMLLoginConfig
+      </depends>
+      <depends optional-attribute-name="SecurityManagerService">
+         jboss.security:service=JaasSecurityManager
+      </depends>
+      <!-- prevent startup before the tables are created -->
+      <depends>meldware.mail:type=MailServices,name=UserEditor</depends>
+   </mbean>
+
+  <mbean code="org.buni.meldware.mail.usereditor.db.DBUserEditorImpl" interface="org.buni.meldware.mail.usereditor.db.UserEditor" name="meldware.mail:type=MailServices,name=UserEditor" xmbean-dd="META-INF/DBUserEditor-xmbean.xml">
+         <depends optional-attribute-name="DataSource" proxy-type="attribute">jboss.jca:service=DataSourceBinding,name=DefaultDS</depends>
+         <attribute name="CreateUserTableSQL">CREATE TABLE MAIL_USERS (USER_NAME VARCHAR(40) PRIMARY KEY, PASSWORD VARCHAR(40) NOT NULL)</attribute>
+         <attribute name="CreateRoleTableSQL">CREATE TABLE MAIL_ROLES (USER_NAME VARCHAR(40) NOT NULL, ROLE_NAME VARCHAR(40) NOT NULL)</attribute>
+         <attribute name="AddUserSQL">INSERT INTO MAIL_USERS (USER_NAME, PASSWORD) VALUES(?,?)</attribute>
+         <attribute name="AddRoleSQL">INSERT INTO MAIL_ROLES(USER_NAME,ROLE_NAME) VALUES(?,?)</attribute>
+         <attribute name="DeleteUserSQL">DELETE FROM MAIL_USERS WHERE USER_NAME = ?</attribute>
+         <attribute name="DeleteRoleSQL">DELETE FROM MAIL_ROLES WHERE USER_NAME = ? AND ROLE_NAME = ?</attribute>
+         <attribute name="UserRolesSQL">SELECT ROLE_NAME FROM MAIL_ROLES WHERE USER_NAME = ?</attribute>
+         <attribute name="UsersSQL">SELECT USER_NAME FROM MAIL_USERS WHERE USER_NAME LIKE ?</attribute>
+         <attribute name="UpdatePasswordSQL">UPDATE MAIL_USERS SET PASSWORD = '?' WHERE USER_NAME = '?'</attribute>
+  </mbean>
+
+
+</server>

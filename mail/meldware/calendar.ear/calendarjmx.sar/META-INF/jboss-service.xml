@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server>
+
+<mbean code="org.buni.meldware.calendar.jmx.CalendarServer"
+  name="jboss:service=CalendarServer">
+  <attribute name="NotificationServerURL">http://localhost:8080/calendar</attribute>
+  <attribute name="CalendarNotificiationEnabled">false</attribute>
+  <attribute name="NotificationMailAddress">calendar@takeaway.seam</attribute>
+  <attribute name="WebCalendarStartTime">5</attribute>
+  <attribute name="WebCalendarDuration">19</attribute>
+  <attribute name="SearchLimit">20</attribute>
+  <attribute name="RDBMSDialect">installer</attribute>
+</mbean>
+
+
+<mbean code="org.jboss.mq.server.jmx.Topic"
+	name="jboss.mq.destination:service=Topic,name=calendar">
+    <depends optional-attribute-name="DestinationManager">jboss.mq:service=DestinationManager</depends>
+    <depends optional-attribute-name="SecurityManager">jboss.mq:service=SecurityManager</depends>
+</mbean>
+  
+<mbean code="org.jboss.mq.server.jmx.Topic"
+	name="jboss.mq.destination:service=Topic,name=addressbook">
+    <depends optional-attribute-name="DestinationManager">jboss.mq:service=DestinationManager</depends>
+    <depends optional-attribute-name="SecurityManager">jboss.mq:service=SecurityManager</depends>
+</mbean>
+
+<!--
+ Queue for messages meant for a calendar server hosted by this server
+-->    
+<mbean code="org.jboss.mq.server.jmx.Queue"
+    name="jboss.mq.destination:service=Queue,name=calendarResponse">
+    <depends optional-attribute-name="DestinationManager">jboss.mq:service=DestinationManager</depends>
+</mbean>
+
+</server>

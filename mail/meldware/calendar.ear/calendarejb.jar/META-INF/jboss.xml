@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE jboss PUBLIC "-//JBoss//DTD JBOSS 4.0//EN" "http://www.jboss.org/j2ee/dtd/jboss_4_0.dtd">
+
+<jboss>
+
+   <security-domain>java:/jaas/meldware</security-domain>
+   <unauthenticated-principal>nobody</unauthenticated-principal>
+
+   <enterprise-beans>
+
+     <!--
+       To add beans that you have deployment descriptor info for, add
+       a file to your XDoclet merge directory called jboss-beans.xml that contains
+       the <session></session>, <entity></entity> and <message-driven></message-driven>
+       markup for those beans.
+     -->
+
+      <session>
+         <ejb-name>ScheduleManager</ejb-name>
+         <jndi-name>ejb/session/ScheduleManager</jndi-name>
+         <local-jndi-name>ScheduleManagerLocal</local-jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>ICalSyncService</ejb-name>
+         <jndi-name>ejb/session/ICalSyncService</jndi-name>
+         <local-jndi-name>ICalSyncServiceLocal</local-jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>AdministrationService</ejb-name>
+         <jndi-name>ejb/session/AdministrationService</jndi-name>
+         <local-jndi-name>AdministrationServiceLocal</local-jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>UserSearchService</ejb-name>
+         <jndi-name>ejb/session/UserSearchService</jndi-name>
+         <local-jndi-name>UserSearchServiceLocal</local-jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>UserProfile</ejb-name>
+         <jndi-name>ejb/session/UserProfile</jndi-name>
+         <local-jndi-name>UserProfileLocal</local-jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>AddressManager</ejb-name>
+         <jndi-name>ejb/session/AddressManager</jndi-name>
+         <local-jndi-name>AddressManagerLocal</local-jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>PIMService</ejb-name>
+         <jndi-name>ejb/session/PIMService</jndi-name>
+         <local-jndi-name>PIMServiceLocal</local-jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+      <session>
+         <ejb-name>UserTaskManager</ejb-name>
+         <jndi-name>ejb/session/UserTaskManager</jndi-name>
+         <local-jndi-name>UserTaskManagerLocal</local-jndi-name>
+
+        <method-attributes>
+        </method-attributes>
+      </session>
+
+      <message-driven>
+         <ejb-name>/ejb/reporting/EventMailMDB</ejb-name>                       
+         <destination-jndi-name>topic/calendar</destination-jndi-name>
+	     <mdb-client-id>EventMailer</mdb-client-id>
+         <mdb-subscription-id>EventMailer</mdb-subscription-id>
+
+      </message-driven>
+      <message-driven>
+         <ejb-name>/ejb/reporting/MailResposeHandlerMDB</ejb-name>                       
+         <destination-jndi-name>queue/calendarResponse</destination-jndi-name>
+	     <mdb-client-id>MailResposeHandlerMDB</mdb-client-id>
+         <mdb-subscription-id>MailResposeHandlerMDB</mdb-subscription-id>
+
+      </message-driven>
+      <message-driven>
+         <ejb-name>/ejb/reporting/BecomeFriendNotificationMDB</ejb-name>                       
+         <destination-jndi-name>topic/addressbook</destination-jndi-name>
+	     <mdb-client-id>BecomeFriendNotification</mdb-client-id>
+         <mdb-subscription-id>BecomeFriendNotification</mdb-subscription-id>
+
+      </message-driven>
+    <!--
+      write a merge file jboss-webservices.ent for webservice-description 
+    -->
+
+   </enterprise-beans>
+
+     <!--
+       To specify your own assembly descriptor info here, add a file to your
+       XDoclet merge directory called jboss-assembly-descriptor.xml that contains
+       the <assembly-descriptor></assembly-descriptor> markup.
+     -->
+   <assembly-descriptor>
+    <!-- message destinations -->
+     <!--
+       To specify additional message-destination elements, add a file in the merge
+       directory called jboss-message-destinations.ent that contains them.
+     -->
+   </assembly-descriptor>
+
+   <resource-managers>
+   </resource-managers>
+
+  <!--
+    | for container settings, you can merge in jboss-container.xml
+    | this can contain <invoker-proxy-bindings/> and <container-configurations/>
+  -->
+
+</jboss>

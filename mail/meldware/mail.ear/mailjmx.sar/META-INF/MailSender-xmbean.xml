@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.2//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_0.dtd">
+
+
+<mbean>
+    <description></description>
+    <class>org.buni.meldware.mail.userapi.MailSenderImpl</class>
+    <constructor>
+        <description>The no-arg constructor</description>
+        <name>org.buni.meldware.mail.userapi.MailSenderImpl</name>
+    </constructor>
+
+    <attribute access="read-write" setMethod="setBodyManager" getMethod="getBodyManager">
+        <name>BodyManager</name>
+        <type>org.buni.meldware.mail.message.MailBodyManager</type>
+    </attribute>
+
+    <attribute access="read-write" setMethod="setMailboxManager" getMethod="getMailboxManager">
+        <name>MailboxManager</name>
+        <type>org.buni.meldware.mail.mailbox.MailboxService</type>
+    </attribute>
+
+    <attribute access="read-write" setMethod="setListenerChain" getMethod="getListenerChain">
+        <name>ListenerChain</name>
+        <type>org.buni.meldware.mail.MailListenerChain</type>
+    </attribute>
+
+   <operation>
+       <name>folderSummary</name>
+       <parameter>
+           <name>alias</name>
+           <type>java.lang.String</type>
+       </parameter>
+       <return-type>org.buni.meldware.mail.util.Node</return-type>
+    </operation>
+
+   <operation>
+       <name>getMailForFolder</name>
+       <parameter>
+           <name>user</name>
+           <type>java.lang.String</type>
+       </parameter>
+       <parameter>
+           <name>path</name>
+           <type>java.lang.String</type>
+       </parameter>
+       <return-type>java.util.List</return-type>
+    </operation>
+
+   <operation>
+       <name>getMailBody</name>
+       <parameter>
+           <name>uid</name>
+           <type>long</type>
+       </parameter>
+       <parameter>
+           <name>start</name>
+           <type>long</type>
+       </parameter>
+       <parameter>
+           <name>end</name>
+           <type>long</type>
+       </parameter>
+       <return-type>java.lang.String</return-type>
+    </operation>
+
+   <operation>
+       <name>getMailAttachmentFilename</name>
+       <parameter>
+           <name>uid</name>
+           <type>long</type>
+       </parameter>
+       <return-type>java.util.List</return-type>
+    </operation>
+
+   <operation>
+       <name>getMailLength</name>
+       <parameter>
+           <name>uid</name>
+           <type>long</type>
+       </parameter>
+       <return-type>java.util.List</return-type>
+    </operation>
+
+   <operation>
+       <name>deleteMail</name>
+       <parameter>
+           <name>user</name>
+           <type>java.lang.String</type>
+       </parameter>
+       <parameter>
+           <name>uid</name>
+           <type>long</type>
+       </parameter>
+       <parameter>
+           <name>forReal</name>
+           <type>boolean</type>
+       </parameter>
+       <parameter>
+           <name>trash</name>
+           <type>boolean</type>
+       </parameter>
+       <return-type>void</return-type>
+    </operation>
+
+    <operation>
+        <name>send</name>
+        <parameter>
+            <name>alias</name>
+            <type>java.lang.String</type>
+        </parameter>
+        <parameter>
+            <name>from</name>
+            <type>java.lang.String</type>
+        </parameter>
+        <parameter>
+            <name>to</name>
+            <type>[Ljava.lang.String;</type>
+        </parameter>
+        <parameter>
+            <name>cc</name>
+            <type>[Ljava.lang.String;</type>
+        </parameter>
+        <parameter>
+            <name>bcc</name>
+            <type>[Ljava.lang.String;</type>
+        </parameter>
+        <parameter>
+            <name>subject</name>
+            <type>java.lang.String</type>
+        </parameter>
+        <parameter>
+            <name>body</name>
+            <type>java.lang.String</type>
+        </parameter>
+        <return-type>int</return-type>
+    </operation>
+
+   <operation>
+       <name>createFolder</name>
+       <parameter>
+           <name>alias</name>
+           <type>java.lang.String</type>
+       </parameter>
+       <parameter>
+           <name>path</name>
+           <type>java.lang.String</type>
+       </parameter>
+       <return-type>org.buni.meldware.mail.mailbox.Folder</return-type>
+    </operation>
+
+   <operation>
+       <name>deleteFolder</name>
+       <parameter>
+           <name>alias</name>
+           <type>java.lang.String</type>
+       </parameter>
+       <parameter>
+           <name>path</name>
+           <type>java.lang.String</type>
+       </parameter>
+       <return-type>void</return-type>
+    </operation>
+
+   <operation>
+       <name>moveFolder</name>
+       <parameter>
+           <name>alias</name>
+           <type>java.lang.String</type>
+       </parameter>
+       <parameter>
+           <name>source</name>
+           <type>java.lang.String</type>
+       </parameter>
+       <parameter>
+           <name>target</name>
+           <type>java.lang.String</type>
+       </parameter>
+       <return-type>org.buni.meldware.mail.mailbox.Folder</return-type>
+    </operation>
+
+    <operation>
+        <name>save</name>
+       <parameter>
+           <name>alias</name>
+           <type>java.lang.String</type>
+       </parameter>
+       <parameter>
+           <name>path</name>
+           <type>java.lang.String</type>
+       </parameter>
+        <parameter>
+            <name>from</name>
+            <type>java.lang.String</type>
+        </parameter>
+        <parameter>
+            <name>to</name>
+            <type>[Ljava.lang.String;</type>
+        </parameter>
+        <parameter>
+            <name>cc</name>
+            <type>[Ljava.lang.String;</type>
+        </parameter>
+        <parameter>
+            <name>bcc</name>
+            <type>[Ljava.lang.String;</type>
+        </parameter>
+        <parameter>
+            <name>subject</name>
+            <type>java.lang.String</type>
+        </parameter>
+        <parameter>
+            <name>body</name>
+            <type>java.lang.String</type>
+        </parameter>
+        <return-type>org.buni.meldware.mail.mailbox.MessageData</return-type>
+    </operation>
+
+   <operation>
+       <name>getAliases</name>
+       <parameter>
+           <name>alias</name>
+           <type>java.lang.String</type>
+       </parameter>
+       <return-type>java.util.List</return-type>
+    </operation>
+
+   <operation>
+       <name>moveMail</name>
+       <parameter>
+           <name>alias</name>
+           <type>java.lang.String</type>
+       </parameter>
+       <parameter>
+           <name>target</name>
+           <type>java.lang.String</type>
+       </parameter>
+       <parameter>
+           <name>uid</name>
+           <type>long</type>
+       </parameter>
+       <return-type>org.buni.meldware.mail.mailbox.MessageData</return-type>
+    </operation>
+
+   <operation>
+       <name>provision</name>
+       <parameter>
+           <name>alias</name>
+           <type>java.lang.String</type>
+       </parameter>
+       <return-type>boolean</return-type>
+    </operation>
+
+</mbean>

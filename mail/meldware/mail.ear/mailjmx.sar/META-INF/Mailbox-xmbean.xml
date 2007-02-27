@@ -1,0 +1,633 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.2//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_0.dtd">
+
+
+<mbean>
+    <description></description>
+    <class>org.buni.meldware.mail.mailbox.MailboxServiceImpl</class>
+    <constructor>
+        <description>The no-arg constructor</description>
+        <name>org.buni.meldware.mail.mailbox.MailboxServiceImpl</name>
+    </constructor>
+
+    <attribute access="read-write" setMethod="setBodyManager" getMethod="getBodyManager">
+        <name>BodyManager</name>
+        <type>org.buni.meldware.mail.message.MailBodyManager</type>
+    </attribute>
+
+    <attribute access="read-write" setMethod="setHacks" getMethod="getHacks">
+        <name>Hacks</name>
+        <type>java.lang.String</type>
+    </attribute>
+
+
+    <operation>
+        <name>getMailboxById</name>
+        <parameter>
+            <name>id</name>
+            <type>long</type>
+        </parameter>
+        <return-type>org.buni.meldware.mail.mailbox.Mailbox</return-type>
+    </operation>
+
+    <operation>
+        <name>getMailboxByAlias</name>
+        <parameter>
+            <name>alias</name>
+            <type>java.lang.String</type>
+        </parameter>
+        <return-type>org.buni.meldware.mail.mailbox.Mailbox</return-type>
+    </operation>
+
+    <operation>
+        <name>getMailboxIdByAlias</name>
+        <parameter>
+            <name>alias</name>
+            <type>java.lang.String</type>
+        </parameter>
+        <return-type>long</return-type>
+    </operation>
+
+    <operation>
+        <name>createAlias</name>
+        <parameter>
+            <name>id</name>
+            <type>long</type>
+        </parameter>
+        <parameter>
+            <name>alias</name>
+            <type>java.lang.String</type>
+        </parameter>
+        <return-type>boolean</return-type>
+    </operation>
+
+    <operation>
+        <name>getDefaultInFolderByAlias</name>
+        <parameter>
+            <name>alias</name>
+            <type>java.lang.String</type>
+        </parameter>
+        <return-type>org.buni.meldware.mail.mailbox.Folder</return-type>
+    </operation>
+
+    <operation>
+        <name>getDefaultOutFolderByAlias</name>
+        <parameter>
+            <name>alias</name>
+            <type>java.lang.String</type>
+        </parameter>
+        <return-type>org.buni.meldware.mail.mailbox.Folder</return-type>
+    </operation>
+
+    <operation>
+        <name>createMailbox</name>
+        <parameter>
+            <name>alias</name>
+            <type>java.lang.String</type>
+        </parameter>
+        <return-type>org.buni.meldware.mail.mailbox.Mailbox</return-type>
+    </operation>
+
+    <operation>
+        <name>createFolder</name>
+        <parameter>
+            <name>folder</name>
+            <type>org.buni.meldware.mail.mailbox.Folder</type>
+        </parameter>
+        <parameter>
+            <name>foldername</name>
+            <type>java.lang.String</type>
+        </parameter>
+        <return-type>org.buni.meldware.mail.mailbox.Folder</return-type>
+    </operation>
+
+    <operation>
+        <name>createFolder</name>
+        <parameter>
+            <name>folder</name>
+            <type>org.buni.meldware.mail.mailbox.Folder</type>
+        </parameter>
+        <parameter>
+            <name>path</name>
+            <type>[Ljava.lang.String;</type>
+        </parameter>
+        <return-type>org.buni.meldware.mail.mailbox.Folder</return-type>
+    </operation>
+    
+    <operation>
+        <name>deleteMailboxById</name>
+        <parameter>
+            <name>id</name>
+            <type>long</type>
+        </parameter>
+        <return-type>void</return-type>
+    </operation>
+
+    <operation>
+        <name>deleteMailboxByAlias</name>
+        <parameter>
+            <name>alias</name>
+            <type>java.lang.String</type>
+        </parameter>
+        <return-type>void</return-type>
+    </operation>
+
+    <operation>
+        <name>getMailBody</name>
+        <parameter>
+            <name>Mail</name>
+            <type>org.buni.meldware.mail.mailbox.MessageData</type>
+        </parameter>
+        <return-type>java.util.List</return-type>
+    </operation>
+
+    <operation>
+        <name>getMessageBody</name>
+        <parameter>
+            <name>message</name>
+            <type>org.buni.meldware.mail.mailbox.MessageData</type>
+        </parameter>
+        <return-type>java.util.List</return-type>
+    </operation>
+    
+    <operation>
+        <name>createMail</name>
+        <parameter>
+            <name>Folder</name>
+            <type>org.buni.meldware.mail.mailbox.Folder</type>
+        </parameter>
+        <parameter>
+            <name>Mail</name>
+            <type>org.buni.meldware.mail.mailbox.MessageData</type>
+        </parameter>
+        <return-type>void</return-type>
+    </operation>
+
+    <operation>
+        <name>lock</name>
+        <parameter>
+            <name>user</name>
+            <type>java.lang.String</type>
+        </parameter>
+        <parameter>
+            <name>Folder</name>
+            <type>org.buni.meldware.mail.mailbox.Folder</type>
+        </parameter>
+        <parameter>
+            <name>Expiration</name>
+            <type>java.util.Date</type>
+        </parameter>
+        <return-type>boolean</return-type>
+    </operation>
+
+    <operation>
+        <name>getNextUid</name>
+        <parameter>
+            <name>folderId</name>
+            <type>long</type>
+        </parameter>
+        <return-type>int</return-type>
+    </operation>
+    
+    <operation>
+        <name>getMaxUid</name>
+        <parameter>
+            <name>folder</name>
+            <type>org.buni.meldware.mail.mailbox.Folder</type>
+        </parameter>
+        <return-type>int</return-type>
+    </operation>
+    
+    <operation>
+        <name>getUids</name>
+        <parameter>
+            <name>folder</name>
+            <type>org.buni.meldware.mail.mailbox.Folder</type>
+        </parameter>
+        <return-type>[I</return-type>
+    </operation>
+    
+    <operation>
+        <name>release</name>
+        <parameter>
+            <name>user</name>
+            <type>java.lang.String</type>
+        </parameter>
+        <parameter>
+            <name>Folder</name>
+            <type>org.buni.meldware.mail.mailbox.Folder</type>
+        </parameter>
+        <return-type>void</return-type>
+    </operation>
+
+    <operation>
+        <name>getMailCountForFolder</name>
+        <parameter>
+            <name>folder</name>
+            <type>org.buni.meldware.mail.mailbox.Folder</type>
+        </parameter>
+        <return-type>int</return-type>
+    </operation>
+
+    <operation>
+        <name>getRecentCountForFolder</name>
+        <parameter>
+            <name>folder</name>
+            <type>org.buni.meldware.mail.mailbox.Folder</type>
+        </parameter>
+        <return-type>int</return-type>
+    </operation>
+
+    <operation>
+        <name>getMailListForFolder</name>
+        <parameter>
+            <name>folder</name>
+            <type>org.buni.meldware.mail.mailbox.Folder</type>
+        </parameter>
+        <parameter>
+            <name>includeFlags</name>
+            <type>boolean</type>
+        </parameter>
+        <return-type>java.util.List</return-type>
+    </operation>
+
+    <operation>
+        <name>getMessages</name>
+        <parameter>
+            <name>folder</name>
+            <type>org.buni.meldware.mail.mailbox.Folder</type>
+        </parameter>
+        <parameter>
+            <name>ranges</name>
+            <type>[Lorg.buni.meldware.mail.api.Range;</type>
+        </parameter>
+        <parameter>
+            <name>includeFlags</name>
+            <type>boolean</type>
+        </parameter>
+        <return-type>java.util.List</return-type>
+    </operation>
+    
+    <operation>
+        <name>commit</name>
+        <parameter>
+            <name>user</name>
+            <type>java.lang.String</type>
+        </parameter>
+        <return-type>boolean</return-type>
+    </operation>
+
+    <operation>
+        <name>getMailAt</name>
+        <parameter>
+            <name>folder</name>
+            <type>org.buni.meldware.mail.mailbox.Folder</type>
+        </parameter>
+        <parameter>
+            <name>position</name>
+            <type>int</type>
+        </parameter>
+        <return-type>org.buni.meldware.mail.mailbox.MessageData</return-type>
+    </operation>
+
+    <operation>
+        <name>markDeleted</name>
+        <parameter>
+            <name>mailbox</name>
+            <type>org.buni.meldware.mail.mailbox.Mailbox</type>
+        </parameter>
+        <parameter>
+            <name>position</name>
+            <type>int</type>
+        </parameter>
+        <return-type>boolean</return-type>
+    </operation>
+
+    <operation>
+        <name>deleteMarked</name>
+        <parameter>
+            <name>mailbox</name>
+            <type>org.buni.meldware.mail.mailbox.Mailbox</type>
+        </parameter>
+        <return-type>boolean</return-type>
+    </operation>
+
+    <operation>
+        <name>unmarkDeleted</name>
+        <parameter>
+            <name>mailbox</name>
+            <type>org.buni.meldware.mail.mailbox.Mailbox</type>
+        </parameter>
+        <return-type>boolean</return-type>
+    </operation>
+
+    <operation>
+        <name>getSubfolderByName</name>
+        <parameter>
+            <name>Folder</name>
+            <type>org.buni.meldware.mail.mailbox.Folder</type>
+        </parameter>
+        <parameter>
+            <name>name</name>
+            <type>java.lang.String</type>
+        </parameter>
+        <return-type>org.buni.meldware.mail.mailbox.Folder</return-type>
+    </operation>
+
+    <operation>
+        <name>getSubfolders</name>
+        <parameter>
+            <name>Folder</name>
+            <type>org.buni.meldware.mail.mailbox.Folder</type>
+        </parameter>
+        <return-type>java.util.List</return-type>
+    </operation>
+
+    <operation>
+        <name>getSubfolders</name>
+        <parameter>
+            <name>refernce</name>
+            <type>org.buni.meldware.mail.mailbox.Folder</type>
+        </parameter>
+        <parameter>
+            <name>path</name>
+            <type>[Ljava.lang.String;</type>
+        </parameter>
+        <parameter>
+            <name>filter</name>
+            <type>org.buni.meldware.mail.api.FolderFilter</type>
+        </parameter>
+        <return-type>java.util.List</return-type>
+    </operation>
+
+    <operation>
+        <name>getLikelyUID</name>
+        <parameter>
+            <name>Folder</name>
+            <type>org.buni.meldware.mail.mailbox.Folder</type>
+        </parameter>
+        <return-type>long</return-type>
+    </operation>
+
+    <operation>
+        <name>updateMessageMetaData</name>
+        <parameter>
+            <name>MessageData</name>
+            <type>org.buni.meldware.mail.mailbox.MessageData</type>
+        </parameter>
+        <return-type>void</return-type>
+    </operation>
+
+    <operation>
+        <name>copy</name>
+        <parameter>
+            <name>MessageData</name>
+            <type>org.buni.meldware.mail.mailbox.MessageData</type>
+        </parameter>
+        <parameter>
+            <name>source</name>
+            <type>org.buni.meldware.mail.mailbox.Folder</type>
+        </parameter>
+        <parameter>
+            <name>target</name>
+            <type>org.buni.meldware.mail.mailbox.Folder</type>
+        </parameter>
+        <return-type>void</return-type>
+    </operation>
+
+    <operation>
+        <name>copy</name>
+        <parameter>
+            <name>folderId</name>
+            <type>long</type>
+        </parameter>
+        <parameter>
+            <name>MessageData</name>
+            <type>org.buni.meldware.mail.mailbox.MessageData</type>
+        </parameter>
+        <return-type>void</return-type>
+    </operation>
+
+    <operation>
+        <name>expunge</name>
+        <parameter>
+            <name>Folder</name>
+            <type>org.buni.meldware.mail.mailbox.Folder</type>
+        </parameter>
+        <parameter>
+            <name>return deleted</name>
+            <type>boolean</type>
+        </parameter>
+        <return-type>java.util.List</return-type>
+    </operation>
+
+    <operation>
+        <name>getUnseenCountForFolder</name>
+        <parameter>
+            <name>folder</name>
+            <type>org.buni.meldware.mail.mailbox.Folder</type>
+        </parameter>
+        <return-type>int</return-type>
+    </operation>
+
+    <operation>
+        <name>getFirstUnseen</name>
+        <parameter>
+            <name>folder</name>
+            <type>org.buni.meldware.mail.mailbox.Folder</type>
+        </parameter>
+        <return-type>long</return-type>
+    </operation>
+    
+    <operation>
+        <name>moveFolder</name>
+        <parameter>
+            <name>Folder</name>
+            <type>org.buni.meldware.mail.mailbox.Folder</type>
+        </parameter>
+        <parameter>
+            <name>target</name>
+            <type>org.buni.meldware.mail.mailbox.Folder</type>
+        </parameter>
+        <parameter>
+            <name>name</name>
+            <type>java.lang.String</type>
+        </parameter>
+        <return-type>org.buni.meldware.mail.mailbox.Folder</return-type>
+    </operation>
+
+    <operation>
+        <name>moveFolder</name>
+        <parameter>
+            <name>source</name>
+            <type>org.buni.meldware.mail.mailbox.Folder</type>
+        </parameter>
+        <parameter>
+            <name>path</name>
+            <type>[Ljava.lang.String;</type>
+        </parameter>
+        <return-type>org.buni.meldware.mail.mailbox.Folder</return-type>
+    </operation>
+    
+    <operation>
+        <name>getPathFor</name>
+        <parameter>
+            <name>folder</name>
+            <type>org.buni.meldware.mail.mailbox.Folder</type>
+        </parameter>
+        <return-type>java.lang.String</return-type>
+    </operation>
+
+    <operation>
+        <name>folderSummary</name>
+        <parameter>
+            <name>Alias</name>
+            <type>java.lang.String</type>
+        </parameter>
+        <return-type>org.buni.meldware.mail.util.Node</return-type>
+    </operation>
+
+    <operation>
+        <name>getMail</name>
+        <parameter>
+            <name>uid</name>
+            <type>long</type>
+        </parameter>
+        <return-type>org.buni.meldware.mail.mailbox.MessageData</return-type>
+    </operation>
+
+    <operation>
+        <name>deleteMessage</name>
+        <parameter>
+            <name>uid</name>
+            <type>long</type>
+        </parameter>
+        <return-type>void</return-type>
+    </operation>
+
+    <operation>
+        <name>deleteFolder</name>
+        <parameter>
+            <name>folder</name>
+            <type>org.buni.meldware.mail.mailbox.Folder</type>
+        </parameter>
+        <return-type>void</return-type>
+    </operation>
+
+    <operation>
+        <name>getSubfolderByPath</name>
+        <parameter>
+            <name>folder</name>
+            <type>org.buni.meldware.mail.mailbox.Folder</type>
+        </parameter>
+        <parameter>
+            <name>path</name>
+            <type>[Ljava.lang.String;</type>
+        </parameter>
+        <return-type>org.buni.meldware.mail.mailbox.Folder</return-type>
+    </operation>
+
+    <operation>
+        <name>getMessageBody</name>
+        <parameter>
+            <name>message</name>
+            <type>org.buni.meldware.mail.mailbox.MessageData</type>
+        </parameter>
+        <parameter>
+            <name>position</name>
+            <type>int</type>
+        </parameter>
+        <return-type>org.buni.meldware.mail.mailbox.MessageBody</return-type>
+    </operation>
+
+    <operation>
+        <name>getMessageBody</name>
+        <parameter>
+            <name>part</name>
+            <type>org.buni.meldware.mail.mailbox.MessageBody</type>
+        </parameter>
+        <parameter>
+            <name>position</name>
+            <type>int</type>
+        </parameter>
+        <return-type>org.buni.meldware.mail.mailbox.MessageBody</return-type>
+    </operation>
+    
+    <operation>
+        <name>mimePrintMessage</name>
+        <parameter>
+            <name>id</name>
+            <type>long</type>
+        </parameter>
+        <parameter>
+            <name>includeHeaders</name>
+            <type>boolean</type>
+        </parameter>
+        <parameter>
+            <name>out</name>
+            <type>java.io.OutputStream</type>
+        </parameter>
+        <parameter>
+            <name>copier</name>
+            <type>org.buni.meldware.mail.util.io.Copier</type>
+        </parameter>
+        <return-type>void</return-type>
+    </operation>
+
+    <operation>
+        <name>mimePrintBody</name>
+        <parameter>
+            <name>id</name>
+            <type>long</type>
+        </parameter>
+        <parameter>
+            <name>includeHeaders</name>
+            <type>boolean</type>
+        </parameter>
+        <parameter>
+            <name>out</name>
+            <type>java.io.OutputStream</type>
+        </parameter>
+        <parameter>
+            <name>copier</name>
+            <type>org.buni.meldware.mail.util.io.Copier</type>
+        </parameter>
+        <return-type>void</return-type>
+    </operation>
+    
+    <operation>
+        <name>getAliases</name>
+        <parameter>
+            <name>user</name>
+            <type>java.lang.String</type>
+        </parameter>
+        <return-type>java.util.List</return-type>
+    </operation>
+
+    <operation>
+        <name>deleteAlias</name>
+        <parameter>
+            <name>user</name>
+            <type>java.lang.String</type>
+        </parameter>
+        <parameter>
+            <name>alias</name>
+            <type>java.lang.String</type>
+        </parameter>
+        <return-type>void</return-type>
+    </operation>
+
+    <operation>
+        <name>getPostmasterMailbox</name>
+        <return-type>org.buni.meldware.mail.mailbox.Mailbox</return-type>
+    </operation>
+    
+    <operation>
+        <name>start</name>
+        <return-type>void</return-type>
+    </operation>
+
+</mbean>

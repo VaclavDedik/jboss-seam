@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.2//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_0.dtd">
+
+
+<mbean>
+    <description>Edits users in a JAAS User Repository using the Database Login Module</description>
+    <class>org.buni.meldware.mail.usereditor.db.DBUserEditorImpl</class>
+    <constructor>
+        <description>The no-arg constructor</description>
+        <name>org.buni.meldware.mail.usereditor.db.DBUserEditorImpl</name>
+    </constructor>
+
+    <attribute access="read-write" setMethod="setAddRoleSQL" getMethod="getAddRoleSQL">
+        <name>AddRoleSQL</name>
+        <type>java.lang.String</type>
+    </attribute>
+
+    <attribute access="read-write" setMethod="setCreateUserTableSQL" getMethod="getCreateUserTableSQL">
+        <name>CreateUserTableSQL</name>
+        <type>java.lang.String</type>
+    </attribute>
+
+    <attribute access="read-write" setMethod="setCreateRoleTableSQL" getMethod="getCreateRoleTableSQL">
+        <name>CreateRoleTableSQL</name>
+        <type>java.lang.String</type>
+    </attribute>
+
+    <attribute access="read-write" setMethod="setAddUserSQL" getMethod="getAddUserSQL">
+        <name>AddUserSQL</name>
+        <type>java.lang.String</type>
+    </attribute>
+
+    <attribute access="read-write" setMethod="setDataSource" getMethod="getDataSource">
+        <name>DataSource</name>
+        <type>org.jboss.resource.adapter.jdbc.remote.WrapperDataSourceServiceMBean</type>
+    </attribute>
+
+    <attribute access="read-write" setMethod="setDeleteRoleSQL" getMethod="getDeleteRoleSQL">
+        <name>DeleteRoleSQL</name>
+        <type>java.lang.String</type>
+    </attribute>
+
+    <attribute access="read-write" setMethod="setDeleteUserSQL" getMethod="getDeleteUserSQL">
+        <name>DeleteUserSQL</name>
+        <type>java.lang.String</type>
+    </attribute>
+
+    <attribute access="read-write" setMethod="setUpdatePasswordSQL" getMethod="getUpdatePasswordSQL">
+        <name>UpdatePasswordSQL</name>
+        <type>java.lang.String</type>
+    </attribute>
+
+    <attribute access="read-write" setMethod="setUserRolesSQL" getMethod="getUserRolesSQL">
+        <name>UserRolesSQL</name>
+        <type>java.lang.String</type>
+    </attribute>
+
+    <attribute access="read-write" setMethod="setUsersSQL" getMethod="getUsersSQL">
+        <name>UsersSQL</name>
+        <type>java.lang.String</type>
+    </attribute>
+
+   <operation>
+       <name>start</name>
+    </operation>
+
+   <operation>
+       <name>stop</name>
+    </operation>
+
+   <operation>
+       <name>deleteUser</name>
+       <parameter>
+           <name>login</name>
+           <type>java.lang.String</type>
+       </parameter>
+       <return-type>void</return-type>
+    </operation>
+
+   <operation>
+       <name>addUser</name>
+       <parameter>
+           <name>login</name>
+           <type>java.lang.String</type>
+       </parameter>
+       <parameter>
+           <name>password</name>
+           <type>java.lang.String</type>
+       </parameter>
+       <return-type>void</return-type>
+    </operation>
+
+   <operation>
+       <name>addRole</name>
+       <parameter>
+           <name>login</name>
+           <type>java.lang.String</type>
+       </parameter>
+       <parameter>
+           <name>role</name>
+           <type>java.lang.String</type>
+       </parameter>
+       <return-type>void</return-type>
+    </operation>
+
+   <operation>
+       <name>deleteRole</name>
+       <parameter>
+           <name>login</name>
+           <type>java.lang.String</type>
+       </parameter>
+       <parameter>
+           <name>role</name>
+           <type>java.lang.String</type>
+       </parameter>
+       <return-type>void</return-type>
+    </operation>
+
+   <operation>
+       <name>changePassword</name>
+       <parameter>
+           <name>login</name>
+           <type>java.lang.String</type>
+       </parameter>
+       <parameter>
+           <name>role</name>
+           <type>java.lang.String</type>
+       </parameter>
+       <return-type>void</return-type>
+    </operation>
+
+   <operation>
+       <name>userExists</name>
+       <parameter>
+           <name></name>
+           <type>java.lang.String</type>
+       </parameter>
+       <return-type>boolean</return-type>
+    </operation>
+
+   <operation>
+       <name>getRoles</name>
+       <parameter>
+           <name></name>
+           <type>java.lang.String</type>
+       </parameter>
+       <return-type>java.util.List</return-type>
+    </operation>
+
+   <operation>
+       <name>getUsers</name>
+       <parameter>
+           <name></name>
+           <type>java.lang.String</type>
+       </parameter>
+       <return-type>java.util.List</return-type>
+    </operation>
+</mbean>
