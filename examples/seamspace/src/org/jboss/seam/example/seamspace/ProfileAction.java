@@ -1,5 +1,7 @@
 package org.jboss.seam.example.seamspace;
 
+import static org.jboss.seam.ScopeType.CONVERSATION;
+
 import java.util.List;
 import java.util.Random;
 
@@ -25,7 +27,7 @@ public class ProfileAction implements ProfileLocal
    @RequestParameter
    private String name;
 
-   @Out(required = false)
+   @In(required = false) @Out(required = false, scope = CONVERSATION)
    private Member selectedMember;
    
    @In(required = false)
