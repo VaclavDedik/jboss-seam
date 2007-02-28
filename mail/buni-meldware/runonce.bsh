@@ -1,0 +1,89 @@
+void start() {
+   System.err.println("************************* RUN ONCE ******************");
+   String runoncebsh = getJBossConfig() + java.io.File.separator + "deploy" + java.io.File.separator + "runonce.bsh";
+   String runoncebshto = getJBossConfig() + java.io.File.separator + "conf" + java.io.File.separator + "runonce.bsh";
+   java.io.File file = new java.io.File(runoncebsh);
+   java.io.File fileto = new java.io.File(runoncebshto);
+   if (fileto.exists()) {
+         System.err.println("not running RUN ONCE again, just delete");
+         file.delete(); 
+         return;
+   }
+   javax.management.MBeanServer server = org.jboss.mx.util.MBeanServerLocator.locateJBoss();
+       createUsers(server);
+       createRoles(server);
+/*   java.io.File cal = new File(getJBossConfig() + java.io.File.separator +
+                               "deploy" + java.io.File.separator +
+                               "calendar.ear" + java.io.File.separator + 
+                               "META-INF" + java.io.File.separator + 
+                               "application.xml");
+*/
+//   cal.setLastModified(System.currentTimeMillis());
+   System.err.println("************************* RUN ONCE MOVE *************");
+   System.err.println("moving: "+runoncebsh+" to " + runoncebshto);
+
+   
+   boolean success = file.renameTo(fileto);
+   System.err.println("moved: "+runoncebsh+" success = "+success);
+}
+
+void createUsers(javax.management.MBeanServer server) throws Exception {
+   javax.management.ObjectName on = new javax.management.ObjectName("meldware.mail:type=MailServices,name=UserEditor");
+   String operation = "addUser";
+   String[] signature = new String[]{String.class.getName(), String.class.getName()};
+   String[] users = getUsers();
+   String[] passwords = getPasswords();
+
+   for (int i = 0; i < users.length; i++) {
+       Object[] parms = new Object[] {users[i], passwords[i]};
+       server.invoke(on, operation, parms, 
+                     signature); 
+   }
+}
+
+void createRoles(javax.management.MBeanServer server) throws Exception {
+   javax.management.ObjectName on = new javax.management.ObjectName("meldware.mail:type=MailServices,name=UserEditor");
+   String operation = "addRole";
+   String[] signature = new String[]{String.class.getName(), String.class.getName()};
+   String[] users = getUsers();
+   Object[] roles = getRoles();
+
+   for (int i = 0; i < users.length; i++) {
+       String[] userRoles = (String[])roles[i];
+       for (int j = 0; userRoles !=null && j < userRoles.length; j++) {
+           Object[] parms = new Object[] {users[i], userRoles[j]};
+           server.invoke(on, operation, parms, 
+                     signature); 
+       }
+   }
+}
+
+String[] getUsers() {
+   java.util.List usersList = new java.util.ArrayList();
+
+usersList.add("administrator");
+
+
+   return (String[])usersList.toArray(new String[]{});
+}
+
+String[] getPasswords() {
+java.util.List passList = new java.util.ArrayList();
+
+passList.add("administrator");
+
+return (String[]) passList.toArray(new String[]{});
+}
+
+Object[] getRoles() {
+List roles = new java.util.ArrayList();
+
+   roles.add(new String[]{"adminuser"});
+
+   return (Object[])roles.toArray(new Object[]{});
+}
+
+String getJBossConfig() {
+   String s = java.io.File.separator;
+   return "server" + s + "meldware" ;
+}
