@@ -54,6 +54,7 @@ public class WikiTextParser extends SeamTextParser {
                         + attachmentLinkClass
                         + "\">"
                         + finalDescriptionText
+                        + "[" + (attachments.indexOf(link)+1) + "]"
                         + "</a>";
             } else {
                 // It's an image and we need to show it inline
