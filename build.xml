@@ -13,7 +13,7 @@
     <property name="Name"                 value="JBoss Seam"/>
     <property name="name"                 value="jboss-seam"/>
     <property name="version"              value="1.2"/>
-    <property name="patchlevel"           value="0.GA"/>
+    <property name="patchlevel"           value="0.PATCH1"/>
 
     <!-- set global properties for this build -->
     <property name="build.dir"            value="build"/>

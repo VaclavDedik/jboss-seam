@@ -1,7 +1,7 @@
 JBoss Seam Changelog
 ====================
 
-Release Notes - JBoss Seam - Version 1.2.0.GA
+Release Notes - JBoss Seam - Version 1.2.0.PATCH1
 
 ** Bug
     * [JBSEAM-916] - Build fails doing "seam restart" 
