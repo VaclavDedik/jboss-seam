@@ -341,6 +341,7 @@
         <path path="${coverage.dir}/classes"/>
         <path refid="classpath.emma"/>
         <fileset refid="lib"/>
+        <pathelement location="${basedir}/${name}-remoting.jar"/>
      </path>
     
     <path id="test.mc.classpath">
@@ -653,7 +654,6 @@
             deprecation="${javac.deprecation}"
             nowarn="on">
             <src path="${src.java.dir}"/>
-            <src path="${src.test.dir}"/>
         </javac>
     </target>
     
@@ -796,6 +796,11 @@
             deprecation="${javac.deprecation}"
             nowarn="on">
             <src path="${src.test.dir}"/>
+            <classpath>
+                <fileset dir="${imported.basedir}">
+                    <include name="jboss-seam-remoting.jar" />
+                </fileset>
+            </classpath>            
         </javac>
     </target>    
     
