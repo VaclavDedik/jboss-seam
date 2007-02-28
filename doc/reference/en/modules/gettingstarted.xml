@@ -47,6 +47,38 @@
       in debug mode. Finally, start a command prompt in the directory where you 
       unzipped the Seam distribution.
     </para>
+    
+    <para>
+            JBoss has sophisticated support for hot re-deployment of WARs
+            and EARs. Unfortunately, due to bugs in the JVM, repeated
+            redeployment of an EAR&mdash;which is common during 
+            development&mdash;eventually causes the JVM to run out of perm 
+            gen space. For this reason, we recommend running JBoss in a JVM 
+            with a large perm gen space at development time. If you're running
+            JBoss from JBoss IDE, you can configure this in the server
+            launch configuration, under "VM arguments". We suggest the 
+            following values:
+    </para>
+        
+        <programlisting>-Xms512m -Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=512</programlisting>
+        
+    <para>
+            If you don't have so much memory available, the following is
+            our minimum recommendation:
+    </para>
+
+        <programlisting>-Xms256m -Xmx512m -XX:PermSize=128m -XX:MaxPermSize=256</programlisting>
+        
+    <para>
+            If you're running JBoss from the commandline, you can configure 
+            the JVM options in <literal>bin/run.conf</literal>.
+    </para>
+    
+    <para>
+            If you don't want to bother with this stuff now, you don't have 
+            to&mdash;come back to it later, when you get your first 
+            <literal>OutOfMemoryException</literal>.
+    </para>
   
   </section>
   
