@@ -85,4 +85,15 @@
             <role-name>NONE</role-name>
         </auth-constraint>
     </security-constraint>
+
+    <!-- File Servlet -->
+    <servlet>
+        <servlet-name>File Servlet</servlet-name>
+        <servlet-class>org.jboss.seam.wiki.core.ui.FileServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>File Servlet</servlet-name>
+        <url-pattern>/files/*</url-pattern>
+    </servlet-mapping>   
+
 </web-app>

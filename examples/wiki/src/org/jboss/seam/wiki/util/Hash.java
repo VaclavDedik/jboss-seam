@@ -4,6 +4,7 @@ import java.security.MessageDigest;
 
 import org.apache.commons.codec.binary.Hex;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.AutoCreate;
 
 /**
  * Not reall save, should use a random salt, prepended later on the digest.
@@ -14,6 +15,7 @@ import org.jboss.seam.annotations.Name;
  * TODO: Make this more secure - before releasing to public and breaking all stored passwords!
  */
 @Name("hashUtil")
+@AutoCreate
 public class Hash {
     String hashFunction = "MD5";
     String charset      = "UTF-8";

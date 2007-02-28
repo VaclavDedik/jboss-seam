@@ -8,16 +8,22 @@
 
     <function>
         <function-name>isDocument</function-name>
-        <function-class>org.jboss.seam.wiki.core.node.NodeBrowser</function-class>
+        <function-class>org.jboss.seam.wiki.core.links.WikiLinkResolver</function-class>
         <function-signature>boolean isDocument(org.jboss.seam.wiki.core.node.Node)</function-signature>
     </function>
 
     <function>
         <function-name>isDirectory</function-name>
-        <function-class>org.jboss.seam.wiki.core.node.NodeBrowser</function-class>
+        <function-class>org.jboss.seam.wiki.core.links.WikiLinkResolver</function-class>
         <function-signature>boolean isDirectory(org.jboss.seam.wiki.core.node.Node)</function-signature>
     </function>
-    
+
+    <function>
+        <function-name>isFile</function-name>
+        <function-class>org.jboss.seam.wiki.core.links.WikiLinkResolver</function-class>
+        <function-signature>boolean isFile(org.jboss.seam.wiki.core.node.Node)</function-signature>
+    </function>
+
     <function>
         <function-name>renderURL</function-name>
         <function-class>org.jboss.seam.wiki.core.links.WikiLinkResolver</function-class>

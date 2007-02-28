@@ -3,9 +3,11 @@ package org.jboss.seam.wiki.core.links;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Transactional;
+import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.wiki.core.node.Document;
 import org.jboss.seam.wiki.core.node.Directory;
 import org.jboss.seam.wiki.core.node.Node;
+import org.jboss.seam.wiki.core.node.File;
 import org.jboss.seam.wiki.core.prefs.GlobalPreferences;
 import org.jboss.seam.wiki.core.dao.NodeDAO;
 import org.jboss.seam.Component;
@@ -16,6 +18,7 @@ import java.util.regex.Matcher;
 import java.util.Map;
 
 @Name("wikiLinkResolver")
+@AutoCreate
 public class WikiLinkResolver {
 
     // Prepended to primary keys in the database, e.g. [This is a stored link=>wiki://5]
@@ -45,8 +48,11 @@ public class WikiLinkResolver {
             Pattern.quote("[") + "([^" + Pattern.quote("]") + "|" + Pattern.quote("[") + "]*)" +
             "=>" + WIKI_PROTOCOL + Pattern.quote("]");
 
-    @In(create = true)
+    @In
     private NodeDAO nodeDAO;
+
+    @In
+    protected Directory wikiRoot;
 
     @In(required = false)
     private Document currentDocument;
@@ -54,8 +60,6 @@ public class WikiLinkResolver {
     @In(required = false)
     private Directory currentDirectory;
 
-    @In(create = true)
-    protected Directory wikiRoot;
 
     public static String convertToWikiName(String realName) {
         return realName.replaceAll(WIKINAME_REMOVECHARACTERS, "");
@@ -127,7 +131,7 @@ public class WikiLinkResolver {
             // Find the node by PK
             Node node = nodeDAO.findNode(Long.valueOf(wikiUrlMatcher.group(1)));
             if (node != null) {
-                wikiLink = new WikiLink(node.getId(), false, renderURL(node), node.getName());
+                wikiLink = new WikiLink(node, false, renderURL(node), node.getName());
             } else {
                 wikiLink = new WikiLink(null, true, BROKENLINK_URL, BROKENLINK_DESCRIPTION);
             }
@@ -139,7 +143,7 @@ public class WikiLinkResolver {
 
             Node node = resolveCrossAreaLinkText(currentDirectory, linkText);
             if (node!=null) {
-                wikiLink = new WikiLink(node.getId(), false, renderURL(node), node.getName());
+                wikiLink = new WikiLink(node, false, renderURL(node), node.getName());
                 // Run the converter again and UPDATE the currentDocument (yes, this happens during rendering!)
                 currentDocument.setContent(convertToWikiLinks(currentDirectory, currentDocument.getContent()));
                 // This should be updated in the database during the next flush()
@@ -179,18 +183,21 @@ public class WikiLinkResolver {
     }
 
     public class WikiLink {
-        Long nodeId;
+        Node node;
         boolean broken = false;
         String url;
         String description;
 
-        public WikiLink(Long nodeId, boolean broken, String url, String description) {
-            this.nodeId = nodeId;
+        public WikiLink(Node node, boolean broken, String url, String description) {
+            this.node = node;
             this.url = url;
             this.broken = broken;
             this.description = description;
         }
-
+        public Node getNode() { return node; }
+        public boolean isBroken() { return broken; }
+        public String getUrl() { return url; }
+        public String getDescription() { return description; }
         public String toString() {
             return "Description: " + description + " URL: " + url;
         }
@@ -198,8 +205,11 @@ public class WikiLinkResolver {
 
     public static String renderURL(Node node) {
         GlobalPreferences globalPrefs = (GlobalPreferences) Component.getInstance("globalPrefs");
-
         String contextPath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+
+        if (isFile(node)) {
+            return contextPath + "/files/download?fileId=" + node.getId();
+        }
 
         if (globalPrefs.getDefaultURLRendering().equals(GlobalPreferences.URLRendering.PERMLINK)) {
             return contextPath + "/" + node.getId() + globalPrefs.getPermlinkSuffix();
@@ -208,6 +218,19 @@ public class WikiLinkResolver {
                 return contextPath + "/" + node.getArea().getWikiname();
             return contextPath + "/" + node.getArea().getWikiname()  + "/" + node.getWikiname();
         }
+    }
+
+    // Replacement for missing instaceOf in EL (can't use string comparison, might be proxy)
+    public static boolean isDirectory(Node node) {
+        return node != null && Directory.class.isAssignableFrom(node.getClass());
+    }
+
+    public static boolean isDocument(Node node) {
+        return node != null && Document.class.isAssignableFrom(node.getClass());
+    }
+
+    public static boolean isFile(Node node) {
+        return node != null && File.class.isAssignableFrom(node.getClass());
     }
 
 }

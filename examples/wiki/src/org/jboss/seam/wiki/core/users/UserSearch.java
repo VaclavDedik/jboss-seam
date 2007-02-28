@@ -10,18 +10,19 @@ import org.jboss.seam.wiki.core.node.NodeBrowser;
 
 import javax.faces.application.FacesMessage;
 import java.util.List;
+import java.io.Serializable;
 
 @Name("userSearch")
 @Scope(ScopeType.CONVERSATION)
-public class UserSearch {
+public class UserSearch implements Serializable {
 
-    @In(create = true)
+    @In
     private UserDAO userDAO;
 
     @In
     private FacesMessages facesMessages;
 
-    @In(create = true)
+    @In
     private NodeBrowser browser;
 
     private User exampleUser;

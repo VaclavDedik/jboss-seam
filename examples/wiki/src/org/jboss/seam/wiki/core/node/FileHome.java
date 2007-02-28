@@ -1,21 +1,23 @@
 package org.jboss.seam.wiki.core.node;
 
 import static javax.faces.application.FacesMessage.SEVERITY_ERROR;
+import javax.swing.*;
 
-import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.annotations.*;
-import org.jboss.seam.wiki.core.links.WikiLinkResolver;
-import org.jboss.seam.wiki.core.dao.NodeDAO;
-import org.jboss.seam.core.FacesMessages;
-import org.jboss.seam.core.Events;
-import org.jboss.seam.core.Conversation;
+import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.wiki.core.dao.NodeDAO;
+import org.jboss.seam.wiki.core.ui.FileMetaMap;
+import org.jboss.seam.core.FacesMessages;
+import org.jboss.seam.core.Conversation;
 
-@Name("documentHome")
-public class DocumentHome extends EntityHome<Document> {
+import java.util.Map;
+
+@Name("fileHome")
+public class FileHome extends EntityHome<File> {
 
     @RequestParameter
-    private Long docId;
+    private Long fileId;
 
     @RequestParameter
     private Long parentDirId;
@@ -31,21 +33,25 @@ public class DocumentHome extends EntityHome<Document> {
     private NodeBrowser browser;
 
     @In
-    private WikiLinkResolver wikiLinkResolver;
-
-    @In
     private NodeDAO nodeDAO;
 
-    private String formContent;
-    boolean enabledPreview = false;
+    @In
+    Map<String, FileMetaMap.FileMetaInfo> fileMetaMap;
+
+    private String filename;
+    private String contentType;
+    // TODO: This should really use an InputStream and directly stream into the BLOB without consuming server memory
+    private byte[] filedata;
+
+    private int imagePreviewSize = 240;
 
     @Override
     public Object getId() {
 
-        if (docId == null) {
+        if (fileId == null) {
             return super.getId();
         } else {
-            return docId;
+            return fileId;
         }
     }
 
@@ -83,16 +89,15 @@ public class DocumentHome extends EntityHome<Document> {
         if (!isUniqueWikinameInDirectory() ||
             !isUniqueWikinameInArea()) return null;
 
+
+        // Sync file instance with form data
+        syncFile();
+
         // Link the document with a directory
         parentDirectory.addChild(getInstance());
 
         // Set its area number
         getInstance().setAreaNumber(parentDirectory.getAreaNumber());
-
-        // Convert and set form content onto entity instance
-        getInstance().setContent(
-            wikiLinkResolver.convertToWikiLinks(parentDirectory, getFormContent())
-        );
 
         return super.persist();
     }
@@ -105,12 +110,8 @@ public class DocumentHome extends EntityHome<Document> {
         if (!isUniqueWikinameInDirectory() ||
             !isUniqueWikinameInArea()) return null;
 
-        // Convert and set form content onto entity instance
-        getInstance().setContent(
-            wikiLinkResolver.convertToWikiLinks(parentDirectory, getFormContent())
-        );
-
-        Events.instance().raiseEvent("Nodes.menuStructureModified");
+        // Sync file instance with form data
+        syncFile();
 
         return super.update();
     }
@@ -120,33 +121,56 @@ public class DocumentHome extends EntityHome<Document> {
 
         // Unlink the document from its directory
         getInstance().getParent().removeChild(getInstance());
-
+/*
         Events.instance().raiseEvent("Nodes.menuStructureModified");
-
+*/
         return super.remove();
     }
 
-    public String getFormContent() {
-        // Load the document content and resolve links
-        if (formContent == null)
-            formContent = wikiLinkResolver.convertFromWikiLinks(parentDirectory, getInstance().getContent());
-        return formContent;
+    public String getFilename() { return filename; }
+    public void setFilename(String filename) { this.filename = filename; }
+
+    public String getContentType() { return contentType; }
+    public void setContentType(String contentType) { this.contentType = contentType; }
+
+    public byte[] getFiledata() { return filedata; }
+    public void setFiledata(byte[] filedata) { this.filedata = filedata; }
+
+    private void syncFile() {
+        if (filedata != null && filedata.length >0) {
+            getInstance().setFilename(filename);
+            getInstance().setFilesize(filedata.length); // Don't trust the browsers headers!
+            getInstance().setData(filedata);
+            getInstance().setContentType(contentType);
+
+            // Handle image/picture meta info
+            if (fileMetaMap.get(getInstance().getContentType()).image) {
+
+                ImageMetaInfo imageMetaInfo =
+                        getInstance().getImageMetaInfo() != null
+                                ? getInstance().getImageMetaInfo()
+                                : new ImageMetaInfo();
+                getInstance().setImageMetaInfo(imageMetaInfo);
+
+                ImageIcon icon = new ImageIcon(getInstance().getData());
+                int imageSizeX = icon.getImage().getWidth(null);
+                int imageSizeY = icon.getImage().getHeight(null);
+                getInstance().getImageMetaInfo().setSizeX(imageSizeX);
+                getInstance().getImageMetaInfo().setSizeY(imageSizeY);
+            }
+        }
     }
 
-    public void setFormContent(String formContent) {
-        this.formContent = formContent;
+    public int getImagePreviewSize() {
+        return imagePreviewSize;
     }
 
-    public boolean isEnabledPreview() {
-        return enabledPreview;
+    public void zoomPreviewIn() {
+        if (imagePreviewSize < 1600) imagePreviewSize = imagePreviewSize + 240;
     }
 
-    public void setEnabledPreview(boolean enabledPreview) {
-        this.enabledPreview = enabledPreview;
-        // Convert and set form content onto entity instance
-        getInstance().setContent(
-            wikiLinkResolver.convertToWikiLinks(parentDirectory, getFormContent())
-        );
+    public void zoomPreviewOut() {
+        if (imagePreviewSize > 240) imagePreviewSize = imagePreviewSize - 240;
     }
 
     // Validation rules for persist(), update(), and remove();
@@ -178,5 +202,4 @@ public class DocumentHome extends EntityHome<Document> {
         }
         return true;
     }
-
 }

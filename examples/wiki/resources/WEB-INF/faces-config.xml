@@ -26,6 +26,14 @@
             <property-name>brokenLinkStyleClass</property-name>
             <property-class>java.lang.String</property-class>
         </property>
+        <property>
+            <property-name>attachmentLinkStyleClass</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
+        <property>
+            <property-name>inlineLinkStyleClass</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
     </component>
 
    <!-- Seam transaction management -->

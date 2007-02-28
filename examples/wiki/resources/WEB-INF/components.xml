@@ -29,9 +29,13 @@
 
     </component>
 
-   <mail:mail-session host="mail.bluewin.ch" port="25"/>
+    <mail:mail-session host="mail.bluewin.ch" port="25"/>
 
+    <web:multipart-filter create-temp-files="true" max-request-size="10000000" url-pattern="*.seam"/>
+    
     <!-- ##### END OF WIKI USER CONFIGURATION ##### -->
+
+    <!-- Seam settings -->
 
     <core:init debug="false" jndi-pattern="@jndiPattern@"/>
 
@@ -56,8 +60,9 @@
        </drools:rule-files>
     </drools:rule-base>
 
-    <!-- Misc application settings -->
+    <web:context-filter url-pattern="/files/*"/>
 
     <factory name="themePath" value="#{facesContext.externalContext.request.contextPath}/themes/#{globalPrefs.themeName}"/>
+
 
 </components>

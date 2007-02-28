@@ -5,10 +5,12 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.wiki.core.node.Directory;
 
 import javax.persistence.EntityManager;
+import java.io.Serializable;
 
 @Name("wikiRoot")
 @Scope(ScopeType.CONVERSATION)
-public class WikiRoot {
+@AutoCreate
+public class WikiRoot implements Serializable {
 
     @In
     protected EntityManager entityManager;

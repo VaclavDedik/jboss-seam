@@ -34,6 +34,9 @@
 </ui:define>
 
 <ui:define name="controlRight">
+
+    <s:link id="uploadFile" styleClass="linkNavigation" action="uploadFile" accesskey="U"><u>U</u>pload File</s:link>
+
     <s:link id="exit" styleClass="linkNavigation"
             action="#{documentHome.exitConversation(true)}"
             accesskey="E"><u>E</u>xit Editor</s:link>
@@ -93,7 +96,7 @@
 
                         <h:commandLink id="save" action="#{documentHome.persist}"
                                        rendered="#{!documentHome.managed}"
-                                       tabindex="4" accesskey="S"><span class="button"><u>S</u>ave</span></h:commandLink>
+                                       tabindex="4" accesskey="S" styleClass="button"><span class="buttonLabel"><u>S</u>ave</span></h:commandLink>
 
                         <h:commandLink id="update" action="#{documentHome.update}"
                                    rendered="#{documentHome.managed}"
@@ -112,7 +115,43 @@
     </h:form>
 
     <s:div styleClass="documentDisplay" rendered="#{documentHome.enabledPreview}">
-        <wiki:formattedText value="#{documentHome.instance.content}" linkStyleClass="regularLink" brokenLinkStyleClass="brokenLink"/>
+        <wiki:formattedText value="#{documentHome.instance.content}"
+                            linkStyleClass="regularLink"
+                            brokenLinkStyleClass="brokenLink"
+                            attachmentLinkStyleClass="regularLink"
+                            inlineLinkStyleClass="regularLink"/>
+    </s:div>
+
+    <s:div styleClass="attachmentDisplay" rendered="#{not empty wikiTextAttachments}">
+        <div class="formHead">Attachments:</div>
+        <h:dataTable value="#{wikiTextAttachments}" var="link"
+             binding="#{jsfUtil.datatable}"
+             styleClass="directoryList"
+             columnClasses="iconColumn,iconColumn,nameColumn"
+             rowClasses="rowOdd,rowEven"
+             cellpadding="0" cellspacing="0" border="0">
+            <h:column>
+                <h:panelGroup>
+                    <a name="attachment#{jsfUtil.datatable.rowIndex + 1}"/>
+                    <h:outputText value="#&#160;#{jsfUtil.datatable.rowIndex + 1}"/>
+                </h:panelGroup>
+            </h:column>
+            <h:column>
+                <h:panelGroup>
+                    <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/#{fileMetaMap[link.node.contentType].displayIcon}"
+                                    width="18" height="20"/>
+                </h:panelGroup>
+            </h:column>
+            <h:column>
+                <h:panelGroup>
+                    <h:outputLink value="#{link.url}">
+                        <h:outputText value="#{link.node.name}"/>
+                        &#160;
+                        <h:outputText value="(#{link.node.filename}, #{link.node.humanReadableFilesize}, #{link.node.contentType})"/>
+                    </h:outputLink>
+                </h:panelGroup>
+            </h:column>
+        </h:dataTable>
     </s:div>
 
 </ui:define>

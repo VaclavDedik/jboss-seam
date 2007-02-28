@@ -9,10 +9,10 @@ import org.jboss.seam.security.Identity;
 @Name("authenticator")
 public class Authenticator {
 
-    @In(create = true)
+    @In
     private UserDAO userDAO;
 
-    @In(create = true)
+    @In
     private Hash hashUtil;
 
     @Out(required = false, scope = ScopeType.SESSION)

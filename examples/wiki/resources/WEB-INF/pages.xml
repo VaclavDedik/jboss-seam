@@ -59,6 +59,17 @@
                 <param name="nodeId" value="#{currentDirectory.id}"/>
             </redirect>
         </navigation>
+
+        <navigation>
+            <rule if-outcome="uploadFile">
+                <begin-conversation nested="true" flush-mode="MANUAL"/>
+                <redirect view-id="/fileEdit.xhtml">
+                    <param name="parentDirId" value="#{currentDirectory.id}"/>
+                </redirect>
+            </rule>
+        </navigation>
+
+
     </page>
 
     <page view-id="/dirDisplay.xhtml" action="#{browser.prepare}">
@@ -86,6 +97,20 @@
                     <param name="parentDirId" value="#{currentDirectory.id}"/>
                 </redirect>
             </rule>
+            <rule if-outcome="uploadFile">
+                <begin-conversation flush-mode="MANUAL"/>
+                <redirect view-id="/fileEdit.xhtml">
+                    <param name="parentDirId" value="#{currentDirectory.id}"/>
+                </redirect>
+            </rule>
+            <rule if-outcome="editFile">
+                <begin-conversation flush-mode="MANUAL"/>
+                <redirect view-id="/fileEdit.xhtml">
+                    <param name="fileId" value="#{param.fileId}"/>
+                    <param name="parentDirId" value="#{currentDirectory.id}"/>
+                </redirect>
+            </rule>
+
         </navigation>
 
     </page>
@@ -105,6 +130,30 @@
                 <end-conversation/>
                 <redirect view-id="/dirDisplay.xhtml">
                     <param name="nodeId" value="#{wikiRoot.id}"/>
+                </redirect>
+            </rule>
+        </navigation>
+
+    </page>
+
+    <page view-id="/fileEdit.xhtml" login-required="false" no-conversation-view-id="/dirDisplay.xhtml">
+        <description>Edit File '#{fileHome.instance.name}'</description>
+
+        <navigation from-action="#{fileHome.remove}">
+            <rule>
+                <end-conversation/>
+                <redirect view-id="/dirDisplay.xhtml">
+                    <param name="nodeId" value="#{parentDirectory.id}"/>
+                </redirect>
+            </rule>
+        </navigation>
+
+        <!-- TODO: bug in file upload rendering vs. redirect, http://jira.jboss.com/jira/browse/JBSEAM-948 -->
+        <navigation from-action="#{fileHome.persist}">
+            <rule>
+                <end-conversation/>
+                <redirect view-id="/dirDisplay.xhtml">
+                    <param name="nodeId" value="#{parentDirectory.id}"/>
                 </redirect>
             </rule>
         </navigation>

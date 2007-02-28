@@ -85,7 +85,7 @@
         <div class="input">
             <h:dataTable id="directoryFormTable" var="node" width="75%" style="border-width: 1px;"
                          value="#{childNodes}"
-                         binding="#{uiBindings.childNodeTable}"
+                         binding="#{jsfUtil.datatable}"
                          styleClass="directoryList"
                          headerClass="directoryListHeader"
                          columnClasses="positionUpColumn,positionDownColumn,menuControlColumn,defaultDocumentSelectColumn,iconColumn,nameColumn"
@@ -95,14 +95,14 @@
                 <h:column>
                     <h:commandLink id="nodeUp" tabindex="1"
                                    action="#{directoryHome.moveNodeUpInList}"
-                                   rendered="#{uiBindings.childNodeTable.rowIndex > 0}">
+                                   rendered="#{jsfUtil.datatable.rowIndex > 0}">
                         <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/up.gif" width="18" height="18"/>
                     </h:commandLink>
                 </h:column>
                 <h:column>
                     <h:commandLink id="nodeDown" tabindex="2"
                                    action="#{directoryHome.moveNodeDownInList}"
-                                   rendered="#{uiBindings.childNodeTable.rowIndex+1 lt uiBindings.childNodeTable.rowCount}">
+                                   rendered="#{jsfUtil.datatable.rowIndex+1 lt jsfUtil.datatable.rowCount}">
                         <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/down.gif" width="18" height="18"/>
                     </h:commandLink>
                 </h:column>

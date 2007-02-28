@@ -27,7 +27,7 @@ body {
 label {
 	color: #000000;
 }
-input, textarea {
+input, textarea, select {
 	border: 1px solid #C3BBB6;
     background: #fff url(../img/input.bg.gif) 0 0 no-repeat;
     font-size: 85%;
@@ -187,6 +187,10 @@ a:visited {
 
 .documentDisplay {
     padding-left: 10px;
+}
+
+.attachmentDisplay {
+    margin: 10px;
 }
 
 .regularLink{
@@ -493,6 +497,16 @@ a:visited {
 }
 
 .datatable .sortableHeader {
+    white-space: nowrap;
+    background: #fff url(../img/th.bg.gif) 0 0 repeat-x;
+    text-align: center;
+    padding: 2px;
+    border-top: 1px solid #C3BBB6;
+    border-right: 1px solid #C3BBB6;
+    font-weight: bold;
+}
+
+.datatable .regularHeader {
     white-space: nowrap;
     background: #fff url(../img/th.bg.gif) 0 0 repeat-x;
     text-align: center;

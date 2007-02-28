@@ -6,12 +6,13 @@ import org.jboss.seam.wiki.core.links.WikiLinkResolver;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.io.Serializable;
 
 @Name("menu")
 @Scope(ScopeType.CONVERSATION)
-public class Menu {
+public class Menu implements Serializable {
 
-    @In(create = true)
+    @In
     private Directory wikiRoot;
 
     private List<MenuItem> items;

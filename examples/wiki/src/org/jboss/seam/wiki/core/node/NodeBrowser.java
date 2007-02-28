@@ -4,6 +4,7 @@ import org.jboss.seam.annotations.*;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Component;
 import org.jboss.seam.wiki.core.dao.NodeDAO;
+import org.jboss.seam.wiki.core.links.WikiLinkResolver;
 
 import java.util.*;
 
@@ -30,6 +31,7 @@ import java.util.*;
  */
 @Name("browser")
 @Scope(ScopeType.EVENT)
+@AutoCreate
 public class NodeBrowser {
 
     @RequestParameter
@@ -45,10 +47,10 @@ public class NodeBrowser {
     @In
     protected org.jboss.seam.core.Redirect redirect;
 
-    @In(create = true)
+    @In
     protected Directory wikiRoot;
 
-    @In(create = true)
+    @In
     protected NodeDAO nodeDAO;
 
     // These are only EVENT scoped, we don't want them to jump from DocumentBrowser to
@@ -141,7 +143,7 @@ public class NodeBrowser {
             Directory area = nodeDAO.findArea(areaName);
             if (area != null) {
                 Node node = nodeDAO.findNodeInArea(area.getAreaNumber(), nodeName);
-                if (isDirectory(node)) {
+                if (WikiLinkResolver.isDirectory(node)) {
                     currentDirectory = (Directory)node;
                     currentDocument = currentDirectory.getDefaultDocument();
                  } else {
@@ -169,15 +171,6 @@ public class NodeBrowser {
 
         // Return not-null outcome so we can navigate from here
         return "prepared";
-    }
-
-    // Replacement for missing instaceOf in EL (can't use string comparison, might be proxy)
-    public static boolean isDirectory(Node node) {
-        return node != null && Directory.class.isAssignableFrom(node.getClass());
-    }
-
-    public static boolean isDocument(Node node) {
-        return node != null && Document.class.isAssignableFrom(node.getClass());
     }
 
 }

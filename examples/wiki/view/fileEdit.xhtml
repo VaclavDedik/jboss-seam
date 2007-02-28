@@ -1,0 +1,179 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:wiki="http://jboss.com/products/seam/wiki"
+                template="themes/#{globalPrefs.themeName}/template.xhtml">
+
+<ui:define name="pluginCSS">
+    <link href="#{themePath}/css/userControl.css" rel="stylesheet" type="text/css"/>
+    <link href="#{themePath}/css/searchControl.css" rel="stylesheet" type="text/css"/>
+    <link href="#{themePath}/css/mainMenu.css" rel="stylesheet" type="text/css"/>
+</ui:define>
+
+<ui:define name="screenname">
+    <h:outputText value="Upload File" rendered="#{!fileHome.managed}"/>
+    <h:outputText value="Edit File" rendered="#{fileHome.managed}"/>
+</ui:define>
+
+<ui:define name="headerTopRight">
+    <ui:include src="plugins/userControl/plugin.xhtml"/>
+</ui:define>
+
+<ui:define name="headerBottomLeft">&#160;</ui:define>
+
+<ui:define name="headerBottomRight">
+    <ui:include src="plugins/searchControl/plugin.xhtml"/>
+</ui:define>
+
+<ui:define name="sidebar">
+    <ui:include src="plugins/mainMenu/plugin.xhtml"/>
+</ui:define>
+
+<ui:define name="controlRight">
+    <s:link id="exit" styleClass="linkNavigation"
+            action="#{fileHome.exitConversation(true)}"
+            accesskey="E"><u>E</u>xit Editor</s:link>
+</ui:define>
+
+<ui:define name="content">
+
+    <h:form enctype="multipart/form-data">
+        <div class="form">
+            <div class="formHead">
+                <h:outputText value="New file: #{fileHome.instance.name}" rendered="#{!fileHome.managed}"/>
+                <h:outputText value="Editing file: #{fileHome.instance.name}" rendered="#{fileHome.managed}"/>
+            </div>
+
+            <div class="formFieldsWideLabels">
+
+                <s:validateAll>
+
+                    <div class="entry">
+                        <div class="label">Directory:</div>
+                        <div class="output">#{currentDirectory.name}</div>
+                    </div>
+
+                    <s:decorate>
+                        <div class="entry">
+                            <div class="label">Name:</div>
+                            <div class="input">
+                                <h:inputText tabindex="1" size="50" maxlength="255" id="name" required="true"
+                                             value="#{fileHome.instance.name}"/>
+                            </div>
+                        </div>
+                    </s:decorate>
+
+                    <s:div id="details" rendered="#{fileHome.managed}">
+
+                        <div class="entry">
+                            <div class="label">File Details:</div>
+                            <div class="output">
+                                <h:outputText value="(#{fileHome.instance.filename}, #{fileHome.instance.humanReadableFilesize}, #{fileHome.instance.contentType})"/>
+                            </div>
+                        </div>
+
+                    </s:div>
+
+                    <s:div id="imagePreview"
+                           rendered="#{fileHome.managed and not empty fileHome.instance.imageMetaInfo}">
+
+                        <div class="entry">
+                            <div class="label">Original Image Size:</div>
+                            <div class="output">#{fileHome.instance.imageMetaInfo.sizeX} x #{fileHome.instance.imageMetaInfo.sizeY} pixel</div>
+                        </div>
+
+                        <div class="entry">
+                            <div class="label">Image Preview:</div>
+                            <div class="output">
+                                <h:outputLink value="#{facesContext.externalContext.requestContextPath}/files/download?fileId=#{fileHome.instance.id}"><h:graphicImage
+                                    value="/files/download?fileId=#{fileHome.instance.id}&amp;width=#{fileHome.imagePreviewSize}&amp;conversationId=#{conversation.id}"/>
+                                </h:outputLink>
+                                
+                            </div>
+                        </div>
+
+                        <div class="entry">
+                            <div class="label">&#160;</div>
+                            <div class="input">
+                                <h:panelGroup>
+                                    <h:commandLink id="zoomOut" tabindex="2" action="#{fileHome.zoomPreviewOut}">
+                                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/minus.gif" width="18" height="18"/>
+                                    </h:commandLink>
+                                    <h:commandLink id="zoomIn" tabindex="3" action="#{fileHome.zoomPreviewIn}">
+                                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/plus.gif" width="18" height="18"/>
+                                    </h:commandLink>
+                                </h:panelGroup>
+                            </div>
+                        </div>
+
+                        <div class="entry">
+                            <div class="label">Show in documents:</div>
+                            <div class="input">
+                                <h:selectOneMenu value="#{fileHome.instance.imageMetaInfo.thumbnail}" styleClass="" tabindex="4">
+                                    <f:selectItem itemLabel="Small thumbnail" itemValue="S"/>
+                                    <f:selectItem itemLabel="Medium thumbnail" itemValue="M"/>
+                                    <f:selectItem itemLabel="Large thumbnail" itemValue="L"/>
+                                    <f:selectItem itemLabel="Full size " itemValue="F"/>
+                                    <f:selectItem itemLabel="As attachment" itemValue="A"/>
+                                </h:selectOneMenu>
+                            </div>
+                        </div>
+
+                    </s:div>
+
+                    <s:div rendered="#{!fileHome.managed}">
+
+                        <s:decorate>
+                            <div class="entry">
+                                <div class="label">Upload:</div>
+                                <div class="input">
+                                    <s:fileUpload data="#{fileHome.filedata}"
+                                                  contentType="#{fileHome.contentType}"
+                                                  fileName="#{fileHome.filename}"/>
+                                </div>
+                            </div>
+                        </s:decorate>
+                        
+                    </s:div>
+
+                </s:validateAll>
+
+
+            </div>
+            <div class="formControlsWideLabels">
+
+                <div class="entry">
+                    <div class="label">&#160;</div>
+                    <div class="input">
+
+                        <h:commandLink id="save" action="#{fileHome.persist}"
+                                       rendered="#{!fileHome.managed}"
+                                       tabindex="5" accesskey="S" styleClass="button"><span class="buttonLabel"><u>S</u>ave</span></h:commandLink>
+
+                        <h:commandLink id="update" action="#{fileHome.update}"
+                                   rendered="#{fileHome.managed}"
+                                   tabindex="6" accesskey="U" styleClass="button"><span class="buttonLabel"><u>U</u>pdate</span></h:commandLink>
+
+                        <h:commandLink id="delete" action="#{fileHome.remove}"
+                                       rendered="#{fileHome.managed}"
+                                       tabindex="7" accesskey="D" styleClass="button"><span class="buttonLabel"><u>D</u>elete</span></h:commandLink>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </h:form>
+
+</ui:define>
+
+<ui:define name="footer">&#160;</ui:define>
+
+
+</ui:composition>
+

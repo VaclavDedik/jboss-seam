@@ -7,6 +7,7 @@ import javax.persistence.NoResultException;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Transactional;
+import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.wiki.core.users.Role;
 import org.jboss.seam.wiki.core.users.User;
 import org.hibernate.criterion.Order;
@@ -20,12 +21,13 @@ import org.hibernate.transform.DistinctRootEntityResultTransformer;
 import java.util.List;
 
 @Name("userDAO")
+@AutoCreate
+@Transactional
 public class UserDAO {
 
     @In
     protected EntityManager entityManager;
 
-    @Transactional
     public User findUser(String username, boolean onlyActivated) {
         entityManager.joinTransaction();
 
@@ -43,7 +45,6 @@ public class UserDAO {
         return null;
     }
 
-    @Transactional
     public User findUserWithActivationCode(String activationCode) {
         entityManager.joinTransaction();
 
@@ -59,7 +60,6 @@ public class UserDAO {
         return null;
     }
 
-    @Transactional
     public Role findRole(String rolename) {
         entityManager.joinTransaction();
 
@@ -74,7 +74,6 @@ public class UserDAO {
         return null;
     }
 
-    @Transactional
     public List<User> findByExample(User exampleUser, String orderByProperty, boolean orderDescending,
                                     int firstResult, int maxResults, String... ignoreProperty) {
         Criteria crit = prepareExampleCriteria(exampleUser, orderByProperty, orderDescending, ignoreProperty);
@@ -82,7 +81,6 @@ public class UserDAO {
         return (List<User>)crit.list();
     }
 
-    @Transactional
     public int getRowCountByExample(User exampleUser, String... ignoreProperty) {
 
         Criteria crit = prepareExampleCriteria(exampleUser, null, false, ignoreProperty);
@@ -94,6 +92,7 @@ public class UserDAO {
     }
 
     private Criteria prepareExampleCriteria(User exampleUser, String orderByProperty, boolean orderDescending, String... ignoreProperty) {
+        entityManager.joinTransaction();
 
         Example example =  Example.create(exampleUser).enableLike(MatchMode.ANYWHERE).ignoreCase();
 
