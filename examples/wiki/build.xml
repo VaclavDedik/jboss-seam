@@ -80,6 +80,7 @@
 			<fileset dir="${basedir}/resources/META-INF">
 				<include name="ejb-jar.xml" />
                 <include name="wiki.taglib.xml" />
+                <include name="MANIFEST.MF" />
 			</fileset>
 		</copy>
 		<copy tofile="${jar.dir}/META-INF/persistence.xml" 
@@ -97,6 +98,11 @@
 		<copy todir="${war.dir}">
 			<fileset dir="${basedir}/view" />
 		</copy>
+        <copy todir="${war.dir}/META-INF">
+            <fileset dir="${basedir}/resources/META-INF">
+                <include name="MANIFEST.MF" />
+            </fileset>
+        </copy>
 		<copy todir="${war.dir}/WEB-INF">
 			<fileset dir="${basedir}/resources/WEB-INF">
 				<include name="*.*"/>
