@@ -963,8 +963,7 @@ public Order createOrder(User user, Product product, int quantity) {
         </para>
 
         <para> 
-            Seam provides a logging API built on top of Apache commons-logging that simplifies this code
-            significantly: 
+            Seam provides a logging API that simplifies this code significantly: 
         </para>
 
         <programlisting><![CDATA[@Logger private Log log;
@@ -986,6 +985,14 @@ public Order createOrder(User user, Product product, int quantity) {
             the <literal>Log</literal> into. 
         </para>
         
+        <!-- Lets not document this now, cos we should migrate to use the printf format
+        <para>
+            You can use <literal>java.text.MessageFormat</literal> formatted strings:
+        </para>
+        
+        <programlisting><![CDATA[log.debug("The time is {0,time}", new Date());]]></programlisting>
+        -->
+
         <para> 
             If <literal>User</literal> and <literal>Product</literal> are Seam components available in the current
             contexts, it gets even better: 
@@ -997,6 +1004,11 @@ public Order createOrder(User user, Product product, int quantity) {
     log.debug("Creating new order for user: #{user.username} product: #{product.name} quantity: #0", quantity);
     return new Order(user, product, quantity);
 }]]></programlisting>
+
+        <para>
+            Seam logging automagically chooses whether to send output to log4j or JDK logging. If log4j is in the
+            classpath, Seam with use it. If it is not, Seam will use JDK logging.
+        </para>
 
     </sect1>
 
