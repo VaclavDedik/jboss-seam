@@ -21,14 +21,22 @@
 */
 package org.jboss.seam.ioc;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import javax.servlet.http.HttpSessionActivationListener;
+
 import org.jboss.seam.Component;
+import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.core.Mutable;
+import org.jboss.seam.intercept.Proxy;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
 /**
  * An extension of Component that allows external IoC
- * to provide the base instance for a seam component.
+ * to provide the base instance for a Seam component.
  *
  * @author <a href="mailto:ales.justin@jboss.com">Ales Justin</a>
  */
@@ -37,7 +45,7 @@ public abstract class IoCComponent extends Component
    protected final LogProvider log = Logging.getLogProvider(getClass());
 
    /**
-    * Creates a Spring Seam Component given a beanFactory.
+    * Creates a Seam Component from other IoC container
     *
     * @param clazz   class
     * @param name    component name
@@ -53,34 +61,39 @@ public abstract class IoCComponent extends Component
    protected abstract Object instantiateIoCBean() throws Exception;
 
    /**
-    * Instantiates a IoC bean and provides it as a java bean to be wrapped
-    * by seam.
+    * Instantiates a IoC bean and provides it as a
+    * java bean to be wrapped by Seam.
     *
     * @see org.jboss.seam.Component#instantiateJavaBean()
     */
-/*   protected Object instantiateJavaBean() throws Exception
+   @Override
+   protected Object instantiateJavaBean() throws Exception
    {
       Object bean = instantiateIoCBean();
-      // initialize the bean following Component.instantiateJavaBean()'s
-      // pattern.
-      if (getInterceptionType() == InterceptionType.NEVER)
-      {
-         initialize(bean);
-         callPostConstructMethod(bean);
-      }
-      else
-      {
-         // Add all of the interfaces of the bean instance into the Seam
-         // proxy bean because spring's proxies add a bunch of interfaces too
-         // that should be accessible.
-         Set<Class> interfaces = new HashSet<Class>(Arrays.asList(bean.getClass().getInterfaces()));
-         interfaces.add(HttpSessionActivationListener.class);
-         interfaces.add(Mutable.class);
-         interfaces.add(Proxy.class);
-         // enhance bean
-         bean = ProxyUtils.enhance(bean, interfaces, this);
-      }
-      return bean;
-   }*/
+       // initialize the bean following Component.instantiateJavaBean()'s
+       // pattern.
+       if (getInterceptionType() == InterceptionType.NEVER)
+       {
+           // Only call postConstruct if the bean is not stateless otherwise in the case of a singleton it wowuld be
+           // called every time seam request the bean not just when it is created.
+           if (getScope() != ScopeType.STATELESS)
+           {
+               callPostConstructMethod(bean);
+           }
+       }
+       else if (!(bean instanceof Proxy))
+       {
+           // Add all of the interfaces of the bean instance into the Seam
+           // proxy bean because spring's proxies add a bunch of interfaces too
+           // that should be accessible.
+           Set<Class> interfaces = new HashSet<Class>(Arrays.asList(bean.getClass().getInterfaces()));
+           interfaces.add(HttpSessionActivationListener.class);
+           interfaces.add(Mutable.class);
+           interfaces.add(Proxy.class);
+           // enhance bean
+           bean = ProxyUtils.enhance(bean, interfaces, this);
+       }
+       return bean;
+   }
 
 }

@@ -113,7 +113,7 @@
         <include name="jboss-seam-debug.jar"    if="example.seam.debug.lib"/>
         <include name="jboss-seam-ui.jar"       if="example.seam.ui.lib"/>
         <include name="jboss-seam-pdf.jar"      if="example.seam.pdf.lib"/>
-        <include name="jboss-seam-ioc.jar"      if="example.seam.ioc.lib"/>
+        <include name="jboss-seam-ioc.jar"      if="example.seam.ioc.war.lib"/>
         <include name="jboss-seam-mail.jar"     if="example.seam.mail.lib"/>
         <include name="jboss-seam-remoting.jar" if="example.seam.remoting.lib"/>
     </zipfileset>
@@ -130,7 +130,7 @@
                dir="${lib.dir}"
            
       description="the spring jar">
-        <include name="spring*.jar" if="example.seam.ioc.lib"/>
+        <include name="spring*.jar" if="example.spring.lib"/>
     </zipfileset>        
 
     <zipfileset id="example.seam.main.jar" 
@@ -139,7 +139,13 @@
         <include name="${name}.jar"/>
     </zipfileset>
 
-    <zipfileset id="example.facelets.jar" 
+    <zipfileset id="example.seam.ioc.main.jar"
+               dir="${imported.basedir}"
+       description="the ioc Seam jar">
+        <include name="${name}-ioc.jar" if="example.seam.ioc.main.lib"/>
+    </zipfileset>
+
+    <zipfileset id="example.facelets.jar"
                dir="${lib.dir}"
            prefix="WEB-INF/lib"
       description="the facelets jar">
@@ -161,7 +167,6 @@
         <include name="jbpm*.jar" if="example.jbpm.lib"/>
         <include name="jboss-cache-jdk50.jar" if="example.cache.lib"/>
         <include name="jboss-aop-jdk50.jar" if="example.cache.lib"/>
-        <include name="jgroups.jar" if="example.cache.lib"/> 
         <include name="jgroups.jar" if="example.cache.lib"/> 
     </zipfileset>
     
@@ -224,6 +229,10 @@
         <include name="*.cfg.xml"/>
         <include name="*.xsd"/>
         <include name="*.drl"/>
+    </zipfileset>
+
+    <zipfileset id="example.beans.files" dir="${example.resources.dir}">
+        <include name="META-INF/*-beans.xml"  if="example.mc.beans"/>
     </zipfileset>
 
     <fileset id="example.deploy"
@@ -295,11 +304,11 @@
             prefix="WEB-INF/lib"
             dir="${imported.basedir}">
         <include name="${name}.jar"/>
-        <include name="jboss-seam-debug.jar" if="example.seam.debug.lib"/>
-        <include name="jboss-seam-ui.jar"    if="example.seam.ui.lib"/>
-        <include name="jboss-seam-pdf.jar"   if="example.seam.pdf.lib"/>
-        <include name="jboss-seam-ioc.jar"   if="example.seam.ioc.lib"/>
-        <include name="jboss-seam-remoting.jar"   if="example.seam.remoting.lib"/>
+        <include name="jboss-seam-debug.jar"    if="example.seam.debug.lib"/>
+        <include name="jboss-seam-ui.jar"       if="example.seam.ui.lib"/>
+        <include name="jboss-seam-pdf.jar"      if="example.seam.pdf.lib"/>
+        <include name="jboss-seam-ioc.jar"      if="example.seam.ioc.war.lib"/>
+        <include name="jboss-seam-remoting.jar" if="example.seam.remoting.lib"/>
     </zipfileset>
     
     <zipfileset id="example.tomcat.drools.jar" 
@@ -1338,11 +1347,13 @@
     <target name="ear" depends="ejb3, war">
         <jar destfile="${build.dir}/${example.name}.ear">
             <fileset refid="example.seam.main.jar"/>
-            <fileset refid="example.drools.jar"/>           
+            <fileset refid="example.seam.ioc.main.jar"/>
+            <fileset refid="example.drools.jar"/>
             <fileset refid="example.extra.jar"/>
             <fileset refid="example.local.jar" />
             <fileset refid="example.jcaptcha.jar"/>
             <fileset refid="example.spring.jar"/>
+            <fileset refid="example.beans.files"/>
             <zipfileset dir="${build.dir}">
                 <include name="${example.name}.jar"/>
             </zipfileset>

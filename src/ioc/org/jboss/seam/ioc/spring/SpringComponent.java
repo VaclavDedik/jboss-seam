@@ -1,23 +1,15 @@
 package org.jboss.seam.ioc.spring;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.http.HttpSessionActivationListener;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.core.Mutable;
 import org.jboss.seam.init.Initialization;
-import org.jboss.seam.intercept.Proxy;
 import org.jboss.seam.ioc.IoCComponent;
-import org.jboss.seam.ioc.ProxyUtils;
 import org.springframework.aop.framework.Advised;
 import org.springframework.beans.FatalBeanException;
 import org.springframework.beans.factory.BeanFactory;
@@ -178,42 +170,7 @@ public class SpringComponent extends IoCComponent
             return beanfactory.getBean(springBeanName);
         }
         setObjectFactory(null);
-        Object bean = objectFactory.getObject();
-        // initialize the bean following Component.instantiateJavaBean()'s
-        // pattern.
-        if (getInterceptionType() == InterceptionType.NEVER)
-        {
-            // Only call postConstruct if the bean is not stateless otherwise in the case of a singleton it wowuld be
-            // called every time seam request the bean not just when it is created.
-            if (getScope() != ScopeType.STATELESS)
-            {
-                callPostConstructMethod(bean);
-            }
-        }
-        else if (!(bean instanceof Proxy))
-        {
-            // Add all of the interfaces of the bean instance into the Seam
-            // proxy bean because spring's proxies add a bunch of interfaces too
-            // that should be accessible.
-            Set<Class> interfaces = new HashSet<Class>(Arrays.asList(bean.getClass().getInterfaces()));
-            interfaces.add(HttpSessionActivationListener.class);
-            interfaces.add(Mutable.class);
-            interfaces.add(Proxy.class);
-            // enhance bean
-            bean = ProxyUtils.enhance(bean, interfaces, this);
-        }
-        return bean;
-    }
-
-    /**
-     * Instantiates a IoC bean and provides it as a java bean to be wrapped by seam.
-     *
-     * @see org.jboss.seam.Component#instantiateJavaBean()
-     */
-    @Override
-    protected Object instantiateJavaBean() throws Exception
-    {
-        return instantiateIoCBean();
+        return objectFactory.getObject();
     }
 
     /**

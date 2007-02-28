@@ -21,8 +21,8 @@
 */
 package org.jboss.seam.ioc.microcontainer;
 
-import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.jboss.kernel.plugins.registry.AbstractKernelRegistryEntry;
 import org.jboss.kernel.spi.registry.KernelRegistryEntry;
@@ -34,68 +34,67 @@ import org.jboss.seam.ScopeType;
  * Do a Seam component lookup for MC beans.
  * Lookup name can be a class or simple string.
  * With string you can determine scopeType and create param:
- *  * name=somename;create=false;scope=SESSION 
- *
- * We can add some xml + XB binding code to make Seam --> MC
- * more informative - with create and scope as attributes.
+ * * name=somename;create=false;scope=SESSION
  *
  * @author <a href="mailto:ales.justin@jboss.com">Ales Justin</a>
+ * @see org.jboss.seam.ioc.microcontainer.xml.LookupHandler
+ * @see org.jboss.seam.ioc.microcontainer.xml.AbstractLookupMetaData
  */
 public class SeamComponentRegistryPlugin implements KernelRegistryPlugin
 {
-   private static Pattern SCOPE = Pattern.compile(";scope=([a-zA-Z]+)");
-   private static Pattern CREATE = Pattern.compile(";create=(true|false)");
+    private static Pattern SCOPE = Pattern.compile(";scope=([a-zA-Z]+)");
+    private static Pattern CREATE = Pattern.compile(";create=(true|false)");
 
-   public KernelRegistryEntry getEntry(Object object)
-   {
-      String componentName = object.toString();
-      Object component;
-      if (object instanceof Class)
-      {
-         component = Component.getInstance((Class<?>)object);
-      }
-      else
-      {
-         // scope and create
-         Boolean create = parseCreate(componentName);
-         ScopeType scopeType = parseScopeType(componentName);
-         // shorter name?
-         int p = componentName.indexOf(";");
-         if (p > 0)
-            componentName = componentName.substring(p);
-         // register component
-         if (scopeType != null)
-         {
-            component = Component.getInstance(componentName, scopeType, create);
-         }
-         else
-         {
-            component = Component.getInstance(componentName, create);
-         }
-      }
-      return new AbstractKernelRegistryEntry(componentName, component);
-   }
+    public KernelRegistryEntry getEntry(Object object)
+    {
+        String componentName = object.toString();
+        Object component;
+        if (object instanceof Class)
+        {
+            component = Component.getInstance((Class<?>)object);
+        }
+        else
+        {
+            // scope and create
+            Boolean create = parseCreate(componentName);
+            ScopeType scopeType = parseScopeType(componentName);
+            // shorter name?
+            int p = componentName.indexOf(";");
+            if (p > 0)
+                componentName = componentName.substring(p);
+            // register component
+            if (scopeType != null)
+            {
+                component = Component.getInstance(componentName, scopeType, create);
+            }
+            else
+            {
+                component = Component.getInstance(componentName, create);
+            }
+        }
+        return new AbstractKernelRegistryEntry(componentName, component);
+    }
 
-   protected static Boolean parseCreate(String name)
-   {
-      Boolean create = Boolean.TRUE;
-      Matcher createMatcher = CREATE.matcher(name);
-      if (createMatcher.find())
-      {
-         create = Boolean.parseBoolean(createMatcher.group(1));
-      }
-      return create;
-   }
+    protected static Boolean parseCreate(String name)
+    {
+        Boolean create = Boolean.TRUE;
+        Matcher createMatcher = CREATE.matcher(name);
+        if (createMatcher.find())
+        {
+            create = Boolean.parseBoolean(createMatcher.group(1));
+        }
+        return create;
+    }
 
-   protected static ScopeType parseScopeType(String name)
-   {
-      ScopeType scopeType = null;
-      Matcher scopeMatcher = SCOPE.matcher(name);
-      if (scopeMatcher.find())
-      {
-         scopeType = ScopeType.valueOf(scopeMatcher.group(1));
-      }
-      return scopeType;
-   }
+    protected static ScopeType parseScopeType(String name)
+    {
+        ScopeType scopeType = null;
+        Matcher scopeMatcher = SCOPE.matcher(name);
+        if (scopeMatcher.find())
+        {
+            scopeType = ScopeType.valueOf(scopeMatcher.group(1));
+        }
+        return scopeType;
+    }
 
 }

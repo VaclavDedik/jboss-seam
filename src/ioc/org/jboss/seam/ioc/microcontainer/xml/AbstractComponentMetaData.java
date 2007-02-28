@@ -19,37 +19,28 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
-package org.jboss.seam.ioc.microcontainer;
+package org.jboss.seam.ioc.microcontainer.xml;
 
-import org.jboss.dependency.spi.Controller;
+import org.jboss.beans.metadata.plugins.AbstractBeanMetaData;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.ioc.IoCComponent;
 
 /**
- * Microcontainer component.
+ * Component meta data.
+ * Adding component ScopeType.
  *
  * @author <a href="mailto:ales.justin@jboss.com">Ales Justin</a>
  */
-public class MicrocontainerComponent extends IoCComponent
+public class AbstractComponentMetaData extends AbstractBeanMetaData
 {
-   private Controller controller;
+    protected ScopeType scope;
 
-   public MicrocontainerComponent(Class clazz, String name, ScopeType scope, Controller controller)
-   {
-      super(clazz, name, scope);
-      this.controller = controller;
-   }
+    public ScopeType getScope()
+    {
+        return scope;
+    }
 
-   @Override
-   protected String getIoCName()
-   {
-      return "Microcontainer";
-   }
-
-   @Override
-   protected Object instantiateIoCBean() throws Exception
-   {
-      return controller.getInstalledContext(getName()).getTarget();
-   }
-
+    public void setScope(ScopeType scope)
+    {
+        this.scope = scope;
+    }
 }
