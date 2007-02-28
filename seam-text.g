@@ -48,14 +48,10 @@ options
         builder = mainBuilder;
         return result;
     }
-    
-    protected String linkUrl(String linkText) { return linkText.trim(); }
 
-    protected String linkDescription(String descriptionText, String linkText) { 
-        return descriptionText.toString().trim().length()>0 ? descriptionText : linkText; 
+    protected String linkTag(String description, String url) {
+        return "<a href=\"" + url + "\" styleClass=\"seamTextLink\">" + description + "</a>";
     }
-
-    protected String linkClass(String linkText) { return "seamTextLink"; }
 }
 
 startRule: (newline)* ( (heading (newline)* )? text (heading (newline)* text)* )?
@@ -124,10 +120,10 @@ link: OPEN
       EQ GT 
       { beginCapture(); }
       attributeValue 
-      { String link = endCapture(); append("<a href=\""); append( linkUrl(link) ); append("\" class=\""); append( linkClass(link) ); append("\">"); append( linkDescription(text, link) ); append("</a>"); }
+      { String link = endCapture(); append(linkTag(text, link)); }
       CLOSE
     ;
-    
+
 bold: STAR { append("<b>"); }
       (plain|underline|italic|monospace|superscript|deleted|newline)+
       STAR { append("</b>"); }
