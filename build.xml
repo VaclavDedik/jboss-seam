@@ -23,10 +23,11 @@
     <property name="iocclasses.dir"       value="${build.dir}/iocclasses"/>
     <property name="mailclasses.dir"      value="${build.dir}/mailclasses"/>
     <property name="debugclasses.dir"     value="${build.dir}/debugclasses"/>
-    <property name="coverage.dir"         value="${build.dir}/coverage"/>
-    
-    <property name="genclasses.dir"       value="${build.dir}/genclasses"/>
     <property name="remotingclasses.dir"  value="${build.dir}/remotingclasses"/>
+    
+	<property name="genclasses.dir"       value="${build.dir}/genclasses"/>
+	
+	<property name="coverage.dir"         value="${build.dir}/coverage"/>
 
     <property name="src.java.dir"         value="src/main"/>
     <property name="src.ui.dir"           value="src/ui"/>
@@ -107,11 +108,12 @@
                dir="${imported.basedir}"
             prefix="WEB-INF/lib"
        description="the Seam jars">
-        <include name="jboss-seam-debug.jar" if="example.seam.debug.lib"/>
-        <include name="jboss-seam-ui.jar"    if="example.seam.ui.lib"/>
-        <include name="jboss-seam-pdf.jar"   if="example.seam.pdf.lib"/>
-        <include name="jboss-seam-ioc.jar"   if="example.seam.ioc.lib"/>
-        <include name="jboss-seam-mail.jar"  if="example.seam.mail.lib"/>
+        <include name="jboss-seam-debug.jar"    if="example.seam.debug.lib"/>
+        <include name="jboss-seam-ui.jar"       if="example.seam.ui.lib"/>
+        <include name="jboss-seam-pdf.jar"      if="example.seam.pdf.lib"/>
+        <include name="jboss-seam-ioc.jar"      if="example.seam.ioc.lib"/>
+        <include name="jboss-seam-mail.jar"     if="example.seam.mail.lib"/>
+        <include name="jboss-seam-remoting.jar" if="example.seam.remoting.lib"/>
     </zipfileset>
     
     <zipfileset id="example.itext.jar"
@@ -140,13 +142,6 @@
            prefix="WEB-INF/lib"
       description="the facelets jar">
         <include name="jsf-facelets.jar" if="example.facelets.lib"/>
-    </zipfileset>
-    
-    <zipfileset id="example.remoting.jar"
-                dir="${imported.basedir}"
-                prefix="WEB-INF/lib"
-                description="the Seam Remoting jar">
-        <include name="${name}-remoting.jar" if="example.remoting.lib"/>
     </zipfileset>
 
     <zipfileset id="example.ajax4jsf.jar" 
@@ -285,6 +280,7 @@
         <include name="jboss-seam-ui.jar"    if="example.seam.ui.lib"/>
         <include name="jboss-seam-pdf.jar"   if="example.seam.pdf.lib"/>
         <include name="jboss-seam-ioc.jar"   if="example.seam.ioc.lib"/>
+        <include name="jboss-seam-remoting.jar"   if="example.seam.remoting.lib"/>
     </zipfileset>
     
     <zipfileset id="example.tomcat.drools.jar" 
@@ -308,7 +304,6 @@
         <path refid="example.path"/>
         <fileset refid="lib"/>
         <fileset refid="example.seam.main.jar"/>
-        <fileset refid="example.remoting.jar"/>
     </path>
     
     <property name="test.classpath" value="test.classpath"/>
@@ -888,6 +883,16 @@
             </fileset>
         </copy>
         
+        <mkdir dir="${dist.src.remoting.dir}"/>
+        <copy todir="${dist.src.remoting.dir}">
+            <fileset dir="${src.remoting.dir}">
+                <patternset refid="src.files"/>
+            </fileset>
+            <fileset dir="${src.remoting.dir}">
+                <patternset refid="meta.files"/>
+            </fileset>
+        </copy>
+        
         <mkdir dir="${dist.src.mail.dir}"/>
                 <copy todir="${dist.src.mail.dir}">
                     <fileset dir="${src.mail.dir}">
@@ -1153,7 +1158,6 @@
         
     </target>
 
-
     <target name="jardebug" depends="compiledebug"
             description="Build the distribution .jar file for the debug package">
         <mkdir dir="${dist.dir}"/>
@@ -1295,8 +1299,7 @@
             <zipfileset refid="example.war.docroot"/>
             <zipfileset refid="example.war.webinf.lib"/>
             <zipfileset refid="example.seam.misc.jar"/>
-            <zipfileset refid="example.facelets.jar"/>
-            <zipfileset refid="example.remoting.jar"/>            
+            <zipfileset refid="example.facelets.jar"/>          
         	<zipfileset refid="example.ajax4jsf.jar"/>
             <zipfileset refid="example.itext.jar"/>
             <zipfileset dir="${build.dir}/resources">
