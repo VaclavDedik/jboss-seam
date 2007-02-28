@@ -46,7 +46,7 @@ public class LocaleSelector extends Selector
    @Create
    public void initLocale()
    {
-      String localeString = getCookieValue();
+      String localeString = getCookieValueIfEnabled();
       if (localeString!=null) setLocaleString(localeString);
    }
    
@@ -66,7 +66,7 @@ public class LocaleSelector extends Selector
       Contexts.removeFromAllContexts( Seam.getComponentName(ResourceBundle.class) );
       Contexts.removeFromAllContexts( Seam.getComponentName(Messages.class) );
       
-      setCookieValue( getLocaleString() );
+      setCookieValueIfEnabled( getLocaleString() );
 
       if ( Events.exists() ) {
           Events.instance().raiseEvent( "org.jboss.seam.localeSelected", getLocaleString() );

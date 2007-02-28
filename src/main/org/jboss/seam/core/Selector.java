@@ -47,27 +47,48 @@ public abstract class Selector extends AbstractMutable implements Serializable
    /**
     * Get the value of the cookie
     */
+   protected String getCookieValueIfEnabled()
+   {
+      return isCookieEnabled() ?
+         getCookieValue() : null;
+   }
+   
+   protected Cookie getCookie()
+   {
+      FacesContext ctx = FacesContext.getCurrentInstance();
+      if (ctx != null)
+      {
+          return (Cookie) ctx.getExternalContext().getRequestCookieMap()
+            .get( getCookieName() );
+      }
+      else
+      {
+         return null;
+      }
+   }
+   
    protected String getCookieValue()
    {
-      Cookie cookie = null;
-      
-      if ( isCookieEnabled() )
+      Cookie cookie = getCookie();
+      return cookie==null ? null : cookie.getValue();
+   }
+   
+   protected void clearCookieValue()
+   {
+      Cookie cookie = getCookie();
+      if ( cookie!=null )
       {
-         FacesContext ctx = FacesContext.getCurrentInstance();
-         if (ctx != null)
-         {
-            cookie = (Cookie) ctx.getExternalContext().getRequestCookieMap()
-               .get( getCookieName() );
-         }
+         HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();         
+         cookie.setValue(null);
+         cookie.setMaxAge(0);
+         response.addCookie(cookie);
       }
-      
-      return cookie==null ? null : cookie.getValue();      
    }
    
    /**
     * Set the cookie
     */
-   protected void setCookieValue(String value)
+   protected void setCookieValueIfEnabled(String value)
    {
       if ( isCookieEnabled() )
       {

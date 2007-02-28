@@ -85,12 +85,10 @@ public class Identity extends Selector
 
    private void initCredentialsFromCookie()
    {
-      boolean cookie = isCookieEnabled();
-      setCookieEnabled(true);
       username = getCookieValue();
-      setCookieEnabled(cookie);
       if (username!=null)
       {
+         setCookieEnabled(true);
          postRememberMe();
       }
       setDirty();
@@ -281,7 +279,8 @@ public class Identity extends Selector
          preAuthenticationRoles.clear();
       }
       
-      setCookieValue( getUsername() );
+      if ( !isRememberMe() ) clearCookieValue();
+      setCookieValueIfEnabled( getUsername() );
       
       password = null;
       setDirty();

@@ -31,7 +31,7 @@ public class TimeZoneSelector extends Selector
    @Create
    public void initTimeZone()
    {
-      String timeZoneId = getCookieValue();
+      String timeZoneId = getCookieValueIfEnabled();
       if (timeZoneId!=null) setTimeZoneId(timeZoneId);
    }
    
@@ -47,7 +47,7 @@ public class TimeZoneSelector extends Selector
     */
    public void select()
    {
-      setCookieValue( getTimeZoneId() );
+      setCookieValueIfEnabled( getTimeZoneId() );
 
       if ( Events.exists() ) 
       {

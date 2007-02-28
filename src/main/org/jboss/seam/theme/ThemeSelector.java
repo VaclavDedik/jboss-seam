@@ -50,7 +50,7 @@ public class ThemeSelector extends Selector
    @Create
    public void initDefaultTheme()
    {
-      String themeName = getCookieValue();
+      String themeName = getCookieValueIfEnabled();
       if ( themeName!=null && Arrays.asList(availableThemes).contains(themeName) ) 
       {
          setTheme(themeName);
@@ -85,7 +85,7 @@ public class ThemeSelector extends Selector
       UIViewRoot viewRoot = facesContext.getApplication().getViewHandler().createView(facesContext, viewId);
       facesContext.setViewRoot(viewRoot);
       
-      setCookieValue( getTheme() );
+      setCookieValueIfEnabled( getTheme() );
 
       if ( Events.exists() ) 
       {

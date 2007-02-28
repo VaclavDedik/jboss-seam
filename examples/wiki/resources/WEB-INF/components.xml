@@ -48,7 +48,7 @@
 
     <!-- Login and security -->
 
-    <security:identity authenticate-method="#{authenticator.authenticate}" remember-me="true"/>
+    <security:identity authenticate-method="#{authenticator.authenticate}"/>
 
     <drools:rule-base name="securityRules">
        <drools:rule-files>
