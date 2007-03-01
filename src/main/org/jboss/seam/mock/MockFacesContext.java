@@ -1,9 +1,7 @@
 /*
- * JBoss, Home of Professional Open Source
- *
- * Distributable under LGPL license.
- * See terms of license at gnu.org.
- */
+ *  * JBoss, Home of Professional Open Source  *  * Distributable under LGPL
+ * license.  * See terms of license at gnu.org.  
+ */
 package org.jboss.seam.mock;
 
 import java.util.ArrayList;
@@ -12,7 +10,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.el.ELContext;
+import javax.faces.FactoryFinder;
 import javax.faces.application.Application;
+import javax.faces.application.ApplicationFactory;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.component.UIViewRoot;
@@ -21,6 +22,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseStream;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.RenderKit;
+import javax.faces.render.RenderKitFactory;
+
+import com.sun.facelets.el.LegacyELContext;
 
 /**
  * @author Gavin King
@@ -29,18 +33,35 @@ import javax.faces.render.RenderKit;
  */
 public class MockFacesContext extends FacesContext
 {
-   
+
    private UIViewRoot viewRoot;// = new UIViewRoot();
+
    private Map<FacesMessage, String> messages = new HashMap<FacesMessage, String>();
+
    private ExternalContext externalContext;
+
    private ResponseWriter responseWriter;
+
+   private RenderKitFactory renderKitFactory;
    
+   private ELContext elContext;
+  
    public MockFacesContext(ExternalContext externalContext, Application application)
    {
       this.externalContext = externalContext;
       this.application = application;
    }
-   
+
+   // Create a MockFacesContext using a ApplicationFactory to get the Application
+   public MockFacesContext(ExternalContext externalContext)
+   {
+      application = ((ApplicationFactory) FactoryFinder
+               .getFactory(FactoryFinder.APPLICATION_FACTORY)).getApplication();
+      renderKitFactory = (RenderKitFactory) FactoryFinder
+               .getFactory(FactoryFinder.RENDER_KIT_FACTORY);
+      this.externalContext = externalContext;
+   }
+
    private Application application;
 
    @Override
@@ -65,9 +86,9 @@ public class MockFacesContext extends FacesContext
    public Severity getMaximumSeverity()
    {
       Severity max = null;
-      for (FacesMessage msg: messages.keySet())
+      for (FacesMessage msg : messages.keySet())
       {
-         if (max==null || msg.getSeverity().compareTo(max)>0)
+         if (max == null || msg.getSeverity().compareTo(max) > 0)
          {
             max = msg.getSeverity();
          }
@@ -85,11 +106,11 @@ public class MockFacesContext extends FacesContext
    public Iterator getMessages(String clientId)
    {
       List list = new ArrayList();
-      for (Map.Entry<FacesMessage, String> entry: messages.entrySet())
+      for (Map.Entry<FacesMessage, String> entry : messages.entrySet())
       {
-         if ( clientId.equals( entry.getValue() ) )
+         if (clientId.equals(entry.getValue()))
          {
-            list.add( entry.getKey() );
+            list.add(entry.getKey());
          }
       }
       return list.iterator();
@@ -98,9 +119,16 @@ public class MockFacesContext extends FacesContext
    @Override
    public RenderKit getRenderKit()
    {
-      return MockRenderKit.INSTANCE;
+      if (getViewRoot() == null || getViewRoot().getRenderKitId() == null)
+      {
+         return MockRenderKit.INSTANCE;
+      }
+      else 
+      {
+         return renderKitFactory.getRenderKit(this, getViewRoot().getRenderKitId());
+      }
    }
-   
+
    private boolean renderResponse;
 
    @Override
@@ -108,7 +136,7 @@ public class MockFacesContext extends FacesContext
    {
       return renderResponse;
    }
-   
+
    private boolean responseComplete;
 
    @Override
@@ -160,7 +188,9 @@ public class MockFacesContext extends FacesContext
    }
 
    @Override
-   public void release() {}
+   public void release()
+   {
+   }
 
    @Override
    public void renderResponse()
@@ -173,17 +203,29 @@ public class MockFacesContext extends FacesContext
    {
       responseComplete = true;
    }
-   
+
    public MockFacesContext setCurrent()
    {
       setCurrentInstance(this);
       return this;
    }
-   
+
    public MockFacesContext createViewRoot()
    {
       viewRoot = new UIViewRoot();
+      viewRoot.setRenderKitId(getApplication().getViewHandler().calculateRenderKitId(this));
       return this;
    }
+   
+   
+   // JSF 1.2 only
+   public ELContext getELContext() {
+      // TODO Does this work on JSF 1.2?
+      if (elContext == null)
+      {
+         elContext = new LegacyELContext(this);
+      }
+      return elContext;
+  }
 
 }
