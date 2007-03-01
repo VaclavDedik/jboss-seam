@@ -41,7 +41,7 @@ public class FaceletsRenderer extends Renderer
        
        if (FacesContext.getCurrentInstance() == null) 
        {
-          MockFacesContext mockFacesContext = new MockFacesContext(new MockExternalContext(), new MockApplication()).setCurrent();
+          MockFacesContext mockFacesContext = new MockFacesContext(new MockExternalContext()).setCurrent();
           mockFacesContext.createViewRoot();
        }
         FacesContext facesContext = FacesContext.getCurrentInstance();
