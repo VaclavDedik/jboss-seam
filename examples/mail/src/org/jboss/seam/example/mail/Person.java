@@ -9,24 +9,17 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.util.Resources;
 
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Name("person")
-@Scope(ScopeType.CONVERSATION)
-public class Person
+public class Person implements Serializable
 {
    private String firstname;
    private String lastname;
    private String address;
-   private InputStream photo = Resources.getResourceAsStream("/no_image.png");
-   
-   @Create
-   @Begin(join=true)
-   public void create() 
-   {
-      
-   }
+   private transient InputStream photo = Resources.getResourceAsStream("/no_image.png");
    
    @Factory("people")
    public List<Person> getPeople() {
@@ -39,8 +32,6 @@ public class Person
    public Person()
    {
    }
-   
-   
    
    public Person(String firstname, String lastname, String address, String photoPath)
    {
@@ -84,7 +75,5 @@ public class Person
    
    public InputStream getPhoto() {
       return photo;
-   }
-
-   
+   } 
 }

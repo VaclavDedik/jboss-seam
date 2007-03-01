@@ -31,6 +31,12 @@ public class MailExample
    @In
    private Renderer renderer;
    
+   @In
+   private AsynchronousMailProcessor asynchronousMailProcessor;
+   
+   @In(create=true)
+   private Person person;
+   
    public void send() {
       try {
         renderer.render("/simple.xhtml");
@@ -70,6 +76,10 @@ public class MailExample
          facesMessages.add("Email sending failed: " + e.getMessage());
       }
     }
+   
+   public void sendAsynchronous() {
+      asynchronousMailProcessor.scheduleSend(3000, person);
+   }
    
    @Factory("numbers")
    public URL getFile()
