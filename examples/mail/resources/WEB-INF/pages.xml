@@ -4,4 +4,8 @@
 
 <pages>
 
+	<page view-id="/index.xhtml">
+		<begin-conversation join="true" />
+	</page>
+
 </pages>
