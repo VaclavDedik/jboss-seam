@@ -23,9 +23,10 @@ package org.jboss.seam.ioc.microcontainer;
 
 import java.io.Serializable;
 import javax.management.MBeanServer;
-import javax.management.MBeanServerFactory;
 import javax.management.ObjectName;
 
+import org.jboss.mx.util.MBeanProxyExt;
+import org.jboss.mx.util.MBeanServerLocator;
 import org.jboss.seam.Component;
 import static org.jboss.seam.InterceptionType.NEVER;
 import org.jboss.seam.ScopeType;
@@ -33,8 +34,11 @@ import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
+import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
+import org.jboss.seam.log.Log;
+import org.jboss.system.ServiceControllerMBean;
 
 /**
  * Notifies Seam components in current underlying Microcontainer Controller.
@@ -52,6 +56,7 @@ public class ControllerBridgeComponent implements ControllerBridgeComponentMBean
     /** The serialVersionUID */
     private static final long serialVersionUID = 1L;
 
+    @Logger private Log log;
     private ObjectName objectName;
 
     protected ObjectName createObjectName(Component component) throws Exception
@@ -59,14 +64,38 @@ public class ControllerBridgeComponent implements ControllerBridgeComponentMBean
         return new ObjectName("jboss-seam:name=" + getClass().getSimpleName() + "." + component.getName());
     }
 
+    protected void handleJMXRegistration(boolean register) throws Exception
+    {
+        MBeanServer server = MBeanServerLocator.locateJBoss();
+        if (server == null)
+            throw new IllegalArgumentException("Not running in JBoss app. server [currently only supporting]");
+        ServiceControllerMBean serviceController = (ServiceControllerMBean)MBeanProxyExt.create(ServiceControllerMBean.class, ServiceControllerMBean.OBJECT_NAME);
+        if (register)
+        {
+            server.registerMBean(this, objectName);
+            // we want it to be installed
+            serviceController.start(objectName);
+        }
+        else
+        {
+            // destroy it
+            serviceController.destroy(objectName);
+            serviceController.remove(objectName);
+            server.unregisterMBean(objectName);
+        }
+    }
+
     @Create
     public void create(Component component)
     {
+        if (log.isDebugEnabled())
+        {
+            log.debug("Creating notification MC component ...");
+        }
         try
         {
-            MBeanServer server = MBeanServerFactory.createMBeanServer();
             objectName = createObjectName(component);
-            server.registerMBean(this, objectName);
+            handleJMXRegistration(true);
         }
         catch (Throwable t)
         {
@@ -77,8 +106,12 @@ public class ControllerBridgeComponent implements ControllerBridgeComponentMBean
     @Destroy
     public void destroy() throws Exception
     {
-        MBeanServer server = MBeanServerFactory.createMBeanServer();
-        server.unregisterMBean(objectName);
+        handleJMXRegistration(false);
+        objectName = null;
+        if (log.isDebugEnabled())
+        {
+            log.debug("Notification MC component destroyed ...");
+        }
     }
 
 }
