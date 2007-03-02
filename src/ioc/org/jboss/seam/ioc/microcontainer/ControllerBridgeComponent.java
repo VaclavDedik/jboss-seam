@@ -22,11 +22,10 @@
 package org.jboss.seam.ioc.microcontainer;
 
 import java.io.Serializable;
-import javax.servlet.ServletContext;
+import javax.management.MBeanServer;
+import javax.management.MBeanServerFactory;
+import javax.management.ObjectName;
 
-import org.jboss.beans.metadata.plugins.AbstractBeanMetaData;
-import org.jboss.dependency.spi.Controller;
-import org.jboss.kernel.plugins.dependency.AbstractKernelControllerContext;
 import org.jboss.seam.Component;
 import static org.jboss.seam.InterceptionType.NEVER;
 import org.jboss.seam.ScopeType;
@@ -35,7 +34,6 @@ import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.contexts.Lifecycle;
 
 /**
  * Notifies Seam components in current underlying Microcontainer Controller.
@@ -47,20 +45,16 @@ import org.jboss.seam.contexts.Lifecycle;
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
 @Install(false)
-public class ControllerBridgeComponent implements Serializable
+public class ControllerBridgeComponent implements ControllerBridgeComponentMBean, Serializable
 {
     /** The serialVersionUID */
     private static final long serialVersionUID = 1L;
 
-    public ServletContext getServletContext()
-    {
-        return Lifecycle.getServletContext();
-    }
+    private ObjectName objectName;
 
-    protected Controller getController()
+    protected ObjectName createObjectName(Component component) throws Exception
     {
-        // todo get underlying Controller from ServletContext
-        return null;
+        return new ObjectName("jboss-seam:name=" + getClass().getSimpleName() + "." + component.getName());
     }
 
     @Create
@@ -68,9 +62,9 @@ public class ControllerBridgeComponent implements Serializable
     {
         try
         {
-            Controller controller = getController();
-            AbstractBeanMetaData metaData = new AbstractBeanMetaData(getClass().getSimpleName(), getClass().getName());
-            controller.install(new AbstractKernelControllerContext(null, metaData, this));
+            MBeanServer server = MBeanServerFactory.createMBeanServer();
+            objectName = createObjectName(component);
+            server.registerMBean(this, objectName);
         }
         catch (Throwable t)
         {
@@ -79,10 +73,10 @@ public class ControllerBridgeComponent implements Serializable
     }
 
     @Destroy
-    public void destroy()
+    public void destroy() throws Exception
     {
-        Controller controller = getController();
-        controller.uninstall(getClass().getSimpleName());
+        MBeanServer server = MBeanServerFactory.createMBeanServer();
+        server.unregisterMBean(objectName);
     }
 
 }
