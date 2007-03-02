@@ -16,7 +16,6 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
-import org.jboss.util.NotImplementedException;
 
 @Name("org.jboss.seam.core.uiComponent")
 @Intercept(NEVER)
@@ -33,7 +32,7 @@ public class UiComponent
          @Override
          public Set<Map.Entry<String, UIComponent>> entrySet()
          {
-            throw new NotImplementedException();
+            throw new UnsupportedOperationException();
          }
 
          @Override
