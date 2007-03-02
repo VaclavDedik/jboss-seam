@@ -10,7 +10,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.el.ELContext;
 import javax.faces.FactoryFinder;
 import javax.faces.application.Application;
 import javax.faces.application.ApplicationFactory;
@@ -23,8 +22,6 @@ import javax.faces.context.ResponseStream;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.RenderKit;
 import javax.faces.render.RenderKitFactory;
-
-import com.sun.facelets.el.LegacyELContext;
 
 /**
  * @author Gavin King
@@ -43,9 +40,7 @@ public class MockFacesContext extends FacesContext
    private ResponseWriter responseWriter;
 
    private RenderKitFactory renderKitFactory;
-   
-   private ELContext elContext;
-  
+
    public MockFacesContext(ExternalContext externalContext, Application application)
    {
       this.externalContext = externalContext;
@@ -216,16 +211,5 @@ public class MockFacesContext extends FacesContext
       viewRoot.setRenderKitId(getApplication().getViewHandler().calculateRenderKitId(this));
       return this;
    }
-   
-   
-   // JSF 1.2 only
-   public ELContext getELContext() {
-      // TODO Does this work on JSF 1.2?
-      if (elContext == null)
-      {
-         elContext = new LegacyELContext(this);
-      }
-      return elContext;
-  }
 
 }
