@@ -34,6 +34,7 @@ import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Startup;
 
 /**
  * Notifies Seam components in current underlying Microcontainer Controller.
@@ -45,6 +46,7 @@ import org.jboss.seam.annotations.Scope;
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
 @Install(false)
+@Startup
 public class ControllerBridgeComponent implements ControllerBridgeComponentMBean, Serializable
 {
     /** The serialVersionUID */
