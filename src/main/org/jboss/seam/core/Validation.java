@@ -41,6 +41,10 @@ public class Validation
    public void afterProcessValidations(FacesContext facesContext)
    {
       failed = facesContext.getRenderResponse();
+      if (failed)
+      {
+         Events.instance().raiseEvent("org.jboss.seam.validationFailed");
+      }
       succeeded = !failed;
    }
 
