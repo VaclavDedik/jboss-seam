@@ -549,6 +549,8 @@ public class HelloListener {
             </para>
             
             <itemizedlist>
+            <listitem><para><literal>org.jboss.seam.validationFailed</literal> &mdash; called when JSF validation fails</para></listitem>
+            <listitem><para><literal>org.jboss.seam.noConversation</literal> &mdash; called when there is no long running conversation and a long running conversation is required</para></listitem>
             <listitem><para><literal>org.jboss.seam.preSetVariable.&lt;name&gt;</literal> &mdash; called when the context variable &lt;name&gt; is set</para></listitem>
             <listitem><para><literal>org.jboss.seam.postSetVariable.&lt;name&gt;</literal> &mdash; called when the context variable &lt;name&gt; is set</para></listitem>
             <listitem><para><literal>org.jboss.seam.preRemoveVariable.&lt;name&gt;</literal> &mdash; called when the context variable &lt;name&gt; is unset</para></listitem>
@@ -571,6 +573,8 @@ public class HelloListener {
             <listitem><para><literal>org.jboss.seam.afterPhase </literal>&mdash; called after the end of a JSF phase</para></listitem>
             <listitem><para><literal>org.jboss.seam.postAuthenticate.&lt;name&gt; </literal>&mdash; called after a user is authenticated</para></listitem>
             <listitem><para><literal>org.jboss.seam.preAuthenticate.&lt;name&gt; </literal>&mdash; called before attempting to authenticate a user</para></listitem>
+            <listitem><para><literal>org.jboss.seam.notLoggedIn</literal> &mdash; called there is no authenticated user and authentication is required</para></listitem>
+            <listitem><para><literal>org.jboss.seam.rememberMe</literal> &mdash; occurs when Seam security detects the username in a cookie</para></listitem>
             </itemizedlist>
              
              <para>
