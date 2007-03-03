@@ -78,6 +78,8 @@ import org.jboss.seam.annotations.Synchronized;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.datamodel.DataModel;
+import org.jboss.seam.annotations.jsf.Converter;
+import org.jboss.seam.annotations.jsf.Validator;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
@@ -206,8 +208,8 @@ public class Component extends Model
       
       name = componentName;
       scope = componentScope;
-      type = Seam.getComponentType(getBeanClass());
-      interceptionType = Seam.getInterceptionType(getBeanClass());
+      type = Seam.getComponentType( getBeanClass() );
+      interceptionType = Seam.getInterceptionType (getBeanClass() );
 
       initNamespaces(componentName, applicationContext);
 
@@ -247,10 +249,10 @@ public class Component extends Model
             ( jndiName==null ? "" : ", JNDI: " + jndiName )
          );
 
-      initMembers(beanClass, applicationContext);
+      initMembers( getBeanClass(), applicationContext );
       checkDestroyMethod();
 
-      businessInterfaces = getBusinessInterfaces(getBeanClass());
+      businessInterfaces = getBusinessInterfaces( getBeanClass() );
 
       if ( interceptionType!=InterceptionType.NEVER)
       {
@@ -258,7 +260,36 @@ public class Component extends Model
       }
 
       initInitializers(applicationContext);
+      
+      registerConverterOrValidator(applicationContext);
 
+   }
+   
+   private void registerConverterOrValidator(Context applicationContext)
+   {
+      if (applicationContext!=null) //for unit tests!
+      {
+         Init init = (Init) applicationContext.get( Seam.getComponentName(Init.class) );
+         if (init!=null)
+         {
+            if ( getBeanClass().isAnnotationPresent(Converter.class) )
+            {
+               Converter converter = getBeanClass().getAnnotation(Converter.class);
+               if ( converter.forClass()!=void.class )
+               {
+                  init.getConvertersByClass().put( converter.forClass(), getName() );
+               }
+               String id = converter.id().equals("") ? getName() : converter.id();
+               init.getConverters().put( id, getName() );
+            }
+            if ( getBeanClass().isAnnotationPresent(Validator.class) )
+            {
+               Validator validator = getBeanClass().getAnnotation(Validator.class);
+               String id = validator.id().equals("") ? getName() : validator.id();
+               init.getValidators().put( id, getName() );
+            }
+         }
+      }
    }
 
    private void initNamespaces(String componentName, Context applicationContext)

@@ -58,6 +58,12 @@ public class Init
    private Set<String> installedFilters = new HashSet<String>();
    private Set<String> resourceProviders = new HashSet<String>();
    
+   private Set<String> hotDeployableComponents = new HashSet<String>();
+   
+   private Map<String, String> converters = new HashMap<String, String>();
+   private Map<String, String> validators = new HashMap<String, String>();
+   private Map<Class, String> convertersByClass = new HashMap<Class, String>();
+   
    @Create
    public void create()
    {
@@ -177,7 +183,7 @@ public class Init
    {
       if ( factories.containsKey(variable) || factoryMethodBindings.containsKey(variable) || factoryValueBindings.containsKey(variable) )
       {
-         throw new IllegalStateException("duplicate factory for: " + variable);
+         //throw new IllegalStateException("duplicate factory for: " + variable);
       }
    }
    
@@ -384,5 +390,30 @@ public class Init
    public Set<String> getResourceProviders()
    {
       return resourceProviders;
+   }
+
+   public Set<String> getHotDeployableComponents()
+   {
+      return hotDeployableComponents;
+   }
+
+   public void addHotDeployableComponent(String name)
+   {
+      this.hotDeployableComponents.add(name);
+   }
+
+   public Map<String, String> getConverters()
+   {
+      return converters;
+   }
+
+   public Map<Class, String> getConvertersByClass()
+   {
+      return convertersByClass;
+   }
+
+   public Map<String, String> getValidators()
+   {
+      return validators;
    }
 }

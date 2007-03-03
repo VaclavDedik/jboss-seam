@@ -20,7 +20,10 @@ import javax.faces.el.VariableResolver;
 import javax.faces.event.ActionListener;
 import javax.faces.validator.Validator;
 
+import org.jboss.seam.Component;
 import org.jboss.seam.actionparam.ActionParamMethodBinding;
+import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.core.Init;
 
 public class SeamApplication11 extends Application
 {
@@ -78,12 +81,28 @@ public class SeamApplication11 extends Application
    @Override
    public Converter createConverter(String converterId)
    {
+      if ( Contexts.isApplicationContextActive() )
+      {
+         String name = Init.instance().getConverters().get(converterId);
+         if (name!=null)
+         {
+            return (Converter) Component.getInstance(name);
+         }
+      }
       return application.createConverter(converterId);
    }
 
    @Override
    public Converter createConverter(Class targetClass)
    {
+      if ( Contexts.isApplicationContextActive() )
+      {
+         String name = Init.instance().getConvertersByClass().get(targetClass);
+         if (name!=null)
+         {
+            return (Converter) Component.getInstance(name);
+         }
+      }
       return application.createConverter(targetClass);
    }
 
@@ -106,6 +125,14 @@ public class SeamApplication11 extends Application
    @Override
    public Validator createValidator(String validatorId) throws FacesException
    {
+      if ( Contexts.isApplicationContextActive() )
+      {
+         String name = Init.instance().getValidators().get(validatorId);
+         if (name!=null)
+         {
+            return (Validator) Component.getInstance(name);
+         }
+      }
       return application.createValidator(validatorId);
    }
 
