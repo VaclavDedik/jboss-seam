@@ -32,6 +32,15 @@
             <xs:attributeGroup ref="web:attlist.filter"/>
         </xs:complexType>
     </xs:element>    
+        
+    <xs:element name="character-encoding-filter">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="web:attlist.filter"/>
+            <xs:attribute name="encoding" type="xs:string"/>
+            <xs:attribute name="override-client" type="xs:boolean"/>
+        </xs:complexType>
+    </xs:element> 
     
     <xs:attributeGroup name="attlist.filter">
         <xs:attribute name="url-pattern" type="xs:string"/>
@@ -49,4 +58,6 @@
         <xs:attribute name="max-request-size" type="xs:integer"/>
     </xs:attributeGroup>
     
+   
+   
 </xs:schema>
