@@ -35,6 +35,19 @@
             <property-class>java.lang.String</property-class>
         </property>
     </component>
+    
+     <component>
+        <component-type>org.jboss.seam.ui.UIGraphicImage</component-type>
+        <component-class>org.jboss.seam.ui.UIGraphicImage</component-class>
+        <property>
+            <property-name>contentType</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
+        <property>
+            <property-name>maintainRatio</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
+    </component>
 
     <!--component>
         <component-type>org.jboss.seam.ui.UIAction</component-type>

@@ -158,6 +158,13 @@
 			<component-type>org.jboss.seam.ui.UIFragment</component-type>
 		</component>
 	</tag>
+	
+		<tag>
+		<tag-name>graphicImage</tag-name>
+		<component>
+			<component-type>org.jboss.seam.ui.UIGraphicImage</component-type>
+		</component>
+	</tag>
 	  
     <function>
         <function-name>hasRole</function-name>

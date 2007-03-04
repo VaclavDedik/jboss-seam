@@ -189,5 +189,22 @@ public class JSF
        }
        return value.toString();
    }
+   
+   static Boolean getBooleanValue(FacesContext context, ValueBinding vb)
+   {
+       Object value = vb.getValue(context);
+       if (value == null)
+       {
+          return null;
+       }
+       if (value instanceof Boolean) 
+       {
+          return (Boolean) value;
+       }
+       else
+       {
+          return Boolean.valueOf(value.toString());
+       }
+   }
 
 }
