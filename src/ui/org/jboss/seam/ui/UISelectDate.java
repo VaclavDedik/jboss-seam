@@ -138,10 +138,17 @@ public class UISelectDate extends UIComponentBase
           if (!"".equals(val))
           {
              if (sb.length() > 0) sb.append(',');
-             sb.append(maxLength == -1 ? val : val.substring(0, maxLength));
+             sb.append(limitLength(val,maxLength));
           }
        }
        return sb.toString();
     }
                         
+    private String limitLength(String source, int maxLength) {
+        if (maxLength < 0 || maxLength > source.length()) {
+            return source;
+        } else {
+            return source.substring(0,maxLength);
+        }        
+    }
 }
