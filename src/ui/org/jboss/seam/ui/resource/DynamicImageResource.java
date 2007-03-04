@@ -42,7 +42,7 @@ public class DynamicImageResource extends AbstractResource
    {
       String pathInfo = request.getPathInfo().substring(getResourcePath().length() + 1, request.getPathInfo().lastIndexOf(".")); 
       
-     ImageWrapper image = DynamicImageStore.instance().get(pathInfo);
+     ImageWrapper image = DynamicImageStore.instance().remove(pathInfo);
       if (image != null)
       {
          response.setContentType(image.getContentType().getMimeType());

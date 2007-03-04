@@ -30,8 +30,6 @@ public class DynamicImageStore implements Serializable
       private byte[] image;
 
       private Image.Type contentType;
-      
-      private int expire = -1;
 
       public ImageWrapper(byte[] image, Image.Type contentType)
       {
@@ -47,15 +45,6 @@ public class DynamicImageStore implements Serializable
       public byte[] getImage()
       {
          return image;
-      }
-      
-      protected int getExpire() {
-         return expire;
-      }
-      
-      protected void setExpire(int expire)
-      {
-         this.expire = expire;
       }
    }
 
@@ -86,10 +75,6 @@ public class DynamicImageStore implements Serializable
          key = "org.jboss.seam.ui.DynamicImageStore." + index;
          index++;
       }
-      /*else 
-      {
-         image.setExpire(60000);      
-      }*/
       store.put(key, image);
       log.debug("Put image into to session with key #0", key);
       return key;
@@ -99,10 +84,6 @@ public class DynamicImageStore implements Serializable
    {
       log.debug("Get image into to session with key #0", key);
       ImageWrapper image = store.get(key);
-      if (image.getExpire() < 0) 
-      {
-         store.remove(key);
-      }
       return image;
    }
    

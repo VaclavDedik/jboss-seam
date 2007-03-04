@@ -19,7 +19,8 @@
         <s:div id="blogMemberCard">	        
 	        <s:link view="/profile.seam" value="#{friendRequest.member.memberName}" propagation="none">
             <f:param name="name" value="#{friendRequest.member.memberName}"/>	        
-  	        <h:graphicImage value="/content/images?id=#{friendRequest.member.picture.imageId}&amp;width=90"/>
+  	        <s:graphicImage value="#{friendRequest.member.picture.data}" width="90" contentType="image/png" maintainRatio="true" fileName="member/#{friendRequest.member.memberName}" rendered="#{not empty friendRequest.member.picture}"/>
+            <s:graphicImage value="/images/no_image.png" width="90" contentType="image/png" maintainRatio="true" key="member/no_image" rendered="#{empty friendRequest.member.picture}"/>
 	        </s:link>
 
           <br style="clear:both"/>
