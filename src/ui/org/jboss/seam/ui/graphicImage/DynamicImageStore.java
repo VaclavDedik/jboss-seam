@@ -1,4 +1,4 @@
-package org.jboss.seam.ui.resource;
+package org.jboss.seam.ui.graphicImage;
 
 import java.io.Serializable;
 import java.util.HashMap;

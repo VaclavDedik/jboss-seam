@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
     xmlns:s="http://jboss.com/products/seam/taglib">
 
   <ui:composition template="template.xhtml">
@@ -18,8 +19,16 @@
         <s:div id="blogMemberCard">
           <h:outputLink value="profile.seam?name=#{friendComment.member.memberName}">
 	          #{friendComment.member.memberName}<br/>
-	          <s:graphicImage value="#{friendComment.member.picture.data}" width="90" contentType="image/png" maintainRatio="true" fileName="member/#{friendComment.member.memberName}" rendered="#{not empty friendComment.member.picture}"/>
-              <s:graphicImage value="/images/no_image.png" width="90" contentType="image/png" maintainRatio="true" key="member/no_image" rendered="#{empty friendComment.member.picture}"/>
+	          <s:graphicImage value="#{friendComment.member.picture.data}" fileName="member/#{friendComment.member.memberName}" rendered="#{not empty friendComment.member.picture}">
+                	<s:imageTransform type="contentType">
+                		<f:param name="output" value="image/png" />
+                	</s:imageTransform>
+                	<s:imageTransform type="scale">
+                		<f:param name="width" value="90" />
+                		<f:param name="maintainRatio" value="true" />
+                	</s:imageTransform>
+                </s:graphicImage>
+                <s:graphicImage value="/images/no_image.png" fileName="member/no_image" rendered="#{empty friendComment.member.picture}"/>
 	        </h:outputLink>
                            
           <br style="clear:both"/>          

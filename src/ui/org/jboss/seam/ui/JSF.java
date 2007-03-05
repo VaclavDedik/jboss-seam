@@ -180,7 +180,7 @@ public class JSF
       }
    }
 
-   static String getStringValue(FacesContext context, ValueBinding vb)
+   public static String getStringValue(FacesContext context, ValueBinding vb)
    {
        Object value = vb.getValue(context);
        if (value == null)
@@ -190,7 +190,7 @@ public class JSF
        return value.toString();
    }
    
-   static Boolean getBooleanValue(FacesContext context, ValueBinding vb)
+   public static Boolean getBooleanValue(FacesContext context, ValueBinding vb)
    {
        Object value = vb.getValue(context);
        if (value == null)

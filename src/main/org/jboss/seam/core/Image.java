@@ -11,9 +11,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.imageio.ImageReadParam;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.InterceptionType;
@@ -27,8 +31,9 @@ import org.jboss.seam.util.Resources;
 
 /**
  * Image manipulation and interrogation
+ * 
  * @author pmuir
- *
+ * 
  */
 @Name("org.jboss.seam.core.image")
 @Scope(ScopeType.CONVERSATION)
@@ -36,50 +41,66 @@ import org.jboss.seam.util.Resources;
 @Intercept(InterceptionType.NEVER)
 public class Image
 {
-   
-   public enum Type 
+
+   public enum Type
    {
-      IMAGE_PNG("image/png", ".png", "PNG"),
-      IMAGE_JPEG("image/jpeg", ".jpg", "JPG", "image/jpg");
-      
+      IMAGE_PNG("image/png", ".png", "PNG"), IMAGE_JPEG("image/jpeg", ".jpg", "JPEG", "image/jpg"), IMAGE_GIF(
+               "image/gif", ".gif", "GIF");
+
       private String mimeType;
+
       private String extension;
+
       private String imageFormatName;
+
       private List<String> alternativeMimeTypes;
 
-      Type(String mimeType, String extension, String imageFormatName, String...alternativeMimeTypes) 
+      Type(String mimeType, String extension, String imageFormatName,
+               String... alternativeMimeTypes)
       {
          this.mimeType = mimeType;
          this.extension = extension;
          this.alternativeMimeTypes = Arrays.asList(alternativeMimeTypes);
          this.imageFormatName = imageFormatName;
       }
-      
+
       public String getMimeType()
       {
          return mimeType;
       }
-      
+
       public String getExtension()
       {
          return extension;
       }
-      
+
       public List<String> getAlternativeMimeTypes()
       {
          return alternativeMimeTypes;
       }
-      
-      protected String getImageFormatName() 
+
+      protected String getImageFormatName()
       {
          return imageFormatName;
       }
-      
-      public static Type getType(String mimeType) 
+
+      public static Type getTypeByMimeType(String mimeType)
       {
          for (Type type : values())
          {
-            if (type.getMimeType().equals(mimeType) || type.alternativeMimeTypes.contains(mimeType)) 
+            if (type.getMimeType().equals(mimeType) || type.alternativeMimeTypes.contains(mimeType))
+            {
+               return type;
+            }
+         }
+         return null;
+      }
+
+      public static Type getTypeByFormatName(String formatName)
+      {
+         for (Type type : values())
+         {
+            if (type.getImageFormatName().equalsIgnoreCase(formatName))
             {
                return type;
             }
@@ -89,13 +110,13 @@ public class Image
    }
 
    public static final int DEFAULT_IMAGE_TYPE = BufferedImage.TYPE_INT_RGB;
-   
+
    private static final Type DEFAULT_CONTENT_TYPE = Type.IMAGE_PNG;
 
    private Object input;
 
    private byte[] output;
-   
+
    private boolean dirty;
 
    private Type contentType = DEFAULT_CONTENT_TYPE;
@@ -105,33 +126,36 @@ public class Image
    public Image()
    {
    }
-   
+
    /**
-    * Set the image.  This can be one of String (loaded from the classpath), a URL, a File, an InputStream or a byte[]
+    * Set the image. This can be one of String (loaded from the classpath), a
+    * URL, a File, an InputStream or a byte[]
     * 
     * @param value
+    * @throws IOException
     */
-   public Image set(Object value)
+   public Image set(Object value) throws IOException
    {
       this.input = value;
-      bufferedImage = null;
+      readImage();
       return this;
    }
-   
+
    /**
-    * Get the image, any conversions having been applied.  Returns null if the image could not be read
+    * Get the image, any conversions having been applied. Returns null if the
+    * image could not be read
     */
    public byte[] get() throws IOException
    {
-      if (isImage() && dirty) 
+      if (dirty)
       {
          ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-         ImageIO.write(getBufferedImage(), getContentType().getImageFormatName(), outputStream);
+         ImageIO.write(bufferedImage, getContentType().getImageFormatName(), outputStream);
          output = outputStream.toByteArray();
-      } 
+      }
       return output;
    }
-   
+
    /**
     * The content type of the image, by default DEFAULT_CONTENT_TYPE
     */
@@ -139,7 +163,7 @@ public class Image
    {
       return contentType;
    }
-   
+
    public void setContentType(Type contentType)
    {
       this.contentType = contentType;
@@ -151,8 +175,7 @@ public class Image
    public double getRatio() throws IOException
    {
       // Do the operation with double precision
-      BufferedImage image = getBufferedImage();
-      Double ratio = (double) image.getWidth() / (double) image.getHeight();
+      Double ratio = (double) bufferedImage.getWidth() / (double) bufferedImage.getHeight();
       return ratio;
    }
 
@@ -170,7 +193,7 @@ public class Image
     */
    public int getWidth() throws IOException
    {
-      return getBufferedImage().getWidth();
+      return bufferedImage.getWidth();
    }
 
    /**
@@ -178,21 +201,13 @@ public class Image
     */
    public int getHeight() throws IOException
    {
-      return getBufferedImage().getHeight();
-   }
-   
-   /**
-    * Check that the value passed is an image
-    */
-   public boolean isImage() throws IOException
-   {
-      return getBufferedImage() != null;
+      return bufferedImage.getHeight();
    }
 
    /**
-    * Alter the ratio of the output image <b>without</b> altering the ratio of the input
-    * by adding transparent strips.  If the image is already of the correct ratio (to within
-    * the given precision) nothing happens
+    * Alter the ratio of the output image <b>without</b> altering the ratio of
+    * the input by adding transparent strips. If the image is already of the
+    * correct ratio (to within the given precision) nothing happens
     */
    public Image adjustRatio(double desiredRatio, double precision) throws InterruptedException,
             IOException
@@ -205,10 +220,10 @@ public class Image
             // top/bottom to make the image squarer
             double desiredHeight = getRatio() * getHeight() / desiredRatio;
             double stripHeight = (desiredHeight - getHeight()) / 2;
-            BufferedImage newImage = new BufferedImage(getWidth(), (int) (getHeight() + stripHeight * 2),
-                     DEFAULT_IMAGE_TYPE);
+            BufferedImage newImage = new BufferedImage(getWidth(),
+                     (int) (getHeight() + stripHeight * 2), DEFAULT_IMAGE_TYPE);
             Graphics2D graphics2D = createGraphics(newImage);
-            graphics2D.drawImage(getBufferedImage(), 0, (int) stripHeight, null);
+            graphics2D.drawImage(bufferedImage, 0, (int) stripHeight, null);
             bufferedImage = newImage;
          }
          else if (getRatio() < desiredRatio)
@@ -217,11 +232,10 @@ public class Image
             // top/bottom to make the image squarer
             double desiredWidth = getRatio() * getWidth() / desiredRatio;
             double stripWidth = (desiredWidth - getWidth()) / 2;
-            BufferedImage image = getBufferedImage();
-            BufferedImage newImage = new BufferedImage((int) (getWidth() + stripWidth * 2), getHeight(),
-                     DEFAULT_IMAGE_TYPE);
+            BufferedImage newImage = new BufferedImage((int) (getWidth() + stripWidth * 2),
+                     getHeight(), DEFAULT_IMAGE_TYPE);
             Graphics2D graphics2D = createGraphics(newImage);
-            graphics2D.drawImage(image, (int) stripWidth, 0, null);
+            graphics2D.drawImage(bufferedImage, (int) stripWidth, 0, null);
             bufferedImage = newImage;
          }
          dirty = true;
@@ -239,12 +253,12 @@ public class Image
       int height = width * getHeight() / getWidth();
       BufferedImage newImage = new BufferedImage(width, height, DEFAULT_IMAGE_TYPE);
       Graphics2D graphics2D = createGraphics(newImage);
-      graphics2D.drawImage(getBufferedImage(), 0, 0, width, height, null);
+      graphics2D.drawImage(bufferedImage, 0, 0, width, height, null);
       bufferedImage = newImage;
       dirty = true;
       return this;
    }
-   
+
    /**
     * Scale the image to the given height
     */
@@ -255,43 +269,38 @@ public class Image
       int width = height * getWidth() / getHeight();
       BufferedImage newImage = new BufferedImage(width, height, DEFAULT_IMAGE_TYPE);
       Graphics2D graphics2D = createGraphics(newImage);
-      graphics2D.drawImage(getBufferedImage(), 0, 0, width, height, null);
+      graphics2D.drawImage(bufferedImage, 0, 0, width, height, null);
       bufferedImage = newImage;
       dirty = true;
       return this;
    }
 
-   private BufferedImage getBufferedImage() throws IOException
+   private void readImage() throws IOException
    {
-      if (bufferedImage == null)
+      if (input instanceof URL)
       {
-         if (input instanceof URL)
-         {
-            bufferedImage = ImageIO.read((URL) input);
-         }
-         else if (input instanceof File)
-         {
-            bufferedImage = ImageIO.read((File) input);
-         }
-         else if (input instanceof String)
-         {
-            bufferedImage = ImageIO.read(Resources.getResource((String) input));
-         }
-         else if (input instanceof InputStream)
-         {
-            bufferedImage = ImageIO.read((InputStream) input);
-         }
-         else if (input != null && input.getClass().isArray())
-         {
-            if (input.getClass().getComponentType().isAssignableFrom(Byte.TYPE))
-            {
-               byte[] b = (byte[]) input;
-               bufferedImage = ImageIO.read(new ByteArrayInputStream(b));
-            }
-         }
-         dirty = true;
+         readImage(((URL) input).openStream());
       }
-      return bufferedImage;
+      else if (input instanceof File)
+      {
+         readImage(((File) input).toURL().openStream());
+      }
+      else if (input instanceof String)
+      {
+         readImage(Resources.getResourceAsStream((String) input));
+      }
+      else if (input instanceof InputStream)
+      {
+         readImage((InputStream) input);
+      }
+      else if (input != null && input.getClass().isArray())
+      {
+         if (input.getClass().getComponentType().isAssignableFrom(Byte.TYPE))
+         {
+            byte[] b = (byte[]) input;
+            readImage(new ByteArrayInputStream(b));
+         }
+      }
    }
 
    /**
@@ -308,13 +317,48 @@ public class Image
                RenderingHints.VALUE_INTERPOLATION_BICUBIC);
       return graphics2D;
    }
-   
+
    public static Image instance()
    {
-      if ( !Contexts.isConversationContextActive() )
+      if (!Contexts.isConversationContextActive())
       {
          throw new IllegalStateException("No active conversation scope");
       }
       return (Image) Component.getInstance(Image.class, true);
+   }
+
+   private void readImage(InputStream inputStream) throws IOException
+   {
+      ImageInputStream stream = ImageIO.createImageInputStream(inputStream);
+      if (stream == null)
+      {
+         throw new IllegalArgumentException("stream == null!");
+      }
+
+      Iterator iter = ImageIO.getImageReaders(stream);
+      if (!iter.hasNext())
+      {
+         return;
+      }
+
+      ImageReader reader = (ImageReader) iter.next();
+      ImageReadParam param = reader.getDefaultReadParam();
+      reader.setInput(stream, true, true);
+      String type = reader.getFormatName();
+      setContentType(Type.getTypeByFormatName(type));
+      bufferedImage = reader.read(0, param);
+      stream.close();
+      reader.dispose();
+      inputStream.reset();
+      ByteArrayOutputStream os = new ByteArrayOutputStream();
+      byte[] buffer = new byte[256];
+      while (true)
+      {
+         int bytesRead = inputStream.read(buffer);
+         if (bytesRead == -1) break;
+         os.write(buffer, 0, bytesRead);
+      }
+      output = os.toByteArray();
+      inputStream.close();
    }
 }

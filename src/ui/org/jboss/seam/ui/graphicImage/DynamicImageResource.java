@@ -1,4 +1,4 @@
-package org.jboss.seam.ui.resource;
+package org.jboss.seam.ui.graphicImage;
 
 import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.ScopeType.APPLICATION;
@@ -16,7 +16,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.servlet.AbstractResource;
-import org.jboss.seam.ui.resource.DynamicImageStore.ImageWrapper;
+import org.jboss.seam.ui.graphicImage.DynamicImageStore.ImageWrapper;
 
 @Startup
 @Scope(APPLICATION)

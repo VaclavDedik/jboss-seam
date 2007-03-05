@@ -159,10 +159,17 @@
 		</component>
 	</tag>
 	
-		<tag>
+	<tag>
 		<tag-name>graphicImage</tag-name>
 		<component>
 			<component-type>org.jboss.seam.ui.UIGraphicImage</component-type>
+		</component>
+	</tag>
+	
+	<tag>
+		<tag-name>imageTransform</tag-name>
+		<component>
+			<component-type>org.jboss.seam.ui.UIImageTransform</component-type>
 		</component>
 	</tag>
 	  
