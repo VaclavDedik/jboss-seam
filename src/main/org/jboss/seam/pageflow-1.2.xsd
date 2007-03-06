@@ -95,6 +95,8 @@
 		<xs:complexType>
 			<xs:sequence>
 				<xs:group ref="page-elements"></xs:group>
+				<xs:choice minOccurs="0" maxOccurs="1"><xs:element ref="end-conversation"></xs:element></xs:choice>
+				<xs:choice minOccurs="0" maxOccurs="1"><xs:element ref="end-task"></xs:element></xs:choice>
 			</xs:sequence>
 			<xs:attributeGroup ref="page-attributes"></xs:attributeGroup>
 		</xs:complexType>
@@ -302,16 +304,10 @@
 				<xs:element ref="description" />
 			</xs:choice>
 			<xs:choice minOccurs="0" maxOccurs="1">
-				<xs:element ref="end-conversation" />
-			</xs:choice>
-			<xs:choice minOccurs="0" maxOccurs="1">
 				<xs:group ref="action-elements" />
 			</xs:choice>
 			<xs:choice minOccurs="0" maxOccurs="unbounded">
 				<xs:group ref="node-content-elements" />
-			</xs:choice>
-			<xs:choice minOccurs="0" maxOccurs="1">
-				<xs:element ref="end-task"></xs:element>
 			</xs:choice>
 		</xs:sequence>
 	</xs:group>
