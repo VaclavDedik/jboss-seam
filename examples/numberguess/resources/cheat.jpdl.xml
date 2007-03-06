@@ -9,7 +9,11 @@
    
 -->
 
-<pageflow-definition name="cheat">
+<pageflow-definition xmlns="http://jboss.com/products/seam/pageflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation=
+	    "http://jboss.com/products/seam/pageflow http://jboss.com/products/seam/pageflow-1.2.xsd"
+	name="cheat">
    
    <start-page name="confirm" view-id="/confirm.jspx">
       <transition name="yes" to="cheat">
@@ -17,6 +21,7 @@
       </transition>
       <transition name="no" to="end"/>
    </start-page>
+   
    
    <page name="cheat" view-id="/cheat.jspx">
       <redirect/>
