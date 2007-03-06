@@ -21,7 +21,7 @@
 */
 package org.jboss.seam.ioc.microcontainer;
 
-public interface ControllerBridgeComponentMBean
+public interface JMXNotificationComponentMBean
 {
-    void destroy() throws Exception;
+    void destroy();
 }

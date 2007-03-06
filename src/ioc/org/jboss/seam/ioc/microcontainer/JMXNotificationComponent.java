@@ -29,39 +29,45 @@ import org.jboss.mx.util.MBeanProxyExt;
 import org.jboss.mx.util.MBeanServerLocator;
 import org.jboss.seam.Component;
 import static org.jboss.seam.InterceptionType.NEVER;
-import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.Create;
-import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
-import org.jboss.seam.annotations.Logger;
-import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
-import org.jboss.seam.log.Log;
 import org.jboss.system.ServiceControllerMBean;
 
 /**
  * Notifies Seam components in current underlying Microcontainer Controller.
- * Meaning that ServletContext is available to register MC beans as Seam components
- * and MC beans can lookup Seam components.
- * 
+ * It adds new MBean into the underlying MBeanServer.
+ * MC components need to depend on the actual ObjectName.
+ *
  * @author <a href="mailto:ales.justin@jboss.com">Ales Justin</a>
  */
-@Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
 @Install(false)
 @Startup
-public class ControllerBridgeComponent implements ControllerBridgeComponentMBean, Serializable
+public class JMXNotificationComponent extends ControllerNotificationComponent implements JMXNotificationComponentMBean, Serializable
 {
-    /** The serialVersionUID */
+    /**
+     * The serialVersionUID
+     */
     private static final long serialVersionUID = 1L;
 
-    @Logger private Log log;
     private ObjectName objectName;
 
     protected ObjectName createObjectName(Component component) throws Exception
     {
-        return new ObjectName("jboss-seam:name=" + getClass().getSimpleName() + "." + component.getName());
+        return new ObjectName("seam:name=" + getClass().getSimpleName() + "." + component.getName());
+    }
+
+    protected void notifyController(Component component) throws Throwable
+    {
+        objectName = createObjectName(component);
+        handleJMXRegistration(true);
+    }
+
+    protected void clearNotification() throws Throwable
+    {
+        handleJMXRegistration(false);
+        objectName = null;
     }
 
     protected void handleJMXRegistration(boolean register) throws Exception
@@ -82,35 +88,6 @@ public class ControllerBridgeComponent implements ControllerBridgeComponentMBean
             serviceController.destroy(objectName);
             serviceController.remove(objectName);
             server.unregisterMBean(objectName);
-        }
-    }
-
-    @Create
-    public void create(Component component)
-    {
-        if (log.isDebugEnabled())
-        {
-            log.debug("Creating notification MC component ...");
-        }
-        try
-        {
-            objectName = createObjectName(component);
-            handleJMXRegistration(true);
-        }
-        catch (Throwable t)
-        {
-            throw new IllegalArgumentException("Exception installing ControllerBridgeComponent: " + t);
-        }
-    }
-
-    @Destroy
-    public void destroy() throws Exception
-    {
-        handleJMXRegistration(false);
-        objectName = null;
-        if (log.isDebugEnabled())
-        {
-            log.debug("Notification MC component destroyed ...");
         }
     }
 
