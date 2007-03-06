@@ -8,7 +8,7 @@ import javax.faces.el.ValueBinding;
 import org.jboss.seam.core.Image;
 import org.jboss.seam.ui.JSF;
 
-public class UIBlurImage extends UIComponentBase implements ImageTransform
+public class UITransformImageBlur extends UIComponentBase implements ImageTransform
 {
    @Override
    public String getFamily()
