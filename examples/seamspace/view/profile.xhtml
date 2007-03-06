@@ -20,16 +20,11 @@
           <h1>#{selectedMember.memberName}'s profile</h1>
                     
           <s:div id="memberCardPicture" rendered="#{selectedMember.picture != null}">
-            <s:graphicImage value="#{selectedMember.picture.data}" fileName="member/#{selectedMember.memberName}" rendered="#{not empty selectedMember.picture}">
-               	<s:imageTransform type="contentType">
-               		<f:param name="output" value="image/png" />
-               	</s:imageTransform>
-               	<s:imageTransform type="scale">
-               		<f:param name="width" value="90" />
-               		<f:param name="maintainRatio" value="true" />
-               	</s:imageTransform>
-               </s:graphicImage>
-               <s:graphicImage value="/images/no_image.png" fileName="member/no_image" rendered="#{empty selectedMember.picture}"/>
+            	<s:graphicImage value="#{selectedMember.picture.data}" fileName="member/#{selectedMember.memberName}-170" rendered="#{not empty selectedMember.picture}">
+                	<s:transformImageType contentType="image/png" />
+                	<s:transformImageSize width="170" maintainRatio="true" />
+                </s:graphicImage>
+                <s:graphicImage value="/images/no_image.png" fileName="member/no_image" rendered="#{empty selectedMember.picture}"/>
           </s:div>
           
           <div id="memberCardText">
@@ -71,13 +66,8 @@
                 <f:param name="name" value="#{f.memberName}"/>
                 #{f.memberName}<br/>
                 <s:graphicImage value="#{f.picture.data}" fileName="member/#{f.memberName}" rendered="#{not empty f.picture}">
-                	<s:imageTransform type="contentType">
-                		<f:param name="output" value="image/png" />
-                	</s:imageTransform>
-                	<s:imageTransform type="scale">
-                		<f:param name="width" value="90" />
-                		<f:param name="maintainRatio" value="true" />
-                	</s:imageTransform>
+                	<s:transformImageType contentType="image/png" />
+                	<s:transformImageSize width="90" maintainRatio="true" />
                 </s:graphicImage>
                 <s:graphicImage value="/images/no_image.png" fileName="member/no_image" rendered="#{empty f.picture}"/>
               </s:link>
@@ -103,16 +93,11 @@
 					        <s:link view="/profile.seam">
 					          <f:param name="name" value="#{c.friend.memberName}"/>
 					          #{c.friend.memberName}<br/>
-				               	<s:graphicImage value="#{c.friend.picture.data}" fileName="member/#{c.friend.memberName}" rendered="#{not empty c.friend.picture}">
-				                	<s:imageTransform type="contentType">
-				                		<f:param name="output" value="image/png" />
-				                	</s:imageTransform>
-				                	<s:imageTransform type="scale">
-				                		<f:param name="width" value="90" />
-				                		<f:param name="maintainRatio" value="true" />
-				                	</s:imageTransform>
-				                </s:graphicImage>
-				                <s:graphicImage value="/images/no_image.png" fileName="member/no_image" rendered="#{empty c.friend.picture}"/>
+				              	<s:graphicImage value="#{c.friend.picture.data}" fileName="member/#{c.friend.memberName}" rendered="#{not empty c.friend.picture}">
+			                		<s:transformImageType contentType="image/png" />
+            			    		<s:transformImageSize width="90" maintainRatio="true" />
+			                	</s:graphicImage>
+            				    <s:graphicImage value="/images/no_image.png" fileName="member/no_image" rendered="#{empty c.friend.picture}"/>
 					        </s:link>
 		            </td>
 		            

@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.awt.image.ConvolveOp;
+import java.awt.image.Kernel;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -109,6 +111,8 @@ public class Image
       }
    }
 
+   public static final int PNG_IMAGE_TYPE = BufferedImage.TYPE_INT_ARGB;
+   
    public static final int DEFAULT_IMAGE_TYPE = BufferedImage.TYPE_INT_RGB;
 
    private static final Type DEFAULT_CONTENT_TYPE = Type.IMAGE_PNG;
@@ -134,7 +138,7 @@ public class Image
     * @param value
     * @throws IOException
     */
-   public Image set(Object value) throws IOException
+   public Image setInput(Object value) throws IOException
    {
       this.input = value;
       readImage();
@@ -142,10 +146,10 @@ public class Image
    }
 
    /**
-    * Get the image, any conversions having been applied. Returns null if the
+    * Get the image as a byte[], any conversions having been applied. Returns null if the
     * image could not be read
     */
-   public byte[] get() throws IOException
+   public byte[] getImage() throws IOException
    {
       if (dirty)
       {
@@ -157,7 +161,7 @@ public class Image
    }
 
    /**
-    * The content type of the image, by default DEFAULT_CONTENT_TYPE
+    * The content type of the output image, by default DEFAULT_CONTENT_TYPE
     */
    public Type getContentType()
    {
@@ -167,6 +171,17 @@ public class Image
    public void setContentType(Type contentType)
    {
       this.contentType = contentType;
+   }
+   
+   public BufferedImage getBufferedImage()
+   {
+      return bufferedImage;
+   }
+   
+   public void setBufferedImage(BufferedImage bufferedImage)
+   {
+      this.bufferedImage = bufferedImage;
+      dirty = true;
    }
 
    /**
@@ -221,7 +236,7 @@ public class Image
             double desiredHeight = getRatio() * getHeight() / desiredRatio;
             double stripHeight = (desiredHeight - getHeight()) / 2;
             BufferedImage newImage = new BufferedImage(getWidth(),
-                     (int) (getHeight() + stripHeight * 2), DEFAULT_IMAGE_TYPE);
+                     (int) (getHeight() + stripHeight * 2), getImageType());
             Graphics2D graphics2D = createGraphics(newImage);
             graphics2D.drawImage(bufferedImage, 0, (int) stripHeight, null);
             bufferedImage = newImage;
@@ -233,13 +248,36 @@ public class Image
             double desiredWidth = getRatio() * getWidth() / desiredRatio;
             double stripWidth = (desiredWidth - getWidth()) / 2;
             BufferedImage newImage = new BufferedImage((int) (getWidth() + stripWidth * 2),
-                     getHeight(), DEFAULT_IMAGE_TYPE);
+                     getHeight(), getImageType());
             Graphics2D graphics2D = createGraphics(newImage);
             graphics2D.drawImage(bufferedImage, (int) stripWidth, 0, null);
             bufferedImage = newImage;
          }
          dirty = true;
       }
+      return this;
+   }
+   
+   /**
+    * Blur the output image using a convolution
+    */
+   public Image blur(int radius) throws IOException {
+      BufferedImage newImage = new BufferedImage(getWidth(), getHeight(), getImageType());
+      int blurWidth = ((radius - 1) * 2 + 1); 
+      int pixels = blurWidth * blurWidth; 
+      float weight = 1.0f/ pixels;
+      float[] elements = new float[pixels];
+
+      for (int i = 0; i < pixels; i++) {
+            elements[i] = weight;
+      }
+
+      Kernel kernel = new Kernel(blurWidth, blurWidth, elements);
+      ConvolveOp simpleBlur = new ConvolveOp(kernel);
+
+      simpleBlur.filter(bufferedImage, newImage);
+      bufferedImage = newImage;
+      dirty = true;
       return this;
    }
 
@@ -251,7 +289,7 @@ public class Image
       // Always scale, never stretch. We don't care if the requested scaled
       // ratio is different from the current
       int height = width * getHeight() / getWidth();
-      BufferedImage newImage = new BufferedImage(width, height, DEFAULT_IMAGE_TYPE);
+      BufferedImage newImage = new BufferedImage(width, height, getImageType());
       Graphics2D graphics2D = createGraphics(newImage);
       graphics2D.drawImage(bufferedImage, 0, 0, width, height, null);
       bufferedImage = newImage;
@@ -267,7 +305,36 @@ public class Image
       // Always scale, never stretch. We don't care if the requested scaled
       // ratio is different from the current
       int width = height * getWidth() / getHeight();
-      BufferedImage newImage = new BufferedImage(width, height, DEFAULT_IMAGE_TYPE);
+      BufferedImage newImage = new BufferedImage(width, height, getImageType());
+      Graphics2D graphics2D = createGraphics(newImage);
+      graphics2D.drawImage(bufferedImage, 0, 0, width, height, null);
+      bufferedImage = newImage;
+      dirty = true;
+      return this;
+   }
+   
+   /**
+    * Scale the image by the given factor
+    */
+   public Image scale(double factor) throws IOException 
+   {
+      int width = (int) (getWidth() * factor);
+      int height = (int) (getHeight() * factor);
+      BufferedImage newImage = new BufferedImage(width, height, getImageType());
+      Graphics2D graphics2D = createGraphics(newImage);
+      graphics2D.drawImage(bufferedImage, 0, 0, width, height, null);
+      bufferedImage = newImage;
+      dirty = true;
+      return this;
+   }
+   
+   /**
+    * Resize the image to the given width and height, changing the ratio
+    * if necessary
+    */
+   public Image resize(int width, int height) 
+   {
+      BufferedImage newImage = new BufferedImage(width, height, getImageType());
       Graphics2D graphics2D = createGraphics(newImage);
       graphics2D.drawImage(bufferedImage, 0, 0, width, height, null);
       bufferedImage = newImage;
@@ -360,5 +427,16 @@ public class Image
       }
       output = os.toByteArray();
       inputStream.close();
+   }
+   
+   private int getImageType() {
+      if (Type.IMAGE_PNG.equals(getContentType()))
+      {
+         return PNG_IMAGE_TYPE;
+      }
+      else
+      {
+         return DEFAULT_IMAGE_TYPE;
+      }
    }
 }

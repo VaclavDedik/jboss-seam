@@ -125,7 +125,10 @@
            <term><literal>&lt;s:graphicImage&gt;</literal></term>
            <listitem>
                <para>
-                   Extends <literal>&lt;h:graphicImage&gt;</literal> so that the image can be created in a Seam Component.
+                   An extended <literal>&lt;h:graphicImage&gt;</literal> that allows the image to be created in a Seam Component; further transforms
+                   can be applied to the image. <emphasis>Facelets only.</emphasis>
+               </para>
+               <para>
                    All attributes for <literal>&lt;h:graphicImage&gt;</literal> are supported, as well as:
                </para>
                <itemizedlist>
@@ -139,24 +142,76 @@
                    </listitem>
                     <listitem>
                    <para>
-                       <literal>maintainRatio</literal> &mdash; if a <literal>width</literal> or a 
-                       <literal>height</literal> are specfied, the image will be scaled whilst maintaining
-                       the aspect ratio.
+                       <literal>fileName</literal> &mdash; if not specified the served image will have a generated file name. 
+                       If you want to name your file, you should specify it here.  This name should be unique
                    </para>
                    </listitem>
-                   <listitem>
-                   <para>
-                       <literal>contentType</literal> &mdash; the output MimeType of the image.  
-                       Currently supported are <literal>image/png</literal> and <literal>image/jpeg</literal>.
-                   </para>
-                   </listitem>
-                    <listitem>
-                   <para>
-                       <literal>fileName</literal> &mdash; if not specified the served image will have a file name
-                       generated.  If you want to name your file, you should specify a (unique) fileName here.
-                   </para>
-                   </listitem>
-               </itemizedlist>                        
+               </itemizedlist>
+               <para>
+               		To apply a transform to the image, you would nest a tag specifying the transform to apply.  Seam currently supports these
+               		transforms:
+               </para>         
+               <variablelist>
+               	<varlistentry>
+               		<term><literal>&lt;s:transformImageSize&gt;</literal></term>
+               		<listitem>
+						<itemizedlist>
+							<listitem>
+								<para>
+									<literal>width</literal> &mdash; new width of the image
+								</para>
+							</listitem>
+							<listitem>
+								<para>
+									<literal>height</literal> &mdash; new height of the image
+								</para>
+							</listitem>
+							<listitem>
+								<para>
+									<literal>maintainRatio</literal> &mdash; if <literal>true</literal>, and <emphasis>one</emphasis> of 
+									<literal>width</literal>/<literal>height</literal> are specified, the image will be resized with the 
+									dimension not specified being calculated to maintain the aspect ratio.
+								</para>
+							</listitem>
+							<listitem>
+								<para>
+									<literal>factor</literal> &mdash; scale the image by the given factor
+								</para>
+							</listitem>
+						</itemizedlist>
+               		</listitem>
+               	</varlistentry>
+               	<varlistentry>
+               		<term><literal>&lt;s:transformImageBlur&gt;</literal></term>
+               		<listitem>
+						<itemizedlist>
+							<listitem>
+								<para>
+									<literal>radius</literal> &mdash; perform a convolution blur with the given radius
+								</para>
+							</listitem>
+						</itemizedlist>
+               		</listitem>
+               	</varlistentry>
+               	<varlistentry>
+               		<term><literal>&lt;s:transformImageType&gt;</literal></term>
+               		<listitem>
+						<itemizedlist>
+							<listitem>
+								<para>
+									<literal>contentType</literal> &mdash; alter the type of the image to either <literal>image/jpeg</literal> or <literal>image/png</literal>
+								</para>
+							</listitem>
+						</itemizedlist>
+               		</listitem>
+               	</varlistentry>
+               </variablelist>
+               <para>
+               		It's easy to create your own transform - create a <literal>UIComponent</literal> which <literal>implements</literal> 
+               		<literal>org.jboss.seam.ui.graphicImage.ImageTransform</literal>.  Inside the <literal>applyTransform()</literal>method 
+               		use <literal>image.getBufferedImage()</literal> to get the original image and <literal>image.setBufferedImage()</literal> 
+               		to set your transformed image.  Transforms are applied in the order specified in the view.
+               </para>     
            </listitem>
        </varlistentry>
        <varlistentry>

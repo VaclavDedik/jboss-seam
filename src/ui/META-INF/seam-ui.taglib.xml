@@ -167,9 +167,23 @@
 	</tag>
 	
 	<tag>
-		<tag-name>imageTransform</tag-name>
+		<tag-name>transformImageSize</tag-name>
 		<component>
-			<component-type>org.jboss.seam.ui.UIImageTransform</component-type>
+			<component-type>org.jboss.seam.ui.UITransformImageSize</component-type>
+		</component>
+	</tag>
+	
+	<tag>
+		<tag-name>transformImageBlur</tag-name>
+		<component>
+			<component-type>org.jboss.seam.ui.UITransformImageBlur</component-type>
+		</component>
+	</tag>
+	
+	<tag>
+		<tag-name>transformImageType</tag-name>
+		<component>
+			<component-type>org.jboss.seam.ui.UITransformImageType</component-type>
 		</component>
 	</tag>
 	  

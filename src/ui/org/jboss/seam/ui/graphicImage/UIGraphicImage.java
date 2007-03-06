@@ -1,12 +1,9 @@
 package org.jboss.seam.ui.graphicImage;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIParameter;
 import javax.faces.component.html.HtmlGraphicImage;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
@@ -56,28 +53,20 @@ public class UIGraphicImage extends HtmlGraphicImage
       String extension = null;
 
       Image image = Image.instance();
-      image.set(getValue());
+      image.setInput(getValue());
       
       // Do transforms
       
       for (UIComponent cmp : (List<UIComponent>) this.getChildren()) 
       {
-         if (cmp instanceof UIImageTransform)
+         if (cmp instanceof ImageTransform)
          {
-            UIImageTransform imageTransform = (UIImageTransform) cmp;
-            Map<String, String> parameters = getParameters(imageTransform);
-            if (UIImageTransform.SCALE.equals(imageTransform.getType()))
-            {
-               scale(imageTransform, image, parameters);
-            } else if (UIImageTransform.TYPE.equals(imageTransform.getType()))
-            {
-               contentType(imageTransform, image, parameters);
-            }
-            
+            ImageTransform imageTransform = (ImageTransform) cmp;
+            imageTransform.applyTransform(image, this);
          }
       }
 
-      key = DynamicImageStore.instance().put(new ImageWrapper(image.get(), image.getContentType()),
+      key = DynamicImageStore.instance().put(new ImageWrapper(image.getImage(), image.getContentType()),
                key);
       extension = image.getContentType().getExtension();
 
@@ -87,54 +76,6 @@ public class UIGraphicImage extends HtmlGraphicImage
       writer.writeAttribute(HTML.SRC_ATTR, url, HTML.SRC_ATTR);
       HTML.renderHTMLAttributes(writer, this, HTML.IMG_PASSTHROUGH_ATTRIBUTES);
       writer.endElement(HTML.IMG_ELEM);
-   }
-
-   private void scale(UIImageTransform imageTransform, Image image, Map<String, String> parameters) throws NumberFormatException, IOException
-   {
-//    TODO reduce number of decimal places
-      if ("true".equals(parameters.get("maintainRatio")))
-      {
-         if (parameters.containsKey("width") && parameters.containsKey("height"))
-         {
-            throw new UnsupportedOperationException("Cannot maintain ratio and specify height and width");
-         }
-         else if (parameters.containsKey("width"))
-         {
-            setHeight(((Double) (Double.valueOf(parameters.get("width")) / image.getRatio())).toString());
-            setWidth(parameters.get("width"));
-         }
-         else if (parameters.containsKey("height"))
-         {
-            setWidth(((Double) (Double.valueOf(getHeight()) / image.getRatio())).toString());
-            setHeight(parameters.get("height"));
-         }
-      }
-   }
-   
-   private void contentType(UIImageTransform imageTransform, Image image, Map<String, String> parameters) {
-      if (parameters.containsKey("output")) 
-      {
-        Image.Type type = Image.Type.getTypeByMimeType(parameters.get("output"));
-        if (type != null)
-        {
-           image.setContentType(type);
-        }
-      }
-      
-   }
-   
-   private Map<String, String> getParameters(UIImageTransform imageTransform)
-   {
-      Map<String, String> parameters = new HashMap<String, String>();
-      for (UIComponent cmp : (List<UIComponent>) imageTransform.getChildren())
-      {
-         if (cmp instanceof UIParameter)
-         {
-            UIParameter parameter = (UIParameter) cmp;
-            parameters.put(parameter.getName(), parameter.getValue() == null ? null : parameter.getValue().toString());
-         }
-      }
-      return parameters;
    }
 
    public String getFileName()
