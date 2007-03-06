@@ -20,7 +20,7 @@ import org.jboss.seam.ui.graphicImage.DynamicImageStore.ImageWrapper;
 
 @Startup
 @Scope(APPLICATION)
-@Name("org.jboss.seam.ui.resource.dynamicImageResource")
+@Name("org.jboss.seam.ui.graphicImage.dynamicImageResource")
 @Install(precedence = BUILT_IN)
 @Intercept(NEVER)
 public class DynamicImageResource extends AbstractResource

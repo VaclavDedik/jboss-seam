@@ -15,7 +15,7 @@ import org.jboss.seam.core.Image;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.log.Logging;
 
-@Name("dynamicImageStore")
+@Name("org.jboss.seam.ui.graphicImage.dynamicImageStore")
 @Scope(ScopeType.SESSION)
 @Install(precedence = Install.BUILT_IN)
 @Intercept(InterceptionType.NEVER)

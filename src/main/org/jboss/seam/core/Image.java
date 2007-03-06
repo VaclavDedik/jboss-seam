@@ -11,6 +11,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -41,7 +42,7 @@ import org.jboss.seam.util.Resources;
 @Scope(ScopeType.CONVERSATION)
 @Install(precedence = Install.BUILT_IN)
 @Intercept(InterceptionType.NEVER)
-public class Image
+public class Image implements Serializable
 {
 
    public enum Type
@@ -117,7 +118,7 @@ public class Image
 
    private static final Type DEFAULT_CONTENT_TYPE = Type.IMAGE_PNG;
 
-   private Object input;
+   private transient Object input;
 
    private byte[] output;
 
@@ -125,7 +126,7 @@ public class Image
 
    private Type contentType = DEFAULT_CONTENT_TYPE;
 
-   private BufferedImage bufferedImage;
+   private transient BufferedImage bufferedImage;
 
    public Image()
    {
