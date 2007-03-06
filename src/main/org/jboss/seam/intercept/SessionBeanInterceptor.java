@@ -62,6 +62,7 @@ public class SessionBeanInterceptor extends RootInterceptor
    @PostActivate
    public void postActivate(InvocationContext invocation)
    {
+      proxyPersistenceContexts( invocation.getTarget() ); //just in case the container does some special handling of PC serialization
       invokeAndHandle( new EJBInvocationContext(invocation), EventType.POST_ACTIVATE);
    }
    
@@ -113,17 +114,27 @@ public class SessionBeanInterceptor extends RootInterceptor
          initNonSeamComponent();
       }
       
+      proxyPersistenceContexts(bean);
+      
+      postConstruct(bean);
+      invokeAndHandle( new EJBInvocationContext(invocation), EventType.POST_CONSTRUCT );
+   }
+
+   //TODO: really we should do this stuff in a Seam interceptor, I suppose
+   private void proxyPersistenceContexts(Object bean)
+   {
       if ( isSeamComponent() )
       {
          //wrap any @PersistenceContext attributes in our proxy
          for ( BijectedAttribute ba: getComponent().getPersistenceContextAttributes() )
          {
-            ba.set( bean, new EntityManagerProxy( (EntityManager) ba.get(bean) ) );
+            EntityManager entityManager = (EntityManager) ba.get(bean);
+            if ( ! (entityManager instanceof EntityManagerProxy ) )
+            {
+               ba.set( bean, new EntityManagerProxy( entityManager ) );
+            }
          }
       }
-      
-      postConstruct(bean);
-      invokeAndHandle( new EJBInvocationContext(invocation), EventType.POST_CONSTRUCT );
    }
 
 }
