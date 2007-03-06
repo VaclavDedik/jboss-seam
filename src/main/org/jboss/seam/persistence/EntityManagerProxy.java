@@ -1,12 +1,14 @@
 package org.jboss.seam.persistence;
 
+import java.io.Serializable;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.FlushModeType;
 import javax.persistence.LockModeType;
 import javax.persistence.Query;
 
-public class EntityManagerProxy implements EntityManager
+public class EntityManagerProxy implements EntityManager, Serializable
 {
    private EntityManager delegate;
 
