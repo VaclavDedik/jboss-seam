@@ -24,7 +24,10 @@ package org.jboss.seam.ioc;
 import java.lang.reflect.Proxy;
 import java.util.Set;
 
-import net.sf.cglib.proxy.Enhancer;
+import javassist.util.proxy.ProxyObject;
+
+import org.jboss.seam.Component;
+import org.jboss.seam.ComponentType;
 import org.jboss.seam.intercept.JavaBeanInterceptor;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -65,9 +68,10 @@ public class ProxyUtils
       // different interfaces at different times in an application. If
       // need is great I can create a Factory and assume the same
       // interfaces all the time.
-      bean = Enhancer.create(beanClass, interfaces.toArray(new Class[interfaces.size()]), interceptor);
+      ProxyObject po = Component.createProxyFactory(ComponentType.JAVA_BEAN, beanClass, interfaces).newInstance();
+      po.setHandler(interceptor);
       interceptor.postConstruct();
-      return bean;
+      return po;
    }
 
    public static boolean isCglibProxyClass(Class clazz)

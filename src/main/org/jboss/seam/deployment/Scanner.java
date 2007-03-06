@@ -24,8 +24,8 @@ public abstract class Scanner
 {
     private static final LogProvider log = Logging.getLogProvider(Scanner.class);
 
-    protected  String resourceName;
-    protected  ClassLoader classLoader;
+    protected String resourceName;
+    protected ClassLoader classLoader;
    
    public Scanner(String resourceName)
    {

@@ -3,9 +3,8 @@ package org.jboss.seam.intercept;
 
 import java.lang.reflect.Method;
 
-import net.sf.cglib.proxy.Factory;
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
+import javassist.util.proxy.MethodHandler;
+import javassist.util.proxy.ProxyObject;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ComponentType;
@@ -19,7 +18,7 @@ import org.jboss.seam.ejb.SeamInterceptor;
  * @author Gavin King
  */
 public class ClientSideInterceptor extends RootInterceptor 
-      implements MethodInterceptor
+      implements MethodHandler
 {
    private static final long serialVersionUID = -1578313703571846699L;
    
@@ -34,22 +33,21 @@ public class ClientSideInterceptor extends RootInterceptor
       init(component);
    }
    
-   public Object intercept(final Object proxy, final Method method, final Object[] params,
-         final MethodProxy methodProxy) throws Throwable
+   public Object invoke(final Object proxy, final Method method, final Method proceed, final Object[] params) throws Throwable
    {
       String methodName = method.getName();
       if ( params!=null && params.length==0 )
       {
          if ( "finalize".equals(methodName) )
          {
-            return methodProxy.invokeSuper(proxy, params);
+            return proceed.invoke(proxy, params);
          }
          else if ( "writeReplace".equals(methodName) )
          {
             return this;
          }
       }
-      Object result = invoke( createInvocationContext(method, params, methodProxy), EventType.AROUND_INVOKE );
+      Object result = invoke( createInvocationContext(method, params), EventType.AROUND_INVOKE );
       return sessionBeanReturnedThis(result) ? proxy : result;
    }
 
@@ -60,9 +58,9 @@ public class ClientSideInterceptor extends RootInterceptor
          );
    }
 
-   private RootInvocationContext createInvocationContext(final Method method, final Object[] params, final MethodProxy methodProxy)
+   private RootInvocationContext createInvocationContext(final Method method, final Object[] params)
    {
-      return new RootInvocationContext(bean, method, params, methodProxy)
+      return new RootInvocationContext(bean, method, params)
       {
          @Override
          public Object proceed() throws Exception
@@ -97,12 +95,12 @@ public class ClientSideInterceptor extends RootInterceptor
       {
          if (comp==null)
          {
-            Factory proxy = Component.createProxyFactory( 
+            ProxyObject proxy = Component.createProxyFactory( 
                   ComponentType.STATEFUL_SESSION_BEAN, 
                   beanClass, 
                   Component.getBusinessInterfaces(beanClass)
                ).newInstance();
-            proxy.setCallback(0, this);
+            proxy.setHandler(this);
             return proxy;
          }
          else

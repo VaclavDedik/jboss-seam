@@ -3,11 +3,10 @@ package org.jboss.seam.intercept;
 
 import java.lang.reflect.Method;
 
-import javax.servlet.http.HttpSessionEvent;
+import javassist.util.proxy.MethodHandler;
+import javassist.util.proxy.ProxyObject;
 
-import net.sf.cglib.proxy.Factory;
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
+import javax.servlet.http.HttpSessionEvent;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ComponentType;
@@ -21,7 +20,7 @@ import org.jboss.seam.core.Mutable;
  * @author Gavin King
  */
 public class JavaBeanInterceptor extends RootInterceptor
-      implements MethodInterceptor
+      implements MethodHandler
 {
    private static final long serialVersionUID = -771725005103740533L;
    
@@ -37,8 +36,7 @@ public class JavaBeanInterceptor extends RootInterceptor
       init(component);
    }
 
-   public Object intercept(final Object proxy, final Method method, final Object[] params,
-         final MethodProxy methodProxy) throws Throwable
+   public Object invoke(final Object proxy, final Method method, final Method proceed, final Object[] params) throws Throwable
    {
 
       if ( params!=null )
@@ -48,7 +46,7 @@ public class JavaBeanInterceptor extends RootInterceptor
             String methodName = method.getName();
             if ( "finalize".equals(methodName) ) 
             {
-               return methodProxy.invokeSuper(proxy, params);
+               return proceed.invoke (proxy, params);
             }
             else if ( "writeReplace".equals(methodName) )
             {
@@ -86,7 +84,7 @@ public class JavaBeanInterceptor extends RootInterceptor
          dirty = true;
       }
          
-      Object result = interceptInvocation(method, params, methodProxy);
+      Object result = interceptInvocation(method, params);
       return result==bean ? proxy : result;
 
    }
@@ -148,10 +146,9 @@ public class JavaBeanInterceptor extends RootInterceptor
       invokeAndHandle(context, EventType.POST_ACTIVATE);
    }
 
-   private Object interceptInvocation(final Method method, final Object[] params, 
-         final MethodProxy methodProxy) throws Exception
+   private Object interceptInvocation(final Method method, final Object[] params) throws Exception
    {
-      return invoke( new RootInvocationContext(bean, method, params, methodProxy), EventType.AROUND_INVOKE );
+      return invoke( new RootInvocationContext(bean, method, params), EventType.AROUND_INVOKE );
    }
    
    // TODO: copy/paste from ClientSide interceptor
@@ -170,12 +167,12 @@ public class JavaBeanInterceptor extends RootInterceptor
       {
          if (comp==null)
          {
-            Factory proxy = Component.createProxyFactory( 
+            ProxyObject proxy = Component.createProxyFactory( 
                   ComponentType.JAVA_BEAN, 
                   beanClass, 
                   Component.getBusinessInterfaces(beanClass)
                ).newInstance();
-            proxy.setCallback(0, this);
+            proxy.setHandler(this);
             return proxy;
          }
          else

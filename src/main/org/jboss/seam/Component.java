@@ -45,12 +45,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import javassist.util.proxy.MethodFilter;
+import javassist.util.proxy.MethodHandler;
+import javassist.util.proxy.ProxyFactory;
+import javassist.util.proxy.ProxyObject;
+
 import javax.naming.NamingException;
 import javax.servlet.http.HttpSessionActivationListener;
-
-import net.sf.cglib.proxy.Enhancer;
-import net.sf.cglib.proxy.Factory;
-import net.sf.cglib.proxy.MethodInterceptor;
 
 import org.jboss.seam.annotations.Asynchronous;
 import org.jboss.seam.annotations.Begin;
@@ -177,7 +178,7 @@ public class Component extends Model
    private List<Field> logFields = new ArrayList<Field>();
    private List<org.jboss.seam.log.Log> logInstances = new ArrayList<org.jboss.seam.log.Log>();
 
-   private Class<Factory> factory;
+   private Class<ProxyObject> factory;
 
    //only used for tests
    public Component(Class<?> clazz)
@@ -1139,14 +1140,14 @@ public class Component extends Model
    /**
     * Wrap a CGLIB interceptor around an instance of the component
     */
-   public Object wrap(Object bean, MethodInterceptor interceptor) throws Exception
+   public Object wrap(Object bean, MethodHandler interceptor) throws Exception
    {
-      Factory proxy = getProxyFactory().newInstance();
-      proxy.setCallback(0, interceptor);
+      ProxyObject proxy = getProxyFactory().newInstance();
+      proxy.setHandler(interceptor);
       return proxy;
    }
 
-   private synchronized Class<Factory> getProxyFactory()
+   private synchronized Class<ProxyObject> getProxyFactory()
    {
       if (factory==null)
       {
@@ -1957,19 +1958,8 @@ public class Component extends Model
       return "Component(" + name + ")";
    }
 
-   public static Class<Factory> createProxyFactory(ComponentType type, final Class beanClass, Collection<Class> businessInterfaces)
+   public static Class<ProxyObject> createProxyFactory(ComponentType type, final Class beanClass, Collection<Class> businessInterfaces)
    {
-      Enhancer en = new Enhancer();
-      en.setUseCache(false);
-      en.setInterceptDuringConstruction(false);
-      en.setCallbackType(MethodInterceptor.class);
-      en.setSuperclass( type==JAVA_BEAN ? beanClass : Object.class );
-      /*en.setNamingPolicy( new NamingPolicy() {
-         public String getClassName(String prefix, String source, Object key, Predicate names)
-         {
-            return beanClass.getName() + "SeamProxy";
-         }
-      });*/
       Set<Class> interfaces = new HashSet<Class>();
       if ( type.isSessionBean() )
       {
@@ -1981,10 +1971,23 @@ public class Component extends Model
          interfaces.add(Mutable.class);
       }
       interfaces.add(Proxy.class);
-      en.setInterfaces( interfaces.toArray( new Class[0] ) );
-      return en.createClass();
+
+      ProxyFactory factory = new ProxyFactory();
+      factory.setSuperclass( type==JAVA_BEAN ? beanClass : Object.class );
+      factory.setInterfaces( interfaces.toArray( new Class[0] ) );
+      factory.setFilter(FINALIZE_FILTER);
+      return factory.createClass();
    }
 
+   private static final MethodFilter FINALIZE_FILTER = new MethodFilter() 
+   {
+      public boolean isHandled(Method method) 
+      {
+         // skip finalize methods
+         return method.getParameterTypes().length!=0 || !method.getName().equals( "finalize" );
+      }
+   };
+      
    public InterceptionType getInterceptionType()
    {
       return interceptionType;
