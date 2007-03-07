@@ -30,7 +30,7 @@ public class SeamListener implements ServletContextListener, HttpSessionListener
    public void contextInitialized(ServletContextEvent event) {
       log.info("Welcome to Seam 1.2.0.PATCH1");
       Lifecycle.setServletContext( event.getServletContext() );
-      new Initialization( event.getServletContext() ).init();
+      new Initialization( event.getServletContext() ).create().init();
    }
 
    public void contextDestroyed(ServletContextEvent event) {

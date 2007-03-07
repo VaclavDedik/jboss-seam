@@ -5,9 +5,12 @@
  */
 package org.jboss.seam.init;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -22,6 +25,7 @@ import java.util.TreeSet;
 
 import javax.servlet.Filter;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 
 import org.dom4j.Attribute;
 import org.dom4j.DocumentException;
@@ -73,10 +77,17 @@ public class Initialization
    private Set<String> importedPackages = new HashSet<String>();
    private Map<String, NamespaceDescriptor> namespaceMap = new HashMap<String, NamespaceDescriptor>();
    private final Map<String, EventListenerDescriptor> eventListenerDescriptors = new HashMap<String, EventListenerDescriptor>();
+   
+   private File[] hotDeployPaths;
+   private ClassLoader hotDeployClassLoader;
 
    public Initialization(ServletContext servletContext)
    {
       this.servletContext = servletContext;
+   }
+   
+   public Initialization create()
+   {
       addNamespaces();
       initComponentsFromXmlDocument("/WEB-INF/components.xml");
       initComponentsFromXmlDocument("/WEB-INF/events.xml"); //deprecated
@@ -84,6 +95,7 @@ public class Initialization
       initPropertiesFromServletContext();
       initPropertiesFromResource();
       initJndiProperties();
+      return this;
    }
 
    private void initComponentsFromXmlDocuments()
@@ -468,26 +480,109 @@ public class Initialization
       properties.put(name, value);
       return this;
    }
-
+   
    public Initialization init()
    {
       log.info("initializing Seam");
-      scanForComponents();
       Lifecycle.beginInitialization(servletContext);
       Contexts.getApplicationContext().set(Component.PROPERTIES, properties);
-      addComponents();
+      initHotDeployClassLoader();
+      scanForHotDeployableComponents();
+      scanForComponents();
+      
+      addComponent( new ComponentDescriptor(Init.class), Contexts.getApplicationContext() );
+      Init init = (Init) Component.getInstance(Init.class, ScopeType.APPLICATION);    
+      ComponentDescriptor desc = findDescriptor(Jbpm.class);
+      if (desc != null && desc.isInstalled())
+      {
+         init.setJbpmInstalled(true);
+      }
+      init.setTimestamp( System.currentTimeMillis() );
+      init.setHotDeployPaths(hotDeployPaths);
+      
+      addSpecialComponents(init);
+      installComponents(init);
       Lifecycle.endInitialization();
       log.info("done initializing Seam");
       return this;
    }
 
+   public Initialization redeploy(HttpSession session)
+   {
+      log.info("redeploying");
+      Lifecycle.beginReinitialization(servletContext, session);
+      Init init = Init.instance();
+      for ( String name: init.getHotDeployableComponents() )
+      {
+         Component component = Component.forName(name);
+         ScopeType scope = component.getScope();
+         if (scope.isContextActive())
+         {
+            scope.getContext().remove(name);
+         }
+         Contexts.getApplicationContext().remove(name + ".component");
+      }
+      initHotDeployClassLoader();
+      scanForHotDeployableComponents();
+      init.setTimestamp( System.currentTimeMillis() );
+      init.setHotDeployPaths(hotDeployPaths);
+      installComponents(init);
+      Lifecycle.endInitialization();
+      log.info("done redeploying");
+      return this;
+   }
+
+   private void initHotDeployClassLoader()
+   {
+      ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
+      try
+      {
+         String webxmlPath = contextClassLoader.getResource("META-INF/debug.xhtml").toExternalForm();
+         String hotDeployDirectory = webxmlPath.substring( 9, webxmlPath.length()-46 ) + "dev";
+         File directory = new File(hotDeployDirectory);
+         log.info(directory);
+         URL url = directory.toURL();
+         log.info(url);
+         /*File[] jars = directory.listFiles( new FilenameFilter() { 
+               public boolean accept(File file, String name) { return name.endsWith(".jar"); } 
+         } );
+         URL[] urls = new URL[jars.length];
+         for (int i=0; i<jars.length; i++)
+         {
+            urls[i] = jars[i].toURL();
+         }*/
+         URL[] urls = {url};
+         hotDeployClassLoader = new URLClassLoader(urls, contextClassLoader);
+         hotDeployPaths = new File[] {directory};
+      }
+      catch (MalformedURLException mue)
+      {
+         throw new RuntimeException(mue);
+      }
+   }
+
+   private void scanForHotDeployableComponents()
+   {
+      if ( hotDeployClassLoader!=null )
+      {
+         Set<Class<Object>> scannedClasses = new HashSet<Class<Object>>();
+         scannedClasses.addAll( new ComponentScanner(null, hotDeployClassLoader).getClasses() );
+         Set<Package> scannedPackages = new HashSet<Package>();
+         for (Class<Object> scannedClass: scannedClasses)
+         {
+            installScannedClass(scannedPackages, scannedClass);
+         }
+      }
+   }
+
    private void scanForComponents()
    {
-      Set<Package> scannedPackages = new HashSet<Package>();
       Set<Class<Object>> scannedClasses = new HashSet<Class<Object>>();
       scannedClasses.addAll( new ComponentScanner("seam.properties").getClasses() );
       scannedClasses.addAll( new ComponentScanner("META-INF/seam.properties").getClasses() );
       scannedClasses.addAll( new ComponentScanner("META-INF/components.xml").getClasses() );
+
+      Set<Package> scannedPackages = new HashSet<Package>();
       for (Class<Object> scannedClass: scannedClasses)
       {
          installScannedClass(scannedPackages, scannedClass);
@@ -668,20 +763,8 @@ public class Initialization
       return null;
    }
 
-   protected void addComponents()
+   private void addSpecialComponents(Init init)
    {
-      Context context = Contexts.getApplicationContext();
-
-      // force instantiation of Init
-      addComponent( new ComponentDescriptor(Init.class), context );
-      Init init = (Init) Component.getInstance(Init.class, ScopeType.APPLICATION);
-
-      ComponentDescriptor desc = findDescriptor(Jbpm.class);
-      if (desc != null && desc.isInstalled())
-      {
-         init.setJbpmInstalled(true);
-      }
-
       try
       {
          Reflections.classForName("org.jboss.cache.aop.PojoCache");
@@ -698,8 +781,12 @@ public class Initialization
          addComponentDescriptor( new ComponentDescriptor(Introspector.class, true) );
          addComponentDescriptor( new ComponentDescriptor(org.jboss.seam.debug.Contexts.class, true) );
       }
+   }
 
+   private void installComponents(Init init)
+   {
       log.info("Installing components...");
+      Context context = Contexts.getApplicationContext();
       boolean installedSomething = false;
       do
       {
@@ -827,11 +914,15 @@ public class Initialization
                descriptor.getJndiName()
             );
          context.set(componentName, component);
+         if ( descriptor.getComponentClass().getClassLoader()==hotDeployClassLoader )
+         {
+            Init.instance().addHotDeployableComponent( component.getName() );
+         }
       }
       catch (Throwable e)
       {
          throw new RuntimeException("Could not create Component: " + name, e);
-      }
+      }      
    }
 
    private static String toCamelCase(String hyphenated, boolean initialUpper)

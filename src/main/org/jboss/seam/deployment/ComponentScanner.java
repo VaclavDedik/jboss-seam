@@ -29,9 +29,7 @@ public class ComponentScanner extends Scanner
    }
 
    /**
-    * Returns only Seam components (ie: classes annotated with
-    * 
-    * @Name)
+    * Returns only Seam components (ie: classes annotated with @Name)
     */
    public Set<Class<Object>> getClasses()
    {
@@ -57,7 +55,7 @@ public class ComponentScanner extends Scanner
                      && !"false".equals( getAnnotationValue(classFile, Install.class, "value") );
             if (installable)
             {
-               if ( log.isDebugEnabled() ) log.debug("found component class: " + name);
+               log.debug("found component class: " + name);
                classes.add( (Class<Object>) classLoader.loadClass(classname) );
             }
          }

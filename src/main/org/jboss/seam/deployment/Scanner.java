@@ -7,8 +7,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.net.URLDecoder;
 import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
@@ -48,43 +51,62 @@ public abstract class Scanner
 
     protected void scan() 
     {
-      Enumeration<URL> urls;
-      try
+      Set<String> paths = new HashSet<String>();
+      if (resourceName==null)
       {
-         urls = classLoader.getResources(resourceName);
+         for ( URL url: ( (URLClassLoader) classLoader ).getURLs() )
+         {
+            String urlPath = url.getFile();
+            if ( urlPath.endsWith("/") )
+            {
+               urlPath = urlPath.substring( 0, urlPath.length()-1 );
+            }
+            paths.add( urlPath );
+         }
       }
-      catch (IOException ioe) 
-      {
-         log.warn("could not read: " + resourceName, ioe);
-         return;
-      }
-      
-      while ( urls.hasMoreElements() )
+      else
       {
          try
          {
-            String urlPath = urls.nextElement().getFile();
-            urlPath = URLDecoder.decode(urlPath, "UTF-8");
-            if ( urlPath.startsWith("file:") )
+            Enumeration<URL> urlEnum = classLoader.getResources(resourceName);
+            while ( urlEnum.hasMoreElements() )
             {
-               // On windows urlpath looks like file:/C: on Linux file:/home
-               // substring(5) works for both
-               urlPath = urlPath.substring(5);
-            }
-            if ( urlPath.indexOf('!')>0 )
-            {
-               urlPath = urlPath.substring(0, urlPath.indexOf('!'));
-            }
-            else
-            {
-               File dirOrArchive = new File(urlPath);
-               if ( resourceName.lastIndexOf('/')>0 )
+               String urlPath = urlEnum.nextElement().getFile();
+               urlPath = URLDecoder.decode(urlPath, "UTF-8");
+               if ( urlPath.startsWith("file:") )
                {
-                  //for META-INF/components.xml
-                  dirOrArchive = dirOrArchive.getParentFile();
+                  // On windows urlpath looks like file:/C: on Linux file:/home
+                  // substring(5) works for both
+                  urlPath = urlPath.substring(5);
                }
-               urlPath = dirOrArchive.getParent();
+               if ( urlPath.indexOf('!')>0 )
+               {
+                  urlPath = urlPath.substring(0, urlPath.indexOf('!'));
+               }
+               else
+               {
+                  File dirOrArchive = new File(urlPath);
+                  if ( resourceName!=null && resourceName.lastIndexOf('/')>0 )
+                  {
+                     //for META-INF/components.xml
+                     dirOrArchive = dirOrArchive.getParentFile();
+                  }
+                  urlPath = dirOrArchive.getParent();
+               }
+               paths.add(urlPath);
             }
+         }
+         catch (IOException ioe) 
+         {
+            log.warn("could not read: " + resourceName, ioe);
+            return;
+         }
+      }
+      
+      for ( String urlPath: paths )
+      {
+         try
+         {
             log.info("scanning: " + urlPath);
             File file = new File(urlPath);
             if ( file.isDirectory() )
@@ -106,7 +128,7 @@ public abstract class Scanner
 
    private void handleArchive(File file) throws ZipException, IOException
    {
-      log.debug("archive: " + file);
+      log.info("archive: " + file);
       ZipFile zip = new ZipFile(file);
       Enumeration<? extends ZipEntry> entries = zip.entries();
       while ( entries.hasMoreElements() )

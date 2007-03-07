@@ -5,6 +5,7 @@ package org.jboss.seam.core;
 import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
+import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,6 +64,9 @@ public class Init
    private Map<String, String> converters = new HashMap<String, String>();
    private Map<String, String> validators = new HashMap<String, String>();
    private Map<Class, String> convertersByClass = new HashMap<Class, String>();
+   
+   private long timestamp;
+   private File[] hotDeployPaths;
    
    @Create
    public void create()
@@ -415,5 +419,25 @@ public class Init
    public Map<String, String> getValidators()
    {
       return validators;
+   }
+
+   public File[] getHotDeployPaths()
+   {
+      return hotDeployPaths;
+   }
+
+   public void setHotDeployPaths(File[] hotDeployJars)
+   {
+      this.hotDeployPaths = hotDeployJars;
+   }
+
+   public long getTimestamp()
+   {
+      return timestamp;
+   }
+
+   public void setTimestamp(long timestamp)
+   {
+      this.timestamp = timestamp;
    }
 }

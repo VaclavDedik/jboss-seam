@@ -112,6 +112,14 @@ public class Lifecycle
       Contexts.conversationContext.set( new MapContext(ScopeType.CONVERSATION) );
    }
 
+   public static void beginReinitialization(ServletContext servletContext, HttpSession session)
+   {
+      Contexts.applicationContext.set( new WebApplicationContext(servletContext) );
+      Contexts.eventContext.set( new MapContext(ScopeType.EVENT) );
+      Contexts.sessionContext.set( new WebSessionContext( ContextAdaptor.getSession(session) ) );
+      Contexts.conversationContext.set( new MapContext(ScopeType.CONVERSATION) );
+   }
+
    public static void beginExceptionRecovery(ExternalContext externalContext)
    {
       Contexts.applicationContext.set( new FacesApplicationContext(externalContext) );
@@ -143,6 +151,7 @@ public class Lifecycle
       Contexts.conversationContext.set(null);
       Contexts.destroy( Contexts.getEventContext() );
       Contexts.eventContext.set(null);
+      Contexts.sessionContext.set(null);
       Contexts.applicationContext.set(null);
    }
 

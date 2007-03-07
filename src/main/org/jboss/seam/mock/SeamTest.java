@@ -698,7 +698,7 @@ public class SeamTest
       servletContext = new MockServletContext();
       initServletContext( servletContext.getInitParameters() );
       Lifecycle.setServletContext(servletContext);
-      new Initialization(servletContext).init();
+      new Initialization(servletContext).create().init();
 
       conversationViewRootAttributes = new HashMap<String, Map>();
    }
