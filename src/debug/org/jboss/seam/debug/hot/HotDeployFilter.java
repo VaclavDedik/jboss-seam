@@ -30,10 +30,10 @@ import org.jboss.seam.web.AbstractFilter;
 @Install(precedence = BUILT_IN)
 @Intercept(NEVER)
 @Scope(APPLICATION)
-public class HotDepoyFilter extends AbstractFilter
+public class HotDeployFilter extends AbstractFilter
 {
 
-   private static LogProvider log = Logging.getLogProvider(HotDepoyFilter.class);
+   private static LogProvider log = Logging.getLogProvider(HotDeployFilter.class);
    
    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException
