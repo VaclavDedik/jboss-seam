@@ -203,7 +203,7 @@ newline: n:NEWLINE { append( n.getText() ); }
 newlineOrEof: newline | EOF
     ;
 
-html: openTag (attribute)* ( ( beforeBody body closeTagWithBody ) | closeTagWithNoBody ) 
+html: openTag (space)+ ( attribute (space)+ )* ( ( beforeBody body closeTagWithBody ) | closeTagWithNoBody ) 
     ;
 
 body: (plain|formatted|preformatted|quoted|html|(list newline)|newline)*
@@ -221,7 +221,7 @@ closeTagWithBody: LT SLASH name:WORD GT { append("</"); append(name.getText()); 
 closeTagWithNoBody: SLASH GT { append("/>"); } 
     ;
     
-attribute: space att:WORD EQ 
+attribute: att:WORD (space)* EQ (space)*
            DOUBLEQUOTE {  validateAttribute(att); append(att.getText()); append("=\""); } 
            attributeValue 
            DOUBLEQUOTE { append("\""); } 
