@@ -420,6 +420,11 @@ public class Init
    {
       return validators;
    }
+   
+   public boolean hasHotDeployableComponents()
+   {
+      return !hotDeployableComponents.isEmpty();
+   }
 
    public File[] getHotDeployPaths()
    {

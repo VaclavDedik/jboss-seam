@@ -39,7 +39,7 @@ public class HotDepoyFilter extends AbstractFilter
             throws IOException, ServletException
    {
       Init init = (Init) getServletContext().getAttribute( Seam.getComponentName(Init.class) );
-      if (init!=null)
+      if ( init!=null && init.hasHotDeployableComponents() )
       {
          for ( File file: init.getHotDeployPaths() )
          {

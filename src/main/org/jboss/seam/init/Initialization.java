@@ -540,20 +540,21 @@ public class Initialization
          String webxmlPath = contextClassLoader.getResource("META-INF/debug.xhtml").toExternalForm();
          String hotDeployDirectory = webxmlPath.substring( 9, webxmlPath.length()-46 ) + "dev";
          File directory = new File(hotDeployDirectory);
-         log.info(directory);
-         URL url = directory.toURL();
-         log.info(url);
-         /*File[] jars = directory.listFiles( new FilenameFilter() { 
-               public boolean accept(File file, String name) { return name.endsWith(".jar"); } 
-         } );
-         URL[] urls = new URL[jars.length];
-         for (int i=0; i<jars.length; i++)
+         if ( directory.exists() )
          {
-            urls[i] = jars[i].toURL();
-         }*/
-         URL[] urls = {url};
-         hotDeployClassLoader = new URLClassLoader(urls, contextClassLoader);
-         hotDeployPaths = new File[] {directory};
+            URL url = directory.toURL();
+            /*File[] jars = directory.listFiles( new FilenameFilter() { 
+                  public boolean accept(File file, String name) { return name.endsWith(".jar"); } 
+            } );
+            URL[] urls = new URL[jars.length];
+            for (int i=0; i<jars.length; i++)
+            {
+               urls[i] = jars[i].toURL();
+            }*/
+            URL[] urls = {url};
+            hotDeployClassLoader = new URLClassLoader(urls, contextClassLoader);
+            hotDeployPaths = new File[] {directory};
+         }
       }
       catch (MalformedURLException mue)
       {
