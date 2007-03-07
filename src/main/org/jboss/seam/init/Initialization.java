@@ -46,7 +46,6 @@ import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Jbpm;
 import org.jboss.seam.core.PojoCache;
-import org.jboss.seam.debug.Introspector;
 import org.jboss.seam.deployment.ComponentScanner;
 import org.jboss.seam.deployment.NamespaceScanner;
 import org.jboss.seam.log.LogProvider;
@@ -776,12 +775,6 @@ public class Initialization
          //temp solution due to broken JEMS installer portal profile!
          log.warn("Did not install PojoCache due to NoClassDefFoundError: " + e.getMessage());
       }
-
-      if ( init.isDebug() )
-      {
-         addComponentDescriptor( new ComponentDescriptor(Introspector.class, true) );
-         addComponentDescriptor( new ComponentDescriptor(org.jboss.seam.debug.Contexts.class, true) );
-      }
    }
 
    private void installComponents(Init init)
@@ -1158,7 +1151,8 @@ public class Initialization
          return install.genericDependencies();
       }
 
-      public String[] getClassDependencies() {
+      public String[] getClassDependencies() 
+      {
           Install install = componentClass.getAnnotation(Install.class);
           if (install == null)
           {
@@ -1178,7 +1172,7 @@ public class Initialization
          {
             return true;
          }
-         return install.value();
+         return install.debug() ? Init.instance().isDebug() : install.value();
       }
       
       public int getPrecedence()

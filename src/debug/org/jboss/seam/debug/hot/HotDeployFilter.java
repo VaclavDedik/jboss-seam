@@ -27,7 +27,7 @@ import org.jboss.seam.web.AbstractFilter;
 
 @Name("org.jboss.seam.debug.hotDeployFilter")
 @Startup
-@Install(precedence = BUILT_IN)
+@Install(debug=true, precedence=BUILT_IN)
 @Intercept(NEVER)
 @Scope(APPLICATION)
 public class HotDeployFilter extends AbstractFilter

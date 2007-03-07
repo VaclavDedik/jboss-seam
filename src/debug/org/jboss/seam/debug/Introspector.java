@@ -17,7 +17,7 @@ import org.jboss.seam.annotations.RequestParameter;
 import org.jboss.seam.contexts.Contexts;
 
 @Name("org.jboss.seam.debug.introspector")
-@Install(value=false, precedence=BUILT_IN)
+@Install(debug=true, precedence=BUILT_IN)
 public class Introspector {
    
    @RequestParameter

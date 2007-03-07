@@ -43,9 +43,18 @@ public @interface Install
    public static final int MOCK = 40;
 
    /**
+    * Is this component installed by default?
+    * 
     * @return indicates if the component should be installed
     */
    boolean value() default true;
+   
+   /**
+    * Is this a debug component?
+    * 
+    * @return indicates that the component should only be installed in debug mode
+    */
+   boolean debug() default false;
    
    /**
     * Indicates that the component should not be installed unless the

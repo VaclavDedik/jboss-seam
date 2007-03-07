@@ -15,7 +15,7 @@ import org.jboss.seam.core.ConversationEntry;
 
 @Name("org.jboss.seam.debug.contexts")
 @Scope(ScopeType.APPLICATION)
-@Install(value=false, precedence=BUILT_IN)
+@Install(debug=true, precedence=BUILT_IN)
 public class Contexts 
 {
    public List<ConversationEntry> getConversationEntries()
