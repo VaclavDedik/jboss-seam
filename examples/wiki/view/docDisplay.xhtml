@@ -8,7 +8,7 @@
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
                 template="themes/#{globalPrefs.themeName}/template.xhtml">
 
-<ui:define name="pluginCSS">
+<ui:define name="pluginHeaders">
     <link href="#{themePath}/css/userControl.css" rel="stylesheet" type="text/css"/>
     <link href="#{themePath}/css/searchControl.css" rel="stylesheet" type="text/css"/>
     <link href="#{themePath}/css/breadcrumb.css" rel="stylesheet" type="text/css"/>
@@ -36,6 +36,7 @@
 <ui:define name="controlRight">
     <s:link id="createDoc" styleClass="linkNavigation" action="createDoc" accesskey="C"><u>C</u>reate</s:link>
     <s:link id="editDoc" styleClass="linkNavigation" action="editDoc" accesskey="E"><u>E</u>dit</s:link>
+    <s:link id="showHistory" styleClass="linkNavigation" action="showHistory" accesskey="H"><u>H</u>istory</s:link>
     <s:link id="discussDoc" styleClass="linkNavigation" accesskey="D"><u>D</u>iscuss</s:link>
     <s:link id="browseDir" styleClass="linkNavigation" action="browseDir" accesskey="B"><u>B</u>rowse</s:link>
 </ui:define>
@@ -53,15 +54,15 @@
     <s:div styleClass="attachmentDisplay" rendered="#{not empty wikiTextAttachments}">
         <div class="formHead">Attachments:</div>
         <h:dataTable value="#{wikiTextAttachments}" var="link"
-             binding="#{jsfUtil.datatable}"
+             binding="#{wikiUtil.datatable}"
              styleClass="directoryList"
              columnClasses="iconColumn,iconColumn,nameColumn"
              rowClasses="rowOdd,rowEven"
              cellpadding="0" cellspacing="0" border="0">
             <h:column>
                 <h:panelGroup>
-                    <a name="attachment#{jsfUtil.datatable.rowIndex + 1}"/>
-                    <h:outputText value="#&#160;#{jsfUtil.datatable.rowIndex + 1}"/>
+                    <a name="attachment#{wikiUtil.datatable.rowIndex + 1}"/>
+                    <h:outputText value="#&#160;#{wikiUtil.datatable.rowIndex + 1}"/>
                 </h:panelGroup>
             </h:column>
             <h:column>

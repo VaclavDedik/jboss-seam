@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<!--
+
+Maps only properties we want to keep a history of.
+
+-->
+<hibernate-mapping package="org.jboss.seam.wiki.core.model" default-access="field">
+
+    <class name="Node" entity-name="HistoricalNode" abstract="true" table="NODE_HISTORY" polymorphism="explicit">
+        <id name="historicalNodeId" column="NODE_HISTORY_ID">
+            <generator class="native"/>
+        </id>
+
+        <discriminator column="NODE_TYPE" length="255"/>
+
+        <!-- Actual historical revision property -->
+        <property name="nodeId" column="NODE_ID" not-null="true" unique-key="unique_revision_per_node_id"/>
+        <property name="revision" column="NODE_REVISION" not-null="true" unique-key="unique_revision_per_node_id"/>
+
+        <property name="name" length="255" not-null="true" column="NAME"/>
+        <property name="wikiname" length="255" not-null="true" column="WIKINAME"/>
+        <property name="lastModifiedOn" column="LAST_MODIFIED_ON" type="timestamp" not-null="true"/>
+
+        <subclass name="Document" entity-name="HistoricalDocument" discriminator-value="DOCUMENT">
+            <property name="content" column="CONTENT" length="32768"/>
+        </subclass>
+
+        <subclass name="File" entity-name="HistoricalFile" discriminator-value="FILE">
+            <property name="filename" length="255" column="FILENAME"/>
+            <property name="filesize" column="FILESIZE"/>
+            <property name="data" type="binary" column="FILEDATA"/>
+            <property name="contentType" column="CONTENT_TYPE" length="255"/>
+            <component name="imageMetaInfo" class="ImageMetaInfo">
+                <property name="sizeX" column="IMAGE_SIZE_X"/>
+                <property name="sizeY" column="IMAGE_SIZE_Y"/>
+                <property name="thumbnail" column="IMAGE_THUMBNAIL"/>
+            </component>
+        </subclass>
+
+    </class>
+
+</hibernate-mapping>
+

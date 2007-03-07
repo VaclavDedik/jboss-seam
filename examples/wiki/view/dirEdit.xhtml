@@ -8,7 +8,7 @@
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
                 template="themes/#{globalPrefs.themeName}/template.xhtml">
 
-<ui:define name="pluginCSS">
+<ui:define name="pluginHeaders">
     <link href="#{themePath}/css/userControl.css" rel="stylesheet" type="text/css"/>
     <link href="#{themePath}/css/searchControl.css" rel="stylesheet" type="text/css"/>
     <link href="#{themePath}/css/mainMenu.css" rel="stylesheet" type="text/css"/>
@@ -85,7 +85,7 @@
         <div class="input">
             <h:dataTable id="directoryFormTable" var="node" width="75%" style="border-width: 1px;"
                          value="#{childNodes}"
-                         binding="#{jsfUtil.datatable}"
+                         binding="#{wikiUtil.datatable}"
                          styleClass="directoryList"
                          headerClass="directoryListHeader"
                          columnClasses="positionUpColumn,positionDownColumn,menuControlColumn,defaultDocumentSelectColumn,iconColumn,nameColumn"
@@ -95,14 +95,14 @@
                 <h:column>
                     <h:commandLink id="nodeUp" tabindex="1"
                                    action="#{directoryHome.moveNodeUpInList}"
-                                   rendered="#{jsfUtil.datatable.rowIndex > 0}">
+                                   rendered="#{wikiUtil.datatable.rowIndex > 0}">
                         <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/up.gif" width="18" height="18"/>
                     </h:commandLink>
                 </h:column>
                 <h:column>
                     <h:commandLink id="nodeDown" tabindex="2"
                                    action="#{directoryHome.moveNodeDownInList}"
-                                   rendered="#{jsfUtil.datatable.rowIndex+1 lt jsfUtil.datatable.rowCount}">
+                                   rendered="#{wikiUtil.datatable.rowIndex+1 lt wikiUtil.datatable.rowCount}">
                         <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/down.gif" width="18" height="18"/>
                     </h:commandLink>
                 </h:column>

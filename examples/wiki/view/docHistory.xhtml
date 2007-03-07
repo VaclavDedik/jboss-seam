@@ -1,0 +1,100 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:wiki="http://jboss.com/products/seam/wiki"
+                template="themes/#{globalPrefs.themeName}/template.xhtml">
+
+<ui:define name="pluginHeaders">
+    <link href="#{themePath}/css/userControl.css" rel="stylesheet" type="text/css"/>
+    <link href="#{themePath}/css/searchControl.css" rel="stylesheet" type="text/css"/>
+    <link href="#{themePath}/css/mainMenu.css" rel="stylesheet" type="text/css"/>
+</ui:define>
+
+<ui:define name="screenname">Document History</ui:define>
+
+<ui:define name="headerTopRight">
+    <ui:include src="plugins/userControl/plugin.xhtml"/>
+</ui:define>
+
+<ui:define name="headerBottomLeft">&#160;</ui:define>
+
+<ui:define name="headerBottomRight">
+    <ui:include src="plugins/searchControl/plugin.xhtml"/>
+</ui:define>
+
+<ui:define name="sidebar">
+    <ui:include src="plugins/mainMenu/plugin.xhtml"/>
+</ui:define>
+
+<ui:define name="controlRight">
+    <s:link id="exit" styleClass="linkNavigation"
+            action="#{nodeHistory.exitConversation(true)}"
+            accesskey="E"><u>E</u>xit</s:link>
+</ui:define>
+
+<ui:define name="content">
+
+    <s:div rendered="#{historicalNodeList.rowCount == 0}">
+        The document '#{currentNode.name}' does not have any history, only the current revision is present.
+    </s:div>
+
+    <h:form rendered="#{historicalNodeList.rowCount >0}">
+
+        <h:dataTable id="historyTable" var="hnode"
+                     value="#{historicalNodeList}"
+                     styleClass="datatable"
+                     headerClass="sortableHeader"
+                     columnClasses="defaultColumn,defaultColumn,defaultColumn,defaultColumn,defaultColumn"
+                     rowClasses="rowOdd,rowEven"
+                     cellpadding="0" cellspacing="0" border="0">
+
+            <h:column>
+                <f:facet name="header">Revision</f:facet>
+                #{hnode.revision}
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Name</f:facet>
+                #{hnode.name}
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Last Modified On</f:facet>
+                <h:outputText value="#{hnode.lastModifiedOn}">
+                    <f:convertDateTime type="both"/>
+                </h:outputText>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <h:commandLink id="diff"
+                               action="#{nodeHistory.diff}"
+                               tabindex="3" styleClass="buttonNonpersistent"><span class="buttonLabel">Diff</span></h:commandLink>
+                <h:commandLink id="rollback"
+                               action="#{nodeHistory.rollback}"
+                               tabindex="4" styleClass="buttonNonpersistent"><span class="buttonLabel">Rollback</span></h:commandLink>
+            </h:column>
+
+        </h:dataTable>
+
+    </h:form>
+
+    <s:div id="diffOutput" rendered="#{not empty nodeHistory.diffResult}">
+        <wiki:formattedText value="#{nodeHistory.diffResult}"
+                            linkStyleClass="regularLink"
+                            brokenLinkStyleClass="brokenLink"
+                            attachmentLinkStyleClass="regularLink"
+                            inlineLinkStyleClass="regularLink"/>
+    </s:div>
+
+
+</ui:define>
+
+<ui:define name="footer">&#160;</ui:define>
+
+</ui:composition>
+

@@ -8,7 +8,7 @@
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
                 template="themes/#{globalPrefs.themeName}/template.xhtml">
 
-<ui:define name="pluginCSS">
+<ui:define name="pluginHeaders">
     <link href="#{themePath}/css/userControl.css" rel="stylesheet" type="text/css"/>
     <link href="#{themePath}/css/searchControl.css" rel="stylesheet" type="text/css"/>
     <link href="#{themePath}/css/mainMenu.css" rel="stylesheet" type="text/css"/>
@@ -61,6 +61,40 @@
                         <div class="output">#{currentDirectory.name}</div>
                     </div>
 
+                    <s:div styleClass="entry" rendered="#{documentHome.managed}">
+                        <div class="label">Created On:</div>
+                        <div class="output">
+                            <h:outputText value="#{documentHome.instance.createdOn}">
+                                <f:convertDateTime type="both"/>
+                            </h:outputText>
+                            (#{documentHome.instance.createdBy.username})
+                        </div>
+                    </s:div>
+
+                    <s:div styleClass="entry">
+                        <div class="label">Writable by:</div>
+                        <div class="input">
+                            <h:selectOneMenu value="#{documentHome.writableByRole}">
+                                <s:selectItems value="#{documentHome.roles}"
+                                               var="role"
+                                               label="Role: #{role.displayName} (Level: #{role.accessLevel})"
+                                               noSelectionLabel="User: #{authenticatedUser.username}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </s:div>
+
+                    <s:div styleClass="entry">
+                        <div class="label">Readable by:</div>
+                        <div class="input">
+                            <h:selectOneMenu value="#{documentHome.readableByRole}">
+                                <s:selectItems value="#{documentHome.roles}"
+                                               var="role"
+                                               label="Role: #{role.displayName} (Level: #{role.accessLevel})"
+                                               noSelectionLabel="User: #{authenticatedUser.username}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </s:div>
+
                     <s:decorate>
                         <div class="entry">
                             <div class="label">Name:</div>
@@ -75,11 +109,19 @@
                         <div class="entry">
                             <div class="label">Content:</div>
                             <div class="input">
-                                <h:inputTextarea tabindex="2" id="content" required="true" cols="80" rows="30"
+                                <h:inputTextarea tabindex="2" id="content" required="true" cols="80" rows="25"
                                                  value="#{documentHome.formContent}"/>
                             </div>
                         </div>
                     </s:decorate>
+
+                    <div class="entry">
+                        <div class="label">&#160;</div>
+                        <div class="input">
+                            <h:selectBooleanCheckbox value="#{documentHome.minorRevision}" tabindex="3"/>
+                            Minor change, don't create a new revision
+                        </div>
+                    </div>
 
                 </s:validateAll>
 
@@ -92,19 +134,19 @@
 
                         <h:commandLink id="preview"
                                        action="#{documentHome.setEnabledPreview(true)}"
-                                       tabindex="3" accesskey="P" styleClass="buttonNonpersistent"><span class="buttonLabel"><u>P</u>review</span></h:commandLink>
+                                       tabindex="4" accesskey="P" styleClass="buttonNonpersistent"><span class="buttonLabel"><u>P</u>review</span></h:commandLink>
 
                         <h:commandLink id="save" action="#{documentHome.persist}"
                                        rendered="#{!documentHome.managed}"
-                                       tabindex="4" accesskey="S" styleClass="button"><span class="buttonLabel"><u>S</u>ave</span></h:commandLink>
+                                       tabindex="5" accesskey="S" styleClass="button"><span class="buttonLabel"><u>S</u>ave</span></h:commandLink>
 
                         <h:commandLink id="update" action="#{documentHome.update}"
                                    rendered="#{documentHome.managed}"
-                                   tabindex="4" accesskey="U" styleClass="button"><span class="buttonLabel"><u>U</u>pdate</span></h:commandLink>
+                                   tabindex="6" accesskey="U" styleClass="button"><span class="buttonLabel"><u>U</u>pdate</span></h:commandLink>
 
                         <h:commandLink id="delete" action="#{documentHome.remove}"
                                        rendered="#{documentHome.managed}"
-                                       tabindex="5" accesskey="D" styleClass="button"><span class="buttonLabel"><u>D</u>elete</span></h:commandLink>
+                                       tabindex="7" accesskey="D" styleClass="button"><span class="buttonLabel"><u>D</u>elete</span></h:commandLink>
 
                     </div>
                 </div>
@@ -125,15 +167,15 @@
     <s:div styleClass="attachmentDisplay" rendered="#{not empty wikiTextAttachments}">
         <div class="formHead">Attachments:</div>
         <h:dataTable value="#{wikiTextAttachments}" var="link"
-             binding="#{jsfUtil.datatable}"
+             binding="#{wikiUtil.datatable}"
              styleClass="directoryList"
              columnClasses="iconColumn,iconColumn,nameColumn"
              rowClasses="rowOdd,rowEven"
              cellpadding="0" cellspacing="0" border="0">
             <h:column>
                 <h:panelGroup>
-                    <a name="attachment#{jsfUtil.datatable.rowIndex + 1}"/>
-                    <h:outputText value="#&#160;#{jsfUtil.datatable.rowIndex + 1}"/>
+                    <a name="attachment#{wikiUtil.datatable.rowIndex + 1}"/>
+                    <h:outputText value="#&#160;#{wikiUtil.datatable.rowIndex + 1}"/>
                 </h:panelGroup>
             </h:column>
             <h:column>

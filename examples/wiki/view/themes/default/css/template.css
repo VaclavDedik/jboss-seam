@@ -203,6 +203,14 @@ a:visited {
     font-style: italic;
 }
 
+.addedText {
+    background-color: lightgreen;
+}
+
+.deletedText {
+    background-color: lightcoral;
+}
+
 .button {
     background: #fff url(../img/btn.bg.gif) 0 0 repeat-x;
     padding: 2px 5px 2px 5px;
@@ -517,7 +525,40 @@ a:visited {
 }
 
 .datatable .defaultColumn {
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: left;
+    white-space: nowrap;
+    border-right: 1px solid #C3BBB6;
+}
+
+.datatable .onePercentColumn{
+    width: 1%;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: left;
+    white-space: nowrap;
+    border-right: 1px solid #C3BBB6;
+}
+
+.datatable .fivePercentColumn {
+    width: 5%;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: left;
+    white-space: nowrap;
+    border-right: 1px solid #C3BBB6;
+}
+.datatable .tenPercentColumn {
     width: 10%;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: left;
+    white-space: nowrap;
+    border-right: 1px solid #C3BBB6;
+}
+.datatable .twentyPercentColumn {
+    width: 20%;
     padding-left: 10px;
     padding-right: 10px;
     text-align: left;

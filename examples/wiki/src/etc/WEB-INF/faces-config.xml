@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE faces-config PUBLIC
+          "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.1//EN"
+          "http://java.sun.com/dtd/web-facesconfig_1_1.dtd">
+
+<faces-config>
+
+   <application>
+      <message-bundle>messages</message-bundle>
+      <!-- Disabled when using Ajax4JSF -->
+      <!--
+      <view-handler>org.jboss.seam.ui.facelet.SeamFaceletViewHandler</view-handler>
+      -->
+   </application>
+
+    <!-- Why do I have to define this here again? It's already in wiki.taglib.xml! -->
+    <component>
+        <component-type>org.jboss.seam.wiki.core.ui.UIWikiFormattedText</component-type>
+        <component-class>org.jboss.seam.wiki.core.ui.UIWikiFormattedText</component-class>
+        <property>
+            <property-name>value</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
+        <property>
+            <property-name>linkStyleClass</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
+        <property>
+            <property-name>brokenLinkStyleClass</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
+        <property>
+            <property-name>attachmentLinkStyleClass</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
+        <property>
+            <property-name>inlineLinkStyleClass</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
+    </component>
+
+   <!-- Seam transaction management -->
+   <lifecycle>
+      <phase-listener>org.jboss.seam.jsf.TransactionalSeamPhaseListener</phase-listener>
+   </lifecycle>
+
+</faces-config>

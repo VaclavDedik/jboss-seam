@@ -8,7 +8,7 @@
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
                 template="themes/#{globalPrefs.themeName}/template.xhtml">
 
-<ui:define name="pluginCSS">
+<ui:define name="pluginHeaders">
     <link href="#{themePath}/css/userControl.css" rel="stylesheet" type="text/css"/>
     <link href="#{themePath}/css/searchControl.css" rel="stylesheet" type="text/css"/>
     <link href="#{themePath}/css/mainMenu.css" rel="stylesheet" type="text/css"/>
@@ -68,13 +68,21 @@
     <h:dataTable id="directoryTable" var="node"
                  value="#{currentDirectory.children}"
                  rendered="#{!empty currentDirectory.children}"
-                 styleClass="directoryList"
-                 columnClasses="iconColumn,nameColumn,permissionsColumn,lastModifiedColumn"
+                 styleClass="datatable"
+                 headerClass="regularHeader"
+                 columnClasses="defaultColumn,tenPercentColumn,tenPercentColumn,twentyPercentColumn,twentyPercentColumn"
                  rowClasses="rowOdd,rowEven"
                  cellpadding="0" cellspacing="0" border="0">
 
 
         <h:column>
+            <f:facet name="header">
+                Name
+            </f:facet>
+
+            <h:panelGroup style="vertical-align:text-top;">
+
+
             <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/icon.dir.gif"
                             width="18" height="20"
                             rendered="#{wiki:isDirectory(node)}"/>
@@ -88,34 +96,67 @@
                             width="18" height="20"
                             rendered="#{wiki:isFile(node)}"/>
 
-        </h:column>
-
-        <h:column>
-            <s:div rendered="#{wiki:isDirectory(node)}">
+            <s:span rendered="#{wiki:isDirectory(node)}">
                 <s:link id="browseDirectory" value="#{node.name}" view="/dirDisplay.xhtml" tabindex="2">
                     <f:param name="nodeId" value="#{node.id}"/>
                 </s:link>
-            </s:div>
-            <s:div rendered="#{wiki:isDocument(node)}">
+            </s:span>
+
+            <s:span rendered="#{wiki:isDocument(node)}">
                 <h:outputLink value="#{wiki:renderURL(node)}" tabindex="2">#{node.name}</h:outputLink>
-            </s:div>
-            <s:div rendered="#{wiki:isFile(node)}">
+            </s:span>
+
+            <s:span rendered="#{wiki:isFile(node)}">
                 <s:link id="editFile" value="#{node.name}" action="editFile" tabindex="2">
                     <f:param name="fileId" value="#{node.id}"/>
                 </s:link>
                 &#160;
                 <h:outputText value="(#{node.filename}, #{node.humanReadableFilesize}, #{node.contentType})"/>
-            </s:div>
+            </s:span>
+
+            </h:panelGroup>
+            
         </h:column>
 
         <h:column>
-            johndoe aGroup rwxrwx---
+            <f:facet name="header">
+                Readable By
+            </f:facet>
+            Owner
         </h:column>
 
         <h:column>
+            <f:facet name="header">
+                Writable By
+            </f:facet>
+            All
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                Created On
+            </f:facet>
+            <h:outputText value="#{node.createdOn}">
+                <f:convertDateTime type="both"/>
+            </h:outputText>
+            (#{node.createdBy.username})
+        </h:column>
+
+        <h:column rendered="#{!empty node.lastModifiedOn and !empty node.lastModifiedBy}">
+            <f:facet name="header">
+                Last Modified On
+            </f:facet>
             <h:outputText value="#{node.lastModifiedOn}">
                 <f:convertDateTime type="both"/>
             </h:outputText>
+            (#{node.lastModifiedBy.username})
+        </h:column>
+
+        <h:column rendered="#{empty node.lastModifiedOn or empty node.lastModifiedBy}">
+            <f:facet name="header">
+                Last Modified On
+            </f:facet>
+            -
         </h:column>
 
     </h:dataTable>
