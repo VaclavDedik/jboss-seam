@@ -128,7 +128,7 @@ public abstract class Scanner
 
    private void handleArchive(File file) throws ZipException, IOException
    {
-      log.info("archive: " + file);
+      log.debug("archive: " + file);
       ZipFile zip = new ZipFile(file);
       Enumeration<? extends ZipEntry> entries = zip.entries();
       while ( entries.hasMoreElements() )
