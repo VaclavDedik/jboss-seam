@@ -22,7 +22,15 @@ public class ModelValidator implements Validator
       {
          throw new RuntimeException("component has no value attribute: " + component.getId());
       }
-      InvalidValue[] ivs = Expressions.instance().validate( valueBinding.getExpressionString(), value );
+      InvalidValue[] ivs;
+      try
+      {
+         ivs = Expressions.instance().validate( valueBinding.getExpressionString(), value );
+      }
+      catch (Exception e)
+      {
+         throw new ValidatorException( new FacesMessage(FacesMessage.SEVERITY_ERROR, "model validation failed", null) );
+      }
       if ( ivs.length>0 )
       {
          throw new ValidatorException( FacesMessages.createFacesMessage( FacesMessage.SEVERITY_WARN, ivs[0].getMessage() ) );

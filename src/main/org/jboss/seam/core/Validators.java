@@ -114,10 +114,10 @@ public class Validators
          componentName = propertyExpression.substring(2, bracket);
          propertyName = propertyExpression.substring( bracket+1, propertyExpression.length()-2 );
       }
-   
       String modelExpression = propertyExpression.substring(0, dot) + '}';
+      
       Object model = context.getApplication().createValueBinding(modelExpression).getValue(context);
-      ClassValidator validator = getValidator( model.getClass(), componentName );    
+      ClassValidator validator = getValidator( model.getClass(), componentName );
       return validator.getPotentialInvalidValues(propertyName, value);
    }
 

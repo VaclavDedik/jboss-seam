@@ -194,6 +194,10 @@ public class Expressions
     */
    private static ClassValidator getValidator(Object instance, String componentName)
    {
+      if (instance==null || componentName==null )
+      {
+         throw new IllegalArgumentException();
+      }
       Component component = Component.forName(componentName);
       return ( component==null ? Model.forClass( instance.getClass() ) : component ).getValidator();
    }
