@@ -423,7 +423,7 @@ public class Init
    
    public boolean hasHotDeployableComponents()
    {
-      return !hotDeployableComponents.isEmpty();
+      return hotDeployPaths!=null;
    }
 
    public File[] getHotDeployPaths()
