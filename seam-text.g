@@ -203,7 +203,7 @@ newline: n:NEWLINE { append( n.getText() ); }
 newlineOrEof: newline | EOF
     ;
 
-html: openTag (space)+ ( attribute (space)+ )* ( ( beforeBody body closeTagWithBody ) | closeTagWithNoBody ) 
+html: openTag ( space | space attribute )* ( ( beforeBody body closeTagWithBody ) | closeTagWithNoBody ) 
     ;
 
 body: (plain|formatted|preformatted|quoted|html|(list newline)|newline)*
