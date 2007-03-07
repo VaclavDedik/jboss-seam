@@ -26,7 +26,7 @@ public @interface Converter
    String id() default "";
    /**
     * If specified, register this component as the default
-    * validator for a type.
+    * converter for a type.
     */
    Class forClass() default void.class;
 }
