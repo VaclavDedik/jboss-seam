@@ -10,11 +10,12 @@
 	<property name="dist.dir" value="dist" />
 	<property name="src.model.dir" value="src/model" />
 	<property name="src.action.dir" value="src/action" />
-	<property name="src.test.dir" value="test" />
+	<property name="src.test.dir" value="src/test" />
 	<property name="lib.dir" value="lib" />
 	<property name="war.dir" value="exploded-archives/${project.name}.war" />
-	<property name="classes.dir" value="${war.dir}/WEB-INF/classes" />
-	<property name="test.dir" value="classes/test" />
+	<property name="classes.model.dir" value="${war.dir}/WEB-INF/classes" />
+	<property name="classes.action.dir" value="${war.dir}/WEB-INF/dev" />
+	<property name="test.dir" value="test-build" />
 	<property name="embedded-ejb3.dir" value="${basedir}/embedded-ejb/conf" />
 	<property name="deploy.dir" value="${jboss.home}/server/default/deploy" />
 	<property name="war.deploy.dir" value="${deploy.dir}/${project.name}.war" />
@@ -41,7 +42,7 @@
 			description="Compile the Java source code"
 		    unless="eclipse.running">
 		<javac classpathref="build.classpath" 
-			        destdir="${war.dir}/WEB-INF/classes" 
+			        destdir="${classes.model.dir}" 
 			          debug="${javac.debug}" 
 			    deprecation="${javac.deprecation}" 
 			        nowarn="on">
@@ -57,7 +58,7 @@
 			          debug="${javac.debug}" 
 			    deprecation="${javac.deprecation}" 
 			        nowarn="on">
-			<classpath path="${war.dir}/WEB-INF/classes"/>
+			<classpath path="${classes.action.dir}"/>
 			<src path="${src.action.dir}" />
 		</javac>
 	</target>
@@ -65,12 +66,12 @@
 	<target name="copyclasses" depends="init" 
 			description="Copy the classes that were compiled by eclipse"
 		    if="eclipse.running">
-		<copy todir="${war.dir}/WEB-INF/classes">
+		<copy todir="${classes.model.dir}">
 			<fileset dir="classes/model">
 				<include name="**/*.class"/>
 			</fileset>
 		</copy>
-		<copy todir="${war.dir}/WEB-INF/dev">
+		<copy todir="${classes.action.dir}">
 			<fileset dir="classes/action">
 				<include name="**/*.class"/>
 			</fileset>
@@ -231,7 +232,26 @@
         </javac>
 	</target>
 	
-	<target name="buildtest" depends="compiletest" description="Build the tests">
+	<target name="copytestclasses" if="eclipse.running" description="Copy classes compiled by eclipse to the test dir">
+        <mkdir dir="${test.dir}"/>
+		<copy todir="${test.dir}">
+			<fileset dir="classes/model">
+				<include name="**/*.class"/>
+			</fileset>
+		</copy>
+		<copy todir="${test.dir}">
+			<fileset dir="classes/action">
+				<include name="**/*.class"/>
+			</fileset>
+		</copy>
+		<copy todir="${test.dir}">
+			<fileset dir="classes/test">
+				<include name="**/*.class"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="buildtest" depends="compiletest,copytestclasses" description="Build the tests">
 		<copy todir="${test.dir}">
 			<fileset dir="${basedir}/resources">
 				<exclude name="META-INF/persistence*.xml"/>

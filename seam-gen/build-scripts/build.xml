@@ -8,14 +8,14 @@
 	<!-- set global properties for this build -->
 	<property name="project.name" value="@projectName@"/>
 	<property name="dist.dir" value="dist" />
-	<property name="src.action.dir" value="src/action" />
 	<property name="src.model.dir" value="src/model" />
-	<property name="src.test.dir" value="test" />
+	<property name="src.action.dir" value="src/action" />
+	<property name="src.test.dir" value="src/test" />
 	<property name="lib.dir" value="lib" />
 	<property name="ear.dir" value="exploded-archives/${project.name}.ear" />
 	<property name="jar.dir" value="exploded-archives/${project.name}.jar" />
 	<property name="war.dir" value="exploded-archives/${project.name}.war" />
-	<property name="test.dir" value="classes/test" />
+	<property name="test.dir" value="test-build" />
 	<property name="embedded-ejb3.dir" value="${basedir}/embedded-ejb/conf" />
 	<property name="deploy.dir" value="${jboss.home}/server/default/deploy" />
 	<property name="ear.deploy.dir" value="${deploy.dir}/${project.name}.ear" />
@@ -244,7 +244,26 @@
         </javac>
 	</target>
 	
-	<target name="buildtest" depends="compiletest" description="Build the tests">
+	<target name="copytestclasses" if="eclipse.running" description="Copy classes compiled by eclipse to the test dir">
+        <mkdir dir="${test.dir}"/>
+		<copy todir="${test.dir}">
+			<fileset dir="classes/model">
+				<include name="**/*.class"/>
+			</fileset>
+		</copy>
+		<copy todir="${test.dir}">
+			<fileset dir="classes/action">
+				<include name="**/*.class"/>
+			</fileset>
+		</copy>
+		<copy todir="${test.dir}">
+			<fileset dir="classes/test">
+				<include name="**/*.class"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="buildtest" depends="compiletest,copytestclasses" description="Build the tests">
 		<copy todir="${test.dir}">
 			<fileset dir="${basedir}/resources">
 				<exclude name="META-INF/persistence*.xml"/>

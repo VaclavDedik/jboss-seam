@@ -35,7 +35,7 @@
     
     <packageDirectory property="action.dir" package="action/${action.package}"/>
     <packageDirectory property="model.dir" package="model/${model.package}"/>
-    <packageDirectory property="test.dir" package="${test.package}"/>
+    <packageDirectory property="test.dir" package="test/${test.package}"/>
 	<pathFilename property="driver.file" path="${driver.jar}"/>
 	
     <condition property="hibernate.hbm2ddl.auto" value="update">
@@ -396,8 +396,8 @@
         <property name="bean.file" value="${project.home}/src/${action.dir}/${bean.name}.java"/>
         <property name="interface.file" value="${project.home}/src/${action.dir}/${interface.name}.java"/>
         <property name="page.file" value="${project.home}/view/${page.name}.xhtml"/>
-        <property name="test.file" value="${project.home}/test/${test.dir}/${interface.name}Test.java"/>
-        <property name="testng.file" value="${project.home}/test/${test.dir}/${interface.name}Test.xml"/>
+        <property name="test.file" value="${project.home}/src/${test.dir}/${interface.name}Test.java"/>
+        <property name="testng.file" value="${project.home}/src/${test.dir}/${interface.name}Test.xml"/>
 
     </target>
     
@@ -608,8 +608,9 @@
             <filterset refid="project"/>
         </copy>
                         
-        <mkdir dir="${project.home}/src"/>
-    	<mkdir dir="${project.home}/test"/>
+        <mkdir dir="${project.home}/src/model"/>
+    	<mkdir dir="${project.home}/src/action"/>
+    	<mkdir dir="${project.home}/src/test"/>
 
         <mkdir dir="${project.home}/nbproject"/>
         <copy todir="${project.home}/nbproject">

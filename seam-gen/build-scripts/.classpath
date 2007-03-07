@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src/model" output="classes/model"/>
 	<classpathentry kind="src" path="src/action" output="classes/action"/>
-    <classpathentry kind="src" path="test"/>
+    <classpathentry kind="src" path="src/test" output="classes/test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="embedded-ejb/conf"/>
 	<classpathentry kind="lib" path="lib/hibernate-all.jar"/>
