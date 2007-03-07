@@ -33,8 +33,8 @@
     <!-- Give user a chance to override without editing this file or typing -D -->
     <property file="${basedir}/build.properties" />
     
-    <packageDirectory property="action.dir" package="${action.package}"/>
-    <packageDirectory property="model.dir" package="${model.package}"/>
+    <packageDirectory property="action.dir" package="action/${action.package}"/>
+    <packageDirectory property="model.dir" package="model/${model.package}"/>
     <packageDirectory property="test.dir" package="${test.package}"/>
 	<pathFilename property="driver.file" path="${driver.jar}"/>
 	
@@ -809,7 +809,7 @@
         	<property key="hibernatetool.util.toolclass" 
         		    value="org.jboss.seam.tool.Util"/>
         	
-            <hbm2java jdk5="true" ejb3="true" destdir="${project.home}/src"/> 
+            <hbm2java jdk5="true" ejb3="true" destdir="${project.home}/src/model"/> 
         	<hbmtemplate filepattern="{class-name}List.xhtml"
         	                template="view/list.xhtml.ftl" 
         		             destdir="${project.home}/view"
@@ -832,7 +832,7 @@
                              foreach="entity"/>
         	<hbmtemplate filepattern="{package-name}/{class-name}List.java"
         	                template="src/EntityList.java.ftl" 
-        		             destdir="${project.home}/src"
+        		             destdir="${project.home}/src/action"
                              foreach="entity"/>
         	<hbmtemplate filepattern="{class-name}List.page.xml"
         	                template="view/list.page.xml.ftl" 
@@ -840,7 +840,7 @@
                              foreach="entity"/>
         	<hbmtemplate filepattern="{package-name}/{class-name}Home.java"
         	                template="src/EntityHome.java.ftl" 
-        		             destdir="${project.home}/src"
+        		             destdir="${project.home}/src/action"
                              foreach="entity"/>
         	<hbmtemplate filepattern="menu.xhtml"
         	                template="view/layout/menu.xhtml.ftl" 

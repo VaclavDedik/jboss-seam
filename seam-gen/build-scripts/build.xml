@@ -8,13 +8,14 @@
 	<!-- set global properties for this build -->
 	<property name="project.name" value="@projectName@"/>
 	<property name="dist.dir" value="dist" />
-	<property name="src.java.dir" value="src" />
+	<property name="src.action.dir" value="src/action" />
+	<property name="src.model.dir" value="src/model" />
 	<property name="src.test.dir" value="test" />
 	<property name="lib.dir" value="lib" />
 	<property name="ear.dir" value="exploded-archives/${project.name}.ear" />
 	<property name="jar.dir" value="exploded-archives/${project.name}.jar" />
 	<property name="war.dir" value="exploded-archives/${project.name}.war" />
-	<property name="test.dir" value="test-build" />
+	<property name="test.dir" value="classes/test" />
 	<property name="embedded-ejb3.dir" value="${basedir}/embedded-ejb/conf" />
 	<property name="deploy.dir" value="${jboss.home}/server/default/deploy" />
 	<property name="ear.deploy.dir" value="${deploy.dir}/${project.name}.ear" />
@@ -48,7 +49,8 @@
 			          debug="${javac.debug}" 
 			    deprecation="${javac.deprecation}" 
 			        nowarn="on">
-			<src path="${src.java.dir}" />
+			<src path="${src.model.dir}" />
+			<src path="${src.action.dir}" />
 		</javac>
 	</target>
 
@@ -56,7 +58,10 @@
 			description="Copy the classes that were compiled by eclipse"
 		    if="eclipse.running">
 		<copy todir="${jar.dir}">
-			<fileset dir="${test.dir}">
+			<fileset dir="classes/model">
+				<include name="**/*.class"/>
+			</fileset>
+			<fileset dir="classes/action">
 				<include name="**/*.class"/>
 			</fileset>
 		</copy>
@@ -233,7 +238,8 @@
                           debug="${javac.debug}"
                     deprecation="${javac.deprecation}"
                         nowarn="on">
-                <src path="${src.java.dir}" />
+                <src path="${src.action.dir}" />
+                <src path="${src.model.dir}" />
                 <src path="${src.test.dir}" />
         </javac>
 	</target>

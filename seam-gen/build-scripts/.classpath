@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="src/model" output="classes/model"/>
+	<classpathentry kind="src" path="src/action" output="classes/action"/>
     <classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="embedded-ejb/conf"/>
@@ -30,5 +31,5 @@
 	<classpathentry kind="lib" path="lib/el-api.jar"/>
 	<classpathentry kind="lib" path="lib/el-ri.jar"/>
 	<classpathentry kind="lib" path="lib/@driverJar@"/>
-	<classpathentry kind="output" path="test-build"/>
+	<classpathentry kind="output" path="classes/test"/>
 </classpath>

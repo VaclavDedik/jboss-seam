@@ -8,12 +8,13 @@
 	<!-- set global properties for this build -->
 	<property name="project.name" value="@projectName@"/>
 	<property name="dist.dir" value="dist" />
-	<property name="src.java.dir" value="src" />
+	<property name="src.model.dir" value="src/model" />
+	<property name="src.action.dir" value="src/action" />
 	<property name="src.test.dir" value="test" />
 	<property name="lib.dir" value="lib" />
 	<property name="war.dir" value="exploded-archives/${project.name}.war" />
 	<property name="classes.dir" value="${war.dir}/WEB-INF/classes" />
-	<property name="test.dir" value="test-build" />
+	<property name="test.dir" value="classes/test" />
 	<property name="embedded-ejb3.dir" value="${basedir}/embedded-ejb/conf" />
 	<property name="deploy.dir" value="${jboss.home}/server/default/deploy" />
 	<property name="war.deploy.dir" value="${deploy.dir}/${project.name}.war" />
@@ -32,10 +33,11 @@
 
 	<target name="init" description="Initialize the build">
 		<mkdir dir="${war.dir}/WEB-INF/classes" />
+		<mkdir dir="${war.dir}/WEB-INF/dev" />
 		<mkdir dir="${dist.dir}" />
 	</target>
 
-	<target name="compile" depends="init" 
+	<target name="compilemodel" depends="init" 
 			description="Compile the Java source code"
 		    unless="eclipse.running">
 		<javac classpathref="build.classpath" 
@@ -43,7 +45,20 @@
 			          debug="${javac.debug}" 
 			    deprecation="${javac.deprecation}" 
 			        nowarn="on">
-			<src path="${src.java.dir}" />
+			<src path="${src.model.dir}" />
+		</javac>
+	</target>
+
+	<target name="compileactions" depends="init" 
+			description="Compile the Java source code"
+		    unless="eclipse.running">
+		<javac classpathref="build.classpath" 
+			        destdir="${war.dir}/WEB-INF/dev" 
+			          debug="${javac.debug}" 
+			    deprecation="${javac.deprecation}" 
+			        nowarn="on">
+			<classpath path="${war.dir}/WEB-INF/classes"/>
+			<src path="${src.action.dir}" />
 		</javac>
 	</target>
 
@@ -51,13 +66,18 @@
 			description="Copy the classes that were compiled by eclipse"
 		    if="eclipse.running">
 		<copy todir="${war.dir}/WEB-INF/classes">
-			<fileset dir="${test.dir}">
+			<fileset dir="classes/model">
+				<include name="**/*.class"/>
+			</fileset>
+		</copy>
+		<copy todir="${war.dir}/WEB-INF/dev">
+			<fileset dir="classes/action">
 				<include name="**/*.class"/>
 			</fileset>
 		</copy>
 	</target>
 
-	<target name="war" depends="compile,copyclasses" 
+	<target name="war" depends="compilemodel,compileactions,copyclasses" 
 			description="Build the distribution .war file">
 
 		<copy todir="${war.dir}/WEB-INF/classes">
@@ -205,7 +225,8 @@
                           debug="${javac.debug}"
                     deprecation="${javac.deprecation}"
                         nowarn="on">
-                <src path="${src.java.dir}" />
+                <src path="${src.action.dir}" />
+                <src path="${src.model.dir}" />
                 <src path="${src.test.dir}" />
         </javac>
 	</target>
