@@ -38,11 +38,7 @@ public class UIPage
         super.encodeBegin(context);
         Document document = findDocument();
         if (document != null) {
-            try {
-                document.newPage();
-            } catch (DocumentException e) {
-                throw new RuntimeException(e);
-            }
+            document.newPage();
         } else {
             throw new IllegalArgumentException("Cannot find parent document");
         }

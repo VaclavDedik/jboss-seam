@@ -7,9 +7,12 @@ import javax.faces.el.ValueBinding;
 
 import java.io.*;
 import java.util.List;
+
+import org.jboss.seam.pdf.EntitiesToEncode;
 import org.jboss.seam.ui.JSF;
 
 import com.lowagie.text.*;
+//import com.lowagie.text.xml.simpleparser.EntitiesToUnicode;
 
 public abstract class ITextComponent
     extends UIComponentBase
@@ -223,19 +226,10 @@ public abstract class ITextComponent
      * sufficient.
      */
     private String replaceEntities(String text) {
-        StringBuffer buffer = new StringBuffer(text);
-
-        replaceAll(buffer, "&quot;", "\"");
-        // XXX - etc....
-
-        return buffer.toString();
-    }
-
-    private void replaceAll(StringBuffer buffer, String original, String changeTo) {
-        int pos;
-        while ((pos = buffer.indexOf(original)) != -1) {
-            buffer.replace(pos,pos+original.length(), changeTo);
-        }
+        System.out.println("PRE:" + text);
+        String result = EntitiesToEncode.decodeString(text);
+        System.out.println("POST: " + result);
+        return result;
     }
 
 
