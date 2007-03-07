@@ -536,23 +536,27 @@ public class Initialization
       ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
       try
       {
-         String webxmlPath = contextClassLoader.getResource("META-INF/debug.xhtml").toExternalForm();
-         String hotDeployDirectory = webxmlPath.substring( 9, webxmlPath.length()-46 ) + "dev";
-         File directory = new File(hotDeployDirectory);
-         if ( directory.exists() )
+         URL resource = contextClassLoader.getResource("META-INF/debug.xhtml");
+         if (resource!=null)
          {
-            URL url = directory.toURL();
-            /*File[] jars = directory.listFiles( new FilenameFilter() { 
-                  public boolean accept(File file, String name) { return name.endsWith(".jar"); } 
-            } );
-            URL[] urls = new URL[jars.length];
-            for (int i=0; i<jars.length; i++)
+            String path = resource.toExternalForm();
+            String hotDeployDirectory = path.substring( 9, path.length()-46 ) + "dev";
+            File directory = new File(hotDeployDirectory);
+            if ( directory.exists() )
             {
-               urls[i] = jars[i].toURL();
-            }*/
-            URL[] urls = {url};
-            hotDeployClassLoader = new URLClassLoader(urls, contextClassLoader);
-            hotDeployPaths = new File[] {directory};
+               URL url = directory.toURL();
+               /*File[] jars = directory.listFiles( new FilenameFilter() { 
+                     public boolean accept(File file, String name) { return name.endsWith(".jar"); } 
+               } );
+               URL[] urls = new URL[jars.length];
+               for (int i=0; i<jars.length; i++)
+               {
+                  urls[i] = jars[i].toURL();
+               }*/
+               URL[] urls = {url};
+               hotDeployClassLoader = new URLClassLoader(urls, contextClassLoader);
+               hotDeployPaths = new File[] {directory};
+            }
          }
       }
       catch (MalformedURLException mue)
