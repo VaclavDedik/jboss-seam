@@ -72,7 +72,7 @@ public class Initialization
    private Map<String, Conversions.PropertyValue> properties = new HashMap<String, Conversions.PropertyValue>();
    private Map<String, SortedSet<ComponentDescriptor>> componentDescriptors = new HashMap<String, SortedSet<ComponentDescriptor>>();
    private List<FactoryDescriptor> factoryDescriptors = new ArrayList<FactoryDescriptor>();
-   private Set<Class> installedComponents = new HashSet<Class>();
+   private Set<Class> installedComponentClasses = new HashSet<Class>();
    private Set<String> importedPackages = new HashSet<String>();
    private Map<String, NamespaceDescriptor> namespaceMap = new HashMap<String, NamespaceDescriptor>();
    private final Map<String, EventListenerDescriptor> eventListenerDescriptors = new HashMap<String, EventListenerDescriptor>();
@@ -357,7 +357,7 @@ public class Initialization
 
          ComponentDescriptor descriptor = new ComponentDescriptor(name, clazz, scope, autoCreate, jndiName, installed, precedence);
          addComponentDescriptor(descriptor);
-         installedComponents.add(clazz);
+         installedComponentClasses.add(clazz);
       }
       else if (name == null)
       {
@@ -795,7 +795,7 @@ public class Initialization
             for (ComponentDescriptor componentDescriptor: descriptors)
             {
                String compName = componentDescriptor.getName() + COMPONENT_SUFFIX;
-               if ( !context.isSet(compName) && dependenciesMet(context, componentDescriptor) )
+               if ( !context.isSet(compName) && dependenciesMet(componentDescriptor) )
                {
                   addComponent(componentDescriptor, context);
                   
@@ -851,7 +851,7 @@ public class Initialization
       }
    }
 
-   protected boolean dependenciesMet(Context context, ComponentDescriptor descriptor)
+   protected boolean dependenciesMet(ComponentDescriptor descriptor)
    {
       if ( !descriptor.isInstalled() ) return false;
       
@@ -860,7 +860,7 @@ public class Initialization
       {
          for (String dependency: dependencies)
          {
-            if ( !context.isSet(dependency + COMPONENT_SUFFIX) )
+            if ( !componentDescriptors.containsKey(dependency) ) //TODO: call && descriptor.isInstalled() recursively
             {
                return false;
             }
@@ -871,7 +871,7 @@ public class Initialization
       {
          for (Class genericDependency: genericDependencies)
          {
-            if ( !installedComponents.contains(genericDependency) )
+            if ( !installedComponentClasses.contains(genericDependency) )
             {
                return false;
             }
