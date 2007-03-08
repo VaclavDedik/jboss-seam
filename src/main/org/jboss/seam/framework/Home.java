@@ -37,19 +37,19 @@ public abstract class Home<T, E> extends MutableController<T>
    
    protected void updatedMessage()
    {
-      debug("updated entity #0 #1", entityClass.getName(), id);
+      debug("updated entity #0 #1", entityClass.getName(), getId());
       getFacesMessages().addFromResourceBundleOrDefault( SEVERITY_INFO, getUpdatedMessageKey(), getUpdatedMessage() );
    }
    
    protected void deletedMessage()
    {
-      debug("deleted entity #0 #1", entityClass.getName(), id);
+      debug("deleted entity #0 #1", entityClass.getName(), getId());
       getFacesMessages().addFromResourceBundleOrDefault( SEVERITY_INFO, getDeletedMessageKey(), getDeletedMessage() );
    }
    
    protected void createdMessage()
    {
-      debug("created entity #0 #1", entityClass.getName(), id);
+      debug("created entity #0 #1", entityClass.getName(), getId());
       getFacesMessages().addFromResourceBundleOrDefault( SEVERITY_INFO, getCreatedMessageKey(), getCreatedMessage() );
    }
 
