@@ -1,13 +1,12 @@
-/**
- *
- */
 package org.jboss.seam.core;
+
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
+
 /**
  * Metadata about an active conversation. Also used
  * by the conversation list and breadcrumbs.
@@ -33,11 +32,13 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    private ConversationEntries entries;
    
    private ReentrantLock lock;
+   
    public ConversationEntry(String id, List<String> stack, ConversationEntries entries)
    {
       this.id = id;
-      this.conversationIdStack = stack==null ? 
-            null : Collections.unmodifiableList(stack);
+      if (stack==null || id==null) throw new IllegalArgumentException();
+      this.conversationIdStack = /*stack==null ? 
+            Collections.EMPTY_LIST :*/ Collections.unmodifiableList(stack);
       this.startDatetime = new Date();
       this.entries = entries;
       
@@ -53,38 +54,46 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
       }
       touch();
    }
+   
    public String getDescription() 
    {
       return description;
    }
+   
    void setDescription(String description) 
    {
       entries.setDirty(this.description, description);
       this.description = description;
    }
+   
    public synchronized long getLastRequestTime() 
    {
       return lastRequestTime;
    }
+   
    synchronized void touch() 
    {
       entries.setDirty();
       lastRequestTime = System.currentTimeMillis();
       lastDatetime = new Date();
    }
+   
    public String getId() 
    {
       return id;
    }
+   
    public Date getStartDatetime() 
    {
       return startDatetime;
    }
+   
    public void destroy() 
    {
       boolean success = Manager.instance().switchConversation( getId() );
       if (success) Manager.instance().endConversation(false);
    }
+   
    public void select() 
    {
       switchConversation();
@@ -111,23 +120,28 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
          return false;
       }
    }
+   
    void setViewId(String viewId) 
    {
       entries.setDirty(this.viewId, viewId);
       this.viewId = viewId;
    }
+   
    public String getViewId()
    {
       return viewId;
    }
+   
    public synchronized Date getLastDatetime() 
    {
       return lastDatetime;
    }
+   
    public List<String> getConversationIdStack() 
    {
       return conversationIdStack;
    }
+   
    /**
     * @deprecated
     * @return a component name
@@ -136,6 +150,7 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    {
       return initiatorComponentName;
    }
+   
    /**
     * @deprecated
     */
@@ -143,6 +158,7 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
       entries.setDirty(this.initiatorComponentName, ownerComponentName);
       this.initiatorComponentName = ownerComponentName;
    }
+   
    public boolean isDisplayable() 
    {
       return !isEnded() && getDescription()!=null;
@@ -164,25 +180,30 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
          return false;
       }
    }
+   
    public int compareTo(ConversationEntry entry) 
    {
       int result = new Long ( getLastRequestTime() ).compareTo( entry.getLastRequestTime() );
       return - ( result==0 ? getId().compareTo( entry.getId() ) : result );
    }
+   
    public int getTimeout() 
    {
       return timeout==null ?
             Manager.instance().getConversationTimeout() : timeout;
    }
+   
    void setTimeout(int conversationTimeout) 
    {
       entries.setDirty(this.timeout, timeout);
       this.timeout = conversationTimeout;
    }
+   
    public boolean isRemoveAfterRedirect() 
    {
       return removeAfterRedirect;
    }
+   
    public void setRemoveAfterRedirect(boolean removeAfterRedirect) 
    {
       entries.setDirty();
@@ -198,6 +219,7 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    {
       return lock.tryLock();
    }
+   
    public boolean lock() //not synchronized!
    {
       try
