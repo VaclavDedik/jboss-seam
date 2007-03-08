@@ -318,7 +318,22 @@ public class Pages
             try
             {
                URL serverUrl = new URL(requestUrl);
-               url = scheme + "://" + serverUrl.getHost() + ':' + serverUrl.getPort() + '/' + url;
+               
+               StringBuilder sb = new StringBuilder();
+               sb.append(scheme);
+               sb.append("://");
+               sb.append(serverUrl.getHost());
+               if (serverUrl.getPort() != -1)
+               {
+                  sb.append(":");
+                  sb.append(serverUrl.getPort());
+               }
+               
+               if (!url.startsWith("/")) sb.append("/");
+               
+               sb.append(url);
+               
+               url = sb.toString();
             }
             catch (MalformedURLException ex) 
             {
