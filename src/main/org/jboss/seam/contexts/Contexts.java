@@ -18,7 +18,8 @@ import org.jboss.seam.core.Events;
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  * @version $Revision$
  */
-public class Contexts {
+public class Contexts 
+{
 
    private static final LogProvider log = Logging.getLogProvider(Contexts.class);
 
@@ -155,7 +156,7 @@ public class Contexts {
          }
       }
       
-      if (isPageContextActive())
+      if ( isPageContextActive() && Lifecycle.getPhaseId()!=null ) // phase id is null when third-party phase listeners try to do stuff
       {
          Object result = getPageContext().get(name);
          if (result!=null)
