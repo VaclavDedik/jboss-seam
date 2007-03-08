@@ -36,7 +36,7 @@
             <rule if-outcome="editDoc">
                 <begin-conversation flush-mode="MANUAL"/>
                 <redirect view-id="/docEdit.xhtml">
-                    <param name="docId"         value="#{currentDocument.id}"/>
+                    <param name="nodeId"        value="#{currentDocument.id}"/>
                     <param name="parentDirId"   value="#{currentDirectory.id}"/>
                 </redirect>
             </rule>
@@ -56,14 +56,14 @@
     </page>
 
     <page view-id="/docEdit.xhtml" login-required="true" no-conversation-view-id="/message.xhtml">
-        <description>Edit Document '#{currentDocument.name}'</description>
+        <description>Edit Document '#{currentNode.name}'</description>
 
         <restrict/>
 
         <navigation from-action="#{documentHome.remove}">
             <end-conversation/>
             <redirect view-id="/display.xhtml">
-                <param name="nodeId" value="#{currentDirectory.id}"/>
+                <param name="nodeId" value="#{documentHome.parentDirectory.id}"/>
             </redirect>
         </navigation>
 
@@ -71,7 +71,7 @@
             <rule if-outcome="uploadFile">
                 <begin-conversation nested="true" flush-mode="MANUAL"/>
                 <redirect view-id="/fileEdit.xhtml">
-                    <param name="parentDirId" value="#{currentDirectory.id}"/>
+                    <param name="parentDirId" value="#{documentHome.parentDirectory.id}"/>
                 </redirect>
             </rule>
         </navigation>
@@ -85,7 +85,7 @@
         <navigation>
             <rule if-outcome="rollback">
                 <redirect view-id="/docEdit.xhtml">
-                    <param name="docId"         value="#{currentNode.id}"/>
+                    <param name="nodeId"        value="#{currentNode.id}"/>
                     <param name="parentDirId"   value="#{currentNode.parent.id}"/>
                 </redirect>
             </rule>
@@ -109,7 +109,8 @@
             <rule if-outcome="editDir">
                 <begin-conversation flush-mode="MANUAL"/>
                 <redirect view-id="/dirEdit.xhtml">
-                    <param name="dirId" value="#{currentDirectory.id}"/>
+                    <param name="nodeId" value="#{currentDirectory.id}"/>
+                    <param name="parentDirId" value="#{currentDirectory.parent.id}"/>
                 </redirect>
             </rule>
             <rule if-outcome="createDoc">
@@ -127,7 +128,7 @@
             <rule if-outcome="editFile">
                 <begin-conversation flush-mode="MANUAL"/>
                 <redirect view-id="/fileEdit.xhtml">
-                    <param name="fileId" value="#{param.fileId}"/>
+                    <param name="nodeId" value="#{param.fileId}"/>
                     <param name="parentDirId" value="#{currentDirectory.id}"/>
                 </redirect>
             </rule>
@@ -137,20 +138,14 @@
     </page>
 
     <page view-id="/dirEdit.xhtml" login-required="true" no-conversation-view-id="/dirDisplay.xhtml">
-        <description>Edit Directory '#{directoryHome.instance.name}'</description>
+        <description>Edit Directory '#{currentNode.name}'</description>
         <restrict/>
 
         <navigation from-action="#{directoryHome.remove}">
-            <rule if="#{!empty directoryHome.parentDirectory}">
-                <end-conversation/>
-                <redirect view-id="/dirDisplay.xhtml">
-                    <param name="nodeId" value="#{directoryHome.parentDirectory.id}"/>
-                </redirect>
-            </rule>
             <rule>
                 <end-conversation/>
                 <redirect view-id="/dirDisplay.xhtml">
-                    <param name="nodeId" value="#{wikiRoot.id}"/>
+                    <param name="nodeId" value="#{directoryHome.parentDirectory.id}"/>
                 </redirect>
             </rule>
         </navigation>
@@ -158,23 +153,24 @@
     </page>
 
     <page view-id="/fileEdit.xhtml" login-required="false" no-conversation-view-id="/dirDisplay.xhtml">
-        <description>Edit File '#{fileHome.instance.name}'</description>
+        <description>Edit File '#{currentNode.name}'</description>
 
         <navigation from-action="#{fileHome.remove}">
             <rule>
                 <end-conversation/>
                 <redirect view-id="/dirDisplay.xhtml">
-                    <param name="nodeId" value="#{parentDirectory.id}"/>
+                    <param name="nodeId" value="#{fileHome.parentDirectory.id}"/>
                 </redirect>
             </rule>
         </navigation>
 
         <!-- TODO: bug in file upload rendering vs. redirect, http://jira.jboss.com/jira/browse/JBSEAM-948 -->
         <navigation from-action="#{fileHome.persist}">
+            <!-- TODO: If this is a nested conversation we really want to exit to the parent view after persist(),
+                 e.g. editDoc -> uploadFile -> editDoc instead of currently editDoc -> uploadFile -> dirDisplay -->
             <rule>
-                <end-conversation/>
                 <redirect view-id="/dirDisplay.xhtml">
-                    <param name="nodeId" value="#{parentDirectory.id}"/>
+                    <param name="nodeId" value="#{fileHome.parentDirectory.id}"/>
                 </redirect>
             </rule>
         </navigation>

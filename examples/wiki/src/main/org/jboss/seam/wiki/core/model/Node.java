@@ -129,6 +129,11 @@ public abstract class Node implements Serializable {
         return wikiname;
     }
 
+    public void setWikiname(String wikiname) {
+        this.wikiname = wikiname;
+        makeDirty();
+    }
+
     public boolean isMenuItem() {
         return menuItem;
     }

@@ -16,6 +16,9 @@ import java.util.Collection;
 @Name("wikiUtil")
 public class WikiUtil {
 
+    // Used against page names, simply remove everything that is not alphanumeric, should do for most strings
+    public static final String WIKINAME_REMOVECHARACTERS = "[^\\p{Alnum}]+";
+
     // Replacement for missing instaceOf in EL (can't use string comparison, might be proxy)
     public static boolean isDirectory(Node node) {
         return node != null && Directory.class.isAssignableFrom(node.getClass());
@@ -45,6 +48,10 @@ public class WikiUtil {
                 return contextPath + "/" + node.getArea().getWikiname();
             return contextPath + "/" + node.getArea().getWikiname()  + "/" + node.getWikiname();
         }
+    }
+
+    public static String convertToWikiName(String realName) {
+        return realName.replaceAll(WIKINAME_REMOVECHARACTERS, "");
     }
 
     /**

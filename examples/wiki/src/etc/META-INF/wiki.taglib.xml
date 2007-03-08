@@ -13,6 +13,12 @@
     </function>
 
     <function>
+        <function-name>convertToWikiName</function-name>
+        <function-class>org.jboss.seam.wiki.core.ui.WikiUtil</function-class>
+        <function-signature>java.lang.String convertToWikiName(java.lang.String)</function-signature>
+    </function>
+
+    <function>
         <function-name>isDocument</function-name>
         <function-class>org.jboss.seam.wiki.core.ui.WikiUtil</function-class>
         <function-signature>boolean isDocument(org.jboss.seam.wiki.core.model.Node)</function-signature>

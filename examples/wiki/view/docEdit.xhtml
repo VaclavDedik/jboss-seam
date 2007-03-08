@@ -56,11 +56,6 @@
 
                 <s:validateAll>
 
-                    <div class="entry">
-                        <div class="label">Directory:</div>
-                        <div class="output">#{currentDirectory.name}</div>
-                    </div>
-
                     <s:div styleClass="entry" rendered="#{documentHome.managed}">
                         <div class="label">Created On:</div>
                         <div class="output">
@@ -74,8 +69,8 @@
                     <s:div styleClass="entry">
                         <div class="label">Writable by:</div>
                         <div class="input">
-                            <h:selectOneMenu value="#{documentHome.writableByRole}" tabindex="1">
-                                <s:selectItems value="#{documentHome.roles}"
+                            <h:selectOneMenu value="#{nodePermissions.writableByRole}" tabindex="1">
+                                <s:selectItems value="#{roles}"
                                                var="role"
                                                label="Role: #{role.displayName} (Level: #{role.accessLevel})"
                                                noSelectionLabel="User: #{authenticatedUser.username}"/>
@@ -86,8 +81,8 @@
                     <s:div styleClass="entry">
                         <div class="label">Readable by:</div>
                         <div class="input">
-                            <h:selectOneMenu value="#{documentHome.readableByRole}" tabindex="2">
-                                <s:selectItems value="#{documentHome.roles}"
+                            <h:selectOneMenu value="#{nodePermissions.readableByRole}" tabindex="2">
+                                <s:selectItems value="#{roles}"
                                                var="role"
                                                label="Role: #{role.displayName} (Level: #{role.accessLevel})"
                                                noSelectionLabel="User: #{authenticatedUser.username}"/>
@@ -115,13 +110,13 @@
                         </div>
                     </s:decorate>
 
-                    <div class="entry">
+                    <s:div styleClass="entry" rendered="#{documentHome.managed}">
                         <div class="label">&#160;</div>
                         <div class="input">
                             <h:selectBooleanCheckbox value="#{documentHome.minorRevision}" tabindex="3"/>
                             Minor change, don't create a new revision
                         </div>
-                    </div>
+                    </s:div>
 
                 </s:validateAll>
 

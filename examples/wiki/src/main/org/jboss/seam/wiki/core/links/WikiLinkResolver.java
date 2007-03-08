@@ -25,9 +25,6 @@ public class WikiLinkResolver {
     // Known protocols are rendered as is
     public static final String KNOWN_PROTOCOLS = "(http://)|(https://)|(ftp://)|(mailto:)";
 
-    // Used against page names, simply remove everything that is not alphanumeric, should do for most strings
-    public static final String WIKINAME_REMOVECHARACTERS = "[^\\p{Alnum}]+";
-
     // Render these strings whenever [=>wiki://123] needs to be resolved but can't
     public static final String BROKENLINK_URL = "PageDoesNotExist";
     public static final String BROKENLINK_DESCRIPTION = "?BROKEN LINK?";
@@ -48,16 +45,10 @@ public class WikiLinkResolver {
     @In
     private NodeDAO nodeDAO;
 
-    @In(required = false)
-    private Document currentDocument;
+    // Only injected during rendering of a document, for updating of resolved links
+    @In(required = false) private Document currentDocument;
+    @In(required = false) private Directory currentDirectory;
 
-    @In(required = false)
-    private Directory currentDirectory;
-
-
-    public static String convertToWikiName(String realName) {
-        return realName.replaceAll(WIKINAME_REMOVECHARACTERS, "");
-    }
 
     public String convertToWikiLinks(Directory area, String wikiText) {
         if (wikiText == null) return null;
@@ -166,14 +157,14 @@ public class WikiLinkResolver {
             // Try to find the node in the referenced area
             String areaName = crossLinkMatcher.group(1);
             String nodeName = crossLinkMatcher.group(2);
-            Node crossLinkArea = nodeDAO.findArea(convertToWikiName(areaName));
+            Node crossLinkArea = nodeDAO.findArea(WikiUtil.convertToWikiName(areaName));
             if ( crossLinkArea != null && (nodeName == null || nodeName.length() == 0) )
                 return crossLinkArea; // Support [=>This is an Area Link|] syntax
             else if (crossLinkArea != null)
-                return nodeDAO.findNodeInArea(crossLinkArea.getAreaNumber(), convertToWikiName(nodeName));
+                return nodeDAO.findNodeInArea(crossLinkArea.getAreaNumber(), WikiUtil.convertToWikiName(nodeName));
         } else {
             // Try the current area
-            return nodeDAO.findNodeInArea(currentArea.getAreaNumber(), convertToWikiName(linkText));
+            return nodeDAO.findNodeInArea(currentArea.getAreaNumber(), WikiUtil.convertToWikiName(linkText));
         }
         return null;
     }

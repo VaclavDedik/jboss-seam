@@ -43,7 +43,7 @@
     <!-- Virtual root directory -->
     <h:panelGroup rendered="#{empty currentDirectory.parent}">
         <s:link id="createArea"   styleClass="linkNavigation" action="createDir" accesskey="N"><u>N</u>ew Area</s:link>
-        <s:link id="editArea"     styleClass="linkNavigation" action="editDir" accesskey="E"><u>E</u>dit Area</s:link>
+        <s:link id="editRoot"     styleClass="linkNavigation" action="editDir" accesskey="E"><u>E</u>dit Wiki Root</s:link>
     </h:panelGroup>
 
 </ui:define>
@@ -70,19 +70,11 @@
                  rendered="#{!empty currentDirectory.children}"
                  styleClass="datatable"
                  headerClass="regularHeader"
-                 columnClasses="defaultColumn,tenPercentColumn,tenPercentColumn,twentyPercentColumn,twentyPercentColumn"
+                 columnClasses="onePercentColumn,defaultColumn,tenPercentColumn,tenPercentColumn,twentyPercentColumn"
                  rowClasses="rowOdd,rowEven"
                  cellpadding="0" cellspacing="0" border="0">
 
-
         <h:column>
-            <f:facet name="header">
-                Name
-            </f:facet>
-
-            <h:panelGroup style="vertical-align:text-top;">
-
-
             <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/icon.dir.gif"
                             width="18" height="20"
                             rendered="#{wiki:isDirectory(node)}"/>
@@ -95,6 +87,12 @@
             <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/#{fileMetaMap[node.contentType].displayIcon}"
                             width="18" height="20"
                             rendered="#{wiki:isFile(node)}"/>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                Name
+            </f:facet>
 
             <s:span rendered="#{wiki:isDirectory(node)}">
                 <s:link id="browseDirectory" value="#{node.name}" view="/dirDisplay.xhtml" tabindex="2">
@@ -113,33 +111,21 @@
                 &#160;
                 <h:outputText value="(#{node.filename}, #{node.humanReadableFilesize}, #{node.contentType})"/>
             </s:span>
-
-            </h:panelGroup>
             
         </h:column>
 
         <h:column>
             <f:facet name="header">
-                Readable By
+                Read Access Level
             </f:facet>
-            Owner
+            #{roleMap[node.readAccessLevel].displayName} (Level: #{roleMap[node.readAccessLevel].accessLevel})
         </h:column>
 
         <h:column>
             <f:facet name="header">
-                Writable By
+                Write Access Level
             </f:facet>
-            All
-        </h:column>
-
-        <h:column>
-            <f:facet name="header">
-                Created On
-            </f:facet>
-            <h:outputText value="#{node.createdOn}">
-                <f:convertDateTime type="both"/>
-            </h:outputText>
-            (#{node.createdBy.username})
+            #{roleMap[node.writeAccessLevel].displayName} (Level: #{roleMap[node.writeAccessLevel].accessLevel})
         </h:column>
 
         <h:column rendered="#{!empty node.lastModifiedOn and !empty node.lastModifiedBy}">

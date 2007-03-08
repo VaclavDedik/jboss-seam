@@ -54,17 +54,20 @@
 
     <s:validateAll>
 
-        <s:div styleClass="entry" rendered="#{directoryHome.managed and !empty directoryHome.instance.parent}">
+        <s:div styleClass="entry" rendered="#{!empty directoryHome.parentDirectory}">
             <div class="label">Parent:</div>
             <div class="output">
-                <h:outputText value="#{directoryHome.instance.parent.name}"/>
+                <h:outputText value="#{directoryHome.parentDirectory}"/>
             </div>
         </s:div>
 
-        <s:div styleClass="entry" rendered="#{!directoryHome.managed}">
-            <div class="label">Parent:</div>
+        <s:div styleClass="entry" rendered="#{directoryHome.managed}">
+            <div class="label">Created On:</div>
             <div class="output">
-                <h:outputText value="#{directoryHome.parentDirectory.name}"/>
+                <h:outputText value="#{directoryHome.instance.createdOn}">
+                    <f:convertDateTime type="both"/>
+                </h:outputText>
+                (#{directoryHome.instance.createdBy.username})
             </div>
         </s:div>
 
@@ -77,6 +80,31 @@
                 </div>
             </div>
         </s:decorate>
+
+
+        <s:div styleClass="entry">
+            <div class="label">Writable by:</div>
+            <div class="input">
+                <h:selectOneMenu value="#{nodePermissions.writableByRole}" tabindex="1">
+                    <s:selectItems value="#{roles}"
+                                   var="role"
+                                   label="Role: #{role.displayName} (Level: #{role.accessLevel})"
+                                   noSelectionLabel="User: #{authenticatedUser.username}"/>
+                </h:selectOneMenu>
+            </div>
+        </s:div>
+
+        <s:div styleClass="entry">
+            <div class="label">Readable by:</div>
+            <div class="input">
+                <h:selectOneMenu value="#{nodePermissions.readableByRole}" tabindex="2">
+                    <s:selectItems value="#{roles}"
+                                   var="role"
+                                   label="Role: #{role.displayName} (Level: #{role.accessLevel})"
+                                   noSelectionLabel="User: #{authenticatedUser.username}"/>
+                </h:selectOneMenu>
+            </div>
+        </s:div>
 
     </s:validateAll>
 

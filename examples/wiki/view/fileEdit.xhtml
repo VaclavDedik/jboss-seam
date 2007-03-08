@@ -52,11 +52,6 @@
 
                 <s:validateAll>
 
-                    <div class="entry">
-                        <div class="label">Directory:</div>
-                        <div class="output">#{currentDirectory.name}</div>
-                    </div>
-
                     <s:decorate>
                         <div class="entry">
                             <div class="label">Name:</div>
@@ -66,6 +61,30 @@
                             </div>
                         </div>
                     </s:decorate>
+
+                    <s:div styleClass="entry">
+                        <div class="label">Writable by:</div>
+                        <div class="input">
+                            <h:selectOneMenu value="#{nodePermissions.writableByRole}" tabindex="1">
+                                <s:selectItems value="#{roles}"
+                                               var="role"
+                                               label="Role: #{role.displayName} (Level: #{role.accessLevel})"
+                                               noSelectionLabel="User: #{authenticatedUser.username}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </s:div>
+
+                    <s:div styleClass="entry">
+                        <div class="label">Readable by:</div>
+                        <div class="input">
+                            <h:selectOneMenu value="#{nodePermissions.readableByRole}" tabindex="2">
+                                <s:selectItems value="#{roles}"
+                                               var="role"
+                                               label="Role: #{role.displayName} (Level: #{role.accessLevel})"
+                                               noSelectionLabel="User: #{authenticatedUser.username}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </s:div>
 
                     <s:div id="details" rendered="#{fileHome.managed}">
 
