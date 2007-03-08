@@ -28,7 +28,8 @@
         
     </page>
     
-    <page view-id="/password.xhtml">
+    <page view-id="/password.xhtml" 
+          login-required="true">
     
         <navigation>
             <rule if="#{changePassword.changed}">
