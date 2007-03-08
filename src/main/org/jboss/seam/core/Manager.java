@@ -90,7 +90,7 @@ public class Manager
    }
    
    /**
-    * Must not be called from a long-running conversation!
+    * Change the id of the current conversation.
     * 
     * @param id the new conversation id
     */
@@ -98,11 +98,11 @@ public class Manager
    {
       if ( ConversationEntries.instance().getConversationIds().contains(id) )
       {
-         throw new IllegalStateException("Cannot update conversation id of long-running conversation");
+         throw new IllegalStateException("Conversation id is already in use");
       }
       
-      //this stuff is not really necessary, because probably 
-      //nothing has been flushed to the session yet!
+      ConversationEntry ce = ConversationEntries.instance().removeConversationEntry(currentConversationId);
+      
       String[] names = Contexts.getConversationContext().getNames();
       Object[] values = new Object[names.length];
       for (int i=0; i<names.length; i++)
@@ -115,8 +115,11 @@ public class Manager
       currentConversationIdStack.set(0, id);
       setCurrentConversationId(id);
       
-      //this stuff is not really necessary, because probably 
-      //nothing has been flushed to the session yet!
+      if (ce!=null)
+      {
+         ce = createConversationEntry();
+      }
+      
       for (int i=0; i<names.length; i++)
       {
          Contexts.getConversationContext().set(names[i], values[i]);
