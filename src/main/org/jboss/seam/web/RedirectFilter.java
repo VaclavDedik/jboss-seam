@@ -61,7 +61,7 @@ public class RedirectFilter extends AbstractFilter
                   {
                      url = Pages.instance().encodePageParameters( FacesContext.getCurrentInstance(), url, viewId );
                   }
-                  url = Manager.instance().appendConversationIdFromRedirectFilter(url);
+                  url = Manager.instance().appendConversationIdFromRedirectFilter(url, viewId);
                }
             }
             super.sendRedirect(url);

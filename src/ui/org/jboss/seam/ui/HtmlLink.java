@@ -1,12 +1,10 @@
 package org.jboss.seam.ui;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
 import javax.faces.component.ActionSource;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIData;
@@ -18,14 +16,12 @@ import javax.faces.el.MethodBinding;
 import javax.faces.el.ValueBinding;
 import javax.faces.event.ActionListener;
 import javax.faces.model.DataModel;
-
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Pages;
-
+import org.jboss.seam.pages.Page;
 public class HtmlLink extends HtmlOutputLink implements ActionSource
 {
    public static final String COMPONENT_TYPE = "org.jboss.seam.ui.HtmlLink";
-
    private String view;
    private MethodBinding action;
    private String pageflow;
@@ -33,7 +29,6 @@ public class HtmlLink extends HtmlOutputLink implements ActionSource
    private String fragment;
    private boolean disabled;
    private String outcome;
-
    private UISelection getSelection()
    {
       UIData parentUIData = getParentUIData();
@@ -75,7 +70,6 @@ public class HtmlLink extends HtmlOutputLink implements ActionSource
       }
       return null;
    }
-
    @Override
    public void encodeBegin(FacesContext context) throws IOException
    {
@@ -84,7 +78,6 @@ public class HtmlLink extends HtmlOutputLink implements ActionSource
       ResponseWriter writer = context.getResponseWriter();
       writer.startElement("a", this);
       writer.writeAttribute("id", getClientId(context), "id");
-
       String viewId;
       ValueBinding viewBinding = getValueBinding("view");
       if (viewBinding!=null)
@@ -108,6 +101,9 @@ public class HtmlLink extends HtmlOutputLink implements ActionSource
       boolean first = true;
       Set<String> usedParameters = new HashSet<String>();
       
+      boolean conversationIdEncoded = false;
+      Page page = Pages.instance().getPage(viewId);
+      
       for (Object child: getChildren())
       {
          if (child instanceof UIParameter)
@@ -117,11 +113,16 @@ public class HtmlLink extends HtmlOutputLink implements ActionSource
             {
                encodedUrl += getParameterString(characterEncoding, uip, first);
                first = false;
+               
+               if (uip.getName().equals(page.getConversationIdParameter().getParameterName()))
+               {
+                  conversationIdEncoded = true;
+               }
             }
             usedParameters.add( uip.getName() );
          }
       }
-      
+     
       if (viewId!=null)
       {
          Map<String, Object> pageParameters = Pages.instance().getConvertedParameters(context, viewId, usedParameters);
@@ -132,9 +133,14 @@ public class HtmlLink extends HtmlOutputLink implements ActionSource
             uip.setValue( me.getValue() );
             encodedUrl += getParameterString(characterEncoding, uip, first);
             first = false;
+           
+            if (!conversationIdEncoded && me.getKey().equals(page.getConversationIdParameter().getParameterName()))
+            {
+               conversationIdEncoded = true;
+            }
          }
       }
-      
+     
       if ( action!=null || outcome!=null )
       {
          UIAction uiAction = new UIAction();
@@ -143,18 +149,23 @@ public class HtmlLink extends HtmlOutputLink implements ActionSource
          first = false;
       }
       
-      if ( "default".equals(propagation) || "join".equals(propagation) || "nest".equals(propagation) || "end".equals(propagation) )
+      if (( "default".equals(propagation) || "join".equals(propagation) || 
+            "nest".equals(propagation) || "end".equals(propagation) ) )
       {
          //always add the id, since conversations could begin after link is rendered
-         encodedUrl += getParameterString(characterEncoding, new UIConversationId(), first);
-         first = false;
+         if ( !conversationIdEncoded )
+         {
+            encodedUrl += getParameterString(characterEncoding, new UIConversationId(viewId), first);
+            first = false;
+         }
          if ( Conversation.instance().isLongRunning() || Conversation.instance().isNested() )
          {
             encodedUrl += getParameterString(characterEncoding, new UIConversationIsLongRunning(), first);
          }
       }
       
-      if ( "join".equals(propagation) || "nest".equals(propagation) || "begin".equals(propagation) || "end".equals(propagation) )
+      if ( "join".equals(propagation) || "nest".equals(propagation) ||
+           "begin".equals(propagation) || "end".equals(propagation) )
       {
          UIConversationPropagation uiPropagation = new UIConversationPropagation();
          uiPropagation.setType(propagation);
@@ -204,7 +215,6 @@ public class HtmlLink extends HtmlOutputLink implements ActionSource
    {
       context.getResponseWriter().endElement("a");
    }
-
    @SuppressWarnings("deprecation")
    private String getParameterString(String characterEncoding, UIParameter param, boolean first) 
          throws UnsupportedEncodingException
@@ -216,24 +226,20 @@ public class HtmlLink extends HtmlOutputLink implements ActionSource
             URLEncoder.encode(strValue, characterEncoding);
       return (first ? '?' : '&') + param.getName() + '=' + encoded;
    }
-
    public String getView()
    {
       return view;
    }
-
    public void setView(String viewId)
    {
       this.view = viewId;
    }
-
    private boolean isDisabled(FacesContext facesContext)
    {
       ValueBinding disabledValueBinding = getValueBinding("disabled");
       return disabledValueBinding==null ? 
             disabled : (Boolean) disabledValueBinding.getValue(facesContext);
    }
-
    @Override
    public void restoreState(FacesContext context, Object state) {
       Object[] values = (Object[]) state;
@@ -244,7 +250,6 @@ public class HtmlLink extends HtmlOutputLink implements ActionSource
       action = (MethodBinding) restoreAttachedState(context, values[4]);
       disabled = (Boolean) values[5];
    }
-
    @Override
    public Object saveState(FacesContext context) {
       Object[] values = new Object[6];
@@ -256,107 +261,71 @@ public class HtmlLink extends HtmlOutputLink implements ActionSource
       values[5] = disabled;
       return values;
    }
-
    public String getPageflow()
    {
       return pageflow;
    }
-
    public String getPropagation()
    {
       return propagation;
    }
-
    public void setPageflow(String pageflow)
    {
       this.pageflow = pageflow;
    }
-
    public void setPropagation(String propagation)
    {
       this.propagation = propagation;
    }
-
    public MethodBinding getAction()
    {
       return action;
    }
-
    public void setAction(MethodBinding action)
    {
       this.action = action;
    }
-
    public String getFragment()
    {
       return fragment;
    }
-
    public void setFragment(String fragment)
    {
       this.fragment = fragment;
    }
-
    public boolean isDisabled()
    {
       return disabled;
    }
-
    public void setDisabled(boolean disabled)
    {
       this.disabled = disabled;
    }
-
    
    //IMPLEMENT ActionSource:
    
-   public void addActionListener(ActionListener listener)
-   {
-      // TODO Auto-generated method stub 
-   }
-
+   public void addActionListener(ActionListener listener) { }
    public MethodBinding getActionListener()
    {
-      // TODO Auto-generated method stub
       return null;
    }
-
    public ActionListener[] getActionListeners()
    {
-      // TODO Auto-generated method stub
       return null;
    }
-
    public boolean isImmediate()
    {
-      // TODO Auto-generated method stub
       return false;
    }
-
-   public void setImmediate(boolean immediate)
-   {
-      // TODO Auto-generated method stub
-   }
-
-   public void removeActionListener(ActionListener listener)
-   {
-      // TODO Auto-generated method stub
-   }
-
-   public void setActionListener(MethodBinding actionListener)
-   {
-      // TODO Auto-generated method stub
-   }
-
+   public void setImmediate(boolean immediate) { }
+   public void removeActionListener(ActionListener listener) {}
+   public void setActionListener(MethodBinding actionListener) {}
    public String getOutcome()
    {
       return outcome;
    }
-
    public void setOutcome(String outcome)
    {
       this.outcome = outcome;
    }
-
-
 }

@@ -64,7 +64,9 @@
 		</h:column>
 		<h:column>
 			<f:facet name="header">Action</f:facet>
-			<s:link id="viewHotel" value="View Hotel" action="#{hotelBooking.selectHotel(hot)}"/>
+			<s:link id="viewHotel" value="View Hotel" action="#{hotelBooking.selectHotel(hot)}" view="/hotel.seam">
+			  <f:param name="hotelId" value="#{hot.id}"/>
+			</s:link>
 		</h:column>
 	</h:dataTable>
 	<s:link value="More results" action="#{hotelSearch.nextPage}" rendered="#{hotelSearch.nextPageAvailable}"/>

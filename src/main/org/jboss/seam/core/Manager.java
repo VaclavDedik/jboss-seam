@@ -36,6 +36,8 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.pages.ConversationIdParameter;
+import org.jboss.seam.pages.Page;
 import org.jboss.seam.util.Id;
 
 /**
@@ -426,9 +428,19 @@ public class Manager
     */
    public boolean restoreConversation(Map parameters)
    {
+      String storedConversationId = null;
       
-      //First, try to get the conversation id from a request parameter
-      String storedConversationId = getRequestParameterValue(parameters, conversationIdParameter);
+      //First, try to get the conversation id from a request parameter      
+      if (FacesContext.getCurrentInstance() != null)
+      {
+         Page page = Pages.instance().getPage(FacesContext.getCurrentInstance().getViewRoot().getViewId());
+         storedConversationId = page.getConversationIdParameter().getRequestConversationId();
+      }
+      else
+      {
+         storedConversationId = getRequestParameterValue(parameters, conversationIdParameter);   
+      }
+      
       String storedParentConversationId = getRequestParameterValue(parameters, parentConversationIdParameter);
       Boolean isLongRunningConversation = "true".equals( getRequestParameterValue(parameters, conversationIsLongRunningParameter) );
       
@@ -640,7 +652,19 @@ public class Manager
     */
    public void initializeTemporaryConversation()
    {
-      String id = Id.nextId();
+      String id = null;
+      
+      FacesContext ctx = FacesContext.getCurrentInstance();
+      if (ctx != null && ctx.getViewRoot() != null)
+      {
+         Page page = Pages.instance().getPage(ctx.getViewRoot().getViewId());      
+         id = page.getConversationIdParameter().getInitialConversationId();
+      }
+      else
+      {
+         id = Id.nextId();
+      }
+      
       setCurrentConversationId(id);
       createCurrentConversationIdStack(id);
       setLongRunningConversation(false);
@@ -779,6 +803,11 @@ public class Manager
    public void setConversationTimeout(int conversationTimeout) {
       this.conversationTimeout = conversationTimeout;
    }
+   
+   public void beforeRedirect()
+   {
+      beforeRedirect(null);
+   }
 
    /**
     * Temporarily promote a temporary conversation to
@@ -787,7 +816,7 @@ public class Manager
     * conversation will be demoted back to a temporary
     * conversation.
     */
-   public void beforeRedirect()
+   public void beforeRedirect(String viewId)
    {
       //DONT BREAK, icefaces uses this
       if (!destroyBeforeRedirect)
@@ -801,15 +830,36 @@ public class Manager
          ce.setRemoveAfterRedirect( !isLongRunningConversation() );
          setLongRunningConversation(true);
       }
+      
+      FacesContext ctx = FacesContext.getCurrentInstance();
+      
+      if (viewId != null && ctx != null && ctx.getViewRoot() != null)
+      {
+         Page source = Pages.instance().getPage(ctx.getViewRoot().getViewId());
+         Page target = Pages.instance().getPage(viewId);
+         
+         ConversationIdParameter sp = source.getConversationIdParameter();
+         ConversationIdParameter tp = target.getConversationIdParameter();
+         
+         if ((sp.getName() == null && tp.getName() != null) ||
+             (sp.getName() != null && tp.getName() == null) ||
+             (sp.getName() != null && !sp.getName().equals(tp.getName())))
+         {
+            updateCurrentConversationId(target.getConversationIdParameter().getInitialConversationId());
+         }      
+      }
    }
 
    /**
     * Add the conversation id to a URL, if necessary
     */
-   public String encodeConversationId(String url) 
+   public String encodeConversationId(String url, String viewId) 
    {
+      Page page = Pages.instance().getPage(viewId);
+      String paramName = page.getConversationIdParameter().getParameterName();
+      
       //DONT BREAK, icefaces uses this
-      if ( Seam.isSessionInvalid() || containsParameter(url, conversationIdParameter) )
+      if ( Seam.isSessionInvalid() || containsParameter(url, paramName) )
       {
          return url;
       }
@@ -817,10 +867,10 @@ public class Manager
       {
          if ( isNestedConversation() )
          {
-            return new StringBuilder( url.length() + conversationIdParameter.length() + 5 )
+            return new StringBuilder( url.length() + paramName.length() + 5 )
                   .append(url)
                   .append( url.contains("?") ? '&' : '?' )
-                  .append(conversationIdParameter)
+                  .append(paramName)
                   .append('=')
                   .append( encode( getParentConversationId() ) )
                   .append('&')
@@ -835,12 +885,12 @@ public class Manager
       }
       else
       {
-         StringBuilder builder = new StringBuilder( url.length() + conversationIdParameter.length() + 5 )
+         StringBuilder builder = new StringBuilder( url.length() + paramName.length() + 5 )
                .append(url)
                .append( url.contains("?") ? '&' : '?' )
-               .append(conversationIdParameter)
+               .append(paramName)
                .append('=')
-               .append( encode( getCurrentConversationId() ) );
+               .append( encode( page.getConversationIdParameter().getParameterValue() ) );
          if ( isNestedConversation() && !isReallyLongRunningConversation() )
          {
             builder.append('&')
@@ -980,8 +1030,8 @@ public class Manager
             );
       if (includeConversationId)
       {
-         url = encodeConversationId(url);
-         beforeRedirect();
+         beforeRedirect(viewId);
+         url = encodeConversationId(url, viewId);
       }
       url = Pages.instance().encodeScheme(viewId, context, url);            
       if ( log.isDebugEnabled() )
@@ -1012,14 +1062,13 @@ public class Manager
     * @param url the requested URL
     * @return the resulting URL with the conversationId appended
     */
-   public String appendConversationIdFromRedirectFilter(String url)
+   public String appendConversationIdFromRedirectFilter(String url, String viewId)
    {
       boolean appendConversationId = !controllingRedirect;
       if (appendConversationId)
       {
-         
-         url = encodeConversationId(url);
-         beforeRedirect();
+         beforeRedirect(viewId);         
+         url = encodeConversationId(url, viewId);
       }
       return url;
    }

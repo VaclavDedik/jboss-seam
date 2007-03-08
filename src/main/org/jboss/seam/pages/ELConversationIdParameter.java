@@ -5,7 +5,6 @@ import javax.faces.context.FacesContext;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Expressions.ValueBinding;
-import org.jboss.seam.util.Id;
 
 /**
  * Represents a conversation parameter that can be used to create a "natural"
@@ -34,16 +33,7 @@ public class ELConversationIdParameter implements ConversationIdParameter
    
    public String getParameterName()
    {
-      String conversationId = Manager.instance().getCurrentConversationId();
-      int idx = conversationId.indexOf(':');
-      if (idx != -1)
-      {
-         return paramName;
-      }
-      else
-      {
-         return Manager.instance().getConversationIdParameter();
-      }            
+      return paramName;
    }
    
    public String getInitialConversationId()
@@ -54,13 +44,20 @@ public class ELConversationIdParameter implements ConversationIdParameter
       
       if (value == null)
       {
-         // TODO - redirect to no-conversation-view-id ?
-         return Id.nextId();
+         return null;
+         
+//          TODO - redirect to no-conversation-view-id ?
+//         return Id.nextId();
       }
       else
       {
          return String.format("%s:%s", name, value);
       }
+   }
+   
+   public String getRequestConversationId()
+   {
+      return getInitialConversationId();
    }
 
    public String getParameterValue()
@@ -68,20 +65,27 @@ public class ELConversationIdParameter implements ConversationIdParameter
       Object value = vb.getValue();
       if (value != null)
       {
-         return vb.getValue().toString();               
+         return vb.getValue().toString();
       }
       else
       {      
          String conversationId = Manager.instance().getCurrentConversationId();
-         int idx = conversationId.indexOf(':');
-         if (idx != -1)
+         if (conversationId != null)
          {
-            return conversationId.substring(idx + 1);
+            int idx = conversationId.indexOf(':');
+            if (idx != -1)
+            {
+               return conversationId.substring(idx + 1);
+            }
+            else
+            {
+               return conversationId;
+            }
          }
          else
          {
-            return conversationId;
-         }      
+            return null;
+         }
       }
 
    }

@@ -6,12 +6,17 @@
 
 -->
 
-<!ELEMENT pages (page*,exception*)>
+<!ELEMENT pages ((conversation|page)*,exception*)>
 <!ATTLIST pages no-conversation-view-id CDATA #IMPLIED>
 <!ATTLIST pages login-view-id CDATA #IMPLIED>
 
 <!ELEMENT exception (end-conversation?,(http-error|redirect))>
 <!ATTLIST exception class CDATA #IMPLIED>
+
+<!ELEMENT conversation EMPTY>
+<!ATTLIST conversation name CDATA #REQUIRED>
+<!ATTLIST conversation parameter-name CDATA #REQUIRED>
+<!ATTLIST conversation parameter-value CDATA #IMPLIED>
 
 <!ELEMENT page (#PCDATA|restrict|description|param|in|begin-conversation|end-conversation|action|navigation)*>
 <!ATTLIST page action CDATA #IMPLIED>
@@ -23,6 +28,7 @@
 <!ATTLIST page scheme CDATA #IMPLIED>
 <!ATTLIST page timeout CDATA #IMPLIED>
 <!ATTLIST page bundle CDATA #IMPLIED>
+<!ATTLIST page conversation CDATA #IMPLIED>
 
 <!ELEMENT param EMPTY>
 <!ATTLIST param name CDATA #IMPLIED>

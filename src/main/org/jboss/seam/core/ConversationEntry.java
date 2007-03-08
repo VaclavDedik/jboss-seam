@@ -37,8 +37,10 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    public ConversationEntry(String id, List<String> stack, ConversationEntries entries)
    {
       this.id = id;
+
       if (stack==null || id==null) throw new IllegalArgumentException();
       this.conversationIdStack = stack;
+
       this.startDatetime = new Date();
       this.entries = entries;
       

@@ -235,10 +235,11 @@ public class UIDocument
             response.startElement("meta", this);
             response.writeAttribute("http-equiv", "Refresh", null);
 
-            baseName = baseNameForViewId(FacesContext.getCurrentInstance().getViewRoot().getViewId()); 
+            String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
+            baseName = baseNameForViewId(viewId); 
             String url = store.preferredUrlForContent(baseName, docType, id);
 
-            url = Manager.instance().encodeConversationId(url);
+            url = Manager.instance().encodeConversationId(url, viewId);
 
             response.writeAttribute("content", "0; URL=" + url, null);
 

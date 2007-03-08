@@ -22,7 +22,7 @@ public class DebugPageHandler extends ExceptionHandler
       org.jboss.seam.core.Redirect redirect = org.jboss.seam.core.Redirect.instance();
       redirect.setViewId("/debug.xhtml");
       Manager manager = Manager.instance();
-      manager.beforeRedirect();
+      manager.beforeRedirect("/debug.xhtml");
       redirect.setParameter( manager.getConversationIdParameter(), manager.getCurrentConversationId() );
       
       try

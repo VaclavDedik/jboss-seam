@@ -31,6 +31,7 @@ public final class Page
    private ConversationControl conversationControl = new ConversationControl();
    private TaskControl taskControl = new TaskControl();
    private ProcessControl processControl = new ProcessControl();
+   private ConversationIdParameter conversationIdParameter;
    
    /**
     * The scheme (http/https) required by this page.
@@ -60,6 +61,8 @@ public final class Page
             this.setResourceBundleName( viewId.substring(1, loc) );
          }
       }
+      
+      conversationIdParameter = new SyntheticConversationIdParameter();
    }
    
    public java.util.ResourceBundle getResourceBundle()
@@ -279,4 +282,16 @@ public final class Page
    {
       this.scheme = scheme;
    }
+   
+   public ConversationIdParameter getConversationIdParameter()
+   {
+      return conversationIdParameter;
+   }
+   
+   public void setConversationIdParameter(ConversationIdParameter param)
+   {
+      this.conversationIdParameter = param;
+   }
+   
+   
 }

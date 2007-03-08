@@ -39,6 +39,8 @@ import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.pages.Action;
 import org.jboss.seam.pages.ConversationControl;
+import org.jboss.seam.pages.ConversationIdParameter;
+import org.jboss.seam.pages.ELConversationIdParameter;
 import org.jboss.seam.pages.Input;
 import org.jboss.seam.pages.Navigation;
 import org.jboss.seam.pages.Output;
@@ -48,6 +50,7 @@ import org.jboss.seam.pages.ProcessControl;
 import org.jboss.seam.pages.RedirectNavigationHandler;
 import org.jboss.seam.pages.RenderNavigationHandler;
 import org.jboss.seam.pages.Rule;
+import org.jboss.seam.pages.SyntheticConversationIdParameter;
 import org.jboss.seam.pages.TaskControl;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.NotLoggedInException;
@@ -73,6 +76,7 @@ public class Pages
    private Map<String, List<Page>> pageStacksByViewId = Collections.synchronizedMap( new HashMap<String, List<Page>>() );   
    private String noConversationViewId;
    private String loginViewId;
+   private Map<String, ConversationIdParameter> conversations = Collections.synchronizedMap( new HashMap<String, ConversationIdParameter>() );
  
    private SortedSet<String> wildcardViewIds = new TreeSet<String>( 
          new Comparator<String>() {
@@ -766,7 +770,14 @@ public class Pages
       {
          loginViewId = root.attributeValue("login-view-id");
       }
-      List<Element> elements = root.elements("page");
+      
+      List<Element> elements = root.elements("conversation");
+      for (Element conversation : elements)
+      {
+         parseConversation(conversation, conversation.attributeValue("name"));
+      }
+      
+      elements = root.elements("page");
       for (Element page: elements)
       {
          parse( page, page.attributeValue("view-id") );
@@ -796,6 +807,25 @@ public class Pages
       }
    }
    
+   private void parseConversation(Element element, String name)
+   {
+      if (name == null)
+      {
+         throw new IllegalStateException("Must specify name for <conversation/> declaration");
+      }
+      
+      if (conversations.containsKey(name))
+      {
+         throw new IllegalStateException("<conversation/> declaration already exists for [" + name + "]");
+      }
+      
+      ELConversationIdParameter param = new ELConversationIdParameter(name, 
+               element.attributeValue("parameter-name"), 
+               element.attributeValue("parameter-value"));
+      
+      conversations.put(name, param);
+   }
+   
    /**
     * Parse a page element and add a Page to the map
     */
@@ -812,6 +842,7 @@ public class Pages
       }
       Page page = new Page(viewId);
       pagesByViewId.put(viewId, page);
+      
       parsePage(page, element, viewId);
       parseConversationControl( element, page.getConversationControl() );
       parseTaskControl(element, page.getTaskControl());
@@ -839,7 +870,7 @@ public class Pages
    /**
     * Parse the attributes of page
     */
-   private static Page parsePage(Page page, Element element, String viewId)
+   private Page parsePage(Page page, Element element, String viewId)
    {
       
       page.setSwitchEnabled( !"disabled".equals( element.attributeValue("switch") ) );
@@ -862,6 +893,9 @@ public class Pages
       page.setConversationRequired( "true".equals( element.attributeValue("conversation-required") ) );
       page.setLoginRequired( "true".equals( element.attributeValue("login-required") ) );
       page.setScheme( element.attributeValue("scheme") );
+      
+      ConversationIdParameter param = conversations.get( element.attributeValue("conversation") );
+      if (param != null) page.setConversationIdParameter(param);
       
       Action action = parseAction(element, "action");
       if (action!=null) page.getActions().add(action);
