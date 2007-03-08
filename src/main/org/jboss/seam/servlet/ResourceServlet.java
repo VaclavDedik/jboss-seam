@@ -104,6 +104,6 @@ public class ResourceServlet extends HttpServlet
    public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
    {
-      throw new UnsupportedOperationException("Cannot post to the resource servlet");
+      doGet(request, response);
    }
 }
