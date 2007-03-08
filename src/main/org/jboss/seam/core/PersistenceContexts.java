@@ -27,7 +27,7 @@ public class PersistenceContexts extends AbstractMutable implements Serializable
    private static final long serialVersionUID = -4897350516435283182L;
    private Set<String> set = new HashSet<String>();
    private FlushModeType flushMode = FlushModeType.AUTO;
-   private FlushModeType actualFlushMode;
+   private FlushModeType actualFlushMode = FlushModeType.AUTO;
  
    public FlushModeType getFlushMode()
    {
@@ -59,6 +59,12 @@ public class PersistenceContexts extends AbstractMutable implements Serializable
    public void changeFlushMode(FlushModeType flushMode)
    {
       this.flushMode = flushMode;
+      this.actualFlushMode = flushMode;
+      changeFlushModes();   
+   }
+
+   private void changeFlushModes()
+   {
       for (String name: set)
       {
          PersistenceContextManager pcm = (PersistenceContextManager) Contexts.getConversationContext().get(name);
@@ -66,19 +72,20 @@ public class PersistenceContexts extends AbstractMutable implements Serializable
          {
             pcm.changeFlushMode(flushMode);
          }
-      }   
+      }
    }
    
    public void beforeRender()
    {
-      actualFlushMode = flushMode;
       PersistenceProvider pp = PersistenceProvider.instance();
-      changeFlushMode( pp==null ? FlushModeType.MANUAL : pp.getRenderFlushMode() );
+      flushMode = pp==null ? FlushModeType.MANUAL : pp.getRenderFlushMode();
+      changeFlushModes();
    }
    
    public void afterRender()
    {
-      changeFlushMode(actualFlushMode);
+      flushMode = actualFlushMode;
+      changeFlushModes();
    }
    
 }
