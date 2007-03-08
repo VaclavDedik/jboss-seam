@@ -104,6 +104,8 @@ public class ResourceServlet extends HttpServlet
    public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
    {
+      //needed for Seam remoting
+      //TODO: why is remoting a "resource"??
       doGet(request, response);
    }
 }
