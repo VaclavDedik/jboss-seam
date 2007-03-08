@@ -17,6 +17,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public final class ConversationEntry implements Serializable, Comparable<ConversationEntry>
 {
    private static final long serialVersionUID = 3624635335271963568L;
+   
    private long lastRequestTime;
    private String description;
    private String id;
@@ -37,8 +38,7 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    {
       this.id = id;
       if (stack==null || id==null) throw new IllegalArgumentException();
-      this.conversationIdStack = /*stack==null ? 
-            Collections.EMPTY_LIST :*/ Collections.unmodifiableList(stack);
+      this.conversationIdStack = stack;
       this.startDatetime = new Date();
       this.entries = entries;
       

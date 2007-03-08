@@ -65,6 +65,23 @@ public class ConversationEntries extends AbstractMutable implements Serializable
       return entry;
    }
    
+   public synchronized ConversationEntry updateConversationId(String oldId, String newId)
+   {
+      ConversationEntry entry = conversationIdEntryMap.remove(oldId);
+      if (entry==null)
+      {
+         return null;
+      }
+      else
+      {
+         entry.setId(newId);
+         entry.getConversationIdStack().set(0, newId);
+         conversationIdEntryMap.put(newId, entry);
+         setDirty();
+         return entry;
+      }
+   }
+   
    public static ConversationEntries instance()
    {
       if ( !Contexts.isSessionContextActive() )

@@ -101,8 +101,6 @@ public class Manager
          throw new IllegalStateException("Conversation id is already in use");
       }
       
-      ConversationEntry ce = ConversationEntries.instance().removeConversationEntry(currentConversationId);
-      
       String[] names = Contexts.getConversationContext().getNames();
       Object[] values = new Object[names.length];
       for (int i=0; i<names.length; i++)
@@ -112,13 +110,12 @@ public class Manager
       }
       Contexts.getConversationContext().flush();
       
-      currentConversationIdStack.set(0, id);
-      //TODO: what about child conversations?!
+      ConversationEntry ce = ConversationEntries.instance().updateConversationId(currentConversationId, id);
       setCurrentConversationId(id);
-      
       if (ce!=null)
       {
-         ce = createConversationEntry();
+         setCurrentConversationIdStack( ce.getConversationIdStack() );
+         //TODO: what about child conversations?!
       }
       
       for (int i=0; i<names.length; i++)
