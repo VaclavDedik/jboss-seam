@@ -113,6 +113,7 @@ public class Manager
       Contexts.getConversationContext().flush();
       
       currentConversationIdStack.set(0, id);
+      //TODO: what about child conversations?!
       setCurrentConversationId(id);
       
       if (ce!=null)
