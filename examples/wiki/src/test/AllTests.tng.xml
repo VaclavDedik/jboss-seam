@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="AllTests" verbose="1">
+
+    <test name="Documents">
+        <packages>
+            <package name="org.jboss.seam.wiki.test.documents"/>
+        </packages>
+    </test>
+
+</suite>

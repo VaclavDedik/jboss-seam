@@ -74,7 +74,7 @@
                     <s:div styleClass="entry">
                         <div class="label">Writable by:</div>
                         <div class="input">
-                            <h:selectOneMenu value="#{documentHome.writableByRole}">
+                            <h:selectOneMenu value="#{documentHome.writableByRole}" tabindex="1">
                                 <s:selectItems value="#{documentHome.roles}"
                                                var="role"
                                                label="Role: #{role.displayName} (Level: #{role.accessLevel})"
@@ -86,7 +86,7 @@
                     <s:div styleClass="entry">
                         <div class="label">Readable by:</div>
                         <div class="input">
-                            <h:selectOneMenu value="#{documentHome.readableByRole}">
+                            <h:selectOneMenu value="#{documentHome.readableByRole}" tabindex="2">
                                 <s:selectItems value="#{documentHome.roles}"
                                                var="role"
                                                label="Role: #{role.displayName} (Level: #{role.accessLevel})"
@@ -99,7 +99,7 @@
                         <div class="entry">
                             <div class="label">Name:</div>
                             <div class="input">
-                                <h:inputText tabindex="1" size="80" maxlength="255" id="name" required="true"
+                                <h:inputText tabindex="2" size="80" maxlength="255" id="name" required="true"
                                              value="#{documentHome.instance.name}"/>
                             </div>
                         </div>
@@ -109,7 +109,7 @@
                         <div class="entry">
                             <div class="label">Content:</div>
                             <div class="input">
-                                <h:inputTextarea tabindex="2" id="content" required="true" cols="80" rows="25"
+                                <h:inputTextarea tabindex="3" id="content" required="true" cols="80" rows="25"
                                                  value="#{documentHome.formContent}"/>
                             </div>
                         </div>

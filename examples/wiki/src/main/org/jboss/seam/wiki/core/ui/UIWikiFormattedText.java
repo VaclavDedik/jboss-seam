@@ -6,9 +6,9 @@ import java.io.StringReader;
 
 import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
+import javax.persistence.EntityManager;
 
 import org.jboss.seam.text.SeamTextLexer;
-import org.jboss.seam.wiki.core.ui.WikiTextParser;
 import org.jboss.seam.contexts.Contexts;
 
 import antlr.ANTLRException;
@@ -49,6 +49,11 @@ public class UIWikiFormattedText extends UIOutput {
         }
 
         context.getResponseWriter().write(parser.toString());
+
+        // Flush persistence context after parsing/rendering - resolved and updated links need to be stored
+        EntityManager em = ((EntityManager)org.jboss.seam.Component.getInstance("entityManager"));
+        em.joinTransaction();
+        em.flush();
 
         // Put attachments (wiki links...) into the event context for later rendering
         Contexts.getEventContext().set("wikiTextAttachments", parser.getAttachments());

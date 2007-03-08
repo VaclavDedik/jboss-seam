@@ -7,10 +7,12 @@
              
    <persistence-unit name="wiki">
       <provider>org.hibernate.ejb.HibernatePersistence</provider>
-      <jta-data-source>java:/wikiDatasource</jta-data-source>
-      <properties>
-         <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+      <jta-data-source>java:/wikiTestDatasource</jta-data-source>
+      <jar-file>@entityClassesDir@</jar-file> <!-- Compiled entity classes are not where persistence.xml is -->
+       <properties>
+         <property name="hibernate.hbm2ddl.auto" value="create"/> <!-- create-drop throws exception with E-EJB3 -->
          <property name="hibernate.show_sql" value="true"/>
+           <!-- TODO: So do we need a TF or not in EEJB3? -->
          <property name="hibernate.transaction.factory_class" value="org.hibernate.transaction.JTATransactionFactory"/>
          <property name="hibernate.transaction.manager_lookup_class" value="org.hibernate.transaction.JBossTransactionManagerLookup"/>
          <property name="hibernate.cache.use_second_level_cache" value="false"/>

@@ -1,19 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
 
-<!-- ===================================================================== -->
-<!--                                                                       -->
-<!--  Log4j Configuration                                                  -->
-<!--                                                                       -->
-<!-- ===================================================================== -->
-
-<!-- $Id$ -->
-
-<!--
-   | For more configuration infromation and examples see the Jakarta Log4j
-   | owebsite: http://jakarta.apache.org/log4j
- -->
-
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" debug="false">
    
    <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
@@ -25,29 +12,56 @@
       </layout>
    </appender>
 
-   <!-- 
-   <category name="org.hibernate">
-      <priority value="DEBUG"/>
-   </category>
-   -->
+    <!-- ############### Hibernate logging ################# -->
+    <category name="org.hibernate">
+        <priority value="INFO"/>
+    </category>
 
-   <!-- 
-   <category name="org.jboss.seam">
-      <priority value="DEBUG"/>
-   </category>
-   -->
-   
-   <!-- 
-   <category name="org.jboss.ejb3">
-      <priority value="DEBUG"/>
-   </category>
-   -->
+    <!-- SQL Debugging
+      <category name="org.hibernate.loader">
+          <priority value="DEBUG"/>
+      </category>
+      <category name="org.hibernate.type">
+          <priority value="DEBUG"/>
+      </category>
+    -->
 
-   <!-- 
-   <category name="org.jboss.kernel">
-      <priority value="DEBUG"/>
-   </category>
-   -->
+    <!-- ############### Seam logging ################### -->
+    <category name="org.jboss.seam">
+        <priority value="DEBUG"/>
+    </category>
+
+    <!-- These things are too noisy -->
+       <category name="org.jboss.seam.jsf.SeamVariableResolver">
+          <priority value="INFO"/>
+       </category>
+       <category name="org.jboss.seam.contexts.Contexts">
+          <priority value="INFO"/>
+       </category>
+       <category name="org.jboss.seam.Component">
+          <priority value="INFO"/>
+       </category>
+       <category name="org.jboss.seam.deployment.Scanner">
+          <priority value="INFO"/>
+       </category>
+       <category name="org.jboss.seam.core.Events">
+          <priority value="INFO"/>
+       </category>
+       <category name="org.jboss.seam.util.Naming">
+          <priority value="INFO"/>
+       </category>
+       <category name="org.jboss.seam.debug.hot">
+          <priority value="INFO"/>
+       </category>
+
+    <!-- Debugging conversations and persistence contexts -->
+    <category name="org.jboss.seam.core.Manager"><priority value="DEBUG"/></category>
+    <category name="org.jboss.seam.core.ManagedPersistenceContext"><priority value="DEBUG"/></category>
+    <category name="org.jboss.seam.jsf.AbstractSeamPhaseListener"><priority value="DEBUG"/></category>
+    <category name="org.jboss.seam.interceptors.ConversationInterceptor"><priority value="DEBUG"/></category>
+    <category name="org.jboss.seam.contexts.Lifecycle"><priority value="DEBUG"/></category>
+    <category name="org.hibernate.impl.SessionImpl"><priority value="DEBUG"/></category>
+    <category name="org.hibernate.event.def.AbstractFlushingEventListener"><priority value="DEBUG"/></category>
 
    <root>
       <priority value="INFO"/>

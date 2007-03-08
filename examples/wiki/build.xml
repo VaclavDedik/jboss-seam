@@ -20,6 +20,8 @@
     <property name="build.dir"          value="build"/>
     <property name="classes.dir"        value="${build.dir}/classes"/>
     <property name="testclasses.dir"    value="${build.dir}/testclasses"/>
+    <!-- TODO: Don't change this, IntelliJ TestNG plugin bug! http://jira.opensymphony.com/browse/TESTNG-146 -->
+    <property name="test.output.dir"    value="${build.dir}/test-output"/>
     <property name="exploded.dir"       value="${build.dir}/exploded"/>
     <property name="exploded.war.dir"   value="${exploded.dir}/${project.name}.war"/>
 
@@ -39,6 +41,7 @@
 
     <fileset id="lib" dir="${lib.dir}">
         <include name="*.jar" />
+        <exclude name="testng-4*.jar"/> <!-- TODO: Outdated TestNG in Seam -->
     </fileset>
 
     <fileset id="seamlibs" dir="${seamlibs.dir}">
@@ -62,10 +65,33 @@
         <fileset refid="seamlibs"/>
     </path>
 
+    <path id="test.classpath">
+        <fileset refid="lib" />
+        <fileset refid="seamlibs"/>
+        <fileset refid="droolslibs"/>
+        <fileset refid="jcaptchalibs"/>
+        <path path="${classes.dir}"/>
+        <path path="${testclasses.dir}"/>
+        <path path="${embedded-ejb3.dir}"/>
+    </path>
+
+    <path id="tools.classpath">
+        <fileset dir="../../seam-gen/lib">
+            <include name="*.jar"/>
+        </fileset>
+        <fileset dir="../../hibernate/lib">
+            <include name="*.jar"/>
+        </fileset>
+        <fileset dir="../../lib">
+            <include name="thirdparty*.jar"/>
+        </fileset>
+    </path>
+
     <patternset id="meta.files">
         <include name="**/*.xml"/>
         <include name="**/*.properties"/>
         <include name="**/*.sql"/>
+        <include name="**/*.drl"/>
         <include name="**/*.MF"/>
     </patternset>
 
@@ -79,6 +105,7 @@
 
     <target name="clean" description="Cleans up all build artifacts">
         <delete dir="${build.dir}"/>
+        <mkdir dir="${build.dir}"/>
     </target>
 
     <!-- ################## COMPILE ####################### -->
@@ -105,31 +132,42 @@
 
     <!-- ################## EXPLODE ####################### -->
 
-    <target name="explodewar" depends="explodehotdeployclasses, exploderesources"
+    <target name="explodewar" depends="explodehotdeploy, exploderesources"
             description="Creates a hot-redeployable exploded WAR directory">
     </target>
 
-    <target name="explodehotdeployclasses" depends="compileclasses">
+    <target name="explodehotdeploy" depends="compileclasses">
+
+        <!-- ########## Classes ########### -->
         <copy todir="${exploded.war.dir}/WEB-INF/classes">
             <fileset dir="${classes.dir}" excludes="${hotdeploy.classes}"/>
         </copy>
         <copy todir="${exploded.war.dir}/WEB-INF/dev">
             <fileset dir="${classes.dir}" includes="${hotdeploy.classes}"/>
         </copy>
-    </target>
-
-    <target name="explodeallclasses" depends="compileclasses">
-        <copy todir="${exploded.war.dir}/WEB-INF/classes">
-            <fileset dir="${classes.dir}"/>
-        </copy>
-    </target>
-
-    <target name="exploderesources" depends="compileclasses">
 
         <!-- ########## XHTML ########### -->
         <copy todir="${exploded.war.dir}">
             <fileset dir="${view.dir}"/>
         </copy>
+
+    </target>
+
+    <target name="exploderegular" depends="compileclasses">
+
+        <!-- ########## Classes ########### -->
+        <copy todir="${exploded.war.dir}/WEB-INF/classes">
+            <fileset dir="${classes.dir}"/>
+        </copy>
+
+        <!-- ########## XHTML ########### -->
+        <copy todir="${exploded.war.dir}">
+            <fileset dir="${view.dir}"/>
+        </copy>
+
+    </target>
+
+    <target name="exploderesources">
 
         <!-- ########## Libs ########### -->
         <copy todir="${exploded.war.dir}/WEB-INF/lib">
@@ -160,7 +198,7 @@
             <fileset dir="${src.etc.dir}/WEB-INF">
                 <patternset refid="meta.files"/>
             </fileset>
-            <!-- Set JBoss JNDI lookup pattern and disable embeddable EJB 3.0 container in Seam config files-->
+            <!-- Override components.xml setting -->
             <filterset>
                 <filter token="jndiPattern" value="${project.name}/#{ejbName}/local"/>
                 <filter token="embeddedEjb" value="false"/>
@@ -170,7 +208,6 @@
         <!-- ########## Configuration files (WEB-INF/classes) ########### -->
         <copy todir="${exploded.war.dir}/WEB-INF/classes">
             <fileset dir="${src.etc.dir}">
-                <include name="seam.properties" />
                 <include name="security.drl" />
                 <include name="messages*.properties"/>
                 <include name="*jpdl.xml" />
@@ -198,24 +235,24 @@
 
     <!-- ################## DEPLOYMENT ####################### -->
 
-    <target name="hotdeploy" depends="compileclasses"
-            description="Deploys only hotdeployable classes/resources to JBoss AS">
+    <target name="hotdeploy" depends="explodehotdeploy"
+            description="Deploys only hotdeployable resources (call in IDE after compile)">
         <fail unless="jboss.home">jboss.home not set</fail>
 
         <!-- ######## Classes ######## -->
         <copy todir="${deploy.war.dir}/WEB-INF/dev">
-            <fileset dir="${classes.dir}" includes="${hotdeploy.classes}"/>
+            <fileset dir="${exploded.war.dir}/WEB-INF/dev"/>
         </copy>
 
         <!-- ######## XHTML ######## -->
         <copy todir="${deploy.war.dir}">
-            <fileset dir="${view.dir}"/>
+            <fileset dir="${exploded.war.dir}" excludes="WEB-INF/**"/>
         </copy>
 
     </target>
 
     <target name="deploy" depends="explodewar"
-            description="Deploy datasource and exploded archive to JBoss AS">
+            description="Deploy datasource and exploded WAR to JBoss AS">
         <fail unless="jboss.home">jboss.home not set</fail>
 
         <!-- ######## Datasoure ######## -->
@@ -233,7 +270,7 @@
     </target>
 
     <target name="undeploy"
-            description="Undeploy datasource and exploded archive">
+            description="Undeploy datasource and exploded WAR">
         <fail unless="jboss.home">jboss.home not set</fail>
 
         <delete dir="${deploy.war.dir}" failonerror="no"/>
@@ -247,8 +284,8 @@
 
     <!-- ######################## DISTRIBUTION ################## -->
 
-    <target name="dist" depends="clean, explodeallclasses, exploderesources"
-            description="Package a WAR archive">
+    <target name="dist" depends="clean, exploderegular, exploderesources"
+            description="Package a (non-hotdeploy) WAR archive">
 
         <delete dir="${dist.dir}"/>
         <mkdir dir="${dist.dir}"/>
@@ -258,35 +295,24 @@
         <copy tofile="${dist.dir}/${project.name}-ds.xml"
                 file="${src.etc.dir}/${project.name}-${profile}-ds.xml"/>
 
+        <!-- Clean up afterwards for the next deploy run -->
         <antcall target="clean"/>
 
     </target>
 
     <!-- ######################## TOOLS ################## -->
 
-    <path id="tools.classpath">
-        <fileset dir="../../seam-gen/lib">
-            <include name="*.jar"/>
-        </fileset>
-        <fileset dir="../../hibernate/lib">
-            <include name="*.jar"/>
-        </fileset>
-        <fileset dir="../../lib">
-            <include name="thirdparty*.jar"/>
-        </fileset>
-    </path>
-
     <taskdef name="hibernatetool"
              classname="org.hibernate.tool.ant.HibernateToolTask"
              classpathref="tools.classpath"/>
 
-    <target name="schemaexport" depends="explodewar"
+    <target name="schemaexport" depends="compileclasses"
         description="Exports a generated schema to a file">
 
         <mkdir dir="${dist.dir}"/>
 
         <hibernatetool destdir="${basedir}">
-            <classpath path="${exploded.war.dir}/WEB-INF/classes"/>
+            <classpath path="${classes.dir}"/>
             <jpaconfiguration/> <!-- Use META-INF/persistence.xml -->
             <hbm2ddl
                 drop="false"
@@ -298,41 +324,77 @@
         </hibernatetool>
         <echo message="Exported DDL to file: ${dist.dir}/wiki-ddl.sql"/>
     </target>
-    <!--
-    <target name="compiletest" unless="eclipse.running" description="Compile the Java source code for the tests">
-        <mkdir dir="${test.dir}"/>
+
+    <!-- ######################## TESTS ################## -->
+
+    <target name="compiletests" depends="clean, compileclasses"
+            description="Compile the test Java source code">
+
         <javac classpathref="build.classpath"
-                        destdir="${test.dir}"
-                          debug="${javac.debug}"
-                    deprecation="${javac.deprecation}"
-                        nowarn="on">
-                <src path="${src.components.dir}" />
-                <src path="${src.other.dir}" />
-                <src path="${src.test.dir}" />
+                    destdir="${testclasses.dir}"
+                      debug="${javac.debug}"
+                deprecation="${javac.deprecation}"
+                     nowarn="${javac.nowarn}">
+            <classpath path="${classes.dir}"/>
+            <src path="${src.test.dir}" />
         </javac>
+
+        <!-- Copy resources (mapping files, properties, etc.) to classes -->
+        <copy todir="${testclasses.dir}">
+            <fileset dir="${src.test.dir}">
+                <patternset refid="meta.files"/>
+                <exclude name="*.tng.xml"/>
+            </fileset>
+        </copy>
+
     </target>
 
-    <target name="buildtest" depends="compiletest" description="Build the tests">
-        <copy todir="${test.dir}">
-            <fileset dir="${basedir}/resources">
+    <target name="configuretests" depends="compiletests"
+            description="Copy resources to test path (call from IDE before tests)">
+
+        <!-- ######## Embeddable EJB container config ######## -->
+        <copy todir="${testclasses.dir}">
+            <fileset dir="${embedded-ejb3.dir}"/>
+        </copy>
+
+        <!-- ######## Test config ######## -->
+        <copy todir="${testclasses.dir}">
+            <fileset dir="${src.etc.dir}">
                 <exclude name="META-INF/persistence*.xml"/>
                 <exclude name="import*.sql"/>
                 <exclude name="${project.name}-*-ds.xml"/>
             </fileset>
+            <!-- components.properties overrides settings in components.xml -->
         </copy>
-        <copy tofile="${test.dir}/META-INF/persistence.xml"
-                file="${basedir}/resources/META-INF/persistence-test-war.xml"
-           overwrite="true"/>
-        <copy tofile="${test.dir}/import.sql"
-                file="${basedir}/resources/import-test.sql"
-           overwrite="true"/>
-        <copy todir="${test.dir}" flatten="true">
-            <fileset dir="${src.test.dir}">
-                <include name="**/*Test.xml" />
-            </fileset>
+        <copy tofile="${testclasses.dir}/META-INF/persistence.xml"
+                file="${src.etc.dir}/META-INF/persistence-test-war.xml"
+           overwrite="true">
+            <!-- Override persistence.xml settings -->
+            <filterset>
+                <filter token="entityClassesDir" value="file:${basedir}/${classes.dir}"/>
+            </filterset>
         </copy>
+        <copy tofile="${testclasses.dir}/import.sql"
+                file="${src.etc.dir}/import-test.sql"
+           overwrite="true"/>
+
+        <!-- ######## Test output ######## -->
+        <delete  dir="${test.output.dir}"/>
+        <mkdir dir="${test.output.dir}"/>
+
     </target>
 
+    <target name="test" depends="configuretests"
+            description="Run tests defined in *.tng.xml">
+        <taskdef resource="testngtasks" classpathref="test.classpath"/>
+        <testng outputdir="${test.output.dir}">
+            <classpath refid="test.classpath"/>
+            <xmlfileset dir="${src.test.dir}" includes="*.tng.xml" />
+        </testng>
+
+    </target>
+
+    <!--
     <target name="test" depends="buildtest" description="Run the tests">
         <taskdef resource="testngtasks" classpath="${testng.jar}" />
         <testng outputdir="${basedir}/test-report">

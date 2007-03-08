@@ -24,9 +24,6 @@ public class FileServlet extends HttpServlet {
 
     private static final String DOWNLOAD_PATH = "/download";
 
-    @In
-    EntityManager entityManager;
-
     /**
      * The maximum width allowed for image rescaling
      */
@@ -73,10 +70,10 @@ public class FileServlet extends HttpServlet {
                     userTx.begin();
                 }
 
-                file = (!"".equals(id)) ?
-                        ((EntityManager)org.jboss.seam.Component.getInstance("entityManager"))
-                                .find(File.class, Long.parseLong(id))
-                        : null;
+                EntityManager em = ((EntityManager)org.jboss.seam.Component.getInstance("entityManager"));
+                em.joinTransaction();
+
+                file = (!"".equals(id)) ? em.find(File.class, Long.parseLong(id)) : null;
 
                 if (startedTx) userTx.commit();
             } catch (Exception ex) {

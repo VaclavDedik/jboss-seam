@@ -41,8 +41,6 @@ public class WikiTextParser extends SeamTextParser {
         Expressions.MethodBinding method = Expressions.instance()
                 .createMethodBinding("#{wikiLinkResolver.resolveWikiLink(linkMap,linkText)}");
         method.invoke();
-        //noinspection unchecked
-        links = (Map<String, WikiLink>)Contexts.getEventContext().get("linkMap");
 
         WikiLink link = links.get((linkText));
 

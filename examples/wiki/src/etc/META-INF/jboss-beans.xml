@@ -5,7 +5,7 @@
            
    <bean name="wikiTestDatasourceBootstrap" class="org.jboss.resource.adapter.jdbc.local.LocalTxDataSource">
       <property name="driverClass">org.hsqldb.jdbcDriver</property>
-      <property name="connectionURL">jdbc:hsqldb:.</property>
+      <property name="connectionURL">jdbc:hsqldb:hsql://localhost</property>
       <property name="userName"><value class="java.lang.String">sa</value></property>
       <property name="password"><value class="java.lang.String"></value></property>
       <property name="jndiName">java:/wikiTestDatasource</property>

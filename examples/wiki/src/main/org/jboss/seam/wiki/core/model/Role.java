@@ -28,7 +28,7 @@ public class Role implements Serializable, Comparable {
 
     @Column(name = "ACCESS_LEVEL", nullable = false, unique = true)
     @org.hibernate.annotations.Check(
-        constraints = "ACCESS_LEVEL < 1000"
+        constraints = "ACCESS_LEVEL <= 1000"
     )
     private int accessLevel;
 

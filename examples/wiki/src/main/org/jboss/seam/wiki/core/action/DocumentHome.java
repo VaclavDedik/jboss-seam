@@ -88,6 +88,8 @@ public class DocumentHome extends EntityHome<Document> {
 
         // Load the availale roles and set permission defaults
         roles = userDAO.findRoles();
+        writableByRole = userDAO.findRole(getInstance().getWriteAccessLevel());
+        readableByRole = userDAO.findRole(getInstance().getReadAccessLevel());
 
         // Rollback to historical revision?
         if (selectedHistoricalNode != null) getInstance().rollback(selectedHistoricalNode);
@@ -134,7 +136,9 @@ public class DocumentHome extends EntityHome<Document> {
             wikiLinkResolver.convertToWikiLinks(parentDirectory, getFormContent())
         );
 
-        System.out.println("#### WRITABLE BY ROLE: " + writableByRole);
+        // Permissions
+        getInstance().setWriteAccessLevel(writableByRole != null ? writableByRole.getAccessLevel() : 1000);
+        getInstance().setReadAccessLevel(readableByRole != null ? readableByRole.getAccessLevel() : 1000);
 
         return super.persist();
     }
@@ -163,6 +167,10 @@ public class DocumentHome extends EntityHome<Document> {
             getInstance().incrementRevision();
             historicalCopy = new Document(getInstance());
         }
+
+        // Permissions
+        getInstance().setWriteAccessLevel(writableByRole != null ? writableByRole.getAccessLevel() : 1000);
+        getInstance().setReadAccessLevel(readableByRole != null ? readableByRole.getAccessLevel() : 1000);
 
         return super.update();
     }

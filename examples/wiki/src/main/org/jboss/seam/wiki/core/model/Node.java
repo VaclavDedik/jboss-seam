@@ -82,10 +82,10 @@ public abstract class Node implements Serializable {
     protected User lastModifiedBy;
 
     @Column(name = "WRITE_ACCESS_LEVEL", nullable = false)
-    protected int writeAccessLevel = 100;
+    protected int writeAccessLevel = 1000;
 
     @Column(name = "READ_ACCESS_LEVEL", nullable = false)
-    protected int readAccessLevel = 100;
+    protected int readAccessLevel = 1000;
 
     public Node() {}
 
@@ -192,6 +192,21 @@ public abstract class Node implements Serializable {
         this.lastModifiedBy = lastModifiedBy;
     }
 
+    public int getWriteAccessLevel() {
+        return writeAccessLevel;
+    }
+
+    public void setWriteAccessLevel(int writeAccessLevel) {
+        this.writeAccessLevel = writeAccessLevel;
+    }
+
+    public int getReadAccessLevel() {
+        return readAccessLevel;
+    }
+
+    public void setReadAccessLevel(int readAccessLevel) {
+        this.readAccessLevel = readAccessLevel;
+    }
 
     // Misc methods
 
