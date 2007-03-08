@@ -8,11 +8,10 @@ import javax.faces.el.ValueBinding;
 import java.io.*;
 import java.util.List;
 
-import org.jboss.seam.pdf.EntitiesToEncode;
 import org.jboss.seam.ui.JSF;
 
 import com.lowagie.text.*;
-//import com.lowagie.text.xml.simpleparser.EntitiesToUnicode;
+import com.lowagie.text.xml.simpleparser.EntitiesToUnicode;
 
 public abstract class ITextComponent
     extends UIComponentBase
@@ -21,7 +20,6 @@ public abstract class ITextComponent
 	
     protected String inFacet;
     protected Object currentFacet;
-	//protected Map<String,Object> facets = new HashMap<String,Object>();   
   
     /**
      * get the current Itext object
@@ -189,7 +187,7 @@ public abstract class ITextComponent
         for (UIComponent child: (List<UIComponent>) this.getChildren()) {
             // ugly hack to be able to capture facelets text
             if (child.getFamily().equals("facelets.LiteralText")) {
-                String text = replaceEntities(extractText(context, child));
+                String text = EntitiesToUnicode.decodeString(extractText(context, child));
                 Font   font = getFont();
                 Chunk chunk = null;
                 if (font == null) {
@@ -217,19 +215,6 @@ public abstract class ITextComponent
         context.setResponseWriter(response);
         
         return stringWriter.getBuffer().toString();
-    }
-
-    /**
-     * facelets automatically escapes text, so we have to undo the
-     * the damage here.  This is just a placeholder for something
-     * more intelligent.  The replacement strategy here is not
-     * sufficient.
-     */
-    private String replaceEntities(String text) {
-        System.out.println("PRE:" + text);
-        String result = EntitiesToEncode.decodeString(text);
-        System.out.println("POST: " + result);
-        return result;
     }
 
 

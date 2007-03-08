@@ -1,11 +1,9 @@
 package org.jboss.seam.pdf;
 
 import java.awt.Color;
-import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.lowagie.text.Element;
 import com.lowagie.text.ElementTags;
 import com.lowagie.text.PageSize;
 import com.lowagie.text.Rectangle;
