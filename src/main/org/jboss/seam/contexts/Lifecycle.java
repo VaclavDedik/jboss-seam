@@ -169,7 +169,8 @@ public class Lifecycle
          }
       }
 
-      if ( !component.getScope().getContext().isSet( component.getName() ) ) {
+      if ( !component.getScope().getContext().isSet( component.getName() ) ) 
+      {
          log.info("starting up: " + component.getName());
          component.newInstance();
       }
@@ -305,7 +306,8 @@ public class Lifecycle
       Contexts.applicationContext.set(null);
    }
 
-   public static void endRequest(ExternalContext externalContext) {
+   public static void endRequest(ExternalContext externalContext) 
+   {
 
       log.debug("After render response, destroying contexts");
       try
@@ -328,7 +330,8 @@ public class Lifecycle
       log.debug( "<<< End web request" );
    }
 
-   public static void endRequest() {
+   public static void endRequest() 
+   {
 
       log.debug("After request, destroying contexts");
       
@@ -344,7 +347,8 @@ public class Lifecycle
       log.debug( "<<< End web request" );
    }
 
-   public static void endRequest(HttpSession session) {
+   public static void endRequest(HttpSession session) 
+   {
 
       log.debug("After request, destroying contexts");
 
@@ -357,7 +361,6 @@ public class Lifecycle
             clearThreadlocals();
             ContextAdaptor.getSession(session).invalidate(); //huh? we create a session just to invalidate it?
             //actual session context will be destroyed from the listener
-
          }
       }
       finally
@@ -369,7 +372,8 @@ public class Lifecycle
 
    }
 
-   private static void clearThreadlocals() {
+   private static void clearThreadlocals() 
+   {
       Contexts.eventContext.set(null);
       Contexts.pageContext.set(null);
       Contexts.sessionContext.set(null);
@@ -415,11 +419,11 @@ public class Lifecycle
             Contexts.getConversationContext().flush();
          }
 
+         //uses the event and session contexts
+         Manager.instance().unlockConversation();
+
       }
       
-      //uses the event and session contexts
-      Manager.instance().unlockConversation();
-
       if ( Contexts.isSessionContextActive() )
       {
          log.debug("flushing session context");
@@ -474,7 +478,8 @@ public class Lifecycle
    private static ThreadLocal<ServletRequest> servletRequest = new ThreadLocal<ServletRequest>();
    private static ServletContext servletContext;
 
-   public static ServletContext getServletContext() {
+   public static ServletContext getServletContext() 
+   {
       if (servletContext==null)
       {
          throw new IllegalStateException("Attempted to invoke a Seam component outside the context of a web application");
@@ -482,15 +487,18 @@ public class Lifecycle
       return servletContext;
    }
 
-   public static void setServletContext(ServletContext servletContext) {
+   public static void setServletContext(ServletContext servletContext) 
+   {
       Lifecycle.servletContext = servletContext;
    }
 
-   public static ServletRequest getServletRequest() {
+   public static ServletRequest getServletRequest() 
+   {
       return servletRequest.get();
    }
 
-   public static void setServletRequest(ServletRequest servletRequest) {
+   public static void setServletRequest(ServletRequest servletRequest) 
+   {
       Lifecycle.servletRequest.set(servletRequest);
    }
 

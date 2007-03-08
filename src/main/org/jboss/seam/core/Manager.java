@@ -429,21 +429,26 @@ public class Manager
    public boolean restoreConversation(Map parameters)
    {
       String storedConversationId = null;
+      String storedParentConversationId = null;
+      Boolean isLongRunningConversation = null;
       
-      //First, try to get the conversation id from a request parameter      
-      if (FacesContext.getCurrentInstance() != null)
+      //First, try to get the conversation id from the request parameter defined for the page
+      FacesContext facesContext = FacesContext.getCurrentInstance();
+      if ( facesContext!=null && facesContext.getViewRoot()!=null )
       {
-         Page page = Pages.instance().getPage(FacesContext.getCurrentInstance().getViewRoot().getViewId());
+         Page page = Pages.instance().getPage( facesContext.getViewRoot().getViewId() );
          storedConversationId = page.getConversationIdParameter().getRequestConversationId();
+         isLongRunningConversation = false; //TODO: think about this further...
       }
-      else
+      
+      //Next, try to get the conversation id from the globally defined request parameter      
+      if (storedConversationId==null)
       {
          storedConversationId = getRequestParameterValue(parameters, conversationIdParameter);   
+         storedParentConversationId = getRequestParameterValue(parameters, parentConversationIdParameter);
+         isLongRunningConversation = "true".equals( getRequestParameterValue(parameters, conversationIsLongRunningParameter) );
       }
-      
-      String storedParentConversationId = getRequestParameterValue(parameters, parentConversationIdParameter);
-      Boolean isLongRunningConversation = "true".equals( getRequestParameterValue(parameters, conversationIsLongRunningParameter) );
-      
+            
       if ( isMissing(storedConversationId) )
       {
          if ( Contexts.isPageContextActive() )
@@ -652,22 +657,24 @@ public class Manager
     */
    public void initializeTemporaryConversation()
    {
-      String id = null;
-      
-      FacesContext ctx = FacesContext.getCurrentInstance();
-      if (ctx != null && ctx.getViewRoot() != null)
-      {
-         Page page = Pages.instance().getPage(ctx.getViewRoot().getViewId());      
-         id = page.getConversationIdParameter().getInitialConversationId();
-      }
-      else
-      {
-         id = Id.nextId();
-      }
-      
+      String id = generateInitialConversationId();
       setCurrentConversationId(id);
       createCurrentConversationIdStack(id);
       setLongRunningConversation(false);
+   }
+
+   private String generateInitialConversationId()
+   {
+      FacesContext facesContext = FacesContext.getCurrentInstance();
+      if ( facesContext!=null && facesContext.getViewRoot()!=null )
+      {
+         Page page = Pages.instance().getPage( facesContext.getViewRoot().getViewId() );      
+         return page.getConversationIdParameter().getInitialConversationId();
+      }
+      else
+      {
+         return Id.nextId();
+      }
    }
 
    private ConversationEntry createConversationEntry()

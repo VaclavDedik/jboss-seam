@@ -4,9 +4,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.faces.FactoryFinder;
-import javax.faces.context.FacesContext;
-import javax.faces.context.FacesContextFactory;
 import javax.faces.event.PhaseId;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -62,13 +59,6 @@ public class ResourceServlet extends HttpServlet
    public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
    {
-      doPost(request, response);
-   }
-
-   @Override
-   public void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-   {
       String prefix = request.getContextPath() + request.getServletPath();
 
       if (request.getRequestURI().startsWith(prefix))
@@ -108,5 +98,12 @@ public class ResourceServlet extends HttpServlet
          }
 
       }
+   }
+
+   @Override
+   public void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException
+   {
+      throw new UnsupportedOperationException("Cannot post to the resource servlet");
    }
 }

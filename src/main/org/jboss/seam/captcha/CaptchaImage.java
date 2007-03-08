@@ -19,7 +19,6 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.servlet.AbstractResource;
 
 import com.octo.captcha.service.CaptchaServiceException;
@@ -82,8 +81,6 @@ public class CaptchaImage extends AbstractResource
 
       try
       {
-         Lifecycle.beginRequest( getServletContext(), request.getSession(), request );
-
          String captchaId = request.getQueryString();
 
          BufferedImage challenge = service.getImageChallengeForID( captchaId, request.getLocale() );
@@ -99,10 +96,6 @@ public class CaptchaImage extends AbstractResource
       {
          response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
          return;
-      }
-      finally
-      {
-         Lifecycle.endRequest();
       }
 
       response.setHeader("Cache-Control", "no-store");

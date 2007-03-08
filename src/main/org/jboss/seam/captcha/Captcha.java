@@ -31,7 +31,7 @@ public class Captcha implements Serializable
       id =  new UID().toString().replace(":", "-");
    }
    
-   boolean validateResponse(String response)
+   public boolean validateResponse(String response)
    {
       boolean valid = CaptchaImage.instance().validateResponse(id, response);
       if (!valid) 
