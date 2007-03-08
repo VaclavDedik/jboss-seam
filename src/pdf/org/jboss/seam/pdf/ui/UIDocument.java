@@ -291,7 +291,8 @@ public class UIDocument
         
         byte[] bytes = stream.toByteArray();
 
-        if (signatureField != null) {
+        if (signatureField != null) 
+        {
             bytes = signatureField.sign(bytes);
         }
         
@@ -307,7 +308,9 @@ public class UIDocument
             removeITextObject();
 
             Manager.instance().beforeRedirect();
-        } else {
+        } 
+        else 
+        {
             UIComponent parent = getParent();
             
             if (parent instanceof ValueHolder) {
