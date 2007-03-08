@@ -19,7 +19,9 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
+import org.jboss.seam.core.Exceptions;
 import org.jboss.seam.core.Init;
+import org.jboss.seam.core.Pages;
 import org.jboss.seam.init.Initialization;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -50,6 +52,11 @@ public class HotDeployFilter extends AbstractFilter
             }
          }
       }
+      
+      //TODO: check the timestamp, for a minor optimization
+      getServletContext().removeAttribute( Seam.getComponentName(Pages.class) );
+      getServletContext().removeAttribute( Seam.getComponentName(Exceptions.class) );
+      
       chain.doFilter(request, response);
    }
 
