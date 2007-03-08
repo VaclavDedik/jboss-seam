@@ -8,8 +8,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.faces.event.PhaseId;
-
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.FlushModeType;
@@ -18,7 +16,6 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.persistence.PersistenceProvider;
 
 @Name("org.jboss.seam.core.persistenceContexts")
@@ -30,11 +27,11 @@ public class PersistenceContexts extends AbstractMutable implements Serializable
    private static final long serialVersionUID = -4897350516435283182L;
    private Set<String> set = new HashSet<String>();
    private FlushModeType flushMode = FlushModeType.AUTO;
+   private FlushModeType actualFlushMode;
  
    public FlushModeType getFlushMode()
    {
-      return Lifecycle.getPhaseId()==PhaseId.RENDER_RESPONSE ? 
-               PersistenceProvider.instance().getRenderFlushMode() : flushMode;
+      return flushMode;
    }
    
    public Set<String> getTouchedContexts()
@@ -70,6 +67,18 @@ public class PersistenceContexts extends AbstractMutable implements Serializable
             pcm.changeFlushMode(flushMode);
          }
       }   
+   }
+   
+   public void beforeRender()
+   {
+      actualFlushMode = flushMode;
+      PersistenceProvider pp = PersistenceProvider.instance();
+      changeFlushMode( pp==null ? FlushModeType.MANUAL : pp.getRenderFlushMode() );
+   }
+   
+   public void afterRender()
+   {
+      changeFlushMode(actualFlushMode);
    }
    
 }

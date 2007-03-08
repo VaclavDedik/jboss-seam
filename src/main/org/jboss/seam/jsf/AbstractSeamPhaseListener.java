@@ -27,6 +27,7 @@ import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Pageflow;
 import org.jboss.seam.core.Pages;
+import org.jboss.seam.core.PersistenceContexts;
 import org.jboss.seam.core.Switcher;
 import org.jboss.seam.core.Validation;
 import org.jboss.seam.log.LogProvider;
@@ -138,6 +139,7 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
          Pageflow.instance().processEvents(name);
       }
    }
+   
    public void afterPhase(PhaseEvent event)
    {
       if ( Contexts.isApplicationContextActive() )
@@ -145,6 +147,7 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
          Events.instance().raiseEvent("org.jboss.seam.afterPhase", event);
       }
    }
+   
    protected void beforeUpdateModelValues(PhaseEvent event)
    {
       Pages.instance().applyViewRootValues( event.getFacesContext() );
@@ -154,6 +157,7 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
     * Give the subclasses an opportunity to do stuff
     */
    protected void afterInvokeApplication() {}
+   
    /**
     * Add a faces message when Seam-managed transactions fail.
     */
@@ -172,6 +176,7 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       }
       catch (Exception e) {} //swallow silently, not important
    }
+   
    protected void beforeRender(PhaseEvent event)
    {  
       
@@ -216,6 +221,7 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       FacesPage.instance().storeConversation();
       FacesPage.instance().storePageflow();
       
+      PersistenceContexts.instance().beforeRender();
    }
    
    protected void afterRender(FacesContext facesContext)
@@ -223,6 +229,8 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       //do this both before and after render, since conversations 
       //and pageflows can begin during render
       Manager.instance().prepareBackswitch(facesContext);
+      
+      PersistenceContexts.instance().afterRender();
       
       ExternalContext externalContext = facesContext.getExternalContext();
       Manager.instance().endRequest( ContextAdaptor.getSession(externalContext) );
