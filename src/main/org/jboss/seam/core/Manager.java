@@ -632,7 +632,8 @@ public class Manager
       }
    }
 
-   private boolean isMissing(String storedConversationId) {
+   private boolean isMissing(String storedConversationId) 
+   {
       return storedConversationId==null || "".equals(storedConversationId);
    }
    
