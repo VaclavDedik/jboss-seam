@@ -8,6 +8,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.Entity;
 import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
@@ -53,6 +54,11 @@ public class PersistenceProvider
    public static PersistenceProvider instance()
    {
       return (PersistenceProvider) Component.getInstance(PersistenceProvider.class, ScopeType.STATELESS);
+   }
+
+   public FlushModeType getRenderFlushMode()
+   {
+      return FlushModeType.COMMIT;
    }
 
 }

@@ -10,6 +10,7 @@ import org.hibernate.FlushMode;
 import org.hibernate.Session;
 import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
@@ -59,6 +60,12 @@ public class HibernatePersistenceProvider extends PersistenceProvider
          filter.setParameter( me.getKey(), me.getValue().getValue() );
       }
       filter.validate();
+   }
+   
+   @Override
+   public FlushModeType getRenderFlushMode()
+   {
+      return FlushModeType.MANUAL;
    }
    
    private Session getSession(EntityManager entityManager)
