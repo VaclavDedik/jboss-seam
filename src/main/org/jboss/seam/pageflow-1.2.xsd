@@ -38,7 +38,7 @@
 			<xs:choice minOccurs="0" maxOccurs="unbounded">
 				<xs:group ref="page-elements" />
 			</xs:choice>
-			<xs:attributeGroup ref="page-attributes"></xs:attributeGroup>
+			<xs:attributeGroup ref="page-attributes" />
 		</xs:complexType>
 	</xs:element>
 
@@ -77,28 +77,18 @@
 		</xs:complexType>
 	</xs:element>
 
-	<xs:element name="node">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:choice minOccurs="0">
-					<xs:group ref="action-elements" />
-				</xs:choice>
-				<xs:choice minOccurs="0" maxOccurs="unbounded">
-					<xs:group ref="node-content-elements" />
-				</xs:choice>
-			</xs:sequence>
-			<xs:attribute name="name" type="xs:string" use="required" />
-		</xs:complexType>
-	</xs:element>
-
 	<xs:element name="page">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:group ref="page-elements"></xs:group>
-				<xs:choice minOccurs="0" maxOccurs="1"><xs:element ref="end-conversation"></xs:element></xs:choice>
-				<xs:choice minOccurs="0" maxOccurs="1"><xs:element ref="end-task"></xs:element></xs:choice>
+				<xs:group ref="page-elements" />
+				<xs:choice minOccurs="0" maxOccurs="1">
+					<xs:element ref="end-conversation" />
+				</xs:choice>
+				<xs:choice minOccurs="0" maxOccurs="1">
+					<xs:element ref="end-task" />
+				</xs:choice>
 			</xs:sequence>
-			<xs:attributeGroup ref="page-attributes"></xs:attributeGroup>
+			<xs:attributeGroup ref="page-attributes" />
 		</xs:complexType>
 	</xs:element>
 
@@ -107,15 +97,14 @@
 
 	<xs:element name="end-conversation">
 		<xs:complexType>
-
-			<xs:attribute name="before-redirect" type="booleanType"></xs:attribute>
-			<xs:attribute name="create-process" type="xs:string"></xs:attribute>
+			<xs:attribute name="before-redirect" type="booleanType" />
+			<xs:attribute name="create-process" type="xs:string" />
 		</xs:complexType>
 	</xs:element>
 
 	<xs:element name="end-task">
 		<xs:complexType>
-			<xs:attribute name="transition" type="xs:string"></xs:attribute>
+			<xs:attribute name="transition" type="xs:string" />
 		</xs:complexType>
 	</xs:element>
 
@@ -272,18 +261,14 @@
 
 	<xs:group name="node-elements">
 		<xs:choice>
-			<xs:element ref="node" />
 			<xs:element ref="page" />
 			<xs:element ref="decision" />
-			<xs:element ref="page" />
-			<xs:element ref="node" />
 		</xs:choice>
 	</xs:group>
 
 	<xs:group name="action-elements">
 		<xs:choice>
 			<xs:element ref="action" />
-
 		</xs:choice>
 	</xs:group>
 
@@ -313,12 +298,12 @@
 	</xs:group>
 
 	<xs:attributeGroup name="page-attributes">
-		<xs:attribute name="redirect" type="booleanType"></xs:attribute>
-		<xs:attribute name="switch" type="enabledType"></xs:attribute>
-		<xs:attribute name="no-conversation-view-id" type="xs:string"></xs:attribute>
-		<xs:attribute name="timeout" type="xs:int"></xs:attribute>
-		<xs:attribute name="back" type="enabledType"></xs:attribute>
-		<xs:attribute name="view-id" type="xs:string" use="required"></xs:attribute>
-		<xs:attribute name="name" type="xs:string" use="required"></xs:attribute>
+		<xs:attribute name="redirect" type="booleanType" />
+		<xs:attribute name="switch" type="enabledType" />
+		<xs:attribute name="no-conversation-view-id" type="xs:string" />
+		<xs:attribute name="timeout" type="xs:int" />
+		<xs:attribute name="back" type="enabledType" />
+		<xs:attribute name="view-id" type="xs:string" use="required" />
+		<xs:attribute name="name" type="xs:string" use="required" />
 	</xs:attributeGroup>
 </xs:schema>
