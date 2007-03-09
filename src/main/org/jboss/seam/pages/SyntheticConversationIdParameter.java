@@ -1,6 +1,6 @@
 package org.jboss.seam.pages;
 
-import javax.faces.context.FacesContext;
+import java.util.Map;
 
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.util.Id;
@@ -22,17 +22,13 @@ public class SyntheticConversationIdParameter implements ConversationIdParameter
       return Manager.instance().getCurrentConversationId();
    }
    
-   public String getInitialConversationId()
+   public String getInitialConversationId(Map parameters)
    {
       return Id.nextId();  
    }
    
-   public String getRequestConversationId()
+   public String getRequestConversationId(Map parameters)
    {
-      FacesContext ctx = FacesContext.getCurrentInstance();
-      
-      String value = (String) ctx.getExternalContext().getRequestParameterMap().get(getParameterName());      
-      
-      return value != null ? value : Manager.instance().getCurrentConversationId();
+      return Manager.getRequestParameterValue( parameters, getParameterName() );      
    }
 }

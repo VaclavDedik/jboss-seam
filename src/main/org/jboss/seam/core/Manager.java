@@ -437,8 +437,9 @@ public class Manager
       if ( facesContext!=null && facesContext.getViewRoot()!=null )
       {
          Page page = Pages.instance().getPage( facesContext.getViewRoot().getViewId() );
-         storedConversationId = page.getConversationIdParameter().getRequestConversationId();
-         isLongRunningConversation = false; //TODO: think about this further...
+         storedConversationId = page.getConversationIdParameter().getRequestConversationId(parameters);
+         //isLongRunningConversation = false; //TODO: think about this further...
+         isLongRunningConversation = "true".equals( getRequestParameterValue(parameters, conversationIsLongRunningParameter) );
       }
       
       //Next, try to get the conversation id from the globally defined request parameter      
@@ -620,7 +621,7 @@ public class Manager
     * @param parameters the request parameters
     * @return the conversation id
     */
-   private String getRequestParameterValue(Map parameters, String parameterName) {
+   public static String getRequestParameterValue(Map parameters, String parameterName) {
       Object object = parameters.get(parameterName);
       if (object==null)
       {
@@ -669,7 +670,7 @@ public class Manager
       if ( facesContext!=null && facesContext.getViewRoot()!=null )
       {
          Page page = Pages.instance().getPage( facesContext.getViewRoot().getViewId() );      
-         return page.getConversationIdParameter().getInitialConversationId();
+         return page.getConversationIdParameter().getInitialConversationId( facesContext.getExternalContext().getRequestParameterMap() );
       }
       else
       {
@@ -756,7 +757,9 @@ public class Manager
    // (1) a cache
    // (2) so we can unlock() it after destruction of the session context 
    private ConversationEntry currentConversationEntry; 
-   public ConversationEntry getCurrentConversationEntry() {
+   
+   public ConversationEntry getCurrentConversationEntry() 
+   {
       if (currentConversationEntry==null)
       {
          currentConversationEntry = ConversationEntries.instance().getConversationEntry( getCurrentConversationId() );
@@ -811,11 +814,6 @@ public class Manager
       this.conversationTimeout = conversationTimeout;
    }
    
-   public void beforeRedirect()
-   {
-      beforeRedirect(null);
-   }
-
    /**
     * Temporarily promote a temporary conversation to
     * a long running conversation for the duration of
@@ -823,7 +821,7 @@ public class Manager
     * conversation will be demoted back to a temporary
     * conversation.
     */
-   public void beforeRedirect(String viewId)
+   public void beforeRedirect()
    {
       //DONT BREAK, icefaces uses this
       if (!destroyBeforeRedirect)
@@ -837,24 +835,35 @@ public class Manager
          ce.setRemoveAfterRedirect( !isLongRunningConversation() );
          setLongRunningConversation(true);
       }
+   }
+
+   /**
+    * Temporarily promote a temporary conversation to
+    * a long running conversation for the duration of
+    * a browser redirect. After the redirect, the 
+    * conversation will be demoted back to a temporary
+    * conversation. Handle any changes to the conversation
+    * id, due to propagation via natural id.
+    */
+   public void beforeRedirect(String viewId)
+   {
+      beforeRedirect();
       
-      FacesContext ctx = FacesContext.getCurrentInstance();
-      
-      if (viewId != null && ctx != null && ctx.getViewRoot() != null)
+      FacesContext facesContext = FacesContext.getCurrentInstance();
+      if ( viewId!=null && facesContext!=null && facesContext.getViewRoot()!=null )
       {
-         Page source = Pages.instance().getPage(ctx.getViewRoot().getViewId());
-         Page target = Pages.instance().getPage(viewId);
-         
-         ConversationIdParameter sp = source.getConversationIdParameter();
-         ConversationIdParameter tp = target.getConversationIdParameter();
-         
-         if ((sp.getName() == null && tp.getName() != null) ||
-             (sp.getName() != null && tp.getName() == null) ||
-             (sp.getName() != null && !sp.getName().equals(tp.getName())))
+         Page currentPage = Pages.instance().getPage( facesContext.getViewRoot().getViewId() );
+         Page targetPage = Pages.instance().getPage(viewId);         
+         if ( isDifferentConversationId( currentPage.getConversationIdParameter(), targetPage.getConversationIdParameter() ) )
          {
-            updateCurrentConversationId(target.getConversationIdParameter().getInitialConversationId());
+            updateCurrentConversationId( targetPage.getConversationIdParameter().getInitialConversationId( facesContext.getExternalContext().getRequestParameterMap() ) );
          }      
       }
+   }
+
+   private boolean isDifferentConversationId(ConversationIdParameter sp, ConversationIdParameter tp)
+   {
+      return sp.getName()!=tp.getName() && ( sp==null || !sp.getName().equals( tp.getName() ) );
    }
 
    /**

@@ -50,7 +50,6 @@ import org.jboss.seam.pages.ProcessControl;
 import org.jboss.seam.pages.RedirectNavigationHandler;
 import org.jboss.seam.pages.RenderNavigationHandler;
 import org.jboss.seam.pages.Rule;
-import org.jboss.seam.pages.SyntheticConversationIdParameter;
 import org.jboss.seam.pages.TaskControl;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.NotLoggedInException;
