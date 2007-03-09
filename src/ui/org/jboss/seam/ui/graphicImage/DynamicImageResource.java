@@ -6,15 +6,20 @@ import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.IOException;
 
+import javax.faces.event.PhaseId;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
+import org.jboss.seam.contexts.ContextAdaptor;
+import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.core.Manager;
 import org.jboss.seam.servlet.AbstractResource;
 import org.jboss.seam.ui.graphicImage.DynamicImageStore.ImageWrapper;
 
@@ -40,22 +45,48 @@ public class DynamicImageResource extends AbstractResource
    public void getResource(HttpServletRequest request, HttpServletResponse response)
       throws IOException
    {
-      String pathInfo = request.getPathInfo().substring(getResourcePath().length() + 1, request.getPathInfo().lastIndexOf(".")); 
+      String pathInfo = request.getPathInfo().substring(getResourcePath().length() + 1,
+               request.getPathInfo().lastIndexOf("."));
+
+      // Set up Seam contexts
+      HttpSession session = request.getSession(true);
+      Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
+      Lifecycle.setServletRequest(request);
+      Lifecycle.beginRequest(getServletContext(), session, request);
+      Manager.instance().restoreConversation(request.getParameterMap());
+      Lifecycle.resumeConversation(session);
+      Manager.instance().handleConversationPropagation(request.getParameterMap());
       
-     ImageWrapper image = DynamicImageStore.instance().remove(pathInfo);
-      if (image != null)
+      try
       {
-         response.setContentType(image.getContentType().getMimeType());
-         response.setStatus(HttpServletResponse.SC_OK);
-         response.setContentLength(image.getImage().length);
-         ServletOutputStream os = response.getOutputStream();
-         os.write(image.getImage());
-         os.flush();
+         ImageWrapper image = DynamicImageStore.instance().remove(pathInfo);
+         if (image != null)
+         {
+            response.setContentType(image.getContentType().getMimeType());
+            response.setStatus(HttpServletResponse.SC_OK);
+            response.setContentLength(image.getImage().length);
+            ServletOutputStream os = response.getOutputStream();
+            os.write(image.getImage());
+            os.flush();
+         }
+         else
+         {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+         }
+
+         // TODO: conversation timeout
+         Manager.instance().endRequest(ContextAdaptor.getSession(session));
+         Lifecycle.endRequest(session);
       }
-      else
+      catch (Exception e)
       {
-         response.sendError(HttpServletResponse.SC_NOT_FOUND);
+         Lifecycle.endRequest();
       }
+      finally
+      {
+         Lifecycle.setServletRequest(null);
+         Lifecycle.setPhaseId(null);
+      }      
    }
 
 }
