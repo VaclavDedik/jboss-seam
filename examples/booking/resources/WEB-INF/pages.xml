@@ -39,8 +39,16 @@
         
     </page>
 
-    <page view-id="/main.xhtml"
+    <page view-id="/main.xhtml" 
           login-required="true">
+    
+        <navigation from-action="#{hotelBooking.selectHotel(hot)}">
+            <redirect view-id="/hotel.xhtml"/>
+        </navigation>
+        
+        <navigation from-action="#{bookingList.cancel}">
+            <redirect/>
+        </navigation>
         
     </page>
 
