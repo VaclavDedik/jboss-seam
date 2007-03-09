@@ -84,9 +84,15 @@
             <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/icon.doc.default.gif"
                             width="18" height="20"
                             rendered="#{wiki:isDocument(node) and node == currentDirectory.defaultDocument}"/>
+
             <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/#{fileMetaMap[node.contentType].displayIcon}"
                             width="18" height="20"
-                            rendered="#{wiki:isFile(node)}"/>
+                            rendered="#{wiki:isFile(node) and !empty fileMetaMap[node.contentType]}"/>
+
+            <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/#{fileMetaMap['generic'].displayIcon}"
+                            width="18" height="20"
+                            rendered="#{wiki:isFile(node) and empty fileMetaMap[node.contentType]}"/>
+
         </h:column>
 
         <h:column>

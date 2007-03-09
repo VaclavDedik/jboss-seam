@@ -102,7 +102,6 @@ public class NodeBrowser {
         // If the last browsed page had a conversation identifier (we assume of a temporary conversation), remove it
         redirect.getParameters().remove("cid");
 
-        System.out.println("############# REDIRECTING WITH CONVERSATION TO : " +redirect.getViewId());
         redirect.returnToCapturedView();
     }
 

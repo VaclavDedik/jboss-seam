@@ -93,16 +93,6 @@ public class UserDAO {
         return entityManager.find(Role.class, roleId);
     }
 
-
-    @SuppressWarnings({"unchecked"})
-    public List<Role> findRoles() {
-        entityManager.joinTransaction();
-        return (List<Role>)entityManager
-                .createQuery("select r from Role r order by r.accessLevel desc")
-                .getResultList();
-
-    }
-
     public List<User> findByExample(User exampleUser, String orderByProperty, boolean orderDescending,
                                     int firstResult, int maxResults, String... ignoreProperty) {
         Criteria crit = prepareExampleCriteria(exampleUser, orderByProperty, orderDescending, ignoreProperty);

@@ -24,8 +24,6 @@ public class UIWikiFormattedText extends UIOutput {
     @Override
     public void encodeBegin(FacesContext context) throws IOException {
 
-        System.out.println("############### GOT IT ");
-
         if (!isRendered() || getValue() == null) return;
         Reader r = new StringReader((String) getValue());
         SeamTextLexer lexer = new SeamTextLexer(r);
@@ -50,16 +48,8 @@ public class UIWikiFormattedText extends UIOutput {
 
         context.getResponseWriter().write(parser.toString());
 
-        // Flush persistence context after parsing/rendering - resolved and updated links need to be stored
-        /* TODO: can't flush after rendering some wiki text, breaks preview feature in docEdit flushmode.manual conversation
-        EntityManager em = ((EntityManager)org.jboss.seam.Component.getInstance("entityManager"));
-        em.joinTransaction();
-        em.flush();
-        */
-
         // Put attachments (wiki links...) into the event context for later rendering
         Contexts.getEventContext().set("wikiTextAttachments", parser.getAttachments());
     }
-
 
 }

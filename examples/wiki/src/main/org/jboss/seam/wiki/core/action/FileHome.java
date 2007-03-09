@@ -59,7 +59,8 @@ public class FileHome extends NodeHome<File> {
             getInstance().setContentType(contentType);
 
             // Handle image/picture meta info
-            if (fileMetaMap.get(getInstance().getContentType()).image) {
+            if (fileMetaMap.get(getInstance().getContentType()) != null &&
+                fileMetaMap.get(getInstance().getContentType()).image) {
 
                 ImageMetaInfo imageMetaInfo =
                         getInstance().getImageMetaInfo() != null

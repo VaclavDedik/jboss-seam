@@ -101,9 +101,8 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
     @Override
     public String persist() {
 
-        // Validate
-        if (!isUniqueWikinameInDirectory() ||
-            !isUniqueWikinameInArea()) return null;
+        // Set the wikiname
+        getInstance().setWikiname(WikiUtil.convertToWikiName(getInstance().getName()));
 
         // Link the document with a directory
         parentDirectory.addChild(getInstance());
@@ -115,8 +114,9 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
         if (getInstance().getAreaNumber() == null)
             getInstance().setAreaNumber(parentDirectory.getAreaNumber());
 
-        // Set the wikiname
-        getInstance().setWikiname(WikiUtil.convertToWikiName(getInstance().getName()));
+        // Validate
+        if (!isUniqueWikinameInDirectory() ||
+            !isUniqueWikinameInArea()) return null;
 
         return super.persist();
     }
@@ -124,12 +124,12 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
     @Override
     public String update() {
 
+        // Set last modified by user
+        getInstance().setLastModifiedBy(authenticatedUser);
+
         // Validate
         if (!isUniqueWikinameInDirectory() ||
             !isUniqueWikinameInArea()) return null;
-
-        // Set last modified by user
-        getInstance().setLastModifiedBy(authenticatedUser);
 
         // Refresh UI
         Events.instance().raiseEvent("Nodes.menuStructureModified");

@@ -109,7 +109,7 @@
                             <div class="label">Image Preview:</div>
                             <div class="output">
                                 <h:outputLink value="#{facesContext.externalContext.requestContextPath}/files/download?fileId=#{fileHome.instance.id}"><h:graphicImage
-                                    value="/files/download?fileId=#{fileHome.instance.id}&amp;width=#{fileHome.imagePreviewSize}&amp;conversationId=#{conversation.id}"/>
+                                    style="border: 1px solid black;" value="/files/download?fileId=#{fileHome.instance.id}&amp;width=#{fileHome.imagePreviewSize}&amp;conversationId=#{conversation.id}"/>
                                 </h:outputLink>
                                 
                             </div>
@@ -144,11 +144,10 @@
 
                     </s:div>
 
-                    <s:div rendered="#{!fileHome.managed}">
-
+                    <s:div>
                         <s:decorate>
                             <div class="entry">
-                                <div class="label">Upload:</div>
+                                <div class="label">Upload file:</div>
                                 <div class="input">
                                     <s:fileUpload data="#{fileHome.filedata}"
                                                   contentType="#{fileHome.contentType}"
@@ -156,7 +155,6 @@
                                 </div>
                             </div>
                         </s:decorate>
-                        
                     </s:div>
 
                 </s:validateAll>
