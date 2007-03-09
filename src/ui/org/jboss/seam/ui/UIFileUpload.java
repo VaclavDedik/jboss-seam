@@ -3,11 +3,14 @@ package org.jboss.seam.ui;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.el.ValueBinding;
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
 import org.jboss.seam.web.MultipartRequest;
@@ -21,9 +24,7 @@ public class UIFileUpload extends UIComponentBase
 {
    public static final String COMPONENT_TYPE   = "org.jboss.seam.ui.UIFileUpload";
    public static final String COMPONENT_FAMILY = "org.jboss.seam.ui.FileUpload";
-   
-   private static final String TOMAHAWK_WRAPPER_CLASS = "org.apache.myfaces.webapp.filter.MultipartRequestWrapper";
-   
+      
    private String accept;
    private String required;
    private String disabled;
@@ -35,32 +36,11 @@ public class UIFileUpload extends UIComponentBase
    {
       super.decode(context);
       
-      Object request = context.getExternalContext().getRequest();
+      ServletRequest request = (ServletRequest) context.getExternalContext().getRequest();
       
-      if (!(request instanceof MultipartRequest) && 
-               request instanceof HttpServletRequestWrapper)
+      if (!(request instanceof MultipartRequest))
       {
-         request = ((HttpServletRequestWrapper) request).getRequest();
-      }
-      
-      if (!(request instanceof MultipartRequest) &&
-               request.getClass().getName().equals(TOMAHAWK_WRAPPER_CLASS))
-      {
-         Field f = null;         
-         try
-         {
-           f = request.getClass().getDeclaredField("request");
-           f.setAccessible(true);
-           request = f.get(request);
-         }
-         catch (Exception ex) 
-         { 
-            // too bad            
-         }
-         finally
-         {
-            if (f != null) f.setAccessible(false);
-         }
+         request = unwrapMultipartRequest(request);
       }
 
       if (request instanceof MultipartRequest)
@@ -98,6 +78,48 @@ public class UIFileUpload extends UIComponentBase
          if (vb != null)
             vb.setValue(context, fileSize);
       }      
+   }
+      
+   private ServletRequest unwrapMultipartRequest(ServletRequest request)
+   {      
+      while (!(request instanceof MultipartRequest))
+      {
+         boolean found = false;
+         
+         for (Method m : request.getClass().getMethods())
+         {
+            if (ServletRequest.class.isAssignableFrom(m.getReturnType()) && 
+                m.getParameterTypes().length == 0)
+            {
+               try
+               {
+                  request = (ServletRequest) m.invoke(request);
+                  found = true;
+                  break;
+               }
+               catch (Exception ex) { /* Ignore, try the next one */ } 
+            }
+         }
+         
+         if (!found)
+         {
+            for (Field f : request.getClass().getDeclaredFields())
+            {
+               if (ServletRequest.class.isAssignableFrom(f.getType()))
+               {
+                  try
+                  {
+                     request = (ServletRequest) f.get(request);
+                  }
+                  catch (Exception ex) { /* Ignore */}
+               }
+            }
+         }
+         
+         if (!found) break;
+      }
+      
+      return request;     
    }
       
    @Override
