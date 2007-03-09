@@ -36,5 +36,6 @@
 	<classpathentry kind="lib" path="lib/mail-ra.jar"/>
 	<classpathentry kind="lib" path="lib/spring.jar"/>
 	<classpathentry kind="lib" path="lib/itext-2.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/commons-codec-1.3.jar"/>
 	<classpathentry kind="output" path="output/classes"/>
 </classpath>
