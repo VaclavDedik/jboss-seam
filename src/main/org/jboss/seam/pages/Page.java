@@ -199,7 +199,7 @@ public final class Page
          // If no expression is configured, create a default one
          if (restriction == null)
          {
-            Identity.instance().checkPermission( facesContext.getViewRoot().getViewId(), "render" );
+            Identity.instance().checkPermission( Pages.getViewId(facesContext), "render" );
          }
          else
          {

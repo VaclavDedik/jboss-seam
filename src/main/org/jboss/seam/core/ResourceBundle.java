@@ -162,16 +162,15 @@ public class ResourceBundle implements Serializable {
 
          private List<java.util.ResourceBundle> getPageResourceBundles()
          {
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            if (facesContext!=null)
+            String viewId = Pages.getCurrentViewId();
+            if (viewId!=null)
             {
-               UIViewRoot viewRoot = facesContext.getViewRoot();
-               if (viewRoot!=null)
-               {
-                  return Pages.instance().getResourceBundles( viewRoot.getViewId() );
-               }
+               return Pages.instance().getResourceBundles(viewId);
             }
-            return Collections.EMPTY_LIST;
+            else
+            {
+               return Collections.EMPTY_LIST;
+            }
          }
          
       };

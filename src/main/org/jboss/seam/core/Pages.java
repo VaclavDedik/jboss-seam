@@ -19,6 +19,7 @@ import java.util.TreeSet;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.ViewHandler;
 import javax.faces.application.FacesMessage.Severity;
+import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
@@ -111,7 +112,7 @@ public class Pages
     */
    public boolean navigate(FacesContext context, String actionExpression, String actionOutcomeValue)
    {
-      String viewId = context.getViewRoot().getViewId();
+      String viewId = getViewId(context);
       if (viewId!=null)
       {
          List<Page> stack = getPageStack(viewId);
@@ -242,7 +243,7 @@ public class Pages
    public boolean enterPage(FacesContext facesContext)
    {
       boolean result = false;
-      String viewId = facesContext.getViewRoot().getViewId();
+      String viewId = getViewId(facesContext);
       
       String requestScheme = getRequestScheme(facesContext);
       if ( requestScheme!=null )
@@ -383,7 +384,7 @@ public class Pages
       String noConversationViewId = null;
       if (pageflowName==null || pageflowNodeName==null)
       {
-         String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
+         String viewId = Pages.getCurrentViewId();
          noConversationViewId = getNoConversationViewId(viewId);
       }
       else
@@ -606,7 +607,7 @@ public class Pages
     */
    public void applyRequestParameterValues(FacesContext facesContext)
    {
-      String viewId = facesContext.getViewRoot().getViewId();
+      String viewId = getViewId(facesContext);
       Map<String, String[]> requestParameters = Parameters.getRequestParameters();
       for ( Page page: getPageStack(viewId) )
       {
@@ -635,7 +636,7 @@ public class Pages
     */
    public void applyViewRootValues(FacesContext facesContext)
    {
-      String viewId = facesContext.getViewRoot().getViewId();
+      String viewId = getViewId(facesContext);
       for ( Page page: getPageStack(viewId) )
       {
          for ( Param pageParameter: page.getParameters() )
@@ -656,7 +657,7 @@ public class Pages
    public Map<String, Object> getViewRootValues(FacesContext facesContext)
    {
       Map<String, Object> parameters = new HashMap<String, Object>();
-      String viewId = facesContext.getViewRoot().getViewId();
+      String viewId = getViewId(facesContext);
       for ( Page page: getPageStack(viewId) )
       {
          for ( Param pageParameter: page.getParameters() )
@@ -716,7 +717,7 @@ public class Pages
     */
    public void storePageParameters(FacesContext facesContext)
    {
-      String viewId = facesContext.getViewRoot().getViewId();
+      String viewId = getViewId(facesContext);
       for ( Map.Entry<String, Object> param: getParameters(viewId).entrySet() )
       {
          Contexts.getPageContext().set( param.getKey(), param.getValue() );
@@ -1256,9 +1257,25 @@ public class Pages
    {
       return loginViewId;
    }
+   
    public void setLoginViewId(String loginViewId)
    {
       this.loginViewId = loginViewId;
+   }
+   
+   public static String getCurrentViewId()
+   {
+      return getViewId( FacesContext.getCurrentInstance() );
+   }
+   
+   public static String getViewId(FacesContext facesContext)
+   {
+      if (facesContext!=null)
+      {
+         UIViewRoot viewRoot = facesContext.getViewRoot();
+         if (viewRoot!=null) return viewRoot.getViewId();
+      }
+      return null;
    }
    
 }

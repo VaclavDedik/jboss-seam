@@ -433,10 +433,10 @@ public class Manager
       Boolean isLongRunningConversation = null;
       
       //First, try to get the conversation id from the request parameter defined for the page
-      FacesContext facesContext = FacesContext.getCurrentInstance();
-      if ( facesContext!=null && facesContext.getViewRoot()!=null )
+      String viewId = Pages.getCurrentViewId();
+      if ( viewId!=null )
       {
-         Page page = Pages.instance().getPage( facesContext.getViewRoot().getViewId() );
+         Page page = Pages.instance().getPage(viewId);
          storedConversationId = page.getConversationIdParameter().getRequestConversationId(parameters);
          //isLongRunningConversation = false; //TODO: think about this further...
          isLongRunningConversation = "true".equals( getRequestParameterValue(parameters, conversationIsLongRunningParameter) );
@@ -593,7 +593,7 @@ public class Manager
          boolean removeAfterRedirect = ce.isRemoveAfterRedirect() && !(
                Init.instance().isDebug() &&
                (FacesContext.getCurrentInstance() != null) &&
-               "/debug.xhtml".equals( FacesContext.getCurrentInstance().getViewRoot().getViewId() )
+               "/debug.xhtml".equals( Pages.getCurrentViewId() )
             );
          
          if (removeAfterRedirect)
@@ -667,10 +667,12 @@ public class Manager
    private String generateInitialConversationId()
    {
       FacesContext facesContext = FacesContext.getCurrentInstance();
-      if ( facesContext!=null && facesContext.getViewRoot()!=null )
+      String viewId = Pages.getViewId(facesContext);
+      if ( viewId!=null )
       {
-         Page page = Pages.instance().getPage( facesContext.getViewRoot().getViewId() );      
-         return page.getConversationIdParameter().getInitialConversationId( facesContext.getExternalContext().getRequestParameterMap() );
+         return Pages.instance().getPage(viewId)
+                     .getConversationIdParameter()
+                     .getInitialConversationId( facesContext.getExternalContext().getRequestParameterMap() );
       }
       else
       {
@@ -850,20 +852,21 @@ public class Manager
       beforeRedirect();
       
       FacesContext facesContext = FacesContext.getCurrentInstance();
-      if ( viewId!=null && facesContext!=null && facesContext.getViewRoot()!=null )
+      String currentViewId = Pages.getViewId(facesContext);
+      if ( viewId!=null && currentViewId!=null )
       {
-         Page currentPage = Pages.instance().getPage( facesContext.getViewRoot().getViewId() );
-         Page targetPage = Pages.instance().getPage(viewId);         
-         if ( isDifferentConversationId( currentPage.getConversationIdParameter(), targetPage.getConversationIdParameter() ) )
+         ConversationIdParameter currentPage = Pages.instance().getPage(currentViewId).getConversationIdParameter();
+         ConversationIdParameter targetPage = Pages.instance().getPage(viewId).getConversationIdParameter();
+         if ( isDifferentConversationId(currentPage, targetPage) )
          {
-            updateCurrentConversationId( targetPage.getConversationIdParameter().getInitialConversationId( facesContext.getExternalContext().getRequestParameterMap() ) );
+            updateCurrentConversationId( targetPage.getConversationId() );
          }      
       }
    }
 
    private boolean isDifferentConversationId(ConversationIdParameter sp, ConversationIdParameter tp)
    {
-      return sp.getName()!=tp.getName() && ( sp==null || !sp.getName().equals( tp.getName() ) );
+      return sp.getName()!=tp.getName() && ( sp.getName()==null || !sp.getName().equals( tp.getName() ) );
    }
 
    /**
@@ -1049,7 +1052,7 @@ public class Manager
          beforeRedirect(viewId);
          url = encodeConversationId(url, viewId);
       }
-      url = Pages.instance().encodeScheme(viewId, context, url);            
+      url = Pages.instance().encodeScheme(viewId, context, url);
       if ( log.isDebugEnabled() )
       {
          log.debug("redirecting to: " + url);
@@ -1109,10 +1112,10 @@ public class Manager
       if (pageflowPage==null)
       {
          //handle stuff defined in pages.xml
-         String viewId = facesContext.getViewRoot().getViewId();
          Pages pages = Pages.instance();
          if (pages!=null) //for tests
          {
+            String viewId = Pages.getViewId(facesContext);
             org.jboss.seam.pages.Page pageEntry = pages.getPage(viewId);
             if ( pageEntry.isSwitchEnabled() )
             {

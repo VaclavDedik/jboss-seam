@@ -120,7 +120,7 @@ public class HtmlButton extends HtmlOutputButton implements ActionSource
       boolean conversationIdEncoded = false;
       Page page = Pages.instance().getPage(viewId);
       
-      for (Object child: getChildren())
+      for ( Object child: getChildren() )
       {
          if (child instanceof UIParameter)
          {
@@ -130,7 +130,7 @@ public class HtmlButton extends HtmlOutputButton implements ActionSource
                encodedUrl += getParameterString(characterEncoding, uip, first);
                first = false;
                
-               if (uip.getName().equals(page.getConversationIdParameter().getParameterName()))
+               if ( uip.getName().equals( page.getConversationIdParameter().getParameterName() ) )
                {
                   conversationIdEncoded = true;
                }

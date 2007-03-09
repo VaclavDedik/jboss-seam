@@ -8,6 +8,7 @@ import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jboss.seam.core.Pages;
 import org.jboss.seam.util.Parameters;
 
 
@@ -27,7 +28,7 @@ public class DocumentStorePhaseListener
 
 
     public void beforePhase(PhaseEvent phaseEvent) {
-        String rootId = phaseEvent.getFacesContext().getViewRoot().getViewId();
+        String rootId = Pages.getViewId( phaseEvent.getFacesContext() );
         
         String id = (String)
         Parameters.convertMultiValueRequestParameter(Parameters.getRequestParameters(),

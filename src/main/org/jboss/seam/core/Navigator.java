@@ -39,7 +39,7 @@ public abstract class Navigator
    {
       if ( Strings.isEmpty(viewId) )
       {
-         viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
+         viewId = Pages.getCurrentViewId();
       }
       if ( log.isDebugEnabled() ) log.debug("redirecting to: " + viewId);
       Manager.instance().redirect(viewId, parameters, true);
@@ -59,7 +59,7 @@ public abstract class Navigator
       }
       else
       {
-         viewId = facesContext.getViewRoot().getViewId(); //just for the log message
+         viewId = Pages.getViewId(facesContext); //just for the log message
       }
       if ( log.isDebugEnabled() ) log.debug("rendering: " + viewId);
       facesContext.renderResponse();

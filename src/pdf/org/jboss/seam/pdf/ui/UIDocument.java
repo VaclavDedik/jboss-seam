@@ -1,6 +1,7 @@
 package org.jboss.seam.pdf.ui;
 
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.core.Pages;
 import org.jboss.seam.pdf.DocumentData;
 import org.jboss.seam.pdf.ITextUtils;
 import org.jboss.seam.pdf.DocumentStore;
@@ -235,7 +236,7 @@ public class UIDocument
             response.startElement("meta", this);
             response.writeAttribute("http-equiv", "Refresh", null);
 
-            String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
+            String viewId = Pages.getViewId(context);
             baseName = baseNameForViewId(viewId); 
             String url = store.preferredUrlForContent(baseName, docType, id);
 

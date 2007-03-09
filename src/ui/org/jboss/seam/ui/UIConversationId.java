@@ -16,8 +16,9 @@ public class UIConversationId extends UIParameter
       Conversation conversation = Conversation.instance();
       if (viewId!=null && ( !conversation.isNested() || conversation.isLongRunning() ) )
       {
-         Page page = Pages.instance().getPage(viewId);
-         return page.getConversationIdParameter().getParameterName();
+         return Pages.instance().getPage(viewId)
+                     .getConversationIdParameter()
+                     .getParameterName();
       }
       else
       {

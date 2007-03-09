@@ -24,7 +24,8 @@ public class ELConversationIdParameter implements ConversationIdParameter
       this.name = name;
       this.parameterName = paramName;
       
-      this.vb = expression != null ? Expressions.instance().createValueBinding(expression) : null;
+      this.vb = expression != null ? 
+               Expressions.instance().createValueBinding(expression) : null;
    }
    
    public String getName()
@@ -40,7 +41,7 @@ public class ELConversationIdParameter implements ConversationIdParameter
    public String getInitialConversationId(Map parameters)
    {
       String id = getRequestConversationId(parameters);
-      return id==null ? Id.nextId() : id;
+      return id==null ? Id.nextId() : id; //TODO: should we try using the expression?
    }
    
    public String getRequestConversationId(Map parameters)
@@ -55,35 +56,24 @@ public class ELConversationIdParameter implements ConversationIdParameter
          return name + ':' + value;
       }
    }
+   
+   public String getConversationId()
+   {
+      return name + ':' + getParameterValue();
+   }
 
    public String getParameterValue()
    {
       Object value = vb.getValue();
-      if (value != null)
+      if (value==null)
+      {
+         throw new IllegalStateException("conversation id evaluated to null: " + name);
+      }
+      else
       {
          //TODO: use a JSF converter!
          return vb.getValue().toString();
       }
-      /*else
-      {      
-         String conversationId = Manager.instance().getCurrentConversationId();
-         if (conversationId != null)
-         {
-            int idx = conversationId.indexOf(':');
-            if (idx != -1)
-            {
-               return conversationId.substring(idx + 1);
-            }
-            else
-            {
-               return conversationId;
-            }
-         }*/
-         else
-         {
-            return null;
-         }
-      //}
-
    }
+   
 }

@@ -25,6 +25,7 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Locale;
 import org.jboss.seam.core.Messages;
+import org.jboss.seam.core.Pages;
 import org.jboss.seam.core.Selector;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -81,7 +82,7 @@ public class ThemeSelector extends Selector
    {
       Contexts.removeFromAllContexts( Seam.getComponentName(Theme.class) );
       FacesContext facesContext = FacesContext.getCurrentInstance();
-      String viewId = facesContext.getViewRoot().getViewId();
+      String viewId = Pages.getViewId(facesContext);
       UIViewRoot viewRoot = facesContext.getApplication().getViewHandler().createView(facesContext, viewId);
       facesContext.setViewRoot(viewRoot);
       

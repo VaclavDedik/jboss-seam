@@ -87,7 +87,7 @@ public class Redirect extends AbstractMutable implements Serializable
       parameters.clear();
       FacesContext context = FacesContext.getCurrentInstance();
       parameters.putAll( context.getExternalContext().getRequestParameterMap() );
-      viewId = context.getViewRoot().getViewId();
+      viewId = Pages.getViewId(context);
       setDirty();
    }
    
@@ -103,7 +103,7 @@ public class Redirect extends AbstractMutable implements Serializable
    {
       FacesContext context = FacesContext.getCurrentInstance();
       parameters = Pages.instance().getViewRootValues(context);
-      viewId = context.getViewRoot().getViewId();
+      viewId = Pages.getViewId(context);
       conversationBegun = Conversation.instance().begin(true, false);
       setDirty();
       //if the request ends with an exception,
