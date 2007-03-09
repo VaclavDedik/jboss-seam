@@ -52,6 +52,11 @@ public class Exceptions
    
    public void handle(Exception e) throws Exception
    {
+      if ( Contexts.isConversationContextActive() )
+      {
+         Contexts.getConversationContext().set("org.jboss.seam.exception", e);
+      }
+      
       //build a list of the nested exceptions
       List<Exception> causes = new ArrayList<Exception>();
       for (Exception cause=e; cause!=null; cause=EJB.getCause(cause))
