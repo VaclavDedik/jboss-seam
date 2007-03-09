@@ -48,6 +48,11 @@ public class UIGraphicImage extends HtmlGraphicImage
    @Override
    public void encodeBegin(FacesContext context) throws IOException
    {
+      if (!isRendered())
+      {
+         return;
+      }
+      
       ResponseWriter writer = context.getResponseWriter();
       String key = getFileName();
       String extension = null;

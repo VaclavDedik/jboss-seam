@@ -20,6 +20,10 @@ public class UITransformImageBlur extends UIComponentBase implements ImageTransf
    
    public void applyTransform(Image image, UIGraphicImage cmp) throws IOException
    {
+      if (!isRendered())
+      {
+         return;
+      }
       image.blur(new Integer(getRadius()));
    }
    

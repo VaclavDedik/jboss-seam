@@ -152,7 +152,7 @@ public class Image implements Serializable
     */
    public byte[] getImage() throws IOException
    {
-      if (dirty)
+      if (dirty && bufferedImage != null)
       {
          ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
          ImageIO.write(bufferedImage, getContentType().getImageFormatName(), outputStream);
@@ -188,8 +188,12 @@ public class Image implements Serializable
    /**
     * The aspect ratio of the image
     */
-   public double getRatio() throws IOException
+   public Double getRatio() throws IOException
    {
+      if (bufferedImage == null)
+      {
+         return null;
+      }
       // Do the operation with double precision
       Double ratio = (double) bufferedImage.getWidth() / (double) bufferedImage.getHeight();
       return ratio;
@@ -198,8 +202,12 @@ public class Image implements Serializable
    /**
     * Check whether the image is of a given ratio to within a given precision
     */
-   public boolean isRatio(double ratio, double precision) throws IOException
+   public Boolean isRatio(double ratio, double precision) throws IOException
    {
+      if (bufferedImage == null)
+      {
+         return null;
+      }
       double error = ratio * precision;
       return (ratio - error) < getRatio() && getRatio() <= (ratio + error);
    }
@@ -207,16 +215,24 @@ public class Image implements Serializable
    /**
     * The width of the image
     */
-   public int getWidth() throws IOException
+   public Integer getWidth() throws IOException
    {
+      if (bufferedImage == null)
+      {
+         return null;
+      }
       return bufferedImage.getWidth();
    }
 
    /**
     * The height of the image
     */
-   public int getHeight() throws IOException
+   public Integer getHeight() throws IOException
    {
+      if (bufferedImage == null)
+      {
+         return null;
+      }
       return bufferedImage.getHeight();
    }
 
@@ -228,6 +244,10 @@ public class Image implements Serializable
    public Image adjustRatio(double desiredRatio, double precision) throws InterruptedException,
             IOException
    {
+      if (bufferedImage == null)
+      {
+         return this;
+      }
       if (!isRatio(desiredRatio, precision))
       {
          if (getRatio() > desiredRatio)
@@ -263,6 +283,10 @@ public class Image implements Serializable
     * Blur the output image using a convolution
     */
    public Image blur(int radius) throws IOException {
+      if (bufferedImage == null)
+      {
+         return this;
+      }
       BufferedImage newImage = new BufferedImage(getWidth(), getHeight(), getImageType());
       int blurWidth = ((radius - 1) * 2 + 1); 
       int pixels = blurWidth * blurWidth; 
@@ -287,6 +311,10 @@ public class Image implements Serializable
     */
    public Image scaleToWidth(int width) throws IOException
    {
+      if (bufferedImage == null)
+      {
+         return this;
+      }
       // Always scale, never stretch. We don't care if the requested scaled
       // ratio is different from the current
       int height = width * getHeight() / getWidth();
@@ -303,6 +331,10 @@ public class Image implements Serializable
     */
    public Image scaleToHeight(int height) throws IOException
    {
+      if (bufferedImage == null)
+      {
+         return this;
+      }
       // Always scale, never stretch. We don't care if the requested scaled
       // ratio is different from the current
       int width = height * getWidth() / getHeight();
@@ -319,6 +351,10 @@ public class Image implements Serializable
     */
    public Image scale(double factor) throws IOException 
    {
+      if (bufferedImage == null)
+      {
+         return this;
+      }
       int width = (int) (getWidth() * factor);
       int height = (int) (getHeight() * factor);
       BufferedImage newImage = new BufferedImage(width, height, getImageType());
@@ -335,6 +371,10 @@ public class Image implements Serializable
     */
    public Image resize(int width, int height) 
    {
+      if (bufferedImage == null)
+      {
+         return this;
+      }
       BufferedImage newImage = new BufferedImage(width, height, getImageType());
       Graphics2D graphics2D = createGraphics(newImage);
       graphics2D.drawImage(bufferedImage, 0, 0, width, height, null);
@@ -378,6 +418,10 @@ public class Image implements Serializable
     */
    private Graphics2D createGraphics(BufferedImage image)
    {
+      if (image == null)
+      {
+         return null;
+      }
       Graphics2D graphics2D = image.createGraphics();
       graphics2D.setBackground(new Color(255, 255, 255));
       graphics2D.clearRect(0, 0, image.getWidth(), image.getHeight());

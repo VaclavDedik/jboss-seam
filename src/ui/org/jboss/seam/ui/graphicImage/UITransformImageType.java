@@ -22,6 +22,10 @@ public class UITransformImageType extends UIComponentBase implements ImageTransf
    
    public void applyTransform(Image image, UIGraphicImage cmp) throws IOException
    {
+      if (!isRendered())
+      {
+         return;
+      }
       Image.Type type = Image.Type.getTypeByMimeType(getContentType());
       if (type != null)
       {

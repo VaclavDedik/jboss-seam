@@ -27,6 +27,10 @@ public class UITransformImageSize extends UIComponentBase implements ImageTransf
    
    public void applyTransform(Image image, UIGraphicImage cmp) throws IOException
    {
+      if (!isRendered())
+      {
+         return;
+      }
 //    TODO reduce number of decimal places
       if (isMaintainRatio())
       {
