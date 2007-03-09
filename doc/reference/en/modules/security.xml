@@ -959,7 +959,32 @@ end;]]></programlisting>
         intended for.
       </para>
       
+      <sect3>
+        <title>Wildcard permission checks</title>
+        
+        <para>
+          It is possible to implement a wildcard permission check (which allows all actions for a given permission 
+          name), by omitting the <literal>action</literal> constraint for the <literal>PermissionCheck</literal> in
+          your rule, like this:
+        </para>
+        
+        <programlisting><![CDATA[rule CanDoAnythingToCustomersIfYouAreAnAdmin
+when
+  c: PermissionCheck(name == "customer")
+  Role(name == "admin")
+then
+  c.grant();
+end;        
+        ]]></programlisting>
+        
+        <para>
+          This rule allows users with the <literal>admin</literal> role to perform <emphasis>any</emphasis> action for
+          any <literal>customer</literal> permission check.
+        </para>
+      </sect3>
+      
     </sect2>
+    
   </sect1>
   
   <sect1>
