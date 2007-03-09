@@ -80,6 +80,7 @@ public class HotelBookingAction implements HotelBooking
          bookingValid=true;
       }
    }
+   
    public boolean isBookingValid()
    {
       return bookingValid;
