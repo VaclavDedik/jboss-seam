@@ -5,12 +5,15 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.ajax4jsf.org/rich"
                 template="layout/template.xhtml">
 
 <ui:define name="body">
 
     <h:messages globalOnly="true" styleClass="message"/>
     
+    <rich:panel>
+    <f:facet name="header">Welcome!</f:facet>
     <p>This empty shell application includes:</p>
     <ul>
         <li>Ant build script</li>
@@ -22,5 +25,7 @@
         <li>Default CSS stylesheet</li>
         <li>Internationalization support</li>
     </ul>
+    </rich:panel>
+    
 </ui:define> 
 </ui:composition>

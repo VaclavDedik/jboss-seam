@@ -13,8 +13,9 @@
 
 <body>
 
-    <ui:include src="menu.xhtml"/>
-    <ui:include src="loginout.xhtml"/>
+    <ui:include src="menu.xhtml">
+        <ui:param name="projectName" value="@projectName@"/>
+    </ui:include>
 
 	<div class="body">
   
@@ -25,7 +26,6 @@
             <s:span>&#160;<s:message/></s:span>
         </f:facet>
 
-        <h1>@projectName@</h1>
 		<ui:insert name="body"/>
     
 	</div>

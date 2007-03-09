@@ -11,14 +11,15 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.ajax4jsf.org/rich"
                 template="layout/template.xhtml">
                        
 <ui:define name="body">
-
-    <h1>${entityName}</h1>
-    <p>Generated view page</p>
     
     <h:messages globalOnly="true" styleClass="message" id="globalMessages"/>
+    
+    <rich:panel>
+        <f:facet name="header">${entityName}</f:facet>
     
     <div id="${componentName}" class="dialog">
         <h:panelGrid columns="2" rowClasses="prop" columnClasses="name,value">
@@ -30,6 +31,7 @@
 
         </h:panelGrid>
     </div>
+    </rich:panel>
     
     <div class="actionButtons">      
 
@@ -42,20 +44,21 @@
                  value="Done"/>
 
     </div>
+
+    <rich:tabPanel switchType="ajax">
 <#foreach property in pojo.allPropertiesIterator>
 <#if c2h.isManyToOne(property)>
 <#assign parentPojo = c2j.getPOJOClass(cfg.getClassMapping(property.value.referencedEntityName))>
 <#assign parentPageName = parentPojo.shortName>
 <#assign parentName = util.lower(parentPojo.shortName)>
 
+    <rich:tab label="${property.name}">
     <div class="association" id="${property.name}Parent">
-    
-        <h3>${property.name}</h3>
         
         <h:outputText value="No ${property.name}" 
                    rendered="${'#'}{${homeName}.instance.${property.name} == null}"/>
         
-        <h:dataTable var="${parentName}" 
+        <rich:dataTable var="${parentName}" 
                    value="${'#'}{${homeName}.instance.${property.name}}" 
                 rendered="${'#'}{${homeName}.instance.${property.name} != null}"
               rowClasses="rvgRowOne,rvgRowTwo"
@@ -109,15 +112,15 @@
 </#if>
                 </s:link>
             </h:column>
-        </h:dataTable>
+        </rich:dataTable>
         
     </div>
+    </rich:tab>
 </#if>
 <#if c2h.isOneToManyCollection(property)>
 
+    <rich:tab label="${property.name}">
     <div class="association" id="${property.name}Children">
-    
-        <h3>${property.name}</h3>
         
 <#assign childPojo = c2j.getPOJOClass(property.value.element.associatedClass)>
 <#assign childPageName = childPojo.shortName>
@@ -127,7 +130,7 @@
         <h:outputText value="No ${property.name}" 
                    rendered="${'#'}{empty ${homeName}.${property.name}}"/>
         
-        <h:dataTable value="${'#'}{${homeName}.${property.name}}" 
+        <rich:dataTable value="${'#'}{${homeName}.${property.name}}" 
                        var="${childName}" 
                   rendered="${'#'}{not empty ${homeName}.${property.name}}" 
                 rowClasses="rvgRowOne,rvgRowTwo"
@@ -166,10 +169,10 @@
                     <f:param name="${childName}From" value="${entityName}"/>
                 </s:link>
             </h:column>
-        </h:dataTable>
+        </rich:dataTable>
         
     </div>
-
+    
     <div class="actionButtons">
         <s:button id="add${childName}" 
                value="Add ${childName}"
@@ -179,9 +182,10 @@
             <f:param name="${childName}From" value="${entityName}"/>
         </s:button>
     </div>        
+    </rich:tab>
 </#if>
 </#foreach>
-    
+</rich:tabPanel>    
 </ui:define>
 
 </ui:composition>

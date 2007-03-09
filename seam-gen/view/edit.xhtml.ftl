@@ -12,17 +12,18 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+                xmlns:rich="http://richfaces.ajax4jsf.org/rich"
                 template="layout/template.xhtml">
                        
 <ui:define name="body">
-
-    <h1>${entityName}</h1>
-    <p>Generated edit page</p>
     
     <h:messages globalOnly="true" styleClass="message" id="globalMessages"/>
-    
+    <rich:panel rendered="false"/>
     <h:form id="${componentName}" styleClass="edit">
     
+        <div class="dr-pnl rich-panel">
+        <div class="dr-pnl-h rich-panel-header">Edit ${entityName}</div>
+        <div class="dr-pnl-b rich-panel-body">
         <div class="dialog">
             <s:validateAll>
                 <h:panelGrid columns="2" rowClasses="prop" columnClasses="name,value">
@@ -34,9 +35,11 @@
             </s:validateAll>
         </div>
         <div><span class="required">*</span> required fields</div>
-        
+        </div>
+        </div>
+                
         <div class="actionButtons">
-        
+
             <h:commandButton id="save" 
                           value="Save" 
                          action="${'#'}{${homeName}.persist}"
@@ -64,29 +67,28 @@
              propagation="end"
                     view="/${'#'}{empty ${componentName}From ? '${masterPageName}' : ${componentName}From}.xhtml"
                 rendered="${'#'}{!${homeName}.managed}"/>
-                
+
         </div>
-        
     </h:form>
+
+    <rich:tabPanel switchType="ajax">
 <#foreach property in pojo.allPropertiesIterator>
 <#if c2h.isManyToOne(property)>
 <#assign parentPojo = c2j.getPOJOClass(cfg.getClassMapping(property.value.referencedEntityName))>
 <#assign parentPageName = parentPojo.shortName>
 <#assign parentName = util.lower(parentPojo.shortName)>
-
-    <div class="association" id="${property.name}Parent">
     
-        <h3>
-           ${property.name}
-<#if !property.optional>
-           <s:span styleClass="required" rendered="${'#'}{${homeName}.instance.${property.name} == null}">*</s:span>
+<#if property.optional>
+    <rich:tab label="${property.name}">
+<#else>
+    <rich:tab label="${property.name} *" labelClass="required">
 </#if>
-        </h3>
+    <div class="association" id="${property.name}Parent">
     
         <h:outputText value="No ${property.name}" 
                    rendered="${'#'}{${homeName}.instance.${property.name} == null}"/>
         
-        <h:dataTable var="${parentName}" 
+        <rich:dataTable var="${parentName}" 
                    value="${'#'}{${homeName}.instance.${property.name}}" 
                 rendered="${'#'}{${homeName}.instance.${property.name} != null}"
               rowClasses="rvgRowOne,rvgRowTwo"
@@ -141,7 +143,7 @@
 </#if>
                 </s:link>
             </h:column>
-        </h:dataTable>
+        </rich:dataTable>
 
 <#if parentPojo.shortName!=pojo.shortName>
         <div class="actionButtons">
@@ -153,14 +155,12 @@
         
 </#if>
     </div>
+    </rich:tab>
 </#if>
 <#if c2h.isOneToManyCollection(property)>
 
-    <f:subview rendered="${'#'}{${homeName}.managed}" id="${property.name}">
-    
+    <rich:tab label="${property.name}">
         <div class="association" id="${property.name}Children">
-        
-            <h3>${property.name}</h3>
         
 <#assign childPojo = c2j.getPOJOClass(property.value.element.associatedClass)>
 <#assign childPageName = childPojo.shortName>
@@ -169,7 +169,7 @@
             <h:outputText value="No ${property.name}" 
                        rendered="${'#'}{empty ${homeName}.${property.name}}"/>
         
-            <h:dataTable value="${'#'}{${homeName}.${property.name}}" 
+            <rich:dataTable value="${'#'}{${homeName}.${property.name}}" 
                            var="${childName}" 
                       rendered="${'#'}{not empty ${homeName}.${property.name}}" 
                     rowClasses="rvgRowOne,rvgRowTwo"
@@ -209,10 +209,11 @@
                         <f:param name="${childName}From" value="${entityName}"/>
                     </s:link>
                 </h:column>
-            </h:dataTable>
+            </rich:dataTable>
         
         </div>
           
+        <f:subview rendered="${'#'}{${homeName}.managed}" id="${property.name}">
         <div class="actionButtons">
             <s:button id="add${childName}" 
                    value="Add ${childName}"
@@ -223,11 +224,11 @@
                  <f:param name="${childName}From" value="${entityName}"/>
             </s:button>
         </div>
-        
-    </f:subview>
+        </f:subview>
+    </rich:tab>
 </#if>
 </#foreach>
-    
+    </rich:tabPanel>
 </ui:define>
 
 </ui:composition>

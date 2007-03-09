@@ -5,43 +5,13 @@ a:hover {
 	color: #8CAFCD;
 }
 
-.menuButtons {
-	background-color: #FF6600; /*#8CAFCD*/
-	padding-top: 10px;
-	padding-bottom: 10px;
-}
-.menuButtons a {
-    font-weight: bold;
-    text-decoration: none;
-	padding-left: 10px;
-	padding-right: 10px;
-}
-.menuButtons a:active, .menuButtons a:link, .menuButtons a:visited {
-	font-family: Arial,sans-serif;
-	background-color: #FF6600; /*#8CAFCD*/
-	color: white;
-	border-right: 1px solid white;
-}
-.menuButtons a:hover {
-	font-family: Arial,sans-serif;
-    background-color: white;
-    color: #FF6600; /*#8CAFCD*/
-}
-
-.loginout {
-	font-family: Arial,sans-serif;
-	text-align: right;
-	padding-right: 10px;
-	padding-top: 5px;
-	font-size: 0.85em;
-}
-.loginout a {
-	text-decoration: none;
-}
-
 .footer {
 	text-align: center;
 	font-size: 0.8em;
+}
+
+.rich-table {
+    width:100%;
 }
 
 .actionButtons {
@@ -86,21 +56,6 @@ body {
 	padding: 30px;
 }
 
-
-table {
-	width: 100%;
-}
-th {
-	background-color: #578BB8;
-	color: white;
-	font-family: Arial,sans-serif;
-	padding: 5px;
-	
-}
-td {
-	background-color: #F0F0F0;
-	text-align: center;
-}
 .narrow {
 	width: 20%;
 }
@@ -114,12 +69,6 @@ td {
 	background-color: white;
 }
 
-.dialog 
-{
-	padding: 15px;
-	background-color: #F0F0F0;
-	margin: 10px;	
-}
 .dialog table
 {
 	width: auto;
@@ -142,6 +91,7 @@ td {
 	margin-top: 5px;
 	margin-bottom: 5px;
 	background-color: #F0F0F0;
+	font-size: 12px;
 }
 
 .prop {
@@ -176,7 +126,6 @@ td {
 /* date picker style */
 div.seam-date 
 {
-  width: 300px;
   margin-top: 5px;
   border: 1px solid #AAAAAA;
   background-color: #FFFFFF;  

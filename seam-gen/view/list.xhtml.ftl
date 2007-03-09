@@ -12,17 +12,16 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.ajax4jsf.org/rich"
                 template="layout/template.xhtml">
                        
 <ui:define name="body">
-
-    <h1>${entityName} search</h1>
-    <p>Generated search page</p>
     
     <h:messages globalOnly="true" styleClass="message" id="globalMessages"/>
     
     <h:form id="${componentName}" styleClass="edit">
     
+        <rich:simpleTogglePanel label="${entityName} search parameters" switchType="ajax">
         <div class="dialog">
             <h:panelGrid columns="2" rowClasses="prop" columnClasses="name,value">
 
@@ -49,6 +48,7 @@
 </#foreach>
             </h:panelGrid>
         </div>
+        </rich:simpleTogglePanel>
         
         <div class="actionButtons">
             <h:commandButton id="search" value="Search" action="/${listPageName}.xhtml"/>
@@ -56,14 +56,14 @@
         
     </h:form>
     
+    <rich:panel>
+        <f:facet name="header">${entityName} search results</f:facet>
     <div class="results" id="${componentName}List">
-
-    <h3>search results</h3>
 
     <h:outputText value="No ${componentName} exists" 
                rendered="${'#'}{empty ${listName}.resultList}"/>
                
-    <h:dataTable id="${listName}" 
+    <rich:dataTable id="${listName}" 
                 var="${componentName}"
               value="${'#'}{${listName}.resultList}" 
            rendered="${'#'}{not empty ${listName}.resultList}">
@@ -133,10 +133,11 @@
 </#if>
             </s:link>
         </h:column>
-    </h:dataTable>
+    </rich:dataTable>
 
     </div>
-
+    </rich:panel>
+    
     <div class="tableControl">
       
         <s:link view="/${listPageName}.xhtml" 

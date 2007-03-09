@@ -5,11 +5,15 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.ajax4jsf.org/rich"
                 template="layout/template.xhtml">
 
 <ui:define name="body">
-
-    <h1>Login</h1>
+    
+    <rich:panel rendered="false"/>
+    <div class="dr-pnl rich-panel">
+    <div class="dr-pnl-h rich-panel-header">Login</div>
+    <div class="dr-pnl-b rich-panel-body">
     <p>Please login using any username and password</p>
     
     <h:messages styleClass="message"/>
@@ -35,6 +39,8 @@
         </div>
           
     </h:form>
+    </div>
+    </div>
         
 </ui:define> 
 </ui:composition>
