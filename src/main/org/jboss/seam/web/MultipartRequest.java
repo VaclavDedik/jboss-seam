@@ -561,6 +561,10 @@ public class MultipartRequest extends HttpServletRequestWrapper
          ValueParam vp = (ValueParam) p;
          if (vp.getValue() instanceof String) return (String) vp.getValue();
       }
+      else if (p != null && p instanceof FileParam)
+      {
+         return "---BINARY DATA---";
+      }      
       else
       {
          return super.getParameter(name);
