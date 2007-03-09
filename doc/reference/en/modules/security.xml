@@ -717,21 +717,30 @@ public class Customer {
    ]]></programlisting>
       
       <para>
-        And here's an example of an entity permission rule that checks if the authenticated user is allowed to create
+        And here's an example of an entity permission rule that checks if the authenticated user is allowed to insert
         a new blog entry (from the seamspace example):      
       </para>
       
       <programlisting><![CDATA[rule InsertMemberBlog
   no-loop
-  activation-group "permissions"
+  activation-group "permissions"  
 when
-  c: PermissionCheck(name == "memberBlog", action == "insert", granted == false)
-  Principal(nm : name)
-  MemberBlog(mbr : member -> (mbr.getUsername().equals(nm)))
+  check: PermissionCheck(name == "memberBlog", action == "insert", granted == false)
+  Principal(name : name)
+  MemberBlog(member : member -> (member.getUsername().equals(name)))
 then
-  c.grant();
-  modify(c);
+  check.grant();
 end;]]></programlisting>
+
+       <para>
+         This rule will grant the permission <literal>memberBlog:insert</literal> if the currently authenticated
+         user (indicated by the <literal>Principal</literal> fact) has the same name as the member for which the
+         blog entry is being created.  The "<literal>name : name</literal>" structure that can be seen in the
+         <literal>Principal</literal> fact (and other places) is a variable binding - it binds the <literal>name</literal>
+         property of the <literal>Principal</literal> to a variable called <literal>name</literal>.  Variable bindings
+         allow the value to be referred to in other places, such as the following line which compares the member's username
+         to the <literal>Principal</literal> name.  For more details, please refer to the JBoss Rules documentation. 
+       </para>
 
        <para>
          Finally, we need to install a listener class that integrates Seam security with

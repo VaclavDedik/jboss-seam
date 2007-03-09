@@ -24,80 +24,73 @@ rule ViewImage
   no-loop
   activation-group "permissions"
 when
-  c: PermissionCheck(name == "memberImage", action == "view", granted == false)
-  img: MemberImage()
-  eval( img.getMember().getPicture() == img )
+  check: PermissionCheck(name == "memberImage", action == "view", granted == false)
+  image: MemberImage()
+  eval( image.getMember().getPicture() == image )
 then
-  c.grant();
-  modify(c);
+  check.grant();
 end;
 
 rule RestrictCommentPage
   no-loop
   activation-group "permissions"
 when
-  c: PermissionCheck(name == "/comment.xhtml", action == "render", granted == false)
+  check: PermissionCheck(name == "/comment.xhtml", action == "render", granted == false)
   Role(name == "user")
 then
-  c.grant();
-  modify(c);
+  check.grant();
 end;
 
 rule CreateBlogComment
   no-loop
   activation-group "permissions"
 when
-  c: PermissionCheck(name == "blog", action == "createComment", granted == false)
+  check: PermissionCheck(name == "blog", action == "createComment", granted == false)
   Role(name == "user")
 then
-  c.grant();
-  modify(c);
+  check.grant();
 end;
 
 rule CreateBlog
   no-loop
   activation-group "permissions"
 when
-  c: PermissionCheck(name == "blog", action == "create", granted == false)
-  Principal(nm : name)
-  Member(username == nm)
+  check: PermissionCheck(name == "blog", action == "create", granted == false)
+  Principal(name : name)
+  Member(username == name)
 then
-  c.grant();
-  modify(c);
+  check.grant();
 end;
 
 rule InsertMemberBlog
   no-loop
   activation-group "permissions"  
 when
-  c: PermissionCheck(name == "memberBlog", action == "insert", granted == false)
-  Principal(nm : name)
-  MemberBlog(mbr : member -> (mbr.getUsername().equals(nm)))
+  check: PermissionCheck(name == "memberBlog", action == "insert", granted == false)
+  Principal(name : name)
+  MemberBlog(member : member -> (member.getUsername().equals(name)))
 then
-  c.grant();
-  modify(c);
+  check.grant();
 end;
 
 rule CreateFriendComment
   no-loop
   activation-group "permissions"
 when
-  c: PermissionCheck(name == "friendComment", action == "create", granted == false)
-  Principal(nm : name)
-  MemberFriend(authorized == true, f : friend -> (f.getUsername().equals(nm)))
+  check: PermissionCheck(name == "friendComment", action == "create", granted == false)
+  Principal(name : name)
+  MemberFriend(authorized == true, f : friend -> (f.getUsername().equals(name)))
 then
-  c.grant();
-  modify(c);
+  check.grant();
 end;
 
 rule CreateFriendRequest
   no-loop
   activation-group "permissions"
 when
-  c: PermissionCheck(name == "friendRequest", action == "create", granted == false)
-  Principal(nm : name)
-  not MemberFriend(f : friend -> (f.getUsername().equals(nm)))
+  check: PermissionCheck(name == "friendRequest", action == "create", granted == false)
+  Principal(name : name)
+  not MemberFriend(f : friend -> (f.getUsername().equals(name)))
 then
-  c.grant();
-  modify(c);
+  check.grant();
 end;
