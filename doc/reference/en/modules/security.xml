@@ -668,7 +668,7 @@ public class Customer {
       <para>
         If no expression is specified in the <literal>@Restrict</literal> annotation, the default security check 
         that is performed is a permission check of <literal>entityName:action</literal>,
-        where <literal>entityName</literal> is the name of the entity (or the class name if no @Name is 
+        where <literal>entityName</literal> is the Seam component name of the entity (or the fully-qualified class name if no @Name is 
         specified), and the <literal>action</literal> is either <literal>read</literal>, 
         <literal>insert</literal>, <literal>update</literal> or <literal>delete</literal>. 
       </para>
