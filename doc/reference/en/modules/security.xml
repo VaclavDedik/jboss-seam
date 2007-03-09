@@ -718,7 +718,8 @@ public class Customer {
       
       <para>
         And here's an example of an entity permission rule that checks if the authenticated user is allowed to insert
-        a new blog entry (from the seamspace example):      
+        a new <literal>MemberBlog</literal> record (from the seamspace example).  The entity for which the security
+        check is being made is automatically asserted into the working memory (in this case <literal>MemberBlog</literal>):
       </para>
       
       <programlisting><![CDATA[rule InsertMemberBlog
@@ -726,8 +727,8 @@ public class Customer {
   activation-group "permissions"  
 when
   check: PermissionCheck(name == "memberBlog", action == "insert", granted == false)
-  Principal(name : name)
-  MemberBlog(member : member -> (member.getUsername().equals(name)))
+  Principal(principalName : name)
+  MemberBlog(member : member -> (member.getUsername().equals(principalName)))
 then
   check.grant();
 end;]]></programlisting>
