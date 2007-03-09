@@ -21,6 +21,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.StringTokenizer;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import javax.servlet.Filter;
@@ -70,7 +71,7 @@ public class Initialization
 
    private ServletContext servletContext;
    private Map<String, Conversions.PropertyValue> properties = new HashMap<String, Conversions.PropertyValue>();
-   private Map<String, SortedSet<ComponentDescriptor>> componentDescriptors = new HashMap<String, SortedSet<ComponentDescriptor>>();
+   private Map<String, SortedSet<ComponentDescriptor>> componentDescriptors = new TreeMap<String, SortedSet<ComponentDescriptor>>();
    private List<FactoryDescriptor> factoryDescriptors = new ArrayList<FactoryDescriptor>();
    private Set<Class> installedComponentClasses = new HashSet<Class>();
    private Set<String> importedPackages = new HashSet<String>();
