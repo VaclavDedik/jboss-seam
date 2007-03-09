@@ -166,6 +166,9 @@ td {
 .errors input {
 	border: 1px solid red;
 }
+.errors textarea {
+	border: 1px solid red;
+}
 .required {
 	color: red;
 }
