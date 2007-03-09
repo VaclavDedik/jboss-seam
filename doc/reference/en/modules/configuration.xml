@@ -74,6 +74,26 @@
 </context-param>]]></programlisting>
 
         </sect2>
+        
+        <sect2>
+            <title>Seam Resource Servlet</title>
+            
+            <para>
+                The Seam Resource Servlet provides resources used by Seam Remoting, captchas (see the security 
+                chapter) and some JSF UI controls.  Configuring the Seam Resource Servlet requires the following
+                entry in <literal>web.xml</literal>:
+            </para>
+            
+            <programlisting><![CDATA[<servlet>
+  <servlet-name>Seam Resource Servlet</servlet-name>
+  <servlet-class>org.jboss.seam.servlet.ResourceServlet</servlet-class>
+</servlet>
+    
+<servlet-mapping>
+  <servlet-name>Seam Resource Servlet</servlet-name>
+  <url-pattern>/seam/resource/*</url-pattern>
+</servlet-mapping>]]></programlisting>
+        </sect2>
 
         <sect2>
             <title>Seam servlet filters</title>
