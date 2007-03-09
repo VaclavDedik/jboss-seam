@@ -19,11 +19,13 @@
         <s:div id="blogMemberCard">	        
 	        <s:link view="/profile.seam" value="#{friendRequest.member.memberName}" propagation="none">
             <f:param name="name" value="#{friendRequest.member.memberName}"/>	        
-  	        	<s:graphicImage value="#{friendRequest.member.picture.data}" fileName="member/#{friendRequest.member.memberName}" rendered="#{not empty friendRequest.member.picture}">
+  	        	<s:graphicImage value="#{friendRequest.member.picture.data}" fileName="member/#{friendRequest.member.memberName}" rendered="#{friendRequest.member.picture ne null}">
                 	<s:transformImageType contentType="image/png" />
                 	<s:transformImageSize width="90" maintainRatio="true" />
                 </s:graphicImage>
-                <s:graphicImage value="/images/no_image.png" fileName="member/no_image" rendered="#{empty friendRequest.member.picture}"/>
+                <s:graphicImage value="/images/no_image.png" fileName="member/no_image" rendered="#{friendRequest.member.picture eq null}">
+                	<s:transformImageSize width="90" maintainRatio="true" />
+                </s:graphicImage>
 	        </s:link>
 
           <br style="clear:both"/>

@@ -79,7 +79,7 @@ public class RegisterAction implements Register
 
       entityManager.persist(newMember);
 
-      if (picture != null)
+      if (picture != null && picture.length > 0)
       {
          MemberImage img = new MemberImage();
          img.setData(picture);

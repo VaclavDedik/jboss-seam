@@ -19,12 +19,11 @@
         <s:div id="memberCard">
           <h1>#{selectedMember.memberName}'s profile</h1>
                     
-          <s:div id="memberCardPicture" rendered="#{selectedMember.picture != null}">
-            	<s:graphicImage value="#{selectedMember.picture.data}" fileName="member/#{selectedMember.memberName}-170" rendered="#{not empty selectedMember.picture}">
+          <s:div id="memberCardPicture" rendered="#{selectedMember.picture ne null}">
+            	<s:graphicImage value="#{selectedMember.picture.data}" fileName="member/#{selectedMember.memberName}-170">
                 	<s:transformImageType contentType="image/png" />
                 	<s:transformImageSize width="170" maintainRatio="true" />
                 </s:graphicImage>
-                <s:graphicImage value="/images/no_image.png" fileName="member/no_image" rendered="#{empty selectedMember.picture}"/>
           </s:div>
           
           <div id="memberCardText">
@@ -65,11 +64,13 @@
               <s:link view="/profile.seam" propagation="none">
                 <f:param name="name" value="#{f.memberName}"/>
                 #{f.memberName}<br/>
-                <s:graphicImage value="#{f.picture.data}" fileName="member/#{f.memberName}" rendered="#{not empty f.picture}">
+                <s:graphicImage value="#{f.picture.data}" fileName="member/#{f.memberName}" rendered="#{f.picture ne null}">
                 	<s:transformImageType contentType="image/png" />
                 	<s:transformImageSize width="90" maintainRatio="true" />
                 </s:graphicImage>
-                <s:graphicImage value="/images/no_image.png" fileName="member/no_image" rendered="#{empty f.picture}"/>
+                <s:graphicImage value="/images/no_image.png" fileName="member/no_image" rendered="#{f.picture eq null}">
+                	<s:transformImageSize width="90" maintainRatio="true" />
+                </s:graphicImage>
               </s:link>
               
             </div>          
@@ -93,11 +94,13 @@
 					        <s:link view="/profile.seam">
 					          <f:param name="name" value="#{c.friend.memberName}"/>
 					          #{c.friend.memberName}<br/>
-				              	<s:graphicImage value="#{c.friend.picture.data}" fileName="member/#{c.friend.memberName}" rendered="#{not empty c.friend.picture}">
+				              	<s:graphicImage value="#{c.friend.picture.data}" fileName="member/#{c.friend.memberName}" rendered="#{c.friend.picture ne null}">
 			                		<s:transformImageType contentType="image/png" />
             			    		<s:transformImageSize width="90" maintainRatio="true" />
 			                	</s:graphicImage>
-            				    <s:graphicImage value="/images/no_image.png" fileName="member/no_image" rendered="#{empty c.friend.picture}"/>
+            				    <s:graphicImage value="/images/no_image.png" fileName="member/no_image" rendered="#{c.friend.picture eq null}">
+            				    	<s:transformImageSize width="90" maintainRatio="true" />
+            				    </s:graphicImage>
 					        </s:link>
 		            </td>
 		            
