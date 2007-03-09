@@ -10,8 +10,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.el.ValueBinding;
 import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 
 import org.jboss.seam.web.MultipartRequest;
 
@@ -130,7 +128,7 @@ public class UIFileUpload extends UIComponentBase
 
       ResponseWriter writer = context.getResponseWriter();
       writer.startElement(HTML.INPUT_ELEM, this);      
-      writer.writeAttribute(HTML.TYPE_ATTR, HTML.FILE_ATTR, null);
+      writer.writeAttribute(HTML.TYPE_ATTR, HTML.FILE_ATTR, null);      
       
       String clientId = this.getClientId(context);      
       writer.writeAttribute(HTML.ID_ATTR, clientId, null);     
