@@ -175,6 +175,7 @@ public class MultipartRequest extends HttpServletRequestWrapper
          if (fOut != null)
          {
             fOut.write(data, start, length);
+            fOut.flush();
          }
          else
          {
@@ -187,37 +188,60 @@ public class MultipartRequest extends HttpServletRequestWrapper
       
       public byte[] getData()
       {
-        if (bOut != null)
-        {
-           return bOut.toByteArray();
-        }
-        else if (tempFile != null)
-        {
-           if (tempFile.exists())
-           {
-              try
-              {
-                 FileInputStream fIn = new FileInputStream(tempFile);
-                 ByteArrayOutputStream bOut = new ByteArrayOutputStream();
-                 byte[] buf = new byte[512];
-                 int read = fIn.read(buf);
-                 while (read != -1)
-                 {
-                    bOut.write(buf, 0, read);
-                    read = fIn.read(buf);
-                 }
-                 bOut.flush();                 
-                 return bOut.toByteArray();
-              }
-              catch (IOException ex) { /* too bad? */}
-           }
-        }
+         if (fOut != null)
+         {
+            try
+            {
+               fOut.close();
+            }
+            catch (IOException ex) {}
+            fOut = null;
+         }
+         
+         if (bOut != null)
+         {
+            return bOut.toByteArray();
+         }
+         else if (tempFile != null)
+         {
+            if (tempFile.exists())
+            {
+               try
+               {
+                  FileInputStream fIn = new FileInputStream(tempFile);
+                  ByteArrayOutputStream bOut = new ByteArrayOutputStream();
+                  byte[] buf = new byte[512];
+                  int read = fIn.read(buf);
+                  while (read != -1)
+                  {
+                     bOut.write(buf, 0, read);
+                     read = fIn.read(buf);
+                  }
+                  bOut.flush();
+
+                  fIn.close();
+                  tempFile.delete();
+                  return bOut.toByteArray();
+               }
+               catch (IOException ex) { /* too bad? */}
+            }
+         }
         
         return null;
       }
       
       public InputStream getInputStream()
       {
+         if (fOut != null)
+         {
+            try
+            {
+               fOut.close();
+            }
+            catch (IOException ex) {}
+            fOut = null;
+         }
+         
          if (bOut!=null)
          {
             return new ByteArrayInputStream(bOut.toByteArray());
@@ -226,7 +250,14 @@ public class MultipartRequest extends HttpServletRequestWrapper
          {
             try
             {
-               return new FileInputStream(tempFile);
+               return new FileInputStream(tempFile) {
+                  @Override
+                  public void close() throws IOException
+                  {
+                     super.close();
+                     tempFile.delete();
+                  }
+               };
             }
             catch (FileNotFoundException ex) { }
          }
