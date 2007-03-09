@@ -90,7 +90,7 @@ public class HtmlLink extends HtmlOutputLink implements ActionSource
       }
       else
       {
-         viewId = context.getViewRoot().getViewId();
+         viewId = Pages.getViewId(context);
       }
       
       String url = context.getApplication().getViewHandler().getActionURL(context, viewId);
@@ -155,7 +155,9 @@ public class HtmlLink extends HtmlOutputLink implements ActionSource
          //always add the id, since conversations could begin after link is rendered
          if ( !conversationIdEncoded )
          {
-            encodedUrl += getParameterString(characterEncoding, new UIConversationId(viewId), first);
+            UIConversationId uiConversationId = new UIConversationId();
+            uiConversationId.setViewId(viewId);
+            encodedUrl += getParameterString(characterEncoding, uiConversationId, first);
             first = false;
          }
          if ( Conversation.instance().isLongRunning() || Conversation.instance().isNested() )

@@ -3,6 +3,7 @@ package org.jboss.seam.ui;
 import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
 
+import org.jboss.seam.core.Pages;
 import org.jboss.seam.core.SafeActions;
 
 public class UIAction extends UIParameter
@@ -36,7 +37,7 @@ public class UIAction extends UIParameter
    @Override
    public Object getValue()
    {
-      String viewId = getFacesContext().getViewRoot().getViewId();
+      String viewId = Pages.getCurrentViewId();
       if ( isMethodBinding() )
       {
          String actionId = SafeActions.toActionId( viewId, action );

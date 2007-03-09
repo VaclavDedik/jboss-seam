@@ -20,6 +20,7 @@ import javax.faces.model.DataModel;
 
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Pages;
+import org.jboss.seam.pages.Page;
 
 public class HtmlButton extends HtmlOutputButton implements ActionSource
 {
@@ -105,7 +106,7 @@ public class HtmlButton extends HtmlOutputButton implements ActionSource
       }
       else
       {
-         viewId = context.getViewRoot().getViewId();
+         viewId = Pages.getViewId(context);
       }
       
       String url = context.getApplication().getViewHandler().getActionURL(context, viewId);
@@ -116,6 +117,9 @@ public class HtmlButton extends HtmlOutputButton implements ActionSource
       boolean first = true;
       Set<String> usedParameters = new HashSet<String>();
       
+      boolean conversationIdEncoded = false;
+      Page page = Pages.instance().getPage(viewId);
+      
       for (Object child: getChildren())
       {
          if (child instanceof UIParameter)
@@ -125,6 +129,11 @@ public class HtmlButton extends HtmlOutputButton implements ActionSource
             {
                encodedUrl += getParameterString(characterEncoding, uip, first);
                first = false;
+               
+               if (uip.getName().equals(page.getConversationIdParameter().getParameterName()))
+               {
+                  conversationIdEncoded = true;
+               }
             }
             usedParameters.add( uip.getName() );
          }
@@ -140,6 +149,11 @@ public class HtmlButton extends HtmlOutputButton implements ActionSource
             uip.setValue( me.getValue() );
             encodedUrl += getParameterString(characterEncoding, uip, first);
             first = false;
+
+            if (!conversationIdEncoded && me.getKey().equals(page.getConversationIdParameter().getParameterName()))
+            {
+               conversationIdEncoded = true;
+            }
          }
       }
       
@@ -154,8 +168,13 @@ public class HtmlButton extends HtmlOutputButton implements ActionSource
       if ( "default".equals(propagation) || "join".equals(propagation) || "nest".equals(propagation) || "end".equals(propagation) )
       {
          //always add the id, since conversations could begin after link is rendered
-         encodedUrl += getParameterString(characterEncoding, new UIConversationId(), first);
-         first = false;
+         if ( !conversationIdEncoded )
+         {
+            UIConversationId uiConversationId = new UIConversationId();
+            uiConversationId.setViewId(viewId);
+            encodedUrl += getParameterString(characterEncoding, uiConversationId, first);
+            first = false;
+         }
          if ( Conversation.instance().isLongRunning() || Conversation.instance().isNested() )
          {
             encodedUrl += getParameterString(characterEncoding, new UIConversationIsLongRunning(), first);
