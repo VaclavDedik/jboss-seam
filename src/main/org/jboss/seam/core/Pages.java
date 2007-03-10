@@ -95,11 +95,11 @@ public class Pages
       InputStream stream = Resources.getResourceAsStream("/WEB-INF/pages.xml");      
       if (stream==null)
       {
-         log.info("no pages.xml file found");
+         log.debug("no pages.xml file found");
       }
       else
       {
-         log.info("reading pages.xml");
+         log.debug("reading pages.xml");
          parse(stream);
       }
    }

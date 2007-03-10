@@ -110,7 +110,7 @@ public class Exceptions
       InputStream stream = Resources.getResourceAsStream(fileName);
       if (stream!=null)
       {
-         log.info("reading exception mappings from " + fileName);
+         log.debug("reading exception mappings from " + fileName);
          List<Element> elements = XML.getRootElement(stream).elements("exception");
          for (final Element exception: elements)
          {
