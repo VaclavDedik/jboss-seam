@@ -921,7 +921,7 @@ end;]]></programlisting>
         a user being authenticated.  These include any <literal>java.security.Principal</literal> objects that
         are created as part of the authentication process, plus a <literal>org.jboss.seam.security.Role</literal>
         object for each of the roles that the user is a member of.  It is also possible to assert additional 
-        long-lived facts into the working memory by calling <literal>Identity.instance().getSecurityContext().assertObject()</literal>,
+        long-lived facts into the working memory by calling <literal>RuleBasedIdentity.instance().getSecurityContext().assertObject()</literal>,
         passing the object as a parameter.
       </para>
       
