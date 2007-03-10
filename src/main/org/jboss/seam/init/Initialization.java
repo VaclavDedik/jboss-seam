@@ -24,7 +24,6 @@ import java.util.StringTokenizer;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import javax.servlet.Filter;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
@@ -34,7 +33,6 @@ import org.dom4j.Element;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
-import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Namespace;
@@ -51,7 +49,6 @@ import org.jboss.seam.deployment.ComponentScanner;
 import org.jboss.seam.deployment.NamespaceScanner;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
-import org.jboss.seam.servlet.AbstractResource;
 import org.jboss.seam.util.Conversions;
 import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Reflections;
@@ -71,7 +68,7 @@ public class Initialization
 
    private ServletContext servletContext;
    private Map<String, Conversions.PropertyValue> properties = new HashMap<String, Conversions.PropertyValue>();
-   private Map<String, SortedSet<ComponentDescriptor>> componentDescriptors = new TreeMap<String, SortedSet<ComponentDescriptor>>();
+   private Map<String, Set<ComponentDescriptor>> componentDescriptors = new TreeMap<String, Set<ComponentDescriptor>>();
    private List<FactoryDescriptor> factoryDescriptors = new ArrayList<FactoryDescriptor>();
    private Set<Class> installedComponentClasses = new HashSet<Class>();
    private Set<String> importedPackages = new HashSet<String>();
@@ -159,6 +156,7 @@ public class Initialization
       }
    }
 
+   @SuppressWarnings("unchecked")
    private void installComponentsFromXmlElements(Element rootElement, Properties replacements)
             throws DocumentException, ClassNotFoundException
    {
@@ -248,6 +246,7 @@ public class Initialization
       }
    }
 
+   @SuppressWarnings("unchecked")
    private void installEventListenerFromXmlElement(Element event)
    {
       String type = event.attributeValue("type");
@@ -305,6 +304,7 @@ public class Initialization
       return value;
    }
 
+   @SuppressWarnings("unchecked")
    private void installComponentFromXmlElement(Element component, String name, String className,
             Properties replacements) throws ClassNotFoundException
    {
@@ -397,10 +397,10 @@ public class Initialization
    private void addComponentDescriptor(ComponentDescriptor descriptor)
    {
       String name = descriptor.getName();
-      SortedSet<ComponentDescriptor> set = componentDescriptors.get(name);
+      Set<ComponentDescriptor> set = componentDescriptors.get(name);
       if (set==null)
       {
-         set = new TreeSet<ComponentDescriptor>();
+         set = new TreeSet<ComponentDescriptor>(new ComponentDescriptor.PrecedenceComparator());
          componentDescriptors.put(name, set);
       }
       if ( !set.isEmpty() )
@@ -418,6 +418,7 @@ public class Initialization
       return new Conversions.FlatPropertyValue( trimmedText(prop, replacements) );
    }
    
+   @SuppressWarnings("unchecked")
    private Conversions.PropertyValue getPropertyValue(Element prop, String propName,
             Properties replacements)
    {
@@ -755,7 +756,7 @@ public class Initialization
 
    protected ComponentDescriptor findDescriptor(Class<?> componentClass)
    {
-      for (SortedSet<ComponentDescriptor> components : componentDescriptors.values())
+      for (Set<ComponentDescriptor> components : componentDescriptors.values())
       {
          for (ComponentDescriptor component: components)
          {
@@ -786,44 +787,31 @@ public class Initialization
    {
       log.info("Installing components...");
       Context context = Contexts.getApplicationContext();
-      boolean installedSomething = false;
-      do
-      {
-         installedSomething = false;
-         for ( SortedSet<ComponentDescriptor> descriptors: componentDescriptors.values() )
-         {
-            //iterate over them from highest precedence to lowest
-            for (ComponentDescriptor componentDescriptor: descriptors)
-            {
-               String compName = componentDescriptor.getName() + COMPONENT_SUFFIX;
-               if ( !context.isSet(compName) && dependenciesMet(componentDescriptor) )
-               {
-                  addComponent(componentDescriptor, context);
-                  
-                  installedSomething = true;
 
-                  if ( componentDescriptor.isAutoCreate() )
-                  {
-                     init.addAutocreateVariable( componentDescriptor.getName() );
-                  }
-                  
-                  if ( componentDescriptor.isFilter() )
-                  {
-                     init.addInstalledFilter( componentDescriptor.getName() );
-                  }
-                  
-                  if ( componentDescriptor.isResourceProvider() )
-                  {
-                     init.addResourceProvider( componentDescriptor.getName() );
-                  }
-                  
-                  break;
-               }
-            }
-         }
+      DependencyManager manager = new DependencyManager(componentDescriptors);
 
+      Set<ComponentDescriptor> installable = manager.installedSet();
+      System.out.println("** INSTALLABLE: " + installable);
+      for (ComponentDescriptor componentDescriptor: installable) {
+          String compName = componentDescriptor.getName() + COMPONENT_SUFFIX;
+
+          if (!context.isSet(compName)) {
+              addComponent(componentDescriptor, context);
+
+              if (componentDescriptor.isAutoCreate()) {
+                  init.addAutocreateVariable( componentDescriptor.getName() );
+              }
+
+              if (componentDescriptor.isFilter()) {
+                  init.addInstalledFilter( componentDescriptor.getName() );
+              }
+
+              if (componentDescriptor.isResourceProvider()) {
+                  init.addResourceProvider( componentDescriptor.getName() );
+              }
+          }
       }
-      while (installedSomething);
+
 
       for (FactoryDescriptor factoryDescriptor : factoryDescriptors)
       {
@@ -852,50 +840,7 @@ public class Initialization
       }
    }
 
-   protected boolean dependenciesMet(ComponentDescriptor descriptor)
-   {
-      if ( !descriptor.isInstalled() ) return false;
-      
-      String[] dependencies = descriptor.getDependencies();
-      if (dependencies!=null)
-      {
-         for (String dependency: dependencies)
-         {
-            if ( !componentDescriptors.containsKey(dependency) ) //TODO: call && descriptor.isInstalled() recursively
-            {
-               return false;
-            }
-         }
-      }
-      Class[] genericDependencies = descriptor.getGenericDependencies();
-      if (genericDependencies!=null)
-      {
-         for (Class genericDependency: genericDependencies)
-         {
-            if ( !installedComponentClasses.contains(genericDependency) )
-            {
-               return false;
-            }
-         }
-      }
-      String[] classDependencies = descriptor.getClassDependencies();
-      if (classDependencies != null) 
-      {
-          for (String className: classDependencies) 
-          {
-              try 
-              {
-                  descriptor.getComponentClass().getClassLoader().loadClass(className);
-              } 
-              catch (Exception e) 
-              {
-                  return false;
-              }
-          }
-      }
-      return true;
-   }
-
+  
    /**
     * This actually creates a real Component and should only be called when
     * we want to install a component
@@ -947,89 +892,7 @@ public class Initialization
       return result.toString();
    }
 
-   private static class FactoryDescriptor
-   {
-      private String name;
-      private ScopeType scope;
-      private String method;
-      private String value;
-      private boolean autoCreate;
-
-      FactoryDescriptor(String name, ScopeType scope, String method, String value,
-               boolean autoCreate)
-      {
-         super();
-         this.name = name;
-         this.scope = scope;
-         this.method = method;
-         this.value = value;
-         this.autoCreate = autoCreate;
-      }
-
-      public String getMethod()
-      {
-         return method;
-      }
-
-      public String getValue()
-      {
-         return value;
-      }
-
-      public String getName()
-      {
-         return name;
-      }
-
-      public ScopeType getScope()
-      {
-         return scope;
-      }
-
-      public boolean isValueBinding()
-      {
-         return method == null;
-      }
-
-      public boolean isAutoCreate()
-      {
-         return autoCreate;
-      }
-
-      @Override
-      public String toString()
-      {
-         return "FactoryDescriptor(" + name + ')';
-      }
-   }
-
-   private static class NamespaceDescriptor
-   {
-      private Namespace namespace;
-      private Package pkg;
-
-      NamespaceDescriptor(Namespace namespace, Package pkg)
-      {
-         this.namespace = namespace;
-         this.pkg = pkg;
-      }
-
-      public Namespace getNamespace()
-      {
-         return namespace;
-      }
-
-      public Package getPackage()
-      {
-         return pkg;
-      }
-
-      @Override
-      public String toString()
-      {
-         return "EventListenerDescriptor(" + namespace + ')';
-      }
-   }
+   
    
    private static class EventListenerDescriptor
    {
@@ -1058,174 +921,5 @@ public class Initialization
       }
    }
 
-   private static class ComponentDescriptor implements Comparable<ComponentDescriptor>
-   {
-      private String name;
-      private Class<?> componentClass;
-      private ScopeType scope;
-      private String jndiName;
-      private Boolean installed;
-      private boolean autoCreate;
-      private Integer precedence;
-
-      /**
-       * For components.xml
-       */
-      ComponentDescriptor(String name, Class<?> componentClass, ScopeType scope,
-               boolean autoCreate, String jndiName, Boolean installed, Integer precedence)
-      {
-         this.name = name;
-         this.componentClass = componentClass;
-         this.scope = scope;
-         this.jndiName = jndiName;
-         this.installed = installed;
-         this.autoCreate = autoCreate;
-         this.precedence = precedence;
-      }
-      
-      /**
-       * For a scanned role
-       */
-      public ComponentDescriptor(String name, Class<?> componentClass, ScopeType scope)
-      {
-         this.name = name;
-         this.componentClass = componentClass;
-         this.scope = scope;
-      }
-
-      /**
-       * For a scanned default role
-       */
-      public ComponentDescriptor(Class componentClass)
-      {
-         this.componentClass = componentClass;
-      }
-
-      /**
-       * For built-ins with special rules
-       */
-      public ComponentDescriptor(Class componentClass, Boolean installed)
-      {
-         this.componentClass = componentClass;
-         this.installed = installed;
-
-      }
-
-      public String getName()
-      {
-         return name == null ? Seam.getComponentName(componentClass) : name;
-      }
-
-      public ScopeType getScope()
-      {
-         return scope == null ? Seam.getComponentScope(componentClass) : scope;
-      }
-
-      public Class getComponentClass()
-      {
-         return componentClass;
-      }
-
-      public String getJndiName()
-      {
-         return jndiName;
-      }
-
-      public boolean isAutoCreate()
-      {
-         return autoCreate || componentClass.isAnnotationPresent(AutoCreate.class);
-      }
-
-      public String[] getDependencies()
-      {
-         Install install = componentClass.getAnnotation(Install.class);
-         if (install == null)
-         {
-            return null;
-         }
-         return install.dependencies();
-      }
-
-      public Class[] getGenericDependencies()
-      {
-         Install install = componentClass.getAnnotation(Install.class);
-         if (install == null)
-         {
-            return null;
-         }
-         return install.genericDependencies();
-      }
-
-      public String[] getClassDependencies() 
-      {
-          Install install = componentClass.getAnnotation(Install.class);
-          if (install == null)
-          {
-             return null;
-          }
-          return install.classDependencies();  
-      }
-      
-      public boolean isInstalled()
-      {
-         if (installed != null)
-         {
-            return installed;
-         }
-         Install install = componentClass.getAnnotation(Install.class);
-         if (install == null)
-         {
-            return true;
-         }
-         return install.debug() ? Init.instance().isDebug() : install.value();
-      }
-      
-      public int getPrecedence()
-      {
-         if (precedence != null)
-         {
-            return precedence;
-         }
-         Install install = componentClass.getAnnotation(Install.class);
-         if (install == null)
-         {
-            return Install.APPLICATION;
-         }
-         return install.precedence();
-      }
-      
-      public int compareTo(ComponentDescriptor other)
-      {
-         return other.getPrecedence() - getPrecedence();
-      }
-      
-      @Override
-      public boolean equals(Object other)
-      {
-         return getPrecedence() == ( (ComponentDescriptor) other ).getPrecedence(); 
-      }
-      
-      @Override
-      public int hashCode()
-      {
-         return getPrecedence();
-      }
-      
-      public boolean isFilter()
-      {
-         return Filter.class.isAssignableFrom(componentClass);
-      }
-      
-      public boolean isResourceProvider()
-      {
-         return AbstractResource.class.isAssignableFrom(componentClass);
-      }
-
-      @Override
-      public String toString()
-      {
-         return "ComponentDescriptor(" + getName() + ')';
-      }
-   }
-
+   
 }

@@ -1,7 +1,6 @@
 <!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
 
 <suite name="Seam Unit Tests" verbose="2" parallel="false">
-
    <test name="Core">
      <classes>
        <class name="org.jboss.seam.test.CoreTest"/>
@@ -15,7 +14,7 @@
        <class name="org.jboss.seam.test.MethodExpressionParserTest"/>
        <class name="org.jboss.seam.test.SecurityTest"/>
        <class name="org.jboss.seam.test.InterpolatorTest"/>
+       <class name="org.jboss.seam.test.DependencyTest"/>
      </classes>
    </test>
-	
 </suite>
