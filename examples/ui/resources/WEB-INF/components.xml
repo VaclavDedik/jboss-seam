@@ -18,6 +18,11 @@
     <framework:entity-query name="continents" ejbql="select c from Continent c" />
      
     <framework:entity-home name="personHome" entity-class="org.jboss.seam.example.ui.Person" />
+    
+    <framework:entity-query name="colours" ejbql="select c from Colour c" />
+    
+    <framework:entity-query name="books" ejbql="select b from Book b" />
 
 	<factory name="person" value="#{personHome.instance}" />
+	
 </components>

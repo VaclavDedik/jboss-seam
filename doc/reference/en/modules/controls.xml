@@ -57,6 +57,24 @@
            </listitem>
        </varlistentry>
        <varlistentry>
+           <term><literal>&lt;s:convertEntity&gt;</literal></term>
+           <listitem>
+               <para>
+                   Assigns an entity converter to the current component.  This is primarily
+                   useful for radio button and dropdown controls.
+               </para>
+               <para>
+               		The converter works with any entity which has an <literal>@Id</literal> annotation -
+               		either simple or composite.  If your <emphasis>Managed Persistence Context</emphasis> isn't called
+               		<literal>entityManager</literal>, then you need to set it in components.xml:
+             	</para>
+             	<programlisting><![CDATA[
+    <component name="org.jboss.seam.ui.entityConverter">
+        <property name="entityManager">#{em}</property>
+    </component>]]></programlisting>
+           </listitem>
+       </varlistentry>
+       <varlistentry>
            <term><literal>&lt;s:enumItem&gt;</literal></term>
            <listitem>
                <para>

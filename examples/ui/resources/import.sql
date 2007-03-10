@@ -17,3 +17,15 @@ insert into country (name, continent_id) values ('Australia', 3);
 insert into country (name, continent_id) values ('Chile', 2);
 insert into country (name, continent_id) values ('China', 5);
 insert into country (name, continent_id) values ('South Africa', 6);
+
+insert into colour(name) values ('Red')
+insert into colour(name) values ('Blue')
+insert into colour(name) values ('Green')
+insert into colour(name) values ('Purple')
+insert into colour(name) values ('Yellow')
+insert into colour(name) values ('Orange')
+
+insert into book(name,author,nationality) values ('Pride and Prejudice', 'Jane Austin', 'British')
+insert into book(name,author,nationality) values ('The Great Gatsby', 'F. Scott Fitzgerald', 'American')
+insert into book(name,author,nationality) values ('Romeo and Juliet', 'William Shakespeare', 'British')
+insert into book(name,author,nationality) values ('The Illiad', 'Homer', 'Ancient Greek')

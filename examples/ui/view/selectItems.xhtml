@@ -47,21 +47,37 @@
 			</s:decorate>
 			<h:outputText value="Continent of Birth" />
 			<s:decorate>
-				<h:selectOneMenu value="#{person.continent}"  converter="#{converters.continentConverter}" required="true">
+				<h:selectOneMenu value="#{person.continent}" required="true">
 					<s:selectItems value="#{continents.resultList}" var="continent" label="#{continent.name}" noSelectionLabel="Please Select..." hideNoSelectionLabel="true"/>
+					<s:convertEntity />
 				</h:selectOneMenu>
 			</s:decorate>
 			<h:outputText value="Country of Birth" />
 			<s:decorate>
-				<h:selectOneMenu value="#{person.country}"  converter="#{converters.countryConverter}" required="true" disabled="#{empty person.continent}">
+				<h:selectOneRadio value="#{person.country}" required="true" disabled="#{empty person.continent}">
 					<s:selectItems value="#{person.continent.countries}" var="country" label="#{country.name} (#{country.continent.name})" noSelectionLabel="Please Select..." hideNoSelectionLabel="true"/>
-				</h:selectOneMenu>
+					<s:convertEntity />
+				</h:selectOneRadio>
 			</s:decorate>
 			<h:outputText value="Age" />
 			<s:decorate>
 				<h:selectOneMenu value="#{person.age}"  converter="#{converters.ageConverter}">
 					<s:selectItems value="#{ages}" var="age" label="#{age}" />
 				</h:selectOneMenu>
+			</s:decorate>
+			<h:outputText value="Favourite Colours" />
+			<s:decorate>
+				<h:selectManyListbox value="#{person.favouriteColours}" >
+					<s:selectItems value="#{colours.resultList}" var="colour" label="#{colour.name}" />
+					<s:convertEntity />
+				</h:selectManyListbox>
+			</s:decorate>
+			<h:outputText value="Favourite Book" />
+			<s:decorate>
+				<h:selectOneListbox value="#{person.favouriteBook}" >
+					<s:selectItems value="#{books.resultList}" var="book" label="#{book.name} by #{book.author} (#{book.nationality})" />
+					<s:convertEntity />
+				</h:selectOneListbox>
 			</s:decorate>
 		</h:panelGrid>
 		<h:commandButton value="Apply" action="#{personHome.update}">

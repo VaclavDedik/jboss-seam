@@ -8,6 +8,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Reflections
 {
@@ -234,6 +236,23 @@ public class Reflections
       throw new IllegalArgumentException("no such getter method: " + clazz.getName() + '.' + name);
    }
    
+   /**
+    * Get all the getter methods annotated with the given annotation. Returns an empty list if
+    * none are found
+    */
+   public static List<Method> getGetterMethods(Class clazz, Class annotation) 
+   {
+      List<Method> methods = new ArrayList<Method>();
+      for (Method method : clazz.getMethods())
+      {
+         if (method.isAnnotationPresent(annotation))
+         {
+            methods.add(method);
+         }
+      }
+      return methods;
+   }
+   
    public static Field getField(Class clazz, String name)
    {
       for ( Class superClass = clazz; superClass!=Object.class; superClass=superClass.getSuperclass() )
@@ -245,6 +264,30 @@ public class Reflections
          catch (NoSuchFieldException nsfe) {}
       }
       throw new IllegalArgumentException("no such field: " + clazz.getName() + '.' + name);
+   }
+   
+   /**
+    * Get all the fields which are annotated with the given annotation. Returns an empty list
+    * if none are found
+    */
+   public static List<Field> getFields(Class clazz, Class annotation)
+   {
+      List<Field> fields = null;
+      for (Class superClass = clazz; superClass!=Object.class; superClass=superClass.getSuperclass())
+      {
+         for (Field field : superClass.getDeclaredFields())
+         {
+            if (field.isAnnotationPresent(annotation))
+            {
+               if (fields == null)
+               {
+                  fields = new ArrayList<Field>();
+               }
+               fields.add(field);
+            }
+         }
+      }
+      return fields;
    }
 
    public static Method getMethod(Annotation annotation, String name)
@@ -259,4 +302,6 @@ public class Reflections
       }
    }
 
+   
+   
 }

@@ -1,13 +1,16 @@
 package org.jboss.seam.example.ui;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Person implements Serializable
@@ -50,6 +53,12 @@ public class Person implements Serializable
    private Honorific honorific;
    
    private int age;
+   
+   @ManyToMany
+   private List<Colour> favouriteColours;
+   
+   @ManyToOne
+   private Book favouriteBook;
 
    public Country getCountry()
    {
@@ -109,5 +118,25 @@ public class Person implements Serializable
    public void setHonorific(Honorific honorific)
    {
       this.honorific = honorific;
+   }
+   
+   public List<Colour> getFavouriteColours()
+   {
+      return favouriteColours;
+   }
+   
+   public void setFavouriteColours(List<Colour> favouriteColours)
+   {
+      this.favouriteColours = favouriteColours;
+   }
+   
+   public Book getFavouriteBook()
+   {
+      return favouriteBook;
+   }
+   
+   public void setFavouriteBook(Book favouriteBook)
+   {
+      this.favouriteBook = favouriteBook;
    }
 }

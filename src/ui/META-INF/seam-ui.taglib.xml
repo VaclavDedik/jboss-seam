@@ -152,6 +152,14 @@
 			<component-type>org.jboss.seam.ui.UISelectItems</component-type>
 		</component>
 	</tag>
+	
+	<tag>
+		<tag-name>convertEntity</tag-name>	
+		<converter>
+			<converter-id>org.jboss.seam.ui.entityConverter</converter-id>
+		</converter>
+	</tag>
+	
 	<tag>
 		<tag-name>fragment</tag-name>
 		<component>
