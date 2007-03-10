@@ -804,7 +804,7 @@
         </javac>
     </target>    
     
-    <target name="testcore" depends="compile"
+    <target name="testcore" depends="compile,compiletest"
             description="Run the core unit tests">
 
         <taskdef resource="testngtasks"
