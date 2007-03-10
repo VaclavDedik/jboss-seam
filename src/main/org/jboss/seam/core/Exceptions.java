@@ -74,7 +74,7 @@ public class Exceptions
             {
                if ( Contexts.isConversationContextActive() )
                {
-                  Contexts.getConversationContext().set("org.jboss.seam.handledException", e);
+                  Contexts.getConversationContext().set("org.jboss.seam.handledException", cause);
                }
                eh.handle(cause);
                return;

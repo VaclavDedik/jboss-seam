@@ -848,7 +848,26 @@ public class SystemException extends RuntimeException { ... }]]></programlisting
             and is a catch-all for any exception for which handling is not otherwise specified
             via annotations or in <literal>pages.xml</literal>.
         </para>
+
+        <para>
+           You can also access the handled exception instance through EL, Seam places it in the
+           conversation context, e.g. to access the message of the exception:
+        </para>
         
+           <programlisting><![CDATA[...
+throw new AuthorizationException("You are not allowed to do this!");
+
+<pages>
+
+    <exception class="org.jboss.seam.security.AuthorizationException">
+        <end-conversation/>
+        <redirect view-id="/error.xhtml">
+            <message severity="WARN">#{handledException.message}</message>
+        </redirect>
+    </exception>
+
+</pages>]]></programlisting>
+
         </sect2>
 
     </sect1>
