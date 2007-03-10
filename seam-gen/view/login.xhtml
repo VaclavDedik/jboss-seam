@@ -10,15 +10,15 @@
 
 <ui:define name="body">
     
+    <h:messages styleClass="message"/>
+    
+    <h:form id="login">
+    
     <rich:panel rendered="false"/>
     <div class="dr-pnl rich-panel">
     <div class="dr-pnl-h rich-panel-header">Login</div>
     <div class="dr-pnl-b rich-panel-body">
     <p>Please login using any username and password</p>
-    
-    <h:messages styleClass="message"/>
-    
-    <h:form id="login">
     
         <div class="dialog">
         <h:panelGrid columns="2" rowClasses="prop" columnClasses="name,value">
@@ -34,13 +34,14 @@
         </h:panelGrid>
         </div>
             
+    </div>
+    </div>
+        
         <div class="actionButtons">
             <h:commandButton value="Login" action="#{identity.login}"/>
         </div>
           
     </h:form>
-    </div>
-    </div>
-        
-</ui:define> 
+
+ </ui:define> 
 </ui:composition>
