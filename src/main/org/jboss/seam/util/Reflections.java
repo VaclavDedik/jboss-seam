@@ -272,17 +272,13 @@ public class Reflections
     */
    public static List<Field> getFields(Class clazz, Class annotation)
    {
-      List<Field> fields = null;
+      List<Field> fields = new ArrayList<Field>();
       for (Class superClass = clazz; superClass!=Object.class; superClass=superClass.getSuperclass())
       {
          for (Field field : superClass.getDeclaredFields())
          {
             if (field.isAnnotationPresent(annotation))
             {
-               if (fields == null)
-               {
-                  fields = new ArrayList<Field>();
-               }
                fields.add(field);
             }
          }
