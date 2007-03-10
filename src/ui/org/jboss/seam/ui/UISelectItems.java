@@ -12,6 +12,8 @@ import javax.faces.convert.Converter;
 import javax.faces.el.ValueBinding;
 import javax.faces.model.DataModel;
 
+import org.jboss.seam.framework.EntityQuery;
+
 public class UISelectItems extends javax.faces.component.UISelectItems
 {
 
@@ -192,6 +194,10 @@ public class UISelectItems extends javax.faces.component.UISelectItems
       else if (value instanceof DataModel && ((DataModel) value).getWrappedData() instanceof Iterable)
       {
          return asSelectItems((Iterable) ((DataModel) value).getWrappedData()); 
+      }
+      else if (value instanceof EntityQuery)
+      {
+         return asSelectItems(((EntityQuery) value).getResultList());
       }
       else if (value != null && value.getClass().isArray())
       {
