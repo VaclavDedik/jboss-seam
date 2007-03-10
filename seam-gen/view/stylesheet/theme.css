@@ -5,38 +5,35 @@ a:hover {
 	color: #8CAFCD;
 }
 
+input, textarea {
+	border: 1px solid #BBBBBB;
+	font-size: 10px;
+	background: #F0F8FF;
+	color: black;
+}
+
+input[type='submit'], input[type='button'] {
+	background: #4477AA;
+	color: white;
+	margin: 5px;
+	border-color: gray;
+}
+
+.tableControl, .actionButtons {
+	width: 100%;
+}
+
+.tableControl {
+	text-align: right;
+}
+
 .footer {
 	text-align: center;
-	font-size: 0.8em;
+	font-size: 10px;
 }
 
 .rich-table {
     width:100%;
-}
-
-.actionButtons {
-	width: 100%;
-	text-align: center;
-	padding-top: 10px;
-}
-.tableControl {
-	width: 100%;
-	text-align: right;
-	padding-top: 15px;
-}
-.actionButtons a, .tableControl a {
-	font-family: Arial,sans-serif;
-	font-weight: bold;
-	color: #578BB8;
-	border: 1px solid #578BB8;
-	text-decoration: none;
-	padding: 5px;
-	margin: 5px;
-}
-.actionButtons a:hover, .tableControl a:hover {
-	color: white;
-	background-color: #578BB8;
-	margin: 5px;
 }
 
 h1 {
@@ -56,28 +53,9 @@ body {
 	padding: 30px;
 }
 
-.narrow {
-	width: 20%;
-}
-.wide {
-	width: 80%;
-}
-.first td {
-	background-color: #F0F0F0;
-}
-.second td {
-	background-color: white;
-}
-
 .dialog table
 {
 	width: auto;
-}
-
-.columnHeader:link, .columnHeader:visited, .columnHeader:active
-{
-	color: white;
-	text-decoration: none;
 }
 
 .columnHeader:hover
@@ -108,11 +86,7 @@ body {
 .prop .errors {
 	color: red;
 	text-align: left;
-	font-size: 0.8em;
 }
-/*.value input {
-	width:190px;
-}*/
 .errors input {
 	border: 1px solid red;
 }
