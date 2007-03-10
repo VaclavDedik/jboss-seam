@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <components xmlns="http://jboss.com/products/seam/components" 
             xmlns:core="http://jboss.com/products/seam/core"
+            xmlns:spring="http://jboss.com/products/seam/spring"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation="http://jboss.com/products/seam/core http://jboss.com/products/seam/core-1.2.xsd 
                                 http://jboss.com/products/seam/components http://jboss.com/products/seam/components-1.2.xsd">
@@ -16,6 +17,8 @@
                                       persistence-unit-jndi-name="java:/springEntityManagerFactory" />
     
     <core:init debug="true"/>
+    
+    <spring:context-loader installed="true" config-locations="classpath:/applicationContext.xml"/>
 
     <core:ejb installed="@embeddedEjb@"/>
 </components>
