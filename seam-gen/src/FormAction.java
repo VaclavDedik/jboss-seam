@@ -6,7 +6,7 @@ import javax.ejb.Local;
 public interface @interfaceName@ {  
    
 	//seam-gen methods
-	public String @methodName@(); 
+	public void @methodName@(); 
 	public String getValue();
 	public void setValue(String value);
 	public void destroy();

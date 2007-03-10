@@ -12,18 +12,16 @@ public class @interfaceName@ {
 
     @Logger private Log log;
     
-    @In
-    FacesMessages facesMessages;
+    @In FacesMessages facesMessages;
     
     private String value;
 	
 	//seam-gen method
-	public String @methodName@()
+	public void @methodName@()
 	{
 		//implement your business logic here
 		log.info("@componentName@.@methodName@() action called with: #{@componentName@.value}");
 		facesMessages.add("@methodName@ #{@componentName@.value}");
-		return "success";
 	}
 	
 	//add additional action methods

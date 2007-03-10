@@ -13,16 +13,13 @@ public class @beanName@ implements @interfaceName@ {
 	
     @Logger private Log log;
 	
-    @In 
-    FacesMessages facesMessages;
+    @In FacesMessages facesMessages;
     
-    //seam-gen method
-    public String @methodName@()
+    public void @methodName@()
     {
         //implement your business logic here
         log.info("@componentName@.@methodName@() action called");
         facesMessages.add("@methodName@");
-        return "success";
     }
     
     //add additional action methods

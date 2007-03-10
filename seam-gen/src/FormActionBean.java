@@ -16,33 +16,31 @@ public class @beanName@ implements @interfaceName@ {
 
     @Logger private Log log;
     
-    @In
-    FacesMessages facesMessages;
+    @In FacesMessages facesMessages;
     
     private String value;
 	
-	//seam-gen method
-	public String @methodName@()
-	{
-		//implement your business logic here
-		log.info("@componentName@.@methodName@() action called with: #{@componentName@.value}");
-		facesMessages.add("@methodName@ #{@componentName@.value}");
-		return "success";
-	}
+    public void @methodName@()
+	 {
+        //implement your business logic here
+        log.info("@componentName@.@methodName@() action called with: #{@componentName@.value}");
+        facesMessages.add("@methodName@ #{@componentName@.value}");
+	 }
 	
-	//add additional action methods
+	 //add additional action methods
 	
-	@Length(max=10)
-	public String getValue()
-	{
-		return value;
-	}
-	
-	public void setValue(String value)
-	{
-		this.value = value;
-	}
-	
-	@Destroy @Remove                                                                      
-	public void destroy() {}	
+    @Length(max=10)
+    public String getValue()
+    {
+        return value;
+    }
+
+    public void setValue(String value)
+    {
+        this.value = value;
+    }
+
+    @Destroy @Remove                                                                      
+    public void destroy() {}
+    
 }
