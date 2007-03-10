@@ -790,8 +790,7 @@ public class Initialization
 
       DependencyManager manager = new DependencyManager(componentDescriptors);
 
-      Set<ComponentDescriptor> installable = manager.installedSet();
-      System.out.println("** INSTALLABLE: " + installable);
+      Set<ComponentDescriptor> installable = manager.installedSet();      
       for (ComponentDescriptor componentDescriptor: installable) {
           String compName = componentDescriptor.getName() + COMPONENT_SUFFIX;
 
