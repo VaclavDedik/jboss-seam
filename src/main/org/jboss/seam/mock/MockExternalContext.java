@@ -1,9 +1,7 @@
 /*
- * JBoss, Home of Professional Open Source
- *
- * Distributable under LGPL license.
- * See terms of license at gnu.org.
- */
+ *  * JBoss, Home of Professional Open Source  *  * Distributable under LGPL
+ * license.  * See terms of license at gnu.org.  
+ */
 package org.jboss.seam.mock;
 
 import java.io.IOException;
@@ -12,11 +10,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.Principal;
 import java.util.AbstractSet;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -39,21 +39,22 @@ import org.jboss.seam.util.EnumerationIterator;
 public class MockExternalContext extends ExternalContext
 {
    private ServletContext context;
+
    private HttpServletRequest request;
+
    private HttpServletResponse response;
-   
-   
+
    public MockExternalContext()
    {
       this.context = new MockServletContext();
-      this.request = new MockHttpServletRequest( new MockHttpSession(context) );
+      this.request = new MockHttpServletRequest(new MockHttpSession(context));
       this.response = new MockHttpServletResponse();
    }
 
    public MockExternalContext(ServletContext context)
    {
       this.context = context;
-      this.request = new MockHttpServletRequest( new MockHttpSession(context) );
+      this.request = new MockHttpServletRequest(new MockHttpSession(context));
       this.response = new MockHttpServletResponse();
    }
 
@@ -70,18 +71,19 @@ public class MockExternalContext extends ExternalContext
       this.request = request;
       this.response = new MockHttpServletResponse();
    }
-   
-   public MockExternalContext(ServletContext context, HttpServletRequest request, HttpServletResponse response)
+
+   public MockExternalContext(ServletContext context, HttpServletRequest request,
+            HttpServletResponse response)
    {
       this.context = context;
       this.request = request;
       this.response = response;
    }
-   
+
    @Override
    public void dispatch(String url) throws IOException
    {
-      
+
    }
 
    @Override
@@ -112,11 +114,13 @@ public class MockExternalContext extends ExternalContext
          {
             return context.getAttributeNames();
          }
+
          @Override
          public Object getAttribute(String key)
          {
             return context.getAttribute(key);
          }
+
          @Override
          public void setAttribute(String key, Object value)
          {
@@ -148,10 +152,10 @@ public class MockExternalContext extends ExternalContext
    {
       Map result = new HashMap();
       Enumeration e = context.getInitParameterNames();
-      while ( e.hasMoreElements() )
+      while (e.hasMoreElements())
       {
          String name = (String) e.nextElement();
-         result.put( name, context.getInitParameter(name) );
+         result.put(name, context.getInitParameter(name));
       }
       return result;
    }
@@ -178,7 +182,7 @@ public class MockExternalContext extends ExternalContext
    public Map getRequestCookieMap()
    {
       Map<String, Cookie> cookieMap = new HashMap<String, Cookie>();
-      for ( Cookie cookie : request.getCookies() ) 
+      for (Cookie cookie : request.getCookies())
       {
          cookieMap.put(cookie.getName(), cookie);
       }
@@ -190,10 +194,10 @@ public class MockExternalContext extends ExternalContext
    {
       Map result = new HashMap();
       Enumeration<String> names = request.getHeaderNames();
-      while ( names.hasMoreElements() )
+      while (names.hasMoreElements())
       {
          String name = names.nextElement();
-         result.put( name, request.getHeader(name) );
+         result.put(name, request.getHeader(name));
       }
       return result;
    }
@@ -201,11 +205,18 @@ public class MockExternalContext extends ExternalContext
    @Override
    public Map getRequestHeaderValuesMap()
    {
-      Map<String, Enumeration> result = new HashMap<String, Enumeration>();
+      Map<String, String[]> result = new HashMap<String, String[]>();
       Enumeration<String> en = request.getHeaderNames();
-      while ( en.hasMoreElements() )
+      while (en.hasMoreElements())
       {
-         result.put( en.nextElement(), request.getHeaders( en.nextElement() ) );
+         String header = en.nextElement();
+         List<String> headerList = Collections.list(request.getHeaders(header));
+         String[] headers = new String[headerList.size()];
+         for (int i = 0; i < headerList.size(); i++)
+         {
+            headers[i] = headerList.get(i);
+         }
+         result.put(header, headers);
       }
       return result;
    }
@@ -232,11 +243,13 @@ public class MockExternalContext extends ExternalContext
          {
             return request.getAttributeNames();
          }
+
          @Override
          public Object getAttribute(String key)
          {
             return request.getAttribute(key);
          }
+
          @Override
          public void setAttribute(String key, Object value)
          {
@@ -250,10 +263,10 @@ public class MockExternalContext extends ExternalContext
    {
       Map map = new HashMap();
       Enumeration<String> names = request.getParameterNames();
-      while ( names.hasMoreElements() )
+      while (names.hasMoreElements())
       {
          String name = names.nextElement();
-         map.put( name, request.getParameter(name) );
+         map.put(name, request.getParameter(name));
       }
       return map;
    }
@@ -323,11 +336,13 @@ public class MockExternalContext extends ExternalContext
          {
             return session.getAttributeNames();
          }
+
          @Override
          public Object getAttribute(String key)
          {
             return session.getAttribute(key);
          }
+
          @Override
          public void setAttribute(String key, Object value)
          {
@@ -335,30 +350,30 @@ public class MockExternalContext extends ExternalContext
          }
       };
    }
-   
+
    static abstract class AttributeMap implements Map
    {
-      
+
       public abstract Enumeration keys();
 
       public Object get(Object key)
       {
-         return getAttribute((String)key);
+         return getAttribute((String) key);
       }
-      
+
       public Object put(Object key, Object value)
       {
          Object result = get(key);
-         setAttribute((String)key, value);
+         setAttribute((String) key, value);
          return result;
       }
-      
+
       public void clear()
       {
          Enumeration e = keys();
          while (e.hasMoreElements())
          {
-            remove( e.nextElement() );
+            remove(e.nextElement());
          }
       }
 
@@ -367,7 +382,7 @@ public class MockExternalContext extends ExternalContext
          Enumeration e = keys();
          while (e.hasMoreElements())
          {
-            if( key.equals( e.nextElement() ) ) return true;
+            if (key.equals(e.nextElement())) return true;
          }
          return false;
       }
@@ -377,7 +392,7 @@ public class MockExternalContext extends ExternalContext
          Enumeration e = keys();
          while (e.hasMoreElements())
          {
-            if ( value.equals( get( e.nextElement() ) ) ) return true;
+            if (value.equals(get(e.nextElement()))) return true;
          }
          return false;
       }
@@ -388,10 +403,10 @@ public class MockExternalContext extends ExternalContext
       }
 
       public abstract Object getAttribute(String key);
-      
+
       public boolean isEmpty()
       {
-         return size()==0;
+         return size() == 0;
       }
 
       public Set keySet()
@@ -402,7 +417,7 @@ public class MockExternalContext extends ExternalContext
             @Override
             public Iterator iterator()
             {
-               return new EnumerationIterator( keys() );
+               return new EnumerationIterator(keys());
             }
 
             @Override
@@ -410,7 +425,7 @@ public class MockExternalContext extends ExternalContext
             {
                return AttributeMap.this.size();
             }
-            
+
          };
       }
 
@@ -418,9 +433,9 @@ public class MockExternalContext extends ExternalContext
 
       public void putAll(Map t)
       {
-         for (Map.Entry me: (Set<Map.Entry>) t.entrySet())
+         for (Map.Entry me : (Set<Map.Entry>) t.entrySet())
          {
-            put( me.getKey(), me.getValue() );
+            put(me.getKey(), me.getValue());
          }
       }
 
@@ -431,7 +446,7 @@ public class MockExternalContext extends ExternalContext
 
       public int size()
       {
-         int i=0;
+         int i = 0;
          Enumeration e = keys();
          while (e.hasMoreElements())
          {
@@ -439,13 +454,13 @@ public class MockExternalContext extends ExternalContext
             i++;
          }
          return i;
-       }
+      }
 
       public Collection values()
       {
          throw new UnsupportedOperationException();
       }
-      
+
    }
 
    @Override
@@ -463,7 +478,7 @@ public class MockExternalContext extends ExternalContext
    @Override
    public void log(String message, Throwable t)
    {
-      
+
    }
 
    @Override
@@ -475,7 +490,15 @@ public class MockExternalContext extends ExternalContext
    public void redirect(String url) throws IOException
    {
       response.sendRedirect(url);
-      FacesContext.getCurrentInstance().responseComplete(); 
+      FacesContext.getCurrentInstance().responseComplete();
+   }
+
+   /**
+    * @since 1.2
+    */
+   public String getResponseContentType()
+   {
+      return response.getContentType();
    }
 
 }

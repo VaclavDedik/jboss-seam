@@ -4,12 +4,16 @@
  */
 package org.jboss.seam.mock;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.el.ELContext;
+import javax.el.ELResolver;
 import javax.faces.FactoryFinder;
 import javax.faces.application.Application;
 import javax.faces.application.ApplicationFactory;
@@ -31,6 +35,8 @@ import javax.faces.render.RenderKitFactory;
 public class MockFacesContext extends FacesContext
 {
 
+   private static final String JSF_12_ELCONTEXT = "com.sun.faces.el.ELContextImpl";
+
    private UIViewRoot viewRoot;// = new UIViewRoot();
 
    private Map<FacesMessage, String> messages = new HashMap<FacesMessage, String>();
@@ -41,13 +47,16 @@ public class MockFacesContext extends FacesContext
 
    private RenderKitFactory renderKitFactory;
 
+   private ELContext elContext;
+
    public MockFacesContext(ExternalContext externalContext, Application application)
    {
       this.externalContext = externalContext;
       this.application = application;
    }
 
-   // Create a MockFacesContext using a ApplicationFactory to get the Application
+   // Create a MockFacesContext using a ApplicationFactory to get the
+   // Application
    public MockFacesContext(ExternalContext externalContext)
    {
       application = ((ApplicationFactory) FactoryFinder
@@ -118,7 +127,7 @@ public class MockFacesContext extends FacesContext
       {
          return MockRenderKit.INSTANCE;
       }
-      else 
+      else
       {
          return renderKitFactory.getRenderKit(this, getViewRoot().getRenderKitId());
       }
@@ -210,6 +219,35 @@ public class MockFacesContext extends FacesContext
       viewRoot = new UIViewRoot();
       viewRoot.setRenderKitId(getApplication().getViewHandler().calculateRenderKitId(this));
       return this;
+   }
+
+   /**
+    * @since 1.2
+    */
+   // This probably only works for the RI.
+   public ELContext getELContext()
+   {
+      if (elContext == null)
+      {
+         try
+         {
+            Class elContextClass = FacesContext.class.forName(JSF_12_ELCONTEXT);
+            Constructor<ELContext> constructor = elContextClass.getConstructor(ELResolver.class);
+            Method m = getApplication().getClass().getMethod("getELResolver", new Class[0]);
+            elContext = constructor.newInstance(m.invoke(getApplication(), new Object[0]));
+            elContext.putContext(FacesContext.class, this);
+            UIViewRoot root = this.getViewRoot();
+            if (null != root)
+            {
+               elContext.setLocale(root.getLocale());
+            }
+         }
+         catch (Exception e)
+         {
+            throw new UnsupportedOperationException();
+         }
+      }
+      return elContext;
    }
 
 }
