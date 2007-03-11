@@ -273,11 +273,12 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
     {
       for (Class c : component.getBusinessInterfaces())
       {
-        if (c.isAnnotationPresent(EJB.LOCAL))
-        {
-          type = component.getBusinessInterfaces().iterator().next();
-          break;
-        }
+         // Use the Local interface
+         if (c.isAnnotationPresent(EJB.LOCAL))
+         {
+            type = c;
+            break;
+         }
       }
 
       if (type == null)
