@@ -221,7 +221,10 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       FacesPage.instance().storeConversation();
       FacesPage.instance().storePageflow();
       
-      PersistenceContexts.instance().beforeRender();
+      PersistenceContexts persistenceContexts = PersistenceContexts.instance();
+      if (persistenceContexts != null) {
+          persistenceContexts.beforeRender();
+      }
    }
    
    protected void afterRender(FacesContext facesContext)
@@ -230,7 +233,10 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       //and pageflows can begin during render
       Manager.instance().prepareBackswitch(facesContext);
       
-      PersistenceContexts.instance().afterRender();
+      PersistenceContexts persistenceContexts = PersistenceContexts.instance();
+      if (persistenceContexts != null) {
+          persistenceContexts.afterRender();
+      }
       
       ExternalContext externalContext = facesContext.getExternalContext();
       Manager.instance().endRequest( ContextAdaptor.getSession(externalContext) );
