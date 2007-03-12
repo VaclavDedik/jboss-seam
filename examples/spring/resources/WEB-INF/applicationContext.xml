@@ -2,13 +2,13 @@
 <beans xmlns="http://www.springframework.org/schema/beans" 
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:util="http://www.springframework.org/schema/util" 
-       xmlns:seam="http://jboss.com/products/seam/spring"
+       xmlns:seam="http://jboss.com/products/seam/spring-seam"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
        xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
                            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
-                           http://jboss.com/products/seam/spring http://jboss.com/products/seam/spring-1.2.xsd
+                           http://jboss.com/products/seam/spring-seam http://jboss.com/products/seam/spring-seam-1.2.xsd
                            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
        default-lazy-init="true">
 

@@ -3,12 +3,8 @@ package org.jboss.seam.ioc.spring;
 import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
-import java.lang.reflect.Proxy;
-
 import javax.servlet.ServletContext;
 
-import org.jboss.kernel.plugins.bootstrap.standalone.StandaloneBootstrap;
-import static org.springframework.web.context.ContextLoader.*;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
@@ -18,15 +14,14 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.contexts.Lifecycle;
-import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.ConfigurableWebApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.XmlWebApplicationContext;
 
 /**
- * A seam component that acts as an adaptor for Spring's ContextLoader
+ * A seam component that loads up a spring WebApplicationContext
  * 
- * @author Gavin King
+ * @author Mike Youngstrom
  */
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)

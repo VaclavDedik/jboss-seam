@@ -21,6 +21,9 @@
         <listitem>
             <para>allow Spring beans to live in any Seam context</para>
         </listitem>
+        <listitem>
+            <para>start a spring WebApplicationContext with a Seam component</para>
+        </listitem>
     </itemizedlist>
 
     <section>
@@ -31,12 +34,12 @@
             handler, the Seam namespace must be added to the Spring beans definition file:</para>
 
         <programlisting><![CDATA[<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:seam="http://jboss.com/products/seam/spring"
+    xmlns:seam="http://jboss.com/products/seam/spring-seam"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.springframework.org/schema/beans 
                         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-                        http://jboss.com/products/seam/spring 
-                        http://jboss.com/products/seam/spring-1.2.xsd">]]></programlisting>
+                        http://jboss.com/products/seam/spring-seam 
+                        http://jboss.com/products/seam/spring-seam-1.2.xsd">]]></programlisting>
 
         <para> Now any Seam component may be injected into any Spring bean: </para>
 
@@ -194,5 +197,40 @@ private BookingService bookingService;]]></programlisting>
     </property>
 </bean>]]></programlisting>
 
+    </section>
+    <section>
+        <title>Spring Application Context as a Seam Component</title>
+
+        <para> Although it is possible to use the Spring <literal>ContextLoaderListener</literal> to start your 
+        	application's Spring ApplicationContext there are a couple of limitations.</para>
+        	
+        <itemizedlist>
+            <listitem>
+                <para> the Spring ApplicationContext must be started <emphasis>after</emphasis> the 
+                	<literal>SeamListener</literal> </para>
+            </listitem>
+            <listitem>
+                <para> it can be tricky starting a Spring ApplicationContext for use in Seam unit and integration
+                	tests </para>
+            </listitem>
+        </itemizedlist>
+
+        <para> To overcome these two limitations the Spring integration includes a Seam component that will start a
+        	Spring ApplicationContext.  To use this Seam component place the
+        	<literal>&lt;spring:context-loader/&gt;</literal> definition in the <literal>components.xml</literal>.
+        	Specify your Spring context file location in the <literal>config-locations</literal> attribute.  If more
+        	than one config file is needed you can place them in the nested
+        	<literal>&lt;spring:config-locations/&gt;</literal> element following standard
+        	<literal>components.xml</literal> multi value practices. </para>
+        	
+        <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components" 
+            xmlns:spring="http://jboss.com/products/seam/spring"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://jboss.com/products/seam/components http://jboss.com/products/seam/components-1.2.xsd
+                                http://jboss.com/products/seam/spring http://jboss.com/products/seam/spring-1.2.xsd">
+
+	<spring:context-loader context-locations="/WEB-INF/applicationContext.xml"/>
+
+</components>]]></programlisting>
     </section>
 </chapter>

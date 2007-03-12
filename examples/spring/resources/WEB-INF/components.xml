@@ -4,7 +4,8 @@
             xmlns:spring="http://jboss.com/products/seam/spring"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation="http://jboss.com/products/seam/core http://jboss.com/products/seam/core-1.2.xsd 
-                                http://jboss.com/products/seam/components http://jboss.com/products/seam/components-1.2.xsd">
+                                http://jboss.com/products/seam/components http://jboss.com/products/seam/components-1.2.xsd
+                                http://jboss.com/products/seam/spring http://jboss.com/products/seam/spring-1.2.xsd">
 
 
     <core:manager conversation-timeout="120000" 
@@ -18,7 +19,6 @@
     
     <core:init debug="true"/>
     
-    <spring:context-loader installed="true" config-locations="classpath:/applicationContext.xml"/>
-
-    <core:ejb installed="@embeddedEjb@"/>
+    <spring:context-loader/>
+    <core:ejb installed="@embeddedEjb@" />
 </components>
