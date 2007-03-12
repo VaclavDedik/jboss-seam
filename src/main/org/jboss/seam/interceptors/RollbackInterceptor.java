@@ -55,6 +55,7 @@ public class RollbackInterceptor extends AbstractInterceptor
          throw e;
       }
    }
+   
    private boolean isRollbackRequired(Method method, final Object result)
    {
       if ( !method.isAnnotationPresent(Rollback.class) ) return false;
@@ -64,6 +65,7 @@ public class RollbackInterceptor extends AbstractInterceptor
             ( result==null && outcomeList.contains(Outcome.REDISPLAY) ) || 
             outcomeList.contains(result);
    }
+   
    private boolean isRollbackRequired(Exception e)
    {
       Class<? extends Exception> clazz = e.getClass();

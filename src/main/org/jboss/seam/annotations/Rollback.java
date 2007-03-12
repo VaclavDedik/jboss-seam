@@ -20,7 +20,8 @@ import java.lang.annotation.Target;
 @Target(METHOD)
 @Retention(RUNTIME)
 @Documented
-public @interface Rollback {
+public @interface Rollback 
+{
 	/**
 	 * An empty outcome list is interpreted to mean any 
 	 * outcome.
