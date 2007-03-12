@@ -10,11 +10,12 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.core.AbstractMutable;
 
 @Name("org.jboss.seam.ui.entityConverterStore")
 @Scope(ScopeType.SESSION)
 @Intercept(InterceptionType.NEVER)
-public class EntityConverterStore
+public class EntityConverterStore extends AbstractMutable
 {
    
    private class Key 
@@ -76,6 +77,7 @@ public class EntityConverterStore
       if (!store.contains(key))
       {
          store.add(key);
+         setDirty();
          
       }
       return store.indexOf(key);
