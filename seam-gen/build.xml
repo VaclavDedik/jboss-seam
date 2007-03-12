@@ -500,6 +500,8 @@
             <filterset refid="project"/>
             <filterset refid="jdbc"/>
         </copy>
+		<copy todir="${project.home}/src/action" file="${basedir}/resources/seam.properties"/>
+		<copy todir="${project.home}/src/model" file="${basedir}/resources/seam.properties"/>
 	</target>
     
 	<target name="file-copy-ear" unless="project.war">
