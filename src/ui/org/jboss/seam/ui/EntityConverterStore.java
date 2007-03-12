@@ -11,13 +11,14 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 
-@Name("entityConverterStore")
+@Name("org.jboss.seam.ui.entityConverterStore")
 @Scope(ScopeType.SESSION)
 @Intercept(InterceptionType.NEVER)
 public class EntityConverterStore
 {
    
-   private class Key {
+   private class Key 
+   {
       private Class clazz;
       private Object id;
       

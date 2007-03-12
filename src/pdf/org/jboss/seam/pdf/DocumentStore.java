@@ -7,7 +7,7 @@ import org.jboss.seam.*;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.pdf.DocumentData.DocType;
 
-@Name("documentStore")
+@Name("org.jboss.seam.pdf.documentStore")
 @Scope(ScopeType.CONVERSATION)
 @Install(precedence=Install.BUILT_IN)
 public class DocumentStore 
