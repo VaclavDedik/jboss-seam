@@ -1,6 +1,11 @@
 package org.jboss.seam.init;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class DependencyManager {
     private Map<String, Set<ComponentDescriptor>> componentDescriptors;
@@ -16,9 +21,14 @@ public class DependencyManager {
         computeInstallSet();
         return installedSet;        
     }
+    
+    private static final Comparator<ComponentDescriptor> ORDER = new Comparator<ComponentDescriptor>() 
+    { 
+       public int compare(ComponentDescriptor x, ComponentDescriptor y) { return x.getName().compareTo( y.getName() ); } 
+    };
         
     private void computeInstallSet() {
-        installedSet = new HashSet<ComponentDescriptor>();
+        installedSet = new TreeSet<ComponentDescriptor>(ORDER);
         Set<String> keys = componentDescriptors.keySet();
         for (String key: keys) {
             currentTestSet = new HashSet<ComponentDescriptor>();            

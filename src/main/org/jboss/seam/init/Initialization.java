@@ -19,9 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.SortedSet;
 import java.util.StringTokenizer;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 import javax.servlet.ServletContext;
@@ -68,7 +66,7 @@ public class Initialization
 
    private ServletContext servletContext;
    private Map<String, Conversions.PropertyValue> properties = new HashMap<String, Conversions.PropertyValue>();
-   private Map<String, Set<ComponentDescriptor>> componentDescriptors = new TreeMap<String, Set<ComponentDescriptor>>();
+   private Map<String, Set<ComponentDescriptor>> componentDescriptors = new HashMap<String, Set<ComponentDescriptor>>();
    private List<FactoryDescriptor> factoryDescriptors = new ArrayList<FactoryDescriptor>();
    private Set<Class> installedComponentClasses = new HashSet<Class>();
    private Set<String> importedPackages = new HashSet<String>();
