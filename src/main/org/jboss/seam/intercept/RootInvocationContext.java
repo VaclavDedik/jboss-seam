@@ -4,6 +4,8 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jboss.seam.util.Reflections;
+
 /**
  * InvocationContext for use with CGLIB-based interceptors.
  * 
@@ -25,24 +27,8 @@ public class RootInvocationContext implements InvocationContext
    }
    
    public Object proceed() throws Exception
-   {      
-      try
-      {
-         return method.invoke(bean, params);
-      }
-      catch (Error e)
-      {
-         throw e;
-      }
-      catch (Exception e)
-      {
-         throw e;
-      }
-      catch (Throwable t)
-      {
-         //only extremely wierd stuff!
-         throw new Exception(t);
-      }
+   {     
+      return Reflections.invoke(method, bean, params);
    }
 
    public Object getTarget()
