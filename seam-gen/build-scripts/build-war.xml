@@ -58,7 +58,7 @@
 			          debug="${javac.debug}" 
 			    deprecation="${javac.deprecation}" 
 			        nowarn="on">
-			<classpath path="${classes.action.dir}"/>
+			<classpath path="${classes.model.dir}"/>
 			<src path="${src.action.dir}" />
 		</javac>
 	</target>
