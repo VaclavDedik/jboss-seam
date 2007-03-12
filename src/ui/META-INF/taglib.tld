@@ -876,6 +876,12 @@
       <rtexprvalue>false</rtexprvalue>
       <description>the field identifier of the input item to pick a date for</description>
     </attribute>
+    <attribute>
+      <name>dateFormat</name>
+      <required>true</required>
+      <rtexprvalue>false</rtexprvalue>
+      <description>the date format</description>
+    </attribute>
   </tag>
 
   <tag>
