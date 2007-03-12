@@ -4,6 +4,7 @@ import java.lang.reflect.Array;
 import java.util.Collections;
 import java.util.Map;
 
+import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.servlet.ServletRequest;
@@ -18,12 +19,23 @@ public class Parameters
       if ( String.class.equals(type) ) return requestParameter;
    
       FacesContext facesContext = FacesContext.getCurrentInstance();
-      Converter converter = facesContext.getApplication().createConverter(type);
-      if (converter==null)
+      if (facesContext==null)
       {
-         throw new IllegalArgumentException("no converter for type: " + type);
+         throw new IllegalStateException("No FacesContext associated with current thread, cannot convert request parameter type");
       }
-      return converter.getAsObject( facesContext, facesContext.getViewRoot(), requestParameter );
+      else
+      {
+         Converter converter = facesContext.getApplication().createConverter(type);
+         if (converter==null)
+         {
+            throw new IllegalArgumentException("no converter for type: " + type);
+         }
+         UIViewRoot viewRoot = facesContext.getViewRoot();
+         return converter.getAsObject( 
+                  facesContext, 
+                  viewRoot==null ? new UIViewRoot() : viewRoot, //have to pass something here, or get a totally useless NPE from JSF 
+                  requestParameter );
+      }
    }
 
    public static Map<String, String[]> getRequestParameters()
