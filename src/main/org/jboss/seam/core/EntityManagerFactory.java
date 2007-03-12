@@ -78,7 +78,10 @@ public class EntityManagerFactory
    @Destroy
    public void shutdown()
    {
-      entityManagerFactory.close();
+      if (entityManagerFactory!=null)
+      {
+         entityManagerFactory.close();
+      }
    }
    
    /**

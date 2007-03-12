@@ -222,7 +222,8 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       FacesPage.instance().storePageflow();
       
       PersistenceContexts persistenceContexts = PersistenceContexts.instance();
-      if (persistenceContexts != null) {
+      if (persistenceContexts != null) 
+      {
           persistenceContexts.beforeRender();
       }
    }
@@ -234,7 +235,8 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       Manager.instance().prepareBackswitch(facesContext);
       
       PersistenceContexts persistenceContexts = PersistenceContexts.instance();
-      if (persistenceContexts != null) {
+      if (persistenceContexts != null) 
+      {
           persistenceContexts.afterRender();
       }
       
