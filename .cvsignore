@@ -7,10 +7,11 @@ jboss-seam-debug.jar
 jboss-seam-gen.jar
 jboss-seam-pdf.jar
 jboss-seam-mail.jar
+jboss-seam-remoting.jar
+jboss-seam-ioc.jar
 test-output
 testng-failures.xml
 report
 output
 build
 
-jboss-seam-ioc.jar
