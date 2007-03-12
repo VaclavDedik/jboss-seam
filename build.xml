@@ -156,7 +156,7 @@
                dir="${lib.dir}"
            prefix="WEB-INF/lib"
       description="the Ajax4JSF jar">
-        <include name="ajax4jsf.jar" if="example.ajax4jsf.lib"/>
+        <include name="ajax4jsf*.jar" if="example.ajax4jsf.lib"/>
         <include name="oscache*.jar" if="example.ajax4jsf.lib"/>
     </zipfileset>
 
