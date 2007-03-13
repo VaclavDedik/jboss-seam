@@ -21,7 +21,48 @@
 */
 package org.jboss.seam.ioc.microcontainer;
 
-public interface JMXNotificationComponentMBean
+import org.jboss.kernel.Kernel;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
+
+/**
+ * Kernel instance holder.
+ * 
+ * @author <a href="mailto:ales.justin@jboss.com">Ales Justin</a>
+ */
+public class KernelLocator
 {
-    void removeComponents() throws Throwable;    
+    private static KernelLocator instance;
+    private static LogProvider log = Logging.getLogProvider(KernelLocator.class);
+
+    private Kernel kernel;
+
+    private KernelLocator() {}
+
+    public static KernelLocator getInstance()
+    {
+        if (instance == null)
+        {
+            if (log.isDebugEnabled())
+            {
+                log.debug("Instantiating new KernelLocator.");
+            }
+            instance = new KernelLocator();
+        }
+        return instance;
+    }
+
+    public Kernel getKernel()
+    {
+        return kernel;
+    }
+
+    public void setKernel(Kernel kernel)
+    {
+        if (log.isDebugEnabled())
+        {
+            log.debug("Setting the current Kernel instance: " + kernel);                
+        }
+        this.kernel = kernel;
+    }
 }

@@ -30,6 +30,7 @@ import org.jboss.mx.util.MBeanServerLocator;
 import org.jboss.seam.Component;
 import static org.jboss.seam.InterceptionType.NEVER;
 import org.jboss.seam.annotations.Install;
+import static org.jboss.seam.annotations.Install.FRAMEWORK;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.system.ServiceControllerMBean;
@@ -42,8 +43,8 @@ import org.jboss.system.ServiceControllerMBean;
  * @author <a href="mailto:ales.justin@jboss.com">Ales Justin</a>
  */
 @Intercept(NEVER)
-@Install(false)
 @Startup
+@Install(value = false, precedence = FRAMEWORK)
 public class JMXNotificationComponent extends ControllerNotificationComponent implements JMXNotificationComponentMBean, Serializable
 {
     /**
@@ -55,7 +56,7 @@ public class JMXNotificationComponent extends ControllerNotificationComponent im
 
     protected ObjectName createObjectName(Component component) throws Exception
     {
-        return new ObjectName("seam:name=" + getClass().getSimpleName() + "." + component.getName());
+        return new ObjectName("seam:service=" + getClass().getSimpleName() + "." + component.getName());
     }
 
     protected void notifyController(Component component) throws Throwable
@@ -70,6 +71,11 @@ public class JMXNotificationComponent extends ControllerNotificationComponent im
         objectName = null;
     }
 
+    public void removeComponents() throws Throwable
+    {
+        clearNotification();
+    }
+
     protected void handleJMXRegistration(boolean register) throws Exception
     {
         MBeanServer server = MBeanServerLocator.locateJBoss();
@@ -82,12 +88,11 @@ public class JMXNotificationComponent extends ControllerNotificationComponent im
             // we want it to be installed
             serviceController.start(objectName);
         }
-        else
+        else if (objectName != null)
         {
             // destroy it
             serviceController.destroy(objectName);
             serviceController.remove(objectName);
-            server.unregisterMBean(objectName);
         }
     }
 
