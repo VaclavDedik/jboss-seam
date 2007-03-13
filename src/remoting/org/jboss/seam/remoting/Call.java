@@ -123,7 +123,7 @@ public class Call
       {
         if (c.isAnnotationPresent(EJB.LOCAL))
         {
-          type = component.getBusinessInterfaces().iterator().next();
+          type = c;
           break;
         }
       }
