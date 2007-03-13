@@ -86,7 +86,7 @@ td.seam-date-header
 
 td.seam-date-header-prevMonth
 {
-  background-image: url("../img/cal-prev.png");
+  background-image: url("cal-prev.png");
   background-repeat: no-repeat;
   background-position: center;
   padding: 0px 2px 0px 2px;
@@ -97,7 +97,7 @@ td.seam-date-header-prevMonth
 
 td.seam-date-header-nextMonth
 {
-  background-image: url("../img/cal-next.png");
+  background-image: url("cal-next.png");
   background-repeat: no-repeat;
   background-position: center;
   padding: 0px 2px 0px 2px;

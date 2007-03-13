@@ -12,6 +12,10 @@ if (!CAL_DATE_FORMAT)
   var CAL_DATE_FORMAT = "mm/dd/yyyy";
 if (!CAL_FIRST_DAY_OF_WEEK)
   var CAL_FIRST_DAY_OF_WEEK = 0;
+if (!CAL_START_YEAR)
+  var CAL_START_YEAR = -1;
+if (!CAL_END_YEAR)
+  var CAL_END_YEAR = -1;
 
 Array.prototype.contains = function (element) {
   for (var i = 0; i < this.length; i++) {
@@ -396,6 +400,9 @@ function __Calendar(calendarNumber, name)
   this.today = new Date(defaultDate.getFullYear(), defaultDate.getMonth(), defaultDate.getDate());
   this.selectedMonth = this.today.getMonth() + 1;
   this.selectedYear = this.today.getFullYear();
+  this.startYear = CAL_START_YEAR;
+  this.endYear = CAL_END_YEAR;  
+  
   this.startDOW = CAL_FIRST_DAY_OF_WEEK;
   this.daysOff = ["1","7"];
   this.staticCalendar = false;  
@@ -764,9 +771,16 @@ function __Calendar(calendarNumber, name)
     else
     {
       var html = "";
-      for (year = this.selectedYear - 10; year <= this.selectedYear + 10; year++)
+      var begin = (this.startYear == -1) ? this.selectedYear - 10 : this.startYear;
+      var end = (this.endYear == -1) ? this.selectedYear + 10 : this.endYear;
+      
+      for (year = begin; year <= end; year++)
         html += "<a class=\"" + this.styleClass + "-yearLink\" onclick=\"javascript:__calendarFactory.getCalendar(" + this.calendarNumber + ").gotoYear(" + (year) + ");\">" + year + "</a>";
-      getObject(divName).innerHTML = html;
+      var ctl = getObject(divName);
+      ctl.innerHTML = html;
+
+      ctl.scrollTop = (this.selectedYear - begin - 5) / (end - begin) * ctl.scrollHeight;
+      
       changeObjectVisibility(this.getCalendarId() + "_months", "hidden");
       changeObjectVisibility(divName, "visible");
     }

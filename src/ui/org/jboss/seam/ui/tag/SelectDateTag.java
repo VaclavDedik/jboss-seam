@@ -26,34 +26,55 @@ import javax.faces.component.UIComponent;
 
 import org.jboss.seam.ui.UISelectDate;
 
-
-public class SelectDateTag 
-    extends UIComponentTagBase
+public class SelectDateTag extends UIComponentTagBase
 {
-    @Override
-    public String getComponentType()
-    {
-        return UISelectDate.COMPONENT_TYPE;
-    }
+   @Override
+   public String getComponentType()
+   {
+      return UISelectDate.COMPONENT_TYPE;
+   }
 
-    @Override
-    public String getRendererType()
-    {
-        return null;
-    }
+   @Override
+   public String getRendererType()
+   {
+      return null;
+   }
 
-    private String forField;
+   private String forField;
 
-    @Override
-    protected void setProperties(UIComponent component)
-    {
-        super.setProperties(component);
-        setStringProperty(component, "for", forField);
-    }
+   private String dateFormat;
 
-    public void setFor(String forField)
-    {
-        this.forField = forField;
-    }
+   private String startYear;
 
+   private String endYear;
+
+   @Override
+   protected void setProperties(UIComponent component)
+   {
+      super.setProperties(component);
+      setStringProperty(component, "for", forField);
+      setStringProperty(component, "dateFormat", dateFormat);
+      setIntegerProperty(component, "startYear", startYear);
+      setIntegerProperty(component, "endYear", endYear);
+   }
+
+   public void setFor(String forField)
+   {
+      this.forField = forField;
+   }
+
+   public void setDateFormat(String dateFormat)
+   {
+      this.dateFormat = dateFormat;
+   }
+
+   public void setStartYear(String startYear)
+   {
+      this.startYear = startYear;
+   }
+
+   public void setEndYear(String endYear)
+   {
+      this.endYear = endYear;
+   }
 }
