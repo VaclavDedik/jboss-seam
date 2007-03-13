@@ -2,9 +2,9 @@ package org.jboss.seam.ui;
 
 import java.io.IOException;
 
+import javax.faces.component.EditableValueHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
-import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 
 public class UIDecorate extends UIComponentBase
@@ -39,8 +39,8 @@ public class UIDecorate extends UIComponentBase
       String id = getFor();
       if (id==null)
       {
-         UIInput input = getInput(this);
-         return input==null ? null : input.getId();
+         UIComponent evh = getEditableValueHolder(this);
+         return evh==null ? null : evh.getId();
       }
       else
       {
@@ -53,8 +53,8 @@ public class UIDecorate extends UIComponentBase
       String id = getFor();
       if (id==null)
       {
-         UIInput input = getInput(this);
-         return input==null ? null : input.getClientId( getFacesContext() );
+         UIComponent evh = getEditableValueHolder(this);
+         return evh==null ? null : evh.getClientId( getFacesContext() );
       }
       else
       {
@@ -64,24 +64,24 @@ public class UIDecorate extends UIComponentBase
    }
 
    /**
-    * A depth-first search for a UIInput
+    * A depth-first search for an EditableValueHolder
     */
-   private static UIInput getInput(UIComponent component)
+   private static UIComponent getEditableValueHolder(UIComponent component)
    {
       for (Object child: component.getChildren())
       {
-         if (child instanceof UIInput)
+         if (child instanceof EditableValueHolder)
          {
-            UIInput input = (UIInput) child;
-            if ( input.isRendered() )
+            UIComponent evh =(UIComponent) child;
+            if ( evh.isRendered() )
             {
-               return input;
+               return evh;
             }
          }
          else if (child instanceof UIComponent)
          {
-            UIInput input = getInput( (UIComponent) child );
-            if (input!=null) return input;
+            UIComponent evh = getEditableValueHolder( (UIComponent) child );
+            if (evh!=null) return evh;
          }
       }
       return null;
