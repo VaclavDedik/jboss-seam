@@ -1,8 +1,4 @@
 <process-definition
-	xmlns="http://jboss.com/products/seam/pageflow"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation=
-	    "http://jboss.com/products/seam/pageflow http://jboss.com/products/seam/pageflow-1.2.xsd"
 	name="todo">
    
    <start-state name="start">
