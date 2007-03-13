@@ -43,9 +43,9 @@ public class KernelLocator
     {
         if (instance == null)
         {
-            if (log.isDebugEnabled())
+            if (log.isTraceEnabled())
             {
-                log.debug("Instantiating new KernelLocator.");
+                log.trace("Instantiating new KernelLocator.");
             }
             instance = new KernelLocator();
         }
@@ -59,9 +59,9 @@ public class KernelLocator
 
     public void setKernel(Kernel kernel)
     {
-        if (log.isDebugEnabled())
+        if (log.isTraceEnabled())
         {
-            log.debug("Setting the current Kernel instance: " + kernel);                
+            log.trace("Setting the current Kernel instance: " + kernel);
         }
         this.kernel = kernel;
     }
