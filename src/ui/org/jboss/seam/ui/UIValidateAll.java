@@ -2,8 +2,9 @@ package org.jboss.seam.ui;
 
 import java.util.List;
 
+import javax.faces.component.EditableValueHolder;
+import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
-import javax.faces.component.UIInput;
 
 public class UIValidateAll extends UIComponentBase
 {
@@ -27,17 +28,17 @@ public class UIValidateAll extends UIComponentBase
    {
       for (Object child: children)
       {
-         if (child instanceof UIInput)
+         if (child instanceof EditableValueHolder)
          {
-            UIInput uiInput =  (UIInput) child;
-            if ( uiInput.getValidators().length==0 && uiInput.getValidator()==null )
+            EditableValueHolder evh =  (EditableValueHolder) child;
+            if ( evh.getValidators().length==0 && evh.getValidator()==null )
             {
-               uiInput.addValidator( new ModelValidator() );
+               evh.addValidator( new ModelValidator() );
             }
          }
-         else if (child instanceof UIComponentBase)
+         else if (child instanceof UIComponent)
          {
-            addValidators( ( (UIComponentBase) child ).getChildren() );
+            addValidators( ( (UIComponent) child ).getChildren() );
          }
       }
    }
