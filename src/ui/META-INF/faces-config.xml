@@ -494,6 +494,18 @@
    <property-name>for</property-name>
    <property-class>java.lang.String</property-class>
   </property>
+  <property>
+    <property-name>dateFormat</property-name>
+    <property-class>java.lang.String</property-class>
+  </property>
+  <property>
+    <property-name>startYear</property-name>
+    <property-class>java.lang.Integer</property-class>
+  </property>
+  <property>
+    <property-name>endYear</property-name>
+    <property-class>java.lang.Integer</property-class>
+  </property>    
  </component>
  <component>
   <component-type>org.jboss.seam.ui.EnumItem</component-type>

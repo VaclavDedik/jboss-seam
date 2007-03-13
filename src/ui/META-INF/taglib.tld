@@ -882,6 +882,18 @@
       <rtexprvalue>false</rtexprvalue>
       <description>the date format</description>
     </attribute>
+    <attribute>
+      <name>startYear</name>
+      <required>false</required>
+      <rtexprvalue>false</rtexprvalue>
+      <description>the start year</description>
+    </attribute>
+    <attribute>
+      <name>endYear</name>
+      <required>false</required>
+      <rtexprvalue>false</rtexprvalue>
+      <description>the end year</description>
+    </attribute>
   </tag>
 
   <tag>
