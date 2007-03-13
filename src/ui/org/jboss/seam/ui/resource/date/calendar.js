@@ -431,6 +431,13 @@ function __Calendar(calendarNumber, name)
 
   __Calendar.prototype.popup = function (locX, locY)
   {
+    var selectedDate = __calendarFactory.parseDateValue(getObject(this.name).value);    
+    if (selectedDate)
+    {
+      this.selectedMonth = selectedDate.getMonth() + 1;
+      this.selectedYear = selectedDate.getFullYear();    
+    }    
+    
     this.isPopup = true;
     __calendarFactory.documentmousedown = document.onmousedown;
 
@@ -496,14 +503,7 @@ function __Calendar(calendarNumber, name)
   __Calendar.prototype.setDaysOff = function(daysOff) { this.daysOff = daysOff.split(","); };
 
   __Calendar.prototype.buildDayHeaders = function()
-  {
-    var selectedDate = __calendarFactory.parseDateValue(getObject(this.name).value);    
-    if (selectedDate)
-    {
-      this.selectedMonth = selectedDate.getMonth() + 1;
-      this.selectedYear = selectedDate.getFullYear();    
-    }
-    
+  {    
     var html = "<tr class=\"" + this.styleClass + "-header\">";
     html += "<td colspan=\"" + DAYS_IN_WEEK + "\"><table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" width=\"100%\"><tr>";
     if (!this.staticCalendar)
