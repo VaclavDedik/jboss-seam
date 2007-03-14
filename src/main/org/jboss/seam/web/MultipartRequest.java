@@ -604,7 +604,7 @@ public class MultipartRequest extends HttpServletRequestWrapper
       if (parameters == null)
          parseRequest();
 
-      Map<String,Object> params = super.getParameterMap();
+      Map<String,Object> params = new HashMap<String,Object>(super.getParameterMap());
       
       for (String name : parameters.keySet())
       {
