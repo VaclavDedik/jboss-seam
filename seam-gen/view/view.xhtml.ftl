@@ -45,7 +45,16 @@
 
     </div>
 
+<#assign hasAssociations=false>
+<#foreach property in pojo.allPropertiesIterator>
+<#if c2h.isManyToOne(property) || c2h.isOneToManyCollection(property)>
+<#assign hasAssociations=true>
+</#if>
+</#foreach>
+
+<#if hasAssociations>
     <rich:tabPanel switchType="ajax">
+</#if>
 <#foreach property in pojo.allPropertiesIterator>
 <#if c2h.isManyToOne(property)>
 <#assign parentPojo = c2j.getPOJOClass(cfg.getClassMapping(property.value.referencedEntityName))>
@@ -185,7 +194,9 @@
     </rich:tab>
 </#if>
 </#foreach>
-</rich:tabPanel>    
+<#if hasAssociations>
+</rich:tabPanel>
+</#if> 
 </ui:define>
 
 </ui:composition>
