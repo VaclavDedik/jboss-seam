@@ -15,11 +15,13 @@ import org.drools.FactHandle;
 import org.drools.RuleBase;
 import org.drools.WorkingMemory;
 import org.jboss.seam.Component;
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
@@ -37,6 +39,23 @@ public class RuleBasedIdentity extends Identity
    private WorkingMemory securityContext;
    
    private RuleBase securityRules;
+   
+   public static RuleBasedIdentity instance()
+   {
+      if ( !Contexts.isSessionContextActive() )
+      {
+         throw new IllegalStateException("No active session context");
+      }
+
+      RuleBasedIdentity instance = (RuleBasedIdentity) Component.getInstance(RuleBasedIdentity.class, ScopeType.SESSION);
+
+      if (instance == null)
+      {
+         throw new IllegalStateException("No Identity could be created");
+      }
+
+      return instance;
+   }   
    
    @Override
    public void create()
