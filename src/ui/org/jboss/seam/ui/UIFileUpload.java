@@ -24,8 +24,6 @@ public class UIFileUpload extends UIComponentBase
    public static final String COMPONENT_FAMILY = "org.jboss.seam.ui.FileUpload";
       
    private String accept;
-   private String required;
-   private String disabled;
    private String styleClass;
    private String style;   
    
@@ -144,6 +142,16 @@ public class UIFileUpload extends UIComponentBase
          writer.writeAttribute(HTML.ACCEPT_ATTR, accept, null);
       }
       
+      if (styleClass != null)
+      {
+         writer.writeAttribute(HTML.STYLE_CLASS_ATTR, styleClass, null);
+      }
+      
+      if (style != null)
+      {
+         writer.writeAttribute(HTML.STYLE_ATTR, style,  null);
+      }
+      
       writer.endElement(HTML.INPUT_ELEM);
    }
    
@@ -161,26 +169,6 @@ public class UIFileUpload extends UIComponentBase
    public void setAccept(String accept)
    {
       this.accept = accept;
-   }
-
-   public String getDisabled()
-   {
-      return disabled;
-   }
-
-   public void setDisabled(String disabled)
-   {
-      this.disabled = disabled;
-   }
-
-   public String getRequired()
-   {
-      return required;
-   }
-
-   public void setRequired(String required)
-   {
-      this.required = required;
    }
 
    public String getStyle()

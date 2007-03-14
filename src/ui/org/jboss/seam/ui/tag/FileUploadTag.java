@@ -17,8 +17,6 @@ public class FileUploadTag extends UIComponentTagBase
    private String fileSize;
    
    private String accept;
-   private String required;
-   private String disabled;
    private String styleClass;
    private String style;
    
@@ -38,6 +36,13 @@ public class FileUploadTag extends UIComponentTagBase
    protected void setProperties(UIComponent component)
    {
        super.setProperties(component);
+       setStringProperty(component, "data", data);
+       setStringProperty(component, "contentType", contentType);
+       setStringProperty(component, "fileName", fileName);
+       setStringProperty(component, "fileSize", fileSize);
+       setStringProperty(component, "accept", accept);
+       setStringProperty(component, "styleClass", styleClass);
+       setStringProperty(component, "style", style);
    }
    
    public String getData()
@@ -53,26 +58,6 @@ public class FileUploadTag extends UIComponentTagBase
    public void setAccept(String accept)
    {
       this.accept = accept;
-   }
-
-   public String getDisabled()
-   {
-      return disabled;
-   }
-
-   public void setDisabled(String disabled)
-   {
-      this.disabled = disabled;
-   }
-
-   public String getRequired()
-   {
-      return required;
-   }
-
-   public void setRequired(String required)
-   {
-      this.required = required;
    }
 
    public String getStyle()

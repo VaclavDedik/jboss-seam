@@ -995,6 +995,18 @@
       <rtexprvalue>true</rtexprvalue>
       <description>acceptable content types for the file</description>
     </attribute>
+    <attribute>
+      <name>styleClass</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+      <description>css style class of the file upload control</description>
+    </attribute>
+    <attribute>
+      <name>style</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+      <description>style attributes of the file upload control</description>
+    </attribute>
   </tag>
   
    <tag>
