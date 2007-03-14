@@ -5,36 +5,42 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+                xmlns:a="https://ajax4jsf.dev.java.net/ajax"
                 template="layout/template.xhtml">
                        
 <ui:define name="body">
 
-    <h1>@pageName@</h1>
-    <p>Generated form page</p>
-    
     <h:messages globalOnly="true" styleClass="message"/>
     
-    <h:form id="@componentName@">
-        <div class="dialog">
-        <s:validateAll>
-            <div class="prop">
-                <span class="name">Value</span>
-                <span class="value">
-                    <s:decorate>
-                        <h:inputText id="value" required="true"
-                            value="#{@componentName@.value}"/>
-                    </s:decorate>
-                </span>
-            </div>
-        </s:validateAll>
-        </div>
-        <div class="actionButtons">
-            <h:commandButton id="@methodName@" value="@methodName@" 
-                action="#{@componentName@.@methodName@}"/>     			  
-        </div>
-    </h:form>
+    <rich:panel>
+        <f:facet name="header">@pageName@</f:facet>
     
+        <h:form id="@componentName@Form">
+
+            <div class="dialog">
+                <s:validateAll>
+                    <div class="prop">
+                        <span class="name">Value</span>
+                        <span class="value">
+                            <s:decorate>
+                                <h:inputText id="value" required="true"
+                                    value="#{@componentName@.value}"/>
+                            </s:decorate>
+                        </span>
+                    </div>
+                </s:validateAll>
+            </div>
+            
+            <div class="actionButtons">
+                <h:commandButton id="@methodName@" value="@methodName@" 
+                        action="#{@componentName@.@methodName@}"/>     			  
+            </div>
+
+        </h:form>
+    
+    </rich:panel>
+
 </ui:define>
 
 </ui:composition>
-

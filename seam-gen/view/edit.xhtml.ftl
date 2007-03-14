@@ -18,13 +18,12 @@
 <ui:define name="body">
     
     <h:messages globalOnly="true" styleClass="message" id="globalMessages"/>
-    <rich:panel rendered="false"/>
+
     <h:form id="${componentName}" styleClass="edit">
     
-        <div class="dr-pnl rich-panel">
-        <div class="dr-pnl-h rich-panel-header">Edit ${entityName}</div>
-        <div class="dr-pnl-b rich-panel-body">
-        <div class="dialog">
+        <rich:panel>
+            <f:facet name="header">Edit ${entityName}</f:facet>
+
             <s:validateAll>
                 <h:panelGrid columns="2" rowClasses="prop" columnClasses="name,value">
 <#foreach property in pojo.allPropertiesIterator>
@@ -33,10 +32,10 @@
 
                 </h:panelGrid>
             </s:validateAll>
-        </div>
-        <div><span class="required">*</span> required fields</div>
-        </div>
-        </div>
+        
+            <div><span class="required">*</span> required fields</div>
+            
+        </rich:panel>
                 
         <div class="actionButtons">
 

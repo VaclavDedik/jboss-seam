@@ -16,7 +16,6 @@ public class @interfaceName@ {
     
     private String value;
 	
-	//seam-gen method
 	public void @methodName@()
 	{
 		//implement your business logic here

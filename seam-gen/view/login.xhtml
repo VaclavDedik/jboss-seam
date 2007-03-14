@@ -14,29 +14,27 @@
     
     <h:form id="login">
     
-    <rich:panel rendered="false"/>
-    <div class="dr-pnl rich-panel">
-    <div class="dr-pnl-h rich-panel-header">Login</div>
-    <div class="dr-pnl-b rich-panel-body">
-    <p>Please login using any username and password</p>
+        <rich:panel>
+            <f:facet name="header">Login</f:facet>
     
-        <div class="dialog">
-        <h:panelGrid columns="2" rowClasses="prop" columnClasses="name,value">
-            <h:outputLabel for="username">Username</h:outputLabel>
-            <h:inputText id="username" 
-                      value="#{identity.username}"/>
-            <h:outputLabel for="password">Password</h:outputLabel>
-            <h:inputSecret id="password" 
-                        value="#{identity.password}"/>
-            <h:outputLabel for="rememberMe">Remember me</h:outputLabel>
-            <h:selectBooleanCheckbox id="rememberMe" 
-                                  value="#{identity.rememberMe}"/>
-        </h:panelGrid>
-        </div>
-            
-    </div>
-    </div>
+            <p>Please login using any username and password</p>
         
+            <div class="dialog">
+                <h:panelGrid columns="2" rowClasses="prop" columnClasses="name,value">
+                    <h:outputLabel for="username">Username</h:outputLabel>
+                    <h:inputText id="username" 
+                              value="#{identity.username}"/>
+                    <h:outputLabel for="password">Password</h:outputLabel>
+                    <h:inputSecret id="password" 
+                                value="#{identity.password}"/>
+                    <h:outputLabel for="rememberMe">Remember me</h:outputLabel>
+                    <h:selectBooleanCheckbox id="rememberMe" 
+                                          value="#{identity.rememberMe}"/>
+                </h:panelGrid>
+            </div>
+                
+        </rich:panel>
+            
         <div class="actionButtons">
             <h:commandButton value="Login" action="#{identity.login}"/>
         </div>
