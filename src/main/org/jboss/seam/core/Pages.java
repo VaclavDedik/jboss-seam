@@ -77,6 +77,9 @@ public class Pages
    private String noConversationViewId;
    private String loginViewId;
    private Map<String, ConversationIdParameter> conversations = Collections.synchronizedMap( new HashMap<String, ConversationIdParameter>() );
+   
+   private Integer httpPort = null;
+   private Integer httpsPort = null;
  
    private SortedSet<String> wildcardViewIds = new TreeSet<String>( 
          new Comparator<String>() {
@@ -323,7 +326,18 @@ public class Pages
                sb.append(scheme);
                sb.append("://");
                sb.append(serverUrl.getHost());
-               if (serverUrl.getPort() != -1)
+               
+               if ("http".equals(scheme) && httpPort != null)
+               {
+                  sb.append(":");
+                  sb.append(httpPort);
+               }
+               else if ("https".equals(scheme) && httpsPort != null)
+               {
+                  sb.append(":");
+                  sb.append(httpsPort);
+               }
+               else if (serverUrl.getPort() != -1)
                {
                   sb.append(":");
                   sb.append(serverUrl.getPort());
@@ -1276,6 +1290,26 @@ public class Pages
          if (viewRoot!=null) return viewRoot.getViewId();
       }
       return null;
+   }
+   
+   public Integer getHttpPort()
+   {
+      return httpPort;
+   }
+   
+   public void setHttpPort(Integer httpPort)
+   {
+      this.httpPort = httpPort;
+   }
+   
+   public Integer getHttpsPort()
+   {
+      return httpsPort;
+   }
+   
+   public void setHttpsPort(Integer httpsPort)
+   {
+      this.httpsPort = httpsPort;
    }
    
 }
