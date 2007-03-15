@@ -1,621 +1,1045 @@
 <chapter id="controls">
-    <title>Seam JSF controls</title>
-    <para>
-        Seam includes a number of JSF controls that are useful for working with
-        Seam. These are intended to complement the built-in JSF controls, and
-        controls from other third-party libraries. We recommend the Ajax4JSF
-        and ADF faces (now Trinidad) tag libraries for use with Seam. We do not
-        recommend the use of the Tomahawk tag library.
-    </para>
-    
-    <para>
-    	The ui example demonstrates the use of a number of these tags.
-    </para>
-    
-    <variablelist>
-       <varlistentry>
-           <term><literal>&lt;s:validate&gt;</literal></term>
-           <listitem>
-               <para>
-                   Validate a JSF input field against the bound property using 
-                   Hibernate Validator.
-               </para>
-           </listitem>
-       </varlistentry>
-       <varlistentry>
-           <term><literal>&lt;s:validateAll&gt;</literal></term>
-           <listitem>
-               <para>
-                   Validate all child JSF input fields against the bound propertys using 
-                   Hibernate Validator.
-               </para>
-           </listitem>
-       </varlistentry>
-       <varlistentry>
-           <term><literal>&lt;s:formattedText&gt;</literal></term>
-           <listitem>
-               <para>
-                   Output <emphasis>Seam Text</emphasis>.
-               </para>
-           </listitem>
-       </varlistentry>
-       <varlistentry>
-           <term><literal>&lt;s:convertDateTime&gt;</literal></term>
-           <listitem>
-               <para>
-                   Perform date or time conversions in the Seam timezone.
-               </para>
-           </listitem>
-       </varlistentry>
-       <varlistentry>
-           <term><literal>&lt;s:convertEnum&gt;</literal></term>
-           <listitem>
-               <para>
-                   Assigns an enum converter to the current component.  This is primarily
-                   useful for radio button and dropdown controls.
-               </para>                             
-           </listitem>
-       </varlistentry>
-       <varlistentry>
-           <term><literal>&lt;s:convertEntity&gt;</literal></term>
-           <listitem>
-               <para>
-                   Assigns an entity converter to the current component.  This is primarily
-                   useful for radio button and dropdown controls.
-               </para>
-               <para>
-               		The converter works with any entity which has an <literal>@Id</literal> annotation -
-               		either simple or composite.  If your <emphasis>Managed Persistence Context</emphasis> isn't called
-               		<literal>entityManager</literal>, then you need to set it in components.xml:
-             	</para>
-             	<programlisting><![CDATA[
-    <component name="org.jboss.seam.ui.entityConverter">
-        <property name="entityManager">#{em}</property>
-    </component>]]></programlisting>
-           </listitem>
-       </varlistentry>
-       <varlistentry>
-           <term><literal>&lt;s:enumItem&gt;</literal></term>
-           <listitem>
-               <para>
-                   Creates a <literal>SelectItem</literal> from an enum value.  
-               </para>
-               <itemizedlist>
-                   <listitem>
-                   <para>
-                       <literal>enumValue</literal> &mdash; the string representation of the enum 
-                       value.  
-                   </para>
-                   </listitem>
-                   <listitem>
-                   <para>
-                       <literal>label</literal> &mdash; the label to be used when rendering the <literal>SelectItem</literal>.
-                   </para>
-                   </listitem>
+  <title>Seam JSF controls</title>
+  <para>
+    Seam includes a number of JSF controls that are useful for working with
+    Seam. These are intended to complement the built-in JSF controls, and
+    controls from other third-party libraries. We recommend the Ajax4JSF
+    and ADF faces (now Trinidad) tag libraries for use with Seam. We do not
+    recommend the use of the Tomahawk tag library.
+  </para>
+
+  <para>
+    To use these controls, define the "<literal>s</literal>" namespace in your page as follows (facelets only):
+  </para>
+
+  <programlisting><![CDATA[
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:s="http://jboss.com/products/seam/taglib">]]>
+  </programlisting>
+
+  <para>
+    The ui example demonstrates the use of a number of these tags.
+  </para>
+
+  <table>
+    <title>Seam JSF Control Reference</title>
+
+    <tgroup cols="2">
+      <colspec colnum="1" colwidth="1*" />
+      <colspec colnum="2" colwidth="3*" />
+
+      <tbody>
+
+        <row>
+          <entry valign="top">
+            <para>
+              <literal>&lt;s:validate&gt;</literal>
+            </para>
+          </entry>
+          <entry valign="top">
+            <para><emphasis>Description</emphasis></para>
+            <para>
+              A non-visual control, validates a JSF input field against the bound
+              property using Hibernate Validator.
+            </para>
+            <para><emphasis>Attributes</emphasis></para>
+            <para>
+              None.
+            </para>
+            <para><emphasis>Usage</emphasis></para>
+            <programlisting><![CDATA[
+<h:inputText id="userName" required="true" value="#{customer.userName}">
+  <s:validate />
+</h:inputText>
+<h:message for="userName" styleClass="error" />]]></programlisting>
+          </entry>
+        </row>
+
+        <row>
+          <entry valign="top">
+            <para><literal>&lt;s:validateAll&gt;</literal></para>
+          </entry>
+          <entry valign="top">
+            <para><emphasis>Description</emphasis></para>
+            <para>
+              A non-visual control, validates all child JSF input fields against their bound
+              properties using Hibernate Validator.
+            </para>
+            <para><emphasis>Attributes</emphasis></para>
+            <para>
+              None.
+            </para>
+            <para><emphasis>Usage</emphasis></para>
+            <programlisting><![CDATA[
+<s:validateAll>
+  <div class="entry">
+    <h:outputLabel for="username">Username:</h:outputLabel>
+    <h:inputText id="username" value="#{user.username}" required="true"/>
+    <h:message for="username" styleClass="error" />
+  </div>
+  <div class="entry">
+    <h:outputLabel for="password">Password:</h:outputLabel>
+    <h:inputSecret id="password" value="#{user.password}" required="true"/>
+    <h:message for="password" styleClass="error" />
+  </div>
+  <div class="entry">
+    <h:outputLabel for="verify">Verify Password:</h:outputLabel>
+    <h:inputSecret id="verify" value="#{register.verify}" required="true"/>
+    <h:message for="verify" styleClass="error" />
+  </div>
+</s:validateAll>]]></programlisting>
+          </entry>
+        </row>
+
+        <row>
+          <entry valign="top">
+            <para><literal>&lt;s:formattedText&gt;</literal></para>
+          </entry>
+          <entry valign="top">
+            <para><emphasis>Description</emphasis></para>
+            <para>
+               Output <emphasis>Seam Text</emphasis>.
+            </para>
+            <para><emphasis>Attributes</emphasis></para>
+            <para>
+                None.
+            </para>
+            <para><emphasis>Usage</emphasis></para>
+            <para>
+              <programlisting><![CDATA[
+]]></programlisting>
+            </para>
+          </entry>
+        </row>
+
+        <row>
+          <entry valign="top">
+            <para><literal>&lt;s:convertDateTime&gt;</literal></para>
+          </entry>
+          <entry valign="top">
+            <para><emphasis>Description</emphasis></para>
+            <para>
+              Perform date or time conversions in the Seam timezone.
+            </para>
+            <para><emphasis>Attributes</emphasis></para>
+            <para>
+              None.
+            </para>
+            <para><emphasis>Usage</emphasis></para>
+            <programlisting><![CDATA[
+]]></programlisting>
+          </entry>
+        </row>
+
+        <row>
+          <entry valign="top">
+            <para><literal>&lt;s:convertEnum&gt;</literal></para>
+          </entry>
+
+          <entry valign="top">
+            <para><emphasis>Description</emphasis></para>
+            <para>
+              Assigns an enum converter to the current component.  This is primarily
+              useful for radio button and dropdown controls.
+            </para>
+            <para><emphasis>Attributes</emphasis></para>
+            <para>
+              None.
+            </para>
+            <para><emphasis>Usage</emphasis></para>
+            <programlisting><![CDATA[
+]]></programlisting>
+          </entry>
+        </row>
+
+        <row>
+          <entry valign="top">
+            <para><literal>&lt;s:convertEntity&gt;</literal></para>
+          </entry>
+          <entry valign="top">
+            <para><emphasis>Description</emphasis></para>
+            <para>
+               Assigns an entity converter to the current component.  This is primarily
+               useful for radio button and dropdown controls.
+            </para>
+
+            <para>
+              The converter works with any entity which has an <literal>@Id</literal> annotation -
+              either simple or composite.  If your <emphasis>Managed Persistence Context</emphasis> isn't called
+              <literal>entityManager</literal>, then you need to set it in components.xml:
+            </para>
+
+            <para><emphasis>Attributes</emphasis></para>
+
+            <para>
+              None.
+            </para>
+
+            <para><emphasis>Configuration</emphasis></para>
+
+            <programlisting><![CDATA[
+  <component name="org.jboss.seam.ui.entityConverter">
+      <property name="entityManager">#{em}</property>
+  </component>
+]]></programlisting>
+
+            <para><emphasis>Usage</emphasis></para>
+            <programlisting><![CDATA[
+
+]]></programlisting>
+          </entry>
+        </row>
+
+              <row>
+                <entry valign="top">
+                  <para>
+                    <literal>&lt;s:enumItem&gt;</literal>
+                  </para>
+                </entry>
+                <entry valign="top">
+                    <para>
+<emphasis>Description</emphasis>
+</para>
+                     <para>
+                       Creates a <literal>SelectItem</literal> from an enum value.
+                     </para>
+                    <para>
+<emphasis>Attributes</emphasis>
+</para>
+                   <itemizedlist>
+                     <listitem>
+                       <para>
+                           <literal>enumValue</literal> &mdash; the string representation of the enum
+                           value.
+                       </para>
+                     </listitem>
+                     <listitem>
+                       <para>
+                           <literal>label</literal> &mdash; the label to be used when rendering the <literal>SelectItem</literal>.
+                       </para>
+                     </listitem>
                    </itemizedlist>
-           </listitem>
-       </varlistentry>   
-       <varlistentry>
-           <term><literal>&lt;s:selectItems&gt;</literal></term>
-           <listitem>
+                    <para>
+<emphasis>Usage</emphasis>
+</para>
+                    <para>
+                        <programlisting>
+<![CDATA[
+]]></programlisting>
+                    </para>
+                </entry>
+              </row>
+
+              <row>
+                <entry valign="top">
+                  <para>
+                    <literal>&lt;s:selectItems&gt;</literal>
+                  </para>
+                </entry>
+                <entry valign="top">
+                    <para>
+<emphasis>Description</emphasis>
+</para>
+                     <para>
+                       Creates a <literal>List&lt;SelectItem&gt;</literal> from a List, Set, DataModel or Array.
+                     </para>
+                    <para>
+<emphasis>Attributes</emphasis>
+</para>
+                   <itemizedlist>
+                     <listitem>
+                       <para>
+                           <literal>value</literal> &mdash; an EL expression specifying the data that backs the <literal>List&lt;SelectItem&gt;</literal>
+                       </para>
+                     </listitem>
+                      <listitem>
+                       <para>
+                           <literal>var</literal> &mdash; defines the name of the local variable that holds the current object during iteration
+                       </para>
+                     </listitem>
+                     <listitem>
+                       <para>
+                           <literal>label</literal> &mdash; the label to be used when rendering the <literal>SelectItem</literal>.  Can reference
+                           the <literal>var</literal> variable
+                       </para>
+                     </listitem>
+                      <listitem>
+                       <para>
+                           <literal>disabled</literal> &mdash; if true the <literal>SelectItem</literal> will be rendered disabled.  Can reference
+                           the <literal>var</literal> variable
+                       </para>
+                     </listitem>
+                     <listitem>
+                       <para>
+                           <literal>noSelectionLabel</literal> &mdash; specifies the (optional) label to place at the top of list (if
+                           <literal>required="true"</literal> is also specified then selecting this value will cause a validation error)
+                       </para>
+                     </listitem>
+                      <listitem>
+                       <para>
+                           <literal>hideNoSelectionLabel</literal> &mdash; if true, the <literal>noSelectionLabel</literal> will be hidden
+                           when a value is selected
+                       </para>
+                     </listitem>
+                   </itemizedlist>
+                    <para>
+<emphasis>Usage</emphasis>
+</para>
+                    <para>
+                        <programlisting>
+<![CDATA[
+]]></programlisting>
+                    </para>
+                </entry>
+              </row>
+
+              <row>
+                <entry valign="top">
+                  <para>
+                    <literal>&lt;s:graphicImage&gt;</literal>
+                  </para>
+                </entry>
+                <entry valign="top">
+                    <para>
+<emphasis>Description</emphasis>
+</para>
+                     <para>
+                         An extended <literal>&lt;h:graphicImage&gt;</literal> that allows the image to be created in a Seam Component; further transforms
+                         can be applied to the image. <emphasis>Facelets only.</emphasis>
+                     </para>
+                     <para>
+                         All attributes for <literal>&lt;h:graphicImage&gt;</literal> are supported, as well as:
+                     </para>
+                    <para>
+<emphasis>Attributes</emphasis>
+</para>
+                     <itemizedlist>
+                         <listitem>
+                         <para>
+                             <literal>value</literal> &mdash; image to display.  Can be a path <literal>String</literal>
+                             (loaded from the classpath), a <literal>byte[]</literal>, a <literal>java.io.File</literal>,
+                             a <literal>java.io.InputStream</literal> or a <literal>java.net.URL</literal>.  Currently supported
+                             image formats are <literal>image/png</literal>, <literal>image/jpeg</literal> and <literal>image/gif</literal>.
+                         </para>
+                         </listitem>
+                          <listitem>
+                         <para>
+                             <literal>fileName</literal> &mdash; if not specified the served image will have a generated file name.
+                             If you want to name your file, you should specify it here.  This name should be unique
+                         </para>
+                         </listitem>
+                     </itemizedlist>
+                    <para>
+<emphasis>Transformations</emphasis>
+</para>
                <para>
-                   Creates a <literal>List&lt;SelectItem&gt;</literal> from a List, Set, DataModel or Array.
+                  To apply a transform to the image, you would nest a tag specifying the transform to apply.  Seam currently supports these
+                  transforms:
                </para>
-               <itemizedlist>
-                   <listitem>
-                   <para>
-                       <literal>value</literal> &mdash; an EL expression specifying the data that backs the <literal>List&lt;SelectItem&gt;</literal>
-                   </para>
-                   </listitem>
-                    <listitem>
-                   <para>
-                       <literal>var</literal> &mdash; defines the name of the local variable that holds the current object during iteration
-                   </para>
-                   </listitem>
-                   <listitem>
-                   <para>
-                       <literal>label</literal> &mdash; the label to be used when rendering the <literal>SelectItem</literal>.  Can reference 
-                       the <literal>var</literal> variable
-                   </para>
-                   </listitem>
-                    <listitem>
-                   <para>
-                       <literal>disabled</literal> &mdash; if true the <literal>SelectItem</literal> will be rendered disabled.  Can reference 
-                       the <literal>var</literal> variable
-                   </para>
-                   </listitem>
-                   <listitem>
-                   <para>
-                       <literal>noSelectionLabel</literal> &mdash; specifies the (optional) label to place at the top of list (if 
-                       <literal>required="true"</literal> is also specified then selecting this value will cause a validation error)
-                   </para>
-                   </listitem>
-                    <listitem>
-                   <para>
-                       <literal>hideNoSelectionLabel</literal> &mdash; if true, the <literal>noSelectionLabel</literal> will be hidden
-                       when a value is selected
-                   </para>
-                   </listitem>
-                   </itemizedlist>                        
-           </listitem>
-       </varlistentry>
-       <varlistentry>
-           <term><literal>&lt;s:graphicImage&gt;</literal></term>
-           <listitem>
-               <para>
-                   An extended <literal>&lt;h:graphicImage&gt;</literal> that allows the image to be created in a Seam Component; further transforms
-                   can be applied to the image. <emphasis>Facelets only.</emphasis>
-               </para>
-               <para>
-                   All attributes for <literal>&lt;h:graphicImage&gt;</literal> are supported, as well as:
-               </para>
-               <itemizedlist>
-                   <listitem>
-                   <para>
-                       <literal>value</literal> &mdash; image to display.  Can be a path <literal>String</literal> 
-                       (loaded from the classpath), a <literal>byte[]</literal>, a <literal>java.io.File</literal>,
-                       a <literal>java.io.InputStream</literal> or a <literal>java.net.URL</literal>.  Currently supported
-                       image formats are <literal>image/png</literal>, <literal>image/jpeg</literal> and <literal>image/gif</literal>.
-                   </para>
-                   </listitem>
-                    <listitem>
-                   <para>
-                       <literal>fileName</literal> &mdash; if not specified the served image will have a generated file name. 
-                       If you want to name your file, you should specify it here.  This name should be unique
-                   </para>
-                   </listitem>
-               </itemizedlist>
-               <para>
-               		To apply a transform to the image, you would nest a tag specifying the transform to apply.  Seam currently supports these
-               		transforms:
-               </para>         
                <variablelist>
-               	<varlistentry>
-               		<term><literal>&lt;s:transformImageSize&gt;</literal></term>
-               		<listitem>
-						<itemizedlist>
-							<listitem>
-								<para>
-									<literal>width</literal> &mdash; new width of the image
-								</para>
-							</listitem>
-							<listitem>
-								<para>
-									<literal>height</literal> &mdash; new height of the image
-								</para>
-							</listitem>
-							<listitem>
-								<para>
-									<literal>maintainRatio</literal> &mdash; if <literal>true</literal>, and <emphasis>one</emphasis> of 
-									<literal>width</literal>/<literal>height</literal> are specified, the image will be resized with the 
-									dimension not specified being calculated to maintain the aspect ratio.
-								</para>
-							</listitem>
-							<listitem>
-								<para>
-									<literal>factor</literal> &mdash; scale the image by the given factor
-								</para>
-							</listitem>
-						</itemizedlist>
-               		</listitem>
-               	</varlistentry>
-               	<varlistentry>
-               		<term><literal>&lt;s:transformImageBlur&gt;</literal></term>
-               		<listitem>
-						<itemizedlist>
-							<listitem>
-								<para>
-									<literal>radius</literal> &mdash; perform a convolution blur with the given radius
-								</para>
-							</listitem>
-						</itemizedlist>
-               		</listitem>
-               	</varlistentry>
-               	<varlistentry>
-               		<term><literal>&lt;s:transformImageType&gt;</literal></term>
-               		<listitem>
-						<itemizedlist>
-							<listitem>
-								<para>
-									<literal>contentType</literal> &mdash; alter the type of the image to either <literal>image/jpeg</literal> or <literal>image/png</literal>
-								</para>
-							</listitem>
-						</itemizedlist>
-               		</listitem>
-               	</varlistentry>
-               </variablelist>
-               <para>
-               		It's easy to create your own transform - create a <literal>UIComponent</literal> which <literal>implements</literal> 
-               		<literal>org.jboss.seam.ui.graphicImage.ImageTransform</literal>.  Inside the <literal>applyTransform()</literal>method 
-               		use <literal>image.getBufferedImage()</literal> to get the original image and <literal>image.setBufferedImage()</literal> 
-               		to set your transformed image.  Transforms are applied in the order specified in the view.
-               </para>     
-           </listitem>
-       </varlistentry>
-       <varlistentry>
-           <term><literal>&lt;s:decorate&gt;</literal></term>
-           <listitem>
-               <para>
-                   "Decorate" a JSF input field when validation fails.
-               </para>
-           </listitem>
-       </varlistentry>
-       <varlistentry>
-           <term><literal>&lt;s:message&gt;</literal></term>
-           <listitem>
-               <para>
-                   "Decorate" a JSF input field with the validation error message.
-               </para>
-           </listitem>
-       </varlistentry>
-       <varlistentry>
-           <term><literal>&lt;s:span&gt;</literal></term>
-           <listitem>
-               <para>
-                   Render a HTML <literal>&lt;span&gt;</literal>.
-               </para>
-           </listitem>
-       </varlistentry>
-       <varlistentry>
-           <term><literal>&lt;s:div&gt;</literal></term>
-           <listitem>
-               <para>
-                   Render a HTML <literal>&lt;div&gt;</literal>.
-               </para>
-           </listitem>
-       </varlistentry>
-       <varlistentry>
-           <term><literal>&lt;s:fragment&gt;</literal></term>
-           <listitem>
-               <para>
-                   A non-rendering component useful for enabling/disabling rendering of it's children
-               </para>
-           </listitem>
-       </varlistentry>
-       <varlistentry>
-           <term><literal>&lt;s:cache&gt;</literal></term>
-           <listitem>
-               <para>
-                   Cache the rendered page fragment using JBoss Cache. Note that 
-                   <literal>&lt;s:cache&gt;</literal> actually uses the instance
-                   of JBoss Cache managed by the built-in <literal>pojoCache</literal>
-                   component.
-               </para>
-               <itemizedlist>
-                   <listitem>
-                   <para>
-                       <literal>key</literal> &mdash; the key to cache rendered content,
-                       often a value expression. For example, if we were caching a page
-                       fragment that displays a document, we might use 
-                       <literal>key="Document-#{document.id}"</literal>.
-                   </para>
-                   </listitem>
-                   <listitem>
-                   <para>
-                       <literal>enabled</literal> &mdash; a value expression that determines
-                       if the cache should be used.
-                   </para>
-                   </listitem>
-                   <listitem>
-                   <para>
-                       <literal>region</literal> &mdash; a JBoss Cache node to use (different
-                       nodes can have different expiry policies).
-                   </para>
-                   </listitem>
-               </itemizedlist>
-           </listitem>
-       </varlistentry>
-       <varlistentry>
-           <term><literal>&lt;s:link&gt;</literal></term>
-           <listitem>
-               <para>
-                   A link that supports invocation of an action with control over conversation 
-                   propagation. <emphasis>Does not submit the form.</emphasis>
-               </para>
-               <itemizedlist>
-                   <listitem>
-                   <para>
-                       <literal>value</literal> &mdash; the label.
-                   </para>
-                   </listitem>
-                   <listitem>
-                   <para>
-                       <literal>action</literal> &mdash; a method binding that specified
-                       the action listener.
-                   </para>
-                   </listitem>
-                   <listitem>
-                   <para>
-                       <literal>view</literal> &mdash; the JSF view id to link to.
-                   </para>
-                   </listitem>
-                   <listitem>
-                   <para>
-                       <literal>fragment</literal> &mdash; the fragment identifier to link to.
-                   </para>
-                   </listitem>
-                   <listitem>
-                   <para>
-                       <literal>disabled</literal> &mdash; is the link disabled?
-                   </para>
-                   </listitem>
-                   <listitem>
-                   <para>
-                       <literal>propagation</literal> &mdash; determines the conversation
-                       propagation style: <literal>begin</literal>, <literal>join</literal>,
-                       <literal>nest</literal>, <literal>none</literal> or <literal>end</literal>.
-                   </para>
-                   </listitem>
-                   <listitem>
-                   <para>
-                       <literal>pageflow</literal> &mdash; a pageflow definition to begin.
-                       (This is only useful when <literal>propagation="begin"</literal> or 
-                       <literal>propagation="join"</literal>.)
-                   </para>
-                   </listitem>
-               </itemizedlist>
-           </listitem>
-       </varlistentry>
-       <varlistentry>
-           <term><literal>&lt;s:button&gt;</literal></term>
-           <listitem>
-               <para>
-                   A button that supports invocation of an action with control
-                   over conversation propagation. <emphasis>Does not submit the form.</emphasis>
-               </para>
-               <itemizedlist>
-                   <listitem>
-                   <para>
-                       <literal>value</literal> &mdash; the label.
-                   </para>
-                   </listitem>
-                   <listitem>
-                   <para>
-                       <literal>action</literal> &mdash; a method binding that specified
-                       the action listener.
-                   </para>
-                   </listitem>
-                   <listitem>
-                   <para>
-                       <literal>view</literal> &mdash; the JSF view id to link to.
-                   </para>
-                   </listitem>
-                   <listitem>
-                   <para>
-                       <literal>fragment</literal> &mdash; the fragment identifier to link to.
-                   </para>
-                   </listitem>
-                   <listitem>
-                   <para>
-                       <literal>disabled</literal> &mdash; is the link disabled?
-                   </para>
-                   </listitem>
-                   <listitem>
-                   <para>
-                       <literal>propagation</literal> &mdash; determines the conversation
-                       propagation style: <literal>begin</literal>, <literal>join</literal>,
-                       <literal>nest</literal>, <literal>none</literal> or <literal>end</literal>.
-                   </para>
-                   </listitem>
-                   <listitem>
-                   <para>
-                       <literal>pageflow</literal> &mdash; a pageflow definition to begin.
-                       (This is only useful when <literal>propagation="begin"</literal> or 
-                       <literal>propagation="join"</literal>.)
-                   </para>
-                   </listitem>
-               </itemizedlist>
-           </listitem>
-       </varlistentry>
-        
-        <varlistentry>
-            <term><literal>&lt;s:selectDate&gt;</literal></term>
-            <listitem>
-                <para>
-                    Displays a dynamic date picker component that selects a date 
-                    for the specified input field.  The body of the <literal>selectDate</literal> element should
-                    contain HTML elements, such as text or an image, that prompt the user to click
-                    to display the date picker.  The date picker can be styled using CSS.  An example CSS file
-                    can be found in the Seam booking demo as <literal>date.css</literal>.
-                </para>
-                
+                <varlistentry>
+                  <term>
+<literal>&lt;s:transformImageSize&gt;</literal>
+</term>
+                  <listitem>
                 <itemizedlist>
-                    <listitem><para><literal>for</literal> &mdash;
-                        The id of the input field that the date picker will insert the
-                        selected date into.
-                    </para></listitem>
-                    <listitem><para><literal>dateFormat</literal> &mdash;
-                        The date format string.  This should match the date format of the 
-                        input field.  
-                    </para></listitem>
+                  <listitem>
+                    <para>
+                      <literal>width</literal> &mdash; new width of the image
+                    </para>
+                  </listitem>
+                  <listitem>
+                    <para>
+                      <literal>height</literal> &mdash; new height of the image
+                    </para>
+                  </listitem>
+                  <listitem>
+                    <para>
+                      <literal>maintainRatio</literal> &mdash; if <literal>true</literal>, and <emphasis>one</emphasis> of
+                      <literal>width</literal>/<literal>height</literal> are specified, the image will be resized with the
+                      dimension not specified being calculated to maintain the aspect ratio.
+                    </para>
+                  </listitem>
+                  <listitem>
+                    <para>
+                      <literal>factor</literal> &mdash; scale the image by the given factor
+                    </para>
+                  </listitem>
                 </itemizedlist>
-                
-                
-            </listitem>
-        </varlistentry>
-        
-        <varlistentry>
-           <term><literal>&lt;s:conversationPropagation&gt;</literal></term>
-           <listitem>
-               <para>
-                   Customize the conversation propagation for a command link or button
-                   (or similar JSF control).
-                   <emphasis>Facelets only.</emphasis>
-               </para>
-               <itemizedlist>
-                   <listitem>
+                      </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                      <term>
+<literal>&lt;s:transformImageBlur&gt;</literal>
+</term>
+                      <listitem>
+                <itemizedlist>
+                  <listitem>
+                    <para>
+                      <literal>radius</literal> &mdash; perform a convolution blur with the given radius
+                    </para>
+                  </listitem>
+                </itemizedlist>
+                      </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                      <term>
+<literal>&lt;s:transformImageType&gt;</literal>
+</term>
+                      <listitem>
+                <itemizedlist>
+                  <listitem>
+                    <para>
+                      <literal>contentType</literal> &mdash; alter the type of the image to either <literal>image/jpeg</literal> or <literal>image/png</literal>
+                    </para>
+                  </listitem>
+                </itemizedlist>
+                      </listitem>
+                    </varlistentry>
+                   </variablelist>
+
                    <para>
-                       <literal>propagation</literal> &mdash; determines the conversation
-                       propagation style: <literal>begin</literal>, <literal>join</literal>,
-                       <literal>nest</literal>, <literal>none</literal> or <literal>end</literal>.
+                      It's easy to create your own transform - create a <literal>UIComponent</literal> which <literal>implements</literal>
+                      <literal>org.jboss.seam.ui.graphicImage.ImageTransform</literal>.  Inside the <literal>applyTransform()</literal>method
+                      use <literal>image.getBufferedImage()</literal> to get the original image and <literal>image.setBufferedImage()</literal>
+                      to set your transformed image.  Transforms are applied in the order specified in the view.
                    </para>
-                   </listitem>
-                   <listitem>
-                   <para>
-                       <literal>pageflow</literal> &mdash; a pageflow definition to begin.
-                       (This is only useful when <literal>propagation="begin"</literal> or 
-                       <literal>propagation="join"</literal>.)
-                   </para>
-                   </listitem>
-               </itemizedlist>
-           </listitem>
-       </varlistentry>
-       <varlistentry>
-           <term><literal>&lt;s:conversationId&gt;</literal></term>
-           <listitem>
-               <para>
-                   Add the conversation id to an output link (or similar JSF control).
-                   <emphasis>Facelets only.</emphasis>
-               </para>
-           </listitem>
-       </varlistentry>
-       <varlistentry>
-           <term><literal>&lt;s:taskId&gt;</literal></term>
-           <listitem>
-               <para>
-                   Add the task id to an output link (or similar JSF control), when the
-                   task is available via <literal>#{task}</literal>.
-                   <emphasis>Facelets only.</emphasis>
-               </para>
-           </listitem>
-       </varlistentry>
-       <varlistentry>
-           <term><literal>&lt;s:fileUpload&gt;</literal></term>
-           <listitem>
-               <para>
-                   Renders a file upload control.  This control must be used within a form with
-                   an encoding type of <literal>multipart/form-data</literal>, i.e:
-               </para>
-                   
-               <programlisting>
-                 <![CDATA[
-  <h:form enctype="multipart/form-data">
-                 ]]>                   
-               </programlisting>
-               
-               <para>
-                   For multipart requests, the Seam Multipart servlet filter must also be configured
-                   in <literal>web.xml</literal>:
-               </para>
-               
-               <programlisting>
-                 <![CDATA[             
-    
-    <filter>
-      <filter-name>Seam Filter</filter-name>
-      <filter-class>org.jboss.seam.web.SeamFilter</filter-class>
-    </filter>
-    
-    <filter-mapping>
-      <filter-name>Seam Filter</filter-name>
-      <url-pattern>/*</url-pattern>
-    </filter-mapping>      
-    
-                 ]]>
-               </programlisting>
-               
-               <para>
-                  The following configuration options for multipart requests may be configured in components.xml:
-               </para>
-               
-               <itemizedlist>
-                 <listitem>
-                 <para>
-                   <literal>createTempFiles</literal> &mdash; if this option is set to true, uploaded files are
-                   streamed to a temporary file instead of in memory.
-                 </para>
-                 </listitem>
-                 <listitem>
-                 <para>
-                    <literal>maxRequestSize</literal> &mdash; the maximum size of a file upload request, in bytes.
-                 </para>
-                 </listitem>
-               </itemizedlist>
-               
-               <para>
-                 Here's an example:
-               </para>
-               
-               <programlisting>
-                 <![CDATA[
-    <component class="org.jboss.seam.servlet.MultipartConfig">
-        <property name="createTempFiles">true</property>
-        <property name="maxRequestSize">1000000</property>
-    </component>                 
-                 ]]>
-               </programlisting>
-               
-               <para>
-                 And here's a list of the supported attributes for the <literal>fileUpload</literal> control:
-               </para>
-               
-               <itemizedlist>
-                   <listitem>
-                   <para>
-                       <literal>data</literal> &mdash; this value binding receives the binary file data.  
-                       The receiving field should be declared as a <literal>byte[]</literal> or <literal>InputStream</literal> (required).
-                   </para>
-                   </listitem>
-                   <listitem>
-                   <para>
-                       <literal>contentType</literal> &mdash; this value binding receives the file's
-                       content type (optional).
-                   </para>
-                   </listitem>
-                   <listitem>
-                   <para>
-                       <literal>fileName</literal> &mdash; this value binding receives the filename (optional).
-                   </para>
-                   </listitem>
-                   <listitem>
-                   <para>
-                       <literal>accept</literal> &mdash; a comma-separated list of content types to accept,
-                       may not be supported by the browser.  E.g. <literal>"images/png,images/jpg"</literal>, 
-                       <literal>"images/*"</literal>.
-                   </para>
-                   </listitem>       
-                   <listitem>
-                   <para>
-                       <literal>style</literal> &mdash; The control's style
-                   </para>
-                   </listitem>
-                   <listitem>
-                   <para>
-                       <literal>styleClass</literal> &mdash; The control's style class
-                   </para>
-                   </listitem>                                                                   
-               </itemizedlist>               
-               
-           </listitem>
-       </varlistentry>
-       
-       <!-- varlistentry>
-           <term><literal>&lt;s:action&gt;</literal></term>
-           <listitem>
-               <para>
-                   Attach an action listener to an output link (or similar JSF control).
-                   <emphasis>Facelets only.</emphasis>
-               </para>
-               <itemizedlist>
-                   <listitem>
-                   <para>
-                       <literal>action</literal> &mdash; a method binding that specified
-                       the action listener.
-                   </para>
-                   </listitem>
-               </itemizedlist>
-           </listitem>
-       </varlistentry>
-       <varlistentry>
-           <term><literal>&lt;s:selection&gt;</literal></term>
-           <listitem>
-               <para>
-                   Propagate the selected row of a <literal>DataModel</literal> with an 
-                   output link (or similar JSF control).
-                   <emphasis>Facelets only.</emphasis>
-               </para>
-           </listitem>
-       </varlistentry-->
-    </variablelist>
-    
+                    <para>
+<emphasis>Usage</emphasis>
+</para>
+                    <para>
+                        <programlisting>
+<![CDATA[
+]]></programlisting>
+                    </para>
+                </entry>
+              </row>
+
+              <row>
+                <entry valign="top">
+                  <para>
+                    <literal>&lt;s:decorate&gt;</literal>
+                  </para>
+                </entry>
+                <entry valign="top">
+                    <para>
+<emphasis>Description</emphasis>
+</para>
+                     <para>
+                       "Decorate" a JSF input field when validation fails.
+                     </para>
+                    <para>
+<emphasis>Attributes</emphasis>
+</para>
+                    <para>
+                        None.
+                    </para>
+                    <para>
+<emphasis>Usage</emphasis>
+</para>
+                    <para>
+                        <programlisting>
+<![CDATA[
+]]></programlisting>
+                    </para>
+                </entry>
+              </row>
+
+              <row>
+                <entry valign="top">
+                  <para>
+                    <literal>&lt;s:message&gt;</literal>
+                  </para>
+                </entry>
+                <entry valign="top">
+                    <para>
+<emphasis>Description</emphasis>
+</para>
+                     <para>
+                       "Decorate" a JSF input field with the validation error message.
+                     </para>
+                    <para>
+<emphasis>Attributes</emphasis>
+</para>
+                    <para>
+                        None.
+                    </para>
+                    <para>
+<emphasis>Usage</emphasis>
+</para>
+                    <para>
+                        <programlisting>
+<![CDATA[
+]]></programlisting>
+                    </para>
+                </entry>
+              </row>
+
+              <row>
+                <entry valign="top">
+                  <para>
+                    <literal>&lt;s:span&gt;</literal>
+                  </para>
+                </entry>
+                <entry valign="top">
+                    <para>
+<emphasis>Description</emphasis>
+</para>
+                     <para>
+                       Render a HTML <literal>&lt;span&gt;</literal>.
+                     </para>
+                    <para>
+<emphasis>Attributes</emphasis>
+</para>
+                    <para>
+                        None.
+                    </para>
+                    <para>
+<emphasis>Usage</emphasis>
+</para>
+                    <para>
+                        <programlisting>
+<![CDATA[
+]]></programlisting>
+                    </para>
+                </entry>
+              </row>
+
+              <row>
+                <entry valign="top">
+                  <para>
+                    <literal>&lt;s:div&gt;</literal>
+                  </para>
+                </entry>
+                <entry valign="top">
+                    <para>
+<emphasis>Description</emphasis>
+</para>
+                     <para>
+                       Render a HTML <literal>&lt;div&gt;</literal>.
+                     </para>
+                    <para>
+<emphasis>Attributes</emphasis>
+</para>
+                    <para>
+                        None.
+                    </para>
+                    <para>
+<emphasis>Usage</emphasis>
+</para>
+                    <para>
+                        <programlisting>
+<![CDATA[
+]]></programlisting>
+                    </para>
+                </entry>
+              </row>
+
+              <row>
+                <entry valign="top">
+                  <para>
+                    <literal>&lt;s:fragment&gt;</literal>
+                  </para>
+                </entry>
+                <entry valign="top">
+                    <para>
+<emphasis>Description</emphasis>
+</para>
+                     <para>
+                       A non-rendering component useful for enabling/disabling rendering of it's children.
+                     </para>
+                    <para>
+<emphasis>Attributes</emphasis>
+</para>
+                    <para>
+                        None.
+                    </para>
+                    <para>
+<emphasis>Usage</emphasis>
+</para>
+                    <para>
+                        <programlisting>
+<![CDATA[
+]]></programlisting>
+                    </para>
+                </entry>
+              </row>
+
+              <row>
+                <entry valign="top">
+                  <para>
+                    <literal>&lt;s:cache&gt;</literal>
+                  </para>
+                </entry>
+                <entry valign="top">
+                    <para>
+<emphasis>Description</emphasis>
+</para>
+                     <para>
+                        Cache the rendered page fragment using JBoss Cache. Note that
+                         <literal>&lt;s:cache&gt;</literal> actually uses the instance
+                         of JBoss Cache managed by the built-in <literal>pojoCache</literal>
+                         component.
+                     </para>
+                    <para>
+<emphasis>Attributes</emphasis>
+</para>
+                   <itemizedlist>
+                       <listitem>
+                       <para>
+                           <literal>key</literal> &mdash; the key to cache rendered content,
+                           often a value expression. For example, if we were caching a page
+                           fragment that displays a document, we might use
+                           <literal>key="Document-#{document.id}"</literal>.
+                       </para>
+                       </listitem>
+                       <listitem>
+                       <para>
+                           <literal>enabled</literal> &mdash; a value expression that determines
+                           if the cache should be used.
+                       </para>
+                       </listitem>
+                       <listitem>
+                       <para>
+                           <literal>region</literal> &mdash; a JBoss Cache node to use (different
+                           nodes can have different expiry policies).
+                       </para>
+                       </listitem>
+                   </itemizedlist>
+                    <para>
+<emphasis>Usage</emphasis>
+</para>
+                    <para>
+                        <programlisting>
+<![CDATA[
+]]></programlisting>
+                    </para>
+                </entry>
+              </row>
+
+              <row>
+                <entry valign="top">
+                  <para>
+                    <literal>&lt;s:link&gt;</literal>
+                  </para>
+                </entry>
+                <entry valign="top">
+                    <para>
+<emphasis>Description</emphasis>
+</para>
+                     <para>
+                       A link that supports invocation of an action with control over conversation
+                       propagation. <emphasis>Does not submit the form.</emphasis>
+                     </para>
+                    <para>
+<emphasis>Attributes</emphasis>
+</para>
+                     <itemizedlist>
+                         <listitem>
+                         <para>
+                             <literal>value</literal> &mdash; the label.
+                         </para>
+                         </listitem>
+                         <listitem>
+                         <para>
+                             <literal>action</literal> &mdash; a method binding that specified
+                             the action listener.
+                         </para>
+                         </listitem>
+                         <listitem>
+                         <para>
+                             <literal>view</literal> &mdash; the JSF view id to link to.
+                         </para>
+                         </listitem>
+                         <listitem>
+                         <para>
+                             <literal>fragment</literal> &mdash; the fragment identifier to link to.
+                         </para>
+                         </listitem>
+                         <listitem>
+                         <para>
+                             <literal>disabled</literal> &mdash; is the link disabled?
+                         </para>
+                         </listitem>
+                         <listitem>
+                         <para>
+                             <literal>propagation</literal> &mdash; determines the conversation
+                             propagation style: <literal>begin</literal>, <literal>join</literal>,
+                             <literal>nest</literal>, <literal>none</literal> or <literal>end</literal>.
+                         </para>
+                         </listitem>
+                         <listitem>
+                         <para>
+                             <literal>pageflow</literal> &mdash; a pageflow definition to begin.
+                             (This is only useful when <literal>propagation="begin"</literal> or
+                             <literal>propagation="join"</literal>.)
+                         </para>
+                         </listitem>
+                     </itemizedlist>
+                    <para>
+<emphasis>Usage</emphasis>
+</para>
+                    <para>
+                        <programlisting>
+<![CDATA[
+]]></programlisting>
+                    </para>
+                </entry>
+              </row>
+
+              <row>
+                <entry valign="top">
+                  <para>
+                    <literal>&lt;s:button&gt;</literal>
+                  </para>
+                </entry>
+                <entry valign="top">
+                    <para>
+<emphasis>Description</emphasis>
+</para>
+                     <para>
+                       A button that supports invocation of an action with control
+                       over conversation propagation. <emphasis>Does not submit the form.</emphasis>
+                     </para>
+                    <para>
+<emphasis>Attributes</emphasis>
+</para>
+                     <itemizedlist>
+                         <listitem>
+                         <para>
+                             <literal>value</literal> &mdash; the label.
+                         </para>
+                         </listitem>
+                         <listitem>
+                         <para>
+                             <literal>action</literal> &mdash; a method binding that specified
+                             the action listener.
+                         </para>
+                         </listitem>
+                         <listitem>
+                         <para>
+                             <literal>view</literal> &mdash; the JSF view id to link to.
+                         </para>
+                         </listitem>
+                         <listitem>
+                         <para>
+                             <literal>fragment</literal> &mdash; the fragment identifier to link to.
+                         </para>
+                         </listitem>
+                         <listitem>
+                         <para>
+                             <literal>disabled</literal> &mdash; is the link disabled?
+                         </para>
+                         </listitem>
+                         <listitem>
+                         <para>
+                             <literal>propagation</literal> &mdash; determines the conversation
+                             propagation style: <literal>begin</literal>, <literal>join</literal>,
+                             <literal>nest</literal>, <literal>none</literal> or <literal>end</literal>.
+                         </para>
+                         </listitem>
+                         <listitem>
+                         <para>
+                             <literal>pageflow</literal> &mdash; a pageflow definition to begin.
+                             (This is only useful when <literal>propagation="begin"</literal> or
+                             <literal>propagation="join"</literal>.)
+                         </para>
+                         </listitem>
+                     </itemizedlist>
+                    <para>
+<emphasis>Usage</emphasis>
+</para>
+                    <para>
+                        <programlisting>
+<![CDATA[
+]]></programlisting>
+                    </para>
+                </entry>
+              </row>
+
+              <row>
+                <entry valign="top">
+                  <para>
+                    <literal>&lt;s:selectDate&gt;</literal>
+                  </para>
+                </entry>
+                <entry valign="top">
+                    <para>
+<emphasis>Description</emphasis>
+</para>
+                     <para>
+                        Displays a dynamic date picker component that selects a date
+                        for the specified input field.  The body of the <literal>selectDate</literal> element should
+                        contain HTML elements, such as text or an image, that prompt the user to click
+                        to display the date picker.  The date picker can be styled using CSS.  An example CSS file
+                        can be found in the Seam booking demo as <literal>date.css</literal>.
+                     </para>
+                    <para>
+<emphasis>Attributes</emphasis>
+</para>
+                    <itemizedlist>
+                        <listitem>
+<para>
+<literal>for</literal> &mdash;
+                            The id of the input field that the date picker will insert the
+                            selected date into.
+                        </para>
+</listitem>
+                        <listitem>
+<para>
+<literal>dateFormat</literal> &mdash;
+                            The date format string.  This should match the date format of the
+                            input field.
+                        </para>
+</listitem>
+                    </itemizedlist>
+                    <para>
+<emphasis>Usage</emphasis>
+</para>
+                    <para>
+                        <programlisting>
+<![CDATA[
+]]></programlisting>
+                    </para>
+                </entry>
+              </row>
+
+              <row>
+                <entry valign="top">
+                  <para>
+                    <literal>&lt;s:conversationPropagation&gt;</literal>
+                  </para>
+                </entry>
+                <entry valign="top">
+                    <para>
+<emphasis>Description</emphasis>
+</para>
+                     <para>
+                       Customize the conversation propagation for a command link or button
+                       (or similar JSF control).
+                       <emphasis>Facelets only.</emphasis>
+                     </para>
+                    <para>
+<emphasis>Attributes</emphasis>
+</para>
+                   <itemizedlist>
+                       <listitem>
+                       <para>
+                           <literal>propagation</literal> &mdash; determines the conversation
+                           propagation style: <literal>begin</literal>, <literal>join</literal>,
+                           <literal>nest</literal>, <literal>none</literal> or <literal>end</literal>.
+                       </para>
+                       </listitem>
+                       <listitem>
+                       <para>
+                           <literal>pageflow</literal> &mdash; a pageflow definition to begin.
+                           (This is only useful when <literal>propagation="begin"</literal> or
+                           <literal>propagation="join"</literal>.)
+                       </para>
+                       </listitem>
+                   </itemizedlist>
+                    <para>
+<emphasis>Usage</emphasis>
+</para>
+                    <para>
+                        <programlisting>
+<![CDATA[
+]]></programlisting>
+                    </para>
+                </entry>
+              </row>
+
+              <row>
+                <entry valign="top">
+                  <para>
+                    <literal>&lt;s:conversationId&gt;</literal>
+                  </para>
+                </entry>
+                <entry valign="top">
+                    <para>
+<emphasis>Description</emphasis>
+</para>
+                     <para>
+                       Add the conversation id to an output link (or similar JSF control).
+                       <emphasis>Facelets only.</emphasis>
+                     </para>
+                    <para>
+<emphasis>Attributes</emphasis>
+</para>
+                    <para>
+                        None.
+                    </para>
+                    <para>
+<emphasis>Usage</emphasis>
+</para>
+                    <para>
+                        <programlisting>
+<![CDATA[
+]]></programlisting>
+                    </para>
+                </entry>
+              </row>
+
+              <row>
+                <entry valign="top">
+                  <para>
+                    <literal>&lt;s:taskId&gt;</literal>
+                  </para>
+                </entry>
+                <entry valign="top">
+                    <para>
+<emphasis>Description</emphasis>
+</para>
+                     <para>
+                       Add the task id to an output link (or similar JSF control), when the
+                       task is available via <literal>#{task}</literal>.
+                       <emphasis>Facelets only.</emphasis>
+                     </para>
+                    <para>
+<emphasis>Attributes</emphasis>
+</para>
+                    <para>
+                        None.
+                    </para>
+                    <para>
+<emphasis>Usage</emphasis>
+</para>
+                    <para>
+                        <programlisting>
+<![CDATA[
+]]></programlisting>
+                    </para>
+                </entry>
+              </row>
+
+              <row>
+                <entry valign="top">
+                  <para>
+                    <literal>&lt;s:fileUpload&gt;</literal>
+                  </para>
+                </entry>
+                <entry valign="top">
+                    <para>
+<emphasis>Description</emphasis>
+</para>
+                     <para>
+                         Renders a file upload control.  This control must be used within a form with
+                         an encoding type of <literal>multipart/form-data</literal>, i.e:
+                     </para>
+
+                     <programlisting>
+                       <![CDATA[
+        <h:form enctype="multipart/form-data">
+                       ]]>
+                     </programlisting>
+
+                     <para>
+                         For multipart requests, the Seam Multipart servlet filter must also be configured
+                         in <literal>web.xml</literal>:
+                     </para>
+
+                     <programlisting>
+                       <![CDATA[
+  <filter>
+    <filter-name>Seam Filter</filter-name>
+    <filter-class>org.jboss.seam.web.SeamFilter</filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>Seam Filter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+                       ]]>
+                     </programlisting>
+
+                    <para>
+<emphasis>Configuration</emphasis>
+</para>
+
+                     <para>
+                        The following configuration options for multipart requests may be configured in components.xml:
+                     </para>
+
+                     <itemizedlist>
+                       <listitem>
+                       <para>
+                         <literal>createTempFiles</literal> &mdash; if this option is set to true, uploaded files are
+                         streamed to a temporary file instead of in memory.
+                       </para>
+                       </listitem>
+                       <listitem>
+                       <para>
+                          <literal>maxRequestSize</literal> &mdash; the maximum size of a file upload request, in bytes.
+                       </para>
+                       </listitem>
+                     </itemizedlist>
+
+                     <para>
+                       Here's an example:
+                     </para>
+
+                     <programlisting>
+                       <![CDATA[
+  <component class="org.jboss.seam.servlet.MultipartConfig">
+      <property name="createTempFiles">true</property>
+      <property name="maxRequestSize">1000000</property>
+  </component>
+                       ]]>
+                     </programlisting>
+
+                    <para>
+<emphasis>Attributes</emphasis>
+</para>
+                   <itemizedlist>
+                       <listitem>
+                       <para>
+                           <literal>data</literal> &mdash; this value binding receives the binary file data.
+                           The receiving field should be declared as a <literal>byte[]</literal> or <literal>InputStream</literal> (required).
+                       </para>
+                       </listitem>
+                       <listitem>
+                       <para>
+                           <literal>contentType</literal> &mdash; this value binding receives the file's
+                           content type (optional).
+                       </para>
+                       </listitem>
+                       <listitem>
+                       <para>
+                           <literal>fileName</literal> &mdash; this value binding receives the filename (optional).
+                       </para>
+                       </listitem>
+                       <listitem>
+                       <para>
+                           <literal>accept</literal> &mdash; a comma-separated list of content types to accept,
+                           may not be supported by the browser.  E.g. <literal>"images/png,images/jpg"</literal>,
+                           <literal>"images/*"</literal>.
+                       </para>
+                       </listitem>
+                       <listitem>
+                       <para>
+                           <literal>style</literal> &mdash; The control's style
+                       </para>
+                       </listitem>
+                       <listitem>
+                       <para>
+                           <literal>styleClass</literal> &mdash; The control's style class
+                       </para>
+                       </listitem>
+                   </itemizedlist>
+                    <para>
+<emphasis>Usage</emphasis>
+</para>
+                    <para>
+                        <programlisting>
+<![CDATA[
+]]></programlisting>
+                    </para>
+                </entry>
+              </row>
+
+            </tbody>
+        </tgroup>
+
+    </table>
+
 </chapter>
