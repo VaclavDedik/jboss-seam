@@ -330,12 +330,12 @@ function __CalendarFactory()
 
 	    if (token == "d" || token == "dd")
 	    {
-	    	dayVal = parseInt(entryVal);
+	    	dayVal = parseInt(entryVal * 1);
 	    	isMatch = (dayVal != NaN) && (dayVal >= 1);
 	    }
   	  else if (token == "m" || token == "mm")
   	  {
-	    	monthVal = parseInt(entryVal);
+	    	monthVal = parseInt(entryVal * 1);
 	    	isMatch = (monthVal != NaN) && (monthVal >= 1) && (monthVal <= MONTHS_IN_YEAR);
   	  }
   	  else if (token == "mmm")
@@ -350,7 +350,7 @@ function __CalendarFactory()
   	  }
   	  else if (token == "yy")
   	  {
-	    	yearVal = parseInt(entryVal);
+	    	yearVal = parseInt(entryVal * 1);
 	    	isMatch = (yearVal != NaN) && (yearVal >= 0) && (yearVal <= 99);
 	    	var currentYear = new Date().getYear() % 100;
 	    	var currentCentury = Math.floor(new Date().getFullYear() / 100);
@@ -366,7 +366,7 @@ function __CalendarFactory()
   	  }
   	  else if (token == "yyyy")
   	  {
-	    	yearVal = parseInt(entryVal);
+	    	yearVal = parseInt(entryVal * 1);
 	    	isMatch = (yearVal != NaN) && (yearVal >= 0) && (yearVal <= 9999) && (entryVal.length == 4);
   	  }
   	}
