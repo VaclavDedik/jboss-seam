@@ -58,7 +58,7 @@ public class RegisterAction implements Register
       
       if (!verified)
       {
-         FacesMessages.instance().add("confirmPassword", "Passwords do not match");
+         FacesMessages.instance().addToControl("confirmPassword", "Passwords do not match");
       }
             
       newMember.setHashedPassword(Hash.instance().hash(password));
