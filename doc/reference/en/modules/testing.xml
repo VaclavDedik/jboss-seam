@@ -120,6 +120,7 @@ public class RegisterAction implements Register
     
     <section>
         <title>Integration testing Seam applications</title>
+        
         <para>
             Integration testing is slightly more difficult. In this case, we can't eliminate
             the container infrastructure; indeed, that is part of what is being tested! At
@@ -128,12 +129,14 @@ public class RegisterAction implements Register
             just enough of the container infrastructure inside our testing environment to be 
             able to exercise the whole application, without hurting performance too much.
         </para>
+        
         <para>
             A second problem is emulating user interactions. A third problem is where to
             put our assertions. Some test frameworks let us test the whole application
             by reproducing user interactions with the web browser. These frameworks have
             their place, but they are not appropriate for use at development time.
         </para>
+        
         <para>
             The approach taken by Seam is to let you write tests that script your
             components while running inside a pruned down container environment (Seam,
@@ -141,6 +144,7 @@ public class RegisterAction implements Register
             is basically to reproduce the interaction between the view and the Seam components. 
             In other words, you get to pretend you are the JSF implementation!
         </para>
+        
         <para>
             This approach tests everything except the view.
         </para>
@@ -148,6 +152,7 @@ public class RegisterAction implements Register
         <para>
             Let's consider a JSP view for the component we unit tested above:
         </para>
+        
         <programlisting><![CDATA[<html>
  <head>
   <title>Register New User</title>
@@ -255,6 +260,43 @@ public class RegisterAction implements Register
             <imagedata fileref="../shared/images/plugin-testng.png" align="center"/>
           </imageobject>
         </mediaobject>
+        
+        <section>
+            <title>Using mocks in integration tests</title>
+            
+            <para>
+                Occasionally, we need to be able to replace the implementation of some
+                Seam component that depends upon resources which are not available in 
+                the integration test environment. For example, suppose we have some
+                Seam component which is a facade to some payment processing system:
+            </para>
+            
+            <programlisting><![CDATA[@Name("paymentProcessor")
+public class PaymentProcessor {
+    public boolean processPayment(Payment payment) { .... }
+}]]></programlisting>
+            
+            <para>
+                For integration tests, we can mock out this component as follows:
+            </para>
+            
+            <programlisting><![CDATA[@Name("paymentProcessor")
+@Install(precedence=MOCK)
+public class MockPaymentProcessor extends PaymentProcessor {
+    public void processPayment(Payment payment) {
+        return true;
+    }
+}]]></programlisting>
+            
+            <para>
+                Since the <literal>MOCK</literal> precedence is higher than the default
+                precedence of application components, Seam will install the mock 
+                implementation whenever it is in the classpath. When deployed into 
+                production, the mock implementation is absent, so the real component
+                will be installed.
+            </para>
+            
+        </section>
         
     </section>
 	
