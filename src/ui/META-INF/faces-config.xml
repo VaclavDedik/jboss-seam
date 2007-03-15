@@ -479,6 +479,18 @@
    <property-class>java.lang.String</property-class>
   </property>
  </component>
+  <component>
+  <component-type>org.jboss.seam.ui.HtmlLayoutForm</component-type>
+  <component-class>org.jboss.seam.ui.HtmlLayoutForm</component-class>
+  <property>
+   <property-name>styleClass</property-name>
+   <property-class>java.lang.String</property-class>
+  </property>
+  <property>
+   <property-name>style</property-name>
+   <property-class>java.lang.String</property-class>
+  </property>
+ </component>
  <component>
   <component-type>org.jboss.seam.ui.UIFormattedText</component-type>
   <component-class>org.jboss.seam.ui.UIFormattedText</component-class>

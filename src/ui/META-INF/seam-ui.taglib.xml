@@ -96,6 +96,13 @@
             <component-type>org.jboss.seam.ui.HtmlDiv</component-type>
         </component>
     </tag>
+    
+    <tag>
+        <tag-name>layoutForm</tag-name>
+        <component>
+            <component-type>org.jboss.seam.ui.HtmlLayoutForm</component-type>
+        </component>
+    </tag>
 
     <tag>
         <tag-name>formattedText</tag-name>

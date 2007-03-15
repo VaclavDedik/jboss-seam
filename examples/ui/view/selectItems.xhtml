@@ -10,6 +10,8 @@
 <ui:debug id="debug" />
 <style>
 	.error {color: red}
+	.help {font-size: x-small; color: grey;}
+	.required {font-weight: bold; color: red}
 </style>
 </head>
 
@@ -24,6 +26,7 @@
 		<li><code>s:decorate</code></li>
 		<li><code>s:link</code></li>
 		<li><code>s:conversationPropagation</code></li>
+		<li><code>s:layoutForm</code></li>
 	</ul>
 
 	<h:form>
@@ -33,53 +36,76 @@
 	    <f:facet name="afterInvalidField">
 	        <s:message />
 	    </f:facet>
-		<h:panelGrid columns="2">
-			<h:outputText value="Title" />
+		<s:layoutForm>
 			<s:decorate>
+				<f:facet name="label">
+					<h:outputText value="Title" />
+				</f:facet>
 				<h:selectOneMenu value="#{person.honorific}">
 					<s:selectItems value="#{honorifics}" var="honorific" label="#{honorific.label}"/>
 					<s:convertEnum />
 				</h:selectOneMenu>
 			</s:decorate>
-			<h:outputText value="Name" />
 			<s:decorate>
-				<h:inputText value="#{person.name}" />
+				<f:facet name="label">
+					<h:outputText value="Name" />
+				</f:facet>
+				<h:inputText value="#{person.name}" required="true"/>
+				<f:facet name="belowField">
+					<h:outputText styleClass="help" value="Enter your name as it appears on your passport" />
+				</f:facet>
 			</s:decorate>
-			<h:outputText value="Continent of Birth" />
 			<s:decorate>
+				<f:facet name="label">
+					<h:outputText value="Continent of Birth" />
+				</f:facet>
 				<h:selectOneMenu value="#{person.continent}" required="true">
-					<s:selectItems value="#{continents.resultList}" var="continent" label="#{continent.name}" noSelectionLabel="Please Select..." hideNoSelectionLabel="true"/>
+					<s:selectItems value="#{continents.resultList}" var="continent" label="#{continent.name}" noSelectionLabel="#{true ? null : 'Please Select...'}"/>
 					<s:convertEntity />
 				</h:selectOneMenu>
 			</s:decorate>
-			<h:outputText value="Country of Birth" />
 			<s:decorate>
+				<f:facet name="label">
+					<h:outputText value="Country of Birth" />
+				</f:facet>
 				<h:selectOneRadio value="#{person.country}" required="true" disabled="#{empty person.continent}">
 					<s:selectItems value="#{person.continent.countries}" var="country" label="#{country.name} (#{country.continent.name})" noSelectionLabel="Please Select..." hideNoSelectionLabel="true"/>
 					<s:convertEntity />
 				</h:selectOneRadio>
 			</s:decorate>
-			<h:outputText value="Age" />
 			<s:decorate>
+				<f:facet name="label">
+					<h:outputText value="Age" />
+				</f:facet>
+				<f:facet name="belowField">
+					<h:outputText value="The age list is an array of primitives" styleClass="help"/>
+				</f:facet>
 				<h:selectOneMenu value="#{person.age}"  converter="#{converters.ageConverter}">
 					<s:selectItems value="#{ages}" var="age" label="#{age}" />
 				</h:selectOneMenu>
 			</s:decorate>
-			<h:outputText value="Favourite Colours" />
 			<s:decorate>
+				<f:facet name="label">
+					<h:outputText value="Favourite Colours" />
+				</f:facet>
 				<h:selectManyListbox value="#{person.favouriteColours}" >
 					<s:selectItems value="#{colours.resultList}" var="colour" label="#{colour.name}" />
 					<s:convertEntity />
 				</h:selectManyListbox>
 			</s:decorate>
-			<h:outputText value="Favourite Book" />
 			<s:decorate>
+				<f:facet name="label">
+					<h:outputText value="Favourite Book" />
+				</f:facet>
+				<f:facet name="belowField">
+					<h:outputText value="A book has a composite key" styleClass="help"/>
+				</f:facet>
 				<h:selectOneListbox value="#{person.favouriteBook}" >
 					<s:selectItems value="#{books.resultList}" var="book" label="#{book.name} by #{book.author} (#{book.nationality})" />
 					<s:convertEntity />
 				</h:selectOneListbox>
 			</s:decorate>
-		</h:panelGrid>
+		</s:layoutForm>
 		<h:commandButton value="Apply" action="#{personHome.update}">
 			<s:conversationPropagation type="join" />
 		</h:commandButton>

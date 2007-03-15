@@ -444,6 +444,86 @@
                     </para>
                 </entry>
               </row>
+              
+              <row>
+                <entry valign="top">
+                  <para>
+                    <literal>&lt;s:layoutForm&gt;</literal>
+                  </para>
+                </entry>
+                <entry valign="top">
+                    <para>
+<emphasis>Description</emphasis>
+</para>
+                     <para>
+                       A layout component for producing a "standard" form layout.
+                       Each child component will be treated as a row, and if the child is a
+                       <literal>&lt;s:decorate&gt;</literal>, additional formatting will be applied:
+                       <itemizedlist>
+                       	<listitem>
+                       		<para>
+                       			Label &mdash; if a <literal>label</literal> facet is on the 
+                       			<literal>&lt;s:decorate&gt;</literal> then it's contents will be used
+                       			as the label for this field.  The labels are rendered right-aligned
+                       			in a column
+                       		</para>
+                    	</listitem>
+                    	<listitem>
+                       		<para>
+                       			Other text &mdash; if a <literal>belowLabel</literal> facet or/and a
+                       			<literal>belowField</literal> facet are present on 
+                       			<literal>&lt;s:decorate&gt;</literal> then it's contents will be placed
+                       			below the label or the field
+                       		</para>
+                       	</listitem>
+                       	<listitem>
+                       		<para>
+                       			Required &mdash; if <literal>required=&quot;true&quot;</literal> is set
+                       			on the field, then a &lowast; will be prepended to the label. It has the 
+                       			<literal>required</literal> css class applied to it.
+                       		</para>
+                       	</listitem>
+                       </itemizedlist>
+                       
+                     </para>
+                    <para>
+<emphasis>Attributes</emphasis>
+</para>
+                    <para>
+                        None.
+                    </para>
+                    <para>
+<emphasis>Usage</emphasis>
+</para>
+                    <para>
+                        <programlisting>
+<![CDATA[<s:layoutForm>
+   <s:decorate>
+        <f:facet name="label">
+		    <h:outputText value="Name" />
+        </f:facet>
+        <h:inputText value="#{person.name}" required="true"/>
+        <f:facet name="belowField">
+            <h:outputText styleClass="help" 
+               value="Enter your name as it appears 
+                  on your passport" />
+        </f:facet>
+    </s:decorate>
+</s:layoutForm>]]></programlisting>
+                    </para>
+                                        <para>
+<emphasis>Output</emphasis>
+</para>
+      				<mediaobject>
+			          <imageobject role="fo">
+			            <imagedata fileref="images/layoutForm-example.png"/>
+			          </imageobject>
+			          <imageobject role="html">
+			            <imagedata fileref="../shared/images/layoutForm-example.png"/>
+			          </imageobject>
+			        </mediaobject>
+                </entry>
+              </row>
 
               <row>
                 <entry valign="top">

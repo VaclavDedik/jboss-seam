@@ -66,7 +66,7 @@ public class UIDecorate extends UIComponentBase
    /**
     * A depth-first search for an EditableValueHolder
     */
-   private static UIComponent getEditableValueHolder(UIComponent component)
+   protected static UIComponent getEditableValueHolder(UIComponent component)
    {
       for (Object child: component.getChildren())
       {
