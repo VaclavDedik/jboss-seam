@@ -125,5 +125,8 @@
         <url-pattern>/files/*</url-pattern>
     </servlet-mapping>   
 
+    <session-config>
+        <session-timeout>10</session-timeout> 
+    </session-config> 
 
 </web-app>

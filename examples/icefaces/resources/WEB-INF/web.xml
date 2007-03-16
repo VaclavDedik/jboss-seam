@@ -130,6 +130,10 @@
         <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
     </listener> 
     -->
-    
+
+    <session-config>
+        <session-timeout>10</session-timeout> 
+    </session-config> 
+        
 </web-app>
 

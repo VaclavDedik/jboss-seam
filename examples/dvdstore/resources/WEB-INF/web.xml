@@ -64,4 +64,8 @@
             <role-name>NONE</role-name>
         </auth-constraint>
     </security-constraint>
+    
+    <session-config>
+        <session-timeout>10</session-timeout> 
+    </session-config>     
 </web-app>
