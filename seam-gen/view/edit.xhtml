@@ -5,42 +5,46 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.ajax4jsf.org/rich"
                 template="layout/template.xhtml">
                        
 <ui:define name="body">
-
-    <h1>@pageName@</h1>
-    <p>Generated edit page</p>
     
     <h:messages globalOnly="true" styleClass="message"/>
     
     <h:form id="@componentName@">
-        <div class="dialog">
-        <s:validateAll>
-            <div class="prop">
-                <span class="name">Name</span>
-                <span class="value">
-                    <s:decorate>
-                        <h:inputText id="name" required="true"
-                            value="#{@homeName@.instance.name}"/>
-                    </s:decorate>
-                </span>
-            </div>
-        </s:validateAll>
-        </div>
+
+        <rich:panel>
+            <f:facet name="header">@pageName@</f:facet>
+    
+            <s:validateAll>
+                <div class="prop">
+                    <span class="name">Name</span>
+                    <span class="value">
+                        <s:decorate>
+                            <h:inputText id="name" required="true"
+                                value="#{@homeName@.instance.name}"/>
+                        </s:decorate>
+                    </span>
+                </div>
+            </s:validateAll>
+            
+        </rich:panel>
+
         <div class="actionButtons">
             <h:commandButton id="save" value="Save" 
                 action="#{@homeName@.persist}"
-                rendered="#{!@homeName@.managed}"/>     			  
+                rendered="#{!@homeName@.managed}"/>                   
             <h:commandButton id="update" value="Save" 
                 action="#{@homeName@.update}"
-                rendered="#{@homeName@.managed}"/>    			  
+                rendered="#{@homeName@.managed}"/>                  
             <h:commandButton id="delete" value="Delete" 
                 action="#{@homeName@.remove}"
                 rendered="#{@homeName@.managed}"/>
             <s:button id="done" value="Done"
-                propagation="end" view="/@masterPageName@.xhtml"/>			  
+                propagation="end" view="/@masterPageName@.xhtml"/>
         </div>
+        
     </h:form>
     
 </ui:define>
