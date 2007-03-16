@@ -11,6 +11,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.AbstractMutable;
+import org.jboss.seam.util.Proxy;
 
 @Name("org.jboss.seam.ui.entityConverterStore")
 @Scope(ScopeType.SESSION)
@@ -73,6 +74,7 @@ public class EntityConverterStore extends AbstractMutable
    
    public Integer put(Class clazz, Object id)
    {
+      clazz = Proxy.deproxy(clazz);
       Key key = new Key(clazz, id);
       if (!store.contains(key))
       {
