@@ -105,6 +105,10 @@ public class UISelectDate extends UIComponentBase
    public void encodeBegin(FacesContext context) throws IOException
    {
       UIComponent forComponent = findComponent(getFor());
+      if (forComponent==null)
+      {
+         throw new IllegalStateException("could not find component with id: " + getFor());
+      }
       writeScript(context);
       ResponseWriter response = context.getResponseWriter();
       response.startElement("span", this);

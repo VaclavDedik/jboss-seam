@@ -29,7 +29,7 @@ public class ModelValidator implements Validator
       }
       catch (Exception e)
       {
-         throw new ValidatorException( new FacesMessage(FacesMessage.SEVERITY_ERROR, "model validation failed", null) );
+         throw new ValidatorException( new FacesMessage(FacesMessage.SEVERITY_ERROR, "model validation failed:" + e.getMessage(), null) );
       }
       if ( ivs.length>0 )
       {
