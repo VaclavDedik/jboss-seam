@@ -5,6 +5,7 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:a="https://ajax4jsf.dev.java.net/ajax"
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
                 template="themes/#{globalPrefs.themeName}/template.xhtml">
 
@@ -103,12 +104,30 @@
                     <s:decorate>
                         <div class="entry">
                             <div class="label">Content:</div>
-                            <div class="input">
-                                <h:inputTextarea tabindex="3" id="content" required="true" cols="80" rows="25"
+                            <s:div styleClass="input" id="content">
+                                <h:inputTextarea tabindex="3" required="true" cols="80" rows="25" 
+                                                 id="contentNoPreview"
+                                                 rendered="#{!documentHome.enabledPreview}"
                                                  value="#{documentHome.formContent}"/>
-                            </div>
+                                <h:inputTextarea tabindex="3" required="true" cols="80" rows="25" 
+                                                 id="contentWithPreview"
+                                                 rendered="#{documentHome.enabledPreview}"
+                                                 value="#{documentHome.formContent}">
+                                    <a:support event="onkeyup" reRender="preview"/>
+                                </h:inputTextarea>
+                            </s:div>
                         </div>
                     </s:decorate>
+                    
+                    <s:div styleClass="entry">
+                        <div class="label">&#160;</div>
+                        <div class="input">
+                            <h:selectBooleanCheckbox value="#{documentHome.enabledPreview}" tabindex="3">
+                                <a:support event="onchange" reRender="preview,content"/>
+                            </h:selectBooleanCheckbox>
+                            Show interactive preview
+                        </div>
+                    </s:div>
 
                     <s:div styleClass="entry" rendered="#{documentHome.managed}">
                         <div class="label">&#160;</div>
@@ -127,21 +146,17 @@
                     <div class="label">&#160;</div>
                     <div class="input">
 
-                        <h:commandLink id="preview"
-                                       action="#{documentHome.setEnabledPreview(true)}"
-                                       tabindex="4" accesskey="P" styleClass="buttonNonpersistent"><span class="buttonLabel"><u>P</u>review</span></h:commandLink>
-
                         <h:commandLink id="save" action="#{documentHome.persist}"
                                        rendered="#{!documentHome.managed}"
-                                       tabindex="5" accesskey="S" styleClass="button"><span class="buttonLabel"><u>S</u>ave</span></h:commandLink>
+                                       tabindex="4" accesskey="S" styleClass="button"><span class="buttonLabel"><u>S</u>ave</span></h:commandLink>
 
                         <h:commandLink id="update" action="#{documentHome.update}"
                                    rendered="#{documentHome.managed}"
-                                   tabindex="6" accesskey="U" styleClass="button"><span class="buttonLabel"><u>U</u>pdate</span></h:commandLink>
+                                   tabindex="5" accesskey="U" styleClass="button"><span class="buttonLabel"><u>U</u>pdate</span></h:commandLink>
 
                         <h:commandLink id="delete" action="#{documentHome.remove}"
                                        rendered="#{documentHome.managed}"
-                                       tabindex="7" accesskey="D" styleClass="button"><span class="buttonLabel"><u>D</u>elete</span></h:commandLink>
+                                       tabindex="6" accesskey="D" styleClass="button"><span class="buttonLabel"><u>D</u>elete</span></h:commandLink>
 
                     </div>
                 </div>
@@ -150,12 +165,13 @@
 
         </div>
     </h:form>
-
-    <s:div styleClass="documentDisplay" rendered="#{documentHome.enabledPreview}">
+     
+    <s:div styleClass="documentDisplay" id="preview">
         <wiki:formattedText value="#{documentHome.instance.content}"
                             linkStyleClass="regularLink"
                             brokenLinkStyleClass="brokenLink"
                             attachmentLinkStyleClass="regularLink"
+                            rendered="#{documentHome.enabledPreview}"
                             inlineLinkStyleClass="regularLink"/>
     </s:div>
 
