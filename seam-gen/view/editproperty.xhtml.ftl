@@ -27,7 +27,7 @@
                                    <s:convertDateTime type="date" dateStyle="short" pattern="MM/dd/yyyy"/>
                                    <a:support event="onblur" reRender="${componentProperty.name}Decoration"/>
                                </h:inputText>
-                               <s:selectDate for="${property.name}">
+                               <s:selectDate for="${componentProperty.name}">
                                    <h:graphicImage url="img/dtpick.gif" style="margin-left:5px"/>
                                </s:selectDate>
 <#elseif propertyType == "time">
