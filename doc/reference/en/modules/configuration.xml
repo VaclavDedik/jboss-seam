@@ -1111,5 +1111,64 @@
         </para>
 
     </sect1>
+    
+    <sect1>
+        <title>Configuring SFSB and Session Timeouts in JBoss AS</title>
+        
+        <para>
+            It is very important that the timeout for Stateful Session Beans is set higher than the
+            timeout for HTTP Sessions, otherwise SFSB's may time out before the user's HTTP session 
+            has ended.  JBoss Application Server has a default session bean timeout of 30
+            minutes, which is configured in <literal>server/default/conf/standardjboss.xml</literal> 
+            (replace <emphasis>default</emphasis> with your own configuration).
+        </para>
+        
+        <para>
+            The default SFSB timeout can be adjusted by modifying the value of
+            <literal>max-bean-life</literal> in the <literal>LRUStatefulContextCachePolicy</literal>
+            cache configuration:
+        </para>
+        
+        <programlisting><![CDATA[
+      <container-cache-conf>
+        <cache-policy>org.jboss.ejb.plugins.LRUStatefulContextCachePolicy</cache-policy>
+        <cache-policy-conf>
+          <min-capacity>50</min-capacity>
+          <max-capacity>1000000</max-capacity>
+          <remover-period>1800</remover-period>
+
+          <!-- SFSB timeout in seconds; 1800 seconds == 30 minutes -->
+          <max-bean-life>1800</max-bean-life>  
+          
+          <overager-period>300</overager-period>
+          <max-bean-age>600</max-bean-age>
+          <resizer-period>400</resizer-period>
+          <max-cache-miss-period>60</max-cache-miss-period>
+          <min-cache-miss-period>1</min-cache-miss-period>
+          <cache-load-factor>0.75</cache-load-factor>
+        </cache-policy-conf>
+      </container-cache-conf>]]></programlisting>    
+      
+        <para>
+            The default HTTP session timeout can be modified in 
+            <literal>server/default/deploy/jbossweb-tomcat55.sar/conf/web.xml</literal> for JBoss 4.0.x, 
+            or in <literal>server/default/deploy/jboss-web.deployer/conf/web.xml</literal> 
+            for JBoss 4.2.x.  The following entry in this file controls the default session 
+            timeout for all web applications:
+        </para>    
+        
+        <programlisting><![CDATA[
+   <session-config>
+      <!-- HTTP Session timeout, in minutes -->
+      <session-timeout>30</session-timeout>
+   </session-config>        
+        ]]></programlisting>
+        
+        <para>
+            To override this value for your own application, simply include this entry in
+            your application's own <literal>web.xml</literal>.
+        </para>
+      
+    </sect1>
 
 </chapter>
