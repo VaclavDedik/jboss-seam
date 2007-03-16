@@ -14,55 +14,15 @@ public class UIDecorate extends UIComponentBase
    public static final String COMPONENT_FAMILY = "org.jboss.seam.ui.Decorate";
    
    private String forId;
-
-   @Override
-   public String getFamily()
+   
+   protected static UIComponent getDecoration(String name, UIComponent component)
    {
-      return COMPONENT_FAMILY;
+      UIComponent dec = component.getFacet(name);
+      if (dec!=null) return dec;
+      if ( component.getParent()==null ) return null;
+      return getDecoration( name, component.getParent() );
    }
-
-   private boolean hasMessage()
-   {
-      String clientId = getInputClientId();
-      if (clientId==null)
-      {
-         return false;
-      }
-      else
-      {
-         return getFacesContext().getMessages(clientId).hasNext();
-      }
-   }
-
-   public String getInputId()
-   {
-      String id = getFor();
-      if (id==null)
-      {
-         UIComponent evh = getEditableValueHolder(this);
-         return evh==null ? null : evh.getId();
-      }
-      else
-      {
-         return id;
-      }
-   }
-
-   private String getInputClientId()
-   {
-      String id = getFor();
-      if (id==null)
-      {
-         UIComponent evh = getEditableValueHolder(this);
-         return evh==null ? null : evh.getClientId( getFacesContext() );
-      }
-      else
-      {
-         UIComponent component = findComponent(id);
-         return component==null ? null : component.getClientId( getFacesContext() );
-      }
-   }
-
+   
    /**
     * A depth-first search for an EditableValueHolder
     */
@@ -86,6 +46,91 @@ public class UIDecorate extends UIComponentBase
       }
       return null;
    }
+   
+   protected static String getInputId(String forId, UIComponent cmp)
+   {
+      if (forId==null)
+      {
+         UIComponent evh = getEditableValueHolder(cmp);
+         return evh==null ? null : evh.getId();
+      }
+      else
+      {
+         return forId;
+      }
+   }
+   
+   protected static String getInputClientId(String forId, UIComponent cmp, FacesContext facesContext)
+   {
+      UIComponent input = getInput(forId, cmp, facesContext);
+      return input == null ? null : input.getClientId(facesContext);
+   }
+   
+   protected static UIComponent getInput(String forId, UIComponent cmp, FacesContext facesContext)
+   {
+      if (forId==null)
+      {
+         UIComponent evh = getEditableValueHolder(cmp);
+         return evh==null ? null : evh;
+      }
+      else
+      {
+         UIComponent component = cmp.findComponent(forId);
+         return component==null ? null : component;
+      }
+   }
+   
+   protected static boolean hasMessage(String forId, UIComponent cmp, FacesContext facesContext)
+   {
+      String clientId = getInputClientId(forId, cmp, facesContext);
+      if (clientId==null)
+      {
+         return false;
+      }
+      else
+      {
+         return facesContext.getMessages(clientId).hasNext();
+      }
+   }
+   
+   protected static boolean hasRequired(String forId, UIComponent cmp, FacesContext facesContext)
+   {
+      EditableValueHolder evh = (EditableValueHolder) getInput(forId, cmp, facesContext);
+      if (evh == null)
+      {
+         return false;
+      }
+      else
+      {
+         return evh.isRequired();
+      }
+   }
+
+   @Override
+   public String getFamily()
+   {
+      return COMPONENT_FAMILY;
+   }
+
+   protected boolean hasMessage()
+   {
+      return hasMessage(getFor(), this, getFacesContext());
+   }
+   
+   protected boolean hasRequired()
+   {
+      return hasRequired(getFor(), this, getFacesContext());
+   }
+
+   public String getInputId()
+   {
+      return getInputId(getFor(), this);
+   }
+   
+   protected UIComponent getInput()
+   {
+      return getInput(getFor(), this, getFacesContext());
+   }
 
    @Override
    public boolean getRendersChildren()
@@ -103,17 +148,9 @@ public class UIDecorate extends UIComponentBase
       this.forId = forId;
    }
 
-   private UIComponent getDecoration(String name)
+   protected UIComponent getDecoration(String name)
    {
       return getDecoration(name, this);
-   }
-   
-   private static UIComponent getDecoration(String name, UIComponent component)
-   {
-      UIComponent dec = component.getFacet(name);
-      if (dec!=null) return dec;
-      if ( component.getParent()==null ) return null;
-      return getDecoration( name, component.getParent() );
    }
 
    @Override
@@ -123,8 +160,10 @@ public class UIDecorate extends UIComponentBase
       context.getResponseWriter().startElement("span", this);
       context.getResponseWriter().writeAttribute("id", getClientId(context), "id");
       boolean hasMessage = hasMessage();
+
       UIComponent aroundDecoration = getDecoration("aroundField");
       UIComponent aroundInvalidDecoration = getDecoration("aroundInvalidField");
+      UIComponent aroundRequiredDecoration = getDecoration("aroundRequiredField");
       if (aroundDecoration!=null && !hasMessage)
       {
          aroundDecoration.setParent(this);
@@ -135,26 +174,41 @@ public class UIDecorate extends UIComponentBase
          aroundInvalidDecoration.setParent(this);
          aroundInvalidDecoration.encodeBegin(context);
       }
+      if (aroundRequiredDecoration != null && hasRequired())
+      {
+         aroundRequiredDecoration.setParent(this);
+         aroundRequiredDecoration.encodeBegin(context);
+      }
    }
    
    @Override
-   public void encodeEnd(FacesContext context) throws IOException
+   public void encodeEnd(FacesContext facesContext) throws IOException
    {
       boolean hasMessage = hasMessage();
       UIComponent aroundDecoration = getDecoration("aroundField");
       UIComponent aroundInvalidDecoration = getDecoration("aroundInvalidField");
+      UIComponent aroundRequiredDecoration = getDecoration("aroundRequiredField");
+      if (aroundRequiredDecoration != null)
+      {
+         EditableValueHolder evh = (EditableValueHolder) getEditableValueHolder(this);
+         if (evh != null && evh.isRequired())
+         {
+            aroundRequiredDecoration.setParent(this);
+            aroundRequiredDecoration.encodeEnd(facesContext);
+         }
+      }
       if (aroundDecoration!=null && !hasMessage)
       {
          aroundDecoration.setParent(this);
-         aroundDecoration.encodeEnd(context);
+         aroundDecoration.encodeEnd(facesContext);
       }
       if (aroundInvalidDecoration!=null && hasMessage)
       {
          aroundInvalidDecoration.setParent(this);
-         aroundInvalidDecoration.encodeEnd(context);
+         aroundInvalidDecoration.encodeEnd(facesContext);
       }
-      context.getResponseWriter().endElement("span");
-      super.encodeEnd(context);
+      facesContext.getResponseWriter().endElement("span");
+      super.encodeEnd(facesContext);
    }
 
    @Override
@@ -164,6 +218,7 @@ public class UIDecorate extends UIComponentBase
 
       UIComponent beforeDecoration = getDecoration("beforeField");
       UIComponent beforeInvalidDecoration = getDecoration("beforeInvalidField");
+      UIComponent beforeRequiredDecoration = getDecoration("beforeRequiredField");
       if ( beforeDecoration!=null && !hasMessage )
       {
          beforeDecoration.setParent(this);
@@ -174,11 +229,30 @@ public class UIDecorate extends UIComponentBase
          beforeInvalidDecoration.setParent(this);
          JSF.renderChild(facesContext, beforeInvalidDecoration);
       }
+      if ( beforeRequiredDecoration != null)
+      {
+         EditableValueHolder evh = (EditableValueHolder) getEditableValueHolder(this);
+         if (evh != null && evh.isRequired())
+         {
+            beforeRequiredDecoration.setParent(this);
+            JSF.renderChild(facesContext, beforeRequiredDecoration);
+         }
+      }
       
       JSF.renderChildren(facesContext, this);
       
       UIComponent afterDecoration = getDecoration("afterField");
       UIComponent afterInvalidDecoration = getDecoration("afterInvalidField");
+      UIComponent afterRequiredDecoration = getDecoration("afterRequiredDecoration");
+      if ( afterRequiredDecoration != null)
+      {
+         EditableValueHolder evh = (EditableValueHolder) getEditableValueHolder(this);
+         if (evh != null && evh.isRequired())
+         {
+            afterRequiredDecoration.setParent(this);
+            JSF.renderChild(facesContext, afterRequiredDecoration);
+         }
+      }
       if ( afterDecoration!=null  && !hasMessage )
       {
          afterDecoration.setParent(this);

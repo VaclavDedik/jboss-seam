@@ -184,9 +184,10 @@
 ]]></programlisting>
 
             <para><emphasis>Usage</emphasis></para>
-            <programlisting><![CDATA[
-
-]]></programlisting>
+            <programlisting><![CDATA[<h:selectOneMenu value="#{person.continent}" required="true">
+    <s:selectItems value="#{continents.resultList}" var="continent" label="#{continent.name}" noSelectionLabel="Please Select..."/>
+    <s:convertEntity />
+</h:selectOneMenu>]]></programlisting>
           </entry>
         </row>
 
@@ -288,6 +289,9 @@
                     <para>
                         <programlisting>
 <![CDATA[
+<h:selectOneMenu value="#{person.age}"  converter="#{converters.ageConverter}">
+    <s:selectItems value="#{ages}" var="age" label="#{age}" />
+</h:selectOneMenu>
 ]]></programlisting>
                     </para>
                 </entry>
@@ -426,7 +430,8 @@
 <emphasis>Description</emphasis>
 </para>
                      <para>
-                       "Decorate" a JSF input field when validation fails.
+                       "Decorate" a JSF input field when validation fails or when 
+                       <literal>required="true"</literal> is set.
                      </para>
                     <para>
 <emphasis>Attributes</emphasis>
@@ -467,6 +472,12 @@
                        			as the label for this field.  The labels are rendered right-aligned
                        			in a column
                        		</para>
+                       		<para>
+                       			Some further decoration facets are supported - 
+                       			<literal>beforeLabel</literal>, <literal>afterLabel</literal>,
+                       			<literal>aroundLabel</literal>, <literal>beforeInvalidLabel</literal>,
+                       			<literal>afterInvalidLabel</literal> and <literal>aroundInvalidLabel</literal>.
+                       		</para>
                     	</listitem>
                     	<listitem>
                        		<para>
@@ -479,8 +490,10 @@
                        	<listitem>
                        		<para>
                        			Required &mdash; if <literal>required=&quot;true&quot;</literal> is set
-                       			on the field, then a &lowast; will be prepended to the label. It has the 
-                       			<literal>required</literal> css class applied to it.
+                       			on the field, then the <literal>aroundRequiredField</literal>, 
+                       			<literal>beforeRequiredField</literal>, <literal>afterRequiredField</literal>,
+                       			<literal>aroundRequiredLabel</literal>, <literal>beforeRequiredLabel</literal> and
+                       			<literal>afterRequiredLabel</literal> will be applied.
                        		</para>
                        	</listitem>
                        </itemizedlist>
@@ -498,6 +511,21 @@
                     <para>
                         <programlisting>
 <![CDATA[<s:layoutForm>
+   <f:facet name="aroundInvalidField">
+       <s:span styleClass="error"/>
+   </f:facet>
+   <f:facet name="afterInvalidField">
+       <s:message />
+   </f:facet>
+   <f:facet name="beforeRequiredLabel">
+   	<s:span>&lowast;</s:span>
+   </f:facet>
+   <f:facet name="aroundLabel">
+   	<s:span style="text-align:right;" />
+   </f:facet>
+   <f:facet name="aroundInvalidLabel">
+   	<s:span style="text-align:right;" styleClass="error" />
+   </f:facet>
    <s:decorate>
         <f:facet name="label">
 		    <h:outputText value="Name" />
@@ -511,9 +539,6 @@
     </s:decorate>
 </s:layoutForm>]]></programlisting>
                     </para>
-                                        <para>
-<emphasis>Output</emphasis>
-</para>
       				<mediaobject>
 			          <imageobject role="fo">
 			            <imagedata fileref="images/layoutForm-example.png"/>
