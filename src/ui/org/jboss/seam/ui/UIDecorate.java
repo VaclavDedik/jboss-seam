@@ -28,23 +28,25 @@ public class UIDecorate extends UIComponentBase
     */
    protected static UIComponent getEditableValueHolder(UIComponent component)
    {
+      if (component instanceof EditableValueHolder)
+      {
+         return component.isRendered() ? component : null;
+      }
       for (Object child: component.getChildren())
       {
-         if (child instanceof EditableValueHolder)
-         {
-            UIComponent evh =(UIComponent) child;
-            if ( evh.isRendered() )
-            {
-               return evh;
-            }
-         }
-         else if (child instanceof UIComponent)
+         if (child instanceof UIComponent)
          {
             UIComponent evh = getEditableValueHolder( (UIComponent) child );
             if (evh!=null) return evh;
          }
       }
       return null;
+   }
+   
+   protected static String getInputClientId(UIComponent cmp, FacesContext facesContext)
+   {
+      UIComponent input = getInput(cmp, facesContext);
+      return input == null ? null : input.getClientId(facesContext);
    }
    
    protected static String getInputId(UIComponent cmp)
@@ -60,12 +62,6 @@ public class UIDecorate extends UIComponentBase
       {
          return forId;
       }
-   }
-   
-   protected static String getInputClientId(UIComponent cmp, FacesContext facesContext)
-   {
-      UIComponent input = getInput(cmp, facesContext);
-      return input == null ? null : input.getClientId(facesContext);
    }
    
    protected static UIComponent getInput(UIComponent cmp, FacesContext facesContext)
