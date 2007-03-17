@@ -13,8 +13,10 @@ public class HtmlLayoutForm extends UIStyleDecoration
    public static final String COMPONENT_TYPE = "org.jboss.seam.ui.HtmlLayoutForm";
    public static final String COMPONENT_FAMILY = "org.jboss.seam.ui.LayoutForm";
    
-   private String labelColumnWidth = "20%";
-   private String fieldColumnWidth;
+   private String labelColumnClass;
+   private String fieldColumnClass;
+   private String descriptionColumnClass;
+   private String rowClass;
    
    @Override
    public String getFamily()
@@ -60,40 +62,27 @@ public class HtmlLayoutForm extends UIStyleDecoration
       ResponseWriter writer = facesContext.getResponseWriter();
       
       writer.startElement("div", this);
-      writer.writeAttribute("style", "clear: both;", null);
+      writer.writeAttribute("class", rowClass, "rowClass");
       
-      writer.startElement("span", child);
-      writer.writeAttribute("style", "float: left; text-align: right; width: " + labelColumnWidth + ';', null);  
+      writer.startElement("span", child); 
+      writer.writeAttribute("class", labelColumnClass, "labelColumnClass");
       renderLabel(facesContext, child);
-      UIComponent belowLabel = child.getFacet("belowLabel");
-      if (belowLabel != null)
-      {
-         writer.startElement("div", this);
-         JSF.renderChild(facesContext, belowLabel);
-         writer.endElement("div");
-      }
       writer.endElement("span");
       
       writer.startElement("span", this);
-      if (fieldColumnWidth==null)
-      {
-         if ( !labelColumnWidth.endsWith("%") || labelColumnWidth.length()!=3 )
-         {
-            throw new IllegalStateException("you must explicitly specify fieldColumnWidth or use a percentage labelColumnWidth");
-         }
-         fieldColumnWidth = String.valueOf( 100 - Integer.parseInt( labelColumnWidth.substring(0, 2) ) ) + '%';
-      }
-      writer.writeAttribute("style", "float: right; text-align: left; width: " + fieldColumnWidth + ';', null);
+      writer.writeAttribute("class", fieldColumnClass, "fieldColumnClass");
       JSF.renderChild(facesContext, child);
-      UIComponent belowField = child.getFacet("belowField");
-      if (belowField != null)
-      {
-         writer.startElement("div", this);
-         JSF.renderChild(facesContext, belowField);
-         writer.endElement("div");
-      }
       writer.endElement("span");
       
+      UIComponent description = child.getFacet("description");
+      if (description != null)
+      {
+         writer.startElement("span", this);
+         writer.writeAttribute("class", descriptionColumnClass, "descriptionColumnClass");
+         JSF.renderChild(facesContext, description);
+         writer.endElement("span");
+      }
+
       writer.endElement("div");
    }
 
@@ -194,44 +183,67 @@ public class HtmlLayoutForm extends UIStyleDecoration
       }
       
    }
-
-   public String getLabelColumnWidth()
-   {
-      return labelColumnWidth;
-   }
-
-   public void setLabelColumnWidth(String labelColumnWidth)
-   {
-      this.labelColumnWidth = labelColumnWidth;
-   }
    
    @Override
    public void restoreState(FacesContext context, Object state)
    {
       Object[] array = (Object[]) state;
       super.restoreState(context, array[0]);
-      labelColumnWidth = (String) array[1];
-      fieldColumnWidth = (String) array[2];
+      labelColumnClass = (String) array[1];
+      fieldColumnClass = (String) array[2];
+      rowClass = (String) array[3];
    }
    
    @Override
    public Object saveState(FacesContext context)
    {
-      Object[] state = new Object[3];
+      Object[] state = new Object[4];
       state[0] = super.saveState(context);
-      state[1] = labelColumnWidth;
-      state[2] = fieldColumnWidth;
+      state[1] = labelColumnClass;
+      state[2] = fieldColumnClass;
+      state[3] = rowClass;
       return state;
    }
 
-   public String getFieldColumnWidth()
+   public String getLabelColumnClass()
    {
-      return fieldColumnWidth;
+      return labelColumnClass;
    }
 
-   public void setFieldColumnWidth(String fieldColumnWidth)
+   public void setLabelColumnClass(String leftClass)
    {
-      this.fieldColumnWidth = fieldColumnWidth;
+      this.labelColumnClass = leftClass;
    }
+
+   public String getFieldColumnClass()
+   {
+      return fieldColumnClass;
+   }
+
+   public void setFieldColumnClass(String rightClass)
+   {
+      this.fieldColumnClass = rightClass;
+   }
+
+   public String getRowClass()
+   {
+      return rowClass;
+   }
+
+   public void setRowClass(String rowClass)
+   {
+      this.rowClass = rowClass;
+   }
+
+   public String getDescriptionColumnClass()
+   {
+      return descriptionColumnClass;
+   }
+
+   public void setDescriptionColumnClass(String descriptionColumnClass)
+   {
+      this.descriptionColumnClass = descriptionColumnClass;
+   }
+
 
 }
