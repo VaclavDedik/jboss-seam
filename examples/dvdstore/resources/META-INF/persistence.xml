@@ -13,6 +13,9 @@
 
          <property name="hibernate.cache.provider_class" 
                    value="org.hibernate.cache.HashtableCacheProvider"/>
+
+         <property name="jboss.entity.manager.factory.jndi.name"
+                   value="java:/dvdEntityManagerFactory" />
       </properties>
    </persistence-unit>
 </persistence>
