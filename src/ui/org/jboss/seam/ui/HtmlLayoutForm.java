@@ -13,6 +13,9 @@ public class HtmlLayoutForm extends UIStyleDecoration
    public static final String COMPONENT_TYPE = "org.jboss.seam.ui.HtmlLayoutForm";
    public static final String COMPONENT_FAMILY = "org.jboss.seam.ui.LayoutForm";
    
+   private String labelColumnWidth = "20%";
+   private String fieldColumnWidth;
+   
    @Override
    public String getFamily()
    {
@@ -22,6 +25,9 @@ public class HtmlLayoutForm extends UIStyleDecoration
    @Override
    public void endElement(ResponseWriter writer) throws IOException
    {
+      writer.startElement("div", this);
+      writer.writeAttribute("style", "clear: both;", null);
+      writer.endElement("div");
       writer.endElement("div");
    }
    
@@ -29,7 +35,6 @@ public class HtmlLayoutForm extends UIStyleDecoration
    public void startElement(ResponseWriter writer) throws IOException
    {
       writer.startElement("div", this);
-      writer.writeAttribute("style", "display: table;", null);
    }
 
    @Override
@@ -55,10 +60,10 @@ public class HtmlLayoutForm extends UIStyleDecoration
       ResponseWriter writer = facesContext.getResponseWriter();
       
       writer.startElement("div", this);
-      writer.writeAttribute("style", "display: table-row;", null);
+      writer.writeAttribute("style", "clear: both;", null);
       
-      writer.startElement("div", child);
-      writer.writeAttribute("style", "display: table-cell; vertical-align: top", null);  
+      writer.startElement("span", child);
+      writer.writeAttribute("style", "float: left; text-align: right; width: " + labelColumnWidth + ';', null);  
       renderLabel(facesContext, child);
       UIComponent belowLabel = child.getFacet("belowLabel");
       if (belowLabel != null)
@@ -67,10 +72,18 @@ public class HtmlLayoutForm extends UIStyleDecoration
          JSF.renderChild(facesContext, belowLabel);
          writer.endElement("div");
       }
-      writer.endElement("div");
+      writer.endElement("span");
       
-      writer.startElement("div", this);
-      writer.writeAttribute("style", "display: table-cell;", null);
+      writer.startElement("span", this);
+      if (fieldColumnWidth==null)
+      {
+         if ( !labelColumnWidth.endsWith("%") || labelColumnWidth.length()!=3 )
+         {
+            throw new IllegalStateException("you must explicitly specify fieldColumnWidth or use a percentage labelColumnWidth");
+         }
+         fieldColumnWidth = String.valueOf( 100 - Integer.parseInt( labelColumnWidth.substring(0, 2) ) ) + '%';
+      }
+      writer.writeAttribute("style", "float: right; text-align: left; width: " + fieldColumnWidth + ';', null);
       JSF.renderChild(facesContext, child);
       UIComponent belowField = child.getFacet("belowField");
       if (belowField != null)
@@ -79,7 +92,7 @@ public class HtmlLayoutForm extends UIStyleDecoration
          JSF.renderChild(facesContext, belowField);
          writer.endElement("div");
       }
-      writer.endElement("div");
+      writer.endElement("span");
       
       writer.endElement("div");
    }
@@ -180,6 +193,45 @@ public class HtmlLayoutForm extends UIStyleDecoration
          }
       }
       
+   }
+
+   public String getLabelColumnWidth()
+   {
+      return labelColumnWidth;
+   }
+
+   public void setLabelColumnWidth(String labelColumnWidth)
+   {
+      this.labelColumnWidth = labelColumnWidth;
+   }
+   
+   @Override
+   public void restoreState(FacesContext context, Object state)
+   {
+      Object[] array = (Object[]) state;
+      super.restoreState(context, array[0]);
+      labelColumnWidth = (String) array[1];
+      fieldColumnWidth = (String) array[3];
+   }
+   
+   @Override
+   public Object saveState(FacesContext context)
+   {
+      Object[] state = new Object[3];
+      state[0] = super.saveState(context);
+      state[1] = labelColumnWidth;
+      state[2] = fieldColumnWidth;
+      return state;
+   }
+
+   public String getFieldColumnWidth()
+   {
+      return fieldColumnWidth;
+   }
+
+   public void setFieldColumnWidth(String fieldColumnWidth)
+   {
+      this.fieldColumnWidth = fieldColumnWidth;
    }
 
 }
