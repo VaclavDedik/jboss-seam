@@ -211,7 +211,7 @@ public class HtmlLayoutForm extends UIStyleDecoration
       Object[] array = (Object[]) state;
       super.restoreState(context, array[0]);
       labelColumnWidth = (String) array[1];
-      fieldColumnWidth = (String) array[3];
+      fieldColumnWidth = (String) array[2];
    }
    
    @Override

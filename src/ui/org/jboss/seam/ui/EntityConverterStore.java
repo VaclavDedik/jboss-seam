@@ -1,5 +1,6 @@
 package org.jboss.seam.ui;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,12 +15,12 @@ import org.jboss.seam.core.AbstractMutable;
 import org.jboss.seam.util.Proxy;
 
 @Name("org.jboss.seam.ui.entityConverterStore")
-@Scope(ScopeType.SESSION)
+@Scope(ScopeType.PAGE)
 @Intercept(InterceptionType.NEVER)
 public class EntityConverterStore extends AbstractMutable
 {
    
-   private class Key 
+   private class Key implements Serializable
    {
       private Class clazz;
       private Object id;
@@ -87,9 +88,9 @@ public class EntityConverterStore extends AbstractMutable
    
    public static EntityConverterStore instance() 
    {
-      if (!Contexts.isSessionContextActive())
+      if (!Contexts.isPageContextActive())
       {
-         throw new IllegalArgumentException("Session scope not active");
+         throw new IllegalArgumentException("Page scope not active");
       }
       return (EntityConverterStore) Component.getInstance(EntityConverterStore.class);
    }
