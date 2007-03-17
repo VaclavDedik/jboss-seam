@@ -507,7 +507,7 @@ public interface Register
         <title>The Seam component deployment descriptor: <literal>components.xml</literal></title>
         
         <para>
-            If you've used many Java frameworks before, you'll be used to having to declate
+            If you've used many Java frameworks before, you'll be used to having to declare
             all your component classes in some kind of XML file that gradually grows more and
             more unmanageable as your project matures. You'll be relieved to know that Seam
             does not require that application components be accompanied by XML. Most Seam
