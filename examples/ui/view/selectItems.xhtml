@@ -31,7 +31,7 @@
 
 	<h:form>
 
-		<s:layoutForm>
+		<s:layoutForm labelColumnWidth="15%">
 		
 			<f:facet name="aroundInvalidField">
 		        <s:span styleClass="error"/>
@@ -51,7 +51,9 @@
 		    
 		    <h:selectBooleanCheckbox>
 				<f:facet name="label">Yes or no?</f:facet>
-				<f:facet name="belowField">What do you think?</f:facet>
+				<f:facet name="belowField">
+				    <h:outputText styleClass="help" value="What do you think?"/>
+				</f:facet>
 		    </h:selectBooleanCheckbox>
 			<s:decorate>
 				<f:facet name="label">
@@ -62,6 +64,9 @@
 					<s:convertEnum />
 				</h:selectOneMenu>
 			</s:decorate>
+			<h:outputText value="This is some plain text!">
+			    <f:facet name="label">plain text:</f:facet>
+			</h:outputText>
 			<s:decorate>
 				<f:facet name="label">
 					<h:outputText value="Name" />
