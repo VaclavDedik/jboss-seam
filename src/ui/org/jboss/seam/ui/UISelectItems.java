@@ -58,7 +58,8 @@ public class UISelectItems extends javax.faces.component.UISelectItems
       }
       else
       {
-         return getString("noSelectionLabel");
+         ValueBinding vb = getValueBinding("noSelectionLabel");
+         return vb == null ? null :  JSF.getStringValue( getFacesContext(), vb);
       }
    }
 
@@ -75,8 +76,9 @@ public class UISelectItems extends javax.faces.component.UISelectItems
       }
       else
       {
-         Boolean value = getBoolean("hideNoSelectionLabel");
-         return value == null ? false : value;
+         ValueBinding vb = getValueBinding("hideNoSelectionLabel");
+         Boolean b = vb == null ? false : JSF.getBooleanValue(getFacesContext(), vb);
+         return b == null ? false : b;
       }
    }
 
@@ -103,7 +105,8 @@ public class UISelectItems extends javax.faces.component.UISelectItems
       }
       else
       {
-         return getString("label");
+         ValueBinding vb = getValueBinding("label");
+         return vb == null ? null :  JSF.getStringValue( getFacesContext(), vb);
       }
    }
 
@@ -120,8 +123,9 @@ public class UISelectItems extends javax.faces.component.UISelectItems
       }
       else
       {
-         Boolean value = getBoolean("disabled");
-         return value != null ? value : false;
+         ValueBinding vb = getValueBinding("disabled");
+         Boolean b = vb == null ? false : JSF.getBooleanValue(getFacesContext(), vb);
+         return b == null ? false : b;
       }
    }
 
@@ -154,32 +158,6 @@ public class UISelectItems extends javax.faces.component.UISelectItems
       values[4] = label;
       values[5] = disabled;
       return values;
-   }
-
-   private String getString(String localName)
-   {
-      ValueBinding vb = getValueBinding(localName);
-      if (vb == null)
-      {
-         return null;
-      }
-      else
-      {
-         return vb.getValue(getFacesContext()).toString();
-      }
-   }
-
-   private Boolean getBoolean(String localName)
-   {
-      String string = getString(localName);
-      if (string != null)
-      {
-         return Boolean.valueOf(string);
-      }
-      else
-      {
-         return null;
-      }
    }
 
    @Override
@@ -250,7 +228,33 @@ public class UISelectItems extends javax.faces.component.UISelectItems
 
    private javax.faces.model.SelectItem noSelectionLabel()
    {
-      if (getNoSelectionLabel() != null && !(isHideNoSelectionLabel() && getParentValue() != null))
+      boolean show = false;
+      /*
+       * This is a slight hack. If you do an EL expresison like this (to hide the label)
+       * 
+       * noSelectionLabel="#{x eq y ? 'Please Select' : null}"
+       * 
+       * then, if x != y, EL will return an empty String, not null, so we work around that, with the side effect
+       * that if the result of the EL expression is an empty String, then the label will be hidden.
+       */
+      if (noSelectionLabel != null && !(isHideNoSelectionLabel() && getParentValue() != null))
+      {
+         /* 
+          * Here, the user has specfied a noSelectionLabel (may be an empty string), and, if hideNoSelectionLabel
+          * is set, then, if a value is selected, then the label is hidden
+          */ 
+         show = true;
+      } 
+      else if (getNoSelectionLabel() != null && !"".equals(getNoSelectionLabel()) && !(isHideNoSelectionLabel() && getParentValue() != null))
+      {
+         /*
+          * Here, the user has used an EL expression as the noSelectionLabel.  In this case, an empty string is
+          * indicates that the label should be hidden.
+          */
+         show = true;
+      }
+      
+      if (show)
       {
          NullableSelectItem s = new NullableSelectItem(NO_SELECTION_VALUE, getNoSelectionLabel());
          ConverterChain converterChain = new ConverterChain(this.getParent());
