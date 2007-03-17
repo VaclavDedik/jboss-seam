@@ -25,7 +25,7 @@ public class EnumConverter
             return null;
         }
 
-        return ((Enum) object).toString();
+        return ((Enum) object).name();
     }
 
 }
