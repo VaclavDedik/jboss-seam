@@ -32,21 +32,27 @@
 	<h:form>
 
 		<s:layoutForm>
+		
 			<f:facet name="aroundInvalidField">
 		        <s:span styleClass="error"/>
 		    </f:facet>
 		    <f:facet name="afterInvalidField">
-		        <s:message />
+		        <s:message/>
 		    </f:facet>
 		    <f:facet name="beforeRequiredLabel">
-		    	<s:span>&#8727;</s:span>
+		    	<s:span style="color:red;">&#8727;</s:span>
 		    </f:facet>
 		    <f:facet name="aroundLabel">
-		    	<s:div style="text-align:right;" />
+		    	<s:div style="text-align:right; padding-right: 10px;" />
 		    </f:facet>
 		    <f:facet name="aroundInvalidLabel">
-		    	<s:div style="text-align:right;" styleClass="error" />
+		    	<s:div style="text-align:right; padding-right: 10px;" styleClass="error" />
 		    </f:facet>
+		    
+		    <h:selectBooleanCheckbox>
+				<f:facet name="label">Yes or no?</f:facet>
+				<f:facet name="belowField">What do you think?</f:facet>
+		    </h:selectBooleanCheckbox>
 			<s:decorate>
 				<f:facet name="label">
 					<h:outputText value="Title" />
@@ -115,12 +121,15 @@
 					<s:convertEntity />
 				</h:selectOneListbox>
 			</s:decorate>
+			
 		</s:layoutForm>
+		
 		<h:commandButton value="Apply" action="#{personHome.update}">
 			<s:conversationPropagation type="join" />
 		</h:commandButton>
 		<h:messages globalOnly="true" />
 		<p><s:link view="/index.xhtml" propagation="end">Back to index</s:link></p>
+		
 	</h:form>
 </body>
 

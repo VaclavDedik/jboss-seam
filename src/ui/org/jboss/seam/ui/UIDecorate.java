@@ -47,8 +47,10 @@ public class UIDecorate extends UIComponentBase
       return null;
    }
    
-   protected static String getInputId(String forId, UIComponent cmp)
+   protected static String getInputId(UIComponent cmp)
    {
+      String forId = cmp instanceof UIDecorate ?
+               ( (UIDecorate) cmp ).getFor() : null;
       if (forId==null)
       {
          UIComponent evh = getEditableValueHolder(cmp);
@@ -60,14 +62,16 @@ public class UIDecorate extends UIComponentBase
       }
    }
    
-   protected static String getInputClientId(String forId, UIComponent cmp, FacesContext facesContext)
+   protected static String getInputClientId(UIComponent cmp, FacesContext facesContext)
    {
-      UIComponent input = getInput(forId, cmp, facesContext);
+      UIComponent input = getInput(cmp, facesContext);
       return input == null ? null : input.getClientId(facesContext);
    }
    
-   protected static UIComponent getInput(String forId, UIComponent cmp, FacesContext facesContext)
+   protected static UIComponent getInput(UIComponent cmp, FacesContext facesContext)
    {
+      String forId = cmp instanceof UIDecorate ?
+         ( (UIDecorate) cmp ).getFor() : null;
       if (forId==null)
       {
          UIComponent evh = getEditableValueHolder(cmp);
@@ -80,9 +84,9 @@ public class UIDecorate extends UIComponentBase
       }
    }
    
-   protected static boolean hasMessage(String forId, UIComponent cmp, FacesContext facesContext)
+   protected static boolean hasMessage(UIComponent cmp, FacesContext facesContext)
    {
-      String clientId = getInputClientId(forId, cmp, facesContext);
+      String clientId = getInputClientId(cmp, facesContext);
       if (clientId==null)
       {
          return false;
@@ -93,9 +97,9 @@ public class UIDecorate extends UIComponentBase
       }
    }
    
-   protected static boolean hasRequired(String forId, UIComponent cmp, FacesContext facesContext)
+   protected static boolean hasRequired(UIComponent cmp, FacesContext facesContext)
    {
-      EditableValueHolder evh = (EditableValueHolder) getInput(forId, cmp, facesContext);
+      EditableValueHolder evh = (EditableValueHolder) getInput(cmp, facesContext);
       if (evh == null)
       {
          return false;
@@ -114,22 +118,22 @@ public class UIDecorate extends UIComponentBase
 
    protected boolean hasMessage()
    {
-      return hasMessage(getFor(), this, getFacesContext());
+      return hasMessage(this, getFacesContext());
    }
    
    protected boolean hasRequired()
    {
-      return hasRequired(getFor(), this, getFacesContext());
+      return hasRequired(this, getFacesContext());
    }
 
    public String getInputId()
    {
-      return getInputId(getFor(), this);
+      return getInputId(this);
    }
    
    protected UIComponent getInput()
    {
-      return getInput(getFor(), this, getFacesContext());
+      return getInput(this, getFacesContext());
    }
 
    @Override
