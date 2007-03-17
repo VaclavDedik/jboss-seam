@@ -11,26 +11,36 @@ public class HtmlLayoutForm extends UIStyleDecoration
 {
    
    public static final String COMPONENT_TYPE = "org.jboss.seam.ui.HtmlLayoutForm";
-
+   public static final String COMPONENT_FAMILY = "org.jboss.seam.ui.LayoutForm";
+   
    @Override
-   public String getElement()
+   public String getFamily()
    {
-      return HTML.DIV_ELEM;
+      return COMPONENT_FAMILY;
    }
    
    @Override
+   public void endElement(ResponseWriter writer) throws IOException
+   {
+      writer.endElement("div");
+   }
+   
+   @Override
+   public void startElement(ResponseWriter writer) throws IOException
+   {
+      writer.startElement("div", this);
+      writer.writeAttribute("style", "display: table;", null);
+   }
+
+   @Override
    public void encodeChildren(FacesContext context) throws IOException
    {
-      ResponseWriter writer = context.getResponseWriter();
-      writer.writeAttribute(HTML.STYLE_ATTR, "display: table;", null);
-     
       for (Object child : this.getChildren())
       {
          if (child instanceof UIComponent)
          {
-            writeRow(context, (UIComponent) child);
+            renderChild( context, (UIComponent) child );
          }
-            
       }
    }
    
@@ -40,86 +50,41 @@ public class HtmlLayoutForm extends UIStyleDecoration
       return true;
    }
    
-   private void writeRow(FacesContext facesContext, UIComponent child) throws IOException
+   private void renderChild(FacesContext facesContext, UIComponent child) throws IOException
    {
-      UIComponent belowField = child.getFacet("belowField");
+      ResponseWriter writer = facesContext.getResponseWriter();
+      
+      writer.startElement("div", this);
+      writer.writeAttribute("style", "display: table-row;", null);
+      
+      writer.startElement("div", child);
+      writer.writeAttribute("style", "display: table-cell; vertical-align: top", null);  
+      renderLabel(facesContext, child);
       UIComponent belowLabel = child.getFacet("belowLabel");
-      
-      renderChild( facesContext, child, belowField, belowLabel, facesContext.getResponseWriter() );
-   }
-
-   private void renderChild(FacesContext facesContext, UIComponent child, UIComponent belowField, UIComponent belowLabel, ResponseWriter writer) throws IOException
-   {
-      writer.startElement(HTML.DIV_ELEM, this);
-      writer.writeAttribute(HTML.STYLE_ATTR, "display: table-row;", null);
-      
-      writer.startElement(HTML.DIV_ELEM, child);
-      writer.writeAttribute(HTML.STYLE_ATTR, "display: table-cell; vertical-align: top", null);  
-      writeLabel(facesContext, child);
       if (belowLabel != null)
       {
-         writer.startElement(HTML.DIV_ELEM, this);
+         writer.startElement("div", this);
          JSF.renderChild(facesContext, belowLabel);
-         writer.endElement(HTML.DIV_ELEM);
+         writer.endElement("div");
       }
-      writer.endElement(HTML.DIV_ELEM);
+      writer.endElement("div");
       
-      writer.startElement(HTML.DIV_ELEM, this);
-      writer.writeAttribute(HTML.STYLE_ATTR, "display: table-cell;", null);
+      writer.startElement("div", this);
+      writer.writeAttribute("style", "display: table-cell;", null);
       JSF.renderChild(facesContext, child);
+      UIComponent belowField = child.getFacet("belowField");
       if (belowField != null)
       {
-         writer.startElement(HTML.DIV_ELEM, this);
+         writer.startElement("div", this);
          JSF.renderChild(facesContext, belowField);
-         writer.endElement(HTML.DIV_ELEM);
+         writer.endElement("div");
       }
-      writer.endElement(HTML.DIV_ELEM);
+      writer.endElement("div");
       
-      writer.endElement(HTML.DIV_ELEM);
+      writer.endElement("div");
    }
 
-   /*private void renderChild(FacesContext facesContext, UIComponent child, UIComponent belowField, UIComponent belowLabel, ResponseWriter writer) throws IOException
-   {
-      writer.startElement(HTML.TR_ELEM, child);
-      writer.startElement(HTML.TD_ELEM, child);
-      
-      writeLabel(facesContext, (UIDecorate) child);
-      
-      writer.endElement(HTML.TD_ELEM);
-      writer.startElement(HTML.TD_ELEM, child);
-      JSF.renderChild(facesContext, child);
-      writer.endElement(HTML.TD_ELEM);
-      writer.endElement(HTML.TR_ELEM);
-      if (belowLabel != null || belowField != null)
-      {
-         writer.startElement(HTML.TR_ELEM, this);
-         if (belowLabel != null)
-         {
-            writer.startElement(HTML.TD_ELEM, belowLabel);
-            JSF.renderChild(facesContext, belowLabel);
-            writer.endElement(HTML.TD_ELEM);
-         }
-         else
-         {
-            writer.startElement(HTML.TD_ELEM, this);
-            writer.endElement(HTML.TD_ELEM);
-         }
-         if (belowField != null)
-         {
-            writer.startElement(HTML.TD_ELEM, belowField);
-            JSF.renderChild(facesContext, belowField);
-            writer.endElement(HTML.TD_ELEM);
-         }
-         else
-         {
-            writer.startElement(HTML.TD_ELEM, this);
-            writer.endElement(HTML.TD_ELEM);
-         }
-         writer.endElement(HTML.TR_ELEM);
-      }
-   }*/
-   
-   private void writeLabel(FacesContext facesContext, UIComponent child) throws IOException
+   private void renderLabel(FacesContext facesContext, UIComponent child) throws IOException
    {
       ResponseWriter writer = facesContext.getResponseWriter();
       // Write out a label element
@@ -167,10 +132,17 @@ public class HtmlLayoutForm extends UIStyleDecoration
             JSF.renderChild(facesContext, beforeRequiredLabelDecoration);
          }
          
-         writer.startElement(HTML.LABEL_ELEM, label);
-         writer.writeAttribute(HTML.FOR_ATTR, UIDecorate.getInputClientId(child, facesContext), HTML.FOR_ATTR);         
+         String inputClientId = UIDecorate.getInputClientId(child, facesContext);
+         if (inputClientId!=null)
+         {
+            writer.startElement("label", label);
+            writer.writeAttribute("for", inputClientId, "for");
+         }
          JSF.renderChild(facesContext, label);
-         writer.endElement(HTML.LABEL_ELEM);
+         if (inputClientId!=null)
+         {
+            writer.endElement("label");
+         }
          
          UIComponent afterLabelDecoration = UIDecorate.getDecoration("afterLabel", child);
          UIComponent afterInvalidLabelDecoration = UIDecorate.getDecoration("afterInvalidLabel", child);

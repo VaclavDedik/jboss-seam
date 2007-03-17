@@ -54,7 +54,7 @@ public abstract class UIStyleDecoration extends UIComponentBase
 
       super.encodeBegin(context);
       ResponseWriter response = context.getResponseWriter();
-      response.startElement( getElement(), this );
+      startElement(response);
 
       response.writeAttribute("id", getClientId(context), "id");
       
@@ -81,12 +81,13 @@ public abstract class UIStyleDecoration extends UIComponentBase
       if ( !isRendered() ) return;
       
       ResponseWriter response = context.getResponseWriter();
-      response.endElement( getElement() );
+      endElement(response);
       response.flush();
       super.encodeEnd(context);
    }
 
-   public abstract String getElement();
+   public abstract void startElement(ResponseWriter writer) throws IOException;
+   public abstract void endElement(ResponseWriter writer) throws IOException;
 
    public String getStyle()
    {
