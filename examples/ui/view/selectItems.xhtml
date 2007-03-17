@@ -3,15 +3,18 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:s="http://jboss.com/products/seam/taglib"
-      >
+      xmlns:s="http://jboss.com/products/seam/taglib">
 <head>
 <title>SelectItems example</title>
 <ui:debug id="debug" />
 <style>
 	.error {color: red}
-	.help {font-size: x-small; color: grey;}
 	.required {font-weight: bold; color: red}
+	.labels {width:15%; float:left; text-align:right; clear:both}
+	.inputs {width:84%; float:right; text-align:left}
+	.help {width:84%; float:right; text-align:left; font-size: x-small; color: grey}
+	/*.desc {width:20%; float:left; text-align:right; font-size: x-small; color: grey}*/
+	.row {padding-bottom: 40px}
 </style>
 </head>
 
@@ -31,7 +34,7 @@
 
 	<h:form>
 
-		<s:layoutForm labelColumnWidth="15%">
+		<s:layoutForm labelColumnClass="labels" fieldColumnClass="inputs" descriptionColumnClass="help" rowClass="row">
 		
 			<f:facet name="aroundInvalidField">
 		        <s:span styleClass="error"/>
@@ -40,21 +43,17 @@
 		        <s:message/>
 		    </f:facet>
 		    <f:facet name="beforeRequiredLabel">
-		    	<s:span style="color:red;">&#8727;</s:span>
-		    </f:facet>
-		    <f:facet name="aroundLabel">
-		    	<s:div style="text-align:right; padding-right: 10px;" />
+		    	<s:span styleClass="required">&#8727;</s:span>
 		    </f:facet>
 		    <f:facet name="aroundInvalidLabel">
-		    	<s:div style="text-align:right; padding-right: 10px;" styleClass="error" />
+		    	<s:span styleClass="error" />
 		    </f:facet>
 		    
 		    <h:selectBooleanCheckbox>
 				<f:facet name="label">Yes or no?</f:facet>
-				<f:facet name="belowField">
-				    <h:outputText styleClass="help" value="What do you think?"/>
-				</f:facet>
+				<f:facet name="description">What do you think?</f:facet>
 		    </h:selectBooleanCheckbox>
+		    
 			<s:decorate>
 				<f:facet name="label">
 					<h:outputText value="Title" />
@@ -64,63 +63,52 @@
 					<s:convertEnum />
 				</h:selectOneMenu>
 			</s:decorate>
+			
 			<h:outputText value="This is some plain text!">
 			    <f:facet name="label">plain text:</f:facet>
 			</h:outputText>
+			
 			<s:decorate>
-				<f:facet name="label">
-					<h:outputText value="Name" />
-				</f:facet>
+				<f:facet name="label">Name</f:facet>
+				<f:facet name="description">Enter your name as it appears on your passport</f:facet>
 				<h:inputText value="#{person.name}" required="true"/>
-				<f:facet name="belowField">
-					<h:outputText styleClass="help" value="Enter your name as it appears on your passport" />
-				</f:facet>
 			</s:decorate>
+			
 			<s:decorate>
-				<f:facet name="label">
-					<h:outputText value="Continent of Birth" />
-				</f:facet>
+				<f:facet name="label">Continent of Birth</f:facet>
 				<h:selectOneMenu value="#{person.continent}" required="true">
 					<s:selectItems value="#{continents.resultList}" var="continent" label="#{continent.name}" noSelectionLabel="Please Select..."/>
 					<s:convertEntity />
 				</h:selectOneMenu>
 			</s:decorate>
+			
 			<s:decorate>
-				<f:facet name="label">
-					<h:outputText value="Country of Birth" />
-				</f:facet>
+				<f:facet name="label">Country of Birth</f:facet>
 				<h:selectOneRadio value="#{person.country}" required="true" disabled="#{empty person.continent}">
 					<s:selectItems value="#{person.continent.countries}" var="country" label="#{country.name} (#{country.continent.name})" noSelectionLabel="Please Select..." hideNoSelectionLabel="true"/>
 					<s:convertEntity />
 				</h:selectOneRadio>
 			</s:decorate>
+			
 			<s:decorate>
-				<f:facet name="label">
-					<h:outputText value="Age" />
-				</f:facet>
-				<f:facet name="belowField">
-					<h:outputText value="The age list is an array of primitives" styleClass="help"/>
-				</f:facet>
+				<f:facet name="label">Age</f:facet>
+				<f:facet name="description">The age list is an array of primitives</f:facet>
 				<h:selectOneMenu value="#{person.age}"  converter="#{converters.ageConverter}">
 					<s:selectItems value="#{ages}" var="age" label="#{age}" />
 				</h:selectOneMenu>
 			</s:decorate>
+			
 			<s:decorate>
-				<f:facet name="label">
-					<h:outputText value="Favourite Colours" />
-				</f:facet>
+				<f:facet name="label">Favourite Colours</f:facet>
 				<h:selectManyListbox value="#{person.favouriteColours}" >
 					<s:selectItems value="#{colours.resultList}" var="colour" label="#{colour.name}" />
 					<s:convertEntity />
 				</h:selectManyListbox>
 			</s:decorate>
+			
 			<s:decorate>
-				<f:facet name="label">
-					<h:outputText value="Favourite Book" />
-				</f:facet>
-				<f:facet name="belowField">
-					<h:outputText value="A book has a composite key" styleClass="help"/>
-				</f:facet>
+				<f:facet name="label">Favourite Book</f:facet>
+				<f:facet name="description">A book has a composite key</f:facet>
 				<h:selectOneListbox value="#{person.favouriteBook}" >
 					<s:selectItems value="#{books.resultList}" var="book" label="#{book.name} by #{book.author} (#{book.nationality})" />
 					<s:convertEntity />
