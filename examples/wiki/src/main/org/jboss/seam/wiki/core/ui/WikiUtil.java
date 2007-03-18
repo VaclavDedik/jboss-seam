@@ -7,6 +7,8 @@ import org.jboss.seam.Component;
 import javax.faces.component.UIData;
 import javax.faces.context.FacesContext;
 import java.util.Collection;
+import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  * Adds stuff to and for JSF that should be there but isn't. Also stuff that is exposed
@@ -16,8 +18,6 @@ import java.util.Collection;
 @Name("wikiUtil")
 public class WikiUtil {
 
-    // Used against page names, simply remove everything that is not alphanumeric, should do for most strings
-    public static final String WIKINAME_REMOVECHARACTERS = "[^\\p{Alnum}]+";
 
     // Replacement for missing instaceOf in EL (can't use string comparison, might be proxy)
     public static boolean isDirectory(Node node) {
@@ -32,6 +32,24 @@ public class WikiUtil {
         return node != null && File.class.isAssignableFrom(node.getClass());
     }
 
+    // EL is weak
+    public static String truncateString(String string, int length, String appendString) {
+        if (string.length() <= length) return string;
+        return string.substring(0, length-1) + appendString;
+    }
+
+    public static String concat(String a, String b) {
+        return a + b;
+    }
+
+    // Display all roles for a particular access level
+    public static Role.AccessLevel resolveAccessLevel(Integer accessLevel) {
+        List<Role.AccessLevel> accessLevels = (List<Role.AccessLevel>)Component.getInstance("accessLevelsList");
+        return accessLevels.get(
+                accessLevels.indexOf(new Role.AccessLevel(accessLevel, null))
+               );
+    }
+    
     // Allow calling this as a Facelets function in pages
     public static String renderURL(Node node) {
         GlobalPreferences globalPrefs = (GlobalPreferences) Component.getInstance("globalPrefs");
@@ -50,8 +68,27 @@ public class WikiUtil {
         }
     }
 
+    // Creates clean alphanumeric UpperCaseCamelCase
     public static String convertToWikiName(String realName) {
-        return realName.replaceAll(WIKINAME_REMOVECHARACTERS, "");
+        StringBuilder wikiName = new StringBuilder();
+        // Remove everything that is not alphanumeric or whitespace, then split on word boundaries
+        String[] tokens = realName.replaceAll("[^\\p{Alnum}|\\s]+", "").split("\\s");
+        for (String token : tokens) {
+            // Append word, uppercase first letter of word
+            if (token.length() > 1) {
+                wikiName.append(token.substring(0,1).toUpperCase());
+                wikiName.append(token.substring(1));
+            } else {
+                wikiName.append(token.toUpperCase());
+            }
+        }
+        return wikiName.toString();
+    }
+
+    public static String renderHomeURL(User user) {
+        String contextPath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+        return contextPath + "/" + user.getMemberHome().getParent().getWikiname() + "/" + user.getMemberHome().getWikiname();
+
     }
 
     /**

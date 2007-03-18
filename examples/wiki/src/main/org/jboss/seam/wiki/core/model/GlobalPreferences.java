@@ -6,6 +6,8 @@ public class GlobalPreferences {
     private String baseURL;
     private URLRendering defaultURLRendering;
     private String permlinkSuffix;
+    private Long defaultDocumentId;
+    private Long memberAreaId;
     private String themeName;
     private String newUserInRole;
     private String passwordRegex;
@@ -34,6 +36,22 @@ public class GlobalPreferences {
 
     public void setPermlinkSuffix(String permlinkSuffix) {
         this.permlinkSuffix = permlinkSuffix;
+    }
+
+    public Long getDefaultDocumentId() {
+        return defaultDocumentId;
+    }
+
+    public void setDefaultDocumentId(Long defaultDocumentId) {
+        this.defaultDocumentId = defaultDocumentId;
+    }
+
+    public Long getMemberAreaId() {
+        return memberAreaId;
+    }
+
+    public void setMemberAreaId(Long memberAreaId) {
+        this.memberAreaId = memberAreaId;
     }
 
     public String getThemeName() {

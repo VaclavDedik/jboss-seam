@@ -22,30 +22,34 @@
 
 <ui:define name="headerBottomLeft">&#160;</ui:define>
 
-<ui:define name="headerBottomRight">
-    <ui:include src="plugins/searchControl/plugin.xhtml"/>
-</ui:define>
-
 <ui:define name="sidebar">
+    <ui:include src="plugins/searchControl/plugin.xhtml"/>
     <ui:include src="plugins/mainMenu/plugin.xhtml"/>
 </ui:define>
 
 <ui:define name="controlRight">
 
-    <!-- Real directory -->
     <h:panelGroup rendered="#{!empty currentDirectory.parent}">
-        <s:link id="createDir"  styleClass="linkNavigation" action="createDir" accesskey="S">New <u>S</u>ubdirectory</s:link>
-        <s:link id="editDir"    styleClass="linkNavigation" action="editDir" accesskey="E"><u>E</u>dit Directory</s:link>
-        <s:link id="createDoc"  styleClass="linkNavigation" action="createDoc" accesskey="N"><u>N</u>ew Document</s:link>
-        <s:link id="uploadFile" styleClass="linkNavigation" action="uploadFile" accesskey="U"><u>U</u>pload File</s:link>
+        <s:link id="createDir"  styleClass="linkNavigation" action="createDir" accesskey="S"
+                rendered="#{s:hasPermission('Node', 'create', currentDirectory)}">New <u>S</u>ubdirectory</s:link>
+
+        <s:link id="editDir"    styleClass="linkNavigation" action="editDir" accesskey="E"
+                rendered="#{s:hasPermission('Node', 'edit', currentDirectory)}"><u>E</u>dit Directory</s:link>
+
+        <s:link id="createDoc" styleClass="linkNavigation" action="createDoc" accesskey="N"
+                rendered="#{s:hasPermission('Node', 'create', currentDirectory)}"><u>N</u>ew Document</s:link>
+
+        <s:link id="uploadFile" styleClass="linkNavigation" action="uploadFile" accesskey="U"
+                rendered="#{s:hasPermission('Node', 'create', currentDirectory)}"><u>U</u>pload File</s:link>
     </h:panelGroup>
 
-    <!-- Virtual root directory -->
     <h:panelGroup rendered="#{empty currentDirectory.parent}">
-        <s:link id="createArea"   styleClass="linkNavigation" action="createDir" accesskey="N"><u>N</u>ew Area</s:link>
-        <s:link id="editRoot"     styleClass="linkNavigation" action="editDir" accesskey="E"><u>E</u>dit Wiki Root</s:link>
-    </h:panelGroup>
+        <s:link id="createArea" styleClass="linkNavigation" action="createDir" accesskey="N"
+                rendered="#{s:hasPermission('Node', 'create', currentDirectory)}"><u>N</u>ew Area</s:link>
 
+        <s:link id="editRoot"     styleClass="linkNavigation" action="editDir" accesskey="E"
+                rendered="#{s:hasPermission('Node', 'edit', currentDirectory)}"><u>E</u>dit Wiki Root</s:link>
+    </h:panelGroup>
 </ui:define>
 
 <ui:define name="content">
@@ -68,13 +72,23 @@
     <h:dataTable id="directoryTable" var="node"
                  value="#{currentDirectory.children}"
                  rendered="#{!empty currentDirectory.children}"
-                 styleClass="datatable"
-                 headerClass="regularHeader"
-                 columnClasses="onePercentColumn,defaultColumn,tenPercentColumn,tenPercentColumn,twentyPercentColumn"
+                 styleClass="datatable topLeftBottomBorder"
+                 headerClass="regularHeader rightBorder"
+                 columnClasses="onePercentColumn rightBorder alignCenter, defaultColumn rightBorder alignLeft,
+                                tenPercentColumn rightBorder alignLeft, twentyPercentColumn rightBorder alignLeft,
+                                twentyPercentColumn rightBorder alignLeft,twentyPercentColumn rightBorder alignCenter"
                  rowClasses="rowOdd,rowEven"
                  cellpadding="0" cellspacing="0" border="0">
 
         <h:column>
+            <f:facet name="header">
+                Test
+                <s:link view="/dirDisplay.xhtml" tabindex="1"
+                        rendered="#{!empty currentDirectory.parent and s:hasPermission('Node','read',currentDirectory.parent)}">
+                    <f:param name="nodeId" value="#{currentDirectory.parent.id}"/>
+                    <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/icon.dirup.gif" width="18" height="20"/>
+                </s:link>
+            </f:facet>
             <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/icon.dir.gif"
                             width="18" height="20"
                             rendered="#{wiki:isDirectory(node)}"/>
@@ -88,11 +102,9 @@
             <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/#{fileMetaMap[node.contentType].displayIcon}"
                             width="18" height="20"
                             rendered="#{wiki:isFile(node) and !empty fileMetaMap[node.contentType]}"/>
-
             <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/#{fileMetaMap['generic'].displayIcon}"
                             width="18" height="20"
                             rendered="#{wiki:isFile(node) and empty fileMetaMap[node.contentType]}"/>
-
         </h:column>
 
         <h:column>
@@ -101,37 +113,49 @@
             </f:facet>
 
             <s:span rendered="#{wiki:isDirectory(node)}">
-                <s:link id="browseDirectory" value="#{node.name}" view="/dirDisplay.xhtml" tabindex="2">
+                <s:link id="browseDirectory" value="#{node.name}" view="/dirDisplay.xhtml"
+                        rendered="#{s:hasPermission('Node','read',node)}" tabindex="2">
                     <f:param name="nodeId" value="#{node.id}"/>
                 </s:link>
+                <h:outputText value="#{node.name}" rendered="#{!s:hasPermission('Node','read',node)}"/>
             </s:span>
 
             <s:span rendered="#{wiki:isDocument(node)}">
-                <h:outputLink value="#{wiki:renderURL(node)}" tabindex="2">#{node.name}</h:outputLink>
+                <h:outputLink value="#{wiki:renderURL(node)}" rendered="#{s:hasPermission('Node','read',node)}" tabindex="2">#{node.name}</h:outputLink>
+                <h:outputText value="#{node.name}" rendered="#{!s:hasPermission('Node','read',node)}"/>
             </s:span>
 
-            <s:span rendered="#{wiki:isFile(node)}">
+            <s:span rendered="#{wiki:isFile(node) and s:hasPermission('Node', 'edit', node)}">
                 <s:link id="editFile" value="#{node.name}" action="editFile" tabindex="2">
                     <f:param name="fileId" value="#{node.id}"/>
                 </s:link>
-                &#160;
-                <h:outputText value="(#{node.filename}, #{node.humanReadableFilesize}, #{node.contentType})"/>
+                <h:outputText value=" (#{node.humanReadableFilesize}, #{node.contentType})"/>
             </s:span>
-            
+            <s:span rendered="#{wiki:isFile(node) and !s:hasPermission('Node', 'edit', node)}">
+                <h:outputText value="#{node.name} (#{node.humanReadableFilesize}, #{node.contentType})"/>
+            </s:span>
+
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                Owner
+            </f:facet>
+            #{node.createdBy.firstname} #{node.createdBy.lastname}
         </h:column>
 
         <h:column>
             <f:facet name="header">
                 Read Access Level
             </f:facet>
-            #{roleMap[node.readAccessLevel].displayName} (Level: #{roleMap[node.readAccessLevel].accessLevel})
+            #{wiki:truncateString(wiki:resolveAccessLevel(node.readAccessLevel).roleNames, 20, '...')}
         </h:column>
 
         <h:column>
             <f:facet name="header">
                 Write Access Level
             </f:facet>
-            #{roleMap[node.writeAccessLevel].displayName} (Level: #{roleMap[node.writeAccessLevel].accessLevel})
+            #{wiki:truncateString(wiki:resolveAccessLevel(node.writeAccessLevel).roleNames, 20, '...')}
         </h:column>
 
         <h:column rendered="#{!empty node.lastModifiedOn and !empty node.lastModifiedBy}">

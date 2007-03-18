@@ -22,17 +22,15 @@
 
 <ui:define name="headerBottomLeft">&#160;</ui:define>
 
-<ui:define name="headerBottomRight">
-    <ui:include src="plugins/searchControl/plugin.xhtml"/>
-</ui:define>
-
 <ui:define name="sidebar">
+    <ui:include src="plugins/searchControl/plugin.xhtml"/>
     <ui:include src="plugins/mainMenu/plugin.xhtml"/>
 </ui:define>
 
 <ui:define name="controlLeft">
     <s:div rendered="#{userHome.managed}">
-        <s:link id="editAccount" styleClass="linkTab" action="editAccount">Account</s:link>
+        <s:link id="editAccount" styleClass="linkTabActive" action="editAccount"
+                rendered="#{s:hasPermission('User', 'edit', userHome.instance)}">Account</s:link>
         <s:link id="editProfile" styleClass="linkTabActive" action="editProfile">Profile</s:link>
         <s:link id="editPreferences" styleClass="linkTab" action="editPreferences">Preferences</s:link>
     </s:div>

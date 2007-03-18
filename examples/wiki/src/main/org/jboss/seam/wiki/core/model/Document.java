@@ -1,11 +1,13 @@
 package org.jboss.seam.wiki.core.model;
 
 import org.hibernate.validator.Length;
+import org.jboss.seam.annotations.security.Restrict;
 
 import javax.persistence.*;
 
 @Entity
 @DiscriminatorValue("DOCUMENT")
+@Restrict
 public class Document extends Node {
 
     @Column(name = "CONTENT")

@@ -2,6 +2,7 @@ package org.jboss.seam.wiki.core.model;
 
 import org.hibernate.validator.Length;
 import org.hibernate.validator.Pattern;
+import org.jboss.seam.annotations.security.Restrict;
 
 import javax.persistence.*;
 import java.util.List;
@@ -23,6 +24,15 @@ import java.io.Serializable;
 @DiscriminatorColumn(
     name = "NODE_TYPE",
     length = 255
+)
+@Restrict
+@org.hibernate.annotations.FilterDef(
+    name = "accessLevelFilter",
+    parameters = {@org.hibernate.annotations.ParamDef(name = "currentAccessLevel", type="integer")}
+)
+@org.hibernate.annotations.Filter(
+    name = "accessLevelFilter",
+    condition = "READ_ACCESS_LEVEL <= :currentAccessLevel"
 )
 public abstract class Node implements Serializable {
 
@@ -60,11 +70,15 @@ public abstract class Node implements Serializable {
     @JoinColumn(name = "PARENT_NODE_ID", nullable = true, insertable = false, updatable = false)
     protected Node parent;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "PARENT_NODE_ID", nullable = true)
     @org.hibernate.annotations.IndexColumn(name = "NODE_POSITION")
-    // TODO: We are not really using this: @org.hibernate.annotations.Filter(name = "Node.onlyMenuItems")
-    @org.hibernate.annotations.BatchSize(size = 5)
+    /* Filtering fucks up the list index... big issue to work around
+    @org.hibernate.annotations.Filter(
+        name = "accessLevelFilter",
+        condition = "READ_ACCESS_LEVEL <= :currentAccessLevel"
+    )
+    */
     private List<Node> children = new ArrayList<Node>();
 
     @Column(name = "CREATED_ON", nullable = false, updatable = false)
@@ -81,11 +95,14 @@ public abstract class Node implements Serializable {
     @JoinColumn(name = "LAST_MODIFIED_BY_USER_ID")
     protected User lastModifiedBy;
 
+    @Transient
+    protected String lastModifiedByUsername;
+
     @Column(name = "WRITE_ACCESS_LEVEL", nullable = false)
-    protected int writeAccessLevel = 1000;
+    protected int writeAccessLevel;
 
     @Column(name = "READ_ACCESS_LEVEL", nullable = false)
-    protected int readAccessLevel = 1000;
+    protected int readAccessLevel;
 
     public Node() {}
 
@@ -104,6 +121,7 @@ public abstract class Node implements Serializable {
         this.name = original.name;
         this.wikiname = original.wikiname;
         this.lastModifiedOn = original.lastModifiedOn;
+        this.lastModifiedByUsername = original.lastModifiedBy != null ? original.lastModifiedBy.getUsername() : null;
     }
 
     // Immutable properties
@@ -195,6 +213,10 @@ public abstract class Node implements Serializable {
 
     public void setLastModifiedBy(User lastModifiedBy) {
         this.lastModifiedBy = lastModifiedBy;
+    }
+
+    public String getLastModifiedByUsername() {
+        return lastModifiedByUsername;
     }
 
     public int getWriteAccessLevel() {

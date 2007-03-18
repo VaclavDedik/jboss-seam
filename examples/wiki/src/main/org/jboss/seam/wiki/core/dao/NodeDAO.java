@@ -17,13 +17,10 @@ import javax.persistence.NoResultException;
 import java.util.List;
 
 /**
- * DAO for Nodes.
+ * DAO for nodes, transparently respects security access levels.
  * <p>
- * The primary reason why this DAO exists is the broken JPA specification. There is no reason
- * why query.getSingleResult() should throw any exception if the query result is empty. It should
- * just return <tt>null</tt>, like Hibernates query.uniqueResult() method. So instead of using
- * the EntityManager directly, most users, like me, will outsource this exception wrapping into
- * a DAO. Hey, this sounds like a job for Spring? Or maybe we should fix the specification...
+ * All node access should go through this component, this component knows
+ * about access levels because it relies on a restricted (filtered) Entitymanager.
  *
  * @author Christian Bauer
  *
@@ -33,23 +30,41 @@ import java.util.List;
 @Transactional
 public class NodeDAO {
 
-    @In
-    protected EntityManager entityManager;
+    // Most of the DAO methods use this
+    @In protected EntityManager restrictedEntityManager;
+
+    // Some run unrestricted (e.g. internal unique key validation of wiki names)
+    // Make sure that these methods do not return detached objects!
+    @In protected EntityManager entityManager;
+
+
+    public void makePersistent(Node node) {
+        entityManager.joinTransaction();
+        entityManager.persist(node);
+    }
 
     public Node findNode(Long nodeId) {
-        entityManager.joinTransaction();
+        restrictedEntityManager.joinTransaction();
         try {
-            return entityManager.find(Node.class, nodeId);
+            return (Node) restrictedEntityManager
+                    .createQuery("select n from Node n where n.id = :nodeId")
+                    .setParameter("nodeId", nodeId)
+                    .getSingleResult();
         } catch (EntityNotFoundException ex) {
+        } catch (NoResultException ex) {
         }
         return null;
     }
 
     public Node findNodeInArea(Long areaNumber, String wikiname) {
-        entityManager.joinTransaction();
+        return findNodeInArea(areaNumber, wikiname, restrictedEntityManager);
+    }
+
+    private Node findNodeInArea(Long areaNumber, String wikiname, EntityManager em) {
+        em.joinTransaction();
 
         try {
-            return (Node) entityManager
+            return (Node) em
                     .createQuery("select n from Node n where n.areaNumber = :areaNumber and n.wikiname = :wikiname")
                     .setParameter("areaNumber", areaNumber)
                     .setParameter("wikiname", wikiname)
@@ -60,26 +75,11 @@ public class NodeDAO {
         return null;
     }
 
-    public Node findNodeInDirectory(Directory directory, String wikiname) {
-        entityManager.joinTransaction();
-
-        try {
-            return (Node) entityManager
-                    .createQuery("select n from Node n where n.parent = :parentDir and n.wikiname = :wikiname")
-                    .setParameter("parentDir", directory)
-                    .setParameter("wikiname", wikiname)
-                    .getSingleResult();
-        } catch (EntityNotFoundException ex) {
-        } catch (NoResultException ex) {
-        }
-        return null;
-    }
-
     public Document findDocumentInArea(Long areaNumber, String wikiname) {
-        entityManager.joinTransaction();
+        restrictedEntityManager.joinTransaction();
 
         try {
-            return (Document) entityManager
+            return (Document) restrictedEntityManager
                     .createQuery("select d from Document d where d.areaNumber = :areaNumber and d.wikiname = :wikiname")
                     .setParameter("areaNumber", areaNumber)
                     .setParameter("wikiname", wikiname)
@@ -91,10 +91,10 @@ public class NodeDAO {
     }
 
     public Directory findDirectoryInArea(Long areaNumber, String wikiname) {
-        entityManager.joinTransaction();
+        restrictedEntityManager.joinTransaction();
 
         try {
-            return (Directory) entityManager
+            return (Directory) restrictedEntityManager
                     .createQuery("select d from Directory d where d.areaNumber = :areaNumber and d.wikiname = :wikiname")
                     .setParameter("areaNumber", areaNumber)
                     .setParameter("wikiname", wikiname)
@@ -106,10 +106,10 @@ public class NodeDAO {
     }
 
     public Directory findArea(String wikiname) {
-        entityManager.joinTransaction();
+        restrictedEntityManager.joinTransaction();
 
         try {
-            return (Directory) entityManager
+            return (Directory) restrictedEntityManager
                     .createQuery("select d from Directory d where d.parent = :root and d.wikiname = :wikiname")
                     .setParameter("root", Component.getInstance("wikiRoot"))
                     .setParameter("wikiname", wikiname)
@@ -127,7 +127,8 @@ public class NodeDAO {
     }
 
     public void persistHistoricalNode(Node historicalNode) {
-        getSession().persist("HistoricalDocument", historicalNode);
+        // TODO: Ugh, concatenating class names to get the entity name?!
+        getSession().persist("Historical"+historicalNode.getClass().getSimpleName(), historicalNode);
         getSession().flush();
         getSession().evict(historicalNode);
     }
@@ -147,17 +148,21 @@ public class NodeDAO {
                             .list();
     }
 
-    // I need these methods because find() is broken, e.g. find(Document,1) would return a Directory if the
-    // persistence context contains a directory with id 1... even more annoying, I need to catch NoResultException,
-    // so there really is no easy and correct way to look for the existence of a row.
-    // TODO: A new Hibernate version should fix find()/get() - the old JBoss AS 4.0.5 version is broken
-    // ... or is it not: http://opensource.atlassian.com/projects/hibernate/browse/HHH-2352
+    // Multi-row constraint validation
+    public boolean isUniqueWikiname(Node node) {
+        Node foundNode = findNodeInArea(node.getParent().getAreaNumber(), node.getWikiname(), entityManager);
+        if (foundNode == null) {
+            return true;
+        } else {
+            return node.getId() != null && node.getId().equals(foundNode.getId());
+        }
+    }
 
     public Document findDocument(Long documentId) {
-        entityManager.joinTransaction();
+        restrictedEntityManager.joinTransaction();
 
         try {
-            return (Document) entityManager
+            return (Document) restrictedEntityManager
                     .createQuery("select d from Document d where d.id = :id")
                     .setParameter("id", documentId)
                     .getSingleResult();
@@ -168,10 +173,10 @@ public class NodeDAO {
     }
 
     public Directory findDirectory(Long directoryId) {
-        entityManager.joinTransaction();
+        restrictedEntityManager.joinTransaction();
 
         try {
-            return (Directory) entityManager
+            return (Directory) restrictedEntityManager
                     .createQuery("select d from Directory d where d.id = :id")
                     .setParameter("id", directoryId)
                     .getSingleResult();
@@ -182,10 +187,10 @@ public class NodeDAO {
     }
 
     public File findFile(Long fileId) {
-        entityManager.joinTransaction();
+        restrictedEntityManager.joinTransaction();
 
         try {
-            return (File) entityManager
+            return (File) restrictedEntityManager
                     .createQuery("select f from File f where f.id = :id")
                     .setParameter("id", fileId)
                     .getSingleResult();
@@ -195,7 +200,22 @@ public class NodeDAO {
         return null;
     }
 
+    public Document findDefaultDocument(Directory directory) {
+        if (directory == null) return null;
+        restrictedEntityManager.joinTransaction();
+        try {
+            return (Document) restrictedEntityManager
+                    .createQuery("select doc from Document doc, Directory dir" +
+                                 " where doc.id = dir.defaultDocument.id and dir.id = :did")
+                    .setParameter("did", directory.getId())
+                    .getSingleResult();
+        } catch (EntityNotFoundException ex) {
+        } catch (NoResultException ex) {
+        }
+        return null;
+    }
+
     private Session getSession() {
-        return ((Session)((org.jboss.seam.persistence.EntityManagerProxy)entityManager).getDelegate());
+        return ((Session)((org.jboss.seam.persistence.EntityManagerProxy) restrictedEntityManager).getDelegate());
     }
 }

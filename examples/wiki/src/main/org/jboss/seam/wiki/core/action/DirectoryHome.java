@@ -1,6 +1,7 @@
 package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.annotations.*;
+import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
 import org.jboss.seam.ScopeType;
@@ -11,10 +12,13 @@ import org.jboss.seam.wiki.core.model.Document;
 
 import java.util.List;
 import java.util.Collections;
+import java.util.ArrayList;
 
 @Name("directoryHome")
 @Scope(ScopeType.CONVERSATION)
 public class DirectoryHome extends NodeHome<Directory> {
+
+    private List<Document> childDocuments = new ArrayList<Document>();
 
     @Override
     @Transactional
@@ -30,12 +34,12 @@ public class DirectoryHome extends NodeHome<Directory> {
     @Transactional
     public String persist() {
 
-        if (parentDirectory.getParent() != null) {
+        if (getParentDirectory().getParent() != null) {
             // This is a subdirectory in an area
-            getInstance().setAreaNumber(parentDirectory.getAreaNumber());
+            getInstance().setAreaNumber(getParentDirectory().getAreaNumber());
             return super.persist();
         } else {
-            // This is a logical area
+            // This is a logical area in the wiki root
 
             // Satisfy NOT NULL constraint
             getInstance().setAreaNumber(Long.MAX_VALUE);
@@ -51,11 +55,14 @@ public class DirectoryHome extends NodeHome<Directory> {
         }
     }
 
-
     @Override
     public String remove() {
         if (getInstance().getParent() == null) return null; // Can not delete wiki root
         return super.remove();
+    }
+
+    public List<Document> getChildDocuments() {
+        return childDocuments;
     }
 
     @DataModel
@@ -64,27 +71,28 @@ public class DirectoryHome extends NodeHome<Directory> {
     @DataModelSelection
     Node selectedChildNode;
 
+    @Restrict("#{s:hasPermission('Node', 'editMenu', directoryHome.instance)}")
     public void moveNodeUpInList() {
         int position = getInstance().getChildren().indexOf(selectedChildNode);
         Collections.rotate(getInstance().getChildren().subList(position-1, position+1), 1);
         refreshChildNodes();
     }
 
+    @Restrict("#{s:hasPermission('Node', 'editMenu', directoryHome.instance)}")
     public void moveNodeDownInList() {
         int position = getInstance().getChildren().indexOf(selectedChildNode);
         Collections.rotate(getInstance().getChildren().subList(position, position+2), 1);
         refreshChildNodes();
     }
 
-    public void selectDefaultDocument() {
-        getInstance().setDefaultDocument((Document)selectedChildNode);
-        refreshChildNodes();
-    }
-
     private void refreshChildNodes() {
         childNodes = getInstance().getChildren();
+        for (Node childNode : childNodes) {
+            if (childNode instanceof Document) childDocuments.add((Document)childNode);
+        }
     }
 
+    @Restrict("#{s:hasPermission('Node', 'editMenu', directoryHome.instance)}")
     public void previewMenuItems() {
         // Refresh UI
         Events.instance().raiseEvent("Nodes.menuStructureModified");

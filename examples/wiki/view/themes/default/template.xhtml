@@ -51,18 +51,19 @@
 
     <div id="control">
         <div id="controlLeft"><ui:insert name="controlLeft"/></div>
-        <div id="controlRight"><h:form id="workspaceSwitcher" rendered="#{wiki:sizeOf(conversationList) > 0}">
-                                <h:selectOneMenu value="#{switcher.conversationIdOrOutcome}"
-                                                 styleClass="workspaceSwitcherCombobox">
-                                    <f:selectItems value="#{switcher.selectItems}"/>
-                                </h:selectOneMenu>
-                                <h:commandLink action="#{switcher.select}" accesskey="S"
-                                             styleClass="linkNavigation"><u>S</u>witch Workspace</h:commandLink>
-                            
-                            </h:form><ui:insert name="controlRight"/></div>
+        <div id="controlRight">&#160;
+            <h:form id="workspaceSwitcher" rendered="#{wiki:sizeOf(conversationList) > 0}">
+                <h:selectOneMenu value="#{switcher.conversationIdOrOutcome}"
+                                 styleClass="workspaceSwitcherCombobox">
+                    <f:selectItems value="#{switcher.selectItems}"/>
+                </h:selectOneMenu>
+                <h:commandLink action="#{switcher.select}" accesskey="S"
+                             styleClass="linkNavigation"><u>S</u>witch Workspace</h:commandLink>
+
+            </h:form><ui:insert name="controlRight"/></div>
     </div>
 
-    <div id="controlSeparator"></div>
+    <div id="controlSeparator">&#160;</div>
 
     <div id="sidebar">
         <ui:insert name="sidebar"/>
@@ -106,40 +107,10 @@
 
     <div id="footer">
         <ui:insert name="footer"/>
-
-        <h:form>
-        <h:dataTable value="#{conversationList}" var="entry"
-                     rendered="#{not empty conversationList}"
-                     styleClass="datatable"
-                     headerClass="sortableHeader"
-                     columnClasses="defaultColumn,defaultColumn,defaultColumn"
-                     rowClasses="rowOdd,rowEven"
-                     cellpadding="0" cellspacing="0" border="0">
-            <h:column>
-                <f:facet name="header">Workspace</f:facet>
-                <h:commandLink action="#{entry.select}" value="#{entry.description}"/>
-                <h:outputText value=" [current]" rendered="#{entry.current}"/>
-                <h:outputText value=" [nested]" rendered="#{entry.nested}"/>
-            </h:column>
-            <h:column>
-                <f:facet name="header">Activity</f:facet>
-                <h:outputText value="#{entry.startDatetime}">
-                    <f:convertDateTime type="time" pattern="hh:mm a"/>
-                </h:outputText>
-                <h:outputText value=" - "/>
-                <h:outputText value="#{entry.lastDatetime}">
-                    <f:convertDateTime type="time" pattern="hh:mm a"/>
-                </h:outputText>
-            </h:column>
-        </h:dataTable>
-        </h:form>
-
     </div>
 
-    <!-- Remove this to disable Facelets JSF debugging
-    TODO: This breaks re-rendering of s:fileUpload, http://jira.jboss.com/jira/browse/JBSEAM-948
+    <!-- Remove this to disable Facelets JSF debugging -->
     <ui:debug hotkey="D"/>
-    -->
 
 </div>
 

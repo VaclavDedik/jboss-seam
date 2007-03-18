@@ -22,11 +22,8 @@
 
 <ui:define name="headerBottomLeft">&#160;</ui:define>
 
-<ui:define name="headerBottomRight">
-    <ui:include src="plugins/searchControl/plugin.xhtml"/>
-</ui:define>
-
 <ui:define name="sidebar">
+    <ui:include src="plugins/searchControl/plugin.xhtml"/>
     <ui:include src="plugins/mainMenu/plugin.xhtml"/>
 </ui:define>
 
@@ -38,50 +35,97 @@
 
 <ui:define name="content">
 
-    <s:div rendered="#{historicalNodeList.rowCount == 0}">
-        The document '#{currentNode.name}' does not have any history, only the current revision is present.
-    </s:div>
+<h:form rendered="#{historicalNodeList.rowCount >0}">
+<div class="form">
 
-    <h:form rendered="#{historicalNodeList.rowCount >0}">
+    <div class="formHead">Document History: #{currentNode.name}</div>
+    <div class="formFieldsWideLabels">
 
-        <h:dataTable id="historyTable" var="hnode"
-                     value="#{historicalNodeList}"
-                     styleClass="datatable"
-                     headerClass="sortableHeader"
-                     columnClasses="defaultColumn,defaultColumn,defaultColumn,defaultColumn,defaultColumn"
-                     rowClasses="rowOdd,rowEven"
-                     cellpadding="0" cellspacing="0" border="0">
+        <s:div styleClass="entry">
+            <div class="label">Revision:</div>
+            <div class="output">
+                <h:outputText value="#{currentNode.revision}"/>
+            </div>
+        </s:div>
 
-            <h:column>
-                <f:facet name="header">Revision</f:facet>
-                #{hnode.revision}
-            </h:column>
+        <s:div styleClass="entry">
+            <div class="label">Parent:</div>
+            <div class="output">
+                <h:outputText value="#{currentNode.parent.name}"/>
+            </div>
+        </s:div>
 
-            <h:column>
-                <f:facet name="header">Name</f:facet>
-                #{hnode.name}
-            </h:column>
-
-            <h:column>
-                <f:facet name="header">Last Modified On</f:facet>
-                <h:outputText value="#{hnode.lastModifiedOn}">
+        <s:div styleClass="entry">
+            <div class="label">Created On:</div>
+            <div class="output">
+                <h:outputText value="#{currentNode.createdOn}">
                     <f:convertDateTime type="both"/>
                 </h:outputText>
-            </h:column>
+                (#{currentNode.createdBy.username})
+            </div>
+        </s:div>
 
-            <h:column>
-                <f:facet name="header">Action</f:facet>
-                <h:commandLink id="diff"
-                               action="#{nodeHistory.diff}"
-                               tabindex="3" styleClass="buttonNonpersistent"><span class="buttonLabel">Diff</span></h:commandLink>
-                <h:commandLink id="rollback"
-                               action="#{nodeHistory.rollback}"
-                               tabindex="4" styleClass="buttonNonpersistent"><span class="buttonLabel">Rollback</span></h:commandLink>
-            </h:column>
+        <s:div styleClass="entry" rendered="#{!empty currentNode.lastModifiedBy}">
+            <div class="label">Last Modified On:</div>
+            <div class="output">
+                <h:outputText value="#{currentNode.lastModifiedOn}">
+                    <f:convertDateTime type="both"/>
+                </h:outputText>
+                (#{currentNode.lastModifiedBy.username})
+            </div>
+        </s:div>
 
-        </h:dataTable>
+        <s:div styleClass="entry">
+            <div class="label">Historical revisions:</div>
+            <div class="input">
 
-    </h:form>
+                <h:dataTable id="historyTable" var="hnode" style="width:50%"
+                             value="#{historicalNodeList}"
+                             styleClass="datatable topLeftBottomBorder"
+                             headerClass="sortableHeader rightBorder"
+                             columnClasses="onePercentColumn rightBorder alignCenter,
+                                            tenPercentColumn rightBorder alignLeft,
+                                            tenPercentColumn rightBorder alignLeft,
+                                            defaultColumn rightBorder alignCenter"
+                             rowClasses="rowOdd,rowEven"
+                             cellpadding="0" cellspacing="0" border="0">
+
+                    <h:column>
+                        <f:facet name="header">#</f:facet>
+                        #{hnode.revision}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Last Modified On</f:facet>
+                        <h:outputText value="#{hnode.lastModifiedOn}">
+                            <f:convertDateTime type="both"/>
+                        </h:outputText>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Last Modified By</f:facet>
+                        <h:outputText value="#{hnode.lastModifiedByUsername}"/>
+                    </h:column>
+
+                    <h:column>
+                        <h:commandLink id="diff"
+                                       action="#{nodeHistory.diff}"
+                                       tabindex="3" styleClass="buttonNonpersistent"><span class="buttonLabel">Diff</span></h:commandLink>
+                        <h:commandLink id="rollback"
+                                       action="#{nodeHistory.rollback}"
+                                       tabindex="4" styleClass="buttonNonpersistent"
+                                       rendered="#{s:hasPermission('Node', 'edit', currentNode)}"><span class="buttonLabel">Rollback</span></h:commandLink>
+                    </h:column>
+
+                </h:dataTable>
+
+            </div>
+        </s:div>
+
+    </div>
+
+</div>
+</h:form>
 
     <s:div id="diffOutput" rendered="#{not empty nodeHistory.diffResult}">
         <wiki:formattedText value="#{nodeHistory.diffResult}"

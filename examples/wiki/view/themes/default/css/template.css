@@ -111,8 +111,9 @@ a:visited {
 
 #controlSeparator {
     clear:both;
-    background-color:#fff;
-    height:1px;
+    background-color: white;
+    height: 1px;
+    font-size: 1px;
 }
 
 #content {}
@@ -402,87 +403,6 @@ a:visited {
     font-family: Verdana, Arial, Helvetica, sans-serif;
 }
 
-.directoryList {
-    padding: 0;
-    margin: 0;
-    font-size: 85%;
-    border-style: solid;
-    border-color: #C3BBB6;
-}
-
-.directoryListHeader {
-    white-space: nowrap;
-    background: #fff url(../img/th.bg.gif) 0 0 repeat-x;
-    font-weight: normal;
-    text-align: center;
-    color: #555;
-}
-
-.directoryList .iconColumn {
-    width: 1%;
-    padding-top: 2px;
-    padding-bottom: 2px;
-    padding-left: 10px;
-    padding-right: 5px;
-    white-space: nowrap;
-}
-
-.directoryList .nameColumn {
-    padding-left: 5px;
-    padding-right: 10px;
-    white-space: nowrap;
-}
-
-.directoryList .permissionsColumn {
-    width: 20%;
-    padding-left: 10px;
-    padding-right: 10px;
-    white-space: nowrap;
-}
-
-.directoryList .lastModifiedColumn {
-    width: 20%;
-    padding-left: 10px;
-    padding-right: 10px;
-    white-space: nowrap;
-}
-
-.directoryList .positionUpColumn {
-    width: 5%;
-    padding-left: 10px;
-    white-space: nowrap;
-}
-
-.directoryList .positionDownColumn {
-    width: 5%;
-    padding-right: 10px;
-    white-space: nowrap;
-}
-
-.directoryList .menuControlColumn {
-    width: 10%;
-    padding-left: 10px;
-    padding-right: 10px;
-    text-align: center;
-    white-space: nowrap;
-}
-
-.directoryList .defaultDocumentSelectColumn{
-    width: 10%;
-    padding-left: 10px;
-    padding-right: 10px;
-    text-align: center;
-    white-space: nowrap;
-}
-
-.directoryList .rowOdd {
-    background-color: #fff;
-}
-
-.directoryList .rowEven {
-    background-color: #eae8e5;
-}
-
 
 /* Generic Lists
 ----------------------------------------------- */
@@ -491,9 +411,30 @@ a:visited {
     padding: 0;
     margin: 0;
     font-size: 85%;
+    width: 100%;
     border-collapse: separate;
+}
+
+.topLeftBottomBorder {
+    border-top: 1px solid #C3BBB6;
     border-left: 1px solid #C3BBB6;
     border-bottom: 1px solid #C3BBB6;
+}
+
+.rightBorder{
+    border-right: 1px solid #C3BBB6;
+}
+
+.alignCenter {
+    text-align: center;
+}
+
+.alignRight {
+    text-align: right;
+}
+
+.alignLeft {
+    text-align: left;
 }
 
 .datatable .rowOdd {
@@ -509,61 +450,50 @@ a:visited {
     background: #fff url(../img/th.bg.gif) 0 0 repeat-x;
     text-align: center;
     padding: 2px;
-    border-top: 1px solid #C3BBB6;
-    border-right: 1px solid #C3BBB6;
+    padding-left: 5px;
+    padding-right: 5px;
     font-weight: bold;
 }
 
 .datatable .regularHeader {
     white-space: nowrap;
     background: #fff url(../img/th.bg.gif) 0 0 repeat-x;
-    text-align: center;
     padding: 2px;
-    border-top: 1px solid #C3BBB6;
-    border-right: 1px solid #C3BBB6;
+    padding-left: 5px;
+    padding-right: 5px;
     font-weight: bold;
 }
 
 .datatable .defaultColumn {
     padding-left: 10px;
     padding-right: 10px;
-    text-align: left;
     white-space: nowrap;
-    border-right: 1px solid #C3BBB6;
 }
 
 .datatable .onePercentColumn{
     width: 1%;
     padding-left: 10px;
     padding-right: 10px;
-    text-align: left;
     white-space: nowrap;
-    border-right: 1px solid #C3BBB6;
 }
 
 .datatable .fivePercentColumn {
     width: 5%;
     padding-left: 10px;
     padding-right: 10px;
-    text-align: left;
     white-space: nowrap;
-    border-right: 1px solid #C3BBB6;
 }
 .datatable .tenPercentColumn {
     width: 10%;
     padding-left: 10px;
     padding-right: 10px;
-    text-align: left;
     white-space: nowrap;
-    border-right: 1px solid #C3BBB6;
 }
 .datatable .twentyPercentColumn {
     width: 20%;
     padding-left: 10px;
     padding-right: 10px;
-    text-align: left;
     white-space: nowrap;
-    border-right: 1px solid #C3BBB6;
 }
 
 .pager {

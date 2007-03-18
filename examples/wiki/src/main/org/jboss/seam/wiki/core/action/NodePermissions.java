@@ -5,8 +5,12 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.wiki.core.model.Node;
-import org.jboss.seam.wiki.core.dao.UserDAO;
+import org.jboss.seam.wiki.core.model.Role;
+import org.jboss.seam.wiki.core.dao.UserRoleAccessFactory;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Component;
+
+import java.util.List;
 
 @Name("nodePermissions")
 @Scope(ScopeType.CONVERSATION)
@@ -15,36 +19,48 @@ public class NodePermissions {
     @In
     Node currentNode;
 
-    private org.jboss.seam.wiki.core.model.Role writableByRole;
-    private org.jboss.seam.wiki.core.model.Role readableByRole;
-
-    @In
-    private UserDAO userDAO;
+    private Role.AccessLevel writeAccessLevel;
+    private Role.AccessLevel readAccessLevel;
 
     @Create
     public void setCurrentNodePermissions() {
+
         // Set permission defaults
-        writableByRole = userDAO.findRole(currentNode.getWriteAccessLevel());
-        readableByRole = userDAO.findRole(currentNode.getReadAccessLevel());
+        List<Role.AccessLevel> accessLevelsList =
+                (List<Role.AccessLevel>) Component.getInstance("accessLevelsList");
+
+        writeAccessLevel = accessLevelsList.get(
+            accessLevelsList.indexOf(
+                new Role.AccessLevel(currentNode.getWriteAccessLevel())
+            )
+        );
+        readAccessLevel = accessLevelsList.get(
+            accessLevelsList.indexOf(
+                new Role.AccessLevel(currentNode.getReadAccessLevel())
+            )
+        );
     }
 
-    public org.jboss.seam.wiki.core.model.Role getWritableByRole() {
-        return writableByRole;
+    public Role.AccessLevel getWriteAccessLevel() {
+        return writeAccessLevel;
     }
 
-    public void setWritableByRole(org.jboss.seam.wiki.core.model.Role writableByRole) {
-        this.writableByRole = writableByRole;
-        currentNode.setWriteAccessLevel(writableByRole != null ? writableByRole.getAccessLevel() : 1000);
+    public void setWriteAccessLevel(Role.AccessLevel writeAccessLevel) {
+        this.writeAccessLevel = writeAccessLevel;
+        currentNode.setWriteAccessLevel(
+            writeAccessLevel != null ? writeAccessLevel.getAccessLevel() : UserRoleAccessFactory.ADMINROLE_ACCESSLEVEL
+        );
     }
 
-    public org.jboss.seam.wiki.core.model.Role getReadableByRole() {
-        return readableByRole;
+    public Role.AccessLevel getReadAccessLevel() {
+        return readAccessLevel;
     }
 
-    public void setReadableByRole(org.jboss.seam.wiki.core.model.Role readableByRole) {
-        this.readableByRole = readableByRole;
-        currentNode.setReadAccessLevel(readableByRole != null ? readableByRole.getAccessLevel() : 1000);
+    public void setReadAccessLevel(Role.AccessLevel readAccessLevel) {
+        this.readAccessLevel = readAccessLevel;
+        currentNode.setReadAccessLevel(
+            readAccessLevel != null ? readAccessLevel.getAccessLevel() : UserRoleAccessFactory.ADMINROLE_ACCESSLEVEL
+        );
     }
-
 
 }

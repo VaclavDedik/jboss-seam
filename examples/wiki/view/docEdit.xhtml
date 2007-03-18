@@ -1,3 +1,4 @@
+
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
@@ -7,6 +8,7 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:a="https://ajax4jsf.dev.java.net/ajax"
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
+                xmlns:rich="http://richfaces.ajax4jsf.org/rich"
                 template="themes/#{globalPrefs.themeName}/template.xhtml">
 
 <ui:define name="pluginHeaders">
@@ -26,17 +28,15 @@
 
 <ui:define name="headerBottomLeft">&#160;</ui:define>
 
-<ui:define name="headerBottomRight">
-    <ui:include src="plugins/searchControl/plugin.xhtml"/>
-</ui:define>
-
 <ui:define name="sidebar">
+    <ui:include src="plugins/searchControl/plugin.xhtml"/>
     <ui:include src="plugins/mainMenu/plugin.xhtml"/>
 </ui:define>
 
 <ui:define name="controlRight">
 
-    <s:link id="uploadFile" styleClass="linkNavigation" action="uploadFile" accesskey="U"><u>U</u>pload File</s:link>
+    <s:link id="uploadFile" styleClass="linkNavigation" action="uploadFile" accesskey="U"
+            rendered="#{s:hasPermission('Node', 'create', documentHome.parentDirectory)}"><u>U</u>pload File</s:link>
 
     <s:link id="exit" styleClass="linkNavigation"
             action="#{documentHome.exitConversation(true)}"
@@ -46,6 +46,7 @@
 <ui:define name="content">
 
     <h:form>
+
         <div class="form">
             <div class="formHead">
                 <h:outputText value="New document: #{documentHome.instance.name}" rendered="#{!documentHome.managed}"/>
@@ -67,29 +68,7 @@
                         </div>
                     </s:div>
 
-                    <s:div styleClass="entry">
-                        <div class="label">Writable by:</div>
-                        <div class="input">
-                            <h:selectOneMenu value="#{nodePermissions.writableByRole}" tabindex="1">
-                                <s:selectItems value="#{roles}"
-                                               var="role"
-                                               label="Role: #{role.displayName} (Level: #{role.accessLevel})"
-                                               noSelectionLabel="User: #{authenticatedUser.username}"/>
-                            </h:selectOneMenu>
-                        </div>
-                    </s:div>
-
-                    <s:div styleClass="entry">
-                        <div class="label">Readable by:</div>
-                        <div class="input">
-                            <h:selectOneMenu value="#{nodePermissions.readableByRole}" tabindex="2">
-                                <s:selectItems value="#{roles}"
-                                               var="role"
-                                               label="Role: #{role.displayName} (Level: #{role.accessLevel})"
-                                               noSelectionLabel="User: #{authenticatedUser.username}"/>
-                            </h:selectOneMenu>
-                        </div>
-                    </s:div>
+                    <ui:include src="includes/accessLevelSelector.xhtml"/>
 
                     <s:decorate>
                         <div class="entry">
@@ -154,9 +133,9 @@
                                    rendered="#{documentHome.managed}"
                                    tabindex="5" accesskey="U" styleClass="button"><span class="buttonLabel"><u>U</u>pdate</span></h:commandLink>
 
-                        <h:commandLink id="delete" action="#{documentHome.remove}"
-                                       rendered="#{documentHome.managed}"
-                                       tabindex="6" accesskey="D" styleClass="button"><span class="buttonLabel"><u>D</u>elete</span></h:commandLink>
+                        <h:outputLink id="delete" value="javascript:Richfaces.showModalPanel('deleteConfirmation',{})"
+                                      rendered="#{documentHome.managed}"
+                                      tabindex="6" accesskey="D" styleClass="button"><span class="buttonLabel"><u>D</u>elete</span></h:outputLink>
 
                     </div>
                 </div>
@@ -164,8 +143,22 @@
             </div>
 
         </div>
+
     </h:form>
-     
+
+    <ui:decorate template="includes/confirmationModalDialog.xhtml">
+        <ui:param name="confirmationModalDialogId" value="deleteConfirmation"/>
+        <ui:define name="confirmationText">
+            <p>Are you sure you want to delete the document '#{documentHome.instance.name}'?</p>
+        </ui:define>
+        <ui:define name="confirmationOption">
+            <h:commandLink id="delete" action="#{documentHome.remove}"
+                           accesskey="O" styleClass="button">
+                <span class="buttonLabel"><u>O</u>k</span>
+            </h:commandLink>
+        </ui:define>
+    </ui:decorate>
+
     <s:div styleClass="documentDisplay" id="preview">
         <wiki:formattedText value="#{documentHome.instance.content}"
                             linkStyleClass="regularLink"

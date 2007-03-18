@@ -6,7 +6,7 @@ import javax.persistence.*;
 @DiscriminatorValue("DIRECTORY")
 public class Directory extends Node {
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "DEFAULT_DOCUMENT_ID", nullable = true)
     private Document defaultDocument;
 
@@ -18,6 +18,13 @@ public class Directory extends Node {
 
     // Mutable properties
 
+    /**
+     * Careful calling this, it always returns the assigned Document, even if
+     * the user has a lower access level. Hibernate filters don't filter many-to-one
+     * because if we have the id, we get the instance.
+     *
+     * @return Document The assigned default starting document of this directory
+     */
     public Document getDefaultDocument() {
         return defaultDocument;
     }

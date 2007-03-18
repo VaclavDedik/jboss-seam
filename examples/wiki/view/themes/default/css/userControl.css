@@ -12,10 +12,11 @@
 }
 
 #userControl .userControlInput {
-    border: 1px solid #C3BBB6;
     background: #fff url(../img/input.bg.gif) 0 0 no-repeat;
     font-size: 75%;
     padding: 1px;
+    margin: 0;
+    border: 0;
     font-family: Andale Mono, Courier New, monospace;
 }
 

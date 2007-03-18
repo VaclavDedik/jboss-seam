@@ -22,11 +22,8 @@
 
 <ui:define name="headerBottomLeft">&#160;</ui:define>
 
-<ui:define name="headerBottomRight">
-    <ui:include src="plugins/searchControl/plugin.xhtml"/>
-</ui:define>
-
 <ui:define name="sidebar">
+    <ui:include src="plugins/searchControl/plugin.xhtml"/>
     <ui:include src="plugins/mainMenu/plugin.xhtml"/>
 </ui:define>
 
@@ -128,9 +125,13 @@
         <h:dataTable id="userTable" var="u"
                      value="#{usersList}"
                      rendered="#{usersList.rowCount >0}"
-                     styleClass="datatable"
-                     headerClass="sortableHeader"
-                     columnClasses="twentyPercentColumn,twentyPercentColumn,twentyPercentColumn,defaultColumn,defaultColumn"
+                     styleClass="datatable topLeftBottomBorder"
+                     headerClass="sortableHeader rightBorder"
+                     columnClasses="tenPercentColumn rightBorder alignLeft,
+                                    twentyPercentColumn rightBorder alignLeft,
+                                    twentyPercentColumn rightBorder alignLeft,
+                                    twentyPercentColumn rightBorder alignLeft,
+                                    defaultColumn rightBorder alignCenter"
                      rowClasses="rowOdd,rowEven"
                      cellpadding="0" cellspacing="0" border="0">
 
@@ -144,9 +145,8 @@
                         Username
                     </h:commandLink>
                 </f:facet>
-                <s:link view="/userAccount.xhtml" value="#{u.username}" tabindex="13" propagation="nest">
-                    <f:param name="userId" value="#{u.id}"/>
-                </s:link>
+                <h:outputLink value="#{wiki:renderHomeURL(u)}" rendered="#{!empty u.memberHome}">#{u.username}</h:outputLink>
+                <h:outputText rendered="#{empty u.memberHome}">#{u.username}</h:outputText>
             </h:column>
 
             <h:column>
@@ -201,6 +201,10 @@
                 <h:outputText value="#{u.createdOn}">
                     <f:convertDateTime type="both"/>
                 </h:outputText>
+            </h:column>
+
+            <h:column>
+                Action
             </h:column>
 
         </h:dataTable>

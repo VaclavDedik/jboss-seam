@@ -2,21 +2,26 @@ package org.jboss.seam.wiki.core.action;
 
 
 import org.jboss.seam.annotations.*;
+import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Renderer;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.wiki.core.dao.UserDAO;
 import org.jboss.seam.wiki.core.model.*;
+import org.jboss.seam.wiki.core.model.Role;
 import org.jboss.seam.wiki.util.Hash;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.contexts.Contexts;
 
 import javax.faces.application.FacesMessage;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.List;
 
 @Name("userHome")
+@Scope(ScopeType.CONVERSATION)
 public class UserHome extends EntityHome<User> {
 
     @RequestParameter
@@ -29,17 +34,10 @@ public class UserHome extends EntityHome<User> {
     private UserDAO userDAO;
 
     @In
-    private NodeBrowser browser;
-
-    @In
     private Hash hashUtil;
 
     @In
     private GlobalPreferences globalPrefs;
-
-    @In(required = false)
-    @Out(required = false, scope = ScopeType.SESSION)
-    private User authenticatedUser;
 
     @In
     private Renderer renderer;
@@ -49,6 +47,7 @@ public class UserHome extends EntityHome<User> {
     private String oldUsername;
     private String password;
     private String passwordControl;
+    private List<Role> roles;
 
     @Override
     public Object getId() {
@@ -64,10 +63,9 @@ public class UserHome extends EntityHome<User> {
     public void create() {
         super.create();
 
-        defaultRole = userDAO.findRole(globalPrefs.getNewUserInRole());
-        if (defaultRole == null) throw new RuntimeException("Default role for new users not configured");
-
+        defaultRole = (Role)Component.getInstance("newUserDefaultRole");
         oldUsername = getInstance().getUsername();
+        if (isManaged()) roles = getInstance().getRoles();
     }
 
     // TODO: Typical exit method to get out of a root or nested conversation, JBSEAM-906
@@ -80,6 +78,7 @@ public class UserHome extends EntityHome<User> {
             // End this root conversation
             currentConversation.end();
             // Return to the view-id that was captured when this conversation started
+            NodeBrowser browser = (NodeBrowser) Component.getInstance("browser");
             if (endBeforeRedirect)
                 browser.redirectToLastBrowsedPage();
             else
@@ -103,7 +102,7 @@ public class UserHome extends EntityHome<User> {
         }
 
         // Assign default role
-        getInstance().addRole(defaultRole);
+        getInstance().getRoles().add(defaultRole);
 
         // Set password hash
         getInstance().setPasswordHash(hashUtil.hash(getPassword()));
@@ -116,6 +115,7 @@ public class UserHome extends EntityHome<User> {
         if (outcome != null) {
 
             try {
+
                 // Send confirmation email
                 renderer.render("/themes/" + globalPrefs.getThemeName() + "/mailtemplates/confirmationRegistration.xhtml");
 
@@ -126,9 +126,17 @@ public class UserHome extends EntityHome<User> {
                     "A confirmation e-mail has been sent to '" + getInstance().getEmail() + "'. " +
                     "Please read this e-mail to activate your account.");
 
+                /* For debugging
+                facesMessages.addFromResourceBundleOrDefault(
+                    FacesMessage.SEVERITY_INFO,
+                    getMessageKeyPrefix() + "confirmationEmailSent",
+                    "Activiate account: confirmRegistration.seam?activationCode=" + getInstance().getActivationCode());
+                */
+
                 exitConversation(false);
 
             } catch (Exception ex) {
+                ex.printStackTrace(System.out);
                 facesMessages.add(FacesMessage.SEVERITY_ERROR, "Couldn't send confirmation email: " + ex.getMessage());
                 return "error";
             }
@@ -137,12 +145,16 @@ public class UserHome extends EntityHome<User> {
         return outcome;
     }
 
-
+    @Restrict("#{s:hasPermission('User', 'edit', userHome.instance)}")
     public String update() {
 
         // Validate
         if (!isUniqueUsername())
                 return null;
+
+        // Roles
+        getInstance().getRoles().clear();
+        getInstance().getRoles().addAll(roles);
 
         boolean loginCredentialsModified = false;
 
@@ -170,9 +182,10 @@ public class UserHome extends EntityHome<User> {
         String outcome = super.update();
         if (outcome != null) {
 
-            if (authenticatedUser != null && getInstance().getId().equals(authenticatedUser.getId())) {
+            User currentUser = (User)Component.getInstance("currentUser");
+            if (getInstance().getId().equals(currentUser.getId())) {
                 // Updated profile of currently logged-in user
-                authenticatedUser = getInstance();
+                Contexts.getSessionContext().set("currentUser", getInstance());
 
                 // TODO: If identity.logout() wouldn't kill my session, I could call it here...
                 // And I don't have cleartext password in all cases, so I can't relogin the user automatically
@@ -220,6 +233,9 @@ public class UserHome extends EntityHome<User> {
     public String getPasswordControl() { return passwordControl; }
     public void setPasswordControl(String passwordControl) { this.passwordControl = passwordControl; }
 
+    public List<Role> getRoles() { return roles; }
+    @Restrict("#{s:hasPermission('User', 'editRoles', currentUser)}")
+    public void setRoles(List<Role> roles) { this.roles = roles; }
 
     // Validation rules for persist(), update(), and remove();
 
@@ -268,8 +284,8 @@ public class UserHome extends EntityHome<User> {
     @Transactional
     private boolean isUniqueUsername() {
         getEntityManager().joinTransaction();
-        User foundUser = userDAO.findUser(getInstance().getUsername(), false);
-        if ( foundUser != null && foundUser != getInstance()) {
+        User foundUser = userDAO.findUser(getInstance().getUsername(), false, false);
+        if ( foundUser != null && foundUser != getInstance() ) {
             facesMessages.addToControlFromResourceBundleOrDefault(
                 "username",
                 FacesMessage.SEVERITY_ERROR,

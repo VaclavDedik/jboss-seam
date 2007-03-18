@@ -28,16 +28,20 @@ public class UserDAO {
     @In
     protected EntityManager entityManager;
 
-    public User findUser(String username, boolean onlyActivated) {
+    public User findUser(String username, boolean onlyActivated, boolean caseSensitive) {
         entityManager.joinTransaction();
 
-        StringBuffer query = new StringBuffer("select u from User u where u.username = :username");
+        StringBuffer query = new StringBuffer("select u from User u where");
+        if (caseSensitive)
+            query.append(" u.username = :username");
+        else
+            query.append(" lower(u.username) = :username");
         if (onlyActivated) query.append(" and u.activated = true");
 
         try {
             return (User) entityManager
                     .createQuery(query.toString())
-                    .setParameter("username", username)
+                    .setParameter("username", caseSensitive ? username : username.toLowerCase())
                     .getSingleResult();
         } catch (EntityNotFoundException ex) {
         } catch (NoResultException ex) {
@@ -58,39 +62,6 @@ public class UserDAO {
         } catch (NoResultException ex) {
         }
         return null;
-    }
-
-    public Role findRole(String rolename) {
-        entityManager.joinTransaction();
-
-        try {
-            return (Role) entityManager
-                    .createQuery("select r from Role r where r.name = :name")
-                    .setParameter("name", rolename)
-                    .getSingleResult();
-        } catch (EntityNotFoundException ex) {
-        } catch (NoResultException ex) {
-        }
-        return null;
-    }
-
-    public Role findRole(int accessLevel) {
-        entityManager.joinTransaction();
-
-        try {
-            return (Role) entityManager
-                    .createQuery("select r from Role r where r.accessLevel = :accessLevel")
-                    .setParameter("accessLevel", accessLevel)
-                    .getSingleResult();
-        } catch (EntityNotFoundException ex) {
-        } catch (NoResultException ex) {
-        }
-        return null;
-    }
-
-    public Role findRole(Long roleId) {
-        entityManager.joinTransaction();
-        return entityManager.find(Role.class, roleId);
     }
 
     public List<User> findByExample(User exampleUser, String orderByProperty, boolean orderDescending,

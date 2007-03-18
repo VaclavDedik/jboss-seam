@@ -1,10 +1,6 @@
 package org.jboss.seam.wiki.core.ui;
 
 import org.jboss.seam.wiki.core.model.File;
-import org.jboss.seam.util.Transactions;
-import org.jboss.seam.core.Expressions;
-import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.annotations.In;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -12,8 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.ServletException;
 import javax.swing.*;
-import javax.transaction.UserTransaction;
-import javax.persistence.EntityManager;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -58,9 +52,10 @@ public class FileServlet extends HttpServlet {
         if (DOWNLOAD_PATH.equals(request.getPathInfo())) {
 
             String id = request.getParameter("fileId");
-            File file;
+            File file = null;
 
             // TODO: Seam should use its transaction interceptor for java beans: http://jira.jboss.com/jira/browse/JBSEAM-957
+            /* Disabled because I can't get the restrictedEntityManager here, need to implement workaround
             UserTransaction userTx = null;
             boolean startedTx = false;
             try {
@@ -70,7 +65,7 @@ public class FileServlet extends HttpServlet {
                     userTx.begin();
                 }
 
-                EntityManager em = ((EntityManager)org.jboss.seam.Component.getInstance("entityManager"));
+                EntityManager em = ((EntityManager)org.jboss.seam.Component.getInstance("restrictedEntityManager"));
                 em.joinTransaction();
 
                 file = (!"".equals(id)) ? em.find(File.class, Long.parseLong(id)) : null;
@@ -84,6 +79,7 @@ public class FileServlet extends HttpServlet {
                 }
                 throw new RuntimeException(ex);
             }
+            */
 
             String contentType = null;
             byte[] data = null;
@@ -97,7 +93,7 @@ public class FileServlet extends HttpServlet {
                 data = noImage;
             }
 
-            if (data != null) {
+            if (file != null && data != null) {
                 response.setContentType(contentType);
 
                 boolean rescale = false;

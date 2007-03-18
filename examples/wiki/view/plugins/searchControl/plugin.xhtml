@@ -6,10 +6,10 @@
      xmlns:s="http://jboss.com/products/seam/taglib">
 
     <h:form>
-        <h:panelGroup>
+        <h:panelGroup styleClass="searchControlTable">
             <h:inputText styleClass="searchControlInput" id="searchControlSearchString" value="Search..."
                          onclick="clickClear(this, 'Search...')" onblur="clickRecall(this, 'Search...')"
-                         size="25" tabindex="60"/>
+                         size="15" maxlength="255" tabindex="60"/>
             <h:commandLink styleClass="searchControlLink" tabindex="61" accesskey="F"><u>F</u>ind</h:commandLink>
         </h:panelGroup>
 

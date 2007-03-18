@@ -47,8 +47,9 @@ public class WikiLinkResolver {
 
     // Only injected during rendering of a document, for updating of resolved links
     @In(required = false) private Document currentDocument;
-    @In(required = false) private Directory currentDirectory;
 
+    // Always needed for resolving (is current area)
+    @In private Directory currentDirectory;
 
     public String convertToWikiLinks(Directory area, String wikiText) {
         if (wikiText == null) return null;

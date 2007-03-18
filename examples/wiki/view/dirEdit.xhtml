@@ -6,6 +6,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
+                xmlns:rich="http://richfaces.ajax4jsf.org/rich"
                 template="themes/#{globalPrefs.themeName}/template.xhtml">
 
 <ui:define name="pluginHeaders">
@@ -25,11 +26,8 @@
 
 <ui:define name="headerBottomLeft">&#160;</ui:define>
 
-<ui:define name="headerBottomRight">
-    <ui:include src="plugins/searchControl/plugin.xhtml"/>
-</ui:define>
-
 <ui:define name="sidebar">
+    <ui:include src="plugins/searchControl/plugin.xhtml"/>
     <ui:include src="plugins/mainMenu/plugin.xhtml"/>
 </ui:define>
 
@@ -50,7 +48,7 @@
                   rendered="#{directoryHome.managed}"/>
 </div>
 
-<div class="formFields">
+<div class="formFieldsWideLabels">
 
     <s:validateAll>
 
@@ -81,43 +79,33 @@
             </div>
         </s:decorate>
 
-
-        <s:div styleClass="entry">
-            <div class="label">Writable by:</div>
-            <div class="input">
-                <h:selectOneMenu value="#{nodePermissions.writableByRole}" tabindex="1">
-                    <s:selectItems value="#{roles}"
-                                   var="role"
-                                   label="Role: #{role.displayName} (Level: #{role.accessLevel})"
-                                   noSelectionLabel="User: #{authenticatedUser.username}"/>
-                </h:selectOneMenu>
-            </div>
-        </s:div>
-
-        <s:div styleClass="entry">
-            <div class="label">Readable by:</div>
-            <div class="input">
-                <h:selectOneMenu value="#{nodePermissions.readableByRole}" tabindex="2">
-                    <s:selectItems value="#{roles}"
-                                   var="role"
-                                   label="Role: #{role.displayName} (Level: #{role.accessLevel})"
-                                   noSelectionLabel="User: #{authenticatedUser.username}"/>
-                </h:selectOneMenu>
-            </div>
-        </s:div>
+        <ui:include src="includes/accessLevelSelector.xhtml"/>
 
     </s:validateAll>
 
-    <s:div styleClass="entry" rendered="#{childNodes.rowCount>0}">
-        <div class="label">Content:</div>
+    <s:div styleClass="entry">
+        <div class="label">Default document:</div>
         <div class="input">
-            <h:dataTable id="directoryFormTable" var="node" width="75%" style="border-width: 1px;"
+            <h:selectOneMenu value="#{directoryHome.instance.defaultDocument}" converter="#{restrictedEntityConverter}" tabindex="2">
+                <s:selectItems value="#{directoryHome.childDocuments}"
+                               var="document"
+                               label="#{document.name}"
+                               noSelectionLabel="No default document"/>
+            </h:selectOneMenu>
+        </div>
+    </s:div>
+
+    <s:div styleClass="entry"
+           rendered="#{childNodes.rowCount>0 and s:hasPermission('Node', 'editMenu', directoryHome.instance)}">
+        <div class="label">Menu items:</div>
+        <div class="input">
+            <h:dataTable id="directoryFormTable" var="node" style="width:60%"
                          value="#{childNodes}"
                          binding="#{wikiUtil.datatable}"
-                         styleClass="directoryList"
-                         headerClass="directoryListHeader"
-                         columnClasses="positionUpColumn,positionDownColumn,menuControlColumn,defaultDocumentSelectColumn,iconColumn,nameColumn"
-                         rowClasses="rowOdd,rowEven"
+                         styleClass="datatable"
+                         columnClasses="onePercentColumn alignCenter, onePercentColumn alignCenter, onePercentColumn alignCenter,
+                                        onePercentColumn alignCenter, defaultColumn alignLeft"
+                         rowClasses="rowEven,rowOdd"
                          cellpadding="0" cellspacing="0" border="0">
 
                 <h:column>
@@ -127,6 +115,7 @@
                         <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/up.gif" width="18" height="18"/>
                     </h:commandLink>
                 </h:column>
+
                 <h:column>
                     <h:commandLink id="nodeDown" tabindex="2"
                                    action="#{directoryHome.moveNodeDownInList}"
@@ -136,26 +125,7 @@
                 </h:column>
 
                 <h:column>
-                    <f:facet name="header">
-                        Menu Item
-                    </f:facet>
                     <h:selectBooleanCheckbox value="#{node.menuItem}" tabindex="3"/>
-                </h:column>
-
-                <h:column>
-                    <f:facet name="header">
-                        Start Document
-                    </f:facet>
-                    <h:commandLink id="defaultDocument" tabindex="4"
-                                   action="#{directoryHome.selectDefaultDocument}"
-                                   rendered="#{directoryHome.instance.defaultDocument != node and wiki:isDocument(node)}">
-                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/right.gif" width="18" height="18"/>
-                    </h:commandLink>
-
-                    <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/check.gif" width="18" height="18"
-                                    rendered="#{directoryHome.instance.defaultDocument == node}"/>
-
-                    <h:outputText value="-" rendered="#{node.class.simpleName == 'Directory'}"/>
                 </h:column>
 
                 <h:column>
@@ -165,6 +135,13 @@
                     <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/icon.doc.gif"
                                     width="18" height="20"
                                     rendered="#{wiki:isDocument(node)}"/>
+
+                    <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/#{fileMetaMap[node.contentType].displayIcon}"
+                                    width="18" height="20"
+                                    rendered="#{wiki:isFile(node) and !empty fileMetaMap[node.contentType]}"/>
+                    <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/#{fileMetaMap['generic'].displayIcon}"
+                                    width="18" height="20"
+                                    rendered="#{wiki:isFile(node) and empty fileMetaMap[node.contentType]}"/>
                 </h:column>
 
                 <h:column>
@@ -184,9 +161,9 @@
 
             <h:commandLink id="preview" styleClass="buttonNonpersistent"
                            action="#{directoryHome.previewMenuItems()}"
-                           rendered="#{childNodes.rowCount>0}"
+                           rendered="#{childNodes.rowCount>0 and s:hasPermission('Node', 'editMenu', directoryHome.instance)}"
                            tabindex="5" accesskey="P"><span class="buttonLabel"><u>P</u>review</span></h:commandLink>
-
+            
             <h:commandLink id="save" styleClass="button"
                            action="#{directoryHome.persist}"
                            rendered="#{!directoryHome.managed}"
@@ -197,13 +174,11 @@
                            rendered="#{directoryHome.managed}"
                            tabindex="7" accesskey="U"><span class="buttonLabel"><u>U</u>pdate</span></h:commandLink>
 
-            <h:commandLink id="delete" styleClass="button"
-                           action="#{directoryHome.remove}"
-                           rendered="#{directoryHome.managed
-                                      and !empty directoryHome.instance.parent
-                                      and empty directoryHome.instance.children}"
-                           tabindex="8" accesskey="D"><span class="buttonLabel"><u>D</u>elete</span></h:commandLink>
-
+            <h:outputLink id="delete" value="javascript:Richfaces.showModalPanel('deleteConfirmation',{})"
+                          rendered="#{directoryHome.managed
+                                     and !empty directoryHome.instance.parent
+                                     and empty directoryHome.instance.children}"
+                          tabindex="8" accesskey="D" styleClass="button"><span class="buttonLabel"><u>D</u>elete</span></h:outputLink>
         </div>
     </div>
 
@@ -211,6 +186,19 @@
 
 </div>
 </h:form>
+
+<ui:decorate template="includes/confirmationModalDialog.xhtml">
+    <ui:param name="confirmationModalDialogId" value="deleteConfirmation"/>
+    <ui:define name="confirmationText">
+        <p>Are you sure you want to delete the directory '#{directoryHome.instance.name}'?</p>
+    </ui:define>
+    <ui:define name="confirmationOption">
+        <h:commandLink id="delete" action="#{directoryHome.remove}"
+                       accesskey="O" styleClass="button">
+            <span class="buttonLabel"><u>O</u>k</span>
+        </h:commandLink>
+    </ui:define>
+</ui:decorate>
 
 </ui:define>
 

@@ -1,58 +1,82 @@
+/**
+    TODO: THIS IS CURRENTLY NOT USED!
+
+    We are not using entity security. The problem with entity security is that UPDATEs might
+    happen even if a guest just renders a document (Wiki links are resolved). So we'd need quite
+    complex rules to really restrict access on an entity level. Easy way out is to just restrict
+    the @Create method access of the manager components and the persist(), update(), and insert()
+    operations for any further checks after a manager component was created.
+*/
+
 package Permissions;
 
 import java.security.Principal;
 
 import org.jboss.seam.security.PermissionCheck;
-import org.jboss.seam.security.Role;
 
-rule AdminIsAMember
-  salience 10
-  no-loop
+import org.jboss.seam.wiki.core.model.Node;
+import org.jboss.seam.wiki.core.model.Document;
+import org.jboss.seam.wiki.core.model.Directory;
+import org.jboss.seam.wiki.core.model.File;
+import org.jboss.seam.wiki.core.model.User;
+import org.jboss.seam.wiki.core.model.Role;
+
+/**
+    User either needs to have the access level of the parent directory
+    or the user is the creator of the parent directory
+*/
+rule RestrictNodeCreateAccess
+    no-loop;
+    activation-group "permissions"
 when
-  Role(name == "admin")
-  not Role(name == "member")
+    c: PermissionCheck(name == "Node", action == "create");
+    Directory(dirWriteAcccessLevel : writeAccessLevel, dirCreator : createdBy)
+
+    Role(userAccessLevel : accessLevel -> (userAccessLevel.intValue() >= dirWriteAcccessLevel.intValue()) )
+    or
+    User(authenticatedUserId : id -> (dirCreator.getId().equals(authenticatedUserId)) )
 then
-  assert(new Role("member"));
+    c.grant();
+    modify(c);
 end;
 
-rule AdminIsAGuest
-  salience 10
-  no-loop
+/**
+    User either needs to have the access level of the edited node or has to be the creator
+*/
+rule RestrictNodeEditAccess
+    no-loop;
+    activation-group "permissions"
 when
-  Role(name == "admin")
-  not Role(name == "guest")
+    c: PermissionCheck(name == "Node", action == "edit");
+
+    Node(nodeWriteAccessLevel : writeAccessLevel, nodeCreator : createdBy)
+
+    Role(userAccessLevel : accessLevel -> (userAccessLevel.intValue() >= nodeWriteAccessLevel.intValue()) )
+    or
+    User(authenticatedUserId : id -> (nodeCreator.getId().equals(authenticatedUserId)) )
+
 then
-  assert(new Role("guest"));
+    c.grant();
+    modify(c);
 end;
 
-rule MemberIsAGuest
-  salience 10
-  no-loop
+/**
+    User can't persist or update a node and assign a higher access level than he has, unless he is the creator
+*/
+rule RestrictRaiseAccessLevel
+    no-loop;
+    activation-group "permissions"
 when
-  Role(name == "member")
-  not Role(name == "guest")
+    c: PermissionCheck(name == "Node", action == "changeAccessLevel");
+
+    Node(desiredWriteAccessLevel : writeAccessLevel, desiredReadAccessLevel : readAccessLevel, nodeCreator : createdBy)
+/* TODO: Drools is broken, http://jira.jboss.com/jira/browse/JBSEAM-1020 */
+    Role(userAccessLevel : accessLevel -> (desiredReadAccessLevel.intValue() <= userAccessLevel.intValue() && desiredWriteAccessLevel.intValue() <= userAccessLevel.intValue()) )
+    or
+    User(authenticatedUserId : id -> (nodeCreator == null || nodeCreator.getId().equals(authenticatedUserId)) )
+
 then
-  assert(new Role("guest"));
+    c.grant();
+    modify(c);
 end;
 
-rule RestrictDocumentEditPage
-  no-loop
-  activation-group "permissions"
-when
-  c: PermissionCheck(name == "/docEdit.xhtml", action == "render", granted == false)
-  Role(name == "member")
-then
-  c.grant();
-  modify(c);
-end;
-
-rule RestrictDirectoryEditPage
-  no-loop
-  activation-group "permissions"
-when
-  c: PermissionCheck(name == "/dirEdit.xhtml", action == "render", granted == false)
-  Role(name == "admin")
-then
-  c.grant();
-  modify(c);
-end;

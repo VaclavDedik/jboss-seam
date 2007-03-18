@@ -25,8 +25,8 @@
     <s:div rendered="#{identity.loggedIn}">
         <h:form>
             <h:panelGroup>
-                <h:outputText styleClass="userControlLabel" value="(#{authenticatedUser.firstname} #{authenticatedUser.lastname})"/>
-                <h:commandLink styleClass="userControlLink" action="#{identity.logout}" tabindex="70">Logout</h:commandLink>
+                <h:outputText styleClass="userControlLabel" value="(#{currentUser.firstname} #{currentUser.lastname})"/>
+                <h:commandLink styleClass="userControlLink" action="#{authenticator.logout}" tabindex="70">Logout</h:commandLink>
                 <s:link styleClass="userControlLink" action="editCurrentUser" tabindex="71">Profile</s:link>
                 <s:link styleClass="userControlLink" action="listUsers" tabindex="72" accesskey="M"><u>M</u>embers</s:link>
             </h:panelGroup>

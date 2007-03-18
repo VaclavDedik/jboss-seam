@@ -5,29 +5,34 @@
          version="2.4">
 
     <!-- Ajax4jsf (must come first!) -->
-    
+
     <filter>
         <display-name>Ajax4jsf Filter</display-name>
         <filter-name>ajax4jsf</filter-name>
         <filter-class>org.ajax4jsf.Filter</filter-class>
     </filter>
-    
+
     <filter-mapping>
         <filter-name>ajax4jsf</filter-name>
         <url-pattern>*.seam</url-pattern>
     </filter-mapping>
-    
+
     <context-param>
         <param-name>org.ajax4jsf.VIEW_HANDLERS</param-name>
         <param-value>org.jboss.seam.ui.facelet.SeamFaceletViewHandler</param-value>
     </context-param>
-    
+
+    <context-param>
+        <param-name>org.ajax4jsf.SKIN</param-name>
+        <param-value>wiki</param-value>
+    </context-param>
+
     <!-- Seam -->
-    
+
    <listener>
       <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
    </listener>
-    
+
     <filter>
         <filter-name>Seam Filter</filter-name>
         <filter-class>org.jboss.seam.web.SeamFilter</filter-class>
@@ -37,17 +42,17 @@
         <filter-name>Seam Filter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-        
+
    <servlet>
       <servlet-name>Seam Resource Servlet</servlet-name>
       <servlet-class>org.jboss.seam.servlet.ResourceServlet</servlet-class>
    </servlet>
-    
+
    <servlet-mapping>
       <servlet-name>Seam Resource Servlet</servlet-name>
       <url-pattern>/seam/resource/*</url-pattern>
    </servlet-mapping>
-   
+
    <!-- URL Rewrite -->
 
    <filter>
@@ -66,27 +71,27 @@
         <filter-name>UrlRewriteFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-   
-   <!-- MyFaces -->   
+
+   <!-- MyFaces -->
 
    <listener>
       <listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>
    </listener>
-   
+
    <!-- Facelets development mode (disable in production) -->
-   
+
    <context-param>
       <param-name>facelets.DEVELOPMENT</param-name>
-      <param-value>true</param-value>
+      <param-value>false</param-value>
    </context-param>
-    
+
    <!-- JSF -->
-    
+
    <context-param>
       <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
       <param-value>client</param-value>
    </context-param>
-    
+
    <context-param>
       <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
       <param-value>.xhtml</param-value>
@@ -97,13 +102,13 @@
       <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
       <load-on-startup>1</load-on-startup>
    </servlet>
-    
+
    <servlet-mapping>
       <servlet-name>Faces Servlet</servlet-name>
       <url-pattern>*.seam</url-pattern>
    </servlet-mapping>
-                  
-   <security-constraint> 
+
+   <security-constraint>
        <display-name>Restrict raw XHTML Documents</display-name>
        <web-resource-collection>
            <web-resource-name>XHTML</web-resource-name>
@@ -113,7 +118,7 @@
            <role-name>NONE</role-name>
        </auth-constraint>
    </security-constraint>
-   
+
     <!-- Wiki: File Download Servlet -->
 
     <servlet>
@@ -123,10 +128,11 @@
     <servlet-mapping>
         <servlet-name>File Servlet</servlet-name>
         <url-pattern>/files/*</url-pattern>
-    </servlet-mapping>   
+    </servlet-mapping>
 
     <session-config>
         <session-timeout>10</session-timeout> 
-    </session-config> 
+    </session-config>
+
 
 </web-app>

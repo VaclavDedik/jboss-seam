@@ -1,5 +1,12 @@
 #searchControl {
-	text-align: right;
+    background-color: #3e3532;
+    border-style: none;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+}
+
+#searchControl .searchControlTable {
 }
 
 #searchControl .searchControlLabel{
@@ -12,10 +19,9 @@
 }
 
 #searchControl .searchControlInput {
-    border: 1px solid #C3BBB6;
     background: #fff url(../img/input.bg.gif) 0 0 no-repeat;
     font-size: 75%;
-    padding: 1px;
+    border: 0;
     font-family: Andale Mono, Courier New, monospace;
 }
 

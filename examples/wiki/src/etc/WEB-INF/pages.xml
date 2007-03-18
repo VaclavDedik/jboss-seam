@@ -56,10 +56,8 @@
 
     </page>
 
-    <page view-id="/docEdit.xhtml" login-required="true" >
-        <description>Edit Document '#{documentHome.instance.name}'</description>
-
-        <restrict/>
+    <page view-id="/docEdit.xhtml">
+        <description>Edit Document</description>
 
         <navigation from-action="#{documentHome.remove}">
             <end-conversation/>
@@ -80,7 +78,7 @@
 
     </page>
 
-    <page view-id="/docHistory.xhtml" login-required="false">
+    <page view-id="/docHistory.xhtml">
         <description>Document History '#{currentNode.name}'</description>
 
         <navigation>
@@ -138,9 +136,8 @@
 
     </page>
 
-    <page view-id="/dirEdit.xhtml" login-required="true">
-        <description>Edit Directory '#{directoryHome.instance.name}'</description>
-        <restrict/>
+    <page view-id="/dirEdit.xhtml">
+        <description>Edit Directory</description>
 
         <navigation from-action="#{directoryHome.remove}">
             <rule>
@@ -153,9 +150,8 @@
 
     </page>
 
-    <page view-id="/fileEdit.xhtml" login-required="true">
-        <description>Edit File '#{fileHome.instance.name}'</description>
-        <restrict/>
+    <page view-id="/fileEdit.xhtml">
+        <description>Edit File</description>
 
         <!-- TODO: If this is a nested conversation we really want to exit to the parent view after persist(),
              e.g. editDoc -> uploadFile -> editDoc instead of currently editDoc -> uploadFile -> dirDisplay
@@ -187,7 +183,18 @@
     <!-- Global actions -->
 
     <page view-id="/*">
+
         <navigation>
+
+            <!-- Not perfect, but we need to force some re-rendering of the view when users log in or out -->
+            <rule if-outcome="loggedIn">
+                <redirect view-id="/display.xhtml"/>
+            </rule>
+            <rule if-outcome="loggedOut">
+                <end-conversation/>
+                <redirect view-id="/display.xhtml"/>
+            </rule>
+
             <rule if-outcome="register">
                 <!-- TODO: I don't want to join, I want a new parallel root conversation: http://jira.jboss.com/jira/browse/JBSEAM-944 -->
                 <begin-conversation join="true" flush-mode="MANUAL"/>
@@ -197,25 +204,25 @@
                 <!-- TODO: I don't want to join, I want a new parallel root conversation: http://jira.jboss.com/jira/browse/JBSEAM-944 -->
                 <begin-conversation join="true" flush-mode="MANUAL"/>
                 <redirect view-id="/userProfile.xhtml">
-                    <param name="userId" value="#{authenticatedUser.id}"/>
+                    <param name="userId" value="#{currentUser.id}"/>
                 </redirect>
             </rule>
             <rule if-outcome="editAccount">
                 <begin-conversation join="true" flush-mode="MANUAL"/>
                 <redirect view-id="/userAccount.xhtml">
-                    <param name="userId" value="#{authenticatedUser.id}"/>
+                    <param name="userId" value="#{currentUser.id}"/>
                 </redirect>
             </rule>
             <rule if-outcome="editProfile">
                 <begin-conversation join="true" flush-mode="MANUAL"/>
                 <redirect view-id="/userProfile.xhtml">
-                    <param name="userId" value="#{authenticatedUser.id}"/>
+                    <param name="userId" value="#{currentUser.id}"/>
                 </redirect>
             </rule>
             <rule if-outcome="editPreferences">
                 <begin-conversation join="true" flush-mode="MANUAL"/>
                 <redirect view-id="/userPrefs.xhtml">
-                    <param name="userId" value="#{authenticatedUser.id}"/>
+                    <param name="userId" value="#{currentUser.id}"/>
                 </redirect>
             </rule>
             <rule if-outcome="listUsers">
@@ -238,8 +245,9 @@
     <page view-id="/confirmRegistration.xhtml" action="#{authenticator.activate}">
         <navigation>
             <rule if-outcome="activated">
-                <redirect view-id="/message.xhtml">
-                    <message severity="INFO">Your account has been activated, please log in.</message>
+                <redirect view-id="/display.xhtml">
+                    <param name="nodeId" value="#{activatedUser.memberHome.id}"/>
+                    <message severity="INFO">Your account has been activated, this is your new home page. Login to edit this page.</message>
                 </redirect>
             </rule>
             <rule if-outcome="notFound">
@@ -259,10 +267,19 @@
     <exception class="org.jboss.seam.security.AuthorizationException">
         <end-conversation/>
         <redirect view-id="/permissionError.xhtml">
-            <message severity="WARN">You do not have permission for this operation</message>
+            <message severity="WARN">Access Denied: #{org.jboss.seam.handledException.message}</message>
         </redirect>
     </exception>
 
+    <!-- Catch all
+    <exception>
+        <end-conversation/>
+        <redirect view-id="/message.xhtml">
+            <message severity="ERROR">#{org.jboss.seam.handledException.message}</message>
+        </redirect>
+    </exception>
+     -->
+    
 </pages>
 
 

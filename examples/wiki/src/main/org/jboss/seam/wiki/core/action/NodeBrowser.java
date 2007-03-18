@@ -2,10 +2,12 @@ package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.security.Identity;
 import org.jboss.seam.wiki.core.dao.NodeDAO;
 import org.jboss.seam.wiki.core.model.Node;
 import org.jboss.seam.wiki.core.model.Directory;
 import org.jboss.seam.wiki.core.model.Document;
+import org.jboss.seam.wiki.core.model.GlobalPreferences;
 import org.jboss.seam.wiki.core.ui.WikiUtil;
 
 import java.util.*;
@@ -47,25 +49,27 @@ public class NodeBrowser {
     public void setNodeId(Long nodeId) { this.nodeId = nodeId; }
 
     @In
-    protected org.jboss.seam.core.Redirect redirect;
+    private Directory wikiRoot;
 
     @In
-    protected Directory wikiRoot;
+    private GlobalPreferences globalPrefs;
+
+    @In
+    protected org.jboss.seam.core.Redirect redirect;
 
     @In
     protected NodeDAO nodeDAO;
 
     // These are only EVENT scoped, we don't want them to jump from DocumentBrowser to
     // DirectoryBrowser over redirects
-    @In(required=false) @Out(scope = ScopeType.EVENT, required = false)
+    @Out(scope = ScopeType.EVENT, required = false)
     protected Document currentDocument;
 
-    @In(required=false) @Out(scope = ScopeType.EVENT, required = false)
+    @Out(scope = ScopeType.EVENT, required = false)
     protected Directory currentDirectory;
 
     @Out(scope = ScopeType.EVENT)
     protected  List<Node> currentDirectoryPath = new ArrayList<Node>();
-
 
     /**
      * Executes a redirect to the last view-id that was prepare()ed.
@@ -107,11 +111,13 @@ public class NodeBrowser {
 
     // Just a convenience method for recursive calling
     protected void addDirectoryToPath(List<Node> path, Node directory) {
-        path.add(directory);
+        if (Identity.instance().hasPermission("Node", "read", directory) ||
+            directory.getId().equals(wikiRoot.getId())
+           )
+            path.add(directory);
         if (directory.getParent() != null )
             addDirectoryToPath(path, directory.getParent());
     }
-
 
     @Transactional
     public String prepare() {
@@ -121,7 +127,7 @@ public class NodeBrowser {
         // TODO: I'm not using captureCurrentView() because it starts a conversation (and it doesn't capture all request parameters)
 
         // Have we been called with a nodeId request parameter, could be document or directory
-        if (nodeId != null && !nodeId.equals(wikiRoot.getId())) {
+        if (nodeId != null) {
 
             // Try to find a document
             currentDocument = nodeDAO.findDocument(nodeId);
@@ -131,7 +137,7 @@ public class NodeBrowser {
                 currentDirectory = nodeDAO.findDirectory(nodeId);
 
                 // Try to get a default document of that directory
-                if (currentDirectory != null) currentDocument = currentDirectory.getDefaultDocument();
+                currentDocument = nodeDAO.findDefaultDocument(currentDirectory);
 
             } else {
                 // Document found, take its directory
@@ -147,7 +153,7 @@ public class NodeBrowser {
                 Node node = nodeDAO.findNodeInArea(area.getAreaNumber(), nodeName);
                 if (WikiUtil.isDirectory(node)) {
                     currentDirectory = (Directory)node;
-                    currentDocument = currentDirectory.getDefaultDocument();
+                    currentDocument = nodeDAO.findDefaultDocument(currentDirectory);
                  } else {
                     currentDocument = (Document)node;
                     currentDirectory = currentDocument != null ? currentDocument.getParent() : area;
@@ -157,11 +163,16 @@ public class NodeBrowser {
         // Or have we been called just with an areaName request parameter
         } else if (areaName != null) {
             currentDirectory = nodeDAO.findArea(areaName);
-            if (currentDirectory != null) currentDocument = currentDirectory.getDefaultDocument();
+            currentDocument = nodeDAO.findDefaultDocument(currentDirectory);
         }
 
-        // Fall back to wiki root
-        if (currentDirectory== null) currentDirectory = wikiRoot;
+        // Fall back to default document
+        if (currentDirectory == null) {
+            currentDocument = nodeDAO.findDocument(globalPrefs.getDefaultDocumentId());
+            if (currentDocument == null)
+                throw new RuntimeException("Couldn't find default document with id '" + globalPrefs.getDefaultDocumentId() +"'");
+            currentDirectory = currentDocument.getParent();
+        }
 
         // Set the id for later
         nodeId = currentDocument != null ? currentDocument.getId() : currentDirectory.getId();

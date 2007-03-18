@@ -25,19 +25,20 @@
     <ui:include src="plugins/breadcrumb/plugin.xhtml"/>
 </ui:define>
 
-<ui:define name="headerBottomRight">
-    <ui:include src="plugins/searchControl/plugin.xhtml"/>
-</ui:define>
-
 <ui:define name="sidebar">
+    <ui:include src="plugins/searchControl/plugin.xhtml"/>
     <ui:include src="plugins/mainMenu/plugin.xhtml"/>
 </ui:define>
 
 <ui:define name="controlRight">
-    <s:link id="createDoc" styleClass="linkNavigation" action="createDoc" accesskey="C"><u>C</u>reate</s:link>
-    <s:link id="editDoc" styleClass="linkNavigation" action="editDoc" accesskey="E"><u>E</u>dit</s:link>
+
+    <s:link id="createDoc" styleClass="linkNavigation" action="createDoc" accesskey="C"
+            rendered="#{s:hasPermission('Node', 'create', currentDirectory)}"><u>C</u>reate</s:link>
+
+    <s:link id="editDoc" styleClass="linkNavigation" action="editDoc" accesskey="E"
+            rendered="#{s:hasPermission('Node', 'edit', currentDocument)}"><u>E</u>dit</s:link>
+
     <s:link id="showHistory" styleClass="linkNavigation" action="showHistory" accesskey="H"><u>H</u>istory</s:link>
-    <s:link id="discussDoc" styleClass="linkNavigation" accesskey="D"><u>D</u>iscuss</s:link>
     <s:link id="browseDir" styleClass="linkNavigation" action="browseDir" accesskey="B"><u>B</u>rowse</s:link>
 </ui:define>
 

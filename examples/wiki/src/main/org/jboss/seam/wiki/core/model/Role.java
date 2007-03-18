@@ -26,10 +26,18 @@ public class Role implements Serializable, Comparable {
     @Length(min = 3, max = 40)
     private String displayName;
 
-    @Column(name = "ACCESS_LEVEL", nullable = false, unique = true)
+    @Column(name = "ACCESS_LEVEL", nullable = false)
     @org.hibernate.annotations.Check(
         constraints = "ACCESS_LEVEL <= 1000"
     )
+
+    // TODO: WTF?
+    /*
+    Caused by: java.lang.annotation.AnnotationTypeMismatchException:
+    Incorrectly typed data found for annotation element
+    public abstract long org.hibernate.validator.Max.value() (Found data of type class java.lang.Integer[1000])
+     */
+    //@org.hibernate.validator.Max(1000)
     private int accessLevel;
 
     @Column(name = "CREATED_ON", nullable = false, updatable = false)
@@ -62,10 +70,44 @@ public class Role implements Serializable, Comparable {
 
     public String toString() {
         return  "Role ('" + getId() + "'), " +
+                "Access Level: '" + getAccessLevel() + "' " +
                 "Name: '" + getName() + "'";
     }
 
     public int compareTo(Object o) {
-        return getDisplayName().compareTo(((Role)o).getDisplayName());
+        return Integer.valueOf(getAccessLevel()).compareTo(((Role)o).getAccessLevel());
     }
+
+    /**
+     * Used for aggregation of Role objects, by access level.
+     * Also used in security checks as a handle passed into working memory.
+     */
+    public static class AccessLevel implements Serializable {
+        private Integer accessLevel;
+        private String roleNames;
+        public AccessLevel(Integer accessLevel) {
+            this.accessLevel = accessLevel;
+        }
+        public AccessLevel(Integer accessLevel, String roleNames) {
+            this.accessLevel = accessLevel;
+            this.roleNames = roleNames;
+        }
+        public Integer getAccessLevel() { return accessLevel; }
+        public String getRoleNames() { return roleNames; }
+        public void setRoleNames(String roleNames) { this.roleNames = roleNames; }
+
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            AccessLevel that = (AccessLevel) o;
+            return accessLevel.equals(that.accessLevel);
+        }
+        public int hashCode() {
+            return accessLevel.hashCode();
+        }
+        public void appendRoleName(String roleName) {
+            roleNames = roleNames + ", " + roleName;
+        }
+    }
+
 }

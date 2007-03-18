@@ -3,6 +3,7 @@ package org.jboss.seam.wiki.core.action;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Component;
+import org.jboss.seam.security.Identity;
 import org.jboss.seam.wiki.core.model.Node;
 import org.jboss.seam.wiki.core.model.Directory;
 import org.jboss.seam.wiki.core.ui.WikiUtil;
@@ -33,7 +34,7 @@ public class Menu implements Serializable {
     @Observer("Nodes.menuStructureModified")
     public void refreshMenuItems() {
         items = new ArrayList<MenuItem>();
-        for(Node area : ((Directory)Component.getInstance("wikiRoot")).getChildren())
+        for(Node area : ((Directory)Component.getInstance("restrictedWikiRoot")).getChildren())
             addNodesToMenuTree(items, 0, area);
     }
 
@@ -41,7 +42,8 @@ public class Menu implements Serializable {
     private void addNodesToMenuTree(List<MenuItem> menuItems, int i, Node node) {
         MenuItem menuItem = new MenuItem(node, WikiUtil.renderURL(node));
         menuItem.setLevel(i);
-        if (node.isMenuItem()) menuItems.add(menuItem); // Check flag in-memory
+        if (node.isMenuItem() && Identity.instance().hasPermission("Node", "read", node))
+            menuItems.add(menuItem); // Check flag in-memory
         if (node.getChildren() != null && node.getChildren().size() > 0) {
             i++;
             for (Node child : node.getChildren()) {

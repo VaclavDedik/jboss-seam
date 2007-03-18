@@ -7,7 +7,7 @@
             xmlns:mail="http://jboss.com/products/seam/mail"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation=
-                "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-1.2.xsd
+                    "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-1.2.xsd
                  http://jboss.com/products/seam/security http://jboss.com/products/seam/security-1.2.xsd
                  http://jboss.com/products/seam/web http://jboss.com/products/seam/web-1.2.xsd
                  http://jboss.com/products/seam/drools http://jboss.com/products/seam/drools-1.2.xsd
@@ -20,8 +20,10 @@
                scope="application" auto-create="true">
 
         <property name="baseURL">http://www.seamframework.org/wiki</property>
-        <property name="defaultURLRendering">PERMLINK</property>
+        <property name="defaultURLRendering">WIKILINK</property>
         <property name="permlinkSuffix">.html</property>
+        <property name="defaultDocumentId">5</property>
+        <property name="memberAreaId">12</property>
         <property name="themeName">default</property>
         <property name="newUserInRole">member</property>
         <property name="passwordRegex">^[0-9A-Za-z]{6,15}</property>
@@ -33,41 +35,72 @@
     <mail:mail-session host="mail.bluewin.ch" port="25"/>
 
     <web:multipart-filter create-temp-files="true" max-request-size="10000000" url-pattern="*.seam"/>
-    
+
     <!-- ##### END OF WIKI USER CONFIGURATION ##### -->
 
     <!-- Seam settings -->
 
-   <core:init debug="false" jndi-pattern="@jndiPattern@"/>
-     
-   <core:manager concurrent-request-timeout="60000" 
-                 conversation-timeout="120000" 
-                 conversation-id-parameter="cid" 
-                 conversation-is-long-running-parameter="clr"/>
-    
-   <core:managed-persistence-context name="entityManager"
-                              auto-create="true"
-                   entity-manager-factory="#{wikiEntityManagerFactory}"/>
+    <core:init debug="false" jndi-pattern="@jndiPattern@"/>
 
-   <core:entity-manager-factory name="wikiEntityManagerFactory" 
-               persistence-unit-name="wiki"/>
-   
-   <core:ejb installed="@embeddedEjb@"/>
-    
+    <core:manager concurrent-request-timeout="500"
+                  conversation-timeout="120000"
+                  conversation-id-parameter="cid"
+                  conversation-is-long-running-parameter="clr"/>
+
+    <core:filter name="accessLevelFilter">
+        <core:name>accessLevelFilter</core:name>
+        <core:parameters>
+            <key>currentAccessLevel</key>
+            <value>#{currentAccessLevel}</value>
+        </core:parameters>
+    </core:filter>
+
+    <core:managed-persistence-context name="restrictedEntityManager"
+                                      auto-create="true"
+                                      entity-manager-factory="#{wikiEntityManagerFactory}">
+        <core:filters><value>#{accessLevelFilter}</value></core:filters>
+    </core:managed-persistence-context>
+
+    <core:managed-persistence-context name="entityManager"
+                                      auto-create="true"
+                                      entity-manager-factory="#{wikiEntityManagerFactory}">
+    </core:managed-persistence-context>
+
+    <core:entity-manager-factory name="wikiEntityManagerFactory" persistence-unit-name="wiki"/>
+
+    <core:ejb installed="@embeddedEjb@"/>
+
+    <component name="restrictedEntityConverter" scope="CONVERSATION" precedence="20"
+               class="org.jboss.seam.ui.EntityConverter">
+        <property name="entityManager">#{restrictedEntityManager}</property>
+    </component>
+
+    <component name="entityConverter" scope="CONVERSATION" precedence="20"
+               class="org.jboss.seam.ui.EntityConverter">
+        <property name="entityManager">#{entityManager}</property>
+    </component>
+
     <!-- Login and security -->
 
-   <drools:rule-base name="securityRules">
-       <drools:rule-files><value>/security.drl</value></drools:rule-files>
-   </drools:rule-base>
+    <!-- Rules is too broken
+    <drools:rule-base name="securityRules">
+        <drools:rule-files>
+            <value>/security.drl</value>
+        </drools:rule-files>
+    </drools:rule-base>
 
-   <security:identity authenticate-method="#{authenticator.authenticate}"
-                           security-rules="#{securityRules}"
-                              remember-me="false"/>
-                              
-   <!-- Misc Settings -->
-   <web:context-filter url-pattern="/files/*"/>
+    <security:identity authenticate-method="#{authenticator.authenticate}"
+                       security-rules="#{securityRules}"
+                       remember-me="false"/>
+   -->
+    <security:identity authenticate-method="#{authenticator.authenticate}"
+                       remember-me="false"/>
 
-   <factory name="themePath" value="#{facesContext.externalContext.request.contextPath}/themes/#{globalPrefs.themeName}"/>
+    <!-- Misc Settings -->
+    <web:context-filter url-pattern="/files/*"/>
 
-      
+    <factory name="themePath"
+             value="#{facesContext.externalContext.request.contextPath}/themes/#{globalPrefs.themeName}"/>
+
+
 </components>

@@ -25,19 +25,19 @@
 
 <ui:define name="headerBottomLeft">&#160;</ui:define>
 
-<ui:define name="headerBottomRight">
-    <ui:include src="plugins/searchControl/plugin.xhtml"/>
-</ui:define>
-
 <ui:define name="sidebar">
+    <ui:include src="plugins/searchControl/plugin.xhtml"/>
     <ui:include src="plugins/mainMenu/plugin.xhtml"/>
 </ui:define>
 
 <ui:define name="controlLeft">
     <s:div rendered="#{userHome.managed}">
-        <s:link id="editAccount" styleClass="linkTabActive" action="editAccount">Account</s:link>
-        <s:link id="editProfile" styleClass="linkTab" action="editProfile">Profile</s:link>
-        <s:link id="editPreferences" styleClass="linkTab" action="editPreferences">Preferences</s:link>
+        <s:link id="editAccount" styleClass="linkTabActive" action="editAccount"
+                rendered="#{s:hasPermission('User', 'edit', userHome.instance)}">Account</s:link>
+        <s:link id="editProfile" styleClass="linkTab" action="editProfile"
+                rendered="#{s:hasPermission('User', 'edit', userHome.instance)}">Profile</s:link>
+        <s:link id="editPreferences" styleClass="linkTab" action="editPreferences"
+                rendered="#{s:hasPermission('User', 'edit', userHome.instance)}">Preferences</s:link>
     </s:div>
 </ui:define>
 
@@ -137,6 +137,20 @@
                         </div>
                     </s:div>
                 </s:decorate>
+
+                <s:div styleClass="entry" rendered="#{userHome.managed}">
+                    <s:div styleClass="label" rendered="#{s:hasPermission('User', 'editRoles', currentUser)}">Edit roles:</s:div>
+                    <s:div styleClass="label" rendered="#{!s:hasPermission('User', 'editRoles', currentUser)}">Assigned roles:</s:div>
+                    <div class="input">
+                        <h:selectManyListbox value="#{userHome.roles}" tabindex="8"
+                                disabled="#{!s:hasPermission('User', 'editRoles', currentUser)}"
+                                converter="#{entityConverter}">
+                            <s:selectItems value="#{rolesList}"
+                                           var="role"
+                                           label="#{role.displayName} (Access level: #{role.accessLevel})"/>
+                        </h:selectManyListbox>
+                    </div>
+                </s:div>
 
             </s:validateAll>
 

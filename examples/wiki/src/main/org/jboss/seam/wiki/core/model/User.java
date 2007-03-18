@@ -4,6 +4,7 @@ import org.hibernate.validator.NotNull;
 import org.hibernate.validator.Pattern;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.Email;
+import org.jboss.seam.annotations.security.Restrict;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -36,8 +37,8 @@ public class User implements Serializable {
     @Column(name = "USERNAME", length = 16, nullable = false, unique = true)
     @NotNull
     @Length(min = 3, max = 16)
-    @Pattern(regex="[a-zA-Z]?[a-zA-Z0-9_]+",
-          message="Member name must start with a letter, and only contain letters, numbers or underscores")
+    @Pattern(regex="[a-zA-Z]?[a-zA-Z0-9]+",
+          message="Member name must start with a letter, and only contain letters and numbers")
     private String username; // Unique and immutable
 
     @Column(name = "PASSWORDHASH", length = 255, nullable = false)
@@ -56,14 +57,18 @@ public class User implements Serializable {
     @Column(name = "CREATED_ON", nullable = false, updatable = false)
     private Date createdOn = new Date();
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY) // Lazy so our @OrderBy works
     @JoinTable(
         name = "USER_ROLE",
         joinColumns = @JoinColumn(name = "USER_ID"),
         inverseJoinColumns = @JoinColumn(name = "ROLE_ID")
     )
-    @org.hibernate.annotations.Sort(type = org.hibernate.annotations.SortType.NATURAL)
-    private SortedSet<Role> roles = new TreeSet<Role>();
+    @OrderBy("accessLevel desc, displayName asc")
+    private List<Role> roles = new ArrayList<Role>();
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "MEMBER_HOME_NODE_ID")
+    private Directory memberHome;
 
     public User() {}
 
@@ -105,16 +110,15 @@ public class User implements Serializable {
     public String getActivationCode() { return activationCode; }
     public void setActivationCode(String activationCode) { this.activationCode = activationCode; }
 
-    public SortedSet<Role> getRoles() {
-        return Collections.unmodifiableSortedSet(roles);
+    public Directory getMemberHome() { return memberHome; }
+    public void setMemberHome(Directory memberHome) { this.memberHome = memberHome; }
+
+    public List<Role> getRoles() {
+        return roles;
     }
 
-    public void addRole(Role role) {
-        this.roles.add(role);
-    }
-
-    public void removeRole(Role role) {
-        this.roles.remove(role);
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
     // Misc methods
@@ -123,14 +127,7 @@ public class User implements Serializable {
         return  "User ('" + getId() + "'), " +
                 "Username: '" + getUsername() + "'";
     }
-
-    public Role getHighestRole() {
-        Role highestRole = roles.iterator().next();
-        for (Role role : roles)
-            if (role.getAccessLevel() > highestRole.getAccessLevel()) highestRole = role;
-        return highestRole;
-    }
-
+    
 }
 
 

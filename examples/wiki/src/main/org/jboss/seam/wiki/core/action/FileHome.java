@@ -1,5 +1,7 @@
 package org.jboss.seam.wiki.core.action;
 
+import static javax.faces.application.FacesMessage.SEVERITY_WARN;
+
 import javax.swing.*;
 
 import org.jboss.seam.annotations.*;
@@ -26,6 +28,16 @@ public class FileHome extends NodeHome<File> {
 
     @Override
     public String persist() {
+
+        // Validate
+        if (filedata == null || filedata.length == 0) {
+            getFacesMessages().addFromResourceBundleOrDefault(
+                SEVERITY_WARN,
+                getMessageKeyPrefix() + "noFileUploaded",
+                "Please select a file to upload"
+            );
+            return null;
+        }
 
         // Sync file instance with form data
         syncFile();

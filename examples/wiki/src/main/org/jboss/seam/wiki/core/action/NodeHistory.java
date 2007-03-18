@@ -4,6 +4,7 @@ import org.jboss.seam.annotations.*;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Component;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.wiki.core.dao.NodeDAO;
@@ -20,9 +21,6 @@ import java.util.List;
 @Scope(ScopeType.CONVERSATION)
 @AutoCreate
 public class NodeHistory implements Serializable {
-
-    @In
-    private NodeBrowser browser;
 
     @In
     NodeDAO nodeDAO;
@@ -46,9 +44,23 @@ public class NodeHistory implements Serializable {
     private String diffResult;
 
     @Factory("historicalNodeList")
-    public void initialize() {
+    public void initializeHistoricalNodeList() {
+        if (historicalNodeList == null)
+            historicalNodeList = nodeDAO.findHistoricalNodes(currentNode);
+    }
+
+    @Create
+    public void create() {
         historicalNodeList = nodeDAO.findHistoricalNodes(currentNode);
         currentDirectory = (Directory)currentNode.getParent();
+
+        if (historicalNodeList.size() == 0) {
+            facesMessages.addFromResourceBundleOrDefault(
+                FacesMessage.SEVERITY_INFO,
+                "noHistory",
+                "No stored history for this document.");
+            exitConversation(false);
+        }
     }
 
     // TODO: Typical exit method to get out of a root or nested conversation, JBSEAM-906
@@ -61,6 +73,7 @@ public class NodeHistory implements Serializable {
             // End this root conversation
             currentConversation.end();
             // Return to the view-id that was captured when this conversation started
+            NodeBrowser browser = (NodeBrowser) Component.getInstance("browser");
             if (endBeforeRedirect)
                 browser.redirectToLastBrowsedPage();
             else
@@ -69,26 +82,25 @@ public class NodeHistory implements Serializable {
     }
 
     public void diff() {
-        System.out.println("#### GENERATING NEW DIFF");
 
         String revision = ((Document)currentNode).getContent();
         String original = ((Document)selectedHistoricalNode).getContent();
 
         Diff diff = new Diff() {
             protected String getDeletionStartMarker() {
-                return "xXx";
+                return "XXXXXXX";
             }
 
             protected String getDeletionEndMarker() {
-                return "XxX";
+                return "XXXXXXX";
             }
 
             protected String getAdditionStartMarker() {
-                return "aAa";
+                return "AAAAAAA";
             }
 
             protected String getAdditionEndMarker() {
-                return "AaA";
+                return "AAAAAAA";
             }
         };
 
@@ -110,7 +122,7 @@ public class NodeHistory implements Serializable {
         facesMessages.addFromResourceBundleOrDefault(
             FacesMessage.SEVERITY_INFO,
             "rollingBackDocument",
-            "Rolling back to revision '" + selectedHistoricalNode.getRevision() + "'");
+            "Rolling back to revision " + selectedHistoricalNode.getRevision());
         return "rollback";
     }
 

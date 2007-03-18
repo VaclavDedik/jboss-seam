@@ -24,6 +24,7 @@ Maps only properties we want to keep a history of.
         <property name="name" length="255" not-null="true" column="NAME"/>
         <property name="wikiname" length="255" not-null="true" column="WIKINAME"/>
         <property name="lastModifiedOn" column="LAST_MODIFIED_ON" type="timestamp" not-null="true"/>
+        <property name="lastModifiedByUsername" column="LAST_MODIFIED_BY_USERNAME" not-null="false"/>
 
         <subclass name="Document" entity-name="HistoricalDocument" discriminator-value="DOCUMENT">
             <property name="content" column="CONTENT" length="32768"/>
