@@ -3,9 +3,12 @@ package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
+import static org.jboss.seam.util.EL.EL_CONTEXT;
+import static org.jboss.seam.util.EL.EXPRESSION_FACTORY;
 
 import java.io.Serializable;
 
+import javax.el.ValueExpression;
 import javax.faces.context.FacesContext;
 
 import org.hibernate.validator.ClassValidator;
@@ -18,7 +21,6 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.util.UnifiedELMethodBinding;
-import org.jboss.seam.util.UnifiedELValueBinding;
 
 /**
  * Factory for method and value bindings
@@ -41,6 +43,7 @@ public class Expressions
          private static final long serialVersionUID = -8655967672318993009L;
          
          private transient javax.faces.el.ValueBinding cachedValueBinding;
+         private transient ValueExpression cachedValueExpression;
          
          public String getExpressionString()
          {
@@ -49,32 +52,71 @@ public class Expressions
 
          public Class getType()
          {
-            return getFacesValueBinding().getType( FacesContext.getCurrentInstance() );
+            if ( isFacesContext() )
+            {
+               return getFacesValueBinding().getType( FacesContext.getCurrentInstance() );
+            }
+            else
+            {
+               return getValueExpression().getType(EL_CONTEXT);
+            }
          }
 
          public Object getValue()
          {
-            return getFacesValueBinding().getValue( FacesContext.getCurrentInstance() );
+            if ( isFacesContext() )
+            {
+               return getFacesValueBinding().getValue( FacesContext.getCurrentInstance() );
+            }
+            else
+            {
+               return getValueExpression().getValue(EL_CONTEXT);
+            }
          }
 
          public boolean isReadOnly()
          {
-            return getFacesValueBinding().isReadOnly( FacesContext.getCurrentInstance() );
+            if ( isFacesContext() )
+            {
+               return getFacesValueBinding().isReadOnly( FacesContext.getCurrentInstance() );
+            }
+            else
+            {
+               return getValueExpression().isReadOnly(EL_CONTEXT);
+            }
          }
 
          public void setValue(Object value)
          {
-            getFacesValueBinding().setValue( FacesContext.getCurrentInstance(), value );
+            if ( isFacesContext() )
+            {
+               getFacesValueBinding().setValue( FacesContext.getCurrentInstance(), value );
+            }
+            else
+            {
+               getValueExpression().setValue(EL_CONTEXT, value);
+            }
+         }
+         
+         boolean isFacesContext()
+         {
+            return FacesContext.getCurrentInstance()!=null;
+         }
+         
+         ValueExpression getValueExpression()
+         {
+            if (cachedValueExpression==null)
+            {
+               cachedValueExpression = EXPRESSION_FACTORY.createValueExpression(EL_CONTEXT, expression, Object.class);
+            }
+            return cachedValueExpression;
          }
 
          javax.faces.el.ValueBinding getFacesValueBinding()
          {
             if (cachedValueBinding==null)
             {
-               FacesContext context = FacesContext.getCurrentInstance();
-               cachedValueBinding = context==null ? 
-                     new UnifiedELValueBinding(expression) : 
-                     context.getApplication().createValueBinding(expression);
+               cachedValueBinding = FacesContext.getCurrentInstance().getApplication().createValueBinding(expression);
             }
             return cachedValueBinding;
          }
