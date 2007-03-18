@@ -53,7 +53,14 @@ public class UIDecorateAll extends UIAbstractDecorate
             String rowClasses = hasMessage(component, context) && rowErrorClass!=null ? 
                      rowClass + ' ' + rowErrorClass : rowClass;
             writer.writeAttribute("class", rowClasses, "rowClass");
-            renderChildAndDecorations(context, component);
+            if (child instanceof UIDecorate)
+            {
+               renderContent(context, component);
+            }
+            else
+            {
+               renderChildAndDecorations(context, component);
+            }
             writer.endElement("div");
          }
       }

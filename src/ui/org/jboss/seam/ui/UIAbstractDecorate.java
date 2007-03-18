@@ -23,6 +23,23 @@ public abstract class UIAbstractDecorate extends UIStyleDecoration
       if ( component.getParent()==null ) return null;
       return getDecoration( name, component.getParent() );
    }
+   
+   protected static UIDecorateAll getDecorateAll(UIComponent component)
+   {
+      UIComponent parent = component.getParent();
+      if (parent==null)
+      {
+         return null;
+      }
+      else if ( parent instanceof UIDecorateAll )
+      {
+         return (UIDecorateAll) parent;
+      }
+      else
+      {
+         return getDecorateAll( parent );
+      }
+   }
 
    /**
     * A depth-first search for an EditableValueHolder
@@ -120,7 +137,16 @@ public abstract class UIAbstractDecorate extends UIStyleDecoration
    {
       ResponseWriter writer = context.getResponseWriter();
       boolean hasMessage = hasMessage(child, context);
-            
+      
+      UIDecorateAll parent = getDecorateAll(this);
+      if (parent!=null)
+      {
+         if (labelColumnClass==null) labelColumnClass = parent.getLabelColumnClass();
+         if (fieldColumnClass==null) fieldColumnClass = parent.getFieldColumnClass();
+         if (messageColumnClass==null) messageColumnClass = parent.getMessageColumnClass();
+         if (descriptionColumnClass==null) descriptionColumnClass = parent.getDescriptionColumnClass();
+      }
+      
       UIComponent label = child.getFacet("label");
       if (label!=null)
       {
