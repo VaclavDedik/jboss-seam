@@ -33,10 +33,7 @@
     <property name="seam.home" value="../../"/>
     <property name="lib.dir"        value="${seam.home}/lib" />
     <property name="seamlibs.dir"   value="${seam.home}"/>
-    <property name="drools.lib.dir" value="${basedir}/droolslibs"/>
-    <!--
     <property name="drools.lib.dir" value="${seam.home}/drools/lib"/>
-    -->
 
     <property name="embedded-ejb3.dir" value="${basedir}/embedded-ejb/conf" />
 
