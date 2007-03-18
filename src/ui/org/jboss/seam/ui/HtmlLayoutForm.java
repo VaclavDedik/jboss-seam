@@ -2,6 +2,7 @@ package org.jboss.seam.ui;
 
 import java.io.IOException;
 
+import javax.faces.component.EditableValueHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
@@ -16,7 +17,9 @@ public class HtmlLayoutForm extends UIStyleDecoration
    private String labelColumnClass;
    private String fieldColumnClass;
    private String descriptionColumnClass;
+   private String messageColumnClass;
    private String rowClass;
+   private String rowErrorClass;
    
    @Override
    public String getFamily()
@@ -57,33 +60,133 @@ public class HtmlLayoutForm extends UIStyleDecoration
       return true;
    }
    
-   private void renderChild(FacesContext facesContext, UIComponent child) throws IOException
+   private void renderChild(FacesContext context, UIComponent child) throws IOException
    {
-      ResponseWriter writer = facesContext.getResponseWriter();
+      ResponseWriter writer = context.getResponseWriter();
+      boolean hasMessage = UIDecorate.hasMessage(child, context);
       
       writer.startElement("div", this);
-      writer.writeAttribute("class", rowClass, "rowClass");
+      String rowClasses = hasMessage && rowErrorClass!=null ? rowClass + ' ' + rowErrorClass : rowClass;
+      writer.writeAttribute("class", rowClasses, "rowClass");
       
       writer.startElement("span", child); 
       writer.writeAttribute("class", labelColumnClass, "labelColumnClass");
-      renderLabel(facesContext, child);
+      renderLabel(context, child);
       writer.endElement("span");
       
       writer.startElement("span", this);
       writer.writeAttribute("class", fieldColumnClass, "fieldColumnClass");
-      JSF.renderChild(facesContext, child);
+      if (child instanceof EditableValueHolder)
+      {
+         renderField(context, child);
+      }
+      else
+      {
+         JSF.renderChild(context, child);
+      }
       writer.endElement("span");
       
+      UIComponent message = UIDecorate.getDecoration("message", child);
+      if (message!=null && hasMessage)
+      {
+         message.setParent(child);
+         writer.startElement("span", this);
+         writer.writeAttribute("class", messageColumnClass, "messageColumnClass");
+         JSF.renderChild(context, message);
+         writer.endElement("span");
+      }
+
       UIComponent description = child.getFacet("description");
       if (description != null)
       {
          writer.startElement("span", this);
          writer.writeAttribute("class", descriptionColumnClass, "descriptionColumnClass");
-         JSF.renderChild(facesContext, description);
+         JSF.renderChild(context, description);
          writer.endElement("span");
       }
 
       writer.endElement("div");
+   }
+   
+   private void renderField(FacesContext context, UIComponent child) throws IOException
+   {
+      boolean hasMessage = UIDecorate.hasMessage(child, context);
+      boolean hasRequired = UIDecorate.hasRequired(child, context);
+
+      UIComponent aroundDecoration = UIDecorate.getDecoration("aroundField", child);
+      UIComponent aroundInvalidDecoration = UIDecorate.getDecoration("aroundInvalidField", child);
+      UIComponent aroundRequiredDecoration = UIDecorate.getDecoration("aroundRequiredField", child);
+      if (aroundDecoration!=null && !hasMessage)
+      {
+         aroundDecoration.setParent(child);
+         aroundDecoration.encodeBegin(context);
+      }
+      if (aroundInvalidDecoration!=null && hasMessage)
+      {
+         aroundInvalidDecoration.setParent(child);
+         aroundInvalidDecoration.encodeBegin(context);
+      }
+      if (aroundRequiredDecoration!=null && hasRequired)
+      {
+         aroundRequiredDecoration.setParent(child);
+         aroundRequiredDecoration.encodeBegin(context);
+      }
+      
+      UIComponent beforeDecoration = UIDecorate.getDecoration("beforeField", child);
+      UIComponent beforeInvalidDecoration = UIDecorate.getDecoration("beforeInvalidField", child);
+      UIComponent beforeRequiredDecoration = UIDecorate.getDecoration("beforeRequiredField", child);
+      if ( beforeDecoration!=null && !hasMessage )
+      {
+         beforeDecoration.setParent(child);
+         JSF.renderChild(context, beforeDecoration);
+      }
+      if ( beforeInvalidDecoration!=null && hasMessage )
+      {
+         beforeInvalidDecoration.setParent(child);
+         JSF.renderChild(context, beforeInvalidDecoration);
+      }
+      if ( beforeRequiredDecoration!=null && hasRequired)
+      {
+         beforeRequiredDecoration.setParent(child);
+         JSF.renderChild(context, beforeRequiredDecoration);
+      }
+      
+      JSF.renderChild(context, child);
+      
+      UIComponent afterDecoration = UIDecorate.getDecoration("afterField", child);
+      UIComponent afterInvalidDecoration = UIDecorate.getDecoration("afterInvalidField", child);
+      UIComponent afterRequiredDecoration = UIDecorate.getDecoration("afterRequiredField", child);
+      if ( afterRequiredDecoration!=null && hasRequired)
+      {
+         afterRequiredDecoration.setParent(child);
+         JSF.renderChild(context, afterRequiredDecoration);
+      }
+      if ( afterDecoration!=null  && !hasMessage )
+      {
+         afterDecoration.setParent(child);
+         JSF.renderChild(context, afterDecoration);
+      }
+      if ( afterInvalidDecoration!=null && hasMessage )
+      {
+         afterInvalidDecoration.setParent(child);
+         JSF.renderChild(context, afterInvalidDecoration);
+      }
+      
+      if (aroundRequiredDecoration != null && hasRequired)
+      {
+         aroundRequiredDecoration.setParent(child);
+         aroundRequiredDecoration.encodeEnd(context);
+      }
+      if (aroundDecoration!=null && !hasMessage)
+      {
+         aroundDecoration.setParent(child);
+         aroundDecoration.encodeEnd(context);
+      }
+      if (aroundInvalidDecoration!=null && hasMessage)
+      {
+         aroundInvalidDecoration.setParent(child);
+         aroundInvalidDecoration.encodeEnd(context);
+      }
    }
 
    private void renderLabel(FacesContext facesContext, UIComponent child) throws IOException
@@ -191,17 +294,23 @@ public class HtmlLayoutForm extends UIStyleDecoration
       super.restoreState(context, array[0]);
       labelColumnClass = (String) array[1];
       fieldColumnClass = (String) array[2];
-      rowClass = (String) array[3];
+      descriptionColumnClass = (String) array[3];
+      messageColumnClass = (String) array[4];
+      rowClass = (String) array[5];
+      rowErrorClass = (String) array[6];
    }
    
    @Override
    public Object saveState(FacesContext context)
    {
-      Object[] state = new Object[4];
+      Object[] state = new Object[7];
       state[0] = super.saveState(context);
       state[1] = labelColumnClass;
       state[2] = fieldColumnClass;
-      state[3] = rowClass;
+      state[3] = descriptionColumnClass;
+      state[4] = messageColumnClass;
+      state[5] = rowClass;
+      state[6] = rowErrorClass;
       return state;
    }
 
@@ -245,5 +354,24 @@ public class HtmlLayoutForm extends UIStyleDecoration
       this.descriptionColumnClass = descriptionColumnClass;
    }
 
+   public String getMessageColumnClass()
+   {
+      return messageColumnClass;
+   }
+
+   public void setMessageColumnClass(String messageColumnClass)
+   {
+      this.messageColumnClass = messageColumnClass;
+   }
+
+   public String getRowErrorClass()
+   {
+      return rowErrorClass;
+   }
+
+   public void setRowErrorClass(String rowErrorClass)
+   {
+      this.rowErrorClass = rowErrorClass;
+   }
 
 }

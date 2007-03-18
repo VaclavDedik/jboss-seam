@@ -188,14 +188,10 @@ public class UIDecorate extends UIComponentBase
       UIComponent aroundDecoration = getDecoration("aroundField");
       UIComponent aroundInvalidDecoration = getDecoration("aroundInvalidField");
       UIComponent aroundRequiredDecoration = getDecoration("aroundRequiredField");
-      if (aroundRequiredDecoration != null)
+      if (aroundRequiredDecoration != null && hasRequired())
       {
-         EditableValueHolder evh = (EditableValueHolder) getEditableValueHolder(this);
-         if (evh != null && evh.isRequired())
-         {
-            aroundRequiredDecoration.setParent(this);
-            aroundRequiredDecoration.encodeEnd(facesContext);
-         }
+         aroundRequiredDecoration.setParent(this);
+         aroundRequiredDecoration.encodeEnd(facesContext);
       }
       if (aroundDecoration!=null && !hasMessage)
       {
@@ -229,14 +225,10 @@ public class UIDecorate extends UIComponentBase
          beforeInvalidDecoration.setParent(this);
          JSF.renderChild(facesContext, beforeInvalidDecoration);
       }
-      if ( beforeRequiredDecoration != null)
+      if ( beforeRequiredDecoration!=null && hasRequired() )
       {
-         EditableValueHolder evh = (EditableValueHolder) getEditableValueHolder(this);
-         if (evh != null && evh.isRequired())
-         {
-            beforeRequiredDecoration.setParent(this);
-            JSF.renderChild(facesContext, beforeRequiredDecoration);
-         }
+         beforeRequiredDecoration.setParent(this);
+         JSF.renderChild(facesContext, beforeRequiredDecoration);
       }
       
       JSF.renderChildren(facesContext, this);
@@ -244,14 +236,10 @@ public class UIDecorate extends UIComponentBase
       UIComponent afterDecoration = getDecoration("afterField");
       UIComponent afterInvalidDecoration = getDecoration("afterInvalidField");
       UIComponent afterRequiredDecoration = getDecoration("afterRequiredDecoration");
-      if ( afterRequiredDecoration != null)
+      if ( afterRequiredDecoration!=null && hasRequired() )
       {
-         EditableValueHolder evh = (EditableValueHolder) getEditableValueHolder(this);
-         if (evh != null && evh.isRequired())
-         {
-            afterRequiredDecoration.setParent(this);
-            JSF.renderChild(facesContext, afterRequiredDecoration);
-         }
+         afterRequiredDecoration.setParent(this);
+          JSF.renderChild(facesContext, afterRequiredDecoration);
       }
       if ( afterDecoration!=null  && !hasMessage )
       {

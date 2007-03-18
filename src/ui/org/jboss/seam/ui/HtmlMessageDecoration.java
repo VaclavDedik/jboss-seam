@@ -8,11 +8,15 @@ public class HtmlMessageDecoration extends HtmlMessage
 {
    public static final String COMPONENT_TYPE = "org.jboss.seam.ui.HtmlMessageDecoration";
 
-   private UIDecorate getParentDecorate(UIComponent component)
+   private String getFor(UIComponent component)
    {
       if (component instanceof UIDecorate) 
       {
-         return (UIDecorate) component;
+         return UIDecorate.getInputId(component);
+      }
+      else if ( component.getParent() instanceof HtmlLayoutForm )
+      {
+         return UIDecorate.getInputId(component);
       }
       else if ( component.getParent()==null )
       {
@@ -20,15 +24,14 @@ public class HtmlMessageDecoration extends HtmlMessage
       }
       else
       {
-         return getParentDecorate( component.getParent() );
+         return getFor( component.getParent() );
       }
    }
 
    @Override
    public String getFor()
    {
-      UIDecorate decorate = getParentDecorate(this);
-      return decorate==null ? null : decorate.getInputId();
+      return getFor(this);
    }
 
 }
