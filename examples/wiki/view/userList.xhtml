@@ -204,7 +204,9 @@
             </h:column>
 
             <h:column>
-                Action
+                <s:link view="/userAccount.xhtml" value="Edit Account">
+                    <f:param name="userId" value="#{u.id}"/>
+                </s:link>
             </h:column>
 
         </h:dataTable>

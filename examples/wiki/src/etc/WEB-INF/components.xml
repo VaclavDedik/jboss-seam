@@ -22,8 +22,8 @@
         <property name="baseURL">http://www.seamframework.org/wiki</property>
         <property name="defaultURLRendering">WIKILINK</property>
         <property name="permlinkSuffix">.html</property>
-        <property name="defaultDocumentId">5</property>
-        <property name="memberAreaId">12</property>
+        <property name="defaultDocumentId">9</property>
+        <property name="memberAreaId">2</property>
         <property name="themeName">default</property>
         <property name="newUserInRole">member</property>
         <property name="passwordRegex">^[0-9A-Za-z]{6,15}</property>
