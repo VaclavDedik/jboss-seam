@@ -50,39 +50,11 @@
                             brokenLinkStyleClass="brokenLink"
                             attachmentLinkStyleClass="regularLink"
                             inlineLinkStyleClass="regularLink"/>
+
+        <ui:include src="includes/attachmentDisplay.xhtml"/>
+
     </s:div>
 
-    <s:div styleClass="attachmentDisplay" rendered="#{not empty wikiTextAttachments}">
-        <div class="formHead">Attachments:</div>
-        <h:dataTable value="#{wikiTextAttachments}" var="link"
-             binding="#{wikiUtil.datatable}"
-             styleClass="directoryList"
-             columnClasses="iconColumn,iconColumn,nameColumn"
-             rowClasses="rowOdd,rowEven"
-             cellpadding="0" cellspacing="0" border="0">
-            <h:column>
-                <h:panelGroup>
-                    <a name="attachment#{wikiUtil.datatable.rowIndex + 1}"/>
-                    <h:outputText value="#&#160;#{wikiUtil.datatable.rowIndex + 1}"/>
-                </h:panelGroup>
-            </h:column>
-            <h:column>
-                <h:panelGroup>
-                    <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/#{fileMetaMap[link.node.contentType].displayIcon}"
-                                    width="18" height="20"/>
-                </h:panelGroup>
-            </h:column>
-            <h:column>
-                <h:panelGroup>
-                    <h:outputLink value="#{link.url}">
-                        <h:outputText value="#{link.node.name}"/>
-                        &#160;
-                        <h:outputText value="(#{link.node.filename}, #{link.node.humanReadableFilesize}, #{link.node.contentType})"/>
-                    </h:outputLink>
-                </h:panelGroup>
-            </h:column>
-        </h:dataTable>
-    </s:div>
 
 </ui:define>
 

@@ -1,6 +1,8 @@
 package org.jboss.seam.wiki.core.ui;
 
 import org.jboss.seam.wiki.core.model.File;
+import org.jboss.seam.util.Transactions;
+import org.jboss.seam.*;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.ServletException;
 import javax.swing.*;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.transaction.UserTransaction;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -55,7 +60,6 @@ public class FileServlet extends HttpServlet {
             File file = null;
 
             // TODO: Seam should use its transaction interceptor for java beans: http://jira.jboss.com/jira/browse/JBSEAM-957
-            /* Disabled because I can't get the restrictedEntityManager here, need to implement workaround
             UserTransaction userTx = null;
             boolean startedTx = false;
             try {
@@ -68,7 +72,15 @@ public class FileServlet extends HttpServlet {
                 EntityManager em = ((EntityManager)org.jboss.seam.Component.getInstance("restrictedEntityManager"));
                 em.joinTransaction();
 
-                file = (!"".equals(id)) ? em.find(File.class, Long.parseLong(id)) : null;
+                if (!"".equals(id)) {
+                    try {
+                        file = (File)em.createQuery("select f from File f where f.id = :fid")
+                                .setParameter("fid", Long.parseLong(id))
+                                .getSingleResult();
+                    } catch (NoResultException ex) {
+                        // ignore... we want null
+                    }
+                }
 
                 if (startedTx) userTx.commit();
             } catch (Exception ex) {
@@ -79,7 +91,6 @@ public class FileServlet extends HttpServlet {
                 }
                 throw new RuntimeException(ex);
             }
-            */
 
             String contentType = null;
             byte[] data = null;

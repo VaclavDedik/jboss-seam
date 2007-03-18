@@ -1,0 +1,41 @@
+<s:div id="attachmentDisplay"
+     styleClass="attachmentDisplay"
+     rendered="#{not empty wikiTextAttachments}"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:wiki="http://jboss.com/products/seam/wiki"
+     xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <div class="formHead rightBorder leftBorder">Attachments:</div>
+    <h:dataTable value="#{wikiTextAttachments}" var="link"
+         binding="#{wikiUtil.datatable}"
+         styleClass="datatable topLeftBottomBorder"
+         columnClasses="onePercentColumn rightBorder alignLeft, onePercentColumn alignLeft, defaultColumn rightBorder alignLeft"
+         rowClasses="rowOdd,rowEven"
+         cellpadding="0" cellspacing="0" border="0">
+        <h:column>
+            <h:panelGroup>
+                <a name="attachment#{wikiUtil.datatable.rowIndex + 1}"/>
+                <h:outputText value="#&#160;#{wikiUtil.datatable.rowIndex + 1}"/>
+            </h:panelGroup>
+        </h:column>
+        <h:column>
+            <h:panelGroup>
+                <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/#{fileMetaMap[link.node.contentType].displayIcon}"
+                                width="18" height="20"/>
+            </h:panelGroup>
+        </h:column>
+        <h:column>
+            <h:panelGroup>
+                <h:outputLink value="#{link.url}">
+                    <h:outputText value="#{link.node.name}"/>
+                    &#160;
+                    <h:outputText value="(#{link.node.filename}, #{link.node.humanReadableFilesize}, #{link.node.contentType})"/>
+                </h:outputLink>
+            </h:panelGroup>
+        </h:column>
+    </h:dataTable>
+
+</s:div>

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public abstract class Diff {
 
     /**
-     * Compares two strings, left and ride side, renders a new string with custom boundary markers
+     * Compares two strings, left and right side, renders a new string with custom boundary markers
      * for deleted and added lines.
      *
      * @param x The "left" side of the comparison.

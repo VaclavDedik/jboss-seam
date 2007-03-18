@@ -421,8 +421,12 @@ a:visited {
     border-bottom: 1px solid #C3BBB6;
 }
 
-.rightBorder{
+.rightBorder {
     border-right: 1px solid #C3BBB6;
+}
+
+.leftBorder {
+    border-left: 1px solid #C3BBB6;
 }
 
 .alignCenter {

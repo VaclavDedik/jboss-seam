@@ -148,7 +148,7 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
     @Override
     public String remove() {
 
-        // Unlink the document from its directory
+        // Unlink the node from its directory
         getInstance().getParent().removeChild(getInstance());
 
         // Refresh UI

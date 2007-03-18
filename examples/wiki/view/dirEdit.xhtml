@@ -83,7 +83,7 @@
 
     </s:validateAll>
 
-    <s:div styleClass="entry">
+    <s:div styleClass="entry" rendered="#{directoryHome.managed}">
         <div class="label">Default document:</div>
         <div class="input">
             <h:selectOneMenu value="#{directoryHome.instance.defaultDocument}" converter="#{restrictedEntityConverter}" tabindex="2">

@@ -7,7 +7,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.AutoCreate;
 
 /**
- * Not reall save, should use a random salt, prepended later on the digest.
+ * Not really safe, should use a random salt, prepended later on the digest.
  * Should also iterate the hashing a few thousand times to make brute force
  * attacks more difficult. Basically, implement user password encryption with
  * the same technique as on a typical Linux distribution.
