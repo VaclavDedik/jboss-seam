@@ -8,64 +8,49 @@
 
 <!-- content -->
 <ui:define name="content">
+
 <div class="section">
 	<h1>Confirm Hotel Booking</h1>
 </div>
+
 <div class="section">
-	<h:form id="confirm">
-	<fieldset>
-		<div class="entry">
-			<div class="label">Name:</div>
-			<div class="output">#{hotel.name}</div>
-		</div>
-		<div class="entry">
-			<div class="label">Address:</div>
-			<div class="output">#{hotel.address}</div>
-		</div>
-		<div class="entry">
-			<div class="label">City, State:</div>
-			<div class="output">#{hotel.city}, #{hotel.state}</div>
-		</div>
-		<div class="entry">
-			<div class="label">Zip:</div>
-			<div class="output">#{hotel.zip}</div>
-		</div>
-		<div class="entry">
-			<div class="label">Country:</div>
-			<div class="output">#{hotel.country}</div>
-		</div>
-        <div class="entry">
-            <div class="label">Total payment:</div>
-            <div class="output">
-                <h:outputText value="#{booking.total}">
-                    <f:convertNumber type="currency" 
-                                     currencySymbol="$"/>
-                </h:outputText>
-            </div>
-        </div>
-		<div class="entry">
-			<div class="label">Check In Date:</div>
-			<div class="output"><h:outputText value="#{booking.checkinDate}"/></div>
-		</div>
-		<div class="entry">
-			<div class="label">Check Out Date:</div>
-			<div class="output"><h:outputText value="#{booking.checkoutDate}"/></div>
-		</div>
-		<div class="entry">
-			<div class="label">Credit Card #:</div>
-			<div class="output">#{booking.creditCard}</div>
-		</div>
-		<div class="entry">
-			<div class="label">&#160;</div>
-			<div class="input">
-				<h:commandButton id="confirm" value="Confirm" action="#{hotelBooking.confirm}"/>&#160;
-    			<s:button id="revise" value="Revise" view="/book.xhtml"/>&#160;
-    			<h:commandButton id="cancel" value="Cancel" action="#{hotelBooking.cancel}"/>
-			</div>
-		</div>
-	</fieldset>
-	</h:form>
+
+	<ui:include src="hotelview.xhtml"/>
+		
+	<s:decorateAll rowClass="entry" 
+				   labelColumnClass="label" 
+				   fieldColumnClass="output"
+				   id="booking">
+		
+		<h:outputText value="#{booking.total}">
+			<f:facet name="label">Total Payment:</f:facet>
+			<f:convertNumber type="currency" currencySymbol="$"/>
+		</h:outputText>
+
+		<h:outputText value="#{booking.checkinDate}">
+			<f:facet name="label">Check In Date:</f:facet>
+		</h:outputText>
+
+		<h:outputText value="#{booking.checkoutDate}">
+			<f:facet name="label">Check Out Date:</f:facet>
+		</h:outputText>
+
+		<h:outputText value="#{booking.creditCard}">
+			<f:facet name="label">Credit Card #:</f:facet>
+		</h:outputText>
+		
+		<h:form id="confirm">
+			<h:commandButton id="confirm" value="Confirm" action="#{hotelBooking.confirm}"/>
+			&#160;
+    		<s:button id="revise" value="Revise" view="/book.xhtml"/>
+    		&#160;
+    		<h:commandButton id="cancel" value="Cancel" action="#{hotelBooking.cancel}"/>
+		</h:form>
+
+	</s:decorateAll>
+		
 </div>
+
 </ui:define>
 
 <!-- sidebar -->

@@ -24,7 +24,7 @@ body {
 	margin-left: auto;
 	margin-right: auto;
 }
-label {
+.label {
 	font-weight: bold;
 	color: #5E5147;
 }
@@ -271,7 +271,4 @@ input[type="submit"], input[type="button"] {
 }
 #pgHome #content {
 	margin-top: 183px;
-}
-#pgHome input[type="submit"] {
-	height: 30px;
 }

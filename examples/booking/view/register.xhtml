@@ -10,12 +10,17 @@
 	<title>JBoss Suites: Seam Framework</title>
 	<link href="css/screen.css" rel="stylesheet" type="text/css" />
 </head>
+
 <body id="pgHome">
+
 <div id="document">
+
 	<div id="header">
 		<div id="title"><img src="img/hdr.title.gif" alt="JBoss Suites: seam framework demo"/></div>
 	</div>
+	
 	<div id="container">
+	
 		<div id="sidebar">		    
 			<h1>Integrated multi-layer validation</h1>
 			<p>
@@ -33,20 +38,28 @@
 			   </a>
 			</p>
 		</div>
+		
 		<div id="content">
+		
 			<div class="section">
 				<h1>Register</h1>
 			</div>
+			
 			<div class="section">
                 
-                <h:form id="register">
+				<div class="entry errors">
+					<h:messages globalOnly="true"/>
+				</div>
+
+                <h:form id="registration">
 				<fieldset>
 				
                     <s:validateAll>
                       <s:decorateAll rowClass="entry" 
                                      labelColumnClass="label" 
                                      fieldColumnClass="input"
-                                     messageColumnClass="errors">
+                                     messageColumnClass="errors"
+                                     id="registrationFields">
 
                        <f:facet name="aroundInvalidField">
                            <s:span styleClass="errors"/>
@@ -79,28 +92,28 @@
 							<f:facet name="label">Verify Password:</f:facet>
 						</h:inputSecret>
 						
+						<s:fragment>
+							<h:commandButton id="register" value="Register" action="#{register.register}"/>
+							&#160;
+							<s:button id="cancel" value="Cancel" view="/home.xhtml"/>
+						</s:fragment>
+						
 					  </s:decorateAll>
 					</s:validateAll>
-					
-					<div class="entry errors">
-						<h:messages globalOnly="true"/>
-					</div>
-					
-					<div class="entry">
-						<div class="label">&#160;</div>
-						<div class="input">
-							<h:commandButton id="register" value="Register" action="#{register.register}"/>&#160;
-							<s:button id="cancel" value="Cancel" view="/home.xhtml"/>
-						</div>
-					</div>
-					
+									
 				</fieldset>
                 </h:form>
                 
-			</div>			
+			</div>
+			
 		</div>
-	</div>
+		
+	</div
+	>
 	<div id="footer">Created with JBoss EJB 3.0, Seam, MyFaces, and Facelets</div>
+	
 </div>
+
 </body>
+
 </html>
