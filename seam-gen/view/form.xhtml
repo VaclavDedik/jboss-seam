@@ -13,34 +13,34 @@
 
     <h:messages globalOnly="true" styleClass="message"/>
     
-    <rich:panel>
-        <f:facet name="header">@pageName@</f:facet>
-    
-        <h:form id="@componentName@Form">
+    <h:form id="@componentName@Form">
 
-            <div class="dialog">
-                <s:validateAll>
-                    <div class="prop">
-                        <span class="name">Value</span>
-                        <span class="value">
-                            <s:decorate>
-                                <h:inputText id="value" required="true"
-                                    value="#{@componentName@.value}"/>
-                            </s:decorate>
-                        </span>
-                    </div>
-                </s:validateAll>
-            </div>
+        <rich:panel>
+            <f:facet name="header">@pageName@</f:facet>
+    
+            <s:validateAll>
+                <s:decorateAll labelColumnClass="name"
+                               fieldColumnClass="value"
+                               messageColumnClass="error"
+                               rowClass="prop"
+                               id="@componentName@FormDecoration">
+                    <s:decorate id="valueDecoration">
+                        <f:facet name="label">Value</f:facet>
+                            <h:inputText id="value" required="true"
+                                         value="#{@componentName@.value}"/>
+                    </s:decorate>
+                </s:decorateAll>
+            </s:validateAll>
             
-            <div class="actionButtons">
-                <h:commandButton id="@methodName@" value="@methodName@" 
-                        action="#{@componentName@.@methodName@}"/>     			  
-            </div>
+        </rich:panel>
 
-        </h:form>
+        <div class="actionButtons">
+            <h:commandButton id="@methodName@" value="@methodName@" 
+                    action="#{@componentName@.@methodName@}"/>     			  
+        </div>
+
+    </h:form>
     
-    </rich:panel>
-
 </ui:define>
 
 </ui:composition>

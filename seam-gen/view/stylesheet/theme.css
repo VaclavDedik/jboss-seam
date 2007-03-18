@@ -53,11 +53,6 @@ body {
 	padding: 30px;
 }
 
-.dialog table
-{
-	width: auto;
-}
-
 .columnHeader:hover
 {
     color: #FF6600;
@@ -68,24 +63,34 @@ body {
 	padding: 5px;
 	margin-top: 5px;
 	margin-bottom: 5px;
-	background-color: #F0F0F0;
+	background-color: #F0F8FF;
 	font-size: 12px;
 }
 
-.prop {
+.name {
+	vertical-align: top;
+	font-weight: bold;
+	width: 115px;
+	float: left;
+	padding: 5px;
+	margin-top: 3px;
+	clear: left;
+}
+.value {
+	float: left;
+	position: 125px;
 	padding: 5px;
 }
-.prop .name {
-	font-weight: bold;
-	text-align: left;
-	width: 115px;
+.error {
+	margin-left: 20px;
+	margin-top: 5px;
+	float: left;
+	padding: 5px;
+	border: 1px solid red;
 }
-.prop .value {
-	text-align: left;
-}
-.prop .errors {
+
+.errors {
 	color: red;
-	text-align: left;
 }
 .errors input {
 	border: 1px solid red;
@@ -95,6 +100,7 @@ body {
 }
 .required {
 	color: red;
+	padding-left: 2px;
 }
 
 /* date picker style */

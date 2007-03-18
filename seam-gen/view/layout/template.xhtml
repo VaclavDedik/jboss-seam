@@ -22,8 +22,13 @@
         <f:facet name="aroundInvalidField">
             <s:span styleClass="errors"/>
         </f:facet>
-        <f:facet name="afterInvalidField">
-            <s:span>&#160;<s:message/></s:span>
+        
+        <f:facet name="afterRequiredLabel">
+            <s:span styleClass="required">*</s:span>
+        </f:facet>
+        
+        <f:facet name="message">
+            <s:message styleClass="errors"/>
         </f:facet>
 
 		<ui:insert name="body"/>

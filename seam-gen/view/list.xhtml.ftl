@@ -19,35 +19,40 @@
     
     <h:messages globalOnly="true" styleClass="message" id="globalMessages"/>
     
-    <h:form id="${componentName}" styleClass="edit">
+    <h:form id="${componentName}Search" styleClass="edit">
     
         <rich:simpleTogglePanel label="${entityName} search parameters" switchType="ajax">
-        <div class="dialog">
-            <h:panelGrid columns="2" rowClasses="prop" columnClasses="name,value">
+        
+        <s:decorateAll rowClass="prop"
+                       labelColumnClass="name"
+                       fieldColumnClass="value"
+                       id="${componentName}SearchCriteria">
 
 <#foreach property in pojo.allPropertiesIterator>
 <#if !c2h.isCollection(property) && !c2h.isManyToOne(property)>
 <#if c2j.isComponent(property)>
 <#foreach componentProperty in property.value.propertyIterator>
 <#if componentProperty.value.typeName == "string">
-                <h:outputLabel for="${componentProperty.name}">${componentProperty.name}</h:outputLabel>
                 <h:inputText id="${componentProperty.name}" 
-                          value="${'#'}{${listName}.${componentName}.${property.name}.${componentProperty.name}}"/>
+                          value="${'#'}{${listName}.${componentName}.${property.name}.${componentProperty.name}}">
+                    <f:facet name="label">${componentProperty.name}</f:facet>
+                </h:inputText>
 
 </#if>
 </#foreach>
 <#else>
 <#if property.value.typeName == "string">
-                <h:outputLabel for="${property.name}">${property.name}</h:outputLabel>
                 <h:inputText id="${property.name}" 
-                          value="${'#'}{${listName}.${componentName}.${property.name}}"/>
+                          value="${'#'}{${listName}.${componentName}.${property.name}}">
+                    <f:facet name="label">${property.name}</f:facet>
+                </h:inputText>
 
 </#if>
 </#if>
 </#if>
 </#foreach>
-            </h:panelGrid>
-        </div>
+            </s:decorateAll>
+        
         </rich:simpleTogglePanel>
         
         <div class="actionButtons">

@@ -3,8 +3,8 @@
 <#foreach componentProperty in property.value.propertyIterator>
 <#assign propertyType = componentProperty.value.typeName>
 
-            <h:panelGroup>${componentProperty.name}</h:panelGroup>
             <s:span id="${componentProperty.name}">
+                <f:facet name="label">${componentProperty.name}</f:facet>
 <#if propertyType == "date">
                 <h:outputText value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
                     <s:convertDateTime type="date" dateStyle="short"/>
@@ -33,8 +33,8 @@
 <#else>
 <#assign propertyType = property.value.typeName>
 
-            <h:panelGroup>${property.name}</h:panelGroup>
             <s:span id="${property.name}">
+                <f:facet name="label">${property.name}</f:facet>
 <#if propertyType == "date">
                 <h:outputText value="${'#'}{${homeName}.instance.${property.name}}">
                     <s:convertDateTime type="date" dateStyle="short"/>

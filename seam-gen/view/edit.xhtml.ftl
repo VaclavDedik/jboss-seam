@@ -25,12 +25,15 @@
             <f:facet name="header">Edit ${entityName}</f:facet>
 
             <s:validateAll>
-                <h:panelGrid columns="2" rowClasses="prop" columnClasses="name,value">
+                <s:decorateAll labelColumnClass="name"
+                               fieldColumnClass="value"
+                               messageColumnClass="error"
+                               rowClass="prop">
 <#foreach property in pojo.allPropertiesIterator>
 <#include "editproperty.xhtml.ftl">
 </#foreach>
 
-                </h:panelGrid>
+                </s:decorateAll>
             </s:validateAll>
         
             <div><span class="required">*</span> required fields</div>

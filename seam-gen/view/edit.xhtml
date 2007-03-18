@@ -12,22 +12,24 @@
     
     <h:messages globalOnly="true" styleClass="message"/>
     
-    <h:form id="@componentName@">
+    <h:form id="@componentName@Form">
 
         <rich:panel>
             <f:facet name="header">@pageName@</f:facet>
     
             <s:validateAll>
-                <div class="prop">
-                    <span class="name">Name</span>
-                    <span class="value">
-                        <s:decorate>
-                            <h:inputText id="name" required="true"
-                                value="#{@homeName@.instance.name}"/>
-                        </s:decorate>
-                    </span>
-                </div>
-            </s:validateAll>
+                <s:decorateAll labelColumnClass="name"
+                               fieldColumnClass="value"
+                               messageColumnClass="error"
+                               rowClass="prop"
+                               id="@componentName@FormDecoration">
+                    <s:decorate id="nameDecoration">
+                        <f:facet name="label">Name</f:facet>
+                        <h:inputText id="name" required="true"
+                                     value="#{@homeName@.instance.name}"/>
+                    </s:decorate>
+                </s:decorateAll>
+            </s:decorateAll>
             
         </rich:panel>
 

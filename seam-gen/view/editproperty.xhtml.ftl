@@ -6,13 +6,8 @@
 <#assign column = componentProperty.columnIterator.next()>
 <#assign propertyType = componentProperty.value.typeName>
 
-                    <h:outputLabel for="${componentProperty.name}">
-                        ${componentProperty.name}
-<#if !column.nullable>
-                        <span class="required">*</span>
-</#if>
-                    </h:outputLabel>
                     <s:decorate id="${componentProperty.name}Decoration">
+                        <f:facet name="label">${componentProperty.name}</f:facet>
 <#if propertyType == "date">
                         <h:inputText id="${componentProperty.name}" 
                               maxlength="10"
@@ -134,13 +129,8 @@
 <#assign column = property.columnIterator.next()>
 <#assign propertyType = property.value.typeName>
 
-                    <h:outputLabel for="${property.name}">
-                        ${property.name}
-<#if !column.nullable>
-                        <span class="required">*</span>
-</#if>
-                    </h:outputLabel>
                     <s:decorate id="${property.name}Decoration">
+                        <f:facet name="label">${property.name}</f:facet>
 <#if propertyType == "date">
                         <h:inputText id="${property.name}" 
                               maxlength="10"
