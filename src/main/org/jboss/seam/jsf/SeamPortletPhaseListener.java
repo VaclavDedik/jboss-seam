@@ -6,21 +6,21 @@
  */
 package org.jboss.seam.jsf;
 
-import static javax.faces.event.PhaseId.APPLY_REQUEST_VALUES;
 import static javax.faces.event.PhaseId.INVOKE_APPLICATION;
 import static javax.faces.event.PhaseId.PROCESS_VALIDATIONS;
 import static javax.faces.event.PhaseId.RENDER_RESPONSE;
 import static javax.faces.event.PhaseId.RESTORE_VIEW;
+import static javax.faces.event.PhaseId.UPDATE_MODEL_VALUES;
 
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.portlet.ActionResponse;
 
-import org.jboss.seam.log.LogProvider;
-import org.jboss.seam.log.Logging;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 
 /**
  * Manages the Seam contexts associated with a JSF portlet
@@ -59,7 +59,7 @@ public class SeamPortletPhaseListener extends AbstractSeamPhaseListener
          afterRestoreView( facesContext );         
          beforeRender(event);
       }
-      else if ( event.getPhaseId()== APPLY_REQUEST_VALUES )
+      else if ( event.getPhaseId()== UPDATE_MODEL_VALUES )
       {
          beforeUpdateModelValues(event);
       }
