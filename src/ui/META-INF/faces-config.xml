@@ -480,8 +480,8 @@
   </property>
  </component>
   <component>
-  <component-type>org.jboss.seam.ui.HtmlLayoutForm</component-type>
-  <component-class>org.jboss.seam.ui.HtmlLayoutForm</component-class>
+  <component-type>org.jboss.seam.ui.UIDecorateAll</component-type>
+  <component-class>org.jboss.seam.ui.UIDecorateAll</component-class>
   <property>
    <property-name>styleClass</property-name>
    <property-class>java.lang.String</property-class>

@@ -14,7 +14,7 @@ public class HtmlMessageDecoration extends HtmlMessage
       {
          return UIDecorate.getInputId(component);
       }
-      else if ( component.getParent() instanceof HtmlLayoutForm )
+      else if ( component.getParent() instanceof UIDecorateAll )
       {
          return UIDecorate.getInputId(component);
       }

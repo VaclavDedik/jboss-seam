@@ -172,7 +172,8 @@ public class JSF
          if ( child.getRendersChildren() )
          {
             child.encodeChildren(facesContext);
-         } else
+         } 
+         else
          {
             renderChildren(facesContext, child);
          }

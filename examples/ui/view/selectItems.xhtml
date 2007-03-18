@@ -33,17 +33,17 @@
 		<li><code>s:decorate</code></li>
 		<li><code>s:link</code></li>
 		<li><code>s:conversationPropagation</code></li>
-		<li><code>s:layoutForm</code></li>
+		<li><code>s:decorateAll</code></li>
 	</ul>
 
 	<h:form>
 
-		<s:layoutForm labelColumnClass="labels" 
-		              fieldColumnClass="inputs" 
-		              descriptionColumnClass="help" 
-		              messageColumnClass="message"
-		              rowErrorClass="error"
-		              rowClass="row">
+		<s:decorateAll labelColumnClass="labels" 
+		               fieldColumnClass="inputs" 
+		               descriptionColumnClass="help" 
+		               messageColumnClass="message"
+		               rowErrorClass="error"
+		               rowClass="row">
 		    
 		    <f:facet name="message"><s:message/></f:facet>
 		    <f:facet name="afterLabel">:</f:facet>
@@ -95,7 +95,7 @@
 				<s:convertEntity />
 			</h:selectOneListbox>
 			
-		</s:layoutForm>
+		</s:decorateAll>
 		
 		<h:commandButton value="Apply" action="#{personHome.update}">
 			<s:conversationPropagation type="join" />

@@ -98,9 +98,9 @@
     </tag>
     
     <tag>
-        <tag-name>layoutForm</tag-name>
+        <tag-name>decorateAll</tag-name>
         <component>
-            <component-type>org.jboss.seam.ui.HtmlLayoutForm</component-type>
+            <component-type>org.jboss.seam.ui.UIDecorateAll</component-type>
         </component>
     </tag>
 
