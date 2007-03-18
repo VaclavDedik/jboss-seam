@@ -43,56 +43,43 @@
 				<fieldset>
 				
                     <s:validateAll>
+                      <s:decorateAll rowClass="entry" 
+                                     labelColumnClass="label" 
+                                     fieldColumnClass="input"
+                                     messageColumnClass="errors">
 
                        <f:facet name="aroundInvalidField">
                            <s:span styleClass="errors"/>
                        </f:facet>
-                       <f:facet name="afterInvalidField">
+                       <f:facet name="message">
                            <s:div styleClass="errors">
                	               <s:message/>
                	           </s:div>
                        </f:facet>
 		    
-						<div class="entry">
-							<div class="label"><h:outputLabel for="username">Username:</h:outputLabel></div>
-							<div class="input">
-								<s:decorate id="usernameDecorate">
-									<h:inputText id="username" value="#{user.username}" required="true">
-                                        <a:support event="onblur" reRender="usernameDecorate"/>
-                                    </h:inputText>
-								</s:decorate>
-							</div>
-						</div>
+						<s:decorate id="usernameDecorate">
+							<f:facet name="label">Username:</f:facet>
+							<h:inputText id="username" value="#{user.username}" required="true">
+								<a:support event="onblur" reRender="usernameDecorate"/>
+							</h:inputText>
+						</s:decorate>
 						
-						<div class="entry">
-							<div class="label"><h:outputLabel for="name">Real Name:</h:outputLabel></div>
-							<div class="input">
-								<s:decorate id="nameDecorate">
-									<h:inputText id="name" value="#{user.name}" required="true">
-                                        <a:support event="onblur" reRender="nameDecorate"/>
-                                    </h:inputText>
-								</s:decorate>
-							</div>
-						</div>
+						<s:decorate id="nameDecorate">
+							<f:facet name="label">Real Name:</f:facet>
+							<h:inputText id="name" value="#{user.name}" required="true">
+								<a:support event="onblur" reRender="nameDecorate"/>
+							</h:inputText>
+						</s:decorate>
 						
-						<div class="entry">
-							<div class="label"><h:outputLabel for="password">Password:</h:outputLabel></div>
-							<div class="input">
-								<s:decorate>
-									<h:inputSecret id="password" value="#{user.password}" required="true"/>
-								</s:decorate>
-							</div>
-						</div>
+						<h:inputSecret id="password" value="#{user.password}" required="true">
+							<f:facet name="label">Password:</f:facet>
+						</h:inputSecret>
 						
-						<div class="entry">
-							<div class="label"><h:outputLabel for="verify">Verify Password:</h:outputLabel></div>
-							<div class="input">
-								<s:decorate>
-									<h:inputSecret id="verify" value="#{register.verify}" required="true"/>
-								</s:decorate>
-							</div>
-						</div>
-
+						<h:inputSecret id="verify" value="#{register.verify}" required="true">
+							<f:facet name="label">Verify Password:</f:facet>
+						</h:inputSecret>
+						
+					  </s:decorateAll>
 					</s:validateAll>
 					
 					<div class="entry errors">

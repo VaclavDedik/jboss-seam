@@ -1,6 +1,6 @@
 /* Setup defaults since variable in browsers
 ----------------------------------------------- */
-body, div, dd, dt, dl, img, ul, ol, li, p, h1, h2, h3, h4, h5, form, hr, fieldset {
+body, div, span, dd, dt, dl, img, ul, ol, li, p, h1, h2, h3, h4, h5, form, hr, fieldset {
 	margin: 0;
 	padding: 0;
 }
@@ -39,7 +39,8 @@ select {
 	padding: 4px;
 	margin: 5px 0;
 	background: #fff url(../img/input.bg.gif) 0 0 repeat-x;
-}ol, ul {
+}
+ol, ul {
 	margin: 10px 0px 10px 6px;
 }
 li {
@@ -117,14 +118,19 @@ input[type="submit"], input[type="button"] {
 	text-align: right;
 }
 .entry .output {
-	float: left;
-	width: 250px;
+	float: right;
+	width: 360px;
 	padding-top: 10px;
 	text-align: left;
 }
 .entry .input {
-	float: left;
-	width: 250px;
+	float: right;
+	width: 360px;
+	text-align: left;
+}
+.entry .errors {
+	float: right;
+	width: 360px;
 	text-align: left;
 }
 /* Sidebar
@@ -140,6 +146,9 @@ input[type="submit"], input[type="button"] {
 	color: #600;
 }
 .errors div {
+	text-align: left;
+}
+.errors span {
 	text-align: left;
 }
 .errors input {
@@ -224,10 +233,10 @@ input[type="submit"], input[type="button"] {
 	float: left;
 	width: 66%;
 }
-#radio table {
+#content table.radio {
 	border: 0px;
 }
-#radio table tr td {
+#content table.radio tbody tr td {
 	border: 0px;
 	border-left: 0px;
 	border-bottom: 0px;
