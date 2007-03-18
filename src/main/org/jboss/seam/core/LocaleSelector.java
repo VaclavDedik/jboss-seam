@@ -86,7 +86,7 @@ public class LocaleSelector extends Selector
    {
       if ( !Strings.isEmpty(variant) )
       {
-         return new java.util.Locale(language, country, variant );
+         return new java.util.Locale(language, country, variant);
       }
       else if ( !Strings.isEmpty(country) )
       {

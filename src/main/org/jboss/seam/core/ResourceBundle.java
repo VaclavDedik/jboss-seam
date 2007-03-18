@@ -31,7 +31,8 @@ import org.jboss.seam.util.Strings;
 @Intercept(NEVER)
 @Name("org.jboss.seam.core.resourceBundle")
 @Install(precedence=BUILT_IN)
-public class ResourceBundle implements Serializable {
+public class ResourceBundle implements Serializable 
+{
    private static final long serialVersionUID = -3236251335438092538L;
    private static final LogProvider log = Logging.getLogProvider(ResourceBundle.class);
 

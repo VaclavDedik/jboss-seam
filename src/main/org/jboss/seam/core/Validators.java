@@ -31,8 +31,32 @@ import org.jboss.seam.contexts.Contexts;
 @Install(precedence=BUILT_IN)
 public class Validators
 {
+   
+   class Key
+   {
+      private Class validatableClass;
+      private java.util.Locale locale;
+      public Key(Class validatableClass, java.util.Locale locale)
+      {
+         this.validatableClass = validatableClass;
+         this.locale = locale;
+      }
+      @Override
+      public boolean equals(Object other)
+      {
+         Key key = (Key) other;
+         return key.validatableClass.equals(validatableClass)
+               && key.locale.equals(locale);
+      }
+      @Override
+      public int hashCode()
+      {
+         return validatableClass.hashCode() + locale.hashCode();
+      }
+   }
 
-   private Map<Class, ClassValidator> classValidators = Collections.synchronizedMap( new HashMap<Class, ClassValidator>() ); 
+   //TODO: should use weak references here...
+   private Map<Key, ClassValidator> classValidators = Collections.synchronizedMap( new HashMap<Key, ClassValidator>() ); 
    
    /**
     * Get the cached ClassValidator instance.
@@ -42,11 +66,12 @@ public class Validators
     */
    public ClassValidator getValidator(Class modelClass, String name)
    {
-      ClassValidator result = classValidators.get(modelClass);
+      Key key = new Key(modelClass, Locale.instance());
+      ClassValidator result = classValidators.get(key);
       if (result==null)
       {
          result = createValidator(modelClass, name);
-         classValidators.put(modelClass, result);
+         classValidators.put(key, result);
       }
       return result;
    }
