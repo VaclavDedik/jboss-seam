@@ -11,13 +11,14 @@
 <ui:define name="content">
 
 <div class="section">
-  <h:form id="main">
   
     <span class="errors">
        <h:messages globalOnly="true"/>
     </span>
     
-	<h1>Search Hotels</h1>
+    <h1>Search Hotels</h1>
+
+	<h:form id="searchCriteria">
 	<fieldset> 
 	   <h:inputText id="searchString" value="#{hotelSearch.searchString}" style="width: 165px;">
          <a:support event="onkeyup" actionListener="#{hotelSearch.find}" reRender="searchResults" />
@@ -38,8 +39,8 @@
           <f:selectItem itemLabel="20" itemValue="20"/>
        </h:selectOneMenu>
     </fieldset>
+    </h:form>
     
-  </h:form>
 </div>
 
 <a:outputPanel id="searchResults">
