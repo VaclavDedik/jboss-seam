@@ -1,0 +1,18 @@
+<div id="searchControl"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <h:form>
+        <h:panelGroup styleClass="searchControlTable">
+            <h:inputText styleClass="searchControlInput" id="searchControlSearchString" value="Search..."
+                         onclick="clickClear(this, 'Search...')" onblur="clickRecall(this, 'Search...')"
+                         size="15" maxlength="255" tabindex="60"/>
+            <h:commandLink styleClass="searchControlLink" tabindex="61" accesskey="F"><u>F</u>ind</h:commandLink>
+        </h:panelGroup>
+
+    </h:form>
+
+</div>

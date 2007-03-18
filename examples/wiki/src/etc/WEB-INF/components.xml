@@ -22,7 +22,7 @@
         <property name="baseURL">http://www.seamframework.org/wiki</property>
         <property name="defaultURLRendering">WIKILINK</property>
         <property name="permlinkSuffix">.html</property>
-        <property name="defaultDocumentId">9</property>
+        <property name="defaultDocumentId">10</property>
         <property name="memberAreaId">2</property>
         <property name="themeName">default</property>
         <property name="newUserInRole">member</property>

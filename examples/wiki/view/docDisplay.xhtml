@@ -8,7 +8,7 @@
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
                 template="themes/#{globalPrefs.themeName}/template.xhtml">
 
-<ui:define name="pluginHeaders">
+<ui:define name="includeHeaders">
     <link href="#{themePath}/css/userControl.css" rel="stylesheet" type="text/css"/>
     <link href="#{themePath}/css/searchControl.css" rel="stylesheet" type="text/css"/>
     <link href="#{themePath}/css/breadcrumb.css" rel="stylesheet" type="text/css"/>
@@ -18,16 +18,16 @@
 <ui:define name="screenname">Display Document</ui:define>
 
 <ui:define name="headerTopRight">
-    <ui:include src="plugins/userControl/plugin.xhtml"/>
+    <ui:include src="includes/userControl.xhtml"/>
 </ui:define>
 
 <ui:define name="headerBottomLeft">
-    <ui:include src="plugins/breadcrumb/plugin.xhtml"/>
+    <ui:include src="includes/breadcrumb.xhtml"/>
 </ui:define>
 
 <ui:define name="sidebar">
-    <ui:include src="plugins/searchControl/plugin.xhtml"/>
-    <ui:include src="plugins/mainMenu/plugin.xhtml"/>
+    <ui:include src="includes/searchControl.xhtml"/>
+    <ui:include src="includes/mainMenu.xhtml"/>
 </ui:define>
 
 <ui:define name="controlRight">

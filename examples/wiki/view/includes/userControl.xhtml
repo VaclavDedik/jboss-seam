@@ -1,0 +1,36 @@
+<div id="userControl"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <s:div rendered="#{not identity.loggedIn}">
+        <h:form>
+            <h:panelGroup>
+                <h:outputLabel styleClass="userControlLabel" for="loginUsername" value="Username:"/>
+                <h:inputText styleClass="userControlInput" id="loginUsername" value="#{identity.username}" size="8" tabindex="50"/>
+                <h:outputLabel styleClass="userControlLabel" for="loginPassword" value="Password:"/>
+                <h:inputSecret styleClass="userControlInput" id="loginPassword" value="#{identity.password}" size="8" tabindex="51"/>
+                <h:commandLink styleClass="userControlLink" action="#{identity.login}" tabindex="52" accesskey="L"><u>L</u>ogin</h:commandLink>
+
+                <s:link styleClass="userControlLink" action="register" tabindex="53" accesskey="R"><u>R</u>egister</s:link>
+
+                <s:link styleClass="userControlLink" action="listUsers" tabindex="54" accesskey="M"><u>M</u>embers</s:link>
+
+            </h:panelGroup>
+        </h:form>
+    </s:div>
+
+    <s:div rendered="#{identity.loggedIn}">
+        <h:form>
+            <h:panelGroup>
+                <h:outputText styleClass="userControlLabel" value="(#{currentUser.firstname} #{currentUser.lastname})"/>
+                <h:commandLink styleClass="userControlLink" action="#{authenticator.logout}" tabindex="70">Logout</h:commandLink>
+                <s:link styleClass="userControlLink" action="editCurrentUser" tabindex="71">Profile</s:link>
+                <s:link styleClass="userControlLink" action="listUsers" tabindex="72" accesskey="M"><u>M</u>embers</s:link>
+            </h:panelGroup>
+        </h:form>
+    </s:div>
+
+</div>
