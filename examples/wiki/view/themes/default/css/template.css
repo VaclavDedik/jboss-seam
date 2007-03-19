@@ -35,7 +35,7 @@ input, textarea, select {
     font-family: Andale Mono, Courier New, monospace;
 }
 ol, ul {
-	margin: 10px 0px 10px 6px;
+	margin: 10px 0 10px 6px;
 }
 li {
 	margin: 10px 12px;
@@ -188,6 +188,7 @@ a:visited {
 
 .documentDisplay {
     padding-left: 10px;
+    padding-right: 10px;
 }
 
 .attachmentDisplay {

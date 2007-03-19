@@ -1,9 +1,6 @@
 package org.jboss.seam.wiki.core.ui;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
-import java.io.StringWriter;
+import java.io.*;
 import java.net.URL;
 import java.util.*;
 
@@ -15,6 +12,9 @@ import org.jboss.seam.text.SeamTextLexer;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.util.Resources;
 import org.jboss.seam.ui.JSF;
+import org.jboss.seam.wiki.core.model.GlobalPreferences;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.Component;
 
 import antlr.ANTLRException;
 import com.sun.facelets.Facelet;
@@ -86,13 +86,34 @@ public class UIWikiFormattedText extends UIOutput {
         URL url = Resources.getResource(includeView);
         if (url == null) return "";
 
+        // Try to get the CSS for it
+        GlobalPreferences globalPrefs = (GlobalPreferences) Component.getInstance("globalPrefs");
+        String includeViewCSS = "/themes/" + globalPrefs.getThemeName() + "/css/" + macroName + ".css";
+
+        // Prepare all the writers for rendering
         ResponseWriter originalResponseWriter = facesContext.getResponseWriter();
         StringWriter stringWriter = new StringWriter();
         ResponseWriter tempResponseWriter = originalResponseWriter.cloneWithWriter(stringWriter);
         facesContext.setResponseWriter(tempResponseWriter);
 
-        String output;
+        StringBuilder output = new StringBuilder();
+
         try {
+            // Render CSS
+            InputStream is = Resources.getResourceAsStream(includeViewCSS);
+            if (is != null) {
+                output.append("<style type=\"text/css\">\n");
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+                String line;
+                while ( (line = reader.readLine()) != null) {
+                    output.append(line);
+                    output.append("\n");
+                }
+                is.close();
+                output.append("</style>\n");
+            }
+
+            // Render XHTML
             Facelet f = new DefaultFaceletFactory(new SAXCompiler(), new DefaultResourceResolver()).getFacelet(url);
 
             // TODO: I'm not sure this is good...
@@ -106,16 +127,16 @@ public class UIWikiFormattedText extends UIOutput {
             // TODO: And back... it's definitely in the wrong order in the component tree but the ids look ok to me...
             getChildren().addAll(storedChildren);
 
-            output = stringWriter.getBuffer().toString();
+            output.append(stringWriter.getBuffer().toString());
+
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         } finally {
             includedViews.add(includeView);
             facesContext.setResponseWriter(originalResponseWriter);
         }
-        return output;
+        return output.toString();
     }
-
 
     public void encodeChildren(FacesContext facesContext) throws IOException {
         // Already done

@@ -16,19 +16,18 @@
             <f:facet name="header">
                 Recent changes:
             </f:facet>
-            <h:outputLink value="#{wiki:renderURL(doc)}" styleClass="itemLink">
-                #{doc.name}
-            </h:outputLink>
-        </h:column>
-        <h:column>
             <h:outputText value="#{doc.lastModifiedOn}"
                           rendered="#{!empty doc.lastModifiedOn}">
-                <f:convertDateTime type="both"/>
+                <f:convertDateTime pattern="dd. MMM yyyy, HH:mm"/>
             </h:outputText>
             <h:outputText value=" (#{doc.lastModifiedBy.username})"
                           rendered="#{!empty doc.lastModifiedBy}">
             </h:outputText>
-
+        </h:column>
+        <h:column>
+            <h:outputLink value="#{wiki:renderURL(doc)}" styleClass="lastModifiedLink">
+                #{doc.name}
+            </h:outputLink>
         </h:column>
     </h:dataTable>
 
