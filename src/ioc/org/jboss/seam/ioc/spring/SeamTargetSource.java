@@ -31,6 +31,15 @@ public class SeamTargetSource implements TargetSource, Serializable
    private String name;
    private Boolean create;
    private ValueBinding valueBinding;
+   private Class type;
+   
+   
+
+   public SeamTargetSource(String name, ScopeType scope, Boolean create, Class type)
+   {
+      this(name, scope, create);
+      this.type = type;
+   }
 
    /**
     * @param name
@@ -90,25 +99,15 @@ public class SeamTargetSource implements TargetSource, Serializable
    }
 
    /**
-    * Obtains the seam component beanClass for this TargetSource.
+    * Obtains the seam component beanClass or the defined type for this TargetSource.
     *
     * @see org.springframework.aop.TargetSource#getTargetClass()
     */
    public Class getTargetClass()
    {
-      Class trueClass = getTrueTargetClass();
-      if(trueClass == null) {
-         return null;
+      if(type != null) {
+         return type;
       }
-      if (trueClass.isInterface())
-      {
-         return Object.class;
-      }
-      return trueClass;
-   }
-
-   public Class getTrueTargetClass()
-   {
       Component component = getComponent();
       if(component == null) {
          return null;
@@ -123,19 +122,10 @@ public class SeamTargetSource implements TargetSource, Serializable
    public List<Class> getSeamInterfaces()
    {
       List<Class> interfaces = new ArrayList<Class>();
-      Class trueClass = getTrueTargetClass();
-      if(trueClass == null) {
-         return null;
-      }
-      // if the true class is an interface then add it
-      if (trueClass.isInterface())
-      {
-         interfaces.add(trueClass);
-      }
       Component component = getComponent();
       // Attempt to piece together all of the possible interfaces to apply
       // to our proxy.
-      if (component.getInterceptionType() != InterceptionType.NEVER)
+      if (component != null && component.getInterceptionType() != InterceptionType.NEVER)
       {
          if (component.getType().isSessionBean())
          {

@@ -31,7 +31,7 @@ import org.springframework.web.context.support.XmlWebApplicationContext;
 public class ContextLoader
 {
    private WebApplicationContext webApplicationContext;
-   private String[] configLocations;
+   private String[] configLocations = {XmlWebApplicationContext.DEFAULT_CONFIG_LOCATION};
    
    @Create 
    public void create() throws Exception

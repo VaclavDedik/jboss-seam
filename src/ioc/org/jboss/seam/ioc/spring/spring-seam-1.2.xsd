@@ -79,6 +79,17 @@
                     </xsd:restriction>
                 </xsd:simpleType>
             </xsd:attribute>
+            <xsd:attribute name="type" type="xsd:string" use="optional">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        <![CDATA[
+                                 The class type to use when creating a proxy of this instance.  Useful when using
+                                 EL for the name because the type of the EL expression may not be available when the
+                                 proxy is created.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
             <xsd:attribute name="create" type="xsd:boolean" use="optional">
                 <xsd:annotation>
                     <xsd:documentation>
