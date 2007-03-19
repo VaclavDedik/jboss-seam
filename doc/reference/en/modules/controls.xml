@@ -98,17 +98,29 @@
           <entry valign="top">
             <para><emphasis>Description</emphasis></para>
             <para>
-               Output <emphasis>Seam Text</emphasis>.
+               Outputs <emphasis>Seam Text</emphasis>, a rich text markup useful for blogs, wikis and
+               other applications that might use rich text.  See the Seam Text chapter for full usage.
             </para>
             <para><emphasis>Attributes</emphasis></para>
-            <para>
-                None.
-            </para>
+            <itemizedlist>
+              <listitem>
+                <para>
+                  <literal>value</literal> &mdash; an EL expression specifying the rich text markup to render.
+                </para>
+              </listitem>
+            </itemizedlist>
             <para><emphasis>Usage</emphasis></para>
-            <para>
-              <programlisting><![CDATA[
-]]></programlisting>
-            </para>
+            <programlisting><![CDATA[<s:formattedText value="#{blog.text}"/>
+]]></programlisting>            
+            <para><emphasis>Example</emphasis></para>
+            <mediaobject>
+              <imageobject role="fo">
+                <imagedata fileref="images/controls-seamtext.png" align="center"/>
+              </imageobject>
+              <imageobject role="html">
+                <imagedata fileref="../shared/images/controls-seamtext.png" align="center"/>
+              </imageobject>
+            </mediaobject>                        
           </entry>
         </row>
 
