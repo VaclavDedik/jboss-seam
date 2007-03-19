@@ -429,6 +429,14 @@ a:visited {
     border-left: 1px solid #C3BBB6;
 }
 
+.topBorder {
+    border-top: 1px solid #C3BBB6;
+}
+
+.bottomBorder {
+    border-bottom: 1px solid #C3BBB6;
+}
+
 .alignCenter {
     text-align: center;
 }

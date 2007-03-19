@@ -55,7 +55,6 @@ public class File extends Node {
 
     public void setData(byte[] data) {
         this.data = data;
-        makeDirty();
     }
 
     public String getContentType() {
@@ -64,7 +63,6 @@ public class File extends Node {
 
     public void setContentType(String contentType) {
         this.contentType = contentType;
-        makeDirty();
     }
 
     public ImageMetaInfo getImageMetaInfo() {
@@ -73,7 +71,6 @@ public class File extends Node {
 
     public void setImageMetaInfo(ImageMetaInfo imageMetaInfo) {
         this.imageMetaInfo = imageMetaInfo;
-        makeDirty();
     }
 
     public Directory getParent() {

@@ -35,8 +35,8 @@
 
 <ui:define name="controlRight">
 
-    <s:link id="uploadFile" styleClass="linkNavigation" action="uploadFile" accesskey="U"
-            rendered="#{s:hasPermission('Node', 'create', documentHome.parentDirectory)}"><u>U</u>pload File</s:link>
+    <s:link id="uploadFile" styleClass="linkNavigation" action="uploadFile" accesskey="F"
+            rendered="#{s:hasPermission('Node', 'create', documentHome.parentDirectory)}">Upload <u>F</u>ile</s:link>
 
     <s:link id="exit" styleClass="linkNavigation"
             action="#{documentHome.exitConversation(true)}"

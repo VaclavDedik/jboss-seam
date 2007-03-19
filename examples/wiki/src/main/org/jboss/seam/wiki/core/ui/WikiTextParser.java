@@ -4,14 +4,12 @@ import org.jboss.seam.text.SeamTextParser;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.wiki.core.model.File;
-import org.jboss.seam.wiki.core.links.WikiLinkResolver;
 import antlr.TokenStream;
 
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
-
 
 public class WikiTextParser extends SeamTextParser {
 
@@ -20,17 +18,22 @@ public class WikiTextParser extends SeamTextParser {
     private String attachmentLinkClass;
     private String inlineLinkClass;
 
+    private UIWikiFormattedText textComponent;
+
     private List<WikiLink> attachments = new ArrayList<WikiLink>();
     private List<WikiLink> externalLinks = new ArrayList<WikiLink>();
     private Map<String, WikiLink> links = new HashMap<String, WikiLink>();
 
+    // TODO: Refactor to avoid callback to the UI component
     public WikiTextParser(TokenStream tokenStream,
-                          String linkClass, String brokenLinkClass, String attachmentLinkClass, String inlineLinkClass) {
+                          String linkClass, String brokenLinkClass, String attachmentLinkClass, String inlineLinkClass,
+                          UIWikiFormattedText textComponent) {
         super(tokenStream);
         this.linkClass = linkClass;
         this.brokenLinkClass = brokenLinkClass;
         this.attachmentLinkClass = attachmentLinkClass;
         this.inlineLinkClass = inlineLinkClass;
+        this.textComponent = textComponent;
     }
 
     protected String linkTag(String descriptionText, String linkText) {
@@ -96,6 +99,11 @@ public class WikiTextParser extends SeamTextParser {
                 + "</a>";
     }
 
+    protected String macroInclude(String macroName) {
+        // Filter out any dangerous characters
+        return textComponent.renderMacro(macroName.replaceAll("[^\\p{Alnum}]+", ""));
+    }
+
     public List<WikiLink> getAttachments() {
         return attachments;
     }
@@ -103,4 +111,6 @@ public class WikiTextParser extends SeamTextParser {
     public List<WikiLink> getExternalLinks() {
         return externalLinks;
     }
+
+
 }

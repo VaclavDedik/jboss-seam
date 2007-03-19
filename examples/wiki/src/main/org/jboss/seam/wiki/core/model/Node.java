@@ -140,7 +140,6 @@ public abstract class Node implements Serializable {
     }
     public void setName(String name) {
         this.name = name;
-        makeDirty();
     }
 
     public String getWikiname() {
@@ -149,7 +148,6 @@ public abstract class Node implements Serializable {
 
     public void setWikiname(String wikiname) {
         this.wikiname = wikiname;
-        makeDirty();
     }
 
     public boolean isMenuItem() {
@@ -237,10 +235,6 @@ public abstract class Node implements Serializable {
 
     // Misc methods
 
-    protected void makeDirty() {
-        setLastModifiedOn(new Date());
-    }
-
     public Directory getArea() {
         Node currentNode = this;
         // TODO: This is hardcoding the "parentless parent" logic for the wiki root
@@ -261,6 +255,5 @@ public abstract class Node implements Serializable {
     public void rollback(Node revision) {
         this.name = revision.name;
         this.wikiname = revision.wikiname;
-        makeDirty();
     }
 }

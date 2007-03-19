@@ -19,6 +19,8 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.security.AuthorizationException;
 import org.jboss.seam.security.Identity;
 
+import java.util.Date;
+
 /**
  * Superclass for all creating and editing documents, directories, files, etc.
  *
@@ -130,8 +132,9 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
         // Permission check (double check if subclass already called it)
         checkNodeAccessLevelChangePermission();
 
-        // Set last modified by user
+        // Set last modified by metadata
         getInstance().setLastModifiedBy(getCurrentUser());
+        getInstance().setLastModifiedOn(new Date());
 
         // Validate
         if (!isValidModel()) return null;

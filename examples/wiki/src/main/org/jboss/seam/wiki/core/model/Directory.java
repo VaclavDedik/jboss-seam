@@ -31,7 +31,6 @@ public class Directory extends Node {
 
     public void setDefaultDocument(Document defaultDocument) {
         this.defaultDocument = defaultDocument;
-        makeDirty();
     }
 
     public String toString() {

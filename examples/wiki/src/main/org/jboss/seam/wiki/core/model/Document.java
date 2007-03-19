@@ -32,7 +32,6 @@ public class Document extends Node {
     }
     public void setContent(String content) {
         this.content = content;
-        makeDirty();
     }
 
     public Directory getParent() {
