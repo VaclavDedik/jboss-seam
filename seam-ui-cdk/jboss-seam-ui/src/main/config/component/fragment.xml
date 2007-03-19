@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE components PUBLIC "-//AJAX4JSF//CDK Generator config/EN"  "https://ajax4jsf.dev.java.net/nonav/dtds/component-config.dtd" >
+<components>
+	<component>
+		<name>org.jboss.seam.ui.Fragment</name>
+		<family>org.jboss.seam.ui.Fragment</family>
+		<classname>org.jboss.seam.ui.component.html.HtmlFragment</classname>
+		<superclass>org.jboss.seam.ui.component.UIFragment</superclass>
+		<description>
+			<![CDATA[
+    ]]>
+		</description>
+		<renderer generate="true" override="true" >
+			<name>org.jboss.seam.ui.FragmentRenderer</name>
+			<template>org/jboss/seam/ui/htmlFragment.jspx</template>
+		</renderer>
+		<tag>
+			<name>fragment</name>
+			<classname>org.jboss.seam.ui.taglib.FragmentTag</classname>
+			<superclass>
+				org.ajax4jsf.framework.taglib.HtmlComponentTagBase
+			</superclass>
+		</tag>
+		<!--
+		<taghandler>
+			<classname>org.ajax4jsf.tag.TestHandler</classname>
+		</taghandler>
+		-->
+		&ui_component_attributes;
+		<!--
+		<property>
+			<name>param</name>
+			<classname>java.lang.String</classname>
+			<description>
+			</description>
+			<defaultvalue>"default"</defaultvalue>
+		</property>
+        -->
+	</component>
+</components>

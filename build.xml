@@ -31,6 +31,7 @@
 
     <property name="src.java.dir"         value="src/main"/>
     <property name="src.ui.dir"           value="src/ui"/>
+	<property name="src.ui-cdk.dir"		  value="seam-ui-cdk" />
     <property name="src.pdf.dir"          value="src/pdf"/>
     <property name="src.ioc.dir"          value="src/ioc"/>
     <property name="src.mail.dir"         value="src/mail"/>
@@ -1144,6 +1145,47 @@
         <copy file="${basedir}/${name}-ui.jar" todir="${dist.dir}"/>
         
     </target>
+	
+    <target name="jarui-cdk" 
+            description="Build the distribution .jar file for the UI package based on A4J CDK">
+        <mkdir dir="${dist.dir}"/>
+        
+    	<java classname="org.codehaus.classworlds.Launcher" fork="true" dir="${basedir}/${src.ui-cdk.dir}/jboss-seam-ui">
+    		<classpath>
+    			<fileset dir="${basedir}/${src.ui-cdk.dir}/maven/core/boot">
+    				<include name="*.jar" />
+   				</fileset>
+    			<fileset dir="${basedir}/${src.ui-cdk.dir}/maven/bin">
+    				<include name="*.*"/>
+    			</fileset>
+    		</classpath>
+    		<sysproperty key="classworlds.conf" value="${basedir}/${src.ui-cdk.dir}/maven/bin/m2.conf"/>
+    		<sysproperty key="maven.home" value="${basedir}/${src.ui-cdk.dir}/maven"/>
+    		<sysproperty key="seam.dir" value="${basedir}"/>
+    		<sysproperty key="seam.version" value="${version}"/>
+    		<arg value="install"/>
+    	</java>
+    	<copy file="${src.ui-cdk.dir}/jboss-seam-ui/target/jboss-seam-ui.jar" tofile="${basedir}/${name}-ui.jar" />
+        <copy file="${basedir}/${name}-ui.jar" todir="${dist.dir}"/>
+    </target>
+	
+	<target name="jarui-cdk-clean" description="Call clean on seam-ui-cdk">
+		<java classname="org.codehaus.classworlds.Launcher" fork="true" dir="${basedir}/${src.ui-cdk.dir}/jboss-seam-ui">
+		    		<classpath>
+		    			<fileset dir="${basedir}/${src.ui-cdk.dir}/maven/core/boot">
+		    				<include name="*.jar" />
+		   				</fileset>
+		    			<fileset dir="${basedir}/${src.ui-cdk.dir}/maven/bin">
+		    				<include name="*.*"/>
+		    			</fileset>
+		    		</classpath>
+		    		<sysproperty key="classworlds.conf" value="${basedir}/${src.ui-cdk.dir}/maven/bin/m2.conf"/>
+		    		<sysproperty key="maven.home" value="${basedir}/${src.ui-cdk.dir}/maven"/>
+		    		<sysproperty key="seam.dir" value="${basedir}"/>
+		    		<sysproperty key="seam.version" value="${version}"/>
+		    		<arg value="clean"/>
+		    	</java>
+	</target>
 
     <target name="jarpdf" depends="compilepdf"
             description="Build the distribution .jar file for the PDF package">
