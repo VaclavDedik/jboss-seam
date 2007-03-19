@@ -52,6 +52,10 @@ options
     protected String linkTag(String description, String url) {
         return "<a href=\"" + url + "\" styleClass=\"seamTextLink\">" + description + "</a>";
     }
+
+    protected String macroInclude(String macroName) {
+        return "";
+    }
 }
 
 startRule: (newline)* ( (heading (newline)* )? text (heading (newline)* text)* )?
@@ -72,7 +76,7 @@ line: (plain|formatted) (plain|formatted|preformatted|quoted|html)*
 formatted: bold|underline|italic|monospace|superscript|deleted
     ;
 
-plain: word|punctuation|escape|space|link
+plain: word|punctuation|escape|space|link|macro
     ;
   
 word: w:WORD { append( w.getText() ); }
@@ -121,6 +125,14 @@ link: OPEN
       { beginCapture(); }
       attributeValue 
       { String link = endCapture(); append(linkTag(text, link)); }
+      CLOSE
+    ;
+
+macro: OPEN
+      LT EQ
+      { beginCapture(); }
+      attributeValue 
+      { String macroName = endCapture(); append(macroInclude(macroName)); }
       CLOSE
     ;
 
