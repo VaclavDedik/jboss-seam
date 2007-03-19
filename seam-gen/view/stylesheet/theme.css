@@ -78,7 +78,6 @@ body {
 }
 .value {
 	float: left;
-	position: 125px;
 	padding: 5px;
 }
 .error {
