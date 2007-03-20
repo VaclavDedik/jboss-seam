@@ -52,8 +52,6 @@
         
     </page>
     
-    <conversation name="bookHotel" parameter-name="hotelId" parameter-value="#{hotel.id}"/>
-
 	<page view-id="/hotel.xhtml">
           
         <description>View hotel: #{hotel.name}</description>
@@ -64,7 +62,7 @@
         
     </page>
 
-	<page view-id="/book.xhtml" conversation="bookHotel">
+	<page view-id="/book.xhtml">
           
         <description>Book hotel: #{hotel.name}</description>
         
@@ -76,7 +74,7 @@
         
     </page>
 
-	<page view-id="/confirm.xhtml" conversation="bookHotel">
+	<page view-id="/confirm.xhtml">
           
         <description>Confirm booking: #{booking.description}</description>
         
