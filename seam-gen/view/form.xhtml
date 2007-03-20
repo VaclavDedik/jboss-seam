@@ -18,19 +18,15 @@
         <rich:panel>
             <f:facet name="header">@pageName@</f:facet>
     
-            <s:validateAll>
-                <s:decorateAll labelColumnClass="name"
-                               fieldColumnClass="value"
-                               messageColumnClass="error"
-                               rowClass="prop"
-                               id="@componentName@FormDecoration">
-                    <s:decorate id="valueDecoration">
-                        <f:facet name="label">Value</f:facet>
-                            <h:inputText id="value" required="true"
-                                         value="#{@componentName@.value}"/>
-                    </s:decorate>
-                </s:decorateAll>
-            </s:validateAll>
+            <s:decorate id="valueDecoration" template="layout/edit.xhtml">
+                <ui:define name="label">Value</ui:define>
+                <ui:define name="input">
+                    <h:inputText id="value" required="true"
+                                 value="#{@componentName@.value}"/>
+                </ui:define>
+            </s:decorate>
+            
+            <div style="clear:both"/>
             
         </rich:panel>
 

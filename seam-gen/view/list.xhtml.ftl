@@ -23,35 +23,33 @@
     
         <rich:simpleTogglePanel label="${entityName} search parameters" switchType="ajax">
         
-        <s:decorateAll rowClass="prop"
-                       labelColumnClass="name"
-                       fieldColumnClass="value"
-                       id="${componentName}SearchCriteria">
-
 <#foreach property in pojo.allPropertiesIterator>
 <#if !c2h.isCollection(property) && !c2h.isManyToOne(property)>
 <#if c2j.isComponent(property)>
 <#foreach componentProperty in property.value.propertyIterator>
 <#if componentProperty.value.typeName == "string">
-                <h:inputText id="${componentProperty.name}" 
-                          value="${'#'}{${listName}.${componentName}.${property.name}.${componentProperty.name}}">
-                    <f:facet name="label">${componentProperty.name}</f:facet>
-                </h:inputText>
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">${componentProperty.name}</ui:define>
+                <ui:define name="value">
+                    <h:inputText id="${componentProperty.name}" value="${'#'}{${listName}.${componentName}.${property.name}.${componentProperty.name}}"/>
+                </ui:define>
+            </s:decorate>
 
 </#if>
 </#foreach>
 <#else>
 <#if property.value.typeName == "string">
-                <h:inputText id="${property.name}" 
-                          value="${'#'}{${listName}.${componentName}.${property.name}}">
-                    <f:facet name="label">${property.name}</f:facet>
-                </h:inputText>
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">${property.name}</ui:define>
+                <ui:define name="value">
+                    <h:inputText id="${property.name}" value="${'#'}{${listName}.${componentName}.${property.name}}"/>
+                </ui:define>
+            </s:decorate>
 
 </#if>
 </#if>
 </#if>
 </#foreach>
-            </s:decorateAll>
         
         </rich:simpleTogglePanel>
         

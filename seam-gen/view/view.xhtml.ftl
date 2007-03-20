@@ -21,18 +21,13 @@
     <rich:panel>
         <f:facet name="header">${entityName}</f:facet>
     
-        <s:decorateAll labelColumnClass="name"
-                       fieldColumnClass="value"
-                       rowClass="prop"
-                       styleClass="dialog"
-                       id="${componentName}">
 <#foreach property in pojo.allPropertiesIterator>
 <#if !c2h.isCollection(property) && !c2h.isManyToOne(property)>
 <#include "viewproperty.xhtml.ftl">
 </#if>
 </#foreach>
 
-        </s:decorateAll>
+        <div style="clear:both"/>
         
     </rich:panel>
     

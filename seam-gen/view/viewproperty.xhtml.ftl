@@ -3,8 +3,9 @@
 <#foreach componentProperty in property.value.propertyIterator>
 <#assign propertyType = componentProperty.value.typeName>
 
-            <s:span id="${componentProperty.name}">
-                <f:facet name="label">${componentProperty.name}</f:facet>
+        <s:decorate id="${componentProperty.name}" template="layout/display.xhtml">
+            <ui:define name="label">${componentProperty.name}</ui:define>
+            <ui:define name="value">
 <#if propertyType == "date">
                 <h:outputText value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
                     <s:convertDateTime type="date" dateStyle="short"/>
@@ -28,13 +29,15 @@
 <#else>
                 ${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}
 </#if>
-            </s:span>
+            </ui:define>
+        </s:decorate>
 </#foreach>
 <#else>
 <#assign propertyType = property.value.typeName>
 
-            <s:span id="${property.name}">
-                <f:facet name="label">${property.name}</f:facet>
+        <s:decorate id="${property.name}" template="layout/display.xhtml">
+            <ui:define name="label">${property.name}</ui:define>
+            <ui:define name="value">
 <#if propertyType == "date">
                 <h:outputText value="${'#'}{${homeName}.instance.${property.name}}">
                     <s:convertDateTime type="date" dateStyle="short"/>
@@ -58,6 +61,7 @@
 <#else>
                 ${'#'}{${homeName}.instance.${property.name}}
 </#if>
-            </s:span>
+            </ui:define>
+        </s:decorate>
 </#if>
 </#if>

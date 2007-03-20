@@ -24,19 +24,14 @@
         <rich:panel>
             <f:facet name="header">Edit ${entityName}</f:facet>
 
-            <s:validateAll>
-                <s:decorateAll labelColumnClass="name"
-                               fieldColumnClass="value"
-                               messageColumnClass="error"
-                               rowClass="prop">
 <#foreach property in pojo.allPropertiesIterator>
 <#include "editproperty.xhtml.ftl">
 </#foreach>
-
-                </s:decorateAll>
-            </s:validateAll>
         
-            <div><span class="required">*</span> required fields</div>
+            <div style="clear:both">
+                <span class="required">*</span> 
+                required fields
+            </div>
             
         </rich:panel>
                 

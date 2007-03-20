@@ -17,19 +17,15 @@
         <rich:panel>
             <f:facet name="header">@pageName@</f:facet>
     
-            <s:validateAll>
-                <s:decorateAll labelColumnClass="name"
-                               fieldColumnClass="value"
-                               messageColumnClass="error"
-                               rowClass="prop"
-                               id="@componentName@FormDecoration">
-                    <s:decorate id="nameDecoration">
-                        <f:facet name="label">Name</f:facet>
-                        <h:inputText id="name" required="true"
-                                     value="#{@homeName@.instance.name}"/>
-                    </s:decorate>
-                </s:decorateAll>
-            </s:decorateAll>
+            <s:decorate id="nameDecoration" template="layout/edit.xhtml">
+                <ui:define name="label">Name</ui:define>
+                <ui:define name="input">
+                    <h:inputText id="name" required="true"
+                                 value="#{@homeName@.instance.name}"/>
+                </ui:define>
+            </s:decorate>
+            
+            <div style="clear:both"/>
             
         </rich:panel>
 

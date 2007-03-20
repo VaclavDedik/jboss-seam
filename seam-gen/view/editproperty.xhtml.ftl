@@ -6,8 +6,9 @@
 <#assign column = componentProperty.columnIterator.next()>
 <#assign propertyType = componentProperty.value.typeName>
 
-                    <s:decorate id="${componentProperty.name}Decoration">
-                        <f:facet name="label">${componentProperty.name}</f:facet>
+                <s:decorate id="${componentProperty.name}Decoration" template="layout/edit.xhtml">
+                    <ui:define name="label">${componentProperty.name}</ui:define>
+                    <ui:define name="input">
 <#if propertyType == "date">
                         <h:inputText id="${componentProperty.name}" 
                               maxlength="10"
@@ -123,14 +124,16 @@
                             <a:support event="onblur" reRender="${componentProperty.name}Decoration"/>
                         </h:inputText>
 </#if>
-                    </s:decorate>
+                    </ui:define>
+                </s:decorate>
 </#foreach>
 <#else>
 <#assign column = property.columnIterator.next()>
 <#assign propertyType = property.value.typeName>
 
-                    <s:decorate id="${property.name}Decoration">
-                        <f:facet name="label">${property.name}</f:facet>
+                <s:decorate id="${property.name}Decoration" template="layout/edit.xhtml">
+                    <ui:define name="label">${property.name}</ui:define>
+                    <ui:define name="input">
 <#if propertyType == "date">
                         <h:inputText id="${property.name}" 
                               maxlength="10"
@@ -244,7 +247,8 @@
                             <a:support event="onblur" reRender="${property.name}Decoration"/>
                         </h:inputText>
 </#if>
-                    </s:decorate>
+                    </ui:define>
+                </s:decorate>
 </#if>
 </#if>
 </#if>
