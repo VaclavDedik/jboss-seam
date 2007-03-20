@@ -1,7 +1,6 @@
 package org.jboss.seam.wiki.core.action;
 
 import static javax.faces.application.FacesMessage.SEVERITY_ERROR;
-import javax.persistence.EntityManager;
 
 import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.wiki.core.dao.NodeDAO;
@@ -12,14 +11,18 @@ import org.jboss.seam.wiki.core.model.Node;
 import org.jboss.seam.wiki.core.ui.WikiUtil;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.RequestParameter;
-import org.jboss.seam.core.Conversation;
+import org.jboss.seam.annotations.Out;
 import org.jboss.seam.core.Events;
-import org.jboss.seam.Component;
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.security.AuthorizationException;
 import org.jboss.seam.security.Identity;
+import org.richfaces.component.html.HtmlTree;
+import org.richfaces.component.TreeRowKey;
+import org.richfaces.component.events.NodeSelectedEvent;
 
 import java.util.Date;
+import java.util.Iterator;
 
 /**
  * Superclass for all creating and editing documents, directories, files, etc.
@@ -28,22 +31,36 @@ import java.util.Date;
  */
 public abstract class NodeHome<N extends Node> extends EntityHome<N> {
 
-    // Convenience wiring for subclasses
+    /* -------------------------- Context Wiring ------------------------------ */
+
     @In private NodeDAO nodeDAO;
     @In private UserDAO userDAO;
     @In private User currentUser;
-    private Directory parentDirectory; // Assigned in create()
-
     protected NodeDAO getNodeDAO() { return nodeDAO; }
     protected UserDAO getUserDAO() { return userDAO; }
     protected User getCurrentUser() { return currentUser; }
-    public Directory getParentDirectory() { return parentDirectory; }
 
-    // 'Edit' request parameter
+    @Override
+    @Out(value = "currentNode", scope = ScopeType.CONVERSATION)
+    public N getInstance() {
+        return super.getInstance();
+    }
+
+    /* -------------------------- Request Wiring ------------------------------ */
+
+    // Required 'Edit' request parameter
     @RequestParameter private Long nodeId;
 
-    // 'Create' request parameter
+    // Required 'Edit' and 'Create' request parameter
     @RequestParameter private Long parentDirId;
+
+    /* -------------------------- Internal State ------------------------------ */
+
+    private Directory parentDirectory;
+    public Directory getParentDirectory() { return parentDirectory; }
+    public void setParentDirectory(Directory parentDirectory) { this.parentDirectory = parentDirectory; }
+
+    /* -------------------------- Basic Overrides ------------------------------ */
 
     @Override
     protected String getPersistenceContextName() {
@@ -53,7 +70,6 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
     // 'Edit' or 'Create'
     @Override
     public Object getId() {
-
         if (nodeId == null) {
             return super.getId();
         } else {
@@ -61,18 +77,29 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
         }
     }
 
-    // Access level filtered DAO
+    // Access level filtered DAO for retrieval by identifier
     @Override
     public N find() {
+        //noinspection unchecked
         N result = (N)nodeDAO.findNode((Long)getId());
         if (result==null) handleNotFound();
         return result;
     }
 
     @Override
+    protected N createInstance() {
+        N node = super.createInstance();
+
+        // Set default permissions for new nodes - default to same access as parent directory
+        node.setWriteAccessLevel(getParentDirectory().getWriteAccessLevel());
+        node.setReadAccessLevel(getParentDirectory().getReadAccessLevel());
+
+        return node;
+    }
+
+    @Override
     public void create() {
         super.create();
-
 
         // Load the parent directory (needs to be called first)
         // The parentDirectory (and parentDirId) parameter can actually be null but this only happens
@@ -90,25 +117,20 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
         Contexts.getConversationContext().set("currentNode", getInstance());
     }
 
-    @Override
-    protected N createInstance() {
-        N node = super.createInstance();
-
-        // Set default permissions for new nodes - default to same access as parent directory
-        node.setWriteAccessLevel(getParentDirectory().getWriteAccessLevel());
-        node.setReadAccessLevel(getParentDirectory().getReadAccessLevel());
-
-        return node;
-    }
+    /* -------------------------- Custom CUD ------------------------------ */
 
     @Override
     public String persist() {
+        if (!preparePersist()) return null;
 
-        // Permission check (double check if subclass already called it)
+        // Permission checks
         checkNodeAccessLevelChangePermission();
 
-        // Set the wikiname
-        getInstance().setWikiname(WikiUtil.convertToWikiName(getInstance().getName()));
+        // Last modified metadata
+        setLastModifiedMetadata();
+
+        // Wiki name conversion
+        setWikiName();
 
         // Link the node with its parent directory
         getParentDirectory().addChild(getInstance());
@@ -118,75 +140,75 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
 
         // Set its area number (if subclass didn't already set it)
         if (getInstance().getAreaNumber() == null)
-            getInstance().setAreaNumber(getParentDirectory().getAreaNumber());
+            getInstance().setAreaNumber(parentDirectory.getAreaNumber());
 
         // Validate
         if (!isValidModel()) return null;
 
+        if (!beforePersist()) return null;
         return super.persist();
     }
 
     @Override
     public String update() {
+        if (!prepareUpdate()) return null;
 
-        // Permission check (double check if subclass already called it)
+        // Permission checks
         checkNodeAccessLevelChangePermission();
 
-        // Set last modified by metadata
-        getInstance().setLastModifiedBy(getCurrentUser());
-        getInstance().setLastModifiedOn(new Date());
+        // Last modified metadata
+        setLastModifiedMetadata();
+
+        // Wiki name conversion
+        setWikiName();
+
+        // Refresh UI
+        refreshMenuItems();
 
         // Validate
         if (!isValidModel()) return null;
 
-        // Refresh UI
-        Events.instance().raiseEvent("Nodes.menuStructureModified");
-
-        // Set the wikiname
-        getInstance().setWikiname(WikiUtil.convertToWikiName(getInstance().getName()));
-
+        if (!beforeUpdate()) return null;
         return super.update();
     }
 
     @Override
     public String remove() {
+        if (!prepareRemove()) return null;
 
         // Unlink the node from its directory
         getInstance().getParent().removeChild(getInstance());
 
         // Refresh UI
-        Events.instance().raiseEvent("Nodes.menuStructureModified");
+        refreshMenuItems();
 
+        if (!beforeRemove()) return null;
         return super.remove();
     }
 
-    // TODO: Typical exit method to get out of a root or nested conversation, JBSEAM-906
-    public void exitConversation(Boolean endBeforeRedirect) {
-        Conversation currentConversation = Conversation.instance();
-        if (currentConversation.isNested()) {
-            // End this nested conversation and return to last rendered view-id of parent
-            currentConversation.endAndRedirect(endBeforeRedirect);
-        } else {
-            // End this root conversation
-            currentConversation.end();
-            // Return to the view-id that was captured when this conversation started
-            NodeBrowser browser = (NodeBrowser) Component.getInstance("browser");
-            if (endBeforeRedirect)
-                browser.redirectToLastBrowsedPage();
-            else
-                browser.redirectToLastBrowsedPageWithConversation();
+    public void parentDirectorySelected(NodeSelectedEvent nodeSelectedEvent) {
+        TreeRowKey rowkey = (TreeRowKey)((HtmlTree)nodeSelectedEvent.getSource()).getRowKey();
+        Iterator pathIterator = rowkey.iterator();
+        Long dirId = null;
+        while (pathIterator.hasNext()) dirId = (Long)pathIterator.next();
+        parentDirectory = nodeDAO.findDirectory(dirId);
+        Directory oldParentDirectory = (Directory)getInstance().getParent();
+
+        // Move node to different directory
+        if (parentDirectory.getId() != oldParentDirectory.getId()) {
+
+            // Null out default document of old parent
+            removeAsDefaultDocument(oldParentDirectory);
+
+            // Attach to new parent
+            parentDirectory.addChild(getInstance()); // Disconnects from old parent
+            getInstance().setAreaNumber(parentDirectory.getAreaNumber());
+
+            afterNodeMoved(oldParentDirectory, parentDirectory);
         }
     }
 
-    protected void checkNodeAccessLevelChangePermission() {
-
-        if (!Identity.instance().hasPermission("Node", "changeAccessLevel", getInstance()))
-            throw new AuthorizationException("You don't have permission for this operation");
-    }
-
-    // Validation rules for persist(), update(), and remove();
-
-    private boolean isValidModel() {
+    protected boolean isValidModel() {
         if (getParentDirectory() == null) return true; // Special case, editing the wiki root
 
         // Unique wiki name
@@ -203,5 +225,77 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
         }
 
     }
+
+    /* -------------------------- Internal Methods ------------------------------ */
+
+    protected void setWikiName() {
+        getInstance().setWikiname(WikiUtil.convertToWikiName(getInstance().getName()));
+    }
+
+    protected void setLastModifiedMetadata() {
+        getInstance().setLastModifiedBy(currentUser);
+        getInstance().setLastModifiedOn(new Date());
+    }
+
+    protected void checkNodeAccessLevelChangePermission() {
+        if (!Identity.instance().hasPermission("Node", "changeAccessLevel", getInstance()))
+            throw new AuthorizationException("You don't have permission for this operation");
+    }
+
+    protected void removeAsDefaultDocument(Directory directory) {
+        if (directory.getDefaultDocument() != null &&
+            directory.getDefaultDocument().getId().equals(getInstance().getId())
+           ) directory.setDefaultDocument(null);
+    }
+
+    protected void refreshMenuItems() {
+        if (getInstance().isMenuItem())
+            Events.instance().raiseEvent("Nodes.menuStructureModified");
+    }
+
+    /* -------------------------- Subclass Callbacks ------------------------------ */
+
+    /**
+     * Called before the superclass does its preparation;
+     * @return boolean continue or veto
+     */
+    protected boolean preparePersist() { return true; }
+
+    /**
+     * Called after superclass did its preparation right before the actual persist()
+     * @return boolean continue or veto
+     */
+    protected boolean beforePersist() { return true; }
+
+    /**
+     * Called before the superclass does its preparation;
+     * @return boolean continue or veto
+     */
+    protected boolean prepareUpdate() { return true; }
+
+    /**
+     * Called after superclass did its preparation right before the actual update()
+     * @return boolean continue or veto
+     */
+    protected boolean beforeUpdate() { return true; }
+
+    /**
+     * Called before the superclass does its preparation;
+     * @return boolean continue or veto
+     */
+    protected boolean prepareRemove() { return true; }
+
+    /**
+     * Called after superclass did its preparation right before the actual remove()
+     * @return boolean continue or veto
+     */
+    protected boolean beforeRemove() { return true; }
+
+    /**
+     * Called after the node has been disconnected from the old parent and reconnected to the new.
+     * @param oldParent the previous parent directory
+     * @param newParent the new parent directory
+     */
+    protected void afterNodeMoved(Directory oldParent, Directory newParent) {}
 
 }

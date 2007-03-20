@@ -46,6 +46,7 @@ public class WikiTextParser extends SeamTextParser {
         method.invoke();
 
         WikiLink link = links.get((linkText));
+        if (link == null) return "";
 
         String finalDescriptionText =
                 (descriptionText!=null && descriptionText.length() > 0 ? descriptionText : link.getDescription());

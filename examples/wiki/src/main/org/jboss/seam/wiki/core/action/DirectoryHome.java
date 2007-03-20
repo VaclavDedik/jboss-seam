@@ -5,7 +5,6 @@ import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.core.Events;
 import org.jboss.seam.wiki.core.model.Directory;
 import org.jboss.seam.wiki.core.model.Node;
 import org.jboss.seam.wiki.core.model.Document;
@@ -18,10 +17,22 @@ import java.util.ArrayList;
 @Scope(ScopeType.CONVERSATION)
 public class DirectoryHome extends NodeHome<Directory> {
 
+    /* -------------------------- Context Wiring ------------------------------ */
+
+    @DataModel
+    List<Node> childNodes;
+
+    @DataModelSelection
+    Node selectedChildNode;
+
+    /* -------------------------- Internal State ------------------------------ */
+
     private List<Document> childDocuments = new ArrayList<Document>();
+    public List<Document> getChildDocuments() { return childDocuments; }
+
+    /* -------------------------- Basic Overrides ------------------------------ */
 
     @Override
-    @Transactional
     public void create() {
         super.create();
 
@@ -29,9 +40,9 @@ public class DirectoryHome extends NodeHome<Directory> {
         refreshChildNodes();
     }
 
+    /* -------------------------- Custom CUD ------------------------------ */
 
     @Override
-    @Transactional
     public String persist() {
 
         if (getParentDirectory().getParent() != null) {
@@ -55,21 +66,20 @@ public class DirectoryHome extends NodeHome<Directory> {
         }
     }
 
-    @Override
-    public String remove() {
-        if (getInstance().getParent() == null) return null; // Can not delete wiki root
-        return super.remove();
+    protected boolean prepareRemove() {
+        return getInstance().getParent() == null; // Can not delete wiki root
     }
 
-    public List<Document> getChildDocuments() {
-        return childDocuments;
+    /* -------------------------- Internal Methods ------------------------------ */
+
+    private void refreshChildNodes() {
+        childNodes = getInstance().getChildren();
+        for (Node childNode : childNodes) {
+            if (childNode instanceof Document) childDocuments.add((Document)childNode);
+        }
     }
 
-    @DataModel
-    List<Node> childNodes;
-
-    @DataModelSelection
-    Node selectedChildNode;
+    /* -------------------------- Public Features ------------------------------ */
 
     @Restrict("#{s:hasPermission('Node', 'editMenu', directoryHome.instance)}")
     public void moveNodeUpInList() {
@@ -85,17 +95,8 @@ public class DirectoryHome extends NodeHome<Directory> {
         refreshChildNodes();
     }
 
-    private void refreshChildNodes() {
-        childNodes = getInstance().getChildren();
-        for (Node childNode : childNodes) {
-            if (childNode instanceof Document) childDocuments.add((Document)childNode);
-        }
-    }
-
     @Restrict("#{s:hasPermission('Node', 'editMenu', directoryHome.instance)}")
     public void previewMenuItems() {
-        // Refresh UI
-        Events.instance().raiseEvent("Nodes.menuStructureModified");
+        refreshMenuItems();
     }
-
 }

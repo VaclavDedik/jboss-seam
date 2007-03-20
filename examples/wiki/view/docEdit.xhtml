@@ -39,7 +39,7 @@
             rendered="#{s:hasPermission('Node', 'create', documentHome.parentDirectory)}">Upload <u>F</u>ile</s:link>
 
     <s:link id="exit" styleClass="linkNavigation"
-            action="#{documentHome.exitConversation(true)}"
+            action="#{browser.exitConversation(true)}"
             accesskey="E"><u>E</u>xit Editor</s:link>
 </ui:define>
 
@@ -55,6 +55,15 @@
             </div>
 
             <div class="formFields">
+
+                <s:div id="selectedDirectory" styleClass="entry" rendered="#{documentHome.managed}">
+                    <div class="label">In directory:</div>
+                    <div class="output">
+                        #{documentHome.parentDirectory}
+                        <h:outputLink id="selectDirectory" value="javascript:Richfaces.showModalPanel('directorySelection',{width:250, height:250, top:100})"
+                                      tabindex="1" styleClass="buttonNonpersistent"><span class="buttonLabel">...</span></h:outputLink>
+                    </div>
+                </s:div>
 
                 <s:validateAll>
 
@@ -135,7 +144,7 @@
 
                         <h:outputLink id="delete" value="javascript:Richfaces.showModalPanel('deleteConfirmation',{})"
                                       rendered="#{documentHome.managed}"
-                                      tabindex="6" accesskey="D" styleClass="button"><span class="buttonLabel"><u>D</u>elete</span></h:outputLink>
+                                      tabindex="7" accesskey="D" styleClass="button"><span class="buttonLabel"><u>D</u>elete</span></h:outputLink>
 
                     </div>
                 </div>
@@ -148,7 +157,7 @@
 
     <ui:decorate template="includes/confirmationModalDialog.xhtml">
         <ui:param name="confirmationModalDialogId" value="deleteConfirmation"/>
-        <ui:define name="confirmationText">
+        <ui:define name="confirmationContent">
             <p>Are you sure you want to delete the document '#{documentHome.instance.name}'?</p>
         </ui:define>
         <ui:define name="confirmationOption">
@@ -156,6 +165,29 @@
                            accesskey="O" styleClass="button">
                 <span class="buttonLabel"><u>O</u>k</span>
             </h:commandLink>
+        </ui:define>
+    </ui:decorate>
+
+    <ui:decorate template="includes/confirmationModalDialog.xhtml">
+        <ui:param name="confirmationModalDialogId" value="directorySelection"/>
+        <ui:define name="confirmationTitle">
+            Select parent directory...
+        </ui:define>
+        <ui:define name="confirmationContent">
+            <rich:tree id="directoryTree" switchType="ajax"
+                       value="#{writableDirectoryTree}" var="d"
+                       style="margin: 10px;"
+                       icon="/themes/default/img/icon.dir.gif"
+                       iconLeaf="/themes/default/img/icon.dir.gif"
+                       selectedClass="activeTab"
+                       ajaxSubmitSelection="true"
+                       onselected="Richfaces.hideModalPanel('directorySelection')"
+                       nodeSelectListener="#{documentHome.parentDirectorySelected}"
+                       reRender="selectedDirectory, content">
+                <rich:treeNode>
+                    <h:outputText value="#{d.id} - #{d.name}"/>
+                </rich:treeNode>
+            </rich:tree>
         </ui:define>
     </ui:decorate>
 

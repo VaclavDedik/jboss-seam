@@ -2,6 +2,7 @@ package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.core.Conversation;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.wiki.core.dao.NodeDAO;
 import org.jboss.seam.wiki.core.model.Node;
@@ -107,6 +108,23 @@ public class NodeBrowser {
         redirect.getParameters().remove("cid");
 
         redirect.returnToCapturedView();
+    }
+
+    // TODO: Typical exit method to get out of a root or nested conversation, JBSEAM-906
+    public void exitConversation(Boolean endBeforeRedirect) {
+        Conversation currentConversation = Conversation.instance();
+        if (currentConversation.isNested()) {
+            // End this nested conversation and return to last rendered view-id of parent
+            currentConversation.endAndRedirect(endBeforeRedirect);
+        } else {
+            // End this root conversation
+            currentConversation.end();
+            // Return to the view-id that was captured when this conversation started
+            if (endBeforeRedirect)
+                redirectToLastBrowsedPage();
+            else
+                redirectToLastBrowsedPageWithConversation();
+        }
     }
 
     // Just a convenience method for recursive calling

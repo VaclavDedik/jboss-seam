@@ -14,9 +14,7 @@ import org.hibernate.Session;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
-import javax.persistence.TemporalType;
 import java.util.List;
-import java.util.Date;
 
 /**
  * DAO for nodes, transparently respects security access levels.
@@ -123,6 +121,7 @@ public class NodeDAO {
     }
 
     public List<Document> findDocumentsOrderByLastModified(int maxResults) {
+        //noinspection unchecked
         return (List<Document>)restrictedEntityManager
                 .createQuery("select d from Document d order by d.lastModifiedOn desc")
                 .setMaxResults(maxResults)

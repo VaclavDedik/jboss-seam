@@ -33,7 +33,7 @@
 
 <ui:define name="controlRight">
     <s:link id="exit" styleClass="linkNavigation"
-            action="#{directoryHome.exitConversation(true)}"
+            action="#{browser.exitConversation(true)}"
             accesskey="E"><u>E</u>xit Editor</s:link>
 </ui:define>
 
@@ -83,7 +83,7 @@
 
     </s:validateAll>
 
-    <s:div styleClass="entry" rendered="#{directoryHome.managed}">
+    <s:div styleClass="entry" rendered="#{directoryHome.managed and !empty directoryHome.instance.parent}">
         <div class="label">Default document:</div>
         <div class="input">
             <h:selectOneMenu value="#{directoryHome.instance.defaultDocument}" converter="#{restrictedEntityConverter}" tabindex="2">
@@ -189,7 +189,7 @@
 
 <ui:decorate template="includes/confirmationModalDialog.xhtml">
     <ui:param name="confirmationModalDialogId" value="deleteConfirmation"/>
-    <ui:define name="confirmationText">
+    <ui:define name="confirmationContent">
         <p>Are you sure you want to delete the directory '#{directoryHome.instance.name}'?</p>
     </ui:define>
     <ui:define name="confirmationOption">

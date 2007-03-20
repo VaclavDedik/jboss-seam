@@ -193,6 +193,7 @@ a:visited {
 
 .attachmentDisplay {
     margin: 10px;
+    clear:both;
 }
 
 .regularLink{
@@ -247,26 +248,23 @@ a:visited {
 }
 
 .linkTab {
-    color: #fff;
     text-decoration:none;
     font-size: 85%;
     font-weight: bold;
     font-family: Verdana, Arial, Helvetica, sans-serif;
-    background: #fff url(../img/th.bg.gif) 0 0 repeat-x;
     border: 1px solid #fff;
     padding: 2px 5px 2px 5px;
     margin-right: 10px;
 }
 
-.linkTabActive {
-    text-decoration:none;
-    font-size: 85%;
-    font-weight: bold;
-    font-family: Verdana, Arial, Helvetica, sans-serif;
+.activeTab {
+    color: #666;
     background: #fff url(../img/th.bg.inverse.gif) 0 0 repeat-x;
-    border: 1px solid #fff;
-    padding: 2px 5px 2px 5px;
-    margin-right: 10px;
+}
+
+.inactiveTab {
+    color: #fff;
+    background: #fff url(../img/th.bg.gif) 0 0 repeat-x;
 }
 
 .linkTab:link {color: #555}

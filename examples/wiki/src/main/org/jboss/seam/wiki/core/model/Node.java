@@ -70,7 +70,7 @@ public abstract class Node implements Serializable {
     @JoinColumn(name = "PARENT_NODE_ID", nullable = true, insertable = false, updatable = false)
     protected Node parent;
 
-    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "PARENT_NODE_ID", nullable = true)
     @org.hibernate.annotations.IndexColumn(name = "NODE_POSITION")
     /* Filtering fucks up the list index... big issue to work around
@@ -112,12 +112,17 @@ public abstract class Node implements Serializable {
 
     /**
      * Creates copy for history archiving, increments originals revision.
+     * <p>
+     * Does <b>NOT</b> copy the node id and object version, so the copy might as well be
+     * considered transient and can be persisted right away. If you want to store the
+     * copy in the audit log, call setId() manually before on the copy, passing in the
+     * identifier value of the original.
+     * </p>
      * @param original The node to make a copy of
      */
     public Node(Node original) {
         if (original == null) return;
         this.revision = original.revision;
-        this.nodeId = original.nodeId;
         this.name = original.name;
         this.wikiname = original.wikiname;
         this.lastModifiedOn = original.lastModifiedOn;
@@ -126,14 +131,15 @@ public abstract class Node implements Serializable {
 
     // Immutable properties
 
-    public Long getId() { return nodeId; }
-
     public Integer getVersion() { return version; }
     public Date getCreatedOn() { return createdOn; }
     public int getRevision() { return revision; }
     public Long getHistoryId() { return historicalNodeId; }
 
     // Mutable properties
+
+    public Long getId() { return nodeId; }
+    public void setId(Long nodeId) { this.nodeId = nodeId; }
 
     public String getName() {
          return name;
@@ -211,6 +217,7 @@ public abstract class Node implements Serializable {
 
     public void setLastModifiedBy(User lastModifiedBy) {
         this.lastModifiedBy = lastModifiedBy;
+        this.lastModifiedByUsername = lastModifiedBy.getUsername();
     }
 
     public String getLastModifiedByUsername() {

@@ -6,20 +6,24 @@ import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.security.AuthorizationException;
 import org.jboss.seam.contexts.Contexts;
 
 @Name("documentHome")
 @Scope(ScopeType.CONVERSATION)
 public class DocumentHome extends NodeHome<Document> {
 
+    /* -------------------------- Context Wiring ------------------------------ */
+
+    @In(required = false) private Node selectedHistoricalNode;
+
+    /* -------------------------- Internal State ------------------------------ */
+
+    private Document historicalCopy;
+    private boolean minorRevision = true;
     private String formContent;
     private boolean enabledPreview = false;
 
-    @In(required = false)
-    Node selectedHistoricalNode;
-    private Document historicalCopy;
-    private boolean minorRevision = true;
+    /* -------------------------- Basic Overrides ------------------------------ */
 
     @Override
     public void create() {
@@ -36,59 +40,79 @@ public class DocumentHome extends NodeHome<Document> {
         historicalCopy = new Document(getInstance());
     }
 
-    @Override
-    public String persist() {
-        checkNodeAccessLevelChangePermission();
+    /* -------------------------- Custom CUD ------------------------------ */
 
-        syncFormText();
-        return super.persist();
+    protected boolean beforePersist() {
+        // Sync document content
+        syncFormToInstance(getParentDirectory());
+
+        // Make a copy
+        historicalCopy = new Document(getInstance());
+
+        return true;
     }
 
-    @Override
-    @Transactional
-    public String update() {
-        checkNodeAccessLevelChangePermission();
+    protected boolean beforeUpdate() {
 
-        syncFormText();
-        
-        Events.instance().raiseEvent("Nodes.menuStructureModified");
+        // Sync document content
+        syncFormToInstance(getParentDirectory());
 
         // Write history log and prepare a new copy for further modification
         if (!isMinorRevision()) {
+            historicalCopy.setId(getInstance().getId());
             getNodeDAO().persistHistoricalNode(historicalCopy);
             getInstance().incrementRevision();
             // New historical copy in conversation
             historicalCopy = new Document(getInstance());
         }
 
-        return super.update();
+        return true;
     }
 
-    @Override
-    @Transactional
-    public String remove() {
+    protected boolean beforeRemove() {
 
         // Delete all history nodes
         getNodeDAO().removeHistoricalNodes(getInstance());
 
-        // Unset the default document id
-        if (getParentDirectory().getDefaultDocument().equals(getInstance()))
-            getParentDirectory().setDefaultDocument(null);
+        // Null out default document
+        removeAsDefaultDocument(getParentDirectory());
 
-        return super.remove();
+        return true;
     }
+
+    protected void afterNodeMoved(Directory oldParent, Directory newParent) {
+        // Update view
+        syncFormToInstance(oldParent); // Resolve existing links in old directory
+        syncInstanceToForm(newParent); // Now update the form, effectively re-rendering the links
+    }
+
+    /* -------------------------- Internal Methods ------------------------------ */
+
+
+    private void syncFormToInstance(Directory area) {
+        // Outject instances required for WikiLinkResolver
+        Contexts.getEventContext().set("currentDocument", getInstance());
+        Contexts.getEventContext().set("currentDirectory", area);
+
+        WikiLinkResolver wikiLinkResolver = (WikiLinkResolver)Component.getInstance("wikiLinkResolver");
+        getInstance().setContent(wikiLinkResolver.convertToWikiLinks(area, formContent));
+    }
+
+    private void syncInstanceToForm(Directory parentDirectory) {
+        // Outject instances required for WikiLinkResolver
+        Contexts.getEventContext().set("currentDocument", getInstance());
+        Contexts.getEventContext().set("currentDirectory", parentDirectory);
+
+        WikiLinkResolver wikiLinkResolver = (WikiLinkResolver)Component.getInstance("wikiLinkResolver");
+        formContent = wikiLinkResolver.convertFromWikiLinks(parentDirectory, getInstance().getContent());
+    }
+
+
+    /* -------------------------- Public Features ------------------------------ */
 
     public String getFormContent() {
         // Load the document content and resolve links
-        if (formContent == null) {
-
-            // Outject instances required for WikiLinkResolver
-            Contexts.getEventContext().set("currentDocument", getInstance());
-            Contexts.getEventContext().set("currentDirectory", getParentDirectory());
-
-            WikiLinkResolver wikiLinkResolver = (WikiLinkResolver)Component.getInstance("wikiLinkResolver");
-            formContent = wikiLinkResolver.convertFromWikiLinks(getParentDirectory(), getInstance().getContent());
-        }
+        if (formContent == null) syncInstanceToForm(getParentDirectory());
         return formContent;
     }
 
@@ -96,35 +120,16 @@ public class DocumentHome extends NodeHome<Document> {
         this.formContent = formContent;
     }
 
+    public boolean isMinorRevision() { return minorRevision; }
+    public void setMinorRevision(boolean minorRevision) { this.minorRevision = minorRevision; }
+
     public boolean isEnabledPreview() {
         return enabledPreview;
     }
 
     public void setEnabledPreview(boolean enabledPreview) {
         this.enabledPreview = enabledPreview;
-        syncFormText();
-        Events.instance().raiseEvent("Nodes.menuStructureModified");
+        syncFormToInstance(getParentDirectory());
+        refreshMenuItems();
     }
-
-    public boolean isMinorRevision() {
-        return minorRevision;
-    }
-
-    public void setMinorRevision(boolean minorRevision) {
-        this.minorRevision = minorRevision;
-    }
-
-    private void syncFormText() {
-
-        // Outject instances required for WikiLinkResolver
-        Contexts.getEventContext().set("currentDocument", getInstance());
-        Contexts.getEventContext().set("currentDirectory", getParentDirectory());
-
-        // Convert and set form content onto entity instance
-        WikiLinkResolver wikiLinkResolver = (WikiLinkResolver)Component.getInstance("wikiLinkResolver");
-        getInstance().setContent(
-            wikiLinkResolver.convertToWikiLinks(getParentDirectory(), getFormContent())
-        );
-    }
-
 }

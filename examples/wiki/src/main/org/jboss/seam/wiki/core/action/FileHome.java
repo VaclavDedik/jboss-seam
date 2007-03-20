@@ -16,43 +16,18 @@ import java.util.Map;
 @Scope(ScopeType.CONVERSATION)
 public class FileHome extends NodeHome<File> {
 
+    /* -------------------------- Context Wiring ------------------------------ */
+
     @In
     Map<String, FileMetaMap.FileMetaInfo> fileMetaMap;
+
+    /* -------------------------- Internal State ------------------------------ */
 
     private String filename;
     private String contentType;
     // TODO: This should really use an InputStream and directly stream into the BLOB without consuming server memory
     private byte[] filedata;
     private int imagePreviewSize = 240;
-
-
-    @Override
-    public String persist() {
-
-        // Validate
-        if (filedata == null || filedata.length == 0) {
-            getFacesMessages().addFromResourceBundleOrDefault(
-                SEVERITY_WARN,
-                getMessageKeyPrefix() + "noFileUploaded",
-                "Please select a file to upload"
-            );
-            return null;
-        }
-
-        // Sync file instance with form data
-        syncFile();
-
-        return super.persist();
-    }
-
-    @Override
-    public String update() {
-
-        // Sync file instance with form data
-        syncFile();
-
-        return super.update();
-    }
 
     public String getFilename() { return filename; }
     public void setFilename(String filename) { this.filename = filename; }
@@ -62,6 +37,36 @@ public class FileHome extends NodeHome<File> {
 
     public byte[] getFiledata() { return filedata; }
     public void setFiledata(byte[] filedata) { this.filedata = filedata; }
+
+    public int getImagePreviewSize() { return imagePreviewSize; }
+
+    /* -------------------------- Custom CUD ------------------------------ */
+
+    protected boolean preparePersist() {
+        // Sync file instance with form data
+        syncFile();
+
+        // Validate
+        if (filedata == null || filedata.length == 0) {
+            getFacesMessages().addFromResourceBundleOrDefault(
+                SEVERITY_WARN,
+                getMessageKeyPrefix() + "noFileUploaded",
+                "Please select a file to upload"
+            );
+            return false;
+        }
+
+        return true;
+    }
+
+    protected boolean prepareUpdate() {
+        // Sync file instance with form data
+        syncFile();
+
+        return true;
+    }
+
+    /* -------------------------- Internal Methods ------------------------------ */
 
     private void syncFile() {
         if (filedata != null && filedata.length >0) {
@@ -89,9 +94,7 @@ public class FileHome extends NodeHome<File> {
         }
     }
 
-    public int getImagePreviewSize() {
-        return imagePreviewSize;
-    }
+    /* -------------------------- Public Features ------------------------------ */
 
     public void zoomPreviewIn() {
         if (imagePreviewSize < 1600) imagePreviewSize = imagePreviewSize + 240;
@@ -100,4 +103,5 @@ public class FileHome extends NodeHome<File> {
     public void zoomPreviewOut() {
         if (imagePreviewSize > 240) imagePreviewSize = imagePreviewSize - 240;
     }
+
 }

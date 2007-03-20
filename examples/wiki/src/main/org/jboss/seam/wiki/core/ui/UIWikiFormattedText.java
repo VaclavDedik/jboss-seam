@@ -61,6 +61,7 @@ public class UIWikiFormattedText extends UIOutput {
             parser.startRule();
         }
         catch (ANTLRException re) {
+            // TODO: Do we ever get this exception?
             throw new RuntimeException(re);
         }
 

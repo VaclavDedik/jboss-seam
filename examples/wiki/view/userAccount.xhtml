@@ -32,9 +32,9 @@
 
 <ui:define name="controlLeft">
     <s:div rendered="#{userHome.managed}">
-        <s:link id="editAccount" styleClass="linkTabActive" action="editAccount">Account</s:link>
-        <s:link id="editProfile" styleClass="linkTab" action="editProfile">Profile</s:link>
-        <s:link id="editPreferences" styleClass="linkTab" action="editPreferences">Preferences</s:link>
+        <s:link id="editAccount" styleClass="linkTab activeTab" action="editAccount">Account</s:link>
+        <s:link id="editProfile" styleClass="linkTab inactiveTab" action="editProfile">Profile</s:link>
+        <s:link id="editPreferences" styleClass="linkTab inactiveTab" action="editPreferences">Preferences</s:link>
     </s:div>
 </ui:define>
 

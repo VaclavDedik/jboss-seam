@@ -9,11 +9,11 @@
     xmlns:wiki="http://jboss.com/products/seam/wiki"
     xmlns:s="http://jboss.com/products/seam/taglib">
 
-    <f:facet name="header">Confirmation</f:facet>
+    <f:facet name="header"><ui:insert name="confirmationTitle">Confirmation</ui:insert></f:facet>
     <h:panelGroup><div align="center">
         <h:form>
 
-            <ui:insert name="confirmationText"><p>Are you sure you want to execute this operation?</p></ui:insert>
+            <ui:insert name="confirmationContent"><p>Are you sure you want to execute this operation?</p></ui:insert>
 
             <h:panelGroup>
                 <ui:insert name="confirmationOption"/>
