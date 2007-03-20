@@ -395,6 +395,11 @@
   </property>
  </component>
  <component>
+  <component-type>org.jboss.seam.ui.HtmlLabelDecoration</component-type>
+  <component-class>org.jboss.seam.ui.HtmlLabelDecoration</component-class>
+  <!-- TODO ... -->
+ </component>
+ <component>
   <component-type>org.jboss.seam.ui.HtmlMessageDecoration</component-type>
   <component-class>org.jboss.seam.ui.HtmlMessageDecoration</component-class>
   <property>
@@ -470,18 +475,6 @@
  <component>
   <component-type>org.jboss.seam.ui.HtmlDiv</component-type>
   <component-class>org.jboss.seam.ui.HtmlDiv</component-class>
-  <property>
-   <property-name>styleClass</property-name>
-   <property-class>java.lang.String</property-class>
-  </property>
-  <property>
-   <property-name>style</property-name>
-   <property-class>java.lang.String</property-class>
-  </property>
- </component>
-  <component>
-  <component-type>org.jboss.seam.ui.UIDecorateAll</component-type>
-  <component-class>org.jboss.seam.ui.UIDecorateAll</component-class>
   <property>
    <property-name>styleClass</property-name>
    <property-class>java.lang.String</property-class>

@@ -2,12 +2,12 @@ package org.jboss.seam.ui;
 
 import javax.faces.component.EditableValueHolder;
 import javax.faces.component.UIComponent;
-import javax.faces.component.html.HtmlMessage;
+import javax.faces.component.html.HtmlOutputLabel;
 
 
-public class HtmlMessageDecoration extends HtmlMessage
+public class HtmlLabelDecoration extends HtmlOutputLabel
 {
-   public static final String COMPONENT_TYPE = "org.jboss.seam.ui.HtmlMessageDecoration";
+   public static final String COMPONENT_TYPE = "org.jboss.seam.ui.HtmlLabelDecoration";
 
    /**
     * A depth-first search for an EditableValueHolder

@@ -24,6 +24,7 @@
         <tag-name>decorate</tag-name>
         <component>
             <component-type>org.jboss.seam.ui.UIDecorate</component-type>
+	    	<handler-class>org.jboss.seam.ui.tag.DecorateHandler</handler-class>
         </component>
     </tag>
     
@@ -84,6 +85,13 @@
     </tag>
     
     <tag>
+        <tag-name>label</tag-name>
+        <component>
+            <component-type>org.jboss.seam.ui.HtmlLabelDecoration</component-type>
+        </component>
+    </tag>
+    
+    <tag>
         <tag-name>span</tag-name>
         <component>
             <component-type>org.jboss.seam.ui.HtmlSpan</component-type>
@@ -94,13 +102,6 @@
         <tag-name>div</tag-name>
         <component>
             <component-type>org.jboss.seam.ui.HtmlDiv</component-type>
-        </component>
-    </tag>
-    
-    <tag>
-        <tag-name>decorateAll</tag-name>
-        <component>
-            <component-type>org.jboss.seam.ui.UIDecorateAll</component-type>
         </component>
     </tag>
 
