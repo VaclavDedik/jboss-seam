@@ -8,24 +8,21 @@
      xmlns:wiki="http://jboss.com/products/seam/wiki"
      xmlns:s="http://jboss.com/products/seam/taglib">
 
-    <div class="formHead rightBorder leftBorder">Attachments:</div>
-    <h:dataTable value="#{wikiTextAttachments}" var="link"
+    <h:dataTable value="#{wikiTextAttachments}" var="link" style="width:450px;"
          binding="#{wikiUtil.datatable}"
-         styleClass="datatable topLeftBottomBorder"
-         columnClasses="onePercentColumn rightBorder alignLeft, onePercentColumn alignLeft, defaultColumn rightBorder alignLeft"
+         styleClass="datatable rightBorder leftBorder topBorder bottomBorder"
+         headerClass="regularHeader alignLeft"
+         columnClasses="fivePercentColumn alignLeft, defaultColumn alignLeft"
          rowClasses="rowOdd,rowEven"
          cellpadding="0" cellspacing="0" border="0">
         <h:column>
-            <h:panelGroup>
+            <f:facet name="header">Attachments:</f:facet>
+            <h:panelGrid columns="3" columnClasses="onePercentColumn alignRight, onePercentColumn alignLeft, onePercentColumn alignRight">
                 <a name="attachment#{wikiUtil.datatable.rowIndex + 1}"/>
                 <h:outputText value="#&#160;#{wikiUtil.datatable.rowIndex + 1}"/>
-            </h:panelGroup>
-        </h:column>
-        <h:column>
-            <h:panelGroup>
                 <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/#{fileMetaMap[link.node.contentType].displayIcon}"
                                 width="18" height="20"/>
-            </h:panelGroup>
+            </h:panelGrid>
         </h:column>
         <h:column>
             <h:panelGroup>

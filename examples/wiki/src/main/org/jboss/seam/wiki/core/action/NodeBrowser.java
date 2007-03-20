@@ -2,6 +2,7 @@ package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Component;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.wiki.core.dao.NodeDAO;
@@ -186,9 +187,7 @@ public class NodeBrowser {
 
         // Fall back to default document
         if (currentDirectory == null) {
-            currentDocument = nodeDAO.findDocument(globalPrefs.getDefaultDocumentId());
-            if (currentDocument == null)
-                throw new RuntimeException("Couldn't find default document with id '" + globalPrefs.getDefaultDocumentId() +"'");
+            currentDocument = (Document)Component.getInstance("wikiStart");
             currentDirectory = currentDocument.getParent();
         }
 

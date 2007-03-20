@@ -6,6 +6,7 @@ import org.jboss.seam.Component;
 
 import javax.faces.component.UIData;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 import java.util.Collection;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -17,7 +18,6 @@ import java.util.StringTokenizer;
  */
 @Name("wikiUtil")
 public class WikiUtil {
-
 
     // Replacement for missing instaceOf in EL (can't use string comparison, might be proxy)
     public static boolean isDirectory(Node node) {
@@ -49,7 +49,7 @@ public class WikiUtil {
                 accessLevels.indexOf(new Role.AccessLevel(accessLevel, null))
                );
     }
-    
+
     // Allow calling this as a Facelets function in pages
     public static String renderURL(Node node) {
         GlobalPreferences globalPrefs = (GlobalPreferences) Component.getInstance("globalPrefs");
@@ -89,6 +89,10 @@ public class WikiUtil {
         String contextPath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
         return contextPath + "/" + user.getMemberHome().getParent().getWikiname() + "/" + user.getMemberHome().getWikiname();
 
+    }
+
+    public static int getSessionTimeoutSeconds() {
+        return ((HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getMaxInactiveInterval();
     }
 
     /**

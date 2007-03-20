@@ -187,6 +187,7 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
     }
 
     public void parentDirectorySelected(NodeSelectedEvent nodeSelectedEvent) {
+        // TODO: There is really no API in RichFaces to get the selection! Already shouted at devs...
         TreeRowKey rowkey = (TreeRowKey)((HtmlTree)nodeSelectedEvent.getSource()).getRowKey();
         Iterator pathIterator = rowkey.iterator();
         Long dirId = null;

@@ -99,8 +99,7 @@
     <!-- Misc Settings -->
     <web:context-filter url-pattern="/files/*"/>
 
-    <factory name="themePath"
+    <factory name="themePath" scope="APPLICATION"
              value="#{facesContext.externalContext.request.contextPath}/themes/#{globalPrefs.themeName}"/>
-
 
 </components>

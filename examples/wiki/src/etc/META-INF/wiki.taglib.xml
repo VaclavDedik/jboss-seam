@@ -60,11 +60,16 @@
         <function-signature>org.jboss.seam.wiki.core.model.Role.AccessLevel resolveAccessLevel(java.lang.Integer)</function-signature>
     </function>
 
-
     <function>
         <function-name>sizeOf</function-name>
         <function-class>org.jboss.seam.wiki.core.ui.WikiUtil</function-class>
         <function-signature>int sizeOf(java.util.Collection)</function-signature>
+    </function>
+
+    <function>
+        <function-name>getSessionTimeoutSeconds</function-name>
+        <function-class>org.jboss.seam.wiki.core.ui.WikiUtil</function-class>
+        <function-signature>int getSessionTimeoutSeconds()</function-signature>
     </function>
 
     <tag>

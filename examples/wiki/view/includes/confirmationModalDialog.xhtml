@@ -18,7 +18,8 @@
             <h:panelGroup>
                 <ui:insert name="confirmationOption"/>
                 <h:outputLink id="cancel" value="javascript:Richfaces.hideModalPanel('#{confirmationModalDialogId}')"
-                              accesskey="C" styleClass="buttonNonpersistent">
+                              accesskey="C" styleClass="buttonNonpersistent"
+                              rendered="#{!confirmationHideCancel}">
                     <span class="buttonLabel"><u>C</u>ancel</span>
                 </h:outputLink>
             </h:panelGroup>

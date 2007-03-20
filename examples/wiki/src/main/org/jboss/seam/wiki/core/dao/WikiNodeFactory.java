@@ -5,8 +5,11 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.Component;
 import org.jboss.seam.wiki.core.model.Directory;
 import org.jboss.seam.wiki.core.model.GlobalPreferences;
+import org.jboss.seam.wiki.core.model.Document;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.NoResultException;
 import java.io.Serializable;
 
 @Name("wikiNodeFactory")
@@ -17,6 +20,9 @@ public class WikiNodeFactory implements Serializable {
 
     @In
     protected EntityManager restrictedEntityManager;
+
+    @In
+    protected GlobalPreferences globalPrefs;
 
     @Factory(value = "wikiRoot", scope = ScopeType.CONVERSATION, autoCreate = true)
     @Transactional
@@ -29,6 +35,21 @@ public class WikiNodeFactory implements Serializable {
         } catch (RuntimeException ex) {
             throw new RuntimeException("You need to INSERT at least one parentless directory into the database", ex);
         }
+    }
+
+    @Factory(value = "wikiStart", scope = ScopeType.CONVERSATION, autoCreate = true)
+    @Transactional
+    public Document loadWikiStart() {
+        restrictedEntityManager.joinTransaction();
+        try {
+            return (Document) restrictedEntityManager
+                    .createQuery("select d from Document d where d.id = :id")
+                    .setParameter("id", globalPrefs.getDefaultDocumentId())
+                    .getSingleResult();
+        } catch (EntityNotFoundException ex) {
+        } catch (NoResultException ex) {
+        }
+        throw new RuntimeException("Couldn't find default document with id '" + globalPrefs.getDefaultDocumentId() +"'");
     }
 
     // Loads the same instance into a different persistence context
