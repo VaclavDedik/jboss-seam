@@ -126,7 +126,7 @@
             </xsd:appinfo>
         </xsd:annotation>
         <xsd:complexType>
-            <xsd:attribute name="seamName" type="xsd:string" use="optional">
+            <xsd:attribute name="name" type="xsd:string" use="optional">
                 <xsd:annotation>
                     <xsd:documentation>
                         <![CDATA[
@@ -136,27 +136,27 @@
                     </xsd:documentation>
                 </xsd:annotation>
             </xsd:attribute>
-            <xsd:attribute name="springName" type="xsd:string" use="optional">
+            <xsd:attribute name="spring-name" type="xsd:string" use="optional">
                 <xsd:annotation>
                     <xsd:documentation>
                         <![CDATA[
-                                 What spring bean name should seam use to obtain an instance of this bean.  Only necessary when spring-seam cannot
+                                 What spring bean name should seam use to obtain an instance of this bean.  Only necessary when seam-spring cannot
                                  property detect the name of the spring bean which some spring NamespaceHandlers can do (eg. <aop:scoped-proxy/>, etc.).
                         ]]>
                     </xsd:documentation>
                 </xsd:annotation>
             </xsd:attribute>
-            <xsd:attribute name="beanClass" type="xsd:string" use="optional">
+            <xsd:attribute name="class" type="xsd:string" use="optional">
                 <xsd:annotation>
                     <xsd:documentation>
                         <![CDATA[
-                                 The component beanClass seam will use to get annotations from and to wrap it's interceptors around.  Optional unless the
-                                 correct class is not being detected seam-spring.
+                                 The component class seam will use to get annotations from and to wrap it's interceptors around.  Optional unless the
+                                 correct class is not being detected by seam-spring.
                         ]]>
                     </xsd:documentation>
                 </xsd:annotation>
             </xsd:attribute>
-            <xsd:attribute name="intercept" use="optional" default="AUTO">
+            <xsd:attribute name="intercept-type" use="optional">
                 <xsd:annotation>
                     <xsd:documentation>
                         <![CDATA[
@@ -168,7 +168,6 @@
                 </xsd:annotation>
                 <xsd:simpleType>
                     <xsd:restriction base="xsd:string">
-                        <xsd:enumeration value="AUTO" />
                         <xsd:enumeration value="NEVER" />
                         <xsd:enumeration value="AFTER_RESTORE_VIEW" />
                         <xsd:enumeration value="AFTER_UPDATE_MODEL_VALUES" />
@@ -177,18 +176,26 @@
                     </xsd:restriction>
                 </xsd:simpleType>
             </xsd:attribute>
+            <xsd:attribute name="auto-create" type="xsd:boolean" use="optional" default="true">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        <![CDATA[
+							Should instances of this component be auto-created.  Defaults to true since the STATELESS
+							scope is going to be used most of the time when using this namespace handler.
+                        ]]>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
             <xsd:attribute name="scope" use="optional" default="STATELESS">
                 <xsd:annotation>
                     <xsd:documentation>
                         <![CDATA[
-The optional scope this component should have.  STATELESS will allow spring to manage the scope.
-                        ]]>
+The optional scope this component should have.  STATELESS will allow spring to manage the scope.                        ]]>
                     </xsd:documentation>
                 </xsd:annotation>
                 <xsd:simpleType>
                     <xsd:restriction base="xsd:string">
                         <xsd:enumeration value="STATELESS" />
-                        <xsd:enumeration value="METHOD" />
                         <xsd:enumeration value="EVENT" />
                         <xsd:enumeration value="PAGE" />
                         <xsd:enumeration value="CONVERSATION" />

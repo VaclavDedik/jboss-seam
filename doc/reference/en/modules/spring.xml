@@ -144,7 +144,7 @@ private BookingService bookingService;]]></programlisting>
         <para> By default, <literal>&lt;seam:component/&gt;</literal> will create a <literal>STATELESS</literal>
             Seam component with class and name provided in the bean definition. Occasionally, such as when a
                 <literal>FactoryBean</literal> is used, the class of the Spring bean may not be the class appearing in
-            the bean definition. In such cases the <literal>beanClass</literal> should be explicitly specified. A Seam
+            the bean definition. In such cases the <literal>class</literal> should be explicitly specified. A Seam
             component name may be explicitly specified in cases where there is potential for a naming conflict. </para>
 
         <para> The <literal>scope</literal> attribute of <literal>&lt;seam:component/&gt;</literal> may be used

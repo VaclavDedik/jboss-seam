@@ -21,19 +21,21 @@ import org.springframework.aop.TargetSource;
  * A TargetSource for a seam component instance. Will obtain an instance given a
  * name and optionally a scope and create. Used by the SeamFactoryBean to create
  * a proxy for a requested seam component instance.
- *
+ * 
  * @author youngm
  */
 @SuppressWarnings("serial")
 public class SeamTargetSource implements TargetSource, Serializable
 {
    private ScopeType scope;
+
    private String name;
+
    private Boolean create;
+
    private ValueBinding valueBinding;
+
    private Class type;
-   
-   
 
    public SeamTargetSource(String name, ScopeType scope, Boolean create, Class type)
    {
@@ -68,7 +70,7 @@ public class SeamTargetSource implements TargetSource, Serializable
 
    /**
     * Returns a component instance for this TargetSource.
-    *
+    * 
     * @see org.springframework.aop.TargetSource#getTarget()
     */
    public Object getTarget() throws Exception
@@ -99,17 +101,20 @@ public class SeamTargetSource implements TargetSource, Serializable
    }
 
    /**
-    * Obtains the seam component beanClass or the defined type for this TargetSource.
-    *
+    * Obtains the seam component beanClass or the defined type for this
+    * TargetSource.
+    * 
     * @see org.springframework.aop.TargetSource#getTargetClass()
     */
    public Class getTargetClass()
    {
-      if(type != null) {
+      if (type != null)
+      {
          return type;
       }
       Component component = getComponent();
-      if(component == null) {
+      if (component == null)
+      {
          return null;
       }
       if (component.hasUnwrapMethod())
@@ -143,7 +148,7 @@ public class SeamTargetSource implements TargetSource, Serializable
 
    /**
     * Get the component for this TargetSource
-    *
+    * 
     * @return component
     */
    public Component getComponent()
@@ -191,7 +196,7 @@ public class SeamTargetSource implements TargetSource, Serializable
 
    /**
     * Don't think we need to do anything here.
-    *
+    * 
     * @see org.springframework.aop.TargetSource#releaseTarget(java.lang.Object)
     */
    public void releaseTarget(Object target) throws Exception
