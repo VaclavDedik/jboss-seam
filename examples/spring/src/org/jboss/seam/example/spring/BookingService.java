@@ -68,6 +68,10 @@ public class BookingService
         getJpaTemplate().persist(booking);
         getJpaTemplate().flush();
     }
+    
+    public void testNonWebRequest() {
+    	System.out.print("Yup. successfully called the method");
+    }
 
     public Hotel findHotelById(Long hotelId) {
         if (hotelId == null) {

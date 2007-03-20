@@ -25,7 +25,7 @@ import org.springframework.web.context.support.XmlWebApplicationContext;
  */
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
-@Startup
+@Startup(depends="org.jboss.seam.ioc.spring.springELResolver")
 @Name("org.jboss.seam.ioc.spring.contextLoader")
 @Install(value = false, precedence = BUILT_IN)
 public class ContextLoader
@@ -40,6 +40,7 @@ public class ContextLoader
       try {
          webApplicationContext = createContextLoader(servletContext);
          servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, webApplicationContext);
+         startupContextLoader(webApplicationContext);
       } catch (Exception e) {
          servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, e);
          throw e;
@@ -50,8 +51,13 @@ public class ContextLoader
       XmlWebApplicationContext xmlWebApplicationContext = new XmlWebApplicationContext();
       xmlWebApplicationContext.setServletContext(servletContext);
       xmlWebApplicationContext.setConfigLocations(getConfigLocations());
-      xmlWebApplicationContext.refresh();
       return xmlWebApplicationContext;
+   }
+   
+   protected void startupContextLoader(WebApplicationContext webApplicationContext) {
+      if(webApplicationContext instanceof ConfigurableWebApplicationContext) {
+         ((ConfigurableWebApplicationContext)webApplicationContext).refresh();
+      }
    }
 
    @Destroy

@@ -28,4 +28,26 @@
     <seam:configure-scopes />
     
     <seam:instance id="em" name="entityManager" proxy="true"/>
+    <bean id="timerFactory" class="org.springframework.scheduling.timer.TimerFactoryBean" lazy-init="false">
+	    <property name="scheduledTimerTasks">
+	        <list>
+	            <!-- see the example above -->
+	            <ref bean="scheduledTask" />
+	        </list>
+	    </property>
+	</bean>
+    <bean id="scheduledTask" class="org.springframework.scheduling.timer.ScheduledTimerTask">
+	    <!-- wait 10 seconds before starting repeated execution -->
+	    <property name="delay" value="10000" />
+	    <!-- run every 50 seconds -->
+	    <property name="period" value="50000" />
+	    <property name="timerTask" ref="doIt" />
+	</bean>
+	
+    <bean id="doIt" class="org.springframework.scheduling.timer.MethodInvokingTimerTaskFactoryBean">
+	    <property name="targetObject">
+	    	<seam:instance name="#{bookingService}"/>
+	    </property>
+	    <property name="targetMethod" value="testNonWebRequest" />
+	</bean>
 </beans>
