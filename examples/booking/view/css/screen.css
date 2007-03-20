@@ -111,7 +111,6 @@ input[type="submit"], input[type="button"] {
 }
 .entry .label {
 	float: left;
-	padding-top: 10px;
 	padding-right: 5px;
 	font-weight: bold;
 	width: 150px;
@@ -128,7 +127,7 @@ input[type="submit"], input[type="button"] {
 	width: 360px;
 	text-align: left;
 }
-.entry .errors {
+.entry .error {
 	float: right;
 	width: 360px;
 	text-align: left;
@@ -160,6 +159,7 @@ input[type="submit"], input[type="button"] {
 .buttonBox {
 	text-align: center;
 	padding: 5px 0;
+	clear: both;
 }
 #sidebar p {
 	font-size: small;

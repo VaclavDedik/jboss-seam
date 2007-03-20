@@ -15,15 +15,16 @@
 
 <div class="section">
 	<ui:include src="hotelview.xhtml"/>
-	<div class="entry">
-		<div class="input">
-			<h:form id="hotel">
-				<h:commandButton id="bookHotel" action="#{hotelBooking.bookHotel}" value="Book Hotel"/>
-				&#160;
-				<h:commandButton id="cancel" action="#{hotelBooking.cancel}" value="Back to Search"/>
-			</h:form>
-		</div>
+
+	<div class="buttonBox">
+		<h:form id="hotel">
+			<h:commandButton id="bookHotel" action="#{hotelBooking.bookHotel}" value="Book Hotel"/>
+			&#160;
+			<h:commandButton id="cancel" action="#{hotelBooking.cancel}" value="Back to Search"/>
+		</h:form>
 	</div>
+			
+
 </div>
 
 </ui:define>

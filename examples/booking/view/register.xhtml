@@ -54,52 +54,43 @@
                 <h:form id="registration">
 				<fieldset>
 				
-                    <s:validateAll>
-                      <s:decorateAll rowClass="entry" 
-                                     labelColumnClass="label" 
-                                     fieldColumnClass="input"
-                                     messageColumnClass="errors"
-                                     id="registrationFields">
-
-                       <f:facet name="aroundInvalidField">
-                           <s:span styleClass="errors"/>
-                       </f:facet>
-                       <f:facet name="message">
-                           <s:div styleClass="errors">
-               	               <s:message/>
-               	           </s:div>
-                       </f:facet>
-		    
-						<s:decorate id="usernameDecorate">
-							<f:facet name="label">Username:</f:facet>
-							<h:inputText id="username" value="#{user.username}" required="true">
-								<a:support event="onblur" reRender="usernameDecorate"/>
-							</h:inputText>
-						</s:decorate>
-						
-						<s:decorate id="nameDecorate">
-							<f:facet name="label">Real Name:</f:facet>
-							<h:inputText id="name" value="#{user.name}" required="true">
-								<a:support event="onblur" reRender="nameDecorate"/>
-							</h:inputText>
-						</s:decorate>
-						
-						<h:inputSecret id="password" value="#{user.password}" required="true">
-							<f:facet name="label">Password:</f:facet>
-						</h:inputSecret>
-						
-						<h:inputSecret id="verify" value="#{register.verify}" required="true">
-							<f:facet name="label">Verify Password:</f:facet>
-						</h:inputSecret>
-						
-						<s:fragment>
-							<h:commandButton id="register" value="Register" action="#{register.register}"/>
-							&#160;
-							<s:button id="cancel" value="Cancel" view="/home.xhtml"/>
-						</s:fragment>
-						
-					  </s:decorateAll>
-					</s:validateAll>
+					<s:decorate id="usernameDecorate" template="edit.xhtml">
+						<ui:define name="label">Username:</ui:define>
+						<ui:define name="input">
+						<h:inputText id="username" value="#{user.username}" required="true">
+							<a:support event="onblur" reRender="usernameDecorate"/>
+						</h:inputText>
+						</ui:define>
+					</s:decorate>
+					
+					<s:decorate id="nameDecorate" template="edit.xhtml">
+						<ui:define name="label">Real Name:</ui:define>
+						<ui:define name="input">
+						<h:inputText id="name" value="#{user.name}" required="true">
+							<a:support event="onblur" reRender="nameDecorate"/>
+						</h:inputText>
+						</ui:define>
+					</s:decorate>
+					
+					<s:decorate id="passwordDecorate" template="edit.xhtml">
+						<ui:define name="label">Password:</ui:define>
+						<ui:define name="input">
+						<h:inputSecret id="password" value="#{user.password}" required="true"/>
+						</ui:define>
+					</s:decorate>
+					
+					<s:decorate id="verifyDecorate" template="edit.xhtml">
+						<ui:define name="label">Verify Password:</ui:define>
+						<ui:define name="input">
+						<h:inputSecret id="verify" value="#{register.verify}" required="true"/>
+						</ui:define>
+					</s:decorate>
+					
+					<div class="buttonBox">
+						<h:commandButton id="register" value="Register" action="#{register.register}"/>
+						&#160;
+						<s:button id="cancel" value="Cancel" view="/home.xhtml"/>
+					</div>
 									
 				</fieldset>
                 </h:form>

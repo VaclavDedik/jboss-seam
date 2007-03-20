@@ -17,28 +17,35 @@
 
 	<ui:include src="hotelview.xhtml"/>
 		
-	<s:decorateAll rowClass="entry" 
-				   labelColumnClass="label" 
-				   fieldColumnClass="output"
-				   id="booking">
-		
-		<h:outputText value="#{booking.total}">
-			<f:facet name="label">Total Payment:</f:facet>
-			<f:convertNumber type="currency" currencySymbol="$"/>
-		</h:outputText>
+	<s:decorate template="display.xhtml">
+		<ui:define name="label">Total Payment:</ui:define>
+		<ui:define name="value">
+			<h:outputText value="#{booking.total}">
+				<f:convertNumber type="currency" currencySymbol="$"/>
+			</h:outputText>
+		</ui:define>
+	</s:decorate>
 
-		<h:outputText value="#{booking.checkinDate}">
-			<f:facet name="label">Check In Date:</f:facet>
-		</h:outputText>
+	<s:decorate template="display.xhtml">
+		<ui:define name="label">Check In Date:</ui:define>
+		<ui:define name="value">
+			<h:outputText value="#{booking.checkinDate}"/>
+		</ui:define>
+	</s:decorate>
 
-		<h:outputText value="#{booking.checkoutDate}">
-			<f:facet name="label">Check Out Date:</f:facet>
-		</h:outputText>
+	<s:decorate template="display.xhtml">
+		<ui:define name="label">Check Out Date:</ui:define>
+		<ui:define name="value">
+			<h:outputText value="#{booking.checkoutDate}"/>
+		</ui:define>
+	</s:decorate>
 
-		<h:outputText value="#{booking.creditCard}">
-			<f:facet name="label">Credit Card #:</f:facet>
-		</h:outputText>
-		
+	<s:decorate template="display.xhtml">
+		<ui:define name="label">Credit Card #:</ui:define>
+		<ui:define name="value">#{booking.creditCard}</ui:define>
+	</s:decorate>
+	
+	<div class="buttonBox">
 		<h:form id="confirm">
 			<h:commandButton id="confirm" value="Confirm" action="#{hotelBooking.confirm}"/>
 			&#160;
@@ -46,9 +53,8 @@
     		&#160;
     		<h:commandButton id="cancel" value="Cancel" action="#{hotelBooking.cancel}"/>
 		</h:form>
+	</div>
 
-	</s:decorateAll>
-		
 </div>
 
 </ui:define>
