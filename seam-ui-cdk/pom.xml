@@ -8,6 +8,47 @@
 	<url>http://jboss.com/products/seam</url>
 	<version>${seam.version}</version>
 	<packaging>pom</packaging>
+	<pluginRepositories>
+		<pluginRepository>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+			<id>maven.exadel.com</id>
+			<name>Exadel Repository for Maven Snapshots</name>
+			<url>http://maven.exadel.com/</url>
+		</pluginRepository>
+	</pluginRepositories>
+	<repositories>
+		<repository>
+			<releases />
+			<snapshots>
+				<enabled>false</enabled>
+				<updatePolicy>never</updatePolicy>
+			</snapshots>
+			<id>maven-repository.dev.java.net</id>
+			<name>Java.net Repository for Maven</name>
+			<url>
+				https://maven-repository.dev.java.net/nonav/repository
+			</url>
+			<layout>legacy</layout>
+		</repository>
+		<repository>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+			<id>maven.exadel.com</id>
+			<name>Exadel Repository for Maven Snapshots</name>
+			<url>http://maven.exadel.com/</url>
+		</repository>
+	</repositories>
 	<build>
 		<plugins>
 			<plugin>
@@ -38,18 +79,14 @@
 			<artifactId>jboss-seam</artifactId>
 			<scope>system</scope>
 			<version>transient</version>
-			<systemPath>
-				${seam.dir}/jboss-seam.jar
-			</systemPath>
+			<systemPath>${seam.dir}/jboss-seam.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.seam</groupId>
 			<artifactId>antlr</artifactId>
 			<scope>system</scope>
 			<version>transient</version>
-			<systemPath>
-				${seam.dir}/lib/antlr-2.7.6.jar
-			</systemPath>
+			<systemPath>${seam.dir}/lib/antlr-2.7.6.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.seam</groupId>
@@ -65,7 +102,54 @@
 			<artifactId>myfaces-api</artifactId>
 			<version>transient</version>
 			<scope>system</scope>
-			<systemPath>${seam.dir}/lib/myfaces-api-1.1.4.jar</systemPath>
+			<systemPath>
+				${seam.dir}/lib/myfaces-api-1.1.4.jar
+			</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jbpm</artifactId>
+			<version>transient</version>
+			<scope>system</scope>
+			<systemPath>
+				${seam.dir}/lib/jbpm-3.1.4.jar
+			</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-cache-jdk50</artifactId>
+			<version>transient</version>
+			<scope>system</scope>
+			<systemPath>
+				${seam.dir}/lib/jboss-cache-jdk50.jar
+			</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jgroups</artifactId>
+			<version>transient</version>
+			<scope>system</scope>
+			<systemPath>
+				${seam.dir}/lib/jgroups.jar
+			</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-ejb3-all</artifactId>
+			<version>transient</version>
+			<scope>system</scope>
+			<systemPath>
+				${seam.dir}/lib/jboss-ejb3-all.jar
+			</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>hibernate-all</artifactId>
+			<version>transient</version>
+			<scope>system</scope>
+			<systemPath>
+				${seam.dir}/lib/hibernate-all.jar
+			</systemPath>
 		</dependency>
 	</dependencies>
 	<modules>

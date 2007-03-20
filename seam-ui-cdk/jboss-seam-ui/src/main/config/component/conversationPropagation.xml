@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE components PUBLIC "-//AJAX4JSF//CDK Generator config/EN"  "https://ajax4jsf.dev.java.net/nonav/dtds/component-config.dtd" >
+<components>
+	<component generate="false">
+		<name>org.jboss.seam.ui.ConversationPropagation</name>
+		<family>org.jboss.seam.ui.ConversationPropagation</family>
+		<classname>org.jboss.seam.ui.component.UIConversationPropagation</classname>
+		<superclass>javax.faces.component.UIParameter</superclass>
+		<description>
+			<![CDATA[Customize the conversation propagation for a command link or button (or similar JSF control).]]>
+		</description>
+		<tag>
+			<name>conversationPropagation</name>
+			<classname>org.jboss.seam.ui.taglib.ConversationPropagationTag</classname>
+			<superclass>
+				org.ajax4jsf.framework.taglib.HtmlComponentTagBase
+			</superclass>
+		</tag>
+		&ui_component_attributes;
+		<property>
+			<name>pageflow</name>
+			<classname>java.lang.String</classname>
+			<description>a pageflow definition to begin. (This is only useful when propagation="begin" or propagation="join".)</description>
+		</property>
+		<property>
+			<name>type</name>
+			<classname>java.lang.String</classname>
+			<description>determines the conversation propagation style: begin, join, nest, none or end.</description>
+			<defaultvalue>"none"</defaultvalue>
+		</property>
+	</component>
+</components>

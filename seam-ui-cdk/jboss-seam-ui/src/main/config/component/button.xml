@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE components PUBLIC "-//AJAX4JSF//CDK Generator config/EN"  "https://ajax4jsf.dev.java.net/nonav/dtds/component-config.dtd" >
+<components>
+	<component>
+		<name>org.jboss.seam.ui.Button</name>
+		<family>org.jboss.seam.ui.Button</family>
+		<classname>org.jboss.seam.ui.component.html.HtmlButton</classname>
+		<superclass>org.jboss.seam.ui.component.UIButton</superclass>
+		<description>
+			<![CDATA[A link that supports invocation of an action with control over conversation propagation. <i>Does not submit the form.</i>]]>
+		</description>
+		<renderer generate="true" override="true">
+			<name>org.jboss.seam.ui.ButtonRenderer</name>
+			<template>org/jboss/seam/ui/htmlButton.jspx</template>
+		</renderer>
+		<tag>
+			<name>button</name>
+			<classname>org.jboss.seam.ui.taglib.ButtonTag</classname>
+			<superclass>
+				org.ajax4jsf.framework.taglib.HtmlComponentTagBase
+			</superclass>
+		</tag>
+		&ui_component_attributes;
+		&ui_output_attributes;
+		&html_anchor_attributes;
+		&html_button_attributes;
+		&html_universal_attributes;
+		&html_events;
+		&ui_command_attributes;
+		<!-- &standard_command_button_attributes; -->
+		<property attachedstate="true">
+			<name>view</name>
+			<classname>java.lang.String</classname>
+			<description>the JSF view id to link to.</description>
+		</property>
+		<property attachedstate="true">
+			<name>pageflow</name>
+			<classname>java.lang.String</classname>
+			<description>a pageflow definition to begin. (This is only useful when propagation="begin" or propagation="join".)</description>
+		</property>
+		<!-- Should be el="false" but this is buggy -->
+		<property attachedstate="true">
+			<name>propagation</name>
+			<classname>java.lang.String</classname>
+			<description>determines the conversation propagation style: begin, join, nest, none or end.</description>
+			<defaultvalue>"default"</defaultvalue>
+		</property>
+		<!-- Should be el="false" but this is buggy -->
+		<property>
+			<name>fragment</name>
+			<classname>java.lang.String</classname>
+			<description>the fragment identifier to link to.</description>
+		</property>
+		<!-- Should be el="false" but this is buggy -->
+		<property>
+			<name>outcome</name>
+			<classname>java.lang.String</classname>
+		</property>
+		<property attachedstate="true">
+			<name>image</name>
+			<classname>java.lang.String</classname>
+		</property>
+		<property attachedstate="true">
+			<name>disabled</name>
+			<classname>java.lang.String</classname>
+		</property>
+	</component>
+</components>

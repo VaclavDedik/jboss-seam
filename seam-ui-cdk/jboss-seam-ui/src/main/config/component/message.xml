@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE components PUBLIC "-//AJAX4JSF//CDK Generator config/EN"  "https://ajax4jsf.dev.java.net/nonav/dtds/component-config.dtd" >
+<components>
+	<component>
+		<name>org.jboss.seam.ui.Message</name>
+		<family>org.jboss.seam.ui.Message</family>
+		<classname>org.jboss.seam.ui.component.html.HtmlMessage</classname>
+		<superclass>org.jboss.seam.ui.component.UIMessage</superclass>
+		<description>
+			<![CDATA["Decorate" a JSF input field with the validation error message.]]>
+		</description>
+		<tag>
+			<name>message</name>
+			<classname>org.jboss.seam.ui.taglib.MessageTag</classname>
+			<superclass>
+				org.ajax4jsf.framework.taglib.HtmlComponentTagBase
+			</superclass>
+		</tag>
+		<!-- TODO should be standard_message_attributes -->
+		&ui_component_attributes;
+		&ui_message_attributes;
+	</component>
+</components>

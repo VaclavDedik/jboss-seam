@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE components PUBLIC "-//AJAX4JSF//CDK Generator config/EN"  "https://ajax4jsf.dev.java.net/nonav/dtds/component-config.dtd" >
+<components>
+	<component>
+		<name>org.jboss.seam.ui.SelectItems</name>
+		<family>org.jboss.seam.ui.SelectItems</family>
+		<classname>org.jboss.seam.ui.component.html.HtmlSelectItems</classname>
+		<superclass>org.jboss.seam.ui.component.UISelectItems</superclass>
+		<description>
+			<![CDATA[Creates a List<SelectItem> from a List, Set, DataModel or Array.]]>
+		</description>
+		<tag>
+			<name>selectItems</name>
+			<classname>org.jboss.seam.ui.taglib.SelectItemsTag</classname>
+			<superclass>
+				org.ajax4jsf.framework.taglib.HtmlComponentTagBase
+			</superclass>
+		</tag>
+		&ui_select_items_attributes;
+		<property required="true">
+			<name>value</name>
+			<classname>java.lang.Object</classname>
+			<defaultvalue>an EL expression specifying the data that backs the List&lt;SelectItem&gt;</defaultvalue>
+		</property>
+		<!-- Should be el="false" -->
+		<property required="true">
+			<name>var</name>
+			<classname>java.lang.String</classname>
+			<description>defines the name of the local variable that holds the current object during iteration</description>
+		</property>
+		<property>
+			<name>label</name>
+			<classname>java.lang.String</classname>
+			<description>the label to be used when rendering the SelectItem. Can reference the var variable</description>
+		</property>
+		<property>
+			<name>disabled</name>
+			<classname>java.lang.Boolean</classname>
+			<description>if true the SelectItem will be rendered disabled. Can reference the var variable</description>
+		</property>
+		<property>
+			<name>noSelectionLabel</name>
+			<classname>java.lang.String</classname>
+			<description>specifies the (optional) label to place at the top of list (if required="true" is also specified then selecting this value will cause a validation error)</description>
+		</property>
+		<property>
+			<name>hideNoSelectionLabel</name>
+			<classname>java.lang.Boolean</classname>
+			<description>if true, the noSelectionLabel will be hidden when a value is selected</description>
+		</property>
+	</component>
+</components>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE components PUBLIC "-//AJAX4JSF//CDK Generator config/EN"  "https://ajax4jsf.dev.java.net/nonav/dtds/component-config.dtd" >
+<components>
+	<component>
+		<name>org.jboss.seam.ui.Cache</name>
+		<family>org.jboss.seam.ui.Cache</family>
+		<classname>org.jboss.seam.ui.component.html.HtmlCache</classname>
+		<superclass>org.jboss.seam.ui.component.UICache</superclass>
+		<description>
+			<![CDATA[Cache the rendered page fragment using JBoss Cache. Note that <s:cache> actually uses the instance of JBoss Cache managed by the built-in pojoCache component.
+    ]]>
+		</description>
+		<renderer generate="true" override="true">
+			<name>org.jboss.seam.ui.CacheRenderer</name>
+			<template>org/jboss/seam/ui/htmlCache.jspx</template>
+		</renderer>
+		<tag>
+			<name>cache</name>
+			<classname>org.jboss.seam.ui.taglib.CacheTag</classname>
+			<superclass>
+				org.ajax4jsf.framework.taglib.HtmlComponentTagBase
+			</superclass>
+		</tag>
+		<!--
+		<taghandler>
+			<classname>org.ajax4jsf.tag.TestHandler</classname>
+		</taghandler>
+		-->
+		&ui_component_attributes;
+		<property>
+			<name>key</name>
+			<classname>java.lang.String</classname>
+			<description>the key to cache rendered content, often a value expression. For example, if we were caching a page fragment that displays a document, we might use key="Document-#{document.id}".</description>
+		</property>
+		<property>
+			<name>region</name>
+			<classname>java.lang.String</classname>
+			<description>a JBoss Cache node to use (different nodes can have different expiry policies).</description>
+		</property>
+		<property elonly="true">
+			<name>enabled</name>
+			<classname>java.lang.Boolean</classname>
+			<description>a value expression that determines if the cache should be used.</description>
+		</property>
+	</component>
+</components>

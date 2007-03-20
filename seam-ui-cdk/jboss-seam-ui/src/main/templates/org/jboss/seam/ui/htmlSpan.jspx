@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<f:root 
+	xmlns:f="http://ajax4jsf.org/cdk/template" 
+	xmlns:c=" http://java.sun.com/jsf/core" 
+	xmlns:ui=" http://ajax4jsf.org/cdk/ui"
+	xmlns:u=" http://ajax4jsf.org/cdk/u"
+	xmlns:x=" http://ajax4jsf.org/cdk/x"
+	class="org.jboss.seam.ui.renderkit.html.SpanRenderer"
+	baseclass="org.ajax4jsf.framework.renderer.AjaxComponentRendererBase"
+	component="org.jboss.seam.ui.component.UISpan" 
+	>
+	<f:clientid var="clientId"/>
+	<span id="#{clientId}"
+		name="#{clientId}"
+		x:passThruWithExclusions="value,name,type,id,style,styleClass"
+		class="#{component.attributes['styleClass']}"
+		style="#{component.attributes['style']}"
+		>
+	</span>
+</f:root>

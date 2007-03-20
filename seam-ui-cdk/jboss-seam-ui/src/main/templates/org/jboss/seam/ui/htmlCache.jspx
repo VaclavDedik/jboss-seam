@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<f:root 
+	xmlns:f="http://ajax4jsf.org/cdk/template" 
+	xmlns:c=" http://java.sun.com/jsf/core" 
+	xmlns:ui=" http://ajax4jsf.org/cdk/ui"
+	xmlns:u=" http://ajax4jsf.org/cdk/u"
+	xmlns:x=" http://ajax4jsf.org/cdk/x"
+	class="org.jboss.seam.ui.renderkit.html.CacheRenderer"
+	baseclass="org.jboss.seam.ui.renderkit.CacheRendererBase"
+	component="org.jboss.seam.ui.component.UICache" 
+	>
+</f:root>

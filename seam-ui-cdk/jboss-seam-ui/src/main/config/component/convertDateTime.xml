@@ -7,8 +7,7 @@
 		<classname>org.jboss.seam.ui.converter.ConvertDateTime</classname>
 		<superclass>org.jboss.seam.ui.converter.ConvertDateTimeBase</superclass>
 		<description>
-			<![CDATA[
-    ]]>
+			<![CDATA[Perform date or time conversions in the Seam timezone.]]>
 		</description>
 		<tag>
 			<name>convertDateTime</name>
