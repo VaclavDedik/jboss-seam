@@ -17,14 +17,24 @@ public class DecorateHandler extends ComponentHandler
    public DecorateHandler(ComponentConfig config)
    {
       super(config);
-      delegate = new com.sun.facelets.tag.ui.DecorateHandler(config);
+      if ( tag.getAttributes().get("template")!=null )
+      {
+         delegate = new com.sun.facelets.tag.ui.DecorateHandler(config);
+      }
    }
    
    @Override
    protected void applyNextHandler(FaceletContext context, UIComponent component) 
       throws IOException, FacesException, ELException
    {
-      delegate.apply(context, component);
+      if ( tag.getAttributes().get("template")!=null )
+      {
+         delegate.apply(context, component);
+      }
+      else
+      {
+         nextHandler.apply(context, component);
+      }
    }
 
 }
