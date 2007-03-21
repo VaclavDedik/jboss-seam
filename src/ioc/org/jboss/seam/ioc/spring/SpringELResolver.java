@@ -1,7 +1,6 @@
 package org.jboss.seam.ioc.spring;
 
 import static org.jboss.seam.InterceptionType.NEVER;
-import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.beans.FeatureDescriptor;
 import java.util.Iterator;
@@ -33,7 +32,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
  */
 @Scope(ScopeType.APPLICATION)
 @Name("org.jboss.seam.ioc.spring.springELResolver")
-@Install(precedence = Install.FRAMEWORK)
+@Install(precedence = Install.FRAMEWORK, classDependencies="org.springframework.beans.factory.BeanFactory")
 @Startup
 @Intercept(NEVER)
 public class SpringELResolver extends ELResolver
