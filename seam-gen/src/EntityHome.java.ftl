@@ -45,6 +45,8 @@ public class ${entityName}Home extends ${pojo.importType("org.jboss.seam.framewo
 <#assign getter = pojo.getGetterSignature(property)>
 <#if !c2j.isPrimitive( pojo.getJavaTypeName(property, true) )>
         if ( get${idName}().${getter}()==null ) return false;
+<#else>
+        if ( get${idName}().${getter}()==0 ) return false;
 </#if>
 </#foreach>
         return true;
