@@ -200,7 +200,7 @@ public class PersonHome extends EntityHome<Person> {
         </para>
 
         <programlisting><![CDATA[<pages>
-    <page viewid="/editPerson.jsp">
+    <page view-id="/editPerson.jsp">
         <param name="personId" value="#{personHome.id}"/>
     </page>
 </pages>]]></programlisting>
@@ -400,7 +400,7 @@ Person_updated=Person #{person.firstName} #{person.lastName} updated]]></program
 
 
         <programlisting><![CDATA[<pages>
-    <page viewid="/searchPerson.jsp">
+    <page view-id="/searchPerson.jsp">
         <param name="firstResult" value="#{people.firstResult}"/>
     </page>
 </pages>]]></programlisting>
