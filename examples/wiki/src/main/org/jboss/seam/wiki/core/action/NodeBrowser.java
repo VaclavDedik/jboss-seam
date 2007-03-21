@@ -11,6 +11,7 @@ import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.ui.WikiUtil;
 
 import java.util.*;
+import java.io.Serializable;
 
 /**
  * Resolves <tt>currentDocument</tt> and <tt>currentDirectory</tt> objects for given request parameters.
@@ -34,9 +35,9 @@ import java.util.*;
  * @author Christian Bauer
  */
 @Name("browser")
-@Scope(ScopeType.EVENT)
+@Scope(ScopeType.PAGE)
 @AutoCreate
-public class NodeBrowser {
+public class NodeBrowser implements Serializable {
 
     @RequestParameter
     protected String areaName;
@@ -49,9 +50,6 @@ public class NodeBrowser {
     public void setNodeId(Long nodeId) { this.nodeId = nodeId; }
 
     @In
-    private Directory wikiRoot;
-
-    @In
     private GlobalPreferences globalPrefs;
 
     @In
@@ -62,10 +60,10 @@ public class NodeBrowser {
 
     // These are only EVENT scoped, we don't want them to jump from DocumentBrowser to
     // DirectoryBrowser over redirects
-    @Out(scope = ScopeType.EVENT, required = false)
+    @Out(scope = ScopeType.PAGE, required = false)
     protected Document currentDocument;
 
-    @Out(scope = ScopeType.EVENT, required = false)
+    @Out(scope = ScopeType.PAGE, required = false)
     protected Directory currentDirectory;
 
     @Out(scope = ScopeType.EVENT)
@@ -136,7 +134,7 @@ public class NodeBrowser {
     // Just a convenience method for recursive calling
     protected void addDirectoryToPath(List<Node> path, Node directory) {
         if (Identity.instance().hasPermission("Node", "read", directory) ||
-            directory.getId().equals(wikiRoot.getId())
+            directory.getId().equals( ((Directory)Component.getInstance("wikiRoot")).getId() )
            )
             path.add(directory);
         if (directory.getParent() != null )

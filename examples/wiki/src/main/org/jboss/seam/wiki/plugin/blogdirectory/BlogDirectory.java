@@ -8,10 +8,11 @@ import org.jboss.seam.wiki.core.model.Directory;
 import org.jboss.seam.wiki.core.model.Document;
 
 import java.util.*;
+import java.io.Serializable;
 
 @Name("blogDirectory")
-@Scope(ScopeType.CONVERSATION)
-public class BlogDirectory {
+@Scope(ScopeType.PAGE)
+public class BlogDirectory implements Serializable {
 
     @In
     NodeDAO nodeDAO;
@@ -85,11 +86,11 @@ public class BlogDirectory {
     }
 
     public int getNextPage() {
-        return ++page;
+        return page + 1;
     }
 
     public int getPreviousPage() {
-        return --page;
+        return page - 1;
     }
 
     public int getFirstPage() {

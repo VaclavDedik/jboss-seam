@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.io.Serializable;
 
 @Name("menu")
-@Scope(ScopeType.CONVERSATION)
+@Scope(ScopeType.PAGE)
 public class Menu implements Serializable {
 
     private List<MenuItem> items;
@@ -56,7 +56,7 @@ public class Menu implements Serializable {
         }
     }
 
-    public class MenuItem{
+    public class MenuItem implements Serializable {
         private Node node;
         private int level;
         private List<MenuItem> subItems = new ArrayList<MenuItem>();
