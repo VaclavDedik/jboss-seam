@@ -23,7 +23,6 @@
     
         <rich:panel>
             <f:facet name="header">Edit ${entityName}</f:facet>
-
 <#foreach property in pojo.allPropertiesIterator>
 <#include "editproperty.xhtml.ftl">
 </#foreach>
@@ -67,7 +66,6 @@
 
         </div>
     </h:form>
-
 <#assign hasAssociations=false>
 <#foreach property in pojo.allPropertiesIterator>
 <#if c2h.isManyToOne(property) || c2h.isOneToManyCollection(property)>

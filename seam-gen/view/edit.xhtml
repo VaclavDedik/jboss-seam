@@ -19,10 +19,8 @@
     
             <s:decorate id="nameDecoration" template="layout/edit.xhtml">
                 <ui:define name="label">Name</ui:define>
-                <ui:define name="input">
-                    <h:inputText id="name" required="true"
-                                 value="#{@homeName@.instance.name}"/>
-                </ui:define>
+                <h:inputText id="name" required="true"
+                             value="#{@homeName@.instance.name}"/>
             </s:decorate>
             
             <div style="clear:both"/>

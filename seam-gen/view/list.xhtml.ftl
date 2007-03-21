@@ -30,9 +30,7 @@
 <#if componentProperty.value.typeName == "string">
             <s:decorate template="layout/display.xhtml">
                 <ui:define name="label">${componentProperty.name}</ui:define>
-                <ui:define name="value">
-                    <h:inputText id="${componentProperty.name}" value="${'#'}{${listName}.${componentName}.${property.name}.${componentProperty.name}}"/>
-                </ui:define>
+                <h:inputText id="${componentProperty.name}" value="${'#'}{${listName}.${componentName}.${property.name}.${componentProperty.name}}"/>
             </s:decorate>
 
 </#if>
@@ -41,9 +39,7 @@
 <#if property.value.typeName == "string">
             <s:decorate template="layout/display.xhtml">
                 <ui:define name="label">${property.name}</ui:define>
-                <ui:define name="value">
-                    <h:inputText id="${property.name}" value="${'#'}{${listName}.${componentName}.${property.name}}"/>
-                </ui:define>
+                <h:inputText id="${property.name}" value="${'#'}{${listName}.${componentName}.${property.name}}"/>
             </s:decorate>
 
 </#if>

@@ -20,7 +20,6 @@
     
     <rich:panel>
         <f:facet name="header">${entityName}</f:facet>
-    
 <#foreach property in pojo.allPropertiesIterator>
 <#if !c2h.isCollection(property) && !c2h.isManyToOne(property)>
 <#include "viewproperty.xhtml.ftl">
@@ -42,7 +41,6 @@
                  value="Done"/>
 
     </div>
-
 <#assign hasAssociations=false>
 <#foreach property in pojo.allPropertiesIterator>
 <#if c2h.isManyToOne(property) || c2h.isOneToManyCollection(property)>
