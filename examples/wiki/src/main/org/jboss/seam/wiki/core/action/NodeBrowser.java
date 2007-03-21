@@ -4,12 +4,10 @@ import org.jboss.seam.annotations.*;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Component;
 import org.jboss.seam.core.Conversation;
+import org.jboss.seam.core.Manager;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.wiki.core.dao.NodeDAO;
-import org.jboss.seam.wiki.core.model.Node;
-import org.jboss.seam.wiki.core.model.Directory;
-import org.jboss.seam.wiki.core.model.Document;
-import org.jboss.seam.wiki.core.model.GlobalPreferences;
+import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.ui.WikiUtil;
 
 import java.util.*;
@@ -109,6 +107,13 @@ public class NodeBrowser {
         redirect.getParameters().remove("cid");
 
         redirect.returnToCapturedView();
+    }
+
+    public void redirectToCurrentUserHome() {
+        User currentUser = (User)Component.getInstance("currentUser");
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("nodeId", currentUser.getMemberHome().getId());
+        Manager.instance().redirect("/display.xhtml", parameters, true);
     }
 
     // TODO: Typical exit method to get out of a root or nested conversation, JBSEAM-906

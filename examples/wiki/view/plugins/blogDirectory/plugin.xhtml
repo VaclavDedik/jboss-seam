@@ -6,7 +6,59 @@
      xmlns:wiki="http://jboss.com/products/seam/wiki"
      xmlns:s="http://jboss.com/products/seam/taglib">
 
-    NOT IMPLEMENTED
+    <s:div id="blogHeader" rendered="#{blogEntries.rowCount > 0}">
+        <div id="blogTitle">
+            #{currentDocument.name}
+        </div>
+        <div id="blogTotalEntries">
+            <h:outputText value="Blog entries: #{blogEntries.rowCount}"/>
+        </div>
+    </s:div>
+
+    <s:div id="blogEntriesContainer" rendered="#{blogEntries.rowCount > 0}">
+        <ui:repeat var="blogEntry" value="#{blogEntries}">
+
+            <div class="blogEntry">
+
+                <div class="blogEntryHeader">
+                    <div class="blogEntryLinks">
+                        <div class="blogEntryPermLink>">
+                            <h:outputLink value="#{wiki:renderPermLink(blogEntry.entryDocument)}">Permlink</h:outputLink>
+                        </div>
+                        <div class="blogEntryWikiLink>">
+                            <h:outputLink value="#{wiki:renderWikiLink(blogEntry.entryDocument)}">WikiLink</h:outputLink>
+                        </div>
+                    </div>
+                    <div class="blogEntryTitle">
+                        <h:outputText value="#{blogEntry.entryDocument.name}"/>
+                    </div>
+                    <div class="blogEntryCreatedOn">
+                        <h:outputText styleClass="blogEntryCreatedOnText" value="#{blogEntry.entryDocument.createdOn}">
+                            <f:convertDateTime pattern="dd. MMM yyyy, HH:mm"/>
+                        </h:outputText>
+                    </div>
+                </div>
+
+                <div class="blogEntryBody">
+                    <wiki:formattedText value="#{blogEntry.entryDocument.content}"
+                                        linkStyleClass="regularLink"
+                                        brokenLinkStyleClass="brokenLink"
+                                        attachmentLinkStyleClass="regularLink"
+                                        inlineLinkStyleClass="regularLink"/>
+                    <ui:include src="../../includes/attachmentDisplay.xhtml"/>
+                </div>
+
+                <div class="blogEntryFooter">
+                    0 Comments
+                </div>
+
+            </div>
+
+        </ui:repeat>
+    </s:div>
+
+    <s:div id="noBlogEntriesContainer" rendered="#{blogEntries.rowCount == 0}">
+        No blog entries found, create documents in this directory to create blog entries.
+    </s:div>
 
 </s:div>
-

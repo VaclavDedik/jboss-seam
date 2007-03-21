@@ -109,7 +109,7 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
         // Permission checks
         if (!isManaged() && !Identity.instance().hasPermission("Node", "create", getParentDirectory()) ) {
             throw new AuthorizationException("You don't have permission for this operation");
-        } else if ( !Identity.instance().hasPermission("Node", "edit", getInstance()) ) {
+        } else if ( isManaged() && !Identity.instance().hasPermission("Node", "edit", getInstance()) ) {
             throw new AuthorizationException("You don't have permission for this operation");
         }
 

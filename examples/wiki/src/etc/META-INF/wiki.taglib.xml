@@ -13,6 +13,18 @@
     </function>
 
     <function>
+        <function-name>renderPermLink</function-name>
+        <function-class>org.jboss.seam.wiki.core.ui.WikiUtil</function-class>
+        <function-signature>java.lang.String renderPermLink(org.jboss.seam.wiki.core.model.Node)</function-signature>
+    </function>
+
+    <function>
+        <function-name>renderWikiLink</function-name>
+        <function-class>org.jboss.seam.wiki.core.ui.WikiUtil</function-class>
+        <function-signature>java.lang.String renderWikiLink(org.jboss.seam.wiki.core.model.Node)</function-signature>
+    </function>
+
+    <function>
         <function-name>renderHomeURL</function-name>
         <function-class>org.jboss.seam.wiki.core.ui.WikiUtil</function-class>
         <function-signature>java.lang.String renderHomeURL(org.jboss.seam.wiki.core.model.User)</function-signature>

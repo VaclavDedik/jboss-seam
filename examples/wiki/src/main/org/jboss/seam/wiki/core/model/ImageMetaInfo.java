@@ -2,9 +2,10 @@ package org.jboss.seam.wiki.core.model;
 
 import javax.persistence.Embeddable;
 import javax.persistence.Column;
+import java.io.Serializable;
 
 @Embeddable
-public class ImageMetaInfo {
+public class ImageMetaInfo implements Serializable {
 
     @Column(name = "IMAGE_SIZE_X")
     private int sizeX;

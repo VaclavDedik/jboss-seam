@@ -50,22 +50,33 @@ public class WikiUtil {
                );
     }
 
-    // Allow calling this as a Facelets function in pages
     public static String renderURL(Node node) {
+        if (isFile(node)) return renderFileLink((File)node);
+        GlobalPreferences globalPrefs = (GlobalPreferences) Component.getInstance("globalPrefs");
+        if (globalPrefs.getDefaultURLRendering().equals(GlobalPreferences.URLRendering.PERMLINK)) {
+            return renderPermLink(node);
+        } else {
+            return renderWikiLink(node);
+        }
+    }
+
+    public static String renderPermLink(Node node) {
+        if (isFile(node)) return renderFileLink((File)node);
         GlobalPreferences globalPrefs = (GlobalPreferences) Component.getInstance("globalPrefs");
         String contextPath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+        return contextPath + "/" + node.getId() + globalPrefs.getPermlinkSuffix();
+    }
 
-        if (isFile(node)) {
-            return contextPath + "/files/download?fileId=" + node.getId();
-        }
+    public  static String renderWikiLink(Node node) {
+        String contextPath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+        if (node.getArea().getWikiname().equals(node.getWikiname()))
+            return contextPath + "/" + node.getArea().getWikiname();
+        return contextPath + "/" + node.getArea().getWikiname()  + "/" + node.getWikiname();
+    }
 
-        if (globalPrefs.getDefaultURLRendering().equals(GlobalPreferences.URLRendering.PERMLINK)) {
-            return contextPath + "/" + node.getId() + globalPrefs.getPermlinkSuffix();
-        } else {
-            if (node.getArea().getWikiname().equals(node.getWikiname()))
-                return contextPath + "/" + node.getArea().getWikiname();
-            return contextPath + "/" + node.getArea().getWikiname()  + "/" + node.getWikiname();
-        }
+    private static String renderFileLink(File file) {
+        String contextPath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+        return contextPath + "/files/download?fileId=" + file.getId();
     }
 
     // Creates clean alphanumeric UpperCaseCamelCase

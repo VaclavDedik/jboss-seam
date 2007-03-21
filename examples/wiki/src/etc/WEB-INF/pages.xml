@@ -179,6 +179,7 @@
     <page view-id="/userList.xhtml">
         <description>Searching Members (Results: #{userSearch.rowCount})</description>
     </page>
+    <page view-id="/userHome.xhtml" action="#{browser.redirectToCurrentUserHome()}"/>
 
     <!-- Global actions -->
 
@@ -187,7 +188,10 @@
         <navigation>
 
             <!-- Not perfect, but we need to force some re-rendering of the view when users log in or out -->
-            <rule if-outcome="loggedIn">
+            <rule if-outcome="loggedIn" if="#{!empty currentUser.memberHome}">
+                <redirect view-id="/userHome.xhtml"/>
+            </rule>
+            <rule if-outcome="loggedIn" if="#{empty currentUser.memberHome}">
                 <redirect view-id="/display.xhtml"/>
             </rule>
             <rule if-outcome="loggedOut">

@@ -10,6 +10,13 @@ import org.jboss.seam.wiki.core.model.Document;
 import org.jboss.seam.wiki.core.model.File;
 import org.jboss.seam.Component;
 import org.hibernate.Session;
+import org.hibernate.Criteria;
+import org.hibernate.ScrollableResults;
+import org.hibernate.transform.DistinctRootEntityResultTransformer;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Example;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Restrictions;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
@@ -120,6 +127,16 @@ public class NodeDAO {
         return null;
     }
 
+    public List<Document> findDocumentsInDirectoryOrderByCreatedOn(Directory directory, int firstResult, int maxResults) {
+        //noinspection unchecked
+        return (List<Document>)restrictedEntityManager
+                .createQuery("select d from Document d where d.parent = :parentDir order by d.createdOn desc")
+                .setParameter("parentDir", directory)
+                .setFirstResult(firstResult)
+                .setMaxResults(maxResults)
+                .getResultList();
+    }
+
     public List<Document> findDocumentsOrderByLastModified(int maxResults) {
         //noinspection unchecked
         return (List<Document>)restrictedEntityManager
@@ -221,6 +238,51 @@ public class NodeDAO {
         } catch (NoResultException ex) {
         }
         return null;
+    }
+
+    public <N extends Node> List<N> findWithParent(Class<N> nodeType, Directory directory,
+                    String orderByProperty, boolean orderDescending, int firstResult, int maxResults) {
+
+        Criteria crit = prepareCriteria(nodeType, orderByProperty, orderDescending);
+        crit.add(Restrictions.eq("parent", directory));
+        if ( !(firstResult == 0 && maxResults == 0) )
+            crit.setFirstResult(firstResult).setMaxResults(maxResults);
+        //noinspection unchecked
+        return crit.list();
+    }
+
+    public int getRowCountWithParent(Class nodeType, Directory directory) {
+        Criteria crit = prepareCriteria(nodeType, null, false);
+        crit.add(Restrictions.eq("parent", directory));
+        return getRowCount(crit);
+    }
+
+    public <N extends Node> int getRowCountByExample(N exampleNode, String... ignoreProperty) {
+        Criteria crit = prepareCriteria(exampleNode.getClass(), null, false);
+        appendExample(crit, exampleNode, ignoreProperty);
+        return getRowCount(crit);
+    }
+
+    private int getRowCount(Criteria criteria) {
+        restrictedEntityManager.joinTransaction();
+        ScrollableResults cursor = criteria.scroll();
+        cursor.last();
+        int count = cursor.getRowNumber() + 1;
+        cursor.close();
+        return count;
+    }
+
+    private Criteria prepareCriteria(Class rootClass, String orderByProperty, boolean orderDescending) {
+        Criteria crit = getSession().createCriteria(rootClass);
+        if (orderByProperty != null)
+                crit.addOrder( orderDescending ? Order.desc(orderByProperty) : Order.asc(orderByProperty) );
+        return crit.setResultTransformer(new DistinctRootEntityResultTransformer());
+    }
+
+    private <N extends Node> void appendExample(Criteria criteria, N exampleNode, String... ignoreProperty) {
+        Example example =  Example.create(exampleNode).enableLike(MatchMode.ANYWHERE).ignoreCase();
+        for (String s : ignoreProperty) example.excludeProperty(s);
+        criteria.add(example);
     }
 
     private Session getSession() {

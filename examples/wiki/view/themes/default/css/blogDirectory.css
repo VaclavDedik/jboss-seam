@@ -1,0 +1,51 @@
+#blogHeader {
+}
+
+#blogTitle {
+    float: left;
+    font-size: 145%;
+    font-weight: bold;
+}
+
+#blogTotalEntries{
+    text-align: right;
+    font-size: 85%;
+    font-weight: bold;
+}
+
+.blogEntry {
+    border: 1px solid #87786e;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.blogEntryHeader {
+    background: #c2bcaf;
+    padding: 10px;
+}
+
+.blogEntryTitle {
+    font-size: 110%;
+    font-weight: bold;
+}
+
+.blogEntryCreatedOnText {
+    font-size: 85%;
+    font-weight: normal;
+}
+
+.blogEntryLinks {
+    float: right;
+    font-size: 85%;
+    font-weight: bold;
+}
+
+.blogEntryBody {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.blogEntryFooter {
+    border-top: 1px solid #87786e;
+    padding: 10px;
+}
