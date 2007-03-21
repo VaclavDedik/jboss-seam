@@ -14,6 +14,7 @@ import org.jboss.seam.text.SeamTextLexer;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.util.Resources;
 import org.jboss.seam.ui.JSF;
+import org.jboss.seam.ui.facelet.SeamExpressionFactory;
 import org.jboss.seam.wiki.core.model.GlobalPreferences;
 import org.jboss.seam.Component;
 import org.jboss.seam.core.Expressions;
@@ -127,7 +128,11 @@ public class UIWikiFormattedText extends UIOutput {
                 while (matcher.find()) {
                     Expressions.ValueBinding valueMethod = Expressions.instance().createValueBinding("#{"+matcher.group(1)+"}");
                     String result = (String)valueMethod.getValue();
-                    matcher.appendReplacement(resolvedCSS, result);
+                    if (result != null) {
+                        matcher.appendReplacement(resolvedCSS, result);
+                    } else {
+                        matcher.appendReplacement(resolvedCSS, "");
+                    }
                 }
                 matcher.appendTail(resolvedCSS);
                 output.append(resolvedCSS);

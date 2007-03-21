@@ -10,9 +10,6 @@
         <div id="blogTitle">
             #{currentDocument.name}
         </div>
-        <div id="blogTotalEntries">
-            <h:outputText value="Blog entries: #{blogEntries.rowCount}"/>
-        </div>
     </s:div>
 
     <s:div id="blogEntriesContainer" rendered="#{blogEntries.rowCount > 0}">
@@ -60,5 +57,45 @@
     <s:div id="noBlogEntriesContainer" rendered="#{blogEntries.rowCount == 0}">
         No blog entries found, create documents in this directory to create blog entries.
     </s:div>
+
+    <h:panelGrid columns="5"
+                 styleClass="blogPagerTable"
+                 columnClasses="blogPagerColumn, blogPagerColumn, blogPagerTextColumn, blogPagerColumn, blogPagerColumn, "
+                 cellpadding="0" cellspacing="0" border="0">
+
+        <h:outputLink rendered="#{blogDirectory.previousPageAvailable}">
+            <f:param name="blogPage" value="#{blogDirectory.firstPage}"/>
+            <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/page.first.gif" width="13" height="11"/>
+        </h:outputLink>
+        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/blank.gif" width="13" height="11"
+                        rendered="#{!blogDirectory.previousPageAvailable}"/>
+
+        <h:outputLink rendered="#{blogDirectory.previousPageAvailable}">
+            <f:param name="blogPage" value="#{blogDirectory.previousPage}"/>
+            <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/page.previous.gif" width="13" height="11"/>
+        </h:outputLink>
+        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/blank.gif" width="13" height="11"
+                        rendered="#{!blogDirectory.previousPageAvailable}"/>
+
+        <h:outputText value="Showing #{blogDirectory.firstRow} to
+                                     #{blogDirectory.lastRow} of
+                                     #{blogDirectory.totalRowCount} blog entries"/>
+
+        <h:outputLink rendered="#{blogDirectory.nextPageAvailable}">
+            <f:param name="blogPage" value="#{blogDirectory.nextPage}"/>
+            <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/page.next.gif" width="13" height="11"/>
+        </h:outputLink>
+        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/blank.gif" width="13" height="11"
+                        rendered="#{!blogDirectory.nextPageAvailable}"/>
+
+        <h:outputLink rendered="#{blogDirectory.nextPageAvailable}">
+            <f:param name="blogPage" value="#{blogDirectory.lastPage}"/>
+            <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/page.last.gif" width="13" height="11"/>
+        </h:outputLink>
+        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/blank.gif" width="13" height="11"
+                        rendered="#{!blogDirectory.nextPageAvailable}"/>
+
+    </h:panelGrid>
+
 
 </s:div>

@@ -23,7 +23,10 @@ public class BlogDirectory {
     Document currentDocument;
 
     @RequestParameter
-    private Integer page;
+    private void setBlogPage(Integer blogPage) {
+        if (blogPage != null) this.page = blogPage;
+    }
+
     @RequestParameter
     private Integer day;
     @RequestParameter
@@ -36,7 +39,8 @@ public class BlogDirectory {
 
     private String orderByProperty;
     private boolean orderDescending;
-    private int rowCount;
+    private int totalRowCount;
+    private int page;
     private int pageSize;
     private Calendar startDate;
     private Calendar endDate;
@@ -44,39 +48,36 @@ public class BlogDirectory {
     @Factory("blogEntries")
     @Create
     public void initialize() {
-        if (page == null) page = 0;
         Calendar today = new GregorianCalendar();
         if (day == null) day = today.get(Calendar.DAY_OF_MONTH);
         if (month == null) month = today.get(Calendar.MONTH);
         if (year == null) year = today.get(Calendar.YEAR);
 
-        pageSize = 10;
+        pageSize = 3;
         orderByProperty = "createdOn";
         orderDescending = true;
 
         blogEntries = new ArrayList<BlogEntry>();
         queryRowCount();
-        if (rowCount != 0) queryBlogEntries();
+        if (totalRowCount != 0) queryBlogEntries();
     }
 
     private void queryRowCount() {
-        rowCount = nodeDAO.getRowCountWithParent(Document.class, currentDirectory);
+        totalRowCount = nodeDAO.getRowCountWithParent(Document.class, currentDirectory, currentDocument);
     }
 
     private void queryBlogEntries() {
         List<Document> documents =
-                nodeDAO.findWithParent(Document.class, currentDirectory, orderByProperty, orderDescending, page * pageSize, pageSize);
+                nodeDAO.findWithParent(Document.class, currentDirectory, currentDocument,
+                                       orderByProperty, orderDescending, page * pageSize, pageSize);
 
         for (Document document : documents) {
-            if (document.getId().equals(currentDocument.getId()))
-                rowCount--;
-            else 
-                blogEntries.add(new BlogEntry(document));
+            blogEntries.add(new BlogEntry(document));
         }
     }
 
-    public int getRowCount() {
-        return rowCount;
+    public int getTotalRowCount() {
+        return totalRowCount;
     }
 
     public List<BlogEntry> getBlogEntries() {
@@ -84,29 +85,40 @@ public class BlogDirectory {
     }
 
     public int getNextPage() {
-        return page++;
+        return ++page;
     }
 
     public int getPreviousPage() {
-        return page--;
+        return --page;
     }
 
-    public int firstPage() {
+    public int getFirstPage() {
         return 0;
     }
 
-    public int lastPage() {
-        page = (rowCount / pageSize);
-        if (rowCount % pageSize == 0) page--;
+    public int getFirstRow() {
+        return page * pageSize + 1;
+    }
+
+    public int getLastRow() {
+        return (page * pageSize + pageSize) > totalRowCount
+                ? totalRowCount
+                : page * pageSize + pageSize;
+    }
+
+    public int getLastPage() {
+        page = (totalRowCount / pageSize);
+        if (totalRowCount % pageSize == 0) page--;
         return page;
     }
 
     public boolean isNextPageAvailable() {
-        return blogEntries != null && rowCount > ((page * pageSize) + pageSize);
+        return blogEntries != null && totalRowCount > ((page * pageSize) + pageSize);
     }
 
     public boolean isPreviousPageAvailable() {
         return blogEntries != null && page > 0;
     }
+
 
 }

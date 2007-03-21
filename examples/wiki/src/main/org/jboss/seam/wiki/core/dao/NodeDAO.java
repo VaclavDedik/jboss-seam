@@ -240,20 +240,24 @@ public class NodeDAO {
         return null;
     }
 
-    public <N extends Node> List<N> findWithParent(Class<N> nodeType, Directory directory,
-                    String orderByProperty, boolean orderDescending, int firstResult, int maxResults) {
+    public <N extends Node> List<N> findWithParent(Class<N> nodeType, Directory directory, Node ignoreNode,
+                                                   String orderByProperty, boolean orderDescending, int firstResult, int maxResults) {
 
         Criteria crit = prepareCriteria(nodeType, orderByProperty, orderDescending);
         crit.add(Restrictions.eq("parent", directory));
+        if (ignoreNode != null)
+            crit.add(Restrictions.ne("id", ignoreNode.getId()));
         if ( !(firstResult == 0 && maxResults == 0) )
             crit.setFirstResult(firstResult).setMaxResults(maxResults);
         //noinspection unchecked
         return crit.list();
     }
 
-    public int getRowCountWithParent(Class nodeType, Directory directory) {
+    public int getRowCountWithParent(Class nodeType, Directory directory, Node ignoreNode) {
         Criteria crit = prepareCriteria(nodeType, null, false);
         crit.add(Restrictions.eq("parent", directory));
+        if (ignoreNode != null)
+            crit.add(Restrictions.ne("id", ignoreNode.getId()));
         return getRowCount(crit);
     }
 

@@ -4,14 +4,7 @@
 }
 
 #blogTitle {
-    float: left;
     font-size: 145%;
-    font-weight: bold;
-}
-
-#blogTotalEntries{
-    text-align: right;
-    font-size: 85%;
     font-weight: bold;
 }
 
@@ -55,4 +48,23 @@
     border-bottom: 1px solid #87786e;
     border-right: 1px solid #87786e;
     padding: 10px;
+}
+
+.blogPagerTable {
+    width: 100%;
+    font-size: 85%;
+    font-weight: bold;
+    padding: 0;
+    margin: 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 0;
+    text-align: center;
+}
+
+.blogPagerColumn {
+    width: 10%;
+}
+.blogPagerTextColumn {
+    width: 60%;
 }
