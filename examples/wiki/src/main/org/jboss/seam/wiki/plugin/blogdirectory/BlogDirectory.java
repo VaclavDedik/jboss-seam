@@ -108,9 +108,9 @@ public class BlogDirectory implements Serializable {
     }
 
     public int getLastPage() {
-        page = (totalRowCount / pageSize);
-        if (totalRowCount % pageSize == 0) page--;
-        return page;
+        int lastPage = (totalRowCount / pageSize);
+        if (totalRowCount % pageSize == 0) lastPage--;
+        return lastPage;
     }
 
     public boolean isNextPageAvailable() {
