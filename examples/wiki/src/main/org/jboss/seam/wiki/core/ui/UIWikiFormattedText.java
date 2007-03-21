@@ -3,6 +3,8 @@ package org.jboss.seam.wiki.core.ui;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
@@ -13,8 +15,8 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.util.Resources;
 import org.jboss.seam.ui.JSF;
 import org.jboss.seam.wiki.core.model.GlobalPreferences;
-import org.jboss.seam.annotations.In;
 import org.jboss.seam.Component;
+import org.jboss.seam.core.Expressions;
 
 import antlr.ANTLRException;
 import com.sun.facelets.Facelet;
@@ -104,13 +106,32 @@ public class UIWikiFormattedText extends UIOutput {
             InputStream is = Resources.getResourceAsStream(includeViewCSS);
             if (is != null) {
                 output.append("<style type=\"text/css\">\n");
+
                 BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+                StringBuilder css = new StringBuilder();
                 String line;
                 while ( (line = reader.readLine()) != null) {
-                    output.append(line);
-                    output.append("\n");
+                    css.append(line);
+                    css.append("\n");
                 }
                 is.close();
+
+                // Resolve any EL value binding expression present in CSS text
+                StringBuffer resolvedCSS = new StringBuffer(css.length());
+                Matcher matcher =
+                    Pattern.compile(
+                        "#" +Pattern.quote("{") + "(.*)" + Pattern.quote("}")
+                    ).matcher(css);
+
+                // Replace with [Link Text=>Page Name] or replace with BROKENLINK "page name"
+                while (matcher.find()) {
+                    Expressions.ValueBinding valueMethod = Expressions.instance().createValueBinding("#{"+matcher.group(1)+"}");
+                    String result = (String)valueMethod.getValue();
+                    matcher.appendReplacement(resolvedCSS, result);
+                }
+                matcher.appendTail(resolvedCSS);
+                output.append(resolvedCSS);
+
                 output.append("</style>\n");
             }
 

@@ -134,24 +134,6 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/itext-2.0.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/ajax4jsf.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
           <root url="jar://$MODULE_DIR$/../../lib/servlet-api.jar!/" />
         </CLASSES>
         <JAVADOC />
@@ -500,6 +482,33 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../lib/itext-2.0.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../lib/ajax4jsf-1.1.1-SNAPSHOT.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../lib/richfaces-3.0.1-SNAPSHOT.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntryProperties />
   </component>
   <component name="VcsManagerConfiguration">
@@ -614,8 +623,8 @@
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/lib/ajax4jsf.jar" />
-      <url>jar://$MODULE_DIR$/../../lib/ajax4jsf.jar!/</url>
+      <attribute name="URI" value="/WEB-INF/lib/ajax4jsf-1.1.1-SNAPSHOT.jar" />
+      <url>jar://$MODULE_DIR$/../../lib/ajax4jsf-1.1.1-SNAPSHOT.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />
@@ -689,8 +698,8 @@
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/lib/itext-2.0.0.jar" />
-      <url>jar://$MODULE_DIR$/../../lib/itext-2.0.0.jar!/</url>
+      <attribute name="URI" value="/WEB-INF/lib/itext-2.0.1.jar" />
+      <url>jar://$MODULE_DIR$/../../lib/itext-2.0.1.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="0" />
@@ -768,6 +777,11 @@
       <url>jar://$MODULE_DIR$/../../lib/portlet-api-lib.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
+      <attribute name="method" value="1" />
+      <attribute name="URI" value="/WEB-INF/lib/richfaces-3.0.1-SNAPSHOT.jar" />
+      <url>jar://$MODULE_DIR$/../../lib/richfaces-3.0.1-SNAPSHOT.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
       <attribute name="method" value="0" />
       <attribute name="URI" value="&lt;N/A&gt;" />
       <url>jar://$MODULE_DIR$/../../lib/servlet-api.jar!/</url>
@@ -788,7 +802,6 @@
       <url>jar://$MODULE_DIR$/../../lib/thirdparty-all.jar!/</url>
     </containerElement>
     <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/src/etc/WEB-INF/web.xml" optional="false" version="2.4" />
-    <deploymentDescriptor name="jboss-web.xml" url="file://$MODULE_DIR$/src/etc/WEB-INF/jboss-web.xml" optional="false" version="4.0" />
     <webroots>
       <root url="file://$MODULE_DIR$/view" relative="/" />
       <root url="file://$MODULE_DIR$/src/etc/WEB-INF" relative="/WEB-INF" />

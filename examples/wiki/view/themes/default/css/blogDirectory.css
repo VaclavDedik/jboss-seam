@@ -1,4 +1,6 @@
 #blogHeader {
+    white-space: nowrap;
+    padding: 10px;
 }
 
 #blogTitle {
@@ -14,18 +16,21 @@
 }
 
 .blogEntry {
-    border: 1px solid #87786e;
-    margin-top: 10px;
+    background: #fff url(#{themePath}/img/th.bg.inverse.gif) 0 0 repeat-x;
     margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 .blogEntryHeader {
-    background: #c2bcaf;
     padding: 10px;
+    border-top: 1px solid #87786e;
+    border-left: 1px solid #87786e;
+    border-right: 1px solid #87786e;
 }
 
 .blogEntryTitle {
     font-size: 110%;
+    margin-bottom: 5px;
     font-weight: bold;
 }
 
@@ -46,6 +51,8 @@
 }
 
 .blogEntryFooter {
-    border-top: 1px solid #87786e;
+    border-left: 1px solid #87786e;
+    border-bottom: 1px solid #87786e;
+    border-right: 1px solid #87786e;
     padding: 10px;
 }

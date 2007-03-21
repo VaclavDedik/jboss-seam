@@ -4,9 +4,7 @@ import org.jboss.seam.annotations.*;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.core.FacesMessages;
-import org.jboss.seam.core.Conversation;
 import org.jboss.seam.wiki.core.dao.UserDAO;
-import org.jboss.seam.wiki.core.action.NodeBrowser;
 import org.jboss.seam.wiki.core.model.User;
 
 import javax.faces.application.FacesMessage;
@@ -46,23 +44,6 @@ public class UserSearch implements Serializable {
         orderByProperty = "username";
         orderDescending = false;
         ignoreProperties = new String[]{"passwordHash", "activated", "createdOn"};
-    }
-
-    // TODO: Typical exit method to get out of a root or nested conversation, JBSEAM-906
-    public void exitConversation(Boolean endBeforeRedirect) {
-        Conversation currentConversation = Conversation.instance();
-        if (currentConversation.isNested()) {
-            // End this nested conversation and return to last rendered view-id of parent
-            currentConversation.endAndRedirect(endBeforeRedirect);
-        } else {
-            // End this root conversation
-            currentConversation.end();
-            // Return to the view-id that was captured when this conversation started
-            if (endBeforeRedirect)
-                browser.redirectToLastBrowsedPage();
-            else
-                browser.redirectToLastBrowsedPageWithConversation();
-        }
     }
 
     public void find() {

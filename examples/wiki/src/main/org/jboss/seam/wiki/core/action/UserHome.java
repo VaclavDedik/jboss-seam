@@ -42,6 +42,9 @@ public class UserHome extends EntityHome<User> {
     @In
     private Renderer renderer;
 
+    @In
+    NodeBrowser browser;
+
     private org.jboss.seam.wiki.core.model.Role defaultRole;
 
     private String oldUsername;
@@ -66,24 +69,6 @@ public class UserHome extends EntityHome<User> {
         defaultRole = (Role)Component.getInstance("newUserDefaultRole");
         oldUsername = getInstance().getUsername();
         if (isManaged()) roles = getInstance().getRoles();
-    }
-
-    // TODO: Typical exit method to get out of a root or nested conversation, JBSEAM-906
-    public void exitConversation(Boolean endBeforeRedirect) {
-        Conversation currentConversation = Conversation.instance();
-        if (currentConversation.isNested()) {
-            // End this nested conversation and return to last rendered view-id of parent
-            currentConversation.endAndRedirect(endBeforeRedirect);
-        } else {
-            // End this root conversation
-            currentConversation.end();
-            // Return to the view-id that was captured when this conversation started
-            NodeBrowser browser = (NodeBrowser) Component.getInstance("browser");
-            if (endBeforeRedirect)
-                browser.redirectToLastBrowsedPage();
-            else
-                browser.redirectToLastBrowsedPageWithConversation();
-        }
     }
 
     public String persist() {
@@ -133,7 +118,7 @@ public class UserHome extends EntityHome<User> {
                     "Activiate account: confirmRegistration.seam?activationCode=" + getInstance().getActivationCode());
                 */
 
-                exitConversation(false);
+                browser.exitConversation(false);
 
             } catch (Exception ex) {
                 ex.printStackTrace(System.out);
@@ -197,7 +182,7 @@ public class UserHome extends EntityHome<User> {
                     );
                 }
             }
-            exitConversation(false);
+            browser.exitConversation(false);
         }
 
         return outcome;
