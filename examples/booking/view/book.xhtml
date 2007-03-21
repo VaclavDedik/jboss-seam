@@ -26,7 +26,6 @@
 			
 		<s:decorate id="checkinDateDecorate" template="edit.xhtml">
 			<ui:define name="label">Check In Date:</ui:define>
-			<ui:define name="input">
 			<h:inputText id="checkinDate" value="#{booking.checkinDate}" required="true">
 				<s:convertDateTime pattern="MM/dd/yyyy"/>
 				<a:support event="onblur" reRender="checkinDateDecorate"/>
@@ -34,12 +33,10 @@
 			<s:selectDate for="checkinDate">
 				<h:graphicImage url="img/dtpick.gif" style="margin-left:5px;cursor:pointer"/>
 			</s:selectDate>
-			</ui:define>
 		</s:decorate>
 		
 		<s:decorate id="checkoutDateDecorate" template="edit.xhtml">
 			<ui:define name="label">Check Out Date:</ui:define>
-			<ui:define name="input">
 			<h:inputText id="checkoutDate" value="#{booking.checkoutDate}" required="true">
 				<s:convertDateTime pattern="MM/dd/yyyy"/>
 				<a:support event="onblur" reRender="checkoutDateDecorate"/>
@@ -47,51 +44,41 @@
 			<s:selectDate for="checkoutDate">
 				<h:graphicImage url="img/dtpick.gif" style="margin-left:5px;cursor:pointer"/>
 			</s:selectDate>
-			</ui:define>
 		</s:decorate>
 		
 		<s:decorate id="bedsDecorate" template="edit.xhtml">
 			<ui:define name="label">Room Preference:</ui:define>
-			<ui:define name="input">
 			<h:selectOneMenu id="beds" value="#{booking.beds}">
 				<f:selectItem itemLabel="One king-size bed" itemValue="1"/>
 				<f:selectItem itemLabel="Two double beds" itemValue="2"/>
 				<f:selectItem itemLabel="Three beds" itemValue="3"/>
 			</h:selectOneMenu>
-			</ui:define>
 		</s:decorate>
 		
 		<s:decorate id="smokingDecorate" template="edit.xhtml">
 			<ui:define name="label">Smoking Preference:</ui:define>
-			<ui:define name="input">
 			<h:selectOneRadio id="smoking" value="#{booking.smoking}" layout="pageDirection" styleClass="radio">
 				<f:selectItem itemLabel="Smoking" itemValue="true"/>
 				<f:selectItem itemLabel="Non Smoking" itemValue="false"/>
 			</h:selectOneRadio>
-			</ui:define>
 		</s:decorate>
 
 		<s:decorate id="creditCardDecorate" template="edit.xhtml">
 			<ui:define name="label">Credit Card #:</ui:define>
-			<ui:define name="input">
 			<h:inputText id="creditCard" value="#{booking.creditCard}" required="true">
 				<a:support event="onblur" reRender="creditCardDecorate"/>
 			</h:inputText>
-			</ui:define>
 		</s:decorate>
 
 		<s:decorate id="creditCardNameDecorate" template="edit.xhtml">
 			<ui:define name="label">Credit Card Name:</ui:define>
-			<ui:define name="input">
 			<h:inputText id="creditCardName" value="#{booking.creditCardName}" required="true">
 				<a:support event="onblur" reRender="creditCardNameDecorate"/>
 			</h:inputText>
-			</ui:define>
 		</s:decorate>
 
 		<s:decorate id="creditCardExpiryDecorate" template="edit.xhtml">
 			<ui:define name="label">Credit Card Expiry:</ui:define>
-			<ui:define name="input">
 			<h:selectOneMenu id="creditCardExpiryMonth" value="#{booking.creditCardExpiryMonth}">
 				<f:selectItem itemLabel="Jan" itemValue="1"/>
 				<f:selectItem itemLabel="Feb" itemValue="2"/>
@@ -113,7 +100,6 @@
 				<f:selectItem itemLabel="2008" itemValue="2008"/>
 				<f:selectItem itemLabel="2009" itemValue="2009"/>
 			</h:selectOneMenu>
-			</ui:define>
 		</s:decorate>
 		
 		<div class="buttonBox">

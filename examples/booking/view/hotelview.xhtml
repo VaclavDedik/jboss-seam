@@ -2,49 +2,43 @@
 	    		 xmlns:ui="http://java.sun.com/jsf/facelets"
 	  			 xmlns:h="http://java.sun.com/jsf/html"
 	  			 xmlns:f="http://java.sun.com/jsf/core"
-                 xmlns:s="http://jboss.com/products/seam/taglib"
-                 rowClass="entry" 
-                 labelColumnClass="label" 
-                 fieldColumnClass="output"
-                 id="hotels">
+                 xmlns:s="http://jboss.com/products/seam/taglib">
     
     <s:decorate template="display.xhtml">             
 		<ui:define name="label">Name:</ui:define>
-		<ui:define name="value">#{hotel.name}</ui:define>
+		#{hotel.name}
 	</s:decorate>
 	
     <s:decorate template="display.xhtml">             
 		<ui:define name="label">Address:</ui:define>
-		<ui:define name="value">#{hotel.address}</ui:define>
+		#{hotel.address}
 	</s:decorate>
 	
     <s:decorate template="display.xhtml">             
 		<ui:define name="label">City:</ui:define>
-		<ui:define name="value">#{hotel.city}</ui:define>
+		#{hotel.city}
 	</s:decorate>
 	
     <s:decorate template="display.xhtml">             
 		<ui:define name="label">State:</ui:define>
-		<ui:define name="value">#{hotel.state}</ui:define>
+		#{hotel.state}
 	</s:decorate>
 	
     <s:decorate template="display.xhtml">             
 		<ui:define name="label">Zip:</ui:define>
-		<ui:define name="value">#{hotel.zip}</ui:define>
+		#{hotel.zip}
 	</s:decorate>
 	
     <s:decorate template="display.xhtml">             
 		<ui:define name="label">Country:</ui:define>
-		<ui:define name="value">#{hotel.country}</ui:define>
+		#{hotel.country}
 	</s:decorate>
 	
     <s:decorate template="display.xhtml">             
 		<ui:define name="label">Nightly rate:</ui:define>
-		<ui:define name="value">
-			<h:outputText value="#{hotel.name}">
-				<f:convertNumber type="currency" currencySymbol="$"/>
-			</h:outputText>
-		</ui:define>
+		<h:outputText value="#{hotel.name}">
+			<f:convertNumber type="currency" currencySymbol="$"/>
+		</h:outputText>
 	</s:decorate>
 	  
 </ui:composition>

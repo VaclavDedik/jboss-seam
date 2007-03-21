@@ -19,30 +19,24 @@
 		
 	<s:decorate template="display.xhtml">
 		<ui:define name="label">Total Payment:</ui:define>
-		<ui:define name="value">
-			<h:outputText value="#{booking.total}">
-				<f:convertNumber type="currency" currencySymbol="$"/>
-			</h:outputText>
-		</ui:define>
+		<h:outputText value="#{booking.total}">
+			<f:convertNumber type="currency" currencySymbol="$"/>
+		</h:outputText>
 	</s:decorate>
 
 	<s:decorate template="display.xhtml">
 		<ui:define name="label">Check In Date:</ui:define>
-		<ui:define name="value">
-			<h:outputText value="#{booking.checkinDate}"/>
-		</ui:define>
+		<h:outputText value="#{booking.checkinDate}"/>
 	</s:decorate>
 
 	<s:decorate template="display.xhtml">
 		<ui:define name="label">Check Out Date:</ui:define>
-		<ui:define name="value">
-			<h:outputText value="#{booking.checkoutDate}"/>
-		</ui:define>
+		<h:outputText value="#{booking.checkoutDate}"/>
 	</s:decorate>
 
 	<s:decorate template="display.xhtml">
 		<ui:define name="label">Credit Card #:</ui:define>
-		<ui:define name="value">#{booking.creditCard}</ui:define>
+		#{booking.creditCard}
 	</s:decorate>
 	
 	<div class="buttonBox">
