@@ -742,11 +742,11 @@ public void createTodo() { ... }]]></programlisting>
         </para>
         
         <para>
-            The <literal>taskInstanceListByType</literal> component includes tasks of 
+            The <literal>taskInstanceListForType</literal> component includes tasks of 
             a particular type that are assigned to the current user:
         </para>
         
-        <programlisting><![CDATA[<h:dataTable value="#{taskInstanceListByType['todo']}" var="task">
+        <programlisting><![CDATA[<h:dataTable value="#{taskInstanceListForType['todo']}" var="task">
     <h:column>
         <f:facet name="header">Description</f:facet>
         <h:outputText value="#{task.description}"/>
