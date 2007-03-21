@@ -874,52 +874,191 @@
                 </entry>
               </row>
 
-              <row>
-                <entry valign="top">
-                  <para>
-                    <literal>&lt;s:selectDate&gt;</literal>
-                  </para>
-                </entry>
-                <entry valign="top">
-                    <para>
-<emphasis>Description</emphasis>
-</para>
-                     <para>
-                        Displays a dynamic date picker component that selects a date
-                        for the specified input field.  The body of the <literal>selectDate</literal> element should
-                        contain HTML elements, such as text or an image, that prompt the user to click
-                        to display the date picker.  The date picker can be styled using CSS.  An example CSS file
-                        can be found in the Seam booking demo as <literal>date.css</literal>.
-                     </para>
-                    <para>
-<emphasis>Attributes</emphasis>
-</para>
-                    <itemizedlist>
-                        <listitem>
-<para>
-<literal>for</literal> &mdash;
-                            The id of the input field that the date picker will insert the
-                            selected date into.
-                        </para>
-</listitem>
-                        <listitem>
-<para>
-<literal>dateFormat</literal> &mdash;
-                            The date format string.  This should match the date format of the
-                            input field.
-                        </para>
-</listitem>
-                    </itemizedlist>
-                    <para>
-<emphasis>Usage</emphasis>
-</para>
-                    <para>
-                        <programlisting>
-<![CDATA[
+        <row>
+          <entry valign="top">
+            <para>
+              <literal>&lt;s:selectDate&gt;</literal>
+            </para>
+          </entry>
+          <entry valign="top">
+            <para><emphasis>Description</emphasis></para>
+            <para>
+               Displays a dynamic date picker component that selects a date for the specified input field.  
+               The body of the <literal>selectDate</literal> element should contain HTML elements, such as 
+               text or an image, that prompt the user to click to display the date picker.  The date picker 
+               <emphasis>must</emphasis> be styled using CSS.  An example CSS file can be found in the Seam 
+               booking demo as <literal>date.css</literal>, or can be generated using seam-gen.  The CSS
+               styles used to control the appearance of the date picker are also described below.
+            </para>
+
+            <para><emphasis>Attributes</emphasis></para>
+            <itemizedlist>
+              <listitem>
+                <para>
+                  <literal>for</literal> &mdash; The id of the input field that the date picker will insert the
+                  selected date into.
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  <literal>dateFormat</literal> &mdash; The date format string.  This should match the date format of the
+                  input field.
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  <literal>startYear</literal> &mdash; The popup year selector range will start at this year.
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  <literal>endYear</literal> &mdash; The popup year selector range will end at this year.
+                </para>
+              </listitem>
+            </itemizedlist>
+
+            <para><emphasis>Usage</emphasis></para>
+            <para>
+              <programlisting><![CDATA[
+  <div class="row">
+    <h:outputLabel for="dob">Date of birth<em>*</em></h:outputLabel>
+    <h:inputText id="dob" value="#{user.dob}" required="true">
+      <s:convertDateTime pattern="MM/dd/yyyy"/>
+    </h:inputText>
+    <s:selectDate for="dob" startYear="1910" endYear="2007"><img src="img/datepicker.png"/></s:selectDate>
+    <div class="validationError"><h:message for="dob"/></div>
+  </div>           
 ]]></programlisting>
-                    </para>
-                </entry>
-              </row>
+            </para>
+            
+            <para><emphasis>Example</emphasis></para>
+            <mediaobject>
+              <imageobject role="fo">
+                <imagedata fileref="images/controls-selectdate.png" align="center"/>
+              </imageobject>
+              <imageobject role="html">
+                <imagedata fileref="../shared/images/controls-selectdate.png" align="center"/>
+              </imageobject>
+            </mediaobject>
+            
+            <para><emphasis>CSS Styling</emphasis></para>
+            <para>
+              The following list describes the CSS class names that are used to control the style of the selectDate control.
+            </para>
+            <itemizedlist>
+              <listitem>
+                <para>
+                  <literal>seam-date</literal> &mdash; This class is applied to the outer <literal>div</literal> containing the 
+                  popup calendar. (1) It is also applied to the <literal>table</literal> that controls the inner layout of the
+                  calendar. (2) 
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  <literal>seam-date-header</literal> &mdash; This class is applied to the calendar header table row (<literal>tr</literal>)
+                  and header table cells (<literal>td</literal>). (3)
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  <literal>seam-date-header-prevMonth</literal> &mdash; This class is applied to the "previous month" table cell, 
+                  (<literal>td</literal>), which when clicked causes the calendar to display the month prior to the one currently
+                  displayed.  (4)
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  <literal>seam-date-header-nextMonth</literal> &mdash; This class is applied to the "next month" table cell, 
+                  (<literal>td</literal>), which when clicked causes the calendar to display the month following the one currently
+                  displayed.  (5)
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  <literal>seam-date-headerDays</literal> &mdash; This class is applied to the calendar days header row
+                  (<literal>tr</literal>), which contains the names of the week days. (6)
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  <literal>seam-date-footer</literal> &mdash; This class is applied to the calendar footer row 
+                  (<literal>tr</literal>), which displays the current date. (7)
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  <literal>seam-date-inMonth</literal> &mdash; This class is applied to the table cell
+                  (<literal>td</literal>) elements that contain a date within the month currently displayed. (8)
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  <literal>seam-date-outMonth</literal> &mdash; This class is applied to the table cell
+                  (<literal>td</literal>) elements that contain a date outside of the month currently displayed. (9)
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  <literal>seam-date-selected</literal> &mdash; This class is applied to the table cell
+                  (<literal>td</literal>) element that contains the currently selected date. (10)
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  <literal>seam-date-dayOff-inMonth</literal> &mdash; This class is applied to the table cell
+                  (<literal>td</literal>) elements that contain a "day off" date (i.e. weekend days, Saturday and Sunday)
+                  within the currently selected month. (11)
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  <literal>seam-date-dayOff-outMonth</literal> &mdash; This class is applied to the table cell
+                  (<literal>td</literal>) elements that contain a "day off" date (i.e. weekend days, Saturday and Sunday)
+                  outside of the currently selected month. (12)
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  <literal>seam-date-hover</literal> &mdash; This class is applied to the table cell
+                  (<literal>td</literal>) element over which the cursor is hovering. (13)
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  <literal>seam-date-monthNames</literal> &mdash; This class is applied to the <literal>div</literal> 
+                  control that contains the popup month selector. (14)
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  <literal>seam-date-monthNameLink</literal> &mdash; This class is applied to the anchor (<literal>a</literal>)
+                  controls that contain the popup month names. (15)
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  <literal>seam-date-years </literal> &mdash; This class is applied to the <literal>div</literal> 
+                  control that contains the popup year selector. (16)
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  <literal>seam-date-yearLink</literal> &mdash; This class is applied to the anchor (<literal>a</literal>)
+                  controls that contain the popup years. (15)
+                </para>
+              </listitem>
+            </itemizedlist>
+            
+            <mediaobject>
+              <imageobject role="fo">
+                <imagedata fileref="images/controls-selectdatecss.png" align="center"/>
+              </imageobject>
+              <imageobject role="html">
+                <imagedata fileref="../shared/images/controls-selectdatecss.png" align="center"/>
+              </imageobject>
+            </mediaobject>
+          </entry>
+        </row>
 
               <row>
                 <entry valign="top">
