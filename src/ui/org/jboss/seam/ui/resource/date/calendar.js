@@ -480,7 +480,7 @@ function __Calendar(calendarNumber, name)
   {
     var html = "";
 
-    html += "<table style=\"" + this.styleClass + "\">";
+    html += "<table class=\"" + this.styleClass + "\">";
     html += this.buildDayHeaders();
     html += this.buildDays();
     html += this.buildFooter();
@@ -518,9 +518,9 @@ function __Calendar(calendarNumber, name)
 
     if (!this.staticCalendar)
     {
-      html += "<div id=\"" + this.getCalendarId() + "_months" + "\" class=\"" + this.styleClass + "-monthNames\" style=\"position:absolute;display:block;visibility:hidden\">";
+      html += "<div id=\"" + this.getCalendarId() + "_months" + "\" class=\"" + this.styleClass + "-monthNames\" style=\"position:absolute;display:block;visibility:hidden;\">";
       for (var month = 0; month < this.monthNames.length; month++)
-      html += "<a class=\"" + this.styleClass + "-monthNameLink\" onclick=\"javascript:__calendarFactory.getCalendar(" + this.calendarNumber + ").gotoMonth(" + (month + 1) + ");\">" + this.monthNames[month] + "</a>";
+        html += "<div><a class=\"" + this.styleClass + "-monthNameLink\" onclick=\"javascript:__calendarFactory.getCalendar(" + this.calendarNumber + ").gotoMonth(" + (month + 1) + ");\">" + this.monthNames[month] + "</a></div>";
       html += "</div>";
       html += "</span>";
     }
@@ -532,7 +532,7 @@ function __Calendar(calendarNumber, name)
     if (!this.staticCalendar)
     {
       html += "<div id=\"" + this.getCalendarId() + "_years" + "\" class=\"" + this.styleClass + "-years\" style=\"position:absolute;display:block;visibility:hidden\"></div>"; 
-      html += "<span onclick=\"javascript:__calendarFactory.getCalendar(" + this.calendarNumber + ").popupYears();\" style=\"cursor:pointer;\">" + this.selectedYear + "</span></td>";
+      html += "<span onclick=\"javascript:__calendarFactory.getCalendar(" + this.calendarNumber + ").popupYears();\" style=\"cursor:pointer\">" + this.selectedYear + "</span></td>";
     }
     else
       html += this.selectedYear + "</td>";
@@ -782,7 +782,7 @@ function __Calendar(calendarNumber, name)
       var end = (this.endYear == -1) ? this.selectedYear + 10 : this.endYear;
       
       for (year = begin; year <= end; year++)
-        html += "<a class=\"" + this.styleClass + "-yearLink\" onclick=\"javascript:__calendarFactory.getCalendar(" + this.calendarNumber + ").gotoYear(" + (year) + ");\">" + year + "</a>";
+        html += "<div><a class=\"" + this.styleClass + "-yearLink\" onclick=\"javascript:__calendarFactory.getCalendar(" + this.calendarNumber + ").gotoYear(" + (year) + ");\">" + year + "</a></div>";
       var ctl = getObject(divName);
       ctl.innerHTML = html;
 
