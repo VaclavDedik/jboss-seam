@@ -78,7 +78,7 @@ public class ExceptionFilter extends AbstractFilter
       }
    }
    
-   private void endWebRequestAfterException(HttpServletRequest request, HttpServletResponse response, Exception e) 
+   protected void endWebRequestAfterException(HttpServletRequest request, HttpServletResponse response, Exception e) 
          throws ServletException, IOException
    {
       log.debug("ending request");
@@ -122,7 +122,7 @@ public class ExceptionFilter extends AbstractFilter
       return new MockFacesContext( new MockExternalContext(getServletContext(), request, response), new MockApplication() );
    }
    
-   private void rollbackTransactionIfNecessary()
+   protected void rollbackTransactionIfNecessary()
    {
       try {
          if ( Transactions.isTransactionActiveOrMarkedRollback() )
