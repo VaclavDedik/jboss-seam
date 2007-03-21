@@ -621,28 +621,29 @@ public class Pages
     */
    public void applyRequestParameterValues(FacesContext facesContext)
    {
+      //first store the page parameters into the viewroot, so that if
+      //we fail while applying to the model, we can still make
+      //Redirect.captureCurrentView() work.
       String viewId = getViewId(facesContext);
       Map<String, String[]> requestParameters = Parameters.getRequestParameters();
       for ( Page page: getPageStack(viewId) )
       {
          for ( Param pageParameter: page.getParameters() )
          {  
-            
             Object value = pageParameter.getValueFromRequest(facesContext, requestParameters);
-            if (value!=null)
+            if (value==null)
             {
-               ValueBinding valueBinding = pageParameter.getValueBinding();
-               if (valueBinding==null)
-               {
-                  Contexts.getPageContext().set( pageParameter.getName(), value );
-               }
-               else
-               {
-                  valueBinding.setValue(value);
-               }
+               Contexts.getPageContext().remove( pageParameter.getName() );
+            }
+            else
+            {
+               Contexts.getPageContext().set( pageParameter.getName(), value );
             }
          }
       }
+      
+      //now apply them to the model
+      applyViewRootValues(facesContext);
    }
    
    /**
