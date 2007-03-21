@@ -3217,7 +3217,7 @@ public class EntryAction
           <listitem>
               <para>
                   copy <literal>jsf-api.jar</literal>, <literal>jsf-impl.jar</literal>, 
-                  <literal>el-api.jar</literal>, <literal>el-impl.jar</literal> to
+                  <literal>el-api.jar</literal>, <literal>el-ri.jar</literal> to
                   <literal>server/default/deploy/tomcat/jbossweb-tomcat55.sar/jsf-libs</literal>.
               </para>
           </listitem>
