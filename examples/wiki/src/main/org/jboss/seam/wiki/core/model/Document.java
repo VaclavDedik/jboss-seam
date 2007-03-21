@@ -14,6 +14,9 @@ public class Document extends Node {
     @Length(min = 1, max = 32768)
     private String content;
 
+    @Column(name = "NAME_AS_TITLE")
+    private Boolean nameAsTitle;
+
     public Document() { super("New Document"); }
 
     public Document(String name) {
@@ -32,6 +35,14 @@ public class Document extends Node {
     }
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public boolean isNameAsTitle() {
+        return nameAsTitle != null ? nameAsTitle.booleanValue() : false;
+    }
+
+    public void setNameAsTitle(boolean nameAsTitle) {
+        this.nameAsTitle = nameAsTitle;
     }
 
     public Directory getParent() {

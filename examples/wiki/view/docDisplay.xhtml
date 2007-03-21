@@ -45,6 +45,7 @@
 <ui:define name="content">
 
     <s:div styleClass="documentDisplay">
+        <s:div rendered="#{currentDocument.nameAsTitle}"><h1 class="documentTitle">#{currentDocument.name}</h1></s:div>
         <wiki:formattedText value="#{currentDocument.content}"
                             linkStyleClass="regularLink"
                             brokenLinkStyleClass="brokenLink"

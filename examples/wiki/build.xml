@@ -139,6 +139,9 @@
 
     <target name="explodehotdeploy" depends="compileclasses">
 
+        <mkdir dir="${exploded.war.dir}/WEB-INF/classes"/>
+        <mkdir dir="${exploded.war.dir}/WEB-INF/dev"/>
+
         <!-- ########## Classes ########### -->
         <copy todir="${exploded.war.dir}/WEB-INF/classes">
             <fileset dir="${classes.dir}" excludes="${hotdeploy.classes}"/>

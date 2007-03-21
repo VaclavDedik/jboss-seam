@@ -89,6 +89,14 @@
                         </div>
                     </s:decorate>
 
+                    <s:div styleClass="entry">
+                        <div class="label">&#160;</div>
+                        <div class="input">
+                            <h:selectBooleanCheckbox value="#{documentHome.instance.nameAsTitle}" tabindex="2"/>
+                            Render name as document title
+                        </div>
+                    </s:div>
+
                     <s:decorate>
                         <div class="entry">
                             <div class="label">Content:</div>
@@ -192,6 +200,7 @@
     </ui:decorate>
 
     <s:div styleClass="documentDisplay" id="preview">
+        <s:div rendered="#{currentDocument.nameAsTitle}"><h1 class="documentTitle">#{currentDocument.name}</h1></s:div>
         <wiki:formattedText value="#{documentHome.instance.content}"
                             rendered="#{documentHome.enabledPreview}"
                             linkStyleClass="regularLink"
