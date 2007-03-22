@@ -17,7 +17,15 @@ public class UISubject extends MailComponent
       try
       {
          String subject = encode(facesContext);
-         findMimeMessage().setSubject(subject);
+         String charset = findMessage().getCharset();
+         if (charset == null)
+         {
+            findMimeMessage().setSubject(subject);
+         }
+         else
+         {
+            findMimeMessage().setSubject(subject, charset);
+         }
       }
       catch (MessagingException e)
       {

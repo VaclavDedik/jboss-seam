@@ -20,6 +20,10 @@ import org.jboss.seam.ui.JSF;
 public abstract class MailComponent extends UIComponentBase
 {
 
+   // Cache Message
+   
+   private UIMessage message;
+   
    private static final String FAMILY = "org.jboss.seam.mail";
 
    @Override
@@ -58,15 +62,22 @@ public abstract class MailComponent extends UIComponentBase
     * @throws MessagingException 
     */
    public MimeMessage findMimeMessage() throws MessagingException {
-       UIMessage parent = (UIMessage) findParent(this, UIMessage.class);
-       if (parent != null) 
-       {
-           return parent.getMimeMessage();
-       }
-       else 
-       {
-           return null;
-       }
+      return findMessage().getMimeMessage();
+   }
+   
+   /**
+    * look up the tree for UIMessage
+    */
+   public UIMessage findMessage() {
+      if (message == null)
+      {
+          message = (UIMessage) findParent(this, UIMessage.class);
+          if (message == null)
+          {
+             throw new UnsupportedOperationException("Must have a m:message tag in the tree");
+          }
+      }
+      return message;
    }
    
    public MimeMultipart getRootMultipart() throws IOException, MessagingException  {

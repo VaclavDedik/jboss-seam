@@ -86,10 +86,11 @@ public class UIBody extends MailComponent
    {
       BodyPart bodyPart = new MimeBodyPart();
       bodyPart.setDisposition("inline");
-      if ( facesContext.getResponseWriter().getCharacterEncoding() != null) 
+      String charset = findMessage().getCharset();
+      if ( charset != null) 
       {
          bodyPart.setContent(body, "text/plain; charset="
-               + facesContext.getResponseWriter().getCharacterEncoding() + "; format=flowed");
+               + charset + "; format=flowed");
       } 
       else 
       {
@@ -103,10 +104,11 @@ public class UIBody extends MailComponent
    {
       BodyPart bodyPart = new MimeBodyPart();
       bodyPart.setDisposition("inline");
-      if ( facesContext.getResponseWriter().getCharacterEncoding() != null) 
+      String charset = findMessage().getCharset();
+      if ( charset != null) 
       {
          bodyPart.setContent(body, "text/html; charset="
-                  + facesContext.getResponseWriter().getCharacterEncoding());
+                  + charset);
       } 
       else 
       {

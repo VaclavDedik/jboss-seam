@@ -24,9 +24,17 @@ public abstract class AddressComponent extends MailComponent
     */
    protected InternetAddress getInternetAddress(FacesContext facesContext) throws IOException, AddressException 
    {
-       InternetAddress address = new InternetAddress();
+      InternetAddress address = new InternetAddress();
       address.setAddress(getAddress() != null ? getAddress() : encode(facesContext));
-      address.setPersonal(getName());
+      String charset = findMessage().getCharset();
+      if (charset == null)
+      {
+         address.setPersonal(getName());
+      }
+      else
+      {
+         address.setPersonal(getName(), charset);
+      }
       address.validate();
       return address;
    }

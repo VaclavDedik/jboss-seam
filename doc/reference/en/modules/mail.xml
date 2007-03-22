@@ -172,6 +172,19 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.</f:facet>
 	    </section>
 	    
 	    <section>
+	    	<title>Internationalisation</title>
+	    	<para>Seam supports sending internationalised messages.  By default, the encoding provided by 
+	    	JSF is used, but this can be overridden on the template:</para>
+	    	<programlisting><![CDATA[<m:message charset="UTF-8">
+   ...
+</m:message>]]></programlisting>
+	    	<para>The body, subject and recipient (and from) name will be encoded.  You'll need to make
+	    	sure facelets uses the correct charset for parsing your pages by setting encoding of the
+	    	template:</para> 
+	    	<programlisting><![CDATA[<?xml version="1.0" encoding="UTF-8"?>]]></programlisting>
+	    </section>
+	    
+	    <section>
 	    	<title>Other Headers</title>
 	    	
 	    	<para>Sometimes you'll want to add other headers to your email.  Seam provides support for some (see <xref linkend="mail.tags" />).

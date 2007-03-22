@@ -8,6 +8,7 @@ import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.Transport;
+import javax.mail.internet.InternetHeaders;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
@@ -43,6 +44,8 @@ public class UIMessage extends MailComponent
    private Boolean requestReadReceipt;
 
    private String urlBase;
+   
+   private String charset;
 
    /**
     * Get the JavaMail Session to use. If not set the default session is used
@@ -222,6 +225,27 @@ public class UIMessage extends MailComponent
    public void setUrlBase(String urlBase)
    {
       this.urlBase = urlBase;
+   }
+   
+   public String getCharset()
+   {
+      if (charset != null)
+      {
+         return charset;
+      }
+      else if (getString("charset") != null)
+      {
+         return getString("charset");
+      }
+      else
+      {
+         return FacesContext.getCurrentInstance().getResponseWriter().getCharacterEncoding();
+      }
+   }
+   
+   public void setCharset(String charset)
+   {
+      this.charset = charset;
    }
 
 }
