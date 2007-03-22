@@ -8,7 +8,7 @@ import org.jboss.seam.wiki.core.dao.UserDAO;
 import org.jboss.seam.wiki.core.model.User;
 import org.jboss.seam.wiki.core.model.Directory;
 import org.jboss.seam.wiki.core.model.Node;
-import org.jboss.seam.wiki.core.ui.WikiUtil;
+import org.jboss.seam.wiki.util.WikiUtil;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.RequestParameter;
 import org.jboss.seam.annotations.Out;

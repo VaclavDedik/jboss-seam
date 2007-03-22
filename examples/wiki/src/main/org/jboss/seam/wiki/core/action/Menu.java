@@ -6,7 +6,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.wiki.core.model.Node;
 import org.jboss.seam.wiki.core.model.Directory;
-import org.jboss.seam.wiki.core.ui.WikiUtil;
+import org.jboss.seam.wiki.util.WikiUtil;
 
 import java.util.List;
 import java.util.ArrayList;

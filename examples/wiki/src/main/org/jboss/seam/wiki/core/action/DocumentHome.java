@@ -1,9 +1,8 @@
 package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.annotations.*;
-import org.jboss.seam.wiki.core.links.WikiLinkResolver;
 import org.jboss.seam.wiki.core.model.*;
-import org.jboss.seam.core.Events;
+import org.jboss.seam.wiki.core.links.WikiLinkResolver;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.contexts.Contexts;
@@ -38,6 +37,10 @@ public class DocumentHome extends NodeHome<Document> {
 
         // Make a copy
         historicalCopy = new Document(getInstance());
+
+        // Wiki text parser needs it
+        Contexts.getConversationContext().set("currentDocument", getInstance());
+        Contexts.getConversationContext().set("currentDirectory", getParentDirectory());
     }
 
     /* -------------------------- Custom CUD ------------------------------ */
@@ -84,27 +87,22 @@ public class DocumentHome extends NodeHome<Document> {
         // Update view
         syncFormToInstance(oldParent); // Resolve existing links in old directory
         syncInstanceToForm(newParent); // Now update the form, effectively re-rendering the links
+        Contexts.getConversationContext().set("currentDirectory", newParent);
     }
 
     /* -------------------------- Internal Methods ------------------------------ */
 
 
-    private void syncFormToInstance(Directory area) {
-        // Outject instances required for WikiLinkResolver
-        Contexts.getEventContext().set("currentDocument", getInstance());
-        Contexts.getEventContext().set("currentDirectory", area);
-
+    private void syncFormToInstance(Directory dir) {
         WikiLinkResolver wikiLinkResolver = (WikiLinkResolver)Component.getInstance("wikiLinkResolver");
-        getInstance().setContent(wikiLinkResolver.convertToWikiLinks(area, formContent));
+        getInstance().setContent(
+            wikiLinkResolver.convertToWikiProtocol(dir.getAreaNumber(), formContent)
+        );
     }
 
-    private void syncInstanceToForm(Directory parentDirectory) {
-        // Outject instances required for WikiLinkResolver
-        Contexts.getEventContext().set("currentDocument", getInstance());
-        Contexts.getEventContext().set("currentDirectory", parentDirectory);
-
+    private void syncInstanceToForm(Directory dir) {
         WikiLinkResolver wikiLinkResolver = (WikiLinkResolver)Component.getInstance("wikiLinkResolver");
-        formContent = wikiLinkResolver.convertFromWikiLinks(parentDirectory, getInstance().getContent());
+        formContent = wikiLinkResolver.convertFromWikiProtocol(dir.getAreaNumber(), getInstance().getContent());
     }
 
 

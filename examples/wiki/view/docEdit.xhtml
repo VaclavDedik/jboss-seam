@@ -200,16 +200,15 @@
     </ui:decorate>
 
     <s:div styleClass="documentDisplay" id="preview">
-        <s:div rendered="#{currentDocument.nameAsTitle}"><h1 class="documentTitle">#{currentDocument.name}</h1></s:div>
-        <wiki:formattedText value="#{documentHome.instance.content}"
-                            rendered="#{documentHome.enabledPreview}"
-                            linkStyleClass="regularLink"
-                            brokenLinkStyleClass="brokenLink"
-                            attachmentLinkStyleClass="regularLink"
-                            inlineLinkStyleClass="regularLink"/>
-
-        <ui:include src="includes/attachmentDisplay.xhtml"/>
-
+        <s:div rendered="#{documentHome.enabledPreview}">
+            <s:div rendered="#{currentDocument.nameAsTitle}"><h1 class="documentTitle">#{currentDocument.name}</h1></s:div>
+            <wiki:formattedText value="#{documentHome.instance.content}"
+                                linkStyleClass="regularLink"
+                                brokenLinkStyleClass="brokenLink"
+                                attachmentLinkStyleClass="regularLink"
+                                thumbnailLinkStyleClass="regularLink"/>
+            <ui:include src="includes/attachmentDisplay.xhtml"/>
+        </s:div>
     </s:div>
 
 </ui:define>

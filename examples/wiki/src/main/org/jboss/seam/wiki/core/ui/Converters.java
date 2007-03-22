@@ -6,6 +6,7 @@ import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.wiki.core.model.Role;
 import org.jboss.seam.wiki.core.model.Node;
 import org.jboss.seam.wiki.core.model.Directory;
+import org.jboss.seam.wiki.util.WikiUtil;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.security.Identity;

@@ -8,79 +8,79 @@
 
     <function>
         <function-name>renderURL</function-name>
-        <function-class>org.jboss.seam.wiki.core.ui.WikiUtil</function-class>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
         <function-signature>java.lang.String renderURL(org.jboss.seam.wiki.core.model.Node)</function-signature>
     </function>
 
     <function>
         <function-name>renderPermLink</function-name>
-        <function-class>org.jboss.seam.wiki.core.ui.WikiUtil</function-class>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
         <function-signature>java.lang.String renderPermLink(org.jboss.seam.wiki.core.model.Node)</function-signature>
     </function>
 
     <function>
         <function-name>renderWikiLink</function-name>
-        <function-class>org.jboss.seam.wiki.core.ui.WikiUtil</function-class>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
         <function-signature>java.lang.String renderWikiLink(org.jboss.seam.wiki.core.model.Node)</function-signature>
     </function>
 
     <function>
         <function-name>renderHomeURL</function-name>
-        <function-class>org.jboss.seam.wiki.core.ui.WikiUtil</function-class>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
         <function-signature>java.lang.String renderHomeURL(org.jboss.seam.wiki.core.model.User)</function-signature>
     </function>
 
     <function>
         <function-name>convertToWikiName</function-name>
-        <function-class>org.jboss.seam.wiki.core.ui.WikiUtil</function-class>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
         <function-signature>java.lang.String convertToWikiName(java.lang.String)</function-signature>
     </function>
 
     <function>
         <function-name>isDocument</function-name>
-        <function-class>org.jboss.seam.wiki.core.ui.WikiUtil</function-class>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
         <function-signature>boolean isDocument(org.jboss.seam.wiki.core.model.Node)</function-signature>
     </function>
 
     <function>
         <function-name>isDirectory</function-name>
-        <function-class>org.jboss.seam.wiki.core.ui.WikiUtil</function-class>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
         <function-signature>boolean isDirectory(org.jboss.seam.wiki.core.model.Node)</function-signature>
     </function>
 
     <function>
         <function-name>isFile</function-name>
-        <function-class>org.jboss.seam.wiki.core.ui.WikiUtil</function-class>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
         <function-signature>boolean isFile(org.jboss.seam.wiki.core.model.Node)</function-signature>
     </function>
 
     <function>
         <function-name>truncateString</function-name>
-        <function-class>org.jboss.seam.wiki.core.ui.WikiUtil</function-class>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
         <function-signature>java.lang.String truncateString(java.lang.String,int,java.lang.String)</function-signature>
     </function>
 
     <function>
         <function-name>concat</function-name>
-        <function-class>org.jboss.seam.wiki.core.ui.WikiUtil</function-class>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
         <function-signature>java.lang.String concat(java.lang.String,java.lang.String)</function-signature>
     </function>
 
     <function>
         <function-name>resolveAccessLevel</function-name>
-        <function-class>org.jboss.seam.wiki.core.ui.WikiUtil</function-class>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
         <function-signature>org.jboss.seam.wiki.core.model.Role.AccessLevel resolveAccessLevel(java.lang.Integer)</function-signature>
     </function>
 
     <function>
         <function-name>sizeOf</function-name>
-        <function-class>org.jboss.seam.wiki.core.ui.WikiUtil</function-class>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
         <function-signature>int sizeOf(java.util.Collection)</function-signature>
     </function>
 
     <function>
         <function-name>getSessionTimeoutSeconds</function-name>
-        <function-class>org.jboss.seam.wiki.core.ui.WikiUtil</function-class>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
         <function-signature>int getSessionTimeoutSeconds()</function-signature>
     </function>
 

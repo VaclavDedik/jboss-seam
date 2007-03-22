@@ -8,7 +8,7 @@ import org.jboss.seam.core.Manager;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.wiki.core.dao.NodeDAO;
 import org.jboss.seam.wiki.core.model.*;
-import org.jboss.seam.wiki.core.ui.WikiUtil;
+import org.jboss.seam.wiki.util.WikiUtil;
 
 import java.util.*;
 import java.io.Serializable;

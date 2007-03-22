@@ -15,7 +15,7 @@ public class Document extends Node {
     private String content;
 
     @Column(name = "NAME_AS_TITLE")
-    private Boolean nameAsTitle;
+    private Boolean nameAsTitle = true;
 
     public Document() { super("New Document"); }
 

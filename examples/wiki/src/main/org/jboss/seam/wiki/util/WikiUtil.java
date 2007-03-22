@@ -1,4 +1,4 @@
-package org.jboss.seam.wiki.core.ui;
+package org.jboss.seam.wiki.util;
 
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.wiki.core.model.*;
@@ -9,15 +9,33 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import java.util.Collection;
 import java.util.List;
-import java.util.StringTokenizer;
 
 /**
  * Adds stuff to and for JSF that should be there but isn't. Also stuff that is exposed
- * as a Facelets function, we can't have that in a Seam component - different classloader
- * for hot redeployment of Seam components.
+ * as a Facelets function, and various other useful static methods that are called from
+ * everywhere.
+ *
+ * @author Christian Bauer
  */
 @Name("wikiUtil")
 public class WikiUtil {
+
+    // Creates clean alphanumeric UpperCaseCamelCase
+    public static String convertToWikiName(String realName) {
+        StringBuilder wikiName = new StringBuilder();
+        // Remove everything that is not alphanumeric or whitespace, then split on word boundaries
+        String[] tokens = realName.replaceAll("[^\\p{Alnum}|\\s]+", "").split("\\s");
+        for (String token : tokens) {
+            // Append word, uppercase first letter of word
+            if (token.length() > 1) {
+                wikiName.append(token.substring(0,1).toUpperCase());
+                wikiName.append(token.substring(1));
+            } else {
+                wikiName.append(token.toUpperCase());
+            }
+        }
+        return wikiName.toString();
+    }
 
     // Replacement for missing instaceOf in EL (can't use string comparison, might be proxy)
     public static boolean isDirectory(Node node) {
@@ -50,6 +68,7 @@ public class WikiUtil {
                );
     }
 
+    // Rendering made easy
     public static String renderURL(Node node) {
         if (isFile(node)) return renderFileLink((File)node);
         GlobalPreferences globalPrefs = (GlobalPreferences) Component.getInstance("globalPrefs");
@@ -77,23 +96,6 @@ public class WikiUtil {
     private static String renderFileLink(File file) {
         String contextPath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
         return contextPath + "/files/download?fileId=" + file.getId();
-    }
-
-    // Creates clean alphanumeric UpperCaseCamelCase
-    public static String convertToWikiName(String realName) {
-        StringBuilder wikiName = new StringBuilder();
-        // Remove everything that is not alphanumeric or whitespace, then split on word boundaries
-        String[] tokens = realName.replaceAll("[^\\p{Alnum}|\\s]+", "").split("\\s");
-        for (String token : tokens) {
-            // Append word, uppercase first letter of word
-            if (token.length() > 1) {
-                wikiName.append(token.substring(0,1).toUpperCase());
-                wikiName.append(token.substring(1));
-            } else {
-                wikiName.append(token.toUpperCase());
-            }
-        }
-        return wikiName.toString();
     }
 
     public static String renderHomeURL(User user) {

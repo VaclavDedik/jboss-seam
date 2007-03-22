@@ -127,6 +127,21 @@ public class NodeDAO {
         return null;
     }
 
+    public Directory findArea(Long areaNumber) {
+        restrictedEntityManager.joinTransaction();
+
+        try {
+            return (Directory) restrictedEntityManager
+                    .createQuery("select d from Directory d where d.parent = :root and d.areaNumber = :areaNumber")
+                    .setParameter("root", Component.getInstance("wikiRoot"))
+                    .setParameter("areaNumber", areaNumber)
+                    .getSingleResult();
+        } catch (EntityNotFoundException ex) {
+        } catch (NoResultException ex) {
+        }
+        return null;
+    }
+
     public List<Document> findDocumentsInDirectoryOrderByCreatedOn(Directory directory, int firstResult, int maxResults) {
         //noinspection unchecked
         return (List<Document>)restrictedEntityManager
