@@ -12,6 +12,7 @@ import java.util.List;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
+import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.Id;
 
@@ -109,10 +110,10 @@ public class EntityConverter implements
     * @return The ID of the entity as a string or null if unable to determine it
     */
    protected Object getIdFromEntity(UIComponent cmp, FacesContext facesContext,
-            Object entity)
+            Object entity, Class entityClass)
    {
       Object id = null;
-      List<Field> fields = Reflections.getFields(entity.getClass(), Id.class);
+      List<Field> fields = Reflections.getFields(entityClass, Id.class);
       if (fields.size() == 1)
       {
          Field field = fields.get(0);
@@ -133,7 +134,7 @@ public class EntityConverter implements
       }
       else
       {
-         List<Method> methods = Reflections.getGetterMethods(entity.getClass(), Id.class);
+         List<Method> methods = Reflections.getGetterMethods(entityClass, Id.class);
          if (methods.size() == 1)
          {
             try
@@ -160,6 +161,7 @@ public class EntityConverter implements
    @Transactional
    public String getAsString(FacesContext facesContext, UIComponent cmp, Object value) throws ConverterException
    {
+      
       if (value == null)
       {
          return null;
@@ -168,7 +170,21 @@ public class EntityConverter implements
       {
          return (String) value;
       }
-      return EntityConverterStore.instance().put(value.getClass(), getIdFromEntity(cmp, facesContext, value)).toString();
+      Class entityClass = deproxy(value.getClass());
+      return EntityConverterStore.instance().put(entityClass, getIdFromEntity(cmp, facesContext, value, entityClass)).toString();
+   }
+   
+   // Hibernate Lazy proxies don't copy annotations to proxied methods - why?
+   private Class deproxy(Class clazz)
+   {
+      if (Object.class.equals(clazz) || clazz.isAnnotationPresent(Entity.class))
+      {
+         return clazz;
+      }
+      else 
+      {
+         return deproxy(clazz.getSuperclass());
+      }
    }
 
    @Transactional
