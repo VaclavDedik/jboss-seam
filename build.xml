@@ -1124,6 +1124,7 @@
             <patternset refid="meta.files"/>
             <manifest>
                 <attribute name="Seam-Version" value="${version}.${patchlevel}"/>
+                <attribute name="Implementation-Version" value="${version}.${patchlevel}"/>
             </manifest>
         </jar>
         <copy file="${basedir}/${name}.jar" todir="${dist.dir}"/>
@@ -1140,6 +1141,7 @@
             <patternset refid="resource.files"/>
             <manifest>
                 <attribute name="Seam-Version" value="${version}.${patchlevel}"/>
+                <attribute name="Implementation-Version" value="${version}.${patchlevel}"/>
             </manifest>
         </jar>
         <copy file="${basedir}/${name}-ui.jar" todir="${dist.dir}"/>
@@ -1196,6 +1198,7 @@
             <patternset refid="meta.files"/>
             <manifest>
                 <attribute name="Seam-Version" value="${version}.${patchlevel}"/>
+                <attribute name="Implementation-Version" value="${version}.${patchlevel}"/>
             </manifest>
         </jar>
         <copy file="${basedir}/${name}-pdf.jar" todir="${dist.dir}"/>
@@ -1212,6 +1215,7 @@
             <patternset refid="meta.files"/>    
             <manifest>
                 <attribute name="Seam-Version" value="${version}.${patchlevel}"/>
+                <attribute name="Implementation-Version" value="${version}.${patchlevel}"/>
             </manifest>
         </jar>
         <copy file="${basedir}/${name}-ioc.jar" todir="${dist.dir}"/>
@@ -1227,6 +1231,7 @@
             <patternset refid="meta.files"/>
             <manifest>
                 <attribute name="Seam-Version" value="${version}.${patchlevel}"/>
+                <attribute name="Implementation-Version" value="${version}.${patchlevel}"/>
             </manifest>
         </jar>
         <copy file="${basedir}/${name}-mail.jar" todir="${dist.dir}"/>
@@ -1242,6 +1247,7 @@
             <patternset refid="meta.files"/>
             <manifest>
                 <attribute name="Seam-Version" value="${version}.${patchlevel}"/>
+                <attribute name="Implementation-Version" value="${version}.${patchlevel}"/>
             </manifest>
         </jar>
         <copy file="${basedir}/${name}-debug.jar" todir="${dist.dir}"/>
@@ -1257,6 +1263,7 @@
                 <patternset refid="meta.files"/>
                 <manifest>
                     <attribute name="Seam-Version" value="${version}.${patchlevel}"/>
+                    <attribute name="Implementation-Version" value="${version}.${patchlevel}"/>
                 </manifest>
             </jar>
             <copy file="${basedir}/${name}-gen.jar" todir="${dist.dir}"/>
@@ -1272,6 +1279,7 @@
             <patternset refid="meta.files"/>
             <manifest>
                 <attribute name="Seam-Version" value="${version}.${patchlevel}"/>
+                <attribute name="Implementation-Version" value="${version}.${patchlevel}"/>
             </manifest>
         </jar>
         
