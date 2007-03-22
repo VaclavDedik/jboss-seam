@@ -56,6 +56,8 @@ public class MockHttpServletRequest implements HttpServletRequest
       this.principalName = principalName;
       this.principalRoles = principalRoles;
       this.cookies = cookies;
+      // The 1.2 RI NPEs if this header isn't present 
+      headers.put("Accept", new String[0]);
    }
 
    public Map<String, String[]> getParameters()
