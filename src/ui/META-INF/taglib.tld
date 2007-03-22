@@ -74,30 +74,30 @@
 
     <!-- UIComponent attributes -->
     <attribute>
-      <name>id</name>
-      <required>false</required>
-      <rtexprvalue>false</rtexprvalue>
-      <type>java.lang.String</type>
       <description>
         Every component may have an unique id. Automatically created if
         omitted.
       </description>
+      <name>id</name>
+      <required>false</required>
+      <rtexprvalue>false</rtexprvalue>
+      <type>java.lang.String</type>
     </attribute>
     <attribute>
+      <description>
+        If false, this component will not be rendered.
+      </description>
       <name>rendered</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
       <type>java.lang.String</type>
-      <description>
-        If false, this component will not be rendered.
-      </description>
     </attribute>
     <attribute>
+      <description>Component binding.</description>
       <name>binding</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
       <type>java.lang.String</type>
-      <description>Component binding.</description>
     </attribute>
 
   </tag>
@@ -120,30 +120,30 @@
 
     <!-- UIComponent attributes -->
     <attribute>
-      <name>id</name>
-      <required>false</required>
-      <rtexprvalue>false</rtexprvalue>
-      <type>java.lang.String</type>
       <description>
         Every component may have an unique id. Automatically created if
         omitted.
       </description>
+      <name>id</name>
+      <required>false</required>
+      <rtexprvalue>false</rtexprvalue>
+      <type>java.lang.String</type>
     </attribute>
     <attribute>
+      <description>
+        If false, this component will not be rendered.
+      </description>
       <name>rendered</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
       <type>java.lang.String</type>
-      <description>
-        If false, this component will not be rendered.
-      </description>
     </attribute>
     <attribute>
+      <description>Component binding.</description>
       <name>binding</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
       <type>java.lang.String</type>
-      <description>Component binding.</description>
     </attribute>
 
   </tag>
@@ -203,30 +203,30 @@
 
     <!-- UIComponent attributes -->
     <attribute>
-      <name>id</name>
-      <required>false</required>
-      <rtexprvalue>false</rtexprvalue>
-      <type>java.lang.String</type>
       <description>
         Every component may have an unique id. Automatically created if
         omitted.
       </description>
+      <name>id</name>
+      <required>false</required>
+      <rtexprvalue>false</rtexprvalue>
+      <type>java.lang.String</type>
     </attribute>
     <attribute>
+      <description>
+        If false, this component will not be rendered.
+      </description>
       <name>rendered</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
       <type>java.lang.String</type>
-      <description>
-        If false, this component will not be rendered.
-      </description>
     </attribute>
     <attribute>
-      <name>binding</name>
+      <description>Component binding.</description>
+        <name>binding</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
       <type>java.lang.String</type>
-      <description>Component binding.</description>
     </attribute>
 
     <!-- HTML 4.0 universal attributes -->
@@ -251,12 +251,12 @@
       <rtexprvalue>false</rtexprvalue>
     </attribute>
     <attribute>
-      <name>styleClass</name>
-      <required>false</required>
-      <rtexprvalue>false</rtexprvalue>
       <description>
         Corresponds to the HTML class attribute.
       </description>
+      <name>styleClass</name>
+      <required>false</required>
+      <rtexprvalue>false</rtexprvalue>
     </attribute>
 
     <!-- HTML 4.0 event-handler attributes -->
@@ -439,30 +439,30 @@
 
     <!-- UIComponent attributes -->
     <attribute>
-      <name>id</name>
-      <required>false</required>
-      <rtexprvalue>false</rtexprvalue>
-      <type>java.lang.String</type>
       <description>
         Every component may have an unique id. Automatically created if
         omitted.
       </description>
+      <name>id</name>
+      <required>false</required>
+      <rtexprvalue>false</rtexprvalue>
+      <type>java.lang.String</type>
     </attribute>
     <attribute>
+      <description>
+        If false, this component will not be rendered.
+      </description>
       <name>rendered</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
       <type>java.lang.String</type>
-      <description>
-        If false, this component will not be rendered.
-      </description>
     </attribute>
     <attribute>
+      <description>Component binding.</description> 
       <name>binding</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
       <type>java.lang.String</type>
-      <description>Component binding.</description>
     </attribute>
 
     <!-- HTML 4.0 universal attributes -->
@@ -487,12 +487,12 @@
       <rtexprvalue>false</rtexprvalue>
     </attribute>
     <attribute>
+      <description>
+        Corresponds to the HTML class attribute.
+      </description>        
       <name>styleClass</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
-      <description>
-        Corresponds to the HTML class attribute.
-      </description>
     </attribute>
 
     <!-- HTML 4.0 event-handler attributes -->
@@ -549,99 +549,99 @@
 
     <!-- HTML 4.0 button attributes -->
     <attribute>
+      <description>
+        HTML: Sets the access key for this element.
+      </description>
       <name>accesskey</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
       <type>java.lang.String</type>
-      <description>
-        HTML: Sets the access key for this element.
-      </description>
     </attribute>
     <attribute>
-      <name>alt</name>
-      <required>false</required>
-      <rtexprvalue>false</rtexprvalue>
-      <type>java.lang.String</type>
       <description>
         HTML: Specifies alternative text that can be used by a browser
         that can't show this element.
       </description>
-    </attribute>
-    <attribute>
-      <name>onblur</name>
+      <name>alt</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
       <type>java.lang.String</type>
+    </attribute>
+    <attribute>
       <description>
         HTML: Specifies a script to be invoked when the element loses
         focus.
       </description>
-    </attribute>
-    <attribute>
-      <name>onfocus</name>
+      <name>onblur</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
       <type>java.lang.String</type>
+    </attribute>
+    <attribute>
       <description>
         HTML: Specifies a script to be invoked when the element receives
         focus.
       </description>
-    </attribute>
-    <attribute>
-      <name>onselect</name>
+      <name>onfocus</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
       <type>java.lang.String</type>
+    </attribute>
+    <attribute>
       <description>
         HTML: Specifies a script to be invoked when the element is
         selected.
       </description>
+      <name>onselect</name>
+      <required>false</required>
+      <rtexprvalue>false</rtexprvalue>
+      <type>java.lang.String</type>
     </attribute>
     <attribute>
+      <description>
+        HTML: Specifies a script to be invoked when the element is
+        modified.
+      </description>        
       <name>onchange</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
       <type>java.lang.String</type>
-      <description>
-        HTML: Specifies a script to be invoked when the element is
-        modified.
-      </description>
     </attribute>
     <attribute>
-      <name>tabindex</name>
-      <required>false</required>
-      <rtexprvalue>false</rtexprvalue>
-      <type>java.lang.String</type>
       <description>
         HTML: Specifies the position of this element within the tab
         order of the document.
       </description>
-    </attribute>
-    <attribute>
-      <name>type</name>
+      <name>tabindex</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
       <type>java.lang.String</type>
+    </attribute>
+    <attribute>
       <description>
         HTML: A hint to the user agent about the content type of the
         linked resource.
       </description>
+      <name>type</name>
+      <required>false</required>
+      <rtexprvalue>false</rtexprvalue>
+      <type>java.lang.String</type>
     </attribute>
     <attribute>
+      <description>The initial width of this control.</description>
       <name>size</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
       <type>java.lang.String</type>
-      <description>The initial width of this control.</description>
     </attribute>
     <!-- HtmlCommandButton attributes -->
     <attribute>
-      <name>image</name>
-      <required>false</required>
-      <rtexprvalue>false</rtexprvalue>
       <description>
         HTML: The URL of an image that renders in place of the button.
       </description>
+      <name>image</name>
+      <required>false</required>
+      <rtexprvalue>false</rtexprvalue>
     </attribute>
   </tag>
 
@@ -652,58 +652,57 @@
 
     <!-- UIComponent attributes -->
     <attribute>
-      <name>id</name>
-      <required>false</required>
-      <rtexprvalue>false</rtexprvalue>
-      <type>java.lang.String</type>
       <description>
         Every component may have an unique id. Automatically created if
         omitted.
       </description>
+      <name>id</name>
+      <required>false</required>
+      <rtexprvalue>false</rtexprvalue>
+      <type>java.lang.String</type>
     </attribute>
     <attribute>
+      <description>
+        If false, this component will not be rendered.
+      </description>
       <name>rendered</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
       <type>java.lang.String</type>
-      <description>
-        If false, this component will not be rendered.
-      </description>
     </attribute>
     <attribute>
+      <description>Component binding.</description>        
       <name>binding</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
       <type>java.lang.String</type>
-      <description>Component binding.</description>
     </attribute>
 
     <!-- attribute>
-      <name>for</name>
+      <description>The client identifier of the component for which this component represents associated message(s).</description>      <name>for</name>
       <required>true</required>
       <rtexprvalue>false</rtexprvalue>
       <type>java.lang.String</type>
-      <description>The client identifier of the component for which this component represents associated message(s).</description>
       </attribute-->
     <attribute>
-      <name>showSummary</name>
-      <required>false</required>
-      <rtexprvalue>false</rtexprvalue>
-      <type>java.lang.String</type>
       <description>
         Indicates whether the summary of the associated message(s)
         should be displayed. Default is: true
       </description>
-    </attribute>
-    <attribute>
-      <name>showDetail</name>
+      <name>showSummary</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
       <type>java.lang.String</type>
+    </attribute>
+    <attribute>
       <description>
         Indicates whether the detail of the associated message(s) should
         be displayed. Default is: false
       </description>
+      <name>showDetail</name>
+      <required>false</required>
+      <rtexprvalue>false</rtexprvalue>
+      <type>java.lang.String</type>
     </attribute>
 
 
@@ -729,12 +728,12 @@
       <rtexprvalue>false</rtexprvalue>
     </attribute>
     <attribute>
+      <description>
+        Corresponds to the HTML class attribute.
+      </description>        
       <name>styleClass</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
-      <description>
-        Corresponds to the HTML class attribute.
-      </description>
     </attribute>
 
     <!-- HTML 4.0 event-handler attributes -->
@@ -791,77 +790,77 @@
 
     <!-- HtmlMessage attributes -->
     <attribute>
-      <name>infoClass</name>
-      <required>false</required>
-      <rtexprvalue>false</rtexprvalue>
       <description>
         CSS class to be used for messages with severity "INFO".
       </description>
+      <name>infoClass</name>
+      <required>false</required>
+      <rtexprvalue>false</rtexprvalue>
     </attribute>
     <attribute>
+      <description>
+        CSS style to be used for messages with severity "INFO".
+      </description>        
       <name>infoStyle</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
-      <description>
-        CSS style to be used for messages with severity "INFO".
-      </description>
     </attribute>
     <attribute>
-      <name>warnClass</name>
-      <required>false</required>
-      <rtexprvalue>false</rtexprvalue>
       <description>
         CSS class to be used for messages with severity "WARN".
       </description>
-    </attribute>
-    <attribute>
-      <name>warnStyle</name>
+      <name>warnClass</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
+    </attribute>
+    <attribute>
       <description>
         CSS style to be used for messages with severity "WARN".
       </description>
+      <name>warnStyle</name>
+      <required>false</required>
+      <rtexprvalue>false</rtexprvalue>
     </attribute>
     <attribute>
+      <description>
+        CSS class to be used for messages with severity "ERROR".
+      </description>        
       <name>errorClass</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
-      <description>
-        CSS class to be used for messages with severity "ERROR".
-      </description>
     </attribute>
     <attribute>
+      <description>
+        CSS style to be used for messages with severity "ERROR".
+      </description>        
       <name>errorStyle</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
-      <description>
-        CSS style to be used for messages with severity "ERROR".
-      </description>
     </attribute>
     <attribute>
-      <name>fatalClass</name>
-      <required>false</required>
-      <rtexprvalue>false</rtexprvalue>
       <description>
         CSS class to be used for messages with severity "FATAL".
       </description>
-    </attribute>
-    <attribute>
-      <name>fatalStyle</name>
+      <name>fatalClass</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
+    </attribute>
+    <attribute>
       <description>
         CSS style to be used for messages with severity "FATAL".
       </description>
-    </attribute>
-    <attribute>
-      <name>tooltip</name>
+      <name>fatalStyle</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
+    </attribute>
+    <attribute>
       <description>
         If true, the message summary will be rendered as a tooltip (i.e.
         HTML title attribute).
       </description>
+      <name>tooltip</name>
+      <required>false</required>
+      <rtexprvalue>false</rtexprvalue>
     </attribute>
 
   </tag>
@@ -871,28 +870,28 @@
     <tag-class>org.jboss.seam.ui.tag.SelectDateTag</tag-class>
     <body-content>JSP</body-content>
     <attribute>
+      <description>the field identifier of the input item to pick a date for</description>
       <name>for</name>
       <required>true</required>
       <rtexprvalue>false</rtexprvalue>
-      <description>the field identifier of the input item to pick a date for</description>
     </attribute>
     <attribute>
+      <description>the date format</description>
       <name>dateFormat</name>
       <required>true</required>
       <rtexprvalue>false</rtexprvalue>
-      <description>the date format</description>
     </attribute>
     <attribute>
+      <description>the start year</description>
       <name>startYear</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
-      <description>the start year</description>
     </attribute>
     <attribute>
+      <description>the end year</description>
       <name>endYear</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
-      <description>the end year</description>
     </attribute>
   </tag>
 
@@ -901,40 +900,40 @@
     <tag-class>org.jboss.seam.ui.tag.ConvertDateTimeTag</tag-class>
     <body-content>empty</body-content>
     <attribute>
+      <description>default|short|medium|long|full</description>
       <name>dateStyle</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
-      <description>default|short|medium|long|full</description>
     </attribute>
     <attribute>
+      <description>locale</description>
       <name>locale</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
-      <description>locale</description>
     </attribute>
     <attribute>
+      <description>Custom formatting pattern</description>
       <name>pattern</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
-      <description>Custom formatting pattern</description>
     </attribute>
     <attribute>
+      <description>default|short|medium|long|full</description>
       <name>timeStyle</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
-      <description>default|short|medium|long|full</description>
     </attribute>
     <attribute>
+      <description>timeZone</description>
       <name>timeZone</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
-      <description>timeZone</description>
     </attribute>
     <attribute>
+      <description>date|time|both</description>
       <name>type</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
-      <description>date|time|both</description>
     </attribute>
   </tag>
 
@@ -948,16 +947,16 @@
     <tag-class>org.jboss.seam.ui.tag.EnumItemTag</tag-class>
     <body-content>empty</body-content>
     <attribute>
+      <description>the enum string value</description>
       <name>enumValue</name>
       <required>true</required>
       <rtexprvalue>false</rtexprvalue>
-      <description>the enum string value</description>
     </attribute>
     <attribute>
+      <description>the select item label</description>
       <name>label</name>
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
-      <description>the select item label</description>
     </attribute>
   </tag>
   
@@ -966,46 +965,46 @@
     <tag-class>org.jboss.seam.ui.tag.FileUploadTag</tag-class>
     <body-content>empty</body-content>
     <attribute>
+      <description>value binding for the file data</description>
       <name>data</name>
       <required>true</required>
       <rtexprvalue>true</rtexprvalue>
-      <description>value binding for the file data</description>
     </attribute>
     <attribute>
+      <description>value binding for the file name</description>        
       <name>fileName</name>
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
-      <description>value binding for the file name</description>
     </attribute>
     <attribute>
+      <description>value binding for the file name</description>        
       <name>fileSize</name>
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
-      <description>value binding for the file name</description>
     </attribute>    
     <attribute>
+      <description>value binding for the file content type</description>        
       <name>contentType</name>
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
-      <description>value binding for the file content type</description>
     </attribute>
     <attribute>
+      <description>acceptable content types for the file</description>        
       <name>accept</name>
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
-      <description>acceptable content types for the file</description>
     </attribute>
     <attribute>
+      <description>css style class of the file upload control</description>        
       <name>styleClass</name>
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
-      <description>css style class of the file upload control</description>
     </attribute>
     <attribute>
-      <name>style</name>
+      <description>style attributes of the file upload control</description>
+        <name>style</name>
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
-      <description>style attributes of the file upload control</description>
     </attribute>
   </tag>
   
