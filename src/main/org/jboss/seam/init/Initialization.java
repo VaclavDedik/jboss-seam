@@ -216,7 +216,7 @@ public class Initialization
                if ( nameAnnotation!=null && nameAnnotation.value().equals(name) )
                {
                   Install install = clazz.getAnnotation(Install.class);
-                  if ( install.value() )
+                  if ( install == null || install.value() )
                   {
                      className = null;
                   }
