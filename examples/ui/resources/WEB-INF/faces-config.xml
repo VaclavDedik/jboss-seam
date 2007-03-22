@@ -1,18 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<!DOCTYPE faces-config
-PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
-							 "http://java.sun.com/dtd/web-facesconfig_1_1.dtd">
-
+<!-- JSF 1.1 -->
+<!DOCTYPE faces-config 
+    PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
+    "http://java.sun.com/dtd/web-facesconfig_1_0.dtd">
 <faces-config>
 
-	<lifecycle>
-		<phase-listener>org.jboss.seam.jsf.SeamPhaseListener</phase-listener>
-	</lifecycle>
-
-	<application>
-		<view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
-		<message-bundle>messages</message-bundle>
-	</application>
-
+    <lifecycle>
+        <phase-listener>org.jboss.seam.jsf.SeamPhaseListener</phase-listener>
+    </lifecycle>
+    <application>
+        <message-bundle>messages</message-bundle>
+    </application>
+    
 </faces-config>
+
+<!-- JSF 1.2 -->
+ 
+<!--<faces-config version="1.2"-->
+<!--   xmlns="http://java.sun.com/xml/ns/javaee"-->
+<!--   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+<!--   xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">-->
+<!---->
+<!--    <application>-->
+<!--        <el-resolver>org.jboss.seam.jsf.SeamELResolver</el-resolver>-->
+<!--    </application>	-->
+<!---->
+<!--    <lifecycle>-->
+<!--        <phase-listener>org.jboss.seam.jsf.SeamPhaseListener</phase-listener>-->
+<!--    </lifecycle>-->
+<!---->
+<!--</faces-config>-->
+
+

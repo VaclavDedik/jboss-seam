@@ -43,6 +43,9 @@ public class Person implements Serializable
    
    private String name;
    
+   // A wikitext string
+   private String hobbies;
+   
    @ManyToOne
    private Country country;
    
@@ -138,5 +141,15 @@ public class Person implements Serializable
    public void setFavouriteBook(Book favouriteBook)
    {
       this.favouriteBook = favouriteBook;
+   }
+   
+   public String getHobbies()
+   {
+      return hobbies;
+   }
+   
+   public void setHobbies(String hobbies)
+   {
+      this.hobbies = hobbies;
    }
 }

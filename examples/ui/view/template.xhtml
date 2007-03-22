@@ -1,0 +1,80 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+<head>
+<title>UI Example: #{tagName}</title>
+<style>
+.label {
+	font-weight: bold;
+	color: #5E5147;
+}
+.errors {
+	font-size: small;
+	font-weight: bold;
+	text-align: center;
+	color: #600;
+}
+.errors div {
+	text-align: left;
+}
+.errors span {
+	text-align: left;
+}
+.errors input {
+	border: 1px solid #600;
+}
+.errors ul {
+	list-style: none;
+}
+.entry {
+	padding-top: 10px;
+}
+.entry .label {
+	float: left;
+	padding-right: 5px;
+	font-weight: bold;
+	width: 150px;
+	text-align: right;
+}
+.entry .output {
+	width: 360px;
+	padding-top: 10px;
+	text-align: left;
+}
+.entry .input {
+	width: 360px;
+	text-align: left;
+}
+.entry .error {
+	width: 360px;
+	text-align: left;
+}
+</style>
+<ui:debug id="debug" />
+</head>
+
+<body>
+<s:div style="width: 200px; float: left; padding: 10px; height: 100%">
+	<ul>
+		<li><s:link view="/selectItems.xhtml" propagation="join">
+			<code>s:selectItems</code>
+			<f:param name="personId" value="1" />
+		</s:link></li>
+		<li><s:link view="/fragment.xhtml" propagation="none">
+			<code>s:fragment</code>
+		</s:link></li>
+		<li><s:link view="/formattedText.xhtml" propagation="none">
+			<code>s:formattedText</code>
+			<f:param name="personId" value="1" />
+		</s:link></li>
+	</ul>
+</s:div>
+<s:div>
+	<h1><code><h:outputText value="#{tagName}" /></code></h1>
+	<ui:insert name="body" />
+</s:div>
+</body>
+
+</html>

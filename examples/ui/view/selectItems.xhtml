@@ -1,29 +1,12 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:s="http://jboss.com/products/seam/taglib">
-<head>
-<title>SelectItems example</title>
-<ui:debug id="debug" />
-<style>
-    .required {font-weight:bold; color:red; vertical-align:super}
-	.labels {width:170px; float:left; text-align:right; font-weight: bold; clear:both}
-	.help {width:170px; float:left; text-align:right; clear:left}
-	.inputs {width:420px; float:right; text-align:left; clear:right}
-	.message {width:420px; float:right; text-align:left; clear:right}
-	.row {width:600px}
-	.row .inputs, .row .labels {margin-top:6px; margin-bottom:2px}
-	.help, .message {font-size:small; color:grey}
-	.error {color:red}
-	.error span {color:red}
-    .error span input, .error span select {border-color:red}
-</style>
-</head>
-
-<body>
-	<h1><code>s:selectItems</code></h1>
+      xmlns:s="http://jboss.com/products/seam/taglib"
+      template="template.xhtml"
+      >
+	<ui:param name="tagName" value="s:selectItems" />
+	<ui:define name="body">
 	<p>This example shows example usage of the <code>s:selectItems</code> tag being used for CRUD on a  <code>Person</code> entity.</p>
 	<p>The example also uses:</p>
 	<ul>
@@ -36,67 +19,62 @@
 		<li><code>s:decorateAll</code></li>
 	</ul>
 
-	<h:form>
-
-		<s:decorateAll labelColumnClass="labels" 
-		               fieldColumnClass="inputs" 
-		               descriptionColumnClass="help" 
-		               messageColumnClass="message"
-		               rowErrorClass="error"
-		               rowClass="row">
-		    
-		    <f:facet name="message"><s:message/></f:facet>
-		    <f:facet name="afterLabel">:</f:facet>
-		    <f:facet name="afterInvalidLabel">:</f:facet>
-		    <f:facet name="beforeRequiredLabel">
-		    	<s:span styleClass="required">&#8727;</s:span>
-		    </f:facet>
-		    
+	<h:form>	 
+		<s:decorate template="decorateField.xhtml">
+			<ui:define name="label">Title</ui:define>
 			<h:selectOneMenu value="#{person.honorific}">
-				<f:facet name="label">Title</f:facet>
-				<s:selectItems value="#{honorifics}" var="honorific" label="#{honorific.label}"/>
+				<s:selectItems value="#{honorifics}" var="honorific" label="#{honorific.label}" noSelectionLabel="Please select" />
 				<s:convertEnum />
 			</h:selectOneMenu>
-			
-			<h:inputText value="#{person.name}" required="true">
-				<f:facet name="label">Name</f:facet>
-				<f:facet name="description">Enter your name as it appears on your passport</f:facet>
-			</h:inputText>
-			
-			<h:selectOneMenu value="#{person.continent}" required="true">
-				<f:facet name="label">Continent of Birth</f:facet>
+		</s:decorate>
+		
+		<s:decorate template="decorateField.xhtml">
+			<ui:define name="label">Name</ui:define>
+			<ui:define name="description">Enter your name as it appears on your passport</ui:define>
+			<h:inputText value="#{person.name}" required="true" />
+		</s:decorate>
+		
+		<s:decorate template="decorateField.xhtml">
+			<ui:define name="label">Continent of Birth</ui:define>
+			<h:selectOneMenu value="#{personHome.instance.continent}" required="true" id="continent">
 				<s:selectItems value="#{continents.resultList}" var="continent" label="#{continent.name}" noSelectionLabel="Please Select..."/>
 				<s:convertEntity />
 			</h:selectOneMenu>
-			
-			<h:selectOneRadio value="#{person.country}" required="true" disabled="#{empty person.continent}">
-				<f:facet name="label">Country of Birth</f:facet>
-				<s:selectItems value="#{person.continent.countries}" var="country" label="#{country.name} (#{country.continent.name})" noSelectionLabel="Please Select..." hideNoSelectionLabel="true"/>
+		</s:decorate>
+		
+		<s:decorate template="decorateField.xhtml" id="countryDecorate">
+			<ui:define name="label">Country of Birth</ui:define>
+			<h:selectOneRadio value="#{personHome.instance.country}" required="true" disabled="#{empty person.continent}">
+				<s:selectItems value="#{personHome.instance.continent.countries}" var="country" label="#{country.name} (#{country.continent.name})" noSelectionLabel="Please Select..." hideNoSelectionLabel="true"/>
 				<s:convertEntity />
 			</h:selectOneRadio>
-		
+		</s:decorate>
+	
+		<s:decorate template="decorateField.xhtml">
+			<ui:define name="label">Age</ui:define>
+			<ui:define name="description">The age list is an array of primitives</ui:define>
 			<h:selectOneMenu value="#{person.age}"  converter="#{converters.ageConverter}">
-				<f:facet name="label">Age</f:facet>
-				<f:facet name="description">The age list is an array of primitives</f:facet>
 				<s:selectItems value="#{ages}" var="age" label="#{age}" />
 			</h:selectOneMenu>
-			
-			<h:selectManyListbox value="#{person.favouriteColours}" >
-				<f:facet name="label">Favourite Colours</f:facet>
-				<f:facet name="description">A colour is an entity</f:facet>
+		</s:decorate>
+		
+		<s:decorate template="decorateField.xhtml">
+			<ui:define name="label">Favourite Colours</ui:define>
+			<ui:define name="description">A colour is an entity</ui:define>
+			<h:selectManyListbox value="#{personHome.instance.favouriteColours}" >
 				<s:selectItems value="#{colours.resultList}" var="colour" label="#{colour.name}" />
 				<s:convertEntity />
 			</h:selectManyListbox>
-		
+		</s:decorate>
+	
+		<s:decorate template="decorateField.xhtml">
+			<ui:define name="label">Favourite Book</ui:define>
+			<ui:define name="description">A book has a composite key</ui:define>
 			<h:selectOneListbox value="#{person.favouriteBook}" >
-				<f:facet name="label">Favourite Book</f:facet>
-				<f:facet name="description">A book has a composite key</f:facet>
 				<s:selectItems value="#{books.resultList}" var="book" label="#{book.name} by #{book.author} (#{book.nationality})" />
 				<s:convertEntity />
 			</h:selectOneListbox>
-			
-		</s:decorateAll>
-		
+		</s:decorate>
 		<h:commandButton value="Apply" action="#{personHome.update}">
 			<s:conversationPropagation type="join" />
 		</h:commandButton>
@@ -104,6 +82,5 @@
 		<p><s:link view="/index.xhtml" propagation="end">Back to index</s:link></p>
 		
 	</h:form>
-</body>
-
-</html>
+</ui:define>
+</ui:composition>

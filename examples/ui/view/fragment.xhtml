@@ -6,8 +6,9 @@
       xmlns:s="http://jboss.com/products/seam/taglib"
       template="template.xhtml"
       >
-	<ui:param name="tagName" value="" />
+	<ui:param name="tagName" value="s:fragment" />
 	<ui:define name="body">
-		<p>Seam ui components</p>
+		<p>A non-rendering component useful for enabling/disabling rendering of it's children.</p>	
+		<p><s:fragment rendered="true">This fragment is rendered</s:fragment> whilst <s:fragment rendered="false">this one isn't</s:fragment></p>
 	</ui:define>
 </ui:composition>

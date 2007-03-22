@@ -10,5 +10,8 @@
 	<page view-id="/selectItems.xhtml">
 		<param name="personId" converterId="javax.faces.Integer" value="#{personHome.id}" />
 	</page>
+	<page view-id="/formattedText.xhtml">
+		<param name="personId" converterId="javax.faces.Integer" value="#{personHome.id}" />
+	</page>
 
 </pages>

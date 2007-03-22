@@ -1,4 +1,4 @@
-insert into person (name, age) values ('Peter Muir', 25);
+insert into person (name, age, hobbies) values ('Peter Muir', 25, '/works on Seam/, *of course*');
 insert into continent(name) values('North America');
 insert into continent(name) values('South America');
 insert into continent(name) values('Australasia');
