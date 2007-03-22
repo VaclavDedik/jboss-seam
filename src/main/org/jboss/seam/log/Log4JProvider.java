@@ -49,7 +49,7 @@ public final class Log4JProvider implements LogProvider
 
    public void fatal(Object object, Throwable t)
    {
-      logger.log( getFQCN(), Level.DEBUG, object, t);
+      logger.log( getFQCN(), Level.FATAL, object, t);
    }
 
    public void info(Object object)
