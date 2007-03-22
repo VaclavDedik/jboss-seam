@@ -13,6 +13,8 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 import javax.faces.el.ValueBinding;
 
+import bsh.commands.dir;
+
 /**
  * This class provides a chainable converter for JSF.
  * 
@@ -186,6 +188,7 @@ public class ConverterChain implements Converter, StateHolder
       Object[] values = (Object[]) state;
       converters = (List<PrioritizableConverter>) UIComponentBase.restoreAttachedState(context,
                values[0]);
+      dirty = true;
    }
 
    public Object saveState(FacesContext context)
