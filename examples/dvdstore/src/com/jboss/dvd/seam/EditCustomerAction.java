@@ -79,6 +79,7 @@ public class EditCustomerAction
         return ok;
     }
 
+    @SuppressWarnings("unchecked")
     private boolean isUniqueName() {
         String name = customer.getUserName();
         if (name == null) return true;

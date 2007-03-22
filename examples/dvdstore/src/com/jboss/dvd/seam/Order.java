@@ -28,6 +28,8 @@ import javax.persistence.Transient;
 public class Order
     implements Serializable
 {
+    private static final long serialVersionUID = -5451107485769007079L;
+
     public enum Status {OPEN,CANCELLED,PROCESSING,SHIPPED}
 
     public static BigDecimal TAX_RATE = new BigDecimal(".0825");

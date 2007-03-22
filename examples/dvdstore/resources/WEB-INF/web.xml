@@ -1,15 +1,14 @@
 <?xml version="1.0" ?>
 
 <web-app version="2.5"
-    xmlns="http://java.sun.com/xml/ns/javaee"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
-
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
     <context-param>
         <param-name>javax.faces.CONFIG_FILES</param-name>
         <param-value>/WEB-INF/navigation.xml</param-value>
     </context-param>
-
+    
     <listener>
         <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
     </listener>
@@ -32,15 +31,15 @@
         <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
         <param-value>.xhtml</param-value>
     </context-param>
-
+    
     <filter>
-      <filter-name>Seam Filter</filter-name>
-      <filter-class>org.jboss.seam.web.SeamFilter</filter-class>
+        <filter-name>Seam Filter</filter-name>
+        <filter-class>org.jboss.seam.web.SeamFilter</filter-class>
     </filter>
-
+    
     <filter-mapping>
-      <filter-name>Seam Filter</filter-name>
-      <url-pattern>/*</url-pattern>
+        <filter-name>Seam Filter</filter-name>
+        <url-pattern>/*</url-pattern>
     </filter-mapping> 
     
     <servlet>
@@ -53,7 +52,7 @@
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.seam</url-pattern>
     </servlet-mapping>                 
-
+    
     <security-constraint> 
         <display-name>Restrict XHTML Documents</display-name>
         <web-resource-collection>
@@ -68,4 +67,9 @@
     <session-config>
         <session-timeout>10</session-timeout> 
     </session-config>     
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/home.seam</location>
+    </error-page> 
 </web-app>

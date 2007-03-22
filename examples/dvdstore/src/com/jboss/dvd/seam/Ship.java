@@ -11,7 +11,7 @@ public interface Ship {
     public void   setTrack(String track);
 
     public String ship();
-    public String viewTask();
+    public String viewTask();   
 
     public void   destroy();
 }

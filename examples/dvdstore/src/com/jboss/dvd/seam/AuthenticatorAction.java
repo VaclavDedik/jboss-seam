@@ -2,7 +2,7 @@ package com.jboss.dvd.seam;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
@@ -16,8 +16,8 @@ public class AuthenticatorAction implements Authenticator
 {
    private static final String USER_VAR = "currentUser";
 
-   @PersistenceContext
-   private EntityManager em;
+   @In
+   private EntityManager entityManager;
 
    @In Context sessionContext;
 
@@ -27,11 +27,15 @@ public class AuthenticatorAction implements Authenticator
 
    public boolean authenticate()
    {
-      User found = (User) em.createQuery(
-                  "select u from User u where u.userName = :userName and u.password = :password")
-            .setParameter("userName", identity.getUsername())
-            .setParameter("password", identity.getPassword())
-            .getSingleResult();
+       
+      User found;
+      try {
+          found = (User) 
+              entityManager.createQuery("select u from User u where u.userName = #{identity.username} and u.password = #{identity.password}")       
+                           .getSingleResult();
+      } catch (PersistenceException e) {
+          return false;
+      }
 
       sessionContext.set(USER_VAR, found);
 

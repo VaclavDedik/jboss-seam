@@ -39,8 +39,7 @@
         </framework:hints>
          -->
     </framework:entity-query>    
-    
-    
+        
     <factory name="topProducts" value="#{topQuery.resultList}" />
     <framework:entity-query name="topQuery"
                             ejbql="select p from Product p"
@@ -50,5 +49,10 @@
     <core:managed-persistence-context name="entityManager"
                                       auto-create="true"
                                       persistence-unit-jndi-name="java:/dvdEntityManagerFactory" />
+    
+    <factory name="workingOrder" value="#{orderHome.instance}"/>
+    <framework:entity-home name="orderHome" entity-class="com.jboss.dvd.seam.Order">
+        <framework:id>#{orderId}</framework:id>
+    </framework:entity-home>
                                       
 </components>
