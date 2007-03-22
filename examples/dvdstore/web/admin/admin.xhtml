@@ -4,8 +4,7 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:s="http://jboss.com/products/seam/taglib"
-      xmlns:c="http://java.sun.com/jstl/core">
+      xmlns:s="http://jboss.com/products/seam/taglib">
 <body>
     <ui:composition template="/WEB-INF/template.xhtml">
         <ui:define name="topnav">
@@ -56,111 +55,104 @@
             </ul>
             
             <h2>Task Assignment</h2>
-            <c:choose>
-                <c:when test="#{empty pooledTaskInstanceList}">
-                    <p>There are no pooled tasks to be assigned.</p>
-                </c:when>
-                <c:otherwise>
-                    <h:dataTable value="#{pooledTaskInstanceList}"
-                                 var="task" 
-                                 styleClass="dvdtable" 
-                                 headerClass="dvdtablehead"
-                                 rowClasses="dvdtableodd,dvdtableeven"
-                                 columnClasses="dvdtablecol">
-                        <h:column>
-                            <f:facet name="header">Order Id</f:facet>
-                            #{task.variables['orderId']}
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">Task</f:facet>
-                            <h:outputText value="#{task.description}" />
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">Order Amount</f:facet>
-                            <h:outputText value="#{task.variables['amount']}">
-                                <f:convertNumber type="currency" currencySymbol="$" />
-                            </h:outputText>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">Customer</f:facet>
-                            <h:outputText value="#{task.variables['customer']}" />
-                        </h:column>
-                        <h:column>
-                            <s:button action="#{pooledTask.assignToCurrentActor}" taskInstance="#{task}"
-                                value="Assign"/>
-                        </h:column>
-                    </h:dataTable>
-                </c:otherwise>
-            </c:choose>
+
+            <f:subview rendered="#{empty pooledTaskInstanceList}">
+                <p>There are no pooled tasks to be assigned.</p>
+            </f:subview>
+            
+            <h:dataTable rendered="#{not empty pooledTaskInstanceList}"
+                         var="task" 
+                         styleClass="dvdtable" 
+                         headerClass="dvdtablehead"
+                         rowClasses="dvdtableodd,dvdtableeven"
+                         columnClasses="dvdtablecol">
+                <h:column>
+                    <f:facet name="header">Order Id</f:facet>
+                    #{task.variables['orderId']}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Task</f:facet>
+                    <h:outputText value="#{task.description}" />
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Order Amount</f:facet>
+                    <h:outputText value="#{task.variables['amount']}">
+                        <f:convertNumber type="currency" currencySymbol="$" />
+                    </h:outputText>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Customer</f:facet>
+                    <h:outputText value="#{task.variables['customer']}" />
+                </h:column>
+                <h:column>
+                    <s:button action="#{pooledTask.assignToCurrentActor}" taskInstance="#{task}"
+                              value="Assign"/>
+                </h:column>
+            </h:dataTable>
+            
             
             <h2>Order Acceptance</h2>
-            <c:choose>
-                <c:when test="#{empty taskInstanceListForType['approve']}">
-                    <p>There are no orders to be accepted.</p>
-                </c:when>
-                <c:otherwise> 
-                    <h:dataTable value="#{taskInstanceListForType['approve']}"
-                                 var="task" 
-                                 styleClass="dvdtable" 
-                                 headerClass="dvdtablehead"
-                                 rowClasses="dvdtableodd,dvdtableeven"
-                                 columnClasses="dvdtablecol">
-                        <h:column>
-                            <f:facet name="header">Order Id</f:facet>
-                            #{task.variables['orderId']}
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">Order Amount</f:facet>
-                            <h:outputText value="#{task.variables['amount']}">
-                                <f:convertNumber type="currency" currencySymbol="$" />
-                            </h:outputText>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">Customer</f:facet>
-                            <h:outputText value="#{task.variables['customer']}" />
-                        </h:column>
-                        <h:column>
-                            <s:button action="#{accept.viewTask}" taskInstance="#{task}" 
-                                    value="Review"/>
-                        </h:column>
-                    </h:dataTable>
-                </c:otherwise>
-            </c:choose>
+            <f:subview rendered="#{empty taskInstanceListForType['approve']}">
+                <p>There are no orders to be accepted.</p>
+            </f:subview>
 
-            <h2>Shipping</h2>
-            <c:choose>
-                <c:when test="#{empty taskInstanceListForType['ship']}">
-                    <p>There are no orders to be shipped.</p>
-                </c:when>
-                <c:otherwise>
-                    <h:dataTable value="#{taskInstanceListForType['ship']}"
-                                 var="task" 
-                                 styleClass="dvdtable" 
-                                 headerClass="dvdtablehead"
-                                 rowClasses="dvdtableodd,dvdtableeven"
-                                 columnClasses="dvdtablecol">
-                        <h:column>
-                            <f:facet name="header">Order Id</f:facet>
-                            #{task.variables['orderId']}
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">Order Amount</f:facet>
-                            <h:outputText value="#{task.variables['amount']}">
-                                <f:convertNumber type="currency" currencySymbol="$" />
-                            </h:outputText>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">Customer</f:facet>
-                            <h:outputText value="#{task.variables['customer']}" />
-                        </h:column>
-                        <h:column>
-                            <s:button action="#{ship.viewTask}" taskInstance="#{task}" 
-                                    value="Ship"/>
-                        </h:column>               
-                    </h:dataTable>
-                </c:otherwise>
-            </c:choose>
+            <h:dataTable rendered="#{not empty taskInstanceListForType['approve']}"
+                         value="#{taskInstanceListForType['approve']}"
+                         var="task" 
+                         styleClass="dvdtable" 
+                         headerClass="dvdtablehead"
+                         rowClasses="dvdtableodd,dvdtableeven"
+                         columnClasses="dvdtablecol">
+                <h:column>
+                    <f:facet name="header">Order Id</f:facet>
+                    #{task.variables['orderId']}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Order Amount</f:facet>
+                    <h:outputText value="#{task.variables['amount']}">
+                        <f:convertNumber type="currency" currencySymbol="$" />
+                    </h:outputText>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Customer</f:facet>
+                    <h:outputText value="#{task.variables['customer']}" />
+                </h:column>
+                <h:column>
+                    <s:button action="#{accept.viewTask}" taskInstance="#{task}" 
+                              value="Review"/>
+                </h:column>
+            </h:dataTable>
             
+            <h2>Shipping</h2>
+            <f:subview rendered="#{empty taskInstanceListForType['ship']}">
+                <p>There are no orders to be shipped.</p>
+            </f:subview>
+            <h:dataTable rendered="#{not empty taskInstanceListForType['ship']}"
+                         value="#{taskInstanceListForType['ship']}"
+                         var="task" 
+                         styleClass="dvdtable" 
+                         headerClass="dvdtablehead"
+                         rowClasses="dvdtableodd,dvdtableeven"
+                         columnClasses="dvdtablecol">
+                <h:column>
+                    <f:facet name="header">Order Id</f:facet>
+                    #{task.variables['orderId']}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Order Amount</f:facet>
+                    <h:outputText value="#{task.variables['amount']}">
+                        <f:convertNumber type="currency" currencySymbol="$" />
+                    </h:outputText>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Customer</f:facet>
+                    <h:outputText value="#{task.variables['customer']}" />
+                </h:column>
+                <h:column>
+                    <s:button action="#{ship.viewTask}" taskInstance="#{task}" 
+                              value="Ship"/>
+                </h:column>               
+            </h:dataTable>
         </ui:define>
     </ui:composition>
 </body>
