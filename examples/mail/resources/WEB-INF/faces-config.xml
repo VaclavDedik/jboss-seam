@@ -1,34 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE faces-config PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN" 
-                              "http://java.sun.com/dtd/web-facesconfig_1_0.dtd">
+<!-- JSF 1.1 -->
+<!DOCTYPE faces-config 
+    PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
+    "http://java.sun.com/dtd/web-facesconfig_1_0.dtd">
 <faces-config>
-    <!-- Facelets support -->
+    <lifecycle>
+        <phase-listener>org.jboss.seam.jsf.SeamPhaseListener</phase-listener>
+    </lifecycle>
     <application>
+        <message-bundle>messages</message-bundle>
         <view-handler>org.jboss.seam.ui.facelet.SeamFaceletViewHandler</view-handler>
     </application>
-
-    <!-- Phase listener needed for all Seam applications -->
-    <lifecycle>
-        <phase-listener>org.jboss.seam.jsf.TransactionalSeamPhaseListener</phase-listener>
-    </lifecycle>
     
-    <navigation-rule>
-    	<from-view-id>/index.xhtml</from-view-id>
-    
-    	<navigation-case>
-    		<from-action>plainText</from-action>
-    		<to-view-id>/plainText.xhtml</to-view-id>
-    	</navigation-case>
-    	
-    	<navigation-case>
-    		<from-action>html</from-action>
-    		<to-view-id>/html.xhtml</to-view-id>
-    	</navigation-case>
-    	
-    	<navigation-case>
-    		<from-action>templating</from-action>
-    		<to-view-id>/templating.xhtml</to-view-id>
-    	</navigation-case>
-    	
-    </navigation-rule>
 </faces-config>
+
+<!-- JSF 1.2 -->
+ 
+<!--<faces-config version="1.2"-->
+<!--   xmlns="http://java.sun.com/xml/ns/javaee"-->
+<!--   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+<!--   xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">-->
+<!---->
+<!--    <application>-->
+<!--        <el-resolver>org.jboss.seam.jsf.SeamELResolver</el-resolver>-->
+<!--        <view-handler>org.jboss.seam.ui.facelet.SeamFaceletViewHandler</view-handler>-->
+<!--    </application>	-->
+<!---->
+<!--    <lifecycle>-->
+<!--        <phase-listener>org.jboss.seam.jsf.SeamPhaseListener</phase-listener>-->
+<!--    </lifecycle>-->
+<!---->
+<!--</faces-config>-->
