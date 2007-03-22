@@ -361,7 +361,8 @@
                 <listitem>
                     <programlisting><![CDATA[@Logger("categoryName")]]></programlisting>
                     <para> Specifies that a component field is to be injected with an instance of
-                            <literal>org.jboss.seam.log.Log</literal>. </para>
+                            <literal>org.jboss.seam.log.Log</literal>. For entity beans, the 
+                            field must be declared as static.</para>
                     <itemizedlist>
                         <listitem>
                             <para>

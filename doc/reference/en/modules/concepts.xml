@@ -975,7 +975,8 @@ public Order createOrder(User user, Product product, int quantity) {
 
         <para>
             It doesn't matter if you declare the <literal>log</literal> variable static or not&mdash;it will work 
-            either way.
+            either way, except for entity bean components which require the <literal>log</literal> variable to be
+            static.
         </para>
 
         <para> 
