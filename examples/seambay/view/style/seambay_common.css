@@ -1,0 +1,64 @@
+body {
+  font-family: verdana, arial, sans-serif, helvetica;
+  background-color: #ffffff;
+  font-size:11px;
+  margin: 0;
+}
+
+div.seambay-logo {
+  float: left;
+  background: url(../img/seambay.png) top left no-repeat;
+  width: 236px;
+  height: 64px;
+  margin: 4px 6px 4px 6px;
+}
+
+div.header_tools_top {
+  height: 36px;
+  background-color: #eeeeee;
+  margin: 8px 8px 0px 248px;
+}
+
+div.header_tools_bottom {
+  height: 20px;
+  background-color: #eeeeee;
+  margin: 0px 8px 8px 248px;
+  border-bottom: 1px solid #0000aa;
+}
+
+div.header_links {
+  float: left;
+  margin: 8px 0px 0px 12px;
+}
+
+div.header_search {
+  margin: 8px 12px 0px 4px;
+  float: right;
+}
+
+a.header_action, a.header_action:visited {
+  height: 20px;
+  background-color: #ffffff;
+  font-family: arial, helvetica;
+  font-weight: bold;
+  text-decoration: none;
+  color: #000000;
+  font-size: 14px;
+  padding: 4px 16px 4px 16px;
+  border: 1px solid #0000aa;
+  margin: 0px -1px -1px 0px;
+}
+
+a.header_action:hover {
+  background-color: #ffffdd;
+}
+
+a.header_link, a.header_link:visited {
+  font-size: normal;
+  padding: 2px 4px 2px 4px;
+}
+
+.clear {
+	clear: both;
+	font-size: 0px;
+}

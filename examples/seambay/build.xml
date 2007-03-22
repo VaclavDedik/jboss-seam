@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<project name="SeamBay" default="deploy" basedir=".">
+
+    <!-- Example name -->
+    <property name="Name"                    value="SeamBay Example"/>
+    <property name="example.name"            value="seam-bay"/>
+
+    <!-- Overrides -->
+    <property name="example.webinf.lib.dir"  value="."/>
+    <property name="example.facelets.lib"    value="yes"/>
+    <property name="example.drools.lib"      value="yes"/>
+    <property name="example.seam.ui.lib"     value="yes"/>
+    <property name="example.jcaptcha.lib"    value="yes"/>
+    <property name="example.ds"              value="seambay-ds.xml"/>
+    <property name="src.java.dir"            value="src"/>
+    <property name="src.test.dir"            value="src"/>
+    <property name="test.classpath"          value="test.eejb.classpath"/>
+    <property name="tomcat.conf"             value="eejb.conf"/>
+    <import file="../../build.xml"/>
+
+</project>
+
