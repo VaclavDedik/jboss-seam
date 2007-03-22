@@ -2,7 +2,7 @@ package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.wiki.core.model.*;
-import org.jboss.seam.wiki.core.links.WikiLinkResolver;
+import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.contexts.Contexts;

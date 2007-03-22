@@ -1,4 +1,4 @@
-package org.jboss.seam.wiki.core.links;
+package org.jboss.seam.wiki.core.engine;
 
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.In;

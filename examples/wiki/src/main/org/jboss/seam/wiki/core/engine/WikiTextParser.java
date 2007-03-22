@@ -1,4 +1,4 @@
-package org.jboss.seam.wiki.core.links;
+package org.jboss.seam.wiki.core.engine;
 
 import org.jboss.seam.text.SeamTextParser;
 import org.jboss.seam.text.SeamTextLexer;
@@ -24,7 +24,7 @@ import java.io.StringReader;
  * the <tt>currentDocument</tt>'s content, this change should be flushed to the datastore after calling
  * the parser.
  * </p><p>
- * After parsing, all links to attachments and all external links are pushed onto the renderer, where they
+ * After parsing, all links to attachments and all external engine are pushed onto the renderer, where they
  * can be used to render an attachment list or similar.
  *
  * @author Christian Bauer
