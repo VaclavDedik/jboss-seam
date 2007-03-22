@@ -406,6 +406,11 @@
                 properties file will do). At startup, Seam will scan any archives with
                 <literal>seam.properties</literal> files for seam components.
             </para>
+            
+            <para>
+                In a web archive (WAR) file, you must place a <literal>seam.properties</literal> file in the
+                <literal>WEB-INF/classes</literal> directory if you have any Seam components included here.
+            </para>
 
             <para>
                 That's why all the Seam examples have an empty <literal>seam.properties</literal>
