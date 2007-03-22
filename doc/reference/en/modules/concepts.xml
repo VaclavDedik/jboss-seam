@@ -857,7 +857,7 @@ public class LoginAction implements Login {
             The precedence of a component is a number that Seam uses to decide which component to
             install when there are multiple classes with the same component name in the classpath.
             Seam will choose the component with the higher precendence. There are some predefined
-            precedence values:
+            precedence values (in ascending order):
         </para>
         
         <orderedlist>

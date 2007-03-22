@@ -157,7 +157,8 @@
                     <programlisting><![CDATA[@Install(precedence=BUILT_IN)]]></programlisting>
                     <para>
                         Specifies the precedence of the component. If multiple components with the same name exist,
-                        the one with the higher precedence will be installed. The defined precendence values are:
+                        the one with the higher precedence will be installed. The defined precendence values are
+                        (in ascending order):
                     </para>
                     
                     <itemizedlist>
@@ -177,7 +178,7 @@
                             <para><literal>DEPLOYMENT</literal> &mdash; Precedence to use for components which
                                 override application components in a particular deployment</para>
                         </listitem>
-        	            <listitem>
+        	              <listitem>
                              <para><literal>MOCK</literal> &mdash; Precedence for mock objects used in testing</para>
                         </listitem>
                     </itemizedlist>
