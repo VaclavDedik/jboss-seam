@@ -2091,7 +2091,7 @@ public class NumberGuess {
       </para>
 
       <para>
-          Just ten classes (plus six session beans local interfaces and 1 annotation interface) 
+          Just nine classes (plus six session beans local interfaces) 
           where used to implement this application. 
           Six session bean action listeners contain all the business logic for the listed features.
       </para>
@@ -2110,13 +2110,6 @@ public class NumberGuess {
               hotel room searching, selection, booking and booking confirmation. This functionality is
               implemented as a <emphasis>conversation</emphasis>, so this is the most interesting class
               in the application. 
-          </listitem>
-          <listitem>
-              <literal>LoginAction</literal> validates the login details and retrieves the logged 
-              in user.
-          </listitem>
-          <listitem>
-              <literal>LogoutAction</literal> ends the login session.
           </listitem>
           <listitem>
               <literal>RegisterAction</literal> registers a new system user.
@@ -2139,11 +2132,6 @@ public class NumberGuess {
               hotel bookings
           </listitem>
       </itemizedlist>
-      
-      <para>
-          Finally, the <literal>LoggedIn</literal> annotation and the <literal>LoggedInInterceptor</literal>
-          are used to protect actions that require a logged in user.
-      </para>
       
     </section>
     
@@ -2239,14 +2227,14 @@ public class NumberGuess {
            <programlistingco>
                 <areaspec>
                     <area id="booking-stateful-annotation" coords="1"/>
-                    <area id="booking-custom-annotation" coords="4"/>
+                    <area id="booking-restrict-annotation" coords="4"/>
                     <area id="booking-datamodel-annotation" coords="16"/>
                     <area id="booking-destroy-annotation" coords="66"/>
                 </areaspec>    
             <programlisting><![CDATA[@Stateful
 @Name("hotelSearch")
 @Scope(ScopeType.SESSION)
-@LoggedIn
+@Restrict("#{identity.loggedIn}")
 public class HotelSearchingAction implements HotelSearching
 {
    
@@ -2319,11 +2307,11 @@ public class HotelSearchingAction implements HotelSearching
                         scoped to the conversation context by default.
                     </para>
                 </callout>
-                <callout arearefs="booking-custom-annotation">
+                <callout arearefs="booking-restrict-annotation">
                     <para>
-                        The <literal>@LoggedIn</literal> annotation applies a custom Seam interceptor
-                        to the component. This works because <literal>@LoggedIn</literal> is marked
-                        with an <literal>@Interceptor</literal> meta-annotation.
+                        The <literal>@Restrict</literal> annotation applies a security restriction to the
+                        component. It restricts access to the component allowing only logged-in users. The
+                        security chapter explains more about security in Seam.
                     </para>
                 </callout>
                 <callout arearefs="booking-datamodel-annotation">
@@ -2495,7 +2483,7 @@ public class HotelSearchingAction implements HotelSearching
                 </areaspec>    
             <programlisting><![CDATA[@Stateful
 @Name("hotelBooking")
-@LoggedIn
+@Restrict("#{identity.loggedIn}")
 public class HotelBookingAction implements HotelBooking
 {
    
