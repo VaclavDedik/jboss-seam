@@ -127,7 +127,12 @@ public class UIMessage extends MailComponent
             getMimeMessage().addHeader("Disposition-Notification-To",
                      getMimeMessage().getFrom()[0].toString());
          }
-         Transport.send(getMimeMessage());
+         // Do the send manually, Transport.send gets the wrong transport
+         getMimeMessage().saveChanges();
+         Transport transport = getMailSession().getTransport();
+         transport.connect();
+         transport.sendMessage(getMimeMessage(), getMimeMessage().getAllRecipients());
+         transport.close();
       }
       catch (MessagingException e)
       {

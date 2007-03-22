@@ -10,6 +10,7 @@
         <xs:attribute name="host" type="xs:string"/>
         <xs:attribute name="port" type="xs:string"/>
         <xs:attribute name="debug" type="xs:string"/>
+        <xs:attribute name="ssl" type="xs:boolean"/>
         <xs:attribute name="session-jndi-name" type="xs:string"/>
     </xs:attributeGroup>
 

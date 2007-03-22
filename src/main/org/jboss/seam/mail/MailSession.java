@@ -4,12 +4,16 @@ import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.Serializable;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.naming.NamingException;
+import javax.net.ssl.X509TrustManager;
+
 import org.jboss.seam.Component;
 import org.jboss.seam.InterceptionType;
 import org.jboss.seam.annotations.Create;
@@ -32,17 +36,17 @@ import org.jboss.seam.util.Naming;
 @Intercept(InterceptionType.NEVER)
 public class MailSession extends AbstractMutable implements Serializable
 {
-   
    private static final LogProvider log = Logging.getLogProvider(MailSession.class);
 
 	private Session session;
 
 	private String host = "localhost";
-   private Integer port = 25;
+   private Integer port;
 	private String username;
 	private String password;
 	private boolean debug = false;
    private String sessionJndiName;
+   private boolean ssl;
 
    @Unwrap
    public Session getSession() throws NamingException
@@ -83,13 +87,7 @@ public class MailSession extends AbstractMutable implements Serializable
       // Enable debugging if set
       properties.put("mail.debug", isDebug());
   
-      if ( getHost()!=null )
-      {
-      	properties.put("mail.host", getHost());
-      }
-      if ( getPort()!=null ) {
-      	properties.put("mail.smtp.port", getPort().toString());
-      }
+      
   
       if ( getUsername()!=null && getPassword()==null )
       {
@@ -99,12 +97,60 @@ public class MailSession extends AbstractMutable implements Serializable
       {
       	log.warn("password supplied without a username (if no authentication required supply neither)");
       }
+      
+      if ( getHost()!=null )
+      {
+         if (isSsl()) 
+         {
+            properties.put("mail.smtps.host", getHost());
+         }
+         else
+         {
+            properties.put("mail.smtp.host", getHost());
+         }
+         
+      }
+      if ( getPort()!=null ) {
+         if (isSsl())
+         {
+            properties.put("mail.smtps.port", getPort().toString());
+         }
+         else
+         {
+            properties.put("mail.smtp.port", getPort().toString());
+         }
+      }
+      else
+      {
+         if (isSsl())
+         {
+            properties.put("mail.smtps.port", "465");
+         }
+         else
+         {
+            properties.put("mail.smtp.port", "25");
+         }
+      }
+      
+      if (isSsl())
+      {
+         properties.put("mail.transport.protocol", "smtps");
+      }
+
   
       // Authentication if required
       Authenticator authenticator = null;
       if ( getUsername()!=null && getPassword()!=null )
       {
-      	properties.put("mail.smtp.auth", "true");
+         if (isSsl())
+         {
+            properties.put("mail.smtps.auth", "true");
+         } 
+         else
+         {
+         
+            properties.put("mail.smtp.auth", "true");
+         }
       	authenticator = new Authenticator()
       	{
       		@Override
@@ -204,6 +250,16 @@ public class MailSession extends AbstractMutable implements Serializable
    public void setSessionJndiName(String jndiName)
    {
       this.sessionJndiName = jndiName;
+   }
+
+   public boolean isSsl()
+   {
+      return ssl;
+   }
+
+   public void setSsl(boolean ssl)
+   {
+      this.ssl = ssl;
    }
 
    public static Session instance() {
