@@ -5,24 +5,23 @@
     </para>
     
     <programlisting><![CDATA[<h:form>
-    <div>
-        <h:messages/>
-    </div>
+    <h:messages/>
+
     <div>
         Country:
         <h:inputText value="#{location.country}" required="true">
             <my:validateCountry/>
         </h:inputText>
     </div>
+    
     <div>
         Zip code:
         <h:inputText value="#{location.zip}" required="true">
             <my:validateZip/>
         </h:inputText>
     </div>
-    <div>
-        <h:commandButton/>
-    </div>
+
+    <h:commandButton/>
 </h:form>]]></programlisting>
 
     <para>
@@ -83,24 +82,24 @@
     </para>
     
     <programlisting><![CDATA[<h:form>
-    <div>
-        <h:messages/>
-    </div>
+    <h:messages/>
+
     <div>
         Country:
         <h:inputText value="#{location.country}" required="true">
             <s:validate/>
         </h:inputText>
     </div>
+    
     <div>
         Zip code:
         <h:inputText value="#{location.zip}" required="true">
             <s:validate/>
         </h:inputText>
     </div>
-    <div>
-        <h:commandButton/>
-    </div>
+    
+    <h:commandButton/>
+
 </h:form>]]></programlisting>
 
      <para>
@@ -110,28 +109,37 @@
          This is due to a limitation of the JSF validation architecture.
      </para>
 
+    <para>
+        This approach <emphasis>defines</emphasis> constraints on the model, and 
+        <emphasis>presents</emphasis> constraint violations in the view&mdash;a
+        significantly better design.
+    </para>
+    
      <para>
-         This version is not much less verbose than what we started with, 
+         However, it is not much less verbose than what we started with, 
          so let's try <literal>&lt;s:validateAll&gt;</literal>:
      </para>
 
     <programlisting><![CDATA[<h:form>
-    <div>
-        <h:messages/>
-    </div>
+    
+    <h:messages/>
+
     <s:validateAll>
+
         <div>
             Country:
             <h:inputText value="#{location.country}" required="true"/>
         </div>
+
         <div>
             Zip code:
             <h:inputText value="#{location.zip}" required="true"/>
         </div>
-        <div>
-            <h:commandButton/>
-        </div>
+
+        <h:commandButton/>
+
     </s:validateAll>
+
 </h:form>]]></programlisting>
      
      <para>
@@ -145,127 +153,128 @@
          user when validation fails. Currently we are displaying all
          messages at the top of the form. What we would really like to
          do is display the message next to the field with the error
-         (this is possible in plain JSF), highlight the field (this
-         is not possible) and, for good measure, display some image
-         next the the field (also not possible).
+         (this is possible in plain JSF), highlight the field and 
+         label (this is not possible) and, for good measure, display 
+         some image next the the field (also not possible). We also
+         want to display a little colored asterisk next to the label
+         for each required form field.
+         
      </para>
      
      <para>
-         Let's try out <literal>&lt;s:decorate&gt;</literal>:
+         That's quite a lot of functionality we need for each field
+         of our form. We wouldn't want to have to specify higlighting
+         and the layout of the image, message and input field for every
+         field on the form. So, instead, we'll specify the common
+         layout in a facelets template:
+     </para>
+     
+     <programlisting><![CDATA[<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:s="http://jboss.com/products/seam/taglib">
+                 
+    <div>
+    
+        <s:label styleClass="#{invalid?'error':''}">
+            <ui:insert name="label"/>
+            <s:span styleClass="required" rendered="#{required}">*</s:span>
+        </s:label>
+        
+        <span class="#{invalid?'error':''}">
+            <h:graphicImage src="img/error.gif" rendered="#{invalid}"/>
+            <s:validateAll>
+                <ui:insert/>
+            </s:validateAll>
+        </span>
+        
+        <s:message styleClass="error"/>
+        
+    </div>
+    
+</ui:composition>]]></programlisting>
+     
+     <para>
+         We can include this template for each of our form fields using
+         <literal>&lt;s:decorate&gt;</literal>.
      </para>
 
     <programlisting><![CDATA[<h:form>
-    <div>
-        <h:messages globalOnly="true"/>
-    </div>
-    <s:validateAll>
-        <div>
-            Country:
-            <s:decorate>
-                <f:facet name="beforeInvalidField"><h:graphicImage src="img/error.gif"/></f:facet>
-                <f:facet name="afterInvalidField"><s:message/></f:facet>
-                <f:facet name="aroundInvalidField"><s:span styleClass="error"/></f:facet>
-                <h:inputText value="#{location.country}" required="true"/>
-            </s:decorate>
-        </div>
-        <div>
-            Zip code:
-            <s:decorate>
-                <f:facet name="beforeInvalidField"><h:graphicImage src="img/error.gif"/></f:facet>
-                <f:facet name="afterInvalidField"><s:message/></f:facet>
-                <f:facet name="aroundInvalidField"><s:span styleClass="error"/></f:facet>
-                <h:inputText value="#{location.zip}" required="true"/>
-            </s:decorate>
-        </div>
-        <div>
-            <h:commandButton/>
-        </div>
-    </s:validateAll>
-</h:form>]]></programlisting>
 
-    <para>
-        Well, that looks much better to the user, but it is extremely verbose. Fortunately,
-        the facets of <literal>&lt;s:decorate&gt;</literal> may be defined on any parent
-        element:
-    </para>
-     
-    <programlisting><![CDATA[<h:form>
-    <f:facet name="beforeInvalidField">
-        <h:graphicImage src="img/error.gif"/>
-    </f:facet>
-    <f:facet name="afterInvalidField">
-        <s:message/>
-    </f:facet>
-    <f:facet name="aroundInvalidField">
-        <s:span styleClass="error"/>
-    </f:facet>
-    <div>
-        <h:messages globalOnly="true"/>
-    </div>
-    <s:validateAll>
-        <div>
-            Country:
-            <s:decorate>
-                <h:inputText value="#{location.country}" required="true"/>
-            </s:decorate>
-        </div>
-        <div>
-            Zip code:
-            <s:decorate>
-                <h:inputText value="#{location.zip}" required="true"/>
-            </s:decorate>
-        </div>
-        <div>
-            <h:commandButton/>
-        </div>
-    </s:validateAll>
-</h:form>]]></programlisting>
+    <h:messages globalOnly="true"/>
 
-    <para>
-        This approach <emphasis>defines</emphasis> constraints on the model, and 
-        <emphasis>presents</emphasis> constraint violations in the view&mdash;a
-        significantly better design.
-    </para>
+    <s:decorate template="edit.xhtml">
+        <ui:define name="label">Country:</ui:define>
+        <h:inputText value="#{location.country}" required="true"/>
+    </s:decorate>
     
+    <s:decorate template="edit.xhtml">
+        <ui:define name="label">Zip code:</ui:define>
+        <h:inputText value="#{location.zip}" required="true"/>
+    </s:decorate>
+
+    <h:commandButton/>
+
+</h:form>]]></programlisting>
+
     <para>
-        Finally, we can use Ajax4JSF to display validation messages as the user is 
-        typing:
+        Finally, we can use Ajax4JSF to display validation messages as the user 
+        is navigating around the form:
     </para>
 
     <programlisting><![CDATA[<h:form>
-    <f:facet name="beforeInvalidField">
-        <h:graphicImage src="img/error.gif"/>
-    </f:facet>
-    <f:facet name="afterInvalidField">
-        <s:message/>
-    </f:facet>
-    <f:facet name="aroundInvalidField">
-        <s:span styleClass="error"/>
-    </f:facet>
-    <div>
-        <h:messages globalOnly="true"/>
-    </div>
-    <s:validateAll>
-        <div>
-            Country:
-            <s:decorate id="country">
-                <h:inputText value="#{location.country}" required="true">
-                    <a:support event="onblur" reRender="country"/>
-                </h:inputText>
-            </s:decorate>
-        </div>
-        <div>
-            Zip code:
-            <s:decorate id="zip">
-                <h:inputText value="#{location.zip}" required="true">
-                    <a:support event="onblur" reRender="zip"/>
-                </h:inputText>
-            </s:decorate>
-        </div>
-        <div>
-            <h:commandButton/>
-        </div>
-    </s:validateAll>
+
+    <h:messages globalOnly="true"/>
+
+    <s:decorate id="countryDecoration" template="edit.xhtml">
+        <ui:define name="label">Country:</ui:define>
+        <h:inputText value="#{location.country}" required="true">
+            <a:support event="onblur" reRender="countryDecoration"/>
+        </h:inputText>
+    </s:decorate>
+    
+    <s:decorate id="zipDecoration" template="edit.xhtml">
+        <ui:define name="label">Zip code:</ui:define>
+        <h:inputText value="#{location.zip}" required="true">
+            <a:support event="onblur" reRender="zipDecoration"/>
+        </h:inputText>
+    </s:decorate>
+
+    <h:commandButton/>
+
 </h:form>]]></programlisting>
+
+    <para>
+        As a final note, it's better style to define explicit ids for
+        important controls on the page, especially if you want to do
+        automated testing for the UI, using some toolkit like
+        Selenium. If you don't provide explicit ids, JSF will generate
+        them, but the generated values will change if you change
+        anything on the page.
+    </para>
+
+    <programlisting><![CDATA[<h:form id="form">
+
+    <h:messages globalOnly="true"/>
+
+    <s:decorate id="countryDecoration" template="edit.xhtml">
+        <ui:define name="label">Country:</ui:define>
+        <h:inputText id="country" value="#{location.country}" required="true">
+            <a:support event="onblur" reRender="countryDecoration"/>
+        </h:inputText>
+    </s:decorate>
+    
+    <s:decorate id="zipDecoration" template="edit.xhtml">
+        <ui:define name="label">Zip code:</ui:define>
+        <h:inputText id="zip" value="#{location.zip}" required="true">
+            <a:support event="onblur" reRender="zipDecoration"/>
+        </h:inputText>
+    </s:decorate>
+
+    <h:commandButton/>
+
+</h:form>]]></programlisting>
+
 
 </chapter>
