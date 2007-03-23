@@ -6,13 +6,6 @@
 	xmlns:u=" http://ajax4jsf.org/cdk/u"
 	xmlns:x=" http://ajax4jsf.org/cdk/x"
 	class="org.jboss.seam.ui.renderkit.html.FormattedTextRenderer"
-	baseclass="org.jboss.seam.ui.renderkit.FragmentRendererBase"
+	baseclass="org.jboss.seam.ui.renderkit.FormattedTextRendererBase"
 	component="org.jboss.seam.ui.component.UIFormattedText" 
-	>
-	<f:clientid var="clientId"/>
-	<div id="#{clientId}"
-		name="#{clientId}"
-		x:passThruWithExclusions="value,name,type,id,converter"
-		>
-	</div>
-</f:root>
+	/>

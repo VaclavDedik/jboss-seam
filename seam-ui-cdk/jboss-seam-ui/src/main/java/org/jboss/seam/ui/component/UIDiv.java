@@ -33,4 +33,10 @@ public abstract class UIDiv extends UIComponentBase {
 	
 	private static final String COMPONENT_FAMILY = "org.jboss.seam.ui.Div";
 	
+   @Override
+   public boolean getRendersChildren()
+   {
+      return true;
+   }
+   
 }

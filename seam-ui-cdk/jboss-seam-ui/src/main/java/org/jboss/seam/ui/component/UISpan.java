@@ -32,5 +32,11 @@ public abstract class UISpan extends UIComponentBase {
 	private static final String COMPONENT_TYPE = "org.jboss.seam.ui.Span";
 	
 	private static final String COMPONENT_FAMILY = "org.jboss.seam.ui.Span";
+   
+   @Override
+   public boolean getRendersChildren()
+   {
+      return true;
+   }
 	
 }

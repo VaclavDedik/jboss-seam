@@ -8,7 +8,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
 import org.ajax4jsf.framework.renderer.AjaxComponentRendererBase;
-import org.jboss.cache.CacheException;
 import org.jboss.seam.core.PojoCache;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -68,7 +67,7 @@ public class CacheRendererBase extends AjaxComponentRendererBase
       {
          PojoCache.instance().put(region, key, content);
       }
-      catch (CacheException ce)
+      catch (Exception ce)
       {
          log.error("error accessing cache", ce);
       }
@@ -80,7 +79,7 @@ public class CacheRendererBase extends AjaxComponentRendererBase
       {
          return (String) PojoCache.instance().get(region, key);
       }
-      catch (CacheException ce)
+      catch (Exception ce)
       {
          log.error("error accessing cache", ce);
          return null;

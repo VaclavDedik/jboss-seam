@@ -16,5 +16,6 @@
 		class="#{component.attributes['styleClass']}"
 		style="#{component.attributes['style']}"
 		>
+		<f:call name="renderChildren" />
 	</span>
 </f:root>

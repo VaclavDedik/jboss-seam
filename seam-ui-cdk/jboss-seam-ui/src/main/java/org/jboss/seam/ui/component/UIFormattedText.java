@@ -21,7 +21,15 @@
 
 package org.jboss.seam.ui.component;
 
+import java.io.Reader;
+import java.io.StringReader;
+
 import javax.faces.component.UIOutput;
+
+import org.jboss.seam.text.SeamTextLexer;
+import org.jboss.seam.text.SeamTextParser;
+
+import antlr.ANTLRException;
 
 /**
  * JSF component class
@@ -34,5 +42,22 @@ public abstract class UIFormattedText extends UIOutput {
 	
 	@SuppressWarnings("unused")
    private static final String COMPONENT_FAMILY = "org.jboss.seam.ui.FormattedText";
+   
+   public String getFormattedText() 
+   {
+      if ( getValue() == null) return null;
+      Reader r = new StringReader( (String) getValue() );
+      SeamTextLexer lexer = new SeamTextLexer(r);
+      SeamTextParser parser = new SeamTextParser(lexer);
+      try
+      {
+         parser.startRule();
+      }
+      catch (ANTLRException re)
+      {
+         throw new RuntimeException(re);
+      }
+      return parser.toString();
+   }
 	
 }
