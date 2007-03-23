@@ -441,7 +441,7 @@ C:\Projects\jboss-seam>]]></programlisting>
   </section>
   
   <section>
-    <title>Seam and hot deployment</title>
+    <title>Seam and incremental hot deployment</title>
     
     <para>
       When you deploy your Seam application as an exploded directory, you'll get 
@@ -452,15 +452,6 @@ C:\Projects\jboss-seam>]]></programlisting>
     
     <programlisting><![CDATA[<core:init debug="true"/>]]></programlisting>
     
-    <para>
-      And these lines to <literal>web.xml</literal>:
-    </para>
-    
-<programlisting><![CDATA[<context-param>
-    <param-name>facelets.DEVELOPMENT</param-name>
-    <param-value>true</param-value>
-</context-param>]]></programlisting>
-
     <para>
       Now, the following files may be redeployed without requiring a full restart
       of the web application:
