@@ -18,7 +18,7 @@
 <!ATTLIST conversation parameter-name CDATA #REQUIRED>
 <!ATTLIST conversation parameter-value CDATA #IMPLIED>
 
-<!ELEMENT page (#PCDATA|restrict|description|param|in|begin-conversation|end-conversation|action|navigation)*>
+<!ELEMENT page (#PCDATA|restrict|description|param|in|begin-conversation|end-conversation|start-task|begin-task|end-task|create-process|resume-process|action|navigation)*>
 <!ATTLIST page action CDATA #IMPLIED>
 <!ATTLIST page view-id CDATA #IMPLIED>
 <!ATTLIST page switch (enabled|disabled) "enabled">
@@ -42,11 +42,11 @@
 
 <!ELEMENT restrict (#PCDATA)>
 
-<!ELEMENT navigation (((begin-conversation|end-conversation)?,(out*),(render|redirect))|(rule*))>
+<!ELEMENT navigation (((begin-conversation|end-conversation|start-task|begin-task|end-task|create-process|resume-process)?,(out*),(render|redirect))|(rule*))>
 <!ATTLIST navigation from-action CDATA #IMPLIED>
 <!ATTLIST navigation evaluate CDATA #IMPLIED>
 
-<!ELEMENT rule ((begin-conversation|end-conversation)?,(out*),(render|redirect))>
+<!ELEMENT rule ((begin-conversation|end-conversation|start-task|begin-task|end-task|create-process|resume-process)?,(out*),(render|redirect))>
 <!ATTLIST rule if-outcome CDATA #IMPLIED>
 <!ATTLIST rule if CDATA #IMPLIED>
 
@@ -68,8 +68,8 @@
 
 <!ELEMENT start-task EMPTY>
 <!ATTLIST start-task task-id CDATA #IMPLIED>
-<!ATTLIST begin-task pageflow CDATA #IMPLIED>
-<!ATTLIST begin-task flush-mode (manual|auto|commit|MANUAL|AUTO|COMMIT) #IMPLIED>
+<!ATTLIST start-task pageflow CDATA #IMPLIED>
+<!ATTLIST start-task flush-mode (manual|auto|commit|MANUAL|AUTO|COMMIT) #IMPLIED>
 
 <!ELEMENT end-task EMPTY>
 <!ATTLIST end-task transition CDATA #IMPLIED>
