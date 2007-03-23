@@ -57,7 +57,7 @@
 		</property>
 		<property attachedstate="true">
 			<name>disabled</name>
-			<classname>java.lang.String</classname>
+			<classname>boolean</classname>
 		</property>
 	</component>
 </components>

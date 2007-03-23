@@ -21,12 +21,6 @@
 
 package org.jboss.seam.ui.component;
 
-import javax.faces.component.UIComponent;
-import javax.faces.component.UIData;
-import javax.faces.el.MethodBinding;
-import javax.faces.event.ActionListener;
-import javax.faces.model.DataModel;
-
 /**
  * JSF component class
  *
@@ -41,5 +35,12 @@ public abstract class UIButton extends UISeamCommandBase  {
    
    public abstract void setImage(String image);
    
-   
+   public String getType()
+   {
+      if (getImage() == null) {
+         return "button";
+     } else {
+         return "image";
+     }
+   }
 }

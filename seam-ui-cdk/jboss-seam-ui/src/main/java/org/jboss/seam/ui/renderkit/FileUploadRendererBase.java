@@ -1,18 +1,16 @@
 package org.jboss.seam.ui.renderkit;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
+import javax.faces.el.ValueBinding;
 import javax.servlet.ServletRequest;
 
 import org.ajax4jsf.framework.renderer.AjaxComponentRendererBase;
 import org.jboss.seam.ui.component.UIFileUpload;
-import org.jboss.seam.ui.util.HTML;
 import org.jboss.seam.web.MultipartRequest;
 
 public class FileUploadRendererBase extends AjaxComponentRendererBase
@@ -22,35 +20,7 @@ public class FileUploadRendererBase extends AjaxComponentRendererBase
    protected Class getComponentClass()
    {
       return UIFileUpload.class;
-   }
-   
-   @Override
-   protected void doEncodeEnd(ResponseWriter writer, FacesContext context, UIComponent component) throws IOException
-   {
-      UIFileUpload fileUpload = (UIFileUpload) component;
-      
-      writer.startElement(HTML.INPUT_ELEM, component);      
-      writer.writeAttribute(HTML.TYPE_ATTR, HTML.FILE_ATTR, null);      
-      
-      String clientId = component.getClientId(context);      
-      writer.writeAttribute(HTML.ID_ATTR, clientId, null);     
-      writer.writeAttribute(HTML.NAME_ATTR, clientId, null);
-      if (fileUpload.getAccept() != null)
-      {
-         writer.writeAttribute(HTML.ACCEPT_ATTR, fileUpload.getAccept(), null);
-      }
-      if (fileUpload.getStyleClass() != null)
-      {
-         writer.writeAttribute(HTML.STYLE_CLASS_ATTR, fileUpload.getStyleClass(), null);
-      }
-      if (fileUpload.getStyle() != null)
-      {
-         writer.writeAttribute(HTML.STYLE_CLASS_ATTR, fileUpload.getStyle(), null);
-      }
-      writer.endElement(HTML.INPUT_ELEM);
-   }
-      
-   
+   }  
    
    @Override
    protected void doDecode(FacesContext context, UIComponent component)
@@ -71,34 +41,37 @@ public class FileUploadRendererBase extends AjaxComponentRendererBase
          String contentType = req.getFileContentType(clientId);
          String fileName = req.getFileName(clientId);
          int fileSize = req.getFileSize(clientId);
-                  
-         if (fileUpload.getData() != null)
+         ValueBinding dataValueBinding = fileUpload.getValueBinding("data");  
+         if (dataValueBinding != null)
          {
             
-            Class cls = fileUpload.getData().getType(context);
+            Class cls = dataValueBinding.getType(context);
             if (cls.isAssignableFrom(InputStream.class))
             {
-               fileUpload.getData().setValue(context, req.getFileInputStream(clientId));
+               dataValueBinding.setValue(context, req.getFileInputStream(clientId));
             }
             else if (cls.isAssignableFrom(byte[].class))
             {
-               fileUpload.getData().setValue(context, req.getFileBytes(clientId));
+               dataValueBinding.setValue(context, req.getFileBytes(clientId));
             }
          }
          
-         
-         if (fileUpload.getContentType() != null)
+         ValueBinding contentTypeValueBinding = fileUpload.getValueBinding("contentType");
+         if (contentTypeValueBinding != null)
          {
-            fileUpload.getContentType().setValue(context, contentType);
-         }
-         if (fileUpload.getFileName() != null)
-         {
-            fileUpload.getFileName().setValue(context, fileName);
+            contentTypeValueBinding.setValue(context, contentType);
          }
          
-         if (fileUpload.getFileSize() != null)
+         ValueBinding fileNameValueBinding = fileUpload.getValueBinding("fileName");
+         if (fileNameValueBinding != null)
          {
-            fileUpload.getFileSize().setValue(context, fileSize);
+            fileNameValueBinding.setValue(context, fileName);
+         }
+         
+         ValueBinding fileSizeValueBinding = fileUpload.getValueBinding("fileSize");
+         if (fileSizeValueBinding != null)
+         {
+            fileSizeValueBinding.setValue(context, fileSize);
          }
       }      
    }

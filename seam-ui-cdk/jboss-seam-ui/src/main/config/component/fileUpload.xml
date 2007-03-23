@@ -55,22 +55,22 @@ Here's an example:
 		</property>
 		<property elonly="true">
 			<name>data</name>
-			<classname>javax.faces.el.ValueBinding</classname>
+			<classname>java.lang.Object</classname>
 			<description>this value binding receives the file's content type (optional).</description>
 		</property>
 		<property elonly="true">
 			<name>contentType</name>
-			<classname>javax.faces.el.ValueBinding</classname>
-			<description>this value binding receives the filename (optional).</description>
+			<classname>java.lang.String</classname>
+			<description>the property to receive the contentType</description>
 		</property>
 		<property elonly="true">
 			<name>fileName</name>
-			<classname>javax.faces.el.ValueBinding</classname>
+			<classname>java.lang.String</classname>
 			<description>this value binding receives the filename (optional).</description>
 		</property>
 		<property elonly="true">
 			<name>fileSize</name>
-			<classname>javax.faces.el.ValueBinding</classname>
+			<classname>java.lang.Integer</classname>
 			<description>this value binding receives the file size (optional).</description>
 		</property>
 	</component>

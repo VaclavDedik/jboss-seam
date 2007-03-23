@@ -60,9 +60,5 @@
 			<name>image</name>
 			<classname>java.lang.String</classname>
 		</property>
-		<property attachedstate="true">
-			<name>disabled</name>
-			<classname>java.lang.String</classname>
-		</property>
 	</component>
 </components>

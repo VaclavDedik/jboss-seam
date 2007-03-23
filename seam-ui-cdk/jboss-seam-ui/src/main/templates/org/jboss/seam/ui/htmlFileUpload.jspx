@@ -9,4 +9,12 @@
 	baseclass="org.jboss.seam.ui.renderkit.FileUploadRendererBase"
 	component="org.jboss.seam.ui.component.UIFileUpload" 
 	>
+	<f:clientid var="clientId"/>
+	<input type="file"
+		id="#{clientId}"
+		name="#{clientId}"
+		accept="#{component.attributes['accept']}"
+		class="#{component.attributes['styleClass']}"
+		style="#{component.attributes['style']}">
+	</input>
 </f:root>

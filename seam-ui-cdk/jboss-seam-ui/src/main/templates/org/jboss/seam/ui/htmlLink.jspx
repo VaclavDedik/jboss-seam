@@ -4,9 +4,13 @@
 	xmlns:c=" http://java.sun.com/jsf/core" 
 	xmlns:ui=" http://ajax4jsf.org/cdk/ui"
 	xmlns:u=" http://ajax4jsf.org/cdk/u"
-	xmlns:x=" http://ajax4jsf.org/cdk/x"
+	xmlns:x="ttp://ajax4jsf.org/cdk/x"
 	class="org.jboss.seam.ui.renderkit.html.LinkRenderer"
-	baseclass="org.jboss.seam.ui.renderkit.LinkRendererBase"
+	baseclass="org.ajax4jsf.framework.renderer.AjaxComponentRendererBase"
 	component="org.jboss.seam.ui.component.UILink" 
 	>
+	<f:clientid var="clientId"/>
+	<a id="#{clientId}"
+		onclick="#{component.onClick}">
+	</a>
 </f:root>

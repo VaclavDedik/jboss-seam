@@ -61,19 +61,27 @@
 		<li><s:link view="/selectItems.xhtml" propagation="join">
 			<code>s:selectItems</code>
 			<f:param name="personId" value="1" />
+			<s:conversationPropagation type="join" />
 		</s:link></li>
 		<li><s:link view="/fragment.xhtml" propagation="none">
 			<code>s:fragment</code>
 		</s:link></li>
-		<li><s:link view="/formattedText.xhtml" propagation="none">
+		<li><s:link view="/formattedText.xhtml" propagation="join">
 			<code>s:formattedText</code>
 			<f:param name="personId" value="1" />
+			<s:conversationPropagation type="join" />
+		</s:link></li>
+		<li><s:link view="/fileUpload.xhtml" propagation="join">
+			<code>s:fileUpload</code>
+			<f:param name="personId" value="1" />
+			<s:conversationPropagation type="join" />
 		</s:link></li>
 	</ul>
 </s:div>
 <s:div>
 	<h1><code><h:outputText value="#{tagName}" /></code></h1>
 	<ui:insert name="body" />
+	<h:messages />
 </s:div>
 </body>
 

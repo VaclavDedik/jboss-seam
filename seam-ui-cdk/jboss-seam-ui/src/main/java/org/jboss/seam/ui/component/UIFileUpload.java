@@ -22,7 +22,6 @@
 package org.jboss.seam.ui.component;
 
 import javax.faces.component.UIComponentBase;
-import javax.faces.el.ValueBinding;
 
 /**
  * JSF component class
@@ -33,33 +32,5 @@ public abstract class UIFileUpload extends UIComponentBase {
 	private static final String COMPONENT_TYPE = "org.jboss.seam.ui.FileUpload";
 	
 	private static final String COMPONENT_FAMILY = "org.jboss.seam.ui.FileUpload";
-   
-   public abstract String getAccept();
-   
-   public abstract void setAccept(String accept);
-   
-   public abstract String getStyleClass();
-   
-   public abstract void setStyleClass(String styleClass);
-   
-   public abstract void setStyle(String style);
-   
-   public abstract String getStyle();
-   
-   public abstract ValueBinding getData();
-   
-   public abstract void setData(ValueBinding data);
-
-   public abstract ValueBinding getContentType();
-   
-   public abstract void setContentType(ValueBinding contentType);
-   
-   public abstract ValueBinding getFileName();
-   
-   public abstract void setFileName(ValueBinding fileName);
-   
-   public abstract ValueBinding getFileSize();
-   
-   public abstract void setFileSize(ValueBinding fileSize); 
    
 }
