@@ -440,4 +440,102 @@ C:\Projects\jboss-seam>]]></programlisting>
     
   </section>
   
+  <section>
+    <title>Seam and hot deployment</title>
+    
+    <para>
+      When you deploy your Seam application as an exploded directory, you'll get 
+      some support for incremental hot deployment at development time. You need
+      to enable debug mode in both Seam and Facelets, by adding this line
+      to <literal>components.xml</literal>:
+    </para>
+    
+    <programlisting><![CDATA[<core:init debug="true"/>]]></programlisting>
+    
+    <para>
+      And these lines to <literal>web.xml</literal>:
+    </para>
+    
+<programlisting><![CDATA[<context-param>
+    <param-name>facelets.DEVELOPMENT</param-name>
+    <param-value>true</param-value>
+</context-param>]]></programlisting>
+
+    <para>
+      Now, the following files may be redeployed without requiring a full restart
+      of the web application:
+    </para>
+    
+    <itemizedlist>
+        <listitem>
+            <para>
+                any facelets page
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                any <literal>pages.xml</literal> file
+            </para>
+        </listitem>
+    </itemizedlist>
+    
+    <para>
+      But if we want to change any Java code, we still need to do a full restart
+      of the application. (In JBoss this may be accomplished by touching the
+      toplevel deployment descriptor: <literal>application.xml</literal> for an
+      EAR, or <literal>web.xml</literal> for a WAR.
+    </para>
+    
+    <para>
+      But if you really want a fast edit/compile/test cycle, Seam supports incremental
+      redeployment of JavaBean components. To make use of this functionality, you
+      must deploy the JavaBean components into the <literal>WEB-INF/dev</literal>
+      directory, so that they will be loaded by a special Seam classloader,
+      instead of by the WAR or EAR classloader.
+    </para>
+    
+    <para>
+      You need to be aware of the following limitations:
+    </para>
+    
+    <itemizedlist>
+        <listitem>
+            <para>
+                the components must be JavaBean components, they cannot be EJB3
+                beans (we are working on fixing this limitation)
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                entities can never be hot-deloyed
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                components deployed via <literal>components.xml</literal> may not
+                be hot-deployed
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                the hot-deployable components will not be visible to any classes deployed 
+                outside of <literal>WEB-INF/dev</literal>
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                Seam debug mode must be enabled
+            </para>
+        </listitem>
+    </itemizedlist>
+    
+    <para>
+      If you create a WAR project using seam-gen, incremental hot deployment is 
+      available out of the box for classes in the <literal>src/action</literal>
+      source directory. However, seam-gen does not support incremental hot
+      deployment for EAR projects.
+    </para>
+    
+  </section>
+  
 </chapter>
