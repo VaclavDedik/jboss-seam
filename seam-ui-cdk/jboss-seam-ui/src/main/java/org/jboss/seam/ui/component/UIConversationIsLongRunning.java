@@ -1,22 +1,18 @@
 package org.jboss.seam.ui.component;
 
 import javax.faces.component.UIParameter;
+import javax.faces.context.FacesContext;
 
 import org.jboss.seam.core.Manager;
 
 /*
  * This component not available as a tag
  */
-public class UIConversationIsLongRunning extends UIParameter
+public abstract class UIConversationIsLongRunning extends UIParameter
 {
    
    public static final String COMPONENT_FAMILY = "org.jboss.seam.ui.ConversationIsLongRunning";
-   
-   @Override
-   public String getFamily()
-   {
-      return COMPONENT_FAMILY;
-   }
+   public static final String COMPONENT_TYPE = "org.jboss.seam.ui.ConversationIsLongRunning";
    
    @Override
    public String getName()
@@ -29,5 +25,8 @@ public class UIConversationIsLongRunning extends UIParameter
    {
       return Manager.instance().isReallyLongRunningConversation();
    }
-
+   
+   public static UIConversationIsLongRunning newInstance() {
+      return (UIConversationIsLongRunning) FacesContext.getCurrentInstance().getApplication().createComponent(COMPONENT_TYPE);
+   }
 }

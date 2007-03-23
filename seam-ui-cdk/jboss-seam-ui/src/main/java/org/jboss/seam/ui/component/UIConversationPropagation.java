@@ -28,20 +28,11 @@ import javax.faces.context.FacesContext;
  * JSF component class
  *
  */
-public class UIConversationPropagation extends UIParameter {
+public abstract class UIConversationPropagation extends UIParameter {
 	
 	private static final String COMPONENT_TYPE = "org.jboss.seam.ui.ConversationPropagation";
 	
 	private static final String COMPONENT_FAMILY = "org.jboss.seam.ui.ConversationPropagation";
-
-   @Override
-   public String getFamily()
-   {
-      return COMPONENT_FAMILY;
-   }
-   
-   private String pageflow;
-   private String type = "none";
    
    @Override
    public String getName()
@@ -52,44 +43,19 @@ public class UIConversationPropagation extends UIParameter {
    @Override
    public Object getValue()
    {
-      return pageflow==null ? type : type + "." + pageflow;
+      return getPageflow()==null ? getType() : getType() + "." + getPageflow();
    }
 
-   public String getPageflow()
-   {
-      return pageflow;
-   }
+   public abstract String getPageflow();
 
-   public void setPageflow(String pageflow)
-   {
-      this.pageflow = pageflow;
-   }
+   public abstract void setPageflow(String pageflow);
 
-   public String getType()
-   {
-      return type;
-   }
+   public abstract String getType();
 
-   public void setType(String type)
-   {
-      this.type = type;
-   }
-
-   @Override
-   public void restoreState(FacesContext context, Object state) {
-      Object[] values = (Object[]) state;
-      super.restoreState(context, values[0]);
-      type = (String) values[1];
-      pageflow = (String) values[2];
-   }
-
-   @Override
-   public Object saveState(FacesContext context) {
-      Object[] values = new Object[3];
-      values[0] = super.saveState(context);
-      values[1] = type;
-      values[2] = pageflow;
-      return values;
+   public abstract void setType(String type);
+   
+   public static UIConversationPropagation newInstance() {
+      return (UIConversationPropagation) FacesContext.getCurrentInstance().getApplication().createComponent(COMPONENT_TYPE);
    }
    
 }

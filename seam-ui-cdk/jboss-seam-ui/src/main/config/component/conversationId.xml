@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE components PUBLIC "-//AJAX4JSF//CDK Generator config/EN"  "https://ajax4jsf.dev.java.net/nonav/dtds/component-config.dtd" >
 <components>
-	<component generate="false">
+	<component>
 		<name>org.jboss.seam.ui.ConversationId</name>
 		<family>org.jboss.seam.ui.ConversationId</family>
-		<classname>org.jboss.seam.ui.component.UIConversationId</classname>
-		<superclass>javax.faces.component.UIParameter</superclass>
+		<classname>org.jboss.seam.ui.component.html.HtmlConversationId</classname>
+		<superclass>org.jboss.seam.ui.component.UIConversationId</superclass>
 		<description>
 			<![CDATA[Add the conversation id to an output link (or similar JSF control).]]>
 		</description>

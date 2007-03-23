@@ -22,25 +22,21 @@
 package org.jboss.seam.ui.component;
 
 import javax.faces.component.UIParameter;
+import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 
+import org.ajax4jsf.framework.renderer.ComponentUtils;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
 /**
  * JSF component class
  *
  */
-public class UITaskId extends UIParameter {
+public abstract class UITaskId extends UIParameter {
 	
 	private static final String COMPONENT_TYPE = "org.jboss.seam.ui.TaskId";
 	
 	private static final String COMPONENT_FAMILY = "org.jboss.seam.ui.TaskId";
-   
-   @Override
-   public String getFamily()
-   {
-      return COMPONENT_FAMILY;
-   }
 	
    @Override
    public String getName()
@@ -55,5 +51,9 @@ public class UITaskId extends UIParameter {
       if (valueBinding==null) valueBinding = getFacesContext().getApplication().createValueBinding("#{task}");
       TaskInstance taskInstance = (TaskInstance) valueBinding.getValue( getFacesContext() );
       return taskInstance==null ? null : taskInstance.getId();
+   }
+   
+   public static UITaskId newInstance() {
+      return (UITaskId) FacesContext.getCurrentInstance().getApplication().createComponent(COMPONENT_TYPE);
    }
 }

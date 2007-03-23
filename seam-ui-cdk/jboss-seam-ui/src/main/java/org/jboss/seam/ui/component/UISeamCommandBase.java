@@ -161,19 +161,19 @@ public abstract class UISeamCommandBase extends UIOutput implements ActionSource
          if ("default".equals(getPropagation()) || "join".equals(getPropagation())
                   || "nest".equals(getPropagation()) || "end".equals(getPropagation()))
          {
-            UIConversationId uiConversationId = new UIConversationId();
+            UIConversationId uiConversationId = UIConversationId.newInstance();
             uiConversationId.setViewId(viewId);
             url.addParameter(uiConversationId);
             if (Conversation.instance().isLongRunning() || Conversation.instance().isNested())
             {
-               url.addParameter(new UIConversationIsLongRunning());
+               url.addParameter(UIConversationIsLongRunning.newInstance());
             }
          }
 
          if ("join".equals(getPropagation()) || "nest".equals(getPropagation())
                   || "begin".equals(getPropagation()) || "end".equals(getPropagation()))
          {
-            UIConversationPropagation uiPropagation = new UIConversationPropagation();
+            UIConversationPropagation uiPropagation = UIConversationPropagation.newInstance();
             uiPropagation.setType(getPropagation());
             uiPropagation.setPageflow(getPageflow());
             url.addParameter(uiPropagation);
@@ -182,7 +182,7 @@ public abstract class UISeamCommandBase extends UIOutput implements ActionSource
          ValueBinding taskInstanceValueBinding = getValueBinding("taskInstance");
          if (taskInstanceValueBinding != null)
          {
-            UITaskId uiTaskId = new UITaskId();
+            UITaskId uiTaskId = UITaskId.newInstance();
             uiTaskId.setValueBinding("taskInstance", taskInstanceValueBinding);
             url.addParameter(uiTaskId);
          }
@@ -252,7 +252,7 @@ public abstract class UISeamCommandBase extends UIOutput implements ActionSource
                      .getExpressionString();
             String dataModelName = dataModelExpression.substring(2,
                      dataModelExpression.length() - 1).replace('$', '.');
-            UISelection uiSelection = new UISelection();
+            UISelection uiSelection = UISelection.newInstance();
             uiSelection.setDataModel(dataModelName);
             uiSelection.setVar(parentUIData.getVar());
             return uiSelection;

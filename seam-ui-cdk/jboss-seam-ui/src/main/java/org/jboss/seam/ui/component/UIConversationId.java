@@ -22,6 +22,7 @@
 package org.jboss.seam.ui.component;
 
 import javax.faces.component.UIParameter;
+import javax.faces.context.FacesContext;
 
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Manager;
@@ -32,28 +33,20 @@ import org.jboss.seam.pages.Page;
  * JSF component class
  *
  */
-public class UIConversationId extends UIParameter {
+public abstract class UIConversationId extends UIParameter {
 	
 	private static final String COMPONENT_TYPE = "org.jboss.seam.ui.ConversationId";
 	
 	private static final String COMPONENT_FAMILY = "org.jboss.seam.ui.ConversationId";
-	
-   private String viewId;
-   
-	@Override
-	public String getFamily()
-	{
-	   return COMPONENT_FAMILY;
-	}
    
    
    @Override
    public String getName()
    {
       Conversation conversation = Conversation.instance();
-      if (viewId!=null && ( !conversation.isNested() || conversation.isLongRunning() ) )
+      if (getViewId()!=null && ( !conversation.isNested() || conversation.isLongRunning() ) )
       {
-         return Pages.instance().getPage(viewId)
+         return Pages.instance().getPage(getViewId())
                      .getConversationIdParameter()
                      .getParameterName();
       }
@@ -69,9 +62,9 @@ public class UIConversationId extends UIParameter {
       Conversation conversation = Conversation.instance();
       if ( !conversation.isNested() || conversation.isLongRunning() )
       {
-         if (viewId!=null)
+         if (getViewId()!=null)
          {
-            Page page = Pages.instance().getPage(viewId);
+            Page page = Pages.instance().getPage(getViewId());
             return page.getConversationIdParameter().getParameterValue();
          }
          else
@@ -85,14 +78,11 @@ public class UIConversationId extends UIParameter {
       }
    }
 
-   public String getViewId()
-   {
-      return viewId;
-   }
+   public abstract String getViewId();;
 
-   public void setViewId(String viewId)
-   {
-      this.viewId = viewId;
-   }
+   public abstract void setViewId(String viewId);
    
+   public static UIConversationId newInstance() {
+      return (UIConversationId) FacesContext.getCurrentInstance().getApplication().createComponent(COMPONENT_TYPE);
+   }
 }
