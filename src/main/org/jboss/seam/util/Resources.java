@@ -18,8 +18,11 @@ public class Resources {
 
       try
       {
-         stream = FacesContext.getCurrentInstance().getExternalContext()
+         if (FacesContext.getCurrentInstance() != null)
+         {
+            stream = FacesContext.getCurrentInstance().getExternalContext()
                .getResourceAsStream(resource);
+         }
       }
       catch (Exception e) {}
       
