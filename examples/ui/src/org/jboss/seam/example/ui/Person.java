@@ -3,6 +3,7 @@ package org.jboss.seam.example.ui;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -10,7 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Person implements Serializable
@@ -62,6 +63,14 @@ public class Person implements Serializable
    
    @ManyToOne
    private Book favouriteBook;
+   
+   @OneToOne(cascade=CascadeType.ALL)
+   private Picture picture;
+   
+   public Person()
+   {
+      picture = new Picture();
+   }
 
    public Country getCountry()
    {
@@ -151,5 +160,19 @@ public class Person implements Serializable
    public void setHobbies(String hobbies)
    {
       this.hobbies = hobbies;
+   }
+   
+   public Picture getPicture()
+   {
+      if (picture == null)
+      {
+         picture = new Picture();
+      }
+      return picture;
+   }
+   
+   public void setPicture(Picture picture)
+   {
+      this.picture = picture;
    }
 }
