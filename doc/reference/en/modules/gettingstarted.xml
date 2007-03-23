@@ -483,7 +483,7 @@ C:\Projects\jboss-seam>]]></programlisting>
       But if we want to change any Java code, we still need to do a full restart
       of the application. (In JBoss this may be accomplished by touching the
       toplevel deployment descriptor: <literal>application.xml</literal> for an
-      EAR, or <literal>web.xml</literal> for a WAR.
+      EAR deployment, or <literal>web.xml</literal> for a WAR deployment.)
     </para>
     
     <para>
