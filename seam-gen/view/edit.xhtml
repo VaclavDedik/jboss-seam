@@ -28,17 +28,22 @@
         </rich:panel>
 
         <div class="actionButtons">
-            <h:commandButton id="save" value="Save" 
-                action="#{@homeName@.persist}"
-                rendered="#{!@homeName@.managed}"/>                   
-            <h:commandButton id="update" value="Save" 
-                action="#{@homeName@.update}"
-                rendered="#{@homeName@.managed}"/>                  
-            <h:commandButton id="delete" value="Delete" 
-                action="#{@homeName@.remove}"
-                rendered="#{@homeName@.managed}"/>
-            <s:button id="done" value="Done"
-                propagation="end" view="/@masterPageName@.xhtml"/>
+            <h:commandButton id="save" 
+                          value="Save" 
+                         action="#{@homeName@.persist}"
+                       rendered="#{!@homeName@.managed}"/>                   
+            <h:commandButton id="update" 
+                          value="Save" 
+                         action="#{@homeName@.update}"
+                       rendered="#{@homeName@.managed}"/>                  
+            <h:commandButton id="delete" 
+                          value="Delete" 
+                         action="#{@homeName@.remove}"
+                       rendered="#{@homeName@.managed}"/>
+            <s:button propagation="end" 
+                               id="done" 
+                            value="Done"
+                             view="/@masterPageName@.xhtml"/>
         </div>
         
     </h:form>
