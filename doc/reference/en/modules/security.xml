@@ -388,6 +388,67 @@ public class Authenticator {
     </sect2>
 
   </sect1>
+  
+  <sect1>
+    <title>Error Messages</title>
+    
+    <para>
+      The security API produces a number of default faces messages for various security-related events.  
+      The following table lists the message keys that can be used to override these messages by specifying 
+      them in a <literal>message.properties</literal> resource file.
+    </para>
+    
+    <table>
+      <title>Security Message Keys</title>
+  
+      <tgroup cols="2">
+        <colspec colnum="1" colwidth="1*" />
+        <colspec colnum="2" colwidth="3*" />
+  
+        <tbody>
+  
+          <row>
+            <entry>
+              <para>
+                <literal>org.jboss.seam.loginSuccessful</literal>
+              </para>
+            </entry>    
+            <entry>
+              <para>
+                This message is produced when a user successfully logs in via the security API.
+              </para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>
+                <literal>org.jboss.seam.loginFailed</literal>
+              </para>
+            </entry>    
+            <entry>
+              <para>
+                This message is produced when the login process fails, either because the user provided an
+                incorrect username or password, or because authentication failed in some other way.
+              </para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>
+                <literal>org.jboss.seam.NotLoggedIn</literal>
+              </para>
+            </entry>    
+            <entry>
+              <para>
+                This message is produced when a user attempts to perform an action or access a page that requires
+                a security check, and the user is not currently authenticated.
+              </para>
+            </entry>
+          </row>          
+        </tbody>
+      </tgroup>
+    </table>
+  </sect1>
 
   <sect1>
     <title>Authorization</title>
