@@ -6,4 +6,6 @@ import javax.ejb.Remote;
 public interface AuctionServiceRemote
 {
    Auction[] findAuctions(String searchTerm);
+   Auction getAuctionDetails(Integer auctionId);
+   Category[] listCategories();
 }

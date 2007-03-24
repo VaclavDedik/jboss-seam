@@ -19,6 +19,26 @@ public class AuctionService implements AuctionServiceRemote
       search.setSearchTerm(searchTerm);
       search.queryAuctions();
       
+      // TODO - trim the result somehow, or use DTOs.  We don't want to send user records
+      // (including their passwords!!) here, nor do we want to send a huge object graph.
+      
       return search.getResults().toArray(new Auction[search.getResults().size()]);
+   }
+   
+   @WebMethod
+   public Auction getAuctionDetails(Integer auctionId)
+   {
+      return null;
+   }
+   
+   @WebMethod
+   public Category[] listCategories()
+   {
+      CategoryAction catAction = (CategoryAction) Component.getInstance(
+            CategoryAction.class, true);
+      
+      catAction.loadCategories();
+      
+      return catAction.getCategories().toArray(new Category[catAction.getCategories().size()]);
    }
 }

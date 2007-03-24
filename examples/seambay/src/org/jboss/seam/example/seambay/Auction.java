@@ -1,6 +1,7 @@
 package org.jboss.seam.example.seambay;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -16,6 +17,7 @@ public class Auction implements Serializable
    private Category category;
    private String title;
    private String description;
+   private Date endDate;
    
    @Id
    public Integer getAuctionId()
@@ -68,5 +70,15 @@ public class Auction implements Serializable
    public void setDescription(String description)
    {
       this.description = description;
+   }
+   
+   public Date getEndDate()
+   {
+      return endDate;
+   }
+   
+   public void setEndDate(Date endDate)
+   {
+      this.endDate = endDate;
    }
 }

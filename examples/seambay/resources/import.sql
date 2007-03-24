@@ -1,0 +1,15 @@
+insert into category (categoryId, name) values (1, 'Antiques');
+insert into category (categoryId, name) values (2, 'Art');
+insert into category (categoryId, name) values (3, 'Books');
+insert into category (categoryId, name) values (4, 'Cameras and Photography');
+insert into category (categoryId, name) values (5, 'Cars and Boats');
+insert into category (categoryId, name) values (6, 'Cell Phones');
+insert into category (categoryId, name) values (7, 'Clothing and Shoes');
+insert into category (categoryId, name) values (8, 'Computers');
+insert into category (categoryId, name) values (9, 'CDs and DVDs');
+insert into category (categoryId, name) values (10, 'Home Theatre');
+insert into category (categoryId, name) values (11, 'Home and Garden');
+insert into category (categoryId, name) values (12, 'Musical Instruments');
+insert into category (categoryId, name) values (13, 'Sporting goods');
+insert into category (categoryId, name) values (14, 'Toys');
+insert into category (categoryId, name) values (15, 'Video Games');
