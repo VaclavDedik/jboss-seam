@@ -1236,7 +1236,7 @@
 
                      <programlisting>
                        <![CDATA[
-  <component class="org.jboss.seam.servlet.MultipartConfig">
+  <component class="org.jboss.seam.web.MultipartFilter">
       <property name="createTempFiles">true</property>
       <property name="maxRequestSize">1000000</property>
   </component>
