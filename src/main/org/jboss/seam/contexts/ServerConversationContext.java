@@ -82,8 +82,8 @@ public class ServerConversationContext implements Context {
       idStack.add(id);
    }
       
-	public Object get(String name) 
-   {
+    public Object get(String name) 
+    {
       Object result = additions.get(name);
       if (result!=null)
       {
@@ -108,15 +108,27 @@ public class ServerConversationContext implements Context {
                {
                   String id = stack.get(i);
                   result = session.getAttribute( getKey(name, id) );
-                  boolean found = result!=null && 
-                        ( i==0 || !result.getClass().isAnnotationPresent(PerNestedConversation.class) );
-                  if (found) return unwrapEntityBean(result);
+
+                  if (result != null) {
+                      return unwrapEntityBean(result);
+
+                  }
+
+                  // only continue checking if it is not pernestedconversation
+                  if (i==0 && isPerNestedConversation(name)) {
+                      return null;
+                  }
                }
                return null;
             }
          }
       }
-	}
+    }
+
+    private boolean isPerNestedConversation(String name) {
+        Component component = Component.forName(name);
+        return (component != null) && component.beanClassHasAnnotation(PerNestedConversation.class);
+    }
 
    private Object unwrapEntityBean(Object result)
    {
