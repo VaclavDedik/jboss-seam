@@ -4,15 +4,12 @@ import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.Serializable;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.naming.NamingException;
-import javax.net.ssl.X509TrustManager;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.InterceptionType;
@@ -136,7 +133,10 @@ public class MailSession extends AbstractMutable implements Serializable
       {
          properties.put("mail.transport.protocol", "smtps");
       }
-
+      else
+      {
+         properties.put("mail.transport.protocol", "smtp");
+      }
   
       // Authentication if required
       Authenticator authenticator = null;
