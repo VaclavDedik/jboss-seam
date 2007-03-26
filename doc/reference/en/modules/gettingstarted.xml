@@ -199,9 +199,10 @@ file-copy:
     [mkdir] Created dir: C:\Projects\helloworld\src
 
 new-project:
-     [echo] A new Seam project was created in the C:/Projects directory
-     [echo] Add the project from inside Eclipse (or type 'seam explode') and go to http://localhost:
-8080/helloworld
+     [echo] A new Seam project named 'helloworld' was created in the /Users/gavin/Documents/workspace directory
+     [echo] Type 'seam explode' and go to http://localhost:8080/helloworld
+     [echo] Eclipse Users: Add the project into Eclipse using File > New > Project and select General > Project (not Java Project)
+     [echo] NetBeans Users: Open the project in NetBeans
 
 BUILD SUCCESSFUL
 Total time: 7 seconds
@@ -213,11 +214,20 @@ C:\Projects\jboss-seam>]]></programlisting>
       template file and stylesheet, along with Eclipse metadata and an Ant build script. 
       The Eclipse project will be automatically deployed to an exploded directory structure 
       in JBoss AS as soon as you add the project using 
-      <literal>New -> Project... -> Java Project -> Next</literal>, typing the 
-      <literal>Project name</literal> (<literal>myproject</literal> in this case),
-      selecting your Java SE 5 or Java SE 6 JRE and then clicking <literal>Finish</literal>. 
-      Do not select <literal>Create new project from existing source</literal>. Alternatively, 
-      you can deploy the project from outside Eclipse by typing <literal>seam explode</literal>.
+      <literal>New -> Project... -> General -> Project -> Next</literal>, typing the 
+      <literal>Project name</literal> (<literal>helloworld</literal> in this case),
+      and then clicking <literal>Finish</literal>. Do not select <literal>Java Project</literal> 
+      from the New Project wizard. 
+    </para>
+    
+    <para>
+      If your default JDK in Eclipse is not a Java SE 5 or Java SE 6 JDK, you will need to 
+      select a Java SE 5 compliant JDK using <literal>Project -> Properties -> Java Compiler</literal>.
+    </para>
+    
+    <para>
+      Alternatively, you can deploy the project from outside Eclipse by typing 
+      <literal>seam explode</literal>.
     </para>
     
     <para>
