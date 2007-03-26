@@ -111,7 +111,7 @@
                 <exclude name="classes/**/*.class"/>
             </fileset>
             <filterset>
-                <filter token="debug"       value="true" />
+                <filter token="debug"       value="${debug}" />
                 <filter token="jndiPattern" value="${project.name}/#{ejbName}/local"/>
                 <filter token="embeddedEjb" value="false"/>
             </filterset>
