@@ -93,7 +93,7 @@
         <include name="el-api.jar" />
         <include name="el-ri.jar" />
         <include name="jsf-facelets.jar" />
-        <include name="ajax4jsf.jar" />
+        <include name="ajax4jsf-*.jar" />
         <include name="oscache*.jar" />
         <!-- do not need the following jars for 4.0.4 and 4.0.5
         <include name="myfaces-api-1.1.4.jar" />
