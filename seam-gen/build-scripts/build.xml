@@ -5,6 +5,9 @@
         <!-- Give user a chance to override without editing this file or typing -D -->
         <property file="${basedir}/build.properties" />
 
+        <property name="profile" value="dev" />
+        <property file="build-${profile}.properties" />
+
         <!-- set global properties for this build -->
         <property name="project.name" value="@projectName@"/>
         <property name="dist.dir" value="dist" />
@@ -99,8 +102,9 @@
                                 <exclude name="classes/**/*.class"/>
                         </fileset>
                         <filterset>
-                                <filter token="jndiPattern" value="${project.name}/#{ejbName}/local" />
-                                <filter token="embeddedEjb" value="false" />
+                            <filter token="debug" value="${debug}" />
+                            <filter token="jndiPattern" value="${project.name}/#{ejbName}/local" />
+                            <filter token="embeddedEjb" value="false" />
                         </filterset>
                 </copy>         
                 <copy todir="${war.dir}/WEB-INF">

@@ -12,7 +12,7 @@
                  http://jboss.com/products/seam/mail http://jboss.com/products/seam/mail-1.2.xsd
                  http://jboss.com/products/seam/components http://jboss.com/products/seam/components-1.2.xsd">
 
-   <core:init debug="true" jndi-pattern="@jndiPattern@"/>
+   <core:init debug="@debug@" jndi-pattern="@jndiPattern@"/>
      
    <core:manager concurrent-request-timeout="500" 
                  conversation-timeout="120000" 
