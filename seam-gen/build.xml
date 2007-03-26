@@ -814,8 +814,7 @@
             <jdbcconfiguration propertyfile="build.properties" 
                                 packagename="${model.package}"
                                  revengfile="${project.home}/resources/seam-gen.reveng.xml"
-                           detectmanytomany="false"
-                        detectoptmisticlock="true"/>
+                           detectmanytomany="false"/>
         	
         	<property key="hibernatetool.util.toolclass" 
         		    value="org.jboss.seam.tool.Util"/>
