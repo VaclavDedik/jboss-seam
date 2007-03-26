@@ -558,7 +558,12 @@
         		<filter token="hibernate.dialect" value="${hibernate.dialect}"/>
         	</filterset>
         </copy>
-    	
+
+        <copy tofile="${project.home}/resources/seam-gen.reveng.xml" 
+                file="${basedir}/hibernatetools/seam-gen.reveng.xml">
+            <filterset refid="project"/>
+        </copy>
+
         <copy tofile="${project.home}/.settings/org.hibernate.eclipse.console.prefs" 
                 file="${basedir}/hibernatetools/.settings/org.hibernate.eclipse.console.prefs">
             <filterset refid="project"/>
@@ -807,7 +812,8 @@
 		
 		<hibernate templatepath=".">
             <jdbcconfiguration propertyfile="build.properties" 
-            	                packagename="${model.package}"/>
+            	                packagename="${model.package}"
+                                revengfile="${project.home}/resources/seam-gen.reveng.xml"/>
         	
         	<property key="hibernatetool.util.toolclass" 
         		    value="org.jboss.seam.tool.Util"/>
