@@ -880,7 +880,7 @@
             </para>
 
             <para>
-                You'll need to provide a <literal>jboss.beans.xml</literal> file that installs JNDI,
+                You'll need to provide a <literal>jboss-beans.xml</literal> file that installs JNDI,
                 JTA, your JCA datasource and Hibernate into the microcontainer:
             </para>
 
