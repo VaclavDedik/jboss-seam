@@ -868,16 +868,31 @@ public class Manager
    {
       return sp.getName()!=tp.getName() && ( sp.getName()==null || !sp.getName().equals( tp.getName() ) );
    }
-
+   
+   /**
+    * Add the conversation id to a URL, if necessary
+    * 
+    * @deprecated use encodeConversationId(String url, String viewId)
+    */
+   public String encodeConversationId(String url)
+   {
+      //DONT BREAK, icefaces uses this
+      return encodeConversationIdParameter( url, getConversationIdParameter(), getCurrentConversationId() );
+   }
+         
    /**
     * Add the conversation id to a URL, if necessary
     */
    public String encodeConversationId(String url, String viewId) 
    {
-      Page page = Pages.instance().getPage(viewId);
-      String paramName = page.getConversationIdParameter().getParameterName();
-      
       //DONT BREAK, icefaces uses this
+      ConversationIdParameter cip = Pages.instance().getPage(viewId).getConversationIdParameter();
+      return encodeConversationIdParameter( url, cip.getParameterName(), cip.getParameterValue() );
+   }
+ 
+   private String encodeConversationIdParameter(String url, String paramName, String paramValue)
+   {
+         
       if ( Seam.isSessionInvalid() || containsParameter(url, paramName) )
       {
          return url;
@@ -909,7 +924,7 @@ public class Manager
                .append( url.contains("?") ? '&' : '?' )
                .append(paramName)
                .append('=')
-               .append( encode( page.getConversationIdParameter().getParameterValue() ) );
+               .append( encode(paramValue) );
          if ( isNestedConversation() && !isReallyLongRunningConversation() )
          {
             builder.append('&')

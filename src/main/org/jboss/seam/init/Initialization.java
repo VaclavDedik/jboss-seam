@@ -515,7 +515,7 @@ public class Initialization
       {
          Component component = Component.forName(name);
          ScopeType scope = component.getScope();
-         if (scope.isContextActive())
+         if ( scope!=ScopeType.STATELESS && scope.isContextActive() )
          {
             scope.getContext().remove(name);
          }
