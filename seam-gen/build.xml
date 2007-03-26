@@ -653,7 +653,7 @@
             description="Create a new project">
         <echo message="A new Seam project named '${project.name}' was created in the ${workspace.home} directory"/>
     	<echo message="Type 'seam explode' and go to http://localhost:8080/${project.name}"/>
-    	<echo message="Eclipse Users: Add the project as a new project from inside Eclipse (use File > New > Project and select General > Project, not Java Project)"/>
+    	<echo message="Eclipse Users: Add the project into Eclipse using File > New > Project and select General > Project (not Java Project)"/>
     	<echo message="NetBeans Users: Open the project in NetBeans"/>
     </target>
 
