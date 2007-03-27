@@ -10,7 +10,6 @@ import static javax.faces.event.PhaseId.INVOKE_APPLICATION;
 import static javax.faces.event.PhaseId.PROCESS_VALIDATIONS;
 import static javax.faces.event.PhaseId.RENDER_RESPONSE;
 import static javax.faces.event.PhaseId.RESTORE_VIEW;
-import static javax.faces.event.PhaseId.UPDATE_MODEL_VALUES;
 
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
@@ -56,10 +55,10 @@ public class SeamPhaseListener extends AbstractSeamPhaseListener
          {
             beforeRender(event);
          }
-         else if ( event.getPhaseId() == UPDATE_MODEL_VALUES )
+         /*else if ( event.getPhaseId() == UPDATE_MODEL_VALUE )
          {
             beforeUpdateModelValues(event);
-         }
+         }*/
          
          super.beforePhase(event);
          

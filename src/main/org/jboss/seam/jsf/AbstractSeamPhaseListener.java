@@ -66,6 +66,16 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       {
          log.debug( "After restoring conversation context: " + Contexts.getConversationContext() );
       }
+      
+      //apply page parameters to the model
+      if ( facesContext.getRenderResponse() )
+      {
+         Pages.instance().applyRequestParameterValues(facesContext);
+      }
+      else
+      {
+         Pages.instance().applyViewRootValues(facesContext);
+      }
    }
   
    /**
@@ -148,11 +158,12 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       }
    }
    
-   protected void beforeUpdateModelValues(PhaseEvent event)
+   /*protected void beforeUpdateModelValues(PhaseEvent event)
    {
       Pages.instance().applyViewRootValues( event.getFacesContext() );
       Manager.instance().setUpdateModelValuesCalled(true);
-   }
+   }*/
+   
    /**
     * Give the subclasses an opportunity to do stuff
     */
@@ -181,10 +192,10 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
    {  
       
       FacesContext facesContext = event.getFacesContext();
-      if ( !Manager.instance().isUpdateModelValuesCalled() )
+      /*if ( !Manager.instance().isUpdateModelValuesCalled() )
       {
          Pages.instance().applyRequestParameterValues(facesContext);
-      }
+      }*/
       
       if ( Contexts.isPageContextActive() )
       {

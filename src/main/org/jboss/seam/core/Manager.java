@@ -62,7 +62,7 @@ public class Manager
    //Is the current conversation "long-running"?
    private boolean isLongRunningConversation;
    
-   private boolean updateModelValuesCalled;
+   //private boolean updateModelValuesCalled;
 
    private boolean controllingRedirect;
    
@@ -1187,7 +1187,7 @@ public class Manager
       this.conversationIsLongRunningParameter = conversationIdLongRunning;
    }
 
-   public boolean isUpdateModelValuesCalled()
+   /*public boolean isUpdateModelValuesCalled()
    {
       return updateModelValuesCalled;
    }
@@ -1195,7 +1195,7 @@ public class Manager
    public void setUpdateModelValuesCalled(boolean updateModelValuesCalled)
    {
       this.updateModelValuesCalled = updateModelValuesCalled;
-   }
+   }*/
 
    public int getConcurrentRequestTimeout()
    {
