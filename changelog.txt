@@ -1,6 +1,109 @@
 JBoss Seam Changelog
 ====================
 
+
+Release Notes - JBoss Seam - Version 1.2.1.GA
+
+** Bug
+    * [JBSEAM-781] - Identity.login is reporting a login failure with a SEVERITY_INFO
+    * [JBSEAM-822] - XSDs should not have jndi-name for components which are not session beans
+    * [JBSEAM-835] - After Upload the Conversation id seems to be lost when use a button to move forward from the "upload" screen.
+    * [JBSEAM-882] - Change MANIFEST entry Seam-Version to Implementation-Version
+    * [JBSEAM-888] - Various security/login-related issues
+    * [JBSEAM-892] - NPE rendering mail in asynch method
+    * [JBSEAM-913] - Nicely handle <s:validate(All)> misuse
+    * [JBSEAM-941] - Replicate password page fix to all bookingish examples
+    * [JBSEAM-948] - NPE in Facelets debug page rendering when re-rendering Seam fileUpload component
+    * [JBSEAM-950] - Facelets uses UCL rather than WACL
+    * [JBSEAM-958] - "character-encoding-filter" missing from web-1.2.xsd
+    * [JBSEAM-959] - NullPointerException in ConversationEntry if stack is null
+    * [JBSEAM-962] - error with seam generate-entities
+    * [JBSEAM-966] - MockFacesContext should support JSF 1.2
+    * [JBSEAM-976] - Multiple calls to a conversation with explicit id cause the multiple execution of the @Begin method
+    * [JBSEAM-981] - Fix non-MultipartRequest requests passed to the fileUpload control
+    * [JBSEAM-996] - EntityManagerProxy should be serializable
+    * [JBSEAM-999] - Disable hot redeploy in seam-gen "prod" profile, and turn off debug mode
+    * [JBSEAM-1014] - ui example should show example of selectMany
+    * [JBSEAM-1017] - Documentation bug: Identity.instance().getSecurityContext()
+    * [JBSEAM-1023] - Looking up a filtered SMPC in non-faces servlet throws NPE
+    * [JBSEAM-1024] - Switching to HTTPS using scheme attribute does not work for custom http and https ports
+    * [JBSEAM-1028] - Namespace uri conflict between Spring NamespaceHander and Seam Component namespace
+    * [JBSEAM-1029] - PerNestedConversation not detected on EJB3 beans
+    * [JBSEAM-1035] - Documentation uses taskInstanceListByType instead of ...ForType
+    * [JBSEAM-1037] - EnumConverter should use name() not toString() in getAsString()
+    * [JBSEAM-1038] - fileUpload should support styleClass 
+    * [JBSEAM-1040] - Seam email - caching of rendered content causes issues
+    * [JBSEAM-1042] - s:selectDate in CVS not working - javascipt error
+    * [JBSEAM-1049] - super's MultipartRequest.getParameterMap() is immutable
+    * [JBSEAM-1057] - EntityConverterStore needs to know actual entity class, not the javassit proxied class
+    * [JBSEAM-1062] - s:layoutForm rendered using divs
+    * [JBSEAM-1064] - s:layoutForm's belowField
+    * [JBSEAM-1069] - org.jboss.seam.core.Validators has an application scope
+    * [JBSEAM-1070] - id attribute is generated twice
+    * [JBSEAM-1074] - Provide EL Integration for Spring Beans when not in faces request
+    * [JBSEAM-1077] - Synchronize seam's component attributes and seam:component
+    * [JBSEAM-1083] - Page parameters are not restored properly in #{redirect.captureCurrentView}
+    * [JBSEAM-1090] - Remove references to @LoggedIn in docs
+    * [JBSEAM-1091] - Still getting NPE while rendering mail in asynch method
+    * [JBSEAM-1093] - s:selectItems noSelectionLabel issue w/JSF 1.2
+    * [JBSEAM-1095] - Anticipate NPE in Resource loading
+    * [JBSEAM-1096] - Some errors in DTD for pages.xml 
+    * [JBSEAM-1101] - Wrong configuration example for MultipartFilter
+    * [JBSEAM-1104] - Broken test data for mail
+    * [JBSEAM-1106] - seamspace preview fails
+    * [JBSEAM-1107] - cannot add comment to contact in contactlist
+    * [JBSEAM-1111] - NumberFormatException in graphicImage
+
+** Feature Request
+    * [JBSEAM-215] - Create an XML schema or DTD for pageflow
+    * [JBSEAM-394] - <s:decorateAll>
+    * [JBSEAM-501] - s:validateAll and Trinidad
+    * [JBSEAM-673] - @Observer doesn't work in components that use @Unwrap
+    * [JBSEAM-847] - Include newer EL libraries
+    * [JBSEAM-864] - Extend mailSession properties to be able to set mail.smtp.socketFactory.class and mail.smtp.socketFactory.port
+    * [JBSEAM-906] - Support redirect component for navigation out of conversational scope
+    * [JBSEAM-928] - Improve year selection in calendar component
+    * [JBSEAM-954] - Don't flush the SMPC at the end of the "render" txn
+    * [JBSEAM-964] - Optional reveng.xml support for seam-gen
+    * [JBSEAM-970] - Hot deployment for pages.xml, components.xml and JavaBean components
+    * [JBSEAM-980] - @Converter, @Validator
+    * [JBSEAM-985] - s:graphicImage
+    * [JBSEAM-995] - Make it so that spring can be used in Seam Integration/unit tests
+    * [JBSEAM-997] - Hot deploy of Seam components in a WAR
+    * [JBSEAM-998] - Hot deploy of pages.xml
+    * [JBSEAM-1003] - "Business keys" as conversation ids
+    * [JBSEAM-1004] - Integrate RichFaces into seam-gen
+    * [JBSEAM-1006] - i8ln of mail
+    * [JBSEAM-1011] - Document mismatch b/w http session and SFSB timeouts, and put reasonable defaults in the example web.xmls
+    * [JBSEAM-1012] - Document ResourceServlet, and that it is needed for s:selectDate!
+    * [JBSEAM-1016] - Change visibility of some methods in ExceptionFilter
+    * [JBSEAM-1018] - Allow security checks in component lifecycle methds
+    * [JBSEAM-1036] - A null noSelectionLabel should not render a label in s:selectItems
+    * [JBSEAM-1046] - Add optional type hint for seam:instance so expressions can optionally be proxied too
+    * [JBSEAM-1053] - Templated field decorations
+    * [JBSEAM-1059] - Document the hot deployment stuff
+    * [JBSEAM-1066] - labelStyleClass, fieldStyleClass, descriptionStyleClass for s:layoutForm
+    * [JBSEAM-1075] - Documentation enhancement for injecting Logger (make clear when static is required)
+    * [JBSEAM-1087] - Document the enhancements to s:decorate
+    * [JBSEAM-1098] - Document Message-Keys for Security
+
+** Patch
+    * [JBSEAM-815] - EntityConverter
+    * [JBSEAM-965] - fileUpload component should delete temporary files
+    * [JBSEAM-1047] - taglib.tld validation fails because of ordering
+    * [JBSEAM-1071] - Documentation corrections effecting configuration 21.1.5. Don't forget!
+
+** Task
+    * [JBSEAM-915] - Split remoting stuff into jboss-seam-remoting.jar
+    * [JBSEAM-924] - Upgrade to MyFaces 1.1.5 and test on Tomcat
+    * [JBSEAM-973] - Remove dependency on org.jboss.util.NotImplementedException
+    * [JBSEAM-988] - upgrade to itext 2.0
+    * [JBSEAM-989] - Use javassist for proxies
+    * [JBSEAM-1026] - Upgrade and test with spring 2.0.3
+    * [JBSEAM-1043] - Improve documentation on @Install precedence
+    * [JBSEAM-1105] - Document the "safe" way to add a seam-gen project to Eclipse
+    * [JBSEAM-1113] - Update JCaptcha lib to LGPL version
+
 Release Notes - JBoss Seam - Version 1.2.0.PATCH1
 
 ** Bug
