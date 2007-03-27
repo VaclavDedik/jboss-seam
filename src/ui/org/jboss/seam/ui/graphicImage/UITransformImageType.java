@@ -3,6 +3,7 @@ package org.jboss.seam.ui.graphicImage;
 import java.io.IOException;
 
 import javax.faces.component.UIComponentBase;
+import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 
 import org.jboss.seam.core.Image;
@@ -49,6 +50,23 @@ public class UITransformImageType extends UIComponentBase implements ImageTransf
    public void setContentType(String width)
    {
       this.contentType = width;
+   }
+   
+   @Override
+   public Object saveState(FacesContext context)
+   {
+      Object[] state = new Object[2];
+      state[0] = super.saveState(context);
+      state[1] = contentType;
+      return state;
+   }
+   
+   @Override
+   public void restoreState(FacesContext context, Object state)
+   {
+      Object[] objects = (Object[]) state;
+      super.restoreState(context, objects[0]);
+      contentType = (String) objects[1];
    }
    
 }

@@ -3,6 +3,7 @@ package org.jboss.seam.ui.graphicImage;
 import java.io.IOException;
 
 import javax.faces.component.UIComponentBase;
+import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 
 import org.jboss.seam.core.Image;
@@ -132,6 +133,29 @@ public class UITransformImageSize extends UIComponentBase implements ImageTransf
    public void setFactor(String factor)
    {
       this.factor = factor;
+   }
+   
+   @Override
+   public Object saveState(FacesContext context)
+   {
+      Object[] state = new Object[5];
+      state[0] = super.saveState(context);
+      state[1] = factor;
+      state[2] = height;
+      state[3] = width;
+      state[4] = maintainRatio;
+      return state;
+   }
+   
+   @Override
+   public void restoreState(FacesContext context, Object state)
+   {
+      Object[] objects = (Object[]) state;
+      super.restoreState(context, objects[0]);
+      factor = (String) objects[1];
+      height = (String) objects[2];
+      width = (String) objects[3];
+      maintainRatio = (Boolean) objects[4];
    }
    
 }
