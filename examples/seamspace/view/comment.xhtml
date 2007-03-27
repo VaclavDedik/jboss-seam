@@ -19,13 +19,7 @@
         <s:div id="blogMemberCard">
 	        <s:link view="/profile.seam" propagation="none">
 	          	#{selectedMember.memberName}<br/>
-	        	<s:graphicImage value="#{selectedMember.picture.data}" fileName="member/#{selectedMember.memberName}" rendered="#{selectedMember.picture ne null}">
-                	<s:transformImageType contentType="image/png" />
-                	<s:transformImageSize width="90" maintainRatio="true" />
-                </s:graphicImage>
-                <s:graphicImage value="/images/no_image.png" fileName="member/no_image" rendered="#{selectedMember.picture eq null}">
-                	<s:transformImageSize width="90" maintainRatio="true" />
-                </s:graphicImage>
+            <h:graphicImage value="/content/images?id=#{selectedMember.picture.imageId}&amp;width=90"/>	          	
 	        </s:link>
 
           <br style="clear:both"/>

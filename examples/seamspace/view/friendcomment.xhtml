@@ -19,13 +19,7 @@
         <s:div id="blogMemberCard">
           <h:outputLink value="profile.seam?name=#{friendComment.member.memberName}">
 	          #{friendComment.member.memberName}<br/>
-	          	<s:graphicImage value="#{friendComment.member.picture.data}" fileName="member/#{friendComment.member.memberName}" rendered="#{friendComment.member.picture ne null}">
-                	<s:transformImageType contentType="image/png" />
-                	<s:transformImageSize width="90" maintainRatio="true" />
-                </s:graphicImage>
-                <s:graphicImage value="/images/no_image.png" fileName="member/no_image" rendered="#{friendComment.member.picture eq null}">
-	                <s:transformImageSize width="90" maintainRatio="true" />
-                </s:graphicImage>
+            <h:graphicImage value="/content/images?id=#{friendComment.member.picture.imageId}&amp;width=90"/>
 	        </h:outputLink>
                            
           <br style="clear:both"/>          

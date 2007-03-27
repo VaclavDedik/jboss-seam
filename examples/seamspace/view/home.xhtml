@@ -72,13 +72,7 @@
               <s:link view="/profile.seam">
                 <f:param name="name" value="#{newMember.memberName}"/>
                 #{newMember.memberName}<br/>
-                <s:graphicImage value="#{newMember.picture.data}" fileName="member/#{newMember.memberName}" rendered="#{newMember.picture ne null}">
-                	<s:transformImageType contentType="image/png" />
-                	<s:transformImageSize width="90" maintainRatio="true" />
-                </s:graphicImage>
-                <s:graphicImage value="/images/no_image.png" fileName="member/no_image" rendered="#{newMember.picture eq null}">
-                	<s:transformImageSize width="90" maintainRatio="true" />
-                </s:graphicImage>
+                <h:graphicImage value="/content/images?id=#{newMember.picture.imageId}&amp;width=90"/>
               </s:link>
               
             </div>
