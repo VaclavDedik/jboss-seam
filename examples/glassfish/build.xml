@@ -72,7 +72,7 @@
       </webinf>
       <lib dir="${lib}">
         <include name="jsf-facelets.jar" />
-        <include name="ajax4jsf.jar" />
+        <include name="ajax4jsf*.jar" />
         <include name="oscache*.jar" />
       </lib>
       <lib dir="${seamlib}">
