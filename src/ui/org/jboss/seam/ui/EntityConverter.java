@@ -1,43 +1,33 @@
 package org.jboss.seam.ui;
 
-import static javax.faces.application.FacesMessage.SEVERITY_ERROR;
-import static org.jboss.seam.annotations.Install.BUILT_IN;
 import static org.jboss.seam.InterceptionType.NEVER;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
+import static org.jboss.seam.ScopeType.CONVERSATION;
 
 import java.io.Serializable;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.List;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
-import javax.persistence.Id;
 
-import org.jboss.seam.Component;
-import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.jsf.Converter;
-import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Expressions.ValueBinding;
-import org.jboss.seam.log.Log;
-import org.jboss.seam.log.Logging;
-import org.jboss.seam.util.Reflections;
+import org.jboss.seam.framework.EntityIdentifierStore;
 
 /**
- * This implementation of the EntityConverter is suitable for any Entity which
- * uses annotations
+ * Allows conversion of an entity to/from a key which can be written to a page.
  * 
- * 
+ * Any annotated Entity will work, or any entity if a PersistenceProvider for your ORM exists
  */
 @Name("org.jboss.seam.ui.entityConverter")
-@Scope(ScopeType.CONVERSATION)
+@Scope(CONVERSATION)
 @Install(precedence = BUILT_IN)
 @Converter
 @Intercept(NEVER)
@@ -46,117 +36,18 @@ public class EntityConverter implements
 {
    
    private ValueBinding<EntityManager> entityManager;
-   
-   private Log log = Logging.getLog(EntityConverter.class);
+   private EntityIdentifierStore entityIdentifierStore;
 
-   private String errorMessage = "Error selecting object";
-   
-   public void setEntityManager(ValueBinding<EntityManager> entityManager)
+   @Create
+   public void create()
    {
-      this.entityManager = entityManager;
-   }
-   
-   private EntityManager getEntityManager() {
-      if (entityManager==null)
+      entityIdentifierStore = EntityIdentifierStore.instance();
+      if (getEntityManager() != null)
       {
-        return (EntityManager) Component.getInstance( "entityManager" );
+         entityIdentifierStore.setEntityManager(getEntityManager());
       }
-      else
-      {
-         return entityManager.getValue();
-      }
-   }
-
-   protected void errorGettingIdMessage(UIComponent cmp, FacesContext facesContext, Object entity)
-   {
-      log.error("@Id annotation not on #0", entity.getClass());
-      throw new ConverterException(FacesMessages.createFacesMessage(SEVERITY_ERROR, getErrorMessageKey(), getErrorMessage()));
-   }
-
-   protected String getErrorMessage()
-   {
-      return errorMessage;
-   }
-
-   protected String getErrorMessageKey()
-   {
-      return getEntityConverterKeyPrefix() + "idNotFound";
-   }
-
-   protected void invalidSelectionMessage(Class clazz, Object id)
-   {
-      log.error("Cannot load entity (#0 with id #1) from persistence context", clazz.getName(), id);
-      throw new ConverterException(FacesMessages.createFacesMessage(SEVERITY_ERROR, getErrorMessageKey(), getErrorMessage()));
    }
    
-   protected void entityManagerNotFoundMessage()
-   {
-      log.error("Entity Manager not found");
-      throw new ConverterException(FacesMessages.createFacesMessage(SEVERITY_ERROR, getErrorMessageKey(), getErrorMessage()));
-   }
-
-   protected String getEntityConverterKeyPrefix()
-   {
-      return "org.jboss.seam.ui.entityConverter.";
-   }
-
-   /**
-    * @param entity
-    *           The entity to use
-    * @param cmp
-    *           The UIComponent this converter is attached to
-    * @param facesContext
-    *           The current facesContext
-    * @return The ID of the entity as a string or null if unable to determine it
-    */
-   protected Object getIdFromEntity(UIComponent cmp, FacesContext facesContext,
-            Object entity, Class entityClass)
-   {
-      Object id = null;
-      List<Field> fields = Reflections.getFields(entityClass, Id.class);
-      if (fields.size() == 1)
-      {
-         Field field = fields.get(0);
-         boolean accessible = field.isAccessible();
-         field.setAccessible(true);
-         
-         try {
-            id = Reflections.get(field, entity);
-         }
-         catch (Exception e)
-         {
-            errorGettingIdMessage(cmp, facesContext, entity);
-         }
-         finally
-         {
-            field.setAccessible(accessible);
-         }
-      }
-      else
-      {
-         List<Method> methods = Reflections.getGetterMethods(entityClass, Id.class);
-         if (methods.size() == 1)
-         {
-            try
-            {
-               id = Reflections.invoke(methods.get(0), entity, new Object[0]);
-            }
-            catch (Exception e)
-            {
-              errorGettingIdMessage(cmp, facesContext, entity);
-            }
-         }
-      }
-      if (id == null)
-      {
-         return NoSelectionConverter.NO_SELECTION_VALUE;
-      } 
-      else
-      {
-         return id;
-      }
-   }
-
    @SuppressWarnings("unchecked")
    @Transactional
    public String getAsString(FacesContext facesContext, UIComponent cmp, Object value) throws ConverterException
@@ -170,22 +61,9 @@ public class EntityConverter implements
       {
          return (String) value;
       }
-      Class entityClass = deproxy(value.getClass());
-      return EntityConverterStore.instance().put(entityClass, getIdFromEntity(cmp, facesContext, value, entityClass)).toString();
+      return entityIdentifierStore.put(value).toString();
    }
    
-   // Hibernate Lazy proxies don't copy annotations to proxied methods - why?
-   private Class deproxy(Class clazz)
-   {
-      if (Object.class.equals(clazz) || clazz.isAnnotationPresent(Entity.class))
-      {
-         return clazz;
-      }
-      else 
-      {
-         return deproxy(clazz.getSuperclass());
-      }
-   }
 
    @Transactional
    public Object getAsObject(FacesContext facesContext, UIComponent cmp, String value) throws ConverterException
@@ -194,42 +72,15 @@ public class EntityConverter implements
       {
          return null;
       }
-      Integer key = new Integer(value);
-      Class clazz = EntityConverterStore.instance().getClass(key);
-      Object id = EntityConverterStore.instance().getId(key);
-      return loadEntityFromPersistenceContext(clazz, id);
+      return entityIdentifierStore.get(new Integer(value));
    }
-
-   /**
-    * Retrieve the Entity from the PersistenceContext
-    * 
-    * @param clazz
-    *           The class of the entity to load
-    * @param id
-    *           The id of the entity to load
-    * @return The entity, null if not found
-    */
-   @SuppressWarnings("unchecked")
-   protected Object loadEntityFromPersistenceContext(Class clazz, Object id)
+   
+   public void setEntityManager(ValueBinding<EntityManager> entityManager)
    {
-      if (id == null || clazz == null)
-      {
-         return null;
-      }
-      Object entity = null;
-      if (getEntityManager() == null)
-      {
-         entityManagerNotFoundMessage();
-      }
-      entity = getEntityManager().find(clazz, id);
-      if (entity == null)
-      {
-         invalidSelectionMessage(clazz, id);
-         return null;
-      }
-      else
-      {
-         return entity;
-      }
+      this.entityManager = entityManager;
+   }
+   
+   private EntityManager getEntityManager() {
+      return entityManager == null ? null : entityManager.getValue();
    }
 }

@@ -7,6 +7,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -61,7 +62,7 @@ public class Person implements Serializable
    @ManyToMany
    private List<Colour> favouriteColours;
    
-   @ManyToOne
+   @ManyToOne(fetch=FetchType.LAZY)
    private Book favouriteBook;
    
    @OneToOne(cascade=CascadeType.ALL)
