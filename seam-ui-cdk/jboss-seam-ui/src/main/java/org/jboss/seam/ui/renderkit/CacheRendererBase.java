@@ -28,7 +28,7 @@ public class CacheRendererBase extends AjaxComponentRendererBase
    protected void doEncodeChildren(ResponseWriter writer, FacesContext context, UIComponent component) throws IOException
    {
       UICache cache = (UICache) component;
-      if (cache.getEnabled())
+      if (cache.isEnabled())
       {
          String key = cache.getKey();
          String cachedContent = getFromCache(key, cache.getRegion());

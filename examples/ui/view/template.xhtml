@@ -61,7 +61,6 @@
 		<li><s:link view="/selectItems.xhtml" propagation="join">
 			<code>s:selectItems</code>
 			<f:param name="personId" value="1" />
-			<s:conversationPropagation type="join" />
 		</s:link></li>
 		<li><s:link view="/fragment.xhtml" propagation="none">
 			<code>s:fragment</code>
@@ -69,12 +68,16 @@
 		<li><s:link view="/formattedText.xhtml" propagation="join">
 			<code>s:formattedText</code>
 			<f:param name="personId" value="1" />
-			<s:conversationPropagation type="join" />
 		</s:link></li>
 		<li><s:link view="/fileUpload.xhtml" propagation="join">
 			<code>s:fileUpload</code>
 			<f:param name="personId" value="1" />
-			<s:conversationPropagation type="join" />
+		</s:link></li>
+		<li><s:link view="/linkAndButton.xhtml" propagation="none">
+			<code>s:button</code> and <code>s:link</code>
+		</s:link></li>
+		<li><s:link view="/cache.xhtml" propagation="none">
+			<code>s:cache</code>
 		</s:link></li>
 	</ul>
 </s:div>

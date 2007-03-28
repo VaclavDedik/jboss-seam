@@ -39,8 +39,9 @@
 		</property>
 		<property elonly="true">
 			<name>enabled</name>
-			<classname>java.lang.Boolean</classname>
+			<classname>boolean</classname>
 			<description>a value expression that determines if the cache should be used.</description>
+			<defaultvalue>true</defaultvalue>
 		</property>
 	</component>
 </components>

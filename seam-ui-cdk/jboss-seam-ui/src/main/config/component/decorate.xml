@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE components PUBLIC "-//AJAX4JSF//CDK Generator config/EN"  "https://ajax4jsf.dev.java.net/nonav/dtds/component-config.dtd" >
+<components>
+	<component>
+		<name>org.jboss.seam.ui.Decorate</name>
+		<family>org.jboss.seam.ui.Decorate</family>
+		<classname>org.jboss.seam.ui.component.html.HtmlDecorate</classname>
+		<superclass>org.jboss.seam.ui.component.UIDecorate</superclass>
+		<description>
+			<![CDATA["Decorate" a JSF input field when validation fails or when required="true" is set.]]>
+		</description>
+		<renderer generate="true" override="true">
+			<name>org.jboss.seam.ui.DecorateRenderer</name>
+			<template>org/jboss/seam/ui/htmlDecorate.jspx</template>
+		</renderer>
+		<tag>
+			<name>decorate</name>
+			<classname>org.jboss.seam.ui.taglib.DecorateTag</classname>
+			<superclass>
+				org.ajax4jsf.framework.taglib.HtmlComponentTagBase
+			</superclass>
+		</tag>
+		
+		<taghandler>
+			<classname>org.jboss.seam.ui.handler.DecorateHandler</classname>
+		</taghandler>
+		
+		&ui_component_attributes;
+		<property attachedstate="true">
+			<name>for</name>
+			<classname>java.lang.String</classname>
+			<description></description>
+		</property>
+	</component>
+</components>

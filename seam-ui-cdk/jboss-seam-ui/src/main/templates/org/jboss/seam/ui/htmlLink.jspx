@@ -6,11 +6,14 @@
 	xmlns:u=" http://ajax4jsf.org/cdk/u"
 	xmlns:x="ttp://ajax4jsf.org/cdk/x"
 	class="org.jboss.seam.ui.renderkit.html.LinkRenderer"
-	baseclass="org.ajax4jsf.framework.renderer.AjaxComponentRendererBase"
+	baseclass="org.jboss.seam.ui.renderkit.LinkRendererBase"
 	component="org.jboss.seam.ui.component.UILink" 
 	>
 	<f:clientid var="clientId"/>
 	<a id="#{clientId}"
-		onclick="#{component.onClick}">
+		x:passThruWithExclusions="value,name,type,id,styleClass,style"
+		href="#{this:getHref(context,component)}">
+		#{component.attributes['value']}
+		<f:call name="renderChildren" />
 	</a>
 </f:root>

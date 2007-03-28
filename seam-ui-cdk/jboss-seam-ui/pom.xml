@@ -10,6 +10,7 @@
 	<artifactId>jboss-seam-ui</artifactId>
 	<url>http://jboss.com/products/seam/taglib</url>
 	<version>${seam.version}</version>
+	<name>Seam JSF Controls</name>
 
 	<build>
 		<finalName>${artifactId}</finalName>
@@ -29,11 +30,44 @@
 				<configuration>
 					<library>
 						<prefix>org.jboss.seam.ui</prefix>
+						<description>
+							JSF controls for JBoss Seam
+						</description>
 						<taglib>
-							<shortName>jboss-seam-ui</shortName>
+							<displayName>JBoss Seam UI</displayName>
+							<shortName>s</shortName>
 						</taglib>
 					</library>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>net.sourceforge.maven-taglib</groupId>
+				<artifactId>maven-taglib-plugin</artifactId>
+				<configuration>
+					<taglib.src.dir>
+						target/generated-component/resources/META-INF
+					</taglib.src.dir>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>taglibdoc</goal>
+						</goals>
+					</execution>
+				</executions>
+
+			</plugin>
+			<plugin>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>javadoc</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

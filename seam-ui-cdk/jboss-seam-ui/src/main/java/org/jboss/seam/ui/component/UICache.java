@@ -41,9 +41,9 @@ public abstract class UICache extends UIComponentBase
       return COMPONENT_FAMILY;
    }
    
-   public abstract Boolean getEnabled();
+   public abstract boolean isEnabled();
    
-   public abstract void setEnabled(Boolean enabled);
+   public abstract void setEnabled(boolean enabled);
    
    public abstract String getKey();
    

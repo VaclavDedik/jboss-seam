@@ -5,12 +5,16 @@
 	xmlns:ui=" http://ajax4jsf.org/cdk/ui"
 	xmlns:u=" http://ajax4jsf.org/cdk/u"
 	xmlns:x="ttp://ajax4jsf.org/cdk/x"
-	class="org.jboss.seam.ui.renderkit.html.LinkRenderer"
-	baseclass="org.ajax4jsf.framework.renderer.AjaxComponentRendererBase"
-	component="org.jboss.seam.ui.component.UILink" 
+	class="org.jboss.seam.ui.renderkit.html.ButtonRenderer"
+	baseclass="org.jboss.seam.ui.renderkit.ButtonRendererBase"
+	component="org.jboss.seam.ui.component.UIButton" 
 	>
 	<f:clientid var="clientId"/>
-	<input id="#{clientId}" type="button"
-		onclick="#{this:getOnClick(context,component)}">
-	</input>
+	<input id="#{clientId}" 
+		type="button"
+		x:passThruWithExclusions="value,name,type,id,styleClass,style"
+		onclick="#{this:getOnClick(context,component)}" 
+		value="#{component.attributes['value']}"
+		style="#{component.attributes['style']}"
+		class="#{component.attributes['styleClass']}" />
 </f:root>

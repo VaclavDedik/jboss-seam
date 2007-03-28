@@ -151,6 +151,24 @@
 				${seam.dir}/lib/hibernate-all.jar
 			</systemPath>
 		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>facelets</artifactId>
+			<version>transient</version>
+			<scope>system</scope>
+			<systemPath>
+				${seam.dir}/lib/jsf-facelets.jar
+			</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>el-api</artifactId>
+			<version>transient</version>
+			<scope>system</scope>
+			<systemPath>
+				${seam.dir}/lib/el-api.jar
+			</systemPath>
+		</dependency>
 	</dependencies>
 	<modules>
 		<module>jboss-seam-ui</module>
