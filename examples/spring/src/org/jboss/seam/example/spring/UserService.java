@@ -1,18 +1,20 @@
-/**
- *
- */
 package org.jboss.seam.example.spring;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
+import org.springframework.transaction.annotation.Transactional;
+
 /**
- * @author youngm
+ * @author Mike Youngstrom
  *
  */
-public class UserService {	
+public class UserService {
+	@PersistenceContext
     private EntityManager entityManager;
 
+	@Transactional
     public boolean changePassword(String username, String oldPassword, String newPassword) {
         System.out.println("change password " + oldPassword + " to " + newPassword);
         if (newPassword == null || newPassword.length()==0) {
@@ -29,6 +31,7 @@ public class UserService {
         }
     }
 
+	@Transactional
     public User findUser(String username) {
         if (username == null || "".equals(username)) {
             throw new IllegalArgumentException("Username cannot be null");
@@ -36,6 +39,7 @@ public class UserService {
         return entityManager.find(User.class, username);
     }
 
+	@Transactional
     public User findUser(String username, String password) {
         try {
             return (User) 
@@ -48,6 +52,7 @@ public class UserService {
         }
     }
 
+	@Transactional
     public void createUser(User user) throws ValidationException {
         if (user == null) {
             throw new IllegalArgumentException("User cannot be null");
@@ -59,12 +64,5 @@ public class UserService {
         }
 
         entityManager.persist(user);
-    }
-
-    /**
-     * @param session the session to set
-     */
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
     }
 }

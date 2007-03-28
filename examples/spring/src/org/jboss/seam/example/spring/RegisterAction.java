@@ -16,7 +16,7 @@ public class RegisterAction
     @In
     private User user;
 
-    @In
+    @In("#{userService}")
     private UserService userService;
 
     @In

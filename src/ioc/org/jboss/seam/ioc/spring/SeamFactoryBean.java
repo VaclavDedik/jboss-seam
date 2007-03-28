@@ -110,6 +110,10 @@ public class SeamFactoryBean extends AbstractFactoryBean implements Initializing
    @Override
    public Class getObjectType()
    {
+      //Incase spring calls getObjectType without calling afterPropertiesSet() 
+      if(targetSource == null) {
+         return null;
+      }
       return targetSource.getTargetClass();
    }
 

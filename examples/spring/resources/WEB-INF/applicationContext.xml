@@ -5,20 +5,23 @@
        xmlns:seam="http://jboss.com/products/seam/spring-seam"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
        xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jee="http://www.springframework.org/schema/jee"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+                           http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.0.xsd
                            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
                            http://jboss.com/products/seam/spring-seam http://jboss.com/products/seam/spring-seam-1.2.xsd
                            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
        default-lazy-init="true">
+       
+    <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager"/>
+    
+    <tx:annotation-driven proxy-target-class="true"/>
 
-    <bean id="userService" class="org.jboss.seam.example.spring.UserService">
-        <property name="entityManager" ref="em"/>
-        <seam:component />
-    </bean>
+    <bean id="userService" class="org.jboss.seam.example.spring.UserService"/>
 
     <bean id="bookingService" class="org.jboss.seam.example.spring.BookingService">
-        <property name="entityManager" ref="em"/>
+       	<property name="entityManagerFactory" ref="seamEntityManagerFactory"/>
     </bean>
 
     <bean id="hotelSearch" class="org.jboss.seam.example.spring.HotelSearchingAction" scope="seam.SESSION">
@@ -27,7 +30,12 @@
 
     <seam:configure-scopes />
     
-    <seam:instance id="em" name="entityManager" proxy="true"/>
+    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
+    
+    <bean id="seamEntityManagerFactory" class="org.jboss.seam.ioc.spring.SeamManagedEntityManagerFactoryBean">
+    	<property name="persistenceContextName" value="entityManager"/>
+    </bean>
+    
     <bean id="timerFactory" class="org.springframework.scheduling.timer.TimerFactoryBean" lazy-init="false">
 	    <property name="scheduledTimerTasks">
 	        <list>
