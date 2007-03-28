@@ -1,0 +1,44 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+                xmlns:tr="http://myfaces.apache.org/trinidad"
+                template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:messages globalOnly="true" styleClass="message"/>
+    
+    <rich:panel>
+    <f:facet name="header">Welcome to Seam Discs!</f:facet>
+    	<p>This application allows you to catalogue your favourite
+    	bands, and albums they've released - and shows off Seam,
+    	RichFaces, and Trinidad integration</p>
+    	
+    	<p>Discs</p>
+    	<tr:panelPartialRoot>
+    	<tr:form>
+    	<tr:table value="#{discs.dataModel}" var="disc">
+    		<tr:column sortable="true" sortProperty="name">
+    			<f:facet name="header">
+    				Disc
+    			</f:facet>
+    			<h:outputText value="#{disc.name}" />
+    		</tr:column>
+    		<tr:column>
+    			<f:facet name="header">
+    				Artist
+    			</f:facet>
+    			<h:outputText value="#{disc.artist.name}" rendered="#{disc.artist ne null}" />
+    		</tr:column>
+    	</tr:table>
+    	</tr:form>
+    	</tr:panelPartialRoot>
+    </rich:panel>
+    
+</ui:define> 
+</ui:composition>
