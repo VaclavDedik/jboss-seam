@@ -351,12 +351,12 @@ public class Init
    /**
     * The JNDI name of the JTA UserTransaction
     */
-   protected String getUserTransactionName()
+   public String getUserTransactionName()
    {
       return userTransactionName;
    }
 
-   protected void setUserTransactionName(String userTransactionName)
+   public void setUserTransactionName(String userTransactionName)
    {
       this.userTransactionName = userTransactionName;
    }
