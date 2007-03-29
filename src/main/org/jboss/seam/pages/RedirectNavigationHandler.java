@@ -16,19 +16,21 @@ public final class RedirectNavigationHandler extends NavigationHandler
    private final List<Param> params;
    private final String message;
    private final Severity severity;
+   private final String control;
 
-   public RedirectNavigationHandler(String viewId, List<Param> params, String message, Severity severity)
+   public RedirectNavigationHandler(String viewId, List<Param> params, String message, Severity severity, String control)
    {
       this.viewId = viewId;
       this.params = params;
       this.message = message;
       this.severity = severity;
+      this.control = control;
    }
 
    @Override
    public boolean navigate(FacesContext context)
    {
-      addFacesMessage(message, severity);
+      addFacesMessage(message, severity, control);
       
       Map<String, Object> parameters = new HashMap<String, Object>();
       for ( Param parameter: params )

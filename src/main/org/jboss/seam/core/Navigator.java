@@ -77,13 +77,20 @@ public abstract class Navigator
       }
    }
    
-   protected static void addFacesMessage(String message, Severity severity, Object... params)
+   protected static void addFacesMessage(String message, Severity severity, String control, Object... params)
    {
       if ( Contexts.isConversationContextActive() )
       {
          if ( !Strings.isEmpty(message) )
          {
-            FacesMessages.instance().add(severity, message, params);
+            if ( Strings.isEmpty(control) )
+            {
+               FacesMessages.instance().add(severity, message, params);
+            }
+            else
+            {
+               FacesMessages.instance().addToControl(control, severity, message, params);
+            }
          }
       }
    }

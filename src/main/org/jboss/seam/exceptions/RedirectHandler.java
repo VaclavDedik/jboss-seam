@@ -33,7 +33,7 @@ public abstract class RedirectHandler extends ExceptionHandler
          viewId = servletPath.substring(0, servletPath.lastIndexOf('.')) + Pages.getSuffix();
       }
       
-      addFacesMessage( getDisplayMessage(e, getMessage(e)), getMessageSeverity(e), e );
+      addFacesMessage( getDisplayMessage(e, getMessage(e)), getMessageSeverity(e), null, e );
       
       if ( Contexts.isConversationContextActive() && isEnd(e) ) 
       {

@@ -1212,11 +1212,12 @@ public class Pages
          final String viewId = render.attributeValue("view-id");
          Element messageElement = render.element("message");
          String message = messageElement==null ? null : messageElement.getTextTrim();
+         String control = messageElement.attributeValue("for");
          String severityName = messageElement==null ? null : messageElement.attributeValue("severity");
          Severity severity = severityName==null ? 
                   FacesMessage.SEVERITY_INFO : 
                   getFacesMessageValuesMap().get( severityName.toUpperCase() );
-         rule.addNavigationHandler( new RenderNavigationHandler(viewId, message, severity) );
+         rule.addNavigationHandler( new RenderNavigationHandler(viewId, message, severity, control) );
       }
       
       Element redirect = element.element("redirect");
@@ -1230,12 +1231,13 @@ public class Pages
          }
          final String viewId = redirect.attributeValue("view-id");
          Element messageElement = redirect.element("message");
+         String control = messageElement.attributeValue("for");
          String message = messageElement==null ? null : messageElement.getTextTrim();
          String severityName = messageElement==null ? null : messageElement.attributeValue("severity");
          Severity severity = severityName==null ? 
                   FacesMessage.SEVERITY_INFO : 
                   getFacesMessageValuesMap().get( severityName.toUpperCase() );
-         rule.addNavigationHandler( new RedirectNavigationHandler(viewId, params, message, severity) );
+         rule.addNavigationHandler( new RedirectNavigationHandler(viewId, params, message, severity, control) );
       }
       
       List<Element> childElements = element.elements("out");
