@@ -10,8 +10,13 @@
                 <redirect view-id="/profile.xhtml"/>
             </rule>
         </navigation>
+        
         <navigation from-action="#{register.start}">
           <redirect view-id="/register.xhtml"/>
+        </navigation>
+        
+        <navigation from-action="#{auctionSearch.queryAuctions}">
+            <redirect view-id="/search.xhtml"/>
         </navigation>
     </page>
           

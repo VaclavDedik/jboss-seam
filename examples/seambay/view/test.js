@@ -35,12 +35,15 @@ function selectService(serviceName)
     return;
   }
   
-  document.getElementById('selectedService').innerHTML = svc.getDescription();
-  document.getElementById('serviceRequest').value = svc.getRequest();
+  document.getElementById("selectedService").innerHTML = svc.getDescription();
+  document.getElementById("serviceRequest").value = svc.getRequest();
+  document.getElementById("serviceResponse").value = null;
 }
 
 function sendRequest()
 {
+  document.getElementById("serviceResponse").value = null;
+  
   var req;
   if (window.XMLHttpRequest)
   {

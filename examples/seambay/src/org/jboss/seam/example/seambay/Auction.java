@@ -4,22 +4,29 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 @Entity
 public class Auction implements Serializable
 {
-   private static final long serialVersionUID = 1L;
-   
+   private static final long serialVersionUID = -8349473227099432431L;
+
    private Integer auctionId;
    private User user;
    private Category category;
    private String title;
    private String description;
    private Date endDate;
+   private AuctionImage image;
+   private int bids;
+   private double price;
    
-   @Id
+   @Id @GeneratedValue
    public Integer getAuctionId()
    {
       return auctionId;
@@ -31,6 +38,7 @@ public class Auction implements Serializable
    }
    
    @ManyToOne
+   @JoinColumn(name = "USER_ID")
    public User getUser()
    {
       return user;
@@ -42,6 +50,7 @@ public class Auction implements Serializable
    }
    
    @ManyToOne
+   @JoinColumn(name = "CATEGORY_ID")
    public Category getCategory()
    {
       return category;
@@ -80,5 +89,43 @@ public class Auction implements Serializable
    public void setEndDate(Date endDate)
    {
       this.endDate = endDate;
+   }
+   
+   @OneToOne
+   @JoinColumn(name = "IMAGE_ID")
+   public AuctionImage getImage()
+   {
+      return image;
+   }
+   
+   public void setImage(AuctionImage image)
+   {
+      this.image = image;
+   }
+   
+   public int getBids()
+   {
+      return bids;
+   }
+   
+   public void setBids(int bids)
+   {
+      this.bids = bids;
+   }
+   
+   @Transient
+   public String getTimeLeft()
+   {
+      return (endDate.getTime() - System.currentTimeMillis()) + "ms"; 
+   }
+   
+   public double getPrice()
+   {
+      return price;
+   }
+   
+   public void setPrice(double price)
+   {
+      this.price = price;
    }
 }

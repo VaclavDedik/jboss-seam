@@ -55,6 +55,7 @@ a.header_action:hover {
 
 a.header_link, a.header_link:visited {
   font-size: normal;
+  color: #0000cc;
   padding: 2px 4px 2px 4px;
 }
 

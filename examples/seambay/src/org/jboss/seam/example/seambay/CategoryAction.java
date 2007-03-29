@@ -18,6 +18,7 @@ public class CategoryAction
    @Out(required = false)
    private List<Category> categories;
    
+   @SuppressWarnings("unchecked")
    @Factory("categories")
    public void loadCategories()
    {

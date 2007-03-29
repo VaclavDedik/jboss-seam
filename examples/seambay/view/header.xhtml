@@ -11,13 +11,15 @@
     
       <div class="header_tools_top">
         <div class="header_links">
-          <a href="#" class="header_link">home</a> |
+          <s:link view="/home.xhtml" propagation="none" value="home" styleClass="header_link"/> |
           <a href="#" class="header_link">register</a>
         </div>
         
         <div class="header_search">
-          <input type="text" name="search_query"/>
-          <button>Search</button>
+          <h:form>
+            <h:inputText id="searchTerm" value="#{auctionSearch.searchTerm}"/>
+            <h:commandButton action="#{auctionSearch.queryAuctions}" value="Search"/>
+          </h:form>
         </div>
       </div>
 

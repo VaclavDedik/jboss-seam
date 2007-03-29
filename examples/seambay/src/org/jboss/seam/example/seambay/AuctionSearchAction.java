@@ -1,6 +1,10 @@
 package org.jboss.seam.example.seambay;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.persistence.EntityManager;
 
@@ -9,7 +13,6 @@ import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.datamodel.DataModel;
 
 @Name("auctionSearch")
 @Scope(ScopeType.SESSION)
@@ -22,20 +25,43 @@ public class AuctionSearchAction
    private int page = 0;
    
    private String searchTerm;
+   private Category searchCategory;
    
-   @DataModel
    private List<Auction> auctions;
+   
+   private Map<Category,Long> searchCategories = new HashMap<Category,Long>();
 
+   @SuppressWarnings("unchecked")
    public void queryAuctions()
    {
-      auctions = entityManager.createQuery(
-            "from Auction a where lower(title) like #{pattern}")
+      String qry = null;
+      
+      if (searchCategory == null)
+      {
+         qry = "from Auction a where lower(title) like #{searchPattern}"; 
+      }
+      else
+      {
+         qry = "from Auction a where lower(title) like #{searchPattern} and a.category = #{searchCategory}";
+      }
+      
+      auctions = entityManager.createQuery(qry)
             .setMaxResults(pageSize)
             .setFirstResult( page * pageSize )
             .getResultList();      
+      
+      searchCategories.clear();
+      
+      for (Object[] result : (List<Object[]>) entityManager.createQuery(
+            "select a.category.categoryId, count(a) from Auction a " +
+            "where lower(a.title) like #{searchPattern} group by a.category.categoryId")
+            .getResultList())
+      {
+         searchCategories.put(entityManager.find(Category.class, result[0]), (Long) result[1]);
+      }
    }
    
-   @Factory(value="pattern", scope=ScopeType.EVENT)
+   @Factory(value="searchPattern", scope=ScopeType.EVENT)
    public String getSearchPattern()
    {
       return searchTerm == null ? 
@@ -75,5 +101,22 @@ public class AuctionSearchAction
    public List<Auction> getResults()
    {
       return auctions;
+   }
+   
+   public List<Entry> getSearchCategories()
+   {
+      return new ArrayList<Entry>(searchCategories.entrySet());
+   }   
+   
+   public void selectCategory(Category category)
+   {
+      this.searchCategory = category;
+      queryAuctions();
+   }
+   
+   @Factory(value="searchCategory", scope=ScopeType.EVENT)
+   public Category getSearchCategory()
+   {
+      return searchCategory;
    }
 }

@@ -1,6 +1,7 @@
 package org.jboss.seam.example.seambay;
 
 import javax.ejb.Stateless;
+import javax.jws.HandlerChain;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 
@@ -8,6 +9,7 @@ import org.jboss.seam.Component;
 
 @Stateless
 @WebService
+@HandlerChain(file="META-INF/handler-chain.xml")
 public class AuctionService implements AuctionServiceRemote
 {   
    @WebMethod

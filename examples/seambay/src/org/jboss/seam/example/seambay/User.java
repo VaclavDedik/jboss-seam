@@ -3,6 +3,7 @@ package org.jboss.seam.example.seambay;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
@@ -14,7 +15,7 @@ public class User implements Serializable
    private String username;
    private String password;
    
-   @Id
+   @Id @GeneratedValue
    public Integer getUserId()
    {
       return userId;
