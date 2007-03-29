@@ -3,6 +3,8 @@ package org.jboss.seam.core;
 import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
+import javax.faces.event.ValueChangeEvent;
+
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
@@ -55,6 +57,17 @@ public class TimeZoneSelector extends Selector
       }
    }
 
+   public void select(ValueChangeEvent event) 
+   {
+      selectTimeZone( (String) event.getNewValue() );
+   }
+   
+   public void selectTimeZone(String timeZoneId)
+   {
+      setTimeZoneId(timeZoneId);
+      select();
+   }
+   
    public void setTimeZone(java.util.TimeZone timeZone)
    {
       setTimeZoneId( timeZone.getID() );

@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
 import org.jboss.seam.Component;
@@ -94,6 +95,17 @@ public class ThemeSelector extends Selector
       }
    }
 
+   public void select(ValueChangeEvent event) 
+   {
+      selectTheme( (String) event.getNewValue() );
+   }
+   
+   public void selectTheme(String themeName)
+   {
+      setTheme(themeName);
+      select();
+   }
+   
    /**
     * Get a selectable list of available themes for display in the UI
     */

@@ -10,6 +10,7 @@ import java.util.Locale;
 import java.util.StringTokenizer;
 
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -72,15 +73,21 @@ public class LocaleSelector extends Selector
           Events.instance().raiseEvent( "org.jboss.seam.localeSelected", getLocaleString() );
       }
    }
+   
+   public void select(ValueChangeEvent event) 
+   {
+      setLocaleString( (String) event.getNewValue() );
+      select();
+   }
 
-    /**
-     * Set the language and force resource bundle reload, useful for quick action links:
-     * <tt>&lt;h:commandLink value="DE" action="#{localeSelector.selectLanguage('de')}"/>"/></tt>
-     */
+   /**
+    * Set the language and force resource bundle reload, useful for quick action links:
+    * <tt>&lt;h:commandLink value="DE" action="#{localeSelector.selectLanguage('de')}"/>"/></tt>
+    */
    public void selectLanguage(String language) {
-        setLanguage(language);
-        select();
-    }
+      setLanguage(language);
+      select();
+   }
 
    public Locale calculateLocale(Locale jsfLocale)
    {
