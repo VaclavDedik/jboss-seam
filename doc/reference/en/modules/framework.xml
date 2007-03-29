@@ -37,7 +37,7 @@
             example, the following fragment from
             <literal>components.xml</literal> installs a component
             which can perform basic CRUD operations for a
-            <literal>Contact</literal> entity:
+            <literal>Person</literal> entity:
         </para>
         
         <programlisting><![CDATA[<framework:entity-home name="personHome" 

@@ -854,7 +854,7 @@ public class SystemException extends RuntimeException { ... }]]></programlisting
            conversation context, e.g. to access the message of the exception:
         </para>
         
-           <programlisting><![CDATA[...
+        <programlisting><![CDATA[...
 throw new AuthorizationException("You are not allowed to do this!");
 
 <pages>
@@ -862,11 +862,17 @@ throw new AuthorizationException("You are not allowed to do this!");
     <exception class="org.jboss.seam.security.AuthorizationException">
         <end-conversation/>
         <redirect view-id="/error.xhtml">
-            <message severity="WARN">#{handledException.message}</message>
+            <message severity="WARN">#{org.jboss.seam.handledException.message}</message>
         </redirect>
     </exception>
 
 </pages>]]></programlisting>
+         
+         <para>
+           <literal>org.jboss.seam.handledException</literal> holds the nested exception that
+           was actually handled by an exception handler. The outermost (wrapper) exception is 
+           also available, as <literal>org.jboss.seam.exception</literal>.
+         </para>
 
         </sect2>
 
