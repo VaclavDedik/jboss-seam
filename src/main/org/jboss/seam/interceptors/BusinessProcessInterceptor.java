@@ -6,10 +6,7 @@
  */
 package org.jboss.seam.interceptors;
 
-import java.beans.PropertyEditor;
-import java.beans.PropertyEditorManager;
 import java.lang.reflect.Method;
-import java.util.Map;
 
 import javax.faces.context.FacesContext;
 
@@ -21,9 +18,11 @@ import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.ResumeProcess;
 import org.jboss.seam.annotations.StartTask;
 import org.jboss.seam.core.BusinessProcess;
+import org.jboss.seam.core.Expressions;
 import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.util.Strings;
 
 /**
  * Interceptor which handles interpretation of jBPM-related annotations.
@@ -57,19 +56,19 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
       if ( method.isAnnotationPresent( StartTask.class ) ) {
          log.trace( "encountered @StartTask" );
          StartTask tag = method.getAnnotation( StartTask.class );
-         Long taskId = getRequestParamValueAsLong( tag.taskIdParameter() );
+         Long taskId = getRequestParamValueAsLong( tag.taskIdParameter(), tag.taskId() );
          return BusinessProcess.instance().resumeTask(taskId);
       }
       else if ( method.isAnnotationPresent( BeginTask.class ) ) {
          log.trace( "encountered @BeginTask" );
          BeginTask tag = method.getAnnotation( BeginTask.class );
-         Long taskId = getRequestParamValueAsLong( tag.taskIdParameter() );
+         Long taskId = getRequestParamValueAsLong( tag.taskIdParameter(), tag.taskId() );
          return BusinessProcess.instance().resumeTask(taskId);
       }
       else if ( method.isAnnotationPresent( ResumeProcess.class ) ) {
          log.trace( "encountered @ResumeProcess" );
          ResumeProcess tag = method.getAnnotation( ResumeProcess.class );
-         Long processId = getRequestParamValueAsLong( tag.processIdParameter() );
+         Long processId = getRequestParamValueAsLong( tag.processIdParameter(), tag.processId() );
          return BusinessProcess.instance().resumeProcess(processId);
       }
       if ( method.isAnnotationPresent(EndTask.class) )
@@ -115,29 +114,34 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
       return result;
    }
 
-   private Long getRequestParamValueAsLong(String paramName)
+   private Long getRequestParamValueAsLong(String paramName, String el)
    {
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        Map paramMap = facesContext.getExternalContext()
-              .getRequestParameterMap();
-        String paramValue = (String) paramMap.get(paramName);
-        if (paramValue==null)
-        {
-           throw new IllegalStateException("no value for request parameter: " + paramName);
-           //return null;
-        }
-        else
-        {
-           PropertyEditor editor = PropertyEditorManager.findEditor(Long.class);
-           if ( editor != null )
-           {
-               editor.setAsText(paramValue);
-               return (Long) editor.getValue();
-           }
-           else
-           {
-               return Long.parseLong(paramValue);
-           }
-        }
+      Object id;
+      if ( Strings.isEmpty(paramName) )
+      {
+         id = Expressions.instance().createValueBinding(el).getValue();
+      }
+      else
+      {
+         id = FacesContext.getCurrentInstance().getExternalContext()
+               .getRequestParameterMap().get(paramName);
+      }
+      
+      if (id==null)
+      {
+         throw new IllegalStateException("task/process id may not be null");
+      }
+      else if (id instanceof Long)
+      {
+         return (Long) id;
+      }
+      else if (id instanceof String)
+      {
+         return new Long( (String) id );
+      }
+      else
+      {
+         throw new IllegalArgumentException("task/process id must be a string or long");
+      }
     }
 }

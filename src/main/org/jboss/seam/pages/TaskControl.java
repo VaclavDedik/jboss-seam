@@ -15,22 +15,40 @@ public class TaskControl
 
    private boolean isEndTask;
 
-   private ValueBinding<String> taskId;
+   private ValueBinding taskId;
 
    private String transition;
 
    public void beginOrEndTask()
    {
-      if (endTask())
+      if ( endTask() )
       {
          BusinessProcess.instance().validateTask();
          BusinessProcess.instance().endTask(transition);
       }
-      if (beginTask() || startTask())
+      if ( beginTask() || startTask() )
       {
-         BusinessProcess.instance().resumeTask(new Long(taskId.getValue()));
+         Object id = taskId.getValue();
+         if (id==null)
+         {
+            throw new IllegalStateException("task id may not be null");
+         }
+         Long taskId;
+         if ( id instanceof Long )
+         {
+            taskId = (Long) id;
+         }
+         else if (id instanceof String) 
+         {
+            taskId = new Long( (String) id );
+         }
+         else
+         {
+            throw new IllegalArgumentException("task id must be a string or long");
+         }
+         BusinessProcess.instance().resumeTask(taskId);
       }
-      if (startTask())
+      if ( startTask() )
       {
          BusinessProcess.instance().startTask();
       }

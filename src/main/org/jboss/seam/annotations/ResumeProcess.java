@@ -28,5 +28,10 @@ public @interface ResumeProcess
     * The name of the request parameter under which we should locate the
     * the id of process to be resumed.
     */
-   String processIdParameter() default "processId";
+   String processIdParameter() default "";
+   /**
+    * An EL expression that evaluates to the process id.
+    * @return an EL expression
+    */
+   String processId() default "#{param.processId}";
 }

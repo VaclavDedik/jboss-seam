@@ -35,7 +35,12 @@ public @interface BeginTask
     * The name of the request parameter under which we should locate the
     * the id of task to be resumed.
     */
-   String taskIdParameter() default "taskId";
+   String taskIdParameter() default "";
+   /**
+    * An EL expression that evaluates to the task id.
+    * @return an EL expression
+    */
+   String taskId() default "#{param.taskId}";
    /**
     * The name of the jBPM process definition defining the page flow for 
     * this conversation.
