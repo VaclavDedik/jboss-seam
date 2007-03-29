@@ -37,5 +37,6 @@
 	<classpathentry kind="lib" path="lib/itext-2.0.1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-codec-1.3.jar"/>
 	<classpathentry kind="lib" path="lib/jcaptcha-all-1.0-RC4.jar"/>
+	<classpathentry kind="lib" path="lib/jboss-jaxws.jar"/>
 	<classpathentry kind="output" path="output/classes"/>
 </classpath>

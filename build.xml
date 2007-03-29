@@ -183,6 +183,7 @@
 		<include name="META-INF/jboss.xml" />
 		<include name="META-INF/security-config.xml" />
 		<include name="META-INF/security-rules.drl" />
+		<include name="META-INF/handler-chain.xml" />
 	</fileset>
 
 	<zipfileset id="example.ear.resources" dir="${example.resources.dir}">
