@@ -1,11 +1,14 @@
 package org.jboss.seam.pdf.ui;
 
 import org.jboss.seam.pdf.ITextUtils;
+import org.jboss.seam.ui.graphicImage.ImageTransform;
 
+import javax.faces.component.UIComponent;
 import javax.faces.context.*;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.List;
 
 import com.lowagie.text.*;
 
@@ -16,7 +19,7 @@ public class UIImage
 
     Image image;
     
-    String resource;
+    Object value; 
     float  rotation;
     float  height;
     float  width;
@@ -36,11 +39,11 @@ public class UIImage
     Boolean underlying;
     
     java.awt.Image imageData;
-
-    public void setResource(String resource) {
-        this.resource = resource;
+        
+    public void setValue(Object value) {
+        this.value = value;
     }
-
+    
     public void setRotation(float rotation) {
         this.rotation = rotation;
     }
@@ -101,7 +104,7 @@ public class UIImage
         this.scalePercent = scalePercent; 
     }
     
-    public void setImageData(java.awt.Image imageData) {
+    public void setValue(java.awt.Image imageData) {
         this.imageData = imageData;
     }
 
@@ -117,42 +120,35 @@ public class UIImage
     }
     
     
-    private Image createFromResource(FacesContext context, String resource) {
-        URL url;
-        try {
-            url = context.getExternalContext().getResource(resource);
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
-        
-        if (url == null) {
-            throw new RuntimeException("cannot locate image resource " + resource);
-        }
-        try {
-            return Image.getInstance(url);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-    
-    private Image createFromImage(java.awt.Image awtImage) {
-        try {
-            return Image.getInstance(awtImage, null);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }        
-    }
-    
+    @SuppressWarnings("unchecked")
     @Override
     public void createITextObject(FacesContext context) {       
-        resource = (String) valueBinding(context,"resource", resource);
-       
-        if (resource != null) {
-            image = createFromResource(context, resource);
-        } else {
-            imageData = (java.awt.Image)  valueBinding(context, "imageData", imageData);
-            image = createFromImage(imageData);            
+        value = valueBinding(context, "value", value);        
+              
+        // instance() doesn't work here - we need a new instance           
+        org.jboss.seam.core.Image seamImage = new org.jboss.seam.core.Image();  
+
+        try {            
+            if (value instanceof BufferedImage) {
+                seamImage.setBufferedImage((BufferedImage)value);
+            } else {
+                seamImage.setInput(value);
+            }           
+
+            for (UIComponent cmp : (List<UIComponent>) this.getChildren()) {
+                if (cmp instanceof ImageTransform) {
+                    ImageTransform imageTransform = (ImageTransform) cmp;
+                    imageTransform.applyTransform(seamImage);
+                }
+            }  
+            
+            image = Image.getInstance(seamImage.getImage());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (BadElementException e) {
+            throw new RuntimeException(e);
         }
+                        
                         
         rotation = (Float) valueBinding(context, "rotation", rotation);
         if (rotation != 0) {

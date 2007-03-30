@@ -142,6 +142,7 @@ public abstract class ITextComponent
                                Object defaultValue) {
         Object value = defaultValue; 
         ValueBinding binding = getValueBinding(property);
+
         if (binding != null) {
             value = binding.getValue(context);
         }
