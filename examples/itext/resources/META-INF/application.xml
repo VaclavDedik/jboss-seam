@@ -20,12 +20,6 @@
         <java>jboss-seam.jar</java>
     </module>
     <module>
-        <java>el-api.jar</java>
-    </module>
-    <module>
-        <java>el-ri.jar</java>
-    </module>
-    <module>
         <java>jcommon-1.0.6.jar</java>
     </module>
     <module>
