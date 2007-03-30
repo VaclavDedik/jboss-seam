@@ -26,7 +26,7 @@ public class UITransformImageSize extends UIComponentBase implements ImageTransf
       return FAMILY;
    }
    
-   public void applyTransform(Image image, UIGraphicImage cmp) throws IOException
+   public void applyTransform(Image image) throws IOException
    {
       if (!isRendered())
       {

@@ -67,7 +67,7 @@ public class UIGraphicImage extends HtmlGraphicImage
          if (cmp instanceof ImageTransform)
          {
             ImageTransform imageTransform = (ImageTransform) cmp;
-            imageTransform.applyTransform(image, this);
+            imageTransform.applyTransform(image);
          }
       }
 

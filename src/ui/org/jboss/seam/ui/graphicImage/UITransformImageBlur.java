@@ -2,7 +2,6 @@ package org.jboss.seam.ui.graphicImage;
 
 import java.io.IOException;
 
-import javax.faces.component.StateHolder;
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
@@ -20,7 +19,7 @@ public class UITransformImageBlur extends UIComponentBase implements ImageTransf
    
    private String radius;
    
-   public void applyTransform(Image image, UIGraphicImage cmp) throws IOException
+   public void applyTransform(Image image) throws IOException
    {
       if (!isRendered())
       {
