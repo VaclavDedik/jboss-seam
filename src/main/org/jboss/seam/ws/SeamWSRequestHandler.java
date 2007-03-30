@@ -22,18 +22,12 @@ public class SeamWSRequestHandler implements SOAPHandler
    }
 
    public void close(MessageContext messageContext)
-   {
- //     System.out.println("SeamWSRequestHandler.close()");
-      
+   {     
       Lifecycle.endRequest();
    }
 
    public boolean handleFault(MessageContext messageContext)
    {
-//      System.out.println("SeamWSRequestHandler.handleFault()");
-
-      Lifecycle.endRequest();
-      
       return true;
    }
 
@@ -43,7 +37,6 @@ public class SeamWSRequestHandler implements SOAPHandler
       Lifecycle.beginRequest(Lifecycle.getServletContext(), request.getSession(), request);
       Lifecycle.resumeConversation(request.getSession());
       
-//      System.out.println("SeamWSRequestHandler.handleMessage()");
       return true;
    }
 
