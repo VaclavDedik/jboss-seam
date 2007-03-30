@@ -1231,7 +1231,7 @@ public class Pages
          }
          final String viewId = redirect.attributeValue("view-id");
          Element messageElement = redirect.element("message");
-         String control = messageElement.attributeValue("for");
+         String control = messageElement==null ? null : messageElement.attributeValue("for");
          String message = messageElement==null ? null : messageElement.getTextTrim();
          String severityName = messageElement==null ? null : messageElement.attributeValue("severity");
          Severity severity = severityName==null ? 
