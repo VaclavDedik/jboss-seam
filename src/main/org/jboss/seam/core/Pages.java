@@ -1212,7 +1212,7 @@ public class Pages
          final String viewId = render.attributeValue("view-id");
          Element messageElement = render.element("message");
          String message = messageElement==null ? null : messageElement.getTextTrim();
-         String control = messageElement.attributeValue("for");
+         String control = messageElement==null ? null : messageElement.attributeValue("for");
          String severityName = messageElement==null ? null : messageElement.attributeValue("severity");
          Severity severity = severityName==null ? 
                   FacesMessage.SEVERITY_INFO : 
