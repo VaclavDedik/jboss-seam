@@ -144,7 +144,7 @@ public class UIFileUpload extends UIComponentBase
       
       if (styleClass != null)
       {
-         writer.writeAttribute(HTML.STYLE_CLASS_ATTR, styleClass, null);
+         writer.writeAttribute(HTML.CLASS_ATTR, styleClass, null);
       }
       
       if (style != null)
