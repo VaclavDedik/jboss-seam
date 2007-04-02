@@ -4,6 +4,10 @@
 <pages login-view-id="/loginRequired.xhtml"
         no-conversation-view-id="/dirDisplay.xhtml">
 
+    <page view-id="/test.xhtml" action="#{browser.prepare}">
+        <param name="nodeId" value="#{browser.nodeId}"/>
+    </page>
+
     <page view-id="/display.xhtml" action="#{browser.prepare}">
         <param name="nodeId" value="#{browser.nodeId}"/>
 
@@ -168,16 +172,28 @@
     </page>
 
     <page view-id="/userAccount.xhtml">
-        <description>Managing Member Account '#{userHome.instance.username}'</description>
+        <description>Managing Member Account</description>
     </page>
     <page view-id="/userProfile.xhtml">
-        <description>Managing Member Profile '#{userHome.instance.username}'</description>
+        <description>Managing Member Profile</description>
     </page>
     <page view-id="/userPrefs.xhtml">
-        <description>Managing Member Preferences '#{userHome.instance.username}'</description>
+        <description>Managing Member Preferences</description>
     </page>
     <page view-id="/userList.xhtml">
         <description>Searching Members (Results: #{userSearch.rowCount})</description>
+    </page>
+    <page view-id="/adminHome.xhtml">
+        <restrict>#{s:hasPermission('User', 'isAdmin', currentUser)}</restrict>
+        <description>Administration: Home</description>
+    </page>
+    <page view-id="/adminRoles.xhtml">
+        <restrict>#{s:hasPermission('User', 'isAdmin', currentUser)}</restrict>
+        <description>Administration: Roles</description>
+    </page>
+    <page view-id="/adminPrefs.xhtml">
+        <restrict>#{s:hasPermission('User', 'isAdmin', currentUser)}</restrict>
+        <description>Administration: Preferences</description>
     </page>
     <page view-id="/userHome.xhtml" action="#{browser.redirectToCurrentUserHome()}"/>
 
@@ -223,16 +239,35 @@
                     <param name="userId" value="#{currentUser.id}"/>
                 </redirect>
             </rule>
+
             <rule if-outcome="editPreferences">
                 <begin-conversation join="true" flush-mode="MANUAL"/>
                 <redirect view-id="/userPrefs.xhtml">
-                    <param name="userId" value="#{currentUser.id}"/>
+                    <param name="userId" value="#{userHome.instance.id}"/>
+                    <param name="visibility" value="#{'USER'}"/>
                 </redirect>
             </rule>
+
             <rule if-outcome="listUsers">
                 <!-- TODO: I don't want to join, I want a new parallel root conversation: http://jira.jboss.com/jira/browse/JBSEAM-944 -->
                 <begin-conversation join="true" flush-mode="MANUAL"/>
                 <redirect view-id="/userList.xhtml"/>
+            </rule>
+
+            <rule if-outcome="adminHome">
+                <!-- TODO: I don't want to join, I want a new parallel root conversation: http://jira.jboss.com/jira/browse/JBSEAM-944 -->
+                <begin-conversation join="true" flush-mode="MANUAL"/>
+                <redirect view-id="/adminHome.xhtml"/>
+            </rule>
+            <rule if-outcome="adminRoles">
+                <begin-conversation join="true" flush-mode="MANUAL"/>
+                <redirect view-id="/adminRoles.xhtml"/>
+            </rule>
+            <rule if-outcome="adminPrefs">
+                <begin-conversation join="true" flush-mode="MANUAL"/>
+                <redirect view-id="/adminPrefs.xhtml">
+                    <param name="visibility" value="#{'SYSTEM'}"/>
+                </redirect>
             </rule>
 
             <rule if-outcome="error">
@@ -266,11 +301,9 @@
          gets an error message. -->
     <page view-id="/loginRequired.xhtml" action="#{browser.redirectToLastBrowsedPageWithConversation}"/>
 
-    <page view-id="/permissionError.xhtml" action="#{browser.redirectToLastBrowsedPageWithConversation}"/>
-    
     <exception class="org.jboss.seam.security.AuthorizationException">
         <end-conversation/>
-        <redirect view-id="/permissionError.xhtml">
+        <redirect view-id="/message.xhtml">
             <message severity="WARN">Access Denied: #{org.jboss.seam.handledException.message}</message>
         </redirect>
     </exception>

@@ -3,7 +3,7 @@
     margin: 0;
     padding: 0;
 }
-#mainMenu .areaMenuTable {
+#mainMenu .menuTable {
     width: 100%;
     border: 0;
     margin: 0;
@@ -24,10 +24,10 @@
 }
 
 #mainMenu .firstLevelItemLink {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 90%;
     font-weight: bold;
     color: #fff;
+    font-size: 90%;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
     text-decoration: none;
     margin-left: 10px;
 }
@@ -42,13 +42,52 @@
 }
 
 #mainMenu .secondLevelItemLink {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: 75%;
     font-weight: bold;
     color: #fff;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
     text-decoration: none;
     margin-left: 10px;
     white-space: nowrap;
 }
 
 #mainMenu .secondLevelItemLink:hover {color: #ccc}   /* mouse over link */
+
+#mainMenu .menuTableHeader {
+    background: #3e3532 url(../img/menu.bg.gif) 0 0 repeat-x;
+    border-style: none;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 90%;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    text-decoration: none;
+}
+
+#mainMenu .menuTableItem {
+    background-color: #3e3532;
+    border-style: none;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+#mainMenu .menuTableItemLink {
+    font-size: 75%;
+    font-weight: bold;
+    color: #fff;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    text-decoration: none;
+    margin-left: 10px;
+    white-space: nowrap;
+}
+
+#mainMenu .menuTableItemLinkSelected {
+    font-size: 75%;
+    font-weight: bold;
+    color: #fff;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    text-decoration: underline;
+    margin-left: 10px;
+    white-space: nowrap;
+}

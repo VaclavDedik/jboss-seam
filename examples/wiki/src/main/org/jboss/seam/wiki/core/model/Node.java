@@ -2,12 +2,10 @@ package org.jboss.seam.wiki.core.model;
 
 import org.hibernate.validator.Length;
 import org.hibernate.validator.Pattern;
-import org.jboss.seam.annotations.security.Restrict;
+import org.jboss.seam.wiki.core.preferences.WikiPreferenceValue;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 import java.io.Serializable;
 
 @Entity
@@ -25,7 +23,6 @@ import java.io.Serializable;
     name = "NODE_TYPE",
     length = 255
 )
-@Restrict
 @org.hibernate.annotations.FilterDef(
     name = "accessLevelFilter",
     parameters = {@org.hibernate.annotations.ParamDef(name = "currentAccessLevel", type="integer")}
@@ -103,6 +100,9 @@ public abstract class Node implements Serializable {
 
     @Column(name = "READ_ACCESS_LEVEL", nullable = false)
     protected int readAccessLevel;
+
+    @OneToMany(mappedBy="node")
+    private Set<WikiPreferenceValue> preferences = new HashSet<WikiPreferenceValue>();
 
     public Node() {}
 
@@ -238,6 +238,14 @@ public abstract class Node implements Serializable {
 
     public void setReadAccessLevel(int readAccessLevel) {
         this.readAccessLevel = readAccessLevel;
+    }
+
+    public Set<WikiPreferenceValue> getPreferences() {
+        return preferences;
+    }
+
+    public void setPreferences(Set<WikiPreferenceValue> preferences) {
+        this.preferences = preferences;
     }
 
     // Misc methods

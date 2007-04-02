@@ -2,6 +2,7 @@ package org.jboss.seam.wiki.util;
 
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.wiki.core.model.*;
+import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.Component;
 
 import javax.faces.component.UIData;
@@ -71,8 +72,8 @@ public class WikiUtil {
     // Rendering made easy
     public static String renderURL(Node node) {
         if (isFile(node)) return renderFileLink((File)node);
-        GlobalPreferences globalPrefs = (GlobalPreferences) Component.getInstance("globalPrefs");
-        if (globalPrefs.getDefaultURLRendering().equals(GlobalPreferences.URLRendering.PERMLINK)) {
+        WikiPreferences wikiPrefs = (WikiPreferences) Component.getInstance("wikiPreferences");
+        if (wikiPrefs.isRenderPermlinks()) {
             return renderPermLink(node);
         } else {
             return renderWikiLink(node);
@@ -81,9 +82,9 @@ public class WikiUtil {
 
     public static String renderPermLink(Node node) {
         if (isFile(node)) return renderFileLink((File)node);
-        GlobalPreferences globalPrefs = (GlobalPreferences) Component.getInstance("globalPrefs");
+        WikiPreferences wikiPrefs = (WikiPreferences) Component.getInstance("wikiPreferences");
         String contextPath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
-        return contextPath + "/" + node.getId() + globalPrefs.getPermlinkSuffix();
+        return contextPath + "/" + node.getId() + wikiPrefs.getPermlinkSuffix();
     }
 
     public  static String renderWikiLink(Node node) {
@@ -95,7 +96,7 @@ public class WikiUtil {
 
     private static String renderFileLink(File file) {
         String contextPath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
-        return contextPath + "/files/download?fileId=" + file.getId();
+        return contextPath + "/files/download.seam?fileId=" + file.getId();
     }
 
     public static String renderHomeURL(User user) {
@@ -111,7 +112,7 @@ public class WikiUtil {
     /**
      * Need to bind UI components to non-conversational backing beans.
      * That this is even needed makes no sense. Why can't I call the UI components
-     * in the EL directly? Don't try components['id'], it won't work.
+     * in the EL directly? Don't try #{components['id']}, it won't work.
      */
     private UIData datatable;
     public UIData getDatatable() { return datatable; }
@@ -122,6 +123,6 @@ public class WikiUtil {
      * with arguments, in a value binding? Java needs properties badly.
      */
     public static int sizeOf(Collection col) {
-        return col.size();
+        return col == null ? 0 : col.size();
     }
 }

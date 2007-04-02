@@ -8,7 +8,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Wiki&#160;-&#160;
+    <title>LaceWiki&#160;-&#160;
         <ui:insert name="screenname"/>
     </title>
     <link href="#{themePath}/css/template.css" rel="stylesheet" type="text/css"/>
@@ -35,7 +35,7 @@
     <div id="header">
         <div id="headerTopLeft">
             <div class="screenname">
-                <ui:insert name="screenname"/>
+                LaceWiki:&#160;<ui:insert name="screenname"/>
             </div>
         </div>
         <div id="headerTopRight">
@@ -74,13 +74,13 @@
         <s:div id="messageBox" rendered="#{!empty facesMessages.currentGlobalMessages}">
             <ui:repeat var="message" value="#{facesMessages.currentGlobalMessages}">
                 <h:panelGrid columns="2" rendered="#{message.severity == 'Info'}">
-                    <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/info.gif"
+                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/info.gif"
                                     width="18" height="18"
                                     styleClass="infoImage"/>
                     <h:outputText styleClass="infoMessage" value="#{message.summary}"/>
                 </h:panelGrid>
                 <h:panelGrid columns="2" rendered="#{message.severity == 'Warn' or message.severity == 'Error'}">
-                    <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/attention.gif"
+                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/attention.gif"
                                     width="18" height="18"
                                     styleClass="attentionImage"/>
                     <h:outputText styleClass="attentionMessage" value="#{message.summary}"/>
@@ -90,7 +90,7 @@
         <div id="content">
             <f:facet name="beforeInvalidField">
                 <h:panelGroup>
-                    <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/attention.gif"
+                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/attention.gif"
                                     width="18" height="18"
                                     styleClass="attentionImage"/>
                     <s:span styleClass="attentionMessage">&#160;

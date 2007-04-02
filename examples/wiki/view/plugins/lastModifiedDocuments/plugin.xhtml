@@ -1,35 +1,47 @@
 <s:div id="lastModifiedDocuments"
-	 xmlns="http://www.w3.org/1999/xhtml"
-     xmlns:ui="http://java.sun.com/jsf/facelets"
-     xmlns:h="http://java.sun.com/jsf/html"
-     xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:wiki="http://jboss.com/products/seam/wiki"
-     xmlns:s="http://jboss.com/products/seam/taglib">
+       xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:wiki="http://jboss.com/products/seam/wiki"
+       xmlns:s="http://jboss.com/products/seam/taglib"
+       styleClass="#{showPluginPreferences and !empty lastModifiedDocumentsPreferencesEditor ? 'pluginPreferencesBox' : null}">
 
-    <h:dataTable value="#{lastModifiedDocuments}" var="doc" style="width:300px"
-         styleClass="datatable rightBorder leftBorder topBorder bottomBorder"
-         headerClass="regularHeader alignLeft"
-         columnClasses="tenPercentColumn alignLeft, tenPercentColumn alignLeft"
-         rowClasses="rowOdd,rowEven"
-         cellpadding="0" cellspacing="0" border="0">
+    <s:div id="lastModifiedDocumentsPreferences"
+           rendered="#{showPluginPreferences and !empty lastModifiedDocumentsPreferencesEditor}">
+        <div align="center">
+            <h:message for="lastModifiedDocumentsPreferences" styleClass="attentionMessage"/>
+
+            <ui:include src="../../includes/pluginPreferencesForm.xhtml">
+                <ui:param name="pluginPreferencesEditor" value="#{lastModifiedDocumentsPreferencesEditor}"/>
+            </ui:include>
+        </div>
+    </s:div>
+
+    <h:dataTable value="#{lastModifiedDocumentsPlugin.lastModifiedDocuments}" var="doc" style="width:300px"
+                 styleClass="datatable rightBorder leftBorder topBorder bottomBorder"
+                 headerClass="regularHeader alignLeft"
+                 columnClasses="tenPercentColumn alignLeft, tenPercentColumn alignLeft"
+                 rowClasses="rowOdd,rowEven"
+                 cellpadding="0" cellspacing="0" border="0">
         <h:column>
             <f:facet name="header">
-                Recent changes:
+                Last #{lastModifiedDocumentsPreferences.properties['numberOfItems']} modified documents:
             </f:facet>
             <h:outputText value="#{doc.lastModifiedOn}"
                           rendered="#{!empty doc.lastModifiedOn}">
                 <f:convertDateTime pattern="dd. MMM yyyy, HH:mm"/>
             </h:outputText>
             <h:outputText value=" (#{doc.lastModifiedBy.username})"
-                          rendered="#{!empty doc.lastModifiedBy}">
+                          rendered="#{!empty doc.lastModifiedBy and lastModifiedDocumentsPreferences.properties['showUsernames']}">
             </h:outputText>
         </h:column>
         <h:column>
             <h:outputLink value="#{wiki:renderURL(doc)}" styleClass="lastModifiedLink">
-                #{doc.name}
+                <h:outputText value="#{wiki:truncateString(doc.name, lastModifiedDocumentsPreferences.properties['documentTitleLength'],'...')}"/>
             </h:outputLink>
         </h:column>
     </h:dataTable>
 
 </s:div>
-

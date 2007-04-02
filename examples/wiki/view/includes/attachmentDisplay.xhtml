@@ -26,7 +26,7 @@
         </h:column>
         <h:column>
             <h:panelGroup>
-                <h:outputLink value="#{link.url}">
+                <h:outputLink value="#{wiki:renderURL(link.node)}">
                     <h:outputText value="#{link.node.name}"/>
                     &#160;
                     <h:outputText value="(#{link.node.filename}, #{link.node.humanReadableFilesize}, #{link.node.contentType})"/>

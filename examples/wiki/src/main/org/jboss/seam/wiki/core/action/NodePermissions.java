@@ -11,10 +11,11 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.Component;
 
 import java.util.List;
+import java.io.Serializable;
 
 @Name("nodePermissions")
 @Scope(ScopeType.CONVERSATION)
-public class NodePermissions {
+public class NodePermissions implements Serializable {
 
     @In
     Node currentNode;

@@ -21,7 +21,7 @@ import java.io.InputStream;
 
 public class FileServlet extends HttpServlet {
 
-    private static final String DOWNLOAD_PATH = "/download";
+    private static final String DOWNLOAD_PATH = "/download.seam";
 
     /**
      * The maximum width allowed for image rescaling

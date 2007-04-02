@@ -28,6 +28,11 @@ public class UserDAO {
     @In
     protected EntityManager entityManager;
 
+    public User findUser(Long userId) {
+        entityManager.joinTransaction();
+        return entityManager.find(User.class, userId);
+    }
+
     public User findUser(String username, boolean onlyActivated, boolean caseSensitive) {
         entityManager.joinTransaction();
 

@@ -7,7 +7,6 @@ import javax.persistence.*;
 
 @Entity
 @DiscriminatorValue("DOCUMENT")
-@Restrict
 public class Document extends Node {
 
     @Column(name = "CONTENT")
@@ -17,7 +16,10 @@ public class Document extends Node {
     @Column(name = "NAME_AS_TITLE")
     private Boolean nameAsTitle = true;
 
-    public Document() { super("New Document"); }
+    public Document() {
+        super("New Document");
+        content = "Edit this text..."; // Don't know why the interactive preview doesn't work without content
+    }
 
     public Document(String name) {
         super(name);

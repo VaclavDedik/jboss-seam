@@ -5,8 +5,9 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:a="https://ajax4jsf.dev.java.net/ajax"
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
-                template="themes/#{globalPrefs.themeName}/template.xhtml">
+                template="themes/#{wikiPreferences.themeName}/template.xhtml">
 
 <ui:define name="includeHeaders">
     <link href="#{themePath}/css/userControl.css" rel="stylesheet" type="text/css"/>
@@ -50,7 +51,9 @@
                             linkStyleClass="regularLink"
                             brokenLinkStyleClass="brokenLink"
                             attachmentLinkStyleClass="regularLink"
-                            thumbnailLinkStyleClass="regularLink"/>
+                            thumbnailLinkStyleClass="regularLink">
+
+        </wiki:formattedText>
 
         <ui:include src="includes/attachmentDisplay.xhtml"/>
 

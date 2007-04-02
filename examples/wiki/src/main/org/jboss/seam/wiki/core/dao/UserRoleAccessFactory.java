@@ -3,7 +3,7 @@ package org.jboss.seam.wiki.core.dao;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.wiki.core.model.Role;
 import org.jboss.seam.wiki.core.model.User;
-import org.jboss.seam.wiki.core.model.GlobalPreferences;
+import org.jboss.seam.wiki.core.action.prefs.UserManagementPreferences;
 import org.jboss.seam.annotations.*;
 
 import javax.persistence.EntityManager;
@@ -24,7 +24,7 @@ public class UserRoleAccessFactory implements Serializable {
     EntityManager entityManager;
 
     @In
-    private GlobalPreferences globalPrefs;
+    private UserManagementPreferences userManagementPreferences;
 
     @Factory(value = "guestUser", scope = ScopeType.SESSION)
     public User getGuestUser() {
@@ -96,10 +96,10 @@ public class UserRoleAccessFactory implements Serializable {
         try {
             entityManager.joinTransaction();
             return (Role) entityManager
-                    .createQuery("select r from Role r where r.name = '"+globalPrefs.getNewUserInRole()+"'")
+                    .createQuery("select r from Role r where r.name = '"+userManagementPreferences.getNewUserInRole()+"'")
                             .getSingleResult();
         } catch (NoResultException ex) {
-            throw new RuntimeException("Configured default role for new users '"+globalPrefs.getNewUserInRole()+"' not found");
+            throw new RuntimeException("Configured default role for new users '"+userManagementPreferences.getNewUserInRole()+"' not found");
         }
     }
 
@@ -109,7 +109,7 @@ public class UserRoleAccessFactory implements Serializable {
     @Name("rolesList")
     @Scope(ScopeType.CONVERSATION)
     @AutoCreate
-    public static class RoleList {
+    public static class RoleList implements Serializable {
 
         @In
         protected EntityManager entityManager;
@@ -154,7 +154,7 @@ public class UserRoleAccessFactory implements Serializable {
     @Name("accessLevelsList")
     @Scope(ScopeType.CONVERSATION)
     @AutoCreate
-    public static class AccessLevelsList {
+    public static class AccessLevelsList implements Serializable {
 
         @In
         List<Role> rolesList;
@@ -198,7 +198,7 @@ public class UserRoleAccessFactory implements Serializable {
     @Name("assignableAccessLevelsList")
     @Scope(ScopeType.CONVERSATION)
     @AutoCreate
-    public static class AssignableAccessLevelsList {
+    public static class AssignableAccessLevelsList implements Serializable {
 
         @In
         List<Role.AccessLevel> accessLevelsList;

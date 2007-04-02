@@ -10,9 +10,12 @@ import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.wiki.core.dao.UserDAO;
 import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.model.Role;
+import org.jboss.seam.wiki.core.action.prefs.UserManagementPreferences;
 import org.jboss.seam.wiki.util.Hash;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.security.Identity;
+import org.jboss.seam.security.AuthorizationException;
 import org.jboss.seam.contexts.Contexts;
 
 import javax.faces.application.FacesMessage;
@@ -37,7 +40,7 @@ public class UserHome extends EntityHome<User> {
     private Hash hashUtil;
 
     @In
-    private GlobalPreferences globalPrefs;
+    private UserManagementPreferences userManagementPreferences;
 
     @In
     private Renderer renderer;
@@ -68,7 +71,12 @@ public class UserHome extends EntityHome<User> {
 
         defaultRole = (Role)Component.getInstance("newUserDefaultRole");
         oldUsername = getInstance().getUsername();
-        if (isManaged()) roles = getInstance().getRoles();
+        if (isManaged()) {
+            if (!Identity.instance().hasPermission("User", "edit", getInstance()) ) {
+                throw new AuthorizationException("You don't have permission for this operation");
+            }
+            roles = getInstance().getRoles();
+        }
     }
 
     public String persist() {
@@ -93,7 +101,7 @@ public class UserHome extends EntityHome<User> {
         getInstance().setPasswordHash(hashUtil.hash(getPassword()));
 
         // Set activation code (unique user in time)
-        String seed = getInstance().getUsername() + System.currentTimeMillis() + globalPrefs.getActivationCodeSalt();
+        String seed = getInstance().getUsername() + System.currentTimeMillis() + userManagementPreferences.getActivationCodeSalt();
         getInstance().setActivationCode( ((Hash)Component.getInstance("hashUtil")).hash(seed) );
 
         String outcome = super.persist();
@@ -102,7 +110,7 @@ public class UserHome extends EntityHome<User> {
             try {
 
                 // Send confirmation email
-                renderer.render("/themes/" + globalPrefs.getThemeName() + "/mailtemplates/confirmationRegistration.xhtml");
+//                renderer.render("/themes/" + wikiPreferences.getThemeName() + "/mailtemplates/confirmationRegistration.xhtml");
 
                 // Redirect to last viewed page with message
                 facesMessages.addFromResourceBundleOrDefault(
@@ -240,13 +248,13 @@ public class UserHome extends EntityHome<User> {
 
 
     private boolean passwordMatchesRegex() {
-        Matcher matcher = Pattern.compile(globalPrefs.getPasswordRegex()).matcher(getPassword());
+        Matcher matcher = Pattern.compile(userManagementPreferences.getPasswordRegex()).matcher(getPassword());
         if (!matcher.find()) {
             facesMessages.addToControlFromResourceBundleOrDefault(
                 "password",
                 FacesMessage.SEVERITY_ERROR,
                 getMessageKeyPrefix() + "passwordNoRegexMatch",
-                "Password does not match the pattern: " + globalPrefs.getPasswordRegex()
+                "Password does not match the pattern: " + userManagementPreferences.getPasswordRegex()
             );
             return false;
         }

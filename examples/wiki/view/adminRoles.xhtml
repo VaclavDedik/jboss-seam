@@ -1,0 +1,49 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:wiki="http://jboss.com/products/seam/wiki"
+                template="themes/#{wikiPreferences.themeName}/template.xhtml">
+
+<ui:define name="includeHeaders">
+    <link href="#{themePath}/css/userControl.css" rel="stylesheet" type="text/css"/>
+    <link href="#{themePath}/css/searchControl.css" rel="stylesheet" type="text/css"/>
+</ui:define>
+
+<ui:define name="screenname">
+    <h:outputText value="System Administration"/>
+</ui:define>
+
+<ui:define name="headerTopRight">
+    <ui:include src="includes/userControl.xhtml"/>
+</ui:define>
+
+<ui:define name="headerBottomLeft">&#160;</ui:define>
+
+<ui:define name="sidebar">&#160;</ui:define>
+
+<ui:define name="controlLeft">
+    <s:link id="adminHome" styleClass="linkTab inactiveTab" action="adminHome">Admin Home</s:link>
+    <s:link id="editRoles" styleClass="linkTab activeTab" action="adminRoles">Roles/Permissions</s:link>
+    <s:link id="editPreferences" styleClass="linkTab inactiveTab" action="adminPrefs">System Preferences</s:link>
+</ui:define>
+
+<ui:define name="controlRight">
+    <s:link id="exit" styleClass="linkNavigation"
+            action="#{browser.exitConversation(true)}"
+            accesskey="E"><u>E</u>xit</s:link>
+</ui:define>
+
+<ui:define name="content">
+
+    Not implemented
+
+</ui:define>
+
+<ui:define name="footer">&#160;</ui:define>
+
+</ui:composition>
+

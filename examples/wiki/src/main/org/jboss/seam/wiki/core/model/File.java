@@ -1,28 +1,43 @@
 package org.jboss.seam.wiki.core.model;
 
-import javax.persistence.Entity;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Column;
-import javax.persistence.Lob;
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
 @DiscriminatorValue("FILE")
+@SecondaryTable(
+    name = "NODE_FILE",
+    pkJoinColumns = @PrimaryKeyJoinColumn(name = "FILE_ID")
+)
 public class File extends Node {
 
-    @Column(name = "FILENAME", length = 255)
+    @Column(table = "NODE_FILE", name = "FILENAME", length = 255, nullable = false)
     private String filename;
 
-    @Column(name = "FILESIZE")
+    @Column(table = "NODE_FILE", name = "FILESIZE", nullable = false)
     private int filesize;
 
     @Lob
-    @Column(name = "FILEDATA")
+    @Column(table = "NODE_FILE", name = "FILEDATA", nullable = false)
     private byte[] data;
 
-    @Column(name = "CONTENT_TYPE", length = 255)
+    @Column(table = "NODE_FILE", name = "CONTENT_TYPE", length = 255)
     private String contentType;
 
+    @AttributeOverrides({
+        @AttributeOverride(
+            name = "sizeX",
+            column = @Column(table = "NODE_FILE", name = "IMAGE_SIZE_X")
+        ),
+        @AttributeOverride(
+            name = "sizeY",
+            column = @Column(table = "NODE_FILE", name = "IMAGE_SIZE_Y")
+        ),
+        @AttributeOverride(
+            name = "thumbnail",
+            column = @Column(table = "NODE_FILE", name = "IMAGE_THUMBNAIL")
+        )
+    })
     private ImageMetaInfo imageMetaInfo;
 
     public File() { super("New File"); }

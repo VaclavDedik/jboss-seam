@@ -63,7 +63,7 @@ public interface WikiLinkResolver {
      * </p><p>
      * Note that cross-namespace linking should be supported, so in addition to <tt>[=>Target Name]</tt>,
      * links can be entered by the user as <tt>[=>Target Area|Target Name]</tt>. To resolve these link
-     * texts, use <tt>REGEX_WIKILINK_CROSSAREA</tt> on the original <tt>GROUP1</tt>, which produces
+     * texts, use <tt>REGEX_WIKILINK_CROSSAREA</tt> on the original <tt>GROUP2</tt>, which produces
      * two groups. Ignore the given <tt>currentAreaNumber</tt> parameter and resolve in the target namespace entered by
      * the user on the link tag.
      * </p><p>
@@ -105,7 +105,7 @@ public interface WikiLinkResolver {
 
 
     /**
-     * Resolve the given <tt>linkText</tt> to an instance of <tt>WikiLink</tt> and put it in the <tt>link</tt> map.
+     * Resolve the given <tt>linkText</tt> to an instance of <tt>WikiLink</tt> and put it in the <tt>links</tt> map.
      * <p>
      * The <tt>WikiLink</tt> objects are used during rendering, the rules are as follows:
      * <ul>

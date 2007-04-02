@@ -4,8 +4,8 @@ import org.jboss.seam.annotations.*;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Component;
 import org.jboss.seam.wiki.core.model.Directory;
-import org.jboss.seam.wiki.core.model.GlobalPreferences;
 import org.jboss.seam.wiki.core.model.Document;
+import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
@@ -21,8 +21,6 @@ public class WikiNodeFactory implements Serializable {
     @In
     protected EntityManager restrictedEntityManager;
 
-    @In
-    protected GlobalPreferences globalPrefs;
 
     @Factory(value = "wikiRoot", scope = ScopeType.CONVERSATION, autoCreate = true)
     @Transactional
@@ -41,15 +39,16 @@ public class WikiNodeFactory implements Serializable {
     @Transactional
     public Document loadWikiStart() {
         restrictedEntityManager.joinTransaction();
+        WikiPreferences wikiPreferences = (WikiPreferences) Component.getInstance("wikiPreferences");
         try {
             return (Document) restrictedEntityManager
                     .createQuery("select d from Document d where d.id = :id")
-                    .setParameter("id", globalPrefs.getDefaultDocumentId())
+                    .setParameter("id", wikiPreferences.getDefaultDocumentId())
                     .getSingleResult();
         } catch (EntityNotFoundException ex) {
         } catch (NoResultException ex) {
         }
-        throw new RuntimeException("Couldn't find default document with id '" + globalPrefs.getDefaultDocumentId() +"'");
+        throw new RuntimeException("Couldn't find default document with id '" + wikiPreferences.getDefaultDocumentId() +"'");
     }
 
     // Loads the same instance into a different persistence context
@@ -64,7 +63,7 @@ public class WikiNodeFactory implements Serializable {
     @Factory(value = "memberArea", scope = ScopeType.CONVERSATION, autoCreate = true)
     @Transactional
     public Directory loadMemberArea() {
-        Long memberAreaId = ((GlobalPreferences)Component.getInstance("globalPrefs")).getMemberAreaId();
+        Long memberAreaId = ((WikiPreferences)Component.getInstance("wikiPreferences")).getMemberAreaId();
         entityManager.joinTransaction();
         try {
             return (Directory) entityManager

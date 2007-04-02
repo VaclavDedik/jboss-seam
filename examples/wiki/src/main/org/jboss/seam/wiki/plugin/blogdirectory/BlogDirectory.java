@@ -1,7 +1,7 @@
 package org.jboss.seam.wiki.plugin.blogdirectory;
 
 import org.jboss.seam.annotations.*;
-import org.jboss.seam.annotations.datamodel.DataModel;
+import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.wiki.core.dao.NodeDAO;
 import org.jboss.seam.wiki.core.model.Directory;
@@ -35,18 +35,17 @@ public class BlogDirectory implements Serializable {
     @RequestParameter
     private Integer year;
 
-    @DataModel(scope = ScopeType.PAGE)
     private List<BlogEntry> blogEntries;
 
     private String orderByProperty;
     private boolean orderDescending;
     private int totalRowCount;
     private int page;
-    private int pageSize;
+    @In("#{blogDirectoryPreferences.properties['pageSize']}")
+    private long pageSize;
     private Calendar startDate;
     private Calendar endDate;
 
-    @Factory("blogEntries")
     @Create
     public void initialize() {
         Calendar today = new GregorianCalendar();
@@ -54,13 +53,9 @@ public class BlogDirectory implements Serializable {
         if (month == null) month = today.get(Calendar.MONTH);
         if (year == null) year = today.get(Calendar.YEAR);
 
-        pageSize = 3;
         orderByProperty = "createdOn";
         orderDescending = true;
-
-        blogEntries = new ArrayList<BlogEntry>();
-        queryRowCount();
-        if (totalRowCount != 0) queryBlogEntries();
+        refreshBlogEntries();
     }
 
     private void queryRowCount() {
@@ -77,12 +72,19 @@ public class BlogDirectory implements Serializable {
         }
     }
 
-    public int getTotalRowCount() {
-        return totalRowCount;
+    @Observer("Preferences.blogDirectoryPreferences")
+    public void refreshBlogEntries() {
+        blogEntries = new ArrayList<BlogEntry>();
+        queryRowCount();
+        if (totalRowCount != 0) queryBlogEntries();
     }
 
     public List<BlogEntry> getBlogEntries() {
         return blogEntries;
+    }
+
+    public int getTotalRowCount() {
+        return totalRowCount;
     }
 
     public int getNextPage() {
@@ -97,18 +99,18 @@ public class BlogDirectory implements Serializable {
         return 0;
     }
 
-    public int getFirstRow() {
+    public long getFirstRow() {
         return page * pageSize + 1;
     }
 
-    public int getLastRow() {
+    public long getLastRow() {
         return (page * pageSize + pageSize) > totalRowCount
                 ? totalRowCount
                 : page * pageSize + pageSize;
     }
 
-    public int getLastPage() {
-        int lastPage = (totalRowCount / pageSize);
+    public long getLastPage() {
+        long lastPage = (totalRowCount / pageSize);
         if (totalRowCount % pageSize == 0) lastPage--;
         return lastPage;
     }
@@ -120,6 +122,4 @@ public class BlogDirectory implements Serializable {
     public boolean isPreviousPageAvailable() {
         return blogEntries != null && page > 0;
     }
-
-
 }

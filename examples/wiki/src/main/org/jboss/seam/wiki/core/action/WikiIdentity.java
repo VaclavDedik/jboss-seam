@@ -9,8 +9,8 @@ import org.jboss.seam.annotations.*;
 import org.jboss.seam.wiki.core.model.User;
 import org.jboss.seam.wiki.core.model.Directory;
 import org.jboss.seam.wiki.core.model.Node;
-import org.jboss.seam.wiki.core.model.GlobalPreferences;
 import org.jboss.seam.wiki.core.dao.UserRoleAccessFactory;
+import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.Component;
 
 /**
@@ -26,13 +26,13 @@ public class WikiIdentity extends Identity {
 
     private User currentUser;
     private Integer currentAccessLevel;
-    private GlobalPreferences globalPrefs;
+    private WikiPreferences wikiPrefs;
 
     public boolean hasPermission(String name, String action, Object... args) {
 
         currentUser = (User)Component.getInstance("currentUser");
         currentAccessLevel = (Integer)Component.getInstance("currentAccessLevel");
-        globalPrefs = (GlobalPreferences)Component.getInstance("globalPrefs");
+        wikiPrefs = (WikiPreferences) Component.getInstance("wikiPreferences");
 
         if (args == null || args.length == 0) {
             // All the security checks currently need arguments...
@@ -59,7 +59,11 @@ public class WikiIdentity extends Identity {
         } else
         if ("Node".equals(name) && "editMenu".equals(action)) {
             return checkEditMenu((Node)args[0]);
+        } else
+        if ("User".equals(name) && "isAdmin".equals(action)) {
+            return checkIsAdmin((User)args[0]);
         }
+
 
         return false;
     }
@@ -69,7 +73,7 @@ public class WikiIdentity extends Identity {
         or the user is the creator of the parent directory
     */
     private boolean checkCreateAccess(Directory directory) {
-        if (globalPrefs.getMemberAreaId().equals(directory.getId())) return false; // Member home dir is immutable
+        if (wikiPrefs.getMemberAreaId().equals(directory.getId())) return false; // Member home dir is immutable
         if (directory.getWriteAccessLevel() == UserRoleAccessFactory.GUESTROLE_ACCESSLEVEL) return true;
         int dirWriteAccessLevel = directory.getWriteAccessLevel();
         User dirCreator = directory.getCreatedBy();
@@ -104,7 +108,7 @@ public class WikiIdentity extends Identity {
         User either needs to have the access level of the edited node or has to be the creator
     */
     private boolean checkEditAccess(Node node) {
-        if (globalPrefs.getMemberAreaId().equals(node.getId())) return false; // Member home dir is immutable
+        if (wikiPrefs.getMemberAreaId().equals(node.getId())) return false; // Member home dir is immutable
         if (node.getWriteAccessLevel() == UserRoleAccessFactory.GUESTROLE_ACCESSLEVEL) return true;
         int nodeWriteAccessLevel = node.getWriteAccessLevel();
         User nodeCreator = node.getCreatedBy();
@@ -123,7 +127,7 @@ public class WikiIdentity extends Identity {
         he has, unless he is the creator
     */
     private boolean checkRaiseAccessLevel(Node node) {
-        if (globalPrefs.getMemberAreaId().equals(node.getId())) return false; // Member home dir is immutable
+        if (wikiPrefs.getMemberAreaId().equals(node.getId())) return false; // Member home dir is immutable
         int desiredWriteAccessLevel = node.getWriteAccessLevel();
         int desiredReadAccessLevel = node.getReadAccessLevel();
         User nodeCreator = node.getCreatedBy();
@@ -162,6 +166,14 @@ public class WikiIdentity extends Identity {
         Only admins can edit the main menu
     */
     private boolean checkEditMenu(Node node) {
+        if (currentAccessLevel == UserRoleAccessFactory.ADMINROLE_ACCESSLEVEL) return true;
+        return false;
+    }
+
+    /*
+        Only admins are admins
+    */
+    private boolean checkIsAdmin(User user) {
         if (currentAccessLevel == UserRoleAccessFactory.ADMINROLE_ACCESSLEVEL) return true;
         return false;
     }

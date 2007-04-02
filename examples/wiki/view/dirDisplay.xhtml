@@ -6,7 +6,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
-                template="themes/#{globalPrefs.themeName}/template.xhtml">
+                template="themes/#{wikiPreferences.themeName}/template.xhtml">
 
 <ui:define name="includeHeaders">
     <link href="#{themePath}/css/userControl.css" rel="stylesheet" type="text/css"/>
@@ -86,23 +86,23 @@
                 <s:link view="/dirDisplay.xhtml" tabindex="1"
                         rendered="#{!empty currentDirectory.parent and s:hasPermission('Node','read',currentDirectory.parent)}">
                     <f:param name="nodeId" value="#{currentDirectory.parent.id}"/>
-                    <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/icon.dirup.gif" width="18" height="20"/>
+                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.dirup.gif" width="18" height="20"/>
                 </s:link>
             </f:facet>
-            <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/icon.dir.gif"
+            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.dir.gif"
                             width="18" height="20"
                             rendered="#{wiki:isDirectory(node)}"/>
-            <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/icon.doc.gif"
+            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.doc.gif"
                             width="18" height="20"
                             rendered="#{wiki:isDocument(node) and node != currentDirectory.defaultDocument}"/>
-            <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/icon.doc.default.gif"
+            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.doc.default.gif"
                             width="18" height="20"
                             rendered="#{wiki:isDocument(node) and node == currentDirectory.defaultDocument}"/>
 
-            <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/#{fileMetaMap[node.contentType].displayIcon}"
+            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/#{fileMetaMap[node.contentType].displayIcon}"
                             width="18" height="20"
                             rendered="#{wiki:isFile(node) and !empty fileMetaMap[node.contentType]}"/>
-            <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/#{fileMetaMap['generic'].displayIcon}"
+            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/#{fileMetaMap['generic'].displayIcon}"
                             width="18" height="20"
                             rendered="#{wiki:isFile(node) and empty fileMetaMap[node.contentType]}"/>
         </h:column>

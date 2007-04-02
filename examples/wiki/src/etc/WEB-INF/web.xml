@@ -7,7 +7,6 @@
     <!-- Ajax4jsf (must come first!) -->
 
     <filter>
-        <display-name>Ajax4jsf Filter</display-name>
         <filter-name>ajax4jsf</filter-name>
         <filter-class>org.ajax4jsf.Filter</filter-class>
     </filter>
@@ -15,6 +14,9 @@
     <filter-mapping>
         <filter-name>ajax4jsf</filter-name>
         <url-pattern>*.seam</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
     </filter-mapping>
 
     <context-param>
@@ -29,48 +31,29 @@
 
     <!-- Seam -->
 
-   <listener>
-      <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
-   </listener>
+    <listener>
+       <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
+    </listener>
 
-    <filter>
-        <filter-name>Seam Filter</filter-name>
-        <filter-class>org.jboss.seam.web.SeamFilter</filter-class>
-    </filter>
+     <filter>
+         <filter-name>Seam Filter</filter-name>
+         <filter-class>org.jboss.seam.web.SeamFilter</filter-class>
+     </filter>
 
-    <filter-mapping>
-        <filter-name>Seam Filter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
+     <filter-mapping>
+         <filter-name>Seam Filter</filter-name>
+         <url-pattern>/*</url-pattern>
+     </filter-mapping>
 
-   <servlet>
-      <servlet-name>Seam Resource Servlet</servlet-name>
-      <servlet-class>org.jboss.seam.servlet.ResourceServlet</servlet-class>
-   </servlet>
+    <servlet>
+       <servlet-name>Seam Resource Servlet</servlet-name>
+       <servlet-class>org.jboss.seam.servlet.ResourceServlet</servlet-class>
+    </servlet>
 
-   <servlet-mapping>
-      <servlet-name>Seam Resource Servlet</servlet-name>
-      <url-pattern>/seam/resource/*</url-pattern>
-   </servlet-mapping>
-
-   <!-- URL Rewrite -->
-
-   <filter>
-        <filter-name>UrlRewriteFilter</filter-name>
-        <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
-        <init-param>
-            <param-name>logLevel</param-name>
-            <param-value>WARN</param-value>
-        </init-param>
-        <init-param>
-            <param-name>statusEnabled</param-name>
-            <param-value>false</param-value>
-        </init-param>
-    </filter>
-    <filter-mapping>
-        <filter-name>UrlRewriteFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
+    <servlet-mapping>
+       <servlet-name>Seam Resource Servlet</servlet-name>
+       <url-pattern>/seam/resource/*</url-pattern>
+    </servlet-mapping>
 
    <!-- MyFaces -->
 
@@ -85,39 +68,39 @@
       <param-value>false</param-value>
    </context-param>
 
-   <!-- JSF -->
+    <!-- JSF -->
 
-   <context-param>
-      <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
-      <param-value>client</param-value>
-   </context-param>
+    <context-param>
+       <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+       <param-value>client</param-value>
+    </context-param>
 
-   <context-param>
-      <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
-      <param-value>.xhtml</param-value>
-   </context-param>
+    <context-param>
+       <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+       <param-value>.xhtml</param-value>
+    </context-param>
 
-   <servlet>
-      <servlet-name>Faces Servlet</servlet-name>
-      <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-      <load-on-startup>1</load-on-startup>
-   </servlet>
+    <servlet>
+       <servlet-name>Faces Servlet</servlet-name>
+       <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+       <load-on-startup>1</load-on-startup>
+    </servlet>
 
-   <servlet-mapping>
-      <servlet-name>Faces Servlet</servlet-name>
-      <url-pattern>*.seam</url-pattern>
-   </servlet-mapping>
+    <servlet-mapping>
+       <servlet-name>Faces Servlet</servlet-name>
+       <url-pattern>*.seam</url-pattern>
+    </servlet-mapping>
 
-   <security-constraint>
-       <display-name>Restrict raw XHTML Documents</display-name>
-       <web-resource-collection>
-           <web-resource-name>XHTML</web-resource-name>
-           <url-pattern>*.xhtml</url-pattern>
-       </web-resource-collection>
-       <auth-constraint>
-           <role-name>NONE</role-name>
-       </auth-constraint>
-   </security-constraint>
+    <security-constraint>
+        <display-name>Restrict raw XHTML Documents</display-name>
+        <web-resource-collection>
+            <web-resource-name>XHTML</web-resource-name>
+            <url-pattern>*.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>NONE</role-name>
+        </auth-constraint>
+    </security-constraint>
 
     <!-- Wiki: File Download Servlet -->
 
@@ -134,5 +117,23 @@
         <session-timeout>10</session-timeout> 
     </session-config>
 
+    <!-- URL Rewrite -->
+
+    <filter>
+         <filter-name>UrlRewriteFilter</filter-name>
+         <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+         <init-param>
+             <param-name>logLevel</param-name>
+             <param-value>WARN</param-value>
+         </init-param>
+         <init-param>
+             <param-name>statusEnabled</param-name>
+             <param-value>false</param-value>
+         </init-param>
+     </filter>
+     <filter-mapping>
+         <filter-name>UrlRewriteFilter</filter-name>
+         <url-pattern>/*</url-pattern>
+     </filter-mapping>
 
 </web-app>

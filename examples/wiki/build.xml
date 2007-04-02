@@ -285,6 +285,9 @@
         <touch file="${deploy.war.dir}/WEB-INF/web.xml"/>
     </target>
 
+    <target name="cleanredeploy" depends="undeploy, clean, deploy"
+            description="Undeploy, clean up, build and redeploy"/>
+
     <!-- ######################## DISTRIBUTION ################## -->
 
     <target name="dist" depends="clean, exploderegular, exploderesources"

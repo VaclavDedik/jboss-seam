@@ -6,7 +6,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
-                template="themes/#{globalPrefs.themeName}/template.xhtml">
+                template="themes/#{wikiPreferences.themeName}/template.xhtml">
 
 <ui:define name="includeHeaders">
     <link href="#{themePath}/css/userControl.css" rel="stylesheet" type="text/css"/>
@@ -95,29 +95,29 @@
                      rendered="#{userSearch.rowCount > 0}">
 
             <h:commandLink action="#{userSearch.firstPage()}" rendered="#{userSearch.previousPageAvailable}" tabindex="7">
-                <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/page.first.gif" width="13" height="11"/>
+                <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.first.gif" width="13" height="11"/>
             </h:commandLink>
-            <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/blank.gif" width="13" height="11"
+            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
                             rendered="#{!userSearch.previousPageAvailable}"/>
 
             <h:commandLink action="#{userSearch.previousPage()}" rendered="#{userSearch.previousPageAvailable}" tabindex="7">
-                <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/page.previous.gif" width="13" height="11"/>
+                <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.previous.gif" width="13" height="11"/>
             </h:commandLink>
-            <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/blank.gif" width="13" height="11"
+            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
                             rendered="#{!userSearch.previousPageAvailable}"/>
 
             <h:outputText value="Found: #{userSearch.rowCount} member(s)"/>
 
             <h:commandLink action="#{userSearch.nextPage()}" rendered="#{userSearch.nextPageAvailable}" tabindex="7">
-                <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/page.next.gif" width="13" height="11"/>
+                <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.next.gif" width="13" height="11"/>
             </h:commandLink>
-            <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/blank.gif" width="13" height="11"
+            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
                             rendered="#{!userSearch.nextPageAvailable}"/>
 
             <h:commandLink action="#{userSearch.lastPage()}" rendered="#{userSearch.nextPageAvailable}" tabindex="7">
-                <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/page.last.gif" width="13" height="11"/>
+                <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.last.gif" width="13" height="11"/>
             </h:commandLink>
-            <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/blank.gif" width="13" height="11"
+            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
                             rendered="#{!userSearch.nextPageAvailable}"/>
 
         </h:panelGrid>
@@ -138,9 +138,9 @@
             <h:column>
                 <f:facet name="header">
                     <h:commandLink action="#{userSearch.sortBy('username')}" tabindex="8">
-                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/sortindicator.up.gif" width="8" height="8"
+                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/sortindicator.up.gif" width="8" height="8"
                                         rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'username'}"/>
-                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/sortindicator.down.gif" width="8" height="8"
+                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/sortindicator.down.gif" width="8" height="8"
                                         rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'username'}"/>
                         Username
                     </h:commandLink>
@@ -152,9 +152,9 @@
             <h:column>
                 <f:facet name="header">
                     <h:commandLink action="#{userSearch.sortBy('firstname')}" tabindex="9">
-                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/sortindicator.up.gif" width="8" height="8"
+                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/sortindicator.up.gif" width="8" height="8"
                                         rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'firstname'}"/>
-                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/sortindicator.down.gif" width="8" height="8"
+                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/sortindicator.down.gif" width="8" height="8"
                                         rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'firstname'}"/>
                         First name
                     </h:commandLink>
@@ -165,9 +165,9 @@
             <h:column>
                 <f:facet name="header">
                     <h:commandLink action="#{userSearch.sortBy('lastname')}" tabindex="10">
-                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/sortindicator.up.gif" width="8" height="8"
+                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/sortindicator.up.gif" width="8" height="8"
                                         rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'lastname'}"/>
-                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/sortindicator.down.gif" width="8" height="8"
+                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/sortindicator.down.gif" width="8" height="8"
                                         rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'lastname'}"/>
                         Last name
                     </h:commandLink>
@@ -178,9 +178,9 @@
             <h:column>
                 <f:facet name="header">
                     <h:commandLink action="#{userSearch.sortBy('email')}" tabindex="11">
-                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/sortindicator.up.gif" width="8" height="8"
+                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/sortindicator.up.gif" width="8" height="8"
                                         rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'email'}"/>
-                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/sortindicator.down.gif" width="8" height="8"
+                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/sortindicator.down.gif" width="8" height="8"
                                         rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'email'}"/>
                         E-mail address
                     </h:commandLink>
@@ -191,9 +191,9 @@
             <h:column>
                 <f:facet name="header">
                     <h:commandLink action="#{userSearch.sortBy('createdOn')}" tabindex="12">
-                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/sortindicator.up.gif" width="8" height="8"
+                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/sortindicator.up.gif" width="8" height="8"
                                         rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'createdOn'}"/>
-                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/sortindicator.down.gif" width="8" height="8"
+                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/sortindicator.down.gif" width="8" height="8"
                                         rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'createdOn'}"/>
                         Joined on
                     </h:commandLink>
@@ -203,7 +203,7 @@
                 </h:outputText>
             </h:column>
 
-            <h:column>
+            <h:column rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}">
                 <s:link view="/userAccount.xhtml" value="Edit">
                     <f:param name="userId" value="#{u.id}"/>
                 </s:link>

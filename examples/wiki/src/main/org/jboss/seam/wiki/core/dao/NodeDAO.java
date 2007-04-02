@@ -256,14 +256,14 @@ public class NodeDAO {
     }
 
     public <N extends Node> List<N> findWithParent(Class<N> nodeType, Directory directory, Node ignoreNode,
-                                                   String orderByProperty, boolean orderDescending, int firstResult, int maxResults) {
+                                                   String orderByProperty, boolean orderDescending, long firstResult, long maxResults) {
 
         Criteria crit = prepareCriteria(nodeType, orderByProperty, orderDescending);
         crit.add(Restrictions.eq("parent", directory));
         if (ignoreNode != null)
             crit.add(Restrictions.ne("id", ignoreNode.getId()));
         if ( !(firstResult == 0 && maxResults == 0) )
-            crit.setFirstResult(firstResult).setMaxResults(maxResults);
+            crit.setFirstResult(Long.valueOf(firstResult).intValue()).setMaxResults(Long.valueOf(maxResults).intValue());
         //noinspection unchecked
         return crit.list();
     }

@@ -7,7 +7,7 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
                 xmlns:rich="http://richfaces.ajax4jsf.org/rich"
-                template="themes/#{globalPrefs.themeName}/template.xhtml">
+                template="themes/#{wikiPreferences.themeName}/template.xhtml">
 
 <ui:define name="includeHeaders">
     <link href="#{themePath}/css/userControl.css" rel="stylesheet" type="text/css"/>
@@ -112,7 +112,7 @@
                     <h:commandLink id="nodeUp" tabindex="1"
                                    action="#{directoryHome.moveNodeUpInList}"
                                    rendered="#{wikiUtil.datatable.rowIndex > 0}">
-                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/up.gif" width="18" height="18"/>
+                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/up.gif" width="18" height="18"/>
                     </h:commandLink>
                 </h:column>
 
@@ -120,7 +120,7 @@
                     <h:commandLink id="nodeDown" tabindex="2"
                                    action="#{directoryHome.moveNodeDownInList}"
                                    rendered="#{wikiUtil.datatable.rowIndex+1 lt wikiUtil.datatable.rowCount}">
-                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/down.gif" width="18" height="18"/>
+                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/down.gif" width="18" height="18"/>
                     </h:commandLink>
                 </h:column>
 
@@ -129,17 +129,17 @@
                 </h:column>
 
                 <h:column>
-                    <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/icon.dir.gif"
+                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.dir.gif"
                                     width="18" height="20"
                                     rendered="#{wiki:isDirectory(node)}"/>
-                    <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/icon.doc.gif"
+                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.doc.gif"
                                     width="18" height="20"
                                     rendered="#{wiki:isDocument(node)}"/>
 
-                    <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/#{fileMetaMap[node.contentType].displayIcon}"
+                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/#{fileMetaMap[node.contentType].displayIcon}"
                                     width="18" height="20"
                                     rendered="#{wiki:isFile(node) and !empty fileMetaMap[node.contentType]}"/>
-                    <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/#{fileMetaMap['generic'].displayIcon}"
+                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/#{fileMetaMap['generic'].displayIcon}"
                                     width="18" height="20"
                                     rendered="#{wiki:isFile(node) and empty fileMetaMap[node.contentType]}"/>
                 </h:column>

@@ -13,14 +13,16 @@ import javax.faces.context.ResponseWriter;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.util.Resources;
 import org.jboss.seam.ui.JSF;
-import org.jboss.seam.wiki.core.model.GlobalPreferences;
 import org.jboss.seam.wiki.core.model.File;
 import org.jboss.seam.wiki.core.engine.WikiLink;
 import org.jboss.seam.wiki.core.engine.WikiTextRenderer;
 import org.jboss.seam.wiki.core.engine.WikiTextParser;
+import org.jboss.seam.wiki.core.action.PluginPreferenceEditor;
+import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.util.WikiUtil;
 import org.jboss.seam.Component;
 import org.jboss.seam.core.Expressions;
+import org.jboss.seam.core.Conversation;
 
 import com.sun.facelets.Facelet;
 import com.sun.facelets.impl.DefaultFaceletFactory;
@@ -99,7 +101,8 @@ public class UIWikiFormattedText extends UIOutput implements WikiTextRenderer {
             case 'L': thumbnailWidth = 320; break;
             default: thumbnailWidth = file.getImageMetaInfo().getSizeX();
         }
-        String thumbnailUrl = WikiUtil.renderURL(inlineLink.getNode()) + "&width=" + thumbnailWidth;
+        Conversation conversation = (Conversation)Component.getInstance("conversation");
+        String thumbnailUrl = WikiUtil.renderURL(inlineLink.getNode()) + "&width=" + thumbnailWidth + "&cid=" + conversation.getId();
 
         return "<a href=\""
                 + (inlineLink.isBroken() ? inlineLink.getUrl() : WikiUtil.renderURL(inlineLink.getNode()))
@@ -120,6 +123,11 @@ public class UIWikiFormattedText extends UIOutput implements WikiTextRenderer {
         Contexts.getEventContext().set("wikiTextExternalLinks", externalLinks);
     }
 
+    public void setMacroNames(Set<String> macroNames) {
+        // Put macro names into the event context for later usage
+        Contexts.getEventContext().set("wikiTextMacroNames", macroNames);
+    }
+
     public String renderMacro(String macroName) {
         if (macroName == null || macroName.length() == 0) return "";
 
@@ -137,8 +145,25 @@ public class UIWikiFormattedText extends UIOutput implements WikiTextRenderer {
         if (url == null) return "";
 
         // Try to get the CSS for it
-        GlobalPreferences globalPrefs = (GlobalPreferences) Component.getInstance("globalPrefs");
-        String includeViewCSS = "/themes/" + globalPrefs.getThemeName() + "/css/" + macroName + ".css";
+        WikiPreferences wikiPrefs = (WikiPreferences) Component.getInstance("wikiPreferences");
+        String includeViewCSS = "/themes/" + wikiPrefs.getThemeName() + "/css/" + macroName + ".css";
+
+        // If this plugin has preferences and editing is enabled, instantiate a
+        // plugin preferences editor and put it in the PAGE context 
+        String pluginPreferenceName = macroName + "Preferences";
+        Boolean showPluginPreferences = (Boolean)Component.getInstance("showPluginPreferences");
+        Object existingEditor = Contexts.getConversationContext().get(pluginPreferenceName+"Editor");
+        if ( showPluginPreferences != null && showPluginPreferences && existingEditor == null) {
+            PluginPreferenceEditor pluginPreferenceEditor = new PluginPreferenceEditor(pluginPreferenceName);
+            PluginPreferenceEditor.FlushObserver observer =
+                    (PluginPreferenceEditor.FlushObserver)Component.getInstance("pluginPreferenceEditorFlushObserver");
+            if (pluginPreferenceEditor.getPreferenceValues().size() > 0) {
+                Contexts.getConversationContext().set(pluginPreferenceName+"Editor", pluginPreferenceEditor);
+                observer.addPluginPreferenceEditor(pluginPreferenceEditor);
+            }
+        } else if (showPluginPreferences == null || !showPluginPreferences) {
+            Contexts.getConversationContext().set(pluginPreferenceName+"Editor", null);
+        }
 
         // Prepare all the writers for rendering
         ResponseWriter originalResponseWriter = facesContext.getResponseWriter();

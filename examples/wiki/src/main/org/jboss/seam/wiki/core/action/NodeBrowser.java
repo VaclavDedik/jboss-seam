@@ -50,9 +50,6 @@ public class NodeBrowser implements Serializable {
     public void setNodeId(Long nodeId) { this.nodeId = nodeId; }
 
     @In
-    private GlobalPreferences globalPrefs;
-
-    @In
     protected org.jboss.seam.core.Redirect redirect;
 
     @In

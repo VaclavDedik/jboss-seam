@@ -6,7 +6,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
-                template="themes/#{globalPrefs.themeName}/template.xhtml">
+                template="themes/#{wikiPreferences.themeName}/template.xhtml">
 
 <ui:define name="includeHeaders">
     <link href="#{themePath}/css/userControl.css" rel="stylesheet" type="text/css"/>
@@ -14,7 +14,7 @@
     <link href="#{themePath}/css/mainMenu.css" rel="stylesheet" type="text/css"/>
 </ui:define>
 
-<ui:define name="screenname">Member Preferences</ui:define>
+<ui:define name="screenname">Member Preferences '#{userHome.instance.username}'</ui:define>
 
 <ui:define name="headerTopRight">
     <ui:include src="includes/userControl.xhtml"/>
@@ -23,8 +23,7 @@
 <ui:define name="headerBottomLeft">&#160;</ui:define>
 
 <ui:define name="sidebar">
-    <ui:include src="includes/searchControl.xhtml"/>
-    <ui:include src="includes/mainMenu.xhtml"/>
+    <ui:include src="includes/preferencesMenu.xhtml"/>
 </ui:define>
 
 <ui:define name="controlLeft">
@@ -42,9 +41,7 @@
 </ui:define>
 
 <ui:define name="content">
-
-    Not implemented.
-
+    <ui:include src="includes/preferencesForm.xhtml"/>
 </ui:define>
 
 <ui:define name="footer">&#160;</ui:define>

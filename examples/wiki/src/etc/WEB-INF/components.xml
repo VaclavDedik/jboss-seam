@@ -16,22 +16,6 @@
 
     <!-- ##### WIKI USER CONFIGURATION ##### -->
 
-    <component name="globalPrefs" class="org.jboss.seam.wiki.core.model.GlobalPreferences"
-               scope="application" auto-create="true">
-
-        <property name="baseURL">http://www.seamframework.org/wiki</property>
-        <property name="defaultURLRendering">WIKILINK</property>
-        <property name="permlinkSuffix">.html</property>
-        <property name="defaultDocumentId">10</property>
-        <property name="memberAreaId">2</property>
-        <property name="themeName">default</property>
-        <property name="newUserInRole">member</property>
-        <property name="passwordRegex">^[0-9A-Za-z]{6,15}</property>
-        <property name="activationCodeSalt">MySecretSalt123</property>
-        <property name="defaultNewRevisionForEditedDocument">true</property>
-
-    </component>
-
     <mail:mail-session host="mail.bluewin.ch" port="25"/>
 
     <web:multipart-filter create-temp-files="true" max-request-size="10000000" url-pattern="*.seam"/>
@@ -100,6 +84,6 @@
     <web:context-filter url-pattern="/files/*"/>
 
     <factory name="themePath" scope="APPLICATION"
-             value="#{facesContext.externalContext.request.contextPath}/themes/#{globalPrefs.themeName}"/>
+             value="#{facesContext.externalContext.request.contextPath}/themes/#{wikiPreferences.themeName}"/>
 
 </components>

@@ -4,16 +4,28 @@
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
      xmlns:wiki="http://jboss.com/products/seam/wiki"
-     xmlns:s="http://jboss.com/products/seam/taglib">
+     xmlns:s="http://jboss.com/products/seam/taglib"
+     styleClass="#{showPluginPreferences and !empty blogDirectoryPreferencesEditor ? 'pluginPreferencesBox' : null}">
 
-    <s:div id="blogHeader" rendered="#{blogEntries.rowCount > 0}">
+  <s:div id="blogDirectoryPreferences"
+         rendered="#{showPluginPreferences and !empty blogDirectoryPreferencesEditor}">
+      <div align="center">
+          <h:message for="blogDirectoryPreferences" styleClass="attentionMessage"/>
+
+          <ui:include src="../../includes/pluginPreferencesForm.xhtml">
+              <ui:param name="pluginPreferencesEditor" value="#{blogDirectoryPreferencesEditor}"/>
+          </ui:include>
+      </div>
+  </s:div>
+
+    <s:div id="blogHeader" rendered="#{!empty blogDirectory.blogEntries}">
         <div id="blogTitle">
             #{currentDocument.name}
         </div>
     </s:div>
 
-    <s:div id="blogEntriesContainer" rendered="#{blogEntries.rowCount > 0}">
-        <ui:repeat var="blogEntry" value="#{blogEntries}">
+    <s:div id="blogEntriesContainer" rendered="#{!empty blogDirectory.blogEntries}">
+        <ui:repeat var="blogEntry" value="#{blogDirectory.blogEntries}">
 
             <div class="blogEntry">
 
@@ -54,8 +66,9 @@
         </ui:repeat>
     </s:div>
 
-    <s:div id="noBlogEntriesContainer" rendered="#{blogEntries.rowCount == 0}">
-        No blog entries found, create documents in this directory to create blog entries.
+    <s:div id="noBlogEntriesContainer" rendered="#{empty blogDirectory.blogEntries}">
+        No blog entries found, create documents in this directory to create blog entries. Note that this plugin
+        only works after you saved the document you placed it on.
     </s:div>
 
     <h:panelGrid columns="5"
@@ -63,36 +76,36 @@
                  columnClasses="blogPagerColumn, blogPagerColumn, blogPagerTextColumn, blogPagerColumn, blogPagerColumn, "
                  cellpadding="0" cellspacing="0" border="0">
 
-        <h:outputLink rendered="#{blogDirectory.previousPageAvailable}">
+        <h:outputLink rendered="#{blogDirectory.previousPageAvailable}" value="#{wiki:renderURL(currentDocument)}">
             <f:param name="blogPage" value="#{blogDirectory.firstPage}"/>
-            <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/page.first.gif" width="13" height="11"/>
+            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.first.gif" width="13" height="11"/>
         </h:outputLink>
-        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/blank.gif" width="13" height="11"
+        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
                         rendered="#{!blogDirectory.previousPageAvailable}"/>
 
-        <h:outputLink rendered="#{blogDirectory.previousPageAvailable}">
+        <h:outputLink rendered="#{blogDirectory.previousPageAvailable}" value="#{wiki:renderURL(currentDocument)}">
             <f:param name="blogPage" value="#{blogDirectory.previousPage}"/>
-            <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/page.previous.gif" width="13" height="11"/>
+            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.previous.gif" width="13" height="11"/>
         </h:outputLink>
-        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/blank.gif" width="13" height="11"
+        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
                         rendered="#{!blogDirectory.previousPageAvailable}"/>
 
         <h:outputText value="Showing #{blogDirectory.firstRow} to
                                      #{blogDirectory.lastRow} of
                                      #{blogDirectory.totalRowCount} blog entries"/>
 
-        <h:outputLink rendered="#{blogDirectory.nextPageAvailable}">
+        <h:outputLink rendered="#{blogDirectory.nextPageAvailable}" value="#{wiki:renderURL(currentDocument)}">
             <f:param name="blogPage" value="#{blogDirectory.nextPage}"/>
-            <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/page.next.gif" width="13" height="11"/>
+            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.next.gif" width="13" height="11"/>
         </h:outputLink>
-        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/blank.gif" width="13" height="11"
+        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
                         rendered="#{!blogDirectory.nextPageAvailable}"/>
 
-        <h:outputLink rendered="#{blogDirectory.nextPageAvailable}">
+        <h:outputLink rendered="#{blogDirectory.nextPageAvailable}" value="#{wiki:renderURL(currentDocument)}">
             <f:param name="blogPage" value="#{blogDirectory.lastPage}"/>
-            <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/page.last.gif" width="13" height="11"/>
+            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.last.gif" width="13" height="11"/>
         </h:outputLink>
-        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/blank.gif" width="13" height="11"
+        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
                         rendered="#{!blogDirectory.nextPageAvailable}"/>
 
     </h:panelGrid>

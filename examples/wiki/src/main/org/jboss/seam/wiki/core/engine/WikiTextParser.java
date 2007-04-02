@@ -9,10 +9,7 @@ import org.jboss.seam.wiki.util.WikiUtil;
 import org.jboss.seam.Component;
 import antlr.ANTLRException;
 
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.HashMap;
+import java.util.*;
 import java.io.StringReader;
 
 /**
@@ -24,7 +21,7 @@ import java.io.StringReader;
  * the <tt>currentDocument</tt>'s content, this change should be flushed to the datastore after calling
  * the parser.
  * </p><p>
- * After parsing, all links to attachments and all external engine are pushed onto the renderer, where they
+ * After parsing, all links to attachments and all external links are pushed onto the renderer, where they
  * can be used to render an attachment list or similar.
  *
  * @author Christian Bauer
@@ -40,6 +37,7 @@ public class WikiTextParser extends SeamTextParser {
     private Map<String, WikiLink> resolvedLinks = new HashMap<String, WikiLink>();
     private List<WikiLink> attachments = new ArrayList<WikiLink>();
     private List<WikiLink> externalLinks = new ArrayList<WikiLink>();
+    private Set<String> macroNames = new HashSet<String>();
 
     public WikiTextParser(String wikiText, WikiTextRenderer renderer) {
         super(new SeamTextLexer(new StringReader(wikiText)));
@@ -83,7 +81,7 @@ public class WikiTextParser extends SeamTextParser {
 
             renderer.setAttachmentLinks(attachments);
             renderer.setExternalLinks(externalLinks);
-
+            renderer.setMacroNames(macroNames);
 
         }
         catch (ANTLRException re) {
@@ -129,7 +127,9 @@ public class WikiTextParser extends SeamTextParser {
 
     protected String macroInclude(String macroName) {
         // Filter out any dangerous characters
-        return renderer.renderMacro(macroName.replaceAll("[^\\p{Alnum}]+", ""));
+        String filteredName = macroName.replaceAll("[^\\p{Alnum}]+", "");
+        macroNames.add(filteredName);
+        return renderer.renderMacro(filteredName);
     }
 
 

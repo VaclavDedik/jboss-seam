@@ -7,7 +7,7 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
                 xmlns:rich="http://richfaces.ajax4jsf.org/rich"
-                template="themes/#{globalPrefs.themeName}/template.xhtml">
+                template="themes/#{wikiPreferences.themeName}/template.xhtml">
 
 <ui:define name="includeHeaders">
     <link href="#{themePath}/css/userControl.css" rel="stylesheet" type="text/css"/>
@@ -93,8 +93,8 @@
                         <div class="entry">
                             <div class="label">Image Preview:</div>
                             <div class="output">
-                                <h:outputLink value="#{facesContext.externalContext.requestContextPath}/files/download?fileId=#{fileHome.instance.id}"><h:graphicImage
-                                    style="border: 1px solid black;" value="/files/download?fileId=#{fileHome.instance.id}&amp;width=#{fileHome.imagePreviewSize}&amp;conversationId=#{conversation.id}"/>
+                                <h:outputLink value="#{facesContext.externalContext.requestContextPath}/files/download.seam?fileId=#{fileHome.instance.id}"><h:graphicImage
+                                    style="border: 1px solid black;" value="/files/download.seam?fileId=#{fileHome.instance.id}&amp;width=#{fileHome.imagePreviewSize}&amp;conversationId=#{conversation.id}"/>
                                 </h:outputLink>
                                 
                             </div>
@@ -105,10 +105,10 @@
                             <div class="input">
                                 <h:panelGroup>
                                     <h:commandLink id="zoomOut" tabindex="2" action="#{fileHome.zoomPreviewOut}">
-                                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/minus.gif" width="18" height="18"/>
+                                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/minus.gif" width="18" height="18"/>
                                     </h:commandLink>
                                     <h:commandLink id="zoomIn" tabindex="3" action="#{fileHome.zoomPreviewIn}">
-                                        <h:graphicImage value="/themes/#{globalPrefs.themeName}/img/plus.gif" width="18" height="18"/>
+                                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/plus.gif" width="18" height="18"/>
                                     </h:commandLink>
                                 </h:panelGroup>
                             </div>

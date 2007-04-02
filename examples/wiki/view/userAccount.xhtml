@@ -6,7 +6,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
-                template="themes/#{globalPrefs.themeName}/template.xhtml">
+                template="themes/#{wikiPreferences.themeName}/template.xhtml">
 
 <ui:define name="includeHeaders">
     <link href="#{themePath}/css/userControl.css" rel="stylesheet" type="text/css"/>
@@ -16,7 +16,7 @@
 
 <ui:define name="screenname">
     <h:outputText value="Registration" rendered="#{!userHome.managed}"/>
-    <h:outputText value="Member Account" rendered="#{userHome.managed}"/>
+    <h:outputText value="Member Account '#{userHome.instance.username}'" rendered="#{userHome.managed}"/>
 </ui:define>
 
 <ui:define name="headerTopRight">

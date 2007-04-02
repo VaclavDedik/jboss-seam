@@ -1,0 +1,63 @@
+<h:form xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+        xmlns:wiki="http://jboss.com/products/seam/wiki"
+        xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <h:panelGrid columns="2" style="margin-bottom:10px;" cellpadding="0" cellspacing="0" border="0">
+
+        <h:dataTable var="v" style="width:10%;"
+                     value="#{pluginPreferencesEditor.preferenceValues}"
+                     styleClass="datatable topLeftBottomBorder"
+                     columnClasses="tenPercentColumn alignLeft minorPadding, tenPercentColumn alignLeft rightBorder"
+                     rowClasses="rowEven,rowOdd"
+                     cellpadding="0" cellspacing="0" border="0">
+
+            <h:column>
+                    <h:outputText value="#{v.preferenceProperty.description}"/>
+            </h:column>
+            <h:column>
+
+                <s:div rendered="#{v.value.class.simpleName == 'Boolean'}">
+                    <h:selectBooleanCheckbox value="#{v.value}"/>
+                </s:div>
+
+                <s:div rendered="#{v.value.class.simpleName == 'String'}">
+                    <h:inputText value="#{v.value}" size="32"/>
+                </s:div>
+
+                <s:div rendered="#{v.value.class.simpleName == 'Long'}">
+                    <h:inputText value="#{v.value}" size="5">
+                        <f:converter converterId="javax.faces.Long"/>
+                    </h:inputText>
+                </s:div>
+
+                <s:div rendered="#{v.value.class.simpleName == 'Double'}">
+                    <h:inputText value="#{v.value}" size="10"/>
+                </s:div>
+
+                <s:div rendered="#{v.value.class.simpleName == 'Date'}">
+                    <h:inputText id="dt" value="#{v.value}">
+                        <f:convertDateTime pattern="dd. MMM yyyy, HH:mm"/>
+                    </h:inputText>
+                    <s:selectDate for="dt" dateFormat="dd. MMM yyyy, HH:mm">
+                        <h:graphicImage style="vertical-align:bottom;margin-bottom:2px;"
+                                        value="/themes/#{wikiPreferences.themeName}/img/icon.calendar.gif" width="16"
+                                        height="16"/>
+                    </s:selectDate>
+                </s:div>
+
+            </h:column>
+
+        </h:dataTable>
+
+        <a:commandLink action="#{pluginPreferencesEditor.apply}"
+                       reRender="preview"
+                       styleClass="buttonNonpersistent"><span class="buttonLabel">Apply</span></a:commandLink>
+
+    </h:panelGrid>
+
+</h:form>
+

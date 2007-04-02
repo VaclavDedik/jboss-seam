@@ -283,6 +283,10 @@ a:visited {
 .linkNavigation:hover {color: #ccc}
 .linkNavigation:active {color: #aaa}
 
+.pluginPreferencesBox {
+    padding: 10px;
+    background-color: #ded;
+}
 
 /* Forms
 ----------------------------------------------- */
@@ -408,11 +412,14 @@ a:visited {
 ----------------------------------------------- */
 
 .datatable {
-    padding: 0;
     margin: 0;
     font-size: 85%;
     width: 100%;
     border-collapse: separate;
+}
+
+.datatable input {
+    font-size: 100%;
 }
 
 .topLeftBottomBorder {
@@ -447,6 +454,14 @@ a:visited {
 
 .alignLeft {
     text-align: left;
+}
+
+.noPadding {
+    padding: 0;
+}
+
+.minorPadding {
+    padding: 5px;
 }
 
 .datatable .rowOdd {

@@ -56,6 +56,8 @@
                 <h:commandLink styleClass="userControlLink" action="#{authenticator.logout}" tabindex="70">Logout</h:commandLink>
                 <s:link styleClass="userControlLink" action="editCurrentUser" tabindex="71">Profile</s:link>
                 <s:link styleClass="userControlLink" action="listUsers" tabindex="72" accesskey="M"><u>M</u>embers</s:link>
+                <s:link styleClass="userControlLink" action="adminHome" tabindex="73" accesskey="A"
+                        rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}"><u>A</u>dmin</s:link>
             </h:panelGroup>
         </h:form>
     </s:div>

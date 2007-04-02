@@ -9,11 +9,13 @@ import org.jboss.seam.wiki.core.model.User;
 import org.jboss.seam.wiki.core.model.Directory;
 import org.jboss.seam.wiki.core.model.Node;
 import org.jboss.seam.wiki.util.WikiUtil;
+import org.jboss.seam.wiki.preferences.PreferenceProvider;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.RequestParameter;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.security.AuthorizationException;
 import org.jboss.seam.security.Identity;
@@ -146,7 +148,12 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
         if (!isValidModel()) return null;
 
         if (!beforePersist()) return null;
-        return super.persist();
+        String outcome = super.persist();
+
+        // Notify any plugin preferences editors to also flush
+        Events.instance().raiseEvent("PreferenceEditor.flushAll");
+
+        return outcome;
     }
 
     @Override
@@ -169,7 +176,12 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
         if (!isValidModel()) return null;
 
         if (!beforeUpdate()) return null;
-        return super.update();
+        String outcome = super.update();
+
+        // Notify any plugin preferences editors to also flush
+        Events.instance().raiseEvent("PreferenceEditor.flushAll");
+
+        return outcome;
     }
 
     @Override
@@ -183,6 +195,11 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
         refreshMenuItems();
 
         if (!beforeRemove()) return null;
+
+        // Delete preferences of this node
+        PreferenceProvider provider = (PreferenceProvider) Component.getInstance("preferenceProvider");
+        provider.deleteInstancePreferences(getInstance());
+
         return super.remove();
     }
 

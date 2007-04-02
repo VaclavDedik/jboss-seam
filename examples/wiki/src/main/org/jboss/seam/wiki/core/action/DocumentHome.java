@@ -5,6 +5,7 @@ import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.core.Events;
 import org.jboss.seam.contexts.Contexts;
 
 @Name("documentHome")
@@ -18,7 +19,8 @@ public class DocumentHome extends NodeHome<Document> {
     /* -------------------------- Internal State ------------------------------ */
 
     private Document historicalCopy;
-    private boolean minorRevision = true;
+    @In("#{docEditorPreferences.properties['minorRevisionEnabled']}")
+    private boolean minorRevision;
     private String formContent;
     private boolean enabledPreview = false;
 
@@ -27,10 +29,6 @@ public class DocumentHome extends NodeHome<Document> {
     @Override
     public void create() {
         super.create();
-
-        // Settings
-        GlobalPreferences globalPrefs = (GlobalPreferences) Component.getInstance("globalPrefs");
-        minorRevision = !globalPrefs.isDefaultNewRevisionForEditedDocument();
 
         // Rollback to historical revision?
         if (selectedHistoricalNode != null) getInstance().rollback(selectedHistoricalNode);
@@ -105,7 +103,6 @@ public class DocumentHome extends NodeHome<Document> {
         formContent = wikiLinkResolver.convertFromWikiProtocol(dir.getAreaNumber(), getInstance().getContent());
     }
 
-
     /* -------------------------- Public Features ------------------------------ */
 
     public String getFormContent() {
@@ -129,5 +126,15 @@ public class DocumentHome extends NodeHome<Document> {
         this.enabledPreview = enabledPreview;
         syncFormToInstance(getParentDirectory());
         refreshMenuItems();
+    }
+
+    public void setShowPluginPrefs(boolean showPluginPrefs) {
+        Contexts.getConversationContext().set("showPluginPreferences", showPluginPrefs);
+
+    }
+
+    public boolean isShowPluginPrefs() {
+        Boolean showPluginPrefs = (Boolean)Contexts.getConversationContext().get("showPluginPreferences");
+        return showPluginPrefs != null ? showPluginPrefs : false;
     }
 }
