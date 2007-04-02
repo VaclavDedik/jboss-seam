@@ -17,12 +17,20 @@
       <ui:include src="header.xhtml"/>  
       
       <div class="banner"></div>
+      
+      <h:messages globalOnly="true"/>
 
       <div id="searchHeader">
         <h:form>
           <h:inputText id="searchTerm" value="#{auctionSearch.searchTerm}" styleClass="searchTerm"/>
+          <h:selectOneMenu id="selectedCat" value="#{auctionSearch.searchCategory}">
+            <s:selectItems value="#{categories}" var="cat" label="#{cat.name}" noSelectionLabel="All Categories"/>
+            <s:convertEntity />
+          </h:selectOneMenu>
+          
           <h:commandButton action="#{auctionSearch.queryAuctions}" value="Search"/>
         </h:form>
+        
       </div>
       
       <div id="searchSidebar">

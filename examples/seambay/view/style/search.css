@@ -8,6 +8,14 @@
   border-bottom: 1px solid #ffcc00;
 }
 
+#searchHeader input {
+  margin-right: 4px;
+}
+
+#searchHeader select {
+  margin-right: 4px;
+}
+
 input.searchTerm {
   width: 200px;
 }

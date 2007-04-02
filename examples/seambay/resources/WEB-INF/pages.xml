@@ -19,6 +19,12 @@
             <redirect view-id="/search.xhtml"/>
         </navigation>
     </page>
+    
+    <page view-id="*">
+        <navigation from-action="#{auctionSearch.queryAllAuctions}">
+            <redirect view-id="/search.xhtml"/>
+        </navigation>    
+    </page>
           
     <exception class="org.jboss.seam.security.NotLoggedInException">
         <redirect view-id="/register.xhtml">

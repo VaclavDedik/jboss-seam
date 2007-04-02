@@ -1,5 +1,6 @@
 package org.jboss.seam.example.seambay;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -18,8 +19,10 @@ import org.jboss.seam.annotations.Scope;
 
 @Name("auctionSearch")
 @Scope(ScopeType.SESSION)
-public class AuctionSearchAction
+public class AuctionSearchAction implements Serializable
 {
+   private static final long serialVersionUID = -3548004575336733926L;
+
    @In
    EntityManager entityManager;
    
@@ -62,6 +65,12 @@ public class AuctionSearchAction
       {
          searchCategories.put(entityManager.find(Category.class, result[0]), (Long) result[1]);
       }
+   }
+   
+   public void queryAllAuctions()
+   {
+      searchCategory = null;
+      queryAuctions();
    }
    
    @Factory(value="searchPattern", scope=ScopeType.EVENT)
@@ -120,7 +129,7 @@ public class AuctionSearchAction
    
    public void selectCategory(Category category)
    {
-      this.searchCategory = category;
+      setSearchCategory(category);
       queryAuctions();
    }
    
@@ -128,5 +137,10 @@ public class AuctionSearchAction
    public Category getSearchCategory()
    {
       return searchCategory;
+   }
+   
+   public void setSearchCategory(Category category)
+   {
+      this.searchCategory = category;  
    }
 }
