@@ -25,6 +25,7 @@ public class UIFormattedText extends UIOutput
    public void encodeBegin(FacesContext context) throws IOException
    {
       if ( !isRendered() || getValue() == null) return;
+
       Reader r = new StringReader( (String) getValue() );
       SeamTextLexer lexer = new SeamTextLexer(r);
       SeamTextParser parser = new SeamTextParser(lexer);
@@ -39,4 +40,10 @@ public class UIFormattedText extends UIOutput
       context.getResponseWriter().write(parser.toString());
    }
    
+
+    @Override
+    public void encodeEnd(FacesContext context) 
+        throws IOException
+    {
+    }
 }
