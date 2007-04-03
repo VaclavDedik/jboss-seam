@@ -7,17 +7,16 @@
     <property name="example.name"           value="jboss-seam-booking"/>
 	
     <!-- Overrides -->
-	<property name="example.webinf.lib.dir"  value="."/>
+    <property name="example.webinf.lib.dir" value="."/>
     <property name="example.seam.ui.lib"    value="yes"/>
     <property name="example.seam.debug.lib" value="yes"/>
     <property name="example.facelets.lib"   value="yes"/>
-	<property name="example.ajax4jsf.lib"   value="yes"/>
+    <property name="example.ajax4jsf.lib"   value="yes"/>
     <property name="example.ds"             value="booking-ds.xml"/>
     <property name="src.java.dir"           value="src"/>
     <property name="src.test.dir"           value="src"/>
     <property name="test.classpath"         value="test.eejb.classpath"/>
     <property name="tomcat.conf"            value="eejb.conf"/>
-
-    <import file="../../build.xml"/>
     
+    <import file="../../build.xml"/>
 </project>

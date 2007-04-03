@@ -21,14 +21,4 @@
         <java>jboss-seam.jar</java>
     </module>
     
-    <!-- Remove these lines for JSF 1.2 -->
-
-    <module>
-        <java>el-api.jar</java>
-    </module>
-  
-    <module>
-        <java>el-ri.jar</java>
-    </module>
-
 </application>
