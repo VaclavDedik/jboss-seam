@@ -19,6 +19,10 @@
 		<begin-conversation join="true"/>
 		<param name="personId" converterId="javax.faces.Integer" value="#{personHome.id}" />
 	</page>
+	<page view-id="/graphicImage.xhtml">
+		<begin-conversation join="true"/>
+		<param name="personId" converterId="javax.faces.Integer" value="#{personHome.id}" />
+	</page>
 	<page view-id="/linkAndButton.xhtml">
 		<param name="foo" value="#{buttonLink.foo}" />
 	</page>
