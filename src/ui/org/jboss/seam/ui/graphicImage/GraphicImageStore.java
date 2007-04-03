@@ -15,14 +15,14 @@ import org.jboss.seam.core.Image;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.log.Logging;
 
-@Name("org.jboss.seam.ui.graphicImage.dynamicImageStore")
+@Name("org.jboss.seam.ui.graphicImage.graphicImageStore")
 @Scope(ScopeType.SESSION)
 @Install(precedence = Install.BUILT_IN)
 @Intercept(InterceptionType.NEVER)
-public class DynamicImageStore implements Serializable
+public class GraphicImageStore implements Serializable
 {
    
-   private Log log = Logging.getLog(DynamicImageStore.class);
+   private Log log = Logging.getLog(GraphicImageStore.class);
 
    public static class ImageWrapper implements Serializable
    {
@@ -72,7 +72,7 @@ public class DynamicImageStore implements Serializable
    {
       if (key == null)
       {
-         key = "org.jboss.seam.ui.DynamicImageStore." + index;
+         key = "org.jboss.seam.ui.GraphicImageStore." + index;
          index++;
       }
       store.put(key, image);
@@ -98,9 +98,9 @@ public class DynamicImageStore implements Serializable
       return store.containsKey(key);
    }
 
-   public static DynamicImageStore instance()
+   public static GraphicImageStore instance()
    {
-      return (DynamicImageStore) Component.getInstance(DynamicImageStore.class, true);
+      return (GraphicImageStore) Component.getInstance(GraphicImageStore.class, true);
    }
 
 }

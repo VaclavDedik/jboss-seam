@@ -14,11 +14,11 @@ public class UITransformImageSize extends UIComponentBase implements ImageTransf
    
    private Boolean maintainRatio;
    
-   private String width;
+   private Integer width;
    
-   private String height;
+   private Integer height;
    
-   private String factor;
+   private Double factor;
    
    @Override
    public String getFamily()
@@ -59,7 +59,7 @@ public class UITransformImageSize extends UIComponentBase implements ImageTransf
       else
       {
          image.resize(new Integer(getWidth()), new Integer(getHeight()));
-      }
+      }      
    }
    
    public boolean isMaintainRatio()
@@ -81,7 +81,7 @@ public class UITransformImageSize extends UIComponentBase implements ImageTransf
       this.maintainRatio = maintainRatio;
    }
    
-   public String getWidth()
+   public Integer getWidth()
    {
       if (width != null)
       {
@@ -90,16 +90,16 @@ public class UITransformImageSize extends UIComponentBase implements ImageTransf
       else
       {
          ValueBinding vb = getValueBinding("width");
-         return vb == null ? null : JSF.getStringValue(getFacesContext(), vb);
+         return vb == null ? null : JSF.getIntegerValue(getFacesContext(), vb);
       }
    }
    
-   public void setWidth(String width)
+   public void setWidth(Integer width)
    {
       this.width = width;
    }
    
-   public String getHeight()
+   public Integer getHeight()
    {
       if (height != null)
       {
@@ -108,16 +108,16 @@ public class UITransformImageSize extends UIComponentBase implements ImageTransf
       else
       {
          ValueBinding vb = getValueBinding("height");
-         return vb == null ? null : JSF.getStringValue(getFacesContext(), vb);
+         return vb == null ? null : JSF.getIntegerValue(getFacesContext(), vb);
       }
    }
    
-   public void setHeight(String height)
+   public void setHeight(Integer height)
    {
       this.height = height;
    }
    
-   public String getFactor()
+   public Double getFactor()
    {
       if (factor != null)
       {
@@ -126,15 +126,15 @@ public class UITransformImageSize extends UIComponentBase implements ImageTransf
       else
       {
          ValueBinding vb = getValueBinding("factor");
-         return vb == null ? null : JSF.getStringValue(getFacesContext(), vb);
+         return vb == null ? null : JSF.getDoubleValue(getFacesContext(), vb);
       }
    }
    
-   public void setFactor(String factor)
+   public void setFactor(Double factor)
    {
       this.factor = factor;
    }
-   
+
    @Override
    public Object saveState(FacesContext context)
    {
@@ -152,9 +152,9 @@ public class UITransformImageSize extends UIComponentBase implements ImageTransf
    {
       Object[] objects = (Object[]) state;
       super.restoreState(context, objects[0]);
-      factor = (String) objects[1];
-      height = (String) objects[2];
-      width = (String) objects[3];
+      factor = (Double) objects[1];
+      height = (Integer) objects[2];
+      width = (Integer) objects[3];
       maintainRatio = (Boolean) objects[4];
    }
    

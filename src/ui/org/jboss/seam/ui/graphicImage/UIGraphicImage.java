@@ -13,7 +13,7 @@ import javax.faces.render.Renderer;
 import org.jboss.seam.core.Image;
 import org.jboss.seam.ui.HTML;
 import org.jboss.seam.ui.JSF;
-import org.jboss.seam.ui.graphicImage.DynamicImageStore.ImageWrapper;
+import org.jboss.seam.ui.graphicImage.GraphicImageStore.ImageWrapper;
 
 public class UIGraphicImage extends HtmlGraphicImage
 {
@@ -71,13 +71,13 @@ public class UIGraphicImage extends HtmlGraphicImage
          }
       }
 
-      key = DynamicImageStore.instance().put(new ImageWrapper(image.getImage(), image.getContentType()),
+      key = GraphicImageStore.instance().put(new ImageWrapper(image.getImage(), image.getContentType()),
                key);
       extension = image.getContentType().getExtension();
 
       writer.startElement(HTML.IMG_ELEM, this);
       String url = context.getExternalContext().getRequestContextPath()
-               + DynamicImageResource.DYNAMIC_IMAGE_RESOURCE_PATH + "/" + key + extension;
+               + GraphicImageResource.GRAPHIC_IMAGE_RESOURCE_PATH + "/" + key + extension;
       writer.writeAttribute(HTML.SRC_ATTR, url, HTML.SRC_ATTR);
       HTML.renderHTMLAttributes(writer, this, HTML.IMG_PASSTHROUGH_ATTRIBUTES);
       writer.endElement(HTML.IMG_ELEM);
@@ -101,9 +101,9 @@ public class UIGraphicImage extends HtmlGraphicImage
    {
       this.fileName = fileName;
    }
-
+   
    @Override
-   protected Renderer getRenderer(FacesContext context)
+   public String getRendererType()
    {
       return null;
    }

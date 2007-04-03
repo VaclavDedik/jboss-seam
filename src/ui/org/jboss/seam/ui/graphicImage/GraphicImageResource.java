@@ -21,19 +21,19 @@ import org.jboss.seam.contexts.ContextAdaptor;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.servlet.AbstractResource;
-import org.jboss.seam.ui.graphicImage.DynamicImageStore.ImageWrapper;
+import org.jboss.seam.ui.graphicImage.GraphicImageStore.ImageWrapper;
 
 @Startup
 @Scope(APPLICATION)
-@Name("org.jboss.seam.ui.graphicImage.dynamicImageResource")
+@Name("org.jboss.seam.ui.graphicImage.graphicImageResource")
 @Install(precedence = BUILT_IN)
 @Intercept(NEVER)
-public class DynamicImageResource extends AbstractResource
+public class GraphicImageResource extends AbstractResource
 {
 
- public static final String DYNAMIC_IMAGE_RESOURCE_PATH = "/seam/resource/dynamicImage";
+ public static final String GRAPHIC_IMAGE_RESOURCE_PATH = "/seam/resource/graphicImage";
    
-   private static final String RESOURCE_PATH = "/dynamicImage";
+   private static final String RESOURCE_PATH = "/graphicImage";
    
    @Override
    protected String getResourcePath()
@@ -59,7 +59,7 @@ public class DynamicImageResource extends AbstractResource
       
       try
       {
-         ImageWrapper image = DynamicImageStore.instance().remove(pathInfo);
+         ImageWrapper image = GraphicImageStore.instance().remove(pathInfo);
          if (image != null)
          {
             response.setContentType(image.getContentType().getMimeType());
