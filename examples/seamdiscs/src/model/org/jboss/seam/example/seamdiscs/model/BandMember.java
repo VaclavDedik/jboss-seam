@@ -1,4 +1,4 @@
-package org.jboss.seam.example.trinidad.model;
+ package org.jboss.seam.example.seamdiscs.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,19 +14,17 @@ public class BandMember
    
    private String name;
    
-   private String age;
-   
    @ManyToOne
    private Band band;
-
-   public String getAge()
+   
+   public BandMember()
    {
-      return age;
+      
    }
-
-   public void setAge(String age)
+   
+   public BandMember(Band band)
    {
-      this.age = age;
+      this.band = band;
    }
 
    public Band getBand()

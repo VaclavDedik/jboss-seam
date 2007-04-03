@@ -1,7 +1,9 @@
-package org.jboss.seam.example.trinidad.model;
+package org.jboss.seam.example.seamdiscs.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
@@ -9,8 +11,8 @@ import javax.persistence.OneToMany;
 public class Band extends Artist
 {
    
-   @OneToMany(mappedBy="band")
-   private List<BandMember> bandMembers;
+   @OneToMany(mappedBy="band", cascade=CascadeType.ALL)
+   private List<BandMember> bandMembers = new ArrayList<BandMember>();
 
    public List<BandMember> getBandMembers()
    {

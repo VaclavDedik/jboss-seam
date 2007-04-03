@@ -1,0 +1,88 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+                xmlns:tr="http://myfaces.apache.org/trinidad"
+                xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+                template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:messages globalOnly="true" styleClass="message"/>
+    
+    <rich:panel>
+    <f:facet name="header"><tr:outputText value="#{artist.name} (#{messages[artist.class.name]})" /></f:facet>
+    	<tr:panelPartialRoot>
+	    	<h:form>
+		    	<tr:panelFormLayout>
+		    		<tr:inputText label="Artist" value="#{artist.name}" readOnly="#{not identity.loggedIn}" required="true" autoSubmit="true"/>
+		    		<tr:panelLabelAndMessage label="Band Members" rendered="#{artist.class.simpleName eq 'Band'}">
+						<ul>
+				    		<ui:repeat value="#{artist.bandMembers}" var="bandMember">
+				    			<li>
+				    				<tr:inputText simple="true" value="#{bandMember.name}" readOnly="#{not identity.loggedIn}" id="bandMember"/>
+				    				<rich:suggestionbox for="bandMember" selfRendered="true" minChars="3" suggestionAction="#{bandMemberFinder.getBandMembers}" var="bandMember">
+				    						<h:column>
+				    							<h:outputText value="#{bandMember.name}" />
+				    						</h:column>
+				    				</rich:suggestionbox>
+				    			</li>
+				    		</ui:repeat>
+						</ul>
+			    		<f:facet name="end">
+			    			<h:commandButton action="#{artistHome.addBandMember}" value="Add Band Member" rendered="#{identity.loggedIn}"/>
+			    		</f:facet>
+			    	</tr:panelLabelAndMessage>
+			    	<tr:panelLabelAndMessage label="Details">
+			    		<tr:inputText simple="true" value="#{artist.description}" rendered="#{identity.loggedIn}" rows="4" columns="60" id="description">
+			    			 <a:support event="onkeyup" reRender="description_preview" requestDelay="3000" ignoreDupResponces="true" eventsQueue="previewQueue" />
+			    		</tr:inputText>
+				    	<s:div style="width: 300px;" id="description_preview">
+						   	<s:formattedText value="#{artist.description}" rendered="#{not empty artist.description}" />
+				    		<tr:outputText value="None known" rendered="#{empty artist.description}" />
+						</s:div>
+					</tr:panelLabelAndMessage>
+			    	<tr:panelLabelAndMessage label="Discs">
+			    		<tr:table value="#{artist.discs}" var="disc" rows="5" emptyText="None Known">
+				    		<tr:column>
+				    			<f:facet name="header">
+				    				Disc
+				    			</f:facet>
+				    			<tr:inputText value="#{disc.name}"  readOnly="#{not identity.loggedIn}"/>
+				    		</tr:column>
+				    		<tr:column>
+				    			<f:facet name="header">
+				    				Released
+				    			</f:facet>
+				    			<tr:inputText value="#{disc.release}" readOnly="#{not identity.loggedIn}" columns="5">
+				    				<s:convertDateTime pattern="yyyy"/>
+				    			</tr:inputText>
+				    		</tr:column>
+				    		<f:facet name="detailStamp">
+						    	<s:div style="width: 300px;">
+								   	<s:formattedText value="#{disc.description}" rendered="#{not empty disc.description}"  />
+						    		<tr:outputText value="None known" rendered="#{empty disc.description}" />
+								</s:div>
+					 		</f:facet>
+				    	</tr:table>
+				    	<f:facet name="end">
+			    			<h:commandButton action="#{artistHome.addDisc}" value="Add Disc" rendered="#{identity.loggedIn}"/>
+			    		</f:facet>
+			    	</tr:panelLabelAndMessage>
+		    	</tr:panelFormLayout>
+		    	
+		    	<tr:panelButtonBar rendered="#{identity.loggedIn}">
+			    		<h:commandButton action="#{artistHome.update}" value="Save" rendered="#{artistHome.managed}" />
+			    		<h:commandButton action="#{artistHome.persist}" value="Save" rendered="#{not artistHome.managed}" />
+			    		<s:button action="cancel" value="Cancel" />
+			    	</tr:panelButtonBar>
+	    	</h:form>
+    	</tr:panelPartialRoot>
+    </rich:panel>
+    
+</ui:define> 
+</ui:composition>

@@ -1,0 +1,56 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+                xmlns:tr="http://myfaces.apache.org/trinidad"
+                xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+                template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:messages globalOnly="true" styleClass="message"/>
+    
+    <rich:panel>
+    	<f:facet name="header">
+    		<s:fragment>
+		    	<i><tr:outputText value="#{disc.name}" /></i>
+		    	<tr:outputText value=" by #{disc.artist.name}" />
+		    </s:fragment>
+		</f:facet>
+    	<tr:panelPartialRoot>
+	    	<tr:form>
+		    	<tr:panelFormLayout>
+		    		<tr:inputText label="Disc" value="#{disc.name}" readOnly="#{not identity.loggedIn}" required="true" />
+		    		<tr:inputText label="Release Date" value="#{disc.release}" readOnly="#{not identity.loggedIn}" columns="5">
+	    				<s:convertDateTime pattern="yyyy"/>
+	    			</tr:inputText>
+	    			<tr:selectOneChoice value="#{disc.artist}" label="Artist" required="true" readOnly="#{not identity.loggedIn}">
+	    				<s:selectItems value="#{artists.resultList}" var="artist" label="#{artist.name}" noSelectionLabel="Please Select..." hideNoSelectionLabel="true" />
+	    				<s:convertEntity />
+	    			</tr:selectOneChoice>
+	    			<tr:panelLabelAndMessage label="Details">
+			    		<tr:inputText simple="true" value="#{disc.description}" rendered="#{identity.loggedIn}" rows="4" columns="60" id="description">
+			    			 <a:support event="onkeyup" reRender="description_preview" requestDelay="3000" ignoreDupResponces="true" eventsQueue="previewQueue" />
+			    		</tr:inputText>
+				    	<s:div style="width: 300px;" id="description_preview">
+						   	<s:formattedText value="#{disc.description}" rendered="#{not empty disc.description}"  />
+				    		<tr:outputText value="None known" rendered="#{empty disc.description}" />
+						</s:div>
+					</tr:panelLabelAndMessage>
+		    	</tr:panelFormLayout>
+		    	
+		    	<tr:panelButtonBar rendered="#{identity.loggedIn}">
+			    		<h:commandButton action="#{discHome.update}" value="Save" rendered="#{discHome.managed}" />
+			    		<h:commandButton action="#{discHome.persist}" value="Save" rendered="#{not discHome.managed}" />
+			    		<s:button action="cancel" value="Cancel" />
+			    	</tr:panelButtonBar>
+	    	</tr:form>
+    	</tr:panelPartialRoot>
+    </rich:panel>
+    
+</ui:define> 
+</ui:composition>

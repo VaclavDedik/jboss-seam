@@ -1,7 +1,8 @@
-package org.jboss.seam.example.trinidad.model;
+package org.jboss.seam.example.seamdiscs.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -18,8 +19,19 @@ public class Disc
    
    private Date release;
    
-   @ManyToOne
+   @ManyToOne(cascade={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
    private Artist artist;
+   
+   private String description;
+   
+   public Disc()
+   {
+   }
+
+   public Disc(Artist artist)
+   {
+      this.artist = artist;
+   }
 
    public Artist getArtist()
    {
@@ -61,6 +73,14 @@ public class Disc
       this.release = release;
    }
    
+   public String getDescription()
+   {
+      return description;
+   }
    
+   public void setDescription(String description)
+   {
+      this.description = description;
+   }
    
 }

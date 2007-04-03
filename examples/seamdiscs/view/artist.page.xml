@@ -1,0 +1,21 @@
+<!DOCTYPE page PUBLIC
+          "-//JBoss/Seam Pages Configuration DTD 1.2//EN"
+          "http://jboss.com/products/seam/pages-1.2.dtd">
+
+<page>
+   <param name="artistId" value="#{artistHome.id}" converterId="javax.faces.Integer"/> 
+   <navigation>
+   		<rule if-outcome="cancel">
+   			<end-conversation/>
+   			<redirect view-id="/artists.xhtml" />
+   		</rule>
+   		<rule if-outcome="updated">
+   			<end-conversation/>
+   			<redirect view-id="/artists.xhtml" />
+   		</rule>
+   		<rule if-outcome="persisted">
+   			<end-conversation/>
+   			<redirect view-id="/artists.xhtml" />
+   		</rule>
+   </navigation>
+</page>

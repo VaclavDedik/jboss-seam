@@ -16,7 +16,7 @@
 	<property name="src.test.dir" value="src/test" />
 	<property name="seam.home" value="../../" />
 	<property name="lib.dir" value="${seam.home}/lib" />
-	<property name="more.lib.dir" value="lib" />
+	<property name="more.lib.dir" value="${seam.home}/trinidad/lib" />
 	<property name="seam.lib.dir" value="${seam.home}" />
 	<property name="drools.lib.dir" value="${seam.home}/drools/lib" />
 	<property name="ear.dir" value="exploded-archives/${project.name}.ear" />

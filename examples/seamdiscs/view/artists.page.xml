@@ -1,0 +1,14 @@
+<!DOCTYPE page PUBLIC
+          "-//JBoss/Seam Pages Configuration DTD 1.2//EN"
+          "http://jboss.com/products/seam/pages-1.2.dtd">
+
+<page>
+   <param name="artistId" value="#{artistHome.id}" converterId="javax.faces.Integer"/>
+   <param name="type" value="#{artistHome.type}"/> 
+   <navigation>
+   	<rule if-outcome="artist">
+	   	<begin-conversation flush-mode="manual"/> 
+   		<redirect view-id="/artist.xhtml"/>	
+   	</rule>
+   </navigation>
+</page>
