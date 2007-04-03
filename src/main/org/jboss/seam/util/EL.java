@@ -14,8 +14,8 @@ import javax.el.VariableMapper;
 import org.jboss.seam.jsf.SeamELFunctionMapper;
 import org.jboss.seam.jsf.SeamELResolver;
 
-import com.sun.el.ExpressionFactoryImpl;
-import com.sun.el.lang.VariableMapperImpl;
+import org.jboss.el.ExpressionFactoryImpl;
+import org.jboss.el.lang.VariableMapperImpl;
 
 public class EL
 {

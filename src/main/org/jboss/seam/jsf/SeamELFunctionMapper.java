@@ -8,7 +8,7 @@ import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.security.SecurityFunctions;
 
-import com.sun.el.lang.FunctionMapperImpl;
+import org.jboss.el.lang.FunctionMapperImpl;
 
 /**
  * Resolves Seam EL functions to their corresponding methods.
