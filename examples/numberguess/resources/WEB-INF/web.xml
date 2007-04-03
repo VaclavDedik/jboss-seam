@@ -22,10 +22,9 @@
     </filter-mapping>
         
     <!-- MyFaces -->
-
     <listener>
-        <listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>
-    </listener>
+        <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
+    </listener> 
     
     <context-param>
         <param-name>javax.faces.STATE_SAVING_METHOD</param-name>

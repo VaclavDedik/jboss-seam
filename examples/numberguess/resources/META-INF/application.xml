@@ -4,28 +4,21 @@
              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_5.xsd"
              version="5">
              
-	<display-name>Seam Numberguess</display-name>
+    <display-name>Seam Numberguess</display-name>
 
-	<module>
-		<web>
-			<web-uri>jboss-seam-numberguess.war</web-uri>
-			<context-root>/seam-numberguess</context-root>
-		</web>
-	</module>
-	<module>
-		<ejb>jboss-seam-numberguess.jar</ejb>
-	</module>
-	<module>
-	    <java>jboss-seam.jar</java>
-	</module>
-	<module>
-	    <java>jbpm-3.1.4.jar</java>
-	</module>
     <module>
-        <java>el-api.jar</java>
+        <web>
+            <web-uri>jboss-seam-numberguess.war</web-uri>
+            <context-root>/seam-numberguess</context-root>
+        </web>
     </module>
     <module>
-        <java>el-ri.jar</java>
+        <ejb>jboss-seam-numberguess.jar</ejb>
     </module>
-
+    <module>
+        <java>jboss-seam.jar</java>
+    </module>
+    <module>
+        <java>jbpm-3.1.4.jar</java>
+    </module>
 </application>
