@@ -191,6 +191,26 @@ public class JSF
        return value.toString();
    }
    
+   public static Integer getIntegerValue(FacesContext context, ValueBinding vb)
+   {
+       String value = getStringValue(context, vb);
+       if (value == null)
+       {
+           return null;
+       }
+       return new Integer(value);
+   }
+   
+   public static Double getDoubleValue(FacesContext context, ValueBinding vb)
+   {
+       String value = getStringValue(context, vb);
+       if (value == null)
+       {
+           return null;
+       }
+       return new Double(value);
+   }
+   
    public static Boolean getBooleanValue(FacesContext context, ValueBinding vb)
    {
        Object value = vb.getValue(context);
