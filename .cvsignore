@@ -9,9 +9,9 @@ jboss-seam-pdf.jar
 jboss-seam-mail.jar
 jboss-seam-remoting.jar
 jboss-seam-ioc.jar
+jboss-seam-trinidad.jar
 test-output
 testng-failures.xml
 report
 output
 build
-

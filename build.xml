@@ -24,6 +24,7 @@
 	<property name="mailclasses.dir" value="${build.dir}/mailclasses" />
 	<property name="debugclasses.dir" value="${build.dir}/debugclasses" />
 	<property name="remotingclasses.dir" value="${build.dir}/remotingclasses" />
+	<property name="trinidadclasses.dir" value="${build.dir}/trinidadclasses" />
 
 	<property name="genclasses.dir" value="${build.dir}/genclasses" />
 
@@ -38,10 +39,12 @@
 	<property name="src.debug.dir" value="src/debug" />
 	<property name="src.gen.dir" value="src/gen" />
 	<property name="src.remoting.dir" value="src/remoting" />
+	<property name="src.trinidad.dir" value="src/trinidad" />
 	<property name="src.test.dir" value="src/test/misc" />
 
 	<property name="lib.dir" value="${imported.basedir}/lib" />
 	<property name="drools.lib.dir" value="${imported.basedir}/drools/lib" />
+	<property name="trinidad.lib.dir" value="${imported.basedir}/trinidad/lib" />
 	<property name="mail.lib.dir" value="${imported.basedir}/mail" />
 	<property name="meldware.lib.dir" value="${mail.lib.dir}/buni-meldware" />
 	<property name="eejb.conf.dir" value="${imported.basedir}/embedded-ejb/conf" />
@@ -140,6 +143,15 @@
 		<include name="ajax4jsf*.jar" if="example.ajax4jsf.lib" />
 		<include name="oscache*.jar" if="example.ajax4jsf.lib" />
 		<include name="commons*.jar" if="example.ajax4jsf.lib" />
+	</zipfileset>
+	
+	<zipfileset id="example.trinidad.impl.jar" dir="${trinidad.lib.dir}" prefix="WEB-INF/lib" description="trinidad implementation">
+		<include name="trinidad-impl-*.jar" if="example.trinidad.lib"/>
+		<include name="a4j-trinidad.jar" if="example.trinidad.lib and example.ajax4jsf.lib" />
+	</zipfileset>
+	
+	<zipfileset id="example.trinidad.api.jar" dir="${trinidad.lib.dir}"  description="trinidad api">
+		<include name="trinidad-api-*.jar"/>
 	</zipfileset>
 
 	<zipfileset id="example.extra.jar" dir="${lib.dir}" description="extra jars for the EAR">
@@ -524,6 +536,18 @@
 		</copy>
 
 	</target>
+	
+	<target name="inittrinidad" description="Initialize the build for the Trinidad integration package">
+		<echo message="Build ${Name} Trinidad integration ${version}" />
+
+		<mkdir dir="${trinidadclasses.dir}" />
+		<copy todir="${trinidadclasses.dir}">
+			<fileset dir="${src.trinidad.dir}">
+				<patternset refid="meta.files" />
+			</fileset>
+		</copy>
+
+	</target>	
 
 	<target name="initdebug" description="Initialize the build for the debug package">
 		<echo message="Build ${Name} Debug ${version}" />
@@ -634,6 +658,16 @@
 					<include name="jboss-seam-ui.jar" />
 					<include name="jboss-seam-pdf.jar" />
 				</fileset>
+			</classpath>
+		</javac>
+	</target>
+	
+	<target name="compiletrinidad" depends="inittrinidad,select-compiler" description="Compile the Java source code for the Trinidad integration package">
+		<javac source="1.5" target="1.5" destdir="${trinidadclasses.dir}" debug="${javac.debug}" deprecation="${javac.deprecation}" nowarn="on">
+			<src path="${src.trinidad.dir}" />
+			<classpath>
+				<path refid="build.classpath" />
+				<fileset refid="example.trinidad.api.jar"/>
 			</classpath>
 		</javac>
 	</target>
@@ -1069,6 +1103,21 @@
 			</manifest>
 		</jar>
 		<copy file="${basedir}/${name}-mail.jar" todir="${dist.dir}" />
+
+	</target>
+	
+	<target name="jartrinidad" depends="compiletrinidad" description="Build the distribution .jar file for the Trinidad integration package">
+		<!--<mkdir dir="${dist.dir}" />-->
+
+		<jar jarfile="${basedir}/${name}-trinidad.jar" basedir="${trinidadclasses.dir}">
+			<include name="**/*.class" />
+			<patternset refid="meta.files" />
+			<manifest>
+				<attribute name="Seam-Version" value="${version}.${patchlevel}" />
+				<attribute name="Implementation-Version" value="${version}.${patchlevel}" />
+			</manifest>
+		</jar>
+		<!--<copy file="${basedir}/${name}-mail.jar" todir="${dist.dir}" />-->
 
 	</target>
 
