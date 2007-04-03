@@ -3,7 +3,7 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_5.xsd"
              version="5">
-             
+    
     <display-name>DVD Store</display-name>
     
     <module>
@@ -15,16 +15,16 @@
             <context-root>/seam-dvd</context-root>
         </web>
     </module>
-	<module>
-	    <java>jboss-seam.jar</java>
-	</module>
+    <module>
+        <java>jboss-seam.jar</java>
+    </module>
+    <module>
+        <java>jbpm-3.1.4.jar</java>
+    </module>
     <module>
         <java>el-api.jar</java>
     </module>
     <module>
         <java>el-ri.jar</java>
-    </module>
-    <module>
-        <java>jbpm-3.1.4.jar</java>
     </module>
 </application>
