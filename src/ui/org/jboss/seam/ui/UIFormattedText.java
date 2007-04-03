@@ -46,4 +46,10 @@ public class UIFormattedText extends UIOutput
         throws IOException
     {
     }
+    
+    @Override
+   public String getRendererType()
+   {
+      return null;
+   }
 }
