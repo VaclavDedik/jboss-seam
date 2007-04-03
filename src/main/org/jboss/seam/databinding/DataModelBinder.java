@@ -1,15 +1,10 @@
 package org.jboss.seam.databinding;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.datamodel.DataModel;
-import org.jboss.seam.jsf.ArrayDataModel;
-import org.jboss.seam.jsf.ListDataModel;
-import org.jboss.seam.jsf.MapDataModel;
-import org.jboss.seam.jsf.SetDataModel;
+import org.jboss.seam.jsf.JsfProvider;
 
 /**
  * Exposes a List, array, Map or Set to the UI as a JSF DataModel
@@ -31,26 +26,7 @@ public class DataModelBinder implements DataBinder<DataModel, Object, javax.face
 
    public javax.faces.model.DataModel wrap(DataModel out, Object value)
    {
-      if (value instanceof List)
-      {
-         return new ListDataModel( (List) value );
-      }
-      else if (value instanceof Object[])
-      {
-         return new ArrayDataModel( (Object[]) value ); 
-      }
-      else if (value instanceof Map)
-      {
-         return new MapDataModel( (Map) value );
-      }
-      else if (value instanceof Set)
-      {
-         return new SetDataModel( (Set) value );
-      }
-      else
-      {
-         throw new IllegalArgumentException("unknown collection type: " + value.getClass());
-      }
+      return JsfProvider.instance().getDataModel(value);
    }
 
    public Object getWrappedData(DataModel out, javax.faces.model.DataModel wrapper)
