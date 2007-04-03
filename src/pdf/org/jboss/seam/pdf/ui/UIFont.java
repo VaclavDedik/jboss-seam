@@ -1,6 +1,11 @@
 package org.jboss.seam.pdf.ui;
 
+import java.awt.Color;
+
 import javax.faces.context.*;
+
+import org.jboss.seam.pdf.ITextUtils;
+
 import com.lowagie.text.*;
 
 public class UIFont
@@ -8,12 +13,12 @@ public class UIFont
 {
     public static final String COMPONENT_TYPE   = "org.jboss.seam.pdf.ui.UIParagraph";
 
-
     Font   font; 
     
     String familyName;
     int    size   = Font.UNDEFINED;
     String style; 
+    Color  color;
 
     public void setFamily(String familyName) {
         this.familyName = familyName;
@@ -25,6 +30,10 @@ public class UIFont
 
     public void setStyle(String style) {
         this.style = style;
+    }
+    
+    public void setColor(String color) {
+        this.color = ITextUtils.colorValue(color);
     }
 
     @Override
@@ -53,6 +62,10 @@ public class UIFont
         style = (String) valueBinding(context, "style", style);
         if (style != null) {
             font.setStyle(style);
+        }
+        
+        if (color != null) {
+            font.setColor(color);
         }
     }
 
