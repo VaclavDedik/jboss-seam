@@ -4,25 +4,19 @@
              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_5.xsd"
              version="5">
              
-	<display-name>Seam Issue Tracker</display-name>
-
-	<module>
-		<web>
-			<web-uri>jboss-seam-issues.war</web-uri>
-			<context-root>/seam-issues</context-root>
-		</web>
-	</module>
-	<module>
-		<ejb>jboss-seam-issues.jar</ejb>
-	</module>
-	<module>
-	    <java>jboss-seam.jar</java>
-	</module>
+    <display-name>Seam Issue Tracker</display-name>
+    
     <module>
-        <java>el-api.jar</java>
+        <web>
+            <web-uri>jboss-seam-issues.war</web-uri>
+            <context-root>/seam-issues</context-root>
+        </web>
     </module>
     <module>
-        <java>el-ri.jar</java>
+        <ejb>jboss-seam-issues.jar</ejb>
     </module>
-	
+    <module>
+        <java>jboss-seam.jar</java>
+    </module>
+    
 </application>
