@@ -139,10 +139,11 @@
 	<zipfileset id="example.ajax4jsf.jar" dir="${lib.dir}" prefix="WEB-INF/lib" description="the Ajax4JSF jar">
 		<include name="ajax4jsf*.jar" if="example.ajax4jsf.lib" />
 		<include name="oscache*.jar" if="example.ajax4jsf.lib" />
+		<include name="commons*.jar" if="example.ajax4jsf.lib" />
 	</zipfileset>
 
 	<zipfileset id="example.extra.jar" dir="${lib.dir}" description="extra jars for the EAR">
-		<include name="el-*.jar" />
+            <!-- <include name="el-*.jar" /> -->
 		<include name="jbpm*.jar" if="example.jbpm.lib" />
 		<include name="jboss-cache-jdk50.jar" if="example.cache.lib" />
 		<include name="jboss-aop-jdk50.jar" if="example.cache.lib" />
