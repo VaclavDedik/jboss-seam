@@ -5,16 +5,17 @@
     <!-- Naming -->
     <property name="Name"                   value="ICEfaces Booking Example"/>
     <property name="example.name"           value="jboss-seam-icefaces"/>
-	
+    
     <!-- Overrides -->
-	<property name="example.seam.ui.lib"     value="yes"/>
-	<property name="example.seam.debug.lib"  value="yes"/>
-	<property name="example.ds"             value="icefaces-ds.xml"/>
+    <property name="example.seam.ui.lib"     value="yes"/>
+    <property name="example.seam.debug.lib"  value="yes"/>
+    <property name="example.seam.icefaces.lib"  value="yes"/>
+    <property name="example.ds"             value="icefaces-ds.xml"/>
     <property name="src.java.dir"           value="src"/>
     <property name="src.test.dir"           value="src"/>
     <property name="test.classpath"         value="test.eejb.classpath"/>
     <property name="tomcat.conf"            value="eejb.conf"/>
-
+    
     <import file="../../build.xml"/>
     
 </project>

@@ -4,25 +4,19 @@
              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_5.xsd"
              version="5">
              
-	<display-name>ICEfaces Booking</display-name>
+    <display-name>ICEfaces Booking</display-name>
 
-	<module>
-		<web>
-			<web-uri>jboss-seam-icefaces.war</web-uri>
-			<context-root>/seam-icefaces</context-root>
-		</web>
-	</module>
-	<module>
-		<ejb>jboss-seam-icefaces.jar</ejb>
-	</module>
-	<module>
-	    <java>jboss-seam.jar</java>
-	</module>
     <module>
-        <java>el-api.jar</java>
+        <web>
+            <web-uri>jboss-seam-icefaces.war</web-uri>
+            <context-root>/seam-icefaces</context-root>
+        </web>
     </module>
     <module>
-        <java>el-ri.jar</java>
+        <ejb>jboss-seam-icefaces.jar</ejb>
     </module>
-	
+    <module>
+        <java>jboss-seam.jar</java>
+    </module>
+
 </application>
