@@ -29,7 +29,7 @@ import org.jboss.seam.persistence.PersistenceProvider;
 public class EntityIdentifierStore extends MutableEntityController
 {
    
-   private class Identifer implements Serializable
+   public class Identifer implements Serializable
    {
       private Class clazz;
       private Object id;
