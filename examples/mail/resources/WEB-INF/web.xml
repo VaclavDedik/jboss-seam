@@ -3,6 +3,7 @@
          xmlns="http://java.sun.com/xml/ns/j2ee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
     <!-- Seam -->
     <listener>
         <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
@@ -28,17 +29,9 @@
         <param-value>true</param-value>
     </context-param>
 
-        <!-- MyFaces -->
     <listener>
-        <listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>
+        <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
     </listener>
- 
-    <!-- JSF RI -->
-    
-<!--    <listener>-->
-<!--        <listener-class>com.sun.faces.config.ConfigureListener</listener-class>-->
-<!--    </listener> -->
-    
     
     <context-param>
         <param-name>javax.faces.STATE_SAVING_METHOD</param-name>

@@ -21,29 +21,27 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
         
-    <!-- MyFaces -->
-
     <listener>
-        <listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>
-    </listener>
+        <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
+    </listener> 
     
     <context-param>
         <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
         <param-value>client</param-value>
     </context-param>
 
-	<servlet>
-		<servlet-name>Faces Servlet</servlet-name>
-		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>Faces Servlet</servlet-name>
-		<url-pattern>*.seam</url-pattern>
-	</servlet-mapping>
-	
-  <session-config>
-    <session-timeout>10</session-timeout> 
-  </session-config> 	
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.seam</url-pattern>
+    </servlet-mapping>
+    
+    <session-config>
+        <session-timeout>10</session-timeout> 
+    </session-config> 	
 </web-app>
