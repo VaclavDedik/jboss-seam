@@ -4,25 +4,18 @@
              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_5.xsd"
              version="5">
              
-	<display-name>Seam Messages</display-name>
+    <display-name>Seam Messages</display-name>
 
-	<module>
-		<web>
-			<web-uri>jboss-seam-messages.war</web-uri>
-			<context-root>/seam-messages</context-root>
-		</web>
-	</module>
-	<module>
-		<ejb>jboss-seam-messages.jar</ejb>
-	</module>
-	<module>
-	    <java>jboss-seam.jar</java>
-	</module>
     <module>
-        <java>el-api.jar</java>
+        <web>
+            <web-uri>jboss-seam-messages.war</web-uri>
+            <context-root>/seam-messages</context-root>
+        </web>
     </module>
     <module>
-        <java>el-ri.jar</java>
+        <ejb>jboss-seam-messages.jar</ejb>
     </module>
-
+    <module>
+        <java>jboss-seam.jar</java>
+    </module>
 </application>
