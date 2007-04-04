@@ -250,6 +250,7 @@ public class Identity extends Selector
    
    protected void preAuthenticate()
    {
+      unAuthenticate();
       preAuthenticationRoles.clear();
       Events.instance().raiseEvent("org.jboss.seam.preAuthenticate");
    }   
