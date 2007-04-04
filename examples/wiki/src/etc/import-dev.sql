@@ -29,12 +29,14 @@ insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, STRING_VALUE)   values (12, 0, 'userManagementPreferences', 'activationCodeSalt', 'MySecretSalt123')
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, STRING_VALUE)   values (13, 0, 'userManagementPreferences', 'passwordRegex', '^[0-9A-Za-z]{6,15}')
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, STRING_VALUE)   values (14, 0, 'userManagementPreferences', 'newUserInRole', 'member')
+insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, BOOLEAN_VALUE)  values (15, 0, 'userManagementPreferences', 'enableRegistration', true)
+insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, BOOLEAN_VALUE)  values (16, 0, 'userManagementPreferences', 'createHomeAfterUserActivation', false)
 
-insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (15, 0, 'lastModifiedDocumentsPreferences', 'numberOfItems', '5')
-insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, BOOLEAN_VALUE)  values (16, 0, 'lastModifiedDocumentsPreferences', 'showUsernames', true)
-insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (17, 0, 'lastModifiedDocumentsPreferences', 'documentTitleLength', '20')
+insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (17, 0, 'lastModifiedDocumentsPreferences', 'numberOfItems', '5')
+insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, BOOLEAN_VALUE)  values (18, 0, 'lastModifiedDocumentsPreferences', 'showUsernames', true)
+insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (19, 0, 'lastModifiedDocumentsPreferences', 'documentTitleLength', '20')
 
-insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (18, 0, 'blogDirectoryPreferences', 'pageSize', '5')
+insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (20, 0, 'blogDirectoryPreferences', 'pageSize', '5')
 
 // Development test data
 
@@ -62,6 +64,9 @@ insert into NODE (NODE_ID, NODE_TYPE, NODE_REVISION, CREATED_BY_USER_ID, AREA_NR
 update USERS set MEMBER_HOME_NODE_ID = '7' where USER_ID = '5'
 insert into NODE (NODE_ID, NODE_TYPE, NODE_REVISION, CREATED_BY_USER_ID, AREA_NR, PARENT_NODE_ID, NODE_POSITION, OBJ_VERSION, NAME, WIKINAME, MENU_ITEM, CONTENT, CREATED_ON, LAST_MODIFIED_ON, WRITE_ACCESS_LEVEL, READ_ACCESS_LEVEL) values (8, 'DOCUMENT', 1, 5, 2, 7, 0, 0, 'Home of super', 'HomeOfSuper', false, 'Homepage of Super Member.', '2005-06-27 13:45:00', '2005-06-27 13:45:00', 1000, 0)
 update NODE set DEFAULT_DOCUMENT_ID = '8' where NODE_ID = '7'
+
+insert into USERS (USER_ID, OBJ_VERSION, FIRSTNAME, LASTNAME, USERNAME, PASSWORDHASH, EMAIL, ACTIVATED, CREATED_ON) values (6, 0, 'Regular', 'MemberTwo', 'member2', 'aa08769cdcb26674c6706093503ff0a3', 'member@email.tld', true, '2006-06-27 13:45:00')
+insert into USER_ROLE (USER_ID, ROLE_ID) values (6,3)
 
 // Some guest readable/writable directories and pages for quick UI testing
 insert into NODE (NODE_ID, NODE_TYPE, NODE_REVISION, CREATED_BY_USER_ID, AREA_NR, PARENT_NODE_ID, NODE_POSITION, OBJ_VERSION, NAME, WIKINAME, MENU_ITEM, CREATED_ON, LAST_MODIFIED_ON, WRITE_ACCESS_LEVEL, READ_ACCESS_LEVEL) values (9, 'DIRECTORY', 1, 1, 9, 1, 1, 0, 'Another Area', 'AnotherArea', true, '2005-06-27 13:45:00', '2005-06-27 13:45:00', 0, 0)

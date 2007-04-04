@@ -5,6 +5,7 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:a="https://ajax4jsf.dev.java.net/ajax"
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
                 template="themes/#{wikiPreferences.themeName}/template.xhtml">
 
@@ -14,15 +15,12 @@
     <link href="#{themePath}/css/mainMenu.css" rel="stylesheet" type="text/css"/>
 </ui:define>
 
-<ui:define name="screenname">
-    <h:outputText value="Registration" rendered="#{!userHome.managed}"/>
-    <h:outputText value="Member Account '#{userHome.instance.username}'" rendered="#{userHome.managed}"/>
-</ui:define>
+<ui:define name="screenname">Registration</ui:define>
 
 <ui:define name="headerTopRight">
     <ui:include src="includes/userControl.xhtml"/>
-</ui:define>
 
+</ui:define>
 <ui:define name="headerBottomLeft">&#160;</ui:define>
 
 <ui:define name="sidebar">
@@ -30,13 +28,7 @@
     <ui:include src="includes/mainMenu.xhtml"/>
 </ui:define>
 
-<ui:define name="controlLeft">
-    <s:div rendered="#{userHome.managed}">
-        <s:link id="editAccount" styleClass="linkTab activeTab" action="editAccount">Account</s:link>
-        <s:link id="editProfile" styleClass="linkTab inactiveTab" action="editProfile">Profile</s:link>
-        <s:link id="editPreferences" styleClass="linkTab inactiveTab" action="editPreferences">Preferences</s:link>
-    </s:div>
-</ui:define>
+<ui:define name="controlLeft">&#160;</ui:define>
 
 <ui:define name="controlRight">
     <s:link id="exit" styleClass="linkNavigation"
@@ -48,78 +40,84 @@
 
 <h:form>
     <div class="form">
-        <div class="formHead">
-            <h:outputText value="Register a new account" rendered="#{!userHome.managed}"/>
-            <h:outputText value="Editing account: #{userHome.instance.username}" rendered="#{userHome.managed}"/>
-        </div>
+        <div class="formHead">Register a new account</div>
 
-        <div class="formFieldsWideLabels">
-
+        <div class="formFields formBorder wideLabels">
             <s:validateAll>
 
-                <s:decorate>
+                <s:decorate id="firstnameDecorate">
                     <div class="entry">
                         <div class="label">First name:</div>
                         <div class="input">
-                            <h:inputText tabindex="1" size="40" maxlength="63" id="firstname" required="true"
-                                         value="#{userHome.instance.firstname}"/>
+                            <h:inputText tabindex="1" size="40" maxlength="63" required="true"
+                                         id="firstname" value="#{userHome.instance.firstname}">
+                                <a:support event="onblur" reRender="firstnameDecorate"/>
+                            </h:inputText>
                         </div>
                     </div>
                 </s:decorate>
 
-                <s:decorate>
+                <s:decorate  id="lastnameDecorate">
                     <div class="entry">
                         <div class="label">Last name:</div>
                         <div class="input">
-                            <h:inputText tabindex="2" size="40" maxlength="63" id="lastname" required="true"
-                                         value="#{userHome.instance.lastname}"/>
+                            <h:inputText tabindex="2" size="40" maxlength="63" required="true"
+                                         id="lastname" value="#{userHome.instance.lastname}">
+                                <a:support event="onblur" reRender="lastnameDecorate"/>
+                            </h:inputText>
                         </div>
                     </div>
                 </s:decorate>
 
-                <s:decorate>
+                <s:decorate id="emailDecorate">
                     <div class="entry">
                         <div class="label">E-Mail:</div>
                         <div class="input">
-                            <h:inputText tabindex="3" size="40" maxlength="255" id="email" required="true"
-                                         value="#{userHome.instance.email}"/>
+                            <h:inputText tabindex="3" size="40" maxlength="255" required="true"
+                                         id="email" value="#{userHome.instance.email}">
+                                <a:support event="onblur" reRender="emailDecorate"/>
+                            </h:inputText>
                         </div>
                     </div>
                 </s:decorate>
 
-                <s:decorate>
+                <s:decorate id="usernameDecorate">
                     <div class="entry">
                         <div class="label">Username:</div>
                         <div class="input">
-                            <h:inputText tabindex="4" size="16" maxlength="16" id="username" required="true"
-                                         value="#{userHome.instance.username}"/>
+                            <h:inputText tabindex="4" size="16" maxlength="16" required="true"
+                                         id="username" value="#{userHome.instance.username}">
+                                <a:support event="onblur" action="#{userHome.validateUsername}" reRender="usernameDecorate"/>
+                            </h:inputText>
                         </div>
                     </div>
                 </s:decorate>
 
-                <s:decorate>
+                <s:decorate id="passwordDecorate">
                     <div class="entry">
                         <div class="label">Password:</div>
                         <div class="input">
-                            <h:inputSecret tabindex="5" size="15" maxlength="15" id="password"
-                                           redisplay="true"
-                                           value="#{userHome.password}"/>
+                            <h:inputSecret tabindex="5" size="15" maxlength="15"
+                                           id="password" redisplay="true" value="#{userHome.password}">
+                                <a:support event="onblur" action="#{userHome.validatePassword}" reRender="passwordDecorate"/>
+                            </h:inputSecret>
                         </div>
                     </div>
                 </s:decorate>
 
-                <s:decorate>
+                <s:decorate id="passwordControlDecorate">
                     <div class="entry">
                         <div class="label">Repeat password:</div>
                         <div class="input">
-                            <h:inputSecret tabindex="6" size="15" maxlength="15" id="passwordControl"
-                                           redisplay="true"
-                                           value="#{userHome.passwordControl}"/>
+                            <h:inputSecret tabindex="6" size="15" maxlength="15"
+                                           id="passwordControl" redisplay="true" value="#{userHome.passwordControl}">
+                            <a:support event="onblur" action="#{userHome.validatePasswordControl}" reRender="passwordControlDecorate"/>
+                        </h:inputSecret>
                         </div>
                     </div>
                 </s:decorate>
 
-                <s:div styleClass="entry" rendered="#{!userHome.managed}">
+                <s:div styleClass="entry">
                     <div class="label">Verification image:</div>
                     <div class="output">
                         <h:graphicImage value="/seam/resource/captcha?#{captcha.id}" style="border: 1px solid black;"/>
@@ -127,7 +125,7 @@
                 </s:div>
 
                 <s:decorate>
-                    <s:div styleClass="entry" rendered="#{!userHome.managed}">
+                    <s:div styleClass="entry">
                         <div class="label">Enter the letters:</div>
                         <div class="input">
                             <h:inputText tabindex="7" size="15" id="verifyCaptcha" value="#{captcha.response}" required="true"/>
@@ -135,25 +133,11 @@
                     </s:div>
                 </s:decorate>
 
-                <s:div styleClass="entry" rendered="#{userHome.managed}">
-                    <s:div styleClass="label" rendered="#{s:hasPermission('User', 'editRoles', currentUser)}">Edit roles:</s:div>
-                    <s:div styleClass="label" rendered="#{!s:hasPermission('User', 'editRoles', currentUser)}">Assigned roles:</s:div>
-                    <div class="input">
-                        <h:selectManyListbox value="#{userHome.roles}" tabindex="8"
-                                disabled="#{!s:hasPermission('User', 'editRoles', currentUser)}"
-                                converter="#{entityConverter}">
-                            <s:selectItems value="#{rolesList}"
-                                           var="role"
-                                           label="#{role.displayName} (Access level: #{role.accessLevel})"/>
-                        </h:selectManyListbox>
-                    </div>
-                </s:div>
-
             </s:validateAll>
 
         </div>
 
-        <div class="formControlsWideLabels">
+        <div class="formControls wideLabels">
 
             <div class="entry">
                 <div class="label">&#160;</div>
@@ -161,13 +145,7 @@
 
                     <h:commandLink id="register" styleClass="button"
                                    action="#{userHome.persist}"
-                                   rendered="#{!userHome.managed}"
                                    tabindex="8" accesskey="G"><span class="buttonLabel">Re<u>g</u>ister</span></h:commandLink>
-
-                    <h:commandLink id="update" styleClass="button"
-                                   action="#{userHome.update}"
-                                   rendered="#{userHome.managed}"
-                                   tabindex="9" accesskey="U"><span class="buttonLabel"><u>U</u>pdate</span></h:commandLink>
 
                 </div>
             </div>

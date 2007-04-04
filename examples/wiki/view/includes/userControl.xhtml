@@ -16,9 +16,16 @@
                 <h:inputSecret styleClass="userControlInput" id="loginPassword" value="#{identity.password}" size="8" tabindex="51"/>
                 <h:commandLink styleClass="userControlLink" action="#{identity.login}" tabindex="52" accesskey="L"><u>L</u>ogin</h:commandLink>
 
-                <s:link styleClass="userControlLink" action="register" tabindex="53" accesskey="R"><u>R</u>egister</s:link>
+                <s:link styleClass="userControlLink" action="register" tabindex="53" accesskey="R" propagation="none"
+                        rendered="#{userManagementPreferences.properties['enableRegistration']}">
+                    <f:param name="lastConversationId" value="#{conversation.id}"/>
+                    <u>R</u>egister
+                </s:link>
 
-                <s:link styleClass="userControlLink" action="listUsers" tabindex="54" accesskey="M"><u>M</u>embers</s:link>
+                <s:link styleClass="userControlLink" action="listUsers" tabindex="54" accesskey="M" propagation="none">
+                    <f:param name="lastConversationId" value="#{conversation.id}"/>
+                    <u>M</u>embers
+                </s:link>
 
             </h:panelGroup>
         </h:form>
@@ -53,11 +60,29 @@
         <h:form>
             <h:panelGroup>
                 <h:outputText styleClass="userControlLabel" value="(#{currentUser.firstname} #{currentUser.lastname})"/>
-                <h:commandLink styleClass="userControlLink" action="#{authenticator.logout}" tabindex="70">Logout</h:commandLink>
-                <s:link styleClass="userControlLink" action="editCurrentUser" tabindex="71">Profile</s:link>
-                <s:link styleClass="userControlLink" action="listUsers" tabindex="72" accesskey="M"><u>M</u>embers</s:link>
-                <s:link styleClass="userControlLink" action="adminHome" tabindex="73" accesskey="A"
-                        rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}"><u>A</u>dmin</s:link>
+
+                <s:link styleClass="userControlLink" action="#{authenticator.logout}" tabindex="70" accesskey="L"><u>L</u>ogout</s:link>
+
+                <h:outputLink styleClass="userControlLink" value="#{wiki:renderHomeURL(currentUser)}"
+                        rendered="#{!empty currentUser.memberHome}" tabindex="72" accesskey="H"><u>H</u>ome</h:outputLink>
+
+                <s:link styleClass="userControlLink" action="editUser" tabindex="71" accesskey="P" propagation="none">
+                    <f:param name="lastConversationId" value="#{conversation.id}"/>
+                    <f:param name="userId" value="#{currentUser.id}"/>
+                    <u>P</u>rofile
+                </s:link>
+
+                <s:link styleClass="userControlLink" action="listUsers" tabindex="73" accesskey="M" propagation="none">
+                    <f:param name="lastConversationId" value="#{conversation.id}"/>
+                    <u>M</u>embers
+                </s:link>
+
+                <s:link styleClass="userControlLink" action="adminHome" tabindex="74" accesskey="A" propagation="none"
+                        rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}">
+                    <f:param name="lastConversationId" value="#{conversation.id}"/>
+                    <u>A</u>dmin
+                </s:link>
+
             </h:panelGroup>
         </h:form>
     </s:div>

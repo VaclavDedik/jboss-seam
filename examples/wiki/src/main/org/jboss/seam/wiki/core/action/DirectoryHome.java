@@ -67,7 +67,7 @@ public class DirectoryHome extends NodeHome<Directory> {
     }
 
     protected boolean prepareRemove() {
-        return getInstance().getParent() == null; // Can not delete wiki root
+        return getInstance().getParent() != null; // Can not delete wiki root
     }
 
     /* -------------------------- Internal Methods ------------------------------ */

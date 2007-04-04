@@ -26,9 +26,9 @@ import java.util.Set;
  * <tt>#{seamNameOfThePreferenceComponent.prefProperty}</tt> if there are property accessor methods, or even
  * type-safe by getting the  whole <tt>#{seamNameOfThePreferenceComponent}</tt> injected.
  * <p>
- * Subclasses should be in <tt>CONVERSATION</tt> scope.
+ * Subclasses should be in <tt>CONVERSATION</tt> or <tt>PAGE</tt> scope.
  * <p>
- * Subclasses automatically read preference properties when they are instantiated for the current conversation.
+ * Subclasses automatically read preference properties when they are instantiated for the current conversation or page.
  * Subclasses are  automatically notified to refresh their property values inside a conversation, however, you need
  * to call the method <tt>super.refreshProperties()</tt> in your subclass in a method that has the event listener
  * <tt>@Observer("PreferenceEditor.refresh.seamNameOfThePreferenceComponent")</tt> to enable this functionality.

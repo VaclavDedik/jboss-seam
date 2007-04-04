@@ -35,8 +35,12 @@
 
 <ui:define name="controlRight">
 
-    <s:link id="uploadFile" styleClass="linkNavigation" action="uploadFile" accesskey="F"
-            rendered="#{s:hasPermission('Node', 'create', documentHome.parentDirectory)}">Upload <u>F</u>ile</s:link>
+    <s:link id="uploadFile" styleClass="linkNavigation" action="uploadFile" accesskey="F" propagation="none"
+            rendered="#{s:hasPermission('Node', 'create', documentHome.parentDirectory)}">
+        <f:param name="lastConversationId" value="#{conversation.id}"/>
+        <f:param name="parentDirId" value="#{documentHome.parentDirectory.id}"/>
+        Upload <u>F</u>ile
+    </s:link>
 
     <s:link id="exit" styleClass="linkNavigation"
             action="#{browser.exitConversation(true)}"
@@ -54,7 +58,7 @@
                               rendered="#{documentHome.managed}"/>
             </div>
 
-            <div class="formFields">
+            <div class="formFields formBorder">
 
                 <s:div id="selectedDirectory" styleClass="entry" rendered="#{documentHome.managed}">
                     <div class="label">In directory:</div>
@@ -101,11 +105,15 @@
                         <div class="entry">
                             <div class="label">Content:</div>
                             <s:div styleClass="input" id="content">
-                                <h:inputTextarea tabindex="3" required="true" cols="80" rows="25" 
+                                <h:inputTextarea tabindex="3" required="true"
+                                                 cols="#{docEditorPreferences.properties['regularEditAreaColumns']}"
+                                                 rows="#{docEditorPreferences.properties['regularEditAreaRows']}"
                                                  id="contentNoPreview"
                                                  rendered="#{!documentHome.enabledPreview}"
                                                  value="#{documentHome.formContent}"/>
-                                <h:inputTextarea tabindex="3" required="true" cols="80" rows="8"
+                                <h:inputTextarea tabindex="3" required="true"
+                                                 cols="#{docEditorPreferences.properties['previewEditAreaColumns']}"
+                                                 rows="#{docEditorPreferences.properties['previewEditAreaRows']}"
                                                  id="contentWithPreview"
                                                  rendered="#{documentHome.enabledPreview}"
                                                  value="#{documentHome.formContent}">

@@ -1,0 +1,96 @@
+<s:div id="preferencesForm"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+        xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <s:div id="preferenceValidationErrors">
+        <div align="center">
+            <h:message for="preferenceValidationErrors" styleClass="attentionMessage"/>
+        </div>
+    </s:div>
+
+    <h:panelGrid columns="2" columnClasses="formListGridColumn">
+
+        <h:dataTable id="preferenceComponentList" var="prefComp"
+                     value="#{preferenceComponents}"
+                     styleClass="formListTable"
+                     cellpadding="0" cellspacing="0" border="0"
+                     columnClasses="formListItem">
+
+            <h:column>
+                <a:commandLink action="#{preferenceEditor.selectPreferenceComponent(prefComp)}"
+                               reRender="preferenceComponentList, propertyPanel"
+                               styleClass="#{prefComp == preferenceEditor.preferenceComponent ? 'selectedItem' : ''}">
+                        #{prefComp.description}
+                </a:commandLink>
+            </h:column>
+
+        </h:dataTable>
+
+        <s:div id="propertyPanel">
+
+            <h:dataTable id="propertyTable" var="v"
+                         rendered="#{not empty preferenceEditor.preferenceComponent}"
+                         value="#{preferenceEditor.preferenceValues}"
+                         styleClass="datatable topLeftBottomBorder rightBorder"
+                         columnClasses="twentyPercentColumn alignLeft minorPadding,
+                                        twentyPercentColumn alignLeft, defaultColumn alignCenter rightBorder"
+                         rowClasses="rowEven,rowOdd"
+                         cellpadding="0" cellspacing="0" border="0">
+
+                <h:column>
+                    <h:outputText value="#{v.preferenceProperty.description}"/>
+                </h:column>
+                <h:column>
+
+                    <s:div rendered="#{v.value.class.simpleName == 'Boolean'}">
+                        <h:selectBooleanCheckbox value="#{v.value}"/>
+                    </s:div>
+
+                    <s:div rendered="#{v.value.class.simpleName == 'String'}">
+                        <h:inputText value="#{v.value}" size="32">
+                            <a:support event="onblur" action="#{preferenceEditor.validate}"
+                                       reRender="preferenceValidationErrors, preferenceComponentList"/>
+                        </h:inputText>
+                    </s:div>
+
+                    <s:div rendered="#{v.value.class.simpleName == 'Long'}">
+                        <h:inputText value="#{v.value}" size="5">
+                            <f:converter converterId="javax.faces.Long"/>
+                            <f:validateLongRange minimum="0" maximum="10000000000"/>
+                            <a:support event="onblur" action="#{preferenceEditor.validate}"
+                                       reRender="preferenceValidationErrors, preferenceComponentList"/>
+                        </h:inputText>
+                    </s:div>
+
+                    <s:div rendered="#{v.value.class.simpleName == 'Double'}">
+                        <h:inputText value="#{v.value}" size="10">
+                            <a:support event="onblur" action="#{preferenceEditor.validate}"
+                                       reRender="preferenceValidationErrors, preferenceComponentList"/>
+                        </h:inputText>
+                    </s:div>
+
+                    <s:div rendered="#{v.value.class.simpleName == 'Date'}">
+                         <h:inputText id="dt" value="#{v.value}">
+                            <f:convertDateTime pattern="dd. MMM yyyy, HH:mm"/>
+                             <a:support event="onblur" action="#{preferenceEditor.validate}"
+                                        reRender="preferenceValidationErrors, preferenceComponentList"/>
+                        </h:inputText>
+                        <s:selectDate for="dt" dateFormat="dd. MMM yyyy, HH:mm">
+                            <h:graphicImage style="vertical-align:bottom;margin-bottom:2px;"
+                                            value="/themes/#{wikiPreferences.themeName}/img/icon.calendar.gif"
+                                            width="16" height="16"/>
+                        </s:selectDate>
+                    </s:div>
+
+                </h:column>
+            </h:dataTable>
+
+        </s:div>
+
+    </h:panelGrid>
+
+</s:div>

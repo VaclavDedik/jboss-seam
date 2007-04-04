@@ -2,7 +2,7 @@
 <!DOCTYPE pages PUBLIC "-//Seam/Seam Pages DTD 1.2//EN" "http://jboss.com/products/seam/pages-1.2.dtd">
 
 <pages login-view-id="/loginRequired.xhtml"
-        no-conversation-view-id="/dirDisplay.xhtml">
+        no-conversation-view-id="/display.xhtml">
 
     <page view-id="/test.xhtml" action="#{browser.prepare}">
         <param name="nodeId" value="#{browser.nodeId}"/>
@@ -72,9 +72,10 @@
 
         <navigation>
             <rule if-outcome="uploadFile">
-                <begin-conversation nested="true" flush-mode="MANUAL"/>
+                <begin-conversation flush-mode="MANUAL"/>
                 <redirect view-id="/fileEdit.xhtml">
-                    <param name="parentDirId" value="#{documentHome.parentDirectory.id}"/>
+                    <param name="lastConversationId" value="#{param.lastConversationId}"/>
+                    <param name="parentDirId" value="#{param.parentDirId}"/>
                 </redirect>
             </rule>
         </navigation>
@@ -154,12 +155,13 @@
 
     </page>
 
-    <page view-id="/fileEdit.xhtml">
+    <page view-id="/fileEdit.xhtml" action="#{browser.captureConversationEntryPoint}">
         <description>Edit File</description>
 
-        <!-- TODO: If this is a nested conversation we really want to exit to the parent view after persist(),
-             e.g. editDoc -> uploadFile -> editDoc instead of currently editDoc -> uploadFile -> dirDisplay
-             This needs navigation actions or the already required polymorphic exitConversation() feature -->
+        <!-- TODO: If this is a nested or parallel conversation we really want to exit to the parent view or
+             the entry point after remove(), e.g. editDoc -> uploadFile -> editDoc instead of currently
+             editDoc -> uploadFile -> dirDisplay... This needs navigation actions or the
+             already required polymorphic exitConversation() feature -->
         <navigation from-action="#{fileHome.remove}">
             <rule>
                 <end-conversation/>
@@ -171,31 +173,22 @@
 
     </page>
 
-    <page view-id="/userAccount.xhtml">
+    <page view-id="/userHome.xhtml" action="#{browser.captureConversationEntryPoint}">
         <description>Managing Member Account</description>
     </page>
-    <page view-id="/userProfile.xhtml">
-        <description>Managing Member Profile</description>
+    
+    <page view-id="/userRegister.xhtml" action="#{browser.captureConversationEntryPoint}">
+        <description>Registration</description>
     </page>
-    <page view-id="/userPrefs.xhtml">
-        <description>Managing Member Preferences</description>
-    </page>
-    <page view-id="/userList.xhtml">
+
+    <page view-id="/userList.xhtml" action="#{browser.captureConversationEntryPoint}">
         <description>Searching Members (Results: #{userSearch.rowCount})</description>
     </page>
-    <page view-id="/adminHome.xhtml">
+
+    <page view-id="/adminHome.xhtml" action="#{browser.captureConversationEntryPoint}">
         <restrict>#{s:hasPermission('User', 'isAdmin', currentUser)}</restrict>
-        <description>Administration: Home</description>
+        <description>System Administration</description>
     </page>
-    <page view-id="/adminRoles.xhtml">
-        <restrict>#{s:hasPermission('User', 'isAdmin', currentUser)}</restrict>
-        <description>Administration: Roles</description>
-    </page>
-    <page view-id="/adminPrefs.xhtml">
-        <restrict>#{s:hasPermission('User', 'isAdmin', currentUser)}</restrict>
-        <description>Administration: Preferences</description>
-    </page>
-    <page view-id="/userHome.xhtml" action="#{browser.redirectToCurrentUserHome()}"/>
 
     <!-- Global actions -->
 
@@ -205,7 +198,9 @@
 
             <!-- Not perfect, but we need to force some re-rendering of the view when users log in or out -->
             <rule if-outcome="loggedIn" if="#{!empty currentUser.memberHome}">
-                <redirect view-id="/userHome.xhtml"/>
+                <redirect view-id="/display.xhtml">
+                    <param name="nodeId" value="#{currentUser.memberHome.id}"/>
+                </redirect>
             </rule>
             <rule if-outcome="loggedIn" if="#{empty currentUser.memberHome}">
                 <redirect view-id="/display.xhtml"/>
@@ -216,59 +211,32 @@
             </rule>
 
             <rule if-outcome="register">
-                <!-- TODO: I don't want to join, I want a new parallel root conversation: http://jira.jboss.com/jira/browse/JBSEAM-944 -->
-                <begin-conversation join="true" flush-mode="MANUAL"/>
-                <redirect view-id="/userAccount.xhtml"/>
-            </rule>
-            <rule if-outcome="editCurrentUser">
-                <!-- TODO: I don't want to join, I want a new parallel root conversation: http://jira.jboss.com/jira/browse/JBSEAM-944 -->
-                <begin-conversation join="true" flush-mode="MANUAL"/>
-                <redirect view-id="/userProfile.xhtml">
-                    <param name="userId" value="#{currentUser.id}"/>
+                <begin-conversation flush-mode="MANUAL"/>
+                <redirect view-id="/userRegister.xhtml">
+                    <param name="lastConversationId" value="#{param.lastConversationId}"/>
                 </redirect>
             </rule>
-            <rule if-outcome="editAccount">
-                <begin-conversation join="true" flush-mode="MANUAL"/>
-                <redirect view-id="/userAccount.xhtml">
-                    <param name="userId" value="#{currentUser.id}"/>
-                </redirect>
-            </rule>
-            <rule if-outcome="editProfile">
-                <begin-conversation join="true" flush-mode="MANUAL"/>
-                <redirect view-id="/userProfile.xhtml">
-                    <param name="userId" value="#{currentUser.id}"/>
-                </redirect>
-            </rule>
-
-            <rule if-outcome="editPreferences">
-                <begin-conversation join="true" flush-mode="MANUAL"/>
-                <redirect view-id="/userPrefs.xhtml">
-                    <param name="userId" value="#{userHome.instance.id}"/>
-                    <param name="visibility" value="#{'USER'}"/>
-                </redirect>
-            </rule>
-
             <rule if-outcome="listUsers">
-                <!-- TODO: I don't want to join, I want a new parallel root conversation: http://jira.jboss.com/jira/browse/JBSEAM-944 -->
-                <begin-conversation join="true" flush-mode="MANUAL"/>
-                <redirect view-id="/userList.xhtml"/>
+                <begin-conversation flush-mode="MANUAL"/>
+                <redirect view-id="/userList.xhtml">
+                    <param name="lastConversationId" value="#{param.lastConversationId}"/>
+                </redirect>
+            </rule>
+            <rule if-outcome="editUser">
+                <begin-conversation flush-mode="MANUAL"/>
+                <redirect view-id="/userHome.xhtml">
+                    <param name="lastConversationId" value="#{param.lastConversationId}"/>
+                    <param name="userId" value="#{param.userId}"/>
+                </redirect>
             </rule>
 
             <rule if-outcome="adminHome">
-                <!-- TODO: I don't want to join, I want a new parallel root conversation: http://jira.jboss.com/jira/browse/JBSEAM-944 -->
-                <begin-conversation join="true" flush-mode="MANUAL"/>
-                <redirect view-id="/adminHome.xhtml"/>
-            </rule>
-            <rule if-outcome="adminRoles">
-                <begin-conversation join="true" flush-mode="MANUAL"/>
-                <redirect view-id="/adminRoles.xhtml"/>
-            </rule>
-            <rule if-outcome="adminPrefs">
-                <begin-conversation join="true" flush-mode="MANUAL"/>
-                <redirect view-id="/adminPrefs.xhtml">
-                    <param name="visibility" value="#{'SYSTEM'}"/>
+                <begin-conversation flush-mode="MANUAL"/>
+                <redirect view-id="/adminHome.xhtml">
+                    <param name="lastConversationId" value="#{param.lastConversationId}"/>
                 </redirect>
             </rule>
+
 
             <rule if-outcome="error">
                 <redirect view-id="/message.xhtml">
@@ -285,8 +253,8 @@
         <navigation>
             <rule if-outcome="activated">
                 <redirect view-id="/display.xhtml">
-                    <param name="nodeId" value="#{activatedUser.memberHome.id}"/>
-                    <message severity="INFO">Your account has been activated, this is your new home page. Login to edit this page.</message>
+                    <param name="nodeId" value="#{wikiPreferences.defaultDocumentId}"/>
+                    <message severity="INFO">Your account has been activated, you can login now.</message>
                 </redirect>
             </rule>
             <rule if-outcome="notFound">
@@ -305,6 +273,21 @@
         <end-conversation/>
         <redirect view-id="/message.xhtml">
             <message severity="WARN">Access Denied: #{org.jboss.seam.handledException.message}</message>
+        </redirect>
+    </exception>
+
+    <exception class="javax.persistence.OptimisticLockException">
+        <end-conversation/>
+        <!-- TODO: I'd rather redirect to the entry point of the conversation but we don't have navigation actions -->
+        <redirect view-id="/message.xhtml">
+            <message severity="ERROR">Someone modified the same record while you were editing it. Please restart your workspace.</message>
+        </redirect>
+    </exception>
+
+    <exception>
+        <end-conversation/>
+        <redirect view-id="/message.xhtml">
+            <message severity="ERROR">Exception!</message>
         </redirect>
     </exception>
 

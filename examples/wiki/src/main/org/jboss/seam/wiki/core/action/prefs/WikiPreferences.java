@@ -13,7 +13,7 @@ import java.io.Serializable;
 
 @Name("wikiPreferences")
 @AutoCreate
-@Scope(ScopeType.CONVERSATION)
+@Scope(ScopeType.PAGE)
 @Preference(description = "A. Wiki Preferences", visibility = PreferenceVisibility.SYSTEM)
 public class WikiPreferences extends PreferenceSupport implements Serializable {
 

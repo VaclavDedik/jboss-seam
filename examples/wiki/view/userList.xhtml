@@ -39,9 +39,12 @@
 
         <div class="form" id="userSearchControl">
 
-            <h:panelGrid columns="6" styleClass="formTable"
-                         headerClass="formHead" footerClass="formFooter"
-                         columnClasses="entryColumn,entryColumn,entryColumn,entryColumn,entryColumn,entryColumn"
+            <h:panelGrid columns="6" style="margin-bottom: 15px;"
+                         styleClass="datatable topLeftBottomBorder"
+                         headerClass="regularHeader rightBorder"
+                         columnClasses="tenPercentColumn formFields, tenPercentColumn formFields, tenPercentColumn formFields,
+                                        tenPercentColumn formFields, twentyPercentColumn alignRight formFields,
+                                        defaultColumn alignRight rightBorder formFields"
                          cellpadding="0" cellspacing="0" border="0">
 
                 <f:facet name="header">
@@ -49,28 +52,28 @@
                 </f:facet>
 
                 <h:panelGroup>
-                    <h:outputText styleClass="label" value="Username:"/>
-                    <h:inputText styleClass="input" id="username" value="#{userSearch.exampleUser.username}" maxlength="25" size="10" tabindex="1"/>
+                    <h:outputText styleClass="label" value="Username:"/>&#160;
+                    <h:inputText id="username" value="#{userSearch.exampleUser.username}" maxlength="35" size="10" tabindex="1"/>
                 </h:panelGroup>
 
                 <h:panelGroup>
-                    <h:outputText styleClass="label" value="First name:"/>
-                    <h:inputText styleClass="input" id="firstname" value="#{userSearch.exampleUser.firstname}" maxlength="25" size="10" tabindex="2"/>
+                    <h:outputText styleClass="label" value="First name:"/>&#160;
+                    <h:inputText id="firstname" value="#{userSearch.exampleUser.firstname}" maxlength="35" size="10" tabindex="2"/>
                 </h:panelGroup>
 
                 <h:panelGroup>
-                    <h:outputText styleClass="label" value="Last name:"/>
-                    <h:inputText styleClass="input" id="lastname" value="#{userSearch.exampleUser.lastname}" maxlength="25" size="10" tabindex="3"/>
+                    <h:outputText styleClass="label" value="Last name:"/>&#160;
+                    <h:inputText id="lastname" value="#{userSearch.exampleUser.lastname}" maxlength="35" size="10" tabindex="3"/>
                 </h:panelGroup>
 
                 <h:panelGroup>
-                    <h:outputText styleClass="label" value="E-mail:"/>
-                    <h:inputText styleClass="input" id="email" value="#{userSearch.exampleUser.email}" maxlength="25" size="10" tabindex="4"/>
+                    <h:outputText styleClass="label" value="E-mail:"/>&#160;
+                    <h:inputText id="email" value="#{userSearch.exampleUser.email}" maxlength="35" size="10" tabindex="4"/>
                 </h:panelGroup>
 
                 <h:panelGroup>
-                    <h:outputLabel styleClass="label" for="pageSize">Show:</h:outputLabel>
-                    <h:selectOneMenu styleClass="input" value="#{userSearch.pageSize}" id="pageSize" tabindex="5">
+                    <h:outputLabel styleClass="label" for="pageSize">Show:</h:outputLabel>&#160;
+                    <h:selectOneMenu value="#{userSearch.pageSize}" id="pageSize" tabindex="5" style="font-size:100%">
                         <f:selectItem itemLabel="5" itemValue="5"/>
                         <f:selectItem itemLabel="10" itemValue="10"/>
                         <f:selectItem itemLabel="20" itemValue="20"/>
@@ -80,10 +83,6 @@
                 <h:commandLink id="find" styleClass="button"
                                action="#{userSearch.find()}"
                                tabindex="6" accesskey="F"><span class="buttonLabel"><u>F</u>ind</span></h:commandLink>
-
-                <f:facet name="footer">
-                    &#160;
-                </f:facet>
 
             </h:panelGrid>
 
@@ -204,7 +203,8 @@
             </h:column>
 
             <h:column rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}">
-                <s:link view="/userAccount.xhtml" value="Edit">
+                <s:link action="editUser" value="Edit" propagation="none">
+                    <f:param name="lastConversationId" value="#{conversation.id}"/>
                     <f:param name="userId" value="#{u.id}"/>
                 </s:link>
             </h:column>

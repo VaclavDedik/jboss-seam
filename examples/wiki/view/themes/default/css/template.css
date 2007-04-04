@@ -25,7 +25,7 @@ body {
 	padding: 0;
 }
 label {
-	color: #000000;
+    color: #000000;
 }
 input, textarea, select {
 	border: 1px solid #C3BBB6;
@@ -91,6 +91,10 @@ a:visited {
 #body {
     background-color: #fff;
 	margin-left: 15%;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 #control {
@@ -116,7 +120,9 @@ a:visited {
     font-size: 1px;
 }
 
-#content {}
+#content {
+    background-color: #fff;
+}
 
 #footer {
 	clear: both;
@@ -145,7 +151,9 @@ a:visited {
 #messageBox {
     background-color: #87786e;
     width: auto;
+    margin-bottom: 10px;
 }
+
 .infoMessage {
     font-size: 85%;
     font-weight: bold;
@@ -160,7 +168,7 @@ a:visited {
 
 .attentionImage {
     vertical-align: text-top;
-    padding-left: 12%;
+    padding-left: 10px;
     padding-right: 10px;
     padding-top: 2px;
     padding-bottom: 2px;
@@ -187,8 +195,8 @@ a:visited {
 ----------------------------------------------- */
 
 .documentDisplay {
-    padding-left: 10px;
-    padding-right: 10px;
+    background-color: #fff;
+    margin-top: -10px;
 }
 
 .attachmentDisplay {
@@ -293,9 +301,50 @@ a:visited {
 
 .form {}
 
+.formPanel {
+    border-left: 1px solid #C3BBB6;
+    border-right: 1px solid #C3BBB6;
+    border-bottom: 1px solid #C3BBB6;
+    border-top: 1px solid #C3BBB6;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
+
+/* TODO: Currently not used, bug in Richfaces... http://jira.jboss.com/jira/browse/RF-67 */
+.formPanelHeader {
+    border: 0;
+    margin: 0;
+    padding-left: 13px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    color: #555;
+    background: #fff url(../img/th.bg.gif ) 0 0 repeat-x;
+}
+
+.formListGridColumn {
+    vertical-align: top;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.formListTable {
+    border: 1px solid #C3BBB6;
+}
+
+.formListItem {
+    background: #fff url(../img/th.bg.gif ) 0 0 repeat-x;
+    font-size: 85%;
+    padding: 3px;
+}
+
+.selectedItem {
+    color: #555;
+}
+
 .formHead {
     text-align: left;
-    background: #fff url(../img/th.bg.inverse.gif) 0 0 repeat-x;
+    background: #fff url(../img/th.bg.gif) 0 0 repeat-x;
     font-size: 85%;
     font-weight: bold;
     color: #555;
@@ -303,20 +352,25 @@ a:visited {
     padding-right: 10px;
     padding-top: 5px;
     padding-bottom: 5px;
+    border-top: 1px solid #C3BBB6;
+    border-left: 1px solid #C3BBB6;
+    border-right: 1px solid #C3BBB6;
 }
 
 .formFields {
     padding-top: 10px;
     padding-bottom: 10px;
+    background-color: #f5f5f5;
 }
 
-.formFieldsWideLabels {
-    padding-top: 10px;
-    padding-bottom: 10px;
+.formBorder {
+    border-left: 1px solid #C3BBB6;
+    border-right: 1px solid #C3BBB6;
+    border-bottom: 1px solid #C3BBB6;
 }
 
 .formControls {
-    background: #c2bcaf url(../img/th.bg.gif) 0 0 repeat-x;
+    background: #c2bcaf url(../img/th.bg.inverse.gif) 0 0 repeat-x;
     padding: 5px;
 }
 
@@ -344,40 +398,12 @@ a:visited {
     text-align: left;
 }
 
-.formFieldsWideLabels .entry .label {
+.wideLabels .entry .label {
     width: 20%;
-}
-
-.formControlsWideLabels .entry .label {
-    width: 20%;
-}
-
-.formTable {
-    padding: 0;
-    margin: 0;
-    border: 0;
-    width: 100%;
-}
-
-.formTable .entryColumn {
-}
-
-.formTable .entryColumn .label {
-    margin-left: 15px;
-    margin-right: 5px;
-    font-size: 85%;
-}
-
-.formTable .entryColumn .input {
-}
-
-.formTable .formFooter {
-    background: #c2bcaf url(../img/th.bg.gif) 0 0 repeat-x;
-    padding: 5px;
 }
 
 .errorDiv {
-    background: #fff url(../img/input.error.bg.gif) 0 0 no-repeat;
+    background-color: #ffeeee;
 }
 
 /* Directory Browser
@@ -385,8 +411,11 @@ a:visited {
 
 .directoryPathPanel {
     width: auto;
-    background: #fff url(../img/th.bg.inverse.gif) 0 0 repeat-x;
+    background: #fff url(../img/th.bg.gif) 0 0 repeat-x;
     padding-left: 11px;
+    border-top: 1px solid #C3BBB6;
+    border-left: 1px solid #C3BBB6;
+    border-right: 1px solid #C3BBB6;
 }
 
 .directoryPathPanel .directoryButton {
@@ -405,6 +434,13 @@ a:visited {
 	padding: 2px;
  	border-style: none;
     font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+.directoryEmpty {
+    padding: 5px;
+    border-bottom: 1px solid #C3BBB6;
+    border-left: 1px solid #C3BBB6;
+    border-right: 1px solid #C3BBB6;
 }
 
 
@@ -527,7 +563,9 @@ a:visited {
     width: 100%;
     padding: 0;
     margin: 0;
-    border: 0;
+    border-top: 1px solid #C3BBB6;
+    border-left: 1px solid #C3BBB6;
+    border-right: 1px solid #C3BBB6;
     background: #fff url(../img/th.bg.gif) 0 0 repeat-x;
     text-align: center;
 }

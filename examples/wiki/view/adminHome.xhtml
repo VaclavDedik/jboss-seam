@@ -5,12 +5,15 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+                xmlns:a="https://ajax4jsf.dev.java.net/ajax"
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
                 template="themes/#{wikiPreferences.themeName}/template.xhtml">
 
 <ui:define name="includeHeaders">
     <link href="#{themePath}/css/userControl.css" rel="stylesheet" type="text/css"/>
     <link href="#{themePath}/css/searchControl.css" rel="stylesheet" type="text/css"/>
+    <link href="#{themePath}/css/mainMenu.css" rel="stylesheet" type="text/css"/>
 </ui:define>
 
 <ui:define name="screenname">
@@ -23,13 +26,12 @@
 
 <ui:define name="headerBottomLeft">&#160;</ui:define>
 
-<ui:define name="sidebar">&#160;</ui:define>
-
-<ui:define name="controlLeft">
-    <s:link id="adminHome" styleClass="linkTab activeTab" action="adminHome">Admin Home</s:link>
-    <s:link id="editRoles" styleClass="linkTab inactiveTab" action="adminRoles">Roles/Permissions</s:link>
-    <s:link id="editPreferences" styleClass="linkTab inactiveTab" action="adminPrefs">System Preferences</s:link>
+<ui:define name="sidebar">
+    <ui:include src="includes/searchControl.xhtml"/>
+    <ui:include src="includes/mainMenu.xhtml"/>
 </ui:define>
+
+<ui:define name="controlLeft">&#160;</ui:define>
 
 <ui:define name="controlRight">
     <s:link id="exit" styleClass="linkNavigation"
@@ -39,7 +41,45 @@
 
 <ui:define name="content">
 
-    Admin home. We can show some (live) statistics here.
+<h:form><div class="form">
+
+    <rich:panelBar styleClass="formPanel"
+                   headerStyle="border:0;margin:0;padding-left:13px;padding-top:3px;padding-bottom:3px;color: #555;background: #fff url(/wiki/themes/default/img/th.bg.gif) 0 0 repeat-x;">
+
+        <rich:panelBarItem label="System Statistics">
+            Not implemented
+        </rich:panelBarItem>
+
+        <rich:panelBarItem label="Roles &amp; Permissions">
+           Not implemented
+        </rich:panelBarItem>
+
+        <rich:panelBarItem label="Preferences">
+
+            <ui:include src="includes/preferencesEditor.xhtml">
+                <ui:param name="preferenceComponents" value="#{systemPreferenceComponents}"/>
+            </ui:include>
+
+        </rich:panelBarItem>
+
+    </rich:panelBar>
+
+    <div class="formControls wideLabels">
+
+        <div class="entry">
+            <div class="label">&#160;</div>
+            <div class="input">
+
+                <h:commandLink id="update" styleClass="button"
+                               action="#{adminHome.update}"
+                               tabindex="9" accesskey="U"><span class="buttonLabel"><u>U</u>pdate</span></h:commandLink>
+
+            </div>
+        </div>
+
+    </div>
+
+</div></h:form>
 
 </ui:define>
 

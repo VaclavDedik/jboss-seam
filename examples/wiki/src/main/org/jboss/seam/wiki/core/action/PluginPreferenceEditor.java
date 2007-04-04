@@ -22,8 +22,6 @@ public class PluginPreferenceEditor implements Serializable {
     private List<PreferenceValue> preferenceValues = new ArrayList<PreferenceValue>();
 
     public PluginPreferenceEditor(String pluginPreferenceName) {
-        System.out.println("#### NEW EDITOR FOR PLUGIN: " + pluginPreferenceName);
-
         this.pluginPreferenceName = pluginPreferenceName;
 
         // Load the preference component
@@ -43,7 +41,6 @@ public class PluginPreferenceEditor implements Serializable {
     }
 
     public List<PreferenceValue> getPreferenceValues() {
-        System.out.println("######### GET PREFERENCE VALUES FROM PLUGIN EDITOR");
         return preferenceValues;
     }
 

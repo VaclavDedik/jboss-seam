@@ -158,7 +158,7 @@ public class WikiIdentity extends Identity {
     */
     private boolean checkEditUser(User user) {
         if (currentAccessLevel == UserRoleAccessFactory.ADMINROLE_ACCESSLEVEL) return true;
-        if (currentUser.getId() == user.getId()) return true;
+        if (currentUser.getId().equals(user.getId())) return true;
         return false;
     }
 

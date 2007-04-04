@@ -44,6 +44,9 @@ public class NodeDAO {
     // Make sure that these methods do not return detached objects!
     @In protected EntityManager entityManager;
 
+    public void flushRegularEntityManager() {
+        restrictedEntityManager.flush();
+    }
 
     public void makePersistent(Node node) {
         entityManager.joinTransaction();

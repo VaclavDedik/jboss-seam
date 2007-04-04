@@ -6,6 +6,7 @@ import org.jboss.seam.wiki.core.dao.NodeDAO;
 import org.jboss.seam.wiki.core.dao.UserRoleAccessFactory;
 import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.model.Role;
+import org.jboss.seam.wiki.core.action.prefs.UserManagementPreferences;
 import org.jboss.seam.wiki.util.WikiUtil;
 import org.jboss.seam.wiki.util.Hash;
 import org.jboss.seam.ScopeType;
@@ -18,9 +19,6 @@ public class Authenticator {
 
     @In
     private UserDAO userDAO;
-
-    @In
-    private NodeDAO nodeDAO;
 
     @In
     private Hash hashUtil;
@@ -61,38 +59,50 @@ public class Authenticator {
         if (user != null) {
             user.setActivated(true);
             user.setActivationCode(null);
-
-            // Create home directory
-            Directory memberArea = (Directory)Component.getInstance("memberArea");
-
-            Directory homeDirectory = new Directory(user.getUsername());
-            homeDirectory.setWikiname(WikiUtil.convertToWikiName(homeDirectory.getName()));
-            homeDirectory.setAreaNumber(memberArea.getAreaNumber());
-            homeDirectory.setCreatedBy(user);
-            homeDirectory.setWriteAccessLevel(UserRoleAccessFactory.ADMINROLE_ACCESSLEVEL);
-            homeDirectory.setReadAccessLevel(UserRoleAccessFactory.GUESTROLE_ACCESSLEVEL);
-            memberArea.addChild(homeDirectory);
-            user.setMemberHome(homeDirectory);
-            nodeDAO.makePersistent(homeDirectory);
-
-            // Create home page
-            Document homePage = new Document("Home of " + user.getUsername());
-            homePage.setWikiname(WikiUtil.convertToWikiName(homePage.getName()));
-            homePage.setCreatedBy(user);
-            homePage.setAreaNumber(homeDirectory.getAreaNumber());
-            homePage.setContent("This is the homepage of " + user.getFirstname() + " " + user.getLastname() + ".");
-            homePage.setWriteAccessLevel(UserRoleAccessFactory.ADMINROLE_ACCESSLEVEL);
-            homePage.setReadAccessLevel(UserRoleAccessFactory.GUESTROLE_ACCESSLEVEL);
-            homeDirectory.addChild(homePage);
-            homeDirectory.setDefaultDocument(homePage);
-            nodeDAO.makePersistent(homeDirectory);
-
             Contexts.getEventContext().set("activatedUser", user);
+
+            // Optionally, create home directory
+            UserManagementPreferences userMgmtPrefs =
+                    (UserManagementPreferences)Component.getInstance("userManagementPreferences");
+            if ( userMgmtPrefs.isCreateHomeAfterUserActivation() ) {
+                createHomeDirectory(user);
+            }
 
             return "activated";
         } else {
             return "notFound";
         }
+    }
+
+    @Transactional
+    public void createHomeDirectory(User user) {
+
+        NodeDAO nodeDAO = (NodeDAO)Component.getInstance("nodeDAO");
+
+        // Create home directory
+        Directory memberArea = (Directory)Component.getInstance("memberArea");
+
+        Directory homeDirectory = new Directory(user.getUsername());
+        homeDirectory.setWikiname(WikiUtil.convertToWikiName(homeDirectory.getName()));
+        homeDirectory.setAreaNumber(memberArea.getAreaNumber());
+        homeDirectory.setCreatedBy(user);
+        homeDirectory.setWriteAccessLevel(UserRoleAccessFactory.ADMINROLE_ACCESSLEVEL);
+        homeDirectory.setReadAccessLevel(UserRoleAccessFactory.GUESTROLE_ACCESSLEVEL);
+        memberArea.addChild(homeDirectory);
+        user.setMemberHome(homeDirectory);
+        nodeDAO.makePersistent(homeDirectory);
+
+        // Create home page
+        Document homePage = new Document("Home of " + user.getUsername());
+        homePage.setWikiname(WikiUtil.convertToWikiName(homePage.getName()));
+        homePage.setCreatedBy(user);
+        homePage.setAreaNumber(homeDirectory.getAreaNumber());
+        homePage.setContent("This is the homepage of " + user.getFirstname() + " " + user.getLastname() + ".");
+        homePage.setWriteAccessLevel(UserRoleAccessFactory.ADMINROLE_ACCESSLEVEL);
+        homePage.setReadAccessLevel(UserRoleAccessFactory.GUESTROLE_ACCESSLEVEL);
+        homeDirectory.addChild(homePage);
+        homeDirectory.setDefaultDocument(homePage);
+        nodeDAO.makePersistent(homeDirectory);
     }
 
     public String logout() {

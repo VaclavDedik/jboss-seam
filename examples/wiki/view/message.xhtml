@@ -18,7 +18,46 @@
 
 <ui:define name="control">&#160;</ui:define>
 
-<ui:define name="content">&#160;</ui:define>
+<ui:define name="content">
+
+    <s:div id="stackTraceHandled" rendered="#{not empty org.jboss.seam.handledException}">
+        Handled exception:
+        <pre style="font-size:90%;">
+
+Top level exception : #{org.jboss.seam.handledException.class.name}: #{org.jboss.seam.handledException.message}
+=========================================================================================================================
+<ui:repeat value="#{org.jboss.seam.handledException.stackTrace}" var="stackElement">
+#{stackElement}</ui:repeat>
+
+Root cause exception: #{wiki:unwrap(org.jboss.seam.handledException).class.name}: #{wiki:unwrap(org.jboss.seam.handledException).message}
+=========================================================================================================================
+<ui:repeat value="#{wiki:unwrap(org.jboss.seam.handledException).stackTrace}" var="stackElement">
+#{stackElement}</ui:repeat>
+
+</pre>
+        <hr/>
+    </s:div>
+
+    <s:div id="stackTrace" rendered="#{not empty org.jboss.seam.exception}">
+        Unhandled exception:
+        <pre style="font-size:90%;">
+
+Top level exception : #{org.jboss.seam.exception.class.name}: #{org.jboss.seam.exception.message}
+=========================================================================================================================
+<ui:repeat value="#{org.jboss.seam.exception.stackTrace}" var="stackElement">
+#{stackElement}</ui:repeat>
+
+Root cause exception: #{wiki:unwrap(org.jboss.seam.exception).class.name}: #{wiki:unwrap(org.jboss.seam.exception).message}
+=========================================================================================================================
+<ui:repeat value="#{wiki:unwrap(org.jboss.seam.exception).stackTrace}" var="stackElement">
+#{stackElement}</ui:repeat>
+
+</pre>
+        <hr/>
+    </s:div>
+
+
+</ui:define>
 
 <ui:define name="footer">&#160;</ui:define>
 

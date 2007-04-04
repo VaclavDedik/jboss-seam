@@ -3,11 +3,15 @@ package org.jboss.seam.wiki.core.action;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Component;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.core.ConversationEntries;
+import org.jboss.seam.core.ConversationEntry;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.wiki.core.dao.NodeDAO;
 import org.jboss.seam.wiki.core.model.*;
+import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.util.WikiUtil;
 
 import java.util.*;
@@ -44,6 +48,9 @@ public class NodeBrowser implements Serializable {
 
     @RequestParameter
     protected String nodeName;
+
+    @RequestParameter
+    protected String lastConversationId;
 
     protected Long nodeId;
     public Long getNodeId() { return nodeId; }
@@ -90,6 +97,9 @@ public class NodeBrowser implements Serializable {
         // We also don't want to redirect the long-running conversation, the caller has ended it already
         redirect.setConversationPropagationEnabled(false);
 
+        // This is not needed again
+        redirect.getParameters().remove("lastConversationId");
+
         redirect.returnToCapturedView();
     }
 
@@ -101,30 +111,39 @@ public class NodeBrowser implements Serializable {
         // If the last browsed page had a conversation identifier (we assume of a temporary conversation), remove it
         redirect.getParameters().remove("cid");
 
+        // This is not needed again
+        redirect.getParameters().remove("lastConversationId");
+
         redirect.returnToCapturedView();
     }
 
-    public void redirectToCurrentUserHome() {
-        User currentUser = (User)Component.getInstance("currentUser");
-        Map<String, Object> parameters = new HashMap<String, Object>();
-        parameters.put("nodeId", currentUser.getMemberHome().getId());
-        Manager.instance().redirect("/display.xhtml", parameters, true);
-    }
-
-    // TODO: Typical exit method to get out of a root or nested conversation, JBSEAM-906
+    // TODO: Typical exit method to get out of a root, nested, or parallel root conversation, JBSEAM-906
     public void exitConversation(Boolean endBeforeRedirect) {
         Conversation currentConversation = Conversation.instance();
         if (currentConversation.isNested()) {
             // End this nested conversation and return to last rendered view-id of parent
             currentConversation.endAndRedirect(endBeforeRedirect);
         } else {
-            // End this root conversation
+            // Always end this conversation
             currentConversation.end();
-            // Return to the view-id that was captured when this conversation started
-            if (endBeforeRedirect)
-                redirectToLastBrowsedPage();
-            else
-                redirectToLastBrowsedPageWithConversation();
+
+            ConversationEntry entryPoint =
+                    (ConversationEntry)Contexts.getConversationContext().get("conversationEntryPoint");
+            if (entryPoint != null) {
+                // We came here from another conversation
+                if (entryPoint.isDisplayable()) {
+                    entryPoint.switchConversation();
+                } else {
+                    // The entry point is gone... What now? Go to start page...
+                    Manager.instance().redirect("/display.xhtml", new HashMap<String,Object>(), true);
+                }
+            } else {
+                // We came here from a non-conversational page
+                if (endBeforeRedirect)
+                    redirectToLastBrowsedPage();
+                else
+                    redirectToLastBrowsedPageWithConversation();
+            }
         }
     }
 
@@ -136,6 +155,14 @@ public class NodeBrowser implements Serializable {
             path.add(directory);
         if (directory.getParent() != null )
             addDirectoryToPath(path, directory.getParent());
+    }
+
+    public void captureConversationEntryPoint() {
+        if (lastConversationId != null) {
+            ConversationEntries allConversations = ConversationEntries.instance();
+            Contexts.getConversationContext()
+                    .set("conversationEntryPoint", allConversations.getConversationEntry(lastConversationId));
+        }
     }
 
     @Transactional

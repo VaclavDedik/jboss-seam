@@ -1,6 +1,7 @@
 package org.jboss.seam.wiki.core.dao;
 
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Component;
 import org.jboss.seam.wiki.core.model.Role;
 import org.jboss.seam.wiki.core.model.User;
 import org.jboss.seam.wiki.core.action.prefs.UserManagementPreferences;
@@ -22,9 +23,6 @@ public class UserRoleAccessFactory implements Serializable {
     
     @In
     EntityManager entityManager;
-
-    @In
-    private UserManagementPreferences userManagementPreferences;
 
     @Factory(value = "guestUser", scope = ScopeType.SESSION)
     public User getGuestUser() {
@@ -93,13 +91,14 @@ public class UserRoleAccessFactory implements Serializable {
 
     @Factory(value = "newUserDefaultRole", scope = ScopeType.SESSION)
     public Role getDefaultRole() {
+        UserManagementPreferences userPrefs = (UserManagementPreferences) Component.getInstance("userManagementPreferences");
         try {
             entityManager.joinTransaction();
             return (Role) entityManager
-                    .createQuery("select r from Role r where r.name = '"+userManagementPreferences.getNewUserInRole()+"'")
+                    .createQuery("select r from Role r where r.name = '"+userPrefs.getNewUserInRole()+"'")
                             .getSingleResult();
         } catch (NoResultException ex) {
-            throw new RuntimeException("Configured default role for new users '"+userManagementPreferences.getNewUserInRole()+"' not found");
+            throw new RuntimeException("Configured default role for new users '"+userPrefs.getNewUserInRole()+"' not found");
         }
     }
 

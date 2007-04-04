@@ -13,7 +13,7 @@ import java.io.Serializable;
 
 @Name("userManagementPreferences")
 @AutoCreate
-@Scope(ScopeType.CONVERSATION)
+@Scope(ScopeType.PAGE)
 @Preference(description = "A. User Management", visibility = PreferenceVisibility.SYSTEM)
 public class UserManagementPreferences extends PreferenceSupport implements Serializable {
 
@@ -29,6 +29,12 @@ public class UserManagementPreferences extends PreferenceSupport implements Seri
     @Length(min = 3, max = 255)
     private String newUserInRole;
 
+    @Preference(description = "04. Enable free user registration", visibility = PreferenceVisibility.SYSTEM)
+    private boolean enableRegistration;
+
+    @Preference(description = "05. Create home directory for new user after activation", visibility = PreferenceVisibility.SYSTEM)
+    private boolean createHomeAfterUserActivation;
+
     public String getActivationCodeSalt() {
         return activationCodeSalt;
     }
@@ -39,5 +45,13 @@ public class UserManagementPreferences extends PreferenceSupport implements Seri
 
     public String getNewUserInRole() {
         return newUserInRole;
+    }
+
+    public boolean isEnableRegistration() {
+        return enableRegistration;
+    }
+
+    public boolean isCreateHomeAfterUserActivation() {
+        return createHomeAfterUserActivation;
     }
 }
