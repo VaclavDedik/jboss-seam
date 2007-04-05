@@ -4,25 +4,21 @@
              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_5.xsd"
              version="5">
              
-	<display-name>Seam Remoting Poker</display-name>
-
-	<module>
-		<web>
-			<web-uri>seam-poker.war</web-uri>
-			<context-root>/seam-poker</context-root>
-		</web>
-	</module>
-	<module>
-		<ejb>seam-poker.jar</ejb>
-	</module>
-	<module>
-	    <java>jboss-seam.jar</java>
-	</module>
+    <display-name>Seam Remoting Poker</display-name>
+    
     <module>
-        <java>el-api.jar</java>
+        <web>
+            <web-uri>seam-poker.war</web-uri>
+            <context-root>/seam-poker</context-root>
+        </web>
     </module>
     <module>
-        <java>el-ri.jar</java>
+        <ejb>seam-poker.jar</ejb>
     </module>
-
+    <module>
+        <java>jboss-seam.jar</java>
+    </module>
+    <module>
+        <java>jboss-el.jar</java>
+    </module>
 </application>

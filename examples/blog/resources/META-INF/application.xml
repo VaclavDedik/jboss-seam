@@ -19,6 +19,9 @@
         <java>jboss-seam.jar</java>
     </module>
     <module>
+        <java>jboss-el.jar</java>
+    </module>
+    <module>
         <java>jboss-cache-jdk50.jar</java>
     </module>
     <module>

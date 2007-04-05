@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
 	version="2.4">
 	
-	<filter>
+    <filter>
         <display-name>Ajax4jsf Filter</display-name>
         <filter-name>ajax4jsf</filter-name>
         <filter-class>org.ajax4jsf.Filter</filter-class>
@@ -20,15 +20,15 @@
         <param-value>org.jboss.seam.ui.facelet.SeamFaceletViewHandler</param-value>
     </context-param>
          
-	<!-- Seam -->
-
-	<listener>
-		<listener-class>
-			org.jboss.seam.servlet.SeamListener
-		</listener-class>
-	</listener>
-	
-	<servlet>
+    <!-- Seam -->
+    
+    <listener>
+        <listener-class>
+            org.jboss.seam.servlet.SeamListener
+        </listener-class>
+    </listener>
+    
+    <servlet>
         <servlet-name>Seam Resource Servlet</servlet-name>
         <servlet-class>org.jboss.seam.servlet.ResourceServlet</servlet-class>
     </servlet>
@@ -52,35 +52,35 @@
         <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
     </listener> 
 
-	<context-param>
-		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
-		<param-value>client</param-value>
-	</context-param>
-
-	<context-param>
-		<param-name>javax.faces.DEFAULT_SUFFIX</param-name>
-		<param-value>.xhtml</param-value>
-	</context-param>
-
-	<context-param>
-		<param-name>facelets.SKIP_COMMENTS</param-name>
-		<param-value>true</param-value>
-	</context-param>
-
-	<!-- Faces Servlet Mapping -->
-
-	<servlet>
-		<servlet-name>Faces Servlet</servlet-name>
-		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>Faces Servlet</servlet-name>
-		<url-pattern>*.seam</url-pattern>
-	</servlet-mapping>
-
-  <session-config>
-    <session-timeout>10</session-timeout> 
-  </session-config> 
+    <context-param>
+        <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+        <param-value>client</param-value>
+    </context-param>
+    
+    <context-param>
+        <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+        <param-value>.xhtml</param-value>
+    </context-param>
+    
+    <context-param>
+        <param-name>facelets.SKIP_COMMENTS</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    
+    <!-- Faces Servlet Mapping -->
+    
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.seam</url-pattern>
+    </servlet-mapping>
+    
+    <session-config>
+        <session-timeout>10</session-timeout> 
+    </session-config> 
 </web-app>

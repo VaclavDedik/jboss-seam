@@ -60,5 +60,8 @@
   <module>
     <java>jcaptcha-all-1.0-RC4.jar</java>
   </module>
-  
+
+  <module>
+      <java>jboss-el.jar</java>
+  </module>  
 </application>

@@ -18,7 +18,11 @@
     <module>
         <java>jboss-seam.jar</java>
     </module>
+
     <module>
         <java>jbpm-3.1.4.jar</java>
+    </module>
+    <module>
+        <java>jboss-el.jar</java>
     </module>
 </application>

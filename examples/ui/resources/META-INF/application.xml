@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <application>
+    <display-name>Seam UI Example</display-name>
 
-	<display-name>Seam UI Example</display-name>
-
-	<module>
-		<ejb>ui-example.jar</ejb>
-	</module>
-
-	<module>
-		<web>
-			<web-uri>ui-example.war</web-uri>
-			<context-root>/seam-ui</context-root>
-		</web>
-	</module>
-	<module>
-		<java>jboss-seam.jar</java>
-	</module>
+    <module>
+        <ejb>ui-example.jar</ejb>
+    </module>
+    
+    <module>
+        <web>
+            <web-uri>ui-example.war</web-uri>
+            <context-root>/seam-ui</context-root>
+        </web>
+    </module>
+    <module>
+        <java>jboss-seam.jar</java>
+    </module>
+    <module>
+        <java>jboss-el.jar</java>
+    </module>
 </application>

@@ -19,6 +19,9 @@
         <java>jboss-seam.jar</java>
     </module>
     <module>
+        <java>jboss-el.jar</java>
+    </module>
+    <module>
         <java>spring.jar</java>
     </module>
 </application>
