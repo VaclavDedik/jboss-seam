@@ -11,137 +11,171 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import org.jboss.seam.mail.ui.context.MailResponseWriter;
 import org.jboss.seam.ui.JSF;
 
 /**
  * Abstract base class for mail ui components
- *
+ * 
  */
 public abstract class MailComponent extends UIComponentBase
 {
 
    // Cache Message
-   
+
    private UIMessage message;
-   
+
    private static final String FAMILY = "org.jboss.seam.mail";
 
    @Override
    public String getFamily()
    {
-     return FAMILY;
+      return FAMILY;
    }
-   
+
    @Override
-   public boolean getRendersChildren() {
-       return true;
+   public boolean getRendersChildren()
+   {
+      return true;
+   }
+
+   protected String encode(FacesContext facesContext) throws IOException
+   {
+      return encode(facesContext, this);
    }
    
-   
-   protected String encode(FacesContext facesContext) throws IOException {
-     return encode(facesContext, this);
+   protected String encode(FacesContext facesContext, UIComponent cmp) throws IOException
+   {
+      return encode(facesContext, cmp, null);
    }
    
+   protected String encode(FacesContext facesContext, String contentType) throws IOException
+   {
+      return encode(facesContext, this, contentType);
+   }
+
    /**
-    * Encode the children of cmp, writing to a string (rather than the http response object)
-    * and return the string
+    * Encode the children of cmp, writing to a string (rather than the http
+    * response object) and return the string
     */
-   protected String encode(FacesContext facesContext,UIComponent cmp) throws IOException {
+   protected String encode(FacesContext facesContext, UIComponent cmp, String contentType) throws IOException
+   {
       ResponseWriter response = facesContext.getResponseWriter();
       StringWriter stringWriter = new StringWriter();
-      ResponseWriter cachingResponseWriter = response.cloneWithWriter(stringWriter);
+      ResponseWriter cachingResponseWriter = ((MailResponseWriter) response).cloneWithWriter(stringWriter, contentType);
       facesContext.setResponseWriter(cachingResponseWriter);
       JSF.renderChildren(facesContext, cmp);
       facesContext.setResponseWriter(response);
       String output = stringWriter.getBuffer().toString();
       return output;
    }
-   
+
    /**
     * look up the tree for mail message
-    * @throws MessagingException 
+    * 
+    * @throws MessagingException
     */
-   public MimeMessage findMimeMessage() throws MessagingException {
+   public MimeMessage findMimeMessage() throws MessagingException
+   {
       return findMessage().getMimeMessage();
    }
-   
+
    /**
     * look up the tree for UIMessage
     */
-   public UIMessage findMessage() {
+   public UIMessage findMessage()
+   {
       if (message == null)
       {
-          message = (UIMessage) findParent(this, UIMessage.class);
-          if (message == null)
-          {
-             throw new UnsupportedOperationException("Must have a m:message tag in the tree");
-          }
+         message = (UIMessage) findParent(this, UIMessage.class);
+         if (message == null)
+         {
+            throw new UnsupportedOperationException("Must have a m:message tag in the tree");
+         }
       }
       return message;
    }
-   
-   public MimeMultipart getRootMultipart() throws IOException, MessagingException  {
+
+   public MimeMultipart getRootMultipart() throws IOException, MessagingException
+   {
       return (MimeMultipart) findMimeMessage().getContent();
    }
-   
-   public MailComponent findParent(UIComponent parent) {
+
+   public MailComponent findParent(UIComponent parent)
+   {
       return findParent(parent, null);
    }
 
    /**
     * find the first parent that is a mail component of a given type
     */
-   public MailComponent findParent(UIComponent parent, Class<?> c) {
-       if (parent == null) 
-       {
-           return null;
-       }
-       
-       if (parent instanceof MailComponent) 
-       {
-           if (c==null || c.isAssignableFrom(parent.getClass())) 
-           {
-               return (MailComponent) parent;
-           }
-       }
+   public MailComponent findParent(UIComponent parent, Class<?> c)
+   {
+      if (parent == null)
+      {
+         return null;
+      }
 
-       return findParent(parent.getParent(),c);
+      if (parent instanceof MailComponent)
+      {
+         if (c == null || c.isAssignableFrom(parent.getClass()))
+         {
+            return (MailComponent) parent;
+         }
+      }
+
+      return findParent(parent.getParent(), c);
    }
-   
+
    /**
     * Get a valuebinding as a string
     */
-   protected String getString(String localName) {
-      if (getValue(localName) != null) {
+   protected String getString(String localName)
+   {
+      if (getValue(localName) != null)
+      {
          return getValue(localName).toString();
-      } else {
+      }
+      else
+      {
          return null;
       }
    }
-   
+
    /**
     * Get a vauebinding
     */
-   protected Object getValue(String localName) {
-      if (getValueBinding(localName) == null) {
+   protected Object getValue(String localName)
+   {
+      if (getValueBinding(localName) == null)
+      {
          return null;
-      } else {
+      }
+      else
+      {
          return getValueBinding(localName).getValue(getFacesContext());
       }
    }
-   
+
    /**
-    * Get a valuebinding as a Boolean 
+    * Get a valuebinding as a Boolean
     */
-   protected Boolean getBoolean(String localName) {
+   protected Boolean getBoolean(String localName)
+   {
       Object o = getValue(localName);
-      if (o != null) {
-         if (o instanceof Boolean) {
+      if (o != null)
+      {
+         if (o instanceof Boolean)
+         {
             return (Boolean) o;
-         } else {
+         }
+         else
+         {
             return Boolean.valueOf(o.toString());
          }
-      } else {
+      }
+      else
+      {
          return null;
       }
    }

@@ -8,7 +8,6 @@ import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.Transport;
-import javax.mail.internet.InternetHeaders;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
@@ -85,11 +84,8 @@ public class UIMessage extends MailComponent
    @Override
    public void encodeBegin(FacesContext context) throws IOException
    {
-      if (getUrlBase() != null)
-      {
-         MailFacesContextImpl.start(getUrlBase()
+      MailFacesContextImpl.start(getUrlBase()
                   + context.getExternalContext().getRequestContextPath());
-      }
       mimeMessage = null;
       try
       {

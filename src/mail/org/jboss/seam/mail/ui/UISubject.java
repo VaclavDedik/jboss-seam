@@ -6,6 +6,8 @@ import javax.faces.FacesException;
 import javax.faces.context.FacesContext;
 import javax.mail.MessagingException;
 
+import org.jboss.seam.mail.ui.context.MailResponseWriter;
+
 /**
  * JSF component for rendering subject line
  */
@@ -16,7 +18,7 @@ public class UISubject extends MailComponent
    {
       try
       {
-         String subject = encode(facesContext);
+         String subject = encode(facesContext, MailResponseWriter.TEXT_PLAIN_CONTENT_TYPE);
          String charset = findMessage().getCharset();
          if (charset == null)
          {

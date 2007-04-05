@@ -11,6 +11,8 @@ import javax.mail.Multipart;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMultipart;
 
+import org.jboss.seam.mail.ui.context.MailResponseWriter;
+
 /**
  * JSF component for rendering the body Supports plain text, html bodies and
  * setting an alternative (text) part using an alternative facet
@@ -29,22 +31,23 @@ public class UIBody extends MailComponent
    public void encodeChildren(FacesContext facesContext) throws IOException
    {
       try
-      {
-         String body = encode(facesContext);
+      { 
          BodyPart bodyPart = null;
          if (PLAIN.equalsIgnoreCase(type))
          {
+            String body = encode(facesContext, MailResponseWriter.TEXT_PLAIN_CONTENT_TYPE);
             bodyPart = getTextBody(facesContext, body);
          }
          else if (HTML.equals(type))
          {
             UIComponent alternative = getFacet("alternative");
+            String body = encode(facesContext, MailResponseWriter.HTML_PLAIN_CONTENT_TYPE);
             if (alternative != null)
             {
                Multipart multipart = new MimeMultipart("alternative");
 
                multipart.addBodyPart(getTextBody(facesContext, encode(facesContext,
-                        alternative)));
+                        alternative, MailResponseWriter.TEXT_PLAIN_CONTENT_TYPE)));
                multipart.addBodyPart(getHtmlBody(facesContext, body));
 
                bodyPart = new MimeBodyPart();
@@ -81,20 +84,21 @@ public class UIBody extends MailComponent
       return type;
    }
 
-   private BodyPart getTextBody(FacesContext facesContext, Object body)
+   private BodyPart getTextBody(FacesContext facesContext, String body)
             throws MessagingException
    {
-      BodyPart bodyPart = new MimeBodyPart();
+      MimeBodyPart bodyPart = new MimeBodyPart();
       bodyPart.setDisposition("inline");
       String charset = findMessage().getCharset();
       if ( charset != null) 
       {
-         bodyPart.setContent(body, "text/plain; charset="
-               + charset + "; format=flowed");
+         //bodyPart.setContent(body, "text/plain; charset="
+         //      + charset + "; format=flowed");
+         bodyPart.setText(body, charset);
       } 
       else 
       {
-         bodyPart.setContent(body, "text/plain");
+         bodyPart.setText(body);
       }
       return bodyPart;
    }
@@ -102,7 +106,7 @@ public class UIBody extends MailComponent
    private BodyPart getHtmlBody(FacesContext facesContext, Object body)
             throws MessagingException
    {
-      BodyPart bodyPart = new MimeBodyPart();
+      MimeBodyPart bodyPart = new MimeBodyPart();
       bodyPart.setDisposition("inline");
       String charset = findMessage().getCharset();
       if ( charset != null) 

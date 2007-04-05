@@ -21,7 +21,7 @@ public class MailExternalContextImpl extends ExternalContext {
    private String urlBase;
    
    public MailExternalContextImpl(ExternalContext delegate) {
-      this.delegate = delegate;
+      this(delegate, null);
    }
    
    public MailExternalContextImpl(ExternalContext delegate, String urlBase) {

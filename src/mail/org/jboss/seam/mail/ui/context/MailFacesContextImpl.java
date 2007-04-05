@@ -19,16 +19,18 @@ public class MailFacesContextImpl extends FacesContext
    private FacesContext delegate;
    private ExternalContext externalContext;
    
+   private ResponseWriter responseWriter;
+   
    public MailFacesContextImpl(FacesContext delegate)
    {
-      this.delegate = delegate;
-      externalContext = new MailExternalContextImpl(delegate.getExternalContext());
+      this(delegate, null);
    }
    
-   public MailFacesContextImpl(FacesContext delegate, String urlBase)
+   public MailFacesContextImpl(FacesContext facesContext, String urlBase)
    {
-      this.delegate = delegate;
+      this.delegate = facesContext;
       externalContext = new MailExternalContextImpl(delegate.getExternalContext(), urlBase);
+      responseWriter = new MailResponseWriter(delegate.getResponseWriter(), delegate.getResponseWriter().getContentType());
    }
 
    @Override
@@ -100,7 +102,7 @@ public class MailFacesContextImpl extends FacesContext
    @Override
    public ResponseWriter getResponseWriter()
    {
-      return delegate.getResponseWriter();
+      return responseWriter;
    }
 
    @Override
@@ -136,7 +138,7 @@ public class MailFacesContextImpl extends FacesContext
    @Override
    public void setResponseWriter(ResponseWriter responseWriter)
    {
-      delegate.setResponseWriter(responseWriter);
+      this.responseWriter = responseWriter;
    }
 
    @Override
