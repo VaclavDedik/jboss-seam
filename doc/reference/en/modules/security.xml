@@ -1142,8 +1142,14 @@ end;
   
 <div>
     <h:outputLabel for="verifyCaptcha">Enter the above letters</h:outputLabel>
-    <h:inputText id="verifyCaptcha" value="#{captcha.response}" required="true"/>
+    <h:inputText id="verifyCaptcha" value="#{captcha.response}" required="true">
+      <s:validate />
+    </h:inputText>
     <div class="validationError"><h:message for="verifyCaptcha"/></div>
+</div>
+
+<div>
+    <h:commandButton action="#{register.next}" value="Register"/>
 </div>]]></programlisting>
       
       <para>
