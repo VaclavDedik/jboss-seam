@@ -5,12 +5,9 @@ import static org.jboss.seam.InterceptionType.NEVER;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
-import javax.persistence.EntityManager;
 
-import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.jsf.Converter;
 
 @Name("ageConverter")

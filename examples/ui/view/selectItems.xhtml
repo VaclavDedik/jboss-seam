@@ -53,8 +53,9 @@
 		<s:decorate template="decorateField.xhtml">
 			<ui:define name="label">Age</ui:define>
 			<ui:define name="description">The age list is an array of primitives</ui:define>
-			<h:selectOneMenu value="#{person.age}"  converter="#{converters.ageConverter}">
+			<h:selectOneMenu value="#{person.age}">
 				<s:selectItems value="#{ages}" var="age" label="#{age}" />
+				<f:converter converterId="ageConverter" />
 			</h:selectOneMenu>
 		</s:decorate>
 		
