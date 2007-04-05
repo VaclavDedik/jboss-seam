@@ -155,7 +155,8 @@
 	</zipfileset>
 
 	<zipfileset id="example.extra.jar" dir="${lib.dir}" description="extra jars for the EAR">
-            <!-- <include name="el-*.jar" /> -->
+                <!-- <include name="el-*.jar" /> -->
+                <include name="jboss-el.jar" />
 		<include name="jbpm*.jar" if="example.jbpm.lib" />
 		<include name="jboss-cache-jdk50.jar" if="example.cache.lib" />
 		<include name="jboss-aop-jdk50.jar" if="example.cache.lib" />
@@ -265,6 +266,7 @@
 		<exclude name="jsf-facelets*.jar" />
 		<exclude name="jboss-*-jdk50.jar" />
 		<exclude name="jgroups*.jar" />
+		<exclude name="myfaces*.jar" />
 		<exclude name="jbpm*.jar" />
 		<exclude name="servlet-api.jar" />
 		<exclude name="ant*.jar" />
