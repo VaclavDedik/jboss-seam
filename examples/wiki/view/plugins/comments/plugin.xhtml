@@ -1,0 +1,182 @@
+<s:div id="comments"
+       xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:wiki="http://jboss.com/products/seam/wiki"
+       xmlns:s="http://jboss.com/products/seam/taglib">
+
+<h:dataTable value="#{commentHome.comments}" var="c" style="width:300px"
+             styleClass="datatable rightBorder leftBorder topBorder bottomBorder"
+             headerClass="regularHeader alignLeft"
+             columnClasses="defaultColumn alignLeft"
+             rowClasses="rowOdd,rowEven"
+             cellpadding="0" cellspacing="0" border="0">
+    <h:column>
+        <f:facet name="header">
+            This document has #{wiki:sizeOf(commentHome.comments)} comment(s):
+        </f:facet>
+
+        <h:form>
+            <a:commandLink action="#{commentHome.remove(c.id)}"
+                           reRender="body"
+                           styleClass="button"><span class="buttonLabel">Remove</span></a:commandLink>
+        </h:form>
+
+        Subject: #{c.subject}<br/>
+        Posted on:
+        <h:outputText value="#{c.createdOn}">
+            <f:convertDateTime pattern="dd. MMM yyyy, HH:mm"/>
+        </h:outputText>
+        <br/>
+        From: #{c.fromUserName} <a href="mailto:#{c.fromUserEmail}">#{c.fromUserEmail}</a>
+        <a href="http://#{c.fromUserHomepage}">#{c.fromUserHomepage}</a><br/>
+
+        Content:
+        <s:div>
+            <wiki:formattedText value="#{c.text}"
+                                linkStyleClass="regularLink"
+                                brokenLinkStyleClass="brokenLink"
+                                attachmentLinkStyleClass="regularLink"
+                                thumbnailLinkStyleClass="regularLink"/>
+        </s:div>
+
+    </h:column>
+</h:dataTable>
+
+
+<h:form id="commentForm">
+<div class="form">
+    <div class="formHead">Post new comment:</div>
+
+    <div class="formFields formBorder wideLabels">
+
+        <s:validateAll>
+
+            <s:decorate id="userNameDecorate">
+                <div class="entry">
+                    <div class="label">Name:</div>
+                    <div class="input">
+                        <h:inputText tabindex="102" size="40" maxlength="100" required="true"
+                                     id="userName" value="#{commentHome.comment.fromUserName}">
+                        </h:inputText>
+                    </div>
+                </div>
+            </s:decorate>
+
+            <s:decorate id="userEmailDecorate">
+                <div class="entry">
+                    <div class="label">E-mail address (optional):</div>
+                    <div class="input">
+                        <h:inputText tabindex="102" size="40" maxlength="255" required="false"
+                                     id="userEmail" value="#{commentHome.comment.fromUserEmail}">
+                        </h:inputText>
+                    </div>
+                </div>
+            </s:decorate>
+
+            <s:decorate id="userHomepageDecorate">
+                <div class="entry">
+                    <div class="label">Homepage URL (optional):</div>
+                    <div class="input">
+                        <h:inputText tabindex="102" size="40" maxlength="1000" required="false"
+                                     id="userHomepage" value="#{commentHome.comment.fromUserHomepage}">
+                        </h:inputText>
+                    </div>
+                </div>
+            </s:decorate>
+
+            <s:decorate id="subjectDecorate">
+                <div class="entry">
+                    <div class="label">Subject:</div>
+                    <div class="input">
+                        <h:inputText tabindex="102" size="40" maxlength="255" required="true"
+                                     id="subject" value="#{commentHome.comment.subject}">
+                        </h:inputText>
+                    </div>
+                </div>
+            </s:decorate>
+
+            <s:decorate>
+                <div class="entry">
+                    <div class="label">Comment:</div>
+                    <s:div styleClass="input" id="commentText">
+                        <h:inputTextarea tabindex="102" required="true"
+                                         cols="40"
+                                         rows="10"
+                                         id="commentTextInput"
+                                         value="#{commentHome.formContent}">
+                        </h:inputTextarea>
+                    </s:div>
+                </div>
+            </s:decorate>
+
+            <!-- TODO: Preview refresh doesn't work...
+            <s:decorate>
+                <div class="entry">
+                    <div class="label">Text:</div>
+                    <s:div styleClass="input" id="commentText">
+                        Preview enabled: <h:outputText value="#{commentHome.enabledPreview}"/>
+                        <h:inputTextarea tabindex="102" required="true"
+                                         cols="40"
+                                         rows="10"
+                                         id="commentNoPreview"
+                                         rendered="#{!commentHome.enabledPreview}"
+                                         value="#{commentHome.formContent}"/>
+                        <h:inputTextarea tabindex="102" required="true"
+                                         cols="40"
+                                         rows="10"
+                                         id="commentWithPreview"
+                                         rendered="#{commentHome.enabledPreview}"
+                                         value="#{commentHome.formContent}">
+                            <a:support event="onkeyup" reRender="commentPreview" requestDelay="3000" eventQueue="editKeyPress"/>
+                        </h:inputTextarea>
+                    </s:div>
+                </div>
+            </s:decorate>
+
+            <s:div styleClass="entry">
+                <div class="label">&#160;</div>
+                <div class="input">
+                    <h:selectBooleanCheckbox value="#{commentHome.enabledPreview}" tabindex="102">
+                        <a:support event="onchange" reRender="documentDisplay"/>
+                    </h:selectBooleanCheckbox>
+                    Show interactive preview
+                </div>
+            </s:div>
+            -->
+
+        </s:validateAll>
+
+    </div>
+
+    <div class="formControls wideLabels">
+        <div class="entry">
+            <div class="label">&#160;</div>
+            <div class="input">
+
+                <h:commandLink action="#{commentHome.persist}" tabindex="102"
+                               styleClass="button"><span class="buttonLabel">Post</span></h:commandLink>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+</h:form>
+
+<!--
+<s:div styleClass="documentDisplay" id="commentPreview">
+    Preview enabled: <h:outputText value="#{commentHome.enabledPreview}"/>
+    <s:div rendered="#{commentHome.enabledPreview}">
+        <wiki:formattedText value="#{commentHome.comment.text}"
+                            linkStyleClass="regularLink"
+                            brokenLinkStyleClass="brokenLink"
+                            attachmentLinkStyleClass="regularLink"
+                            thumbnailLinkStyleClass="regularLink"/>
+    </s:div>
+</s:div>
+-->
+
+</s:div>

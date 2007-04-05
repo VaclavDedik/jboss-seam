@@ -30,9 +30,9 @@
 
 <body>
 
-<div id="screen">
+<s:div id="screen">
 
-    <div id="header">
+    <s:div id="header">
         <div id="headerTopLeft">
             <div class="screenname">
                 LaceWiki:&#160;<ui:insert name="screenname"/>
@@ -47,9 +47,9 @@
         <div id="headerBottomRight">
             <ui:insert name="headerBottomRight"/>
         </div>
-    </div>
+    </s:div>
 
-    <div id="control">
+    <s:div id="control">
         <div id="controlLeft"><ui:insert name="controlLeft"/></div>
         <div id="controlRight">&#160;
             <h:form id="workspaceSwitcher" rendered="#{wiki:sizeOf(conversationList) > 0}">
@@ -61,15 +61,15 @@
                              styleClass="linkNavigation">Switch <u>W</u>orkspace</h:commandLink>
 
             </h:form><ui:insert name="controlRight"/></div>
-    </div>
+    </s:div>
 
     <div id="controlSeparator">&#160;</div>
 
-    <div id="sidebar">
+    <s:div id="sidebar">
         <ui:insert name="sidebar"/>
-    </div>
+    </s:div>
 
-    <div id="body">
+    <s:div id="body">
 
         <s:div id="messageBox" rendered="#{!empty facesMessages.currentGlobalMessages}">
             <ui:repeat var="message" value="#{facesMessages.currentGlobalMessages}">
@@ -103,16 +103,16 @@
             </f:facet>
             <ui:insert name="content"/>
         </div>
-    </div>
+    </s:div>
 
     <div id="footer">
         <ui:insert name="footer"/>
     </div>
 
     <!-- Remove this to disable Facelets JSF debugging -->
-    <ui:debug hotkey="D"/>
+    <!--<ui:debug hotkey="D"/>-->
 
-</div>
+</s:div>
 
 </body>
 </html>

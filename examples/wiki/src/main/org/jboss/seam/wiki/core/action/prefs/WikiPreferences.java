@@ -17,7 +17,7 @@ import java.io.Serializable;
 @Preference(description = "A. Wiki Preferences", visibility = PreferenceVisibility.SYSTEM)
 public class WikiPreferences extends PreferenceSupport implements Serializable {
 
-    @Preference(description = "01. Base URL of the Wiki (e.g. http://my.wiki.server/installdir/)", visibility = PreferenceVisibility.SYSTEM)
+    @Preference(description = "01. Base URL without trailing slash (e.g. 'http://my.wiki.server/installdir')", visibility = PreferenceVisibility.SYSTEM)
     @Length(min = 8, max = 255)
     private String baseUrl;
 

@@ -45,19 +45,18 @@
 
 <ui:define name="content">
 
-    <s:div styleClass="documentDisplay">
+    <s:div id="documentDisplay" styleClass="documentDisplay">
         <s:div rendered="#{currentDocument.nameAsTitle}"><h1 class="documentTitle">#{currentDocument.name}</h1></s:div>
         <wiki:formattedText value="#{currentDocument.content}"
                             linkStyleClass="regularLink"
                             brokenLinkStyleClass="brokenLink"
                             attachmentLinkStyleClass="regularLink"
-                            thumbnailLinkStyleClass="regularLink">
-
-        </wiki:formattedText>
+                            thumbnailLinkStyleClass="regularLink"/>
 
         <ui:include src="includes/attachmentDisplay.xhtml"/>
 
     </s:div>
+
 
 
 </ui:define>

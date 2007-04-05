@@ -33,5 +33,4 @@ public class LastModifiedDocumentsPreferences extends PreferenceSupport implemen
     @Range(min = 5l, max = 100l)
     private Long documentTitleLength;
 
-
 }

@@ -4,7 +4,6 @@ import org.hibernate.validator.NotNull;
 import org.hibernate.validator.Pattern;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.Email;
-import org.jboss.seam.wiki.core.preferences.WikiPreferenceValue;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -66,9 +65,6 @@ public class User implements Serializable {
     @OrderBy("accessLevel desc, displayName asc")
     private List<Role> roles = new ArrayList<Role>();
 
-    @OneToMany(mappedBy="user")
-    private Set<WikiPreferenceValue> preferences = new HashSet<WikiPreferenceValue>();
-
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "MEMBER_HOME_NODE_ID")
     private Directory memberHome;
@@ -116,21 +112,8 @@ public class User implements Serializable {
     public Directory getMemberHome() { return memberHome; }
     public void setMemberHome(Directory memberHome) { this.memberHome = memberHome; }
 
-    public List<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
-
-    public Set<WikiPreferenceValue> getPreferences() {
-        return preferences;
-    }
-
-    public void setPreferences(Set<WikiPreferenceValue> preferences) {
-        this.preferences = preferences;
-    }
+    public List<Role> getRoles() { return roles; }
+    public void setRoles(List<Role> roles) { this.roles = roles; }
 
     // Misc methods
 

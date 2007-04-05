@@ -2,6 +2,7 @@ package org.jboss.seam.wiki;
 
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.log.Log;
 
 @Name("wikiInit")
@@ -14,6 +15,5 @@ public class WikiInit {
     @Create
     public void init() {
         log.info("Starting LaceWiki...");
-
     }
 }

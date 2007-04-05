@@ -284,21 +284,14 @@
         </redirect>
     </exception>
 
+    <!--
     <exception>
         <end-conversation/>
         <redirect view-id="/message.xhtml">
             <message severity="ERROR">Exception!</message>
         </redirect>
     </exception>
-
-    <!-- Catch all
-    <exception>
-        <end-conversation/>
-        <redirect view-id="/message.xhtml">
-            <message severity="ERROR">#{org.jboss.seam.handledException.message}</message>
-        </redirect>
-    </exception>
-     -->
+    -->
     
 </pages>
 
