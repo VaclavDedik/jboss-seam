@@ -17,10 +17,4 @@
 	<module>
 		<java>jboss-seam.jar</java>
 	</module>
-	<module>
-        <java>el-api.jar</java>
-    </module>
-    <module>
-        <java>el-ri.jar</java>
-    </module>
 </application>
