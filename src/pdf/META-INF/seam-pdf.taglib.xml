@@ -132,4 +132,12 @@
         </component>
     </tag>
 
+    <tag>
+        <tag-name>element</tag-name>
+        <component>
+            <component-type>org.jboss.seam.pdf.ui.UIElement</component-type>
+        </component>
+    </tag>
+
+
 </facelet-taglib>

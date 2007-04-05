@@ -94,6 +94,11 @@
         <component-class>org.jboss.seam.pdf.ui.UISignature</component-class>
     </component>
 
+    <component>
+        <component-type>org.jboss.seam.pdf.ui.UIElement</component-type>
+        <component-class>org.jboss.seam.pdf.ui.UIElement</component-class>
+    </component>
+
     <lifecycle>
         <phase-listener>org.jboss.seam.pdf.DocumentStorePhaseListener</phase-listener>
     </lifecycle>
