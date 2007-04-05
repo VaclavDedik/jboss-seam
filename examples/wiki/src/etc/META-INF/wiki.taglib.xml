@@ -94,6 +94,7 @@
         <tag-name>formattedText</tag-name>
         <component>
             <component-type>org.jboss.seam.wiki.core.ui.UIWikiFormattedText</component-type>
+            <handler-class>org.jboss.seam.wiki.core.ui.WikiFormattedTextComponentHandler</handler-class>
         </component>
     </tag>
 

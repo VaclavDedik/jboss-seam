@@ -38,10 +38,11 @@ public class WikiTextParser extends SeamTextParser {
     private List<WikiLink> attachments = new ArrayList<WikiLink>();
     private List<WikiLink> externalLinks = new ArrayList<WikiLink>();
     private Set<String> macroNames = new HashSet<String>();
+    private boolean renderDuplicateMacros;
 
-    public WikiTextParser(String wikiText, WikiTextRenderer renderer) {
+    public WikiTextParser(String wikiText, boolean renderDuplicateMacros) {
         super(new SeamTextLexer(new StringReader(wikiText)));
-        this.renderer = renderer;
+        this.renderDuplicateMacros = renderDuplicateMacros;
 
         resolver = (WikiLinkResolver)Component.getInstance("wikiLinkResolver");
 
@@ -49,6 +50,15 @@ public class WikiTextParser extends SeamTextParser {
         if (currentDocument == null) throw new RuntimeException("WikiTextParser needs the currentDocument context variable");
         currentDirectory = (Directory)Component.getInstance("currentDirectory");
         if (currentDirectory  == null) throw new RuntimeException("WikiTextParser needs the currentDirectory context variable");
+    }
+
+    /**
+     * Mandatory, you need to set a renderer before starting the parer.
+     *
+     * @param renderer an implementation of WikiTextRenderer
+     */
+    public void setRenderer(WikiTextRenderer renderer) {
+        this.renderer = renderer;
     }
 
     /**
@@ -81,7 +91,6 @@ public class WikiTextParser extends SeamTextParser {
 
             renderer.setAttachmentLinks(attachments);
             renderer.setExternalLinks(externalLinks);
-            renderer.setMacroNames(macroNames);
 
         }
         catch (ANTLRException re) {
@@ -128,8 +137,12 @@ public class WikiTextParser extends SeamTextParser {
     protected String macroInclude(String macroName) {
         // Filter out any dangerous characters
         String filteredName = macroName.replaceAll("[^\\p{Alnum}]+", "");
-        macroNames.add(filteredName);
-        return renderer.renderMacro(filteredName);
+        if ( (macroNames.contains(filteredName) && renderDuplicateMacros) || !macroNames.contains(filteredName)) {
+            macroNames.add(filteredName);
+            return renderer.renderMacro(filteredName);
+        } else {
+            return "[Can't use the same macro twice!]";
+        }
     }
 
 

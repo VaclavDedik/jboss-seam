@@ -1,12 +1,12 @@
 package org.jboss.seam.wiki.core.ui;
 
-import java.net.URL;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.io.*;
 
 import javax.faces.component.UIOutput;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
@@ -17,223 +17,188 @@ import org.jboss.seam.wiki.core.model.File;
 import org.jboss.seam.wiki.core.engine.WikiLink;
 import org.jboss.seam.wiki.core.engine.WikiTextRenderer;
 import org.jboss.seam.wiki.core.engine.WikiTextParser;
-import org.jboss.seam.wiki.core.action.PluginPreferenceEditor;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.util.WikiUtil;
 import org.jboss.seam.Component;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Conversation;
 
-import com.sun.facelets.Facelet;
-import com.sun.facelets.impl.DefaultFaceletFactory;
-import com.sun.facelets.impl.DefaultResourceResolver;
-import com.sun.facelets.compiler.SAXCompiler;
+public class UIWikiFormattedText extends UIOutput {
 
-public class UIWikiFormattedText extends UIOutput implements WikiTextRenderer {
+    public static final String COMPONENT_FAMILY = "org.jboss.seam.wiki.core.ui.UIWikiFormattedText";
+    public static final String COMPONENT_TYPE = "org.jboss.seam.wiki.core.ui.UIWikiFormattedText";
 
-    public static final String COMPONENT_FAMILY = "org.jboss.seam.wiki.core.ui.WikiFormattedText";
+    public UIWikiFormattedText() {
+        super();
+        setRendererType(null);
+    }
 
-    private Set<String> includedViews = new HashSet<String>();
-
-    @Override
     public String getFamily() {
         return COMPONENT_FAMILY;
     }
 
-    @Override
     public boolean getRendersChildren() {
-       return true;
-    }
-
-    @Override
-    public void encodeBegin(FacesContext facesContext) throws IOException {
-        if (!isRendered() || getValue() == null) return;
-
-        // Use the WikiTextParser to resolve links
-        WikiTextParser parser = new WikiTextParser((String)getValue(), this);
-        parser.parse(true);
-
-        facesContext.getResponseWriter().write(parser.toString());
+        return true;
     }
 
     public void encodeChildren(FacesContext facesContext) throws IOException {
-        // Already done
+        // Already done by WikiTextRenderer
     }
 
-    public String renderInlineLink(WikiLink inlineLink) {
-        return "<a href=\""
-                + (inlineLink.isBroken() ? inlineLink.getUrl() : WikiUtil.renderURL(inlineLink.getNode()))
-                + "\" class=\""
-                + (inlineLink.isBroken() ? getAttributes().get("brokenLinkStyleClass") : getAttributes().get("linkStyleClass"))
-                + "\">"
-                + inlineLink.getDescription()
-                + "</a>";
-    }
+    public void encodeBegin(FacesContext facesContext) throws IOException {
+        if (!isRendered() || getValue() == null) return;
 
-    public String renderExternalLink(WikiLink externalLink) {
-        return "<a href=\""
-                + externalLink.getUrl()
-                + "\" class=\""
-                + (externalLink.isBroken() ? getAttributes().get("brokenLinkStyleClass") : getAttributes().get("linkStyleClass"))
-                + "\">"
-                + externalLink.getDescription()
-                + "</a>";
-    }
+        // Use the WikiTextParser to resolve macros
+        WikiTextParser parser = new WikiTextParser((String)getValue(), false);
 
-    public String renderFileAttachmentLink(int attachmentNumber, WikiLink attachmentLink) {
-        return "<a href=\"#attachment"
-                + attachmentNumber
-                + "\" class=\""
-                + getAttributes().get("attachmentLinkStyleClass")
-                + "\">"
-                + attachmentLink.getDescription()
-                + "[" + attachmentNumber + "]"
-                + "</a>";
-    }
+        // Set a customized renderer for parser macro callbacks
+        parser.setRenderer(
+            new WikiTextRenderer() {
 
-    public String renderThumbnailImageInlineLink(WikiLink inlineLink) {
-        File file = (File)inlineLink.getNode();
-        int thumbnailWidth;
-        // TODO: We could make these sizes customizable, maybe as attributes of the JSF tag
-        switch(file.getImageMetaInfo().getThumbnail()) {
-            case 'S': thumbnailWidth = 80; break;
-            case 'M': thumbnailWidth = 160; break;
-            case 'L': thumbnailWidth = 320; break;
-            default: thumbnailWidth = file.getImageMetaInfo().getSizeX();
-        }
-        Conversation conversation = (Conversation)Component.getInstance("conversation");
-        String thumbnailUrl = WikiUtil.renderURL(inlineLink.getNode()) + "&width=" + thumbnailWidth + "&cid=" + conversation.getId();
-
-        return "<a href=\""
-                + (inlineLink.isBroken() ? inlineLink.getUrl() : WikiUtil.renderURL(inlineLink.getNode()))
-                + "\" class=\""
-                + getAttributes().get("thumbnailLinkStyleClass")
-                + "\"><img src=\""
-                + thumbnailUrl
-                + "\"/></a>";
-    }
-
-    public void setAttachmentLinks(List<WikiLink> attachmentLinks) {
-        // Put attachments (wiki links...) into the event context for later rendering
-        Contexts.getEventContext().set("wikiTextAttachments", attachmentLinks);
-    }
-
-    public void setExternalLinks(List<WikiLink> externalLinks) {
-        // Put external links (to targets not on this wiki) into the event context for later rendering
-        Contexts.getEventContext().set("wikiTextExternalLinks", externalLinks);
-    }
-
-    public void setMacroNames(Set<String> macroNames) {
-        // Put macro names into the event context for later usage
-        Contexts.getEventContext().set("wikiTextMacroNames", macroNames);
-    }
-
-    public String renderMacro(String macroName) {
-        if (macroName == null || macroName.length() == 0) return "";
-
-        String includeView = "/plugins/" + macroName + "/plugin.xhtml";
-
-        // TODO: Can only include once (otherwise we'd have to renumber child identifiers recursively...)
-        if (includedViews.contains(includeView)) return "[Can't use the same plugin twice!]";
-
-        // View can't include itself
-        FacesContext facesContext = getFacesContext();
-        if (facesContext.getViewRoot().getViewId().equals(includeView)) return "";
-
-        // Try to get the XHTML document
-        URL url = Resources.getResource(includeView);
-        if (url == null) return "";
-
-        // Try to get the CSS for it
-        WikiPreferences wikiPrefs = (WikiPreferences) Component.getInstance("wikiPreferences");
-        String includeViewCSS = "/themes/" + wikiPrefs.getThemeName() + "/css/" + macroName + ".css";
-
-        // If this plugin has preferences and editing is enabled, instantiate a
-        // plugin preferences editor and put it in the PAGE context 
-        String pluginPreferenceName = macroName + "Preferences";
-        Boolean showPluginPreferences = (Boolean)Component.getInstance("showPluginPreferences");
-        Object existingEditor = Contexts.getConversationContext().get(pluginPreferenceName+"Editor");
-        if ( showPluginPreferences != null && showPluginPreferences && existingEditor == null) {
-            PluginPreferenceEditor pluginPreferenceEditor = new PluginPreferenceEditor(pluginPreferenceName);
-            PluginPreferenceEditor.FlushObserver observer =
-                    (PluginPreferenceEditor.FlushObserver)Component.getInstance("pluginPreferenceEditorFlushObserver");
-            if (pluginPreferenceEditor.getPreferenceValues().size() > 0) {
-                Contexts.getConversationContext().set(pluginPreferenceName+"Editor", pluginPreferenceEditor);
-                observer.addPluginPreferenceEditor(pluginPreferenceEditor);
-            }
-        } else if (showPluginPreferences == null || !showPluginPreferences) {
-            Contexts.getConversationContext().set(pluginPreferenceName+"Editor", null);
-        }
-
-        // Prepare all the writers for rendering
-        ResponseWriter originalResponseWriter = facesContext.getResponseWriter();
-        StringWriter stringWriter = new StringWriter();
-        ResponseWriter tempResponseWriter = originalResponseWriter.cloneWithWriter(stringWriter);
-        facesContext.setResponseWriter(tempResponseWriter);
-
-        StringBuilder output = new StringBuilder();
-
-        try {
-            // Render CSS
-            InputStream is = Resources.getResourceAsStream(includeViewCSS);
-            if (is != null) {
-                output.append("<style type=\"text/css\">\n");
-
-                BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-                StringBuilder css = new StringBuilder();
-                String line;
-                while ( (line = reader.readLine()) != null) {
-                    css.append(line);
-                    css.append("\n");
+                public String renderInlineLink(WikiLink inlineLink) {
+                    return "<a href=\""
+                            + (inlineLink.isBroken() ? inlineLink.getUrl() : WikiUtil.renderURL(inlineLink.getNode()))
+                            + "\" class=\""
+                            + (inlineLink.isBroken()
+                                ? getAttributes().get("brokenLinkStyleClass")
+                                : getAttributes().get("linkStyleClass"))
+                            + "\">"
+                            + inlineLink.getDescription()
+                            + "</a>";
                 }
-                is.close();
 
-                // Resolve any EL value binding expression present in CSS text
-                StringBuffer resolvedCSS = new StringBuffer(css.length());
-                Matcher matcher =
-                    Pattern.compile(
-                        "#" +Pattern.quote("{") + "(.*)" + Pattern.quote("}")
-                    ).matcher(css);
+                public String renderExternalLink(WikiLink externalLink) {
+                    return "<a href=\""
+                            + externalLink.getUrl()
+                            + "\" class=\""
+                            + (externalLink.isBroken()
+                                ? getAttributes().get("brokenLinkStyleClass")
+                                : getAttributes().get("linkStyleClass"))
+                            + "\">"
+                            + externalLink.getDescription()
+                            + "</a>";
+                }
 
-                // Replace with [Link Text=>Page Name] or replace with BROKENLINK "page name"
-                while (matcher.find()) {
-                    Expressions.ValueBinding valueMethod = Expressions.instance().createValueBinding("#{"+matcher.group(1)+"}");
-                    String result = (String)valueMethod.getValue();
-                    if (result != null) {
-                        matcher.appendReplacement(resolvedCSS, result);
-                    } else {
-                        matcher.appendReplacement(resolvedCSS, "");
+                public String renderFileAttachmentLink(int attachmentNumber, WikiLink attachmentLink) {
+                    return "<a href=\"#attachment"
+                            + attachmentNumber
+                            + "\" class=\""
+                            + getAttributes().get("attachmentLinkStyleClass")
+                            + "\">"
+                            + attachmentLink.getDescription()
+                            + "[" + attachmentNumber + "]"
+                            + "</a>";
+                }
+
+                public String renderThumbnailImageInlineLink(WikiLink inlineLink) {
+                    File file = (File)inlineLink.getNode();
+                    int thumbnailWidth;
+                    // TODO: We could make these sizes customizable, maybe as attributes of the JSF tag
+                    switch(file.getImageMetaInfo().getThumbnail()) {
+                        case 'S': thumbnailWidth = 80; break;
+                        case 'M': thumbnailWidth = 160; break;
+                        case 'L': thumbnailWidth = 320; break;
+                        default: thumbnailWidth = file.getImageMetaInfo().getSizeX();
                     }
+                    Conversation conversation = (Conversation) Component.getInstance("conversation");
+                    String thumbnailUrl = WikiUtil.renderURL(inlineLink.getNode()) + "&width=" + thumbnailWidth + "&cid=" + conversation.getId();
+
+                    return "<a href=\""
+                            + (inlineLink.isBroken() ? inlineLink.getUrl() : WikiUtil.renderURL(inlineLink.getNode()))
+                            + "\" class=\""
+                            + getAttributes().get("thumbnailLinkStyleClass")
+                            + "\"><img src=\""
+                            + thumbnailUrl
+                            + "\"/></a>";
                 }
-                matcher.appendTail(resolvedCSS);
-                output.append(resolvedCSS);
 
-                output.append("</style>\n");
+                public String renderMacro(String macroName) {
+                    if (macroName == null || macroName.length() == 0) return "";
+
+                    // Try to get the CSS for it
+                    WikiPreferences wikiPrefs = (WikiPreferences) Component.getInstance("wikiPreferences");
+                    String includeViewCSS = "/themes/" + wikiPrefs.getThemeName() + "/css/" + macroName + ".css";
+
+                    // Prepare all the writers for rendering
+                    ResponseWriter originalResponseWriter = getFacesContext().getResponseWriter();
+                    StringWriter stringWriter = new StringWriter();
+                    ResponseWriter tempResponseWriter = originalResponseWriter.cloneWithWriter(stringWriter);
+                    getFacesContext().setResponseWriter(tempResponseWriter);
+
+                    StringBuilder output = new StringBuilder();
+
+                    try {
+                        // Render CSS
+                        InputStream is = Resources.getResourceAsStream(includeViewCSS);
+                        if (is != null) {
+                            output.append("<style type=\"text/css\">\n");
+
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+                            StringBuilder css = new StringBuilder();
+                            String line;
+                            while ((line = reader.readLine()) != null) {
+                                css.append(line);
+                                css.append("\n");
+                            }
+                            is.close();
+
+                            // Resolve any EL value binding expression present in CSS text
+                            StringBuffer resolvedCSS = new StringBuffer(css.length());
+                            Matcher matcher =
+                                    Pattern.compile(
+                                            "#" + Pattern.quote("{") + "(.*)" + Pattern.quote("}")
+                                    ).matcher(css);
+
+                            // Replace with [Link Text=>Page Name] or replace with BROKENLINK "page name"
+                            while (matcher.find()) {
+                                Expressions.ValueBinding valueMethod = Expressions.instance().createValueBinding("#{" + matcher.group(1) + "}");
+                                String result = (String) valueMethod.getValue();
+                                if (result != null) {
+                                    matcher.appendReplacement(resolvedCSS, result);
+                                } else {
+                                    matcher.appendReplacement(resolvedCSS, "");
+                                }
+                            }
+                            matcher.appendTail(resolvedCSS);
+                            output.append(resolvedCSS);
+
+                            output.append("</style>\n");
+                        }
+
+                        // Render the actual child component - the plugin XHTML
+                        UIComponent pluginChild = findComponent(macroName);
+                        if (pluginChild == null) throw new RuntimeException("Couldn't find plugin child component: " + macroName);
+                        pluginChild.encodeBegin(getFacesContext());
+                        JSF.renderChildren(getFacesContext(), pluginChild);
+                        pluginChild.encodeEnd(getFacesContext());
+
+                        output.append(stringWriter.getBuffer().toString());
+
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    } finally {
+                        getFacesContext().setResponseWriter(originalResponseWriter);
+                    }
+                    return output.toString();
+                }
+
+                public void setAttachmentLinks(List<WikiLink> attachmentLinks) {
+                    // Put attachments (wiki links...) into the event context for later rendering
+                    Contexts.getEventContext().set("wikiTextAttachments", attachmentLinks);
+                }
+
+                public void setExternalLinks(List<WikiLink> externalLinks) {
+                    // Put external links (to targets not on this wiki) into the event context for later rendering
+                    Contexts.getEventContext().set("wikiTextExternalLinks", externalLinks);
+                }
             }
+        );
 
-            // Render XHTML
-            Facelet f = new DefaultFaceletFactory(new SAXCompiler(), new DefaultResourceResolver()).getFacelet(url);
+        // Run the parser
+        parser.parse(true);
 
-            // TODO: I'm not sure this is good...
-            List storedChildren = new ArrayList(getChildren());
-            getChildren().clear();
+        facesContext.getResponseWriter().write( parser.toString() );
 
-            // TODO: This is why I copy the list back and forth: apply() hammers the children
-            f.apply(facesContext, this);
-            JSF.renderChildren(facesContext, this);
-
-            // TODO: And back... it's definitely in the wrong order in the component tree but the ids look ok to me...
-            getChildren().addAll(storedChildren);
-
-            output.append(stringWriter.getBuffer().toString());
-
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        } finally {
-            includedViews.add(includeView);
-            facesContext.setResponseWriter(originalResponseWriter);
-        }
-        return output.toString();
     }
-
+    
 }
