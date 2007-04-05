@@ -1112,7 +1112,7 @@ public class AccountManager extends AbstractMutable
 
         <para> 
             Note that the <literal>EntityHome</literal> class in the Seam Application Framework provides a great example 
-            of this pattern. 
+            of managing an entity bean instance using a Seam component. 
         </para>
 
     </sect1>
