@@ -41,30 +41,44 @@ public abstract class MailComponent extends UIComponentBase
 
    protected String encode(FacesContext facesContext) throws IOException
    {
-      return encode(facesContext, this);
+      return encode(facesContext, this, null, false);
    }
-   
+
    protected String encode(FacesContext facesContext, UIComponent cmp) throws IOException
    {
-      return encode(facesContext, cmp, null);
+      return encode(facesContext, cmp, null, true);
    }
    
    protected String encode(FacesContext facesContext, String contentType) throws IOException
    {
-      return encode(facesContext, this, contentType);
+      return encode(facesContext, this, contentType, false);
+   }
+   
+   protected String encode(FacesContext facesContext, UIComponent cmp, String contentType) throws IOException
+   {
+      return encode(facesContext, cmp, contentType, true);
    }
 
    /**
     * Encode the children of cmp, writing to a string (rather than the http
     * response object) and return the string
     */
-   protected String encode(FacesContext facesContext, UIComponent cmp, String contentType) throws IOException
+   protected String encode(FacesContext facesContext, UIComponent cmp, String contentType, boolean root)
+            throws IOException
    {
       ResponseWriter response = facesContext.getResponseWriter();
       StringWriter stringWriter = new StringWriter();
-      ResponseWriter cachingResponseWriter = ((MailResponseWriter) response).cloneWithWriter(stringWriter, contentType);
+      ResponseWriter cachingResponseWriter = ((MailResponseWriter) response).cloneWithWriter(
+               stringWriter, contentType);
       facesContext.setResponseWriter(cachingResponseWriter);
-      JSF.renderChildren(facesContext, cmp);
+      if (root)
+      {
+         JSF.renderChild(facesContext, cmp);
+      }
+      else
+      {
+         JSF.renderChildren(facesContext, cmp);
+      }
       facesContext.setResponseWriter(response);
       String output = stringWriter.getBuffer().toString();
       return output;
