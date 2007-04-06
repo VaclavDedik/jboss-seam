@@ -19,7 +19,7 @@ import org.jboss.seam.contexts.Contexts;
  */
 @Name("org.jboss.seam.captcha.captcha")
 @Scope(ScopeType.PAGE)
-@Install(dependencies="org.jboss.seam.captcha.captchaImage")
+@Install(dependencies="org.jboss.seam.captcha.captchaImage", precedence=Install.BUILT_IN)
 public class Captcha implements Serializable
 {
    private String id;
