@@ -304,7 +304,7 @@ template template.xhtml]]></programlisting>
         <para>
             The locale selector, theme selector and timezone selector all support 
             persistence of locale and theme preference to a cookie. Simply set the 
-            <literal>cookie-enabled</literal> configuration property:
+            <literal>cookie-enabled</literal> property in <literal>components.xml</literal>:
         </para>
         
         <programlisting><![CDATA[<theme:theme-selector cookie-enabled="true">
