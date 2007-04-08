@@ -90,6 +90,14 @@ public class Authenticator {
         homeDirectory.setReadAccessLevel(UserRoleAccessFactory.GUESTROLE_ACCESSLEVEL);
         memberArea.addChild(homeDirectory);
         user.setMemberHome(homeDirectory);
+
+        // Create feed for home directory
+        Feed feed = new Feed();
+        feed.setDirectory(homeDirectory);
+        feed.setAuthor(homeDirectory.getCreatedBy().getFullname());
+        feed.setTitle(homeDirectory.getName());
+        homeDirectory.setFeed(feed);
+
         nodeDAO.makePersistent(homeDirectory);
 
         // Create home page
@@ -97,7 +105,7 @@ public class Authenticator {
         homePage.setWikiname(WikiUtil.convertToWikiName(homePage.getName()));
         homePage.setCreatedBy(user);
         homePage.setAreaNumber(homeDirectory.getAreaNumber());
-        homePage.setContent("This is the homepage of " + user.getFirstname() + " " + user.getLastname() + ".");
+        homePage.setContent("This is the homepage of " + user.getFullname() + ".");
         homePage.setWriteAccessLevel(UserRoleAccessFactory.ADMINROLE_ACCESSLEVEL);
         homePage.setReadAccessLevel(UserRoleAccessFactory.GUESTROLE_ACCESSLEVEL);
         homeDirectory.addChild(homePage);

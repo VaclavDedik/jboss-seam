@@ -22,6 +22,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * DAO for nodes, transparently respects security access levels.
@@ -189,6 +190,45 @@ public class NodeDAO {
         return getSession().createQuery("select n from HistoricalNode n where n.nodeId = :nodeId order by n.revision desc")
                             .setParameter("nodeId", node.getId())
                             .list();
+    }
+
+    // TODO: Although it seem like a good idea this is broken until I implement ON CASCADE DELETE on the foreign keys
+    public void removeChildNodes(Directory dir) {
+        throw new UnsupportedOperationException("Not implemented, see TODO");
+        /*
+        entityManager.joinTransaction();
+
+        // Find all the parents of this area whose children we should NOT delete 
+        List<Long> excludeIdentifiers = new ArrayList<Long>();
+        Directory temp = dir;
+        while (temp.getParent() != null && temp.getParent().getId() != null) {
+            excludeIdentifiers.add(temp.getParent().getId());
+            temp = temp.getParent();
+        }
+
+        // Avoid FK violation if one of the child nodes is the default document of the directory
+        entityManager.createQuery("update Node n set n.defaultDocument = null where n = :node").setParameter("node", dir).executeUpdate();
+
+        System.out.println("################# DELETING FILES");
+        // Delete all records from the File secondary table
+        ((Session)entityManager.getDelegate())
+                .createQuery("delete from File f where f.areaNumber = :area" +
+                             " and f.parent.id not in (:excludedIdentifiers)")
+                .setParameter("area", dir.getAreaNumber())
+                .setParameterList("excludedIdentifiers", excludeIdentifiers)
+                .executeUpdate();
+
+        System.out.println("################# DELETING NODES");
+
+        // Delete all records from the Node main table
+        ((Session)entityManager.getDelegate())
+                .createQuery("delete from Node n where n.areaNumber = :area" +
+                             " and n.parent.id not in (:excludedIdentifiers) and not n = :exclude")
+                .setParameter("area", dir.getAreaNumber())
+                .setParameter("exclude", dir)
+                .setParameterList("excludedIdentifiers", excludeIdentifiers)
+                .executeUpdate();
+        */
     }
 
     // Multi-row constraint validation

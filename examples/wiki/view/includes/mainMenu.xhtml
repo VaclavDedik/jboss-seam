@@ -35,4 +35,11 @@
 
     </h:dataTable>
 
+    <s:div styleClass="feeds">
+        <h:outputLink value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{wikiRoot.feed.id}">
+            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.atom.gif" width="18" height="18"/>
+            <span class="feedText">Subscribe to site</span>
+        </h:outputLink>
+    </s:div>
+
 </div>

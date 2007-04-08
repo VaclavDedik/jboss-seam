@@ -171,7 +171,7 @@
                                    tabindex="5" accesskey="U" styleClass="button"><span class="buttonLabel"><u>U</u>pdate</span></h:commandLink>
 
                         <h:outputLink id="delete" value="javascript:Richfaces.showModalPanel('deleteConfirmation',{})"
-                                      rendered="#{documentHome.managed}"
+                                      rendered="#{documentHome.managed and documentHome.instance.id != wikiStart.id}"
                                       tabindex="7" accesskey="D" styleClass="button"><span class="buttonLabel"><u>D</u>elete</span></h:outputLink>
 
                     </div>

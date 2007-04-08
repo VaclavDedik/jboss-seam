@@ -64,6 +64,9 @@
         <fileset refid="lib" />
         <fileset refid="seamlibs"/>
         <fileset refid="droolslibs"/>
+        <fileset dir="${src.etc.dir}/WEB-INF">
+            <include name="lib/*.*"/>
+        </fileset>
     </path>
 
     <path id="test.classpath">

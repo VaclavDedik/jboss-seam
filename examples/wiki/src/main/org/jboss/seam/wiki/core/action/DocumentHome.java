@@ -3,10 +3,15 @@ package org.jboss.seam.wiki.core.action;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
+import org.jboss.seam.wiki.core.dao.FeedDAO;
+import org.jboss.seam.wiki.core.dao.UserRoleAccessFactory;
+import org.jboss.seam.wiki.core.action.prefs.DocumentEditorPreferences;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.contexts.Contexts;
+
+import javax.faces.application.FacesMessage;
 
 @Name("documentHome")
 @Scope(ScopeType.CONVERSATION)
@@ -15,11 +20,11 @@ public class DocumentHome extends NodeHome<Document> {
     /* -------------------------- Context Wiring ------------------------------ */
 
     @In(required = false) private Node selectedHistoricalNode;
+    @In private FeedDAO feedDAO;
 
     /* -------------------------- Internal State ------------------------------ */
 
     private Document historicalCopy;
-    @In("#{docEditorPreferences.properties['minorRevisionEnabled']}")
     private boolean minorRevision;
     private String formContent;
     private boolean enabledPreview = false;
@@ -35,6 +40,8 @@ public class DocumentHome extends NodeHome<Document> {
 
         // Make a copy
         historicalCopy = new Document(getInstance());
+        minorRevision = (Boolean)((DocumentEditorPreferences)Component
+                .getInstance("docEditorPreferences")).getProperties().get("minorRevisionEnabled");
 
         // Wiki text parser needs it
         Contexts.getConversationContext().set("currentDocument", getInstance());
@@ -53,6 +60,18 @@ public class DocumentHome extends NodeHome<Document> {
         return true;
     }
 
+    public String persist() {
+        String outcome = super.persist();
+
+        // Create feed entries (needs identifiers assigned, so we run after persist())
+        if (getInstance().getReadAccessLevel() == UserRoleAccessFactory.GUESTROLE_ACCESSLEVEL) {
+            feedDAO.createFeedEntries(getInstance());
+            getEntityManager().flush();
+        }
+
+        return outcome;
+    }
+
     protected boolean beforeUpdate() {
 
         // Sync document content
@@ -60,11 +79,17 @@ public class DocumentHome extends NodeHome<Document> {
 
         // Write history log and prepare a new copy for further modification
         if (!isMinorRevision()) {
+
+            // Update feed entries
+            if (getInstance().getReadAccessLevel() == UserRoleAccessFactory.GUESTROLE_ACCESSLEVEL)
+                feedDAO.updateFeedEntries(getInstance());
+
             historicalCopy.setId(getInstance().getId());
             getNodeDAO().persistHistoricalNode(historicalCopy);
             getInstance().incrementRevision();
             // New historical copy in conversation
             historicalCopy = new Document(getInstance());
+
         }
 
         return true;
@@ -77,6 +102,9 @@ public class DocumentHome extends NodeHome<Document> {
 
         // Null out default document
         removeAsDefaultDocument(getParentDirectory());
+
+        // Remove feed entries
+        feedDAO.removeFeedEntries(getInstance());
 
         return true;
     }

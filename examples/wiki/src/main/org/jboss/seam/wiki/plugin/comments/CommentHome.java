@@ -67,7 +67,7 @@ public class CommentHome implements Serializable {
 
         comment = new Comment();
         if (!currentUser.getId().equals(guestUser.getId())) {
-            comment.setFromUserName(currentUser.getFirstname() + " " + currentUser.getLastname());
+            comment.setFromUserName(currentUser.getFullname());
             comment.setFromUserEmail(currentUser.getEmail());
             comment.setFromUserHomepage(
                 currentUser.getMemberHome() != null

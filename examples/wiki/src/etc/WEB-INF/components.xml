@@ -81,7 +81,8 @@
                        remember-me="false"/>
 
     <!-- Misc Settings -->
-    <web:context-filter url-pattern="/files/*"/>
+    
+    <web:context-filter url-pattern="/servlets/*"/>
 
     <factory name="themePath" scope="APPLICATION"
              value="#{facesContext.externalContext.request.contextPath}/themes/#{wikiPreferences.themeName}"/>

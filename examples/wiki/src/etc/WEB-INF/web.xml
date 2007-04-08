@@ -110,15 +110,21 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>File Servlet</servlet-name>
-        <url-pattern>/files/*</url-pattern>
+        <url-pattern>/servlets/files/*</url-pattern>
     </servlet-mapping>
 
-    <session-config>
-        <session-timeout>10</session-timeout> 
-    </session-config>
+    <!-- Wiki: Feed Servlet -->
+
+    <servlet>
+        <servlet-name>Feed Servlet</servlet-name>
+        <servlet-class>org.jboss.seam.wiki.core.ui.FeedServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Feed Servlet</servlet-name>
+        <url-pattern>/servlets/feeds/*</url-pattern>
+    </servlet-mapping>
 
     <!-- URL Rewrite -->
-
     <filter>
          <filter-name>UrlRewriteFilter</filter-name>
          <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
@@ -135,5 +141,12 @@
          <filter-name>UrlRewriteFilter</filter-name>
          <url-pattern>/*</url-pattern>
      </filter-mapping>
+
+    <!-- Misc Settings -->
+
+    <session-config>
+        <session-timeout>10</session-timeout>
+    </session-config>
+
 
 </web-app>

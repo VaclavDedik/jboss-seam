@@ -8,7 +8,9 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.wiki.core.model.Directory;
 import org.jboss.seam.wiki.core.model.Node;
 import org.jboss.seam.wiki.core.model.Document;
+import org.jboss.seam.wiki.core.model.Feed;
 
+import javax.faces.application.FacesMessage;
 import java.util.List;
 import java.util.Collections;
 import java.util.ArrayList;
@@ -38,6 +40,9 @@ public class DirectoryHome extends NodeHome<Directory> {
 
         // Fill the datamodel for outjection
         refreshChildNodes();
+
+        // Feed checkbox
+        hasFeed = getInstance().getFeed()!=null;
     }
 
     /* -------------------------- Custom CUD ------------------------------ */
@@ -66,8 +71,20 @@ public class DirectoryHome extends NodeHome<Directory> {
         }
     }
 
+    protected boolean beforePersist() {
+        createOrRemoveFeed();
+        return super.preparePersist();
+    }
+
+    protected boolean beforeUpdate() {
+        createOrRemoveFeed();
+        return super.beforeUpdate();
+    }
+
     protected boolean prepareRemove() {
-        return getInstance().getParent() != null; // Can not delete wiki root
+        if (getInstance().getParent() == null) return false; // Veto wiki root delete
+        getNodeDAO().removeChildNodes(getInstance());
+        return true;
     }
 
     /* -------------------------- Internal Methods ------------------------------ */
@@ -76,6 +93,34 @@ public class DirectoryHome extends NodeHome<Directory> {
         childNodes = getInstance().getChildren();
         for (Node childNode : childNodes) {
             if (childNode instanceof Document) childDocuments.add((Document)childNode);
+        }
+    }
+
+    @Transactional
+    private void createOrRemoveFeed() {
+        if (hasFeed && getInstance().getFeed() == null) {
+            Feed feed = new Feed();
+            feed.setDirectory(getInstance());
+            feed.setAuthor(getInstance().getCreatedBy().getFullname());
+            feed.setTitle(getInstance().getName());
+            getInstance().setFeed(feed);
+
+            getFacesMessages().addFromResourceBundleOrDefault(
+                FacesMessage.SEVERITY_INFO,
+                "feedCreated",
+                "Created syndication feed for this directory");
+
+        } else if (!hasFeed && getInstance().getFeed() != null) {
+            getEntityManager().joinTransaction();
+            getEntityManager().remove(getInstance().getFeed());
+            getInstance().setFeed(null);
+
+            getFacesMessages().addFromResourceBundleOrDefault(
+                FacesMessage.SEVERITY_INFO,
+                "feedRemoved",
+                "Removed syndication feed of this directory");
+        } else if (getInstance().getFeed() != null) {
+            getInstance().getFeed().setTitle(getInstance().getName());
         }
     }
 
@@ -99,4 +144,15 @@ public class DirectoryHome extends NodeHome<Directory> {
     public void previewMenuItems() {
         refreshMenuItems();
     }
+
+    private boolean hasFeed;
+
+    public boolean isHasFeed() {
+        return hasFeed;
+    }
+
+    public void setHasFeed(boolean hasFeed) {
+        this.hasFeed = hasFeed;
+    }
+
 }

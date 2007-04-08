@@ -95,6 +95,14 @@
         </div>
     </s:div>
 
+    <s:div styleClass="entry">
+        <div class="label">&#160;</div>
+        <div class="input">
+            <h:selectBooleanCheckbox value="#{directoryHome.hasFeed}" tabindex="2"/>
+            Enable syndication feed
+        </div>
+    </s:div>
+
     <s:div styleClass="entry"
            rendered="#{childNodes.rowCount>0 and s:hasPermission('Node', 'editMenu', directoryHome.instance)}">
         <div class="label">Menu items:</div>
@@ -176,8 +184,7 @@
 
             <h:outputLink id="delete" value="javascript:Richfaces.showModalPanel('deleteConfirmation',{})"
                           rendered="#{directoryHome.managed
-                                     and !empty directoryHome.instance.parent
-                                     and empty directoryHome.instance.children}"
+                                     and !empty directoryHome.instance.parent}"
                           tabindex="8" accesskey="D" styleClass="button"><span class="buttonLabel"><u>D</u>elete</span></h:outputLink>
         </div>
     </div>

@@ -41,6 +41,12 @@
 
         <s:link id="uploadFile" styleClass="linkNavigation" action="uploadFile" accesskey="U"
                 rendered="#{s:hasPermission('Node', 'create', currentDirectory)}"><u>U</u>pload File</s:link>
+
+        <h:outputLink styleClass="linkNavigation" rendered="#{not empty currentDirectory.feed}"
+                      value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{currentDirectory.feed.id}">
+            Subscribe
+        </h:outputLink>
+
     </h:panelGroup>
 
     <h:panelGroup rendered="#{empty currentDirectory.parent}">
@@ -49,6 +55,11 @@
 
         <s:link id="editRoot"     styleClass="linkNavigation" action="editDir" accesskey="E"
                 rendered="#{s:hasPermission('Node', 'edit', currentDirectory)}"><u>E</u>dit Wiki Root</s:link>
+
+        <h:outputLink styleClass="linkNavigation" rendered="#{not empty currentDirectory.feed}"
+                      value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{currentDirectory.feed.id}">
+            Subscribe
+        </h:outputLink>
     </h:panelGroup>
 </ui:define>
 
@@ -141,7 +152,7 @@
             <f:facet name="header">
                 Owner
             </f:facet>
-            #{node.createdBy.firstname} #{node.createdBy.lastname}
+            #{node.createdBy.fullname}
         </h:column>
 
         <h:column>

@@ -10,6 +10,9 @@ public class Directory extends Node {
     @JoinColumn(name = "DEFAULT_DOCUMENT_ID", nullable = true)
     private Document defaultDocument;
 
+    @OneToOne(mappedBy = "directory", cascade = CascadeType.PERSIST)
+    private Feed feed;
+
     public Directory() { super("New Directory"); }
 
     public Directory(String name) {
@@ -39,5 +42,13 @@ public class Directory extends Node {
 
     public Directory getParent() {
         return (Directory)super.getParent();
+    }
+
+    public Feed getFeed() {
+        return feed;
+    }
+
+    public void setFeed(Feed feed) {
+        this.feed = feed;
     }
 }

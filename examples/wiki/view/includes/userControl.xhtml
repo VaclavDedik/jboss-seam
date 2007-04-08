@@ -59,7 +59,7 @@
 
         <h:form>
             <h:panelGroup>
-                <h:outputText styleClass="userControlLabel" value="(#{currentUser.firstname} #{currentUser.lastname})"/>
+                <h:outputText styleClass="userControlLabel" value="(#{currentUser.fullname})"/>
 
                 <s:link styleClass="userControlLink" action="#{authenticator.logout}" tabindex="70" accesskey="L"><u>L</u>ogout</s:link>
 

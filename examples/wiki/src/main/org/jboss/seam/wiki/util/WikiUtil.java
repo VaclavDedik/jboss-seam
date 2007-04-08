@@ -96,7 +96,7 @@ public class WikiUtil {
 
     private static String renderFileLink(File file) {
         String contextPath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
-        return contextPath + "/files/download.seam?fileId=" + file.getId();
+        return contextPath + "/servlets/files/download.seam?fileId=" + file.getId();
     }
 
     public static String renderHomeURL(User user) {

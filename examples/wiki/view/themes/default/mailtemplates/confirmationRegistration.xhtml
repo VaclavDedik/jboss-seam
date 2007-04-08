@@ -4,12 +4,12 @@
             xmlns:f="http://java.sun.com/jsf/core">
     <m:header name="X-Sent-From" value="JBoss Seam" />
     <m:from name="Seam Wiki" address="do-not-reply@jboss.com" />
-    <m:to name="#{userHome.instance.firstname} #{userHome.instance.lastname}">#{userHome.instance.email}</m:to>
+    <m:to name="#{userHome.instance.fullname}">#{userHome.instance.email}</m:to>
     <m:subject>[Seam Wiki] Registration Confirmation</m:subject>
     <m:body>
         <html>
             <body>
-            <p>Hello #{userHome.instance.firstname} #{userHome.instance.lastname},</p>
+            <p>Hello #{userHome.instance.fullname},</p>
 
             <p>
             you registered an account on the Seam Wiki. You need to click the following link to confirm the
@@ -25,7 +25,7 @@
         </html>
         <f:facet name="alternative">
             <h:outputText>
-Hello #{userHome.instance.firstname} #{userHome.instance.lastname},
+Hello #{userHome.instance.fullname},
 
 you registered an account on the Seam Wiki. You need to use the following link to confirm the
 validity of your e-mail address and to activate your account:

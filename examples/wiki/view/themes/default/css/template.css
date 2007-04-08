@@ -296,6 +296,18 @@ a:visited {
     background-color: #ded;
 }
 
+.feeds {
+    padding: 5px;
+}
+
+.feeds .feedText {
+    vertical-align: top;
+    color: #962325;
+    font-weight: bold;
+    font-size: 85%;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
 /* Forms
 ----------------------------------------------- */
 

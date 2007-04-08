@@ -63,14 +63,13 @@
     <page view-id="/docEdit.xhtml">
         <description>Edit Document</description>
 
-        <navigation from-action="#{documentHome.remove}">
-            <end-conversation/>
-            <redirect view-id="/display.xhtml">
-                <param name="nodeId" value="#{documentHome.parentDirectory.id}"/>
-            </redirect>
-        </navigation>
-
         <navigation>
+            <rule if-outcome="removed">
+                <end-conversation/>
+                <redirect view-id="/dirDisplay.xhtml">
+                    <param name="nodeId" value="#{documentHome.parentDirectory.id}"/>
+                </redirect>
+            </rule>
             <rule if-outcome="uploadFile">
                 <begin-conversation flush-mode="MANUAL"/>
                 <redirect view-id="/fileEdit.xhtml">
@@ -144,8 +143,8 @@
     <page view-id="/dirEdit.xhtml">
         <description>Edit Directory</description>
 
-        <navigation from-action="#{directoryHome.remove}">
-            <rule>
+        <navigation>
+            <rule if-outcome="removed">
                 <end-conversation/>
                 <redirect view-id="/dirDisplay.xhtml">
                     <param name="nodeId" value="#{directoryHome.parentDirectory.id}"/>
