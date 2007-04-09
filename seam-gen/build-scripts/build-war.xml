@@ -158,7 +158,9 @@
             <fileset dir="${lib.dir}">
                 <include name="jboss-seam.jar" />
                 <include name="jbpm*.jar" />
-                <include name="el-*.jar" />
+                <include name="jboss-el.jar" />
+                <include name="commons-digester-*.jar" />
+                <include name="commons-beanutils-*.jar" />
             </fileset>
         </copy>
         

@@ -471,7 +471,7 @@
             <fileset dir="../lib"/>
             <fileset dir="../drools/lib"/>
             <fileset refid="seam"/>
-        	<fileset file="${driver.jar}"/>
+            <fileset file="${driver.jar}"/>
         </copy>
 
         <echo message="Copying Embeddable EJB3 configuration to the ${project.home}/embedded-ejb directory..." />

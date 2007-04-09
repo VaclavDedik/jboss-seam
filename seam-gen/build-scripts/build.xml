@@ -118,6 +118,8 @@
                                 <include name="ajax4jsf*.jar" />
                                 <include name="richfaces*.jar" />
                                 <include name="oscache*.jar" />
+                                <include name="commons-digester-*.jar" />
+                                <include name="commons-beanutils-*.jar" />
                                 <include name="jsf-facelets.jar" />
                                 <include name="jboss-seam-*.jar" />
                                 <exclude name="jboss-seam-gen.jar" />
@@ -141,7 +143,7 @@
                         <fileset dir="${lib.dir}">
                                 <include name="jboss-seam.jar" />
                                 <include name="jbpm*.jar" />
-                                <include name="el-*.jar" />
+                                <include name="jboss-el.jar" />
                                 <include name="drools-*.jar"/>
                                 <include name="janino-*.jar"/>
                                 <include name="antlr-*.jar"/>
