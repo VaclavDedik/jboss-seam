@@ -105,6 +105,8 @@ insert into NODE (NODE_ID, NODE_TYPE, NODE_REVISION, CREATED_BY_USER_ID, AREA_NR
 // And some feed entries for these entris
 insert into FEEDENTRY (FEEDENTRY_ID, OBJ_VERSION, LINK, TITLE, AUTHOR, PUBLISHED_ON, UPDATED_ON, DESCRIPTION_TYPE, DESCRIPTION_VALUE, DOCUMENT_ID) values (1, 0, 'http://www.lacewiki.org/wiki/21.lace', 'Entry Six', 'Regular Member', '2007-04-09 12:45:00', '2007-04-09 12:45:00', 'text/html', '<p>Blog Entry Nr.6</p>', 21)
 insert into FEED_FEEDENTRY (FEEDENTRY_ID, FEED_ID) values ('1', '1')
+insert into FEED_FEEDENTRY (FEEDENTRY_ID, FEED_ID) values ('1', '2')
 insert into FEEDENTRY (FEEDENTRY_ID, OBJ_VERSION, LINK, TITLE, AUTHOR, PUBLISHED_ON, UPDATED_ON, DESCRIPTION_TYPE, DESCRIPTION_VALUE, DOCUMENT_ID) values (2, 0, 'http://www.lacewiki.org/wiki/22.lace', 'This is Blog Entry Seven', 'Regular Member', '2007-04-09 13:45:00', '2007-04-09 13:45:00', 'text/html', '<p>This is a regular blog entry with some text that we need to fill up the layout. Lets just repeat it a few times: This is a regular blog entry with some text that we need to fill up the layout. This is a regular blog entry with some text that we need to fill up the layout.</p><p>@@LF@@@@LF@@This is a blog entry with a picture:</p>@@LF@@@@LF@@<p>[Embedded Image]</p></p>', 22)
 insert into FEED_FEEDENTRY (FEEDENTRY_ID, FEED_ID) values ('2', '1')
+insert into FEED_FEEDENTRY (FEEDENTRY_ID, FEED_ID) values ('2', '2')
 
