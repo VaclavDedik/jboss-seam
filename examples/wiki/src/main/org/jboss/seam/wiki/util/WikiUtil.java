@@ -135,4 +135,8 @@ public class WikiUtil {
     public static int sizeOf(Collection col) {
         return col == null ? 0 : col.size();
     }
+
+    public static int lenth(String string) {
+        return string.length();
+    }
 }

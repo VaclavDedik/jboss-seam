@@ -1,0 +1,49 @@
+<s:div id="feedTeasers"
+       xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:wiki="http://jboss.com/products/seam/wiki"
+       xmlns:s="http://jboss.com/products/seam/taglib"
+       styleClass="#{showPluginPreferences and !empty feedTeasersPreferencesEditor ? 'pluginPreferencesBox' : null}">
+
+    <s:div id="feedTeasersPreferences"
+           rendered="#{showPluginPreferences and !empty feedTeasersPreferencesEditor}">
+        <div align="center">
+            <h:message for="feedTeasersPreferences" styleClass="attentionMessage"/>
+
+            <ui:include src="../../includes/pluginPreferencesForm.xhtml">
+                <ui:param name="pluginPreferencesEditor" value="#{feedTeasersPreferencesEditor}"/>
+            </ui:include>
+        </div>
+    </s:div>
+
+    <h:dataTable value="#{feedTeasersPlugin.teasers}" var="fe"
+                 styleClass="datatable rightBorder leftBorder topBorder bottomBorder"
+                 headerClass="regularHeader alignLeft"
+                 columnClasses="teaserColumn"
+                 rowClasses="rowOdd,rowEven"
+                 cellpadding="0" cellspacing="0" border="0">
+        <h:column>
+            <f:facet name="header"><h:outputText value="#{feedTeasersPreferences.properties['teaserTitle']}"/></f:facet>
+
+            <div class="teaserAuthorDate">
+                <span class="teaserDate"><h:outputText value="#{fe.updatedDate}"><f:convertDateTime pattern="dd. MMM yyyy, HH:mm"/></h:outputText></span>
+                <s:span rendered="#{feedTeasersPreferences.properties['showAuthor']}">&#160;(<span class="teaserAuthor">#{fe.author}</span>)</s:span>
+            </div>
+
+            <div class="teaserTitle">
+                <h:outputLink value="#{fe.link}">#{fe.title}</h:outputLink>
+            </div>
+
+            <h:outputText value="#{wiki:truncateString(fe.descriptionValueStripped, feedTeasersPreferences.properties['truncateDescription'], '')}"/>
+            <h:outputLink value="#{fe.link}"
+                          rendered="#{wiki:length(fe.descriptionValueStripped) > feedTeasersPreferences.properties['truncateDescription']}">
+                &#160;...
+            </h:outputLink>
+
+        </h:column>
+    </h:dataTable>
+
+</s:div>

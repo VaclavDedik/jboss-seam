@@ -79,6 +79,12 @@
     </function>
 
     <function>
+        <function-name>length</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>int lenth(java.lang.String)</function-signature>
+    </function>
+
+    <function>
         <function-name>unwrap</function-name>
         <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
         <function-signature>java.lang.Throwable unwrap(java.lang.Throwable)</function-signature>

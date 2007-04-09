@@ -44,16 +44,16 @@ public class FeedDAO {
         return null;
     }
 
-    public List<FeedEntry> findFeedEntries(Feed feed) {
+    public List<FeedEntry> findFeedEntries(Feed feed, Integer limit) {
         restrictedEntityManager.joinTransaction();
         //noinspection unchecked
         return (List<FeedEntry>)restrictedEntityManager
-                .createQuery("select fe from FeedEntry fe join fe.feeds f where f = :feed")
+                .createQuery("select fe from FeedEntry fe join fe.feeds f where f = :feed order by fe.updatedDate desc")
                 .setParameter("feed", feed)
                 .getResultList();
     }
 
-    public void createFeedEntries(Document document) {
+    public void createFeedEntries(boolean pushOnSiteFeed, Document document) {
         restrictedEntityManager.joinTransaction();
 
         Set<Feed> feeds = new HashSet<Feed>();
@@ -62,21 +62,26 @@ public class FeedDAO {
             if (temp.getFeed() != null) feeds.add(temp.getFeed());
             temp = temp.getParent();
         }
-        feeds.add(temp.getFeed()); // Reached wiki root, feed for whole site
 
-        FeedEntry feedEntry = new FeedEntry();
-        feedEntry.setDocument(document);
-        feedEntry.setLink(renderFeedURL(document));
-        feedEntry.setTitle(document.getName());
-        feedEntry.setAuthor(document.getCreatedBy().getFullname());
-        feedEntry.setDescriptionType("text/html");
-        feedEntry.setDescriptionValue(renderWikiText(document.getContent()));
-        feedEntry.getFeeds().addAll(feeds);
+        if (pushOnSiteFeed)
+            feeds.add(temp.getFeed()); // Reached wiki root, feed for whole site
 
-        restrictedEntityManager.persist(feedEntry);
+        if (feeds.size() >0) {
+            FeedEntry feedEntry = new FeedEntry();
+            feedEntry.setDocument(document);
+            feedEntry.setLink(renderFeedURL(document));
+            feedEntry.setTitle(document.getName());
+            feedEntry.setAuthor(document.getCreatedBy().getFullname());
+            feedEntry.setUpdatedDate(feedEntry.getPublishedDate());
+            feedEntry.setDescriptionType("text/html");
+            feedEntry.setDescriptionValue(renderWikiText(document.getContent()));
+            feedEntry.getFeeds().addAll(feeds);
+
+            restrictedEntityManager.persist(feedEntry);
+        }
     }
 
-    public void updateFeedEntries(Document document) {
+    public void updateFeedEntries(boolean pushOnSiteFeed, Document document) {
         restrictedEntityManager.joinTransaction();
 
         int updatedEntries = restrictedEntityManager
@@ -93,7 +98,7 @@ public class FeedDAO {
             .setParameter("document", document)
             .executeUpdate();
 
-        if (updatedEntries == 0) createFeedEntries(document);
+        if (updatedEntries == 0) createFeedEntries(pushOnSiteFeed, document);
     }
 
     public void removeFeedEntries(Document document) {

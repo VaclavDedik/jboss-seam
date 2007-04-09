@@ -6,10 +6,11 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "FEEDENTRY")
-public class FeedEntry {
+public class FeedEntry implements Serializable {
 
     @Id
     @GeneratedValue
@@ -35,7 +36,7 @@ public class FeedEntry {
     @Column(name = "PUBLISHED_ON", nullable = false)
     private Date publishedDate = new Date();
 
-    @Column(name = "UPDATED_ON", nullable = true)
+    @Column(name = "UPDATED_ON", nullable = false)
     private Date updatedDate;
 
     @Column(name = "DESCRIPTION_TYPE", nullable = false)
@@ -121,6 +122,10 @@ public class FeedEntry {
 
     public void setDescriptionValue(String descriptionValue) {
         this.descriptionValue = descriptionValue;
+    }
+
+    public String getDescriptionValueStripped() {
+        return getDescriptionValue().replaceAll("\\<.*?\\>","");
     }
 
     public Document getDocument() {

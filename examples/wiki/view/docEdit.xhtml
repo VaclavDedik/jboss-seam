@@ -148,9 +148,21 @@
                     <s:div styleClass="entry" rendered="#{documentHome.managed}">
                         <div class="label">&#160;</div>
                         <div class="input">
-                            <h:selectBooleanCheckbox value="#{documentHome.minorRevision}" tabindex="3"/>
+                            <h:selectBooleanCheckbox value="#{documentHome.minorRevision}" tabindex="3">
+                                <a:support event="onchange" reRender="feedSwitch"/>
+                            </h:selectBooleanCheckbox>
                             Minor change, don't create a new revision
                         </div>
+                    </s:div>
+
+                    <s:div id="feedSwitch">
+                        <s:div styleClass="entry" rendered="#{!documentHome.minorRevision or !documentHome.managed}">
+                            <div class="label">&#160;</div>
+                            <div class="input">
+                                <h:selectBooleanCheckbox value="#{documentHome.pushOnSiteFeed}" tabindex="3"/>
+                                Push change onto site news syndication feed
+                            </div>
+                        </s:div>
                     </s:div>
 
                 </s:validateAll>

@@ -63,7 +63,7 @@ public class FeedServlet extends HttpServlet {
 
             // Create feed entries
             List<SyndEntry> syndEntries = new ArrayList<SyndEntry>();
-            List<FeedEntry> entries = feedDAO.findFeedEntries(feed);
+            List<FeedEntry> entries = feedDAO.findFeedEntries(feed, 25); // TODO: Hardcoded value!
             for (FeedEntry entry : entries) {
                 SyndEntry syndEntry;
                 SyndContent description;
