@@ -30,6 +30,9 @@ public class DefaultWikiLinkResolver implements WikiLinkResolver {
     @In
     private NodeDAO nodeDAO;
 
+    @In
+    Map<String, LinkProtocol> linkProtocolMap;
+
     public String convertToWikiProtocol(Long currentAreaNumber, String wikiText) {
         if (wikiText == null) return null;
 
@@ -84,6 +87,7 @@ public class DefaultWikiLinkResolver implements WikiLinkResolver {
 
         Matcher wikiProtocolMatcher = Pattern.compile(REGEX_WIKI_PROTOCOL).matcher(linkText);
         Matcher knownProtocolMatcher = Pattern.compile(REGEX_KNOWN_PROTOCOL).matcher(linkText);
+        Matcher customProtocolMatcher = Pattern.compile(REGEX_CUSTOM_PROTOCOL).matcher(linkText);
 
         WikiLink wikiLink;
 
@@ -104,6 +108,20 @@ public class DefaultWikiLinkResolver implements WikiLinkResolver {
                 wikiLink.setDescription(node.getName());
             } else {
                 // Can't do anything, [=>wiki://123] no longer exists
+                wikiLink = new WikiLink(true, false);
+                wikiLink.setUrl(BROKENLINK_URL);
+                wikiLink.setDescription(BROKENLINK_DESCRIPTION);
+            }
+
+        // Check if it is a custom protocol
+        } else if (customProtocolMatcher.find()) {
+
+            if (linkProtocolMap.containsKey(customProtocolMatcher.group(1))) {
+                LinkProtocol protocol = linkProtocolMap.get(customProtocolMatcher.group(1));
+                wikiLink = new WikiLink(false, true);
+                wikiLink.setUrl(protocol.getRealLink(customProtocolMatcher.group(2)));
+                wikiLink.setDescription(protocol.getPrefix() + "://" + customProtocolMatcher.group(2));
+            } else {
                 wikiLink = new WikiLink(true, false);
                 wikiLink.setUrl(BROKENLINK_URL);
                 wikiLink.setDescription(BROKENLINK_DESCRIPTION);

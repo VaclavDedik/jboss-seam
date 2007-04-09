@@ -21,6 +21,11 @@ public interface WikiLinkResolver {
     public static final String REGEX_KNOWN_PROTOCOL = "(http://)|(https://)|(ftp://)|(mailto:)";
 
     /**
+     * Matches customized protocols, e.g. [=>seamjira://123], which should be resolved and rendered
+     */
+    public static final String REGEX_CUSTOM_PROTOCOL = "([a-zA-Z]+)://(.+)";
+
+    /**
      * Prepended to primary identifiers when links are stored, e.g. [This is a stored link=>wiki://5]
      */
     public static final String REGEX_WIKI_PROTOCOL = "wiki://([0-9]+)";

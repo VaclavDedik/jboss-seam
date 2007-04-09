@@ -5,12 +5,14 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.Component;
 import org.jboss.seam.wiki.core.model.Directory;
 import org.jboss.seam.wiki.core.model.Document;
+import org.jboss.seam.wiki.core.model.LinkProtocol;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import java.io.Serializable;
+import java.util.*;
 
 @Name("wikiNodeFactory")
 public class WikiNodeFactory implements Serializable {
@@ -73,6 +75,19 @@ public class WikiNodeFactory implements Serializable {
         } catch (RuntimeException ex) {
             throw new RuntimeException("Could not find member area with id " + memberAreaId, ex);
         }
+    }
+
+    @Factory(value = "linkProtocolMap", scope = ScopeType.CONVERSATION, autoCreate = true)
+    @Transactional
+    public Map<String, LinkProtocol> loadLinkProtocols() {
+        entityManager.joinTransaction();
+        Map<String, LinkProtocol> linkProtocols = new TreeMap<String, LinkProtocol>();
+        //noinspection unchecked
+        List<Object[]> result = entityManager.createQuery("select lp.prefix, lp from LinkProtocol lp order by lp.prefix asc").getResultList();
+        for (Object[] objects : result) {
+            linkProtocols.put((String)objects[0], (LinkProtocol)objects[1]);
+        }
+        return linkProtocols;
     }
 
 }

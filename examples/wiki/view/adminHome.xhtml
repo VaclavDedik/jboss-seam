@@ -54,6 +54,77 @@
            Not implemented
         </rich:panelBarItem>
 
+        <rich:panelBarItem label="Link Protocols">
+
+            <p>
+                Link protocols enable custom prefixes in wiki text links, e.g. you can write
+                [=>jbseam://123] and have it rendered as a link to http://my.jbseam.site/123.
+                If you remove an existing link protocol that is in use, all links will be
+                rendered broken.
+            </p>
+
+            <h:dataTable id="linkProtocolTable" var="lp"
+                         value="#{linkProtocols}"
+                         rendered="#{linkProtocols.rowCount >0}"
+                         styleClass="datatable topLeftBottomBorder"
+                         headerClass="regularHeader rightBorder"
+                         columnClasses="twentyPercentColumn rightBorder alignLeft,
+                                        defaultColumn rightBorder alignLeft,
+                                        tenPercentColumn rightBorder alignCenter"
+                         rowClasses="rowOdd,rowEven"
+                         cellpadding="0" cellspacing="0" border="0">
+
+                <h:column>
+                    <f:facet name="header">
+                            Prefix
+                    </f:facet>
+                    #{lp.prefix}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                            Target Link
+                    </f:facet>
+                    #{lp.link}
+                </h:column>
+                <h:column>
+                    <h:commandLink id="removeLinkProtocol" styleClass="buttonNonpersistent"
+                                   action="#{adminHome.removeLinkProtocol()}"><span class="buttonLabel">Remove</span></h:commandLink>
+                </h:column>
+            </h:dataTable>
+
+
+            <div class="form" id="linkProtocolForm">
+
+                <h:panelGrid columns="3" style="margin-top: 15px;"
+                             styleClass="datatable topLeftBottomBorder"
+                             headerClass="regularHeader rightBorder"
+                             columnClasses="tenPercentColumn alignRight formFields, twentyPercentColumn alignRight formFields,
+                                            defaultColumn alignLeft rightBorder formFields"
+                             cellpadding="0" cellspacing="0" border="0">
+
+                    <f:facet name="header">
+                        <h:outputText value="New link protocol"/>
+                    </f:facet>
+
+                    <h:panelGroup>
+                        <h:outputText styleClass="label" value="Prefix:"/>&#160;
+                        <h:inputText id="lpPrefix" value="#{adminHome.linkProtocol.prefix}" maxlength="10" size="10" tabindex="1"/>
+                    </h:panelGroup>
+
+                    <h:panelGroup>
+                        <h:outputText styleClass="label" value="Target link (with [[link]] placeholder):"/>&#160;
+                        <h:inputText id="lpLink" value="#{adminHome.linkProtocol.link}" maxlength="1000" size="45" tabindex="1"/>
+                    </h:panelGroup>
+
+                    <h:commandLink id="addLinkProtocol" styleClass="buttonNonpersistent"
+                                   action="#{adminHome.addLinkProtocol()}"><span class="buttonLabel">Add</span></h:commandLink>
+
+                </h:panelGrid>
+
+            </div>
+
+        </rich:panelBarItem>
+
         <rich:panelBarItem label="Preferences">
 
             <ui:include src="includes/preferencesEditor.xhtml">
