@@ -5,7 +5,13 @@ import javax.ejb.Remote;
 @Remote
 public interface AuctionServiceRemote
 {
-   Auction[] findAuctions(String searchTerm);
-   Auction getAuctionDetails(Integer auctionId);
+   boolean login(String username, String password);
+   boolean logout();
+   
    Category[] listCategories();
+   Integer createAuction(String title, String description, int categoryId);
+   
+   
+   Auction[] findAuctions(String searchTerm);
+
 }

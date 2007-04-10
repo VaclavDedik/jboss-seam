@@ -19,14 +19,7 @@
                   conversation-id-parameter="cid"
                   conversation-is-long-running-parameter="clr"/>
     
-    <security:identity authenticate-method="#{authenticator.authenticate}" 
-                       security-rules="#{securityRules}"/>
-    
-    <drools:rule-base name="securityRules">
-       <drools:rule-files>
-           <value>/META-INF/security-rules.drl</value>
-       </drools:rule-files>
-    </drools:rule-base>
+    <security:identity authenticate-method="#{authenticator.authenticate}"/>
     
     <core:managed-persistence-context name="entityManager" auto-create="true"
                 persistence-unit-jndi-name="java:/seambayEntityManagerFactory"/>

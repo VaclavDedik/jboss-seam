@@ -14,6 +14,10 @@ import javax.persistence.Transient;
 @Entity
 public class Auction implements Serializable
 {
+   public static final int STATUS_UNLISTED = 0;
+   public static final int STATUS_LIVE = 1;
+   public static final int STATUS_COMPLETED = 2;
+   
    private static final long serialVersionUID = -8349473227099432431L;
 
    private Integer auctionId;
@@ -25,6 +29,8 @@ public class Auction implements Serializable
    private AuctionImage image;
    private int bids;
    private double price;
+   
+   private int status;
    
    @Id @GeneratedValue
    public Integer getAuctionId()
@@ -127,5 +133,15 @@ public class Auction implements Serializable
    public void setPrice(double price)
    {
       this.price = price;
+   }
+   
+   public int getStatus()
+   {
+      return status;
+   }
+   
+   public void setStatus(int status)
+   {
+      this.status = status;
    }
 }
