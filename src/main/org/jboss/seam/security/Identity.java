@@ -296,6 +296,8 @@ public class Identity extends Selector
     */
    protected void unAuthenticate()
    {      
+      principal = null;
+      
       for ( Group sg : subject.getPrincipals(Group.class) )      
       {
          if ( ROLES_GROUP.equals( sg.getName() ) )
