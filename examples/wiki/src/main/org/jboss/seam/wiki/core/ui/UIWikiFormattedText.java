@@ -101,7 +101,8 @@ public class UIWikiFormattedText extends UIOutput {
                         default: thumbnailWidth = file.getImageMetaInfo().getSizeX();
                     }
                     Conversation conversation = (Conversation) Component.getInstance("conversation");
-                    String thumbnailUrl = WikiUtil.renderURL(inlineLink.getNode()) + "&width=" + thumbnailWidth + "&cid=" + conversation.getId();
+                    // I have no idea why this needs HTML entities for the & symbol - Firefox complains about invalid XML if an & is in an attribute value!
+                    String thumbnailUrl = WikiUtil.renderURL(inlineLink.getNode()) + "&amp;width=" + thumbnailWidth + "&amp;cid=" + conversation.getId();
 
                     return "<a href=\""
                             + (inlineLink.isBroken() ? inlineLink.getUrl() : WikiUtil.renderURL(inlineLink.getNode()))
@@ -167,7 +168,7 @@ public class UIWikiFormattedText extends UIOutput {
 
                         // Render the actual child component - the plugin XHTML
                         UIComponent pluginChild = findComponent(macroName);
-                        if (pluginChild == null) throw new RuntimeException("Couldn't find plugin child component: " + macroName);
+                        if (pluginChild == null) return ""; // Swallow it
                         pluginChild.encodeBegin(getFacesContext());
                         JSF.renderChildren(getFacesContext(), pluginChild);
                         pluginChild.encodeEnd(getFacesContext());

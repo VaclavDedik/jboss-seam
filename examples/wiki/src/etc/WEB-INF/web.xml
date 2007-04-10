@@ -55,12 +55,6 @@
        <url-pattern>/seam/resource/*</url-pattern>
     </servlet-mapping>
 
-   <!-- MyFaces -->
-
-   <listener>
-      <listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>
-   </listener>
-
    <!-- Facelets development mode (disable in production) -->
 
    <context-param>
