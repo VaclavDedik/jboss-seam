@@ -461,16 +461,7 @@ public class Image implements Serializable
       bufferedImage = reader.read(0, param);
       stream.close();
       reader.dispose();
-      inputStream.reset();
-      ByteArrayOutputStream os = new ByteArrayOutputStream();
-      byte[] buffer = new byte[256];
-      while (true)
-      {
-         int bytesRead = inputStream.read(buffer);
-         if (bytesRead == -1) break;
-         os.write(buffer, 0, bytesRead);
-      }
-      output = os.toByteArray();
+      dirty = true;
       inputStream.close();
    }
    
