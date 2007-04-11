@@ -32,5 +32,5 @@
     <classpathentry kind="lib" path="lib/jboss-el.jar"/>
     <classpathentry kind="lib" path="lib/jboss-el-api.jar"/>
     <classpathentry kind="lib" path="lib/@driverJar@"/>
-    <classpathentry kind="output" path="classes/model"/>
+    <classpathentry kind="output" path="test-build"/>
 </classpath>
