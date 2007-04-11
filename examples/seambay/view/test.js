@@ -71,7 +71,25 @@ svc.setRequest("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soa
                "\n</soapenv:Envelope>");
 svc.addParameter(new ServiceParam("Auction title", "title"));
 svc.addParameter(new ServiceParam("Description", "description"));
-svc.addParameter(new ServiceParam("Category ID", "categoryId"));               
+svc.addParameter(new ServiceParam("Category ID", "categoryId"));         
+
+svc = new ServiceMetadata("updateAuction", "Create/Update Auction");
+svc.setDescription("Update an existing auction");
+svc.setRequest("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" " +
+               "\n    xmlns:seam=\"http://seambay.example.seam.jboss.org/\">\n  <soapenv:Header/>" +
+               "\n  <soapenv:Body>" +
+               "\n    <seam:updateAuction>" +
+               "\n      <arg0>#{auctionId}</arg0>" +
+               "\n      <arg1>#{title}</arg1>" +
+               "\n      <arg2>#{description}</arg2>" +
+               "\n      <arg3>#{categoryId}</arg3>" +
+               "\n    </seam:updateAuction>" +
+               "\n  </soapenv:Body>" +
+               "\n</soapenv:Envelope>");
+svc.addParameter(new ServiceParam("Auction ID", "auctionId"));
+svc.addParameter(new ServiceParam("Auction title", "title"));
+svc.addParameter(new ServiceParam("Description", "description"));
+svc.addParameter(new ServiceParam("Category ID", "categoryId"));      
 
 // end of web service definitions
 

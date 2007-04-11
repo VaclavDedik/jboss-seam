@@ -21,6 +21,7 @@ h1, h2 {
 
 #services a {
   display: block;
+  font-size: small;
 }
 
 #services span {

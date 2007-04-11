@@ -50,6 +50,15 @@ public class AuctionService implements AuctionServiceRemote
    }
    
    @WebMethod
+   public void updateAuction(int auctionId, String title, String description, int categoryId)
+   {
+      AuctionAction action = (AuctionAction) Component.getInstance(AuctionAction.class, true);
+      
+      action.editAuction(auctionId);
+      action.setDetails(title, description, categoryId);
+   }
+   
+   @WebMethod
    public Auction[] findAuctions(String searchTerm)
    {
       AuctionSearchAction search = (AuctionSearchAction) Component.getInstance(

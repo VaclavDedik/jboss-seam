@@ -3,6 +3,7 @@ package org.jboss.seam.example.seambay;
 import static org.jboss.seam.ScopeType.CONVERSATION;
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.persistence.EntityManager;
@@ -34,10 +35,17 @@ public class AuctionAction implements Serializable
    {
       auction = new Auction();
       auction.setUser(authenticatedUser);
+      
+      //auction.setStatus(Auction.STATUS_UNLISTED);
+      
+      // temporary
+      auction.setStatus(Auction.STATUS_LIVE);
+      auction.setEndDate(new Date(System.currentTimeMillis() + (1000 * 60 * 60 * 24 * 7)));
+      
       entityManager.persist(auction);     
    }   
       
-   @Begin
+   @Begin(join = true)
    public void editAuction(Integer auctionId)
    {
       auction = entityManager.find(Auction.class, auctionId);
