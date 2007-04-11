@@ -3,7 +3,9 @@ package org.jboss.seam;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+import javax.persistence.EmbeddedId;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.PostLoad;
 import javax.persistence.PrePersist;
 import javax.persistence.PreRemove;
@@ -58,7 +60,7 @@ public class Entity extends Model
             {
                postLoadMethod = method;
             }
-            if ( method.isAnnotationPresent(Id.class) )
+            if ( method.isAnnotationPresent(Id.class) || method.isAnnotationPresent(EmbeddedId.class))
             {
                identifierGetter = method;
             }
@@ -68,7 +70,7 @@ public class Entity extends Model
          {
             for ( Field field: getBeanClass().getDeclaredFields() )
             {
-               if ( field.isAnnotationPresent(Id.class) )
+               if ( field.isAnnotationPresent(Id.class) || field.isAnnotationPresent(EmbeddedId.class))
                {
                   identifierField = field;
                }

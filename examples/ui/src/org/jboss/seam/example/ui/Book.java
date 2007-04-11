@@ -2,14 +2,14 @@ package org.jboss.seam.example.ui;
 
 import java.io.Serializable;
 
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 
 @Entity
 public class Book implements Serializable
 {
    
-   @Id
+   @EmbeddedId
    private BookPk bookPk = new BookPk();
    
    private String nationality;
