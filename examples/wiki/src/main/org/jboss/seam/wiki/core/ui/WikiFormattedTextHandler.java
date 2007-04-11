@@ -157,7 +157,7 @@ public class WikiFormattedTextHandler extends TagHandler
       // Try to get the CSS for it
       WikiPreferences wikiPrefs = (WikiPreferences) Component.getInstance("wikiPreferences");
       URL css = Resources.getResource("/themes/" + wikiPrefs.getThemeName() + "/css/" + macroName + ".css");
-      if (css != null)
+      if (css != null && ComponentSupport.isNew(parent))
       {
          UIStyle style = new UIStyle();
          style.setPath(css);
