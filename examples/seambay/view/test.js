@@ -1,4 +1,5 @@
 var webServices = new Object();
+var groups = new Object();
 
 ServiceParam = function(name, key)
 {
@@ -7,9 +8,10 @@ ServiceParam = function(name, key)
   this.value = "#{" + key + "}";
 }
 
-ServiceMetadata = function(name)
+ServiceMetadata = function(name, group)
 {
   this.name = name;
+  this.group = group;
   this.parameters = new Array();
 
   webServices[name] = this;
@@ -21,16 +23,18 @@ ServiceMetadata = function(name)
   ServiceMetadata.prototype.getRequest = function() { return this.request; };
 }
 
-var svc = new ServiceMetadata("listCategories");
+// start of web service definitions
+
+var svc = new ServiceMetadata("listCategories", "General");
 svc.setDescription("List Categories");
 svc.setRequest("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" " +
                "\n    xmlns:seam=\"http://seambay.example.seam.jboss.org/\">\n  <soapenv:Header/>" +
                "\n  <soapenv:Body>\n    <seam:listCategories/>\n  </soapenv:Body>\n</soapenv:Envelope>");
 
-svc = new ServiceMetadata("listAuctions");
+svc = new ServiceMetadata("listAuctions", "General");
 svc.setDescription("List Auctions");
 
-svc = new ServiceMetadata("login");
+svc = new ServiceMetadata("login", "Security");
 svc.setDescription("Login");
 svc.setRequest("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" " +
                "\n    xmlns:seam=\"http://seambay.example.seam.jboss.org/\">\n  <soapenv:Header/>" +
@@ -42,7 +46,35 @@ svc.setRequest("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soa
                "\n  </soapenv:Body>" +
                "</soapenv:Envelope>");
 svc.addParameter(new ServiceParam("Username", "username"));
-svc.addParameter(new ServiceParam("Password", "password"));      
+svc.addParameter(new ServiceParam("Password", "password"));    
+
+svc = new ServiceMetadata("logout", "Security");
+svc.setDescription("Logout");
+svc.setRequest("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" " +
+               "\n    xmlns:seam=\"http://seambay.example.seam.jboss.org/\">\n  <soapenv:Header/>" +
+               "\n  <soapenv:Body>" +
+               "\n    <seam:logout/>" +
+               "\n  </soapenv:Body>" +
+               "</soapenv:Envelope>");  
+
+svc = new ServiceMetadata("createAuction", "Create/Update Auction");
+svc.setDescription("Create new auction");
+svc.setRequest("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" " +
+               "\n    xmlns:seam=\"http://seambay.example.seam.jboss.org/\">\n  <soapenv:Header/>" +
+               "\n  <soapenv:Body>" +
+               "\n    <seam:createAuction>" +
+               "\n      <arg0>#{title}</arg0>" +
+               "\n      <arg1>#{description}</arg1>" +
+               "\n      <arg2>#{categoryId}</arg2>" +
+               "\n    </seam:createAuction>" +
+               "\n  </soapenv:Body>" +
+               "\n</soapenv:Envelope>");
+svc.addParameter(new ServiceParam("Auction title", "title"));
+svc.addParameter(new ServiceParam("Description", "description"));
+svc.addParameter(new ServiceParam("Category ID", "categoryId"));               
+
+// end of web service definitions
+
 
 var selectedService = null;         
 
@@ -181,7 +213,17 @@ function initServices()
     var anchor = document.createElement("a");
     anchor.href = "javascript:selectService('" + ws.name + "')";  
     anchor.appendChild(document.createTextNode(ws.getDescription()));
-    document.getElementById("services").appendChild(anchor); 
+
+    if (!groups[ws.group])
+    {
+      groups[ws.group] = document.createElement("div");
+      var groupTitle = document.createElement("span");
+      groupTitle.appendChild(document.createTextNode(ws.group));
+      groups[ws.group].appendChild(groupTitle);
+      document.getElementById("services").appendChild(groups[ws.group]); 
+    }
+    
+    groups[ws.group].appendChild(anchor);    
   }
 }
 

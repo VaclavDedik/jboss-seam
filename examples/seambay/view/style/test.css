@@ -11,8 +11,12 @@ h1, h2 {
 #services {
   float: left;
   width: 240px;
+}
+
+#services div {
   border: 1px solid #cccccc;
   padding: 4px 4px 4px 4px;
+  margin-bottom: 8px;
 }
 
 #services a {

@@ -43,11 +43,14 @@ public class AuctionSearchAction implements Serializable
       
       if (searchCategory == null)
       {
-         qry = "from Auction a where lower(title) like #{searchPattern}"; 
+         qry = "from Auction a where lower(title) like #{searchPattern} " +
+               "and a.status = 1 and a.endDate >= #{currentDatetime}"; 
       }
       else
       {
-         qry = "from Auction a where lower(title) like #{searchPattern} and a.category = #{searchCategory}";
+         qry = "from Auction a where lower(title) like #{searchPattern} " +
+               "and a.category = #{searchCategory} and a.status = 1 " +
+               "and a.endDate >= #{currentDateTime}";
       }
       
       auctions = entityManager.createQuery(qry)
@@ -60,6 +63,7 @@ public class AuctionSearchAction implements Serializable
       for (Object[] result : (List<Object[]>) entityManager.createQuery(
             "select a.category.categoryId, count(a) from Auction a " +
             "where lower(a.title) like #{searchPattern} " +
+            "and a.endDate >= #{currentDateTime} and a.status = 1 " +
             "group by a.category.categoryId")
             .getResultList())
       {
@@ -79,6 +83,8 @@ public class AuctionSearchAction implements Serializable
       return searchTerm == null ? 
             "%" : '%' + searchTerm.toLowerCase().replace('*', '%') + '%';
    }   
+   
+   @Factory
  
    public String getSearchTerm()
    {
