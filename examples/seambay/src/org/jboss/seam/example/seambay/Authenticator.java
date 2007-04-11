@@ -1,13 +1,11 @@
 package org.jboss.seam.example.seambay;
 
-import static org.jboss.seam.ScopeType.SESSION;
-
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Out;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.security.Identity;
 
 @Name("authenticator")
@@ -15,10 +13,7 @@ public class Authenticator
 {
    @In
    private EntityManager entityManager;
-   
-   @Out(required = false, scope = SESSION)
-   private User authenticatedUser;
-   
+     
    @In
    private Identity identity;
 
@@ -32,7 +27,7 @@ public class Authenticator
             .setParameter("password", identity.getPassword())
             .getSingleResult();
          
-         authenticatedUser = user;
+         Contexts.getSessionContext().set("authenticatedUser", user);
          
          return true;
       }

@@ -1,13 +1,11 @@
 package org.jboss.seam.example.seamspace;
 
-import static org.jboss.seam.ScopeType.SESSION;
-
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Out;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.security.Identity;
 
 /**
@@ -20,9 +18,6 @@ public class Authenticator
 {
    @In
    private EntityManager entityManager;
-   
-   @Out(required = false, scope = SESSION)
-   private Member authenticatedMember;
    
    @In
    private Identity identity;
@@ -41,7 +36,7 @@ public class Authenticator
              return false;
          }
          
-         authenticatedMember = member;
+         Contexts.getSessionContext().set("authenticatedMember", member);
          
          for ( MemberRole mr : member.getRoles() )
          {
