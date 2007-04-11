@@ -38,6 +38,16 @@
             <property-class>java.lang.String</property-class>
         </property>
     </component>
+    
+    <component>
+    	<component-type>org.jboss.seam.wiki.core.ui.UIStyle</component-type>
+    	<component-class>org.jboss.seam.wiki.core.ui.UIStyle</component-class>
+    </component>
+    
+    <component>
+    	<component-type>org.jboss.seam.wiki.core.ui.UIPlugin</component-type>
+    	<component-class>org.jboss.seam.wiki.core.ui.UIPlugin</component-class>
+    </component>
 
    <!-- Seam transaction management -->
    <lifecycle>
