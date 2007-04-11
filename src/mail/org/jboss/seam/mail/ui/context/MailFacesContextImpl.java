@@ -1,7 +1,11 @@
 package org.jboss.seam.mail.ui.context;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.util.Iterator;
 
+import javax.el.ELContext;
+import javax.el.ELResolver;
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
@@ -167,5 +171,12 @@ public class MailFacesContextImpl extends FacesContext
          
       }
    }
+   
+   @Override
+   public ELContext getELContext()
+   {
+      return delegate.getELContext();
+   }
+
 
 }
