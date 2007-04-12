@@ -797,7 +797,10 @@ function __Calendar(calendarNumber, name)
 var __calendarFactory = new __CalendarFactory();
 
 function __clickCalendar(calName, year, month, day) {
-  getObject(calName).value = __calendarFactory.formatDate(year, month + 1, day);
+  var ctl = getObject(calName);
+  ctl.value = __calendarFactory.formatDate(year, month + 1, day);
+  if (ctl.onchange)
+    ctl.onchange();
 }
 
 function __selectDate(calName, viewCtlName) {
