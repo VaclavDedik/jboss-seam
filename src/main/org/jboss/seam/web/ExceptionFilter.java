@@ -67,7 +67,9 @@ public class ExceptionFilter extends AbstractFilter
          log.error("uncaught exception", e);
          if (e instanceof ServletException)
          {
-            log.error("exception root cause", ( (ServletException) e ).getRootCause() );
+             log.error("exception root cause", ( (ServletException) e ).getRootCause() );
+         } else {
+             log.error("exception cause", e.getCause());
          }
          rollbackTransactionIfNecessary();
          endWebRequestAfterException( (HttpServletRequest) request, (HttpServletResponse) response, e);
