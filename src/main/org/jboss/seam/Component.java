@@ -31,6 +31,7 @@ import static org.jboss.seam.util.EJB.value;
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Array;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -1115,7 +1116,14 @@ public class Component extends Model
 
    protected Object instantiateEntityBean() throws Exception
    {
+      Constructor constructor = getBeanClass().getConstructor(new Class[0]);
+      boolean accessible = constructor.isAccessible();
+      if (Modifier.isProtected(constructor.getModifiers()))
+      {
+         constructor.setAccessible(true);
+      }
       Object bean = getBeanClass().newInstance();
+      constructor.setAccessible(accessible);
       initialize(bean);
       return bean;
    }
