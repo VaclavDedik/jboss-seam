@@ -346,6 +346,18 @@
       first valid conversation ID that is returned by any remoting call. If you are working with multiple conversations
       within your page, then you may need to explicitly set the conversation ID before each call. If you are working
       with just a single conversation, then you don't need to do anything special. </para>
+      
+    <sect2>
+      <title>Remote calls within the current conversation scope</title>
+      
+      <para> In some circumstances it may be required to make a remote call within the scope of the
+        current view's conversation.  To do this, you must explicitly set the conversation ID to that
+        of the view before making the remote call.  This small snippet of JavaScript will set the
+        conversation ID that is used for remoting calls to the current view's conversation ID: </para>
+        
+      <programlisting><![CDATA[  Seam.Remoting.getContext().setConversationId( #{conversationId} );
+      ]]></programlisting>
+    </sect2>
   </sect1>
 
   <sect1>
