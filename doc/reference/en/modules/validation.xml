@@ -246,7 +246,7 @@
 </h:form>]]></programlisting>
 
     <para>
-        As a final note, it's better style to define explicit ids for
+ 		It's better style to define explicit ids for
         important controls on the page, especially if you want to do
         automated testing for the UI, using some toolkit like
         Selenium. If you don't provide explicit ids, JSF will generate
@@ -276,5 +276,28 @@
 
 </h:form>]]></programlisting>
 
+	<para>
+		And what if you want to specify a different message to be 
+		displayed when validation fails?  You can use the Seam message
+		bundle (and all it's goodies like el expressions inside the message,
+		and per-view message bundles) with the Hibernate Validator:
+	</para>
+	
+<programlisting><![CDATA[public class Location {
+    private String name;
+    private String zip;
+    
+    // Getters and setters for name
+
+    @NotNull
+    @Length(max=6)
+    @ZipCode(message="#{messages['location.zipCode.invalid']}")
+    public String getZip() { return zip; }
+    public void setZip(String z) { zip = z; }
+}]]></programlisting>	
+
+<programlisting>
+location.zipCode.invalid = The zip code is not valid for #{location.name}
+</programlisting>
 
 </chapter>
