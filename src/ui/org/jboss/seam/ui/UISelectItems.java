@@ -11,6 +11,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.el.ValueBinding;
 import javax.faces.model.DataModel;
+import javax.faces.model.SelectItem;
 
 import org.jboss.seam.framework.EntityQuery;
 
@@ -49,6 +50,8 @@ public class UISelectItems extends javax.faces.component.UISelectItems
    private String label;
 
    private Boolean disabled;
+   
+   private Object value;
 
    public String getNoSelectionLabel()
    {
@@ -163,50 +166,54 @@ public class UISelectItems extends javax.faces.component.UISelectItems
    @Override
    public Object getValue()
    {
-      Object value = super.getValue();
-      
-      if (value instanceof Iterable)
+      if (value == null)
       {
-         return asSelectItems((Iterable) value);
-      }
-      else if (value instanceof DataModel && ((DataModel) value).getWrappedData() instanceof Iterable)
-      {
-         return asSelectItems((Iterable) ((DataModel) value).getWrappedData()); 
-      }
-      else if (value instanceof EntityQuery)
-      {
-         return asSelectItems(((EntityQuery) value).getResultList());
-      }
-      else if (value != null && value.getClass().isArray())
-      {
-         if (value.getClass().getComponentType().isPrimitive())
+         Object originalValue = super.getValue();
+         
+         if (originalValue instanceof Iterable)
          {
-            List list = new ArrayList();
-            for (int i = 0; i < Array.getLength(value); i++)
+            value = asSelectItems((Iterable) originalValue);
+         }
+         else if (originalValue instanceof DataModel && ((DataModel) originalValue).getWrappedData() instanceof Iterable)
+         {
+            value = asSelectItems((Iterable) ((DataModel) originalValue).getWrappedData()); 
+         }
+         else if (originalValue instanceof EntityQuery)
+         {
+            value = asSelectItems(((EntityQuery) originalValue).getResultList());
+         }
+         else if (originalValue != null && originalValue.getClass().isArray())
+         {
+            if (originalValue.getClass().getComponentType().isPrimitive())
             {
-               list.add(Array.get(value, i));
+               List list = new ArrayList();
+               for (int i = 0; i < Array.getLength(originalValue); i++)
+               {
+                  list.add(Array.get(originalValue, i));
+               }
+               value = asSelectItems(list);
             }
-            return asSelectItems(list);
+            else
+            {
+               value = asSelectItems(Arrays.asList((Object[]) originalValue));
+            }
          }
          else
          {
-            return asSelectItems(Arrays.asList((Object[]) value));
+            javax.faces.model.SelectItem noSelectionLabel = noSelectionLabel();
+            if (noSelectionLabel != null) 
+            {
+               List<javax.faces.model.SelectItem> selectItems = new ArrayList<javax.faces.model.SelectItem>();
+               selectItems.add(noSelectionLabel);
+               value = selectItems;
+            }
+            else 
+            {
+               value = originalValue;
+            }
          }
       }
-      else
-      {
-         javax.faces.model.SelectItem noSelectionLabel = noSelectionLabel();
-         if (noSelectionLabel != null) 
-         {
-            List<javax.faces.model.SelectItem> selectItems = new ArrayList<javax.faces.model.SelectItem>();
-            selectItems.add(noSelectionLabel);
-            return selectItems;
-         }
-         else 
-         {
-            return value;
-         }
-      }
+      return value;
    }
    
    private List<javax.faces.model.SelectItem> asSelectItems(Iterable iterable) 
