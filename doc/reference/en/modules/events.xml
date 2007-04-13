@@ -758,7 +758,7 @@ public class LoggedInInterceptor
         
         <programlisting><![CDATA[<filter>
     <filter-name>Seam Filter</filter-name>
-    <filter-class>org.jboss.seam.servlet.SeamFilter</filter-class>
+    <filter-class>org.jboss.seam.web.SeamFilter</filter-class>
 </filter>
 
 <filter-mapping>
