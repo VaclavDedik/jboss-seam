@@ -1,0 +1,26 @@
+This directory contains the Apache Trinidad JSF component set jar's, Ajax4jsf's
+Trinidad integration jar (required if you want to use ajax4jsf and Trinidad 
+together), the optional Seam-Trinidad integration package and the seamdiscs 
+example which shows correct packaging and configuration for using Seam, 
+Trinidad, RichFaces, Ajax4jsf, Facelets and EJB3.
+
+The seamdiscs example is a simple example built using seam-gen and the Seam 
+Application Framework which allows you to record your favourite albums and 
+artists.  It intentionally uses a mix of RichFaces and Trinidad components. 
+It also uses the "inplace editing" pattern; the same facelets are used for
+editing and display of data (login to edit a disc or artist).
+
+The Seam-Trinidad integration jar provides a DataModel which, when backed
+by a Seam Application Framework Query, provides lazy loading of data for
+paging, sorting in the Persistence Context and strong row keys.  You can use it
+by adding the jboss-seam-trinidad.jar to your WEB-ING/lib - no need to alter
+your facelet.  One caveat is that you must ensure the rows property on the
+Query is the same as the maxResults property on the Query.
+
+Example
+
+<tr:table value="#{discs.dataModel}" rows="#{discs.maxResults}">
+  <tr:column>
+     ...
+  </tr:column
+</tr:table>

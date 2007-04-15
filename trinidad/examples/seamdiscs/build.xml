@@ -4,6 +4,8 @@
 
 	<!-- Give user a chance to override without editing this file or typing -D -->
 	<property file="${basedir}/build.properties" />
+	
+	<property file="../../../build.properties" />
 
 	<property name="profile" value="dev" />
 	<property file="build-${profile}.properties" />
@@ -14,7 +16,7 @@
 	<property name="src.model.dir" value="src/model" />
 	<property name="src.action.dir" value="src/action" />
 	<property name="src.test.dir" value="src/test" />
-	<property name="seam.home" value="../../" />
+	<property name="seam.home" value="../../../" />
 	<property name="lib.dir" value="${seam.home}/lib" />
 	<property name="more.lib.dir" value="${seam.home}/trinidad/lib" />
 	<property name="seam.lib.dir" value="${seam.home}" />
@@ -124,6 +126,7 @@
 				<include name="richfaces*.jar" />
 				<include name="oscache*.jar" />
 				<include name="jsf-facelets.jar" />
+				<include name="commons-*.jar" />
 			</fileset>
 			<fileset dir="${more.lib.dir}">
 				<include name="trinidad-impl-*.jar" />
@@ -151,7 +154,7 @@
 			</fileset>
 			<fileset dir="${lib.dir}">
 				<include name="jbpm*.jar" />
-				<include name="el-*.jar" />
+				<include name="jboss-el.jar" />
 			</fileset>
 			<fileset dir="${more.lib.dir}">
 				<include name="trinidad-api-*.jar" />

@@ -24,11 +24,12 @@
 	<property name="mailclasses.dir" value="${build.dir}/mailclasses" />
 	<property name="debugclasses.dir" value="${build.dir}/debugclasses" />
 	<property name="remotingclasses.dir" value="${build.dir}/remotingclasses" />
-	<property name="trinidadclasses.dir" value="${build.dir}/trinidadclasses" />
 
 	<property name="genclasses.dir" value="${build.dir}/genclasses" />
 
 	<property name="coverage.dir" value="${build.dir}/coverage" />
+	
+	<property name="trinidad.dir" value="trinidad" />
 
 	<property name="src.java.dir" value="src/main" />
 	<property name="src.ui.dir" value="src/ui" />
@@ -39,7 +40,6 @@
 	<property name="src.debug.dir" value="src/debug" />
 	<property name="src.gen.dir" value="src/gen" />
 	<property name="src.remoting.dir" value="src/remoting" />
-	<property name="src.trinidad.dir" value="src/trinidad" />
 	<property name="src.test.dir" value="src/test/misc" />
 
 	<property name="lib.dir" value="${imported.basedir}/lib" />
@@ -81,6 +81,7 @@
 	<property name="dist.drools.dir" value="${dist.dir}/drools" />
 	<property name="dist.hibernate.dir" value="${dist.dir}/hibernate" />
 	<property name="dist.mail.dir" value="${dist.dir}/mail" />
+	<property name="dist.trinidad.dir" value="${dist.dir}/trinidad" />
 	<property name="dist.seamgen.dir" value="${dist.dir}/seam-gen" />
 	<property name="dist.ui.api.dir" value="${dist.dir}/doc/ui" />
 
@@ -543,18 +544,6 @@
 		</copy>
 
 	</target>
-	
-	<target name="inittrinidad" description="Initialize the build for the Trinidad integration package">
-		<echo message="Build ${Name} Trinidad integration ${version}" />
-
-		<mkdir dir="${trinidadclasses.dir}" />
-		<copy todir="${trinidadclasses.dir}">
-			<fileset dir="${src.trinidad.dir}">
-				<patternset refid="meta.files" />
-			</fileset>
-		</copy>
-
-	</target>	
 
 	<target name="initdebug" description="Initialize the build for the debug package">
 		<echo message="Build ${Name} Debug ${version}" />
@@ -665,16 +654,6 @@
 					<include name="jboss-seam-ui.jar" />
 					<include name="jboss-seam-pdf.jar" />
 				</fileset>
-			</classpath>
-		</javac>
-	</target>
-	
-	<target name="compiletrinidad" depends="inittrinidad,select-compiler" description="Compile the Java source code for the Trinidad integration package">
-		<javac source="1.5" target="1.5" destdir="${trinidadclasses.dir}" debug="${javac.debug}" deprecation="${javac.deprecation}" nowarn="on">
-			<src path="${src.trinidad.dir}" />
-			<classpath>
-				<path refid="build.classpath" />
-				<fileset refid="example.trinidad.api.jar"/>
 			</classpath>
 		</javac>
 	</target>
@@ -905,6 +884,17 @@
 		</copy>
 
 	</target>
+	
+	<target name="copytrinidad" description="Copy Trinidad extras to dist dir">
+		<mkdir dir="${dist.trinidad.dir}" />
+		<copy todir="${dist.trinidad.dir}">
+			<fileset dir="${trinidad.dir}">
+				<exclude name="build/**"/>
+				<exclude name="examples/**/exploded-archives/**"/>
+				<exclude name="examples/**/test-build/**"/>
+			</fileset>
+		</copy>
+	</target>
 
 	<target name="instrument" depends="compile">
 
@@ -1112,21 +1102,6 @@
 		<copy file="${basedir}/${name}-mail.jar" todir="${dist.dir}" />
 
 	</target>
-	
-	<target name="jartrinidad" depends="compiletrinidad" description="Build the distribution .jar file for the Trinidad integration package">
-		<!--<mkdir dir="${dist.dir}" />-->
-
-		<jar jarfile="${basedir}/${name}-trinidad.jar" basedir="${trinidadclasses.dir}">
-			<include name="**/*.class" />
-			<patternset refid="meta.files" />
-			<manifest>
-				<attribute name="Seam-Version" value="${version}.${patchlevel}" />
-				<attribute name="Implementation-Version" value="${version}.${patchlevel}" />
-			</manifest>
-		</jar>
-		<!--<copy file="${basedir}/${name}-mail.jar" todir="${dist.dir}" />-->
-
-	</target>
 
 	<target name="jardebug" depends="compiledebug" description="Build the distribution .jar file for the debug package">
 		<mkdir dir="${dist.dir}" />
@@ -1232,7 +1207,7 @@
 		</replace>
 	</target>
 
-	<target name="dist" depends="cleandist,build,javadoc,copysource,copylib,copyexamples,copyseamgen,refdoc,extras" description="Build everything and package">
+	<target name="dist" depends="cleandist,build,javadoc,copysource,copylib,copyexamples,copyseamgen,copytrinidad,refdoc,extras" description="Build everything and package">
 		<zip zipfile="${dist.dir}.zip">
 			<zipfileset prefix="${dist.name}" dir="${dist.dir}" />
 		</zip>

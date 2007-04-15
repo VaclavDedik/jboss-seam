@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.validator.Length;
+
 @Entity
 public class Disc
 {
@@ -15,6 +17,7 @@ public class Disc
    @Id @GeneratedValue
    private Integer id;
    
+   @Length(max=2, message="#{messages.descriptionError}")
    private String name;
    
    private Date release;
@@ -22,6 +25,7 @@ public class Disc
    @ManyToOne(cascade={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
    private Artist artist;
    
+   @Length(max=2, message="#{messages.descriptionError}")
    private String description;
    
    public Disc()

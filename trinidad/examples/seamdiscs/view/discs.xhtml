@@ -17,7 +17,7 @@
     <f:facet name="header">Discs</f:facet>
     	<tr:panelPartialRoot>
 	    	<tr:form>
-		    	<tr:table value="#{discs.dataModel}" var="disc" rows="20">
+		    	<tr:table value="#{discs.dataModel}" var="disc" rows="#{discs.maxResults}">
 		    		<tr:column sortable="true" sortProperty="disc.name">
 		    			<f:facet name="header">
 		    				Name

@@ -53,9 +53,9 @@
 		</core:jbpm>
 	-->
 	
-	<framework:entity-query name="discs" ejbql="select disc from Disc disc" order="disc.name ASC" />
+	<framework:entity-query name="discs" ejbql="select disc from Disc disc" order="disc.name ASC" max-results="5"/>
 	
-	<framework:entity-query name="artists" ejbql="select artist from Artist artist" order="artist.name DESC" />
+	<framework:entity-query name="artists" ejbql="select artist from Artist artist" order="artist.name DESC" max-results="5"/>
 	
 	<framework:entity-home entity-class="org.jboss.seam.example.seamdiscs.model.Disc" name="discHome"/>
 	

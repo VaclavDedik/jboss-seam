@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+
+<project name="Seam-Trinidad" default="build" basedir=".">
+	
+	
+	
+	<property name="build.dir" value="build" />
+
+	<property name="trinidadclasses.dir" value="${build.dir}/trinidadclasses" />
+	
+	<property name="src.trinidad.dir" value="src" />
+	<property name="src.test.dir" value="src/test/misc" />
+	
+	<import file="../build.xml" />
+	
+	<path id="trinidad.build.classpath">
+		<path refid="build.classpath" />
+		<fileset dir="${trinidad.lib.dir}">
+			<include name="trinidad-api-*.jar" />
+		</fileset>
+	</path>
+	
+	<target name="inittrinidad" description="Initialize the build for the Trinidad integration package">
+		<echo message="Build ${Name} Trinidad integration ${version}" />
+		<mkdir dir="${trinidadclasses.dir}" />
+		<copy todir="${trinidadclasses.dir}">
+			<fileset dir="${src.trinidad.dir}">
+				<patternset refid="meta.files" />
+			</fileset>
+		</copy>
+
+	</target>	
+	
+	<target name="compiletrinidad" depends="inittrinidad,select-compiler" description="Compile the Java source code for the Trinidad integration package">
+		<javac source="1.5" target="1.5" destdir="${trinidadclasses.dir}" debug="${javac.debug}" deprecation="${javac.deprecation}" nowarn="on">
+			<src path="${src.trinidad.dir}" />
+			<classpath>
+				<path refid="trinidad.build.classpath" />
+			</classpath>
+		</javac>
+	</target>
+	
+	<target name="clean" description="Cleans up the build directory">
+		<delete dir="${build.dir}" />
+	</target>
+
+	<target name="jartrinidad" depends="compiletrinidad" description="Build the distribution .jar file for the Trinidad integration package">
+		<jar jarfile="../${name}-trinidad.jar" basedir="${trinidadclasses.dir}">
+			<include name="**/*.class" />
+			<patternset refid="meta.files" />
+			<manifest>
+				<attribute name="Seam-Version" value="${version}.${patchlevel}" />
+				<attribute name="Implementation-Version" value="${version}.${patchlevel}" />
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="build" description="Build Seam Trinidad integration" depends="jartrinidad"/>
+
+</project>

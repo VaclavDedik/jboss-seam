@@ -17,7 +17,7 @@
     <f:facet name="header">Artists</f:facet>
     	<tr:panelPartialRoot>
 	    	<tr:form>
-		    	<tr:table value="#{artists.dataModel}" var="artist" rows="20" rowBandingInterval="1">
+		    	<tr:table value="#{artists.dataModel}" var="artist" rows="#{artists.maxResults}" rowBandingInterval="1">
 		    		<tr:column sortable="true" sortProperty="artist.name">
 		    			<f:facet name="header">
 		    				Name
