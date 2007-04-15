@@ -19,7 +19,6 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.jsf.Converter;
 import org.jboss.seam.core.Expressions.ValueBinding;
-import org.jboss.seam.framework.EntityIdentifierStore;
 
 /**
  * Allows conversion of an entity to/from a key which can be written to a page.
@@ -36,12 +35,12 @@ public class EntityConverter implements
 {
    
    private ValueBinding<EntityManager> entityManager;
-   private EntityIdentifierStore entityIdentifierStore;
+   private EntityConverterStore entityIdentifierStore;
 
    @Create
    public void create()
    {
-      entityIdentifierStore = EntityIdentifierStore.instance();
+      entityIdentifierStore = EntityConverterStore.instance();
       if (getEntityManager() != null)
       {
          entityIdentifierStore.setEntityManager(getEntityManager());
