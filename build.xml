@@ -122,6 +122,10 @@
 		<include name="itext-*.jar" if="example.seam.pdf.lib" />
 	</zipfileset>
 
+	<zipfileset id="example.gwt.jar" dir="${lib.dir}" description="The GWT runtime">
+		<include name="gwt-servlet.jar" if="example.gwt.lib"/>
+	</zipfileset>	
+	
 	<!-- prefix="WEB-INF/lib" -->
 	<zipfileset id="example.spring.jar" dir="${lib.dir}" description="the spring jar">
 		<include name="spring*.jar" if="example.spring.lib" />
@@ -294,6 +298,7 @@
 		<include name="jgroups.jar" if="example.cache.lib" />
 		<include name="jbpm*.jar" if="example.jbpm.lib" />
 		<include name="spring*.jar" if="example.ioc.lib" />
+		<include name="gwt-servlet.jar" if="example.gwt.lib" />
 	</zipfileset>
 
 	<path id="build.classpath">
@@ -1287,6 +1292,8 @@
 			<fileset refid="example.jcaptcha.jar" />
 			<fileset refid="example.spring.jar" />
 			<fileset refid="example.beans.files" />
+			<fileset refid="example.gwt.jar" />
+						
 			<zipfileset dir="${build.dir}">
 				<include name="${example.name}.jar" />
 			</zipfileset>
