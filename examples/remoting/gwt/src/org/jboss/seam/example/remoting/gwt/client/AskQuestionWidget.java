@@ -77,7 +77,7 @@ public class AskQuestionWidget extends Composite
           (MyServiceAsync) GWT.create(MyService.class);
       ServiceDefTarget endpoint = (ServiceDefTarget) svc;
       
-      String endpointURL = "seam/resource/gwt";
+      String endpointURL = GWT.getModuleBaseURL() + "seam/resource/gwt";      
       
       endpoint.setServiceEntryPoint(endpointURL);
       return svc;

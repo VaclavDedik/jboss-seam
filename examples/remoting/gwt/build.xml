@@ -23,14 +23,28 @@
 	              classpath="./lib/gwttasks.jar"/>
 	  
 	<property file="build.properties"/>
+	
+	<!-- the "class bass" name of the gwt module you are including -->
+	<property name="gwt.module.name" value="org.jboss.seam.example.remoting.gwt.HelloWorld"/>
 
+	
+	
 	<!-- the following are are handy utilities for doing GWT development.
     	To use GWT, you will of course need to download GWT seperately -->
 	<target name="gwt-compile">
-		<gwt:compile outDir="view" 
+		<!-- in this case, we are "re homing" the gwt generated stuff, so in this case
+		we can only have one GWT module - we are doing this deliberately to keep the URL short -->
+		<delete>
+			<fileset dir="view"/>
+		</delete>
+		<gwt:compile outDir="build/gwt" 
 			gwtHome="${gwt.home}" 
-			classBase="org.jboss.seam.example.remoting.gwt.HelloWorld" 
+			classBase="${gwt.module.name}" 
 			sourceclasspath="src"/>
+		<copy todir="view">
+			<fileset dir="build/gwt/${gwt.module.name}"/>
+		</copy>
+
 	</target>
 
 	<target name="gwt-shell">
