@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
+import org.hibernate.validator.NotNull;
+
 @Entity
 public class Auction implements Serializable
 {
@@ -87,6 +89,7 @@ public class Auction implements Serializable
       this.description = description;
    }
    
+   @NotNull
    public Date getEndDate()
    {
       return endDate;
@@ -120,12 +123,39 @@ public class Auction implements Serializable
    }
    
    @Transient
-   public String getTimeLeft()
+   public long getTimeLeft()
+   {      
+      return (endDate.getTime() - System.currentTimeMillis()); 
+   }   
+   
+   @Transient
+   public String getPrettyTimeLeft()
    {
-      if (endDate == null) 
-         return null;
+      long timeLeft = getTimeLeft() / 1000;
       
-      return (endDate.getTime() - System.currentTimeMillis()) + "ms"; 
+      int days = (int) Math.floor(timeLeft / (60 * 60 * 24));
+      
+      timeLeft -= days * 24 * 60 * 60;
+      int hours = (int) Math.floor(timeLeft / (60 * 60));
+      
+      timeLeft -= hours * 60 * 60;
+      int minutes = (int) Math.floor(timeLeft / 60);
+      
+      timeLeft -= minutes * 60;
+      int seconds = (int) timeLeft;
+
+      StringBuilder sb = new StringBuilder();
+      
+      if (days > 0)
+         sb.append(String.format("%dd ", days));
+      
+      if (hours > 0)
+         sb.append(String.format("%dh ", hours));
+
+      if (minutes > 0)
+         sb.append(String.format("%dm ", minutes));     
+      
+      return sb.toString();
    }
    
    public double getPrice()

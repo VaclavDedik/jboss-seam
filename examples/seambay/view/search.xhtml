@@ -66,11 +66,13 @@
       		</h:column>
       		<h:column>
       			<f:facet name="header">Price</f:facet>
-      			#{auction.price}
+      			$<h:outputText value="#{auction.price}">
+      			  <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+      			</h:outputText>
       		</h:column> 
       		<h:column>
       			<f:facet name="header">Time left</f:facet>
-      			#{auction.timeLeft}
+      			#{auction.prettyTimeLeft}
       		</h:column>
       	</h:dataTable>      
       

@@ -50,7 +50,7 @@ public class AuctionSearchAction implements Serializable
       {
          qry = "from Auction a where lower(title) like #{searchPattern} " +
                "and a.category = #{searchCategory} and a.status = 1 " +
-               "and a.endDate >= #{currentDateTime}";
+               "and a.endDate >= #{currentDatetime}";
       }
       
       auctions = entityManager.createQuery(qry)
@@ -63,7 +63,7 @@ public class AuctionSearchAction implements Serializable
       for (Object[] result : (List<Object[]>) entityManager.createQuery(
             "select a.category.categoryId, count(a) from Auction a " +
             "where lower(a.title) like #{searchPattern} " +
-            "and a.endDate >= #{currentDateTime} and a.status = 1 " +
+            "and a.endDate >= #{currentDatetime} and a.status = 1 " +
             "group by a.category.categoryId")
             .getResultList())
       {

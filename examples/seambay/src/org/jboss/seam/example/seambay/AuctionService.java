@@ -5,6 +5,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebService;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.core.Manager;
 import org.jboss.seam.security.Identity;
 
 @Stateless
@@ -56,6 +57,23 @@ public class AuctionService implements AuctionServiceRemote
       
       action.editAuction(auctionId);
       action.setDetails(title, description, categoryId);
+   }
+   
+   @WebMethod
+   public void setAuctionDuration(int auctionId, int days)
+   {
+      Manager.instance().restoreConversation("" + auctionId);
+      AuctionAction action = (AuctionAction) Component.getInstance(AuctionAction.class, true);
+      
+      action.setDuration(days);
+   }
+   
+   @WebMethod
+   public void confirmAuction(int auctionId)
+   {
+      AuctionAction action = (AuctionAction) Component.getInstance(AuctionAction.class, true);
+      
+      action.confirm();
    }
    
    @WebMethod
