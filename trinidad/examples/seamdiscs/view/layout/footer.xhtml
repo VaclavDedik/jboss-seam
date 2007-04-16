@@ -1,0 +1,225 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+                xmlns:tr="http://myfaces.apache.org/trinidad">
+	<rich:modalPanel id="creating" width="450" height="250">
+		<f:facet name="header">
+			Creating SeamDiscs
+		</f:facet>
+		<f:facet name="controls">
+	        <a href="javascript:Richfaces.hideModalPanel('creating')">X</a>
+	    </f:facet>
+    	<p>This example was built using seam-gen.  To add in Trinidad, the trinidad-api jar was added to 
+    	the ear (and referenced from <a href="javascript:Richfaces.showModalPanel('applicationxml')"><code>application.xml</code></a>) and the trinidad-impl jar, <code>jboss-seam-trinidad.jar</code> (Seam-Trinidad
+    	integration) &amp; <code>a4j-trinidad.jar</code> (Ajax4jsf-Trinidad integration) were added to <code>WEB-INF/lib</code>.</p>
+    	
+    	<p>A few alterations were needed in <a href="javascript:Richfaces.showModalPanel('webxml')"><code>web.xml</code></a> and <a href="javascript:Richfaces.showModalPanel('facesconfigxml')"><code>faces-config.xml</code></a>.</p>
+    	
+    	<p>Of course Trinidad and RichFaces offer some complementary components (e.g. tables, trees) - it's up to you which you choose!</p>
+    </rich:modalPanel>
+    
+    <rich:modalPanel id="webxml" width="450" height="500" left="50">
+    	<f:facet name="header">
+			<code>web.xml</code>
+		</f:facet>
+		<f:facet name="controls">
+	        <a href="javascript:Richfaces.hideModalPanel('webxml')">X</a>
+	    </f:facet>
+    <pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 420px; height: 420px;"><code>&lt;!-- Not used, as we've integrated Trinidad --&gt;
+&lt;!-- &lt;context-param&gt;
+   &lt;param-name&gt;
+      org.ajax4jsf.VIEW_HANDLERS
+   &lt;/param-name&gt;
+   &lt;param-value&gt;
+      org.jboss.seam.ui.facelet.SeamFaceletViewHandler
+   &lt;/param-value&gt;
+&lt;/context-param&gt;--&gt;
+...
+   
+&lt;context-param&gt;
+   &lt;param-name&gt;
+      org.apache.myfaces.trinidad.ALTERNATE_VIEW_HANDLER
+   &lt;/param-name&gt;
+   &lt;param-value&gt;
+      org.jboss.seam.ui.facelet.SeamFaceletViewHandler
+   &lt;/param-value&gt;
+&lt;/context-param&gt; 
+    
+&lt;filter&gt;
+   &lt;filter-name&gt;Trinidad&lt;/filter-name&gt;
+   &lt;filter-class&gt;
+      org.apache.myfaces.trinidad.webapp.TrinidadFilter
+   &lt;/filter-class&gt;
+&lt;/filter&gt;
+    
+&lt;filter-mapping&gt;
+   &lt;filter-name&gt;Trinidad&lt;/filter-name&gt;
+   &lt;url-pattern&gt;*.seam&lt;/url-pattern&gt;
+&lt;/filter-mapping&gt;
+    
+&lt;servlet&gt;
+   &lt;servlet-name&gt;Trinidad Resources&lt;/servlet-name&gt;
+   &lt;servlet-class&gt;
+      org.apache.myfaces.trinidad.webapp.ResourceServlet
+   &lt;/servlet-class&gt;
+&lt;/servlet&gt;
+    
+&lt;servlet-mapping&gt;
+    &lt;servlet-name&gt;Trinidad Resources&lt;/servlet-name&gt;
+    &lt;url-pattern&gt;/adf/*&lt;/url-pattern&gt;
+&lt;/servlet-mapping&gt;
+</code></pre>
+    </rich:modalPanel>
+    
+    <rich:modalPanel id="facesconfigxml" width="450" height="300" left="50">
+    	<f:facet name="header">
+			<code>faces-config.xml</code>
+		</f:facet>
+		<f:facet name="controls">
+	        <a href="javascript:Richfaces.hideModalPanel('facesconfigxml')">X</a>
+	    </f:facet>
+    <pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 420px; height: 220px;"><code>&lt;application&gt;    
+   &lt;!-- Disabled when using Ajax4JSF or Trinidad --&gt;
+   &lt;!--
+   &lt;view-handler&gt;
+      org.jboss.seam.ui.facelet.SeamFaceletViewHandler
+   &lt;/view-handler&gt;
+   --&gt;
+   &lt;!-- Enable Trinidad renderkit --&gt;
+   &lt;default-render-kit-id&gt;
+      org.apache.myfaces.trinidad.core
+   &lt;/default-render-kit-id&gt;
+&lt;/application&gt;
+    </code>
+    </pre>
+    </rich:modalPanel>
+    
+    <rich:modalPanel id="applicationxml" width="450" height="200" left="50">
+    	<f:facet name="header">
+			<code>application.xml</code>
+		</f:facet>
+		<f:facet name="controls">
+	        <a href="javascript:Richfaces.hideModalPanel('applicationxml')">X</a>
+	    </f:facet>
+    <pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 420px;"><code>&lt;module&gt;
+   &lt;java&gt;trinidad-api-1.0.0-incubating.jar&lt;/java&gt;
+&lt;/module&gt;</code></pre>
+    </rich:modalPanel>
+    
+    <rich:modalPanel id="ajax" width="450" height="150">
+		<f:facet name="header">
+			Ajax4jsf and Trinidad: Different partial page models
+		</f:facet>
+		<f:facet name="controls">
+	        <a href="javascript:Richfaces.hideModalPanel('ajax')">X</a>
+	    </f:facet>
+    	<p>Trinidad and Ajax4jsf both provide partial page refresh and submit.  For Trinidad PPR to work, it needs to be surrounded by a component
+    	which enables PPR.  As the example doesn't use Trinidad to render the whole page (just sections), the <code>&lt;tr:panelPartialRoot /&gt;</code>
+    	surrounds any Trinidad components which we want PPR to work on.</p>
+    </rich:modalPanel>
+    <rich:modalPanel id="inplace" width="450" height="200">
+		<f:facet name="header">
+			Inplace editing
+		</f:facet>
+		<f:facet name="controls">
+	        <a href="javascript:Richfaces.hideModalPanel('inplace')">X</a>
+	    </f:facet>
+    	<p>The example also shows how you can use Trinidad components to achieve "in-place" editing - the same views are used to display and edit
+    	informtation.  A casual visitor to the site navigates around, and see's the components in <code>readOnly</code> mode;  once logged in,
+    	these components are editable, and button's are rendered to submit information.</p>
+    	
+    	<p>You could easily achieve the same using Seam's <code>&lt;s:decorate /&gt;</code> tag - and better yet, you get complete control over styling and placement
+    	of labels, help text and error messages!</p>
+    </rich:modalPanel>
+    <rich:modalPanel id="framework" width="450" height="150">
+		<f:facet name="header">
+			Seam Application Framework
+		</f:facet>
+		<f:facet name="controls">
+	        <a href="javascript:Richfaces.hideModalPanel('framework')">X</a>
+	    </f:facet>
+    	<p>The example uses the Seam Application Framework; page parameters, <code>EntityHome</code> and <code>EntityQuery</code> are used for all CRUD
+    	operations.  Where possible these are defined in XML, using extension only where extra functionality is needed (for example auto-suggest).</p>
+    </rich:modalPanel>
+    <rich:modalPanel id="skinning" width="450" height="150">
+		<f:facet name="header">
+			Look and Feel
+		</f:facet>
+		<f:facet name="controls">
+	        <a href="javascript:Richfaces.hideModalPanel('skinning')">X</a>
+	    </f:facet>
+    	<p>You'll notice that Trinidad and RichFaces components don't exactly provide
+    	 a consistent look-and-feel - there are plans afoot to improve this out of the box.</p>
+    	<p>However both Trinidad and RichFaces have powerful and mature skinning/theming APIs
+    	 - so you all you need to do is write some CSS!</p>
+    </rich:modalPanel>
+        <rich:modalPanel id="datamodel" width="450" height="450">
+		<f:facet name="header">
+			Enhanced <code>DataModel</code>
+		</f:facet>
+		<f:facet name="controls">
+	        <a href="javascript:Richfaces.hideModalPanel('datamodel')">X</a>
+	    </f:facet>
+    	<p>JSF component sets like Trinidad, Tomahawk and IceFaces give you an enhanced 
+    	<code>h:dataTable</code> which has built-in sorting, paging and other goodies. 
+    	However, there is one big flaw - the entire data set is loaded and sorted/paged 
+    	in memory, when really you want to get your persistence layer (be it an ORM or 
+    	just a database) to do this for - a sort translates naturally to an <code>ORDER BY</code>,
+    	and paging translates naturally to a <code>LIMIT</code> clauses.</p>
+
+		<p>Seam on the other hand provides tight integration to your persistence layer, 
+		and supports paging and sorting of queries through the <code>Query</code> 
+		object in the Seam Application Framework - but you have to write a load more JSF 
+		to get it integrated.  We can get the best of both worlds by using the enhanced 
+		<code>DataModel</code> in Trinidad, which supports paging and sorting backed by 
+		a <code>Query</code>.</p>
+
+		<p>The <code>jboss-seam-trinidad.jar</code> (built using the build file in the 
+		<code>trinidad</code> directory in Seam CVS) provides a <code>DataModel</code> 
+		which, when backed by a <code>Query</code>, provides lazy loading of data for 
+		paging, sorting in the persistence context and strong row keys.  You can use 
+		it by adding the <code>jboss-seam-trinidad.jar</code> to your <code>WEB-INF/lib</code> 
+		- no need to alter your facelet.  One caveat is that you must ensure the rows property 
+		on the <code>Query</code> is the same as the <code>maxResults</code> property on 
+		the <code>Query</code>.  Take a look at the seamdiscs example in the 
+		<code>trinidad/examples</code> directory to see it in action.</p>
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto;  width: 420px;"><code>&lt;tr:table value=&quot;#<span>{discs.dataModel}</span>&quot; rows=&quot;#<span>{discs.maxResults}</span>&quot;&gt;
+  &lt;tr:column&gt;
+     ...
+  &lt;/tr:column
+&lt;/tr:table&gt;
+</code></pre>
+    </rich:modalPanel>
+
+	<rich:toolBar itemSeparator="square">
+		<rich:toolBarGroup>
+			Powered by <a href="http://jboss.com/products/seam">Seam</a>
+		</rich:toolBarGroup>
+		<rich:toolBarGroup itemSeparator="square">
+			<s:fragment>
+				<a href="javascript:Richfaces.showModalPanel('creating')">Creating SeamDiscs</a>
+			</s:fragment>
+			<s:fragment>
+				<a href="javascript:Richfaces.showModalPanel('ajax')">Ajax4jsf and Trinidad</a>
+			</s:fragment>
+			<s:fragment>
+				<a href="javascript:Richfaces.showModalPanel('inplace')">Inplace Editing</a>
+			</s:fragment>
+			<s:fragment>
+				<a href="javascript:Richfaces.showModalPanel('framework')">Seam Application Framework</a>
+			</s:fragment>
+			<s:fragment>
+				<a href="javascript:Richfaces.showModalPanel('skinning')">Look and Feel</a>
+			</s:fragment>
+			<s:fragment>
+				<a href="javascript:Richfaces.showModalPanel('datamodel')">Enhanced DataModel</a>
+			</s:fragment>
+		</rich:toolBarGroup>
+		<rich:toolBarGroup location="right">
+			Generated by seam-gen.
+		</rich:toolBarGroup>
+	</rich:toolBar>
+</ui:composition>

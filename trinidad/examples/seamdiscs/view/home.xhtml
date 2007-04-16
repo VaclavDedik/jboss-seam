@@ -24,45 +24,14 @@
     		<h:outputText value="JBoss RichFaces" />
     		<h:outputText value="JBoss Ajax4jsf" />
     		<h:outputText value="EJB3/JPA" />
+    		<h:outputText value="Facelets" />
     	</tr:panelList>
     	
-    	<p>It also uses "in place" editing - you use the same screens 
-    	to view and edit (if you are logged in) information.</p>
+    	<p>Use the links at the bottom of the screen to learn more about
+    	the techniques used in creating this application.</p>
     	
     	<p>You can log in as <code>administrator</code>/<code>administrator</code>.</p>
     </rich:panel>
-    <rich:modalPanel>
-    	<p>This example was built using seam-gen.  To add in Trinidad, the trinidad-api jar was added to 
-    	the ear (and referenced from application.xml) and the trinidad-impl jar, <code>jboss-seam-trinidad.jar</code> (Seam-Trinidad
-    	integration) &amp; <code>a4j-trinidad.jar</code> (Ajax4jsf-Trinidad integration) were added to <code>WEB-INF/lib</code>.</p>
-    	
-    	<p><code>jboss-seam-trinidad.jar</code> provides an improved DataModel for Trinidad components such as <code>&lt;tr:table /&gt;</code>, 
-    	<code>&lt;tr:treeTable /&gt;</code> and <code>&lt;tr:tree /&gt;</code> that, when backed by a Seam Application Framework EntityQuery,
-    	uses the database to sort and page.</p>
-    	
-    	<p>Of course Trinidad and RichFaces offer some complementary components (e.g. tables, trees) - it's up to you which you choose!</p>
-    </rich:modalPanel>
-    <rich:modalPanel>
-    	<p>Trinidad and Ajax4jsf both provide partial page refresh and submit.  For Trinidad PPR to work, it needs to be surrounded by a component
-    	which enables PPR.  As the example doesn't use Trinidad to render the whole page (just sections), the <code>&lt;tr:panelPartialRoot /&gt;</code>
-    	surrounds any Trinidad components which we want PPR to work on.</p>
-    </rich:modalPanel>
-    <rich:modalPanel>
-    	<p>The example also shows how you can use Trinidad components to achieve "in-place" editing - the same views are used to display and edit
-    	informtation.  A casual visitor to the site navigates around, and see's the components in <code>readOnly</code> mode;  once logged in,
-    	these components are editable, and button's are rendered to submit information.</p>
-    	
-    	<p>You could easily achieve the same using Seam's <code>&lt;s:decorate /&gt;</code> tag - and better yet, you get complete control over styling and placement
-    	of labels, help text and error messages!</p>
-    </rich:modalPanel>
-    <rich:modalPanel>
-    	<p>The example uses the Seam Application Framework; page parameters, <code>EntityHome</code> and <code>EntityQuery</code> are used for all CRUD
-    	operations.  Where possible these are defined in XML, using extension only where extra functionality is needed (for example auto-suggest).</p>
-    </rich:modalPanel>
-    <rich:modalPanel>
-    	<p>You'll notice that Trinidad and RichFaces components don't exactly provide a consistent look-and-feel - there are plans afoot to improve this out of the box.</p>
-    	<p>However both Trinidad and RichFaces have powerful and mature skinning/theming APIs - so you all you need to do is write some CSS!</p>
-    </rich:modalPanel>
     <rich:panel>
 	    <f:facet name="header">All Discs</f:facet>	
 	    <tr:panelPartialRoot>
