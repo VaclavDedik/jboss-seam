@@ -33,9 +33,10 @@ import com.sun.facelets.compiler.Compiler;
  *
  * @author Stan Silvert
  */
-public class SeamFaceletViewHandler extends FaceletViewHandler 
+public class SeamFaceletViewHandler 
+    extends FaceletViewHandler 
 {
-    private static final String SEAM_EXPRESSION_FACTORY = "org.jboss.seam.ui.facelet.SeamExpressionFactory";
+    private static final String SEAM_EXPRESSION_FACTORY = "org.jboss.el.ExpressionFactoryImpl";
     
     public SeamFaceletViewHandler(ViewHandler parent)
     {
