@@ -28,6 +28,7 @@ public class Authenticator
             .getSingleResult();
          
          Contexts.getSessionContext().set("authenticatedUser", user);
+         Contexts.getSessionContext().set("authenticatedAccount", user.getAccount());
          
          return true;
       }

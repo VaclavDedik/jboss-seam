@@ -1,9 +1,9 @@
 package org.jboss.seam.example.seambay;
 
 import static org.jboss.seam.ScopeType.CONVERSATION;
+
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.persistence.EntityManager;
@@ -24,7 +24,7 @@ public class AuctionAction implements Serializable
    
    @In EntityManager entityManager;
    
-   @In User authenticatedUser;
+   @In Account authenticatedAccount;
 
    private Auction auction;
    
@@ -34,14 +34,8 @@ public class AuctionAction implements Serializable
    public void createAuction()
    {
       auction = new Auction();
-      auction.setUser(authenticatedUser);
-      
-      //auction.setStatus(Auction.STATUS_UNLISTED);
-      
-      // temporary
-      auction.setStatus(Auction.STATUS_LIVE);
-      auction.setEndDate(new Date(System.currentTimeMillis() + (1000 * 60 * 60 * 24 * 7)));
-      
+      auction.setAccount(authenticatedAccount);
+      auction.setStatus(Auction.STATUS_UNLISTED);           
       entityManager.persist(auction);     
    }   
       

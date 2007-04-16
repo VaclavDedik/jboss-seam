@@ -51,6 +51,18 @@ public class AuctionService implements AuctionServiceRemote
    }
    
    @WebMethod
+   public Auction getNewAuctionDetails(int auctionId)
+   {
+      AuctionAction action = (AuctionAction) Component.getInstance(AuctionAction.class, true);
+      
+      action.editAuction(auctionId);
+      
+      // TODO remove the auction image from the result
+      
+      return action.getAuction();
+   }
+   
+   @WebMethod
    public void updateAuction(int auctionId, String title, String description, int categoryId)
    {
       AuctionAction action = (AuctionAction) Component.getInstance(AuctionAction.class, true);
@@ -84,10 +96,7 @@ public class AuctionService implements AuctionServiceRemote
  
       search.setSearchTerm(searchTerm);
       search.queryAuctions();
-      
-      // TODO - trim the result somehow, or use DTOs.  We don't want to send user records
-      // (including their passwords!!) here, nor do we want to send a huge object graph.
-      
-      return search.getResults().toArray(new Auction[search.getResults().size()]);
+            
+      return search.getAuctions().toArray(new Auction[search.getAuctions().size()]);
    }   
 }

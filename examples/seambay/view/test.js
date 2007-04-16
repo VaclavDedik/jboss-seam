@@ -105,6 +105,18 @@ svc.setRequest("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soa
 svc.addParameter(new ServiceParam("Auction ID", "auctionId"));
 svc.addParameter(new ServiceParam("Duration in days", "duration"));
 
+svc = new ServiceMetadata("getNewAuctionDetails", "Create/Update Auction");
+svc.setDescription("Get the auction details");
+svc.setRequest("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" " +
+               "\n    xmlns:seam=\"http://seambay.example.seam.jboss.org/\">\n  <soapenv:Header/>" +
+               "\n  <soapenv:Body>" +
+               "\n    <seam:getNewAuctionDetails>" +
+               "\n      <arg0>#{auctionId}</arg0>" +
+               "\n    </seam:getNewAuctionDetails>" +
+               "\n </soapenv:Body>" +
+               "\n</soapenv:Envelope>");
+svc.addParameter(new ServiceParam("Auction ID", "auctionId"));               
+
 svc = new ServiceMetadata("confirmAuction", "Create/Update Auction");
 svc.setDescription("Confirm auction");
 svc.setRequest("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" " +

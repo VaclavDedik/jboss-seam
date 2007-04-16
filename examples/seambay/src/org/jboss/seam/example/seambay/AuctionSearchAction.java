@@ -16,6 +16,8 @@ import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.datamodel.DataModel;
+import org.jboss.seam.annotations.datamodel.DataModelSelection;
 
 @Name("auctionSearch")
 @Scope(ScopeType.SESSION)
@@ -32,7 +34,11 @@ public class AuctionSearchAction implements Serializable
    private String searchTerm;
    private Category searchCategory;
    
+   @DataModel
    private List<Auction> auctions;
+   
+   @DataModelSelection
+   private Auction selectedAuction;
    
    private Map<Category,Long> searchCategories = new HashMap<Category,Long>();
 
@@ -85,7 +91,6 @@ public class AuctionSearchAction implements Serializable
    }   
    
    @Factory
- 
    public String getSearchTerm()
    {
       return searchTerm;
@@ -116,11 +121,6 @@ public class AuctionSearchAction implements Serializable
       this.page = page;
    }
    
-   public List<Auction> getResults()
-   {
-      return auctions;
-   }
-   
    public List<Entry> getSearchCategories()
    {
       List<Entry> cats = new ArrayList<Entry>(searchCategories.entrySet());
@@ -143,6 +143,11 @@ public class AuctionSearchAction implements Serializable
    public Category getSearchCategory()
    {
       return searchCategory;
+   }
+   
+   public List<Auction> getAuctions()
+   {
+      return auctions;
    }
    
    public void setSearchCategory(Category category)

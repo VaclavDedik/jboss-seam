@@ -23,7 +23,7 @@ public class Auction implements Serializable
    private static final long serialVersionUID = -8349473227099432431L;
 
    private Integer auctionId;
-   private User user;
+   private Account account;
    private Category category;
    private String title;
    private String description;
@@ -46,15 +46,15 @@ public class Auction implements Serializable
    }
    
    @ManyToOne
-   @JoinColumn(name = "USER_ID")
-   public User getUser()
+   @JoinColumn(name = "ACCOUNT_ID")
+   public Account getAccount()
    {
-      return user;
+      return account;
    }
    
-   public void setUser(User user)
+   public void setAccount(Account account)
    {
-      this.user = user;
+      this.account = account;
    }
    
    @ManyToOne

@@ -5,6 +5,10 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+
+import org.hibernate.validator.NotNull;
 
 @Entity
 public class User implements Serializable
@@ -14,6 +18,7 @@ public class User implements Serializable
    private Integer userId;
    private String username;
    private String password;
+   private Account account;
    
    @Id @GeneratedValue
    public Integer getUserId()
@@ -44,5 +49,18 @@ public class User implements Serializable
    public void setPassword(String password)
    {
       this.password = password;
+   }
+   
+   @OneToOne
+   @NotNull
+   @JoinColumn(name = "ACCOUNT_ID")
+   public Account getAccount()
+   {
+      return account;
+   }
+   
+   public void setAccount(Account account)
+   {
+      this.account = account;
    }
 }
