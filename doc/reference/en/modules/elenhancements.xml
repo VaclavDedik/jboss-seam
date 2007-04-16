@@ -9,7 +9,7 @@
     for example:
   </para>
 
-  <programlisting><![CDATA[<s:commandButton action="#{hotelBooking.bookHotel(hotel)}" value="Book Hotel"/>]]></programlisting>
+  <programlisting><![CDATA[<h:commandButton action="#{hotelBooking.bookHotel(hotel)}" value="Book Hotel"/>]]></programlisting>
 
   <section>
     <title>Configuration</title>
