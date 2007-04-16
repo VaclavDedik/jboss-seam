@@ -25,7 +25,7 @@ import org.jboss.seam.util.EJB;
 @Scope(APPLICATION)
 @Name("org.jboss.seam.remoting.gwt.gwtToSeamAdapter")
 @Intercept(NEVER)
-@Install(value = false, precedence=BUILT_IN)
+@Install(precedence=BUILT_IN)
 public class GWTToSeamAdapter {
 
    /** A very simple cache of previously looked up methods */
