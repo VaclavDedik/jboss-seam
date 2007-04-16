@@ -41,7 +41,7 @@ import org.jboss.seam.util.Transactions;
  */
 @Startup
 @Scope(APPLICATION)
-@Name("org.jboss.seam.servlet.exceptionFilter")
+@Name("org.jboss.seam.web.exceptionFilter")
 @Install(precedence = BUILT_IN)
 @Intercept(NEVER)
 public class ExceptionFilter extends AbstractFilter

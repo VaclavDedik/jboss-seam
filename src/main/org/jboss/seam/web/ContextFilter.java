@@ -32,7 +32,7 @@ import org.jboss.seam.log.Logging;
  */
 @Startup
 @Scope(APPLICATION)
-@Name("org.jboss.seam.servlet.contextFilter")
+@Name("org.jboss.seam.web.contextFilter")
 @Install(value=false, precedence = BUILT_IN)
 @Intercept(NEVER)
 public class ContextFilter extends AbstractFilter 
