@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+
+<project name="SeamGWT" default="deploy" basedir="." xmlns:gwt="antlib:de.samaflost.gwttasks">
+
+  <!-- Example name -->
+  <property name="Name"                   value="Seam Remoting GWT Example"/>
+  <property name="example.name"           value="seam-gwt"/>
+
+  <!-- Overrides -->
+	<property name="example.webinf.lib.dir"    value="."/>
+	<property name="example.seam.remoting.lib" value="yes"/>
+	<property name="example.gwt.lib"           value="yes"/>
+	<property name="example.facelets.lib"      value="yes"/>	
+  <property name="src.java.dir"              value="src"/>
+  <property name="src.test.dir"              value="src"/>
+  <property name="test.classpath"            value="test.eejb.classpath"/>
+  <property name="tomcat.conf"               value="eejb.conf"/>
+
+  <import file="../../../build.xml"/>
+
+	<taskdef uri="antlib:de.samaflost.gwttasks"
+	              resource="de/samaflost/gwttasks/antlib.xml"
+	              classpath="./lib/gwttasks.jar"/>
+	  
+	<property file="build.properties"/>
+
+	<!-- the following are are handy utilities for doing GWT development.
+    	To use GWT, you will of course need to download GWT seperately -->
+	<target name="gwt-compile">
+		<gwt:compile outDir="view" 
+			gwtHome="${gwt.home}" 
+			classBase="org.jboss.seam.example.remoting.gwt.HelloWorld" 
+			sourceclasspath="src"/>
+	</target>
+
+	<target name="gwt-shell">
+		<gwt:shell sourceclasspath="src" 
+			bindir="target/classes" 
+			outDir="view" 
+			gwtHome="${gwt.home}" 
+			startPage="org.jboss.seam.examples.remoting.gwt/HelloWorld.html"/>
+	</target>	
+	
+</project>
+
