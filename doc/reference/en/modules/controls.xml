@@ -177,8 +177,7 @@
 
             <para>
               The converter works with any entity which has an <literal>@Id</literal> annotation -
-              either simple or composite.  If your <emphasis>Managed Persistence Context</emphasis> isn't called
-              <literal>entityManager</literal>, then you need to set it in components.xml:
+              either simple or composite.
             </para>
 
             <para><emphasis>Attributes</emphasis></para>
@@ -188,7 +187,15 @@
             </para>
 
             <para><emphasis>Configuration</emphasis></para>
-
+            
+            <para>
+              You must use <emphasis>Seam managed transactions</emphasis> (see <xref linkend="persistence.seam-managed-transactions" />) with <literal>&lt;s:convertEntity /&gt;</literal>.
+            </para>
+            
+            <para>
+              If your <emphasis>Managed Persistence Context</emphasis> isn't called
+              <literal>entityManager</literal>, then you need to set it in components.xml:
+            </para>
             <programlisting><![CDATA[
   <component name="org.jboss.seam.ui.entityConverter">
       <property name="entityManager">#{em}</property>

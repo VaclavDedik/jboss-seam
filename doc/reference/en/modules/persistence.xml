@@ -76,7 +76,7 @@
     
     </section>
     
-    <section>
+    <section id="persistence.seam-managed-transactions">
         <title>Seam managed transactions</title>
         <para>
             EJB session beans feature declarative transaction management. The EJB container is able
