@@ -98,13 +98,14 @@
 
     <tag>
         <tag-name>formattedText</tag-name>
-        <handler-class>org.jboss.seam.wiki.core.ui.WikiFormattedTextHandler</handler-class>
+		<handler-class>org.jboss.seam.wiki.core.ui.WikiFormattedTextHandler</handler-class> 
     </tag>
     
     <tag>
     	<tag-name>plugin</tag-name>
     	<component>
     		<component-type>org.jboss.seam.wiki.core.ui.UIPlugin</component-type>
+    		<handler-class>org.jboss.seam.wiki.core.ui.PluginComponentHandler</handler-class> 
     	</component>
     </tag>
 
