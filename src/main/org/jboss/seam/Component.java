@@ -1273,11 +1273,7 @@ public class Component extends Model
       Object dataModel = getOutScope(scope, this).getContext().get(name);
       if ( dataModel!=null )
       {
-      
-         if (null!=null)
-         {
-            setFieldValue( bean, null, name, wrapper.getWrappedData(dataModelAnn, dataModel) ); //for PAGE scope datamodels (does not work for properties!)
-         }
+         dataModelGetter.set(bean, wrapper.getWrappedData(dataModelAnn, dataModel));
       
          Object selectedIndex = wrapper.getSelection(dataModelAnn, dataModel);
       
