@@ -90,7 +90,6 @@ public class AuctionSearchAction implements Serializable
             "%" : '%' + searchTerm.toLowerCase().replace('*', '%') + '%';
    }   
    
-   @Factory
    public String getSearchTerm()
    {
       return searchTerm;

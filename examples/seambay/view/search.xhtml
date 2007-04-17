@@ -38,9 +38,13 @@
           Matching Categories
         </div>
         
-        <ui:repeat value="#{auctionSearch.searchCategories}" var="cat">
-          <div><s:link action="#{auctionSearch.selectCategory(cat)}" value="#{cat.key.name}"/> (#{cat.value})</div>
-        </ui:repeat>
+        <h:form>
+          <h:dataTable id="categories" value="#{auctionSearch.searchCategories}" var="entry">
+            <h:column>
+              <h:commandLink action="#{auctionSearch.selectCategory(entry.key)}" value="#{entry.key.name}"/> (#{entry.value})
+            </h:column>
+          </h:dataTable>
+        </h:form>
       </div>
 
       <div id="searchResults">

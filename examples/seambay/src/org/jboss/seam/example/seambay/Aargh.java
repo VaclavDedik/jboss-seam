@@ -50,7 +50,7 @@ public class Aargh
          
          Calendar cal = new GregorianCalendar();
          
-         Random r = new Random();
+         Random r = new Random(System.currentTimeMillis());
          
          for (Auction auction : auctions)
          {
