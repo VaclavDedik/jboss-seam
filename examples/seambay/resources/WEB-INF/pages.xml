@@ -20,6 +20,11 @@
         </navigation>
     </page>
     
+    <page view-id="/auction.xhtml">
+      <param name="id" value="#{auctionDetail.selectedAuctionId}"/>
+
+    </page>
+    
     <page view-id="*">
         <navigation from-action="#{auctionSearch.queryAllAuctions}">
             <redirect view-id="/search.xhtml"/>
