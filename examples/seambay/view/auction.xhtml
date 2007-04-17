@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html">
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>seamBay - Search Results</title>
+    <link href="style/common.css" rel="stylesheet" type="text/css"/>
+    <link href="style/auction.css" rel="stylesheet" type="text/css"/>
+  </head>
+
+  <body>
+    <div class="container">
+      <ui:include src="header.xhtml"/>  
+      
+      <div class="banner"></div>
+      
+      <h:messages globalOnly="true"/>
+      
+      <div id="itemHeader">
+        <div class="headerTitle">
+          #{auction.title}
+        </div>
+                
+        <div class="headerStatus">
+        
+        </div>
+      </div>
+      
+      <div id="itemSummary">
+        <div class="itemImage">
+    	    <s:graphicImage rendered="#{auction.image ne null}" value="#{auction.image.data}">
+            <s:transformImageSize width="200" maintainRatio="true"/>
+    	    </s:graphicImage>        
+        </div>
+      
+        <div class="itemDetails">
+          <label>Current bid:</label>
+    			$<h:outputText value="#{auction.price}">
+    			  <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+    			</h:outputText>          
+        </div>
+      </div>
+      
+      <div id="sellerDetail">
+      
+      
+      </div>
+      
+      <div class="descriptionHeader">
+        Description
+      </div>
+
+      #{auction.description}
+        
+    </div>
+  </body>
+</html>

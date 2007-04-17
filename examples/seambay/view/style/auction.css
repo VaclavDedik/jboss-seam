@@ -1,0 +1,64 @@
+#itemHeader {
+  padding: 0px;
+  margin: 20px 8px 4px 8px;
+}
+
+div.headerTitle {
+  font-family: tahoma, verdana, arial, helvetica;
+  background-color: #ccccff;
+  border-bottom: 4px solid #5566ee;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 4px 8px 8px 8px;
+}
+
+div.headerItemNumber {
+  float: right;
+}
+
+div.headerStatus {
+  height: 20px;
+  background-color: #eeeeff;
+  border: 1px solid #ccccff;
+}
+
+#itemSummary {
+  float: left;
+  border: 1px solid #ccccff;
+  background-color: #eeeeff;
+  margin-top: 8px;
+  margin-left: 8px;
+  margin-bottom: 12px;
+  width: 62%;
+}
+
+div.itemImage {
+  float: left;
+  background-color: #ffffff;
+  padding: 12px 4px 16px 4px;
+  margin: 4px 4px 8px 4px;
+  border: 1px solid #cccccc;
+}
+
+div.itemDetails {
+  margin-left: 220px;
+  padding: 8px 8px 8px 16px;
+}
+
+div.itemDetails label {
+  font-size: 13px;
+  font-family: arial, helvetica, sans-serif;
+  color: #555555;
+}
+
+div.descriptionHeader {
+  clear: both;
+  background-color: #eeeeff;
+  font-family: tahoma, verdana, arial, helvetica;
+  font-size: 18px;
+  font-weight: bold;
+  border-top: 1px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
+  padding: 4px 8px 4px 8px;
+  margin: 8px 8px 8px 8px;
+}

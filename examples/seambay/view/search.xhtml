@@ -62,7 +62,9 @@
       	  </h:column>
       		<h:column>
       			<f:facet name="header">Item</f:facet>
-      			<s:link value="#{auction.title}"/>
+      			<s:link view="/auction.xhtml" value="#{auction.title}">
+      			  <f:param name="auctionId" value="#{auction.auctionId}"/>
+      			</s:link>
       		</h:column>
       		<h:column>
       			<f:facet name="header">Bids</f:facet>
