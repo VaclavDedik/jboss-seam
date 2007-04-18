@@ -6,7 +6,8 @@
         xmlns:f="http://java.sun.com/jsf/core"
         xmlns:wiki="http://jboss.com/products/seam/wiki"
         xmlns:s="http://jboss.com/products/seam/taglib">
-<s:div styleClass="#{showPluginPreferences and !empty commentsPreferencesEditor ? 'pluginPreferencesBox' : null}">
+
+<s:div id="comments" styleClass="#{showPluginPreferences and !empty commentsPreferencesEditor ? 'pluginPreferencesBox' : null}">
 
 <s:div id="commentsPreferences"
        rendered="#{showPluginPreferences and !empty commentsPreferencesEditor}">
@@ -134,8 +135,8 @@
                 <div class="label">&#160;</div>
                 <div class="input">
 
-                    <h:commandLink action="#{commentHome.persist}" tabindex="102"
-                                   styleClass="button"><span class="buttonLabel">Post</span></h:commandLink>
+                    <a:commandLink action="#{commentHome.persist}" tabindex="102" reRender="comments"
+                                   styleClass="button"><span class="buttonLabel">Post</span></a:commandLink>
 
                 </div>
             </div>
