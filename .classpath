@@ -38,5 +38,6 @@
 	<classpathentry kind="lib" path="lib/jboss-el.jar"/>
 	<classpathentry kind="lib" path="lib/jsf-api.jar"/>
 	<classpathentry kind="lib" path="lib/jsp-api.jar"/>
+	<classpathentry kind="lib" path="lib/gwt-servlet.jar"/>
 	<classpathentry kind="output" path="output/classes"/>
 </classpath>
