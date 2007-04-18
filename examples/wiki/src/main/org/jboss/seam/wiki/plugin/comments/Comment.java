@@ -30,10 +30,6 @@ public class Comment implements Serializable {
     @Length(min = 3, max = 255)
     private String subject;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "FROM_USER_ID", nullable = true)
-    private User fromUser;
-
     @Column(name = "FROM_USER_NAME", nullable = false)
     @Length(min = 3, max = 100)
     private String fromUserName;
@@ -81,12 +77,10 @@ public class Comment implements Serializable {
     }
 
     public String getFromUserName() {
-        System.out.println("########## GET COMMENT FROM: " +fromUserName);
         return fromUserName;
     }
 
     public void setFromUserName(String fromUserName) {
-        System.out.println("########## SET COMMENT FROM: " +fromUserName);
         this.fromUserName = fromUserName;
     }
 
@@ -104,14 +98,6 @@ public class Comment implements Serializable {
 
     public void setFromUserHomepage(String fromUserHomepage) {
         this.fromUserHomepage = fromUserHomepage;
-    }
-
-    public User getFromUser() {
-        return fromUser;
-    }
-
-    public void setFromUser(User fromUser) {
-        this.fromUser = fromUser;
     }
 
     public String getText() {

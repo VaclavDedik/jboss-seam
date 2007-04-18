@@ -39,6 +39,7 @@
         </core:parameters>
     </core:filter>
 
+    <!-- TODO: Required for testing but doesn't work with injection: persistence-unit-jndi-name="java:/EntityManagerFactories/wiki" -->
     <core:managed-persistence-context name="restrictedEntityManager"
                                       auto-create="true"
                                       entity-manager-factory="#{wikiEntityManagerFactory}">
@@ -50,7 +51,7 @@
                                       entity-manager-factory="#{wikiEntityManagerFactory}">
     </core:managed-persistence-context>
 
-    <core:entity-manager-factory name="wikiEntityManagerFactory" persistence-unit-name="wiki"/>
+    <core:entity-manager-factory installed="@seamPersistenceUnit@" name="wikiEntityManagerFactory" persistence-unit-name="wiki"/>
 
     <core:ejb installed="@embeddedEjb@"/>
 

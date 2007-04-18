@@ -12,14 +12,14 @@ public class DocumentDisplay extends SeamTest {
         new NonFacesRequest("/docDisplay.xhtml") {
 
             protected void beforeRequest() {
-                setParameter("nodeId", "5");
+                setParameter("nodeId", "10");
             }
 
             protected void renderResponse() throws Exception {
 
                 Document doc = (Document)getValue("#{currentDocument}");
                 assert doc != null;
-                assert doc.getId().equals(5l);
+                assert doc.getId().equals(10l);
 
             }
         }.run();

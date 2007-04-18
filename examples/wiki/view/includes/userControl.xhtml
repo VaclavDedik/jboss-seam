@@ -33,8 +33,14 @@
 
     <s:div rendered="#{identity.loggedIn}">
 
+        <s:span rendered="false">
+            <!-- TODO: http://jira.jboss.com/jira/browse/JBSEAM-1205
+                setTimeout( 'javascript:Richfaces.showModalPanel(\'timeoutNotice\', {width:280, height:120})', '#{wiki:getSessionTimeoutSeconds() * 1000}' );
+            -->
+        </s:span>
+
         <script type="text/javascript">
-            setTimeout( 'javascript:Richfaces.showModalPanel(\'timeoutNotice\', {width:280, height:120})', '#{wiki:getSessionTimeoutSeconds() * 1000}' );
+            setTimeout( 'javascript:Richfaces.showModalPanel(\'timeoutNotice\', {width:280, height:120})', '55555555555555' );
         </script>
 
         <ui:decorate template="confirmationModalDialog.xhtml">

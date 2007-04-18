@@ -8,7 +8,6 @@ import org.jboss.seam.wiki.core.model.Document;
 import org.jboss.seam.wiki.core.model.User;
 import org.jboss.seam.wiki.core.model.Directory;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
-import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
 import org.jboss.seam.wiki.util.WikiUtil;
 
 import javax.persistence.EntityManager;
@@ -39,29 +38,28 @@ public class CommentHome implements Serializable {
     @In
     User guestUser;
 
+    @In("#{commentsPreferences.properties['listAscending']}")
+    boolean listCommentsAscending;
+
     private Comment comment;
     private List<Comment> comments;
 
-    private String formContent;
-    private boolean enabledPreview = false;
-
     @Create
     public void initialize() {
-        System.out.println("########################### CREATE COMMENT HOME ##################################");
-
         refreshComments();
     }
 
-    //@Observer("Preferences.blogDirectoryPreferences")
+    @Observer("Preferences.commentsPreferences")
     @Transactional
     public void refreshComments() {
-        System.out.println("########################### REFRESH COMMENTS ##################################");
         entityManager.joinTransaction();
 
         comments = new ArrayList<Comment>();
+        
         //noinspection unchecked
         comments = entityManager
-                .createQuery("select c from Comment c where c.document is :doc order by c.createdOn asc")
+                .createQuery("select c from Comment c where c.document is :doc" +
+                             " order by c.createdOn " + (listCommentsAscending ? "asc" : "desc") )
                 .setParameter("doc", currentDocument)
                 .getResultList();
 
@@ -74,19 +72,16 @@ public class CommentHome implements Serializable {
                     ? ((WikiPreferences)Component.getInstance("wikiPreferences")).getBaseUrl()+WikiUtil.renderHomeURL(currentUser)
                     : null);
         }
-        formContent = null;
+
+        // Default to title of document as subject
+        comment.setSubject(currentDocument.getName());
     }
 
     @Transactional
     public void persist() {
-        System.out.println("###################################### PERSIST #####################################");
-
-        syncFormToInstance(currentDirectory);
 
         entityManager.joinTransaction();
         comment.setDocument(entityManager.merge(currentDocument));
-        if (!currentUser.getId().equals(guestUser.getId()))
-            comment.setFromUser(entityManager.merge(currentUser));
 
         // Null out the property so that the @Email validator doesn't fall over it...
         // I hate JSF and it's "let's set an empty string" behavior
@@ -134,39 +129,6 @@ public class CommentHome implements Serializable {
 
     public List<Comment> getComments() {
         return comments;
-    }
-
-    /* Wiki text editing */
-
-    public String getFormContent() {
-        // Load the text content and resolve links
-        if (formContent == null) syncInstanceToForm(currentDirectory);
-        return formContent;
-    }
-
-    public void setFormContent(String formContent) {
-        this.formContent = formContent;
-    }
-
-    private void syncFormToInstance(Directory dir) {
-        WikiLinkResolver wikiLinkResolver = (WikiLinkResolver)Component.getInstance("wikiLinkResolver");
-        comment.setText(
-            wikiLinkResolver.convertToWikiProtocol(dir.getAreaNumber(), formContent)
-        );
-    }
-
-    private void syncInstanceToForm(Directory dir) {
-        WikiLinkResolver wikiLinkResolver = (WikiLinkResolver)Component.getInstance("wikiLinkResolver");
-        formContent = wikiLinkResolver.convertFromWikiProtocol(dir.getAreaNumber(), comment.getText());
-    }
-
-    public boolean isEnabledPreview() {
-        return enabledPreview;
-    }
-
-    public void setEnabledPreview(boolean enabledPreview) {
-        this.enabledPreview = enabledPreview;
-        syncFormToInstance(currentDirectory);
     }
 
 }

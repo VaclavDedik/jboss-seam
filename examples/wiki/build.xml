@@ -76,7 +76,6 @@
         <fileset refid="jcaptchalibs"/>
         <path path="${classes.dir}"/>
         <path path="${testclasses.dir}"/>
-        <path path="${embedded-ejb3.dir}"/>
     </path>
 
     <path id="tools.classpath">
@@ -208,6 +207,7 @@
             <!-- Override components.xml setting -->
             <filterset>
                 <filter token="jndiPattern" value="${project.name}/#{ejbName}/local"/>
+                <filter token="seamPersistenceUnit" value="true"/>
                 <filter token="embeddedEjb" value="false"/>
             </filterset>
         </copy>
@@ -351,6 +351,7 @@
         </javac>
 
         <!-- Copy resources (mapping files, properties, etc.) to classes -->
+        <!-- components.properties overrides settings in components.xml -->
         <copy todir="${testclasses.dir}">
             <fileset dir="${src.test.dir}">
                 <patternset refid="meta.files"/>
@@ -375,16 +376,18 @@
                 <exclude name="import*.sql"/>
                 <exclude name="${project.name}-*-ds.xml"/>
             </fileset>
-            <!-- components.properties overrides settings in components.xml -->
         </copy>
+
+        <!-- Override persistence.xml settings -->
         <copy tofile="${testclasses.dir}/META-INF/persistence.xml"
                 file="${src.etc.dir}/META-INF/persistence-test-war.xml"
            overwrite="true">
-            <!-- Override persistence.xml settings -->
             <filterset>
                 <filter token="entityClassesDir" value="file:${basedir}/${classes.dir}"/>
             </filterset>
         </copy>
+
+        <!-- Test data import -->
         <copy tofile="${testclasses.dir}/import.sql"
                 file="${src.etc.dir}/import-test.sql"
            overwrite="true"/>
@@ -404,5 +407,24 @@
         </testng>
 
     </target>
+
+
+    <property name="database.dir"        value="database"/>
+    <target name="startdb" description="Run HSQL database server with clean content">
+        <!-- Delete database files -->
+        <delete>
+            <fileset dir="${database.dir}">
+                <include name="db*"/>
+            </fileset>
+        </delete>
+        <java classname="org.hsqldb.Server"
+              fork="yes"
+              classpath="${database.dir}/hsqldb.jar"
+              failonerror="true">
+            <arg value="-database.0"/>
+            <arg value="file:${database.dir}/db"/>
+        </java>
+    </target>
+
 
 </project>

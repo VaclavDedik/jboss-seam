@@ -200,7 +200,7 @@
                        onselected="Richfaces.hideModalPanel('directorySelection')"
                        nodeSelectListener="#{fileHome.parentDirectorySelected}"
                        reRender="selectedDirectory">
-                <rich:treeNode>
+                <rich:treeNode type="simpleNode">
                     <h:outputText value="#{d.id} - #{d.name}"/>
                 </rich:treeNode>
             </rich:tree>
