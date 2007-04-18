@@ -1,6 +1,11 @@
 package org.jboss.seam.example.seamdiscs.action;
 
+import java.util.List;
+
+import org.apache.myfaces.trinidad.model.ChildPropertyTreeModel;
+import org.apache.myfaces.trinidad.model.TreeModel;
 import org.jboss.seam.annotations.Factory;
+import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.example.seamdiscs.model.Artist;
 import org.jboss.seam.example.seamdiscs.model.Band;
@@ -11,6 +16,9 @@ import org.jboss.seam.framework.EntityHome;
 @Name("artistHome")
 public class ArtistHome extends EntityHome<Artist>
 {
+   
+   @In(create=true, value="#{artists.resultList}")
+   private List<Artist> artists;
 
    @Factory
    public Artist getArtist()
@@ -52,5 +60,24 @@ public class ArtistHome extends EntityHome<Artist>
    public void addDisc()
    {
       getInstance().getDiscs().add(new Disc(getInstance()));
+   }
+   
+   public TreeModel getTree()
+   {
+      return new ChildPropertyTreeModel(artists, "discs")
+      {
+         @Override
+         protected Object getChildData(Object parentData)
+         {
+            if (parentData instanceof Artist)
+            {
+               return super.getChildData(parentData);
+            }
+            else
+            {
+               return null;
+            }
+         }
+      };
    }
 }

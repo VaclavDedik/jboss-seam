@@ -20,7 +20,7 @@ public class Disc
    @Length(max=2, message="#{messages.descriptionError}")
    private String name;
    
-   private Date release;
+   private Integer release;
    
    @ManyToOne(cascade={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
    private Artist artist;
@@ -66,16 +66,6 @@ public class Disc
    {
       this.name = name;
    }
-
-   public Date getRelease()
-   {
-      return release;
-   }
-
-   public void setRelease(Date release)
-   {
-      this.release = release;
-   }
    
    public String getDescription()
    {
@@ -85,6 +75,16 @@ public class Disc
    public void setDescription(String description)
    {
       this.description = description;
+   }
+   
+   public Integer getRelease()
+   {
+      return release;
+   }
+   
+   public void setRelease(Integer release)
+   {
+      this.release = release;
    }
    
 }

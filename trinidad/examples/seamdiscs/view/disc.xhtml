@@ -11,24 +11,20 @@
                 template="layout/template.xhtml">
 
 <ui:define name="body">
-
-    <h:messages globalOnly="true" styleClass="message"/>
     
     <rich:panel>
     	<f:facet name="header">
-    		<s:fragment>
+    		<s:fragment rendered="#{disc.name ne null}">
 		    	<i><tr:outputText value="#{disc.name}" /></i>
 		    	<tr:outputText value=" by #{disc.artist.name}" />
 		    </s:fragment>
 		</f:facet>
     	<tr:panelPartialRoot>
 	    	<tr:form>
-		    	<tr:panelFormLayout>
-		    		<s:validateAll>
+	    		<s:validateAll>
+			    	<tr:panelFormLayout>
 			    		<tr:inputText label="Disc" value="#{disc.name}" readOnly="#{not identity.loggedIn}" required="true" />
-			    		<tr:inputText label="Release Date" value="#{disc.release}" readOnly="#{not identity.loggedIn}" columns="5">
-		    				<s:convertDateTime pattern="yyyy"/>
-		    			</tr:inputText>
+			    		<tr:inputNumberSpinbox label="Release Date" value="#{disc.release}" minimum="1900" maximum="2010" stepSize="1" readOnly="#{not identity.loggedIn}" />           
 		    			<tr:selectOneChoice value="#{disc.artist}" label="Artist" required="true" readOnly="#{not identity.loggedIn}">
 		    				<s:selectItems value="#{artists.resultList}" var="artist" label="#{artist.name}" noSelectionLabel="Please Select..." hideNoSelectionLabel="true" />
 		    				<s:convertEntity />
@@ -42,14 +38,14 @@
 					    		<tr:outputText value="None known" rendered="#{empty disc.description}" />
 							</s:div>
 						</tr:panelLabelAndMessage>
-					</s:validateAll>
-		    	</tr:panelFormLayout>
+		    		</tr:panelFormLayout>
+		    	</s:validateAll>
 		    	
 		    	<tr:panelButtonBar rendered="#{identity.loggedIn}">
-			    		<h:commandButton action="#{discHome.update}" value="Save" rendered="#{discHome.managed}" />
-			    		<h:commandButton action="#{discHome.persist}" value="Save" rendered="#{not discHome.managed}" />
-			    		<s:button action="cancel" value="Cancel" />
-			    	</tr:panelButtonBar>
+			    	<h:commandButton action="#{discHome.update}" value="Save" rendered="#{discHome.managed}" />
+			    	<h:commandButton action="#{discHome.persist}" value="Save" rendered="#{not discHome.managed}" />
+			    	<s:button action="cancel" value="Cancel" />
+			    </tr:panelButtonBar>
 	    	</tr:form>
     	</tr:panelPartialRoot>
     </rich:panel>

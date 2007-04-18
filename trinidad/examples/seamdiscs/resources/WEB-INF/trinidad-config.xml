@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<trinidad-config xmlns="http://myfaces.apache.org/trinidad/config">
+  <!-- Enable debug output -->
+  <!-- <debug-output>true</debug-output>-->
+
+  <client-validation-disabled>true</client-validation-disabled>
+  <skin-family>seamdiscs</skin-family>
+</trinidad-config>

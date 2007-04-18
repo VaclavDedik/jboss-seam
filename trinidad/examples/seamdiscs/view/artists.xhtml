@@ -10,14 +10,12 @@
                 template="layout/template.xhtml">
 
 <ui:define name="body">
-
-    <h:messages globalOnly="true" styleClass="message"/>
     
     <rich:panel>
     <f:facet name="header">Artists</f:facet>
     	<tr:panelPartialRoot>
 	    	<tr:form>
-		    	<tr:table value="#{artists.dataModel}" var="artist" rows="#{artists.maxResults}" rowBandingInterval="1">
+		    	<tr:table value="#{artists.dataModel}" var="artist" rows="#{artists.maxResults}">
 		    		<tr:column sortable="true" sortProperty="artist.name">
 		    			<f:facet name="header">
 		    				Name
@@ -33,13 +31,9 @@
 		    			</f:facet>
 		    			<tr:outputText value="Solo performer" rendered="#{artist.class.simpleName eq 'Artist'}" />
 		    			<tr:outputText value="None" rendered="#{artist.class.simpleName eq 'Band' and empty artist.bandMembers}" />
-		    			<s:fragment rendered="#{artist.class.simpleName eq 'Band' and not empty artist.bandMembers}"> 
-			    		<ul>
-				    		<!-- <ui:repeat value="#{artist.bandMembers}" var="bandMember">
-				    			<li><tr:outputText value="#{bandMember.name}" /></li>
-				    		</ui:repeat>-->
-						</ul>
-						</s:fragment>
+	    				<rich:dataList value="#{artist.bandMembers}" var="bandMember" rendered="#{artist.class.simpleName eq 'Band' and not empty artist.bandMembers}">
+			    			<tr:outputText value="#{bandMember.name}" />
+			    		</rich:dataList>
 		    		</tr:column>
 		    		<f:facet name="detailStamp">
 		    			<s:div style="width: 200px">

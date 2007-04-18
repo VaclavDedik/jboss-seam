@@ -10,8 +10,6 @@
                 template="layout/template.xhtml">
 
 <ui:define name="body">
-
-    <h:messages globalOnly="true" styleClass="message"/>
     
     <rich:panel>
 	    <f:facet name="header">Welcome to Seam Discs!</f:facet>
@@ -33,37 +31,26 @@
     	<p>You can log in as <code>administrator</code>/<code>administrator</code>.</p>
     </rich:panel>
     <rich:panel>
-	    <f:facet name="header">All Discs</f:facet>	
+	    <f:facet name="header">
+	    	<tr:outputText value="Artists &amp; Discs" />
+	    </f:facet>
 	    <tr:panelPartialRoot>
 	    	<tr:form>
-		    	<tr:table value="#{discs.dataModel}" var="disc" rows="#{discs.maxResults}" >
-		    		<tr:column sortable="true" sortProperty="disc.name">
-		    			<f:facet name="header">
-		    				Disc
-		    			</f:facet>
-		    			<s:link action="disc">
-		    				<tr:outputText value="#{disc.name}" />
-		    				<f:param name="discId" value="#{disc.id}" />
-		    			</s:link>
-		    		</tr:column>
-		    		<tr:column sortable="true" sortProperty="disc.release">
-		    			<f:facet name="header">
-		    				Release
-		    			</f:facet>
-		    			<h:outputText value="#{disc.release}">
-		    				<s:convertDateTime pattern="yyyy" />
-		    			</h:outputText>
-		    		</tr:column>
-		    		<tr:column sortable="true" sortProperty="disc.artist">
-		    			<f:facet name="header">
-		    				Artist
-		    			</f:facet>
-		    			<s:link action="artist">
-			    			<h:outputText value="#{disc.artist.name}" rendered="#{disc.artist ne null}" />
-			   				<f:param name="artistId" value="#{disc.artist.id}" />
-		    			</s:link>
-		    		</tr:column>
-		    	</tr:table>
+		    	<tr:tree value="#{artistHome.tree}" var="var">
+		    		<f:facet name="nodeStamp">
+		    			<ui:fragment>
+			    			<s:link action="disc" rendered="#{var.class.simpleName eq 'Disc'}">
+				    			<tr:outputText value="#{var.name}" />
+				    			<tr:outputText value=" (#{var.release})"  rendered="#{var.release ne null}"/>
+				    			<f:param name="discId" value="#{var.id}" />
+				    		</s:link>
+				    		<s:link action="artist" rendered="#{var.class.simpleName eq 'Artist' or var.class.simpleName eq 'Band'}">
+				    			<tr:outputText value="#{var.name}" />
+				    			<f:param name="artistId" value="#{var.id}" />
+				    		</s:link>
+				    	</ui:fragment>
+		    		</f:facet>
+		    	</tr:tree>
 	    	</tr:form>
     	</tr:panelPartialRoot>
     </rich:panel>

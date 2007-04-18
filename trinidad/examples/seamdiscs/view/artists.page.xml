@@ -7,7 +7,7 @@
    <param name="type" value="#{artistHome.type}"/> 
    <navigation>
    	<rule if-outcome="artist">
-	   	<begin-conversation flush-mode="manual"/> 
+	   	<begin-conversation flush-mode="manual" join="true"/> 
    		<redirect view-id="/artist.xhtml"/>	
    	</rule>
    </navigation>

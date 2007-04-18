@@ -35,23 +35,13 @@
 		authenticate-method="#{authenticator.authenticate}"
 		security-rules="#{securityRules}" />
 
-	<event type="org.jboss.seam.notLoggedIn">
-		<action expression="#{redirect.captureCurrentView}" />
-	</event>
-	<event type="org.jboss.seam.postAuthenticate">
-		<action expression="#{redirect.returnToCapturedView}" />
-	</event>
-
-	<mail:mail-session host="localhost" port="2525" username="test"
-		password="test" />
-
-	<!-- For use with jBPM pageflow or process management -->
-	<!--  
-		<core:jbpm>
-		<core:process-definitions></core:process-definitions>
-		<core:pageflow-definitions></core:pageflow-definitions>
-		</core:jbpm>
-	-->
+    <event type="org.jboss.seam.notLoggedIn">
+        <action expression="#{redirect.captureCurrentView}"/>
+    </event>
+    
+    <event type="org.jboss.seam.postAuthenticate">
+        <action expression="#{redirect.returnToCapturedView}"/>
+    </event>   
 	
 	<framework:entity-query name="discs" ejbql="select disc from Disc disc" order="disc.name ASC" max-results="5"/>
 	

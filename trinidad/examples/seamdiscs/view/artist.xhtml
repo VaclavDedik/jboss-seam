@@ -11,11 +11,9 @@
                 template="layout/template.xhtml">
 
 <ui:define name="body">
-
-    <h:messages globalOnly="true" styleClass="message"/>
     
     <rich:panel>
-    <f:facet name="header"><tr:outputText value="#{artist.name} (#{messages[artist.class.name]})" /></f:facet>
+    <f:facet name="header"><tr:outputText value="#{artist.name} (#{messages[artist.class.name]})" rendered="#{artist.name ne null}" /></f:facet>
     	<tr:panelPartialRoot>
 	    	<h:form>
 		    	<tr:panelFormLayout>
