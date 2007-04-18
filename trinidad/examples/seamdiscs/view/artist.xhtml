@@ -39,7 +39,8 @@
 			    		<tr:inputText simple="true" value="#{artist.description}" rendered="#{identity.loggedIn}" rows="4" columns="60" id="description">
 			    			 <a:support event="onkeyup" reRender="description_preview" requestDelay="3000" ignoreDupResponces="true" eventsQueue="previewQueue" />
 			    		</tr:inputText>
-				    	<s:div style="width: 300px;" id="description_preview">
+			    		<s:div style="width: 300px" id="description_preview">
+				    	
 						   	<s:formattedText value="#{artist.description}" rendered="#{not empty artist.description}" />
 				    		<tr:outputText value="None known" rendered="#{empty artist.description}" />
 						</s:div>
@@ -56,9 +57,7 @@
 				    			<f:facet name="header">
 				    				Released
 				    			</f:facet>
-				    			<tr:inputText value="#{disc.release}" readOnly="#{not identity.loggedIn}" columns="5">
-				    				<s:convertDateTime pattern="yyyy"/>
-				    			</tr:inputText>
+				    			<tr:inputNumberSpinbox label="Release Date" value="#{disc.release}" minimum="1900" maximum="2010" stepSize="1" readOnly="#{not identity.loggedIn}" />           
 				    		</tr:column>
 				    		<f:facet name="detailStamp">
 						    	<s:div style="width: 300px;">

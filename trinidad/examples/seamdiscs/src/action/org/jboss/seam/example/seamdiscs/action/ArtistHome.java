@@ -17,7 +17,7 @@ import org.jboss.seam.framework.EntityHome;
 public class ArtistHome extends EntityHome<Artist>
 {
    
-   @In(create=true, value="#{artists.resultList}")
+   @In(create=true, value="#{allArtists.resultList}")
    private List<Artist> artists;
 
    @Factory

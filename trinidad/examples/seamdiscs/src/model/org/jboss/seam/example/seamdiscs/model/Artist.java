@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import org.jboss.seam.jsf.SetDataModel;
 
@@ -20,6 +21,7 @@ public class Artist
    private String name;
    
    @OneToMany(mappedBy="artist", cascade={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+   @OrderBy("release")
    private List<Disc> discs;
    
    private String description;
