@@ -70,21 +70,22 @@
     </s:div>
 
     <s:div id="body">
-
         <s:div id="messageBox" rendered="#{!empty facesMessages.currentGlobalMessages}">
             <ui:repeat var="message" value="#{facesMessages.currentGlobalMessages}">
-                <h:panelGrid columns="2" rendered="#{message.severity == 'Info'}">
+                <h:panelGrid columns="2">
                     <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/info.gif"
                                     width="18" height="18"
                                     styleClass="infoImage"/>
                     <h:outputText styleClass="infoMessage" value="#{message.summary}"/>
                 </h:panelGrid>
-                <h:panelGrid columns="2" rendered="#{message.severity == 'Warn' or message.severity == 'Error'}">
+                <!-- TODO: Well, how do we do that in EL without static stuff?! #{message.severity == 'Warn' or message.severity == 'Error'}
+                <h:panelGrid columns="2" rendered="false">
                     <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/attention.gif"
                                     width="18" height="18"
                                     styleClass="attentionImage"/>
                     <h:outputText styleClass="attentionMessage" value="#{message.summary}"/>
                 </h:panelGrid>
+                -->
             </ui:repeat>
         </s:div>
         <div id="content">
