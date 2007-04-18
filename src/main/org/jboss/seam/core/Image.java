@@ -152,7 +152,7 @@ public class Image implements Serializable
     */
    public byte[] getImage() throws IOException
    {
-      if (dirty && bufferedImage != null)
+      if ((dirty || output == null) && bufferedImage != null)
       {
          ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
          ImageIO.write(bufferedImage, getContentType().getImageFormatName(), outputStream);
