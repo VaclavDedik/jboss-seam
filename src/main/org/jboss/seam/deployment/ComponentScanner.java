@@ -16,7 +16,7 @@ public class ComponentScanner extends Scanner
 {
    private static final LogProvider log = Logging.getLogProvider(ComponentScanner.class);
 
-   private Set<Class<Object>> classes;
+   protected Set<Class<Object>> classes;
 
    public ComponentScanner(String resourceName)
    {

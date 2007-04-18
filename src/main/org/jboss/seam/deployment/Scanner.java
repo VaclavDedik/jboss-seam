@@ -54,7 +54,7 @@ public abstract class Scanner
       Set<String> paths = new HashSet<String>();
       if (resourceName==null)
       {
-         for ( URL url: ( (URLClassLoader) classLoader ).getURLs() )
+         for ( URL url: getURLsFromClassLoader() )
          {
             String urlPath = url.getFile();
             if ( urlPath.endsWith("/") )
@@ -123,6 +123,11 @@ public abstract class Scanner
             log.warn("could not read entries", ioe);
          }
       }
+   }
+
+   protected URL[] getURLsFromClassLoader()
+   {
+      return ( (URLClassLoader) classLoader ).getURLs();
    }
 
 

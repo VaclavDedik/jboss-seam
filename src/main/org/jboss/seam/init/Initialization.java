@@ -5,12 +5,9 @@
  */
 package org.jboss.seam.init;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -21,6 +18,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeSet;
+import java.lang.reflect.Constructor;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
@@ -72,9 +70,6 @@ public class Initialization
    private Set<String> importedPackages = new HashSet<String>();
    private Map<String, NamespaceDescriptor> namespaceMap = new HashMap<String, NamespaceDescriptor>();
    private final Map<String, EventListenerDescriptor> eventListenerDescriptors = new HashMap<String, EventListenerDescriptor>();
-   
-   private File[] hotDeployPaths;
-   private ClassLoader hotDeployClassLoader;
 
    public Initialization(ServletContext servletContext)
    {
@@ -485,11 +480,10 @@ public class Initialization
       log.info("initializing Seam");
       Lifecycle.beginInitialization(servletContext);
       Contexts.getApplicationContext().set(Component.PROPERTIES, properties);
-      initHotDeployClassLoader();
-      scanForHotDeployableComponents();
+      RedeployableStrategy redeployStrategy = getRedeployableInitialization();
+      scanForHotDeployableComponents(redeployStrategy);
       scanForComponents();
-      
-      addComponent( new ComponentDescriptor(Init.class), Contexts.getApplicationContext() );
+      addComponent( new ComponentDescriptor(Init.class), Contexts.getApplicationContext(), redeployStrategy );
       Init init = (Init) Component.getInstance(Init.class, ScopeType.APPLICATION);    
       ComponentDescriptor desc = findDescriptor(Jbpm.class);
       if (desc != null && desc.isInstalled())
@@ -497,10 +491,10 @@ public class Initialization
          init.setJbpmInstalled(true);
       }
       init.setTimestamp( System.currentTimeMillis() );
-      init.setHotDeployPaths(hotDeployPaths);
+      init.setHotDeployPaths( redeployStrategy.getPaths() );
       
       addSpecialComponents(init);
-      installComponents(init);
+      installComponents(init, redeployStrategy);
       Lifecycle.endInitialization();
       log.info("done initializing Seam");
       return this;
@@ -521,56 +515,67 @@ public class Initialization
          }
          Contexts.getApplicationContext().remove(name + ".component");
       }
-      initHotDeployClassLoader();
-      scanForHotDeployableComponents();
+      //TODO open the ability to reuse the classloader by looking at the components class classloaders
+      RedeployableStrategy redeployStrategy = getRedeployableInitialization();
+      scanForHotDeployableComponents(redeployStrategy);
       init.setTimestamp( System.currentTimeMillis() );
-      init.setHotDeployPaths(hotDeployPaths);
-      installComponents(init);
+      init.setHotDeployPaths(redeployStrategy.getPaths());
+      installComponents(init, redeployStrategy);
       Lifecycle.endInitialization();
       log.info("done redeploying");
       return this;
    }
 
-   private void initHotDeployClassLoader()
-   {
+   private RedeployableStrategy getRedeployableInitialization() {
+      //really a factory
       ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
-      try
-      {
-         URL resource = contextClassLoader.getResource("META-INF/debug.xhtml");
-         if (resource!=null)
-         {
-            String path = resource.toExternalForm();
-            String hotDeployDirectory = path.substring( 9, path.length()-46 ) + "dev";
-            File directory = new File(hotDeployDirectory);
-            if ( directory.exists() )
-            {
-               URL url = directory.toURL();
-               /*File[] jars = directory.listFiles( new FilenameFilter() { 
-                     public boolean accept(File file, String name) { return name.endsWith(".jar"); } 
-               } );
-               URL[] urls = new URL[jars.length];
-               for (int i=0; i<jars.length; i++)
-               {
-                  urls[i] = jars[i].toURL();
-               }*/
-               URL[] urls = {url};
-               hotDeployClassLoader = new URLClassLoader(urls, contextClassLoader);
-               hotDeployPaths = new File[] {directory};
-            }
-         }
+      URL resource = contextClassLoader.getResource("META-INF/debug.xhtml");
+      boolean isGroovy = false;
+      try {
+         Reflections.classForName( "groovy.lang.GroovyObject" );
+         isGroovy = true;
       }
-      catch (MalformedURLException mue)
+      catch (ClassNotFoundException e)
       {
-         throw new RuntimeException(mue);
+         //groovy is not there
+      }
+      if (resource!=null && isGroovy)
+      {
+         log.debug("Using Java+Groovy hot deploy");
+         return buildRedeployableInitializer( "org.jboss.seam.init.GroovyHotRedeployable", resource );
+      }
+      else if (resource!=null) {
+         log.debug("Using Java hot deploy");
+         return buildRedeployableInitializer( "org.jboss.seam.init.JavaHotRedeployable", resource );
+      }
+//      else if (isGroovy) {
+//         //TODO Implement it even when debug is not set up
+//      }
+      else {
+         log.debug("No hot deploy used");
+         return buildRedeployableInitializer( "org.jboss.seam.init.NoHotRedeployable", resource );
       }
    }
 
-   private void scanForHotDeployableComponents()
+   private RedeployableStrategy buildRedeployableInitializer(String classname, URL resource)
    {
-      if ( hotDeployClassLoader!=null )
+      try {
+         Class initializer = Reflections.classForName( classname );
+         Constructor ctr = initializer.getConstructor( URL.class );
+         return (RedeployableStrategy) ctr.newInstance( resource );
+      }
+      catch (Exception e)
       {
+         throw new RuntimeException( "Unable to instanciate redeployable strategy: " + classname );
+      }
+   }
+
+   private void scanForHotDeployableComponents(RedeployableStrategy redeployStrategy)
+   {
+      ComponentScanner scanner = redeployStrategy.getScanner();
+      if (scanner != null) {
          Set<Class<Object>> scannedClasses = new HashSet<Class<Object>>();
-         scannedClasses.addAll( new ComponentScanner(null, hotDeployClassLoader).getClasses() );
+         scannedClasses.addAll(scanner.getClasses());
          Set<Package> scannedPackages = new HashSet<Package>();
          for (Class<Object> scannedClass: scannedClasses)
          {
@@ -781,7 +786,7 @@ public class Initialization
       }
    }
 
-   private void installComponents(Init init)
+   private void installComponents(Init init, RedeployableStrategy redeployStrategy)
    {
       log.info("Installing components...");
       Context context = Contexts.getApplicationContext();
@@ -793,7 +798,7 @@ public class Initialization
           String compName = componentDescriptor.getName() + COMPONENT_SUFFIX;
 
           if (!context.isSet(compName)) {
-              addComponent(componentDescriptor, context);
+              addComponent(componentDescriptor, context, redeployStrategy);
 
               if (componentDescriptor.isAutoCreate()) {
                   init.addAutocreateVariable( componentDescriptor.getName() );
@@ -842,7 +847,7 @@ public class Initialization
     * This actually creates a real Component and should only be called when
     * we want to install a component
     */
-   protected void addComponent(ComponentDescriptor descriptor, Context context)
+   protected void addComponent(ComponentDescriptor descriptor, Context context, RedeployableStrategy redeployStrategy)
    {
       String name = descriptor.getName();
       String componentName = name + COMPONENT_SUFFIX;
@@ -855,7 +860,7 @@ public class Initialization
                descriptor.getJndiName()
             );
          context.set(componentName, component);
-         if ( descriptor.getComponentClass().getClassLoader()==hotDeployClassLoader )
+         if ( redeployStrategy.isFromHotDeployClassLoader( descriptor.getComponentClass() ) )
          {
             Init.instance().addHotDeployableComponent( component.getName() );
          }
