@@ -3,6 +3,7 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a="https://ajax4jsf.dev.java.net/ajax"
      xmlns:s="http://jboss.com/products/seam/taglib">
 
     <h:dataTable value="#{commentHome.comments}" var="c" style="margin-top:10px;"
@@ -38,6 +39,13 @@
             <s:div styleClass="commentText">
                 <s:formattedText value="#{c.text}"/>
             </s:div>
+
+            <div align="right">
+                <h:form rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}">
+                    <a:commandLink action="#{commentHome.remove(c.id)}" reRender="body"
+                                   styleClass="button"><span class="buttonLabel">Remove Comment</span></a:commandLink>
+                </h:form>
+            </div>
 
         </h:column>
     </h:dataTable>
