@@ -60,7 +60,6 @@ public class WikiFormattedTextHandler extends MetaTagHandler {
         if (cmp == null) {
             cmp = createComponent(ctx);
             cmp.getAttributes().put(MARK, id);
-
         }
         this.nextHandler.apply(ctx, cmp);
         parent.getChildren().add(cmp);
@@ -138,7 +137,6 @@ public class WikiFormattedTextHandler extends MetaTagHandler {
                     parent.getAttributes().remove(UIPlugin.NEXT_PLUGIN);
                 } else {
                     // Best guess based plugin renderer
-                    // TODO: OOBE in document live preview when typing incomplete macro names
                     placeHolder = wikiFormattedText.addPlugin(
                         (parent.getChildren().get(parent.getChildCount() - 1)
                             .getClientId( ctx.getFacesContext() )

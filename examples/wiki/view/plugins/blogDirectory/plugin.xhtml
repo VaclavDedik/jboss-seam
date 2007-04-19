@@ -3,6 +3,7 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:c="http://java.sun.com/jstl/core"
      xmlns:wiki="http://jboss.com/products/seam/wiki"
      xmlns:s="http://jboss.com/products/seam/taglib">
 
@@ -34,7 +35,7 @@
     </s:div>
 
     <s:div id="blogEntriesContainer" rendered="#{!empty blogDirectory.blogEntries}">
-        <ui:repeat var="blogEntry" value="#{blogDirectory.blogEntries}">
+        <c:forEach var="blogEntry" items="#{blogDirectory.blogEntries}">
 
             <div class="blogEntry">
 
@@ -67,12 +68,17 @@
                 </div>
 
                 <div class="blogEntryFooter">
-                    0 Comments
+                    <s:div rendered="#{!empty blogEntry.commentCount and blogEntry.entryDocument.enableComments}">
+                        <h:outputLink value="#{wiki:renderPermLink(blogEntry.entryDocument)}#commentsDisplay">#{blogEntry.commentCount} comment(s)</h:outputLink>
+                    </s:div>
+                    <s:div rendered="#{blogEntry.entryDocument.enableComments and blogEntry.entryDocument.enableCommentForm}">
+                        <h:outputLink value="#{wiki:renderPermLink(blogEntry.entryDocument)}#commentForm">Post comment</h:outputLink>
+                    </s:div>
                 </div>
 
             </div>
 
-        </ui:repeat>
+        </c:forEach>
     </s:div>
 
     <s:div id="noBlogEntriesContainer" rendered="#{empty blogDirectory.blogEntries}">

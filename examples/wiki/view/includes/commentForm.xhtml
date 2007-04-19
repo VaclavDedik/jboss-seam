@@ -1,0 +1,98 @@
+<div id="commentForm"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+     xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <h:form styleClass="commentForm" rendered="#{currentDocument.enableComments and currentDocument.enableCommentForm}">
+        <div class="form">
+            <div class="formHead">Post new comment:</div>
+
+            <div class="formFields formBorder wideLabels">
+
+                <s:validateAll>
+
+                    <s:decorate id="userNameDecorate">
+                        <div class="entry">
+                            <div class="label">Name:</div>
+                            <div class="input">
+                                <h:inputText tabindex="102" size="40" maxlength="100" required="true"
+                                             id="userName" value="#{commentHome.comment.fromUserName}">
+                                    <a:support event="onblur" reRender="userNameDecorate"/>
+                                </h:inputText>
+                            </div>
+                        </div>
+                    </s:decorate>
+
+                    <s:decorate id="userEmailDecorate">
+                        <div class="entry">
+                            <div class="label">E-mail address (optional):</div>
+                            <div class="input">
+                                <h:inputText tabindex="102" size="40" maxlength="255" required="false"
+                                             id="userEmail" value="#{commentHome.comment.fromUserEmail}">
+                                </h:inputText>
+                            </div>
+                        </div>
+                    </s:decorate>
+
+                    <s:decorate id="userHomepageDecorate">
+                        <div class="entry">
+                            <div class="label">Homepage URL (optional):</div>
+                            <div class="input">
+                                <h:inputText tabindex="102" size="40" maxlength="1000" required="false"
+                                             id="userHomepage" value="#{commentHome.comment.fromUserHomepage}">
+                                </h:inputText>
+                            </div>
+                        </div>
+                    </s:decorate>
+
+                    <s:decorate id="subjectDecorate">
+                        <div class="entry">
+                            <div class="label">Subject:</div>
+                            <div class="input">
+                                <h:inputText tabindex="102" size="40" maxlength="255" required="true"
+                                             id="subject" value="#{commentHome.comment.subject}">
+                                    <a:support event="onblur" reRender="subjectDecorate"/>
+                                </h:inputText>
+                            </div>
+                        </div>
+                    </s:decorate>
+
+                    <s:decorate id="commentDecorate">
+                        <div class="entry">
+                            <div class="label">Comment:</div>
+                            <s:div styleClass="input" id="commentText">
+                                <h:inputTextarea tabindex="102" required="true"
+                                                 cols="40"
+                                                 rows="10"
+                                                 id="commentTextInput"
+                                                 value="#{commentHome.comment.text}">
+                                    <a:support event="onblur" reRender="commentDecorate"/>
+                                </h:inputTextarea>
+                            </s:div>
+                        </div>
+                    </s:decorate>
+
+
+                </s:validateAll>
+
+            </div>
+
+            <div class="formControls wideLabels">
+                <div class="entry">
+                    <div class="label">&#160;</div>
+                    <div class="input">
+
+                        <a:commandLink action="#{commentHome.persist}" tabindex="102" reRender="documentDisplay"
+                                       styleClass="button"><span class="buttonLabel">Post</span></a:commandLink>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </h:form>
+
+</div>

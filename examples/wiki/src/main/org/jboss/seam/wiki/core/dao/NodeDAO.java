@@ -13,16 +13,15 @@ import org.hibernate.Session;
 import org.hibernate.Criteria;
 import org.hibernate.ScrollableResults;
 import org.hibernate.transform.DistinctRootEntityResultTransformer;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Example;
-import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  * DAO for nodes, transparently respects security access levels.
@@ -296,6 +295,21 @@ public class NodeDAO {
         } catch (NoResultException ex) {
         }
         return null;
+    }
+
+    
+    public <N extends Node> Map<Long,Long> findCommentCount(Directory directory) {
+        //noinspection unchecked
+        List<Object[]> result = restrictedEntityManager
+                .createQuery("select n.nodeId, count(c) from Node n, Comment c where c.document = n and n.parent is :parent group by n.nodeId")
+                .setParameter("parent", directory)
+                .getResultList();
+
+        Map<Long,Long> resultMap = new HashMap<Long,Long>(result.size());
+        for (Object[] objects : result) {
+            resultMap.put((Long)objects[0], (Long)objects[1]);
+        }
+        return resultMap;
     }
 
     public <N extends Node> List<N> findWithParent(Class<N> nodeType, Directory directory, Node ignoreNode,

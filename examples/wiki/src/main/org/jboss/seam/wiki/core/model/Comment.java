@@ -1,4 +1,4 @@
-package org.jboss.seam.wiki.plugin.comments;
+package org.jboss.seam.wiki.core.model;
 
 import org.hibernate.validator.Length;
 import org.hibernate.validator.Email;

@@ -36,7 +36,7 @@ public class WikiPreferences extends PreferenceSupport implements Serializable {
 
     @Preference(description = "06. Append this suffix to permanent identifier", visibility = PreferenceVisibility.SYSTEM)
     @Length(min = 2, max = 20)
-    // TODO: After Hibernate upgrade add this: @org.hibernate.validator.Regex("\\.[a-zA-z]+")
+    @org.hibernate.validator.Pattern(regex="\\.[a-zA-z]+")
     private String permlinkSuffix;
 
     public String getBaseUrl() {

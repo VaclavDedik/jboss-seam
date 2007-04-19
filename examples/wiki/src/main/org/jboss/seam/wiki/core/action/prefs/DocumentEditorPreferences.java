@@ -6,7 +6,6 @@ import org.jboss.seam.wiki.preferences.PreferenceVisibility;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.ScopeType;
-import org.hibernate.validator.Length;
 import org.hibernate.validator.Range;
 
 import java.io.Serializable;

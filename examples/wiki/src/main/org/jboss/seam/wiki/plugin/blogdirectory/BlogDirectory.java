@@ -63,12 +63,16 @@ public class BlogDirectory implements Serializable {
     }
 
     private void queryBlogEntries() {
+        // TODO: This could be done in one query but I'm too lazy to write the GROUP BY clause because Hibernate doesn't do it for me
         List<Document> documents =
                 nodeDAO.findWithParent(Document.class, currentDirectory, currentDocument,
                                        orderByProperty, orderDescending, page * pageSize, pageSize);
+        Map<Long,Long> commentCounts = nodeDAO.findCommentCount(currentDirectory);
 
         for (Document document : documents) {
-            blogEntries.add(new BlogEntry(document));
+            blogEntries.add(
+                new BlogEntry(document, commentCounts.get(document.getId()) )
+            );
         }
     }
 

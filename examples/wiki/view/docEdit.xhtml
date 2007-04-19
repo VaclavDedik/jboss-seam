@@ -144,6 +144,26 @@
                         </s:div>
                     </s:div>
 
+                    <s:div styleClass="entry">
+                        <div class="label">&#160;</div>
+                        <div class="input">
+                            <h:selectBooleanCheckbox value="#{documentHome.instance.enableComments}" tabindex="3">
+                                <a:support event="onchange" reRender="commentFormSwitch"/>
+                            </h:selectBooleanCheckbox>
+                            Enable comments
+                        </div>
+                    </s:div>
+
+                    <s:div id="commentFormSwitch">
+                        <s:div styleClass="entry" rendered="#{documentHome.instance.enableComments}">
+                            <div class="label">&#160;</div>
+                            <div class="input">
+                                <h:selectBooleanCheckbox value="#{documentHome.instance.enableCommentForm}" tabindex="3"/>
+                                Allow posting of new comments
+                            </div>
+                        </s:div>
+                    </s:div>
+
                     <s:div styleClass="entry" rendered="#{documentHome.managed}">
                         <div class="label">&#160;</div>
                         <div class="input">

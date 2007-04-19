@@ -1,4 +1,4 @@
-package org.jboss.seam.wiki.plugin.comments;
+package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.ScopeType;
@@ -7,6 +7,7 @@ import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.wiki.core.model.Document;
 import org.jboss.seam.wiki.core.model.User;
 import org.jboss.seam.wiki.core.model.Directory;
+import org.jboss.seam.wiki.core.model.Comment;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.util.WikiUtil;
 
@@ -17,7 +18,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 @Name("commentHome")
-@Scope(ScopeType.PAGE)
+@Scope(ScopeType.CONVERSATION)
 public class CommentHome implements Serializable {
 
     @In

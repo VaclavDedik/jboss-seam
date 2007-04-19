@@ -1,0 +1,45 @@
+<div id="commentsDisplay"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <h:dataTable value="#{commentHome.comments}" var="c" style="margin-top:10px;"
+                 rendered="#{not empty commentHome.comments and currentDocument.enableComments}"
+                 styleClass="datatable rightBorder leftBorder topBorder bottomBorder"
+                 headerClass="regularHeader alignLeft"
+                 columnClasses="commentColumn"
+                 rowClasses="rowOdd,rowEven"
+                 cellpadding="0" cellspacing="0" border="0">
+        <h:column>
+            <f:facet name="header">
+                #{wiki:sizeOf(commentHome.comments)} comment(s):
+            </f:facet>
+
+            <div class="commentSubject">
+                #{c.subject}
+            </div>
+
+            <div class="commentAuthorDate">
+            <span class="commentDate"><h:outputText value="#{c.createdOn}">
+                <f:convertDateTime pattern="dd. MMM yyyy, HH:mm"/>
+            </h:outputText></span>
+                <s:span>&#160;(
+                    <s:span styleClass="commentAuthor" rendered="#{empty c.fromUserHomepage}">#{c.fromUserName}</s:span>
+                    <s:span styleClass="commentAuthor" rendered="#{!empty c.fromUserHomepage}"><a
+                            href="http://#{c.fromUserHomepage}">#{c.fromUserName}</a></s:span>
+                    <s:span styleClass="commentAuthor" rendered="#{!empty c.fromUserEmail}">, <a
+                            href="mailto:#{c.fromUserEmail}">#{c.fromUserEmail}</a></s:span>
+                    )
+                </s:span>
+            </div>
+
+            <s:div styleClass="commentText">
+                <s:formattedText value="#{c.text}"/>
+            </s:div>
+
+        </h:column>
+    </h:dataTable>
+
+</div>
