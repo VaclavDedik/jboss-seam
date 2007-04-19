@@ -55,11 +55,23 @@
           <s:graphicImage rendered="#{auction.image ne null}" value="#{auction.image.data}">
             <s:transformImageSize width="200" maintainRatio="true"/>
           </s:graphicImage>        
+
+          <div>
+            <a href="#images">View larger picture</a>
+          </div>          
+          
         </div>
       
         <div class="itemDetails">
           <div class="itemDetailRow">
-            <label>Current bid:</label>
+            <label>
+              <s:fragment rendered="#{auction.highBidder ne null}">
+                Current bid:
+              </s:fragment>
+              <s:fragment rendered="#{auction.highBidder eq null}">
+                Starting price:
+              </s:fragment>            
+            </label>
             <div>
               $<b><h:outputText value="#{auction.price}">
                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
@@ -160,7 +172,18 @@
         Description
       </div>
 
-      #{auction.description}
+      <div class="descriptionContent">
+        <s:formattedText value="#{auction.description}" />
+  
+        <hr/>      
+        
+        <a name="pictures">
+          <div class="images">
+            <s:graphicImage rendered="#{auction.image ne null}" value="#{auction.image.data}"/>
+            
+          </div>
+        </a>
+      </div>
         
     </div>
   </body>

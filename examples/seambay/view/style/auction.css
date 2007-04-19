@@ -1,5 +1,5 @@
 div.headerNav {
-  margin: 20px 8px 12px 8px;
+  margin: 12px 8px 12px 8px;
   padding-left: 16px;
 }
 
@@ -57,6 +57,12 @@ div.itemImage {
   padding: 12px 4px 16px 4px;
   margin: 4px 4px 8px 4px;
   border: 1px solid #cccccc;
+  font-family: arial, helvetica, sans-serif;  
+  font-size: 13px;
+}
+
+div.itemImage div {
+  margin-top: 24px;
 }
 
 div.itemDetails {
@@ -128,4 +134,19 @@ div.sellerDetailRow div {
 hr.itemDetailSeparator {
   border: 1px solid white;
   margin: 8px 2px 8px 0px;
+}
+
+div.descriptionContent {
+  margin: 2px 8px 2px 8px;  
+  font-family: arial narrow;
+  font-size: 14px;
+}
+
+div.descriptionContent hr {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+div.images {
+  text-align: center;
 }
