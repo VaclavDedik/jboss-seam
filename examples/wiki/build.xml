@@ -33,6 +33,7 @@
     <property name="seam.home" value="../../"/>
     <property name="lib.dir"        value="${seam.home}/lib" />
     <property name="seamlibs.dir"   value="${seam.home}"/>
+    <property name="local.lib.dir"  value="lib" />
     <property name="drools.lib.dir" value="${seam.home}/drools/lib"/>
 
     <property name="embedded-ejb3.dir" value="${basedir}/embedded-ejb/conf" />
@@ -41,6 +42,7 @@
 
     <fileset id="lib" dir="${lib.dir}">
         <include name="*.jar" />
+        <exclude name="hibernate-all*" /> <!-- TODO: Outdated Hibernate in Seam -->
         <exclude name="testng-4*.jar"/> <!-- TODO: Outdated TestNG in Seam -->
     </fileset>
 
@@ -64,9 +66,7 @@
         <fileset refid="lib" />
         <fileset refid="seamlibs"/>
         <fileset refid="droolslibs"/>
-        <fileset dir="${src.etc.dir}/WEB-INF">
-            <include name="lib/*.*"/>
-        </fileset>
+        <fileset dir="${local.lib.dir}"/>
     </path>
 
     <path id="test.classpath">
@@ -192,10 +192,10 @@
                 <include name="jboss-el.jar" />
             </fileset>
         </copy>
-        <!-- TODO: Do we need this in etc? -->
-        <copy todir="${exploded.war.dir}/WEB-INF">
-            <fileset dir="${src.etc.dir}/WEB-INF">
-                <include name="lib/*.*"/>
+        <copy todir="${exploded.war.dir}/WEB-INF/lib">
+            <fileset dir="${local.lib.dir}">
+                <exclude name="hibernate*"/>
+                <exclude name="ejb3*"/>
             </fileset>
         </copy>
 
@@ -313,12 +313,12 @@
 
     <!-- ######################## TOOLS ################## -->
 
-    <taskdef name="hibernatetool"
-             classname="org.hibernate.tool.ant.HibernateToolTask"
-             classpathref="tools.classpath"/>
-
     <target name="schemaexport" depends="compileclasses"
         description="Exports a generated schema to a file">
+
+        <taskdef name="hibernatetool"
+                 classname="org.hibernate.tool.ant.HibernateToolTask"
+                 classpathref="tools.classpath"/>
 
         <mkdir dir="${dist.dir}"/>
 

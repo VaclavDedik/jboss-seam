@@ -7,12 +7,14 @@
       <antReference projectDefault="true" />
       <customJdkName value="" />
       <maximumHeapSize value="128" />
-      <properties />
-      <executeOn event="beforeRun" target="configuretests" runConfigurationType="TestNG" runConfigurationName="" />
-      <executeOn event="beforeRun" target="configuretests" runConfigurationType="TestNG" runConfigurationName="AllTests" />
+      <properties>
+        <property name="profile" value="dev" />
+      </properties>
       <executeOn event="afterCompilation" target="hotdeploy" />
+      <executeOn event="beforeRun" target="configuretests" runConfigurationType="TestNG" runConfigurationName="" />
       <executeOn event="beforeRun" target="configuretests" runConfigurationType="TestNG" runConfigurationName="LoginTest" />
       <executeOn event="beforeRun" target="configuretests" runConfigurationType="TestNG" runConfigurationName="Unnamed" />
+      <executeOn event="beforeRun" target="configuretests" runConfigurationType="TestNG" runConfigurationName="AllTests" />
     </buildFile>
   </component>
   <component name="BuildJarProjectSettings">
@@ -1329,6 +1331,8 @@
     <option name="GENERATE_IIOP_STUBS" value="false" />
     <option name="ADDITIONAL_OPTIONS_STRING" value="" />
   </component>
+  <component name="StarteamVcsAdapter" />
+  <component name="VssVcs" />
   <component name="com.intellij.jsf.UserDefinedFacesConfigs">
     <option name="USER_DEFINED_CONFIGS">
       <value>
