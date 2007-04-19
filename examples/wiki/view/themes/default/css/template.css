@@ -294,6 +294,7 @@ a:visited {
 .pluginPreferencesBox {
     padding: 10px;
     background-color: #ded;
+    width: 100%;
 }
 
 .feeds {

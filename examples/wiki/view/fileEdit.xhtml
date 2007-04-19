@@ -93,8 +93,8 @@
                         <div class="entry">
                             <div class="label">Image Preview:</div>
                             <div class="output">
-                                <h:outputLink value="#{facesContext.externalContext.requestContextPath}/files/download.seam?fileId=#{fileHome.instance.id}"><h:graphicImage
-                                    style="border: 1px solid black;" value="/files/download.seam?fileId=#{fileHome.instance.id}&amp;width=#{fileHome.imagePreviewSize}&amp;conversationId=#{conversation.id}"/>
+                                <h:outputLink value="#{facesContext.externalContext.requestContextPath}/servlets/files/download.seam?fileId=#{fileHome.instance.id}"><h:graphicImage
+                                    style="border: 1px solid black;" value="/servlets/files/download.seam?fileId=#{fileHome.instance.id}&amp;width=#{fileHome.imagePreviewSize}&amp;conversationId=#{conversation.id}"/>
                                 </h:outputLink>
                                 
                             </div>

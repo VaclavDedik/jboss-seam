@@ -1,4 +1,3 @@
-
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
@@ -59,6 +58,16 @@
             </div>
 
             <div class="formFields formBorder">
+
+                <s:div id="selectedDirectory" styleClass="entry" rendered="#{documentHome.managed}">
+                    <div class="label">In directory:</div>
+                    <div class="output">
+                        #{documentHome.parentDirectory}
+                        <h:outputLink id="selectDirectory" value="javascript:Richfaces.showModalPanel('directorySelection',{width:250, height:250, top:100})"
+                                      tabindex="1" styleClass="buttonNonpersistent"><span class="buttonLabel">...</span></h:outputLink>
+                    </div>
+                </s:div>
+
                 <s:validateAll>
 
                     <s:div styleClass="entry" rendered="#{documentHome.managed}">
@@ -112,7 +121,7 @@
                             </s:div>
                         </div>
                     </s:decorate>
-                    
+
                     <s:div styleClass="entry">
                         <div class="label">&#160;</div>
                         <div class="input">
@@ -198,6 +207,28 @@
         </ui:define>
     </ui:decorate>
 
+    <ui:decorate template="includes/confirmationModalDialog.xhtml">
+        <ui:param name="confirmationModalDialogId" value="directorySelection"/>
+        <ui:define name="confirmationTitle">
+            Select parent directory...
+        </ui:define>
+        <ui:define name="confirmationContent">
+            <rich:tree id="directoryTree" switchType="ajax"
+                       value="#{writableDirectoryTree}" var="d"
+                       style="margin: 10px;"
+                       icon="/themes/default/img/icon.dir.gif"
+                       iconLeaf="/themes/default/img/icon.dir.gif"
+                       selectedClass="activeTab"
+                       ajaxSubmitSelection="true"
+                       onselected="Richfaces.hideModalPanel('directorySelection')"
+                       nodeSelectListener="#{documentHome.parentDirectorySelected}"
+                       reRender="selectedDirectory, content">
+                <rich:treeNode type="simpleNode">
+                    <h:outputText value="#{d.id} - #{d.name}"/>
+                </rich:treeNode>
+            </rich:tree>
+        </ui:define>
+    </ui:decorate>
 
     <s:div styleClass="documentDisplay" id="preview">
         <s:div rendered="#{documentHome.enabledPreview}">

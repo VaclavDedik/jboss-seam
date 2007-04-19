@@ -7,7 +7,8 @@
         xmlns:wiki="http://jboss.com/products/seam/wiki"
         xmlns:s="http://jboss.com/products/seam/taglib">
 
-<s:div id="comments" styleClass="#{showPluginPreferences and !empty commentsPreferencesEditor ? 'pluginPreferencesBox' : null}">
+<s:div id="comments"
+       styleClass="#{showPluginPreferences and !empty commentsPreferencesEditor ? 'pluginPreferencesBox' : null}">
 
 <s:div id="commentsPreferences"
        rendered="#{showPluginPreferences and !empty commentsPreferencesEditor}">

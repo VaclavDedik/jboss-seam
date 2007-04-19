@@ -1,10 +1,12 @@
-<s:div id="blogDirectory"
+<wiki:plugin
 	 xmlns="http://www.w3.org/1999/xhtml"
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
      xmlns:wiki="http://jboss.com/products/seam/wiki"
-     xmlns:s="http://jboss.com/products/seam/taglib"
+     xmlns:s="http://jboss.com/products/seam/taglib">
+
+ <s:div id="blogDirectory"
      styleClass="#{showPluginPreferences and !empty blogDirectoryPreferencesEditor ? 'pluginPreferencesBox' : null}">
 
   <s:div id="blogDirectoryPreferences"
@@ -119,3 +121,5 @@
 
 
 </s:div>
+
+</wiki:plugin>

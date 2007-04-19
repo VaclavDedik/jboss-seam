@@ -6,3 +6,5 @@ the database with a SQL client). So start it with 'java -cp hsqldb.jar org.hsqld
 before deploying.
 
 The start document is hardcoded in index.html to be one of the records from import.sql.
+
+Please use JBoss AS 4.2 CR2.

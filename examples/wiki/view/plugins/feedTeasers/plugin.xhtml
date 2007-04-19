@@ -1,11 +1,13 @@
-<s:div id="feedTeasers"
+<wiki:plugin
        xmlns="http://www.w3.org/1999/xhtml"
        xmlns:ui="http://java.sun.com/jsf/facelets"
        xmlns:h="http://java.sun.com/jsf/html"
        xmlns:a="https://ajax4jsf.dev.java.net/ajax"
        xmlns:f="http://java.sun.com/jsf/core"
        xmlns:wiki="http://jboss.com/products/seam/wiki"
-       xmlns:s="http://jboss.com/products/seam/taglib"
+       xmlns:s="http://jboss.com/products/seam/taglib">
+
+<s:div id="feedTeasers"
        styleClass="#{showPluginPreferences and !empty feedTeasersPreferencesEditor ? 'pluginPreferencesBox' : null}">
 
     <s:div id="feedTeasersPreferences"
@@ -47,3 +49,5 @@
     </h:dataTable>
 
 </s:div>
+    
+</wiki:plugin>

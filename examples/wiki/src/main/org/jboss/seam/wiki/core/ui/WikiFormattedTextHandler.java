@@ -67,9 +67,6 @@ public class WikiFormattedTextHandler extends MetaTagHandler {
         createPlugins(ctx, cmp);
     }
 
-    /**
-     * Create the Component
-     */
     private UIComponent createComponent(FaceletContext ctx) {
         UIWikiFormattedText wikiFormattedText = new UIWikiFormattedText();
         setAttributes(ctx, wikiFormattedText);
@@ -111,6 +108,8 @@ public class WikiFormattedTextHandler extends MetaTagHandler {
      * prevent parse errors in the wikitext the clientId is stored in
      * a list on the parent UIWikiFormattedText component and it's
      * position is used as the placeholder.
+     * @param ctx FaceletContext
+     * @param parent Parent component
      */
     private void createPlugins(FaceletContext ctx, UIComponent parent) {
         if (!(parent instanceof UIWikiFormattedText)) return;
@@ -123,56 +122,63 @@ public class WikiFormattedTextHandler extends MetaTagHandler {
 
             // Include the plugin
             String macroName = matcher.group(1);
-            includePluginFacelet(macroName, ctx, parent);
 
-            // Get the placeholder to use
-            String placeHolder;
-            Object nextPlugin = parent.getAttributes().get(UIPlugin.NEXT_PLUGIN);
-            if (nextPlugin != null) {
-                placeHolder = wikiFormattedText.addPlugin(nextPlugin.toString());
-                parent.getAttributes().remove(UIPlugin.NEXT_PLUGIN);
+            URL faceletURL = getPluginURL(macroName, ctx);
+            if (faceletURL != null) {
+                includePluginCSS(macroName, parent);
+                includePluginFacelet(faceletURL, ctx, parent);
+                createPreferencesEditor(macroName);
+                includedMacros.add(macroName);
+
+                // Get the placeholder to use
+                String placeHolder;
+                Object nextPlugin = parent.getAttributes().get(UIPlugin.NEXT_PLUGIN);
+                if (nextPlugin != null) {
+                    placeHolder = wikiFormattedText.addPlugin(nextPlugin.toString());
+                    parent.getAttributes().remove(UIPlugin.NEXT_PLUGIN);
+                } else {
+                    // Best guess based plugin renderer
+                    // TODO: OOBE in document live preview when typing incomplete macro names
+                    placeHolder = wikiFormattedText.addPlugin(
+                        (parent.getChildren().get(parent.getChildCount() - 1)
+                            .getClientId( ctx.getFacesContext() )
+                        )
+                    );
+                }
+                matcher.appendReplacement(parsed, " [<=" + placeHolder + "]");
             } else {
-                // Best guess based plugin renderer
-                placeHolder = wikiFormattedText.addPlugin(
-                    (parent.getChildren().get(parent.getChildCount() - 1)
-                        .getClientId( ctx.getFacesContext() )
-                    )
-                );
+                matcher.appendReplacement(parsed, " [<=" + macroName + "]");
             }
-            matcher.appendReplacement(parsed, " [<=" + placeHolder + "]");
         }
         matcher.appendTail(parsed);
         wikiFormattedText.setValue(parsed.toString());
     }
 
-    private void includePluginFacelet(String macroName, FaceletContext ctx, UIComponent parent) {
-        if (macroName == null || macroName.length() == 0 || includedMacros.contains(macroName)) return;
+    private URL getPluginURL(String macroName, FaceletContext ctx) {
+        if (macroName == null || macroName.length() == 0 || includedMacros.contains(macroName)) return null;
 
         String includeView = "/plugins/" + macroName + "/plugin.xhtml";
 
         // View can't include itself
         String currentViewId = ctx.getFacesContext().getViewRoot().getViewId();
-        if (currentViewId.equals(includeView)) return;
+        if (currentViewId.equals(includeView)) return null;
 
         // Try to get the XHTML document
-        URL includeViewURL = Resources.getResource(includeView);
-        if (includeViewURL == null) return;
+        return Resources.getResource(includeView);
+    }
 
-        includePluginCSS(macroName, parent);
-
+    private void includePluginFacelet(URL faceletURL, FaceletContext ctx, UIComponent parent) {
         // Cribbed from facelets
         VariableMapper orig = ctx.getVariableMapper();
         try {
             ctx.setVariableMapper(new VariableMapperWrapper(orig));
-            ctx.includeFacelet(parent, includeViewURL);
+            ctx.includeFacelet(parent, faceletURL);
         } catch (IOException e) {
             throw new RuntimeException(e);
         } finally {
             ctx.setVariableMapper(orig);
-            includedMacros.add(macroName);
         }
 
-        createPreferencesEditor(macroName);
     }
 
     /*
@@ -181,8 +187,7 @@ public class WikiFormattedTextHandler extends MetaTagHandler {
     private void includePluginCSS(String macroName, UIComponent cmp) {
         // Try to get the CSS for it
         WikiPreferences wikiPrefs = (WikiPreferences) Component.getInstance("wikiPreferences");
-        String css = "/themes/" + wikiPrefs.getThemeName() + "/css/" + macroName
-                + ".css";
+        String css = "/themes/" + wikiPrefs.getThemeName() + "/css/" + macroName + ".css";
         if (Resources.getResource(css) != null) {
             UILoadStyle style = new UILoadStyle();
             style.setSrc(css);
@@ -216,12 +221,11 @@ public class WikiFormattedTextHandler extends MetaTagHandler {
 
     }
 
-
     /*
     * Support method to find the UIWikiFormattedText component created by
     * this tag on a previous tree build
     */
-    private static final UIComponent findChildByTagId(UIComponent parent, String id) {
+    private static UIComponent findChildByTagId(UIComponent parent, String id) {
         Iterator itr = parent.getFacetsAndChildren();
         while (itr.hasNext()) {
             UIComponent c = (UIComponent) itr.next();
