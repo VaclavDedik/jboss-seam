@@ -6,6 +6,23 @@
 	<!-- Allow this to be overriden by others importing this project. -->
 	<dirname property="imported.basedir" file="${ant.file.Seam}" />
 
+  <!-- If build.properties doesn't exist, create it by copying build.properties.sample -->
+  <condition property="copy.default.properties">
+    <and>
+      <available file="${imported.basedir}/build.properties.sample" />
+      <not>
+        <available file="${imported.basedir}/build.properties" />
+      </not>
+    </and>
+  </condition>
+  
+  <copy todir="${imported.basedir}">
+    <fileset dir="${imported.basedir}">
+      <include name="build.properties.sample" if="copy.default.properties" />
+    </fileset>
+    <globmapper from="build.properties.sample" to="build.properties" />
+  </copy>  
+
 	<!-- Give user a chance to override without editing this file or typing -D -->
 	<property file="${imported.basedir}/build.properties" />
 
