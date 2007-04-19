@@ -40,7 +40,7 @@ public abstract class Node implements Serializable {
     private int revision = 0;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "wikiSequenceGenerator")
     @Column(name = "NODE_ID")
     protected Long nodeId;
 

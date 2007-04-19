@@ -42,7 +42,7 @@ import java.io.Serializable;
 public class WikiPreferenceValue implements PreferenceValue, Serializable, Comparable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "wikiSequenceGenerator")
     @Column(name = "PREF_ID")
     private Long id;
 

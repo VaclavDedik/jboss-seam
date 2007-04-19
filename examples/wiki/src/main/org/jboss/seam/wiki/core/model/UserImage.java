@@ -12,7 +12,7 @@ import java.util.Date;
 public class UserImage implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "wikiSequenceGenerator")
     @Column(name = "USER_IMAGE_ID")
     private Long id;
 

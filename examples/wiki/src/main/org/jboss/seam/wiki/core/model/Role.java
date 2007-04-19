@@ -11,7 +11,7 @@ import java.util.Date;
 public class Role implements Serializable, Comparable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "wikiSequenceGenerator")
     @Column(name = "ROLE_ID")
     private Long id = null;
 

@@ -10,9 +10,8 @@ import java.util.regex.Matcher;
 @Table(name = "LINK_PROTOCOL")
 public class LinkProtocol {
 
-
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "wikiSequenceGenerator")
     @Column(name = "LINK_PROTOCOL_ID")
     private Long id;
 

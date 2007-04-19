@@ -13,7 +13,7 @@ import java.io.Serializable;
 public class FeedEntry implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "wikiSequenceGenerator")
     @Column(name = "FEEDENTRY_ID")
     private Long id;
 

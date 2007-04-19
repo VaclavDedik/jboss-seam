@@ -12,7 +12,11 @@ Maps only properties we want to keep a history of.
 
     <class name="Node" entity-name="HistoricalNode" abstract="true" table="NODE_HISTORY" polymorphism="explicit">
         <id name="historicalNodeId" column="NODE_HISTORY_ID">
-            <generator class="native"/>
+            <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+                <param name="sequence_name">WIKI_SEQUENCE</param>
+                <param name="initial_value">1000</param>
+                <param name="increment_size">1</param>
+            </generator>
         </id>
 
         <discriminator column="NODE_TYPE" length="255"/>

@@ -13,7 +13,8 @@ import java.util.*;
 @Table(name = "USERS")
 public class User implements Serializable {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(generator = "wikiSequenceGenerator")
     @Column(name = "USER_ID")
     private Long id = null;
 

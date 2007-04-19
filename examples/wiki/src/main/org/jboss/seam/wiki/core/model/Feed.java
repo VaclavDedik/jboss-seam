@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class Feed implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "wikiSequenceGenerator")
     @Column(name = "FEED_ID")
     private Long id;
 

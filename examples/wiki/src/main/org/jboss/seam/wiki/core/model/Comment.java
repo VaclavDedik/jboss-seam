@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class Comment implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "wikiSequenceGenerator")
     @Column(name = "COMMENT_ID")
     private Long id = null;
 
