@@ -47,16 +47,13 @@ public class FeedEntry implements Serializable {
     @Length(min = 1, max = 32768)
     private String descriptionValue;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "DOCUMENT_ID", nullable = false, updatable = false)
-    private Document document;
-
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "FEED_FEEDENTRY",
         joinColumns = @JoinColumn(name = "FEEDENTRY_ID", nullable = false, updatable = false),
         inverseJoinColumns= @JoinColumn(name = "FEED_ID", nullable = false, updatable = false)
     )
+    @org.hibernate.annotations.ForeignKey(name = "FK_FEED_FEEDENTRY_FEEDENTRY_ID", inverseName = "FK_FEED_FEEDENTRY_FEED_ID")
     private Set<Feed> feeds = new HashSet<Feed>();
 
     public FeedEntry() {}
@@ -126,14 +123,6 @@ public class FeedEntry implements Serializable {
 
     public String getDescriptionValueStripped() {
         return getDescriptionValue().replaceAll("\\<.*?\\>","");
-    }
-
-    public Document getDocument() {
-        return document;
-    }
-
-    public void setDocument(Document document) {
-        this.document = document;
     }
 
     public Set<Feed> getFeeds() {

@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "ROLE")
+@Table(name = "ROLES")
 public class Role implements Serializable, Comparable {
 
     @Id

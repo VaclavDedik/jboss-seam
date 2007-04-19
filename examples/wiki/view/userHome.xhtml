@@ -175,12 +175,31 @@
                                action="#{userHome.update}"
                                tabindex="9" accesskey="U"><span class="buttonLabel"><u>U</u>pdate</span></h:commandLink>
 
+                <h:outputLink id="delete" value="javascript:Richfaces.showModalPanel('deleteConfirmation',{})"
+                              rendered="#{s:hasPermission('User', 'delete', userHome.instance)}"
+                              tabindex="9" accesskey="D" styleClass="button"><span class="buttonLabel"><u>D</u>elete</span></h:outputLink>
+
             </div>
         </div>
 
     </div>
 
 </div></h:form>
+
+<ui:decorate template="includes/confirmationModalDialog.xhtml">
+    <ui:param name="confirmationModalDialogId" value="deleteConfirmation"/>
+    <ui:define name="confirmationContent">
+        <p>Are you sure you want to delete the user '#{userHome.instance.username}'?
+            Note that any existing home directory or documents owned by this user will not be deleted.</p>
+    </ui:define>
+    <ui:define name="confirmationOption">
+        <h:commandLink id="delete" action="#{userHome.remove}"
+                       accesskey="O" styleClass="button">
+            <span class="buttonLabel"><u>O</u>k</span>
+        </h:commandLink>
+    </ui:define>
+</ui:decorate>
+
 
 </ui:define>
 

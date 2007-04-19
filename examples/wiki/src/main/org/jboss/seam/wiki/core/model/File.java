@@ -9,6 +9,10 @@ import java.math.BigDecimal;
     name = "NODE_FILE",
     pkJoinColumns = @PrimaryKeyJoinColumn(name = "FILE_ID")
 )
+@org.hibernate.annotations.Table(
+    appliesTo = "NODE_FILE",
+    foreignKey = @org.hibernate.annotations.ForeignKey(name = "FK_NODE_FILE_FILE_ID")
+)
 public class File extends Node {
 
     @Column(table = "NODE_FILE", name = "FILENAME", length = 255, nullable = false)

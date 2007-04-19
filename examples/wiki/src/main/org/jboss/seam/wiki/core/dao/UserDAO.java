@@ -10,6 +10,7 @@ import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.wiki.core.model.Role;
 import org.jboss.seam.wiki.core.model.User;
+import org.jboss.seam.Component;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.MatchMode;
@@ -68,6 +69,19 @@ public class UserDAO {
         }
         return null;
     }
+
+    public void resetNodeCreatorToAdmin(User user) {
+
+        User adminUser = (User) Component.getInstance("adminUser");
+
+        entityManager.joinTransaction();
+        entityManager.createQuery("update Node n set n.createdBy = :admin where n.createdBy = :user")
+                    .setParameter("admin", entityManager.merge(adminUser))
+                    .setParameter("user", user)
+                    .executeUpdate();
+    }
+
+
 
     public List<User> findByExample(User exampleUser, String orderByProperty, boolean orderDescending,
                                     int firstResult, int maxResults, String... ignoreProperty) {

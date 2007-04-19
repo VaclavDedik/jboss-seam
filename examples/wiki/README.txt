@@ -8,3 +8,5 @@ before deploying.
 The start document is hardcoded in index.html to be one of the records from import.sql.
 
 Please use JBoss AS 4.2 CR2.
+
+YOU NEED THE LATEST HIBERNATE VERSIONS INSTALLED IN JBOSS AS! THE VERSION SHIPPING WITH AS 4.2 CR2 IS TOO OLD!

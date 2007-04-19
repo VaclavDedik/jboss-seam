@@ -34,6 +34,8 @@ public class Feed implements Serializable {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DIRECTORY_ID", nullable = false, updatable = false)
+    @org.hibernate.annotations.ForeignKey(name = "FK_FEED_DIRECTORY_ID")
+    @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
     private Directory directory;
 
     public Feed() { }

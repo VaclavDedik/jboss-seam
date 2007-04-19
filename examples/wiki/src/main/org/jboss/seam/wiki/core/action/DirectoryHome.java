@@ -83,7 +83,6 @@ public class DirectoryHome extends NodeHome<Directory> {
 
     protected boolean prepareRemove() {
         if (getInstance().getParent() == null) return false; // Veto wiki root delete
-        getNodeDAO().removeChildNodes(getInstance());
         return true;
     }
 

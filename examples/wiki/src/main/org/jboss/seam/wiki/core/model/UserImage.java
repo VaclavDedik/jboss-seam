@@ -22,6 +22,8 @@ public class UserImage implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "USER_ID")
+    @org.hibernate.annotations.ForeignKey(name = "FK_USER_IMAGE_USER_ID")
+    @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
     private User user;
 
     @Lob

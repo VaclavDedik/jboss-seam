@@ -214,13 +214,12 @@ public class UserHome extends EntityHome<User> {
         return outcome;
     }
 
+    @Restrict("#{s:hasPermission('User', 'delete', userHome.instance)}")
     public String remove() {
 
-        // TODO: Not fully implemented
-
-        // Remove all role assignments
-        getInstance().getRoles().clear();
-
+        // All nodes created by this user are reset to be created by the admin user
+        userDAO.resetNodeCreatorToAdmin(getInstance());
+        
         return super.remove();
     }
 

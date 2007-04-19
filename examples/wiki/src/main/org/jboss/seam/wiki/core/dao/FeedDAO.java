@@ -68,7 +68,6 @@ public class FeedDAO {
 
         if (feeds.size() >0) {
             FeedEntry feedEntry = new FeedEntry();
-            feedEntry.setDocument(document);
             feedEntry.setLink(renderFeedURL(document));
             feedEntry.setTitle(document.getName());
             feedEntry.setAuthor(document.getCreatedBy().getFullname());
@@ -99,20 +98,6 @@ public class FeedDAO {
             .executeUpdate();
 
         if (updatedEntries == 0) createFeedEntries(pushOnSiteFeed, document);
-    }
-
-    public void removeFeedEntries(Document document) {
-        restrictedEntityManager.joinTransaction();
-
-        try {
-            FeedEntry entry = (FeedEntry) restrictedEntityManager
-                .createQuery("select fe from FeedEntry fe where fe.document = :document")
-                .setParameter("document", document)
-                .getSingleResult();
-
-            restrictedEntityManager.remove(entry);
-        } catch (EntityNotFoundException ex) {
-        } catch (NoResultException ex) {}
     }
 
     private String renderFeedURL(Node node) {

@@ -96,20 +96,6 @@ public class DocumentHome extends NodeHome<Document> {
         return true;
     }
 
-    protected boolean beforeRemove() {
-
-        // Delete all history nodes
-        getNodeDAO().removeHistoricalNodes(getInstance());
-
-        // Null out default document
-        removeAsDefaultDocument(getParentDirectory());
-
-        // Remove feed entries
-        feedDAO.removeFeedEntries(getInstance());
-
-        return true;
-    }
-
     protected void afterNodeMoved(Directory oldParent, Directory newParent) {
         // Update view
         syncFormToInstance(oldParent); // Resolve existing links in old directory

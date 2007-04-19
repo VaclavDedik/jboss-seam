@@ -24,6 +24,8 @@ public class Comment implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "DOCUMENT_ID", nullable = false)
+    @org.hibernate.annotations.ForeignKey(name = "FK_COMMENT_DOCUMENT_ID")
+    @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
     private Document document;
 
     @Column(name = "SUBJECT", nullable = false)

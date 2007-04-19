@@ -54,6 +54,9 @@ public class WikiIdentity extends Identity {
         if ("User".equals(name) && "edit".equals(action)) {
             return checkEditUser((User)args[0]);
         } else
+        if ("User".equals(name) && "delete".equals(action)) {
+            return checkDeleteUser((User)args[0]);
+        } else
         if ("User".equals(name) && "editRoles".equals(action)) {
             return checkEditUserRoles((User)args[0]);
         } else
@@ -162,6 +165,20 @@ public class WikiIdentity extends Identity {
     private boolean checkEditUser(User user) {
         if (currentAccessLevel == UserRoleAccessFactory.ADMINROLE_ACCESSLEVEL) return true;
         if (currentUser.getId().equals(user.getId())) return true;
+        return false;
+    }
+
+    /*
+        Only admins can delete users and some users can't be deleted
+    */
+    private boolean checkDeleteUser(User user) {
+        // Can't delete admin and guest accounts
+        User adminUser = (User)Component.getInstance("adminUser");
+        User guestUser = (User)Component.getInstance("guestUser");
+        if (user.getId().equals(adminUser.getId())) return false;
+        if (user.getId().equals(guestUser.getId())) return false;
+
+        if (currentAccessLevel == UserRoleAccessFactory.ADMINROLE_ACCESSLEVEL) return true;
         return false;
     }
 

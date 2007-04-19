@@ -64,10 +64,12 @@ public class User implements Serializable {
         inverseJoinColumns = @JoinColumn(name = "ROLE_ID")
     )
     @OrderBy("accessLevel desc, displayName asc")
+    @org.hibernate.annotations.ForeignKey(name = "USER_ROLE_USER_ID", inverseName = "USER_ROLE_ROLE_ID")
     private List<Role> roles = new ArrayList<Role>();
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "MEMBER_HOME_NODE_ID")
+    @JoinColumn(name = "MEMBER_HOME_NODE_ID", nullable = true)
+    @org.hibernate.annotations.ForeignKey(name = "FK_USER_MEMBER_HOME_NODE_ID")
     private Directory memberHome;
 
     public User() {}

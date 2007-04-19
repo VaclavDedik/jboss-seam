@@ -2,8 +2,8 @@
 insert into USERS (USER_ID, OBJ_VERSION, FIRSTNAME, LASTNAME, USERNAME, PASSWORDHASH, EMAIL, ACTIVATED, CREATED_ON) values (1, 0, 'System', 'Administrator', 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin@email.tld', true, '2006-06-27 13:45:00')
 insert into USERS (USER_ID, OBJ_VERSION, FIRSTNAME, LASTNAME, USERNAME, PASSWORDHASH, EMAIL, ACTIVATED, CREATED_ON) values (2, 0, 'Anonymous', 'Guest', 'guest', 'guest', 'guest', false, '1976-06-26 13:45:00')
 
-insert into ROLE (ROLE_ID, OBJ_VERSION, DISPLAY_NAME, NAME, ACCESS_LEVEL, CREATED_ON) values (1, 0, 'Administrator', 'admin', 1000, '2006-06-27 13:45:00')
-insert into ROLE (ROLE_ID, OBJ_VERSION, DISPLAY_NAME, NAME, ACCESS_LEVEL, CREATED_ON) values (2, 0, 'Guest', 'guest', 0, '2006-06-27 13:45:00')
+insert into ROLES (ROLE_ID, OBJ_VERSION, DISPLAY_NAME, NAME, ACCESS_LEVEL, CREATED_ON) values (1, 0, 'Administrator', 'admin', 1000, '2006-06-27 13:45:00')
+insert into ROLES (ROLE_ID, OBJ_VERSION, DISPLAY_NAME, NAME, ACCESS_LEVEL, CREATED_ON) values (2, 0, 'Guest', 'guest', 0, '2006-06-27 13:45:00')
 
 insert into USER_ROLE (USER_ID, ROLE_ID) values (1,1)
 insert into USER_ROLE (USER_ID, ROLE_ID) values (2,2)
@@ -56,7 +56,7 @@ insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, BOOL
 
 // Some users and their home directories/home pages
 insert into USERS (USER_ID, OBJ_VERSION, FIRSTNAME, LASTNAME, USERNAME, PASSWORDHASH, EMAIL, ACTIVATED, CREATED_ON) values (3, 0, 'Regular', 'Member', 'member', 'aa08769cdcb26674c6706093503ff0a3', 'member@email.tld', true, '2006-06-27 13:45:00')
-insert into ROLE (ROLE_ID, OBJ_VERSION, DISPLAY_NAME, NAME, ACCESS_LEVEL, CREATED_ON) values (3, 0, 'Member', 'member', 1, '2006-06-27 13:45:00')
+insert into ROLES (ROLE_ID, OBJ_VERSION, DISPLAY_NAME, NAME, ACCESS_LEVEL, CREATED_ON) values (3, 0, 'Member', 'member', 1, '2006-06-27 13:45:00')
 insert into USER_ROLE (USER_ID, ROLE_ID) values (3,3)
 insert into NODE (NODE_ID, NODE_TYPE, NODE_REVISION, CREATED_BY_USER_ID, AREA_NR, PARENT_NODE_ID, NODE_POSITION, OBJ_VERSION, NAME, WIKINAME, MENU_ITEM, CREATED_ON, LAST_MODIFIED_ON, WRITE_ACCESS_LEVEL, READ_ACCESS_LEVEL) values (3, 'DIRECTORY', 1, 3, 2, 2, 0, 0, 'member', 'Member', false, '2005-06-27 13:45:00', '2005-06-27 13:45:00', 1000, 0)
 update USERS set MEMBER_HOME_NODE_ID = '3' where USER_ID = '3'
@@ -65,7 +65,7 @@ insert into NODE (NODE_ID, NODE_TYPE, NODE_REVISION, CREATED_BY_USER_ID, AREA_NR
 update NODE set DEFAULT_DOCUMENT_ID = '4' where NODE_ID = '3'
 
 insert into USERS (USER_ID, OBJ_VERSION, FIRSTNAME, LASTNAME, USERNAME, PASSWORDHASH, EMAIL, ACTIVATED, CREATED_ON) values (4, 0, 'Special', 'Member', 'special', 'aa08769cdcb26674c6706093503ff0a3', 'member@email.tld', true, '2006-06-27 13:45:00')
-insert into ROLE (ROLE_ID, OBJ_VERSION, DISPLAY_NAME, NAME, ACCESS_LEVEL, CREATED_ON) values (4, 0, 'Special Member', 'specialmember', 1, '2006-06-27 13:45:00')
+insert into ROLES (ROLE_ID, OBJ_VERSION, DISPLAY_NAME, NAME, ACCESS_LEVEL, CREATED_ON) values (4, 0, 'Special Member', 'specialmember', 1, '2006-06-27 13:45:00')
 insert into USER_ROLE (USER_ID, ROLE_ID) values (4,4)
 insert into NODE (NODE_ID, NODE_TYPE, NODE_REVISION, CREATED_BY_USER_ID, AREA_NR, PARENT_NODE_ID, NODE_POSITION, OBJ_VERSION, NAME, WIKINAME, MENU_ITEM, CREATED_ON, LAST_MODIFIED_ON, WRITE_ACCESS_LEVEL, READ_ACCESS_LEVEL) values (5, 'DIRECTORY', 1, 4, 2, 2, 1, 0, 'special', 'Special', false, '2005-06-27 13:45:00', '2005-06-27 13:45:00', 1000, 0)
 update USERS set MEMBER_HOME_NODE_ID = '5' where USER_ID = '4'
@@ -73,7 +73,7 @@ insert into NODE (NODE_ID, NODE_TYPE, NODE_REVISION, CREATED_BY_USER_ID, AREA_NR
 update NODE set DEFAULT_DOCUMENT_ID = '6' where NODE_ID = '5'
 
 insert into USERS (USER_ID, OBJ_VERSION, FIRSTNAME, LASTNAME, USERNAME, PASSWORDHASH, EMAIL, ACTIVATED, CREATED_ON) values (5, 0, 'Super', 'Member', 'super', 'aa08769cdcb26674c6706093503ff0a3', 'member@email.tld', true, '2006-06-27 13:45:00')
-insert into ROLE (ROLE_ID, OBJ_VERSION, DISPLAY_NAME, NAME, ACCESS_LEVEL, CREATED_ON) values (5, 0, 'Super Member', 'supermember', 666, '2006-06-27 13:45:00')
+insert into ROLES (ROLE_ID, OBJ_VERSION, DISPLAY_NAME, NAME, ACCESS_LEVEL, CREATED_ON) values (5, 0, 'Super Member', 'supermember', 666, '2006-06-27 13:45:00')
 insert into USER_ROLE (USER_ID, ROLE_ID) values (5,5)
 insert into NODE (NODE_ID, NODE_TYPE, NODE_REVISION, CREATED_BY_USER_ID, AREA_NR, PARENT_NODE_ID, NODE_POSITION, OBJ_VERSION, NAME, WIKINAME, MENU_ITEM, CREATED_ON, LAST_MODIFIED_ON, WRITE_ACCESS_LEVEL, READ_ACCESS_LEVEL) values (7, 'DIRECTORY', 1, 5, 2, 2, 2, 0, 'super', 'Super', false, '2005-06-27 13:45:00', '2005-06-27 13:45:00', 1000, 0)
 update USERS set MEMBER_HOME_NODE_ID = '7' where USER_ID = '5'
@@ -110,10 +110,10 @@ insert into NODE (NODE_ID, NODE_TYPE, NODE_REVISION, CREATED_BY_USER_ID, AREA_NR
 insert into NODE (NODE_ID, NODE_TYPE, NODE_REVISION, CREATED_BY_USER_ID, AREA_NR, PARENT_NODE_ID, NODE_POSITION, OBJ_VERSION, NAME, WIKINAME, MENU_ITEM, CONTENT, CREATED_ON, LAST_MODIFIED_ON, WRITE_ACCESS_LEVEL, READ_ACCESS_LEVEL, NAME_AS_TITLE, ENABLE_COMMENTS, ENABLE_COMMENT_FORM) values (22, 'DOCUMENT', 1, 3, 2, 3, 7, 0, 'This is Blog Entry Seven', 'ThisIsBlogEntrySeven', false ,'This is a regular blog entry with some text that we need to fill up the layout. Lets just repeat it a few times: This is a regular blog entry with some text that we need to fill up the layout.This is a regular blog entry with some text that we need to fill up the layout.@@LF@@@@LF@@This is a blog entry with a picture:@@LF@@@@LF@@[=>Another Area|The Moon]@@LF@@@@LF@@[<=comments]','2005-06-27 13:51:00', '2005-06-27 13:45:00', 1000, 0, true, true, true)
 
 // And some feed entries for these entris
-insert into FEEDENTRY (FEEDENTRY_ID, OBJ_VERSION, LINK, TITLE, AUTHOR, PUBLISHED_ON, UPDATED_ON, DESCRIPTION_TYPE, DESCRIPTION_VALUE, DOCUMENT_ID) values (1, 0, 'http://www.lacewiki.org/wiki/21.lace', 'Entry Six', 'Regular Member', '2007-04-09 12:45:00', '2007-04-09 12:45:00', 'text/html', '<p>Blog Entry Nr.6</p>', 21)
+insert into FEEDENTRY (FEEDENTRY_ID, OBJ_VERSION, LINK, TITLE, AUTHOR, PUBLISHED_ON, UPDATED_ON, DESCRIPTION_TYPE, DESCRIPTION_VALUE) values (1, 0, 'http://www.lacewiki.org/wiki/21.lace', 'Entry Six', 'Regular Member', '2007-04-09 12:45:00', '2007-04-09 12:45:00', 'text/html', '<p>Blog Entry Nr.6</p>')
 insert into FEED_FEEDENTRY (FEEDENTRY_ID, FEED_ID) values (1, 1)
 insert into FEED_FEEDENTRY (FEEDENTRY_ID, FEED_ID) values (1, 2)
-insert into FEEDENTRY (FEEDENTRY_ID, OBJ_VERSION, LINK, TITLE, AUTHOR, PUBLISHED_ON, UPDATED_ON, DESCRIPTION_TYPE, DESCRIPTION_VALUE, DOCUMENT_ID) values (2, 0, 'http://www.lacewiki.org/wiki/22.lace', 'This is Blog Entry Seven', 'Regular Member', '2007-04-09 13:45:00', '2007-04-09 13:45:00', 'text/html', '<p>This is a regular blog entry with some text that we need to fill up the layout. Lets just repeat it a few times: This is a regular blog entry with some text that we need to fill up the layout. This is a regular blog entry with some text that we need to fill up the layout.</p><p>@@LF@@@@LF@@This is a blog entry with a picture:</p>@@LF@@@@LF@@<p>[Embedded Image]</p></p>', 22)
+insert into FEEDENTRY (FEEDENTRY_ID, OBJ_VERSION, LINK, TITLE, AUTHOR, PUBLISHED_ON, UPDATED_ON, DESCRIPTION_TYPE, DESCRIPTION_VALUE) values (2, 0, 'http://www.lacewiki.org/wiki/22.lace', 'This is Blog Entry Seven', 'Regular Member', '2007-04-09 13:45:00', '2007-04-09 13:45:00', 'text/html', '<p>This is a regular blog entry with some text that we need to fill up the layout. Lets just repeat it a few times: This is a regular blog entry with some text that we need to fill up the layout. This is a regular blog entry with some text that we need to fill up the layout.</p><p>@@LF@@@@LF@@This is a blog entry with a picture:</p>@@LF@@@@LF@@<p>[Embedded Image]</p></p>')
 insert into FEED_FEEDENTRY (FEEDENTRY_ID, FEED_ID) values (2, 1)
 insert into FEED_FEEDENTRY (FEEDENTRY_ID, FEED_ID) values (2, 2)
 

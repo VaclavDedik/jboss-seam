@@ -8,9 +8,10 @@ public class Directory extends Node {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "DEFAULT_DOCUMENT_ID", nullable = true)
+    @org.hibernate.annotations.ForeignKey(name = "FK_DIRECTORY_DEFAULT_DOCUMENT_ID")
     private Document defaultDocument;
 
-    @OneToOne(mappedBy = "directory", cascade = CascadeType.PERSIST)
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "directory", cascade = CascadeType.PERSIST)
     private Feed feed;
 
     public Directory() { super("New Directory"); }

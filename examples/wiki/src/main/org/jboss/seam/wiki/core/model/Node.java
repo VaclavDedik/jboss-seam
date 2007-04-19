@@ -65,6 +65,8 @@ public abstract class Node implements Serializable {
     // Required EAGER loading, we cast this to 'Directory' sometimes and proxy wouldn't work
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "PARENT_NODE_ID", nullable = true, insertable = false, updatable = false)
+    @org.hibernate.annotations.ForeignKey(name = "FK_NODE_PARENT_NODE_ID")
+    @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
     protected Node parent;
 
     @OneToMany(fetch = FetchType.LAZY)
@@ -83,6 +85,7 @@ public abstract class Node implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CREATED_BY_USER_ID", nullable = false, updatable = false)
+    @org.hibernate.annotations.ForeignKey(name = "FK_NODE_CREATED_BY_USER_ID")
     protected User createdBy;
 
     @Column(name = "LAST_MODIFIED_ON")
@@ -90,6 +93,7 @@ public abstract class Node implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "LAST_MODIFIED_BY_USER_ID")
+    @org.hibernate.annotations.ForeignKey(name = "FK_NODE_LAST_MODIFIED_BY_USER_ID")
     protected User lastModifiedBy;
 
     @Transient

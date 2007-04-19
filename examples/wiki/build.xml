@@ -79,15 +79,10 @@
     </path>
 
     <path id="tools.classpath">
-        <fileset dir="../../seam-gen/lib">
-            <include name="*.jar"/>
-        </fileset>
-        <fileset dir="../../hibernate/lib">
-            <include name="*.jar"/>
-        </fileset>
         <fileset dir="../../lib">
             <include name="thirdparty*.jar"/>
         </fileset>
+        <fileset dir="${local.lib.dir}"/>
     </path>
 
     <patternset id="meta.files">
@@ -196,6 +191,7 @@
             <fileset dir="${local.lib.dir}">
                 <exclude name="hibernate*"/>
                 <exclude name="ejb3*"/>
+                <exclude name="jboss*"/>
             </fileset>
         </copy>
 
@@ -313,7 +309,7 @@
 
     <!-- ######################## TOOLS ################## -->
 
-    <target name="schemaexport" depends="compileclasses"
+    <target name="schemaexport" depends="clean, exploderegular, exploderesources"
         description="Exports a generated schema to a file">
 
         <taskdef name="hibernatetool"
@@ -323,7 +319,7 @@
         <mkdir dir="${dist.dir}"/>
 
         <hibernatetool destdir="${basedir}">
-            <classpath path="${classes.dir}"/>
+            <classpath path="${exploded.war.dir}/WEB-INF/classes"/>
             <jpaconfiguration/> <!-- Use META-INF/persistence.xml -->
             <hbm2ddl
                 drop="false"
@@ -333,6 +329,10 @@
                 delimiter=";"
                 format="true"/>
         </hibernatetool>
+
+        <!-- Clean up afterwards for the next deploy run -->
+        <antcall target="clean"/>
+
         <echo message="Exported DDL to file: ${dist.dir}/wiki-ddl.sql"/>
     </target>
 
