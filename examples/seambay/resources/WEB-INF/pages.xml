@@ -4,6 +4,10 @@
 
 <pages login-view-id="/home.xhtml">
 
+    <page view-id="/search.xhtml">
+        <param name="categoryId" value="#{auctionSearch.selectedCategoryId}"/>
+    </page>
+
     <page view-id="/home.xhtml">
         <navigation from-action="#{identity.login}">
             <rule if="#{s:hasRole('user')}">
@@ -21,7 +25,7 @@
     </page>
     
     <page view-id="/auction.xhtml">
-      <param name="id" value="#{auctionDetail.selectedAuctionId}"/>
+        <param name="id" value="#{auctionDetail.selectedAuctionId}"/>
 
     </page>
     

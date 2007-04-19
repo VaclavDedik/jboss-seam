@@ -20,6 +20,26 @@
       
       <h:messages globalOnly="true"/>
       
+      <br class="clear"/>
+      
+      <div class="headerNav">
+        <div class="navHome">
+          <s:link view="/home.xhtml"><img src="img/arrow_left.png" border="0"/></s:link>
+        </div>
+        <div class="navHome">
+          <s:link view="/home.xhtml" value="Back to home page"/>        
+        </div>
+        
+        <div class="navCategory">
+          Listed in category: 
+          <s:link value="#{auction.category.name}" view="/search.xhtml" propagation="none">
+            <f:param name="categoryId" value="#{auction.category.categoryId}"/>
+          </s:link>
+        </div>
+        
+        <br class="clear"/>        
+      </div>
+      
       <div id="itemHeader">
         <div class="headerTitle">
           #{auction.title}
@@ -32,22 +52,108 @@
       
       <div id="itemSummary">
         <div class="itemImage">
-    	    <s:graphicImage rendered="#{auction.image ne null}" value="#{auction.image.data}">
+          <s:graphicImage rendered="#{auction.image ne null}" value="#{auction.image.data}">
             <s:transformImageSize width="200" maintainRatio="true"/>
-    	    </s:graphicImage>        
+          </s:graphicImage>        
         </div>
       
         <div class="itemDetails">
-          <label>Current bid:</label>
-    			$<h:outputText value="#{auction.price}">
-    			  <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
-    			</h:outputText>          
+          <div class="itemDetailRow">
+            <label>Current bid:</label>
+            <div>
+              $<b><h:outputText value="#{auction.price}">
+                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+              </h:outputText></b>
+            </div>
+          </div>
+          
+          <hr class="itemDetailSeparator" />
+          
+          <div class="itemDetailRow">
+            <label>End time:</label>
+            <div>
+              <b>
+                <h:outputText value="#{auction.endDate}">
+                  <f:convertDateTime pattern="dd-MMM-yyyy H:mm:ss"/>
+                </h:outputText>
+              </b>
+              <span> (#{auction.daysHoursLeft})</span>
+            </div>
+          </div>
+          
+          <div class="itemDetailRow">
+            <label>Item location:</label>
+            <div>
+              #{auction.account.location}
+            </div>
+          </div>
+          
+          <div class="itemDetailRow">
+            <label>History:</label>
+            <div>
+              <s:link view="/bidhistory.seam" propagation="none">
+                #{auction.bids} bids
+                
+                <f:param name="auctionId" value="#{auction.auctionId}"/>
+              </s:link>
+            </div>
+          </div>
+
+          <div class="itemDetailRow">
+            <label>High bidder:</label>
+            <div>
+              <span>#{auction.highBidder.name}</span>
+              <h:outputText value="No bids" rendered="#{auction.highBidder eq null}"/>
+            </div>
+          </div>
+
+          <hr class="itemDetailSeparator" />
+
         </div>
+        
       </div>
       
       <div id="sellerDetail">
+        <div class="sellerHeader">Meet the seller</div>
+        
+        <div class="sellerDetailRow">
+          <label>Seller:</label>
+          <div>#{auction.account.name}</div>
+        </div>
+        
+        <div class="sellerDetailRow">
+          <label>Feedback:</label>
+          <div>
+            <b>
+              <h:outputText value="#{auction.account.feedbackScore}">
+                <f:convertNumber maxFractionDigits="0"/>
+              </h:outputText>% Positive
+            </b>
+          </div>
+        </div>
+        
+        <div class="sellerDetailRow">
+          <label>Member:</label>
+          <div>
+            <span>since </span>
+            <h:outputText value="#{auction.account.memberSince}">
+              <f:convertDateTime pattern="dd-MMM-yyyy"/>
+            </h:outputText>
+          </div>
+        </div>
+        
+        <div class="sellerHeader">Buy safely</div>        
       
-      
+        <div><b>1. Check the seller's reputation</b></div>
+        <div style="margin-left:16px">
+          Score: <span>#{auction.account.feedbackCount} | </span>
+          <h:outputText value="#{auction.account.feedbackScore}">
+            <f:convertNumber maxFractionDigits="0"/>
+          </h:outputText>% Positive<br/>
+          <s:link view="/feedback.xhtml" value="Read the feedback comments">
+            <f:param name="member" value="#{auction.account.accountId}"/>
+          </s:link>
+        </div>
       </div>
       
       <div class="descriptionHeader">

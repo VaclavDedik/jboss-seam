@@ -17,6 +17,7 @@ public class Account implements Serializable
    private int feedbackCount;
    private float feedbackScore;
    private Date memberSince;
+   private String location;
    
    @Id @GeneratedValue
    public Integer getAccountId()
@@ -67,5 +68,15 @@ public class Account implements Serializable
    public void setMemberSince(Date memberSince)
    {
       this.memberSince = memberSince;
+   }
+   
+   public String getLocation()
+   {
+      return location;
+   }
+   
+   public void setLocation(String location)
+   {
+      this.location = location;
    }
 }

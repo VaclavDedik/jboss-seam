@@ -153,4 +153,14 @@ public class AuctionSearchAction implements Serializable
    {
       this.searchCategory = category;  
    }
+   
+   public Integer getSelectedCategoryId()
+   {
+      return searchCategory != null ? searchCategory.getCategoryId() : null;
+   }
+   
+   public void setSelectedCategoryId(Integer categoryId)
+   {
+      selectCategory(entityManager.find(Category.class, categoryId));
+   }
 }

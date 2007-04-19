@@ -29,6 +29,7 @@ public class Auction implements Serializable
    private String description;
    private Date endDate;
    private AuctionImage image;
+   private Account highBidder;
    private int bids;
    private double price;
    
@@ -112,6 +113,16 @@ public class Auction implements Serializable
       this.image = image;
    }
    
+   public Account getHighBidder()
+   {
+      return highBidder;
+   }
+   
+   public void setHighBidder(Account highBidder)
+   {
+      this.highBidder = highBidder;
+   }
+   
    public int getBids()
    {
       return bids;
@@ -141,8 +152,8 @@ public class Auction implements Serializable
       timeLeft -= hours * 60 * 60;
       int minutes = (int) Math.floor(timeLeft / 60);
       
-      timeLeft -= minutes * 60;
-      int seconds = (int) timeLeft;
+//      timeLeft -= minutes * 60;
+//      int seconds = (int) timeLeft;
 
       StringBuilder sb = new StringBuilder();
       
@@ -156,6 +167,30 @@ public class Auction implements Serializable
          sb.append(String.format("%dm ", minutes));     
       
       return sb.toString();
+   }
+   
+   @Transient
+   public String getDaysHoursLeft()
+   {
+      long timeLeft = getTimeLeft() / 1000;
+      
+      int days = (int) Math.floor(timeLeft / (60 * 60 * 24));
+      
+      timeLeft -= days * 24 * 60 * 60;
+      int hours = (int) Math.floor(timeLeft / (60 * 60));
+      
+      StringBuilder sb = new StringBuilder();
+      
+      if (days > 0)
+         sb.append(String.format("%d days ", days));
+      
+      if (hours > 0)
+         sb.append(String.format("%d hour", hours));
+      
+      if (hours > 1)
+         sb.append('s');
+      
+      return sb.toString();      
    }
    
    public double getPrice()

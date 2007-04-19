@@ -14,9 +14,8 @@ insert into category (categoryId, name) values (13, 'Sporting goods');
 insert into category (categoryId, name) values (14, 'Toys');
 insert into category (categoryId, name) values (15, 'Video Games');
 
-insert into account (accountId, name, feedbackCount, feedbackScore, memberSince) values (1, 'demo', 0, 0, CURRENT_TIMESTAMP);
+insert into account (accountId, name, feedbackCount, feedbackScore, memberSince, location) values (1, 'demo', 0, 0, CURRENT_TIMESTAMP, 'Sydney, New South Wales, Australia');
 insert into user (userId, username, password, account_id) values (1, 'demo', 'demo', 1);
-
 
 insert into auction (auctionId, account_id, title, category_Id, price, bids, endDate, status) values (1, 1, 'Whistler''s Mother, original painting by James McNeill Whistler', 2, 5999999.95, 0, CURRENT_TIMESTAMP, 1);
 insert into auction (auctionId, account_id, title, category_Id, price, bids, endDate, status) values (2, 1, 'Lost Tales Volume 1 by J.R.R. Tolkien', 3, 4.50, 0, CURRENT_TIMESTAMP, 1);
