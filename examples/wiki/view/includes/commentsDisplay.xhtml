@@ -41,7 +41,7 @@
             </s:div>
 
             <div align="right">
-                <h:form rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}">
+                <h:form rendered="#{s:hasPermission('Comment', 'delete', currentDocument)}">
                     <a:commandLink action="#{commentHome.remove(c.id)}" reRender="body"
                                    styleClass="button"><span class="buttonLabel">Remove Comment</span></a:commandLink>
                 </h:form>

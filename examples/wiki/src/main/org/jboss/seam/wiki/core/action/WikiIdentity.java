@@ -62,6 +62,9 @@ public class WikiIdentity extends Identity {
         } else
         if ("User".equals(name) && "isAdmin".equals(action)) {
             return checkIsAdmin((User)args[0]);
+        } else
+        if ("Comment".equals(name) && "delete".equals(action)) {
+            return checkCommentDelete((Node)args[0]);
         }
 
 
@@ -175,6 +178,15 @@ public class WikiIdentity extends Identity {
     */
     private boolean checkIsAdmin(User user) {
         if (currentAccessLevel == UserRoleAccessFactory.ADMINROLE_ACCESSLEVEL) return true;
+        return false;
+    }
+
+    /*
+        Only admins or document creator can delete comments
+    */
+    private boolean checkCommentDelete(Node node) {
+        if (currentAccessLevel == UserRoleAccessFactory.ADMINROLE_ACCESSLEVEL) return true;
+        if (node.getCreatedBy().getId().equals(currentUser.getId())) return true;
         return false;
     }
 

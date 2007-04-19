@@ -3,6 +3,8 @@ package org.jboss.seam.wiki.core.action;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Component;
+import org.jboss.seam.security.Identity;
+import org.jboss.seam.security.AuthorizationException;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.wiki.core.model.Document;
 import org.jboss.seam.wiki.core.model.User;
@@ -106,6 +108,9 @@ public class CommentHome implements Serializable {
     @Transactional
     public void remove(Long commentId) {
         entityManager.joinTransaction();
+        if (!Identity.instance().hasPermission("Comment", "delete", entityManager.merge(currentDocument)) ) {
+            throw new AuthorizationException("You don't have permission for this operation");
+        }
 
         Comment foundCommment = entityManager.find(Comment.class, commentId);
         if (foundCommment != null) {
