@@ -1003,8 +1003,8 @@
         <title>Infrastructural components</title>
         <para>
             These components provide critical platform infrastructure. You can install a component
-            by including its class name in the <literal>org.jboss.seam.core.init.componentClasses</literal>
-            configuration property.
+            which isn't installed by default by setting <literal>install="true"</literal> on the 
+            component in <literal>components.xml</literal>.
         </para>
         
     	<variablelist spacing="compact">
