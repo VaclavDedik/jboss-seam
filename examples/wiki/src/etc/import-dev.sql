@@ -52,6 +52,10 @@ insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, BOOL
 
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, BOOLEAN_VALUE)  values (26, 0, 'commentsPreferences', 'listAscending', true)
 
+insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, STRING_VALUE)   values (27, 0, 'flashPreferences', 'flashURL', '')
+insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (28, 0, 'flashPreferences', 'objectWidth', 350)
+insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (29, 0, 'flashPreferences', 'objectHeight', 425)
+
 // Development test data
 
 // Some users and their home directories/home pages

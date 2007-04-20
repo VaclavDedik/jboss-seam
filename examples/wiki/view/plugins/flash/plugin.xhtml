@@ -1,0 +1,38 @@
+<wiki:plugin
+	 xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:wiki="http://jboss.com/products/seam/wiki"
+     xmlns:s="http://jboss.com/products/seam/taglib">
+
+<s:div styleClass="#{showPluginPreferences and !empty flashPreferencesEditor ? 'pluginPreferencesBox' : null}">
+
+    <s:div id="flashPreferences"
+           rendered="#{showPluginPreferences and !empty flashPreferencesEditor}">
+        <div align="center">
+            <h:message for="flashPreferences" styleClass="attentionMessage"/>
+
+            <ui:include src="../../includes/pluginPreferencesForm.xhtml">
+                <ui:param name="pluginPreferencesEditor" value="#{flashPreferencesEditor}"/>
+            </ui:include>
+        </div>
+    </s:div>
+
+    <s:div rendered="#{!empty flashPreferences.properties['flashURL']}">
+        <object width="#{flashPreferences.properties['objectWidth']}"
+                height="#{flashPreferences.properties['objectHeight']}">
+            <param name="movie" value="#{flashPreferences.properties['flashURL']}"></param>
+            <param name="wmode" value="transparent"></param>
+            <embed src="#{flashPreferences.properties['flashURL']}"
+                   type="application/x-shockwave-flash"
+                   wmode="transparent"
+                   width="#{flashPreferences.properties['objectWidth']}"
+                   height="#{flashPreferences.properties['objectHeight']}">
+           </embed>
+        </object>
+    </s:div>
+
+</s:div>
+
+</wiki:plugin>
