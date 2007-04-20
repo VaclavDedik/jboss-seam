@@ -74,6 +74,7 @@ public class FeedDAO {
             feedEntry.setUpdatedDate(feedEntry.getPublishedDate());
             feedEntry.setDescriptionType("text/html");
             feedEntry.setDescriptionValue(renderWikiText(document.getContent()));
+            feedEntry.setDocument(document);
             feedEntry.getFeeds().addAll(feeds);
 
             restrictedEntityManager.persist(feedEntry);
@@ -107,7 +108,7 @@ public class FeedDAO {
 
     private String renderWikiText(String wikiText) {
         // Use the WikiTextParser to resolve macros
-        WikiTextParser parser = new WikiTextParser(wikiText, false);
+        WikiTextParser parser = new WikiTextParser(wikiText, true, true);
 
         // Set a customized renderer for parser macro callbacks
         parser.setRenderer(

@@ -13,7 +13,7 @@ import java.io.Serializable;
 
 @Name("userManagementPreferences")
 @AutoCreate
-@Scope(ScopeType.PAGE)
+@Scope(ScopeType.CONVERSATION)
 @Preference(description = "A. User Management", visibility = PreferenceVisibility.SYSTEM)
 public class UserManagementPreferences extends PreferenceSupport implements Serializable {
 

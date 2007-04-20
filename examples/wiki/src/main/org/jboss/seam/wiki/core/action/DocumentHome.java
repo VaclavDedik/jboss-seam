@@ -37,16 +37,20 @@ public class DocumentHome extends NodeHome<Document> {
         super.create();
 
         // Rollback to historical revision?
-        if (selectedHistoricalNode != null) getInstance().rollback(selectedHistoricalNode);
+        if (selectedHistoricalNode != null) {
+            getLog().debug("rolling back to revision: " + selectedHistoricalNode.getRevision());
+            getInstance().rollback(selectedHistoricalNode);
+        }
+
+        // Wiki text parser and others needs it
+        Contexts.getConversationContext().set("currentDocument", getInstance());
+        Contexts.getConversationContext().set("currentDirectory", getParentDirectory());
 
         // Make a copy
         historicalCopy = new Document(getInstance());
         minorRevision = (Boolean)((DocumentEditorPreferences)Component
                 .getInstance("docEditorPreferences")).getProperties().get("minorRevisionEnabled");
 
-        // Wiki text parser needs it
-        Contexts.getConversationContext().set("currentDocument", getInstance());
-        Contexts.getConversationContext().set("currentDirectory", getParentDirectory());
     }
 
     /* -------------------------- Custom CUD ------------------------------ */

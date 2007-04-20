@@ -36,13 +36,13 @@
 <ui:define name="content">
 
 <h:form rendered="#{historicalNodeList.rowCount >0}">
-<div class="form">
 
-    <div class="formHead">Document History: #{currentNode.name}</div>
-    <div class="formFieldsWideLabels">
+<div class="form">
+<div class="formHead">Document History: #{currentNode.name}</div>
+<div class="formFields formBorder wideLabels">
 
         <s:div styleClass="entry">
-            <div class="label">Revision:</div>
+            <div class="label">Current revision:</div>
             <div class="output">
                 <h:outputText value="#{currentNode.revision}"/>
             </div>
@@ -84,8 +84,7 @@
                              styleClass="datatable topLeftBottomBorder"
                              headerClass="sortableHeader rightBorder"
                              columnClasses="onePercentColumn rightBorder alignCenter,
-                                            tenPercentColumn rightBorder alignLeft,
-                                            tenPercentColumn rightBorder alignLeft,
+                                            twentyPercentColumn rightBorder alignLeft,
                                             defaultColumn rightBorder alignCenter"
                              rowClasses="rowOdd,rowEven"
                              cellpadding="0" cellspacing="0" border="0">
@@ -96,15 +95,11 @@
                     </h:column>
 
                     <h:column>
-                        <f:facet name="header">Last Modified On</f:facet>
+                        <f:facet name="header">Last Modified</f:facet>
                         <h:outputText value="#{hnode.lastModifiedOn}">
                             <f:convertDateTime type="both"/>
                         </h:outputText>
-                    </h:column>
-
-                    <h:column>
-                        <f:facet name="header">Last Modified By</f:facet>
-                        <h:outputText value="#{hnode.lastModifiedByUsername}"/>
+                        (#{hnode.lastModifiedByUsername})
                     </h:column>
 
                     <h:column>
@@ -127,14 +122,9 @@
 </div>
 </h:form>
 
-    <s:div id="diffOutput" rendered="#{not empty nodeHistory.diffResult}">
-        <wiki:formattedText value="#{nodeHistory.diffResult}"
-                            linkStyleClass="regularLink"
-                            brokenLinkStyleClass="brokenLink"
-                            attachmentLinkStyleClass="regularLink"
-                            inlineLinkStyleClass="regularLink"/>
-    </s:div>
-
+<s:div id="diffOutput" rendered="#{not empty nodeHistory.diffResult}">
+    <h:outputText value="#{nodeHistory.diffResult}" escape="false"/>
+</s:div>
 
 </ui:define>
 

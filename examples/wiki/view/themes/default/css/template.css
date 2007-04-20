@@ -652,3 +652,26 @@ a:visited {
     margin-top: 10px;
 }
 
+/* Document history and diff
+-----------------------------------------------*/
+
+#diffOutput {
+    margin: 10px;
+}
+
+.diffDeleted {
+    background-color: #ffaaaa;
+}
+
+.diffAdded {
+    background-color: #aaffaa;
+}
+
+.diffLink {
+    text-decoration: underline;
+}
+
+.diffPlugin {
+    border: 1px dashed black;
+    padding: 2px;
+}

@@ -53,7 +53,7 @@ public class UIWikiFormattedText extends UIOutput {
         if (!isRendered() || getValue() == null) return;
 
         // Use the WikiTextParser to resolve macros
-        WikiTextParser parser = new WikiTextParser((String) getValue(), false);
+        WikiTextParser parser = new WikiTextParser((String) getValue(), false, true);
 
         // Set a customized renderer for parser macro callbacks
         parser.setRenderer(new WikiTextRenderer() {

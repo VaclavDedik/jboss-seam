@@ -64,11 +64,11 @@ public abstract class PreferenceSupport {
     }
 
     private void loadPropertyValues() {
-        log.debug("Loading preference component property values");
         PreferenceRegistry registry = (PreferenceRegistry) Component.getInstance("preferenceRegistry");
         PreferenceProvider provider = (PreferenceProvider) Component.getInstance("preferenceProvider");
         Object user = getCurrentUserVariable() != null ? Component.getInstance(getCurrentUserVariable()) : null;
         Object instance = getCurrentInstanceVariable() != null ? Component.getInstance(getCurrentInstanceVariable()) : null;
+        log.debug("loading preference component property values for user: " + user + " and instance: " + instance);
 
         PreferenceComponent prefComponent =
             registry.getPreferenceComponentsByName().get( Component.getComponentName(getClass()) );
@@ -76,7 +76,7 @@ public abstract class PreferenceSupport {
         try {
             Set<PreferenceValue> valueHolders = provider.load(prefComponent, user, instance, true);
             for (PreferenceValue valueHolder : valueHolders) {
-                log.trace("Loaded preference property value: " + valueHolder.getPreferenceProperty().getName());
+                log.trace("loaded preference property value: " + valueHolder.getPreferenceProperty().getName());
 
                 // Write onto instance so users can call #{myPrefs.getThisPreferenceSetting}
                 valueHolder.getPreferenceProperty().write(this, valueHolder.getValue());
@@ -96,11 +96,11 @@ public abstract class PreferenceSupport {
         PreferenceComponent prefComponent =
             registry.getPreferenceComponentsByName().get( Component.getComponentName(getClass()) );
 
-        log.debug("Refreshing preference component property values: " + prefComponent.getName());
+        log.debug("refreshing preference component property values: " + prefComponent.getName());
 
         loadPropertyValues();
 
-        log.debug("Notifying all preference component refresh isteners");
+        log.debug("notifying all preference component refresh isteners");
 
         Events.instance().raiseEvent("Preferences." + prefComponent.getName());
     }

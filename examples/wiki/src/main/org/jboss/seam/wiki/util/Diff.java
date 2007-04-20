@@ -2,7 +2,6 @@ package org.jboss.seam.wiki.util;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.ArrayList;
 
 /**
  * String comparison and diff algorithms with customizable result rendering.
@@ -22,7 +21,7 @@ public abstract class Diff {
      * @param ignoreStrings These strings are ignored and not marked as different.
      * @return String A result with all deletions and modifications highlighted with custom boundary markers.
      */
-    public String[] renderDiff(String[] x, String[] y, String... ignoreStrings) {
+    public String[] createDiff(String[] x, String[] y, String... ignoreStrings) {
         List<String> ignoreList = Arrays.asList(ignoreStrings);
 
         int M = x.length;
@@ -91,7 +90,6 @@ public abstract class Diff {
         }
         return diff.toString();
     }
-
 
     protected abstract String getDeletionStartMarker();
     protected abstract String getDeletionEndMarker();

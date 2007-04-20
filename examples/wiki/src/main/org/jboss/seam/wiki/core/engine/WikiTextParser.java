@@ -39,10 +39,12 @@ public class WikiTextParser extends SeamTextParser {
     private List<WikiLink> externalLinks = new ArrayList<WikiLink>();
     private Set<String> macroNames = new HashSet<String>();
     private boolean renderDuplicateMacros;
+    private boolean resolveLinks;
 
-    public WikiTextParser(String wikiText, boolean renderDuplicateMacros) {
+    public WikiTextParser(String wikiText, boolean renderDuplicateMacros, boolean resolveLinks) {
         super(new SeamTextLexer(new StringReader(wikiText)));
         this.renderDuplicateMacros = renderDuplicateMacros;
+        this.resolveLinks = resolveLinks;
 
         resolver = (WikiLinkResolver)Component.getInstance("wikiLinkResolver");
 
@@ -100,6 +102,13 @@ public class WikiTextParser extends SeamTextParser {
     }
 
     protected String linkTag(String descriptionText, String linkText) {
+        if (!resolveLinks) {
+            // Don't resolve links, just call back to renderer for simple inline rendering of what we have
+            WikiLink unresolvedLink = new WikiLink(false, false);
+            unresolvedLink.setDescription(descriptionText);
+            unresolvedLink.setUrl(linkText);
+            return renderer.renderInlineLink(unresolvedLink);
+        }
 
         resolver.resolveLinkText(currentDirectory.getAreaNumber(), resolvedLinks, linkText);
         WikiLink link = resolvedLinks.get((linkText));
