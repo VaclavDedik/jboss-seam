@@ -88,11 +88,13 @@ public class FeedDAO {
             .createQuery("update FeedEntry fe set" +
                          " fe.updatedDate = :date," +
                          " fe.title = :title," +
+                         " fe.link = :link," +
                          " fe.author = :author, " +
                          " fe.descriptionValue = :description" +
                          " where fe.document = :document")
             .setParameter("date", document.getLastModifiedOn())
             .setParameter("title", document.getName())
+            .setParameter("link", renderFeedURL(document))
             .setParameter("author", document.getLastModifiedBy().getFullname())
             .setParameter("description", renderWikiText(document.getContent()))
             .setParameter("document", document)
@@ -103,7 +105,7 @@ public class FeedDAO {
 
     private String renderFeedURL(Node node) {
         WikiPreferences wikiPrefs = (WikiPreferences) Component.getInstance("wikiPreferences");
-        return wikiPrefs.getBaseUrl() + WikiUtil.renderURL(node);
+        return wikiPrefs.getBaseUrl() + "/" + node.getId() + wikiPrefs.getPermlinkSuffix();
     }
 
     private String renderWikiText(String wikiText) {
