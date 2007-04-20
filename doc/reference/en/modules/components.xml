@@ -2,7 +2,10 @@
     <title>Built-in Seam components</title>
     <para>
         This chapter describes Seam's built-in components, and their
-        configuration properties.
+        configuration properties. The built-in components will be created even if they
+        are not listed in your <literal>components.xml</literal> file, but if you need to
+        override default properties or specify more than one component of a certain type,
+        <literal>components.xml</literal> is used.
     </para>
     
     <para>
@@ -960,7 +963,11 @@
                 <term><literal>org.jboss.seam.mail.mailSession</literal></term>
                 <listitem>
                     <para>
-                        Manager component for a JavaMail <literal>Session</literal> .
+                        Manager component for a JavaMail <literal>Session</literal>. The
+                        session can be either looked up in the JNDI context (by setting the
+                        <literal>sessionJndiName</literal> property) or it can created from the
+                        configuration options in which case the <literal>host</literal> is
+                        mandatory. 
                     </para>
                      <itemizedlist>
                         <listitem>
@@ -990,7 +997,13 @@
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>org.jboss.seam.mail.mailSession.sessionJndiName</literal> &mdash; name under which a javax.mail.Session is bound to JNDI
+                            <literal>org.jboss.seam.mail.mailSession.ssl</literal> &mdash; enable SSL connection to SMTP (will default to port 465)
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.mail.mailSession.sessionJndiName</literal> &mdash; name under which a javax.mail.Session is bound to JNDI.
+                            If supplied, all other properties will be ignored.
                         </para>
                         </listitem>
                     </itemizedlist>
