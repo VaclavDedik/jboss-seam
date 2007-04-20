@@ -185,6 +185,7 @@
                 <include name="commons-beanutils-*.jar"/>
                 <include name="jbpm*.jar" />
                 <include name="jboss-el.jar" />
+                <include name="urlrewrite*.jar" />
             </fileset>
         </copy>
         <copy todir="${exploded.war.dir}/WEB-INF/lib">

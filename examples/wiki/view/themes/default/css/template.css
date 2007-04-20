@@ -53,6 +53,53 @@ a:visited {
     color: #666;
 }
 
+h1 {
+    font-size: 150%;
+    font-weight: normal;
+}
+
+h2 {
+    font-size: 125%;
+    font-weight: bold;
+}
+
+h3 {
+    font-size: 110%;
+    font-weight: bold;
+}
+
+
+h4 {
+    font-size: 100%;
+    font-weight: bold;
+}
+
+q {
+    font-style: italic;
+}
+
+pre {
+    background-color: #f5f5f5;
+    border: 1px solid #aaaaaa;
+    padding: 5px;
+    font-family: Andale Mono, Courier New, monospace;
+    font-size: 90%;
+}
+
+hr {
+    width: 100%;
+    border-width: 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: 1px;
+    color: #BCAE79;
+    background-color: #BCAE79;
+}
+
+ul {
+    list-style: square;
+}
+
 /* Layout
 ----------------------------------------------- */
 #screen {
