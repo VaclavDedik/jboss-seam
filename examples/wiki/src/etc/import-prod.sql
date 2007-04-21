@@ -4,6 +4,7 @@ insert into USERS (USER_ID, OBJ_VERSION, FIRSTNAME, LASTNAME, USERNAME, PASSWORD
 
 insert into ROLES (ROLE_ID, OBJ_VERSION, DISPLAY_NAME, NAME, ACCESS_LEVEL, CREATED_ON) values (1, 0, 'Administrator', 'admin', 1000, '2006-06-27 13:45:00')
 insert into ROLES (ROLE_ID, OBJ_VERSION, DISPLAY_NAME, NAME, ACCESS_LEVEL, CREATED_ON) values (2, 0, 'Guest', 'guest', 0, '2006-06-27 13:45:00')
+insert into ROLES (ROLE_ID, OBJ_VERSION, DISPLAY_NAME, NAME, ACCESS_LEVEL, CREATED_ON) values (3, 0, 'Member', 'member', 1, '2006-06-27 13:45:00')
 
 insert into USER_ROLE (USER_ID, ROLE_ID) values (1,1)
 insert into USER_ROLE (USER_ID, ROLE_ID) values (2,2)
@@ -51,6 +52,10 @@ insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, BOOLEAN_VALUE)  values (25, 0, 'feedTeasersPreferences', 'showAuthor', true)
 
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, BOOLEAN_VALUE)  values (26, 0, 'commentsPreferences', 'listAscending', true)
+
+insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, STRING_VALUE)   values (27, 0, 'flashPreferences', 'flashURL', '')
+insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (28, 0, 'flashPreferences', 'objectWidth', 350)
+insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (29, 0, 'flashPreferences', 'objectHeight', 425)
 
 // Start document
 insert into NODE (NODE_ID, NODE_TYPE, NODE_REVISION, CREATED_BY_USER_ID, AREA_NR, PARENT_NODE_ID, NODE_POSITION, OBJ_VERSION, NAME, WIKINAME, MENU_ITEM, CREATED_ON, LAST_MODIFIED_ON, WRITE_ACCESS_LEVEL, READ_ACCESS_LEVEL) values (3, 'DIRECTORY', 1, 1, 3, 1, 1, 0, 'LaceWiki Home', 'LaceWikiHome', true, '1976-06-16 13:45:00', '1976-06-16 13:45:00', 0, 0)

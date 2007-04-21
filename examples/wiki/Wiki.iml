@@ -548,15 +548,6 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/urlrewrite-3.0.3.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/rome-0.9.jar!/" />
         </CLASSES>
         <JAVADOC />
@@ -576,6 +567,15 @@
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/hibernate-validator.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../lib/urlrewrite-3.0.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -687,11 +687,6 @@
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib/rome-0.9.jar" />
       <url>jar://$MODULE_DIR$/lib/rome-0.9.jar!/</url>
-    </containerElement>
-    <containerElement type="library" level="module">
-      <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/lib/urlrewrite-3.0.3.jar" />
-      <url>jar://$MODULE_DIR$/lib/urlrewrite-3.0.3.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />
@@ -912,6 +907,11 @@
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib/thirdparty-all.jar" />
       <url>jar://$MODULE_DIR$/../../lib/thirdparty-all.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="1" />
+      <attribute name="URI" value="/WEB-INF/lib/urlrewrite-3.0.4.jar" />
+      <url>jar://$MODULE_DIR$/../../lib/urlrewrite-3.0.4.jar!/</url>
     </containerElement>
     <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/src/etc/WEB-INF/web.xml" optional="false" version="2.4" />
     <webroots>

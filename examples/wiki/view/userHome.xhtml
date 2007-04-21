@@ -80,7 +80,8 @@
                             <div class="label">E-Mail:</div>
                             <div class="input">
                                 <h:inputText tabindex="3" size="40" maxlength="255" required="true"
-                                             id="email" value="#{userHome.instance.email}">
+                                             id="email" value="#{userHome.instance.email}"
+                                             disabled="#{userHome.instance.username == guestUser.username}">
                                     <a:support event="onblur" reRender="emailDecorate"/>
                                 </h:inputText>
                             </div>
@@ -92,7 +93,9 @@
                             <div class="label">Username:</div>
                             <div class="input">
                                 <h:inputText tabindex="4" size="16" maxlength="16" required="true"
-                                             id="username" value="#{userHome.instance.username}">
+                                             id="username" value="#{userHome.instance.username}"
+                                             disabled="#{userHome.instance.username == adminUser.username
+                                                         or userHome.instance.username == guestUser.username}">
                                     <a:support event="onblur" action="#{userHome.validateUsername}" reRender="usernameDecorate"/>
                                 </h:inputText>
                             </div>
@@ -104,7 +107,8 @@
                             <div class="label">Password:</div>
                             <div class="input">
                                 <h:inputSecret tabindex="5" size="15" maxlength="15"
-                                               id="password" redisplay="true" value="#{userHome.password}">
+                                               id="password" redisplay="true" value="#{userHome.password}"
+                                               disabled="#{userHome.instance.username == guestUser.username}">
                                     <a:support event="onblur" action="#{userHome.validatePassword}" reRender="passwordDecorate"/>
                                 </h:inputSecret>
                             </div>
@@ -116,7 +120,8 @@
                             <div class="label">Repeat password:</div>
                             <div class="input">
                                 <h:inputSecret tabindex="6" size="15" maxlength="15"
-                                               id="passwordControl" redisplay="true" value="#{userHome.passwordControl}">
+                                               id="passwordControl" redisplay="true" value="#{userHome.passwordControl}"
+                                               disabled="#{userHome.instance.username == guestUser.username}">
                                 <a:support event="onblur" action="#{userHome.validatePasswordControl}" reRender="passwordControlDecorate"/>
                             </h:inputSecret>
                             </div>

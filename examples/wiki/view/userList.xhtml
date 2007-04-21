@@ -146,6 +146,7 @@
                 </f:facet>
                 <h:outputLink value="#{wiki:renderHomeURL(u)}" rendered="#{!empty u.memberHome}">#{u.username}</h:outputLink>
                 <h:outputText rendered="#{empty u.memberHome}">#{u.username}</h:outputText>
+                <h:outputText rendered="#{!empty u.activationCode}">&#160;(Not Activated)</h:outputText>
             </h:column>
 
             <h:column>

@@ -4,10 +4,6 @@
 <pages login-view-id="/loginRequired.xhtml"
         no-conversation-view-id="/display.xhtml">
 
-    <page view-id="/test.xhtml" action="#{browser.prepare}">
-        <param name="nodeId" value="#{browser.nodeId}"/>
-    </page>
-
     <page view-id="/display.xhtml" action="#{browser.prepare}">
         <param name="nodeId" value="#{browser.nodeId}"/>
 

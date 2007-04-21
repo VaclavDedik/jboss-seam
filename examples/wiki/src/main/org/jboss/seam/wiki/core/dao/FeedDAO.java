@@ -9,7 +9,6 @@ import org.jboss.seam.wiki.core.engine.WikiTextParser;
 import org.jboss.seam.wiki.core.engine.WikiTextRenderer;
 import org.jboss.seam.wiki.core.engine.WikiLink;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
-import org.jboss.seam.wiki.util.WikiUtil;
 import org.jboss.seam.Component;
 
 import javax.persistence.EntityManager;

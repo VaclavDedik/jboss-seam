@@ -15,7 +15,7 @@
             you registered an account on the Seam Wiki. You need to click the following link to confirm the
             validity of your e-mail address and to activate your account:</p>
 
-            <h:outputLink value="#{wikiPreferences.baseURL}/confirmRegistration.seam?activationCode=#{userHome.instance.activationCode}">Click this link to activate the account '#{userHome.instance.username}'</h:outputLink>
+            <h:outputLink value="#{wikiPreferences.baseUrl}/confirmRegistration.seam?activationCode=#{userHome.instance.activationCode}">Click this link to activate the account '#{userHome.instance.username}'</h:outputLink>
 
             <p>
             Regards,<br/>
@@ -30,7 +30,7 @@ Hello #{userHome.instance.fullname},
 you registered an account on the Seam Wiki. You need to use the following link to confirm the
 validity of your e-mail address and to activate your account:
 
-#{wikiPreferences.baseURL}/confirmRegistration.seam?activationCode=#{userHome.instance.activationCode}
+#{wikiPreferences.baseUrl}/confirmRegistration.seam?activationCode=#{userHome.instance.activationCode}
 
 Regards,
 JBoss Seam Wiki

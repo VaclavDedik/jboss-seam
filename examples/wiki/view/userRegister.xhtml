@@ -118,15 +118,15 @@
                 </s:decorate>
 
                 <s:div styleClass="entry">
-                    <div class="label">Verification image:</div>
+                    <div class="label">Verification question:</div>
                     <div class="output">
-                        <h:graphicImage value="/seam/resource/captcha?#{captcha.id}" style="border: 1px solid black;"/>
+                        What is the result of&#160;<h:outputText value="#{captcha.question}"/>?
                     </div>
                 </s:div>
 
                 <s:decorate>
                     <s:div styleClass="entry">
-                        <div class="label">Enter the letters:</div>
+                        <div class="label">Enter response:</div>
                         <div class="input">
                             <h:inputText tabindex="7" size="15" id="verifyCaptcha" value="#{captcha.response}" required="true"/>
                         </div>

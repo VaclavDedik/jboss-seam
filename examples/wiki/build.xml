@@ -58,10 +58,6 @@
         <exclude name="commons-logging*.jar"/>
     </zipfileset>
 
-    <zipfileset id="jcaptchalibs" dir="${lib.dir}">
-        <include name="jcaptcha-all*.jar"/>
-    </zipfileset>
-
     <path id="build.classpath">
         <fileset refid="lib" />
         <fileset refid="seamlibs"/>
@@ -73,7 +69,6 @@
         <fileset refid="lib" />
         <fileset refid="seamlibs"/>
         <fileset refid="droolslibs"/>
-        <fileset refid="jcaptchalibs"/>
         <path path="${classes.dir}"/>
         <path path="${testclasses.dir}"/>
     </path>
@@ -173,7 +168,6 @@
         <!-- ########## Libs ########### -->
         <copy todir="${exploded.war.dir}/WEB-INF/lib">
             <fileset refid="droolslibs"/>
-            <fileset refid="jcaptchalibs"/>
             <fileset refid="seamlibs"/>
             <fileset dir="${lib.dir}">
                 <include name="ajax4jsf*.jar" />
@@ -302,6 +296,11 @@
 
         <copy tofile="${dist.dir}/${project.name}-ds.xml"
                 file="${src.etc.dir}/${project.name}-${profile}-ds.xml"/>
+
+        <!--TODO: FUCK import.sql, need to add delimiters ; to every line here, and of course the FRIGGING COMMENTS! are not real SQL comments -->
+        <copy tofile="${dist.dir}/wiki-data.sql"
+                file="${src.etc.dir}/import-prod.sql"
+           overwrite="true"/>
 
         <!-- Clean up afterwards for the next deploy run -->
         <antcall target="clean"/>

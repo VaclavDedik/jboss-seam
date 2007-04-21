@@ -79,7 +79,7 @@ public class WikiIdentity extends Identity {
         or the user is the creator of the parent directory
     */
     private boolean checkCreateAccess(Directory directory) {
-        if (wikiPrefs.getMemberAreaId().equals(directory.getId())) return false; // Member home dir is immutable
+        if (directory.getId().equals(wikiPrefs.getMemberAreaId())) return false; // Member home dir is immutable
         if (directory.getWriteAccessLevel() == UserRoleAccessFactory.GUESTROLE_ACCESSLEVEL) return true;
         int dirWriteAccessLevel = directory.getWriteAccessLevel();
         User dirCreator = directory.getCreatedBy();
@@ -114,7 +114,7 @@ public class WikiIdentity extends Identity {
         User either needs to have the access level of the edited node or has to be the creator
     */
     private boolean checkEditAccess(Node node) {
-        if (wikiPrefs.getMemberAreaId().equals(node.getId())) return false; // Member home dir is immutable
+        if (node.getId().equals(wikiPrefs.getMemberAreaId())) return false; // Member home dir is immutable
         if (node.getWriteAccessLevel() == UserRoleAccessFactory.GUESTROLE_ACCESSLEVEL) return true;
         int nodeWriteAccessLevel = node.getWriteAccessLevel();
         User nodeCreator = node.getCreatedBy();
@@ -133,7 +133,7 @@ public class WikiIdentity extends Identity {
         he has, unless he is the creator
     */
     private boolean checkRaiseAccessLevel(Node node) {
-        if (wikiPrefs.getMemberAreaId().equals(node.getId())) return false; // Member home dir is immutable
+        if (node.getId().equals(wikiPrefs.getMemberAreaId())) return false; // Member home dir is immutable
         int desiredWriteAccessLevel = node.getWriteAccessLevel();
         int desiredReadAccessLevel = node.getReadAccessLevel();
         User nodeCreator = node.getCreatedBy();

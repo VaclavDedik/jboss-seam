@@ -4,6 +4,7 @@ insert into USERS (USER_ID, OBJ_VERSION, FIRSTNAME, LASTNAME, USERNAME, PASSWORD
 
 insert into ROLES (ROLE_ID, OBJ_VERSION, DISPLAY_NAME, NAME, ACCESS_LEVEL, CREATED_ON) values (1, 0, 'Administrator', 'admin', 1000, '2006-06-27 13:45:00')
 insert into ROLES (ROLE_ID, OBJ_VERSION, DISPLAY_NAME, NAME, ACCESS_LEVEL, CREATED_ON) values (2, 0, 'Guest', 'guest', 0, '2006-06-27 13:45:00')
+insert into ROLES (ROLE_ID, OBJ_VERSION, DISPLAY_NAME, NAME, ACCESS_LEVEL, CREATED_ON) values (3, 0, 'Member', 'member', 1, '2006-06-27 13:45:00')
 
 insert into USER_ROLE (USER_ID, ROLE_ID) values (1,1)
 insert into USER_ROLE (USER_ID, ROLE_ID) values (2,2)
@@ -16,6 +17,7 @@ insert into NODE (NODE_ID, NODE_TYPE, NODE_REVISION, CREATED_BY_USER_ID, AREA_NR
 
 insert into LINK_PROTOCOL (LINK_PROTOCOL_ID, OBJ_VERSION, PREFIX, LINK) values (1, 0, 'jbseam', 'http://jira.jboss.com/jira/browse/JBSEAM-[[link]]')
 insert into LINK_PROTOCOL (LINK_PROTOCOL_ID, OBJ_VERSION, PREFIX, LINK) values (2, 0, 'hhh', 'http://opensource.atlassian.com/projects/hibernate/browse/HHH-[[link]]')
+insert into LINK_PROTOCOL (LINK_PROTOCOL_ID, OBJ_VERSION, PREFIX, LINK) values (3, 0, 'youtube', 'http://www.youtube.com/watch?v=[[link]]')
 
 // Required system default configuration
 
@@ -60,7 +62,6 @@ insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG
 
 // Some users and their home directories/home pages
 insert into USERS (USER_ID, OBJ_VERSION, FIRSTNAME, LASTNAME, USERNAME, PASSWORDHASH, EMAIL, ACTIVATED, CREATED_ON) values (3, 0, 'Regular', 'Member', 'member', 'aa08769cdcb26674c6706093503ff0a3', 'member@email.tld', true, '2006-06-27 13:45:00')
-insert into ROLES (ROLE_ID, OBJ_VERSION, DISPLAY_NAME, NAME, ACCESS_LEVEL, CREATED_ON) values (3, 0, 'Member', 'member', 1, '2006-06-27 13:45:00')
 insert into USER_ROLE (USER_ID, ROLE_ID) values (3,3)
 insert into NODE (NODE_ID, NODE_TYPE, NODE_REVISION, CREATED_BY_USER_ID, AREA_NR, PARENT_NODE_ID, NODE_POSITION, OBJ_VERSION, NAME, WIKINAME, MENU_ITEM, CREATED_ON, LAST_MODIFIED_ON, WRITE_ACCESS_LEVEL, READ_ACCESS_LEVEL) values (3, 'DIRECTORY', 1, 3, 2, 2, 0, 0, 'member', 'Member', false, '2005-06-27 13:45:00', '2005-06-27 13:45:00', 1000, 0)
 update USERS set MEMBER_HOME_NODE_ID = '3' where USER_ID = '3'

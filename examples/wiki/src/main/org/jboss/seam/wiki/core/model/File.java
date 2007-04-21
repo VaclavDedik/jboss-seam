@@ -21,8 +21,9 @@ public class File extends Node {
     @Column(table = "NODE_FILE", name = "FILESIZE", nullable = false)
     private int filesize;
 
+    // SchemaExport needs length.. MySQL has "tinyblob", "mediumblob" and other such nonsense types
     @Lob
-    @Column(table = "NODE_FILE", name = "FILEDATA", nullable = false)
+    @Column(table = "NODE_FILE", name = "FILEDATA", nullable = false, length = 10000000)
     private byte[] data;
 
     @Column(table = "NODE_FILE", name = "CONTENT_TYPE", length = 255)
