@@ -75,21 +75,23 @@
                         </div>
                     </s:decorate>
 
-                    <s:div styleClass="entry">
-                        <div class="label">Verification question:</div>
-                        <div class="output">
-                            What is the result of&#160;<h:outputText value="#{captcha.question}"/>?
-                        </div>
-                    </s:div>
-
-                    <s:decorate>
+                    <s:div rendered="#{!identity.loggedIn}">
                         <s:div styleClass="entry">
-                            <div class="label">Enter response:</div>
-                            <div class="input">
-                                <h:inputText tabindex="102" size="15" id="verifyCaptcha" value="#{captcha.response}" required="true"/>
+                            <div class="label">Verification question:</div>
+                            <div class="output">
+                                What is the result of&#160;<h:outputText value="#{captcha.question}"/>?
                             </div>
                         </s:div>
-                    </s:decorate>
+
+                        <s:decorate>
+                            <s:div styleClass="entry">
+                                <div class="label">Enter response:</div>
+                                <div class="input">
+                                    <h:inputText tabindex="102" size="15" id="verifyCaptcha" value="#{captcha.response}" required="true"/>
+                                </div>
+                            </s:div>
+                        </s:decorate>
+                    </s:div>
 
                 </s:validateAll>
 
