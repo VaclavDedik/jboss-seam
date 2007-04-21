@@ -1,0 +1,31 @@
+<ui:decorate template="confirmationModalDialog.xhtml"
+         xmlns:s="http://jboss.com/products/seam/taglib"
+         xmlns:ui="http://java.sun.com/jsf/facelets"
+         xmlns:f="http://java.sun.com/jsf/core"
+         xmlns:h="http://java.sun.com/jsf/html"
+         xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+         xmlns:wiki="http://jboss.com/products/seam/wiki"
+         xmlns:rich="http://richfaces.ajax4jsf.org/rich">
+
+    <ui:param name="confirmationModalDialogId" value="directorySelection"/>
+    <ui:define name="confirmationTitle">
+        Select parent directory...
+    </ui:define>
+    <ui:define name="confirmationContent">
+        <rich:tree id="directoryTree" switchType="ajax"
+                   value="#{writableDirectoryTree}" var="d"
+                   style="margin: 10px;"
+                   icon="/themes/default/img/icon.dir.gif"
+                   iconLeaf="/themes/default/img/icon.dir.gif"
+                   selectedClass="activeTab"
+                   ajaxSubmitSelection="true"
+                   onselected="Richfaces.hideModalPanel('directorySelection')"
+                   nodeSelectListener="#{nodeHome.parentDirectorySelected}"
+                   reRender="selectedDirectory, content">
+            <rich:treeNode type="simpleNode">
+                <h:outputText value="#{d.id} - #{d.name}"/>
+            </rich:treeNode>
+        </rich:tree>
+    </ui:define>
+
+</ui:decorate>

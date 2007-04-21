@@ -13,6 +13,7 @@ import org.jboss.seam.wiki.preferences.PreferenceProvider;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.RequestParameter;
 import org.jboss.seam.annotations.Out;
+import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Component;
@@ -315,5 +316,13 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
      * @param newParent the new parent directory
      */
     protected void afterNodeMoved(Directory oldParent, Directory newParent) {}
+
+    /* -------------------------- Public Features ------------------------------ */
+
+    @Restrict("#{s:hasPermission('User', 'isAdmin', currentUser)}")
+    public void selectCreator(Long creatorId) {
+        User newCreator = userDAO.findUser(creatorId);
+        getInstance().setCreatedBy(newCreator);
+    }
 
 }

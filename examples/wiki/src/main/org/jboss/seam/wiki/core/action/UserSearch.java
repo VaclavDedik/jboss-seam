@@ -38,7 +38,7 @@ public class UserSearch implements Serializable {
 
     @Create
     public void initialize() {
-        pageSize = 10;
+        pageSize = 15;
         maxPageSize = 1000;
         exampleUser = new User();
         orderByProperty = "username";

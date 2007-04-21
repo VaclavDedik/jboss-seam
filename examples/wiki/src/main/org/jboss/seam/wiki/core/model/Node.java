@@ -84,7 +84,7 @@ public abstract class Node implements Serializable {
     private Date createdOn = new Date();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CREATED_BY_USER_ID", nullable = false, updatable = false)
+    @JoinColumn(name = "CREATED_BY_USER_ID", nullable = false)
     @org.hibernate.annotations.ForeignKey(name = "FK_NODE_CREATED_BY_USER_ID")
     protected User createdBy;
 

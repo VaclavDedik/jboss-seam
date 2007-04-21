@@ -157,16 +157,16 @@
 
         <h:column>
             <f:facet name="header">
-                Read Access Level
+                Read Access
             </f:facet>
-            #{wiki:truncateString(wiki:resolveAccessLevel(node.readAccessLevel).roleNames, 20, '...')}
+            #{wiki:truncateString(wiki:resolveAccessLevel(node.readAccessLevel).roleNames, 15, '...')}
         </h:column>
 
         <h:column>
             <f:facet name="header">
-                Write Access Level
+                Write Access
             </f:facet>
-            #{wiki:truncateString(wiki:resolveAccessLevel(node.writeAccessLevel).roleNames, 20, '...')}
+            #{wiki:truncateString(wiki:resolveAccessLevel(node.writeAccessLevel).roleNames, 15, '...')}
         </h:column>
 
         <h:column rendered="#{!empty node.lastModifiedOn and !empty node.lastModifiedBy}">

@@ -68,17 +68,21 @@
                     </div>
                 </s:div>
 
-                <s:validateAll>
+                <s:div id="selectedCreator" styleClass="entry" rendered="#{documentHome.managed}">
+                    <div class="label">Created On:</div>
+                    <div class="output">
+                        <h:outputText value="#{documentHome.instance.createdOn}">
+                            <f:convertDateTime type="both"/>
+                        </h:outputText>
+                        (#{documentHome.instance.createdBy.username})
+                        <h:outputLink id="selectCreator" rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}"
+                                      value="javascript:Richfaces.showModalPanel('creatorSelection',{width:625, height:320, top:150})"
+                                      tabindex="1"
+                                      styleClass="buttonNonpersistent"><span class="buttonLabel">...</span></h:outputLink>
+                    </div>
+                </s:div>
 
-                    <s:div styleClass="entry" rendered="#{documentHome.managed}">
-                        <div class="label">Created On:</div>
-                        <div class="output">
-                            <h:outputText value="#{documentHome.instance.createdOn}">
-                                <f:convertDateTime type="both"/>
-                            </h:outputText>
-                            (#{documentHome.instance.createdBy.username})
-                        </div>
-                    </s:div>
+                <s:validateAll>
 
                     <ui:include src="includes/accessLevelSelector.xhtml"/>
 
@@ -199,11 +203,11 @@
 
                         <h:commandLink id="update" action="#{documentHome.update}"
                                    rendered="#{documentHome.managed}"
-                                   tabindex="5" accesskey="U" styleClass="button"><span class="buttonLabel"><u>U</u>pdate</span></h:commandLink>
+                                   tabindex="4" accesskey="U" styleClass="button"><span class="buttonLabel"><u>U</u>pdate</span></h:commandLink>
 
                         <h:outputLink id="delete" value="javascript:Richfaces.showModalPanel('deleteConfirmation',{})"
                                       rendered="#{documentHome.managed and documentHome.instance.id != wikiStart.id}"
-                                      tabindex="7" accesskey="D" styleClass="button"><span class="buttonLabel"><u>D</u>elete</span></h:outputLink>
+                                      tabindex="4" accesskey="D" styleClass="button"><span class="buttonLabel"><u>D</u>elete</span></h:outputLink>
 
                     </div>
                 </div>
@@ -227,28 +231,13 @@
         </ui:define>
     </ui:decorate>
 
-    <ui:decorate template="includes/confirmationModalDialog.xhtml">
-        <ui:param name="confirmationModalDialogId" value="directorySelection"/>
-        <ui:define name="confirmationTitle">
-            Select parent directory...
-        </ui:define>
-        <ui:define name="confirmationContent">
-            <rich:tree id="directoryTree" switchType="ajax"
-                       value="#{writableDirectoryTree}" var="d"
-                       style="margin: 10px;"
-                       icon="/themes/default/img/icon.dir.gif"
-                       iconLeaf="/themes/default/img/icon.dir.gif"
-                       selectedClass="activeTab"
-                       ajaxSubmitSelection="true"
-                       onselected="Richfaces.hideModalPanel('directorySelection')"
-                       nodeSelectListener="#{documentHome.parentDirectorySelected}"
-                       reRender="selectedDirectory, content">
-                <rich:treeNode type="simpleNode">
-                    <h:outputText value="#{d.id} - #{d.name}"/>
-                </rich:treeNode>
-            </rich:tree>
-        </ui:define>
-    </ui:decorate>
+    <ui:include src="includes/directorySelector.xhtml">
+        <ui:param name="nodeHome" value="#{documentHome}"/>
+    </ui:include>
+
+    <ui:include src="includes/creatorSelector.xhtml">
+        <ui:param name="nodeHome" value="#{documentHome}"/>
+    </ui:include>
 
     <s:div styleClass="documentDisplay" id="preview">
         <s:div rendered="#{documentHome.enabledPreview}">
