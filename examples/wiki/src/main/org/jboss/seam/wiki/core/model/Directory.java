@@ -6,7 +6,7 @@ import javax.persistence.*;
 @DiscriminatorValue("DIRECTORY")
 public class Directory extends Node {
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DEFAULT_DOCUMENT_ID", nullable = true)
     @org.hibernate.annotations.ForeignKey(name = "FK_DIRECTORY_DEFAULT_DOCUMENT_ID")
     private Document defaultDocument;
