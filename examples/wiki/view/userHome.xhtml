@@ -130,8 +130,8 @@
 
                     <s:div rendered="#{s:hasPermission('User', 'isAdmin', currentUser)
                                        and userHome.instance.id != adminUser.id
-                                       and userHome.instance.id != guestUser.id}
-                                       and userHome.instance.id != currentUser.id">
+                                       and userHome.instance.id != guestUser.id
+                                       and userHome.instance.id != currentUser.id}">
                         <s:div styleClass="entry">
                             <div class="label">&#160;</div>
                             <div class="input">
