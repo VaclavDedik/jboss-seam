@@ -86,8 +86,11 @@ public class UserHome extends EntityHome<User> {
         } else {
             UserManagementPreferences userMgmtPrefs =
                     (UserManagementPreferences) Component.getInstance("userManagementPreferences");
-            if (!userMgmtPrefs.isEnableRegistration())
+            if (!userMgmtPrefs.isEnableRegistration() &&
+                !Identity.instance().hasPermission("User", "isAdmin", Component.getInstance("currentUser"))) {
                 throw new RuntimeException("User registration has been disabled");
+            }
+
             defaultRole = (Role)Component.getInstance("newUserDefaultRole");
         }
     }
@@ -115,6 +118,7 @@ public class UserHome extends EntityHome<User> {
 
         if (Identity.instance().hasPermission("User", "isAdmin", Component.getInstance("currentUser"))) {
             // Current user is admin and creating a new account, the new account is active automatically
+            getInstance().setActivated(true);
             return super.persist();
         } else {
             // Set activation code (unique user in time)
