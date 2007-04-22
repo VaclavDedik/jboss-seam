@@ -17,7 +17,6 @@ public class Disc
    @Id @GeneratedValue
    private Integer id;
    
-   @Length(max=2, message="#{messages.descriptionError}")
    private String name;
    
    private Integer release;

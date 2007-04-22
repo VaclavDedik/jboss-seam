@@ -57,6 +57,7 @@
 		<mkdir dir="${ear.dir}" />
 		<mkdir dir="${war.dir}" />
 		<mkdir dir="${dist.dir}" />
+		<ant dir="../../" target="build" inheritall="false"/>
 	</target>
 
 	<target name="compile" depends="init" description="Compile the Java source code" unless="eclipse.running">
