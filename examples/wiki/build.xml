@@ -218,12 +218,12 @@
                 file="${src.etc.dir}/import-${profile}.sql"
            overwrite="true"/>
         <!-- Replace @@LF@@ in import.sql with real SQL char(10) linefeed (concat)-->
-        <replace file="${exploded.war.dir}/WEB-INF/classes/import.sql" token="@@LF@@" value="'+char(10)+'"/>
+        <replace file="${exploded.war.dir}/WEB-INF/classes/import.sql" token="@@LF@@" value="'||char(10)||'"/>
 
         <!-- ########## Configuration files (WEB-INF/classes/META-INF) ########### -->
         <copy todir="${exploded.war.dir}/WEB-INF/classes/META-INF">
             <fileset dir="${src.etc.dir}/META-INF">
-                <include name="wiki.taglib.xml"/>
+                <include name="*.taglib.xml"/>
             </fileset>
         </copy>
         <copy tofile="${exploded.war.dir}/WEB-INF/classes/META-INF/persistence.xml"
@@ -297,10 +297,17 @@
         <copy tofile="${dist.dir}/${project.name}-ds.xml"
                 file="${src.etc.dir}/${project.name}-${profile}-ds.xml"/>
 
-        <!--TODO: FUCK import.sql, need to add delimiters ; to every line here, and of course the FRIGGING COMMENTS! are not real SQL comments -->
-        <copy tofile="${dist.dir}/wiki-data.sql"
+        <copy tofile="${dist.dir}/${project.name}-data.sql"
                 file="${src.etc.dir}/import-prod.sql"
            overwrite="true"/>
+        <!-- Now mess with the import.sql file because Hibernate doesn't use semicolons -->
+        <replaceregexp file="${dist.dir}/${project.name}-data.sql"
+                       match="(.+)"
+                       replace="\1;"
+                       byline="true"/>
+
+        <!-- Replace @@LF@@ in import.sql with real SQL char(10) linefeed (concat)-->
+        <replace file="${dist.dir}/${project.name}-data.sql" token="@@LF@@" value="'||char(10)||'"/>
 
         <!-- Clean up afterwards for the next deploy run -->
         <antcall target="clean"/>
@@ -333,7 +340,7 @@
         <!-- Clean up afterwards for the next deploy run -->
         <antcall target="clean"/>
 
-        <echo message="Exported DDL to file: ${dist.dir}/wiki-ddl.sql"/>
+        <echo message="Exported DDL to file: ${dist.dir}/${project-name}-ddl.sql"/>
     </target>
 
     <!-- ######################## TESTS ################## -->
@@ -391,6 +398,8 @@
         <copy tofile="${testclasses.dir}/import.sql"
                 file="${src.etc.dir}/import-test.sql"
            overwrite="true"/>
+        <!-- Replace @@LF@@ in import.sql with real SQL char(10) linefeed (concat)-->
+        <replace file="${testclasses.dir}/import.sql" token="@@LF@@" value="'||char(10)||'"/>
 
         <!-- ######## Test output ######## -->
         <delete  dir="${test.output.dir}"/>
