@@ -40,7 +40,10 @@
 
 <h:form>
     <div class="form">
-        <div class="formHead">Register a new account</div>
+        <div class="formHead">
+            <h:outputText rendered="#{not s:hasPermission('User', 'isAdmin', currentUser)}" value="Register new account"/>
+            <h:outputText rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}" value="Create new account"/>
+        </div>
 
         <div class="formFields formBorder wideLabels">
             <s:validateAll>
@@ -117,21 +120,23 @@
                     </div>
                 </s:decorate>
 
-                <s:div styleClass="entry">
-                    <div class="label">Verification question:</div>
-                    <div class="output">
-                        What is the result of&#160;<h:outputText value="#{captcha.question}"/>?
-                    </div>
-                </s:div>
-
-                <s:decorate>
+                <s:div rendered="#{not s:hasPermission('User', 'isAdmin', currentUser)}">
                     <s:div styleClass="entry">
-                        <div class="label">Enter response:</div>
-                        <div class="input">
-                            <h:inputText tabindex="7" size="15" id="verifyCaptcha" value="#{captcha.response}" required="true"/>
+                        <div class="label">Verification question:</div>
+                        <div class="output">
+                            What is the result of&#160;<h:outputText value="#{captcha.question}"/>?
                         </div>
                     </s:div>
-                </s:decorate>
+
+                    <s:decorate>
+                        <s:div styleClass="entry">
+                            <div class="label">Enter response:</div>
+                            <div class="input">
+                                <h:inputText tabindex="7" size="15" id="verifyCaptcha" value="#{captcha.response}" required="true"/>
+                            </div>
+                        </s:div>
+                    </s:decorate>
+                </s:div>
 
             </s:validateAll>
 
@@ -143,10 +148,13 @@
                 <div class="label">&#160;</div>
                 <div class="input">
 
-                    <h:commandLink id="register" styleClass="button"
+                    <h:commandLink id="register" styleClass="button" rendered="#{not s:hasPermission('User', 'isAdmin', currentUser)}"
                                    action="#{userHome.persist}"
                                    tabindex="8" accesskey="G"><span class="buttonLabel">Re<u>g</u>ister</span></h:commandLink>
 
+                    <h:commandLink id="create" styleClass="button" rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}"
+                                   action="#{userHome.persist}"
+                                   tabindex="8" accesskey="C"><span class="buttonLabel"><u>C</u>reate Account</span></h:commandLink>
                 </div>
             </div>
 

@@ -8,6 +8,8 @@ import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Renderer;
+import org.jboss.seam.core.Conversation;
+import org.jboss.seam.core.Events;
 import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.security.AuthorizationException;
 import org.jboss.seam.security.Identity;
@@ -111,43 +113,47 @@ public class UserHome extends EntityHome<User> {
         // Set password hash
         getInstance().setPasswordHash(hashUtil.hash(getPassword()));
 
-        // Set activation code (unique user in time)
-        String seed = getInstance().getUsername() + System.currentTimeMillis() + userManagementPreferences.getActivationCodeSalt();
-        getInstance().setActivationCode( ((Hash)Component.getInstance("hashUtil")).hash(seed) );
+        if (Identity.instance().hasPermission("User", "isAdmin", Component.getInstance("currentUser"))) {
+            // Current user is admin and creating a new account, the new account is active automatically
+            return super.persist();
+        } else {
+            // Set activation code (unique user in time)
+            String seed = getInstance().getUsername() + System.currentTimeMillis() + userManagementPreferences.getActivationCodeSalt();
+            getInstance().setActivationCode( ((Hash)Component.getInstance("hashUtil")).hash(seed) );
 
-        String outcome = super.persist();
-        if (outcome != null) {
+            String outcome = super.persist();
+            if (outcome != null) {
 
-            try {
+                try {
 
-                // Send confirmation email
-                renderer.render("/themes/"
-                        + ((WikiPreferences)Component.getInstance("wikiPreferences")).getThemeName()
-                        + "/mailtemplates/confirmationRegistration.xhtml");
+                    // Send confirmation email
+                    renderer.render("/themes/"
+                            + ((WikiPreferences)Component.getInstance("wikiPreferences")).getThemeName()
+                            + "/mailtemplates/confirmationRegistration.xhtml");
 
-                // Redirect to last viewed page with message
-                facesMessages.addFromResourceBundleOrDefault(
-                    FacesMessage.SEVERITY_INFO,
-                    getMessageKeyPrefix() + "confirmationEmailSent",
-                    "A confirmation e-mail has been sent to '" + getInstance().getEmail() + "'. " +
-                    "Please read this e-mail to activate your account.");
+                    // Redirect to last viewed page with message
+                    facesMessages.addFromResourceBundleOrDefault(
+                        FacesMessage.SEVERITY_INFO,
+                        getMessageKeyPrefix() + "confirmationEmailSent",
+                        "A confirmation e-mail has been sent to '" + getInstance().getEmail() + "'. " +
+                        "Please read this e-mail to activate your account.");
 
-                /* For debugging
-                facesMessages.addFromResourceBundleOrDefault(
-                    FacesMessage.SEVERITY_INFO,
-                    getMessageKeyPrefix() + "confirmationEmailSent",
-                    "Activiate account: /confirmRegistration.seam?activationCode=" + getInstance().getActivationCode());
-                */
+                    /* For debugging
+                    facesMessages.addFromResourceBundleOrDefault(
+                        FacesMessage.SEVERITY_INFO,
+                        getMessageKeyPrefix() + "confirmationEmailSent",
+                        "Activiate account: /confirmRegistration.seam?activationCode=" + getInstance().getActivationCode());
+                    */
 
-                browser.exitConversation(false);
+                    browser.exitConversation(false);
 
-            } catch (Exception ex) {
-                facesMessages.add(FacesMessage.SEVERITY_ERROR, "Couldn't send confirmation email: " + ex.getMessage());
-                return "error";
+                } catch (Exception ex) {
+                    facesMessages.add(FacesMessage.SEVERITY_ERROR, "Couldn't send confirmation email: " + ex.getMessage());
+                    return "error";
+                }
             }
+            return outcome;
         }
-
-        return outcome;
     }
 
     @Restrict("#{s:hasPermission('User', 'edit', userHome.instance)}")
@@ -219,8 +225,12 @@ public class UserHome extends EntityHome<User> {
 
         // All nodes created by this user are reset to be created by the admin user
         userDAO.resetNodeCreatorToAdmin(getInstance());
-        
-        return super.remove();
+
+        String outcome = super.remove();
+        if (outcome != null) {
+            browser.exitConversation(false);
+        }
+        return outcome;
     }
 
     protected String getCreatedMessageKey() {
@@ -228,7 +238,7 @@ public class UserHome extends EntityHome<User> {
     }
 
     public String getCreatedMessage() {
-        return "Your account '" + getInstance().getUsername() + "' has been created.";
+        return "The account '" + getInstance().getUsername() + "' has been created.";
     }
 
     protected String getUpdatedMessageKey() {
@@ -237,6 +247,10 @@ public class UserHome extends EntityHome<User> {
 
     public String getUpdatedMessage() {
         return "The user '" + getInstance().getUsername() + "' has been updated.";
+    }
+
+    public String getDeletedMessage() {
+        return "The user '" + getInstance().getUsername() + "' has been deleted.";
     }
 
     public String getPassword() { return password; }

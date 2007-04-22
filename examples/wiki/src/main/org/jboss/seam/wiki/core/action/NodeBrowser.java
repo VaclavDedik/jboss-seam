@@ -3,17 +3,16 @@ package org.jboss.seam.wiki.core.action;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Component;
+import org.jboss.seam.log.Log;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.core.Conversation;
-import org.jboss.seam.core.Manager;
-import org.jboss.seam.core.ConversationEntries;
-import org.jboss.seam.core.ConversationEntry;
+import org.jboss.seam.core.*;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.wiki.core.dao.NodeDAO;
 import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.util.WikiUtil;
 
+import javax.faces.application.FacesMessage;
 import java.util.*;
 import java.io.Serializable;
 
@@ -42,6 +41,8 @@ import java.io.Serializable;
 @Scope(ScopeType.PAGE)
 @AutoCreate
 public class NodeBrowser implements Serializable {
+
+    @Logger static Log log;
 
     @RequestParameter
     protected String areaName;
@@ -122,27 +123,40 @@ public class NodeBrowser implements Serializable {
         Conversation currentConversation = Conversation.instance();
         if (currentConversation.isNested()) {
             // End this nested conversation and return to last rendered view-id of parent
+            log.debug("ending current conversation and redirecting to last view of the parent conversation");
             currentConversation.endAndRedirect(endBeforeRedirect);
         } else {
             // Always end this conversation
+            log.debug("ending conversation");
             currentConversation.end();
 
             ConversationEntry entryPoint =
                     (ConversationEntry)Contexts.getConversationContext().get("conversationEntryPoint");
             if (entryPoint != null) {
-                // We came here from another conversation
+                log.debug("entry-point of this conversation has been another conversation");
                 if (entryPoint.isDisplayable()) {
+
+                    // Get messages for propagation
+                    FacesMessages messages = (FacesMessages)Component.getInstance("facesMessages");
+
+                    log.debug("switching to entry-point conversation");
                     entryPoint.switchConversation();
+
+                    log.debug("propagating faces messages from the ended conversation into the destination conversation");
+                    Contexts.getConversationContext().set("org.jboss.seam.core.facesMessages", messages);
                 } else {
-                    // The entry point is gone... What now? Go to start page...
+                    log.debug("the entry-point of this conversation is gone, redirecting to wiki start page");
                     Manager.instance().redirect("/display.xhtml", new HashMap<String,Object>(), true);
                 }
             } else {
-                // We came here from a non-conversational page
-                if (endBeforeRedirect)
+                log.debug("entry-point of this conversation has been a non-conversational page we remembered");
+                if (endBeforeRedirect) {
+                    log.debug("redirecting to last browsed page without propagating the ended conversation");
                     redirectToLastBrowsedPage();
-                else
+                } else {
+                    log.debug("redirecting to last browsed page and propagating the ended conversation across redirect");
                     redirectToLastBrowsedPageWithConversation();
+                }
             }
         }
     }

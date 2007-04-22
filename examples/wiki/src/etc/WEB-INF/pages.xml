@@ -170,14 +170,36 @@
 
     <page view-id="/userHome.xhtml" action="#{browser.captureConversationEntryPoint}">
         <description>Managing Member Account</description>
+        <navigation from-action="#{userHome.persist}">
+            <rule>
+                <redirect view-id="/userHome.xhtml">
+                    <param name="userId" value="#{userHome.instance.id}"/>
+                </redirect>
+            </rule>
+        </navigation>
     </page>
     
     <page view-id="/userRegister.xhtml" action="#{browser.captureConversationEntryPoint}">
         <description>Registration</description>
+        <navigation from-action="#{userHome.persist}">
+            <rule>
+                <redirect view-id="/userHome.xhtml">
+                    <param name="userId" value="#{userHome.instance.id}"/>
+                </redirect>
+            </rule>
+        </navigation>
     </page>
 
     <page view-id="/userList.xhtml" action="#{browser.captureConversationEntryPoint}">
         <description>Searching Members (Results: #{userSearch.rowCount})</description>
+        <navigation>
+            <rule if-outcome="createUser">
+                <begin-conversation flush-mode="MANUAL"/>
+                <redirect view-id="/userRegister.xhtml">
+                    <param name="lastConversationId" value="#{param.lastConversationId}"/>
+                </redirect>
+            </rule>
+        </navigation>
     </page>
 
     <page view-id="/adminHome.xhtml" action="#{browser.captureConversationEntryPoint}">

@@ -28,6 +28,11 @@
 </ui:define>
 
 <ui:define name="controlRight">
+    <s:link id="createUser" styleClass="linkNavigation" action="createUser" accesskey="C"
+            rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}" propagation="none">
+        <f:param name="lastConversationId" value="#{conversation.id}"/>
+        <u>C</u>reate Account</s:link>
+
     <s:link id="exit" styleClass="linkNavigation"
             action="#{browser.exitConversation(true)}"
             accesskey="E"><u>E</u>xit</s:link>
@@ -75,8 +80,8 @@
                     <h:outputLabel styleClass="label" for="pageSize">Show:</h:outputLabel>&#160;
                     <h:selectOneMenu value="#{userSearch.pageSize}" id="pageSize" tabindex="5" style="font-size:100%">
                         <f:selectItem itemLabel="5" itemValue="5"/>
-                        <f:selectItem itemLabel="15" itemValue="10"/>
-                        <f:selectItem itemLabel="50" itemValue="20"/>
+                        <f:selectItem itemLabel="15" itemValue="15"/>
+                        <f:selectItem itemLabel="50" itemValue="50"/>
                     </h:selectOneMenu>
                 </h:panelGroup>
 
