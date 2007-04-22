@@ -11,6 +11,7 @@ import org.jboss.seam.ScopeType;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.ArrayList;
 
 @Name("feedTeasersPlugin")
 @Scope(ScopeType.PAGE)
@@ -35,7 +36,7 @@ public class FeedTeasers implements Serializable {
     @Observer("Preferences.feedTeasersPreferences")
     public void loadTeasers() {
         Feed feed = feedDAO.findFeed(feedIdentifier);
-        teasers = feedDAO.findFeedEntries(feed, numberOfTeasers.intValue());
+        teasers = new ArrayList<FeedEntry>(feed.getFeedEntries());
     }
 
 }

@@ -1,7 +1,7 @@
 package org.jboss.seam.wiki.core.model;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.util.*;
 import java.io.Serializable;
 
 @Entity
@@ -37,6 +37,16 @@ public class Feed implements Serializable {
     @org.hibernate.annotations.ForeignKey(name = "FK_FEED_DIRECTORY_ID")
     @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
     private Directory directory;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "FEED_FEEDENTRY",
+        joinColumns = @JoinColumn(name = "FEED_ID", nullable = false, updatable = false),
+        inverseJoinColumns= @JoinColumn(name = "FEEDENTRY_ID", nullable = false, updatable = false)
+    )
+    @org.hibernate.annotations.ForeignKey(name = "FK_FEED_FEEDENTRY_FEED_ID", inverseName = "FK_FEED_FEEDENTRY_FEEDENTRY_ID")
+    @org.hibernate.annotations.Sort(type = org.hibernate.annotations.SortType.NATURAL)
+    private SortedSet<FeedEntry> feedEntries = new TreeSet<FeedEntry>();
 
     public Feed() { }
 
@@ -93,6 +103,14 @@ public class Feed implements Serializable {
 
     public void setDirectory(Directory directory) {
         this.directory = directory;
+    }
+
+    public SortedSet<FeedEntry> getFeedEntries() {
+        return feedEntries;
+    }
+
+    public void setFeedEntries(SortedSet<FeedEntry> feedEntries) {
+        this.feedEntries = feedEntries;
     }
 
     public String toString() {

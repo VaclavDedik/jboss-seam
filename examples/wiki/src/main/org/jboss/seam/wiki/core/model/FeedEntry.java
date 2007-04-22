@@ -10,7 +10,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "FEEDENTRY")
-public class FeedEntry implements Serializable {
+public class FeedEntry implements Serializable, Comparable {
 
     @Id
     @GeneratedValue(generator = "wikiSequenceGenerator")
@@ -51,15 +51,6 @@ public class FeedEntry implements Serializable {
     @JoinColumn(name = "DOCUMENT_ID")
     @org.hibernate.annotations.ForeignKey(name = "FK_FEEDENTRY_DOCUMENT_ID")
     private Document document;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "FEED_FEEDENTRY",
-        joinColumns = @JoinColumn(name = "FEEDENTRY_ID", nullable = false, updatable = false),
-        inverseJoinColumns= @JoinColumn(name = "FEED_ID", nullable = false, updatable = false)
-    )
-    @org.hibernate.annotations.ForeignKey(name = "FK_FEED_FEEDENTRY_FEEDENTRY_ID", inverseName = "FK_FEED_FEEDENTRY_FEED_ID")
-    private Set<Feed> feeds = new HashSet<Feed>();
 
     public FeedEntry() {}
 
@@ -138,12 +129,9 @@ public class FeedEntry implements Serializable {
         this.document = document;
     }
 
-    public Set<Feed> getFeeds() {
-        return feeds;
-    }
-
-    public void setFeeds(Set<Feed> feeds) {
-        this.feeds = feeds;
+    // Sort by date
+    public int compareTo(Object o) {
+        return getUpdatedDate().compareTo( ((FeedEntry)o).getUpdatedDate() );
     }
 
     public String toString() {

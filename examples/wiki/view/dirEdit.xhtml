@@ -7,6 +7,7 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
                 xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+                xmlns:a="https://ajax4jsf.dev.java.net/ajax"
                 template="themes/#{wikiPreferences.themeName}/template.xhtml">
 
 <ui:define name="includeHeaders">
@@ -99,19 +100,11 @@
         </div>
     </s:div>
 
-    <s:div styleClass="entry">
-        <div class="label">&#160;</div>
-        <div class="input">
-            <h:selectBooleanCheckbox value="#{directoryHome.hasFeed}" tabindex="2"/>
-            Enable syndication feed
-        </div>
-    </s:div>
-
     <s:div styleClass="entry"
            rendered="#{childNodes.rowCount>0 and s:hasPermission('Node', 'editMenu', directoryHome.instance)}">
         <div class="label">Menu items:</div>
         <div class="input">
-            <h:dataTable id="directoryFormTable" var="node" style="width:60%"
+            <h:dataTable id="directoryFormTable" var="node" style="width:50%"
                          value="#{childNodes}"
                          binding="#{wikiUtil.datatable}"
                          styleClass="datatable"
@@ -161,6 +154,19 @@
                 </h:column>
 
             </h:dataTable>
+        </div>
+    </s:div>
+
+    <s:div styleClass="entry">
+        <div class="label">&#160;</div>
+        <div class="input">
+            <h:selectBooleanCheckbox value="#{directoryHome.hasFeed}" tabindex="2"
+                                     disabled="#{empty directoryHome.instance.parent}"/>
+            Enable syndication feed (disabling invalidates subcriber link)
+            <a:commandLink id="resetFeed" reRender="messageBox"
+                           action="#{directoryHome.resetFeed}"
+                           rendered="#{!empty directoryHome.instance.feed}"
+                           styleClass="buttonNonpersistent"><span class="buttonLabel">Reset Feed</span></a:commandLink>
         </div>
     </s:div>
 

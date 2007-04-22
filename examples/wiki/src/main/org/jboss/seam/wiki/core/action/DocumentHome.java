@@ -8,10 +8,7 @@ import org.jboss.seam.wiki.core.dao.UserRoleAccessFactory;
 import org.jboss.seam.wiki.core.action.prefs.DocumentEditorPreferences;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.core.Events;
 import org.jboss.seam.contexts.Contexts;
-
-import javax.faces.application.FacesMessage;
 
 @Name("documentHome")
 @Scope(ScopeType.CONVERSATION)
@@ -70,7 +67,7 @@ public class DocumentHome extends NodeHome<Document> {
 
         // Create feed entries (needs identifiers assigned, so we run after persist())
         if (outcome != null && getInstance().getReadAccessLevel() == UserRoleAccessFactory.GUESTROLE_ACCESSLEVEL) {
-            feedDAO.createFeedEntries(isPushOnSiteFeed(), getInstance());
+            feedDAO.createFeedEntry(isPushOnSiteFeed(), getInstance());
             getEntityManager().flush();
         }
 
@@ -86,8 +83,10 @@ public class DocumentHome extends NodeHome<Document> {
         if (!isMinorRevision()) {
 
             // Update feed entries
-            if (getInstance().getReadAccessLevel() == UserRoleAccessFactory.GUESTROLE_ACCESSLEVEL)
-                feedDAO.updateFeedEntries(isPushOnSiteFeed(), getInstance());
+            if (getInstance().getReadAccessLevel() == UserRoleAccessFactory.GUESTROLE_ACCESSLEVEL) {
+                feedDAO.updateFeedEntry(isPushOnSiteFeed(), getInstance());
+                feedDAO.purgeOldFeedEntries(); // TODO: Move this into maintenance thread to run periodically
+            }
 
             historicalCopy.setId(getInstance().getId());
             getNodeDAO().persistHistoricalNode(historicalCopy);

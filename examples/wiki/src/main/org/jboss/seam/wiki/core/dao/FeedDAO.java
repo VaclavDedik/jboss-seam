@@ -1,26 +1,25 @@
 package org.jboss.seam.wiki.core.dao;
 
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.AutoCreate;
-import org.jboss.seam.annotations.Transactional;
-import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.*;
+import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.engine.WikiTextParser;
 import org.jboss.seam.wiki.core.engine.WikiTextRenderer;
 import org.jboss.seam.wiki.core.engine.WikiLink;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.Component;
+import org.jboss.seam.log.Log;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
-import java.util.List;
-import java.util.Set;
-import java.util.HashSet;
+import java.util.*;
 
 /**
  * DAO for feeds.
- *
+ * <p>
+ * Uses the <tt>restrictedEntityManager</tt> because it is used in the context of directory editing (same PC).
+ * </p>
  * @author Christian Bauer
  *
  */
@@ -28,6 +27,8 @@ import java.util.HashSet;
 @AutoCreate
 @Transactional
 public class FeedDAO {
+
+    @Logger static Log log;
 
     @In protected EntityManager restrictedEntityManager;
 
@@ -43,18 +44,74 @@ public class FeedDAO {
         return null;
     }
 
-    public List<FeedEntry> findFeedEntries(Feed feed, Integer limit) {
+    public void createFeedEntry(boolean pushOnSiteFeed, Document document) {
         restrictedEntityManager.joinTransaction();
-        //noinspection unchecked
-        return (List<FeedEntry>)restrictedEntityManager
-                .createQuery("select fe from FeedEntry fe join fe.feeds f where f = :feed order by fe.updatedDate desc")
-                .setParameter("feed", feed)
-                .getResultList();
+
+        Set<Feed> feeds = getAvailableFeeds(pushOnSiteFeed, document);
+
+        // Now create a feedentry and link it to all the feeds
+        if (feeds.size() >0) {
+            log.debug("creating new feed entry for document: " + document.getId());
+            FeedEntry fe = new FeedEntry();
+            fe.setLink(renderFeedURL(document));
+            fe.setTitle(document.getName());
+            fe.setAuthor(document.getCreatedBy().getFullname());
+            fe.setUpdatedDate(fe.getPublishedDate());
+            fe.setDescriptionType("text/html");
+            fe.setDescriptionValue(renderWikiText(document.getContent()));
+            fe.setDocument(document);
+            restrictedEntityManager.persist(fe);
+            for (Feed feed : feeds) {
+                log.debug("linking new feed entry with feed: " + feed.getId());
+                feed.getFeedEntries().add(fe);
+            }
+        }
     }
 
-    public void createFeedEntries(boolean pushOnSiteFeed, Document document) {
+    public void updateFeedEntry(boolean pushOnSiteFeed, Document document) {
         restrictedEntityManager.joinTransaction();
 
+        try {
+            FeedEntry fe = (FeedEntry)restrictedEntityManager.createQuery("select fe from FeedEntry fe where fe.document = :doc")
+                    .setParameter("doc", document).getSingleResult();
+
+            log.debug("updating feed entry: " + fe.getId());
+
+            // Update the feed entry for this document
+            fe.setLink(renderFeedURL(document));
+            fe.setUpdatedDate(document.getLastModifiedOn());
+            fe.setTitle(document.getName());
+            fe.setAuthor(document.getCreatedBy().getFullname());
+            fe.setDescriptionValue(renderWikiText(document.getContent()));
+
+            // Link feed entry with all feeds (there might be new feeds since this feed entry was created)
+            Set<Feed> feeds = getAvailableFeeds(pushOnSiteFeed, document);
+            for (Feed feed : feeds) {
+                log.debug("linking feed entry with feed: " + feed.getId());
+                feed.getFeedEntries().add(fe);
+            }
+        } catch (NoResultException ex) {
+            // Couldn't find feed entry for this document, create a new one
+            log.debug("no feed entry for updating found");
+            createFeedEntry(pushOnSiteFeed, document);
+        }
+    }
+
+    // TODO: Maybe the wiki needs a real maintenance thread at some point... @Observer("Feeds.purgeFeedEntries")
+    public void purgeOldFeedEntries() {
+        restrictedEntityManager.joinTransaction();
+
+        // Clean up _all_ feed entries that are older than N days
+        WikiPreferences wikiPrefs = (WikiPreferences) Component.getInstance("wikiPreferences");
+        Calendar oldestDate = GregorianCalendar.getInstance();
+        oldestDate.roll(Calendar.DAY_OF_YEAR, -wikiPrefs.getPurgeFeedEntriesAfterDays().intValue());
+        int result = restrictedEntityManager.createQuery("delete from FeedEntry fe where fe.updatedDate < :oldestDate")
+                .setParameter("oldestDate", oldestDate.getTime()).executeUpdate();
+        log.debug("cleaned up " + result + " outdated feed entries");
+    }
+
+    private Set<Feed> getAvailableFeeds(boolean includeSiteFeed, Document document) {
+        // Walk up the directory tree and extract all the feeds from directories
         Set<Feed> feeds = new HashSet<Feed>();
         Directory temp = document.getParent();
         while (temp.getParent() != null) {
@@ -62,44 +119,10 @@ public class FeedDAO {
             temp = temp.getParent();
         }
 
-        if (pushOnSiteFeed)
-            feeds.add(temp.getFeed()); // Reached wiki root, feed for whole site
+        // If the user wants it on the site feed, that's the wiki root feed which is the top of the dir tree
+        if (includeSiteFeed) feeds.add(temp.getFeed());
 
-        if (feeds.size() >0) {
-            FeedEntry feedEntry = new FeedEntry();
-            feedEntry.setLink(renderFeedURL(document));
-            feedEntry.setTitle(document.getName());
-            feedEntry.setAuthor(document.getCreatedBy().getFullname());
-            feedEntry.setUpdatedDate(feedEntry.getPublishedDate());
-            feedEntry.setDescriptionType("text/html");
-            feedEntry.setDescriptionValue(renderWikiText(document.getContent()));
-            feedEntry.setDocument(document);
-            feedEntry.getFeeds().addAll(feeds);
-
-            restrictedEntityManager.persist(feedEntry);
-        }
-    }
-
-    public void updateFeedEntries(boolean pushOnSiteFeed, Document document) {
-        restrictedEntityManager.joinTransaction();
-
-        int updatedEntries = restrictedEntityManager
-            .createQuery("update FeedEntry fe set" +
-                         " fe.updatedDate = :date," +
-                         " fe.title = :title," +
-                         " fe.link = :link," +
-                         " fe.author = :author, " +
-                         " fe.descriptionValue = :description" +
-                         " where fe.document = :document")
-            .setParameter("date", document.getLastModifiedOn())
-            .setParameter("title", document.getName())
-            .setParameter("link", renderFeedURL(document))
-            .setParameter("author", document.getLastModifiedBy().getFullname())
-            .setParameter("description", renderWikiText(document.getContent()))
-            .setParameter("document", document)
-            .executeUpdate();
-
-        if (updatedEntries == 0) createFeedEntries(pushOnSiteFeed, document);
+        return feeds;
     }
 
     private String renderFeedURL(Node node) {

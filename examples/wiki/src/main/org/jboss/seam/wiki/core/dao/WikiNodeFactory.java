@@ -3,6 +3,7 @@ package org.jboss.seam.wiki.core.dao;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Component;
+import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.wiki.core.model.Directory;
 import org.jboss.seam.wiki.core.model.Document;
 import org.jboss.seam.wiki.core.model.LinkProtocol;
@@ -11,6 +12,7 @@ import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
+import javax.faces.application.FacesMessage;
 import java.io.Serializable;
 import java.util.*;
 
@@ -50,6 +52,8 @@ public class WikiNodeFactory implements Serializable {
         } catch (EntityNotFoundException ex) {
         } catch (NoResultException ex) {
         }
+
+        // TODO: Message instead!
         throw new RuntimeException("Couldn't find default document with id '" + wikiPreferences.getDefaultDocumentId() +"'");
     }
 
@@ -73,7 +77,12 @@ public class WikiNodeFactory implements Serializable {
                     .setParameter("dirId", memberAreaId)
                     .getSingleResult();
         } catch (RuntimeException ex) {
-            throw new RuntimeException("Could not find member area with id " + memberAreaId, ex);
+            System.out.println("######################### MESSAGE ###############################");
+            FacesMessages.instance().addFromResourceBundleOrDefault(
+                FacesMessage.SEVERITY_ERROR,
+                "memberHomeDirectoryNotFound",
+                "Could not find member area with id " + memberAreaId + " - your configuration is broken, please change it");
+            return null;
         }
     }
 

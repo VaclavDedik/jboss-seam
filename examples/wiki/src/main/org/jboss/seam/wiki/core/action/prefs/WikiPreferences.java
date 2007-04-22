@@ -8,6 +8,7 @@ import org.jboss.seam.wiki.preferences.Preference;
 import org.jboss.seam.wiki.preferences.PreferenceSupport;
 import org.jboss.seam.ScopeType;
 import org.hibernate.validator.Length;
+import org.hibernate.validator.Range;
 
 import java.io.Serializable;
 
@@ -39,6 +40,10 @@ public class WikiPreferences extends PreferenceSupport implements Serializable {
     @org.hibernate.validator.Pattern(regex="\\.[a-zA-z]+")
     private String permlinkSuffix;
 
+    @Preference(description = "07. Purge feed entries after N days", visibility = PreferenceVisibility.SYSTEM)
+    @Range(min = 1l, max = 999l)
+    private Long purgeFeedEntriesAfterDays;
+
     public String getBaseUrl() {
         return baseUrl;
     }
@@ -61,5 +66,9 @@ public class WikiPreferences extends PreferenceSupport implements Serializable {
 
     public String getPermlinkSuffix() {
         return permlinkSuffix;
+    }
+
+    public Long getPurgeFeedEntriesAfterDays() {
+        return purgeFeedEntriesAfterDays;
     }
 }

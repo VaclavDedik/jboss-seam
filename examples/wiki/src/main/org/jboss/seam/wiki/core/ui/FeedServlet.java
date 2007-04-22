@@ -14,10 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.UserTransaction;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class FeedServlet extends HttpServlet {
 
@@ -63,7 +60,7 @@ public class FeedServlet extends HttpServlet {
 
             // Create feed entries
             List<SyndEntry> syndEntries = new ArrayList<SyndEntry>();
-            List<FeedEntry> entries = feedDAO.findFeedEntries(feed, 25); // TODO: Hardcoded value!
+            SortedSet<FeedEntry> entries = feed.getFeedEntries();
             for (FeedEntry entry : entries) {
                 SyndEntry syndEntry;
                 SyndContent description;

@@ -5,10 +5,12 @@ import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Component;
 import org.jboss.seam.wiki.core.model.Directory;
 import org.jboss.seam.wiki.core.model.Node;
 import org.jboss.seam.wiki.core.model.Document;
 import org.jboss.seam.wiki.core.model.Feed;
+import org.jboss.seam.wiki.core.dao.FeedDAO;
 
 import javax.faces.application.FacesMessage;
 import java.util.List;
@@ -98,6 +100,7 @@ public class DirectoryHome extends NodeHome<Directory> {
     @Transactional
     private void createOrRemoveFeed() {
         if (hasFeed && getInstance().getFeed() == null) {
+            // Does have no feed but user wants one, create it
             Feed feed = new Feed();
             feed.setDirectory(getInstance());
             feed.setAuthor(getInstance().getCreatedBy().getFullname());
@@ -110,6 +113,7 @@ public class DirectoryHome extends NodeHome<Directory> {
                 "Created syndication feed for this directory");
 
         } else if (!hasFeed && getInstance().getFeed() != null) {
+            // Does have feed but user doesn't want it anymore... delete it
             getEntityManager().joinTransaction();
             getEntityManager().remove(getInstance().getFeed());
             getInstance().setFeed(null);
@@ -119,7 +123,9 @@ public class DirectoryHome extends NodeHome<Directory> {
                 "feedRemoved",
                 "Removed syndication feed of this directory");
         } else if (getInstance().getFeed() != null) {
+            // Does have a feed and user still wants it, update the feed
             getInstance().getFeed().setTitle(getInstance().getName());
+            getInstance().getFeed().setAuthor(getInstance().getCreatedBy().getFullname());
         }
     }
 
@@ -152,6 +158,21 @@ public class DirectoryHome extends NodeHome<Directory> {
 
     public void setHasFeed(boolean hasFeed) {
         this.hasFeed = hasFeed;
+    }
+
+    public void resetFeed() {
+        if (getInstance().getFeed() != null) {
+            getLog().debug("resetting feed of directory");
+            /**
+            FeedDAO feedDAO = (FeedDAO)Component.getInstance("feedDAO");
+            feedDAO.resetFeed(getInstance().getFeed());
+             */
+            getInstance().getFeed().getFeedEntries().clear();
+            getFacesMessages().addFromResourceBundleOrDefault(
+                FacesMessage.SEVERITY_INFO,
+                "feedReset",
+                "Queued removal of all feed entries from the syndication feed of this directory, please update to finalize");
+        }
     }
 
 }

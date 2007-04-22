@@ -71,7 +71,8 @@
     </s:div>
 
     <s:div id="body">
-        <s:div id="messageBox" rendered="#{!empty facesMessages.currentGlobalMessages}">
+        <s:div id="messageBox">
+        <s:div rendered="#{!empty facesMessages.currentGlobalMessages}">
             <ui:repeat var="message" value="#{facesMessages.currentGlobalMessages}">
                 <h:panelGrid columns="2">
                     <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/info.gif"
@@ -88,6 +89,7 @@
                 </h:panelGrid>
                 -->
             </ui:repeat>
+        </s:div>
         </s:div>
         <div id="content">
             <f:facet name="beforeInvalidField">

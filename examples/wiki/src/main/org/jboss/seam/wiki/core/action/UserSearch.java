@@ -20,10 +20,7 @@ public class UserSearch implements Serializable {
 
     @In
     private FacesMessages facesMessages;
-
-    @In
-    private NodeBrowser browser;
-
+ 
     private User exampleUser;
     private String orderByProperty;
     private boolean orderDescending;
