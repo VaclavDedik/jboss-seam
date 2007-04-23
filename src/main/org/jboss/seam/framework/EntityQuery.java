@@ -36,10 +36,13 @@ public class EntityQuery extends Query<EntityManager>
    @Override
    public List getResultList()
    {
-      if ( resultList==null || isAnyParameterDirty() )
+      if (isAnyParameterDirty())
+      {
+         refresh();
+      }
+      if ( resultList==null )
       {
          javax.persistence.Query query = createQuery();
-         refresh();
          resultList = query==null ? null : query.getResultList();
       }
       return resultList;
@@ -49,10 +52,13 @@ public class EntityQuery extends Query<EntityManager>
    @Override
    public Object getSingleResult()
    {
-      if ( singleResult==null || isAnyParameterDirty() )
+      if (isAnyParameterDirty())
+      {
+         refresh();
+      }
+      if ( singleResult==null)
       {
          javax.persistence.Query query = createQuery();
-         refresh();
          singleResult = query==null ? 
                null : query.getSingleResult();
       }
@@ -63,10 +69,13 @@ public class EntityQuery extends Query<EntityManager>
    @Override
    public Long getResultCount()
    {
-      if ( resultCount==null || isAnyParameterDirty() )
+      if (isAnyParameterDirty())
+      {
+         refresh();
+      }
+      if ( resultCount==null )
       {
          javax.persistence.Query query = createCountQuery();
-         refresh();
          resultCount = query==null ? 
                null : (Long) query.getSingleResult();
       }
