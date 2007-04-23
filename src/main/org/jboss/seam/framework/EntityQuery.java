@@ -39,6 +39,7 @@ public class EntityQuery extends Query<EntityManager>
       if ( resultList==null || isAnyParameterDirty() )
       {
          javax.persistence.Query query = createQuery();
+         refresh();
          resultList = query==null ? null : query.getResultList();
       }
       return resultList;
@@ -51,6 +52,7 @@ public class EntityQuery extends Query<EntityManager>
       if ( singleResult==null || isAnyParameterDirty() )
       {
          javax.persistence.Query query = createQuery();
+         refresh();
          singleResult = query==null ? 
                null : query.getSingleResult();
       }
@@ -64,6 +66,7 @@ public class EntityQuery extends Query<EntityManager>
       if ( resultCount==null || isAnyParameterDirty() )
       {
          javax.persistence.Query query = createCountQuery();
+         refresh();
          resultCount = query==null ? 
                null : (Long) query.getSingleResult();
       }
