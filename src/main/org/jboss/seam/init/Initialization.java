@@ -37,6 +37,7 @@ import org.jboss.seam.annotations.Roles;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Jbpm;
@@ -495,6 +496,7 @@ public class Initialization
       
       addSpecialComponents(init);
       installComponents(init, redeployStrategy);
+      Events.instance().raiseEvent("org.jboss.seam.postInitialization");
       Lifecycle.endInitialization();
       log.info("done initializing Seam");
       return this;

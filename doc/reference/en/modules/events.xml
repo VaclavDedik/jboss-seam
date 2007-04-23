@@ -570,6 +570,7 @@ public class HelloListener {
             <listitem><para><literal>org.jboss.seam.preDestroy.&lt;name&gt; </literal>&mdash; called when the component &lt;name&gt; is destroyed</para></listitem>
             <listitem><para><literal>org.jboss.seam.beforePhase </literal>&mdash; called before the start of a JSF phase</para></listitem>
             <listitem><para><literal>org.jboss.seam.afterPhase </literal>&mdash; called after the end of a JSF phase</para></listitem>
+            <listitem><para><literal>org.jboss.seam.postInitialization </literal>&mdash; called when Seam has initialized and started up all components</para></listitem>
             <listitem><para><literal>org.jboss.seam.postAuthenticate.&lt;name&gt; </literal>&mdash; called after a user is authenticated</para></listitem>
             <listitem><para><literal>org.jboss.seam.preAuthenticate.&lt;name&gt; </literal>&mdash; called before attempting to authenticate a user</para></listitem>
             <listitem><para><literal>org.jboss.seam.notLoggedIn</literal> &mdash; called there is no authenticated user and authentication is required</para></listitem>
