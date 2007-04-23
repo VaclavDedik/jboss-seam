@@ -162,9 +162,7 @@
           <h:outputText value="#{auction.account.feedbackScore}">
             <f:convertNumber maxFractionDigits="0"/>
           </h:outputText>% Positive<br/>
-          <s:link view="/feedback.xhtml" value="Read the feedback comments">
-            <f:param name="member" value="#{auction.account.accountId}"/>
-          </s:link>
+          <h:outputLink value="#{facesContext.externalContext.requestContextPath}/feedback/#{auction.account.name}">Read the feedback comments</h:outputLink>
         </div>
       </div>
       

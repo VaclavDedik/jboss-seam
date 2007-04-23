@@ -14,8 +14,11 @@ insert into category (categoryId, name) values (13, 'Sporting goods');
 insert into category (categoryId, name) values (14, 'Toys');
 insert into category (categoryId, name) values (15, 'Video Games');
 
-insert into account (accountId, name, feedbackCount, feedbackScore, memberSince, location) values (1, 'honestjoe', 0, 0, CURRENT_TIMESTAMP, 'Sydney, New South Wales, Australia');
+insert into account (accountId, name, feedbackCount, feedbackScore, memberSince, location) values (1, 'honestjoe', 0, 0, CURRENT_TIMESTAMP, 'Sydney, NSW, Australia');
 insert into user (userId, username, password, account_id) values (1, 'demo', 'demo', 1);
+
+insert into account (accountId, name, feedbackCount, feedbackScore, memberSince, location) values (2, 'bob', 0, 0, CURRENT_TIMESTAMP, 'Brisbane, QLD, Australia');
+insert into user (userId, username, password, account_id) values (2, 'bob', 'bob', 2);
 
 insert into auction (auctionId, account_id, title, description, category_Id, price, bids, endDate, status) values (1, 1, 'Whistler''s Mother, original painting by James McNeill Whistler', '+Whistler''s Mother'+char(10)+'A very expensive painting, you probably couldn''t afford it.', 2, 5999999.00, 0, CURRENT_TIMESTAMP, 1);
 insert into auction (auctionId, account_id, title, category_Id, price, bids, endDate, status) values (2, 1, 'Lost Tales Volume 1 by J.R.R. Tolkien', 3, 4.50, 0, CURRENT_TIMESTAMP, 1);
@@ -27,3 +30,4 @@ insert into auctionImage (imageId, auction_id, data) values (2, 2, '89504E470D0A
 update auction set image_id = 1 where auctionId = 1;
 update auction set image_id = 2 where auctionId = 2;
 
+insert into feedback (feedbackId, for_account_id, from_account_id, feedbackDate, item_id, rating, comment, response) values (1, 1, 2, CURRENT_TIMESTAMP, 1, 0, 'Pleasure to deal with', 'Thanks!');
