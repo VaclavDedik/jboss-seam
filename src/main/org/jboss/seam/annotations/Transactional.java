@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
  * Specifies that the transaction propagation for a JavaBean
  * component or method of a JavaBean component. JavaBean 
  * components have @Transactional(SUPPORTS) behavior 
- * is no @Transactional annotation is specified.
+ * if no @Transactional annotation is specified.
  * 
  * @author Gavin King
  */
