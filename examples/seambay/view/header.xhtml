@@ -25,13 +25,24 @@
 
       <div class="header_tools_bottom">    
         <div>          
-          <a href="#" class="header_action">Buy
-          </a><a href="#" class="header_action">Sell
-          </a><a href="#" class="header_action">Help</a>
+          <s:link view="/buy.xhtml" value="Buy" styleClass="header_action"
+          /><s:link view="/sell.xhtml" value="Sell" styleClass="header_action"
+          /><s:link view="/help.xhtml" value="Help" styleClass="header_action"/>
         </div>       
 
       </div>
     </div>
+    
+    <s:fragment rendered="#{not identity.loggedIn}">
+      <span>Hello! </span>
+      <s:link view="/login.seam" value="Sign in" propagation="none"/>
+      <span> or </span>
+      <s:link view="/register.seam" value="register" propagation="none"/>.
+    </s:fragment>
+    
+    <s:fragment rendered="#{identity.loggedIn}">
+      Hello, #{authenticatedAccount.name}.
+    </s:fragment>
     
   </ui:composition>
 </html>

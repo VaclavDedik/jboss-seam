@@ -24,11 +24,11 @@
         </div>
         
         <ui:repeat value="#{categories}" var="cat">
-          <s:link view="/search.xhtml" value="#{cat.name}" propagation="none">
+          <s:link view="/search.xhtml" action="#{auctionSearch.queryAuctions}" value="#{cat.name}" propagation="none">
             <f:param name="categoryId" value="#{cat.categoryId}"/>
           </s:link>
         </ui:repeat>
-                
+                       
       </div>
       
       <div id="content">

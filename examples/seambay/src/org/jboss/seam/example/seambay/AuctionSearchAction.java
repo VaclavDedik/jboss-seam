@@ -161,6 +161,6 @@ public class AuctionSearchAction implements Serializable
    
    public void setSelectedCategoryId(Integer categoryId)
    {
-      selectCategory(entityManager.find(Category.class, categoryId));
+      this.searchCategory = entityManager.find(Category.class, categoryId);
    }
 }

@@ -2,7 +2,7 @@
           "-//JBoss/Seam Pages Configuration DTD 1.2//EN"
           "http://jboss.com/products/seam/pages-1.2.dtd">
 
-<pages login-view-id="/home.xhtml">
+<pages login-view-id="/login.xhtml">
 
     <page view-id="/search.xhtml">
         <param name="categoryId" value="#{auctionSearch.selectedCategoryId}"/>
@@ -26,7 +26,10 @@
     
     <page view-id="/auction.xhtml">
         <param name="id" value="#{auctionDetail.selectedAuctionId}"/>
-
+    </page>
+    
+    <page view-id="/sell.xhtml" login-required="true">
+    
     </page>
     
     <page view-id="*">

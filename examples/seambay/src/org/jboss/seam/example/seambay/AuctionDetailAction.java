@@ -18,7 +18,7 @@ public class AuctionDetailAction
    @Factory("auction")
    public Auction getAuction()
    {
-      auction = entityManager.find(Auction.class, selectedAuctionId);      
+      auction = entityManager.find(Auction.class, selectedAuctionId);
       return auction;
    }
    
