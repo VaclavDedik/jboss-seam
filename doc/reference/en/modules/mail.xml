@@ -302,6 +302,53 @@ public class MailListenerMDB implements MailListener {
 		    </section>
 		</section>
 	</section>
+	
+	<section>
+		<title>Meldware</title>
+		<para>
+			Seam's mail examples use Meldware (from <ulink url="http://buni.org">buni.org</ulink>) as a mail 
+			server. Meldware is a groupware package that provides <literal>SMTP</literal>, <literal>POP3</literal>, 
+			<literal>IMAP</literal>, webmail, a shared calendar and an graphical admin tool; it's written as
+			a JEE application so can be deployed onto JBoss AS alongside your Seam application. 
+		</para>
+		
+		<para>
+			The version of Meldware distributed with Seam (in the <literal>mail/buni-meldware</literal> folder
+			is specially tailored for development - mailboxes, users and aliases (email addresses) are created
+			everytime the the application deploys.  If you want to use Meldware for anything more than sending
+			emails in production it's recommended you a vanilla copy. To create mailboxes, users and aliaes, 
+			you can use the <literal>meldware</literal> component:
+		</para>
+		
+		<programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
+        xmlns:core="http://jboss.com/products/seam/core"
+        xmlns:mail="http://jboss.com/products/seam/mail">
+              
+    <mail:mail-session host="smtp.example.com"/>
+    
+    <mail:meldware>
+        <mail:users>
+            <value>#{duke}</value>
+            <value>#{root}</value>
+	    </mail:users>
+    </mail:meldware>
+    
+   	<mail:meldware-user name="duke" username="duke" password="duke">
+   	    <mail:aliases>
+   	        <value>duke@jboss.org</value>
+   	        <value>duke@jboss.com</value>
+   	    </mail:aliases>
+   	<mail:meldware-user name="root" username="root" password="root" administrator="true" /> 
+</components>]]></programlisting>
+
+ 		<para>
+			Here we've created two users, <literal>duke</literal>, who has two email addresses and
+ 		 	an administrator with the username <literal>root</literal>.
+ 		</para>
+ 		
+
+		
+	</section>
 
     <section id="mail.tags">
         <title>Tags</title>

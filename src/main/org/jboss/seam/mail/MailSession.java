@@ -1,6 +1,7 @@
 package org.jboss.seam.mail;
 
 import static org.jboss.seam.ScopeType.APPLICATION;
+import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.Serializable;
@@ -30,7 +31,7 @@ import org.jboss.seam.util.Naming;
 @Name("org.jboss.seam.mail.mailSession")
 @Install(precedence=BUILT_IN, classDependencies="javax.mail.Session")
 @Scope(APPLICATION)
-@Intercept(InterceptionType.NEVER)
+@Intercept(NEVER)
 public class MailSession extends AbstractMutable implements Serializable
 {
    private static final LogProvider log = Logging.getLogProvider(MailSession.class);

@@ -10,6 +10,7 @@
 
     <core:init debug="true" jndi-pattern="@jndiPattern@" />
     <core:ejb installed="@embeddedEjb@" /> 
+    
     <core:dispatcher />
     
      <!-- If you need to alter the SMTP gateway, comment out this mail-session, -->
@@ -17,5 +18,16 @@
     
     <!-- uncomment this one and set the host attribute to the name or IP address of your SMTP gateway-->
     <!-- <mail:mail-session host="smtp.foo.com" />-->
+    
+    <!-- Configure meldware -->
+    <mail:meldware>
+    	<mail:users>
+    		<value>#{meldwareUser.test}</value>
+		</mail:users>
+    </mail:meldware>
+    
+    <!-- Meldware users -->
+    
+   	<mail:meldware-user name="meldwareUser.test" username="test" password="test" />
    
 </components>

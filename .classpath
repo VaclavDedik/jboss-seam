@@ -40,5 +40,9 @@
 	<classpathentry kind="lib" path="lib/jsp-api.jar"/>
 	<classpathentry kind="lib" path="lib/gwt-servlet.jar"/>
 	<classpathentry kind="lib" path="lib/ajax4jsf-1.1.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="mail/buni-meldware/lib/mailapi.jar"/>
+	<classpathentry kind="lib" path="mail/buni-meldware/lib/mailbeans.jar"/>
+	<classpathentry kind="lib" path="mail/buni-meldware/lib/mailjmx.jar"/>
+	<classpathentry kind="lib" path="lib/groovy-all-1.0.1-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="output/classes"/>
 </classpath>

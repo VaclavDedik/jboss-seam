@@ -47,6 +47,8 @@
 	<property name="coverage.dir" value="${build.dir}/coverage" />
 	
 	<property name="trinidad.dir" value="trinidad" />
+	<property name="mail.dir" value="${imported.basedir}/mail" />
+	<property name="meldware.dir" value="${mail.dir}/buni-meldware" />
 
 	<property name="src.java.dir" value="src/main" />
 	<property name="src.ui.dir" value="src/ui" />
@@ -58,18 +60,17 @@
 	<property name="src.gen.dir" value="src/gen" />
 	<property name="src.remoting.dir" value="src/remoting" />
 	<property name="src.test.dir" value="src/test/misc" />
-
+	
 	<property name="lib.dir" value="${imported.basedir}/lib" />
 	<property name="drools.lib.dir" value="${imported.basedir}/drools/lib" />
 	<property name="trinidad.lib.dir" value="${imported.basedir}/trinidad/lib" />
-	<property name="mail.lib.dir" value="${imported.basedir}/mail" />
-	<property name="meldware.lib.dir" value="${mail.lib.dir}/buni-meldware" />
+	<property name="meldware.lib.dir" value="${meldware.dir}/lib" />
 	<property name="eejb.conf.dir" value="${imported.basedir}/embedded-ejb/conf" />
 	<property name="mc.conf.dir" value="${imported.basedir}/microcontainer/conf" />
 	<property name="example.coverage.dir" value="${imported.basedir}/build/coverage" />
 	<property name="drools.dir" value="${imported.basedir}/drools" />
 	<property name="hibernate.dir" value="${imported.basedir}/hibernate" />
-	<property name="mail.dir" value="${imported.basedir}/mail" />
+	
 	<property name="seamgen.dir" value="${imported.basedir}/seam-gen" />
 
 	<property name="doc.dir" value="doc" />
@@ -125,7 +126,7 @@
 	<fileset id="lib" dir="${imported.basedir}" description="compile-time dependencies">
 		<include name="lib/*.jar" />
 		<include name="drools/lib/*.jar" />
-		<include name="mail/buni-meldware/lib/*.jar" />
+		<include name="${meldware.lib.dir}/*.jar" />
 	</fileset>
 
 	<zipfileset id="example.seam.misc.jar" dir="${imported.basedir}" prefix="WEB-INF/lib" description="the Seam jars">
@@ -252,30 +253,35 @@
 		<include name="${example.ds}" />
 	</patternset>
 
-	<zipfileset id="meldware.deploy" dir="${meldware.lib.dir}" description="the meldware ears">
-		<include name="calendar.ear" if="example.seam.meldware" />
-		<include name="mail.ear" if="example.seam.meldware" />
+	<zipfileset id="meldware.mail.deploy" dir="${meldware.dir}" description="Mail server from meldware">
+		<include name="_mail.ear" if="example.seam.meldware.mail" />
+		<include name="meldwarebase.sar" if="example.seam.meldware.mail" />
+	</zipfileset>
+	
+	<zipfileset id="meldware.deploy" dir="${meldware.dir}" description="The entire meldware server">
+		<include name="_calendar.ear" if="example.seam.meldware" />
+		<include name="_mail.ear" if="example.seam.meldware" />
 		<include name="meldwarebase.sar" if="example.seam.meldware" />
 		<include name="webadmin.war" if="example.seam.meldware" />
 		<include name="webmail.war" if="example.seam.meldware" />
-		<exclude name="" />
 	</zipfileset>
 
-	<zipfileset id="meldware.conf.deploy" dir="${meldware.lib.dir}" description="The meldware key store">
+	<zipfileset id="meldware.conf.deploy" dir="${meldware.dir}" description="The meldware key store">
 		<include name="meldware.store" if="example.seam.meldware" />
+		<include name="meldware.store" if="example.seam.meldware.mail" />
 	</zipfileset>
 
 	<patternset id="meldware.undeploy">
-		<include name="calendar.ear" />
-		<include name="mail.ear" />
-		<include name="meldwarebase.sar" />
-		<include name="runonce.bsh" />
-		<include name="webadmin.war" />
-		<include name="webmail.war" />
+		<include name="_calendar.ear"  if="example.seam.meldware"/>
+		<include name="_mail.ear"  if="example.seam.meldware"/>
+		<include name="meldwarebase.sar" if="example.seam.meldware" />
+		<include name="webadmin.war"  if="example.seam.meldware"/>
+		<include name="webmail.war"  if="example.seam.meldware"/>
 	</patternset>
-
-	<patternset id="meldware.conf.undeploy">
-		<include name="meldware.store" />
+	
+	<patternset id="meldware.mail.undeploy">
+		<include name="_mail.ear"  if="example.seam.meldware.mail"/>
+		<include name="meldwarebase.sar" if="example.seam.meldware.mail" />
 	</patternset>
 
 	<zipfileset id="example.tomcat.war.webinf" prefix="WEB-INF" dir="resources/WEB-INF">
@@ -1308,6 +1314,7 @@
 		<fail unless="jboss.home">jboss.home MUST be set. Update build.properties to point to a valid JBoss installation.</fail>
 		<copy todir="${deploy.dir}">
 			<fileset refid="example.deploy" />
+			<fileset refid="meldware.mail.deploy" />
 			<fileset refid="meldware.deploy" />
 		</copy>
 		<copy todir="${conf.dir}">
@@ -1323,11 +1330,7 @@
 			<fileset dir="${deploy.dir}">
 				<patternset refid="example.undeploy" />
 				<patternset refid="meldware.undeploy" />
-			</fileset>
-		</delete>
-		<delete>
-			<fileset dir="${conf.dir}">
-				<patternset refid="meldware.conf.undeploy" />
+				<patternset refid="meldware.mail.undeploy" />
 			</fileset>
 		</delete>
 	</target>

@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 
 <project name="email" default="deploy" basedir=".">
-
 	<!-- Example name -->
 	<property name="Name" value="Mail example" />
 	<property name="example.name" value="jboss-seam-email" />
@@ -10,7 +9,7 @@
 	<property name="example.webinf.lib.dir" value="." />
 	<property name="example.seam.ui.lib" value="yes" />
 	<property name="example.seam.mail.lib" value="yes" />
-	<property name="example.seam.meldware" value="yes" />
+	<property name="example.seam.meldware.mail" value="yes" />
 	<property name="example.seam.pdf.lib"    value="yes"/>
 	<property name="example.seam.debug.lib" value="yes" />
 	<property name="example.facelets.lib" value="yes" />
