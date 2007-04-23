@@ -20,7 +20,7 @@
     <fileset dir="${imported.basedir}">
       <include name="build.properties.sample" if="copy.default.properties" />
     </fileset>
-    <globmapper from="build.properties.sample" to="build.properties" />
+    <mapper type="glob" from="build.properties.sample" to="build.properties" />
   </copy>  
 
 	<!-- Give user a chance to override without editing this file or typing -D -->
@@ -125,6 +125,7 @@
 	<fileset id="lib" dir="${imported.basedir}" description="compile-time dependencies">
 		<include name="lib/*.jar" />
 		<include name="drools/lib/*.jar" />
+		<include name="mail/buni-meldware/lib/*.jar" />
 	</fileset>
 
 	<zipfileset id="example.seam.misc.jar" dir="${imported.basedir}" prefix="WEB-INF/lib" description="the Seam jars">
@@ -251,7 +252,6 @@
 		<include name="calendar.ear" if="example.seam.meldware" />
 		<include name="mail.ear" if="example.seam.meldware" />
 		<include name="meldwarebase.sar" if="example.seam.meldware" />
-		<include name="runonce.bsh" if="example.seam.meldware" />
 		<include name="webadmin.war" if="example.seam.meldware" />
 		<include name="webmail.war" if="example.seam.meldware" />
 		<exclude name="" />
