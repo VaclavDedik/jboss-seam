@@ -193,6 +193,10 @@
 	<zipfileset id="example.jcaptcha.jar" dir="${lib.dir}" description="JCaptcha jar">
 		<include name="jcaptcha-all*.jar" if="example.jcaptcha.lib" />
 	</zipfileset>
+	
+	<zipfileset id="example.urlrewrite.jar" dir="${lib.dir}" prefix="WEB-INF/lib" description="URL Rewrite Filter jar">
+	  <include name="urlrewrite*.jar" if="example.urlrewrite.lib" />
+	</zipfileset>
 
 	<fileset id="example.resources" dir="${example.resources.dir}">
 		<include name="**/*.*" />
@@ -1260,6 +1264,7 @@
 			<zipfileset refid="example.war.webinf.lib" />
 			<zipfileset refid="example.seam.misc.jar" />
 			<zipfileset refid="example.facelets.jar" />
+			<zipfileset refid="example.urlrewrite.jar" />
 			<zipfileset refid="example.ajax4jsf.jar" />
 			<zipfileset refid="example.itext.jar" />
 			<zipfileset dir="${build.dir}/resources">
