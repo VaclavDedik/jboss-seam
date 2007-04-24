@@ -71,7 +71,6 @@ table.feedbackTable th {
   font-family: arial, helvetica, sans-serif;
   font-size: 13px;
   text-align: left;
-  border-bottom: 1px solid #cccccc;
   padding: 4px 4px 4px 4px;
 }
 
@@ -80,6 +79,7 @@ table.feedbackTable td {
   padding: 4px 4px 4px 4px;
   font-family: arial, helvetica, sans-serif;
   font-size: 13px;
+  border-top: 1px solid #cccccc;  
 }
 
 div.itemDescription {

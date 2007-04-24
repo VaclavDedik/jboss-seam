@@ -1,3 +1,4 @@
+var ENDPOINT = "/AuctionServiceService/AuctionService";
 var webServices = new Object();
 var groups = new Object();
 
@@ -241,7 +242,7 @@ function sendRequest()
     req = new ActiveXObject("Microsoft.XMLHTTP");
     
   req.onreadystatechange = function() { receiveResponse(req); };
-  req.open("POST", "/seam-bay-seam-bay/AuctionService", true);
+  req.open("POST", ENDPOINT, true);
   req.setRequestHeader("Content-type", "text/xml");
   req.send(document.getElementById("serviceRequest").value);
 }
