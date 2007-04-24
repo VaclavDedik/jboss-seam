@@ -5,7 +5,6 @@ import java.lang.reflect.Method;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.PostLoad;
 import javax.persistence.PrePersist;
 import javax.persistence.PreRemove;

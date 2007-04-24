@@ -1,14 +1,13 @@
 //$Id$
 package org.jboss.seam.init;
 
+import groovy.lang.GroovyClassLoader;
+
 import java.net.URL;
 
-import groovy.lang.GroovyClassLoader;
 import org.codehaus.groovy.control.CompilerConfiguration;
 import org.jboss.seam.deployment.ComponentScanner;
 import org.jboss.seam.deployment.GroovyComponentScanner;
-import org.jboss.seam.log.LogProvider;
-import org.jboss.seam.log.Logging;
 
 /**
  * Support Groovy file loading as well as Java class loading
@@ -19,7 +18,6 @@ import org.jboss.seam.log.Logging;
 public class GroovyHotRedeployable extends JavaHotRedeployable
 {
    private static final String DEFAULT_SCRIPT_EXTENSION = new CompilerConfiguration().getDefaultScriptExtension();
-   private static final LogProvider log = Logging.getLogProvider(GroovyHotRedeployable.class);
 
    public GroovyHotRedeployable(URL resource)
    {
@@ -31,6 +29,7 @@ public class GroovyHotRedeployable extends JavaHotRedeployable
       if (classLoader != null) classLoader = new GroovyClassLoader(classLoader);
    }
 
+   @Override
    public ComponentScanner getScanner()
    {
       return classLoader != null ?
@@ -38,7 +37,7 @@ public class GroovyHotRedeployable extends JavaHotRedeployable
             null;
    }
 
-
+   @Override
    public boolean isFromHotDeployClassLoader(Class componentClass)
    {
       //loaded by groovy or java

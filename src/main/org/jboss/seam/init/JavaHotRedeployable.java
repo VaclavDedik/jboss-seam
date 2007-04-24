@@ -7,8 +7,6 @@ import java.net.URL;
 import java.net.URLClassLoader;
 
 import org.jboss.seam.deployment.ComponentScanner;
-import org.jboss.seam.log.LogProvider;
-import org.jboss.seam.log.Logging;
 
 /**
  * Hot redeployment of Java classes
@@ -17,7 +15,6 @@ import org.jboss.seam.log.Logging;
  */
 public class JavaHotRedeployable implements RedeployableStrategy
 {
-   private static final LogProvider log = Logging.getLogProvider(JavaHotRedeployable.class);
 
    protected File[] paths;
    protected ClassLoader classLoader;

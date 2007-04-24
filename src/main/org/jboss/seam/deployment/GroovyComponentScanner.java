@@ -41,6 +41,7 @@ public class GroovyComponentScanner extends ComponentScanner
       this.groovyFileExtension = groovyFileExtension;
    }
 
+   @Override
    protected URL[] getURLsFromClassLoader()
    {
       /*

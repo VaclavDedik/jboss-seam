@@ -4,7 +4,6 @@ package org.jboss.seam.init;
 import java.io.File;
 
 import org.jboss.seam.deployment.ComponentScanner;
-import org.jboss.seam.deployment.Scanner;
 
 /**
  * Abstract the redeployable initialization mechanism
@@ -15,7 +14,7 @@ import org.jboss.seam.deployment.Scanner;
  */
 public interface RedeployableStrategy
 {
-   /**
+   /*
     * Mandatory constructor
     *
     * @param resource url containing the redeployable files
@@ -23,11 +22,12 @@ public interface RedeployableStrategy
    //RedeployableInitialization(URL resource);
 
 
-   ClassLoader getClassLoader();
+   public ClassLoader getClassLoader();
 
-   File[] getPaths();
+   public File[] getPaths();
 
-   ComponentScanner getScanner();
+   public ComponentScanner getScanner();
 
-   boolean isFromHotDeployClassLoader(Class componentClass);
+   public boolean isFromHotDeployClassLoader(Class componentClass);
+   
 }
