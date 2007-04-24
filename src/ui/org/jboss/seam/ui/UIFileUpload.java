@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import javax.faces.component.UIComponentBase;
+import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.el.ValueBinding;
@@ -18,7 +18,7 @@ import org.jboss.seam.web.MultipartRequest;
  * 
  * @author Shane Bryzak
  */
-public class UIFileUpload extends UIComponentBase
+public class UIFileUpload extends UIInput
 {
    public static final String COMPONENT_TYPE   = "org.jboss.seam.ui.UIFileUpload";
    public static final String COMPONENT_FAMILY = "org.jboss.seam.ui.FileUpload";
@@ -26,6 +26,8 @@ public class UIFileUpload extends UIComponentBase
    private String accept;
    private String styleClass;
    private String style;   
+   
+   private MultipartRequest request;
    
    @Override
    public void decode(FacesContext context)
@@ -41,40 +43,48 @@ public class UIFileUpload extends UIComponentBase
 
       if (request instanceof MultipartRequest)
       {
-         MultipartRequest req = (MultipartRequest) request;
+         this.request = (MultipartRequest) request;
          
          String clientId = getClientId(context);         
-         String contentType = req.getFileContentType(clientId);
-         String fileName = req.getFileName(clientId);
-         int fileSize = req.getFileSize(clientId);
-                  
-         ValueBinding dataBinding = getValueBinding("data");
-         if (dataBinding != null)
-         {
-            Class cls = dataBinding.getType(context);
-            if (cls.isAssignableFrom(InputStream.class))
-            {
-               dataBinding.setValue(context, req.getFileInputStream(clientId));
-            }
-            else if (cls.isAssignableFrom(byte[].class))
-            {
-               dataBinding.setValue(context, req.getFileBytes(clientId));
-            }
-         }
          
-         ValueBinding vb = getValueBinding("contentType");
-         if (vb != null)
-            vb.setValue(context, contentType);
-         
-         vb = getValueBinding("fileName");
-         if (vb != null)
-            vb.setValue(context, fileName);
-         
-         vb = getValueBinding("fileSize");
-         if (vb != null)
-            vb.setValue(context, fileSize);
+         this.request.getFileName(clientId);   
       }      
    }
+   
+   @Override
+   public void processUpdates(FacesContext context)
+   {                         
+      String clientId = getClientId(context);
+      String contentType = request.getFileContentType(clientId);
+      String fileName = request.getFileName(clientId);
+      int fileSize = request.getFileSize(clientId);       
+      
+      ValueBinding dataBinding = getValueBinding("data");
+      if (dataBinding != null)
+      {
+         Class cls = dataBinding.getType(context);
+         if (cls.isAssignableFrom(InputStream.class))
+         {
+            dataBinding.setValue(context, request.getFileInputStream(clientId));
+         }
+         else if (cls.isAssignableFrom(byte[].class))
+         {
+            dataBinding.setValue(context, request.getFileBytes(clientId));
+         }
+      }
+      
+      ValueBinding vb = getValueBinding("contentType");
+      if (vb != null)
+         vb.setValue(context, contentType);
+      
+      vb = getValueBinding("fileName");
+      if (vb != null)
+         vb.setValue(context, fileName);
+      
+      vb = getValueBinding("fileSize");
+      if (vb != null)
+         vb.setValue(context, fileSize);            
+   }   
       
    private ServletRequest unwrapMultipartRequest(ServletRequest request)
    {      
