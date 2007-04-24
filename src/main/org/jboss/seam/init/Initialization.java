@@ -496,7 +496,7 @@ public class Initialization
       
       addSpecialComponents(init);
       installComponents(init, redeployStrategy);
-      Events.instance().raiseEvent("org.jboss.seam.postInitialization");
+      
       Lifecycle.endInitialization();
       log.info("done initializing Seam");
       return this;

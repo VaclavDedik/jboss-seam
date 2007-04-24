@@ -19,6 +19,7 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.core.BusinessProcess;
 import org.jboss.seam.core.ConversationEntries;
+import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Mutable;
@@ -132,27 +133,35 @@ public class Lifecycle
 
    public static void endInitialization()
    {
-	   //instantiate all application-scoped @Startup components
-      Context context = Contexts.getApplicationContext();
-      for ( String name: context.getNames() )
-      {
-    	   Object object = context.get(name);
-    	   if ( object!=null && (object instanceof Component) )
-    	   {
-	         Component component = (Component) object;
-	         if ( component.isStartup() && component.getScope()==ScopeType.APPLICATION )
-	         {
-               startup(component);
-	         }
-    	   }
-      }
-
+      startup(ScopeType.APPLICATION);
+      
+      Events.instance().raiseEvent("org.jboss.seam.postInitialization");
+      
+      // Clean up contexts used during initialization
       Contexts.destroy( Contexts.getConversationContext() );
       Contexts.conversationContext.set(null);
       Contexts.destroy( Contexts.getEventContext() );
       Contexts.eventContext.set(null);
       Contexts.sessionContext.set(null);
       Contexts.applicationContext.set(null);
+   }
+   
+   private static void startup(ScopeType scopeType)
+   {
+      // instantiate all components in the given scope
+      Context context = Contexts.getApplicationContext();
+      for ( String name: context.getNames() )
+      {
+         Object object = context.get(name);
+         if ( object!=null && (object instanceof Component) )
+         {
+            Component component = (Component) object;
+            if ( component.isStartup() && component.getScope()==scopeType )
+            {
+               startup(component);
+            }
+         }
+      }
    }
 
    private static void startup(Component component)
@@ -223,19 +232,7 @@ public class Lifecycle
       Context tempSessionContext = new WebSessionContext(session);
       Contexts.sessionContext.set(tempSessionContext);
 
-      //instantiate all session-scoped @Startup components
-      for ( String name : Contexts.getApplicationContext().getNames() )
-      {
-         Object object = Contexts.getApplicationContext().get(name);
-         if ( object!=null && (object instanceof Component) ) 
-         {
-            Component component = (Component) object;
-            if ( component.isStartup() && component.getScope() == ScopeType.SESSION )
-            {
-               startup(component);
-            }
-         }
-      }
+      startup(ScopeType.SESSION);
 
       Contexts.sessionContext.set(null);
       
