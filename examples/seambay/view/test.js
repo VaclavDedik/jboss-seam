@@ -1,4 +1,3 @@
-var ENDPOINT = "/AuctionServiceService/AuctionService";
 var webServices = new Object();
 var groups = new Object();
 
@@ -45,7 +44,7 @@ svc.setRequest("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soa
                "\n      <arg1>#{password}</arg1>" +
                "\n    </seam:login>" +
                "\n  </soapenv:Body>" +
-               "</soapenv:Envelope>");
+               "\n</soapenv:Envelope>");
 svc.addParameter(new ServiceParam("Username", "username"));
 svc.addParameter(new ServiceParam("Password", "password"));    
 
@@ -56,7 +55,7 @@ svc.setRequest("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soa
                "\n  <soapenv:Body>" +
                "\n    <seam:logout/>" +
                "\n  </soapenv:Body>" +
-               "</soapenv:Envelope>");  
+               "\n</soapenv:Envelope>");  
 
 svc = new ServiceMetadata("createAuction", "Create/Update Auction");
 svc.setDescription("Create new auction");
@@ -132,6 +131,10 @@ svc.addParameter(new ServiceParam("Auction ID", "auctionId"));
 
 // end of web service definitions
 
+function getEndpoint()
+{
+  return document.getElementById("endpoint").value; 
+}
 
 var selectedService = null;         
 
@@ -242,7 +245,7 @@ function sendRequest()
     req = new ActiveXObject("Microsoft.XMLHTTP");
     
   req.onreadystatechange = function() { receiveResponse(req); };
-  req.open("POST", ENDPOINT, true);
+  req.open("POST", getEndpoint(), true);
   req.setRequestHeader("Content-type", "text/xml");
   req.send(document.getElementById("serviceRequest").value);
 }

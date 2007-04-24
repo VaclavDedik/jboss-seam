@@ -2,7 +2,7 @@ body {
   font-family: verdana, arial, sans-serif, helvetica;
 }
 
-h1, h2 {
+h1, h2, h3 {
   background-color: #dddddd;
   margin-bottom: 8px;
   margin-top: 8px;
@@ -38,11 +38,11 @@ h1, h2 {
 }
 
 #serviceRequest {
-  height: 140px;
-  width: 96%
+  height: 160px;
+  width: 98%
 }
 
 #serviceResponse {
-  height: 140px;
-  width: 96%;
+  height: 160px;
+  width: 98%;
 }
