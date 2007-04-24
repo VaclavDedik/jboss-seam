@@ -604,6 +604,7 @@ Seam.Remoting.requestCallback = function(req, callback)
   if (req.readyState == 4)
   {
     Seam.Remoting.hideLoadingMessage();
+    req.onreadystatechange = null;
 
     if (req.status == 200)
     {
