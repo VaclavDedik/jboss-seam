@@ -28,8 +28,6 @@ import javax.el.MethodExpression;
 import javax.el.ValueExpression;
 import javax.faces.event.FacesEvent;
 
-import org.jboss.seam.actionparam.MethodExpressionParser;
-
 import com.sun.facelets.compiler.SAXCompiler;
 
 /**
@@ -46,8 +44,7 @@ public class SeamExpressionFactory extends ExpressionFactory
     static 
     {
         // wrap the ExpressionFactory that Facelets would have created
-        SAXCompiler compiler = new SAXCompiler();
-        faceletsExpressionFactory = compiler.createExpressionFactory();
+        faceletsExpressionFactory = new SAXCompiler().createExpressionFactory();
     }
     
     public SeamExpressionFactory() {}
@@ -73,12 +70,7 @@ public class SeamExpressionFactory extends ExpressionFactory
                                                    Class returnType, 
                                                    Class[] paramTypes) 
     {
-        MethodExpressionParser parser = new MethodExpressionParser(expression);
-        if ( parser.isParamExpression() )
-        {
-            return new ParamMethodExpression(parser, elContext);
-        }
-        else if ( paramTypes.length==1 && FacesEvent.class.isAssignableFrom( paramTypes[0] ) )
+        if ( paramTypes.length==1 && FacesEvent.class.isAssignableFrom( paramTypes[0] ) )
         {
            //so that JSF action listeners don't have to declare 
            //the totally frickin useless ActionEvent parameter

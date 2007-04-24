@@ -32,7 +32,6 @@ import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.Component;
 import org.jboss.seam.Model;
-import org.jboss.seam.actionparam.ActionParamMethodBinding;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Expressions;
@@ -42,7 +41,7 @@ import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Pageflow;
 import org.jboss.seam.init.Initialization;
 import org.jboss.seam.jsf.AbstractSeamPhaseListener;
-import org.jboss.seam.jsf.SeamApplication11;
+import org.jboss.seam.jsf.SeamApplication;
 import org.jboss.seam.jsf.SeamNavigationHandler;
 import org.jboss.seam.jsf.SeamPhaseListener;
 import org.jboss.seam.jsf.SeamStateManager;
@@ -398,7 +397,7 @@ public class SeamTest
        */
       protected Object invokeMethod(String methodExpression)
       {
-         return new ActionParamMethodBinding(application, methodExpression).invoke(facesContext, null);
+         return application.createMethodBinding(methodExpression, null).invoke(facesContext, null);
       }
 
       /**
@@ -409,7 +408,7 @@ public class SeamTest
       {   
          HttpServletRequest request = new MockHttpServletRequest( session, getPrincipalName(), getPrincipalRoles(), getCookies().toArray( new Cookie[]{} ) );
          externalContext = new MockExternalContext(servletContext, request);
-         application = new SeamApplication11(SeamTest.this.application);
+         application = new SeamApplication(SeamTest.this.application);
          facesContext = new MockFacesContext( externalContext, application );
          facesContext.setCurrent();
          

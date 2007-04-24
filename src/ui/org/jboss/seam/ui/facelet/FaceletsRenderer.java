@@ -141,17 +141,11 @@ public class FaceletsRenderer extends Renderer
                .getFacelet(url);
    }
 
-   
-
    protected void renderFacelet(FacesContext facesContext, Facelet facelet) throws IOException
    {
       UIViewRoot root = facesContext.getViewRoot();
       facelet.apply(facesContext, root);
       JSF.renderChildren(facesContext, root);
    }
-   
-   
-
-   
    
 }

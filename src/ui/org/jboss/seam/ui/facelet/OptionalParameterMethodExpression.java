@@ -9,7 +9,7 @@ import javax.el.MethodInfo;
 import javax.el.MethodNotFoundException;
 
 public class OptionalParameterMethodExpression extends MethodExpression
- {
+{
     
     private MethodExpression withParam;
     private MethodExpression withNoParam;

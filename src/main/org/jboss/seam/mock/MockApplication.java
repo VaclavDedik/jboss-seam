@@ -1,6 +1,5 @@
 package org.jboss.seam.mock;
 
-
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Collection;
@@ -40,131 +39,154 @@ import org.jboss.seam.util.UnifiedELMethodBinding;
 import org.jboss.seam.util.Reflections;
 import org.jboss.seam.util.UnifiedELValueBinding;
 
-public class MockApplication extends Application {
+public class MockApplication extends Application
+{
 
    @Override
-   public ActionListener getActionListener() {
+   public ActionListener getActionListener()
+   {
       throw new UnsupportedOperationException();
    }
 
    @Override
-   public void setActionListener(ActionListener listener) {
+   public void setActionListener(ActionListener listener)
+   {
       throw new UnsupportedOperationException();
    }
-   
+
    private Locale defaultLocale = Locale.ENGLISH;
 
    @Override
-   public Locale getDefaultLocale() {
+   public Locale getDefaultLocale()
+   {
       return defaultLocale;
    }
 
    @Override
-   public void setDefaultLocale(Locale locale) {
+   public void setDefaultLocale(Locale locale)
+   {
       defaultLocale = locale;
    }
 
    @Override
-   public String getDefaultRenderKitId() {
+   public String getDefaultRenderKitId()
+   {
       throw new UnsupportedOperationException();
    }
 
    @Override
-   public void setDefaultRenderKitId(String rk) {
+   public void setDefaultRenderKitId(String rk)
+   {
       throw new UnsupportedOperationException();
    }
-   
+
    private String msgBundleName;
 
    @Override
-   public String getMessageBundle() {
+   public String getMessageBundle()
+   {
       return msgBundleName;
    }
 
    @Override
-   public void setMessageBundle(String bundleName) {
+   public void setMessageBundle(String bundleName)
+   {
       this.msgBundleName = bundleName;
    }
-   
+
    private NavigationHandler navigationHandler = new MockNavigationHandler();
 
    @Override
-   public NavigationHandler getNavigationHandler() {
+   public NavigationHandler getNavigationHandler()
+   {
       return navigationHandler;
    }
 
    @Override
-   public void setNavigationHandler(NavigationHandler navigationHandler) {
+   public void setNavigationHandler(NavigationHandler navigationHandler)
+   {
       this.navigationHandler = navigationHandler;
    }
 
    @Override
-   public PropertyResolver getPropertyResolver() {
+   public PropertyResolver getPropertyResolver()
+   {
       throw new UnsupportedOperationException();
    }
 
    @Override
-   public void setPropertyResolver(PropertyResolver pr) {
+   public void setPropertyResolver(PropertyResolver pr)
+   {
       throw new UnsupportedOperationException();
    }
-   
-   private VariableResolver variableResolver = null; //TODO: big big todo!!!!!!!!!!
+
+   private VariableResolver variableResolver = null; // TODO: big big todo!!!!!!!!!!
 
    @Override
-   public VariableResolver getVariableResolver() {
+   public VariableResolver getVariableResolver()
+   {
       return variableResolver;
    }
 
    @Override
-   public void setVariableResolver(VariableResolver variableResolver) {
+   public void setVariableResolver(VariableResolver variableResolver)
+   {
       this.variableResolver = variableResolver;
    }
-   
+
    private ViewHandler viewHandler = new MockViewHandler();
 
    @Override
-   public ViewHandler getViewHandler() {
+   public ViewHandler getViewHandler()
+   {
       return viewHandler;
    }
 
    @Override
-   public void setViewHandler(ViewHandler viewHandler) {
+   public void setViewHandler(ViewHandler viewHandler)
+   {
       this.viewHandler = viewHandler;
    }
-   
+
    private StateManager stateManager = new MockStateManager();
 
    @Override
-   public StateManager getStateManager() {
+   public StateManager getStateManager()
+   {
       return stateManager;
    }
 
    @Override
-   public void setStateManager(StateManager stateManager) {
+   public void setStateManager(StateManager stateManager)
+   {
       this.stateManager = stateManager;
    }
 
    @Override
-   public void addComponent(String name, String x) {
+   public void addComponent(String name, String x)
+   {
       throw new UnsupportedOperationException();
    }
 
    @Override
-   public UIComponent createComponent(String name) throws FacesException {
+   public UIComponent createComponent(String name) throws FacesException
+   {
       throw new UnsupportedOperationException();
    }
 
    @Override
-   public UIComponent createComponent(ValueBinding vb, FacesContext fc,
-         String x) throws FacesException {
+   public UIComponent createComponent(ValueBinding vb, FacesContext fc, String x)
+            throws FacesException
+   {
       throw new UnsupportedOperationException();
    }
 
    @Override
-   public Iterator getComponentTypes() {
+   public Iterator getComponentTypes()
+   {
       throw new UnsupportedOperationException();
    }
-   
+
    private final Map<Class, Converter> converters = new HashMap<Class, Converter>();
    {
       converters.put(Integer.class, new IntegerConverter());
@@ -194,13 +216,15 @@ public class MockApplication extends Application {
    }
 
    @Override
-   public void addConverter(String id, String converterClass) {
-      convertersById.put( id, instantiateConverter(converterClass) );
+   public void addConverter(String id, String converterClass)
+   {
+      convertersById.put(id, instantiateConverter(converterClass));
    }
 
    @Override
-   public void addConverter(Class type, String converterClass) {
-      converters.put( type, instantiateConverter(converterClass) );
+   public void addConverter(Class type, String converterClass)
+   {
+      converters.put(type, instantiateConverter(converterClass));
    }
 
    private Converter instantiateConverter(String converterClass)
@@ -216,59 +240,70 @@ public class MockApplication extends Application {
    }
 
    @Override
-   public Converter createConverter(String id) {
+   public Converter createConverter(String id)
+   {
       return convertersById.get(id);
    }
 
    @Override
-   public Converter createConverter(Class clazz) {
+   public Converter createConverter(Class clazz)
+   {
       return converters.get(clazz);
    }
 
    @Override
-   public Iterator getConverterIds() {
+   public Iterator getConverterIds()
+   {
       return convertersById.keySet().iterator();
    }
 
    @Override
-   public Iterator getConverterTypes() {
+   public Iterator getConverterTypes()
+   {
       return converters.keySet().iterator();
    }
 
    @Override
    public MethodBinding createMethodBinding(final String methodExpression, final Class[] args)
-         throws ReferenceSyntaxException {
+            throws ReferenceSyntaxException
+   {
       return new UnifiedELMethodBinding(methodExpression, args);
    }
 
    @Override
-   public Iterator getSupportedLocales() {
+   public Iterator getSupportedLocales()
+   {
       return Collections.singleton(defaultLocale).iterator();
    }
 
    @Override
-   public void setSupportedLocales(Collection locales) {
+   public void setSupportedLocales(Collection locales)
+   {
       throw new UnsupportedOperationException();
    }
 
    @Override
-   public void addValidator(String id, String validator) {
+   public void addValidator(String id, String validator)
+   {
       throw new UnsupportedOperationException();
    }
 
    @Override
-   public Validator createValidator(String id) throws FacesException {
+   public Validator createValidator(String id) throws FacesException
+   {
       throw new UnsupportedOperationException();
    }
 
    @Override
-   public Iterator getValidatorIds() {
+   public Iterator getValidatorIds()
+   {
       throw new UnsupportedOperationException();
    }
 
    @Override
    public ValueBinding createValueBinding(final String valueExpression)
-         throws ReferenceSyntaxException {
+            throws ReferenceSyntaxException
+   {
       return new UnifiedELValueBinding(valueExpression);
    }
 
