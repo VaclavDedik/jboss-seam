@@ -11,7 +11,6 @@
        <class name="org.jboss.seam.test.ContextTest"/>
        <class name="org.jboss.seam.test.PhaseListenerTest"/>
        <class name="org.jboss.seam.test.RemotingTest"/>
-       <class name="org.jboss.seam.test.MethodExpressionParserTest"/>
        <class name="org.jboss.seam.test.SecurityTest"/>
        <class name="org.jboss.seam.test.InterpolatorTest"/>
        <class name="org.jboss.seam.test.DependencyTest"/>
