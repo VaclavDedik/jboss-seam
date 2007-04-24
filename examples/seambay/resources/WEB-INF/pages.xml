@@ -33,7 +33,7 @@
     </page>
     
     <page view-id="/feedback.xhtml">
-        <param name="member" value="#{feedbackAction.selectedMember}"/>
+        <param name="member" value="#{memberAction.memberName}"/>
     </page>
     
     <page view-id="*">

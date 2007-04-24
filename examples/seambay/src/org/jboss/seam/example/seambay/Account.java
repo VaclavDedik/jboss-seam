@@ -14,8 +14,8 @@ public class Account implements Serializable
    
    private Integer accountId;
    private String name;
-   private int feedbackCount;
-   private float feedbackScore;
+   private int feedbackScore;
+   private float feedbackPercent;
    private Date memberSince;
    private String location;
    
@@ -40,24 +40,24 @@ public class Account implements Serializable
       this.name = name;
    }
    
-   public int getFeedbackCount()
-   {
-      return feedbackCount;
-   }
-   
-   public void setFeedbackCount(int count)
-   {
-      this.feedbackCount = count;
-   }
-   
-   public float getFeedbackScore()
+   public int getFeedbackScore()
    {
       return feedbackScore;
    }
    
-   public void setFeedbackScore(float score)
+   public void setFeedbackScore(int score)
    {
       this.feedbackScore = score;
+   }
+   
+   public float getFeedbackPercent()
+   {
+      return feedbackPercent;
+   }
+   
+   public void setFeedbackPercent(float percent)
+   {
+      this.feedbackPercent = percent;
    }
    
    public Date getMemberSince()

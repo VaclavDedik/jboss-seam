@@ -14,10 +14,10 @@ insert into category (categoryId, name) values (13, 'Sporting goods');
 insert into category (categoryId, name) values (14, 'Toys');
 insert into category (categoryId, name) values (15, 'Video Games');
 
-insert into account (accountId, name, feedbackCount, feedbackScore, memberSince, location) values (1, 'honestjoe', 0, 0, CURRENT_TIMESTAMP, 'Sydney, NSW, Australia');
+insert into account (accountId, name, feedbackScore, feedbackPercent, memberSince, location) values (1, 'honestjoe', 0, 0, CURRENT_TIMESTAMP, 'Sydney, NSW, Australia');
 insert into user (userId, username, password, account_id) values (1, 'demo', 'demo', 1);
 
-insert into account (accountId, name, feedbackCount, feedbackScore, memberSince, location) values (2, 'bob', 0, 0, CURRENT_TIMESTAMP, 'Brisbane, QLD, Australia');
+insert into account (accountId, name, feedbackScore, feedbackPercent, memberSince, location) values (2, 'bob', 0, 0, CURRENT_TIMESTAMP, 'Brisbane, QLD, Australia');
 insert into user (userId, username, password, account_id) values (2, 'bob', 'bob', 2);
 
 insert into auction (auctionId, account_id, title, description, category_Id, price, bids, endDate, status) values (1, 1, 'Whistler''s Mother, original painting by James McNeill Whistler', '+Whistler''s Mother'+char(10)+'A very expensive painting, you probably couldn''t afford it.', 2, 5999999.00, 0, CURRENT_TIMESTAMP, 1);

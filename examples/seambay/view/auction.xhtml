@@ -137,7 +137,7 @@
           <label>Feedback:</label>
           <div>
             <b>
-              <h:outputText value="#{auction.account.feedbackScore}">
+              <h:outputText value="#{auction.account.feedbackPercent}">
                 <f:convertNumber maxFractionDigits="0"/>
               </h:outputText>% Positive
             </b>
@@ -158,8 +158,8 @@
       
         <div><b>1. Check the seller's reputation</b></div>
         <div style="margin-left:16px">
-          Score: <span>#{auction.account.feedbackCount} | </span>
-          <h:outputText value="#{auction.account.feedbackScore}">
+          Score: <span>#{auction.account.feedbackScore} | </span>
+          <h:outputText value="#{auction.account.feedbackPercent}">
             <f:convertNumber maxFractionDigits="0"/>
           </h:outputText>% Positive<br/>
           <h:outputLink value="#{facesContext.externalContext.requestContextPath}/feedback/#{auction.account.name}">Read the feedback comments</h:outputLink>
