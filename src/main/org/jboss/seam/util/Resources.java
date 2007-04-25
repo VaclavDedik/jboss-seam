@@ -62,7 +62,7 @@ public class Resources {
          stream = classLoader.getResourceAsStream(stripped);
       }
       if ( stream == null ) {
-         Seam.class.getResourceAsStream(resource);
+         stream = Seam.class.getResourceAsStream(resource);
       }
       if ( stream == null ) {
          stream = Seam.class.getClassLoader().getResourceAsStream(stripped);
