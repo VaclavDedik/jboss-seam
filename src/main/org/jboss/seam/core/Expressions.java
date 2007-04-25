@@ -208,17 +208,19 @@ public class Expressions
       }
       String componentName;
       String propertyName;
+      String modelExpression;
       if (dot>bracket)
       {
          componentName = propertyExpression.substring(2, dot);
          propertyName = propertyExpression.substring( dot+1, propertyExpression.length()-1 );
+         modelExpression = propertyExpression.substring(0, dot) + '}';
       }
       else
       {
          componentName = propertyExpression.substring(2, bracket);
          propertyName = propertyExpression.substring( bracket+1, propertyExpression.length()-2 );
+         modelExpression = propertyExpression.substring(0, bracket) + '}';
       }
-      String modelExpression = propertyExpression.substring(0, dot) + '}';
       
       Object modelInstance = createValueBinding(modelExpression).getValue(); //TODO: cache the ValueBinding object!
       return getValidator(modelInstance, componentName).getPotentialInvalidValues(propertyName, value);
