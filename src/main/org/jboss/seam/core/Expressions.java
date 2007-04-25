@@ -200,6 +200,10 @@ public class Expressions
     */
    public InvalidValue[] validate(String propertyExpression, Object value)
    {
+      if (propertyExpression == null)
+      {
+         return new InvalidValue[0];
+      }
       int dot = propertyExpression.lastIndexOf('.');
       int bracket = propertyExpression.lastIndexOf('[');
       if (dot<=0 && bracket<=0) 
