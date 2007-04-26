@@ -1,6 +1,5 @@
 package org.jboss.seam.jsf;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Iterator;
@@ -28,18 +27,12 @@ import javax.faces.el.VariableResolver;
 import javax.faces.event.ActionListener;
 import javax.faces.validator.Validator;
 
-import org.jboss.el.ExpressionFactoryImpl;
 import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Init;
-import org.jboss.seam.util.Reflections;
-
-import com.sun.faces.application.ApplicationAssociate;
-import com.sun.faces.application.ApplicationImpl;
 
 public class SeamApplication extends Application
-{
-   
+{  
    private final Method getELResolverMethod;
    private final Method addELResolverMethod;
    private final Method getExpressionFactoryMethod;
@@ -53,9 +46,7 @@ public class SeamApplication extends Application
    public SeamApplication(Application application)
    {
       this.application = application;
-      
-      useJBossEL();
-      
+         
       try
       {
          getELResolverMethod = application.getClass().getMethod("getELResolver");
@@ -73,21 +64,7 @@ public class SeamApplication extends Application
          throw new RuntimeException(e);
       }
    }
-
-   private void useJBossEL() {
-       if (application instanceof ApplicationImpl) {
-           ApplicationImpl impl = (ApplicationImpl) application;
-           
-           try {
-               Field field = Reflections.getField(ApplicationImpl.class, "associate");
-               field.setAccessible(true);
-               ApplicationAssociate associate = (ApplicationAssociate) Reflections.get(field,impl);
-               associate.setExpressionFactory(new ExpressionFactoryImpl());
-           } catch (Exception e) {
-               // ... 
-           }
-       }
-   }
+   
 
    @Override
    public ELResolver getELResolver() 
