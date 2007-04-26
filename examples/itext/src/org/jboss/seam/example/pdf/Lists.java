@@ -15,5 +15,4 @@ public class Lists{
     public String[] getDaysOfWeek() {
         return daysOfWeek;
     }
-
 }

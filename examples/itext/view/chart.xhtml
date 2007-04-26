@@ -1,0 +1,39 @@
+<p:document xmlns:ui="http://java.sun.com/jsf/facelets"
+            xmlns:p="http://jboss.com/products/seam/pdf"
+            xmlns:s="http://jboss.com/products/seam/taglib">
+    <p:image alignment="right" wrap="true" value="/jboss.jpg" /> 
+    <p:font size="24"><p:paragraph spacingAfter="50">Chart</p:paragraph></p:font>  
+
+
+    <p:piechart title="Pie Chart" width="500" height="500" legend="true">
+        <ui:repeat value="#{data.pieData}" var="item">
+            <p:data key="#{item.name}" value="#{item.value}" />
+        </ui:repeat>
+    </p:piechart>
+
+
+    <p:piechart3d title="3d Pie Chart" width="500" height="500" legend="true">
+        <ui:repeat value="#{data.pieData}" var="item">
+            <p:data key="#{item.name}" value="#{item.value}" />
+        </ui:repeat>
+    </p:piechart3d>
+
+    <p:barchart title="Bar Chart" width="500" height="500" orientation="horizontal">
+        <ui:repeat value="#{data.pieData}" var="item">
+            <p:data columnKey="#{item.name}" rowKey="data1" value="#{item.value}" />
+        </ui:repeat>
+        <ui:repeat value="#{data.pieData}" var="item">
+            <p:data columnKey="#{item.name}" rowKey="data2" value="#{item.value}" />
+        </ui:repeat>
+    </p:barchart>
+
+    <p:barchart title="Bar Chart3D" width="500" height="500" orientation="vertical" is3D="true" legend="true">
+        <ui:repeat value="#{data.pieData}" var="item">
+            <p:data columnKey="#{item.name}" rowKey="data1" value="#{item.value}" />
+        </ui:repeat>
+        <ui:repeat value="#{data.pieData}" var="item">
+            <p:data columnKey="#{item.name}" rowKey="data2" value="#{item.value}" />
+        </ui:repeat>
+    </p:barchart>
+</p:document>
+
