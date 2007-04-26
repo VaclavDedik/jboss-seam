@@ -10,6 +10,7 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import java.util.Collection;
 import java.util.List;
+import java.math.BigDecimal;
 
 /**
  * Adds stuff to and for JSF that should be there but isn't. Also stuff that is exposed
@@ -104,6 +105,20 @@ public class WikiUtil {
         return contextPath + "/" + user.getMemberHome().getParent().getWikiname() + "/" + user.getMemberHome().getWikiname();
 
     }
+
+    public static String displayFilesize(int fileSizeInBytes) {
+        // TODO: Yeah, that could be done smarter..
+        if (fileSizeInBytes >= 1073741824) {
+            return new BigDecimal(fileSizeInBytes / 1024 / 1024 / 1024) + " GiB";
+        }else if (fileSizeInBytes >= 1048576) {
+            return new BigDecimal(fileSizeInBytes / 1024 / 1024) + " MiB";
+        } else if (fileSizeInBytes >= 1024) {
+            return new BigDecimal(fileSizeInBytes / 1024) + " KiB";
+        } else {
+            return new BigDecimal(fileSizeInBytes) + " Bytes";
+        }
+    }
+
 
     public static Throwable unwrap(Throwable throwable) throws IllegalArgumentException {
         if (throwable == null) {

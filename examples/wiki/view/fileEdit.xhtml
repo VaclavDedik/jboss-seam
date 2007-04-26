@@ -90,7 +90,7 @@
                         <div class="entry">
                             <div class="label">File Details:</div>
                             <div class="output">
-                                <h:outputText value="(#{fileHome.instance.filename}, #{fileHome.instance.humanReadableFilesize}, #{fileHome.instance.contentType})"/>
+                                <h:outputText value="(#{fileHome.instance.filename}, #{wiki:displayFilesize(fileHome.instance.filesize)}, #{fileHome.instance.contentType})"/>
                             </div>
                         </div>
 
@@ -146,7 +146,7 @@
                     <s:div>
                         <s:decorate>
                             <div class="entry">
-                                <div class="label">Upload file:</div>
+                                <div class="label">Upload file (max. #{wiki:displayFilesize(org.jboss.seam.web.multipartFilter.maxRequestSize)}):</div>
                                 <div class="input">
                                     <s:fileUpload id="upload" data="#{fileHome.filedata}"
                                                   contentType="#{fileHome.contentType}"

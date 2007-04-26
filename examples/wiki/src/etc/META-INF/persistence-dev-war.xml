@@ -13,9 +13,11 @@
          <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
          <property name="hibernate.show_sql" value="true"/>
          <property name="hibernate.use_sql_comments" value="true"/>
-         <property name="hibernate.format_sql" value="true"/>
+         <property name="hibernate.format_sql" value="false"/>
          <property name="hibernate.jdbc.batch_size" value="0"/>
          <property name="hibernate.transaction.manager_lookup_class" value="org.hibernate.transaction.JBossTransactionManagerLookup"/>
+         <property name="hibernate.search.default.directory_provider" value="org.hibernate.search.store.FSDirectoryProvider"/>
+         <property name="hibernate.search.default.indexBase" value="/tmp/lucene/indexes"/>
       </properties>
    </persistence-unit>
     

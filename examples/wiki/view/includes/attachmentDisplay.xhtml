@@ -29,7 +29,7 @@
                 <h:outputLink value="#{wiki:renderURL(link.node)}">
                     <h:outputText value="#{link.node.name}"/>
                     &#160;
-                    <h:outputText value="(#{link.node.filename}, #{link.node.humanReadableFilesize}, #{link.node.contentType})"/>
+                    <h:outputText value="(#{link.node.filename}, #{wiki:displayFilesize(link.node.filesize)}, #{link.node.contentType})"/>
                 </h:outputLink>
             </h:panelGroup>
         </h:column>

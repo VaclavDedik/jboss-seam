@@ -300,8 +300,7 @@
             <message severity="ERROR">Someone modified the same record while you were editing it. Please restart your workspace.</message>
         </redirect>
     </exception>
-
-    <!--
+<!--
     <exception>
         <end-conversation/>
         <redirect view-id="/message.xhtml">

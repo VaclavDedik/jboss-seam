@@ -85,6 +85,12 @@
     </function>
 
     <function>
+        <function-name>displayFilesize</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>java.lang.String displayFilesize(int)</function-signature>
+    </function>
+
+    <function>
         <function-name>unwrap</function-name>
         <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
         <function-signature>java.lang.Throwable unwrap(java.lang.Throwable)</function-signature>

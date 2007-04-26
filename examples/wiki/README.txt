@@ -1,12 +1,21 @@
 This is not a regular "Seam example", its a standalone seam-gen project structure. The build.xml
 references the existing Seam libraries and thirdparty libs, however, to avoid duplication.
 
-This is configured for standalone HSQL DB on localhost (I like being able to acces
-the database with a SQL client). So start it with 'java -cp hsqldb.jar org.hsqldb.Server'
-before deploying.
+INSTALLATION
+==========================================================================================
 
-The start document is hardcoded in index.html to be one of the records from import.sql.
+- Install JBoss AS 4.2 CR2
 
-Please use JBoss AS 4.2 CR2.
+- Upgrade the Hibernate JARs in server/default/lib/ with the bundled Hibernate JARs
 
-YOU NEED THE LATEST HIBERNATE VERSIONS INSTALLED IN JBOSS AS! THE VERSION SHIPPING WITH AS 4.2 CR2 IS TOO OLD!
+- Upgrade jboss-archive-browsing.jar and ejb3-persistence.jar in server/default/lib
+
+- Add hibernate-commons-annotations.jar, hibernate-search.jar, and lucene-core.jar to server/default/lib/
+
+- Edit src/etc/META-INF/persistence-dev.xml and change the path to your Lucene index directory
+
+- Run the standalone HSQL DB server with 'ant startdb'
+
+- Edit build.properties
+
+- Call 'ant deploy'

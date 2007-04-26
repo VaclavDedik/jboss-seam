@@ -42,6 +42,7 @@ public abstract class Node implements Serializable {
     @Id
     @GeneratedValue(generator = "wikiSequenceGenerator")
     @Column(name = "NODE_ID")
+    @org.hibernate.search.annotations.DocumentId(name = "id")
     protected Long nodeId;
 
     @Version

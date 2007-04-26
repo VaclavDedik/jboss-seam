@@ -83,11 +83,13 @@ public class WikiFormattedTextHandler extends MetaTagHandler {
         setAttribute(ctx, cmp, "brokenLinkStyleClass");
         setAttribute(ctx, cmp, "attachmentLinkStyleClass");
         setAttribute(ctx, cmp, "thumbnailLinkStyleClass");
+        setAttribute(ctx, cmp, "updateResolvedLinks");
     }
 
     private void setAttribute(FaceletContext ctx, UIComponent cmp, String name) {
         TagAttribute attribute = this.getAttribute(name);
-        cmp.getAttributes().put(name, attribute.getObject(ctx));
+        if (attribute != null)
+            cmp.getAttributes().put(name, attribute.getObject(ctx));
     }
 
     @Override

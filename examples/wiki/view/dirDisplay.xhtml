@@ -140,10 +140,10 @@
                 <s:link id="editFile" value="#{node.name}" action="editFile" tabindex="2">
                     <f:param name="fileId" value="#{node.id}"/>
                 </s:link>
-                <h:outputText value=" (#{node.humanReadableFilesize}, #{node.contentType})"/>
+                <h:outputText value=" (#{wiki:displayFilesize(node.filesize)}, #{node.contentType})"/>
             </s:span>
             <s:span rendered="#{wiki:isFile(node) and !s:hasPermission('Node', 'edit', node)}">
-                <h:outputText value="#{node.name} (#{node.humanReadableFilesize}, #{node.contentType})"/>
+                <h:outputText value="#{node.name} (#{wiki:displayFilesize(node.filesize)}, #{node.contentType})"/>
             </s:span>
 
         </h:column>

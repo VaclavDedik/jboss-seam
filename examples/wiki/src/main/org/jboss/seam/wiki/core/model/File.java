@@ -109,17 +109,4 @@ public class File extends Node {
         return getName();
     }
 
-    public String getHumanReadableFilesize() {
-        // TODO: Yeah, that could be done smarter..
-        if (getFilesize() >= 1073741824) {
-            return new BigDecimal(getFilesize() / 1024 / 1024 / 1024) + " GiB";
-        }else if (getFilesize() >= 1048576) {
-            return new BigDecimal(getFilesize() / 1024 / 1024) + "MiB";
-        } else if (getFilesize() >= 1024) {
-            return new BigDecimal(getFilesize() / 1024) + " KiB";
-        } else {
-            return new BigDecimal(getFilesize()) + " Bytes";
-        }
-    }
-
 }

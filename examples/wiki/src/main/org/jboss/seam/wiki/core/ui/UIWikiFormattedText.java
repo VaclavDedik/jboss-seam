@@ -60,8 +60,7 @@ public class UIWikiFormattedText extends UIOutput {
 
             public String renderInlineLink(WikiLink inlineLink) {
                 return "<a href=\""
-                        + (inlineLink.isBroken() ? inlineLink.getUrl() : WikiUtil.renderURL(inlineLink
-                        .getNode()))
+                        + (inlineLink.isBroken() ? inlineLink.getUrl() : WikiUtil.renderURL(inlineLink.getNode()))
                         + "\" class=\""
                         + (inlineLink.isBroken() ? getAttributes().get("brokenLinkStyleClass")
                         : getAttributes().get("linkStyleClass")) + "\">"
@@ -78,7 +77,8 @@ public class UIWikiFormattedText extends UIOutput {
             }
 
             public String renderFileAttachmentLink(int attachmentNumber, WikiLink attachmentLink) {
-                return "<a href=\"#attachment" + attachmentNumber + "\" class=\""
+                return "<a href=\""
+                        + "#attachment" + attachmentNumber + "\" class=\""
                         + getAttributes().get("attachmentLinkStyleClass") + "\">"
                         + attachmentLink.getDescription() + "[" + attachmentNumber + "]" + "</a>";
             }
@@ -156,8 +156,11 @@ public class UIWikiFormattedText extends UIOutput {
             }
         });
 
-        // Run the parser
-        parser.parse(true);
+        // Run the parser (default to true for updating resolved links)
+        Boolean updateResolvedLinks =
+                getAttributes().get("updatedResolvedLinks") == null
+                || Boolean.valueOf((String) getAttributes().get("updatedResolvedLinks"));
+        parser.parse(updateResolvedLinks);
 
         facesContext.getResponseWriter().write(parser.toString());
 

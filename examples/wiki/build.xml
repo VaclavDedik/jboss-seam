@@ -253,6 +253,7 @@
     <target name="deploy" depends="explodewar"
             description="Deploy datasource and exploded WAR to JBoss AS">
         <fail unless="jboss.home">jboss.home not set</fail>
+        <echo>Make sure you use JBoss AS 4.2 CR2 and upgrade the Hibernate JARs!</echo>
 
         <!-- ######## Datasoure ######## -->
         <copy todir="${deploy.dir}">

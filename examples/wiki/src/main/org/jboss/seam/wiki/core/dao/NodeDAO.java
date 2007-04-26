@@ -12,8 +12,15 @@ import org.jboss.seam.Component;
 import org.hibernate.Session;
 import org.hibernate.Criteria;
 import org.hibernate.ScrollableResults;
+import org.hibernate.search.Search;
+import org.hibernate.search.FullTextSession;
 import org.hibernate.transform.DistinctRootEntityResultTransformer;
 import org.hibernate.criterion.*;
+import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.queryParser.ParseException;
+import org.apache.lucene.queryParser.MultiFieldQueryParser;
+import org.apache.lucene.analysis.StopAnalyzer;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
@@ -251,8 +258,26 @@ public class NodeDAO {
         return null;
     }
 
+    public List<Node> search(String searchTerm) {
+
+        System.out.println("######### GOT HIBERNATE SESSION");
+        FullTextSession session = Search.createFullTextSession(getSession());
+        System.out.println("######### GOT FT SESSION");
+        QueryParser parser = new QueryParser("Document", new StandardAnalyzer());
+        System.out.println("######### GOT PARSER");
+        try {
+            System.out.println("######### PARSING");
+            org.apache.lucene.search.Query query = parser.parse("content: " + searchTerm);
+            System.out.println("######### QUERYING");
+            //noinspection unchecked
+            return session.createFullTextQuery(query).list();
+        } catch (ParseException e) {
+            // TODO: We need to talk to the lucene guys, this is ridiculous
+            throw new RuntimeException(e);
+        }
+    }
     
-    public <N extends Node> Map<Long,Long> findCommentCount(Directory directory) {
+    public Map<Long,Long> findCommentCount(Directory directory) {
         //noinspection unchecked
         List<Object[]> result = restrictedEntityManager
                 .createQuery("select n.nodeId, count(c) from Node n, Comment c where c.document = n and n.parent is :parent group by n.nodeId")
@@ -294,7 +319,6 @@ public class NodeDAO {
     }
 
     private int getRowCount(Criteria criteria) {
-        restrictedEntityManager.joinTransaction();
         ScrollableResults cursor = criteria.scroll();
         cursor.last();
         int count = cursor.getRowNumber() + 1;
@@ -316,6 +340,7 @@ public class NodeDAO {
     }
 
     private Session getSession() {
+        restrictedEntityManager.joinTransaction();
         return ((Session)((org.jboss.seam.persistence.EntityManagerProxy) restrictedEntityManager).getDelegate());
     }
 }

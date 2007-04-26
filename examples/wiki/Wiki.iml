@@ -581,6 +581,42 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/hibernate-search.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/jboss-archive-browsing.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/lucene-core-2.1.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/hibernate-tools.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntryProperties />
   </component>
   <component name="VcsManagerConfiguration">
@@ -670,6 +706,16 @@
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />
+      <attribute name="URI" value="/WEB-INF/lib/hibernate-search.jar" />
+      <url>jar://$MODULE_DIR$/lib/hibernate-search.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="1" />
+      <attribute name="URI" value="/WEB-INF/lib/hibernate-tools.jar" />
+      <url>jar://$MODULE_DIR$/lib/hibernate-tools.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib/hibernate-validator.jar" />
       <url>jar://$MODULE_DIR$/lib/hibernate-validator.jar!/</url>
     </containerElement>
@@ -680,8 +726,18 @@
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />
+      <attribute name="URI" value="/WEB-INF/lib/jboss-archive-browsing.jar" />
+      <url>jar://$MODULE_DIR$/lib/jboss-archive-browsing.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib/jdom.jar" />
       <url>jar://$MODULE_DIR$/lib/jdom.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="1" />
+      <attribute name="URI" value="/WEB-INF/lib/lucene-core-2.1.0.jar" />
+      <url>jar://$MODULE_DIR$/lib/lucene-core-2.1.0.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />

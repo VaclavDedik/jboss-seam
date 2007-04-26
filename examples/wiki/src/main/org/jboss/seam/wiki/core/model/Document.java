@@ -1,16 +1,17 @@
 package org.jboss.seam.wiki.core.model;
 
 import org.hibernate.validator.Length;
-import org.jboss.seam.annotations.security.Restrict;
 
 import javax.persistence.*;
 
 @Entity
 @DiscriminatorValue("DOCUMENT")
+@org.hibernate.search.annotations.Indexed(index = "Document")
 public class Document extends Node {
 
     @Column(name = "CONTENT")
     @Length(min = 1, max = 32768)
+    @org.hibernate.search.annotations.Field(index = org.hibernate.search.annotations.Index.TOKENIZED)
     private String content;
 
     @Column(name = "NAME_AS_TITLE")

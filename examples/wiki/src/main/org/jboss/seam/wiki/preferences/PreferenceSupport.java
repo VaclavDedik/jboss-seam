@@ -68,7 +68,6 @@ public abstract class PreferenceSupport {
         PreferenceProvider provider = (PreferenceProvider) Component.getInstance("preferenceProvider");
         Object user = getCurrentUserVariable() != null ? Component.getInstance(getCurrentUserVariable()) : null;
         Object instance = getCurrentInstanceVariable() != null ? Component.getInstance(getCurrentInstanceVariable()) : null;
-        log.debug("loading preference component property values for user: " + user + " and instance: " + instance);
 
         PreferenceComponent prefComponent =
             registry.getPreferenceComponentsByName().get( Component.getComponentName(getClass()) );
