@@ -98,6 +98,26 @@
         <component-type>org.jboss.seam.pdf.ui.UIElement</component-type>
         <component-class>org.jboss.seam.pdf.ui.UIElement</component-class>
     </component>
+    
+    <component>
+        <component-type>org.jboss.seam.pdf.ui.UIPieChart</component-type>
+        <component-class>org.jboss.seam.pdf.ui.UIPieChart</component-class>
+    </component>
+
+    <component>
+        <component-type>org.jboss.seam.pdf.ui.UIPieChart3D</component-type>
+        <component-class>org.jboss.seam.pdf.ui.UIPieChart3D</component-class>
+    </component>
+
+    <component>
+        <component-type>org.jboss.seam.pdf.ui.UIBarChart</component-type>
+        <component-class>org.jboss.seam.pdf.ui.UIBarChart</component-class>
+    </component>
+
+    <component>
+        <component-type>org.jboss.seam.pdf.ui.UIChartData</component-type>
+        <component-class>org.jboss.seam.pdf.ui.UIChartData</component-class>
+    </component>
 
     <lifecycle>
         <phase-listener>org.jboss.seam.pdf.DocumentStorePhaseListener</phase-listener>

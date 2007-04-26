@@ -139,5 +139,32 @@
         </component>
     </tag>
 
+    <tag>
+        <tag-name>piechart</tag-name>
+        <component>
+            <component-type>org.jboss.seam.pdf.ui.UIPieChart</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <tag-name>piechart3d</tag-name>
+        <component>
+            <component-type>org.jboss.seam.pdf.ui.UIPieChart3D</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <tag-name>barchart</tag-name>
+        <component>
+            <component-type>org.jboss.seam.pdf.ui.UIBarChart</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <tag-name>data</tag-name>
+        <component>
+            <component-type>org.jboss.seam.pdf.ui.UIChartData</component-type>
+        </component>
+    </tag>
 
 </facelet-taglib>

@@ -18,18 +18,18 @@ import com.lowagie.text.pdf.*;
 import com.lowagie.text.rtf.RtfWriter2;
 
 public class UIDocument 
-    extends ITextComponent
+extends ITextComponent
 {
     public static final String COMPONENT_TYPE   = "org.jboss.seam.pdf.ui.UIDocument";
-        
+
     DocWriter writer;
     Document document;
     ByteArrayOutputStream stream;
     String id;
     String baseName;
-    
+
     DocType docType;
-    
+
     String type;
     String title;
     String subject;
@@ -37,30 +37,30 @@ public class UIDocument
     String author;
     String creator;
     String orientation; 
-    
+
     String pageSize;
     String margins;
     Boolean marginMirroring;
- 
+
     boolean sendRedirect = true;
-    
-    
+
+
     UISignature signatureField;
-    
-   
-    
+
+
+
     public void setType(String type) {
         this.type = type;
     }
-    
+
     public void setMargins(String margins) {
-       this.margins = margins;
+        this.margins = margins;
     }
-    
+
     public void setPageSize(String pageSize) {
         this.pageSize = pageSize;
     }
-    
+
     public void setMarginMirroring(Boolean marginMirroring) {
         this.marginMirroring = marginMirroring;
     }
@@ -84,21 +84,21 @@ public class UIDocument
     public void setTitle(String title) {
         this.title = title;
     }
-    
+
     public void setOrientation(String orientation) {
         this.orientation = orientation;
     }
-    
-    
+
+
     public void setSendRedirect(boolean sendRedirect) {
         this.sendRedirect = sendRedirect;
     }
-    
+
     public boolean getSendRedirect() {
         return sendRedirect;
     }
-    
-    
+
+
     @Override
     public Object getITextObject() {
         return document;
@@ -108,15 +108,15 @@ public class UIDocument
     public void createITextObject(FacesContext context) {
         type = (String) valueBinding(context, "type", type);        
         docType = docTypeForName(type);
-        
+
         document = new Document();
         // most of this needs to be done BEFORE document.open();
-        
+
         pageSize = (String) valueBinding(context, "pageSize", pageSize);
         if (pageSize != null) {
             document.setPageSize(ITextUtils.pageSizeValue(pageSize));
         }
-  
+
         orientation = (String) valueBinding(context, "orientation", orientation);    
         if (orientation != null) {
             if (orientation.equalsIgnoreCase("portrait")) {
@@ -124,13 +124,13 @@ public class UIDocument
             } else if (orientation.equalsIgnoreCase("landscape")) {
                 Rectangle currentSize = document.getPageSize();
                 document.setPageSize(new Rectangle(currentSize.height(),
-                                                   currentSize.width()));
+                        currentSize.width()));
 
             } else {
                 throw new RuntimeException("orientation value " + orientation + "unknown");
             }
         }
-        
+
         margins = (String) valueBinding(context, "margins", margins);
         if (margins != null) {
             float[] vals = ITextUtils.stringToFloatArray(margins);
@@ -140,10 +140,10 @@ public class UIDocument
 
             document.setMargins(vals[0], vals[1], vals[2], vals[3]);           
         }
-    
+
         marginMirroring = (Boolean) valueBinding(context, "marginMirroring", marginMirroring);
         if (marginMirroring != null) {
-           document.setMarginMirroring(marginMirroring);
+            document.setMarginMirroring(marginMirroring);
         }        
     }
 
@@ -152,22 +152,22 @@ public class UIDocument
         if (title != null) {
             document.addTitle(title);
         }
-        
+
         subject = (String) valueBinding(context, "subject", subject);
         if (subject != null) {
             document.addSubject(subject);
         }
-        
+
         keywords = (String) valueBinding(context, "keywords", keywords);
         if (keywords != null) {
             document.addKeywords(keywords);
         }
-        
+
         author = (String) valueBinding(context, "author", author);
         if (author != null) {
             document.addAuthor(author);
         }
-        
+
         creator = (String) valueBinding(context, "creator", creator);
         if (creator != null) {
             document.addCreator(creator);
@@ -191,19 +191,19 @@ public class UIDocument
             throw new IllegalArgumentException("cannot add " + o);
         }
     }
-    
+
     public void addSignature(UISignature signatureField) {
         this.signatureField = signatureField;
     }
 
     @Override
     public void encodeBegin(FacesContext context) 
-        throws IOException
+    throws IOException
     {
         super.encodeBegin(context);
-        
+
         stream = new ByteArrayOutputStream();
-                      
+
         try {
             switch (docType) {
             case PDF:
@@ -216,11 +216,11 @@ public class UIDocument
                 writer = HtmlWriter.getInstance(document, stream);
                 break;
             }
-            
+
             initMetaData(context);
-            
+
             processHeaders();
-            
+
             document.open();
         } catch (DocumentException e) {
             throw new RuntimeException(e);
@@ -229,9 +229,11 @@ public class UIDocument
         if (sendRedirect) {
             DocumentStore store = DocumentStore.instance();
             id = store.newId();
-            
+
             ResponseWriter response = context.getResponseWriter();
+            response.write("<!DOCTYPE composition PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\" >");
             response.startElement("html", this);
+            response.writeAttribute("xmlns", "http://www.w3.org/1999/xhtml", null);
             response.startElement("head", this);
             response.startElement("meta", this);
             response.writeAttribute("http-equiv", "Refresh", null);
@@ -252,24 +254,24 @@ public class UIDocument
     }
 
     private void processHeaders() {
-       Object facet = getFacet("header");      
-       
-       if (facet == null) {
-           return;
-       }
-       
-       if (facet instanceof UIComponent) {
-           try {
-            encode(FacesContext.getCurrentInstance(), (UIComponent) facet);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        } 
-       }
-       
-       
+        Object facet = getFacet("header");      
+
+        if (facet == null) {
+            return;
+        }
+
+        if (facet instanceof UIComponent) {
+            try {
+                encode(FacesContext.getCurrentInstance(), (UIComponent) facet);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            } 
+        }
+
+
     }
-    
-    
+
+
 
     private String baseNameForViewId(String viewId) {
         int pos = viewId.lastIndexOf("/");
@@ -281,25 +283,25 @@ public class UIDocument
         if (pos!=-1) {
             viewId = viewId.substring(0,pos);
         }
-        
+
         return viewId;
     }
 
     @Override
     public void encodeEnd(FacesContext context) 
-        throws IOException
+    throws IOException
     {
         document.close();
-        
+
         byte[] bytes = stream.toByteArray();
 
         if (signatureField != null) 
         {
             bytes = signatureField.sign(bytes);
         }
-        
+
         DocumentData documentData = new DocumentData(baseName, docType, bytes);
-        
+
         if (sendRedirect) {
             DocumentStore.instance().saveData(id,documentData);
 
@@ -310,11 +312,9 @@ public class UIDocument
             removeITextObject();
 
             Manager.instance().beforeRedirect();
-        } 
-        else 
-        {
+        } else {
             UIComponent parent = getParent();
-            
+
             if (parent instanceof ValueHolder) {
                 ValueHolder holder = (ValueHolder) parent;
                 holder.setValue(documentData);
@@ -323,12 +323,12 @@ public class UIDocument
         }
     }
 
-       
+
 
     public DocWriter getWriter() {
         return writer;
     }    
-    
+
     private DocType docTypeForName(String typeName) {    
         if (typeName != null) {
             if (typeName.equalsIgnoreCase(DocType.PDF.name())) {

@@ -103,12 +103,7 @@ public class UIImage
     public void setScalePercent(String scalePercent) { 
         this.scalePercent = scalePercent; 
     }
-    
-    public void setValue(java.awt.Image imageData) {
-        this.imageData = imageData;
-    }
-
-    
+     
     @Override
     public Object getITextObject() {
         return image;
@@ -127,7 +122,6 @@ public class UIImage
               
         // instance() doesn't work here - we need a new instance           
         org.jboss.seam.core.Image seamImage = new org.jboss.seam.core.Image();  
-
         try {            
             if (value instanceof BufferedImage) {
                 seamImage.setBufferedImage((BufferedImage)value);
@@ -141,8 +135,9 @@ public class UIImage
                     imageTransform.applyTransform(seamImage);
                 }
             }  
-            
-            image = Image.getInstance(seamImage.getImage());
+
+            byte[] data = seamImage.getImage();
+            image = Image.getInstance(data);
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (BadElementException e) {
