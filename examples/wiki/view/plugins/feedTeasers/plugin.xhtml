@@ -31,7 +31,7 @@
             <f:facet name="header"><h:outputText value="#{feedTeasersPreferences.properties['teaserTitle']}"/></f:facet>
 
             <div class="teaserAuthorDate">
-                <span class="teaserDate"><h:outputText value="#{fe.updatedDate}"><f:convertDateTime pattern="dd. MMM yyyy, HH:mm"/></h:outputText></span>
+                <span class="teaserDate"><h:outputText value="#{fe.updatedDate}"><f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/></h:outputText></span>
                 <s:span rendered="#{feedTeasersPreferences.properties['showAuthor']}">&#160;(<span class="teaserAuthor">#{fe.author}</span>)</s:span>
             </div>
 

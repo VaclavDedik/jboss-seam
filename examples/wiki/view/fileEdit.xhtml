@@ -61,7 +61,7 @@
                     <div class="label">Created On:</div>
                     <div class="output">
                         <h:outputText value="#{fileHome.instance.createdOn}">
-                            <f:convertDateTime type="both"/>
+                            <f:convertDateTime type="both" timeZone="#{wikiPreferences.timeZone}"/>
                         </h:outputText>
                         (#{fileHome.instance.createdBy.username})
                         <h:outputLink id="selectCreator" rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}"

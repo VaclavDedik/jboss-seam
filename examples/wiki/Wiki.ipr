@@ -13,8 +13,8 @@
       <executeOn event="afterCompilation" target="hotdeploy" />
       <executeOn event="beforeRun" target="configuretests" runConfigurationType="TestNG" runConfigurationName="LoginTest" />
       <executeOn event="beforeRun" target="configuretests" runConfigurationType="TestNG" runConfigurationName="" />
-      <executeOn event="beforeRun" target="configuretests" runConfigurationType="TestNG" runConfigurationName="AllTests" />
       <executeOn event="beforeRun" target="configuretests" runConfigurationType="TestNG" runConfigurationName="Unnamed" />
+      <executeOn event="beforeRun" target="configuretests" runConfigurationType="TestNG" runConfigurationName="AllTests" />
     </buildFile>
   </component>
   <component name="BuildJarProjectSettings">

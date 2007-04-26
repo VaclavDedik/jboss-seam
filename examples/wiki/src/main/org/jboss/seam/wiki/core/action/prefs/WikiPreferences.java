@@ -22,30 +22,38 @@ public class WikiPreferences extends PreferenceSupport implements Serializable {
     @Length(min = 8, max = 255)
     private String baseUrl;
 
-    @Preference(description = "02. Theme directory name", visibility = PreferenceVisibility.SYSTEM)
+    @Preference(description = "02. Timezone of server (ID as defined in java.util.TimeZone)", visibility = PreferenceVisibility.SYSTEM)
+    @Length(min = 3, max = 63)
+    private String timeZone;
+
+    @Preference(description = "03. Theme directory name", visibility = PreferenceVisibility.SYSTEM)
     @Length(min = 3, max = 20)
     private String themeName;
 
-    @Preference(description = "03. Identifier of member area (home directories)", visibility = PreferenceVisibility.SYSTEM)
+    @Preference(description = "04. Identifier of member area (home directories)", visibility = PreferenceVisibility.SYSTEM)
     private Long memberAreaId;
 
-    @Preference(description = "04. Identifier of the default start document of the Wiki", visibility = PreferenceVisibility.SYSTEM)
+    @Preference(description = "05. Identifier of the default start document of the Wiki", visibility = PreferenceVisibility.SYSTEM)
     private Long defaultDocumentId;
 
-    @Preference(description = "05. Render all links as permanent numeric identifier links (or as /Wiki/WordLinks)", visibility = PreferenceVisibility.SYSTEM)
+    @Preference(description = "06. Render all links as permanent numeric identifier links (or as /Wiki/WordLinks)", visibility = PreferenceVisibility.SYSTEM)
     private boolean renderPermlinks;
 
-    @Preference(description = "06. Append this suffix to permanent identifier", visibility = PreferenceVisibility.SYSTEM)
+    @Preference(description = "07. Append this suffix to permanent identifier", visibility = PreferenceVisibility.SYSTEM)
     @Length(min = 2, max = 20)
     @org.hibernate.validator.Pattern(regex="\\.[a-zA-z]+")
     private String permlinkSuffix;
 
-    @Preference(description = "07. Purge feed entries after N days", visibility = PreferenceVisibility.SYSTEM)
+    @Preference(description = "08. Purge feed entries after N days", visibility = PreferenceVisibility.SYSTEM)
     @Range(min = 1l, max = 999l)
     private Long purgeFeedEntriesAfterDays;
 
     public String getBaseUrl() {
         return baseUrl;
+    }
+
+    public String getTimeZone() {
+        return timeZone;
     }
 
     public String getThemeName() {
@@ -71,4 +79,5 @@ public class WikiPreferences extends PreferenceSupport implements Serializable {
     public Long getPurgeFeedEntriesAfterDays() {
         return purgeFeedEntriesAfterDays;
     }
+
 }

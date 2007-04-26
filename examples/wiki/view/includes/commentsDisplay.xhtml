@@ -24,7 +24,7 @@
 
             <div class="commentAuthorDate">
             <span class="commentDate"><h:outputText value="#{c.createdOn}">
-                <f:convertDateTime pattern="dd. MMM yyyy, HH:mm"/>
+                <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
             </h:outputText></span>
                 <s:span>&#160;(
                     <s:span styleClass="commentAuthor" rendered="#{empty c.fromUserHomepage}">#{c.fromUserName}</s:span>

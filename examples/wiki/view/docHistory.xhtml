@@ -59,7 +59,7 @@
             <div class="label">Created On:</div>
             <div class="output">
                 <h:outputText value="#{currentNode.createdOn}">
-                    <f:convertDateTime type="both"/>
+                    <f:convertDateTime type="both" timeZone="#{wikiPreferences.timeZone}"/>
                 </h:outputText>
                 (#{currentNode.createdBy.username})
             </div>
@@ -69,7 +69,7 @@
             <div class="label">Last Modified On:</div>
             <div class="output">
                 <h:outputText value="#{currentNode.lastModifiedOn}">
-                    <f:convertDateTime type="both"/>
+                    <f:convertDateTime type="both" timeZone="#{wikiPreferences.timeZone}"/>
                 </h:outputText>
                 (#{currentNode.lastModifiedBy.username})
             </div>
@@ -97,7 +97,7 @@
                     <h:column>
                         <f:facet name="header">Last Modified</f:facet>
                         <h:outputText value="#{hnode.lastModifiedOn}">
-                            <f:convertDateTime type="both"/>
+                            <f:convertDateTime type="both" timeZone="#{wikiPreferences.timeZone}"/>
                         </h:outputText>
                         (#{hnode.lastModifiedByUsername})
                     </h:column>

@@ -204,7 +204,7 @@
                     </h:commandLink>
                 </f:facet>
                 <h:outputText value="#{u.createdOn}">
-                    <f:convertDateTime type="both"/>
+                    <f:convertDateTime type="both" timeZone="#{wikiPreferences.timeZone}"/>
                 </h:outputText>
             </h:column>
 

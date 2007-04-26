@@ -9,6 +9,10 @@ public class BlogEntry implements Serializable {
     Document entryDocument;
     Long commentCount;
 
+    public BlogEntry(Document entryDocument) {
+        this.entryDocument = entryDocument;
+    }
+
     public BlogEntry(Document entryDocument, Long commentCount) {
         this.entryDocument = entryDocument;
         this.commentCount = commentCount;

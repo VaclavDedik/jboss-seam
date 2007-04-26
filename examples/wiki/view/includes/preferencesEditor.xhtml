@@ -75,7 +75,7 @@
 
                     <s:div rendered="#{v.value.class.simpleName == 'Date'}">
                          <h:inputText id="dt" value="#{v.value}">
-                            <f:convertDateTime pattern="dd. MMM yyyy, HH:mm"/>
+                            <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
                              <a:support event="onblur" action="#{preferenceEditor.validate}"
                                         reRender="preferenceValidationErrors, preferenceComponentList"/>
                         </h:inputText>

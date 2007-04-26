@@ -1,131 +1,56 @@
 <wiki:plugin
-	 xmlns="http://www.w3.org/1999/xhtml"
-     xmlns:ui="http://java.sun.com/jsf/facelets"
-     xmlns:h="http://java.sun.com/jsf/html"
-     xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:c="http://java.sun.com/jstl/core"
-     xmlns:wiki="http://jboss.com/products/seam/wiki"
-     xmlns:s="http://jboss.com/products/seam/taglib">
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:c="http://java.sun.com/jstl/core"
+        xmlns:wiki="http://jboss.com/products/seam/wiki"
+        xmlns:s="http://jboss.com/products/seam/taglib">
 
- <s:div id="blogDirectory"
-     styleClass="#{showPluginPreferences and !empty blogDirectoryPreferencesEditor ? 'pluginPreferencesBox' : null}">
+    <s:div id="blogDirectory"
+           styleClass="#{showPluginPreferences and !empty blogDirectoryPreferencesEditor ? 'pluginPreferencesBox' : null}">
 
-  <s:div id="blogDirectoryPreferences"
-         rendered="#{showPluginPreferences and !empty blogDirectoryPreferencesEditor}">
-      <div align="center">
-          <h:message for="blogDirectoryPreferences" styleClass="attentionMessage"/>
+        <s:div id="blogDirectoryPreferences"
+               rendered="#{showPluginPreferences and !empty blogDirectoryPreferencesEditor}">
+            <div align="center">
+                <h:message for="blogDirectoryPreferences" styleClass="attentionMessage"/>
 
-          <ui:include src="../../includes/pluginPreferencesForm.xhtml">
-              <ui:param name="pluginPreferencesEditor" value="#{blogDirectoryPreferencesEditor}"/>
-          </ui:include>
-      </div>
-  </s:div>
-
-    <s:div id="blogHeader" rendered="#{!empty blogDirectory.blogEntries}">
-        <div id="blogTitle">
-            #{currentDocument.name}
-        </div>
-
-        <s:div styleClass="feeds" rendered="#{not empty currentDirectory.feed}">
-            <h:outputLink value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{currentDirectory.feed.id}">
-                <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.atom.gif" width="18" height="18"/>
-                <span class="feedText">Subscribe to weblog</span>
-            </h:outputLink>
+                <ui:include src="../../includes/pluginPreferencesForm.xhtml">
+                    <ui:param name="pluginPreferencesEditor" value="#{blogDirectoryPreferencesEditor}"/>
+                </ui:include>
+            </div>
         </s:div>
-    </s:div>
 
-    <s:div id="blogEntriesContainer" rendered="#{!empty blogDirectory.blogEntries}">
-        <c:forEach var="blogEntry" items="#{blogDirectory.blogEntries}">
-
-            <div class="blogEntry">
-
-                <div class="blogEntryHeader">
-                    <div class="blogEntryLinks">
-                        <div class="blogEntryPermLink>">
-                            <h:outputLink value="#{wiki:renderPermLink(blogEntry.entryDocument)}">Permlink</h:outputLink>
-                        </div>
-                        <div class="blogEntryWikiLink>">
-                            <h:outputLink value="#{wiki:renderWikiLink(blogEntry.entryDocument)}">WikiLink</h:outputLink>
-                        </div>
-                    </div>
-                    <div class="blogEntryTitle">
-                        <h:outputText value="#{blogEntry.entryDocument.name}"/>
-                    </div>
-                    <div class="blogEntryCreatedOn">
-                        <h:outputText styleClass="blogEntryCreatedOnText" value="#{blogEntry.entryDocument.createdOn}">
-                            <f:convertDateTime pattern="dd. MMM yyyy, HH:mm"/>
-                        </h:outputText>
-                    </div>
-                </div>
-
-                <div class="blogEntryBody">
-                    <wiki:formattedText value="#{blogEntry.entryDocument.content}"
-                                        linkStyleClass="regularLink"
-                                        brokenLinkStyleClass="brokenLink"
-                                        attachmentLinkStyleClass="regularLink"
-                                        thumbnailLinkStyleClass="regularLink"/>
-                    <ui:include src="../../includes/attachmentDisplay.xhtml"/>
-                </div>
-
-                <div class="blogEntryFooter">
-                    <s:div rendered="#{!empty blogEntry.commentCount and blogEntry.entryDocument.enableComments}">
-                        <h:outputLink value="#{wiki:renderPermLink(blogEntry.entryDocument)}#commentsDisplay">#{blogEntry.commentCount} comment(s)</h:outputLink>
-                    </s:div>
-                    <s:div rendered="#{blogEntry.entryDocument.enableComments and blogEntry.entryDocument.enableCommentForm}">
-                        <h:outputLink value="#{wiki:renderPermLink(blogEntry.entryDocument)}#commentForm">Post comment</h:outputLink>
-                    </s:div>
-                </div>
-
+        <s:div id="blogHeader" rendered="#{!empty blogDirectory.blogEntries}">
+            <div id="blogTitle">
+                #{currentDocument.name}
             </div>
 
-        </c:forEach>
+            <s:div styleClass="feeds" rendered="#{not empty currentDirectory.feed}">
+                <h:outputLink
+                        value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{currentDirectory.feed.id}">
+                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.atom.gif" width="18"
+                                    height="18"/>
+                    <span class="feedText">Subscribe to weblog</span>
+                </h:outputLink>
+            </s:div>
+        </s:div>
+
+        <h:panelGrid columns="2" columnClasses="blogColumn" rendered="#{!param.blogIndex}">
+
+            <ui:include src="entryPages.xml"/>
+
+            <ui:include src="recentEntries.xhtml"/>
+
+        </h:panelGrid>
+
+        <s:div rendered="#{param.blogIndex}">
+
+            <ui:include src="allEntries.xhtml"/>
+
+        </s:div>
+
+
     </s:div>
-
-    <s:div id="noBlogEntriesContainer" rendered="#{empty blogDirectory.blogEntries}">
-        No blog entries found, create documents in this directory to create blog entries. Note that this plugin
-        only works after you saved the document you placed it on.
-    </s:div>
-
-    <h:panelGrid columns="5"
-                 styleClass="blogPagerTable"
-                 columnClasses="blogPagerColumn, blogPagerColumn, blogPagerTextColumn, blogPagerColumn, blogPagerColumn, "
-                 cellpadding="0" cellspacing="0" border="0">
-
-        <h:outputLink rendered="#{blogDirectory.previousPageAvailable}" value="#{wiki:renderURL(currentDocument)}">
-            <f:param name="blogPage" value="#{blogDirectory.firstPage}"/>
-            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.first.gif" width="13" height="11"/>
-        </h:outputLink>
-        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
-                        rendered="#{!blogDirectory.previousPageAvailable}"/>
-
-        <h:outputLink rendered="#{blogDirectory.previousPageAvailable}" value="#{wiki:renderURL(currentDocument)}">
-            <f:param name="blogPage" value="#{blogDirectory.previousPage}"/>
-            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.previous.gif" width="13" height="11"/>
-        </h:outputLink>
-        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
-                        rendered="#{!blogDirectory.previousPageAvailable}"/>
-
-        <h:outputText value="Showing #{blogDirectory.firstRow} to
-                                     #{blogDirectory.lastRow} of
-                                     #{blogDirectory.totalRowCount} blog entries"/>
-
-        <h:outputLink rendered="#{blogDirectory.nextPageAvailable}" value="#{wiki:renderURL(currentDocument)}">
-            <f:param name="blogPage" value="#{blogDirectory.nextPage}"/>
-            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.next.gif" width="13" height="11"/>
-        </h:outputLink>
-        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
-                        rendered="#{!blogDirectory.nextPageAvailable}"/>
-
-        <h:outputLink rendered="#{blogDirectory.nextPageAvailable}" value="#{wiki:renderURL(currentDocument)}">
-            <f:param name="blogPage" value="#{blogDirectory.lastPage}"/>
-            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.last.gif" width="13" height="11"/>
-        </h:outputLink>
-        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
-                        rendered="#{!blogDirectory.nextPageAvailable}"/>
-
-    </h:panelGrid>
-
-
-</s:div>
 
 </wiki:plugin>

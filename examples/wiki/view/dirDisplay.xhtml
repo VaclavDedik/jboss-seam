@@ -174,7 +174,7 @@
                 Last Modified On
             </f:facet>
             <h:outputText value="#{node.lastModifiedOn}">
-                <f:convertDateTime type="both"/>
+                <f:convertDateTime type="both" timeZone="#{wikiPreferences.timeZone}"/>
             </h:outputText>
             (#{node.lastModifiedBy.username})
         </h:column>

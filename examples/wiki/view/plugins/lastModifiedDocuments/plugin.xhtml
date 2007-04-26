@@ -33,7 +33,7 @@
             </f:facet>
             <h:outputText value="#{doc.lastModifiedOn}"
                           rendered="#{!empty doc.lastModifiedOn}">
-                <f:convertDateTime pattern="dd. MMM yyyy, HH:mm"/>
+                <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
             </h:outputText>
             <h:outputText value=" (#{doc.lastModifiedBy.username})"
                           rendered="#{!empty doc.lastModifiedBy and lastModifiedDocumentsPreferences.properties['showUsernames']}">

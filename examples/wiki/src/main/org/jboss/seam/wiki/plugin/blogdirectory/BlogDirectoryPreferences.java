@@ -26,4 +26,8 @@ public class BlogDirectoryPreferences extends PreferenceSupport implements Seria
     @Range(min = 1l, max = 100l)
     private Long pageSize;
 
+    @Preference(description = "02. Number of recent entries in headline list", visibility = PreferenceVisibility.INSTANCE)
+    @Range(min = 1l, max = 100l)
+    private Long recentHeadlines;
+
 }

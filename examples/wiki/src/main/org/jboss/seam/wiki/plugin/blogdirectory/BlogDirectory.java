@@ -1,14 +1,16 @@
 package org.jboss.seam.wiki.plugin.blogdirectory;
 
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.annotations.Observer;
-import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.datamodel.DataModel;
+import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.wiki.core.dao.NodeDAO;
 import org.jboss.seam.wiki.core.model.Directory;
 import org.jboss.seam.wiki.core.model.Document;
 
-import java.util.*;
 import java.io.Serializable;
+import java.util.*;
 
 @Name("blogDirectory")
 @Scope(ScopeType.PAGE)
@@ -18,41 +20,41 @@ public class BlogDirectory implements Serializable {
     NodeDAO nodeDAO;
 
     @In
+    FacesMessages facesMessages;
+
+    @In
     Directory currentDirectory;
 
     @In
     Document currentDocument;
 
     @RequestParameter
+    Boolean blogIndex;
+
+    @RequestParameter
     private void setBlogPage(Integer blogPage) {
         if (blogPage != null) this.page = blogPage;
     }
 
-    @RequestParameter
-    private Integer day;
-    @RequestParameter
-    private Integer month;
-    @RequestParameter
-    private Integer year;
-
     private List<BlogEntry> blogEntries;
 
+    // Need to expose this as a datamodel so Seam can convert our map to a bunch of Map.Entry objects
+    @DataModel
+    private Map<Date, List<BlogEntry>> recentBlogEntries;
+    @DataModel
+    private Map<Date, List<BlogEntry>> allBlogEntries;
+   
     private String orderByProperty;
     private boolean orderDescending;
     private int totalRowCount;
     private int page;
     @In("#{blogDirectoryPreferences.properties['pageSize']}")
     private long pageSize;
-    private Calendar startDate;
-    private Calendar endDate;
+    @In("#{blogDirectoryPreferences.properties['recentHeadlines']}")
+    private long recentBlogEntriesCount;
 
     @Create
     public void initialize() {
-        Calendar today = new GregorianCalendar();
-        if (day == null) day = today.get(Calendar.DAY_OF_MONTH);
-        if (month == null) month = today.get(Calendar.MONTH);
-        if (year == null) year = today.get(Calendar.YEAR);
-
         orderByProperty = "createdOn";
         orderDescending = true;
         refreshBlogEntries();
@@ -76,11 +78,68 @@ public class BlogDirectory implements Serializable {
         }
     }
 
+    private void queryRecentBlogEntries() {
+        List<Document> documents =
+                nodeDAO.findWithParent(Document.class, currentDirectory, currentDocument, "createdOn", true, 0, recentBlogEntriesCount);
+
+        recentBlogEntries = new LinkedHashMap<Date, List<BlogEntry>>();
+        for (Document document : documents) {
+
+            // Find the day (ignore the hours, minutes, etc.)
+            Calendar createdOn = new GregorianCalendar();
+            createdOn.setTime(document.getCreatedOn());
+            GregorianCalendar createdOnDay = new GregorianCalendar(
+                createdOn.get(Calendar.YEAR), createdOn.get(Calendar.MONTH), createdOn.get(Calendar.DAY_OF_MONTH)
+            );
+            Date createdOnDate = createdOnDay.getTime(); // Jesus, this API is just bad...
+
+            // Aggregate by day
+            List<BlogEntry> entriesForDay =
+                recentBlogEntries.containsKey(createdOnDate)
+                ? recentBlogEntries.get(createdOnDate)
+                : new ArrayList<BlogEntry>();
+
+            entriesForDay.add(new BlogEntry(document));
+            recentBlogEntries.put(createdOnDate, entriesForDay);
+        }
+    }
+
+    private void queryAllBlogEntries() {
+        if (blogIndex == null || !blogIndex) return;
+        List<Document> documents =
+                nodeDAO.findWithParent(Document.class, currentDirectory, currentDocument, "createdOn", true, 0, 0);
+
+        allBlogEntries = new LinkedHashMap<Date, List<BlogEntry>>();
+        for (Document document : documents) {
+
+            // Find the month (ignore the days, hours, minutes, etc.)
+            Calendar createdOn = new GregorianCalendar();
+            createdOn.setTime(document.getCreatedOn());
+            GregorianCalendar createdOnMonth = new GregorianCalendar(
+                createdOn.get(Calendar.YEAR), createdOn.get(Calendar.MONTH), 1
+            );
+            Date createdOnDate = createdOnMonth.getTime(); // Jesus, this API is just bad...
+
+            // Aggregate by month
+            List<BlogEntry> entriesForMonth =
+                allBlogEntries.containsKey(createdOnDate)
+                ? allBlogEntries.get(createdOnDate)
+                : new ArrayList<BlogEntry>();
+
+            entriesForMonth.add(new BlogEntry(document));
+            allBlogEntries.put(createdOnDate, entriesForMonth);
+        }
+    }
+
     @Observer("Preferences.blogDirectoryPreferences")
     public void refreshBlogEntries() {
         blogEntries = new ArrayList<BlogEntry>();
         queryRowCount();
-        if (totalRowCount != 0) queryBlogEntries();
+        if (totalRowCount != 0) {
+            queryBlogEntries();
+            queryRecentBlogEntries();
+            queryAllBlogEntries();
+        }
     }
 
     public List<BlogEntry> getBlogEntries() {

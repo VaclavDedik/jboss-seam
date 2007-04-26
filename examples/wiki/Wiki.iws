@@ -22,33 +22,26 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/fileEdit.xhtml" afterPath="$PROJECT_DIR$/view/fileEdit.xhtml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/blogdirectory/BlogDirectory.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/blogdirectory/BlogDirectory.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wiki.ipr" afterPath="$PROJECT_DIR$/Wiki.ipr" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/includes/searchControl.xhtml" afterPath="$PROJECT_DIR$/view/includes/searchControl.xhtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/ui/WikiFormattedTextHandler.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/ui/WikiFormattedTextHandler.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/themes/default/css/blogDirectory.css" afterPath="$PROJECT_DIR$/view/themes/default/css/blogDirectory.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/Document.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/Document.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wiki.iml" afterPath="$PROJECT_DIR$/Wiki.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.xml" afterPath="$PROJECT_DIR$/build.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/lucene-core-2.1.0.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/prefs/WikiPreferences.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/prefs/WikiPreferences.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/etc/import-dev.sql" afterPath="$PROJECT_DIR$/src/etc/import-dev.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/etc/META-INF/persistence-dev-war.xml" afterPath="$PROJECT_DIR$/src/etc/META-INF/persistence-dev-war.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/dirDisplay.xhtml" afterPath="$PROJECT_DIR$/view/dirDisplay.xhtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/preferences/PreferenceSupport.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/preferences/PreferenceSupport.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/ui/UIWikiFormattedText.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/ui/UIWikiFormattedText.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/Node.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/Node.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/etc/META-INF/wiki.taglib.xml" afterPath="$PROJECT_DIR$/src/etc/META-INF/wiki.taglib.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/plugins/feedTeasers/plugin.xhtml" afterPath="$PROJECT_DIR$/view/plugins/feedTeasers/plugin.xhtml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/userList.xhtml" afterPath="$PROJECT_DIR$/view/userList.xhtml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wiki.iws" afterPath="$PROJECT_DIR$/Wiki.iws" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/dao/NodeDAO.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/dao/NodeDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/includes/attachmentDisplay.xhtml" afterPath="$PROJECT_DIR$/view/includes/attachmentDisplay.xhtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/File.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/File.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/plugins/lastModifiedDocuments/plugin.xhtml" afterPath="$PROJECT_DIR$/view/plugins/lastModifiedDocuments/plugin.xhtml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/etc/import-prod.sql" afterPath="$PROJECT_DIR$/src/etc/import-prod.sql" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/dirEdit.xhtml" afterPath="$PROJECT_DIR$/view/dirEdit.xhtml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/docEdit.xhtml" afterPath="$PROJECT_DIR$/view/docEdit.xhtml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/blogdirectory/BlogDirectoryPreferences.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/blogdirectory/BlogDirectoryPreferences.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/etc/import-test.sql" afterPath="$PROJECT_DIR$/src/etc/import-test.sql" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/NodeSearch.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/hibernate-search.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/etc/WEB-INF/pages.xml" afterPath="$PROJECT_DIR$/src/etc/WEB-INF/pages.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/util/WikiUtil.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/util/WikiUtil.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/includes/pluginPreferencesForm.xhtml" afterPath="$PROJECT_DIR$/view/includes/pluginPreferencesForm.xhtml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/docHistory.xhtml" afterPath="$PROJECT_DIR$/view/docHistory.xhtml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/includes/preferencesEditor.xhtml" afterPath="$PROJECT_DIR$/view/includes/preferencesEditor.xhtml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/blogdirectory/BlogEntry.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/blogdirectory/BlogEntry.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.txt" afterPath="$PROJECT_DIR$/README.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/etc/META-INF/persistence-test-war.xml" afterPath="$PROJECT_DIR$/src/etc/META-INF/persistence-test-war.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/includes/commentsDisplay.xhtml" afterPath="$PROJECT_DIR$/view/includes/commentsDisplay.xhtml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/plugins/blogDirectory/plugin.xhtml" afterPath="$PROJECT_DIR$/view/plugins/blogDirectory/plugin.xhtml" />
     </list>
   </component>
@@ -223,85 +216,103 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="UserSearch.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/UserSearch.java">
+      <file leaf-file-name="recentEntries.xhtml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/view/plugins/blogDirectory/recentEntries.xhtml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="0" selection-start="883" selection-end="883" vertical-scroll-proportion="0.31936416">
+            <state line="44" column="0" selection-start="1574" selection-end="1810" vertical-scroll-proportion="0.42750373">
               <folding />
             </state>
           </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="NodeSearch.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/NodeSearch.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="45" column="5" selection-start="1186" selection-end="1186" vertical-scroll-proportion="0.42268786">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="urlrewrite.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/etc/WEB-INF/urlrewrite.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="0" selection-start="726" selection-end="726" vertical-scroll-proportion="0.24421965">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="File.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/File.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="112" column="0" selection-start="2796" selection-end="2796" vertical-scroll-proportion="0.9436416">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UIWikiFormattedText.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/ui/UIWikiFormattedText.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="174" column="0" selection-start="7208" selection-end="7208" vertical-scroll-proportion="0.9436416">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PreferenceSupport.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/org/jboss/seam/wiki/preferences/PreferenceSupport.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="71" column="0" selection-start="3674" selection-end="3674" vertical-scroll-proportion="0.5867052">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dirDisplay.xhtml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/view/dirDisplay.xhtml">
           <provider editor-type-id="HtmlPreview">
             <state />
           </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BlogDirectory.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/blogdirectory/BlogDirectory.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="143" column="21" selection-start="7788" selection-end="7788" vertical-scroll-proportion="0.42675635">
+            <state line="52" column="0" selection-start="1389" selection-end="1389" vertical-scroll-proportion="0.4884393">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="README.txt" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/README.txt">
+      <file leaf-file-name="import-dev.sql" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/etc/import-dev.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="94" selection-start="693" selection-end="693" vertical-scroll-proportion="0.1315029">
+            <state line="116" column="374" selection-start="75050" selection-end="75050" vertical-scroll-proportion="0.7626004">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NodeDAO.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/dao/NodeDAO.java">
+      <file leaf-file-name="plugin.xhtml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/view/plugins/blogDirectory/plugin.xhtml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="267" column="0" selection-start="10126" selection-end="10126" vertical-scroll-proportion="0.21098267">
+            <state line="40" column="0" selection-start="1861" selection-end="1861" vertical-scroll-proportion="0.38863975">
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="HtmlPreview">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="allEntries.xhtml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/view/plugins/blogDirectory/allEntries.xhtml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="55" column="0" selection-start="2542" selection-end="2542" vertical-scroll-proportion="0.53437966">
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="HtmlPreview">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="userList.xhtml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/view/userList.xhtml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="154" column="0" selection-start="8217" selection-end="8540" vertical-scroll-proportion="0.5052317">
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="HtmlPreview">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Node.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/Node.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="228" column="22" selection-start="6976" selection-end="6976" vertical-scroll-proportion="0.46459538">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="User.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/User.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="107" column="13" selection-start="3593" selection-end="3593" vertical-scroll-proportion="0.6900289">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Document.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/Document.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="9" column="13" selection-start="225" selection-end="225" vertical-scroll-proportion="0.08453757">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="blogDirectory.css" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/view/themes/default/css/blogDirectory.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="131" column="16" selection-start="2498" selection-end="2498" vertical-scroll-proportion="0.7463873">
               <folding />
             </state>
           </provider>
@@ -933,7 +944,7 @@
       <showLibraryContents />
       <hideEmptyPackages ProjectPane="true" />
       <abbreviatePackageNames />
-      <showStructure Favorites="false" ProjectPane="false" Scope="false" PackagesPane="false" />
+      <showStructure Favorites="false" PackagesPane="false" Scope="false" ProjectPane="false" />
       <autoscrollToSource />
       <autoscrollFromSource />
       <sortByType />
@@ -1000,230 +1011,28 @@
       <recent name="org.jboss.seam.wiki.plugin.comments" />
     </key>
   </component>
-  <component name="RestoreUpdateTree">
-    <UpdateInfo date="4/26/07 7:22 AM" ActionInfo="Chec_k Status">
-      <UpdatedFiles>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Updated from server" />
-          <option name="myStatusName" value="Changed on server" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="CHANGED_ON_SERVER" />
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Updated" />
-            <option name="myStatusName" value="Changed" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="false" />
-            <option name="myId" value="UPDATED" />
-          </FILE-GROUP>
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Created" />
-            <option name="myStatusName" value="Created" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="false" />
-            <option name="myId" value="CREATED" />
-          </FILE-GROUP>
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Deleted" />
-            <option name="myStatusName" value="Deleted" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="true" />
-            <option name="myId" value="REMOVED_FROM_REPOSITORY" />
-          </FILE-GROUP>
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Restored" />
-            <option name="myStatusName" value="Will be restored" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="false" />
-            <option name="myId" value="RESTORED" />
-          </FILE-GROUP>
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Modified" />
-          <option name="myStatusName" value="Modified" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MODIFIED" />
-          <PATH>$PROJECT_DIR$/src/etc/WEB-INF/urlrewrite.xml</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/blogdirectory/BlogEntry.java</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/ui/WikiFormattedTextHandler.java</PATH>
-          <PATH>$PROJECT_DIR$/src/etc/META-INF/persistence-dev-war.xml</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/preferences/PreferenceSupport.java</PATH>
-          <PATH>$PROJECT_DIR$/src/etc/META-INF/wiki.taglib.xml</PATH>
-          <PATH>$PROJECT_DIR$/Wiki.iws</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/blogdirectory/BlogDirectoryPreferences.java</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/Node.java</PATH>
-          <PATH>$PROJECT_DIR$/src/etc/WEB-INF/pages.xml</PATH>
-          <PATH>$PROJECT_DIR$/view/dirDisplay.xhtml</PATH>
-          <PATH>$PROJECT_DIR$/view/themes/default/css/blogDirectory.css</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/ui/UIWikiFormattedText.java</PATH>
-          <PATH>$PROJECT_DIR$/build.xml</PATH>
-          <PATH>$PROJECT_DIR$/src/etc/META-INF/persistence-test-war.xml</PATH>
-          <PATH>$PROJECT_DIR$/src/etc/import-test.sql</PATH>
-          <PATH>$PROJECT_DIR$/view/plugins/blogDirectory/plugin.xhtml</PATH>
-          <PATH>$PROJECT_DIR$/Wiki.iml</PATH>
-          <PATH>$PROJECT_DIR$/view/includes/searchControl.xhtml</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/util/WikiUtil.java</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/Document.java</PATH>
-          <PATH>$PROJECT_DIR$/view/fileEdit.xhtml</PATH>
-          <PATH>$PROJECT_DIR$/src/etc/import-dev.sql</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/blogdirectory/BlogDirectory.java</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/dao/NodeDAO.java</PATH>
-          <PATH>$PROJECT_DIR$/Wiki.ipr</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/File.java</PATH>
-          <PATH>$PROJECT_DIR$/view/includes/attachmentDisplay.xhtml</PATH>
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Skipped" />
-          <option name="myStatusName" value="Skipped" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="SKIPPED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Merged with conflicts" />
-          <option name="myStatusName" value="Will be merged with conflicts" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MERGED_WITH_CONFLICTS" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Merged" />
-          <option name="myStatusName" value="Will be merged" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MERGED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Not in repository" />
-          <option name="myStatusName" value="Not in repository" />
-          <option name="mySupportsDeletion" value="true" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="UNKNOWN" />
-          <PATH>$PROJECT_DIR$/view/backup.txt</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/TestAction.java</PATH>
-          <PATH>$PROJECT_DIR$/view/test.xhtml</PATH>
-          <PATH>$PROJECT_DIR$/UI.graffle</PATH>
-          <PATH>$PROJECT_DIR$/view/plugins/blogDirectory/blogEntries.xhtml</PATH>
-          <PATH>$PROJECT_DIR$/view/themes/default/mailtemplates/test.xhtml</PATH>
-          <PATH>$PROJECT_DIR$/moon.jpg</PATH>
-          <PATH>$PROJECT_DIR$/view/plugins/blogDirectory/recentEntries.xhtml</PATH>
-          <PATH>$PROJECT_DIR$/embedded-ejb/wiki-ddl.sql</PATH>
-          <PATH>$PROJECT_DIR$/moon.hex</PATH>
-          <PATH>$PROJECT_DIR$/view/themes/default/img/cal-next.png</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/Test.java</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/TestBean.java</PATH>
-          <PATH>$PROJECT_DIR$/src/etc/META-INF/orm.xml</PATH>
-          <PATH>$PROJECT_DIR$/wikidist.zip</PATH>
-          <PATH>$PROJECT_DIR$/view/themes/default/img/cal-prev.png</PATH>
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Locally added" />
-          <option name="myStatusName" value="Locally added" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="LOCALLY_ADDED" />
-          <PATH>$PROJECT_DIR$/lib/lucene-core-2.1.0.jar</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/NodeSearch.java</PATH>
-          <PATH>$PROJECT_DIR$/lib/hibernate-search.jar</PATH>
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Locally removed" />
-          <option name="myStatusName" value="Locally removed" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="LOCALLY_REMOVED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Unknown" />
-          <option name="myStatusName" value="Unknown" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="UNKNOWN_TYPE" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Locally modified removed from server" />
-          <option name="myStatusName" value="Locally modified removed from server" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MOD_REMOVED_FROM_SERVER" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Locally removed modified on server" />
-          <option name="myStatusName" value="Locally removed modified on server" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="LOCALLY_REMOVED_MODIFIED_ON_SERVER" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Created by second party" />
-          <option name="myStatusName" value="Created by second party" />
-          <option name="mySupportsDeletion" value="true" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="CREATED_BY_SECOND_PARTY" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Binary file has to be merged" />
-          <option name="myStatusName" value="Binary file has to be merged" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="BINARY_MERGED" />
-        </FILE-GROUP>
-      </UpdatedFiles>
-    </UpdateInfo>
-  </component>
+  <component name="RestoreUpdateTree" />
   <component name="RunManager" selected="TestNG.AllTests">
-    <configuration default="true" type="Application" factoryName="Application" enabled="false" merge="false">
-      <option name="MAIN_CLASS_NAME" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <module name="" />
-    </configuration>
-    <configuration default="true" type="#com.intellij.j2ee.web.jsr45.JSR45ConfigurationFactory" factoryName="Remote">
+    <configuration default="true" type="WebLogic Instance" factoryName="Remote">
       <option name="WORKING_DIRECTORY" />
       <option name="HOST" value="localhost" />
-      <option name="PORT" value="8080" />
+      <option name="PORT" value="7001" />
       <option name="LOCAL" value="false" />
       <option name="OPEN_IN_BROWSER" value="true" />
       <option name="OPEN_IN_BROWSER_URL" value="/" />
       <option name="COMMON_VM_ARGUMENTS" value="" />
-      <option name="JSP_PACKAGE" value="" />
-      <option name="VM_OPTS" value="VM_OPTS" />
-      <option name="USE_WEBSPHERE51_LINEMAPPING_MODEL" value="false" />
-      <option name="LOCAL_PORT" value="80" />
-    </configuration>
-    <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Remote">
-      <option name="WORKING_DIRECTORY" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="8080" />
-      <option name="LOCAL" value="false" />
-      <option name="OPEN_IN_BROWSER" value="true" />
-      <option name="OPEN_IN_BROWSER_URL" value="/" />
-      <option name="COMMON_VM_ARGUMENTS" value="" />
-      <option name="DEPLOY_TOMCAT_MANAGER" value="false" />
-      <option name="BASE_DIRECTORY_NAME" value="" />
-      <predefined_log_file id="TOMCAT_LOCALHOST_LOG_ID" enabled="true" />
-    </configuration>
-    <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local">
-      <option name="WORKING_DIRECTORY" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="8080" />
-      <option name="LOCAL" value="true" />
-      <option name="OPEN_IN_BROWSER" value="true" />
-      <option name="OPEN_IN_BROWSER_URL" value="/" />
-      <option name="COMMON_VM_ARGUMENTS" value="" />
-      <J2EE_MODULE DEPLOYMENT_SOURCE_NAME="exploded">
-        <option name="CONTEXT_PATH" value="/" />
+      <J2EE_MODULE DEPLOYMENT_METHOD="Weblogic.Deployer">
+        <option name="CHECK_EJB_CMP_DATASOURCES" value="true" />
         <option name="MODULE_NAME" value="Wiki" />
         <option name="DEPLOY" value="false" />
       </J2EE_MODULE>
-      <option name="DEPLOY_TOMCAT_MANAGER" value="false" />
-      <option name="BASE_DIRECTORY_NAME" value="" />
-      <predefined_log_file id="TOMCAT_LOCALHOST_LOG_ID" enabled="true" />
+      <option name="DOMAIN_PATH" value="" />
+      <option name="USER" value="weblogic" />
+      <option name="PASSWORD" value="weblogic" />
+      <option name="SERVER_NAME" value="myserver" />
+      <option name="DOMAIN_NAME" value="mydomain" />
+      <predefined_log_file id="WEBLOGIC_DOMAIN_LOG_FILE" enabled="true" />
+      <predefined_log_file id="WEBLOGIC_SERVER_LOG_FILE" enabled="true" />
     </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG" enabled="false" merge="false">
       <module name="" />
@@ -1250,59 +1059,63 @@
         <option name="Run ant target" value="true" />
       </method>
     </configuration>
-    <configuration default="true" type="WebLogic Instance" factoryName="Remote">
+    <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local">
       <option name="WORKING_DIRECTORY" />
       <option name="HOST" value="localhost" />
-      <option name="PORT" value="7001" />
-      <option name="LOCAL" value="false" />
-      <option name="OPEN_IN_BROWSER" value="true" />
-      <option name="OPEN_IN_BROWSER_URL" value="/" />
-      <option name="COMMON_VM_ARGUMENTS" value="" />
-      <J2EE_MODULE DEPLOYMENT_METHOD="Weblogic.Deployer">
-        <option name="CHECK_EJB_CMP_DATASOURCES" value="true" />
-        <option name="MODULE_NAME" value="Wiki" />
-        <option name="DEPLOY" value="false" />
-      </J2EE_MODULE>
-      <option name="DOMAIN_PATH" value="" />
-      <option name="USER" value="weblogic" />
-      <option name="PASSWORD" value="weblogic" />
-      <option name="SERVER_NAME" value="myserver" />
-      <option name="DOMAIN_NAME" value="mydomain" />
-      <predefined_log_file id="WEBLOGIC_DOMAIN_LOG_FILE" enabled="true" />
-      <predefined_log_file id="WEBLOGIC_SERVER_LOG_FILE" enabled="true" />
-    </configuration>
-    <configuration default="true" type="WebLogic Instance" factoryName="Local">
-      <option name="WORKING_DIRECTORY" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="7001" />
+      <option name="PORT" value="8080" />
       <option name="LOCAL" value="true" />
       <option name="OPEN_IN_BROWSER" value="true" />
       <option name="OPEN_IN_BROWSER_URL" value="/" />
       <option name="COMMON_VM_ARGUMENTS" value="" />
-      <J2EE_MODULE DEPLOYMENT_METHOD="Weblogic.Deployer" DEPLOYMENT_SOURCE_NAME="exploded">
-        <option name="CHECK_EJB_CMP_DATASOURCES" value="true" />
+      <J2EE_MODULE DEPLOYMENT_SOURCE_NAME="exploded">
+        <option name="CONTEXT_PATH" value="/" />
         <option name="MODULE_NAME" value="Wiki" />
         <option name="DEPLOY" value="false" />
       </J2EE_MODULE>
-      <option name="DOMAIN_PATH" value="" />
-      <option name="USER" value="weblogic" />
-      <option name="PASSWORD" value="weblogic" />
-      <option name="SERVER_NAME" value="myserver" />
-      <option name="DOMAIN_NAME" value="mydomain" />
-      <predefined_log_file id="WEBLOGIC_DOMAIN_LOG_FILE" enabled="true" />
-      <predefined_log_file id="WEBLOGIC_SERVER_LOG_FILE" enabled="true" />
+      <option name="DEPLOY_TOMCAT_MANAGER" value="false" />
+      <option name="BASE_DIRECTORY_NAME" value="" />
+      <predefined_log_file id="TOMCAT_LOCALHOST_LOG_ID" enabled="true" />
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
+    <configuration default="true" type="JUnit" factoryName="JUnit" enabled="false" merge="false">
       <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$PROJECT_DIR$/../../../../../../../Desktop/IntelliJ IDEA.app/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ADDITIONAL_CLASS_PATH" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="wholeProject" />
+      </option>
+      <method>
+        <option name="Make" value="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application" enabled="false" merge="false">
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <module name="" />
+    </configuration>
+    <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Remote">
+      <option name="WORKING_DIRECTORY" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="8080" />
+      <option name="LOCAL" value="false" />
+      <option name="OPEN_IN_BROWSER" value="true" />
+      <option name="OPEN_IN_BROWSER_URL" value="/" />
+      <option name="COMMON_VM_ARGUMENTS" value="" />
+      <option name="DEPLOY_TOMCAT_MANAGER" value="false" />
+      <option name="BASE_DIRECTORY_NAME" value="" />
+      <predefined_log_file id="TOMCAT_LOCALHOST_LOG_ID" enabled="true" />
     </configuration>
     <configuration default="true" type="Remote" factoryName="Remote">
       <option name="USE_SOCKET_TRANSPORT" value="true" />
@@ -1324,24 +1137,51 @@
       <option name="USE_WEBSPHERE51_LINEMAPPING_MODEL" value="false" />
       <option name="LOCAL_PORT" value="80" />
     </configuration>
-    <configuration default="true" type="JUnit" factoryName="JUnit" enabled="false" merge="false">
+    <configuration default="true" type="Applet" factoryName="Applet">
       <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$PROJECT_DIR$/../../../../../../../Desktop/IntelliJ IDEA.app/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ADDITIONAL_CLASS_PATH" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="wholeProject" />
-      </option>
-      <method>
-        <option name="Make" value="true" />
-      </method>
+    </configuration>
+    <configuration default="true" type="#com.intellij.j2ee.web.jsr45.JSR45ConfigurationFactory" factoryName="Remote">
+      <option name="WORKING_DIRECTORY" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="8080" />
+      <option name="LOCAL" value="false" />
+      <option name="OPEN_IN_BROWSER" value="true" />
+      <option name="OPEN_IN_BROWSER_URL" value="/" />
+      <option name="COMMON_VM_ARGUMENTS" value="" />
+      <option name="JSP_PACKAGE" value="" />
+      <option name="VM_OPTS" value="VM_OPTS" />
+      <option name="USE_WEBSPHERE51_LINEMAPPING_MODEL" value="false" />
+      <option name="LOCAL_PORT" value="80" />
+    </configuration>
+    <configuration default="true" type="WebLogic Instance" factoryName="Local">
+      <option name="WORKING_DIRECTORY" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="7001" />
+      <option name="LOCAL" value="true" />
+      <option name="OPEN_IN_BROWSER" value="true" />
+      <option name="OPEN_IN_BROWSER_URL" value="/" />
+      <option name="COMMON_VM_ARGUMENTS" value="" />
+      <J2EE_MODULE DEPLOYMENT_METHOD="Weblogic.Deployer" DEPLOYMENT_SOURCE_NAME="exploded">
+        <option name="CHECK_EJB_CMP_DATASOURCES" value="true" />
+        <option name="MODULE_NAME" value="Wiki" />
+        <option name="DEPLOY" value="false" />
+      </J2EE_MODULE>
+      <option name="DOMAIN_PATH" value="" />
+      <option name="USER" value="weblogic" />
+      <option name="PASSWORD" value="weblogic" />
+      <option name="SERVER_NAME" value="myserver" />
+      <option name="DOMAIN_NAME" value="mydomain" />
+      <predefined_log_file id="WEBLOGIC_DOMAIN_LOG_FILE" enabled="true" />
+      <predefined_log_file id="WEBLOGIC_SERVER_LOG_FILE" enabled="true" />
     </configuration>
     <configuration default="false" name="Test" type="Application" factoryName="Application" enabled="false" merge="false">
       <option name="MAIN_CLASS_NAME" value="org.jboss.seam.wiki.core.Test" />
@@ -1533,7 +1373,7 @@
     <option name="PERFORM_COMMIT_IN_BACKGROUND" value="false" />
     <option name="PUT_FOCUS_INTO_COMMENT" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Minor" />
+    <option name="LAST_COMMIT_MESSAGE" value="Broken Hibernate Search integration, to debug for Emmanuel" />
     <option name="SAVE_LAST_COMMIT_MESSAGE" value="true" />
     <option name="CHECKIN_DIALOG_SPLITTER_PROPORTION" value="0.8" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
@@ -1546,7 +1386,6 @@
     <option name="UPDATE_GROUP_BY_PACKAGES" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="Upgraded to BSD-licensed urlrewrite and some cosmetic changes" />
     <MESSAGE value="Quite useless plugin for embedding flash movies on wiki pages" />
     <MESSAGE value="Kicked out jCaptcha and replaced with simple math captcha" />
     <MESSAGE value="Minor bugs" />
@@ -1556,6 +1395,7 @@
     <MESSAGE value="Distribution target now generates valid SQL files ready for import in MySQL" />
     <MESSAGE value="Added feature: Manual account creation (for admins)" />
     <MESSAGE value="Minor" />
+    <MESSAGE value="Broken Hibernate Search integration, to debug for Emmanuel" />
   </component>
   <component name="VssConfiguration">
     <option name="CLIENT_PATH" value="" />
@@ -1636,122 +1476,157 @@
     <option name="myLastEditedConfigurable" value="Default" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/view/includes/breadcrumb.xhtml">
+    <entry file="file://$PROJECT_DIR$/view/plugins/lastModifiedDocuments/plugin.xhtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="36" column="27" selection-start="1919" selection-end="1919" vertical-scroll-proportion="0.3497758">
+          <folding />
+        </state>
+      </provider>
       <provider editor-type-id="HtmlPreview">
         <state />
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/plugins/feedTeasers/plugin.xhtml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="0" selection-start="393" selection-end="579" vertical-scroll-proportion="0.12630792">
+        <state line="33" column="168" selection-start="1685" selection-end="1685" vertical-scroll-proportion="0.3206278">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="HtmlPreview">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/etc/WEB-INF/pages.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/plugins/blogDirectory/entryPages.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="111" selection-start="1455" selection-end="1455" vertical-scroll-proportion="0.21599402">
+          <folding>
+            <marker date="1177595519000" expanded="true" signature="23:5543" placeholder="..." />
+            <marker date="1177595519000" expanded="true" signature="424:2858" placeholder="..." />
+            <marker date="1177595519000" expanded="true" signature="493:2849" placeholder="..." />
+            <marker date="1177595519000" expanded="true" signature="526:2831" placeholder="..." />
+            <marker date="1177595519000" expanded="true" signature="569:1534" placeholder="..." />
+            <marker date="1177595519000" expanded="true" signature="614:1033" placeholder="..." />
+            <marker date="1177595519000" expanded="true" signature="667:812" placeholder="..." />
+            <marker date="1177595519000" expanded="true" signature="865:1010" placeholder="..." />
+            <marker date="1177595519000" expanded="true" signature="1078:1177" placeholder="..." />
+            <marker date="1177595519000" expanded="true" signature="1226:1515" placeholder="..." />
+            <marker date="1177595519000" expanded="true" signature="1342:1492" placeholder="..." />
+            <marker date="1177595519000" expanded="true" signature="1575:2114" placeholder="..." />
+            <marker date="1177595519000" expanded="true" signature="1655:2019" placeholder="..." />
+            <marker date="1177595519000" expanded="true" signature="2157:2815" placeholder="..." />
+            <marker date="1177595519000" expanded="true" signature="2268:2497" placeholder="..." />
+            <marker date="1177595519000" expanded="true" signature="2375:2472" placeholder="..." />
+            <marker date="1177595519000" expanded="true" signature="2620:2796" placeholder="..." />
+            <marker date="1177595519000" expanded="true" signature="2723:2771" placeholder="..." />
+            <marker date="1177595519000" expanded="true" signature="2941:3120" placeholder="..." />
+            <marker date="1177595519000" expanded="true" signature="3147:5533" placeholder="..." />
+            <marker date="1177595519000" expanded="true" signature="3476:3679" placeholder="..." />
+            <marker date="1177595519000" expanded="true" signature="3782:3853" placeholder="..." />
+            <marker date="1177595519000" expanded="true" signature="3967:4176" placeholder="..." />
+            <marker date="1177595519000" expanded="true" signature="4279:4350" placeholder="..." />
+            <marker date="1177595519000" expanded="true" signature="4664:4865" placeholder="..." />
+            <marker date="1177595519000" expanded="true" signature="4968:5035" placeholder="..." />
+            <marker date="1177595519000" expanded="true" signature="5145:5346" placeholder="..." />
+            <marker date="1177595519000" expanded="true" signature="5449:5516" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+      <provider editor-type-id="HtmlPreview">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/dao/NodeDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="300" column="36" selection-start="11741" selection-end="11741" vertical-scroll-proportion="0.5115607">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/view/plugins/blogDirectory/recentEntries.xhtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="44" column="0" selection-start="1574" selection-end="1810" vertical-scroll-proportion="0.42750373">
+          <folding />
+        </state>
+      </provider>
       <provider editor-type-id="HtmlPreview">
         <state />
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/Document.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="39" selection-start="1589" selection-end="1589" vertical-scroll-proportion="0.36920777">
+        <state line="9" column="13" selection-start="225" selection-end="225" vertical-scroll-proportion="0.08453757">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="107" column="13" selection-start="3593" selection-end="3593" vertical-scroll-proportion="0.6900289">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/Node.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="228" column="22" selection-start="6976" selection-end="6976" vertical-scroll-proportion="0.46459538">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/view/plugins/blogDirectory/plugin.xhtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="0" selection-start="1861" selection-end="1861" vertical-scroll-proportion="0.38863975">
+          <folding />
+        </state>
+      </provider>
       <provider editor-type-id="HtmlPreview">
         <state />
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/userList.xhtml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="37" selection-start="1867" selection-end="1867" vertical-scroll-proportion="0.38863975">
+        <state line="154" column="0" selection-start="8217" selection-end="8540" vertical-scroll-proportion="0.5052317">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="HtmlPreview">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/plugins/blogDirectory/allEntries.xhtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="55" column="0" selection-start="2542" selection-end="2542" vertical-scroll-proportion="0.53437966">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="HtmlPreview">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/themes/default/css/blogDirectory.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="131" column="16" selection-start="2498" selection-end="2498" vertical-scroll-proportion="0.7463873">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/view/docEdit.xhtml">
-      <provider editor-type-id="HtmlPreview">
-        <state />
-      </provider>
+    <entry file="file://$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/blogdirectory/BlogDirectory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="122" column="0" selection-start="6368" selection-end="6516" vertical-scroll-proportion="0.009715994">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/themes/default/css/template.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="54" column="0" selection-start="887" selection-end="918" vertical-scroll-proportion="0.009393063">
+        <state line="52" column="0" selection-start="1389" selection-end="1389" vertical-scroll-proportion="0.4884393">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/etc/import-dev.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="117" column="0" selection-start="75890" selection-end="75890" vertical-scroll-proportion="0.7815924">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/UserSearch.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="0" selection-start="883" selection-end="883" vertical-scroll-proportion="0.31936416">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/dao/NodeDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="267" column="0" selection-start="10126" selection-end="10126" vertical-scroll-proportion="0.21098267">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/NodeSearch.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="5" selection-start="1186" selection-end="1186" vertical-scroll-proportion="0.42268786">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/etc/WEB-INF/urlrewrite.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="0" selection-start="726" selection-end="726" vertical-scroll-proportion="0.24421965">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/File.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="112" column="0" selection-start="2796" selection-end="2796" vertical-scroll-proportion="0.9436416">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/ui/UIWikiFormattedText.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="174" column="0" selection-start="7208" selection-end="7208" vertical-scroll-proportion="0.9436416">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/org/jboss/seam/wiki/preferences/PreferenceSupport.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="0" selection-start="3674" selection-end="3674" vertical-scroll-proportion="0.5867052">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/dirDisplay.xhtml">
-      <provider editor-type-id="HtmlPreview">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="143" column="21" selection-start="7788" selection-end="7788" vertical-scroll-proportion="0.42675635">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="94" selection-start="693" selection-end="693" vertical-scroll-proportion="0.1315029">
+        <state line="116" column="374" selection-start="75050" selection-end="75050" vertical-scroll-proportion="0.7626004">
           <folding />
         </state>
       </provider>
