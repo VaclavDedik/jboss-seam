@@ -16,6 +16,7 @@ import javax.faces.application.FacesMessage;
 import java.util.List;
 import java.util.Collections;
 import java.util.ArrayList;
+import java.util.Date;
 
 @Name("directoryHome")
 @Scope(ScopeType.CONVERSATION)
@@ -163,11 +164,8 @@ public class DirectoryHome extends NodeHome<Directory> {
     public void resetFeed() {
         if (getInstance().getFeed() != null) {
             getLog().debug("resetting feed of directory");
-            /**
-            FeedDAO feedDAO = (FeedDAO)Component.getInstance("feedDAO");
-            feedDAO.resetFeed(getInstance().getFeed());
-             */
             getInstance().getFeed().getFeedEntries().clear();
+            getInstance().getFeed().setPublishedDate(new Date());
             getFacesMessages().addFromResourceBundleOrDefault(
                 FacesMessage.SEVERITY_INFO,
                 "feedReset",

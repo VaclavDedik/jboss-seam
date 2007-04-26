@@ -131,7 +131,7 @@ public class FeedEntry implements Serializable, Comparable {
 
     // Sort by date
     public int compareTo(Object o) {
-        return getUpdatedDate().compareTo( ((FeedEntry)o).getUpdatedDate() );
+        return ((FeedEntry)o).getUpdatedDate().compareTo(getUpdatedDate());
     }
 
     public String toString() {

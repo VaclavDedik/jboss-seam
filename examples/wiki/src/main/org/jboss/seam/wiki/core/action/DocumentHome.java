@@ -79,14 +79,14 @@ public class DocumentHome extends NodeHome<Document> {
         // Sync document content
         syncFormToInstance(getParentDirectory());
 
+        // Update feed entries
+        if (getInstance().getReadAccessLevel() == UserRoleAccessFactory.GUESTROLE_ACCESSLEVEL) {
+            feedDAO.updateFeedEntry(isPushOnSiteFeed(), getInstance());
+            feedDAO.purgeOldFeedEntries(); // TODO: Move this into maintenance thread to run periodically
+        }
+
         // Write history log and prepare a new copy for further modification
         if (!isMinorRevision()) {
-
-            // Update feed entries
-            if (getInstance().getReadAccessLevel() == UserRoleAccessFactory.GUESTROLE_ACCESSLEVEL) {
-                feedDAO.updateFeedEntry(isPushOnSiteFeed(), getInstance());
-                feedDAO.purgeOldFeedEntries(); // TODO: Move this into maintenance thread to run periodically
-            }
 
             historicalCopy.setId(getInstance().getId());
             getNodeDAO().persistHistoricalNode(historicalCopy);
