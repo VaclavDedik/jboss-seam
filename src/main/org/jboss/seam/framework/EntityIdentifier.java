@@ -18,6 +18,10 @@ public class EntityIdentifier extends Identifier<EntityManager>
    @Override
    public Object find(EntityManager entityManager)
    {
+      if (entityManager == null)
+      {
+         throw new IllegalArgumentException("EntityManager must not be null");
+      }
       entityManager.joinTransaction();
       return entityManager.find(getClazz(), getId());
    }

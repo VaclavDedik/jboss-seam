@@ -15,6 +15,10 @@ public class HibernateEntityIdentifier extends Identifier<Session>
    @Override
    public Object find(Session session)
    {
+      if (session == null)
+      {
+         throw new IllegalArgumentException("session must not be null");
+      }
       return session.get(getClazz(), (Serializable) getId());
    }
 
