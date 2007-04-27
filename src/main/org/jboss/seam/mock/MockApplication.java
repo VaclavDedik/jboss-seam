@@ -267,7 +267,13 @@ public class MockApplication extends Application
    public MethodBinding createMethodBinding(final String methodExpression, final Class[] args)
             throws ReferenceSyntaxException
    {
-      return new UnifiedELMethodBinding(methodExpression, args);
+      Class[] c = args;
+      if (c == null)
+      {
+         // Mismatch between JSF and Unified EL
+         c = new Class[0];
+      }  
+      return new UnifiedELMethodBinding(methodExpression, c);
    }
 
    @Override
