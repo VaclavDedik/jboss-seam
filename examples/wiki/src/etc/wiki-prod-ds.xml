@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <datasources>
-   
-   <local-tx-datasource>
-      <jndi-name>wikiDatasource</jndi-name>
-      <connection-url>jdbc:mysql://localhost/test?characterEncoding=UTF-8</connection-url>
-      <driver-class>com.mysql.jdbc.Driver</driver-class>
-      <user-name>test</user-name>
-      <password></password>
-   </local-tx-datasource>
-    
+
+    <local-tx-datasource>
+        <jndi-name>wikiDatasource</jndi-name>
+        <connection-url>jdbc:mysql://localhost/test?characterEncoding=UTF-8</connection-url>
+        <driver-class>com.mysql.jdbc.Driver</driver-class>
+        <user-name>test</user-name>
+        <password></password>
+
+        <!-- This means it will be bound under "wikiDatasource", not "java:/wikiDatasource".
+             Apparently this enables remote datasources, which I don't need. However, my
+             local Hibernate in the WAR won't find the datasource if this setting is not present. -->
+        <use-java-context>false</use-java-context>
+
+    </local-tx-datasource>
+
 </datasources>
 

@@ -11,7 +11,8 @@ public class Directory extends Node {
     @org.hibernate.annotations.ForeignKey(name = "FK_DIRECTORY_DEFAULT_DOCUMENT_ID")
     private Document defaultDocument;
 
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "directory", cascade = CascadeType.PERSIST)
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "directory", cascade = CascadeType.PERSIST)
+    @org.hibernate.annotations.LazyToOne(org.hibernate.annotations.LazyToOneOption.NO_PROXY)
     private Feed feed;
 
     public Directory() { super("New Directory"); }

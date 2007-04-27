@@ -64,6 +64,7 @@ public class CommentHome implements Serializable {
                 .createQuery("select c from Comment c where c.document is :doc" +
                              " order by c.createdOn " + (listCommentsAscending ? "asc" : "desc") )
                 .setParameter("doc", currentDocument)
+                .setHint("org.hibernate.cacheable", true)
                 .getResultList();
 
         comment = new Comment();

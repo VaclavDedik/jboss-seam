@@ -88,6 +88,13 @@
         <include name="**/*.MF"/>
     </patternset>
 
+    <!-- ################## CUSTOM TASKS ####################### -->
+
+    <taskdef name="hibernatetool"
+             classname="org.hibernate.tool.ant.HibernateToolTask"
+             classpathref="tools.classpath"/>
+
+
     <!-- ################## SETUP ####################### -->
 
     <target name="init" description="Initialize the project build">
@@ -120,6 +127,17 @@
                 <patternset refid="meta.files"/>
             </fileset>
         </copy>
+
+        <taskdef name="instrument" classname="org.hibernate.tool.instrument.javassist.InstrumentTask">
+            <classpath path="${classes.dir}"/>
+            <classpath refid="build.classpath"/>
+        </taskdef>
+
+        <instrument verbose="true">
+            <fileset dir="${classes.dir}/org/jboss/seam/wiki/core/model">
+                <include name="*.class"/>
+            </fileset>
+        </instrument>
 
     </target>
 
@@ -184,9 +202,12 @@
         </copy>
         <copy todir="${exploded.war.dir}/WEB-INF/lib">
             <fileset dir="${local.lib.dir}">
-                <exclude name="hibernate*"/>
+                <exclude name="hibernate-tools*"/>
+                <!--
                 <exclude name="ejb3*"/>
                 <exclude name="jboss*"/>
+                <exclude name="ehcache*"/>
+                -->
             </fileset>
         </copy>
 
@@ -212,6 +233,7 @@
                 <include name="hibernate.cfg.xml" />
                 <include name="jbpm.cfg.xml" />
                 <include name="*.skin.properties"/>
+                <include name="ehcache.xml"/>
             </fileset>
         </copy>
         <copy tofile="${exploded.war.dir}/WEB-INF/classes/import.sql"
@@ -310,6 +332,19 @@
         <!-- Replace @@LF@@ in import.sql with real SQL char(10) linefeed (concat)-->
         <replace file="${dist.dir}/${project.name}-data.sql" token="@@LF@@" value="'||char(10)||'"/>
 
+        <!-- Schema -->
+        <hibernatetool destdir="${basedir}">
+            <classpath path="${exploded.war.dir}/WEB-INF/classes"/>
+            <jpaconfiguration/> <!-- Use META-INF/persistence.xml -->
+            <hbm2ddl
+                drop="false"
+                create="true"
+                export="false"
+                outputfilename="${dist.dir}/${project.name}-ddl.sql"
+                delimiter=";"
+                format="true"/>
+        </hibernatetool>
+
         <!-- Clean up afterwards for the next deploy run -->
         <antcall target="clean"/>
 
@@ -319,10 +354,6 @@
 
     <target name="schemaexport" depends="clean, exploderegular, exploderesources"
         description="Exports a generated schema to a file">
-
-        <taskdef name="hibernatetool"
-                 classname="org.hibernate.tool.ant.HibernateToolTask"
-                 classpathref="tools.classpath"/>
 
         <mkdir dir="${dist.dir}"/>
 

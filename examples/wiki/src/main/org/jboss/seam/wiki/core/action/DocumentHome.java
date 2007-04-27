@@ -143,7 +143,6 @@ public class DocumentHome extends NodeHome<Document> {
     public void setEnabledPreview(boolean enabledPreview) {
         this.enabledPreview = enabledPreview;
         syncFormToInstance(getParentDirectory());
-        refreshMenuItems();
     }
 
     public boolean isPushOnSiteFeed() {

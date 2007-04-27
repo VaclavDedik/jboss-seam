@@ -617,6 +617,15 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/ehcache-1.3.0-beta.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntryProperties />
   </component>
   <component name="VcsManagerConfiguration">
@@ -683,6 +692,11 @@
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib/stringtemplate-2.3b6.jar" />
       <url>jar://$MODULE_DIR$/../../drools/lib/stringtemplate-2.3b6.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="1" />
+      <attribute name="URI" value="/WEB-INF/lib/ehcache-1.3.0-beta.jar" />
+      <url>jar://$MODULE_DIR$/lib/ehcache-1.3.0-beta.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />

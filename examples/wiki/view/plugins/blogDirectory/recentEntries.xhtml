@@ -1,0 +1,48 @@
+<s:div id="recentEntries"
+	 xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:c="http://java.sun.com/jstl/core"
+     xmlns:wiki="http://jboss.com/products/seam/wiki"
+     xmlns:s="http://jboss.com/products/seam/taglib"
+        style="vertical-align:top; margin-left; 15px;">
+
+    <div class="recentEntries">
+
+        <div class="recentEntriesHeader">Recent entries:</div>
+
+        <h:dataTable value="#{recentBlogEntries}" var="dayMap"
+                     styleClass="datatable"
+                     columnClasses="defaultColumn"
+                     cellpadding="0" cellspacing="0" border="0">
+            <h:column>
+                <div class="recentEntriesDay">
+                    <h:outputText value="#{dayMap.key}">
+                        <f:convertDateTime pattern="dd. MMM yyyy" timeZone="#{wikiPreferences.timeZone}"/>
+                    </h:outputText>
+                </div>
+
+                <h:dataTable value="#{dayMap.value}" var="be"
+                             columnClasses="recentEntriesItem"
+                             cellpadding="0" cellspacing="0" border="0">
+                    <h:column>
+                        <h:outputLink value="#{wiki:renderURL(be.entryDocument)}">
+                            #{wiki:truncateString(be.entryDocument.name, 25, '...')}
+                        </h:outputLink>
+                    </h:column>
+                </h:dataTable>
+
+            </h:column>
+        </h:dataTable>
+
+        <div class="recentEntriesFooter">
+            <h:outputLink value="#{wiki:renderURL(currentDocument)}">
+                <f:param name="blogIndex" value="true"/>
+                More...
+            </h:outputLink>
+        </div>
+
+    </div>
+
+</s:div>

@@ -1,13 +1,11 @@
 package org.jboss.seam.wiki.core.engine;
 
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Transactional;
-import org.jboss.seam.annotations.AutoCreate;
+import org.jboss.seam.annotations.*;
 import org.jboss.seam.wiki.core.model.Directory;
 import org.jboss.seam.wiki.core.dao.NodeDAO;
 import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.util.WikiUtil;
+import org.jboss.seam.log.Log;
 
 
 import java.util.regex.Pattern;
@@ -22,6 +20,8 @@ import java.util.Map;
 @Name("wikiLinkResolver")
 @AutoCreate
 public class DefaultWikiLinkResolver implements WikiLinkResolver {
+
+    @Logger static Log log;
 
     // Render these strings whenever [=>wiki://123] needs to be resolved but can't
     public static final String BROKENLINK_URL = "PageDoesNotExist";
@@ -96,6 +96,7 @@ public class DefaultWikiLinkResolver implements WikiLinkResolver {
             wikiLink = new WikiLink(false, true);
             wikiLink.setUrl(linkText);
             wikiLink.setDescription(linkText);
+            log.debug("link resolved to known protocol: " + linkText);
 
         // Check if it is a wiki protocol
         } else if (wikiProtocolMatcher.find()) {
@@ -106,11 +107,13 @@ public class DefaultWikiLinkResolver implements WikiLinkResolver {
                 wikiLink = new WikiLink(false, false);
                 wikiLink.setNode(node);
                 wikiLink.setDescription(node.getName());
+                log.debug("wiki link resolved to existing node: " + linkText);
             } else {
                 // Can't do anything, [=>wiki://123] no longer exists
                 wikiLink = new WikiLink(true, false);
                 wikiLink.setUrl(BROKENLINK_URL);
                 wikiLink.setDescription(BROKENLINK_DESCRIPTION);
+                log.debug("wiki link could not be resolved: " + linkText);
             }
 
         // Check if it is a custom protocol
@@ -121,10 +124,12 @@ public class DefaultWikiLinkResolver implements WikiLinkResolver {
                 wikiLink = new WikiLink(false, true);
                 wikiLink.setUrl(protocol.getRealLink(customProtocolMatcher.group(2)));
                 wikiLink.setDescription(protocol.getPrefix() + "://" + customProtocolMatcher.group(2));
+                log.debug("link resolved to custom protocol: " + linkText);
             } else {
                 wikiLink = new WikiLink(true, false);
                 wikiLink.setUrl(BROKENLINK_URL);
                 wikiLink.setDescription(BROKENLINK_DESCRIPTION);
+                log.debug("link resolved to non-existant custom protocol: " + linkText);
             }
 
         // It must be a stored clear text link, such as [=>Target Name] or [=>Area Name|Target Name]
@@ -141,6 +146,7 @@ public class DefaultWikiLinkResolver implements WikiLinkResolver {
                 wikiLink.setDescription(node.getName());
                 // Indicate that caller should update the wiki text that contains this link
                 wikiLink.setRequiresUpdating(true);
+                log.debug("resolved wiki word link, this needs updating to the real identifier: " + linkText);
 
             } else {
                 /* TODO: Not sure we should actually implement this..., one of these things that the wiki "designers" got wrong
@@ -157,6 +163,7 @@ public class DefaultWikiLinkResolver implements WikiLinkResolver {
                 wikiLink = new WikiLink(true, false);
                 wikiLink.setUrl(BROKENLINK_URL);
                 wikiLink.setDescription(BROKENLINK_DESCRIPTION);
+                log.debug("could not resolve link: " + linkText);
             }
         }
         links.put(linkText, wikiLink);

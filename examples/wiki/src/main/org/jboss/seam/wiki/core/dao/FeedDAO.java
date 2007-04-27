@@ -38,6 +38,7 @@ public class FeedDAO {
             return (Feed) restrictedEntityManager
                 .createQuery("select f from Feed f where f.id = :id")
                 .setParameter("id", feedId)
+                .setHint("org.hibernate.cacheable", true)
                 .getSingleResult();
         } catch (EntityNotFoundException ex) {
         } catch (NoResultException ex) {}

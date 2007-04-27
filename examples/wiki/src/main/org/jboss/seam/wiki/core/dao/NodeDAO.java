@@ -66,6 +66,7 @@ public class NodeDAO {
             return (Node) restrictedEntityManager
                     .createQuery("select n from Node n where n.id = :nodeId")
                     .setParameter("nodeId", nodeId)
+                    .setHint("org.hibernate.cacheable", true)
                     .getSingleResult();
         } catch (EntityNotFoundException ex) {
         } catch (NoResultException ex) {
@@ -85,6 +86,7 @@ public class NodeDAO {
                     .createQuery("select n from Node n where n.areaNumber = :areaNumber and n.wikiname = :wikiname")
                     .setParameter("areaNumber", areaNumber)
                     .setParameter("wikiname", wikiname)
+                    .setHint("org.hibernate.cacheable", true)
                     .getSingleResult();
         } catch (EntityNotFoundException ex) {
         } catch (NoResultException ex) {
@@ -100,6 +102,7 @@ public class NodeDAO {
                     .createQuery("select d from Document d where d.areaNumber = :areaNumber and d.wikiname = :wikiname")
                     .setParameter("areaNumber", areaNumber)
                     .setParameter("wikiname", wikiname)
+                    .setHint("org.hibernate.cacheable", true)
                     .getSingleResult();
         } catch (EntityNotFoundException ex) {
         } catch (NoResultException ex) {
@@ -115,6 +118,7 @@ public class NodeDAO {
                     .createQuery("select d from Directory d where d.areaNumber = :areaNumber and d.wikiname = :wikiname")
                     .setParameter("areaNumber", areaNumber)
                     .setParameter("wikiname", wikiname)
+                    .setHint("org.hibernate.cacheable", true)
                     .getSingleResult();
         } catch (EntityNotFoundException ex) {
         } catch (NoResultException ex) {
@@ -130,6 +134,7 @@ public class NodeDAO {
                     .createQuery("select d from Directory d where d.parent = :root and d.wikiname = :wikiname")
                     .setParameter("root", Component.getInstance("wikiRoot"))
                     .setParameter("wikiname", wikiname)
+                    .setHint("org.hibernate.cacheable", true)
                     .getSingleResult();
         } catch (EntityNotFoundException ex) {
         } catch (NoResultException ex) {
@@ -145,6 +150,7 @@ public class NodeDAO {
                     .createQuery("select d from Directory d where d.parent = :root and d.areaNumber = :areaNumber")
                     .setParameter("root", Component.getInstance("wikiRoot"))
                     .setParameter("areaNumber", areaNumber)
+                    .setHint("org.hibernate.cacheable", true)
                     .getSingleResult();
         } catch (EntityNotFoundException ex) {
         } catch (NoResultException ex) {
@@ -208,6 +214,7 @@ public class NodeDAO {
             return (Document) restrictedEntityManager
                     .createQuery("select d from Document d where d.id = :id")
                     .setParameter("id", documentId)
+                    .setHint("org.hibernate.cacheable", true)
                     .getSingleResult();
         } catch (EntityNotFoundException ex) {
         } catch (NoResultException ex) {
@@ -222,6 +229,7 @@ public class NodeDAO {
             return (Directory) restrictedEntityManager
                     .createQuery("select d from Directory d where d.id = :id")
                     .setParameter("id", directoryId)
+                    .setHint("org.hibernate.cacheable", true)
                     .getSingleResult();
         } catch (EntityNotFoundException ex) {
         } catch (NoResultException ex) {
@@ -236,6 +244,7 @@ public class NodeDAO {
             return (File) restrictedEntityManager
                     .createQuery("select f from File f where f.id = :id")
                     .setParameter("id", fileId)
+                    .setHint("org.hibernate.cacheable", true)
                     .getSingleResult();
         } catch (EntityNotFoundException ex) {
         } catch (NoResultException ex) {
@@ -251,6 +260,7 @@ public class NodeDAO {
                     .createQuery("select doc from Document doc, Directory dir" +
                                  " where doc.id = dir.defaultDocument.id and dir.id = :did")
                     .setParameter("did", directory.getId())
+                    .setHint("org.hibernate.cacheable", true)
                     .getSingleResult();
         } catch (EntityNotFoundException ex) {
         } catch (NoResultException ex) {

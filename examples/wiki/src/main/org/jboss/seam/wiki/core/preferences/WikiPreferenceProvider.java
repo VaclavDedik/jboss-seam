@@ -174,7 +174,8 @@ public class WikiPreferenceProvider implements PreferenceProvider, Serializable 
             entityManager.createQuery(
                             "select wp from WikiPreferenceValue wp" +
                             " where wp.componentName = :name and wp.user is null and wp.node is null"
-                          ).setParameter("name", preferenceComponent.getName()).getResultList();
+                          ).setParameter("name", preferenceComponent.getName())
+                           .setHint("org.hibernate.cacheable", true).getResultList();
 
         for (WikiPreferenceValue value : values) {
             PreferenceProperty property = preferenceComponent.getPropertiesByName().get( value.getPropertyName() );
@@ -198,6 +199,7 @@ public class WikiPreferenceProvider implements PreferenceProvider, Serializable 
                           )
                         .setParameter("name", preferenceComponent.getName())
                         .setParameter("user", user)
+                        .setHint("org.hibernate.cacheable", true)
                         .getResultList();
         for (WikiPreferenceValue value : values) {
             value.setPreferenceProperty(preferenceComponent.getPropertiesByName().get( value.getPropertyName() ));
@@ -214,6 +216,7 @@ public class WikiPreferenceProvider implements PreferenceProvider, Serializable 
                           )
                         .setParameter("name", preferenceComponent.getName())
                         .setParameter("node", node)
+                        .setHint("org.hibernate.cacheable", true)
                         .getResultList();
         for (WikiPreferenceValue value : values) {
             value.setPreferenceProperty(preferenceComponent.getPropertiesByName().get( value.getPropertyName() ));

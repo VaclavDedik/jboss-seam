@@ -1,0 +1,61 @@
+<s:div id="allEntries"
+	 xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:c="http://java.sun.com/jstl/core"
+     xmlns:wiki="http://jboss.com/products/seam/wiki"
+     xmlns:s="http://jboss.com/products/seam/taglib"
+        style="vertical-align:top; margin-left; 15px;">
+
+    <div class="allEntries">
+
+        <div class="allEntriesHeader">
+            All blog entries by month:
+        </div>
+
+        <div class="allEntriesReturn">
+            <h:outputLink value="#{wiki:renderURL(currentDocument)}">
+                Return to blog view...
+            </h:outputLink>
+        </div>
+
+        <h:dataTable value="#{allBlogEntries}" var="monthMap"
+                     styleClass="datatable"
+                     columnClasses="defaultColumn"
+                     cellpadding="0" cellspacing="0" border="0">
+            <h:column>
+                <div class="allEntriesMonth">
+                    <h:outputText value="#{monthMap.key}">
+                        <f:convertDateTime pattern="yyyy MMMM" timeZone="#{wikiPreferences.timeZone}"/>
+                    </h:outputText>
+                </div>
+
+                <h:dataTable value="#{monthMap.value}" var="be"
+                             columnClasses="allEntriesItem"
+                             cellpadding="0" cellspacing="0" border="0">
+                    <h:column>
+                        <h:outputLink value="#{wiki:renderURL(be.entryDocument)}">
+                            #{be.entryDocument.name}
+                        </h:outputLink>&#160;
+                        (<h:outputText value="#{be.entryDocument.createdOn}">
+                            <f:convertDateTime pattern="dd. MMM yyyy" timeZone="#{wikiPreferences.timeZone}"/>
+                        </h:outputText>,&#160;
+                        <h:outputLink value="#{wiki:renderHomeURL(be.entryDocument.createdBy)}"
+                                      rendered="#{!empty be.entryDocument.createdBy.memberHome}">#{be.entryDocument.createdBy.fullname}</h:outputLink>
+                        <h:outputText rendered="#{empty be.entryDocument.createdBy.memberHome}">#{be.entryDocument.createdBy.fullname}</h:outputText>)
+                    </h:column>
+                </h:dataTable>
+
+            </h:column>
+        </h:dataTable>
+
+        <div class="allEntriesReturn">
+            <h:outputLink value="#{wiki:renderURL(currentDocument)}">
+                Return to blog view...
+            </h:outputLink>
+        </div>
+
+    </div>
+
+</s:div>

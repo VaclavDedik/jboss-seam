@@ -1,0 +1,105 @@
+<s:div id="blogEntries"
+       xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:c="http://java.sun.com/jstl/core"
+       xmlns:wiki="http://jboss.com/products/seam/wiki"
+       xmlns:s="http://jboss.com/products/seam/taglib">
+
+<s:div rendered="#{!empty blogDirectory.blogEntries}">
+    <c:forEach var="blogEntry" items="#{blogDirectory.blogEntries}">
+
+        <div class="blogEntry">
+
+            <div class="blogEntryHeader">
+                <div class="blogEntryLinks">
+                    <div class="blogEntryPermLink>">
+                        <h:outputLink value="#{wiki:renderPermLink(blogEntry.entryDocument)}">Permlink</h:outputLink>
+                    </div>
+                    <div class="blogEntryWikiLink>">
+                        <h:outputLink value="#{wiki:renderWikiLink(blogEntry.entryDocument)}">WikiLink</h:outputLink>
+                    </div>
+                </div>
+                <div class="blogEntryTitle">
+                    <h:outputText value="#{blogEntry.entryDocument.name}"/>
+                </div>
+                <div class="blogEntryCreatedOn">
+                    <h:outputText styleClass="blogEntryCreatedOnText" value="#{blogEntry.entryDocument.createdOn}">
+                        <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
+                    </h:outputText>
+                </div>
+            </div>
+
+            <div class="blogEntryBody">
+                <wiki:formattedText value="#{blogEntry.entryDocument.content}"
+                                    linkStyleClass="regularLink"
+                                    brokenLinkStyleClass="brokenLink"
+                                    attachmentLinkStyleClass="blogDirectoryAttachmentLink"
+                                    thumbnailLinkStyleClass="regularLink"
+                                    updateResolvedLinks="false"/>
+                <ui:include src="../../includes/attachmentDisplay.xhtml"/>
+            </div>
+
+            <div class="blogEntryFooter">
+                <s:div rendered="#{!empty blogEntry.commentCount and blogEntry.entryDocument.enableComments}">
+                    <h:outputLink value="#{wiki:renderPermLink(blogEntry.entryDocument)}#commentsDisplay">
+                        #{blogEntry.commentCount} comment(s)
+                    </h:outputLink>
+                </s:div>
+                <s:div rendered="#{blogEntry.entryDocument.enableComments and blogEntry.entryDocument.enableCommentForm}">
+                    <h:outputLink value="#{wiki:renderPermLink(blogEntry.entryDocument)}#commentForm">Post comment
+                    </h:outputLink>
+                </s:div>
+            </div>
+
+        </div>
+
+    </c:forEach>
+</s:div>
+
+<s:div id="noBlogEntriesContainer" rendered="#{empty blogDirectory.blogEntries}">
+    No blog entries found, create documents in this directory to create blog entries. Note that this plugin
+    only works after you saved the document you placed it on.
+</s:div>
+
+<h:panelGrid columns="5"
+             styleClass="blogPagerTable"
+             columnClasses="blogPagerColumn, blogPagerColumn, blogPagerTextColumn, blogPagerColumn, blogPagerColumn, "
+             cellpadding="0" cellspacing="0" border="0">
+
+    <h:outputLink rendered="#{blogDirectory.previousPageAvailable}" value="#{wiki:renderURL(currentDocument)}">
+        <f:param name="blogPage" value="#{blogDirectory.firstPage}"/>
+        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.first.gif" width="13" height="11"/>
+    </h:outputLink>
+    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
+                    rendered="#{!blogDirectory.previousPageAvailable}"/>
+
+    <h:outputLink rendered="#{blogDirectory.previousPageAvailable}" value="#{wiki:renderURL(currentDocument)}">
+        <f:param name="blogPage" value="#{blogDirectory.previousPage}"/>
+        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.previous.gif" width="13" height="11"/>
+    </h:outputLink>
+    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
+                    rendered="#{!blogDirectory.previousPageAvailable}"/>
+
+    <h:outputText value="Showing #{blogDirectory.firstRow} to
+                                 #{blogDirectory.lastRow} of
+                                 #{blogDirectory.totalRowCount} blog entries"/>
+
+    <h:outputLink rendered="#{blogDirectory.nextPageAvailable}" value="#{wiki:renderURL(currentDocument)}">
+        <f:param name="blogPage" value="#{blogDirectory.nextPage}"/>
+        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.next.gif" width="13" height="11"/>
+    </h:outputLink>
+    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
+                    rendered="#{!blogDirectory.nextPageAvailable}"/>
+
+    <h:outputLink rendered="#{blogDirectory.nextPageAvailable}" value="#{wiki:renderURL(currentDocument)}">
+        <f:param name="blogPage" value="#{blogDirectory.lastPage}"/>
+        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.last.gif" width="13" height="11"/>
+    </h:outputLink>
+    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
+                    rendered="#{!blogDirectory.nextPageAvailable}"/>
+
+</h:panelGrid>
+
+</s:div>

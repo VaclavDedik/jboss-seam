@@ -73,12 +73,7 @@ public abstract class Node implements Serializable {
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "PARENT_NODE_ID", nullable = true)
     @org.hibernate.annotations.IndexColumn(name = "NODE_POSITION")
-    /* Filtering fucks up the list index... big issue to work around
-    @org.hibernate.annotations.Filter(
-        name = "accessLevelFilter",
-        condition = "READ_ACCESS_LEVEL <= :currentAccessLevel"
-    )
-    */
+    @org.hibernate.annotations.BatchSize(size = 5) // Helps with walking the node tree
     private List<Node> children = new ArrayList<Node>();
 
     @Column(name = "CREATED_ON", nullable = false, updatable = false)

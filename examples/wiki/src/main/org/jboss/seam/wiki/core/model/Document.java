@@ -12,6 +12,7 @@ public class Document extends Node {
     @Column(name = "CONTENT")
     @Length(min = 1, max = 32768)
     @org.hibernate.search.annotations.Field(index = org.hibernate.search.annotations.Index.TOKENIZED)
+    @Basic(fetch = FetchType.LAZY) // Lazy loaded through bytecode instrumentation
     private String content;
 
     @Column(name = "NAME_AS_TITLE")

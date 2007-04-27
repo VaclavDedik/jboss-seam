@@ -12,8 +12,17 @@ import java.util.List;
 import java.util.ArrayList;
 import java.io.Serializable;
 
+/**
+ * Holds the nodes that are displayed in the site menu
+ * <p>
+ * For performance reasons we cache this in the session contet and refresh it through observing of
+ * modification events. This might be PAGE scoped once we have a nested set model for the node tree.
+ * </p>
+ *
+ * @author Christian Bauer
+ */
 @Name("menu")
-@Scope(ScopeType.PAGE)
+@Scope(ScopeType.SESSION)
 public class Menu implements Serializable {
 
     private List<MenuItem> items;
