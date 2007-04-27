@@ -169,9 +169,9 @@ public class Expressions
          
          private javax.faces.el.MethodBinding getFacesMethodBinding(Class[] types, Object... args)
          {
-            if (cachedMethodBinding==null)
-            {
-               FacesContext context = FacesContext.getCurrentInstance();
+            FacesContext context = FacesContext.getCurrentInstance();
+            if (cachedMethodBinding==null || (context == null && !(cachedMethodBinding instanceof UnifiedELMethodBinding)))
+            {     
                cachedMethodBinding = context==null ? 
                      new UnifiedELMethodBinding(expression, types) : 
                      context.getApplication().createMethodBinding(expression, types);
