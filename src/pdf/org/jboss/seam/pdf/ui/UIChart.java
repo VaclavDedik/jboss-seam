@@ -1,5 +1,7 @@
 package org.jboss.seam.pdf.ui;
 
+import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 
 import javax.faces.context.FacesContext;
@@ -8,6 +10,11 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.Dataset;
 
 import com.lowagie.text.*;
+import com.lowagie.text.pdf.DefaultFontMapper;
+import com.lowagie.text.pdf.PdfContentByte;
+import com.lowagie.text.pdf.PdfTemplate;
+import com.lowagie.text.pdf.PdfWriter;
+import com.sun.javadoc.Doc;
 
 public abstract class UIChart 
     extends ITextComponent 
@@ -31,18 +38,24 @@ public abstract class UIChart
         JFreeChart chart = getChart(context);
                
         height = (Float) valueBinding(context, "height", height);
-        width =  (Float) valueBinding(context, "width", width);
-        
-        org.jboss.seam.core.Image seamImage = new org.jboss.seam.core.Image();  
-        seamImage.setBufferedImage(chart.createBufferedImage((int)width,(int)height));
-        
-        try {
-            image = Image.getInstance(seamImage.getImage());           
-        } catch (Exception e) {
-            throw new RuntimeException(e);            
-        }
+        width =  (Float) valueBinding(context, "width", width);        
 
-    }
+        
+        try { 
+            UIDocument doc = (UIDocument) findITextParent(getParent(), UIDocument.class);
+            PdfWriter writer = (PdfWriter) doc.getWriter();
+            PdfContentByte cb = writer.getDirectContent(); 
+            PdfTemplate tp = cb.createTemplate(width, height); 
+            Graphics2D g2 = tp.createGraphics(width, height, new DefaultFontMapper());             
+            chart.draw(g2, new Rectangle2D.Double(0, 0, width, height); ); 
+            g2.dispose(); 
+            
+            image = new ImgTemplate(tp);
+        } catch (Exception e) {             
+            throw new RuntimeException(e);
+        } 
+
+    }     
     
     @Override
     public void encodeBegin(FacesContext context) 

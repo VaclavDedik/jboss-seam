@@ -115,6 +115,11 @@
     </component>
 
     <component>
+        <component-type>org.jboss.seam.pdf.ui.UILineChart</component-type>
+        <component-class>org.jboss.seam.pdf.ui.UILineChart</component-class>
+    </component>
+
+    <component>
         <component-type>org.jboss.seam.pdf.ui.UIChartData</component-type>
         <component-class>org.jboss.seam.pdf.ui.UIChartData</component-class>
     </component>

@@ -9,19 +9,19 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.Dataset;
 
-public class UIBarChart 
+public class UILineChart
     extends UIChart 
 {
     String title;
-    String categoryAxisLabel;
     String domainAxisLabel;
+    String rangeAxisLabel;
     CategoryDataset dataset;
     String orientation;
     
     boolean legend;
     boolean tooltips;
     boolean urls;
-    boolean is3D = false;      
+    boolean is3D = false;
     
     public void setTitle(String title) {
         this.title = title;
@@ -31,12 +31,12 @@ public class UIBarChart
         this.orientation = orientation;
     }
     
-    public void setCategoryAxisLabel(String categoryAxisLabel) {
-        this.categoryAxisLabel = categoryAxisLabel;
+    public void setDomainAxisLabel(String domainAxisLabel) {
+        this.domainAxisLabel = domainAxisLabel;
     }
 
-    public void setValueAxisLabel(String valueAxisLabel) {
-        this.domainAxisLabel = valueAxisLabel;
+    public void setRangeAxisLabel(String rangeAxisLabel) {
+        this.rangeAxisLabel = rangeAxisLabel;
     }
 
     public void setLegend(boolean legend) {
@@ -63,18 +63,18 @@ public class UIBarChart
     @Override
     public JFreeChart getChart(FacesContext context) {
         if (!is3D) {
-            return ChartFactory.createBarChart(title,
-                    categoryAxisLabel,
+            return ChartFactory.createLineChart(title,
                     domainAxisLabel,
+                    rangeAxisLabel,
                     dataset,
                     plotOrientation(orientation),
                     legend,
                     tooltips,
                     urls);
         } else {
-            return ChartFactory.createBarChart3D(title,
-                    categoryAxisLabel,
+            return ChartFactory.createLineChart3D(title,
                     domainAxisLabel,
+                    rangeAxisLabel,
                     dataset,
                     plotOrientation(orientation),
                     legend,

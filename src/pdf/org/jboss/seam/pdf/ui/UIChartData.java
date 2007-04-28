@@ -10,8 +10,7 @@ import org.jfree.data.general.DefaultPieDataset;
 
 public class UIChartData 
     extends ITextComponent 
-{
- 
+{ 
     String key;
     String columnKey;
     String rowKey;

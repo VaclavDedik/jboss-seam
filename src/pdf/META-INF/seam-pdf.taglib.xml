@@ -161,6 +161,13 @@
     </tag>
 
     <tag>
+        <tag-name>linechart</tag-name>
+        <component>
+            <component-type>org.jboss.seam.pdf.ui.UILineChart</component-type>
+        </component>
+    </tag>
+
+    <tag>
         <tag-name>data</tag-name>
         <component>
             <component-type>org.jboss.seam.pdf.ui.UIChartData</component-type>
