@@ -7,7 +7,7 @@
     <property name="example.name"           value="jboss-seam-itext"/>
 
     <!-- Overrides -->
-    <property name="example.webinf.lib.dir"  value="lib"/>
+    <property name="example.webinf.lib.dir"  value="."/>
     <property name="example.seam.ui.lib"     value="yes"/>
     <property name="example.seam.pdf.lib"    value="yes"/>
     <property name="example.seam.debug.lib"  value="yes"/>
@@ -20,6 +20,7 @@
 
     <import file="../../build.xml"/>
 
+<!--
     <fileset id="example.local.jar" dir="lib">
         <include name="**/*.jar" />
     </fileset>
@@ -27,7 +28,8 @@
     <path id="example.path">
         <fileset refid="example.local.jar" />
     </path>
-   
+   -->
+
     <zipfileset id="example.ear.resources"
                dir="${example.resources.dir}">
         <include name="META-INF/application.xml"/>

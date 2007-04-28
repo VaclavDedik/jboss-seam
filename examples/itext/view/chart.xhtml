@@ -35,5 +35,36 @@
             <p:data columnKey="#{item.name}" rowKey="data2" value="#{item.value}" />
         </ui:repeat>
     </p:barchart>
+
+
+    <p:linechart title="Line Chart" width="500" height="500" 
+                 domainAxisLabel="domain" rangeAxisLabel="range">
+        <ui:repeat value="#{data.pieData}" var="item">
+            <p:data columnKey="#{item.name}" rowKey="data1" value="#{item.value}" />
+        </ui:repeat>
+
+        <ui:repeat value="#{data.pieData}" var="item">
+            <p:data columnKey="#{item.name}" rowKey="data2" value="#{item.value*1.4}" />
+        </ui:repeat>
+
+        <ui:repeat value="#{data.pieData}" var="item">
+            <p:data columnKey="#{item.name}" rowKey="data3" value="#{item.value*.8+6.0}" />
+        </ui:repeat>
+    </p:linechart>
+
+    <p:linechart title="Line Chart3D" width="500" height="500"
+                 is3D="true" legend="true"
+                 domainAxisLabel="domain" rangeAxisLabel="range" foo="bar">
+        <ui:repeat value="#{data.pieData}" var="item">
+            <p:data columnKey="#{item.name}" rowKey="data1" value="#{item.value}" />
+        </ui:repeat>
+        <p:data columnKey="foo" rowKey="data1" value="75.1" />
+
+        <ui:repeat value="#{data.pieData}" var="item">
+            <p:data columnKey="#{item.name}" rowKey="data2" value="#{item.value+5}" />
+        </ui:repeat>
+        <p:data columnKey="foo" rowKey="data2" value="75.1" />
+
+    </p:linechart>
 </p:document>
 
