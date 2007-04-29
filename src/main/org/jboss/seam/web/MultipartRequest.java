@@ -28,9 +28,7 @@ import javax.servlet.http.HttpServletRequestWrapper;
  * @author Shane Bryzak
  */
 public class MultipartRequest extends HttpServletRequestWrapper
-{
-   public static final String WWW_FORM_URLENCODED_TYPE = "application/x-www-form-urlencoded";
-   
+{   
    private static final String PARAM_NAME = "name";
    private static final String PARAM_FILENAME = "filename";
    private static final String PARAM_CONTENT_TYPE = "Content-Type";
@@ -624,11 +622,5 @@ public class MultipartRequest extends HttpServletRequestWrapper
       }
       
       return params;
-   }
-
-   @Override
-   public String getContentType()
-   {
-      return WWW_FORM_URLENCODED_TYPE;
    }
 }
