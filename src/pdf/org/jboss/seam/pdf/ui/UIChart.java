@@ -47,7 +47,7 @@ public abstract class UIChart
             PdfContentByte cb = writer.getDirectContent(); 
             PdfTemplate tp = cb.createTemplate(width, height); 
             Graphics2D g2 = tp.createGraphics(width, height, new DefaultFontMapper());             
-            chart.draw(g2, new Rectangle2D.Double(0, 0, width, height); ); 
+            chart.draw(g2, new Rectangle2D.Double(0, 0, width, height) ); 
             g2.dispose(); 
             
             image = new ImgTemplate(tp);
