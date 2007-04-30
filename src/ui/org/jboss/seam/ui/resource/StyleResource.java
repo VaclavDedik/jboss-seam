@@ -21,15 +21,14 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Expressions;
-import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.servlet.AbstractResource;
 import org.jboss.seam.util.Resources;
 
 /**
- * Serve up stylesheets which are have been run through the EL
- * Interpolator.
+ * Serve up stylesheets which are have been run through the EL Interpolator.
+ * 
  * @author pmuir
- *
+ * 
  */
 
 @Startup
@@ -39,54 +38,41 @@ import org.jboss.seam.util.Resources;
 @Intercept(NEVER)
 public class StyleResource extends AbstractResource
 {
+
+   private static final Pattern EL_PATTERN = Pattern.compile("#" + Pattern.quote("{") + "(.*)"
+            + Pattern.quote("}"));
    
+   private static final Pattern ID_PATTERN = Pattern.compile("#([A-Za-z][A-Za-z0-9\\-\\_\\:\\.]*)");
+
    public static final String WEB_RESOURCE_PATH = "/seam/resource/style";
-   
+
    private static final String RESOURCE_PATH = "/style";
 
    @Override
-   public void getResource(HttpServletRequest request, HttpServletResponse response) throws IOException
+   public void getResource(HttpServletRequest request, HttpServletResponse response)
+            throws IOException
    {
       String pathInfo = request.getPathInfo().substring(getResourcePath().length());
-      
+
       InputStream in = Resources.getResourceAsStream(pathInfo);
-      
+
       if (in != null)
       {
          try
          {
-            Lifecycle.beginRequest( getServletContext(), request.getSession(), request );
-            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-            StringBuilder css = new StringBuilder();
-            String line;
-            while ( (line = reader.readLine()) != null) {
-                css.append(line);
-                css.append("\n");
-            }
-            in.close();
+            Lifecycle.beginRequest(getServletContext(), request.getSession(), request);
             
-            // Resolve any EL value binding expression present in CSS
-            // This should be Interpolator.interpolate, but it seems to break on CSS
-            StringBuffer resolvedCSS = new StringBuffer(css.length());
-            Matcher matcher =
-                Pattern.compile(
-                    "#" +Pattern.quote("{") + "(.*)" + Pattern.quote("}")
-                ).matcher(css);
-   
-            while (matcher.find()) {
-                Expressions.ValueBinding valueMethod = Expressions.instance().createValueBinding("#{"+matcher.group(1)+"}");
-                String result = (String)valueMethod.getValue();
-                if (result != null) {
-                    matcher.appendReplacement(resolvedCSS, result);
-                } else {
-                    matcher.appendReplacement(resolvedCSS, "");
-                }
-            }
-            matcher.appendTail(resolvedCSS);
-            response.getWriter().write(resolvedCSS.toString());
+            CharSequence css = readFile(in);
             
+            css = parseEL(css);
+            
+            String idPrefix = request.getParameter("idPrefix");
+            css = addIdPrefix(idPrefix, css);
+
+            response.getWriter().write(css.toString());
+
             response.getWriter().flush();
-         } 
+         }
          finally
          {
             Lifecycle.endRequest();
@@ -96,7 +82,61 @@ public class StyleResource extends AbstractResource
       {
          response.sendError(HttpServletResponse.SC_NOT_FOUND);
       }
-      
+
+   }
+
+   // Resolve any EL value binding expression present in CSS
+   // This should be Interpolator.interpolate, but it seems to break on CSS
+   private CharSequence parseEL(CharSequence string)
+   {
+      StringBuffer parsed = new StringBuffer(string.length());
+      Matcher matcher =
+          EL_PATTERN.matcher(string);
+
+      while (matcher.find()) {
+          Expressions.ValueBinding valueMethod = Expressions.instance().createValueBinding("#{"+matcher.group(1)+"}");
+          String result = (String)valueMethod.getValue();
+          if (result != null) {
+              matcher.appendReplacement(parsed, result);
+          } else {
+              matcher.appendReplacement(parsed, "");
+          }
+      }
+      matcher.appendTail(parsed);
+      return parsed;
+   }
+   
+   private CharSequence readFile(InputStream inputStream) throws IOException
+   {
+      BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+      StringBuilder css = new StringBuilder();
+      String line;
+      while ((line = reader.readLine()) != null)
+      {
+         css.append(line);
+         css.append("\n");
+      }
+      inputStream.close();
+      return css;
+   }
+   
+   private CharSequence addIdPrefix(String idPrefix, CharSequence string)
+   {
+      StringBuffer parsed = new StringBuffer(string.length());
+      if (idPrefix != null)
+      {
+         Matcher matcher = ID_PATTERN.matcher(string);
+         while (matcher.find()) {
+            String result = "#" + idPrefix + ":" + matcher.group(1);
+            matcher.appendReplacement(parsed, result);
+        }
+        matcher.appendTail(parsed);
+        return parsed;
+      }
+      else
+      {
+         return string;
+      }
    }
 
    @Override
