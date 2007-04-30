@@ -3,6 +3,11 @@ package org.jboss.seam.pdf;
 import java.io.Serializable;
 import java.util.*;
 
+import javax.faces.FacesException;
+import javax.faces.application.ViewHandler;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+
 import org.jboss.seam.*;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.pdf.DocumentData.DocType;
@@ -56,14 +61,26 @@ public class DocumentStore
   
 
     public String preferredUrlForContent(String baseName, DocType docType, String contentId) {
-        String baseUrl = "seam-doc.seam";
+       String url = getFacesContext().getApplication().getViewHandler().getActionURL(getFacesContext(), "/seam-doc." + getDefaultSuffix(getFacesContext()));
+       String baseUrl = getFacesContext().getExternalContext().encodeActionURL(url);
         
-        if (useExtensions) {
-            baseUrl = baseName + "." + docType.getExtension();
-        } 
+       if (useExtensions) {
+           baseUrl = baseName + "." + docType.getExtension();
+       } 
         
-        return baseUrl + "?docId=" + contentId;
+       return baseUrl + "?docId=" + contentId;
     }
+    
+    private FacesContext getFacesContext() 
+    {
+       return FacesContext.getCurrentInstance().getCurrentInstance();
+    }
+    
+    private static String getDefaultSuffix(FacesContext context) throws FacesException {
+        ExternalContext externalContext = context.getExternalContext();
+        String viewSuffix = externalContext.getInitParameter(ViewHandler.DEFAULT_SUFFIX_PARAM_NAME);
+        return (viewSuffix != null) ? viewSuffix : ViewHandler.DEFAULT_SUFFIX;
+   }
     
 }
    
