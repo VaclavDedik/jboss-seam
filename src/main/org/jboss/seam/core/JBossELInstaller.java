@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 import javassist.util.proxy.MethodFilter;
 import javassist.util.proxy.MethodHandler;
 import javassist.util.proxy.ProxyFactory;
-import javax.servlet.jsp.JspApplicationContext;
+//import javax.servlet.jsp.JspApplicationContext;
 
 import org.jboss.el.ExpressionFactoryImpl;
 import org.jboss.seam.ScopeType;
@@ -30,7 +30,7 @@ public class JBossELInstaller {
 
     @Create
     public void installJBossEL() {                   
-        configureTomcatApplicationContext();
+//        configureTomcatApplicationContext();
         configureRIAssociate();
     }
 
@@ -50,36 +50,36 @@ public class JBossELInstaller {
         }
     }
 
-    /**
-     * Set the expression factory for the tomcat JSPApplicationContext associated with this deployment.
-     * This works, but the use EL enhancements in JSPs will be rejected by tomcat as invalid.  
-     */
-    public void configureTomcatApplicationContext() {
-        Context appContext = Contexts.getApplicationContext();
-        JspApplicationContext target = (JspApplicationContext)appContext.get(TOMCAT_APPLICATION_CONTEXT);
-        if (target != null) {
-            ProxyFactory factory = new ProxyFactory();
-            factory.setSuperclass( target.getClass());
-            factory.setFilter(new MethodFilter() {
-                public boolean isHandled(Method method) {
-                    return method.getName().equals("getExpressionFactory");
-                }                
-            });
-            factory.setHandler(new MethodHandler() {
-                public Object invoke(Object arg0, Method arg1, Method arg2, Object[] arg3) throws Throwable {
-                    return new ExpressionFactoryImpl();
-                }
-            });
+//     /**
+//      * Set the expression factory for the tomcat JSPApplicationContext associated with this deployment.
+//      * This works, but the use EL enhancements in JSPs will be rejected by tomcat as invalid.  
+//      */
+//     public void configureTomcatApplicationContext() {
+//         Context appContext = Contexts.getApplicationContext();
+//         JspApplicationContext target = (JspApplicationContext)appContext.get(TOMCAT_APPLICATION_CONTEXT);
+//         if (target != null) {
+//             ProxyFactory factory = new ProxyFactory();
+//             factory.setSuperclass( target.getClass());
+//             factory.setFilter(new MethodFilter() {
+//                 public boolean isHandled(Method method) {
+//                     return method.getName().equals("getExpressionFactory");
+//                 }                
+//             });
+//             factory.setHandler(new MethodHandler() {
+//                 public Object invoke(Object arg0, Method arg1, Method arg2, Object[] arg3) throws Throwable {
+//                     return new ExpressionFactoryImpl();
+//                 }
+//             });
 
-            try {
-                target = (JspApplicationContext) factory.create(new Class[0], new Object[0]);
+//             try {
+//                 target = (JspApplicationContext) factory.create(new Class[0], new Object[0]);
 
-                appContext.set(TOMCAT_APPLICATION_CONTEXT, target);
-                log.debug("replaced tomcat application context");
-            } catch (Exception e ) {
-                log.error("couldn't replace tomcat application context", e);
-            }
-        }
-    }
+//                 appContext.set(TOMCAT_APPLICATION_CONTEXT, target);
+//                 log.debug("replaced tomcat application context");
+//             } catch (Exception e ) {
+//                 log.error("couldn't replace tomcat application context", e);
+//             }
+//         }
+//     }
 
 }
