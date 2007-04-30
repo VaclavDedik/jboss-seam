@@ -6,6 +6,7 @@ import static org.jboss.seam.ScopeType.CONVERSATION;
 
 import java.io.Serializable;
 
+import javax.faces.component.StateHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
@@ -41,6 +42,11 @@ public class EntityConverter implements
    public void create()
    {
       entityIdentifierStore = EntityConverterStore.instance();
+      
+   }
+   
+   private void init()
+   {
       if (getEntityManager() != null)
       {
          entityIdentifierStore.setEntityManager(getEntityManager());
@@ -51,7 +57,7 @@ public class EntityConverter implements
    @Transactional
    public String getAsString(FacesContext facesContext, UIComponent cmp, Object value) throws ConverterException
    {
-      
+      init();
       if (value == null)
       {
          return null;
@@ -67,6 +73,7 @@ public class EntityConverter implements
    @Transactional
    public Object getAsObject(FacesContext facesContext, UIComponent cmp, String value) throws ConverterException
    {
+      init();
       if (value == null)
       {
          return null;
@@ -82,4 +89,30 @@ public class EntityConverter implements
    private EntityManager getEntityManager() {
       return entityManager == null ? null : entityManager.getValue();
    }
+   
+   /*private boolean _transient;
+
+   public boolean isTransient()
+   {
+      return _transient;
+   }
+
+   public void restoreState(FacesContext context, Object object)
+   {
+      Object[] state = (Object[]) object;
+      entityManager = (ValueBinding<EntityManager>) state[0];
+      
+   }
+
+   public Object saveState(FacesContext context)
+   {
+      Object[] state = new Object[1];
+      state[0] = entityManager;
+      return state;
+   }
+
+   public void setTransient(boolean newTransientValue)
+   {
+     this._transient = newTransientValue;
+   }*/
 }
