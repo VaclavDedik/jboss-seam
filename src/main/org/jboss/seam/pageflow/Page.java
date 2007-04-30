@@ -41,6 +41,7 @@ public class Page extends Node implements Parsable
    @Override
    public void read(Element pageElement, JpdlXmlReader jpdlXmlReader) 
    {
+      super.read(pageElement, jpdlXmlReader);
       viewId = pageElement.attributeValue("view-id");
       if (viewId==null)
       {
@@ -104,6 +105,17 @@ public class Page extends Node implements Parsable
          else
          {
             Conversation.instance().end();
+         }
+      }
+      if (getAction() != null)
+      {
+         try
+         {
+            getAction().execute(executionContext);
+         }
+         catch (Exception e)
+         {
+            raiseException(e, executionContext);
          }
       }
    }
