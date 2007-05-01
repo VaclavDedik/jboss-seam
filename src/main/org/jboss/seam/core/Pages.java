@@ -288,7 +288,7 @@ public class Pages
    private boolean isNoConversationRedirectRequired(Page page)
    {
       return page.isConversationRequired() && 
-            !Manager.instance().isLongRunningConversation();
+            !Manager.instance().isLongRunningOrNestedConversation();
    }
    
    private boolean isLoginRedirectRequired(String viewId, Page page)
