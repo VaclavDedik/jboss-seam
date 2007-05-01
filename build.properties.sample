@@ -1,3 +1,4 @@
-tomcat.home = C:\\Tomcat-5.5
-#jboss.home = /Applications/jboss-4.0.5.GA
-jboss.home = /Users/emmanuel/projects/as/4.2/build/output/jboss-4.2.0.GA
+tomcat.home = /Applications/Tomcat-5.5
+jboss.home = /Applications/jboss-4.2.0.GA
+#tomcat.home = C:\\Tomcat-5.5
+#jboss.home = C:\\jboss-4.2.0.GA
