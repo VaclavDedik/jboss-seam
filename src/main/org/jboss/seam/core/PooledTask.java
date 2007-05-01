@@ -81,10 +81,8 @@ public class PooledTask
    @Transactional
    public TaskInstance getTaskInstance()
    {
-      String taskId = (String) FacesContext.getCurrentInstance()
-            .getExternalContext()
-            .getRequestParameterMap()
-            .get("taskId");
+      String taskId = FacesContext.getCurrentInstance().getExternalContext()
+            .getRequestParameterMap().get("taskId");
       return taskId==null ? 
             null : 
             ManagedJbpmContext.instance().getTaskInstanceForUpdate( Long.parseLong(taskId) );

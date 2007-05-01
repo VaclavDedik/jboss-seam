@@ -1,36 +1,36 @@
 package org.jboss.seam.pages;
 
-import org.jboss.seam.core.Expressions.MethodBinding;
-import org.jboss.seam.core.Expressions.ValueBinding;
+import org.jboss.seam.core.Expressions.MethodExpression;
+import org.jboss.seam.core.Expressions.ValueExpression;
 
 public class Action
 {
-   private MethodBinding methodBinding;
-   private ValueBinding valueBinding;
+   private MethodExpression methodExpression;
+   private ValueExpression valueExpression;
    private String outcome;
    
    public boolean isExecutable()
    {
-      return valueBinding==null || 
-           Boolean.TRUE.equals( valueBinding.getValue() );
+      return valueExpression==null || 
+           Boolean.TRUE.equals( valueExpression.getValue() );
    }
    
-   public MethodBinding getMethodBinding()
+   public MethodExpression getMethodExpression()
    {
-      return methodBinding;
+      return methodExpression;
    }
-   public void setMethodBinding(MethodBinding methodBinding)
+   public void setMethodExpression(MethodExpression methodExpression)
    {
-      this.methodBinding = methodBinding;
+      this.methodExpression = methodExpression;
    }
    
-   public ValueBinding getValueBinding()
+   public ValueExpression getValueExpression()
    {
-      return valueBinding;
+      return valueExpression;
    }
-   public void setValueBinding(ValueBinding valueBinding)
+   public void setValueExpression(ValueExpression valueExpression)
    {
-      this.valueBinding = valueBinding;
+      this.valueExpression = valueExpression;
    }
 
    public String getOutcome()

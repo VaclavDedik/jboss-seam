@@ -119,7 +119,7 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
       Object id;
       if ( Strings.isEmpty(paramName) )
       {
-         id = Expressions.instance().createValueBinding(el).getValue();
+         id = Expressions.instance().createValueExpression(el).getValue();
       }
       else
       {

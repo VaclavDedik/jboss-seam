@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import org.jboss.seam.core.Expressions.ValueBinding;
+import org.jboss.seam.core.Expressions.ValueExpression;
 
 import org.jboss.seam.core.Expressions;
 
 public class QueryParser
 {
-   private List<ValueBinding> parameterValueBindings = new ArrayList<ValueBinding>();
+   private List<ValueExpression> parameterValueBindings = new ArrayList<ValueExpression>();
    private StringBuilder ejbqlBuilder;
    
    public static String getParameterName(int loc)
@@ -23,7 +23,7 @@ public class QueryParser
       return ejbqlBuilder.toString();
    }
    
-   public List<ValueBinding> getParameterValueBindings()
+   public List<ValueExpression> getParameterValueBindings()
    {
       return parameterValueBindings;
    }
@@ -57,7 +57,7 @@ public class QueryParser
             }
             String expression = token + expressionToken + tokens.nextToken();
             ejbqlBuilder.append(':').append( getParameterName( startingParameterNumber + parameterValueBindings.size() ) );
-            parameterValueBindings.add( Expressions.instance().createValueBinding(expression) );
+            parameterValueBindings.add( Expressions.instance().createValueExpression(expression) );
          }
          else
          {

@@ -9,7 +9,7 @@ import javax.faces.model.DataModel;
 
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Transactional;
-import org.jboss.seam.core.Expressions.ValueBinding;
+import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.jsf.JsfProvider;
 import org.jboss.seam.persistence.QueryParser;
 
@@ -39,9 +39,9 @@ public abstract class Query<T>
    private DataModel dataModel;
    
    private String parsedEjbql;
-   private List<ValueBinding> queryParameters;
+   private List<ValueExpression> queryParameters;
    private List<String> parsedRestrictions;
-   private List<ValueBinding> restrictionParameters;
+   private List<ValueExpression> restrictionParameters;
    
    private List<Object> queryParameterValues;
    private List<Object> restrictionParameterValues;
@@ -136,7 +136,7 @@ public abstract class Query<T>
          
          List<String> restrictionFragments = getRestrictions();
          parsedRestrictions = new ArrayList<String>( restrictionFragments.size() );
-         restrictionParameters = new ArrayList<ValueBinding>( restrictionFragments.size() );         
+         restrictionParameters = new ArrayList<ValueExpression>( restrictionFragments.size() );         
          for ( String restriction: restrictionFragments )
          {
             QueryParser rqp = new QueryParser( restriction, queryParameters.size() + restrictionParameters.size() );            
@@ -262,17 +262,17 @@ public abstract class Query<T>
       this.order = order;
    }
    
-   protected List<ValueBinding> getQueryParameters()
+   protected List<ValueExpression> getQueryParameters()
    {
       return queryParameters;
    }
    
-   protected List<ValueBinding> getRestrictionParameters()
+   protected List<ValueExpression> getRestrictionParameters()
    {
       return restrictionParameters;
    }
    
-   private static boolean isAnyParameterDirty(List<ValueBinding> valueBindings, List<Object> lastParameterValues)
+   private static boolean isAnyParameterDirty(List<ValueExpression> valueBindings, List<Object> lastParameterValues)
    {
       if (lastParameterValues==null) return true;
       for (int i=0; i<valueBindings.size(); i++)
@@ -287,7 +287,7 @@ public abstract class Query<T>
       return false;
    }
    
-   private static List<Object> getParameterValues(List<ValueBinding> valueBindings)
+   private static List<Object> getParameterValues(List<ValueExpression> valueBindings)
    {
       List<Object> values = new ArrayList<Object>( valueBindings.size() );
       for (int i=0; i<valueBindings.size(); i++)

@@ -25,7 +25,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.core.Expressions.ValueBinding;
+import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.persistence.EntityManagerProxy;
@@ -52,7 +52,7 @@ public class ManagedPersistenceContext
    private EntityManager entityManager;
    private String persistenceUnitJndiName;
    private String componentName;
-   private ValueBinding<EntityManagerFactory> entityManagerFactory;
+   private ValueExpression<EntityManagerFactory> entityManagerFactory;
    private List<Filter> filters = new ArrayList<Filter>(0);
   
    public boolean clearDirty()
@@ -174,12 +174,12 @@ public class ManagedPersistenceContext
     * A value binding expression that returns an EntityManagerFactory,
     * for use of JPA outside of Java EE 5 / Embeddable EJB3.
     */
-   public ValueBinding<EntityManagerFactory> getEntityManagerFactory()
+   public ValueExpression<EntityManagerFactory> getEntityManagerFactory()
    {
       return entityManagerFactory;
    }
    
-   public void setEntityManagerFactory(ValueBinding<EntityManagerFactory> entityManagerFactory)
+   public void setEntityManagerFactory(ValueExpression<EntityManagerFactory> entityManagerFactory)
    {
       this.entityManagerFactory = entityManagerFactory;
    }

@@ -8,11 +8,11 @@ import java.util.List;
 
 import javax.faces.context.FacesContext;
 
-import org.jboss.seam.core.Expressions.ValueBinding;
+import org.jboss.seam.core.Expressions.ValueExpression;
 
 public final class Navigation
 {
-   private ValueBinding<Object> outcome;
+   private ValueExpression<Object> outcome;
    private List<Rule> rules = new ArrayList<Rule>();
    private Rule rule;
    
@@ -21,12 +21,12 @@ public final class Navigation
       return rules;
    }
    
-   public void setOutcome(ValueBinding<Object> outcomeValueBinding)
+   public void setOutcome(ValueExpression<Object> outcomeValueExpression)
    {
-      this.outcome = outcomeValueBinding;
+      this.outcome = outcomeValueExpression;
    }
    
-   public ValueBinding<Object> getOutcome()
+   public ValueExpression<Object> getOutcome()
    {
       return outcome;
    }

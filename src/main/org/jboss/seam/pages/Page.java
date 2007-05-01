@@ -224,9 +224,9 @@ public final class Page
             
             if (outcome==null)
             {
-               fromAction = action.getMethodBinding().getExpressionString();
+               fromAction = action.getMethodExpression().getExpressionString();
                result = true;
-               outcome = Pages.toString( action.getMethodBinding().invoke() );
+               outcome = Pages.toString( action.getMethodExpression().invoke() );
                Pages.handleOutcome(facesContext, outcome, fromAction);
             }
             else

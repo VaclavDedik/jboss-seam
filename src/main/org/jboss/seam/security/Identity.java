@@ -14,7 +14,6 @@ import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
-import javax.faces.context.FacesContext;
 import javax.security.auth.Subject;
 import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.CallbackHandler;
@@ -37,13 +36,13 @@ import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Events;
+import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Selector;
-import org.jboss.seam.core.Expressions.MethodBinding;
+import org.jboss.seam.core.Expressions.MethodExpression;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.util.Strings;
-import org.jboss.seam.util.UnifiedELValueBinding;
 
 @Name("org.jboss.seam.security.identity")
 @Scope(SESSION)
@@ -61,7 +60,7 @@ public class Identity extends Selector
    private String username;
    private String password;
    
-   private MethodBinding authenticateMethod;
+   private MethodExpression authenticateMethod;
 
    private Principal principal;   
    private Subject subject;
@@ -503,10 +502,8 @@ public class Identity extends Selector
     */
    protected boolean evaluateExpression(String expr) 
    {    
-      // The following line doesn't work because of a bug in MyFaces      
-      //return (Boolean) Expressions.instance().createValueBinding(expr).getValue();
-
-      return (Boolean) new UnifiedELValueBinding(expr).getValue( FacesContext.getCurrentInstance() );
+      // The following line doesn't work in MyFaces      
+      return Expressions.instance().createValueExpression(expr, Boolean.class).getValue();
    }   
    
    public String getUsername()
@@ -531,12 +528,12 @@ public class Identity extends Selector
       this.password = password;
    }
    
-   public MethodBinding getAuthenticateMethod()
+   public MethodExpression getAuthenticateMethod()
    {
       return authenticateMethod;
    }
    
-   public void setAuthenticateMethod(MethodBinding authMethod)
+   public void setAuthenticateMethod(MethodExpression authMethod)
    {
       this.authenticateMethod = authMethod;
    }

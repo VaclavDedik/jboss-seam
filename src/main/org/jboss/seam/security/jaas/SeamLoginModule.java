@@ -15,7 +15,7 @@ import javax.security.auth.callback.PasswordCallback;
 import javax.security.auth.login.LoginException;
 import javax.security.auth.spi.LoginModule;
 
-import org.jboss.seam.core.Expressions.MethodBinding;
+import org.jboss.seam.core.Expressions.MethodExpression;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.security.Identity;
@@ -97,7 +97,7 @@ public class SeamLoginModule implements LoginModule
          return false;
       }
       
-      MethodBinding mb = Identity.instance().getAuthenticateMethod();
+      MethodExpression mb = Identity.instance().getAuthenticateMethod();
       
       try
       {

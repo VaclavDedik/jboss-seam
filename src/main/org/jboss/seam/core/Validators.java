@@ -141,7 +141,7 @@ public class Validators
       }
       String modelExpression = propertyExpression.substring(0, dot) + '}';
       
-      Object model = context.getApplication().createValueBinding(modelExpression).getValue(context);
+      Object model = Expressions.instance().createValueExpression(modelExpression).getValue();
       ClassValidator validator = getValidator( model.getClass(), componentName );
       return validator.getPotentialInvalidValues(propertyName, value);
    }

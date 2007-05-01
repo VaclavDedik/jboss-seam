@@ -1,7 +1,7 @@
 package org.jboss.seam.mail;
 
-import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.InterceptionType.NEVER;
+import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.Serializable;
@@ -13,7 +13,6 @@ import javax.mail.Session;
 import javax.naming.NamingException;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.InterceptionType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;

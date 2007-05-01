@@ -93,12 +93,15 @@ public class StyleResource extends AbstractResource
       Matcher matcher =
           EL_PATTERN.matcher(string);
 
-      while (matcher.find()) {
-          Expressions.ValueBinding valueMethod = Expressions.instance().createValueBinding("#{"+matcher.group(1)+"}");
-          String result = (String)valueMethod.getValue();
-          if (result != null) {
+      while (matcher.find()) 
+      {
+          String result = Expressions.instance().createValueExpression("#{"+matcher.group(1)+"}", String.class).getValue();
+          if (result != null) 
+          {
               matcher.appendReplacement(parsed, result);
-          } else {
+          } 
+          else 
+          {
               matcher.appendReplacement(parsed, "");
           }
       }

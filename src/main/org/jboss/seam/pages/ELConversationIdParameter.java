@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.core.Expressions.ValueBinding;
+import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.util.Id;
 
 /**
@@ -17,7 +17,7 @@ public class ELConversationIdParameter implements ConversationIdParameter
 {
    private String name;
    private String parameterName;
-   private ValueBinding vb;
+   private ValueExpression vb;
    
    public ELConversationIdParameter(String name, String paramName, String expression)
    {
@@ -25,7 +25,7 @@ public class ELConversationIdParameter implements ConversationIdParameter
       this.parameterName = paramName;
       
       this.vb = expression != null ? 
-               Expressions.instance().createValueBinding(expression) : null;
+               Expressions.instance().createValueExpression(expression) : null;
    }
    
    public String getName()

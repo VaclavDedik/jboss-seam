@@ -13,7 +13,7 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.core.Mutable;
-import org.jboss.seam.core.Expressions.ValueBinding;
+import org.jboss.seam.core.Expressions.ValueExpression;
 
 /**
  * A conversation-scoped Drools WorkingMemory for a named RuleBase
@@ -29,7 +29,7 @@ public class ManagedWorkingMemory implements Mutable, Serializable
    
    private String ruleBaseName;
    private WorkingMemory workingMemory;
-   private ValueBinding<RuleBase> ruleBase;
+   private ValueExpression<RuleBase> ruleBase;
    public boolean clearDirty()
    {
       return true;
@@ -92,11 +92,11 @@ public class ManagedWorkingMemory implements Mutable, Serializable
    {
       workingMemory.dispose();
    }
-   public ValueBinding<RuleBase> getRuleBase()
+   public ValueExpression<RuleBase> getRuleBase()
    {
       return ruleBase;
    }
-   public void setRuleBase(ValueBinding<RuleBase> ruleBase)
+   public void setRuleBase(ValueExpression<RuleBase> ruleBase)
    {
       this.ruleBase = ruleBase;
    }

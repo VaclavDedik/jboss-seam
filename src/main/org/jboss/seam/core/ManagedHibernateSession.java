@@ -24,7 +24,7 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.core.Expressions.ValueBinding;
+import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.persistence.HibernateSessionProxy;
@@ -51,7 +51,7 @@ public class ManagedHibernateSession
    private Session session;
    private String sessionFactoryJndiName;
    private String componentName;
-   private ValueBinding<SessionFactory> sessionFactory;
+   private ValueExpression<SessionFactory> sessionFactory;
    private List<Filter> filters = new ArrayList<Filter>(0);
    
    public boolean clearDirty()
@@ -93,7 +93,7 @@ public class ManagedHibernateSession
    private void enableFilter(Filter f)
    {
       org.hibernate.Filter filter = session.enableFilter( f.getName() );
-      for ( Map.Entry<String, ValueBinding> me: f.getParameters().entrySet() )
+      for ( Map.Entry<String, ValueExpression> me: f.getParameters().entrySet() )
       {
          filter.setParameter( me.getKey(), me.getValue().getValue() );
       }
@@ -210,12 +210,12 @@ public class ManagedHibernateSession
     * A value binding expression that returns a SessionFactory,
     * if it is to be obtained as a Seam component reference
     */
-   public void setSessionFactory(ValueBinding<SessionFactory> sessionFactory)
+   public void setSessionFactory(ValueExpression<SessionFactory> sessionFactory)
    {
       this.sessionFactory = sessionFactory;
    }
 
-   public ValueBinding<SessionFactory> getSessionFactory()
+   public ValueExpression<SessionFactory> getSessionFactory()
    {
       return sessionFactory;
    }

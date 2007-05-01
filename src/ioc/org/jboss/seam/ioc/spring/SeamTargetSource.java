@@ -13,7 +13,7 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Mutable;
-import org.jboss.seam.core.Expressions.ValueBinding;
+import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.intercept.Proxy;
 import org.springframework.aop.TargetSource;
 
@@ -33,7 +33,7 @@ public class SeamTargetSource implements TargetSource, Serializable
 
    private Boolean create;
 
-   private ValueBinding valueBinding;
+   private ValueExpression valueExpression;
 
    private Class type;
 
@@ -64,7 +64,7 @@ public class SeamTargetSource implements TargetSource, Serializable
 
       if (name.startsWith("#"))
       {
-         this.valueBinding = Expressions.instance().createValueBinding(name);
+         this.valueExpression = Expressions.instance().createValueExpression(name);
       }
    }
 
@@ -75,9 +75,9 @@ public class SeamTargetSource implements TargetSource, Serializable
     */
    public Object getTarget() throws Exception
    {
-      if (valueBinding != null)
+      if (valueExpression != null)
       {
-         return valueBinding.getValue();
+         return valueExpression.getValue();
       }
       else
       {
@@ -153,7 +153,7 @@ public class SeamTargetSource implements TargetSource, Serializable
     */
    public Component getComponent()
    {
-      if (valueBinding != null)
+      if (valueExpression != null)
       {
          return null;
       }

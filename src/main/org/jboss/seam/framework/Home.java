@@ -9,7 +9,7 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Transactional;
-import org.jboss.seam.core.Expressions.ValueBinding;
+import org.jboss.seam.core.Expressions.ValueExpression;
 
 /**
  * Base class for components which provide persistence
@@ -29,7 +29,7 @@ public abstract class Home<T, E> extends MutableController<T>
    private Object id;
    protected E instance;
    private Class<E> entityClass;
-   protected ValueBinding newInstance;
+   protected ValueExpression newInstance;
 
    private String deletedMessage = "Successfully deleted";
    private String createdMessage = "Successfully created";
@@ -174,12 +174,12 @@ public abstract class Home<T, E> extends MutableController<T>
       this.instance = instance;
    }
 
-   public ValueBinding getNewInstance()
+   public ValueExpression getNewInstance()
    {
       return newInstance;
    }
 
-   public void setNewInstance(ValueBinding newInstance)
+   public void setNewInstance(ValueExpression newInstance)
    {
       this.newInstance = newInstance;
    }

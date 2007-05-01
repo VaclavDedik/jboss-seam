@@ -4,14 +4,14 @@
 package org.jboss.seam.pages;
 
 import org.jboss.seam.core.BusinessProcess;
-import org.jboss.seam.core.Expressions.ValueBinding;
+import org.jboss.seam.core.Expressions.ValueExpression;
 
 public class ProcessControl
 {
    private boolean isCreateProcess;
    private boolean isResumeProcess;
    private String definition;
-   private ValueBinding<Long> processId;
+   private ValueExpression<Long> processId;
 
    public void createOrResumeProcess()
    {
@@ -65,12 +65,12 @@ public class ProcessControl
       this.definition = definition;
    }
    
-   public ValueBinding<Long> getProcessId()
+   public ValueExpression<Long> getProcessId()
    {
       return processId;
    }
    
-   public void setProcessId(ValueBinding<Long> processId)
+   public void setProcessId(ValueExpression<Long> processId)
    {
       this.processId = processId;
    }

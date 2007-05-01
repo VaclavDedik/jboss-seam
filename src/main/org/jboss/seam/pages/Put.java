@@ -1,13 +1,13 @@
 package org.jboss.seam.pages;
 
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.core.Expressions.ValueBinding;
+import org.jboss.seam.core.Expressions.ValueExpression;
 
 public class Put
 {
    private String name;
    private ScopeType scope;
-   private ValueBinding value;
+   private ValueExpression value;
 
    public String getName()
    {
@@ -25,11 +25,11 @@ public class Put
    {
       this.scope = scope;
    }
-   public ValueBinding getValue()
+   public ValueExpression getValue()
    {
       return value;
    }
-   public void setValue(ValueBinding value)
+   public void setValue(ValueExpression value)
    {
       this.value = value;
    }

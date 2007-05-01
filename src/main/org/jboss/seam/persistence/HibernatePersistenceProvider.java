@@ -17,7 +17,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.core.Filter;
 import org.jboss.seam.core.ManagedPersistenceContext;
-import org.jboss.seam.core.Expressions.ValueBinding;
+import org.jboss.seam.core.Expressions.ValueExpression;
 
 /**
  * Support for non-standardized features of Hibernate, when
@@ -55,7 +55,7 @@ public class HibernatePersistenceProvider extends PersistenceProvider
    public void enableFilter(Filter f, EntityManager entityManager)
    {
       org.hibernate.Filter filter = getSession(entityManager).enableFilter( f.getName() );
-      for ( Map.Entry<String, ValueBinding> me: f.getParameters().entrySet() )
+      for ( Map.Entry<String, ValueExpression> me: f.getParameters().entrySet() )
       {
          filter.setParameter( me.getKey(), me.getValue().getValue() );
       }

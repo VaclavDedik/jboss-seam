@@ -89,8 +89,8 @@ import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Mutable;
-import org.jboss.seam.core.Expressions.MethodBinding;
-import org.jboss.seam.core.Expressions.ValueBinding;
+import org.jboss.seam.core.Expressions.MethodExpression;
+import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.databinding.DataBinder;
 import org.jboss.seam.databinding.DataSelector;
 import org.jboss.seam.ejb.SeamInterceptor;
@@ -1676,8 +1676,8 @@ public class Component extends Model
       else
       {
          Init.FactoryMethod factoryMethod = init.getFactory(name);
-         Init.FactoryBinding methodBinding = init.getFactoryMethodBinding(name);
-         Init.FactoryBinding valueBinding = init.getFactoryValueBinding(name);
+         Init.FactoryExpression methodBinding = init.getFactoryMethodExpression(name);
+         Init.FactoryExpression valueBinding = init.getFactoryValueExpression(name);
          if ( methodBinding!=null && getOutScope( methodBinding.getScope(), null ).isContextActive() ) //let the XML take precedence
          {
             Object result = methodBinding.getMethodBinding().invoke();
@@ -1878,7 +1878,7 @@ public class Component extends Model
          {
             log.debug("trying to inject with EL expression: " + name);
          }
-         result = Expressions.instance().createValueBinding(name).getValue();
+         result = Expressions.instance().createValueExpression(name).getValue();
       }
       else if ( in.scope()==UNSPECIFIED )
       {
@@ -2070,17 +2070,17 @@ public class Component extends Model
       public Object getValue(Class type)
       {
          Object value;
-         if ( type.equals(ValueBinding.class) )
+         if ( type.equals(ValueExpression.class) )
          {
-            value = createValueBinding();
+            value = createValueExpression();
          }
-         else if ( type.equals(MethodBinding.class) )
+         else if ( type.equals(MethodExpression.class) )
          {
-            value = createMethodBinding();
+            value = createMethodExpression();
          }
          else
          {
-            value = createValueBinding().getValue();
+            value = createValueExpression().getValue();
          }
 
          if (converter!=null && value instanceof String)
@@ -2097,14 +2097,14 @@ public class Component extends Model
          }
       }
 
-      private ValueBinding createValueBinding()
+      private ValueExpression createValueExpression()
       {
-         return Expressions.instance().createValueBinding(expression);
+         return Expressions.instance().createValueExpression(expression);
       }
 
-      private MethodBinding createMethodBinding()
+      private MethodExpression createMethodExpression()
       {
-         return Expressions.instance().createMethodBinding(expression);
+         return Expressions.instance().createMethodExpression(expression);
       }
 
       @Override

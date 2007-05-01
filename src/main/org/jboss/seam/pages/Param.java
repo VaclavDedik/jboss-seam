@@ -8,13 +8,13 @@ import java.util.Map;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 
-import org.jboss.seam.core.Expressions.ValueBinding;
+import org.jboss.seam.core.Expressions.ValueExpression;
 
 public final class Param
 {
    private final String name;
-   private ValueBinding valueBinding;
-   private ValueBinding converterValueBinding;
+   private ValueExpression valueExpression;
+   private ValueExpression converterValueExpression;
    private String converterId;
    
    public Param(String name)
@@ -28,17 +28,17 @@ public final class Param
       {
          return FacesContext.getCurrentInstance().getApplication().createConverter(converterId);
       }
-      else if (converterValueBinding!=null)
+      else if (converterValueExpression!=null)
       {
-         return (Converter) converterValueBinding.getValue();
+         return (Converter) converterValueExpression.getValue();
       }
-      else if (valueBinding==null)
+      else if (valueExpression==null)
       {
          return null;
       }
       else
       {
-         Class<?> type = valueBinding.getType();
+         Class<?> type = valueExpression.getType();
          return FacesContext.getCurrentInstance().getApplication().createConverter(type);           
       }
    }
@@ -48,24 +48,24 @@ public final class Param
       return name;
    }
 
-   public void setValueBinding(ValueBinding valueBinding)
+   public void setValueExpression(ValueExpression valueExpression)
    {
-      this.valueBinding = valueBinding;
+      this.valueExpression = valueExpression;
    }
 
-   public ValueBinding getValueBinding()
+   public ValueExpression getValueExpression()
    {
-      return valueBinding;
+      return valueExpression;
    }
 
-   public void setConverterValueBinding(ValueBinding converterValueBinding)
+   public void setConverterValueExpression(ValueExpression converterValueExpression)
    {
-      this.converterValueBinding = converterValueBinding;
+      this.converterValueExpression = converterValueExpression;
    }
 
-   public ValueBinding getConverterValueBinding()
+   public ValueExpression getConverterValueExpression()
    {
-      return converterValueBinding;
+      return converterValueExpression;
    }
 
    public void setConverterId(String converterId)
@@ -90,7 +90,7 @@ public final class Param
     */
    public Object getValueFromModel(FacesContext facesContext)
    {
-      Object value = getValueBinding().getValue();
+      Object value = getValueExpression().getValue();
       if (value==null)
       {
          return null;

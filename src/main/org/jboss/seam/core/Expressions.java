@@ -8,7 +8,8 @@ import static org.jboss.seam.util.EL.EXPRESSION_FACTORY;
 
 import java.io.Serializable;
 
-import javax.el.ValueExpression;
+import javax.el.ELContext;
+import javax.el.ExpressionFactory;
 import javax.faces.context.FacesContext;
 
 import org.hibernate.validator.ClassValidator;
@@ -20,7 +21,6 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.util.UnifiedELMethodBinding;
 
 /**
  * Factory for method and value bindings
@@ -35,159 +35,90 @@ public class Expressions
     implements Serializable
 {
    
-   public ValueBinding createValueBinding(final String expression)
+   public ExpressionFactory getExpressionFactory()
    {
-      
-      return new ValueBinding() 
+      FacesContext facesContext = FacesContext.getCurrentInstance();
+      return facesContext==null ? EXPRESSION_FACTORY : facesContext.getApplication().getExpressionFactory();
+   }
+   
+   public ELContext getELContext()
+   {
+      FacesContext facesContext = FacesContext.getCurrentInstance();
+      return facesContext==null ? EL_CONTEXT : facesContext.getELContext();
+   }
+   
+   public ValueExpression<Object> createValueExpression(String expression)
+   {
+      return createValueExpression(expression, Object.class);
+   }
+   
+   public MethodExpression<Object> createMethodExpression(String expression)
+   {
+      return createMethodExpression(expression, Object.class);
+   }
+   
+   public <T> ValueExpression<T> createValueExpression(final String expression, final Class<T> type)
+   {
+      //TODO: cache the VEs
+      return new ValueExpression<T>()
       {
-         private static final long serialVersionUID = -8655967672318993009L;
-         
-         private transient javax.faces.el.ValueBinding cachedValueBinding;
-         private transient ValueExpression cachedValueExpression;
-         
+         private javax.el.ValueExpression createExpression()
+         {
+            return getExpressionFactory().createValueExpression( getELContext(), expression, type );
+         }
+         public T getValue()
+         {
+            return (T) createExpression().getValue( getELContext() );
+         }
+         public void setValue(T value)
+         {
+            createExpression().setValue( getELContext(), value );
+         }
          public String getExpressionString()
          {
             return expression;
          }
-
-         public Class getType()
+         public Class<T> getType()
          {
-            if ( isFacesContext() )
-            {
-               return getFacesValueBinding().getType( FacesContext.getCurrentInstance() );
-            }
-            else
-            {
-               return getValueExpression().getType(EL_CONTEXT);
-            }
+            return (Class<T>) createExpression().getType( getELContext() );
          }
-
-         public Object getValue()
-         {
-            if ( isFacesContext() )
-            {
-               return getFacesValueBinding().getValue( FacesContext.getCurrentInstance() );
-            }
-            else
-            {
-               return getValueExpression().getValue(EL_CONTEXT);
-            }
-         }
-
-         public boolean isReadOnly()
-         {
-            if ( isFacesContext() )
-            {
-               return getFacesValueBinding().isReadOnly( FacesContext.getCurrentInstance() );
-            }
-            else
-            {
-               return getValueExpression().isReadOnly(EL_CONTEXT);
-            }
-         }
-
-         public void setValue(Object value)
-         {
-            if ( isFacesContext() )
-            {
-               getFacesValueBinding().setValue( FacesContext.getCurrentInstance(), value );
-            }
-            else
-            {
-               getValueExpression().setValue(EL_CONTEXT, value);
-            }
-         }
-         
-         boolean isFacesContext()
-         {
-            return FacesContext.getCurrentInstance()!=null;
-         }
-         
-         ValueExpression getValueExpression()
-         {
-            if (cachedValueExpression==null)
-            {
-               cachedValueExpression = EXPRESSION_FACTORY.createValueExpression(EL_CONTEXT, expression, Object.class);
-            }
-            return cachedValueExpression;
-         }
-
-         javax.faces.el.ValueBinding getFacesValueBinding()
-         {
-            if (cachedValueBinding==null)
-            {
-               cachedValueBinding = FacesContext.getCurrentInstance().getApplication().createValueBinding(expression);
-            }
-            return cachedValueBinding;
-         }
-         
-         @Override
-         public String toString()
-         {
-            return getExpressionString();
-         }
-      
       };
    }
    
-   public MethodBinding createMethodBinding(final String expression)
+   public <T> MethodExpression<T> createMethodExpression(final String expression, final Class<T> type, final Class... argTypes)
    {
-      return new MethodBinding() 
+      //TODO: cache the MEs
+      return new MethodExpression<T>()
       {
-         private static final long serialVersionUID = 7314202661786534543L;
-         
-         private transient javax.faces.el.MethodBinding cachedMethodBinding;
-
+         private javax.el.MethodExpression createExpression()
+         {
+            return getExpressionFactory().createMethodExpression( getELContext(), expression, type, argTypes );
+         }
+         public T invoke(Object... args)
+         {
+            return (T) createExpression().invoke( getELContext(), args );
+         }
          public String getExpressionString()
          {
             return expression;
          }
-
-         public Object invoke(Object... args)
-         {
-            return getFacesMethodBinding(args).invoke( FacesContext.getCurrentInstance(), args );
-         }
-         
-         public Object invoke(Class[] argTypes, Object... args)
-         {
-            return getFacesMethodBinding(argTypes, args).invoke(FacesContext.getCurrentInstance(), args);
-         }
-
-         private javax.faces.el.MethodBinding getFacesMethodBinding(Object... args)
-         {
-            Class[] types = new Class[args.length];
-            for (int i=0; i<args.length;i++)
-            {
-               if (args[i]==null)
-               {
-                  throw new IllegalArgumentException("Null parameter");
-               }
-               types[i] = args[i].getClass();
-            }
-            return getFacesMethodBinding(types, args);
-         }
-         
-         private javax.faces.el.MethodBinding getFacesMethodBinding(Class[] types, Object... args)
-         {
-            FacesContext context = FacesContext.getCurrentInstance();
-            if (cachedMethodBinding==null || (context == null && !(cachedMethodBinding instanceof UnifiedELMethodBinding)))
-            {     
-               cachedMethodBinding = context==null ? 
-                     new UnifiedELMethodBinding(expression, types) : 
-                     context.getApplication().createMethodBinding(expression, types);
-            }
-            return cachedMethodBinding;            
-         }
-         
-         @Override
-         public String toString()
-         {
-            return getExpressionString();
-         }
-      
       };
-      
    }
+   
+   public static interface ValueExpression<T> extends Serializable
+   {
+      public T getValue();
+      public void setValue(T value);
+      public String getExpressionString();
+      public Class<T> getType();
+   }
+   
+   public static interface MethodExpression<T> extends Serializable
+   {
+      public T invoke(Object... args);
+      public String getExpressionString();
+   }
+   
 
    /**
     * Validate that a value can be assigned to the property
@@ -226,7 +157,7 @@ public class Expressions
          modelExpression = propertyExpression.substring(0, bracket) + '}';
       }
       
-      Object modelInstance = createValueBinding(modelExpression).getValue(); //TODO: cache the ValueBinding object!
+      Object modelInstance = getExpressionFactory().createValueExpression( getELContext(), modelExpression, Object.class).getValue( getELContext() ); //TODO: cache the ValueBinding object!
       return getValidator(modelInstance, componentName).getPotentialInvalidValues(propertyName, value);
    }
    
@@ -248,22 +179,6 @@ public class Expressions
       }
       Component component = Component.forName(componentName);
       return ( component==null ? Model.forClass( instance.getClass() ) : component ).getValidator();
-   }
-
-   public static interface ValueBinding<T> extends Serializable
-   {
-       public String getExpressionString();
-       public Class<T> getType();
-       public T getValue();
-       public boolean isReadOnly();
-       public void setValue(T value);
-   }
-   
-   public static interface MethodBinding<T> extends Serializable
-   {
-      public String getExpressionString();
-      public T invoke(Object... args);
-      public T invoke(Class[] argTypes, Object... args);
    }
    
    public static Expressions instance()

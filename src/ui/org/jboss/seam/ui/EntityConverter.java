@@ -1,12 +1,11 @@
 package org.jboss.seam.ui;
 
 import static org.jboss.seam.InterceptionType.NEVER;
-import static org.jboss.seam.annotations.Install.BUILT_IN;
 import static org.jboss.seam.ScopeType.CONVERSATION;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.Serializable;
 
-import javax.faces.component.StateHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
@@ -19,7 +18,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.jsf.Converter;
-import org.jboss.seam.core.Expressions.ValueBinding;
+import org.jboss.seam.core.Expressions.ValueExpression;
 
 /**
  * Allows conversion of an entity to/from a key which can be written to a page.
@@ -35,7 +34,7 @@ public class EntityConverter implements
          javax.faces.convert.Converter, Serializable
 {
    
-   private ValueBinding<EntityManager> entityManager;
+   private ValueExpression<EntityManager> entityManager;
    private EntityConverterStore entityIdentifierStore;
 
    @Create
@@ -81,7 +80,7 @@ public class EntityConverter implements
       return entityIdentifierStore.get(new Integer(value));
    }
    
-   public void setEntityManager(ValueBinding<EntityManager> entityManager)
+   public void setEntityManager(ValueExpression<EntityManager> entityManager)
    {
       this.entityManager = entityManager;
    }

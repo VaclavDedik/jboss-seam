@@ -4,7 +4,7 @@
 package org.jboss.seam.pages;
 
 import org.jboss.seam.core.BusinessProcess;
-import org.jboss.seam.core.Expressions.ValueBinding;
+import org.jboss.seam.core.Expressions.ValueExpression;
 
 public class TaskControl
 {
@@ -15,7 +15,7 @@ public class TaskControl
 
    private boolean isEndTask;
 
-   private ValueBinding taskId;
+   private ValueExpression taskId;
 
    private String transition;
 
@@ -99,12 +99,12 @@ public class TaskControl
       this.isStartTask = isStartTask;
    }
 
-   public void setTaskId(ValueBinding<String> taskId)
+   public void setTaskId(ValueExpression<String> taskId)
    {
       this.taskId = taskId;
    }
 
-   public ValueBinding<String> getTaskId()
+   public ValueExpression<String> getTaskId()
    {
       return taskId;
    }

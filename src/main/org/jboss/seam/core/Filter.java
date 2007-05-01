@@ -8,7 +8,7 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.core.Expressions.ValueBinding;
+import org.jboss.seam.core.Expressions.ValueExpression;
 
 /**
  * Support for declarative application of
@@ -24,8 +24,8 @@ import org.jboss.seam.core.Expressions.ValueBinding;
 public class Filter
 {
    private String name;
-   private Map<String, ValueBinding> parameters;
-   private ValueBinding enabled;
+   private Map<String, ValueExpression> parameters;
+   private ValueExpression enabled;
    
    @Create
    public void create(Component component)
@@ -42,11 +42,11 @@ public class Filter
     * 
     * @see org.hibernate.Filter#setParameter(String, Object)
     */
-   public Map<String, ValueBinding> getParameters()
+   public Map<String, ValueExpression> getParameters()
    {
       return parameters;
    }
-   public void setParameters(Map<String, ValueBinding> parameters)
+   public void setParameters(Map<String, ValueExpression> parameters)
    {
       this.parameters = parameters;
    }
@@ -68,7 +68,7 @@ public class Filter
    
    public boolean isFilterEnabled()
    {
-      ValueBinding enabledValueBinding = getEnabled();
+      ValueExpression enabledValueBinding = getEnabled();
       if (enabledValueBinding==null)
       {
          return true;
@@ -86,12 +86,12 @@ public class Filter
       return "Filter(" + name + ")";
    }
 
-   public ValueBinding getEnabled()
+   public ValueExpression getEnabled()
    {
       return enabled;
    }
 
-   public void setEnabled(ValueBinding enabled)
+   public void setEnabled(ValueExpression enabled)
    {
       this.enabled = enabled;
    }

@@ -16,9 +16,9 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.core.Expressions.MethodBinding;
+import org.jboss.seam.core.Expressions.MethodExpression;
 import org.jboss.seam.core.Init.ObserverMethod;
-import org.jboss.seam.core.Init.ObserverMethodBinding;
+import org.jboss.seam.core.Init.ObserverMethodExpression;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.util.Resources;
@@ -46,19 +46,20 @@ public class Events
       }
    }
    
-   public void addListener(String type, String methodBindingExpression)
+   public void addListener(String type, String methodBindingExpression, Class... argTypes)
    {
-      MethodBinding methodBinding = Expressions.instance().createMethodBinding(methodBindingExpression);
-      Init.instance().addObserverMethodBinding(type, methodBinding);
+      MethodExpression methodBinding = Expressions.instance().createMethodExpression(methodBindingExpression, Object.class, argTypes);
+      Init.instance().addObserverMethodExpression(type, methodBinding);
    }
    
    public void raiseEvent(String type, Object... parameters)
    {
+      //TODO: find a way to map event parameters to params in an EL-defined listener
       log.debug("Processing event:" + type);
-      List<Init.ObserverMethodBinding> list = Init.instance().getObserverMethodBindings(type);
+      List<Init.ObserverMethodExpression> list = Init.instance().getObserverMethodExpressions(type);
       if (list!=null)
       {
-         for (ObserverMethodBinding listener: list )
+         for (ObserverMethodExpression listener: list )
          {
             listener.getMethodBinding().invoke(parameters);
          }

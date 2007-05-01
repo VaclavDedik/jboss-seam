@@ -7,6 +7,7 @@ package org.jboss.seam.init;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -18,7 +19,6 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeSet;
-import java.lang.reflect.Constructor;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
@@ -37,7 +37,6 @@ import org.jboss.seam.annotations.Roles;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Jbpm;
@@ -821,12 +820,12 @@ public class Initialization
       {
          if (factoryDescriptor.isValueBinding())
          {
-            init.addFactoryValueBinding(factoryDescriptor.getName(), factoryDescriptor.getValue(),
+            init.addFactoryValueExpression(factoryDescriptor.getName(), factoryDescriptor.getValue(),
                      factoryDescriptor.getScope());
          }
          else
          {
-            init.addFactoryMethodBinding(factoryDescriptor.getName(),
+            init.addFactoryMethodExpression(factoryDescriptor.getName(),
                      factoryDescriptor.getMethod(), factoryDescriptor.getScope());
          }
          if (factoryDescriptor.isAutoCreate())
@@ -839,7 +838,7 @@ public class Initialization
       {
          for (String expression: listenerDescriptor.getListenerMethodBindings())
          {
-            init.addObserverMethodBinding( listenerDescriptor.getType(), Expressions.instance().createMethodBinding(expression) );
+            init.addObserverMethodExpression( listenerDescriptor.getType(), Expressions.instance().createMethodExpression(expression) );
          }
       }
    }

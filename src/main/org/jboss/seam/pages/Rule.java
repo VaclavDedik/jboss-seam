@@ -8,12 +8,12 @@ import java.util.List;
 
 import javax.faces.context.FacesContext;
 
-import org.jboss.seam.core.Expressions.ValueBinding;
+import org.jboss.seam.core.Expressions.ValueExpression;
 
 public final class Rule
 {
    private String outcomeValue;
-   private ValueBinding condition;
+   private ValueExpression condition;
    private List<Output> outputs = new ArrayList<Output>();
    private ConversationControl conversationControl = new ConversationControl();
    private TaskControl taskControl = new TaskControl();
@@ -52,12 +52,12 @@ public final class Rule
       return processControl;
    }
 
-   public ValueBinding getCondition()
+   public ValueExpression getCondition()
    {
       return condition;
    }
 
-   public void setCondition(ValueBinding expression)
+   public void setCondition(ValueExpression expression)
    {
       this.condition = expression;
    }

@@ -1,4 +1,5 @@
 package org.jboss.seam.core;
+
 import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
@@ -34,8 +35,8 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.core.Expressions.MethodBinding;
-import org.jboss.seam.core.Expressions.ValueBinding;
+import org.jboss.seam.core.Expressions.MethodExpression;
+import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.pages.Action;
@@ -58,6 +59,7 @@ import org.jboss.seam.util.Parameters;
 import org.jboss.seam.util.Resources;
 import org.jboss.seam.util.Strings;
 import org.jboss.seam.util.XML;
+
 /**
  * Holds metadata for pages defined in pages.xml, including
  * page actions and page descriptions.
@@ -480,23 +482,21 @@ public class Pages
       
       boolean result = false;
       
-      String outcome = (String) facesContext.getExternalContext()
-            .getRequestParameterMap()
-            .get("actionOutcome");
+      String outcome = facesContext.getExternalContext()
+            .getRequestParameterMap().get("actionOutcome");
       String fromAction = outcome;
       
       if (outcome==null)
       {
-         String actionId = (String) facesContext.getExternalContext()
-               .getRequestParameterMap()
-               .get("actionMethod");
+         String actionId = facesContext.getExternalContext()
+               .getRequestParameterMap().get("actionMethod");
          if (actionId!=null)
          {
             if ( !SafeActions.instance().isActionSafe(actionId) ) return result;
             String expression = SafeActions.toAction(actionId);
             result = true;
-            MethodBinding actionBinding = Expressions.instance().createMethodBinding(expression);
-            outcome = toString( actionBinding.invoke() );
+            MethodExpression actionExpression = Expressions.instance().createMethodExpression(expression);
+            outcome = toString( actionExpression.invoke() );
             fromAction = expression;
             handleOutcome(facesContext, outcome, fromAction);
          }
@@ -552,15 +552,15 @@ public class Pages
       {
          for ( Param pageParameter: page.getParameters() )
          {
-            ValueBinding valueBinding = pageParameter.getValueBinding();
+            ValueExpression valueExpression = pageParameter.getValueExpression();
             Object value;
-            if (valueBinding==null)
+            if (valueExpression==null)
             {
                value = Contexts.getPageContext().get( pageParameter.getName() );
             }
             else
             {
-               value = valueBinding.getValue();
+               value = valueExpression.getValue();
             }
             if (value!=null)
             {
@@ -605,8 +605,8 @@ public class Pages
     */
    private Object getPageParameterValue(FacesContext facesContext, Param pageParameter)
    {
-      ValueBinding valueBinding = pageParameter.getValueBinding();
-      if (valueBinding==null)
+      ValueExpression valueExpression = pageParameter.getValueExpression();
+      if (valueExpression==null)
       {
          return Contexts.getPageContext().get( pageParameter.getName() );
       }
@@ -656,13 +656,13 @@ public class Pages
       {
          for ( Param pageParameter: page.getParameters() )
          {         
-            ValueBinding valueBinding = pageParameter.getValueBinding();
-            if (valueBinding!=null)
+            ValueExpression valueExpression = pageParameter.getValueExpression();
+            if (valueExpression!=null)
             {
                Object object = Contexts.getPageContext().get( pageParameter.getName() );
                if (object!=null)
                {
-                  valueBinding.setValue(object);
+                  valueExpression.setValue(object);
                }
             }
          }
@@ -945,7 +945,7 @@ public class Pages
       {
          Input input = new Input();
          input.setName( child.attributeValue("name") );
-         input.setValue( Expressions.instance().createValueBinding( child.attributeValue("value") ) );
+         input.setValue( Expressions.instance().createValueExpression( child.attributeValue("value") ) );
          String scopeName = child.attributeValue("scope");
          if (scopeName!=null)
          {
@@ -964,8 +964,7 @@ public class Pages
       if (methodExpression==null) return null;
       if ( methodExpression.startsWith("#{") )
       {
-         MethodBinding methodBinding = Expressions.instance().createMethodBinding(methodExpression);
-         action.setMethodBinding(methodBinding);
+         action.setMethodExpression( Expressions.instance().createMethodExpression(methodExpression) );
       }
       else
       {
@@ -974,7 +973,7 @@ public class Pages
       String expression = element.attributeValue("if");
       if (expression!=null)
       {
-         action.setValueBinding( Expressions.instance().createValueBinding(expression) );
+         action.setValueExpression( Expressions.instance().createValueExpression(expression) );
       }
       return action;
    }
@@ -994,7 +993,7 @@ public class Pages
          String expression = endConversation.attributeValue("if");
          if (expression!=null)
          {
-            control.setEndConversationCondition( Expressions.instance().createValueBinding(expression) );
+            control.setEndConversationCondition( Expressions.instance().createValueExpression(expression, Boolean.class) );
          }
       }
       
@@ -1015,7 +1014,7 @@ public class Pages
          String expression = beginConversation.attributeValue("if");
          if (expression!=null)
          {
-            control.setBeginConversationCondition( Expressions.instance().createValueBinding(expression) );
+            control.setBeginConversationCondition( Expressions.instance().createValueExpression(expression, Boolean.class) );
          }
       }
       
@@ -1046,7 +1045,7 @@ public class Pages
          {
            taskId = "#{param.taskId}";
          }
-         control.setTaskId( Expressions.instance().createValueBinding(taskId) );
+         control.setTaskId( Expressions.instance().createValueExpression(taskId, String.class) );
       }
       
       Element startTask = element.element("start-task");
@@ -1058,7 +1057,7 @@ public class Pages
          {
            taskId = "#{param.taskId}";
          }
-         control.setTaskId( Expressions.instance().createValueBinding(taskId) );
+         control.setTaskId( Expressions.instance().createValueExpression(taskId, String.class) );
       }
       
       if ( control.isBeginTask() && control.isEndTask() )
@@ -1096,7 +1095,7 @@ public class Pages
          {
            processId = "#{param.processId}";
          }
-         control.setProcessId( Expressions.instance().createValueBinding(processId) );
+         control.setProcessId( Expressions.instance().createValueExpression(processId, Long.class) );
       }
       
       if ( control.isCreateProcess() && control.isResumeProcess() )
@@ -1114,7 +1113,7 @@ public class Pages
       String outcomeExpression = element.attributeValue("evaluate");
       if (outcomeExpression!=null)
       {
-         navigation.setOutcome( Expressions.instance().createValueBinding(outcomeExpression) );
+         navigation.setOutcome( Expressions.instance().createValueExpression(outcomeExpression) );
       }
       
       List<Element> cases = element.elements("rule");
@@ -1170,13 +1169,13 @@ public class Pages
       Param param = new Param(name);
       if (valueExpression!=null)
       {
-         param.setValueBinding(Expressions.instance().createValueBinding(valueExpression));
+         param.setValueExpression(Expressions.instance().createValueExpression(valueExpression));
       }
       param.setConverterId(element.attributeValue("converterId"));
       String converterExpression = element.attributeValue("converter");
       if (converterExpression!=null)
       {
-         param.setConverterValueBinding(Expressions.instance().createValueBinding(converterExpression));
+         param.setConverterValueExpression(Expressions.instance().createValueExpression(converterExpression));
       }
       return param;
    }
@@ -1192,7 +1191,7 @@ public class Pages
       String expression = element.attributeValue("if");
       if (expression!=null)
       {
-         rule.setCondition( Expressions.instance().createValueBinding(expression)  );
+         rule.setCondition( Expressions.instance().createValueExpression(expression)  );
       }
       
       parseConversationControl( element, rule.getConversationControl() );
@@ -1245,7 +1244,7 @@ public class Pages
       {
          Output output = new Output();
          output.setName( child.attributeValue("name") );
-         output.setValue( Expressions.instance().createValueBinding( child.attributeValue("value") ) );
+         output.setValue( Expressions.instance().createValueExpression( child.attributeValue("value") ) );
          String scopeName = child.attributeValue("scope");
          if (scopeName==null)
          {

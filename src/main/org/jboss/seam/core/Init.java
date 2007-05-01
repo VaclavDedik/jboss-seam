@@ -23,8 +23,8 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.core.Expressions.MethodBinding;
-import org.jboss.seam.core.Expressions.ValueBinding;
+import org.jboss.seam.core.Expressions.MethodExpression;
+import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.util.Transactions;
 
 /**
@@ -50,10 +50,10 @@ public class Init
    //private String transactionManagerName;
    
    private Map<String, List<ObserverMethod>> observerMethods = new HashMap<String, List<ObserverMethod>>();
-   private Map<String, List<ObserverMethodBinding>> observerMethodBindings = new HashMap<String, List<ObserverMethodBinding>>();
+   private Map<String, List<ObserverMethodExpression>> observerMethodBindings = new HashMap<String, List<ObserverMethodExpression>>();
    private Map<String, FactoryMethod> factories = new HashMap<String, FactoryMethod>();
-   private Map<String, FactoryBinding> factoryMethodBindings = new HashMap<String, FactoryBinding>();
-   private Map<String, FactoryBinding> factoryValueBindings = new HashMap<String, FactoryBinding>();
+   private Map<String, FactoryExpression> factoryMethodExpressions = new HashMap<String, FactoryExpression>();
+   private Map<String, FactoryExpression> factoryValueExpressions = new HashMap<String, FactoryExpression>();
    
    private Set<String> autocreateVariables = new HashSet<String>();
    private Set<String> installedFilters = new HashSet<String>();
@@ -137,25 +137,26 @@ public class Init
       }
    }
    
-   public static class FactoryBinding {
+   public static class FactoryExpression 
+   {
       private String expression;
       private ScopeType scope;
       
-      FactoryBinding(String expression, ScopeType scope)
+      FactoryExpression(String expression, ScopeType scope)
       {
          this.expression = expression;
          this.scope = scope;
       }
       
-      public MethodBinding getMethodBinding()
+      public MethodExpression getMethodBinding()
       {
          //TODO: figure out some way to cache this!!
-         return Expressions.instance().createMethodBinding(expression);
+         return Expressions.instance().createMethodExpression(expression);
       }
-      public ValueBinding getValueBinding()
+      public ValueExpression getValueBinding()
       {
          //TODO: figure out some way to cache this!!
-         return Expressions.instance().createValueBinding(expression);
+         return Expressions.instance().createValueExpression(expression);
       }
       public ScopeType getScope()
       {
@@ -173,19 +174,19 @@ public class Init
       return factories.get(variable);
    }
    
-   public FactoryBinding getFactoryMethodBinding(String variable)
+   public FactoryExpression getFactoryMethodExpression(String variable)
    {
-      return factoryMethodBindings.get(variable);
+      return factoryMethodExpressions.get(variable);
    }
    
-   public FactoryBinding getFactoryValueBinding(String variable)
+   public FactoryExpression getFactoryValueExpression(String variable)
    {
-      return factoryValueBindings.get(variable);
+      return factoryValueExpressions.get(variable);
    }
    
    private void checkDuplicateFactory(String variable)
    {
-      if ( factories.containsKey(variable) || factoryMethodBindings.containsKey(variable) || factoryValueBindings.containsKey(variable) )
+      if ( factories.containsKey(variable) || factoryMethodExpressions.containsKey(variable) || factoryValueExpressions.containsKey(variable) )
       {
          //throw new IllegalStateException("duplicate factory for: " + variable);
       }
@@ -197,16 +198,16 @@ public class Init
 	   factories.put( variable, new FactoryMethod(method, component) );
    }
 
-   public void addFactoryMethodBinding(String variable, String methodBindingExpression, ScopeType scope)
+   public void addFactoryMethodExpression(String variable, String methodBindingExpression, ScopeType scope)
    {
       checkDuplicateFactory(variable);
-      factoryMethodBindings.put( variable, new FactoryBinding(methodBindingExpression, scope) );
+      factoryMethodExpressions.put( variable, new FactoryExpression(methodBindingExpression, scope) );
    }
    
-   public void addFactoryValueBinding(String variable, String valueBindingExpression, ScopeType scope)
+   public void addFactoryValueExpression(String variable, String valueBindingExpression, ScopeType scope)
    {
       checkDuplicateFactory(variable);
-      factoryValueBindings.put( variable, new FactoryBinding(valueBindingExpression, scope) );
+      factoryValueExpressions.put( variable, new FactoryExpression(valueBindingExpression, scope) );
    }
    
    public static class ObserverMethod 
@@ -244,16 +245,16 @@ public class Init
       }
    }
    
-   public static class ObserverMethodBinding
+   public static class ObserverMethodExpression
    {
-      private MethodBinding methodBinding;
+      private MethodExpression methodBinding;
       
-      ObserverMethodBinding(MethodBinding method)
+      ObserverMethodExpression(MethodExpression method)
       {
          this.methodBinding = method;
       }
 
-      public MethodBinding getMethodBinding()
+      public MethodExpression getMethodBinding()
       {
          return methodBinding;
       }
@@ -270,7 +271,7 @@ public class Init
       return observerMethods.get(eventType);
    }
    
-   public List<ObserverMethodBinding> getObserverMethodBindings(String eventType)
+   public List<ObserverMethodExpression> getObserverMethodExpressions(String eventType)
    {
       return observerMethodBindings.get(eventType);
    }
@@ -286,15 +287,15 @@ public class Init
       observerList.add( new ObserverMethod(method, component, create) );
    }
    
-   public void addObserverMethodBinding(String eventType, MethodBinding methodBinding)
+   public void addObserverMethodExpression(String eventType, MethodExpression methodBinding)
    {
-      List<ObserverMethodBinding> observerList = observerMethodBindings.get(eventType);
+      List<ObserverMethodExpression> observerList = observerMethodBindings.get(eventType);
       if (observerList==null)
       {
-         observerList = new ArrayList<ObserverMethodBinding>();
+         observerList = new ArrayList<ObserverMethodExpression>();
          observerMethodBindings.put(eventType, observerList);
       }
-      observerList.add( new ObserverMethodBinding(methodBinding) );
+      observerList.add( new ObserverMethodExpression(methodBinding) );
    }
    
    public boolean isJbpmInstalled()

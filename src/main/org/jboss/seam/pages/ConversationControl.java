@@ -6,7 +6,7 @@ package org.jboss.seam.pages;
 import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Pageflow;
-import org.jboss.seam.core.Expressions.ValueBinding;
+import org.jboss.seam.core.Expressions.ValueExpression;
 
 public class ConversationControl
 {
@@ -18,8 +18,8 @@ public class ConversationControl
    private boolean nested;
    private FlushModeType flushMode;
    private String pageflow;
-   private ValueBinding<Boolean> beginConversationCondition;
-   private ValueBinding<Boolean> endConversationCondition;
+   private ValueExpression<Boolean> beginConversationCondition;
+   private ValueExpression<Boolean> endConversationCondition;
    
    public boolean isBeginConversation()
    {
@@ -133,22 +133,22 @@ public class ConversationControl
       this.isEndConversationBeforeRedirect = isEndConversationBeforeRedirect;
    }
 
-   public ValueBinding<Boolean> getBeginConversationCondition()
+   public ValueExpression<Boolean> getBeginConversationCondition()
    {
       return beginConversationCondition;
    }
 
-   public void setBeginConversationCondition(ValueBinding<Boolean> beginConversationCondition)
+   public void setBeginConversationCondition(ValueExpression<Boolean> beginConversationCondition)
    {
       this.beginConversationCondition = beginConversationCondition;
    }
 
-   public ValueBinding<Boolean> getEndConversationCondition()
+   public ValueExpression<Boolean> getEndConversationCondition()
    {
       return endConversationCondition;
    }
 
-   public void setEndConversationCondition(ValueBinding<Boolean> endConversationCondition)
+   public void setEndConversationCondition(ValueExpression<Boolean> endConversationCondition)
    {
       this.endConversationCondition = endConversationCondition;
    }
