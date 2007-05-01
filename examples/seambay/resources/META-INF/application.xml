@@ -26,7 +26,11 @@
   </module>
 
   <module>
-      <java>jboss-el.jar</java>
+    <java>jboss-el.jar</java>
+  </module>
+  
+  <module>
+    <java>jbpm-3.1.4.jar</java>
   </module>
   
 </application>

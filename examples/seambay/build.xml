@@ -12,6 +12,7 @@
     <property name="example.seam.ui.lib"     value="yes"/>
     <property name="example.jcaptcha.lib"    value="yes"/>
     <property name="example.urlrewrite.lib"  value="yes"/>
+    <property name="example.jbpm.lib"        value="yes"/>    
     <property name="example.ds"              value="seambay-ds.xml"/>
     <property name="src.java.dir"            value="src"/>
     <property name="src.test.dir"            value="src"/>

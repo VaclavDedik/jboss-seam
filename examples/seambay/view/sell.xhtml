@@ -10,15 +10,44 @@
     <title>seamBay</title>
     <link href="style/home.css" rel="stylesheet" type="text/css"/>
     <link href="style/common.css" rel="stylesheet" type="text/css"/>
+    <link href="style/sell.css" rel="stylesheet" type="text/css"/>
   </head>
 
   <body>
     <div class="container">
-      <ui:include src="header.xhtml"/>  
-      
+      <ui:include src="header.xhtml"/>
+
       <div class="banner"></div>
-     
-      Sell stuff here
+
+      <div class="content">
+        <div class="sellHeader">
+          List a new item for sale
+        </div>
+
+        <div class="sellSubHeader">
+          Enter the details below then click next
+        </div>
+
+        <h:form>
+
+          <s:validateAll>
+            <div class="formRow">
+              <h:outputLabel for="title">Enter a title for your auction</h:outputLabel>
+              <h:inputText id="title" value="#{auction.title}" required="true"/>
+              <div class="validationError"><h:message for="title"/></div>
+            </div>
+
+          </s:validateAll>
+
+          <h:commandButton action="next" value="Next >"/>
+
+          <hr class="thinLine"/>
+
+          <hr class="baseLine"/>
+
+        </h:form>
+
+      </div>
 
     </div>
   </body>

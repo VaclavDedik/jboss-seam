@@ -4,17 +4,15 @@
 
 <pages login-view-id="/login.xhtml">
 
+    <conversation name="createAuction"
+                  parameter-name="auctionid"
+                  parameter-value="#{auction.auctionId}"/>
+
     <page view-id="/search.xhtml">
         <param name="categoryId" value="#{auctionSearch.selectedCategoryId}"/>
     </page>
 
-    <page view-id="/home.xhtml">
-        <navigation from-action="#{identity.login}">
-            <rule if="#{s:hasRole('user')}">
-                <redirect view-id="/profile.xhtml"/>
-            </rule>
-        </navigation>
-        
+    <page view-id="/home.xhtml">        
         <navigation from-action="#{register.start}">
           <redirect view-id="/register.xhtml"/>
         </navigation>
@@ -28,12 +26,40 @@
         <param name="id" value="#{auctionDetail.selectedAuctionId}"/>
     </page>
     
-    <page view-id="/sell.xhtml" login-required="true">
+    <page view-id="/sell.xhtml" 
+          login-required="true"       
+          action="#{auctionAction.createAuction}">    
+        <navigation from-action="next">
+            <redirect view-id="/sell2.xhtml"/>
+        </navigation>          
+        
+        <navigation from-action="#{identity.logout}">
+            <redirect view-id="/home.xhtml"/>
+        </navigation>
+    </page>
     
+    <page view-id="/sell2.xhtml" login-required="true" conversation="createAuction">
+
     </page>
     
     <page view-id="/feedback.xhtml">
         <param name="member" value="#{memberAction.memberName}"/>
+    </page>
+    
+    <page view-id="/login.xhtml">
+        <navigation from-action="#{identity.login}">
+            <rule if="#{identity.loggedIn}">
+                <redirect view-id="/home.xhtml"/>
+            </rule>
+        </navigation>
+    </page>
+    
+    <page view-id="/register.xhtml" action="#{registerAction.newRegistration}">
+        <navigation from-action="#{registerAction.register}">
+            <rule if="#{identity.loggedIn}">
+                <redirect view-id="/home.xhtml"/>
+            </rule>
+        </navigation>
     </page>
     
     <page view-id="*">
@@ -43,7 +69,7 @@
     </page>
           
     <exception class="org.jboss.seam.security.NotLoggedInException">
-        <redirect view-id="/register.xhtml">
+        <redirect view-id="/login.xhtml">
             <message severity="warn">You must be logged in to use this feature</message>
         </redirect>
     </exception>

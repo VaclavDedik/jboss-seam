@@ -7,7 +7,7 @@
   <ui:composition>
     
     <div id="header">
-      <div class="seambay-logo"></div>
+      <s:link view="/home.xhtml" propagation="none"><div class="seambay-logo"></div></s:link>
     
       <div class="header_tools_top">
         <div class="header_links">
@@ -25,7 +25,7 @@
       <div class="header_tools_bottom">    
         <div>          
           <s:link view="/buy.xhtml" value="Buy" styleClass="header_action"
-          /><s:link view="/sell.xhtml" value="Sell" styleClass="header_action"
+          /><s:link view="/sell.xhtml" value="Sell" styleClass="header_action" propagation="none"
           /><s:link view="/help.xhtml" value="Help" styleClass="header_action"/>
         </div>       
 
@@ -40,7 +40,8 @@
     </s:fragment>
     
     <s:fragment rendered="#{identity.loggedIn}">
-      Hello, #{authenticatedAccount.name}.
+      Hello, #{authenticatedAccount.name}. 
+      <span>(</span><s:link action="#{identity.logout}" value="Sign out"/><span>)</span>
     </s:fragment>
     
   </ui:composition>

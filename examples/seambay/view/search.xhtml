@@ -62,9 +62,11 @@
       	  </h:column>
       		<h:column>
       			<f:facet name="header">Item</f:facet>
-      			<s:link view="/auction.xhtml" value="#{auction.title}" propagation="none">
-      			  <f:param name="id" value="#{auction.auctionId}"/>
-      			</s:link>
+
+            <h:outputLink value="#{facesContext.externalContext.requestContextPath}/itemdetail/#{auction.auctionId}">
+              #{auction.title}
+            </h:outputLink>
+      			
       		</h:column>
       		<h:column>
       			<f:facet name="header">Bids</f:facet>

@@ -11,7 +11,7 @@ import org.jboss.seam.security.Identity;
 @Stateless
 @WebService
 public class AuctionService implements AuctionServiceRemote
-{      
+{         
    @WebMethod
    public boolean login(String username, String password)
    {

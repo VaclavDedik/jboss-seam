@@ -6,9 +6,14 @@
 
 <urlrewrite>
 
-    <rule>
-       <from>^/feedback/([A-Za-z0-9]*)$</from>
-       <to last="true">/feedback.seam?member=$1</to>
-    </rule>
+   <rule>
+     <from>^/feedback/([A-Za-z0-9]*)$</from>
+     <to last="true">/feedback.seam?member=$1</to>
+   </rule>
+    
+   <rule>
+     <from>^/itemdetail/([0-9]*)$</from>
+     <to last="true">/auction.seam?id=$1</to>
+   </rule>
 
 </urlrewrite>

@@ -6,8 +6,15 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+
+import org.hibernate.validator.Length;
+import org.hibernate.validator.NotNull;
+import org.hibernate.validator.Pattern;
 
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = "name"))
 public class Account implements Serializable
 {
    private static final long serialVersionUID = 8444287111124328025L;
@@ -30,6 +37,10 @@ public class Account implements Serializable
       this.accountId = accountId;
    }
    
+   @NotNull
+   @Length(min = 3, max = 40)
+   @Pattern(regex="[a-zA-Z]?[a-zA-Z0-9]+", 
+         message="Account name must start with a letter, and only contain letters or numbers")   
    public String getName()
    {
       return name;

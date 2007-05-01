@@ -1,0 +1,36 @@
+div.content {
+  margin: 16px 8px 16px 8px;
+  font-family: arial, helvetica, sans-serif;
+  font-size: 13px;
+}
+
+div.sellHeader {
+  background-color: #d6d6ff;
+  padding: 2px 8px 2px 24px;
+  border-top: 2px solid #9999cc;
+  border-bottom: 2px solid #9999cc;
+  font-family: arial, helvetica, sans-serif;
+  font-weight: bold;  
+  font-size: 16px;
+}
+
+div.sellSubHeader {
+  background-color: #eeeeff;
+  font-family: arial, helvetica, sans-serif;
+  font-size: 13px;
+  padding-left: 24px;
+}
+
+hr.thinLine {
+  border: 0px;
+  border-top: 1px solid #cccccc;
+  margin-top: 6px;
+  margin-bottom: 32px;
+}
+
+hr.baseLine {
+  border: 0px;
+  margin-top: 4px;
+  margin-bottom: 8px;
+  border-top: 2px solid #9999cc;
+}

@@ -7,10 +7,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
+import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
+import org.hibernate.validator.Pattern;
 
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = "username"))
 public class User implements Serializable
 {   
    private static final long serialVersionUID = 1L;
@@ -31,6 +36,10 @@ public class User implements Serializable
       this.userId = userId;
    }
    
+   @NotNull
+   @Length(min = 3, max = 40)
+   @Pattern(regex="[a-zA-Z]?[a-zA-Z0-9]+", 
+         message="Username must start with a letter, and only contain letters or numbers")   
    public String getUsername()
    {
       return username;

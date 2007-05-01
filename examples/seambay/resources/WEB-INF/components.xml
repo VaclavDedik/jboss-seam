@@ -18,6 +18,12 @@
                   concurrent-request-timeout="500"
                   conversation-id-parameter="cid"
                   conversation-is-long-running-parameter="clr"/>
+                  
+    <core:jbpm>
+        <core:pageflow-definitions>
+            <value>createauction.jpdl.xml</value>
+        </core:pageflow-definitions>
+    </core:jbpm>
     
     <security:identity authenticate-method="#{authenticator.authenticate}"/>
     

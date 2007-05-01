@@ -1,0 +1,28 @@
+<pageflow-definition xmlns="http://jboss.com/products/seam/pageflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://jboss.com/products/seam/pageflow http://jboss.com/products/seam/pageflow-1.2.xsd"
+	name="createAuction">
+
+  <start-page name="selectCategory" view-id="/sell.xhtml">
+    <redirect/>
+    <transition name="next" to="enterDetails"/>
+  </start-page>
+  
+  <page name="enterDetails" view-id="/sell2.xhtml">
+    <redirect/>
+    
+    <transition name="next" to="confirm"/>
+    <transition name="previous" to="selectCategory"/>
+  </page>
+  
+  <page name="confirm" view-id="/confirm.xhtml">
+    <redirect/>
+    
+    <transition name="finish" to="summary">
+      <action expression="#{auctionAction.confirm}"/>
+    </transition>
+    <transition name="previous" to="enterDetails"/>
+  </page>
+
+
+</pageflow-definition>
