@@ -44,9 +44,13 @@ public class ITextUtils {
      * return a color value from a string specification.  
      */ 
     public static Color colorValue(String colorName) {
+        if (colorName == null) {
+            return null;
+        }
+        
     	Color color = colorMap.get(colorName.toLowerCase());
     	if (color == null) {
-    	  color = Color.decode(colorName);
+    	    color = Color.decode(colorName);
     	}
     	return color;
     }

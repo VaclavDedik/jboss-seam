@@ -1,12 +1,19 @@
 package org.jboss.seam.pdf.ui;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Paint;
+import java.awt.Stroke;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
+import org.jboss.seam.pdf.ITextUtils;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.Plot;
 import org.jfree.data.general.Dataset;
 
 import com.lowagie.text.*;
@@ -14,15 +21,25 @@ import com.lowagie.text.pdf.DefaultFontMapper;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfWriter;
-import com.sun.javadoc.Doc;
 
 public abstract class UIChart 
     extends ITextComponent 
 {
     Image image = null;
     float height = 300;
-    float width  = 400;
-
+    float width  = 400;    
+    
+    String borderBackgroundPaint;
+    String borderPaint;
+    String borderStroke;
+    boolean borderVisible = true;
+    
+    String plotBackgroundPaint;
+    Float  plotBackgroundAlpha;
+    Float  plotForegroundAlpha;
+    String plotOutlineStroke; 
+    String plotOutlinePaint;
+    
     public void setHeight(float height) {
         this.height = height;
     }
@@ -31,15 +48,128 @@ public abstract class UIChart
         this.width = width;
     }
     
-    public abstract JFreeChart getChart(FacesContext context);
+    public void setBorderBackgroundPaint(String backgroundPaint) {
+        this.borderBackgroundPaint = backgroundPaint;
+    }
     
+    public String getBorderBackgroundPaint() {
+        return (String) valueBinding(FacesContext.getCurrentInstance(), "backgroundPaint", borderBackgroundPaint);
+    }
+    
+    public void setBorderPaint(String borderPaint) {
+        this.borderPaint = borderPaint;
+    }
+    
+    public String getBorderPaint() {
+        return (String) valueBinding(FacesContext.getCurrentInstance(), "borderPaint", borderPaint);
+    }
+    
+    public void setBorderStroke(String borderStroke) {
+        this.borderStroke = borderStroke;
+    }
+    
+    public String getBorderStroke() {
+        return (String) valueBinding(FacesContext.getCurrentInstance(), "borderStroke", borderStroke);
+    }
+    
+    public void setBorderVisible(boolean borderVisible) {
+        this.borderVisible = borderVisible;
+    }
+    
+    public boolean getBorderVisible() {
+        return (Boolean) valueBinding(FacesContext.getCurrentInstance(), "borderVisible", borderVisible);
+    }
+    
+
+    public void setPlotBackgroundAlpha(Float plotBackgroundAlpha) {
+        this.plotBackgroundAlpha = plotBackgroundAlpha;
+    }
+
+    public Float getPlotBackgroundAlpha() {
+        return (Float) valueBinding(FacesContext.getCurrentInstance(), "plotBackgroundAlpha", plotBackgroundAlpha);     
+    }
+   
+    public void setPlotBackgroundPaint(String plotBackgroundPaint) {
+        this.plotBackgroundPaint = plotBackgroundPaint;
+    }
+    
+    public String getPlotBackgroundPaint() {
+        return (String) valueBinding(FacesContext.getCurrentInstance(), "plotBackgroundPaint", plotBackgroundPaint);
+    }
+
+    public void setPlotForegroundAlpha(Float plotForegroundAlpha) {
+        this.plotForegroundAlpha = plotForegroundAlpha;
+    }
+    public Float getPlotForegroundAlpha() {
+        return (Float) valueBinding(FacesContext.getCurrentInstance(), "plotForegroundAlpha", plotForegroundAlpha);
+    }
+
+    public void setPlotOutlinePaint(String plotOutlinePaint) {
+        this.plotOutlinePaint = plotOutlinePaint;
+    }
+    
+    public String getPlotOutlinePaint() {
+        return (String) valueBinding(FacesContext.getCurrentInstance(), "plotOutlinePaint", plotOutlinePaint);    
+    }
+    
+    public void setPlotOutlineStroke(String plotOutlineStroke) {
+        this.plotOutlineStroke = plotOutlineStroke;
+    }
+    
+    public String getPlotOutlineStroke() {
+        return (String) valueBinding(FacesContext.getCurrentInstance(), "plotOutlineStroke", plotOutlineStroke);
+    }   
+    
+    public Paint findColor(String name) {
+        UIComponent component = FacesContext.getCurrentInstance().getViewRoot().findComponent(name);
+        
+        if (component != null) {
+            if (component instanceof UIColor) {                
+                return ((UIColor) component).getPaint();
+            } else {
+                throw new RuntimeException();                
+            }            
+        }
+        
+        return ITextUtils.colorValue(name);        
+    }
+    
+    private Stroke findStroke(String id) {
+        UIComponent component = FacesContext.getCurrentInstance().getViewRoot().findComponent(id);
+
+        if (component instanceof UIStroke) {
+
+            return ((UIStroke) component).getStroke();
+        } else {
+            throw new RuntimeException();                
+
+        }
+    }
+    
+    public abstract JFreeChart getChart(FacesContext context);
+        
     @Override
-    public void createITextObject(FacesContext context) {
+    public void createITextObject(FacesContext context) {             
         JFreeChart chart = getChart(context);
-               
+                
+        if (borderBackgroundPaint != null) {
+            chart.setBackgroundPaint(findColor(getBorderBackgroundPaint()));
+        }
+        
+        if (borderPaint != null) {
+            chart.setBorderPaint(findColor(getBorderPaint()));
+        }
+
+        if (borderStroke != null) {
+            chart.setBorderStroke(findStroke(getBorderStroke()));
+        }
+
+        chart.setBorderVisible(getBorderVisible());      
+        
+        configurePlot(chart.getPlot());         
+        
         height = (Float) valueBinding(context, "height", height);
         width =  (Float) valueBinding(context, "width", width);        
-
         
         try { 
             UIDocument doc = (UIDocument) findITextParent(getParent(), UIDocument.class);
@@ -47,21 +177,46 @@ public abstract class UIChart
             PdfContentByte cb = writer.getDirectContent(); 
             PdfTemplate tp = cb.createTemplate(width, height); 
             Graphics2D g2 = tp.createGraphics(width, height, new DefaultFontMapper());             
-            chart.draw(g2, new Rectangle2D.Double(0, 0, width, height) ); 
+            chart.draw(g2, new Rectangle2D.Double(0, 0, width, height)); 
             g2.dispose(); 
             
             image = new ImgTemplate(tp);
         } catch (Exception e) {             
             throw new RuntimeException(e);
         } 
-
-    }     
+    }   
     
+   
+
+    public void configurePlot(Plot plot) {   
+        if (plotBackgroundAlpha != null) {
+            plot.setBackgroundAlpha(plotBackgroundAlpha);
+        }
+        
+        if (plotForegroundAlpha != null) {
+            plot.setForegroundAlpha(plotForegroundAlpha);          
+        }
+        
+        if (plotBackgroundPaint != null) {
+            plot.setBackgroundPaint(findColor(plotBackgroundPaint));
+        }
+        
+        if (plotOutlinePaint != null) {
+            plot.setOutlinePaint(findColor(plotOutlinePaint));
+        }
+        
+        if (plotOutlineStroke != null) { 
+            plot.setOutlineStroke(findStroke(plotOutlineStroke));
+        }        
+    }
+    
+    
+            
     @Override
     public void encodeBegin(FacesContext context) 
         throws IOException
     {       
-        // bypass super to avoid createITextObject()
+        // bypass super to avoid createITextObject() before the chart is ready
         createDataset();
     }
     
@@ -93,6 +248,4 @@ public abstract class UIChart
     
     public abstract void createDataset();
     public abstract Dataset getDataset();
-
-
 }

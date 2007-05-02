@@ -4,6 +4,7 @@ import javax.faces.context.FacesContext;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
@@ -83,6 +84,11 @@ public class UILineChart
         }
     }
 
+    @Override
+    public void configurePlot(Plot plot) {
+        
+    }
+    
     @Override
     public Dataset getDataset() {        
         return dataset;

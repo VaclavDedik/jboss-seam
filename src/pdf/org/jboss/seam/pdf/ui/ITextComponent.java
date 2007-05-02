@@ -1,10 +1,9 @@
 package org.jboss.seam.pdf.ui;
 
+import javax.el.ValueExpression;
 import javax.faces.*;
 import javax.faces.context.*;
 import javax.faces.component.*;
-import javax.faces.el.ValueBinding;
-
 import java.io.*;
 import java.util.List;
 
@@ -141,10 +140,10 @@ public abstract class ITextComponent
                                String property, 
                                Object defaultValue) {
         Object value = defaultValue; 
-        ValueBinding binding = getValueBinding(property);
+        ValueExpression expression = getValueExpression(property);
 
-        if (binding != null) {
-            value = binding.getValue(context);
+        if (expression != null) {
+            value = expression.getValue(context.getELContext());
         }
         return value;
     }

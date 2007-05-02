@@ -4,6 +4,7 @@ import javax.faces.context.FacesContext;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.Plot;
 import org.jfree.data.general.Dataset;
 import org.jfree.data.general.DefaultPieDataset;
 
@@ -17,6 +18,7 @@ public class UIPieChart
     boolean legend;
     boolean tooltips;
     boolean urls;
+    boolean is3D = false;
         
     public void setTitle(String title) {
         this.title = title;
@@ -34,6 +36,10 @@ public class UIPieChart
         this.urls = urls;
     }
     
+    public void setIs3D(boolean is3D) {
+        this.is3D = true;
+    }
+    
     @Override
     public void createDataset() {
         data = new DefaultPieDataset();
@@ -44,7 +50,12 @@ public class UIPieChart
         return data;
     }
     
+    @Override
+    public void configurePlot(Plot plot) {
+        super.configurePlot(plot);
+    }
     
+
     
     @Override
     public JFreeChart getChart(FacesContext context) {         
@@ -52,7 +63,11 @@ public class UIPieChart
         tooltips = (Boolean) valueBinding(context, "tooltips", tooltips);
         urls = (Boolean) valueBinding(context, "urls", urls);
         
-        return ChartFactory.createPieChart(title, data, legend, tooltips, urls);
+        if (!is3D) {
+            return ChartFactory.createPieChart(title, data, legend, tooltips, urls);
+        } else {
+            return ChartFactory.createPieChart3D(title, data, legend, tooltips, urls);
+        }
     }
 
     public void restoreState(FacesContext context, Object state) {

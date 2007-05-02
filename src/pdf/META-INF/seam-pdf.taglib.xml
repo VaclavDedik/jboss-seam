@@ -147,13 +147,6 @@
     </tag>
 
     <tag>
-        <tag-name>piechart3d</tag-name>
-        <component>
-            <component-type>org.jboss.seam.pdf.ui.UIPieChart3D</component-type>
-        </component>
-    </tag>
-
-    <tag>
         <tag-name>barchart</tag-name>
         <component>
             <component-type>org.jboss.seam.pdf.ui.UIBarChart</component-type>
@@ -171,6 +164,20 @@
         <tag-name>data</tag-name>
         <component>
             <component-type>org.jboss.seam.pdf.ui.UIChartData</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <tag-name>color</tag-name>
+        <component>
+            <component-type>org.jboss.seam.pdf.ui.UIColor</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <tag-name>stroke</tag-name>
+        <component>
+            <component-type>org.jboss.seam.pdf.ui.UIStroke</component-type>
         </component>
     </tag>
 
