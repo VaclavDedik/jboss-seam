@@ -15,7 +15,14 @@ public class EnumerationEnumeration<T> implements Enumeration<T>
 
    public boolean hasMoreElements()
    {
-      return isNextEnumerationAvailable() || currentHasMoreElements();
+      for (int i = loc; i < enumerations.length; i++)
+      {
+         if (enumerations[i].hasMoreElements())
+         {
+            return true;
+         }
+      }
+      return false;
    }
 
    public T nextElement()
