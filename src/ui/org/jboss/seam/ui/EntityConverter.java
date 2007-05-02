@@ -88,30 +88,4 @@ public class EntityConverter implements
    private EntityManager getEntityManager() {
       return entityManager == null ? null : entityManager.getValue();
    }
-   
-   /*private boolean _transient;
-
-   public boolean isTransient()
-   {
-      return _transient;
-   }
-
-   public void restoreState(FacesContext context, Object object)
-   {
-      Object[] state = (Object[]) object;
-      entityManager = (ValueBinding<EntityManager>) state[0];
-      
-   }
-
-   public Object saveState(FacesContext context)
-   {
-      Object[] state = new Object[1];
-      state[0] = entityManager;
-      return state;
-   }
-
-   public void setTransient(boolean newTransientValue)
-   {
-     this._transient = newTransientValue;
-   }*/
 }
