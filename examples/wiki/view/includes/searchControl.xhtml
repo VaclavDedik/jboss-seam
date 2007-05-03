@@ -7,12 +7,14 @@
 
     <h:form>
         <h:panelGroup styleClass="searchControlTable">
-            <h:inputText styleClass="searchControlInput" id="searchControlSearchString" value="#{nodeSearch.searchTerm}"
+            <h:inputText styleClass="searchControlInput" id="searchControlSearchString" value="#{nodeSearch.query}"
                          onclick="clickClear(this, 'Search...')" onblur="clickRecall(this, 'Search...')"
-                         size="15" maxlength="255" tabindex="60"/>
-            <h:commandLink styleClass="searchControlLink" tabindex="61" accesskey="F" action="#{nodeSearch.search}"><u>F</u>ind</h:commandLink>
+                         size="15" maxlength="1000" tabindex="60"/>
+            <h:commandLink styleClass="searchControlLink" tabindex="61" accesskey="F"
+                           action="search">
+                <u>F</u>ind
+            </h:commandLink>
         </h:panelGroup>
-
     </h:form>
 
 </div>

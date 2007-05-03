@@ -133,7 +133,7 @@
             <classpath refid="build.classpath"/>
         </taskdef>
 
-        <instrument verbose="true">
+        <instrument verbose="false">
             <fileset dir="${classes.dir}/org/jboss/seam/wiki/core/model">
                 <include name="*.class"/>
             </fileset>
@@ -203,11 +203,6 @@
         <copy todir="${exploded.war.dir}/WEB-INF/lib">
             <fileset dir="${local.lib.dir}">
                 <exclude name="hibernate-tools*"/>
-                <!--
-                <exclude name="ejb3*"/>
-                <exclude name="jboss*"/>
-                <exclude name="ehcache*"/>
-                -->
             </fileset>
         </copy>
 
@@ -275,7 +270,6 @@
     <target name="deploy" depends="explodewar"
             description="Deploy datasource and exploded WAR to JBoss AS">
         <fail unless="jboss.home">jboss.home not set</fail>
-        <echo>Make sure you use JBoss AS 4.2 CR2 and upgrade the Hibernate JARs!</echo>
 
         <!-- ######## Datasoure ######## -->
         <copy todir="${deploy.dir}">

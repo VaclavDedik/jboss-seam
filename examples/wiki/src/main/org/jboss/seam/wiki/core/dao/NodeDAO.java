@@ -268,23 +268,22 @@ public class NodeDAO {
         return null;
     }
 
-    public List<Node> search(String searchTerm) {
+    /*
+    http://lucene.apache.org/java/docs/queryparsersyntax.html
 
-        System.out.println("######### GOT HIBERNATE SESSION");
+    http://www.atlassian.com/software/jira/docs/v3.8/querysyntax.html
+     */
+    public List<Node> search(String searchTerm) throws ParseException {
+
+        // Remove () parenthesis
+        searchTerm = searchTerm.replaceAll("\\(", "\\(");
+        searchTerm = searchTerm.replaceAll("\\)", "\\)");
+
         FullTextSession session = Search.createFullTextSession(getSession());
-        System.out.println("######### GOT FT SESSION");
         QueryParser parser = new QueryParser("Document", new StandardAnalyzer());
-        System.out.println("######### GOT PARSER");
-        try {
-            System.out.println("######### PARSING");
-            org.apache.lucene.search.Query query = parser.parse("content: " + searchTerm);
-            System.out.println("######### QUERYING");
-            //noinspection unchecked
-            return session.createFullTextQuery(query).list();
-        } catch (ParseException e) {
-            // TODO: We need to talk to the lucene guys, this is ridiculous
-            throw new RuntimeException(e);
-        }
+        org.apache.lucene.search.Query query = parser.parse("name:(" + searchTerm + ") OR content:(" + searchTerm + ")");
+        //noinspection unchecked
+        return session.createFullTextQuery(query).list();
     }
     
     public Map<Long,Long> findCommentCount(Directory directory) {

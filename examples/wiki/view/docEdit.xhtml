@@ -7,6 +7,7 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:a="https://ajax4jsf.dev.java.net/ajax"
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
+                xmlns:j4j="http://javascript4jsf.dev.java.net/"
                 xmlns:rich="http://richfaces.ajax4jsf.org/rich"
                 template="themes/#{wikiPreferences.themeName}/template.xhtml">
 
@@ -107,21 +108,30 @@
                     <s:decorate>
                         <div class="entry">
                             <div class="label">Content:</div>
-                            <s:div styleClass="input" id="content">
-                                <h:inputTextarea tabindex="3" required="true"
-                                                 cols="#{docEditorPreferences.properties['regularEditAreaColumns']}"
-                                                 rows="#{docEditorPreferences.properties['regularEditAreaRows']}"
-                                                 id="contentNoPreview"
-                                                 rendered="#{!documentHome.enabledPreview}"
-                                                 value="#{documentHome.formContent}"/>
-                                <h:inputTextarea tabindex="3" required="true"
-                                                 cols="#{docEditorPreferences.properties['previewEditAreaColumns']}"
-                                                 rows="#{docEditorPreferences.properties['previewEditAreaRows']}"
-                                                 id="contentWithPreview"
-                                                 rendered="#{documentHome.enabledPreview}"
-                                                 value="#{documentHome.formContent}">
-                                    <a:support event="onkeyup" reRender="preview,attachmentDisplay" requestDelay="3000" eventQueue="editKeyPress"/>
-                                </h:inputTextarea>
+                            <s:div styleClass="input">
+
+                                <script type="text/javascript">$(function() {
+                                    $("#contentTextEdit").Resizable({
+                                        minHeight: 50,
+                                        handlers: {
+                                            s: '#contentTextEditResizeHandle'
+                                        },
+                                        onResize: function(size) {
+                                            $("textarea", this).css({ height: size.height + "px" });
+                                        }
+                                    });
+                                });</script>
+                                <div id="contentTextEdit">
+                                    <h:inputTextarea tabindex="3" required="true"
+                                                     cols="#{docEditorPreferences.properties['regularEditAreaColumns']}"
+                                                     rows="#{docEditorPreferences.properties['regularEditAreaRows']}"
+                                                     id="contentTextArea"
+                                                     value="#{documentHome.formContent}">
+                                        <a:support event="onkeyup" reRender="preview" requestDelay="3000" eventQueue="editKeyPress"/>
+                                    </h:inputTextarea>
+                                    <div id="contentTextEditResizeHandle"/>
+                                </div>
+
                             </s:div>
                         </div>
                     </s:decorate>
@@ -130,7 +140,7 @@
                         <div class="label">&#160;</div>
                         <div class="input">
                             <h:selectBooleanCheckbox value="#{documentHome.enabledPreview}" tabindex="3">
-                                <a:support event="onchange" reRender="preview,attachmentDisplay,content,pluginSwitch"/>
+                                <a:support event="onchange" reRender="preview,pluginSwitch"/>
                             </h:selectBooleanCheckbox>
                             Show interactive preview
                         </div>

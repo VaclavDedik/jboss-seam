@@ -168,6 +168,12 @@
 
     </page>
 
+    <page view-id="/search.xhtml" action="#{browser.captureConversationEntryPoint}">
+        <param name="query" value="#{nodeSearch.query}"/>
+        <begin-conversation join="true"/>
+        <description>Search</description>
+    </page>
+
     <page view-id="/userHome.xhtml" action="#{browser.captureConversationEntryPoint}">
         <description>Managing Member Account</description>
         <navigation from-action="#{userHome.persist}">
@@ -251,6 +257,15 @@
                 <begin-conversation flush-mode="MANUAL"/>
                 <redirect view-id="/adminHome.xhtml">
                     <param name="lastConversationId" value="#{param.lastConversationId}"/>
+                </redirect>
+            </rule>
+
+
+            <!-- Click on 'Find' starts a new root conversation -->
+            <rule if-outcome="search">
+                <redirect view-id="/search.xhtml">
+                    <param name="conversationPropagation" value="#{'none'}"/>
+                    <param name="lastConversationId" value="#{conversation.id}"/>
                 </redirect>
             </rule>
 

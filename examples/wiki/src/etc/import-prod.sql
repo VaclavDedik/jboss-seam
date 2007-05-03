@@ -35,8 +35,6 @@ insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, BOOLEAN_VALUE)  values (9, 0, 'docEditorPreferences', 'minorRevisionEnabled', true)
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (10, 0, 'docEditorPreferences', 'regularEditAreaRows', '25')
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (11, 0, 'docEditorPreferences', 'regularEditAreaColumns', '80')
-insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (12, 0, 'docEditorPreferences', 'previewEditAreaRows', '7')
-insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (13, 0, 'docEditorPreferences', 'previewEditAreaColumns', '80')
 
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, STRING_VALUE)   values (14, 0, 'userManagementPreferences', 'activationCodeSalt', 'MySecretSalt123')
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, STRING_VALUE)   values (15, 0, 'userManagementPreferences', 'passwordRegex', '^[0-9A-Za-z]{6,15}')

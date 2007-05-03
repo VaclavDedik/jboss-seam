@@ -21,20 +21,12 @@ public class DocumentEditorPreferences extends PreferenceSupport implements Seri
     @Preference(description = "01. Enable 'Minor Revision' checkbox by default", visibility = PreferenceVisibility.USER)
     private Boolean minorRevisionEnabled;
 
-    @Preference(description = "02. Rows shown in text editor (with disabled preview)", visibility = PreferenceVisibility.SYSTEM)
+    @Preference(description = "02. Rows shown in text editor by default", visibility = PreferenceVisibility.SYSTEM)
     @Range(min = 5l, max = 100l)
     private Long regularEditAreaRows;
 
-    @Preference(description = "03. Columns shown in text editor (with disabled preview)", visibility = PreferenceVisibility.USER)
+    @Preference(description = "03. Columns shown in text editor", visibility = PreferenceVisibility.USER)
     @Range(min = 5l, max = 250l)
     private Long regularEditAreaColumns;
-
-    @Preference(description = "04. Rows shown in text editor (with enabled preview)", visibility = PreferenceVisibility.USER)
-    @Range(min = 5l, max = 100l)
-    private Long previewEditAreaRows;
-
-    @Preference(description = "05. Columns shown in text editor (with enabled preview)", visibility = PreferenceVisibility.USER)
-    @Range(min = 5l, max = 250l)
-    private Long previewEditAreaColumns;
 
 }

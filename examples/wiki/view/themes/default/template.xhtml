@@ -26,7 +26,29 @@
                 thisfield.value = defaulttext;
             }
         }
+        function jsf(id) {
+            // Find the dynamic JSF client identifier by looking up
+            // the static identifier of its j4j proxy child element
+            var realId = document.getElementById(id).title;
+            var element = document.getElementById(realId);
+            return $(element);
+        }
     </script>
+    <script type="text/javascript" src="#{themePath}/js/jquery.js"></script>
+    <script type="text/javascript" src="#{themePath}/js/interface.js"></script>
+    <script type="text/javascript">$(function() {
+/* jQuery example
+        jsf("documentDisplay_").find("a").hover(
+            function() {
+                $(this).parents("div").css("background", "lightGreen")
+            },
+            function() {
+                $(this).parents("div").css("background", "white")
+            }
+        );
+        */
+
+    });</script>
 </head>
 
 <body>
@@ -111,6 +133,11 @@
 
     <div id="footer">
         <ui:insert name="footer"/>
+        <div align="right" style="font-size:smaller;">
+            LaceWiki is using
+            <a href="http://www.jboss.com/products/seam">JBoss Seam</a> and
+            running on <a href="http://www.jboss.org/products/jbossas">JBoss Application Server</a>.
+        </div>
     </div>
 
     <!-- Remove this to disable Facelets JSF debugging

@@ -7,6 +7,7 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:a="https://ajax4jsf.dev.java.net/ajax"
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
+                xmlns:j4j="http://javascript4jsf.dev.java.net/"
                 template="themes/#{wikiPreferences.themeName}/template.xhtml">
 
 <ui:define name="includeHeaders">
@@ -46,6 +47,7 @@
 <ui:define name="content">
 
     <s:div id="documentDisplay" styleClass="documentDisplay">
+        <j4j:idProxy id="documentDisplay_" />
         <s:div rendered="#{currentDocument.nameAsTitle}"><h1 class="documentTitle">#{currentDocument.name}</h1></s:div>
         <wiki:formattedText value="#{currentDocument.content}"
                             linkStyleClass="regularLink"
@@ -58,8 +60,6 @@
         <ui:include src="includes/commentForm.xhtml"/>
 
     </s:div>
-
-
 
 </ui:define>
 

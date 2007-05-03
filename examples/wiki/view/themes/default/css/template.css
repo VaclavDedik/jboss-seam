@@ -721,3 +721,20 @@ ul {
     border: 1px dashed black;
     padding: 2px;
 }
+
+
+/* Document editor
+-----------------------------------------------*/
+
+#contentTextEdit {
+    margin-left: 12%;
+    margin-bottom: 15px;
+}
+
+#contentTextEditResizeHandle {
+    width: 25px;
+    height: 10px;
+    background: #bbb url(../img/icon.textareasize.gif) 0 0 no-repeat;
+    cursor: s-resize;
+    position: absolute;
+}

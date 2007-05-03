@@ -52,6 +52,7 @@ public abstract class Node implements Serializable {
     @Column(name = "NAME", length = 255, nullable = false)
     @Length(min = 3, max = 255)
     @Pattern(regex="[a-zA-Z]?.+", message="Name must start with a letter")
+    @org.hibernate.search.annotations.Field(index = org.hibernate.search.annotations.Index.TOKENIZED)
     protected String name;
 
     @Column(name = "WIKINAME", length = 255, nullable = false)

@@ -143,8 +143,8 @@
            maxElementsInMemory="1000"
            eternal="false"
            overflowToDisk="false"
-           timeToIdleSeconds="1000"
-           timeToLiveSeconds="6000"
+           timeToIdleSeconds="86400"
+           timeToLiveSeconds="259200"
            diskPersistent="false"
            memoryStoreEvictionPolicy="LRU"/>
 
@@ -152,8 +152,8 @@
            maxElementsInMemory="5000"
            eternal="false"
            overflowToDisk="false"
-           timeToIdleSeconds="1000"
-           timeToLiveSeconds="6000"
+           timeToIdleSeconds="86400"
+           timeToLiveSeconds="259200"
            diskPersistent="false"
            memoryStoreEvictionPolicy="LRU"/>
 

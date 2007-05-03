@@ -63,7 +63,7 @@
     only works after you saved the document you placed it on.
 </s:div>
 
-<h:panelGrid columns="5"
+<h:panelGrid columns="5" rendered="#{blogDirectory.totalRowCount > blogDirectoryPreferences.properties['pageSize']}"
              styleClass="blogPagerTable"
              columnClasses="blogPagerColumn, blogPagerColumn, blogPagerTextColumn, blogPagerColumn, blogPagerColumn, "
              cellpadding="0" cellspacing="0" border="0">

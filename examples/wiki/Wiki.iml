@@ -269,15 +269,6 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/javax.servlet.jsp.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
           <root url="jar://$MODULE_DIR$/../../lib/commons-digester-1.6.jar!/" />
         </CLASSES>
         <JAVADOC />
@@ -857,11 +848,6 @@
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib/itext-2.0.1.jar" />
       <url>jar://$MODULE_DIR$/../../lib/itext-2.0.1.jar!/</url>
-    </containerElement>
-    <containerElement type="library" level="module">
-      <attribute name="method" value="0" />
-      <attribute name="URI" value="&lt;N/A&gt;" />
-      <url>jar://$MODULE_DIR$/../../lib/javax.servlet.jsp.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />
