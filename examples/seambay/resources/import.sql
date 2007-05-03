@@ -1,18 +1,87 @@
 insert into category (categoryId, name) values (1, 'Antiques');
+  insert into category (categoryId, name, parent_category_id) values (1001, 'Furniture', 1);
+  insert into category (categoryId, name, parent_category_id) values (1002, 'Silverware', 1);  
+
 insert into category (categoryId, name) values (2, 'Art');
+  insert into category (categoryId, name, parent_category_id) values (2001, 'Paintings', 2);
+  insert into category (categoryId, name, parent_category_id) values (2002, 'Prints', 2);
+  insert into category (categoryId, name, parent_category_id) values (2003, 'Sculptures', 2);
+
 insert into category (categoryId, name) values (3, 'Books');
+  insert into category (categoryId, name, parent_category_id) values (3001, 'Fiction', 3);
+  insert into category (categoryId, name, parent_category_id) values (3002, 'Non Fiction', 3);
+  insert into category (categoryId, name, parent_category_id) values (3003, 'Comic Books', 3);
+  insert into category (categoryId, name, parent_category_id) values (3004, 'Children', 3);
+  
 insert into category (categoryId, name) values (4, 'Cameras and Photography');
+  insert into category (categoryId, name, parent_category_id) values (4001, 'Digital Cameras', 4);
+  insert into category (categoryId, name, parent_category_id) values (4002, 'Memory Cards', 4);
+  insert into category (categoryId, name, parent_category_id) values (4003, 'Film Cameras', 4);
+  insert into category (categoryId, name, parent_category_id) values (4004, 'Video Cameras', 4);
+  
 insert into category (categoryId, name) values (5, 'Cars and Boats');
+  insert into category (categoryId, name, parent_category_id) values (5001, 'Cars', 5);
+  insert into category (categoryId, name, parent_category_id) values (5002, 'Motorcycles', 5);
+  insert into category (categoryId, name, parent_category_id) values (5003, 'Car Parts', 5);
+
 insert into category (categoryId, name) values (6, 'Cell Phones');
+  insert into category (categoryId, name, parent_category_id) values (6001, 'Mobile Phones', 6);
+  insert into category (categoryId, name, parent_category_id) values (6002, 'Mobile Accessories', 6);
+  insert into category (categoryId, name, parent_category_id) values (6003, 'Prepaid cards', 6);
+
 insert into category (categoryId, name) values (7, 'Clothing and Shoes');
+  insert into category (categoryId, name, parent_category_id) values (7001, 'Women', 7);
+  insert into category (categoryId, name, parent_category_id) values (7002, 'Men', 7);
+  insert into category (categoryId, name, parent_category_id) values (7003, 'Girls', 7);
+  insert into category (categoryId, name, parent_category_id) values (7004, 'Boys', 7);
+  insert into category (categoryId, name, parent_category_id) values (7005, 'Babies', 7);
+
 insert into category (categoryId, name) values (8, 'Computers');
-insert into category (categoryId, name) values (9, 'CDs and DVDs');
-insert into category (categoryId, name) values (10, 'Home Theatre');
+  insert into category (categoryId, name, parent_category_id) values (8001, 'Notebooks', 8);
+  insert into category (categoryId, name, parent_category_id) values (8002, 'Desktop PCs', 8);
+  insert into category (categoryId, name, parent_category_id) values (8003, 'Servers', 8);
+  insert into category (categoryId, name, parent_category_id) values (8004, 'Hardware', 8);
+  insert into category (categoryId, name, parent_category_id) values (8005, 'Software', 8);
+  
+insert into category (categoryId, name) values (9, 'Music');
+  insert into category (categoryId, name, parent_category_id) values (9001, 'CDs', 9);
+  insert into category (categoryId, name, parent_category_id) values (9002, 'Records', 9);
+
+insert into category (categoryId, name) values (10, 'Electronics');
+  insert into category (categoryId, name, parent_category_id) values (10001, 'Home Audio', 10);
+  insert into category (categoryId, name, parent_category_id) values (10002, 'MP3 Players', 10);
+  insert into category (categoryId, name, parent_category_id) values (10003, 'Television', 10);
+  insert into category (categoryId, name, parent_category_id) values (10004, 'Home theatre', 10);
+
 insert into category (categoryId, name) values (11, 'Home and Garden');
+  insert into category (categoryId, name, parent_category_id) values (11001, 'Kitchen', 11);
+  insert into category (categoryId, name, parent_category_id) values (11002, 'Real Estate', 11);
+  insert into category (categoryId, name, parent_category_id) values (11003, 'Furniture', 11);
+
 insert into category (categoryId, name) values (12, 'Musical Instruments');
+  insert into category (categoryId, name, parent_category_id) values (12001, 'Guitars', 12);
+  insert into category (categoryId, name, parent_category_id) values (12002, 'Pianos and Keyboards', 12);
+  insert into category (categoryId, name, parent_category_id) values (12003, 'Percussion', 12);
+  insert into category (categoryId, name, parent_category_id) values (12004, 'Orchestral', 12);
+
 insert into category (categoryId, name) values (13, 'Sporting goods');
+  insert into category (categoryId, name, parent_category_id) values (13001, 'Golf', 13);
+  insert into category (categoryId, name, parent_category_id) values (13002, 'Fishing', 13);
+  insert into category (categoryId, name, parent_category_id) values (13003, 'Tennis', 13);  
+
 insert into category (categoryId, name) values (14, 'Toys');
+  insert into category (categoryId, name, parent_category_id) values (14001, 'Remote control', 14);
+  insert into category (categoryId, name, parent_category_id) values (14002, 'Cars and trucks', 14);
+  insert into category (categoryId, name, parent_category_id) values (14003, 'Dolls', 14);
+  insert into category (categoryId, name, parent_category_id) values (14004, 'Educational', 14);
+
 insert into category (categoryId, name) values (15, 'Video Games');
+  insert into category (categoryId, name, parent_category_id) values (15001, 'PC', 15);
+  insert into category (categoryId, name, parent_category_id) values (15002, 'Nintendo Wii', 15);
+  insert into category (categoryId, name, parent_category_id) values (15003, 'Sony Playstation 3', 15);
+  insert into category (categoryId, name, parent_category_id) values (15004, 'XBox 360', 15);
+
+
 
 insert into account (accountId, name, feedbackScore, feedbackPercent, memberSince, location) values (1, 'honestjoe', 0, 0, CURRENT_TIMESTAMP, 'Sydney, NSW, Australia');
 insert into user (userId, username, password, account_id) values (1, 'demo', 'demo', 1);

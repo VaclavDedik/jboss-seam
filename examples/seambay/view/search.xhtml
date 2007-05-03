@@ -29,6 +29,12 @@
           </h:selectOneMenu>
           
           <h:commandButton action="#{auctionSearch.queryAuctions}" value="Search"/>
+
+          <br/>
+          
+          <h:selectBooleanCheckbox value="#{auctionSearch.titleAndDescription}"/>
+          <span>Search title <b>and</b> description</span>          
+
         </h:form>
         
       </div>

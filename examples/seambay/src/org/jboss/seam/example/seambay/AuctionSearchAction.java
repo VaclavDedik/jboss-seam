@@ -33,6 +33,7 @@ public class AuctionSearchAction implements Serializable
    
    private String searchTerm;
    private Category searchCategory;
+   private boolean titleAndDescription;
    
    @DataModel
    private List<Auction> auctions;
@@ -45,21 +46,25 @@ public class AuctionSearchAction implements Serializable
    @SuppressWarnings("unchecked")
    public void queryAuctions()
    {
-      String qry = null;
+      StringBuilder qry = new StringBuilder();
       
-      if (searchCategory == null)
+      qry.append("from Auction a where a.status = 1 and endDate >= #{currentDatetime}");
+      
+      if (titleAndDescription)
       {
-         qry = "from Auction a where lower(title) like #{searchPattern} " +
-               "and a.status = 1 and a.endDate >= #{currentDatetime}"; 
+         qry.append(" and (lower(title) like #{searchPattern} or lower(description) like #{searchPattern})");
       }
       else
       {
-         qry = "from Auction a where lower(title) like #{searchPattern} " +
-               "and a.category = #{searchCategory} and a.status = 1 " +
-               "and a.endDate >= #{currentDatetime}";
+         qry.append(" and lower(title) like #{searchPattern}");
       }
       
-      auctions = entityManager.createQuery(qry)
+      if (searchCategory != null)
+      {
+         qry.append(" and a.category = #{searchCategory}");
+      }
+            
+      auctions = entityManager.createQuery(qry.toString())
             .setMaxResults(pageSize)
             .setFirstResult( page * pageSize )
             .getResultList();      
@@ -162,5 +167,15 @@ public class AuctionSearchAction implements Serializable
    public void setSelectedCategoryId(Integer categoryId)
    {
       this.searchCategory = entityManager.find(Category.class, categoryId);
+   }
+   
+   public boolean isTitleAndDescription()
+   {
+      return titleAndDescription;
+   }
+   
+   public void setTitleAndDescription(boolean value)
+   {
+      this.titleAndDescription = value;
    }
 }

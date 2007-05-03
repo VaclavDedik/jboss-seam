@@ -16,6 +16,11 @@
   margin-right: 4px;
 }
 
+#searchHeader span {
+  font-size: 10px;
+  font-family: verdana;
+}
+
 input.searchTerm {
   width: 200px;
 }

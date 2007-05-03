@@ -26,6 +26,12 @@
         <param name="id" value="#{auctionDetail.selectedAuctionId}"/>
     </page>
     
+    <page view-id="/buy.xhtml">
+        <navigation from-action="#{auctionSearch.queryAuctions}">
+            <redirect view-id="/search.xhtml"/>
+        </navigation>
+    </page>
+    
     <page view-id="/sell.xhtml" 
           login-required="true"       
           action="#{auctionAction.createAuction}">    

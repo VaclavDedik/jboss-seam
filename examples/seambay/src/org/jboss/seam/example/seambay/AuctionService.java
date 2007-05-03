@@ -1,5 +1,7 @@
 package org.jboss.seam.example.seambay;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
@@ -34,9 +36,9 @@ public class AuctionService implements AuctionServiceRemote
       CategoryAction catAction = (CategoryAction) Component.getInstance(
             CategoryAction.class, true);
       
-      catAction.loadCategories();
+      List<Category> categories = catAction.getAllCategories();
       
-      return catAction.getCategories().toArray(new Category[catAction.getCategories().size()]);
+      return categories.toArray(new Category[categories.size()]);
    }
    
    @WebMethod
