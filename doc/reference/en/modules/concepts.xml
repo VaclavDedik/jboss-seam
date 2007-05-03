@@ -563,7 +563,7 @@ public class User {
             <programlisting><![CDATA[@Name("user")
 @Entity
 @Scope(CONVERSATION)
-@Roles({@Role(name="currentUser", scope=SESSION)
+@Roles({@Role(name="currentUser", scope=SESSION),
         @Role(name="tempUser", scope=EVENT)})
 public class User { 
     ... 
