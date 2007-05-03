@@ -148,6 +148,10 @@ public abstract class ITextComponent
         return value;
     }
     
+    public Object valueBinding(String property, Object defaultValue) {
+        return valueBinding(FacesContext.getCurrentInstance(), property, defaultValue);
+    }
+    
 	// ------------------------------------------------------
 
     @Override

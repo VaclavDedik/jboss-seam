@@ -62,7 +62,7 @@ public class UILineChart
     }
 
     @Override
-    public JFreeChart getChart(FacesContext context) {
+    public JFreeChart createChart(FacesContext context) {
         if (!is3D) {
             return ChartFactory.createLineChart(title,
                     domainAxisLabel,

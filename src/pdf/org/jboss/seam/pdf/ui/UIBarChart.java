@@ -2,8 +2,6 @@ package org.jboss.seam.pdf.ui;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Stroke;
-
 import javax.faces.context.FacesContext;
 
 import org.jfree.chart.ChartFactory;
@@ -12,7 +10,6 @@ import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
-import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.Dataset;
@@ -82,15 +79,14 @@ public class UIBarChart
     
     public void configureRenderer(BarRenderer renderer) {
         renderer.setItemMargin(0.0);
-        
-        
+                
         renderer.setBaseOutlineStroke(new BasicStroke(2f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 10f, 
                 new float[] {10,3}, 0));        
 
     }
 
     @Override
-    public JFreeChart getChart(FacesContext context) {
+    public JFreeChart createChart(FacesContext context) {        
         if (!is3D) {
             return ChartFactory.createBarChart(title,
                     categoryAxisLabel,

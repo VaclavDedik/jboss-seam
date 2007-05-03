@@ -1,7 +1,5 @@
 package org.jboss.seam.pdf.ui;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Stroke;
@@ -25,7 +23,9 @@ import com.lowagie.text.pdf.PdfWriter;
 public abstract class UIChart 
     extends ITextComponent 
 {
-    Image image = null;
+    private Image image = null;
+    private JFreeChart chart = null;
+    
     float height = 300;
     float width  = 400;    
     
@@ -39,6 +39,7 @@ public abstract class UIChart
     Float  plotForegroundAlpha;
     String plotOutlineStroke; 
     String plotOutlinePaint;
+    
     
     public void setHeight(float height) {
         this.height = height;
@@ -120,7 +121,7 @@ public abstract class UIChart
         return (String) valueBinding(FacesContext.getCurrentInstance(), "plotOutlineStroke", plotOutlineStroke);
     }   
     
-    public Paint findColor(String name) {
+    public static Paint findColor(String name) {
         UIComponent component = FacesContext.getCurrentInstance().getViewRoot().findComponent(name);
         
         if (component != null) {
@@ -134,7 +135,7 @@ public abstract class UIChart
         return ITextUtils.colorValue(name);        
     }
     
-    private Stroke findStroke(String id) {
+    public static Stroke findStroke(String id) {
         UIComponent component = FacesContext.getCurrentInstance().getViewRoot().findComponent(id);
 
         if (component instanceof UIStroke) {
@@ -146,12 +147,13 @@ public abstract class UIChart
         }
     }
     
-    public abstract JFreeChart getChart(FacesContext context);
+    public abstract JFreeChart createChart(FacesContext context);
+    public JFreeChart getChart() {
+        return chart;
+    }
         
     @Override
-    public void createITextObject(FacesContext context) {             
-        JFreeChart chart = getChart(context);
-                
+    public void createITextObject(FacesContext context) {                        
         if (borderBackgroundPaint != null) {
             chart.setBackgroundPaint(findColor(getBorderBackgroundPaint()));
         }
@@ -166,7 +168,7 @@ public abstract class UIChart
 
         chart.setBorderVisible(getBorderVisible());      
         
-        configurePlot(chart.getPlot());         
+        configurePlot(chart.getPlot());   
         
         height = (Float) valueBinding(context, "height", height);
         width =  (Float) valueBinding(context, "width", width);        
@@ -215,9 +217,11 @@ public abstract class UIChart
     @Override
     public void encodeBegin(FacesContext context) 
         throws IOException
-    {       
-        // bypass super to avoid createITextObject() before the chart is ready
+    {               
+        // bypass super to avoid createITextObject() before the chart is ready        
         createDataset();
+        chart = createChart(context);
+        
     }
     
     
@@ -243,6 +247,7 @@ public abstract class UIChart
     @Override
     public void removeITextObject() {
         image = null;
+        chart = null;
     }
 
     
