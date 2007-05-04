@@ -9,7 +9,7 @@
 
     <ui:param  name="dialogId" value="dialogDelete"/>
     <ui:define name="dialogInit">
-        <script type="text/javascript">$(function() {
+        <script type="text/javascript">jQuery(function() {
             jsf('dialogDeletePopup')
                 .css({ minWidth: "200px", minHeight: "150px", width: "300px;", height: "150px;", top: "300px", left: "300px"})
                 .jqm({trigger: jsf("openDialogDelete"), closeClass: "closeDialog", onShow: fadeIn, onHide: fadeOut});

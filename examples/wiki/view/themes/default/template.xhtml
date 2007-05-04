@@ -32,7 +32,7 @@
             var realId = document.getElementById(id).title;
             //alert("FOR: '" + id + "' FOUND: '"+ realId + "'");
             var element = document.getElementById(realId);
-            return $(element);
+            return jQuery(element);
         }
         var fadeIn = function(hash) { hash.w.fadeIn('fast',function(){ hash.o.show(); }); };
         var fadeOut = function(hash) { hash.w.fadeOut('fast',function(){ hash.o.remove(); }); };
@@ -40,20 +40,9 @@
     <script type="text/javascript" src="#{themePath}/js/jquery.js"></script>
     <script type="text/javascript" src="#{themePath}/js/interface.js"></script>
     <script type="text/javascript" src="#{themePath}/js/jqModal.js"></script>
-    <script type="text/javascript">$(function() {
-
-        /* jQuery example
-        jsf("documentDisplay_").find("a").hover(
-            function() {
-                $(this).parents("div").css("background", "lightGreen")
-            },
-            function() {
-                $(this).parents("div").css("background", "white")
-            }
-        );
-        */
-
-    });</script>
+    <script type="text/javascript">
+        jQuery.noConflict(); // Avoid conflicts with the RichFaces/Prototype library
+    </script>
 </head>
 
 <body>

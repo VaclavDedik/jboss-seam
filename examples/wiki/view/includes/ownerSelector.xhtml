@@ -9,7 +9,7 @@
 
     <ui:param name="dialogId" value="dialogOwnerSelection"/>
     <ui:define name="dialogInit">
-        <script type="text/javascript">$(function() {
+        <script type="text/javascript">jQuery(function() {
             jsf('dialogOwnerSelectionPopup')
                 .css({ minWidth: "700px", minHeight: "420px", width: "725px;", height: "450px;", top: "100px", left: "100px"})
                 .jqm({trigger: jsf("openDialogOwnerSelection"), closeClass: "closeDialog", onShow: fadeIn, onHide: fadeOut});
@@ -49,7 +49,7 @@
                 </h:panelGroup>
 
                 <a:commandLink id="find" styleClass="button" reRender="dialogOwnerSelectionContent"
-                               oncomplete="$('#dialogOwnerSelection').jqmAddClose('.closeDialog')"
+                               oncomplete="jQuery('#dialogOwnerSelection').jqmAddClose('.closeDialog')"
                                action="#{userSearch.find()}"
                                tabindex="20" accesskey="F"><span class="buttonLabel"><u>F</u>ind</span></a:commandLink>
 
@@ -63,7 +63,7 @@
                          rendered="#{userSearch.rowCount > 0}">
 
                 <a:commandLink action="#{userSearch.firstPage()}" rendered="#{userSearch.previousPageAvailable}" tabindex="20"
-                               oncomplete="$('#dialogOwnerSelection').jqmAddClose('.closeDialog')"
+                               oncomplete="jQuery('#dialogOwnerSelection').jqmAddClose('.closeDialog')"
                                reRender="dialogOwnerSelectionContent">
                     <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.first.gif" width="13" height="11"/>
                 </a:commandLink>
@@ -71,7 +71,7 @@
                                 rendered="#{!userSearch.previousPageAvailable}"/>
 
                 <a:commandLink action="#{userSearch.previousPage()}" rendered="#{userSearch.previousPageAvailable}" tabindex="20"
-                               oncomplete="$('#dialogOwnerSelection').jqmAddClose('.closeDialog')"
+                               oncomplete="jQuery('#dialogOwnerSelection').jqmAddClose('.closeDialog')"
                                reRender="dialogOwnerSelectionContent">
                     <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.previous.gif" width="13" height="11"/>
                 </a:commandLink>
@@ -81,7 +81,7 @@
                 <h:outputText value="Found: #{userSearch.rowCount} member(s)"/>
 
                 <a:commandLink action="#{userSearch.nextPage()}" rendered="#{userSearch.nextPageAvailable}" tabindex="20"
-                               oncomplete="$('#dialogOwnerSelection').jqmAddClose('.closeDialog')"
+                               oncomplete="jQuery('#dialogOwnerSelection').jqmAddClose('.closeDialog')"
                                reRender="dialogOwnerSelectionContent">
                     <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.next.gif" width="13" height="11"/>
                 </a:commandLink>
@@ -89,7 +89,7 @@
                                 rendered="#{!userSearch.nextPageAvailable}"/>
 
                 <a:commandLink action="#{userSearch.lastPage()}" rendered="#{userSearch.nextPageAvailable}" tabindex="20"
-                               oncomplete="$('#dialogOwnerSelection').jqmAddClose('.closeDialog')"
+                               oncomplete="jQuery('#dialogOwnerSelection').jqmAddClose('.closeDialog')"
                                reRender="dialogOwnerSelectionContent">
                     <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.last.gif" width="13" height="11"/>
                 </a:commandLink>
@@ -116,7 +116,7 @@
                 <h:column>
                     <f:facet name="header">
                         <a:commandLink action="#{userSearch.sortBy('username')}" tabindex="20" reRender="dialogOwnerSelectionContent"
-                                       oncomplete="$('#dialogOwnerSelection').jqmAddClose('.closeDialog')">
+                                       oncomplete="jQuery('#dialogOwnerSelection').jqmAddClose('.closeDialog')">
                             <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/sortindicator.up.gif" width="8" height="8"
                                             rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'username'}"/>
                             <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/sortindicator.down.gif" width="8" height="8"
@@ -131,7 +131,7 @@
                 <h:column>
                     <f:facet name="header">
                         <a:commandLink action="#{userSearch.sortBy('firstname')}" tabindex="20" reRender="dialogOwnerSelectionContent"
-                                       oncomplete="$('#dialogOwnerSelection').jqmAddClose('.closeDialog')">
+                                       oncomplete="jQuery('#dialogOwnerSelection').jqmAddClose('.closeDialog')">
                             <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/sortindicator.up.gif" width="8" height="8"
                                             rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'firstname'}"/>
                             <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/sortindicator.down.gif" width="8" height="8"
@@ -145,7 +145,7 @@
                 <h:column>
                     <f:facet name="header">
                         <a:commandLink action="#{userSearch.sortBy('lastname')}" tabindex="20" reRender="dialogOwnerSelectionContent"
-                                       oncomplete="$('#dialogOwnerSelection').jqmAddClose('.closeDialog')">
+                                       oncomplete="jQuery('#dialogOwnerSelection').jqmAddClose('.closeDialog')">
                             <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/sortindicator.up.gif" width="8" height="8"
                                             rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'lastname'}"/>
                             <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/sortindicator.down.gif" width="8" height="8"
@@ -159,7 +159,7 @@
                 <h:column>
                     <f:facet name="header">
                         <a:commandLink action="#{userSearch.sortBy('email')}" tabindex="20" reRender="dialogOwnerSelectionContent"
-                                       oncomplete="$('#dialogOwnerSelection').jqmAddClose('.closeDialog')">
+                                       oncomplete="jQuery('#dialogOwnerSelection').jqmAddClose('.closeDialog')">
                             <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/sortindicator.up.gif" width="8" height="8"
                                             rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'email'}"/>
                             <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/sortindicator.down.gif" width="8" height="8"

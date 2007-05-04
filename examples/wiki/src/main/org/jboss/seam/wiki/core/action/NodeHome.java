@@ -204,29 +204,6 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
         return super.remove();
     }
 
-    public void parentDirectorySelected(NodeSelectedEvent nodeSelectedEvent) {
-        // TODO: There is really no API in RichFaces to get the selection! Already shouted at devs...
-        TreeRowKey rowkey = (TreeRowKey)((HtmlTree)nodeSelectedEvent.getSource()).getRowKey();
-        Iterator pathIterator = rowkey.iterator();
-        Long dirId = null;
-        while (pathIterator.hasNext()) dirId = (Long)pathIterator.next();
-        parentDirectory = nodeDAO.findDirectory(dirId);
-        Directory oldParentDirectory = (Directory)getInstance().getParent();
-
-        // Move node to different directory
-        if (parentDirectory.getId() != oldParentDirectory.getId()) {
-
-            // Null out default document of old parent
-            removeAsDefaultDocument(oldParentDirectory);
-
-            // Attach to new parent
-            parentDirectory.addChild(getInstance()); // Disconnects from old parent
-            getInstance().setAreaNumber(parentDirectory.getAreaNumber());
-
-            afterNodeMoved(oldParentDirectory, parentDirectory);
-        }
-    }
-
     protected boolean isValidModel() {
         if (getParentDirectory() == null) return true; // Special case, editing the wiki root
 
@@ -318,6 +295,29 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
     protected void afterNodeMoved(Directory oldParent, Directory newParent) {}
 
     /* -------------------------- Public Features ------------------------------ */
+
+    public void parentDirectorySelected(NodeSelectedEvent nodeSelectedEvent) {
+        // TODO: There is really no API in RichFaces to get the selection! Already shouted at devs...
+        TreeRowKey rowkey = (TreeRowKey)((HtmlTree)nodeSelectedEvent.getSource()).getRowKey();
+        Iterator pathIterator = rowkey.iterator();
+        Long dirId = null;
+        while (pathIterator.hasNext()) dirId = (Long)pathIterator.next();
+        parentDirectory = nodeDAO.findDirectory(dirId);
+        Directory oldParentDirectory = (Directory)getInstance().getParent();
+
+        // Move node to different directory
+        if (parentDirectory.getId() != oldParentDirectory.getId()) {
+
+            // Null out default document of old parent
+            removeAsDefaultDocument(oldParentDirectory);
+
+            // Attach to new parent
+            parentDirectory.addChild(getInstance()); // Disconnects from old parent
+            getInstance().setAreaNumber(parentDirectory.getAreaNumber());
+
+            afterNodeMoved(oldParentDirectory, parentDirectory);
+        }
+    }
 
     @Restrict("#{s:hasPermission('User', 'isAdmin', currentUser)}")
     public void selectOwner(Long creatorId) {

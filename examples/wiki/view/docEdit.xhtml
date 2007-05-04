@@ -127,14 +127,14 @@
                             <div class="label">Content:</div>
                             <s:div styleClass="input">
 
-                                <script type="text/javascript">$(function() {
-                                    $("#contentTextEdit").Resizable({
+                                <script type="text/javascript">jQuery(function() {
+                                    jQuery("#contentTextEdit").Resizable({
                                         minHeight: 50,
                                         handlers: {
                                             s: '#contentTextEditResizeHandle'
                                         },
                                         onResize: function(size) {
-                                            $("textarea", this).css({ height: size.height + "px" });
+                                            jQuery("textarea", this).css({ height: size.height + "px" });
                                         }
                                     });
                                 });</script>

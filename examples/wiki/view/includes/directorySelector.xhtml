@@ -10,7 +10,7 @@
 
     <ui:param name="dialogId" value="dialogDirectorySelection"/>
     <ui:define name="dialogInit">
-        <script type="text/javascript">$(function() {
+        <script type="text/javascript">jQuery(function() {
             jsf('dialogDirectorySelectionPopup')
                 .css({ minWidth: "250px", minHeight: "250px", width: "250px;", height: "250px;", top: "200px", left: "200px"})
                 .jqm({trigger: jsf("openDialogDirectorySelection"), closeClass: "closeDialog", onShow: fadeIn, onHide: fadeOut});
@@ -19,25 +19,21 @@
     <ui:define name="dialogTitle">Select parent directory...</ui:define>
     <ui:define name="dialogContent">
 
-        The RichFaces tree component is currently broken (lots of JavaScript errors which bomb jQuery)...
-
-        <!-- /*
-        <h:form rendered="false">
-        <rich:tree id="directoryTree" switchType="ajax"
-                   value="#{writableDirectoryTree}" var="d"
-                   style="margin: 10px;"
-                   icon="/themes/default/img/icon.dir.gif"
-                   iconLeaf="/themes/default/img/icon.dir.gif"
-                   selectedClass="activeTab closeDialog"
-                   ajaxSubmitSelection="true"
-                   
-                   reRender="directoryNameDisplay, content">
-            <rich:treeNode type="simpleNode">
-                <h:outputText value="#{d.id} - #{d.name}"/>
-            </rich:treeNode>
-        </rich:tree>
+        <h:form>
+            <rich:tree id="directoryTree" switchType="ajax"
+                       value="#{writableDirectoryTree}" var="d"
+                       style="margin: 10px;"
+                       icon="/themes/default/img/icon.dir.gif"
+                       iconLeaf="/themes/default/img/icon.dir.gif"
+                       selectedClass="activeTab closeDialog"
+                       ajaxSubmitSelection="true"
+                       nodeSelectListener="#{nodeHome.parentDirectorySelected}"
+                       reRender="directoryNameDisplay, content">
+                <rich:treeNode type="simpleNode">
+                    <h:outputText value="#{d.id} - #{d.name}"/>
+                </rich:treeNode>
+            </rich:tree>
         </h:form>
-        */ -->
 
     </ui:define>
 
