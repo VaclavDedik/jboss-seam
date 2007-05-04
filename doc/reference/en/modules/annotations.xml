@@ -762,12 +762,15 @@
                         default behavior of a session bean component. ie. method invocations should take place in a
                         transaction, and if no transaction exists when the method is called, a transaction will be
                         started just for that method. This annotation may be applied at either class or method level.
+                       <emphasis>Do not use this annotations on EJB 3.0 components, use <literal>@TransactionAttribute</literal>!</emphasis>
                     </para>
                 </listitem>
             </varlistentry>
         </variablelist>
 
-        <para> Seam applications usually use the standard EJB3 annotations for all other transaction demarcation needs.
+        <para>
+           These annotations are mostly useful for JavaBean Seam components. If you use EJB 3.0 components, you
+           should use the standard <literal>@TransactionAttribute</literal> annotation.
         </para>
     </section>
 
