@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
+import org.jboss.seam.annotations.Filter;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
@@ -28,6 +29,7 @@ import org.jboss.seam.annotations.Startup;
 @Name("org.jboss.seam.servlet.characterEncodingFilter")
 @Install(value=false, precedence = BUILT_IN)
 @Intercept(NEVER)
+@Filter(within="org.jboss.seam.web.ajax4jsfFilter")
 public class CharacterEncodingFilter extends AbstractFilter
 {
    private String encoding;

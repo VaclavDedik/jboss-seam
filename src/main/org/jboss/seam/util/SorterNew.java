@@ -26,7 +26,7 @@ public class SorterNew<T>
 		
       if ( !list.isEmpty() )
       {
-			throw new IllegalArgumentException("Can not sort interceptors list:"+list);
+			throw new IllegalArgumentException("Can not sort list:"+list);
 		}
 		
       return res;		

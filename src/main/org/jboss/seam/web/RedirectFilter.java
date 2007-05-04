@@ -15,6 +15,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
+import org.jboss.seam.annotations.Filter;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
@@ -37,6 +38,7 @@ import org.jboss.seam.core.Pages;
 @Name("org.jboss.seam.web.redirectFilter")
 @Install(precedence = BUILT_IN)
 @Intercept(NEVER)
+@Filter(within="org.jboss.seam.web.ajax4jsfFilter")
 public class RedirectFilter extends AbstractFilter 
 {
    public void doFilter(ServletRequest request, ServletResponse response,

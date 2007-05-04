@@ -2,8 +2,6 @@ package org.jboss.seam.init;
 
 import java.util.Comparator;
 
-import javax.servlet.Filter;
-
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.AutoCreate;
@@ -156,7 +154,17 @@ public class ComponentDescriptor
 
     public boolean isFilter()
     {
-        return Filter.class.isAssignableFrom(componentClass);
+        if (javax.servlet.Filter.class.isAssignableFrom(componentClass))
+        {
+           for (Class clazz = componentClass; !Object.class.equals(clazz); clazz = clazz.getSuperclass())
+           {
+              if (clazz.isAnnotationPresent(org.jboss.seam.annotations.Filter.class))
+              {
+                 return true;
+              }
+           }
+        }
+        return false;
     }
 
     public boolean isResourceProvider()

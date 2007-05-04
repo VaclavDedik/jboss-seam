@@ -14,6 +14,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.jboss.seam.annotations.Filter;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
@@ -35,6 +36,7 @@ import org.jboss.seam.log.Logging;
 @Name("org.jboss.seam.web.contextFilter")
 @Install(value=false, precedence = BUILT_IN)
 @Intercept(NEVER)
+@Filter(within="org.jboss.seam.web.ajax4jsfFilter")
 public class ContextFilter extends AbstractFilter 
 {
    private static final LogProvider log = Logging.getLogProvider(ContextFilter.class);

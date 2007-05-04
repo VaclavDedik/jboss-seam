@@ -19,6 +19,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jboss.seam.annotations.Filter;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
@@ -44,6 +45,7 @@ import org.jboss.seam.util.Transactions;
 @Name("org.jboss.seam.web.exceptionFilter")
 @Install(precedence = BUILT_IN)
 @Intercept(NEVER)
+@Filter(within="org.jboss.seam.web.ajax4jsfFilter")
 public class ExceptionFilter extends AbstractFilter
 {
    

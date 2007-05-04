@@ -1107,6 +1107,40 @@
         </variablelist>
 
     </section>
+    
+    <section>
+        <title>Annotations for integrating with the servlet container</title>
+        <para>These annotations allow you to integrate your Seam components with the servlet container.</para>
+
+
+        <variablelist spacing="compact">
+            <varlistentry>
+                <term>
+                    <literal>@Filter</literal>
+                </term>
+                <listitem>
+                	<para>
+                		Use the Seam component (which implements <literal>javax.servlet.Filter</literal>) annotated with <literal>@Filter</literal> as a servlet filter.  It
+                		will be executed by Seam's master filter.
+                	</para>
+                    <itemizedlist>
+                        <listitem>
+                    		<programlisting><![CDATA[@Filter(around={"seamComponent", "otherSeamComponent"})]]></programlisting>
+                    		<para> Specifies that this filter is positioned higher in the stack than the given
+                        filters. </para>
+                </listitem>
+                <listitem>
+                    <programlisting><![CDATA[@Filter(within={"seamComponent", "otherSeamComponent"})]]></programlisting>
+                    <para> Specifies that this filter is positioned deeper in the stack than the given
+                        filters. </para>
+                </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+
+        </variablelist>
+
+    </section>
 
 
 </chapter>
