@@ -281,20 +281,12 @@
 	</xs:group>
 
 	<xs:group name="page-elements">
-		<xs:sequence>
-			<xs:choice minOccurs="0" maxOccurs="1">
-				<xs:element ref="redirect" />
-			</xs:choice>
-			<xs:choice minOccurs="0" maxOccurs="1">
-				<xs:element ref="description" />
-			</xs:choice>
-			<xs:choice minOccurs="0" maxOccurs="1">
-				<xs:group ref="action-elements" />
-			</xs:choice>
-			<xs:choice minOccurs="0" maxOccurs="unbounded">
-				<xs:group ref="node-content-elements" />
-			</xs:choice>
-		</xs:sequence>
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element ref="redirect" />
+			<xs:element ref="description" />
+			<xs:group ref="action-elements" />
+			<xs:group ref="node-content-elements" />
+		</xs:choice>
 	</xs:group>
 
 	<xs:attributeGroup name="page-attributes">
@@ -306,4 +298,5 @@
 		<xs:attribute name="view-id" type="xs:string" use="required" />
 		<xs:attribute name="name" type="xs:string" use="required" />
 	</xs:attributeGroup>
+	
 </xs:schema>
