@@ -18,7 +18,7 @@ import org.jboss.seam.util.EnumerationEnumeration;
 import org.jboss.seam.web.AbstractAjax4jsfFilter;
 
 @Name("org.jboss.seam.web.ajax4jsfFilter")
-@Install(precedence = FRAMEWORK)
+@Install(precedence = FRAMEWORK, classDependencies="org.ajax4jsf.Filter")
 @Startup
 public class Ajax4jsfFilter extends AbstractAjax4jsfFilter
 {
