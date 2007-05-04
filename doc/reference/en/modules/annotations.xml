@@ -982,74 +982,125 @@
     </section>
 
     <section>
-        <title>Annotations for use with JSF <literal>dataTable</literal></title>
-        <para> The following annotations make it easy to implement clickable lists backed by a stateful session bean.
-            They appear on attributes. </para>
-
-        <variablelist spacing="compact">
-            <varlistentry id="datamodel-annotation">
-                <term>
-                    <literal>@DataModel</literal>
-                </term>
-                <listitem>
-                    <programlisting><![CDATA[@DataModel("variableName")]]></programlisting>
-                    <para> Exposes an attribute of type <literal>List</literal>, <literal>Map</literal>,
-                        <literal>Set</literal> or <literal>Object[]</literal> as a JSF <literal>DataModel</literal> into
-                        the scope of the owning component (or the <literal>EVENT</literal> scope if the owning component
-                        is <literal>STATELESS</literal>). In the case of <literal>Map</literal>, each row of the
-                            <literal>DataModel</literal> is a <literal>Map.Entry</literal>. </para>
-                    <itemizedlist>
-                        <listitem>
-                            <para>
-                                <literal>value</literal> &mdash; name of the conversation context variable. Default
-                                to the attribute name. </para>
-                        </listitem>
-                        <listitem>
-                            <para>
-                                <literal>scope</literal> &mdash; if <literal>scope=ScopeType.PAGE</literal> is
-                                explicitly specified, the <literal>DataModel</literal> will be kept in the
-                                <literal>PAGE</literal> context. </para>
-                        </listitem>
-                    </itemizedlist>
-                </listitem>
-            </varlistentry>
-            <varlistentry id="datamodelselection-annotation">
-                <term>
-                    <literal>@DataModelSelection</literal>
-                </term>
-                <listitem>
-                    <programlisting><![CDATA[@DataModelSelection]]></programlisting>
-                    <para> Injects the selected value from the JSF <literal>DataModel</literal> (this is the element of
-                        the underlying collection, or the map value). </para>
-                    <itemizedlist>
-                        <listitem>
-                            <para>
-                                <literal>value</literal> &mdash; name of the conversation context variable. Not
-                                needed if there is exactly one <literal>@DataModel</literal> in the component. </para>
-                        </listitem>
-                    </itemizedlist>
-                </listitem>
-            </varlistentry>
-            <varlistentry id="datamodelselectionindex-annotation">
-                <term>
-                    <literal>@DataModelSelectionIndex</literal>
-                </term>
-                <listitem>
-                    <programlisting><![CDATA[@DataModelSelectionIndex]]></programlisting>
-                    <para> Exposes the selection index of the JSF <literal>DataModel</literal> as an attribute of the
-                        component (this is the row number of the underlying collection, or the map key). </para>
-                    <itemizedlist>
-                        <listitem>
-                            <para>
-                                <literal>value</literal> &mdash; name of the conversation context variable. Not
-                                needed if there is exactly one <literal>@DataModel</literal> in the component. </para>
-                        </listitem>
-                    </itemizedlist>
-                </listitem>
-            </varlistentry>
-        </variablelist>
-
-    </section>
+    	<title>Annotations for use with JSF</title>
+    		<para> 
+    			The following annotations make working with JSF easier.
+	        </para>
+	        
+	        <variablelist spacing="compact">
+	            <varlistentry>
+	                <term>
+	                    <literal>@Converter</literal>
+	                </term>
+	                <listitem>
+	                    <para>
+	                    	Allows a Seam component to act as a JSF converter. The annotated class must be a Seam
+	                    	component, and must implement <literal>javax.faces.convert.Converter</literal>.
+	                    </para>
+	                    <itemizedlist>
+	                        <listitem>
+	                            <para>
+	                                <literal>id</literal> &mdash; the JSF converter id. Defaults to the component name.
+	                            </para>
+	                        </listitem>
+	                        <listitem>
+	                            <para>
+	                                <literal>forClass</literal> &mdash; if specified, register this component as the default converter for a type.
+	                            </para>
+	                        </listitem>
+	                    </itemizedlist>
+	                </listitem>
+	            </varlistentry>
+	            <varlistentry>
+	                <term>
+	                    <literal>@Validator</literal>
+	                </term>
+	                <listitem>
+	                    <para>
+	                    	Allows a Seam component to act as a JSF validator. The annotated class must be a Seam 
+	                    	component, and must implement <literal>javax.faces.validator.Validator</literal>.
+	                    </para>
+	                    <itemizedlist>
+	                        <listitem>
+	                            <para>
+	                                <literal>id</literal> &mdash; the JSF validator id. Defaults to the component name.
+	                            </para>
+	                        </listitem>
+	                    </itemizedlist>
+	                </listitem>
+	            </varlistentry>
+	        </variablelist>
+    	
+    	<section>
+	        <title>Annotations for use with <literal>dataTable</literal></title>
+	        <para> The following annotations make it easy to implement clickable lists backed by a stateful session bean.
+	            They appear on attributes. </para>
+	
+	        <variablelist spacing="compact">
+	            <varlistentry id="datamodel-annotation">
+	                <term>
+	                    <literal>@DataModel</literal>
+	                </term>
+	                <listitem>
+	                    <programlisting><![CDATA[@DataModel("variableName")]]></programlisting>
+	                    <para> Exposes an attribute of type <literal>List</literal>, <literal>Map</literal>,
+	                        <literal>Set</literal> or <literal>Object[]</literal> as a JSF <literal>DataModel</literal> into
+	                        the scope of the owning component (or the <literal>EVENT</literal> scope if the owning component
+	                        is <literal>STATELESS</literal>). In the case of <literal>Map</literal>, each row of the
+	                            <literal>DataModel</literal> is a <literal>Map.Entry</literal>. </para>
+	                    <itemizedlist>
+	                        <listitem>
+	                            <para>
+	                                <literal>value</literal> &mdash; name of the conversation context variable. Default
+	                                to the attribute name. </para>
+	                        </listitem>
+	                        <listitem>
+	                            <para>
+	                                <literal>scope</literal> &mdash; if <literal>scope=ScopeType.PAGE</literal> is
+	                                explicitly specified, the <literal>DataModel</literal> will be kept in the
+	                                <literal>PAGE</literal> context. </para>
+	                        </listitem>
+	                    </itemizedlist>
+	                </listitem>
+	            </varlistentry>
+	            <varlistentry id="datamodelselection-annotation">
+	                <term>
+	                    <literal>@DataModelSelection</literal>
+	                </term>
+	                <listitem>
+	                    <programlisting><![CDATA[@DataModelSelection]]></programlisting>
+	                    <para> Injects the selected value from the JSF <literal>DataModel</literal> (this is the element of
+	                        the underlying collection, or the map value). </para>
+	                    <itemizedlist>
+	                        <listitem>
+	                            <para>
+	                                <literal>value</literal> &mdash; name of the conversation context variable. Not
+	                                needed if there is exactly one <literal>@DataModel</literal> in the component. </para>
+	                        </listitem>
+	                    </itemizedlist>
+	                </listitem>
+	            </varlistentry>
+	            <varlistentry id="datamodelselectionindex-annotation">
+	                <term>
+	                    <literal>@DataModelSelectionIndex</literal>
+	                </term>
+	                <listitem>
+	                    <programlisting><![CDATA[@DataModelSelectionIndex]]></programlisting>
+	                    <para> Exposes the selection index of the JSF <literal>DataModel</literal> as an attribute of the
+	                        component (this is the row number of the underlying collection, or the map key). </para>
+	                    <itemizedlist>
+	                        <listitem>
+	                            <para>
+	                                <literal>value</literal> &mdash; name of the conversation context variable. Not
+	                                needed if there is exactly one <literal>@DataModel</literal> in the component. </para>
+	                        </listitem>
+	                    </itemizedlist>
+	                </listitem>
+	            </varlistentry>
+	        </variablelist>
+	
+	    </section>
+	</section>
 
     <section>
         <title>Meta-annotations for databinding</title>
