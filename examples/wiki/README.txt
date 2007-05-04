@@ -8,8 +8,6 @@ INSTALLATION
 
 - Edit build.properties
 
-- Edit src/etc/META-INF/persistence-dev.xml and change the path to your Lucene index directory
-
 - Run the standalone HSQL DB server with 'ant startdb'
 
 - Call 'ant deploy'

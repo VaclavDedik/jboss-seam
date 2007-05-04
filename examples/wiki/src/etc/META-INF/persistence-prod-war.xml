@@ -19,9 +19,11 @@
             <property name="hibernate.format_sql" value="true"/>
 
             <!-- Search engine -->
+            <!-- Disabled until finished implementation
             <property name="hibernate.search.default.directory_provider"
                       value="org.hibernate.search.store.FSDirectoryProvider"/>
             <property name="hibernate.search.default.indexBase" value="/tmp/lucene/indexes"/>
+            -->
 
             <!-- Run the Hibernate bytecode instrumentation at deployment time, for lazy loading of @ToOne and byte[] properties -->
             <!-- TODO: That doesn't work for me, using the enhancer in build.xml manually -->
