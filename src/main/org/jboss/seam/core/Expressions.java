@@ -14,6 +14,7 @@ import javax.faces.context.FacesContext;
 
 import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
+import org.jboss.el.lang.EvaluationContext;
 import org.jboss.seam.Component;
 import org.jboss.seam.Model;
 import org.jboss.seam.ScopeType;
@@ -21,6 +22,7 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.jsf.SeamELFunctionMapper;
 
 /**
  * Factory for method and value bindings
@@ -44,7 +46,8 @@ public class Expressions
    public ELContext getELContext()
    {
       FacesContext facesContext = FacesContext.getCurrentInstance();
-      return facesContext==null ? EL_CONTEXT : facesContext.getELContext();
+      return facesContext==null ? EL_CONTEXT : new EvaluationContext(facesContext.getELContext(),
+               new SeamELFunctionMapper(), facesContext.getELContext().getVariableMapper());
    }
    
    public ValueExpression<Object> createValueExpression(String expression)
