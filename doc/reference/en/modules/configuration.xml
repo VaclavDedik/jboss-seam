@@ -287,7 +287,8 @@
 
                 <programlisting><![CDATA[<web:ajax4jsf-filter force-parser="true" 
         enable-cache="true" 
-        log4j-init-file="custom-log4j.xml"/>]]></programlisting>
+        log4j-init-file="custom-log4j.xml"
+        url-pattern="*.seam"/>]]></programlisting>
 
 -	
                 <itemizedlist>
@@ -311,6 +312,12 @@
                         <para>
                             <literal>log4j-init-file</literal> &mdash; is used to setup per-application logging.  A path,
                             relative to web application context, to the log4j.xml configuration file should be provided.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            <literal>url-pattern</literal> &mdash; Used to specify which requests
+                            are filtered, the default is all requests.
                         </para>
                     </listitem>
                 </itemizedlist>
