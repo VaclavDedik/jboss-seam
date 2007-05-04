@@ -191,15 +191,23 @@ public abstract class SeamCollectionModel extends CollectionModel
          {
             SortCriterion sortCriterion;
             String fragment = tokenizer.nextToken();
-            String s = fragment.substring(fragment.lastIndexOf(" "));
-            if (" ASC".equalsIgnoreCase(s))
+            int index = fragment.lastIndexOf(" ");
+            if (index > 0)
             {
-               sortCriterion = new SortCriterion(fragment.substring(0, fragment.length() - 4), true);
-            }
-            else if (" DESC".equalsIgnoreCase(s))
-            {
-               sortCriterion = new SortCriterion(fragment.substring(0, fragment.length() - 5),
-                        false);
+               String s = fragment.substring(index);
+               if (" ASC".equalsIgnoreCase(s))
+               {
+                  sortCriterion = new SortCriterion(fragment.substring(0, fragment.length() - 4), true);
+               }
+               else if (" DESC".equalsIgnoreCase(s))
+               {
+                  sortCriterion = new SortCriterion(fragment.substring(0, fragment.length() - 5),
+                           false);
+               }
+               else
+               {
+                  sortCriterion = new SortCriterion(fragment, false);
+               }
             }
             else
             {
