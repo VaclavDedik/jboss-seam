@@ -1,16 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app>   
       
-    <!-- Ajax4jsf (must come first!) -->		   
-    <filter>     
-      <display-name>Ajax4jsf Filter</display-name>     
-      <filter-name>ajax4jsf</filter-name>     
-      <filter-class>org.ajax4jsf.Filter</filter-class>   
-    </filter>	   
-    <filter-mapping>     
-      <filter-name>ajax4jsf</filter-name>     
-      <url-pattern>*.seam</url-pattern>   
-    </filter-mapping>   
+    <!-- Ajax4jsf filter not needed, Seam Filter installs it for us -->
+    
     <context-param>     
       <param-name>org.ajax4jsf.VIEW_HANDLERS</param-name>     
       <param-value>org.jboss.seam.ui.facelet.SeamFaceletViewHandler</param-value>   
