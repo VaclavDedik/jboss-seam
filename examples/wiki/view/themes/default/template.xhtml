@@ -34,8 +34,11 @@
             var element = document.getElementById(realId);
             return jQuery(element);
         }
-        var fadeIn = function(hash) { hash.w.fadeIn('fast',function(){ hash.o.show(); }); };
-        var fadeOut = function(hash) { hash.w.fadeOut('fast',function(){ hash.o.remove(); }); };
+        var fadeInPopupDialog = function(hash) {
+            hash.w.fadeIn('fast',function(){ hash.o.show(); });
+            jQuery(".closeDialog", hash.w).attr("accesskey", "C"); // Dynamically assign accesskey
+        };
+        var fadeOutPopupDialog = function(hash) { hash.w.fadeOut('fast',function(){ hash.o.remove(); }); };
     </script>
     <script type="text/javascript" src="#{themePath}/js/jquery.js"></script>
     <script type="text/javascript" src="#{themePath}/js/interface.js"></script>

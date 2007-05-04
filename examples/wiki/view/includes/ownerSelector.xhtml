@@ -12,7 +12,12 @@
         <script type="text/javascript">jQuery(function() {
             jsf('dialogOwnerSelectionPopup')
                 .css({ minWidth: "700px", minHeight: "420px", width: "725px;", height: "450px;", top: "100px", left: "100px"})
-                .jqm({trigger: jsf("openDialogOwnerSelection"), closeClass: "closeDialog", onShow: fadeIn, onHide: fadeOut});
+                .jqm({
+                    trigger: jsf("openDialogOwnerSelection"),
+                    closeClass: "closeDialog",
+                    onShow: fadeInPopupDialog,
+                    onHide: fadeOutPopupDialog
+                });
         });</script>
     </ui:define>
     <ui:define name="dialogTitle">Select owner...</ui:define>

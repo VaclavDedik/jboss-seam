@@ -13,13 +13,20 @@
         <script type="text/javascript">jQuery(function() {
             jsf('dialogDirectorySelectionPopup')
                 .css({ minWidth: "250px", minHeight: "250px", width: "250px;", height: "250px;", top: "200px", left: "200px"})
-                .jqm({trigger: jsf("openDialogDirectorySelection"), closeClass: "closeDialog", onShow: fadeIn, onHide: fadeOut});
+                .jqm({
+                    trigger: jsf("openDialogDirectorySelection"),
+                    closeClass: "closeDialog",
+                    onShow: fadeInPopupDialog,
+                    onHide: fadeOutPopupDialog
+                });
         });</script>
     </ui:define>
     <ui:define name="dialogTitle">Select parent directory...</ui:define>
     <ui:define name="dialogContent">
 
-        <h:form>
+        Tree disabled, Richfaces issues...
+        <!-- /*
+        <h:form rendered="false">
             <rich:tree id="directoryTree" switchType="ajax"
                        value="#{writableDirectoryTree}" var="d"
                        style="margin: 10px;"
@@ -34,6 +41,7 @@
                 </rich:treeNode>
             </rich:tree>
         </h:form>
+        */ -->
 
     </ui:define>
 
