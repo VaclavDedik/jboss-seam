@@ -8,7 +8,6 @@
                 xmlns:a="https://ajax4jsf.dev.java.net/ajax"
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
                 xmlns:j4j="http://javascript4jsf.dev.java.net/"
-                xmlns:rich="http://richfaces.ajax4jsf.org/rich"
                 template="themes/#{wikiPreferences.themeName}/template.xhtml">
 
 <ui:define name="includeHeaders">
@@ -49,6 +48,24 @@
 
 <ui:define name="content">
 
+    <s:span rendered="#{documentHome.managed}">
+        <ui:include src="includes/directorySelector.xhtml">
+            <ui:param name="home" value="#{documentHome}"/>
+        </ui:include>
+    </s:span>
+
+    <s:span rendered="#{s:hasPermission('User', 'isAdmin', currentUser) and documentHome.managed}">
+        <ui:include src="includes/ownerSelector.xhtml">
+            <ui:param name="home" value="#{documentHome}"/>
+        </ui:include>
+    </s:span>
+
+    <s:span rendered="#{documentHome.managed and documentHome.instance.id != wikiStart.id}">
+        <ui:include src="includes/deleteConfirmation.xhtml">
+            <ui:param name="home" value="#{documentHome}"/>
+        </ui:include>
+    </s:span>
+
     <h:form>
 
         <div class="form">
@@ -60,26 +77,26 @@
 
             <div class="formFields formBorder">
 
-                <s:div id="selectedDirectory" styleClass="entry" rendered="#{documentHome.managed}">
+                <s:div styleClass="entry" rendered="#{documentHome.managed}">
                     <div class="label">In directory:</div>
                     <div class="output">
-                        #{documentHome.parentDirectory}
-                        <h:outputLink id="selectDirectory" value="javascript:Richfaces.showModalPanel('directorySelection',{width:250, height:250, top:100})"
-                                      tabindex="1" styleClass="buttonNonpersistent"><span class="buttonLabel">...</span></h:outputLink>
+                        <s:span id="directoryNameDisplay">#{documentHome.parentDirectory}</s:span>
+
+                        <h:outputLink id="selectDirectory" value="#" tabindex="1" styleClass="buttonNonpersistent"><j4j:idProxy
+                                        id="openDialogDirectorySelection"/><span class="buttonLabel">...</span></h:outputLink>
                     </div>
                 </s:div>
 
-                <s:div id="selectedCreator" styleClass="entry" rendered="#{documentHome.managed}">
+                <s:div styleClass="entry" rendered="#{documentHome.managed}">
                     <div class="label">Created On:</div>
                     <div class="output">
                         <h:outputText value="#{documentHome.instance.createdOn}">
                             <f:convertDateTime type="both" timeZone="#{wikiPreferences.timeZone}"/>
                         </h:outputText>
-                        (#{documentHome.instance.createdBy.username})
-                        <h:outputLink id="selectCreator" rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}"
-                                      value="javascript:Richfaces.showModalPanel('creatorSelection',{width:625, height:320, top:150})"
-                                      tabindex="1"
-                                      styleClass="buttonNonpersistent"><span class="buttonLabel">...</span></h:outputLink>
+                        <s:span id="ownerDisplay">&#160;(#{documentHome.instance.createdBy.username})</s:span>
+                        <h:outputLink id="selectOwner" value="#" tabindex="1" styleClass="buttonNonpersistent"
+                                      rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}"><j4j:idProxy
+                                        id="openDialogOwnerSelection"/><span class="buttonLabel">...</span></h:outputLink>
                     </div>
                 </s:div>
 
@@ -213,9 +230,9 @@
                                    rendered="#{documentHome.managed}"
                                    tabindex="4" accesskey="U" styleClass="button"><span class="buttonLabel"><u>U</u>pdate</span></h:commandLink>
 
-                        <h:outputLink id="delete" value="javascript:Richfaces.showModalPanel('deleteConfirmation',{})"
-                                      rendered="#{documentHome.managed and documentHome.instance.id != wikiStart.id}"
-                                      tabindex="4" accesskey="D" styleClass="button"><span class="buttonLabel"><u>D</u>elete</span></h:outputLink>
+                        <h:outputLink id="delete" value="#" tabindex="4" accesskey="D" styleClass="button"
+                                      rendered="#{documentHome.managed and documentHome.instance.id != wikiStart.id}"><j4j:idProxy
+                                id="openDialogDelete"/><span class="buttonLabel"><u>D</u>elete</span></h:outputLink>
 
                     </div>
                 </div>
@@ -225,27 +242,6 @@
         </div>
 
     </h:form>
-
-    <ui:decorate template="includes/confirmationModalDialog.xhtml">
-        <ui:param name="confirmationModalDialogId" value="deleteConfirmation"/>
-        <ui:define name="confirmationContent">
-            <p>Are you sure you want to delete the document '#{documentHome.instance.name}'?</p>
-        </ui:define>
-        <ui:define name="confirmationOption">
-            <h:commandLink id="delete" action="#{documentHome.remove}"
-                           accesskey="O" styleClass="button">
-                <span class="buttonLabel"><u>O</u>k</span>
-            </h:commandLink>
-        </ui:define>
-    </ui:decorate>
-
-    <ui:include src="includes/directorySelector.xhtml">
-        <ui:param name="nodeHome" value="#{documentHome}"/>
-    </ui:include>
-
-    <ui:include src="includes/creatorSelector.xhtml">
-        <ui:param name="nodeHome" value="#{documentHome}"/>
-    </ui:include>
 
     <s:div styleClass="documentDisplay" id="preview">
         <s:div rendered="#{documentHome.enabledPreview}">

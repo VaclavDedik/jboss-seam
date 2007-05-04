@@ -6,7 +6,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
-                xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+                xmlns:j4j="http://javascript4jsf.dev.java.net/"
                 template="themes/#{wikiPreferences.themeName}/template.xhtml">
 
 <ui:define name="includeHeaders">
@@ -39,6 +39,24 @@
 
 <ui:define name="content">
 
+    <s:span rendered="#{fileHome.managed}">
+        <ui:include src="includes/directorySelector.xhtml">
+            <ui:param name="home" value="#{fileHome}"/>
+        </ui:include>
+    </s:span>
+
+    <s:span rendered="#{s:hasPermission('User', 'isAdmin', currentUser) and fileHome.managed}">
+        <ui:include src="includes/ownerSelector.xhtml">
+            <ui:param name="home" value="#{fileHome}"/>
+        </ui:include>
+    </s:span>
+
+    <s:span rendered="#{fileHome.managed}">
+        <ui:include src="includes/deleteConfirmation.xhtml">
+            <ui:param name="home" value="#{fileHome}"/>
+        </ui:include>
+    </s:span>
+
     <h:form enctype="multipart/form-data">
         <div class="form">
             <div class="formHead">
@@ -48,26 +66,26 @@
 
             <div class="formFields formBorder wideLabels">
 
-                <s:div id="selectedDirectory" styleClass="entry" rendered="#{fileHome.managed}">
+                <s:div styleClass="entry" rendered="#{fileHome.managed}">
                     <div class="label">In directory:</div>
                     <div class="output">
-                        #{fileHome.parentDirectory}
-                        <h:outputLink id="selectDirectory" value="javascript:Richfaces.showModalPanel('directorySelection',{width:250, height:250, top:100})"
-                                      tabindex="1" styleClass="buttonNonpersistent"><span class="buttonLabel">...</span></h:outputLink>
+                        <s:span id="directoryNameDisplay">#{fileHome.parentDirectory}</s:span>
+
+                        <h:outputLink id="selectDirectory" value="#" tabindex="1" styleClass="buttonNonpersistent"><j4j:idProxy
+                                        id="openDialogDirectorySelection"/><span class="buttonLabel">...</span></h:outputLink>
                     </div>
                 </s:div>
 
-                <s:div id="selectedCreator" styleClass="entry" rendered="#{fileHome.managed}">
+                <s:div styleClass="entry" rendered="#{fileHome.managed}">
                     <div class="label">Created On:</div>
                     <div class="output">
                         <h:outputText value="#{fileHome.instance.createdOn}">
                             <f:convertDateTime type="both" timeZone="#{wikiPreferences.timeZone}"/>
                         </h:outputText>
-                        (#{fileHome.instance.createdBy.username})
-                        <h:outputLink id="selectCreator" rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}"
-                                      value="javascript:Richfaces.showModalPanel('creatorSelection',{width:625, height:320, top:150})"
-                                      tabindex="1"
-                                      styleClass="buttonNonpersistent"><span class="buttonLabel">...</span></h:outputLink>
+                        <s:span id="ownerDisplay">&#160;(#{fileHome.instance.createdBy.username})</s:span>
+                        <h:outputLink id="selectOwner" value="#" tabindex="1" styleClass="buttonNonpersistent"
+                                      rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}"><j4j:idProxy
+                                        id="openDialogOwnerSelection"/><span class="buttonLabel">...</span></h:outputLink>
                     </div>
                 </s:div>
 
@@ -174,9 +192,10 @@
                                    rendered="#{fileHome.managed}"
                                    tabindex="6" accesskey="U" styleClass="button"><span class="buttonLabel"><u>U</u>pdate</span></h:commandLink>
 
-                        <h:outputLink id="delete" value="javascript:Richfaces.showModalPanel('deleteConfirmation',{})"
-                                      rendered="#{fileHome.managed}"
-                                      tabindex="7" accesskey="D" styleClass="button"><span class="buttonLabel"><u>D</u>elete</span></h:outputLink>
+                        <h:outputLink id="delete" value="#" tabindex="7" accesskey="D" styleClass="button"
+                                      rendered="#{fileHome.managed}"><j4j:idProxy
+                                id="openDialogDelete"/><span class="buttonLabel"><u>D</u>elete</span></h:outputLink>
+
                     </div>
                 </div>
 
@@ -184,27 +203,6 @@
 
         </div>
     </h:form>
-
-    <ui:decorate template="includes/confirmationModalDialog.xhtml">
-        <ui:param name="confirmationModalDialogId" value="deleteConfirmation"/>
-        <ui:define name="confirmationContent">
-            <p>Are you sure you want to delete the file '#{fileHome.instance.name}'?</p>
-        </ui:define>
-        <ui:define name="confirmationOption">
-            <h:commandLink id="delete" action="#{fileHome.remove}"
-                           accesskey="O" styleClass="button">
-                <span class="buttonLabel"><u>O</u>k</span>
-            </h:commandLink>
-        </ui:define>
-    </ui:decorate>
-
-    <ui:include src="includes/directorySelector.xhtml">
-        <ui:param name="nodeHome" value="#{fileHome}"/>
-    </ui:include>
-
-    <ui:include src="includes/creatorSelector.xhtml">
-        <ui:param name="nodeHome" value="#{fileHome}"/>
-    </ui:include>
 
 </ui:define>
 

@@ -4,7 +4,6 @@
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
      xmlns:wiki="http://jboss.com/products/seam/wiki"
-     xmlns:rich="http://richfaces.ajax4jsf.org/rich"
      xmlns:s="http://jboss.com/products/seam/taglib">
 
     <s:div rendered="#{not identity.loggedIn}">
@@ -32,36 +31,6 @@
     </s:div>
 
     <s:div rendered="#{identity.loggedIn}">
-
-        <s:span rendered="false">
-            <!-- TODO: http://jira.jboss.com/jira/browse/JBSEAM-1205
-                setTimeout( 'javascript:Richfaces.showModalPanel(\'timeoutNotice\', {width:280, height:120})', '#{wiki:getSessionTimeoutSeconds() * 1000}' );
-            -->
-        </s:span>
-
-        <script type="text/javascript">
-            setTimeout( 'javascript:Richfaces.showModalPanel(\'timeoutNotice\', {width:280, height:120})', '55555555555555' );
-        </script>
-
-        <ui:decorate template="confirmationModalDialog.xhtml">
-            <ui:param name="confirmationModalDialogId" value="timeoutNotice"/>
-            <ui:param name="confirmationHideCancel" value="true"/>
-            <ui:define name="confirmationTitle">
-                Notice
-            </ui:define>
-            <ui:define name="confirmationContent">
-                <p>Your session has timed out, please login again.</p>
-            </ui:define>
-            <ui:define name="confirmationOption">
-                <h:outputLink id="OKRedirect"
-                              onclick="Richfaces.hideModalPanel('#{confirmationModalDialogId}')"
-                              value="#{wiki:renderURL(wikiStart)}"
-                              styleClass="buttonNonpersistent"><span class="buttonLabel">Take me to the start page</span></h:outputLink>
-                <h:outputLink id="OK"
-                              onclick="Richfaces.hideModalPanel('#{confirmationModalDialogId}')"
-                              styleClass="buttonNonpersistent"><span class="buttonLabel">Close message</span></h:outputLink>
-            </ui:define>
-        </ui:decorate>
 
         <h:form>
             <h:panelGroup>

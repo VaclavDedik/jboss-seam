@@ -1,12 +1,13 @@
-<div id="accessLevelSelector"
+<s:div id="accessLevelSelector"
 	 xmlns="http://www.w3.org/1999/xhtml"
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
      xmlns:wiki="http://jboss.com/products/seam/wiki"
-     xmlns:s="http://jboss.com/products/seam/taglib">
+     xmlns:s="http://jboss.com/products/seam/taglib"
+     rendered="#{currentUser != guestUser}">
 
-    <s:div styleClass="entry" rendered="#{currentUser != guestUser}">
+    <s:div styleClass="entry">
         <div class="label">Readable by:</div>
         <div class="input">
             <h:selectOneMenu value="#{nodePermissions.readAccessLevel}" tabindex="1">
@@ -21,7 +22,7 @@
         </div>
     </s:div>
 
-    <s:div styleClass="entry" rendered="#{currentUser != guestUser}">
+    <s:div styleClass="entry">
         <div class="label">Writable by:</div>
         <div class="input">
             <h:selectOneMenu value="#{nodePermissions.writeAccessLevel}" tabindex="1">
@@ -37,5 +38,5 @@
     </s:div>
     
 
-</div>
+</s:div>
 

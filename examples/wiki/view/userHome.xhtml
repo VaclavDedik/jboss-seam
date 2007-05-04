@@ -7,6 +7,7 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:rich="http://richfaces.ajax4jsf.org/rich"
                 xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+                xmlns:j4j="http://javascript4jsf.dev.java.net/"
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
                 template="themes/#{wikiPreferences.themeName}/template.xhtml">
 
@@ -40,6 +41,12 @@
 </ui:define>
 
 <ui:define name="content">
+
+<s:span rendered="#{s:hasPermission('User', 'delete', userHome.instance)}">
+    <ui:include src="includes/deleteConfirmation.xhtml">
+        <ui:param name="home" value="#{userHome}"/>
+    </ui:include>
+</s:span>
 
 <h:form><div class="form">
 
@@ -194,9 +201,10 @@
                                action="#{userHome.update}"
                                tabindex="9" accesskey="U"><span class="buttonLabel"><u>U</u>pdate</span></h:commandLink>
 
-                <h:outputLink id="delete" value="javascript:Richfaces.showModalPanel('deleteConfirmation',{width:375, height:125})"
-                              rendered="#{s:hasPermission('User', 'delete', userHome.instance)}"
-                              tabindex="9" accesskey="D" styleClass="button"><span class="buttonLabel"><u>D</u>elete</span></h:outputLink>
+                <h:outputLink id="delete" value="#" tabindex="9" accesskey="D" styleClass="button"
+                              rendered="#{s:hasPermission('User', 'delete', userHome.instance)}"><j4j:idProxy
+                        id="openDialogDelete"/><span class="buttonLabel"><u>D</u>elete</span></h:outputLink>
+
 
             </div>
         </div>
@@ -204,20 +212,6 @@
     </div>
 
 </div></h:form>
-
-<ui:decorate template="includes/confirmationModalDialog.xhtml">
-    <ui:param name="confirmationModalDialogId" value="deleteConfirmation"/>
-    <ui:define name="confirmationContent">
-        <p>Are you sure you want to delete the user '#{userHome.instance.username}'?
-            Note that any existing home directory or documents owned by this user will not be deleted.</p>
-    </ui:define>
-    <ui:define name="confirmationOption">
-        <h:commandLink id="delete" action="#{userHome.remove}"
-                       accesskey="O" styleClass="button">
-            <span class="buttonLabel"><u>O</u>k</span>
-        </h:commandLink>
-    </ui:define>
-</ui:decorate>
 
 
 </ui:define>

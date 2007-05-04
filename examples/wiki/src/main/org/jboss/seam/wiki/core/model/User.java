@@ -125,8 +125,7 @@ public class User implements Serializable {
     // Misc methods
 
     public String toString() {
-        return  "User ('" + getId() + "'), " +
-                "Username: '" + getUsername() + "'";
+        return  getUsername();
     }
     
 }

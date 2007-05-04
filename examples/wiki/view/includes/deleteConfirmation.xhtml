@@ -1,0 +1,28 @@
+<ui:decorate template="popupDialog.xhtml"
+         xmlns:s="http://jboss.com/products/seam/taglib"
+         xmlns:ui="http://java.sun.com/jsf/facelets"
+         xmlns:f="http://java.sun.com/jsf/core"
+         xmlns:h="http://java.sun.com/jsf/html"
+         xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+         xmlns:wiki="http://jboss.com/products/seam/wiki"
+         xmlns:j4j="http://javascript4jsf.dev.java.net/">
+
+    <ui:param  name="dialogId" value="dialogDelete"/>
+    <ui:define name="dialogInit">
+        <script type="text/javascript">$(function() {
+            jsf('dialogDeletePopup')
+                .css({ minWidth: "200px", minHeight: "150px", width: "300px;", height: "150px;", top: "300px", left: "300px"})
+                .jqm({trigger: jsf("openDialogDelete"), closeClass: "closeDialog", onShow: fadeIn, onHide: fadeOut});
+
+        });</script>
+    </ui:define>
+    <ui:define name="dialogTitle">Delete confirmation</ui:define>
+    <ui:define name="dialogContent"><p align="center">Are you sure you want to delete <br/>'#{home.instance}'?</p></ui:define>
+    <ui:define name="dialogControls">
+        <h:commandLink id="delete" action="#{home.remove}" accesskey="O" styleClass="button">
+            <span class="buttonLabel"><u>O</u>k</span>
+        </h:commandLink>
+    </ui:define>
+
+
+</ui:decorate>

@@ -319,8 +319,10 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
 
     /* -------------------------- Public Features ------------------------------ */
 
-    @Restrict("#{s:hasPermission('User', 'isAdmin', currentUser)}")
-    public void selectCreator(Long creatorId) {
+    // TODO: Broken right now... @Restrict("#{s:hasPermission('User', 'isAdmin', currentUser)}")
+    public void selectOwner(Long creatorId) {
+        if (!Identity.instance().hasPermission("User", "isAdmin", currentUser))
+            throw new AuthorizationException("You don't have permission for this operation");
         User newCreator = userDAO.findUser(creatorId);
         getInstance().setCreatedBy(newCreator);
     }
