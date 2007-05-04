@@ -101,15 +101,12 @@ public class BagWrapper extends BaseWrapper implements Wrapper
              Collection.class.isAssignableFrom((Class) ((ParameterizedType) type).getRawType()))
     {
       Class rawType = (Class) ((ParameterizedType) type).getRawType();
-      Class genType = Object.class;
+      Type genType = Object.class;
 
       for (Type t : ((ParameterizedType) type).getActualTypeArguments())
       {
-        if (t instanceof Class) // Take the first Class we find
-        {
-          genType = (Class) t;
-          break;
-        }
+        genType = t;
+        break;
       }
 
       try {
