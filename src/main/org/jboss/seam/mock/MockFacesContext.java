@@ -27,6 +27,10 @@ import javax.faces.context.ResponseWriter;
 import javax.faces.render.RenderKit;
 import javax.faces.render.RenderKitFactory;
 
+import org.jboss.seam.util.EL;
+
+import com.sun.faces.el.ELContextImpl;
+
 /**
  * @author Gavin King
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
@@ -34,8 +38,6 @@ import javax.faces.render.RenderKitFactory;
  */
 public class MockFacesContext extends FacesContext
 {
-
-   private static final String JSF_12_ELCONTEXT = "com.sun.faces.el.ELContextImpl";
 
    private UIViewRoot viewRoot;// = new UIViewRoot();
 
@@ -221,33 +223,9 @@ public class MockFacesContext extends FacesContext
       return this;
    }
 
-   /**
-    * @since 1.2
-    */
-   // This probably only works for the RI.
    public ELContext getELContext()
    {
-      if (elContext == null)
-      {
-         try
-         {
-            Class elContextClass = FacesContext.class.forName(JSF_12_ELCONTEXT);
-            Constructor<ELContext> constructor = elContextClass.getConstructor(ELResolver.class);
-            Method m = getApplication().getClass().getMethod("getELResolver", new Class[0]);
-            elContext = constructor.newInstance(m.invoke(getApplication(), new Object[0]));
-            elContext.putContext(FacesContext.class, this);
-            UIViewRoot root = this.getViewRoot();
-            if (null != root)
-            {
-               elContext.setLocale(root.getLocale());
-            }
-         }
-         catch (Exception e)
-         {
-            throw new UnsupportedOperationException();
-         }
-      }
-      return elContext;
+      return EL.EL_CONTEXT;
    }
 
 }

@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.el.ExpressionFactory;
 import javax.faces.FacesException;
 import javax.faces.application.Application;
 import javax.faces.application.NavigationHandler;
@@ -35,8 +36,9 @@ import javax.faces.el.VariableResolver;
 import javax.faces.event.ActionListener;
 import javax.faces.validator.Validator;
 
-import org.jboss.seam.util.UnifiedELMethodBinding;
+import org.jboss.seam.util.EL;
 import org.jboss.seam.util.Reflections;
+import org.jboss.seam.util.UnifiedELMethodBinding;
 import org.jboss.seam.util.UnifiedELValueBinding;
 
 public class MockApplication extends Application
@@ -312,5 +314,10 @@ public class MockApplication extends Application
    {
       return new UnifiedELValueBinding(valueExpression);
    }
-
+   
+   public ExpressionFactory getExpressionFactory()
+   {
+      return EL.EXPRESSION_FACTORY;
+   }
+   
 }
