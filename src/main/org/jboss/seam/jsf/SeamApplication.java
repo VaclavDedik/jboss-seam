@@ -33,6 +33,7 @@ import org.jboss.seam.core.Init;
 
 public class SeamApplication extends Application
 {  
+   
    private final Method getELResolverMethod;
    private final Method addELResolverMethod;
    private final Method getExpressionFactoryMethod;
@@ -329,7 +330,14 @@ public class SeamApplication extends Application
    @Override
    public String getMessageBundle()
    {
-      return application.getMessageBundle();
+      if (application.getMessageBundle() != null)
+      {
+         return application.getMessageBundle();
+      }
+      else
+      {
+         return "org.jboss.seam.jsf.SeamApplication.ApplicationResouceBundleAdaptor";
+      }
    }
 
    @Override
