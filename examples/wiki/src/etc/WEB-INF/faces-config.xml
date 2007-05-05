@@ -6,7 +6,6 @@
 
     <application>
         <el-resolver>org.jboss.seam.jsf.SeamELResolver</el-resolver>
-        <message-bundle>messages</message-bundle>
     </application>	
 
     <lifecycle>

@@ -9,11 +9,5 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
 	<lifecycle>
 		<phase-listener>org.jboss.seam.jsf.SeamPhaseListener</phase-listener>
 	</lifecycle>
-	
-	<!-- Customize JSF validation messages -->
-	
-	<application>
-		<message-bundle>messages</message-bundle>
-	</application>
 
 </faces-config>

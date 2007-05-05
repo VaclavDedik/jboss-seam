@@ -8,7 +8,6 @@
         <phase-listener>org.jboss.seam.jsf.SeamPhaseListener</phase-listener>
     </lifecycle>
     <application>
-        <message-bundle>messages</message-bundle>
         <view-handler>org.jboss.seam.ui.facelet.SeamFaceletViewHandler</view-handler>
     </application>
     
