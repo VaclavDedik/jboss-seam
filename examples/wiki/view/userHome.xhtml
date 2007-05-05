@@ -5,7 +5,6 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:rich="http://richfaces.ajax4jsf.org/rich"
                 xmlns:a="https://ajax4jsf.dev.java.net/ajax"
                 xmlns:j4j="http://javascript4jsf.dev.java.net/"
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
@@ -48,13 +47,25 @@
     </ui:include>
 </s:span>
 
-<h:form><div class="form">
+<h:form>
+    <div class="form">
 
-    <rich:panelBar styleClass="formPanel"
-                   headerStyle="border:0;margin:0;padding-left:13px;padding-top:3px;padding-bottom:3px;color: #555;background: #fff url(/wiki/themes/default/img/th.bg.gif) 0 0 repeat-x;">
+    <script type="text/javascript">jQuery(function() {
+        jQuery('#formTabs').tabs();
+    });</script>
+    <div id="formTabs">
 
-        <rich:panelBarItem label="Account">
+        <ul>
+            <li><a href="#userProfile">Profile</a></li>
+            <li><a href="#userAccount">Account</a></li>
+            <li><a href="#userPreferences">Preferences</a></li>
+        </ul>
 
+        <div id="userProfile">
+            Not Implemented
+        </div>
+
+        <div id="userAccount">
             <div class="formFields wideLabels">
                 <s:validateAll>
 
@@ -165,27 +176,20 @@
                     </s:div>
 
                 </s:validateAll>
-
             </div>
+        </div>
 
-        </rich:panelBarItem>
+        <div id="userPreferences">
+            <div class="formFields wideLabels">
+                <ui:include src="includes/preferencesEditor.xhtml">
+                    <ui:param name="preferenceComponents" value="#{userPreferenceComponents}"/>
+                </ui:include>
+            </div>
+        </div>
 
-        <rich:panelBarItem label="Profile">
-           Not implemented
-        </rich:panelBarItem>
-
-        <rich:panelBarItem label="Preferences">
-
-            <ui:include src="includes/preferencesEditor.xhtml">
-                <ui:param name="preferenceComponents" value="#{userPreferenceComponents}"/>
-            </ui:include>
-
-        </rich:panelBarItem>
-
-    </rich:panelBar>
+    </div>
 
     <div class="formControls wideLabels">
-
         <div class="entry">
             <div class="label">&#160;</div>
             <div class="input">
@@ -208,10 +212,10 @@
 
             </div>
         </div>
-
     </div>
 
-</div></h:form>
+    </div>
+</h:form>
 
 
 </ui:define>
@@ -219,4 +223,3 @@
 <ui:define name="footer">&#160;</ui:define>
 
 </ui:composition>
-

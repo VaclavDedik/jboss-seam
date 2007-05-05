@@ -43,19 +43,27 @@
 
 <h:form><div class="form">
 
-    <rich:panelBar styleClass="formPanel"
-                   headerStyle="border:0;margin:0;padding-left:13px;padding-top:3px;padding-bottom:3px;color: #555;background: #fff url(/wiki/themes/default/img/th.bg.gif) 0 0 repeat-x;">
+    <script type="text/javascript">jQuery(function() {
+        jQuery('#formTabs').tabs();
+    });</script>
+    <div id="formTabs">
 
-        <rich:panelBarItem label="System Statistics">
-            Not implemented
-        </rich:panelBarItem>
+        <ul>
+            <li><a href="#systemStats">System Statistics</a></li>
+            <li><a href="#rolesPermissions">Roles &amp; Permissions</a></li>
+            <li><a href="#linkProtocols">Link Protocols</a></li>
+            <li><a href="#systemPrefs">Preferences</a></li>
+        </ul>
 
-        <rich:panelBarItem label="Roles &amp; Permissions">
-           Not implemented
-        </rich:panelBarItem>
+        <div id="systemStats">
+            Not Implemented
+        </div>
 
-        <rich:panelBarItem label="Link Protocols">
+        <div id="rolesPermissions">
+            Not Implemented
+        </div>
 
+        <div id="linkProtocols" style="padding:25px;">
             <p>
                 Link protocols enable custom prefixes in wiki text links, e.g. you can write
                 [=>jbseam://123] and have it rendered as a link to http://my.jbseam.site/123.
@@ -113,7 +121,7 @@
 
                     <h:panelGroup>
                         <h:outputText styleClass="label" value="Target link (with [[link]] placeholder):"/>&#160;
-                        <h:inputText id="lpLink" value="#{adminHome.linkProtocol.link}" maxlength="1000" size="45" tabindex="1"/>
+                        <h:inputText id="lpLink" value="#{adminHome.linkProtocol.link}" maxlength="1000" size="40" tabindex="1"/>
                     </h:panelGroup>
 
                     <h:commandLink id="addLinkProtocol" styleClass="buttonNonpersistent"
@@ -123,17 +131,15 @@
 
             </div>
 
-        </rich:panelBarItem>
+        </div>
 
-        <rich:panelBarItem label="Preferences">
-
+        <div id="systemPrefs">
             <ui:include src="includes/preferencesEditor.xhtml">
                 <ui:param name="preferenceComponents" value="#{systemPreferenceComponents}"/>
             </ui:include>
+        </div>
 
-        </rich:panelBarItem>
-
-    </rich:panelBar>
+    </div>
 
     <div class="formControls wideLabels">
 
