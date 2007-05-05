@@ -336,7 +336,7 @@ public class SeamApplication extends Application
       }
       else
       {
-         return "org.jboss.seam.jsf.SeamApplication.ApplicationResouceBundleAdaptor";
+         return "org.jboss.seam.jsf.SeamApplicationMessageBundle";
       }
    }
 

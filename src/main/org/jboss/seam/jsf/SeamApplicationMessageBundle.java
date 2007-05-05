@@ -13,7 +13,7 @@ import org.jboss.seam.core.Messages;
  * for example built-in validators and converters
  *
  */
-public class SeamApplicationMessages extends ResourceBundle
+public class SeamApplicationMessageBundle extends ResourceBundle
 {
 
    @Override
