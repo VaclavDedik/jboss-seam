@@ -1,0 +1,162 @@
+package org.jboss.seam.pdf.ui;
+
+import java.io.IOException;
+
+import javax.faces.context.FacesContext;
+
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.Plot;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.general.Dataset;
+
+public class UIChartSeries 
+    extends ITextComponent 
+{
+    private String key;
+    private String seriesPaint;
+    private String seriesFillPaint;
+    private String seriesOutlinePaint;
+    private String seriesOutlineStroke;
+    private String seriesStroke;
+    private Boolean seriesVisible;
+    private Boolean seriesVisibleInLegend;
+    
+    public String getKey() {
+        return (String) valueBinding("key", key);
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+    
+    public String getSeriesPaint() {
+        return (String) valueBinding("seriesPaint", seriesPaint);
+    }
+
+    public void setSeriesPaint(String seriesPaint) {
+        this.seriesPaint = seriesPaint;
+    }
+
+    public String getSeriesFillPaint() {
+        return (String) valueBinding("seriesFillPaint", seriesFillPaint);
+    }
+
+    public void setSeriesFillPaint(String seriesFillPaint) {
+        this.seriesFillPaint = seriesFillPaint;
+    }
+
+    public String getSeriesOutlinePaint() {
+        return (String) valueBinding("seriesOutlinePaint", seriesOutlinePaint);
+    }
+
+    public void setSeriesOutlinePaint(String seriesOutlinePaint) {
+        this.seriesOutlinePaint = seriesOutlinePaint;
+    }
+
+    public String getSeriesOutlineStroke() {
+        return (String) valueBinding("seriesOutlineStroke", seriesOutlineStroke);
+    }
+
+    public void setSeriesOutlineStroke(String seriesOutlineStroke) {
+        this.seriesOutlineStroke = seriesOutlineStroke;
+    }
+
+    public String getSeriesStroke() {
+        return (String) valueBinding("seriesStroke", seriesStroke);
+    }
+
+    public void setSeriesStroke(String seriesStroke) {
+        this.seriesStroke = seriesStroke;
+    }
+
+    public Boolean getSeriesVisible() {
+        return (Boolean) valueBinding("seriesVisible", seriesVisible);
+    }
+
+    public void setSeriesVisible(Boolean seriesVisible) {
+        this.seriesVisible = seriesVisible;
+    }
+
+    public Boolean getSeriesVisibleInLegend() {
+        return (Boolean) valueBinding("seriesVisibleInLegend", seriesVisibleInLegend);   
+    }
+
+    public void setSeriesVisibleInLegend(Boolean seriesVisibleInLegend) {
+        this.seriesVisibleInLegend = seriesVisibleInLegend;
+    }
+
+    @Override
+    public void encodeEnd(FacesContext context) 
+        throws IOException
+    {
+
+        UIChart chart = (UIChart) findITextParent(getParent(), UIChart.class);
+        Dataset dataset = chart.getDataset();
+        if (chart != null) {            
+            Plot p = chart.getChart().getPlot();
+            if (p instanceof CategoryPlot) {
+                CategoryPlot plot = (CategoryPlot) p;                
+
+                int seriesIndex = ((CategoryDataset) dataset).getRowIndex(key);
+
+                BarRenderer renderer = (BarRenderer) plot.getRenderer();
+                if (seriesPaint != null) {
+                    renderer.setSeriesPaint(seriesIndex, UIChart.findColor(getSeriesPaint()));
+                }
+
+                if (seriesFillPaint != null) {
+                    renderer.setSeriesFillPaint(seriesIndex, UIChart.findColor(getSeriesFillPaint()));
+                }
+
+                if (seriesOutlinePaint != null) {
+                    renderer.setSeriesOutlinePaint(seriesIndex, UIChart.findColor(getSeriesOutlinePaint()));
+                }
+
+                if (seriesOutlineStroke != null) {
+                    renderer.setSeriesOutlineStroke(seriesIndex, UIChart.findStroke(getSeriesOutlineStroke()));
+                }
+
+                if (seriesStroke != null) {
+                    renderer.setSeriesStroke(seriesIndex, UIChart.findStroke(getSeriesStroke()));
+                }
+                
+                if (seriesVisible != null) {
+                    renderer.setSeriesVisible(seriesIndex, seriesVisible);
+                }
+                    
+                if (seriesVisibleInLegend != null) {
+                    renderer.setSeriesVisibleInLegend(seriesIndex, getSeriesVisibleInLegend());
+                }
+                
+            }
+            
+              
+        }
+        
+    }
+    
+    @Override
+    public void createITextObject(FacesContext context) {
+    }
+
+    @Override
+    public Object getITextObject() {
+        return null;
+    }
+
+    @Override
+    public void removeITextObject() {
+    }
+    
+    @Override
+    public void handleAdd(Object other) {
+    }
+
+
+
+
+    
+    
+
+}

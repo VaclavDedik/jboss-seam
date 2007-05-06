@@ -106,16 +106,20 @@ public class UIChartData
                 
                 if (sectionOutlineStroke != null) {
                     plot.setSectionOutlineStroke(key, UIChart.findStroke(getSectionOutlineStroke()));
-                }
-                
-                
+                }                
             } else if (dataset instanceof DefaultCategoryDataset) {
                 DefaultCategoryDataset data = (DefaultCategoryDataset) dataset;
-                data.addValue(value, rowKey, columnKey);                
+                
+                //CategoryPlot plot = (CategoryPlot) chart.getChart().getPlot();
+
+                if (rowKey == null) {
+                    UIChartSeries series = (UIChartSeries) findITextParent(this, UIChartSeries.class);
+                    rowKey = series.getKey();
+                }
+                data.addValue(value, rowKey, columnKey);       
             } else {
                 throw new RuntimeException("Cannot add data to dataset of type " + dataset.getClass());
-            }
-            
+            }         
         }
     }
     

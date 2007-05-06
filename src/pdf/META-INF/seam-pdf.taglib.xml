@@ -168,6 +168,13 @@
     </tag>
 
     <tag>
+        <tag-name>series</tag-name>
+        <component>
+            <component-type>org.jboss.seam.pdf.ui.UIChartSeries</component-type>
+        </component>
+    </tag>
+
+    <tag>
         <tag-name>color</tag-name>
         <component>
             <component-type>org.jboss.seam.pdf.ui.UIColor</component-type>
