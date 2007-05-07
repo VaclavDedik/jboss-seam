@@ -1,0 +1,36 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <div class="entry #{invalid?'errorDiv':''}">
+
+        <s:div rendered="#{not empty tabId}">
+            <s:span rendered="#{invalid}">
+                <script type="text/javascript">jQuery(function() {
+                    formTabRaiseError("#{tabId}", "#{fieldId}", '<s:message/>');
+                });</script>
+            </s:span>
+            <s:span rendered="#{!invalid}">
+                <script type="text/javascript">jQuery(function() {
+                    formTabClearError("#{tabId}", "#{fieldId}");
+                });</script>
+            </s:span>
+        </s:div>
+
+        <h:panelGroup rendered="#{invalid}">
+            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/attention.gif"
+                            width="18" height="18"
+                            styleClass="attentionImage"/>
+            <s:span styleClass="attentionMessage">&#160;<s:message/></s:span>
+        </h:panelGroup>
+        <div class="label"><ui:insert name="label"/>:</div>
+        <div class="input">
+            <s:validateAll>
+                <ui:insert/>
+            </s:validateAll>
+        </div>
+    </div>
+
+</ui:composition>

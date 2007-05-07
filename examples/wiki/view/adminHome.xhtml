@@ -5,8 +5,8 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:rich="http://richfaces.ajax4jsf.org/rich"
                 xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+                xmlns:j4j="http://javascript4jsf.dev.java.net/"
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
                 template="themes/#{wikiPreferences.themeName}/template.xhtml">
 
@@ -41,18 +41,20 @@
 
 <ui:define name="content">
 
+<div id="formMessageBox" class="messageBox"><table id="formMessageTable"/></div>
+
 <h:form><div class="form">
 
     <script type="text/javascript">jQuery(function() {
-        jQuery('#formTabs').tabs();
+        jQuery('#formTabs').tabs({onClick: function(){formTabClicked()} });
     });</script>
     <div id="formTabs">
 
         <ul>
-            <li><a href="#systemStats">System Statistics</a></li>
-            <li><a href="#rolesPermissions">Roles &amp; Permissions</a></li>
-            <li><a href="#linkProtocols">Link Protocols</a></li>
-            <li><a href="#systemPrefs">Preferences</a></li>
+            <li id="systemStatsTab"><a href="#systemStats">System Statistics</a></li>
+            <li id="rolesPermissionsTab"><a href="#rolesPermissions">Roles &amp; Permissions</a></li>
+            <li id="linkProtocolsTab"><a href="#linkProtocols">Link Protocols</a></li>
+            <li id="systemPrefsTab"><a href="#systemPrefs">Preferences</a></li>
         </ul>
 
         <div id="systemStats">
@@ -63,7 +65,8 @@
             Not Implemented
         </div>
 
-        <div id="linkProtocols" style="padding:25px;">
+        <div id="linkProtocols" style="padding:10px;">
+
             <p>
                 Link protocols enable custom prefixes in wiki text links, e.g. you can write
                 [=>jbseam://123] and have it rendered as a link to http://my.jbseam.site/123.
@@ -71,6 +74,7 @@
                 rendered broken.
             </p>
 
+            <a:region>
             <h:dataTable id="linkProtocolTable" var="lp"
                          value="#{linkProtocols}"
                          rendered="#{linkProtocols.rowCount >0}"
@@ -95,46 +99,40 @@
                     #{lp.link}
                 </h:column>
                 <h:column>
-                    <h:commandLink id="removeLinkProtocol" styleClass="buttonNonpersistent"
-                                   action="#{adminHome.removeLinkProtocol()}"><span class="buttonLabel">Remove</span></h:commandLink>
+                    <a:commandLink id="removeLinkProtocol" styleClass="buttonNonpersistent" reRender="linkProtocolTable"
+                                   action="#{adminHome.removeLinkProtocol()}"><span class="buttonLabel">Remove</span></a:commandLink>
                 </h:column>
             </h:dataTable>
+            </a:region>
 
+            <a:region>
+            <s:div id="linkProtocolForm" styleClass="formFields wideLabels">
 
-            <div class="form" id="linkProtocolForm">
+                <s:decorate id="prefixDecorate" template="includes/formFieldDecorate.xhtml">
+                    <ui:define name="label">Prefix</ui:define>
+                    <h:inputText id="prefix" value="#{adminHome.linkProtocol.prefix}" maxlength="10" size="10" tabindex="1"/>
+                </s:decorate>
 
-                <h:panelGrid columns="3" style="margin-top: 15px;"
-                             styleClass="datatable topLeftBottomBorder"
-                             headerClass="regularHeader rightBorder"
-                             columnClasses="tenPercentColumn alignRight formFields, twentyPercentColumn alignRight formFields,
-                                            defaultColumn alignLeft rightBorder formFields"
-                             cellpadding="0" cellspacing="0" border="0">
+                <s:decorate id="linkDecorate" template="includes/formFieldDecorate.xhtml">
+                    <ui:define name="label">Target with [[link]] placeholder</ui:define>
+                    <h:inputText id="link" value="#{adminHome.linkProtocol.link}" maxlength="1000" size="40" tabindex="1"/>
+                </s:decorate>
 
-                    <f:facet name="header">
-                        <h:outputText value="New link protocol"/>
-                    </f:facet>
-
-                    <h:panelGroup>
-                        <h:outputText styleClass="label" value="Prefix:"/>&#160;
-                        <h:inputText id="lpPrefix" value="#{adminHome.linkProtocol.prefix}" maxlength="10" size="10" tabindex="1"/>
-                    </h:panelGroup>
-
-                    <h:panelGroup>
-                        <h:outputText styleClass="label" value="Target link (with [[link]] placeholder):"/>&#160;
-                        <h:inputText id="lpLink" value="#{adminHome.linkProtocol.link}" maxlength="1000" size="40" tabindex="1"/>
-                    </h:panelGroup>
-
-                    <h:commandLink id="addLinkProtocol" styleClass="buttonNonpersistent"
-                                   action="#{adminHome.addLinkProtocol()}"><span class="buttonLabel">Add</span></h:commandLink>
-
-                </h:panelGrid>
-
-            </div>
+                <div class="entry">
+                    <div class="label">&#160;</div>
+                    <div class="input">
+                        <a:commandLink id="addLinkProtocol" styleClass="buttonNonpersistent" reRender="linkProtocolTable, linkProtocolForm"
+                                       action="#{adminHome.addLinkProtocol}"><span class="buttonLabel">Add</span></a:commandLink>
+                    </div>
+                </div>
+            </s:div>
+            </a:region>
 
         </div>
 
         <div id="systemPrefs">
             <ui:include src="includes/preferencesEditor.xhtml">
+                <ui:param name="tabId" value="systemPrefsTab"/>
                 <ui:param name="preferenceComponents" value="#{systemPreferenceComponents}"/>
             </ui:include>
         </div>
@@ -147,9 +145,9 @@
             <div class="label">&#160;</div>
             <div class="input">
 
-                <h:commandLink id="update" styleClass="button"
+                <a:commandLink id="update" styleClass="button saveButton" reRender="body"
                                action="#{adminHome.update}"
-                               tabindex="9" accesskey="U"><span class="buttonLabel"><u>U</u>pdate</span></h:commandLink>
+                               tabindex="9" accesskey="S"><span class="buttonLabel"><u>S</u>ave Settings</span></a:commandLink>
 
             </div>
         </div>

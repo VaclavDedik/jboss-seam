@@ -8,6 +8,8 @@ import org.jboss.seam.annotations.datamodel.DataModelSelection;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.FacesMessages;
+import org.jboss.seam.core.Expressions;
+import org.jboss.seam.core.Validators;
 import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.security.AuthorizationException;
 import org.jboss.seam.security.Identity;
@@ -15,6 +17,8 @@ import org.jboss.seam.wiki.core.model.User;
 import org.jboss.seam.wiki.core.model.LinkProtocol;
 import org.jboss.seam.wiki.preferences.PreferenceComponent;
 import org.jboss.seam.wiki.preferences.PreferenceVisibility;
+import org.hibernate.validator.InvalidValue;
+import org.hibernate.validator.ClassValidator;
 
 import javax.faces.application.FacesMessage;
 import javax.persistence.EntityManager;
@@ -95,6 +99,16 @@ public class AdminHome {
     @Transactional
     public void addLinkProtocol() {
         entityManager.joinTransaction();
+
+        // TODO: http://jira.jboss.com/jira/browse/JBSEAM-1297
+        ClassValidator<LinkProtocol> validator = Validators.instance().getValidator(LinkProtocol.class, null);
+        InvalidValue[] ivs = validator.getInvalidValues(linkProtocol);
+        if (ivs.length>0) {
+            for (InvalidValue iv : ivs) {
+                facesMessages.addToControl(iv.getPropertyName(), FacesMessage.SEVERITY_INFO, iv.getMessage());
+            }
+            return;
+        }
 
         newLinkProtocol = linkProtocol;
         linkProtocols.add(newLinkProtocol);

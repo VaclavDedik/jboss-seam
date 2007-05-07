@@ -31,7 +31,7 @@ insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, STRI
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (8, 0, 'wikiPreferences', 'purgeFeedEntriesAfterDays', '30')
 
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, BOOLEAN_VALUE)  values (9, 0, 'docEditorPreferences', 'minorRevisionEnabled', true)
-insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (10, 0, 'docEditorPreferences', 'regularEditAreaRows', '25')
+insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (10, 0, 'docEditorPreferences', 'regularEditAreaRows', '15')
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (11, 0, 'docEditorPreferences', 'regularEditAreaColumns', '80')
 
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, STRING_VALUE)   values (14, 0, 'userManagementPreferences', 'activationCodeSalt', 'MySecretSalt123')

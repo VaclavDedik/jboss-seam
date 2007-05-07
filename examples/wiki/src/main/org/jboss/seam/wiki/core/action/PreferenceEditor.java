@@ -28,13 +28,13 @@ public class PreferenceEditor implements Serializable {
 
     private PreferenceComponent preferenceComponent;
     private List<PreferenceValue> preferenceValues;
-    boolean valuesAreValid = true;
+    boolean valid = true;
 
     public String save() {
         if (preferenceComponent == null) return null;
 
         validate();
-        if (!valuesAreValid) return "failed";
+        if (!valid) return "failed";
 
         PreferenceProvider provider = (PreferenceProvider)Component.getInstance("preferenceProvider");
         if (preferenceVisibility.equals(PreferenceVisibility.USER)) {
@@ -60,11 +60,11 @@ public class PreferenceEditor implements Serializable {
 
     public void validate() {
         if (preferenceComponent == null) return;
-        valuesAreValid = true;
+        valid = true;
         Map<PreferenceProperty, InvalidValue[]> invalidProperties = preferenceComponent.validate(preferenceValues);
         for (Map.Entry<PreferenceProperty, InvalidValue[]> entry : invalidProperties.entrySet()) {
             for (InvalidValue validationError : entry.getValue()) {
-                valuesAreValid = false;
+                valid = false;
 
                 facesMessages.addToControlFromResourceBundleOrDefault(
                     "preferenceValidationErrors",
@@ -110,4 +110,7 @@ public class PreferenceEditor implements Serializable {
         this.preferenceVisibility = preferenceVisibility;
     }
 
+    public boolean isValid() {
+        return valid;
+    }
 }

@@ -6,14 +6,9 @@
         xmlns:a="https://ajax4jsf.dev.java.net/ajax"
         xmlns:s="http://jboss.com/products/seam/taglib">
 
-    <s:div id="preferenceValidationErrors">
-        <div align="center">
-            <h:message for="preferenceValidationErrors" styleClass="attentionMessage"/>
-        </div>
-    </s:div>
-
     <h:panelGrid columns="2" columnClasses="formListGridColumn">
 
+        <a:region>
         <h:dataTable id="preferenceComponentList" var="prefComp"
                      value="#{preferenceComponents}"
                      styleClass="formListTable"
@@ -29,9 +24,11 @@
             </h:column>
 
         </h:dataTable>
+        </a:region>
 
         <s:div id="propertyPanel">
 
+            <a:region>
             <h:dataTable id="propertyTable" var="v"
                          rendered="#{not empty preferenceEditor.preferenceComponent}"
                          value="#{preferenceEditor.preferenceValues}"
@@ -88,7 +85,22 @@
 
                 </h:column>
             </h:dataTable>
+            </a:region>
 
+        </s:div>
+
+        <s:div id="preferenceValidationErrors">
+            <s:span rendered="#{!preferenceEditor.valid}">
+                <span id="preferenceValidationErrorMessage" style="display:none"><h:message for="preferenceValidationErrors"/></span>
+                <script type="text/javascript">jQuery(function() {
+                    formTabRaiseError("#{tabId}", "prefEditor", "Preferences, " + jQuery("#preferenceValidationErrorMessage").html())
+                });</script>
+            </s:span>
+            <s:span rendered="#{preferenceEditor.valid}">
+                <script type="text/javascript">jQuery(function() {
+                    formTabClearError("#{tabId}", "prefEditor");
+                });</script>
+            </s:span>
         </s:div>
 
     </h:panelGrid>

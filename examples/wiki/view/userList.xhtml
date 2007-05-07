@@ -209,9 +209,11 @@
             </h:column>
 
             <h:column rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}">
-                <s:link action="editUser" value="Edit" propagation="none">
+                <s:link action="editUser" propagation="none"
+                               styleClass="buttonNonpersistent">
                     <f:param name="lastConversationId" value="#{conversation.id}"/>
                     <f:param name="userId" value="#{u.id}"/>
+                    <span class="buttonLabel">Edit</span>
                 </s:link>
             </h:column>
 

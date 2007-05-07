@@ -47,18 +47,20 @@
     </ui:include>
 </s:span>
 
+<div id="formMessageBox" class="messageBox"><table id="formMessageTable"/></div>
+
 <h:form>
     <div class="form">
 
     <script type="text/javascript">jQuery(function() {
-        jQuery('#formTabs').tabs();
+        jQuery('#formTabs').tabs({onClick: function(){formTabClicked()} });
     });</script>
     <div id="formTabs">
 
         <ul>
-            <li><a href="#userProfile">Profile</a></li>
-            <li><a href="#userAccount">Account</a></li>
-            <li><a href="#userPreferences">Preferences</a></li>
+            <li id="userProfileTab"><a href="#userProfile">Profile</a></li>
+            <li id="userAccountTab"><a href="#userAccount">Account</a></li>
+            <li id="userPrefsTab"><a href="#userPreferences">Preferences</a></li>
         </ul>
 
         <div id="userProfile">
@@ -66,84 +68,70 @@
         </div>
 
         <div id="userAccount">
+
+            <a:region>
             <div class="formFields wideLabels">
                 <s:validateAll>
 
-                    <s:decorate id="firstnameDecorate">
-                        <div class="entry">
-                            <div class="label">First name:</div>
-                            <div class="input">
-                                <h:inputText tabindex="1" size="40" maxlength="63" required="true"
-                                             id="firstname" value="#{userHome.instance.firstname}">
-                                    <a:support event="onblur" reRender="firstnameDecorate"/>
-                                </h:inputText>
-                            </div>
-                        </div>
+                    <s:decorate id="firstnameDecorate" template="includes/formFieldDecorate.xhtml">
+                        <ui:param name="tabId" value="userAccountTab"/>
+                        <ui:param name="fieldId" value="firstname"/>
+                        <ui:define name="label">First name</ui:define>
+                        <h:inputText tabindex="1" size="40" maxlength="63" required="true" value="#{userHome.instance.firstname}">
+                            <a:support event="onblur" reRender="firstnameDecorate"/>
+                        </h:inputText>
                     </s:decorate>
 
-                    <s:decorate  id="lastnameDecorate">
-                        <div class="entry">
-                            <div class="label">Last name:</div>
-                            <div class="input">
-                                <h:inputText tabindex="2" size="40" maxlength="63" required="true"
-                                             id="lastname" value="#{userHome.instance.lastname}">
-                                    <a:support event="onblur" reRender="lastnameDecorate"/>
-                                </h:inputText>
-                            </div>
-                        </div>
+                    <s:decorate id="lastnameDecorate" template="includes/formFieldDecorate.xhtml">
+                        <ui:param name="tabId" value="userAccountTab"/>
+                        <ui:param name="fieldId" value="lastname"/>
+                        <ui:define name="label">Last name</ui:define>
+                        <h:inputText tabindex="1" size="40" maxlength="63" required="true" value="#{userHome.instance.lastname}">
+                            <a:support event="onblur" reRender="lastnameDecorate"/>
+                        </h:inputText>
                     </s:decorate>
 
-                    <s:decorate id="emailDecorate">
-                        <div class="entry">
-                            <div class="label">E-Mail:</div>
-                            <div class="input">
-                                <h:inputText tabindex="3" size="40" maxlength="255" required="true"
-                                             id="email" value="#{userHome.instance.email}"
-                                             disabled="#{userHome.instance.username == guestUser.username}">
-                                    <a:support event="onblur" reRender="emailDecorate"/>
-                                </h:inputText>
-                            </div>
-                        </div>
+                    <s:decorate id="emailDecorate" template="includes/formFieldDecorate.xhtml">
+                        <ui:param name="tabId" value="userAccountTab"/>
+                        <ui:param name="fieldId" value="email"/>
+                        <ui:define name="label">E-Mail</ui:define>
+                        <h:inputText tabindex="3" size="40" maxlength="255" required="true" value="#{userHome.instance.email}"
+                                     disabled="#{userHome.instance.username == guestUser.username}">
+                            <a:support event="onblur" reRender="emailDecorate"/>
+                        </h:inputText>
                     </s:decorate>
 
-                    <s:decorate id="usernameDecorate">
-                        <div class="entry">
-                            <div class="label">Username:</div>
-                            <div class="input">
-                                <h:inputText tabindex="4" size="16" maxlength="16" required="true"
-                                             id="username" value="#{userHome.instance.username}"
-                                             disabled="#{userHome.instance.username == adminUser.username
-                                                         or userHome.instance.username == guestUser.username}">
-                                    <a:support event="onblur" action="#{userHome.validateUsername}" reRender="usernameDecorate"/>
-                                </h:inputText>
-                            </div>
-                        </div>
+                    <s:decorate id="usernameDecorate" template="includes/formFieldDecorate.xhtml">
+                        <ui:param name="tabId" value="userAccountTab"/>
+                        <ui:param name="fieldId" value="username"/>
+                        <ui:define name="label">Username</ui:define>
+                        <h:inputText tabindex="4" size="16" maxlength="16" required="true" value="#{userHome.instance.username}"
+                                     disabled="#{userHome.instance.username == adminUser.username
+                                                 or userHome.instance.username == guestUser.username}">
+                            <a:support event="onblur" action="#{userHome.validateUsername}" reRender="usernameDecorate"/>
+                        </h:inputText>
                     </s:decorate>
 
-                    <s:decorate id="passwordDecorate">
-                        <div class="entry">
-                            <div class="label">Password:</div>
-                            <div class="input">
-                                <h:inputSecret tabindex="5" size="15" maxlength="15"
-                                               id="password" redisplay="true" value="#{userHome.password}"
-                                               disabled="#{userHome.instance.username == guestUser.username}">
-                                    <a:support event="onblur" action="#{userHome.validatePassword}" reRender="passwordDecorate"/>
-                                </h:inputSecret>
-                            </div>
-                        </div>
+                    <s:decorate id="passwordDecorate" template="includes/formFieldDecorate.xhtml">
+                        <ui:param name="tabId" value="userAccountTab"/>
+                        <ui:param name="fieldId" value="password"/>
+                        <ui:define name="label">Password</ui:define>
+                        <h:inputSecret tabindex="5" size="15" maxlength="15"
+                                       redisplay="true" value="#{userHome.password}"
+                                       disabled="#{userHome.instance.username == guestUser.username}">
+                            <a:support event="onblur" action="#{userHome.validatePassword}" reRender="passwordDecorate"/>
+                        </h:inputSecret>
                     </s:decorate>
 
-                    <s:decorate id="passwordControlDecorate">
-                        <div class="entry">
-                            <div class="label">Repeat password:</div>
-                            <div class="input">
-                                <h:inputSecret tabindex="6" size="15" maxlength="15"
-                                               id="passwordControl" redisplay="true" value="#{userHome.passwordControl}"
-                                               disabled="#{userHome.instance.username == guestUser.username}">
-                                <a:support event="onblur" action="#{userHome.validatePasswordControl}" reRender="passwordControlDecorate"/>
-                            </h:inputSecret>
-                            </div>
-                        </div>
+                    <s:decorate id="passwordControlDecorate" template="includes/formFieldDecorate.xhtml">
+                        <ui:param name="tabId" value="userAccountTab"/>
+                        <ui:param name="fieldId" value="passwordControl"/>
+                        <ui:define name="label">Repeat password</ui:define>
+                        <h:inputSecret tabindex="6" size="15" maxlength="15"
+                                       redisplay="true" value="#{userHome.passwordControl}"
+                                       disabled="#{userHome.instance.username == guestUser.username}">
+                            <a:support event="onblur" action="#{userHome.validatePasswordControl}" reRender="passwordControlDecorate"/>
+                        </h:inputSecret>
                     </s:decorate>
 
                     <s:div rendered="#{s:hasPermission('User', 'isAdmin', currentUser)
@@ -160,13 +148,11 @@
 
                     </s:div>
 
-                    <s:div styleClass="entry">
+                    <s:div styleClass="entry" rendered="#{userHome.instance.id != adminUser.id and userHome.instance.id != guestUser.id}">
                         <s:div styleClass="label">Roles:</s:div>
                         <div class="input">
                             <h:selectManyListbox value="#{userHome.roles}" tabindex="8"
-                                    disabled="#{!s:hasPermission('User', 'editRoles', currentUser)
-                                                or userHome.instance.id == adminUser.id
-                                                or userHome.instance.id == guestUser.id}"
+                                    disabled="#{!s:hasPermission('User', 'editRoles', currentUser)}"
                                     converter="#{entityConverter}">
                                 <s:selectItems value="#{rolesList}"
                                                var="role"
@@ -177,11 +163,14 @@
 
                 </s:validateAll>
             </div>
+            </a:region>
+            
         </div>
 
         <div id="userPreferences">
             <div class="formFields wideLabels">
                 <ui:include src="includes/preferencesEditor.xhtml">
+                    <ui:param name="tabId" value="userPrefsTab"/>
                     <ui:param name="preferenceComponents" value="#{userPreferenceComponents}"/>
                 </ui:include>
             </div>
@@ -201,9 +190,9 @@
                                            and s:hasPermission('User', 'isAdmin', currentUser)}"
                                action="#{userHome.createHomeDirectory}"><span class="buttonLabel">Create Home Directory</span></h:commandLink>
 
-                <h:commandLink id="update" styleClass="button"
+                <a:commandLink id="update" styleClass="button saveButton" reRender="body"
                                action="#{userHome.update}"
-                               tabindex="9" accesskey="U"><span class="buttonLabel"><u>U</u>pdate</span></h:commandLink>
+                               tabindex="9" accesskey="S"><span class="buttonLabel"><u>S</u>ave Settings</span></a:commandLink>
 
                 <h:outputLink id="delete" value="#" tabindex="9" accesskey="D" styleClass="button"
                               rendered="#{s:hasPermission('User', 'delete', userHome.instance)}"><j4j:idProxy

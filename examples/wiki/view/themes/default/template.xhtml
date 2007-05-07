@@ -3,6 +3,7 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:j4j="http://javascript4jsf.dev.java.net/"
       xmlns:wiki="http://jboss.com/products/seam/wiki"
       xmlns:s="http://jboss.com/products/seam/taglib">
 
@@ -15,7 +16,27 @@
     <link href="#{themePath}/css/template.css" rel="stylesheet" type="text/css"/>
     <ui:insert name="includeHeaders"/>
 
+    <script type="text/javascript" src="#{themePath}/js/jquery.js"></script>
+    <script type="text/javascript" src="#{themePath}/js/interface.js"></script>
+    <script type="text/javascript" src="#{themePath}/js/jqModal.js"></script>
+    <script type="text/javascript" src="#{themePath}/js/jqTabs.js"></script>
+    <script type="text/javascript" src="#{themePath}/js/jqHistoryRemote.js"></script>
     <script type="text/javascript">
+
+        // ###################### jQuery Integration #################################
+
+        jQuery.noConflict(); // Avoid conflicts with the RichFaces/Prototype library
+
+        function jsf(id) {
+            // Find the dynamic JSF client identifier by looking up
+            // the static identifier of its j4j proxy child element
+            var realId = document.getElementById(id).title;
+            var element = document.getElementById(realId);
+            return jQuery(element);
+        }
+
+        // ###################### Form helpers #################################
+
         function clickClear(thisfield, defaulttext) {
             if (thisfield.value == defaulttext) {
                 thisfield.value = "";
@@ -26,28 +47,96 @@
                 thisfield.value = defaulttext;
             }
         }
-        function jsf(id) {
-            // Find the dynamic JSF client identifier by looking up
-            // the static identifier of its j4j proxy child element
-            var realId = document.getElementById(id).title;
-            //alert("FOR: '" + id + "' FOUND: '"+ realId + "'");
-            var element = document.getElementById(realId);
-            return jQuery(element);
-        }
+
+        // ###################### Popups #################################
+
         var fadeInPopupDialog = function(hash) {
             hash.w.fadeIn('fast',function(){ hash.o.show(); });
-            jQuery(".closeDialog", hash.w).attr("accesskey", "C"); // Dynamically assign accesskey
+            jQuery(".closeDialog", hash.w).attr("accesskey", "C"); // Dynamically assign accesskey to .closeDialog buttons
         };
+
         var fadeOutPopupDialog = function(hash) { hash.w.fadeOut('fast',function(){ hash.o.remove(); }); };
+
+        // ###################### Tabbed Forms #################################
+
+        var formTabErrors = {};
+
+        function formTabRaiseError(tabId, fieldId, message) {
+
+            formTabClearError(tabId, fieldId); // Clear error then re-add
+
+            //alert("Raise error for tab: '" + tabId + "' field: " + fieldId);
+
+            // Add an error message on the form message box
+
+            //alert("Adding error message: " +tabId + fieldId + "ErrorMessage")
+            jQuery("#formMessageTable").append(
+                '&lt;tr id="' + tabId + fieldId + 'ErrorMessage">&lt;td>&lt;img src="#{themePath}/img/attention.gif" ' +
+                'height="18" width="18" class="attentionImage"/>&lt;/td>' +
+                '&lt;td>&lt;span id="attentionMessage" class="attentionMessage">'+ message + '&lt;/span>&lt;/td>&lt;/tr>'
+            );
+
+            if (formTabErrors[tabId] == null) {
+                formTabErrors[tabId] = 1;
+            } else {
+                formTabErrors[tabId]++;
+            }
+            formTabRenderErrors(tabId);
+        }
+
+        function formTabClearError(tabId, fieldId) {
+            if (document.getElementById(tabId+fieldId+"ErrorMessage") != null) { // This error is displayed
+                //alert("Clear error for tab: '" + tabId + "' field: " + fieldId);
+                //alert("Removing error message: " +tabId + fieldId + "ErrorMessage")
+                jQuery("#"+tabId + fieldId + "ErrorMessage").remove();  // Remove the error message on the form message box
+                formTabErrors[tabId]--;
+                formTabRenderErrors(tabId);
+            }
+        }
+
+        function formTabRenderErrors(tabId) {
+            //alert("Errors for tab: '" + tabId + "': " + formTabErrors[tabId]);
+
+            if (formTabErrors[tabId] > 0 &amp;&amp; document.getElementById(tabId+"InvalidIcon") == null) {
+                //alert("Showing icon for tab: " + tabId);
+                // Show an icon on the tab and blink it a few times
+                jQuery("#"+tabId)
+                    .Pulsate(100,5)
+                    .prepend('&lt;img id="' + tabId + 'InvalidIcon" ' +
+                            'src="#{themePath}/img/attention.gif" width="13" height="13" ' +
+                            'alt="!" style="vertical-align:bottom;margin-left:5px;margin-right:5px;"/>');
+            } else if (formTabErrors[tabId] &lt; 1){
+                //alert("Removing icon of tab: " + tabId);
+                jQuery("#"+tabId + "InvalidIcon").remove();             // Remove the error icon on the tab
+            }
+
+            var tabsHaveErrors = false;
+            for (var tab in formTabErrors) {
+                var numOfErrors = formTabErrors[tab];
+                if (numOfErrors > 0) {
+                    tabsHaveErrors = true;
+                    break;
+                }
+            }
+
+            if (tabsHaveErrors) {
+                //alert("Hiding save button");
+                jQuery(".saveButton").hide();                        // Hide save button(s)
+                jQuery(".formControls").css("height", "30px");      // Adjust height for missing save button
+                jQuery("#messageBox").empty();                      // Hide global messages
+            } else {
+                //alert("Showing save button");
+                jQuery(".saveButton").show();                       // Show save button(s)
+                jQuery(".formControls").css("height", "");          // Readjust height for present save button
+            }
+        }
+
+        function formTabClicked() {
+            jQuery("#messageBox").empty(); // Hide global messages
+        }
+
     </script>
-    <script type="text/javascript" src="#{themePath}/js/jquery.js"></script>
-    <script type="text/javascript" src="#{themePath}/js/interface.js"></script>
-    <script type="text/javascript" src="#{themePath}/js/jqModal.js"></script>
-    <script type="text/javascript" src="#{themePath}/js/jqTabs.js"></script>
-    <script type="text/javascript" src="#{themePath}/js/jqHistoryRemote.js"></script>
-    <script type="text/javascript">
-        jQuery.noConflict(); // Avoid conflicts with the RichFaces/Prototype library
-    </script>
+
 </head>
 
 <body>
@@ -92,7 +181,7 @@
     </s:div>
 
     <s:div id="body">
-        <s:div id="messageBox">
+        <s:div id="messageBox" styleClass="messageBox"><j4j:idProxy id="messageBox_"/>
         <s:div rendered="#{!empty facesMessages.currentGlobalMessages}">
             <ui:repeat var="message" value="#{facesMessages.currentGlobalMessages}">
                 <h:panelGrid columns="2">
@@ -113,19 +202,6 @@
         </s:div>
         </s:div>
         <div id="content">
-            <f:facet name="beforeInvalidField">
-                <h:panelGroup>
-                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/attention.gif"
-                                    width="18" height="18"
-                                    styleClass="attentionImage"/>
-                    <s:span styleClass="attentionMessage">&#160;
-                        <s:message/>
-                    </s:span>
-                </h:panelGroup>
-            </f:facet>
-            <f:facet name="aroundInvalidField">
-                <s:div styleClass="errorDiv"/>
-            </f:facet>
             <ui:insert name="content"/>
         </div>
     </s:div>

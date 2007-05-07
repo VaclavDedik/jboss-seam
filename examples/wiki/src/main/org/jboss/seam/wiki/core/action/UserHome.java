@@ -8,7 +8,6 @@ import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Renderer;
-import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.security.AuthorizationException;
@@ -16,6 +15,7 @@ import org.jboss.seam.security.Identity;
 import org.jboss.seam.wiki.core.action.prefs.UserManagementPreferences;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.core.dao.UserDAO;
+import org.jboss.seam.wiki.core.dao.UserRoleAccessFactory;
 import org.jboss.seam.wiki.core.model.Role;
 import org.jboss.seam.wiki.core.model.User;
 import org.jboss.seam.wiki.preferences.PreferenceComponent;
@@ -24,6 +24,7 @@ import org.jboss.seam.wiki.util.Hash;
 
 import javax.faces.application.FacesMessage;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -168,7 +169,7 @@ public class UserHome extends EntityHome<User> {
                 return null;
 
         // Roles
-        getInstance().getRoles().clear();
+        getInstance().setRoles(new ArrayList<Role>()); // Clear out the collection
         getInstance().getRoles().addAll(roles);
 
         // Preferences
@@ -276,7 +277,7 @@ public class UserHome extends EntityHome<User> {
         facesMessages.addFromResourceBundleOrDefault(
             FacesMessage.SEVERITY_INFO,
             getMessageKeyPrefix() + "homeDirectoryCreated",
-            "New home directory has been queued, update to commit the change"
+            "New home directory has been queued, save settings to commit"
         );
     }
 

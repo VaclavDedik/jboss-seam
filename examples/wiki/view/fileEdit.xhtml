@@ -7,6 +7,7 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
                 xmlns:j4j="http://javascript4jsf.dev.java.net/"
+                xmlns:a="https://ajax4jsf.dev.java.net/ajax"
                 template="themes/#{wikiPreferences.themeName}/template.xhtml">
 
 <ui:define name="includeHeaders">
@@ -89,93 +90,75 @@
                     </div>
                 </s:div>
 
-                <s:validateAll>
+                <s:decorate id="nameDecorate" template="includes/formFieldDecorate.xhtml">
+                    <ui:define name="label">Name</ui:define>
+                    <h:inputText tabindex="1" size="50" maxlength="255" required="true" value="#{fileHome.instance.name}"/>
+                </s:decorate>
 
-                    <s:decorate>
-                        <div class="entry">
-                            <div class="label">Name:</div>
-                            <div class="input">
-                                <h:inputText tabindex="1" size="50" maxlength="255" id="name" required="true"
-                                             value="#{fileHome.instance.name}"/>
-                            </div>
+                <ui:include src="includes/accessLevelSelector.xhtml"/>
+
+                <s:div id="details" rendered="#{fileHome.managed}">
+
+                    <div class="entry">
+                        <div class="label">File Details:</div>
+                        <div class="output">
+                            <h:outputText value="(#{fileHome.instance.filename}, #{wiki:displayFilesize(fileHome.instance.filesize)}, #{fileHome.instance.contentType})"/>
                         </div>
-                    </s:decorate>
+                    </div>
 
-                    <ui:include src="includes/accessLevelSelector.xhtml"/>
+                </s:div>
 
-                    <s:div id="details" rendered="#{fileHome.managed}">
+                <s:div id="imagePreview"
+                       rendered="#{fileHome.managed and not empty fileHome.instance.imageMetaInfo}">
 
-                        <div class="entry">
-                            <div class="label">File Details:</div>
-                            <div class="output">
-                                <h:outputText value="(#{fileHome.instance.filename}, #{wiki:displayFilesize(fileHome.instance.filesize)}, #{fileHome.instance.contentType})"/>
-                            </div>
+                    <div class="entry">
+                        <div class="label">Original Image Size:</div>
+                        <div class="output">#{fileHome.instance.imageMetaInfo.sizeX} x #{fileHome.instance.imageMetaInfo.sizeY} pixel</div>
+                    </div>
+
+                    <div class="entry">
+                        <div class="label">Image Preview:</div>
+                        <div class="output">
+                            <h:outputLink value="#{facesContext.externalContext.requestContextPath}/servlets/files/download.seam?fileId=#{fileHome.instance.id}"><h:graphicImage
+                                style="border: 1px solid black;" value="/servlets/files/download.seam?fileId=#{fileHome.instance.id}&amp;width=#{fileHome.imagePreviewSize}&amp;conversationId=#{conversation.id}"/>
+                            </h:outputLink>
+
                         </div>
+                    </div>
 
-                    </s:div>
-
-                    <s:div id="imagePreview"
-                           rendered="#{fileHome.managed and not empty fileHome.instance.imageMetaInfo}">
-
-                        <div class="entry">
-                            <div class="label">Original Image Size:</div>
-                            <div class="output">#{fileHome.instance.imageMetaInfo.sizeX} x #{fileHome.instance.imageMetaInfo.sizeY} pixel</div>
+                    <div class="entry">
+                        <div class="label">&#160;</div>
+                        <div class="input">
+                            <h:panelGroup>
+                                <h:commandLink id="zoomOut" tabindex="2" action="#{fileHome.zoomPreviewOut}">
+                                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/minus.gif" width="18" height="18"/>
+                                </h:commandLink>
+                                <h:commandLink id="zoomIn" tabindex="3" action="#{fileHome.zoomPreviewIn}">
+                                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/plus.gif" width="18" height="18"/>
+                                </h:commandLink>
+                            </h:panelGroup>
                         </div>
+                    </div>
 
-                        <div class="entry">
-                            <div class="label">Image Preview:</div>
-                            <div class="output">
-                                <h:outputLink value="#{facesContext.externalContext.requestContextPath}/servlets/files/download.seam?fileId=#{fileHome.instance.id}"><h:graphicImage
-                                    style="border: 1px solid black;" value="/servlets/files/download.seam?fileId=#{fileHome.instance.id}&amp;width=#{fileHome.imagePreviewSize}&amp;conversationId=#{conversation.id}"/>
-                                </h:outputLink>
-                                
-                            </div>
+                    <div class="entry">
+                        <div class="label">Show in documents:</div>
+                        <div class="input">
+                            <h:selectOneMenu value="#{fileHome.instance.imageMetaInfo.thumbnail}" styleClass="" tabindex="4">
+                                <f:selectItem itemLabel="Small thumbnail" itemValue="S"/>
+                                <f:selectItem itemLabel="Medium thumbnail" itemValue="M"/>
+                                <f:selectItem itemLabel="Large thumbnail" itemValue="L"/>
+                                <f:selectItem itemLabel="Full size " itemValue="F"/>
+                                <f:selectItem itemLabel="As attachment" itemValue="A"/>
+                            </h:selectOneMenu>
                         </div>
+                    </div>
 
-                        <div class="entry">
-                            <div class="label">&#160;</div>
-                            <div class="input">
-                                <h:panelGroup>
-                                    <h:commandLink id="zoomOut" tabindex="2" action="#{fileHome.zoomPreviewOut}">
-                                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/minus.gif" width="18" height="18"/>
-                                    </h:commandLink>
-                                    <h:commandLink id="zoomIn" tabindex="3" action="#{fileHome.zoomPreviewIn}">
-                                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/plus.gif" width="18" height="18"/>
-                                    </h:commandLink>
-                                </h:panelGroup>
-                            </div>
-                        </div>
+                </s:div>
 
-                        <div class="entry">
-                            <div class="label">Show in documents:</div>
-                            <div class="input">
-                                <h:selectOneMenu value="#{fileHome.instance.imageMetaInfo.thumbnail}" styleClass="" tabindex="4">
-                                    <f:selectItem itemLabel="Small thumbnail" itemValue="S"/>
-                                    <f:selectItem itemLabel="Medium thumbnail" itemValue="M"/>
-                                    <f:selectItem itemLabel="Large thumbnail" itemValue="L"/>
-                                    <f:selectItem itemLabel="Full size " itemValue="F"/>
-                                    <f:selectItem itemLabel="As attachment" itemValue="A"/>
-                                </h:selectOneMenu>
-                            </div>
-                        </div>
-
-                    </s:div>
-
-                    <s:div>
-                        <s:decorate>
-                            <div class="entry">
-                                <div class="label">Upload file (max. #{wiki:displayFilesize(org.jboss.seam.web.multipartFilter.maxRequestSize)}):</div>
-                                <div class="input">
-                                    <s:fileUpload id="upload" data="#{fileHome.filedata}"
-                                                  contentType="#{fileHome.contentType}"
-                                                  fileName="#{fileHome.filename}"/>
-                                </div>
-                            </div>
-                        </s:decorate>
-                    </s:div>
-
-                </s:validateAll>
-
+                <s:decorate id="uploadDecorate" template="includes/formFieldDecorate.xhtml">
+                    <ui:define name="label">Upload (max. #{wiki:displayFilesize(org.jboss.seam.web.multipartFilter.maxRequestSize)})</ui:define>
+                    <s:fileUpload id="upload" data="#{fileHome.filedata}" contentType="#{fileHome.contentType}" fileName="#{fileHome.filename}"/>
+                </s:decorate>
 
             </div>
             <div class="formControls wideLabels">

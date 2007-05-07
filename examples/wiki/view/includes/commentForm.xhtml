@@ -12,88 +12,62 @@
 
             <div class="formFields formBorder wideLabels">
 
-                <s:validateAll>
+                <s:decorate id="userNameDecorate" template="formFieldDecorate.xhtml">
+                    <ui:define name="label">Name</ui:define>
+                    <h:inputText tabindex="102" size="40" maxlength="100" required="true"
+                                 id="userName" value="#{commentHome.comment.fromUserName}">
+                        <a:support event="onblur" reRender="userNameDecorate"/>
+                    </h:inputText>
+                </s:decorate>
 
-                    <s:decorate id="userNameDecorate">
-                        <div class="entry">
-                            <div class="label">Name:</div>
-                            <div class="input">
-                                <h:inputText tabindex="102" size="40" maxlength="100" required="true"
-                                             id="userName" value="#{commentHome.comment.fromUserName}">
-                                    <a:support event="onblur" reRender="userNameDecorate"/>
-                                </h:inputText>
-                            </div>
+                <s:decorate id="userEmailDecorate" template="formFieldDecorate.xhtml">
+                    <ui:define name="label">E-mail address (optional)</ui:define>
+                    <h:inputText tabindex="102" size="40" maxlength="255" required="false"
+                                 id="userEmail" value="#{commentHome.comment.fromUserEmail}">
+                    </h:inputText>
+                </s:decorate>
+
+                <s:decorate id="userHomepageDecorate" template="formFieldDecorate.xhtml">
+                    <ui:define name="label">Homepage URL (optional)</ui:define>
+                    <h:inputText tabindex="102" size="40" maxlength="1000" required="false"
+                                 id="userHomepage" value="#{commentHome.comment.fromUserHomepage}">
+                    </h:inputText>
+                </s:decorate>
+
+                <s:decorate id="subjectDecorate" template="formFieldDecorate.xhtml">
+                    <ui:define name="label">Subject</ui:define>
+                    <h:inputText tabindex="102" size="40" maxlength="255" required="true"
+                                 id="subject" value="#{commentHome.comment.subject}">
+                        <a:support event="onblur" reRender="subjectDecorate"/>
+                    </h:inputText>
+                </s:decorate>
+
+                <s:decorate id="commentDecorate" template="formFieldDecorate.xhtml">
+                    <ui:define name="label">Comment</ui:define>
+                    <h:inputTextarea tabindex="102" required="true"
+                                     cols="40"
+                                     rows="10"
+                                     id="commentTextInput"
+                                     value="#{commentHome.comment.text}">
+                        <a:support event="onblur" reRender="commentDecorate"/>
+                    </h:inputTextarea>
+                </s:decorate>
+
+                <s:div rendered="#{!identity.loggedIn}">
+                    <s:div styleClass="entry">
+                        <div class="label">Verification question:</div>
+                        <div class="output">
+                            What is the result of&#160;<h:outputText value="#{captcha.question}"/>?
                         </div>
-                    </s:decorate>
-
-                    <s:decorate id="userEmailDecorate">
-                        <div class="entry">
-                            <div class="label">E-mail address (optional):</div>
-                            <div class="input">
-                                <h:inputText tabindex="102" size="40" maxlength="255" required="false"
-                                             id="userEmail" value="#{commentHome.comment.fromUserEmail}">
-                                </h:inputText>
-                            </div>
-                        </div>
-                    </s:decorate>
-
-                    <s:decorate id="userHomepageDecorate">
-                        <div class="entry">
-                            <div class="label">Homepage URL (optional):</div>
-                            <div class="input">
-                                <h:inputText tabindex="102" size="40" maxlength="1000" required="false"
-                                             id="userHomepage" value="#{commentHome.comment.fromUserHomepage}">
-                                </h:inputText>
-                            </div>
-                        </div>
-                    </s:decorate>
-
-                    <s:decorate id="subjectDecorate">
-                        <div class="entry">
-                            <div class="label">Subject:</div>
-                            <div class="input">
-                                <h:inputText tabindex="102" size="40" maxlength="255" required="true"
-                                             id="subject" value="#{commentHome.comment.subject}">
-                                    <a:support event="onblur" reRender="subjectDecorate"/>
-                                </h:inputText>
-                            </div>
-                        </div>
-                    </s:decorate>
-
-                    <s:decorate id="commentDecorate">
-                        <div class="entry">
-                            <div class="label">Comment:</div>
-                            <s:div styleClass="input" id="commentText">
-                                <h:inputTextarea tabindex="102" required="true"
-                                                 cols="40"
-                                                 rows="10"
-                                                 id="commentTextInput"
-                                                 value="#{commentHome.comment.text}">
-                                    <a:support event="onblur" reRender="commentDecorate"/>
-                                </h:inputTextarea>
-                            </s:div>
-                        </div>
-                    </s:decorate>
-
-                    <s:div rendered="#{!identity.loggedIn}">
-                        <s:div styleClass="entry">
-                            <div class="label">Verification question:</div>
-                            <div class="output">
-                                What is the result of&#160;<h:outputText value="#{captcha.question}"/>?
-                            </div>
-                        </s:div>
-
-                        <s:decorate>
-                            <s:div styleClass="entry">
-                                <div class="label">Enter response:</div>
-                                <div class="input">
-                                    <h:inputText tabindex="102" size="15" id="verifyCaptcha" value="#{captcha.response}" required="true"/>
-                                </div>
-                            </s:div>
-                        </s:decorate>
                     </s:div>
 
-                </s:validateAll>
+                    <s:decorate id="verifyCaptchaDecorate" template="formFieldDecorate.xhtml">
+                        <ui:define name="label">Enter repsonse</ui:define>
+                        <h:inputSecret tabindex="102" size="5" maxlength="5" required="true"
+                                       redisplay="true" id="verifyCaptcha" value="#{captcha.response}">
+                        </h:inputSecret>
+                    </s:decorate>
+                </s:div>
 
             </div>
 

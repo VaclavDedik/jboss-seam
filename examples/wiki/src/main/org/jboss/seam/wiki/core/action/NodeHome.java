@@ -170,14 +170,14 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
         // Wiki name conversion
         setWikiName();
 
-        // Refresh UI
-        refreshMenuItems();
-
         // Validate
         if (!isValidModel()) return null;
 
         if (!beforeUpdate()) return null;
         String outcome = super.update();
+
+        // Refresh UI
+        refreshMenuItems();
 
         // Notify any plugin preferences editors to also flush
         Events.instance().raiseEvent("PreferenceEditor.flushAll");

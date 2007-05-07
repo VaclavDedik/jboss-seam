@@ -62,7 +62,7 @@
                   rendered="#{directoryHome.managed}"/>
 </div>
 
-<div class="formFields formBorder wideLabels">
+<div class="formFields formBorder">
 
     <s:validateAll>
 
@@ -86,14 +86,11 @@
             </div>
         </s:div>
 
-        <s:decorate>
-            <div class="entry">
-                <div class="label">Name:</div>
-                <div class="input">
-                    <h:inputText size="40" maxlength="255" id="name" required="true" tabindex="1"
-                                 value="#{directoryHome.instance.name}"/>
-                </div>
-            </div>
+        <s:decorate id="nameDecorate" template="includes/formFieldDecorate.xhtml">
+            <ui:define name="label">Name</ui:define>
+            <h:inputText size="40" maxlength="255" required="true" tabindex="1" value="#{directoryHome.instance.name}">
+                <a:support event="onblur" reRender="nameDecorate"/>
+            </h:inputText>
         </s:decorate>
 
         <ui:include src="includes/accessLevelSelector.xhtml"/>

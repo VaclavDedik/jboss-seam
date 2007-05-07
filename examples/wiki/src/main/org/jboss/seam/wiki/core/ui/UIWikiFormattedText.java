@@ -85,34 +85,48 @@ public class UIWikiFormattedText extends UIOutput {
 
             public String renderThumbnailImageInlineLink(WikiLink inlineLink) {
                 File file = (File) inlineLink.getNode();
-                int thumbnailWidth;
-                // TODO: We could make these sizes customizable, maybe as attributes
-                // of the JSF tag
-                switch (file.getImageMetaInfo().getThumbnail()) {
-                    case'S':
-                        thumbnailWidth = 80;
-                        break;
-                    case'M':
-                        thumbnailWidth = 160;
-                        break;
-                    case'L':
-                        thumbnailWidth = 320;
-                        break;
-                    default:
-                        thumbnailWidth = file.getImageMetaInfo().getSizeX();
-                }
                 Conversation conversation = (Conversation) Component.getInstance("conversation");
-                // I have no idea why this needs HTML entities for the & symbol -
-                // Firefox complains about invalid XML if an & is in an attribute
-                // value!
-                String thumbnailUrl = WikiUtil.renderURL(inlineLink.getNode()) + "&amp;width="
-                        + thumbnailWidth + "&amp;cid=" + conversation.getId();
 
-                return "<a href=\""
-                        + (inlineLink.isBroken() ? inlineLink.getUrl() : WikiUtil.renderURL(inlineLink
-                        .getNode())) + "\" class=\""
-                        + getAttributes().get("thumbnailLinkStyleClass") + "\"><img src=\""
-                        + thumbnailUrl + "\"/></a>";
+                if (file.getImageMetaInfo().getThumbnail() == 'F') {
+                    // Full size display, no thumbnail
+
+                    String imageUrl = WikiUtil.renderURL(inlineLink.getNode()) + "&amp;cid=" + conversation.getId();
+                    return "<img src='"+ imageUrl + "'" +
+                            " width='"+ file.getImageMetaInfo().getSizeX()+"'" +
+                            " height='"+ file.getImageMetaInfo().getSizeY() +"'/>";
+                } else {
+                    // Thumbnail with link display
+
+                    int thumbnailWidth;
+                    // TODO: We could make these sizes customizable, maybe as attributes
+                    // of the JSF tag
+                    switch (file.getImageMetaInfo().getThumbnail()) {
+                        case'S':
+                            thumbnailWidth = 80;
+                            break;
+                        case'M':
+                            thumbnailWidth = 160;
+                            break;
+                        case'L':
+                            thumbnailWidth = 320;
+                            break;
+                        default:
+                            thumbnailWidth = file.getImageMetaInfo().getSizeX();
+                    }
+
+                    // I have no idea why this needs HTML entities for the & symbol -
+                    // Firefox complains about invalid XML if an & is in an attribute
+                    // value!
+                    String thumbnailUrl = WikiUtil.renderURL(inlineLink.getNode()) + "&amp;width="
+                            + thumbnailWidth + "&amp;cid=" + conversation.getId();
+
+                    return "<a href=\""
+                            + (inlineLink.isBroken() ? inlineLink.getUrl() : WikiUtil.renderURL(inlineLink
+                            .getNode())) + "\" class=\""
+                            + getAttributes().get("thumbnailLinkStyleClass") + "\"><img src=\""
+                            + thumbnailUrl + "\"/></a>";
+
+                }
             }
 
             public String renderMacro(String macroName) {

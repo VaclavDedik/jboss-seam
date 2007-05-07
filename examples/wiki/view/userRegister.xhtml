@@ -46,99 +46,66 @@
         </div>
 
         <div class="formFields formBorder wideLabels">
-            <s:validateAll>
 
-                <s:decorate id="firstnameDecorate">
-                    <div class="entry">
-                        <div class="label">First name:</div>
-                        <div class="input">
-                            <h:inputText tabindex="1" size="40" maxlength="63" required="true"
-                                         id="firstname" value="#{userHome.instance.firstname}">
-                                <a:support event="onblur" reRender="firstnameDecorate"/>
-                            </h:inputText>
-                        </div>
+            <s:decorate id="firstnameDecorate" template="includes/formFieldDecorate.xhtml">
+                <ui:define name="label">First name</ui:define>
+                <h:inputText tabindex="1" size="40" maxlength="63" required="true" value="#{userHome.instance.firstname}">
+                    <a:support event="onblur" reRender="firstnameDecorate"/>
+                </h:inputText>
+            </s:decorate>
+
+            <s:decorate id="lastnameDecorate" template="includes/formFieldDecorate.xhtml">
+                <ui:define name="label">Last name</ui:define>
+                <h:inputText tabindex="1" size="40" maxlength="63" required="true" value="#{userHome.instance.lastname}">
+                    <a:support event="onblur" reRender="lastnameDecorate"/>
+                </h:inputText>
+            </s:decorate>
+
+            <s:decorate id="emailDecorate" template="includes/formFieldDecorate.xhtml">
+                <ui:define name="label">E-Mail</ui:define>
+                <h:inputText tabindex="3" size="40" maxlength="255" required="true" value="#{userHome.instance.email}">
+                    <a:support event="onblur" reRender="emailDecorate"/>
+                </h:inputText>
+            </s:decorate>
+
+            <s:decorate id="usernameDecorate" template="includes/formFieldDecorate.xhtml">
+                <ui:define name="label">Username</ui:define>
+                <h:inputText tabindex="4" size="16" maxlength="16" required="true" value="#{userHome.instance.username}">
+                    <a:support event="onblur" action="#{userHome.validateUsername}" reRender="usernameDecorate"/>
+                </h:inputText>
+            </s:decorate>
+
+            <s:decorate id="passwordDecorate" template="includes/formFieldDecorate.xhtml">
+                <ui:define name="label">Password</ui:define>
+                <h:inputSecret tabindex="5" size="15" maxlength="15"
+                               redisplay="true" value="#{userHome.password}">
+                    <a:support event="onblur" action="#{userHome.validatePassword}" reRender="passwordDecorate"/>
+                </h:inputSecret>
+            </s:decorate>
+
+            <s:decorate id="passwordControlDecorate" template="includes/formFieldDecorate.xhtml">
+                <ui:define name="label">Repeat password</ui:define>
+                <h:inputSecret tabindex="6" size="15" maxlength="15"
+                               redisplay="true" value="#{userHome.passwordControl}">
+                    <a:support event="onblur" action="#{userHome.validatePasswordControl}" reRender="passwordControlDecorate"/>
+                </h:inputSecret>
+            </s:decorate>
+
+            <s:div rendered="#{not s:hasPermission('User', 'isAdmin', currentUser)}">
+                <s:div styleClass="entry">
+                    <div class="label">Verification question:</div>
+                    <div class="output">
+                        What is the result of&#160;<h:outputText value="#{captcha.question}"/>?
                     </div>
-                </s:decorate>
-
-                <s:decorate  id="lastnameDecorate">
-                    <div class="entry">
-                        <div class="label">Last name:</div>
-                        <div class="input">
-                            <h:inputText tabindex="2" size="40" maxlength="63" required="true"
-                                         id="lastname" value="#{userHome.instance.lastname}">
-                                <a:support event="onblur" reRender="lastnameDecorate"/>
-                            </h:inputText>
-                        </div>
-                    </div>
-                </s:decorate>
-
-                <s:decorate id="emailDecorate">
-                    <div class="entry">
-                        <div class="label">E-Mail:</div>
-                        <div class="input">
-                            <h:inputText tabindex="3" size="40" maxlength="255" required="true"
-                                         id="email" value="#{userHome.instance.email}">
-                                <a:support event="onblur" reRender="emailDecorate"/>
-                            </h:inputText>
-                        </div>
-                    </div>
-                </s:decorate>
-
-                <s:decorate id="usernameDecorate">
-                    <div class="entry">
-                        <div class="label">Username:</div>
-                        <div class="input">
-                            <h:inputText tabindex="4" size="16" maxlength="16" required="true"
-                                         id="username" value="#{userHome.instance.username}">
-                                <a:support event="onblur" action="#{userHome.validateUsername}" reRender="usernameDecorate"/>
-                            </h:inputText>
-                        </div>
-                    </div>
-                </s:decorate>
-
-                <s:decorate id="passwordDecorate">
-                    <div class="entry">
-                        <div class="label">Password:</div>
-                        <div class="input">
-                            <h:inputSecret tabindex="5" size="15" maxlength="15"
-                                           id="password" redisplay="true" value="#{userHome.password}">
-                                <a:support event="onblur" action="#{userHome.validatePassword}" reRender="passwordDecorate"/>
-                            </h:inputSecret>
-                        </div>
-                    </div>
-                </s:decorate>
-
-                <s:decorate id="passwordControlDecorate">
-                    <div class="entry">
-                        <div class="label">Repeat password:</div>
-                        <div class="input">
-                            <h:inputSecret tabindex="6" size="15" maxlength="15"
-                                           id="passwordControl" redisplay="true" value="#{userHome.passwordControl}">
-                            <a:support event="onblur" action="#{userHome.validatePasswordControl}" reRender="passwordControlDecorate"/>
-                        </h:inputSecret>
-                        </div>
-                    </div>
-                </s:decorate>
-
-                <s:div rendered="#{not s:hasPermission('User', 'isAdmin', currentUser)}">
-                    <s:div styleClass="entry">
-                        <div class="label">Verification question:</div>
-                        <div class="output">
-                            What is the result of&#160;<h:outputText value="#{captcha.question}"/>?
-                        </div>
-                    </s:div>
-
-                    <s:decorate>
-                        <s:div styleClass="entry">
-                            <div class="label">Enter response:</div>
-                            <div class="input">
-                                <h:inputText tabindex="7" size="15" id="verifyCaptcha" value="#{captcha.response}" required="true"/>
-                            </div>
-                        </s:div>
-                    </s:decorate>
                 </s:div>
 
-            </s:validateAll>
+                <s:decorate id="verifyCaptchaDecorate" template="includes/formFieldDecorate.xhtml">
+                    <ui:define name="label">Enter repsonse</ui:define>
+                    <h:inputSecret tabindex="7" size="5" maxlength="5" required="true"
+                                   redisplay="true" id="verifyCaptcha" value="#{captcha.response}">
+                    </h:inputSecret>
+                </s:decorate>
+            </s:div>
 
         </div>
 

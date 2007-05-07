@@ -195,10 +195,15 @@ ul {
 /* Messages
 ----------------------------------------------- */
 
-#messageBox {
+.messageBox {
     background-color: #87786e;
     width: auto;
-    margin-bottom: 10px;
+}
+
+.messageBox table {
+    padding: 0;
+    margin: 0;
+    border:0;
 }
 
 .infoMessage {
@@ -226,13 +231,13 @@ ul {
 	color: #600;
 }
 
-#messageBox .attentionImage {
+.messageBox .attentionImage {
     vertical-align: text-top;
     padding-left: 10px;
     padding-right: 10px;
 }
 
-#messageBox .attentionMessage {
+.messageBox .attentionMessage {
     font-size: 85%;
     font-weight: bold;
     color: #fff;
@@ -243,7 +248,7 @@ ul {
 
 .documentDisplay {
     background-color: #fff;
-    margin-top: -10px;
+    margin-top: 10px;
 }
 
 .attachmentDisplay {
@@ -358,33 +363,13 @@ ul {
 /* Forms
 ----------------------------------------------- */
 
-.form {}
-
-.formPanel {
-    border-left: 1px solid #C3BBB6;
-    border-right: 1px solid #C3BBB6;
-    border-bottom: 1px solid #C3BBB6;
-    border-top: 1px solid #C3BBB6;
-    margin: 0;
-    padding: 0;
-    background-color: #f5f5f5;
-}
-
-/* TODO: Currently not used, bug in Richfaces... http://jira.jboss.com/jira/browse/RF-67 */
-.formPanelHeader {
-    border: 0;
-    margin: 0;
-    padding-left: 13px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    color: #555;
-    background: #fff url(../img/th.bg.gif ) 0 0 repeat-x;
+.form {
+    margin-top: 10px;
 }
 
 .formListGridColumn {
     vertical-align: top;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding: 10px;
 }
 
 .formListTable {
@@ -429,7 +414,7 @@ ul {
 }
 
 .formControls {
-    background: #c2bcaf url(../img/th.bg.inverse.gif) 0 0 repeat-x;
+    background: #fff url(../img/th.bg.inverse.gif) 0 0 repeat-x;
     padding: 5px;
 }
 
@@ -443,7 +428,7 @@ ul {
     padding-top: 1px;
     padding-right: 2%;
     font-size: 85%;
-    width: 10%;
+    width: 15%;
 	text-align: right;
 }
 
@@ -458,7 +443,7 @@ ul {
 }
 
 .wideLabels .entry .label {
-    width: 25%;
+    width: 30%;
 }
 
 .errorDiv {
@@ -475,6 +460,7 @@ ul {
     border-top: 1px solid #C3BBB6;
     border-left: 1px solid #C3BBB6;
     border-right: 1px solid #C3BBB6;
+    margin-top: 10px;
 }
 
 .directoryPathPanel .directoryButton {
@@ -727,7 +713,7 @@ ul {
 -----------------------------------------------*/
 
 #contentTextEdit {
-    margin-left: 12%;
+    margin-left: 17%;
     margin-bottom: 15px;
 }
 
@@ -819,14 +805,10 @@ ul {
     list-style: none;
     margin: 0;
     padding: 0;
-    background-color: red;
     border-left: 1px solid #C3BBB6;
+    overflow: auto;
 }
-.tabs-nav:after { /* clearing without presentational markup, IE gets extra treatment */
-    display: none;
-    clear: both;
-    content: " ";
-}
+
 .tabs-nav li {
     float: left;
     margin: 0;
@@ -841,7 +823,6 @@ ul {
     padding-bottom: 5px;
     border-top: 1px solid #C3BBB6;
     border-right: 1px solid #C3BBB6;
-    border-bottom: 1px solid #C3BBB6;
 }
 .tabs-nav a {
     color: #962325
@@ -875,7 +856,5 @@ ul {
     border-top: 1px solid #C3BBB6;
     border-left: 1px solid #C3BBB6;
     border-right: 1px solid #C3BBB6;
-    padding-top: 35px;
-    padding-bottom: 10px;
     background: #f5f5f5; /* declare background color for container to avoid distorted fonts in IE while fading */
 }
