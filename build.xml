@@ -139,7 +139,9 @@
 	</zipfileset>
 
 	<zipfileset id="example.itext.jar" dir="${lib.dir}" prefix="WEB-INF/lib" description="the itext jar">
-		<include name="itext-*.jar" if="example.seam.pdf.lib" />
+            <include name="itext-*.jar" if="example.seam.pdf.lib" />
+            <include name="jfreechart-*.jar" if="example.seam.pdf.lib" />
+            <include name="jcommon-*.jar" if="example.seam.pdf.lib" />
 	</zipfileset>
 
 	<zipfileset id="example.gwt.jar" dir="${lib.dir}" description="The GWT runtime">
@@ -298,8 +300,8 @@
 		<exclude name="jsf-facelets*.jar" />
 		<exclude name="jboss-*-jdk50.jar" />
 		<exclude name="jgroups*.jar" />
-		<exclude name="myfaces*.jar" />
 		<exclude name="jbpm*.jar" />
+		<exclude name="jsp-api.jar" />
 		<exclude name="servlet-api.jar" />
 		<exclude name="ant*.jar" />
 		<exclude name="javax.servlet.jsp.jar" />
