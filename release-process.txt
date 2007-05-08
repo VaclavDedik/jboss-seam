@@ -8,9 +8,8 @@ Updating version numbers
   - changelog.txt
   - build.xml
   - doc/reference/en/master.xml
-  - org.jboss.seam.servlet.SeamListener
 
-  (Actually, we should fix it so the last three
+  (Actually, we should fix it so the last two
   version numbers can be pulled from build.properties.) 
 
 * Finally, update the changelog, by copy/pasting
