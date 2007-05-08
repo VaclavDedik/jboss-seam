@@ -1,6 +1,5 @@
 //$Id$
 package org.jboss.seam;
-
 import static org.jboss.seam.ComponentType.ENTITY_BEAN;
 import static org.jboss.seam.ComponentType.JAVA_BEAN;
 import static org.jboss.seam.ComponentType.MESSAGE_DRIVEN_BEAN;
@@ -10,9 +9,7 @@ import static org.jboss.seam.util.EJB.MESSAGE_DRIVEN;
 import static org.jboss.seam.util.EJB.STATEFUL;
 import static org.jboss.seam.util.EJB.STATELESS;
 import static org.jboss.seam.util.EJB.name;
-
 import javax.persistence.Entity;
-
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Role;
@@ -20,7 +17,6 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.util.Strings;
-
 /**
  * Convenience methods for accessing annotated information
  * about Seam component classes.
@@ -31,7 +27,6 @@ public class Seam
 {
       
    private static final String SESSION_INVALID = "org.jboss.seam.sessionInvalid";
-
    /**
     * Get the default scope
     * @see Scope
@@ -162,7 +157,6 @@ public class Seam
             throw new IllegalArgumentException();
       }
    }
-
    private static String unqualifyClassName(Class<?> clazz) {
       return Strings.unqualify( Strings.unqualify( clazz.getName() ), '$' );
    }
@@ -187,7 +181,6 @@ public class Seam
          return InterceptionType.ALWAYS;
       }
    }
-
    /**
     * Mark the session for invalidation at the end of the request cycle
     */
@@ -236,5 +229,9 @@ public class Seam
          }
       }
    }
-
+   public static String getVersion()
+   {
+      Package pkg = Seam.class.getPackage();
+      return (pkg != null ? pkg.getImplementationVersion() : null);      
+   }
 }
