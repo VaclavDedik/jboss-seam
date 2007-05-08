@@ -28,7 +28,7 @@ import org.jboss.seam.util.Naming;
  */
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
-@Startup(depends="org.jboss.seam.core.microcontainer")
+@Startup(depends={"org.jboss.seam.core.microcontainer", "org.jboss.seam.core.ejb"})
 public class EntityManagerFactory
 {
 
