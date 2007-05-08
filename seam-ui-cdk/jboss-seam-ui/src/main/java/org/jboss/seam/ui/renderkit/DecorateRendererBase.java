@@ -9,6 +9,7 @@ import javax.faces.context.ResponseWriter;
 import org.ajax4jsf.framework.renderer.AjaxComponentRendererBase;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.ui.component.UIDecorate;
+import org.jboss.seam.ui.util.Decoration;
 
 public class DecorateRendererBase extends AjaxComponentRendererBase
 {
@@ -24,8 +25,8 @@ public class DecorateRendererBase extends AjaxComponentRendererBase
    {
       UIDecorate decorate = (UIDecorate) component;
       
-      Contexts.getEventContext().set("invalid", UIDecorate.hasMessage(component, context));
-      Contexts.getEventContext().set("required", UIDecorate.hasRequired(component, context));
+      Contexts.getEventContext().set("invalid", Decoration.isComponentHasFacesMessages(component, context));
+      Contexts.getEventContext().set("required", Decoration.isComponentRequired(component, context));
       
       writer.startElement("span", component);
       writer.writeAttribute("id", component.getClientId(context), "id");

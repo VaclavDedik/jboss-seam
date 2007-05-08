@@ -10,11 +10,8 @@
 	component="org.jboss.seam.ui.component.UISpan" 
 	>
 	<f:clientid var="clientId"/>
-	<span id="#{clientId}"
-		name="#{clientId}"
+	<span id="#{clientId}" name="#{clientId}"
 		x:passThruWithExclusions="value,name,type,id,style,styleClass"
-		class="#{component.attributes['styleClass']}"
-		style="#{component.attributes['style']}"
 		>
 		<f:call name="renderChildren" />
 	</span>

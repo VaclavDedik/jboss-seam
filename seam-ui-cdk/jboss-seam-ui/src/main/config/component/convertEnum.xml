@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE components PUBLIC "-//AJAX4JSF//CDK Generator config/EN"  "https://ajax4jsf.dev.java.net/nonav/dtds/component-config.dtd" >
+<components>
+	<converter>
+		<id>org.jboss.seam.ui.EnumConverter</id>
+		<family>org.jboss.seam.ui.EnumConverter</family>
+		<superclass>org.jboss.seam.ui.converter.EnumConverter</superclass>
+		<classname>org.jboss.seam.ui.converter.impl.EnumConverterImpl</classname>
+		<description>
+			<![CDATA[Convert an enum.]]>
+		</description>
+		<tag>
+			<name>convertEnum</name>
+			<classname>org.jboss.seam.ui.taglib.ConvertEnumTag</classname>
+			<superclass>
+				javax.faces.webapp.ConverterELTag
+			</superclass>
+		</tag>
+		<property>
+			<name>foo</name>
+			<classname>java.lang.String</classname>
+		</property>
+	</converter>
+	
+</components>

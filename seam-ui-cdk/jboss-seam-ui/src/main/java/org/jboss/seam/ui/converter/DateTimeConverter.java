@@ -23,21 +23,25 @@ package org.jboss.seam.ui.converter;
 
 import java.util.TimeZone;
 
-import javax.faces.convert.DateTimeConverter;
-
+import org.jboss.seam.InterceptionType;
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Install;
+import org.jboss.seam.annotations.Intercept;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.jsf.Converter;
 import org.jboss.seam.contexts.Contexts;
 
-/**
- * JSF converter class
- *
- */
-public abstract class ConvertDateTimeBase extends DateTimeConverter{
+@Name("org.jboss.seam.ui.DateTimeConverter")
+@Scope(ScopeType.EVENT)
+@Intercept(InterceptionType.NEVER)
+@Converter
+@Install(precedence=Install.BUILT_IN)
+public class DateTimeConverter extends javax.faces.convert.DateTimeConverter{
 	
-	private static final String COMPONENT_TYPE = "org.jboss.seam.ui.ConvertDateTime";
+	private static final String CONVERTER_ID = "org.jboss.seam.ui.DateTimeConverter";
 	
-	private static final String COMPONENT_FAMILY = "org.jboss.seam.ui.ConvertDateTime";
-	
-   public ConvertDateTimeBase()
+   public DateTimeConverter()
    {
       setTimeZone( getTimeZone() );
    }

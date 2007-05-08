@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE components PUBLIC "-//AJAX4JSF//CDK Generator config/EN"  "https://ajax4jsf.dev.java.net/nonav/dtds/component-config.dtd" >
 <components>
-	<component>
-		<name>org.jboss.seam.ui.ConvertDateTime</name>
-		<family>org.jboss.seam.ui.ConvertDateTime</family>
-		<classname>org.jboss.seam.ui.converter.ConvertDateTime</classname>
-		<superclass>org.jboss.seam.ui.converter.ConvertDateTimeBase</superclass>
+	<converter generate="false">
+		<id>org.jboss.seam.ui.DateTimeConverter</id>
+		<family>org.jboss.seam.ui.DateTimeConverter</family>
+		<classname>org.jboss.seam.ui.converter.DateTimeConverter</classname>
 		<description>
 			<![CDATA[Perform date or time conversions in the Seam timezone.]]>
 		</description>
@@ -13,8 +12,34 @@
 			<name>convertDateTime</name>
 			<classname>org.jboss.seam.ui.taglib.ConvertDateTimeTag</classname>
 			<superclass>
-				org.ajax4jsf.framework.taglib.HtmlComponentTagBase
+				javax.faces.webapp.ConverterELTag
 			</superclass>
 		</tag>
-	</component>
+		<property>
+			<name>timeStyle</name>
+			<classname>java.lang.String</classname>
+		</property>
+		<property>
+			<name>dateStyle</name>
+			<classname>java.lang.String</classname>
+		</property>
+		<property>
+			<name>pattern</name>
+			<classname>java.lang.String</classname>
+		</property>
+		<property elonly="true">
+			<name>locale</name>
+			<classname>java.util.Locale</classname>
+		</property>
+		<property elonly="true">
+			<name>timeZone</name>
+			<classname>java.util.TimeZone</classname>
+		</property>
+		<property>
+			<name>type</name>
+			<classname>java.lang.String</classname>
+			<defaultvalue>"date"</defaultvalue>
+		</property>
+	</converter>
+	
 </components>

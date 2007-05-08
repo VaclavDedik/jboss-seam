@@ -69,10 +69,11 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>javax.servlet</groupId>
+			<groupId>org.jboss.seam</groupId>
 			<artifactId>jsp-api</artifactId>
-			<version>2.0</version>
-			<scope>provided</scope>
+			<scope>system</scope>
+			<version>transient</version>
+			<systemPath>${seam.dir}/lib/jsp-api.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.seam</groupId>
@@ -103,7 +104,7 @@
 			<version>transient</version>
 			<scope>system</scope>
 			<systemPath>
-				${seam.dir}/lib/myfaces-api-1.1.4.jar
+				${seam.dir}/lib/jsf-api.jar
 			</systemPath>
 		</dependency>
 		<dependency>
@@ -162,11 +163,20 @@
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.seam</groupId>
-			<artifactId>el-api</artifactId>
+			<artifactId>jboss-el-api</artifactId>
 			<version>transient</version>
 			<scope>system</scope>
 			<systemPath>
-				${seam.dir}/lib/el-api.jar
+				${seam.dir}/lib/jboss-el-api.jar
+			</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>commons-beanutils</artifactId>
+			<version>transient</version>
+			<scope>system</scope>
+			<systemPath>
+				${seam.dir}/lib/commons-beanutils-1.7.0.jar
 			</systemPath>
 		</dependency>
 	</dependencies>

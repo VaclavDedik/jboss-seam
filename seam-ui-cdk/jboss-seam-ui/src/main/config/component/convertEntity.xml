@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE components PUBLIC "-//AJAX4JSF//CDK Generator config/EN"  "https://ajax4jsf.dev.java.net/nonav/dtds/component-config.dtd" >
+<components>
+	<converter generate="false">
+		<id>org.jboss.seam.ui.EntityConverter</id>
+		<family>org.jboss.seam.ui.EntityConverter</family>
+		<classname>org.jboss.seam.ui.converter.EntityConverter</classname>
+		<description>
+			<![CDATA[Convert an entity.]]>
+		</description>
+		<tag>
+			<name>convertEntity</name>
+			<classname>org.jboss.seam.ui.taglib.ConvertEntityTag</classname>
+			<superclass>
+				javax.faces.webapp.ConverterELTag
+			</superclass>
+		</tag>
+	</converter>
+	
+</components>

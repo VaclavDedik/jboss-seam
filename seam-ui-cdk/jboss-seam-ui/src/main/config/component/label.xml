@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE components PUBLIC "-//AJAX4JSF//CDK Generator config/EN"  "https://ajax4jsf.dev.java.net/nonav/dtds/component-config.dtd" >
+<components>
+	<component>
+		<name>org.jboss.seam.ui.Label</name>
+		<family>org.jboss.seam.ui.Label</family>
+		<classname>org.jboss.seam.ui.component.html.HtmlLabel</classname>
+		<superclass>org.jboss.seam.ui.component.UILabel</superclass>
+		<description>
+			<![CDATA[A label associated with the nearest JSF input component]]>
+		</description>
+		<tag>
+			<name>label</name>
+			<classname>org.jboss.seam.ui.taglib.LabelTag</classname>
+			<superclass>
+				org.ajax4jsf.framework.taglib.HtmlComponentTagBase
+			</superclass>
+		</tag>
+		
+		&ui_component_attributes;
+		&html_label_attributes;
+		&ui_output_attributes;
+		&html_style_attributes;
+		<property attachedstate="true">
+			<name>for</name>
+			<classname>java.lang.String</classname>
+			<description></description>
+		</property>
+	</component>
+</components>

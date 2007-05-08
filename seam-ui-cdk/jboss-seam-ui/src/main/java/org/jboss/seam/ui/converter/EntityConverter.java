@@ -27,6 +27,7 @@ import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Expressions.ValueBinding;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.ui.core.EntityConverterStore;
 import org.jboss.seam.util.Reflections;
 
 /**
@@ -35,7 +36,7 @@ import org.jboss.seam.util.Reflections;
  * 
  * 
  */
-@Name("org.jboss.seam.ui.entityConverter")
+@Name("org.jboss.seam.ui.EntityConverter")
 @Scope(ScopeType.CONVERSATION)
 @Install(precedence = BUILT_IN)
 @Converter

@@ -28,35 +28,35 @@
 		&html_events;
 		&ui_command_attributes;
 		<!-- &standard_command_button_attributes; -->
-		<property attachedstate="true">
+		<property transient="false">
 			<name>view</name>
 			<classname>java.lang.String</classname>
 			<description>the JSF view id to link to.</description>
 		</property>
-		<property attachedstate="true">
+		<property transient="false">
 			<name>pageflow</name>
 			<classname>java.lang.String</classname>
 			<description>a pageflow definition to begin. (This is only useful when propagation="begin" or propagation="join".)</description>
 		</property>
 		<!-- Should be el="false" but this is buggy -->
-		<property attachedstate="true">
+		<property transient="false">
 			<name>propagation</name>
 			<classname>java.lang.String</classname>
 			<description>determines the conversation propagation style: begin, join, nest, none or end.</description>
 			<defaultvalue>"default"</defaultvalue>
 		</property>
 		<!-- Should be el="false" but this is buggy -->
-		<property>
+		<property transient="true">
 			<name>fragment</name>
 			<classname>java.lang.String</classname>
 			<description>the fragment identifier to link to.</description>
 		</property>
 		<!-- Should be el="false" but this is buggy -->
-		<property>
+		<property transient="true">
 			<name>outcome</name>
 			<classname>java.lang.String</classname>
 		</property>
-		<property attachedstate="true">
+		<property transient="false">
 			<name>image</name>
 			<classname>java.lang.String</classname>
 		</property>

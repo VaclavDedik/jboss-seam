@@ -1,4 +1,4 @@
-package org.jboss.seam.ui.converter;
+package org.jboss.seam.ui.core;
 
 import java.io.Serializable;
 import java.util.ArrayList;
