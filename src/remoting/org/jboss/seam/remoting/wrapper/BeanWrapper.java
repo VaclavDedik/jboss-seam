@@ -196,8 +196,12 @@ public class BeanWrapper extends BaseWrapper implements Wrapper
               an API method in CGLIB that can be used instead */
     if (cls.getName().contains("EnhancerByCGLIB"))
       cls = cls.getSuperclass();
-
+    
     String componentName = Seam.getComponentName(cls);
+    Component component = componentName != null ? Component.forName(componentName) : null;
+    
+    if (component != null) 
+       cls = component.getBeanClass();       
 
     if (componentName != null)
       out.write(componentName.getBytes());

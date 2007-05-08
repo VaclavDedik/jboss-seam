@@ -89,11 +89,12 @@ public class ExecutionHandler extends BaseRequestHandler implements RequestHandl
 
       // Store the conversation ID in the outgoing context
       ctx.setConversationId( Manager.instance().getCurrentConversationId() );
-      Manager.instance().endRequest( ContextAdaptor.getSession(session) );
-      Lifecycle.endRequest();
 
       // Package up the response
       marshalResponse(calls, ctx, response.getOutputStream());
+
+      Manager.instance().endRequest( ContextAdaptor.getSession(session) );
+      Lifecycle.endRequest();    
     }
     catch (Exception ex)
     {
