@@ -58,7 +58,9 @@ public class FeedDAO {
             fe.setTitle(document.getName());
             fe.setAuthor(document.getCreatedBy().getFullname());
             fe.setUpdatedDate(fe.getPublishedDate());
-            fe.setDescriptionType("text/html");
+            // Do NOT use text/html, the fabulous Sun "Rome" software will
+            // render type="HTML" (uppercase!) which kills the Firefox feed renderer!
+            fe.setDescriptionType("html");
             fe.setDescriptionValue(renderWikiText(document.getContent()));
             fe.setDocument(document);
             restrictedEntityManager.persist(fe);
