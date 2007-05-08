@@ -63,6 +63,11 @@ public class Entity extends Model
             {
                identifierGetter = method;
             }
+            
+            if ( !method.isAccessible() )
+            {
+               method.setAccessible(true);
+            }
          }
          
          if (identifierGetter==null)
@@ -72,6 +77,10 @@ public class Entity extends Model
                if ( field.isAnnotationPresent(Id.class) || field.isAnnotationPresent(EmbeddedId.class))
                {
                   identifierField = field;
+                  if ( !field.isAccessible() )
+                  {
+                     field.setAccessible(true);
+                  }
                }
             }
          }
