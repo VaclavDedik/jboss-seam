@@ -107,7 +107,8 @@
                                 <ui:param name="tabId" value="docContentTab"/>
                                 <ui:param name="fieldId" value="content"/>
                                 <ui:define name="label">Content</ui:define>
-                                <script type="text/javascript">jQuery(function() {
+                                <script type="text/javascript">if(!$.browser.safari){jQuery(function() {
+                                    jQuery("#contentTextEdit").append('&lt;div id="contentTextEditResizeHandle"/>');
                                     jQuery("#contentTextEdit").Resizable({
                                         minHeight: 50,
                                         handlers: {
@@ -117,7 +118,7 @@
                                             jQuery("textarea", this).css({ height: size.height + "px" });
                                         }
                                     });
-                                });</script>
+                                })};</script>
                                 <div id="contentTextEdit">
                                     <s:span rendered="#{documentHome.enabledPreview}">
                                         <h:inputTextarea tabindex="3"
@@ -135,7 +136,6 @@
                                                          id="contentTextArea"
                                                          value="#{documentHome.formContent}"/>
                                     </s:span>
-                                    <div id="contentTextEditResizeHandle"/>
                                 </div>
                             </s:decorate>
 

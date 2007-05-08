@@ -65,11 +65,10 @@
 
             formTabClearError(tabId, fieldId); // Clear error then re-add
 
-            //alert("Raise error for tab: '" + tabId + "' field: " + fieldId);
+            log("Raise error for tab: '" + tabId + "' field: " + fieldId);
 
             // Add an error message on the form message box
-
-            //alert("Adding error message: " +tabId + fieldId + "ErrorMessage")
+            log("Adding error message: " +tabId + fieldId + "ErrorMessage")
             jQuery("#formMessageTable").append(
                 '&lt;tr id="' + tabId + fieldId + 'ErrorMessage">&lt;td>&lt;img src="#{themePath}/img/attention.gif" ' +
                 'height="18" width="18" class="attentionImage"/>&lt;/td>' +
@@ -86,8 +85,8 @@
 
         function formTabClearError(tabId, fieldId) {
             if (document.getElementById(tabId+fieldId+"ErrorMessage") != null) { // This error is displayed
-                //alert("Clear error for tab: '" + tabId + "' field: " + fieldId);
-                //alert("Removing error message: " +tabId + fieldId + "ErrorMessage")
+                log("Clear error for tab: '" + tabId + "' field: " + fieldId);
+                log("Removing error message: " +tabId + fieldId + "ErrorMessage")
                 jQuery("#"+tabId + fieldId + "ErrorMessage").remove();  // Remove the error message on the form message box
                 formTabErrors[tabId]--;
                 formTabRenderErrors(tabId);
@@ -95,10 +94,10 @@
         }
 
         function formTabRenderErrors(tabId) {
-            //alert("Errors for tab: '" + tabId + "': " + formTabErrors[tabId]);
+            log("Errors for tab: '" + tabId + "': " + formTabErrors[tabId]);
 
             if (formTabErrors[tabId] > 0 &amp;&amp; document.getElementById(tabId+"InvalidIcon") == null) {
-                //alert("Showing icon for tab: " + tabId);
+                log("Showing icon for tab: " + tabId);
                 // Show an icon on the tab and blink it a few times
                 jQuery("#"+tabId)
                     .Pulsate(100,5)
@@ -106,7 +105,7 @@
                             'src="#{themePath}/img/attention.gif" width="13" height="13" ' +
                             'alt="!" style="vertical-align:bottom;margin-left:5px;margin-right:5px;"/>');
             } else if (formTabErrors[tabId] &lt; 1){
-                //alert("Removing icon of tab: " + tabId);
+                log("Removing icon of tab: " + tabId);
                 jQuery("#"+tabId + "InvalidIcon").remove();             // Remove the error icon on the tab
             }
 
@@ -120,14 +119,16 @@
             }
 
             if (tabsHaveErrors) {
-                //alert("Hiding save button");
-                jQuery(".saveButton").hide();                        // Hide save button(s)
+                log("Hiding save button");
+                jQuery(".saveButton").hide();                       // Hide save button(s)
                 jQuery(".formControls").css("height", "30px");      // Adjust height for missing save button
                 jQuery("#messageBox").empty();                      // Hide global messages
+                jQuery("#formMessageTable").show();                 // Show form error messages
             } else {
-                //alert("Showing save button");
+                log("Showing save button");
                 jQuery(".saveButton").show();                       // Show save button(s)
                 jQuery(".formControls").css("height", "");          // Readjust height for present save button
+                jQuery("#formMessageTable").hide();                 // Hide form error messages
             }
         }
 
@@ -135,6 +136,23 @@
             jQuery("#messageBox").empty(); // Hide global messages
         }
 
+        function log(message) {
+            /*
+            if (!log.window_ || log.window_.closed) {
+                var win = window.open("", null, "width=400,height=200," +
+                                                "scrollbars=yes,resizable=yes,status=no," +
+                                                "location=no,menubar=no,toolbar=no");
+                if (!win) return;
+                var doc = win.document;
+                doc.write("&lt;html>&lt;head>&lt;title>Debug Log&lt;/title>&lt;/head>&lt;body>&lt;/body>&lt;/html>");
+                doc.close();
+                log.window_ = win;
+            }
+            var logLine = log.window_.document.createElement("div");
+            logLine.appendChild(log.window_.document.createTextNode(message));
+            log.window_.document.body.appendChild(logLine);
+            */
+        }
     </script>
 
 </head>
