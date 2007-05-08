@@ -87,10 +87,11 @@
             </itemizedlist>
             <para><emphasis>Usage</emphasis></para>
             <programlisting><![CDATA[
+  <s:button id="cancel" value="Cancel" action="#{hotelBooking.cancel}"/>
 ]]></programlisting>
           </entry>
         </row>
-        
+
         <row>
           <entry valign="top">
             <para>
@@ -130,9 +131,23 @@
             </itemizedlist>
             <para><emphasis>Usage</emphasis></para>
             <programlisting><![CDATA[
+  <s:cache key="entry-#{blogEntry.id}" region="pageFragments">
+    <div class="blogEntry">
+      <h3>#{blogEntry.title}</h3>
+      <div>
+        <s:formattedText value="#{blogEntry.body}"/>
+      </div>
+      <p>
+        [Posted on&#160;
+        <h:outputText value="#{blogEntry.date}">
+          <f:convertDateTime timezone="#{blog.timeZone}" locale="#{blog.locale}" type="both"/>
+        </h:outputText>]
+      </p>
+    </div>
+  </s:cache>
 ]]></programlisting>
           </entry>
-        </row>        
+        </row>
 
         <row>
           <entry valign="top">
@@ -150,12 +165,9 @@
             <para>
               None.
             </para>
-            <para><emphasis>Usage</emphasis></para>
-            <programlisting><![CDATA[
-]]></programlisting>
           </entry>
         </row>
-        
+
         <row>
           <entry valign="top">
             <para>
@@ -188,9 +200,12 @@
               </itemizedlist>
               <para><emphasis>Usage</emphasis></para>
               <programlisting><![CDATA[
+  <h:commandButton value="Apply" action="#{personHome.update}">
+    <s:conversationPropagation type="join" />
+  </h:commandButton>
 ]]></programlisting>
           </entry>
-        </row>        
+        </row>
 
         <row>
           <entry valign="top">
@@ -207,10 +222,13 @@
             </para>
             <para><emphasis>Usage</emphasis></para>
             <programlisting><![CDATA[
+  <h:outputText value="#{item.orderDate}">
+    <s:convertDateTime type="both" dateStyle="full"/>
+  </h:outputText>
 ]]></programlisting>
           </entry>
         </row>
-        
+
         <row>
           <entry valign="top">
             <para><literal>&lt;s:convertEntity&gt;</literal></para>
@@ -234,11 +252,11 @@
             </para>
 
             <para><emphasis>Configuration</emphasis></para>
-            
+
             <para>
               You must use <emphasis>Seam managed transactions</emphasis> (see <xref linkend="persistence.seam-managed-transactions" />) with <literal>&lt;s:convertEntity /&gt;</literal>.
             </para>
-            
+
             <para>
               If your <emphasis>Managed Persistence Context</emphasis> isn't called
               <literal>entityManager</literal>, then you need to set it in components.xml:
@@ -255,7 +273,7 @@
     <s:convertEntity />
 </h:selectOneMenu>]]></programlisting>
           </entry>
-        </row>             
+        </row>
 
         <row>
           <entry valign="top">
@@ -274,10 +292,14 @@
             </para>
             <para><emphasis>Usage</emphasis></para>
             <programlisting><![CDATA[
+  <h:selectOneMenu value="#{person.honorific}">
+    <s:selectItems value="#{honorifics}" var="honorific" label="#{honorific.label}" noSelectionLabel="Please select" />
+    <s:convertEnum />
+  </h:selectOneMenu>
 ]]></programlisting>
           </entry>
-        </row>  
-        
+        </row>
+
         <row>
           <entry valign="top">
             <para>
@@ -287,7 +309,7 @@
           <entry valign="top">
             <para><emphasis>Description</emphasis></para>
             <para>
-              "Decorate" a JSF input field when validation fails or when 
+              "Decorate" a JSF input field when validation fails or when
               <literal>required="true"</literal> is set.
             </para>
             <para><emphasis>Attributes</emphasis></para>
@@ -297,13 +319,26 @@
                   <literal>template</literal> &mdash; the facelets template to use to decorate the component
                 </para>
               </listitem>
-  			    </itemizedlist>
+            </itemizedlist>
             <para><emphasis>Usage</emphasis></para>
             <programlisting><![CDATA[
+  <f:facet name="afterInvalidField">
+    <s:span>
+      &#160;Error:&#160;
+      <s:message/>
+    </s:span>
+  </f:facet>
+  <f:facet name="aroundInvalidField">
+    <s:span styleClass="errors"/>
+  </f:facet>
+
+  <s:decorate>
+    <h:inputText value="#{blogEntry.id}" size="20" maxlength="20" required="true" id="id"/>
+  </s:decorate>
 ]]></programlisting>
           </entry>
-        </row>    
-        
+        </row>
+
         <row>
           <entry valign="top">
             <para>
@@ -321,10 +356,13 @@
             </para>
             <para><emphasis>Usage</emphasis></para>
             <programlisting><![CDATA[
+  <s:div rendered="#{selectedMember == null}">
+    Sorry, but this member does not exist.
+  </s:div>
 ]]></programlisting>
           </entry>
-        </row>            
-        
+        </row>
+
         <row>
           <entry valign="top">
             <para>
@@ -352,10 +390,23 @@
               </itemizedlist>
               <para><emphasis>Usage</emphasis></para>
               <programlisting><![CDATA[
+  <h:selectOneRadio id="radioList"
+                    layout="lineDirection"
+                    value="#{newPayment.paymentFrequency}">
+      <s:convertEnum />
+      <s:enumItem enumValue="ONCE"         label="Only Once" />
+      <s:enumItem enumValue="EVERY_MINUTE" label="Every Minute (testing)" />
+      <s:enumItem enumValue="HOURLY"       label="Every Hour (testing)" />
+      <s:enumItem enumValue="DAILY"        label="Every Day" />
+      <s:enumItem enumValue="WEEKLY"       label="Every Week" />
+      <ui:remove>
+          <f:selectItems value="#{newPayment.frequencies}" />
+      </ui:remove>
+  </h:selectOneRadio>
 ]]></programlisting>
           </entry>
-        </row>        
-        
+        </row>
+
         <row>
           <entry valign="top">
             <para>
@@ -457,9 +508,11 @@
             </itemizedlist>
             <para><emphasis>Usage</emphasis></para>
             <programlisting><![CDATA[
+  <s:fileUpload id="picture" data="#{register.picture}" accept="image/png"
+                contentType="#{register.pictureContentType}" />
 ]]></programlisting>
           </entry>
-        </row>        
+        </row>
 
         <row>
           <entry valign="top">
@@ -481,7 +534,7 @@
             </itemizedlist>
             <para><emphasis>Usage</emphasis></para>
             <programlisting><![CDATA[<s:formattedText value="#{blog.text}"/>
-]]></programlisting>            
+]]></programlisting>
             <para><emphasis>Example</emphasis></para>
             <mediaobject>
               <imageobject role="fo">
@@ -490,10 +543,10 @@
               <imageobject role="html">
                 <imagedata fileref="../shared/images/controls-seamtext.png" align="center"/>
               </imageobject>
-            </mediaobject>                        
+            </mediaobject>
           </entry>
         </row>
-        
+
         <row>
           <entry valign="top">
             <para>
@@ -511,10 +564,13 @@
             </para>
             <para><emphasis>Usage</emphasis></para>
             <programlisting><![CDATA[
+  <s:fragment rendered="#{auction.highBidder ne null}">
+    Current bid:
+  </s:fragment>
 ]]></programlisting>
           </entry>
-        </row>        
-        
+        </row>
+
         <row>
           <entry valign="top">
             <para>
@@ -616,10 +672,13 @@
             </para>
             <para><emphasis>Usage</emphasis></para>
             <programlisting><![CDATA[
+  <s:graphicImage rendered="#{auction.image ne null}" value="#{auction.image.data}">
+    <s:transformImageSize width="200" maintainRatio="true"/>
+  </s:graphicImage>
 ]]></programlisting>
           </entry>
-        </row>        
-        
+        </row>
+
         <row>
           <entry valign="top">
             <para>
@@ -677,10 +736,11 @@
             </itemizedlist>
             <para><emphasis>Usage</emphasis></para>
             <programlisting><![CDATA[
+  <s:link id="register" view="/register.xhtml" value="Register New User"/>
 ]]></programlisting>
           </entry>
-        </row>        
-               
+        </row>
+
         <row>
           <entry valign="top">
             <para>
@@ -698,10 +758,16 @@
             </para>
             <para><emphasis>Usage</emphasis></para>
             <programlisting><![CDATA[
+  <f:facet name="afterInvalidField">
+    <s:span>
+      &#160;Error:&#160;
+      <s:message/>
+    </s:span>
+  </f:facet>
 ]]></programlisting>
           </entry>
-        </row>        
-        
+        </row>
+
         <row>
           <entry valign="top">
             <para>
@@ -711,10 +777,10 @@
           <entry valign="top">
             <para><emphasis>Description</emphasis></para>
             <para>
-               Displays a dynamic date picker component that selects a date for the specified input field.  
-               The body of the <literal>selectDate</literal> element should contain HTML elements, such as 
-               text or an image, that prompt the user to click to display the date picker.  The date picker 
-               <emphasis>must</emphasis> be styled using CSS.  An example CSS file can be found in the Seam 
+               Displays a dynamic date picker component that selects a date for the specified input field.
+               The body of the <literal>selectDate</literal> element should contain HTML elements, such as
+               text or an image, that prompt the user to click to display the date picker.  The date picker
+               <emphasis>must</emphasis> be styled using CSS.  An example CSS file can be found in the Seam
                booking demo as <literal>date.css</literal>, or can be generated using seam-gen.  The CSS
                styles used to control the appearance of the date picker are also described below.
             </para>
@@ -755,10 +821,10 @@
     </h:inputText>
     <s:selectDate for="dob" startYear="1910" endYear="2007"><img src="img/datepicker.png"/></s:selectDate>
     <div class="validationError"><h:message for="dob"/></div>
-  </div>           
+  </div>
 ]]></programlisting>
             </para>
-            
+
             <para><emphasis>Example</emphasis></para>
             <mediaobject>
               <imageobject role="fo">
@@ -768,7 +834,7 @@
                 <imagedata fileref="../shared/images/controls-selectdate.png" align="center"/>
               </imageobject>
             </mediaobject>
-            
+
             <para><emphasis>CSS Styling</emphasis></para>
             <para>
               The following list describes the CSS class names that are used to control the style of the selectDate control.
@@ -776,9 +842,9 @@
             <itemizedlist>
               <listitem>
                 <para>
-                  <literal>seam-date</literal> &mdash; This class is applied to the outer <literal>div</literal> containing the 
+                  <literal>seam-date</literal> &mdash; This class is applied to the outer <literal>div</literal> containing the
                   popup calendar. (1) It is also applied to the <literal>table</literal> that controls the inner layout of the
-                  calendar. (2) 
+                  calendar. (2)
                 </para>
               </listitem>
               <listitem>
@@ -789,14 +855,14 @@
               </listitem>
               <listitem>
                 <para>
-                  <literal>seam-date-header-prevMonth</literal> &mdash; This class is applied to the "previous month" table cell, 
+                  <literal>seam-date-header-prevMonth</literal> &mdash; This class is applied to the "previous month" table cell,
                   (<literal>td</literal>), which when clicked causes the calendar to display the month prior to the one currently
                   displayed.  (4)
                 </para>
               </listitem>
               <listitem>
                 <para>
-                  <literal>seam-date-header-nextMonth</literal> &mdash; This class is applied to the "next month" table cell, 
+                  <literal>seam-date-header-nextMonth</literal> &mdash; This class is applied to the "next month" table cell,
                   (<literal>td</literal>), which when clicked causes the calendar to display the month following the one currently
                   displayed.  (5)
                 </para>
@@ -809,7 +875,7 @@
               </listitem>
               <listitem>
                 <para>
-                  <literal>seam-date-footer</literal> &mdash; This class is applied to the calendar footer row 
+                  <literal>seam-date-footer</literal> &mdash; This class is applied to the calendar footer row
                   (<literal>tr</literal>), which displays the current date. (7)
                 </para>
               </listitem>
@@ -853,7 +919,7 @@
               </listitem>
               <listitem>
                 <para>
-                  <literal>seam-date-monthNames</literal> &mdash; This class is applied to the <literal>div</literal> 
+                  <literal>seam-date-monthNames</literal> &mdash; This class is applied to the <literal>div</literal>
                   control that contains the popup month selector. (14)
                 </para>
               </listitem>
@@ -865,7 +931,7 @@
               </listitem>
               <listitem>
                 <para>
-                  <literal>seam-date-years </literal> &mdash; This class is applied to the <literal>div</literal> 
+                  <literal>seam-date-years </literal> &mdash; This class is applied to the <literal>div</literal>
                   control that contains the popup year selector. (16)
                 </para>
               </listitem>
@@ -876,7 +942,7 @@
                 </para>
               </listitem>
             </itemizedlist>
-            
+
             <mediaobject>
               <imageobject role="fo">
                 <imagedata fileref="images/controls-selectdatecss.png" align="center"/>
@@ -886,8 +952,8 @@
               </imageobject>
             </mediaobject>
           </entry>
-        </row>        
-        
+        </row>
+
         <row>
           <entry valign="top">
             <para>
@@ -943,8 +1009,8 @@
 </h:selectOneMenu>
 ]]></programlisting>
           </entry>
-        </row>    
-        
+        </row>
+
         <row>
           <entry valign="top">
             <para>
@@ -962,9 +1028,10 @@
             </para>
             <para><emphasis>Usage</emphasis></para>
             <programlisting><![CDATA[
+  <s:span styleClass="required" rendered="#{required}">*</s:span>
 ]]></programlisting>
           </entry>
-        </row>                  
+        </row>
 
         <row>
           <entry valign="top">
@@ -983,11 +1050,8 @@
             <para>
                 None.
             </para>
-            <para><emphasis>Usage</emphasis></para>
-            <programlisting><![CDATA[
-]]></programlisting>
           </entry>
-        </row>         
+        </row>
 
         <row>
           <entry valign="top">
