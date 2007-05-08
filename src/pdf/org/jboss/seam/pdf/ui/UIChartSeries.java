@@ -6,7 +6,8 @@ import javax.faces.context.FacesContext;
 
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.Plot;
-import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.renderer.AbstractRenderer;
+import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.general.Dataset;
 
@@ -90,7 +91,6 @@ public class UIChartSeries
     public void encodeEnd(FacesContext context) 
         throws IOException
     {
-
         UIChart chart = (UIChart) findITextParent(getParent(), UIChart.class);
         Dataset dataset = chart.getDataset();
         if (chart != null) {            
@@ -100,41 +100,50 @@ public class UIChartSeries
 
                 int seriesIndex = ((CategoryDataset) dataset).getRowIndex(key);
 
-                BarRenderer renderer = (BarRenderer) plot.getRenderer();
-                if (seriesPaint != null) {
-                    renderer.setSeriesPaint(seriesIndex, UIChart.findColor(getSeriesPaint()));
-                }
-
-                if (seriesFillPaint != null) {
-                    renderer.setSeriesFillPaint(seriesIndex, UIChart.findColor(getSeriesFillPaint()));
-                }
-
-                if (seriesOutlinePaint != null) {
-                    renderer.setSeriesOutlinePaint(seriesIndex, UIChart.findColor(getSeriesOutlinePaint()));
-                }
-
-                if (seriesOutlineStroke != null) {
-                    renderer.setSeriesOutlineStroke(seriesIndex, UIChart.findStroke(getSeriesOutlineStroke()));
-                }
-
-                if (seriesStroke != null) {
-                    renderer.setSeriesStroke(seriesIndex, UIChart.findStroke(getSeriesStroke()));
-                }
+                CategoryItemRenderer renderer = plot.getRenderer();
                 
-                if (seriesVisible != null) {
-                    renderer.setSeriesVisible(seriesIndex, seriesVisible);
+                // CategoryRenderer
+                if (renderer instanceof AbstractRenderer) {
+                    configureSeries((AbstractRenderer) renderer,seriesIndex);
+                } else {
+                    System.out.println("render is not AbtractRenderer" + renderer);
                 }
-                    
-                if (seriesVisibleInLegend != null) {
-                    renderer.setSeriesVisibleInLegend(seriesIndex, getSeriesVisibleInLegend());
-                }
-                
             }
-            
-              
         }
-        
+
     }
+    
+    
+    private void configureSeries(AbstractRenderer renderer, int seriesIndex) {
+        if (seriesPaint != null) {
+            renderer.setSeriesPaint(seriesIndex, UIChart.findColor(getSeriesPaint()));
+        }
+
+        if (seriesFillPaint != null) {
+            renderer.setSeriesFillPaint(seriesIndex, UIChart.findColor(getSeriesFillPaint()));
+        }
+
+        if (seriesOutlinePaint != null) {
+            renderer.setSeriesOutlinePaint(seriesIndex, UIChart.findColor(getSeriesOutlinePaint()));
+        }
+
+        if (seriesOutlineStroke != null) {
+            renderer.setSeriesOutlineStroke(seriesIndex, UIChart.findStroke(getSeriesOutlineStroke()));
+        }
+
+        if (seriesStroke != null) {
+            renderer.setSeriesStroke(seriesIndex, UIChart.findStroke(getSeriesStroke()));
+        }
+
+        if (seriesVisible != null) {
+            renderer.setSeriesVisible(seriesIndex, seriesVisible);
+        }
+
+        if (seriesVisibleInLegend != null) {
+            renderer.setSeriesVisibleInLegend(seriesIndex, getSeriesVisibleInLegend());
+        }      
+    }
+
     
     @Override
     public void createITextObject(FacesContext context) {

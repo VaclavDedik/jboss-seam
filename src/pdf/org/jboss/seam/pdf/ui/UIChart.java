@@ -12,6 +12,7 @@ import javax.faces.context.FacesContext;
 import org.jboss.seam.pdf.ITextUtils;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.Plot;
+import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.general.Dataset;
 
 import com.lowagie.text.*;
@@ -212,7 +213,13 @@ public abstract class UIChart
         }        
     }
     
-    
+    public PlotOrientation plotOrientation(String orientation) {
+        if (orientation != null && orientation.equalsIgnoreCase("horizontal")) {
+            return PlotOrientation.HORIZONTAL;
+        } else {
+            return PlotOrientation.VERTICAL;
+        }
+    }
             
     @Override
     public void encodeBegin(FacesContext context) 
