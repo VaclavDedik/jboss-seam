@@ -24,20 +24,6 @@
         <p:data key="baz" value="20" sectionPaint="#555555" sectionOutlineStroke="dot2" />
     </p:piechart>
 
-    <p:piechart title="Pie Chart" width="500" height="500" legend="true" is3D="true"
-               borderBackgroundPaint="#ffffff" borderStroke="dot1" borderPaint="blue" borderVisible="false"
-               plotBackgroundPaint="#ffffff"  plotBackgroundAlpha="1" plotForegroundAlpha="1"
-               plotOutlinePaint="blue" plotOutlineStroke="dot1"
-               labelBackgroundPaint="gray"  labelPaint="white" labelLinkStroke="dot2"
-               direction="anticlockwise" >
-        <ui:repeat value="#{data.pieData}" var="item">
-            <p:data key="#{item.name}" value="#{item.value}" sectionPaint="#777777" sectionOutlineStroke="dot2" />
-        </ui:repeat>
-        <p:data key="foo" value="20" explodedPercent=".2" sectionPaint="#111111" />
-        <p:data key="bar" value="20" explodedPercent=".3" sectionPaint="#333333" />
-        <p:data key="baz" value="20" sectionPaint="#555555" sectionOutlineStroke="dot2" />
-    </p:piechart>
-
     <p:piechart title="3d Pie Chart" width="500" height="500" legend="true" is3D="true" backgroundPaint="bar"
                 plotForegroundAlpha=".2">
         <ui:repeat value="#{data.pieData}" var="item">
@@ -78,35 +64,57 @@
     </p:barchart>
 
 
-    <p:linechart title="Line Chart" width="500" height="500" 
-                 domainAxisLabel="domain" rangeAxisLabel="range">
-        <ui:repeat value="#{data.pieData}" var="item">
-            <p:data columnKey="#{item.name}" rowKey="data1" value="#{item.value}" />
-        </ui:repeat>
-
-        <ui:repeat value="#{data.pieData}" var="item">
-            <p:data columnKey="#{item.name}" rowKey="data2" value="#{item.value*1.4}" />
-        </ui:repeat>
-
-        <ui:repeat value="#{data.pieData}" var="item">
-            <p:data columnKey="#{item.name}" rowKey="data3" value="#{item.value*.8+6.0}" />
-        </ui:repeat>
-    </p:linechart>
-
     <p:linechart title="Line Chart3D" width="500" height="500"
                  is3D="true" legend="true"
                  domainAxisLabel="domain" rangeAxisLabel="range" foo="bar">
 
+        <p:series key="data1" seriesPaint="bar"  seriesStroke="dot2">
+            <ui:repeat value="#{data.pieData}" var="item">
+                <p:data columnKey="#{item.name}" value="#{item.value}" />
+            </ui:repeat>
+            <p:data columnKey="foo" value="75.1" />
+        </p:series>
 
-        <ui:repeat value="#{data.pieData}" var="item">
-            <p:data columnKey="#{item.name}" rowKey="data1" value="#{item.value}" />
-        </ui:repeat>
-        <p:data columnKey="foo" rowKey="data1" value="75.1" />
+        <p:series key="data2" seriesPaint="green"  seriesStroke="dot2">
+            <p:data columnKey="foo" value="75.1" />
+            <ui:repeat value="#{data.pieData}" var="item">
+                <p:data columnKey="#{item.name}" value="#{item.value+5}" />
+            </ui:repeat>
+        </p:series>
 
-        <ui:repeat value="#{data.pieData}" var="item">
-            <p:data columnKey="#{item.name}" rowKey="data2" value="#{item.value+5}" />
-        </ui:repeat>
-        <p:data columnKey="foo" rowKey="data2" value="75.1" />
+        <p:series key="data3">
+            <p:data columnKey="foo" value="10" />
+            <ui:repeat value="#{data.pieData}" var="item">
+                <p:data columnKey="#{item.name}" value="#{item.value+12}" />
+            </ui:repeat>
+        </p:series>
+
+    </p:linechart>
+
+    <p:linechart title="Line Chart" width="500" height="500"
+                 is3D="false" legend="true"
+                 domainAxisLabel="domain" rangeAxisLabel="range" foo="bar">
+
+        <p:series key="data1" seriesPaint="green"  seriesStroke="dot2">
+            <ui:repeat value="#{data.pieData}" var="item">
+                <p:data columnKey="#{item.name}" value="#{item.value}" />
+            </ui:repeat>
+            <p:data columnKey="foo" value="75.1" />
+        </p:series>
+
+        <p:series key="data2" seriesPaint="bar"  seriesStroke="dot2">
+            <p:data columnKey="foo" value="75.1" />
+            <ui:repeat value="#{data.pieData}" var="item">
+                <p:data columnKey="#{item.name}"  value="#{item.value+5}" />
+            </ui:repeat>
+        </p:series>
+
+        <p:series key="data3">
+            <p:data columnKey="foo" value="10" />
+            <ui:repeat value="#{data.pieData}" var="item">
+                <p:data columnKey="#{item.name}" value="#{item.value+6}" />
+            </ui:repeat>
+        </p:series>
 
     </p:linechart>
 </p:document>
