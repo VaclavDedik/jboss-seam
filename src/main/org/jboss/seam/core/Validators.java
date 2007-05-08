@@ -64,7 +64,7 @@ public class Validators
     * @param modelClass the class to be validated
     * @param name the component name
     */
-   public ClassValidator getValidator(Class modelClass, String name)
+   public <T> ClassValidator<T> getValidator(Class<T> modelClass, String name)
    {
       Key key = new Key(modelClass, Locale.instance());
       ClassValidator result = classValidators.get(key);
@@ -83,7 +83,7 @@ public class Validators
     */
    public <T> ClassValidator<T> getValidator(Class<T> modelClass)
    {
-      return getValidator(modelClass);
+      return getValidator(modelClass, null);
    }
    
    /**
