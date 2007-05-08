@@ -156,6 +156,7 @@ public class Identity extends Selector
          }
          else
          {
+            Events.instance().raiseEvent("org.jboss.seam.notAuthorized");
             throw new AuthorizationException(String.format(
                "Authorization check failed for expression [%s]", expr));
          }
