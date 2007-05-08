@@ -12,7 +12,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/portlet-api-lib.jar"/>
 	<classpathentry kind="lib" path="lib/servlet-api.jar"/>
-	<classpathentry kind="lib" path="lib/javax.servlet.jsp.jar"/>
 	<classpathentry kind="lib" path="lib/testng-4.5.1-jdk15.jar"/>
 	<classpathentry kind="lib" path="lib/thirdparty-all.jar"/>
 	<classpathentry kind="lib" path="lib/hibernate-all.jar"/>
@@ -45,5 +44,7 @@
 	<classpathentry kind="lib" path="mail/buni-meldware/lib/mailbeans.jar"/>
 	<classpathentry kind="lib" path="mail/buni-meldware/lib/mailjmx.jar"/>
 	<classpathentry kind="lib" path="lib/jsf-impl.jar"/>
+	<classpathentry kind="lib" path="lib/jfreechart-1.0.3.jar"/>
+	<classpathentry kind="lib" path="lib/jcommon-1.0.6.jar"/>
 	<classpathentry kind="output" path="output/classes"/>
 </classpath>
