@@ -59,6 +59,11 @@
         <servlet-name>Document Store Servlet</servlet-name>
         <url-pattern>*.pdf</url-pattern>
     </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>Document Store Servlet</servlet-name>
+        <url-pattern>*.jpg</url-pattern>
+    </servlet-mapping>
     
     <session-config>
         <session-timeout>10</session-timeout> 

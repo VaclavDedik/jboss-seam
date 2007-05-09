@@ -1,0 +1,31 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://jboss.com/products/seam/pdf"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:s="http://jboss.com/products/seam/taglib"
+      xmlns:f="http://java.sun.com/jsf/core">
+<head>
+    <title>Seam PDF</title>
+</head>
+<body>
+    <p:stroke id="dot1" width="2" cap="round" join="bevel" dash="1 2 3 4" />
+    <p:stroke id="dot2" width="2" cap="round" join="bevel" dash="2 3" />
+
+    <p:color id="foo" color="#0ff00f"/>
+    <p:color id="bar" color="#ff00ff" color2="#00ff00" point="50 50" point2="300 300"/>
+
+    <p:piechart title="Pie Chart" width="500" height="500" legend="true" 
+               borderBackgroundPaint="#ffffff" borderStroke="dot1" borderPaint="blue" borderVisible="false"
+               plotBackgroundPaint="#ffffff"  plotBackgroundAlpha="1" plotForegroundAlpha="1"
+               plotOutlinePaint="blue" plotOutlineStroke="dot1"
+               labelBackgroundPaint="gray"  labelPaint="white" labelLinkStroke="dot2"
+               direction="anticlockwise" >
+        <ui:repeat value="#{data.pieData}" var="item">
+            <p:data key="#{item.name}" value="#{item.value}" sectionPaint="#777777" sectionOutlineStroke="dot2" />
+        </ui:repeat>
+        <p:data key="foo" value="20" explodedPercent=".2" sectionPaint="#111111" />
+        <p:data key="bar" value="20" explodedPercent=".3" sectionPaint="#333333" />
+        <p:data key="baz" value="20" sectionPaint="#555555" sectionOutlineStroke="dot2" />
+    </p:piechart>
+
+</body>
+</html>
