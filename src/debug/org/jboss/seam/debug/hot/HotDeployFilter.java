@@ -14,6 +14,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.seam.Seam;
+import org.jboss.seam.annotations.Filter;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
@@ -32,6 +33,7 @@ import org.jboss.seam.web.AbstractFilter;
 @Install(debug=true, precedence=BUILT_IN)
 @Intercept(NEVER)
 @Scope(APPLICATION)
+@Filter
 public class HotDeployFilter extends AbstractFilter
 {
 
