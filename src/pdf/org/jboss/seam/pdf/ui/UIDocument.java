@@ -18,7 +18,7 @@ import com.lowagie.text.pdf.*;
 import com.lowagie.text.rtf.RtfWriter2;
 
 public class UIDocument 
-extends ITextComponent
+    extends ITextComponent
 {
     public static final String COMPONENT_TYPE   = "org.jboss.seam.pdf.ui.UIDocument";
 
@@ -289,7 +289,7 @@ extends ITextComponent
 
     @Override
     public void encodeEnd(FacesContext context) 
-    throws IOException
+        throws IOException
     {
         document.close();
 

@@ -107,7 +107,7 @@ public class UILineChart
     @Override
     public void configureRenderer(CategoryItemRenderer renderer){
         super.configureRenderer(renderer);
-        System.out.println("UILINECHART RENDERER IS " + renderer);
+        //System.out.println("UILINECHART RENDERER IS " + renderer);
     }
     
     @Override

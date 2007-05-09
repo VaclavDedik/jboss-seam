@@ -4,12 +4,19 @@ import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Stroke;
 import java.awt.geom.Rectangle2D;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.context.ResponseWriter;
 
+import org.jboss.seam.core.Conversation;
+import org.jboss.seam.core.Manager;
+import org.jboss.seam.pdf.DocumentData;
+import org.jboss.seam.pdf.DocumentStore;
 import org.jboss.seam.pdf.ITextUtils;
+import org.jboss.seam.pdf.DocumentData.DocType;
+import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.PlotOrientation;
@@ -40,6 +47,7 @@ public abstract class UIChart
     Float  plotForegroundAlpha;
     String plotOutlineStroke; 
     String plotOutlinePaint;
+    private String imageId;
     
     
     public void setHeight(float height) {
@@ -140,7 +148,6 @@ public abstract class UIChart
         UIComponent component = FacesContext.getCurrentInstance().getViewRoot().findComponent(id);
 
         if (component instanceof UIStroke) {
-
             return ((UIStroke) component).getStroke();
         } else {
             throw new RuntimeException();                
@@ -153,6 +160,24 @@ public abstract class UIChart
         return chart;
     }
         
+
+    private void renderImageLink(FacesContext context) 
+        throws IOException     
+    {
+        ResponseWriter response = context.getResponseWriter();        
+        response.startElement("image", this);
+        
+        DocumentStore store = DocumentStore.instance();
+        DocumentData data = store.getDocumentData(imageId);
+        String url = store.preferredUrlForContent(data.getBaseName(), data.getDocType(), imageId);
+        url = Manager.instance().encodeConversationId(url, context.getViewRoot().getId());
+        response.writeAttribute("src",  url, null);
+        response.endElement("image");   
+        
+        Conversation conv = Conversation.instance();
+        System.out.println("conv=" + conv.getId() + " lr=" + conv.isLongRunning());
+    }
+    
     @Override
     public void createITextObject(FacesContext context) {                        
         if (borderBackgroundPaint != null) {
@@ -176,14 +201,25 @@ public abstract class UIChart
         
         try { 
             UIDocument doc = (UIDocument) findITextParent(getParent(), UIDocument.class);
-            PdfWriter writer = (PdfWriter) doc.getWriter();
-            PdfContentByte cb = writer.getDirectContent(); 
-            PdfTemplate tp = cb.createTemplate(width, height); 
-            Graphics2D g2 = tp.createGraphics(width, height, new DefaultFontMapper());             
-            chart.draw(g2, new Rectangle2D.Double(0, 0, width, height)); 
-            g2.dispose(); 
-            
-            image = new ImgTemplate(tp);
+            if (doc != null) {
+                PdfWriter writer = (PdfWriter) doc.getWriter();
+                PdfContentByte cb = writer.getDirectContent(); 
+                PdfTemplate tp = cb.createTemplate(width, height); 
+                Graphics2D g2 = tp.createGraphics(width, height, new DefaultFontMapper());             
+                chart.draw(g2, new Rectangle2D.Double(0, 0, width, height)); 
+                g2.dispose(); 
+
+                image = new ImgTemplate(tp);
+            } else {
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                ChartUtilities.writeChartAsJPEG(stream, chart, (int)width, (int)height);
+
+                DocumentStore store = DocumentStore.instance();
+                
+                imageId = store.newId();
+                store.saveData(imageId, new DocumentData("randomChart", DocType.JPEG, stream.toByteArray()));
+                stream.close();
+            }
         } catch (Exception e) {             
             throw new RuntimeException(e);
         } 
@@ -228,7 +264,6 @@ public abstract class UIChart
         // bypass super to avoid createITextObject() before the chart is ready        
         createDataset();
         chart = createChart(context);
-        
     }
     
     
@@ -236,10 +271,17 @@ public abstract class UIChart
     public void encodeEnd(FacesContext context) 
         throws IOException
     {
-        // call create here so that we'll have a valid chart
+        // call create here so that we'll have a valid chart  
         createITextObject(context);
+
+        if (imageId != null) {
+            renderImageLink(context);
+            imageId = null;
+        }
+        
         super.encodeEnd(context);
     }
+    
 
     @Override
     public Object getITextObject() {

@@ -27,6 +27,7 @@ public class DocumentData {
     
     public enum DocType { 
         PDF("pdf", "application/pdf"), 
+        JPEG("jpg", "image/jpeg"), 
         RTF("rtf", "text/rtf"),
         HTML("html", "text/html");
         
