@@ -23,9 +23,13 @@ import java.lang.annotation.Target;
 @Documented
 public @interface Startup {
    /**
-    * A list of other application scope components
-    * that should be started before this one, if they
-    * are installed.
+    * A list of other Seam Components that should be started
+    * before this one, if they are installed.
+    * 
+    * If applied to an APPLICATION scope component, the
+    * dependant components should be APPLICATION scope. If
+    * applied to a SESSION scope component, the components
+    * should be in SESSION scope.
     */
    String[] depends() default {};
 }
