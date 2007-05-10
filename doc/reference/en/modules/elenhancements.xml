@@ -48,7 +48,17 @@
     <programlisting><![CDATA[<h:commandButton action="#{hotelBooking.bookHotel(hotel.id, user.username)}" value="Book Hotel"/>]]></programlisting>
 
     <para>
-      You may even pass literal strings using single or double quotes:
+       <emphasis>Note:</emphasis> You can not pass objects as arguments! All that is passed is names, for example,
+       <literal>hotel.id</literal> and <literal>user.username</literal>. If you check the rendered code of the
+       previous example, you will see that the command button contains these names. These name arguments will be
+       submitted to the server when you press the button, and Seam will look up and resolve these names (in any
+       available context) before the action method is called. If the arguments can not be resolved at that time
+       (because <literal>hotel</literal> and <literal>user</literal> variables can not be found in any available
+       context) the action method will be called with <literal>null</literal> arguments!
+    </para>
+
+    <para>
+      You may however pass literal strings using single or double quotes:
     </para>
 
     <programlisting><![CDATA[<h:commandLink action=”#{printer.println( ‘Hello world!’ )}” value=”Hello”/>]]></programlisting>
