@@ -296,7 +296,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../drools/lib/drools-compiler-3.0.5.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../drools/lib/drools-compiler-4.0.0.MR2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -305,7 +305,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../drools/lib/commons-jci-core-1.0-406301.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../drools/lib/mvel14-1.2beta16.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -314,7 +314,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../drools/lib/janino-2.4.3.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../drools/lib/janino-2.5.6.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -323,7 +323,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../drools/lib/commons-logging-api-1.0.4.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../drools/lib/antlr-3.0b7.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -332,52 +332,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../drools/lib/commons-lang-2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../drools/lib/commons-jci-janino-2.4.3.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../drools/lib/antlr-2.7.6.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../drools/lib/stringtemplate-2.3b6.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../drools/lib/antlr-3.0ea8.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../drools/lib/drools-core-3.0.5.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../drools/lib/drools-core-4.0.0.MR2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

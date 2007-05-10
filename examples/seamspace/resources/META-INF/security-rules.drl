@@ -18,7 +18,7 @@ when
   not Role(name == "user")
 then
   assert(new Role("user"));
-end;
+end
 
 rule ViewImage
   no-loop
@@ -29,7 +29,7 @@ when
   eval( image.getMember().getPicture() == image )
 then
   check.grant();
-end;
+end
 
 rule RestrictCommentPage
   no-loop
@@ -39,7 +39,7 @@ when
   Role(name == "user")
 then
   check.grant();
-end;
+end
 
 rule CreateBlogComment
   no-loop
@@ -49,7 +49,7 @@ when
   Role(name == "user")
 then
   check.grant();
-end;
+end
 
 rule CreateBlog
   no-loop
@@ -60,7 +60,7 @@ when
   Member(username == principalName)
 then
   check.grant();
-end;
+end
 
 rule InsertMemberBlog
   no-loop
@@ -71,7 +71,7 @@ when
   MemberBlog(member : member -> (member.getUsername().equals(principalName)))
 then
   check.grant();
-end;
+end
 
 rule CreateFriendComment
   no-loop
@@ -82,7 +82,7 @@ when
   MemberFriend(authorized == true, f : friend -> (f.getUsername().equals(principalName)))
 then
   check.grant();
-end;
+end
 
 rule CreateFriendRequest
   no-loop
@@ -93,4 +93,4 @@ when
   not MemberFriend(f : friend -> (f.getUsername().equals(principalName)))
 then
   check.grant();
-end;
+end

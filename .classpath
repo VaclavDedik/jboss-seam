@@ -21,8 +21,6 @@
 	<classpathentry kind="lib" path="lib/jboss-cache-jdk50.jar"/>
 	<classpathentry kind="lib" path="lib/ant.jar"/>
 	<classpathentry kind="lib" path="embedded-ejb/conf"/>
-	<classpathentry kind="lib" path="drools/lib/drools-compiler-3.0.5.jar"/>
-	<classpathentry kind="lib" path="drools/lib/drools-core-3.0.5.jar"/>
 	<classpathentry kind="lib" path="lib/jsf-facelets.jar"/>
 	<classpathentry kind="lib" path="lib/mail.jar"/>
 	<classpathentry kind="lib" path="lib/jbpm-3.1.4.jar"/>
@@ -46,5 +44,7 @@
 	<classpathentry kind="lib" path="lib/jsf-impl.jar"/>
 	<classpathentry kind="lib" path="lib/jfreechart-1.0.3.jar"/>
 	<classpathentry kind="lib" path="lib/jcommon-1.0.6.jar"/>
+	<classpathentry kind="lib" path="drools/lib/drools-compiler-4.0.0.MR2.jar"/>
+	<classpathentry kind="lib" path="drools/lib/drools-core-4.0.0.MR2.jar"/>
 	<classpathentry kind="output" path="output/classes"/>
 </classpath>

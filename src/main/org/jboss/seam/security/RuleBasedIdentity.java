@@ -9,11 +9,13 @@ import java.security.acl.Group;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
 
 import org.drools.FactHandle;
 import org.drools.RuleBase;
 import org.drools.WorkingMemory;
+import org.drools.base.ClassObjectFilter;
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
@@ -54,7 +56,7 @@ public class RuleBasedIdentity extends Identity
       
       if (securityRules != null)
       {
-         securityContext = securityRules.newWorkingMemory(false);
+         securityContext = securityRules.newStatefulSession(false);
       }
       
       if (securityContext == null)
@@ -148,9 +150,10 @@ public class RuleBasedIdentity extends Identity
       
       if (securityContext != null)
       {
-         for (Role role : (List<Role>) securityContext.getObjects(Role.class))
+         Iterator<Role> iter = securityContext.iterateObjects(new ClassObjectFilter(Role.class)); 
+         while (iter.hasNext()) 
          {
-            getSecurityContext().retractObject(securityContext.getFactHandle(role));
+            getSecurityContext().retractObject(securityContext.getFactHandle(iter.next()));
          }
       }
       
@@ -181,8 +184,10 @@ public class RuleBasedIdentity extends Identity
       
       if (securityContext != null)
       {
-         for (Role r : (List<Role>) getSecurityContext().getObjects(Role.class))
+         Iterator<Role> iter = securityContext.iterateObjects(new ClassObjectFilter(Role.class)); 
+         while (iter.hasNext()) 
          {
+            Role r = iter.next();
             if (r.getName().equals(role))
             {
                FactHandle fh = getSecurityContext().getFactHandle(r);

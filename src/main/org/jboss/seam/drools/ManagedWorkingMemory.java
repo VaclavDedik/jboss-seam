@@ -5,7 +5,7 @@ import static org.jboss.seam.InterceptionType.NEVER;
 import java.io.Serializable;
 
 import org.drools.RuleBase;
-import org.drools.WorkingMemory;
+import org.drools.StatefulSession;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Destroy;
@@ -28,7 +28,7 @@ public class ManagedWorkingMemory implements Mutable, Serializable
    private static final long serialVersionUID = -1746942080571374743L;
    
    private String ruleBaseName;
-   private WorkingMemory workingMemory;
+   private StatefulSession statefulSession;
    private ValueExpression<RuleBase> ruleBase;
    public boolean clearDirty()
    {
@@ -59,9 +59,9 @@ public class ManagedWorkingMemory implements Mutable, Serializable
    }
    
    @Unwrap
-   public WorkingMemory getWorkingMemory()
+   public StatefulSession getStatefulSession()
    {
-      if (workingMemory==null)
+      if (statefulSession==null)
       {
          RuleBase ruleBase;
          if (this.ruleBase!=null)
@@ -82,15 +82,15 @@ public class ManagedWorkingMemory implements Mutable, Serializable
          {
             throw new IllegalStateException("RuleBase not found: " + ruleBaseName);
          }
-         workingMemory = ruleBase.newWorkingMemory();
+         statefulSession = ruleBase.newStatefulSession();
       }
-      return workingMemory;
+      return statefulSession;
    }
    
    @Destroy
    public void destroy()
    {
-      workingMemory.dispose();
+      statefulSession.dispose();
    }
    public ValueExpression<RuleBase> getRuleBase()
    {
