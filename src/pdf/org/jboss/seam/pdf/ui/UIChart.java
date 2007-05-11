@@ -8,14 +8,17 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.context.ResponseStream;
 import javax.faces.context.ResponseWriter;
 
-import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.core.Pages;
+import org.jboss.seam.core.Image.Type;
 import org.jboss.seam.pdf.DocumentData;
-import org.jboss.seam.pdf.DocumentStore;
 import org.jboss.seam.pdf.ITextUtils;
-import org.jboss.seam.pdf.DocumentData.DocType;
+import org.jboss.seam.ui.graphicImage.GraphicImageResource;
+import org.jboss.seam.ui.graphicImage.GraphicImageStore;
+import org.jboss.seam.ui.graphicImage.GraphicImageStore.ImageWrapper;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.Plot;
@@ -27,6 +30,7 @@ import com.lowagie.text.pdf.DefaultFontMapper;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfWriter;
+import com.sun.faces.taglib.html_basic.GraphicImageTag;
 
 public abstract class UIChart 
     extends ITextComponent 
@@ -34,20 +38,20 @@ public abstract class UIChart
     private Image image = null;
     private JFreeChart chart = null;
     
-    float height = 300;
-    float width  = 400;    
+    private float height = 300;
+    private float width  = 400;    
     
-    String borderBackgroundPaint;
-    String borderPaint;
-    String borderStroke;
-    boolean borderVisible = true;
+    private String borderBackgroundPaint;
+    private String borderPaint;
+    private String borderStroke;
+    private boolean borderVisible = true;
     
-    String plotBackgroundPaint;
-    Float  plotBackgroundAlpha;
-    Float  plotForegroundAlpha;
-    String plotOutlineStroke; 
-    String plotOutlinePaint;
-    private String imageId;
+    private String plotBackgroundPaint;
+    private Float  plotBackgroundAlpha;
+    private Float  plotForegroundAlpha;
+    private String plotOutlineStroke; 
+    private String plotOutlinePaint;
+    private byte[] imageData;
     
     
     public void setHeight(float height) {
@@ -160,24 +164,6 @@ public abstract class UIChart
         return chart;
     }
         
-
-    private void renderImageLink(FacesContext context) 
-        throws IOException     
-    {
-        ResponseWriter response = context.getResponseWriter();        
-        response.startElement("image", this);
-        
-        DocumentStore store = DocumentStore.instance();
-        DocumentData data = store.getDocumentData(imageId);
-        String url = store.preferredUrlForContent(data.getBaseName(), data.getDocType(), imageId);
-        url = Manager.instance().encodeConversationId(url, context.getViewRoot().getId());
-        response.writeAttribute("src",  url, null);
-        response.endElement("image");   
-        
-        Conversation conv = Conversation.instance();
-        System.out.println("conv=" + conv.getId() + " lr=" + conv.isLongRunning());
-    }
-    
     @Override
     public void createITextObject(FacesContext context) {                        
         if (borderBackgroundPaint != null) {
@@ -214,10 +200,7 @@ public abstract class UIChart
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 ChartUtilities.writeChartAsJPEG(stream, chart, (int)width, (int)height);
 
-                DocumentStore store = DocumentStore.instance();
-                
-                imageId = store.newId();
-                store.saveData(imageId, new DocumentData("randomChart", DocType.JPEG, stream.toByteArray()));
+                imageData = stream.toByteArray();
                 stream.close();
             }
         } catch (Exception e) {             
@@ -274,9 +257,19 @@ public abstract class UIChart
         // call create here so that we'll have a valid chart  
         createITextObject(context);
 
-        if (imageId != null) {
-            renderImageLink(context);
-            imageId = null;
+        if (imageData != null) {
+            ResponseWriter response = context.getResponseWriter();
+            response.startElement("img", null);                   
+            GraphicImageStore store = GraphicImageStore.instance();
+            String key = store.put(new ImageWrapper(imageData, Type.IMAGE_JPEG));
+            String url = context.getExternalContext().getRequestContextPath() +
+                         GraphicImageResource.GRAPHIC_IMAGE_RESOURCE_PATH + "/" + key + Type.IMAGE_JPEG.getExtension();
+
+            response.writeAttribute("src", url, null);
+
+            response.endElement("img");
+
+            Manager.instance().beforeRedirect();           
         }
         
         super.encodeEnd(context);
