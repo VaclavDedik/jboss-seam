@@ -87,8 +87,12 @@ public class ConverterChain implements Converter, StateHolder
                FacesContext facesContext = FacesContext.getCurrentInstance();
                if (valueBinding != null)
                {
-                  addConverterToChain(facesContext.getApplication().createConverter(
-                           valueBinding.getType(facesContext)));
+                  Class type = valueBinding.getType(facesContext);
+                  Converter converter = facesContext.getApplication().createConverter(type);
+                  if (converter!=null)
+                  {
+                     addConverterToChain(converter);
+                  }
                }
             }
             valueHolder.setConverter(this);
