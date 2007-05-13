@@ -1,14 +1,12 @@
 package org.jboss.seam.ui.graphicImage;
 
 import java.io.IOException;
-import java.util.List;
 
+import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlGraphicImage;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-import javax.faces.el.ValueBinding;
-import javax.faces.render.Renderer;
 
 import org.jboss.seam.core.Image;
 import org.jboss.seam.ui.HTML;
@@ -62,7 +60,7 @@ public class UIGraphicImage extends HtmlGraphicImage
       
       // Do transforms
       
-      for (UIComponent cmp : (List<UIComponent>) this.getChildren()) 
+      for (UIComponent cmp : this.getChildren()) 
       {
          if (cmp instanceof ImageTransform)
          {
@@ -91,7 +89,7 @@ public class UIGraphicImage extends HtmlGraphicImage
       }
       else
       {
-         ValueBinding vb = getValueBinding("fileName");
+         ValueExpression vb = getValueExpression("fileName");
          return vb == null ? null : JSF.getStringValue(getFacesContext(), vb);
       }
 

@@ -6,11 +6,11 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-import javax.faces.el.ValueBinding;
 
 import org.jboss.seam.ui.resource.WebResource;
 
@@ -30,7 +30,7 @@ public class UISelectDate extends UIComponentBase
 
    public String getDateFormat()
    {
-      ValueBinding vb = getValueBinding("dateFormat");
+      ValueExpression vb = getValueExpression("dateFormat");
       return (vb != null) ? JSF.getStringValue(getFacesContext(), vb) : dateFormat;
    }
 
@@ -41,7 +41,7 @@ public class UISelectDate extends UIComponentBase
 
    public String getFor()
    {
-      ValueBinding vb = getValueBinding("for");
+      ValueExpression vb = getValueExpression("for");
       return (vb != null) ? JSF.getStringValue(getFacesContext(), vb) : forField;
    }
 

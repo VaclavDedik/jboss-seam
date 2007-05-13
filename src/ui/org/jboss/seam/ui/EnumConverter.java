@@ -1,8 +1,9 @@
 package org.jboss.seam.ui;
 
-import javax.faces.component.*;
-import javax.faces.context.*;
-import javax.faces.convert.*;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.convert.Converter;
+import javax.faces.convert.ConverterException;
 
 public class EnumConverter
     implements Converter
@@ -12,7 +13,7 @@ public class EnumConverter
                               String value)
         throws ConverterException
     {
-        Class enumType = comp.getValueBinding("value").getType(context);
+        Class enumType = comp.getValueExpression("value").getExpectedType();
         return Enum.valueOf(enumType, value);
     }
 

@@ -18,9 +18,9 @@ package org.jboss.seam.ui;
 import java.io.IOException;
 import java.util.List;
 
+import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.el.ValueBinding;
 
 /**
  * Constant declarations for JSF tags
@@ -181,9 +181,9 @@ public class JSF
       }
    }
 
-   public static String getStringValue(FacesContext context, ValueBinding vb)
+   public static String getStringValue(FacesContext context, ValueExpression vb)
    {
-       Object value = vb.getValue(context);
+       Object value = vb.getValue(context.getELContext());
        if (value == null)
        {
            return null;
@@ -191,7 +191,7 @@ public class JSF
        return value.toString();
    }
    
-   public static Integer getIntegerValue(FacesContext context, ValueBinding vb)
+   public static Integer getIntegerValue(FacesContext context, ValueExpression vb)
    {
        String value = getStringValue(context, vb);
        if (value == null)
@@ -201,7 +201,7 @@ public class JSF
        return new Integer(value);
    }
    
-   public static Double getDoubleValue(FacesContext context, ValueBinding vb)
+   public static Double getDoubleValue(FacesContext context, ValueExpression vb)
    {
        String value = getStringValue(context, vb);
        if (value == null)
@@ -211,9 +211,9 @@ public class JSF
        return new Double(value);
    }
    
-   public static Boolean getBooleanValue(FacesContext context, ValueBinding vb)
+   public static Boolean getBooleanValue(FacesContext context, ValueExpression vb)
    {
-       Object value = vb.getValue(context);
+       Object value = vb.getValue(context.getELContext());
        if (value == null)
        {
           return null;

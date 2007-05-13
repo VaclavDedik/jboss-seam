@@ -3,15 +3,15 @@ package org.jboss.seam.ui;
 import java.io.IOException;
 import java.io.StringWriter;
 
+import javax.el.ValueExpression;
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-import javax.faces.el.ValueBinding;
 
-import org.jboss.seam.log.LogProvider;
-import org.jboss.seam.log.Logging;
 import org.jboss.cache.CacheException;
 import org.jboss.seam.core.PojoCache;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 
 public class UICache extends UIComponentBase
 {
@@ -32,14 +32,14 @@ public class UICache extends UIComponentBase
    
    private String evaluateKey(FacesContext facesContext)
    {
-      ValueBinding keyValueBinding = getValueBinding("key");
-      return keyValueBinding==null ? key : keyValueBinding.getValue(facesContext).toString();
+      ValueExpression keyValueExpression = getValueExpression("key");
+      return keyValueExpression==null ? key : keyValueExpression.getValue(facesContext.getELContext()).toString();
    }
    
    private boolean isEnabled(FacesContext facesContext)
    {
-      ValueBinding enabledValueBinding = getValueBinding("enabled");
-      return enabledValueBinding==null || (Boolean) enabledValueBinding.getValue(facesContext);
+      ValueExpression enabledValueExpression = getValueExpression("enabled");
+      return enabledValueExpression==null || (Boolean) enabledValueExpression.getValue(facesContext.getELContext());
    }
 
    @Override

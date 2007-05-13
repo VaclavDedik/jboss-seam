@@ -48,8 +48,8 @@ public abstract class HtmlComponentBodyTagBase
     private String _onmouseup;
 
     @Override
-    public void release() {
-        super.release();
+    public void release() 
+    {
         _dir=null;
         _lang=null;
         _style=null;

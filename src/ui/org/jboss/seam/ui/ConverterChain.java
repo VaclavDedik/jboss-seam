@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.el.ValueExpression;
 import javax.faces.component.StateHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
@@ -11,9 +12,6 @@ import javax.faces.component.ValueHolder;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
-import javax.faces.el.ValueBinding;
-
-import bsh.commands.dir;
 
 /**
  * This class provides a chainable converter for JSF.
@@ -72,7 +70,7 @@ public class ConverterChain implements Converter, StateHolder
          ValueHolder valueHolder = (ValueHolder) component;
          if (!(valueHolder.getConverter() instanceof ConverterChain)) 
          {
-            ValueBinding converterValueBinding = component.getValueBinding("converter");
+            ValueExpression converterValueBinding = component.getValueExpression("converter");
             if (converterValueBinding != null)
             {
                addConverterToChain(converterValueBinding);
@@ -83,11 +81,11 @@ public class ConverterChain implements Converter, StateHolder
             }
             else
             {
-               ValueBinding valueBinding = component.getValueBinding("value");
+               ValueExpression valueBinding = component.getValueExpression("value");
                FacesContext facesContext = FacesContext.getCurrentInstance();
                if (valueBinding != null)
                {
-                  Class type = valueBinding.getType(facesContext);
+                  Class type = valueBinding.getExpectedType();
                   Converter converter = facesContext.getApplication().createConverter(type);
                   if (converter!=null)
                   {
@@ -143,7 +141,7 @@ public class ConverterChain implements Converter, StateHolder
    /**
     * Add a converter to the end of the chain
     */
-   public boolean addConverterToChain(ValueBinding c)
+   public boolean addConverterToChain(ValueExpression c)
    {
       return addConverterToChain(c, CHAIN_END);
    }
@@ -167,7 +165,7 @@ public class ConverterChain implements Converter, StateHolder
    /**
     * Add a converter to the chain with a defined priority
     */
-   public boolean addConverterToChain(ValueBinding c, int priority)
+   public boolean addConverterToChain(ValueExpression c, int priority)
    {
       if (c != null)
       {

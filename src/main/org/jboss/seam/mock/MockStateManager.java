@@ -6,6 +6,7 @@ import javax.faces.application.StateManager;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
+@SuppressWarnings("deprecation")
 public class MockStateManager extends StateManager {
 
    @Override

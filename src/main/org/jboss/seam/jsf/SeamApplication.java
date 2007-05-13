@@ -31,6 +31,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Init;
 
+@SuppressWarnings("deprecation")
 public class SeamApplication extends Application
 {  
    

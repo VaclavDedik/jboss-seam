@@ -4,8 +4,6 @@
  */
 package org.jboss.seam.mock;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -13,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.el.ELContext;
-import javax.el.ELResolver;
 import javax.faces.FactoryFinder;
 import javax.faces.application.Application;
 import javax.faces.application.ApplicationFactory;
@@ -28,8 +25,6 @@ import javax.faces.render.RenderKit;
 import javax.faces.render.RenderKitFactory;
 
 import org.jboss.seam.util.EL;
-
-import com.sun.faces.el.ELContextImpl;
 
 /**
  * @author Gavin King
@@ -48,8 +43,6 @@ public class MockFacesContext extends FacesContext
    private ResponseWriter responseWriter;
 
    private RenderKitFactory renderKitFactory;
-
-   private ELContext elContext;
 
    public MockFacesContext(ExternalContext externalContext, Application application)
    {
@@ -223,6 +216,7 @@ public class MockFacesContext extends FacesContext
       return this;
    }
 
+   @Override
    public ELContext getELContext()
    {
       return EL.EL_CONTEXT;

@@ -17,40 +17,43 @@ import org.jboss.seam.core.Pages;
  * 
  * @author Gavin King
  */
-public class SeamStateManager extends StateManager {
+@SuppressWarnings("deprecation")
+public class SeamStateManager extends StateManager 
+{
    private final StateManager stateManager;
 
-   public SeamStateManager(StateManager sm) {
+   public SeamStateManager(StateManager sm) 
+   {
       this.stateManager = sm;
    }
 
    @Override
-   protected Object getComponentStateToSave(FacesContext ctx) {
+   protected Object getComponentStateToSave(FacesContext ctx) 
+   {
       throw new UnsupportedOperationException();
    }
 
    @Override
-   protected Object getTreeStructureToSave(FacesContext ctx) {
+   protected Object getTreeStructureToSave(FacesContext ctx) 
+   {
       throw new UnsupportedOperationException();
    }
 
    @Override
-   protected void restoreComponentState(FacesContext ctx, UIViewRoot viewRoot, String str) {
+   protected void restoreComponentState(FacesContext ctx, UIViewRoot viewRoot, String str) 
+   {
       throw new UnsupportedOperationException();
    }
 
    @Override
-   protected UIViewRoot restoreTreeStructure(FacesContext ctx, String str1, String str2) {
+   protected UIViewRoot restoreTreeStructure(FacesContext ctx, String str1, String str2) 
+   {
       throw new UnsupportedOperationException();
    }
 
    @Override
-   public UIViewRoot restoreView(FacesContext ctx, String str1, String str2) {
-      return stateManager.restoreView(ctx, str1, str2);
-   }
-
-   @Override
-   public SerializedView saveSerializedView(FacesContext facesContext) {
+   public SerializedView saveSerializedView(FacesContext facesContext) 
+   {
       
       if ( Contexts.isPageContextActive() )
       {
@@ -62,12 +65,40 @@ public class SeamStateManager extends StateManager {
    }
 
    @Override
-   public void writeState(FacesContext ctx, SerializedView sv) throws IOException {
+   public void writeState(FacesContext ctx, SerializedView sv) throws IOException 
+   {
       stateManager.writeState(ctx, sv);
    }
 
    @Override
-   public boolean isSavingStateInClient(FacesContext ctx) {
+   public UIViewRoot restoreView(FacesContext ctx, String str1, String str2) 
+   {
+      return stateManager.restoreView(ctx, str1, str2);
+   }
+
+   @Override
+   public Object saveView(FacesContext facesContext) 
+   {
+      
+      if ( Contexts.isPageContextActive() )
+      {
+         //store the page parameters in the view root
+         Pages.instance().storePageParameters(facesContext);
+      }
+
+      return stateManager.saveView(facesContext);
+   }
+
+   @Override
+   public void writeState(FacesContext ctx, Object sv) throws IOException 
+   {
+      stateManager.writeState(ctx, sv);
+   }
+
+   @Override
+   public boolean isSavingStateInClient(FacesContext ctx) 
+   {
       return stateManager.isSavingStateInClient(ctx);
    }
+   
 }

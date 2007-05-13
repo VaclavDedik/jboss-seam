@@ -495,6 +495,7 @@ public class MockExternalContext extends ExternalContext
    /**
     * @since 1.2
     */
+   @Override
    public String getResponseContentType()
    {
       return response.getContentType();

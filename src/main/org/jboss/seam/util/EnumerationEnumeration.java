@@ -46,10 +46,10 @@ public class EnumerationEnumeration<T> implements Enumeration<T>
       loc++;
    }
 
-   private boolean isNextEnumerationAvailable()
+   /*private boolean isNextEnumerationAvailable()
    {
       return loc < enumerations.length-1;
-   }
+   }*/
 
    private boolean isCurrentEnumerationAvailable()
    {

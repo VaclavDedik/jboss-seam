@@ -5,13 +5,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.el.ValueExpression;
 import javax.faces.FacesException;
 import javax.faces.component.ValueHolder;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import javax.faces.el.ValueBinding;
 import javax.faces.model.DataModel;
-import javax.faces.model.SelectItem;
 
 import org.jboss.seam.framework.EntityQuery;
 
@@ -61,7 +60,7 @@ public class UISelectItems extends javax.faces.component.UISelectItems
       }
       else
       {
-         ValueBinding vb = getValueBinding("noSelectionLabel");
+         ValueExpression vb = getValueExpression("noSelectionLabel");
          return vb == null ? null :  JSF.getStringValue( getFacesContext(), vb);
       }
    }
@@ -79,7 +78,7 @@ public class UISelectItems extends javax.faces.component.UISelectItems
       }
       else
       {
-         ValueBinding vb = getValueBinding("hideNoSelectionLabel");
+         ValueExpression vb = getValueExpression("hideNoSelectionLabel");
          Boolean b = vb == null ? false : JSF.getBooleanValue(getFacesContext(), vb);
          return b == null ? false : b;
       }
@@ -108,7 +107,7 @@ public class UISelectItems extends javax.faces.component.UISelectItems
       }
       else
       {
-         ValueBinding vb = getValueBinding("label");
+         ValueExpression vb = getValueExpression("label");
          return vb == null ? null :  JSF.getStringValue( getFacesContext(), vb);
       }
    }
@@ -126,7 +125,7 @@ public class UISelectItems extends javax.faces.component.UISelectItems
       }
       else
       {
-         ValueBinding vb = getValueBinding("disabled");
+         ValueExpression vb = getValueExpression("disabled");
          Boolean b = vb == null ? false : JSF.getBooleanValue(getFacesContext(), vb);
          return b == null ? false : b;
       }

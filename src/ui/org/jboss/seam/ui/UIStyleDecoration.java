@@ -2,10 +2,10 @@ package org.jboss.seam.ui;
 
 import java.io.IOException;
 
+import javax.el.ValueExpression;
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-import javax.faces.el.ValueBinding;
 
 public abstract class UIStyleDecoration extends UIComponentBase
 {
@@ -58,17 +58,17 @@ public abstract class UIStyleDecoration extends UIComponentBase
 
       response.writeAttribute("id", getClientId(context), "id");
       
-      ValueBinding classBinding = getValueBinding("styleClass");
+      ValueExpression classBinding = getValueExpression("styleClass");
       String styleClass = classBinding==null ? 
-               this.styleClass : (String) classBinding.getValue(context);
+               this.styleClass : (String) classBinding.getValue(context.getELContext());
       if (styleClass!=null) 
       {
          response.writeAttribute("class", styleClass, "styleClass");
       }
 
-      ValueBinding styleBinding = getValueBinding("style");
+      ValueExpression styleBinding = getValueExpression("style");
       String style = styleBinding==null ? 
-               this.style : (String) styleBinding.getValue(context);
+               this.style : (String) styleBinding.getValue(context.getELContext());
       if (style!=null) 
       {
          response.writeAttribute("style", style, "style");

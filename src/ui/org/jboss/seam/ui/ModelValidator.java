@@ -1,9 +1,9 @@
 package org.jboss.seam.ui;
 
+import javax.el.ValueExpression;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.el.ValueBinding;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
@@ -17,7 +17,7 @@ public class ModelValidator implements Validator
    public void validate(FacesContext context, UIComponent component, Object value)
          throws ValidatorException
    {
-      ValueBinding valueBinding = component.getValueBinding("value");
+      ValueExpression valueBinding = component.getValueExpression("value");
       if (valueBinding==null)
       {
          throw new RuntimeException("component has no value attribute: " + component.getId());

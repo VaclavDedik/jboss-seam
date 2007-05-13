@@ -1,8 +1,8 @@
 package org.jboss.seam.ui;
 
+import javax.el.ValueExpression;
 import javax.faces.component.UISelectItem;
 import javax.faces.context.FacesContext;
-import javax.faces.el.ValueBinding;
 import javax.faces.model.SelectItem;
 
 public class EnumItem
@@ -31,9 +31,9 @@ public class EnumItem
 
 
     private String labelValue() {
-        ValueBinding valueBinding = getValueBinding("label");
+        ValueExpression valueBinding = getValueExpression("label");
         if (valueBinding!=null) {
-            Object labelValue = valueBinding.getValue(getFacesContext());
+            Object labelValue = valueBinding.getValue(getFacesContext().getELContext());
             if (labelValue != null) {
                 return labelValue.toString();
             }
@@ -44,7 +44,7 @@ public class EnumItem
     @Override
     public Object getValue()
     {
-        Class c = getParent().getValueBinding("value").getType(getFacesContext());
+        Class c = getParent().getValueExpression("value").getType(getFacesContext().getELContext());
 
         SelectItem item = new SelectItem();
         Object value = Enum.valueOf(c, enumValue);

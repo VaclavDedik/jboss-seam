@@ -9,10 +9,14 @@ import javax.faces.el.EvaluationException;
 import javax.faces.el.PropertyNotFoundException;
 import javax.faces.el.ValueBinding;
 
+@SuppressWarnings("deprecation")
+@Deprecated
 public class UnifiedELValueBinding extends ValueBinding
 {
    private ValueExpression ve;
 
+   public UnifiedELValueBinding() {}
+   
    public UnifiedELValueBinding(String expression)
    {
       ve = EXPRESSION_FACTORY.createValueExpression(EL_CONTEXT, expression, Object.class);

@@ -26,6 +26,8 @@ import org.jboss.seam.core.Init;
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  * @version $Revision$
  */
+@SuppressWarnings("deprecation")
+@Deprecated
 public class SeamVariableResolver extends VariableResolver
 {
 

@@ -41,6 +41,7 @@ import org.jboss.seam.util.Reflections;
 import org.jboss.seam.util.UnifiedELMethodBinding;
 import org.jboss.seam.util.UnifiedELValueBinding;
 
+@SuppressWarnings("deprecation")
 public class MockApplication extends Application
 {
 
@@ -315,6 +316,7 @@ public class MockApplication extends Application
       return new UnifiedELValueBinding(valueExpression);
    }
    
+   @Override
    public ExpressionFactory getExpressionFactory()
    {
       return EL.EXPRESSION_FACTORY;

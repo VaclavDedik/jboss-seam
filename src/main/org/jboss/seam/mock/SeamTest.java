@@ -362,7 +362,7 @@ public class SeamTest
        */
       protected Object getValue(String valueExpression)
       {
-         return application.createValueBinding(valueExpression).getValue(facesContext);
+         return application.evaluateExpressionGet(facesContext, valueExpression, Object.class);
       }
 
       /**
@@ -370,7 +370,9 @@ public class SeamTest
        */
       protected void setValue(String valueExpression, Object value)
       {
-         application.createValueBinding(valueExpression).setValue(facesContext, value);
+         application.getExpressionFactory()
+               .createValueExpression( facesContext.getELContext(), valueExpression, Object.class )
+               .setValue( facesContext.getELContext(), value );
       }
       
       /**
@@ -397,7 +399,9 @@ public class SeamTest
        */
       protected Object invokeMethod(String methodExpression)
       {
-         return application.createMethodBinding(methodExpression, null).invoke(facesContext, null);
+         return application.getExpressionFactory()
+               .createMethodExpression( facesContext.getELContext(), methodExpression, Object.class, new Class[0] )
+               .invoke( facesContext.getELContext(), null );
       }
 
       /**
@@ -521,7 +525,7 @@ public class SeamTest
             
             renderResponseComplete = true;
             
-            facesContext.getApplication().getStateManager().saveSerializedView(facesContext);
+            facesContext.getApplication().getStateManager().saveView(facesContext);
             
             updateConversationId();
 

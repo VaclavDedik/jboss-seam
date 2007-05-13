@@ -5,10 +5,10 @@ import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+import javax.el.ValueExpression;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-import javax.faces.el.ValueBinding;
 import javax.servlet.ServletRequest;
 
 import org.jboss.seam.web.MultipartRequest;
@@ -59,31 +59,31 @@ public class UIFileUpload extends UIInput
       String fileName = request.getFileName(clientId);
       int fileSize = request.getFileSize(clientId);       
       
-      ValueBinding dataBinding = getValueBinding("data");
+      ValueExpression dataBinding = getValueExpression("data");
       if (dataBinding != null)
       {
-         Class cls = dataBinding.getType(context);
+         Class cls = dataBinding.getType(context.getELContext());
          if (cls.isAssignableFrom(InputStream.class))
          {
-            dataBinding.setValue(context, request.getFileInputStream(clientId));
+            dataBinding.setValue(context.getELContext(), request.getFileInputStream(clientId));
          }
          else if (cls.isAssignableFrom(byte[].class))
          {
-            dataBinding.setValue(context, request.getFileBytes(clientId));
+            dataBinding.setValue(context.getELContext(), request.getFileBytes(clientId));
          }
       }
       
-      ValueBinding vb = getValueBinding("contentType");
+      ValueExpression vb = getValueExpression("contentType");
       if (vb != null)
-         vb.setValue(context, contentType);
+         vb.setValue(context.getELContext(), contentType);
       
-      vb = getValueBinding("fileName");
+      vb = getValueExpression("fileName");
       if (vb != null)
-         vb.setValue(context, fileName);
+         vb.setValue(context.getELContext(), fileName);
       
-      vb = getValueBinding("fileSize");
+      vb = getValueExpression("fileSize");
       if (vb != null)
-         vb.setValue(context, fileSize);            
+         vb.setValue(context.getELContext(), fileSize);            
    }   
       
    private ServletRequest unwrapMultipartRequest(ServletRequest request)
@@ -142,10 +142,10 @@ public class UIFileUpload extends UIInput
       writer.writeAttribute(HTML.ID_ATTR, clientId, null);     
       writer.writeAttribute(HTML.NAME_ATTR, clientId, null);
       
-      ValueBinding vb = getValueBinding("accept");
+      ValueExpression vb = getValueExpression("accept");
       if (vb != null)
       {
-         writer.writeAttribute(HTML.ACCEPT_ATTR, vb.getValue(context), null);
+         writer.writeAttribute(HTML.ACCEPT_ATTR, vb.getValue(context.getELContext()), null);
       }
       else if (accept != null)
       {

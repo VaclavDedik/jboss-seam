@@ -6,20 +6,25 @@ import javax.faces.application.StateManager.SerializedView;
 import javax.faces.context.FacesContext;
 import javax.faces.render.ResponseStateManager;
 
-public class MockResponseStateManager extends ResponseStateManager {
+@SuppressWarnings("deprecation")
+public class MockResponseStateManager extends ResponseStateManager 
+{
 
    @Override
-   public Object getComponentStateToRestore(FacesContext ctx) {
+   public Object getComponentStateToRestore(FacesContext ctx) 
+   {
       return new Object();
    }
 
    @Override
-   public Object getTreeStructureToRestore(FacesContext ctx, String x) {
+   public Object getTreeStructureToRestore(FacesContext ctx, String x) 
+   {
       return new Object();
    }
 
    @Override
-   public void writeState(FacesContext ctx, SerializedView viewState) throws IOException {
+   public void writeState(FacesContext ctx, SerializedView viewState) throws IOException 
+   {
       
    }
 

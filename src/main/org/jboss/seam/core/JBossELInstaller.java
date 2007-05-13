@@ -2,18 +2,12 @@ package org.jboss.seam.core;
 
 import java.lang.reflect.Method;
 
-import javassist.util.proxy.MethodFilter;
-import javassist.util.proxy.MethodHandler;
-import javassist.util.proxy.ProxyFactory;
-//import javax.servlet.jsp.JspApplicationContext;
-
 import org.jboss.el.ExpressionFactoryImpl;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
-import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -23,7 +17,7 @@ import org.jboss.seam.util.Reflections;
 @Startup
 @Scope(ScopeType.APPLICATION)
 public class JBossELInstaller {        
-    private static final String TOMCAT_APPLICATION_CONTEXT = "org.apache.jasper.runtime.JspApplicationContextImpl";
+    //private static final String TOMCAT_APPLICATION_CONTEXT = "org.apache.jasper.runtime.JspApplicationContextImpl";
     private static final String JSF_RI_ASSOCIATE = "com.sun.faces.ApplicationAssociate";
     
     private static final LogProvider log = Logging.getLogProvider(JBossELInstaller.class);

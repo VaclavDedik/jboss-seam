@@ -1,12 +1,12 @@
 package org.jboss.seam.ui;
 
+import javax.el.ValueExpression;
 import javax.faces.component.StateHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
-import javax.faces.el.ValueBinding;
 
 /**
  * Helper class for ConverterChain
@@ -16,7 +16,7 @@ public class PrioritizableConverter implements Converter, Comparable<Prioritizab
          StateHolder
 {
 
-   private ValueBinding vb;
+   private ValueExpression valueExpression;
 
    private Converter delegate;
 
@@ -26,9 +26,9 @@ public class PrioritizableConverter implements Converter, Comparable<Prioritizab
    {
    }
 
-   public PrioritizableConverter(ValueBinding vb, int priority)
+   public PrioritizableConverter(ValueExpression vb, int priority)
    {
-      this.vb = vb;
+      this.valueExpression = vb;
       this.priority = priority;
    }
 
@@ -40,9 +40,9 @@ public class PrioritizableConverter implements Converter, Comparable<Prioritizab
 
    public Converter getDelegate()
    {
-      if (vb != null)
+      if (valueExpression != null)
       {
-         return (Converter) vb.getValue(FacesContext.getCurrentInstance());
+         return (Converter) valueExpression.getValue( FacesContext.getCurrentInstance().getELContext() );
       }
       else
       {
@@ -84,7 +84,7 @@ public class PrioritizableConverter implements Converter, Comparable<Prioritizab
       Object[] values = (Object[]) state;
       delegate = (Converter) UIComponentBase.restoreAttachedState(context, values[0]);
       priority = (Integer) values[1];
-      vb = (ValueBinding) values[2];
+      valueExpression = (ValueExpression) values[2];
    }
 
    public Object saveState(FacesContext context)
@@ -92,7 +92,7 @@ public class PrioritizableConverter implements Converter, Comparable<Prioritizab
       Object[] values = new Object[3];
       values[0] = UIComponentBase.saveAttachedState(context, delegate);
       values[1] = priority;
-      values[2] = vb;
+      values[2] = valueExpression;
       return values;
    }
 

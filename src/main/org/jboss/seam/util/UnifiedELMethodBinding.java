@@ -9,10 +9,14 @@ import javax.faces.el.EvaluationException;
 import javax.faces.el.MethodBinding;
 import javax.faces.el.MethodNotFoundException;
 
+@SuppressWarnings("deprecation")
+@Deprecated
 public class UnifiedELMethodBinding extends MethodBinding
 {
    private MethodExpression me;
 
+   public UnifiedELMethodBinding() {}
+   
    public UnifiedELMethodBinding(String expression, Class[] args)
    {
       me = EXPRESSION_FACTORY.createMethodExpression(EL_CONTEXT, expression, Object.class, args);

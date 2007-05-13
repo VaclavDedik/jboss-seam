@@ -2,9 +2,9 @@ package org.jboss.seam.ui.graphicImage;
 
 import java.io.IOException;
 
+import javax.el.ValueExpression;
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
-import javax.faces.el.ValueBinding;
 
 import org.jboss.seam.core.Image;
 import org.jboss.seam.ui.JSF;
@@ -70,7 +70,7 @@ public class UITransformImageSize extends UIComponentBase implements ImageTransf
       }
       else 
       {
-         ValueBinding vb = getValueBinding("maintainRatio");
+         ValueExpression vb = getValueExpression("maintainRatio");
          Boolean b = vb == null ? null : JSF.getBooleanValue(getFacesContext(), vb);
          return b == null ? false : b;
       }
@@ -89,7 +89,7 @@ public class UITransformImageSize extends UIComponentBase implements ImageTransf
       }
       else
       {
-         ValueBinding vb = getValueBinding("width");
+         ValueExpression vb = getValueExpression("width");
          return vb == null ? null : JSF.getIntegerValue(getFacesContext(), vb);
       }
    }
@@ -107,7 +107,7 @@ public class UITransformImageSize extends UIComponentBase implements ImageTransf
       }
       else
       {
-         ValueBinding vb = getValueBinding("height");
+         ValueExpression vb = getValueExpression("height");
          return vb == null ? null : JSF.getIntegerValue(getFacesContext(), vb);
       }
    }
@@ -125,7 +125,7 @@ public class UITransformImageSize extends UIComponentBase implements ImageTransf
       }
       else
       {
-         ValueBinding vb = getValueBinding("factor");
+         ValueExpression vb = getValueExpression("factor");
          return vb == null ? null : JSF.getDoubleValue(getFacesContext(), vb);
       }
    }

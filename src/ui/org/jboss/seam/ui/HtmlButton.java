@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import javax.el.ValueExpression;
 import javax.faces.component.ActionSource;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIData;
@@ -14,7 +15,6 @@ import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.el.MethodBinding;
-import javax.faces.el.ValueBinding;
 import javax.faces.event.ActionListener;
 import javax.faces.model.DataModel;
 
@@ -40,7 +40,7 @@ public class HtmlButton extends HtmlOutputButton implements ActionSource
       {
          if ( parentUIData.getValue() instanceof DataModel )
          {
-            String dataModelExpression = parentUIData.getValueBinding("value").getExpressionString();
+            String dataModelExpression = parentUIData.getValueExpression("value").getExpressionString();
             String dataModelName = dataModelExpression.substring(2, dataModelExpression.length()-1).replace('$','.');
             UISelection uiSelection = new UISelection();
             uiSelection.setDataModel(dataModelName);
@@ -95,10 +95,10 @@ public class HtmlButton extends HtmlOutputButton implements ActionSource
       writer.writeAttribute("id", getClientId(context), "id");
 
       String viewId;
-      ValueBinding viewBinding = getValueBinding("view");
+      ValueExpression viewBinding = getValueExpression("view");
       if (viewBinding!=null)
       {
-         viewId = (String) viewBinding.getValue(context);
+         viewId = (String) viewBinding.getValue(context.getELContext());
       }
       else if (view!=null)
       {
@@ -190,11 +190,11 @@ public class HtmlButton extends HtmlOutputButton implements ActionSource
          first = false;
       }
       
-      ValueBinding taskInstanceValueBinding = getValueBinding("taskInstance");
+      ValueExpression taskInstanceValueBinding = getValueExpression("taskInstance");
       if (taskInstanceValueBinding!=null)
       {
          UITaskId uiTaskId = new UITaskId();
-         uiTaskId.setValueBinding("taskInstance", taskInstanceValueBinding);
+         uiTaskId.setValueExpression("taskInstance", taskInstanceValueBinding);
          encodedUrl  += getParameterString(characterEncoding, uiTaskId, first);
          first = false;
       }

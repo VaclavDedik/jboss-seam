@@ -15,9 +15,9 @@
  */
 package org.jboss.seam.ui;
 
+import javax.el.ValueExpression;
 import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
-import javax.faces.el.ValueBinding;
 
 /**
  * see Javadoc of <a href="http://java.sun.com/j2ee/javaserverfaces/1.1_01/docs/api/index.html">JSF Specification</a>
@@ -77,7 +77,7 @@ public class HtmlOutputButton
     public String getAccesskey()
     {
         if (_accesskey != null) return _accesskey;
-        ValueBinding vb = getValueBinding("accesskey");
+        ValueExpression vb = getValueExpression("accesskey");
         return vb != null ? JSF.getStringValue(getFacesContext(), vb) : null;
     }
 
@@ -89,7 +89,7 @@ public class HtmlOutputButton
     public String getAlt()
     {
         if (_alt != null) return _alt;
-        ValueBinding vb = getValueBinding("alt");
+        ValueExpression vb = getValueExpression("alt");
         return vb != null ? JSF.getStringValue(getFacesContext(), vb) : null;
     }
 
@@ -101,7 +101,7 @@ public class HtmlOutputButton
     public String getDir()
     {
         if (_dir != null) return _dir;
-        ValueBinding vb = getValueBinding("dir");
+        ValueExpression vb = getValueExpression("dir");
         return vb != null ? JSF.getStringValue(getFacesContext(), vb) : null;
     }
 
@@ -113,8 +113,8 @@ public class HtmlOutputButton
     public boolean isDisabled()
     {
         if (_disabled != null) return _disabled.booleanValue();
-        ValueBinding vb = getValueBinding("disabled");
-        Boolean v = vb != null ? (Boolean)vb.getValue(getFacesContext()) : null;
+        ValueExpression vb = getValueExpression("disabled");
+        Boolean v = vb != null ? (Boolean)vb.getValue(getFacesContext().getELContext()) : null;
         return v != null ? v.booleanValue() : DEFAULT_DISABLED;
     }
 
@@ -126,7 +126,7 @@ public class HtmlOutputButton
     public String getImage()
     {
         if (_image != null) return _image;
-        ValueBinding vb = getValueBinding("image");
+        ValueExpression vb = getValueExpression("image");
         return vb != null ? JSF.getStringValue(getFacesContext(), vb) : null;
     }
 
@@ -138,7 +138,7 @@ public class HtmlOutputButton
     public String getLang()
     {
         if (_lang != null) return _lang;
-        ValueBinding vb = getValueBinding("lang");
+        ValueExpression vb = getValueExpression("lang");
         return vb != null ? JSF.getStringValue(getFacesContext(), vb) : null;
     }
 
@@ -150,7 +150,7 @@ public class HtmlOutputButton
     public String getOnblur()
     {
         if (_onblur != null) return _onblur;
-        ValueBinding vb = getValueBinding("onblur");
+        ValueExpression vb = getValueExpression("onblur");
         return vb != null ? JSF.getStringValue(getFacesContext(), vb) : null;
     }
 
@@ -162,7 +162,7 @@ public class HtmlOutputButton
     public String getOnchange()
     {
         if (_onchange != null) return _onchange;
-        ValueBinding vb = getValueBinding("onchange");
+        ValueExpression vb = getValueExpression("onchange");
         return vb != null ? JSF.getStringValue(getFacesContext(), vb) : null;
     }
 
@@ -174,7 +174,7 @@ public class HtmlOutputButton
     public String getOnclick()
     {
         if (_onclick != null) return _onclick;
-        ValueBinding vb = getValueBinding("onclick");
+        ValueExpression vb = getValueExpression("onclick");
         return vb != null ? JSF.getStringValue(getFacesContext(), vb) : null;
     }
 
@@ -186,7 +186,7 @@ public class HtmlOutputButton
     public String getOndblclick()
     {
         if (_ondblclick != null) return _ondblclick;
-        ValueBinding vb = getValueBinding("ondblclick");
+        ValueExpression vb = getValueExpression("ondblclick");
         return vb != null ? JSF.getStringValue(getFacesContext(), vb) : null;
     }
 
@@ -198,7 +198,7 @@ public class HtmlOutputButton
     public String getOnfocus()
     {
         if (_onfocus != null) return _onfocus;
-        ValueBinding vb = getValueBinding("onfocus");
+        ValueExpression vb = getValueExpression("onfocus");
         return vb != null ? JSF.getStringValue(getFacesContext(), vb) : null;
     }
 
@@ -210,7 +210,7 @@ public class HtmlOutputButton
     public String getOnkeydown()
     {
         if (_onkeydown != null) return _onkeydown;
-        ValueBinding vb = getValueBinding("onkeydown");
+        ValueExpression vb = getValueExpression("onkeydown");
         return vb != null ? JSF.getStringValue(getFacesContext(), vb) : null;
     }
 
@@ -222,7 +222,7 @@ public class HtmlOutputButton
     public String getOnkeypress()
     {
         if (_onkeypress != null) return _onkeypress;
-        ValueBinding vb = getValueBinding("onkeypress");
+        ValueExpression vb = getValueExpression("onkeypress");
         return vb != null ? JSF.getStringValue(getFacesContext(), vb) : null;
     }
 
@@ -234,7 +234,7 @@ public class HtmlOutputButton
     public String getOnkeyup()
     {
         if (_onkeyup != null) return _onkeyup;
-        ValueBinding vb = getValueBinding("onkeyup");
+        ValueExpression vb = getValueExpression("onkeyup");
         return vb != null ? JSF.getStringValue(getFacesContext(), vb) : null;
     }
 
@@ -246,7 +246,7 @@ public class HtmlOutputButton
     public String getOnmousedown()
     {
         if (_onmousedown != null) return _onmousedown;
-        ValueBinding vb = getValueBinding("onmousedown");
+        ValueExpression vb = getValueExpression("onmousedown");
         return vb != null ? JSF.getStringValue(getFacesContext(), vb) : null;
     }
 
@@ -258,7 +258,7 @@ public class HtmlOutputButton
     public String getOnmousemove()
     {
         if (_onmousemove != null) return _onmousemove;
-        ValueBinding vb = getValueBinding("onmousemove");
+        ValueExpression vb = getValueExpression("onmousemove");
         return vb != null ? JSF.getStringValue(getFacesContext(), vb) : null;
     }
 
@@ -270,7 +270,7 @@ public class HtmlOutputButton
     public String getOnmouseout()
     {
         if (_onmouseout != null) return _onmouseout;
-        ValueBinding vb = getValueBinding("onmouseout");
+        ValueExpression vb = getValueExpression("onmouseout");
         return vb != null ? JSF.getStringValue(getFacesContext(), vb) : null;
     }
 
@@ -282,7 +282,7 @@ public class HtmlOutputButton
     public String getOnmouseover()
     {
         if (_onmouseover != null) return _onmouseover;
-        ValueBinding vb = getValueBinding("onmouseover");
+        ValueExpression vb = getValueExpression("onmouseover");
         return vb != null ? JSF.getStringValue(getFacesContext(), vb) : null;
     }
 
@@ -294,7 +294,7 @@ public class HtmlOutputButton
     public String getOnmouseup()
     {
         if (_onmouseup != null) return _onmouseup;
-        ValueBinding vb = getValueBinding("onmouseup");
+        ValueExpression vb = getValueExpression("onmouseup");
         return vb != null ? JSF.getStringValue(getFacesContext(), vb) : null;
     }
 
@@ -306,7 +306,7 @@ public class HtmlOutputButton
     public String getOnselect()
     {
         if (_onselect != null) return _onselect;
-        ValueBinding vb = getValueBinding("onselect");
+        ValueExpression vb = getValueExpression("onselect");
         return vb != null ? JSF.getStringValue(getFacesContext(), vb) : null;
     }
 
@@ -318,8 +318,8 @@ public class HtmlOutputButton
     public boolean isReadonly()
     {
         if (_readonly != null) return _readonly.booleanValue();
-        ValueBinding vb = getValueBinding("readonly");
-        Boolean v = vb != null ? (Boolean)vb.getValue(getFacesContext()) : null;
+        ValueExpression vb = getValueExpression("readonly");
+        Boolean v = vb != null ? (Boolean)vb.getValue(getFacesContext().getELContext()) : null;
         return v != null ? v.booleanValue() : DEFAULT_READONLY;
     }
 
@@ -331,7 +331,7 @@ public class HtmlOutputButton
     public String getStyle()
     {
         if (_style != null) return _style;
-        ValueBinding vb = getValueBinding("style");
+        ValueExpression vb = getValueExpression("style");
         return vb != null ? JSF.getStringValue(getFacesContext(), vb) : null;
     }
 
@@ -343,7 +343,7 @@ public class HtmlOutputButton
     public String getStyleClass()
     {
         if (_styleClass != null) return _styleClass;
-        ValueBinding vb = getValueBinding("styleClass");
+        ValueExpression vb = getValueExpression("styleClass");
         return vb != null ? JSF.getStringValue(getFacesContext(), vb) : null;
     }
 
@@ -355,7 +355,7 @@ public class HtmlOutputButton
     public String getTabindex()
     {
         if (_tabindex != null) return _tabindex;
-        ValueBinding vb = getValueBinding("tabindex");
+        ValueExpression vb = getValueExpression("tabindex");
         return vb != null ? JSF.getStringValue(getFacesContext(), vb) : null;
     }
 
@@ -367,7 +367,7 @@ public class HtmlOutputButton
     public String getTitle()
     {
         if (_title != null) return _title;
-        ValueBinding vb = getValueBinding("title");
+        ValueExpression vb = getValueExpression("title");
         return vb != null ? JSF.getStringValue(getFacesContext(), vb) : null;
     }
 
@@ -379,7 +379,7 @@ public class HtmlOutputButton
     public String getType()
     {
         if (_type != null) return _type;
-        ValueBinding vb = getValueBinding("type");
+        ValueExpression vb = getValueExpression("type");
         return vb != null ? JSF.getStringValue(getFacesContext(), vb) : DEFAULT_TYPE;
     }
 

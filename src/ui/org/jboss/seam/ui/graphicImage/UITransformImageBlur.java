@@ -2,9 +2,9 @@ package org.jboss.seam.ui.graphicImage;
 
 import java.io.IOException;
 
+import javax.el.ValueExpression;
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
-import javax.faces.el.ValueBinding;
 
 import org.jboss.seam.core.Image;
 import org.jboss.seam.ui.JSF;
@@ -36,7 +36,7 @@ public class UITransformImageBlur extends UIComponentBase implements ImageTransf
       }
       else
       {
-         ValueBinding vb = getValueBinding("width");
+         ValueExpression vb = getValueExpression("width");
          return vb == null ? null : JSF.getStringValue(getFacesContext(), vb);
       }
    }

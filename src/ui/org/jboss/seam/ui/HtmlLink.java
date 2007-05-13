@@ -5,6 +5,8 @@ import java.net.URLEncoder;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import javax.el.ValueExpression;
 import javax.faces.component.ActionSource;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIData;
@@ -36,7 +38,7 @@ public class HtmlLink extends HtmlOutputLink implements ActionSource
       {
          if ( parentUIData.getValue() instanceof DataModel )
          {
-            String dataModelExpression = parentUIData.getValueBinding("value").getExpressionString();
+            String dataModelExpression = parentUIData.getValueExpression("value").getExpressionString();
             String dataModelName = dataModelExpression.substring(2, dataModelExpression.length()-1).replace('$','.');
             UISelection uiSelection = new UISelection();
             uiSelection.setDataModel(dataModelName);
@@ -79,10 +81,10 @@ public class HtmlLink extends HtmlOutputLink implements ActionSource
       writer.startElement("a", this);
       writer.writeAttribute("id", getClientId(context), "id");
       String viewId;
-      ValueBinding viewBinding = getValueBinding("view");
+      ValueExpression viewBinding = getValueExpression("view");
       if (viewBinding!=null)
       {
-         viewId = (String) viewBinding.getValue(context);
+         viewId = (String) viewBinding.getValue(context.getELContext());
       }
       else if (view!=null)
       {
@@ -176,11 +178,11 @@ public class HtmlLink extends HtmlOutputLink implements ActionSource
          first = false;
       }
       
-      ValueBinding taskInstanceValueBinding = getValueBinding("taskInstance");
+      ValueExpression taskInstanceValueBinding = getValueExpression("taskInstance");
       if (taskInstanceValueBinding!=null)
       {
          UITaskId uiTaskId = new UITaskId();
-         uiTaskId.setValueBinding("taskInstance", taskInstanceValueBinding);
+         uiTaskId.setValueExpression("taskInstance", taskInstanceValueBinding);
          encodedUrl  += getParameterString(characterEncoding, uiTaskId, first);
          first = false;
       }
@@ -238,9 +240,9 @@ public class HtmlLink extends HtmlOutputLink implements ActionSource
    }
    private boolean isDisabled(FacesContext facesContext)
    {
-      ValueBinding disabledValueBinding = getValueBinding("disabled");
+      ValueExpression disabledValueBinding = getValueExpression("disabled");
       return disabledValueBinding==null ? 
-            disabled : (Boolean) disabledValueBinding.getValue(facesContext);
+            disabled : (Boolean) disabledValueBinding.getValue(facesContext.getELContext());
    }
    @Override
    public void restoreState(FacesContext context, Object state) {
@@ -295,10 +297,14 @@ public class HtmlLink extends HtmlOutputLink implements ActionSource
    {
       this.fragment = fragment;
    }
+   
+   @Override
    public boolean isDisabled()
    {
       return disabled;
    }
+   
+   @Override
    public void setDisabled(boolean disabled)
    {
       this.disabled = disabled;
@@ -307,25 +313,33 @@ public class HtmlLink extends HtmlOutputLink implements ActionSource
    //IMPLEMENT ActionSource:
    
    public void addActionListener(ActionListener listener) { }
+   
    public MethodBinding getActionListener()
    {
       return null;
    }
+   
    public ActionListener[] getActionListeners()
    {
       return null;
    }
+   
    public boolean isImmediate()
    {
       return false;
    }
+   
    public void setImmediate(boolean immediate) { }
+   
    public void removeActionListener(ActionListener listener) {}
+   
    public void setActionListener(MethodBinding actionListener) {}
+   
    public String getOutcome()
    {
       return outcome;
    }
+   
    public void setOutcome(String outcome)
    {
       this.outcome = outcome;

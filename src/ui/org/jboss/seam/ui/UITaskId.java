@@ -1,7 +1,8 @@
 package org.jboss.seam.ui;
 
+import javax.el.ELContext;
+import javax.el.ValueExpression;
 import javax.faces.component.UIParameter;
-import javax.faces.el.ValueBinding;
 
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
@@ -19,9 +20,10 @@ public class UITaskId extends UIParameter
    @Override
    public Object getValue()
    {
-      ValueBinding valueBinding = getValueBinding("taskInstance");
-      if (valueBinding==null) valueBinding = getFacesContext().getApplication().createValueBinding("#{task}");
-      TaskInstance taskInstance = (TaskInstance) valueBinding.getValue( getFacesContext() );
+      ValueExpression ValueExpression = getValueExpression("taskInstance");
+      ELContext context = getFacesContext().getELContext();
+      if (ValueExpression==null) ValueExpression = getFacesContext().getApplication().getExpressionFactory().createValueExpression(context, "#{task}", TaskInstance.class);
+      TaskInstance taskInstance = (TaskInstance) ValueExpression.getValue(context);
       return taskInstance==null ? null : taskInstance.getId();
    }
 
