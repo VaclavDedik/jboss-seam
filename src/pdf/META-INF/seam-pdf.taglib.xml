@@ -140,6 +140,13 @@
     </tag>
 
     <tag>
+        <tag-name>barCode</tag-name>
+        <component>
+            <component-type>org.jboss.seam.pdf.ui.UIBarCode</component-type>
+        </component>
+    </tag>
+
+    <tag>
         <tag-name>piechart</tag-name>
         <component>
             <component-type>org.jboss.seam.pdf.ui.UIPieChart</component-type>

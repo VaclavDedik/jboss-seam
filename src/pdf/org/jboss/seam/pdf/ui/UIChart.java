@@ -8,13 +8,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseStream;
 import javax.faces.context.ResponseWriter;
 
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.core.Pages;
 import org.jboss.seam.core.Image.Type;
-import org.jboss.seam.pdf.DocumentData;
 import org.jboss.seam.pdf.ITextUtils;
 import org.jboss.seam.ui.graphicImage.GraphicImageResource;
 import org.jboss.seam.ui.graphicImage.GraphicImageStore;
@@ -30,7 +27,6 @@ import com.lowagie.text.pdf.DefaultFontMapper;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfWriter;
-import com.sun.faces.taglib.html_basic.GraphicImageTag;
 
 public abstract class UIChart 
     extends ITextComponent 
