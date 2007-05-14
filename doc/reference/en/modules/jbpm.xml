@@ -140,7 +140,7 @@
         <rule if-outcome="lose">
             <redirect view-id="/lose.jsp"/>
         </rule>
-    </navigation-case>
+    </navigation>
 
 </navigation-rule>]]></programlisting>
 
