@@ -56,31 +56,19 @@
     
     <itemizedlist>
       <listitem>
-        <para>drools-compiler-3.0.5.jar</para>
+        <para>drools-compiler-4.0.0.MR2.jar</para>
       </listitem>
       <listitem>
-        <para>drools-core-3.0.5.jar</para>
+        <para>drools-core-4.0.0.MR2.jar</para>
       </listitem>
       <listitem>
-        <para>commons-jci-core-1.0-406301.jar</para>
+        <para>janino-2.5.6.jar</para>
       </listitem>
       <listitem>
-        <para>commons-jci-janino-2.4.3.jar</para>
+        <para>antlr-3.0b7.jar</para>
       </listitem>
       <listitem>
-        <para>commons-lang-2.1.jar</para>
-      </listitem>
-      <listitem>
-        <para>janino-2.4.3.jar</para>
-      </listitem>
-      <listitem>
-        <para>stringtemplate-2.3b6.jar</para>
-      </listitem>                                
-      <listitem>
-        <para>antlr-2.7.6.jar</para>
-      </listitem>
-      <listitem>
-        <para>antlr-3.0ea8.jar</para>
+        <para>mvel14-1.2beta16.jar</para>
       </listitem>                    
     </itemizedlist>     
     
