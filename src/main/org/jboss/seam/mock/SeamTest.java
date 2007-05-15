@@ -418,6 +418,16 @@ public class SeamTest
          
          beforeRequest();
 
+         Map<String, String> params = new HashMap<String, String>();
+         for (Map.Entry<String, String[]> e: ( (Map<String, String[]>) request.getParameterMap() ).entrySet())
+         {
+            if ( e.getValue().length==1 )
+            {
+               params.put( e.getKey(), e.getValue()[0] );
+            }
+         }
+         request.setAttribute("param", params);
+
          phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, MockLifecycle.INSTANCE) );
          
          UIViewRoot viewRoot = facesContext.getApplication().getViewHandler().createView( facesContext, getViewId() );
