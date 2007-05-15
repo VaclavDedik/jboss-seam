@@ -32,28 +32,19 @@
 
    <!-- Drools and dependencies -->
    <module>
-      <java>drools-core-3.0.5.jar</java>
+      <java>drools-compiler-4.0.0.MR2.jar</java>
    </module>
    <module>
-      <java>drools-compiler-3.0.5.jar</java>
+      <java>drools-core-4.0.0.MR2.jar</java>
    </module>
    <module>
-      <java>janino-2.4.3.jar</java>
+      <java>mvel14-1.2beta16.jar</java>
    </module>
    <module>
-      <java>antlr-2.7.6.jar</java>
+      <java>janino-2.5.6.jar</java>
    </module>
    <module>
-      <java>antlr-3.0ea8.jar</java>
-   </module>
-   <module>
-      <java>commons-jci-core-1.0-406301.jar</java>
-   </module>
-   <module>
-      <java>commons-jci-janino-2.4.3.jar</java>
-   </module>
-   <module>
-      <java>stringtemplate-2.3b6.jar</java>
-   </module>
+      <java>antlr-3.0b7.jar</java>
+   </module>   
     
 </application>
