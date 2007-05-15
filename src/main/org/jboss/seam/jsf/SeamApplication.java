@@ -110,7 +110,7 @@ public class SeamApplication extends Application
    @Override
    public Object evaluateExpressionGet(FacesContext context, String expression, 
           Class expectedType) throws ELException 
-          {
+   {
       try
       {
          return evaluateExpressionMethod.invoke(application, context, expression, expectedType);

@@ -44,7 +44,55 @@ import org.jboss.seam.util.UnifiedELValueBinding;
 @SuppressWarnings("deprecation")
 public class MockApplication extends Application
 {
-
+   
+   @Override
+   public Object evaluateExpressionGet(FacesContext context, String expression, Class type) throws javax.el.ELException 
+   {
+      return getExpressionFactory().createValueExpression(context.getELContext(), expression, type).getValue(context.getELContext());
+   }
+   
+   @Override
+   public void addELContextListener(javax.el.ELContextListener elcl) 
+   {
+      throw new UnsupportedOperationException();
+   }
+   
+   @Override
+   public void addELResolver(javax.el.ELResolver r) 
+   {
+      throw new UnsupportedOperationException();
+   }
+   
+   @Override
+   public UIComponent createComponent(javax.el.ValueExpression ve, FacesContext context, String id) throws FacesException 
+   {
+      throw new UnsupportedOperationException();
+   }
+   
+   @Override
+   public javax.el.ELContextListener[] getELContextListeners() 
+   {
+      throw new UnsupportedOperationException();
+   }
+   
+   @Override
+   public javax.el.ELResolver getELResolver() 
+   {
+      throw new UnsupportedOperationException();
+   }
+   
+   @Override
+   public java.util.ResourceBundle getResourceBundle(FacesContext context, String string) 
+   {
+      throw new UnsupportedOperationException();
+   }
+   
+   @Override
+   public void removeELContextListener(javax.el.ELContextListener elcl) 
+   {
+      throw new UnsupportedOperationException();
+   }
+   
    @Override
    public ActionListener getActionListener()
    {
