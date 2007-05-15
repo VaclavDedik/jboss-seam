@@ -19,7 +19,7 @@ import org.jboss.seam.annotations.Unwrap;
 @Scope(ScopeType.STATELESS)
 @Name("org.jboss.seam.core.timeZone")
 @Intercept(NEVER)
-@Install(value=false, precedence=BUILT_IN)
+@Install(precedence=BUILT_IN)
 public class TimeZone {
 
    @Unwrap

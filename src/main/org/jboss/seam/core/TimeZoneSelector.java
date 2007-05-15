@@ -23,7 +23,7 @@ import org.jboss.seam.contexts.Contexts;
 @Scope(ScopeType.SESSION)
 @Name("org.jboss.seam.core.timeZoneSelector")
 @Intercept(NEVER)
-@Install(value=false, precedence=BUILT_IN)
+@Install(precedence=BUILT_IN)
 public class TimeZoneSelector extends Selector
 {
    private static final long serialVersionUID = -5013819375360015369L;
