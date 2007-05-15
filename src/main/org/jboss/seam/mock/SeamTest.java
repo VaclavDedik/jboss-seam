@@ -440,7 +440,11 @@ public class SeamTest
                }
             }
          }
-         if ( !isGetRequest() )
+         if ( isGetRequest() )
+         {
+            facesContext.renderResponse();
+         }
+         else
          {
             restoredViewRootAttributes.putAll(pageParameters);
          }
