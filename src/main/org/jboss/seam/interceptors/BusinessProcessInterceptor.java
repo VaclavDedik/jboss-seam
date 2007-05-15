@@ -51,23 +51,27 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
       }
    }
 
-   private boolean beforeInvocation(InvocationContext invocationContext) {
+   private boolean beforeInvocation(InvocationContext invocationContext) 
+   {
       Method method = invocationContext.getMethod();
-      if ( method.isAnnotationPresent( StartTask.class ) ) {
+      if ( method.isAnnotationPresent(StartTask.class) ) 
+      {
          log.trace( "encountered @StartTask" );
-         StartTask tag = method.getAnnotation( StartTask.class );
+         StartTask tag = method.getAnnotation(StartTask.class);
          Long taskId = getRequestParamValueAsLong( tag.taskIdParameter(), tag.taskId() );
          return BusinessProcess.instance().resumeTask(taskId);
       }
-      else if ( method.isAnnotationPresent( BeginTask.class ) ) {
+      else if ( method.isAnnotationPresent(BeginTask.class) ) 
+      {
          log.trace( "encountered @BeginTask" );
-         BeginTask tag = method.getAnnotation( BeginTask.class );
+         BeginTask tag = method.getAnnotation(BeginTask.class);
          Long taskId = getRequestParamValueAsLong( tag.taskIdParameter(), tag.taskId() );
          return BusinessProcess.instance().resumeTask(taskId);
       }
-      else if ( method.isAnnotationPresent( ResumeProcess.class ) ) {
+      else if ( method.isAnnotationPresent(ResumeProcess.class) ) 
+      {
          log.trace( "encountered @ResumeProcess" );
-         ResumeProcess tag = method.getAnnotation( ResumeProcess.class );
+         ResumeProcess tag = method.getAnnotation(ResumeProcess.class);
          Long processId = getRequestParamValueAsLong( tag.processIdParameter(), tag.processId() );
          return BusinessProcess.instance().resumeProcess(processId);
       }
@@ -87,7 +91,7 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
       Method method = invocation.getMethod();
       if ( result!=null || method.getReturnType().equals(void.class) ) //interpreted as "redisplay"
       {
-         if ( method.isAnnotationPresent( CreateProcess.class ) )
+         if ( method.isAnnotationPresent(CreateProcess.class) )
          {
             log.trace( "encountered @CreateProcess" );
             CreateProcess tag = method.getAnnotation(CreateProcess.class);
