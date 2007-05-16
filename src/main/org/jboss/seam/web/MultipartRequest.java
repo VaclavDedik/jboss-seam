@@ -456,7 +456,7 @@ public class MultipartRequest extends HttpServletRequestWrapper
     */
    private boolean checkSequence(byte[] data, int pos, byte[] seq)
    {
-      if (pos - seq.length < 0 || pos > data.length)
+      if (pos - seq.length < 0 || pos >= data.length)
          return false;
       
       for (int i = 0; i < seq.length; i++)
