@@ -1,9 +1,22 @@
 package org.jboss.seam.pdf.ui;
 
 import java.awt.Color;
-import javax.faces.context.FacesContext;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
+import javax.faces.context.FacesContext;
+import javax.faces.context.ResponseWriter;
+import javax.imageio.ImageIO;
+
+import org.jboss.seam.core.Manager;
+import org.jboss.seam.core.Image.Type;
 import org.jboss.seam.pdf.ui.ITextComponent;
+import org.jboss.seam.ui.graphicImage.GraphicImageResource;
+import org.jboss.seam.ui.graphicImage.GraphicImageStore;
+import org.jboss.seam.ui.graphicImage.GraphicImageStore.ImageWrapper;
 
 import com.lowagie.text.Image;
 import com.lowagie.text.pdf.*;
@@ -29,117 +42,93 @@ public class UIBarCode
     private Float minBarWidth;
     private Float barMultiplier;
 
-
-
-    public String getCode()
-    {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(String code)
-    {
+    public void setCode(String code) {
         this.code = code;
     }
 
-    public String getType()
-    {
+    public String getType() {
         return type;
     }
 
-    public void setType(String type)
-    {
+    public void setType(String type) {
         this.type = type;
     }
 
-    public Float getRotDegrees()
-    {
+    public Float getRotDegrees(){
         return rotDegrees;
     }
 
-    public void setRotDegrees(Float rotDegrees)
-    {
+    public void setRotDegrees(Float rotDegrees) {
         this.rotDegrees = rotDegrees;
     }
-
-    public Float getXpos()
-    {
+    
+    public Float getXpos() {
         return xpos;
     }
 
-    public void setXpos(Float xpos)
-    {
+    public void setXpos(Float xpos) {
         this.xpos = xpos;
     }
 
-    public Float getYpos()
-    {
+    public Float getYpos() {
         return ypos;
     }
 
-    public void setYpos(Float ypos)
-    {
+    public void setYpos(Float ypos) {
         this.ypos = ypos;
     }
 
-    public String getAltText()
-    {
+    public String getAltText() {
         return altText;
     }
 
-    public void setAltText(String altText)
-    {
+    public void setAltText(String altText) {
         this.altText = altText;
     }
 
-    public Float getBarHeight()
-    {
+    public Float getBarHeight() {
         return barHeight;
     }
 
-    public void setBarHeight(Float barHeight)
-    {
+    public void setBarHeight(Float barHeight) {
         this.barHeight = barHeight;
     }
 
-    public Float getBarMultiplier()
-    {
+    public Float getBarMultiplier() {
         return barMultiplier;
     }
 
-    public void setBarMultiplier(Float barMultiplier)
-    {
+    public void setBarMultiplier(Float barMultiplier) {
         this.barMultiplier = barMultiplier;
     }
 
-    public Float getMinBarWidth()
-    {
+    public Float getMinBarWidth() {
         return minBarWidth;
     }
 
-    public void setMinBarWidth(Float minBarWidth)
-    {
+    public void setMinBarWidth(Float minBarWidth) {
         this.minBarWidth = minBarWidth;
     }
 
-    public Float getTextSize()
-    {
+    public Float getTextSize() {
         return textSize;
     }
 
-    public void setTextSize(Float textSize)
-    {
+    public void setTextSize(Float textSize) {
         this.textSize = textSize;
     }
     
     @Override
-    public Object getITextObject()
-    {
+    public Object getITextObject() {
         return image;
     }
 
     @Override
-    public void createITextObject(FacesContext context)
-    {
+    public void createITextObject(FacesContext context) {
         type = (String) valueBinding(context, "type", type);
         if (type != null) {
             if (type.equalsIgnoreCase("code128")) {
@@ -182,8 +171,7 @@ public class UIBarCode
         }
         
         minBarWidth = (Float) valueBinding(context, "minBarWidth", minBarWidth);
-        if (minBarWidth != null)
-        {
+        if (minBarWidth != null) {
             barcode.setX(minBarWidth);
         }
 
@@ -206,14 +194,57 @@ public class UIBarCode
     }
 
     @Override
-    public void removeITextObject()
-    {
+    public void removeITextObject() {
         image = null;
     }
 
     @Override
-    public void handleAdd(Object other)
-    {
+    public void handleAdd(Object other) {
         throw new RuntimeException("can't add " + other.getClass().getName() + " to barcode");
     }
+    
+    
+    
+    
+    public static byte[] imageToByteArray(java.awt.Image image) 
+        throws IOException 
+    {       
+        BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), 
+                                                        image.getHeight(null), 
+                                                        BufferedImage.TYPE_INT_RGB);
+        Graphics gc = bufferedImage.createGraphics();
+        gc.drawImage(image, 0, 0, null);
+        
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        ImageIO.write(bufferedImage, "jpeg", stream);
+   
+        return stream.toByteArray();
+  }
+    
+    @Override
+    public void noITextParentFound() {
+        try {
+            FacesContext context = FacesContext.getCurrentInstance();        
+            ResponseWriter response = context.getResponseWriter();
+            response.startElement("img", null);
+            GraphicImageStore store = GraphicImageStore.instance();
+
+            
+            byte[] imageData = imageToByteArray(barcode.createAwtImage(Color.BLACK, Color.WHITE));
+          
+            
+            String key = store.put(new ImageWrapper(imageData, Type.IMAGE_JPEG));
+            String url = context.getExternalContext().getRequestContextPath() +
+            GraphicImageResource.GRAPHIC_IMAGE_RESOURCE_PATH + "/" + key + Type.IMAGE_JPEG.getExtension();
+
+            response.writeAttribute("src", url, null);
+
+            response.endElement("img");
+
+            Manager.instance().beforeRedirect();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
 }

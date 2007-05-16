@@ -107,10 +107,13 @@ public abstract class ITextComponent
         if (parent != null) {
             parent.add(obj);
         } else {
-            throw new RuntimeException("Couldn't find ITextComponent parent for component " + 
-                                       this.getClass().getName());
-        }
-        
+            noITextParentFound();
+        }        
+    }
+
+    public void noITextParentFound() {
+        throw new RuntimeException("Couldn't find ITextComponent parent for component " + 
+                                   this.getClass().getName());
     }
 
     public Object processFacet(String facetName) {
