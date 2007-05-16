@@ -11,7 +11,8 @@ import javax.faces.context.FacesContext;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.LocaleSelector;
 
-public class SeamViewHandler extends ViewHandler {
+public class SeamViewHandler extends ViewHandler 
+{
    
    private ViewHandler viewHandler;
    
@@ -19,9 +20,22 @@ public class SeamViewHandler extends ViewHandler {
    {
       this.viewHandler = viewHandler;
    }
+   
+   @Override
+   public String calculateCharacterEncoding(FacesContext context)
+   {
+      return viewHandler.calculateCharacterEncoding(context);
+   }
 
    @Override
-   public Locale calculateLocale(FacesContext facesContext) {
+   public void initView(FacesContext context) throws FacesException
+   {
+      viewHandler.initView(context);
+   }
+   
+   @Override
+   public Locale calculateLocale(FacesContext facesContext) 
+   {
       Locale jsfLocale = viewHandler.calculateLocale(facesContext);
       if ( !Contexts.isSessionContextActive() )
       {
@@ -34,38 +48,45 @@ public class SeamViewHandler extends ViewHandler {
    }
 
    @Override
-   public String calculateRenderKitId(FacesContext ctx) {
+   public String calculateRenderKitId(FacesContext ctx) 
+   {
       return viewHandler.calculateRenderKitId(ctx);
    }
 
    @Override
-   public UIViewRoot createView(FacesContext ctx, String viewId) {
+   public UIViewRoot createView(FacesContext ctx, String viewId) 
+   {
       return viewHandler.createView(ctx, viewId);
    }
 
    @Override
-   public String getActionURL(FacesContext ctx, String viewId) {
+   public String getActionURL(FacesContext ctx, String viewId) 
+   {
       return viewHandler.getActionURL(ctx, viewId);
    }
 
    @Override
-   public String getResourceURL(FacesContext ctx, String path) {
+   public String getResourceURL(FacesContext ctx, String path) 
+   {
       return viewHandler.getResourceURL(ctx, path);
    }
 
    @Override
    public void renderView(FacesContext ctx, UIViewRoot viewRoot)
-         throws IOException, FacesException {
+         throws IOException, FacesException 
+   {
       viewHandler.renderView(ctx, viewRoot);
    }
 
    @Override
-   public UIViewRoot restoreView(FacesContext ctx, String viewId) {
+   public UIViewRoot restoreView(FacesContext ctx, String viewId) 
+   {
       return viewHandler.restoreView(ctx, viewId);
    }
 
    @Override
-   public void writeState(FacesContext ctx) throws IOException {
+   public void writeState(FacesContext ctx) throws IOException 
+   {
       viewHandler.writeState(ctx);
    }
 
