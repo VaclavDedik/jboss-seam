@@ -33,21 +33,29 @@ import org.jboss.seam.jsf.SeamELFunctionMapper;
 @Intercept(NEVER)
 @Install(precedence=BUILT_IN)
 @Name("org.jboss.seam.core.expressions")
-public class Expressions
-    implements Serializable
+public class Expressions implements Serializable
 {
    
    public ExpressionFactory getExpressionFactory()
    {
       FacesContext facesContext = FacesContext.getCurrentInstance();
-      return facesContext==null ? EXPRESSION_FACTORY : facesContext.getApplication().getExpressionFactory();
+      return facesContext==null ? 
+            EXPRESSION_FACTORY : 
+            facesContext.getApplication().getExpressionFactory();
    }
    
    public ELContext getELContext()
    {
       FacesContext facesContext = FacesContext.getCurrentInstance();
-      return facesContext==null ? EL_CONTEXT : new EvaluationContext(facesContext.getELContext(),
-               new SeamELFunctionMapper(), facesContext.getELContext().getVariableMapper());
+      if ( facesContext==null )
+      {
+         return EL_CONTEXT;
+      }
+      else
+      {
+         ELContext context = facesContext.getELContext();
+         return new EvaluationContext( context, new SeamELFunctionMapper( context.getFunctionMapper() ), context.getVariableMapper() );
+      }
    }
    
    public ValueExpression<Object> createValueExpression(String expression)

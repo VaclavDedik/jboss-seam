@@ -13,6 +13,7 @@ import java.util.List;
 
 public class Reflections
 {
+   
    public static Object invoke(Method method, Object target, Object... args) throws Exception
    {
       try
@@ -298,6 +299,4 @@ public class Reflections
       }
    }
 
-   
-   
 }

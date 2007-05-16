@@ -15,6 +15,7 @@ import org.jboss.seam.jsf.SeamELFunctionMapper;
 import org.jboss.seam.jsf.SeamELResolver;
 
 import org.jboss.el.ExpressionFactoryImpl;
+import org.jboss.el.lang.FunctionMapperImpl;
 import org.jboss.el.lang.VariableMapperImpl;
 
 public class EL
@@ -49,7 +50,7 @@ public class EL
          @Override
          public FunctionMapper getFunctionMapper()
          {
-            return new SeamELFunctionMapper();
+            return new SeamELFunctionMapper( new FunctionMapperImpl() );
          }
 
          @Override
