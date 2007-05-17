@@ -25,6 +25,11 @@ public class SeamELFunctionMapper extends FunctionMapper
    
    private FunctionMapper functionMapper;
    
+   public SeamELFunctionMapper()
+   {
+      this(null);
+   }
+   
    public SeamELFunctionMapper(FunctionMapper functionMapper)
    {
       this.functionMapper = functionMapper;
@@ -45,10 +50,12 @@ public class SeamELFunctionMapper extends FunctionMapper
       {
          return methodCache.get(localName);
       }
-      else
+      else if (functionMapper != null)
       {
          return functionMapper.resolveFunction(prefix, localName);
       }
+      else
+         return null;
    }  
    
    private static void cacheMethod(String localName, Class cls, String name, Class[] params)

@@ -12,8 +12,6 @@ import java.util.Properties;
 
 import javax.naming.NamingException;
 
-import org.jboss.seam.log.LogProvider;
-import org.jboss.seam.log.Logging;
 import org.hibernate.cfg.Environment;
 import org.hibernate.lob.ReaderInputStream;
 import org.jboss.seam.ScopeType;
@@ -25,7 +23,10 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.jbpm.SeamFunctionMapper;
 import org.jboss.seam.jbpm.SeamVariableResolver;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.pageflow.PageflowHelper;
 import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Resources;
@@ -66,6 +67,7 @@ public class Jbpm
       installProcessDefinitions();
       installPageflowDefinitions();
       JbpmExpressionEvaluator.setVariableResolver( new SeamVariableResolver() );
+      JbpmExpressionEvaluator.setFunctionMapper( new SeamFunctionMapper() );
    }
 
    @Destroy
