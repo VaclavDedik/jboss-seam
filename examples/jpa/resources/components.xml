@@ -8,7 +8,7 @@
                  http://jboss.com/products/seam/security http://jboss.com/products/seam/security-1.2.xsd
                  http://jboss.com/products/seam/components http://jboss.com/products/seam/components-1.2.xsd">
 
-    <core:init debug="true"/>    
+    <core:init debug="false"/>    
 
     <core:manager conversation-timeout="120000" 
                   concurrent-request-timeout="500"

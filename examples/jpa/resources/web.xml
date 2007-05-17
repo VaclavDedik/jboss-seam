@@ -43,6 +43,7 @@
       <servlet-name>Faces Servlet</servlet-name>              
       <url-pattern>*.seam</url-pattern>        
     </servlet-mapping>
+    
     <!-- JSF parameters -->  
     <context-param>              
       <param-name>javax.faces.STATE_SAVING_METHOD</param-name>              
@@ -56,12 +57,11 @@
       <param-name>facelets.DEVELOPMENT</param-name>        
       <param-value>true</param-value>    
     </context-param>  
-    
-    <!-- MyFaces -->    
-    <listener>        
-      <listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>    
-    </listener>     
-    
+
+    <listener>
+        <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
+    </listener> 
+        
     <session-config>
         <session-timeout>10</session-timeout> 
     </session-config>     
