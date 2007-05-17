@@ -374,9 +374,11 @@ public class MultipartRequest extends HttpServletRequestWrapper
                   }
                   case DATA:
                   {
+                     // If we've encountered another boundary...
                      if (checkSequence(buffer, i - boundaryMarker.length - CR_LF.length, CR_LF) &&
                          checkSequence(buffer, i, boundaryMarker))
                      {
+                        // Write any data before the boundary (that hasn't already been written) to the param
                         if (pos < i - boundaryMarker.length - CR_LF.length - 1)
                         {
                           p.appendData(buffer, pos, i - pos - boundaryMarker.length - CR_LF.length - 1);
@@ -396,6 +398,7 @@ public class MultipartRequest extends HttpServletRequestWrapper
                         
                         readState = ReadState.HEADERS;
                      }
+                     // Otherwise write whatever data we have to the param
                      else if (i > (pos + boundaryMarker.length + CHUNK_SIZE + CR_LF.length))
                      {
                         p.appendData(buffer, pos, CHUNK_SIZE);
@@ -456,7 +459,7 @@ public class MultipartRequest extends HttpServletRequestWrapper
     */
    private boolean checkSequence(byte[] data, int pos, byte[] seq)
    {
-      if (pos - seq.length < 0 || pos >= data.length)
+      if (pos - seq.length < -1 || pos >= data.length)
          return false;
       
       for (int i = 0; i < seq.length; i++)
