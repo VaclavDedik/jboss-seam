@@ -219,11 +219,14 @@
       </a>
     </h2>
     <div id="stackTrace">
-        Exception during request processing: 
-        #{org.jboss.seam.debug.contexts.exception.class.name}:
-        #{org.jboss.seam.debug.contexts.exception.message}
-        <pre><ui:repeat value="#{org.jboss.seam.debug.contexts.exception.stackTrace}" var="stackElement">
+        Exception during request processing:
+        <ui:repeat value="#{org.jboss.seam.debug.contexts.exceptionCauses}" var="exception">
+        <div>
+        Caused by #{exception.class.name} with message: "#{exception.message}"
+        <pre><ui:repeat value="#{exception.stackTrace}" var="stackElement">
 #{stackElement}</ui:repeat></pre>
+        </div>
+        </ui:repeat>
     </div>
     </f:subview>
 

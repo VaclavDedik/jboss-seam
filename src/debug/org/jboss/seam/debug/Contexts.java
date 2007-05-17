@@ -12,6 +12,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.core.ConversationEntries;
 import org.jboss.seam.core.ConversationEntry;
+import org.jboss.seam.util.EJB;
 
 @Name("org.jboss.seam.debug.contexts")
 @Scope(ScopeType.APPLICATION)
@@ -61,6 +62,16 @@ public class Contexts
    public Exception getException()
    {
       return (Exception) org.jboss.seam.contexts.Contexts.getConversationContext().get("org.jboss.seam.exception");
+   }
+   
+   public List<Exception> getExceptionCauses()
+   {
+      List<Exception> causes = new ArrayList<Exception>();
+      for (Exception cause=getException(); cause!=null; cause=EJB.getCause(cause))
+      {
+         causes.add(cause);
+      }
+      return causes;
    }
    
    public boolean isExceptionExists()
