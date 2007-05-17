@@ -1,11 +1,15 @@
 //$Id$
 package org.jboss.seam.example.booking;
+
 import static javax.persistence.PersistenceContextType.EXTENDED;
+
 import java.util.Calendar;
+
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.End;
@@ -17,6 +21,7 @@ import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.log.Log;
+
 @Stateful
 @Name("hotelBooking")
 @Restrict("#{identity.loggedIn}")
@@ -61,6 +66,7 @@ public class HotelBookingAction implements HotelBooking
       calendar.add(Calendar.DAY_OF_MONTH, 1);
       booking.setCheckoutDate( calendar.getTime() );
    }
+   
    public void setBookingDetails()
    {
       Calendar calendar = Calendar.getInstance();
