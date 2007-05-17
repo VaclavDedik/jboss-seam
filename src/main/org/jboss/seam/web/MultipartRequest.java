@@ -162,7 +162,7 @@ public class MultipartRequest extends HttpServletRequestWrapper
          }
          catch (IOException ex)
          {
-            throw new RuntimeException("Could not create temporary file");
+            throw new FileUploadException("Could not create temporary file");
          }
       }
       
@@ -277,7 +277,7 @@ public class MultipartRequest extends HttpServletRequestWrapper
       if (contentLength != null && maxRequestSize > 0 && 
                Integer.parseInt(contentLength) > maxRequestSize)
       {
-         throw new RuntimeException("Multipart request is larger than allowed size");
+         throw new FileUploadException("Multipart request is larger than allowed size");
       }
    }
 
@@ -286,7 +286,7 @@ public class MultipartRequest extends HttpServletRequestWrapper
       byte[] boundaryMarker = getBoundaryMarker(request.getContentType());
       if (boundaryMarker == null)
       {
-         throw new RuntimeException("the request was rejected because "
+         throw new FileUploadException("The request was rejected because "
                   + "no multipart boundary was found");
       }
       
@@ -424,7 +424,7 @@ public class MultipartRequest extends HttpServletRequestWrapper
       }
       catch (IOException ex)
       {
-         throw new RuntimeException("IO Error parsing multipart request", ex);
+         throw new FileUploadException("IO Error parsing multipart request", ex);
       }
    }
    
