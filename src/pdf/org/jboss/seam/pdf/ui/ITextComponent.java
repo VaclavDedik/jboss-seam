@@ -1,15 +1,20 @@
 package org.jboss.seam.pdf.ui;
 
+import java.io.IOException;
+import java.io.StringWriter;
+
 import javax.el.ValueExpression;
-import javax.faces.*;
-import javax.faces.context.*;
-import javax.faces.component.*;
-import java.io.*;
-import java.util.List;
+import javax.faces.FacesException;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIComponentBase;
+import javax.faces.context.FacesContext;
+import javax.faces.context.ResponseWriter;
 
 import org.jboss.seam.ui.JSF;
 
-import com.lowagie.text.*;
+import com.lowagie.text.Chunk;
+import com.lowagie.text.Document;
+import com.lowagie.text.Font;
 import com.lowagie.text.xml.simpleparser.EntitiesToUnicode;
 
 public abstract class ITextComponent
@@ -191,7 +196,7 @@ public abstract class ITextComponent
     public void encodeChildren(FacesContext context)
         throws IOException
     {
-        for (UIComponent child: (List<UIComponent>) this.getChildren()) {
+        for (UIComponent child: this.getChildren()) {
             // ugly hack to be able to capture facelets text
             if (child.getFamily().equals("facelets.LiteralText")) {
                 String text = EntitiesToUnicode.decodeString(extractText(context, child));
@@ -241,7 +246,7 @@ public abstract class ITextComponent
             if (component.getRendersChildren()) {
                 component.encodeChildren(context);
             } else {
-                for (UIComponent child: (List<UIComponent>) this.getChildren()) {
+                for (UIComponent child: this.getChildren()) {
                     encode(context, child);
                 }
             }

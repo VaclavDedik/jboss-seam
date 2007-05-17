@@ -1,7 +1,5 @@
 package org.jboss.seam.pdf.ui;
 
-import java.awt.Color;
-
 import javax.faces.context.FacesContext;
 
 import org.jfree.chart.ChartFactory;
@@ -335,10 +333,12 @@ public class UIPieChart
         }
     }
 
+    @Override
     public void restoreState(FacesContext context, Object state) {
         super.restoreState(context, state);        
     }
 
+    @Override
     public Object saveState(FacesContext context) {
         return super.saveState(context);
     }

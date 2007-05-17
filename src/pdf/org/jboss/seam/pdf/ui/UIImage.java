@@ -1,16 +1,16 @@
 package org.jboss.seam.pdf.ui;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+
 import org.jboss.seam.pdf.ITextUtils;
 import org.jboss.seam.ui.graphicImage.ImageTransform;
 
-import javax.faces.component.UIComponent;
-import javax.faces.context.*;
-
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.List;
-
-import com.lowagie.text.*;
+import com.lowagie.text.BadElementException;
+import com.lowagie.text.Image;
 
 public class UIImage
     extends UIRectangle
@@ -129,7 +129,7 @@ public class UIImage
                 seamImage.setInput(value);
             }           
 
-            for (UIComponent cmp : (List<UIComponent>) this.getChildren()) {
+            for (UIComponent cmp : this.getChildren()) {
                 if (cmp instanceof ImageTransform) {
                     ImageTransform imageTransform = (ImageTransform) cmp;
                     imageTransform.applyTransform(seamImage);
