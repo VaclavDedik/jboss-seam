@@ -59,6 +59,7 @@ public class PojoNotificationComponent extends ControllerNotificationComponent i
         return kernel;
     }
 
+    @Override
     protected void notifyController(Component component) throws Throwable
     {
         Class<PojoNotificationComponent> clazz = PojoNotificationComponent.class;
@@ -68,6 +69,7 @@ public class PojoNotificationComponent extends ControllerNotificationComponent i
         controller.install(beanMetaData, this);
     }
 
+    @Override
     protected void clearNotification() throws Throwable
     {
         KernelController controller = getKernel().getController();

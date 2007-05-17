@@ -59,12 +59,14 @@ public class JMXNotificationComponent extends ControllerNotificationComponent im
         return new ObjectName("seam:service=" + getClass().getSimpleName() + "." + component.getName());
     }
 
+    @Override
     protected void notifyController(Component component) throws Throwable
     {
         objectName = createObjectName(component);
         handleJMXRegistration(true);
     }
-
+    
+    @Override
     protected void clearNotification() throws Throwable
     {
         handleJMXRegistration(false);
