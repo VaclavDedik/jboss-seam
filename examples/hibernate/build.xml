@@ -48,7 +48,7 @@
 	          <zipfileset refid="example.facelets.jar"/>
             <!--zipfileset refid="seam.extra.jar"/-->
             <zipfileset dir="${lib.dir}" prefix="WEB-INF/lib">
-                <include name="el-*.jar"/>
+                <include name="jboss-el.jar"/>
             </zipfileset>
             <zipfileset dir="${build.dir}/resources">
             	<include name="WEB-INF/**/*.*"/>

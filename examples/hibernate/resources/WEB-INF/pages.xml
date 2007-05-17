@@ -18,4 +18,10 @@
 	<page view-id="/hotel.xhtml" timeout="300000">View hotel: #{hotel.name}</page>
 	<page view-id="/book.xhtml" timeout="600000">Book hotel: #{hotel.name}</page>
 	<page view-id="/confirm.xhtml" timeout="600000">Confirm: #{booking.description}</page>
+	
+	<page view-id="*">
+	  <navigation from-action="#{identity.logout}">
+	    <redirect view-id="/home.xhtml"/>
+	  </navigation>
+	</page>
 </pages>
