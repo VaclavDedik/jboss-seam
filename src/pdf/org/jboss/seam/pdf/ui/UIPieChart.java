@@ -226,6 +226,71 @@ public class UIPieChart
     }   
 
     @Override
+    public void restoreState(FacesContext context, Object state)
+    {
+       Object[] values = (Object[]) state;
+       super.restoreState(context, values[0]);
+       
+       title = (String) values[1];
+       label = (String) values[2];
+       legend = (Boolean) values[3];
+       is3D = (Boolean) values[4];
+       labelLinkMargin = (Double) values[5];
+       labelLinkPaint = (String) values[6];
+       labelLinkStroke = (String) values[7];
+       labelLinksVisible = (Boolean) values[8];
+       labelOutlinePaint = (String) values[9];
+       labelOutlineStroke = (String) values[10];
+       labelShadowPaint = (String) values[11];
+       labelPaint = (String) values[12];
+       labelGap = (Double) values[13];
+       labelBackgroundPaint = (String) values[14];
+       startAngle = (Double) values[15];
+       circular = (Boolean) values[16];
+       direction = (String) values[17];
+       sectionOutlinePaint = (String) values[18];
+       sectionOutlineStroke = (String) values[19];
+       sectionOutlinesVisible = (Boolean) values[20];
+       baseSectionOutlinePaint = (String) values[21];
+       baseSectionPaint = (String) values[22];
+       baseSectionOutlineStroke = (String) values[23];
+    }
+
+    @Override
+    public Object saveState(FacesContext context)
+    {
+       Object[] values = new Object[24];
+
+       values[1] = title;
+       values[2] = label;
+       values[3] = legend;
+       values[4] = is3D;
+       values[5] = labelLinkMargin;
+       values[6] = labelLinkPaint;
+       values[7] = labelLinkStroke;
+       values[8] = labelLinksVisible;
+       values[9] = labelOutlinePaint;
+       values[10] = labelOutlineStroke;
+       values[11] = labelShadowPaint;
+       values[12] = labelPaint;
+       values[13] = labelGap;
+       values[14] = labelBackgroundPaint;
+       values[15] = startAngle;
+       values[16] = circular;
+       values[17] = direction;
+       values[18] = sectionOutlinePaint;
+       values[19] = sectionOutlineStroke;
+       values[20] = sectionOutlinesVisible;
+       values[21] = baseSectionOutlinePaint;
+       values[22] = baseSectionPaint;
+       values[23] = baseSectionOutlineStroke;
+       
+       return values;
+    }
+    
+    
+    
+    @Override
     public void createDataset() {
         data = new DefaultPieDataset();
     }
@@ -331,15 +396,5 @@ public class UIPieChart
         } else {
             return ChartFactory.createPieChart3D(getTitle(), data, legend, false, false);
         }
-    }
-
-    @Override
-    public void restoreState(FacesContext context, Object state) {
-        super.restoreState(context, state);        
-    }
-
-    @Override
-    public Object saveState(FacesContext context) {
-        return super.saveState(context);
     }
 }

@@ -3,7 +3,6 @@ package org.jboss.seam.pdf.ui;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
@@ -29,10 +28,13 @@ import com.lowagie.text.pdf.*;
 public class UIBarCode 
     extends ITextComponent
 {
-    private String type;
-    private String code;
+    
     private Barcode barcode;
     private Image image;
+    
+    
+    private String type;
+    private String code;
     private Float xpos;
     private Float ypos;
     private Float rotDegrees;
@@ -41,6 +43,8 @@ public class UIBarCode
     private Float textSize;
     private Float minBarWidth;
     private Float barMultiplier;
+    
+
 
     public String getCode() {
         return code;
@@ -121,6 +125,45 @@ public class UIBarCode
     public void setTextSize(Float textSize) {
         this.textSize = textSize;
     }
+    
+    @Override
+    public void restoreState(FacesContext context, Object state)
+    {
+       Object[] values = (Object[]) state;
+       super.restoreState(context, values[0]);
+       
+       type = (String) values[1];
+       code = (String) values[2];
+       xpos = (Float) values[5];
+       ypos = (Float) values[6];
+       rotDegrees = (Float) values[7];
+       altText = (String) values[8];
+       barHeight = (Float) values[9];
+       textSize      = (Float) values[10];
+       minBarWidth   = (Float) values[11];
+       barMultiplier = (Float) values[12];
+    }
+
+    @Override
+    public Object saveState(FacesContext context)
+    {
+       Object[] values = new Object[13];
+       
+       values[0] = super.saveState(context);
+       values[1] = type;
+       values[2] = code;
+       values[5] = xpos;
+       values[6] = ypos;
+       values[7] = rotDegrees;
+       values[8] = altText;
+       values[9] = barHeight;
+       values[10] = textSize;
+       values[11] = minBarWidth;
+       values[12] = barMultiplier;
+       
+       return values;
+    }
+    
     
     @Override
     public Object getITextObject() {

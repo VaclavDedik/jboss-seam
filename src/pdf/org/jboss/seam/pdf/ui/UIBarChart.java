@@ -67,7 +67,36 @@ public class UIBarChart
     public void setIs3D(boolean is3D) {
         this.is3D = true;
     }
+    
+    @Override
+    public void restoreState(FacesContext context, Object state)
+    {
+       Object[] values = (Object[]) state;
+       super.restoreState(context, values[0]);      
        
+       title             = (String) values[1];
+       categoryAxisLabel = (String) values[2];
+       valueAxisLabel    = (String) values[3];
+       orientation       = (String) values[4];
+       legend            = (Boolean) values[5];
+       is3D              = (Boolean) values[6];
+    }
+
+    @Override
+    public Object saveState(FacesContext context)
+    {
+       Object[] values = new Object[7];
+
+       values[1] = title;
+       values[2] = categoryAxisLabel;
+       values[3] = valueAxisLabel;
+       values[4] = orientation;
+       values[5] = legend;
+       values[6] = is3D;
+
+       return values;
+    }
+    
     @Override
     public void createDataset() {
         dataset = new DefaultCategoryDataset();

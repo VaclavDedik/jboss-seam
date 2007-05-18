@@ -33,7 +33,8 @@ public abstract class UIChart
 {
     private Image image = null;
     private JFreeChart chart = null;
-    
+    private byte[] imageData;
+       
     private float height = 300;
     private float width  = 400;    
     
@@ -47,7 +48,7 @@ public abstract class UIChart
     private Float  plotForegroundAlpha;
     private String plotOutlineStroke; 
     private String plotOutlinePaint;
-    private byte[] imageData;
+    
     
     
     public void setHeight(float height) {
@@ -129,6 +130,48 @@ public abstract class UIChart
     public String getPlotOutlineStroke() {
         return (String) valueBinding(FacesContext.getCurrentInstance(), "plotOutlineStroke", plotOutlineStroke);
     }   
+    
+    
+    @Override
+    public void restoreState(FacesContext context, Object state)
+    {
+       Object[] values = (Object[]) state;
+       super.restoreState(context, values[0]);
+       
+       height                = (Float) values[1];
+       width                 = (Float) values[2];
+       borderBackgroundPaint = (String) values[3];
+       borderPaint           = (String) values[4];
+       borderStroke          = (String) values[5];
+       borderVisible         = (Boolean) values[6];       
+       plotBackgroundPaint   = (String) values[7];
+       plotBackgroundAlpha   = (Float) values[8];
+       plotForegroundAlpha   = (Float) values[9];
+       plotOutlineStroke     = (String) values[10]; 
+       plotOutlinePaint      = (String) values[11];             
+    }
+
+    @Override
+    public Object saveState(FacesContext context)
+    {
+       Object[] values = new Object[12];
+       
+       values[0] = super.saveState(context);
+       values[1] = height;
+       values[2] = width;
+       values[3] = borderBackgroundPaint;
+       values[4] = borderPaint;
+       values[5] = borderStroke;
+       values[6] = borderVisible;
+       values[7] = plotBackgroundPaint;
+       values[8] = plotBackgroundAlpha;
+       values[9] = plotForegroundAlpha;
+       values[10] = plotOutlineStroke;
+       values[11] = plotOutlinePaint;
+       
+       return values;
+    }
+    
     
     public static Paint findColor(String name) {
         UIComponent component = FacesContext.getCurrentInstance().getViewRoot().findComponent(name);

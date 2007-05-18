@@ -88,6 +88,38 @@ public class UIChartSeries
     }
 
     @Override
+    public void restoreState(FacesContext context, Object state)
+    {
+       Object[] values = (Object[]) state;
+       super.restoreState(context, values[0]);      
+       
+       key                   = (String) values[1];
+       seriesPaint           = (String) values[2];
+       seriesFillPaint       = (String) values[3];
+       seriesOutlinePaint    = (String) values[4];
+       seriesOutlineStroke   = (String)  values[5];
+       seriesStroke          = (String) values[6];
+       seriesVisible         = (Boolean) values[7];
+       seriesVisibleInLegend = (Boolean) values[8];
+    }
+
+    @Override
+    public Object saveState(FacesContext context)
+    {
+       Object[] values = new Object[8];
+
+       values[1] = key;
+       values[2] = seriesPaint;
+       values[3] = seriesFillPaint;
+       values[4] = seriesOutlinePaint;
+       values[5] = seriesOutlineStroke;
+       values[6] = seriesStroke;
+       values[7] = seriesVisibleInLegend;
+       
+       return values;
+    }
+    
+    @Override
     public void encodeEnd(FacesContext context) 
         throws IOException
     {

@@ -1,5 +1,7 @@
 package org.jboss.seam.pdf.ui;
 
+import javax.faces.context.FacesContext;
+
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.Plot;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
@@ -13,8 +15,7 @@ public abstract class UICategoryChartBase
     private Boolean rangeGridlinesVisible;
     private String rangeGridlinePaint;
     private String rangeGridlineStroke;      
-    
-    
+        
     public String getDomainGridlinePaint() {
         return (String) valueBinding("domainGridlinePaint", domainGridlinePaint);
     }
@@ -63,6 +64,35 @@ public abstract class UICategoryChartBase
         this.rangeGridlinesVisible = rangeGridlinesVisible;
     }
     
+    
+    @Override
+    public void restoreState(FacesContext context, Object state)
+    {
+       Object[] values = (Object[]) state;
+       super.restoreState(context, values[0]);             
+       
+       domainGridlinesVisible = (Boolean) values[1];
+       domainGridlinePaint    = (String) values[2];
+       domainGridlineStroke   = (String) values[3];
+       rangeGridlinesVisible  = (Boolean) values[4];
+       rangeGridlinePaint     = (String) values[5];
+       rangeGridlineStroke    = (String) values[6];
+    }
+
+    @Override
+    public Object saveState(FacesContext context)
+    {
+       Object[] values = new Object[7];
+
+       values[1] = domainGridlinesVisible;
+       values[2] = domainGridlinePaint;
+       values[3] = domainGridlineStroke;
+       values[4] = rangeGridlinesVisible;
+       values[5] = rangeGridlinePaint;
+       values[6] = rangeGridlineStroke;
+
+       return values;
+    }
     
     @Override
     public void configurePlot(Plot plot) {

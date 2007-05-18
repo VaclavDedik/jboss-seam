@@ -12,10 +12,11 @@ import org.jfree.data.general.Dataset;
 public class UILineChart
     extends UICategoryChartBase 
 {
+    CategoryDataset dataset;
+
     String title;
     String domainAxisLabel;
     String rangeAxisLabel;
-    CategoryDataset dataset;
     String orientation;
     
     boolean legend;
@@ -68,6 +69,35 @@ public class UILineChart
     
     public void setIs3D(boolean is3D) {
         this.is3D = is3D;
+    }
+    
+    @Override
+    public void restoreState(FacesContext context, Object state)
+    {
+       Object[] values = (Object[]) state;
+       super.restoreState(context, values[0]);      
+       
+       title           = (String) values[1];
+       domainAxisLabel = (String) values[2];
+       rangeAxisLabel  = (String) values[3];
+       orientation     = (String) values[4];
+       legend          = (Boolean) values[5];
+       is3D            = (Boolean) values[6];
+    }
+
+    @Override
+    public Object saveState(FacesContext context)
+    {
+       Object[] values = new Object[6];
+
+       values[1] = title;
+       values[2] = domainAxisLabel;
+       values[3] = rangeAxisLabel;
+       values[4] = orientation;
+       values[5] = legend;
+       values[6] = is3D;
+
+       return values;
     }
     
     @Override

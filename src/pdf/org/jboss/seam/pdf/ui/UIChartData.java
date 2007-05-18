@@ -71,6 +71,40 @@ public class UIChartData
         this.sectionPaint = sectionPaint;
     }
 
+    
+    @Override
+    public void restoreState(FacesContext context, Object state)
+    {
+       Object[] values = (Object[]) state;
+       super.restoreState(context, values[0]);
+      
+       key                  = (String) values[1];
+       columnKey            = (String) values[2];
+       rowKey               = (String) values[3];
+       value                = (Number) values[4];
+       explodedPercent      = (Float)  values[5];
+       sectionPaint         = (String) values[6];
+       sectionOutlinePaint  = (String) values[7];
+       sectionOutlineStroke = (String) values[8];
+    }
+
+    @Override
+    public Object saveState(FacesContext context)
+    {
+       Object[] values = new Object[8];
+
+       values[1] = key;
+       values[2] = columnKey;
+       values[3] = rowKey;
+       values[4] = explodedPercent;
+       values[5] = sectionPaint;
+       values[6] = sectionOutlinePaint;
+       values[7] = sectionOutlineStroke;
+       
+       return values;
+    }
+    
+    
     @Override
     public void encodeEnd(FacesContext context) 
         throws IOException
