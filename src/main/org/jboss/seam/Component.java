@@ -138,7 +138,7 @@ public class Component extends Model
    public static final String PROPERTIES = "org.jboss.seam.properties";
 
    private static final LogProvider log = Logging.getLogProvider(Component.class);
-
+   
    private ComponentType type;
    private String name;
    private ScopeType scope;

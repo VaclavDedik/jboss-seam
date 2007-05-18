@@ -1,5 +1,6 @@
 //$Id$
 package org.jboss.seam;
+
 import static org.jboss.seam.ComponentType.ENTITY_BEAN;
 import static org.jboss.seam.ComponentType.JAVA_BEAN;
 import static org.jboss.seam.ComponentType.MESSAGE_DRIVEN_BEAN;
@@ -9,7 +10,12 @@ import static org.jboss.seam.util.EJB.MESSAGE_DRIVEN;
 import static org.jboss.seam.util.EJB.STATEFUL;
 import static org.jboss.seam.util.EJB.STATELESS;
 import static org.jboss.seam.util.EJB.name;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 import javax.persistence.Entity;
+
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Role;
@@ -17,6 +23,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.util.Strings;
+
 /**
  * Convenience methods for accessing annotated information
  * about Seam component classes.
@@ -27,6 +34,8 @@ public class Seam
 {
       
    private static final String SESSION_INVALID = "org.jboss.seam.sessionInvalid";
+   private static final Map<Class, String> COMPONENT_NAME_CACHE = new ConcurrentHashMap<Class, String>();
+
    /**
     * Get the default scope
     * @see Scope
@@ -70,7 +79,8 @@ public class Seam
       {
          return ENTITY_BEAN;
       }
-      else {
+      else 
+      {
          return JAVA_BEAN;
       }      
    }
@@ -80,6 +90,20 @@ public class Seam
     * @see Name
     */
    public static String getComponentName(Class<?> clazz)
+   {
+      String result = COMPONENT_NAME_CACHE.get(clazz);
+      if (result==null)
+      {
+         result = searchComponentName(clazz);
+         if (result!=null)
+         {
+            COMPONENT_NAME_CACHE.put(clazz, result);
+         }
+      }
+      return result;
+   }
+   
+   public static String searchComponentName(Class<?> clazz)
    {
       while ( clazz!=null && !Object.class.equals(clazz) )
       {
@@ -229,9 +253,15 @@ public class Seam
          }
       }
    }
+   
    public static String getVersion()
    {
       Package pkg = Seam.class.getPackage();
       return (pkg != null ? pkg.getImplementationVersion() : null);      
+   }
+   
+   public static void clearComponentNameCache()
+   {
+      COMPONENT_NAME_CACHE.clear();
    }
 }

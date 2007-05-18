@@ -510,10 +510,13 @@ public class Initialization
       for ( String name: init.getHotDeployableComponents() )
       {
          Component component = Component.forName(name);
-         ScopeType scope = component.getScope();
-         if ( scope!=ScopeType.STATELESS && scope.isContextActive() )
+         if (component!=null)
          {
-            scope.getContext().remove(name);
+            ScopeType scope = component.getScope();
+            if ( scope!=ScopeType.STATELESS && scope.isContextActive() )
+            {
+               scope.getContext().remove(name);
+            }
          }
          Contexts.getApplicationContext().remove(name + ".component");
       }

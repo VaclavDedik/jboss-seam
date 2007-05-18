@@ -42,6 +42,7 @@ public class HotDeployFilter extends AbstractFilter
    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException
    {
+            
       Init init = (Init) getServletContext().getAttribute( Seam.getComponentName(Init.class) );
       if ( init!=null && init.hasHotDeployableComponents() )
       {
@@ -49,6 +50,7 @@ public class HotDeployFilter extends AbstractFilter
          {
             if ( scan(request, init, file) )
             {
+               Seam.clearComponentNameCache();
                new Initialization( getServletContext() ).redeploy( ( (HttpServletRequest) request ).getSession(true) );
                break;
             }
@@ -66,12 +68,12 @@ public class HotDeployFilter extends AbstractFilter
    {
       if ( file.isFile() )
       {
-         if ( log.isDebugEnabled() )
+         if ( !file.exists() || ( file.lastModified() > init.getTimestamp() ) )
          {
-            log.debug( "file updated: " + file.getName() );
-         }
-         if ( file.lastModified() > init.getTimestamp() )
-         {
+            if ( log.isDebugEnabled() )
+            {
+               log.debug( "file updated: " + file.getName() );
+            }
             return true;
          }
       }
