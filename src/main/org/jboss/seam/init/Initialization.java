@@ -5,6 +5,7 @@
  */
 package org.jboss.seam.init;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
@@ -527,54 +528,66 @@ public class Initialization
       return this;
    }
 
-   private RedeployableStrategy getRedeployableInitialization() {
-      //really a factory
-      ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
-      URL resource = contextClassLoader.getResource("META-INF/debug.xhtml");
-      boolean isGroovy = false;
-      try {
+   private RedeployableStrategy getRedeployableInitialization() 
+   {
+      File hotDeployDir = new File( servletContext.getRealPath("/WEB-INF/dev") );
+      String strategy = getRedeployableStrategyName(hotDeployDir);
+      try
+      {
+         Class initializer = Reflections.classForName(strategy);
+         Constructor ctr = initializer.getConstructor(File.class);
+         return (RedeployableStrategy) ctr.newInstance(hotDeployDir);
+      }
+      catch (Exception e)
+      {
+         throw new RuntimeException( "Unable to instantiate redeployable strategy: " + strategy );
+      }
+   }
+
+   private String getRedeployableStrategyName(File hotDeployDir)
+   {
+      boolean debugEnabled = Thread.currentThread().getContextClassLoader()
+                  .getResource("META-INF/debug.xhtml")!=null;
+      boolean isGroovy;
+      try 
+      {
          Reflections.classForName( "groovy.lang.GroovyObject" );
          isGroovy = true;
       }
       catch (ClassNotFoundException e)
       {
          //groovy is not there
+         isGroovy = false;
       }
-      if (resource!=null && isGroovy)
-      {
-         log.debug("Using Java+Groovy hot deploy");
-         return buildRedeployableInitializer( "org.jboss.seam.init.GroovyHotRedeployable", resource );
-      }
-      else if (resource!=null) {
-         log.debug("Using Java hot deploy");
-         return buildRedeployableInitializer( "org.jboss.seam.init.JavaHotRedeployable", resource );
-      }
-//      else if (isGroovy) {
-//         //TODO Implement it even when debug is not set up
-//      }
-      else {
-         log.debug("No hot deploy used");
-         return buildRedeployableInitializer( "org.jboss.seam.init.NoHotRedeployable", resource );
-      }
-   }
 
-   private RedeployableStrategy buildRedeployableInitializer(String classname, URL resource)
-   {
-      try {
-         Class initializer = Reflections.classForName( classname );
-         Constructor ctr = initializer.getConstructor( URL.class );
-         return (RedeployableStrategy) ctr.newInstance( resource );
-      }
-      catch (Exception e)
+      if ( debugEnabled && hotDeployDir.exists() )
       {
-         throw new RuntimeException( "Unable to instanciate redeployable strategy: " + classname );
+         if (isGroovy)
+         {
+            log.debug("Using Java+Groovy hot deploy");
+            return "org.jboss.seam.init.GroovyHotRedeployable";
+         }
+         else 
+         {
+            log.debug("Using Java hot deploy");
+            return "org.jboss.seam.init.JavaHotRedeployable";
+         }
+      }
+//    else if (isGroovy) {
+//       TODO Implement it even when debug is not set up
+//    }
+      else 
+      {
+         log.debug("No hot deploy used");
+         return "org.jboss.seam.init.NoHotRedeployable";
       }
    }
 
    private void scanForHotDeployableComponents(RedeployableStrategy redeployStrategy)
    {
       ComponentScanner scanner = redeployStrategy.getScanner();
-      if (scanner != null) {
+      if (scanner != null) 
+      {
          Set<Class<Object>> scannedClasses = new HashSet<Class<Object>>();
          scannedClasses.addAll(scanner.getClasses());
          Set<Package> scannedPackages = new HashSet<Package>();

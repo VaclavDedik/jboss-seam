@@ -19,13 +19,10 @@ public class JavaHotRedeployable implements RedeployableStrategy
    protected File[] paths;
    protected ClassLoader classLoader;
 
-   public JavaHotRedeployable(URL resource)
+   public JavaHotRedeployable(File directory)
    {
       try
       {
-         String path = resource.toExternalForm();
-         String hotDeployDirectory = path.substring(9, path.length() - 46) + "dev";
-         File directory = new File(hotDeployDirectory);
          if (directory.exists())
          {
             URL url = directory.toURL();

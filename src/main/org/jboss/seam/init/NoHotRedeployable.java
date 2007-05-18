@@ -2,7 +2,6 @@
 package org.jboss.seam.init;
 
 import java.io.File;
-import java.net.URL;
 
 import org.jboss.seam.deployment.ComponentScanner;
 
@@ -13,8 +12,7 @@ import org.jboss.seam.deployment.ComponentScanner;
  */
 public class NoHotRedeployable implements RedeployableStrategy
 {
-   public NoHotRedeployable(URL resource) {
-   }
+   public NoHotRedeployable(File resource) {}
 
    public ClassLoader getClassLoader()
    {

@@ -3,7 +3,7 @@ package org.jboss.seam.init;
 
 import groovy.lang.GroovyClassLoader;
 
-import java.net.URL;
+import java.io.File;
 
 import org.codehaus.groovy.control.CompilerConfiguration;
 import org.jboss.seam.deployment.ComponentScanner;
@@ -19,14 +19,17 @@ public class GroovyHotRedeployable extends JavaHotRedeployable
 {
    private static final String DEFAULT_SCRIPT_EXTENSION = new CompilerConfiguration().getDefaultScriptExtension();
 
-   public GroovyHotRedeployable(URL resource)
+   public GroovyHotRedeployable(File hotDeployDir)
    {
-      super(resource);
+      super(hotDeployDir);
       /**
        * No need for the Groovy Hotdeploy capability since the parent classloader needs
        * to be replaced to hot deploy classes
        */
-      if (classLoader != null) classLoader = new GroovyClassLoader(classLoader);
+      if (classLoader != null) 
+      {
+         classLoader = new GroovyClassLoader(classLoader);
+      }
    }
 
    @Override
