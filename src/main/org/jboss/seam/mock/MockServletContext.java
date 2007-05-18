@@ -127,7 +127,7 @@ public class MockServletContext implements ServletContext
 
    public String getRealPath(String relativePath)
    {
-      throw new UnsupportedOperationException();
+      return relativePath;
    }
 
    public String getServerInfo()
