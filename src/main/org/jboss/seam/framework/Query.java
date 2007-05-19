@@ -69,6 +69,16 @@ public abstract class Query<T>
       return dataModel;
    }
    
+   public Object getDataModelSelection()
+   {
+      return getDataModel().getRowData();
+   }
+   
+   public int getDataModelSelectionIndex()
+   {
+      return getDataModel().getRowIndex();
+   }
+   
    public void refresh()
    {
       clearDataModel();

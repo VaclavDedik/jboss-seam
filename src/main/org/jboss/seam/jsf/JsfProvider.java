@@ -51,7 +51,7 @@ public class JsfProvider
    
    public DataModel getDataModel(Query query)
    {
-      return getDataModel(query.getResultList());
+      return getDataModel( query.getResultList() );
    }
    
    public static JsfProvider instance()
