@@ -126,6 +126,23 @@ public abstract class Query<T>
       }
    }
    
+   @Transactional
+   public Integer getPageCount()
+   {
+      if ( getMaxResults()==null )
+      {
+         return null;
+      }
+      else
+      {
+         int rc = getResultCount().intValue();
+         int mr = getMaxResults().intValue();
+         int pages = rc / mr;
+         return rc % mr == 0 ? pages : pages+1;
+      }
+   }
+          
+   
    protected void parseEjbql()
    {
       if (parsedEjbql==null)
