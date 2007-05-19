@@ -77,25 +77,21 @@ public abstract class Query<T>
    public void last()
    {
       setFirstResult( (int) getLastFirstResult() );
-      clearDataModel();
    }
    
    public void next()
    {
       setFirstResult( getNextFirstResult() );
-      clearDataModel();
    }
 
    public void previous()
    {
       setFirstResult( getPreviousFirstResult() );
-      clearDataModel();
    }
    
    public void first()
    {
       setFirstResult(0);
-      clearDataModel();
    }
    
    protected void clearDataModel()
@@ -145,7 +141,7 @@ public abstract class Query<T>
    
    protected void parseEjbql()
    {
-      if (parsedEjbql==null)
+      if (parsedEjbql==null || parsedRestrictions==null)
       {
          QueryParser qp = new QueryParser( getEjbql() );
          queryParameters = qp.getParameterValueBindings();
@@ -224,6 +220,8 @@ public abstract class Query<T>
    public void setEjbql(String ejbql)
    {
       this.ejbql = ejbql;
+      parsedEjbql = null;
+      refresh();
    }
 
    public Integer getFirstResult()
@@ -241,7 +239,7 @@ public abstract class Query<T>
    public void setFirstResult(Integer firstResult)
    {
       this.firstResult = firstResult;
-      clearDataModel();
+      refresh();
    }
 
    public Integer getMaxResults()
@@ -252,7 +250,7 @@ public abstract class Query<T>
    public void setMaxResults(Integer maxResults)
    {
       this.maxResults = maxResults;
-      clearDataModel();
+      refresh();
    }
 
    public List<String> getRestrictions()
@@ -263,6 +261,8 @@ public abstract class Query<T>
    public void setRestrictions(List<String> restrictions)
    {
       this.restrictions = restrictions;
+      parsedRestrictions = null;
+      refresh();
    }
 
    public String getOrder()
@@ -273,6 +273,7 @@ public abstract class Query<T>
    public void setOrder(String order)
    {
       this.order = order;
+      refresh();
    }
    
    protected List<ValueExpression> getQueryParameters()
