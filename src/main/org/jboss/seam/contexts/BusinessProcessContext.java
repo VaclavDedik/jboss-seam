@@ -43,7 +43,8 @@ public class BusinessProcessContext implements Context {
 
    public BusinessProcessContext() {}
    
-   public Object get(String name) {
+   public Object get(String name) 
+   {
       
       Object result = additions.get(name);
       if (result!=null) return result;
@@ -62,7 +63,8 @@ public class BusinessProcessContext implements Context {
       
    }
 
-   public void set(String name, Object value) {
+   public void set(String name, Object value) 
+   {
       if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.preSetVariable." + name);
       if (value==null)
       {
@@ -77,25 +79,29 @@ public class BusinessProcessContext implements Context {
       if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.postSetVariable." + name);
    }
 
-   public boolean isSet(String name) {
+   public boolean isSet(String name) 
+   {
       return get(name)!=null;
    }
    
-   public void remove(String name) {
+   public void remove(String name) 
+   {
       if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.preRemoveVariable." + name);
       additions.remove(name);
       removals.add(name);
       if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.postRemoveVariable." + name);
    }
 
-   public String[] getNames() {
+   public String[] getNames() 
+   {
       Set<String> results = getNamesFromContext();
       results.removeAll(removals);
       results.addAll( additions.keySet() ); //after, to override
       return results.toArray(new String[]{});
    }
 
-   private Set<String> getNamesFromContext() {
+   private Set<String> getNamesFromContext() 
+   {
       //TODO: note that this is called from Contexts.destroy(), 
       //      after the Seam-managed txn was committed, but 
       //      this implementation requires a hit to the database!
