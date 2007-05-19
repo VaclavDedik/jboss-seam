@@ -31,21 +31,35 @@ public class EntityQuery extends Query<EntityManager>
          throw new IllegalStateException("entityManager is null");
       }
    }
+   
+   @Override
+   @Transactional
+   public boolean isNextExists()
+   {
+      return resultList!=null && 
+            resultList.size() > getMaxResults();
+   }
+
 
    @Transactional
    @Override
    public List getResultList()
    {
-      if (isAnyParameterDirty())
+      if ( isAnyParameterDirty() )
       {
          refresh();
       }
-      if ( resultList==null )
+      initResultList();
+      return truncResultList(resultList);
+   }
+
+   private void initResultList()
+   {
+      if (resultList==null)
       {
          javax.persistence.Query query = createQuery();
          resultList = query==null ? null : query.getResultList();
       }
-      return resultList;
    }
    
    @Transactional
@@ -56,13 +70,18 @@ public class EntityQuery extends Query<EntityManager>
       {
          refresh();
       }
+      initSingleResult();
+      return singleResult;
+   }
+
+   private void initSingleResult()
+   {
       if ( singleResult==null)
       {
          javax.persistence.Query query = createQuery();
          singleResult = query==null ? 
                null : query.getSingleResult();
       }
-      return singleResult;
    }
 
    @Transactional
@@ -73,13 +92,18 @@ public class EntityQuery extends Query<EntityManager>
       {
          refresh();
       }
+      initResultCount();
+      return resultCount;
+   }
+
+   private void initResultCount()
+   {
       if ( resultCount==null )
       {
          javax.persistence.Query query = createCountQuery();
          resultCount = query==null ? 
                null : (Long) query.getSingleResult();
       }
-      return resultCount;
    }
 
    @Override
@@ -118,7 +142,7 @@ public class EntityQuery extends Query<EntityManager>
       setParameters( query, getQueryParameterValues(), 0 );
       setParameters( query, getRestrictionParameterValues(), getQueryParameterValues().size() );
       if ( getFirstResult()!=null) query.setFirstResult( getFirstResult() );
-      if ( getMaxResults()!=null) query.setMaxResults( getMaxResults() );
+      if ( getMaxResults()!=null) query.setMaxResults( getMaxResults()+1 ); //add one, so we can tell if there is another page
       if ( getHints()!=null )
       {
          for ( Map.Entry<String, String> me: getHints().entrySet() )

@@ -37,38 +37,73 @@ public class HibernateEntityQuery extends Query<Session>
    @Override
    public List getResultList()
    {
-      if (resultList==null || isAnyParameterDirty())
+      if ( isAnyParameterDirty() )
+      {
+         refresh();
+      }
+      initResultList();
+      return truncResultList(resultList);
+   }
+
+   private void initResultList()
+   {
+      if (resultList==null)
       {
          org.hibernate.Query query = createQuery();
          resultList = query==null ? null : query.list();
       }
-      return resultList;
+   }
+   
+   @Override
+   @Transactional
+   public boolean isNextExists()
+   {
+      return resultList!=null && 
+            resultList.size() > getMaxResults();
    }
    
    @Transactional
    @Override
    public Object getSingleResult()
    {
-      if (singleResult==null || isAnyParameterDirty())
+      if (isAnyParameterDirty())
+      {
+         refresh();
+      }
+      initSingleResult();
+      return singleResult;
+   }
+
+   private void initSingleResult()
+   {
+      if (singleResult==null)
       {
          org.hibernate.Query query = createQuery();
          singleResult = query==null ? 
                null : query.uniqueResult();
       }
-      return singleResult;
    }
 
    @Transactional
    @Override
    public Long getResultCount()
    {
-      if ( resultCount==null || isAnyParameterDirty() )
+      if (isAnyParameterDirty())
+      {
+         refresh();
+      }
+      initResultCount();
+      return resultCount;
+   }
+
+   private void initResultCount()
+   {
+      if (resultCount==null)
       {
          org.hibernate.Query query = createCountQuery();
          resultCount = query==null ? 
                null : (Long) query.uniqueResult();
       }
-      return resultCount;
    }
 
    @Override
@@ -106,7 +141,7 @@ public class HibernateEntityQuery extends Query<Session>
       setParameters( query, getQueryParameterValues(), 0 );
       setParameters( query, getRestrictionParameterValues(), getQueryParameterValues().size() );
       if ( getFirstResult()!=null) query.setFirstResult( getFirstResult() );
-      if ( getMaxResults()!=null) query.setMaxResults( getMaxResults() );
+      if ( getMaxResults()!=null) query.setMaxResults( getMaxResults()+1 ); //add one, so we can tell if there is another page
       if ( getCacheable()!=null ) query.setCacheable( getCacheable() );
       if ( getCacheRegion()!=null ) query.setCacheRegion( getCacheRegion() );
       if ( getFetchSize()!=null ) query.setFetchSize( getFetchSize() );

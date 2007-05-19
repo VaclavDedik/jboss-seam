@@ -219,11 +219,7 @@ public abstract class Query<T>
       return getFirstResult()!=null && getFirstResult()!=0;
    }
 
-   public boolean isNextExists()
-   {
-      return getResultList()!=null && 
-            getResultList().size() == getMaxResults();
-   }
+   public abstract boolean isNextExists();
 
    public void setFirstResult(Integer firstResult)
    {
@@ -327,6 +323,18 @@ public abstract class Query<T>
    protected void setRestrictionParameterValues(List<Object> restrictionParameterValues)
    {
       this.restrictionParameterValues = restrictionParameterValues;
+   }
+   protected List truncResultList(List results)
+   {
+      Integer mr = getMaxResults();
+      if ( mr!=null && results.size() > mr )
+      {
+         return results.subList(0, mr-1);
+      }
+      else
+      {
+         return results;
+      }
    }
 
 }
