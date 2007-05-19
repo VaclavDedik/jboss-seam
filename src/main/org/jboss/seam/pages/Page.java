@@ -1,14 +1,18 @@
 package org.jboss.seam.pages;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.MissingResourceException;
+
 import javax.faces.context.FacesContext;
+
 import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.core.Locale;
 import org.jboss.seam.core.Pages;
 import org.jboss.seam.security.Identity;
+
 /**
  * Metadata about page actions, page parameters, action navigation,
  * resource bundle, etc, for a particular JSF view id.
@@ -188,24 +192,39 @@ public final class Page
    {
       return actions;
    }
-   /**
-    * Call page actions, in order they appear in XML, and
-    * handle conversation begin/end 
-    */
-   public boolean enter(FacesContext facesContext)
+   
+   private void checkPermission(FacesContext facesContext, String name)
    {
       if ( isRestricted() )
       {
          // If no expression is configured, create a default one
          if (restriction == null)
          {
-            Identity.instance().checkPermission( Pages.getViewId(facesContext), "render" );
+            Identity.instance().checkPermission( Pages.getViewId(facesContext), name );
          }
          else
          {
             Identity.instance().checkRestriction(restriction);
          }
-      }      
+      }
+   }
+   
+   /**
+    * Check the restore permission.
+    */
+   public void postRestore(FacesContext facesContext)
+   {
+      checkPermission(facesContext, "restore");
+   }
+
+   /**
+    * Call page actions, in order they appear in XML, and
+    * handle conversation begin/end. Also check the 
+    * render permission.
+    */
+   public boolean preRender(FacesContext facesContext)
+   {
+      checkPermission(facesContext, "render");     
       
       boolean result = false;
       
@@ -237,8 +256,8 @@ public final class Page
       }
       
       return result;
-   
    }
+   
    public List<Input> getInputs()
    {
       return inputs;

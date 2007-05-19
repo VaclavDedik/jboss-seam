@@ -241,11 +241,13 @@ public class Pages
    }
    
    /**
-    * Call page actions, and validate the existence of a conversation
-    * for pages which require a long-running conversation, starting
-    * with the most general view id, ending at the most specific
+    * Call page actions, check permissions and validate the existence 
+    * of a conversation for pages which require a long-running 
+    * conversation, starting with the most general view id, ending at 
+    * the most specific. Also perform redirection to the required
+    * scheme if necessary.
     */
-   public boolean enterPage(FacesContext facesContext)
+   public boolean preRenderPage(FacesContext facesContext)
    {
       boolean result = false;
       String viewId = getViewId(facesContext);
@@ -275,7 +277,7 @@ public class Pages
          }
          else
          {
-            result = page.enter(facesContext) || result;
+            result = page.preRender(facesContext) || result;
          }
       }
       
@@ -283,6 +285,48 @@ public class Pages
       //conversation existence!
       result = callAction(facesContext) || result;
       return result;
+   }
+   
+   /**
+    * Check permissions and validate the existence of a conversation
+    * for pages which require a long-running conversation, starting
+    * with the most general view id, ending at the most specific.
+    * Finally apply page parameters to the model.
+    */
+   public void postRestorePage(FacesContext facesContext)
+   {
+      String viewId = getViewId(facesContext);
+      
+      for ( Page page: getPageStack(viewId) )
+      {         
+         if ( isNoConversationRedirectRequired(page) )
+         {
+            redirectToNoConversationView();
+            return;
+         }
+         else if ( isLoginRedirectRequired(viewId, page) )
+         {
+            redirectToLoginView();
+            return;
+         }
+         else
+         {
+            //if we are about to proceed to the action
+            //phase, check the permission.
+            if ( !facesContext.getRenderResponse() )
+            {
+               page.postRestore(facesContext);
+            }
+         }
+      }
+
+      //apply page parameters to the model
+      //(after checking permissions)
+      if ( !facesContext.getRenderResponse() )
+      {
+         Pages.instance().applyViewRootValues(facesContext);
+      }
+      Pages.instance().applyRequestParameterValues(facesContext);
    }
    
    private boolean isNoConversationRedirectRequired(Page page)

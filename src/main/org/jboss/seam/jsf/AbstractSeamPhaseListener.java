@@ -67,15 +67,8 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
          log.debug( "After restoring conversation context: " + Contexts.getConversationContext() );
       }
       
-      //apply page parameters to the model
-      if ( facesContext.getRenderResponse() )
-      {
-         Pages.instance().applyRequestParameterValues(facesContext);
-      }
-      else
-      {
-         Pages.instance().applyViewRootValues(facesContext);
-      }
+      Pages.instance().postRestorePage(facesContext);
+            
    }
   
    /**
@@ -211,7 +204,7 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       }
       selectDataModelRow( facesContext.getExternalContext().getRequestParameterMap() );
       
-      enterPage(event);
+      preRenderPage(event);
       
       if ( facesContext.getResponseComplete() )
       {
@@ -267,13 +260,13 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       Lifecycle.endRequest( facesContext.getExternalContext() );
    }
    
-   private boolean enterPage(PhaseEvent event)
+   private boolean preRenderPage(PhaseEvent event)
    {
       Lifecycle.setPhaseId( PhaseId.INVOKE_APPLICATION );
       boolean actionsWereCalled = false;
       try
       {
-         actionsWereCalled = Pages.instance().enterPage( event.getFacesContext() );
+         actionsWereCalled = Pages.instance().preRenderPage( event.getFacesContext() );
          return actionsWereCalled;
       }
       finally
