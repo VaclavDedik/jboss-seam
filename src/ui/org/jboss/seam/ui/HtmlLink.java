@@ -1,4 +1,5 @@
 package org.jboss.seam.ui;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -15,12 +16,13 @@ import javax.faces.component.html.HtmlOutputLink;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.el.MethodBinding;
-import javax.faces.el.ValueBinding;
 import javax.faces.event.ActionListener;
 import javax.faces.model.DataModel;
+
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Pages;
 import org.jboss.seam.pages.Page;
+
 public class HtmlLink extends HtmlOutputLink implements ActionSource
 {
    public static final String COMPONENT_TYPE = "org.jboss.seam.ui.HtmlLink";
