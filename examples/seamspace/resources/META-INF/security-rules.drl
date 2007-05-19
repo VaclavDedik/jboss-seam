@@ -35,7 +35,7 @@ rule RestrictCommentPage
   no-loop
   activation-group "permissions"
 when
-  check: PermissionCheck(name == "/comment.xhtml", action == "render", granted == false)
+  check: PermissionCheck(name == "/comment.xhtml", granted == false)
   Role(name == "user")
 then
   check.grant();
