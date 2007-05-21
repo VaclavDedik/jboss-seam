@@ -2,6 +2,7 @@
 package org.jboss.seam.mock;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -18,10 +19,11 @@ import javax.servlet.ServletException;
 
 public class MockServletContext implements ServletContext
 {
-   
+
    private Map<String, String> initParameters = new HashMap<String, String>();
+
    private Map<String, Object> attributes = new HashMap<String, Object>();
-   
+
    public Map<String, String> getInitParameters()
    {
       return initParameters;
@@ -54,24 +56,43 @@ public class MockServletContext implements ServletContext
 
    public Set getResourcePaths(String name)
    {
-      String path = getClass().getResource("/WEB-INF/web.xml").getPath();
-      File rootFile = new File(path).getParentFile().getParentFile();
+      Enumeration<URL> enumeration = null;
+      try
+      {
+         enumeration = getClass().getClassLoader().getResources("WEB-INF");
+      }
+      catch (IOException e)
+      {
+         throw new RuntimeException("Error finding webroot.", e);
+      }
       Set<String> result = new HashSet<String>();
-      File[] files = rootFile.listFiles();
-      addPaths( result, files, rootFile.getPath() );
+      while (enumeration.hasMoreElements())
+      {
+         URL url = enumeration.nextElement();
+         File rootFile = new File(url.getPath()).getParentFile();
+         File newFile = new File(rootFile.getPath() + name);
+         File[] files = newFile.listFiles();
+         if (files != null)
+         {
+            addPaths(result, files, rootFile.getPath());
+         }
+      }
       return result;
    }
 
    private static void addPaths(Set<String> result, File[] files, String rootPath)
    {
-      for (File file: files)
+      for (File file : files)
       {
-         //apparently Tomcat does not recurse:
-         /*if ( file.isDirectory() )
+         String filePath = file.getPath().substring(rootPath.length()).replace('\\', '/');
+         if (file.isDirectory())
          {
-            addPaths( result, file.listFiles(), rootPath );
-         }*/
-         result.add( file.getPath().substring( rootPath.length() ) );
+            result.add(filePath + "/");
+         }
+         else
+         {
+            result.add(filePath);
+         }
       }
    }
 
@@ -112,12 +133,12 @@ public class MockServletContext implements ServletContext
 
    public void log(String msg)
    {
-      
+
    }
 
    public void log(Exception ex, String msg)
    {
-      
+
    }
 
    public void log(String msg, Throwable ex)
@@ -142,7 +163,7 @@ public class MockServletContext implements ServletContext
 
    public Enumeration getInitParameterNames()
    {
-      return new IteratorEnumeration( initParameters.keySet().iterator() );
+      return new IteratorEnumeration(initParameters.keySet().iterator());
    }
 
    public Object getAttribute(String att)
@@ -152,7 +173,7 @@ public class MockServletContext implements ServletContext
 
    public Enumeration getAttributeNames()
    {
-      return new IteratorEnumeration( attributes.keySet().iterator() );
+      return new IteratorEnumeration(attributes.keySet().iterator());
    }
 
    public void setAttribute(String att, Object val)
@@ -169,8 +190,9 @@ public class MockServletContext implements ServletContext
    {
       return "Mock";
    }
-   
-   public String getContextPath() {
+
+   public String getContextPath()
+   {
       return null;
    }
 
