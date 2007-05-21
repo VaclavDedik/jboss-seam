@@ -84,9 +84,10 @@ public abstract class Query<T>
       clearDataModel();
    }
    
+   @Transactional
    public void last()
    {
-      setFirstResult( (int) getLastFirstResult() );
+      setFirstResult( getLastFirstResult().intValue() );
    }
    
    public void next()
@@ -110,26 +111,24 @@ public abstract class Query<T>
    }
 
    @Transactional
-   public long getLastFirstResult()
+   public Long getLastFirstResult()
    {
-      return ( getResultCount() / getMaxResults() ) * getMaxResults();
+      Integer pc = getPageCount();
+      return pc==null ? null : ( pc.longValue()-1 ) * getMaxResults();
    }
    
    public int getNextFirstResult()
    {
-      return ( getFirstResult()==null ? 0 : getFirstResult() ) + getMaxResults();
+      Integer fr = getFirstResult();
+      return ( fr==null ? 0 : fr ) + getMaxResults();
    }
 
    public int getPreviousFirstResult()
    {
-      if ( getMaxResults() > ( getFirstResult()==null ? 0 : getFirstResult() ) ) 
-      {
-         return 0;
-      }
-      else
-      {
-         return getFirstResult() - getMaxResults();
-      }
+      Integer fr = getFirstResult();
+      Integer mr = getMaxResults();
+      return mr >= ( fr==null ? 0 : fr ) ? 
+               0 : fr - mr;
    }
    
    @Transactional
