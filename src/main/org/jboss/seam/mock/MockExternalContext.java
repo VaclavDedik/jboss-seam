@@ -181,10 +181,15 @@ public class MockExternalContext extends ExternalContext
    public Map getRequestCookieMap()
    {
       Map<String, Cookie> cookieMap = new HashMap<String, Cookie>();
-      for (Cookie cookie : request.getCookies())
+      
+      if (request != null)
       {
-         cookieMap.put(cookie.getName(), cookie);
+         for (Cookie cookie : request.getCookies())
+         {
+            cookieMap.put(cookie.getName(), cookie);
+         }
       }
+      
       return cookieMap;
    }
 

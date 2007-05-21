@@ -53,6 +53,8 @@ public class Identity extends Selector
 {  
    public static final String ROLES_GROUP = "Roles";
    
+   private static final String LOGIN_TRIED = "org.jboss.seam.security.loginTried";
+   
    private static final long serialVersionUID = 3751659008033189259L;
    
    private static final LogProvider log = Logging.getLogProvider(Identity.class);
@@ -121,6 +123,13 @@ public class Identity extends Selector
     */
    public boolean isLoggedIn()
    {
+      // See if the user can log in
+      if (getPrincipal() == null && isCredentialsSet() && !Contexts.getEventContext().isSet(LOGIN_TRIED))
+      {
+         Contexts.getEventContext().set(LOGIN_TRIED, true);
+         quietLogin();
+      }
+           
       return getPrincipal() != null;
    }
 
@@ -132,6 +141,11 @@ public class Identity extends Selector
    public Subject getSubject()
    {
       return subject;
+   }
+   
+   protected boolean isCredentialsSet()
+   {
+      return username != null;
    }
       
    /**
@@ -184,6 +198,20 @@ public class Identity extends Selector
          addLoginFailedMessage(ex);
          return null;
       }
+   }
+   
+   /**
+    * Attempts a quiet login, suppressing any login exceptions and not creating
+    * any faces messages. This method is intended to be used primarily as an 
+    * internal API call, however has been made public for convenience.
+    */
+   public void quietLogin()
+   {
+      try
+      {
+         if (isCredentialsSet()) authenticate();
+      }
+      catch (LoginException ex) { }
    }
 
    protected void addLoginFailedMessage(LoginException ex)
@@ -334,6 +362,8 @@ public class Identity extends Selector
     */
    public boolean hasRole(String role)
    {
+      isLoggedIn();
+      
       for ( Group sg : subject.getPrincipals(Group.class) )      
       {
          if ( ROLES_GROUP.equals( sg.getName() ) )
@@ -408,6 +438,8 @@ public class Identity extends Selector
     */
    public void checkRole(String role)
    {
+      isLoggedIn();
+      
       if ( !hasRole(role) )
       {
          if ( !isLoggedIn() )
@@ -434,6 +466,8 @@ public class Identity extends Selector
     */
    public void checkPermission(String name, String action, Object...arg)
    {
+      isLoggedIn();
+      
       if ( !hasPermission(name, action, arg) )
       {
          if ( !isLoggedIn() )
@@ -561,6 +595,8 @@ public class Identity extends Selector
 
    public void checkEntityPermission(Object entity, EntityAction action)
    {      
+      isLoggedIn();
+      
       Entity e = Entity.forClass(entity.getClass());
       
       if (e != null)

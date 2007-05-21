@@ -90,9 +90,11 @@ public abstract class Selector extends AbstractMutable implements Serializable
     */
    protected void setCookieValueIfEnabled(String value)
    {
-      if ( isCookieEnabled() )
+      FacesContext ctx = FacesContext.getCurrentInstance();
+      
+      if ( isCookieEnabled() && ctx != null)
       {
-         HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+         HttpServletResponse response = (HttpServletResponse) ctx.getExternalContext().getResponse();
          Cookie cookie = new Cookie( getCookieName(), value );
          cookie.setMaxAge( getCookieMaxAge() );
          response.addCookie(cookie);
