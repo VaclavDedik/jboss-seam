@@ -49,9 +49,18 @@ public class EventInterceptor extends AbstractInterceptor
       {
          if ( method.isAnnotationPresent(RaiseEvent.class) )
          {
-            String type = method.getAnnotation(RaiseEvent.class).value();
-            if ( "".equals(type) ) type = method.getName();
-            Events.instance().raiseEvent(type);
+            String[] types = method.getAnnotation(RaiseEvent.class).value();
+            if ( types.length==0 )
+            {
+               Events.instance().raiseEvent( method.getName() );
+            }
+            else
+            {
+               for (String type: types )
+               {
+                  Events.instance().raiseEvent(type);
+               }
+            }
          }
       }
       return result;

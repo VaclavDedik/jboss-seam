@@ -29,7 +29,7 @@ public @interface RaiseEvent
     * 
     * @return the event name
     */
-   String value() default "";
+   String[] value() default {};
    
    //TODO: String[] ifOutcome() default {};
    
