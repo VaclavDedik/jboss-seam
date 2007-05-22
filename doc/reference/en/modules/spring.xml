@@ -39,7 +39,7 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans 
                         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
                         http://jboss.com/products/seam/spring-seam 
-                        http://jboss.com/products/seam/spring-seam-1.2.xsd">]]></programlisting>
+                        http://jboss.com/products/seam/spring-seam-1.3.xsd">]]></programlisting>
 
         <para> Now any Seam component may be injected into any Spring bean: </para>
 
@@ -226,8 +226,8 @@ private BookingService bookingService;]]></programlisting>
         <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components" 
             xmlns:spring="http://jboss.com/products/seam/spring"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:schemaLocation="http://jboss.com/products/seam/components http://jboss.com/products/seam/components-1.2.xsd
-                                http://jboss.com/products/seam/spring http://jboss.com/products/seam/spring-1.2.xsd">
+            xsi:schemaLocation="http://jboss.com/products/seam/components http://jboss.com/products/seam/components-1.3.xsd
+                                http://jboss.com/products/seam/spring http://jboss.com/products/seam/spring-1.3.xsd">
 
 	<spring:context-loader context-locations="/WEB-INF/applicationContext.xml"/>
 

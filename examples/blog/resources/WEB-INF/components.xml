@@ -4,9 +4,9 @@
             xmlns:security="http://jboss.com/products/seam/security"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation=
-                "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-1.2.xsd
-                 http://jboss.com/products/seam/security http://jboss.com/products/seam/security-1.2.xsd
-                 http://jboss.com/products/seam/components http://jboss.com/products/seam/components-1.2.xsd">
+                "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-1.3.xsd
+                 http://jboss.com/products/seam/security http://jboss.com/products/seam/security-1.3.xsd
+                 http://jboss.com/products/seam/components http://jboss.com/products/seam/components-1.3.xsd">
 
     <core:init debug="true"/>
     

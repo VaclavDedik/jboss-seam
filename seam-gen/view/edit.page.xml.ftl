@@ -1,6 +1,6 @@
 <!DOCTYPE page PUBLIC
-          "-//JBoss/Seam Pages Configuration DTD 1.2//EN"
-          "http://jboss.com/products/seam/pages-1.2.dtd">
+          "-//JBoss/Seam Pages Configuration DTD 1.3//EN"
+          "http://jboss.com/products/seam/pages-1.3.dtd">
 
 <#assign entityName = pojo.shortName>
 <#assign componentName = util.lower(entityName)>

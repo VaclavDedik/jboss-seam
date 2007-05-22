@@ -1,6 +1,6 @@
 <!DOCTYPE page PUBLIC
-          "-//JBoss/Seam Pages Configuration DTD 1.2//EN"
-          "http://jboss.com/products/seam/pages-1.2.dtd">
+          "-//JBoss/Seam Pages Configuration DTD 1.3//EN"
+          "http://jboss.com/products/seam/pages-1.3.dtd">
 
 <page>
    <param name="discId" value="#{discHome.id}" converterId="javax.faces.Integer"/>

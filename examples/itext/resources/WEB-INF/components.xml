@@ -1,13 +1,19 @@
-<components xmlns:pdf="http://jboss.com/products/seam/pdf"
+<components xmlns="http://jboss.com/products/seam/components"
+            xmlns:pdf="http://jboss.com/products/seam/pdf"
             xmlns:core="http://jboss.com/products/seam/core"
-            xmlns:framework="http://jboss.com/products/seam/framework">
+            xmlns:framework="http://jboss.com/products/seam/framework"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://jboss.com/products/seam/core http://jboss.com/products/seam/core-1.3.xsd 
+                                http://jboss.com/products/seam/framework http://jboss.com/products/seam/framework-1.3.xsd
+                                http://jboss.com/products/seam/pdf http://jboss.com/products/seam/pdf-1.3.xsd   
+                                http://jboss.com/products/seam/components http://jboss.com/products/seam/components-1.3.xsd">
 
-    <pdf:documentStore useExtensions="true" errorPage="/pdfMissing.seam" />
+    <pdf:document-store use-extensions="true" error-page="/pdfMissing.seam" />
 
-    <pdf:keyStoreConfig keyStore="pdf.keystore"
-                        keyStorePassword="storepass"
-                        keyPassword="keypass"
-                        keyAlias="pdfKey" />
+    <pdf:key-store-config key-store="pdf.keystore"
+                          key-store-password="storepass"
+                          key-password="keypass"
+                          key-alias="pdfKey" />
 
     <core:init debug="true" jndi-pattern="@jndiPattern@" />
     <core:ejb installed="@embeddedEjb@" /> 

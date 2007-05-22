@@ -5,7 +5,6 @@
     <!-- Facelets support -->
     <application>
         <view-handler>org.jboss.seam.ui.facelet.SeamFaceletViewHandler</view-handler>
-        <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
     </application>
 
     <!-- Phase listener needed for all Seam applications -->
