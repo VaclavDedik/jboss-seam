@@ -83,6 +83,31 @@
 </application>]]></programlisting>
         
   </sect1>
+  
+  <sect1>
+    <title>Disabling Security</title>
+    
+    <para>
+      In some situations it may be necessary to disable Seam Security, for example during unit tests.  This can be done by
+      calling the static method <literal>Identity.setSecurityEnabled(false)</literal> to disable security checks.  Doing this
+      prevents any security checks being performed for the following:
+    </para>
+    
+    <itemizedlist>
+      <listitem>
+        <para>Entity Security</para>
+      </listitem>
+      <listitem>
+        <para>Hibernate Security Interceptor</para>
+      </listitem>
+      <listitem>
+        <para>Seam Security Interceptor</para>
+      </listitem>
+      <listitem>
+        <para>Page restrictions</para>
+      </listitem>      
+    </itemizedlist>
+  </sect1>
 
   <sect1>
     <title>Authentication</title>
