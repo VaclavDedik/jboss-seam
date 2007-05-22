@@ -672,24 +672,30 @@ if (!Identity.instance().hasPermission("customer", "create", null))
       <para>
         Page security requires that the application is using a <literal>pages.xml</literal> file, however is
         extremely simple to configure.  Simply include a <literal>&lt;restrict/&gt;</literal> element within
-        the <literal>page</literal> elements that you wish to secure.  By default, if a value is not provided for the
-        <literal>restrict</literal> element, an implied permission of <literal>{viewId}:render</literal> will
-        be checked for whenever accessing that page.  Otherwise the value will be evaluated as a standard
-        security expression.  Here's a couple of examples:
+        the <literal>page</literal> elements that you wish to secure.  If no explicit restriction is specified 
+        the by the<literal>restrict</literal> element, an implied permission of <literal>/viewId.xhtml:render</literal> 
+        will be checked when the page is accessed via a non-faces (GET) request, and a permission of 
+        <literal>/viewId.xhtml:restore</literal> will be required when any JSF postback (form submission) originates
+        from the page.  Otherwise, the specified restriction will be evaluated as a standard security expression. 
+        Here's a couple of examples:
       </para>
             
       <programlisting><![CDATA[<page view-id="/settings.xhtml">
     <restrict/>
-</page>
+</page>]]></programlisting>
         
-<page view-id="/reports.xhtml">    
+      <para>
+        This page has an implied permission of <literal>/settings.xhtml:render</literal> required for non-faces 
+        requests and an implied permission of <literal>/settings.xhtml:restore</literal> for faces requests.
+      </para>
+        
+      <programlisting><![CDATA[<page view-id="/reports.xhtml">    
     <restrict>#{s:hasRole('admin')}</restrict>
 </page>]]></programlisting>
       
       <para>
-        In the above example, the first page has an implied permission restriction of 
-        <literal>/settings.xhtml:render</literal>, while the second one checks that the user 
-        is a member of the <literal>admin</literal> role.
+        Both faces and non-faces requests to this page require that the user is a member of the 
+        <literal>admin</literal> role.
       </para>
         
     </sect2>
