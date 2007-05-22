@@ -51,6 +51,8 @@ import org.jboss.seam.util.Strings;
 @Startup
 public class Identity extends Selector
 {  
+   private static boolean securityEnabled = true;
+   
    public static final String ROLES_GROUP = "Roles";
    
    private static final String LOGIN_TRIED = "org.jboss.seam.security.loginTried";
@@ -82,6 +84,16 @@ public class Identity extends Selector
    {     
       subject = new Subject();
       initCredentialsFromCookie();
+   }
+   
+   public static boolean isSecurityEnabled()
+   {
+      return securityEnabled;
+   }
+   
+   public static void setSecurityEnabled(boolean enabled)
+   {
+      securityEnabled = enabled;
    }
 
    private void initCredentialsFromCookie()

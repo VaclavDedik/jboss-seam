@@ -26,9 +26,11 @@ public class SecurityInterceptor extends AbstractInterceptor
    {
       Method interfaceMethod = invocation.getMethod();
       //TODO: optimize this:
-      Method method = getComponent().getBeanClass().getMethod( interfaceMethod.getName(), interfaceMethod.getParameterTypes() );
+      Method method = getComponent().getBeanClass().getMethod( interfaceMethod.getName(), 
+               interfaceMethod.getParameterTypes() );
       Restrict restrict = getRestriction(method);
-      if (restrict != null)
+      
+      if (restrict != null && Identity.isSecurityEnabled())
       {
          String expr = !Strings.isEmpty( restrict.value() ) ? 
                   restrict.value() : createDefaultExpr(method);
