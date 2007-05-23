@@ -130,18 +130,24 @@ public class Identity extends Selector
    }
    
    /**
-    * If there is a principal set, then the user is logged in.
     * 
     */
    public boolean isLoggedIn()
+   {           
+      return isLoggedIn(false);
+   }
+   
+   public boolean isLoggedIn(boolean attemptLogin)
    {
-      // See if the user can log in
-      if (getPrincipal() == null && isCredentialsSet() && !Contexts.getEventContext().isSet(LOGIN_TRIED))
+      if (attemptLogin && getPrincipal() == null && isCredentialsSet() &&
+          Contexts.isEventContextActive() &&
+          !Contexts.getEventContext().isSet(LOGIN_TRIED))
       {
          Contexts.getEventContext().set(LOGIN_TRIED, true);
          quietLogin();
-      }
-           
+      }     
+      
+      // If there is a principal set, then the user is logged in.
       return getPrincipal() != null;
    }
 
@@ -155,7 +161,7 @@ public class Identity extends Selector
       return subject;
    }
    
-   protected boolean isCredentialsSet()
+   public boolean isCredentialsSet()
    {
       return username != null;
    }
@@ -374,7 +380,7 @@ public class Identity extends Selector
     */
    public boolean hasRole(String role)
    {
-      isLoggedIn();
+      isLoggedIn(true);
       
       for ( Group sg : subject.getPrincipals(Group.class) )      
       {
@@ -450,7 +456,7 @@ public class Identity extends Selector
     */
    public void checkRole(String role)
    {
-      isLoggedIn();
+      isLoggedIn(true);
       
       if ( !hasRole(role) )
       {
@@ -478,7 +484,7 @@ public class Identity extends Selector
     */
    public void checkPermission(String name, String action, Object...arg)
    {
-      isLoggedIn();
+      isLoggedIn(true);
       
       if ( !hasPermission(name, action, arg) )
       {
@@ -607,7 +613,7 @@ public class Identity extends Selector
 
    public void checkEntityPermission(Object entity, EntityAction action)
    {      
-      isLoggedIn();
+      isLoggedIn(true);
       
       Entity e = Entity.forClass(entity.getClass());
       

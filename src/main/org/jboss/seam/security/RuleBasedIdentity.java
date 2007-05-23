@@ -103,9 +103,7 @@ public class RuleBasedIdentity extends Identity
     */
    @Override
    public boolean hasPermission(String name, String action, Object...arg)
-   {
-      isLoggedIn();
-      
+   {      
       WorkingMemory securityContext = getSecurityContext();
       
       if (securityContext == null) return false;      

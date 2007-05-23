@@ -42,6 +42,17 @@
         </xs:complexType>
     </xs:element> 
     
+    <xs:element name="http-auth-filter">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="web:attlist.filter"/>
+            <xs:attribute name="realm" type="xs:string"/>
+            <xs:attribute name="key" type="xs:string"/>
+            <xs:attribute name="nonce-validity-seconds" type="xs:int"/>
+            <xs:attribute name="auth-type" type="xs:string"/>
+        </xs:complexType>
+    </xs:element>
+    
     <xs:attributeGroup name="attlist.filter">
         <xs:attribute name="url-pattern" type="xs:string"/>
     </xs:attributeGroup>

@@ -49,33 +49,36 @@ public class HttpAuthFilter extends AbstractFilter
 {
    private static final String DEFAULT_REALM = "seamApp";
    
+   private static final String AUTH_TYPE_BASIC = "basic";
+   private static final String AUTH_TYPE_DIGEST = "digest";
+   
    @Logger Log log;
    
    public enum AuthType {basic, digest}
    
-   private String realmName = DEFAULT_REALM;
+   private String realm = DEFAULT_REALM;
    
    private String key;
    private int nonceValiditySeconds = 300;
    
-   private AuthType authType = AuthType.basic;
+   private String authType = AUTH_TYPE_BASIC;
    
-   public void setRealmName(String realmName)
+   public void setRealm(String realm)
    {
-      this.realmName = realmName;
+      this.realm = realm;
    }
    
-   public String getRealmName()
+   public String getRealm()
    {
-      return realmName;
+      return realm;
    }
    
-   public void setAuthType(AuthType authType)
+   public void setAuthType(String authType)
    {
       this.authType = authType;
    }
    
-   public AuthType getAuthType()
+   public String getAuthType()
    {
       return authType;
    }
@@ -111,15 +114,12 @@ public class HttpAuthFilter extends AbstractFilter
       HttpServletRequest httpRequest = (HttpServletRequest) request;
       HttpServletResponse httpResponse = (HttpServletResponse) response;
 
-      switch (authType)
-      {
-         case basic:
-            processBasicAuth(httpRequest, httpResponse, chain);
-            break;
-         case digest:
-            processDigestAuth(httpRequest, httpResponse, chain);
-            break;
-      }      
+      if (AUTH_TYPE_BASIC.equals(authType))
+         processBasicAuth(httpRequest, httpResponse, chain);
+      else if (AUTH_TYPE_DIGEST.equals(authType))
+         processDigestAuth(httpRequest, httpResponse, chain);
+      else
+         throw new ServletException("Invalid authentication type");
    }
    
    private void processBasicAuth(HttpServletRequest request, 
@@ -128,6 +128,8 @@ public class HttpAuthFilter extends AbstractFilter
    {
       Context ctx = new WebSessionContext(new ServletSessionImpl(request.getSession()));
       Identity identity = (Identity) ctx.get(Identity.class);
+      
+      boolean requireAuth = false;
       
       String header = request.getHeader("Authorization");
       if (header != null && header.startsWith("Basic "))
@@ -153,18 +155,29 @@ public class HttpAuthFilter extends AbstractFilter
          }         
       }
       
+      if (!identity.isLoggedIn() && !identity.isCredentialsSet())
+      {
+         requireAuth = true;
+      }
+      
       try
       {
-         chain.doFilter(request, response);
-         return;
+         if (!requireAuth)
+         {
+            chain.doFilter(request, response);
+            return;
+         }
       }
-      catch (NotLoggedInException ex) {}
-      
-      if (!identity.isLoggedIn())
+      catch (NotLoggedInException ex) 
       {
-         response.addHeader("WWW-Authenticate", "Basic realm=\"" + realmName + "\"");
-         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Not authorized");         
+         requireAuth = true;
       }
+      
+      if (requireAuth && !identity.isLoggedIn())
+      {
+         response.addHeader("WWW-Authenticate", "Basic realm=\"" + realm + "\"");
+         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Not authorized");         
+      }               
    }
 
    private void processDigestAuth(HttpServletRequest request, 
@@ -174,7 +187,7 @@ public class HttpAuthFilter extends AbstractFilter
       Context ctx = new WebSessionContext(new ServletSessionImpl(request.getSession()));
       Identity identity = (Identity) ctx.get(Identity.class);
       
-      boolean failed = false;    
+      boolean requireAuth = false;    
       boolean nonceExpired = false;
       
       String header = request.getHeader("Authorization");      
@@ -186,14 +199,14 @@ public class HttpAuthFilter extends AbstractFilter
          Map<String,String> headerMap = new HashMap<String,String>();
          for (String entry : headerEntries)
          {
-            String[] vals = entry.split("=");
+            String[] vals = split(entry, "=");
             headerMap.put(vals[0].trim(), vals[1].replace("\"", "").trim());
          }
          
          identity.setUsername(headerMap.get("username"));
 
          DigestRequest digestRequest = new DigestRequest();
-         digestRequest.setSystemRealm(realmName);
+         digestRequest.setSystemRealm(realm);
          digestRequest.setRealm(headerMap.get("realm"));         
          digestRequest.setKey(key);
          digestRequest.setNonce(headerMap.get("nonce"));
@@ -212,23 +225,31 @@ public class HttpAuthFilter extends AbstractFilter
          {
             log.error(String.format("Digest validation failed, header [%s]: %s",
                      section212response, ex.getMessage()));
-            failed = true;
+            requireAuth = true;
             
             if (ex.isNonceExpired()) nonceExpired = true;
          }            
       }
       
-      if (!failed)
+      if (!identity.isLoggedIn() && !identity.isCredentialsSet())
       {
-         try
+         requireAuth = true;
+      }      
+
+      try
+      {
+         if (!requireAuth)
          {
             chain.doFilter(request, response);
             return;
          }
-         catch (NotLoggedInException ex) {}
       }
+      catch (NotLoggedInException ex) 
+      {
+         requireAuth = true;
+      }      
       
-      if (failed || !identity.isLoggedIn())
+      if (requireAuth || !identity.isLoggedIn())
       {
          long expiryTime = System.currentTimeMillis() + (nonceValiditySeconds * 1000);
          
@@ -239,7 +260,7 @@ public class HttpAuthFilter extends AbstractFilter
          // qop is quality of protection, as defined by RFC 2617.
          // we do not use opaque due to IE violation of RFC 2617 in not
          // representing opaque on subsequent requests in same session.
-         String authenticateHeader = "Digest realm=\"" + realmName + "\", " + "qop=\"auth\", nonce=\""
+         String authenticateHeader = "Digest realm=\"" + realm + "\", " + "qop=\"auth\", nonce=\""
              + nonceValueBase64 + "\"";
 
          if (nonceExpired) authenticateHeader = authenticateHeader + ", stale=\"true\"";
@@ -248,4 +269,22 @@ public class HttpAuthFilter extends AbstractFilter
          response.sendError(HttpServletResponse.SC_UNAUTHORIZED);      
       }             
    }
+   
+   private String[] split(String toSplit, String delimiter) 
+   {
+      if (delimiter.length() != 1) {
+          throw new IllegalArgumentException("Delimiter can only be one character in length");
+      }
+
+      int offset = toSplit.indexOf(delimiter);
+
+      if (offset < 0) {
+          return null;
+      }
+
+      String beforeDelimiter = toSplit.substring(0, offset);
+      String afterDelimiter = toSplit.substring(offset + 1);
+
+      return new String[] {beforeDelimiter, afterDelimiter};
+  }   
 }

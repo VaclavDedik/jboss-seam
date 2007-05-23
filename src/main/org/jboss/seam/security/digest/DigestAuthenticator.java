@@ -1,7 +1,5 @@
 package org.jboss.seam.security.digest;
 
-import javax.security.auth.login.LoginException;
-
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.security.Identity;
@@ -14,15 +12,14 @@ import org.jboss.seam.security.Identity;
  */
 public abstract class DigestAuthenticator
 {
-   protected void checkPassword(String password)
-      throws LoginException
+   protected boolean validatePassword(String password)
    {
       Context ctx = Contexts.getSessionContext();
       
       DigestRequest digestRequest = (DigestRequest) ctx.get(DigestRequest.DIGEST_REQUEST);
       if (digestRequest == null)
       {
-         throw new LoginException("No digest request found in session scope");
+         throw new IllegalStateException("No digest request found in session scope");
       }
       
       // Remove the digest request from the session now
@@ -37,10 +34,6 @@ public abstract class DigestAuthenticator
                digestRequest.getNonce(), digestRequest.getNonceCount(), 
                digestRequest.getClientNonce());
 
-      // If digest is incorrect, try refreshing from backend and recomputing
-      if (!serverDigestMd5.equals(digestRequest.getClientDigest()))
-      {
-         throw new LoginException("Digest authentication failed - incorrect response");
-      }
+      return serverDigestMd5.equals(digestRequest.getClientDigest());
    }  
 }
