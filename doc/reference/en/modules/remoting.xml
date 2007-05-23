@@ -747,8 +747,8 @@ public class Widget
         to test whether the message is a <literal>Seam.Remoting.TextMessage</literal> or
           <literal>Seam.Remoting.ObjectMessage</literal>. A <literal>TextMessage</literal> contains the text value in
         its <literal>text</literal> field (or alternatively call <literal>getText()</literal> on it), while an
-          <literal>ObjectMessage</literal> contains its object value in its <literal>object</literal> field (or call its
-          <literal>getObject()</literal> method). </para>
+          <literal>ObjectMessage</literal> contains its object value in its <literal>value</literal> field (or call its
+          <literal>getValue()</literal> method). </para>
     </sect2>
 
     <sect2>
