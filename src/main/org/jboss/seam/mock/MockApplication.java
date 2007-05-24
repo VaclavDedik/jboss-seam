@@ -28,6 +28,7 @@ import javax.faces.convert.FloatConverter;
 import javax.faces.convert.IntegerConverter;
 import javax.faces.convert.LongConverter;
 import javax.faces.convert.ShortConverter;
+import javax.faces.el.EvaluationException;
 import javax.faces.el.MethodBinding;
 import javax.faces.el.PropertyResolver;
 import javax.faces.el.ReferenceSyntaxException;
@@ -36,6 +37,10 @@ import javax.faces.el.VariableResolver;
 import javax.faces.event.ActionListener;
 import javax.faces.validator.Validator;
 
+import org.jboss.seam.jsf.SeamELResolver;
+import org.jboss.seam.jsf.SeamNavigationHandler;
+import org.jboss.seam.jsf.SeamStateManager;
+import org.jboss.seam.jsf.SeamViewHandler;
 import org.jboss.seam.util.EL;
 import org.jboss.seam.util.Reflections;
 import org.jboss.seam.util.UnifiedELMethodBinding;
@@ -75,10 +80,12 @@ public class MockApplication extends Application
       throw new UnsupportedOperationException();
    }
    
+   private javax.el.ELResolver elResolver = new SeamELResolver(); 
+   
    @Override
    public javax.el.ELResolver getELResolver() 
    {
-      throw new UnsupportedOperationException();
+      return elResolver;
    }
    
    @Override
@@ -145,7 +152,7 @@ public class MockApplication extends Application
       this.msgBundleName = bundleName;
    }
 
-   private NavigationHandler navigationHandler = new MockNavigationHandler();
+   private NavigationHandler navigationHandler = new SeamNavigationHandler( new MockNavigationHandler() );
 
    @Override
    public NavigationHandler getNavigationHandler()
@@ -171,7 +178,13 @@ public class MockApplication extends Application
       throw new UnsupportedOperationException();
    }
 
-   private VariableResolver variableResolver = null; // TODO: big big todo!!!!!!!!!!
+   private VariableResolver variableResolver = /*new SeamVariableResolver(*/ new VariableResolver() { 
+      @Override
+      public Object resolveVariable(FacesContext ctx, String name) throws EvaluationException
+      {
+         return null;
+      }
+   } /*)*/;
 
    @Override
    public VariableResolver getVariableResolver()
@@ -185,7 +198,7 @@ public class MockApplication extends Application
       this.variableResolver = variableResolver;
    }
 
-   private ViewHandler viewHandler = new MockViewHandler();
+   private ViewHandler viewHandler = new SeamViewHandler( new MockViewHandler() );
 
    @Override
    public ViewHandler getViewHandler()
@@ -199,7 +212,7 @@ public class MockApplication extends Application
       this.viewHandler = viewHandler;
    }
 
-   private StateManager stateManager = new MockStateManager();
+   private StateManager stateManager = new SeamStateManager( new MockStateManager() );
 
    @Override
    public StateManager getStateManager()
