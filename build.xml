@@ -297,6 +297,7 @@
 
 	<zipfileset id="example.tomcat.lib" prefix="WEB-INF/lib" dir="${lib.dir}" description="run-time dependencies for tomcat deployment">
 		<include name="*.jar" />
+		<exclude name="jboss-el-api.jar" />
 		<exclude name="jsf-facelets*.jar" />
 		<exclude name="jboss-*-jdk50.jar" />
 		<exclude name="jgroups*.jar" />
