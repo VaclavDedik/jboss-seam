@@ -45,7 +45,8 @@ public class SeamDebugPhaseListener implements PhaseListener
             UIViewRoot root = facesContext.getViewRoot();
             f.apply(facesContext, root);
             HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
-            response.setContentType("text/html");
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("text/html; UTF-8"); 
             ResponseWriter writer = facesContext.getRenderKit().createResponseWriter( response.getWriter(), "text/html", "UTF-8" );
             facesContext.setResponseWriter(writer);
             //root.renderAll();
