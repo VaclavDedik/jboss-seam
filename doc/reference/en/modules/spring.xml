@@ -24,6 +24,9 @@
         <listitem>
             <para>start a spring WebApplicationContext with a Seam component</para>
         </listitem>
+        <listitem>
+            <para>provides a Seam managed replacement for Spring's <literal>OpenEntityManagerInViewFilter</literal></para>
+        </listitem>
     </itemizedlist>
 
     <section>
@@ -86,9 +89,10 @@
     <property name="entityManager" ref="seamManagedEM">
 </bean>]]></programlisting>
 
-        <para> This example shows one way to use a Seam-managed persistence context from a Spring bean. (A more robust
+        <para> This example shows one way to use a Seam-managed persistence context from a Spring bean. (For a more robust
             way to use Seam-managed persistence contexts as a replacement for the Spring
-                <literal>OpenEntityManagerInView</literal> filter will be provided in a future release)</para>
+                <literal>OpenEntityManagerInView</literal> filter see section on 
+                <link linkend="spring-persistence">Using a Seam Managed Persistence Context in Spring</link>)</para>
     </section>
 
     <section>
@@ -197,6 +201,91 @@ private BookingService bookingService;]]></programlisting>
     </property>
 </bean>]]></programlisting>
 
+    </section>
+    <section id="spring-persistence">
+        <title>Using a Seam Managed Persistence Context in Spring</title>
+
+        <para>One of the most powerful features of Seam is its conversation scope and the ability to
+        have an EntityManager open for the life of a conversation.  This eliminates many
+        of the problems associated with the detachment and re-attachment of entities as well as mitigates occurrences
+        of the dreaded <literal>LazyInitializationException</literal>.  Spring does not provide a way to manage
+        an persistence context beyond the scope of a single web request
+        (<literal>OpenEntityManagerInViewFilter</literal>).  So, it would be nice if Spring developers
+        could have access to a Seam managed persistence context using all of the same tools Spring provides
+        for integration with JPA(e.g. <literal>PersistenceAnnotationBeanPostProcessor</literal>,
+        <literal>JpaTemplate</literal>, etc.)</para>
+        
+        <para>Seam provides a way for Spring to access a Seam managed persistence context with
+        Spring's provided JPA tools bringing conversation scoped persistence context capabilities to
+        Spring applications.</para>
+        
+        <para>This integration work provides the following functionality:</para>
+        	
+        <itemizedlist>
+            <listitem>
+                <para>transparent access to a Seam managed persistence context using Spring provided tools</para>
+            </listitem>
+            <listitem>
+                <para>access to Seam conversation scoped persistence contexts in a non web request
+                (e.g. asynchronous quartz job)</para>
+            </listitem>
+            <listitem>
+                <para>allows for using Seam managed persistence contexts with Spring managed transactions (will need to
+                flush the persistence context manually)</para>
+            </listitem>
+        </itemizedlist>
+
+        <para>Spring's persistence context propagation model allows only one open EntityManager per EntityManagerFactory
+        so the Seam integration works by wrapping an EntityManagerFactory around a Seam managed persistence
+        context.</para>
+        	
+        <programlisting><![CDATA[<bean id="seamEntityManagerFactory" class="org.jboss.seam.ioc.spring.SeamManagedEntityManagerFactoryBean">
+   	<property name="persistenceContextName" value="entityManager"/>
+</bean>]]></programlisting>
+
+		<para>Where 'persistenceContextName' is the name of the Seam managed persistence context component.  By default
+		this EntityManagerFactory has a unitName equal to  the Seam component name or in this case 'entityManager'.  
+		If you wish to provide a different unitName you can do so by providing a persistenceUnitName like so:
+		</para>
+		
+        <programlisting><![CDATA[<bean id="seamEntityManagerFactory" class="org.jboss.seam.ioc.spring.SeamManagedEntityManagerFactoryBean">
+   	<property name="persistenceContextName" value="entityManager"/>
+	<property name="persistenceUnitName" value="bookingDatabase:extended"/>
+</bean>]]></programlisting>
+
+		<para>This EntityManagerFactory can then be used in any Spring provided tools.  For example, 
+		 using Spring's <literal>PersistenceAnnotationBeanPostProcessor</literal> is the exact same as before.</para>
+
+        <programlisting><![CDATA[<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>]]></programlisting>
+
+		<para>If you define your real EntityManagerFactory in Spring but wish to use a Seam managed persistence context
+		you can tell the <literal>PersistenceAnnotationBeanPostProcessor</literal> which persistenctUnitName you wish
+		to use by default by specifying the <literal>defaultPersistenceUnitName</literal> property.
+		</para>
+		
+		<para>The <literal>applicationContext.xml</literal> might look like:</para>
+        <programlisting><![CDATA[<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
+	<property name="persistenceUnitName" value="bookingDatabase"/>
+</bean>
+<bean id="seamEntityManagerFactory" class="org.jboss.seam.ioc.spring.SeamManagedEntityManagerFactoryBean">
+   	<property name="persistenceContextName" value="entityManager"/>
+	<property name="persistenceUnitName" value="bookingDatabase:extended"/>
+</bean>
+<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor">
+	<property name="defaultPersistenceUnitName" value="bookingDatabase:extended"/>
+</bean>]]></programlisting>
+
+		<para>The <literal>component.xml</literal> might look like:</para>
+		<programlisting><![CDATA[<core:managed-persistence-context name="entityManager"
+	auto-create="true" entity-manager-factory="#{entityManagerFactory}"/>]]></programlisting>
+
+
+		<para><literal>JpaTemplate</literal> and <literal>JpaDaoSupport</literal> are configured the same way for a
+		Seam managed persistence context as they would be fore a Seam managed persistence context.</para>
+
+        <programlisting><![CDATA[<bean id="bookingService" class="org.jboss.seam.example.spring.BookingService">
+	<property name="entityManagerFactory" ref="seamEntityManagerFactory"/>
+</bean>]]></programlisting>
     </section>
     <section>
         <title>Spring Application Context as a Seam Component</title>
