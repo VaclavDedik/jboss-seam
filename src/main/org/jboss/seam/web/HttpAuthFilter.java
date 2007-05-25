@@ -42,7 +42,7 @@ import org.jboss.seam.util.Base64;
 @Startup
 @Scope(APPLICATION)
 @Name("org.jboss.seam.web.httpAuthFilter")
-@Install(precedence = BUILT_IN)
+@Install(value = false, precedence = BUILT_IN)
 @Intercept(NEVER)
 @Filter(within = "org.jboss.seam.web.exceptionFilter")
 public class HttpAuthFilter extends AbstractFilter
