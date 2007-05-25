@@ -1,7 +1,9 @@
 /*
- *  * JBoss, Home of Professional Open Source  *  * Distributable under LGPL
- * license.  * See terms of license at gnu.org.  
- */
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.mock;
 
 import org.testng.annotations.Configuration;
@@ -46,8 +48,8 @@ public class SeamTest extends BaseSeamTest
    }
 
    /**
-    * A pass through to BaseSeamTest.FacesRequest.
-    * Perhaps these should be deprecated?
+    * A pass through to BaseSeamTest.FacesRequest. Perhaps these should be
+    * deprecated?
     */
    public class FacesRequest extends BaseSeamTest.FacesRequest
    {
@@ -70,8 +72,8 @@ public class SeamTest extends BaseSeamTest
    }
 
    /**
-    * A pass through to BaseSeamTest.NonFacesRequest.
-    * Perhaps these should be deprecated?
+    * A pass through to BaseSeamTest.NonFacesRequest. Perhaps these should be
+    * deprecated?
     */
    public class NonFacesRequest extends BaseSeamTest.NonFacesRequest
    {
@@ -94,8 +96,8 @@ public class SeamTest extends BaseSeamTest
    }
 
    /**
-    * A pass through to BaseSeamTest.Request.
-    * Perhaps these should be deprecated?
+    * A pass through to BaseSeamTest.Request. Perhaps these should be
+    * deprecated?
     */
    public abstract class Request extends BaseSeamTest.Request
    {
@@ -113,8 +115,7 @@ public class SeamTest extends BaseSeamTest
    }
 
    /**
-    * @deprecated Use FacesRequest or NonFacesRequest
-    *             instead
+    * @deprecated Use FacesRequest or NonFacesRequest instead
     */
    @Deprecated
    public abstract class Script extends BaseSeamTest.Script
