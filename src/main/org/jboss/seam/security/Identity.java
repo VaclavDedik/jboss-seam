@@ -73,6 +73,10 @@ public class Identity extends Selector
    
    private List<String> preAuthenticationRoles = new ArrayList<String>();
    
+   private boolean authenticateEveryRequest = false;
+   
+   private boolean authenticateNextRequest = false;
+   
    @Override
    protected String getCookieName()
    {
@@ -95,6 +99,24 @@ public class Identity extends Selector
    {
       securityEnabled = enabled;
    }
+   
+   public boolean getAuthenticateEveryRequest()
+   {
+      return authenticateEveryRequest;
+   }
+   
+   public void setAuthenticateEveryRequest(boolean authenticateEveryRequest)
+   {
+      this.authenticateEveryRequest = authenticateEveryRequest;
+   }
+   
+   /**
+    * If invoked, the next request will be explicitly authenticated.
+    */
+   public void authenticateNextRequest()
+   {
+      this.authenticateNextRequest = true;
+   }
 
    private void initCredentialsFromCookie()
    {
@@ -105,6 +127,26 @@ public class Identity extends Selector
          postRememberMe();
       }
       setDirty();
+   }
+   
+   /**
+    *
+    */
+   public void beginRequest()
+   {
+      if (authenticateEveryRequest || authenticateNextRequest)
+      {
+         authenticateNextRequest = false;
+         quietLogin();
+      }
+   }
+   
+   /**
+    *
+    */
+   public void endRequest()
+   {
+      
    }
 
    protected void postRememberMe()
