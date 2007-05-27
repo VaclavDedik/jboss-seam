@@ -8,12 +8,14 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.faces.event.PhaseId;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.jboss.seam.annotations.Filter;
 import org.jboss.seam.annotations.Install;
@@ -23,7 +25,9 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.contexts.Context;
+import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.contexts.WebSessionContext;
+import org.jboss.seam.core.Manager;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.NotLoggedInException;
@@ -152,6 +156,7 @@ public class HttpAuthFilter extends AbstractFilter
          {
             identity.setUsername(username);
             identity.setPassword(password);
+            identity.authenticateNextRequest();
          }         
       }
       
@@ -204,8 +209,10 @@ public class HttpAuthFilter extends AbstractFilter
          }
          
          identity.setUsername(headerMap.get("username"));
+         identity.authenticateNextRequest();
 
          DigestRequest digestRequest = new DigestRequest();
+         digestRequest.setHttpMethod(request.getMethod());
          digestRequest.setSystemRealm(realm);
          digestRequest.setRealm(headerMap.get("realm"));         
          digestRequest.setKey(key);
@@ -220,6 +227,7 @@ public class HttpAuthFilter extends AbstractFilter
          {
             digestRequest.validate();
             ctx.set(DigestRequest.DIGEST_REQUEST, digestRequest);
+            authenticate(request, identity);
          }
          catch (DigestValidationException ex)
          {
@@ -229,13 +237,18 @@ public class HttpAuthFilter extends AbstractFilter
             
             if (ex.isNonceExpired()) nonceExpired = true;
          }            
-      }
-      
+         catch (Exception ex)
+         {
+            log.error("Error authenticating: " + ex.getMessage());
+            requireAuth = true;
+         }
+      }   
+
       if (!identity.isLoggedIn() && !identity.isCredentialsSet())
       {
          requireAuth = true;
-      }      
-
+      }
+      
       try
       {
          if (!requireAuth)
@@ -247,10 +260,10 @@ public class HttpAuthFilter extends AbstractFilter
       catch (NotLoggedInException ex) 
       {
          requireAuth = true;
-      }      
+      }
       
-      if (requireAuth || !identity.isLoggedIn())
-      {
+      if (requireAuth && !identity.isLoggedIn())
+      {      
          long expiryTime = System.currentTimeMillis() + (nonceValiditySeconds * 1000);
          
          String signatureValue = DigestUtils.md5Hex(expiryTime + ":" + key);
@@ -268,6 +281,32 @@ public class HttpAuthFilter extends AbstractFilter
          response.addHeader("WWW-Authenticate", authenticateHeader);
          response.sendError(HttpServletResponse.SC_UNAUTHORIZED);      
       }             
+   }
+   
+   private void authenticate(HttpServletRequest request, Identity identity)
+      throws Exception
+   {
+      try
+      {
+         HttpSession session = request.getSession(true);
+         Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
+         Lifecycle.setServletRequest(request);
+         Lifecycle.beginRequest(getServletContext(), session, request);
+         Manager.instance().restoreConversation( request.getParameterMap() );
+         Lifecycle.resumeConversation(session);
+         Manager.instance().handleConversationPropagation( request.getParameterMap() );   
+         identity.authenticate();
+      }
+      catch (Exception ex) 
+      {
+         Lifecycle.endRequest();
+         throw ex;
+      }      
+      finally
+      {
+         Lifecycle.setServletRequest(null);
+         Lifecycle.setPhaseId(null);
+      }      
    }
    
    private String[] split(String toSplit, String delimiter) 

@@ -134,11 +134,7 @@ public class Identity extends Selector
     */
    public void beginRequest()
    {
-      if (authenticateEveryRequest || authenticateNextRequest)
-      {
-         authenticateNextRequest = false;
-         quietLogin();
-      }
+
    }
    
    /**

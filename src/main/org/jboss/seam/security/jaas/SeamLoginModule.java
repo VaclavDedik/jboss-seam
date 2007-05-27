@@ -94,7 +94,7 @@ public class SeamLoginModule implements LoginModule
       catch (Exception ex)
       {
          log.error("Error logging in", ex);
-         return false;
+         throw new LoginException(ex.getMessage());
       }
       
       MethodExpression mb = Identity.instance().getAuthenticateMethod();
@@ -103,10 +103,10 @@ public class SeamLoginModule implements LoginModule
       {
         return (Boolean) mb.invoke();      
       }
-      catch (RuntimeException ex)
+      catch (Exception ex)
       {
          log.error("Error invoking login method", ex);
-         return false;
+         throw new LoginException(ex.getMessage());
       }
    }
 
