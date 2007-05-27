@@ -16,7 +16,6 @@ import org.jboss.seam.log.Log
 
 @Scope(ScopeType.SESSION)
 @Name("bookingList")
-// @TransactionAttribute(REQUIRES_NEW)
 class BookingListAction implements Serializable
 {
 

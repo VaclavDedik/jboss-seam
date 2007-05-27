@@ -198,6 +198,7 @@
         
         <copy todir="${war.dir}/WEB-INF/lib">
             <fileset dir="${seam.lib.dir}">
+                <include name="jboss-el.jar" />
                 <include name="ajax4jsf*.jar" />
                 <include name="richfaces*.jar" />
                 <include name="oscache*.jar" />
@@ -209,8 +210,8 @@
             <fileset dir="${seam.dir}/drools/lib">
                 <include name="drools-*.jar"/>
                 <include name="janino-*.jar"/>
+                <include name="mvel*.jar"/>
                 <include name="antlr-*.jar"/>
-                <include name="commons-jci-*.jar"/>
                 <include name="stringtemplate-*.jar"/>
             </fileset>
             <fileset dir="${seam.dir}">

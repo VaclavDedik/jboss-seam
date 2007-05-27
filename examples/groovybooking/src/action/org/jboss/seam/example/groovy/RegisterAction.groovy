@@ -9,9 +9,9 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.core.FacesMessages;
-import org.jboss.seam.ScopeType;
+import static org.jboss.seam.ScopeType.EVENT;
 
-@Scope(ScopeType.EVENT)
+@Scope(EVENT)
 @Name("register")
 class RegisterAction
 {

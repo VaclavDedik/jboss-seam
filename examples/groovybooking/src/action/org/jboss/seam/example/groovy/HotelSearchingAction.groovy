@@ -29,13 +29,13 @@ class HotelSearchingAction
    @DataModel
    List<Hotel> hotels
 
-   public void find()
+   void find()
    {
       page = 0
       queryHotels()
    }
 
-   public void nextPage()
+   void nextPage()
    {
       page++
       queryHotels()
@@ -56,14 +56,14 @@ class HotelSearchingAction
    }
 
    @Factory(value="pattern", scope=ScopeType.EVENT)
-   public String getSearchPattern()
+   String getSearchPattern()
    {
       return searchString ?
             "%${searchString.toLowerCase().replace('*', '%')}%" :
             "%";
    }
 
-   public boolean isNextPageAvailable()
+   boolean isNextPageAvailable()
    {
       return hotels && hotels.size()==pageSize
    }
