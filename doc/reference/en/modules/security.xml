@@ -373,6 +373,66 @@ public class Authenticator {
       </para>
       
     </sect2>
+    
+    <sect2>
+      <title>HTTP Authentication</title>
+      
+      <para>
+        Although not recommended for use unless absolutely necessary, Seam provides means for authenticating 
+        using either HTTP Basic or HTTP Digest (RFC 2617) methods.  To use either form of authentication, 
+        the <literal>http-auth-filter</literal> component must be enabled in components.xml:
+      </para>
+      
+      <programlisting><![CDATA[
+  <web:http-auth-filter url-pattern="*.seam" auth-type="basic"/>
+      ]]></programlisting>
+      
+      <para>
+        To enable the filter for basic authentication, set <literal>auth-type</literal> to <literal>basic</literal>,
+        or for digest authentication, set it to <literal>digest</literal>.  If using digest authentication, the
+        <literal>key</literal> and <literal>realm</literal> must also be set:
+      </para>
+
+      <programlisting><![CDATA[
+  <web:http-auth-filter url-pattern="*.seam" auth-type="digest" key="AA3JK34aSDlkj" realm="My App"/>
+      ]]></programlisting>
+      
+      <para>
+        The <literal>key</literal> can be any String value.  The <literal>realm</literal> is the name of the 
+        authentication realm that is presented to the user when they authenticate.
+      </para>
+      
+      <sect3>
+        <title>Writing a Digest Authenticator</title>
+        
+        <para>
+          If using digest authentication, your authenticator class should extend the abstract class
+          <literal>org.jboss.seam.security.digest.DigestAuthenticator</literal>, and use the
+          <literal>validatePassword()</literal> method to validate the user's plain text password
+          against the digest request.  Here is an example:
+        </para>
+        
+        <programlisting><![CDATA[
+   public boolean authenticate() 
+   {
+      try
+      {            
+         User user = (User) entityManager.createQuery(
+            "from User where username = :username")
+            .setParameter("username", identity.getUsername())
+            .getSingleResult();
+         
+         return validatePassword(user.getPassword());
+      }
+      catch (NoResultException ex)
+      {
+         return false;
+      }      
+   }        
+        ]]></programlisting>
+      </sect3>
+            
+    </sect2>
         
     <sect2>
       <title>Advanced Authentication Features</title>
