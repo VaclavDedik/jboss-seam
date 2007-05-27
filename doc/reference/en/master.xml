@@ -35,7 +35,7 @@
     <bookinfo>
         <title>Seam - Contextual Components</title>
         <subtitle>A Framework for Java EE 5</subtitle>
-        <releaseinfo>1.2.1.GA</releaseinfo>
+        <releaseinfo>1.3.0.A1</releaseinfo>
     </bookinfo>
 
     <toc/>
