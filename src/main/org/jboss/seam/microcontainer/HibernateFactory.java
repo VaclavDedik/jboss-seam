@@ -1,13 +1,16 @@
 //$Id$
 package org.jboss.seam.microcontainer;
+
 import java.io.File;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.cfg.Environment;
+import org.hibernate.cfg.NamingStrategy;
 import org.hibernate.util.ReflectHelper;
 import org.jboss.seam.security.HibernateSecurityInterceptor;
 import org.jboss.seam.util.Naming;
@@ -48,13 +51,23 @@ public class HibernateFactory
    private List<String> mappingJars;
    private List<String> mappingPackages;
    private List<String> mappingResources;
+   private NamingStrategy namingStrategy;
+   
    public SessionFactory getSessionFactory() throws Exception
    {
       return createSessionFactory();
    }
+   
    protected SessionFactory createSessionFactory() throws ClassNotFoundException
    {
       AnnotationConfiguration configuration = new AnnotationConfiguration();
+      
+      // setup non-default naming strategy
+      if (namingStrategy != null)
+      {
+         configuration.setNamingStrategy(namingStrategy);
+      }
+      
       // Programmatic configuration
       if (cfgProperties != null)
       {
@@ -118,16 +131,29 @@ public class HibernateFactory
       }
       
       configuration.setInterceptor(new HibernateSecurityInterceptor(configuration.getInterceptor()));
+      
       return configuration.buildSessionFactory();
    }
    public String getCfgResourceName()
    {
       return cfgResourceName;
    }
+   
    public void setCfgResourceName(String cfgFileName)
    {
       this.cfgResourceName = cfgFileName;
    }
+   
+   public NamingStrategy getNamingStrategy()
+   {
+      return namingStrategy;
+   }
+   
+   public void setNamingStrategy(NamingStrategy namingStrategy)
+   {
+      this.namingStrategy = namingStrategy;
+   }
+   
    public Map<String, String> getCfgProperties()
    {
       return cfgProperties;
