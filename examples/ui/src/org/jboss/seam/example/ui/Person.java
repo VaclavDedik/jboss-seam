@@ -1,6 +1,7 @@
 package org.jboss.seam.example.ui;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -13,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 @Entity
 public class Person implements Serializable
@@ -36,8 +38,20 @@ public class Person implements Serializable
       public String getLabel()
       {
          return label;
-      }
+      }      
+   }
+   
+   public enum Role
+   {
+      USER,
+      ADMIN,
+      MANAGER,
+      SUPERADMIN;
       
+      public String getName()
+      {
+         return this.name();
+      }
    }
    
    @Id @GeneratedValue
@@ -68,9 +82,22 @@ public class Person implements Serializable
    @OneToOne(cascade=CascadeType.ALL)
    private Picture picture;
    
+   @Transient
+   private List<Role> roles = new ArrayList<Role>();
+   
    public Person()
    {
       picture = new Picture();
+   }
+   
+   public List<Role> getRoles()
+   {
+      return roles;
+   }
+   
+   public void setRoles(List<Role> roles)
+   {
+      this.roles = roles;
    }
 
    public Country getCountry()

@@ -29,6 +29,14 @@
 		</s:decorate>
 		
 		<s:decorate template="decorateField.xhtml">
+		  <ui:define name="label">Roles</ui:define>
+		  <h:selectManyCheckbox value="#{person.roles}" required="true">
+		    <s:selectItems value="#{roles}" var="role" label="#{role.name}"/>
+		    <s:convertEnum />
+		  </h:selectManyCheckbox>
+		</s:decorate>
+		
+		<s:decorate template="decorateField.xhtml">
 			<ui:define name="label">Name</ui:define>
 			<ui:define name="description">Enter your name as it appears on your passport</ui:define>
 			<h:inputText value="#{person.name}" required="true" />
@@ -76,9 +84,11 @@
 				<s:convertEntity />
 			</h:selectOneListbox>
 		</s:decorate>
+		
 		<h:commandButton value="Apply" action="#{personHome.update}">
 			<s:conversationPropagation type="join" />
 		</h:commandButton>
+		
 		<h:messages globalOnly="true" />
 		<p><s:link view="/index.xhtml" propagation="end">Back to index</s:link></p>
 		
