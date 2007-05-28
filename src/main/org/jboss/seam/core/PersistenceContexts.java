@@ -44,6 +44,11 @@ public class PersistenceContexts extends AbstractMutable implements Serializable
       if ( set.add(context) ) setDirty();
    }
    
+   public void untouch(String context)
+   {
+      if ( set.remove(context) ) setDirty();
+   }
+   
    public static PersistenceContexts instance()
    {
       if ( Contexts.isConversationContextActive() )

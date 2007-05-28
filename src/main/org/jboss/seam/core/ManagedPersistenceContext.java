@@ -149,6 +149,8 @@ public class ManagedPersistenceContext
       {
          entityManager.close();
       }
+      
+      PersistenceContexts.instance().untouch(componentName);
    }
    
    public EntityManagerFactory getEntityManagerFactoryFromJndiOrValueBinding()
