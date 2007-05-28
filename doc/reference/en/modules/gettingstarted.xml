@@ -32,7 +32,7 @@
   
   <para>
     Seam-gen is basically just a big ugly Ant script wrapped around
-    Hibernate Tools, together with some templates. Which means it is 
+    Hibernate Tools, together with some templates.  That makes it
     easy to customize if you need to.
   </para>
   
@@ -40,7 +40,7 @@
     <title>Before you start</title>
   
     <para>
-      Make sure you have JDK 5 or JDK 6, JBoss AS 4.0.5 and Ant 1.6, along 
+      Make sure you have JDK 5 or JDK 6, JBoss AS 4.2 and Ant 1.6, along 
       with recent versions of Eclipse, the JBoss IDE plugin for Eclipse and 
       the TestNG plugin for Eclipse correctly installed before starting. Add 
       your JBoss installation to the JBoss Server View in Eclipse. Start JBoss 
@@ -91,7 +91,7 @@
         and database connection. It's easy, just type:
     </para>
     
-    <programlisting>cd jboss-seam-1.1.x
+    <programlisting>cd jboss-seam-1.3.x
 seam setup</programlisting>
 
     <para>
@@ -99,13 +99,13 @@ seam setup</programlisting>
     </para>
     
     <programlisting><![CDATA[C:\Projects\jboss-seam>seam setup
-Buildfile: C:\Projects\jboss-seam\seam-gen\build.xml
+Buildfile: build.xml
 
 setup:
     [echo] Welcome to seam-gen :-)
     [input] Enter your Java project workspace [C:/Projects]
 
-    [input] Enter your JBoss home directory [C:/Program Files/jboss-4.0.5.GA]
+    [input] Enter your JBoss home directory [C:/Program Files/jboss-4.2.0.GA]
 
     [input] Enter the project name [myproject]
 helloworld
@@ -131,6 +131,9 @@ mysql
 gavin
     [input] Enter database password []
 
+    [input] skipping input as property hibernate.default_schema.new has already been set.
+    [input] Enter the database catalog name (it is OK to leave this blank) []
+
     [input] Are you working with tables that already exist in the database? [n] (y,n,)
 y
     [input] Do you want to drop and recreate the database tables and data in import.sql each time you deploy? [n] (y,n,)
@@ -152,8 +155,8 @@ C:\Projects\jboss-seam>]]></programlisting>
       The most important choice you need to make is between EAR deployment and WAR
       deployment of your project. EAR projects support EJB 3.0 and require Java EE 5.
       WAR projects do not support EJB 3.0, but may be deployed to a J2EE environment.
-      The packaging of a WAR is also simpler to understand. If you installed JBoss
-      with the ejb3 profile, choose <literal>ear</literal>. Otherwise, choose
+      The packaging of a WAR is also simpler to understand. If you installed an EJB3-ready 
+      application server like JBoss, choose <literal>ear</literal>. Otherwise, choose
       <literal>war</literal>. We'll assume that you've chosen an EAR deployment for 
       the rest of the tutorial, but you can follow exactly the same steps for a
       WAR deployment.  
@@ -177,7 +180,7 @@ C:\Projects\jboss-seam>]]></programlisting>
     <programlisting>seam new-project</programlisting>
     
     <programlisting><![CDATA[C:\Projects\jboss-seam>seam new-project
-Buildfile: C:\Projects\jboss-seam\seam-gen\build.xml
+Buildfile: build.xml
 
 validate-workspace:
 
@@ -185,21 +188,16 @@ validate-project:
 
 copy-lib:
      [echo] Copying project jars ...
-     [copy] Copying 32 files to C:\Projects\helloworld\lib
+     [copy] Copying 58 files to C:\Projects\helloworld\lib
      [copy] Copying 9 files to C:\Projects\helloworld\embedded-ejb
 
-file-copy-wtp:
+file-copy-war:
 
-file-copy:
-     [echo] Copying project resources ...
-     [copy] Copying 12 files to C:\Projects\helloworld\resources
-     [copy] Copying 1 file to C:\Projects\helloworld\resources
-     [copy] Copying 5 files to C:\Projects\helloworld\view
-     [copy] Copying 5 files to C:\Projects\helloworld
-    [mkdir] Created dir: C:\Projects\helloworld\src
+file-copy-ear:
+     [echo] Copying resources needed for EAR deployment to the C:\Projects\helloworld/resources directory...
 
 new-project:
-     [echo] A new Seam project named 'helloworld' was created in the /Users/gavin/Documents/workspace directory
+     [echo] A new Seam project named 'helloworld' was created in the C:\Projects directory
      [echo] Type 'seam explode' and go to http://localhost:8080/helloworld
      [echo] Eclipse Users: Add the project into Eclipse using File > New > Project and select General > Project (not Java Project)
      [echo] NetBeans Users: Open the project in NetBeans
@@ -280,8 +278,8 @@ C:\Projects\jboss-seam>]]></programlisting>
       component for your project.
     </para>
     
-    <programlisting><![CDATA[C:\Projects\jboss-seam>seam new-action ping
-Buildfile: C:\Projects\jboss-seam\seam-gen\build.xml
+    <programlisting><![CDATA[C:\Projects\jboss-seam>seam new-action
+Buildfile: build.xml
 
 validate-workspace:
 
@@ -303,11 +301,11 @@ setup-filters:
 
 new-action:
      [echo] Creating a new stateless session bean component with an action method
-     [copy] Copying 1 file to C:\Projects\hello\src\com\hello
-     [copy] Copying 1 file to C:\Projects\hello\src\com\hello
-     [copy] Copying 1 file to C:\Projects\hello\src\com\hello\test
-     [copy] Copying 1 file to C:\Projects\hello\src\com\hello\test
-     [copy] Copying 1 file to C:\Projects\hello\view
+     [copy] Copying 1 file to C:\Projects\helloworld\src\action\org\jboss\helloworld
+     [copy] Copying 1 file to C:\Projects\helloworld\src\action\org\jboss\helloworld
+     [copy] Copying 1 file to C:\Projects\helloworld\src\action\org\jboss\helloworld\test
+     [copy] Copying 1 file to C:\Projects\helloworld\src\action\org\jboss\helloworld\test
+     [copy] Copying 1 file to C:\Projects\helloworld\view
      [echo] Type 'seam restart' and go to http://localhost:8080/helloworld/ping.seam
 
 BUILD SUCCESSFUL

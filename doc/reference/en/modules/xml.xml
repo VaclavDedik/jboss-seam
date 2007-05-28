@@ -8,7 +8,7 @@
             deployment-specific information from the Java code, to enable the creation of re-usable frameworks,
             to configure Seam's built-in functionality, etc.
             Seam provides two basic approaches to configuring components: configuration via property settings in a
-            properties file or <literal>web.xml</literal>, and configuration via <literal>components.xml</literal>. 
+            properties file or in <literal>web.xml</literal>, and configuration via <literal>components.xml</literal>. 
         </para>
 
         <sect1>
@@ -19,7 +19,7 @@
             </para>
             <para> 
                 The configurable Seam component must expose JavaBeans-style property setter methods for the
-                configurable attributes. If a seam component named <literal>com.jboss.myapp.settings</literal> has a
+                configurable attributes. If a Seam component named <literal>com.jboss.myapp.settings</literal> has a
                 setter method named <literal>setLocale()</literal>, we can provide a property named
                 <literal>com.jboss.myapp.settings.locale</literal> in the <literal>seam.properties</literal> file or
                 as a servlet context parameter, and Seam will set the value of the <literal>locale</literal> attribute
@@ -531,7 +531,14 @@ public class Payment
                 </listitem>
                 <listitem>
                     <para>web &mdash; <literal>http://jboss.com/products/seam/web</literal></para>
+                </listitem>                
+                <listitem>
+                    <para>pdf &mdash; <literal>http://jboss.com/products/seam/pdf</literal></para>
                 </listitem>
+                <listitem>                    
+                    <para> spring &mdash; <literal>http://jboss.com/products/seam/spring</literal></para>
+                </listitem>
+                
             </itemizedlist>
             
         </sect1>
