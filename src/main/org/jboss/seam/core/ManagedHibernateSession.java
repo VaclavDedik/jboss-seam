@@ -138,6 +138,8 @@ public class ManagedHibernateSession
       {
          session.close();
       }
+      
+      PersistenceContexts.instance().untouch(componentName);
    }
    
    private SessionFactory getSessionFactoryFromJndiOrValueBinding()
