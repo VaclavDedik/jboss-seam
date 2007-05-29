@@ -164,11 +164,21 @@ public class Expressions implements Serializable
       else
       {
          componentName = propertyExpression.substring(2, bracket);
-         propertyName = propertyExpression.substring( bracket+1, propertyExpression.length()-2 );
+         propertyName = propertyExpression.substring( bracket+1, propertyExpression.length()-2 ).trim();
+         if ( propertyName.startsWith("'") && propertyName.endsWith("'") )
+         {
+            propertyName = propertyName.substring( 1, propertyName.length()-1 );
+            //TODO: handle meaningless property names here!
+         }
+         else
+         {
+            return new InvalidValue[0];
+         }
          modelExpression = propertyExpression.substring(0, bracket) + '}';
       }
       
-      Object modelInstance = getExpressionFactory().createValueExpression( getELContext(), modelExpression, Object.class).getValue( getELContext() ); //TODO: cache the ValueBinding object!
+      Object modelInstance = getExpressionFactory().createValueExpression( getELContext(), modelExpression, Object.class)
+               .getValue( getELContext() ); //TODO: cache the ValueExpression object!
       return getValidator(modelInstance, componentName).getPotentialInvalidValues(propertyName, value);
    }
    
