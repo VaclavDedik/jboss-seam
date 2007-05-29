@@ -157,13 +157,13 @@ public class Expressions implements Serializable
       String modelExpression;
       if (dot>bracket)
       {
-         componentName = propertyExpression.substring(2, dot);
-         propertyName = propertyExpression.substring( dot+1, propertyExpression.length()-1 );
-         modelExpression = propertyExpression.substring(0, dot) + '}';
+         componentName = propertyExpression.substring(2, dot).trim();
+         propertyName = propertyExpression.substring( dot+1, propertyExpression.length()-1 ).trim();
+         modelExpression = propertyExpression.substring(0, dot).trim() + '}';
       }
       else
       {
-         componentName = propertyExpression.substring(2, bracket);
+         componentName = propertyExpression.substring(2, bracket).trim();
          propertyName = propertyExpression.substring( bracket+1, propertyExpression.length()-2 ).trim();
          if ( propertyName.startsWith("'") && propertyName.endsWith("'") )
          {
@@ -174,7 +174,7 @@ public class Expressions implements Serializable
          {
             return new InvalidValue[0];
          }
-         modelExpression = propertyExpression.substring(0, bracket) + '}';
+         modelExpression = propertyExpression.substring(0, bracket).trim() + '}';
       }
       
       Object modelInstance = getExpressionFactory().createValueExpression( getELContext(), modelExpression, Object.class)
