@@ -295,8 +295,13 @@ public class Pages
     */
    public void postRestorePage(FacesContext facesContext)
    {
-      String viewId = getViewId(facesContext);
+      //first store the page parameters into the viewroot, so 
+      //that if a login redirect occurs, or if a failure
+      //occurs while applying to the model, we can still make
+      //Redirect.captureCurrentView() work.
+      storeRequestParameterValuesInViewRoot(facesContext);
       
+      String viewId = getViewId(facesContext);      
       for ( Page page: getPageStack(viewId) )
       {         
          if ( isNoConversationRedirectRequired(page) )
@@ -320,16 +325,9 @@ public class Pages
          }
       }
 
-      //apply page parameters to the model
+      //now apply page parameters to the model
       //(after checking permissions)
-      if ( !facesContext.getRenderResponse() )
-      {
-         Pages.instance().applyViewRootValues(facesContext);
-      }
-      //absolutely have to do this, otherwise we get
-      //some wierd behavior with back buttons, since
-      //params on a h:commandLink will get ignored
-      Pages.instance().applyRequestParameterValues(facesContext);
+      applyViewRootValues(facesContext);
    }
    
    private boolean isNoConversationRedirectRequired(Page page)
@@ -663,14 +661,8 @@ public class Pages
       }
    }
    
-   /**
-    * Apply any page parameters passed as parameter values to the model.
-    */
-   public void applyRequestParameterValues(FacesContext facesContext)
+   private void storeRequestParameterValuesInViewRoot(FacesContext facesContext)
    {
-      //first store the page parameters into the viewroot, so that if
-      //we fail while applying to the model, we can still make
-      //Redirect.captureCurrentView() work.
       String viewId = getViewId(facesContext);
       Map<String, String[]> requestParameters = Parameters.getRequestParameters();
       for ( Page page: getPageStack(viewId) )
@@ -680,7 +672,12 @@ public class Pages
             Object value = pageParameter.getValueFromRequest(facesContext, requestParameters);
             if (value==null)
             {
-               Contexts.getPageContext().remove( pageParameter.getName() );
+               if ( facesContext.getRenderResponse() ) //ie. for a non-faces request
+               {
+                  //this should not be necessary, were it not for a MyFaces bug
+                  Contexts.getPageContext().remove( pageParameter.getName() );
+               }
+               //TODO: add some support for required=true
             }
             else
             {
@@ -688,15 +685,12 @@ public class Pages
             }
          }
       }
-      
-      //now apply them to the model
-      applyViewRootValues(facesContext);
    }
    
    /**
     * Apply any page parameters passed as view root attributes to the model.
     */
-   public void applyViewRootValues(FacesContext facesContext)
+   private void applyViewRootValues(FacesContext facesContext)
    {
       String viewId = getViewId(facesContext);
       for ( Page page: getPageStack(viewId) )
@@ -727,7 +721,7 @@ public class Pages
             Object object = Contexts.getPageContext().get( pageParameter.getName() );
             if (object!=null)
             {
-               parameters.put(  pageParameter.getName(), object );
+               parameters.put( pageParameter.getName(), object );
             }
          }
       }
