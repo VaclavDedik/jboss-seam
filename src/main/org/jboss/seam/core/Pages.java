@@ -326,6 +326,9 @@ public class Pages
       {
          Pages.instance().applyViewRootValues(facesContext);
       }
+      //absolutely have to do this, otherwise we get
+      //some wierd behavior with back buttons, since
+      //params on a h:commandLink will get ignored
       Pages.instance().applyRequestParameterValues(facesContext);
    }
    
