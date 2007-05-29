@@ -112,7 +112,9 @@ public interface PaymentHandler
     public void processScheduledPayment(Payment payment, @Expiration Date date);
 
     @Asynchronous
-    public void processRecurringPayment(Payment payment, @Expiration Date date, @IntervalDuration Long interval)'
+    public void processRecurringPayment(Payment payment, 
+                                        @Expiration Date date, 
+                                        @IntervalDuration Long interval)'
 }]]></programlisting>
         
         <programlisting><![CDATA[@Stateful
@@ -130,7 +132,8 @@ public class CreatePaymentAction
 
     public String scheduleRecurringPayment()
     {
-        paymentHandler.processRecurringPayment( new Payment(bill), bill.getDueDate(), ONE_MONTH );
+        paymentHandler.processRecurringPayment( new Payment(bill), bill.getDueDate(), 
+                                                ONE_MONTH );
         return "success";
     }
 }]]></programlisting>
@@ -171,7 +174,8 @@ public class CreatePaymentAction
     
     public String schedulePayment()
     {
-        Timer timer = paymentHandler.processScheduledPayment( new Payment(bill), bill.getDueDate() );
+        Timer timer = paymentHandler.processScheduledPayment( new Payment(bill), 
+                                                              bill.getDueDate() );
         return "success";
     }
 }]]></programlisting>
@@ -230,9 +234,13 @@ public class CreatePaymentAction
             <literal>QueueSender</literal>s:
         </para>
         
-        <programlisting><![CDATA[<jms:managed-topic-publisher name="stockTickerPublisher" auto-create="true" topic-jndi-name="topic/stockTickerTopic"/>
+        <programlisting><![CDATA[<jms:managed-topic-publisher name="stockTickerPublisher" 
+                                                              auto-create="true" 
+                                                              topic-jndi-name="topic/stockTickerTopic"/>
 
-<jms:managed-queue-sender name="paymentQueueSender" auto-create="true" queue-jndi-name="queue/paymentQueue"/>]]></programlisting>
+<jms:managed-queue-sender name="paymentQueueSender" 
+                          auto-create="true" 
+                          queue-jndi-name="queue/paymentQueue"/>]]></programlisting>
 
     </sect2>
 

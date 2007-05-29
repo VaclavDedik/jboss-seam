@@ -621,12 +621,12 @@ public String approveDocument() { ... }]]></programlisting>
             </para>
             </listitem>
             <listitem>
+                <para>
                 Include one or more of the standard workspace switcher JSP
                 or facelets fragments in your pages. The standard fragments
                 support workspace management via a drop down menu, a list
                 of conversations, or breadcrumbs.
-            <para>
-            </para>
+                </para>
             </listitem>
         </itemizedlist>
         
@@ -805,22 +805,21 @@ public String approveDocument() { ... }]]></programlisting>
                 for looping.
             </para>
             
-        <mediaobject>
-          <imageobject role="fo">
-            <imagedata fileref="images/breadcrumbs.png" align="center"/>
-          </imageobject>
-          <imageobject role="html">
-            <imagedata fileref="../shared/images/breadcrumbs.png" align="center"/>
-          </imageobject>
-        </mediaobject>
-        
+            <mediaobject>
+              <imageobject role="fo">
+                <imagedata fileref="images/breadcrumbs.png" align="center"/>
+              </imageobject>
+              <imageobject role="html">
+                <imagedata fileref="../shared/images/breadcrumbs.png" align="center"/>
+              </imageobject>
+            </mediaobject>
+            
+            <para>
+                Please refer to the Seam Issue Tracker demo to see all this functionality 
+                in action!
+            </para>
+            
         </section>
-        
-        <para>
-            Please refer to the Seam Issue Tracker demo to see all this functionality 
-            in action!
-        </para>
-        
     </section>
     
     <section>
