@@ -8,12 +8,10 @@ import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.TransactionRequiredException;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
-import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.util.ClassUtils;
 
 /**
@@ -59,18 +57,6 @@ public class SeamManagedEntityManagerFactory implements EntityManagerFactory
       log.debug("Returning a Seam Managed PC from createEntityManager()");
       SeamLifecycleUtils.beginTransactionalSeamCall();
       EntityManager em = (EntityManager) Component.getInstance(persistenceContextName);
-      //An extended EntityManager may not join the current Transaction
-      //because spring may think it's creating a new EntityManager that
-      //will join the current transaction automatically instead of
-      //getting an old EntityManager.
-      if(TransactionSynchronizationManager.isActualTransactionActive()) {
-         try {
-            em.joinTransaction();
-         }
-         catch (TransactionRequiredException ex) {
-            log.debug("Could not join JTA transaction because none was active", ex);
-         }
-      }
       return (EntityManager) Proxy.newProxyInstance(getClass().getClassLoader(), ClassUtils
                .getAllInterfaces(em), new SeamManagedPersistenceContextHandler(em));
    }
