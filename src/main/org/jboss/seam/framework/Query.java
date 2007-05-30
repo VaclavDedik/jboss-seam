@@ -356,7 +356,7 @@ public abstract class Query<T>
       Integer mr = getMaxResults();
       if ( mr!=null && results.size() > mr )
       {
-         return results.subList(0, mr-1);
+         return results.subList(0, mr);
       }
       else
       {
