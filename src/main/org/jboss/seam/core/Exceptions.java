@@ -78,6 +78,7 @@ public class Exceptions
                }
                eh.handle(cause);
                Events.instance().raiseEvent("org.jboss.seam.exceptionHandled." + cause.getClass().getName(), cause);
+               Events.instance().raiseEvent("org.jboss.seam.exceptionHandled", cause);
                return;
             }
          }
