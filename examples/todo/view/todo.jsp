@@ -10,8 +10,8 @@
 <f:view>
    <h:form id="list">
       <div>
-         <h:outputText value="There are no todo items." rendered="#{empty taskInstanceList}"/>
-         <h:dataTable value="#{taskInstanceList}" var="task" rendered="#{not empty taskInstanceList}">
+         <h:outputText value="There are no todo items." rendered="#{empty taskInstancePriorityList}"/>
+         <h:dataTable value="#{taskInstancePriorityList}" var="task" rendered="#{not empty taskInstancePriorityList}">
             <h:column>
                 <f:facet name="header">
                     <h:outputText value="Description"/>
