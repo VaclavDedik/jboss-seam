@@ -81,6 +81,9 @@ public class PollHandler extends BaseRequestHandler implements RequestHandler
 
       for (PollRequest req : polls)
         req.poll();
+      
+      // Package up the response
+      marshalResponse(polls, response.getOutputStream());      
     }
     finally
     {
@@ -88,10 +91,6 @@ public class PollHandler extends BaseRequestHandler implements RequestHandler
       Lifecycle.setServletRequest(null);
       Lifecycle.setPhaseId(null);
     }
-
-
-    // Package up the response
-    marshalResponse(polls, response.getOutputStream());
   }
 
 
