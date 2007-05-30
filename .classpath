@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src/main"/>
+	<classpathentry kind="src" path="src/test/misc"/>
 	<classpathentry kind="src" path="src/remoting"/>
 	<classpathentry kind="src" path="src/ioc"/>
 	<classpathentry kind="src" path="src/mail"/>
 	<classpathentry kind="src" path="src/pdf"/>
-	<classpathentry kind="src" path="src/test/misc"/>
 	<classpathentry kind="src" path="src/debug"/>
 	<classpathentry kind="src" path="src/ui"/>
 	<classpathentry kind="src" path="src/gen"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/portlet-api-lib.jar"/>
 	<classpathentry kind="lib" path="lib/servlet-api.jar"/>
-	<classpathentry kind="lib" path="lib/testng-4.5.1-jdk15.jar"/>
 	<classpathentry kind="lib" path="lib/thirdparty-all.jar"/>
 	<classpathentry kind="lib" path="lib/hibernate-all.jar"/>
 	<classpathentry kind="lib" path="lib/jboss-ejb3-all.jar"/>
@@ -37,7 +36,6 @@
 	<classpathentry kind="lib" path="lib/jsp-api.jar"/>
 	<classpathentry kind="lib" path="lib/gwt-servlet.jar"/>
 	<classpathentry kind="lib" path="lib/ajax4jsf-1.1.1-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="lib/groovy-all-1.0.1-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="mail/buni-meldware/lib/mailapi.jar"/>
 	<classpathentry kind="lib" path="mail/buni-meldware/lib/mailbeans.jar"/>
 	<classpathentry kind="lib" path="mail/buni-meldware/lib/mailjmx.jar"/>
@@ -46,5 +44,7 @@
 	<classpathentry kind="lib" path="lib/jcommon-1.0.6.jar"/>
 	<classpathentry kind="lib" path="drools/lib/drools-compiler-4.0.0.MR2.jar"/>
 	<classpathentry kind="lib" path="drools/lib/drools-core-4.0.0.MR2.jar"/>
+	<classpathentry kind="lib" path="lib/testng-4.5.1-jdk15.jar"/>
+	<classpathentry kind="lib" path="lib/groovy-all-1.1-BETA-1.jar"/>
 	<classpathentry kind="output" path="output/classes"/>
 </classpath>
