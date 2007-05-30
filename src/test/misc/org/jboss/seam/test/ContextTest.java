@@ -2,8 +2,6 @@
 package org.jboss.seam.test;
 
 import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-import javax.faces.el.VariableResolver;
 import javax.servlet.http.HttpSession;
 
 import org.jboss.seam.Component;
@@ -19,7 +17,8 @@ import org.jboss.seam.contexts.WebSessionContext;
 import org.jboss.seam.core.ConversationEntries;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.jsf.SeamVariableResolver;
+import org.jboss.seam.el.EL;
+import org.jboss.seam.el.SeamELResolver;
 import org.jboss.seam.mock.MockExternalContext;
 import org.jboss.seam.mock.MockHttpServletRequest;
 import org.jboss.seam.mock.MockHttpSession;
@@ -33,7 +32,7 @@ public class ContextTest
    @Test
    public void testContextManagement() throws Exception
    {
-      SeamVariableResolver seamVariableResolver = new SeamVariableResolver(VARIABLE_RESOLVER);
+      SeamELResolver seamVariableResolver = new SeamELResolver();
       org.jboss.seam.jbpm.SeamVariableResolver jbpmVariableResolver = new org.jboss.seam.jbpm.SeamVariableResolver();
       
       MockServletContext servletContext = new MockServletContext();
@@ -95,7 +94,7 @@ public class ContextTest
       Contexts.getApplicationContext().set("zzz", "bar");
       Contexts.getConversationContext().set("xxx", "yyy");
       
-      Object bar = seamVariableResolver.resolveVariable(null, "bar");
+      Object bar = seamVariableResolver.getValue(EL.EL_CONTEXT, null, "bar");
       assert bar!=null;
       assert bar instanceof Bar;
       assert Contexts.getConversationContext().get("bar")==bar;
@@ -146,10 +145,10 @@ public class ContextTest
       assert Contexts.getApplicationContext().getNames().length==7;
       assert Contexts.getSessionContext().getNames().length==3;
       
-      assert seamVariableResolver.resolveVariable(null, "zzz").equals("bar");
-      assert seamVariableResolver.resolveVariable(null, "xxx").equals("yyy");
-      assert seamVariableResolver.resolveVariable(null, "bar")==bar;
-      assert seamVariableResolver.resolveVariable(null, "foo")==foo;
+      assert seamVariableResolver.getValue(EL.EL_CONTEXT, null, "zzz").equals("bar");
+      assert seamVariableResolver.getValue(EL.EL_CONTEXT, null, "xxx").equals("yyy");
+      assert seamVariableResolver.getValue(EL.EL_CONTEXT, null, "bar")==bar;
+      assert seamVariableResolver.getValue(EL.EL_CONTEXT, null, "foo")==foo;
       
       assert jbpmVariableResolver.resolveVariable("zzz").equals("bar");
       assert jbpmVariableResolver.resolveVariable("xxx").equals("yyy");
@@ -171,11 +170,6 @@ public class ContextTest
       Lifecycle.endApplication(servletContext);
       
    }
-   
-   private static final VariableResolver VARIABLE_RESOLVER = new VariableResolver() {
-      @Override
-      public Object resolveVariable(FacesContext facesContext, String name) { return null; }
-   };
    
    @Test
    public void testContexts()
