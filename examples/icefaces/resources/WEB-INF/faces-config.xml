@@ -12,7 +12,7 @@
     </managed-bean>
     
     <application>
-        <view-handler>com.icesoft.faces.facelets.D2DSeamFaceletViewHandler</view-handler>
+        <view-handler>com.icesoft.faces.facelets.D2DFaceletViewHandler</view-handler>
     </application>
     
     <!-- Select one of the standard transaction models for the Seam application -->
