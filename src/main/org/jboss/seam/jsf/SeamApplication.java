@@ -189,9 +189,10 @@ public class SeamApplication extends Application
    @Override
    public String getMessageBundle()
    {
-      if (application.getMessageBundle() != null)
+      String messageBundle = application.getMessageBundle();
+      if (messageBundle!=null)
       {
-         return application.getMessageBundle();
+         return messageBundle;
       }
       else
       {

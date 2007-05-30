@@ -1,4 +1,5 @@
 package org.jboss.seam.core;
+
 import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 import java.io.Serializable;
@@ -12,6 +13,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.taskmgmt.exe.TaskInstance;
+
 /**
  * Holds the task and process ids for the current conversation,
  * and provides programmatic control over the business process.
@@ -23,7 +25,9 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
 @Name("org.jboss.seam.core.businessProcess")
 @Intercept(NEVER)
 @Install(dependencies="org.jboss.seam.core.jbpm", precedence=BUILT_IN)
-public class BusinessProcess extends AbstractMutable implements Serializable {
+public class BusinessProcess extends AbstractMutable implements Serializable 
+{
+
    private static final long serialVersionUID = 4722350870845851070L;
    private Long processId;
    private Long taskId;
@@ -67,14 +71,16 @@ public class BusinessProcess extends AbstractMutable implements Serializable {
     * The jBPM process instance id associated with
     * the current conversation.
     */
-   public Long getProcessId() {
+   public Long getProcessId() 
+   {
       return processId;
    }
    /**
     * Set the process instance id, without validating
     * that the process instance actually exists.
     */
-   public void setProcessId(Long processId) {
+   public void setProcessId(Long processId) 
+   {
       setDirty(this.processId, processId);
       this.processId = processId;
    }
@@ -82,14 +88,16 @@ public class BusinessProcess extends AbstractMutable implements Serializable {
     * The jBPM task instance id associated with
     * the current conversation.
     */
-   public Long getTaskId() {
+   public Long getTaskId() 
+   {
       return taskId;
    }
    /**
     * Set the task instance id, without validating
     * that the task instance actually exists.
     */
-   public void setTaskId(Long taskId) {
+   public void setTaskId(Long taskId) 
+   {
       setDirty(this.taskId, taskId);
       this.taskId = taskId;
    }

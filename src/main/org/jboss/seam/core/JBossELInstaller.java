@@ -16,14 +16,16 @@ import org.jboss.seam.util.Reflections;
 @Name("org.jboss.seam.core.jbossELInstaller")
 @Startup
 @Scope(ScopeType.APPLICATION)
-public class JBossELInstaller {        
+public class JBossELInstaller 
+{
     //private static final String TOMCAT_APPLICATION_CONTEXT = "org.apache.jasper.runtime.JspApplicationContextImpl";
     private static final String JSF_RI_ASSOCIATE = "com.sun.faces.ApplicationAssociate";
     
     private static final LogProvider log = Logging.getLogProvider(JBossELInstaller.class);
 
     @Create
-    public void installJBossEL() {                   
+    public void installJBossEL() 
+    {        
 //        configureTomcatApplicationContext();
         configureRIAssociate();
     }
@@ -31,14 +33,19 @@ public class JBossELInstaller {
     /**
      * Set the default expression factory for the JSF RI     
      */
-    public void configureRIAssociate() {        
+    public void configureRIAssociate() 
+    {
         Object target = Contexts.getApplicationContext().get(JSF_RI_ASSOCIATE);
-        if (target != null) {
+        if (target != null) 
+        {
             Method method = Reflections.getSetterMethod(target.getClass(), "expressionFactory");
-            try {
-                method.invoke(target, new Object[] {new ExpressionFactoryImpl()});  
+            try 
+            {
+                method.invoke( target, new Object[] { new ExpressionFactoryImpl() } );  
                 log.debug("set expression factory on RI associate");
-            } catch (Exception e) {
+            } 
+            catch (Exception e) 
+            {
                 log.error("couldn't set expression factory on RI associate", e);
             }
         }
