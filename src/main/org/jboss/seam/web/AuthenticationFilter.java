@@ -45,11 +45,11 @@ import org.jboss.seam.util.Base64;
  */
 @Startup
 @Scope(APPLICATION)
-@Name("org.jboss.seam.web.httpAuthFilter")
+@Name("org.jboss.seam.web.authenticationFilter")
 @Install(value = false, precedence = BUILT_IN)
 @Intercept(NEVER)
 @Filter(within = "org.jboss.seam.web.exceptionFilter")
-public class HttpAuthFilter extends AbstractFilter
+public class AuthenticationFilter extends AbstractFilter
 {
    private static final String DEFAULT_REALM = "seamApp";
    
@@ -156,7 +156,6 @@ public class HttpAuthFilter extends AbstractFilter
          {
             identity.setUsername(username);
             identity.setPassword(password);
-            identity.authenticateNextRequest();
          }         
       }
       
@@ -209,7 +208,6 @@ public class HttpAuthFilter extends AbstractFilter
          }
          
          identity.setUsername(headerMap.get("username"));
-         identity.authenticateNextRequest();
 
          DigestRequest digestRequest = new DigestRequest();
          digestRequest.setHttpMethod(request.getMethod());

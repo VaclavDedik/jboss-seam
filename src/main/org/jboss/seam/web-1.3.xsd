@@ -42,7 +42,7 @@
         </xs:complexType>
     </xs:element> 
     
-    <xs:element name="http-auth-filter">
+    <xs:element name="authentication-filter">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
             <xs:attributeGroup ref="web:attlist.filter"/>
