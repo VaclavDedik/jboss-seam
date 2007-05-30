@@ -440,7 +440,6 @@
 		<ant dir="examples/hibernate" target="clean" inheritall="false" />
 		<ant dir="examples/icefaces" target="clean" inheritall="false" />
 		<ant dir="examples/blog" target="clean" inheritall="false" />
-		<ant dir="examples/issues" target="clean" inheritall="false" />
 		<ant dir="examples/dvdstore" target="clean" inheritall="false" />
 		<ant dir="examples/contactlist" target="clean" inheritall="false" />
 		<ant dir="examples/seampay" target="clean" inheritall="false" />
@@ -470,7 +469,6 @@
 		<ant dir="examples/hibernate" target="undeploy" inheritall="false" />
 		<ant dir="examples/icefaces" target="undeploy" inheritall="false" />
 		<ant dir="examples/blog" target="undeploy" inheritall="false" />
-		<ant dir="examples/issues" target="undeploy" inheritall="false" />
 		<ant dir="examples/dvdstore" target="undeploy" inheritall="false" />
 		<ant dir="examples/contactlist" target="undeploy" inheritall="false" />
 		<ant dir="examples/seampay" target="undeploy" inheritall="false" />
@@ -499,7 +497,6 @@
 		<ant dir="examples/mail" target="undeploy.tomcat" inheritall="false" />
 		<ant dir="examples/spring" target="undeploy.tomcat" inheritall="false" />
 		<ant dir="examples/blog" target="undeploy.tomcat" inheritall="false" />
-		<ant dir="examples/issues" target="undeploy.tomcat" inheritall="false" />
 		<ant dir="examples/contactlist" target="undeploy.tomcat" inheritall="false" />
 		<ant dir="examples/registration" target="undeploy.tomcat" inheritall="false" />
 		<ant dir="examples/messages" target="undeploy.tomcat" inheritall="false" />
@@ -998,7 +995,6 @@
 				<include name="glassfish/**/*" />
 				<include name="blog/**/*" />
 				<include name="contactlist/**/*" />
-				<include name="issues/**/*" />
 				<include name="registration/**/*" />
 				<include name="dvdstore/**/*" />
 				<include name="itext/**/*" />
