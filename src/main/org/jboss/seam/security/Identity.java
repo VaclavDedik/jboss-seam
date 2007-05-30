@@ -75,8 +75,6 @@ public class Identity extends Selector
    
    private boolean authenticateEveryRequest = false;
    
-   private boolean authenticateNextRequest = false;
-   
    @Override
    protected String getCookieName()
    {
@@ -108,14 +106,6 @@ public class Identity extends Selector
    public void setAuthenticateEveryRequest(boolean authenticateEveryRequest)
    {
       this.authenticateEveryRequest = authenticateEveryRequest;
-   }
-   
-   /**
-    * If invoked, the next request will be explicitly authenticated.
-    */
-   public void authenticateNextRequest()
-   {
-      this.authenticateNextRequest = true;
    }
 
    private void initCredentialsFromCookie()
