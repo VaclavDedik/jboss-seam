@@ -25,6 +25,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Expressions.MethodExpression;
 import org.jboss.seam.core.Expressions.ValueExpression;
+import org.jboss.seam.transaction.Transaction;
 
 /**
  * A Seam component that holds Seam configuration settings

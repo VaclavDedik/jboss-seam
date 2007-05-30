@@ -13,8 +13,8 @@ import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.Outcome;
 import org.jboss.seam.annotations.Rollback;
-import org.jboss.seam.core.Transaction;
 import org.jboss.seam.intercept.InvocationContext;
+import org.jboss.seam.transaction.Transaction;
 
 /**
  * Automatically sets transactions to rollback only.

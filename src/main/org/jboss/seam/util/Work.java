@@ -2,9 +2,9 @@ package org.jboss.seam.util;
 
 import javax.transaction.UserTransaction;
 
-import org.jboss.seam.core.Transaction;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.transaction.Transaction;
 
 /**
  * Performs work in a JTA transaction.

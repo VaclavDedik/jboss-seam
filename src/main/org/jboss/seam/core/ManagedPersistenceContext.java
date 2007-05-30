@@ -30,6 +30,7 @@ import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.persistence.EntityManagerProxy;
 import org.jboss.seam.persistence.PersistenceProvider;
+import org.jboss.seam.transaction.Transaction;
 import org.jboss.seam.util.Naming;
 
 /**

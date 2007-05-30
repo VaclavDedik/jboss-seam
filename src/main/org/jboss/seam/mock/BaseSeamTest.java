@@ -33,12 +33,12 @@ import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Pageflow;
-import org.jboss.seam.core.Transaction;
 import org.jboss.seam.init.Initialization;
 import org.jboss.seam.jsf.AbstractSeamPhaseListener;
 import org.jboss.seam.jsf.SeamApplication;
 import org.jboss.seam.jsf.SeamPhaseListener;
 import org.jboss.seam.servlet.ServletSessionImpl;
+import org.jboss.seam.transaction.Transaction;
 import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Reflections;
 

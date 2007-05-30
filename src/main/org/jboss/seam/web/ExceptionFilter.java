@@ -27,12 +27,12 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Exceptions;
-import org.jboss.seam.core.Transaction;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.mock.MockApplication;
 import org.jboss.seam.mock.MockExternalContext;
 import org.jboss.seam.mock.MockFacesContext;
+import org.jboss.seam.transaction.Transaction;
 import org.jboss.seam.util.EJB;
 
 /**

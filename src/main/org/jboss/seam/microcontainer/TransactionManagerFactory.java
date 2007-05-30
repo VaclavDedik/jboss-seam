@@ -4,10 +4,10 @@ package org.jboss.seam.microcontainer;
 import javax.naming.InitialContext;
 import javax.transaction.TransactionManager;
 
-import org.jboss.seam.core.Transaction;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.resource.connectionmanager.TransactionSynchronizer;
+import org.jboss.seam.transaction.Transaction;
 import org.jboss.seam.util.Naming;
 import org.jboss.tm.TransactionManagerLocator;
 import org.jboss.tm.usertx.client.ServerVMClientUserTransaction;

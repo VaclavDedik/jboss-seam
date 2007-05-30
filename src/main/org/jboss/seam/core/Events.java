@@ -18,6 +18,8 @@ import org.jboss.seam.core.Init.ObserverMethod;
 import org.jboss.seam.core.Init.ObserverMethodExpression;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.transaction.LocalTransactionListener;
+import org.jboss.seam.transaction.TransactionListener;
 
 @Scope(ScopeType.STATELESS)
 @Intercept(NEVER)

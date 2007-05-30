@@ -11,8 +11,8 @@ import org.hibernate.Session;
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
 import org.jboss.seam.core.PersistenceContexts;
-import org.jboss.seam.core.Transaction;
 import org.jboss.seam.persistence.PersistenceProvider;
+import org.jboss.seam.transaction.Transaction;
 
 public class PassivatedEntity implements Serializable
 {

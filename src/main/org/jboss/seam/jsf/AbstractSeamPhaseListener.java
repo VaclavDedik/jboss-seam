@@ -13,7 +13,6 @@ import javax.faces.event.PhaseListener;
 import javax.faces.model.DataModel;
 
 import org.jboss.seam.Seam;
-import org.jboss.seam.TransactionException;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.ContextAdaptor;
 import org.jboss.seam.contexts.Contexts;
@@ -29,10 +28,10 @@ import org.jboss.seam.core.Pageflow;
 import org.jboss.seam.core.Pages;
 import org.jboss.seam.core.PersistenceContexts;
 import org.jboss.seam.core.Switcher;
-import org.jboss.seam.core.Transaction;
 import org.jboss.seam.core.Validation;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.transaction.Transaction;
 
 public abstract class AbstractSeamPhaseListener implements PhaseListener
 {
@@ -310,7 +309,7 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       }
       catch (Exception e)
       {
-         throw new TransactionException("Could not start transaction", e);
+         throw new IllegalStateException("Could not start transaction", e);
       }
    }
    
@@ -331,7 +330,7 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       }
       catch (Exception e)
       {
-         throw new TransactionException("Could not commit transaction", e);
+         throw new IllegalStateException("Could not commit transaction", e);
       }
    }
    
