@@ -17,7 +17,7 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
     </filter-mapping>   
     <context-param>     
       <param-name>org.ajax4jsf.VIEW_HANDLERS</param-name>     
-      <param-value>org.jboss.seam.ui.facelet.SeamFaceletViewHandler</param-value>   
+      <param-value>com.sun.facelets.FaceletViewHandler</param-value>   
     </context-param>        
     
     <!-- Seam -->           

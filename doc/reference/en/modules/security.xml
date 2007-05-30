@@ -74,13 +74,8 @@
     
     <para>
       For web-based security, <literal>jboss-seam-ui.jar</literal> must also be included in the application's war file.
-      Also, to make use of the security EL functions, <literal>SeamFaceletViewHandler</literal> must be used.  Configure
-      it in <literal>faces-config.xml</literal> like this:
     </para>
     
-    <programlisting><![CDATA[<application>
-    <view-handler>org.jboss.seam.ui.facelet.SeamFaceletViewHandler</view-handler>
-</application>]]></programlisting>
         
   </sect1>
   

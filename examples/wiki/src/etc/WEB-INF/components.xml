@@ -16,7 +16,7 @@
 
     <!-- ##### WIKI USER CONFIGURATION ##### -->
 
-    <mail:mail-session host="mail.bluewin.ch" port="25"/>
+    <mail:mail-session host="localhost" port="2525" username="test" password="test"/>
 
     <web:multipart-filter create-temp-files="true" max-request-size="10000000" url-pattern="*.seam"/>
 

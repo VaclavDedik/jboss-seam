@@ -9,7 +9,7 @@
       <message-bundle>messages</message-bundle>
       <!-- Disabled when using Ajax4JSF -->
       <!--
-      <view-handler>org.jboss.seam.ui.facelet.SeamFaceletViewHandler</view-handler>
+      <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
       -->
       <!-- Enable Trinidad renderkit -->
       <default-render-kit-id>org.apache.myfaces.trinidad.core</default-render-kit-id>

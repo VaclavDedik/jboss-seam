@@ -3,7 +3,7 @@
 
     <local-tx-datasource>
         <jndi-name>wikiDatasource</jndi-name>
-        <connection-url>jdbc:hsqldb:hsql://localhost</connection-url>
+        <connection-url>jdbc:hsqldb:hsql:.</connection-url>
         <driver-class>org.hsqldb.jdbcDriver</driver-class>
         <user-name>sa</user-name>
         <password></password>
@@ -16,4 +16,3 @@
     </local-tx-datasource>
 
 </datasources>
-

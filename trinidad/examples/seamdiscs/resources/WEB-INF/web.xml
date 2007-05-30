@@ -95,7 +95,7 @@
    
    <context-param>
       <param-name>org.apache.myfaces.trinidad.ALTERNATE_VIEW_HANDLER</param-name>
-      <param-value>org.jboss.seam.ui.facelet.SeamFaceletViewHandler</param-value>
+      <param-value>com.sun.facelets.FaceletViewHandler</param-value>
 	</context-param> 
 	
     <filter>

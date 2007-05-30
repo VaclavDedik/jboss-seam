@@ -4,7 +4,7 @@
 <faces-config>
 
     <application>
-        <view-handler>org.jboss.seam.ui.facelet.SeamFaceletViewHandler</view-handler>
+        <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
     </application>
 
     <lifecycle>
@@ -12,22 +12,3 @@
     </lifecycle>
 
 </faces-config>
-
-<!-- JSF 1.2 -->
-<!-- <faces-config version="1.2"
-   xmlns="http://java.sun.com/xml/ns/javaee"
-   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
-    <application>
-        <view-handler>org.jboss.seam.ui.facelet.SeamFaceletViewHandler</view-handler>
-    </application>
-    
-    <application>
-        <el-resolver>org.jboss.seam.jsf.SeamELResolver</el-resolver>
-    </application>	
-
-    <lifecycle>
-        <phase-listener>org.jboss.seam.jsf.SeamPhaseListener</phase-listener>
-    </lifecycle>
-
-</faces-config>-->

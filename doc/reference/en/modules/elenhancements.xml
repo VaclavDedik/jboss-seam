@@ -12,21 +12,6 @@
   <programlisting><![CDATA[<h:commandButton action="#{hotelBooking.bookHotel(hotel)}" value="Book Hotel"/>]]></programlisting>
 
   <section>
-    <title>Configuration</title>
-
-    <para>
-      To use this feature in Facelets, you will need to declare a special view handler, 
-      <literal>SeamFaceletViewHandler</literal> in <literal>faces-config.xml</literal>.
-    </para>
-
-    <programlisting><![CDATA[<faces-config>
-    <application>
-        <view-handler>org.jboss.seam.ui.facelet.SeamFaceletViewHandler</view-handler>
-    </application>
-</faces-config>]]></programlisting>
-  </section>
-
-  <section>
     <title>Usage</title>
 
     <para>
@@ -61,11 +46,11 @@
       You may however pass literal strings using single or double quotes:
     </para>
 
-    <programlisting><![CDATA[<h:commandLink action=”#{printer.println( ‘Hello world!’ )}” value=”Hello”/>]]></programlisting>
-    <programlisting><![CDATA[<h:commandLink action=’#{printer.println( “Hello again” )}’ value=’Hello’/>]]></programlisting>
+    <programlisting><![CDATA[<h:commandLink action=‚Äù#{printer.println( ‚ÄòHello world!‚Äô )}‚Äù value=‚ÄùHello‚Äù/>]]></programlisting>
+    <programlisting><![CDATA[<h:commandLink action=‚Äô#{printer.println( ‚ÄúHello again‚Äù )}‚Äô value=‚ÄôHello‚Äô/>]]></programlisting>
 
     <para>
-      You might even want to use this notation for all your action methods, even when you don’t 
+      You might even want to use this notation for all your action methods, even when you don‚Äôt 
       have parameters to pass. This improves readability by making it clear that the expression is 
       a method expression and not a value expression:
     </para>
@@ -94,7 +79,7 @@
       <para>
         Normally, when a <literal>MethodExpression</literal> or <literal>MethodBinding</literal> is created,
         the parameter types are passed in by JSF. In the case of a method binding, JSF assumes that there 
-        are no parameters to pass. With this extension, we can’t know the parameter types until after the 
+        are no parameters to pass. With this extension, we can‚Äôt know the parameter types until after the 
         expression has been evaluated. This has two minor consequences:
       </para>
       

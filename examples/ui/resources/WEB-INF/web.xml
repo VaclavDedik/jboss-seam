@@ -8,7 +8,7 @@
     
     <context-param>
         <param-name>org.ajax4jsf.VIEW_HANDLERS</param-name>
-        <param-value>org.jboss.seam.ui.facelet.SeamFaceletViewHandler</param-value>
+        <param-value>com.sun.facelets.FaceletViewHandler</param-value>
     </context-param>
          
     <!-- Seam -->
