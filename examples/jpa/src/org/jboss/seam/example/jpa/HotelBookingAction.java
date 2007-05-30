@@ -1,17 +1,10 @@
 //$Id$
 package org.jboss.seam.example.jpa;
-
 import static org.jboss.seam.ScopeType.SESSION;
-import static javax.persistence.PersistenceContextType.EXTENDED;
-
 import java.util.Calendar;
 import java.util.List;
-
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.jboss.seam.annotations.Begin;
-import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
@@ -20,7 +13,6 @@ import org.jboss.seam.annotations.Out;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.log.Log;
-
 @Name("hotelBooking")
 public class HotelBookingAction
 {
@@ -28,7 +20,7 @@ public class HotelBookingAction
    @In
    private EntityManager em;
    
-   @In 
+   @In
    private User user;
    
    @In(required=false) @Out
@@ -63,7 +55,6 @@ public class HotelBookingAction
       calendar.add(Calendar.DAY_OF_MONTH, 1);
       booking.setCheckoutDate( calendar.getTime() );
    }
-
    public void setBookingDetails()
    {
       Calendar calendar = Calendar.getInstance();
@@ -83,12 +74,10 @@ public class HotelBookingAction
          bookingValid=true;
       }
    }
-
    public boolean isBookingValid()
    {
       return bookingValid;
    }
-
    @Out (required=false, scope=SESSION)
    List <Booking> bookings;
    
@@ -99,12 +88,10 @@ public class HotelBookingAction
       facesMessages.add("Thank you, #{user.name}, your confimation number for #{hotel.name} is #{booking.id}");
       log.info("New booking: #{booking.id} for #{user.username}");
       // events.raiseTransactionSuccessEvent("bookingConfirmed");
-
       // force refresh in main.xhtml
       bookings = null;
    }
    
    @End
-   public void cancel() {}
-   
+   public void cancel() {}   
 }
