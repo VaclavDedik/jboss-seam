@@ -375,11 +375,11 @@ public class Authenticator {
       <para>
         Although not recommended for use unless absolutely necessary, Seam provides means for authenticating 
         using either HTTP Basic or HTTP Digest (RFC 2617) methods.  To use either form of authentication, 
-        the <literal>http-auth-filter</literal> component must be enabled in components.xml:
+        the <literal>authentication-filter</literal> component must be enabled in components.xml:
       </para>
       
       <programlisting><![CDATA[
-  <web:http-auth-filter url-pattern="*.seam" auth-type="basic"/>
+  <web:authentication-filter url-pattern="*.seam" auth-type="basic"/>
       ]]></programlisting>
       
       <para>
@@ -389,7 +389,7 @@ public class Authenticator {
       </para>
 
       <programlisting><![CDATA[
-  <web:http-auth-filter url-pattern="*.seam" auth-type="digest" key="AA3JK34aSDlkj" realm="My App"/>
+  <web:authentication-filter url-pattern="*.seam" auth-type="digest" key="AA3JK34aSDlkj" realm="My App"/>
       ]]></programlisting>
       
       <para>
