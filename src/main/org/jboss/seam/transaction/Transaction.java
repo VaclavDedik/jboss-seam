@@ -57,22 +57,37 @@ public class Transaction
    {
       try
       {
-         return new UTTransaction( getUserTransaction() );
+         return createUTTransaction();
       }
       catch (NameNotFoundException nnfe)
       {
          try
          {
-            return new EJBTransaction( EJB.getEJBContext() );
+            return createEJBTransaction();
          }
          catch (NameNotFoundException nnfe2)
          {
-            return new NoTransaction();
+            return createNoTransaction();
          }
       }
    }
 
-   private static javax.transaction.UserTransaction getUserTransaction() throws NamingException
+   protected NoTransaction createNoTransaction()
+   {
+      return new NoTransaction();
+   }
+
+   protected EJBTransaction createEJBTransaction() throws NamingException
+   {
+      return new EJBTransaction( EJB.getEJBContext() );
+   }
+
+   protected UTTransaction createUTTransaction() throws NamingException
+   {
+      return new UTTransaction( getUserTransaction() );
+   }
+
+   protected javax.transaction.UserTransaction getUserTransaction() throws NamingException
    {
       try
       {
