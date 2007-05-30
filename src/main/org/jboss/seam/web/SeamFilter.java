@@ -21,7 +21,7 @@ import org.jboss.seam.core.Init;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.util.SortItem;
-import org.jboss.seam.util.SorterNew;
+import org.jboss.seam.util.Sorter;
 
 public class SeamFilter implements Filter
 {
@@ -107,7 +107,7 @@ public class SeamFilter implements Filter
       }
 
       // Do the sort
-      SorterNew<Filter> sList = new SorterNew<Filter>();
+      Sorter<Filter> sList = new Sorter<Filter>();
       sortItems = sList.sort(sortItems);
       
       // Set the sorted filters, initialize them

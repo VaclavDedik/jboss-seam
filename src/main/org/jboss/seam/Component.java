@@ -119,7 +119,7 @@ import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Parameters;
 import org.jboss.seam.util.Reflections;
 import org.jboss.seam.util.SortItem;
-import org.jboss.seam.util.SorterNew;
+import org.jboss.seam.util.Sorter;
 import org.jboss.seam.util.Conversions.PropertyValue;
 
 /**
@@ -818,7 +818,7 @@ public class Component extends Model
          }
       }
 
-      SorterNew<Interceptor> sList = new SorterNew<Interceptor>();
+      Sorter<Interceptor> sList = new Sorter<Interceptor>();
       siList = sList.sort(siList);
 
       list.clear();
