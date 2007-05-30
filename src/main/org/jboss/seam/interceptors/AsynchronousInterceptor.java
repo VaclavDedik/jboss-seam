@@ -1,7 +1,5 @@
 package org.jboss.seam.interceptors;
 
-import javax.ejb.Timer;
-
 import org.jboss.seam.InterceptorType;
 import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Asynchronous;
@@ -28,9 +26,9 @@ public class AsynchronousInterceptor extends AbstractInterceptor
          {
             throw new IllegalStateException("org.jboss.seam.core.dispatcher is not installed in components.xml");
          }
-         Timer timer = dispatcher.scheduleInvocation( invocation, getComponent() );
+         Object timer = dispatcher.scheduleInvocation( invocation, getComponent() );
          //if the method returns a Timer, return it to the client
-         return invocation.getMethod().getReturnType().equals(Timer.class) ? timer : null;
+         return timer!=null && invocation.getMethod().getReturnType().isAssignableFrom( timer.getClass() ) ? timer : null;
       }
       else
       {

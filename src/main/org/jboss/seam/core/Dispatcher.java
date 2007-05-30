@@ -41,7 +41,7 @@ import org.jboss.seam.util.Reflections;
 @Name("org.jboss.seam.core.dispatcher")
 @Interceptors(SeamInterceptor.class)
 @Install(value=false, precedence=BUILT_IN)
-public class Dispatcher implements LocalDispatcher
+public class Dispatcher implements LocalDispatcher<Timer>
 {
    
    public static final String EXECUTING_ASYNCHRONOUS_CALL = "org.jboss.seam.core.executingAsynchronousCall";
@@ -240,12 +240,17 @@ public class Dispatcher implements LocalDispatcher
    
     public Object call(Callable task) 
     {
-        try {
+        try 
+        {
             return task.call();
-        } catch (RuntimeException e) {
+        } 
+        catch (RuntimeException e) 
+        {
             // just pass along runtime exceptions
             throw e;
-        } catch (Exception e) {
+        } 
+        catch (Exception e) 
+        {
             throw new RuntimeException(e);
         }
     }
@@ -275,7 +280,8 @@ public class Dispatcher implements LocalDispatcher
                 EJBException
         {
             callInContext(new Callable() {
-                    public Object call() {
+                    public Object call() 
+                    {
                         timer.cancel();
                         return null;
                     }
@@ -290,7 +296,8 @@ public class Dispatcher implements LocalDispatcher
         {
             TimerHandle handle = (TimerHandle) 
                 callInContext(new Callable() {
-                        public Object call() {
+                        public Object call() 
+                        {
                             return timer.getHandle();
                         }
                     });
@@ -305,7 +312,8 @@ public class Dispatcher implements LocalDispatcher
         {
             return (Serializable) 
                 callInContext(new Callable() {
-                        public Object call() {
+                        public Object call() 
+                        {
                             return timer.getInfo();
                         }
                     });            
@@ -318,7 +326,8 @@ public class Dispatcher implements LocalDispatcher
         {
             return (Date) 
                 callInContext(new Callable() {
-                        public Object call() {
+                        public Object call() 
+                        {
                             return timer.getNextTimeout();
                         }
                     });            
@@ -331,7 +340,8 @@ public class Dispatcher implements LocalDispatcher
         {
             return (Long) 
                 callInContext(new Callable() {
-                        public Object call() {
+                        public Object call() 
+                        {
                             return timer.getTimeRemaining();
                         }
                     });  
@@ -346,11 +356,13 @@ public class Dispatcher implements LocalDispatcher
       
         TimerHandle handle;
 
-        public TimerHandleProxy(TimerHandle handle) {
+        public TimerHandleProxy(TimerHandle handle) 
+        {
             this.handle = handle;
         }
         
-        private Object callInContext(Callable callable) {
+        private Object callInContext(Callable callable) 
+        {
             return Dispatcher.instance().call(callable);
         }
 
@@ -359,8 +371,9 @@ public class Dispatcher implements LocalDispatcher
                    NoSuchObjectLocalException,
                    EJBException 
         {
-            Timer timer = (Timer) callInContext(new Callable() {
-                public Object call() {
+            Timer timer = (Timer) callInContext( new Callable() {
+                public Object call() 
+                {
                     try
                     {
                         return handle.getTimer();
@@ -370,7 +383,7 @@ public class Dispatcher implements LocalDispatcher
                         return null;
                     }           
                 }
-            });
+            } );
             if (timer==null)
             {
                throw new NoSuchObjectLocalException();
