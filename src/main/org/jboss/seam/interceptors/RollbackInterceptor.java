@@ -13,8 +13,8 @@ import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.Outcome;
 import org.jboss.seam.annotations.Rollback;
+import org.jboss.seam.core.Transaction;
 import org.jboss.seam.intercept.InvocationContext;
-import org.jboss.seam.util.Transactions;
 
 /**
  * Automatically sets transactions to rollback only.
@@ -34,7 +34,7 @@ public class RollbackInterceptor extends AbstractInterceptor
          final Object result = invocation.proceed();
          if ( isRollbackRequired( invocation.getMethod(), result ) )
          {
-            Transactions.setTransactionRollbackOnly();
+            Transaction.instance().setRollbackOnly();
          }
          return result;
       }
@@ -47,7 +47,7 @@ public class RollbackInterceptor extends AbstractInterceptor
             {
                try
                {
-                  Transactions.setTransactionRollbackOnly();
+                  Transaction.instance().setRollbackOnly();
                }
                catch (Exception te) {} //swallow
             }

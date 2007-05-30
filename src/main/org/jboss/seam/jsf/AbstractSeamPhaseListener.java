@@ -29,10 +29,10 @@ import org.jboss.seam.core.Pageflow;
 import org.jboss.seam.core.Pages;
 import org.jboss.seam.core.PersistenceContexts;
 import org.jboss.seam.core.Switcher;
+import org.jboss.seam.core.Transaction;
 import org.jboss.seam.core.Validation;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
-import org.jboss.seam.util.Transactions;
 
 public abstract class AbstractSeamPhaseListener implements PhaseListener
 {
@@ -43,10 +43,25 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
    {
       return ANY_PHASE;
    }
+   
+   protected void afterProcessValidations(FacesContext facesContext)
+   {
+      Validation.instance().afterProcessValidations(facesContext);
+   }
+   
+   /**
+    * Set up the Seam contexts, except for the conversation
+    * context
+    */
+   protected void beforeRestoreView(FacesContext facesContext)
+   {
+      Lifecycle.beginRequest( facesContext.getExternalContext() );
+   }
+   
    /**
     * Restore the page and conversation contexts during a JSF request
     */
-   public void afterRestoreView(FacesContext facesContext)
+   protected void afterRestoreView(FacesContext facesContext)
    {
       Lifecycle.resumePage();
       Map parameters = facesContext.getExternalContext().getRequestParameterMap();
@@ -108,7 +123,7 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       }
    }
    
-   public void beforePhase(PhaseEvent event)
+   public void raiseEventsBeforePhase(PhaseEvent event)
    {
       if ( Contexts.isApplicationContextActive() )
       {
@@ -143,19 +158,13 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       }
    }
    
-   public void afterPhase(PhaseEvent event)
+   public void raiseEventsAfterPhase(PhaseEvent event)
    {
       if ( Contexts.isApplicationContextActive() )
       {
          Events.instance().raiseEvent("org.jboss.seam.afterPhase", event);
       }
    }
-   
-   /*protected void beforeUpdateModelValues(PhaseEvent event)
-   {
-      Pages.instance().applyViewRootValues( event.getFacesContext() );
-      Manager.instance().setUpdateModelValuesCalled(true);
-   }*/
    
    /**
     * Give the subclasses an opportunity to do stuff
@@ -169,7 +178,7 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
    {
       try
       {
-         if ( Transactions.isTransactionMarkedRollback() )
+         if ( Transaction.instance().isMarkedRollback() )
          {
             FacesMessages.instance().addFromResourceBundleOrDefault(
                      FacesMessage.SEVERITY_WARN, 
@@ -185,10 +194,6 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
    {  
       
       FacesContext facesContext = event.getFacesContext();
-      /*if ( !Manager.instance().isUpdateModelValuesCalled() )
-      {
-         Pages.instance().applyRequestParameterValues(facesContext);
-      }*/
       
       if ( Contexts.isPageContextActive() )
       {
@@ -289,16 +294,18 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       if (exists) log.warn("There should only be one Seam phase listener per application");
       exists=true;
    }
+   
+   
    /////////Do not really belong here:
    
    void begin(PhaseId phaseId) 
    {
       try 
       {
-         if ( !Transactions.isTransactionActiveOrMarkedRollback() )
+         if ( !Transaction.instance().isActiveOrMarkedRollback() )
          {
             log.debug("beginning transaction prior to phase: " + phaseId);
-            Transactions.getUserTransaction().begin();
+            Transaction.instance().begin();
          }
       }
       catch (Exception e)
@@ -311,15 +318,15 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
    {
       try 
       {
-         if ( Transactions.isTransactionActive() )
+         if ( Transaction.instance().isActive() )
          {
             log.debug("committing transaction after phase: " + phaseId);
-            Transactions.getUserTransaction().commit();
+            Transaction.instance().commit();
          }
-         else if ( Transactions.isTransactionMarkedRollback() )
+         else if ( Transaction.instance().isMarkedRollback() )
          {
             log.debug("rolling back transaction after phase: " + phaseId);
-            Transactions.getUserTransaction().rollback();
+            Transaction.instance().rollback();
          }
       }
       catch (Exception e)
@@ -328,8 +335,4 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       }
    }
    
-   protected void afterProcessValidations(FacesContext facesContext)
-   {
-      Validation.instance().afterProcessValidations(facesContext);
-   }
 }

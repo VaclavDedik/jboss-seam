@@ -25,7 +25,6 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Expressions.MethodExpression;
 import org.jboss.seam.core.Expressions.ValueExpression;
-import org.jboss.seam.util.Transactions;
 
 /**
  * A Seam component that holds Seam configuration settings
@@ -77,7 +76,7 @@ public class Init
       }*/
       if (userTransactionName!=null)
       {
-         Transactions.setUserTransactionName(userTransactionName);
+         Transaction.setUserTransactionName(userTransactionName);
       }
    }
    
@@ -335,19 +334,6 @@ public class Init
    {
       this.jbpmInstalled = jbpmInstalled;
    }
-
-   /**
-    * The JNDI name of the JTA TransactionManager
-    */
-   /*protected String getTransactionManagerName()
-   {
-      return transactionManagerName;
-   }
-
-   protected void setTransactionManagerName(String transactionManagerName)
-   {
-      this.transactionManagerName = transactionManagerName;
-   }*/
 
    /**
     * The JNDI name of the JTA UserTransaction

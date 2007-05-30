@@ -2,6 +2,7 @@ package org.jboss.seam.util;
 
 import javax.transaction.UserTransaction;
 
+import org.jboss.seam.core.Transaction;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
@@ -23,9 +24,9 @@ public abstract class Work<T>
    
    public final T workInTransaction() throws Exception
    {
-      boolean transactionActive = Transactions.isTransactionActiveOrMarkedRollback();
+      boolean transactionActive = Transaction.instance().isActiveOrMarkedRollback();
       boolean begin = isNewTransactionRequired(transactionActive);
-      UserTransaction userTransaction = begin ? Transactions.getUserTransaction() : null;
+      UserTransaction userTransaction = begin ? Transaction.instance() : null;
       
       if (begin) 
       {

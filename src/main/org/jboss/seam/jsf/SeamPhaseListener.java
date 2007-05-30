@@ -23,7 +23,7 @@ import org.jboss.seam.log.Logging;
 /**
  * Manages the Seam contexts associated with a JSF request.
  * 
- * Manages the thread/context associations throughoutt the
+ * Manages the thread/context associations throughout the
  * lifecycle of the JSF request.
  *
  * @author Gavin King
@@ -34,7 +34,6 @@ public class SeamPhaseListener extends AbstractSeamPhaseListener
    
    private static final LogProvider log = Logging.getLogProvider(SeamPhaseListener.class);
    
-   @Override
    public void beforePhase(PhaseEvent event)
    {
       log.trace( "before phase: " + event.getPhaseId() );
@@ -44,23 +43,20 @@ public class SeamPhaseListener extends AbstractSeamPhaseListener
       try
       {
          
-         //delegate to subclass:
-         handleTransactionsBeforePhase(event);
-         
          if ( event.getPhaseId() == RESTORE_VIEW )
          {
-            Lifecycle.beginRequest( event.getFacesContext().getExternalContext() );
+            beforeRestoreView( event.getFacesContext() );
          }
-         else if ( event.getPhaseId() == RENDER_RESPONSE )
+         
+         //delegate tx management to subclass:
+         handleTransactionsBeforePhase(event);         
+         
+         if ( event.getPhaseId() == RENDER_RESPONSE )
          {
             beforeRender(event);
          }
-         /*else if ( event.getPhaseId() == UPDATE_MODEL_VALUE )
-         {
-            beforeUpdateModelValues(event);
-         }*/
          
-         super.beforePhase(event);
+         raiseEventsBeforePhase(event);
          
       }
       catch (Exception e)
@@ -77,8 +73,7 @@ public class SeamPhaseListener extends AbstractSeamPhaseListener
       }
 
    }
-   
-   @Override
+
    public void afterPhase(PhaseEvent event)
    {
       log.trace( "after phase: " + event.getPhaseId() );
@@ -86,7 +81,7 @@ public class SeamPhaseListener extends AbstractSeamPhaseListener
       try
       {
          
-         super.afterPhase(event);
+         raiseEventsAfterPhase(event);
    
          FacesContext facesContext = event.getFacesContext();
          
@@ -107,7 +102,7 @@ public class SeamPhaseListener extends AbstractSeamPhaseListener
          //can add messages
          FacesMessages.afterPhase();
          
-         //delegate to subclass:
+         //delegate tx management to subclass:
          handleTransactionsAfterPhase(event);
                
          if ( event.getPhaseId() == RENDER_RESPONSE )

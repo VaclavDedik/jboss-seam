@@ -4,11 +4,11 @@ package org.jboss.seam.microcontainer;
 import javax.naming.InitialContext;
 import javax.transaction.TransactionManager;
 
+import org.jboss.seam.core.Transaction;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.resource.connectionmanager.TransactionSynchronizer;
 import org.jboss.seam.util.Naming;
-import org.jboss.seam.util.Transactions;
 import org.jboss.tm.TransactionManagerLocator;
 import org.jboss.tm.usertx.client.ServerVMClientUserTransaction;
 import org.jboss.util.naming.NonSerializableFactory;
@@ -37,7 +37,7 @@ public class TransactionManagerFactory
       //create a UserTransaction and bind to JNDI
       ServerVMClientUserTransaction ut = new ServerVMClientUserTransaction(transactionManager);
       //TODO: parse the UserTransaction name and create subcontexts
-      NonSerializableFactory.rebind( initialContext, Transactions.getUserTransactionName(), ut );
+      NonSerializableFactory.rebind( initialContext, Transaction.getUserTransactionName(), ut );
       
       return transactionManager;
 

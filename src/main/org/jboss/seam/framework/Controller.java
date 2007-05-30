@@ -22,10 +22,10 @@ import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.core.Messages;
 import org.jboss.seam.core.Redirect;
 import org.jboss.seam.core.Renderer;
+import org.jboss.seam.core.Transaction;
 import org.jboss.seam.core.Validation;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.security.Identity;
-import org.jboss.seam.util.Transactions;
 
 /**
  * Base class for controller objects. Provides various
@@ -272,7 +272,7 @@ public abstract class Controller implements Serializable
    {
       try
       {
-         return Transactions.isTransactionMarkedRollback();
+         return Transaction.instance().isMarkedRollback();
       }
       catch (Exception e)
       {

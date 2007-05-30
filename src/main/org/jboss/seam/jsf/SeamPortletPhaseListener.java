@@ -36,43 +36,37 @@ public class SeamPortletPhaseListener extends AbstractSeamPhaseListener
    
    private static final LogProvider log = Logging.getLogProvider( SeamPortletPhaseListener.class );
 
-   @Override
    public void beforePhase(PhaseEvent event)
    {
       log.trace( "before phase: " + event.getPhaseId() );
       
       Lifecycle.setPhaseId( event.getPhaseId() );
 
-      //delegate to subclass:
-      handleTransactionsBeforePhase(event);
-      
       FacesContext facesContext = event.getFacesContext();
       
       if ( event.getPhaseId() == RESTORE_VIEW || event.getPhaseId() == RENDER_RESPONSE )
       {
-         Lifecycle.beginRequest( facesContext.getExternalContext() );
+         beforeRestoreView(facesContext);
       }
+      
+      //delegate to subclass:
+      handleTransactionsBeforePhase(event);
       
       if ( event.getPhaseId() == RENDER_RESPONSE )
       {
          afterRestoreView( facesContext );         
          beforeRender(event);
       }
-      /*else if ( event.getPhaseId()== UPDATE_MODEL_VALUE )
-      {
-         beforeUpdateModelValues(event);
-      }*/
       
-      super.beforePhase(event);
+      raiseEventsBeforePhase(event);
 
    }
 
-   @Override
    public void afterPhase(PhaseEvent event)
    {
       log.trace( "after phase: " + event.getPhaseId() );
       
-      super.afterPhase(event);
+      raiseEventsAfterPhase(event);
       
       FacesContext facesContext = event.getFacesContext();
       
@@ -139,14 +133,6 @@ public class SeamPortletPhaseListener extends AbstractSeamPhaseListener
          ( (ActionResponse) response ).setRenderParameter(conversationIdParameter, conversationId);
       }
    }
-
-   /*private static void setResponseHeader(Object response, String conversationIdParameter, String conversationId)
-   {
-      if (response instanceof HttpServletResponse)
-      {
-         ( (HttpServletResponse) response ).setHeader(conversationIdParameter, conversationId);
-      }
-   }*/
    
    protected void handleTransactionsAfterPhase(PhaseEvent event) {}
    protected void handleTransactionsBeforePhase(PhaseEvent event) {}

@@ -31,7 +31,6 @@ import org.jboss.seam.log.Logging;
 import org.jboss.seam.persistence.EntityManagerProxy;
 import org.jboss.seam.persistence.PersistenceProvider;
 import org.jboss.seam.util.Naming;
-import org.jboss.seam.util.Transactions;
 
 /**
  * A Seam component that manages a conversation-scoped extended
@@ -105,7 +104,7 @@ public class ManagedPersistenceContext
       if (entityManager==null) initEntityManager();
       
       //join the transaction
-      if ( !Lifecycle.isDestroying() && Transactions.isTransactionActive() )
+      if ( !Lifecycle.isDestroying() && Transaction.instance().isActive() )
       {
          entityManager.joinTransaction();
       }

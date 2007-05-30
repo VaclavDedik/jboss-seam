@@ -27,12 +27,13 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Exceptions;
+import org.jboss.seam.core.Transaction;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.mock.MockApplication;
 import org.jboss.seam.mock.MockExternalContext;
 import org.jboss.seam.mock.MockFacesContext;
-import org.jboss.seam.util.Transactions;
+import org.jboss.seam.util.EJB;
 
 /**
  * As a last line of defence, rollback uncommitted transactions 
@@ -57,23 +58,11 @@ public class ExceptionFilter extends AbstractFilter
       try
       {
          chain.doFilter(request, response);
-         
-         //There is a bug in JBoss AS where JBoss does not clean up
-         //any orphaned tx at the end of the request. It is possible
-         //that a Seam-managed tx could be left orphaned if, eg.
-         //facelets handles an exceptions and displays the debug page.
-         rollbackTransactionIfNecessary(); 
       }
       catch (Exception e)
       {
          log.error("uncaught exception", e);
-         if (e instanceof ServletException)
-         {
-             log.error("exception root cause", ( (ServletException) e ).getRootCause() );
-         } else {
-             log.error("exception cause", e.getCause());
-         }
-         rollbackTransactionIfNecessary();
+         log.error( "exception root cause", EJB.getCause(e) );
          endWebRequestAfterException( (HttpServletRequest) request, (HttpServletResponse) response, e);
       }
       finally
@@ -92,6 +81,7 @@ public class ExceptionFilter extends AbstractFilter
       Lifecycle.beginExceptionRecovery( facesContext.getExternalContext() );
       try
       {
+         rollbackTransactionIfNecessary();
          Exceptions.instance().handle(e);
       }
       catch (ServletException se)
@@ -128,11 +118,12 @@ public class ExceptionFilter extends AbstractFilter
    
    protected void rollbackTransactionIfNecessary()
    {
-      try {
-         if ( Transactions.isTransactionActiveOrMarkedRollback() )
+      try 
+      {
+         if ( Transaction.instance().isActiveOrMarkedRollback() )
          {
             log.debug("killing transaction");
-            Transactions.getUserTransaction().rollback();
+            Transaction.instance().rollback();
          }
       }
       catch (Exception te)
