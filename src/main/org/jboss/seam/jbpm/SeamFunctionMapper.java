@@ -2,7 +2,7 @@ package org.jboss.seam.jbpm;
 
 import java.lang.reflect.Method;
 
-import org.jboss.seam.jsf.SeamELFunctionMapper;
+import org.jboss.seam.el.SeamELFunctionMapper;
 import org.jbpm.jpdl.el.FunctionMapper;
 
 /**

@@ -1,7 +1,7 @@
 package org.jboss.seam.util;
 
-import static org.jboss.seam.util.EL.EL_CONTEXT;
-import static org.jboss.seam.util.EL.EXPRESSION_FACTORY;
+import static org.jboss.seam.el.EL.EL_CONTEXT;
+import static org.jboss.seam.el.EL.EXPRESSION_FACTORY;
 
 import javax.el.ValueExpression;
 import javax.faces.context.FacesContext;

@@ -1,13 +1,18 @@
 /**
  * 
  */
-package org.jboss.seam.ui.facelet;
+package org.jboss.seam.el;
 
 import javax.el.ELContext;
 import javax.el.MethodExpression;
 import javax.el.MethodInfo;
 import javax.el.MethodNotFoundException;
 
+/**
+ * 
+ * @author Gavin King
+ *
+ */
 public class OptionalParameterMethodExpression extends MethodExpression
 {
     

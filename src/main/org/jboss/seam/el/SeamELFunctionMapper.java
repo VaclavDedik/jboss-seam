@@ -1,4 +1,4 @@
-package org.jboss.seam.jsf;
+package org.jboss.seam.el;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;

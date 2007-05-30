@@ -24,7 +24,7 @@ import javax.faces.context.ResponseWriter;
 import javax.faces.render.RenderKit;
 import javax.faces.render.RenderKitFactory;
 
-import org.jboss.seam.util.EL;
+import org.jboss.seam.el.EL;
 
 /**
  * @author Gavin King

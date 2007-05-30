@@ -1,4 +1,4 @@
-package org.jboss.seam.util;
+package org.jboss.seam.el;
 
 import javax.el.BeanELResolver;
 import javax.el.CompositeELResolver;
@@ -11,8 +11,6 @@ import javax.el.MapELResolver;
 import javax.el.ResourceBundleELResolver;
 import javax.el.VariableMapper;
 
-import org.jboss.seam.jsf.SeamELFunctionMapper;
-import org.jboss.seam.jsf.SeamELResolver;
 
 import org.jboss.el.ExpressionFactoryImpl;
 import org.jboss.el.lang.FunctionMapperImpl;
@@ -23,7 +21,8 @@ public class EL
    private static final ELResolver EL_RESOLVER = createELResolver();
    public static final ELContext EL_CONTEXT = createELContext();
    
-   public static final ExpressionFactory EXPRESSION_FACTORY = new ExpressionFactoryImpl();
+   public static final ExpressionFactory EXPRESSION_FACTORY = new SeamExpressionFactory( new ExpressionFactoryImpl() );
+   //public static final ExpressionFactory EXPRESSION_FACTORY = new ExpressionFactoryImpl();
    
    private static ELResolver createELResolver()
    {

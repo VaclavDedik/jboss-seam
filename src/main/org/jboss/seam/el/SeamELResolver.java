@@ -1,4 +1,4 @@
-package org.jboss.seam.jsf;
+package org.jboss.seam.el;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -12,6 +12,14 @@ import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Init;
 
+/**
+ * Allows the use of #{dataModel.size}, #{dataModel.empty},
+ * #{collection.size}, #{map.size}, #{map.values}, #{map.keySet},
+ * and #{map.entrySet}.
+ * 
+ * @author Gavin King
+ *
+ */
 public class SeamELResolver extends ELResolver
 {
 
