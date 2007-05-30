@@ -1,4 +1,4 @@
-package org.jboss.seam.transaction;
+package org.jboss.seam.core;
 
 import javax.ejb.Local;
 
