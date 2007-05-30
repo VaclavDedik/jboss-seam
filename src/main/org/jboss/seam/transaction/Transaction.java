@@ -45,7 +45,7 @@ public class Transaction
    
    public static UserTransaction instance()
    {
-      if (!Contexts.isApplicationContextActive())
+      if ( !Contexts.isApplicationContextActive() )
       {
          throw new IllegalStateException("No application context active, cannot obtain Transaction component");
       }
