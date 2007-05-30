@@ -40,6 +40,7 @@
   <factory scope="stateless" auto-create="true" name="taskInstance" value="#{org.jboss.seam.core.taskInstance}"/>
   <factory scope="stateless" auto-create="true" name="taskInstanceList" value="#{org.jboss.seam.core.taskInstanceList}"/>
   <factory scope="stateless" auto-create="true" name="taskInstanceListForType" value="#{org.jboss.seam.core.taskInstanceListForType}"/>
+  <factory scope="stateless" auto-create="true" name="taskInstancePriorityList" value="#{org.jboss.seam.core.taskInstancePriorityList}"/>
   <factory scope="stateless" auto-create="true" name="timeZone" value="#{org.jboss.seam.core.timeZone}"/>
   <factory scope="stateless" auto-create="true" name="timeZoneSelector" value="#{org.jboss.seam.core.timeZoneSelector}"/>
   <factory scope="stateless" auto-create="true" name="transition" value="#{org.jboss.seam.core.transition}"/>
