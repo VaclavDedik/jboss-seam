@@ -3,14 +3,11 @@ package org.jboss.seam.core;
 import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
-import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
 
-import org.dom4j.DocumentException;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
@@ -21,7 +18,6 @@ import org.jboss.seam.core.Init.ObserverMethod;
 import org.jboss.seam.core.Init.ObserverMethodExpression;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
-import org.jboss.seam.util.Resources;
 
 @Scope(ScopeType.STATELESS)
 @Intercept(NEVER)
@@ -31,20 +27,6 @@ public class Events
 {
    
    private static final LogProvider log = Logging.getLogProvider(Events.class);
-   
-   @Create
-   public void initialize() throws DocumentException
-   {
-      InputStream stream = Resources.getResourceAsStream("/WEB-INF/events.xml");      
-      if (stream==null)
-      {
-         log.info("no events.xml file found");
-      }
-      else
-      {
-         log.info("reading events.xml");
-      }
-   }
    
    public void addListener(String type, String methodBindingExpression, Class... argTypes)
    {
