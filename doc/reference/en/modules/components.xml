@@ -71,7 +71,15 @@
                 <term><literal>org.jboss.seam.core.applicationContext</literal></term>
                 <listitem>
                     <para>
-                        Manager component for the appication context object
+                        Manager component for the application context object
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.methodContext</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for the method context object
                     </para>
                 </listitem>
             </varlistentry>
@@ -888,6 +896,22 @@
                     </para>
                 </listitem>
             </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.processInstanceFinder</literal></term>
+                <listitem>
+                    <para>
+                        Manager for the process instance task list.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.processInstanceList</literal></term>
+                <listitem>
+                    <para>
+                         The process instance task list.
+                    </para>
+                </listitem>
+            </varlistentry>
         </variablelist>
         
         <para>
@@ -950,9 +974,9 @@
                 </listitem>
             </varlistentry>
         </variablelist>
-    </section>
+    </section>     
     
-        <section id="components.mail">
+    <section id="components.mail">
         <title>Mail-related components</title>
         <para>
             These components are for use with Seam's Email support 
@@ -1267,10 +1291,107 @@
                         Support for the Seam Debug Page.
                     </para>
                 </listitem>
+            </varlistentry>    	    
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.exceptions</literal></term>
+                <listitem>
+                    <para>
+                        Internal component for exception handling.
+                    </para>
+                </listitem>
             </varlistentry>
-       </variablelist>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.jbossELInstaller</literal></term>
+                <listitem>
+                    <para>
+                        Installs JBoss EL as the default EL in the JSF RI.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.transactionListener</literal></term>
+                <listitem>
+                    <para>
+                         Temporary solution for getting JTA transaction lifecycle 
+                         callbacks. Once all appservers support the new EE5 APIs,                                                    
+                          this will be removed.   
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.validators</literal></term>
+                <listitem>
+                    <para>
+                          Caches instances of Hibernate Validator ClassValidator.  
+                    </para>
+                </listitem>
+             </varlistentry>
+             <varlistentry>
+                <term><literal>org.jboss.seam.core.safeActions</literal></term>
+                <listitem>
+                    <para>
+                        Decides if an action expression in an incomming URL is safe.  This is done
+                        by checking that the action expression exists in the view.
+                    </para>
+                </listitem>
+             </varlistentry>
+    	</variablelist>
    </section>
 
+     <section>
+        <title>Miscellaneous components</title>
+        <para>
+            These components don't fit into 
+        </para>
+        
+        <variablelist>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.dispatcher</literal></term>
+                <listitem>
+                    <para>
+                        Dispatcher stateless session bean for asynchronous methods.
+                    </para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+         
+        <variablelist>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.image</literal></term>
+                <listitem>
+                    <para>
+                         Image manipulation and interrogation.
+                    </para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+         
+        <variablelist>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.pojoCache</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for a PojoCache instance.
+                    </para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+         
+        <variablelist>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.uiComponent</literal></term>
+                <listitem>
+                    <para>
+                        Manages a map of UIComponents keyed by component id.
+                    </para>
+                </listitem>
+            </varlistentry>
+         </variablelist>
+         
+         
+         
+    </section>
+    
     <section>
         <title>Special components</title>
         <para>

@@ -936,7 +936,9 @@
         <para> The following annotations are used to declare an asynchronous method, for example: </para>
 
         <programlisting><![CDATA[@Asynchronous public void scheduleAlert(Alert alert, @Expiration Date date) { ... }]]></programlisting>
-        <programlisting><![CDATA[@Asynchronous public Timer scheduleAlerts(Alert alert, @Expiration Date date, @IntervalDuration long interval) { ... }]]></programlisting>
+        <programlisting><![CDATA[@Asynchronous public Timer scheduleAlerts(Alert alert, 
+                                          @Expiration Date date, 
+                                          @IntervalDuration long interval) { ... }]]></programlisting>
 
         <variablelist spacing="compact">
             <varlistentry id="asynchronous-annotation">
