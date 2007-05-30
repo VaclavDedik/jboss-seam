@@ -8,6 +8,7 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.jsf.SeamPhaseListener;
 import org.jboss.seam.jsf.TransactionalSeamPhaseListener;
 import org.jboss.seam.mock.SeamTest;
+import org.jboss.seam.security.Identity;
 import org.testng.annotations.Test;
 
 import actions.BlogService;
@@ -17,16 +18,30 @@ import domain.BlogEntry;
 
 public class BlogTest extends SeamTest
 {
-   
+      
    @Test
    public void testPost() throws Exception
    {
+      new FacesRequest()
+      {
+         @Override
+         protected void updateModelValues() throws Exception
+         {
+            Identity.instance().setPassword("tokyo");
+         }
+         @Override
+         protected void invokeApplication() throws Exception
+         {
+            Identity.instance().authenticate();
+         }
+      }.run();
+      
       new FacesRequest("/post.xhtml")
       {
 
          @Override
          protected void updateModelValues() throws Exception
-         {
+         {            
             BlogEntry entry = (BlogEntry) getInstance("blogEntry");
             entry.setId("testing");
             entry.setTitle("Integration testing Seam applications is easy!");
