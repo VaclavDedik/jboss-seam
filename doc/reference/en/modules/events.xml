@@ -575,6 +575,8 @@ public class HelloListener {
             <listitem><para><literal>org.jboss.seam.preAuthenticate.&lt;name&gt; </literal>&mdash; called before attempting to authenticate a user</para></listitem>
             <listitem><para><literal>org.jboss.seam.notLoggedIn</literal> &mdash; called there is no authenticated user and authentication is required</para></listitem>
             <listitem><para><literal>org.jboss.seam.rememberMe</literal> &mdash; occurs when Seam security detects the username in a cookie</para></listitem>
+            <listitem><para><literal>org.jboss.seam.exceptionHandled.&lt;Type&gt;</literal> &mdash; called when an uncaught exception is handled by Seam</para></listitem>
+            <listitem><para><literal>org.jboss.seam.exceptionNotHandled</literal> &mdash; called when there was no handler for an uncaught exception</para></listitem>
             </itemizedlist>
              
              <para>
