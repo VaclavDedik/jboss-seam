@@ -159,6 +159,11 @@ public class Exceptions
       
       return null;
    }
+   
+   public void addHandler(ExceptionHandler handler)
+   {
+      exceptionHandlers.add(handler);
+   }
 
    public static Exceptions instance()
    {
