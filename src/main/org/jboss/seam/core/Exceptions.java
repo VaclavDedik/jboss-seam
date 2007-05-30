@@ -77,12 +77,14 @@ public class Exceptions
                   Contexts.getConversationContext().set("org.jboss.seam.handledException", cause);
                }
                eh.handle(cause);
+               Events.instance().raiseEvent("org.jboss.seam.exceptionHandled." + cause.getClass().getName(), cause);
                return;
             }
          }
       }
       
       //finally, rethrow it, since no handler was found
+      Events.instance().raiseEvent("org.jboss.seam.exceptionNotHandled", e);
       throw e;
    }
    
