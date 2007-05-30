@@ -2,21 +2,20 @@ package org.jboss.seam.jbpm;
 
 import java.lang.reflect.Method;
 
-import org.jboss.seam.el.SeamELFunctionMapper;
 import org.jbpm.jpdl.el.FunctionMapper;
 
 /**
- * Wrapper for SeamELFunctionMapper that works with JBPM.
+ * Wrapper for SeamFunctionMapper that works with JBPM.
  * 
  * @author Shane Bryzak
  */
 public class SeamFunctionMapper implements FunctionMapper
 {
-   private SeamELFunctionMapper mapper;
+   private org.jboss.seam.el.SeamFunctionMapper mapper;
    
    public SeamFunctionMapper()
    {
-      mapper = new SeamELFunctionMapper();
+      mapper = new org.jboss.seam.el.SeamFunctionMapper();
    }
    
    public Method resolveFunction(String prefix, String localName)

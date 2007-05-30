@@ -49,7 +49,7 @@ public class EL
          @Override
          public FunctionMapper getFunctionMapper()
          {
-            return new SeamELFunctionMapper( new FunctionMapperImpl() );
+            return new SeamFunctionMapper( new FunctionMapperImpl() );
          }
 
          @Override

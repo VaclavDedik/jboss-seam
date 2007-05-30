@@ -15,22 +15,22 @@ import org.jboss.seam.security.SecurityFunctions;
  *  
  * @author Shane Bryzak
  */
-public class SeamELFunctionMapper extends FunctionMapper
+public class SeamFunctionMapper extends FunctionMapper
 {
    private static final String SEAM_EL_PREFIX = "s";
    
    private static Map<String,Method> methodCache = new HashMap<String,Method>();
    
-   private static final LogProvider log = Logging.getLogProvider(SeamELFunctionMapper.class);
+   private static final LogProvider log = Logging.getLogProvider(SeamFunctionMapper.class);
    
    private FunctionMapper functionMapper;
    
-   public SeamELFunctionMapper()
+   public SeamFunctionMapper()
    {
       this(null);
    }
    
-   public SeamELFunctionMapper(FunctionMapper functionMapper)
+   public SeamFunctionMapper(FunctionMapper functionMapper)
    {
       this.functionMapper = functionMapper;
    }

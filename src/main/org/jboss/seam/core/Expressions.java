@@ -22,7 +22,7 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.el.SeamELFunctionMapper;
+import org.jboss.seam.el.SeamFunctionMapper;
 
 /**
  * Factory for method and value bindings
@@ -54,7 +54,7 @@ public class Expressions implements Serializable
       else
       {
          ELContext context = facesContext.getELContext();
-         return new EvaluationContext( context, new SeamELFunctionMapper( context.getFunctionMapper() ), context.getVariableMapper() );
+         return new EvaluationContext( context, new SeamFunctionMapper( context.getFunctionMapper() ), context.getVariableMapper() );
       }
    }
    
