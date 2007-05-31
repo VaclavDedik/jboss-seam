@@ -16,7 +16,8 @@ import org.jboss.seam.util.Work;
  *
  */
 @Interceptor(stateless=true,
-             around={RollbackInterceptor.class, BusinessProcessInterceptor.class, ConversationInterceptor.class})
+             around={RollbackInterceptor.class, BusinessProcessInterceptor.class, 
+                     ConversationInterceptor.class, BijectionInterceptor.class})
 public class TransactionInterceptor extends AbstractInterceptor
 {
    private static final long serialVersionUID = -4364203056333738988L;

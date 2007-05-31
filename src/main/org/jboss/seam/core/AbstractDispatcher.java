@@ -173,8 +173,7 @@ public abstract class AbstractDispatcher<T, S> implements Dispatcher<T, S>
          }
       }
       
-      TimerSchedule schedule = new TimerSchedule(duration, expiration, intervalDuration);
-      return schedule;
+      return new TimerSchedule(duration, expiration, intervalDuration);
    }
    
 }
