@@ -1,9 +1,5 @@
 package org.jboss.seam.core;
 
-import java.util.concurrent.Callable;
-
-import javax.ejb.Local;
-
 import org.jboss.seam.Component;
 import org.jboss.seam.intercept.InvocationContext;
 
@@ -15,7 +11,6 @@ import org.jboss.seam.intercept.InvocationContext;
  *
  * @param <T> the type of the timer object
  */
-@Local
 public interface Dispatcher<T, S>
 {
    /**
@@ -38,6 +33,4 @@ public interface Dispatcher<T, S>
     */
    public T scheduleAsynchronousEvent(String type, Object... parameters);
    
-   //TODO: move somewhere else!
-   public Object call(Callable task);
 }

@@ -2,7 +2,6 @@ package org.jboss.seam.core;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
-import java.util.concurrent.Callable;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Contexts;
@@ -137,21 +136,4 @@ public abstract class AbstractDispatcher<T, S> implements Dispatcher<T, S>
       
    }
    
-    //TODO: move down to TimerServiceDispatcher!
-    public Object call(Callable task) 
-    {
-        try 
-        {
-            return task.call();
-        } 
-        catch (RuntimeException e) 
-        {
-            // just pass along runtime exceptions
-            throw e;
-        } 
-        catch (Exception e) 
-        {
-            throw new RuntimeException(e);
-        }
-    }
 }

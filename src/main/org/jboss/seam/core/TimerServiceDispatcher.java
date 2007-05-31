@@ -40,7 +40,7 @@ import org.jboss.seam.intercept.InvocationContext;
 @Install(value=false, precedence=BUILT_IN)
 public class TimerServiceDispatcher 
    extends AbstractDispatcher<Timer, TimerServiceSchedule>
-   implements Dispatcher<Timer, TimerServiceSchedule> //workaround a bug in JBoss EJB3
+   implements LocalTimerServiceDispatcher
 {
    
    @Resource TimerService timerService;
@@ -150,24 +150,19 @@ public class TimerServiceDispatcher
             this.timer = timer;
         }
         
-        private Object callInContext(Callable callable) 
-        {
-            return TimerServiceDispatcher.instance().call(callable);
-        }
-
         public void cancel() 
             throws
                 IllegalStateException,
                 NoSuchObjectLocalException,
                 EJBException
         {
-            callInContext(new Callable() {
-                    public Object call() 
-                    {
-                        timer.cancel();
-                        return null;
-                    }
-                });
+            instance().call(new Callable() {
+                 public Object call() 
+                 {
+                     timer.cancel();
+                     return null;
+                 }
+             });
         }
 
         public TimerHandle getHandle()
@@ -177,12 +172,12 @@ public class TimerServiceDispatcher
                 EJBException
         {
             TimerHandle handle = (TimerHandle) 
-                callInContext(new Callable() {
-                        public Object call() 
-                        {
-                            return timer.getHandle();
-                        }
-                    });
+                instance().call(new Callable() {
+                     public Object call() 
+                     {
+                         return timer.getHandle();
+                     }
+                 });
             return new TimerHandleProxy(handle);
         }
 
@@ -193,12 +188,12 @@ public class TimerServiceDispatcher
                 EJBException
         {
             return (Serializable) 
-                callInContext(new Callable() {
-                        public Object call() 
-                        {
-                            return timer.getInfo();
-                        }
-                    });            
+                instance().call(new Callable() {
+                     public Object call() 
+                     {
+                         return timer.getInfo();
+                     }
+                 });            
         }
         public Date getNextTimeout() 
             throws
@@ -207,12 +202,12 @@ public class TimerServiceDispatcher
                 EJBException
         {
             return (Date) 
-                callInContext(new Callable() {
-                        public Object call() 
-                        {
-                            return timer.getNextTimeout();
-                        }
-                    });            
+                instance().call(new Callable() {
+                     public Object call() 
+                     {
+                         return timer.getNextTimeout();
+                     }
+                 });            
         }
         
         public long getTimeRemaining()    
@@ -221,12 +216,12 @@ public class TimerServiceDispatcher
                    EJBException
         {
             return (Long) 
-                callInContext(new Callable() {
-                        public Object call() 
-                        {
-                            return timer.getTimeRemaining();
-                        }
-                    });  
+                instance().call(new Callable() {
+                     public Object call() 
+                     {
+                         return timer.getTimeRemaining();
+                     }
+                 });  
         }
     }
 
@@ -243,17 +238,12 @@ public class TimerServiceDispatcher
             this.handle = handle;
         }
         
-        private Object callInContext(Callable callable) 
-        {
-            return TimerServiceDispatcher.instance().call(callable);
-        }
-
         public Timer getTimer() 
             throws IllegalStateException,
                    NoSuchObjectLocalException,
                    EJBException 
         {
-            Timer timer = (Timer) callInContext( new Callable() {
+            Timer timer = (Timer) instance().call(new Callable() {
                 public Object call() 
                 {
                     try
@@ -265,7 +255,7 @@ public class TimerServiceDispatcher
                         return null;
                     }           
                 }
-            } );
+            });
             if (timer==null)
             {
                throw new NoSuchObjectLocalException();
@@ -276,4 +266,26 @@ public class TimerServiceDispatcher
             }
         }
     }
+
+    public Object call(Callable task) 
+    {
+        try 
+        {
+            return task.call();
+        } 
+        catch (RuntimeException e) 
+        {
+            // just pass along runtime exceptions
+            throw e;
+        } 
+        catch (Exception e) 
+        {
+            throw new RuntimeException(e);
+        }
+    }
+    public static LocalTimerServiceDispatcher instance()
+    {
+       return ( (LocalTimerServiceDispatcher) AbstractDispatcher.instance() );
+    }
+
 }
