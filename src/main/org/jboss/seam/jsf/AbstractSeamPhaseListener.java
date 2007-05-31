@@ -10,7 +10,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
-import javax.faces.model.DataModel;
 
 import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Context;
@@ -81,47 +80,10 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
          log.debug( "After restoring conversation context: " + Contexts.getConversationContext() );
       }
       
-      Pages.instance().postRestorePage(facesContext);
+      Pages.instance().postRestore(facesContext);
             
    }
   
-   /**
-    * Look for a DataModel row selection in the request parameters,
-    * and apply it to the DataModel.
-    * 
-    * @param parameters the request parameters
-    */
-   private void selectDataModelRow(Map parameters)
-   {
-      String dataModelSelection = (String) parameters.get("dataModelSelection");
-      if (dataModelSelection!=null)
-      {
-         int colonLoc = dataModelSelection.indexOf(':');
-         int bracketLoc = dataModelSelection.indexOf('[');
-         if (colonLoc>0 && bracketLoc>colonLoc)
-         {
-            String var = dataModelSelection.substring(0, colonLoc);
-            String name = dataModelSelection.substring(colonLoc+1, bracketLoc);
-            int index = Integer.parseInt( dataModelSelection.substring( bracketLoc+1, dataModelSelection.length()-1 ) );
-            Object value = Contexts.lookupInStatefulContexts(name);
-            if (value!=null)
-            {
-               DataModel dataModel = (DataModel) value;
-               if ( index<dataModel.getRowCount() )
-               {
-                  dataModel.setRowIndex(index);
-                  Contexts.getEventContext().set( var, dataModel.getRowData() );
-               }
-               else
-               {
-                  log.warn("DataModel row was unavailable");
-                  Contexts.getEventContext().remove(var);
-               }
-            }
-         }
-      }
-   }
-   
    public void raiseEventsBeforePhase(PhaseEvent event)
    {
       if ( Contexts.isApplicationContextActive() )
@@ -206,7 +168,6 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
          pageContext.remove( Seam.getComponentName(Switcher.class) );
          pageContext.remove( Seam.getComponentName(ConversationStack.class) );
       }
-      selectDataModelRow( facesContext.getExternalContext().getRequestParameterMap() );
       
       preRenderPage(event);
       
@@ -266,11 +227,11 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
    
    private boolean preRenderPage(PhaseEvent event)
    {
-      Lifecycle.setPhaseId( PhaseId.INVOKE_APPLICATION );
+      Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
       boolean actionsWereCalled = false;
       try
       {
-         actionsWereCalled = Pages.instance().preRenderPage( event.getFacesContext() );
+         actionsWereCalled = Pages.instance().preRender( event.getFacesContext() );
          return actionsWereCalled;
       }
       finally

@@ -22,6 +22,7 @@ import javax.faces.application.ViewHandler;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
+import javax.faces.model.DataModel;
 import javax.servlet.http.HttpServletRequest;
 
 import org.dom4j.DocumentException;
@@ -247,11 +248,11 @@ public class Pages
     * the most specific. Also perform redirection to the required
     * scheme if necessary.
     */
-   public boolean preRenderPage(FacesContext facesContext)
+   public boolean preRender(FacesContext facesContext)
    {
-      boolean result = false;
       String viewId = getViewId(facesContext);
       
+      //redirect to HTTPS if necessary
       String requestScheme = getRequestScheme(facesContext);
       if ( requestScheme!=null )
       {
@@ -259,32 +260,81 @@ public class Pages
          if ( scheme!=null && !requestScheme.equals(scheme) )
          {
             Manager.instance().redirect(viewId);              
-            return result;
+            return false;
          }
       }
       
-      for ( Page page: getPageStack(viewId) )
+      //apply the datamodelselection passed by s:link or s:button
+      //before running any actions
+      selectDataModelRow(facesContext);
+
+      //redirect if necessary
+      List<Page> pageStack = getPageStack(viewId);
+      for ( Page page: pageStack )
       {         
          if ( isNoConversationRedirectRequired(page) )
          {
             redirectToNoConversationView();
-            return result;
+            return false;
          }
          else if ( isLoginRedirectRequired(viewId, page) )
          {
             redirectToLoginView();
-            return result;
+            return false;
          }
-         else
-         {
-            result = page.preRender(facesContext) || result;
-         }
+      }
+
+      //run the page actions, check permissions,
+      //handle conversation begin/end
+      boolean result = false;
+      for ( Page page: pageStack )
+      {         
+         result = page.preRender(facesContext) || result;
       }
       
       //run the s:link / s:button action after checking the
       //conversation existence!
       result = callAction(facesContext) || result;
+      
       return result;
+   }
+   
+   /**
+    * Look for a DataModel row selection in the request parameters,
+    * and apply it to the DataModel.
+    * 
+    * @param parameters the request parameters
+    */
+   private void selectDataModelRow(FacesContext facesContext)
+   {
+      String dataModelSelection = facesContext.getExternalContext()
+               .getRequestParameterMap().get("dataModelSelection");
+      if (dataModelSelection!=null)
+      {
+         int colonLoc = dataModelSelection.indexOf(':');
+         int bracketLoc = dataModelSelection.indexOf('[');
+         if (colonLoc>0 && bracketLoc>colonLoc)
+         {
+            String var = dataModelSelection.substring(0, colonLoc);
+            String name = dataModelSelection.substring(colonLoc+1, bracketLoc);
+            int index = Integer.parseInt( dataModelSelection.substring( bracketLoc+1, dataModelSelection.length()-1 ) );
+            Object value = Contexts.lookupInStatefulContexts(name);
+            if (value!=null)
+            {
+               DataModel dataModel = (DataModel) value;
+               if ( index<dataModel.getRowCount() )
+               {
+                  dataModel.setRowIndex(index);
+                  Contexts.getEventContext().set( var, dataModel.getRowData() );
+               }
+               else
+               {
+                  log.warn("DataModel row was unavailable");
+                  Contexts.getEventContext().remove(var);
+               }
+            }
+         }
+      }
    }
    
    /**
@@ -293,7 +343,7 @@ public class Pages
     * with the most general view id, ending at the most specific.
     * Finally apply page parameters to the model.
     */
-   public void postRestorePage(FacesContext facesContext)
+   public void postRestore(FacesContext facesContext)
    {
       //first store the page parameters into the viewroot, so 
       //that if a login redirect occurs, or if a failure
