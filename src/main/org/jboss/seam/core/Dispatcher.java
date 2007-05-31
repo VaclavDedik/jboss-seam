@@ -14,20 +14,21 @@ import org.jboss.seam.intercept.InvocationContext;
 public interface Dispatcher<T, S>
 {
    /**
-    * Schedule an asynchronous method call
+    * Schedule an asynchronous method call, examining annotations
+    * upon the method to determine the schedule
     * 
     * @return some kind of timer object, or null
     */
    public T scheduleInvocation(InvocationContext invocation, Component component);
    /**
-    * Schedule a timed event
+    * Schedule a timed (delayed and/or periodic) event
     * 
     * @return some kind of timer object, or null
     */
    public T scheduleTimedEvent(String type, S schedule, Object... parameters);
    
    /**
-    * Schedule an asynchronous event
+    * Schedule an immediate asynchronous event
     * 
     * @return some kind of timer object, or null
     */

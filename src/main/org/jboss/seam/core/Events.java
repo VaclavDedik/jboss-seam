@@ -98,7 +98,7 @@ public class Events
    /**
     * Raise an event that is to be processed according to a "schedule"
     * 
-    * @see TimerServiceSchedule for use of the EJB timer service
+    * @see TimerSchedule for use of the EJB timer service
     * 
     * @param type the event type
     * @param schedule the schedule object, specific to the dispatcher strategy

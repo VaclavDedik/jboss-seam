@@ -1,11 +1,17 @@
 package org.jboss.seam.core;
 
 import java.io.Serializable;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.Date;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.annotations.timer.Duration;
+import org.jboss.seam.annotations.timer.Expiration;
+import org.jboss.seam.annotations.timer.IntervalDuration;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.util.Reflections;
 
 /**
@@ -96,6 +102,11 @@ public abstract class AbstractDispatcher<T, S> implements Dispatcher<T, S>
          this.componentName = componentName;
       }
       
+      public AsynchronousInvocation(InvocationContext invocation, Component component)
+      {
+         this( invocation.getMethod(), component.getName(), invocation.getParameters() );
+      }
+      
       @Override
       protected void call()
       {
@@ -134,6 +145,36 @@ public abstract class AbstractDispatcher<T, S> implements Dispatcher<T, S>
          Events.instance().raiseEvent(type, parameters);
       }
       
+   }
+
+   protected TimerSchedule createSchedule(InvocationContext invocation)
+   {
+      Long duration = null;
+      Date expiration = null;
+      Long intervalDuration = null;
+      Annotation[][] parameterAnnotations = invocation.getMethod().getParameterAnnotations();
+      for ( int i=0; i<parameterAnnotations.length; i++ )
+      {
+         Annotation[] annotations = parameterAnnotations[i];
+         for (Annotation annotation: annotations)
+         {
+            if ( annotation.annotationType().equals(Duration.class) )
+            {
+               duration = (Long) invocation.getParameters()[i];
+            }
+            else if ( annotation.annotationType().equals(IntervalDuration.class) )
+            {
+               intervalDuration = (Long) invocation.getParameters()[i];
+            }
+            else if ( annotation.annotationType().equals(Expiration.class) )
+            {
+               expiration = (Date) invocation.getParameters()[i];
+            }
+         }
+      }
+      
+      TimerSchedule schedule = new TimerSchedule(duration, expiration, intervalDuration);
+      return schedule;
    }
    
 }

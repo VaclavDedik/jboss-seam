@@ -35,7 +35,9 @@
             <xs:attributeGroup ref="core:attlist.threadPoolDispatcher"/>
         </xs:complexType>
     </xs:element>
-    <xs:attributeGroup name="attlist.threadPoolDispatcher"> </xs:attributeGroup>
+    <xs:attributeGroup name="attlist.threadPoolDispatcher">
+        <xs:attribute name="thread-pool-size" type="xs:integer"/>
+    </xs:attributeGroup>
 
     <xs:element name="transaction-listener">
         <xs:complexType mixed="true">
