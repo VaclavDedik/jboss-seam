@@ -11,7 +11,7 @@
     <core:init debug="true" jndi-pattern="@jndiPattern@" />
     <core:ejb installed="@embeddedEjb@" /> 
     
-    <core:dispatcher />
+    <core:timer-service-dispatcher />
     
      <!-- If you need to alter the SMTP gateway, comment out this mail-session, -->
     <mail:mail-session host="localhost" port="2525" username="test" password="test" />

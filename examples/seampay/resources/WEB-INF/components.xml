@@ -29,7 +29,7 @@
                                       auto-create="true"
                                       persistence-unit-jndi-name="java:/seampayEntityManagerFactory" />
 
-    <core:dispatcher />
+    <core:timer-service-dispatcher />
 
     <core:init debug="true" jndi-pattern="@jndiPattern@" />
     <core:ejb installed="@embeddedEjb@" /> 

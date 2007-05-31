@@ -11,12 +11,4 @@
       </phase-listener>
     </lifecycle>
     
-    <!--
-    <lifecycle>
-      <phase-listener>
-        org.jboss.seam.jsf.SeamExtendedManagedPersistencePhaseListener
-      </phase-listener>
-    </lifecycle>
-    -->
-    
 </faces-config>

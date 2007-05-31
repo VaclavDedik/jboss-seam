@@ -10,7 +10,7 @@
 
     <core:init jndi-pattern="java:comp/env/jboss-seam-glassfish/#{ejbName}/local" debug="true"/>    
 
-    <core:transactionListener/>
+    <core:transaction-listener/>
 
     <core:manager conversation-timeout="120000" 
                   concurrent-request-timeout="500"
