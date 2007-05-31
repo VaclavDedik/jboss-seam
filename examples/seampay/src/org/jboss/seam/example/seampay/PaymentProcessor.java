@@ -14,6 +14,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.timer.Expiration;
 import org.jboss.seam.annotations.timer.IntervalDuration;
+import org.jboss.seam.example.seampay.Payment;
 import org.jboss.seam.log.Log;
 
 
@@ -29,13 +30,12 @@ public class PaymentProcessor {
     @Asynchronous
     @Transactional
     public Timer schedulePayment(@Expiration Date when, 
-                                 @IntervalDuration long interval, 
+                                 @IntervalDuration Long interval, 
                                  Payment payment) 
     { 
         payment = entityManager.merge(payment);
         
         log.info("[#0] Processing payment #1", System.currentTimeMillis(), payment.getId());
-        log.info("Timer handle is #0", payment.getTimerHandle());
 
         if (payment.getActive()) {
             BigDecimal balance = payment.getAccount().adjustBalance(payment.getAmount().negate());

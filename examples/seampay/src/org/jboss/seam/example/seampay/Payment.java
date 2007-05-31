@@ -1,13 +1,18 @@
 package org.jboss.seam.example.seampay;
 
-import javax.ejb.*;
-import javax.persistence.*;
-
 import java.io.Serializable;
-import java.util.*;
-import java.math.*;
+import java.math.BigDecimal;
+import java.util.Date;
 
-import org.hibernate.validator.*;
+import javax.ejb.TimerHandle;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+
+import org.hibernate.validator.Length;
+import org.hibernate.validator.NotNull;
 
 @Entity
 public class Payment
@@ -113,19 +118,19 @@ public class Payment
 
 
     public enum Frequency {
-        ONCE(0), 
-        EVERY_MINUTE(60*1000),
-        HOURLY(60*60*1000), 
-        DAILY(24*60*60*1000), 
-        WEEKLY(7*24*60*60*1000);
+        ONCE(null), 
+        EVERY_MINUTE(60*1000l),
+        HOURLY(60*60*1000l), 
+        DAILY(24*60*60*1000l), 
+        WEEKLY(7*24*60*60*1000l);
 
-        long interval; 
+        Long interval; 
 
-        Frequency(long interval) {
+        Frequency(Long interval) {
             this.interval = interval;
         }
         
-        public long getInterval() {
+        public Long getInterval() {
             return interval;
         }
     }
