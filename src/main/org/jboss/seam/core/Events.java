@@ -3,7 +3,6 @@ package org.jboss.seam.core;
 import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
-import java.util.Date;
 import java.util.List;
 
 import org.jboss.seam.Component;
@@ -19,6 +18,12 @@ import org.jboss.seam.core.Init.ObserverMethodExpression;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
+/**
+ * Support for Seam component-driven events
+ * 
+ * @author Gavin King
+ *
+ */
 @Scope(ScopeType.STATELESS)
 @Intercept(NEVER)
 @Name("org.jboss.seam.core.events")
@@ -28,12 +33,25 @@ public class Events
    
    private static final LogProvider log = Logging.getLogProvider(Events.class);
    
+   /**
+    * Add a new listener for a given event type
+    * 
+    * @param type the event type
+    * @param methodBindingExpression a method binding, expressed in EL
+    * @param argTypes the argument types of the method binding
+    */
    public void addListener(String type, String methodBindingExpression, Class... argTypes)
    {
       MethodExpression methodBinding = Expressions.instance().createMethodExpression(methodBindingExpression, Object.class, argTypes);
       Init.instance().addObserverMethodExpression(type, methodBinding);
    }
    
+   /**
+    * Raise an event that is to be processed synchronously
+    * 
+    * @param type the event type
+    * @param parameters parameters to be passes to the listener method
+    */
    public void raiseEvent(String type, Object... parameters)
    {
       //TODO: find a way to map event parameters to params in an EL-defined listener
@@ -66,49 +84,61 @@ public class Events
       }
    }
    
+   /**
+    * Raise an event that is to be processed asynchronously
+    * 
+    * @param type the event type
+    * @param parameters parameters to be passes to the listener method
+    */
    public void raiseAsynchronousEvent(String type, Object... parameters)
    {
-      getDispatcher().scheduleEvent(type, 0l, null, null, parameters);
+      getDispatcher().scheduleAsynchronousEvent(type, parameters);
    }
 
-   protected LocalDispatcher getDispatcher()
+   /**
+    * Raise an event that is to be processed according to a "schedule"
+    * 
+    * @see TimerServiceSchedule for use of the EJB timer service
+    * 
+    * @param type the event type
+    * @param schedule the schedule object, specific to the dispatcher strategy
+    * @param parameters parameters to be passes to the listener method
+    */
+   public void raiseTimedEvent(String type, Object schedule, Object... parameters)
    {
-      LocalDispatcher dispatcher = Dispatcher.instance();
-      if (dispatcher==null)
-      {
-         throw new IllegalStateException("org.jboss.seam.core.dispatcher is not installed");
-      }
-      return dispatcher;
+      getDispatcher().scheduleTimedEvent(type, schedule, parameters);
    }
    
+   /**
+    * Raise an event that is to be processed after successful completion of 
+    * the current transaction
+    * 
+    * @param type the event type
+    * @param parameters parameters to be passes to the listener method
+    */
    public void raiseTransactionSuccessEvent(String type, Object... parameters)
+   {
+      getTransactionListener().scheduleEvent(type, parameters);
+   }
+
+   private LocalTransactionListener getTransactionListener()
    {
       LocalTransactionListener transactionListener = TransactionListener.instance();
       if (transactionListener==null)
       {
          throw new IllegalStateException("org.jboss.seam.core.transactionListener is not installed");
       }
-      transactionListener.scheduleEvent(type, parameters);
+      return transactionListener;
    }
    
-   public void raiseTimedEvent(String type, long duration, Object... parameters)
+   protected Dispatcher getDispatcher()
    {
-      getDispatcher().scheduleEvent(type, duration, null, null, parameters);
-   }
-   
-   public void raiseTimedEvent(String type, Date expiration, Object... parameters)
-   {
-      getDispatcher().scheduleEvent(type, null, expiration, null, parameters);
-   }
-   
-   public void raiseTimedEvent(String type, Date expiration, long intervalDuration, Object... parameters)
-   {
-      getDispatcher().scheduleEvent(type, null, expiration, intervalDuration, parameters);
-   }
-   
-   public void raiseTimedEvent(String type, long duration, long intervalDuration)
-   {
-      getDispatcher().scheduleEvent(type, duration, null, intervalDuration);
+      Dispatcher dispatcher = AbstractDispatcher.instance();
+      if (dispatcher==null)
+      {
+         throw new IllegalStateException("org.jboss.seam.core.dispatcher is not installed");
+      }
+      return dispatcher;
    }
    
    public static boolean exists()

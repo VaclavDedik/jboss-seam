@@ -19,16 +19,25 @@
         <xs:attribute name="group-actor-ids"> </xs:attribute>
     </xs:attributeGroup>
 
-    <xs:element name="dispatcher">
+    <xs:element name="timer-service-dispatcher">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
             <xs:attributeGroup ref="components:attlist.ejbcomponent"/>
-            <xs:attributeGroup ref="core:attlist.dispatcher"/>
+            <xs:attributeGroup ref="core:attlist.timerServiceDispatcher"/>
         </xs:complexType>
     </xs:element>
-    <xs:attributeGroup name="attlist.dispatcher"> </xs:attributeGroup>
+    <xs:attributeGroup name="attlist.timerServiceDispatcher"> </xs:attributeGroup>
 
-    <xs:element name="transactionListener">
+    <xs:element name="thread-pool-dispatcher">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="components:attlist.ejbcomponent"/>
+            <xs:attributeGroup ref="core:attlist.threadPoolDispatcher"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.threadPoolDispatcher"> </xs:attributeGroup>
+
+    <xs:element name="transaction-listener">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
             <xs:attributeGroup ref="components:attlist.ejbcomponent"/>

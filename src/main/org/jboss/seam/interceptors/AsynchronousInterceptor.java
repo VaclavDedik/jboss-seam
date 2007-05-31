@@ -5,8 +5,8 @@ import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Asynchronous;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.core.AbstractDispatcher;
 import org.jboss.seam.core.Dispatcher;
-import org.jboss.seam.core.LocalDispatcher;
 import org.jboss.seam.intercept.InvocationContext;
 
 @Interceptor(stateless=true, type=InterceptorType.CLIENT)
@@ -18,10 +18,10 @@ public class AsynchronousInterceptor extends AbstractInterceptor
    public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
       boolean scheduleAsync = invocation.getMethod().isAnnotationPresent(Asynchronous.class) && 
-            !Contexts.getEventContext().isSet(Dispatcher.EXECUTING_ASYNCHRONOUS_CALL);
+            !Contexts.getEventContext().isSet(AbstractDispatcher.EXECUTING_ASYNCHRONOUS_CALL);
       if (scheduleAsync)
       {
-         LocalDispatcher dispatcher = Dispatcher.instance();
+         Dispatcher dispatcher = AbstractDispatcher.instance();
          if (dispatcher==null)
          {
             throw new IllegalStateException("org.jboss.seam.core.dispatcher is not installed in components.xml");
