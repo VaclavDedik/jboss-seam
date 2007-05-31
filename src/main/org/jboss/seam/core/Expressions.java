@@ -70,49 +70,102 @@ public class Expressions implements Serializable
    
    public <T> ValueExpression<T> createValueExpression(final String expression, final Class<T> type)
    {
-      //TODO: cache the VEs
+      
       return new ValueExpression<T>()
       {
+         private javax.el.ValueExpression facesValueExpression;
+         private javax.el.ValueExpression seamValueExpression;
+         
+         private javax.el.ValueExpression getExpression()
+         {
+            if ( FacesContext.getCurrentInstance()==null )
+            {
+               if (seamValueExpression==null)
+               {
+                  seamValueExpression = createExpression();
+               }
+               return seamValueExpression;
+            }
+            else
+            {
+               if (facesValueExpression==null)
+               {
+                  facesValueExpression = createExpression();
+               }
+               return facesValueExpression;
+            }
+         }
+         
          private javax.el.ValueExpression createExpression()
          {
             return getExpressionFactory().createValueExpression( getELContext(), expression, type );
          }
+         
          public T getValue()
          {
-            return (T) createExpression().getValue( getELContext() );
+            return (T) getExpression().getValue( getELContext() );
          }
+         
          public void setValue(T value)
          {
-            createExpression().setValue( getELContext(), value );
+            getExpression().setValue( getELContext(), value );
          }
+         
          public String getExpressionString()
          {
             return expression;
          }
+         
          public Class<T> getType()
          {
-            return (Class<T>) createExpression().getType( getELContext() );
+            return (Class<T>) getExpression().getType( getELContext() );
          }
+         
       };
    }
    
    public <T> MethodExpression<T> createMethodExpression(final String expression, final Class<T> type, final Class... argTypes)
    {
-      //TODO: cache the MEs
       return new MethodExpression<T>()
       {
+         private javax.el.MethodExpression facesMethodExpression;
+         private javax.el.MethodExpression seamMethodExpression;
+         
+         private javax.el.MethodExpression getExpression()
+         {
+            if ( FacesContext.getCurrentInstance()==null )
+            {
+               if (seamMethodExpression==null)
+               {
+                  seamMethodExpression = createExpression();
+               }
+               return seamMethodExpression;
+            }
+            else
+            {
+               if (facesMethodExpression==null)
+               {
+                  facesMethodExpression = createExpression();
+               }
+               return facesMethodExpression;
+            }
+         }
+         
          private javax.el.MethodExpression createExpression()
          {
             return getExpressionFactory().createMethodExpression( getELContext(), expression, type, argTypes );
          }
+         
          public T invoke(Object... args)
          {
-            return (T) createExpression().invoke( getELContext(), args );
+            return (T) getExpression().invoke( getELContext(), args );
          }
+         
          public String getExpressionString()
          {
             return expression;
          }
+         
       };
    }
    
