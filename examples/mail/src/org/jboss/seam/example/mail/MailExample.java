@@ -77,6 +77,16 @@ public class MailExample
       }
     }
    
+   public void sendTemplate() {
+      try {
+         renderer.render("/templating.xhtml");
+         facesMessages.add("Email sent successfully");
+      } catch (Exception e) {
+         log.error("Error sending mail", e);
+         facesMessages.add("Email sending failed: " + e.getMessage());
+      }
+    }
+   
    public void sendAsynchronous() {
       asynchronousMailProcessor.scheduleSend(3000, person);
    }
