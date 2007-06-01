@@ -4,7 +4,6 @@ package org.jboss.seam.core;
 import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 import static org.jboss.seam.el.EL.EL_CONTEXT;
-import static org.jboss.seam.el.EL.EXPRESSION_FACTORY;
 
 import java.io.Serializable;
 
@@ -21,6 +20,7 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.el.SeamExpressionFactory;
 
 /**
  * Factory for method and value bindings
@@ -39,7 +39,7 @@ public class Expressions implements Serializable
     */
    public ExpressionFactory getExpressionFactory()
    {
-      return EXPRESSION_FACTORY;
+      return SeamExpressionFactory.INSTANCE;
    }
    
    /**

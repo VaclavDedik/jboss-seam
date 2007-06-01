@@ -29,7 +29,7 @@ import javax.faces.validator.Validator;
 import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Init;
-import org.jboss.seam.el.EL;
+import org.jboss.seam.el.SeamExpressionFactory;
 
 @SuppressWarnings("deprecation")
 public class SeamApplication extends Application
@@ -123,8 +123,7 @@ public class SeamApplication extends Application
    public MethodBinding createMethodBinding(String expression, Class[] params)
          throws ReferenceSyntaxException
    {
-      //TODO: if ( paramTypes.length==1 && FacesEvent.class.isAssignableFrom( paramTypes[0] ) )
-      //      return new OptionalParamMethodBinding(expression,params)       
+      //TODO: proxy this, if we want JBoss EL to be usable     
       return application.createMethodBinding(expression, params);
 
    }
@@ -147,6 +146,7 @@ public class SeamApplication extends Application
    public ValueBinding createValueBinding(String ref)
          throws ReferenceSyntaxException
    {
+      //TODO: proxy this, if we want JBoss EL to be usable
       return application.createValueBinding(ref);
    }
 
@@ -323,7 +323,7 @@ public class SeamApplication extends Application
    @Override
    public Object evaluateExpressionGet(FacesContext ctx, String expr, Class type) throws ELException
    {
-      return application.evaluateExpressionGet(ctx, expr, type);
+      return getExpressionFactory().createValueExpression( ctx.getELContext(), expr, type).getValue( ctx.getELContext() );
    }
 
    @Override
@@ -336,7 +336,7 @@ public class SeamApplication extends Application
    public ExpressionFactory getExpressionFactory()
    {
       //JBoss EL
-      return EL.EXPRESSION_FACTORY;
+      return SeamExpressionFactory.INSTANCE;
    }
 
    @Override

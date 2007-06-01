@@ -20,7 +20,7 @@ public class EL
    private static final ELResolver EL_RESOLVER = createELResolver();
    public static final ELContext EL_CONTEXT = createELContext();
    
-   public static final ExpressionFactory EXPRESSION_FACTORY = new SeamExpressionFactory( new ExpressionFactoryImpl() );
+   public static final ExpressionFactory EXPRESSION_FACTORY = new ExpressionFactoryImpl();
    
    private static ELResolver createELResolver()
    {

@@ -40,12 +40,13 @@ import org.jboss.el.lang.EvaluationContext;
  */
 public class SeamExpressionFactory extends ExpressionFactory 
 {
+   public static final ExpressionFactory INSTANCE = new SeamExpressionFactory(EL.EXPRESSION_FACTORY);
    
     private static final Class[] NO_CLASSES = {};
     
-    private ExpressionFactory expressionFactory;
+    private final ExpressionFactory expressionFactory;
     
-    public SeamExpressionFactory(ExpressionFactory expressionFactory) 
+    SeamExpressionFactory(ExpressionFactory expressionFactory) 
     {
        this.expressionFactory = expressionFactory;
     }
