@@ -42,6 +42,8 @@ import org.jboss.seam.el.SeamExpressionFactory;
 import org.jboss.seam.jsf.SeamNavigationHandler;
 import org.jboss.seam.jsf.SeamStateManager;
 import org.jboss.seam.jsf.SeamViewHandler;
+import org.jboss.seam.jsf.UnifiedELMethodBinding;
+import org.jboss.seam.jsf.UnifiedELValueBinding;
 import org.jboss.seam.util.Reflections;
 
 @SuppressWarnings("deprecation")
@@ -326,11 +328,18 @@ public class MockApplication extends Application
    }
 
    @Override
-   @Deprecated
-   public MethodBinding createMethodBinding(String expression, Class[] args)
-            throws ReferenceSyntaxException
+   public MethodBinding createMethodBinding(String expression, Class[] params)
+         throws ReferenceSyntaxException
    {
-      throw new UnsupportedOperationException();
+      return new UnifiedELMethodBinding(expression, params);
+
+   }
+
+   @Override
+   public ValueBinding createValueBinding(String expression)
+         throws ReferenceSyntaxException
+   {
+      return new UnifiedELValueBinding(expression);
    }
 
    @Override
@@ -363,13 +372,6 @@ public class MockApplication extends Application
       throw new UnsupportedOperationException();
    }
 
-   @Override
-   public ValueBinding createValueBinding(String expression)
-            throws ReferenceSyntaxException
-   {
-      throw new UnsupportedOperationException();
-   }
-   
    @Override
    public ExpressionFactory getExpressionFactory()
    {

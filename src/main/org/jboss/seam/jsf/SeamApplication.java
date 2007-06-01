@@ -120,15 +120,6 @@ public class SeamApplication extends Application
    }
 
    @Override
-   public MethodBinding createMethodBinding(String expression, Class[] params)
-         throws ReferenceSyntaxException
-   {
-      //TODO: proxy this, if we want JBoss EL to be usable     
-      return application.createMethodBinding(expression, params);
-
-   }
-
-   @Override
    public Validator createValidator(String validatorId) throws FacesException
    {
       if ( Contexts.isApplicationContextActive() )
@@ -143,11 +134,18 @@ public class SeamApplication extends Application
    }
 
    @Override
-   public ValueBinding createValueBinding(String ref)
+   public MethodBinding createMethodBinding(String expression, Class[] params)
          throws ReferenceSyntaxException
    {
-      //TODO: proxy this, if we want JBoss EL to be usable
-      return application.createValueBinding(ref);
+      return new UnifiedELMethodBinding(expression, params);
+
+   }
+
+   @Override
+   public ValueBinding createValueBinding(String expression)
+         throws ReferenceSyntaxException
+   {
+      return new UnifiedELValueBinding(expression);
    }
 
    @Override
