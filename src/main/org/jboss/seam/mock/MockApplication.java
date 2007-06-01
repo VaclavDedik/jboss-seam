@@ -328,16 +328,18 @@ public class MockApplication extends Application
    }
 
    @Override
-   public MethodBinding createMethodBinding(final String methodExpression, final Class[] args)
+   @Deprecated
+   public MethodBinding createMethodBinding(String expression, Class[] args)
             throws ReferenceSyntaxException
    {
-      Class[] c = args;
-      if (c == null)
+      if (args == null)
       {
          // Mismatch between JSF and Unified EL
-         c = new Class[0];
+         args = new Class[0];
       }  
-      return new UnifiedELMethodBinding(methodExpression, c);
+      FacesContext context = FacesContext.getCurrentInstance();
+      return new UnifiedELMethodBinding( context.getApplication().getExpressionFactory()
+               .createMethodExpression( context.getELContext(), expression, Object.class, args ) );
    }
 
    @Override
@@ -371,10 +373,13 @@ public class MockApplication extends Application
    }
 
    @Override
-   public ValueBinding createValueBinding(final String valueExpression)
+   @Deprecated
+   public ValueBinding createValueBinding(String expression)
             throws ReferenceSyntaxException
    {
-      return new UnifiedELValueBinding(valueExpression);
+      FacesContext context = FacesContext.getCurrentInstance();
+      return new UnifiedELValueBinding( context.getApplication().getExpressionFactory()
+               .createValueExpression( context.getELContext(), expression, Object.class ) );
    }
    
    @Override

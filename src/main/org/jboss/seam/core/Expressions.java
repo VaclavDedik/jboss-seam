@@ -36,6 +36,11 @@ import org.jboss.seam.el.SeamFunctionMapper;
 public class Expressions implements Serializable
 {
    
+   /**
+    * Get an appropriate ExpressionFactory. If there is an active JSF 
+    * request, use JSF's ExpressionFactory. Otherwise, use one that we 
+    * created.
+    */
    public ExpressionFactory getExpressionFactory()
    {
       FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -44,18 +49,29 @@ public class Expressions implements Serializable
             facesContext.getApplication().getExpressionFactory();
    }
    
+   /**
+    * Get an appropriate ELContext. If there is an active JSF request,
+    * use JSF's ELContext. Otherwise, use one that we created.
+    */
    public ELContext getELContext()
    {
       FacesContext facesContext = FacesContext.getCurrentInstance();
-      if ( facesContext==null )
-      {
-         return EL_CONTEXT;
-      }
-      else
-      {
-         ELContext context = facesContext.getELContext();
-         return new EvaluationContext( context, new SeamFunctionMapper( context.getFunctionMapper() ), context.getVariableMapper() );
-      }
+      return  decorateELContext( facesContext==null ? EL_CONTEXT : facesContext.getELContext() );
+   }
+
+   /**
+    * Wrap the base ELContext, adding Seam's FunctionMapper.
+    * 
+    * Thus, any expressions with s:hasRole, s:hasPermission 
+    * must be evaluated either via Facelets/JSP (since they
+    * are declared in the tld/taglib.xml or via the 
+    * Expressions component.
+    * 
+    * @param context the JSF ELContext
+    */
+   private EvaluationContext decorateELContext(ELContext context)
+   {
+      return new EvaluationContext( context, new SeamFunctionMapper( context.getFunctionMapper() ), context.getVariableMapper() );
    }
    
    public ValueExpression<Object> createValueExpression(String expression)

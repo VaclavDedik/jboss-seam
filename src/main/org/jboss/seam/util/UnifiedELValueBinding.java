@@ -1,8 +1,5 @@
 package org.jboss.seam.util;
 
-import static org.jboss.seam.el.EL.EL_CONTEXT;
-import static org.jboss.seam.el.EL.EXPRESSION_FACTORY;
-
 import javax.el.ValueExpression;
 import javax.faces.context.FacesContext;
 import javax.faces.el.EvaluationException;
@@ -17,9 +14,9 @@ public class UnifiedELValueBinding extends ValueBinding
 
    public UnifiedELValueBinding() {}
    
-   public UnifiedELValueBinding(String expression)
+   public UnifiedELValueBinding(ValueExpression ve)
    {
-      ve = EXPRESSION_FACTORY.createValueExpression(EL_CONTEXT, expression, Object.class);
+      this.ve = ve;
    }
 
    @Override
@@ -30,22 +27,22 @@ public class UnifiedELValueBinding extends ValueBinding
 
    @Override
    public Class getType(FacesContext ctx) throws EvaluationException, PropertyNotFoundException {
-      return ve.getType(EL_CONTEXT);
+      return ve.getType( ctx.getELContext() );
    }
 
    @Override
    public Object getValue(FacesContext ctx) throws EvaluationException, PropertyNotFoundException {
-   	return ve.getValue(EL_CONTEXT);
+   	return ve.getValue( ctx.getELContext() );
    }
 
    @Override
    public boolean isReadOnly(FacesContext ctx) throws EvaluationException, PropertyNotFoundException {
-   	return ve.isReadOnly(EL_CONTEXT);
+   	return ve.isReadOnly( ctx.getELContext() );
    }
 
    @Override
    public void setValue(FacesContext ctx, Object value) throws EvaluationException, PropertyNotFoundException {
-      ve.setValue(EL_CONTEXT, value);
+      ve.setValue( ctx.getELContext(), value);
    }
    
    @Override

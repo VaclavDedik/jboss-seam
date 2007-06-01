@@ -1,8 +1,5 @@
 package org.jboss.seam.util;
 
-import static org.jboss.seam.el.EL.EL_CONTEXT;
-import static org.jboss.seam.el.EL.EXPRESSION_FACTORY;
-
 import javax.el.MethodExpression;
 import javax.faces.context.FacesContext;
 import javax.faces.el.EvaluationException;
@@ -17,9 +14,9 @@ public class UnifiedELMethodBinding extends MethodBinding
 
    public UnifiedELMethodBinding() {}
    
-   public UnifiedELMethodBinding(String expression, Class[] args)
+   public UnifiedELMethodBinding(MethodExpression me)
    {
-      me = EXPRESSION_FACTORY.createMethodExpression(EL_CONTEXT, expression, Object.class, args);
+      this.me = me;
    }
 
    @Override
@@ -31,13 +28,13 @@ public class UnifiedELMethodBinding extends MethodBinding
    @Override
    public Class getType(FacesContext ctx) throws MethodNotFoundException
    {
-      return me.getMethodInfo(EL_CONTEXT).getReturnType();
+      return me.getMethodInfo( ctx.getELContext() ).getReturnType();
    }
 
    @Override
    public Object invoke(FacesContext ctx, Object[] args) throws EvaluationException, MethodNotFoundException
    {
-      return me.invoke(EL_CONTEXT, args);
+      return me.invoke( ctx.getELContext(), args);
    }
 
    @Override
