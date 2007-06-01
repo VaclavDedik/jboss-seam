@@ -14,7 +14,6 @@ import javax.faces.context.FacesContext;
 
 import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
-import org.jboss.el.lang.EvaluationContext;
 import org.jboss.seam.Component;
 import org.jboss.seam.Model;
 import org.jboss.seam.ScopeType;
@@ -22,7 +21,6 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.el.SeamFunctionMapper;
 
 /**
  * Factory for method and value bindings
@@ -37,16 +35,11 @@ public class Expressions implements Serializable
 {
    
    /**
-    * Get an appropriate ExpressionFactory. If there is an active JSF 
-    * request, use JSF's ExpressionFactory. Otherwise, use one that we 
-    * created.
+    * Get the JBoss EL ExpressionFactory
     */
    public ExpressionFactory getExpressionFactory()
    {
-      FacesContext facesContext = FacesContext.getCurrentInstance();
-      return facesContext==null ? 
-            EXPRESSION_FACTORY : 
-            facesContext.getApplication().getExpressionFactory();
+      return EXPRESSION_FACTORY;
    }
    
    /**
@@ -56,24 +49,9 @@ public class Expressions implements Serializable
    public ELContext getELContext()
    {
       FacesContext facesContext = FacesContext.getCurrentInstance();
-      return  decorateELContext( facesContext==null ? EL_CONTEXT : facesContext.getELContext() );
+      return facesContext==null ? EL_CONTEXT : facesContext.getELContext();
    }
 
-   /**
-    * Wrap the base ELContext, adding Seam's FunctionMapper.
-    * 
-    * Thus, any expressions with s:hasRole, s:hasPermission 
-    * must be evaluated either via Facelets/JSP (since they
-    * are declared in the tld/taglib.xml or via the 
-    * Expressions component.
-    * 
-    * @param context the JSF ELContext
-    */
-   private EvaluationContext decorateELContext(ELContext context)
-   {
-      return new EvaluationContext( context, new SeamFunctionMapper( context.getFunctionMapper() ), context.getVariableMapper() );
-   }
-   
    public ValueExpression<Object> createValueExpression(String expression)
    {
       return createValueExpression(expression, Object.class);

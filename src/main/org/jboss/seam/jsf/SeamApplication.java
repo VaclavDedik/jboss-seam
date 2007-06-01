@@ -29,7 +29,7 @@ import javax.faces.validator.Validator;
 import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Init;
-import org.jboss.seam.el.SeamExpressionFactory;
+import org.jboss.seam.el.EL;
 
 @SuppressWarnings("deprecation")
 public class SeamApplication extends Application
@@ -303,27 +303,27 @@ public class SeamApplication extends Application
    }
 
    @Override
-   public void addELContextListener(ELContextListener arg0)
+   public void addELContextListener(ELContextListener elcl)
    {
-      application.addELContextListener(arg0);
+      application.addELContextListener(elcl);
    }
 
    @Override
-   public void addELResolver(ELResolver arg0)
+   public void addELResolver(ELResolver elr)
    {
-      application.addELResolver(arg0);
+      application.addELResolver(elr);
    }
 
    @Override
-   public UIComponent createComponent(ValueExpression arg0, FacesContext arg1, String arg2) throws FacesException
+   public UIComponent createComponent(ValueExpression ve, FacesContext fc, String id) throws FacesException
    {
-      return application.createComponent(arg0, arg1, arg2);
+      return application.createComponent(ve, fc, id);
    }
 
    @Override
-   public Object evaluateExpressionGet(FacesContext arg0, String arg1, Class arg2) throws ELException
+   public Object evaluateExpressionGet(FacesContext ctx, String expr, Class type) throws ELException
    {
-      return application.evaluateExpressionGet(arg0, arg1, arg2);
+      return application.evaluateExpressionGet(ctx, expr, type);
    }
 
    @Override
@@ -335,20 +335,20 @@ public class SeamApplication extends Application
    @Override
    public ExpressionFactory getExpressionFactory()
    {
-      //return application.getExpressionFactory();
-      return new SeamExpressionFactory( application.getExpressionFactory() );
+      //JBoss EL
+      return EL.EXPRESSION_FACTORY;
    }
 
    @Override
-   public ResourceBundle getResourceBundle(FacesContext arg0, String arg1)
+   public ResourceBundle getResourceBundle(FacesContext fc, String name)
    {
-      return application.getResourceBundle(arg0, arg1);
+      return application.getResourceBundle(fc, name);
    }
 
    @Override
-   public void removeELContextListener(ELContextListener arg0)
+   public void removeELContextListener(ELContextListener elcl)
    {
-      application.removeELContextListener(arg0);
+      application.removeELContextListener(elcl);
    }
 
    @Override

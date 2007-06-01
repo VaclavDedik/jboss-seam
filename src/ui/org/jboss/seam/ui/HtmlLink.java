@@ -33,6 +33,7 @@ public class HtmlLink extends HtmlOutputLink implements ActionSource
    private String fragment;
    private boolean disabled;
    private String outcome;
+   
    private UISelection getSelection()
    {
       UIData parentUIData = getParentUIData();
@@ -74,6 +75,7 @@ public class HtmlLink extends HtmlOutputLink implements ActionSource
       }
       return null;
    }
+   
    @Override
    public void encodeBegin(FacesContext context) throws IOException
    {
@@ -221,6 +223,7 @@ public class HtmlLink extends HtmlOutputLink implements ActionSource
    {
       context.getResponseWriter().endElement("a");
    }
+   
    @SuppressWarnings("deprecation")
    private String getParameterString(String characterEncoding, UIParameter param, boolean first) 
          throws UnsupportedEncodingException
@@ -232,20 +235,24 @@ public class HtmlLink extends HtmlOutputLink implements ActionSource
             URLEncoder.encode(strValue, characterEncoding);
       return (first ? '?' : '&') + param.getName() + '=' + encoded;
    }
+   
    public String getView()
    {
       return view;
    }
+   
    public void setView(String viewId)
    {
       this.view = viewId;
    }
+   
    private boolean isDisabled(FacesContext facesContext)
    {
       ValueExpression disabledValueBinding = getValueExpression("disabled");
       return disabledValueBinding==null ? 
             disabled : (Boolean) disabledValueBinding.getValue(facesContext.getELContext());
    }
+   
    @Override
    public void restoreState(FacesContext context, Object state) {
       Object[] values = (Object[]) state;
@@ -256,6 +263,7 @@ public class HtmlLink extends HtmlOutputLink implements ActionSource
       action = (MethodBinding) restoreAttachedState(context, values[4]);
       disabled = (Boolean) values[5];
    }
+   
    @Override
    public Object saveState(FacesContext context) {
       Object[] values = new Object[6];
@@ -267,14 +275,17 @@ public class HtmlLink extends HtmlOutputLink implements ActionSource
       values[5] = disabled;
       return values;
    }
+   
    public String getPageflow()
    {
       return pageflow;
    }
+   
    public String getPropagation()
    {
       return propagation;
    }
+   
    public void setPageflow(String pageflow)
    {
       this.pageflow = pageflow;
@@ -283,18 +294,22 @@ public class HtmlLink extends HtmlOutputLink implements ActionSource
    {
       this.propagation = propagation;
    }
+   
    public MethodBinding getAction()
    {
       return action;
    }
+   
    public void setAction(MethodBinding action)
    {
       this.action = action;
    }
+   
    public String getFragment()
    {
       return fragment;
    }
+   
    public void setFragment(String fragment)
    {
       this.fragment = fragment;

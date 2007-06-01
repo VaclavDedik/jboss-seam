@@ -28,6 +28,8 @@ import javax.el.MethodExpression;
 import javax.el.ValueExpression;
 import javax.faces.event.FacesEvent;
 
+import org.jboss.el.lang.EvaluationContext;
+
 
 /**
  * Allows JSF action listener methods to not declare the
@@ -48,6 +50,21 @@ public class SeamExpressionFactory extends ExpressionFactory
        this.expressionFactory = expressionFactory;
     }
     
+    /**
+     * Wrap the base ELContext, adding Seam's FunctionMapper.
+     * 
+     * Thus, any expressions with s:hasRole, s:hasPermission 
+     * must be evaluated either via Facelets/JSP (since they
+     * are declared in the tld/taglib.xml or via the 
+     * Expressions component.
+     * 
+     * @param context the JSF ELContext
+     */
+    private static EvaluationContext decorateELContext(ELContext context)
+    {
+       return new EvaluationContext( context, new SeamFunctionMapper( context.getFunctionMapper() ), context.getVariableMapper() );
+    }
+    
     @Override
     public Object coerceToType(Object obj, Class targetType) 
     {
@@ -60,13 +77,13 @@ public class SeamExpressionFactory extends ExpressionFactory
         if ( paramTypes.length==1 && FacesEvent.class.isAssignableFrom( paramTypes[0] ) )
         {
          return new OptionalParameterMethodExpression(
-                 expressionFactory.createMethodExpression(elContext, expression, returnType, paramTypes),
-                 expressionFactory.createMethodExpression(elContext, expression, returnType, NO_CLASSES)
+                 expressionFactory.createMethodExpression( decorateELContext(elContext), expression, returnType, paramTypes ),
+                 expressionFactory.createMethodExpression( decorateELContext(elContext), expression, returnType, NO_CLASSES )
               );
         }
         else
         {
-           return expressionFactory.createMethodExpression(elContext, expression, returnType, paramTypes);
+           return expressionFactory.createMethodExpression( decorateELContext(elContext), expression, returnType, paramTypes );
         }
     }
     
@@ -79,7 +96,7 @@ public class SeamExpressionFactory extends ExpressionFactory
     @Override
     public ValueExpression createValueExpression(ELContext elContext, String expression, Class expectedType) 
     {   
-        return expressionFactory.createValueExpression(elContext, expression, expectedType);
+        return expressionFactory.createValueExpression( decorateELContext(elContext), expression, expectedType );
     }
     
 }
