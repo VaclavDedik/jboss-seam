@@ -12,10 +12,8 @@
     To use these controls, define the "<literal>s</literal>" namespace in your page as follows (facelets only):
   </para>
 
-  <programlisting><![CDATA[
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:s="http://jboss.com/products/seam/taglib">]]>
-  </programlisting>
+  <programlisting><![CDATA[<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:s="http://jboss.com/products/seam/taglib">]]></programlisting>
 
   <para>
     The ui example demonstrates the use of a number of these tags.
@@ -86,9 +84,8 @@
               </listitem>
             </itemizedlist>
             <para><emphasis>Usage</emphasis></para>
-            <programlisting><![CDATA[
-  <s:button id="cancel" value="Cancel" action="#{hotelBooking.cancel}"/>
-]]></programlisting>
+            <programlisting><![CDATA[<s:button id="cancel" value="Cancel" 
+          action="#{hotelBooking.cancel}"/>]]></programlisting>
           </entry>
         </row>
 
@@ -130,22 +127,21 @@
               </listitem>
             </itemizedlist>
             <para><emphasis>Usage</emphasis></para>
-            <programlisting><![CDATA[
-  <s:cache key="entry-#{blogEntry.id}" region="pageFragments">
-    <div class="blogEntry">
-      <h3>#{blogEntry.title}</h3>
-      <div>
-        <s:formattedText value="#{blogEntry.body}"/>
-      </div>
-      <p>
-        [Posted on&#160;
-        <h:outputText value="#{blogEntry.date}">
-          <f:convertDateTime timezone="#{blog.timeZone}" locale="#{blog.locale}" type="both"/>
-        </h:outputText>]
-      </p>
+            <programlisting><![CDATA[<s:cache key="entry-#{blogEntry.id}" region="pageFragments">
+  <div class="blogEntry">
+    <h3>#{blogEntry.title}</h3>
+    <div>
+      <s:formattedText value="#{blogEntry.body}"/>
     </div>
-  </s:cache>
-]]></programlisting>
+    <p>
+      [Posted on&#160;
+      <h:outputText value="#{blogEntry.date}">
+        <f:convertDateTime timezone="#{blog.timeZone}" locale="#{blog.locale}" 
+                           type="both"/>
+      </h:outputText>]
+    </p>
+  </div>
+</s:cache>]]></programlisting>
           </entry>
         </row>
 
@@ -199,11 +195,9 @@
                 </listitem>
               </itemizedlist>
               <para><emphasis>Usage</emphasis></para>
-              <programlisting><![CDATA[
-  <h:commandButton value="Apply" action="#{personHome.update}">
-    <s:conversationPropagation type="join" />
-  </h:commandButton>
-]]></programlisting>
+              <programlisting><![CDATA[<h:commandButton value="Apply" action="#{personHome.update}">
+  <s:conversationPropagation type="join" />
+</h:commandButton>]]></programlisting>
           </entry>
         </row>
 
@@ -221,11 +215,9 @@
               None.
             </para>
             <para><emphasis>Usage</emphasis></para>
-            <programlisting><![CDATA[
-  <h:outputText value="#{item.orderDate}">
-    <s:convertDateTime type="both" dateStyle="full"/>
-  </h:outputText>
-]]></programlisting>
+            <programlisting><![CDATA[<h:outputText value="#{item.orderDate}">
+  <s:convertDateTime type="both" dateStyle="full"/>
+</h:outputText>]]></programlisting>
           </entry>
         </row>
 
@@ -261,15 +253,15 @@
               If your <emphasis>Managed Persistence Context</emphasis> isn't called
               <literal>entityManager</literal>, then you need to set it in components.xml:
             </para>
-            <programlisting><![CDATA[
-  <component name="org.jboss.seam.ui.entityConverter">
-      <property name="entityManager">#{em}</property>
-  </component>
-]]></programlisting>
+            <programlisting><![CDATA[<component name="org.jboss.seam.ui.entityConverter">
+  <property name="entityManager">#{em}</property>
+</component>]]></programlisting>
 
             <para><emphasis>Usage</emphasis></para>
             <programlisting><![CDATA[<h:selectOneMenu value="#{person.continent}" required="true">
-    <s:selectItems value="#{continents.resultList}" var="continent" label="#{continent.name}" noSelectionLabel="Please Select..."/>
+  <s:selectItems value="#{continents.resultList}" var="continent" 
+                 label="#{continent.name}" 
+                 noSelectionLabel="Please Select..."/>
     <s:convertEntity />
 </h:selectOneMenu>]]></programlisting>
           </entry>
@@ -291,12 +283,12 @@
               None.
             </para>
             <para><emphasis>Usage</emphasis></para>
-            <programlisting><![CDATA[
-  <h:selectOneMenu value="#{person.honorific}">
-    <s:selectItems value="#{honorifics}" var="honorific" label="#{honorific.label}" noSelectionLabel="Please select" />
-    <s:convertEnum />
-  </h:selectOneMenu>
-]]></programlisting>
+            <programlisting><![CDATA[<h:selectOneMenu value="#{person.honorific}">
+  <s:selectItems value="#{honorifics}" var="honorific" 
+                 label="#{honorific.label}"
+                 noSelectionLabel="Please select" />
+  <s:convertEnum />
+</h:selectOneMenu>]]></programlisting>
           </entry>
         </row>
 
@@ -321,21 +313,20 @@
               </listitem>
             </itemizedlist>
             <para><emphasis>Usage</emphasis></para>
-            <programlisting><![CDATA[
-  <f:facet name="afterInvalidField">
-    <s:span>
-      &#160;Error:&#160;
-      <s:message/>
-    </s:span>
-  </f:facet>
-  <f:facet name="aroundInvalidField">
-    <s:span styleClass="errors"/>
-  </f:facet>
+            <programlisting><![CDATA[<f:facet name="afterInvalidField">
+  <s:span>
+    &#160;Error:&#160;
+    <s:message/>
+  </s:span>
+</f:facet>
+<f:facet name="aroundInvalidField">
+  <s:span styleClass="errors"/>
+</f:facet>
 
-  <s:decorate>
-    <h:inputText value="#{blogEntry.id}" size="20" maxlength="20" required="true" id="id"/>
-  </s:decorate>
-]]></programlisting>
+<s:decorate>
+  <h:inputText value="#{blogEntry.id}" size="20" maxlength="20" 
+               required="true" id="id"/>
+</s:decorate>]]></programlisting>
           </entry>
         </row>
 
@@ -355,11 +346,9 @@
               None.
             </para>
             <para><emphasis>Usage</emphasis></para>
-            <programlisting><![CDATA[
-  <s:div rendered="#{selectedMember == null}">
-    Sorry, but this member does not exist.
-  </s:div>
-]]></programlisting>
+            <programlisting><![CDATA[<s:div rendered="#{selectedMember == null}">
+  Sorry, but this member does not exist.
+</s:div>]]></programlisting>
           </entry>
         </row>
 
@@ -389,21 +378,16 @@
                 </listitem>
               </itemizedlist>
               <para><emphasis>Usage</emphasis></para>
-              <programlisting><![CDATA[
-  <h:selectOneRadio id="radioList"
-                    layout="lineDirection"
-                    value="#{newPayment.paymentFrequency}">
-      <s:convertEnum />
-      <s:enumItem enumValue="ONCE"         label="Only Once" />
-      <s:enumItem enumValue="EVERY_MINUTE" label="Every Minute (testing)" />
-      <s:enumItem enumValue="HOURLY"       label="Every Hour (testing)" />
-      <s:enumItem enumValue="DAILY"        label="Every Day" />
-      <s:enumItem enumValue="WEEKLY"       label="Every Week" />
-      <ui:remove>
-          <f:selectItems value="#{newPayment.frequencies}" />
-      </ui:remove>
-  </h:selectOneRadio>
-]]></programlisting>
+              <programlisting><![CDATA[<h:selectOneRadio id="radioList"
+                  layout="lineDirection"
+                  value="#{newPayment.paymentFrequency}">
+  <s:convertEnum />
+  <s:enumItem enumValue="ONCE" label="Only Once" />
+  <s:enumItem enumValue="EVERY_MINUTE" label="Every Minute" />
+  <s:enumItem enumValue="HOURLY"       label="Every Hour" />
+  <s:enumItem enumValue="DAILY"        label="Every Day" />
+  <s:enumItem enumValue="WEEKLY"       label="Every Week" />
+</h:selectOneRadio>]]></programlisting>
           </entry>
         </row>
 
@@ -420,16 +404,14 @@
                an encoding type of <literal>multipart/form-data</literal>, i.e:
             </para>
 
-            <programlisting><![CDATA[
-  <h:form enctype="multipart/form-data">]]></programlisting>
+            <programlisting><![CDATA[<h:form enctype="multipart/form-data">]]></programlisting>
 
             <para>
               For multipart requests, the Seam Multipart servlet filter must also be configured
               in <literal>web.xml</literal>:
             </para>
 
-            <programlisting><![CDATA[
-<filter>
+            <programlisting><![CDATA[<filter>
   <filter-name>Seam Filter</filter-name>
   <filter-class>org.jboss.seam.web.SeamFilter</filter-class>
 </filter>
@@ -463,8 +445,7 @@
               Here's an example:
             </para>
 
-            <programlisting><![CDATA[
-<component class="org.jboss.seam.web.MultipartFilter">
+            <programlisting><![CDATA[<component class="org.jboss.seam.web.MultipartFilter">
   <property name="createTempFiles">true</property>
   <property name="maxRequestSize">1000000</property>
 </component>]]></programlisting>
@@ -507,10 +488,9 @@
               </listitem>
             </itemizedlist>
             <para><emphasis>Usage</emphasis></para>
-            <programlisting><![CDATA[
-  <s:fileUpload id="picture" data="#{register.picture}" accept="image/png"
-                contentType="#{register.pictureContentType}" />
-]]></programlisting>
+            <programlisting><![CDATA[<s:fileUpload id="picture" data="#{register.picture}" 
+              accept="image/png"
+              contentType="#{register.pictureContentType}" />]]></programlisting>
           </entry>
         </row>
 
@@ -533,8 +513,7 @@
               </listitem>
             </itemizedlist>
             <para><emphasis>Usage</emphasis></para>
-            <programlisting><![CDATA[<s:formattedText value="#{blog.text}"/>
-]]></programlisting>
+            <programlisting><![CDATA[<s:formattedText value="#{blog.text}"/>]]></programlisting>
             <para><emphasis>Example</emphasis></para>
             <mediaobject>
               <imageobject role="fo">
@@ -563,11 +542,9 @@
               None.
             </para>
             <para><emphasis>Usage</emphasis></para>
-            <programlisting><![CDATA[
-  <s:fragment rendered="#{auction.highBidder ne null}">
-    Current bid:
-  </s:fragment>
-]]></programlisting>
+            <programlisting><![CDATA[<s:fragment rendered="#{auction.highBidder ne null}">
+  Current bid:
+</s:fragment>]]></programlisting>
           </entry>
         </row>
 
@@ -671,11 +648,10 @@
               to set your transformed image.  Transforms are applied in the order specified in the view.
             </para>
             <para><emphasis>Usage</emphasis></para>
-            <programlisting><![CDATA[
-  <s:graphicImage rendered="#{auction.image ne null}" value="#{auction.image.data}">
-    <s:transformImageSize width="200" maintainRatio="true"/>
-  </s:graphicImage>
-]]></programlisting>
+            <programlisting><![CDATA[<s:graphicImage rendered="#{auction.image ne null}"
+                value="#{auction.image.data}">
+  <s:transformImageSize width="200" maintainRatio="true"/>
+</s:graphicImage>]]></programlisting>
           </entry>
         </row>
 
@@ -735,9 +711,8 @@
               </listitem>
             </itemizedlist>
             <para><emphasis>Usage</emphasis></para>
-            <programlisting><![CDATA[
-  <s:link id="register" view="/register.xhtml" value="Register New User"/>
-]]></programlisting>
+            <programlisting><![CDATA[<s:link id="register" view="/register.xhtml" 
+        value="Register New User"/>]]></programlisting>
           </entry>
         </row>
 
@@ -757,14 +732,12 @@
               None.
             </para>
             <para><emphasis>Usage</emphasis></para>
-            <programlisting><![CDATA[
-  <f:facet name="afterInvalidField">
-    <s:span>
-      &#160;Error:&#160;
-      <s:message/>
-    </s:span>
-  </f:facet>
-]]></programlisting>
+            <programlisting><![CDATA[<f:facet name="afterInvalidField">
+  <s:span>
+    &#160;Error:&#160;
+    <s:message/>
+  </s:span>
+</f:facet>]]></programlisting>
           </entry>
         </row>
 
@@ -813,16 +786,16 @@
 
             <para><emphasis>Usage</emphasis></para>
             <para>
-              <programlisting><![CDATA[
-  <div class="row">
-    <h:outputLabel for="dob">Date of birth<em>*</em></h:outputLabel>
-    <h:inputText id="dob" value="#{user.dob}" required="true">
-      <s:convertDateTime pattern="MM/dd/yyyy"/>
-    </h:inputText>
-    <s:selectDate for="dob" startYear="1910" endYear="2007"><img src="img/datepicker.png"/></s:selectDate>
-    <div class="validationError"><h:message for="dob"/></div>
-  </div>
-]]></programlisting>
+              <programlisting><![CDATA[<div class="row">
+  <h:outputLabel for="dob">Date of birth<em>*</em></h:outputLabel>
+  <h:inputText id="dob" value="#{user.dob}" required="true">
+    <s:convertDateTime pattern="MM/dd/yyyy"/>
+  </h:inputText>
+  <s:selectDate for="dob" startYear="1910" endYear="2007">
+    <img src="img/datepicker.png"/>
+  </s:selectDate>
+  <div class="validationError"><h:message for="dob"/></div>
+</div>]]></programlisting>
             </para>
 
             <para><emphasis>Example</emphasis></para>
@@ -1003,11 +976,10 @@
                </listitem>
              </itemizedlist>
              <para><emphasis>Usage</emphasis></para>
-             <programlisting><![CDATA[
-<h:selectOneMenu value="#{person.age}"  converter="#{converters.ageConverter}">
-    <s:selectItems value="#{ages}" var="age" label="#{age}" />
-</h:selectOneMenu>
-]]></programlisting>
+             <programlisting><![CDATA[<h:selectOneMenu value="#{person.age}" 
+                 converter="#{converters.ageConverter}">
+  <s:selectItems value="#{ages}" var="age" label="#{age}" />
+</h:selectOneMenu>]]></programlisting>
           </entry>
         </row>
 
@@ -1027,9 +999,7 @@
               None.
             </para>
             <para><emphasis>Usage</emphasis></para>
-            <programlisting><![CDATA[
-  <s:span styleClass="required" rendered="#{required}">*</s:span>
-]]></programlisting>
+            <programlisting><![CDATA[<s:span styleClass="required" rendered="#{required}">*</s:span>]]></programlisting>
           </entry>
         </row>
 
@@ -1070,8 +1040,8 @@
               None.
             </para>
             <para><emphasis>Usage</emphasis></para>
-            <programlisting><![CDATA[
-<h:inputText id="userName" required="true" value="#{customer.userName}">
+            <programlisting><![CDATA[<h:inputText id="userName" required="true" 
+             value="#{customer.userName}">
   <s:validate />
 </h:inputText>
 <h:message for="userName" styleClass="error" />]]></programlisting>
@@ -1093,21 +1063,23 @@
               None.
             </para>
             <para><emphasis>Usage</emphasis></para>
-            <programlisting><![CDATA[
-<s:validateAll>
+            <programlisting><![CDATA[<s:validateAll>
   <div class="entry">
     <h:outputLabel for="username">Username:</h:outputLabel>
-    <h:inputText id="username" value="#{user.username}" required="true"/>
+    <h:inputText id="username" value="#{user.username}" 
+                 required="true"/>
     <h:message for="username" styleClass="error" />
   </div>
   <div class="entry">
     <h:outputLabel for="password">Password:</h:outputLabel>
-    <h:inputSecret id="password" value="#{user.password}" required="true"/>
+    <h:inputSecret id="password" value="#{user.password}" 
+                   required="true"/>
     <h:message for="password" styleClass="error" />
   </div>
   <div class="entry">
     <h:outputLabel for="verify">Verify Password:</h:outputLabel>
-    <h:inputSecret id="verify" value="#{register.verify}" required="true"/>
+    <h:inputSecret id="verify" value="#{register.verify}" 
+                   required="true"/>
     <h:message for="verify" styleClass="error" />
   </div>
 </s:validateAll>]]></programlisting>

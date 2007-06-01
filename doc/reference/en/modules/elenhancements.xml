@@ -30,7 +30,8 @@
       Any value expression may be used as a parameter:
     </para>
 
-    <programlisting><![CDATA[<h:commandButton action="#{hotelBooking.bookHotel(hotel.id, user.username)}" value="Book Hotel"/>]]></programlisting>
+    <programlisting><![CDATA[<h:commandButton action="#{hotelBooking.bookHotel(hotel.id, user.username)}" 
+                 value="Book Hotel"/>]]></programlisting>
 
     <para>
        <emphasis>Note:</emphasis> You can not pass objects as arguments! All that is passed is names, for example,
