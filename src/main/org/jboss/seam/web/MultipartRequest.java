@@ -327,7 +327,11 @@ public class MultipartRequest extends HttpServletRequestWrapper
                   {
                      if (checkSequence(buffer, i, CR_LF))
                      {
-                        parseParams(new String(buffer, pos, i - pos - 1), ";", headers);
+                        String param = (encoding == null) ? 
+                                 new String(buffer, pos, i - pos - 1) :
+                                 new String(buffer, pos, i - pos - 1, encoding);                        
+                        parseParams(param, ";", headers);
+                           
                         if (checkSequence(buffer, i + CR_LF.length, CR_LF))
                         {
                            readState = ReadState.DATA;
