@@ -43,8 +43,6 @@ import org.jboss.seam.jsf.SeamNavigationHandler;
 import org.jboss.seam.jsf.SeamStateManager;
 import org.jboss.seam.jsf.SeamViewHandler;
 import org.jboss.seam.util.Reflections;
-import org.jboss.seam.util.UnifiedELMethodBinding;
-import org.jboss.seam.util.UnifiedELValueBinding;
 
 @SuppressWarnings("deprecation")
 public class MockApplication extends Application
@@ -332,14 +330,7 @@ public class MockApplication extends Application
    public MethodBinding createMethodBinding(String expression, Class[] args)
             throws ReferenceSyntaxException
    {
-      if (args == null)
-      {
-         // Mismatch between JSF and Unified EL
-         args = new Class[0];
-      }  
-      FacesContext context = FacesContext.getCurrentInstance();
-      return new UnifiedELMethodBinding( context.getApplication().getExpressionFactory()
-               .createMethodExpression( context.getELContext(), expression, Object.class, args ) );
+      throw new UnsupportedOperationException();
    }
 
    @Override
@@ -373,13 +364,10 @@ public class MockApplication extends Application
    }
 
    @Override
-   @Deprecated
    public ValueBinding createValueBinding(String expression)
             throws ReferenceSyntaxException
    {
-      FacesContext context = FacesContext.getCurrentInstance();
-      return new UnifiedELValueBinding( context.getApplication().getExpressionFactory()
-               .createValueExpression( context.getELContext(), expression, Object.class ) );
+      throw new UnsupportedOperationException();
    }
    
    @Override
