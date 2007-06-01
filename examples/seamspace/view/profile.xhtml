@@ -41,11 +41,16 @@
           
           <ui:repeat value="#{profile.latestBlogs}" var="latestBlog">
             <div class="blogSummary">#{latestBlog.title} 
-              (<s:link view="/blogentry.seam" value="view more"/>)
+              (<s:link view="/blogentry.seam" value="view more">
+                 <f:param name="name" value="#{selectedMember.memberName}"/>
+                 <f:param name="blogId" value="#{latestBlog.blogId}"/>
+               </s:link>)
             </div>
           </ui:repeat>            
           
-          [<s:link view="/blog.seam" value="View all blog entries" propagation="none"/>]
+          [<s:link view="/blog.seam" value="View all blog entries" propagation="none">
+             <f:param name="name" value="#{selectedMember.memberName}"/>
+           </s:link>]
           
           <s:span rendered="#{s:hasPermission('blog', 'create', selectedMember)}">
             [<s:link action="#{blog.createEntry}" value="Create new blog entry" propagation="none"/>]
