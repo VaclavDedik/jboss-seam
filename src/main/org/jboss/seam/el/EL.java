@@ -1,5 +1,6 @@
 package org.jboss.seam.el;
 
+import javax.el.ArrayELResolver;
 import javax.el.BeanELResolver;
 import javax.el.CompositeELResolver;
 import javax.el.ELContext;
@@ -28,6 +29,7 @@ public class EL
       resolver.add( new SeamELResolver() );
       resolver.add( new MapELResolver() );
       resolver.add( new ListELResolver() );
+      resolver.add( new ArrayELResolver() );
       resolver.add( new ResourceBundleELResolver() );
       resolver.add( new BeanELResolver() );
       return resolver;
