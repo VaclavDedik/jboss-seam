@@ -49,43 +49,56 @@ public class UIFileUpload extends UIInput
          
          this.request.getFileName(clientId);   
       }      
+      
+      if (request == null)
+      {
+         throw new IllegalStateException("Request is not an instance of MultipartRequest, " +
+                  "or does not wrap it.  Please ensure that SeamFilter is installed in web.xml");
+      }
    }
    
    @Override
    public void processUpdates(FacesContext context)
    {                         
-      String clientId = getClientId(context);
-      String contentType = request.getFileContentType(clientId);
-      String fileName = request.getFileName(clientId);
-      int fileSize = request.getFileSize(clientId);       
-      
-      ValueExpression dataBinding = getValueExpression("data");
-      if (dataBinding != null)
+      if (request != null)
       {
-         Class cls = dataBinding.getType(context.getELContext());
-         if (cls.isAssignableFrom(InputStream.class))
+         String clientId = getClientId(context);
+         String contentType = request.getFileContentType(clientId);
+         String fileName = request.getFileName(clientId);
+         int fileSize = request.getFileSize(clientId);       
+         
+         ValueExpression dataBinding = getValueExpression("data");
+         if (dataBinding != null)
          {
-            dataBinding.setValue(context.getELContext(), request.getFileInputStream(clientId));
+            Class cls = dataBinding.getType(context.getELContext());
+            if (cls.isAssignableFrom(InputStream.class))
+            {
+               dataBinding.setValue(context.getELContext(), request.getFileInputStream(clientId));
+            }
+            else if (cls.isAssignableFrom(byte[].class))
+            {
+               dataBinding.setValue(context.getELContext(), request.getFileBytes(clientId));
+            }
          }
-         else if (cls.isAssignableFrom(byte[].class))
-         {
-            dataBinding.setValue(context.getELContext(), request.getFileBytes(clientId));
-         }
+         
+         ValueExpression vb = getValueExpression("contentType");
+         if (vb != null)
+            vb.setValue(context.getELContext(), contentType);
+         
+         vb = getValueExpression("fileName");
+         if (vb != null)
+            vb.setValue(context.getELContext(), fileName);
+         
+         vb = getValueExpression("fileSize");
+         if (vb != null)
+            vb.setValue(context.getELContext(), fileSize);     
       }
-      
-      ValueExpression vb = getValueExpression("contentType");
-      if (vb != null)
-         vb.setValue(context.getELContext(), contentType);
-      
-      vb = getValueExpression("fileName");
-      if (vb != null)
-         vb.setValue(context.getELContext(), fileName);
-      
-      vb = getValueExpression("fileSize");
-      if (vb != null)
-         vb.setValue(context.getELContext(), fileSize);            
    }   
       
+   /**
+    * Finds an instance of MultipartRequest wrapped within a request or its
+    * (recursively) wrapped requests. 
+    */
    private ServletRequest unwrapMultipartRequest(ServletRequest request)
    {      
       while (!(request instanceof MultipartRequest))
