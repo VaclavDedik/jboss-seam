@@ -113,7 +113,7 @@ public class PhaseListenerTest
       assert Contexts.isApplicationContextActive();
       assert Contexts.isConversationContextActive();
       
-      facesContext.getApplication().getStateManager().saveSerializedView(facesContext);
+      facesContext.getApplication().getStateManager().saveView(facesContext);
       
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, MockLifecycle.INSTANCE ) );
 
@@ -184,7 +184,7 @@ public class PhaseListenerTest
       assert Contexts.isApplicationContextActive();
       assert Contexts.isConversationContextActive();
       
-      facesContext.getApplication().getStateManager().saveSerializedView(facesContext);
+      facesContext.getApplication().getStateManager().saveView(facesContext);
       
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, MockLifecycle.INSTANCE ) );
       
@@ -247,7 +247,7 @@ public class PhaseListenerTest
       assert Contexts.isApplicationContextActive();
       assert Contexts.isConversationContextActive();
       
-      facesContext.getApplication().getStateManager().saveSerializedView(facesContext);
+      facesContext.getApplication().getStateManager().saveView(facesContext);
       
       assert facesContext.getViewRoot().getAttributes().size()==1;
 
@@ -333,7 +333,7 @@ public class PhaseListenerTest
       assert Contexts.isApplicationContextActive();
       assert Contexts.isConversationContextActive();
       
-      facesContext.getApplication().getStateManager().saveSerializedView(facesContext);
+      facesContext.getApplication().getStateManager().saveView(facesContext);
       
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, MockLifecycle.INSTANCE ) );
       
