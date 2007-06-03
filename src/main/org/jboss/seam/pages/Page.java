@@ -8,6 +8,7 @@ import java.util.MissingResourceException;
 
 import javax.faces.context.FacesContext;
 
+import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.core.Locale;
 import org.jboss.seam.core.Pages;
@@ -36,6 +37,7 @@ public final class Page
    private TaskControl taskControl = new TaskControl();
    private ProcessControl processControl = new ProcessControl();
    private ConversationIdParameter conversationIdParameter;
+   private String eventType;
    
    /**
     * The scheme (http/https) required by this page.
@@ -98,10 +100,12 @@ public final class Page
    {
       return "Page(" + getViewId() + ")";
    }
+   
    public String getViewId()
    {
       return viewId;
    }
+   
    public String renderDescription()
    {
       return Interpolator.instance().interpolate( getDescription() );
@@ -111,50 +115,62 @@ public final class Page
    {
       this.description = description;
    }
+   
    public String getDescription()
    {
       return description;
    }
+   
    public void setTimeout(Integer timeout)
    {
       this.timeout = timeout;
    }
+   
    public Integer getTimeout()
    {
       return timeout;
    }
+   
    public void setNoConversationViewId(String noConversationViewId)
    {
       this.noConversationViewId = noConversationViewId;
    }
+   
    public String getNoConversationViewId()
    {
       return noConversationViewId;
    }
+   
    public void setResourceBundleName(String resourceBundleName)
    {
       this.resourceBundleName = resourceBundleName;
    }
+   
    public String getResourceBundleName()
    {
       return resourceBundleName;
    }
+   
    public void setSwitchEnabled(boolean switchEnabled)
    {
       this.switchEnabled = switchEnabled;
    }
+   
    public boolean isSwitchEnabled()
    {
       return switchEnabled;
    }
+   
    public List<Param> getParameters()
    {
       return parameters;
    }
+   
    public Map<String, Navigation> getNavigations()
    {
       return navigations;
    }
+   
    public boolean hasDescription()
    {
       return description!=null;
@@ -164,30 +180,37 @@ public final class Page
    {
       return conversationRequired;
    }
+   
    public void setConversationRequired(boolean conversationRequired)
    {
       this.conversationRequired = conversationRequired;
    }
+   
    public Navigation getDefaultNavigation()
    {
       return defaultNavigation;
    }
+   
    public void setDefaultNavigation(Navigation defaultActionOutcomeMapping)
    {
       this.defaultNavigation = defaultActionOutcomeMapping;
    }
+   
    public ConversationControl getConversationControl()
    {
       return conversationControl;
    }
+   
    public TaskControl getTaskControl()
    {
       return taskControl;
    }
+   
    public ProcessControl getProcessControl()
    {
       return processControl;
-   }  
+   }
+   
    public List<Action> getActions()
    {
       return actions;
@@ -233,6 +256,11 @@ public final class Page
       getProcessControl().createOrResumeProcess();
       
       for ( Input in: getInputs() ) in.in();
+      
+      if (eventType==null)
+      {
+         Events.instance().raiseEvent(eventType);
+      }
    
       for ( Action action: getActions() )
       {
@@ -311,6 +339,15 @@ public final class Page
    {
       this.conversationIdParameter = param;
    }
-   
-   
+
+   public String getEventType()
+   {
+      return eventType;
+   }
+
+   public void setEventType(String eventType)
+   {
+      this.eventType = eventType;
+   }
+      
 }

@@ -1029,6 +1029,12 @@ public class Pages
       ConversationIdParameter param = conversations.get( element.attributeValue("conversation") );
       if (param != null) page.setConversationIdParameter(param);
       
+      Element eventElement = element.element("raise-event");
+      if (eventElement!=null)
+      {
+         page.setEventType( eventElement.attributeValue("type") );
+      }
+      
       Action action = parseAction(element, "action");
       if (action!=null) page.getActions().add(action);
       List<Element> childElements = element.elements("action");

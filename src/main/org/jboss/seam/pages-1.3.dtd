@@ -18,7 +18,7 @@
 <!ATTLIST conversation parameter-name CDATA #REQUIRED>
 <!ATTLIST conversation parameter-value CDATA #IMPLIED>
 
-<!ELEMENT page (#PCDATA|restrict|description|param|in|begin-conversation|end-conversation|start-task|begin-task|end-task|create-process|resume-process|action|navigation)*>
+<!ELEMENT page (#PCDATA|restrict|description|param|begin-conversation|end-conversation|start-task|begin-task|end-task|create-process|resume-process|in|raise-event|action|navigation)*>
 <!ATTLIST page action CDATA #IMPLIED>
 <!ATTLIST page view-id CDATA #IMPLIED>
 <!ATTLIST page switch (enabled|disabled) "enabled">
