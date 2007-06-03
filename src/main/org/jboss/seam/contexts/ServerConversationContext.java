@@ -109,13 +109,14 @@ public class ServerConversationContext implements Context {
                   String id = stack.get(i);
                   result = session.getAttribute( getKey(name, id) );
 
-                  if (result != null) {
+                  if (result != null) 
+                  {
                       return unwrapEntityBean(result);
-
                   }
 
                   // only continue checking if it is not pernestedconversation
-                  if (i==0 && isPerNestedConversation(name)) {
+                  if ( i==0 && isPerNestedConversation(name) ) 
+                  {
                       return null;
                   }
                }
