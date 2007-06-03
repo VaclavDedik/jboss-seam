@@ -212,6 +212,15 @@ public class Component extends Model
       scope = componentScope;
       type = Seam.getComponentType( getBeanClass() );
       interceptionType = Seam.getInterceptionType (getBeanClass() );
+      
+      if ( getBeanClass().isInterface() )
+      {
+         throw new IllegalArgumentException("component class is an interface: " + name);
+      }
+      if ( Modifier.isAbstract( getBeanClass().getModifiers() ) )
+      {
+         throw new IllegalArgumentException("component class is abstract: " + name);
+      }
 
       initNamespaces(componentName, applicationContext);
 
@@ -1492,7 +1501,8 @@ public class Component extends Model
          }
       }
 
-      if ( result.size() == 0 ) {
+      if ( result.isEmpty() ) 
+      {
          for ( Class iface: clazz.getInterfaces() )
          {
             if ( !isExcludedLocalInterfaceName( iface.getName() ) )
@@ -1502,7 +1512,7 @@ public class Component extends Model
          }
       }
 
-       return result;
+      return result;
    }
 
    public Set<Class> getBusinessInterfaces()
