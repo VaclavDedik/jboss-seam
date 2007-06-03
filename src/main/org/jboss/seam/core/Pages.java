@@ -29,7 +29,6 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.annotations.Install;
@@ -270,7 +269,7 @@ public class Pages
             Manager.instance().redirect(viewId);
             if (invalidateSessionBeforeSchemeChange)
             {
-               Seam.invalidateSession();
+               Session.instance().invalidate();
             }
             return false;
          }

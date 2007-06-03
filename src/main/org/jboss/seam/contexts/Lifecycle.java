@@ -16,13 +16,13 @@ import javax.servlet.http.HttpSession;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Seam;
 import org.jboss.seam.core.BusinessProcess;
 import org.jboss.seam.core.ConversationEntries;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Mutable;
+import org.jboss.seam.core.Session;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
@@ -309,9 +309,11 @@ public class Lifecycle
       log.debug("After render response, destroying contexts");
       try
       {
+         boolean sessionInvalid = Session.instance().isInvalid();
+         
          flushAndDestroyContexts();
 
-         if ( Seam.isSessionInvalid() )
+         if (sessionInvalid)
          {
             clearThreadlocals();
             Lifecycle.setPhaseId(null);
@@ -351,9 +353,11 @@ public class Lifecycle
 
       try
       {
+         boolean sessionInvalid = Session.instance().isInvalid();
+         
          flushAndDestroyContexts();
 
-         if ( Seam.isSessionInvalid() )
+         if (sessionInvalid)
          {
             clearThreadlocals();
             ContextAdaptor.getSession(session).invalidate(); //huh? we create a session just to invalidate it?
@@ -530,7 +534,7 @@ public class Lifecycle
       try
       {
          Contexts.destroy(conversationContext);
-         if ( !Seam.isSessionInvalid() ) //its also unnecessary during a session timeout
+         if ( !Session.instance().isInvalid() ) //its also unnecessary during a session timeout
          {
             conversationContext.clear();
             conversationContext.flush();

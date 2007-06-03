@@ -26,7 +26,6 @@ import javax.faces.event.PhaseId;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
@@ -246,7 +245,7 @@ public class Manager
    {
       return isLongRunningConversation() && 
             !getCurrentConversationEntry().isRemoveAfterRedirect() &&
-            !Seam.isSessionInvalid();
+            !Session.instance().isInvalid();
    }
    
    public boolean isNestedConversation()
@@ -893,7 +892,7 @@ public class Manager
    private String encodeConversationIdParameter(String url, String paramName, String paramValue)
    {
          
-      if ( Seam.isSessionInvalid() || containsParameter(url, paramName) )
+      if ( Session.instance().isInvalid() || containsParameter(url, paramName) )
       {
          return url;
       }

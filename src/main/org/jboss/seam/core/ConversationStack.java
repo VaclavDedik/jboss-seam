@@ -2,12 +2,13 @@ package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
@@ -43,7 +44,7 @@ public class ConversationStack implements Serializable
          while ( ids.hasPrevious() )
          {
             ConversationEntry entry = conversationEntries.getConversationEntry( ids.previous() );
-            if ( entry.isDisplayable() && !Seam.isSessionInvalid() ) 
+            if ( entry.isDisplayable() && !Session.instance().isInvalid() ) 
             {
                conversationEntryStack.add(entry);
             }

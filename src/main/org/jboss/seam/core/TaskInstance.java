@@ -26,7 +26,7 @@ import org.jboss.seam.util.Work;
  * @author Gavin King
  * @version $Revision$
  */
-@Scope(ScopeType.APPLICATION)
+@Scope(ScopeType.STATELESS)
 @Name("org.jboss.seam.core.taskInstance")
 @Intercept(InterceptionType.NEVER)
 @Install(precedence=BUILT_IN, dependencies="org.jboss.seam.core.jbpm")
@@ -63,11 +63,7 @@ public class TaskInstance
    {
       if ( !Contexts.isConversationContextActive() || !BusinessProcess.instance().hasCurrentTask() ) return null; //so we don't start a txn
       
-      if ( !Contexts.isApplicationContextActive() )
-      {
-         throw new IllegalStateException("No active application context");
-      }
-      return (org.jbpm.taskmgmt.exe.TaskInstance) Component.getInstance(TaskInstance.class, ScopeType.APPLICATION);
+      return (org.jbpm.taskmgmt.exe.TaskInstance) Component.getInstance(TaskInstance.class, ScopeType.STATELESS);
    }
    
 }

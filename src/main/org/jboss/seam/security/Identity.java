@@ -39,6 +39,7 @@ import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Selector;
+import org.jboss.seam.core.Session;
 import org.jboss.seam.core.Expressions.MethodExpression;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -397,7 +398,7 @@ public class Identity extends Selector
    public void logout()
    {
       principal = null;
-      Seam.invalidateSession();
+      Session.instance().invalidate();
    }
 
    /**

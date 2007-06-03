@@ -22,6 +22,7 @@ import org.jboss.seam.annotations.Role;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.core.Session;
 import org.jboss.seam.util.Strings;
 
 /**
@@ -32,8 +33,7 @@ import org.jboss.seam.util.Strings;
  */
 public class Seam
 {
-      
-   private static final String SESSION_INVALID = "org.jboss.seam.sessionInvalid";
+   
    private static final Map<Class, String> COMPONENT_NAME_CACHE = new ConcurrentHashMap<Class, String>();
 
    /**
@@ -206,28 +206,24 @@ public class Seam
       }
    }
    /**
-    * Mark the session for invalidation at the end of the request cycle
+    * Mark the session for invalidation at the end of the 
+    * request cycle
+    * 
+    * @deprecated use Session.instance().invalidate()
     */
    public static void invalidateSession()
    {
-      if ( !Contexts.isSessionContextActive() )
-      {
-         throw new IllegalStateException("No active session context");
-      }
-      Contexts.getSessionContext().set(SESSION_INVALID, true);
+      Session.instance().invalidate();
    }
    
    /**
     * Is the session marked for invalidation?
+    * 
+    * @deprecated use Session.instance().isInvalidated()
     */
    public static boolean isSessionInvalid()
    {
-      if ( !Contexts.isSessionContextActive() )
-      {
-         throw new IllegalStateException("No active session context");
-      }
-      Boolean isSessionInvalid = (Boolean) Contexts.getSessionContext().get(SESSION_INVALID);
-      return isSessionInvalid!=null && isSessionInvalid;
+      return Session.instance().isInvalid();
    }
    
    /**

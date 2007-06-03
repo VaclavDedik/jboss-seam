@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.hibernate.validator.ClassValidator;
 import org.jboss.seam.Component;
 import org.jboss.seam.Model;
-import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
@@ -22,6 +21,7 @@ import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.core.Messages;
 import org.jboss.seam.core.Redirect;
 import org.jboss.seam.core.Renderer;
+import org.jboss.seam.core.Session;
 import org.jboss.seam.core.Validation;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.security.Identity;
@@ -265,7 +265,7 @@ public abstract class Controller implements Serializable
    
    protected void invalidateSession()
    {
-      Seam.invalidateSession();
+      Session.instance().invalidate();
    }
 
    protected boolean isTransactionMarkedRollback()

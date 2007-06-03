@@ -48,6 +48,7 @@
   <factory scope="stateless" auto-create="true" name="userPrincipal" value="#{org.jboss.seam.core.userPrincipal}"/>
   <factory scope="stateless" auto-create="true" name="validation" value="#{org.jboss.seam.core.validation}"/>
   <factory scope="stateless" auto-create="true" name="image" value="#{org.jboss.seam.core.image}" />
+  <factory scope="stateless" auto-create="true" name="session" value="#{org.jboss.seam.core.session}" />
   <factory scope="stateless" auto-create="true" name="transaction" value="#{org.jboss.seam.transaction.transaction}" />
 
   <factory scope="stateless" auto-create="true" name="currentTime" value="#{org.jboss.seam.framework.currentTime}"/>

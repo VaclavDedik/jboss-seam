@@ -1,19 +1,22 @@
 package org.jboss.seam.core;
+
 import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
+
 /**
  * @author Gavin King
  * @version $Revision$
@@ -36,7 +39,7 @@ public class ConversationList implements Serializable {
       conversationEntryList = new ArrayList<ConversationEntry>( conversationEntries.size() );
       for ( ConversationEntry entry: orderedEntries )
       {
-         if ( entry.isDisplayable() && !Seam.isSessionInvalid() )
+         if ( entry.isDisplayable() && !Session.instance().isInvalid() )
          {
             conversationEntryList.add(entry);
          }

@@ -26,7 +26,7 @@ import org.jboss.seam.util.Work;
  * @author Gavin King
  * @version $Revision$
  */
-@Scope(ScopeType.APPLICATION)
+@Scope(ScopeType.STATELESS)
 @Name("org.jboss.seam.core.processInstance")
 @Intercept(InterceptionType.NEVER)
 @Install(precedence=BUILT_IN, dependencies="org.jboss.seam.core.jbpm")
@@ -64,10 +64,6 @@ public class ProcessInstance
    {
       if ( !Contexts.isConversationContextActive() || !BusinessProcess.instance().hasCurrentProcess() ) return null; //so we don't start a txn
       
-      if ( !Contexts.isApplicationContextActive() )
-      {
-         throw new IllegalStateException("No active application context");
-      }
-      return (org.jbpm.graph.exe.ProcessInstance) Component.getInstance(ProcessInstance.class, ScopeType.APPLICATION);
+      return (org.jbpm.graph.exe.ProcessInstance) Component.getInstance(ProcessInstance.class, ScopeType.STATELESS);
    }
 }

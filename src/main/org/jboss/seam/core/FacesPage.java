@@ -7,7 +7,6 @@ import java.io.Serializable;
 import org.jboss.seam.Component;
 import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
@@ -117,7 +116,7 @@ public class FacesPage implements Serializable
       //we only need to execute this code when we are in the 
       //RENDER_RESPONSE phase, ie. not before redirects
    
-      boolean sessionValid = !Seam.isSessionInvalid();
+      boolean sessionValid = !Session.instance().isInvalid();
       if ( sessionValid && manager.isLongRunningConversation() )
       {
          storeConversation( manager.getCurrentConversationId() );
