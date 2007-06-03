@@ -269,7 +269,7 @@ public class Pages
             Manager.instance().redirect(viewId);
             if (invalidateSessionBeforeSchemeChange)
             {
-               Session.instance().invalidate();
+               ServletSession.instance().invalidate();
             }
             return false;
          }

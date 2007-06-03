@@ -22,7 +22,7 @@ import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Mutable;
-import org.jboss.seam.core.Session;
+import org.jboss.seam.core.ServletSession;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
@@ -309,7 +309,7 @@ public class Lifecycle
       log.debug("After render response, destroying contexts");
       try
       {
-         boolean sessionInvalid = Session.instance().isInvalid();
+         boolean sessionInvalid = ServletSession.instance().isInvalid();
          
          flushAndDestroyContexts();
 
@@ -353,7 +353,7 @@ public class Lifecycle
 
       try
       {
-         boolean sessionInvalid = Session.instance().isInvalid();
+         boolean sessionInvalid = ServletSession.instance().isInvalid();
          
          flushAndDestroyContexts();
 
@@ -534,7 +534,7 @@ public class Lifecycle
       try
       {
          Contexts.destroy(conversationContext);
-         if ( !Session.instance().isInvalid() ) //its also unnecessary during a session timeout
+         if ( !ServletSession.instance().isInvalid() ) //its also unnecessary during a session timeout
          {
             conversationContext.clear();
             conversationContext.flush();

@@ -39,7 +39,7 @@ public class ConversationList implements Serializable {
       conversationEntryList = new ArrayList<ConversationEntry>( conversationEntries.size() );
       for ( ConversationEntry entry: orderedEntries )
       {
-         if ( entry.isDisplayable() && !Session.instance().isInvalid() )
+         if ( entry.isDisplayable() && !ServletSession.instance().isInvalid() )
          {
             conversationEntryList.add(entry);
          }

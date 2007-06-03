@@ -9,9 +9,9 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 
 @Scope(ScopeType.EVENT)
-@Name("org.jboss.seam.core.session")
+@Name("org.jboss.seam.core.servletSession")
 @Intercept(InterceptionType.NEVER)
-public class Session
+public class ServletSession
 {
    private boolean isInvalid;
 
@@ -25,13 +25,13 @@ public class Session
       this.isInvalid = true;
    }
 
-   public static Session instance()
+   public static ServletSession instance()
    {
       if ( !Contexts.isEventContextActive() )
       {
          throw new IllegalStateException("No active event context");
       }
-      return (Session) Component.getInstance(Session.class, ScopeType.EVENT);
+      return (ServletSession) Component.getInstance(ServletSession.class, ScopeType.EVENT);
    }
    
 }

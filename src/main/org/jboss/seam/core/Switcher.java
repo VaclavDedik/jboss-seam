@@ -45,7 +45,7 @@ public class Switcher implements Serializable {
       selectItems = new ArrayList<SelectItem>( conversationEntries.size() );
       for ( ConversationEntry entry: orderedEntries )
       {
-         if ( entry.isDisplayable() && !Session.instance().isInvalid() )
+         if ( entry.isDisplayable() && !ServletSession.instance().isInvalid() )
          {
             selectItems.add( new SelectItem( entry.getId(), entry.getDescription() ) );
          }

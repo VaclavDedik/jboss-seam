@@ -44,7 +44,7 @@ public class ConversationStack implements Serializable
          while ( ids.hasPrevious() )
          {
             ConversationEntry entry = conversationEntries.getConversationEntry( ids.previous() );
-            if ( entry.isDisplayable() && !Session.instance().isInvalid() ) 
+            if ( entry.isDisplayable() && !ServletSession.instance().isInvalid() ) 
             {
                conversationEntryStack.add(entry);
             }

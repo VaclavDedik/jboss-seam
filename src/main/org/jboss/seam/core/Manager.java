@@ -244,7 +244,7 @@ public class Manager
    {
       return isLongRunningConversation() && 
             !getCurrentConversationEntry().isRemoveAfterRedirect() &&
-            !Session.instance().isInvalid();
+            !ServletSession.instance().isInvalid();
    }
    
    public boolean isNestedConversation()
@@ -886,7 +886,7 @@ public class Manager
    private String encodeConversationIdParameter(String url, String paramName, String paramValue)
    {
          
-      if ( Session.instance().isInvalid() || containsParameter(url, paramName) )
+      if ( ServletSession.instance().isInvalid() || containsParameter(url, paramName) )
       {
          return url;
       }

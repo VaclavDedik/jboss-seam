@@ -22,7 +22,7 @@ import org.jboss.seam.annotations.Role;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.core.Session;
+import org.jboss.seam.core.ServletSession;
 import org.jboss.seam.util.Strings;
 
 /**
@@ -213,7 +213,7 @@ public class Seam
     */
    public static void invalidateSession()
    {
-      Session.instance().invalidate();
+      ServletSession.instance().invalidate();
    }
    
    /**
@@ -223,7 +223,7 @@ public class Seam
     */
    public static boolean isSessionInvalid()
    {
-      return Session.instance().isInvalid();
+      return ServletSession.instance().isInvalid();
    }
    
    /**
