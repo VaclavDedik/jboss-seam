@@ -29,8 +29,7 @@
     <!-- Conversation timeout: 30 minutes -->
     <core:manager concurrent-request-timeout="2000"
                   conversation-timeout="180000"
-                  conversation-id-parameter="cid"
-                  conversation-is-long-running-parameter="clr"/>
+                  conversation-id-parameter="cid"/>
 
     <core:filter name="accessLevelFilter">
         <core:name>accessLevelFilter</core:name>

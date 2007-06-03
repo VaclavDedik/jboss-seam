@@ -16,8 +16,7 @@
  
     <core:manager conversation-timeout="120000" 
                   concurrent-request-timeout="500"
-                  conversation-id-parameter="cid"
-                  conversation-is-long-running-parameter="clr"/>
+                  conversation-id-parameter="cid"/>
     
     <security:identity authenticate-method="#{authenticator.authenticate}" 
                        security-rules="#{securityRules}"/>

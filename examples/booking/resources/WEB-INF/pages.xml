@@ -52,7 +52,9 @@
         
     </page>
     
-	<page view-id="/hotel.xhtml">
+	<page view-id="/hotel.xhtml" 
+	      conversation-required="true" 
+	      login-required="true">
           
         <description>View hotel: #{hotel.name}</description>
         
@@ -62,7 +64,9 @@
         
     </page>
 
-	<page view-id="/book.xhtml">
+	<page view-id="/book.xhtml" 
+	      conversation-required="true" 
+	      login-required="true">
           
         <description>Book hotel: #{hotel.name}</description>
         
@@ -74,7 +78,9 @@
         
     </page>
 
-	<page view-id="/confirm.xhtml">
+	<page view-id="/confirm.xhtml" 
+	      conversation-required="true" 
+	      login-required="true">
           
         <description>Confirm booking: #{booking.description}</description>
         
