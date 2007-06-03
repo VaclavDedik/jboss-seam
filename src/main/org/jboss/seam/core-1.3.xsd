@@ -234,11 +234,11 @@
     <xs:element name="hibernate-session-factory">
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
-                <xs:element name="mappingClasses" type="components:multiValuedProperty"/>
-                <xs:element name="mappingFiles" type="components:multiValuedProperty"/>
-                <xs:element name="mappingJars" type="components:multiValuedProperty"/>
-                <xs:element name="mappingPackages" type="components:multiValuedProperty"/>
-                <xs:element name="mappingResources" type="components:multiValuedProperty"/>
+                <xs:element name="mapping-classes" type="components:multiValuedProperty"/>
+                <xs:element name="mapping-files" type="components:multiValuedProperty"/>
+                <xs:element name="mapping-jars" type="components:multiValuedProperty"/>
+                <xs:element name="mapping-packages" type="components:multiValuedProperty"/>
+                <xs:element name="mapping-resources" type="components:multiValuedProperty"/>
                 <xs:element name="cfg-properties" type="components:mapProperty"/>
             </xs:choice>
             <xs:attributeGroup ref="core:attlist.HibernateSessionFactory"/>
