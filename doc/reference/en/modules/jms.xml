@@ -10,28 +10,47 @@
     
     <para>
         But for many usecases, JMS is overkill. Seam layers a simple asynchronous method and event
-        facility over the EJB 3.0 timer service.
+        facility over your choice of <emphasis>dispatchers</emphasis>:
     </para>
-        
+    
+    <itemizedlist>
+        <listitem>
+            <para>
+                <literal>java.util.concurrent.ScheduledThreadPoolExecutor</literal> (by default)
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                the EJB timer service (for EJB 3.0 environments)
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                Quartz
+            </para>
+        </listitem>
+    </itemizedlist>
+            
     <sect1>
         <title>Asynchronicity</title>
 
         <para>
-            Asynchronous events and method calls have the same quality of service expectations as the 
-            container's EJB timer service. If you're not familiar with the Timer service, don't worry,
-            you don't need to interact with it directly if you want to use asynchronous methods in
-            Seam.
+            Asynchronous events and method calls have the same quality of service expectations as  
+            the underlying dispatcher mechanism. The default dispatcher, based upon a 
+            <literal>ScheduledThreadPoolExecutor</literal> performs efficiently but provides no
+            support for persistent asynchronous tasks, and hence no guarantee that a task
+            will ever actually be executed. If you're working in an environment that supports
+            EJB 3.0, and add the following line to <literal>components.xml</literal>:
         </para>
         
-        <para>
-            To use asynchronous methods and events, you need to add the following line to
-            <literal>components.xml</literal>:
-        </para>
-        
-        <programlisting><![CDATA[<core:dispatcher/>]]></programlisting>
+        <programlisting><![CDATA[<core:timer-service-dispatcher/>]]></programlisting>
         
         <para>
-            Note that this functionality is not available in environments which do not support EJB 3.0.
+            then your asynchronous tasks will be processed by the container's EJB timer service. If 
+            you're not familiar with the Timer service, don't worry, you don't need to interact with 
+            it directly if you want to use asynchronous methods in Seam. The important thing to know
+            is that any good EJB 3.0 implementation will have the option of using persistent timers, 
+            which gives some guarantee that the tasks will eventually be processed.
         </para>
         
         <sect2>
@@ -190,11 +209,12 @@ public class CreatePaymentAction
             <title>Asynchronous events</title>
             <para>
                 Component-driven events may also be asynchronous. To raise an event for asynchronous
-                processing, simply call the <literal>raiseAsynchronousEvent()</literal> methods of 
-                the <literal>Events</literal> class. To schedule a timed event, call one of the 
-                <literal>raiseTimedEvent()</literal> methods. Components may observe asynchronous
-                events in the usual way, but remember that only the business process context is
-                propagated to the asynchronous thread.
+                processing, simply call the <literal>raiseAsynchronousEvent()</literal> method of 
+                the <literal>Events</literal> class. To schedule a timed event, call the
+                <literal>raiseTimedEvent()</literal> method, passing a <emphasis>schedule</emphasis>
+                object (for the default dispatcher or timer service dispatcher, use <literal>TimerSchedule</literal>). 
+                Components may observe asynchronous events in the usual way, but remember that only the 
+                business process context is propagated to the asynchronous thread.
             </para>
         </sect2>
 
