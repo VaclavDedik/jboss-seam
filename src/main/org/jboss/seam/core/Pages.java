@@ -29,6 +29,7 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.annotations.Install;
@@ -81,8 +82,9 @@ public class Pages
    private String loginViewId;
    private Map<String, ConversationIdParameter> conversations = Collections.synchronizedMap( new HashMap<String, ConversationIdParameter>() );
    
-   private Integer httpPort = null;
-   private Integer httpsPort = null;
+   private boolean invalidateSessionBeforeSchemeChange = true;   
+   private Integer httpPort;
+   private Integer httpsPort;
  
    private SortedSet<String> wildcardViewIds = new TreeSet<String>( 
          new Comparator<String>() {
@@ -94,7 +96,7 @@ public class Pages
             }
          } 
       );
-   
+
    @Create
    public void initialize()
    {
@@ -259,7 +261,11 @@ public class Pages
          String scheme = getScheme(viewId);
          if ( scheme!=null && !requestScheme.equals(scheme) )
          {
-            Manager.instance().redirect(viewId);              
+            Manager.instance().redirect(viewId);
+            if (invalidateSessionBeforeSchemeChange)
+            {
+               Seam.invalidateSession();
+            }
             return false;
          }
       }
@@ -1403,6 +1409,16 @@ public class Pages
    public void setHttpsPort(Integer httpsPort)
    {
       this.httpsPort = httpsPort;
+   }
+   
+   public boolean isInvalidateSessionBeforeSchemeChange()
+   {
+      return invalidateSessionBeforeSchemeChange;
+   }
+   
+   public void setInvalidateSessionBeforeSchemeChange(boolean invalidateSessionBeforeSchemeChange)
+   {
+      this.invalidateSessionBeforeSchemeChange = invalidateSessionBeforeSchemeChange;
    }
    
 }

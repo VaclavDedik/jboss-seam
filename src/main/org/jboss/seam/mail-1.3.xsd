@@ -3,7 +3,7 @@
     targetNamespace="http://jboss.com/products/seam/mail"
     xmlns:mail="http://jboss.com/products/seam/mail"
     xmlns:components="http://jboss.com/products/seam/components" attributeFormDefault="unqualified">
-    <xs:import namespace="http://jboss.com/products/seam/components" schemaLocation="http://jboss.com/products/seam/components-1.3.xsd"/>
+    <xs:import namespace="http://jboss.com/products/seam/components" schemaLocation="components-1.3.xsd"/>
     
     <xs:attributeGroup name="attlist.mailSession">
         <xs:attribute name="username" type="xs:string"/>

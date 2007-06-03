@@ -157,6 +157,7 @@
         <xs:attribute name="login-view-id"/>
         <xs:attribute name="http-port" type="xs:integer"/>
         <xs:attribute name="https-port" type="xs:integer"/>
+        <xs:attribute name="invalidate-session-before-scheme-change" type="xs:boolean"/>
     </xs:attributeGroup>
 
     <xs:element name="pojo-cache">

@@ -1141,13 +1141,26 @@ end;
       link will use the HTTPS protocol because <literal>/login.xhtml</literal> is configured to use it:
     </para>
     
-    <programlisting><![CDATA[  <s:link view="/login.xhtml" value="Login"/> ]]></programlisting>
+    <programlisting><![CDATA[  <s:link view="/login.xhtml" value="Login"/>]]></programlisting>
     
     <para>
       Browsing directly to a view when using the <emphasis>incorrect</emphasis> protocol will cause a 
       redirect to the same view using the <emphasis>correct</emphasis> protocol.  For example, browsing
       to a page that has <literal>scheme="https"</literal> using HTTP will cause a redirect to the same
       page using HTTPS.
+    </para>
+    
+    <para>
+      <emphasis>By default</emphasis>, Seam will invalidate the current HTTP session each time the scheme
+      changes. You can disable this behavior in <literal>components.xml</literal>:
+    </para>
+    
+    <programlisting><![CDATA[  <core:pages invalidate-session-before-scheme-change="false"/>]]></programlisting>
+    
+    <para>
+      But if you choose to disable this session invalidation, your system will be more vulnerable to
+      sniffing of the session id or leakage of sensitive data from pages using HTTPS to other pages
+      using HTTP.
     </para>
     
     <para>
@@ -1159,7 +1172,7 @@ end;
       <literal>scheme</literal>, by configuring it on the default (<literal>"*"</literal>) view:
     </para>
     
-    <programlisting><![CDATA[  <page view-id="*" scheme="http"> ]]></programlisting>
+    <programlisting><![CDATA[  <page view-id="*" scheme="http">]]></programlisting>
     
     <para>
       Of course, if <emphasis>none</emphasis> of the pages in your application use HTTPS then it is not 
