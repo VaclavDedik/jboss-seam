@@ -42,11 +42,11 @@
 
 <!ELEMENT restrict (#PCDATA)>
 
-<!ELEMENT navigation (((begin-conversation|end-conversation|start-task|begin-task|end-task|create-process|resume-process)?,(out*),raise-event,(render|redirect))|(rule*))>
+<!ELEMENT navigation (((begin-conversation|end-conversation|start-task|begin-task|end-task|create-process|resume-process)?,(out*),raise-event,(render|redirect)?)|(rule*))>
 <!ATTLIST navigation from-action CDATA #IMPLIED>
 <!ATTLIST navigation evaluate CDATA #IMPLIED>
 
-<!ELEMENT rule ((begin-conversation|end-conversation|start-task|begin-task|end-task|create-process|resume-process)?,(out*),raise-event,(render|redirect))>
+<!ELEMENT rule ((begin-conversation|end-conversation|start-task|begin-task|end-task|create-process|resume-process)?,(out*),raise-event,(render|redirect)?)>
 <!ATTLIST rule if-outcome CDATA #IMPLIED>
 <!ATTLIST rule if CDATA #IMPLIED>
 
