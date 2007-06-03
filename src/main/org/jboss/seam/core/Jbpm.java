@@ -146,19 +146,23 @@ public class Jbpm
       return ProcessDefinition.parseXmlInputStream(resource);
    }
 
-   public String[] getPageflowDefinitions() {
+   public String[] getPageflowDefinitions() 
+   {
       return pageflowDefinitions;
    }
 
-   public void setPageflowDefinitions(String[] pageflowDefinitions) {
+   public void setPageflowDefinitions(String[] pageflowDefinitions) 
+   {
       this.pageflowDefinitions = pageflowDefinitions;
    }
    
-   public String[] getProcessDefinitions() {
+   public String[] getProcessDefinitions() 
+   {
       return processDefinitions;
    }
 
-   public void setProcessDefinitions(String[] processDefinitions) {
+   public void setProcessDefinitions(String[] processDefinitions) 
+   {
       this.processDefinitions = processDefinitions;
    }
    

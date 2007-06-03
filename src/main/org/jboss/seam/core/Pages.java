@@ -85,6 +85,8 @@ public class Pages
    private boolean invalidateSessionBeforeSchemeChange = true;   
    private Integer httpPort;
    private Integer httpsPort;
+   
+   private String[] resources = { "/WEB-INF/pages.xml" };
  
    private SortedSet<String> wildcardViewIds = new TreeSet<String>( 
          new Comparator<String>() {
@@ -100,15 +102,18 @@ public class Pages
    @Create
    public void initialize()
    {
-      InputStream stream = Resources.getResourceAsStream("/WEB-INF/pages.xml");      
-      if (stream==null)
+      for (String resource: resources)
       {
-         log.debug("no pages.xml file found");
-      }
-      else
-      {
-         log.debug("reading pages.xml");
-         parse(stream);
+         InputStream stream = Resources.getResourceAsStream(resource);      
+         if (stream==null)
+         {
+            log.info("no pages.xml file found: " + resource);
+         }
+         else
+         {
+            log.debug("reading pages.xml file: " + resource);
+            parse(stream);
+         }
       }
    }
    /**
@@ -1419,6 +1424,16 @@ public class Pages
    public void setInvalidateSessionBeforeSchemeChange(boolean invalidateSessionBeforeSchemeChange)
    {
       this.invalidateSessionBeforeSchemeChange = invalidateSessionBeforeSchemeChange;
+   }
+   
+   public String[] getResources()
+   {
+      return resources;
+   }
+   
+   public void setResources(String[] resources)
+   {
+      this.resources = resources;
    }
    
 }

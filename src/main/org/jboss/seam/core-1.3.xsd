@@ -148,10 +148,14 @@
 
     <xs:element name="pages">
         <xs:complexType mixed="true">
+            <xs:choice minOccurs="0" maxOccurs="1">
+                <xs:element ref="core:resources"/>
+            </xs:choice>
             <xs:attributeGroup ref="components:attlist.component"/>
             <xs:attributeGroup ref="core:attlist.pages"/>
         </xs:complexType>
     </xs:element>
+    <xs:element name="resources" type="components:multiValuedProperty"/>
     <xs:attributeGroup name="attlist.pages">
         <xs:attribute name="no-conversation-view-id"/>
         <xs:attribute name="login-view-id"/>
