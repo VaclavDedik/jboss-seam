@@ -1206,6 +1206,15 @@ public class Pages
       }
    }
    
+   private static void parseEvent(Element element, Rule rule)
+   {
+      Element eventElement = element.element("raise-event");
+      if ( eventElement!=null )
+      {
+         rule.setEventType( eventElement.attributeValue("type") );
+      }
+   }
+   
    /**
     * Parse navigation
     */
@@ -1225,6 +1234,7 @@ public class Pages
       }
       
       Rule rule = new Rule();
+      parseEvent(element, rule);
       parseNavigationHandler(element, rule);
       parseConversationControl( element, rule.getConversationControl() );
       parseTaskControl(element, rule.getTaskControl());
@@ -1299,6 +1309,7 @@ public class Pages
       parseConversationControl( element, rule.getConversationControl() );
       parseTaskControl(element, rule.getTaskControl());
       parseProcessControl(element, rule.getProcessControl());
+      parseEvent(element, rule);
       parseNavigationHandler(element, rule);
       
       return rule;
