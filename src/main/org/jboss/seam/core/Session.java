@@ -31,7 +31,7 @@ public class Session
       {
          throw new IllegalStateException("No active event context");
       }
-      return (Session) Component.getInstance(Conversation.class, ScopeType.EVENT);
+      return (Session) Component.getInstance(Session.class, ScopeType.EVENT);
    }
    
 }
