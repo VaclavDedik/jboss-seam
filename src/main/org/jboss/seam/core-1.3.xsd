@@ -135,7 +135,6 @@
         <xs:attribute name="conversation-timeout" type="xs:integer"/>
         <xs:attribute name="conversation-id-parameter"/>
         <xs:attribute name="parent-conversation-id-parameter"/>
-        <xs:attribute name="conversation-is-long-running-parameter"/>
     </xs:attributeGroup>
 
     <xs:element name="microcontainer">

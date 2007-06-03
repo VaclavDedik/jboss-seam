@@ -218,7 +218,7 @@ public final class Page
    
    private void checkPermission(FacesContext facesContext, String name)
    {
-      if ( isRestricted() && Identity.isSecurityEnabled())
+      if ( isRestricted() && Identity.isSecurityEnabled() )
       {
          // If no expression is configured, create a default one
          if (restriction == null)

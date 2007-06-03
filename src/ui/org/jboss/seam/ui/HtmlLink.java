@@ -19,7 +19,6 @@ import javax.faces.el.MethodBinding;
 import javax.faces.event.ActionListener;
 import javax.faces.model.DataModel;
 
-import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Pages;
 import org.jboss.seam.pages.Page;
 
@@ -165,10 +164,6 @@ public class HtmlLink extends HtmlOutputLink implements ActionSource
             uiConversationId.setViewId(viewId);
             encodedUrl += getParameterString(characterEncoding, uiConversationId, first);
             first = false;
-         }
-         if ( Conversation.instance().isLongRunning() || Conversation.instance().isNested() )
-         {
-            encodedUrl += getParameterString(characterEncoding, new UIConversationIsLongRunning(), first);
          }
       }
       

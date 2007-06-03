@@ -72,7 +72,6 @@ public class Manager
    
    private String conversationIdParameter = "conversationId";
    private String parentConversationIdParameter = "parentConversationId";
-   private String conversationIsLongRunningParameter = "conversationIsLongRunning";
 
    // DONT BREAK, icefaces uses this
    public String getCurrentConversationId()
@@ -429,7 +428,7 @@ public class Manager
    {
       String storedConversationId = null;
       String storedParentConversationId = null;
-      Boolean isLongRunningConversation = null;
+      boolean validateLongRunningConversation = false;
       
       //First, try to get the conversation id from the request parameter defined for the page
       String viewId = Pages.getCurrentViewId();
@@ -449,46 +448,38 @@ public class Manager
       {
          storedParentConversationId = getRequestParameterValue(parameters, parentConversationIdParameter);
       }
-      isLongRunningConversation = "true".equals( getRequestParameterValue(parameters, conversationIsLongRunningParameter) );
             
-      if ( isMissing(storedConversationId) )
+      if ( Contexts.isPageContextActive() && isMissing(storedConversationId) ) 
       {
-         if ( Contexts.isPageContextActive() )
-         {
-            //if it is not passed as a request parameter,
-            //try to get it from the page context
-            org.jboss.seam.core.FacesPage page = org.jboss.seam.core.FacesPage.instance();
-            storedConversationId = page.getConversationId();
-            storedParentConversationId = null;
-            isLongRunningConversation = page.isConversationLongRunning();
-            //if (isLongRunningConversation==null) isLongRunningConversation = false;
-         }
+         //checkPageContext is a workaround for a bug in MySQL server-side state saving
+         
+         //if it is not passed as a request parameter,
+         //try to get it from the page context
+         org.jboss.seam.core.FacesPage page = org.jboss.seam.core.FacesPage.instance();
+         storedConversationId = page.getConversationId();
+         storedParentConversationId = null;
+         validateLongRunningConversation = page.isConversationLongRunning();
       }
 
       else
       {
          log.debug("Found conversation id in request parameter: " + storedConversationId);
       }
-      
-      //TODO: this approach is deprecated, remove code:
-      if ( "new".equals(storedConversationId) )
-      {
-         storedConversationId = null;
-         storedParentConversationId = null;
-         isLongRunningConversation = false;
-      }
-      //end code to remove
 
       String propagation = getPropagationFromRequestParameter(parameters);
       if ( "none".equals(propagation) )
       {
          storedConversationId = null;
          storedParentConversationId = null;
-         isLongRunningConversation = false;
+         validateLongRunningConversation = false;
+      }
+      else if ( "end".equals(propagation) )
+      {
+         validateLongRunningConversation = false;
       }
       
-      return restoreConversation(storedConversationId, storedParentConversationId, isLongRunningConversation) 
-            || "end".equals(propagation);
+      return restoreConversation(storedConversationId, storedParentConversationId) 
+               || !validateLongRunningConversation;
       
    }
    
@@ -552,7 +543,7 @@ public class Manager
     */
    public boolean restoreConversation(String conversationId)
    {
-      return restoreConversation(conversationId, null, false);
+      return restoreConversation(conversationId, null);
    }
 
    /**
@@ -562,7 +553,8 @@ public class Manager
     * the parent, and if that also fails, initialize a new 
     * temporary conversation context.
     */
-   private boolean restoreConversation(String conversationId, String parentConversationId, boolean isLongRunningConversation) {
+   private boolean restoreConversation(String conversationId, String parentConversationId) 
+   {
       ConversationEntry ce = null;
       if (conversationId!=null)
       {
@@ -574,10 +566,10 @@ public class Manager
          }
       }
       
-      return restoreAndLockConversation(ce, isLongRunningConversation);
+      return restoreAndLockConversation(ce);
    }
 
-   private boolean restoreAndLockConversation(ConversationEntry ce, boolean isLongRunningConversation)
+   private boolean restoreAndLockConversation(ConversationEntry ce)
    {
       if ( ce!=null && ce.lock() )
       {
@@ -612,7 +604,7 @@ public class Manager
          //long-running conversation to restore
          log.debug("No stored conversation, or concurrent call to the stored conversation");
          initializeTemporaryConversation();
-         return !isLongRunningConversation;
+         return false;
       }
    }
 
@@ -908,9 +900,6 @@ public class Manager
                   .append(paramName)
                   .append('=')
                   .append( encode( getParentConversationId() ) )
-                  .append('&')
-                  .append(conversationIsLongRunningParameter)
-                  .append("=true")
                   .toString();
          }
          else
@@ -932,12 +921,6 @@ public class Manager
                   .append(parentConversationIdParameter)
                   .append('=')
                   .append( encode( getParentConversationId() ) );
-         }
-         if ( isReallyLongRunningConversation() )
-         {
-            builder.append('&')
-                  .append(conversationIsLongRunningParameter)
-                  .append("=true");
          }
          return builder.toString();
       }
@@ -1177,26 +1160,6 @@ public class Manager
    {
       this.conversationIdParameter = conversationIdParameter;
    }
-
-   public String getConversationIsLongRunningParameter()
-   {
-      return conversationIsLongRunningParameter;
-   }
-
-   public void setConversationIsLongRunningParameter(String conversationIdLongRunning)
-   {
-      this.conversationIsLongRunningParameter = conversationIdLongRunning;
-   }
-
-   /*public boolean isUpdateModelValuesCalled()
-   {
-      return updateModelValuesCalled;
-   }
-
-   public void setUpdateModelValuesCalled(boolean updateModelValuesCalled)
-   {
-      this.updateModelValuesCalled = updateModelValuesCalled;
-   }*/
 
    public int getConcurrentRequestTimeout()
    {

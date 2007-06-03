@@ -118,11 +118,6 @@ public class SeamPortletPhaseListener extends AbstractSeamPhaseListener
                manager.getConversationIdParameter(), 
                manager.getCurrentConversationId()
             );
-         setPortletRenderParameter(
-               response, 
-               manager.getConversationIsLongRunningParameter(), 
-               Boolean.toString(manager.isReallyLongRunningConversation())
-            );
       }
    }
 
