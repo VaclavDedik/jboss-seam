@@ -89,7 +89,8 @@ public class Pages
    private String[] resources = { "/WEB-INF/pages.xml" };
  
    private SortedSet<String> wildcardViewIds = new TreeSet<String>( 
-         new Comparator<String>() {
+         new Comparator<String>() 
+         {
             public int compare(String x, String y)
             {
                if ( x.length()<y.length() ) return -1;
