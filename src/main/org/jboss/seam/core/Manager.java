@@ -437,17 +437,19 @@ public class Manager
       {
          Page page = Pages.instance().getPage(viewId);
          storedConversationId = page.getConversationIdParameter().getRequestConversationId(parameters);
-         //isLongRunningConversation = false; //TODO: think about this further...
-         isLongRunningConversation = "true".equals( getRequestParameterValue(parameters, conversationIsLongRunningParameter) );
+         //TODO: how about the parent conversation id?
       }
       
-      //Next, try to get the conversation id from the globally defined request parameter      
+      //Next, try to get the conversation id from the globally defined request parameters
       if (storedConversationId==null)
       {
-         storedConversationId = getRequestParameterValue(parameters, conversationIdParameter);   
-         storedParentConversationId = getRequestParameterValue(parameters, parentConversationIdParameter);
-         isLongRunningConversation = "true".equals( getRequestParameterValue(parameters, conversationIsLongRunningParameter) );
+         storedConversationId = getRequestParameterValue(parameters, conversationIdParameter);
       }
+      if (storedParentConversationId==null)
+      {
+         storedParentConversationId = getRequestParameterValue(parameters, parentConversationIdParameter);
+      }
+      isLongRunningConversation = "true".equals( getRequestParameterValue(parameters, conversationIsLongRunningParameter) );
             
       if ( isMissing(storedConversationId) )
       {
