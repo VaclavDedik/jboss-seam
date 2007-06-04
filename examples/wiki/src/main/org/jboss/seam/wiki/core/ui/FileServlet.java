@@ -1,22 +1,20 @@
 package org.jboss.seam.wiki.core.ui;
 
 import org.jboss.seam.wiki.core.model.File;
-import org.jboss.seam.util.Transactions;
-import org.jboss.seam.*;
 
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.ServletException;
-import javax.swing.*;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.swing.*;
 import javax.transaction.UserTransaction;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 public class FileServlet extends HttpServlet {
@@ -63,7 +61,8 @@ public class FileServlet extends HttpServlet {
             UserTransaction userTx = null;
             boolean startedTx = false;
             try {
-                userTx = Transactions.getUserTransaction();
+
+                userTx = (UserTransaction)org.jboss.seam.Component.getInstance("org.jboss.seam.transaction.transaction");
                 if (userTx.getStatus() != javax.transaction.Status.STATUS_ACTIVE) {
                     startedTx = true;
                     userTx.begin();

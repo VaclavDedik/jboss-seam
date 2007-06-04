@@ -3,7 +3,6 @@ package org.jboss.seam.wiki.core.ui;
 import com.sun.syndication.feed.synd.*;
 import com.sun.syndication.io.SyndFeedOutput;
 import org.jboss.seam.Component;
-import org.jboss.seam.util.Transactions;
 import org.jboss.seam.wiki.core.dao.FeedDAO;
 import org.jboss.seam.wiki.core.model.Feed;
 import org.jboss.seam.wiki.core.model.FeedEntry;
@@ -40,7 +39,7 @@ public class FeedServlet extends HttpServlet {
         UserTransaction userTx = null;
         boolean startedTx = false;
         try {
-            userTx = Transactions.getUserTransaction();
+            userTx = (UserTransaction)org.jboss.seam.Component.getInstance("org.jboss.seam.transaction.transaction");
             if (userTx.getStatus() != javax.transaction.Status.STATUS_ACTIVE) {
                 startedTx = true;
                 userTx.begin();
