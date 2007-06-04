@@ -262,7 +262,7 @@ public class HelloBean implements Hello {
         </para>
         
 <programlisting><![CDATA[css ../screen.css
-template template.xhtml]]></programlisting>
+template /template.xhtml]]></programlisting>
 
         <para>
             Usually the entries in a theme resource bundle will be paths to CSS styles
@@ -276,6 +276,11 @@ template template.xhtml]]></programlisting>
         </para>
         
         <programlisting><![CDATA[<link href="#{theme.css}" rel="stylesheet" type="text/css" />]]></programlisting>
+        
+        <para>Or, when the page definition resides in a subdirectory:</para>
+        
+        <programlisting><![CDATA[<link href="#{facesContext.externalContext.requestContextPath}#{theme.css}" 
+    rel="stylesheet" type="text/css" />]]></programlisting>
         
         <para>
             Most powerfully, facelets lets us theme the template used by a <literal>&lt;ui:composition&gt;</literal>:
