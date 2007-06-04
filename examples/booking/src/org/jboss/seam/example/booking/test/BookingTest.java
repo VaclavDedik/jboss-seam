@@ -65,7 +65,7 @@ public class BookingTest extends SeamTest
          
       }.run();
       
-      String id = new FacesRequest("/hotel.xhtml") {
+      String id = new FacesRequest("/main.xhtml") {
          
          @Override
          protected void invokeApplication() throws Exception {
@@ -128,6 +128,12 @@ public class BookingTest extends SeamTest
             assert Manager.instance().isLongRunningConversation();
          }
          
+         @Override
+         protected void afterRequest()
+         {
+            assert !isInvokeApplicationBegun();
+         }
+         
       }.run();
       
       new FacesRequest("/book.xhtml", id) {
@@ -147,6 +153,12 @@ public class BookingTest extends SeamTest
             assert ( (FacesMessage) messages.next() ).getSummary().equals("Credit card name is required");
             assert !messages.hasNext();
             assert Manager.instance().isLongRunningConversation();
+         }
+         
+         @Override
+         protected void afterRequest()
+         {
+            assert !isInvokeApplicationBegun();
          }
          
       }.run();
@@ -181,6 +193,12 @@ public class BookingTest extends SeamTest
             assert Manager.instance().isLongRunningConversation();
          }
          
+         @Override
+         protected void afterRequest()
+         {
+            assert isInvokeApplicationComplete();
+         }
+         
       }.run();
       
       new FacesRequest("/book.xhtml", id) {
@@ -205,6 +223,12 @@ public class BookingTest extends SeamTest
             assert Manager.instance().isLongRunningConversation();
          }
          
+         @Override
+         protected void afterRequest()
+         {
+            assert isInvokeApplicationComplete();
+         }
+         
       }.run();
       
       new FacesRequest("/confirm.xhtml", id) {
@@ -213,6 +237,12 @@ public class BookingTest extends SeamTest
          protected void invokeApplication()
          {
             invokeMethod("#{hotelBooking.confirm}");
+         }
+         
+         @Override
+         protected void afterRequest()
+         {
+            assert isInvokeApplicationComplete();
          }
          
       }.run();
