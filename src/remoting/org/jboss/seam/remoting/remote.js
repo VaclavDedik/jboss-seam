@@ -624,13 +624,16 @@ Seam.Remoting.processResponse = function(doc)
   var bodyNode;
   var context = new Seam.Remoting.__Context;
 
-  for (var i = 0; i < doc.documentElement.childNodes.length; i++)
+  if (doc.documentElement)
   {
-    var node = doc.documentElement.childNodes.item(i);
-    if (node.tagName == "header")
-      headerNode = node;
-    else if (node.tagName == "body")
-      bodyNode = node;
+    for (var i = 0; i < doc.documentElement.childNodes.length; i++)
+    {
+      var node = doc.documentElement.childNodes.item(i);
+      if (node.tagName == "header")
+        headerNode = node;
+      else if (node.tagName == "body")
+        bodyNode = node;
+    }
   }
 
   if (headerNode)
