@@ -11,6 +11,7 @@
 <!ENTITY jbpm                   SYSTEM "modules/jbpm.xml">
 <!ENTITY persistence            SYSTEM "modules/persistence.xml">
 <!ENTITY validation             SYSTEM "modules/validation.xml">
+<!ENTITY groovy                 SYSTEM "modules/groovy.xml">
 <!ENTITY framework              SYSTEM "modules/framework.xml">
 <!ENTITY drools                 SYSTEM "modules/drools.xml">
 <!ENTITY security               SYSTEM "modules/security.xml">
@@ -262,6 +263,7 @@
     &jbpm;
     &persistence;
     &validation;
+    &groovy;
     &framework;
     &drools;
     &security;
