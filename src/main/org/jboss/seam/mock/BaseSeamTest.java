@@ -529,6 +529,11 @@ public class BaseSeamTest
                processValidations();
 
                updateConversationId();
+               
+               if ( isValidationFailure() )
+               {
+                  facesContext.renderResponse();
+               }
 
                phases.afterPhase(new PhaseEvent(facesContext, PhaseId.PROCESS_VALIDATIONS,
                         MockLifecycle.INSTANCE));
