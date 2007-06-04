@@ -17,6 +17,7 @@ import org.jboss.seam.contexts.WebSessionContext;
 import org.jboss.seam.core.ConversationEntries;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.core.ServletSession;
 import org.jboss.seam.el.EL;
 import org.jboss.seam.el.SeamELResolver;
 import org.jboss.seam.mock.MockExternalContext;
@@ -29,6 +30,11 @@ import org.testng.annotations.Test;
 
 public class ContextTest
 {
+   private void installComponent(Context appContext, Class clazz)
+   {
+      appContext.set( Seam.getComponentName(clazz) + ".component", new Component(clazz) );
+   }
+   
    @Test
    public void testContextManagement() throws Exception
    {
@@ -39,24 +45,13 @@ public class ContextTest
       MockExternalContext externalContext = new MockExternalContext(servletContext);
       Context appContext = new FacesApplicationContext(externalContext);
       //appContext.set( Seam.getComponentName(Init.class), new Init() );
-      appContext.set( 
-            Seam.getComponentName(ConversationEntries.class) + ".component", 
-            new Component(ConversationEntries.class, appContext) 
-         );
-      appContext.set(
-            Seam.getComponentName(Manager.class) + ".component",
-            new Component(Manager.class, appContext)
-         );
+      installComponent(appContext, ConversationEntries.class);
+      installComponent(appContext, Manager.class);
+      installComponent(appContext, ServletSession.class);
       appContext.set( Seam.getComponentName(Init.class), new Init() );
       
-      appContext.set( 
-            Seam.getComponentName(Bar.class) + ".component",
-            new Component(Bar.class, appContext)
-      );
-      appContext.set( 
-            Seam.getComponentName(Foo.class) + ".component",
-            new Component(Foo.class, appContext)
-      );
+      installComponent(appContext, Bar.class);
+      installComponent(appContext, Foo.class);
       appContext.set("otherFoo", new Foo());
       
       assert !Contexts.isEventContextActive();
@@ -109,7 +104,7 @@ public class ContextTest
       assert !Contexts.isConversationContextActive();
       assert !Contexts.isApplicationContextActive();
       assert ((MockHttpSession)externalContext.getSession(false)).getAttributes().size()==5;
-      assert ((MockServletContext)externalContext.getContext()).getAttributes().size()==7;
+      assert ((MockServletContext)externalContext.getContext()).getAttributes().size()==8;
       
       Lifecycle.beginRequest(externalContext);
       
@@ -142,7 +137,7 @@ public class ContextTest
       assert Contexts.getSessionContext().get("foo")==foo;
       
       assert Contexts.getConversationContext().getNames().length==2;
-      assert Contexts.getApplicationContext().getNames().length==7;
+      assert Contexts.getApplicationContext().getNames().length==8;
       assert Contexts.getSessionContext().getNames().length==3;
       
       assert seamVariableResolver.getValue(EL.EL_CONTEXT, null, "zzz").equals("bar");
@@ -163,7 +158,7 @@ public class ContextTest
       assert !Contexts.isConversationContextActive();
       assert !Contexts.isApplicationContextActive();
       assert ((MockHttpSession)externalContext.getSession(false)).getAttributes().size()==3;
-      assert ((MockServletContext)externalContext.getContext()).getAttributes().size()==7;
+      assert ((MockServletContext)externalContext.getContext()).getAttributes().size()==8;
       
       Lifecycle.endSession( servletContext, new ServletSessionImpl( (HttpSession) externalContext.getSession(true) ) );
             
@@ -181,14 +176,8 @@ public class ContextTest
       ContextAdaptor sessionAdaptor = new ServletSessionImpl(session);
       ContextAdaptor requestAdaptor = new ServletRequestImpl(request);
       Context appContext = new FacesApplicationContext(externalContext);
-      appContext.set( 
-            Seam.getComponentName(ConversationEntries.class) + ".component", 
-            new Component(ConversationEntries.class, appContext) 
-         );
-      appContext.set(
-            Seam.getComponentName(Manager.class) + ".component", 
-            new Component(Manager.class) 
-         );
+      installComponent(appContext, ConversationEntries.class);
+      installComponent(appContext, Manager.class);
       appContext.set( Seam.getComponentName(Init.class), new Init() );
       Lifecycle.beginRequest(externalContext);
       Manager.instance().setLongRunningConversation(true);
