@@ -1,0 +1,37 @@
+<components xmlns:pay="http://jboss.com/products/seam/examples/quartz"
+            xmlns:core="http://jboss.com/products/seam/core"
+            xmlns:framework="http://jboss.com/products/seam/framework">
+
+    <pay:payment-home name="paymentHome" 
+                      new-instance="#{newPayment}" 
+                      created-message="Created a new payment to #{newPayment.payee}" />
+
+    <pay:payment name="newPayment" 
+                 payee="Somebody"
+                 account="#{selectedAccount}"
+                 payment-date="#{currentDatetime}"
+                 created-date="#{currentDatetime}" />
+
+    <factory name="selectedAccount" 
+             value="#{accountHome.instance}"/>
+
+    <framework:entity-home name="accountHome" 
+                           entity-class="org.jboss.seam.example.quartz.Account"
+                           entity-manager="#{entityManager}" />
+
+    <framework:entity-query name="accounts" 
+                            ejbql="from Account"
+                            order="accountNumber" 
+                            max-results="20" 
+                            entity-manager="#{entityManager}" />
+        
+    <core:managed-persistence-context name="entityManager"
+                                      auto-create="true"
+                                      persistence-unit-jndi-name="java:/seampayEntityManagerFactory" />
+
+    <!-- Install the QuartzDispatcher -->
+    <component name="org.jboss.seam.core.dispatcher" class="org.jboss.seam.core.QuartzDispatcher"/>
+
+    <core:init debug="true" jndi-pattern="@jndiPattern@" />
+    <core:ejb installed="@embeddedEjb@" /> 
+</components>

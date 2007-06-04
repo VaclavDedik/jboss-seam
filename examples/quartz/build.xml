@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<project name="Payments" default="deploy" basedir=".">
+
+    <!-- Example name -->
+    <property name="Name"                   value="Seam Payment Example"/>
+    <property name="example.name"           value="jboss-seam-quartz"/>
+
+    <!-- Overrides -->
+    <property name="example.webinf.lib.dir"  value="."/>
+    <property name="example.seam.ui.lib"     value="yes"/>
+    <property name="example.seam.debug.lib"  value="yes"/>
+    <property name="example.quartz.lib"    value="yes"/>
+    <property name="example.facelets.lib"    value="yes"/>
+    <property name="src.java.dir"            value="src"/>
+    <property name="src.test.dir"            value="src"/>
+    <property name="test.classpath"          value="test.eejb.classpath"/>
+    <property name="tomcat.conf"             value="eejb.conf"/>  
+    
+    <import file="../../build.xml"/>
+</project>
+

@@ -147,6 +147,10 @@
 	<zipfileset id="example.gwt.jar" dir="${lib.dir}" description="The GWT runtime">
 		<include name="gwt-servlet.jar" if="example.gwt.lib"/>
 	</zipfileset>	
+
+        <zipfileset id="example.quartz.jar" dir="${lib.dir}" description="The Quartz Jar">
+                <include name="quartz-1.6.0.jar" if="example.quartz.lib"/>
+        </zipfileset>
 	
 	<!-- prefix="WEB-INF/lib" -->
 	<zipfileset id="example.spring.jar" dir="${lib.dir}" description="the spring jar">
@@ -1297,6 +1301,7 @@
 			<fileset refid="example.spring.jar" />
 			<fileset refid="example.beans.files" />
 			<fileset refid="example.gwt.jar" />
+			<fileset refid="example.quartz.jar" />
 						
 			<zipfileset dir="${build.dir}">
 				<include name="${example.name}.jar" />
