@@ -610,9 +610,10 @@
                         with the jBPM task specified in the named request parameter. Within the context of this
                         conversation, a business process context is also defined, for the business process instance of
                         the task instance. </para>
-                    <para> The jBPM <literal>TaskInstance</literal> will be available in a request context variable
-                        named <literal>taskInstance</literal>. The jPBM <literal>ProcessInstance</literal> will be
-                        available in a request context variable named <literal>processInstance</literal>. </para>
+                    <para> The jBPM <literal>org.jbpm.taskmgmt.exe.TaskInstance</literal> will be available in a request 
+                        context variable named <literal>taskInstance</literal>. The jPBM 
+                        <literal>org.jbpm.graph.exe.ProcessInstance</literal> will be available in a request context 
+                        variable named <literal>processInstance</literal>. </para>
                     <itemizedlist>
                         <listitem>
                             <para>
