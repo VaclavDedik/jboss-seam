@@ -15,6 +15,7 @@ import org.quartz.JobDetail;
 import org.quartz.JobDataMap;
 import org.quartz.Trigger;
 import org.quartz.SimpleTrigger;
+import org.quartz.CronTrigger;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.SchedulerException;
@@ -127,6 +128,32 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzDispatcher.Quartz
       JobDetail jobDetail = new JobDetail(jobName, null, QuartzJob.class);
       jobDetail.getJobDataMap().put("async", async);
 
+      if ( schedule.getCron()!=null )
+      {
+        try {
+          CronTrigger trigger = new CronTrigger (triggerName, null);
+          trigger.setCronExpression(schedule.getCron());
+          if ( schedule.getExpiration()!=null )
+          {
+            trigger.setStartTime (schedule.getExpiration());
+          }
+          else if ( schedule.getDuration()!=null )
+          {
+            trigger.setStartTime (calculateDelayedDate(schedule.getDuration()));
+          }
+
+          scheduler.scheduleJob( jobDetail, trigger );
+
+          return new QuartzTriggerHandle (triggerName);
+
+        } catch (Exception e) {
+          log.error ("Cannot submit cron job, fall back to fixed interval");
+          e.printStackTrace ();
+
+          // The method does not return, and execution flow follows
+        }
+      }
+
       if ( schedule.getIntervalDuration()!=null )
       {
          if ( schedule.getExpiration()!=null )
@@ -134,21 +161,18 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzDispatcher.Quartz
             SimpleTrigger trigger = new SimpleTrigger (triggerName, null, schedule.getExpiration(), null, SimpleTrigger.REPEAT_INDEFINITELY, schedule.getIntervalDuration());
             scheduler.scheduleJob( jobDetail, trigger );
 
-            // return executor.scheduleAtFixedRate( runnable, toDuration( schedule.getExpiration() ), schedule.getIntervalDuration(), TimeUnit.MILLISECONDS );
          }
          else if ( schedule.getDuration()!=null )
          {
              SimpleTrigger trigger = new SimpleTrigger (triggerName, null, calculateDelayedDate(schedule.getDuration()), null, SimpleTrigger.REPEAT_INDEFINITELY, schedule.getIntervalDuration());
              scheduler.scheduleJob( jobDetail, trigger );
 
-             // return executor.scheduleAtFixedRate( runnable, schedule.getDuration(), schedule.getIntervalDuration(), TimeUnit.MILLISECONDS );
          }
          else
          {
             SimpleTrigger trigger = new SimpleTrigger (triggerName, null, SimpleTrigger.REPEAT_INDEFINITELY, schedule.getIntervalDuration());
             scheduler.scheduleJob( jobDetail, trigger );
 
-            // return executor.scheduleAtFixedRate( runnable, 0l, schedule.getIntervalDuration(), TimeUnit.MILLISECONDS );
          }
       }
       else if ( schedule.getExpiration()!=null )
@@ -156,21 +180,18 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzDispatcher.Quartz
           SimpleTrigger trigger = new SimpleTrigger (triggerName, null, schedule.getExpiration());
           scheduler.scheduleJob( jobDetail, trigger );
 
-          // return executor.schedule( runnable, toDuration( schedule.getExpiration() ), TimeUnit.MILLISECONDS );
       }
       else if ( schedule.getDuration()!=null )
       { 
           SimpleTrigger trigger = new SimpleTrigger (triggerName, null, calculateDelayedDate(schedule.getDuration()));
           scheduler.scheduleJob( jobDetail, trigger );
 
-          // return executor.schedule( runnable, schedule.getDuration(), TimeUnit.MILLISECONDS );
       }
       else
       {
          SimpleTrigger trigger = new SimpleTrigger (triggerName, null);
          scheduler.scheduleJob( jobDetail, trigger );
 
-         // return executor.schedule(runnable, 0l, TimeUnit.MILLISECONDS);
       }
       return new QuartzTriggerHandle (triggerName);
    }

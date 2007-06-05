@@ -9,6 +9,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.annotations.timer.Duration;
 import org.jboss.seam.annotations.timer.Expiration;
 import org.jboss.seam.annotations.timer.IntervalDuration;
+import org.jboss.seam.annotations.timer.Cron;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.intercept.InvocationContext;
@@ -152,6 +153,8 @@ public abstract class AbstractDispatcher<T, S> implements Dispatcher<T, S>
       Long duration = null;
       Date expiration = null;
       Long intervalDuration = null;
+      String cron = null;
+
       Annotation[][] parameterAnnotations = invocation.getMethod().getParameterAnnotations();
       for ( int i=0; i<parameterAnnotations.length; i++ )
       {
@@ -170,10 +173,18 @@ public abstract class AbstractDispatcher<T, S> implements Dispatcher<T, S>
             {
                expiration = (Date) invocation.getParameters()[i];
             }
+            else if ( annotation.annotationType().equals(Cron.class) )
+            {
+               cron = (String) invocation.getParameters()[i];
+            }
          }
       }
       
-      return new TimerSchedule(duration, expiration, intervalDuration);
+      if (cron == null) {
+        return new TimerSchedule(duration, expiration, intervalDuration);
+      } else {
+        return new TimerSchedule(duration, expiration, cron);
+      }
    }
    
 }
