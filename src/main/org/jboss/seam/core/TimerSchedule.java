@@ -1,9 +1,5 @@
-/**
- * 
- */
 package org.jboss.seam.core;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -15,31 +11,13 @@ import java.util.Date;
  * @author Gavin King
  *
  */
-public class TimerSchedule implements Serializable
+public class TimerSchedule extends Schedule
 {
-   private Long duration;
-   private Date expiration;
    private Long intervalDuration;
-   private String cron;
-   
-   Long getDuration()
-   {
-      return duration;
-   }
-   
-   Date getExpiration()
-   {
-      return expiration;
-   }
    
    Long getIntervalDuration()
    {
       return intervalDuration;
-   }
-   
-   String getCron()
-   {
-      return cron;
    }
    
    /**
@@ -69,16 +47,6 @@ public class TimerSchedule implements Serializable
    }
 
    /**
-    * @param duration the delay before the first event occurs
-    * @param cron the unix cron string to control how the events are repeated
-    */
-   public TimerSchedule(Long duration, String cron)
-   {
-      this.duration = duration;
-      this.cron = cron;
-   }
-
-   /**
     * @param expiration the datetime at which the first event occurs
     * @param intervalDuration the period between the events
     */
@@ -88,28 +56,11 @@ public class TimerSchedule implements Serializable
       this.intervalDuration = intervalDuration;
    }
 
-   /**
-    * @param expiration the datetime at which the first event occurs
-    * @param cron the unix cron string to control how the events are repeated
-    */
-   public TimerSchedule(Date expiration, String cron)
-   {
-      this.expiration = expiration;
-      this.cron = cron;
-   }
-
    TimerSchedule(Long duration, Date expiration, Long intervalDuration)
    {
       this.duration = duration;
       this.expiration = expiration;
       this.intervalDuration = intervalDuration;
-   }
-
-   TimerSchedule(Long duration, Date expiration, String cron)
-   {
-      this.duration = duration;
-      this.expiration = expiration;
-      this.cron = cron;
    }
 
    TimerSchedule() {}

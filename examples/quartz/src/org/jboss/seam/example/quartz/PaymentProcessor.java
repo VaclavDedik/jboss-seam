@@ -13,6 +13,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.timer.Expiration;
 import org.jboss.seam.annotations.timer.IntervalDuration;
+import org.jboss.seam.annotations.timer.Cron;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.core.QuartzDispatcher.QuartzTriggerHandle;
 
@@ -44,6 +45,26 @@ public class PaymentProcessor {
             if (payment.getPaymentFrequency().equals(Payment.Frequency.ONCE)) {
                 payment.setActive(false);
             }
+        }
+
+        return null;
+    }
+
+    @Asynchronous
+    @Transactional
+    public QuartzTriggerHandle schedulePayment(@Expiration Date when, 
+                                 @Cron String cron, 
+                                 Payment payment) 
+    { 
+        payment = entityManager.merge(payment);
+        
+        log.info("[#0] Processing cron payment #1", System.currentTimeMillis(), payment.getId());
+
+        if (payment.getActive()) {
+            BigDecimal balance = payment.getAccount().adjustBalance(payment.getAmount().negate());
+            log.info(":: balance is now #0", balance);
+            payment.setLastPaid(new Date());
+
         }
 
         return null;

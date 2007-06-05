@@ -35,6 +35,22 @@ public class PaymentController
         return result;
     }
 
+    public String saveAndScheduleCron()
+    {
+        String result = persist();
+        
+        Payment payment = getInstance();
+        log.info("scheduling instance #0", payment);
+
+        QuartzTriggerHandle handle = processor.schedulePayment(payment.getPaymentDate(), 
+                                                payment.getPaymentCron(), 
+                                                payment);
+        
+        payment.setQuartzTriggerHandle( handle );
+
+        return result;
+    }
+
     @Override
     public Object getId() {
         return paymentId;

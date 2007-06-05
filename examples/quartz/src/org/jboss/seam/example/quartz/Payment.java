@@ -40,8 +40,10 @@ public class Payment
 
     private boolean active = true;
 
+    private String paymentCron;
+
     private Frequency paymentFrequency = Frequency.DAILY;
-    
+
     @Lob
     private QuartzTriggerHandle quartzTriggerHandle;
 
@@ -108,6 +110,13 @@ public class Payment
     }
     public void setPaymentFrequency(Frequency paymentFrequency) {
         this.paymentFrequency = paymentFrequency;
+    }
+
+    public String getPaymentCron() { 
+        return paymentCron; 
+    }
+    public void setPaymentCron(String paymentCron) {
+        this.paymentCron = paymentCron;
     }
 
     public QuartzTriggerHandle getQuartzTriggerHandle() {

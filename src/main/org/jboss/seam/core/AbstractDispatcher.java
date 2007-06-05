@@ -148,7 +148,7 @@ public abstract class AbstractDispatcher<T, S> implements Dispatcher<T, S>
       
    }
 
-   protected TimerSchedule createSchedule(InvocationContext invocation)
+   protected Schedule createSchedule(InvocationContext invocation)
    {
       Long duration = null;
       Date expiration = null;
@@ -180,11 +180,20 @@ public abstract class AbstractDispatcher<T, S> implements Dispatcher<T, S>
          }
       }
       
-      if (cron == null) {
-        return new TimerSchedule(duration, expiration, intervalDuration);
+      if (cron != null && (!cron.trim().equals(""))) 
+      {
+        return new CronSchedule(duration, expiration, cron.trim());
       } else {
-        return new TimerSchedule(duration, expiration, cron);
+        return new TimerSchedule(duration, expiration, intervalDuration);
       }
+
+      /*
+      } else if (intervalDuration != null) {
+        return new TimerSchedule(duration, expiration, intervalDuration);
+      } else if (expiration != null || duration != null) {
+        return new Schedule (duration, expiration);
+      }
+      */
    }
    
 }

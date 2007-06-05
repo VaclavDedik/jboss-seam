@@ -42,7 +42,7 @@ import org.jboss.seam.intercept.InvocationContext;
 @Name("org.jboss.seam.core.dispatcher")
 @Interceptors(SeamInterceptor.class)
 @Install(value=false, precedence=BUILT_IN)
-public class QuartzDispatcher extends AbstractDispatcher<QuartzDispatcher.QuartzTriggerHandle, TimerSchedule>
+public class QuartzDispatcher extends AbstractDispatcher<QuartzDispatcher.QuartzTriggerHandle, Schedule>
 {
    
    private static final LogProvider log = Logging.getLogProvider(QuartzDispatcher.class);
@@ -84,7 +84,7 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzDispatcher.Quartz
       }
    }
     
-   public QuartzTriggerHandle scheduleTimedEvent(String type, TimerSchedule schedule, Object... parameters)
+   public QuartzTriggerHandle scheduleTimedEvent(String type, Schedule schedule, Object... parameters)
    {
       log.info("In the scheduleTimedEvent()");
       try {
@@ -118,7 +118,7 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzDispatcher.Quartz
      return now;
    }
 
-   private QuartzTriggerHandle scheduleWithQuartzService(TimerSchedule schedule, Asynchronous async) throws SchedulerException
+   private QuartzTriggerHandle scheduleWithQuartzService(Schedule schedule, Asynchronous async) throws SchedulerException
    {
       log.info("In the scheduleWithQuartzService()");
       
@@ -128,71 +128,73 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzDispatcher.Quartz
       JobDetail jobDetail = new JobDetail(jobName, null, QuartzJob.class);
       jobDetail.getJobDataMap().put("async", async);
 
-      if ( schedule.getCron()!=null )
+      if (schedule instanceof CronSchedule) 
       {
+        CronSchedule cronSchedule = (CronSchedule) schedule; 
         try {
           CronTrigger trigger = new CronTrigger (triggerName, null);
-          trigger.setCronExpression(schedule.getCron());
-          if ( schedule.getExpiration()!=null )
+          trigger.setCronExpression(cronSchedule.getCron());
+          if ( cronSchedule.getExpiration()!=null )
           {
-            trigger.setStartTime (schedule.getExpiration());
+            trigger.setStartTime (cronSchedule.getExpiration());
           }
-          else if ( schedule.getDuration()!=null )
+          else if ( cronSchedule.getDuration()!=null )
           {
-            trigger.setStartTime (calculateDelayedDate(schedule.getDuration()));
+            trigger.setStartTime (calculateDelayedDate(cronSchedule.getDuration()));
           }
 
           scheduler.scheduleJob( jobDetail, trigger );
 
-          return new QuartzTriggerHandle (triggerName);
-
         } catch (Exception e) {
-          log.error ("Cannot submit cron job, fall back to fixed interval");
+          log.error ("Cannot submit cron job");
           e.printStackTrace ();
-
-          // The method does not return, and execution flow follows
+          return null;
         }
-      }
-
-      if ( schedule.getIntervalDuration()!=null )
+      } 
+      else if (schedule instanceof TimerSchedule && ((TimerSchedule) schedule).getIntervalDuration() != null) 
       {
-         if ( schedule.getExpiration()!=null )
+         TimerSchedule timerSchedule = (TimerSchedule) schedule;
+         if ( timerSchedule.getExpiration()!=null )
          {
-            SimpleTrigger trigger = new SimpleTrigger (triggerName, null, schedule.getExpiration(), null, SimpleTrigger.REPEAT_INDEFINITELY, schedule.getIntervalDuration());
+            SimpleTrigger trigger = new SimpleTrigger (triggerName, null, timerSchedule.getExpiration(), null, SimpleTrigger.REPEAT_INDEFINITELY, timerSchedule.getIntervalDuration());
             scheduler.scheduleJob( jobDetail, trigger );
 
          }
-         else if ( schedule.getDuration()!=null )
+         else if ( timerSchedule.getDuration()!=null )
          {
-             SimpleTrigger trigger = new SimpleTrigger (triggerName, null, calculateDelayedDate(schedule.getDuration()), null, SimpleTrigger.REPEAT_INDEFINITELY, schedule.getIntervalDuration());
+             SimpleTrigger trigger = new SimpleTrigger (triggerName, null, calculateDelayedDate(timerSchedule.getDuration()), null, SimpleTrigger.REPEAT_INDEFINITELY, timerSchedule.getIntervalDuration());
              scheduler.scheduleJob( jobDetail, trigger );
 
          }
          else
          {
-            SimpleTrigger trigger = new SimpleTrigger (triggerName, null, SimpleTrigger.REPEAT_INDEFINITELY, schedule.getIntervalDuration());
+            SimpleTrigger trigger = new SimpleTrigger (triggerName, null, SimpleTrigger.REPEAT_INDEFINITELY, timerSchedule.getIntervalDuration());
             scheduler.scheduleJob( jobDetail, trigger );
 
          }
-      }
-      else if ( schedule.getExpiration()!=null )
+      } 
+      else 
       {
-          SimpleTrigger trigger = new SimpleTrigger (triggerName, null, schedule.getExpiration());
-          scheduler.scheduleJob( jobDetail, trigger );
+        if ( schedule.getExpiration()!=null )
+        {
+            SimpleTrigger trigger = new SimpleTrigger (triggerName, null, schedule.getExpiration());
+            scheduler.scheduleJob( jobDetail, trigger );
 
-      }
-      else if ( schedule.getDuration()!=null )
-      { 
-          SimpleTrigger trigger = new SimpleTrigger (triggerName, null, calculateDelayedDate(schedule.getDuration()));
-          scheduler.scheduleJob( jobDetail, trigger );
+        }
+        else if ( schedule.getDuration()!=null )
+        {
+            SimpleTrigger trigger = new SimpleTrigger (triggerName, null, calculateDelayedDate(schedule.getDuration()));
+            scheduler.scheduleJob( jobDetail, trigger );
 
-      }
-      else
-      {
-         SimpleTrigger trigger = new SimpleTrigger (triggerName, null);
-         scheduler.scheduleJob( jobDetail, trigger );
+        }
+        else
+        {
+           SimpleTrigger trigger = new SimpleTrigger (triggerName, null);
+           scheduler.scheduleJob( jobDetail, trigger );
 
+        }
       }
+
       return new QuartzTriggerHandle (triggerName);
    }
    

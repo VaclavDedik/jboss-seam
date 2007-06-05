@@ -58,6 +58,7 @@
                     <th>Payment Amount</th>
                     <th>Created Date</th>
                     <th>Scheduled Date</th>
+                    <th>Cron</th>
                     <th>Frequency</th>
                     <th>Last Paid On</th>
                 </tr>
@@ -85,6 +86,7 @@
                                 <f:convertDateTime type="date" dateStyle="medium" />
                             </h:outputText>
                         </td>
+                        <td>#{payment.paymentCron}</td>
                         <td>#{payment.paymentFrequency}</td>
                         <td>
                             <h:outputText value="#{payment.lastPaid}">
@@ -127,29 +129,33 @@
                             </td>
                         </tr>
 
-                        <tr>
-                            <td>Frequency:</td>
-                            <td>
-                                <h:selectOneRadio id="radioList" 
-                                                  layout="lineDirection"
-                                                  value="#{newPayment.paymentFrequency}">
-                                    <s:convertEnum />
-                                    <s:enumItem enumValue="ONCE"         label="Only Once" />
-                                    <s:enumItem enumValue="EVERY_MINUTE" label="Every Minute (testing)" />
-                                    <s:enumItem enumValue="HOURLY"       label="Every Hour (testing)" />
-                                    <s:enumItem enumValue="DAILY"        label="Every Day" />
-                                    <s:enumItem enumValue="WEEKLY"       label="Every Week" />
-                                    <ui:remove>
-                                        <f:selectItems value="#{newPayment.frequencies}" />
-                                    </ui:remove>
-                                </h:selectOneRadio>
-                            </td>
-                        </tr>
                     </table>
                 </s:validateAll>
-                
-                <h:commandButton value="Schedule" 
+
+                <p><b>Now, choose one of the following repeat payment schemes</b></p>
+                <p>Cron: 
+                <h:inputText id="paymentCron" value="#{newPayment.paymentCron}"/><br/> 
+                <h:commandButton value="Schedule Cron Job" 
+                                 action="#{paymentHome.saveAndScheduleCron}" />
+                </p>
+
+                <p>Frequency: 
+                <h:selectOneRadio id="radioList" 
+                                  layout="lineDirection"
+                                  value="#{newPayment.paymentFrequency}">
+                  <s:convertEnum />
+                  <s:enumItem enumValue="ONCE"         label="Only Once" />
+                  <s:enumItem enumValue="EVERY_MINUTE" label="Every Minute (testing)" />
+                  <s:enumItem enumValue="HOURLY"       label="Every Hour (testing)" />
+                  <s:enumItem enumValue="DAILY"        label="Every Day" />
+                  <s:enumItem enumValue="WEEKLY"       label="Every Week" />
+                  <ui:remove>
+                    <f:selectItems value="#{newPayment.frequencies}" />
+                  </ui:remove>
+                </h:selectOneRadio><br/>
+                <h:commandButton value="Schedule at Fixed Interval" 
                                  action="#{paymentHome.saveAndSchedule}" />
+                </p>
             </h:form>
         </f:subview>
 
