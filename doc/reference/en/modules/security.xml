@@ -1132,7 +1132,7 @@ end;
       HTTPS:
     </para>
     
-    <programlisting><![CDATA[  <page view-id="/login.xhtml" scheme="https">]]></programlisting>
+    <programlisting><![CDATA[<page view-id="/login.xhtml" scheme="https">]]></programlisting>
     
     <para>
       This configuration is automatically extended to both <literal>s:link</literal> and 
@@ -1141,7 +1141,7 @@ end;
       link will use the HTTPS protocol because <literal>/login.xhtml</literal> is configured to use it:
     </para>
     
-    <programlisting><![CDATA[  <s:link view="/login.xhtml" value="Login"/>]]></programlisting>
+    <programlisting><![CDATA[<s:link view="/login.xhtml" value="Login"/>]]></programlisting>
     
     <para>
       Browsing directly to a view when using the <emphasis>incorrect</emphasis> protocol will cause a 
@@ -1151,34 +1151,33 @@ end;
     </para>
     
     <para>
-      <emphasis>By default</emphasis>, Seam will invalidate the current HTTP session each time the scheme
-      changes. You can disable this behavior in <literal>components.xml</literal>:
+      It is also possible to configure a <emphasis>default scheme</emphasis> for all pages. This is useful
+      if you wish to use HTTPS for a only few pages. If no default scheme is specified then the normal 
+      behavior is to continue use the current scheme. So once the user accessed a page that required 
+      HTTPS, then HTTPS would continue to be used after the user navigated away to other non-HTTPS pages.
+      (While this is good for security, it is not so great for performance!). To define HTTP as the 
+      default <literal>scheme</literal>, add this line to <literal>pages.xml</literal>:
     </para>
     
-    <programlisting><![CDATA[  <core:pages invalidate-session-before-scheme-change="false"/>]]></programlisting>
-    
-    <para>
-      But if you choose to disable this session invalidation, your system will be more vulnerable to
-      sniffing of the session id or leakage of sensitive data from pages using HTTPS to other pages
-      using HTTP.
-    </para>
-    
-    <para>
-      It is also possible to configure a default <literal>scheme</literal> for all pages.  This is actually
-      quite important, as you might only wish to use HTTPS for a few pages, and if no default scheme is
-      specified then the default behavior is to continue using the current scheme.  What this means is that
-      once you enter a page with HTTPS, then HTTPS will continue to be used even if you navigate away to
-      other non-HTTPS pages (a bad thing!).  So it is strongly recommended to include a default 
-      <literal>scheme</literal>, by configuring it on the default (<literal>"*"</literal>) view:
-    </para>
-    
-    <programlisting><![CDATA[  <page view-id="*" scheme="http">]]></programlisting>
+    <programlisting><![CDATA[<page view-id="*" scheme="http">]]></programlisting>
     
     <para>
       Of course, if <emphasis>none</emphasis> of the pages in your application use HTTPS then it is not 
       required to specify a default scheme.
     </para>
   
+    <para>
+      You may configure Seam to automatically invalidate the current HTTP session each time the scheme
+      changes. Just add this line to <literal>components.xml</literal>:
+    </para>
+    
+    <programlisting><![CDATA[<core:servlet-session invalidate-on-scheme-change="true"/>]]></programlisting>
+    
+    <para>
+      This option helps make your system less vulnerable to sniffing of the session id or leakage of 
+      sensitive data from pages using HTTPS to other pages using HTTP.
+    </para>
+    
   </sect1>
     
   <sect1>

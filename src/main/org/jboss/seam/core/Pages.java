@@ -80,8 +80,7 @@ public class Pages
    private String noConversationViewId;
    private String loginViewId;
    private Map<String, ConversationIdParameter> conversations = Collections.synchronizedMap( new HashMap<String, ConversationIdParameter>() );
-   
-   private boolean invalidateSessionBeforeSchemeChange = true;   
+     
    private Integer httpPort;
    private Integer httpsPort;
    
@@ -267,10 +266,6 @@ public class Pages
          if ( scheme!=null && !requestScheme.equals(scheme) )
          {
             Manager.instance().redirect(viewId);
-            if (invalidateSessionBeforeSchemeChange)
-            {
-               ServletSession.instance().invalidate();
-            }
             return false;
          }
       }
@@ -404,7 +399,7 @@ public class Pages
             !Identity.instance().isLoggedIn();
    }
    
-   private static String getRequestScheme(FacesContext facesContext)
+   public static String getRequestScheme(FacesContext facesContext)
    {
       String requestUrl = getRequestUrl(facesContext);
       if (requestUrl==null)
@@ -1431,16 +1426,6 @@ public class Pages
    public void setHttpsPort(Integer httpsPort)
    {
       this.httpsPort = httpsPort;
-   }
-   
-   public boolean isInvalidateSessionBeforeSchemeChange()
-   {
-      return invalidateSessionBeforeSchemeChange;
-   }
-   
-   public void setInvalidateSessionBeforeSchemeChange(boolean invalidateSessionBeforeSchemeChange)
-   {
-      this.invalidateSessionBeforeSchemeChange = invalidateSessionBeforeSchemeChange;
    }
    
    public String[] getResources()

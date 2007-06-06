@@ -40,8 +40,15 @@ public class Lifecycle
    {
       log.debug( ">>> Begin web request" );
       Contexts.eventContext.set( new WebRequestContext( ContextAdaptor.getRequest(externalContext) ) );
-      Contexts.sessionContext.set( new WebSessionContext( ContextAdaptor.getSession(externalContext) ) );
       Contexts.applicationContext.set( new FacesApplicationContext(externalContext) );
+      ContextAdaptor session = ContextAdaptor.getSession(externalContext);
+      Contexts.sessionContext.set( new WebSessionContext(session) );
+      if ( ServletSession.instance().isInvalidDueToNewScheme() )
+      {
+         session.invalidate();
+         session = ContextAdaptor.getSession(externalContext);
+         Contexts.sessionContext.set( new WebSessionContext(session) );
+      }
       Contexts.conversationContext.set(null); //in case endRequest() was never called
       //Events.instance(); //TODO: only for now, until we have a way to do EL outside of JSF!
    }

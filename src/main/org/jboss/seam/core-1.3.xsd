@@ -160,9 +160,18 @@
         <xs:attribute name="login-view-id"/>
         <xs:attribute name="http-port" type="xs:integer"/>
         <xs:attribute name="https-port" type="xs:integer"/>
-        <xs:attribute name="invalidate-session-before-scheme-change" type="xs:boolean"/>
     </xs:attributeGroup>
-
+    
+    <xs:element name="servlet-session">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.servlet-session"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.servlet-session">
+        <xs:attribute name="invalidate-on-scheme-change" type="xs:boolean"/>
+    </xs:attributeGroup>
+    
     <xs:element name="pojo-cache">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>

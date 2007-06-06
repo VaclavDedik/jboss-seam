@@ -1,5 +1,7 @@
 package org.jboss.seam.core;
 
+import javax.faces.context.FacesContext;
+
 import org.jboss.seam.Component;
 import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
@@ -8,12 +10,14 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 
-@Scope(ScopeType.EVENT)
+@Scope(ScopeType.SESSION)
 @Name("org.jboss.seam.core.servletSession")
 @Intercept(InterceptionType.NEVER)
-public class ServletSession
+public class ServletSession extends AbstractMutable
 {
    private boolean isInvalid;
+   private boolean invalidateOnSchemeChange;
+   private String currentScheme;
 
    public boolean isInvalid()
    {
@@ -24,7 +28,47 @@ public class ServletSession
    {
       this.isInvalid = true;
    }
+   
+   public boolean isInvalidDueToNewScheme()
+   {
+      if (invalidateOnSchemeChange)
+      {
+         FacesContext facesContext = FacesContext.getCurrentInstance();
+         String requestScheme = Pages.getRequestScheme(facesContext);
+         if ( currentScheme==null )
+         {
+            currentScheme = requestScheme;
+            setDirty();
+            return false;
+         }
+         else if ( !currentScheme.equals(requestScheme) )
+         {
+            currentScheme = requestScheme;
+            setDirty();
+            return true;
+         }
+         else
+         {
+            return false;
+         }
+      }
+      else
+      {
+         return false;
+      }
+   }
 
+   public boolean isInvalidateOnSchemeChange()
+   {
+      return invalidateOnSchemeChange;
+   }
+
+   public void setInvalidateOnSchemeChange(boolean invalidateOnSchemeChange)
+   {
+      setDirty();
+      this.invalidateOnSchemeChange = invalidateOnSchemeChange;
+   }
+   
    public static ServletSession instance()
    {
       if ( !Contexts.isEventContextActive() )
@@ -33,5 +77,5 @@ public class ServletSession
       }
       return (ServletSession) Component.getInstance(ServletSession.class, ScopeType.EVENT);
    }
-   
+
 }
