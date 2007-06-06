@@ -1,112 +1,172 @@
 <chapter id="elenhancements">
-  <title>Expression language enhancements</title>
+    <title>Expression language enhancements</title>
 
-  <para>
-    The standard Unified Expression Language (EL) assumes that any parameters to a method expression will be 
-    provided by Java code. This means that a method with parameters cannot be used as a JSF method binding.
-    Seam provides an enhancement to the EL that allows parameters to be included in a method expression 
-    itself. This applies to <emphasis>any</emphasis> Seam method expression, including any JSF method binding, 
-    for example:
-  </para>
+    <para> Seam provides an extension to the standard Unified Expression Language (EL) called JBoss EL. JBoss EL
+        provides a number of enhancements that increase the expressiveness and power of EL expressions. </para>
 
-  <programlisting><![CDATA[<h:commandButton action="#{hotelBooking.bookHotel(hotel)}" value="Book Hotel"/>]]></programlisting>
 
-  <section>
-    <title>Usage</title>
 
-    <para>
-      Parameters are surrounded by parentheses, and separated by commas:
-    </para>
 
-    <programlisting><![CDATA[<h:commandButton action="#{hotelBooking.bookHotel(hotel, user)}" value="Book Hotel"/>]]></programlisting>
+    <section>
+        <title>Parameterized Method Bindings</title>
 
-    <para>
-      The parameters <literal>hotel</literal> and <literal>user</literal> will be evaluated as 
-      value expressions and passed to the <literal>bookHotel()</literal> method of the component. 
-      This gives you an alternative to the use of <literal>@In</literal>.
-    </para>
-    
-    <para>
-      Any value expression may be used as a parameter:
-    </para>
+        <para> Standard EL assumes that any parameters to a method expression will be provided by Java code. This means
+            that a method with parameters cannot be used as a JSF method binding. Seam provides an enhancement to the EL
+            that allows parameters to be included in a method expression itself. This applies to
+            <emphasis>any</emphasis> Seam method expression, including any JSF method binding, for example: </para>
 
-    <programlisting><![CDATA[<h:commandButton action="#{hotelBooking.bookHotel(hotel.id, user.username)}" 
+        <programlisting><![CDATA[<h:commandButton action="#{hotelBooking.bookHotel(hotel)}" value="Book Hotel"/>]]></programlisting>
+
+        <section>
+            <title>Usage</title>
+
+            <para> Parameters are surrounded by parentheses, and separated by commas: </para>
+
+            <programlisting><![CDATA[<h:commandButton action="#{hotelBooking.bookHotel(hotel, user)}" value="Book Hotel"/>]]></programlisting>
+
+            <para> The parameters <literal>hotel</literal> and <literal>user</literal> will be evaluated as value
+                expressions and passed to the <literal>bookHotel()</literal> method of the component. This gives you an
+                alternative to the use of <literal>@In</literal>. </para>
+
+            <para> Any value expression may be used as a parameter: </para>
+
+            <programlisting><![CDATA[<h:commandButton action="#{hotelBooking.bookHotel(hotel.id, user.username)}" 
                  value="Book Hotel"/>]]></programlisting>
 
-    <para>
-       <emphasis>Note:</emphasis> You can not pass objects as arguments! All that is passed is names, for example,
-       <literal>hotel.id</literal> and <literal>user.username</literal>. If you check the rendered code of the
-       previous example, you will see that the command button contains these names. These name arguments will be
-       submitted to the server when you press the button, and Seam will look up and resolve these names (in any
-       available context) before the action method is called. If the arguments can not be resolved at that time
-       (because <literal>hotel</literal> and <literal>user</literal> variables can not be found in any available
-       context) the action method will be called with <literal>null</literal> arguments!
-    </para>
+            <para>
+                <emphasis>Note:</emphasis> You can not pass objects as arguments! All that is passed is names, for
+                example, <literal>hotel.id</literal> and <literal>user.username</literal>. If you check the rendered
+                code of the previous example, you will see that the command button contains these names. These name
+                arguments will be submitted to the server when you press the button, and Seam will look up and resolve
+                these names (in any available context) before the action method is called. If the arguments can not be
+                resolved at that time (because <literal>hotel</literal> and <literal>user</literal> variables can not be
+                found in any available context) the action method will be called with <literal>null</literal> arguments! </para>
 
-    <para>
-      You may however pass literal strings using single or double quotes:
-    </para>
+            <para> You may however pass literal strings using single or double quotes: </para>
 
-    <programlisting><![CDATA[<h:commandLink action=‚Äù#{printer.println( ‚ÄòHello world!‚Äô )}‚Äù value=‚ÄùHello‚Äù/>]]></programlisting>
-    <programlisting><![CDATA[<h:commandLink action=‚Äô#{printer.println( ‚ÄúHello again‚Äù )}‚Äô value=‚ÄôHello‚Äô/>]]></programlisting>
+            <programlisting><![CDATA[<h:commandLink action=‚Äù#{printer.println( ‚ÄòHello world!‚Äô )}‚Äù value=‚ÄùHello‚Äù/>]]></programlisting>
+            <programlisting><![CDATA[<h:commandLink action=‚Äô#{printer.println( ‚ÄúHello again‚Äù )}‚Äô value=‚ÄôHello‚Äô/>]]></programlisting>
 
-    <para>
-      You might even want to use this notation for all your action methods, even when you don‚Äôt 
-      have parameters to pass. This improves readability by making it clear that the expression is 
-      a method expression and not a value expression:
-    </para>
-    
-    <programlisting><![CDATA[<s:link value="Cancel" action="#{hotelBooking.cancel()}"/>]]></programlisting>
-    
-  </section>
-  
-  <section>
-    <title>Limitations</title>
+            <para> You might even want to use this notation for all your action methods, even when you don‚Äôt have
+                parameters to pass. This improves readability by making it clear that the expression is a method
+                expression and not a value expression: </para>
 
-    <para>
-      Please be aware of the following limitations:
-    </para>
+            <programlisting><![CDATA[<s:link value="Cancel" action="#{hotelBooking.cancel()}"/>]]></programlisting>
+        </section>
 
-    <section>
-      <title>Incompatibility with JSP 2.1</title>
-      <para>
-        This extension is not currently compatible with JSP 2.1. So if you want to use this extension 
-        with JSF 1.2, you will need to use Facelets. The extension works correctly with JSP 2.0.
-      </para>
+        <section>
+            <title>Limitations</title>
+
+            <para> Please be aware of the following limitations: </para>
+
+            <section>
+                <title>Incompatibility with JSP 2.1</title>
+                <para> This extension is not currently compatible with JSP 2.1. So if you want to use this extension
+                    with JSF 1.2, you will need to use Facelets. The extension works correctly with JSP 2.0. </para>
+            </section>
+
+            <section>
+                <title>Calling a <literal>MethodExpression</literal> from Java code</title>
+                <para> Normally, when a <literal>MethodExpression</literal> or <literal>MethodBinding</literal> is
+                    created, the parameter types are passed in by JSF. In the case of a method binding, JSF assumes that
+                    there are no parameters to pass. With this extension, we can‚Äôt know the parameter types until
+                    after the expression has been evaluated. This has two minor consequences: </para>
+
+                <itemizedlist>
+                    <listitem>
+                        <para> When you invoke a <literal>MethodExpression</literal> in Java code, parameters you pass
+                            may be ignored. Parameters defined in the expression will take precedence. </para>
+                    </listitem>
+                    <listitem>
+                        <para> Ordinarily, it is safe to call
+                            <literal>methodExpression.getMethodInfo().getParamTypes()</literal> at any time. For an
+                            expression with parameters, you must first invoke the <literal>MethodExpression</literal>
+                            before calling <literal>getParamTypes()</literal>. </para>
+                    </listitem>
+                </itemizedlist>
+
+                <para> Both of these cases are exceedingly rare and only apply when you want to invoke the
+                        <literal>MethodExpression</literal> by hand in Java code. </para>
+
+            </section>
+
+        </section>
+
     </section>
 
     <section>
-      <title>Calling a <literal>MethodExpression</literal> from Java code</title>
-      <para>
-        Normally, when a <literal>MethodExpression</literal> or <literal>MethodBinding</literal> is created,
-        the parameter types are passed in by JSF. In the case of a method binding, JSF assumes that there 
-        are no parameters to pass. With this extension, we can‚Äôt know the parameter types until after the 
-        expression has been evaluated. This has two minor consequences:
-      </para>
-      
-      <itemizedlist>
-        <listitem>
-          <para>
-            When you invoke a <literal>MethodExpression</literal> in Java code, parameters you pass may 
-            be ignored. Parameters defined in the expression will take precedence.
-          </para>
-        </listitem>
-        <listitem>
-          <para>
-            Ordinarily, it is safe to call <literal>methodExpression.getMethodInfo().getParamTypes()</literal>
-            at any time. For an expression with parameters, you must first invoke the 
-            <literal>MethodExpression</literal> before calling <literal>getParamTypes()</literal>.
-          </para>
-        </listitem>
-      </itemizedlist>
-      
-      <para>
-        Both of these cases are exceedingly rare and only apply when you want to invoke the 
-        <literal>MethodExpression</literal> by hand in Java code.
-      </para>
-      
-    </section>
-    
-  </section>
+        <title>Parameterized Value Bindings</title>
 
+        <para> Standard EL only allows access to properties that follow the JavaBean naming conventions. For example,
+            the expression <literal>#{person.name}</literal> requires a <literal>getName()</literal> be present. Many
+            objects, however, don't have appropriately named property accessors or require parameters. These values can
+            be retrieved using the method syntax, which work similarly to parameterized method bindings. For example,
+            the following expression returns the size of a string using the <literal>length()</literal> method. </para>
+
+        <programlisting>#{person.name.length()}</programlisting>
+
+
+        <para>You can access the size of a collection in a similar manner.</para>
+
+        <programlisting>#{searchResults.size()}</programlisting>
+
+        <para>In general any expression of the form #{obj.property} would be identical to the expression
+            #{obj.getProperty()}.</para>
+
+        <para>Parameters are also allowed, and they follow the same restrictions as with method bindings. The following
+            example calls the <literal>productsByColorMethod</literal> with a literal string argument.</para>
+
+        <programlisting>#{controller.productsByColor('blue')}</programlisting>
+
+
+    </section>
+
+
+
+    <section>
+        <title>Projection</title>
+
+
+        <para>JBoss EL supports a limited projection syntax. It is important to note that this syntax cannot be parsed
+            by Facelets or by JavaServer Pages and thus cannot be used in xhtml or JSP files. We anticipate that the
+            projection syntax will change in future versions of JBoss EL. </para>
+
+        <para> A projection expression maps a sub-expression across a multi-valued (list, set, etc...) expression. For
+            instance, the expression </para>
+
+        <programlisting>#{company.departments}</programlisting>
+        <para>might return a list of departments. If you only need a list of department names, your only option is to
+            iterate over the list to retrieve the values. JBoss EL allows this with a projection expression.</para>
+
+
+        <programlisting>#{company.departments.{d|d.name}}</programlisting>
+
+        <para>The subexpression is enclosed in braces. In this example, the expression <literal>d.name</literal> is
+            evaluated for each department, using <literal>d</literal> as an alias to the department object. The result
+            of this expression will be a list of String values.</para>
+
+        <para>Any valid expression can be used in an expression, so it would be perfectly valid to write the following,
+            assuming you had a use for the lengths of all the department names in a company.</para>
+
+        <programlisting>#{company.departments.{d|d.size()}}</programlisting>
+
+        <para>Projections can be nested. The following expression returns the last names of every employee in every
+            department.</para>
+
+
+        <programlisting>#{company.departments.{d|d.employees.{emp|emp.lastName}}}</programlisting>
+
+
+        <para>Nested projections can be slightly tricky, however. The following expression looks like it returns a list
+            of all the employees in all the departments. </para>
+
+        <programlisting>#{company.departments.{d|d.employees}}</programlisting>
+
+        <para>However, it actually returns a list containing a list of the employees for each individual department. To
+            combine the values, it is necessary to use a slightly longer expression.</para>
+
+        <programlisting>#{company.departments.{d|d.employees.{e|e}}}</programlisting>
+
+
+    </section>
 </chapter>
