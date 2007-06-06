@@ -361,6 +361,7 @@
             <entry key="hibernate.connection.password" value="${hibernate.connection.password.new}"/>
             <entry key="${hibernate.default_schema.key}" value="${hibernate.default_schema.new}"/>
             <entry key="${hibernate.default_catalog.key}" value="${hibernate.default_catalog.new}"/>
+        	<entry key="hibernate.cache.provider_class" value="org.hibernate.cache.HashtableCacheProvider"/> <!-- yuck! -->
         </propertyfile>
     	
     	<echo message="Installing JDBC driver jar to JBoss server"/>
@@ -798,6 +799,8 @@
 
 	<target name="generate-entities" depends="validate-project"
         description="Reverse engineer entities from the database">
+		
+		<echo message="Reverse engineering database using JDBC driver ${driver.jar}"/>
 
 	    <taskdef name="hibernate" 
 	             classname="org.hibernate.tool.ant.HibernateToolTask">
