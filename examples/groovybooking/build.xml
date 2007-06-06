@@ -41,33 +41,19 @@
     <taskdef name ="groovyc"
         classname ="org.codehaus.groovy.ant.Groovyc"
         classpathref="build.classpath"/> <!-- really only the groovy jar is necessary -->
-    <taskdef name="groovy"
-        classname="org.codehaus.groovy.ant.Groovy"
-        classpathref="build.classpath"/> <!-- really only the groovy jar is necessary -->
 
-    
     <target name="init" description="Initialize the build">
         <mkdir dir="${classes.model.dir}" />
         <mkdir dir="${classes.action.dir}" />
         <mkdir dir="${dist.dir}" />
         <!-- if a .groovy file is in model or action, set groovy.present -->
-        <groovy>
-          File file = new File("${properties.basedir}/${properties.'src.action.dir'}")
-          boolean isGroovy
-          file.eachFileRecurse {
-            //use an exception for short exit
-            if ( it.name.endsWith('.groovy') ) isGroovy = true
-          }
-
-          if (!isGroovy) {
-            file = new File("${properties.basedir}/${properties.'src.model.dir'}")
-            file.eachFileRecurse {
-              //use an exception for short exit
-              if ( it.name.endsWith('.groovy') ) isGroovy = true
-            }
-          }
-          if (isGroovy) properties.'groovy.present' = true
-        </groovy>
+        <available property="groovy.present" value="true" file="">
+          <filepath>
+            <fileset dir="${src.action.dir}">
+              <include name="**/*.groovy"/>
+            </fileset>
+          </filepath>
+        </available>
         <condition property="groovy.dynamic" value="true">
             <and>
                 <isset property="groovy.present"/>
