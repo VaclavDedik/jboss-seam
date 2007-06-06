@@ -24,7 +24,7 @@ public class CronSchedule extends Schedule
     */
    public CronSchedule(Long duration, String cron)
    {
-      this.duration = duration;
+      super(duration);
       this.cron = cron;
    }
 
@@ -34,14 +34,13 @@ public class CronSchedule extends Schedule
     */
    public CronSchedule(Date expiration, String cron)
    {
-      this.expiration = expiration;
+      super(expiration);
       this.cron = cron;
    }
 
    CronSchedule(Long duration, Date expiration, String cron)
    {
-      this.duration = duration;
-      this.expiration = expiration;
+      super(duration, expiration);
       this.cron = cron;
    }
 

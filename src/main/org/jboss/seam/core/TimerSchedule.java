@@ -25,7 +25,7 @@ public class TimerSchedule extends Schedule
     */
    public TimerSchedule(Long duration)
    {
-      this.duration = duration;
+      super(duration);
    }
 
    /**
@@ -33,7 +33,7 @@ public class TimerSchedule extends Schedule
     */
    public TimerSchedule(Date expiration)
    {
-      this.expiration = expiration;
+      super(expiration);
    }
 
    /**
@@ -42,7 +42,7 @@ public class TimerSchedule extends Schedule
     */
    public TimerSchedule(Long duration, Long intervalDuration)
    {
-      this.duration = duration;
+      super(duration);
       this.intervalDuration = intervalDuration;
    }
 
@@ -52,14 +52,13 @@ public class TimerSchedule extends Schedule
     */
    public TimerSchedule(Date expiration, Long intervalDuration)
    {
-      this.expiration = expiration;
+      super(expiration);
       this.intervalDuration = intervalDuration;
    }
 
    TimerSchedule(Long duration, Date expiration, Long intervalDuration)
    {
-      this.duration = duration;
-      this.expiration = expiration;
+      super(duration, expiration);
       this.intervalDuration = intervalDuration;
    }
 

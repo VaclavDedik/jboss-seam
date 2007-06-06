@@ -2,26 +2,12 @@ package org.jboss.seam.core;
 
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
-import java.util.Date;
-import java.rmi.server.UID;
 import java.io.Serializable;
+import java.rmi.server.UID;
+import java.util.Date;
 
 import javax.interceptor.Interceptors;
 
-import org.quartz.SchedulerFactory;
-import org.quartz.Scheduler;
-import org.quartz.Job;
-import org.quartz.JobDetail;
-import org.quartz.JobDataMap;
-import org.quartz.Trigger;
-import org.quartz.SimpleTrigger;
-import org.quartz.CronTrigger;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
-import org.quartz.SchedulerException;
-
-import org.jboss.seam.log.LogProvider;
-import org.jboss.seam.log.Logging;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
@@ -31,6 +17,18 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.ejb.SeamInterceptor;
 import org.jboss.seam.intercept.InvocationContext;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
+import org.quartz.CronTrigger;
+import org.quartz.Job;
+import org.quartz.JobDataMap;
+import org.quartz.JobDetail;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.SchedulerFactory;
+import org.quartz.SimpleTrigger;
 
 /**
  * Dispatcher implementation that uses the Quartz library.
@@ -49,14 +47,16 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzDispatcher.Quartz
    private static Scheduler scheduler;
 
    @Create
-   public void initScheduler () 
+   public void initScheduler() 
    {
      SchedulerFactory schedulerFactory = new org.quartz.impl.StdSchedulerFactory();
-     try {
+     try 
+     {
        scheduler = schedulerFactory.getScheduler();
        scheduler.start();
        log.info("The QuartzDispatcher has started");
-     } catch (SchedulerException se) {
+     } 
+     catch (SchedulerException se) {
        log.error("Cannot get or start a Quartz Scheduler");
        se.printStackTrace ();
      }
@@ -70,14 +70,17 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzDispatcher.Quartz
       JobDetail jobDetail = new JobDetail(jobName, null, QuartzJob.class);
       jobDetail.getJobDataMap().put("async", new AsynchronousEvent(type, parameters));
        
-      SimpleTrigger trigger = new SimpleTrigger (triggerName, null);
+      SimpleTrigger trigger = new SimpleTrigger(triggerName, null);
       
       log.info("In the scheduleAsynchronousEvent()");
 
-      try {
-        scheduler.scheduleJob( jobDetail, trigger );
+      try 
+      {
+        scheduler.scheduleJob(jobDetail, trigger);
         return new QuartzTriggerHandle(triggerName);
-      } catch (SchedulerException se) {
+      } 
+      catch (SchedulerException se) 
+      {
         log.error("Cannot Schedule a Quartz Job");
         se.printStackTrace ();
         return null;
@@ -87,9 +90,12 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzDispatcher.Quartz
    public QuartzTriggerHandle scheduleTimedEvent(String type, Schedule schedule, Object... parameters)
    {
       log.info("In the scheduleTimedEvent()");
-      try {
+      try 
+      {
         return scheduleWithQuartzService( schedule, new AsynchronousEvent(type, parameters) );
-      } catch (SchedulerException se) {
+      } 
+      catch (SchedulerException se) 
+      {
         log.error("Cannot Schedule a Quartz Job");
         se.printStackTrace ();
         return null;
@@ -99,12 +105,14 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzDispatcher.Quartz
    public QuartzTriggerHandle scheduleInvocation(InvocationContext invocation, Component component)
    {
       log.info("In the scheduleInvocation()");
-      try {
+      try 
+      {
         return scheduleWithQuartzService( 
                createSchedule(invocation), 
                new AsynchronousInvocation(invocation, component)
             );
-      } catch (SchedulerException se) {
+      } 
+      catch (SchedulerException se) {
         log.error("Cannot Schedule a Quartz Job");
         se.printStackTrace ();
         return null;
@@ -131,7 +139,8 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzDispatcher.Quartz
       if (schedule instanceof CronSchedule) 
       {
         CronSchedule cronSchedule = (CronSchedule) schedule; 
-        try {
+        try 
+        {
           CronTrigger trigger = new CronTrigger (triggerName, null);
           trigger.setCronExpression(cronSchedule.getCron());
           if ( cronSchedule.getExpiration()!=null )
@@ -145,7 +154,9 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzDispatcher.Quartz
 
           scheduler.scheduleJob( jobDetail, trigger );
 
-        } catch (Exception e) {
+        } 
+        catch (Exception e) 
+        {
           log.error ("Cannot submit cron job");
           e.printStackTrace ();
           return null;
@@ -156,19 +167,19 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzDispatcher.Quartz
          TimerSchedule timerSchedule = (TimerSchedule) schedule;
          if ( timerSchedule.getExpiration()!=null )
          {
-            SimpleTrigger trigger = new SimpleTrigger (triggerName, null, timerSchedule.getExpiration(), null, SimpleTrigger.REPEAT_INDEFINITELY, timerSchedule.getIntervalDuration());
+            SimpleTrigger trigger = new SimpleTrigger(triggerName, null, timerSchedule.getExpiration(), null, SimpleTrigger.REPEAT_INDEFINITELY, timerSchedule.getIntervalDuration());
             scheduler.scheduleJob( jobDetail, trigger );
 
          }
          else if ( timerSchedule.getDuration()!=null )
          {
-             SimpleTrigger trigger = new SimpleTrigger (triggerName, null, calculateDelayedDate(timerSchedule.getDuration()), null, SimpleTrigger.REPEAT_INDEFINITELY, timerSchedule.getIntervalDuration());
+             SimpleTrigger trigger = new SimpleTrigger(triggerName, null, calculateDelayedDate(timerSchedule.getDuration()), null, SimpleTrigger.REPEAT_INDEFINITELY, timerSchedule.getIntervalDuration());
              scheduler.scheduleJob( jobDetail, trigger );
 
          }
          else
          {
-            SimpleTrigger trigger = new SimpleTrigger (triggerName, null, SimpleTrigger.REPEAT_INDEFINITELY, timerSchedule.getIntervalDuration());
+            SimpleTrigger trigger = new SimpleTrigger(triggerName, null, SimpleTrigger.REPEAT_INDEFINITELY, timerSchedule.getIntervalDuration());
             scheduler.scheduleJob( jobDetail, trigger );
 
          }
@@ -178,19 +189,19 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzDispatcher.Quartz
         if ( schedule.getExpiration()!=null )
         {
             SimpleTrigger trigger = new SimpleTrigger (triggerName, null, schedule.getExpiration());
-            scheduler.scheduleJob( jobDetail, trigger );
+            scheduler.scheduleJob(jobDetail, trigger);
 
         }
         else if ( schedule.getDuration()!=null )
         {
             SimpleTrigger trigger = new SimpleTrigger (triggerName, null, calculateDelayedDate(schedule.getDuration()));
-            scheduler.scheduleJob( jobDetail, trigger );
+            scheduler.scheduleJob(jobDetail, trigger);
 
         }
         else
         {
-           SimpleTrigger trigger = new SimpleTrigger (triggerName, null);
-           scheduler.scheduleJob( jobDetail, trigger );
+           SimpleTrigger trigger = new SimpleTrigger(triggerName, null);
+           scheduler.scheduleJob(jobDetail, trigger);
 
         }
       }
@@ -242,23 +253,23 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzDispatcher.Quartz
          this.triggerName = triggerName; 
       }
 
-      public void cancel () throws SchedulerException
+      public void cancel() throws SchedulerException
       {
          log.info("Cancel executing Quartz job");
          scheduler.unscheduleJob(triggerName, null);
       }
       
-      public void pause () throws SchedulerException
+      public void pause() throws SchedulerException
       {
          log.info("Pause executing Quartz job");
-         scheduler.pauseTrigger (triggerName, null);
+         scheduler.pauseTrigger(triggerName, null);
          
       }
       
-      public void resume () throws SchedulerException
+      public void resume() throws SchedulerException
       {
          log.info("Resume executing Quartz job");
-         scheduler.resumeTrigger (triggerName, null);
+         scheduler.resumeTrigger(triggerName, null);
       }
    }
 

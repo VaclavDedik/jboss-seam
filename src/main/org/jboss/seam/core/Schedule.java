@@ -14,8 +14,8 @@ import java.util.Date;
  */
 public class Schedule implements Serializable
 {
-   Long duration;
-   Date expiration;
+   private Long duration;
+   private Date expiration;
    
    Long getDuration()
    {
@@ -29,11 +29,27 @@ public class Schedule implements Serializable
    
    /**
     * @param duration the delay before the event occurs
-    * @param expriation the datetime at which the event occurs
+    * @param expiration the datetime at which the event occurs
     */
-   public Schedule(Long duration, Date expiration)
+   Schedule(Long duration, Date expiration)
    {
       this.duration = duration;
+      this.expiration = expiration;
+   }
+
+   /**
+    * @param duration the delay before the event occurs
+    */
+   public Schedule(Long duration)
+   {
+      this.duration = duration;
+   }
+
+   /**
+    * @param expiration the datetime at which the event occurs
+    */
+   public Schedule(Date expiration)
+   {
       this.expiration = expiration;
    }
 

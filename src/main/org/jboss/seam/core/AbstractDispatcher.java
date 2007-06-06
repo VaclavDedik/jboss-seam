@@ -6,10 +6,10 @@ import java.lang.reflect.Method;
 import java.util.Date;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.annotations.timer.Cron;
 import org.jboss.seam.annotations.timer.Duration;
 import org.jboss.seam.annotations.timer.Expiration;
 import org.jboss.seam.annotations.timer.IntervalDuration;
-import org.jboss.seam.annotations.timer.Cron;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.intercept.InvocationContext;
@@ -180,20 +180,14 @@ public abstract class AbstractDispatcher<T, S> implements Dispatcher<T, S>
          }
       }
       
-      if (cron != null && (!cron.trim().equals(""))) 
+      if ( cron!=null ) 
       {
-        return new CronSchedule(duration, expiration, cron.trim());
-      } else {
+        return new CronSchedule(duration, expiration, cron);
+      } 
+      else 
+      {
         return new TimerSchedule(duration, expiration, intervalDuration);
       }
-
-      /*
-      } else if (intervalDuration != null) {
-        return new TimerSchedule(duration, expiration, intervalDuration);
-      } else if (expiration != null || duration != null) {
-        return new Schedule (duration, expiration);
-      }
-      */
    }
    
 }
