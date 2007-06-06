@@ -30,9 +30,9 @@ then
    cat README
 elif $cygwin 
 then
-   java -cp "${JAVA_HOME}\lib\tools.jar;..\lib\ant-launcher.jar;..\lib\ant-nodeps.jar;..\lib\ant.jar" -Dant.home=..\lib -Dant.library.dir=.\lib org.apache.tools.ant.launch.Launcher ${*}
+   java -cp "${JAVA_HOME}\lib\tools.jar;..\lib\ant-launcher.jar;..\lib\ant-nodeps.jar;..\lib\ant.jar" -Dant.home=..\lib org.apache.tools.ant.launch.Launcher ${*}
 else
-   java -cp "${JAVA_HOME}/lib/tools.jar:../lib/ant-launcher.jar:../lib/ant-nodeps.jar:../lib/ant.jar" -Dant.home=../lib -Dant.library.dir=./lib org.apache.tools.ant.launch.Launcher ${*}
+   java -cp "${JAVA_HOME}/lib/tools.jar:../lib/ant-launcher.jar:../lib/ant-nodeps.jar:../lib/ant.jar" -Dant.home=../lib org.apache.tools.ant.launch.Launcher ${*}
 fi
 
 cd ..
