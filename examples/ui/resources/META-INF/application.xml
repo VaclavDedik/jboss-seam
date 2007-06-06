@@ -2,7 +2,7 @@
 
 <application>
     <display-name>Seam UI Example</display-name>
-
+    
     <module>
         <ejb>ui-example.jar</ejb>
     </module>
@@ -18,5 +18,14 @@
     </module>
     <module>
         <java>jboss-el.jar</java>
+    </module>
+    <module>
+        <java>jboss-cache-jdk50.jar</java>
+    </module>
+    <module>
+        <java>jboss-aop-jdk50.jar</java>
+    </module>
+    <module>
+        <java>jgroups.jar</java>
     </module>
 </application>
