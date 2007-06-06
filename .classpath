@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src/main"/>
-	<classpathentry kind="src" path="src/test/misc"/>
 	<classpathentry kind="src" path="src/remoting"/>
 	<classpathentry kind="src" path="src/ioc"/>
 	<classpathentry kind="src" path="src/mail"/>
@@ -46,5 +45,6 @@
 	<classpathentry kind="lib" path="drools/lib/drools-core-4.0.0.MR2.jar"/>
 	<classpathentry kind="lib" path="lib/testng-4.5.1-jdk15.jar"/>
 	<classpathentry kind="lib" path="lib/groovy-all-1.1-BETA-1.jar"/>
+	<classpathentry kind="lib" path="lib/quartz-1.6.0.jar"/>
 	<classpathentry kind="output" path="output/classes"/>
 </classpath>
