@@ -1,68 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chapter>
-  <title>Groovy integration</title>
+    <title>Groovy integration</title>
 
-  <para>One aspect of JBoss Seam is its RAD (Rapid Application Development)
-  capability. While not synonym with RAD, one interesting tool in this space
-  is dynamic languages. Until recently, choosing a dynamic language was
-  synonym of choosing a completly different development platform (a
-  development platform with a set of APIs and a runtime so great that you
-  would no longer want to use you old legacy Java [sic] APIs anymore, which
-  would be lucky because you would be forced to use those proprietary APIs
-  anyway). Dynamic languages built on top of the Java Virtual Machine, and
-  <ulink url="http://groovy.codehaus.org">Groovy</ulink> in particular broke
-  this approach in silos.</para>
+    <para>One aspect of JBoss Seam is its RAD (Rapid Application Development) capability. While not synonymous with RAD,
+        one interesting tool in this space is dynamic languages. Until recently, choosing a dynamic language was
+        required choosing a completely different development platform (a development platform with a set of APIs and a
+        runtime so great that you would no longer want to use you old legacy Java [sic] APIs anymore, which would be
+        lucky because you would be forced to use those proprietary APIs anyway). Dynamic languages built on top of the
+        Java Virtual Machine, and <ulink url="http://groovy.codehaus.org">Groovy</ulink> in particular broke this
+        approach in silos.</para>
 
-  <para>Bringing the dynamic language world to the JBoss Seam and the Java EE
-  world is now possible. By seamlessly integrating both static and dynamic
-  languages, JBoss Seam let the application developer use the best tool for
-  the task, without context switching: writing dynamic Seam components are
-  exactly like writing regular Seam components, same annotations, same APIs,
-  same everything.</para>
-
-  <section>
-    <title id="groovy">Groovy introduction</title>
-
-    <para>Groovy is an agile dynamic language based on the Java language but
-    with additional features inspired by Python, Ruby and Smalltalk. The
-    strengths of Groovy are twofold:</para>
-
-    <itemizedlist>
-      <listitem>
-        <para>the Java syntax is supported in Groovy: a Java code is a Groovy
-        code, making the learning curve very smooth</para>
-      </listitem>
-
-      <listitem>
-        <para>a Groovy object is a Java object, a Groovy class is a Java
-        class: Groovy integrates smoothly with all the Java libraries and
-        frameworks out there.</para>
-      </listitem>
-    </itemizedlist>
-
-    <para>TODO: write a quick overview of the Groovy syntax add-on</para>
-  </section>
-
-  <section>
-    <title>Writing Seam applications in Groovy</title>
-
-    <para>There is not much to say about it. A Groovy object is a Java object,
-    you can virtually write any Seam component, or any class for what it
-    worth, in Groovy and deploy them. You can also mix Groovy classes and Java
-    classes in the same application.</para>
+    <para>JBoss Seam now unites the dynamic language world with the Java EE world by seamlessly integrating both static
+        and dynamic languages. JBoss Seam lets the application developer use the best tool for the task, without context
+        switching. Writing dynamic Seam components is exactly like writing regular Seam components. You use the same
+        annotations, the same APIs, the same everything.</para>
 
     <section>
-      <title>Writing Groovy components</title>
+        <title id="groovy">Groovy introduction</title>
 
-      <para>As you should have noticed by now, Seam uses annotations heavily.
-      Be sure to use Groovy 1.1 Beta1 or above, with annotations support. The
-      Groovy annotations support has been very stable. Here are some example
-      of groovy code used in a Seam application.</para>
+        <para>Groovy is an agile dynamic language based on the Java language but with additional features inspired by
+            Python, Ruby and Smalltalk. The strengths of Groovy are twofold:</para>
 
-      <section>
-        <title>Entity</title>
+        <itemizedlist>
+            <listitem>
+                <para>Java syntax is supported in Groovy: Java code is Groovy code, making the learning curve very
+                    smooth</para>
+            </listitem>
 
-        <programlisting>    @Entity
+            <listitem>
+                <para>Groovy objects are Java objects, and Groovy classes are Java classes: Groovy integrates smoothly
+                    with existing Java libraries and frameworks.</para>
+            </listitem>
+        </itemizedlist>
+
+        <para>TODO: write a quick overview of the Groovy syntax add-on</para>
+    </section>
+
+    <section>
+        <title>Writing Seam applications in Groovy</title>
+
+        <para>There is not much to say about it. Since a Groovy object is a Java object, you can virtually write any
+            Seam component, or any class for what it worth, in Groovy and deploy it. You can also mix Groovy classes and
+            Java classes in the same application.</para>
+
+        <section>
+            <title>Writing Groovy components</title>
+
+            <para>As you should have noticed by now, Seam uses annotations heavily. Be sure to use Groovy 1.1 Beta1 or
+                above for annotation support. Here are some example of groovy code used in a Seam application.</para>
+
+            <section>
+                <title>Entity</title>
+
+                <programlisting>    @Entity
     @Name("hotel")
     class Hotel implements Serializable
     {
@@ -95,32 +85,29 @@
         {
             return "Hotel(${name},${address},${city},${zip})"
         }
-    }
-</programlisting>
+    }</programlisting>
 
-        <para>Groovy natively support the notion of properties
-        (getter/setter), no need to explicitly write verbose getters and
-        setters: in the previous example, the hotel class can be accessed from
-        Java as <code>hotel.getCity()</code>, the getters and setters being
-        generated by the Groovy compiler. This syntactic sugar (amongst
-        others) makes the entity code very concise.</para>
+                <para>Groovy natively support the notion of properties (getter/setter), so there is no need to
+                    explicitly write verbose getters and setters: in the previous example, the hotel class can be
+                    accessed from Java as <code>hotel.getCity()</code>, the getters and setters being generated by the
+                    Groovy compiler. This type of syntactic sugar makes the entity code very concise.</para>
 
-        <para>Some temporary gotchas: Groovy 1.1 Beta1 does not (yet) support
-        generics definition. Practically, you will need to use the
-        targetEntity attribute of <literal>@*ToMany</literal> instead of
-        <code>Collection&lt;Entity&gt;</code>. For the same reason, you won't
-        be able to benefit from the very useful <xref linkend="framework" />.
-        Such a support is targeted for Groovy 1.1 though (Groovy 1.1 Beta2 at
-        the time of writing).</para>
-      </section>
+                <para>Some temporary gotchas: Groovy 1.1 Beta1 does not (yet) support generics. One negative effect of
+                    this is that entity relationships have no built-in type information. It is necessary to use the
+                    targetEntity attribute of the appropriate <literal>@*ToMany</literal> annotation instead of simply
+                    using a generic type definition like <code>Collection&lt;Entity&gt;</code>. For the same
+                    reason, you won't be able to benefit from the very useful <xref linkend="framework"/> yet. The good
+                    news is that support for generics is targeted for Groovy 1.1 (Groovy 1.1 Beta2 at the time of
+                    writing).</para>
+            </section>
 
-      <section>
-        <title>Seam component</title>
+            <section>
+                <title>Seam component</title>
 
-        <para>Writing Seam components in Groovy is in no way different than in
-        Java: annotations are use to mark the class as Seam component.</para>
+                <para>Writing Seam components in Groovy is in no way different than in Java: annotations are used to
+                    mark the class as a Seam component.</para>
 
-        <programlisting>@Scope(ScopeType.SESSION)
+                <programlisting>@Scope(ScopeType.SESSION)
 @Name("bookingList")
 class BookingListAction implements Serializable
 {
@@ -150,103 +137,88 @@ class BookingListAction implements Serializable
     }
 }</programlisting>
 
-        <para></para>
-      </section>
+                <para/>
+            </section>
+        </section>
+
+        <section>
+            <title>seam-gen</title>
+
+            <para>Seam gen has a transparent integration with Groovy. You can write Groovy code in seam-gen backed
+                projects without any additional infrastructure requirement. When writing a Groovy entity, simply place
+                your <filename>.groovy</filename> files in <filename>src/model</filename>. Unsurprisingly, when writing
+                an action, simply place your <filename>.groovy</filename> files in
+            <filename>src/action</filename>.</para>
+        </section>
     </section>
 
     <section>
-      <title>seam-gen</title>
+        <title>Deployment</title>
 
-      <para>Seam gen has a transparent integration with Groovy. You can write
-      Groovy code in seam-gen backed projects without any additional
-      infrastructure requirement. When writing a Groovy entity, simply place
-      your <filename>.groovy</filename> files in
-      <filename>src/model</filename>. Unsurprisingly, when writing an action,
-      simply place your <filename>.groovy</filename> files in
-      <filename>src/action</filename>.</para>
+        <para>Deploying Groovy classes is very much like deploying Java classes (surprisingly, no need to write nor
+            comply with a 3-letter composite specification to support a multi-language component framework).</para>
+
+        <para>Beyond standard deployments, JBoss Seam has the ability, at development time, to redeploy JavaBeans Seam
+            component classes without having to restart the application, saving a lot of time in the development / test
+            cycle. The same support is provided for GroovyBeans Seam components when the <filename>.groovy</filename>
+            files are deployed.</para>
+
+        <section>
+            <title>Deploying Groovy code</title>
+
+            <para>A Groovy class <emphasis>is</emphasis> a Java class, with a bytecode representation just like a Java
+                class. To deploy, a Groovy entity, a Groovy Session bean or a Groovy Seam component, a compilation step
+                is necessary. A common approach is to use the <literal>groovyc</literal> ant task. Once compiles, a
+                Groovy class is in no way different than a Java class and the application server will treat them
+                equally. Note that this allow a seamless mix of Groovy and Java code.</para>
+        </section>
+
+        <section>
+            <title>Native .groovy file deployment at development time</title>
+
+            <para>JBoss Seam natively supports the deployment of <literal>.groovy</literal> files (ie without
+                compilation) in incremental hotdeployment mode (development only). This enables a very fast edit/test
+                cycle. To set up .groovy deployments, follow the configuration at <xref
+                    linkend="gettingstarted-hotdeployment"/> and deploy your Groovy code (<filename>.groovy</filename>
+                files) into the <filename>WEB-INF/dev</filename> directory. The GroovyBean components will be picked up
+                incrementally with no need to restart the application (and obviously not the application server either).</para>
+
+            <para>Be aware that the native .groovy file deployment suffers the same limitations as the regular Seam
+                hotdeployment:</para>
+
+            <itemizedlist>
+                <listitem>
+                    <para>The components must be JavaBeans or GroovyBeans. They cannot be EJB3 bean</para>
+                </listitem>
+
+                <listitem>
+                    <para>Entities cannot be hotdeployed</para>
+                </listitem>
+
+                <listitem>
+                    <para>The hot-deployable components will not be visible to any classes deployed outside of
+                            <literal>WEB-INF/dev</literal></para>
+                </listitem>
+
+                <listitem>
+                    <para>Seam debug mode must be enabled</para>
+                </listitem>
+            </itemizedlist>
+
+            <para/>
+        </section>
+
+        <section>
+            <title>seam-gen</title>
+
+            <para>Seam-gen transparently supports Groovy files deployment and compilation. This includes the native
+                    <filename>.groovy</filename> file deployment in development mode (compilation-less). If you create a
+                seam-gen project of type WAR, Java and Groovy classes in <filename>src/action</filename> will
+                automatically be candidate for the incremental hot deployment. If you are in production mode, the Groovy
+                files will simply be compiled before deployment.</para>
+
+            <para>You will find a live example of the Booking demo written completely in Groovy and supporting
+                incremental hot deployment in <filename>examples/groovybooking</filename>.</para>
+        </section>
     </section>
-  </section>
-
-  <section>
-    <title>Deployment</title>
-
-    <para>Deploying Groovy classes is very much alike deploying Java classes
-    (surprisingly, no need to write nor comply with a 3-letter composite
-    specification to support a multi languages component framework).</para>
-
-    <para>Beyond standard deployments, JBoss Seam has the ability, at
-    development time, to redeploy JavaBeans Seam component classes without
-    having to restart the application, saving a lot of time in development /
-    test cycles. The same support is provided for GroovyBeans Seam components,
-    with one additional particularity: the <filename>.groovy</filename> file
-    themselves are deployed.</para>
-
-    <section>
-      <title>Deploying Groovy code</title>
-
-      <para>A Groovy class <emphasis>is</emphasis> a Java class, with a
-      bytecode representation just like a Java class. To deploy, a Groovy
-      entity, a Groovy Session bean, a Groovy Seam component, a compilation
-      step is necessary. A common approach is to use the
-      <literal>groovyc</literal> ant task. Once compile, a Groovy class is in
-      no way different than a Java class and the application server will treat
-      them equally. Note that this allow a seamless mix of Groovy and Java
-      code.</para>
-    </section>
-
-    <section>
-      <title>Native .groovy file deployment at development time</title>
-
-      <para>JBoss Seam supports natively the deployment of
-      <literal>.groovy</literal> files (ie without compilation) in incremental
-      hotdeployment mode (development only). This enables a very fast
-      edit/test cycle. To set up .groovy deployments, follow the configuration
-      at <xref linkend="gettingstarted-hotdeployment" /> and deploy your
-      Groovy code (<filename>.groovy</filename> files) into the
-      <filename>WEB-INF/dev</filename> directory. The GroovyBean components
-      will be picked up incrementally with no need to restart the application
-      (and obviously not the application server either).</para>
-
-      <para>Be aware that the native .groovy file deployment suffers the same
-      limitations as the regular Seam hotdeployment:</para>
-
-      <itemizedlist>
-        <listitem>
-          <para>the components must be JavaBeans or GroovyBeans, there cannot
-          be EJB3 bean</para>
-        </listitem>
-
-        <listitem>
-          <para>entities cannot be hotdeployed</para>
-        </listitem>
-
-        <listitem>
-          <para>the hot-deployable components will not be visible to any
-          classes deployed outside of <literal>WEB-INF/dev</literal></para>
-        </listitem>
-
-        <listitem>
-          <para>Seam debug mode must be enabled</para>
-        </listitem>
-      </itemizedlist>
-
-      <para></para>
-    </section>
-
-    <section>
-      <title>seam-gen</title>
-
-      <para>Seam-gen transparently supports Groovy files deployment and
-      compilation. This includes the native <filename>.groovy</filename> file
-      deployment in development mode (compilation-less). If you create a
-      seam-gen project of type WAR, Java and Groovy classes in
-      <filename>src/action</filename> will automatically be candidate for the
-      incremental hot deployment. If you are in production mode, the Groovy
-      files will simply be compiled before deployment.</para>
-
-      <para>You will find a live example of the Booking demo written completly
-      in Groovy and supporting incremental hot deployment in
-      <filename>examples/groovybooking</filename>.</para>
-    </section>
-  </section>
 </chapter>
