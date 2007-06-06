@@ -6,6 +6,9 @@
 
    <application>
       <message-bundle>messages</message-bundle>
+      <locale-config>
+    		<default-locale>en</default-locale>
+      </locale-config>
       <!-- Disabled when using Ajax4JSF -->
       <!--
       <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
