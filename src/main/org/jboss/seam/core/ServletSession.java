@@ -27,6 +27,7 @@ public class ServletSession extends AbstractMutable
    public void invalidate()
    {
       this.isInvalid = true;
+      setDirty();
    }
    
    public boolean isInvalidDueToNewScheme()
@@ -75,7 +76,7 @@ public class ServletSession extends AbstractMutable
       {
          throw new IllegalStateException("No active event context");
       }
-      return (ServletSession) Component.getInstance(ServletSession.class, ScopeType.EVENT);
+      return (ServletSession) Component.getInstance(ServletSession.class, ScopeType.SESSION);
    }
 
 }
