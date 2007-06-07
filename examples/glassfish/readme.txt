@@ -3,7 +3,7 @@
    0a. The build target is "build/jboss-seam-glassfish.ear"
    0b. The "ant toplink" target builds the EAR file using toplink as the JPA provider. You will need to manually load the database. Not recommended.
 
-1. Download Glassfish
+1. Download Glassfish v2 beta4 or above
 
 2. Install it: java -Xmx256m -jar glassfish-installer-xxx.jar
 

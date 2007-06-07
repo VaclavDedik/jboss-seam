@@ -4,10 +4,6 @@
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
 
-    <application>
-        <el-resolver>org.jboss.seam.jsf.SeamELResolver</el-resolver>
-    </application>
-
     <!-- Select one of the standard transaction models for the Seam application -->
 
     <lifecycle>

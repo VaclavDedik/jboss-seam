@@ -97,6 +97,7 @@
         <include name="thirdparty-all.jar" />
         <include name="commons-digester-*.jar" />
         <include name="commons-beanutils-*.jar" />
+        <include name="jboss-el.jar" />
         <!--
         <include name="commons-codec-*.jar" />
         <include name="commons-collections-*.jar" />
