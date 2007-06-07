@@ -7,13 +7,17 @@ import javax.jws.WebMethod;
 import javax.jws.WebService;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.core.Manager;
+import org.jboss.seam.annotations.Conversation;
+import org.jboss.seam.annotations.ConversationId;
+import org.jboss.seam.annotations.Name;
 import org.jboss.seam.security.Identity;
 
 @Stateless
 @WebService
+@Name("auctionService")
+@Conversation("createAuction")
 public class AuctionService implements AuctionServiceRemote
-{         
+{           
    @WebMethod
    public boolean login(String username, String password)
    {
@@ -53,11 +57,9 @@ public class AuctionService implements AuctionServiceRemote
    }
    
    @WebMethod
-   public Auction getNewAuctionDetails(int auctionId)
+   public Auction getNewAuctionDetails(@ConversationId int auctionId)
    {
       AuctionAction action = (AuctionAction) Component.getInstance(AuctionAction.class, true);
-      
-      action.editAuction(auctionId);
       
       // TODO remove the auction image from the result
       
@@ -65,7 +67,8 @@ public class AuctionService implements AuctionServiceRemote
    }
    
    @WebMethod
-   public void updateAuction(int auctionId, String title, String description, int categoryId)
+   public void updateAuction(@ConversationId int auctionId, String title, 
+         String description, int categoryId)
    {
       AuctionAction action = (AuctionAction) Component.getInstance(AuctionAction.class, true);
       
@@ -74,16 +77,15 @@ public class AuctionService implements AuctionServiceRemote
    }
    
    @WebMethod
-   public void setAuctionDuration(int auctionId, int days)
+   public void setAuctionDuration(@ConversationId int auctionId, int days)
    {
-      Manager.instance().restoreConversation("" + auctionId);
       AuctionAction action = (AuctionAction) Component.getInstance(AuctionAction.class, true);
       
       action.setDuration(days);
    }
    
    @WebMethod
-   public void confirmAuction(int auctionId)
+   public void confirmAuction(@ConversationId int auctionId)
    {
       AuctionAction action = (AuctionAction) Component.getInstance(AuctionAction.class, true);
       

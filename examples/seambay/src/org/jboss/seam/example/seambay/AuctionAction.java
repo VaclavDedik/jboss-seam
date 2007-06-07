@@ -1,10 +1,9 @@
 package org.jboss.seam.example.seambay;
 
-import static org.jboss.seam.ScopeType.SESSION;
+import static org.jboss.seam.ScopeType.CONVERSATION;
 
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.persistence.EntityManager;
@@ -17,7 +16,7 @@ import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.security.Restrict;
 
-@Scope(SESSION)
+@Scope(CONVERSATION)
 @Name("auctionAction")
 @Restrict("#{identity.loggedIn}")
 public class AuctionAction implements Serializable
@@ -40,6 +39,7 @@ public class AuctionAction implements Serializable
       if (auction == null)
       {
          auction = new Auction();
+         auction.setAuctionId(-123); // TODO create a temporary auction ID
          auction.setAccount(authenticatedAccount);
          auction.setStatus(Auction.STATUS_UNLISTED);   
       }
