@@ -112,6 +112,7 @@ import org.jboss.seam.interceptors.SecurityInterceptor;
 import org.jboss.seam.interceptors.SynchronizationInterceptor;
 import org.jboss.seam.interceptors.TransactionInterceptor;
 import org.jboss.seam.interceptors.ValidationInterceptor;
+import org.jboss.seam.interceptors.WebServiceInterceptor;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.util.Conversions;
@@ -902,6 +903,10 @@ public class Component extends Model
       {
         addInterceptor( new Interceptor( new SecurityInterceptor(), this ) );
       }
+      if ( beanClassHasAnnotation("javax.jws.WebService"))
+      {
+         addInterceptor( new Interceptor( new WebServiceInterceptor(), this ) );
+      }
    }
 
    private static boolean hasAnnotation(Class clazz, Class annotationType)
@@ -922,10 +927,33 @@ public class Component extends Model
          return false;
       }
    }
+   
+   private static boolean hasAnnotation(Class clazz, String annotationName)
+   {
+      for (Annotation a : clazz.getAnnotations())
+      {
+         if (a.annotationType().getName().equals(annotationName)) return true;          
+      }
+      
+      for ( Method method : clazz.getMethods() )
+      {
+         for ( Annotation a : method.getAnnotations() )
+         {
+            if (a.annotationType().getName().equals(annotationName)) return true;
+         }
+      }
+      
+      return false;
+   }
 
    public boolean beanClassHasAnnotation(Class annotationType)
    {
       return hasAnnotation( getBeanClass(), annotationType );
+   }
+   
+   public boolean beanClassHasAnnotation(String annotationName)
+   {
+      return hasAnnotation( getBeanClass(), annotationName );
    }
 
    public boolean businessInterfaceHasAnnotation(Class annotationType)

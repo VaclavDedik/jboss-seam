@@ -18,6 +18,8 @@ import org.jboss.seam.core.Manager;
  */
 public class SeamWSRequestHandler implements SOAPHandler
 {
+   public static final String MESSAGE_CONTEXT = "org.jboss.seam.ws.messageContext";
+   
    public Set getHeaders()
    {
       return null;
@@ -37,10 +39,8 @@ public class SeamWSRequestHandler implements SOAPHandler
    {  
       HttpServletRequest request = (HttpServletRequest) messageContext.get(MessageContext.SERVLET_REQUEST);      
       Lifecycle.beginRequest(Lifecycle.getServletContext(), request.getSession(), request);
-      Manager.instance().restoreConversation((String) null);
-      Lifecycle.resumeConversation(request.getSession());
       
-      Contexts.getEventContext().set("WS_MESSAGE_CONTEXT", messageContext);
+      Contexts.getEventContext().set(MESSAGE_CONTEXT, messageContext);
       
       return true;
    }
