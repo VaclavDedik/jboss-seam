@@ -373,11 +373,11 @@ public class Identity extends Selector
    {      
       principal = null;
       
-      for ( Group sg : subject.getPrincipals(Group.class) )      
+      for ( Group sg : getSubject().getPrincipals(Group.class) )      
       {
          if ( ROLES_GROUP.equals( sg.getName() ) )
          {
-            subject.getPrincipals().remove(sg);
+            getSubject().getPrincipals().remove(sg);
             break;
          }
       }
@@ -387,12 +387,12 @@ public class Identity extends Selector
    {
       if (getJaasConfigName() != null)
       {
-         return new LoginContext(getJaasConfigName(), subject, 
+         return new LoginContext(getJaasConfigName(), getSubject(), 
                   getDefaultCallbackHandler());
       }
       
       return new LoginContext(Configuration.DEFAULT_JAAS_CONFIG_NAME, 
-            subject, getDefaultCallbackHandler(), Configuration.instance());
+               getSubject(), getDefaultCallbackHandler(), Configuration.instance());
    }
    
    public void logout()
@@ -411,7 +411,7 @@ public class Identity extends Selector
    {
       isLoggedIn(true);
       
-      for ( Group sg : subject.getPrincipals(Group.class) )      
+      for ( Group sg : getSubject().getPrincipals(Group.class) )      
       {
          if ( ROLES_GROUP.equals( sg.getName() ) )
          {
@@ -435,7 +435,7 @@ public class Identity extends Selector
       }
       else
       {
-         for ( Group sg : subject.getPrincipals(Group.class) )      
+         for ( Group sg : getSubject().getPrincipals(Group.class) )      
          {
             if ( ROLES_GROUP.equals( sg.getName() ) )
             {
@@ -445,7 +445,7 @@ public class Identity extends Selector
                   
          SimpleGroup roleGroup = new SimpleGroup(ROLES_GROUP);
          roleGroup.addMember(new SimplePrincipal(role));
-         subject.getPrincipals().add(roleGroup);
+         getSubject().getPrincipals().add(roleGroup);
          return true;
       }
    }
@@ -457,7 +457,7 @@ public class Identity extends Selector
     */
    public void removeRole(String role)
    {     
-      for ( Group sg : subject.getPrincipals(Group.class) )      
+      for ( Group sg : getSubject().getPrincipals(Group.class) )      
       {
          if ( ROLES_GROUP.equals( sg.getName() ) )
          {
