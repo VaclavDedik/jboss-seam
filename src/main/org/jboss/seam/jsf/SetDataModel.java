@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.AbstractSet;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -17,13 +19,9 @@ public class SetDataModel extends javax.faces.model.DataModel implements
 {
    private static final long serialVersionUID = -616367764778689337L;
    private int rowIndex = -1;
-   private Set set;
    private List entries;
 
-   public SetDataModel()
-   {
-      super();
-   }
+   public SetDataModel() {}
 
    public SetDataModel(Set set)
    {
@@ -37,17 +35,17 @@ public class SetDataModel extends javax.faces.model.DataModel implements
    @Override
    public int getRowCount()
    {
-      if (set==null)
+      if (entries==null)
       {
          return -1;
       }
-      return set.size();
+      return entries.size();
    }
 
    @Override
    public Object getRowData()
    {
-      if (set == null)
+      if (entries == null)
       {
          return null;
       }
@@ -67,13 +65,27 @@ public class SetDataModel extends javax.faces.model.DataModel implements
    @Override
    public Object getWrappedData()
    {
-      return set;
+      return new AbstractSet()
+      {
+         @Override
+         public Iterator iterator()
+         {
+            return entries.iterator();
+         }
+         @Override
+         public int size()
+         {
+            return entries.size();
+         }
+      };
    }
 
    @Override
    public boolean isRowAvailable()
    {
-      return entries!=null && rowIndex >= 0 && rowIndex < entries.size();
+      return entries!=null && 
+            rowIndex >= 0 && 
+            rowIndex < entries.size();
    }
 
    @Override
@@ -85,7 +97,7 @@ public class SetDataModel extends javax.faces.model.DataModel implements
       }
       int oldRowIndex = rowIndex;
       rowIndex = newRowIndex;
-      if (set != null && oldRowIndex != newRowIndex)
+      if (entries != null && oldRowIndex != newRowIndex)
       {
          Object data = isRowAvailable() ? getRowData() : null;
          DataModelEvent event = new DataModelEvent(this, newRowIndex, data);
@@ -100,15 +112,13 @@ public class SetDataModel extends javax.faces.model.DataModel implements
    @Override
    public void setWrappedData(Object data)
    {
-      set = (Set) data;
-      entries = new ArrayList(set);
+      entries = new ArrayList( (Set) data );
       int rowIndex = data != null ? 0 : -1;
       setRowIndex(rowIndex);
    }
 
    private void writeObject(ObjectOutputStream oos) throws IOException
    {
-      oos.writeObject(set);
       oos.writeInt(rowIndex);
       oos.writeObject(entries);
    }
@@ -116,7 +126,6 @@ public class SetDataModel extends javax.faces.model.DataModel implements
    private void readObject(ObjectInputStream ois) throws IOException,
          ClassNotFoundException
    {
-      set = (Set) ois.readObject();
       rowIndex = ois.readInt();
       entries = (List) ois.readObject();
    }
