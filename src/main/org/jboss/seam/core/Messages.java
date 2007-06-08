@@ -28,7 +28,8 @@ import org.jboss.seam.annotations.Unwrap;
 @Intercept(NEVER)
 @Name("org.jboss.seam.core.messages")
 @Install(precedence=BUILT_IN)
-public class Messages implements Serializable {
+public class Messages implements Serializable 
+{
    private static final long serialVersionUID = 1292464253307553295L;
    
    private transient Map<String, String> messages;
@@ -38,42 +39,28 @@ public class Messages implements Serializable {
       messages = new AbstractMap<String, String>()
       {
          private java.util.ResourceBundle bundle = ResourceBundle.instance();
-         //private Map<String, String> cache = new HashMap<String, String>();
 
          @Override
-         public String get(Object key) {
+         public String get(Object key) 
+         {
             if (key instanceof String)
             {
                String resourceKey = (String) key;
-               /*String cachedValue = cache.get(key);
-               if (cachedValue==null)
-               {*/
-                  String resource=null;
-                  if (bundle!=null)
-                  {
-                     try
-                     {
-                        resource = bundle.getString(resourceKey);
-                     }
-                     catch (MissingResourceException mre)
-                     {
-                        //Just swallow
-                     }
-                  }
-                  if (resource==null)
-                  {
-                     return resourceKey;
-                  }
-                  else
-                  {
-                     //cache.put(resourceKey, resource);
-                     return Interpolator.instance().interpolate(resource);
-                  }
-               /*}
-               else
+               String resource=null;
+               if (bundle!=null)
                {
-                  return Interpolator.instance().interpolate(cachedValue);
-               }*/
+                  try
+                  {
+                     resource = bundle.getString(resourceKey);
+                  }
+                  catch (MissingResourceException mre)
+                  {
+                     //Just swallow
+                  }
+               }
+               return resource==null ?
+                     resourceKey :
+                     Interpolator.instance().interpolate(resource);
             }
             else
             {
@@ -82,7 +69,8 @@ public class Messages implements Serializable {
          }
          
          @Override
-         public Set<Map.Entry<String, String>> entrySet() {
+         public Set<Map.Entry<String, String>> entrySet() 
+         {
             Enumeration<String> keys = bundle.getKeys();
             Map<String, String> map = new HashMap<String, String>();
             while ( keys.hasMoreElements() )
