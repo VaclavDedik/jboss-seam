@@ -5,20 +5,11 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
 http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
     
-    <!-- Ajax4jsf (must come first!) -->		   
-    <filter>     
-      <display-name>Ajax4jsf Filter</display-name>     
-      <filter-name>ajax4jsf</filter-name>     
-      <filter-class>org.ajax4jsf.Filter</filter-class>   
-    </filter>	   
-    <filter-mapping>     
-      <filter-name>ajax4jsf</filter-name>     
-      <url-pattern>*.seam</url-pattern>   
-    </filter-mapping>   
+    <!-- Ajax4jsf filter not needed, Seam Filter install it -->
     <context-param>     
       <param-name>org.ajax4jsf.VIEW_HANDLERS</param-name>     
       <param-value>com.sun.facelets.FaceletViewHandler</param-value>   
-    </context-param>        
+    </context-param>    
     
     <!-- Seam -->           
     <listener>              
@@ -70,9 +61,12 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
       <param-value>true</param-value>    
     </context-param>  
     
-    <!-- MyFaces -->    
-    <listener>        
-      <listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>    
-    </listener>     
+    <listener>
+        <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
+    </listener> 
+        
+    <session-config>
+        <session-timeout>10</session-timeout> 
+    </session-config>     
     
 </web-app>

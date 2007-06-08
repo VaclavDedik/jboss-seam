@@ -2,9 +2,16 @@ This is the Hotel Booking example implemented in Seam POJO and Hibernate JPA.
 It can be deployed in JBoss AS 4.x, WebLogic, Glassfish, Tomcat without
 the EJB3 container.
 
+JBoss AS 4.2.0:
+  * Install JBoss AS 4.2.0 GA
+  * ant jboss
+  * Deploy build/jboss-seam-jpa.war
+  * Start JBoss AS 
+  * Access the app at http://localhost:8080/jboss-seam-jpa/
+
 JBoss AS 4.0.5 (with or without EJB3):
   * Install JBoss AS 4.0.5 with the default J2EE profile
-  * ant jboss
+  * ant jboss405
   * Deploy build/jboss-seam-jpa.war
   * Start JBoss AS 
   * Access the app at http://localhost:8080/jboss-seam-jpa/
@@ -34,7 +41,7 @@ Tomcat (no embedded EJB3):
   * Access the app at http://localhost:8080/jboss-seam-jpa/
 
 Glassfish
-  * Install Glassfish v1 UR1
+  * Install Glassfish v2 beta4
   * ant glassfish
   * Start GlassFish
   * Load the admin console http://localhost:4848/
