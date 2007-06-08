@@ -155,7 +155,7 @@ public class ResourceBundle implements Serializable
                }
             }
             
-            throw new MissingResourceException("Can't find resource in bundles: " + key, getClass().getName(), key );
+            return null; //superclass is responsible for throwing MRE
          }
 
          private List<java.util.ResourceBundle> getPageResourceBundles()
