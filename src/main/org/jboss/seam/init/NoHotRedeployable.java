@@ -13,6 +13,8 @@ import org.jboss.seam.deployment.ComponentScanner;
 public class NoHotRedeployable implements RedeployableStrategy
 {
    public NoHotRedeployable(File resource) {}
+   
+   public NoHotRedeployable() {}
 
    public ClassLoader getClassLoader()
    {

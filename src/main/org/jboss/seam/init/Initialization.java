@@ -533,25 +533,26 @@ public class Initialization
 
    private RedeployableStrategy getRedeployableInitialization() 
    {
-      String dirName = servletContext.getRealPath("/WEB-INF/dev");
-       
-      if (dirName == null) {
-          log.debug("Could not find path for /WEB-INF/dev");
-          return new NoHotRedeployable(null);           
-      }
-             
-      File hotDeployDir = new File(dirName);
-      
-      String strategy = getRedeployableStrategyName(hotDeployDir);
-      try
+      String path = servletContext.getRealPath("/WEB-INF/dev");
+      if (path==null) //WebLogic!
       {
-         Class initializer = Reflections.classForName(strategy);
-         Constructor ctr = initializer.getConstructor(File.class);
-         return (RedeployableStrategy) ctr.newInstance(hotDeployDir);
+         log.debug("Could not find path for /WEB-INF/dev");
+         return new NoHotRedeployable();
       }
-      catch (Exception e)
+      else
       {
-         throw new RuntimeException( "Unable to instantiate redeployable strategy: " + strategy );
+         File hotDeployDir = new File(path);
+         String strategy = getRedeployableStrategyName(hotDeployDir);
+         try
+         {
+            Class initializer = Reflections.classForName(strategy);
+            Constructor ctr = initializer.getConstructor(File.class);
+            return (RedeployableStrategy) ctr.newInstance(hotDeployDir);
+         }
+         catch (Exception e)
+         {
+            throw new RuntimeException( "Unable to instantiate redeployable strategy: " + strategy );
+         }
       }
    }
 
