@@ -72,9 +72,9 @@ public class ServletSession extends AbstractMutable
    
    public static ServletSession instance()
    {
-      if ( !Contexts.isEventContextActive() )
+      if ( !Contexts.isSessionContextActive() )
       {
-         throw new IllegalStateException("No active event context");
+         throw new IllegalStateException("No active session context");
       }
       return (ServletSession) Component.getInstance(ServletSession.class, ScopeType.SESSION);
    }

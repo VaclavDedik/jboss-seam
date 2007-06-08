@@ -43,7 +43,8 @@ public class Lifecycle
       Contexts.applicationContext.set( new FacesApplicationContext(externalContext) );
       ContextAdaptor session = ContextAdaptor.getSession(externalContext);
       Contexts.sessionContext.set( new WebSessionContext(session) );
-      if ( ServletSession.instance().isInvalidDueToNewScheme() )
+      ServletSession servletSession = ServletSession.instance();
+      if ( servletSession!=null /*yuck! unit tests!*/ && servletSession.isInvalidDueToNewScheme() )
       {
          session.invalidate();
          session = ContextAdaptor.getSession(externalContext);
