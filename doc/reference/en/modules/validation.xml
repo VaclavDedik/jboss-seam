@@ -230,14 +230,14 @@
     <s:decorate id="countryDecoration" template="edit.xhtml">
         <ui:define name="label">Country:</ui:define>
         <h:inputText value="#{location.country}" required="true">
-            <a:support event="onblur" reRender="countryDecoration"/>
+            <a:support event="onblur" reRender="countryDecoration" bypassUpdates="true"/>
         </h:inputText>
     </s:decorate>
     
     <s:decorate id="zipDecoration" template="edit.xhtml">
         <ui:define name="label">Zip code:</ui:define>
         <h:inputText value="#{location.zip}" required="true">
-            <a:support event="onblur" reRender="zipDecoration"/>
+            <a:support event="onblur" reRender="zipDecoration" bypassUpdates="true"/>
         </h:inputText>
     </s:decorate>
 
@@ -261,14 +261,14 @@
     <s:decorate id="countryDecoration" template="edit.xhtml">
         <ui:define name="label">Country:</ui:define>
         <h:inputText id="country" value="#{location.country}" required="true">
-            <a:support event="onblur" reRender="countryDecoration"/>
+            <a:support event="onblur" reRender="countryDecoration" bypassUpdates="true"/>
         </h:inputText>
     </s:decorate>
     
     <s:decorate id="zipDecoration" template="edit.xhtml">
         <ui:define name="label">Zip code:</ui:define>
         <h:inputText id="zip" value="#{location.zip}" required="true">
-            <a:support event="onblur" reRender="zipDecoration"/>
+            <a:support event="onblur" reRender="zipDecoration" bypassUpdates="true"/>
         </h:inputText>
     </s:decorate>
 
