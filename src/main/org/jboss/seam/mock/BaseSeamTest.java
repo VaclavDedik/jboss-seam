@@ -54,48 +54,20 @@ import org.jboss.seam.util.Reflections;
 public class BaseSeamTest
 {
 
-   private MockExternalContext externalContext;
-
+   private Application application;
    private MockServletContext servletContext;
-
-   private MockApplication application;
-
    private AbstractSeamPhaseListener phases;
-
    private MockHttpSession session;
-
    private Map<String, Map> conversationViewRootAttributes;
 
-   private Map<String, Object> pageParameters = new HashMap<String, Object>();
-
-   protected void setParameter(String name, String value)
+   protected boolean isSessionInvalid()
    {
-      getParameters().put(name, new String[] { value });
-   }
-
-   protected void setPageParameter(String name, Object value)
-   {
-      pageParameters.put(name, value);
-   }
-
-   protected Map<String, String[]> getParameters()
-   {
-      return ((MockHttpServletRequest) externalContext.getRequest()).getParameters();
-   }
-
-   protected Map<String, String[]> getHeaders()
-   {
-      return ((MockHttpServletRequest) externalContext.getRequest()).getHeaders();
+      return session.isInvalid();
    }
 
    protected HttpSession getSession()
    {
-      return (HttpSession) externalContext.getSession(true);
-   }
-
-   protected boolean isSessionInvalid()
-   {
-      return ((MockHttpSession) getSession()).isInvalid();
+      return session;
    }
 
    /**
@@ -155,24 +127,39 @@ public class BaseSeamTest
    abstract class Request
    {
       private String conversationId;
-
       private String outcome;
-
       private boolean validationFailed;
-
-      private MockFacesContext facesContext;
-
       private String viewId;
-
+      
       private boolean renderResponseBegun;
-
       private boolean renderResponseComplete;
-
       private boolean invokeApplicationBegun;
-
       private boolean invokeApplicationComplete;
+      
+      private HttpServletRequest request;
+      private MockFacesContext facesContext;
+      private MockExternalContext externalContext;
+      private Map<String, Object> pageParameters = new HashMap<String, Object>();
 
-      private Application application;
+      protected void setPageParameter(String name, Object value)
+      {
+         pageParameters.put(name, value);
+      }
+
+      protected void setParameter(String name, String value)
+      {
+         getParameters().put(name, new String[] { value });
+      }
+
+      protected Map<String, String[]> getParameters()
+      {
+         return ( (MockHttpServletRequest) externalContext.getRequest() ).getParameters();
+      }
+
+      protected Map<String, String[]> getHeaders()
+      {
+         return ( (MockHttpServletRequest) externalContext.getRequest() ).getHeaders();
+      }
 
       /**
        * Override to define the name of the current principal
@@ -448,15 +435,51 @@ public class BaseSeamTest
        */
       public String run() throws Exception
       {
-         HttpServletRequest request = new MockHttpServletRequest(session, getPrincipalName(),
-                  getPrincipalRoles(), getCookies().toArray(new Cookie[] {}));
+         try
+         {
+            init();
+            beforeRequest();
+            setStandardJspVariables();
+            if ( emulateJsfLifecycle() )
+            {
+               saveConversationViewRoot();
+            }
+            afterRequest();
+            return conversationId;
+         }
+         finally
+         {
+            if (Contexts.isEventContextActive())
+            {
+               Lifecycle.endRequest(externalContext);
+            }
+         }
+
+      }
+
+      private void saveConversationViewRoot()
+      {
+         Map renderedViewRootAttributes = facesContext.getViewRoot().getAttributes();
+         if  (renderedViewRootAttributes!=null && conversationId!=null )
+         {
+            Map conversationState = new HashMap();
+            conversationState.putAll(renderedViewRootAttributes);
+            conversationViewRootAttributes.put(conversationId, conversationState);
+         }
+      }
+
+      private void init()
+      {
+         Cookie[] cookieArray = getCookies().toArray( new Cookie[]{} );
+         request = new MockHttpServletRequest(session, getPrincipalName(), getPrincipalRoles(), cookieArray);
          externalContext = new MockExternalContext(servletContext, request);
-         application = new SeamApplication(BaseSeamTest.this.application);
          facesContext = new MockFacesContext(externalContext, application);
          facesContext.setCurrent();
+      }
 
-         beforeRequest();
-
+      private void setStandardJspVariables()
+      {
+         //TODO: looks like we should also set request, session, application, page...
          Map<String, String> params = new HashMap<String, String>();
          for (Map.Entry<String, String[]> e : ((Map<String, String[]>) request.getParameterMap())
                   .entrySet())
@@ -467,17 +490,141 @@ public class BaseSeamTest
             }
          }
          request.setAttribute("param", params);
+      }
 
+      /**
+       * @return true if a response was rendered
+       */
+      private boolean emulateJsfLifecycle() throws Exception
+      {
+         restoreViewPhase();
+         if ( !isGetRequest() && !skipToRender() )
+         {
+            applyRequestValuesPhase();
+            if (!skipToRender())
+            {
+               processValidationsPhase();
+               if ( !skipToRender() )
+               {
+                  updateModelValuesPhase();
+                  if ( !skipToRender() )
+                  {
+                     invokeApplicationPhase();
+                  }
+               }
+            }
+         }
+         
+         if ( skipRender() )
+         {
+            // we really should look at redirect parameters here!
+            return false;
+         }
+         else
+         {
+            renderResponsePhase();
+            return true;
+         }
+      }
+
+      private void renderResponsePhase() throws Exception
+      {
+         phases.beforePhase(new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE,
+                  MockLifecycle.INSTANCE));
+  
+         renderResponseBegun = true;
+  
+         renderResponse();
+  
+         renderResponseComplete = true;
+  
+         facesContext.getApplication().getStateManager().saveView(facesContext);
+  
+         updateConversationId();
+  
+         phases.afterPhase(new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE,
+                  MockLifecycle.INSTANCE));
+      }
+
+      private void invokeApplicationPhase() throws Exception
+      {
+         phases.beforePhase(new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION,
+                  MockLifecycle.INSTANCE));
+  
+         invokeApplicationBegun = true;
+  
+         invokeApplication();
+  
+         invokeApplicationComplete = true;
+  
+         String outcome = getInvokeApplicationOutcome();
+         facesContext.getApplication().getNavigationHandler().handleNavigation(
+                  facesContext, null, outcome);
+  
+         viewId = getRenderedViewId();
+  
+         updateConversationId();
+  
+         phases.afterPhase(new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION,
+                  MockLifecycle.INSTANCE));
+      }
+
+      private void updateModelValuesPhase() throws Exception
+      {
+         phases.beforePhase(new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES,
+                  MockLifecycle.INSTANCE));
+  
+         updateModelValues();
+  
+         updateConversationId();
+  
+         phases.afterPhase(new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES,
+                  MockLifecycle.INSTANCE));
+      }
+
+      private void processValidationsPhase() throws Exception
+      {
+         phases.beforePhase(new PhaseEvent(facesContext, PhaseId.PROCESS_VALIDATIONS,
+                  MockLifecycle.INSTANCE));
+  
+         processValidations();
+  
+         updateConversationId();
+         
+         if ( isValidationFailure() )
+         {
+            facesContext.renderResponse();
+         }
+  
+         phases.afterPhase(new PhaseEvent(facesContext, PhaseId.PROCESS_VALIDATIONS,
+                  MockLifecycle.INSTANCE));
+      }
+
+      private void applyRequestValuesPhase() throws Exception
+      {
+         phases.beforePhase(new PhaseEvent(facesContext, PhaseId.APPLY_REQUEST_VALUES,
+                  MockLifecycle.INSTANCE));
+  
+         applyRequestValues();
+  
+         updateConversationId();
+  
+         phases.afterPhase(new PhaseEvent(facesContext, PhaseId.APPLY_REQUEST_VALUES,
+                  MockLifecycle.INSTANCE));
+      }
+
+      private void restoreViewPhase()
+      {
          phases.beforePhase(new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW,
                   MockLifecycle.INSTANCE));
-
+  
          UIViewRoot viewRoot = facesContext.getApplication().getViewHandler().createView(
                   facesContext, getViewId());
          facesContext.setViewRoot(viewRoot);
          Map restoredViewRootAttributes = facesContext.getViewRoot().getAttributes();
          if (conversationId != null)
          {
-            if (isGetRequest())
+            if ( isGetRequest() )
             {
                setParameter(Manager.instance().getConversationIdParameter(), conversationId);
                // TODO: what about conversationIsLongRunning????
@@ -493,7 +640,7 @@ public class BaseSeamTest
                }
             }
          }
-         if (isGetRequest())
+         if ( isGetRequest() )
          {
             facesContext.renderResponse();
          }
@@ -501,128 +648,19 @@ public class BaseSeamTest
          {
             restoredViewRootAttributes.putAll(pageParameters);
          }
-
+  
          updateConversationId();
-
+  
          phases.afterPhase(new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW,
                   MockLifecycle.INSTANCE));
-
-         if (!isGetRequest() && !skipToRender())
-         {
-
-            phases.beforePhase(new PhaseEvent(facesContext, PhaseId.APPLY_REQUEST_VALUES,
-                     MockLifecycle.INSTANCE));
-
-            applyRequestValues();
-
-            updateConversationId();
-
-            phases.afterPhase(new PhaseEvent(facesContext, PhaseId.APPLY_REQUEST_VALUES,
-                     MockLifecycle.INSTANCE));
-
-            if (!skipToRender())
-            {
-
-               phases.beforePhase(new PhaseEvent(facesContext, PhaseId.PROCESS_VALIDATIONS,
-                        MockLifecycle.INSTANCE));
-
-               processValidations();
-
-               updateConversationId();
-               
-               if ( isValidationFailure() )
-               {
-                  facesContext.renderResponse();
-               }
-
-               phases.afterPhase(new PhaseEvent(facesContext, PhaseId.PROCESS_VALIDATIONS,
-                        MockLifecycle.INSTANCE));
-
-               if (!skipToRender())
-               {
-
-                  phases.beforePhase(new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES,
-                           MockLifecycle.INSTANCE));
-
-                  updateModelValues();
-
-                  updateConversationId();
-
-                  phases.afterPhase(new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES,
-                           MockLifecycle.INSTANCE));
-
-                  if (!skipToRender())
-                  {
-
-                     phases.beforePhase(new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION,
-                              MockLifecycle.INSTANCE));
-
-                     invokeApplicationBegun = true;
-
-                     invokeApplication();
-
-                     invokeApplicationComplete = true;
-
-                     String outcome = getInvokeApplicationOutcome();
-                     facesContext.getApplication().getNavigationHandler().handleNavigation(
-                              facesContext, null, outcome);
-
-                     viewId = getRenderedViewId();
-
-                     updateConversationId();
-
-                     phases.afterPhase(new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION,
-                              MockLifecycle.INSTANCE));
-
-                  }
-
-               }
-
-            }
-
-         }
-
-         if (skipRender())
-         {
-            // we really should look at redirect parameters here!
-         }
-         else
-         {
-
-            phases.beforePhase(new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE,
-                     MockLifecycle.INSTANCE));
-
-            renderResponseBegun = true;
-
-            renderResponse();
-
-            renderResponseComplete = true;
-
-            facesContext.getApplication().getStateManager().saveView(facesContext);
-
-            updateConversationId();
-
-            phases.afterPhase(new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE,
-                     MockLifecycle.INSTANCE));
-
-            Map renderedViewRootAttributes = facesContext.getViewRoot().getAttributes();
-            if (renderedViewRootAttributes != null)
-            {
-               Map conversationState = new HashMap();
-               conversationState.putAll(renderedViewRootAttributes);
-               conversationViewRootAttributes.put(conversationId, conversationState);
-            }
-
-         }
-
-         afterRequest();
-
-         return conversationId;
       }
 
       private void updateConversationId()
       {
-         conversationId = Manager.instance().getCurrentConversationId();
+         Manager manager = Manager.instance();
+         conversationId = manager.isLongRunningConversation() ?
+                  manager.getCurrentConversationId() :
+                  manager.getParentConversationId()   ;
       }
 
       private boolean skipRender()
@@ -754,10 +792,6 @@ public class BaseSeamTest
 
    public void end()
    {
-      if (Contexts.isEventContextActive())
-      {
-         Lifecycle.endRequest(externalContext);
-      }
       Lifecycle.endSession(servletContext, new ServletSessionImpl(session));
       session = null;
    }
@@ -773,7 +807,7 @@ public class BaseSeamTest
 
    public void init() throws Exception
    {
-      application = new MockApplication();
+      application = new SeamApplication( new MockApplication() );
       phases = createPhaseListener();
 
       servletContext = new MockServletContext();
@@ -787,7 +821,6 @@ public class BaseSeamTest
    public void cleanup() throws Exception
    {
       Lifecycle.endApplication(servletContext);
-      externalContext = null;
       conversationViewRootAttributes = null;
    }
 
