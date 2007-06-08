@@ -533,7 +533,15 @@ public class Initialization
 
    private RedeployableStrategy getRedeployableInitialization() 
    {
-      File hotDeployDir = new File( servletContext.getRealPath("/WEB-INF/dev") );
+      String dirName = servletContext.getRealPath("/WEB-INF/dev");
+       
+      if (dirName == null) {
+          log.debug("Could not find path for /WEB-INF/dev");
+          return new NoHotRedeployable(null);           
+      }
+             
+      File hotDeployDir = new File(dirName);
+      
       String strategy = getRedeployableStrategyName(hotDeployDir);
       try
       {
