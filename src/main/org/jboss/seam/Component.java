@@ -155,10 +155,15 @@ public class Component extends Model
    private Method destroyMethod;
    private Method createMethod;
    private Method unwrapMethod;
+   
+   //TODO: check the EJB3 spec, I think you
+   //      are allowed to have multiple
+   //      lifecycle methods on a bean!
    private Method preDestroyMethod;
    private Method postConstructMethod;
    private Method prePassivateMethod;
    private Method postActivateMethod;
+   
    private Map<String, Method> removeMethods = new HashMap<String, Method>();
    private Set<Method> validateMethods = new HashSet<Method>();
    private Set<Method> lifecycleMethods = new HashSet<Method>();
@@ -483,29 +488,43 @@ public class Component extends Model
             }
             if ( method.isAnnotationPresent(Destroy.class) )
             {
+               /*if ( method.getParameterTypes().length>0 ) and it doesnt take a Component paramater
+               {
+                  throw new IllegalStateException("@Destroy methods may not have parameters: " + name);
+               }*/
                if (type!=JAVA_BEAN && type!=STATEFUL_SESSION_BEAN)
                {
                   throw new IllegalArgumentException("Only JavaBeans and stateful session beans support @Destroy methods: " + name);
                }
-               if (destroyMethod!=null)
+               if ( destroyMethod!=null&& !destroyMethod.getName().equals( method.getName() ) )
                {
                   throw new IllegalStateException("component has two @Destroy methods: " + name);
                }
-               destroyMethod = method;
-               lifecycleMethods.add(method);
+               if (destroyMethod==null)
+               {
+                  destroyMethod = method;
+                  lifecycleMethods.add(method);
+               }
             }
             if ( method.isAnnotationPresent(Create.class) )
             {
+               /*if ( method.getParameterTypes().length>0 ) and it doesnt take a Component paramater
+               {
+                  throw new IllegalStateException("@Create methods may not have parameters: " + name);
+               }*/
                if (type!=JAVA_BEAN && type!=STATEFUL_SESSION_BEAN)
                {
                   throw new IllegalArgumentException("Only JavaBeans and stateful session beans support @Create methods: " + name);
                }
-               if (createMethod!=null)
+               if ( createMethod!=null && !createMethod.getName().equals( method.getName() ) )
                {
                   throw new IllegalStateException("component has two @Create methods: " + name);
                }
-               createMethod = method;
-               lifecycleMethods.add(method);
+               if (createMethod==null)
+               {
+                  createMethod = method;
+                  lifecycleMethods.add(method);
+               }
             }
             if ( method.isAnnotationPresent(In.class) )
             {
@@ -521,11 +540,14 @@ public class Component extends Model
             }
             if ( method.isAnnotationPresent(Unwrap.class) )
             {
-               if (unwrapMethod!=null)
+               if ( unwrapMethod!=null && !unwrapMethod.getName().equals( method.getName() )  )
                {
                   throw new IllegalStateException("component has two @Unwrap methods: " + name);
                }
-               unwrapMethod = method;
+               if (unwrapMethod==null )
+               {
+                  unwrapMethod = method;
+               }
             }
             if ( method.isAnnotationPresent(DataModel.class) ) //TODO: generalize
             {
