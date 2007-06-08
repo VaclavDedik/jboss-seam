@@ -35,8 +35,7 @@ import org.jboss.seam.util.Strings;
 import org.jboss.seam.util.XML;
 
 /**
- * Holds metadata for pages defined in pages.xml, including
- * page actions and page descriptions.
+ *  Manages the exception handler chain
  * 
  * @author Gavin King
  */
@@ -92,21 +91,28 @@ public class Exceptions
    @Create
    public void initialize() throws Exception 
    {
-      ExceptionHandler anyhandler1 = parse("/WEB-INF/exceptions.xml"); //deprecated
-      ExceptionHandler anyhandler2 = parse("/WEB-INF/pages.xml");
+      List<ExceptionHandler> deferredHandlers = new ArrayList<ExceptionHandler>();
       
-      exceptionHandlers.add( new AnnotationRedirectHandler() );
-      exceptionHandlers.add( new AnnotationErrorHandler() );
+      deferredHandlers.add(parse("/WEB-INF/exceptions.xml")); // deprecated
       
-      if ( Init.instance().isDebug() ) 
-      {
-         exceptionHandlers.add( new DebugPageHandler() );
+      for (String pageFile: Pages.instance().getResources()) {
+          deferredHandlers.add(parse(pageFile));
       }
+                    
+      addHandler(new AnnotationRedirectHandler());
+      addHandler(new AnnotationErrorHandler());
       
-      if (anyhandler1!=null) exceptionHandlers.add(anyhandler1);
-      if (anyhandler2!=null) exceptionHandlers.add(anyhandler2);
+      if (Init.instance().isDebug()) {
+         addHandler(new DebugPageHandler());
+      }
+            
+      for (ExceptionHandler handler: deferredHandlers) {
+          addHandler(handler);
+      }
    }
 
+   
+   
    private ExceptionHandler parse(String fileName) throws DocumentException, ClassNotFoundException
    {
       ExceptionHandler anyhandler = null;
@@ -165,7 +171,9 @@ public class Exceptions
    
    public void addHandler(ExceptionHandler handler)
    {
-      exceptionHandlers.add(handler);
+      if (handler != null) {
+          exceptionHandlers.add(handler);
+      }
    }
 
    public static Exceptions instance()
