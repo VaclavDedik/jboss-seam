@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src/main"/>
+	<classpathentry kind="src" path="src/test/misc"/>
 	<classpathentry kind="src" path="src/remoting"/>
 	<classpathentry kind="src" path="src/ioc"/>
 	<classpathentry kind="src" path="src/mail"/>
@@ -34,7 +35,6 @@
 	<classpathentry kind="lib" path="lib/jsf-api.jar"/>
 	<classpathentry kind="lib" path="lib/jsp-api.jar"/>
 	<classpathentry kind="lib" path="lib/gwt-servlet.jar"/>
-	<classpathentry kind="lib" path="lib/ajax4jsf-1.1.1-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="mail/buni-meldware/lib/mailapi.jar"/>
 	<classpathentry kind="lib" path="mail/buni-meldware/lib/mailbeans.jar"/>
 	<classpathentry kind="lib" path="mail/buni-meldware/lib/mailjmx.jar"/>
@@ -46,5 +46,6 @@
 	<classpathentry kind="lib" path="lib/testng-4.5.1-jdk15.jar"/>
 	<classpathentry kind="lib" path="lib/groovy-all-1.1-BETA-1.jar"/>
 	<classpathentry kind="lib" path="lib/quartz-1.6.0.jar"/>
+	<classpathentry kind="lib" path="lib/ajax4jsf-1.1.1.jar"/>
 	<classpathentry kind="output" path="output/classes"/>
 </classpath>
