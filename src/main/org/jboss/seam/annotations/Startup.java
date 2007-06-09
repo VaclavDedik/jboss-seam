@@ -21,7 +21,8 @@ import java.lang.annotation.Target;
 @Target(TYPE)
 @Retention(RUNTIME)
 @Documented
-public @interface Startup {
+public @interface Startup 
+{
    /**
     * A list of other Seam Components that should be started
     * before this one, if they are installed.
