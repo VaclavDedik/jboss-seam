@@ -98,7 +98,7 @@ public class Manager
    {
       if ( ConversationEntries.instance().getConversationIds().contains(id) )
       {
-         throw new IllegalStateException("Conversation id is already in use");
+         throw new IllegalStateException("Conversation id is already in use: " + id);
       }
       
       String[] names = Contexts.getConversationContext().getNames();
