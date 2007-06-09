@@ -1771,18 +1771,19 @@ public class NumberGuess implements Serializable {
 
             
             <example>
-                <programlisting><![CDATA[
-<!DOCTYPE pages PUBLIC
-  "-//JBoss/Seam Pages Configuration DTD 1.3//EN"
-  "http://jboss.com/products/seam/pages-1.3.dtd">
+                <programlisting><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<pages xmlns="http://jboss.com/products/seam/pages"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-1.3.xsd">
 
-<pages>
   <page view-id="/numberGuess.jspx">
     <begin-conversation join="true" pageflow="numberGuess"/>
   </page>
+
   <page view-id="/confirm.jspx">
     <begin-conversation nested="true" pageflow="cheat"/>
   </page>
+
 </pages>      
 ]]></programlisting>                  
             </example>
@@ -1838,7 +1839,7 @@ public class NumberGuess implements Serializable {
                 </listitem>
             </itemizedlist>
 
-            <screenshot>
+      <screenshot>
         <screeninfo>Booking example</screeninfo>
         <mediaobject>
           <imageobject role="fo">

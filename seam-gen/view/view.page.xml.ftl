@@ -1,11 +1,11 @@
-<!DOCTYPE page PUBLIC
-          "-//JBoss/Seam Pages Configuration DTD 1.3//EN"
-          "http://jboss.com/products/seam/pages-1.3.dtd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-1.3.xsd">
+      
 <#assign entityName = pojo.shortName>
 <#assign componentName = util.lower(entityName)>
 <#assign homeName = componentName + "Home">
-<page>
    <param name="${componentName}From"/>
 <#assign idName = componentName + util.upper(pojo.identifierProperty.name)>
 <#if c2j.isComponent(pojo.identifierProperty)>
@@ -20,4 +20,5 @@
 <#if entities.add(pojo.shortName)>
 <#include "param.xml.ftl">
 </#if>
+
 </page>

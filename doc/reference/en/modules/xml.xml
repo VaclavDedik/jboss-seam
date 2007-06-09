@@ -97,6 +97,7 @@
             </para>
 
             <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components" 
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xmlns:core="http://jboss.com/products/seam/core">
     <core:ejb/>
 </components>]]></programlisting>
@@ -354,13 +355,12 @@
             <para> 
                 Throughout the examples, there have been two competing ways of declaring components: with and without
                 the use of XML namespaces. The following shows a typical <literal>components.xml</literal> file 
-                without namespaces. It uses the Seam Components DTD:
+                without namespaces:
             </para>
 
-            <programlisting><![CDATA[<?xml version="1.0" encoding="UTF-8">
-<!DOCTYPE components PUBLIC "-//JBoss/Seam Component Configuration DTD 1.3//EN"
-                            "http://jboss.com/products/seam/components-1.3.dtd">
-<components>
+            <programlisting><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<components xmlns="http://jboss.com/products/seam/components"
+            xsi:schemaLocation="http://jboss.com/products/seam/components http://jboss.com/products/seam/components-1.3.xsd">
 
     <component class="org.jboss.seam.core.init">
         <property name="debug">true</property>
