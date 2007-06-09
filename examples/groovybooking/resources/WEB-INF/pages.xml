@@ -1,8 +1,9 @@
-<!DOCTYPE pages PUBLIC
-          "-//JBoss/Seam Pages Configuration DTD 1.3//EN"
-          "http://jboss.com/products/seam/pages-1.3.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<pages xmlns="http://jboss.com/products/seam/pages"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-1.3.xsd"
 
-<pages no-conversation-view-id="/main.xhtml"
+       no-conversation-view-id="/main.xhtml"
                  login-view-id="/home.xhtml">
 
     <page view-id="/register.xhtml">

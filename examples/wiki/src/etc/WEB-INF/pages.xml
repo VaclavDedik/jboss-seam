@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE pages PUBLIC "-//Seam/Seam Pages DTD 1.3//EN" "http://jboss.com/products/seam/pages-1.3.dtd">
+<pages xmlns="http://jboss.com/products/seam/pages"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-1.3.xsd"
 
-<pages login-view-id="/loginRequired.xhtml"
-        no-conversation-view-id="/display.xhtml">
+       login-view-id="/loginRequired.xhtml"
+       no-conversation-view-id="/display.xhtml">
 
     <page view-id="/display.xhtml" action="#{browser.prepare}">
         <param name="nodeId" value="#{browser.nodeId}"/>
