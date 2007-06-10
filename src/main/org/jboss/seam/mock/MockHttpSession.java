@@ -91,7 +91,14 @@ public class MockHttpSession implements HttpSession
 
    public void setAttribute(String att, Object value)
    {
-      attributes.put(att, value);
+      if (value==null)
+      {
+         attributes.remove(value);
+      }
+      else
+      {
+         attributes.put(att, value);
+      }
    }
 
    public void putValue(String att, Object value)

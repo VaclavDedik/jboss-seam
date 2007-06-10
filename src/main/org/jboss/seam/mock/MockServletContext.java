@@ -176,9 +176,16 @@ public class MockServletContext implements ServletContext
       return new IteratorEnumeration(attributes.keySet().iterator());
    }
 
-   public void setAttribute(String att, Object val)
+   public void setAttribute(String att, Object value)
    {
-      attributes.put(att, val);
+      if (value==null)
+      {
+         attributes.remove(value);
+      }
+      else
+      {
+         attributes.put(att, value);
+      }
    }
 
    public void removeAttribute(String att)

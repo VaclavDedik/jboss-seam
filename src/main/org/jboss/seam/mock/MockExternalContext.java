@@ -125,6 +125,12 @@ public class MockExternalContext extends ExternalContext
          {
             context.setAttribute(key, value);
          }
+         
+         @Override
+         public void removeAttribute(String key)
+         {
+            context.removeAttribute(key);
+         }
       };
    }
 
@@ -259,6 +265,12 @@ public class MockExternalContext extends ExternalContext
          {
             request.setAttribute(key, value);
          }
+         
+         @Override
+         public void removeAttribute(String key)
+         {
+            request.removeAttribute(key);
+         }
       };
    }
 
@@ -332,7 +344,7 @@ public class MockExternalContext extends ExternalContext
    @Override
    public Map getSessionMap()
    {
-      final HttpSession session = request.getSession(true);
+      final HttpSession session = request.getSession(true); //TODO: create the session lazily, RI should do that to
       return new AttributeMap()
       {
          @Override
@@ -351,6 +363,12 @@ public class MockExternalContext extends ExternalContext
          public void setAttribute(String key, Object value)
          {
             session.setAttribute(key, value);
+         }
+
+         @Override
+         public void removeAttribute(String key)
+         {
+            session.removeAttribute(key);
          }
       };
    }
@@ -435,6 +453,8 @@ public class MockExternalContext extends ExternalContext
 
       public abstract void setAttribute(String key, Object value);
 
+      public abstract void removeAttribute(String key);
+
       public void putAll(Map t)
       {
          for (Map.Entry me : (Set<Map.Entry>) t.entrySet())
@@ -445,7 +465,9 @@ public class MockExternalContext extends ExternalContext
 
       public Object remove(Object key)
       {
-         return put(key, null);
+         Object result = getAttribute((String) key);
+         removeAttribute((String) key);
+         return result;
       }
 
       public int size()
