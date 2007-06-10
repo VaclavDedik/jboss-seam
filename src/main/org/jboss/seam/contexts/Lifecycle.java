@@ -43,8 +43,8 @@ public class Lifecycle
    public static void beginRequest(ExternalContext externalContext) 
    {
       log.debug( ">>> Begin web request" );
-      Contexts.eventContext.set( new BasicContext( ScopeType.EVENT, externalContext.getRequestMap() ) );
-      Contexts.applicationContext.set( new BasicContext( ScopeType.APPLICATION, externalContext.getApplicationMap() ) );
+      Contexts.eventContext.set( new EventContext( externalContext.getRequestMap() ) );
+      Contexts.applicationContext.set( new ApplicationContext( externalContext.getApplicationMap() ) );
       Contexts.sessionContext.set( new SessionContext( externalContext.getSessionMap() ) );
       ServletSession servletSession = ServletSession.getInstance();
       if ( servletSession!=null && servletSession.isInvalidDueToNewScheme() )
@@ -58,9 +58,9 @@ public class Lifecycle
    public static void beginRequest(ServletContext servletContext, HttpServletRequest request) 
    {
       log.debug( ">>> Begin web request" );
-      Contexts.eventContext.set( new BasicContext( ScopeType.EVENT, new ServletRequestMap(request) ) );
+      Contexts.eventContext.set( new EventContext( new ServletRequestMap(request) ) );
       Contexts.sessionContext.set( new SessionContext( new ServletRequestSessionMap(request) ) );
-      Contexts.applicationContext.set( new BasicContext( ScopeType.APPLICATION, new ServletApplicationMap(servletContext) ) );
+      Contexts.applicationContext.set(new ApplicationContext( new ServletApplicationMap(servletContext) ) );
       Contexts.conversationContext.set(null); //in case endRequest() was never called
    }
 
@@ -71,7 +71,7 @@ public class Lifecycle
       Contexts.sessionContext.set( new BasicContext(ScopeType.SESSION) );
       Contexts.conversationContext.set( new BasicContext(ScopeType.CONVERSATION) );
       Contexts.businessProcessContext.set( new BusinessProcessContext() );
-      Contexts.applicationContext.set( new BasicContext( ScopeType.APPLICATION, new ServletApplicationMap( getServletContext() ) ) );
+      Contexts.applicationContext.set( new ApplicationContext( new ServletApplicationMap( getServletContext() ) ) );
    }
 
    public static void endCall()
@@ -95,7 +95,7 @@ public class Lifecycle
 
    public static void mockApplication()
    {
-      Contexts.applicationContext.set( new BasicContext(ScopeType.APPLICATION, new ServletApplicationMap( getServletContext() ) ) );
+      Contexts.applicationContext.set( new ApplicationContext( new ServletApplicationMap( getServletContext() ) ) );
    }
 
    public static void unmockApplication()
@@ -117,14 +117,14 @@ public class Lifecycle
 
    public static void beginInitialization(ServletContext servletContext)
    {
-      Contexts.applicationContext.set( new BasicContext( ScopeType.APPLICATION, new ServletApplicationMap(servletContext) ) );
+      Contexts.applicationContext.set( new ApplicationContext( new ServletApplicationMap(servletContext) ) );
       Contexts.eventContext.set( new BasicContext(ScopeType.EVENT) );
       Contexts.conversationContext.set( new BasicContext(ScopeType.CONVERSATION) );
    }
 
    public static void beginReinitialization(ServletContext servletContext, HttpServletRequest request)
    {
-      Contexts.applicationContext.set(new BasicContext( ScopeType.APPLICATION, new ServletApplicationMap(servletContext) ) );
+      Contexts.applicationContext.set( new ApplicationContext( new ServletApplicationMap(servletContext) ) );
       Contexts.eventContext.set( new BasicContext(ScopeType.EVENT) );
       Contexts.sessionContext.set( new SessionContext( new ServletRequestSessionMap(request) ) );
       Contexts.conversationContext.set( new BasicContext(ScopeType.CONVERSATION) );
@@ -132,8 +132,8 @@ public class Lifecycle
 
    public static void beginExceptionRecovery(ExternalContext externalContext)
    {
-      Contexts.applicationContext.set( new BasicContext( ScopeType.APPLICATION, externalContext.getApplicationMap() ) );
-      Contexts.eventContext.set( new BasicContext( ScopeType.EVENT, externalContext.getRequestMap() ) );
+      Contexts.applicationContext.set( new ApplicationContext( externalContext.getApplicationMap() ) );
+      Contexts.eventContext.set( new EventContext( externalContext.getRequestMap() ) );
       Contexts.sessionContext.set( new SessionContext( externalContext.getSessionMap() ) );
       Contexts.conversationContext.set( new ServerConversationContext( externalContext.getSessionMap() ) );
       Contexts.pageContext.set(null);
@@ -198,8 +198,8 @@ public class Lifecycle
    {
       log.debug("Undeploying, destroying application context");
 
-      Context tempApplicationContext = new BasicContext( ScopeType.APPLICATION, new ServletApplicationMap(servletContext) );
-      Contexts.applicationContext.set( tempApplicationContext );
+      Context tempApplicationContext = new ApplicationContext( new ServletApplicationMap(servletContext) );
+      Contexts.applicationContext.set(tempApplicationContext);
       Contexts.destroy(tempApplicationContext);
       Contexts.applicationContext.set(null);
       Contexts.eventContext.set(null);
@@ -223,7 +223,7 @@ public class Lifecycle
       boolean sessionContextActive = Contexts.isSessionContextActive();
       if ( !applicationContextActive )
       {
-         Context tempApplicationContext = new BasicContext( ScopeType.APPLICATION, new ServletApplicationMap(servletContext) );
+         Context tempApplicationContext = new ApplicationContext( new ServletApplicationMap(servletContext) );
          Contexts.applicationContext.set(tempApplicationContext);
       }
       if ( !sessionContextActive )
@@ -280,7 +280,7 @@ public class Lifecycle
          throw new IllegalStateException("Please end the HttpSession via Seam.invalidateSession()");
       }
       
-      Context tempApplicationContext = new BasicContext( ScopeType.APPLICATION, new ServletApplicationMap(servletContext) );
+      Context tempApplicationContext = new ApplicationContext( new ServletApplicationMap(servletContext) );
       Contexts.applicationContext.set(tempApplicationContext);
 
       //this is used just as a place to stick the ConversationManager

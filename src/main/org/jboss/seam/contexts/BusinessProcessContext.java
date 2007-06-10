@@ -27,7 +27,6 @@ import org.jbpm.context.exe.ContextInstance;
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  * @author <a href="mailto:steve@hibernate.org">Steve Ebersole</a>
  * @author Gavin King
- * @version $Revision$
  */
 public class BusinessProcessContext implements Context {
 

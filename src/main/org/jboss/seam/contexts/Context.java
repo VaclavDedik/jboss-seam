@@ -13,9 +13,9 @@ import org.jboss.seam.ScopeType;
  * is associated with a particular seam context.
  * 
  * @author Gavin King
- * @version $Revision$
  */
-public interface Context {
+public interface Context 
+{
     public Object get(String name);
     public Object get(Class clazz);
     public void set(String name, Object value);
