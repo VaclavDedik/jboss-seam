@@ -28,7 +28,8 @@ import org.jbpm.context.exe.ContextInstance;
  * @author <a href="mailto:steve@hibernate.org">Steve Ebersole</a>
  * @author Gavin King
  */
-public class BusinessProcessContext implements Context {
+public class BusinessProcessContext implements Context 
+{
 
    private static final LogProvider log = Logging.getLogProvider(BusinessProcessContext.class);
 

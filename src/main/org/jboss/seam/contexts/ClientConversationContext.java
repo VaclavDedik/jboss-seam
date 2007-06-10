@@ -23,7 +23,8 @@ import org.jboss.seam.core.Manager;
  * @author Gavin King
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  */
-public class ClientConversationContext implements Context {
+public class ClientConversationContext implements Context 
+{
 
    private Map<String, Object> map;
    
@@ -52,7 +53,7 @@ public class ClientConversationContext implements Context {
 
 	public boolean isSet(String name) 
    {
-		return get(name)!=null;
+		return map.containsKey(name);
 	}
    
 	public void remove(String name) 
@@ -62,7 +63,8 @@ public class ClientConversationContext implements Context {
       if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.postRemoveVariable." + name);
 	}
 
-   public String[] getNames() {
+   public String[] getNames() 
+   {
       return map.keySet().toArray( new String[]{} );
    }
    

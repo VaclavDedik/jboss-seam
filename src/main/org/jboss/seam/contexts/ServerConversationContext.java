@@ -27,7 +27,8 @@ import org.jboss.seam.core.Manager;
  * @author Gavin King
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  */
-public class ServerConversationContext implements Context {
+public class ServerConversationContext implements Context 
+{
 
    private final Map<String, Object> session;
    private final Map<String, Object> additions = new HashMap<String, Object>();
