@@ -14,7 +14,6 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
@@ -60,14 +59,13 @@ public class Remoting extends AbstractResource
       return "/remoting";
    }
    
-   private synchronized void initConfig(String contextPath,
-            HttpSession session, HttpServletRequest request)
+   private synchronized void initConfig(String contextPath, HttpServletRequest request)
    {
       if (!cachedConfig.containsKey(contextPath))
       {
          try
          {
-            Lifecycle.beginRequest(getServletContext(), session, request);
+            Lifecycle.beginRequest( getServletContext(), request );
 
             StringBuilder sb = new StringBuilder();
             sb.append("\nSeam.Remoting.resourcePath = \"");
@@ -89,7 +87,7 @@ public class Remoting extends AbstractResource
          }
          finally
          {
-            Lifecycle.endRequest(session);
+            Lifecycle.endRequest(request);
          }
       }
    }   
@@ -116,7 +114,6 @@ public class Remoting extends AbstractResource
             {
                String path = m.group(1);
                String resource = m.group(2);
-               HttpSession session = request.getSession();
 
                if (REMOTING_RESOURCE_PATH.equals(path))
                {
@@ -124,7 +121,7 @@ public class Remoting extends AbstractResource
                   if ("remote.js".equals(resource))
                   {
                      appendConfig(response.getOutputStream(), request
-                           .getContextPath(), session, request);
+                           .getContextPath(), request);
                   }
                }
                response.getOutputStream().flush();               
@@ -144,10 +141,12 @@ public class Remoting extends AbstractResource
     * @param out OutputStream
     */
    private void appendConfig(OutputStream out, String contextPath,
-         HttpSession session, HttpServletRequest request) throws IOException
+         HttpServletRequest request) throws IOException
    {
       if (!cachedConfig.containsKey(contextPath))
-         initConfig(contextPath, session, request);
+      {
+         initConfig(contextPath, request);
+      }
 
       out.write(cachedConfig.get(contextPath));
    }   

@@ -82,7 +82,7 @@ public class CaptchaImage extends AbstractResource
 
       try
       {
-         Lifecycle.beginRequest( getServletContext(), request.getSession(), request );         
+         Lifecycle.beginRequest( getServletContext(), request );         
          
          String captchaId = request.getQueryString();
 

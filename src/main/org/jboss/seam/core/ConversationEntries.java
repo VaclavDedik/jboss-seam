@@ -1,4 +1,5 @@
 package org.jboss.seam.core;
+
 import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 import java.io.Serializable;
@@ -15,6 +16,7 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
+
 /**
  * Manages a map of conversation id to ConversationEntry 
  * in the session context.
@@ -89,6 +91,15 @@ public class ConversationEntries extends AbstractMutable implements Serializable
          throw new IllegalStateException("No session context active");
       }
       return (ConversationEntries) Component.getInstance(ConversationEntries.class, ScopeType.SESSION);
+   }
+   
+   public static ConversationEntries getInstance()
+   {
+      if ( !Contexts.isSessionContextActive() )
+      {
+         throw new IllegalStateException("No session context active");
+      }
+      return (ConversationEntries) Component.getInstance(ConversationEntries.class, ScopeType.SESSION, false);
    }
    
    @Override

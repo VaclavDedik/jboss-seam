@@ -6,13 +6,14 @@
  */
 package org.jboss.seam.contexts;
 
+import java.util.Map;
 import java.util.Set;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.event.PhaseId;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
@@ -25,6 +26,9 @@ import org.jboss.seam.core.Mutable;
 import org.jboss.seam.core.ServletSession;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.servlet.ServletApplicationMap;
+import org.jboss.seam.servlet.ServletRequestMap;
+import org.jboss.seam.servlet.ServletRequestSessionMap;
 
 /**
  * @author Gavin King
@@ -39,38 +43,35 @@ public class Lifecycle
    public static void beginRequest(ExternalContext externalContext) 
    {
       log.debug( ">>> Begin web request" );
-      Contexts.eventContext.set( new WebRequestContext( ContextAdaptor.getRequest(externalContext) ) );
-      Contexts.applicationContext.set( new FacesApplicationContext(externalContext) );
-      ContextAdaptor session = ContextAdaptor.getSession(externalContext);
-      Contexts.sessionContext.set( new WebSessionContext(session) );
-      ServletSession servletSession = ServletSession.instance();
-      if ( servletSession!=null /*yuck! unit tests!*/ && servletSession.isInvalidDueToNewScheme() )
+      Contexts.eventContext.set( new BasicContext( ScopeType.EVENT, externalContext.getRequestMap() ) );
+      Contexts.applicationContext.set( new BasicContext( ScopeType.APPLICATION, externalContext.getApplicationMap() ) );
+      Contexts.sessionContext.set( new SessionContext( externalContext.getSessionMap() ) );
+      ServletSession servletSession = ServletSession.getInstance();
+      if ( servletSession!=null && servletSession.isInvalidDueToNewScheme() )
       {
-         session.invalidate();
-         session = ContextAdaptor.getSession(externalContext);
-         Contexts.sessionContext.set( new WebSessionContext(session) );
+         invalidateSession(externalContext);
       }
       Contexts.conversationContext.set(null); //in case endRequest() was never called
       //Events.instance(); //TODO: only for now, until we have a way to do EL outside of JSF!
    }
 
-   public static void beginRequest(ServletContext servletContext, HttpSession session, ServletRequest request) 
+   public static void beginRequest(ServletContext servletContext, HttpServletRequest request) 
    {
       log.debug( ">>> Begin web request" );
-      Contexts.eventContext.set( new WebRequestContext( ContextAdaptor.getRequest(request) ) );
-      Contexts.sessionContext.set( new WebSessionContext( ContextAdaptor.getSession(session) ) );
-      Contexts.applicationContext.set( new WebApplicationContext(servletContext) );
+      Contexts.eventContext.set( new BasicContext( ScopeType.EVENT, new ServletRequestMap(request) ) );
+      Contexts.sessionContext.set( new SessionContext( new ServletRequestSessionMap(request) ) );
+      Contexts.applicationContext.set( new BasicContext( ScopeType.APPLICATION, new ServletApplicationMap(servletContext) ) );
       Contexts.conversationContext.set(null); //in case endRequest() was never called
    }
 
    public static void beginCall()
    {
       log.debug( ">>> Begin call" );
-      Contexts.eventContext.set( new MapContext(ScopeType.EVENT) );
-      Contexts.sessionContext.set( new MapContext(ScopeType.SESSION) );
-      Contexts.conversationContext.set( new MapContext(ScopeType.CONVERSATION) );
+      Contexts.eventContext.set( new BasicContext(ScopeType.EVENT) );
+      Contexts.sessionContext.set( new BasicContext(ScopeType.SESSION) );
+      Contexts.conversationContext.set( new BasicContext(ScopeType.CONVERSATION) );
       Contexts.businessProcessContext.set( new BusinessProcessContext() );
-      Contexts.applicationContext.set( new WebApplicationContext( getServletContext() ) );
+      Contexts.applicationContext.set( new BasicContext( ScopeType.APPLICATION, new ServletApplicationMap( getServletContext() ) ) );
    }
 
    public static void endCall()
@@ -94,7 +95,7 @@ public class Lifecycle
 
    public static void mockApplication()
    {
-      Contexts.applicationContext.set( new WebApplicationContext( getServletContext() ) );
+      Contexts.applicationContext.set( new BasicContext(ScopeType.APPLICATION, new ServletApplicationMap( getServletContext() ) ) );
    }
 
    public static void unmockApplication()
@@ -105,7 +106,7 @@ public class Lifecycle
    public static Context beginMethod()
    {
       Context result = Contexts.methodContext.get();
-      Contexts.methodContext.set( new MapContext(ScopeType.METHOD) );
+      Contexts.methodContext.set( new BasicContext(ScopeType.METHOD) );
       return result;
    }
 
@@ -116,25 +117,25 @@ public class Lifecycle
 
    public static void beginInitialization(ServletContext servletContext)
    {
-      Contexts.applicationContext.set( new WebApplicationContext(servletContext) );
-      Contexts.eventContext.set( new MapContext(ScopeType.EVENT) );
-      Contexts.conversationContext.set( new MapContext(ScopeType.CONVERSATION) );
+      Contexts.applicationContext.set( new BasicContext( ScopeType.APPLICATION, new ServletApplicationMap(servletContext) ) );
+      Contexts.eventContext.set( new BasicContext(ScopeType.EVENT) );
+      Contexts.conversationContext.set( new BasicContext(ScopeType.CONVERSATION) );
    }
 
-   public static void beginReinitialization(ServletContext servletContext, HttpSession session)
+   public static void beginReinitialization(ServletContext servletContext, HttpServletRequest request)
    {
-      Contexts.applicationContext.set( new WebApplicationContext(servletContext) );
-      Contexts.eventContext.set( new MapContext(ScopeType.EVENT) );
-      Contexts.sessionContext.set( new WebSessionContext( ContextAdaptor.getSession(session) ) );
-      Contexts.conversationContext.set( new MapContext(ScopeType.CONVERSATION) );
+      Contexts.applicationContext.set(new BasicContext( ScopeType.APPLICATION, new ServletApplicationMap(servletContext) ) );
+      Contexts.eventContext.set( new BasicContext(ScopeType.EVENT) );
+      Contexts.sessionContext.set( new SessionContext( new ServletRequestSessionMap(request) ) );
+      Contexts.conversationContext.set( new BasicContext(ScopeType.CONVERSATION) );
    }
 
    public static void beginExceptionRecovery(ExternalContext externalContext)
    {
-      Contexts.applicationContext.set( new FacesApplicationContext(externalContext) );
-      Contexts.eventContext.set( new WebRequestContext( ContextAdaptor.getRequest(externalContext) ) );
-      Contexts.sessionContext.set( new WebSessionContext( ContextAdaptor.getSession(externalContext) ) );
-      Contexts.conversationContext.set( new ServerConversationContext( ContextAdaptor.getSession(externalContext) ) );
+      Contexts.applicationContext.set( new BasicContext( ScopeType.APPLICATION, externalContext.getApplicationMap() ) );
+      Contexts.eventContext.set( new BasicContext( ScopeType.EVENT, externalContext.getRequestMap() ) );
+      Contexts.sessionContext.set( new SessionContext( externalContext.getSessionMap() ) );
+      Contexts.conversationContext.set( new ServerConversationContext( externalContext.getSessionMap() ) );
       Contexts.pageContext.set(null);
       Contexts.businessProcessContext.set(null); //TODO: is this really correct?
    }
@@ -197,7 +198,7 @@ public class Lifecycle
    {
       log.debug("Undeploying, destroying application context");
 
-      Context tempApplicationContext = new WebApplicationContext(servletContext);
+      Context tempApplicationContext = new BasicContext( ScopeType.APPLICATION, new ServletApplicationMap(servletContext) );
       Contexts.applicationContext.set( tempApplicationContext );
       Contexts.destroy(tempApplicationContext);
       Contexts.applicationContext.set(null);
@@ -209,7 +210,7 @@ public class Lifecycle
   /***
     * Instantiate @Startup components for session scoped component
     */
-   public static void beginSession(ServletContext servletContext, ContextAdaptor session)
+   public static void beginSession(ServletContext servletContext, Map<String, Object> session)
    {
       log.debug("Session started");
       
@@ -219,30 +220,31 @@ public class Lifecycle
       boolean applicationContextActive = Contexts.isApplicationContextActive();
       boolean eventContextActive = Contexts.isEventContextActive();
       boolean conversationContextActive = Contexts.isConversationContextActive();
+      boolean sessionContextActive = Contexts.isSessionContextActive();
       if ( !applicationContextActive )
       {
-         Context tempApplicationContext = new WebApplicationContext(servletContext);
+         Context tempApplicationContext = new BasicContext( ScopeType.APPLICATION, new ServletApplicationMap(servletContext) );
          Contexts.applicationContext.set(tempApplicationContext);
+      }
+      if ( !sessionContextActive )
+      {
+         Context tempSessionContext = new SessionContext(session);
+         Contexts.sessionContext.set(tempSessionContext);
       }
       Context tempEventContext = null;
       if ( !eventContextActive )
       {
-         tempEventContext = new MapContext(ScopeType.EVENT);
+         tempEventContext = new BasicContext(ScopeType.EVENT);
          Contexts.eventContext.set(tempEventContext);
       }
       Context tempConversationContext = null;
       if ( !conversationContextActive )
       {
-         tempConversationContext = new MapContext(ScopeType.CONVERSATION);
+         tempConversationContext = new BasicContext(ScopeType.CONVERSATION);
          Contexts.conversationContext.set(tempConversationContext);
       }
 
-      Context tempSessionContext = new WebSessionContext(session);
-      Contexts.sessionContext.set(tempSessionContext);
-
       startup(ScopeType.SESSION);
-
-      Contexts.sessionContext.set(null);
       
       if ( !conversationContextActive )
       {
@@ -254,6 +256,10 @@ public class Lifecycle
          Contexts.destroy(tempEventContext);
          Contexts.eventContext.set(null);
       }
+      if ( !sessionContextActive )
+      {
+         Contexts.sessionContext.set(null);
+      }
       if ( !applicationContextActive ) 
       {
          Contexts.applicationContext.set(null);
@@ -261,7 +267,7 @@ public class Lifecycle
       
    }
 
-   public static void endSession(ServletContext servletContext, ContextAdaptor session)
+   public static void endSession(ServletContext servletContext, Map<String, Object> session)
    {
       log.debug("End of session, destroying contexts");
       
@@ -274,16 +280,16 @@ public class Lifecycle
          throw new IllegalStateException("Please end the HttpSession via Seam.invalidateSession()");
       }
       
-      Context tempApplicationContext = new WebApplicationContext(servletContext);
+      Context tempApplicationContext = new BasicContext( ScopeType.APPLICATION, new ServletApplicationMap(servletContext) );
       Contexts.applicationContext.set(tempApplicationContext);
 
       //this is used just as a place to stick the ConversationManager
-      Context tempEventContext = new MapContext(ScopeType.EVENT);
+      Context tempEventContext = new BasicContext(ScopeType.EVENT);
       Contexts.eventContext.set(tempEventContext);
 
       //this is used (a) for destroying session-scoped components
       //and is also used (b) by the ConversationManager
-      Context tempSessionContext = new WebSessionContext(session);
+      Context tempSessionContext = new SessionContext(session);
       Contexts.sessionContext.set(tempSessionContext);
 
       Set<String> conversationIds = ConversationEntries.instance().getConversationIds();
@@ -295,7 +301,7 @@ public class Lifecycle
       
       //we need some conversation-scope components for destroying
       //the session context...
-      Context tempConversationContext = new MapContext(ScopeType.CONVERSATION);
+      Context tempConversationContext = new BasicContext(ScopeType.CONVERSATION);
       Contexts.conversationContext.set(tempConversationContext);
 
       log.debug("destroying session context");
@@ -317,7 +323,8 @@ public class Lifecycle
       log.debug("After render response, destroying contexts");
       try
       {
-         boolean sessionInvalid = ServletSession.instance().isInvalid();
+         ServletSession servletSession = ServletSession.getInstance();
+         boolean sessionInvalid = servletSession!=null && servletSession.isInvalid();
          
          flushAndDestroyContexts();
 
@@ -325,7 +332,7 @@ public class Lifecycle
          {
             clearThreadlocals();
             Lifecycle.setPhaseId(null);
-            ContextAdaptor.getSession(externalContext).invalidate(); //huh? we create a session just to invalidate it?
+            invalidateSession(externalContext);
             //actual session context will be destroyed from the listener
          }
       }
@@ -335,6 +342,27 @@ public class Lifecycle
       }
 
       log.debug( "<<< End web request" );
+   }
+   
+   /**
+    * Invalidate the session, no matter what kind of session it is
+    * (portlet or servlet). Why is this method not on ExternalContext?!
+    * Oh boy, those crazy rascals in the JSF EG...
+    */
+   public static void invalidateSession(ExternalContext externalContext)
+   {
+      Object session = externalContext.getSession(false);
+      if (session!=null)
+      {
+         try
+         {
+            session.getClass().getMethod("invalidate").invoke(session);
+         }
+         catch (Exception e)
+         {
+            throw new RuntimeException(e);
+         }
+      }
    }
 
    public static void endRequest() 
@@ -354,21 +382,22 @@ public class Lifecycle
       log.debug( "<<< End web request" );
    }
 
-   public static void endRequest(HttpSession session) 
+   public static void endRequest(HttpServletRequest request) 
    {
 
       log.debug("After request, destroying contexts");
 
       try
       {
-         boolean sessionInvalid = ServletSession.instance().isInvalid();
+         ServletSession servletSession = ServletSession.getInstance();
+         boolean sessionInvalid = servletSession!=null && servletSession.isInvalid();
          
          flushAndDestroyContexts();
 
          if (sessionInvalid)
          {
             clearThreadlocals();
-            ContextAdaptor.getSession(session).invalidate(); //huh? we create a session just to invalidate it?
+            request.getSession().invalidate();
             //actual session context will be destroyed from the listener
          }
       }
@@ -429,7 +458,10 @@ public class Lifecycle
          }
 
          //uses the event and session contexts
-         Manager.instance().unlockConversation();
+         if ( ServletSession.getInstance()!=null )
+         {
+            Manager.instance().unlockConversation();
+         }
 
       }
       
@@ -460,14 +492,14 @@ public class Lifecycle
       Init init = Init.instance();
       Context conversationContext = init.isClientSideConversations() ?
             (Context) new ClientConversationContext() :
-            (Context) new ServerConversationContext( ContextAdaptor.getSession(externalContext) );
+            (Context) new ServerConversationContext( externalContext.getSessionMap() );
       Contexts.conversationContext.set( conversationContext );
       Contexts.businessProcessContext.set( new BusinessProcessContext() );
    }
 
-   public static void resumeConversation(HttpSession session)
+   public static void resumeConversation(HttpServletRequest request)
    {
-      Context conversationContext = new ServerConversationContext( ContextAdaptor.getSession(session) );
+      Context conversationContext = new ServerConversationContext( new ServletRequestSessionMap(request) );
       Contexts.conversationContext.set( conversationContext );
       Contexts.businessProcessContext.set( new BusinessProcessContext() );
    }
@@ -534,7 +566,7 @@ public class Lifecycle
       return attribute instanceof Mutable && ( (Mutable) attribute ).clearDirty();
    }
 
-   public static void destroyConversationContext(ContextAdaptor session, String conversationId)
+   public static void destroyConversationContext(Map<String, Object> session, String conversationId)
    {
       ServerConversationContext conversationContext = new ServerConversationContext(session, conversationId);
       Context old = Contexts.getConversationContext();

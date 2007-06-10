@@ -15,7 +15,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.jboss.seam.annotations.Filter;
 import org.jboss.seam.annotations.Install;
@@ -26,7 +25,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.contexts.WebSessionContext;
+import org.jboss.seam.contexts.SessionContext;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.security.Identity;
@@ -34,7 +33,7 @@ import org.jboss.seam.security.NotLoggedInException;
 import org.jboss.seam.security.digest.DigestRequest;
 import org.jboss.seam.security.digest.DigestUtils;
 import org.jboss.seam.security.digest.DigestValidationException;
-import org.jboss.seam.servlet.ServletSessionImpl;
+import org.jboss.seam.servlet.ServletRequestSessionMap;
 import org.jboss.seam.util.Base64;
 
 /**
@@ -130,7 +129,7 @@ public class AuthenticationFilter extends AbstractFilter
             HttpServletResponse response, FilterChain chain)
       throws IOException, ServletException
    {
-      Context ctx = new WebSessionContext(new ServletSessionImpl(request.getSession()));
+      Context ctx = new SessionContext( new ServletRequestSessionMap(request) );
       Identity identity = (Identity) ctx.get(Identity.class);
       
       boolean requireAuth = false;
@@ -188,7 +187,7 @@ public class AuthenticationFilter extends AbstractFilter
             HttpServletResponse response, FilterChain chain)
       throws IOException, ServletException
    {
-      Context ctx = new WebSessionContext(new ServletSessionImpl(request.getSession()));
+      Context ctx = new SessionContext( new ServletRequestSessionMap(request) );
       Identity identity = (Identity) ctx.get(Identity.class);
       
       boolean requireAuth = false;    
@@ -286,12 +285,11 @@ public class AuthenticationFilter extends AbstractFilter
    {
       try
       {
-         HttpSession session = request.getSession(true);
          Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
          Lifecycle.setServletRequest(request);
-         Lifecycle.beginRequest(getServletContext(), session, request);
+         Lifecycle.beginRequest( getServletContext(), request );
          Manager.instance().restoreConversation( request.getParameterMap() );
-         Lifecycle.resumeConversation(session);
+         Lifecycle.resumeConversation(request);
          Manager.instance().handleConversationPropagation( request.getParameterMap() );   
          identity.authenticate();
       }

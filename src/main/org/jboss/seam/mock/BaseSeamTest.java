@@ -37,7 +37,7 @@ import org.jboss.seam.init.Initialization;
 import org.jboss.seam.jsf.AbstractSeamPhaseListener;
 import org.jboss.seam.jsf.SeamApplication;
 import org.jboss.seam.jsf.SeamPhaseListener;
-import org.jboss.seam.servlet.ServletSessionImpl;
+import org.jboss.seam.servlet.ServletSessionMap;
 import org.jboss.seam.transaction.Transaction;
 import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Reflections;
@@ -792,7 +792,7 @@ public class BaseSeamTest
 
    public void end()
    {
-      Lifecycle.endSession(servletContext, new ServletSessionImpl(session));
+      Lifecycle.endSession( servletContext, new ServletSessionMap(session) );
       session = null;
    }
 

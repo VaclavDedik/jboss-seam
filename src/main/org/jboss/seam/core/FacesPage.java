@@ -116,7 +116,8 @@ public class FacesPage implements Serializable
       //we only need to execute this code when we are in the 
       //RENDER_RESPONSE phase, ie. not before redirects
    
-      boolean sessionValid = !ServletSession.instance().isInvalid();
+      ServletSession servletSession = ServletSession.getInstance();
+      boolean sessionValid = servletSession!=null && !servletSession.isInvalid();
       if ( sessionValid && manager.isLongRunningConversation() )
       {
          storeConversation( manager.getCurrentConversationId() );

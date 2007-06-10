@@ -60,7 +60,7 @@ public class StyleResource extends AbstractResource
       {
          try
          {
-            Lifecycle.beginRequest(getServletContext(), request.getSession(), request);
+            Lifecycle.beginRequest( getServletContext(), request );
             
             CharSequence css = readFile(in);
             

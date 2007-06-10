@@ -6,7 +6,6 @@
  */
 package org.jboss.seam.contexts;
 
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -31,7 +30,7 @@ import org.jboss.seam.core.Manager;
  */
 public class ServerConversationContext implements Context {
 
-   private final ContextAdaptor session;
+   private final Map<String, Object> session;
    private final Map<String, Object> additions = new HashMap<String, Object>();
    private final Set<String> removals = new HashSet<String>();
    private final String id;
@@ -67,14 +66,14 @@ public class ServerConversationContext implements Context {
       return ScopeType.CONVERSATION.getPrefix() + '#' + id + '$';
    }
 
-   public ServerConversationContext(ContextAdaptor session)
+   public ServerConversationContext(Map<String, Object> session)
    {
       this.session = session;
       id = null;
       idStack = null;
    }
       
-   public ServerConversationContext(ContextAdaptor session, String id)
+   public ServerConversationContext(Map<String, Object> session, String id)
    {
       this.session = session;
       this.id = id;
@@ -100,14 +99,14 @@ public class ServerConversationContext implements Context {
             List<String> stack = getIdStack();
             if (stack==null)
             {
-               return unwrapEntityBean( session.getAttribute( getKey(name) ) );
+               return unwrapEntityBean( session.get( getKey(name) ) );
             }
             else
             {
                for ( int i=0; i<stack.size(); i++ )
                {
                   String id = stack.get(i);
-                  result = session.getAttribute( getKey(name, id) );
+                  result = session.get( getKey(name, id) );
 
                   if (result != null) 
                   {
@@ -126,7 +125,8 @@ public class ServerConversationContext implements Context {
       }
     }
 
-    private boolean isPerNestedConversation(String name) {
+    private boolean isPerNestedConversation(String name) 
+    {
         Component component = Component.forName(name);
         return (component != null) && component.beanClassHasAnnotation(PerNestedConversation.class);
     }
@@ -187,11 +187,10 @@ public class ServerConversationContext implements Context {
    private Set<String> getNamesFromSession() 
    {
       HashSet<String> results = new HashSet<String>();
-      Enumeration names = session.getAttributeNames();
       String prefix = getPrefix( getId() );
-      while ( names.hasMoreElements() ) {
-         String name = (String) names.nextElement();
-         if ( name.startsWith(prefix) && session.getAttribute(name)!=null )
+      for ( String name: session.keySet() ) 
+      {
+         if ( name.startsWith(prefix) )
          {
             name = name.substring( prefix.length() );
             if ( !removals.contains(name) ) results.add(name);
@@ -227,31 +226,31 @@ public class ServerConversationContext implements Context {
          for ( String name: getNamesFromSession() )
          {
             String key = getKey(name);
-            Object attribute = session.getAttribute(key);
+            Object attribute = session.get(key);
             if ( attribute!=null && Lifecycle.isAttributeDirty(attribute) )
             {
-               session.setAttribute(key, attribute);
+               session.put(key, attribute);
             }
          }
          //remove removed objects
          for (String name: removals)
          {
-            session.removeAttribute( getKey(name) );
+            session.remove( getKey(name) );
          }
          removals.clear();
          //add new objects
          for (Map.Entry<String, Object> entry: additions.entrySet())
          {
-            session.setAttribute( getKey( entry.getKey() ), entry.getValue() );
+            session.put( getKey( entry.getKey() ), entry.getValue() );
          }
          additions.clear();
       }
       else
       {
          //TODO: for a pure temporary conversation, this is unnecessary, optimize it
-         for (String name: getNamesFromSession())
+         for ( String name: getNamesFromSession() )
          {
-            session.removeAttribute( getKey(name) );
+            session.remove( getKey(name) );
          }
       }
    }

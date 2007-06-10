@@ -7,11 +7,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import org.jboss.seam.contexts.ContextAdaptor;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.servlet.ServletRequestSessionMap;
 import org.jboss.seam.util.Parameters;
 
 public class DocumentStoreServlet 
@@ -24,19 +23,18 @@ public class DocumentStoreServlet
         throws ServletException, 
                IOException 
     {
-        HttpSession session = request .getSession(true);
         Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
         Lifecycle.setServletRequest(request);
-        Lifecycle.beginRequest(getServletContext(), session, request);
+        Lifecycle.beginRequest( getServletContext(), request );
         Manager.instance().restoreConversation(request.getParameterMap());
-        Lifecycle.resumeConversation(session);
+        Lifecycle.resumeConversation(request);
         Manager.instance().handleConversationPropagation(request.getParameterMap());
         try 
         {
            doWork(request, response);
            //TODO: conversation timeout
-           Manager.instance().endRequest(ContextAdaptor.getSession(session));
-           Lifecycle.endRequest(session);
+           Manager.instance().endRequest( new ServletRequestSessionMap(request) );
+           Lifecycle.endRequest(request);
         } 
         catch (Exception e) 
         {

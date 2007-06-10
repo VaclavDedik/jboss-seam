@@ -38,7 +38,7 @@ public class SeamWSRequestHandler implements SOAPHandler
    public boolean handleMessage(MessageContext messageContext)
    {  
       HttpServletRequest request = (HttpServletRequest) messageContext.get(MessageContext.SERVLET_REQUEST);      
-      Lifecycle.beginRequest(Lifecycle.getServletContext(), request.getSession(), request);
+      Lifecycle.beginRequest(Lifecycle.getServletContext(), request);
       
       Contexts.getEventContext().set(MESSAGE_CONTEXT, messageContext);
       

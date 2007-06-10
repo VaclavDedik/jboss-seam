@@ -12,7 +12,6 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.jboss.seam.annotations.Filter;
 import org.jboss.seam.annotations.Install;
@@ -20,11 +19,11 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
-import org.jboss.seam.contexts.ContextAdaptor;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.servlet.ServletRequestSessionMap;
 
 /**
  * Manages the Seam contexts associated with a request to any servlet.
@@ -45,20 +44,19 @@ public class ContextFilter extends AbstractFilter
        throws IOException, ServletException 
    {
       log.debug("beginning request");
-      
-      HttpSession session = ( (HttpServletRequest) request ).getSession(true);
+      HttpServletRequest hsr = (HttpServletRequest) request;
       Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
       Lifecycle.setServletRequest(request);
-      Lifecycle.beginRequest(getServletContext(), session, request);
+      Lifecycle.beginRequest(getServletContext(), hsr);
       Manager.instance().restoreConversation( request.getParameterMap() );
-      Lifecycle.resumeConversation(session);
+      Lifecycle.resumeConversation(hsr);
       Manager.instance().handleConversationPropagation( request.getParameterMap() );
       try
       {
          chain.doFilter(request, response);
          //TODO: conversation timeout
-         Manager.instance().endRequest( ContextAdaptor.getSession(session)  );
-         Lifecycle.endRequest(session);
+         Manager.instance().endRequest( new ServletRequestSessionMap(hsr)  );
+         Lifecycle.endRequest(hsr);
       }
       catch (Exception e)
       {

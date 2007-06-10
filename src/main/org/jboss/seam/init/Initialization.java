@@ -22,7 +22,7 @@ import java.util.StringTokenizer;
 import java.util.TreeSet;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.dom4j.Attribute;
 import org.dom4j.DocumentException;
@@ -502,10 +502,10 @@ public class Initialization
       return this;
    }
 
-   public Initialization redeploy(HttpSession session)
+   public Initialization redeploy(HttpServletRequest request)
    {
       log.info("redeploying");
-      Lifecycle.beginReinitialization(servletContext, session);
+      Lifecycle.beginReinitialization(servletContext, request);
       Init init = Init.instance();
       for ( String name: init.getHotDeployableComponents() )
       {

@@ -8,11 +8,13 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.contexts.Contexts;
 
 @Scope(ScopeType.SESSION)
 @Name("org.jboss.seam.core.servletSession")
 @Intercept(InterceptionType.NEVER)
+@Startup
 public class ServletSession extends AbstractMutable
 {
    private boolean isInvalid;
@@ -77,6 +79,15 @@ public class ServletSession extends AbstractMutable
          throw new IllegalStateException("No active session context");
       }
       return (ServletSession) Component.getInstance(ServletSession.class, ScopeType.SESSION);
+   }
+
+   public static ServletSession getInstance()
+   {
+      if ( !Contexts.isSessionContextActive() )
+      {
+         throw new IllegalStateException("No active session context");
+      }
+      return (ServletSession) Component.getInstance(ServletSession.class, ScopeType.SESSION, false);
    }
 
 }

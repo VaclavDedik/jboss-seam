@@ -11,8 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.contexts.BasicContext;
 import org.jboss.seam.contexts.Context;
-import org.jboss.seam.contexts.WebApplicationContext;
 import org.jboss.seam.core.Init;
 
 /**
@@ -36,7 +37,7 @@ public class ResourceServlet extends HttpServlet
 
    protected void loadResourceProviders()
    {
-      Context tempApplicationContext = new WebApplicationContext(context);
+      Context tempApplicationContext = new BasicContext(ScopeType.APPLICATION, new ServletApplicationMap(context));
 
       Init init = (Init) tempApplicationContext.get(Init.class);
       for (String name : init.getResourceProviders())

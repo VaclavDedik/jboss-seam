@@ -9,7 +9,6 @@ import javax.faces.event.PhaseId;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -66,13 +65,12 @@ public class SubscriptionHandler extends BaseRequestHandler implements RequestHa
 
     try
     {
-      HttpSession session = request.getSession(true);
       Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
       Lifecycle.setServletRequest(request);
-      Lifecycle.beginRequest(servletContext, session, request);
+      Lifecycle.beginRequest(servletContext, request);
 
       Manager.instance().initializeTemporaryConversation();
-      Lifecycle.resumeConversation(session);
+      Lifecycle.resumeConversation(request);
 
       for (SubscriptionRequest req : requests)
         req.subscribe();

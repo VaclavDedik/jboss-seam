@@ -51,7 +51,7 @@ public class HotDeployFilter extends AbstractFilter
             if ( scan(request, init, file) )
             {
                Seam.clearComponentNameCache();
-               new Initialization( getServletContext() ).redeploy( ( (HttpServletRequest) request ).getSession(true) );
+               new Initialization( getServletContext() ).redeploy( (HttpServletRequest) request );
                break;
             }
          }

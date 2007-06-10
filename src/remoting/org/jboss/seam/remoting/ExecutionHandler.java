@@ -10,17 +10,16 @@ import javax.faces.event.PhaseId;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import org.jboss.seam.log.LogProvider;
-import org.jboss.seam.log.Logging;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-import org.jboss.seam.contexts.ContextAdaptor;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.remoting.wrapper.Wrapper;
+import org.jboss.seam.servlet.ServletRequestSessionMap;
 
 /**
  * Unmarshals the calls from an HttpServletRequest, executes them in order and
@@ -71,13 +70,12 @@ public class ExecutionHandler extends BaseRequestHandler implements RequestHandl
       RequestContext ctx = unmarshalContext(env);
 
       // Reinstate the Seam conversation
-      HttpSession session = request.getSession(true);
       Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
       Lifecycle.setServletRequest(request);
-      Lifecycle.beginRequest(servletContext, session, request);
+      Lifecycle.beginRequest(servletContext, request);
 
       Manager.instance().restoreConversation( ctx.getConversationId() );
-      Lifecycle.resumeConversation(session);
+      Lifecycle.resumeConversation(request);
 
       // Extract the calls from the request
       List<Call> calls = unmarshalCalls(env);
@@ -93,7 +91,7 @@ public class ExecutionHandler extends BaseRequestHandler implements RequestHandl
       // Package up the response
       marshalResponse(calls, ctx, response.getOutputStream());
 
-      Manager.instance().endRequest( ContextAdaptor.getSession(session) );
+      Manager.instance().endRequest( new ServletRequestSessionMap(request) );
       Lifecycle.endRequest();    
     }
     catch (Exception ex)

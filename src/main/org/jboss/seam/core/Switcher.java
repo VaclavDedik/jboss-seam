@@ -5,6 +5,7 @@ import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -39,15 +40,22 @@ public class Switcher implements Serializable {
    @Create
    public void createSelectItems()
    {
-      ConversationEntries conversationEntries = ConversationEntries.instance();
-      Set<ConversationEntry> orderedEntries = new TreeSet<ConversationEntry>();
-      orderedEntries.addAll( conversationEntries.getConversationEntries() );
-      selectItems = new ArrayList<SelectItem>( conversationEntries.size() );
-      for ( ConversationEntry entry: orderedEntries )
+      ConversationEntries conversationEntries = ConversationEntries.getInstance();
+      if (conversationEntries==null)
       {
-         if ( entry.isDisplayable() && !ServletSession.instance().isInvalid() )
+         selectItems = Collections.EMPTY_LIST;
+      }
+      else
+      {
+         Set<ConversationEntry> orderedEntries = new TreeSet<ConversationEntry>();
+         orderedEntries.addAll( conversationEntries.getConversationEntries() );
+         selectItems = new ArrayList<SelectItem>( conversationEntries.size() );
+         for ( ConversationEntry entry: orderedEntries )
          {
-            selectItems.add( new SelectItem( entry.getId(), entry.getDescription() ) );
+            if ( entry.isDisplayable() && !ServletSession.instance().isInvalid() )
+            {
+               selectItems.add( new SelectItem( entry.getId(), entry.getDescription() ) );
+            }
          }
       }
    }

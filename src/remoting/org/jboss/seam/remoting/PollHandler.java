@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.faces.event.PhaseId;
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -12,14 +13,13 @@ import javax.jms.TextMessage;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import org.jboss.seam.log.LogProvider;
-import org.jboss.seam.log.Logging;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.remoting.messaging.PollError;
 import org.jboss.seam.remoting.messaging.PollRequest;
 import org.jboss.seam.remoting.wrapper.Wrapper;
@@ -74,10 +74,9 @@ public class PollHandler extends BaseRequestHandler implements RequestHandler
 
     try
     {
-      HttpSession session = request.getSession(true);
       Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
       Lifecycle.setServletRequest(request);
-      Lifecycle.beginRequest(servletContext, session, request);
+      Lifecycle.beginRequest(servletContext, request);
 
       for (PollRequest req : polls)
         req.poll();

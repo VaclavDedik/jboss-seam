@@ -13,7 +13,6 @@ import javax.faces.event.PhaseListener;
 
 import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Context;
-import org.jboss.seam.contexts.ContextAdaptor;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.ConversationList;
@@ -210,7 +209,7 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       }
       
       ExternalContext externalContext = facesContext.getExternalContext();
-      Manager.instance().endRequest( ContextAdaptor.getSession(externalContext) );
+      Manager.instance().endRequest( externalContext.getSessionMap() );
       Lifecycle.endRequest(externalContext);
    }
    
@@ -221,7 +220,7 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       //Note: we can't call Manager.instance().beforeRedirect() here, 
       //since a redirect is not the only reason for a responseComplete
       ExternalContext externalContext = facesContext.getExternalContext();
-      Manager.instance().endRequest( ContextAdaptor.getSession(externalContext) );
+      Manager.instance().endRequest( externalContext.getSessionMap() );
       Lifecycle.endRequest( facesContext.getExternalContext() );
    }
    

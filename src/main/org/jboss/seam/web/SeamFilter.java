@@ -15,11 +15,13 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.contexts.BasicContext;
 import org.jboss.seam.contexts.Context;
-import org.jboss.seam.contexts.WebApplicationContext;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.servlet.ServletApplicationMap;
 import org.jboss.seam.util.SortItem;
 import org.jboss.seam.util.Sorter;
 
@@ -73,7 +75,7 @@ public class SeamFilter implements Filter
 
    public void init(FilterConfig filterConfig) throws ServletException 
    {
-      Context tempApplicationContext = new WebApplicationContext( filterConfig.getServletContext() ); 
+      Context tempApplicationContext = new BasicContext(ScopeType.APPLICATION, new ServletApplicationMap( filterConfig.getServletContext() ) ); 
       Init init = (Init) tempApplicationContext.get(Init.class);
       
       // Setup ready for sorting

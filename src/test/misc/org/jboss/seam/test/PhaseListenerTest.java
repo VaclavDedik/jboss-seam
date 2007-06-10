@@ -8,15 +8,15 @@ import java.util.Map;
 import javax.faces.context.ExternalContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
+import org.jboss.seam.contexts.BasicContext;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.contexts.FacesApplicationContext;
-import org.jboss.seam.contexts.WebSessionContext;
+import org.jboss.seam.contexts.SessionContext;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.ConversationEntries;
 import org.jboss.seam.core.Events;
@@ -34,7 +34,7 @@ import org.jboss.seam.mock.MockApplication;
 import org.jboss.seam.mock.MockExternalContext;
 import org.jboss.seam.mock.MockFacesContext;
 import org.jboss.seam.mock.MockLifecycle;
-import org.jboss.seam.servlet.ServletSessionImpl;
+import org.jboss.seam.servlet.ServletRequestSessionMap;
 import org.testng.annotations.Test;
 
 public class PhaseListenerTest
@@ -65,7 +65,7 @@ public class PhaseListenerTest
       facesContext.setCurrent().createViewRoot();
       facesContext.getApplication().setStateManager( new SeamStateManager( facesContext.getApplication().getStateManager() ) );
       
-      Context appContext = new FacesApplicationContext(externalContext);
+      Context appContext = new BasicContext( ScopeType.APPLICATION, externalContext.getApplicationMap() );
       installComponents(appContext);
       return facesContext;
    }
@@ -142,7 +142,7 @@ public class PhaseListenerTest
       conversationIdStack.add("2");
       ConversationEntries entries = new ConversationEntries();
       entries.createConversationEntry("2", conversationIdStack);
-      WebSessionContext sessionContext = new WebSessionContext( new ServletSessionImpl( (HttpSession) facesContext.getExternalContext().getSession(true) ) );
+      SessionContext sessionContext = new SessionContext( new ServletRequestSessionMap( (HttpServletRequest) facesContext.getExternalContext().getRequest() ) );
       sessionContext.set( Seam.getComponentName(ConversationEntries.class), entries );
       
       AbstractSeamPhaseListener phases = new SeamPhaseListener();

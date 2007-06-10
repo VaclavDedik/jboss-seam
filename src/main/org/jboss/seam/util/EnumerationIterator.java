@@ -3,13 +3,12 @@ package org.jboss.seam.util;
 import java.util.Enumeration;
 import java.util.Iterator;
 
-public class EnumerationIterator implements Iterator
+public class EnumerationIterator<T> implements Iterator<T>
 {
    private Enumeration e;
 
    public EnumerationIterator(Enumeration e)
    {
-      super();
       this.e = e;
    }
 
@@ -18,9 +17,9 @@ public class EnumerationIterator implements Iterator
       return e.hasMoreElements();
    }
 
-   public Object next()
+   public T next()
    {
-      return e.nextElement();
+      return (T) e.nextElement();
    }
 
    public void remove()

@@ -8,15 +8,22 @@ import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.core.Events;
 
-public class MapContext implements Context
+public class BasicContext implements Context
 {
    
-   private Map<String, Object> map = new HashMap<String, Object>();
+   private final Map<String, Object> map;
    private final ScopeType scope;
    
-   public MapContext(ScopeType scope)
+   public BasicContext(ScopeType scope)
    {
       this.scope = scope;
+      this.map = new HashMap<String, Object>();
+   }
+
+   public BasicContext(ScopeType scope, Map<String, Object> map)
+   {
+      this.scope = scope;
+      this.map = map;
    }
 
    public ScopeType getType()

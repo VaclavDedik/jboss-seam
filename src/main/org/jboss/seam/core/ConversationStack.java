@@ -5,6 +5,7 @@ import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -34,19 +35,26 @@ public class ConversationStack implements Serializable
    @Create
    public void createConversationEntryStack()
    {
-      ConversationEntries conversationEntries = ConversationEntries.instance();
-      ConversationEntry currentConversationEntry = Manager.instance().getCurrentConversationEntry();
-      if (currentConversationEntry!=null)
+      ConversationEntries conversationEntries = ConversationEntries.getInstance();
+      if (conversationEntries==null)
       {
-         List<String> idStack = currentConversationEntry.getConversationIdStack();
-         conversationEntryStack = new ArrayList<ConversationEntry>( conversationEntries.size() );
-         ListIterator<String> ids = idStack.listIterator( idStack.size() );
-         while ( ids.hasPrevious() )
+         conversationEntryStack = Collections.EMPTY_LIST;
+      }
+      else
+      {
+         ConversationEntry currentConversationEntry = Manager.instance().getCurrentConversationEntry();
+         if (currentConversationEntry!=null)
          {
-            ConversationEntry entry = conversationEntries.getConversationEntry( ids.previous() );
-            if ( entry.isDisplayable() && !ServletSession.instance().isInvalid() ) 
+            List<String> idStack = currentConversationEntry.getConversationIdStack();
+            conversationEntryStack = new ArrayList<ConversationEntry>( conversationEntries.size() );
+            ListIterator<String> ids = idStack.listIterator( idStack.size() );
+            while ( ids.hasPrevious() )
             {
-               conversationEntryStack.add(entry);
+               ConversationEntry entry = conversationEntries.getConversationEntry( ids.previous() );
+               if ( entry.isDisplayable() && !ServletSession.instance().isInvalid() ) 
+               {
+                  conversationEntryStack.add(entry);
+               }
             }
          }
       }

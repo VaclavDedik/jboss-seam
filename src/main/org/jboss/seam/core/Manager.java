@@ -30,7 +30,6 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.contexts.ContextAdaptor;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.log.LogProvider;
@@ -275,45 +274,49 @@ public class Manager
    /**
     * Clean up timed-out conversations
     */
-   public void conversationTimeout(ContextAdaptor session)
+   public void conversationTimeout(Map<String, Object> session)
    {
       long currentTime = System.currentTimeMillis();
-      List<ConversationEntry> entries = new ArrayList<ConversationEntry>( ConversationEntries.instance().getConversationEntries() );
-      for (ConversationEntry conversationEntry: entries)
+      ConversationEntries conversationEntries = ConversationEntries.getInstance();
+      if (conversationEntries!=null)
       {
-         boolean locked = conversationEntry.lockNoWait(); //we had better not wait for it, or we would be waiting for ALL other requests
-         try
+         List<ConversationEntry> entries = new ArrayList<ConversationEntry>( conversationEntries.getConversationEntries() );
+         for (ConversationEntry conversationEntry: entries)
          {
-            long delta = currentTime - conversationEntry.getLastRequestTime();
-            if ( delta > conversationEntry.getTimeout() )
+            boolean locked = conversationEntry.lockNoWait(); //we had better not wait for it, or we would be waiting for ALL other requests
+            try
             {
-               if ( locked )
-               { 
-                  if ( log.isDebugEnabled() )
-                  {
-                     log.debug("conversation timeout for conversation: " + conversationEntry.getId());
-                  }
-               }
-               else
+               long delta = currentTime - conversationEntry.getLastRequestTime();
+               if ( delta > conversationEntry.getTimeout() )
                {
-                  //if we could not acquire the lock, someone has left a garbage lock lying around
-                  //the reason garbage locks can exist is that we don't require a servlet filter to
-                  //exist - but if we do use SeamExceptionFilter, it will clean up garbage and this
-                  //case should never occur
-                  
-                  //NOTE: this is slightly broken - in theory there is a window where a new request 
-                  //      could have come in and got the lock just before us but called touch() just 
-                  //      after we check the timeout - but in practice this would be extremely rare, 
-                  //      and that request will get an IllegalMonitorStateException when it tries to 
-                  //      unlock() the CE
-                  log.info("destroying conversation with garbage lock: " + conversationEntry.getId());
+                  if ( locked )
+                  { 
+                     if ( log.isDebugEnabled() )
+                     {
+                        log.debug("conversation timeout for conversation: " + conversationEntry.getId());
+                     }
+                  }
+                  else
+                  {
+                     //if we could not acquire the lock, someone has left a garbage lock lying around
+                     //the reason garbage locks can exist is that we don't require a servlet filter to
+                     //exist - but if we do use SeamExceptionFilter, it will clean up garbage and this
+                     //case should never occur
+                     
+                     //NOTE: this is slightly broken - in theory there is a window where a new request 
+                     //      could have come in and got the lock just before us but called touch() just 
+                     //      after we check the timeout - but in practice this would be extremely rare, 
+                     //      and that request will get an IllegalMonitorStateException when it tries to 
+                     //      unlock() the CE
+                     log.info("destroying conversation with garbage lock: " + conversationEntry.getId());
+                  }
+                  destroyConversation( conversationEntry.getId(), session );
                }
-               destroyConversation( conversationEntry.getId(), session );
             }
-         }
-         finally
-         {
-            if (locked) conversationEntry.unlock();
+            finally
+            {
+               if (locked) conversationEntry.unlock();
+            }
          }
       }
    }
@@ -321,7 +324,7 @@ public class Manager
    /**
     * Clean up all state associated with a conversation
     */
-   private void destroyConversation(String conversationId, ContextAdaptor session)
+   private void destroyConversation(String conversationId, Map<String, Object> session)
    {
       Lifecycle.destroyConversationContext(session, conversationId);
       ConversationEntries.instance().removeConversationEntry(conversationId);
@@ -331,7 +334,7 @@ public class Manager
     * Touch the conversation stack, destroy ended conversations, 
     * and timeout inactive conversations.
     */
-   public void endRequest(ContextAdaptor session)
+   public void endRequest(Map<String, Object> session)
    {
       if ( isLongRunningConversation() )
       {
@@ -377,13 +380,17 @@ public class Manager
       }
    }
 
-   private void removeCurrentConversationAndDestroyNestedContexts(ContextAdaptor session) 
+   private void removeCurrentConversationAndDestroyNestedContexts(Map<String, Object> session) 
    {
-      ConversationEntries.instance().removeConversationEntry( getCurrentConversationId() );
-      destroyNestedConversationContexts( session, getCurrentConversationId() );
+      ConversationEntries conversationEntries = ConversationEntries.getInstance();
+      if (conversationEntries!=null)
+      {
+         conversationEntries.removeConversationEntry( getCurrentConversationId() );
+         destroyNestedConversationContexts( session, getCurrentConversationId() );
+      }
    }
 
-   private void destroyNestedConversationContexts(ContextAdaptor session, String conversationId) 
+   private void destroyNestedConversationContexts(Map<String, Object> session, String conversationId) 
    {
       List<ConversationEntry> entries = new ArrayList<ConversationEntry>( ConversationEntries.instance().getConversationEntries() );
       for  ( ConversationEntry ce: entries )

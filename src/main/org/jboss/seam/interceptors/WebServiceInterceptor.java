@@ -10,12 +10,12 @@ import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Conversation;
 import org.jboss.seam.annotations.ConversationId;
 import org.jboss.seam.annotations.Interceptor;
-import org.jboss.seam.contexts.ContextAdaptor;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.intercept.InvocationContext;
+import org.jboss.seam.servlet.ServletRequestSessionMap;
 import org.jboss.seam.ws.SeamWSRequestHandler;
 
 /**
@@ -41,11 +41,11 @@ public class WebServiceInterceptor extends AbstractInterceptor
          String conversationId = extractConversationId(invocation);
          
          Manager.instance().restoreConversation(conversationId);
-         Lifecycle.resumeConversation(request.getSession());    
+         Lifecycle.resumeConversation(request);    
          
          Object result = invocation.proceed();
          
-         Manager.instance().endRequest( ContextAdaptor.getSession(request.getSession()) );
+         Manager.instance().endRequest( new ServletRequestSessionMap(request) );
          Lifecycle.endRequest();        
          
          return result;
