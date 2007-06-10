@@ -117,12 +117,12 @@ public class FacesPage implements Serializable
       //RENDER_RESPONSE phase, ie. not before redirects
    
       ServletSession servletSession = ServletSession.getInstance();
-      boolean sessionValid = servletSession!=null && !servletSession.isInvalid();
-      if ( sessionValid && manager.isLongRunningConversation() )
+      boolean sessionInvalid = servletSession!=null && servletSession.isInvalid();
+      if ( !sessionInvalid && manager.isLongRunningConversation() )
       {
          storeConversation( manager.getCurrentConversationId() );
       }
-      else if ( sessionValid && manager.isNestedConversation() )
+      else if ( !sessionInvalid && manager.isNestedConversation() )
       {
          discardNestedConversation( manager.getParentConversationId() );
       }
@@ -131,7 +131,7 @@ public class FacesPage implements Serializable
          discardTemporaryConversation();
       }
 
-      if ( sessionValid && Init.instance().isClientSideConversations()  )
+      if ( !sessionInvalid && Init.instance().isClientSideConversations()  )
       {
          // if we are using client-side conversations, put the
          // map containing the conversation context variables 
