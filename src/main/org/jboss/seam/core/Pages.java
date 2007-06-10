@@ -360,14 +360,14 @@ public class Pages
       String viewId = getViewId(facesContext);      
       for ( Page page: getPageStack(viewId) )
       {         
-         if ( isNoConversationRedirectRequired(page) )
-         {
-            redirectToNoConversationView();
-            return;
-         }
-         else if ( isLoginRedirectRequired(viewId, page) )
+         if ( isLoginRedirectRequired(viewId, page) )
          {
             redirectToLoginView();
+            return;
+         }
+         else if ( isNoConversationRedirectRequired(page) )
+         {
+            redirectToNoConversationView();
             return;
          }
          else

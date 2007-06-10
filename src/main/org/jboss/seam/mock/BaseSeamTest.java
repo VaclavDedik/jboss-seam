@@ -532,6 +532,8 @@ public class BaseSeamTest
          phases.beforePhase(new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE,
                   MockLifecycle.INSTANCE));
   
+         updateConversationId();
+         
          renderResponseBegun = true;
   
          renderResponse();
@@ -551,6 +553,8 @@ public class BaseSeamTest
          phases.beforePhase(new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION,
                   MockLifecycle.INSTANCE));
   
+         updateConversationId();
+         
          invokeApplicationBegun = true;
   
          invokeApplication();
@@ -574,6 +578,8 @@ public class BaseSeamTest
          phases.beforePhase(new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES,
                   MockLifecycle.INSTANCE));
   
+         updateConversationId();
+         
          updateModelValues();
   
          updateConversationId();
@@ -587,6 +593,8 @@ public class BaseSeamTest
          phases.beforePhase(new PhaseEvent(facesContext, PhaseId.PROCESS_VALIDATIONS,
                   MockLifecycle.INSTANCE));
   
+         updateConversationId();
+         
          processValidations();
   
          updateConversationId();
@@ -605,6 +613,8 @@ public class BaseSeamTest
          phases.beforePhase(new PhaseEvent(facesContext, PhaseId.APPLY_REQUEST_VALUES,
                   MockLifecycle.INSTANCE));
   
+         updateConversationId();
+         
          applyRequestValues();
   
          updateConversationId();
@@ -648,8 +658,6 @@ public class BaseSeamTest
          {
             restoredViewRootAttributes.putAll(pageParameters);
          }
-  
-         updateConversationId();
   
          phases.afterPhase(new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW,
                   MockLifecycle.INSTANCE));

@@ -447,11 +447,11 @@ public class Manager
       }
       
       //Next, try to get the conversation id from the globally defined request parameters
-      if (storedConversationId==null)
+      if ( isMissing(storedConversationId) )
       {
          storedConversationId = getRequestParameterValue(parameters, conversationIdParameter);
       }
-      if (storedParentConversationId==null)
+      if ( isMissing(storedParentConversationId) )
       {
          storedParentConversationId = getRequestParameterValue(parameters, parentConversationIdParameter);
       }
