@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
-import org.jboss.seam.contexts.BasicContext;
+import org.jboss.seam.contexts.ApplicationContext;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.SessionContext;
@@ -65,7 +65,7 @@ public class PhaseListenerTest
       facesContext.setCurrent().createViewRoot();
       facesContext.getApplication().setStateManager( new SeamStateManager( facesContext.getApplication().getStateManager() ) );
       
-      Context appContext = new BasicContext( ScopeType.APPLICATION, externalContext.getApplicationMap() );
+      Context appContext = new ApplicationContext( externalContext.getApplicationMap() );
       installComponents(appContext);
       return facesContext;
    }

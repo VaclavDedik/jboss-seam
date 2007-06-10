@@ -9,9 +9,8 @@ import javax.faces.event.PhaseId;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.RequiredException;
-import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
-import org.jboss.seam.contexts.BasicContext;
+import org.jboss.seam.contexts.ApplicationContext;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
@@ -41,7 +40,7 @@ public class InterceptorTest
    {
       MockServletContext servletContext = new MockServletContext();
       MockExternalContext externalContext = new MockExternalContext(servletContext);
-      Context appContext =new BasicContext( ScopeType.APPLICATION, externalContext.getApplicationMap() );
+      Context appContext = new ApplicationContext( externalContext.getApplicationMap() );
       appContext.set( Seam.getComponentName(Init.class), new Init() );
       appContext.set( 
             Seam.getComponentName(ConversationEntries.class) + ".component", 
@@ -239,7 +238,7 @@ public class InterceptorTest
    {
       MockServletContext servletContext = new MockServletContext();
       MockExternalContext externalContext = new MockExternalContext(servletContext);
-      Context appContext = new BasicContext( ScopeType.APPLICATION, externalContext.getApplicationMap() );
+      Context appContext = new ApplicationContext( externalContext.getApplicationMap() );
       appContext.set( Seam.getComponentName(Init.class), new Init() );
       appContext.set( 
             Seam.getComponentName(ConversationEntries.class) + ".component", 
@@ -496,7 +495,7 @@ public class InterceptorTest
    {
       MockServletContext servletContext = new MockServletContext();
       MockExternalContext externalContext = new MockExternalContext(servletContext);
-      Context appContext = new BasicContext( ScopeType.APPLICATION, externalContext.getApplicationMap() );
+      Context appContext = new ApplicationContext( externalContext.getApplicationMap() );
       appContext.set( Seam.getComponentName(Init.class), new Init() );
       appContext.set( 
             Seam.getComponentName(ConversationEntries.class) + ".component", 
@@ -605,7 +604,7 @@ public class InterceptorTest
       ExternalContext externalContext = new MockExternalContext(servletContext);
       new MockFacesContext( externalContext, new MockApplication() ).setCurrent().createViewRoot();
       
-      Context appContext = new BasicContext( ScopeType.APPLICATION, externalContext.getApplicationMap() );
+      Context appContext = new ApplicationContext( externalContext.getApplicationMap() );
       appContext.set( Seam.getComponentName(Init.class), new Init() );
       appContext.set( 
             Seam.getComponentName(ConversationEntries.class) + ".component", 
@@ -713,7 +712,7 @@ public class InterceptorTest
    {
       MockServletContext servletContext = new MockServletContext();
       MockExternalContext externalContext = new MockExternalContext(servletContext);
-      Context appContext = new BasicContext( ScopeType.APPLICATION, externalContext.getApplicationMap() );
+      Context appContext = new ApplicationContext( externalContext.getApplicationMap() );
       appContext.set( Seam.getComponentName(Init.class), new Init() );
       appContext.set( 
             Seam.getComponentName(ConversationEntries.class) + ".component", 

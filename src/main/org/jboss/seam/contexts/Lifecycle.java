@@ -33,7 +33,6 @@ import org.jboss.seam.servlet.ServletRequestSessionMap;
 /**
  * @author Gavin King
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
- * @version $Revision$
  */
 public class Lifecycle
 {

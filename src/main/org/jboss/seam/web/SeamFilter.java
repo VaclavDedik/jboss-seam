@@ -15,8 +15,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.ScopeType;
-import org.jboss.seam.contexts.BasicContext;
+import org.jboss.seam.contexts.ApplicationContext;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.log.LogProvider;
@@ -75,7 +74,7 @@ public class SeamFilter implements Filter
 
    public void init(FilterConfig filterConfig) throws ServletException 
    {
-      Context tempApplicationContext = new BasicContext(ScopeType.APPLICATION, new ServletApplicationMap( filterConfig.getServletContext() ) ); 
+      Context tempApplicationContext = new ApplicationContext( new ServletApplicationMap( filterConfig.getServletContext() ) ); 
       Init init = (Init) tempApplicationContext.get(Init.class);
       
       // Setup ready for sorting
