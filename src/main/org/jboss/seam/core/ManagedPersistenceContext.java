@@ -156,21 +156,25 @@ public class ManagedPersistenceContext
    
    public EntityManagerFactory getEntityManagerFactoryFromJndiOrValueBinding()
    {
-      if (entityManagerFactory==null)
+      EntityManagerFactory result = null;
+      //first try to find it via the value binding
+      if (entityManagerFactory!=null)
+      {
+         result = entityManagerFactory.getValue();
+      }
+      //if its not there, try JNDI
+      if (result==null)
       {
          try
          {
-            return (EntityManagerFactory) Naming.getInitialContext().lookup(persistenceUnitJndiName);
+            result = (EntityManagerFactory) Naming.getInitialContext().lookup(persistenceUnitJndiName);
          }
          catch (NamingException ne)
          {
             throw new IllegalArgumentException("EntityManagerFactory not found in JNDI", ne);
          }
       }
-      else
-      {
-         return entityManagerFactory.getValue();
-      }
+      return result;
    }
    
    /**

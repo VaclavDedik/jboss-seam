@@ -144,26 +144,25 @@ public class ManagedHibernateSession
    
    private SessionFactory getSessionFactoryFromJndiOrValueBinding()
    {
-      if (sessionFactory==null)
+      SessionFactory result = null;
+      //first try to find it via the value binding
+      if (sessionFactory!=null)
+      {
+         result = sessionFactory.getValue();
+      }
+      //if its not there, try JNDI
+      if (result==null)
       {
          try
          {
-            return (SessionFactory) Naming.getInitialContext().lookup(sessionFactoryJndiName);
+            result = (SessionFactory) Naming.getInitialContext().lookup(sessionFactoryJndiName);
          }
          catch (NamingException ne)
          {
             throw new IllegalArgumentException("SessionFactory not found in JNDI", ne);
          }
       }
-      else
-      {
-         SessionFactory result = sessionFactory.getValue();
-         if (result==null)
-         {
-            throw new IllegalStateException("SessionFactory not found");
-         }
-         return result;
-      }
+      return result;
    }
    
    public String getComponentName() {
