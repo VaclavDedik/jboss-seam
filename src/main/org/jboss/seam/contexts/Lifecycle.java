@@ -41,7 +41,7 @@ public class Lifecycle
 
    public static void beginRequest(ExternalContext externalContext) 
    {
-      log.debug( ">>> Begin web request" );
+      log.debug( ">>> Begin JSF request" );
       Contexts.eventContext.set( new EventContext( externalContext.getRequestMap() ) );
       Contexts.applicationContext.set( new ApplicationContext( externalContext.getApplicationMap() ) );
       Contexts.sessionContext.set( new SessionContext( externalContext.getSessionMap() ) );
@@ -89,7 +89,22 @@ public class Lifecycle
          clearThreadlocals();
          log.debug( "<<< End call" );
       }
+   }
 
+   public static void beginTest(ServletContext context, Map<String, Object> session)
+   {
+      log.debug( ">>> Begin test" );
+      Contexts.eventContext.set( new BasicContext(ScopeType.EVENT) );
+      Contexts.conversationContext.set( new BasicContext(ScopeType.CONVERSATION) );
+      Contexts.businessProcessContext.set( new BusinessProcessContext() );
+      Contexts.sessionContext.set( new SessionContext(session) );
+      Contexts.applicationContext.set( new ApplicationContext( new ServletApplicationMap(context) ) );
+   }
+
+   public static void endTest()
+   {
+      clearThreadlocals();
+      log.debug( "<<< End test" );
    }
 
    public static void mockApplication()
@@ -116,6 +131,7 @@ public class Lifecycle
 
    public static void beginInitialization(ServletContext servletContext)
    {
+      log.debug(">>> Begin initialization");
       Contexts.applicationContext.set( new ApplicationContext( new ServletApplicationMap(servletContext) ) );
       Contexts.eventContext.set( new BasicContext(ScopeType.EVENT) );
       Contexts.conversationContext.set( new BasicContext(ScopeType.CONVERSATION) );
@@ -123,6 +139,7 @@ public class Lifecycle
 
    public static void beginReinitialization(ServletContext servletContext, HttpServletRequest request)
    {
+      log.debug(">>> Begin re-initialization");
       Contexts.applicationContext.set( new ApplicationContext( new ServletApplicationMap(servletContext) ) );
       Contexts.eventContext.set( new BasicContext(ScopeType.EVENT) );
       Contexts.sessionContext.set( new SessionContext( new ServletRequestSessionMap(request) ) );
@@ -131,6 +148,7 @@ public class Lifecycle
 
    public static void beginExceptionRecovery(ExternalContext externalContext)
    {
+      log.debug(">>> Begin exception recovery");
       Contexts.applicationContext.set( new ApplicationContext( externalContext.getApplicationMap() ) );
       Contexts.eventContext.set( new EventContext( externalContext.getRequestMap() ) );
       Contexts.sessionContext.set( new SessionContext( externalContext.getSessionMap() ) );
@@ -152,6 +170,8 @@ public class Lifecycle
       Contexts.eventContext.set(null);
       Contexts.sessionContext.set(null);
       Contexts.applicationContext.set(null);
+      
+      log.debug("<<< End initialization");
    }
    
    private static void startup(ScopeType scopeType)
@@ -312,7 +332,6 @@ public class Lifecycle
 
    public static void endRequest(ExternalContext externalContext) 
    {
-
       log.debug("After render response, destroying contexts");
       try
       {
@@ -332,9 +351,8 @@ public class Lifecycle
       finally
       {
          clearThreadlocals();
+         log.debug( "<<< End JSF request" );
       }
-
-      log.debug( "<<< End web request" );
    }
    
    /**
@@ -360,9 +378,7 @@ public class Lifecycle
 
    public static void endRequest() 
    {
-
-      log.debug("After request, destroying contexts");
-      
+      log.debug("After request, destroying contexts");  
       try
       {
          flushAndDestroyContexts();
@@ -370,16 +386,13 @@ public class Lifecycle
       finally
       {
          clearThreadlocals();
+         log.debug( "<<< End web request" );
       }
-
-      log.debug( "<<< End web request" );
    }
 
    public static void endRequest(HttpServletRequest request) 
    {
-
       log.debug("After request, destroying contexts");
-
       try
       {
          ServletSession servletSession = ServletSession.getInstance();
@@ -397,10 +410,8 @@ public class Lifecycle
       finally
       {
          clearThreadlocals();
+         log.debug( "<<< End web request" );
       }
-
-      log.debug( "<<< End web request" );
-
    }
 
    private static void clearThreadlocals() 

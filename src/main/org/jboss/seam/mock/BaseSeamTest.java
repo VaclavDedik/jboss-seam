@@ -107,18 +107,58 @@ public class BaseSeamTest
     */
    public abstract class Script extends Request
    {
-      public Script()
-      {
-      }
+      public Script() {}
 
       public Script(String conversationId)
       {
          super(conversationId);
       }
    }
+   
+   public abstract class ComponentTest
+   {
+      /**
+       * Call a method binding
+       */
+      protected Object invokeMethod(String methodExpression)
+      {
+         return Expressions.instance().createMethodExpression(methodExpression).invoke();
+      }
+
+      /**
+       * Evaluate (get) a value binding
+       */
+      protected Object getValue(String valueExpression)
+      {
+         return Expressions.instance().createValueExpression(valueExpression).getValue();
+      }
+
+      /**
+       * Set a value binding
+       */
+      protected void setValue(String valueExpression, Object value)
+      {
+         Expressions.instance().createValueExpression(valueExpression).setValue(value);
+      }
+
+     protected abstract void testComponents() throws Exception;
+      
+      public void run() throws Exception
+      {
+         Lifecycle.beginTest( servletContext, new ServletSessionMap(session) );
+         try
+         {
+            testComponents();
+         }
+         finally
+         {
+            Lifecycle.endTest();
+         }
+      }
+   }
 
    /**
-    * Script is an abstract superclass for usually anonymous inner classes that
+    * Request is an abstract superclass for usually anonymous inner classes that
     * test JSF interactions.
     * 
     * @author Gavin King
@@ -451,7 +491,7 @@ public class BaseSeamTest
          }
       }
 
-      private void init()
+      protected void init()
       {
          Cookie[] cookieArray = getCookies().toArray( new Cookie[]{} );
          request = new MockHttpServletRequest(session, getPrincipalName(), getPrincipalRoles(), cookieArray);
@@ -689,9 +729,7 @@ public class BaseSeamTest
 
    public class NonFacesRequest extends Request
    {
-      public NonFacesRequest()
-      {
-      }
+      public NonFacesRequest() {}
 
       /**
        * @param viewId
@@ -743,9 +781,7 @@ public class BaseSeamTest
    public class FacesRequest extends Request
    {
 
-      public FacesRequest()
-      {
-      }
+      public FacesRequest() {}
 
       /**
        * @param viewId
