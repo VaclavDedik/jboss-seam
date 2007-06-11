@@ -3,6 +3,7 @@ package org.jboss.seam.contexts;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
@@ -46,7 +47,16 @@ public class BasicContext implements Context
 
    public String[] getNames()
    {
-      return map.keySet().toArray(new String[0]);
+      //yes, I know about the toArray() method,
+      //but there is a bug in the RI!
+      Set<String> keySet = map.keySet();
+      String[] array = new String[ keySet.size() ];
+      int i=0;
+      for (String key: keySet)
+      {
+         array[i++] = key;
+      }
+      return array;
    }
 
    public boolean isSet(String name)
