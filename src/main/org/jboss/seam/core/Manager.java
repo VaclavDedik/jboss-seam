@@ -1168,6 +1168,16 @@ public class Manager
       this.conversationIdParameter = conversationIdParameter;
    }
 
+   public String getParentConversationIdParameter()
+   {
+      return parentConversationIdParameter;
+   }
+
+   public void setParentConversationIdParameter(String nestedConversationIdParameter)
+   {
+      this.parentConversationIdParameter = nestedConversationIdParameter;
+   }
+
    public int getConcurrentRequestTimeout()
    {
       return concurrentRequestTimeout;
@@ -1182,16 +1192,6 @@ public class Manager
    public String toString()
    {
       return "Manager(" + currentConversationIdStack + ")";
-   }
-
-   protected String getParentConversationIdParameter()
-   {
-      return parentConversationIdParameter;
-   }
-
-   protected void setParentConversationIdParameter(String nestedConversationIdParameter)
-   {
-      this.parentConversationIdParameter = nestedConversationIdParameter;
    }
 
 }
