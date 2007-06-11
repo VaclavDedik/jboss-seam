@@ -36,6 +36,7 @@ public class UIDecorate extends UIComponentBase
       if ( component instanceof EditableValueHolder )
       {
          if ( ! ( (EditableValueHolder) component ).isValid() ) return true;
+         if ( context.getMessages( component.getClientId(context) ).hasNext() ) return true;
       }
 
       for (Object child: component.getChildren())
