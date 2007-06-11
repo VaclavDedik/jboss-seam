@@ -217,7 +217,8 @@ public class Contexts
       Lifecycle.startDestroying();
       try
       {
-         for ( String name: context.getNames() ) {
+         for ( String name: context.getNames() ) 
+         {
             Component component = Component.forName(name);
             log.debug("destroying: " + name);
             if ( component!=null )
