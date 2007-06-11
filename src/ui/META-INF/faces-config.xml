@@ -9,10 +9,6 @@
   <component-class>org.jboss.seam.ui.UIValidateAll</component-class>
  </component>
  <component>
-  <component-type>org.jboss.seam.ui.UILoadStyle</component-type>
-  <component-class>org.jboss.seam.ui.UILoadStyle</component-class>
- </component>
- <component>
   <component-type>org.jboss.seam.ui.UIDecorate</component-type>
   <component-class>org.jboss.seam.ui.UIDecorate</component-class>
   <property>
