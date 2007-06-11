@@ -181,14 +181,14 @@ public class Lifecycle
             Component dependentComponent = Component.forName(dependency);
             if (dependentComponent!=null)
             {
-               startup( dependentComponent );
+               startup(dependentComponent);
             }
          }
       }
 
       if ( !component.getScope().getContext().isSet( component.getName() ) ) 
       {
-         log.info("starting up: " + component.getName());
+         log.info( "starting up: " + component.getName() );
          component.newInstance();
       }
    }
@@ -219,17 +219,14 @@ public class Lifecycle
       boolean applicationContextActive = Contexts.isApplicationContextActive();
       boolean eventContextActive = Contexts.isEventContextActive();
       boolean conversationContextActive = Contexts.isConversationContextActive();
-      boolean sessionContextActive = Contexts.isSessionContextActive();
+
       if ( !applicationContextActive )
       {
          Context tempApplicationContext = new ApplicationContext( new ServletApplicationMap(servletContext) );
          Contexts.applicationContext.set(tempApplicationContext);
       }
-      if ( !sessionContextActive )
-      {
-         Context tempSessionContext = new SessionContext(session);
-         Contexts.sessionContext.set(tempSessionContext);
-      }
+      Context oldSessionContext = Contexts.sessionContext.get();
+      Contexts.sessionContext.set( new SessionContext(session) ); //we have to use the session object that came in the sessionCreated() event
       Context tempEventContext = null;
       if ( !eventContextActive )
       {
@@ -255,10 +252,7 @@ public class Lifecycle
          Contexts.destroy(tempEventContext);
          Contexts.eventContext.set(null);
       }
-      if ( !sessionContextActive )
-      {
-         Contexts.sessionContext.set(null);
-      }
+       Contexts.sessionContext.set(oldSessionContext); //replace the one from sessionCreated() with the one from JSF, or null
       if ( !applicationContextActive ) 
       {
          Contexts.applicationContext.set(null);

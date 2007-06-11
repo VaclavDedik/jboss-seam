@@ -1,9 +1,9 @@
 /*
-?* JBoss, Home of Professional Open Source
-?*
-?* Distributable under LGPL license.
-?* See terms of license at gnu.org.
-?*/
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
@@ -36,7 +36,6 @@ import org.jbpm.svc.Services;
  * Manages a reference to a JbpmSession.
  *
  * @author <a href="mailto:steve@hibernate.org">Steve Ebersole </a>
- * @version $Revision$
  */
 @Scope(ScopeType.EVENT)
 @Name("org.jboss.seam.core.jbpmContext")
