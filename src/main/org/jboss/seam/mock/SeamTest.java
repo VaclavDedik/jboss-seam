@@ -14,7 +14,6 @@ import org.testng.annotations.Configuration;
  * @author Gavin King
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  * @author Mike Youngstrom
- * @version $Revision$
  */
 public class SeamTest extends BaseSeamTest
 {

@@ -49,7 +49,6 @@ import org.jboss.seam.util.Reflections;
  * 
  * @author Gavin King
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
- * @version $Revision$
  */
 public class BaseSeamTest
 {
@@ -209,9 +208,7 @@ public class BaseSeamTest
        * A script for a JSF interaction with no existing long-running
        * conversation.
        */
-      protected Request()
-      {
-      }
+      protected Request() {}
 
       /**
        * A script for a JSF interaction in the scope of an existing long-running
@@ -251,33 +248,25 @@ public class BaseSeamTest
        * Override to implement the interactions between the JSF page and your
        * components that occurs during the apply request values phase.
        */
-      protected void applyRequestValues() throws Exception
-      {
-      }
+      protected void applyRequestValues() throws Exception {}
 
       /**
        * Override to implement the interactions between the JSF page and your
        * components that occurs during the process validations phase.
        */
-      protected void processValidations() throws Exception
-      {
-      }
+      protected void processValidations() throws Exception {}
 
       /**
        * Override to implement the interactions between the JSF page and your
        * components that occurs during the update model values phase.
        */
-      protected void updateModelValues() throws Exception
-      {
-      }
+      protected void updateModelValues() throws Exception {}
 
       /**
        * Override to implement the interactions between the JSF page and your
        * components that occurs during the invoke application phase.
        */
-      protected void invokeApplication() throws Exception
-      {
-      }
+      protected void invokeApplication() throws Exception {}
 
       /**
        * Set the outcome of the INVOKE_APPLICATION phase
@@ -299,25 +288,19 @@ public class BaseSeamTest
        * Override to implement the interactions between the JSF page and your
        * components that occurs during the render response phase.
        */
-      protected void renderResponse() throws Exception
-      {
-      }
+      protected void renderResponse() throws Exception {}
 
       /**
        * Override to set up any request parameters for the request.
        * 
        * @deprecated use beforeRequest()
        */
-      protected void setup()
-      {
-      }
+      protected void setup() {}
 
       /**
        * Make some assertions, after the end of the request.
        */
-      protected void afterRequest()
-      {
-      }
+      protected void afterRequest() {}
 
       /**
        * Do anything you like, after the start of the request. Especially, set

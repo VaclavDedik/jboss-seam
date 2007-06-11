@@ -126,6 +126,24 @@ public class FacesMessages implements Serializable
       return result;
    }
    
+   /**
+    * Get all faces messages that have already been added
+    * to the control.
+    * 
+    * @return a list of messages
+    */
+   public List<FacesMessage> getCurrentMessagesForControl(String id)
+   {
+      String clientId = getClientId(id);
+      List<FacesMessage> result = new ArrayList<FacesMessage>();
+      Iterator<FacesMessage> iter = FacesContext.getCurrentInstance().getMessages(clientId);
+      while ( iter.hasNext() )
+      {
+         result.add( iter.next() );
+      }
+      return result;
+   }
+   
    private void runTasks()
    {
       if (tasks!=null)
@@ -418,5 +436,5 @@ public class FacesMessages implements Serializable
       }
       return (FacesMessages) Component.getInstance(FacesMessages.class, ScopeType.CONVERSATION);
    }
-   
+      
 }
