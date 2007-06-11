@@ -8,7 +8,6 @@ import javax.xml.ws.handler.soap.SOAPHandler;
 
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.core.Manager;
 
 /**
  * A SOAP request handler that instantiates the Seam contexts for a web service

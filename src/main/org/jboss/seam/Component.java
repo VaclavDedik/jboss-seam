@@ -1362,16 +1362,18 @@ public class Component extends Model
 
    private void outjectDataModel(Object bean, BijectedAttribute dataModelGetter)
    {
+      
       DataBinder wrapper = createWrapper( dataModelGetter.getAnnotation() );
       Object list = dataModelGetter.get(bean);
       String name = dataModelGetter.getName();
       Annotation dataModelAnn = dataModelGetter.getAnnotation();
-      ScopeType scope = wrapper.getVariableScope(dataModelAnn);
-      
+      ScopeType scope = wrapper.getVariableScope(dataModelAnn);      
       Context context = getOutScope(scope, this).getContext();
       Object existingDataModel = context.get(name);
-      boolean dirty = existingDataModel == null || scope==PAGE ||
+      
+      boolean dirty = existingDataModel == null ||
             wrapper.isDirty(dataModelAnn, existingDataModel, list);
+      boolean reoutject = existingDataModel!=null && scope==PAGE;
       
       if (dirty)
       {
@@ -1384,6 +1386,11 @@ public class Component extends Model
             context.remove(name);
          }
       }
+      else if (reoutject)
+      {
+         context.set(name, existingDataModel);
+      }
+         
    }
 
    private static DataBinder createWrapper(Annotation dataModelAnn)
