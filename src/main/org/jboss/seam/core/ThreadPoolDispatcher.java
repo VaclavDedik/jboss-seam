@@ -8,15 +8,12 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import javax.interceptor.Interceptors;
-
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.ejb.SeamInterceptor;
 import org.jboss.seam.intercept.InvocationContext;
 
 /**
@@ -28,7 +25,6 @@ import org.jboss.seam.intercept.InvocationContext;
  */
 @Scope(ScopeType.APPLICATION)
 @Name("org.jboss.seam.core.dispatcher")
-@Interceptors(SeamInterceptor.class)
 @Install(precedence=BUILT_IN)
 public class ThreadPoolDispatcher extends AbstractDispatcher<Future, TimerSchedule>
 {
