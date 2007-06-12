@@ -13,7 +13,6 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
-import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.util.EJB;
 import org.jboss.seam.util.Naming;
 
@@ -48,10 +47,6 @@ public class Transaction
    
    public static UserTransaction instance()
    {
-      if ( !Contexts.isApplicationContextActive() )
-      {
-         throw new IllegalStateException("No application context active, cannot obtain Transaction component");
-      }
       return (UserTransaction) Component.getInstance(Transaction.class, ScopeType.STATELESS);
    }
    
