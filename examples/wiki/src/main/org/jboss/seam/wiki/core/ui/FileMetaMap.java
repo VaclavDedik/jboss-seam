@@ -17,7 +17,6 @@ public class FileMetaMap {
         {
             put("image/jpg",                    new FileMetaInfo("icon.fileimg.gif", true));
             put("image/jpeg",                   new FileMetaInfo("icon.fileimg.gif", true));
-            put("image/gif",                    new FileMetaInfo("icon.fileimg.gif", true));
             put("image/png",                    new FileMetaInfo("icon.fileimg.gif", true));
             put("text/plain",                   new FileMetaInfo("icon.filetxt.gif", false));
             put("application/pdf",              new FileMetaInfo("icon.filepdf.gif", false));

@@ -8,9 +8,15 @@ import org.jboss.seam.Component;
 import javax.faces.component.UIData;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
+import javax.swing.*;
+import javax.imageio.ImageIO;
 import java.util.Collection;
 import java.util.List;
 import java.math.BigDecimal;
+import java.awt.image.BufferedImage;
+import java.awt.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 /**
  * Adds stuff to and for JSF that should be there but isn't. Also stuff that is exposed
@@ -140,6 +146,35 @@ public class WikiUtil {
             }
         }
         return sb.toString();
+    }
+
+    public static byte[] resizeImage(byte[] imageData, String contentType, int width) {
+        ImageIcon icon = new ImageIcon(imageData);
+
+        double ratio = (double) width / icon.getIconWidth();
+        int resizedHeight = (int) (icon.getIconHeight() * ratio);
+
+        int imageType = "image/png".equals(contentType)
+                        ? BufferedImage.TYPE_INT_ARGB
+                        : BufferedImage.TYPE_INT_RGB;
+        BufferedImage bImg = new BufferedImage(width, resizedHeight, imageType);
+        Graphics2D g2d = bImg.createGraphics();
+        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+        g2d.drawImage(icon.getImage(), 0, 0, width, resizedHeight, null);
+        g2d.dispose();
+
+        String formatName = "";
+        if ("image/png".equals(contentType))       formatName = "png";
+        else if ("image/jpeg".equals(contentType)) formatName = "jpeg";
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream(1024);
+        try {
+            ImageIO.write(bImg, formatName, baos);
+            return baos.toByteArray();
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+
     }
 
     public static Throwable unwrap(Throwable throwable) throws IllegalArgumentException {

@@ -1,7 +1,6 @@
 package org.jboss.seam.wiki.core.model;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 
 @Entity
 @DiscriminatorValue("FILE")
@@ -42,6 +41,10 @@ public class File extends Node {
         @AttributeOverride(
             name = "thumbnail",
             column = @Column(table = "NODE_FILE", name = "IMAGE_THUMBNAIL")
+        ),
+        @AttributeOverride(
+            name = "thumbnailData",
+            column = @Column(table = "NODE_FILE", name = "IMAGE_THUMBNAIL_DATA", length = 1000000)
         )
     })
     private ImageMetaInfo imageMetaInfo;

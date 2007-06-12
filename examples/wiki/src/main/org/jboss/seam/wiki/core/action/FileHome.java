@@ -2,19 +2,24 @@ package org.jboss.seam.wiki.core.action;
 
 import static javax.faces.application.FacesMessage.SEVERITY_WARN;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
 
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.wiki.core.ui.FileMetaMap;
 import org.jboss.seam.wiki.core.model.File;
 import org.jboss.seam.wiki.core.model.ImageMetaInfo;
+import org.jboss.seam.wiki.util.WikiUtil;
 
 import java.util.Map;
 
 @Name("fileHome")
 @Scope(ScopeType.CONVERSATION)
 public class FileHome extends NodeHome<File> {
+
+    public static final int PREVIEW_SIZE_MIN  = 240;
+    public static final int PREVIEW_SIZE_MAX  = 1600;
+    public static final int PREVIEW_ZOOM_STEP = 240;
 
     /* -------------------------- Context Wiring ------------------------------ */
 
@@ -70,6 +75,8 @@ public class FileHome extends NodeHome<File> {
 
     private void syncFile() {
         if (filedata != null && filedata.length >0) {
+            getLog().debug("updating file data/type");
+
             getInstance().setFilename(filename);
             getInstance().setFilesize(filedata.length); // Don't trust the browsers headers!
             getInstance().setData(filedata);
@@ -90,18 +97,38 @@ public class FileHome extends NodeHome<File> {
                 int imageSizeY = icon.getImage().getHeight(null);
                 getInstance().getImageMetaInfo().setSizeX(imageSizeX);
                 getInstance().getImageMetaInfo().setSizeY(imageSizeY);
+
+            } else {
+                getInstance().setImageMetaInfo(null);
             }
+        }
+
+        if (getInstance().getImageMetaInfo() != null && getInstance().getImageMetaInfo().getThumbnail() != 'F') {
+            getLog().debug("generating thumbnail");
+            int thumbnailWidth = 80;
+            // TODO: We could make these sizes customizable
+            switch (getInstance().getImageMetaInfo().getThumbnail()) {
+                case'M':
+                    thumbnailWidth = 160;
+                    break;
+                case'L':
+                    thumbnailWidth = 320;
+                    break;
+            }
+            getInstance().getImageMetaInfo().setThumbnailData(
+                WikiUtil.resizeImage(getInstance().getData(), getInstance().getContentType(), thumbnailWidth)
+            );
         }
     }
 
     /* -------------------------- Public Features ------------------------------ */
 
     public void zoomPreviewIn() {
-        if (imagePreviewSize < 1600) imagePreviewSize = imagePreviewSize + 240;
+        if (imagePreviewSize < PREVIEW_SIZE_MAX) imagePreviewSize = imagePreviewSize + PREVIEW_ZOOM_STEP;
     }
 
     public void zoomPreviewOut() {
-        if (imagePreviewSize > 240) imagePreviewSize = imagePreviewSize - 240;
+        if (imagePreviewSize > PREVIEW_SIZE_MIN) imagePreviewSize = imagePreviewSize - PREVIEW_ZOOM_STEP;
     }
 
 }
