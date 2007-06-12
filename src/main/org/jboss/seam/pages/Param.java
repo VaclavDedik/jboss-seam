@@ -147,26 +147,32 @@ public final class Param
             throws ValidatorException
    {
       String[] parameterValues = requestParameters.get( getName() );
+
       if (parameterValues==null || parameterValues.length==0)
       {
          if ( isRequired() )
          {
-            String bundleName = facesContext.getApplication().getMessageBundle();
-            if (bundleName==null) bundleName = FacesMessage.FACES_MESSAGES;
-            ResourceBundle resourceBundle = facesContext.getApplication().getResourceBundle(facesContext, bundleName);
-            throw new ValidatorException( new FacesMessage(
-                     FacesMessage.SEVERITY_ERROR, 
-                     resourceBundle.getString("javax.faces.component.UIInput.REQUIRED"), 
-                     resourceBundle.getString("javax.faces.component.UIInput.REQUIRED_detail")
-                  ) );
+            addRequiredMessage(facesContext);
          }
          return null;
       }
+
       if (parameterValues.length>1)
       {
          throw new IllegalArgumentException("page parameter may not be multi-valued: " + getName());
       }         
+
       String stringValue = parameterValues[0];
+      
+      //Note: for not-required fields, we behave a
+      //but different than JSF for empty strings.
+      //is this a bad thing? (but we are the same
+      //for required fields)
+      if ( stringValue.length()==0 && isRequired() )
+      {
+         addRequiredMessage(facesContext);
+         return null;
+      }
    
       Converter converter = null;
       try
@@ -190,6 +196,23 @@ public final class Param
       }
       
       return value;
+   }
+
+   private void addRequiredMessage(FacesContext facesContext)
+   {
+      String bundleName = facesContext.getApplication().getMessageBundle();
+      if (bundleName==null) bundleName = FacesMessage.FACES_MESSAGES;
+      ResourceBundle resourceBundle = facesContext.getApplication().getResourceBundle(facesContext, bundleName);
+      //TODO: this should not be necessary!
+      if (resourceBundle==null)
+      {
+         resourceBundle = org.jboss.seam.core.ResourceBundle.instance();
+      }
+      throw new ValidatorException( new FacesMessage(
+               FacesMessage.SEVERITY_ERROR, 
+               resourceBundle.getString("javax.faces.component.UIInput.REQUIRED"), 
+               resourceBundle.getString("javax.faces.component.UIInput.REQUIRED_detail")
+            ) );
    }
 
    public String getValidatorId()
