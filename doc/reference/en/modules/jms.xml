@@ -53,6 +53,17 @@
             which gives some guarantee that the tasks will eventually be processed.
         </para>
         
+        <para>
+            Another alternative is to use the open source Quartz library to manage asynchronous method. You need to bundle the Quartz library JAR (found in the <literal>lib</literal> directory) in your EAR and declare it as a Java module in <literal>application.xml</literal>. In addition, you need to add the following line to <literal>components.xml</literal> to install the Quartz dispatcher.
+        </para>
+        
+        <programlisting><![CDATA[<component name="org.jboss.seam.core.dispatcher" 
+        class="org.jboss.seam.core.QuartzDispatcher"/>]]></programlisting>
+            
+        <para>
+            The Seam API for the default <literal>ScheduledThreadPoolExecutor</literal>, the EJB3 <literal>Timer</literal>, and the Quartz <literal>Scheduler</literal> are largely the same. They can just "plug and play" by adding a line to <literal>components.xml</literal> as we shown above.
+        </para>
+        
         <sect2>
         <title>Asynchronous methods</title>
         
@@ -159,7 +170,7 @@ public class CreatePaymentAction
 
         <para>
             Both client and server may access the <literal>Timer</literal> object associated with
-            the invocation.
+            the invocation. The <literal>Timer</literal> object shown below is the EJB3 timer when you use the EJB3 dispatcher. For the default <literal>ScheduledThreadPoolExecutor</literal>, the returned object is <literal>Future</literal> from the JDK. For the Quartz dispatcher, it returns <literal>QuartzTriggerHandle</literal>, which we will discuss in the next section.
         </para>
 
         <programlisting><![CDATA[@Local
@@ -203,6 +214,45 @@ public class CreatePaymentAction
             Asynchronous methods cannot return any other value to the caller.
         </para>
 
+        </sect2>
+        
+        <sect2>
+        <title>Asynchronous methods with the Quartz Dispatcher</title>
+        
+        <para>
+            The Quartz dispatcher (see earlier on how to install it) allows you to use the <literal>@Asynchronous</literal>, <literal>@Duration</literal>, <literal>@Expiration</literal>, and <literal>@IntervalDuration</literal> annotations as above. But it has some powerful additional features. The Quartz dispatcher supports a new <literal>@Cron</literal> annotation that supports Unix cron job syntax for task scheduling. For instance, the following asynchronous method runs at 2:10pm and at 2:44pm every Wednesday in the month of March.
+        </para>
+        
+        <programlisting><![CDATA[String cron = "0 10,44 14 ? 3 WED";
+    ... ...
+    
+    @Asynchronous
+    public QuartzTriggerHandle schedulePayment(@Expiration Date when, 
+                                 @Cron String cron, 
+                                 Payment payment) 
+    { 
+        // do the repeating or long running task
+    }
+]]></programlisting>
+
+        <para>The <literal>@Cron</literal> annotation and the <literal>@IntervalDuration</literal> annotation are mutually exclusive. If they are used in the same method, the <literal>@Cron</literal> annotation will be used, and the <literal>@IntervalDuration</literal> discarded.</para>
+
+        <para>Note that the method returns the <literal>QuartzTriggerHandle</literal> object, which you can use later to stop, pause, and resume the scheduler. The <literal>QuartzTriggerHandle</literal> object is serializable, so you can save it into the database if you need to keep it around for extended period of time.</para>
+        
+        <programlisting><![CDATA[QuartzTriggerHandle handle =
+         processor.schedulePayment(payment.getPaymentDate(), 
+                                   payment.getPaymentCron(), 
+                                   payment);
+        payment.setQuartzTriggerHandle( handle );
+        // Save payment to DB
+        
+        // later ...
+        
+        // Retrieve payment from DB
+        // Cancel the remaining scheduled tasks
+        payment.getQuartzTriggerHandle().cancel();
+]]></programlisting>
+        
         </sect2>
         
         <sect2>
