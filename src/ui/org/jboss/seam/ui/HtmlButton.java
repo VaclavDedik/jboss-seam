@@ -83,9 +83,12 @@ public class HtmlButton extends HtmlOutputButton implements ActionSource
       writer.startElement("input", this);
 
       String image = getImage();
-      if (image == null) {
+      if (image == null) 
+      {
           writer.writeAttribute("type", "button", null);
-      } else {
+      } 
+      else 
+      {
           writer.writeAttribute("type", "image", null);
           writer.writeAttribute("src", image, null);
       }
@@ -180,7 +183,9 @@ public class HtmlButton extends HtmlOutputButton implements ActionSource
       {
          UIConversationPropagation uiPropagation = new UIConversationPropagation();
          uiPropagation.setType(propagation);
-         uiPropagation.setPageflow(pageflow);
+         ValueExpression pageflowBinding = getValueExpression("pageflow");
+         String pf = pageflowBinding==null ? pageflow : (String) pageflowBinding.getValue( context.getELContext() );
+         uiPropagation.setPageflow(pf);
          encodedUrl  += getParameterString(characterEncoding, uiPropagation, first);
          first = false;
       }
@@ -201,9 +206,11 @@ public class HtmlButton extends HtmlOutputButton implements ActionSource
          first = false;
       }
             
-      if (fragment!=null)
+      ValueExpression fragmentBinding = getValueExpression("fragment");
+      String frag = fragmentBinding==null ? fragment : (String) fragmentBinding.getValue( context.getELContext() );
+      if (frag!=null)
       {
-         encodedUrl += '#' + fragment;
+         encodedUrl += '#' + frag;
       }
       
       String onclick = getOnclick();

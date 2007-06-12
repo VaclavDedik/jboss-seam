@@ -25,8 +25,9 @@ import javax.faces.context.FacesContext;
 /**
  * Constant declarations for JSF tags
  * 
- * @author Anton Koinov (latest modification by $Author$)
- * @version $Revision$ $Date$
+ * @author Anton Koinov 
+ * @author Manfred Geiler
+ * 
  */
 public class JSF
 {

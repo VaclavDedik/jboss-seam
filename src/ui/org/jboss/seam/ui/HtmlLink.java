@@ -172,7 +172,9 @@ public class HtmlLink extends HtmlOutputLink implements ActionSource
       {
          UIConversationPropagation uiPropagation = new UIConversationPropagation();
          uiPropagation.setType(propagation);
-         uiPropagation.setPageflow(pageflow);
+         ValueExpression pageflowBinding = getValueExpression("pageflow");
+         String pf = pageflowBinding==null ? pageflow : (String) pageflowBinding.getValue( context.getELContext() );
+         uiPropagation.setPageflow(pf);
          encodedUrl  += getParameterString(characterEncoding, uiPropagation, first);
          first = false;
       }
@@ -193,9 +195,11 @@ public class HtmlLink extends HtmlOutputLink implements ActionSource
          first = false;
       }
             
-      if (fragment!=null)
+      ValueExpression fragmentBinding = getValueExpression("fragment");
+      String frag = fragmentBinding==null ? fragment : (String) fragmentBinding.getValue( context.getELContext() );
+      if (frag!=null)
       {
-         encodedUrl += '#' + fragment;
+         encodedUrl += '#' + frag;
       }
       
       if ( !isDisabled(context) )
