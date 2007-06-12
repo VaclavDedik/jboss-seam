@@ -1,6 +1,194 @@
 JBoss Seam Changelog
 ====================
 
+Release Notes - JBoss Seam - Version 1.3.0.ALPHA
+
+** Bug
+    * [JBSEAM-308] - DataModel instance changes even though the backing list did not when using PAGE scope
+    * [JBSEAM-668] - method bindings with a parameter don't work in facelets tag source files
+    * [JBSEAM-898] - s:hasRole, etc in EL in pages.xml and other places
+    * [JBSEAM-947] - Problem with seam component <s:fileUpload/> in JBoss Portal
+    * [JBSEAM-1020] - Drools bugs
+    * [JBSEAM-1023] - Looking up a filtered SMPC in non-faces servlet throws NPE
+    * [JBSEAM-1041] - Pages: isLoginRedirectRequired should be called before applying request parameter values
+    * [JBSEAM-1079] - Security expressions in navigation rules are broken
+    * [JBSEAM-1116] - EntityConverter should use PersistenceProvider
+    * [JBSEAM-1128] - Calling getPage outside of a JSF request causes NPE
+    * [JBSEAM-1129] - Error with  s:grapicImage (Unsupported component-family/renderer-typ )
+    * [JBSEAM-1132] - SEAM Example App:  BLOG fails with XML Parser error 
+    * [JBSEAM-1133] - Subject in I18N mail
+    * [JBSEAM-1134] - I18N body must be native encoding
+    * [JBSEAM-1135] - double byte encoding issue of the Seam Debug Page
+    * [JBSEAM-1139] - #{converters.ageConverter} not work in seam-ui example
+    * [JBSEAM-1148] - Validators.validate() fails with NPE when expressionString is null
+    * [JBSEAM-1149] - UIBody does not encode alternative facet correctly
+    * [JBSEAM-1150] - s:graphicImage fails with value as File - java.io.IOException: mark/reset not supported
+    * [JBSEAM-1152] - problem with s:convertEntity and h:selectManyListbox
+    * [JBSEAM-1154] - Resources.getResourceAsStream() logic is incorrect
+    * [JBSEAM-1158] - org.apache.commons.collections.UnboundedFifoBuffer on seam-gen app
+    * [JBSEAM-1168] - Attempting to configure parent conversation id parameter throws exception
+    * [JBSEAM-1176] - Allow entity bean to have protected empty constructor
+    * [JBSEAM-1177] - ISO-8859-1 characters in subject field are not properly rendered
+    * [JBSEAM-1178] - s:selectItems creates select items twice
+    * [JBSEAM-1179] - Security functions not working in dvdstore
+    * [JBSEAM-1180] - Hibernate & JPA examples still using myfaces
+    * [JBSEAM-1184] - Exception documentation uses wrong Filter
+    * [JBSEAM-1188] - Using the Seam exception filter without JTA throws exception
+    * [JBSEAM-1189] - Exception/Redirect/Context etc filter component names are incorrect
+    * [JBSEAM-1195] - enforce startup dependency of EntityManagerFactory on Ejb
+    * [JBSEAM-1196] - seam(.bat) fail to run groovy scripts due to ant classpath voodoo
+    * [JBSEAM-1198] - java.util.MissingResourceException: Can't find bundle for base name org.jboss.el.Messages, locale en_US
+    * [JBSEAM-1202] - seam remoting js->bag multiple dimension problem
+    * [JBSEAM-1207] - Better error message from jboss-el
+    * [JBSEAM-1213] - pdf generation fails without cookies enabled
+    * [JBSEAM-1214] - Alternate EL property reference #{entity[fieldName]} doesn't work
+    * [JBSEAM-1215] - <s:convertEntity> / org.jboss.seam.ui.EntityConverter fails to return correct id when entity is wrapped Hibernate proxy (JavassistLazyInitializer)
+    * [JBSEAM-1220] - User reporting problems loading and running Seamdiscs example ootb
+    * [JBSEAM-1225] - JBoss EL has issues with boolean expressions
+    * [JBSEAM-1230] - Bad interaction between resultList and resultCount
+    * [JBSEAM-1232] - UIFileUpload & the JSF lifecycle
+    * [JBSEAM-1236] - JSF 1.2 breaks captcha
+    * [JBSEAM-1237] - Examples are broken
+    * [JBSEAM-1240] - DocumentStore and seam-doc.seam
+    * [JBSEAM-1243] - Ending nested conversation causes issues with pages.xml and rendering the same view again
+    * [JBSEAM-1248] - @Converter and @Validator missing documentation
+    * [JBSEAM-1251] - EL coercion and proxies
+    * [JBSEAM-1252] - SeamTest invokeMethod() breaks jboss-el: "Parameter types cannot be null"
+    * [JBSEAM-1253] - jboss-el resolver chain breaks on HashMap$Value
+    * [JBSEAM-1261] - Pageflow page action is never invoked
+    * [JBSEAM-1263] - NPE when posting from <s:convertEntity /> 
+    * [JBSEAM-1264] - Session preDestroyContext Event causing exception
+    * [JBSEAM-1265] - Dependency on Jsp 2.1 in HEAD JspApplicationContext referenced in JBossELInstaller
+    * [JBSEAM-1271] - setting onreadystatechange to null causing error in IE6
+    * [JBSEAM-1272] - SynchronizationInterceptor#aroundInvoke should not be synchronized
+    * [JBSEAM-1278] - Recent EL changes seems to break SeamTest
+    * [JBSEAM-1294] - Page redirected to from exception filter cannot use page parameters
+    * [JBSEAM-1295] - Entity component doesnt ensure that the the identifier field is accessible.
+    * [JBSEAM-1297] - StockOverflowError in validators component
+    * [JBSEAM-1298] - UIDecorate ignores programmatic faces messages
+    * [JBSEAM-1301] - Bugs with MockServletContext.getResourcePaths()
+    * [JBSEAM-1305] - Incorrect XML encoding for complex return objects from Seam remote methods
+    * [JBSEAM-1306] - EntityQuery: last page is empty for even number of results
+    * [JBSEAM-1308] - UnifiedELValueBinding needs default constructor so that it is properly Serailizable
+    * [JBSEAM-1317] - ConverterChain constructor does not create a default converter when attached to a value of type String
+    * [JBSEAM-1323] - MultipartRequest class incorrectly parses form post when field boundary occurs near end of internal buffer
+    * [JBSEAM-1324] - javascript error in IE6 when remote call does not render anything to response.
+    * [JBSEAM-1325] - Entity component does not properly cache Entity instances in application context
+    * [JBSEAM-1331] - Groovy Seam example needs to include jboss-el
+    * [JBSEAM-1332] - Init.instance() causes (unecessary) lock contention under heavy load.
+    * [JBSEAM-1341] - IllegalStateException in seamspace example
+    * [JBSEAM-1348] - PersistenceContext is not "untouched" on destory
+    * [JBSEAM-1353] - SeamExpressionFactory breaks custom ExpressionFactories
+    * [JBSEAM-1359] - Login redirection not remembering page parameters
+    * [JBSEAM-1363] - ManagedPersistenceContext.getEntityManager() should not throw NamingException
+    * [JBSEAM-1365] - Make SeamManagedEntityManagerFactory joinTransaction if available
+    * [JBSEAM-1366] - SeamApplicationMessageBundle breaks default JSF component messages
+    * [JBSEAM-1382] - Seamspace example is all broken
+    * [JBSEAM-1392] - Returning to parent conversation by redirect is broken
+    * [JBSEAM-1393] - pages.xml parsing error in all examples
+    * [JBSEAM-1395] - FileUpload control truncates data with multiple files
+    * [JBSEAM-1402] - ui-example fails startup and missing org/jboss/cache/aop/PojoCache
+    * [JBSEAM-1404] - Seam generate-entities fails due to missing ehcache jar
+    * [JBSEAM-1411] - Function 's:hasRole' not found
+    * [JBSEAM-1412] - <s:decorate /> with template property
+    * [JBSEAM-1419] - Identity.logout() no longer invalidates the HTTP session
+    * [JBSEAM-1422] - elenhancements.xml: literal strings comment
+    * [JBSEAM-1424] - async validation persists changes
+    * [JBSEAM-1430] - NoSuchElementException in Tomcat
+    * [JBSEAM-1433] - Caused by: java.lang.IllegalArgumentException: component class is an interface: org.jboss.seam.core.Dispatcher
+    * [JBSEAM-1436] - javax.interceptor.Interceptors dependency in ThreadPoolDispatcher
+    * [JBSEAM-1439] - Seam update broke permission system
+
+** Feature Request
+    * [JBSEAM-197] - Order task list by priority
+    * [JBSEAM-255] - Let SeamTest test components inside the container, but outside JSF lifecycle
+    * [JBSEAM-295] - Ability to setup UI components programmatically in SeamTest
+    * [JBSEAM-395] - Alternate "dispatcher" strategies
+    * [JBSEAM-408] - actionListener="#{foo.bar}" where bar() has no ActionEvent parameter in JSP
+    * [JBSEAM-643] - Generation of charts in PDF
+    * [JBSEAM-697] - jboss-el
+    * [JBSEAM-718] - Make exception object available in redirected/rendered view
+    * [JBSEAM-739] - JSF postback authorization
+    * [JBSEAM-743] - HTTP BASIC and DIGEST authentication
+    * [JBSEAM-757] - Trinidad: Implementation of CollectionModel that is backed by EntityQuery
+    * [JBSEAM-842] - s:hasRole() in jBPM EL.
+    * [JBSEAM-844] - Fire an event on AuthorizationException
+    * [JBSEAM-871] - Profile screen for wiki
+    * [JBSEAM-874] - User registration for Wiki
+    * [JBSEAM-878] - Wiki search
+    * [JBSEAM-952] - Automatically search for unknown wiki links
+    * [JBSEAM-953] - Don't create HttpSession until we *really* need it
+    * [JBSEAM-991] - Make seam managed PC replacement for Spring OpenEntityManagerInView
+    * [JBSEAM-1045] - enable the application message bundle to be connected to the core resource bundle
+    * [JBSEAM-1048] - Documentation enhancement for injecting TaskInstance and ProcessInstance (add full package name)
+    * [JBSEAM-1054] - Make Seam Filters orderable
+    * [JBSEAM-1060] - Documentation enhancement for themes (add JSF requestContextPath to example)
+    * [JBSEAM-1086] - Events on navigation rules
+    * [JBSEAM-1089] - Allow extended EL method expression construction programmatically
+    * [JBSEAM-1114] - Disable EntitySecurityListener problem in unit tests
+    * [JBSEAM-1117] - support enum types in @RaiseEvent or a new @RaiseEventType annotation
+    * [JBSEAM-1118] - Make a working example to be deployed on tomcat
+    * [JBSEAM-1119] - Distribute microcontainer library with Seam
+    * [JBSEAM-1121] - exception instantiating model validator is very difficult to debug
+    * [JBSEAM-1122] - Richfaces/Trinidad examples
+    * [JBSEAM-1124] - Make ThemeSelector and LocaleSelector implement valueChanged(ValueChangeEvent event), and some more...
+    * [JBSEAM-1144] - Make org.jboss.seam.util.Transactions a seam component
+    * [JBSEAM-1147] - Support @EmbeddedId in EntityConverter
+    * [JBSEAM-1155] - <p:BarCode> iText BarCode generation
+    * [JBSEAM-1160] - EMF implicit lookup/resolve precedence
+    * [JBSEAM-1164] - s:selectDate should trigger onchange if destination object has onchange handler defined.
+    * [JBSEAM-1192] - Ability to conditionally render style attribute for individual rows of Data Tables and other List-type UI components
+    * [JBSEAM-1199] - Support for Groovy in Seam runtime
+    * [JBSEAM-1200] - Integrate the Groovy programmatic model into seam-gen
+    * [JBSEAM-1218] - Make LocalDispatcher not dependent on javax.ejb.Timer
+    * [JBSEAM-1239] - Throw distinquishable exception type if size limit of MultipartRequest is exceeded
+    * [JBSEAM-1281] - Make a ajax4jsf filter a seam AbstractFilter
+    * [JBSEAM-1282] - Refactor Exception Handling definition parsing into Pages component
+    * [JBSEAM-1284] - Expose an addHandler method in Exceptions component
+    * [JBSEAM-1285] - Expose originating view in conversation for exception handling.
+    * [JBSEAM-1286] - Add Event notifications to Exceptions component
+    * [JBSEAM-1287] - Enable support for DataModelSelection when used with entiy-query
+    * [JBSEAM-1288] - add xsd for pdf components
+    * [JBSEAM-1290] - EntityQuery.refresh() does not clear parsedEjbql variable
+    * [JBSEAM-1327] - hot deployment directory should not be tied to name and location of debug jar
+    * [JBSEAM-1329] - Fileupload contentLength > maxRequestSize throws RuntimeException
+    * [JBSEAM-1334] - Improve SeamVariableResolver to allow jbpm and seam variables/components... to be resolved
+    * [JBSEAM-1335] - Update XML version numbers for seam 1.3
+    * [JBSEAM-1347] - Make SeamTest not dependent on TestNG
+    * [JBSEAM-1357] - Allow to set NamingStrategy in HibernateFactory (patch included)
+    * [JBSEAM-1361] - invalidate session after scheme change
+    * [JBSEAM-1362] - Add validation for page parameters
+    * [JBSEAM-1364] - Bind Map to h:inputText value - causes 'model validation failed:String index out of range: -1'
+    * [JBSEAM-1367] - Get rid of SeamFaceletViewHandler
+    * [JBSEAM-1373] - QuartzDispatcher
+    * [JBSEAM-1376] - Document dispatcher strategies
+    * [JBSEAM-1391] - pages-1.3.xsd
+    * [JBSEAM-1414] - Seam security - extending Identity class
+    * [JBSEAM-1437] - Allow pageflow and fragment attributes of s:link, s:button to be valuebindings
+
+** Patch
+    * [JBSEAM-715] - Allow multiple pages.xml files
+    * [JBSEAM-1055] - Query Pagination in JBoss Seam Framework
+    * [JBSEAM-1219] - Improve the Components chapter (patch)
+    * [JBSEAM-1337] - Add generated sources to .cvsignore
+    * [JBSEAM-1351] - EnumConverter for SelectMany* components
+
+** Task
+    * [JBSEAM-614] - API Documentation for the org.jboss.seam.ui.* classes
+    * [JBSEAM-1005] - Don't use conversationIsLongRunning by default
+    * [JBSEAM-1058] - Update Seam to work with JBoss AS 4.2.0 and JSF 1.2
+    * [JBSEAM-1193] - Update JBoss AS download page, and Seam Getting Started (remove the need for JEMS Installer or EJB3)
+    * [JBSEAM-1227] - Seam 1.2.1.GA displayed the wrong version number
+    * [JBSEAM-1273] - Upgrade to newer snapshot of A4J and RF
+    * [JBSEAM-1345] - Update the docs for AS 4.2 / JSF 1.2
+    * [JBSEAM-1354] - Seam requires Ajax4JSF libraries to be present
+    * [JBSEAM-1356] - Document Groovy support
+    * [JBSEAM-1374] - Document JBoss EL
+    * [JBSEAM-1390] - deprecate Seam.invalidateSession() and use a Seam component
+    * [JBSEAM-1400] - Update Richfaces / Ajax4JSF
+    * [JBSEAM-1409] - Docs for running Seam 1.3 on JBoss 4.0.5.
+    * [JBSEAM-1417] - Document @Converter and @Validator
+    * [JBSEAM-1420] - Add a null check in Initialization class
 
 Release Notes - JBoss Seam - Version 1.2.1.GA
 
