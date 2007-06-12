@@ -1577,13 +1577,12 @@ public class Component extends Model
       return businessInterfaces;
    }
 
-    private static boolean isExcludedLocalInterfaceName(String name) {
-        return name.equals("java.io.Serializable") ||
-               name.equals("java.io.Externalizable") ||
-               name.startsWith("javax.ejb.");
-    }
-
-
+   private static boolean isExcludedLocalInterfaceName(String name) 
+   {
+      return name.equals("java.io.Serializable") ||
+            name.equals("java.io.Externalizable") ||
+            name.startsWith("javax.ejb.");
+   }
 
    private Object getFieldValue(Object bean, Field field, String name)
    {
