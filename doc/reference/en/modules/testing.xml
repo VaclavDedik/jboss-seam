@@ -119,7 +119,7 @@ public class RegisterAction implements Register
     </section>
     
     <section>
-        <title>Integration testing Seam applications</title>
+        <title>Integration testing Seam components</title>
         
         <para>
             Integration testing is slightly more difficult. In this case, we can't eliminate
@@ -131,18 +131,94 @@ public class RegisterAction implements Register
         </para>
         
         <para>
-            A second problem is emulating user interactions. A third problem is where to
-            put our assertions. Some test frameworks let us test the whole application
+            The approach taken by Seam is to let you write tests that exercise your
+            components while running inside a pruned down container environment (Seam,
+            together with the JBoss Embeddable EJB container).
+        </para>
+        
+<programlisting><![CDATA[public class RegisterTest extends SeamTest
+{
+   
+   @Test
+   public void testRegisterComponent() throws Exception
+   {
+            
+      new ComponentTest() {
+
+         protected void testComponents() throws Exception
+         {
+            setValue("#{user.username}", "1ovthafew");
+            setValue("#{user.name}", "Gavin King");
+            setValue("#{user.password}", "secret");
+            assert invokeMethod("#{register.register}").equals("success");
+            assert getValue("#{user.username}").equals("1ovthafew");
+            assert getValue("#{user.name}").equals("Gavin King");
+            assert getValue("#{user.password}").equals("secret");
+         }
+         
+      }.run();
+      
+   }
+
+   ...
+   
+}]]></programlisting>
+
+        
+        <section>
+            <title>Using mocks in integration tests</title>
+            
+            <para>
+                Occasionally, we need to be able to replace the implementation of some
+                Seam component that depends upon resources which are not available in 
+                the integration test environment. For example, suppose we have some
+                Seam component which is a facade to some payment processing system:
+            </para>
+            
+            <programlisting><![CDATA[@Name("paymentProcessor")
+public class PaymentProcessor {
+    public boolean processPayment(Payment payment) { .... }
+}]]></programlisting>
+            
+            <para>
+                For integration tests, we can mock out this component as follows:
+            </para>
+            
+            <programlisting><![CDATA[@Name("paymentProcessor")
+@Install(precedence=MOCK)
+public class MockPaymentProcessor extends PaymentProcessor {
+    public void processPayment(Payment payment) {
+        return true;
+    }
+}]]></programlisting>
+            
+            <para>
+                Since the <literal>MOCK</literal> precedence is higher than the default
+                precedence of application components, Seam will install the mock 
+                implementation whenever it is in the classpath. When deployed into 
+                production, the mock implementation is absent, so the real component
+                will be installed.
+            </para>
+            
+        </section>
+        
+    </section>
+    
+    <section>
+        <title>Integration testing Seam application user interactions</title>
+        
+        <para>
+            An even harder problem is emulating user interactions. A third problem is where 
+            to put our assertions. Some test frameworks let us test the whole application
             by reproducing user interactions with the web browser. These frameworks have
             their place, but they are not appropriate for use at development time.
         </para>
         
         <para>
-            The approach taken by Seam is to let you write tests that script your
-            components while running inside a pruned down container environment (Seam,
-            together with the JBoss Embeddable EJB container). The role of the test script 
-            is basically to reproduce the interaction between the view and the Seam components. 
-            In other words, you get to pretend you are the JSF implementation!
+            <lteral>SeamTest</lteral> lets you write <emphasis>scripted</emphasis> tests,
+            in a simulated JSF environment. The role of a scripted test is to reproduce 
+            the interaction between the view and the Seam components. In other words, you 
+            get to pretend you are the JSF implementation!
         </para>
         
         <para>
@@ -260,43 +336,6 @@ public class RegisterAction implements Register
             <imagedata fileref="../shared/images/plugin-testng.png" align="center"/>
           </imageobject>
         </mediaobject>
-        
-        <section>
-            <title>Using mocks in integration tests</title>
-            
-            <para>
-                Occasionally, we need to be able to replace the implementation of some
-                Seam component that depends upon resources which are not available in 
-                the integration test environment. For example, suppose we have some
-                Seam component which is a facade to some payment processing system:
-            </para>
-            
-            <programlisting><![CDATA[@Name("paymentProcessor")
-public class PaymentProcessor {
-    public boolean processPayment(Payment payment) { .... }
-}]]></programlisting>
-            
-            <para>
-                For integration tests, we can mock out this component as follows:
-            </para>
-            
-            <programlisting><![CDATA[@Name("paymentProcessor")
-@Install(precedence=MOCK)
-public class MockPaymentProcessor extends PaymentProcessor {
-    public void processPayment(Payment payment) {
-        return true;
-    }
-}]]></programlisting>
-            
-            <para>
-                Since the <literal>MOCK</literal> precedence is higher than the default
-                precedence of application components, Seam will install the mock 
-                implementation whenever it is in the classpath. When deployed into 
-                production, the mock implementation is absent, so the real component
-                will be installed.
-            </para>
-            
-        </section>
         
     </section>
 	
