@@ -10,7 +10,7 @@
     <s:div styleClass="entry">
         <div class="label">Readable by:</div>
         <div class="input">
-            <h:selectOneMenu value="#{nodePermissions.readAccessLevel}" tabindex="1">
+            <h:selectOneMenu value="#{nodePermissions.readAccessLevel}" tabindex="1" converter="accessLevelConverter">
                 <s:selectItems value="#{assignableAccessLevelsList}"
                                var="aLvl"
                                label="Role: #{wiki:truncateString(aLvl.roleNames, 40, '...')}"
@@ -25,7 +25,7 @@
     <s:div styleClass="entry">
         <div class="label">Writable by:</div>
         <div class="input">
-            <h:selectOneMenu value="#{nodePermissions.writeAccessLevel}" tabindex="1">
+            <h:selectOneMenu value="#{nodePermissions.writeAccessLevel}" tabindex="1" converter="accessLevelConverter">
                 <s:selectItems value="#{assignableAccessLevelsList}"
                                var="aLvl"
                                label="Role: #{wiki:truncateString(aLvl.roleNames, 40, '...')}"
