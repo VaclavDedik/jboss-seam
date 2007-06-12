@@ -4,7 +4,7 @@ references the existing Seam libraries and thirdparty libs, however, to avoid du
 INSTALLATION
 ==========================================================================================
 
-- Install JBoss Application Server 4.2 CR2
+- Install JBoss Application Server 4.2 GA
 
 - Edit build.properties
 
