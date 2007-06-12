@@ -13,6 +13,12 @@
         <end-conversation/>
 
         <navigation>
+            <rule if-outcome="search">
+                <redirect view-id="/search.xhtml">
+                    <param name="conversationPropagation" value="#{'none'}"/>
+                    <param name="lastConversationId" value="#{conversation.id}"/>
+                </redirect>
+            </rule>
             <rule if="#{!empty currentDocument}">
                 <render view-id="/docDisplay.xhtml"/>
             </rule>

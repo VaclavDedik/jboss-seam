@@ -10,6 +10,7 @@ import org.jboss.seam.core.Conversation;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.wiki.core.dao.NodeDAO;
 import org.jboss.seam.wiki.core.model.*;
+import org.jboss.seam.wiki.core.search.WikiSearch;
 import org.jboss.seam.wiki.util.WikiUtil;
 
 import java.util.*;
@@ -225,10 +226,19 @@ public class NodeBrowser implements Serializable {
             currentDocument = nodeDAO.findDefaultDocument(currentDirectory);
         }
 
+        /*
         // Fall back to default document
         if (currentDirectory == null) {
             currentDocument = (Document)Component.getInstance("wikiStart");
             currentDirectory = currentDocument.getParent();
+        }
+        */
+        // Fall back, take the area name as a search query
+        if (currentDirectory == null) {
+            log.debug("searching for unknown area name: " + areaName);
+            WikiSearch wikiSearch = (WikiSearch)Component.getInstance("wikiSearch");
+            wikiSearch.setSimpleQuery(areaName);
+            return "search";
         }
 
         // Set the id for later

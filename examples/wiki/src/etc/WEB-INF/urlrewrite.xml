@@ -16,7 +16,7 @@
      </rule>
 
     <rule>
-        <from casesensitive="true">^/([A-Z0-9]+[A-Za-z0-9]*)$</from>
+        <from casesensitive="true">^/([A-Za-z0-9]+[A-Za-z0-9]*)$</from>
         <to last="true">/display.seam?areaName=$1</to>
     </rule>
 
