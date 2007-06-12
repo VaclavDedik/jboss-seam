@@ -226,19 +226,23 @@ public class NodeBrowser implements Serializable {
             currentDocument = nodeDAO.findDefaultDocument(currentDirectory);
         }
 
-        /*
-        // Fall back to default document
-        if (currentDirectory == null) {
-            currentDocument = (Document)Component.getInstance("wikiStart");
-            currentDirectory = currentDocument.getParent();
-        }
-        */
         // Fall back, take the area name as a search query
         if (currentDirectory == null) {
-            log.debug("searching for unknown area name: " + areaName);
-            WikiSearch wikiSearch = (WikiSearch)Component.getInstance("wikiSearch");
-            wikiSearch.setSimpleQuery(areaName);
-            return "search";
+            boolean foundMatches = false;
+            if (areaName != null && areaName.length() > 0) {
+                log.debug("searching for unknown area name: " + areaName);
+                WikiSearch wikiSearch = (WikiSearch)Component.getInstance("wikiSearch");
+                wikiSearch.setSimpleQuery(areaName);
+                wikiSearch.search();
+                foundMatches = wikiSearch.getTotalCount() > 0;
+            }
+            if (foundMatches) {
+                return "search";
+            } else {
+                // Fall back to default document
+                currentDocument = (Document)Component.getInstance("wikiStart");
+                currentDirectory = currentDocument.getParent();
+            }
         }
 
         // Set the id for later
