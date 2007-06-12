@@ -8,12 +8,13 @@ import org.jboss.seam.wiki.preferences.Preference;
 import org.jboss.seam.wiki.preferences.PreferenceVisibility;
 import org.jboss.seam.wiki.preferences.PreferenceSupport;
 import org.hibernate.validator.Range;
+import org.hibernate.validator.NotNull;
 
 import java.io.Serializable;
 
 @Name("flashPreferences")
 @Scope(ScopeType.CONVERSATION)
-@Preference(description = "D. Plugin: Flash", visibility = PreferenceVisibility.INSTANCE)
+@Preference(description = "Plugin: Flash", visibility = PreferenceVisibility.INSTANCE)
 public class FlashPreferences extends PreferenceSupport implements Serializable {
 
     public String getCurrentUserVariable() { return "currentUser"; }
@@ -27,10 +28,12 @@ public class FlashPreferences extends PreferenceSupport implements Serializable 
 
     @Preference(description = "02. Width of embedded flash object (pixel)", visibility = PreferenceVisibility.INSTANCE)
     @Range(min = 1l, max = 2000l)
+    @NotNull
     private Long objectWidth;
 
     @Preference(description = "03. Height of embedded flash object (pixel)", visibility = PreferenceVisibility.INSTANCE)
     @Range(min = 1l, max = 2000l)
+    @NotNull
     private Long objectHeight;
 
 }

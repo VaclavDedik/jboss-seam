@@ -5,13 +5,12 @@
      xmlns:f="http://java.sun.com/jsf/core"
      xmlns:s="http://jboss.com/products/seam/taglib">
 
-    <h:form rendered="false">
+    <h:form>
         <h:panelGroup styleClass="searchControlTable">
-            <h:inputText styleClass="searchControlInput" id="searchControlSearchString" value="#{nodeSearch.query}"
+            <h:inputText styleClass="searchControlInput" id="searchControlSearchString" value="#{wikiSearch.simpleQuery}"
                          onclick="clickClear(this, 'Search...')" onblur="clickRecall(this, 'Search...')"
                          size="15" maxlength="1000" tabindex="60"/>
-            <h:commandLink styleClass="searchControlLink" tabindex="61" accesskey="F"
-                           action="search">
+            <h:commandLink styleClass="searchControlLink" tabindex="61" accesskey="F" action="search">
                 <u>F</u>ind
             </h:commandLink>
         </h:panelGroup>

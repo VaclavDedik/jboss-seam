@@ -8,12 +8,13 @@ import org.jboss.seam.wiki.preferences.Preference;
 import org.jboss.seam.wiki.preferences.PreferenceVisibility;
 import org.jboss.seam.wiki.preferences.PreferenceSupport;
 import org.hibernate.validator.Range;
+import org.hibernate.validator.NotNull;
 
 import java.io.Serializable;
 
 @Name("blogDirectoryPreferences")
 @Scope(ScopeType.CONVERSATION)
-@Preference(description = "C. Plugin: Blog Directory", visibility = PreferenceVisibility.INSTANCE)
+@Preference(description = "Plugin: Blog Directory", visibility = PreferenceVisibility.INSTANCE)
 public class BlogDirectoryPreferences extends PreferenceSupport implements Serializable {
 
     public String getCurrentUserVariable() { return "currentUser"; }
@@ -24,10 +25,12 @@ public class BlogDirectoryPreferences extends PreferenceSupport implements Seria
 
     @Preference(description = "01. Number of blog entries per page", visibility = PreferenceVisibility.INSTANCE)
     @Range(min = 1l, max = 100l)
+    @NotNull
     private Long pageSize;
 
     @Preference(description = "02. Number of recent entries in headline list", visibility = PreferenceVisibility.INSTANCE)
     @Range(min = 1l, max = 100l)
+    @NotNull
     private Long recentHeadlines;
 
 }

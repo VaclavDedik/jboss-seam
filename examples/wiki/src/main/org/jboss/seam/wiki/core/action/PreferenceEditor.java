@@ -3,6 +3,7 @@ package org.jboss.seam.wiki.core.action;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Component;
+import org.jboss.seam.log.Log;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.wiki.preferences.*;
 import org.jboss.seam.wiki.preferences.PreferenceRegistry;
@@ -20,6 +21,8 @@ import java.io.Serializable;
 @Scope(ScopeType.CONVERSATION)
 public class PreferenceEditor implements Serializable {
 
+    @Logger static Log log;
+
     @In
     private FacesMessages facesMessages;
 
@@ -31,6 +34,7 @@ public class PreferenceEditor implements Serializable {
     boolean valid = true;
 
     public String save() {
+        log.debug("saving preference component values");
         if (preferenceComponent == null) return null;
 
         validate();
@@ -50,15 +54,11 @@ public class PreferenceEditor implements Serializable {
         }
         provider.flush();
 
-        facesMessages.addToControlFromResourceBundleOrDefault(
-            "preferenceValidationErrors",
-            FacesMessage.SEVERITY_INFO,
-            "preferencesSaved." + preferenceComponent.getName(),
-            "Preferences have been saved, continue editing or exit.");
         return null;
     }
 
     public void validate() {
+        log.debug("validating preference component values");
         if (preferenceComponent == null) return;
         valid = true;
         Map<PreferenceProperty, InvalidValue[]> invalidProperties = preferenceComponent.validate(preferenceValues);

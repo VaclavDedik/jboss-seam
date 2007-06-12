@@ -12,15 +12,8 @@ import org.jboss.seam.Component;
 import org.hibernate.Session;
 import org.hibernate.Criteria;
 import org.hibernate.ScrollableResults;
-import org.hibernate.search.Search;
-import org.hibernate.search.FullTextSession;
 import org.hibernate.transform.DistinctRootEntityResultTransformer;
 import org.hibernate.criterion.*;
-import org.apache.lucene.queryParser.QueryParser;
-import org.apache.lucene.queryParser.ParseException;
-import org.apache.lucene.queryParser.MultiFieldQueryParser;
-import org.apache.lucene.analysis.StopAnalyzer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
@@ -268,24 +261,6 @@ public class NodeDAO {
         return null;
     }
 
-    /*
-    http://lucene.apache.org/java/docs/queryparsersyntax.html
-
-    http://www.atlassian.com/software/jira/docs/v3.8/querysyntax.html
-     */
-    public List<Node> search(String searchTerm) throws ParseException {
-
-        // Remove () parenthesis
-        searchTerm = searchTerm.replaceAll("\\(", "\\(");
-        searchTerm = searchTerm.replaceAll("\\)", "\\)");
-
-        FullTextSession session = Search.createFullTextSession(getSession());
-        QueryParser parser = new QueryParser("Document", new StandardAnalyzer());
-        org.apache.lucene.search.Query query = parser.parse("name:(" + searchTerm + ") OR content:(" + searchTerm + ")");
-        //noinspection unchecked
-        return session.createFullTextQuery(query).list();
-    }
-    
     public Map<Long,Long> findCommentCount(Directory directory) {
         //noinspection unchecked
         List<Object[]> result = restrictedEntityManager

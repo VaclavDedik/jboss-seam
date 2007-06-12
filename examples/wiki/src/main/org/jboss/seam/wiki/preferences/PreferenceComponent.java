@@ -35,6 +35,7 @@ public class PreferenceComponent implements Comparable {
 
         String propertyName;
         String propertyDescription;
+        Class propertyType;
         PreferenceVisibility propertyVisibility;
 
         // @Preference setter methods
@@ -48,10 +49,11 @@ public class PreferenceComponent implements Comparable {
 
                 propertyName = Introspector.decapitalize(methodName.substring(3));
                 propertyDescription  = method.getAnnotation(Preference.class).description();
+                propertyType = method.getReturnType();
                 propertyVisibility = method.getAnnotation(Preference.class).visibility();
 
                 PreferenceProperty property =
-                        new PreferenceProperty(propertyName, propertyDescription, propertyVisibility, false, this);
+                        new PreferenceProperty(propertyName, propertyDescription, propertyType, propertyVisibility, false, this);
                 properties.add(property);
                 propertiesByName.put(property.getName(), property);
             }
@@ -64,10 +66,11 @@ public class PreferenceComponent implements Comparable {
 
                 propertyName = field.getName();
                 propertyDescription = field.getAnnotation(Preference.class).description();
+                propertyType = field.getType();
                 propertyVisibility = field.getAnnotation(Preference.class).visibility();
 
                 PreferenceProperty property =
-                        new PreferenceProperty(propertyName, propertyDescription, propertyVisibility, true, this);
+                        new PreferenceProperty(propertyName, propertyDescription, propertyType, propertyVisibility, true, this);
                 properties.add(property);
                 propertiesByName.put(property.getName(), property);
             }

@@ -12,7 +12,7 @@ import java.io.Serializable;
 
 @Name("commentsPreferences")
 @Scope(ScopeType.CONVERSATION)
-@Preference(description = "A. Visitor Comments", visibility = PreferenceVisibility.USER)
+@Preference(description = "Core: Visitor Comments", visibility = PreferenceVisibility.USER)
 public class CommentsPreferences extends PreferenceSupport implements Serializable {
 
     public String getCurrentUserVariable() { return "currentUser"; }
@@ -22,5 +22,5 @@ public class CommentsPreferences extends PreferenceSupport implements Serializab
     public void refreshProperties() { super.refreshProperties(); }
 
     @Preference(description = "01. List comments ascending by date (or descending)", visibility = PreferenceVisibility.USER)
-    private boolean listAscending;
+    private Boolean listAscending;
 }

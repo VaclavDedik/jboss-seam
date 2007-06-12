@@ -20,25 +20,27 @@
             </h:column>
             <h:column>
 
-                <s:div rendered="#{v.value.class.simpleName == 'Boolean'}">
+                <s:div rendered="#{v.preferenceProperty.type.simpleName == 'Boolean'}">
                     <h:selectBooleanCheckbox value="#{v.value}"/>
                 </s:div>
 
-                <s:div rendered="#{v.value.class.simpleName == 'String'}">
+                <s:div rendered="#{v.preferenceProperty.type.simpleName == 'String'}">
                     <h:inputText value="#{v.value}" size="32"/>
                 </s:div>
 
-                <s:div rendered="#{v.value.class.simpleName == 'Long'}">
+                <s:div rendered="#{v.preferenceProperty.type.simpleName == 'Long'}">
                     <h:inputText value="#{v.value}" size="5">
                         <f:converter converterId="javax.faces.Long"/>
                     </h:inputText>
                 </s:div>
 
-                <s:div rendered="#{v.value.class.simpleName == 'Double'}">
-                    <h:inputText value="#{v.value}" size="10"/>
+                <s:div rendered="#{v.preferenceProperty.type.simpleName == 'Double'}">
+                    <h:inputText value="#{v.value}" size="10">
+                        <f:converter converterId="javax.faces.Double"/>
+                    </h:inputText>
                 </s:div>
 
-                <s:div rendered="#{v.value.class.simpleName == 'Date'}">
+                <s:div rendered="#{v.preferenceProperty.type.simpleName == 'Date'}">
                     <h:inputText id="dt" value="#{v.value}">
                         <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
                     </h:inputText>

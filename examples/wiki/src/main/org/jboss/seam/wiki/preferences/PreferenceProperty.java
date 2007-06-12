@@ -20,13 +20,15 @@ public class PreferenceProperty implements Comparable, Serializable {
 
     private String name;
     private String description;
+    private Class type;
     private PreferenceVisibility visibility;
     private boolean fieldAccess;
     private PreferenceComponent preferenceComponent;
 
-    public PreferenceProperty(String name, String description, PreferenceVisibility visibility, boolean fieldAccess, PreferenceComponent preferenceComponent) {
+    public PreferenceProperty(String name, String description, Class type, PreferenceVisibility visibility, boolean fieldAccess, PreferenceComponent preferenceComponent) {
         this.name = name;
         this.description = description;
+        this.type = type;
         this.visibility = visibility;
         this.fieldAccess = fieldAccess;
         this.preferenceComponent = preferenceComponent;
@@ -38,6 +40,10 @@ public class PreferenceProperty implements Comparable, Serializable {
 
     public String getDescription() {
         return description;
+    }
+
+    public Class getType() {
+        return type;
     }
 
     public PreferenceVisibility getVisibility() {

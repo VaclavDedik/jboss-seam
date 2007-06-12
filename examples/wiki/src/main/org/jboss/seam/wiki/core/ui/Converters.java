@@ -6,6 +6,8 @@ import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.wiki.core.model.Role;
 import org.jboss.seam.wiki.core.model.Node;
 import org.jboss.seam.wiki.core.model.Directory;
+import org.jboss.seam.wiki.core.search.metamodel.SearchableEntity;
+import org.jboss.seam.wiki.core.search.metamodel.SearchRegistry;
 import org.jboss.seam.wiki.util.WikiUtil;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
@@ -23,7 +25,29 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 
 public class Converters {
- 
+
+    @Name("searchableEntityConverter")
+    @org.jboss.seam.annotations.jsf.Converter(forClass = SearchableEntity.class)
+    public static class SearchableEntityConverter implements Converter, Serializable {
+
+        @Transactional
+        public Object getAsObject(FacesContext arg0,
+                                  UIComponent arg1,
+                                  String arg2) throws ConverterException {
+            if (arg2 == null) return null;
+            SearchRegistry searchRegistry = (SearchRegistry)Component.getInstance("searchRegistry");
+            return searchRegistry.getSearchableEntitiesByName().get(arg2);
+        }
+
+        public String getAsString(FacesContext arg0, UIComponent arg1, Object arg2) throws ConverterException {
+            if (arg2 instanceof SearchableEntity) {
+                return ((SearchableEntity)arg2).getClazz().getName();
+            } else {
+                return null;
+            }
+        }
+    }
+
     @Name("accessLevelConverter")
     @org.jboss.seam.annotations.jsf.Converter(forClass = Role.AccessLevel.class)
     public static class AccessLevelConverter implements Converter, Serializable {

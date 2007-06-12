@@ -7,12 +7,13 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.ScopeType;
 import org.hibernate.validator.Range;
+import org.hibernate.validator.NotNull;
 
 import java.io.Serializable;
 
 @Name("docEditorPreferences")
 @Scope(ScopeType.CONVERSATION)
-@Preference(description = "A. Document Editor", visibility = PreferenceVisibility.USER)
+@Preference(description = "Core: Document Editor", visibility = PreferenceVisibility.USER)
 public class DocumentEditorPreferences extends PreferenceSupport implements Serializable {
 
     public String getCurrentUserVariable() { return "currentUser"; }
@@ -23,10 +24,12 @@ public class DocumentEditorPreferences extends PreferenceSupport implements Seri
 
     @Preference(description = "02. Rows shown in text editor by default", visibility = PreferenceVisibility.SYSTEM)
     @Range(min = 5l, max = 100l)
+    @NotNull
     private Long regularEditAreaRows;
 
     @Preference(description = "03. Columns shown in text editor", visibility = PreferenceVisibility.USER)
     @Range(min = 5l, max = 250l)
+    @NotNull
     private Long regularEditAreaColumns;
 
 }

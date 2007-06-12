@@ -141,10 +141,8 @@
 
     <cache name="WikiFeedEntry"
            maxElementsInMemory="1000"
-           eternal="false"
+           eternal="true"
            overflowToDisk="false"
-           timeToIdleSeconds="86400"
-           timeToLiveSeconds="259200"
            diskPersistent="false"
            memoryStoreEvictionPolicy="LRU"/>
 

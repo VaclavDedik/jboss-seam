@@ -6,13 +6,12 @@ import org.jboss.seam.Component;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.*;
+import org.jboss.seam.core.Conversation;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.wiki.core.dao.NodeDAO;
 import org.jboss.seam.wiki.core.model.*;
-import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.util.WikiUtil;
 
-import javax.faces.application.FacesMessage;
 import java.util.*;
 import java.io.Serializable;
 

@@ -5,12 +5,10 @@ import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Component;
 import org.jboss.seam.wiki.core.model.Directory;
 import org.jboss.seam.wiki.core.model.Node;
 import org.jboss.seam.wiki.core.model.Document;
 import org.jboss.seam.wiki.core.model.Feed;
-import org.jboss.seam.wiki.core.dao.FeedDAO;
 
 import javax.faces.application.FacesMessage;
 import java.util.List;

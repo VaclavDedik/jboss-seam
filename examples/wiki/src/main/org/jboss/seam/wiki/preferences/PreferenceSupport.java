@@ -26,6 +26,9 @@ import java.util.Set;
  * <tt>#{seamNameOfThePreferenceComponent.prefProperty}</tt> if there are property accessor methods, or even
  * type-safe by getting the  whole <tt>#{seamNameOfThePreferenceComponent}</tt> injected.
  * <p>
+ * Note that you should add <tt>@NotNull</tt> to any preference property that is critical in addition to any
+ * other pattern, length, range, or other validator annotations.
+ * <p>
  * Subclasses should be in <tt>CONVERSATION</tt> or <tt>PAGE</tt> scope.
  * <p>
  * Subclasses automatically read preference properties when they are instantiated for the current conversation or page.

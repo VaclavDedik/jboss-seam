@@ -8,12 +8,13 @@ import org.jboss.seam.wiki.preferences.PreferenceVisibility;
 import org.jboss.seam.wiki.preferences.PreferenceSupport;
 import org.jboss.seam.ScopeType;
 import org.hibernate.validator.Range;
+import org.hibernate.validator.NotNull;
 
 import java.io.Serializable;
 
 @Name("lastModifiedDocumentsPreferences")
 @Scope(ScopeType.CONVERSATION)
-@Preference(description = "B. Plugin: Last Modified", visibility = PreferenceVisibility.INSTANCE)
+@Preference(description = "Plugin: Last Modified", visibility = PreferenceVisibility.INSTANCE)
 public class LastModifiedDocumentsPreferences extends PreferenceSupport implements Serializable {
 
     public String getCurrentUserVariable() { return "currentUser"; }
@@ -24,6 +25,7 @@ public class LastModifiedDocumentsPreferences extends PreferenceSupport implemen
 
     @Preference(description = "01. Number of items shown in list", visibility = PreferenceVisibility.INSTANCE)
     @Range(min = 3l, max = 25l)
+    @NotNull
     private Long numberOfItems;
 
     @Preference(description = "02. Show user names", visibility = PreferenceVisibility.INSTANCE)
@@ -31,6 +33,7 @@ public class LastModifiedDocumentsPreferences extends PreferenceSupport implemen
 
     @Preference(description = "03. Truncate document titles after characters", visibility = PreferenceVisibility.INSTANCE)
     @Range(min = 5l, max = 100l)
+    @NotNull
     private Long documentTitleLength;
 
 }

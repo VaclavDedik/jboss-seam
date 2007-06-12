@@ -133,7 +133,12 @@ public class WikiPreferenceValue implements PreferenceValue, Serializable, Compa
     }
 
     public void setValue(Object value) {
-        if (!value.equals(this.value)) setDirty(true);
+        if (this.value == null && value != null)
+            setDirty(true);
+        else if (this.value != null && value == null)
+            setDirty(true);
+        else if (this.value != null && !(this.value.equals(value)))
+            setDirty(true);
         this.value = value;
     }
 

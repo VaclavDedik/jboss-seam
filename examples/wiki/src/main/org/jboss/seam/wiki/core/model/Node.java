@@ -3,6 +3,9 @@ package org.jboss.seam.wiki.core.model;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.Pattern;
 import org.jboss.seam.wiki.core.preferences.WikiPreferenceValue;
+import org.jboss.seam.wiki.core.search.PaddedIntegerBridge;
+import org.jboss.seam.wiki.core.search.annotations.Searchable;
+import org.jboss.seam.wiki.core.search.annotations.SearchableType;
 
 import javax.persistence.*;
 import java.util.*;
@@ -42,7 +45,7 @@ public abstract class Node implements Serializable {
     @Id
     @GeneratedValue(generator = "wikiSequenceGenerator")
     @Column(name = "NODE_ID")
-    @org.hibernate.search.annotations.DocumentId(name = "id")
+    @org.hibernate.search.annotations.DocumentId(name = "nodeId")
     protected Long nodeId;
 
     @Version
@@ -53,6 +56,7 @@ public abstract class Node implements Serializable {
     @Length(min = 3, max = 255)
     @Pattern(regex="[a-zA-Z]?.+", message="Name must start with a letter")
     @org.hibernate.search.annotations.Field(index = org.hibernate.search.annotations.Index.TOKENIZED)
+    @Searchable(description = "Name")
     protected String name;
 
     @Column(name = "WIKINAME", length = 255, nullable = false)
@@ -78,6 +82,12 @@ public abstract class Node implements Serializable {
     private List<Node> children = new ArrayList<Node>();
 
     @Column(name = "CREATED_ON", nullable = false, updatable = false)
+    @org.hibernate.search.annotations.Field(
+        index = org.hibernate.search.annotations.Index.UN_TOKENIZED,
+        store = org.hibernate.search.annotations.Store.YES
+    )
+    @org.hibernate.search.annotations.DateBridge(resolution = org.hibernate.search.annotations.Resolution.DAY)
+    @Searchable(description = "Created", type = SearchableType.PASTDATE)
     private Date createdOn = new Date();
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -86,6 +96,12 @@ public abstract class Node implements Serializable {
     protected User createdBy;
 
     @Column(name = "LAST_MODIFIED_ON")
+    @org.hibernate.search.annotations.Field(
+        index = org.hibernate.search.annotations.Index.UN_TOKENIZED,
+        store = org.hibernate.search.annotations.Store.YES
+    )
+    @org.hibernate.search.annotations.DateBridge(resolution = org.hibernate.search.annotations.Resolution.DAY)
+    @Searchable(description = "Modified", type = SearchableType.PASTDATE)
     protected Date lastModifiedOn;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -100,6 +116,11 @@ public abstract class Node implements Serializable {
     protected int writeAccessLevel;
 
     @Column(name = "READ_ACCESS_LEVEL", nullable = false)
+    @org.hibernate.search.annotations.Field(
+        index = org.hibernate.search.annotations.Index.UN_TOKENIZED,
+        store = org.hibernate.search.annotations.Store.YES
+    )
+    @org.hibernate.search.annotations.FieldBridge(impl = PaddedIntegerBridge.class)
     protected int readAccessLevel;
 
     @OneToMany(mappedBy="node")

@@ -24,7 +24,7 @@ import java.lang.annotation.Retention;
  * 
  * @author Christian Bauer
  */
-@Target({ElementType.TYPE, ElementType.FIELD})
+@Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Preference {
     String description();

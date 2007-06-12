@@ -105,7 +105,7 @@ public class BlogDirectory implements Serializable {
     }
 
     private void queryAllBlogEntries() {
-        if (blogIndex == null || !blogIndex) return;
+        if (blogIndex == null || !blogIndex) return; // Don't query if the index isn't displayed
         List<Document> documents =
                 nodeDAO.findWithParent(Document.class, currentDirectory, currentDocument, "createdOn", true, 0, 0);
 

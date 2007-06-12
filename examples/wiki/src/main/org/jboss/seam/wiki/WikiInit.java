@@ -1,35 +1,24 @@
 package org.jboss.seam.wiki;
 
+import org.hibernate.jmx.StatisticsService;
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.ScopeType;
-import org.jboss.seam.core.Events;
-import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.log.Log;
-import org.hibernate.util.NamingHelper;
-import org.hibernate.jmx.StatisticsService;
 
-import javax.management.MBeanServer;
-import javax.management.MBeanServerFactory;
 import javax.management.ObjectName;
-import javax.sql.DataSource;
 import javax.naming.*;
 import java.lang.management.ManagementFactory;
 import java.lang.reflect.Proxy;
-import java.util.Map;
-import java.util.HashMap;
 import java.util.Properties;
-import java.util.ArrayList;
-
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.management.ManagementService;
 
 @Name("wikiInit")
 @Scope(ScopeType.APPLICATION)
 @Startup
 public class WikiInit {
 
-    @Logger static Log log;
+    @Logger
+    static Log log;
 
     private ObjectName hibernateMBeanName;
 
@@ -45,6 +34,7 @@ public class WikiInit {
         mBean.setSessionFactoryJNDIName("SessionFactories/laceWikiSF");
         ManagementFactory.getPlatformMBeanServer().registerMBean(mBean, hibernateMBeanName);
 
+        log.info("Started LaceWiki");
     }
 
     @Destroy

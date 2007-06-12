@@ -70,7 +70,7 @@
 
             <s:decorate id="usernameDecorate" template="includes/formFieldDecorate.xhtml">
                 <ui:define name="label">Username</ui:define>
-                <h:inputText tabindex="4" size="16" maxlength="16" required="true" value="#{userHome.instance.username}">
+                <h:inputText tabindex="4" size="16" maxlength="16" required="true" id="username" value="#{userHome.instance.username}">
                     <a:support event="onblur" action="#{userHome.validateUsername}" reRender="usernameDecorate"/>
                 </h:inputText>
             </s:decorate>

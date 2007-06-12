@@ -8,12 +8,13 @@ import org.jboss.seam.wiki.preferences.PreferenceVisibility;
 import org.jboss.seam.wiki.preferences.Preference;
 import org.jboss.seam.wiki.preferences.PreferenceSupport;
 import org.hibernate.validator.Range;
+import org.hibernate.validator.NotNull;
 
 import java.io.Serializable;
 
 @Name("feedTeasersPreferences")
 @Scope(ScopeType.CONVERSATION)
-@Preference(description = "D. Plugin: Feed Teasers", visibility = PreferenceVisibility.INSTANCE)
+@Preference(description = "Plugin: Feed Teasers", visibility = PreferenceVisibility.INSTANCE)
 public class FeedTeasersPreferences extends PreferenceSupport implements Serializable {
 
     public String getCurrentUserVariable() { return "currentUser"; }
@@ -26,16 +27,19 @@ public class FeedTeasersPreferences extends PreferenceSupport implements Seriali
     private String teaserTitle;
 
     @Preference(description = "02. Feed identifier (feedId)", visibility = PreferenceVisibility.INSTANCE)
+    @NotNull
     private Long feedIdentifier;
 
     @Preference(description = "03. Number of feed entries shown in list", visibility = PreferenceVisibility.INSTANCE)
     @Range(min = 3l, max = 25l)
+    @NotNull
     private Long numberOfTeasers;
 
     @Preference(description = "04. Truncate teaser text after characters", visibility = PreferenceVisibility.INSTANCE)
     @Range(min = 10l, max = 500l)
+    @NotNull
     private Long truncateDescription;
 
     @Preference(description = "05. Show author name", visibility = PreferenceVisibility.INSTANCE)
-    private boolean showAuthor;
+    private Boolean showAuthor;
 }

@@ -1,18 +1,22 @@
 package org.jboss.seam.wiki.core.model;
 
 import org.hibernate.validator.Length;
+import org.jboss.seam.wiki.core.search.annotations.Searchable;
 
 import javax.persistence.*;
 
 @Entity
 @DiscriminatorValue("DOCUMENT")
-@org.hibernate.search.annotations.Indexed(index = "Document")
+@org.hibernate.search.annotations.Indexed
+@Searchable(description = "Documents")
+@org.hibernate.annotations.BatchSize(size = 10)
 public class Document extends Node {
 
     @Column(name = "CONTENT")
     @Length(min = 0, max = 32768)
-    @org.hibernate.search.annotations.Field(index = org.hibernate.search.annotations.Index.TOKENIZED)
     @Basic(fetch = FetchType.LAZY) // Lazy loaded through bytecode instrumentation
+    @org.hibernate.search.annotations.Field(index = org.hibernate.search.annotations.Index.TOKENIZED)
+    @Searchable(description = "Content")
     private String content;
 
     @Column(name = "NAME_AS_TITLE")

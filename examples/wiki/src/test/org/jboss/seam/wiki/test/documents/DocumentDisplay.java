@@ -3,11 +3,18 @@ package org.jboss.seam.wiki.test.documents;
 import org.testng.annotations.Test;
 import org.jboss.seam.mock.SeamTest;
 import org.jboss.seam.wiki.core.model.Document;
+import org.jboss.seam.Component;
 
 public class DocumentDisplay extends SeamTest {
 
     @Test
     public void resolveNodeId() throws Exception {
+
+        new FacesRequest() {
+            protected void invokeApplication() throws Exception {
+                Component.getInstance("entityManager");
+            }
+        }.run();
 
         new NonFacesRequest("/docDisplay.xhtml") {
 

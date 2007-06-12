@@ -29,6 +29,8 @@ public class PreferenceRegistry {
 
     @Create
     public void scanPreferenceComponents() {
+        log.debug("initializing preference registry");
+
         // Register the meta model by scanning components with @Preference annotation
         String[] boundNames = Contexts.getApplicationContext().getNames();
 

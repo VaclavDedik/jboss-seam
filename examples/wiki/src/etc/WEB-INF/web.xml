@@ -58,9 +58,14 @@
    <!-- Facelets development mode (disable in production) -->
 
    <context-param>
-      <param-name>facelets.DEVELOPMENT</param-name>
-      <param-value>false</param-value>
+       <param-name>facelets.DEVELOPMENT</param-name>
+       <param-value>false</param-value>
    </context-param>
+
+    <context-param>
+        <param-name>facelets.SKIP_COMMENTS</param-name>
+        <param-value>true</param-value>
+    </context-param>
 
     <!-- JSF -->
 

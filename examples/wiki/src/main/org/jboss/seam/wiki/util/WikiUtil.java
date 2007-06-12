@@ -119,6 +119,28 @@ public class WikiUtil {
         }
     }
 
+    public static String escapeHtml(String string) {
+        if (string == null) return null;
+        StringBuffer sb = new StringBuffer();
+        String htmlEntity;
+        char c;
+        for (int i = 0; i < string.length(); ++i) {
+            htmlEntity = null;
+            c = string.charAt(i);
+            switch (c) {
+                case '<': htmlEntity = "&lt;"; break;
+                case '>': htmlEntity = "&gt;"; break;
+                case '&': htmlEntity = "&amp;"; break;
+                case '"': htmlEntity = "&quot;"; break;
+            }
+            if (htmlEntity != null) {
+                sb.append(htmlEntity);
+            } else {
+                sb.append(c);
+            }
+        }
+        return sb.toString();
+    }
 
     public static Throwable unwrap(Throwable throwable) throws IllegalArgumentException {
         if (throwable == null) {

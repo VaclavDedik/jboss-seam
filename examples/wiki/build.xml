@@ -245,7 +245,12 @@
         </copy>
         <copy tofile="${exploded.war.dir}/WEB-INF/classes/META-INF/persistence.xml"
                 file="${src.etc.dir}/META-INF/persistence-${profile}-war.xml"
-                overwrite="true"/>
+                overwrite="true">
+        </copy>
+        <!--
+        <replace file="${exploded.war.dir}/WEB-INF/classes/META-INF/persistence.xml"
+                 token="@LuceneIndexDir@" value="${lucene.indexDir}"/>
+         -->
 
     </target>
 
