@@ -73,9 +73,9 @@ public class DocumentStore implements Serializable
     public String preferredUrlForContent(String baseName, DocType docType, String contentId) 
     {
        FacesContext context = FacesContext.getCurrentInstance();
-       String url = context.getApplication().getViewHandler().getActionURL(context, "/seam-doc." + getDefaultSuffix(context));
+       String url = context.getApplication().getViewHandler().getActionURL(context, "/seam-doc" + getDefaultSuffix(context));
        String baseUrl = context.getExternalContext().encodeActionURL(url);
-        
+      
        if (useExtensions) 
        {
            baseUrl = baseName + "." + docType.getExtension();
