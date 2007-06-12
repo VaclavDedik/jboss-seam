@@ -1,7 +1,7 @@
 Seam Example Applications
 =========================
 This directory contains the Seam example applications, which have 
-all been tested in JBoss 4.0.5. Most examples have also been
+all been tested in JBoss 4.2 GA. Most examples have also been
 tested on Tomcat, and some have been tested with other application
 servers.
 
@@ -75,3 +75,6 @@ hibernate2/            A revised version of the hibernate example (runs
 
 jpa/                   An example of the use of Hibernate JPA (runs on 
                        J2EE)
+
+wiki/                 A fully featured wiki system based on Seam, please
+                      read wiki/README.txt for installation instructions
