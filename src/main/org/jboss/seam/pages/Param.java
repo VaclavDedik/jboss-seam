@@ -12,6 +12,7 @@ import javax.faces.convert.Converter;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
+import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Expressions.ValueExpression;
 
 public final class Param
@@ -194,6 +195,8 @@ public final class Param
       {
          validator.validate( facesContext, facesContext.getViewRoot(), value );
       }
+      
+      Expressions.instance().validate( valueExpression.getExpressionString(), value );
       
       return value;
    }

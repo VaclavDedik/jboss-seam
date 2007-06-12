@@ -9,7 +9,9 @@ import java.io.Serializable;
 
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 
 import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
@@ -187,7 +189,7 @@ public class Expressions implements Serializable
     * 
     * @return the validation failures, as InvalidValues
     */
-   public InvalidValue[] validate(String propertyExpression, Object value)
+   public InvalidValue[] getInvalidValues(String propertyExpression, Object value)
    {
       if (propertyExpression == null)
       {
@@ -229,6 +231,32 @@ public class Expressions implements Serializable
       return getValidator(modelInstance, componentName).getPotentialInvalidValues(propertyName, value);
    }
    
+   /**
+    * Validate that a value can be assigned to the property
+    * identified by a value expression.
+    * 
+    * @param propertyExpression a value expression
+    * @param value the value that is to be assigned
+    * 
+    * @throws ValidatorException is validation fails
+    */
+   public void validate(String propertyExpression, Object value)
+   {
+      InvalidValue[] ivs;
+      try
+      {
+         ivs = getInvalidValues(propertyExpression, value );
+      }
+      catch (Exception e)
+      {
+         throw new ValidatorException( new FacesMessage(FacesMessage.SEVERITY_ERROR, "model validation failed:" + e.getMessage(), null), e );
+      }
+      if ( ivs.length>0 )
+      {
+         throw new ValidatorException( FacesMessages.createFacesMessage( FacesMessage.SEVERITY_ERROR, ivs[0].getMessage() ) );
+      }
+   }
+
    /**
     * Gets the validator from the Component object (if this is a Seam
     * component, we need to use the validator for the bean class, not

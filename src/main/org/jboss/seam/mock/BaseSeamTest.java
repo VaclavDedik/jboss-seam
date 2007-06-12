@@ -427,7 +427,7 @@ public class BaseSeamTest
        */
       protected boolean validateValue(String valueExpression, Object value)
       {
-         InvalidValue[] ivs = Expressions.instance().validate(valueExpression, value);
+         InvalidValue[] ivs = Expressions.instance().getInvalidValues(valueExpression, value);
          if (ivs.length > 0)
          {
             validationFailed = true;

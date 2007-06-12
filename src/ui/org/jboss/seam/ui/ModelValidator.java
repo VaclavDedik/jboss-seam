@@ -1,15 +1,12 @@
 package org.jboss.seam.ui;
 
 import javax.el.ValueExpression;
-import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
-import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.core.Expressions;
-import org.jboss.seam.core.FacesMessages;
 
 public class ModelValidator implements Validator
 {
@@ -17,24 +14,12 @@ public class ModelValidator implements Validator
    public void validate(FacesContext context, UIComponent component, Object value)
          throws ValidatorException
    {
-      ValueExpression valueBinding = component.getValueExpression("value");
-      if (valueBinding==null)
+      ValueExpression valueExpression = component.getValueExpression("value");
+      if (valueExpression==null)
       {
          throw new RuntimeException("component has no value attribute: " + component.getId());
       }
-      InvalidValue[] ivs;
-      try
-      {
-         ivs = Expressions.instance().validate( valueBinding.getExpressionString(), value );
-      }
-      catch (Exception e)
-      {
-         throw new ValidatorException( new FacesMessage(FacesMessage.SEVERITY_ERROR, "model validation failed:" + e.getMessage(), null), e );
-      }
-      if ( ivs.length>0 )
-      {
-         throw new ValidatorException( FacesMessages.createFacesMessage( FacesMessage.SEVERITY_WARN, ivs[0].getMessage() ) );
-      }
+      Expressions.instance().validate( valueExpression.getExpressionString(), value );
    }
 
 }
