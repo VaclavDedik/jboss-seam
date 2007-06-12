@@ -108,6 +108,9 @@
         <xs:attribute name="value"/>
         <xs:attribute name="converter"/>
         <xs:attribute name="converterId"/>
+        <xs:attribute name="validator"/>
+        <xs:attribute name="validatorId"/>
+        <xs:attribute name="required" type="xs:boolean"/>
     </xs:attributeGroup>
     <xs:element name="action">
         <xs:complexType>

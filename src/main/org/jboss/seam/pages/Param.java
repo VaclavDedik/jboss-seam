@@ -4,9 +4,13 @@
 package org.jboss.seam.pages;
 
 import java.util.Map;
+import java.util.ResourceBundle;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.faces.validator.Validator;
+import javax.faces.validator.ValidatorException;
 
 import org.jboss.seam.core.Expressions.ValueExpression;
 
@@ -14,8 +18,14 @@ public final class Param
 {
    private final String name;
    private ValueExpression valueExpression;
+   
+   private boolean required;
+   
    private ValueExpression converterValueExpression;
    private String converterId;
+   
+   private ValueExpression validatorValueExpression;
+   private String validatorId;
    
    public Param(String name)
    {
@@ -40,6 +50,22 @@ public final class Param
       {
          Class<?> type = valueExpression.getType();
          return FacesContext.getCurrentInstance().getApplication().createConverter(type);           
+      }
+   }
+
+   public Validator getValidator()
+   {
+      if (validatorId!=null)
+      {
+         return FacesContext.getCurrentInstance().getApplication().createValidator(converterId);
+      }
+      else if (validatorValueExpression!=null)
+      {
+         return (Validator) validatorValueExpression.getValue();
+      }
+      else
+      {
+         return null;
       }
    }
 
@@ -118,10 +144,22 @@ public final class Param
     * Get the current value of a page parameter from the request parameters
     */
    public Object getValueFromRequest(FacesContext facesContext, Map<String, String[]> requestParameters)
+            throws ValidatorException
    {
       String[] parameterValues = requestParameters.get( getName() );
       if (parameterValues==null || parameterValues.length==0)
       {
+         if ( isRequired() )
+         {
+            String bundleName = facesContext.getApplication().getMessageBundle();
+            if (bundleName==null) bundleName = FacesMessage.FACES_MESSAGES;
+            ResourceBundle resourceBundle = facesContext.getApplication().getResourceBundle(facesContext, bundleName);
+            throw new ValidatorException( new FacesMessage(
+                     FacesMessage.SEVERITY_ERROR, 
+                     resourceBundle.getString("javax.faces.component.UIInput.REQUIRED"), 
+                     resourceBundle.getString("javax.faces.component.UIInput.REQUIRED_detail")
+                  ) );
+         }
          return null;
       }
       if (parameterValues.length>1)
@@ -141,9 +179,47 @@ public final class Param
          return null;
       }
       
-      return converter==null ? 
+      Object value = converter==null ? 
             stringValue :
             converter.getAsObject( facesContext, facesContext.getViewRoot(), stringValue );
+      
+      Validator validator = getValidator();
+      if (validator!=null)
+      {
+         validator.validate( facesContext, facesContext.getViewRoot(), value );
+      }
+      
+      return value;
    }
 
+   public String getValidatorId()
+   {
+      return validatorId;
+   }
+
+   public void setValidatorId(String validatorId)
+   {
+      this.validatorId = validatorId;
+   }
+
+   public ValueExpression getValidatorValueExpression()
+   {
+      return validatorValueExpression;
+   }
+
+   public void setValidatorValueExpression(ValueExpression validatorValueExpression)
+   {
+      this.validatorValueExpression = validatorValueExpression;
+   }
+
+   public boolean isRequired()
+   {
+      return required;
+   }
+
+   public void setRequired(boolean required)
+   {
+      this.required = required;
+   }
+   
 }

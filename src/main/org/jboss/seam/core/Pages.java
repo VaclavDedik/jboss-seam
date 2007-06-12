@@ -22,7 +22,9 @@ import javax.faces.application.ViewHandler;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
+import javax.faces.convert.ConverterException;
 import javax.faces.model.DataModel;
+import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.dom4j.DocumentException;
@@ -355,7 +357,8 @@ public class Pages
       //that if a login redirect occurs, or if a failure
       //occurs while applying to the model, we can still make
       //Redirect.captureCurrentView() work.
-      storeRequestParameterValuesInViewRoot(facesContext);
+      boolean validationFailed = storeRequestParameterValuesInViewRoot(facesContext);
+      if (validationFailed) Validation.instance().fail();
       
       String viewId = getViewId(facesContext);      
       for ( Page page: getPageStack(viewId) )
@@ -717,30 +720,45 @@ public class Pages
       }
    }
    
-   private void storeRequestParameterValuesInViewRoot(FacesContext facesContext)
+   private boolean storeRequestParameterValuesInViewRoot(FacesContext facesContext)
    {
       String viewId = getViewId(facesContext);
       Map<String, String[]> requestParameters = Parameters.getRequestParameters();
+      boolean validationFailed = false;
       for ( Page page: getPageStack(viewId) )
       {
          for ( Param pageParameter: page.getParameters() )
          {  
-            Object value = pageParameter.getValueFromRequest(facesContext, requestParameters);
-            if (value==null)
+            try
             {
-               if ( facesContext.getRenderResponse() ) //ie. for a non-faces request
+               Object value = pageParameter.getValueFromRequest(facesContext, requestParameters);
+               if (value==null)
                {
-                  //this should not be necessary, were it not for a MyFaces bug
-                  Contexts.getPageContext().remove( pageParameter.getName() );
+                  if ( facesContext.getRenderResponse() ) //ie. for a non-faces request
+                  {
+                     //this should not be necessary, were it not for a MyFaces bug
+                     Contexts.getPageContext().remove( pageParameter.getName() );
+                  }
+                  //TODO: add some support for required=true
                }
-               //TODO: add some support for required=true
+               else
+               {
+                  Contexts.getPageContext().set( pageParameter.getName(), value );
+               }
             }
-            else
+            catch (ValidatorException ve)
             {
-               Contexts.getPageContext().set( pageParameter.getName(), value );
+               facesContext.addMessage( null, ve.getFacesMessage() );
+               validationFailed = true;
+            }
+            catch (ConverterException ce)
+            {
+               facesContext.addMessage( null, ce.getFacesMessage() );
+               validationFailed = true;
             }
          }
       }
+      return validationFailed;
    }
    
    /**
@@ -1290,6 +1308,13 @@ public class Pages
       {
          param.setConverterValueExpression(Expressions.instance().createValueExpression(converterExpression));
       }
+      param.setValidatorId(element.attributeValue("validatorId"));
+      String validatorExpression = element.attributeValue("validator");
+      if (converterExpression!=null)
+      {
+         param.setValidatorValueExpression(Expressions.instance().createValueExpression(validatorExpression));
+      }
+      param.setRequired( "true".equals( element.attributeValue("required") ) );
       return param;
    }
    

@@ -35,6 +35,9 @@
 <!ATTLIST param value CDATA #IMPLIED>
 <!ATTLIST param converter CDATA #IMPLIED>
 <!ATTLIST param converterId CDATA #IMPLIED>
+<!ATTLIST param validator CDATA #IMPLIED>
+<!ATTLIST param validatorId CDATA #IMPLIED>
+<!ATTLIST param required (true|false) "false">
 
 <!ELEMENT action EMPTY>
 <!ATTLIST action if CDATA #IMPLIED>
