@@ -98,6 +98,8 @@ Release Notes - JBoss Seam - Version 1.3.0.ALPHA
     * [JBSEAM-1433] - Caused by: java.lang.IllegalArgumentException: component class is an interface: org.jboss.seam.core.Dispatcher
     * [JBSEAM-1436] - javax.interceptor.Interceptors dependency in ThreadPoolDispatcher
     * [JBSEAM-1439] - Seam update broke permission system
+    * [JBSEAM-1441] - page parameter usage in seam-gen can cause null pointer exception
+    * [JBSEAM-1442] - seam-gen fails when when setup hasn't been previously run
 
 ** Feature Request
     * [JBSEAM-197] - Order task list by priority
