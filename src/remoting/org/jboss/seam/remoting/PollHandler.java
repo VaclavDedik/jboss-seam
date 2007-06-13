@@ -5,7 +5,6 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.event.PhaseId;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.ObjectMessage;
@@ -17,8 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.core.ServletContexts;
+import org.jboss.seam.contexts.ContextualHttpServletRequest;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.remoting.messaging.PollError;
@@ -60,7 +58,7 @@ public class PollHandler extends BaseRequestHandler implements RequestHandler
     this.servletContext = ctx;
   }
 
-  public void handle(HttpServletRequest request, HttpServletResponse response)
+  public void handle(HttpServletRequest request, final HttpServletResponse response)
       throws Exception
   {
     // We're sending an XML response, so set the response content type to text/xml
@@ -71,27 +69,22 @@ public class PollHandler extends BaseRequestHandler implements RequestHandler
     Document doc = xmlReader.read(request.getInputStream());
     Element env = doc.getRootElement();
 
-    List<PollRequest> polls = unmarshalRequests(env);
+    final List<PollRequest> polls = unmarshalRequests(env);
 
-    try
+    new ContextualHttpServletRequest(request, servletContext)
     {
-      Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
-      Lifecycle.beginRequest(servletContext, request);
-      ServletContexts.instance().setRequest(request);
-
-      for (PollRequest req : polls)
-      {
-        req.poll();
-      }
+       @Override
+       public void process() throws Exception
+       {        
+          for (PollRequest req : polls)
+          {
+             req.poll();
+          }
       
-      // Package up the response
-      marshalResponse(polls, response.getOutputStream());      
-    }
-    finally
-    {
-      Lifecycle.endRequest();
-      Lifecycle.setPhaseId(null);
-    }
+          // Package up the response
+          marshalResponse(polls, response.getOutputStream());      
+       }
+    }.run();
   }
 
 
