@@ -2,7 +2,7 @@
 
 <project name="seam-gen" default="help" basedir=".">
 
-	<!-- taskdefs -->
+    <!-- taskdefs -->
 	
     <taskdef name="packageDirectory" 
         classname="org.jboss.seam.tool.PackageDirectoryTask" 
@@ -24,47 +24,47 @@
         classname="org.jboss.seam.tool.PrintTask"
         classpath="../jboss-seam-gen.jar"/>
 	
-	<taskdef name="pathFixer" 
-		        classname="org.jboss.seam.tool.FixPathTask" 
-		        classpath="../jboss-seam-gen.jar"/>
+    <taskdef name="pathFixer" 
+             classname="org.jboss.seam.tool.FixPathTask" 
+             classpath="../jboss-seam-gen.jar"/>
     
-	<!-- properties -->
+
     
-    <!-- Give user a chance to override without editing this file or typing -D -->
-    <property file="${basedir}/build.properties" />
+    <target name="init-properties">
+        <!-- Give user a chance to override without editing this file or typing -D -->
+        <property file="${basedir}/build.properties" />
     
-    <packageDirectory property="action.dir" package="action/${action.package}"/>
-    <packageDirectory property="model.dir" package="model/${model.package}"/>
-    <packageDirectory property="test.dir" package="test/${test.package}"/>
-	<pathFilename property="driver.file" path="${driver.jar}"/>
-	
-    <condition property="hibernate.hbm2ddl.auto" value="update">
-        <and>
-            <equals arg1="${database.exists}" arg2="n"/>
-            <equals arg1="${database.drop}" arg2="n"/>
-        </and>
-    </condition>
-    <condition property="hibernate.hbm2ddl.auto" value="validate">
-        <and>
-            <equals arg1="${database.exists}" arg2="y"/>
-            <equals arg1="${database.drop}" arg2="n"/>
-        </and>
-    </condition>
-    <condition property="hibernate.hbm2ddl.auto" value="create-drop">
-        <equals arg1="${database.drop}" arg2="y"/>
-    </condition>
-    <condition property="project.war" value="true">
-        <equals arg1="${project.type}" arg2="war"/>
-    </condition>
-    
-    <property name="project.home" value="${workspace.home}/${project.name}"/>
-    
+        <packageDirectory property="action.dir" package="action/${action.package}"/>
+        <packageDirectory property="model.dir" package="model/${model.package}"/>
+        <packageDirectory property="test.dir" package="test/${test.package}"/>
+        <pathFilename property="driver.file" path="${driver.jar}"/>
+        
+        <condition property="hibernate.hbm2ddl.auto" value="update">
+            <and>
+                <equals arg1="${database.exists}" arg2="n"/>
+                <equals arg1="${database.drop}" arg2="n"/>
+            </and>
+        </condition>
+        <condition property="hibernate.hbm2ddl.auto" value="validate">
+            <and>
+                <equals arg1="${database.exists}" arg2="y"/>
+                <equals arg1="${database.drop}" arg2="n"/>
+            </and>
+        </condition>
+        <condition property="hibernate.hbm2ddl.auto" value="create-drop">
+            <equals arg1="${database.drop}" arg2="y"/>
+        </condition>
+        <condition property="project.war" value="true">
+            <equals arg1="${project.type}" arg2="war"/>
+        </condition>
+        <property name="project.home" value="${workspace.home}/${project.name}"/>
+        
 	<!-- filtersets and filesets -->
-	
-	<condition property="schema.property" value="&#xa;         &lt;property name=&quot;hibernate.default_schema&quot; value=&quot;${hibernate.default_schema}&quot;/&gt;">
-	    <isset property="hibernate.default_schema"/>
-	</condition>
-	<condition property="schema.property" value="">
+        
+        <condition property="schema.property" value="&#xa;         &lt;property name=&quot;hibernate.default_schema&quot; value=&quot;${hibernate.default_schema}&quot;/&gt;">
+            <isset property="hibernate.default_schema"/>
+        </condition>
+        <condition property="schema.property" value="">
 	    <not><isset property="hibernate.default_schema"/></not>
 	</condition>
 	
@@ -75,21 +75,24 @@
 	    <not><isset property="hibernate.default_catalog"/></not>
 	</condition>
 
-    <filterset id="jdbc">
-        <filter token="jdbcUrl" value="${hibernate.connection.url}"/>
-        <filter token="driverClass" value="${hibernate.connection.driver_class}"/>
-        <filter token="username" value="${hibernate.connection.username}"/>
-        <filter token="password" value="${hibernate.connection.password}"/>
-    	<filter token="catalogProperty" value="${catalog.property}"/>
-    	<filter token="schemaProperty" value="${schema.property}"/>
-    </filterset>
-
-    <filterset id="project">
-        <filter token="projectName" value="${project.name}" />
-        <filter token="jbossHome" value="${jboss.home}" />
-    	<filter token="hbm2ddl" value="${hibernate.hbm2ddl.auto}"/>
-    	<filter token="driverJar" value="${driver.file}"/>
-    </filterset>
+        <filterset id="jdbc">
+            <filter token="jdbcUrl" value="${hibernate.connection.url}"/>
+            <filter token="driverClass" value="${hibernate.connection.driver_class}"/>
+            <filter token="username" value="${hibernate.connection.username}"/>
+            <filter token="password" value="${hibernate.connection.password}"/>
+            <filter token="catalogProperty" value="${catalog.property}"/>
+            <filter token="schemaProperty" value="${schema.property}"/>
+        </filterset>
+        
+        <filterset id="project">
+            <filter token="projectName" value="${project.name}" />
+            <filter token="jbossHome" value="${jboss.home}" />
+            <filter token="hbm2ddl" value="${hibernate.hbm2ddl.auto}"/>
+            <filter token="driverJar" value="${driver.file}"/>
+        </filterset>
+        
+    </target>
+        
     
     <fileset id="view" dir="${basedir}/view">
         <include name="home.xhtml"/>
@@ -104,10 +107,10 @@
     </fileset>
 	
     <fileset id="seam" dir="../">
-       <include name="jboss-seam*.jar"/>
-       <exclude name="jboss-seam-gen.jar"/>
-   </fileset>
-	
+        <include name="jboss-seam*.jar"/>
+        <exclude name="jboss-seam-gen.jar"/>
+    </fileset>
+    
 	<!-- targets -->
 
     <target name="setup-filters">
@@ -132,64 +135,66 @@
     
     <target name="setup"
     	description="Prompt for settings">
+        <property file="${basedir}/build.properties" prefix="old" />
+
         <echo message="Welcome to seam-gen :-)"/>
-        <property name="workspace.home" value="C:/Projects"/>
+        <property name="old.workspace.home" value="C:/Projects"/>
         <input addproperty="workspace.home.new" 
-                   message="Enter your Java project workspace (the directory that contains your Seam projects) [${workspace.home}]" 
-              defaultvalue="${workspace.home}"/>
+                   message="Enter your Java project workspace (the directory that contains your Seam projects) [${old.workspace.home}]" 
+              defaultvalue="${old.workspace.home}"/>
     	<pathFixer property="workspace.home.new" />
         
-        <property name="jboss.home" value="C:/Program Files/jboss-4.0.5.GA"/>
+        <property name="old.jboss.home" value="C:/Program Files/jboss-4.2.0.GA"/>
         <input addproperty="jboss.home.new" 
-                   message="Enter your JBoss home directory [${jboss.home}]" 
-              defaultvalue="${jboss.home}"/>
+                   message="Enter your JBoss home directory [${old.jboss.home}]" 
+              defaultvalue="${old.jboss.home}"/>
     	<pathFixer property="jboss.home.new" />
         
-        <property name="project.name" value="myproject"/>
+        <property name="old.project.name" value="myproject"/>
         <input addproperty="project.name.new" 
-                   message="Enter the project name [${project.name}]" 
-              defaultvalue="${project.name}"/>
+                   message="Enter the project name [${old.project.name}]" 
+              defaultvalue="${old.project.name}"/>
         
-        <property name="project.type" value="ear"/>
+        <property name="old.project.type" value="ear"/>
         <input addproperty="project.type.new" 
-                   message="Is this project deployed as an EAR (with EJB components) or a WAR (with no EJB support) [${project.type}] " 
+                   message="Is this project deployed as an EAR (with EJB components) or a WAR (with no EJB support) [${old.project.type}] " 
         	     validargs="ear,war,"
-              defaultvalue="${project.type}"/>
+              defaultvalue="${old.project.type}"/>
         
-        <property name="action.package" value="com.mydomain.${project.name.new}"/>
+        <property name="old.action.package" value="com.mydomain.${project.name.new}"/>
         <input addproperty="action.package.new" 
-                   message="Enter the Java package name for your session beans [${action.package}]" 
-              defaultvalue="${action.package}"/>
+                   message="Enter the Java package name for your session beans [${old.action.package}]" 
+              defaultvalue="${old.action.package}"/>
         
-        <property name="model.package" value="${action.package.new}"/>
+        <property name="old.model.package" value="${action.package.new}"/>
         <input addproperty="model.package.new" 
-                   message="Enter the Java package name for your entity beans [${model.package}]" 
-              defaultvalue="${model.package}"/>
+                   message="Enter the Java package name for your entity beans [${old.model.package}]" 
+              defaultvalue="${old.model.package}"/>
         
-        <property name="test.package" value="${action.package.new}.test"/>
+        <property name="old.test.package" value="${action.package.new}.test"/>
         <input addproperty="test.package.new" 
-                   message="Enter the Java package name for your test cases [${test.package}]" 
-              defaultvalue="${test.package}"/>
+                   message="Enter the Java package name for your test cases [${old.test.package}]" 
+              defaultvalue="${old.test.package}"/>
     	
-    	<condition property="database.type.default" value="${database.type}">
-    		<isset property="database.type"/>
+    	<condition property="database.type.default" value="${old.database.type}">
+    		<isset property="old.database.type"/>
     	</condition>
     	<property name="database.type.default" value="hsql"/>
         <input addproperty="database.type.new" 
-                   message="What kind of database are you using? [${database.type.default}] " 
+                   message="What kind of database are you using? [${database.type.default}] "
         	     validargs="hsql,mysql,oracle,postgres,mssql,db2,sybase,enterprisedb,"
               defaultvalue="${database.type.default}"/>
     	
     	<!-- if the database type did not change, default to the previous values -->
     	
-    	<condition property="hibernate.dialect.default" value="${hibernate.dialect}">
-    		<equals arg1="${database.type}" arg2="${database.type.new}"/>
+    	<condition property="hibernate.dialect.default" value="${old.hibernate.dialect}">
+    		<equals arg1="${old.database.type}" arg2="${database.type.new}"/>
     	</condition>
-    	<condition property="hibernate.connection.url.default" value="${hibernate.connection.url}">
-    		<equals arg1="${database.type}" arg2="${database.type.new}"/>
+    	<condition property="hibernate.connection.url.default" value="${old.hibernate.connection.url}">
+    		<equals arg1="${old.database.type}" arg2="${database.type.new}"/>
     	</condition>
-    	<condition property="hibernate.connection.driver_class.default" value="${hibernate.connection.driver_class}">
-    		<equals arg1="${database.type}" arg2="${database.type.new}"/>
+    	<condition property="hibernate.connection.driver_class.default" value="${old.hibernate.connection.driver_class}">
+    		<equals arg1="${old.database.type}" arg2="${database.type.new}"/>
     	</condition>
     	
     	<!-- otherwise default to the defaults for the database type -->
@@ -279,10 +284,10 @@
                    message="Enter the Hibernate dialect for your database [${hibernate.dialect.default}]" 
               defaultvalue="${hibernate.dialect.default}"/>
         
-        <property name="driver.jar" value="lib/hsqldb.jar"/>
+        <property name="old.driver.jar" value="lib/hsqldb.jar"/>
         <input addproperty="driver.jar.new"
-                   message="Enter the filesystem path to the JDBC driver jar [${driver.jar}]" 
-              defaultvalue="${driver.jar}"/>
+                   message="Enter the filesystem path to the JDBC driver jar [${old.driver.jar}]" 
+              defaultvalue="${old.driver.jar}"/>
                 
         <input addproperty="hibernate.connection.driver_class.new" 
                    message="Enter JDBC driver class for your database [${hibernate.connection.driver_class.default}]" 
@@ -292,40 +297,40 @@
                    message="Enter the JDBC URL for your database [${hibernate.connection.url.default}]" 
               defaultvalue="${hibernate.connection.url.default}"/>
         
-        <property name="hibernate.connection.username" value="sa"/>
+        <property name="old.hibernate.connection.username" value="sa"/>
         <input addproperty="hibernate.connection.username.new" 
-                   message="Enter database username [${hibernate.connection.username}]" 
-              defaultvalue="${hibernate.connection.username}"/>
+                   message="Enter database username [${old.hibernate.connection.username}]" 
+              defaultvalue="${old.hibernate.connection.username}"/>
                 
-        <property name="hibernate.connection.password" value=""/>
+        <property name="old.hibernate.connection.password" value=""/>
         <input addproperty="hibernate.connection.password.new" 
-                   message="Enter database password [${hibernate.connection.password}]" 
-              defaultvalue="${hibernate.connection.password}"/>
+                   message="Enter database password [${old.hibernate.connection.password}]" 
+              defaultvalue="${old.hibernate.connection.password}"/>
                 
-        <property name="hibernate.default_schema" value=""/>
+        <property name="old.hibernate.default_schema" value=""/>
     	<condition property="hibernate.default_schema.new" value="">
             <equals arg1="${database.type.new}" arg2="mysql"/>
     	</condition>
         <input addproperty="hibernate.default_schema.new" 
-                   message="Enter the database schema name (it is OK to leave this blank) [${hibernate.default_schema}]" 
-              defaultvalue="${hibernate.default_schema}"/>
+                   message="Enter the database schema name (it is OK to leave this blank) [${old.hibernate.default_schema}]" 
+              defaultvalue="${old.hibernate.default_schema}"/>
                 
-        <property name="hibernate.default_catalog" value=""/>
+        <property name="old.hibernate.default_catalog" value=""/>
         <input addproperty="hibernate.default_catalog.new" 
-                   message="Enter the database catalog name (it is OK to leave this blank) [${hibernate.default_catalog}]" 
-              defaultvalue="${hibernate.default_catalog}"/>
+                   message="Enter the database catalog name (it is OK to leave this blank) [${old.hibernate.default_catalog}]" 
+              defaultvalue="${old.hibernate.default_catalog}"/>
                 
-        <property name="database.exists" value="n"/>
+        <property name="old.database.exists" value="n"/>
         <input addproperty="database.exists.new" 
-                   message="Are you working with tables that already exist in the database? [${database.exists}] "
+                   message="Are you working with tables that already exist in the database? [${old.database.exists}] "
         	     validargs="y,n,"
-              defaultvalue="${database.exists}"/>
+              defaultvalue="${old.database.exists}"/>
 
-        <property name="database.drop" value="n"/>
+        <property name="old.database.drop" value="n"/>
         <input addproperty="database.drop.new" 
-                   message="Do you want to drop and recreate the database tables and data in import.sql each time you deploy? [${database.drop}] "
+                   message="Do you want to drop and recreate the database tables and data in import.sql each time you deploy? [${old.database.drop}] "
         	     validargs="y,n,"
-              defaultvalue="${database.drop}"/>
+              defaultvalue="${old.database.drop}"/>
     	
     	<condition property="hibernate.default_schema.key" value="hibernate.default_schema">
     	    <not><equals arg1="${hibernate.default_schema.new}" arg2=""/></not>
@@ -344,15 +349,15 @@
         <propertyfile file="build.properties">
             <entry key="workspace.home" value="${workspace.home.new}"/>
             <entry key="project.name" value="${project.name.new}"/>
-        	<entry key="project.type" value="${project.type.new}"/>
+            <entry key="project.type" value="${project.type.new}"/>
             <entry key="jboss.home" value="${jboss.home.new}"/>
             <entry key="action.package" value="${action.package.new}"/>
             <entry key="model.package" value="${model.package.new}"/>
             <entry key="test.package" value="${test.package.new}"/>
             <entry key="database.type" value="${database.type.new}"/>
-        	<entry key="database.exists" value="${database.exists.new}"/>
-        	<entry key="database.drop" value="${database.drop.new}"/>
-        	<entry key="driver.jar" value="${driver.jar.new}"/>
+            <entry key="database.exists" value="${database.exists.new}"/>
+            <entry key="database.drop" value="${database.drop.new}"/>
+            <entry key="driver.jar" value="${driver.jar.new}"/>
             <entry key="hibernate.dialect" value="${hibernate.dialect.new}"/>
             <entry key="hibernate.connection.driver_class" value="${hibernate.connection.driver_class.new}"/>
             <entry key="hibernate.connection.url" value="${hibernate.connection.url.new}"/>
@@ -361,13 +366,13 @@
             <entry key="hibernate.connection.password" value="${hibernate.connection.password.new}"/>
             <entry key="${hibernate.default_schema.key}" value="${hibernate.default_schema.new}"/>
             <entry key="${hibernate.default_catalog.key}" value="${hibernate.default_catalog.new}"/>
-        	<entry key="hibernate.cache.provider_class" value="org.hibernate.cache.HashtableCacheProvider"/> <!-- yuck! -->
+            <entry key="hibernate.cache.provider_class" value="org.hibernate.cache.HashtableCacheProvider"/> <!-- yuck! -->
         </propertyfile>
-    	
-    	<echo message="Installing JDBC driver jar to JBoss server"/>
-    	<copy file="${driver.jar.new}" todir="${jboss.home.new}/server/default/lib"/>
         
-    	<echo message="Type 'seam new-project' to create the new project"/>
+    	<echo message="Installing JDBC driver jar to JBoss server"/>
+        <copy file="${driver.jar.new}" todir="${jboss.home.new}/server/default/lib"/>
+        
+        <echo message="Type 'seam new-project' to create the new project"/>
     </target>
     
     <target name="action-input">
@@ -628,7 +633,7 @@
 
     </target>
     
-    <target name="validate-project" depends="validate-workspace">
+    <target name="validate-project" depends="init-properties, validate-workspace">
         <fail message="No project name specified (run 'seam new-project' first)">
             <condition>
                 <or>
@@ -813,6 +818,8 @@
 	        </classpath>
 	    </taskdef>
 		
+<echo>project=${project.home}</echo>
+<echo>model=${model.package}</echo>
 		<hibernate templatepath=".">
             <jdbcconfiguration propertyfile="build.properties" 
                                 packagename="${model.package}"
@@ -922,24 +929,24 @@
         <ant antfile="${project.home}/build.xml" target="clean" inheritall="false"/>
     </target>
 
-	<target name="reset"
-        description="Delete the settings">
-		<delete file="build.properties"/>
-	</target>
-	
-	<target name="settings"
-        description="Print the settings">
-		<echo message="Java project workspace: ${workspace.home}"/>
-		<echo message="JBoss home: ${jboss.home}"/>
-		<echo message="Project name: ${project.name}"/>
-		<echo message="Project type: ${project.type}"/>
-		<echo message="Hibernate dialect: ${hibernate.dialect}"/>
-		<echo message="JDBC URL: ${hibernate.connection.url}"/>
-		<echo message="JDBC driver class: ${hibernate.connection.driver_class}"/>
-		<echo message="Database username: ${hibernate.connection.username}"/>
-		<echo message="Database password: ${hibernate.connection.password}"/>
-	</target>
-
+    <target name="reset"
+            description="Delete the settings">
+        <delete file="build.properties"/>
+    </target>
+    
+    <target name="settings" depends="init-properties"
+            description="Print the settings">
+        <echo message="Java project workspace: ${workspace.home}"/>
+        <echo message="JBoss home: ${jboss.home}"/>
+        <echo message="Project name: ${project.name}"/>
+        <echo message="Project type: ${project.type}"/>
+        <echo message="Hibernate dialect: ${hibernate.dialect}"/>
+        <echo message="JDBC URL: ${hibernate.connection.url}"/>
+        <echo message="JDBC driver class: ${hibernate.connection.driver_class}"/>
+        <echo message="Database username: ${hibernate.connection.username}"/>
+        <echo message="Database password: ${hibernate.connection.password}"/>
+    </target>
+    
     <target name="help">
         <print file="README"/>
     </target>
