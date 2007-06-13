@@ -15,7 +15,6 @@
         <!-- 120 second conversation timeout -->
         <property name="conversationTimeout">120000</property>
         <property name="conversationIdParameter">cid</property>
-        <property name="conversationIsLongRunningParameter">clr</property>
     </component>
     
     <component name="org.jboss.seam.core.pages">
