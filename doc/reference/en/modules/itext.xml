@@ -319,7 +319,7 @@
 
                                 <itemizedlist>
                                     <listitem>
-                                        <para><literal>familyName</literal> &mdash; The font family. One of:
+                                        <para><literal>family</literal> &mdash; The font family. One of:
                                                 <literal>COURIER</literal>, <literal>HELVETICA</literal>,
                                                 <literal>TIMES-ROMAN</literal>, <literal>SYMBOL</literal> or
                                                 <literal>ZAPFDINGBATS</literal>.</para>
@@ -341,8 +341,8 @@
                                     <emphasis>Usage</emphasis>
                                 </para>
 
-                                <programlisting>&lt;p:font size=&quot;24&quot;&gt;
-    &lt;p:paragraph spacingAfter=&quot;50&quot;&gt;My First Document&lt;/p:paragraph&gt;
+                                <programlisting>&lt;p:font family=&quot;courier&quot; style=&quot;bold&quot; size=&quot;24&quot;&gt;
+    &lt;p:paragraph&gt;My Title&lt;/p:paragraph&gt;
 &lt;/p:font&gt;</programlisting>
 
                             </entry>
@@ -372,12 +372,6 @@
 
 
                                 <para><literal>p:newPage</literal> inserts a page break. </para>
-
-                                <!-- 
-                    <para>
-                        <emphasis>Attributes</emphasis>
-                    </para>
-                    -->
 
 
                                 <para>
@@ -1457,7 +1451,7 @@
 
     <section id="itext.charting">
         <title>Charting</title>
-   
+
 
         <informaltable id="itext.barchart">
             <tgroup cols="2">
@@ -1842,10 +1836,8 @@
                             <para>
                                 <emphasis>Description</emphasis>
                             </para>
-                            <para>Category data can be broken down into series.  The series tag is
-                            used to categorize a set of data with a series and apply styling to the entire series.
-                                
-                            </para>
+                            <para>Category data can be broken down into series. The series tag is used to categorize a
+                                set of data with a series and apply styling to the entire series. </para>
                             <para>
                                 <emphasis>Attributes</emphasis>
                             </para>
@@ -1854,8 +1846,7 @@
 
                                 <listitem>
                                     <para>
-                                        <literal>key</literal> &mdash; The series name.
-                                    </para>
+                                        <literal>key</literal> &mdash; The series name. </para>
                                 </listitem>
                                 <listitem>
                                     <para>
