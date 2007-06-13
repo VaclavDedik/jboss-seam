@@ -196,7 +196,10 @@ public final class Param
          validator.validate( facesContext, facesContext.getViewRoot(), value );
       }
       
-      Expressions.instance().validate( valueExpression.getExpressionString(), value );
+      if (valueExpression!=null)
+      {
+         Expressions.instance().validate( valueExpression.getExpressionString(), value );
+      }
       
       return value;
    }
