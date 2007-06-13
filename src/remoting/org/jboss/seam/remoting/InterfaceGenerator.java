@@ -17,7 +17,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import javax.faces.event.PhaseId;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +27,7 @@ import org.jboss.seam.ComponentType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.WebRemote;
-import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.contexts.ContextualHttpServletRequest;
 import org.jboss.seam.core.ServletContexts;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -68,42 +67,40 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
    * @param response HttpServletResponse
    * @throws Exception
    */
-  public void handle(HttpServletRequest request, HttpServletResponse response)
+  public void handle(final HttpServletRequest request, final HttpServletResponse response)
       throws Exception
   {
-    try
-    {
-      Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
-      Lifecycle.beginRequest(servletContext, request);
-      ServletContexts.instance().setRequest(request);
-
-      String[] componentNames = request.getQueryString().split("&");
-      Component[] components = new Component[componentNames.length];
-      Set<Type> types = new HashSet<Type>();
-
-      for (int i = 0; i < componentNames.length; i++) {
-        components[i] = Component.forName(componentNames[i]);
-        if (components[i] == null)
+     new ContextualHttpServletRequest(request, servletContext)
+     {
+        @Override
+        public void process() throws Exception
         {
-          try
-          {
-            Class c = Reflections.classForName(componentNames[i]);
-            appendClassSource(response.getOutputStream(), c, types);
-          }
-          catch (ClassNotFoundException ex)
-          {
-            log.error(String.format("Component not found: [%s]", componentNames[i]));
-            throw new ServletException("Invalid request - component not found.");
-          }
-        }
-      }
+           ServletContexts.instance().setRequest(request);
+           String[] componentNames = request.getQueryString().split("&");
+           Component[] components = new Component[componentNames.length];
+           Set<Type> types = new HashSet<Type>();
 
-      generateComponentInterface(components, response.getOutputStream(), types);
-    }
-    finally
-    {
-      Lifecycle.setPhaseId(null);
-    }
+           for (int i = 0; i < componentNames.length; i++) 
+           {
+              components[i] = Component.forName(componentNames[i]);
+              if (components[i] == null)
+              {
+                 try
+                 {
+                    Class c = Reflections.classForName(componentNames[i]);
+                    appendClassSource(response.getOutputStream(), c, types);
+                 }
+                 catch (ClassNotFoundException ex)
+                 {
+                    log.error(String.format("Component not found: [%s]", componentNames[i]));
+                    throw new ServletException("Invalid request - component not found.");
+                 }
+              }
+           }
+           
+           generateComponentInterface(components, response.getOutputStream(), types);            
+       }
+     }.run();
   }
 
   /**
