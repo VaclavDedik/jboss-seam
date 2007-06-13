@@ -15,11 +15,10 @@ public class ModelValidator implements Validator
          throws ValidatorException
    {
       ValueExpression valueExpression = component.getValueExpression("value");
-      if (valueExpression==null)
+      if (valueExpression!=null)
       {
-         throw new RuntimeException("component has no value attribute: " + component.getId());
+         Expressions.instance().validate( valueExpression.getExpressionString(), value );
       }
-      Expressions.instance().validate( valueExpression.getExpressionString(), value );
    }
 
 }
