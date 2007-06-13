@@ -165,8 +165,8 @@
              the entry point after remove(), e.g. editDoc -> uploadFile -> editDoc instead of currently
              editDoc -> uploadFile -> dirDisplay... This needs navigation actions or the
              already required polymorphic exitConversation() feature -->
-        <navigation from-action="#{fileHome.remove}">
-            <rule>
+        <navigation>
+            <rule if-outcome="removed">
                 <end-conversation/>
                 <redirect view-id="/dirDisplay.xhtml">
                     <param name="nodeId" value="#{fileHome.parentDirectory.id}"/>
@@ -197,9 +197,7 @@
         <description>Registration</description>
         <navigation from-action="#{userHome.persist}">
             <rule>
-                <redirect view-id="/userHome.xhtml">
-                    <param name="userId" value="#{userHome.instance.id}"/>
-                </redirect>
+                <redirect view-id="/display.xhtml"/>
             </rule>
         </navigation>
     </page>
@@ -321,7 +319,14 @@
             <message severity="ERROR">Someone modified the same record while you were editing it. Please restart your workspace.</message>
         </redirect>
     </exception>
-<!--
+
+    <exception class="org.jboss.seam.web.FileUploadException">
+        <redirect view-id="/message.xhtml">
+            <message severity="ERROR">File upload failed, possibly due to size limitation (max. #{wiki:displayFilesize(org.jboss.seam.web.multipartFilter.maxRequestSize)}).</message>
+        </redirect>
+    </exception>
+
+    <!--
     <exception>
         <end-conversation/>
         <redirect view-id="/message.xhtml">
