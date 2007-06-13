@@ -15,6 +15,7 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.core.ConversationPropagation;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -64,7 +65,7 @@ public class ExecutionHandler extends BaseRequestHandler implements RequestHandl
 
       // Parse the incoming request as XML
       SAXReader xmlReader = new SAXReader();
-      Document doc = xmlReader.read(request.getInputStream());
+      Document doc = xmlReader.read( request.getInputStream() );
       Element env = doc.getRootElement();
 
       RequestContext ctx = unmarshalContext(env);
@@ -73,15 +74,17 @@ public class ExecutionHandler extends BaseRequestHandler implements RequestHandl
       Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
       Lifecycle.setServletRequest(request);
       Lifecycle.beginRequest(servletContext, request);
+      ConversationPropagation.instance().setConversationId( ctx.getConversationId() );
 
-      Manager.instance().restoreConversation( ctx.getConversationId() );
+      Manager.instance().restoreConversation();
       Lifecycle.resumeConversation(request);
 
       // Extract the calls from the request
       List<Call> calls = unmarshalCalls(env);
 
       // Execute each of the calls
-      for (Call call : calls) {
+      for (Call call : calls) 
+      {
         call.execute();
       }
 
@@ -126,7 +129,9 @@ public class ExecutionHandler extends BaseRequestHandler implements RequestHandl
 
         Element convId = context.element("conversationId");
         if (convId != null)
+        {
           ctx.setConversationId(convId.getText());
+        }
       }
     }
 
@@ -142,7 +147,8 @@ public class ExecutionHandler extends BaseRequestHandler implements RequestHandl
   private List<Call> unmarshalCalls(Element env)
       throws Exception
   {
-    try {
+    try 
+    {
       List<Call> calls = new ArrayList<Call>();
 
       List<Element> callElements = env.element("body").elements("call");
@@ -163,13 +169,16 @@ public class ExecutionHandler extends BaseRequestHandler implements RequestHandl
 
         // Now unmarshal the ref values
         for (Wrapper w : call.getContext().getInRefs().values())
+        {
           w.unmarshal();
+        }
 
         Element paramsNode = e.element("params");
 
         // Then process the param values
         iter = paramsNode.elementIterator("param");
-        while (iter.hasNext()) {
+        while (iter.hasNext()) 
+        {
           Element param = (Element) iter.next();
 
           call.addParameter(call.getContext().createWrapperFromElement(
@@ -181,7 +190,8 @@ public class ExecutionHandler extends BaseRequestHandler implements RequestHandl
 
       return calls;
     }
-    catch (Exception ex) {
+    catch (Exception ex) 
+    {
       log.error("Error unmarshalling calls from request", ex);
       throw ex;
     }

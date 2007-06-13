@@ -12,6 +12,7 @@ import org.jboss.seam.annotations.ConversationId;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.core.ConversationPropagation;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.intercept.InvocationContext;
@@ -38,9 +39,9 @@ public class WebServiceInterceptor extends AbstractInterceptor
          HttpServletRequest request = (HttpServletRequest) messageContext.get(
                   MessageContext.SERVLET_REQUEST);
          
-         String conversationId = extractConversationId(invocation);
+         ConversationPropagation.instance().setConversationId( extractConversationId(invocation) );
          
-         Manager.instance().restoreConversation(conversationId);
+         Manager.instance().restoreConversation();
          Lifecycle.resumeConversation(request);    
          
          Object result = invocation.proceed();

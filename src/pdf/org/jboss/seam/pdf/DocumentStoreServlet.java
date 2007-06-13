@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.core.ConversationPropagation;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.servlet.ServletRequestSessionMap;
 import org.jboss.seam.util.Parameters;
@@ -26,9 +27,10 @@ public class DocumentStoreServlet
         Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
         Lifecycle.setServletRequest(request);
         Lifecycle.beginRequest( getServletContext(), request );
-        Manager.instance().restoreConversation(request.getParameterMap());
+        ConversationPropagation.instance().restoreConversationId( request.getParameterMap() );
+        Manager.instance().restoreConversation();
         Lifecycle.resumeConversation(request);
-        Manager.instance().handleConversationPropagation(request.getParameterMap());
+        Manager.instance().handleConversationPropagation( request.getParameterMap() );
         try 
         {
            doWork(request, response);

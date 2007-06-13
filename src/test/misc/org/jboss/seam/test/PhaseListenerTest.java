@@ -19,6 +19,7 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.SessionContext;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.ConversationEntries;
+import org.jboss.seam.core.ConversationPropagation;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.FacesPage;
@@ -51,6 +52,7 @@ public class PhaseListenerTest
       installComponent(appContext, Events.class);
       installComponent(appContext, Validation.class);
       installComponent(appContext, ServletSession.class);
+      installComponent(appContext, ConversationPropagation.class);
    }
    
    private void installComponent(Context appContext, Class clazz)

@@ -16,6 +16,7 @@ import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.ConversationList;
+import org.jboss.seam.core.ConversationPropagation;
 import org.jboss.seam.core.ConversationStack;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.FacesMessages;
@@ -62,7 +63,8 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
    {
       Lifecycle.resumePage();
       Map parameters = facesContext.getExternalContext().getRequestParameterMap();
-      boolean conversationFound = Manager.instance().restoreConversation(parameters);
+      ConversationPropagation.instance().restoreConversationId(parameters);
+      boolean conversationFound = Manager.instance().restoreConversation();
       Lifecycle.resumeConversation( facesContext.getExternalContext() );
       if (!conversationFound)
       {

@@ -26,6 +26,7 @@ import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.contexts.SessionContext;
+import org.jboss.seam.core.ConversationPropagation;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.security.Identity;
@@ -288,7 +289,8 @@ public class AuthenticationFilter extends AbstractFilter
          Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
          Lifecycle.setServletRequest(request);
          Lifecycle.beginRequest( getServletContext(), request );
-         Manager.instance().restoreConversation( request.getParameterMap() );
+         ConversationPropagation.instance().restoreConversationId( request.getParameterMap() );
+         Manager.instance().restoreConversation();
          Lifecycle.resumeConversation(request);
          Manager.instance().handleConversationPropagation( request.getParameterMap() );   
          identity.authenticate();

@@ -2,8 +2,8 @@ package org.jboss.seam.pages;
 
 import java.util.Map;
 
+import org.jboss.seam.core.ConversationPropagation;
 import org.jboss.seam.core.Expressions;
-import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.util.Id;
 
@@ -46,7 +46,7 @@ public class ELConversationIdParameter implements ConversationIdParameter
    
    public String getRequestConversationId(Map parameters)
    {
-      String value = Manager.getRequestParameterValue(parameters, parameterName);
+      String value = ConversationPropagation.getRequestParameterValue(parameters, parameterName);
       if (value==null)
       {
          return null;

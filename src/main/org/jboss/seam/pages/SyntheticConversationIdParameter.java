@@ -2,6 +2,7 @@ package org.jboss.seam.pages;
 
 import java.util.Map;
 
+import org.jboss.seam.core.ConversationPropagation;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.util.Id;
 
@@ -34,6 +35,6 @@ public class SyntheticConversationIdParameter implements ConversationIdParameter
    
    public String getRequestConversationId(Map parameters)
    {
-      return Manager.getRequestParameterValue( parameters, getParameterName() );      
+      return ConversationPropagation.getRequestParameterValue( parameters, getParameterName() );      
    }
 }

@@ -35,7 +35,6 @@ import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.pages.ConversationIdParameter;
-import org.jboss.seam.pages.Page;
 import org.jboss.seam.util.Id;
 
 /**
@@ -123,7 +122,7 @@ public class Manager
       }
    }
 
-   private static void touchConversationStack(List<String> stack)
+   private void touchConversationStack(List<String> stack)
    {
       if ( stack!=null )
       {
@@ -142,7 +141,7 @@ public class Manager
       }
    }
    
-   private static void endNestedConversations(String id)
+   private void endNestedConversations(String id)
    {
       for ( ConversationEntry ce: ConversationEntries.instance().getConversationEntries() )
       {
@@ -404,92 +403,6 @@ public class Manager
       }
    }
 
-   private String getPropagationFromRequestParameter(Map parameters)
-   {
-      Object type = parameters.get("conversationPropagation");
-      if (type==null)
-      {
-         return null;
-      }
-      else if (type instanceof String)
-      {
-         return (String) type;
-      }
-      else
-      {
-         return ( (String[]) type )[0];
-      }
-   }
-   
-   /**
-    * Initialize the request conversation context, taking
-    * into account conversation propagation style, and
-    * any conversation id passed as a request parameter
-    * or in the PAGE context.
-    * 
-    * @param parameters the request parameters
-    * @return false if the conversation id referred to a 
-    *         long-running conversation that was not found
-    */
-   public boolean restoreConversation(Map parameters)
-   {
-      String storedConversationId = null;
-      String storedParentConversationId = null;
-      boolean validateLongRunningConversation = false;
-      
-      //First, try to get the conversation id from the request parameter defined for the page
-      String viewId = Pages.getCurrentViewId();
-      if ( viewId!=null )
-      {
-         Page page = Pages.instance().getPage(viewId);
-         storedConversationId = page.getConversationIdParameter().getRequestConversationId(parameters);
-         //TODO: how about the parent conversation id?
-      }
-      
-      //Next, try to get the conversation id from the globally defined request parameters
-      if ( isMissing(storedConversationId) )
-      {
-         storedConversationId = getRequestParameterValue(parameters, conversationIdParameter);
-      }
-      if ( isMissing(storedParentConversationId) )
-      {
-         storedParentConversationId = getRequestParameterValue(parameters, parentConversationIdParameter);
-      }
-            
-      if ( Contexts.isPageContextActive() && isMissing(storedConversationId) ) 
-      {
-         //checkPageContext is a workaround for a bug in MySQL server-side state saving
-         
-         //if it is not passed as a request parameter,
-         //try to get it from the page context
-         org.jboss.seam.core.FacesPage page = org.jboss.seam.core.FacesPage.instance();
-         storedConversationId = page.getConversationId();
-         storedParentConversationId = null;
-         validateLongRunningConversation = page.isConversationLongRunning();
-      }
-
-      else
-      {
-         log.debug("Found conversation id in request parameter: " + storedConversationId);
-      }
-
-      String propagation = getPropagationFromRequestParameter(parameters);
-      if ( "none".equals(propagation) )
-      {
-         storedConversationId = null;
-         storedParentConversationId = null;
-         validateLongRunningConversation = false;
-      }
-      else if ( "end".equals(propagation) )
-      {
-         validateLongRunningConversation = false;
-      }
-      
-      return restoreConversation(storedConversationId, storedParentConversationId) 
-               || !validateLongRunningConversation;
-      
-   }
-   
    /**
     * Look for a conversation propagation style in the request
     * parameters and begin, nest or join the conversation,
@@ -500,7 +413,7 @@ public class Manager
    public void handleConversationPropagation(Map parameters)
    {
       
-      String propagation = getPropagationFromRequestParameter(parameters);
+      String propagation = ConversationPropagation.instance().getPropagationType();
       
       if ( propagation!=null && propagation.startsWith("begin") )
       {
@@ -542,26 +455,19 @@ public class Manager
    
    /**
     * Initialize the request conversation context, given the 
-    * conversation id. If no conversation entry is found, or
-    * conversationId is null, initialize a new temporary
-    * conversation context.
-    * 
-    * @return true if the conversation with the given id was found
-    */
-   public boolean restoreConversation(String conversationId)
-   {
-      return restoreConversation(conversationId, null);
-   }
-
-   /**
-    * Initialize the request conversation context, given the 
     * conversation id and optionally a parent conversation id.
     * If no conversation entry is found for the first id, try
     * the parent, and if that also fails, initialize a new 
     * temporary conversation context.
+    * 
+    * @return false if the conversation entry was not found
+    *         and it was required
     */
-   private boolean restoreConversation(String conversationId, String parentConversationId) 
+   public boolean restoreConversation() 
    {
+      ConversationPropagation cp = ConversationPropagation.instance();
+      String conversationId = cp.getConversationId();
+      String parentConversationId = cp.getParentConversationId();
       ConversationEntry ce = null;
       if (conversationId!=null)
       {
@@ -573,7 +479,7 @@ public class Manager
          }
       }
       
-      return restoreAndLockConversation(ce);
+      return restoreAndLockConversation(ce) || !cp.isValidateLongRunningConversation();
    }
 
    private boolean restoreAndLockConversation(ConversationEntry ce)
@@ -615,43 +521,6 @@ public class Manager
       }
    }
 
-   /**
-    * Retrieve the conversation id from the request parameters.
-    * 
-    * @param parameters the request parameters
-    * @return the conversation id
-    */
-   public static String getRequestParameterValue(Map parameters, String parameterName) {
-      Object object = parameters.get(parameterName);
-      if (object==null)
-      {
-         return null;
-      }
-      else
-      {
-         if ( object instanceof String )
-         {
-            //when it comes from JSF it is (usually?) a plain string
-            return (String) object;
-         }
-         else
-         {
-            //in a servlet it is a string array
-            String[] values = (String[]) object;
-            if (values.length!=1)
-            {
-               throw new IllegalArgumentException("expected exactly one value for conversationId request parameter");
-            }
-            return values[0];
-         }
-      }
-   }
-
-   private boolean isMissing(String storedConversationId) 
-   {
-      return storedConversationId==null || "".equals(storedConversationId);
-   }
-   
    /**
     * Initialize a new temporary conversation context,
     * and assign it a conversation id.
