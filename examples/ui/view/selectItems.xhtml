@@ -94,6 +94,15 @@
 				<s:convertEntity />
 			</h:selectOneListbox>
 		</s:decorate>
+		
+		<s:decorate template="decorateField.xhtml">
+			<ui:define name="label">Favourite Film</ui:define>
+			<ui:define name="description">Film uses <code>@Converter(forClass="...")</code> - there is no converter specified in the facelet</ui:define>
+			<h:selectOneListbox value="#{person.favouriteFilm}">
+				<s:selectItems value="#{films.resultList}" var="film" label="#{film.name} directed by #{film.director}" noSelectionLabel="Please Select..."/>
+			</h:selectOneListbox>
+		</s:decorate>
+		
 		<h:commandButton value="Apply" action="#{personHome.update}">
 			<s:conversationPropagation type="join" />
 		</h:commandButton>

@@ -89,6 +89,9 @@ public class Person implements Serializable
    
    private String pet;
    
+   @ManyToOne
+   private Film favouriteFilm;
+   
    public Person()
    {
       picture = new Picture();
@@ -216,5 +219,15 @@ public class Person implements Serializable
    public void setPet(String pet)
    {
       this.pet = pet;
+   }
+   
+   public Film getFavouriteFilm()
+   {
+      return favouriteFilm;
+   }
+   
+   public void setFavouriteFilm(Film favouriteFilm)
+   {
+      this.favouriteFilm = favouriteFilm;
    }
 }

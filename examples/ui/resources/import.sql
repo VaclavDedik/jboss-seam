@@ -29,3 +29,8 @@ insert into book(name,author,nationality) values ('Pride and Prejudice', 'Jane A
 insert into book(name,author,nationality) values ('The Great Gatsby', 'F. Scott Fitzgerald', 'American')
 insert into book(name,author,nationality) values ('Romeo and Juliet', 'William Shakespeare', 'British')
 insert into book(name,author,nationality) values ('The Illiad', 'Homer', 'Ancient Greek')
+
+insert into film(name,director) values ('Blade Runner', 'Ridley Scott')
+insert into film(name,director) values ('E.T.', 'Steven Spielberg')
+insert into film(name,director) values ('Star Wars', 'George Lucas')
+insert into film(name,director) values ('Jay and Silent Bob Strike Back', 'Kevin Smith')

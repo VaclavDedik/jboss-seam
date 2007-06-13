@@ -22,6 +22,8 @@
     <framework:entity-query name="colours" ejbql="select c from Colour c" />
     
     <framework:entity-query name="books" ejbql="select b from Book b" />
+    
+    <framework:entity-query name="films" ejbql="select f from Film f" />
 
 	<factory name="person" value="#{personHome.instance}" />
 	
