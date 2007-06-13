@@ -18,6 +18,7 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.core.ServletContexts;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.remoting.messaging.PollError;
@@ -75,11 +76,13 @@ public class PollHandler extends BaseRequestHandler implements RequestHandler
     try
     {
       Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
-      Lifecycle.setServletRequest(request);
       Lifecycle.beginRequest(servletContext, request);
+      ServletContexts.instance().setRequest(request);
 
       for (PollRequest req : polls)
+      {
         req.poll();
+      }
       
       // Package up the response
       marshalResponse(polls, response.getOutputStream());      
@@ -87,7 +90,6 @@ public class PollHandler extends BaseRequestHandler implements RequestHandler
     finally
     {
       Lifecycle.endRequest();
-      Lifecycle.setServletRequest(null);
       Lifecycle.setPhaseId(null);
     }
   }

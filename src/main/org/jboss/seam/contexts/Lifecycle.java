@@ -12,7 +12,6 @@ import java.util.Set;
 import javax.faces.context.ExternalContext;
 import javax.faces.event.PhaseId;
 import javax.servlet.ServletContext;
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.seam.Component;
@@ -520,7 +519,6 @@ public class Lifecycle
       phaseId.set(phase);
    }
 
-   private static ThreadLocal<ServletRequest> servletRequest = new ThreadLocal<ServletRequest>();
    private static ServletContext servletContext;
 
    public static ServletContext getServletContext() 
@@ -535,16 +533,6 @@ public class Lifecycle
    public static void setServletContext(ServletContext servletContext) 
    {
       Lifecycle.servletContext = servletContext;
-   }
-
-   public static ServletRequest getServletRequest() 
-   {
-      return servletRequest.get();
-   }
-
-   public static void setServletRequest(ServletRequest servletRequest) 
-   {
-      Lifecycle.servletRequest.set(servletRequest);
    }
 
    private static ThreadLocal<Boolean> destroying = new ThreadLocal<Boolean>();

@@ -17,7 +17,6 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
-import org.jboss.seam.contexts.Lifecycle;
 
 /**
  * Manager component for a map of roles assigned
@@ -55,7 +54,7 @@ public class IsUserInRole
                return facesContext.getExternalContext().isUserInRole(role);
             }
             
-            ServletRequest servletRequest = Lifecycle.getServletRequest();
+            ServletRequest servletRequest = ServletContexts.instance().getRequest();
             if ( servletRequest != null )
             {
                return ( (HttpServletRequest) servletRequest ).isUserInRole(role);

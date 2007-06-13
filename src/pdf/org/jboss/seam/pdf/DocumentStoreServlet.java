@@ -2,16 +2,12 @@ package org.jboss.seam.pdf;
 
 import java.io.IOException;
 
-import javax.faces.event.PhaseId;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.core.ConversationPropagation;
-import org.jboss.seam.core.Manager;
-import org.jboss.seam.servlet.ServletRequestSessionMap;
+import org.jboss.seam.contexts.ContextualHttpServletRequest;
 import org.jboss.seam.util.Parameters;
 
 public class DocumentStoreServlet 
@@ -20,39 +16,23 @@ public class DocumentStoreServlet
     private static final long serialVersionUID = 5196002741557182072L;
 
     @Override
-    protected void doGet(final HttpServletRequest request, HttpServletResponse response) 
-        throws ServletException, 
-               IOException 
+    protected void doGet(final HttpServletRequest request, final HttpServletResponse response) 
+        throws ServletException, IOException 
     {
-        Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
-        Lifecycle.setServletRequest(request);
-        Lifecycle.beginRequest( getServletContext(), request );
-        ConversationPropagation.instance().restoreConversationId( request.getParameterMap() );
-        Manager.instance().restoreConversation();
-        Lifecycle.resumeConversation(request);
-        Manager.instance().handleConversationPropagation( request.getParameterMap() );
-        try 
+        new ContextualHttpServletRequest( request, getServletContext() )
         {
-           doWork(request, response);
-           //TODO: conversation timeout
-           Manager.instance().endRequest( new ServletRequestSessionMap(request) );
-           Lifecycle.endRequest(request);
-        } 
-        catch (Exception e) 
-        {
-           Lifecycle.endRequest();           
-           throw new ServletException(e);
-        } 
-        finally 
-        {
-           Lifecycle.setServletRequest(null);
-           Lifecycle.setPhaseId(null);
-        }
+            @Override
+            public void process() throws ServletException, IOException
+            {
+                 doWork(request, response);
+               
+            }
+        }.run();
     
     }    
     
     
-    private void doWork(HttpServletRequest request, HttpServletResponse response) 
+    private static void doWork(HttpServletRequest request, HttpServletResponse response) 
         throws IOException 
     {
         String contentId = (String)
@@ -62,7 +42,7 @@ public class DocumentStoreServlet
                 
         DocumentStore store = DocumentStore.instance();
         
-        if (store.idIsValid(contentId)) 
+        if ( store.idIsValid(contentId )) 
         {
             DocumentData documentData = store.getDocumentData(contentId);
             

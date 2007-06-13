@@ -3,6 +3,7 @@ package org.jboss.seam.servlet;
 import java.io.IOException;
 
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -21,7 +22,7 @@ public abstract class AbstractResource
    }
          
    public abstract void getResource(HttpServletRequest request, HttpServletResponse response)
-       throws IOException;
+       throws ServletException, IOException;
    
    protected abstract String getResourcePath();
 }

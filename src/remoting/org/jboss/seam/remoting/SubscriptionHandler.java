@@ -15,6 +15,7 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.core.ServletContexts;
 import org.jboss.seam.remoting.messaging.RemoteSubscriber;
 import org.jboss.seam.remoting.messaging.SubscriptionRegistry;
 import org.jboss.seam.remoting.messaging.SubscriptionRequest;
@@ -66,34 +67,39 @@ public class SubscriptionHandler extends BaseRequestHandler implements RequestHa
     try
     {
       Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
-      Lifecycle.setServletRequest(request);
       Lifecycle.beginRequest(servletContext, request);
+      ServletContexts.instance().setRequest(request);
 
       Manager.instance().initializeTemporaryConversation();
       Lifecycle.resumeConversation(request);
 
       for (SubscriptionRequest req : requests)
+      {
         req.subscribe();
+      }
 
       // Then handle any unsubscriptions
       List<String> unsubscribeTokens = new ArrayList<String>();
 
       elements = body.elements("unsubscribe");
-      for (Element e : elements) {
+      for (Element e : elements) 
+      {
         unsubscribeTokens.add(e.attributeValue("token"));
       }
 
-      for (String token : unsubscribeTokens) {
+      for (String token : unsubscribeTokens) 
+      {
         RemoteSubscriber subscriber = SubscriptionRegistry.instance().
                                       getSubscription(token);
         if (subscriber != null)
+        {
           subscriber.unsubscribe();
+        }
       }
     }
     finally
     {
       Lifecycle.endRequest();
-      Lifecycle.setServletRequest(null);
       Lifecycle.setPhaseId(null);
     }
 

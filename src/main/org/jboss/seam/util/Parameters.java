@@ -10,6 +10,7 @@ import javax.faces.convert.Converter;
 import javax.servlet.ServletRequest;
 
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.core.ServletContexts;
 
 public class Parameters
 {
@@ -46,7 +47,7 @@ public class Parameters
          return facesContext.getExternalContext().getRequestParameterValuesMap();
       }
       
-      ServletRequest servletRequest = Lifecycle.getServletRequest();
+      ServletRequest servletRequest = ServletContexts.instance().getRequest();
       if ( servletRequest != null )
       {
          return servletRequest.getParameterMap();

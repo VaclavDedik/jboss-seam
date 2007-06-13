@@ -17,7 +17,6 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.contexts.Lifecycle;
 
 /**
  * Manager component for the current user Principal
@@ -40,7 +39,7 @@ public class UserPrincipal
          return facesContext.getExternalContext().getUserPrincipal();
       }
       
-      ServletRequest servletRequest = Lifecycle.getServletRequest();
+      ServletRequest servletRequest = ServletContexts.instance().getRequest();
       if ( servletRequest != null )
       {
          return ( (HttpServletRequest) servletRequest ).getUserPrincipal();

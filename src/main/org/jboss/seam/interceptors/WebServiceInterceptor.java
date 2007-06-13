@@ -15,6 +15,7 @@ import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.ConversationPropagation;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.core.ServletContexts;
 import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.servlet.ServletRequestSessionMap;
 import org.jboss.seam.ws.SeamWSRequestHandler;
@@ -38,6 +39,7 @@ public class WebServiceInterceptor extends AbstractInterceptor
                   SeamWSRequestHandler.MESSAGE_CONTEXT);
          HttpServletRequest request = (HttpServletRequest) messageContext.get(
                   MessageContext.SERVLET_REQUEST);
+         ServletContexts.instance().setRequest(request);
          
          ConversationPropagation.instance().setConversationId( extractConversationId(invocation) );
          
@@ -53,7 +55,6 @@ public class WebServiceInterceptor extends AbstractInterceptor
       }
       finally
       {
-         Lifecycle.setServletRequest(null);
          Lifecycle.setPhaseId(null);         
       } 
       

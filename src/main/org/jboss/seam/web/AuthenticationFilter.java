@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.faces.event.PhaseId;
+import javax.security.auth.login.LoginException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -16,6 +17,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Filter;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
@@ -24,6 +26,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.contexts.Context;
+import org.jboss.seam.contexts.ContextualHttpServletRequest;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.contexts.SessionContext;
 import org.jboss.seam.core.ConversationPropagation;
@@ -188,8 +191,7 @@ public class AuthenticationFilter extends AbstractFilter
             HttpServletResponse response, FilterChain chain)
       throws IOException, ServletException
    {
-      Context ctx = new SessionContext( new ServletRequestSessionMap(request) );
-      Identity identity = (Identity) ctx.get(Identity.class);
+      Identity identity = (Identity) request.getSession().getAttribute( Seam.getComponentName(Identity.class) );
       
       boolean requireAuth = false;    
       boolean nonceExpired = false;
@@ -207,7 +209,6 @@ public class AuthenticationFilter extends AbstractFilter
             headerMap.put(vals[0].trim(), vals[1].replace("\"", "").trim());
          }
          
-         identity.setUsername(headerMap.get("username"));
 
          DigestRequest digestRequest = new DigestRequest();
          digestRequest.setHttpMethod(request.getMethod());
@@ -224,8 +225,8 @@ public class AuthenticationFilter extends AbstractFilter
          try
          {
             digestRequest.validate();
-            ctx.set(DigestRequest.DIGEST_REQUEST, digestRequest);
-            authenticate(request, identity);
+            request.getSession().setAttribute(DigestRequest.DIGEST_REQUEST, digestRequest);
+            authenticate( request, headerMap.get("username") );
          }
          catch (DigestValidationException ex)
          {
@@ -281,35 +282,25 @@ public class AuthenticationFilter extends AbstractFilter
       }             
    }
    
-   private void authenticate(HttpServletRequest request, Identity identity)
-      throws Exception
+   private void authenticate(HttpServletRequest request, final String username)
+      throws ServletException, IOException
    {
-      try
+      new ContextualHttpServletRequest(request, getServletContext())
       {
-         Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
-         Lifecycle.setServletRequest(request);
-         Lifecycle.beginRequest( getServletContext(), request );
-         ConversationPropagation.instance().restoreConversationId( request.getParameterMap() );
-         Manager.instance().restoreConversation();
-         Lifecycle.resumeConversation(request);
-         Manager.instance().handleConversationPropagation( request.getParameterMap() );   
-         identity.authenticate();
-      }
-      catch (Exception ex) 
-      {
-         Lifecycle.endRequest();
-         throw ex;
-      }      
-      finally
-      {
-         Lifecycle.setServletRequest(null);
-         Lifecycle.setPhaseId(null);
-      }      
+         @Override
+         public void process() throws ServletException, IOException, LoginException
+         {
+            Identity identity = Identity.instance();
+            identity.setUsername(username);
+            identity.authenticate();
+         }
+      }.run();  
    }
    
    private String[] split(String toSplit, String delimiter) 
    {
-      if (delimiter.length() != 1) {
+      if (delimiter.length() != 1) 
+      {
           throw new IllegalArgumentException("Delimiter can only be one character in length");
       }
 

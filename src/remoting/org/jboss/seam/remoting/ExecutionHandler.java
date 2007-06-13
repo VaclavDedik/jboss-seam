@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.faces.event.PhaseId;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,13 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.contexts.ContextualHttpServletRequest;
 import org.jboss.seam.core.ConversationPropagation;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.remoting.wrapper.Wrapper;
-import org.jboss.seam.servlet.ServletRequestSessionMap;
 
 /**
  * Unmarshals the calls from an HttpServletRequest, executes them in order and
@@ -55,11 +53,9 @@ public class ExecutionHandler extends BaseRequestHandler implements RequestHandl
    * @param response HttpServletResponse
    * @throws Exception
    */
-  public void handle(HttpServletRequest request, HttpServletResponse response)
+  public void handle(HttpServletRequest request, final HttpServletResponse response)
       throws Exception
   {
-    try
-    {
       // We're sending an XML response, so set the response content type to text/xml
       response.setContentType("text/xml");
 
@@ -67,47 +63,41 @@ public class ExecutionHandler extends BaseRequestHandler implements RequestHandl
       SAXReader xmlReader = new SAXReader();
       Document doc = xmlReader.read( request.getInputStream() );
       Element env = doc.getRootElement();
+      final RequestContext ctx = unmarshalContext(env);
+      final List<Call> calls = unmarshalCalls(env);
 
-      RequestContext ctx = unmarshalContext(env);
-
-      // Reinstate the Seam conversation
-      Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
-      Lifecycle.setServletRequest(request);
-      Lifecycle.beginRequest(servletContext, request);
-      ConversationPropagation.instance().setConversationId( ctx.getConversationId() );
-
-      Manager.instance().restoreConversation();
-      Lifecycle.resumeConversation(request);
-
-      // Extract the calls from the request
-      List<Call> calls = unmarshalCalls(env);
-
-      // Execute each of the calls
-      for (Call call : calls) 
+      new ContextualHttpServletRequest(request, servletContext)
       {
-        call.execute();
-      }
+         
+         @Override
+         public void process() throws Exception
+         {
+            // Extract the calls from the request
 
-      // Store the conversation ID in the outgoing context
-      ctx.setConversationId( Manager.instance().getCurrentConversationId() );
+            // Execute each of the calls
+            for (Call call : calls) 
+            {
+               call.execute();
+            }
 
-      // Package up the response
-      marshalResponse(calls, ctx, response.getOutputStream());
+            // Store the conversation ID in the outgoing context
+            ctx.setConversationId( Manager.instance().getCurrentConversationId() );
 
-      Manager.instance().endRequest( new ServletRequestSessionMap(request) );
-      Lifecycle.endRequest();    
-    }
-    catch (Exception ex)
-    {
-      log.error("Error during remote request", ex);
-      Lifecycle.endRequest();
-    }
-    finally
-    {
-      Lifecycle.setServletRequest(null);
-      Lifecycle.setPhaseId(null);
-      log.debug("ended request");
-    }
+            // Package up the response
+            marshalResponse(calls, ctx, response.getOutputStream());
+         }
+         
+         @Override
+         protected void restoreConversationId()
+         {
+            ConversationPropagation.instance().setConversationId( ctx.getConversationId() );
+         }
+         
+         @Override
+         protected void handleConversationPropagation() {}
+         
+      }.run();
+      
   }
 
   /**
@@ -144,8 +134,7 @@ public class ExecutionHandler extends BaseRequestHandler implements RequestHandl
    * @param env Element
    * @throws Exception
    */
-  private List<Call> unmarshalCalls(Element env)
-      throws Exception
+  private List<Call> unmarshalCalls(Element env) throws Exception
   {
     try 
     {

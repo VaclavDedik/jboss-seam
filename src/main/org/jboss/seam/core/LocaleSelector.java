@@ -156,7 +156,7 @@ public class LocaleSelector extends Selector
          return facesContext.getApplication().getViewHandler().calculateLocale(facesContext);
       }
       
-      ServletRequest request = Lifecycle.getServletRequest();
+      ServletRequest request = ServletContexts.instance().getRequest();
       if (request!=null)
       {
          Locale requestLocale = ( (HttpServletRequest) request ).getLocale();

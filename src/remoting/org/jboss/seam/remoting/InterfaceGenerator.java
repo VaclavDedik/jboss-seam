@@ -29,6 +29,7 @@ import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.WebRemote;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.core.ServletContexts;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.util.EJB;
@@ -73,8 +74,8 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
     try
     {
       Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
-      Lifecycle.setServletRequest(request);
       Lifecycle.beginRequest(servletContext, request);
+      ServletContexts.instance().setRequest(request);
 
       String[] componentNames = request.getQueryString().split("&");
       Component[] components = new Component[componentNames.length];
@@ -101,7 +102,6 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
     }
     finally
     {
-      Lifecycle.setServletRequest(null);
       Lifecycle.setPhaseId(null);
     }
   }
