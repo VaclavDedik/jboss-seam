@@ -141,8 +141,6 @@
 
 	<target name="ear" description="Build the EAR">
 		<copy todir="${ear.dir}">
-			<fileset dir="${basedir}/resources">
-			</fileset>
 			<fileset dir="${lib.dir}">
 				<include name="jboss-el.jar" />
 			</fileset>
