@@ -18,7 +18,7 @@ Updating version numbers
 Tests
 -----
 * "ant cleanall testall", check report/index.html
-* Sanity check the following example applications on JBoss 4.0.5
+* Sanity check the following example applications on JBoss 4.2.0
   - booking
   - dvdstore
   - jpa
@@ -90,6 +90,7 @@ jboss-seam-gen.jar
 jboss-seam-ioc.jar
 jboss-seam-mail.jar
 jboss-seam-pdf.jar
+jboss-seam-remoting.jar
 jboss-seam-ui.jar
 jboss-seam.jar
 lgpl.txt
@@ -102,6 +103,7 @@ seam-gen
 seam-text.g
 seam.bat
 src
+trinidad
 
 * check that the following source directories exist in the dist "ls -1 src"
 
@@ -111,6 +113,7 @@ ioc
 mail
 main
 pdf
+remoting
 test
 ui
 
@@ -122,16 +125,17 @@ contactlist
 drools
 dvdstore
 glassfish
+groovybooking
 hibernate
 hibernate2
 icefaces
-issues
 itext
 jpa
 mail
 messages
 numberguess
 portal
+quartz
 readme.txt
 registration
 remoting
@@ -141,6 +145,7 @@ seamspace
 spring
 todo
 ui
+wiki
 
 * upload .zip and .tar.gz to upload.sf.net
 * do the sf.net file release stuff
