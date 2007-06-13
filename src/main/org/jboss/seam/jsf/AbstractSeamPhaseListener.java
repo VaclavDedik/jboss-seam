@@ -138,7 +138,7 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
    {
       try
       {
-         if ( Transaction.instance().isMarkedRollback() )
+         if ( Transaction.instance().isRolledBackOrMarkedRollback() )
          {
             FacesMessages.instance().addFromResourceBundleOrDefault(
                      FacesMessage.SEVERITY_WARN, 
@@ -282,7 +282,7 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
             log.debug("committing transaction after phase: " + phaseId);
             Transaction.instance().commit();
          }
-         else if ( Transaction.instance().isMarkedRollback() )
+         else if ( Transaction.instance().isRolledBackOrMarkedRollback() )
          {
             log.debug("rolling back transaction after phase: " + phaseId);
             Transaction.instance().rollback();

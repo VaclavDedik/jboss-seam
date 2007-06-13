@@ -4,6 +4,7 @@ import static javax.transaction.Status.STATUS_ACTIVE;
 import static javax.transaction.Status.STATUS_MARKED_ROLLBACK;
 import static javax.transaction.Status.STATUS_ROLLEDBACK;
 import static javax.transaction.Status.STATUS_COMMITTED;
+import static javax.transaction.Status.STATUS_NO_TRANSACTION;
 
 import javax.transaction.SystemException;
 
@@ -28,15 +29,20 @@ public abstract class UserTransaction implements javax.transaction.UserTransacti
       return status == STATUS_ACTIVE || status == STATUS_MARKED_ROLLBACK;
    }
 
-   public boolean isCommittedOrRolledBack() throws SystemException
+   public boolean isRolledBackOrMarkedRollback() throws SystemException
    {
       int status = getStatus();
-      return status == STATUS_COMMITTED || status == STATUS_ROLLEDBACK;
+      return status == STATUS_ROLLEDBACK || status == STATUS_MARKED_ROLLBACK;
    }
 
    public boolean isMarkedRollback() throws SystemException
    {
       return getStatus() == STATUS_MARKED_ROLLBACK;
+   }
+
+   public boolean isNoTransaction() throws SystemException
+   {
+      return getStatus() == STATUS_NO_TRANSACTION;
    }
 
    public boolean isRolledBack() throws SystemException

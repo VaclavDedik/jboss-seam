@@ -70,17 +70,17 @@ public class Transaction
       }
    }
 
-   protected NoTransaction createNoTransaction()
+   protected UserTransaction createNoTransaction()
    {
       return new NoTransaction();
    }
 
-   protected EJBTransaction createEJBTransaction() throws NamingException
+   protected UserTransaction createEJBTransaction() throws NamingException
    {
       return new EJBTransaction( EJB.getEJBContext() );
    }
 
-   protected UTTransaction createUTTransaction() throws NamingException
+   protected UserTransaction createUTTransaction() throws NamingException
    {
       return new UTTransaction( getUserTransaction() );
    }

@@ -129,11 +129,11 @@ public class PassivatedEntity implements Serializable
       return null;
    }
    
-   public static boolean isTransactionMarkedRollback()
+   public static boolean isTransactionRolledBackOrMarkedRollback()
    {
       try
       {
-         return Transaction.instance().isMarkedRollback();
+         return Transaction.instance().isRolledBackOrMarkedRollback();
       }
       catch (Exception e)
       {

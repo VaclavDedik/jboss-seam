@@ -33,11 +33,13 @@ import org.jboss.seam.mock.MockApplication;
 import org.jboss.seam.mock.MockExternalContext;
 import org.jboss.seam.mock.MockFacesContext;
 import org.jboss.seam.transaction.Transaction;
+import org.jboss.seam.transaction.UserTransaction;
 import org.jboss.seam.util.EJB;
 
 /**
- * As a last line of defence, rollback uncommitted transactions 
- * at the very end of the request.
+ * Delegate uncaught exceptions to Seam exception handling.
+ * As a last line of defence, rollback uncommitted transactions,
+ * and clean up Seam contexts.
  * 
  * @author Gavin King
  */
@@ -120,10 +122,11 @@ public class ExceptionFilter extends AbstractFilter
    {
       try 
       {
-         if ( Transaction.instance().isActiveOrMarkedRollback() )
+         UserTransaction transaction = Transaction.instance();
+         if ( transaction.isActiveOrMarkedRollback() || transaction.isRolledBack() )
          {
             log.debug("killing transaction");
-            Transaction.instance().rollback();
+            transaction.rollback();
          }
       }
       catch (Exception te)

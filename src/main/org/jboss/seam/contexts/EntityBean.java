@@ -26,7 +26,7 @@ public class EntityBean implements Mutable
    {
       if (passivatedEntity==null)
       {
-         if ( !PassivatedEntity.isTransactionMarkedRollback() )
+         if ( !PassivatedEntity.isTransactionRolledBackOrMarkedRollback() )
          {
             passivatedEntity = PassivatedEntity.createPassivatedEntity(instance, null);
             if (passivatedEntity!=null)

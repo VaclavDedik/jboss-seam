@@ -38,7 +38,7 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
       }
       finally
       {
-         if ( !PassivatedEntity.isTransactionMarkedRollback() )
+         if ( !PassivatedEntity.isTransactionRolledBackOrMarkedRollback() )
          {
             entityRefsToIds(ctx);
          }
