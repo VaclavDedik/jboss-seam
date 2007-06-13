@@ -25,7 +25,7 @@ import org.jboss.seam.annotations.Startup;
 @Name("org.jboss.seam.web.multipartFilter")
 @Install(precedence = BUILT_IN)
 @Intercept(NEVER)
-@Filter(within="org.jboss.seam.web.ajax4jsfFilter")
+@Filter(within={"org.jboss.seam.web.ajax4jsfFilter", "org.jboss.seam.web.exceptionFilter"})
 public class MultipartFilter extends AbstractFilter
 {
    public static final String MULTIPART = "multipart/";
