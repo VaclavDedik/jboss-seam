@@ -101,7 +101,7 @@ public class ConverterChain implements Converter, StateHolder
    public Object getAsObject(FacesContext context, UIComponent component, String value)
             throws ConverterException
    {
-      Object output = null;
+      Object output = value;
       for (Converter converter : getConverters())
       {
          Object result = converter.getAsObject(context, component, value);
@@ -117,7 +117,7 @@ public class ConverterChain implements Converter, StateHolder
    public String getAsString(FacesContext context, UIComponent component, Object value)
             throws ConverterException
    {
-      String output = null;
+      String output = value == null ? null : value.toString();
       for (Converter converter : getConverters())
       {
          String result = converter.getAsString(context, component, value);
