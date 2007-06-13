@@ -513,9 +513,7 @@
 		<ant dir="examples/todo" target="undeploy.tomcat" inheritall="false" />
 		<ant dir="examples/drools" target="undeploy.tomcat" inheritall="false" />
 		<ant dir="examples/numberguess" target="undeploy.tomcat" inheritall="false" />
-		<ant dir="examples/groovybooking" target="undeploy.tomcat" inheritall="false" />
 		<ant dir="examples/quartz" target="undeploy.tomcat" inheritall="false" />
-		<ant dir="examples/wiki" target="undeploy.tomcat" inheritall="false" />
 	</target>
 
 	<target name="deploypresentation" depends="build" description="Deploy the examples used in Seam presentations">
