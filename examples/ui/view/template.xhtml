@@ -1,4 +1,5 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html  xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
@@ -35,28 +36,34 @@
 	float: left;
 	padding-right: 5px;
 	font-weight: bold;
-	width: 150px;
+	width: 250px;
 	text-align: right;
 }
-.entry .output {
-	width: 360px;
-	padding-top: 10px;
-	text-align: left;
-}
+
 .entry .input {
-	width: 360px;
+	width: 560px;
 	text-align: left;
 }
 .entry .error {
-	width: 360px;
+	width: 560px;
 	text-align: left;
+}
+
+.menu {
+	width: 200px;
+	float: left;
+	padding: 10px;
+}
+
+.content {
+	margin-left: 200px;
 }
 </style>
 <ui:debug id="debug" />
 </head>
 
 <body>
-<s:div style="width: 200px; float: left; padding: 10px; height: 100%">
+<s:div styleClass="menu">
 	<ul>
 		<li><s:link view="/selectItems.xhtml" propagation="join">
 			<code>s:selectItems</code>
@@ -85,7 +92,7 @@
 		</s:link></li>
 	</ul>
 </s:div>
-<s:div>
+<s:div styleClass="content">
 	<h1><code><h:outputText value="#{tagName}" /></code></h1>
 	<ui:insert name="body" />
 	<h:messages />

@@ -16,6 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.CollectionOfElements;
+
 @Entity
 public class Person implements Serializable
 {
@@ -82,8 +84,10 @@ public class Person implements Serializable
    @OneToOne(cascade=CascadeType.ALL)
    private Picture picture;
    
-   @Transient
+   @CollectionOfElements
    private List<Role> roles = new ArrayList<Role>();
+   
+   private String pet;
    
    public Person()
    {
@@ -202,5 +206,15 @@ public class Person implements Serializable
    public void setPicture(Picture picture)
    {
       this.picture = picture;
+   }
+   
+   public String getPet()
+   {
+      return pet;
+   }
+   
+   public void setPet(String pet)
+   {
+      this.pet = pet;
    }
 }
