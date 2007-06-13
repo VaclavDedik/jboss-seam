@@ -465,6 +465,9 @@
 		<ant dir="examples/jpa" target="clean" inheritall="false" />
 		<ant dir="examples/glassfish" target="clean" inheritall="false" />
 		<ant dir="trinidad/examples/seamdiscs" target="clean" inheritall="false" />
+		<ant dir="examples/groovybooking" target="clean" inheritall="false" />
+		<ant dir="examples/quartz" target="clean" inheritall="false" />
+		<ant dir="examples/wiki" target="clean" inheritall="false" />
 
 	</target>
 
@@ -492,6 +495,9 @@
 		<ant dir="examples/hibernate2" target="undeploy" inheritall="false" />
 		<ant dir="examples/jpa" target="undeploy" inheritall="false" />
 		<ant dir="trinidad/examples/seamdiscs" target="undeploy" inheritall="false" />
+		<ant dir="examples/groovybooking" target="undeploy" inheritall="false" />
+		<ant dir="examples/quartz" target="undeploy" inheritall="false" />
+		<ant dir="examples/wiki" target="undeploy" inheritall="false" />
 
 		<ant dir="examples/booking" target="undeploy.tomcat" inheritall="false" />
 		<ant dir="examples/hibernate" target="undeploy.tomcat" inheritall="false" />
@@ -507,6 +513,9 @@
 		<ant dir="examples/todo" target="undeploy.tomcat" inheritall="false" />
 		<ant dir="examples/drools" target="undeploy.tomcat" inheritall="false" />
 		<ant dir="examples/numberguess" target="undeploy.tomcat" inheritall="false" />
+		<ant dir="examples/groovybooking" target="undeploy.tomcat" inheritall="false" />
+		<ant dir="examples/quartz" target="undeploy.tomcat" inheritall="false" />
+		<ant dir="examples/wiki" target="undeploy.tomcat" inheritall="false" />
 	</target>
 
 	<target name="deploypresentation" depends="build" description="Deploy the examples used in Seam presentations">
@@ -1010,6 +1019,9 @@
 				<include name="messages/**/*" />
 				<include name="todo/**/*" />
 				<include name="numberguess/**/*" />
+				<include name="groovybooking/**/*" />
+				<include name="quartz/**/*" />
+				<include name="wiki/**/*" />
 				<include name="portal/**/*" />
 				<include name="drools/**/*" />
 				<include name="remoting/chatroom/**/*" />
