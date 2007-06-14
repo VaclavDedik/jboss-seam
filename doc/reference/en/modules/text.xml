@@ -164,6 +164,18 @@ My code doesn't work:
 Any ideas?
 </p>]]></programlisting>
 
+       <para>
+          Note that inline monospace formatting always escapes (most monospace formatted text is in fact
+          code or tags with many special characters). So you can, for example, write:
+       </para>
+
+       <programlisting><![CDATA[This is a |<tag attribute="value"/>| example.]]></programlisting>
+
+       <para>
+          without escaping any of the characters inside the monospace bars. The downside is that
+          you can't format inline monospace text in any other way (italics, underscore, and so on).
+       </para>
+
     </section>
     
     <section>

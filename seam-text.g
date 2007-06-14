@@ -117,18 +117,6 @@ htmlSpecialChars:
     | AMPERSAND { append("&amp;"); }
     ;
 
-monospaceSpecialChars:
-          st:STAR { append( st.getText() ); }
-        | sl:SLASH { append( sl.getText() ); }
-        | h:HAT { append( h.getText() ); }
-        | p:PLUS { append( p.getText() ); }
-        | eq:EQ { append( eq.getText() ); }
-        | hh:HASH { append( hh.getText() ); }
-        | e:ESCAPE { append( e.getText() ); }
-        | t:TWIDDLE { append( t.getText() ); }
-        | u:UNDERSCORE { append( u.getText() ); }
-    ;
-
 link: OPEN
       { beginCapture(); } 
       (plain)* 
@@ -174,7 +162,7 @@ monospace: BAR { append("<tt>"); }
           | e:ESCAPE { append( e.getText() ); }
           | t:TWIDDLE { append( t.getText() ); }
           | u:UNDERSCORE { append( u.getText() ); }
-          | dq:DOUBLEQUOTE { append( dq.getText() ); }
+          | htmlSpecialChars
           | newline)+
            BAR { append("</tt>"); }
     ;
