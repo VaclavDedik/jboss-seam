@@ -78,3 +78,5 @@ jpa/                   An example of the use of Hibernate JPA (runs on
 
 wiki/                 A fully featured wiki system based on Seam, please
                       read wiki/README.txt for installation instructions
+                      
+seamdiscs/            Demonstrates Seam, Trinidad, Ajax4jsf and Richfaces

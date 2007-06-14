@@ -28,6 +28,7 @@ Tests
   - itext
   - mail
   - spring
+  - seamdiscs
 * Sanity check the following example applications on Tomcat
   - booking
   - dvdstore
