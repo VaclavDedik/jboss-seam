@@ -29,9 +29,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wiki.ipr" afterPath="$PROJECT_DIR$/Wiki.ipr" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/etc/WEB-INF/pages.xml" afterPath="$PROJECT_DIR$/src/etc/WEB-INF/pages.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wiki.iml" afterPath="$PROJECT_DIR$/Wiki.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/prefs/DocumentEditorPreferences.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/prefs/DocumentEditorPreferences.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wiki.iws" afterPath="$PROJECT_DIR$/Wiki.iws" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/search/WikiSearch.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/search/WikiSearch.java" />
     </list>
@@ -176,30 +176,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="docDisplay.xhtml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/view/docDisplay.xhtml">
-          <provider editor-type-id="HtmlPreview">
-            <state />
-          </provider>
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="52" selection-start="1132" selection-end="1132" vertical-scroll-proportion="0.18655589">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dirDisplay.xhtml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/view/dirDisplay.xhtml">
-          <provider editor-type-id="HtmlPreview">
-            <state />
-          </provider>
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="0" selection-start="1266" selection-end="1266" vertical-scroll-proportion="0.29456192">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="search.xhtml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/view/search.xhtml">
           <provider editor-type-id="HtmlPreview">
@@ -230,10 +206,28 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pages.xml" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="pages.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/etc/WEB-INF/pages.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="172" column="27" selection-start="6758" selection-end="6758" vertical-scroll-proportion="0.2189781">
+            <state line="293" column="27" selection-start="11731" selection-end="11731" vertical-scroll-proportion="0.4970803">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="IndexManager.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/search/IndexManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="118" column="0" selection-start="4460" selection-end="4460" vertical-scroll-proportion="0.89689976">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DocumentEditorPreferences.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/prefs/DocumentEditorPreferences.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="24" column="112" selection-start="1108" selection-end="1108" vertical-scroll-proportion="0.22494593">
               <folding />
             </state>
           </provider>
@@ -669,6 +663,40 @@
         </PATH_ELEMENT>
         <PATH_ELEMENT>
           <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/ui" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/main" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/main/org/jboss/seam/wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/search" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -1325,7 +1353,7 @@
     <option name="PERFORM_EDIT_IN_BACKGROUND" value="true" />
     <option name="PERFORM_ADD_REMOVE_IN_BACKGROUND" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated MySQL installation instructions" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="REFORMAT_BEFORE_FILE_COMMIT" value="false" />
@@ -1351,11 +1379,11 @@
     <MESSAGE value="Completed first iteration of search engine" />
     <MESSAGE value="JBSEAM-952" />
     <MESSAGE value="Improved JBSEAM-952" />
-    <MESSAGE value="Minor" />
     <MESSAGE value="Pre-generate thumbnails" />
     <MESSAGE value="JBSEAM-1439" />
     <MESSAGE value="Better page titles" />
     <MESSAGE value="Updated MySQL installation instructions" />
+    <MESSAGE value="Minor" />
   </component>
   <component name="VssConfiguration">
     <option name="CLIENT_PATH" value="" />
@@ -1434,20 +1462,6 @@
     <option name="myLastEditedConfigurable" value="Default" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/NodePermissions.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="60" column="8" selection-start="1871" selection-end="1871" vertical-scroll-proportion="0.5623648">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/ui/FileMetaMap.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="13" selection-start="262" selection-end="262" vertical-scroll-proportion="0.10310022">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/ui/FileServlet.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="54" column="0" selection-start="1745" selection-end="1745" vertical-scroll-proportion="0.5061283">
@@ -1533,13 +1547,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/build.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="470" column="0" selection-start="17473" selection-end="17473" vertical-scroll-proportion="0.9430657">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/UserHome.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="222" column="9" selection-start="8018" selection-end="8018" vertical-scroll-proportion="0.21557318">
@@ -1547,9 +1554,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/build.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="470" column="0" selection-start="17473" selection-end="17473" vertical-scroll-proportion="0.9430657">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/etc/WEB-INF/pages.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="172" column="27" selection-start="6758" selection-end="6758" vertical-scroll-proportion="0.2189781">
+        <state line="293" column="27" selection-start="11731" selection-end="11731" vertical-scroll-proportion="0.4970803">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/search/IndexManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="118" column="0" selection-start="4460" selection-end="4460" vertical-scroll-proportion="0.89689976">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/prefs/DocumentEditorPreferences.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="112" selection-start="1108" selection-end="1108" vertical-scroll-proportion="0.22494593">
           <folding />
         </state>
       </provider>
