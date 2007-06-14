@@ -26,7 +26,7 @@ import org.jboss.seam.ws.SeamWSRequestHandler;
  * @author Shane Bryzak
  */
 @Interceptor(stateless=true,
-         around={ValidationInterceptor.class, BijectionInterceptor.class},
+         around=BijectionInterceptor.class,
          within=BusinessProcessInterceptor.class)
 public class WebServiceInterceptor extends AbstractInterceptor
 {
