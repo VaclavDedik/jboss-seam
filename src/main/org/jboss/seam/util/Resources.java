@@ -112,7 +112,7 @@ public class Resources {
       return url;
    }
    
-   private static URL  getResource(String resource, String stripped)
+   private static URL getResource(String resource, String stripped)
    {
       ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
       URL url = null;
