@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.faces.event.PhaseId;
 import javax.security.auth.login.LoginException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -27,10 +26,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.ContextualHttpServletRequest;
-import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.contexts.SessionContext;
-import org.jboss.seam.core.ConversationPropagation;
-import org.jboss.seam.core.Manager;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.NotLoggedInException;
