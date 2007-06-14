@@ -162,6 +162,7 @@ monospace: BAR { append("<tt>"); }
           | e:ESCAPE { append( e.getText() ); }
           | t:TWIDDLE { append( t.getText() ); }
           | u:UNDERSCORE { append( u.getText() ); }
+          | moreSpecialChars
           | htmlSpecialChars
           | newline)+
            BAR { append("</tt>"); }
