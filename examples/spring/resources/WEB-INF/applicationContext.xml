@@ -18,7 +18,9 @@
     
     <tx:annotation-driven proxy-target-class="true"/>
 
-    <bean id="userService" class="org.jboss.seam.example.spring.UserService"/>
+    <bean id="userService" class="org.jboss.seam.example.spring.UserService">
+    	<seam:component/>
+    </bean>
 
     <bean id="bookingService" class="org.jboss.seam.example.spring.BookingService">
        	<property name="entityManagerFactory" ref="seamEntityManagerFactory"/>
@@ -58,4 +60,6 @@
 	    </property>
 	    <property name="targetMethod" value="testNonWebRequest" />
 	</bean>
+	
+	<bean id="springThreadPoolTaskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor"/>
 </beans>

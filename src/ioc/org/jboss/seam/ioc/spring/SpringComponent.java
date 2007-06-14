@@ -1,11 +1,14 @@
 package org.jboss.seam.ioc.spring;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Component.BijectedAttribute;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.init.Initialization;
@@ -254,4 +257,16 @@ public class SpringComponent extends IoCComponent
     
     @Override
     protected void checkPersistenceContextForComponentType() {}
+    
+    /**
+     * Ignore PersistenceContextAttributes if scope is stateless
+     */
+    @Override    
+    public List<BijectedAttribute> getPersistenceContextAttributes()
+    {
+       if(getScope().equals(ScopeType.STATELESS)) {
+          return Collections.emptyList();          
+       }
+       return super.getPersistenceContextAttributes();
+    }
 }

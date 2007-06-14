@@ -27,6 +27,9 @@
         <listitem>
             <para>provides a Seam managed replacement for Spring's <literal>OpenEntityManagerInViewFilter</literal></para>
         </listitem>
+        <listitem>
+            <para>Support for Spring <literal>TaskExecutors</literal> to back <literal>@Asynchronous</literal> calls</para>
+        </listitem>
     </itemizedlist>
 
     <section>
@@ -323,5 +326,28 @@ private BookingService bookingService;]]></programlisting>
 	<spring:context-loader context-locations="/WEB-INF/applicationContext.xml"/>
 
 </components>]]></programlisting>
+    </section>
+    <section>
+        <title>Using a Spring TaskExecutor for @Asynchronous</title>
+
+        <para>Spring provides an abstraction for executing code asynchronously called a <literal>TaskExecutor</literal>.
+        The Spring Seam integration allows for the use of a Spring <literal>TaskExecutor</literal> for executing
+        immediate <literal>@Asynchronous</literal> method calls.  To enable this functionality install the
+        <literal>SpringTaskExecutorDispatchor</literal> and provide a spring bean defined taskExecutor like so:</para>
+
+        <programlisting>
+			<![CDATA[<spring:task-executor-dispatcher task-executor="#{springThreadPoolTaskExecutor}"/>]]>
+		</programlisting>
+
+        <para>Because a Spring <literal>TaskExecutor</literal> does not support scheduling of an asynchronous event
+        a fallback Seam <literal>Dispatcher</literal> can be provided to handle scheduled asynchronous event like so:</para>
+
+        <programlisting>
+			<![CDATA[<!-- Install a ThreadPoolDispatcher to handle scheduled asynchronous event -->
+<core:thread-pool-dispatcher name="threadPoolDispatcher"/>
+    
+<!-- Install the SpringDispatcher as default -->
+<spring:task-executor-dispatcher task-executor="#{springThreadPoolTaskExecutor}" schedule-dispatcher="#{threadPoolDispatcher}"/>]]>
+		</programlisting>
     </section>
 </chapter>

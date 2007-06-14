@@ -86,7 +86,7 @@ public abstract class AbstractDispatcher<T, S> implements Dispatcher<T, S>
       protected abstract void call();
    }
    
-   static class AsynchronousInvocation extends Asynchronous
+   protected static class AsynchronousInvocation extends Asynchronous
    {
       static final long serialVersionUID = 7426196491669891310L;
       
@@ -127,7 +127,7 @@ public abstract class AbstractDispatcher<T, S> implements Dispatcher<T, S>
       }
    }
    
-   static class AsynchronousEvent extends Asynchronous
+   protected static class AsynchronousEvent extends Asynchronous
    {
       static final long serialVersionUID = 2074586442931427819L;
       

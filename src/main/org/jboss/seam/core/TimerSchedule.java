@@ -64,6 +64,29 @@ public class TimerSchedule extends Schedule
 
    TimerSchedule() {}
    
-   public static final TimerSchedule ONCE_IMMEDIATELY = new TimerSchedule();
    
+   
+   public static final TimerSchedule ONCE_IMMEDIATELY = new TimerSchedule();
+
+   @Override
+   public int hashCode()
+   {
+      final int prime = 31;
+      int result = super.hashCode();
+      result = prime * result + ((intervalDuration == null) ? 0 : intervalDuration.hashCode());
+      return result;
+   }
+
+   @Override
+   public boolean equals(Object obj)
+   {
+      if (!super.equals(obj)) return false;
+      final TimerSchedule other = (TimerSchedule) obj;
+      if (intervalDuration == null)
+      {
+         if (other.intervalDuration != null) return false;
+      }
+      else if (!intervalDuration.equals(other.intervalDuration)) return false;
+      return true;
+   }
 }

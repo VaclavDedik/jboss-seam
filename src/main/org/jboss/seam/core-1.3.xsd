@@ -31,7 +31,6 @@
     <xs:element name="thread-pool-dispatcher">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="components:attlist.ejbcomponent"/>
             <xs:attributeGroup ref="core:attlist.threadPoolDispatcher"/>
         </xs:complexType>
     </xs:element>

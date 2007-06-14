@@ -30,4 +30,15 @@
 	    </xs:documentation>
 	</xs:annotation>
     </xs:element>
+    
+    <xs:element name="task-executor-dispatcher">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.taskExecutorDispatcher"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="core:attlist.taskExecutorDispatcher">
+        <xs:attribute name="task-executor" use="required"/>
+        <xs:attribute name="schedule-dispatcher"/>
+    </xs:attributeGroup>
 </xs:schema>

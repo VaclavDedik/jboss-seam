@@ -12,7 +12,6 @@ import org.jboss.seam.core.FacesMessages;
 @Name("register")
 public class RegisterAction
 {
-
     @In
     private User user;
 
@@ -33,6 +32,9 @@ public class RegisterAction
 
             try {
                 userService.createUser(user);
+                userService.currentThread.set(true);
+                userService.sendRegisterEmail();
+                userService.currentThread.set(null);
                 registered = true;
             } catch(ValidationException e) {
                 facesMessages.add(e.getMessage());
@@ -44,7 +46,7 @@ public class RegisterAction
             verify=null;
         }
     }
-
+    
     public void invalid()
     {
         facesMessages.add("Please try again");
