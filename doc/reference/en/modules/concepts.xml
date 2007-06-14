@@ -1166,6 +1166,8 @@ public void initCustomerList() {
             value that will be visable to clients, and is called <emphasis>every time</emphasis> a context variable is
             referenced. 
         </para>
+        
+
 
         <programlisting><![CDATA[@Name("customerList")
 @Scope(CONVERSATION)
@@ -1180,10 +1182,48 @@ public class CustomerListManager
 }]]></programlisting>
 
         <para> 
-            This pattern is especially useful if we have some heavyweight object that needs a cleanup operation when
-            the context ends. In this case, the manager component may perform cleanup in the <literal>@Destroy</literal>
-            method. 
+            The manager component pattern is especially useful if we have an object where you need more control over the 
+            lifecycle of the component.  For example, if you have a heavyweight object that needs a cleanup operation when 
+            the context ends you could <literal>@Unwrap</literal> the object, and perform cleanup in the 
+            <literal>@Destroy</literal> method of the manager component.
         </para>
+        
+        <programlisting><![CDATA[@Name("hens")
+@Scope(APPLICATION) 
+public class HenHouse {
+    
+    private Set<Hen> hens;
+    
+    @Unwrap
+    public List<Hen> getHens() {
+        if (hens == null) {
+            // Setup our hens
+        }
+        return hens;
+    }
+    
+    @Observer({"chickBorn", "chickenBoughtAtMarket"})
+    public addHen() {
+        hens.add(hen);
+    }
+    
+    @Observer("chickenSoldAtMarket")
+    public removeHen() {
+        hens.remove(hen);
+    }
+    
+    @Observer("foxGetsIn")
+    public addHen() {
+        hens.clear();
+    }
+    ...
+}]]> </programlisting>
+
+	<para>
+		Here the managed component observes many events which change the underlying object. 
+		The component manages these actions itself, and because the object is unwrapped
+		on every access, a consistent view is provided.
+	</para>
 
     </sect1>
 
