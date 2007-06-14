@@ -229,34 +229,15 @@ public class Component extends Model
       }
 
       initNamespaces(componentName, applicationContext);
+      initSynchronize();
+      initStartup();
 
       checkScopeForComponentType();
+      checkSynchronizedForComponentType();
+      checkSerializableForComponentType();
 
       jndiName = componentJndiName == null ?
             getJndiName(applicationContext) : componentJndiName;
-
-      startup = getBeanClass().isAnnotationPresent(Startup.class);
-      if (startup)
-      {
-         if (scope!=SESSION && scope!=APPLICATION)
-         {
-            throw new IllegalArgumentException("@Startup only supported for SESSION or APPLICATION scoped components: " + name);
-         }
-         dependencies = getBeanClass().getAnnotation(Startup.class).depends();
-      }
-
-      synchronize = ( scope==SESSION /*&& ! beanClass.isAnnotationPresent(ReadOnly.class)*/ ) ||
-            getBeanClass().isAnnotationPresent(Synchronized.class);
-      if (synchronize)
-      {
-         if (scope==STATELESS)
-         {
-            throw new IllegalArgumentException("@Synchronized not meaningful for stateless components: " + name);
-         }
-         timeout = getBeanClass().isAnnotationPresent(Synchronized.class) ?
-               getBeanClass().getAnnotation(Synchronized.class).timeout() :
-               Synchronized.DEFAULT_TIMEOUT;
-      }
 
       log.info(
             "Component: " + getName() +
@@ -280,6 +261,31 @@ public class Component extends Model
       
       registerConverterOrValidator(applicationContext);
 
+   }
+
+   private void initStartup()
+   {
+      startup = getBeanClass().isAnnotationPresent(Startup.class);
+      if (startup)
+      {
+         if (scope!=SESSION && scope!=APPLICATION)
+         {
+            throw new IllegalArgumentException("@Startup only supported for SESSION or APPLICATION scoped components: " + name);
+         }
+         dependencies = getBeanClass().getAnnotation(Startup.class).depends();
+      }
+   }
+
+   private void initSynchronize()
+   {
+      synchronize = ( scope==SESSION /*&& ! beanClass.isAnnotationPresent(ReadOnly.class)*/ ) ||
+            getBeanClass().isAnnotationPresent(Synchronized.class);
+      if (synchronize)
+      {
+         timeout = getBeanClass().isAnnotationPresent(Synchronized.class) ?
+               getBeanClass().getAnnotation(Synchronized.class).timeout() :
+               Synchronized.DEFAULT_TIMEOUT;
+      }
    }
    
    private void registerConverterOrValidator(Context applicationContext)
@@ -350,11 +356,22 @@ public class Component extends Model
       if ( scope!=STATELESS && type==MESSAGE_DRIVEN_BEAN )
       {
          throw new IllegalArgumentException("Message-driven beans must be bound to STATELESS context: " + name);
+      }      
+   }
+   
+   protected void checkSynchronizedForComponentType()
+   {
+      if (scope==STATELESS && synchronize)
+      {
+         throw new IllegalArgumentException("@Synchronized not meaningful for stateless components: " + name);
       }
-
+   }
+   
+   private void checkSerializableForComponentType()
+   {
       boolean serializableScope = scope==PAGE || scope==SESSION || scope==CONVERSATION;
       boolean serializableType = type==JAVA_BEAN || type==ENTITY_BEAN;
-      if ( serializableType && serializableScope && !Serializable.class.isAssignableFrom(getBeanClass()) )
+      if ( serializableType && serializableScope && !Serializable.class.isAssignableFrom( getBeanClass() ) )
       {
          log.warn("Component class should be serializable: " + name);
       }
@@ -601,10 +618,7 @@ public class Component extends Model
             }
             if ( method.isAnnotationPresent(PERSISTENCE_CONTEXT) )
             {
-               if ( !type.isSessionBean() && type!=MESSAGE_DRIVEN_BEAN )
-               {
-                  throw new IllegalArgumentException("@PersistenceContext may only be used on session bean or message driven bean components: " + name);
-               }
+               checkPersistenceContextForComponentType();
                pcAttributes.add( new BijectedMethod( toName(null, method), method, null ) );
             }
             if ( method.isAnnotationPresent(Begin.class) || 
@@ -691,10 +705,7 @@ public class Component extends Model
             }
             if ( field.isAnnotationPresent(PERSISTENCE_CONTEXT) )
             {
-               if ( !type.isSessionBean() && type!=MESSAGE_DRIVEN_BEAN )
-               {
-                  throw new IllegalArgumentException("@PersistenceContext may only be used on session bean or message driven bean components: " + name);
-               }
+               checkPersistenceContextForComponentType();
                pcAttributes.add( new BijectedField( toName(null, field), field, null ) );
             }
             for ( Annotation ann: field.getAnnotations() )
@@ -749,6 +760,14 @@ public class Component extends Model
          }
       }
 
+   }
+
+   protected void checkPersistenceContextForComponentType()
+   {
+      if ( !type.isSessionBean() && type!=MESSAGE_DRIVEN_BEAN )
+      {
+         throw new IllegalArgumentException("@PersistenceContext may only be used on session bean or message driven bean components: " + name);
+      }
    }
 
    private String getDataModelSelectionName(Set<String> dataModelNames, boolean hasMultipleDataModels, String defaultDataModelName, Annotation ann)

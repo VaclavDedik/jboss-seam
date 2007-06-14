@@ -248,4 +248,10 @@ public class SpringComponent extends IoCComponent
         }
         return interceptionType;
     }
+    
+    @Override
+    protected void checkSynchronizedForComponentType() {}
+    
+    @Override
+    protected void checkPersistenceContextForComponentType() {}
 }
