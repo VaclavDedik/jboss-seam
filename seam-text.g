@@ -117,6 +117,18 @@ htmlSpecialChars:
     | AMPERSAND { append("&amp;"); }
     ;
 
+monospaceSpecialChars:
+          st:STAR { append( st.getText() ); }
+        | sl:SLASH { append( sl.getText() ); }
+        | h:HAT { append( h.getText() ); }
+        | p:PLUS { append( p.getText() ); }
+        | eq:EQ { append( eq.getText() ); }
+        | hh:HASH { append( hh.getText() ); }
+        | e:ESCAPE { append( e.getText() ); }
+        | t:TWIDDLE { append( t.getText() ); }
+        | u:UNDERSCORE { append( u.getText() ); }
+    ;
+
 link: OPEN
       { beginCapture(); } 
       (plain)* 
@@ -152,7 +164,18 @@ italic: SLASH { append("<i>"); }
     ;
     
 monospace: BAR { append("<tt>"); }
-           (plain|bold|underline|italic|superscript|deleted|newline)+
+           (word | punctuation | space 
+          | st:STAR { append( st.getText() ); }
+          | sl:SLASH { append( sl.getText() ); }
+          | h:HAT { append( h.getText() ); }
+          | p:PLUS { append( p.getText() ); }
+          | eq:EQ { append( eq.getText() ); }
+          | hh:HASH { append( hh.getText() ); }
+          | e:ESCAPE { append( e.getText() ); }
+          | t:TWIDDLE { append( t.getText() ); }
+          | u:UNDERSCORE { append( u.getText() ); }
+          | dq:DOUBLEQUOTE { append( dq.getText() ); }
+          | newline)+
            BAR { append("</tt>"); }
     ;
     
@@ -251,19 +274,20 @@ options
    charVocabulary='\u0000'..'\uFFFE';
 }
 
+// Unicode sets allowed:
+// '\u00a0'..'\u00ff'  Latin 1 supplement (no control characters) http://www.unicode.org/charts/PDF/U0080.pdf
+// '\u0100'..'\u017f'  Latin Extended A http://www.unicode.org/charts/PDF/U0100.pdf
+// '\u0180'..'\u024f'  Latin Extended B http://www.unicode.org/charts/PDF/U0180.pdf
+// '\u0230'..'\ufaff'  Various other languages, punctuation etc. (excluding "presentation forms")
+
 WORD: ('a'..'z'|'A'..'Z'|'0'..'9'|
-      '\u00c0'..'\u00d6' |
-      '\u00d8'..'\u00f6' |
-      '\u00f8'..'\u00ff' |
-      '\u0100'..'\u1fff' |
-      '\u3040'..'\u318f' |
-      '\u3300'..'\u337f' |
-      '\u3400'..'\u3d2d' |
-      '\u4e00'..'\u9fff' |
-      '\uf900'..'\ufaff')+
+      '\u00a0'..'\u00ff' |
+      '\u0100'..'\u017f' |
+      '\u0180'..'\u024f' |
+      '\u0250'..'\ufaff')+
     ;
     
-PUNCTUATION: '-' | ';' | ':' | '(' | ')' | '{' | '}' | '?' | '!' | '@' | '%' | '.' | ',' | '\''
+PUNCTUATION: '-' | ';' | ':' | '(' | ')' | '{' | '}' | '?' | '!' | '@' | '%' | '.' | ',' | '\'' | '$'
     ;
     
 EQ: '='
