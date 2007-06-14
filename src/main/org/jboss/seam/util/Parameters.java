@@ -9,7 +9,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.servlet.ServletRequest;
 
-import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.ServletContexts;
 
 public class Parameters
