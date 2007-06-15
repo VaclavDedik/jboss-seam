@@ -48,6 +48,7 @@ public class Init
    private boolean myFacesLifecycleBug;
    private String userTransactionName;
    //private String transactionManagerName;
+   private boolean transactionManagementEnabled = true;
    
    private Map<String, List<ObserverMethod>> observerMethods = new HashMap<String, List<ObserverMethod>>();
    private Map<String, List<ObserverMethodExpression>> observerMethodBindings = new HashMap<String, List<ObserverMethodExpression>>();
@@ -432,5 +433,15 @@ public class Init
    public void setTimestamp(long timestamp)
    {
       this.timestamp = timestamp;
+   }
+
+   public boolean isTransactionManagementEnabled()
+   {
+      return transactionManagementEnabled;
+   }
+
+   public void setTransactionManagementEnabled(boolean transactionManagementEnabled)
+   {
+      this.transactionManagementEnabled = transactionManagementEnabled;
    }
 }

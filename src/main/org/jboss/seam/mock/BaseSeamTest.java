@@ -37,7 +37,6 @@ import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Pageflow;
 import org.jboss.seam.init.Initialization;
-import org.jboss.seam.jsf.AbstractSeamPhaseListener;
 import org.jboss.seam.jsf.SeamApplication;
 import org.jboss.seam.jsf.SeamPhaseListener;
 import org.jboss.seam.servlet.ServletSessionMap;
@@ -58,7 +57,7 @@ public class BaseSeamTest
 
    private Application application;
    private MockServletContext servletContext;
-   private AbstractSeamPhaseListener phases;
+   private SeamPhaseListener phases;
    private MockHttpSession session;
    private Map<String, Map> conversationViewRootAttributes;
 
@@ -826,24 +825,15 @@ public class BaseSeamTest
       session = null;
    }
 
-   /**
-    * Create a SeamPhaseListener by default. Override to use one of the other
-    * standard Seam phase listeners.
-    */
-   protected AbstractSeamPhaseListener createPhaseListener()
-   {
-      return new SeamPhaseListener();
-   }
-
    public void init() throws Exception
    {
       startJbossEmbeddedIfNecessary();
       
       application = new SeamApplication( new MockApplication() );
-      phases = createPhaseListener();
+      phases = new SeamPhaseListener();
 
       servletContext = new MockServletContext();
-      initServletContext(servletContext.getInitParameters());
+      initServletContext( servletContext.getInitParameters() );
       Lifecycle.setServletContext(servletContext);
       new Initialization(servletContext).create().init();
 

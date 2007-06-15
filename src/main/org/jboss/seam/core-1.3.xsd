@@ -71,8 +71,7 @@
                 </xs:restriction>
             </xs:simpleType>
         </xs:attribute>
-
-        <xs:attribute name="my-faces-lifecycle-bug">
+        <xs:attribute name="transaction-management-enabled">
             <xs:simpleType>
                 <xs:restriction base="xs:token">
                     <xs:enumeration value="true"/>

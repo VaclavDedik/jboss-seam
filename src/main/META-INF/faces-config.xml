@@ -4,6 +4,10 @@
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
               xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
 
+   <factory>
+      <application-factory>org.jboss.seam.jsf.SeamApplicationFactory</application-factory>
+   </factory>
+
    <application>
       <navigation-handler>org.jboss.seam.jsf.SeamNavigationHandler</navigation-handler>
       <view-handler>org.jboss.seam.jsf.SeamViewHandler</view-handler>
@@ -11,8 +15,8 @@
       <el-resolver>org.jboss.seam.el.SeamELResolver</el-resolver>
    </application>
   
-   <factory>
-      <application-factory>org.jboss.seam.jsf.SeamApplicationFactory</application-factory>
-   </factory>
-
+   <lifecycle>
+      <phase-listener>org.jboss.seam.jsf.SeamPhaseListener</phase-listener>
+   </lifecycle>
+    
 </faces-config>
