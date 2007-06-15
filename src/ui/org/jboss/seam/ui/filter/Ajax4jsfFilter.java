@@ -17,7 +17,6 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.util.EnumerationEnumeration;
-import org.jboss.seam.util.Reflections;
 import org.jboss.seam.web.AbstractAjax4jsfFilter;
 
 @Name("org.jboss.seam.web.ajax4jsfFilter")
@@ -30,19 +29,19 @@ public class Ajax4jsfFilter extends AbstractAjax4jsfFilter
    private class FilterConfigWrapper implements FilterConfig
    {
       
-      private FilterConfig delegate;
+      private FilterConfig configDelegate;
       
       private Map<String, String> parameters;
       
       public FilterConfigWrapper (FilterConfig filterConfig)
       {
-         delegate = filterConfig;
+         configDelegate = filterConfig;
          parameters = new HashMap<String, String>();
       }
 
       public String getFilterName()
       {
-         return delegate.getFilterName();
+         return configDelegate.getFilterName();
       }
 
       public String getInitParameter(String name)
@@ -53,19 +52,19 @@ public class Ajax4jsfFilter extends AbstractAjax4jsfFilter
          }
          else
          {
-            return delegate.getInitParameter(name);
+            return configDelegate.getInitParameter(name);
          }
       }
 
       public Enumeration getInitParameterNames()
       {
-         Enumeration[] enumerations = {delegate.getInitParameterNames(), Collections.enumeration(parameters.keySet())};
+         Enumeration[] enumerations = {configDelegate.getInitParameterNames(), Collections.enumeration(parameters.keySet())};
          return new EnumerationEnumeration(enumerations);
       }
 
       public ServletContext getServletContext()
       {
-         return delegate.getServletContext();
+         return configDelegate.getServletContext();
       }
       
       public FilterConfig addParameter(String name, String value)
@@ -78,14 +77,7 @@ public class Ajax4jsfFilter extends AbstractAjax4jsfFilter
    @Create
    public void create()
    {
-      try
-      {
-         Reflections.classForName("org.ajax4jsf.Filter").newInstance();
-      }
-      catch (Exception e)
-      {
-         throw new RuntimeException(e);
-      }
+      delegate = new org.ajax4jsf.Filter();
    }
    
    @Override
