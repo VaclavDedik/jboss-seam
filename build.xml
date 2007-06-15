@@ -1281,7 +1281,6 @@
 			<fileset refid="example.local.jar" />
 			<fileset refid="example.jcaptcha.jar" />
 			<fileset refid="example.spring.jar" />
-			<fileset refid="example.beans.files" />
 			<fileset refid="example.gwt.jar" />
 			<fileset refid="example.quartz.jar" />
 						
