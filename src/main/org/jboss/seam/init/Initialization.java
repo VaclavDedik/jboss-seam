@@ -602,75 +602,64 @@ public class Initialization
       {
          Set<Class<Object>> scannedClasses = new HashSet<Class<Object>>();
          scannedClasses.addAll(scanner.getClasses());
-         Set<Package> scannedPackages = new HashSet<Package>();
          for (Class<Object> scannedClass: scannedClasses)
          {
-            installScannedClass(scannedPackages, scannedClass);
+            installScannedComponentAndRoles(scannedClass);
          }
       }
    }
 
    private void scanForComponents()
    {
+      ComponentScanner[] scanners = {
+             new ComponentScanner("seam.properties"),
+             new ComponentScanner("META-INF/seam.properties"),
+             new ComponentScanner("META-INF/components.xml")
+      };
+      
       Set<Class<Object>> scannedClasses = new HashSet<Class<Object>>();
-      scannedClasses.addAll( new ComponentScanner("seam.properties").getClasses() );
-      scannedClasses.addAll( new ComponentScanner("META-INF/seam.properties").getClasses() );
-      scannedClasses.addAll( new ComponentScanner("META-INF/components.xml").getClasses() );
-
-      Set<Package> scannedPackages = new HashSet<Package>();
-      for (Class<Object> scannedClass: scannedClasses)
-      {
-         installScannedClass(scannedPackages, scannedClass);
+      for (ComponentScanner scanner: scanners) {
+          scannedClasses.addAll(scanner.getClasses());          
+      }
+            
+      for (Class<Object> scannedClass: scannedClasses) {
+          installScannedComponentAndRoles(scannedClass);
+      }
+      
+      for (ComponentScanner scanner: scanners) {
+          for (String name: scanner.getResources()) {
+              installComponentsFromDescriptor(name, scanner.getClassLoader());              
+          }
       }
    }
 
-   private void installScannedClass(Set<Package> scannedPackages, Class<Object> scannedClass)
-   {
-      installScannedComponentAndRoles(scannedClass);
-      installComponentsFromDescriptor( classDescriptorFilename(scannedClass), scannedClass );
-      Package pkg = scannedClass.getPackage();
-      if (pkg != null && scannedPackages.add(pkg) )
-      {
-         installComponentsFromDescriptor( packageDescriptorFilename(pkg), scannedClass );
-      }
+
+   private static String classFilenameFromDescriptor(String descriptor) {
+       int pos = descriptor.lastIndexOf(".component.xml");
+       if (pos==-1) {
+           return null;
+       }
+       
+       return descriptor.substring(0,pos).replace('/', '.').replace('\\', '.');
    }
 
-   private static String classDescriptorFilename(Class<Object> scannedClass)
-   {
-      return scannedClass.getName().replace('.', '/') + ".component.xml";
-   }
-
-   private static String packageDescriptorFilename(Package pkg)
-   {
-      return pkg.getName().replace('.', '/') + "/components.xml";
-   }
-
-   private void installComponentsFromDescriptor(String fileName, Class clazz)
+   private void installComponentsFromDescriptor(String fileName, ClassLoader loader)
    {
       //note: this is correct, we do not need to scan other classloaders!
-      InputStream stream = clazz.getClassLoader().getResourceAsStream(fileName); 
-      if (stream != null)
-      {
-         try
-         {
+      InputStream stream = loader.getResourceAsStream(fileName); 
+      if (stream != null) {
+         try {
             Properties replacements = getReplacements();
             Element root = XML.getRootElement(stream);
-            if ( root.getName().equals("components") )
-            {
+            if (root.getName().equals("components")) {
                installComponentsFromXmlElements(root, replacements);
-            }
-            else
-            {
-               //TODO: namespaced components!!!
-               installComponentFromXmlElement(
-                        root, 
+            } else{
+                installComponentFromXmlElement(root, 
                         root.attributeValue("name"), 
-                        clazz.getName(), replacements
-                     );
+                        classFilenameFromDescriptor(fileName),
+                        replacements);
             }
-         }
-         catch (Exception e)
-         {
+         } catch (Exception e) {
             throw new RuntimeException("error while reading " + fileName, e);
          }
       }

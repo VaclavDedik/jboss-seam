@@ -48,6 +48,11 @@ public abstract class Scanner
             .replace('/', '.').replace('\\', '.');
    }
    
+   public static String filenameToPackage(String filename)
+   {
+      return filename.substring( 0, filename.lastIndexOf(".class") )
+            .replace('/', '.').replace('\\', '.');
+   }
 
     protected void scan() 
     {

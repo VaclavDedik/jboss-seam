@@ -18,6 +18,8 @@ public class ComponentScanner extends Scanner
 
    protected Set<Class<Object>> classes;
 
+   private Set<String> resources;
+
    public ComponentScanner(String resourceName)
    {
       super(resourceName);
@@ -33,46 +35,50 @@ public class ComponentScanner extends Scanner
     */
    public Set<Class<Object>> getClasses()
    {
-      if (classes == null)
-      {
+      if (classes == null) {
          classes = new HashSet<Class<Object>>();
+         resources = new HashSet<String>();
          scan();
       }
       return classes;
    }
+   
+   public Set<String> getResources() {
+       return resources;
+   }
 
    @Override
+   @SuppressWarnings("unchecked")
    protected void handleItem(String name)
    {
-      if ( name.endsWith(".class") )
-      {
+      if (name.endsWith(".class")) {
          String classname = filenameToClassname(name);
          String filename = Scanner.componentFilename(name);
-         try
-         {
+         try {
             ClassFile classFile = getClassFile(name);
             boolean installable = ( hasAnnotation(classFile, Name.class) || classLoader.getResources(filename).hasMoreElements() )
                      && !"false".equals( getAnnotationValue(classFile, Install.class, "value") );
-            if (installable)
-            {
+            if (installable) {
                log.debug("found component class: " + name);
                classes.add( (Class<Object>) classLoader.loadClass(classname) );
             }
-         }
-         catch (ClassNotFoundException cnfe)
-         {
+            
+         } catch (ClassNotFoundException cnfe) {
             log.debug("could not load class: " + classname, cnfe);
-
-         }
-         catch (NoClassDefFoundError ncdfe)
-         {
+         } catch (NoClassDefFoundError ncdfe) {
             log.debug("could not load class (missing dependency): " + classname, ncdfe);
-
-         }
-         catch (IOException ioe)
-         {
+         } catch (IOException ioe) {
             log.debug("could not load classfile: " + classname, ioe);
          }
+      } else if (name.endsWith(".component.xml")) {
+          resources.add(name);
+      } else if (name.endsWith("/components.xml")) {
+          resources.add(name);
       }
+           
+   }
+   
+   public ClassLoader getClassLoader() {
+       return classLoader;
    }
 }
