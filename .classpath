@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src/main"/>
+	<classpathentry kind="src" path="src/test/misc"/>
 	<classpathentry kind="src" path="src/remoting"/>
 	<classpathentry kind="src" path="src/ioc"/>
 	<classpathentry kind="src" path="src/mail"/>
@@ -17,10 +18,8 @@
 	<classpathentry kind="lib" path="lib/jboss-cache-jdk50.jar"/>
 	<classpathentry kind="lib" path="lib/ant.jar"/>
 	<classpathentry kind="lib" path="lib/jsf-facelets.jar"/>
-	<classpathentry kind="lib" path="lib/mail.jar"/>
 	<classpathentry kind="lib" path="lib/jbpm-3.1.4.jar"/>
 	<classpathentry kind="lib" path="lib/activation.jar"/>
-	<classpathentry kind="lib" path="lib/mail-ra.jar"/>
 	<classpathentry kind="lib" path="lib/spring.jar"/>
 	<classpathentry kind="lib" path="lib/itext-2.0.1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-codec-1.3.jar"/>
@@ -32,18 +31,17 @@
 	<classpathentry kind="lib" path="lib/jsp-api.jar"/>
 	<classpathentry kind="lib" path="lib/gwt-servlet.jar"/>
 	<classpathentry kind="lib" path="mail/buni-meldware/lib/mailapi.jar"/>
-	<classpathentry kind="lib" path="mail/buni-meldware/lib/mailbeans.jar"/>
-	<classpathentry kind="lib" path="mail/buni-meldware/lib/mailjmx.jar"/>
-	<classpathentry kind="lib" path="lib/jsf-impl.jar"/>
 	<classpathentry kind="lib" path="lib/jfreechart-1.0.3.jar"/>
 	<classpathentry kind="lib" path="lib/jcommon-1.0.6.jar"/>
 	<classpathentry kind="lib" path="drools/lib/drools-compiler-4.0.0.MR2.jar"/>
 	<classpathentry kind="lib" path="drools/lib/drools-core-4.0.0.MR2.jar"/>
-	<classpathentry kind="lib" path="lib/testng-4.5.1-jdk15.jar"/>
 	<classpathentry kind="lib" path="lib/groovy-all-1.1-BETA-1.jar"/>
 	<classpathentry kind="lib" path="lib/quartz-1.6.0.jar"/>
-	<classpathentry kind="lib" path="lib/ajax4jsf-1.1.1.jar"/>
 	<classpathentry kind="lib" path="lib/jboss-embedded-all.jar"/>
 	<classpathentry kind="lib" path="bootstrap"/>
+	<classpathentry kind="lib" path="lib/mail.jar"/>
+	<classpathentry kind="lib" path="lib/ajax4jsf-1.1.1.jar"/>
+	<classpathentry kind="lib" path="mail/buni-meldware/lib/mailjmx.jar"/>
+	<classpathentry kind="lib" path="lib/testng-5.6-jdk15.jar"/>
 	<classpathentry kind="output" path="output/classes"/>
 </classpath>
