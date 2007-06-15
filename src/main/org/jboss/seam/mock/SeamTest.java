@@ -6,7 +6,10 @@
  */
 package org.jboss.seam.mock;
 
-import org.testng.annotations.Configuration;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 
 /**
  * Provides BaseSeamTest functionality for TestNG integration tests.
@@ -18,28 +21,28 @@ import org.testng.annotations.Configuration;
 public class SeamTest extends BaseSeamTest
 {
    
-   @Configuration(beforeTestMethod = true)
+   @BeforeMethod
    @Override
    public void begin()
    {
       super.begin();
    }
 
-   @Configuration(afterTestMethod = true)
+   @AfterMethod
    @Override
    public void end()
    {
       super.end();
    }
 
-   @Configuration(beforeTestClass = true)
+   @BeforeClass
    @Override
    public void init() throws Exception
    {
       super.init();
    }
 
-   @Configuration(afterTestClass = true)
+   @AfterClass
    @Override
    public void cleanup() throws Exception
    {
