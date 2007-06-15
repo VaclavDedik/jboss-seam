@@ -902,12 +902,9 @@ public class BaseSeamTest
          Bootstrap bootstrap = Bootstrap.getInstance();
          bootstrap.bootstrap();
          started = true;
-   
-         /*deployer.deployResourceBase("seam.properties");
-         deployer.deployResourceBase("META-INF/seam.properties");
-         deployer.deployResourceBase("META-INF/components.xml");*/
-         
          bootstrap.deployResourceBase("seam.properties");
+         bootstrap.deployResourceBase("META-INF/components.xml");
+         bootstrap.deployResourceBase("META-INF/seam.properties");
       }
    }
 
