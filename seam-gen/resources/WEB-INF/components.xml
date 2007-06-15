@@ -22,8 +22,6 @@
                               auto-create="true"
                persistence-unit-jndi-name="java:/@projectName@EntityManagerFactory"/>
 
-   <core:ejb installed="@embeddedEjb@"/>
-   
    <drools:rule-base name="securityRules">
        <drools:rule-files>
            <value>/security.drl</value>
