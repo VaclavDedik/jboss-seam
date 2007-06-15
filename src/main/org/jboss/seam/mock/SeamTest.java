@@ -17,7 +17,7 @@ import org.testng.annotations.Configuration;
  */
 public class SeamTest extends BaseSeamTest
 {
-
+   
    @Configuration(beforeTestMethod = true)
    @Override
    public void begin()
