@@ -1,5 +1,6 @@
 package org.jboss.seam.mock;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.AbstractSet;
 import java.util.Collections;
@@ -24,6 +25,8 @@ import javax.transaction.UserTransaction;
 
 import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
+import org.jboss.deployers.spi.DeploymentException;
+import org.jboss.embedded.Bootstrap;
 import org.jboss.seam.Component;
 import org.jboss.seam.Model;
 import org.jboss.seam.contexts.Contexts;
@@ -834,6 +837,8 @@ public class BaseSeamTest
 
    public void init() throws Exception
    {
+      startJbossEmbeddedIfNecessary();
+      
       application = new SeamApplication( new MockApplication() );
       phases = createPhaseListener();
 
@@ -887,5 +892,24 @@ public class BaseSeamTest
       if (!field.isAccessible()) field.setAccessible(true);
       Reflections.setAndWrap(field, object, value);
    }
+   
+   private static boolean started;
+   
+   protected void startJbossEmbeddedIfNecessary() throws DeploymentException, IOException
+   {
+      if ( !started )
+      {
+         Bootstrap bootstrap = Bootstrap.getInstance();
+         bootstrap.bootstrap();
+         started = true;
+   
+         /*deployer.deployResourceBase("seam.properties");
+         deployer.deployResourceBase("META-INF/seam.properties");
+         deployer.deployResourceBase("META-INF/components.xml");*/
+         
+         bootstrap.deployResourceBase("seam.properties");
+      }
+   }
+
 
 }

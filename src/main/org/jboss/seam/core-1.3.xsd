@@ -47,14 +47,6 @@
     </xs:element>
     <xs:attributeGroup name="attlist.transactionListener"> </xs:attributeGroup>
 
-    <xs:element name="ejb">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.ejb"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.ejb"> </xs:attributeGroup>
-
     <xs:element name="init">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
@@ -135,14 +127,6 @@
         <xs:attribute name="conversation-id-parameter"/>
         <xs:attribute name="parent-conversation-id-parameter"/>
     </xs:attributeGroup>
-
-    <xs:element name="microcontainer">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.microcontainer"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.microcontainer"> </xs:attributeGroup>
 
     <xs:element name="pages">
         <xs:complexType mixed="true">
