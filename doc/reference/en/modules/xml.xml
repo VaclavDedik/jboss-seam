@@ -44,12 +44,12 @@
 
             <itemizedlist>
                 <listitem>
-                    <para> Configure components that have been installed automatically&mdash;including both built-in
+                    <para> Configure components that have been installed automatically&#8212;including both built-in
                         components, and application components that have been annotated with the
                         <literal>@Name</literal> annotation and picked up by Seam's deployment scanner. </para>
                 </listitem>
                 <listitem>
-                    <para> Install classes with no <literal>@Name</literal> annotation as Seam components&mdash;this
+                    <para> Install classes with no <literal>@Name</literal> annotation as Seam components&#8212;this
                         is most useful for certain kinds of infrastructural components which can be installed multiple
                         times different names (for example Seam-managed persistence contexts). </para>
                 </listitem>
@@ -366,8 +366,6 @@
         <property name="debug">true</property>
         <property name="jndiPattern">@jndiPattern@</property>
     </component>
-
-    <component name="org.jboss.sean.core.ejb" installed="@embeddedEjb@" />
     
 </components>]]></programlisting>
 
@@ -387,8 +385,6 @@
                  http://jboss.com/products/seam/components http://jboss.com/products/seam/components-1.3.xsd">
 
     <core:init debug="true" jndi-pattern="@jndiPattern@"/>
-
-    <core:ejb installed="@embeddedEjb@"/>
 
 </components>]]></programlisting>
 
@@ -503,40 +499,40 @@ public class Payment
             
             <itemizedlist>
                 <listitem>
-                    <para>components &mdash; <literal>http://jboss.com/products/seam/components</literal></para>
+                    <para>components &#8212; <literal>http://jboss.com/products/seam/components</literal></para>
                 </listitem>
                 <listitem>
-                    <para>core &mdash; <literal>http://jboss.com/products/seam/core</literal></para>
+                    <para>core &#8212; <literal>http://jboss.com/products/seam/core</literal></para>
                 </listitem>
                 <listitem>
-                    <para>drools &mdash; <literal>http://jboss.com/products/seam/drools</literal></para>
+                    <para>drools &#8212; <literal>http://jboss.com/products/seam/drools</literal></para>
                 </listitem>
                 <listitem>
-                    <para>framework &mdash; <literal>http://jboss.com/products/seam/framework</literal></para>
+                    <para>framework &#8212; <literal>http://jboss.com/products/seam/framework</literal></para>
                 </listitem>
                 <listitem>
-                    <para>jms &mdash; <literal>http://jboss.com/products/seam/jms</literal></para>
+                    <para>jms &#8212; <literal>http://jboss.com/products/seam/jms</literal></para>
                 </listitem>
                 <listitem>
-                    <para>remoting &mdash; <literal>http://jboss.com/products/seam/remoting</literal></para>
+                    <para>remoting &#8212; <literal>http://jboss.com/products/seam/remoting</literal></para>
                 </listitem>
                 <listitem>
-                    <para>theme &mdash; <literal>http://jboss.com/products/seam/theme</literal></para>
+                    <para>theme &#8212; <literal>http://jboss.com/products/seam/theme</literal></para>
                 </listitem>
                 <listitem>
-                    <para>security &mdash; <literal>http://jboss.com/products/seam/security</literal></para>
+                    <para>security &#8212; <literal>http://jboss.com/products/seam/security</literal></para>
                 </listitem>
                 <listitem>
-                    <para>mail &mdash; <literal>http://jboss.com/products/seam/mail</literal></para>
+                    <para>mail &#8212; <literal>http://jboss.com/products/seam/mail</literal></para>
                 </listitem>
                 <listitem>
-                    <para>web &mdash; <literal>http://jboss.com/products/seam/web</literal></para>
+                    <para>web &#8212; <literal>http://jboss.com/products/seam/web</literal></para>
                 </listitem>                
                 <listitem>
-                    <para>pdf &mdash; <literal>http://jboss.com/products/seam/pdf</literal></para>
+                    <para>pdf &#8212; <literal>http://jboss.com/products/seam/pdf</literal></para>
                 </listitem>
                 <listitem>                    
-                    <para> spring &mdash; <literal>http://jboss.com/products/seam/spring</literal></para>
+                    <para> spring &#8212; <literal>http://jboss.com/products/seam/spring</literal></para>
                 </listitem>
                 
             </itemizedlist>

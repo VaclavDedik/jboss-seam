@@ -543,7 +543,7 @@ public class User {
                 a <literal>User</literal> class which is usually used as a session-scoped component representing the
                 current user but is used in user administration screens as a conversation-scoped component. The
                 <literal>@Role</literal> annotation lets us define an additional named role for a component, with a
-                different scope&mdash;it lets us bind the same component class to different context variables. (Any
+                different scope&#8212;it lets us bind the same component class to different context variables. (Any
                 Seam component <emphasis>instance</emphasis> may be bound to multiple context variables, but this lets
                 us do it at the class level, and take advantage of auto-instantiation.) 
             </para>
@@ -863,32 +863,32 @@ public class LoginAction implements Login {
         <orderedlist>
         	<listitem>
         		<para>
-        		    <literal>BUILT_IN</literal> &mdash; the lowest precedece components are
+        		    <literal>BUILT_IN</literal> &#8212; the lowest precedece components are
         		    the components built in to Seam. 
         		</para>
         	</listitem>
         	<listitem>
         		<para>
-        		    <literal>FRAMEWORK</literal> &mdash; components defined by third-party 
+        		    <literal>FRAMEWORK</literal> &#8212; components defined by third-party 
         		    frameworks may override built-in components, but are overridden by
         		    application components. 
         		</para>
         	</listitem>
         	<listitem>
         		<para>
-        		    <literal>APPLICATION</literal> &mdash; the default precedence. This is 
+        		    <literal>APPLICATION</literal> &#8212; the default precedence. This is 
                     appropriate for most application components.
         		</para>
         	</listitem>
         	<listitem>
         		<para>
-        		    <literal>DEPLOYMENT</literal> &mdash; for application components which
+        		    <literal>DEPLOYMENT</literal> &#8212; for application components which
         		    are deployment-specific. 
         		</para>
         	</listitem>
         	<listitem>
         		<para>
-        		    <literal>MOCK</literal> &mdash; for mock objects used in testing. 
+        		    <literal>MOCK</literal> &#8212; for mock objects used in testing. 
         		</para>
         	</listitem>
         </orderedlist>
@@ -974,7 +974,7 @@ public Order createOrder(User user, Product product, int quantity) {
 }]]></programlisting>
 
         <para>
-            It doesn't matter if you declare the <literal>log</literal> variable static or not&mdash;it will work 
+            It doesn't matter if you declare the <literal>log</literal> variable static or not&#8212;it will work 
             either way, except for entity bean components which require the <literal>log</literal> variable to be
             static.
         </para>

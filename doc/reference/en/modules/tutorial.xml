@@ -828,7 +828,7 @@ public class Message implements Serializable
 
                 <para> But <literal>MessageManagerBean</literal> is also responsible for fetching the list of messages
                     the first time we navigate to the message list page. There are various ways the user could navigate
-                    to the page, and not all of them are preceded by a JSF action&mdash;the user might have
+                    to the page, and not all of them are preceded by a JSF action&#8212;the user might have
                     bookmarked the page, for example. So the job of fetching the message list takes place in a Seam
                         <emphasis>factory method</emphasis>, instead of in an action listener method. </para>
 
@@ -2540,7 +2540,7 @@ public class HotelBookingAction implements HotelBooking
 
             <para> If we navigate to this page from a bookmark, how does the data used by the
                     <literal>&lt;h:dataTable&gt;</literal> actually get initialized? Well, what happens is that
-                the <literal>Blog</literal> is retrieved lazily&mdash;"pulled"&mdash;when needed, by a Seam
+                the <literal>Blog</literal> is retrieved lazily&#8212;"pulled"&#8212;when needed, by a Seam
                 component named <literal>blog</literal>. This is the opposite flow of control to what is usual in
                 traditional web action-based frameworks like Struts. </para>
 
@@ -2577,7 +2577,7 @@ public class BlogService
                         </callout>
                         <callout arearefs="blog-unwrap">
                             <para> The <literal>@Unwrap</literal> annotation tells Seam to provide the return value of
-                                the method&mdash;the <literal>Blog</literal>&mdash;instead of the actual
+                                the method&#8212;the <literal>Blog</literal>&#8212;instead of the actual
                                     <literal>BlogService</literal> component to clients. This is the Seam
                                     <emphasis>manager component pattern</emphasis>. </para>
                         </callout>
@@ -2769,14 +2769,14 @@ public class EntryAction
 </pages>]]></programlisting>
             </example>
 
-            <para> Notice that the example is using page actions for some other functionality&mdash;the login
+            <para> Notice that the example is using page actions for some other functionality&#8212;the login
                 challenge, and the pageview counter. Also notice the use of a parameter in the page action method
                 binding. This is not a standard feature of JSF EL, but Seam lets you use it, not just for page actions,
                 but also in JSF method bindings. </para>
 
             <para> When the <literal>entry.xhtml</literal> page is requested, Seam first binds the page parameter
                     <literal>blogEntryId</literal> to the model, then runs the page action, which retrieves the needed
-                data&mdash;the <literal>blogEntry</literal>&mdash;and places it in the Seam event context.
+                data&#8212;the <literal>blogEntry</literal>&#8212;and places it in the Seam event context.
                 Finally, the following is rendered: </para>
 
             <example>

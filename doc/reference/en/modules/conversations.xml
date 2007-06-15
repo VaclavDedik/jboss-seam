@@ -107,7 +107,7 @@
         <para>
             If the JSF request lifecycle is foreshortened by a redirect,
             Seam transparently stores and restores the current conversation 
-            context&mdash;unless the conversation was already ended via
+            context&#8212;unless the conversation was already ended via
             <literal>@End(beforeRedirect=true)</literal>.
         </para>
         </listitem>
@@ -426,8 +426,8 @@
             solve the first problem, but this does nothing to help us with the second 
             problem. We <emphasis>could</emphasis> work around this by using the
             RESTful approach of passing a request parameter and requerying
-            for the selected object on the server side. In some cases&mdash;such as the 
-            Seam blog example application&mdash;this is indeed the best approach. The 
+            for the selected object on the server side. In some cases&#8212;such as the 
+            Seam blog example application&#8212;this is indeed the best approach. The 
             RESTful style supports bookmarking, since it does not require server-side state. 
             In other cases, where we don't care about bookmarks, the use of 
             <literal>@DataModel</literal> and <literal>@DataModelSelection</literal> is 
@@ -444,14 +444,14 @@
             The link may specify just the JSF view id:
         </para>
         
-        <programlisting><![CDATA[<s:link view=“/login.xhtml” value=“Login”/>]]></programlisting>
+        <programlisting><![CDATA[<s:link view=‚Äú/login.xhtml‚Äù value=‚ÄúLogin‚Äù/>]]></programlisting>
         
         <para>
             Or, it may specify an action method (in which case the action outcome determines
             the page that results):
         </para>
         
-        <programlisting><![CDATA[<s:link action=“#{login.logout}” value=“Logout”/>]]></programlisting>
+        <programlisting><![CDATA[<s:link action=‚Äú#{login.logout}‚Äù value=‚ÄúLogout‚Äù/>]]></programlisting>
         
         <para>
             If you specify <emphasis>both</emphasis> a JSF view id and an action method, the
@@ -459,39 +459,39 @@
             non-null outcome:
         </para>
         
-        <programlisting><![CDATA[<s:link view="/loggedOut.xhtml"  action=“#{login.logout}” value=“Logout”/>]]></programlisting>
+        <programlisting><![CDATA[<s:link view="/loggedOut.xhtml"  action=‚Äú#{login.logout}‚Äù value=‚ÄúLogout‚Äù/>]]></programlisting>
         
         <para>
             The link automatically propagates the selected row of a <literal>DataModel</literal>
             using inside <literal>&lt;h:dataTable&gt;</literal>:
         </para>
         
-        <programlisting><![CDATA[<s:link view=“/hotel.xhtml” action=“#{hotelSearch.selectHotel}” value=“#{hotel.name}”/>]]></programlisting>
+        <programlisting><![CDATA[<s:link view=‚Äú/hotel.xhtml‚Äù action=‚Äú#{hotelSearch.selectHotel}‚Äù value=‚Äú#{hotel.name}‚Äù/>]]></programlisting>
         
         <para>
             You can leave the scope of an existing conversation:
         </para>
         
-        <programlisting><![CDATA[<s:link view=“/main.xhtml” propagation=“none”/>]]></programlisting>
+        <programlisting><![CDATA[<s:link view=‚Äú/main.xhtml‚Äù propagation=‚Äúnone‚Äù/>]]></programlisting>
         
         <para>
             You can begin, end, or nest conversations:
         </para>
         
-        <programlisting><![CDATA[<s:link action=“#{issueEditor.viewComment}” propagation=“nest”/>]]></programlisting>
+        <programlisting><![CDATA[<s:link action=‚Äú#{issueEditor.viewComment}‚Äù propagation=‚Äúnest‚Äù/>]]></programlisting>
         
         <para>
             If the link begins a conversation, you can even specify a pageflow to be used:
         </para>
         
-        <programlisting><![CDATA[<s:link action=“#{documentEditor.getDocument}” propagation=“begin” 
-        pageflow=“EditDocument”/>]]></programlisting>
+        <programlisting><![CDATA[<s:link action=‚Äú#{documentEditor.getDocument}‚Äù propagation=‚Äúbegin‚Äù 
+        pageflow=‚ÄúEditDocument‚Äù/>]]></programlisting>
         
         <para>
             The <literal>taskInstance</literal> attribute if for use in jBPM task lists:
         </para>
         
-        <programlisting><![CDATA[<s:link action=“#{documentApproval.approveOrReject}” taskInstance=“#{task}”/>]]></programlisting>
+        <programlisting><![CDATA[<s:link action=‚Äú#{documentApproval.approveOrReject}‚Äù taskInstance=‚Äú#{task}‚Äù/>]]></programlisting>
         
         <para>
             (See the DVD Store demo application for examples of this.)
@@ -501,7 +501,7 @@
             Finally, if you need the "link" to be rendered as a button, use <literal>&lt;s:button&gt;</literal>:
         </para>
         
-        <programlisting><![CDATA[<s:button action=“#{login.logout}” value=“Logout”/>]]></programlisting>
+        <programlisting><![CDATA[<s:button action=‚Äú#{login.logout}‚Äù value=‚ÄúLogout‚Äù/>]]></programlisting>
         
     </section>
     

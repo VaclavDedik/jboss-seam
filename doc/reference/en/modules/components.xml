@@ -124,42 +124,42 @@
                     <itemizedlist>
                         <listitem>
                         <para>
-                            <literal>add(FacesMessage facesMessage)</literal> &mdash; add 
+                            <literal>add(FacesMessage facesMessage)</literal> &#8212; add 
                             a faces message, which will be displayed during the next render
                             response phase that occurs in the current conversation.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>add(String messageTemplate)</literal> &mdash; add 
+                            <literal>add(String messageTemplate)</literal> &#8212; add 
                             a faces message, rendered from the given message template
                             which may contain EL expressions.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>add(Severity severity, String messageTemplate)</literal> &mdash; 
+                            <literal>add(Severity severity, String messageTemplate)</literal> &#8212; 
                             add a faces message, rendered from the given message template
                             which may contain EL expressions.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>addFromResourceBundle(String key)</literal> &mdash; 
+                            <literal>addFromResourceBundle(String key)</literal> &#8212; 
                             add a faces message, rendered from a message template defined
                             in the Seam resource bundle which may contain EL expressions.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>addFromResourceBundle(Severity severity, String key)</literal> &mdash; 
+                            <literal>addFromResourceBundle(Severity severity, String key)</literal> &#8212; 
                             add a faces message, rendered from a message template defined
                             in the Seam resource bundle which may contain EL expressions.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>clear()</literal> &mdash; clear all messages.
+                            <literal>clear()</literal> &#8212; clear all messages.
                         </para>
                         </listitem>
                     </itemizedlist>
@@ -175,33 +175,33 @@
                     <itemizedlist>
                         <listitem>
                         <para>
-                            <literal>redirect.viewId</literal> &mdash; the JSF view id
+                            <literal>redirect.viewId</literal> &#8212; the JSF view id
                             to redirect to.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>redirect.conversationPropagationEnabled</literal> &mdash; 
+                            <literal>redirect.conversationPropagationEnabled</literal> &#8212; 
                             determines whether the conversation will propagate across the 
                             redirect.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>redirect.parameters</literal> &mdash; a map of
+                            <literal>redirect.parameters</literal> &#8212; a map of
                             request parameter name to value, to be passed in the redirect
                             request.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>execute()</literal> &mdash; perform the redirect
+                            <literal>execute()</literal> &#8212; perform the redirect
                             immediately.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>captureCurrentRequest()</literal> &mdash; stores 
+                            <literal>captureCurrentRequest()</literal> &#8212; stores 
                             the view id and request parameters of the current GET 
                             request (in the conversation context), for later use
                             by calling <literal>execute()</literal>.
@@ -229,21 +229,21 @@
                     <itemizedlist>
                         <listitem>
                         <para>
-                            <literal>raiseEvent(String type)</literal> &mdash; raise
+                            <literal>raiseEvent(String type)</literal> &#8212; raise
                             an event of a particular type and distribute to all
                             observers.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>raiseAsynchronousEvent(String type)</literal> &mdash; 
+                            <literal>raiseAsynchronousEvent(String type)</literal> &#8212; 
                             raise an event to be processed asynchronously by the EJB3
                             timer service.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>raiseTimedEvent(String type, ....)</literal> &mdash; 
+                            <literal>raiseTimedEvent(String type, ....)</literal> &#8212; 
                             schedule an event to be processed asynchronously by the EJB3
                             timer service.
                         </para>
@@ -251,7 +251,7 @@
                         <listitem>
                         <para>
                             <literal>addListener(String type, String methodBinding)</literal> 
-                            &mdash; add an observer for a particular event type.
+                            &#8212; add an observer for a particular event type.
                         </para>
                         </listitem>
                     </itemizedlist>
@@ -267,7 +267,7 @@
                     <itemizedlist>
                         <listitem>
                         <para>
-                            <literal>interpolate(String template)</literal> &mdash; scan
+                            <literal>interpolate(String template)</literal> &#8212; scan
                             the template for JSF EL expressions of the form <literal>#{...}</literal>
                             and replace them with their evaluated values.
                         </para>
@@ -284,13 +284,13 @@
                     <itemizedlist>
                         <listitem>
                         <para>
-                            <literal>createValueBinding(String expression)</literal> &mdash; create
+                            <literal>createValueBinding(String expression)</literal> &#8212; create
                             a value binding object.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>createMethodBinding(String expression)</literal> &mdash; create
+                            <literal>createMethodBinding(String expression)</literal> &#8212; create
                             a method binding object.
                         </para>
                         </listitem>
@@ -307,7 +307,7 @@
                     <itemizedlist>
                         <listitem>
                         <para>
-                            <literal>pojoCache.cfgResourceName</literal> &mdash; the name of 
+                            <literal>pojoCache.cfgResourceName</literal> &#8212; the name of 
                             the configuration file. Default to <literal>treecache.xml</literal>.
                         </para>
                         </listitem>
@@ -366,7 +366,7 @@
                     <itemizedlist>
                         <listitem>
                         <para>
-                            <literal>resourceBundle.bundleNames</literal> &mdash; the names of 
+                            <literal>resourceBundle.bundleNames</literal> &#8212; the names of 
                             the Java resource bundles to search. Default to <literal>messages</literal>.
                         </para>
                         </listitem>
@@ -383,49 +383,49 @@
                     <itemizedlist>
                         <listitem>
                         <para>
-                            <literal>select()</literal> &mdash; select the specified locale.
+                            <literal>select()</literal> &#8212; select the specified locale.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>localeSelector.locale</literal> &mdash; the actual
+                            <literal>localeSelector.locale</literal> &#8212; the actual
                             <literal>java.util.Locale</literal>.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>localeSelector.localeString</literal> &mdash; the 
+                            <literal>localeSelector.localeString</literal> &#8212; the 
                             stringified representation of the locale.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>localeSelector.language</literal> &mdash; the language for
+                            <literal>localeSelector.language</literal> &#8212; the language for
                             the specified locale.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>localeSelector.country</literal> &mdash; the country for
+                            <literal>localeSelector.country</literal> &#8212; the country for
                             the specified locale.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>localeSelector.variant</literal> &mdash; the variant for
+                            <literal>localeSelector.variant</literal> &#8212; the variant for
                             the specified locale.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>localeSelector.supportedLocales</literal> &mdash; a list
+                            <literal>localeSelector.supportedLocales</literal> &#8212; a list
                             of <literal>SelectItem</literal>s representing the supported locales 
                             listed in <literal>jsf-config.xml</literal>.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>localeSelector.cookieEnabled</literal> &mdash; specifies
+                            <literal>localeSelector.cookieEnabled</literal> &#8212; specifies
                             that the locale selection should be persisted via a cookie.
                         </para>
                         </listitem>
@@ -442,24 +442,24 @@
                     <itemizedlist>
                         <listitem>
                         <para>
-                            <literal>select()</literal> &mdash; select the specified locale.
+                            <literal>select()</literal> &#8212; select the specified locale.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>timezoneSelector.timezone</literal> &mdash; the actual
+                            <literal>timezoneSelector.timezone</literal> &#8212; the actual
                             <literal>java.util.TimeZone</literal>.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>timezoneSelector.timeZoneId</literal> &mdash; the 
+                            <literal>timezoneSelector.timeZoneId</literal> &#8212; the 
                             stringified representation of the timezone.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>timezoneSelector.cookieEnabled</literal> &mdash; specifies
+                            <literal>timezoneSelector.cookieEnabled</literal> &#8212; specifies
                             that the timezone selection should be persisted via a cookie.
                         </para>
                         </listitem>
@@ -485,31 +485,31 @@
                     <itemizedlist>
                         <listitem>
                         <para>
-                            <literal>select()</literal> &mdash; select the specified theme.
+                            <literal>select()</literal> &#8212; select the specified theme.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>theme.availableThemes</literal> &mdash; the list of
+                            <literal>theme.availableThemes</literal> &#8212; the list of
                             defined themes.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>themeSelector.theme</literal> &mdash; the selected
+                            <literal>themeSelector.theme</literal> &#8212; the selected
                             theme.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>themeSelector.themes</literal> &mdash; a list
+                            <literal>themeSelector.themes</literal> &#8212; a list
                             of <literal>SelectItem</literal>s representing the defined
                             themes.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>themeSelector.cookieEnabled</literal> &mdash; specifies
+                            <literal>themeSelector.cookieEnabled</literal> &#8212; specifies
                             that the theme selection should be persisted via a cookie.
                         </para>
                         </listitem>
@@ -549,104 +549,104 @@
                     <itemizedlist>
                         <listitem>
                         <para>
-                            <literal>getId()</literal> &mdash; returns the current conversation id
+                            <literal>getId()</literal> &#8212; returns the current conversation id
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>isNested()</literal> &mdash; is the current conversation a
+                            <literal>isNested()</literal> &#8212; is the current conversation a
                             nested conversation?
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>isLongRunning()</literal> &mdash; is the current conversation a
+                            <literal>isLongRunning()</literal> &#8212; is the current conversation a
                             long-running conversation?
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>getId()</literal> &mdash; returns the current conversation id
+                            <literal>getId()</literal> &#8212; returns the current conversation id
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>getParentId()</literal> &mdash; returns the conversation id
+                            <literal>getParentId()</literal> &#8212; returns the conversation id
                             of the parent conversation
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>getRootId()</literal> &mdash; returns the conversation id
+                            <literal>getRootId()</literal> &#8212; returns the conversation id
                             of the root conversation
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>setTimeout(int timeout)</literal> &mdash; sets the timeout
+                            <literal>setTimeout(int timeout)</literal> &#8212; sets the timeout
                             for the current conversation
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>setViewId(String outcome)</literal> &mdash; sets the view id
+                            <literal>setViewId(String outcome)</literal> &#8212; sets the view id
                             to be used when switching back to the current conversation from the 
                             conversation switcher, conversation list, or breadcrumbs.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>setDescription(String description)</literal> &mdash; sets the 
+                            <literal>setDescription(String description)</literal> &#8212; sets the 
                             description of the current conversation to be displayed in the 
                             conversation switcher, conversation list, or breadcrumbs.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>redirect()</literal> &mdash; redirect to the last well-defined
+                            <literal>redirect()</literal> &#8212; redirect to the last well-defined
                             view id for this conversation (useful after login challenges).
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>leave()</literal> &mdash; exit the scope of this conversation,
+                            <literal>leave()</literal> &#8212; exit the scope of this conversation,
                             without actually ending the conversation.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>begin()</literal> &mdash; begin a long-running conversation
+                            <literal>begin()</literal> &#8212; begin a long-running conversation
                             (equivalent to <literal>@Begin</literal>).
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>beginPageflow(String pageflowName)</literal> &mdash; begin a 
+                            <literal>beginPageflow(String pageflowName)</literal> &#8212; begin a 
                             long-running conversation with a pageflow (equivalent to 
                             <literal>@Begin(pageflow="...")</literal>).
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>end()</literal> &mdash; end a long-running conversation
+                            <literal>end()</literal> &#8212; end a long-running conversation
                             (equivalent to <literal>@End</literal>).
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>pop()</literal> &mdash; pop the conversation stack, returning
+                            <literal>pop()</literal> &#8212; pop the conversation stack, returning
                             to the parent conversation.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>root()</literal> &mdash; return to the root conversation of 
+                            <literal>root()</literal> &#8212; return to the root conversation of 
                             the conversation stack.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>changeFlushMode(FlushModeType flushMode)</literal> &mdash; change 
+                            <literal>changeFlushMode(FlushModeType flushMode)</literal> &#8212; change 
                             the flush mode of the conversation.
                         </para>
                         </listitem>
@@ -701,25 +701,25 @@
                     <itemizedlist>
                         <listitem>
                         <para>
-                            <literal>isInProcess()</literal> &mdash; returns <literal>true</literal>
+                            <literal>isInProcess()</literal> &#8212; returns <literal>true</literal>
                             if there is currently a pageflow in process
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>getProcessInstance()</literal> &mdash; returns jBPM
+                            <literal>getProcessInstance()</literal> &#8212; returns jBPM
                             <literal>ProcessInstance</literal> for the current pageflow
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>begin(String pageflowName)</literal> &mdash; begin a pageflow
+                            <literal>begin(String pageflowName)</literal> &#8212; begin a pageflow
                             in the context of the current conversation
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>reposition(String nodeName)</literal> &mdash; reposition the
+                            <literal>reposition(String nodeName)</literal> &#8212; reposition the
                             current pageflow to a particular node
                         </para>
                         </listitem>
@@ -736,13 +736,13 @@
                     <itemizedlist>
                         <listitem>
                         <para>
-                            <literal>setId(String actorId)</literal> &mdash; sets the jBPM
+                            <literal>setId(String actorId)</literal> &#8212; sets the jBPM
                             actor id of the current user.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>getGroupActorIds()</literal> &mdash; returns a 
+                            <literal>getGroupActorIds()</literal> &#8212; returns a 
                             <literal>Set</literal> to which jBPM actor ids for the
                             current users groups may be added.
                         </para>
@@ -760,7 +760,7 @@
                     <itemizedlist>
                         <listitem>
                         <para>
-                            <literal>setName(String transitionName)</literal> &mdash; sets the 
+                            <literal>setName(String transitionName)</literal> &#8212; sets the 
                             jBPM transition name to be used when the current task is ended
                             via <literal>@EndTask</literal>.
                         </para>
@@ -778,62 +778,62 @@
                     <itemizedlist>
                         <listitem>
                         <para>
-                            <literal>businessProcess.taskId</literal> &mdash; the id of the task 
+                            <literal>businessProcess.taskId</literal> &#8212; the id of the task 
                             associated with the current conversation.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>businessProcess.processId</literal> &mdash; the id of the process
+                            <literal>businessProcess.processId</literal> &#8212; the id of the process
                             associated with the current conversation.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>businessProcess.hasCurrentTask()</literal> &mdash; is a task
+                            <literal>businessProcess.hasCurrentTask()</literal> &#8212; is a task
                             instance associated with the current conversation?
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>businessProcess.hasCurrentProcess()</literal> &mdash; is a process
+                            <literal>businessProcess.hasCurrentProcess()</literal> &#8212; is a process
                             instance associated with the current conversation.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>createProcess(String name)</literal> &mdash; create an
+                            <literal>createProcess(String name)</literal> &#8212; create an
                             instance of the named process definition and associate it with
                             the current conversation.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>startTask()</literal> &mdash; start the task 
+                            <literal>startTask()</literal> &#8212; start the task 
                             associated with the current conversation.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>endTask(String transitionName)</literal> &mdash; end the task 
+                            <literal>endTask(String transitionName)</literal> &#8212; end the task 
                             associated with the current conversation.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>resumeTask(Long id)</literal> &mdash; associate the task with
+                            <literal>resumeTask(Long id)</literal> &#8212; associate the task with
                             the given id with the current conversation.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>resumeProcess(Long id)</literal> &mdash; associate the process 
+                            <literal>resumeProcess(Long id)</literal> &#8212; associate the process 
                             with the given id with the current conversation.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>transition(String transitionName)</literal> &mdash; trigger
+                            <literal>transition(String transitionName)</literal> &#8212; trigger
                             the transition.
                         </para>
                         </listitem>
@@ -996,37 +996,37 @@
                      <itemizedlist>
                         <listitem>
                         <para>
-                            <literal>org.jboss.seam.mail.mailSession.host</literal> &mdash; the hostname of the SMTP server to use
+                            <literal>org.jboss.seam.mail.mailSession.host</literal> &#8212; the hostname of the SMTP server to use
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>org.jboss.seam.mail.mailSession.port</literal> &mdash; the port of the SMTP server to use
+                            <literal>org.jboss.seam.mail.mailSession.port</literal> &#8212; the port of the SMTP server to use
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>org.jboss.seam.mail.mailSession.username</literal> &mdash;  the username to use to connect to the SMTP server.
+                            <literal>org.jboss.seam.mail.mailSession.username</literal> &#8212;  the username to use to connect to the SMTP server.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>org.jboss.seam.mail.mailSession.password</literal> &mdash; the password to use to connect to the SMTP server
+                            <literal>org.jboss.seam.mail.mailSession.password</literal> &#8212; the password to use to connect to the SMTP server
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>org.jboss.seam.mail.mailSession.debug</literal> &mdash; enable JavaMail debugging (very verbose)
+                            <literal>org.jboss.seam.mail.mailSession.debug</literal> &#8212; enable JavaMail debugging (very verbose)
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>org.jboss.seam.mail.mailSession.ssl</literal> &mdash; enable SSL connection to SMTP (will default to port 465)
+                            <literal>org.jboss.seam.mail.mailSession.ssl</literal> &#8212; enable SSL connection to SMTP (will default to port 465)
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>org.jboss.seam.mail.mailSession.sessionJndiName</literal> &mdash; name under which a javax.mail.Session is bound to JNDI.
+                            <literal>org.jboss.seam.mail.mailSession.sessionJndiName</literal> &#8212; name under which a javax.mail.Session is bound to JNDI.
                             If supplied, all other properties will be ignored.
                         </para>
                         </listitem>
@@ -1054,26 +1054,26 @@
                     <itemizedlist>
                         <listitem>
                         <para>
-                            <literal>org.jboss.seam.core.init.jndiPattern</literal> &mdash; the JNDI
+                            <literal>org.jboss.seam.core.init.jndiPattern</literal> &#8212; the JNDI
                             pattern used for looking up session beans
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>org.jboss.seam.core.init.debug</literal> &mdash; enable Seam
+                            <literal>org.jboss.seam.core.init.debug</literal> &#8212; enable Seam
                             debug mode
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>org.jboss.seam.core.init.clientSideConversations</literal> &mdash; 
+                            <literal>org.jboss.seam.core.init.clientSideConversations</literal> &#8212; 
                             if set to <literal>true</literal>, Seam will save conversation context
                             variables in the client instead of in the <literal>HttpSession</literal>.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>org.jboss.seam.core.init.userTransactionName</literal> &mdash; the JNDI
+                            <literal>org.jboss.seam.core.init.userTransactionName</literal> &#8212; the JNDI
                             name to use when looking up the JTA <literal>UserTransaction</literal> object.
                         </para>
                         </listitem>
@@ -1090,27 +1090,27 @@
                     <itemizedlist>
                         <listitem>
                         <para>
-                            <literal>org.jboss.seam.core.manager.conversationTimeout</literal> &mdash; 
+                            <literal>org.jboss.seam.core.manager.conversationTimeout</literal> &#8212; 
                             the conversation context timeout in milliseconds.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>org.jboss.seam.core.manager.concurrentRequestTimeout</literal> &mdash; 
+                            <literal>org.jboss.seam.core.manager.concurrentRequestTimeout</literal> &#8212; 
                             maximum wait time for a thread attempting to gain a lock on the long-running 
                             conversation context.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>org.jboss.seam.core.manager.conversationIdParameter</literal> &mdash; 
+                            <literal>org.jboss.seam.core.manager.conversationIdParameter</literal> &#8212; 
                             the request parameter used to propagate the conversation id, default
                             to <literal>conversationId</literal>.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>org.jboss.seam.core.manager.conversationIsLongRunningParameter</literal> &mdash; 
+                            <literal>org.jboss.seam.core.manager.conversationIsLongRunningParameter</literal> &#8212; 
                             the request parameter used to propagate information about whether the conversation
                             is long-running, default to <literal>conversationIsLongRunning</literal>.
                         </para>
@@ -1128,7 +1128,7 @@
                         <listitem>
                         <para>
                             <literal>org.jboss.seam.core.pages.noConversationViewId</literal> 
-                            &mdash; global setting for the view id to redirect to when a 
+                            &#8212; global setting for the view id to redirect to when a 
                             conversation entry is not found on the server side.
                         </para>
                         </listitem>
@@ -1182,14 +1182,14 @@
                     <itemizedlist>
                         <listitem>
                         <para>
-                            <literal>org.jboss.seam.core.jbpm.processDefinitions</literal> &mdash; 
+                            <literal>org.jboss.seam.core.jbpm.processDefinitions</literal> &#8212; 
                             a list of resource names of jPDL files to be used for orchestration
                             of business processes.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>org.jboss.seam.core.jbpm.pageflowDefinitions</literal> &mdash; 
+                            <literal>org.jboss.seam.core.jbpm.pageflowDefinitions</literal> &#8212; 
                             a list of resource names of jPDL files to be used for orchestration
                             of conversation page flows.
                         </para>
@@ -1235,7 +1235,7 @@
                         <listitem>
                         <para>
                             <literal>org.jboss.seam.jms.queueConnection.queueConnectionFactoryJndiName</literal> 
-                            &mdash; the JNDI name of a JMS <literal>QueueConnectionFactory</literal>. Default
+                            &#8212; the JNDI name of a JMS <literal>QueueConnectionFactory</literal>. Default
                             to <literal>UIL2ConnectionFactory</literal>
                         </para>
                         </listitem>
@@ -1253,7 +1253,7 @@
                         <listitem>
                         <para>
                             <literal>org.jboss.seam.jms.topicConnection.topicConnectionFactoryJndiName</literal> 
-                            &mdash; the JNDI name of a JMS <literal>TopicConnectionFactory</literal>. Default
+                            &#8212; the JNDI name of a JMS <literal>TopicConnectionFactory</literal>. Default
                             to <literal>UIL2ConnectionFactory</literal>
                         </para>
                         </listitem>
@@ -1428,12 +1428,12 @@
                         <listitem>
                         <para>
                             <literal><emphasis>&lt;entityManager&gt;</emphasis>.entityManagerFactory</literal> 
-                            &mdash; a value binding expression that evaluates to an instance of 
+                            &#8212; a value binding expression that evaluates to an instance of 
                             <literal>EntityManagerFactory</literal>.
                         </para>
                         <para>
                             <literal><emphasis>&lt;entityManager&gt;</emphasis>.persistenceUnitJndiName</literal> 
-                            &mdash; the JNDI name of the entity manager factory, default to 
+                            &#8212; the JNDI name of the entity manager factory, default to 
                             <literal>java:/<emphasis>&lt;managedPersistenceContext&gt;</emphasis></literal>.
                         </para>
                         </listitem>
@@ -1451,7 +1451,7 @@
                     <itemizedlist>
                         <listitem>
                         <para>
-                            <literal>entityManagerFactory.persistenceUnitName</literal> &mdash; 
+                            <literal>entityManagerFactory.persistenceUnitName</literal> &#8212; 
                             the name of the persistence unit.
                         </para>
                         </listitem>
@@ -1472,12 +1472,12 @@
                         <listitem>
                         <para>
                             <literal><emphasis>&lt;session&gt;</emphasis>.sessionFactory</literal> 
-                            &mdash; a value binding expression that evaluates to an instance of 
+                            &#8212; a value binding expression that evaluates to an instance of 
                             <literal>SessionFactory</literal>.
                         </para>
                         <para>
                             <literal><emphasis>&lt;session&gt;</emphasis>.sessionFactoryJndiName</literal> 
-                            &mdash; the JNDI name of the session factory, default to 
+                            &#8212; the JNDI name of the session factory, default to 
                             <literal>java:/<emphasis>&lt;managedSession&gt;</emphasis></literal>.
                         </para>
                         </listitem>
@@ -1494,7 +1494,7 @@
                     <itemizedlist>
                         <listitem>
                         <para>
-                            <literal>&lt;sessionFactory&gt;.cfgResourceName</literal> &mdash; 
+                            <literal>&lt;sessionFactory&gt;.cfgResourceName</literal> &#8212; 
                             the path to the configuration file. Default to <literal>hibernate.cfg.xml</literal>.
                         </para>
                         </listitem>
@@ -1515,7 +1515,7 @@
                         <listitem>
                         <para>
                             <literal><emphasis>&lt;managedQueueSender&gt;</emphasis>.queueJndiName</literal> 
-                            &mdash; the JNDI name of the JMS queue.
+                            &#8212; the JNDI name of the JMS queue.
                         </para>
                         </listitem>
                     </itemizedlist>
@@ -1532,7 +1532,7 @@
                         <listitem>
                         <para>
                             <literal><emphasis>&lt;managedTopicPublisher&gt;</emphasis>.topicJndiName</literal> 
-                            &mdash; the JNDI name of the JMS topic.
+                            &#8212; the JNDI name of the JMS topic.
                         </para>
                         </listitem>
                     </itemizedlist>
@@ -1549,7 +1549,7 @@
                         <listitem>
                         <para>
                             <literal><emphasis>&lt;managedWorkingMemory&gt;</emphasis>.ruleBase</literal> 
-                            &mdash; a value expression that evaluates to an instance of <literal>RuleBase</literal>.
+                            &#8212; a value expression that evaluates to an instance of <literal>RuleBase</literal>.
                         </para>
                         </listitem>
                     </itemizedlist>
@@ -1568,11 +1568,11 @@
                         <listitem>
                         <para>
                             <literal><emphasis>&lt;ruleBase&gt;</emphasis>.ruleFiles</literal> 
-                            &mdash; a list of files containing Drools rules.
+                            &#8212; a list of files containing Drools rules.
                         </para>
                         <para>
                             <literal><emphasis>&lt;ruleBase&gt;</emphasis>.dslFile</literal> 
-                            &mdash; a Drools DSL definition.
+                            &#8212; a Drools DSL definition.
                         </para>
                         </listitem>
                     </itemizedlist>

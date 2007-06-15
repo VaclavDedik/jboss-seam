@@ -48,20 +48,6 @@
             </para>
 
             <para>
-                If you are using Sun's JSF 1.2 reference implementation, you should
-                also add this to <literal>faces-config.xml</literal>:
-            </para>
-
-            <programlisting><![CDATA[<application>
-    <el-resolver>org.jboss.seam.jsf.SeamELResolver</el-resolver>
-</application>]]></programlisting>
-
-            <para>
-                (This line should not strictly speaking be necessary, but it works
-                around a minor bug in the RI.)
-            </para>
-
-            <para>
                 Some JSF implementations have a broken implementation of server-side state
                 saving that interferes with Seam's conversation propagation. If you have problems
                 with conversation propagation during form submissions, try switching to client-side
@@ -152,7 +138,7 @@
                 <itemizedlist>
                     <listitem>
                         <para>
-                            <literal>url-pattern</literal>  &mdash; Used to specify which requests
+                            <literal>url-pattern</literal>  &#8212; Used to specify which requests
                             are filtered, the default is all requests.
                         </para>
                     </listitem>
@@ -177,7 +163,7 @@
                 <itemizedlist>
                     <listitem>
                         <para>
-                            <literal>url-pattern</literal> &mdash; Used to specify which requests
+                            <literal>url-pattern</literal> &#8212; Used to specify which requests
                             are filtered, the default is all requests.
                         </para>
                     </listitem>
@@ -200,7 +186,7 @@
                 <itemizedlist>
                     <listitem>
                         <para>
-                            <literal>create-temp-files</literal> &mdash; If set to 
+                            <literal>create-temp-files</literal> &#8212; If set to 
                             <literal>true</literal>, uploaded files are written to a temporary 
                             file (instead of held in memory).  This may be an important 
                             consideration if large file uploads are expected.  The default 
@@ -209,7 +195,7 @@
                     </listitem>
                     <listitem>
                         <para>
-                            <literal>max-request-size</literal> &mdash; If the size of a file upload
+                            <literal>max-request-size</literal> &#8212; If the size of a file upload
                             request (determined by reading the <literal>Content-Length</literal>
                             header in the request) exceeds this value, the request will be
                             aborted.  The default setting is 0 (no size limit).
@@ -217,7 +203,7 @@
                     </listitem>
                     <listitem>
                         <para>
-                            <literal>url-pattern</literal> &mdash; Used to specify which requests
+                            <literal>url-pattern</literal> &#8212; Used to specify which requests
                             are filtered, the default is all requests.
                         </para>
                     </listitem>
@@ -242,12 +228,12 @@
                 <itemizedlist>
                     <listitem>
                         <para>
-                            <literal>encoding</literal> &mdash; The encoding to use.
+                            <literal>encoding</literal> &#8212; The encoding to use.
                         </para>
                     </listitem>
                     <listitem>
                         <para>
-                            <literal>override-client</literal> &mdash; If this is set to 
+                            <literal>override-client</literal> &#8212; If this is set to 
                             <literal>true</literal>, the request encoding will be set to 
                             whatever is specified by <literal>encoding</literal> no matter 
                             whether the request already specifies an encoding or not.  If 
@@ -258,7 +244,7 @@
                     </listitem>
                     <listitem>
                         <para>
-                            <literal>url-pattern</literal> &mdash; Used to specify which requests
+                            <literal>url-pattern</literal> &#8212; Used to specify which requests
                             are filtered, the default is all requests.
                         </para>
                     </listitem>
@@ -286,7 +272,7 @@
                 <itemizedlist>
                     <listitem>
                         <para>
-                            <literal>force-parser</literal> &mdash; forces all JSF pages to be validated by
+                            <literal>force-parser</literal> &#8212; forces all JSF pages to be validated by
                             Ajax4jsf's XML syntax checker. If <literal>false</literal>, only AJAX responses
                             are validated and converted to well-formed XML. Setting <literal>force-parser</literal>
                             to <literal>false</literal> improves performance, but can provide visual artifacts
@@ -295,20 +281,20 @@
                     </listitem>
                     <listitem>
                         <para>
-                            <literal>enable-cache</literal> &mdash; enables caching of framework-generated resources
+                            <literal>enable-cache</literal> &#8212; enables caching of framework-generated resources
                             (e.g. javascript, CSS, images, etc). When developing custom javascript or CSS, setting to
                             true prevents the browser from caching the resource.
                         </para>
                     </listitem>
                     <listitem>
                         <para>
-                            <literal>log4j-init-file</literal> &mdash; is used to setup per-application logging.  A path,
+                            <literal>log4j-init-file</literal> &#8212; is used to setup per-application logging.  A path,
                             relative to web application context, to the log4j.xml configuration file should be provided.
                         </para>
                     </listitem>
                     <listitem>
                         <para>
-                            <literal>url-pattern</literal> &mdash; Used to specify which requests
+                            <literal>url-pattern</literal> &#8212; Used to specify which requests
                             are filtered, the default is all requests.
                         </para>
                     </listitem>
@@ -343,7 +329,7 @@
                 <itemizedlist>
                     <listitem>
                         <para>
-                            <literal>url-pattern</literal> &mdash; Used to specify which requests
+                            <literal>url-pattern</literal> &#8212; Used to specify which requests
                             are filtered, the default is all requests.  If the url-pattern
                             is specified for the context filter, then the filter will be
                             enabled (unless explicitly disabled).
@@ -500,7 +486,7 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
             <para>
                 You might think this is silly and what kind of idiot framework designers would
                 make an empty file affect the behavior of their software?? Well, this is a
-                workaround for a limitation of the JVM&mdash;if we didn't use this mechanism,
+                workaround for a limitation of the JVM&#8212;if we didn't use this mechanism,
                 our next best option would be to force you to list every component explicitly
                 in <literal>components.xml</literal>, just like some other competing
                 frameworks do! I think you'll like our way better.

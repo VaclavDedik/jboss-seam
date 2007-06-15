@@ -12,7 +12,7 @@
     <section>
     	<title>Creating a message</title>
     	
-    	<para>You don't need to learn a whole new templating language to use Seam Mail&mdash;an email is just facelet!</para>
+    	<para>You don't need to learn a whole new templating language to use Seam Mail&#8212;an email is just facelet!</para>
     	
     	<programlisting><![CDATA[<m:message xmlns="http://www.w3.org/1999/xhtml"
     xmlns:m="http://jboss.com/products/seam/mail"
@@ -371,24 +371,24 @@ public class MailListenerMDB implements MailListener {
 	              <itemizedlist>
 	                   <listitem>
 	                   <para>
-	                       <literal>importance</literal> &mdash; low, normal or high.  By default normal, this sets the 
+	                       <literal>importance</literal> &#8212; low, normal or high.  By default normal, this sets the 
 	                       importance of the mail message.
 	                   </para>
 	                   </listitem>
 	                   <listitem>
 	                   <para>
-	                       <literal>precedence</literal> &mdash; sets the precedence of the message (e.g. bulk).
+	                       <literal>precedence</literal> &#8212; sets the precedence of the message (e.g. bulk).
 	                   </para>
 	                   </listitem>
 	                   <listitem>
 	                   <para>
-	                       <literal>requestReadReceipt</literal> &mdash; by default false, if set, a read receipt will be 
+	                       <literal>requestReadReceipt</literal> &#8212; by default false, if set, a read receipt will be 
 	                       request will be added, with the  read receipt being sent to the <literal>From:</literal> address.
 	                   </para>
 	                   </listitem>
 	                   <listitem>
 	                   <para>
-	                       <literal>urlBase</literal> &mdash; If set, the value is prepended to the <literal>requestContextPath</literal> allowing
+	                       <literal>urlBase</literal> &#8212; If set, the value is prepended to the <literal>requestContextPath</literal> allowing
 	                       you to use components such as <literal>&lt;h:graphicImage&gt;</literal> in your emails.
 	                   </para>
 	                   </listitem>
@@ -404,12 +404,12 @@ public class MailListenerMDB implements MailListener {
 	              <itemizedlist>
 	                   <listitem>
 	                   <para>
-	                       <literal>name</literal> &mdash; the name the email should come from.
+	                       <literal>name</literal> &#8212; the name the email should come from.
 	                   </para>
 	                   </listitem>
 	                   <listitem>
 	                   <para>
-	                       <literal>address</literal> &mdash; the email address the email should come from.
+	                       <literal>address</literal> &#8212; the email address the email should come from.
 	                   </para>
 	                   </listitem>
 	                   </itemizedlist>
@@ -424,7 +424,7 @@ public class MailListenerMDB implements MailListener {
 	              <itemizedlist>
 	                   <listitem>
 	                   <para>
-	                       <literal>address</literal> &mdash; the email address the email should come from.
+	                       <literal>address</literal> &#8212; the email address the email should come from.
 	                   </para>
 	                   </listitem>
 	                   </itemizedlist>
@@ -440,12 +440,12 @@ public class MailListenerMDB implements MailListener {
 	              <itemizedlist>
 	                   <listitem>
 	                   <para>
-	                       <literal>name</literal> &mdash; the name of the recipient.
+	                       <literal>name</literal> &#8212; the name of the recipient.
 	                   </para>
 	                   </listitem>
 	                   <listitem>
 	                   <para>
-	                       <literal>address</literal> &mdash; the email address of the recipient.
+	                       <literal>address</literal> &#8212; the email address of the recipient.
 	                   </para>
 	                   </listitem>
 	                   </itemizedlist>
@@ -461,12 +461,12 @@ public class MailListenerMDB implements MailListener {
 	              <itemizedlist>
 	                   <listitem>
 	                   <para>
-	                       <literal>name</literal> &mdash; the name of the recipient.
+	                       <literal>name</literal> &#8212; the name of the recipient.
 	                   </para>
 	                   </listitem>
 	                   <listitem>
 	                   <para>
-	                       <literal>address</literal> &mdash;  the email address of the recipient.
+	                       <literal>address</literal> &#8212;  the email address of the recipient.
 	                   </para>
 	                   </listitem>
 	                   </itemizedlist>
@@ -482,12 +482,12 @@ public class MailListenerMDB implements MailListener {
 	              <itemizedlist>
 	                   <listitem>
 	                   <para>
-	                       <literal>name</literal> &mdash; the name of the recipient.
+	                       <literal>name</literal> &#8212; the name of the recipient.
 	                   </para>
 	                   </listitem>
 	                   <listitem>
 	                   <para>
-	                       <literal>address</literal> &mdash; the email address of the recipient.
+	                       <literal>address</literal> &#8212; the email address of the recipient.
 	                   </para>
 	                   </listitem>
 	                   </itemizedlist>
@@ -502,12 +502,12 @@ public class MailListenerMDB implements MailListener {
 	              <itemizedlist>
 	                   <listitem>
 	                   <para>
-	                       <literal>name</literal> &mdash; The name of the header to add (e.g. <literal>X-Sent-From</literal>).
+	                       <literal>name</literal> &#8212; The name of the header to add (e.g. <literal>X-Sent-From</literal>).
 	                   </para>
 	                   </listitem>
 	                   <listitem>
 	                   <para>
-	                       <literal>value</literal> &mdash; The value of the header to add (e.g. <literal>JBoss Seam</literal>).
+	                       <literal>value</literal> &#8212; The value of the header to add (e.g. <literal>JBoss Seam</literal>).
 	                   </para>
 	                   </listitem>
 	                   </itemizedlist>
@@ -522,33 +522,33 @@ public class MailListenerMDB implements MailListener {
 	              <itemizedlist>
 	                   <listitem>
 	                   <para>
-	                       <literal>value</literal> &mdash; The file to attach:
+	                       <literal>value</literal> &#8212; The file to attach:
 	                   </para>
                			  <itemizedlist>
 		               		<listitem>
     		           			<para>
-    		           				<literal>String</literal> &mdash; A <literal>String</literal> is interpreted as a path to file within the classpath
+    		           				<literal>String</literal> &#8212; A <literal>String</literal> is interpreted as a path to file within the classpath
     		           			</para>
     		           		</listitem>
     		           		<listitem>
     		           			<para>
-    		           				<literal>java.io.File</literal> &mdash; An EL expression can reference a <literal>File</literal> object
+    		           				<literal>java.io.File</literal> &#8212; An EL expression can reference a <literal>File</literal> object
     		           			</para>
     		           		</listitem>
     		           		<listitem>
     		           			<para>
-    		           				<literal>java.net.URL</literal> &mdash; An EL expression can reference a <literal>URL</literal> object
+    		           				<literal>java.net.URL</literal> &#8212; An EL expression can reference a <literal>URL</literal> object
     		           			</para>
     		           		</listitem>
     		           		<listitem>
     		           			<para>
-    		           				<literal>java.io.InputStream</literal> &mdash; An EL expression can reference an <literal>InputStream</literal>.
+    		           				<literal>java.io.InputStream</literal> &#8212; An EL expression can reference an <literal>InputStream</literal>.
     		           				In this case both a <literal>fileName</literal> and a <literal>contentType</literal> must be specified.
     		           			</para>
     		           		</listitem>
     		           		<listitem>
     		           			<para>
-    		           				<literal>byte[]</literal> &mdash; An EL expression can reference an <literal>byte[]</literal>.
+    		           				<literal>byte[]</literal> &#8212; An EL expression can reference an <literal>byte[]</literal>.
     		           				In this case both a <literal>fileName</literal> and a <literal>contentType</literal> must be specified.
     		           			</para>
     		           		</listitem>
@@ -571,12 +571,12 @@ public class MailListenerMDB implements MailListener {
 	                   </listitem>
 	                   <listitem>
 	                   <para>
-	                       <literal>fileName</literal> &mdash; Specify the file name to use for the attached file.
+	                       <literal>fileName</literal> &#8212; Specify the file name to use for the attached file.
 	                   </para>
 	                   </listitem>
 	                    <listitem>
 	                   <para>
-	                       <literal>contentType</literal> &mdash; Specify the MIME type of the attached file
+	                       <literal>contentType</literal> &#8212; Specify the MIME type of the attached file
 	                   </para>
 	                   </listitem>
 	                   </itemizedlist>
@@ -599,7 +599,7 @@ public class MailListenerMDB implements MailListener {
 	              <itemizedlist>
 	                   <listitem>
 	                   <para>
-	                       <literal>type</literal> &mdash; If set to <literal>plain</literal> then a plain text email will be generated otherwise an HTML email is generated.  
+	                       <literal>type</literal> &#8212; If set to <literal>plain</literal> then a plain text email will be generated otherwise an HTML email is generated.  
 	                   </para>
 	                   </listitem>
 	                   </itemizedlist>

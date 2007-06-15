@@ -20,7 +20,7 @@
     <para>
         We should emphasize that the framework is extremely simple, 
         just a handful of simple classes that are easy to understand
-        and extend. The "magic" is in Seam itself&mdash;the same magic
+        and extend. The "magic" is in Seam itself&#8212;the same magic
         you use when creating any Seam application even without using 
         this framework.
     </para>

@@ -56,7 +56,7 @@
                                 <itemizedlist>
                                     <listitem>
                                         <para>
-                                            <literal>type</literal> &mdash; The type of the document to be produced.
+                                            <literal>type</literal> &#8212; The type of the document to be produced.
                                             Valid values are <literal>PDF</literal>, <literal>RTF</literal> and
                                                 <literal>HTML</literal> modes. Seam defaults to PDF generation, and many
                                             of the features only work correctly when generating PDF documents.</para>
@@ -65,7 +65,7 @@
 
                                     <listitem>
                                         <para>
-                                            <literal>pageSize</literal> &mdash; The size of the page to be generate.
+                                            <literal>pageSize</literal> &#8212; The size of the page to be generate.
                                             The most commonly used values would be <literal>LETTER</literal> and
                                                 <literal>A4</literal>. A full list of supported pages sizes can be found
                                             in <literal>com.lowagie.text.PageSize</literal> class. Alternatively,
@@ -74,7 +74,7 @@
                                     </listitem>
                                     <listitem>
                                         <para>
-                                            <literal>orientation</literal> &mdash; The orientation of the page.
+                                            <literal>orientation</literal> &#8212; The orientation of the page.
                                             Valid values are <literal>portrait</literal> and
                                             <literal>landscape</literal>. In landscape mode, the height and width page
                                             size values are reversed. </para>
@@ -83,12 +83,12 @@
 
                                     <listitem>
                                         <para>
-                                            <literal>margins</literal> &mdash; The left, right, top and bottom
+                                            <literal>margins</literal> &#8212; The left, right, top and bottom
                                             margin values. </para>
                                     </listitem>
                                     <listitem>
                                         <para>
-                                            <literal>marginMirroring</literal> &mdash; Indicates that margin
+                                            <literal>marginMirroring</literal> &#8212; Indicates that margin
                                             settings should be reversed an alternating pages.</para>
                                     </listitem>
                                 </itemizedlist>
@@ -202,12 +202,12 @@
                                     </listitem>
                                     <listitem>
                                         <para>
-                                            <literal>spacingBefore</literal> &mdash; The blank space to be inserted
+                                            <literal>spacingBefore</literal> &#8212; The blank space to be inserted
                                             before the element. </para>
                                     </listitem>
                                     <listitem>
                                         <para>
-                                            <literal>spacingAfter</literal> &mdash; The blank space to be inserted
+                                            <literal>spacingAfter</literal> &#8212; The blank space to be inserted
                                             after the element.</para>
                                     </listitem>
                                     <listitem>
@@ -270,7 +270,7 @@
 
                                 <itemizedlist>
                                     <listitem>
-                                        <para><literal>value</literal> &mdash; The value to be displayed. This will
+                                        <para><literal>value</literal> &#8212; The value to be displayed. This will
                                             typically be a value binding expression.</para>
                                     </listitem>
                                 </itemizedlist>
@@ -319,18 +319,18 @@
 
                                 <itemizedlist>
                                     <listitem>
-                                        <para><literal>family</literal> &mdash; The font family. One of:
+                                        <para><literal>family</literal> &#8212; The font family. One of:
                                                 <literal>COURIER</literal>, <literal>HELVETICA</literal>,
                                                 <literal>TIMES-ROMAN</literal>, <literal>SYMBOL</literal> or
                                                 <literal>ZAPFDINGBATS</literal>.</para>
                                     </listitem>
 
                                     <listitem>
-                                        <para><literal>size</literal> &mdash; The point size of the font.</para>
+                                        <para><literal>size</literal> &#8212; The point size of the font.</para>
                                     </listitem>
 
                                     <listitem>
-                                        <para><literal>style</literal> &mdash; The font styles. Any combination of :
+                                        <para><literal>style</literal> &#8212; The font styles. Any combination of :
                                                 <literal>NORMAL</literal>, <literal>BOLD</literal>,
                                             <literal>ITALIC</literal>, <literal>OBLIQUE</literal>,
                                             <literal>UNDERLINE</literal>, <literal>LINE-THROUGH</literal></para>
@@ -425,40 +425,40 @@
 
                                 <itemizedlist>
                                     <listitem>
-                                        <para><literal>resource</literal> &mdash; The location of the image resource
+                                        <para><literal>resource</literal> &#8212; The location of the image resource
                                             to be included. Resources should be relative to the document root of the web
                                             application. </para>
                                     </listitem>
                                     <listitem>
-                                        <para><literal>value</literal> &mdash; A resource name or a method
+                                        <para><literal>value</literal> &#8212; A resource name or a method
                                             expression binding to an application-generated image. </para>
                                     </listitem>
 
 
                                     <listitem>
-                                        <para><literal>rotation</literal> &mdash; The rotation of the image in
+                                        <para><literal>rotation</literal> &#8212; The rotation of the image in
                                             degrees. </para>
                                     </listitem>
 
 
                                     <listitem>
-                                        <para><literal>height</literal> &mdash; The height of the image. </para>
+                                        <para><literal>height</literal> &#8212; The height of the image. </para>
                                     </listitem>
 
                                     <listitem>
-                                        <para><literal>width</literal> &mdash; The width of the image. </para>
+                                        <para><literal>width</literal> &#8212; The width of the image. </para>
                                     </listitem>
 
                                     <listitem>
                                         <para>
-                                            <literal>alignment</literal>&mdash; The alignment of the image. (see
+                                            <literal>alignment</literal>&#8212; The alignment of the image. (see
                                                 <xref linkend="itext.alignment"/> for possible values) </para>
 
                                     </listitem>
                                     <listitem>
 
                                         <para>
-                                            <literal>alt</literal> &mdash; Alternative text representation for the
+                                            <literal>alt</literal> &#8212; Alternative text representation for the
                                             image.</para>
                                     </listitem>
                                     <listitem>
@@ -473,12 +473,12 @@
                                     </listitem>
                                     <listitem>
                                         <para>
-                                            <literal>spacingBefore</literal> &mdash; The blank space to be inserted
+                                            <literal>spacingBefore</literal> &#8212; The blank space to be inserted
                                             before the element.</para>
                                     </listitem>
                                     <listitem>
                                         <para>
-                                            <literal>spacingAfter</literal> &mdash; The blank space to be inserted
+                                            <literal>spacingAfter</literal> &#8212; The blank space to be inserted
                                             after the element.</para>
 
                                     </listitem>
@@ -502,7 +502,7 @@
                                     </listitem>
                                     <listitem>
                                         <para>
-                                            <literal>scalePercent</literal> &mdash; The scaling factor (as a
+                                            <literal>scalePercent</literal> &#8212; The scaling factor (as a
                                             percentage) to use for the image. This can be expressed as a single
                                             percentage value or as two percentage values representing separate x and y
                                             scaling percentages.</para>
@@ -561,14 +561,14 @@
 
                                 <itemizedlist>
                                     <listitem>
-                                        <para><literal>name</literal> &mdash; The name of an in-document anchor
+                                        <para><literal>name</literal> &#8212; The name of an in-document anchor
                                             destination.</para>
 
                                     </listitem>
 
                                     <listitem>
 
-                                        <para><literal>reference</literal> &mdash; The destination the link refers
+                                        <para><literal>reference</literal> &#8212; The destination the link refers
                                             to. Links to other points in the document should begin with a "#". For
                                             example, "#link1" to refer to an anchor postion with a
                                             <literal>name</literal> of <literal>link1</literal>. Links may also be a
@@ -635,13 +635,13 @@
 
                                     <listitem>
                                         <para>
-                                            <literal>alignment</literal> &mdash; The alignment of the header/footer
+                                            <literal>alignment</literal> &#8212; The alignment of the header/footer
                                             box section. (see <xref linkend="itext.alignment"/> for alignment values)</para>
 
                                     </listitem>
 
                                     <listitem>
-                                        <para><literal>backgroundColor</literal> &mdash; The background color of the
+                                        <para><literal>backgroundColor</literal> &#8212; The background color of the
                                             header/footer box. (see <xref linkend="itext.colors"/> for color values)
                                         </para>
                                     </listitem>
@@ -650,7 +650,7 @@
 
 
                                     <listitem>
-                                        <para><literal>borderColor</literal> &mdash; The border color of the
+                                        <para><literal>borderColor</literal> &#8212; The border color of the
                                             header/footer box. Individual border sides can be set using
                                                 <literal>borderColorLeft</literal>, <literal>borderColorRight</literal>,
                                                 <literal>borderColorTop</literal> and
@@ -659,7 +659,7 @@
                                     </listitem>
                                     <listitem>
                                         <para>
-                                            <literal>borderWidth</literal> &mdash; The width of the border.
+                                            <literal>borderWidth</literal> &#8212; The width of the border.
                                             Inidvidual border sides can be specified using
                                             <literal>borderWidthLeft</literal>, <literal>borderWidthRight</literal>,
                                                 <literal>borderWidthTop</literal> and
@@ -762,18 +762,18 @@
 
                                     <listitem>
                                         <para>
-                                            <literal>alignment</literal> &mdash; The alignment of the header/footer
+                                            <literal>alignment</literal> &#8212; The alignment of the header/footer
                                             box section. (see <xref linkend="itext.alignment"/> for alignment values)</para>
 
                                     </listitem>
 
                                     <listitem>
-                                        <para><literal>number</literal> &mdash; The chapter number. Every chapter
+                                        <para><literal>number</literal> &#8212; The chapter number. Every chapter
                                             should be assigned a chapter number.</para>
                                     </listitem>
 
                                     <listitem>
-                                        <para><literal>numberDepth</literal> &mdash; The depth of numbering for
+                                        <para><literal>numberDepth</literal> &#8212; The depth of numbering for
                                             section. All sections are numbered relative to their surrounding
                                             chapter/sections. The fourth section of of the first section of chapter
                                             three would be section 3.1.4, if displayed at the default number depth of
@@ -883,37 +883,37 @@
                                 <itemizedlist>
 
                                     <listitem>
-                                        <para><literal>style</literal> &mdash; The ordering/bulleting style of list.
+                                        <para><literal>style</literal> &#8212; The ordering/bulleting style of list.
                                             One of: <literal>NUMBERED</literal>, <literal>LETTERED</literal>,
                                                 <literal>GREEK</literal>, <literal>ROMAN</literal>,
                                                 <literal>ZAPFDINGBATS</literal>, <literal>ZAPFDINGBATS_NUMBER</literal>.
                                             If no style is given, the list items are bulleted.</para>
                                     </listitem>
                                     <listitem>
-                                        <para><literal>listSymbol</literal> &mdash; For bulleted lists, specifies
+                                        <para><literal>listSymbol</literal> &#8212; For bulleted lists, specifies
                                             the bullet symbol. </para>
                                     </listitem>
 
                                     <listitem>
-                                        <para><literal>indent</literal> &mdash; The indentation level of the
+                                        <para><literal>indent</literal> &#8212; The indentation level of the
                                         list.</para>
                                     </listitem>
 
 
                                     <listitem>
-                                        <para><literal>lowerCase</literal> &mdash; For list styles using letters,
+                                        <para><literal>lowerCase</literal> &#8212; For list styles using letters,
                                             indicates whether the letters should be lower case.</para>
                                     </listitem>
 
 
                                     <listitem>
-                                        <para><literal>charNumber</literal> &mdash; For ZAPFDINGBATS, indicates the
+                                        <para><literal>charNumber</literal> &#8212; For ZAPFDINGBATS, indicates the
                                             character code of the bullet character.</para>
                                     </listitem>
 
 
                                     <listitem>
-                                        <para><literal>numberType</literal> &mdash; For ZAPFDINGBATS_NUMBER,
+                                        <para><literal>numberType</literal> &#8212; For ZAPFDINGBATS_NUMBER,
                                             indicates the numbering style.</para>
                                     </listitem>
 
@@ -962,33 +962,33 @@
 
                                     <listitem>
                                         <para>
-                                            <literal>alignment</literal> &mdash; The alignment of the header/footer
+                                            <literal>alignment</literal> &#8212; The alignment of the header/footer
                                             box section. (see <xref linkend="itext.alignment"/> for alignment values)</para>
 
                                     </listitem>
 
                                     <listitem>
-                                        <para><literal>alignment</literal> &mdash; The alignment of the list item.
+                                        <para><literal>alignment</literal> &#8212; The alignment of the list item.
                                             (See <xref linkend="itext.alignment"/> for possible values)</para>
                                     </listitem>
 
 
                                     <listitem>
-                                        <para><literal>indentationLeft</literal> &mdash; The left indentation
+                                        <para><literal>indentationLeft</literal> &#8212; The left indentation
                                             amount.</para>
                                     </listitem>
 
 
 
                                     <listitem>
-                                        <para><literal>indentationRight</literal> &mdash; The right indentation
+                                        <para><literal>indentationRight</literal> &#8212; The right indentation
                                             amount.</para>
                                     </listitem>
 
 
 
                                     <listitem>
-                                        <para><literal>listSymbol</literal> &mdash; Overrides the default list
+                                        <para><literal>listSymbol</literal> &#8212; Overrides the default list
                                             symbol for this list item.</para>
                                     </listitem>
 
@@ -1061,14 +1061,14 @@
 
 
                                     <listitem>
-                                        <para><literal>columns</literal> &mdash; The number of columns (cells) that
+                                        <para><literal>columns</literal> &#8212; The number of columns (cells) that
                                             make up a table row.</para>
                                     </listitem>
 
 
 
                                     <listitem>
-                                        <para><literal>widths</literal> &mdash; The relative widths of each column.
+                                        <para><literal>widths</literal> &#8212; The relative widths of each column.
                                             There should be one value for each column. For example: widths="2 1 1" would
                                             indicate that there are 3 columns and the first column should be twice the
                                             size of the second and third column.</para>
@@ -1077,7 +1077,7 @@
 
 
                                     <listitem>
-                                        <para><literal>headerRows</literal> &mdash; The initial number of rows which
+                                        <para><literal>headerRows</literal> &#8212; The initial number of rows which
                                             are considered to be headers or footer rows and should be repeated if the
                                             table spans multiple pages. </para>
                                     </listitem>
@@ -1085,7 +1085,7 @@
 
 
                                     <listitem>
-                                        <para><literal>footerRows</literal> &mdash; The number of rows that are
+                                        <para><literal>footerRows</literal> &#8212; The number of rows that are
                                             considered to be footer rows. This value is subtracted from the
                                                 <literal>headerRows</literal> value. If document has 2 rows which make
                                             up the header and one row that makes up the footer,
@@ -1096,12 +1096,12 @@
 
 
                                     <listitem>
-                                        <para><literal>widthPercentage</literal> &mdash; The percentage of the page
+                                        <para><literal>widthPercentage</literal> &#8212; The percentage of the page
                                             width that the table spans.</para>
                                     </listitem>
 
                                     <listitem>
-                                        <para><literal>horizontalAlignment</literal> &mdash; The horizontal
+                                        <para><literal>horizontalAlignment</literal> &#8212; The horizontal
                                             alignment of the table. (See <xref linkend="itext.alignment"/> for possible
                                             values)</para>
                                     </listitem>
@@ -1135,13 +1135,13 @@
 
 
                                     <listitem>
-                                        <para><literal>spacingBefore</literal> &mdash; The blank space to be
+                                        <para><literal>spacingBefore</literal> &#8212; The blank space to be
                                             inserted before the element.</para>
                                     </listitem>
 
 
                                     <listitem>
-                                        <para><literal>spacingAfter</literal> &mdash; The blank space to be inserted
+                                        <para><literal>spacingAfter</literal> &#8212; The blank space to be inserted
                                             after the element.</para>
                                     </listitem>
                                     <listitem>
@@ -1212,7 +1212,7 @@
 
                                     <listitem>
                                         <para>
-                                            <literal>colspan</literal> &mdash; Cells can span more than one column
+                                            <literal>colspan</literal> &#8212; Cells can span more than one column
                                             by declaring a <literal>colspan</literal> greater than 1. Tables do not have
                                             the ability to span across multiple rows. </para>
                                     </listitem>
@@ -1220,7 +1220,7 @@
 
 
                                     <listitem>
-                                        <para><literal>horizontalAlignment</literal> &mdash; The horizontal
+                                        <para><literal>horizontalAlignment</literal> &#8212; The horizontal
                                             alignment of the cell. (see <xref linkend="itext.alignment"/> for possible
                                             values)</para>
                                     </listitem>
@@ -1228,7 +1228,7 @@
 
 
                                     <listitem>
-                                        <para><literal>verticalAlignment</literal> &mdash; The vertical alignment of
+                                        <para><literal>verticalAlignment</literal> &#8212; The vertical alignment of
                                             the cell. (see <xref linkend="itext.alignment"/> for possible values)</para>
                                     </listitem>
 
@@ -1236,7 +1236,7 @@
 
                                     <listitem>
                                         <para>
-                                            <literal>padding</literal> &mdash; Padding on a given side can also be
+                                            <literal>padding</literal> &#8212; Padding on a given side can also be
                                             specified using <literal>paddingLeft</literal>,
                                             <literal>paddingRight</literal>, <literal>paddingTop</literal> and
                                                 <literal>paddingBottom</literal>.</para>
@@ -1846,7 +1846,7 @@
 
                                 <listitem>
                                     <para>
-                                        <literal>key</literal> &mdash; The series name. </para>
+                                        <literal>key</literal> &#8212; The series name. </para>
                                 </listitem>
                                 <listitem>
                                     <para>
@@ -2009,23 +2009,23 @@
 
                                 <listitem>
                                     <para>
-                                        <literal>color</literal> &mdash; The color value. For gradient colors, this
+                                        <literal>color</literal> &#8212; The color value. For gradient colors, this
                                         the starting color. <link linkend="itext.colors"/>
                                     </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>color2</literal> &mdash; For gradient colors, this is the color
+                                        <literal>color2</literal> &#8212; For gradient colors, this is the color
                                         that ends the gradient. </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>point</literal> &mdash; The co-ordinates where the gradient color
+                                        <literal>point</literal> &#8212; The co-ordinates where the gradient color
                                         begins. </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>point2</literal> &mdash; The co-ordinates where the gradient color
+                                        <literal>point2</literal> &#8212; The co-ordinates where the gradient color
                                         ends. </para>
                                 </listitem>
                             </itemizedlist>
@@ -2068,37 +2068,37 @@
 
                                 <listitem>
                                     <para>
-                                        <literal>width</literal> &mdash; The width of the stroke. </para>
+                                        <literal>width</literal> &#8212; The width of the stroke. </para>
                                 </listitem>
 
                                 <listitem>
-                                    <para><literal>cap</literal> &mdash; The line cap type. Valid values are
+                                    <para><literal>cap</literal> &#8212; The line cap type. Valid values are
                                             <literal>butt</literal>, <literal>round</literal> and
                                         <literal>square</literal></para>
                                 </listitem>
 
                                 <listitem>
-                                    <para><literal>join</literal> &mdash; The line join type. Valid values are
+                                    <para><literal>join</literal> &#8212; The line join type. Valid values are
                                             <literal>miter</literal>, <literal>round</literal> and
                                         <literal>bevel</literal></para>
                                 </listitem>
 
                                 <listitem>
                                     <para>
-                                        <literal>miterLimit</literal> &mdash; For miter joins, this value is the
+                                        <literal>miterLimit</literal> &#8212; For miter joins, this value is the
                                         limit of the size of the join. </para>
                                 </listitem>
 
                                 <listitem>
                                     <para>
-                                        <literal>dash</literal> &mdash; The dash value sets the dash pattern to be
+                                        <literal>dash</literal> &#8212; The dash value sets the dash pattern to be
                                         used to draw the line. The space separated integers indicate the length of each
                                         alternating drawn and undrawn segments. </para>
                                 </listitem>
 
                                 <listitem>
                                     <para>
-                                        <literal>dashPhase</literal> &mdash; The dash phase indicates the offset
+                                        <literal>dashPhase</literal> &#8212; The dash phase indicates the offset
                                         into the dash pattern that the the line should be drawn with. </para>
                                 </listitem>
                             </itemizedlist>

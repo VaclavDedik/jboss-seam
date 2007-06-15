@@ -44,40 +44,40 @@
             <itemizedlist>
               <listitem>
                 <para>
-                  <literal>value</literal> &mdash; the label.
+                  <literal>value</literal> &#8212; the label.
                 </para>
               </listitem>
               <listitem>
                 <para>
-                  <literal>action</literal> &mdash; a method binding that specified
+                  <literal>action</literal> &#8212; a method binding that specified
                   the action listener.
                 </para>
               </listitem>
               <listitem>
                 <para>
-                  <literal>view</literal> &mdash; the JSF view id to link to.
+                  <literal>view</literal> &#8212; the JSF view id to link to.
                 </para>
               </listitem>
               <listitem>
                 <para>
-                  <literal>fragment</literal> &mdash; the fragment identifier to link to.
+                  <literal>fragment</literal> &#8212; the fragment identifier to link to.
                 </para>
               </listitem>
               <listitem>
                 <para>
-                  <literal>disabled</literal> &mdash; is the link disabled?
+                  <literal>disabled</literal> &#8212; is the link disabled?
                 </para>
               </listitem>
               <listitem>
                 <para>
-                  <literal>propagation</literal> &mdash; determines the conversation
+                  <literal>propagation</literal> &#8212; determines the conversation
                   propagation style: <literal>begin</literal>, <literal>join</literal>,
                   <literal>nest</literal>, <literal>none</literal> or <literal>end</literal>.
                 </para>
               </listitem>
               <listitem>
                 <para>
-                  <literal>pageflow</literal> &mdash; a pageflow definition to begin.
+                  <literal>pageflow</literal> &#8212; a pageflow definition to begin.
                   (This is only useful when <literal>propagation="begin"</literal> or
                   <literal>propagation="join"</literal>.)
                 </para>
@@ -107,7 +107,7 @@
             <itemizedlist>
               <listitem>
                 <para>
-                  <literal>key</literal> &mdash; the key to cache rendered content,
+                  <literal>key</literal> &#8212; the key to cache rendered content,
                   often a value expression. For example, if we were caching a page
                   fragment that displays a document, we might use
                   <literal>key="Document-#{document.id}"</literal>.
@@ -115,13 +115,13 @@
               </listitem>
               <listitem>
                 <para>
-                  <literal>enabled</literal> &mdash; a value expression that determines
+                  <literal>enabled</literal> &#8212; a value expression that determines
                   if the cache should be used.
                 </para>
               </listitem>
               <listitem>
                 <para>
-                  <literal>region</literal> &mdash; a JBoss Cache node to use (different
+                  <literal>region</literal> &#8212; a JBoss Cache node to use (different
                   nodes can have different expiry policies).
                 </para>
               </listitem>
@@ -181,14 +181,14 @@
               <itemizedlist>
                 <listitem>
                   <para>
-                     <literal>propagation</literal> &mdash; determines the conversation
+                     <literal>propagation</literal> &#8212; determines the conversation
                      propagation style: <literal>begin</literal>, <literal>join</literal>,
                      <literal>nest</literal>, <literal>none</literal> or <literal>end</literal>.
                   </para>
                 </listitem>
                 <listitem>
                   <para>
-                    <literal>pageflow</literal> &mdash; a pageflow definition to begin.
+                    <literal>pageflow</literal> &#8212; a pageflow definition to begin.
                     (This is only useful when <literal>propagation="begin"</literal> or
                     <literal>propagation="join"</literal>.)
                   </para>
@@ -308,7 +308,7 @@
             <itemizedlist>
               <listitem>
                 <para>
-                  <literal>template</literal> &mdash; the facelets template to use to decorate the component
+                  <literal>template</literal> &#8212; the facelets template to use to decorate the component
                 </para>
               </listitem>
             </itemizedlist>
@@ -367,13 +367,13 @@
               <itemizedlist>
                 <listitem>
                   <para>
-                     <literal>enumValue</literal> &mdash; the string representation of the enum
+                     <literal>enumValue</literal> &#8212; the string representation of the enum
                      value.
                   </para>
                 </listitem>
                 <listitem>
                   <para>
-                    <literal>label</literal> &mdash; the label to be used when rendering the <literal>SelectItem</literal>.
+                    <literal>label</literal> &#8212; the label to be used when rendering the <literal>SelectItem</literal>.
                   </para>
                 </listitem>
               </itemizedlist>
@@ -430,13 +430,13 @@
             <itemizedlist>
               <listitem>
                 <para>
-                  <literal>createTempFiles</literal> &mdash; if this option is set to true, uploaded files are
+                  <literal>createTempFiles</literal> &#8212; if this option is set to true, uploaded files are
                   streamed to a temporary file instead of in memory.
                 </para>
               </listitem>
               <listitem>
                 <para>
-                  <literal>maxRequestSize</literal> &mdash; the maximum size of a file upload request, in bytes.
+                  <literal>maxRequestSize</literal> &#8212; the maximum size of a file upload request, in bytes.
                 </para>
               </listitem>
             </itemizedlist>
@@ -454,36 +454,36 @@
             <itemizedlist>
               <listitem>
                 <para>
-                  <literal>data</literal> &mdash; this value binding receives the binary file data.
+                  <literal>data</literal> &#8212; this value binding receives the binary file data.
                   The receiving field should be declared as a <literal>byte[]</literal> or <literal>InputStream</literal> (required).
                 </para>
               </listitem>
               <listitem>
                 <para>
-                  <literal>contentType</literal> &mdash; this value binding receives the file's
+                  <literal>contentType</literal> &#8212; this value binding receives the file's
                   content type (optional).
                 </para>
               </listitem>
               <listitem>
                 <para>
-                  <literal>fileName</literal> &mdash; this value binding receives the filename (optional).
+                  <literal>fileName</literal> &#8212; this value binding receives the filename (optional).
                 </para>
               </listitem>
               <listitem>
                 <para>
-                  <literal>accept</literal> &mdash; a comma-separated list of content types to accept,
+                  <literal>accept</literal> &#8212; a comma-separated list of content types to accept,
                   may not be supported by the browser.  E.g. <literal>"images/png,images/jpg"</literal>,
                   <literal>"images/*"</literal>.
                 </para>
               </listitem>
               <listitem>
                 <para>
-                  <literal>style</literal> &mdash; The control's style
+                  <literal>style</literal> &#8212; The control's style
                 </para>
               </listitem>
               <listitem>
                 <para>
-                  <literal>styleClass</literal> &mdash; The control's style class
+                  <literal>styleClass</literal> &#8212; The control's style class
                 </para>
               </listitem>
             </itemizedlist>
@@ -508,7 +508,7 @@
             <itemizedlist>
               <listitem>
                 <para>
-                  <literal>value</literal> &mdash; an EL expression specifying the rich text markup to render.
+                  <literal>value</literal> &#8212; an EL expression specifying the rich text markup to render.
                 </para>
               </listitem>
             </itemizedlist>
@@ -567,7 +567,7 @@
              <itemizedlist>
                <listitem>
                <para>
-                 <literal>value</literal> &mdash; image to display.  Can be a path <literal>String</literal>
+                 <literal>value</literal> &#8212; image to display.  Can be a path <literal>String</literal>
                  (loaded from the classpath), a <literal>byte[]</literal>, a <literal>java.io.File</literal>,
                  a <literal>java.io.InputStream</literal> or a <literal>java.net.URL</literal>.  Currently supported
                  image formats are <literal>image/png</literal>, <literal>image/jpeg</literal> and <literal>image/gif</literal>.
@@ -575,7 +575,7 @@
                </listitem>
                 <listitem>
                <para>
-                 <literal>fileName</literal> &mdash; if not specified the served image will have a generated file name.
+                 <literal>fileName</literal> &#8212; if not specified the served image will have a generated file name.
                  If you want to name your file, you should specify it here.  This name should be unique
                </para>
                </listitem>
@@ -592,24 +592,24 @@
                   <itemizedlist>
                     <listitem>
                       <para>
-                        <literal>width</literal> &mdash; new width of the image
+                        <literal>width</literal> &#8212; new width of the image
                       </para>
                     </listitem>
                     <listitem>
                       <para>
-                        <literal>height</literal> &mdash; new height of the image
+                        <literal>height</literal> &#8212; new height of the image
                       </para>
                     </listitem>
                     <listitem>
                       <para>
-                        <literal>maintainRatio</literal> &mdash; if <literal>true</literal>, and <emphasis>one</emphasis> of
+                        <literal>maintainRatio</literal> &#8212; if <literal>true</literal>, and <emphasis>one</emphasis> of
                         <literal>width</literal>/<literal>height</literal> are specified, the image will be resized with the
                         dimension not specified being calculated to maintain the aspect ratio.
                       </para>
                     </listitem>
                     <listitem>
                       <para>
-                        <literal>factor</literal> &mdash; scale the image by the given factor
+                        <literal>factor</literal> &#8212; scale the image by the given factor
                       </para>
                     </listitem>
                   </itemizedlist>
@@ -621,7 +621,7 @@
                   <itemizedlist>
                     <listitem>
                       <para>
-                        <literal>radius</literal> &mdash; perform a convolution blur with the given radius
+                        <literal>radius</literal> &#8212; perform a convolution blur with the given radius
                       </para>
                     </listitem>
                   </itemizedlist>
@@ -633,7 +633,7 @@
                   <itemizedlist>
                     <listitem>
                       <para>
-                        <literal>contentType</literal> &mdash; alter the type of the image to either <literal>image/jpeg</literal> or <literal>image/png</literal>
+                        <literal>contentType</literal> &#8212; alter the type of the image to either <literal>image/jpeg</literal> or <literal>image/png</literal>
                       </para>
                     </listitem>
                   </itemizedlist>
@@ -671,40 +671,40 @@
             <itemizedlist>
               <listitem>
                 <para>
-                  <literal>value</literal> &mdash; the label.
+                  <literal>value</literal> &#8212; the label.
                 </para>
               </listitem>
               <listitem>
                 <para>
-                  <literal>action</literal> &mdash; a method binding that specified
+                  <literal>action</literal> &#8212; a method binding that specified
                   the action listener.
                 </para>
               </listitem>
               <listitem>
                 <para>
-                  <literal>view</literal> &mdash; the JSF view id to link to.
+                  <literal>view</literal> &#8212; the JSF view id to link to.
                 </para>
               </listitem>
               <listitem>
                 <para>
-                  <literal>fragment</literal> &mdash; the fragment identifier to link to.
+                  <literal>fragment</literal> &#8212; the fragment identifier to link to.
                 </para>
               </listitem>
               <listitem>
                 <para>
-                  <literal>disabled</literal> &mdash; is the link disabled?
+                  <literal>disabled</literal> &#8212; is the link disabled?
                 </para>
               </listitem>
               <listitem>
                 <para>
-                  <literal>propagation</literal> &mdash; determines the conversation
+                  <literal>propagation</literal> &#8212; determines the conversation
                   propagation style: <literal>begin</literal>, <literal>join</literal>,
                   <literal>nest</literal>, <literal>none</literal> or <literal>end</literal>.
                 </para>
               </listitem>
               <listitem>
                 <para>
-                  <literal>pageflow</literal> &mdash; a pageflow definition to begin.
+                  <literal>pageflow</literal> &#8212; a pageflow definition to begin.
                   (This is only useful when <literal>propagation="begin"</literal> or
                   <literal>propagation="join"</literal>.)
                 </para>
@@ -762,24 +762,24 @@
             <itemizedlist>
               <listitem>
                 <para>
-                  <literal>for</literal> &mdash; The id of the input field that the date picker will insert the
+                  <literal>for</literal> &#8212; The id of the input field that the date picker will insert the
                   selected date into.
                 </para>
               </listitem>
               <listitem>
                 <para>
-                  <literal>dateFormat</literal> &mdash; The date format string.  This should match the date format of the
+                  <literal>dateFormat</literal> &#8212; The date format string.  This should match the date format of the
                   input field.
                 </para>
               </listitem>
               <listitem>
                 <para>
-                  <literal>startYear</literal> &mdash; The popup year selector range will start at this year.
+                  <literal>startYear</literal> &#8212; The popup year selector range will start at this year.
                 </para>
               </listitem>
               <listitem>
                 <para>
-                  <literal>endYear</literal> &mdash; The popup year selector range will end at this year.
+                  <literal>endYear</literal> &#8212; The popup year selector range will end at this year.
                 </para>
               </listitem>
             </itemizedlist>
@@ -815,102 +815,102 @@
             <itemizedlist>
               <listitem>
                 <para>
-                  <literal>seam-date</literal> &mdash; This class is applied to the outer <literal>div</literal> containing the
+                  <literal>seam-date</literal> &#8212; This class is applied to the outer <literal>div</literal> containing the
                   popup calendar. (1) It is also applied to the <literal>table</literal> that controls the inner layout of the
                   calendar. (2)
                 </para>
               </listitem>
               <listitem>
                 <para>
-                  <literal>seam-date-header</literal> &mdash; This class is applied to the calendar header table row (<literal>tr</literal>)
+                  <literal>seam-date-header</literal> &#8212; This class is applied to the calendar header table row (<literal>tr</literal>)
                   and header table cells (<literal>td</literal>). (3)
                 </para>
               </listitem>
               <listitem>
                 <para>
-                  <literal>seam-date-header-prevMonth</literal> &mdash; This class is applied to the "previous month" table cell,
+                  <literal>seam-date-header-prevMonth</literal> &#8212; This class is applied to the "previous month" table cell,
                   (<literal>td</literal>), which when clicked causes the calendar to display the month prior to the one currently
                   displayed.  (4)
                 </para>
               </listitem>
               <listitem>
                 <para>
-                  <literal>seam-date-header-nextMonth</literal> &mdash; This class is applied to the "next month" table cell,
+                  <literal>seam-date-header-nextMonth</literal> &#8212; This class is applied to the "next month" table cell,
                   (<literal>td</literal>), which when clicked causes the calendar to display the month following the one currently
                   displayed.  (5)
                 </para>
               </listitem>
               <listitem>
                 <para>
-                  <literal>seam-date-headerDays</literal> &mdash; This class is applied to the calendar days header row
+                  <literal>seam-date-headerDays</literal> &#8212; This class is applied to the calendar days header row
                   (<literal>tr</literal>), which contains the names of the week days. (6)
                 </para>
               </listitem>
               <listitem>
                 <para>
-                  <literal>seam-date-footer</literal> &mdash; This class is applied to the calendar footer row
+                  <literal>seam-date-footer</literal> &#8212; This class is applied to the calendar footer row
                   (<literal>tr</literal>), which displays the current date. (7)
                 </para>
               </listitem>
               <listitem>
                 <para>
-                  <literal>seam-date-inMonth</literal> &mdash; This class is applied to the table cell
+                  <literal>seam-date-inMonth</literal> &#8212; This class is applied to the table cell
                   (<literal>td</literal>) elements that contain a date within the month currently displayed. (8)
                 </para>
               </listitem>
               <listitem>
                 <para>
-                  <literal>seam-date-outMonth</literal> &mdash; This class is applied to the table cell
+                  <literal>seam-date-outMonth</literal> &#8212; This class is applied to the table cell
                   (<literal>td</literal>) elements that contain a date outside of the month currently displayed. (9)
                 </para>
               </listitem>
               <listitem>
                 <para>
-                  <literal>seam-date-selected</literal> &mdash; This class is applied to the table cell
+                  <literal>seam-date-selected</literal> &#8212; This class is applied to the table cell
                   (<literal>td</literal>) element that contains the currently selected date. (10)
                 </para>
               </listitem>
               <listitem>
                 <para>
-                  <literal>seam-date-dayOff-inMonth</literal> &mdash; This class is applied to the table cell
+                  <literal>seam-date-dayOff-inMonth</literal> &#8212; This class is applied to the table cell
                   (<literal>td</literal>) elements that contain a "day off" date (i.e. weekend days, Saturday and Sunday)
                   within the currently selected month. (11)
                 </para>
               </listitem>
               <listitem>
                 <para>
-                  <literal>seam-date-dayOff-outMonth</literal> &mdash; This class is applied to the table cell
+                  <literal>seam-date-dayOff-outMonth</literal> &#8212; This class is applied to the table cell
                   (<literal>td</literal>) elements that contain a "day off" date (i.e. weekend days, Saturday and Sunday)
                   outside of the currently selected month. (12)
                 </para>
               </listitem>
               <listitem>
                 <para>
-                  <literal>seam-date-hover</literal> &mdash; This class is applied to the table cell
+                  <literal>seam-date-hover</literal> &#8212; This class is applied to the table cell
                   (<literal>td</literal>) element over which the cursor is hovering. (13)
                 </para>
               </listitem>
               <listitem>
                 <para>
-                  <literal>seam-date-monthNames</literal> &mdash; This class is applied to the <literal>div</literal>
+                  <literal>seam-date-monthNames</literal> &#8212; This class is applied to the <literal>div</literal>
                   control that contains the popup month selector. (14)
                 </para>
               </listitem>
               <listitem>
                 <para>
-                  <literal>seam-date-monthNameLink</literal> &mdash; This class is applied to the anchor (<literal>a</literal>)
+                  <literal>seam-date-monthNameLink</literal> &#8212; This class is applied to the anchor (<literal>a</literal>)
                   controls that contain the popup month names. (15)
                 </para>
               </listitem>
               <listitem>
                 <para>
-                  <literal>seam-date-years </literal> &mdash; This class is applied to the <literal>div</literal>
+                  <literal>seam-date-years </literal> &#8212; This class is applied to the <literal>div</literal>
                   control that contains the popup year selector. (16)
                 </para>
               </listitem>
               <listitem>
                 <para>
-                  <literal>seam-date-yearLink</literal> &mdash; This class is applied to the anchor (<literal>a</literal>)
+                  <literal>seam-date-yearLink</literal> &#8212; This class is applied to the anchor (<literal>a</literal>)
                   controls that contain the popup years. (15)
                 </para>
               </listitem>
@@ -942,35 +942,35 @@
              <itemizedlist>
                <listitem>
                  <para>
-                     <literal>value</literal> &mdash; an EL expression specifying the data that backs the <literal>List&lt;SelectItem&gt;</literal>
+                     <literal>value</literal> &#8212; an EL expression specifying the data that backs the <literal>List&lt;SelectItem&gt;</literal>
                  </para>
                </listitem>
                 <listitem>
                  <para>
-                     <literal>var</literal> &mdash; defines the name of the local variable that holds the current object during iteration
+                     <literal>var</literal> &#8212; defines the name of the local variable that holds the current object during iteration
                  </para>
                </listitem>
                <listitem>
                  <para>
-                     <literal>label</literal> &mdash; the label to be used when rendering the <literal>SelectItem</literal>.  Can reference
+                     <literal>label</literal> &#8212; the label to be used when rendering the <literal>SelectItem</literal>.  Can reference
                      the <literal>var</literal> variable
                  </para>
                </listitem>
                 <listitem>
                  <para>
-                     <literal>disabled</literal> &mdash; if true the <literal>SelectItem</literal> will be rendered disabled.  Can reference
+                     <literal>disabled</literal> &#8212; if true the <literal>SelectItem</literal> will be rendered disabled.  Can reference
                      the <literal>var</literal> variable
                  </para>
                </listitem>
                <listitem>
                  <para>
-                     <literal>noSelectionLabel</literal> &mdash; specifies the (optional) label to place at the top of list (if
+                     <literal>noSelectionLabel</literal> &#8212; specifies the (optional) label to place at the top of list (if
                      <literal>required="true"</literal> is also specified then selecting this value will cause a validation error)
                  </para>
                </listitem>
                <listitem>
                  <para>
-                    <literal>hideNoSelectionLabel</literal> &mdash; if true, the <literal>noSelectionLabel</literal> will be hidden
+                    <literal>hideNoSelectionLabel</literal> &#8212; if true, the <literal>noSelectionLabel</literal> will be hidden
                     when a value is selected
                  </para>
                </listitem>

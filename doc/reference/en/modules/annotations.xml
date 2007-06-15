@@ -51,11 +51,11 @@
                     <itemizedlist>
                         <listitem>
                             <para>
-                                <literal>name</literal> &mdash; the context variable name. </para>
+                                <literal>name</literal> &#8212; the context variable name. </para>
                         </listitem>
                         <listitem>
                             <para>
-                                <literal>scope</literal> &mdash; the context variable scope. When no scope is
+                                <literal>scope</literal> &#8212; the context variable scope. When no scope is
                                 explicitly specified, the default depends upon the component type, as above. </para>
                         </listitem>
                     </itemizedlist>
@@ -123,7 +123,7 @@
                     <itemizedlist>
                         <listitem>
                             <para>
-                                <literal>depends</literal> &mdash; specifies that the named components must be
+                                <literal>depends</literal> &#8212; specifies that the named components must be
                                 started first, if they are installed. </para>
                         </listitem>
                     </itemizedlist>
@@ -163,23 +163,23 @@
                     
                     <itemizedlist>
                         <listitem>
-                            <para><literal>BUILT_IN</literal> &mdash; Precedence of all built-in Seam
+                            <para><literal>BUILT_IN</literal> &#8212; Precedence of all built-in Seam
                             components</para>
                         </listitem>
                         <listitem>
-                            <para><literal>FRAMEWORK</literal> &mdash; Precedence to use for components of
+                            <para><literal>FRAMEWORK</literal> &#8212; Precedence to use for components of
                                 frameworks which extend Seam</para>
                         </listitem>
                         <listitem>
-                            <para><literal>APPLICATION</literal> &mdash; Predence of application components (the
+                            <para><literal>APPLICATION</literal> &#8212; Predence of application components (the
                                 default precedence)</para>
                         </listitem>
                         <listitem>
-                            <para><literal>DEPLOYMENT</literal> &mdash; Precedence to use for components which
+                            <para><literal>DEPLOYMENT</literal> &#8212; Precedence to use for components which
                                 override application components in a particular deployment</para>
                         </listitem>
         	              <listitem>
-                             <para><literal>MOCK</literal> &mdash; Precedence for mock objects used in testing</para>
+                             <para><literal>MOCK</literal> &#8212; Precedence for mock objects used in testing</para>
                         </listitem>
                     </itemizedlist>
                 </listitem>
@@ -240,19 +240,19 @@
                     <itemizedlist>
                         <listitem>
                             <para>
-                                <literal>value</literal> &mdash; specifies the name of the context variable. Default
+                                <literal>value</literal> &#8212; specifies the name of the context variable. Default
                                 to the name of the component attribute. Alternatively, specifies a JSF EL expression,
                                 surrounded by <literal>#{...}</literal>. </para>
                         </listitem>
                         <listitem>
                             <para>
-                                <literal>create</literal> &mdash; specifies that Seam should instantiate the
+                                <literal>create</literal> &#8212; specifies that Seam should instantiate the
                                 component with the same name as the context variable if the context variable is
                                 undefined (null) in all contexts. Default to false. </para>
                         </listitem>
                         <listitem>
                             <para>
-                                <literal>required</literal> &mdash; specifies Seam should throw an exception if the
+                                <literal>required</literal> &#8212; specifies Seam should throw an exception if the
                                 context variable is undefined in all contexts. </para>
                         </listitem>
                     </itemizedlist>
@@ -281,12 +281,12 @@
                     <itemizedlist>
                         <listitem>
                             <para>
-                                <literal>value</literal> &mdash; specifies the name of the context variable. Default
+                                <literal>value</literal> &#8212; specifies the name of the context variable. Default
                                 to the name of the component attribute. </para>
                         </listitem>
                         <listitem>
                             <para>
-                                <literal>required</literal> &mdash; specifies Seam should throw an exception if the
+                                <literal>required</literal> &#8212; specifies Seam should throw an exception if the
                                 component attribute is null during outjection. </para>
                         </listitem>
                     </itemizedlist>
@@ -338,12 +338,12 @@
                     <itemizedlist>
                         <listitem>
                             <para>
-                                <literal>value</literal> &mdash; specifies the name of the context variable. If the
+                                <literal>value</literal> &#8212; specifies the name of the context variable. If the
                                 method is a getter method, default to the JavaBeans property name. </para>
                         </listitem>
                         <listitem>
                             <para>
-                                <literal>scope</literal> &mdash; specifies the scope that Seam should bind the
+                                <literal>scope</literal> &#8212; specifies the scope that Seam should bind the
                                 returned value to. Only meaningful for factory methods which return a value. </para>
                         </listitem>
                     </itemizedlist>
@@ -366,7 +366,7 @@
                     <itemizedlist>
                         <listitem>
                             <para>
-                                <literal>value</literal> &mdash; specifies the name of the log category. Default to
+                                <literal>value</literal> &#8212; specifies the name of the log category. Default to
                                 the name of the component class. </para>
                         </listitem>
                     </itemizedlist>
@@ -388,7 +388,7 @@
                     <itemizedlist>
                         <listitem>
                             <para>
-                                <literal>value</literal> &mdash; specifies the name of the request parameter.
+                                <literal>value</literal> &#8212; specifies the name of the request parameter.
                                 Default to the name of the component attribute. </para>
                         </listitem>
                     </itemizedlist>
@@ -506,12 +506,12 @@
                     <itemizedlist>
                         <listitem>
                             <para>
-                                <literal>ifOutcome</literal> &mdash; specifies the JSF outcome or outcomes that
+                                <literal>ifOutcome</literal> &#8212; specifies the JSF outcome or outcomes that
                                 result in a new long-running conversation context. </para>
                         </listitem>
                         <listitem>
                             <para>
-                                <literal>join</literal> &mdash; determines the behavior when a long-running
+                                <literal>join</literal> &#8212; determines the behavior when a long-running
                                 conversation is already in progress. If <literal>true</literal>, the context is
                                 propagated. If <literal>false</literal>, an exception is thrown. Default to
                                     <literal>false</literal>. This setting is ignored when
@@ -519,18 +519,18 @@
                         </listitem>
                         <listitem>
                             <para>
-                                <literal>nested</literal> &mdash; specifies that a nested conversation should be
+                                <literal>nested</literal> &#8212; specifies that a nested conversation should be
                                 started if a long-running conversation is already in progress. </para>
                         </listitem>
                         <listitem>
                             <para>
-                                <literal>flushMode</literal> &mdash; set the flush mode of any Seam-managed
+                                <literal>flushMode</literal> &#8212; set the flush mode of any Seam-managed
                                 Hibernate sessions or JPA persistence contexts that are created during this
                                 conversation. </para>
                         </listitem>
                         <listitem>
                             <para>
-                                <literal>pageflow</literal> &mdash; a process definition name of a jBPM process
+                                <literal>pageflow</literal> &#8212; a process definition name of a jBPM process
                                 definition deployed via <literal>org.jboss.seam.core.jbpm.pageflowDefinitions.</literal>
                             </para>
                         </listitem>
@@ -555,12 +555,12 @@
                     <itemizedlist>
                         <listitem>
                             <para>
-                                <literal>ifOutcome</literal> &mdash; specifies the JSF outcome or outcomes that
+                                <literal>ifOutcome</literal> &#8212; specifies the JSF outcome or outcomes that
                                 result in the end of the current long-running conversation. </para>
                         </listitem>
                         <listitem>
                             <para>
-                                <literal>beforeRedirect</literal> &mdash; by default, the conversation will not
+                                <literal>beforeRedirect</literal> &#8212; by default, the conversation will not
                                 actually be destroyed until after any redirect has occurred. Setting
                                     <literal>beforeRedirect=true</literal> specifies that the conversation should be
                                 destroyed at the end of the current request, and that the redirect will be processed in
@@ -586,13 +586,13 @@
                     <itemizedlist>
                         <listitem>
                             <para>
-                                <literal>taskIdParameter</literal> &mdash; the name of a request parameter which
+                                <literal>taskIdParameter</literal> &#8212; the name of a request parameter which
                                 holds the id of the task. Default to <literal>"taskId"</literal>, which is also the
                                 default used by the Seam <literal>taskList</literal> JSF component. </para>
                         </listitem>
                         <listitem>
                             <para>
-                                <literal>flushMode</literal> &mdash; set the flush mode of any Seam-managed
+                                <literal>flushMode</literal> &#8212; set the flush mode of any Seam-managed
                                 Hibernate sessions or JPA persistence contexts that are created during this
                                 conversation. </para>
                         </listitem>
@@ -617,13 +617,13 @@
                     <itemizedlist>
                         <listitem>
                             <para>
-                                <literal>taskIdParameter</literal> &mdash; the name of a request parameter which
+                                <literal>taskIdParameter</literal> &#8212; the name of a request parameter which
                                 holds the id of the task. Default to <literal>"taskId"</literal>, which is also the
                                 default used by the Seam <literal>taskList</literal> JSF component. </para>
                         </listitem>
                         <listitem>
                             <para>
-                                <literal>flushMode</literal> &mdash; set the flush mode of any Seam-managed
+                                <literal>flushMode</literal> &#8212; set the flush mode of any Seam-managed
                                 Hibernate sessions or JPA persistence contexts that are created during this
                                 conversation. </para>
                         </listitem>
@@ -654,17 +654,17 @@
                     <itemizedlist>
                         <listitem>
                             <para>
-                                <literal>transition</literal> &mdash; the name of the jBPM transition to be
+                                <literal>transition</literal> &#8212; the name of the jBPM transition to be
                                 triggered when ending the task. Defaults to the default transition. </para>
                         </listitem>
                         <listitem>
                             <para>
-                                <literal>ifOutcome</literal> &mdash; specifies the JSF outcome or outcomes that
+                                <literal>ifOutcome</literal> &#8212; specifies the JSF outcome or outcomes that
                                 result in the end of the task. </para>
                         </listitem>
                         <listitem>
                             <para>
-                                <literal>beforeRedirect</literal> &mdash; by default, the conversation will not
+                                <literal>beforeRedirect</literal> &#8212; by default, the conversation will not
                                 actually be destroyed until after any redirect has occurred. Setting
                                     <literal>beforeRedirect=true</literal> specifies that the conversation should be
                                 destroyed at the end of the current request, and that the redirect will be processed in
@@ -685,7 +685,7 @@
                     <itemizedlist>
                         <listitem>
                             <para>
-                                <literal>definition</literal> &mdash; the name of the jBPM process definition
+                                <literal>definition</literal> &#8212; the name of the jBPM process definition
                                 deployed via <literal>org.jboss.seam.core.jbpm.processDefinitions</literal>. </para>
                         </listitem>
                     </itemizedlist>
@@ -703,7 +703,7 @@
                     <itemizedlist>
                         <listitem>
                             <para>
-                                <literal>processIdParameter</literal> &mdash; the name a request parameter holding
+                                <literal>processIdParameter</literal> &#8212; the name a request parameter holding
                                 the process id. Default to <literal>"processId"</literal>. </para>
                         </listitem>
                     </itemizedlist>
@@ -747,7 +747,7 @@
                     <itemizedlist>
                         <listitem>
                             <para>
-                                <literal>ifOutcome</literal> &mdash; the JSF outcomes that cause a transaction
+                                <literal>ifOutcome</literal> &#8212; the JSF outcomes that cause a transaction
                                 rollback (no outcomes is interpreted to mean any outcome). </para>
                         </listitem>
                     </itemizedlist>
@@ -792,16 +792,16 @@
                     <itemizedlist>
                         <listitem>
                             <para>
-                                <literal>viewId</literal> &mdash; specifies the JSF view id to redirect to. </para>
+                                <literal>viewId</literal> &#8212; specifies the JSF view id to redirect to. </para>
                         </listitem>
                         <listitem>
                             <para>
-                                <literal>message</literal> &mdash; a message to be displayed, default to the
+                                <literal>message</literal> &#8212; a message to be displayed, default to the
                                 exception message. </para>
                         </listitem>
                         <listitem>
                             <para>
-                                <literal>end</literal> &mdash; specifies that the long-running conversation should
+                                <literal>end</literal> &#8212; specifies that the long-running conversation should
                                 end, default to <literal>false</literal>. </para>
                         </listitem>
                     </itemizedlist>
@@ -817,17 +817,17 @@
                     <itemizedlist>
                         <listitem>
                             <para>
-                                <literal>errorCode</literal> &mdash; the HTTP error code, default to
+                                <literal>errorCode</literal> &#8212; the HTTP error code, default to
                                 <literal>500</literal>. </para>
                         </listitem>
                         <listitem>
                             <para>
-                                <literal>message</literal> &mdash; a message to be sent with the HTTP error, default
+                                <literal>message</literal> &#8212; a message to be sent with the HTTP error, default
                                 to the exception message. </para>
                         </listitem>
                         <listitem>
                             <para>
-                                <literal>end</literal> &mdash; specifies that the long-running conversation should
+                                <literal>end</literal> &#8212; specifies that the long-running conversation should
                                 end, default to <literal>false</literal>. </para>
                         </listitem>
                     </itemizedlist>
@@ -861,11 +861,11 @@
                     <itemizedlist>
                         <listitem>
                             <para>
-                                <literal>outcome</literal> &mdash; the JSF outcome when validation fails. </para>
+                                <literal>outcome</literal> &#8212; the JSF outcome when validation fails. </para>
                         </listitem>
                         <listitem>
                             <para>
-                                <literal>refreshEntities</literal> &mdash; specifies that any invalid entity in the
+                                <literal>refreshEntities</literal> &#8212; specifies that any invalid entity in the
                                 managed state should be refreshed from the database when validation fails. Default to
                                     <literal>false</literal>. (Useful with extended persistence contexts.) </para>
                         </listitem>
@@ -1003,12 +1003,12 @@
 	                    <itemizedlist>
 	                        <listitem>
 	                            <para>
-	                                <literal>id</literal> &mdash; the JSF converter id. Defaults to the component name.
+	                                <literal>id</literal> &#8212; the JSF converter id. Defaults to the component name.
 	                            </para>
 	                        </listitem>
 	                        <listitem>
 	                            <para>
-	                                <literal>forClass</literal> &mdash; if specified, register this component as the default converter for a type.
+	                                <literal>forClass</literal> &#8212; if specified, register this component as the default converter for a type.
 	                            </para>
 	                        </listitem>
 	                    </itemizedlist>
@@ -1026,7 +1026,7 @@
 	                    <itemizedlist>
 	                        <listitem>
 	                            <para>
-	                                <literal>id</literal> &mdash; the JSF validator id. Defaults to the component name.
+	                                <literal>id</literal> &#8212; the JSF validator id. Defaults to the component name.
 	                            </para>
 	                        </listitem>
 	                    </itemizedlist>
@@ -1054,12 +1054,12 @@
 	                    <itemizedlist>
 	                        <listitem>
 	                            <para>
-	                                <literal>value</literal> &mdash; name of the conversation context variable. Default
+	                                <literal>value</literal> &#8212; name of the conversation context variable. Default
 	                                to the attribute name. </para>
 	                        </listitem>
 	                        <listitem>
 	                            <para>
-	                                <literal>scope</literal> &mdash; if <literal>scope=ScopeType.PAGE</literal> is
+	                                <literal>scope</literal> &#8212; if <literal>scope=ScopeType.PAGE</literal> is
 	                                explicitly specified, the <literal>DataModel</literal> will be kept in the
 	                                <literal>PAGE</literal> context. </para>
 	                        </listitem>
@@ -1077,7 +1077,7 @@
 	                    <itemizedlist>
 	                        <listitem>
 	                            <para>
-	                                <literal>value</literal> &mdash; name of the conversation context variable. Not
+	                                <literal>value</literal> &#8212; name of the conversation context variable. Not
 	                                needed if there is exactly one <literal>@DataModel</literal> in the component. </para>
 	                        </listitem>
 	                    </itemizedlist>
@@ -1094,7 +1094,7 @@
 	                    <itemizedlist>
 	                        <listitem>
 	                            <para>
-	                                <literal>value</literal> &mdash; name of the conversation context variable. Not
+	                                <literal>value</literal> &#8212; name of the conversation context variable. Not
 	                                needed if there is exactly one <literal>@DataModel</literal> in the component. </para>
 	                        </listitem>
 	                    </itemizedlist>

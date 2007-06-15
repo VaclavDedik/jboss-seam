@@ -399,8 +399,8 @@ public void begin() { ... }]]></programlisting>
         
         <para>
             If we are beginning the pageflow during the <literal>RENDER_RESPONSE</literal>
-            phase&mdash;during a <literal>@Factory</literal> or <literal>@Create</literal>
-            method, for example&mdash;we consider ourselves to be already at the page being 
+            phase&#8212;during a <literal>@Factory</literal> or <literal>@Create</literal>
+            method, for example&#8212;we consider ourselves to be already at the page being 
             rendered, and use  a <literal>&lt;start-page&gt;</literal> node as the first node 
             in the pageflow, as in the example above.
         </para>

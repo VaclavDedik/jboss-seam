@@ -153,8 +153,8 @@
                     <para>
                         Declarative application state management is made possible by the richness of the
                         <emphasis>context model</emphasis> defined by Seam. Seam extends the context model defined by
-                        the servlet spec&mdash;request, session, application&mdash;with two new
-                        contexts&mdash;conversation and business process&mdash;that are more meaningful from the
+                        the servlet spec&#8212;request, session, application&#8212;with two new
+                        contexts&#8212;conversation and business process&#8212;that are more meaningful from the
                         point of view of the business logic.
                     </para>
                 </listitem>

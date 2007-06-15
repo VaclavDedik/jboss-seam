@@ -111,7 +111,7 @@
 
     <para>
         This approach <emphasis>defines</emphasis> constraints on the model, and 
-        <emphasis>presents</emphasis> constraint violations in the view&mdash;a
+        <emphasis>presents</emphasis> constraint violations in the view&#8212;a
         significantly better design.
     </para>
     
