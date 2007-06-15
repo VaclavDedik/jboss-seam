@@ -257,7 +257,7 @@ public final class Page
       
       for ( Input in: getInputs() ) in.in();
       
-      if (eventType==null)
+      if (eventType!=null)
       {
          Events.instance().raiseEvent(eventType);
       }
