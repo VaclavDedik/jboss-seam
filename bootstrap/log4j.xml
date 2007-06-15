@@ -11,24 +11,24 @@
 
 <!--
    | For more configuration infromation and examples see the Jakarta Log4j
-   | owebsite: http://jakarta.apache.org/log4j
+   | website: http://jakarta.apache.org/log4j
  -->
 
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" debug="false">
    
-<appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+   <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
       <errorHandler class="org.jboss.logging.util.OnlyOnceErrorHandler"/>
       <param name="Target" value="System.out"/>
-      <param name="Threshold" value="WARN"/>
+      <param name="Threshold" value="INFO"/>
 
       <layout class="org.apache.log4j.PatternLayout">
          <!-- The default pattern: Date Priority [Category] Messagen -->
          <!--
          <param name="ConversionPattern" value="%d{ABSOLUTE} %-5p [%c{1}] %m%n"/>
          -->
-         <param name="ConversionPattern" value="%-5p %d{dd-MM HH:mm:ss,SSS} (%F:%M:%L)  -%m%n"/>
+         <param name="ConversionPattern" value="%-5p %d{dd-MM HH:mm:ss,SSS} [%C.%M():%L] %m%n"/>
       </layout>
-</appender>
+   </appender>
 
    <root>
       <appender-ref ref="CONSOLE"/>
