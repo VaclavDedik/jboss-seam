@@ -12,12 +12,12 @@ public abstract class UIRectangle
 extends ITextComponent 
 {
     protected Integer border;
-    protected Color   borderColor;
-    protected Color   borderColorLeft;
-    protected Color   borderColorRight;
-    protected Color   borderColorTop;
-    protected Color   borderColorBottom;
-    protected Color   backgroundColor;
+    protected String  borderColor;
+    protected String  borderColorLeft;
+    protected String  borderColorRight;
+    protected String  borderColorTop;
+    protected String  borderColorBottom;
+    protected String  backgroundColor;
     protected Float   borderWidth;
     protected Float   borderWidthLeft;
     protected Float   borderWidthRight;
@@ -54,27 +54,27 @@ extends ITextComponent
     }
 
     public void setBackgroundColor(String backgroundColor) {
-        this.backgroundColor = ITextUtils.colorValue(backgroundColor);
+        this.backgroundColor = backgroundColor;
     }
 
     public void setBorderColor(String borderColor) {
-        this.borderColor = ITextUtils.colorValue(borderColor);
+        this.borderColor = borderColor;
     }
 
     public void setBorderColorBottom(String borderColorBottom) {
-        this.borderColorBottom =  ITextUtils.colorValue(borderColorBottom);
+        this.borderColorBottom = borderColorBottom;
     }
 
     public void setBorderColorLeft(String borderColorLeft) {
-        this.borderColorLeft = ITextUtils.colorValue(borderColorLeft)  ;
+        this.borderColorLeft = borderColorLeft;
     }
 
     public void setBorderColorRight(String borderColorRight) {
-        this.borderColorRight = ITextUtils.colorValue(borderColorRight);
+        this.borderColorRight = borderColorRight;
     }
 
     public void setBorderColorTop(String borderColorTop) {
-        this.borderColorTop = ITextUtils.colorValue(borderColorTop);
+        this.borderColorTop = borderColorTop;
     }
 
 
@@ -85,34 +85,34 @@ extends ITextComponent
             rectangle.setBorder(border);
         }
         
-        backgroundColor = (Color) valueBinding(context, "backgroundColor", backgroundColor);
+        backgroundColor = (String) valueBinding(context, "backgroundColor", backgroundColor);
         if (backgroundColor != null) {
-            rectangle.setBackgroundColor(backgroundColor);
+            rectangle.setBackgroundColor(ITextUtils.colorValue(backgroundColor));
         }
 
-        borderColor = (Color) valueBinding(context, "borderColor", borderColor);
+        borderColor = (String) valueBinding(context, "borderColor", borderColor);
         if (borderColor != null) {
-            rectangle.setBorderColor(borderColor);
+            rectangle.setBorderColor(ITextUtils.colorValue(borderColor));
         }
 
-        borderColorLeft = (Color) valueBinding(context, "borderColorLeft", borderColorLeft);
+        borderColorLeft = (String) valueBinding(context, "borderColorLeft", borderColorLeft);
         if (borderColorLeft != null) {
-            rectangle.setBorderColorLeft(borderColorLeft);
+            rectangle.setBorderColorLeft(ITextUtils.colorValue(borderColorLeft));
         }
 
-        borderColorRight = (Color) valueBinding(context, "borderColorRight", borderColorRight);
+        borderColorRight = (String) valueBinding(context, "borderColorRight", borderColorRight);
         if (borderColorRight != null) {
-            rectangle.setBorderColorRight(borderColorRight);
+            rectangle.setBorderColorRight(ITextUtils.colorValue(borderColorRight));
         }     
 
-        borderColorTop = (Color) valueBinding(context, "borderColorTop", borderColorTop);
+        borderColorTop = (String) valueBinding(context, "borderColorTop", borderColorTop);
         if (borderColorTop != null) {
-            rectangle.setBorderColorTop(borderColorTop);
+            rectangle.setBorderColorTop(ITextUtils.colorValue(borderColorTop));
         }
 
-        borderColorBottom = (Color) valueBinding(context, "borderColorBottom", borderColorBottom);
+        borderColorBottom = (String) valueBinding(context, "borderColorBottom", borderColorBottom);
         if (borderColorBottom != null) {
-            rectangle.setBorderColorBottom(borderColorBottom);
+            rectangle.setBorderColorBottom(ITextUtils.colorValue(borderColorBottom));
         }    
 
         borderWidth = (Float) valueBinding(context, "borderWidth", borderWidth);
