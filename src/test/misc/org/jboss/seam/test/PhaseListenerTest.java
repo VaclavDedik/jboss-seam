@@ -41,7 +41,9 @@ public class PhaseListenerTest
 {
    private void installComponents(Context appContext)
    {
-      appContext.set( Seam.getComponentName(Init.class), new Init() );
+      Init init = new Init();
+      init.setTransactionManagementEnabled(false);
+      appContext.set( Seam.getComponentName(Init.class), init );
       installComponent(appContext, Manager.class);
       installComponent(appContext, ConversationEntries.class);
       installComponent(appContext, FacesPage.class);
