@@ -141,6 +141,7 @@ readme.txt
 registration
 remoting
 seam-examples.html
+seamdiscs
 seampay
 seamspace
 spring

@@ -2443,28 +2443,6 @@ public class HotelBookingAction implements HotelBooking
         <para>Look in the <literal>dvdstore</literal> directory.</para>
     </section>
 
-    <section id="issues">
-        <title>A complete application featuring Seam workspace management: the Issue Tracker example</title>
-
-        <para> The Issue Tracker demo shows off Seam's workspace management functionality: the conversation switcher,
-            conversation list and breadcrumbs. </para>
-
-        <screenshot>
-        <screeninfo>DVD Store example</screeninfo>
-        <mediaobject>
-          <imageobject role="fo">
-            <imagedata fileref="images/issues.png" align="center"/>
-          </imageobject>
-          <imageobject role="html">
-            <imagedata fileref="../shared/images/issues.png" align="center"/>
-          </imageobject>
-        </mediaobject>
-      </screenshot>
-
-        <para>TODO</para>
-        <para>Look in the <literal>issues</literal> directory.</para>
-    </section>
-
     <section id="hibernate">
         <title>An example of Seam with Hibernate: the Hibernate Booking example</title>
 

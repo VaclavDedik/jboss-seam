@@ -28,9 +28,6 @@ blog/                 The Seam blog example, showing how to write
                 
 seamspace/            The Seam Spaces demo demonstrating Seam 
                       Security
-                      
-issues/               The Seam Issue Tracker demo, demonstrating 
-                      nested conversations and workspage management
 
 seampay/              The Seam Payments demo demonstrating the use of
                       asynchronous methods
@@ -43,9 +40,6 @@ todo/                 The Seam todo list example demonstrating
                       
 messages/             The Seam message list example demonstrating use 
                       of the @DataModel annotation
-                      
-mail/                 The Seam mail example demonstrating use of 
-                      facelets-based email templating
                       
 mail/                 The Seam mail example demonstrating use of 
                       facelets-based email templating

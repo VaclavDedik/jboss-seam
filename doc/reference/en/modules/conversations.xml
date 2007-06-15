@@ -794,16 +794,10 @@ public String approveDocument() { ... }]]></programlisting>
                 current conversation stack:
             </para>
             
-            <programlisting><![CDATA[<t:dataList value="#{conversationStack}" var="entry">
+            <programlisting><![CDATA[<ui:repeat value="#{conversationStack}" var="entry">
     <h:outputText value=" | "/> 
     <h:commandLink value="#{entry.description}" action="#{entry.select}"/>
-</t:dataList>]]></programlisting>
-
-            <para>
-                Notice that here we are using the MyFaces <literal>&lt;t:dataList&gt;</literal>
-                component, since JSF amazingly does not provide any standard component
-                for looping.
-            </para>
+</ui:repeat]]></programlisting>
             
             <mediaobject>
               <imageobject role="fo">
@@ -813,11 +807,6 @@ public String approveDocument() { ... }]]></programlisting>
                 <imagedata fileref="../shared/images/breadcrumbs.png" align="center"/>
               </imageobject>
             </mediaobject>
-            
-            <para>
-                Please refer to the Seam Issue Tracker demo to see all this functionality 
-                in action!
-            </para>
             
         </section>
     </section>
