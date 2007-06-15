@@ -19,9 +19,6 @@
 		auto-create="true"
 		persistence-unit-jndi-name="java:/seamdiscsEntityManagerFactory" />
 
-	<core:ejb installed="@embeddedEjb@" />
-
-
 	<security:identity
 		authenticate-method="#{authenticator.authenticate}" />
 
