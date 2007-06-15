@@ -19,7 +19,6 @@
     <core:managed-hibernate-session name="bookingDatabase"
                                     auto-create="true"/>
     
-    <core:microcontainer installed="true"/>
-    
     <security:identity authenticate-method="#{authenticator.authenticate}"/>
+    
 </components>

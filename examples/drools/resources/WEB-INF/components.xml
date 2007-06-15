@@ -17,6 +17,5 @@
     </core:jbpm>
 
     <core:init debug="true"/>
-    <core:microcontainer installed="@microcontainer@"/>
     
 </components>

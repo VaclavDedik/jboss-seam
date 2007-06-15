@@ -14,8 +14,7 @@
 	<property name="example.ds"              value="hibernate-ds.xml"/>
     <property name="src.java.dir"            value="src"/>
     <property name="src.test.dir"            value="src"/>
-    <property name="test.classpath"          value="test.mc.classpath"/>
-    <property name="tomcat.conf"             value="mc.conf"/>
+    <property name="test.classpath"          value="test.eejb.classpath"/>
 
     <import file="../../build.xml"/>
 

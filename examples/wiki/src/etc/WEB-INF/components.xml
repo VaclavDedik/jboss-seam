@@ -53,8 +53,6 @@
 
     <core:entity-manager-factory installed="@seamPersistenceUnit@" name="wikiEntityManagerFactory" persistence-unit-name="wiki"/>
 
-    <core:ejb installed="@embeddedEjb@"/>
-
     <component name="restrictedEntityConverter" scope="CONVERSATION" precedence="20"
                class="org.jboss.seam.ui.EntityConverter">
         <property name="entityManager">#{restrictedEntityManager}</property>

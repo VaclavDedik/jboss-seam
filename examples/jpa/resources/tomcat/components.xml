@@ -20,8 +20,6 @@
                                       auto-create="true"
                                       entity-manager-factory="#{bookingDatabase}"/>
     
-    <core:microcontainer installed="true"/>
-    
     <security:identity authenticate-method="#{authenticator.authenticate}"/>  
     
 </components>

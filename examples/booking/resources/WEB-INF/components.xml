@@ -16,8 +16,6 @@
 
     <core:transaction-listener/>
 
-    <core:ejb installed="@embeddedEjb@"/>
-
     <security:identity authenticate-method="#{authenticator.authenticate}"/>
 
 </components>

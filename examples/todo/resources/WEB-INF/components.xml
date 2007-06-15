@@ -6,8 +6,5 @@
     <component class="org.jboss.seam.core.Jbpm">
         <property name="processDefinitions">todo.jpdl.xml</property>
     </component>
-
-    <component class="org.jboss.seam.core.Microcontainer" 
-           installed="@microcontainer@"/>
     
 </components>

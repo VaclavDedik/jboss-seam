@@ -9,7 +9,6 @@
 
 
     <core:init debug="true" jndi-pattern="jboss-seam-takeaway/#{ejbName}/local" />
-    <core:ejb installed="false" /> 
     
     <core:jbpm>
     	<core:process-definitions>

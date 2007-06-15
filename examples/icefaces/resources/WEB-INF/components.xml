@@ -21,7 +21,4 @@
         <property name="noConversationViewId">/main.xhtml</property>
     </component>
 
-    <component class="org.jboss.seam.core.Ejb" 
-           installed="@embeddedEjb@"/>
-
 </components>

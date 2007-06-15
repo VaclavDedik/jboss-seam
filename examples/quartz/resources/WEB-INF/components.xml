@@ -33,5 +33,5 @@
     <component name="org.jboss.seam.core.dispatcher" class="org.jboss.seam.core.QuartzDispatcher"/>
 
     <core:init debug="true" jndi-pattern="@jndiPattern@" />
-    <core:ejb installed="@embeddedEjb@" /> 
+
 </components>

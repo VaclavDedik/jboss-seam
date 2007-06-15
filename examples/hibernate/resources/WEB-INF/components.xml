@@ -25,9 +25,6 @@
     <component name="hibernateSessionFactory"
               class="org.jboss.seam.core.HibernateSessionFactory"/>
               
-    <component class="org.jboss.seam.core.Microcontainer" 
-           installed="@microcontainer@"/>
-           
     <security:identity authenticate-method="#{authenticator.authenticate}"/>           
     
 </components>

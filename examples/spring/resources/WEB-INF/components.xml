@@ -19,11 +19,11 @@
     <core:init debug="true"/>
     
     <spring:context-loader/>
-    <core:ejb installed="@embeddedEjb@" />
-    
+
 	<!-- Install a ThreadPoolDispatcher to handle scheduled asynchronous event -->
 	<core:thread-pool-dispatcher name="threadPoolDispatcher"/>
     
     <!-- Install the SpringDispatcher as default -->
     <spring:task-executor-dispatcher schedule-dispatcher="#{threadPoolDispatcher}" task-executor="#{springThreadPoolTaskExecutor}"/>
+
 </components>

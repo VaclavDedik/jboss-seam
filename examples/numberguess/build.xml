@@ -12,8 +12,7 @@
 	<property name="example.jbpm.lib"        value="yes"/>
     <property name="src.java.dir"            value="src"/>
     <property name="src.test.dir"            value="src"/>
-    <property name="test.classpath"          value="test.mc.classpath"/>
-    <property name="tomcat.conf"             value="mc.conf"/>
+    <property name="test.classpath"          value="test.eejb.classpath"/>
 
     <import file="../../build.xml"/>
 

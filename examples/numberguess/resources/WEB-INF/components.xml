@@ -18,7 +18,4 @@
         </property>
     </component>
 
-    <component class="org.jboss.seam.core.Microcontainer" 
-           installed="@microcontainer@"/>
-           
 </components>
