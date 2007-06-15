@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.jboss.seam.core.Actor;
 import org.jboss.seam.core.TaskInstanceList;
-import org.jboss.seam.jsf.SeamPhaseListener;
-import org.jboss.seam.jsf.TransactionalSeamPhaseListener;
 import org.jboss.seam.mock.SeamTest;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 import org.testng.annotations.Test;
@@ -93,12 +91,6 @@ public class TodoTest extends SeamTest
          }
          
       }.run();
-   }
-
-   @Override
-   protected SeamPhaseListener createPhaseListener()
-   {
-      return new TransactionalSeamPhaseListener();
    }
    
 }

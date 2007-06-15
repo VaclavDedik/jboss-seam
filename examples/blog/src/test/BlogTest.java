@@ -5,8 +5,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.jsf.SeamPhaseListener;
-import org.jboss.seam.jsf.TransactionalSeamPhaseListener;
 import org.jboss.seam.mock.SeamTest;
 import org.jboss.seam.security.Identity;
 import org.testng.annotations.Test;
@@ -180,9 +178,4 @@ public class BlogTest extends SeamTest
       }.run();
    }
 
-    @Override
-    protected SeamPhaseListener createPhaseListener()
-    {
-        return new TransactionalSeamPhaseListener();
-    }
 }

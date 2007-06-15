@@ -9,10 +9,5 @@
         <message-bundle>messages</message-bundle>
         <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
     </application>
-    
-    <!-- Select one of the two standard persistence lifecycle models for the Seam application -->
-    <lifecycle>
-        <phase-listener>org.jboss.seam.jsf.TransactionalSeamPhaseListener</phase-listener>
-    </lifecycle>
-    
+        
 </faces-config>

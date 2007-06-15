@@ -4,10 +4,6 @@
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
 
-    <lifecycle>
-        <phase-listener>org.jboss.seam.jsf.SeamPhaseListener</phase-listener>
-    </lifecycle>
-    
     <application>
         <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
     </application>

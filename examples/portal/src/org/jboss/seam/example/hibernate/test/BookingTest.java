@@ -18,8 +18,6 @@ import org.jboss.seam.example.hibernate.BookingListAction;
 import org.jboss.seam.example.hibernate.Hotel;
 import org.jboss.seam.example.hibernate.HotelBookingAction;
 import org.jboss.seam.example.hibernate.User;
-import org.jboss.seam.jsf.SeamPhaseListener;
-import org.jboss.seam.jsf.TransactionalSeamPhaseListener;
 import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
 
@@ -227,12 +225,6 @@ public class BookingTest extends SeamTest
          
       }.run();
       
-   }
-   
-   @Override
-   public SeamPhaseListener createPhaseListener()
-   {
-	   return new TransactionalSeamPhaseListener();
    }
    
 }

@@ -106,10 +106,4 @@
 
     </navigation-rule>
 
-    <!-- Select one of the two standard persistence lifecycle models for the Seam application -->
-
-    <lifecycle>
-        <phase-listener>org.jboss.seam.jsf.TransactionalSeamPortletPhaseListener</phase-listener>
-    </lifecycle>
-
 </faces-config>

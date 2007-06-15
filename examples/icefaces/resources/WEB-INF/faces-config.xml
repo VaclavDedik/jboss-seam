@@ -14,10 +14,4 @@
         <view-handler>com.icesoft.faces.facelets.D2DFaceletViewHandler</view-handler>
     </application>
     
-    <!-- Select one of the standard transaction models for the Seam application -->
-
-    <lifecycle>
-        <phase-listener>org.jboss.seam.jsf.SeamPhaseListener</phase-listener>
-    </lifecycle>
-
 </faces-config>
