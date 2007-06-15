@@ -480,9 +480,9 @@
             <fileset file="${driver.jar}"/>
         </copy>
 
-        <echo message="Copying Embeddable EJB3 configuration to the ${project.home}/embedded-ejb directory..." />
-          <copy todir="${project.home}/embedded-ejb" overwrite="true">
-            <fileset dir="../embedded-ejb" />
+        <echo message="Copying JBoss Embedded configuration to the ${project.home}/bootstrap directory..." />
+          <copy todir="${project.home}/bootstrap" overwrite="true">
+            <fileset dir="../bootstrap" />
         </copy>
         
     </target>
