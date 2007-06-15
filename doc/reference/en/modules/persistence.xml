@@ -161,28 +161,24 @@
             facilities were designed to work together, and work best when used together.
         </para>
         
-        <section>
-            <title>Enabling Seam-managed transactions</title>
-        
-            <para>
-                To make use of <emphasis>Seam managed transactions</emphasis>, you need to use 
-                <literal>TransactionalSeamPhaseListener</literal> in place of
-                <literal>SeamPhaseListener</literal>.
-            </para>
-        
-            <programlisting><![CDATA[<lifecycle>
-     <phase-listener>
-        org.jboss.seam.jsf.TransactionalSeamPhaseListener
-    </phase-listener>
-</lifecycle>]]></programlisting>
-
-            <para>
-                Seam transaction management is useful even if you're using EJB 3.0 
-                container-managed persistence contexts. But it is especially useful
-                if you use Seam outside a Java EE 5 environment, or in any other
-                case where you would use a Seam-managed persistence context.
-            </para>
+        <para>
+            Seam transaction management is useful even if you're using EJB 3.0 
+            container-managed persistence contexts. But it is especially useful
+            if you use Seam outside a Java EE 5 environment, or in any other
+            case where you would use a Seam-managed persistence context.
+        </para>
             
+        <section>
+            <title>Disabling Seam-managed transactions</title>
+        
+            <para>
+                Seam transaction management is enabled by default for all JSF requests.
+                If you want to <emphasis>disable</emphasis> this feature, you can do it
+                in <literal>components.xml</literal>:
+            </para>
+        
+            <programlisting><![CDATA[<core:init transaction-management-enabled="false"/>]]></programlisting>
+
         </section>
         
     </section>
