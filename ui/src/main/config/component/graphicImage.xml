@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE components PUBLIC "-//AJAX4JSF//CDK Generator config/EN"  "https://ajax4jsf.dev.java.net/nonav/dtds/component-config.dtd" >
+<components>
+	<component>
+		<name>org.jboss.seam.ui.graphicImage.GraphicImage</name>
+		<family>org.jboss.seam.ui.graphicImage.GraphicImage</family>
+		<classname>org.jboss.seam.ui.component.html.HtmlGraphicImage</classname>
+		<superclass>org.jboss.seam.ui.graphicImage.UIGraphicImage</superclass>
+		<description>
+			<![CDATA[]]>
+		</description>
+		<renderer generate="true" override="true">
+			<name>org.jboss.seam.ui.GraphicImageRenderer</name>
+			<template>org/jboss/seam/ui/htmlGraphicImage.jspx</template>
+		</renderer>
+		<tag>
+			<name>graphicImage</name>
+			<classname>org.jboss.seam.ui.taglib.GraphicImageTag</classname>
+			<superclass>
+				org.ajax4jsf.framework.taglib.HtmlComponentTagBase
+			</superclass>
+		</tag>
+		&ui_component_attributes;
+		&html_style_attributes;
+		&ui_graphic_attributes;
+		&ui_output_attributes;
+		
+		<property>
+			<name>fileName</name>
+			<classname>java.lang.String</classname>
+			<description></description>
+		</property>
+	</component>
+</components>

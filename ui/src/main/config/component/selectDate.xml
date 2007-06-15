@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE components PUBLIC "-//AJAX4JSF//CDK Generator config/EN"  "https://ajax4jsf.dev.java.net/nonav/dtds/component-config.dtd" >
+<components>
+	<component>
+		<name>org.jboss.seam.ui.SelectDate</name>
+		<family>org.jboss.seam.ui.SelectDate</family>
+		<classname>org.jboss.seam.ui.component.html.HtmlSelectDate</classname>
+		<superclass>org.jboss.seam.ui.component.UISelectDate</superclass>
+		<description>
+			<![CDATA[]]>
+		</description>
+		<renderer generate="true" override="true">
+			<name>org.jboss.seam.ui.SelectDateRenderer</name>
+			<template>org/jboss/seam/ui/htmlSelectDate.jspx</template>
+		</renderer>
+		<tag>
+			<name>selectDate</name>
+			<classname>org.jboss.seam.ui.taglib.SelectDateTag</classname>
+			<superclass>
+				org.ajax4jsf.framework.taglib.HtmlComponentTagBase
+			</superclass>
+		</tag>
+		&ui_component_attributes;
+		&html_style_attributes;
+		<property>
+			<name>for</name>
+			<classname>java.lang.String</classname>
+			<description></description>
+		</property>
+		<property>
+			<name>dateFormat</name>
+			<classname>java.lang.String</classname>
+			<description></description>
+			<defaultvalue>"MM/dd/yyyy"</defaultvalue>
+		</property>
+		<!-- should be el="false" -->
+		<property transient="true">
+			<name>startYear</name>
+			<classname>int</classname>
+			<description></description>
+			<defaultvalue>-1</defaultvalue>
+		</property>
+		<!-- should be el="false" -->
+		<property transient="true">
+			<name>endYear</name>
+			<classname>int</classname>
+			<description></description>
+			<defaultvalue>-1</defaultvalue>
+		</property>
+	</component>
+</components>

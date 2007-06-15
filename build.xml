@@ -52,7 +52,7 @@
 
 	<property name="src.java.dir" value="src/main" />
 	<property name="src.ui.dir" value="src/ui" />
-	<property name="src.ui-cdk.dir" value="seam-ui-cdk" />
+	<property name="src.ui-cdk.dir" value="ui" />
 	<property name="src.pdf.dir" value="src/pdf" />
 	<property name="src.ioc.dir" value="src/ioc" />
 	<property name="src.mail.dir" value="src/mail" />
@@ -1069,7 +1069,7 @@
 			<sysproperty key="seam.version" value="${version}" />
 			<sysproperty key="tlddoc.dir" value="${dist.ui.tld.dir}" />
 			<sysproperty key="apidoc.dir" value="${dist.ui.api.dir}" />
-			<arg value="${maven-target}" />
+			<arg line="${maven-target}" />
 		</java>
 	</target>
 
@@ -1178,7 +1178,10 @@
 
 	</target>
 	
-	<target name="javadoc-ui" description="Javadoc and TLD doc for Seam UI" depends="jarui-cdk">
+	<target name="javadoc-ui" description="Javadoc and TLD doc for Seam UI">
+		<antcall target="cdk">
+			<param name="maven-target" value="javadoc:javadoc taglib:taglibdoc" />
+		</antcall>
 		<copy todir="${dist.ui.api.dir}">
 			<fileset dir="${src.ui-cdk.dir}/jboss-seam-ui/target/site">
 				<include name="tlddoc/**"/>
