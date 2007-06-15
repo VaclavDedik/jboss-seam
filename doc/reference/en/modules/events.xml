@@ -51,7 +51,7 @@
         
         <programlisting><![CDATA[<start-page name="hello" view-id="/hello.jsp">
     <transition to="hello">
-        <action expression="#{helloWorld.sayHello}"/>
+        <action execute="#{helloWorld.sayHello}"/>
     </transition>
 </start-page>]]></programlisting>
 
@@ -113,8 +113,8 @@
         
         <programlisting><![CDATA[<pages>
     <page view-id="/hello.jsp">
-        <action expression="#{helloWorld.sayHello}" if="#{not validation.failed}"/>
-        <action expression="#{hitCount.increment}"/>
+        <action execute="#{helloWorld.sayHello}" if="#{not validation.failed}"/>
+        <action execute="#{hitCount.increment}"/>
     </page>
 </pages>]]></programlisting>
 
@@ -503,8 +503,8 @@
             
         <programlisting><![CDATA[<components>
     <event type="hello">
-        <action expression="#{helloListener.sayHelloBack}"/>
-        <action expression="#{logger.logHello}"/>
+        <action execute="#{helloListener.sayHelloBack}"/>
+        <action execute="#{logger.logHello}"/>
     </event>
 </components>]]></programlisting>
 

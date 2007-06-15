@@ -359,7 +359,7 @@ public class Authenticator {
 </event>
     
 <event type="org.jboss.seam.postAuthenticate">
-    <action expression="#{redirect.returnToCapturedView}"/>
+    <action execute="#{redirect.returnToCapturedView}"/>
 </event>]]></programlisting>
       
       <para>
