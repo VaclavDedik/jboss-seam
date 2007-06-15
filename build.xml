@@ -105,7 +105,7 @@
 	<property name="conf.dir" value="${jboss.home}/server/default/conf" />
 	<property name="webroot.dir" value="${deploy.dir}/jbossweb-tomcat55.sar/ROOT.war" />
 
-	<property name="testng.jar" value="${imported.basedir}/lib/testng-4.5.1-jdk15.jar" />
+	<property name="testng.jar" value="${imported.basedir}/lib/testng-5.6-jdk15.jar" />
 
 	<property name="javac.debug" value="true" />
 	<property name="javac.deprecation" value="false" />
@@ -727,8 +727,6 @@
 
 	<target name="testall" depends="testcore,build,compiletest" description="Run the core unit tests and all example tests">
 
-		<mkdir dir="report" />
-
 		<ant dir="examples/booking" target="testexample" inheritall="false" />
 		<ant dir="examples/dvdstore" target="testexample" inheritall="false" />
 		<ant dir="examples/hibernate" target="testexample" inheritall="false" />
@@ -739,16 +737,20 @@
 		<ant dir="examples/blog" target="testexample" inheritall="false" />
 		<ant dir="examples/portal" target="testexample" inheritall="false" />
 
+	</target>
+	
+	<target name="testreport" description="Create a pretty report">
+		<mkdir dir="report" />
+
 		<junitreport todir="./report">
 			<fileset dir=".">
-				<include name="**/test-output/*.xml" />
-				<exclude name="**/testng-failures.xml" />
+				<include name="**/test-output/**/*.xml" />
+				<exclude name="**/testng-results.xml" />
 			</fileset>
 			<report format="frames" todir="./report" />
 		</junitreport>
 
 		<echo>Report available at ${basedir}/report/index.html</echo>
-
 	</target>
 
 	<target name="testexample" depends="compile" description="Run the example tests">
