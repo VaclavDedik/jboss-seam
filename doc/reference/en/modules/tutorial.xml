@@ -53,31 +53,45 @@
         <section>
             <title>Running the examples on Tomcat</title>
 
-            <para> First, make sure you have Ant correctly installed, with <literal>$ANT_HOME</literal> and
-                    <literal>$JAVA_HOME</literal> set correctly. Next, make sure you set the location of your Tomcat 6.0
-                installation in the <literal>build.properties</literal> file in the root folder of your Seam
-                installation. </para>
+            <para> 
+                First, make sure you have Ant correctly installed, with <literal>$ANT_HOME</literal> and
+                <literal>$JAVA_HOME</literal> set correctly. Next, make sure you set the location of your Tomcat 
+                6.0 installation in the <literal>build.properties</literal> file in the root folder of your Seam
+                installation. 
+            </para>
+            
+            <para>
+                Next, follow the instructions for installing JBoss Embedded on Tomcat 6.0 ... TBD!
+            </para>
 
-            <para> Now, build and deploy the example by typing <literal>ant deploy.tomcat</literal> in the
-                        <filename>examples/<replaceable>registration</replaceable></filename> directory. </para>
+            <para> 
+                Now, build and deploy the example by typing <literal>ant deploy.tomcat</literal> in the
+                <filename>examples/<replaceable>registration</replaceable></filename> directory.
+            </para>
 
-            <para> Finally, start Tomcat. </para>
+            <para>Finally, start Tomcat.</para>
 
-            <para> Try it out by accessing <ulink url="http://localhost:8080/jboss-seam-registration/">
-                    <literal>http://localhost:8080/jboss-seam-registration/</literal>
-                </ulink> with your web browser. </para>
+            <para>
+                Try it out by accessing <ulink url="http://localhost:8080/jboss-seam-registration/">
+                <literal>http://localhost:8080/jboss-seam-registration/</literal>
+                </ulink> with your web browser.
+            </para>
 
-            <para> When you deploy the example to Tomcat, any EJB3 components will run inside the JBoss Embeddable EJB3
-                container, a complete standalone EJB3 container environment. </para>
+            <para>
+                When you deploy the example to Tomcat, any EJB3 components will run inside the JBoss Embeddable EJB3
+                container, a complete standalone EJB3 container environment.
+            </para>
 
         </section>
 
         <section>
             <title>Running the example tests</title>
-            <para> Most of the examples come with a suite of TestNG integration tests. The easiest way to run the tests
+            <para> 
+                Most of the examples come with a suite of TestNG integration tests. The easiest way to run the tests
                 is to run <literal>ant testexample</literal> inside the
-                    <filename>examples/<replaceable>registration</replaceable></filename> directory. It is also possible
-                to run the tests inside your IDE using the TestNG plugin. </para>
+                <filename>examples/<replaceable>registration</replaceable></filename> directory. It is also possible
+                to run the tests inside your IDE using the TestNG plugin.
+            </para>
         </section>
 
     </section>
@@ -515,16 +529,12 @@ public interface Register
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
 
-    <!-- A phase listener is needed by all Seam applications -->
-    
-    <lifecycle>
-        <phase-listener>org.jboss.seam.jsf.SeamPhaseListener</phase-listener>
-    </lifecycle>
+    <!-- This one is empty, it's a very simple application! -->
 
 </faces-config>]]></programlisting>
                 </example>
 
-                <para> The <literal>faces-config.xml</literal> file integrates Seam into JSF. Note that we don't need
+                <para> Note that we don't need
                     any JSF managed bean declarations! The managed beans are the Seam components. In Seam applications,
                     the <literal>faces-config.xml</literal> is used much less often than in plain JSF. </para>
 
