@@ -1463,4 +1463,11 @@ public class Pages
       this.resources = resources;
    }
    
+   public static boolean isDebugPage()
+   {
+      return Init.instance().isDebug() &&
+            ( FacesContext.getCurrentInstance() != null ) &&
+            "/debug.xhtml".equals( getCurrentViewId() );
+   }
+   
 }

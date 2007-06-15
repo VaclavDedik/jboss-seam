@@ -496,12 +496,7 @@ public class Manager
          setCurrentConversationId( ce.getId() );
          setCurrentConversationIdStack( ce.getConversationIdStack() );
 
-         boolean removeAfterRedirect = ce.isRemoveAfterRedirect() && !(
-               Init.instance().isDebug() &&
-               (FacesContext.getCurrentInstance() != null) &&
-               "/debug.xhtml".equals( Pages.getCurrentViewId() )
-            );
-         
+         boolean removeAfterRedirect = ce.isRemoveAfterRedirect() && !Pages.isDebugPage();
          if (removeAfterRedirect)
          {
             setLongRunningConversation(false);

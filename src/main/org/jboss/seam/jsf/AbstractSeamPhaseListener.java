@@ -228,20 +228,27 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
    
    private boolean preRenderPage(PhaseEvent event)
    {
-      Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
-      boolean actionsWereCalled = false;
-      try
+      if ( Pages.isDebugPage() )
       {
-         actionsWereCalled = Pages.instance().preRender( event.getFacesContext() );
-         return actionsWereCalled;
+         return false;
       }
-      finally
+      else
       {
-         Lifecycle.setPhaseId( PhaseId.RENDER_RESPONSE );
-         if (actionsWereCalled) 
+         Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
+         boolean actionsWereCalled = false;
+         try
          {
-            FacesMessages.afterPhase();
-            handleTransactionsAfterPageActions(event); //TODO: does it really belong in the finally?
+            actionsWereCalled = Pages.instance().preRender( event.getFacesContext() );
+            return actionsWereCalled;
+         }
+         finally
+         {
+            Lifecycle.setPhaseId( PhaseId.RENDER_RESPONSE );
+            if (actionsWereCalled) 
+            {
+               FacesMessages.afterPhase();
+               handleTransactionsAfterPageActions(event); //TODO: does it really belong in the finally?
+            }
          }
       }
    }
