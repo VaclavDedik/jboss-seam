@@ -19,7 +19,7 @@
         <property name="jar.dir" value="exploded-archives/${project.name}.jar" />
         <property name="war.dir" value="exploded-archives/${project.name}.war" />
         <property name="test.dir" value="test-build" />
-        <property name="embedded-ejb3.dir" value="${basedir}/embedded-ejb/conf" />
+        <property name="bootstrap.dir" value="${basedir}/bootstrap" />
         <property name="deploy.dir" value="${jboss.home}/server/default/deploy" />
         <property name="ear.deploy.dir" value="${deploy.dir}/${project.name}.ear" />
         <property name="jar.deploy.dir" value="${ear.deploy.dir}/${project.name}.jar" />
@@ -278,10 +278,10 @@
                         </fileset>
                 </copy>
                 <copy tofile="${test.dir}/META-INF/persistence.xml" 
-                            file="${basedir}/resources/META-INF/persistence-test.xml"
+                        file="${basedir}/resources/META-INF/persistence-test.xml"
                    overwrite="true"/>
                 <copy tofile="${test.dir}/import.sql" 
-                            file="${basedir}/resources/import-test.sql"
+                        file="${basedir}/resources/import-test.sql"
                    overwrite="true"/>
                 <copy todir="${test.dir}" flatten="true">
                         <fileset dir="${src.test.dir}">
@@ -294,7 +294,7 @@
                 <taskdef resource="testngtasks" classpath="${testng.jar}" />
                 <testng outputdir="${basedir}/test-report">
                         <classpath path="${test.dir}" />
-                        <classpath path="${embedded-ejb3.dir}" />
+                        <classpath path="${bootstrap.dir}" />
                         <classpath refid="build.classpath" />
                         <xmlfileset dir="${test.dir}" includes="*Test.xml" />
                 </testng>

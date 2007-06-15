@@ -4,13 +4,13 @@
     <classpathentry kind="src" output="classes/action" path="src/action"/>
     <classpathentry kind="src" output="classes/test" path="src/test"/>
     <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-    <classpathentry kind="lib" path="embedded-ejb/conf"/>
+    <classpathentry kind="lib" path="bootstrap"/>
+    <classpathentry kind="lib" path="lib/jboss-embedded-all.jar"/>
     <classpathentry kind="lib" path="lib/hibernate-all.jar"/>
-    <classpathentry kind="lib" path="lib/jboss-aop-jdk50.jar"/>
-    <classpathentry kind="lib" path="lib/jboss-cache-jdk50.jar"/>
-    <classpathentry kind="lib" path="lib/jboss-ejb3-all.jar"/>
+    <classpathentry kind="lib" path="lib/thirdparty-all.jar"/>
     <classpathentry kind="lib" path="lib/jboss-seam.jar"/>
     <classpathentry kind="lib" path="lib/jboss-seam-debug.jar"/>
+    <classpathentry kind="lib" path="lib/jboss-cache-jdk50.jar"/>
     <classpathentry kind="lib" path="lib/jbpm-3.1.4.jar"/>
     <classpathentry kind="lib" path="lib/antlr-2.7.6.jar"/>
     <classpathentry kind="lib" path="lib/jgroups.jar"/>
@@ -19,7 +19,6 @@
     <classpathentry kind="lib" path="lib/jsf-api.jar"/>
     <classpathentry kind="lib" path="lib/servlet-api.jar"/>
     <classpathentry kind="lib" path="lib/testng-4.5.1-jdk15.jar"/>
-    <classpathentry kind="lib" path="lib/thirdparty-all.jar"/>
     <classpathentry kind="lib" path="lib/jboss-el.jar"/>
     <classpathentry kind="lib" path="lib/jboss-el-api.jar"/>
 	<classpathentry kind="lib" path="lib/mvel14-1.2beta16.jar"/>
