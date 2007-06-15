@@ -70,10 +70,11 @@ public class ComponentScanner extends Scanner
          } catch (IOException ioe) {
             log.debug("could not load classfile: " + classname, ioe);
          }
-      } else if (name.endsWith(".component.xml")) {
-          resources.add(name);
-      } else if (name.endsWith("/components.xml")) {
-          resources.add(name);
+      } else if (name.endsWith(".component.xml") || name.endsWith("/components.xml")) {
+          // we want to skip over known meta-directories since Seam will auto-load these without a scan
+          if (!name.startsWith("WEB-INF/") && !name.startsWith("META-INF/")) {
+              resources.add(name);
+          }           
       }
            
    }
