@@ -892,11 +892,25 @@ public class BaseSeamTest
          Bootstrap bootstrap = Bootstrap.getInstance();
          bootstrap.bootstrap();
          started = true;
-         bootstrap.deployResourceBase("seam.properties");
-         bootstrap.deployResourceBase("META-INF/components.xml");
-         bootstrap.deployResourceBase("META-INF/seam.properties");
+         if ( resourceExists("seam.properties") ) 
+         {
+            bootstrap.deployResourceBase("seam.properties");
+         }
+         if ( resourceExists("META-INF/components.xml") ) 
+         {
+            bootstrap.deployResourceBase("META-INF/components.xml");
+         }
+         if ( resourceExists("META-INF/seam.properties") ) 
+         {
+            bootstrap.deployResourceBase("META-INF/seam.properties");
+         }
       }
    }
 
+   
+   private boolean resourceExists(String name)
+   {
+      return Thread.currentThread().getContextClassLoader().getResource(name)!=null;
+   }
 
 }
