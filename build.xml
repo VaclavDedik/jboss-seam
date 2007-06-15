@@ -65,8 +65,7 @@
 	<property name="drools.lib.dir" value="${imported.basedir}/drools/lib" />
 	<property name="trinidad.lib.dir" value="${imported.basedir}/trinidad/lib" />
 	<property name="meldware.lib.dir" value="${meldware.dir}/lib" />
-	<property name="eejb.conf.dir" value="${imported.basedir}/embedded-ejb/conf" />
-	<property name="mc.conf.dir" value="${imported.basedir}/microcontainer/conf" />
+	<property name="eejb.conf.dir" value="${imported.basedir}/bootstrap" />
 	<property name="example.coverage.dir" value="${imported.basedir}/build/coverage" />
 	<property name="drools.dir" value="${imported.basedir}/drools" />
 	<property name="hibernate.dir" value="${imported.basedir}/hibernate" />
@@ -94,8 +93,7 @@
 	<property name="dist.src.remoting.dir" value="${dist.dir}/src/remoting" />
 	<property name="dist.src.test.dir" value="${dist.dir}/src/test/misc" />
 	<property name="dist.lib.dir" value="${dist.dir}/lib" />
-	<property name="dist.eejb.conf.dir" value="${dist.dir}/embedded-ejb/conf" />
-	<property name="dist.mc.conf.dir" value="${dist.dir}/microcontainer/conf" />
+	<property name="dist.eejb.conf.dir" value="${dist.dir}/bootstrap" />
 	<property name="dist.drools.dir" value="${dist.dir}/drools" />
 	<property name="dist.hibernate.dir" value="${dist.dir}/hibernate" />
 	<property name="dist.mail.dir" value="${dist.dir}/mail" />
@@ -247,10 +245,6 @@
 		<include name="*.drl" />
 	</zipfileset>
 
-	<zipfileset id="example.beans.files" dir="${example.resources.dir}">
-		<include name="META-INF/*-beans.xml" if="example.mc.beans" />
-	</zipfileset>
-
 	<fileset id="example.deploy" dir="${example.resources.dir}">
 		<include name="${example.ds}" />
 	</fileset>
@@ -301,16 +295,19 @@
 
 	<zipfileset id="example.tomcat.lib" prefix="WEB-INF/lib" dir="${lib.dir}" description="run-time dependencies for tomcat deployment">
 		<include name="*.jar" />
-		<exclude name="jboss-el-api.jar" />
 		<exclude name="jsf-facelets*.jar" />
 		<exclude name="jboss-*-jdk50.jar" />
+		<exclude name="richfaces*.jar" />
+		<exclude name="ajax4jsf*.jar" />
 		<exclude name="jgroups*.jar" />
 		<exclude name="jbpm*.jar" />
 		<exclude name="jsp-api.jar" />
 		<exclude name="servlet-api.jar" />
 		<exclude name="ant*.jar" />
-		<exclude name="javax.servlet.jsp.jar" />
 		<exclude name="testng-*.jar" />
+		<exclude name="jboss-embedded-all.jar"/>
+		<exclude name="hibernate-all.jar"/>
+		<exclude name="thirdparty-all.jar"/>
 	</zipfileset>
 
 	<zipfileset id="example.tomcat.seam.jar" prefix="WEB-INF/lib" dir="${imported.basedir}">
@@ -352,11 +349,6 @@
 		<pathelement location="${basedir}/${name}-remoting.jar" />
 	</path>
 
-	<path id="test.mc.classpath">
-		<path refid="build.classpath" />
-		<path path="${mc.conf.dir}" />
-	</path>
-
 	<path id="test.eejb.classpath">
 		<path refid="build.classpath" />
 		<path path="${eejb.conf.dir}" />
@@ -373,19 +365,7 @@
 	</path>
 
 	<fileset id="eejb.conf" dir="${eejb.conf.dir}">
-		<include name="ejb3-interceptors-aop.xml" />
-		<include name="embedded-jboss-beans.xml" />
-		<include name="jboss-jms-beans.xml" />
-		<include name="security-beans.xml" />
-		<include name="login-config.xml" />
-		<include name="default.persistence.properties" />
-		<include name="log4j.xml" />
-		<include name="jndi.properties" />
-	</fileset>
-
-	<fileset id="mc.conf" dir="${mc.conf.dir}">
-		<include name="log4j.xml" />
-		<include name="jndi.properties" />
+		<include name="**/*.*"/>
 	</fileset>
 
 	<patternset id="meta.files">
@@ -786,7 +766,7 @@
 			<classpath path="${example.coverage.dir}/classes" />
 			<!-- TODO: ugly! -->
 			<classpath path="${build.dir}/test" />
-			<classpath path="${mc.conf.dir}" />
+			<classpath path="${eejb.conf.dir}" />
 			<classpath refid="${test.classpath}" />
 			<classpath refid="example.classpath.emma" />
 			<xmlfileset dir="${src.test.dir}" includes="**/*.xml" />
@@ -899,12 +879,6 @@
 				<patternset refid="meta.files" />
 			</fileset>
 		</copy>
-		<copy todir="${dist.mc.conf.dir}">
-			<fileset dir="${mc.conf.dir}">
-				<patternset refid="meta.files" />
-			</fileset>
-		</copy>
-		<copy file="microcontainer/readme.txt" todir="${dist.dir}/microcontainer" />
 		<copy file="embedded-ejb/readme.txt" todir="${dist.dir}/embedded-ejb" />
 
 		<copy todir="${dist.drools.dir}">
@@ -1273,8 +1247,6 @@
 			<fileset refid="example.war.webinf" />
 			<filterset>
 				<filter token="jndiPattern" value="${example.name}/#{ejbName}/local" />
-				<filter token="embeddedEjb" value="false" />
-				<filter token="microcontainer" value="false" />
 			</filterset>
 		</copy>
 
@@ -1359,16 +1331,10 @@
 			<fileset refid="example.tomcat.resources" />
 		</jar>
 
-		<jar jarfile="${build.dir}/mc-conf.jar">
-			<fileset refid="${tomcat.conf}" />
-		</jar>
-
 		<copy todir="${build.dir}/resources/WEB-INF">
 			<fileset refid="example.tomcat.war.webinf" />
 			<filterset>
 				<filter token="jndiPattern" value="#{ejbName}/local" />
-				<filter token="embeddedEjb" value="true" />
-				<filter token="microcontainer" value="true" />
 			</filterset>
 		</copy>
 
@@ -1385,7 +1351,6 @@
 			</zipfileset>
 			<zipfileset dir="${build.dir}" prefix="WEB-INF/lib">
 				<include name="${example.name}.jar" />
-				<include name="mc-conf.jar" />
 			</zipfileset>
 		</jar>
 
