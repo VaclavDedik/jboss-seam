@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src/main"/>
-	<classpathentry kind="src" path="src/test/misc"/>
 	<classpathentry kind="src" path="src/remoting"/>
 	<classpathentry kind="src" path="src/ioc"/>
 	<classpathentry kind="src" path="src/mail"/>
@@ -14,12 +13,9 @@
 	<classpathentry kind="lib" path="lib/servlet-api.jar"/>
 	<classpathentry kind="lib" path="lib/thirdparty-all.jar"/>
 	<classpathentry kind="lib" path="lib/hibernate-all.jar"/>
-	<classpathentry kind="lib" path="lib/jboss-ejb3-all.jar"/>
 	<classpathentry kind="lib" path="lib/jgroups.jar"/>
-	<classpathentry kind="lib" path="lib/jboss-aop-jdk50.jar"/>
 	<classpathentry kind="lib" path="lib/jboss-cache-jdk50.jar"/>
 	<classpathentry kind="lib" path="lib/ant.jar"/>
-	<classpathentry kind="lib" path="embedded-ejb/conf"/>
 	<classpathentry kind="lib" path="lib/jsf-facelets.jar"/>
 	<classpathentry kind="lib" path="lib/mail.jar"/>
 	<classpathentry kind="lib" path="lib/jbpm-3.1.4.jar"/>
@@ -47,5 +43,7 @@
 	<classpathentry kind="lib" path="lib/groovy-all-1.1-BETA-1.jar"/>
 	<classpathentry kind="lib" path="lib/quartz-1.6.0.jar"/>
 	<classpathentry kind="lib" path="lib/ajax4jsf-1.1.1.jar"/>
+	<classpathentry kind="lib" path="lib/jboss-embedded-all.jar"/>
+	<classpathentry kind="lib" path="bootstrap"/>
 	<classpathentry kind="output" path="output/classes"/>
 </classpath>
