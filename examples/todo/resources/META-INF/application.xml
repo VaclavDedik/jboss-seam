@@ -19,7 +19,7 @@
         <java>jboss-seam.jar</java>
     </module>
     <module>
-        <java>jbpm-3.1.4.jar</java>
+        <java>jbpm-jpdl.jar</java>
     </module>
     <module>
         <java>jboss-el.jar</java>

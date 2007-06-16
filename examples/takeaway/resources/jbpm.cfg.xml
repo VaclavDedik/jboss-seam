@@ -8,6 +8,7 @@
           </bean>
        </factory>
     </service>
+    <service name="tx" factory="org.jbpm.tx.TxServiceFactory" />
     <service name="message" factory="org.jbpm.msg.db.DbMessageServiceFactory" />
     <service name="scheduler" factory="org.jbpm.scheduler.db.DbSchedulerServiceFactory" />
     <service name="logging" factory="org.jbpm.logging.db.DbLoggingServiceFactory" />

@@ -13,7 +13,7 @@
     <property name="transaction.manager_lookup_class">org.hibernate.transaction.JBossTransactionManagerLookup</property>
     <property name="cache.provider_class">org.hibernate.cache.HashtableCacheProvider</property>
     <property name="hbm2ddl.auto">create-drop</property>
-    <!-- property name="transaction.flush_before_completion">true</property-->
+    <!--property name="transaction.flush_before_completion">true</property-->
     
     <!-- ############################################ -->
     <!-- # mapping files with external dependencies # -->
@@ -24,22 +24,26 @@
     <!-- uncomment this if you don't have bsh on your -->
     <!-- classpath.  you won't be able to use the     -->
     <!-- script element in process definition files   -->
-    <!-- 
     <mapping resource="org/jbpm/graph/action/Script.hbm.xml"/>
-    -->
 
     <!-- following mapping files have a dependendy on  -->
-    <!-- 'jbpm-identity-{version}.jar', mapping files  -->
+    <!-- 'jbpm-identity.jar', mapping files            -->
     <!-- of the pluggable jbpm identity component.     -->
-    <!-- comment out the following 3 lines if you don't-->
-    <!-- want to use the default jBPM identity mgmgt   -->
-    <!-- component                                     -->
-    
-    <!-- 
+    <!-- Uncomment the following 3 lines if you        -->
+    <!-- want to use the jBPM identity mgmgt           -->
+    <!-- component.                                    -->
+    <!-- identity mappings (begin) -->
     <mapping resource="org/jbpm/identity/User.hbm.xml"/>
     <mapping resource="org/jbpm/identity/Group.hbm.xml"/>
     <mapping resource="org/jbpm/identity/Membership.hbm.xml"/>
-    -->
+    <!-- identity mappings (end) -->
+    
+    <!-- following mapping files have a dependendy on  -->
+    <!-- the JCR API                                   -->
+    <!-- jcr mappings (begin) ===
+    <mapping resource="org/jbpm/context/exe/variableinstance/JcrNodeInstance.hbm.xml"/>
+    ==== jcr mappings (end) -->
+
 
     <!-- ###################### -->
     <!-- # jbpm mapping files # -->
@@ -47,6 +51,9 @@
 
     <!-- hql queries and type defs -->
     <mapping resource="org/jbpm/db/hibernate.queries.hbm.xml" />
+
+    <!-- graph.action mapping files -->
+    <mapping resource="org/jbpm/graph/action/MailAction.hbm.xml"/>
     
     <!-- graph.def mapping files -->
     <mapping resource="org/jbpm/graph/def/ProcessDefinition.hbm.xml"/>
@@ -65,6 +72,7 @@
     <mapping resource="org/jbpm/graph/node/Decision.hbm.xml"/>
     <mapping resource="org/jbpm/graph/node/Fork.hbm.xml"/>
     <mapping resource="org/jbpm/graph/node/Join.hbm.xml"/>
+    <mapping resource="org/jbpm/graph/node/MailNode.hbm.xml"/>
     <mapping resource="org/jbpm/graph/node/State.hbm.xml"/>
     <mapping resource="org/jbpm/graph/node/TaskNode.hbm.xml"/>
 
@@ -113,22 +121,17 @@
     <mapping resource="org/jbpm/context/exe/variableinstance/NullInstance.hbm.xml"/>
     <mapping resource="org/jbpm/context/exe/variableinstance/StringInstance.hbm.xml"/>
 
-    <!-- msg.db mapping files -->
-    <mapping resource="org/jbpm/msg/Message.hbm.xml"/>
-    <mapping resource="org/jbpm/msg/db/TextMessage.hbm.xml"/>
-    <mapping resource="org/jbpm/command/ExecuteActionCommand.hbm.xml"/>
-    <mapping resource="org/jbpm/command/ExecuteNodeCommand.hbm.xml"/>
-    <mapping resource="org/jbpm/command/SignalCommand.hbm.xml"/>
-    <mapping resource="org/jbpm/command/TaskInstanceEndCommand.hbm.xml"/>
+    <!-- job mapping files -->
+    <mapping resource="org/jbpm/job/Job.hbm.xml"/>
+    <mapping resource="org/jbpm/job/Timer.hbm.xml"/>
+    <mapping resource="org/jbpm/job/ExecuteNodeJob.hbm.xml"/>
+    <mapping resource="org/jbpm/job/ExecuteActionJob.hbm.xml"/>
 
     <!-- taskmgmt.exe mapping files -->
     <mapping resource="org/jbpm/taskmgmt/exe/TaskMgmtInstance.hbm.xml"/>
     <mapping resource="org/jbpm/taskmgmt/exe/TaskInstance.hbm.xml"/>
     <mapping resource="org/jbpm/taskmgmt/exe/PooledActor.hbm.xml"/>
     <mapping resource="org/jbpm/taskmgmt/exe/SwimlaneInstance.hbm.xml"/>
-
-    <!-- scheduler.exe mapping files -->
-    <mapping resource="org/jbpm/scheduler/exe/Timer.hbm.xml"/>
 
     <!-- logging mapping files -->
     <mapping resource="org/jbpm/logging/log/ProcessLog.hbm.xml"/>
@@ -138,6 +141,7 @@
     <mapping resource="org/jbpm/graph/log/NodeLog.hbm.xml"/>
     <mapping resource="org/jbpm/graph/log/ProcessInstanceCreateLog.hbm.xml"/>
     <mapping resource="org/jbpm/graph/log/ProcessInstanceEndLog.hbm.xml"/>
+    <mapping resource="org/jbpm/graph/log/ProcessStateLog.hbm.xml"/>
     <mapping resource="org/jbpm/graph/log/SignalLog.hbm.xml"/>
     <mapping resource="org/jbpm/graph/log/TokenCreateLog.hbm.xml"/>
     <mapping resource="org/jbpm/graph/log/TokenEndLog.hbm.xml"/>
