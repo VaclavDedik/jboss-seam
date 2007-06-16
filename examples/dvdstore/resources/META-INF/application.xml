@@ -9,12 +9,14 @@
     <module>
         <ejb>jboss-seam-dvd.jar</ejb>
     </module>
+    
     <module>
         <web>
             <web-uri>jboss-seam-dvd.war</web-uri>
             <context-root>/seam-dvd</context-root>
         </web>
     </module>
+    
     <module>
         <java>jboss-seam.jar</java>
     </module>
@@ -22,7 +24,13 @@
     <module>
         <java>jbpm-jpdl.jar</java>
     </module>
+
+    <module>
+        <java>jbpm-identity.jar</java>
+    </module>
+    
     <module>
         <java>jboss-el.jar</java>
     </module>
+    
 </application>

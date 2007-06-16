@@ -30,6 +30,10 @@
     </module>
     
     <module>
+        <java>jbpm-identity.jar</java>
+    </module>
+    
+    <module>
         <java>drools-compiler-4.0.0.MR2.jar</java>
     </module>
   
