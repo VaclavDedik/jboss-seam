@@ -141,4 +141,10 @@ public class PassivatedEntity implements Serializable
       }
    }
    
+   @Override
+   public String toString()
+   {
+      return entityClass + "#" + id;
+   }
+   
 }
