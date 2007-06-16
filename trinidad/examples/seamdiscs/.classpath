@@ -12,7 +12,7 @@
 	<classpathentry kind="lib" path="lib/jboss-ejb3-all.jar"/>
 	<classpathentry kind="lib" path="lib/jboss-seam.jar"/>
 	<classpathentry kind="lib" path="lib/jboss-seam-debug.jar"/>
-	<classpathentry kind="lib" path="lib/jbpm-3.1.4.jar"/>
+	<classpathentry kind="lib" path="lib/jbpm-jpdl.jar"/>
 	<classpathentry kind="lib" path="lib/drools-core-3.0.5.jar"/>
 	<classpathentry kind="lib" path="lib/drools-compiler-3.0.5.jar"/>
 	<classpathentry kind="lib" path="lib/janino-2.4.3.jar"/>
