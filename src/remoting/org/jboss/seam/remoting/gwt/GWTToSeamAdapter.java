@@ -109,7 +109,6 @@ public class GWTToSeamAdapter {
     * @param methodName
     * @param clz
     * @param paramTypes
-    * @return
     */
    private Method getMethod(String serviceName, String methodName, Class clz,
          Class[] paramTypes) {

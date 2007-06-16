@@ -9,10 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.zip.GZIPOutputStream;
 
 import javax.servlet.ServletContext;
@@ -28,7 +25,6 @@ import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.remoting.gwt.GWTToSeamAdapter.ReturnedObject;
 import org.jboss.seam.servlet.AbstractResource;
 
-import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.SerializableException;
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.server.rpc.impl.ServerSerializableTypeOracle;
@@ -124,7 +120,7 @@ public class GWTRemoteService extends AbstractResource {
   /**
    * Find the invoked method on either the specified interface or any super.
    */
-  private static Method findInterfaceMethod(Class intf, String methodName,
+  /*private static Method findInterfaceMethod(Class intf, String methodName,
       Class[] paramTypes, boolean includeInherited) {
     try {
       return intf.getDeclaredMethod(methodName, paramTypes);
@@ -142,9 +138,9 @@ public class GWTRemoteService extends AbstractResource {
 
       return null;
     }
-  }
+  }*/
 
-  private final Set knownImplementedInterfaces = new HashSet();
+  //private final Set knownImplementedInterfaces = new HashSet();
 
   private final ThreadLocal perThreadRequest = new ThreadLocal();
 
@@ -475,7 +471,7 @@ public class GWTRemoteService extends AbstractResource {
    * @param e
    * @return is expected exception
    */
-  private boolean isExpectedException(Method serviceIntfMethod, Throwable cause) {
+  /*private boolean isExpectedException(Method serviceIntfMethod, Throwable cause) {
     assert (serviceIntfMethod != null);
     assert (cause != null);
 
@@ -498,13 +494,13 @@ public class GWTRemoteService extends AbstractResource {
     }
 
     return false;
-  }
+  }*/
 
   /**
    * Used to determine whether the specified interface name is implemented by
    * this class without loading the class (for security).
    */
-  private boolean isImplementedRemoteServiceInterface(String intfName) {
+  /*private boolean isImplementedRemoteServiceInterface(String intfName) {
     synchronized (knownImplementedInterfaces) {
       // See if it's cached.
       //
@@ -534,12 +530,12 @@ public class GWTRemoteService extends AbstractResource {
 
       return false;
     }
-  }
+  }*/
 
   /**
    * Only called from isImplementedInterface().
    */
-  private boolean isImplementedRemoteServiceInterfaceRecursive(String intfName,
+  /*private boolean isImplementedRemoteServiceInterfaceRecursive(String intfName,
       Class intfToCheck) {
     assert (intfToCheck.isInterface());
 
@@ -563,7 +559,7 @@ public class GWTRemoteService extends AbstractResource {
     }
 
     return false;
-  }
+  }*/
 
   private String readPayloadAsUtf8(HttpServletRequest request)
       throws IOException, ServletException {
