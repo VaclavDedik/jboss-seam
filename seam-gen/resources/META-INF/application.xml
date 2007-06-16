@@ -29,7 +29,10 @@
    <module>
       <java>jbpm-jpdl.jar</java>
    </module>
-
+   <module>
+      <java>jbpm-identity.jar</java>
+   </module>
+    
    <!-- Drools and dependencies -->
    <module>
       <java>drools-compiler-4.0.0.MR2.jar</java>
