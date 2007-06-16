@@ -1,5 +1,8 @@
 package org.jboss.seam.jbpm;
 
+import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.core.BusinessProcess;
 import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.graph.def.Action;
 import org.jbpm.graph.exe.ExecutionContext;
@@ -12,28 +15,119 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
 
 public class SeamUserCodeInterceptor implements UserCodeInterceptor
 {
-
-   public void executeAction(Action action, ExecutionContext context) throws Exception
+   abstract static class ContextualCall
    {
-      action.execute(context);
+      abstract void process() throws Exception;
+      
+      void run() throws Exception
+      {
+         if ( Contexts.isEventContextActive() || Contexts.isApplicationContextActive() ) //not sure about the second bit (only needed at init time!)
+         {
+            process();
+         }
+         else
+         {
+            Lifecycle.beginCall();
+            try
+            {
+               process();
+            }
+            finally
+            {
+               Lifecycle.endCall();
+            }
+         }
+      }
+      
+      void runAndWrap()
+      {
+         try
+         {
+            run();
+         }
+         catch (RuntimeException re)
+         {
+            throw re;
+         }
+         catch (Exception e)
+         {
+            throw new RuntimeException(e);
+         }
+      }
    }
 
-   public void executeAssignment(AssignmentHandler handler, Assignable task, ExecutionContext context)
+   public void executeAction(final Action action, final ExecutionContext context) throws Exception
+   {
+      new ContextualCall()
+      {
+         @Override
+         void process() throws Exception
+         {
+            initProcessAndTask(context);
+            action.execute(context);
+         }
+      }.run();
+   }
+
+   public void executeAssignment(final AssignmentHandler handler, final Assignable assignable, 
+            final ExecutionContext context)
             throws Exception
    {
-      handler.assign(task, context);
+      new ContextualCall()
+      {
+         @Override
+         void process() throws Exception
+         {
+            initProcessAndTask(context);
+            handler.assign(assignable, context);
+         }
+      }.run();
    }
 
-   public void executeTaskControllerInitialization(TaskControllerHandler handler, TaskInstance task,
-            ContextInstance context, Token token)
+   public void executeTaskControllerInitialization(final TaskControllerHandler handler, final TaskInstance task,
+            final ContextInstance context, final Token token)
    {
-      handler.initializeTaskVariables(task, context, token);
+      new ContextualCall()
+      {
+         @Override
+         void process() throws Exception
+         {
+            initProcessAndTask(task);
+            handler.initializeTaskVariables(task, context, token);
+         }
+      }.runAndWrap();
    }
 
-   public void executeTaskControllerSubmission(TaskControllerHandler handler, TaskInstance task,
-            ContextInstance context, Token token)
+   public void executeTaskControllerSubmission(final TaskControllerHandler handler, final TaskInstance task,
+            final ContextInstance context, final Token token)
    {
-      handler.submitTaskVariables(task, context, token);
+      new ContextualCall()
+      {
+         @Override
+         void process() throws Exception
+         {
+            initProcessAndTask(task);
+            handler.submitTaskVariables(task, context, token);
+         }
+      }.runAndWrap();
+   }
+
+   private static void initProcessAndTask(ExecutionContext context)
+   {
+      BusinessProcess businessProcess = BusinessProcess.instance();
+      businessProcess.setProcessId( context.getProcessInstance().getId() );
+      TaskInstance taskInstance = context.getTaskInstance();
+      if (taskInstance!=null)
+      {
+         businessProcess.setTaskId( taskInstance.getId() );
+      }
+   }
+
+   private static void initProcessAndTask(TaskInstance task)
+   {
+      BusinessProcess businessProcess = BusinessProcess.instance();
+      businessProcess.setProcessId( task.getProcessInstance().getId() );
+      businessProcess.setTaskId( task.getId() );
    }
 
 }
