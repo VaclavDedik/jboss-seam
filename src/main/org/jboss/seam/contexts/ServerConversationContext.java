@@ -134,9 +134,9 @@ public class ServerConversationContext implements Context
    private Object unwrapEntityBean(Object result)
    {
       if (result==null) return null;
-      if ( result instanceof EntityBean )
+      if ( result instanceof Wrapper )
       {
-         return ( (EntityBean) result ).getInstance();
+         return ( (Wrapper) result ).getInstance();
       }
       else
       {
@@ -158,6 +158,10 @@ public class ServerConversationContext implements Context
          if ( Seam.isEntityClass( value.getClass() ) )
          {
             value = new EntityBean(value);
+         }
+         else if ( value instanceof List )
+         {
+            value = new EntityBeanList( (List) value );
          }
          additions.put(name, value);
       }

@@ -1,6 +1,5 @@
 package org.jboss.seam.contexts;
 
-import org.jboss.seam.core.Mutable;
 
 /**
  * Swizzles entities held in the conversation context at
@@ -11,7 +10,7 @@ import org.jboss.seam.core.Mutable;
  * @author Gavin King
  *
  */
-public class EntityBean implements Mutable
+public class EntityBean implements Wrapper
 {
    private static final long serialVersionUID = -2884601453783925804L;
    

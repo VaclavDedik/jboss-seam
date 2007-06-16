@@ -28,7 +28,7 @@ import org.jboss.util.Strings;
  * Interceptor which handles interpretation of jBPM-related annotations.
  *
  * @author <a href="mailto:steve@hibernate.org">Steve Ebersole </a>
- * @version $Revision$
+ * @author Gavin King
  */
 @Interceptor(stateless=true,
              around={ValidationInterceptor.class, BijectionInterceptor.class})
