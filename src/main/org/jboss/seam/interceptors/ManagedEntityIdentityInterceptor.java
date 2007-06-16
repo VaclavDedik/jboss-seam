@@ -26,6 +26,8 @@ import org.jboss.seam.util.Reflections;
  * bean or Seam-managed extended persistence context, and allowing 
  * for more efficient replication.
  * 
+ * @see org.jboss.seam.contexts.PassivatedEntity
+ * 
  * @author Gavin King
  *
  */
@@ -35,8 +37,8 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
    private static final long serialVersionUID = 3105217046803964083L;
    
    //TODO: cache much more - the list of fields, PassivatedEntity obects, etc
-   //TODO: optimize serialization of this list
-   private List<PassivatedEntity> passivatedEntities = new ArrayList<PassivatedEntity>();
+   //TODO: optimize serialization of these maps...
+   private Map<String, PassivatedEntity> passivatedEntities = new HashMap<String, PassivatedEntity>();
    //TODO: keep the actual concrete class of the collection around, so that we can recreate it after nullifying
    private Map<String, List<PassivatedEntity>> passivatedEntityLists = new HashMap<String, List<PassivatedEntity>>();
    private Map<String, List<PassivatedEntity>> passivatedEntitySets = new HashMap<String, List<PassivatedEntity>>();
@@ -128,7 +130,7 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
       List<PassivatedEntity> list = new ArrayList<PassivatedEntity>();
       for ( int i=0; i<values.size(); i++ )
       {
-         PassivatedEntity pi = PassivatedEntity.createPassivatedEntity( values.get(i), field.getName() );
+         PassivatedEntity pi = PassivatedEntity.createPassivatedEntity( values.get(i) );
          if (pi==null)
          {
             list.add(null);
@@ -156,7 +158,7 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
       Map<Object, PassivatedEntity> map = new HashMap<Object, PassivatedEntity>();
       for ( Map.Entry me: (Set<Map.Entry>) values.entrySet() )
       {
-         PassivatedEntity pe = PassivatedEntity.createPassivatedEntity( me.getValue(), field.getName() );
+         PassivatedEntity pe = PassivatedEntity.createPassivatedEntity( me.getValue() );
          if (pe!=null)
          {
             map.put( me.getKey(), pe );
@@ -181,7 +183,7 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
       Iterator iter = values.iterator();
       while ( iter.hasNext() )
       {
-         PassivatedEntity pe = PassivatedEntity.createPassivatedEntity( iter.next(), field.getName() );
+         PassivatedEntity pe = PassivatedEntity.createPassivatedEntity( iter.next() );
          if (pe!=null)
          {
             list.add(pe);
@@ -201,10 +203,10 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
 
    private void entityRefToId(Object bean, Field field, Object value) throws Exception
    {
-      PassivatedEntity pe = PassivatedEntity.createPassivatedEntity( value, field.getName() );
+      PassivatedEntity pe = PassivatedEntity.createPassivatedEntity(value);
       if (pe!=null)
       {
-         passivatedEntities.add(pe);
+         passivatedEntities.put( field.getName(), pe );
          Reflections.set(field, bean, null);
       }
    }
@@ -230,9 +232,9 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
          Object bean = ctx.getTarget();
          Class beanClass = bean.getClass();
          
-         for (PassivatedEntity pe: passivatedEntities)
+         for ( Map.Entry<String, PassivatedEntity> entry: passivatedEntities.entrySet() )
          {
-            entityIdToRef(bean, beanClass, pe);
+            entityIdToRef(bean, beanClass, entry);
          }
          passivatedEntities.clear();
          
@@ -322,12 +324,12 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
       }
    }
 
-   private void entityIdToRef(Object bean, Class beanClass, PassivatedEntity pe) throws IllegalAccessException
+   private void entityIdToRef(Object bean, Class beanClass, Map.Entry<String, PassivatedEntity> entry) throws IllegalAccessException
    {
-      Object reference = pe.toEntityReference();
+      Object reference = entry.getValue().toEntityReference();
       if (reference!=null)
       {
-         getField( beanClass, pe.getFieldName() ).set(bean, reference);
+         getField( beanClass, entry.getKey() ).set(bean, reference);
       }
    }
    

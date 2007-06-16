@@ -2,9 +2,19 @@ package org.jboss.seam.contexts;
 
 import org.jboss.seam.core.Mutable;
 
+/**
+ * Swizzles entities held in the conversation context at
+ * the end of each request.
+ * 
+ * @see PassivatedEntity
+ * 
+ * @author Gavin King
+ *
+ */
 public class EntityBean implements Mutable
 {
    private static final long serialVersionUID = -2884601453783925804L;
+   
    private Object instance;
    private PassivatedEntity passivatedEntity;
    
@@ -32,7 +42,7 @@ public class EntityBean implements Mutable
       {
          if ( !PassivatedEntity.isTransactionRolledBackOrMarkedRollback() )
          {
-            passivatedEntity = PassivatedEntity.createPassivatedEntity(instance, null);
+            passivatedEntity = PassivatedEntity.createPassivatedEntity(instance);
             if (passivatedEntity!=null)
             {
                instance = null;

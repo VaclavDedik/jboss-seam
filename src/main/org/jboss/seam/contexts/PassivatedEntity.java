@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.jboss.seam.contexts;
 
 import java.io.Serializable;
@@ -14,19 +11,28 @@ import org.jboss.seam.core.PersistenceContexts;
 import org.jboss.seam.persistence.PersistenceProvider;
 import org.jboss.seam.transaction.Transaction;
 
+/**
+ * A swizzled entity reference, consisting of the class,
+ * id and persistence context name.
+ * 
+ * @see EntityBean
+ * @see org.jboss.seam.interceptors.ManagedEntityIdentityInterceptor
+ * 
+ * @author Gavin King
+ *
+ */
 public class PassivatedEntity implements Serializable
 {
    private static final long serialVersionUID = 6565440294007267788L;
+   
    private Object id;
    private String persistenceContext;
-   private String fieldName;
    private Class<?> entityClass; //TODO: make this transient, and serialize only the class name..
    
-   private PassivatedEntity(Object id, Class<?> entityClass, String persistenceContext, String fieldName)
+   private PassivatedEntity(Object id, Class<?> entityClass, String persistenceContext)
    {
       this.id = id;
       this.persistenceContext = persistenceContext;
-      this.fieldName = fieldName;
       this.entityClass = entityClass;
    }
    
@@ -38,11 +44,6 @@ public class PassivatedEntity implements Serializable
    public Object getId()
    {
       return id;
-   }
-   
-   public String getFieldName()
-   {
-      return fieldName;
    }
    
    public Class<?> getEntityClass()
@@ -74,7 +75,7 @@ public class PassivatedEntity implements Serializable
       }
    }
 
-   public static PassivatedEntity createPassivatedEntity(Object value, String fieldName)
+   public static PassivatedEntity createPassivatedEntity(Object value)
    {
       Class entityClass = Seam.getEntityClass( value.getClass() );
       if (entityClass!=null)
@@ -121,7 +122,7 @@ public class PassivatedEntity implements Serializable
                }
                else
                {
-                  return new PassivatedEntity( id, entityClass, persistenceContextName, fieldName );
+                  return new PassivatedEntity(id, entityClass, persistenceContextName);
                }
             }
          }
