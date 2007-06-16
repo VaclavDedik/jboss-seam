@@ -175,7 +175,7 @@
 			<version>transient</version>
 			<scope>system</scope>
 			<systemPath>
-				${seam.dir}/lib/jbpm-3.1.4.jar
+				${seam.dir}/lib/jbpm-jpdl.jar
 			</systemPath>
 		</dependency>
 		<dependency>
