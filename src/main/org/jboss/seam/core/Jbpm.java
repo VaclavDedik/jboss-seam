@@ -24,6 +24,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.jbpm.SeamFunctionMapper;
+import org.jboss.seam.jbpm.SeamUserCodeInterceptor;
 import org.jboss.seam.jbpm.SeamVariableResolver;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -33,6 +34,7 @@ import org.jboss.seam.util.Resources;
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
 import org.jbpm.graph.def.ProcessDefinition;
+import org.jbpm.instantiation.UserCodeInterceptorConfig;
 import org.jbpm.jpdl.el.impl.JbpmExpressionEvaluator;
 import org.jbpm.persistence.db.DbPersistenceServiceFactory;
 import org.xml.sax.InputSource;
@@ -68,6 +70,7 @@ public class Jbpm
       installPageflowDefinitions();
       JbpmExpressionEvaluator.setVariableResolver( new SeamVariableResolver() );
       JbpmExpressionEvaluator.setFunctionMapper( new SeamFunctionMapper() );
+      UserCodeInterceptorConfig.setUserCodeInterceptor( new SeamUserCodeInterceptor() );
    }
 
    @Destroy
