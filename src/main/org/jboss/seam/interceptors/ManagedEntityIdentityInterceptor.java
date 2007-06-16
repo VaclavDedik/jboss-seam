@@ -261,14 +261,17 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
       Field field = getField( beanClass, entry.getKey() );
       List<PassivatedEntity> list = entry.getValue();
       List values = (List) getFieldValues(bean, field);
+      boolean recreate = false;
       if (values==null)
       {
+         recreate = true;
          values = new ArrayList( list.size() );
          //TODO: reconstruct a DataModel
          Reflections.set(field, bean, values);
       }
       for ( int i=0; i<list.size(); i++ )
       {
+         if (recreate) values.add(null);
          PassivatedEntity pe = list.get(i);
          if ( pe!=null )
          {
