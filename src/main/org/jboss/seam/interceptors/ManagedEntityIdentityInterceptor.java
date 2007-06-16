@@ -111,7 +111,7 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
    private boolean isRef(Object value)
    {
       //TODO: can do better than this for lists!
-      return value instanceof List && Seam.isEntityClass( value.getClass() );
+      return value instanceof List || Seam.isEntityClass( value.getClass() );
    }
 
    private Object getFieldValue(Object bean, Field field) throws Exception

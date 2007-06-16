@@ -50,15 +50,20 @@ public class EntityBeanList implements Wrapper
          boolean found = false;
          for (int i=0; i<instance.size(); i++ )
          {
-            PassivatedEntity passivatedEntity = PassivatedEntity.createPassivatedEntity( instance.get(i) );
-            if (passivatedEntity!=null)
+            Object value = instance.get(i);
+            PassivatedEntity passivatedEntity = null;
+            if (value!=null)
             {
-               if (!found) instance = new ArrayList(instance);
-               found=true;
-               //this would be dangerous, except that we 
-               //are doing it to a copy of the original 
-               //list:
-               instance.set(i, null); 
+               passivatedEntity = PassivatedEntity.createPassivatedEntity(value);
+               if (passivatedEntity!=null)
+               {
+                  if (!found) instance = new ArrayList(instance);
+                  found=true;
+                  //this would be dangerous, except that we 
+                  //are doing it to a copy of the original 
+                  //list:
+                  instance.set(i, null); 
+               }
             }
             passivatedEntityList.add(passivatedEntity);
          }
