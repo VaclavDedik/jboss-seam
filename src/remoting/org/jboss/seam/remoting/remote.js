@@ -589,6 +589,14 @@ Seam.Remoting.sendAjaxRequest = function(envelope, path, callback, silent)
     asyncReq = new ActiveXObject("Microsoft.XMLHTTP");
 
   asyncReq.onreadystatechange = function() {Seam.Remoting.requestCallback(asyncReq, callback); }
+
+  var href = window.location.href;
+  if (href.indexOf(';jsessionid=') >= 0)
+  {
+    var qpos = url.indexOf('?');
+    path += href.substring(href.indexOf(';jsessionid='), qpos >= 0 ? qpos : url.length()); 
+  }
+  
   asyncReq.open("POST", Seam.Remoting.resourcePath + path, true);
   asyncReq.send(envelope);
   return asyncReq;
