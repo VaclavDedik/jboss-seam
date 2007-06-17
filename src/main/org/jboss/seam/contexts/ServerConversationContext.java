@@ -163,6 +163,10 @@ public class ServerConversationContext implements Context
          {
             value = new EntityBeanList( (List) value );
          }
+         else if ( value instanceof Map )
+         {
+            value = new EntityBeanMap( (Map) value );
+         }
          additions.put(name, value);
       }
       if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.postSetVariable." + name);
