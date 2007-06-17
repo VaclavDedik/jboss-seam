@@ -418,7 +418,7 @@
 		<delete dir="${dist.dir}" />
 	</target>
 
-	<target name="cleanall" depends="clean,cleandist,cleanui-cdk" description="Cleans up everything">
+	<target name="cleanall" depends="clean,cleandist" description="Cleans up everything">
 
 		<ant dir="examples/booking" target="clean" inheritall="false" />
 		<ant dir="examples/hibernate" target="clean" inheritall="false" />
