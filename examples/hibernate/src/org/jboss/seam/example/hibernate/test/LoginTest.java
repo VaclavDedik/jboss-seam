@@ -1,15 +1,9 @@
 //$Id$
 package org.jboss.seam.example.hibernate.test;
 
-import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
-import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.example.hibernate.HotelBookingAction;
-import org.jboss.seam.example.hibernate.User;
 import org.jboss.seam.mock.SeamTest;
-import org.jboss.seam.mock.SeamTest.FacesRequest;
-import org.jboss.seam.security.Identity;
 import org.testng.annotations.Test;
 
 public class LoginTest extends SeamTest

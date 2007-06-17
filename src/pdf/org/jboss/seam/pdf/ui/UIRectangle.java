@@ -1,7 +1,5 @@
 package org.jboss.seam.pdf.ui;
 
-import java.awt.Color;
-
 import javax.faces.context.FacesContext;
 
 import org.jboss.seam.pdf.ITextUtils;

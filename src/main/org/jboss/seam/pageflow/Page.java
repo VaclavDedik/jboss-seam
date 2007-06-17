@@ -145,6 +145,7 @@ public class Page extends Node implements Parsable
       return description!=null;
    }
 
+   @Override
    public String getDescription() {
       return Interpolator.instance().interpolate(description);
    }

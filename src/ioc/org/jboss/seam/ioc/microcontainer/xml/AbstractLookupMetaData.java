@@ -43,6 +43,7 @@ public class AbstractLookupMetaData extends AbstractDependencyValueMetaData
     protected ScopeType scope;
     protected Boolean create = Boolean.TRUE;
 
+    @Override
     public void initialVisit(MetaDataVisitor visitor)
     {
        // update - context is member field
