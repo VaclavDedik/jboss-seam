@@ -11,16 +11,13 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/portlet-api-lib.jar"/>
 	<classpathentry kind="lib" path="lib/servlet-api.jar"/>
-	<classpathentry kind="lib" path="lib/thirdparty-all.jar"/>
 	<classpathentry kind="lib" path="lib/hibernate-all.jar"/>
 	<classpathentry kind="lib" path="lib/jgroups.jar"/>
 	<classpathentry kind="lib" path="lib/jboss-cache-jdk50.jar"/>
-	<classpathentry kind="lib" path="lib/ant.jar"/>
 	<classpathentry kind="lib" path="lib/jsf-facelets.jar"/>
 	<classpathentry kind="lib" path="lib/activation.jar"/>
 	<classpathentry kind="lib" path="lib/spring.jar"/>
 	<classpathentry kind="lib" path="lib/itext-2.0.1.jar"/>
-	<classpathentry kind="lib" path="lib/commons-codec-1.3.jar"/>
 	<classpathentry kind="lib" path="lib/jboss-jaxws.jar"/>
 	<classpathentry kind="lib" path="lib/jboss-el-api.jar"/>
 	<classpathentry kind="lib" path="lib/jboss-el.jar"/>
@@ -42,5 +39,10 @@
 	<classpathentry kind="lib" path="lib/testng-5.6-jdk15.jar"/>
 	<classpathentry kind="lib" path="lib/jbpm-jpdl.jar"/>
 	<classpathentry kind="lib" path="lib/jcaptcha-all-1.0-RC6.jar"/>
+	<classpathentry kind="lib" path="lib/commons-codec-1.3.jar"/>
+	<classpathentry kind="lib" path="lib/ant.jar"/>
+	<classpathentry kind="lib" path="lib/thirdparty-all.jar"/>
+	<classpathentry kind="lib" path="lib/jbpm-identity.jar"/>
+	<classpathentry kind="lib" path="lib/bsh.jar"/>
 	<classpathentry kind="output" path="output/classes"/>
 </classpath>
