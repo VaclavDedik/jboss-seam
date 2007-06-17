@@ -27,7 +27,7 @@ import org.jboss.util.Strings;
 /**
  * Interceptor which handles interpretation of jBPM-related annotations.
  *
- * @author <a href="mailto:steve@hibernate.org">Steve Ebersole </a>
+ * @author <a href="mailto:steve@hibernate.org">Steve Ebersole</a>
  * @author Gavin King
  */
 @Interceptor(stateless=true,
@@ -58,22 +58,29 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
       {
          log.trace( "encountered @StartTask" );
          StartTask tag = method.getAnnotation(StartTask.class);
-         Long taskId = getRequestParamValueAsLong( tag.taskIdParameter(), tag.taskId() );
+         Long taskId = getProcessOrTaskId( tag.taskIdParameter(), tag.taskId() );
          return BusinessProcess.instance().resumeTask(taskId);
       }
       else if ( method.isAnnotationPresent(BeginTask.class) ) 
       {
          log.trace( "encountered @BeginTask" );
          BeginTask tag = method.getAnnotation(BeginTask.class);
-         Long taskId = getRequestParamValueAsLong( tag.taskIdParameter(), tag.taskId() );
+         Long taskId = getProcessOrTaskId( tag.taskIdParameter(), tag.taskId() );
          return BusinessProcess.instance().resumeTask(taskId);
       }
       else if ( method.isAnnotationPresent(ResumeProcess.class) ) 
       {
          log.trace( "encountered @ResumeProcess" );
          ResumeProcess tag = method.getAnnotation(ResumeProcess.class);
-         Long processId = getRequestParamValueAsLong( tag.processIdParameter(), tag.processId() );
-         return BusinessProcess.instance().resumeProcess(processId);
+         if ( tag.processKey().equals("") )
+         {
+            Long processId = getProcessOrTaskId( tag.processIdParameter(), tag.processId() );
+            return BusinessProcess.instance().resumeProcess(processId);
+         }
+         else
+         {
+            return BusinessProcess.instance().resumeProcess( tag.definition(), getProcessKey( tag.processKey() ) );
+         }
       }
       if ( method.isAnnotationPresent(EndTask.class) )
       {
@@ -95,7 +102,14 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
          {
             log.trace( "encountered @CreateProcess" );
             CreateProcess tag = method.getAnnotation(CreateProcess.class);
-            BusinessProcess.instance().createProcess( tag.definition() );
+            if ( tag.processKey().equals("") )
+            {
+               BusinessProcess.instance().createProcess( tag.definition() );
+            }
+            else
+            {
+               BusinessProcess.instance().createProcess( tag.definition(), getProcessKey( tag.processKey() ) );
+            }
          }
          if ( method.isAnnotationPresent(StartTask.class) )
          {
@@ -118,7 +132,17 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
       return result;
    }
 
-   private Long getRequestParamValueAsLong(String paramName, String el)
+   private String getProcessKey(String el)
+   {
+      Object key = Expressions.instance().createValueExpression(el).getValue();
+      if (key==null)
+      {
+         throw new IllegalStateException("process business key may not be null");
+      }
+      return key.toString();
+   }
+
+   private Long getProcessOrTaskId(String paramName, String el)
    {
       Object id;
       if ( Strings.isEmpty(paramName) )

@@ -12,6 +12,7 @@ import java.util.Properties;
 
 import javax.naming.NamingException;
 
+import org.hibernate.HibernateException;
 import org.hibernate.cfg.Environment;
 import org.hibernate.lob.ReaderInputStream;
 import org.jboss.seam.ScopeType;
@@ -119,8 +120,15 @@ public class Jbpm
          {
             prefixed.setProperty( Environment.JNDI_PREFIX + "." + entry.getKey(), entry.getValue() );
          }
-  
-         dbpsf.getConfiguration().getProperties().putAll(prefixed);
+         
+         try
+         {
+            dbpsf.getConfiguration().getProperties().putAll(prefixed);
+         }
+         catch (HibernateException he)
+         {
+            log.info("could not set JNDI properties for jBPM persistence: " + he.getMessage());
+         }
       }
    }
 

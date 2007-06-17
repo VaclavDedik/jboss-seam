@@ -18,7 +18,7 @@ import java.lang.annotation.Target;
  * to be started. The jBPM {@link org.jbpm.context.exe.ContextInstance} 
  * is associated with the BUSINESS_PROCESS scope and the 
  * {@link org.jbpm.taskmgmt.exe.TaskInstance} is associated with a new
- * conversation.
+ * conversation, unless the annotated method returns a null outcome.
  * <p/>
  * Note that both {@link BeginTask} and {@link StartTask} have effect
  * before invocation of the intercepted method in that they are both
@@ -28,6 +28,7 @@ import java.lang.annotation.Target;
  * as that is the time it actually marks the task as started.
  *
  * @see org.jbpm.taskmgmt.exe.TaskInstance#start()
+ * @author Steve Ebersole
  */
 @Target( METHOD )
 @Retention( RUNTIME )

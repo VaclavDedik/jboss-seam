@@ -14,20 +14,22 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Marks a method as causing jBPM {@link org.jbpm.taskmgmt.exe.TaskInstance task}
+ * Marks a method as causing a jBPM {@link org.jbpm.taskmgmt.exe.TaskInstance task}
  * to be resumed. The jBPM {@link org.jbpm.context.exe.ContextInstance} 
  * is associated with the BUSINESS_PROCESS scope and the 
  * {@link org.jbpm.taskmgmt.exe.TaskInstance} is associated with a new
- * conversation.
+ * conversation, unless the annotated method returns a null outcome.
  * <p/>
  * Note that both {@link BeginTask} and {@link StartTask} have effect
  * before invocation of the intercepted method in that they are both
  * about setting up appropriate {@link org.jbpm.context.exe.ContextInstance}
  * for the current {@link org.jboss.seam.contexts.BusinessProcessContext}.
+ * <p/>
  *
+ * @author Steve Ebersole
  */
-@Target( METHOD )
-@Retention( RUNTIME )
+@Target(METHOD)
+@Retention(RUNTIME)
 @Documented
 public @interface BeginTask
 {

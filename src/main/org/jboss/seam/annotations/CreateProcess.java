@@ -1,9 +1,9 @@
 /*
- * JBoss, Home of Professional Open Source
- *
- * Distributable under LGPL license.
- * See terms of license at gnu.org.
- */
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.annotations;
 
 import static java.lang.annotation.ElementType.METHOD;
@@ -14,11 +14,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Marks a method creating a jBPM {@link org.jbpm.graph.exe.ProcessInstance process}
- * so long as the method does not throw an exception.
+ * Marks a method creating a jBPM 
+ * {@link org.jbpm.graph.exe.ProcessInstance process instance}
+ * unless the method throws an exception or returns a null outcome.
+ * 
+ * @author Steve Ebersole
  */
-@Target( METHOD )
-@Retention( RUNTIME )
+@Target(METHOD)
+@Retention(RUNTIME)
 @Documented
 public @interface CreateProcess
 {
@@ -27,4 +30,11 @@ public @interface CreateProcess
     * to create the {@link org.jbpm.graph.exe.ProcessInstance}
     */
    String definition();
+   /**
+    * An EL expression that evaluates to the process 
+    * business key.
+    * 
+    * @return an EL expression or an empty string to indicate a null key
+    */
+   String processKey() default "";
 }

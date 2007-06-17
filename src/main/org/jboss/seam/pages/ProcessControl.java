@@ -15,13 +15,13 @@ public class ProcessControl
 
    public void createOrResumeProcess()
    {
-      if (createProcess())
+      if ( createProcess() )
       {
          BusinessProcess.instance().createProcess(definition);
       }
-      if (resumeProcess())
+      if ( resumeProcess() )
       {
-         BusinessProcess.instance().resumeProcess(processId.getValue());
+         BusinessProcess.instance().resumeProcess( processId.getValue() );
       }
    }
 
