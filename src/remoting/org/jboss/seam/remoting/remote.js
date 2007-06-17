@@ -82,9 +82,22 @@ Seam.Component.getMetadata = function(obj)
   return null;
 }
 
+Seam.Remoting.extractEncodedSessionId = function(url) 
+{
+	var sessionId = null;
+  if (url.indexOf(';jsessionid=') >= 0)
+  {
+    var qpos = url.indexOf('?');
+    sessionId = url.substring(url.indexOf(';jsessionid=') + 12, qpos >= 0 ? qpos : url.length); 
+  }
+	return sessionId;
+}
+
 Seam.Remoting.PATH_EXECUTE = "/execute";
 Seam.Remoting.PATH_SUBSCRIPTION = "/subscription";
 Seam.Remoting.PATH_POLL = "/poll";
+
+Seam.Remoting.encodedSessionId = Seam.Remoting.extractEncodedSessionId(window.location.href);
 
 // Type declarations will live in this namespace
 Seam.Remoting.type = new Object();
@@ -590,13 +603,11 @@ Seam.Remoting.sendAjaxRequest = function(envelope, path, callback, silent)
 
   asyncReq.onreadystatechange = function() {Seam.Remoting.requestCallback(asyncReq, callback); }
 
-  var href = window.location.href;
-  if (href.indexOf(';jsessionid=') >= 0)
+  if (Seam.Remoting.encodedSessionId)
   {
-    var qpos = url.indexOf('?');
-    path += href.substring(href.indexOf(';jsessionid='), qpos >= 0 ? qpos : url.length()); 
+    path += ';jsessionid=' + Seam.Remoting.encodedSessionId;
   }
-  
+    
   asyncReq.open("POST", Seam.Remoting.resourcePath + path, true);
   asyncReq.send(envelope);
   return asyncReq;

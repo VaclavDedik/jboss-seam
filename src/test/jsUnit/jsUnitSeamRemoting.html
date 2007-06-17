@@ -7,7 +7,7 @@
 <title>Seam Remoting JsUnit Tests</title>
 <link rel="stylesheet" type="text/css" href="../css/jsUnitStyle.css">
 <script language="JavaScript" type="text/javascript" src="../../../extras/jsUnit/app/jsUnitCore.js"></script>
-<script language="JavaScript" type="text/javascript" src="../../main/org/jboss/seam/remoting/remote.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../remoting/org/jboss/seam/remoting/remote.js"></script>
 <script language="JavaScript" type="text/javascript">
 
 /** Confirm that the URL encoding/decoding function we are using works **/
@@ -165,6 +165,52 @@ function testTypes() {
   var instance = Seam.Remoting.createType("testType");
   assertEquals("testType", Seam.Remoting.getTypeName(instance));
   assertEquals(t, Seam.Remoting.getType(instance));
+}
+
+function testExtractEncodedSessionId() {
+  assertEquals('abcdefg', Seam.Remoting.extractEncodedSessionId('http://localhost:8080/contextPath/page.seam;jsessionid=abcdefg?foo=bar'));
+  assertEquals('abcdefg', Seam.Remoting.extractEncodedSessionId('http://localhost:8080/contextPath/page.seam;jsessionid=abcdefg'));
+  assertEquals(null, Seam.Remoting.extractEncodedSessionId('http://localhost:8080/contextPath/page.seam'));
+}
+
+function testEncodeAjaxRequest() {
+  var restoreXMLHttpRequest = window.XMLHttpRequest;
+  window.XMLHttpRequest = dummyXMLHttpRequest;
+  Seam.Remoting.resourcePath = "/resourcePath";
+  Seam.Remoting.encodedSessionId = 'abcdefg';
+  var req = Seam.Remoting.sendAjaxRequest(null, "/execute", null, true); 
+  assertEquals("POST", req.method);
+  assertEquals("/resourcePath/execute;jsessionid=abcdefg", req.path);
+  assertEquals(true, req.async);
+  window.XMLHttpRequest = restoreXMLHttpRequest;
+}
+
+function testNoEncodeAjaxRequest() {
+  var restoreXMLHttpRequest = window.XMLHttpRequest;
+  window.XMLHttpRequest = dummyXMLHttpRequest;
+  Seam.Remoting.resourcePath = "/resourcePath";
+  Seam.Remoting.encodedSessionId = null;
+  var req = Seam.Remoting.sendAjaxRequest(null, "/execute", null, true); 
+  assertEquals("POST", req.method);
+  assertEquals("/resourcePath/execute", req.path);
+  assertEquals(true, req.async);
+  window.XMLHttpRequest = restoreXMLHttpRequest;
+}
+
+function dummyXMLHttpRequest() {
+  this.method = null;
+  this.path = null;
+  this.async = null;
+}
+
+dummyXMLHttpRequest.prototype = {
+  open: function(method, path, async) {
+    this.method = method;
+    this.path = path;
+    this.async = async;
+  },
+
+  send: function(envelope) {}
 }
 
 </script>
