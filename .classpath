@@ -39,7 +39,6 @@
 	<classpathentry kind="lib" path="lib/testng-5.6-jdk15.jar"/>
 	<classpathentry kind="lib" path="lib/jbpm-jpdl.jar"/>
 	<classpathentry kind="lib" path="lib/jcaptcha-all-1.0-RC6.jar"/>
-	<classpathentry kind="lib" path="lib/commons-codec-1.3.jar"/>
 	<classpathentry kind="lib" path="lib/ant.jar"/>
 	<classpathentry kind="lib" path="lib/thirdparty-all.jar"/>
 	<classpathentry kind="lib" path="lib/jbpm-identity.jar"/>

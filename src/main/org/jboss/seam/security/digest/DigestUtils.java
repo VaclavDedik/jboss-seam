@@ -3,7 +3,7 @@ package org.jboss.seam.security.digest;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import org.apache.commons.codec.binary.Hex;
+import org.jboss.seam.util.Hex;
 
 /**
  * Digest-related utility methods, adapted from Acegi and Apache Commons.
