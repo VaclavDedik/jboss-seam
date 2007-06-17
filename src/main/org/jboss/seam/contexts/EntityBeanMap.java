@@ -48,10 +48,9 @@ public class EntityBeanMap implements Wrapper
          for ( Map.Entry me: (Set<Map.Entry>) instance.entrySet() )
          {
             Object value = me.getValue();
-            PassivatedEntity passivatedEntity = null;
             if (value!=null)
             {
-               passivatedEntity = PassivatedEntity.createPassivatedEntity(value);
+               PassivatedEntity passivatedEntity = PassivatedEntity.createPassivatedEntity(value);
                if (passivatedEntity!=null)
                {
                   if (!found) instance = new HashMap(instance);
@@ -59,10 +58,10 @@ public class EntityBeanMap implements Wrapper
                   //this would be dangerous, except that we 
                   //are doing it to a copy of the original 
                   //list:
-                  instance.put( me.getKey(), null ); 
+                  instance.remove( me.getKey() ); 
+                  passivatedEntityMap.put( me.getKey(), passivatedEntity );
                }
             }
-            passivatedEntityMap.put( me.getKey(), passivatedEntity );
          }
          if (!found) passivatedEntityMap=null;
       }
