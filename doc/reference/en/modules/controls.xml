@@ -233,7 +233,7 @@
             </para>
 
             <para>
-              The converter works with any entity which has an <literal>@Id</literal> annotation -
+              The converter works with any managed entity which has an <literal>@Id</literal> annotation -
               either simple or composite.
             </para>
 
