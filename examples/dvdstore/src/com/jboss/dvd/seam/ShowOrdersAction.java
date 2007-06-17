@@ -17,12 +17,14 @@ import javax.persistence.PersistenceContextType;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Begin;
+import org.jboss.seam.annotations.CreateProcess;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
+import org.jboss.seam.annotations.ResumeProcess;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
 import org.jboss.seam.core.ManagedJbpmContext;
@@ -60,8 +62,11 @@ public class ShowOrdersAction
 
         return "showorders";
     }
+    
+    @In(required=false) 
+    ProcessInstance processInstance;
 
-
+    @ResumeProcess(definition="OrderManagement", processKey="#{orders.rowData.orderId}")
     public String cancelOrder() {
        
         em.refresh(order);
@@ -72,17 +77,7 @@ public class ShowOrdersAction
 
         order.setStatus(Status.CANCELLED);
         
-        JbpmContext context = ManagedJbpmContext.instance();
-
-        ProcessInstance pi = (ProcessInstance) context.getSession()
-            .createQuery("select pi from LongInstance si join si.processInstance pi " +
-                         "where si.name = 'orderId' and si.value = :orderId")
-            .setLong("orderId", order.getOrderId())
-            .uniqueResult();
-        
-        pi.signal("cancel");
-        
-        context.save(pi);
+        processInstance.signal("cancel");
         
         return findOrders();
     }

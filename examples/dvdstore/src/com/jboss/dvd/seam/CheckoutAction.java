@@ -73,7 +73,7 @@ public class CheckoutAction
     }
 
     @End
-    @CreateProcess(definition="OrderManagement")
+    @CreateProcess(definition="OrderManagement", processKey="#{completedOrder.orderId}")
     public void submitOrder() {
         try {
             completedOrder = purchase(customer, currentOrder);
