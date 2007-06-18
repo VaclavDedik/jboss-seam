@@ -110,13 +110,13 @@ public class ManagedPersistenceContext
       //join the transaction
       if ( !synchronizationRegistered && !Lifecycle.isDestroying() && Transaction.instance().isActive() )
       {
+         entityManager.joinTransaction();
          LocalTransactionListener transactionListener = TransactionListener.instance();
          if (transactionListener!=null)
          {
             transactionListener.registerSynchronization(this);
             synchronizationRegistered = true;
          }
-         entityManager.joinTransaction();
       }
       
       return entityManager;

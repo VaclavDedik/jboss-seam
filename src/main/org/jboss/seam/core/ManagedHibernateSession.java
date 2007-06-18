@@ -114,13 +114,17 @@ public class ManagedHibernateSession
       //join the transaction
       if ( !synchronizationRegistered && !Lifecycle.isDestroying() && Transaction.instance().isActive() )
       {
+         session.isOpen();
          LocalTransactionListener transactionListener = TransactionListener.instance();
          if (transactionListener!=null)
          {
             transactionListener.registerSynchronization(this);
-            synchronizationRegistered = true;
          }
-         session.isOpen();
+         else
+         {
+            session.getTransaction().registerSynchronization(this);
+         }
+         synchronizationRegistered = true;
       }
       
       return session;

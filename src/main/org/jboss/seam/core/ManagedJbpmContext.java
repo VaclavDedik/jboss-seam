@@ -76,7 +76,16 @@ public class ManagedJbpmContext implements Synchronization
       }
       if ( !synchronizationRegistered && !Lifecycle.isDestroying() && Transaction.instance().isActive() )
       {
-         jbpmContext.getSession().getTransaction().registerSynchronization(this);
+         jbpmContext.getSession().isOpen();
+         LocalTransactionListener transactionListener = TransactionListener.instance();
+         if (transactionListener!=null)
+         {
+            transactionListener.registerSynchronization(this);
+         }
+         else
+         {
+            jbpmContext.getSession().getTransaction().registerSynchronization(this);
+         }
          synchronizationRegistered = true;
       }
       return jbpmContext;
