@@ -5,6 +5,7 @@ import static org.jboss.seam.annotations.Install.FRAMEWORK;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
+import javax.transaction.Synchronization;
 
 import org.hibernate.FlushMode;
 import org.hibernate.Session;
@@ -60,6 +61,13 @@ public class HibernatePersistenceProvider extends PersistenceProvider
          filter.setParameter( me.getKey(), me.getValue().getValue() );
       }
       filter.validate();
+   }
+   
+   @Override
+   public boolean registerSynchronization(Synchronization sync, EntityManager entityManager)
+   {
+      getSession(entityManager).getTransaction().registerSynchronization(sync);
+      return true;
    }
    
    @Override

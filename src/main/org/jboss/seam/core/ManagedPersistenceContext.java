@@ -117,6 +117,10 @@ public class ManagedPersistenceContext
             transactionListener.registerSynchronization(this);
             synchronizationRegistered = true;
          }
+         else
+         {
+            synchronizationRegistered = PersistenceProvider.instance().registerSynchronization(this, entityManager);
+         }
       }
       
       return entityManager;

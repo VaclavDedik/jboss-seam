@@ -3,6 +3,7 @@ package org.jboss.seam.persistence;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import javax.persistence.EntityManager;
+import javax.transaction.Synchronization;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.Entity;
@@ -41,6 +42,7 @@ public class PersistenceProvider
    {
       return true; //best we can do!
    }
+   
    public Object getId(Object bean, EntityManager entityManager)
    {
       return Entity.forClass( bean.getClass() ).getIdentifier(bean);
@@ -49,6 +51,11 @@ public class PersistenceProvider
    public void enableFilter(Filter f, EntityManager entityManager)
    {
       throw new UnsupportedOperationException("For filters, please use Hibernate as the persistence provider");
+   }
+   
+   public boolean registerSynchronization(Synchronization sync, EntityManager entityManager)
+   {
+      return false; //best we can do!
    }
    
    public static PersistenceProvider instance()
