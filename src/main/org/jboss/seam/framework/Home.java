@@ -65,6 +65,7 @@ public abstract class Home<T, E> extends MutableController<T>
    @Transactional
    public E getInstance()
    {
+      joinTransaction();
       if (instance==null)
       {
          initInstance();
@@ -89,6 +90,8 @@ public abstract class Home<T, E> extends MutableController<T>
          setInstance( createInstance() );
       }
    }
+   
+   protected void joinTransaction() {}
    
    protected E find()
    {

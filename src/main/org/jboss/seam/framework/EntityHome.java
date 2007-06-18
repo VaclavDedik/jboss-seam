@@ -35,7 +35,7 @@ public class EntityHome<E> extends Home<EntityManager, E>
    @Transactional
    public String update()
    {
-      getEntityManager().joinTransaction();
+      joinTransaction();
       getEntityManager().flush();
       updatedMessage();
       return "updated";
@@ -44,7 +44,6 @@ public class EntityHome<E> extends Home<EntityManager, E>
    @Transactional
    public String persist()
    {
-      getEntityManager().joinTransaction();
       getEntityManager().persist( getInstance() );
       getEntityManager().flush();
       assignId( PersistenceProvider.instance().getId( getInstance(), getEntityManager() ) );
@@ -55,7 +54,6 @@ public class EntityHome<E> extends Home<EntityManager, E>
    @Transactional
    public String remove()
    {
-      getEntityManager().joinTransaction();
       getEntityManager().remove( getInstance() );
       getEntityManager().flush();
       deletedMessage();
@@ -66,10 +64,25 @@ public class EntityHome<E> extends Home<EntityManager, E>
    @Override
    public E find()
    {
-      getEntityManager().joinTransaction();
-      E result = getEntityManager().find( getEntityClass(), getId() );
-      if (result==null) result = handleNotFound();
-      return result;
+      if ( getEntityManager().isOpen() )
+      {
+         E result = getEntityManager().find( getEntityClass(), getId() );
+         if (result==null) result = handleNotFound();
+         return result;
+      }
+      else
+      {
+         return null;
+      }
+   }
+   
+   @Override
+   protected void joinTransaction()
+   {
+      if ( getEntityManager().isOpen() )
+      {
+         getEntityManager().joinTransaction();
+      }
    }
    
    public EntityManager getEntityManager()

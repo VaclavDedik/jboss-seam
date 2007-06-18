@@ -64,9 +64,22 @@ public class HibernateEntityHome<E> extends Home<Session, E>
    @Override
    public E find()
    {
-      E result = (E) getSession().get( getEntityClass(), (Serializable) getId() );
-      if (result==null) result = handleNotFound();
-      return result;
+      if ( getSession().isOpen() )
+      {
+         E result = (E) getSession().get( getEntityClass(), (Serializable) getId() );
+         if (result==null) result = handleNotFound();
+         return result;
+      }
+      else
+      {
+         return null;
+      }
+   }
+   
+   @Override
+   protected void joinTransaction()
+   {
+      getSession().isOpen();
    }
    
    public Session getSession()
