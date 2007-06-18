@@ -13,6 +13,7 @@ import org.hibernate.Session;
 import org.hibernate.metadata.ClassMetadata;
 import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
@@ -57,10 +58,7 @@ public class HibernatePersistenceProvider extends PersistenceProvider
    @Override
    public Object getVersion(Object bean, EntityManager entityManager) 
    {
-      ClassMetadata classMetadata = getSession(entityManager).getSessionFactory()
-                  .getClassMetadata( bean.getClass() );
-      return classMetadata.isVersioned() ? 
-               classMetadata.getVersion(bean, EntityMode.POJO) : null;
+      return getVersion( bean, getSession(entityManager) );
    }
 
    @Override
@@ -90,6 +88,28 @@ public class HibernatePersistenceProvider extends PersistenceProvider
    private Session getSession(EntityManager entityManager)
    {
       return (Session) entityManager.getDelegate();
+   }
+
+   public static Object getVersion(Object value, Session session)
+   {
+      Class entityClass = Seam.getEntityClass( value.getClass() );
+      if (entityClass==null)
+      {
+         return null;
+      }
+      else
+      {
+         ClassMetadata classMetadata = session.getSessionFactory().getClassMetadata(entityClass);
+         if (classMetadata==null)
+         {
+            throw new IllegalArgumentException( 
+                     "Could not find ClassMetadata object for entity class: " + 
+                     entityClass.getName() 
+                  );
+         }
+         return classMetadata.isVersioned() ? 
+                  classMetadata.getVersion(value, EntityMode.POJO) : null;
+      }
    }
 
 }

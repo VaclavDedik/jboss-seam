@@ -5,12 +5,11 @@ import java.io.Serializable;
 import javax.persistence.EntityManager;
 import javax.persistence.OptimisticLockException;
 
-import org.hibernate.EntityMode;
 import org.hibernate.Session;
-import org.hibernate.metadata.ClassMetadata;
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
 import org.jboss.seam.core.PersistenceContexts;
+import org.jboss.seam.persistence.HibernatePersistenceProvider;
 import org.jboss.seam.persistence.PersistenceProvider;
 import org.jboss.seam.transaction.Transaction;
 
@@ -88,7 +87,7 @@ public class PassivatedEntity implements Serializable
                result = session.load( getEntityClass(), (Serializable) getId() );
                if (result!=null)
                {
-                  version = getVersion(result, session);
+                  version = HibernatePersistenceProvider.getVersion(result, session);
                }
             }
          }
@@ -145,7 +144,7 @@ public class PassivatedEntity implements Serializable
                if (managed)
                {
                   id = session.getIdentifier(value);
-                  version = getVersion(value, session);
+                  version = HibernatePersistenceProvider.getVersion(value, session);
                }
             }
             if (managed)
@@ -165,14 +164,6 @@ public class PassivatedEntity implements Serializable
       return null;
    }
 
-   private static Object getVersion(Object value, Session session)
-   {
-      ClassMetadata classMetadata = session.getSessionFactory()
-                  .getClassMetadata( value.getClass() );
-      return classMetadata.isVersioned() ? 
-               classMetadata.getVersion(value, EntityMode.POJO) : null;
-   }
-   
    public static boolean isTransactionRolledBackOrMarkedRollback()
    {
       try
