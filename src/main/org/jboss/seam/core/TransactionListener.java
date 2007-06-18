@@ -62,6 +62,7 @@ public class TransactionListener implements LocalTransactionListener, SessionSyn
    
    public void afterBegin() throws EJBException, RemoteException
    {
+      Events.instance().raiseEvent("org.jboss.seam.afterTransactionBegin");
    }
    
    public void scheduleEvent(String type, Object... parameters)
@@ -71,6 +72,7 @@ public class TransactionListener implements LocalTransactionListener, SessionSyn
 
    public void afterCompletion(boolean success) throws EJBException, RemoteException
    {
+      Events.instance().raiseEvent("org.jboss.seam.afterTransactionCompletion", success);
       try
       {
          if (success)
@@ -86,6 +88,7 @@ public class TransactionListener implements LocalTransactionListener, SessionSyn
 
    public void beforeCompletion() throws EJBException, RemoteException
    {
+      Events.instance().raiseEvent("org.jboss.seam.beforeTransactionCompletion");
    }
    
    @Remove @Destroy
