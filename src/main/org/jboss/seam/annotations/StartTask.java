@@ -53,6 +53,8 @@ public @interface StartTask
    /**
     * An EL expression for the conversation id. If a conversation with 
     * the same id aready exists, Seam will redirect to that conversation.
+    * 
+    * @deprecated use <conversation/> in pages.xml
     */
    String id() default "";
    /**

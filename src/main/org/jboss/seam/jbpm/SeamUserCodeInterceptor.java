@@ -3,6 +3,7 @@ package org.jboss.seam.jbpm;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.BusinessProcess;
+import org.jboss.seam.core.Jbpm;
 import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.graph.def.Action;
 import org.jbpm.graph.exe.ExecutionContext;
@@ -13,6 +14,14 @@ import org.jbpm.taskmgmt.def.TaskControllerHandler;
 import org.jbpm.taskmgmt.exe.Assignable;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
+/**
+ * Intercepts calls to user code coming from jBPM, sets up
+ * Seam contexts and associates the process and task instances
+ * with the contexts.
+ * 
+ * @author Gavin King
+ *
+ */
 public class SeamUserCodeInterceptor implements UserCodeInterceptor
 {
    abstract static class ContextualCall
@@ -58,15 +67,28 @@ public class SeamUserCodeInterceptor implements UserCodeInterceptor
 
    public void executeAction(final Action action, final ExecutionContext context) throws Exception
    {
-      new ContextualCall()
+      if ( isPageflow(context) )
       {
-         @Override
-         void process() throws Exception
+         action.execute(context);
+      }
+      else
+      {
+         new ContextualCall()
          {
-            initProcessAndTask(context);
-            action.execute(context);
-         }
-      }.run();
+            @Override
+            void process() throws Exception
+            {
+               initProcessAndTask(context);
+               action.execute(context);
+            }
+         }.run();
+      }
+   }
+
+   private boolean isPageflow(final ExecutionContext context)
+   {
+      return Contexts.isConversationContextActive() && 
+            Jbpm.instance().isPageflowProcessDefinition( context.getProcessDefinition().getName() );
    }
 
    public void executeAssignment(final AssignmentHandler handler, final Assignable assignable, 

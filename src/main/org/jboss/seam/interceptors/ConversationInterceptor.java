@@ -83,6 +83,7 @@ public class ConversationInterceptor extends AbstractInterceptor
             && clazz.getAnnotation(ApplicationException.class).end();
    }
    
+   @SuppressWarnings("deprecation")
    public boolean redirectToExistingConversation(Method method)
    {
       if ( !Manager.instance().isLongRunningConversation() )
@@ -111,7 +112,7 @@ public class ConversationInterceptor extends AbstractInterceptor
             }
             else
             {
-               return ce.switchConversation();
+               return ce.redirect();
             }
          }
       }

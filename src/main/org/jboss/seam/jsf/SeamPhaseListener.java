@@ -373,11 +373,11 @@ public class SeamPhaseListener implements PhaseListener
       {
          Pages.instance().redirectToNoConversationView();
       }
+      Manager.instance().handleConversationPropagation(parameters);
       if ( Init.instance().isJbpmInstalled() )
       {
          Pageflow.instance().validatePageflow();
       }
-      Manager.instance().handleConversationPropagation(parameters);
       
       if ( log.isDebugEnabled() )
       {
@@ -395,7 +395,7 @@ public class SeamPhaseListener implements PhaseListener
          Events.instance().raiseEvent("org.jboss.seam.beforePhase", event);
       }
       
-      if ( Contexts.isConversationContextActive() && Init.instance().isJbpmInstalled() && Pageflow.instance().isInProcess() )
+      /*if ( Contexts.isConversationContextActive() && Init.instance().isJbpmInstalled() && Pageflow.instance().isInProcess() )
       {
          String name;
          PhaseId phaseId = event.getPhaseId();
@@ -420,7 +420,7 @@ public class SeamPhaseListener implements PhaseListener
             return;
          }
          Pageflow.instance().processEvents(name);
-      }
+      }*/
    }
    
    public void raiseEventsAfterPhase(PhaseEvent event)

@@ -24,7 +24,6 @@ import org.jboss.seam.util.Work;
  * jBPM ProcessInstance.
  * 
  * @author Gavin King
- * @version $Revision$
  */
 @Scope(ScopeType.STATELESS)
 @Name("org.jboss.seam.core.processInstance")

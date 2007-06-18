@@ -11,8 +11,6 @@ import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseId;
 
-import org.jboss.seam.log.LogProvider;
-import org.jboss.seam.log.Logging;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
@@ -22,6 +20,8 @@ import org.jboss.seam.annotations.PerNestedConversation;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.pageflow.Page;
 import org.jboss.seam.pageflow.PageflowHelper;
 import org.jbpm.graph.def.Action;
@@ -58,11 +58,13 @@ public class Pageflow extends AbstractMutable implements Serializable
       return processInstance!=null;
    }
 
-   public ProcessInstance getProcessInstance() {
+   public ProcessInstance getProcessInstance() 
+   {
       return processInstance;
    }
 
-   public void setProcessInstance(ProcessInstance processInstance) {
+   public void setProcessInstance(ProcessInstance processInstance) 
+   {
       this.processInstance = processInstance;
       setDirty();
    }
@@ -187,7 +189,7 @@ public class Pageflow extends AbstractMutable implements Serializable
    public Page getPage() 
    {
       Node node = getNode();
-      if ( !(node instanceof Page) )
+      if ( node!=null && !(node instanceof Page) )
       {
          throw new IllegalStateException("pageflow is not currently at a <page> or <start-page> node (note that pageflows that begin during the RENDER_RESPONSE phase should use <start-page> instead of <start-state>)");
       }
@@ -250,7 +252,8 @@ public class Pageflow extends AbstractMutable implements Serializable
     */
    public String getPageViewId()
    {
-      return getViewId( getPage() );
+      Page page = getPage();
+      return page==null ? null : getViewId(page);
    }
 
    /**

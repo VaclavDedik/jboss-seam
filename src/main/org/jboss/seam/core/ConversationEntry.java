@@ -99,31 +99,23 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    
    public void select() 
    {
-      switchConversation();
+      redirect();
    }
-   
-   public boolean switchConversation()
+
+   public boolean redirect()
    {
-      boolean success = Manager.instance().switchConversation( getId() );
-      if (success)
-      {
-         String viewId = getViewId();
-         if (viewId!=null)
-         {
-            Manager.instance().redirect(viewId);
-            return true;
-         }
-         else
-         {
-            return false;
-         }
-      }
-      else
+      String viewId = getViewId();
+      if (viewId==null)
       {
          return false;
       }
+      else
+      {
+         Manager.instance().redirect( viewId, getId() );
+         return true;
+      }
    }
-   
+      
    void setViewId(String viewId) 
    {
       entries.setDirty(this.viewId, viewId);

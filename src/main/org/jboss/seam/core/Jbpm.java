@@ -137,6 +137,11 @@ public class Jbpm
       return pageflowProcessDefinitions.get(pageflowName);
    }
    
+   public boolean isPageflowProcessDefinition(String pageflowName)
+   {
+      return pageflowProcessDefinitions.containsKey(pageflowName);
+   }
+   
    public ProcessDefinition getPageflowDefinitionFromResource(String resourceName)
    {
       InputStream resource = Resources.getResourceAsStream(resourceName);

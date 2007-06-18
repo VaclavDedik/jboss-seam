@@ -759,6 +759,16 @@ public class Manager
       return encodeConversationIdParameter( url, cip.getParameterName(), cip.getParameterValue() );
    }
  
+   /**
+    * Add the conversation id to a URL, if necessary
+    */
+   public String encodeConversationId(String url, String viewId, String conversationId) 
+   {
+      //DONT BREAK, icefaces uses this
+      ConversationIdParameter cip = Pages.instance().getPage(viewId).getConversationIdParameter();
+      return encodeConversationIdParameter( url, cip.getParameterName(), conversationId );
+   }
+ 
    private String encodeConversationIdParameter(String url, String paramName, String paramValue)
    {
          
@@ -896,8 +906,8 @@ public class Manager
    }
    
    /**
-    * Redirect to the given view id, after encoding parameters and conversation id 
-    * into the request URL.
+    * Redirect to the given view id, after encoding parameters and conversation  
+    * id into the request URL.
     * 
     * @param viewId the JSF view id
     * @param parameters request parameters to be encoded (possibly null)
@@ -927,6 +937,26 @@ public class Manager
          beforeRedirect(viewId);
          url = encodeConversationId(url, viewId);
       }
+      redirect(viewId, context, url);
+   }
+   
+   /**
+    * Redirect to the given view id, after encoding the given conversation  
+    * id into the request URL.
+    * 
+    * @param viewId the JSF view id
+    * @param conversationId an id of a long-running conversation
+    */
+   public void redirect(String viewId, String conversationId)
+   {
+      FacesContext context = FacesContext.getCurrentInstance();
+      String url = context.getApplication().getViewHandler().getActionURL(context, viewId);
+      url = encodeConversationId(url, viewId, conversationId);
+      redirect(viewId, context, url);
+   }
+
+   private void redirect(String viewId, FacesContext context, String url)
+   {
       url = Pages.instance().encodeScheme(viewId, context, url);
       if ( log.isDebugEnabled() )
       {
@@ -946,7 +976,7 @@ public class Manager
       {
          controllingRedirect = false;
       }
-      context.responseComplete(); //work around MyFaces bug in 1.1.1
+      context.responseComplete();
    }
    
    /**

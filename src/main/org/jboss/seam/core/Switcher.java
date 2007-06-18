@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import org.jboss.seam.ScopeType;
@@ -19,7 +18,6 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.contexts.Lifecycle;
 
 /**
  * Support for the conversation switcher drop-down menu.
@@ -31,7 +29,9 @@ import org.jboss.seam.contexts.Lifecycle;
 @Name("org.jboss.seam.core.switcher")
 @Install(precedence=BUILT_IN)
 @Intercept(NEVER)
-public class Switcher implements Serializable {
+public class Switcher implements Serializable 
+{
+   
    private static final long serialVersionUID = -6403911073853051938L;
    private List<SelectItem> selectItems;
    private String conversationIdOrOutcome;
@@ -83,43 +83,37 @@ public class Switcher implements Serializable {
       }
    }
 
-   public String getConversationIdOrOutcome() {
+   public String getConversationIdOrOutcome() 
+   {
       return resultingConversationIdOrOutcome==null ? 
             getLongRunningConversationId() :
             resultingConversationIdOrOutcome;
    }
 
-   public void setConversationIdOrOutcome(String selectedId) {
+   public void setConversationIdOrOutcome(String selectedId) 
+   {
       this.conversationIdOrOutcome = selectedId;
    }
    
    public String select()
    {
-      Manager manager = Manager.instance();
       boolean isOutcome = conversationIdOrOutcome==null || !Character.isDigit( conversationIdOrOutcome.charAt(0) );
       String actualOutcome;
       if (isOutcome)
       {
-         manager.initializeTemporaryConversation();
          resultingConversationIdOrOutcome = conversationIdOrOutcome;
          actualOutcome = conversationIdOrOutcome;
       }
       else
       {
-         boolean success = manager.switchConversation(conversationIdOrOutcome);
-         if (success)
+         ConversationEntry ce = ConversationEntries.instance().getConversationEntry(conversationIdOrOutcome);
+         if (ce!=null)
          {
-            resultingConversationIdOrOutcome = manager.getCurrentConversationId();
-            
-            String viewId = manager.getCurrentConversationViewId();
-            if (viewId!=null)
-            {
-               Manager.instance().redirect(viewId);
-            }
+            resultingConversationIdOrOutcome = ce.getId();
+            ce.redirect();
          }
          actualOutcome = null;
       }
-      Lifecycle.resumeConversation( FacesContext.getCurrentInstance().getExternalContext() ); //TODO: remove, unnecessary
       return actualOutcome;
    }
   
