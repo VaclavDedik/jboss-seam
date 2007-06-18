@@ -10,7 +10,9 @@ import javax.transaction.Synchronization;
 import org.hibernate.EntityMode;
 import org.hibernate.FlushMode;
 import org.hibernate.Session;
+import org.hibernate.StaleStateException;
 import org.hibernate.metadata.ClassMetadata;
+import org.hibernate.type.VersionType;
 import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
@@ -60,6 +62,12 @@ public class HibernatePersistenceProvider extends PersistenceProvider
    {
       return getVersion( bean, getSession(entityManager) );
    }
+   
+   @Override
+   public void checkVersion(Object bean, EntityManager entityManager, Object oldVersion, Object version)
+   {
+      checkVersion(bean, getSession(entityManager), oldVersion, version);
+   }
 
    @Override
    public void enableFilter(Filter f, EntityManager entityManager)
@@ -90,16 +98,30 @@ public class HibernatePersistenceProvider extends PersistenceProvider
       return (Session) entityManager.getDelegate();
    }
 
+   public static void checkVersion(Object value, Session session, Object oldVersion, Object version)
+   {
+      ClassMetadata classMetadata = getClassMetadata(value, session);
+      VersionType versionType = (VersionType) classMetadata.getPropertyTypes()[ classMetadata.getVersionProperty() ];
+      if ( !versionType.isEqual(oldVersion, version) )
+      {
+         throw new StaleStateException("current database version number does not match passivated version number");
+      }
+   }
+
    public static Object getVersion(Object value, Session session)
    {
+      ClassMetadata classMetadata = getClassMetadata(value, session);
+      return classMetadata!=null && classMetadata.isVersioned() ? 
+               classMetadata.getVersion(value, EntityMode.POJO) : null;
+   }
+
+   private static ClassMetadata getClassMetadata(Object value, Session session)
+   {
       Class entityClass = Seam.getEntityClass( value.getClass() );
-      if (entityClass==null)
+      ClassMetadata classMetadata = null;
+      if (entityClass!=null)
       {
-         return null;
-      }
-      else
-      {
-         ClassMetadata classMetadata = session.getSessionFactory().getClassMetadata(entityClass);
+         classMetadata = session.getSessionFactory().getClassMetadata(entityClass);
          if (classMetadata==null)
          {
             throw new IllegalArgumentException( 
@@ -107,9 +129,8 @@ public class HibernatePersistenceProvider extends PersistenceProvider
                      entityClass.getName() 
                   );
          }
-         return classMetadata.isVersioned() ? 
-                  classMetadata.getVersion(value, EntityMode.POJO) : null;
       }
+      return classMetadata;
    }
 
 }

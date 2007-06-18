@@ -3,7 +3,6 @@ package org.jboss.seam.contexts;
 import java.io.Serializable;
 
 import javax.persistence.EntityManager;
-import javax.persistence.OptimisticLockException;
 
 import org.hibernate.Session;
 import org.jboss.seam.Component;
@@ -64,38 +63,59 @@ public class PassivatedEntity implements Serializable
       }
       else
       {
-         Object result = null;
-         Object version = null;
          if (persistenceContext instanceof EntityManager)
          {
-            EntityManager em = (EntityManager) persistenceContext;
-            if ( em.isOpen() )
-            {
-               result = em.getReference( getEntityClass(), getId() );
-               if (result!=null)
-               {
-                  version = PersistenceProvider.instance().getVersion(result, em);
-               }
-            }
+            return getEntityFromEntityManager(persistenceContext);
          }
          else
          {
-            //TODO: split this out to somewhere to isolate the Hibernate dependency!!
-            Session session = (Session) persistenceContext;
-            if ( session.isOpen() )
+            return getEntityFromHibernate(persistenceContext);
+         }
+      }
+   }
+
+   private Object getEntityFromHibernate(Object persistenceContext)
+   {
+      //TODO: split this out to somewhere to isolate the Hibernate dependency!!
+      Session session = (Session) persistenceContext;
+      if ( session.isOpen() )
+      {
+         Object result = session.load( getEntityClass(), (Serializable) getId() );
+         if (result!=null)
+         {
+            Object version = HibernatePersistenceProvider.getVersion(result, session);
+            if (version!=null) 
             {
-               result = session.load( getEntityClass(), (Serializable) getId() );
-               if (result!=null)
-               {
-                  version = HibernatePersistenceProvider.getVersion(result, session);
-               }
+               HibernatePersistenceProvider.checkVersion(result, session, this.version, version);
             }
          }
-         if ( result!=null && this.version!=null && !this.version.equals(version) )
+         return result;
+      }
+      else
+      {
+         return null;
+      }
+   }
+
+   private Object getEntityFromEntityManager(Object persistenceContext)
+   {
+      EntityManager em = (EntityManager) persistenceContext;
+      if ( em.isOpen() )
+      {
+         Object result = em.getReference( getEntityClass(), getId() );
+         if (result!=null)
          {
-            throw new OptimisticLockException("current database version number does not match passivated version number");
+            Object version = PersistenceProvider.instance().getVersion(result, em);
+            if (version!=null) 
+            {
+               PersistenceProvider.instance().checkVersion(result, em, this.version, version);
+            }
          }
          return result;
+      }
+      else
+      {
+         return null;
       }
    }
 
@@ -107,61 +127,93 @@ public class PassivatedEntity implements Serializable
          for ( String persistenceContextName: PersistenceContexts.instance().getTouchedContexts() )
          {
             Object persistenceContext = Component.getInstance(persistenceContextName);
-            boolean managed;
-            Object id = null;
-            Object version = null;
+            PassivatedEntity result;
             if (persistenceContext instanceof EntityManager)
             {
-               EntityManager em = (EntityManager) persistenceContext;
-               try
-               {
-                  managed = em.isOpen() && em.contains(value);
-               }
-               catch (RuntimeException re) 
-               {
-                  //workaround for bug in HEM! //TODO; deleteme
-                  managed = false;
-               }
-               if (managed)
-               {
-                  id = PersistenceProvider.instance().getId(value, em);
-                  version = PersistenceProvider.instance().getVersion(value, em);
-               }
+               result = createUsingEntityManager(value, entityClass, persistenceContextName, persistenceContext);
             }
             else
             {
-               //TODO: split this out to somewhere to isolate the Hibernate dependency!!
-               Session session = (Session) persistenceContext;
-               try
-               {
-                  managed = session.isOpen() && session.contains(value);
-               }
-               catch (RuntimeException re) 
-               {
-                  //just in case! //TODO; deleteme
-                  managed = false;
-               }
-               if (managed)
-               {
-                  id = session.getIdentifier(value);
-                  version = HibernatePersistenceProvider.getVersion(value, session);
-               }
+               result = createUsingHibernate(value, entityClass, persistenceContextName, persistenceContext);
             }
-            if (managed)
-            {
-               if (id==null)
-               {
-                  //this can happen if persist() fails in Hibernate
-                  return null;
-               }
-               else
-               {
-                  return new PassivatedEntity(id, version, entityClass, persistenceContextName);
-               }
-            }
+            if (result!=null) return result;
          }
       }
       return null;
+   }
+
+   private static PassivatedEntity createUsingHibernate(Object value, Class entityClass, String persistenceContextName, Object persistenceContext)
+   {
+      //TODO: split this out to somewhere to isolate the Hibernate dependency!!
+      Session session = (Session) persistenceContext;
+      if ( isManaged(value, session) )
+      {
+         Object id = session.getIdentifier(value);
+         Object version = HibernatePersistenceProvider.getVersion(value, session);
+         return create(entityClass, persistenceContextName, id, version);
+      }
+      else
+      {
+         return null;
+      }
+   }
+
+   private static boolean isManaged(Object value, Session session)
+   {
+      boolean managed;
+      try
+      {
+         managed = session.isOpen() && session.contains(value);
+      }
+      catch (RuntimeException re) 
+      {
+         //just in case! //TODO; deleteme
+         managed = false;
+      }
+      return managed;
+   }
+
+   private static PassivatedEntity createUsingEntityManager(Object value, Class entityClass, String persistenceContextName, Object persistenceContext)
+   {
+      EntityManager em = (EntityManager) persistenceContext;
+      if ( isManaged(value, em) )
+      {
+         Object id = PersistenceProvider.instance().getId(value, em);
+         Object version = PersistenceProvider.instance().getVersion(value, em);
+         return create(entityClass, persistenceContextName, id, version);
+      }
+      else
+      {
+         return null;
+      }
+   }
+
+   private static boolean isManaged(Object value, EntityManager em)
+   {
+      boolean managed;
+      try
+      {
+         managed = em.isOpen() && em.contains(value);
+      }
+      catch (RuntimeException re) 
+      {
+         //workaround for bug in HEM! //TODO; deleteme
+         managed = false;
+      }
+      return managed;
+   }
+
+   private static PassivatedEntity create(Class entityClass, String persistenceContextName, Object id, Object version)
+   {
+      if (id==null)
+      {
+         //this can happen if persist() fails in Hibernate
+         return null;
+      }
+      else
+      {
+         return new PassivatedEntity(id, version, entityClass, persistenceContextName);
+      }
    }
 
    public static boolean isTransactionRolledBackOrMarkedRollback()

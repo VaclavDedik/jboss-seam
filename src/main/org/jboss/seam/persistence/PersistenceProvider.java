@@ -2,7 +2,10 @@ package org.jboss.seam.persistence;
 
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
+import java.util.Date;
+
 import javax.persistence.EntityManager;
+import javax.persistence.OptimisticLockException;
 import javax.transaction.Synchronization;
 
 import org.jboss.seam.Component;
@@ -74,6 +77,23 @@ public class PersistenceProvider
       return Entity.forClass( bean.getClass() ).getVersion(bean);
    }
    
+   public void checkVersion(Object bean, EntityManager entityManager, Object oldVersion, Object version)
+   {
+      boolean equal;
+      if (oldVersion instanceof Date)
+      {
+         equal = ( (Date) oldVersion ).getTime() == ( (Date) version ).getTime();
+      }
+      else
+      {
+         equal = oldVersion.equals(version);
+      }
+      if ( !equal )
+      {
+         throw new OptimisticLockException("current database version number does not match passivated version number");
+      }
+   }
+
    /**
     * Enable a Filter. This is here just especially for Hibernate,
     * since we well know that other products don't have such cool
