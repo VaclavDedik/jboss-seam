@@ -78,13 +78,12 @@
                     <literal>@Intercept</literal>
                 </term>
                 <listitem>
-                    <programlisting><![CDATA[@Intercept(InterceptionType.ALWAYS)]]></programlisting>
+                    <programlisting><![CDATA[@Intercept(InterceptionType.NEVER)]]></programlisting>
                     <para> Determines when Seam interceptors are active. The possible values are defined by the
                             <literal>InterceptionType</literal> enumeration: <literal>ALWAYS, AFTER_RESTORE_VIEW,
                             AFTER_UPDATE_MODEL_VALUES, INVOKE_APPLICATION, NEVER</literal>. </para>
-                    <para> When no interception type is explicitly specified, the default depends upon the component
-                        type. For entity beans, the default is <literal>NEVER</literal>. For session beans, message
-                        driven beans and JavaBeans, the default is <literal>ALWAYS</literal>. </para>
+                    <para> The default interception type for session beans, message
+                        driven beans and JavaBeans is <literal>ALWAYS</literal>. </para>
                 </listitem>
             </varlistentry>
             <varlistentry id="jndiname-annotation">
@@ -103,10 +102,9 @@
                     <literal>@Conversational</literal>
                 </term>
                 <listitem>
-                    <programlisting><![CDATA[@Conversational(ifNotBegunOutcome="error")]]></programlisting>
+                    <programlisting><![CDATA[@Conversational]]></programlisting>
                     <para> Specifies that a conversation scope component is conversational, meaning that no method of
-                        the component can be called unless a long-running conversation started by this component is
-                        active (unless the method would begin a new long-running conversation). </para>
+                        the component may be called unless a long-running conversation is active. </para>
                 </listitem>
             </varlistentry>
             <varlistentry id="startup-annotation">
@@ -114,11 +112,11 @@
                     <literal>@Startup</literal>
                 </term>
                 <listitem>
-                    <programlisting><![CDATA[@Startup(depends={"org.jboss.core.jndi", "org.jboss.core.jta"})]]></programlisting>
+                    <programlisting><![CDATA[@Scope(APPLICATION) @Startup(depends={"org.jboss.core.jndi", "org.jboss.core.jta"})]]></programlisting>
                     <para> Specifies that an application scope component is started immediately at initialization time.
                         This is mainly used for certain built-in components that bootstrap critical infrastructure such
                         as JNDI, datasources, etc. </para>
-                    <programlisting><![CDATA[@Startup]]></programlisting>
+                    <programlisting><![CDATA[@Scope(SESSION) @Startup]]></programlisting>
                     <para> Specifies that a session scope component is started immediately at session creation time. </para>
                     <itemizedlist>
                         <listitem>
@@ -335,11 +333,11 @@
                     <literal>@Factory</literal>
                 </term>
                 <listitem>
-                    <programlisting><![CDATA[@Factory("processInstance")]]></programlisting>
+                    <programlisting><![CDATA[@Factory("processInstance") public void createProcessInstance() { ... }]]></programlisting>
                     <para> Specifies that the method of the component is used to initialize the value of the named
                         context variable, when the context variable has no value. This style is used with methods that
                         return <literal>void</literal>. </para>
-                    <programlisting><![CDATA[@Factory("processInstance", scope=CONVERSATION)]]></programlisting>
+                    <programlisting><![CDATA[@Factory("processInstance", scope=CONVERSATION) public ProcessInstance createProcessInstance() { ... }]]></programlisting>
                     <para> Specifies that the method returns a value that Seam should use to initialize the value of the
                         named context variable, when the context variable has no value. This style is used with methods
                         that return a value. If no scope is explicitly specified, the scope of the component with the
@@ -432,7 +430,7 @@
                 <listitem>
                     <programlisting><![CDATA[@Destroy]]></programlisting>
                     <para> Specifies that the method should be called when the context ends and its context variables
-                        are destroyed. Note that create methods are only supported for JavaBeans and stateful session
+                        are destroyed. Note that destroy methods are only supported for JavaBeans and stateful session
                         beans. </para>
                     <para> Destroy methods should be used only for cleanup. <emphasis>Seam catches, logs and swallows
                             any exception that propagates out of a destroy method.</emphasis>
