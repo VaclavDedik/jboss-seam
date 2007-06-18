@@ -792,22 +792,25 @@ public class LoginAction implements Login {
         
         <para> 
             Session bean and entity bean Seam components support all the usual EJB 3.0 lifecycle callback
-            (<literal>@PostConstruct</literal>, <literal>@PreDestroy</literal>, etc). Seam extends all of these
-            callbacks except <literal>@PreDestroy</literal> to JavaBean components. But Seam also defines its own
-            component lifecycle callbacks. 
+            (<literal>@PostConstruct</literal>, <literal>@PreDestroy</literal>, etc). But Seam also supports 
+            the use of any of these callbacks with JavaBean components. However, since these annotations are
+            not available in a J2EE environment, Seam defines two additional component lifecycle callbacks,
+            equivalent to <literal>@PostConstruct</literal> and <literal>@PreDestroy</literal>.
         </para>
         
         <para> 
-            The <literal>@Create</literal> method is called every time Seam instantiates a component. Unlike the
-            <literal>@PostConstruct</literal> method, this method is called after the component is fully constructed
-            by the EJB container, and has access to all the usual Seam functionality (bijection, etc). Components may
-            define only one <literal>@Create</literal> method. 
+            The <literal>@Create</literal> method is called after Seam instantiates a component. 
+            Components may define only one <literal>@Create</literal> method. 
         </para>
         
         <para> 
             The <literal>@Destroy</literal> method is called when the context that the Seam component is bound to
-            ends. Components may define only one <literal>@Destroy</literal> method. Stateful session bean components
-            <emphasis>must</emphasis> define a method annotated <literal>@Destroy @Remove</literal>. 
+            ends. Components may define only one <literal>@Destroy</literal> method.
+        </para>
+        
+        <para>
+            In addition, stateful session bean components <emphasis>must</emphasis> define a method with no parameters 
+            annotated <literal>@Remove</literal>. This method is called by Seam when the context ends.
         </para>
         
         <para> 

@@ -892,7 +892,7 @@ public class MessageManagerBean implements Serializable, MessageManager
       message=null;
    }
    
-   @Remove @Destroy
+   @Remove
    public void destroy() {}
 
 }]]></programlisting>
@@ -940,8 +940,8 @@ public class MessageManagerBean implements Serializable, MessageManager
                             </callout>
                             <callout arearefs="messages-remove">
                                 <para> All stateful session bean Seam components <emphasis>must</emphasis> have a method
-                                    marked <literal>@Remove @Destroy</literal> to ensure that Seam will remove the
-                                    stateful bean when the Seam context ends, and clean up any server-side state.
+                                    with no parameters marked <literal>@Remove</literal> that Seam uses to remove 
+                                    the stateful bean when the Seam context ends, and clean up any server-side state.
                                 </para>
                             </callout>
                         </calloutlist>
@@ -2057,7 +2057,7 @@ public class HotelSearchingAction implements HotelSearching
       this.searchString = searchString;
    }
    
-   @Destroy @Remove
+   @Remove
    public void destroy() {}
 }]]></programlisting>
                     <calloutlist>
@@ -2083,15 +2083,9 @@ public class HotelSearchingAction implements HotelSearching
                         <callout arearefs="booking-destroy-annotation">
                             <para> The EJB standard <literal>@Remove</literal> annotation specifies that a stateful
                                 session bean should be removed and its state destroyed after invocation of the annotated
-                                method. In Seam, all stateful session beans should define a method marked
-                                    <literal>@Destroy @Remove</literal>. This is the EJB remove method that will be
-                                called when Seam destroys the session context. Actually, the <link
-                                    linkend="destroy-annotation">
-                                    <literal>@Destroy</literal>
-                                </link> annotation is of more general usefulness, since it can be used for any kind of
-                                cleanup that should happen when any Seam context ends. If you don't have an
-                                    <literal>@Destroy @Remove</literal> method, state will leak and you will suffer
-                                performance problems. </para>
+                                method. In Seam, all stateful session beans must define a method with no parameters marked
+                                    <literal>@Remove</literal>. This method will be
+                                called when Seam destroys the session context.</para>
                         </callout>
                     </calloutlist>
                 </programlistingco>
@@ -2307,7 +2301,7 @@ public class HotelBookingAction implements HotelBooking
    @End
    public void cancel() {}
    
-   @Destroy @Remove
+   @Remove
    public void destroy() {}
 ]]></programlisting>
                     <calloutlist>
@@ -2342,7 +2336,7 @@ public class HotelBookingAction implements HotelBooking
                         </callout>
                         <callout arearefs="booking-dest-annotation">
                             <para> This EJB remove method will be called when Seam destroys the conversation context.
-                                Don't ever forget to define this method! </para>
+                                Don't forget to define this method! </para>
                         </callout>
                     </calloutlist>
                 </programlistingco>

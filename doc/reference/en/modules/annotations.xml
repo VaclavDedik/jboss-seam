@@ -424,9 +424,6 @@
                     <para> Specifies that the method should be called when the context ends and its context variables
                         are destroyed. Note that create methods are only supported for JavaBeans and stateful session
                         beans. </para>
-                    <para> Note that all stateful session bean components <emphasis>must</emphasis> define a method
-                        annotated <literal>@Destroy @Remove</literal> in order to guarantee destruction of the stateful
-                        bean when a context ends. </para>
                     <para> Destroy methods should be used only for cleanup. <emphasis>Seam catches, logs and swallows
                             any exception that propagates out of a destroy method.</emphasis>
                     </para>
