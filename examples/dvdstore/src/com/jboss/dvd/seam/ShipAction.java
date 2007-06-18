@@ -10,19 +10,14 @@ import java.io.Serializable;
 
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
-import org.jboss.seam.Component;
-import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.BeginTask;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.EndTask;
+import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Out;
 
 @Stateful
 @Name("ship")
@@ -31,11 +26,8 @@ public class ShipAction
                Serializable
 {
     private static final long serialVersionUID = -5284603520443473953L;
-
-    @PersistenceContext(type=PersistenceContextType.EXTENDED)
-    EntityManager em;
     
-    @Out(required=false, scope=ScopeType.CONVERSATION)
+    @In 
     Order order;
     
     String track;
@@ -45,20 +37,19 @@ public class ShipAction
     public String getTrack() {
         return track;
     }
+    
     public void setTrack(String track) {
         this.track=track;
     }
 
     @BeginTask
-    public String viewTask() {          
-        order = (Order) Component.getInstance("workingOrder");
+    public String viewTask() {
         return "ship";
     }
     
     @EndTask
     public String ship() {        
         order.ship(track);
-        
         return "admin";
     }
 

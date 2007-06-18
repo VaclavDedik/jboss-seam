@@ -14,13 +14,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
-import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.BeginTask;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.EndTask;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Out;
 
 
 @Stateful
@@ -35,7 +33,7 @@ public class AcceptAction
     @PersistenceContext(type=PersistenceContextType.EXTENDED)
     EntityManager em;
 
-    @Out(scope=ScopeType.CONVERSATION)
+    @In
     Order order;
 
     @In
@@ -43,9 +41,6 @@ public class AcceptAction
 
     @BeginTask
     public String viewTask() {
-        order = (Order) em.createQuery("select distinct o from Order o join fetch o.orderLines where o.orderId = :orderId")
-            .setParameter("orderId", orderId)
-            .getSingleResult();
         return "accept";
     }
 

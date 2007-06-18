@@ -17,7 +17,6 @@ import javax.persistence.PersistenceContextType;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Begin;
-import org.jboss.seam.annotations.CreateProcess;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.Factory;
@@ -27,8 +26,6 @@ import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.ResumeProcess;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
-import org.jboss.seam.core.ManagedJbpmContext;
-import org.jbpm.JbpmContext;
 import org.jbpm.graph.exe.ProcessInstance;
 
 import com.jboss.dvd.seam.Order.Status;
