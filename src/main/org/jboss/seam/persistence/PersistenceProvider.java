@@ -33,26 +33,50 @@ import org.jboss.seam.core.ManagedPersistenceContext;
 public class PersistenceProvider
 {
 
+   /**
+    *  Set the flush mode to manual-only flushing. Called when
+    *  an atomic persistence context is required.
+    */
    public void setFlushModeManual(EntityManager entityManager)
    {
       throw new UnsupportedOperationException("For use of FlushMode.MANUAL, please use Hibernate as the persistence provider or use a custom PersistenceProvider");
    }
 
+   /**
+    * Does the persistence context have unflushed changes? If
+    * it does not, persistence context replication can be
+    * optimized.
+    * 
+    * @return true to indicate that there are unflushed changes
+    */
    public boolean isDirty(EntityManager entityManager)
    {
       return true; //best we can do!
    }
    
+   /**
+    * Get the value of the entity identifier attribute.
+    * 
+    * @param bean a managed entity instance
+    */
    public Object getId(Object bean, EntityManager entityManager)
    {
       return Entity.forClass( bean.getClass() ).getIdentifier(bean);
    }
    
+   /**
+    * Enable a Filter. This is here just especially for Hibernate,
+    * since we well know that other products don't have such cool
+    * features. 
+    */
    public void enableFilter(Filter f, EntityManager entityManager)
    {
       throw new UnsupportedOperationException("For filters, please use Hibernate as the persistence provider");
    }
    
+   /**
+    * Register a Synchronization with the current transaction.
+    */
    public boolean registerSynchronization(Synchronization sync, EntityManager entityManager)
    {
       return false; //best we can do!
@@ -63,6 +87,13 @@ public class PersistenceProvider
       return (PersistenceProvider) Component.getInstance(PersistenceProvider.class, ScopeType.STATELESS);
    }
 
+   /**
+    * What flush policy should we use during the render response phase?
+    * We should not be changing data during the render, so we can 
+    * optimize performance by choosing not to flush.
+    * 
+    * @return COMMIT or MANUAL
+    */
    public FlushModeType getRenderFlushMode()
    {
       return FlushModeType.COMMIT;
