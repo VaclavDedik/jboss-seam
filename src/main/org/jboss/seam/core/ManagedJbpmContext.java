@@ -77,7 +77,6 @@ public class ManagedJbpmContext implements Synchronization
       if ( !synchronizationRegistered && !Lifecycle.isDestroying() && Transaction.instance().isActive() )
       {
          jbpmContext.getSession().getTransaction().registerSynchronization(this);
-         //Transactions.registerSynchronization(this);
          synchronizationRegistered = true;
       }
       return jbpmContext;
@@ -120,16 +119,16 @@ public class ManagedJbpmContext implements Synchronization
    @Destroy
    public void destroy()
    {
-      //in requests that come through SeamPhaseListener,
-      //there can be multiple transactions per request,
-      //but they are all completed by the time contexts
-      //are dstroyed
-      //so wait until the end of the request to close
-      //the session
-      //on the other hand, if we are still waiting for
-      //the transaction to commit, leave it open
       if ( !synchronizationRegistered )
       {
+         //in requests that come through SeamPhaseListener,
+         //there can be multiple transactions per request,
+         //but they are all completed by the time contexts
+         //are dstroyed
+         //so wait until the end of the request to close
+         //the session
+         //on the other hand, if we are still waiting for
+         //the transaction to commit, leave it open
          closeContext();
       }
    }

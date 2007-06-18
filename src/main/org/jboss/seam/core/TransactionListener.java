@@ -2,6 +2,7 @@ package org.jboss.seam.core;
 
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
+import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,14 +11,18 @@ import javax.ejb.EJBException;
 import javax.ejb.Remove;
 import javax.ejb.SessionSynchronization;
 import javax.ejb.Stateful;
+import javax.transaction.Status;
+import javax.transaction.Synchronization;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Install;
+import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.log.Log;
 
 /**
  * Temporary solution for getting JTA transaction lifecycle
@@ -33,7 +38,9 @@ import org.jboss.seam.contexts.Contexts;
 @Install(value=false, precedence=BUILT_IN)
 public class TransactionListener implements LocalTransactionListener, SessionSynchronization
 {
-   static class Event
+   private static @Logger Log log;
+   
+   static class Event implements Serializable
    {
       private String type;
       private Object[] parameters;
@@ -50,6 +57,7 @@ public class TransactionListener implements LocalTransactionListener, SessionSyn
    }
 
    private List<Event> events = new ArrayList<Event>();
+   private List<Synchronization> synchronizations = new ArrayList<Synchronization>();
    
    public static LocalTransactionListener instance()
    {
@@ -60,28 +68,46 @@ public class TransactionListener implements LocalTransactionListener, SessionSyn
       return (LocalTransactionListener) Component.getInstance(TransactionListener.class, ScopeType.EVENT);         
    }
    
-   public void afterBegin() throws EJBException, RemoteException
-   {
-      Events.instance().raiseEvent("org.jboss.seam.afterTransactionBegin");
-   }
+   public void afterBegin() throws EJBException, RemoteException {}
    
    public void scheduleEvent(String type, Object... parameters)
    {
       events.add( new Event(type, parameters) );
    }
+   
+   public void registerSynchronization(Synchronization sync)
+   {
+      synchronizations.add(sync);
+   }
 
    public void afterCompletion(boolean success) throws EJBException, RemoteException
    {
       Events.instance().raiseEvent("org.jboss.seam.afterTransactionCompletion", success);
-      try
+      for (Synchronization sync: synchronizations)
       {
-         if (success)
+         try
          {
-            for (Event event: events) event.call();
+            sync.afterCompletion(success ? Status.STATUS_COMMITTED : Status.STATUS_ROLLEDBACK);
+         }
+         catch (Exception e)
+         {
+            log.error("Exception processing transaction Synchronization after completion", e);
          }
       }
-      finally
+      synchronizations.clear();
+      if (success)
       {
+         for (Event event: events)
+         {
+            try
+            {
+               event.call();
+            }
+            catch (Exception e)
+            {
+               log.error("Exception processing transaction success event", e);
+            }
+         }
          events.clear();
       }
    }
@@ -89,6 +115,17 @@ public class TransactionListener implements LocalTransactionListener, SessionSyn
    public void beforeCompletion() throws EJBException, RemoteException
    {
       Events.instance().raiseEvent("org.jboss.seam.beforeTransactionCompletion");
+      for (Synchronization sync: synchronizations)
+      {
+         try
+         {
+            sync.beforeCompletion();
+         }
+         catch (Exception e)
+         {
+            log.error("Exception processing transaction Synchronization before completion", e);
+         }
+      }
    }
    
    @Remove @Destroy

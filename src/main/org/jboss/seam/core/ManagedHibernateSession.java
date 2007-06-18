@@ -11,6 +11,8 @@ import java.util.Map;
 import javax.naming.NamingException;
 import javax.servlet.http.HttpSessionActivationListener;
 import javax.servlet.http.HttpSessionEvent;
+import javax.transaction.Synchronization;
+import javax.transaction.SystemException;
 
 import org.hibernate.FlushMode;
 import org.hibernate.Session;
@@ -23,11 +25,13 @@ import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.persistence.HibernateSessionProxy;
+import org.jboss.seam.transaction.Transaction;
 import org.jboss.seam.util.Naming;
 
 /**
@@ -40,7 +44,7 @@ import org.jboss.seam.util.Naming;
 @Scope(ScopeType.CONVERSATION)
 @Intercept(NEVER)
 public class ManagedHibernateSession 
-   implements Serializable, HttpSessionActivationListener, Mutable, PersistenceContextManager
+   implements Serializable, HttpSessionActivationListener, Mutable, PersistenceContextManager, Synchronization
 {
    
    /** The serialVersionUID */
@@ -53,6 +57,8 @@ public class ManagedHibernateSession
    private String componentName;
    private ValueExpression<SessionFactory> sessionFactory;
    private List<Filter> filters = new ArrayList<Filter>(0);
+   
+   private transient boolean synchronizationRegistered;
    
    public boolean clearDirty()
    {
@@ -101,13 +107,19 @@ public class ManagedHibernateSession
    }
    
    @Unwrap
-   public Session getSession()
+   public Session getSession() throws SystemException
    {
       if (session==null) initSession();
       
       //join the transaction
-      if ( !Lifecycle.isDestroying() ) 
+      if ( !synchronizationRegistered && !Lifecycle.isDestroying() && Transaction.instance().isActive() )
       {
+         LocalTransactionListener transactionListener = TransactionListener.instance();
+         if (transactionListener!=null)
+         {
+            transactionListener.registerSynchronization(this);
+            synchronizationRegistered = true;
+         }
          session.isOpen();
       }
       
@@ -130,6 +142,40 @@ public class ManagedHibernateSession
    @Destroy
    public void destroy()
    {
+      if ( !synchronizationRegistered )
+      {
+         //in requests that come through SeamPhaseListener,
+         //there can be multiple transactions per request,
+         //but they are all completed by the time contexts
+         //are destroyed
+         //so wait until the end of the request to close
+         //the session
+         //on the other hand, if we are still waiting for
+         //the transaction to commit, leave it open
+         close();
+      }
+      PersistenceContexts.instance().untouch(componentName);
+   }
+
+   public void afterCompletion(int status)
+   {
+      synchronizationRegistered = false;
+      if ( !Contexts.isConversationContextActive() )
+      {
+         //in calls to MDBs and remote calls to SBs, the 
+         //transaction doesn't commit until after contexts
+         //are destroyed, so wait until the transaction
+         //completes before closing the session
+         //on the other hand, if we still have an active
+         //conversation context, leave it open
+         close();
+      }
+   }
+   
+   public void beforeCompletion() {}
+   
+   private void close()
+   {
       if ( log.isDebugEnabled() )
       {
          log.debug("destroying seam managed session for session factory: " + sessionFactoryJndiName);
@@ -138,8 +184,6 @@ public class ManagedHibernateSession
       {
          session.close();
       }
-      
-      PersistenceContexts.instance().untouch(componentName);
    }
    
    private SessionFactory getSessionFactoryFromJndiOrValueBinding()

@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.http.HttpSessionActivationListener;
 import javax.servlet.http.HttpSessionEvent;
+import javax.transaction.Synchronization;
 import javax.transaction.SystemException;
 
 import org.jboss.seam.Component;
@@ -44,7 +45,7 @@ import org.jboss.seam.util.Naming;
 @Intercept(NEVER)
 @Install(false)
 public class ManagedPersistenceContext 
-   implements Serializable, HttpSessionActivationListener, Mutable, PersistenceContextManager
+   implements Serializable, HttpSessionActivationListener, Mutable, PersistenceContextManager, Synchronization
 {
    private static final long serialVersionUID = -4972387440275848126L;
    private static final LogProvider log = Logging.getLogProvider(ManagedPersistenceContext.class);
@@ -54,6 +55,8 @@ public class ManagedPersistenceContext
    private String componentName;
    private ValueExpression<EntityManagerFactory> entityManagerFactory;
    private List<Filter> filters = new ArrayList<Filter>(0);
+   
+   private transient boolean synchronizationRegistered;
   
    public boolean clearDirty()
    {
@@ -105,8 +108,14 @@ public class ManagedPersistenceContext
       if (entityManager==null) initEntityManager();
       
       //join the transaction
-      if ( !Lifecycle.isDestroying() && Transaction.instance().isActive() )
+      if ( !synchronizationRegistered && !Lifecycle.isDestroying() && Transaction.instance().isActive() )
       {
+         LocalTransactionListener transactionListener = TransactionListener.instance();
+         if (transactionListener!=null)
+         {
+            transactionListener.registerSynchronization(this);
+            synchronizationRegistered = true;
+         }
          entityManager.joinTransaction();
       }
       
@@ -141,6 +150,40 @@ public class ManagedPersistenceContext
    @Destroy
    public void destroy()
    {
+      if ( !synchronizationRegistered )
+      {
+         //in requests that come through SeamPhaseListener,
+         //there can be multiple transactions per request,
+         //but they are all completed by the time contexts
+         //are destroyed
+         //so wait until the end of the request to close
+         //the session
+         //on the other hand, if we are still waiting for
+         //the transaction to commit, leave it open
+         close();
+      }
+      PersistenceContexts.instance().untouch(componentName);
+   }
+
+   public void afterCompletion(int status)
+   {
+      synchronizationRegistered = false;
+      if ( !Contexts.isConversationContextActive() )
+      {
+         //in calls to MDBs and remote calls to SBs, the 
+         //transaction doesn't commit until after contexts
+         //are destroyed, so wait until the transaction
+         //completes before closing the session
+         //on the other hand, if we still have an active
+         //conversation context, leave it open
+         close();
+      }
+   }
+   
+   public void beforeCompletion() {}
+   
+   private void close()
+   {
       if ( log.isDebugEnabled() )
       {
          log.debug("destroying seam managed persistence context for persistence unit: " + persistenceUnitJndiName);
@@ -150,8 +193,6 @@ public class ManagedPersistenceContext
       {
          entityManager.close();
       }
-      
-      PersistenceContexts.instance().untouch(componentName);
    }
    
    public EntityManagerFactory getEntityManagerFactoryFromJndiOrValueBinding()
@@ -205,7 +246,8 @@ public class ManagedPersistenceContext
       this.persistenceUnitJndiName = persistenceUnitName;
    }
    
-   public String getComponentName() {
+   public String getComponentName() 
+   {
       return componentName;
    }
    
@@ -245,7 +287,6 @@ public class ManagedPersistenceContext
             break;
       }
    }
-   
    @Override
    public String toString()
    {
