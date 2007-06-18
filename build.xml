@@ -169,7 +169,6 @@
 
 	<zipfileset id="example.ajax4jsf.jar" dir="${lib.dir}" prefix="WEB-INF/lib" description="the Ajax4JSF jar">
 		<include name="ajax4jsf*.jar" if="example.ajax4jsf.lib" />
-		<include name="oscache*.jar" if="example.ajax4jsf.lib" />
 		<include name="commons*.jar" if="example.ajax4jsf.lib" />
 	</zipfileset>
 	
@@ -184,7 +183,7 @@
 
 	<zipfileset id="example.extra.jar" dir="${lib.dir}" description="extra jars for the EAR">
                 <!-- <include name="el-*.jar" /> -->
-                <include name="jboss-el.jar" />
+        <include name="jboss-el.jar" />
 		<include name="jbpm*.jar" if="example.jbpm.lib" />
 		<include name="jboss-cache-jdk50.jar" if="example.cache.lib" />
 		<include name="jboss-aop-jdk50.jar" if="example.cache.lib" />
@@ -302,6 +301,7 @@
 		<exclude name="jgroups*.jar" />
 		<exclude name="jbpm*.jar" />
 		<exclude name="jsp-api.jar" />
+		<exclude name="jboss-el-api.jar" />
 		<exclude name="servlet-api.jar" />
 		<exclude name="ant*.jar" />
 		<exclude name="testng-*.jar" />
@@ -331,6 +331,8 @@
 		<include name="jbpm*.jar" if="example.jbpm.lib" />
 		<include name="spring*.jar" if="example.ioc.lib" />
 		<include name="gwt-servlet.jar" if="example.gwt.lib" />
+		<include name="ajax4jsf*.jar" if="example.ajax4jsf.lib" />
+		<include name="commons*.jar" if="example.ajax4jsf.lib" />
 	</zipfileset>
 
 	<path id="build.classpath">
@@ -747,7 +749,7 @@
 				<include name="**/test-output/**/*.xml" />
 				<exclude name="**/testng-results.xml" />
 			</fileset>
-			<report format="frames" todir="./report" />
+			<report format="noframes" todir="./report" />
 		</junitreport>
 
 		<echo>Report available at ${basedir}/report/index.html</echo>
@@ -881,7 +883,8 @@
 				<patternset refid="meta.files" />
 			</fileset>
 		</copy>
-		<copy file="embedded-ejb/readme.txt" todir="${dist.dir}/embedded-ejb" />
+		<copy file="${eejb.conf.dir}/readme.txt" 
+			 todir="${dist.eejb.conf.dir}" />
 
 		<copy todir="${dist.drools.dir}">
 			<fileset dir="${drools.dir}">
