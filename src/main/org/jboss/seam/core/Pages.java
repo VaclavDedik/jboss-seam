@@ -194,7 +194,7 @@ public class Pages
    private Page getCachedPage(String viewId)
    {
       Page result = pagesByViewId.get(viewId);
-      /*if (result==null)
+      if (result==null)
       {
          //workaround for what I believe is a bug in the JSF RI
          viewId = replaceExtension( viewId, getSuffix() );
@@ -202,7 +202,7 @@ public class Pages
          {
             result = pagesByViewId.get(viewId);
          }
-      }*/
+      }
       return result;
    }
    
