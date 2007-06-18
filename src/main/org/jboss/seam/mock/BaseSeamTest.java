@@ -169,6 +169,7 @@ public class BaseSeamTest
    {
       private String conversationId;
       private String outcome;
+      private String action;
       private boolean validationFailed;
       private String viewId;
       
@@ -454,6 +455,20 @@ public class BaseSeamTest
       }
 
       /**
+       * Simulate an action method
+       */
+      protected Object invokeAction(String actionMethodExpression)
+      {
+         action = actionMethodExpression;
+         Object result = invokeMethod(actionMethodExpression);
+         if (result!=null)
+         {
+            setOutcome( result.toString() );
+         }
+         return result;
+      }
+
+      /**
        * @return the conversation id
        * @throws Exception
        *            to fail the test
@@ -587,8 +602,8 @@ public class BaseSeamTest
          invokeApplicationComplete = true;
   
          String outcome = getInvokeApplicationOutcome();
-         facesContext.getApplication().getNavigationHandler().handleNavigation(
-                  facesContext, null, outcome);
+         facesContext.getApplication().getNavigationHandler()
+                  .handleNavigation(facesContext, action, outcome);
   
          viewId = getRenderedViewId();
   
