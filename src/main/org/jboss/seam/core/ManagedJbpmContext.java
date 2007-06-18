@@ -33,9 +33,10 @@ import org.jbpm.persistence.db.DbPersistenceServiceFactory;
 import org.jbpm.svc.Services;
 
 /**
- * Manages a reference to a JbpmSession.
+ * Manages a reference to a JbpmContext.
  *
  * @author <a href="mailto:steve@hibernate.org">Steve Ebersole </a>
+ * @author Gavin King
  */
 @Scope(ScopeType.EVENT)
 @Name("org.jboss.seam.core.jbpmContext")
@@ -90,17 +91,50 @@ public class ManagedJbpmContext implements Synchronization
       {
          jbpmContext.save(processInstance);
       }*/
-      Contexts.getBusinessProcessContext().flush();
+      if ( Contexts.isBusinessProcessContextActive() )
+      {
+         //in requests that come through SeamPhaseListener,
+         //transactions are committed before the contexts are
+         //destroyed, flush here:
+         Contexts.getBusinessProcessContext().flush();
+      }
       jbpmContext.getSession().flush();
       log.debug( "done flushing seam managed jBPM context" );
    }
    
-   public void afterCompletion(int status) {
+   public void afterCompletion(int status) 
+   {
       synchronizationRegistered = false;
+      if ( !Contexts.isEventContextActive() )
+      {
+         //in calls to MDBs and remote calls to SBs, the 
+         //transaction doesn't commit until after contexts
+         //are destroyed, so wait until the transaction
+         //completes before closing the session
+         //on the other hand, if we still have an active
+         //event context, leave it open
+         closeContext();
+      }
    }
-
+   
    @Destroy
    public void destroy()
+   {
+      //in requests that come through SeamPhaseListener,
+      //there can be multiple transactions per request,
+      //but they are all completed by the time contexts
+      //are dstroyed
+      //so wait until the end of the request to close
+      //the session
+      //on the other hand, if we are still waiting for
+      //the transaction to commit, leave it open
+      if ( !synchronizationRegistered )
+      {
+         closeContext();
+      }
+   }
+
+   private void closeContext()
    {
       log.debug( "destroying seam managed jBPM context" );
       jbpmContext.close();

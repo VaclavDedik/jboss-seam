@@ -13,6 +13,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.event.PhaseId;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.SystemException;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
@@ -28,6 +29,7 @@ import org.jboss.seam.log.Logging;
 import org.jboss.seam.servlet.ServletApplicationMap;
 import org.jboss.seam.servlet.ServletRequestMap;
 import org.jboss.seam.servlet.ServletRequestSessionMap;
+import org.jboss.seam.transaction.Transaction;
 
 /**
  * @author Gavin King
@@ -431,6 +433,23 @@ public class Lifecycle
 
          if ( Contexts.isBusinessProcessContextActive() )
          {
+            boolean transactionActive = false;
+            try
+            {
+               transactionActive = Transaction.instance().isActive();
+            }
+            catch (SystemException se)
+            {
+               log.error("could not discover transaction status", se);
+            }
+            if (transactionActive)
+            {
+               //in calls to MDBs and remote calls to SBs, the 
+               //transaction doesn't commit until after contexts
+               //are destroyed, so pre-emptively flush here:
+               Contexts.getBusinessProcessContext().flush();
+            }
+            
             //TODO: it would be nice if BP context spanned redirects along with the conversation
             //      this would also require changes to BusinessProcessContext
             boolean destroyBusinessProcessContext = !Init.instance().isJbpmInstalled() ||
