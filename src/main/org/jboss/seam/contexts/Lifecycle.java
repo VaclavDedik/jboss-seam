@@ -438,9 +438,9 @@ public class Lifecycle
             {
                transactionActive = Transaction.instance().isActive();
             }
-            catch (SystemException se)
+            catch (Exception e)
             {
-               log.error("could not discover transaction status", se);
+               log.error("could not discover transaction status");
             }
             if (transactionActive)
             {
