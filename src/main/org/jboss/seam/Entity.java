@@ -9,6 +9,7 @@ import javax.persistence.PostLoad;
 import javax.persistence.PrePersist;
 import javax.persistence.PreRemove;
 import javax.persistence.PreUpdate;
+import javax.persistence.Version;
 
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.util.Reflections;
@@ -31,6 +32,8 @@ public class Entity extends Model
    private Method postLoadMethod;
    private Method identifierGetter;
    private Field identifierField;
+   private Method versionGetter;
+   private Field versionField;
 
    public Entity(Class<?> beanClass)
    {
@@ -63,6 +66,10 @@ public class Entity extends Model
             {
                identifierGetter = method;
             }
+            if ( method.isAnnotationPresent(Version.class) )
+            {
+               versionGetter = method;
+            }
             
             if ( !method.isAccessible() )
             {
@@ -77,6 +84,14 @@ public class Entity extends Model
                if ( field.isAnnotationPresent(Id.class) || field.isAnnotationPresent(EmbeddedId.class))
                {
                   identifierField = field;
+                  if ( !field.isAccessible() )
+                  {
+                     field.setAccessible(true);
+                  }
+               }
+               if ( field.isAnnotationPresent(Version.class) )
+               {
+                  versionField = field;
                   if ( !field.isAccessible() )
                   {
                      field.setAccessible(true);
@@ -119,6 +134,16 @@ public class Entity extends Model
       return identifierGetter;
    }
    
+   public Field getVersionField()
+   {
+      return versionField;
+   }
+
+   public Method getVersionGetter()
+   {
+      return versionGetter;
+   }
+   
    public Object getIdentifier(Object entity)
    {
       if (identifierGetter!=null)
@@ -132,6 +157,22 @@ public class Entity extends Model
       else
       {
          throw new IllegalStateException("@Id attribute not found for entity class: " + getBeanClass().getName());
+      }
+   }
+
+   public Object getVersion(Object entity)
+   {
+      if (versionGetter!=null)
+      {
+         return Reflections.invokeAndWrap(versionGetter, entity);
+      }
+      else if (versionField!=null)
+      {
+         return Reflections.getAndWrap(versionField, entity);
+      }
+      else
+      {
+         return null;
       }
    }
 

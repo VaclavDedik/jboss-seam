@@ -7,8 +7,10 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.transaction.Synchronization;
 
+import org.hibernate.EntityMode;
 import org.hibernate.FlushMode;
 import org.hibernate.Session;
+import org.hibernate.metadata.ClassMetadata;
 import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.FlushModeType;
@@ -50,6 +52,15 @@ public class HibernatePersistenceProvider extends PersistenceProvider
    public Object getId(Object bean, EntityManager entityManager) 
    {
       return getSession(entityManager).getIdentifier(bean);
+   }
+
+   @Override
+   public Object getVersion(Object bean, EntityManager entityManager) 
+   {
+      ClassMetadata classMetadata = getSession(entityManager).getSessionFactory()
+                  .getClassMetadata( bean.getClass() );
+      return classMetadata.isVersioned() ? 
+               classMetadata.getVersion(bean, EntityMode.POJO) : null;
    }
 
    @Override

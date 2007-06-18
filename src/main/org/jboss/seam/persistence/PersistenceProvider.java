@@ -65,6 +65,16 @@ public class PersistenceProvider
    }
    
    /**
+    * Get the value of the entity version attribute.
+    * 
+    * @param bean a managed entity instance
+    */
+   public Object getVersion(Object bean, EntityManager entityManager)
+   {
+      return Entity.forClass( bean.getClass() ).getVersion(bean);
+   }
+   
+   /**
     * Enable a Filter. This is here just especially for Hibernate,
     * since we well know that other products don't have such cool
     * features. 
