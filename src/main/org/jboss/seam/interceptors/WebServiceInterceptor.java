@@ -33,31 +33,38 @@ public class WebServiceInterceptor extends AbstractInterceptor
    @AroundInvoke
    public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
-      try
+      if (Contexts.isEventContextActive())
       {
-         MessageContext messageContext = (MessageContext) Contexts.getEventContext().get(
-                  SeamWSRequestHandler.MESSAGE_CONTEXT);
-         HttpServletRequest request = (HttpServletRequest) messageContext.get(
-                  MessageContext.SERVLET_REQUEST);
-         ServletContexts.instance().setRequest(request);
-         
-         ConversationPropagation.instance().setConversationId( extractConversationId(invocation) );
-         
-         Manager.instance().restoreConversation();
-         Lifecycle.resumeConversation(request);    
-         
-         Object result = invocation.proceed();
-         
-         Manager.instance().endRequest( new ServletRequestSessionMap(request) );
-         Lifecycle.endRequest();        
-         
-         return result;
+         try
+         {
+            MessageContext messageContext = (MessageContext) Contexts.getEventContext().get(
+                     SeamWSRequestHandler.MESSAGE_CONTEXT);
+            HttpServletRequest request = (HttpServletRequest) messageContext.get(
+                     MessageContext.SERVLET_REQUEST);
+            ServletContexts.instance().setRequest(request);
+            
+            ConversationPropagation.instance().setConversationId( extractConversationId(invocation) );
+            
+            Manager.instance().restoreConversation();
+            Lifecycle.resumeConversation(request);    
+            
+            Object result = invocation.proceed();
+            
+            messageContext.put("org.jboss.seam.conversationId", Manager.instance().getCurrentConversationId());
+            Manager.instance().endRequest( new ServletRequestSessionMap(request) );
+            Lifecycle.endRequest();        
+            
+            return result;
+         }
+         finally
+         {
+            Lifecycle.setPhaseId(null);         
+         }
       }
-      finally
+      else
       {
-         Lifecycle.setPhaseId(null);         
-      } 
-      
+         return invocation.proceed();         
+      }      
    }
    
    private String extractConversationId(InvocationContext invocation)
@@ -72,9 +79,11 @@ public class WebServiceInterceptor extends AbstractInterceptor
          {
             if (annotation.annotationType().equals(ConversationId.class))
             {
-               Conversation conversation = method.getDeclaringClass().getAnnotation(Conversation.class);
-               String conversationName = conversation != null ?
-                        conversation.value() : null;
+               Conversation conversation = method.getAnnotation(Conversation.class);
+               if (conversation == null)
+               {
+                  conversation = method.getDeclaringClass().getAnnotation(Conversation.class);                  
+               }               
                
                ConversationId convId = (ConversationId) annotation;
                Object paramValue = invocation.getParameters()[i];
@@ -93,7 +102,7 @@ public class WebServiceInterceptor extends AbstractInterceptor
                   id = paramValue.toString();
                }
                
-               return (conversationName != null) ? conversationName + ":" + id : id;
+               return (conversation != null) ? conversation.value() + ":" + id : id;
             }
          }
       }
