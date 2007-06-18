@@ -206,6 +206,16 @@
                         the end of the invocation. </para>
                 </listitem>
             </varlistentry>
+            <varlistentry id="autocreate-annotation">
+                <term>
+                    <literal>@AutoCreate</literal>
+                </term>
+                <listitem>
+                    <programlisting><![CDATA[@AutoCreate]]></programlisting>
+                    <para> Specifies that a component will be automatically created, even if the client does not
+                    specify <literal>create=true</literal>. </para>
+                </listitem>
+            </varlistentry>
         </variablelist>
     </section>
 
@@ -469,11 +479,6 @@
                         without exception. </para>
                 </listitem>
                 <listitem>
-                    <programlisting><![CDATA[@Begin(ifOutcome={"success", "continue"})]]></programlisting>
-                    <para> Specifies that a long-running conversation begins when this action listener method returns
-                        with one of the given outcomes. </para>
-                </listitem>
-                <listitem>
                     <programlisting><![CDATA[@Begin(join=true)]]></programlisting>
                     <para> Specifies that if a long-running conversation is already in progress, the conversation
                         context is simply propagated. </para>
@@ -501,11 +506,6 @@
                 </listitem>
                 <listitem>
                     <itemizedlist>
-                        <listitem>
-                            <para>
-                                <literal>ifOutcome</literal> &#8212; specifies the JSF outcome or outcomes that
-                                result in a new long-running conversation context. </para>
-                        </listitem>
                         <listitem>
                             <para>
                                 <literal>join</literal> &#8212; determines the behavior when a long-running
@@ -544,17 +544,7 @@
                         without exception. </para>
                 </listitem>
                 <listitem>
-                    <programlisting><![CDATA[@End(ifOutcome={"success", "error"}, evenIfException={SomeException.class, OtherException.class})]]></programlisting>
-                    <para> Specifies that a long-running conversation ends when this action listener method returns with
-                        one of the given outcomes or throws one of the specified classes of exception. </para>
-                </listitem>
-                <listitem>
                     <itemizedlist>
-                        <listitem>
-                            <para>
-                                <literal>ifOutcome</literal> &#8212; specifies the JSF outcome or outcomes that
-                                result in the end of the current long-running conversation. </para>
-                        </listitem>
                         <listitem>
                             <para>
                                 <literal>beforeRedirect</literal> &#8212; by default, the conversation will not
@@ -644,20 +634,11 @@
                     <para> Triggers the given jBPM transition. </para>
                 </listitem>
                 <listitem>
-                    <programlisting><![CDATA[@EndTask(ifOutcome={"success", "continue"})]]></programlisting>
-                    <para> Specifies that the task ends when this method returns one of the listed outcomes. </para>
-                </listitem>
-                <listitem>
                     <itemizedlist>
                         <listitem>
                             <para>
                                 <literal>transition</literal> &#8212; the name of the jBPM transition to be
                                 triggered when ending the task. Defaults to the default transition. </para>
-                        </listitem>
-                        <listitem>
-                            <para>
-                                <literal>ifOutcome</literal> &#8212; specifies the JSF outcome or outcomes that
-                                result in the end of the task. </para>
                         </listitem>
                         <listitem>
                             <para>
@@ -706,50 +687,26 @@
                     </itemizedlist>
                 </listitem>
             </varlistentry>
-        </variablelist>
-
-        <!-- para>
-            Finally, this annotation appears on a string-valued getter method:
-        </para>
-        
-    	<variablelist spacing="compact">
             <varlistentry id="transition-annotation">
                 <term><literal>@Transition</literal></term>
                 <listitem>
-                    <programlisting><![CDATA[@Transition]]></programlisting>
+                    <programlisting><![CDATA[@Transition("cancel")]]></programlisting>
                     <para>
-                        Returns the transition name to be used when a jBPM transition is triggered
-                        by <literal>@EndTask</literal>. A null return value indicates the
-                        default transition.
+                        Marks a method as signalling a transition in the current jBPM process instance
+                        whenever the method returns a non-null result.
                     </para>
                 </listitem>
             </varlistentry>
-        </variablelist-->
+        </variablelist>
+
     </section>
 
     <section>
-        <title>Annotations for transaction demarcation</title>
+        <title>Annotations for use with Seam JavaBean components in a J2EE environment</title>
         <para> Seam provides an annotation that lets you force a rollback of the JTA transaction for certain action
             listener outcomes. </para>
 
         <variablelist spacing="compact">
-            <varlistentry id="rollback-annotation">
-                <term>
-                    <literal>@Rollback</literal>
-                </term>
-                <listitem>
-                    <programlisting><![CDATA[@Rollback(ifOutcome={"failure", "not-found"})]]></programlisting>
-                    <para> If the outcome of the method matches any of the listed outcomes, or if no outcomes are
-                        listed, set the transaction to rollback only when the method completes. </para>
-                    <itemizedlist>
-                        <listitem>
-                            <para>
-                                <literal>ifOutcome</literal> &#8212; the JSF outcomes that cause a transaction
-                                rollback (no outcomes is interpreted to mean any outcome). </para>
-                        </listitem>
-                    </itemizedlist>
-                </listitem>
-            </varlistentry>
             <varlistentry id="transactional-annotation">
                 <term>
                     <literal>@Transactional</literal>
@@ -761,6 +718,28 @@
                         transaction, and if no transaction exists when the method is called, a transaction will be
                         started just for that method. This annotation may be applied at either class or method level.
                        <emphasis>Do not use this annotations on EJB 3.0 components, use <literal>@TransactionAttribute</literal>!</emphasis>
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry id="transactional-annotation">
+                <term>
+                    <literal>@ApplicationException</literal>
+                </term>
+                <listitem>
+                    <programlisting><![CDATA[@Transactional]]></programlisting>
+                    <para> 
+                    TDB
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry id="transactional-annotation">
+                <term>
+                    <literal>@Interceptors</literal>
+                </term>
+                <listitem>
+                    <programlisting><![CDATA[@Transactional]]></programlisting>
+                    <para> 
+                    TDB
                     </para>
                 </listitem>
             </varlistentry>
@@ -831,46 +810,6 @@
                 </listitem>
             </varlistentry>
         </variablelist>
-    </section>
-
-    <section>
-        <title>Annotations for validation</title>
-        <para> This annotation triggers Hibernate Validator. It appears on a method of a Seam component, almost always
-            an action listener method. </para>
-        <para> Please refer to the documentation for the Hibernate Annotations package for information about the
-            annotations defined by the Hibernate Validator framework. </para>
-        <para>
-            <emphasis>Note that use of <literal>@IfInvalid</literal> is now semi-deprecated and
-                    <literal>&lt;s:validateAll&gt;</literal> is now preferred.</emphasis>
-        </para>
-
-        <variablelist spacing="compact">
-            <varlistentry id="ifinvalid-annotation">
-                <term>
-                    <literal>@IfInvalid</literal>
-                </term>
-                <listitem>
-                    <programlisting><![CDATA[@IfInvalid(outcome="invalid", refreshEntities=true)]]></programlisting>
-                    <para> Specifies that Hibernate Validator should validate the component before the method is
-                        invoked. If the invocation fails, the specified outcome will be returned, and the validation
-                        failure messages returned by Hibernate Validator will be added to the
-                        <literal>FacesContext</literal>. Otherwise, the invocation will proceed. </para>
-                    <itemizedlist>
-                        <listitem>
-                            <para>
-                                <literal>outcome</literal> &#8212; the JSF outcome when validation fails. </para>
-                        </listitem>
-                        <listitem>
-                            <para>
-                                <literal>refreshEntities</literal> &#8212; specifies that any invalid entity in the
-                                managed state should be refreshed from the database when validation fails. Default to
-                                    <literal>false</literal>. (Useful with extended persistence contexts.) </para>
-                        </listitem>
-                    </itemizedlist>
-                </listitem>
-            </varlistentry>
-        </variablelist>
-
     </section>
 
     <section>
