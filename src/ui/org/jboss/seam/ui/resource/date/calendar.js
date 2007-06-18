@@ -110,14 +110,6 @@ function changeObjectVisibility(objectId, newVisibility)
     return false;
 }
 
-function __getControlDim(ctl)
-{
-  var width = ctl.offsetWidth;
-  var height = ctl.offsetHeight;
-	for (var lx = 0, ly = 0; ctl != null; lx += ctl.offsetLeft, ly += ctl.offsetTop, ctl = ctl.offsetParent);
-	return {x:lx, y:ly, width:width, height:height};
-}
-
 function __CalendarFactory()
 {
   var DAYS_IN_WEEK = 7;
@@ -166,10 +158,10 @@ function __CalendarFactory()
     return null;
   };
 
-  __CalendarFactory.prototype.popupCalendar = function (name, locX, locY)
+  __CalendarFactory.prototype.popupCalendar = function (name, locX, locY, parent)
   {
     this.poppedCalendar = this.getCalendarByName(name);
-    this.getCalendarByName(name).popup(locX, locY);
+    this.getCalendarByName(name).popup(locX, locY, parent);
   };
 
   __CalendarFactory.prototype.depopupCalendar = function ()
@@ -429,7 +421,7 @@ function __Calendar(calendarNumber, name)
     }
   };
 
-  __Calendar.prototype.popup = function (locX, locY)
+  __Calendar.prototype.popup = function (locX, locY, parent)
   {
     var selectedDate = __calendarFactory.parseDateValue(getObject(this.name).value);    
     if (selectedDate)
@@ -447,12 +439,30 @@ function __Calendar(calendarNumber, name)
       popupDiv = document.createElement('div');
       popupDiv.id = POPUP_DIV;
       popupDiv.style.position = "absolute";
-      window.document.body.appendChild(popupDiv)
+//      window.document.body.appendChild(popupDiv)
     }
+    
+    if (parent)
+      parent.appendChild(popupDiv)
+    else
+      window.document.body.appendChild(popupDiv);
 
     popupDiv.className = this.styleClass;
     getStyleObject(POPUP_DIV).left = locX + "px";
     getStyleObject(POPUP_DIV).top = locY + "px";
+    
+    var zIndex = 0;
+    var divs = document.getElementsByTagName("div");
+    for (var i = 0; i < divs.length; i++)
+    {
+      if (divs[i] != popupDiv && divs[i].style && !/\D/(divs[i].style.zIndex))
+      {
+        var divZIndex = (divs[i].style.zIndex * 1);        
+        if (divZIndex >= zIndex) zIndex = divZIndex + 1;
+      }
+    }
+    
+    popupDiv.style.zIndex = zIndex;
 
     popupDiv.innerHTML = this.getHTML();
     changeObjectVisibility(POPUP_DIV, "visible");
@@ -810,9 +820,28 @@ function __selectDate(calName, viewCtlName) {
     cal = __calendarFactory.createCalendar(viewCtlName);
   cal.setOnClickDate("__clickCalendar");
   
-  var ctl = getObject(viewCtlName);
-  var ctlPos = __getControlDim(ctl);
-  __calendarFactory.popupCalendar(calName, ctlPos.x, ctlPos.y + ctlPos.height);
+  var posX = 0;
+  var posY = 0;
+
+  var ctl = getObject(viewCtlName);  
+  var ctlHeight = ctl.offsetHeight;
+  var parent = null;
+  
+  while (ctl)
+  {
+    posX += ctl.offsetLeft;
+    posY += ctl.offsetTop;
+
+    ctl = ctl.offsetParent;
+    
+    if (ctl && ctl.style && ctl.style.position == "absolute")    
+    {
+      parent = ctl;
+      break;
+    }
+  }
+  
+  __calendarFactory.popupCalendar(calName, posX, posY + ctlHeight, parent);
 }
 
 function __clearDate(ctlName) {
