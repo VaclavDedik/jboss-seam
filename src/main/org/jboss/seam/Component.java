@@ -154,6 +154,7 @@ public class Component extends Model
    private Method destroyMethod;
    private Method createMethod;
    private Method unwrapMethod;
+   private Method defaultRemoveMethod;
    
    //TODO: check the EJB3 spec, I think you
    //      are allowed to have multiple
@@ -247,7 +248,7 @@ public class Component extends Model
          );
 
       initMembers( getBeanClass(), applicationContext );
-      checkDestroyMethod();
+      checkDefaultRemoveMethod();
 
       businessInterfaces = getBusinessInterfaces( getBeanClass() );
 
@@ -376,11 +377,11 @@ public class Component extends Model
       }
    }
 
-   private void checkDestroyMethod()
+   private void checkDefaultRemoveMethod()
    {
-      if ( type==STATEFUL_SESSION_BEAN && ( destroyMethod==null || !removeMethods.values().contains(destroyMethod) ) )
+      if ( type==STATEFUL_SESSION_BEAN && getDefaultRemoveMethod()==null )
       {
-         throw new IllegalArgumentException("Stateful session bean component should have a method marked @Remove @Destroy: " + name);
+         throw new IllegalArgumentException("Stateful session bean component must have a method with no parameters marked @Remove: " + name);
       }
    }
 
@@ -491,238 +492,15 @@ public class Component extends Model
 
       for ( ; clazz!=Object.class; clazz = clazz.getSuperclass() )
       {
-
          for ( Method method: clazz.getDeclaredMethods() )
          {
-            if ( method.isAnnotationPresent(IfInvalid.class) )
-            {
-               validateMethods.add(method);
-            }
-            if ( method.isAnnotationPresent(REMOVE) )
-            {
-               removeMethods.put( method.getName(), method );
-            }
-            if ( method.isAnnotationPresent(Destroy.class) )
-            {
-               /*if ( method.getParameterTypes().length>0 ) and it doesnt take a Component paramater
-               {
-                  throw new IllegalStateException("@Destroy methods may not have parameters: " + name);
-               }*/
-               if (type!=JAVA_BEAN && type!=STATEFUL_SESSION_BEAN)
-               {
-                  throw new IllegalArgumentException("Only JavaBeans and stateful session beans support @Destroy methods: " + name);
-               }
-               if ( destroyMethod!=null&& !destroyMethod.getName().equals( method.getName() ) )
-               {
-                  throw new IllegalStateException("component has two @Destroy methods: " + name);
-               }
-               if (destroyMethod==null)
-               {
-                  destroyMethod = method;
-                  lifecycleMethods.add(method);
-               }
-            }
-            if ( method.isAnnotationPresent(Create.class) )
-            {
-               /*if ( method.getParameterTypes().length>0 ) and it doesnt take a Component paramater
-               {
-                  throw new IllegalStateException("@Create methods may not have parameters: " + name);
-               }*/
-               if (type!=JAVA_BEAN && type!=STATEFUL_SESSION_BEAN)
-               {
-                  throw new IllegalArgumentException("Only JavaBeans and stateful session beans support @Create methods: " + name);
-               }
-               if ( createMethod!=null && !createMethod.getName().equals( method.getName() ) )
-               {
-                  throw new IllegalStateException("component has two @Create methods: " + name);
-               }
-               if (createMethod==null)
-               {
-                  createMethod = method;
-                  lifecycleMethods.add(method);
-               }
-            }
-            if ( method.isAnnotationPresent(In.class) )
-            {
-               In in = method.getAnnotation(In.class);
-               String name = toName( in.value(), method );
-               inAttributes.add( new BijectedMethod(name, method, in) );
-            }
-            if ( method.isAnnotationPresent(Out.class) )
-            {
-               Out out = method.getAnnotation(Out.class);
-               String name = toName( out.value(), method );
-               outAttributes.add( new BijectedMethod(name, method, out) );
-            }
-            if ( method.isAnnotationPresent(Unwrap.class) )
-            {
-               if ( unwrapMethod!=null && !unwrapMethod.getName().equals( method.getName() )  )
-               {
-                  throw new IllegalStateException("component has two @Unwrap methods: " + name);
-               }
-               if (unwrapMethod==null )
-               {
-                  unwrapMethod = method;
-               }
-            }
-            if ( method.isAnnotationPresent(DataModel.class) ) //TODO: generalize
-            {
-               checkDataModelScope( method.getAnnotation(DataModel.class) );
-            }
-            if ( method.isAnnotationPresent(org.jboss.seam.annotations.Factory.class) )
-            {
-               Init init = (Init) applicationContext.get( Seam.getComponentName(Init.class) ); //can't use Init.instance() here 'cos of unit tests
-               String contextVariable = toName( method.getAnnotation(org.jboss.seam.annotations.Factory.class).value(), method );
-               init.addFactoryMethod(contextVariable, method, this);
-               if ( method.getAnnotation(org.jboss.seam.annotations.Factory.class).autoCreate() )
-               {
-                  init.addAutocreateVariable(contextVariable);
-               }
-            }
-            if ( method.isAnnotationPresent(Observer.class) )
-            {
-               Init init = (Init) applicationContext.get( Seam.getComponentName(Init.class) ); //can't use Init.instance() here 'cos of unit tests
-               Observer observer = method.getAnnotation(Observer.class);
-               for ( String eventType : observer.value() )
-               {
-                  if ( eventType.length()==0 ) eventType = method.getName(); //TODO: new defaulting rule to map @Observer onFooEvent() -> event type "fooEvent"
-                  init.addObserverMethod( eventType, method, this, observer.create() );
-               }
-            }
-            if ( method.isAnnotationPresent(RequestParameter.class) )
-            {
-               RequestParameter rp = method.getAnnotation(RequestParameter.class);
-               String name = toName( rp.value(), method );
-               parameterSetters.add( new BijectedMethod(name, method, rp) );
-            }
-            if ( method.isAnnotationPresent(PRE_PASSIVATE) )
-            {
-               prePassivateMethod = method;
-               lifecycleMethods.add(method);
-            }
-            if ( method.isAnnotationPresent(POST_ACTIVATE) )
-            {
-               postActivateMethod = method;
-               lifecycleMethods.add(method);
-            }
-            if ( method.isAnnotationPresent(POST_CONSTRUCT) )
-            {
-               postConstructMethod = method;
-               lifecycleMethods.add(method);
-            }
-            if ( method.isAnnotationPresent(PRE_DESTROY) )
-            {
-               preDestroyMethod = method;
-               lifecycleMethods.add(method);
-            }
-            if ( method.isAnnotationPresent(PERSISTENCE_CONTEXT) )
-            {
-               checkPersistenceContextForComponentType();
-               pcAttributes.add( new BijectedMethod( toName(null, method), method, null ) );
-            }
-            if ( method.isAnnotationPresent(Begin.class) || 
-                 method.isAnnotationPresent(End.class) || 
-                 method.isAnnotationPresent(StartTask.class) ||
-                 method.isAnnotationPresent(BeginTask.class) ||
-                 method.isAnnotationPresent(EndTask.class) ) 
-            {
-               conversationManagementMethods.add(method);
-            }
-            
-            for ( Annotation ann: method.getAnnotations() )
-            {
-               if ( ann.annotationType().isAnnotationPresent(DataBinderClass.class) )
-               {
-                  String name = toName( createWrapper(ann).getVariableName(ann), method );
-                  dataModelGetters.add( new BijectedMethod(name, method, ann) );
-                  dataModelNames.add(name);
-               }
-               if ( ann.annotationType().isAnnotationPresent(DataSelectorClass.class) )
-               {
-                  selectionSetters.put(method, ann);
-               }
-            }
-
-            if ( !method.isAccessible() )
-            {
-               method.setAccessible(true);
-            }
-
+            scanMethod(applicationContext, selectionSetters, dataModelNames, method);
          }
 
          for ( Field field: clazz.getDeclaredFields() )
          {
-
-            if ( !field.isAccessible() )
-            {
-               field.setAccessible(true);
-            }
-
-            if ( field.isAnnotationPresent(In.class) )
-            {
-               In in = field.getAnnotation(In.class);
-               String name = toName( in.value(), field );
-               inAttributes.add( new BijectedField(name, field, in) );
-            }
-            if ( field.isAnnotationPresent(Out.class) )
-            {
-               Out out = field.getAnnotation(Out.class);
-               String name = toName( out.value(), field );
-               outAttributes.add(new BijectedField(name, field, out) );
-            }
-            if ( field.isAnnotationPresent(DataModel.class) ) //TODO: generalize
-            {
-               checkDataModelScope( field.getAnnotation(DataModel.class) );
-            }
-            if ( field.isAnnotationPresent(RequestParameter.class) )
-            {
-               RequestParameter rp = field.getAnnotation(RequestParameter.class);
-               String name = toName( rp.value(), field );
-               parameterSetters.add( new BijectedField(name, field, rp) );
-            }
-            if ( field.isAnnotationPresent(org.jboss.seam.annotations.Logger.class) )
-            {
-               String category = field.getAnnotation(org.jboss.seam.annotations.Logger.class).value();
-               org.jboss.seam.log.Log logInstance;
-               if ( "".equals( category ) )
-               {
-                  logInstance = org.jboss.seam.log.Logging.getLog(getBeanClass());
-               }
-               else
-               {
-                  logInstance = org.jboss.seam.log.Logging.getLog(category);
-               }
-               if ( Modifier.isStatic( field.getModifiers() ) )
-               {
-                  Reflections.setAndWrap(field, null, logInstance);
-               }
-               else
-               {
-                  logFields.add(field);
-                  logInstances.add(logInstance);
-               }
-            }
-            if ( field.isAnnotationPresent(PERSISTENCE_CONTEXT) )
-            {
-               checkPersistenceContextForComponentType();
-               pcAttributes.add( new BijectedField( toName(null, field), field, null ) );
-            }
-            for ( Annotation ann: field.getAnnotations() )
-            {
-               if ( ann.annotationType().isAnnotationPresent(DataBinderClass.class) )
-               {
-                  String name = toName( createWrapper(ann).getVariableName(ann), field );
-                  dataModelGetters.add( new BijectedField(name, field, ann) );
-                  dataModelNames.add(name);
-               }
-               if ( ann.annotationType().isAnnotationPresent(DataSelectorClass.class) )
-               {
-                  selectionFields.put(field, ann);
-               }
-            }
-
+            scanField(selectionFields, dataModelNames, field);
          }
-
       }
 
       final boolean hasMultipleDataModels = dataModelGetters.size() > 1;
@@ -759,6 +537,238 @@ public class Component extends Model
          }
       }
 
+   }
+
+   private void scanMethod(Context applicationContext, Map<Method, Annotation> selectionSetters, Set<String> dataModelNames, Method method)
+   {
+      if ( method.isAnnotationPresent(IfInvalid.class) )
+      {
+         validateMethods.add(method);
+      }
+      if ( method.isAnnotationPresent(REMOVE) )
+      {
+         removeMethods.put( method.getName(), method );
+         if ( method.getParameterTypes().length==0 )
+         {
+            defaultRemoveMethod = method;
+         }
+      }
+      if ( method.isAnnotationPresent(Destroy.class) && method!=getDefaultRemoveMethod() )
+      {
+         /*if ( method.getParameterTypes().length>0 ) and it doesnt take a Component paramater
+         {
+            throw new IllegalStateException("@Destroy methods may not have parameters: " + name);
+         }*/
+         if (type!=JAVA_BEAN && type!=STATEFUL_SESSION_BEAN)
+         {
+            throw new IllegalArgumentException("Only JavaBeans and stateful session beans support @Destroy methods: " + name);
+         }
+         if ( destroyMethod!=null&& !destroyMethod.getName().equals( method.getName() ) )
+         {
+            throw new IllegalStateException("component has two @Destroy methods: " + name);
+         }
+         if (destroyMethod==null)
+         {
+            destroyMethod = method;
+            lifecycleMethods.add(method);
+         }
+      }
+      if ( method.isAnnotationPresent(Create.class) )
+      {
+         /*if ( method.getParameterTypes().length>0 ) and it doesnt take a Component paramater
+         {
+            throw new IllegalStateException("@Create methods may not have parameters: " + name);
+         }*/
+         if (type!=JAVA_BEAN && type!=STATEFUL_SESSION_BEAN)
+         {
+            throw new IllegalArgumentException("Only JavaBeans and stateful session beans support @Create methods: " + name);
+         }
+         if ( createMethod!=null && !createMethod.getName().equals( method.getName() ) )
+         {
+            throw new IllegalStateException("component has two @Create methods: " + name);
+         }
+         if (createMethod==null)
+         {
+            createMethod = method;
+            lifecycleMethods.add(method);
+         }
+      }
+      if ( method.isAnnotationPresent(In.class) )
+      {
+         In in = method.getAnnotation(In.class);
+         String name = toName( in.value(), method );
+         inAttributes.add( new BijectedMethod(name, method, in) );
+      }
+      if ( method.isAnnotationPresent(Out.class) )
+      {
+         Out out = method.getAnnotation(Out.class);
+         String name = toName( out.value(), method );
+         outAttributes.add( new BijectedMethod(name, method, out) );
+      }
+      if ( method.isAnnotationPresent(Unwrap.class) )
+      {
+         if ( unwrapMethod!=null && !unwrapMethod.getName().equals( method.getName() )  )
+         {
+            throw new IllegalStateException("component has two @Unwrap methods: " + name);
+         }
+         if (unwrapMethod==null )
+         {
+            unwrapMethod = method;
+         }
+      }
+      if ( method.isAnnotationPresent(DataModel.class) ) //TODO: generalize
+      {
+         checkDataModelScope( method.getAnnotation(DataModel.class) );
+      }
+      if ( method.isAnnotationPresent(org.jboss.seam.annotations.Factory.class) )
+      {
+         Init init = (Init) applicationContext.get( Seam.getComponentName(Init.class) ); //can't use Init.instance() here 'cos of unit tests
+         String contextVariable = toName( method.getAnnotation(org.jboss.seam.annotations.Factory.class).value(), method );
+         init.addFactoryMethod(contextVariable, method, this);
+         if ( method.getAnnotation(org.jboss.seam.annotations.Factory.class).autoCreate() )
+         {
+            init.addAutocreateVariable(contextVariable);
+         }
+      }
+      if ( method.isAnnotationPresent(Observer.class) )
+      {
+         Init init = (Init) applicationContext.get( Seam.getComponentName(Init.class) ); //can't use Init.instance() here 'cos of unit tests
+         Observer observer = method.getAnnotation(Observer.class);
+         for ( String eventType : observer.value() )
+         {
+            if ( eventType.length()==0 ) eventType = method.getName(); //TODO: new defaulting rule to map @Observer onFooEvent() -> event type "fooEvent"
+            init.addObserverMethod( eventType, method, this, observer.create() );
+         }
+      }
+      if ( method.isAnnotationPresent(RequestParameter.class) )
+      {
+         RequestParameter rp = method.getAnnotation(RequestParameter.class);
+         String name = toName( rp.value(), method );
+         parameterSetters.add( new BijectedMethod(name, method, rp) );
+      }
+      if ( method.isAnnotationPresent(PRE_PASSIVATE) )
+      {
+         prePassivateMethod = method;
+         lifecycleMethods.add(method);
+      }
+      if ( method.isAnnotationPresent(POST_ACTIVATE) )
+      {
+         postActivateMethod = method;
+         lifecycleMethods.add(method);
+      }
+      if ( method.isAnnotationPresent(POST_CONSTRUCT) )
+      {
+         postConstructMethod = method;
+         lifecycleMethods.add(method);
+      }
+      if ( method.isAnnotationPresent(PRE_DESTROY) )
+      {
+         preDestroyMethod = method;
+         lifecycleMethods.add(method);
+      }
+      if ( method.isAnnotationPresent(PERSISTENCE_CONTEXT) )
+      {
+         checkPersistenceContextForComponentType();
+         pcAttributes.add( new BijectedMethod( toName(null, method), method, null ) );
+      }
+      if ( method.isAnnotationPresent(Begin.class) || 
+           method.isAnnotationPresent(End.class) || 
+           method.isAnnotationPresent(StartTask.class) ||
+           method.isAnnotationPresent(BeginTask.class) ||
+           method.isAnnotationPresent(EndTask.class) ) 
+      {
+         conversationManagementMethods.add(method);
+      }
+      
+      for ( Annotation ann: method.getAnnotations() )
+      {
+         if ( ann.annotationType().isAnnotationPresent(DataBinderClass.class) )
+         {
+            String name = toName( createWrapper(ann).getVariableName(ann), method );
+            dataModelGetters.add( new BijectedMethod(name, method, ann) );
+            dataModelNames.add(name);
+         }
+         if ( ann.annotationType().isAnnotationPresent(DataSelectorClass.class) )
+         {
+            selectionSetters.put(method, ann);
+         }
+      }
+
+      if ( !method.isAccessible() )
+      {
+         method.setAccessible(true);
+      }
+   }
+
+   private void scanField(Map<Field, Annotation> selectionFields, Set<String> dataModelNames, Field field)
+   {
+      if ( !field.isAccessible() )
+      {
+         field.setAccessible(true);
+      }
+
+      if ( field.isAnnotationPresent(In.class) )
+      {
+         In in = field.getAnnotation(In.class);
+         String name = toName( in.value(), field );
+         inAttributes.add( new BijectedField(name, field, in) );
+      }
+      if ( field.isAnnotationPresent(Out.class) )
+      {
+         Out out = field.getAnnotation(Out.class);
+         String name = toName( out.value(), field );
+         outAttributes.add(new BijectedField(name, field, out) );
+      }
+      if ( field.isAnnotationPresent(DataModel.class) ) //TODO: generalize
+      {
+         checkDataModelScope( field.getAnnotation(DataModel.class) );
+      }
+      if ( field.isAnnotationPresent(RequestParameter.class) )
+      {
+         RequestParameter rp = field.getAnnotation(RequestParameter.class);
+         String name = toName( rp.value(), field );
+         parameterSetters.add( new BijectedField(name, field, rp) );
+      }
+      if ( field.isAnnotationPresent(org.jboss.seam.annotations.Logger.class) )
+      {
+         String category = field.getAnnotation(org.jboss.seam.annotations.Logger.class).value();
+         org.jboss.seam.log.Log logInstance;
+         if ( "".equals( category ) )
+         {
+            logInstance = org.jboss.seam.log.Logging.getLog(getBeanClass());
+         }
+         else
+         {
+            logInstance = org.jboss.seam.log.Logging.getLog(category);
+         }
+         if ( Modifier.isStatic( field.getModifiers() ) )
+         {
+            Reflections.setAndWrap(field, null, logInstance);
+         }
+         else
+         {
+            logFields.add(field);
+            logInstances.add(logInstance);
+         }
+      }
+      if ( field.isAnnotationPresent(PERSISTENCE_CONTEXT) )
+      {
+         checkPersistenceContextForComponentType();
+         pcAttributes.add( new BijectedField( toName(null, field), field, null ) );
+      }
+      for ( Annotation ann: field.getAnnotations() )
+      {
+         if ( ann.annotationType().isAnnotationPresent(DataBinderClass.class) )
+         {
+            String name = toName( createWrapper(ann).getVariableName(ann), field );
+            dataModelGetters.add( new BijectedField(name, field, ann) );
+            dataModelNames.add(name);
+         }
+         if ( ann.annotationType().isAnnotationPresent(DataSelectorClass.class) )
+         {
+            selectionFields.put(field, ann);
+         }
+      }
    }
 
    protected void checkPersistenceContextForComponentType()
@@ -1217,6 +1227,40 @@ public class Component extends Model
          interceptor.postConstruct();
       }
       return bean;
+   }
+   
+   public void destroy(Object bean)
+   {
+      try
+      {
+         callDestroyMethod(bean);
+      }
+      catch (Exception e)
+      {
+         log.warn("Exception calling component @Destroy method: " + name, e);
+      }
+      if ( getType()==STATEFUL_SESSION_BEAN )
+      {
+         try
+         {
+            callDefaultRemoveMethod(bean);
+         }
+         catch (Exception e)
+         {
+            log.warn("Exception calling stateful session bean default @Remove method: " + name, e);
+         }
+      }
+      else if ( getType()==JAVA_BEAN )
+      {
+         try
+         {
+            callPreDestroyMethod(bean);
+         }
+         catch (Exception e)
+         {
+            log.warn("Exception calling JavaBean @PreDestroy method: " + name, e);
+         }
+      }
    }
 
    /**
@@ -1833,6 +1877,16 @@ public class Component extends Model
       }
 
       return instance;
+   }
+
+   private void callDefaultRemoveMethod(Object instance)
+   {
+      callComponentMethod( instance, getDefaultRemoveMethod() );
+   }
+
+   public Method getDefaultRemoveMethod()
+   {
+      return defaultRemoveMethod;
    }
 
    public void callCreateMethod(Object instance)

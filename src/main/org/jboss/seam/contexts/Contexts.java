@@ -227,14 +227,7 @@ public class Contexts
                if (object!=null) //in a portal environment, this is possible
                {
                   if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.preDestroy." + name);
-                  try
-                  {
-                     component.callDestroyMethod(object);
-                  }
-                  catch (Exception e)
-                  {
-                     log.warn("Could not destroy component: " + name, e);
-                  }
+                  component.destroy(object);
                }
             }
          }

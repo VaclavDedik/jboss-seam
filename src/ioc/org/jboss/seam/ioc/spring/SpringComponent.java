@@ -8,7 +8,6 @@ import java.util.Map;
 import org.jboss.seam.Component;
 import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Component.BijectedAttribute;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.init.Initialization;
@@ -182,9 +181,9 @@ public class SpringComponent extends IoCComponent
      * @see org.jboss.seam.Component#callDestroyMethod(Object)
      */
     @Override
-    public void callDestroyMethod(Object instance)
+    public void destroy(Object instance)
     {
-        super.callDestroyMethod(instance);
+        super.destroy(instance);
         // Cannot call the callback on a STATELESS bean because we have no way of storing it.
         if (getScope() != ScopeType.STATELESS)
         {
