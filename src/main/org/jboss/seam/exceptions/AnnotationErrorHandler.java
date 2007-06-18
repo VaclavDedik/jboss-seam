@@ -26,6 +26,7 @@ public class AnnotationErrorHandler extends ErrorHandler
    }
    
    @Override
+   @SuppressWarnings("deprecation")
    protected boolean isEnd(Exception e)
    {
       return e.getClass().getAnnotation(HttpError.class).end();

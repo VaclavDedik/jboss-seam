@@ -39,6 +39,7 @@ public @interface Redirect
     * when this exception occurs.
     * 
     * @return true if we should end the conversation
+    * @deprecated use @ApplicationException(end=true)
     */
    boolean end() default false;
 }

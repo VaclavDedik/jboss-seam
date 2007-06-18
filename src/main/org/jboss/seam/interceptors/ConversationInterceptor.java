@@ -228,6 +228,7 @@ public class ConversationInterceptor extends AbstractInterceptor
       }
    }
 
+   @SuppressWarnings("deprecation")
    private void endConversationIfNecessary(Method method, Object result)
    {
       boolean isEndAnnotation = method.isAnnotationPresent(End.class);

@@ -16,6 +16,8 @@ import java.lang.annotation.Target;
 /**
  * Causes an event to be raised after the method returns
  * a non-null result without exception.
+ * 
+ * @author Gavin King
  */
 @Target(METHOD)
 @Retention(RUNTIME)

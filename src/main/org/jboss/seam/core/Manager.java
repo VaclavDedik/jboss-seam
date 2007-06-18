@@ -42,7 +42,6 @@ import org.jboss.seam.util.Id;
  *
  * @author Gavin King
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
- * @version $Revision$
  */
 @Scope(ScopeType.EVENT)
 @Name("org.jboss.seam.core.manager")
@@ -566,12 +565,15 @@ public class Manager
    @SuppressWarnings("deprecation")
    public void beginConversation(String initiator)
    {
-      log.debug("Beginning long-running conversation");
-      setLongRunningConversation(true);
-      createConversationEntry().setInitiatorComponentName(initiator);
-      Conversation.instance(); //force instantiation of the Conversation in the outer (non-nested) conversation
-      storeConversationToViewRootIfNecessary();
-      if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.beginConversation");
+      if ( !isLongRunningConversation() )
+      {
+         log.debug("Beginning long-running conversation");
+         setLongRunningConversation(true);
+         createConversationEntry().setInitiatorComponentName(initiator);
+         Conversation.instance(); //force instantiation of the Conversation in the outer (non-nested) conversation
+         storeConversationToViewRootIfNecessary();
+         if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.beginConversation");
+      }
    }
 
    /**
@@ -602,12 +604,15 @@ public class Manager
     */
    public void endConversation(boolean beforeRedirect)
    {
-      log.debug("Ending long-running conversation");
-      if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.endConversation");
-      setLongRunningConversation(false);
-      destroyBeforeRedirect = beforeRedirect;
-      endNestedConversations( getCurrentConversationId() );
-      storeConversationToViewRootIfNecessary();
+      if ( isLongRunningConversation() )
+      {
+         log.debug("Ending long-running conversation");
+         if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.endConversation");
+         setLongRunningConversation(false);
+         destroyBeforeRedirect = beforeRedirect;
+         endNestedConversations( getCurrentConversationId() );
+         storeConversationToViewRootIfNecessary();
+      }
    }
    
    private void storeConversationToViewRootIfNecessary()
