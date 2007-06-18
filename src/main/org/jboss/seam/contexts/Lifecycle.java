@@ -13,7 +13,6 @@ import javax.faces.context.ExternalContext;
 import javax.faces.event.PhaseId;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.transaction.SystemException;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
