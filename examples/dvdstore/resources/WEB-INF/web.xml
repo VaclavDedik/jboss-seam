@@ -64,8 +64,4 @@
         <session-timeout>10</session-timeout> 
     </session-config>     
 
-    <error-page>
-        <error-code>404</error-code>
-        <location>/home.seam</location>
-    </error-page> 
 </web-app>
