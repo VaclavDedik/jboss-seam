@@ -27,26 +27,31 @@ public class TransactionInterceptor extends AbstractInterceptor
    {
       return new Work()
       {
+         
          @Override
          protected Object work() throws Exception
          {
             return invocation.proceed();
          }
+         
          @Override
          protected boolean isNewTransactionRequired(boolean transactionActive)
          {
             return isNewTransactionRequired( invocation.getMethod(), getComponent().getBeanClass(), transactionActive );
          }
+         
          private boolean isNewTransactionRequired(Method method, Class beanClass, boolean transactionActive)
          {
             return isTransactionAnnotationPresent(method) ? 
                   isNewTransactionRequired(method, transactionActive) :
                   isTransactionAnnotationPresent(beanClass) && isNewTransactionRequired(beanClass, transactionActive);
          }
+         
          private boolean isTransactionAnnotationPresent(AnnotatedElement element)
          {
             return element.isAnnotationPresent(Transactional.class);
          }
+         
          private boolean isNewTransactionRequired(AnnotatedElement element, boolean transactionActive)
          {
             return element.getAnnotation(Transactional.class).value().isNewTransactionRequired(transactionActive);
@@ -54,4 +59,5 @@ public class TransactionInterceptor extends AbstractInterceptor
          
       }.workInTransaction();      
    }
+   
 }

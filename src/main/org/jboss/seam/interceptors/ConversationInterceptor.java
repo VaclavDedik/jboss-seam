@@ -4,6 +4,7 @@ package org.jboss.seam.interceptors;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
+import org.jboss.seam.annotations.ApplicationException;
 import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.BeginTask;
@@ -36,32 +37,50 @@ public class ConversationInterceptor extends AbstractInterceptor
    @AroundInvoke
    public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
-      Method method = invocation.getMethod();
-      if ( getComponent().isConversationManagementMethod(method) ) //performance optimization 
+      try
       {
-   
-         if ( isMissingJoin(method) )
+         Method method = invocation.getMethod();
+         if ( getComponent().isConversationManagementMethod(method) ) //performance optimization 
          {
-            throw new IllegalStateException("begin method invoked from a long running conversation, try using @Begin(join=true) on method: " + method.getName());
-         }
-         
-         if ( redirectToExistingConversation(method) ) 
-         {
-            return null;
+      
+            if ( isMissingJoin(method) )
+            {
+               throw new IllegalStateException("begin method invoked from a long running conversation, try using @Begin(join=true) on method: " + method.getName());
+            }
+            
+            if ( redirectToExistingConversation(method) ) 
+            {
+               return null;
+            }
+            else
+            {
+               Object result = invocation.proceed();   
+               beginConversationIfNecessary(method, result);
+               endConversationIfNecessary(method, result);
+               return result;
+            }
+            
          }
          else
          {
-            Object result = invocation.proceed();   
-            beginConversationIfNecessary(method, result);
-            endConversationIfNecessary(method, result);
-            return result;
+            return invocation.proceed();
          }
-         
       }
-      else
+      catch (Exception e)
       {
-         return invocation.proceed();
+         if ( isEndConversationRequired(e) )
+         {
+            endConversation(false);
+         }
+         throw e;
       }
+   }
+
+   private boolean isEndConversationRequired(Exception e)
+   {
+      Class<? extends Exception> clazz = e.getClass();
+      return clazz.isAnnotationPresent(ApplicationException.class)
+            && clazz.getAnnotation(ApplicationException.class).end();
    }
    
    public boolean redirectToExistingConversation(Method method)

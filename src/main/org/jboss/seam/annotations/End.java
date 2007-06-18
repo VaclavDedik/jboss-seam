@@ -26,6 +26,8 @@ public @interface End {
 	/**
 	 * An empty outcome list is interpreted to mean any 
 	 * outcome except for the null (redisplay) outcome.
+    * 
+    * @deprecated use Conversation.instance().end()
 	 */
 	String[] ifOutcome() default {};
    /**

@@ -5,19 +5,15 @@ import static org.jboss.seam.ComponentType.JAVA_BEAN;
 import static org.jboss.seam.util.EJB.APPLICATION_EXCEPTION;
 import static org.jboss.seam.util.EJB.rollback;
 
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.List;
-
+import org.jboss.seam.annotations.ApplicationException;
 import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Interceptor;
-import org.jboss.seam.annotations.Outcome;
-import org.jboss.seam.annotations.Rollback;
 import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.transaction.Transaction;
 
 /**
- * Automatically sets transactions to rollback only.
+ * Automatically sets the current transaction to rollback 
+ * only when an exception is thrown.
  * 
  * @author Gavin King
  */
@@ -31,46 +27,29 @@ public class RollbackInterceptor extends AbstractInterceptor
    {
       try
       {
-         final Object result = invocation.proceed();
-         if ( isRollbackRequired( invocation.getMethod(), result ) )
-         {
-            Transaction.instance().setRollbackOnly();
-         }
-         return result;
+         return invocation.proceed();
       }
       catch (Exception e)
       {
-         //Reproduce the EJB3 rollback rules for JavaBean components
-         if ( getComponent().getType()==JAVA_BEAN )
+         if ( isRollbackRequired(e) )
          {
-            if ( isRollbackRequired(e) )
+            try
             {
-               try
-               {
-                  Transaction.instance().setRollbackOnly();
-               }
-               catch (Exception te) {} //swallow
+               Transaction.instance().setRollbackOnly();
             }
+            catch (Exception te) {} //swallow
          }
          throw e;
       }
    }
    
-   private boolean isRollbackRequired(Method method, final Object result)
-   {
-      if ( !method.isAnnotationPresent(Rollback.class) ) return false;
-      String[] outcomes = method.getAnnotation(Rollback.class).ifOutcome();
-      List<String> outcomeList = Arrays.asList(outcomes);
-      return outcomes.length==0 || 
-            ( result==null && outcomeList.contains(Outcome.REDISPLAY) ) || 
-            outcomeList.contains(result);
-   }
-   
    private boolean isRollbackRequired(Exception e)
    {
+      boolean isJavaBean = getComponent().getType()==JAVA_BEAN;
       Class<? extends Exception> clazz = e.getClass();
-      return ( (e instanceof RuntimeException) && !clazz.isAnnotationPresent(APPLICATION_EXCEPTION) ) || 
-            ( clazz.isAnnotationPresent(APPLICATION_EXCEPTION) && rollback( clazz.getAnnotation(APPLICATION_EXCEPTION) ) );
+      return ( isJavaBean && (e instanceof RuntimeException) && !clazz.isAnnotationPresent(APPLICATION_EXCEPTION) && !clazz.isAnnotationPresent(ApplicationException.class) ) || 
+            ( isJavaBean && clazz.isAnnotationPresent(APPLICATION_EXCEPTION) && rollback( clazz.getAnnotation(APPLICATION_EXCEPTION) ) ) ||
+            ( clazz.isAnnotationPresent(ApplicationException.class) && clazz.getAnnotation(ApplicationException.class).rollback() );
    }
    
 }

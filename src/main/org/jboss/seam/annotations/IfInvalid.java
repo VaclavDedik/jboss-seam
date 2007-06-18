@@ -27,7 +27,7 @@ import java.lang.annotation.Target;
 public @interface IfInvalid
 {
    /**
-    * The JSF outcome, in the case that the reciever is
+    * The JSF outcome, in the case that the receiver is
     * in an invalid state.
     */
    String outcome();

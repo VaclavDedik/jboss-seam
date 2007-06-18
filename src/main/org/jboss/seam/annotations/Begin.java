@@ -11,9 +11,9 @@ import java.lang.annotation.Target;
 /**
  * Marks a method as beginning a long-running conversation, 
  * if none exists, and if the method returns a non-null value 
- * without throwing an exception. If a list of outcomes is 
- * specified, the conversation begins only if the outcome is 
- * in the list. A null outcome never begins a conversation.
+ * without throwing an exception.
+ *  
+ * A null outcome never begins a conversation.
  * If the method is of type void, a conversation always
  * begins.
  * 
@@ -27,6 +27,8 @@ public @interface Begin
 	/**
 	 * An empty outcome list is interpreted to mean any 
 	 * outcome except for the null (redisplay) outcome.
+    * 
+    * @deprecated use Conversation.instance().begin();
 	 */
 	String[] ifOutcome() default {};
    /**

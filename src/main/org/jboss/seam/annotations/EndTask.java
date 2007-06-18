@@ -32,6 +32,9 @@ public @interface EndTask
    /**
     * An empty outcome list is interpreted to mean any 
     * outcome except for the null (redisplay) outcome.
+    * 
+    * @deprecated use BusinessProcess.instance().end("...") and
+    *             Conversation.instance().end()
     */
    String[] ifOutcome() default {};
    

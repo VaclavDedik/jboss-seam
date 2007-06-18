@@ -72,7 +72,6 @@ import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.RaiseEvent;
 import org.jboss.seam.annotations.RequestParameter;
-import org.jboss.seam.annotations.Rollback;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.StartTask;
 import org.jboss.seam.annotations.Startup;
@@ -928,10 +927,7 @@ public class Component extends Model
       {
          addInterceptor( new Interceptor( new ValidationInterceptor(), this ) );
       }
-      if ( getType()==JAVA_BEAN || beanClassHasAnnotation(Rollback.class) )
-      {
-         addInterceptor( new Interceptor( new RollbackInterceptor(), this ) );
-      }
+      addInterceptor( new Interceptor( new RollbackInterceptor(), this ) );
       if ( getType()==JAVA_BEAN && beanClassHasAnnotation(Transactional.class))
       {
          addInterceptor( new Interceptor( new TransactionInterceptor(), this ) );
