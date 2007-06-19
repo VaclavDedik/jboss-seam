@@ -21,7 +21,7 @@ import org.jboss.seam.core.Events;
  * @author Gavin king
  *
  */
-@Name("org.jboss.seam.core.validation")
+@Name("org.jboss.seam.faces.validation")
 @Intercept(InterceptionType.NEVER)
 @Install(precedence=BUILT_IN, classDependencies="javax.faces.context.FacesContext")
 public class Validation

@@ -120,21 +120,9 @@ public class Identity extends Selector
       setDirty();
    }
    
-   /**
-    *
-    */
-   public void beginRequest()
-   {
-
-   }
+   public void beginRequest() {}
    
-   /**
-    *
-    */
-   public void endRequest()
-   {
-      
-   }
+   public void endRequest() {}
 
    protected void postRememberMe()
    {
@@ -158,9 +146,6 @@ public class Identity extends Selector
       return instance;
    }
    
-   /**
-    * 
-    */
    public boolean isLoggedIn()
    {           
       return isLoggedIn(false);
