@@ -1,8 +1,8 @@
-package org.jboss.seam.jsf;
+package org.jboss.seam.faces;
 
-import static org.jboss.seam.annotations.Install.BUILT_IN;
-import static org.jboss.seam.ScopeType.STATELESS;
 import static org.jboss.seam.InterceptionType.NEVER;
+import static org.jboss.seam.ScopeType.STATELESS;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.util.List;
 import java.util.Map;
@@ -17,9 +17,13 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.framework.Query;
+import org.jboss.seam.jsf.ArrayDataModel;
+import org.jboss.seam.jsf.ListDataModel;
+import org.jboss.seam.jsf.MapDataModel;
+import org.jboss.seam.jsf.SetDataModel;
 
 @Name("org.jboss.seam.jsf.jsfProvider")
-@Install(precedence=BUILT_IN)
+@Install(precedence=BUILT_IN, classDependencies="javax.faces.context.FacesContext")
 @Scope(STATELESS)
 @Intercept(NEVER)
 public class JsfProvider
