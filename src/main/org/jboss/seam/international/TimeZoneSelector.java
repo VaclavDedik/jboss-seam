@@ -23,9 +23,9 @@ import org.jboss.seam.faces.Selector;
  * @author Gavin King
  */
 @Scope(ScopeType.SESSION)
-@Name("org.jboss.seam.core.timeZoneSelector")
+@Name("org.jboss.seam.international.timeZoneSelector")
 @Intercept(NEVER)
-@Install(precedence=BUILT_IN)
+@Install(precedence=BUILT_IN, classDependencies="javax.faces.context.FacesContext")
 public class TimeZoneSelector extends Selector
 {
    private static final long serialVersionUID = -5013819375360015369L;

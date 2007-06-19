@@ -35,9 +35,9 @@ import org.jboss.seam.web.ServletContexts;
  * @author Gavin King
  */
 @Scope(ScopeType.SESSION)
-@Name("org.jboss.seam.core.localeSelector")
+@Name("org.jboss.seam.international.localeSelector")
 @Intercept(NEVER)
-@Install(precedence=BUILT_IN)
+@Install(precedence=BUILT_IN, classDependencies="javax.faces.context.FacesContext")
 public class LocaleSelector extends Selector
 {
    private static final long serialVersionUID = -6087667065688208261L;

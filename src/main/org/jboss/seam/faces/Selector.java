@@ -1,6 +1,7 @@
 package org.jboss.seam.faces;
 
 import java.io.Serializable;
+
 import javax.faces.context.FacesContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;

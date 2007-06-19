@@ -209,7 +209,7 @@ public final class Param
       //TODO: this should not be necessary!
       if (resourceBundle==null)
       {
-         resourceBundle = org.jboss.seam.international.ResourceBundle.instance();
+         resourceBundle = org.jboss.seam.core.ResourceBundle.instance();
       }
       throw new ValidatorException( new FacesMessage(
                FacesMessage.SEVERITY_ERROR, 

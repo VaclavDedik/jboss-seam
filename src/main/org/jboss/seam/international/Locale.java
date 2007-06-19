@@ -18,10 +18,11 @@ import org.jboss.seam.contexts.Contexts;
  * @author Gavin King
  */
 @Scope(ScopeType.STATELESS)
-@Name("org.jboss.seam.core.locale")
-@Install(precedence=BUILT_IN)
+@Name("org.jboss.seam.international.locale")
+@Install(precedence=BUILT_IN, dependencies="org.jboss.seam.international.localeSelector")
 @Intercept(NEVER)
-public class Locale {
+public class Locale 
+{
 
    @Unwrap
    public java.util.Locale getLocale()

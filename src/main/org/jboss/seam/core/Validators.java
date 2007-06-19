@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-
 import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.Component;
@@ -17,8 +16,6 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.international.Locale;
-import org.jboss.seam.international.ResourceBundle;
 
 /**
  * Caches instances of Hibernate Validator ClassValidator
@@ -67,7 +64,7 @@ public class Validators
     */
    public <T> ClassValidator<T> getValidator(Class<T> modelClass, String name)
    {
-      Key key = new Key(modelClass, Locale.instance());
+      Key key = new Key( modelClass, ResourceBundle.instance().getLocale() );
       ClassValidator result = classValidators.get(key);
       if (result==null)
       {

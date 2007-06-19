@@ -17,10 +17,11 @@ import org.jboss.seam.annotations.Unwrap;
  * @author Gavin King
  */
 @Scope(ScopeType.STATELESS)
-@Name("org.jboss.seam.core.timeZone")
+@Name("org.jboss.seam.international.timeZone")
 @Intercept(NEVER)
-@Install(precedence=BUILT_IN)
-public class TimeZone {
+@Install(precedence=BUILT_IN, dependencies="org.jboss.seam.international.timeZoneSelector")
+public class TimeZone 
+{
 
    @Unwrap
    public java.util.TimeZone getTimeZone()

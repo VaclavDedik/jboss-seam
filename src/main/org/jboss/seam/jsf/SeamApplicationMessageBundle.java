@@ -19,13 +19,13 @@ public class SeamApplicationMessageBundle extends ResourceBundle
    @Override
    public Enumeration<String> getKeys()
    {
-      return org.jboss.seam.international.ResourceBundle.instance().getKeys();
+      return org.jboss.seam.core.ResourceBundle.instance().getKeys();
    }
 
    @Override
    protected Object handleGetObject(String key)
    {
-      Object resource = org.jboss.seam.international.ResourceBundle.instance().getObject(key);
+      Object resource = org.jboss.seam.core.ResourceBundle.instance().getObject(key);
       return resource!=null && ( resource instanceof String ) ?
             Interpolator.instance().interpolate( (String) resource ) :
             resource;

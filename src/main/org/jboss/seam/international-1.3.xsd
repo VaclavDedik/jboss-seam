@@ -22,20 +22,6 @@
         </xs:attribute>
     </xs:attributeGroup>
 
-    <xs:element name="resource-bundle">
-        <xs:complexType mixed="true">
-            <xs:choice minOccurs="0" maxOccurs="unbounded">
-                <xs:element ref="international:bundle-names"/>
-            </xs:choice>
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="international:attlist.resourceBundle"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="bundle-names" type="components:multiValuedProperty"/>
-    <xs:attributeGroup name="attlist.resourceBundle">
-        <xs:attribute name="bundle-names"> </xs:attribute>
-    </xs:attributeGroup>
-
     <xs:element name="time-zone-selector">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>

@@ -27,7 +27,7 @@ import org.jboss.seam.core.Interpolator;
  */
 @Scope(ScopeType.SESSION)
 @Intercept(NEVER)
-@Name("org.jboss.seam.core.messages")
+@Name("org.jboss.seam.international.messages")
 @Install(precedence=BUILT_IN)
 public class Messages implements Serializable 
 {
