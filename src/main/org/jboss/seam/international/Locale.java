@@ -31,9 +31,12 @@ public class Locale {
      
    public static java.util.Locale instance()
    {
-       if (Contexts.isApplicationContextActive()) {
+       if ( Contexts.isApplicationContextActive() ) 
+       {
           return (java.util.Locale) Component.getInstance(Locale.class, ScopeType.STATELESS);
-       } else {
+       } 
+       else 
+       {
           return java.util.Locale.US; // testing
        }
    }

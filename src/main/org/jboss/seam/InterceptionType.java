@@ -1,9 +1,8 @@
 //$Id$
 package org.jboss.seam;
 
-import javax.faces.event.PhaseId;
-
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.util.JSF;
 
 /**
  * Rules for when Seam will intercept invocations upon a
@@ -48,17 +47,17 @@ public enum InterceptionType
    public boolean isActive()
    {
       //if ( Lifecycle.isDestroying() ) return false;
-      final PhaseId phaseId = Lifecycle.getPhaseId();
+      final Object phaseId = Lifecycle.getPhaseId();
       switch(this)
       {
          case NEVER:
             return false;
          case AFTER_RESTORE_VIEW:
-            return phaseId!=PhaseId.RESTORE_VIEW;
+            return phaseId!=JSF.RESTORE_VIEW;
          case AFTER_UPDATE_MODEL_VALUES:
-            return phaseId!=PhaseId.RESTORE_VIEW && phaseId!=PhaseId.UPDATE_MODEL_VALUES;
+            return phaseId!=JSF.RESTORE_VIEW && phaseId!=JSF.UPDATE_MODEL_VALUES;
          case INVOKE_APPLICATION:
-            return phaseId==PhaseId.INVOKE_APPLICATION || phaseId==null;
+            return phaseId==JSF.INVOKE_APPLICATION || phaseId==null;
          case ALWAYS:
             return true;
          default:

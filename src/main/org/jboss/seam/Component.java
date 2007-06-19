@@ -116,11 +116,11 @@ import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.util.Conversions;
 import org.jboss.seam.util.Naming;
-import org.jboss.seam.util.Parameters;
 import org.jboss.seam.util.Reflections;
 import org.jboss.seam.util.SortItem;
 import org.jboss.seam.util.Sorter;
 import org.jboss.seam.util.Conversions.PropertyValue;
+import org.jboss.seam.web.Parameters;
 
 /**
  * Metamodel class for component classes.
@@ -1347,11 +1347,11 @@ public class Component extends Model
 
    private void injectParameters(Object bean)
    {
-      Map<String, String[]> requestParameters = Parameters.getRequestParameters();
-
+      Parameters params = Parameters.instance();
+      Map<String, String[]> requestParameters = params.getRequestParameters();
       for (BijectedAttribute setter: parameterSetters)
       {
-         Object convertedValue = Parameters.convertMultiValueRequestParameter(requestParameters, setter.getName(), setter.getType());
+         Object convertedValue = params.convertMultiValueRequestParameter(requestParameters, setter.getName(), setter.getType());
          setter.set(bean, convertedValue);
       }
    }

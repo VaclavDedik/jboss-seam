@@ -5,7 +5,7 @@ import java.util.Locale;
 
 import org.hibernate.validator.ClassValidator;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.core.ResourceBundle;
+import org.jboss.seam.international.ResourceBundle;
 
 /**
  * Base class of metamodels. For a class which
