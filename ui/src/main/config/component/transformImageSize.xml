@@ -13,7 +13,7 @@
 			<name>transformImageSize</name>
 			<classname>org.jboss.seam.ui.taglib.TransformImageSizeTag</classname>
 			<superclass>
-				org.ajax4jsf.framework.taglib.HtmlComponentTagBase
+				org.jboss.seam.ui.util.cdk.UIComponentTagBase
 			</superclass>
 		</tag>
 		&ui_component_attributes;

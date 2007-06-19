@@ -9,15 +9,17 @@
 		<description>
 			<![CDATA["Decorate" a JSF input field when validation fails or when required="true" is set.]]>
 		</description>
-		<renderer generate="true" override="true">
+		<renderer generate="false" override="false">
 			<name>org.jboss.seam.ui.DecorateRenderer</name>
-			<template>org/jboss/seam/ui/htmlDecorate.jspx</template>
+			<classname>org.jboss.seam.ui.renderkit.DecorateRendererBase</classname>
+			<!--<template>org/jboss/seam/ui/htmlDecorate.jspx</template>-->
+			
 		</renderer>
 		<tag>
 			<name>decorate</name>
 			<classname>org.jboss.seam.ui.taglib.DecorateTag</classname>
 			<superclass>
-				org.ajax4jsf.framework.taglib.HtmlComponentTagBase
+				org.jboss.seam.ui.util.cdk.UIComponentTagBase
 			</superclass>
 		</tag>
 		

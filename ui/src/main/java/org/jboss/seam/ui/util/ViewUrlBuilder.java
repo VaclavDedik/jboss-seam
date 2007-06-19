@@ -3,12 +3,11 @@ package org.jboss.seam.ui.util;
 
 import java.io.UnsupportedEncodingException;
 
-
 import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
 
-import org.jboss.seam.core.Pages;
-import org.jboss.seam.pages.Page;
+import org.jboss.seam.navigation.Page;
+import org.jboss.seam.navigation.Pages;
 
 public class ViewUrlBuilder extends UrlBuilder
 {
@@ -17,7 +16,7 @@ public class ViewUrlBuilder extends UrlBuilder
 
    public ViewUrlBuilder(String viewId, String fragment)
    {
-      super();
+      super(fragment);
       FacesContext facesContext = FacesContext.getCurrentInstance();
       String url = facesContext.getApplication().getViewHandler().getActionURL(facesContext,
                viewId);

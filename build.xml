@@ -51,8 +51,8 @@
 	<property name="meldware.dir" value="${mail.dir}/buni-meldware" />
 
 	<property name="src.java.dir" value="src/main" />
-	<property name="src.ui.dir" value="src/ui" />
-	<property name="src.ui-cdk.dir" value="ui" />
+	<property name="src.ui.dir" value="ui/src" />
+	<property name="ui.dir" value="ui" />
 	<property name="src.pdf.dir" value="src/pdf" />
 	<property name="src.ioc.dir" value="src/ioc" />
 	<property name="src.mail.dir" value="src/mail" />
@@ -80,11 +80,12 @@
 	<property name="dist.name" value="${name}-${version}.${patchlevel}" />
 
 	<property name="dist.dir" value="${imported.basedir}/../${dist.name}" />
+	<property name="dist.ui.dir" value="${dist.dir}/ui" />
 	<property name="dist.doc.dir" value="${dist.dir}/doc" />
 	<property name="dist.api.dir" value="${dist.dir}/doc/api" />
 	<property name="dist.ref.dir" value="${dist.dir}/doc/reference" />
 	<property name="dist.src.java.dir" value="${dist.dir}/src/main" />
-	<property name="dist.src.ui.dir" value="${dist.dir}/src/ui" />
+	<property name="dist.src.ui.dir" value="${dist.dir}/ui/src" />
 	<property name="dist.src.pdf.dir" value="${dist.dir}/src/pdf" />
 	<property name="dist.src.ioc.dir" value="${dist.dir}/src/ioc" />
 	<property name="dist.src.mail.dir" value="${dist.dir}/src/mail" />
@@ -134,6 +135,10 @@
 		<include name="jboss-seam-ioc.jar" if="example.seam.ioc.war.lib" />
 		<include name="jboss-seam-mail.jar" if="example.seam.mail.lib" />
 		<include name="jboss-seam-remoting.jar" if="example.seam.remoting.lib" />
+	</zipfileset>
+	
+	<zipfileset id="example.seam.ui.jar" dir="${lib.dir}" prefix="WEB-INF/lib" description="the jars needed for seam ui">
+		<include name="commons-beanutils*.jar" if="example.seam.ui.lib" />
 	</zipfileset>
 
 	<zipfileset id="example.itext.jar" dir="${lib.dir}" prefix="WEB-INF/lib" description="the itext jar">
@@ -408,9 +413,10 @@
 		<delete dir="${build.dir}" />
 		<delete dir="test-output" />
 		<delete dir="report" />
+		<antcall target="cleanui" />
 	</target>
 	
-	<target name="cleanui-cdk" description="Cleans up CDK based Seam UI">
+	<target name="cleanui" unless="example.name">
 		<antcall target="cdk">
 			<param name="maven-target" value="clean" />
 		</antcall>
@@ -512,19 +518,6 @@
 		<copy todir="${classes.dir}">
 			<fileset dir="${src.java.dir}">
 				<patternset refid="meta.files" />
-			</fileset>
-		</copy>
-
-	</target>
-
-	<target name="initui" description="Initialize the build for the UI package">
-		<echo message="Build ${Name} UI ${version}" />
-
-		<mkdir dir="${uiclasses.dir}" />
-		<copy todir="${uiclasses.dir}">
-			<fileset dir="${src.ui.dir}">
-				<patternset refid="meta.files" />
-				<patternset refid="resource.files" />
 			</fileset>
 		</copy>
 
@@ -634,12 +627,6 @@
 	<target name="compilecore" depends="init,select-compiler,antlr" description="Compile the Java source code for the core package">
 		<javac source="1.5" target="1.5" destdir="${classes.dir}" classpathref="build.classpath" debug="${javac.debug}" deprecation="${javac.deprecation}" nowarn="on">
 			<src path="${src.java.dir}" />
-		</javac>
-	</target>
-
-	<target name="compileui" depends="initui,select-compiler" description="Compile the Java source code for the UI package">
-		<javac source="1.5" target="1.5" destdir="${uiclasses.dir}" classpathref="build.classpath" debug="${javac.debug}" deprecation="${javac.deprecation}" nowarn="on">
-			<src path="${src.ui.dir}" />
 		</javac>
 	</target>
 
@@ -1032,44 +1019,28 @@
 
 	</target>
 
-	<target name="jarui" depends="compileui" description="Build the distribution .jar file for the UI package">
-		<mkdir dir="${dist.dir}" />
-
-		<jar jarfile="${basedir}/${name}-ui.jar" basedir="${uiclasses.dir}">
-			<include name="**/*.class" />
-			<patternset refid="meta.files" />
-			<patternset refid="resource.files" />
-			<manifest>
-				<attribute name="Seam-Version" value="${version}.${patchlevel}" />
-				<attribute name="Implementation-Version" value="${version}.${patchlevel}" />
-			</manifest>
-		</jar>
-		<copy file="${basedir}/${name}-ui.jar" todir="${dist.dir}" />
-
-	</target>
-
-	<target name="jarui-cdk" description="Build the distribution .jar file for the UI package based on A4J CDK">
+	<target name="jarui" description="Build the distribution .jar file for the UI package based on A4J CDK">
 		<mkdir dir="${dist.dir}" />
 		<antcall target="cdk">
 			<param name="maven-target" value="package" />
 		</antcall>
-		<copy file="${src.ui-cdk.dir}/jboss-seam-ui/target/jboss-seam-ui.jar" tofile="${basedir}/${name}-ui.jar" />
+		<copy file="${ui.dir}/target/jboss-seam-ui.jar" tofile="${basedir}/${name}-ui.jar" />
 		<copy file="${basedir}/${name}-ui.jar" todir="${dist.dir}" />
 	</target>
 
 	<!-- Call out to maven to build Seam ui based on the cdk-->
 	<target name="cdk">
-		<java classname="org.codehaus.classworlds.Launcher" fork="true" dir="${basedir}/${src.ui-cdk.dir}/jboss-seam-ui">
+		<java classname="org.codehaus.classworlds.Launcher" fork="true" dir="${basedir}">
 			<classpath>
-				<fileset dir="${basedir}/${src.ui-cdk.dir}/maven/core/boot">
+				<fileset dir="${basedir}/maven/core/boot">
 					<include name="*.jar" />
 				</fileset>
-				<fileset dir="${basedir}/${src.ui-cdk.dir}/maven/bin">
+				<fileset dir="${basedir}/maven/bin">
 					<include name="*.*" />
 				</fileset>
 			</classpath>
-			<sysproperty key="classworlds.conf" value="${basedir}/${src.ui-cdk.dir}/maven/bin/m2.conf" />
-			<sysproperty key="maven.home" value="${basedir}/${src.ui-cdk.dir}/maven" />
+			<sysproperty key="classworlds.conf" value="${basedir}/maven/bin/m2.conf" />
+			<sysproperty key="maven.home" value="${basedir}/maven" />
 			<sysproperty key="seam.dir" value="${basedir}" />
 			<sysproperty key="seam.version" value="${version}" />
 			<sysproperty key="tlddoc.dir" value="${dist.ui.tld.dir}" />
@@ -1179,20 +1150,20 @@
 			</packageset>
 
 		</javadoc>
+		
+		<antcall target="cdk">
+			<param name="maven-target" value="javadoc:javadoc" />
+		</antcall>
+		
 		<copy file="${doc.api.dir}/package.html" todir="${dist.api.dir}" />
 
-	</target>
-	
-	<target name="javadoc-ui" description="Javadoc and TLD doc for Seam UI">
-		<antcall target="cdk">
-			<param name="maven-target" value="javadoc:javadoc taglib:taglibdoc" />
-		</antcall>
 		<copy todir="${dist.ui.api.dir}">
-			<fileset dir="${src.ui-cdk.dir}/jboss-seam-ui/target/site">
-				<include name="tlddoc/**"/>
+			<fileset dir="${ui.dir}/target/site">
+				<!--<include name="tlddoc/**"/>-->
 				<include name="apidocs/**"/>
 			</fileset>		
-		</copy>
+		</copy>	
+		
 	</target>
 
 	<target name="refdoc" description="Generate and copy reference documentation">
@@ -1218,6 +1189,8 @@
 		<copy file="changelog.txt" todir="${dist.dir}" />
 		<copy file="build.properties" todir="${dist.dir}" />
 		<copy file="build.xml" todir="${dist.dir}" />
+		<copy file="pom.xml" todir="${dist.dir}" />
+		<copy file="${ui.dir}/pom.xml" todir="${dist.src.ui.dir}" />
 		<copy file="seam" todir="${dist.dir}" />
 		<copy file="seam-text.g" todir="${dist.dir}" />
 		<copy file="seam.bat" todir="${dist.dir}" />
@@ -1261,6 +1234,7 @@
 		<jar destfile="${build.dir}/${example.name}.war">
 			<zipfileset refid="example.war.docroot" />
 			<zipfileset refid="example.war.webinf.lib" />
+			<zipfileset refid="example.seam.ui.jar"/>
 			<zipfileset refid="example.seam.misc.jar" />
 			<zipfileset refid="example.facelets.jar" />
 			<zipfileset refid="example.urlrewrite.jar" />

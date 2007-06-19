@@ -46,7 +46,7 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
 	
 	private static final String COMPONENT_TYPE = "org.jboss.seam.ui.SelectItems";
 	
-	private static final String COMPONENT_FAMILY = "org.jboss.seam.ui.SelectItems";
+	private static final String COMPONENT_FAMILY = "javax.faces.SelectItems";
    
    private Object value;
    
@@ -83,9 +83,9 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
    
    public abstract void setVar(String var);
    
-   public abstract String getLabel();
+   public abstract Object getLabel();
    
-   public abstract void setLabel(String label);
+   public abstract void setLabel(Object label);
    
    public abstract Boolean getDisabled();
    
@@ -155,7 +155,7 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
       for (Object o : iterable)
       {
          initVar(o);
-         selectItems.add(new javax.faces.model.SelectItem(o, getLabel(), "", getDisabled() == null ? false : getDisabled()));
+         selectItems.add(new javax.faces.model.SelectItem(o, getLabel() == null ? null : getLabel().toString(), "", getDisabled() == null ? false : getDisabled()));
          destroyVar();
       }
       return selectItems;
@@ -173,7 +173,7 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
        * that if the result of the EL expression is an empty String, then the label will be hidden.
        */
       ValueExpression vb = getValueExpression("noSelectionLabel");
-      if (vb == null && !(getHideNoSelectionLabel() && getParentValue() != null))
+      if (getNoSelectionLabel() != null && vb == null && !(getHideNoSelectionLabel()  && getParentValue() != null))
       {
          /* 
           * Here, the user has specfied a noSelectionLabel (may be an empty string), and, if hideNoSelectionLabel

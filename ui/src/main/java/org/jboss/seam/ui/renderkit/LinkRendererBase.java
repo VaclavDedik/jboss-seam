@@ -2,12 +2,15 @@ package org.jboss.seam.ui.renderkit;
 
 import java.io.IOException;
 
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.context.ResponseWriter;
 
-import org.ajax4jsf.framework.renderer.AjaxComponentRendererBase;
 import org.jboss.seam.ui.component.UILink;
+import org.jboss.seam.ui.util.HTML;
+import org.jboss.seam.ui.util.cdk.RendererBase;
 
-public class LinkRendererBase extends AjaxComponentRendererBase
+public class LinkRendererBase extends RendererBase
 {
 
    @Override
@@ -16,19 +19,27 @@ public class LinkRendererBase extends AjaxComponentRendererBase
       return UILink.class;
    }
    
-   public String getHref(FacesContext facesContext, UILink link) throws IOException
-   {
-      if (!link.isDisabled())
-      {
-         return link.getUrl();
-      }
-      return null;
-   }
-
    @Override
-   public boolean getRendersChildren()
+   protected void doEncodeBegin(ResponseWriter writer, FacesContext context, UIComponent component) throws IOException
    {
-      return true;
+      UILink link = (UILink) component;
+      writer.startElement(HTML.ANCHOR_ELEM, link);
+      if (link.getUrl() != null && !link.isDisabled())
+      {
+         writer.writeAttribute(HTML.HREF_ATTR, link.getUrl(), HTML.HREF_ATTR);
+      }
+      HTML.renderHTMLAttributes(writer, link, HTML.ANCHOR_PASSTHROUGH_ATTRIBUTES);
+      if (link.getValue() != null)
+      {
+         writer.writeText(link.getValue(), null);
+      }
    }
+   
+   @Override
+   protected void doEncodeEnd(ResponseWriter writer, FacesContext context, UIComponent component) throws IOException
+   {
+      writer.endElement(HTML.ANCHOR_ELEM);
+   }
+   
    
 }

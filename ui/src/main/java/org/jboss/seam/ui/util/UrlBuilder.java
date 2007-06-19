@@ -17,15 +17,17 @@ public class UrlBuilder
    
    private Map<String, String> parameters;
 
-   protected UrlBuilder()
+   protected UrlBuilder(String fragment)
    {
+      this.fragment = fragment;
       parameters = new HashMap<String, String>();
       FacesContext facesContext = FacesContext.getCurrentInstance();
       characterEncoding = facesContext.getResponseWriter().getCharacterEncoding();
    }
    
-   public UrlBuilder(String url)
+   public UrlBuilder(String url, String fragment)
    {
+      this(fragment);
       setUrl(url);
    }
    

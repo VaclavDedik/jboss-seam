@@ -13,7 +13,7 @@ import javax.mail.internet.MimeMultipart;
 
 import org.jboss.seam.mail.MailSession;
 import org.jboss.seam.mail.ui.context.MailFacesContextImpl;
-import org.jboss.seam.ui.JSF;
+import org.jboss.seam.ui.util.JSF;
 
 /**
  * JSF component which delimites the start and end of the mail message.

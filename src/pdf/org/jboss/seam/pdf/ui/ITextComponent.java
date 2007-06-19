@@ -10,7 +10,8 @@ import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
-import org.jboss.seam.ui.JSF;
+import org.jboss.seam.ui.util.JSF;
+
 
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;

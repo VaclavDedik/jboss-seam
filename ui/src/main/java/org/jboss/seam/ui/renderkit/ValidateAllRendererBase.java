@@ -8,11 +8,11 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
-import org.ajax4jsf.renderkit.AjaxCommandRendererBase;
 import org.jboss.seam.ui.component.UIValidateAll;
+import org.jboss.seam.ui.util.cdk.RendererBase;
 import org.jboss.seam.ui.validator.ModelValidator;
 
-public class ValidateAllRendererBase extends AjaxCommandRendererBase
+public class ValidateAllRendererBase extends RendererBase
 {
 
    @Override
@@ -51,5 +51,12 @@ public class ValidateAllRendererBase extends AjaxCommandRendererBase
          }
       }
    }
+   
+   @Override
+   public boolean getRendersChildren()
+   {
+      return true;
+   }
+
 
 }

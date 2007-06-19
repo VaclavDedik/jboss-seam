@@ -3,7 +3,7 @@
 <components>
 	<component>
 		<name>org.jboss.seam.ui.Label</name>
-		<family>org.jboss.seam.ui.Label</family>
+		<family>javax.faces.Output</family>
 		<classname>org.jboss.seam.ui.component.html.HtmlLabel</classname>
 		<superclass>org.jboss.seam.ui.component.UILabel</superclass>
 		<description>
@@ -13,7 +13,7 @@
 			<name>label</name>
 			<classname>org.jboss.seam.ui.taglib.LabelTag</classname>
 			<superclass>
-				org.ajax4jsf.framework.taglib.HtmlComponentTagBase
+				org.jboss.seam.ui.util.cdk.UIComponentTagBase
 			</superclass>
 		</tag>
 		

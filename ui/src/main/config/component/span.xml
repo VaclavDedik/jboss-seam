@@ -9,15 +9,16 @@
 		<description>
 			<![CDATA[Render a HTML <span>]]>
 		</description>
-		<renderer generate="true" override="true">
+		<renderer generate="false" override="false">
 			<name>org.jboss.seam.ui.SpanRenderer</name>
-			<template>org/jboss/seam/ui/htmlSpan.jspx</template>
+			<classname>org.jboss.seam.ui.renderkit.SpanRendererBase</classname>
+			<!--<template>org/jboss/seam/ui/htmlSpan.jspx</template>-->
 		</renderer>
 		<tag>
 			<name>span</name>
 			<classname>org.jboss.seam.ui.taglib.SpanTag</classname>
 			<superclass>
-				org.ajax4jsf.framework.taglib.HtmlComponentTagBase
+				org.jboss.seam.ui.util.cdk.UIComponentTagBase
 			</superclass>
 		</tag>
 		&ui_component_attributes;

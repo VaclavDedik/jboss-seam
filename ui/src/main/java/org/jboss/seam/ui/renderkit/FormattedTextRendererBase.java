@@ -7,8 +7,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
 import org.jboss.seam.ui.component.UIFormattedText;
+import org.jboss.seam.ui.util.cdk.RendererBase;
 
-public class FormattedTextRendererBase extends org.ajax4jsf.framework.renderer.ComponentRendererBase
+public class FormattedTextRendererBase extends RendererBase
 {
 
    @Override

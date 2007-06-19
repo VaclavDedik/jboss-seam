@@ -9,15 +9,16 @@
 		<description>
 			<![CDATA[Output Seam Text.]]>
 		</description>
-		<renderer generate="true" override="true">
+		<renderer generate="false" override="false">
 			<name>org.jboss.seam.ui.FormattedTextRenderer</name>
-			<template>org/jboss/seam/ui/htmlFormattedText.jspx</template>
+			<classname>org.jboss.seam.ui.renderkit.FormattedTextRendererBase</classname>
+			<!--<template>org/jboss/seam/ui/htmlFormattedText.jspx</template>-->
 		</renderer>
 		<tag>
 			<name>formattedText</name>
 			<classname>org.jboss.seam.ui.taglib.FormattedTextTag</classname>
 			<superclass>
-				org.ajax4jsf.framework.taglib.HtmlComponentTagBase
+				org.jboss.seam.ui.util.cdk.UIComponentTagBase
 			</superclass>
 		</tag>
 		&ui_component_attributes;

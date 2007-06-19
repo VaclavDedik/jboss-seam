@@ -6,8 +6,8 @@
 	<classpathentry kind="src" path="src/mail"/>
 	<classpathentry kind="src" path="src/pdf"/>
 	<classpathentry kind="src" path="src/debug"/>
-	<classpathentry kind="src" path="src/ui"/>
 	<classpathentry kind="src" path="src/gen"/>
+	<classpathentry kind="src" path="ui/src/main/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/portlet-api-lib.jar"/>
 	<classpathentry kind="lib" path="lib/servlet-api.jar"/>

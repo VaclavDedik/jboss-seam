@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.el.ValueExpression;
-import javax.faces.component.ActionSource2;
+import javax.faces.component.ActionSource;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIData;
 import javax.faces.component.UIOutput;
@@ -15,17 +15,13 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionListener;
 import javax.faces.model.DataModel;
 
-import org.jboss.seam.core.Pages;
+import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.ui.util.ViewUrlBuilder;
 
-public abstract class UISeamCommandBase extends UIOutput implements ActionSource2
+public abstract class UISeamCommandBase extends UIOutput implements ActionSource
 {
 
    private String encodedUrl;
-
-   public abstract boolean isDisabled();
-
-   public abstract void setDisabled(boolean disabled);
 
    public abstract String getView();
 
@@ -65,12 +61,11 @@ public abstract class UISeamCommandBase extends UIOutput implements ActionSource
             }
          }
 
-         if (getActionExpression() != null || getOutcome() != null)
+         if (getAction() != null || getOutcome() != null)
          {
 
             UIAction uiAction = new UIAction();
-            uiAction.setAction(getActionExpression() == null ? getOutcome() : getActionExpression()
-                     .getExpressionString());
+            uiAction.setAction(getAction().getExpressionString() == null ? getOutcome() : getAction().getExpressionString());
             url.addParameter(uiAction);
          }
 
@@ -126,10 +121,6 @@ public abstract class UISeamCommandBase extends UIOutput implements ActionSource
    public abstract String getFragment();
 
    public abstract void setFragment(String fragment);
-
-   public abstract String getOnclick();
-
-   public abstract void setOnclick(String onclick);
 
    public UISelection getSelection()
    {

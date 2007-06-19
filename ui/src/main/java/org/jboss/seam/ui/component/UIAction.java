@@ -24,8 +24,8 @@ package org.jboss.seam.ui.component;
 import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
 
-import org.jboss.seam.core.Pages;
-import org.jboss.seam.core.SafeActions;
+import org.jboss.seam.navigation.Pages;
+import org.jboss.seam.navigation.SafeActions;
 
 /*
  * This is a support component and is not processed by the CDK (doesn't appear in faces-config)

@@ -21,22 +21,15 @@
 
 package org.jboss.seam.ui.component;
 
-import javax.faces.component.UIComponentBase;
 
 /**
  * JSF component class
  *
  */
-public abstract class UISpan extends UIComponentBase {
+public abstract class UISpan extends UIStyle {
 	
 	private static final String COMPONENT_TYPE = "org.jboss.seam.ui.Span";
 	
 	private static final String COMPONENT_FAMILY = "org.jboss.seam.ui.Span";
-   
-   @Override
-   public boolean getRendersChildren()
-   {
-      return true;
-   }
 	
 }

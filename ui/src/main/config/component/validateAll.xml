@@ -9,11 +9,15 @@
 		<description>
 			<![CDATA[Validate all child JSF input fields against the bound propertys using Hibernate Validator.]]>
 		</description>
+		<renderer generate="false" override="false">
+			<name>org.jboss.seam.ui.ValidateAllRenderer</name>
+			<classname>org.jboss.seam.ui.renderkit.ValidateAllRendererBase</classname>
+		</renderer>
 		<tag>
 			<name>validateAll</name>
 			<classname>org.jboss.seam.ui.taglib.ValidateAllTag</classname>
 			<superclass>
-				org.ajax4jsf.framework.taglib.HtmlComponentTagBase
+				org.jboss.seam.ui.util.cdk.UIComponentTagBase
 			</superclass>
 		</tag>
 		&ui_component_attributes;

@@ -10,11 +10,11 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
-import org.ajax4jsf.framework.renderer.AjaxComponentRendererBase;
 import org.jboss.seam.ui.component.UISelectDate;
 import org.jboss.seam.ui.resource.WebResource;
+import org.jboss.seam.ui.util.cdk.RendererBase;
 
-public class SelectDateRendererBase extends AjaxComponentRendererBase
+public class SelectDateRendererBase extends RendererBase
 {
 
    @Override

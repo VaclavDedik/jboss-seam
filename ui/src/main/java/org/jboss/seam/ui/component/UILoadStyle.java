@@ -7,7 +7,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIParameter;
 
 import org.ajax4jsf.ajax.html.HtmlLoadStyle;
-import org.jboss.seam.core.Pages;
+import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.ui.resource.StyleResource;
 import org.jboss.seam.ui.util.UrlBuilder;
 
@@ -22,7 +22,7 @@ public abstract class UILoadStyle extends HtmlLoadStyle
       uiConversationId.setViewId(Pages.getViewId(getFacesContext()));
       try
       {
-         UrlBuilder urlBuilder = new UrlBuilder(StyleResource.WEB_RESOURCE_PATH + super.getSrc());
+         UrlBuilder urlBuilder = new UrlBuilder(StyleResource.WEB_RESOURCE_PATH + super.getSrc(), null);
          urlBuilder.addParameter(uiConversationId);
          if (isIsolated())
          {

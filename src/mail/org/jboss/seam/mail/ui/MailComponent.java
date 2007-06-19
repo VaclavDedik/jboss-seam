@@ -12,7 +12,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
 import org.jboss.seam.mail.ui.context.MailResponseWriter;
-import org.jboss.seam.ui.JSF;
+import org.jboss.seam.ui.util.JSF;
 
 /**
  * Abstract base class for mail ui components

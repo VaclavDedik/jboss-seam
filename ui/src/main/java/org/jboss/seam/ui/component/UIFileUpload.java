@@ -20,7 +20,7 @@ public abstract class UIFileUpload extends UIInput
 
    private String localFileName;
 
-   private int localFileSize;
+   private Integer localFileSize;
 
    private InputStream localInputStream;
 
@@ -32,39 +32,60 @@ public abstract class UIFileUpload extends UIInput
    public void processUpdates(FacesContext context)
    {
 
-      ValueExpression dataBinding = getValueExpression("data");
-      if (dataBinding != null)
+      if (getLocalInputStream() != null)
       {
-         Class cls = dataBinding.getType(context.getELContext());
-         if (cls.isAssignableFrom(InputStream.class))
+         ValueExpression dataBinding = getValueExpression("data");
+         if (dataBinding != null)
          {
-            dataBinding.setValue(context.getELContext(), localInputStream);
-         }
-         else if (cls.isAssignableFrom(byte[].class))
-         {
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            try
+            Class clazz = dataBinding.getType(context.getELContext());
+            if (clazz.isAssignableFrom(InputStream.class))
             {
-               while (localInputStream.available() > 0)
+               dataBinding.setValue(context.getELContext(), localInputStream);
+            }
+            else if (clazz.isAssignableFrom(byte[].class))
+            {
+               ByteArrayOutputStream bos = new ByteArrayOutputStream();
+               try
                {
-                  bos.write(localInputStream.read());
-                  dataBinding.setValue(context.getELContext(), bos.toByteArray());
+                  while (localInputStream.available() > 0)
+                  {
+                     bos.write(localInputStream.read());
+                     dataBinding.setValue(context.getELContext(), bos.toByteArray());
+                  }
+               }
+               catch (IOException e)
+               {
+                  throw new RuntimeException(e);
                }
             }
-            catch (IOException e)
+            
+            if (getLocalContentType() != null)
             {
-               throw new RuntimeException(e);
+               ValueExpression valueExpression = getValueExpression("contentType");
+               if (valueExpression != null) 
+               {
+                  valueExpression.setValue(context.getELContext(), getLocalContentType());
+               }
+            }
+   
+            if (getLocalFileName() != null)
+            {
+               ValueExpression valueExpression = getValueExpression("fileName");
+               if (valueExpression != null)
+               {
+                  valueExpression.setValue(context.getELContext(), getLocalFileName());
+               }
+            }
+   
+            if (getLocalFileSize() != null)
+            {
+               ValueExpression valueExpression = getValueExpression("fileSize");
+               if (valueExpression != null)
+               {
+                  valueExpression.setValue(context.getELContext(), getLocalFileSize());
+               }
             }
          }
-
-         ValueExpression vb = getValueExpression("contentType");
-         if (vb != null) vb.setValue(context.getELContext(), localContentType);
-
-         vb = getValueExpression("fileName");
-         if (vb != null) vb.setValue(context.getELContext(), localFileName);
-
-         vb = getValueExpression("fileSize");
-         if (vb != null) vb.setValue(context.getELContext(), localFileSize);
       }
    }
 
@@ -88,12 +109,12 @@ public abstract class UIFileUpload extends UIInput
       this.localFileName = localFileName;
    }
 
-   public int getLocalFileSize()
+   public Integer getLocalFileSize()
    {
       return localFileSize;
    }
 
-   public void setLocalFileSize(int localFileSize)
+   public void setLocalFileSize(Integer localFileSize)
    {
       this.localFileSize = localFileSize;
    }
@@ -108,6 +129,16 @@ public abstract class UIFileUpload extends UIInput
       this.localInputStream = localInputStream;
    }
    
+   public abstract void setAccept(String accept);
    
+   public abstract String getAccept();
+   
+   public abstract String getStyleClass();
+
+   public abstract String getStyle();
+   
+   public abstract void setStyleClass(String styleClass);
+   
+   public abstract void setStyle(String style);
 
 }

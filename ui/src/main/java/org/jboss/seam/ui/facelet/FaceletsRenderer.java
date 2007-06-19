@@ -3,14 +3,11 @@ package org.jboss.seam.ui.facelet;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.URL;
-import java.util.List;
 
-import javax.faces.component.UIComponent;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
-import org.ajax4jsf.framework.renderer.RendererUtils;
 import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
@@ -20,7 +17,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.core.Renderer;
 import org.jboss.seam.mock.MockExternalContext;
 import org.jboss.seam.mock.MockFacesContext;
-import org.jboss.seam.ui.util.RenderererUtils;
+import org.jboss.seam.ui.util.JSF;
 import org.jboss.seam.util.Resources;
 
 import com.sun.facelets.Facelet;
@@ -148,7 +145,7 @@ public class FaceletsRenderer extends Renderer
    {
       UIViewRoot root = facesContext.getViewRoot();
       facelet.apply(facesContext, root);
-      RenderererUtils.renderChildren(facesContext, root);
+      JSF.renderChildren(facesContext, root);
       
    }
    

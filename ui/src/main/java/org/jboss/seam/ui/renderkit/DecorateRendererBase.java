@@ -6,12 +6,12 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
-import org.ajax4jsf.framework.renderer.AjaxComponentRendererBase;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.ui.component.UIDecorate;
 import org.jboss.seam.ui.util.Decoration;
+import org.jboss.seam.ui.util.cdk.RendererBase;
 
-public class DecorateRendererBase extends AjaxComponentRendererBase
+public class DecorateRendererBase extends RendererBase
 {
 
    @Override

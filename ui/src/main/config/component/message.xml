@@ -3,7 +3,7 @@
 <components>
 	<component>
 		<name>org.jboss.seam.ui.Message</name>
-		<family>org.jboss.seam.ui.Message</family>
+		<family>javax.faces.Message</family>
 		<classname>org.jboss.seam.ui.component.html.HtmlMessage</classname>
 		<superclass>org.jboss.seam.ui.component.UIMessage</superclass>
 		<description>
@@ -13,7 +13,7 @@
 			<name>message</name>
 			<classname>org.jboss.seam.ui.taglib.MessageTag</classname>
 			<superclass>
-				org.ajax4jsf.framework.taglib.HtmlComponentTagBase
+				org.jboss.seam.ui.util.cdk.UIComponentTagBase
 			</superclass>
 		</tag>
 		&ui_component_attributes;

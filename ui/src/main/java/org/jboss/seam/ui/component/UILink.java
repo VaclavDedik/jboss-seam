@@ -31,5 +31,17 @@ public abstract class UILink extends UISeamCommandBase {
 	private static final String COMPONENT_TYPE = "org.jboss.seam.ui.Link";
 	
 	private static final String COMPONENT_FAMILY = "org.jboss.seam.ui.Link";
+   
+   public abstract String getStyleClass();
+   
+   public abstract void setStyleClass(String styleClass);
+   
+   public abstract String getStyle();
+   
+   public abstract void setStyle(String style);
+   
+   public abstract boolean isDisabled();
+
+   public abstract void setDisabled(boolean disabled);
 	
 }

@@ -7,13 +7,13 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
-import org.ajax4jsf.framework.renderer.AjaxComponentRendererBase;
 import org.jboss.seam.core.PojoCache;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.ui.component.UICache;
+import org.jboss.seam.ui.util.cdk.RendererBase;
 
-public class CacheRendererBase extends AjaxComponentRendererBase
+public class CacheRendererBase extends RendererBase
 {
    
    private static final LogProvider log = Logging.getLogProvider(UICache.class);

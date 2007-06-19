@@ -15,12 +15,6 @@ public abstract class UIValidateAll extends UIComponentBase
 
    private boolean validatorsAdded = false;
 
-   @Override
-   public boolean getRendersChildren()
-   {
-      return true;
-   }
-
    public boolean isValidatorsAdded()
    {
       return validatorsAdded;

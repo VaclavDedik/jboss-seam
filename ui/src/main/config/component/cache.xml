@@ -9,15 +9,17 @@
 		<description>
 			<![CDATA[Cache the rendered page fragment using JBoss Cache. Note that <s:cache> actually uses the instance of JBoss Cache managed by the built-in pojoCache component.]]>
 		</description>
-		<renderer generate="true" override="true">
+		<renderer generate="false" override="false">
 			<name>org.jboss.seam.ui.CacheRenderer</name>
-			<template>org/jboss/seam/ui/htmlCache.jspx</template>
+			<classname>org.jboss.seam.ui.renderkit.CacheRendererBase</classname>
+			<!--<template>org/jboss/seam/ui/htmlCache.jspx</template>-->
+			
 		</renderer>
 		<tag>
 			<name>cache</name>
 			<classname>org.jboss.seam.ui.taglib.CacheTag</classname>
 			<superclass>
-				org.ajax4jsf.framework.taglib.HtmlComponentTagBase
+				org.jboss.seam.ui.util.cdk.UIComponentTagBase
 			</superclass>
 		</tag>
 		<!--

@@ -15,6 +15,7 @@ import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Role;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.jsf.Converter;
@@ -26,6 +27,7 @@ import org.jboss.seam.core.Expressions.ValueExpression;
  * Any annotated Entity will work, or any entity if a PersistenceProvider for your ORM exists
  */
 @Name("org.jboss.seam.ui.entityConverter")
+@Role(name="org.jboss.seam.ui.EntityConverter")
 @Scope(CONVERSATION)
 @Install(precedence = BUILT_IN)
 @Converter

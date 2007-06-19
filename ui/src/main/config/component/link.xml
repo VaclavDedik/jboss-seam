@@ -9,15 +9,16 @@
 		<description>
 			<![CDATA[A link that supports invocation of an action with control over conversation propagation. Does not submit the form.]]>
 		</description>
-		<renderer generate="true" override="true">
+		<renderer generate="false" override="false">
 			<name>org.jboss.seam.ui.LinkRenderer</name>
-			<template>org/jboss/seam/ui/htmlLink.jspx</template>
+			<classname>org.jboss.seam.ui.renderkit.LinkRendererBase</classname>
+			<!-- <template>org/jboss/seam/ui/htmlLink.jspx</template>-->
 		</renderer>
 		<tag>
 			<name>link</name>
 			<classname>org.jboss.seam.ui.taglib.LinkTag</classname>
 			<superclass>
-				org.ajax4jsf.framework.taglib.HtmlComponentTagBase
+				org.jboss.seam.ui.util.cdk.UIComponentTagBase
 			</superclass>
 		</tag>
 		&ui_component_attributes;

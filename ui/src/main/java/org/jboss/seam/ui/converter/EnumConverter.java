@@ -17,11 +17,6 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.jsf.Converter;
 
-@Name("org.jboss.seam.ui.EnumConverter")
-@Scope(ScopeType.EVENT)
-@Install(precedence = BUILT_IN)
-@Converter
-@Intercept(NEVER)
 public class EnumConverter implements javax.faces.convert.Converter
 {
    public Object getAsObject(FacesContext context, UIComponent comp, String value)

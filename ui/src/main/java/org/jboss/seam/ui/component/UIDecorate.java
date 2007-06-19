@@ -55,12 +55,6 @@ public abstract class UIDecorate extends UIComponentBase
       }
    }
 
-   @Override
-   public boolean getRendersChildren()
-   {
-      return true;
-   }
-
    public abstract String getFor();
    
 

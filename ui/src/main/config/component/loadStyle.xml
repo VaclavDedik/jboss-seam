@@ -13,7 +13,7 @@
 			<name>loadStyle</name>
 			<classname>org.jboss.seam.ui.taglib.LoadStyleTag</classname>
 			<superclass>
-				org.ajax4jsf.framework.taglib.HtmlComponentTagBase
+				org.jboss.seam.ui.util.cdk.UIComponentTagBase
 			</superclass>
 		</tag>
 		<property>

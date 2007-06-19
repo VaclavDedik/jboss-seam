@@ -21,22 +21,14 @@
 
 package org.jboss.seam.ui.component;
 
-import javax.faces.component.UIComponentBase;
-
 /**
  * JSF component class
  *
  */
-public abstract class UIDiv extends UIComponentBase {
+public abstract class UIDiv extends UIStyle {
 	
 	private static final String COMPONENT_TYPE = "org.jboss.seam.ui.Div";
 	
 	private static final String COMPONENT_FAMILY = "org.jboss.seam.ui.Div";
-	
-   @Override
-   public boolean getRendersChildren()
-   {
-      return true;
-   }
    
 }

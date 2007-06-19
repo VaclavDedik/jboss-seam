@@ -6,10 +6,10 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
-import org.ajax4jsf.framework.renderer.AjaxComponentRendererBase;
 import org.jboss.seam.ui.component.UIFragment;
+import org.jboss.seam.ui.util.cdk.RendererBase;
 
-public class FragmentRendererBase extends AjaxComponentRendererBase
+public class FragmentRendererBase extends RendererBase
 {
    @Override
    protected Class getComponentClass()

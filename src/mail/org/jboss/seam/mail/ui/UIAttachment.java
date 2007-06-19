@@ -20,7 +20,7 @@ import javax.mail.util.ByteArrayDataSource;
 
 import org.jboss.seam.pdf.DocumentData;
 import org.jboss.seam.pdf.ui.UIDocument;
-import org.jboss.seam.ui.JSF;
+import org.jboss.seam.ui.util.JSF;
 import org.jboss.seam.util.Resources;
 
 public class UIAttachment extends MailComponent implements ValueHolder

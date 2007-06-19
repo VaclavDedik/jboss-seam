@@ -32,18 +32,25 @@ public abstract class UIButton extends UISeamCommandBase  {
 	
 	private static final String COMPONENT_FAMILY = "org.jboss.seam.ui.Button";
    
+	public abstract String getStyleClass();
+   
+   public abstract void setStyleClass(String styleClass);
+   
+   public abstract String getStyle();
+   
+   public abstract void setStyle(String style);
+   
+   public abstract boolean isDisabled();
+
+   public abstract void setDisabled(boolean disabled);
+   
+   public abstract String getOnclick();
+
+   public abstract void setOnclick(String onclick);
+   
    public abstract String getImage();
    
    public abstract void setImage(String image);
-   
-   public String getType()
-   {
-      if (getImage() == null) {
-         return "button";
-     } else {
-         return "image";
-     }
-   }
    
    
 }

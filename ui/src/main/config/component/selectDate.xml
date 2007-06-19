@@ -9,15 +9,16 @@
 		<description>
 			<![CDATA[]]>
 		</description>
-		<renderer generate="true" override="true">
+		<renderer generate="false" override="false">
 			<name>org.jboss.seam.ui.SelectDateRenderer</name>
-			<template>org/jboss/seam/ui/htmlSelectDate.jspx</template>
+			<classname>org.jboss.seam.ui.renderkit.SelectDateRendererBase</classname>
+			<!--<template>org/jboss/seam/ui/htmlSelectDate.jspx</template>-->
 		</renderer>
 		<tag>
 			<name>selectDate</name>
 			<classname>org.jboss.seam.ui.taglib.SelectDateTag</classname>
 			<superclass>
-				org.ajax4jsf.framework.taglib.HtmlComponentTagBase
+				org.jboss.seam.ui.util.cdk.UIComponentTagBase
 			</superclass>
 		</tag>
 		&ui_component_attributes;

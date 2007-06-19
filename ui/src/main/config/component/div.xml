@@ -9,18 +9,27 @@
 		<description>
 			<![CDATA[Render a HTML <div>.]]>
 		</description>
-		<renderer generate="true" override="true">
+		<renderer generate="false" override="false">
 			<name>org.jboss.seam.ui.DivRenderer</name>
-			<template>org/jboss/seam/ui/htmlDiv.jspx</template>
+			<classname>org.jboss.seam.ui.renderkit.DivRendererBase</classname>
+			<!--<template>org/jboss/seam/ui/htmlDiv.jspx</template>-->
 		</renderer>
 		<tag>
 			<name>div</name>
 			<classname>org.jboss.seam.ui.taglib.DivTag</classname>
 			<superclass>
-				org.ajax4jsf.framework.taglib.HtmlComponentTagBase
+				org.jboss.seam.ui.util.cdk.UIComponentTagBase
 			</superclass>
 		</tag>
-		&ui_component_attributes;
-		&html_style_attributes;
+		<property>
+        <name>style</name>
+        <classname>java.lang.String</classname>
+        <description>CSS style(s) is/are to be applied when this component is rendered</description>
+    </property>
+    <property>
+        <name>styleClass</name>
+        <classname>java.lang.String</classname>
+        <description>Corresponds to the HTML class attribute</description>
+    </property>
 	</component>
 </components>

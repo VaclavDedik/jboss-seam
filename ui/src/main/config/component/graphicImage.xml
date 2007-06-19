@@ -9,15 +9,16 @@
 		<description>
 			<![CDATA[]]>
 		</description>
-		<renderer generate="true" override="true">
+		<renderer generate="false" override="false">
 			<name>org.jboss.seam.ui.GraphicImageRenderer</name>
-			<template>org/jboss/seam/ui/htmlGraphicImage.jspx</template>
+			<classname>org.jboss.seam.ui.graphicImage.GraphicImageRendererBase</classname>
+			<!--<template>org/jboss/seam/ui/htmlGraphicImage.jspx</template>-->
 		</renderer>
 		<tag>
 			<name>graphicImage</name>
 			<classname>org.jboss.seam.ui.taglib.GraphicImageTag</classname>
 			<superclass>
-				org.ajax4jsf.framework.taglib.HtmlComponentTagBase
+				org.jboss.seam.ui.util.cdk.UIComponentTagBase
 			</superclass>
 		</tag>
 		&ui_component_attributes;
