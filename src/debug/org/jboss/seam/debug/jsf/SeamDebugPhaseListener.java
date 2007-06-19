@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Init;
-import org.jboss.seam.core.Pages;
+import org.jboss.seam.navigation.Pages;
 
 import com.sun.facelets.Facelet;
 import com.sun.facelets.compiler.SAXCompiler;

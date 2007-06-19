@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jboss.seam.contexts.ContextualHttpServletRequest;
-import org.jboss.seam.util.Parameters;
+import org.jboss.seam.web.Parameters;
 
 public class DocumentStoreServlet 
     extends HttpServlet 
@@ -24,8 +24,7 @@ public class DocumentStoreServlet
             @Override
             public void process() throws ServletException, IOException
             {
-                 doWork(request, response);
-               
+               doWork(request, response);
             }
         }.run();
     
@@ -35,24 +34,23 @@ public class DocumentStoreServlet
     private static void doWork(HttpServletRequest request, HttpServletResponse response) 
         throws IOException 
     {
-        String contentId = (String)
-        Parameters.convertMultiValueRequestParameter(Parameters.getRequestParameters(),
-                "docId",
-                String.class);        
+        Parameters params = Parameters.instance();
+        String contentId = (String) params.convertMultiValueRequestParameter(params.getRequestParameters(), "docId", String.class);        
                 
         DocumentStore store = DocumentStore.instance();
         
-        if ( store.idIsValid(contentId )) 
+        if ( store.idIsValid(contentId) ) 
         {
             DocumentData documentData = store.getDocumentData(contentId);
             
             byte[] data = documentData.getData();       
 
-            response.setContentType(documentData.getDocType().getMimeType());
+            response.setContentType( documentData.getDocType().getMimeType() );
             response.setHeader("Content-Disposition", 
                     "inline; filename=\"" + documentData.getFileName() + "\"");
 
-            if (data != null) {
+            if (data != null) 
+            {
                 response.getOutputStream().write(data);
             }
         } 

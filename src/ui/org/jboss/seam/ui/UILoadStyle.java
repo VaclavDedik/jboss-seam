@@ -8,7 +8,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIParameter;
 
 import org.ajax4jsf.ajax.html.HtmlLoadStyle;
-import org.jboss.seam.core.Pages;
+import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.ui.resource.StyleResource;
 
 public class UILoadStyle extends HtmlLoadStyle

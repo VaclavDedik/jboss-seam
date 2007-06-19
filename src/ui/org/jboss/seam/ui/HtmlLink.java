@@ -19,8 +19,8 @@ import javax.faces.el.MethodBinding;
 import javax.faces.event.ActionListener;
 import javax.faces.model.DataModel;
 
-import org.jboss.seam.core.Pages;
-import org.jboss.seam.pages.Page;
+import org.jboss.seam.navigation.Page;
+import org.jboss.seam.navigation.Pages;
 
 public class HtmlLink extends HtmlOutputLink implements ActionSource
 {

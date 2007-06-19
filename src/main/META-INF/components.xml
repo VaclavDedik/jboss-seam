@@ -19,9 +19,6 @@
   <factory scope="stateless" auto-create="true" name="httpError" value="#{org.jboss.seam.core.httpError}"/>
   <factory scope="stateless" auto-create="true" name="interpolator" value="#{org.jboss.seam.core.interpolator}"/>
   <factory scope="stateless" auto-create="true" name="isUserInRole" value="#{org.jboss.seam.core.isUserInRole}"/>
-  <factory scope="stateless" auto-create="true" name="locale" value="#{org.jboss.seam.core.locale}"/>
-  <factory scope="stateless" auto-create="true" name="localeSelector" value="#{org.jboss.seam.core.localeSelector}"/>
-  <factory scope="stateless" auto-create="true" name="messages" value="#{org.jboss.seam.core.messages}"/>
   <factory scope="stateless" auto-create="true" name="methodContext" value="#{org.jboss.seam.core.methodContext}"/>
   <factory scope="stateless" auto-create="true" name="jbpmContext" value="#{org.jboss.seam.core.jbpmContext}"/>
   <factory scope="stateless" auto-create="true" name="pageContext" value="#{org.jboss.seam.core.pageContext}"/>
@@ -41,8 +38,6 @@
   <factory scope="stateless" auto-create="true" name="taskInstanceList" value="#{org.jboss.seam.core.taskInstanceList}"/>
   <factory scope="stateless" auto-create="true" name="taskInstanceListForType" value="#{org.jboss.seam.core.taskInstanceListForType}"/>
   <factory scope="stateless" auto-create="true" name="taskInstancePriorityList" value="#{org.jboss.seam.core.taskInstancePriorityList}"/>
-  <factory scope="stateless" auto-create="true" name="timeZone" value="#{org.jboss.seam.core.timeZone}"/>
-  <factory scope="stateless" auto-create="true" name="timeZoneSelector" value="#{org.jboss.seam.core.timeZoneSelector}"/>
   <factory scope="stateless" auto-create="true" name="transition" value="#{org.jboss.seam.core.transition}"/>
   <factory scope="stateless" auto-create="true" name="uiComponent" value="#{org.jboss.seam.core.uiComponent}"/>
   <factory scope="stateless" auto-create="true" name="userPrincipal" value="#{org.jboss.seam.core.userPrincipal}"/>
@@ -50,6 +45,12 @@
   <factory scope="stateless" auto-create="true" name="image" value="#{org.jboss.seam.core.image}" />
   <factory scope="stateless" auto-create="true" name="session" value="#{org.jboss.seam.core.servletSession}" />
   <factory scope="stateless" auto-create="true" name="transaction" value="#{org.jboss.seam.transaction.transaction}" />
+
+  <factory scope="stateless" auto-create="true" name="locale" value="#{org.jboss.seam.international.locale}"/>
+  <factory scope="stateless" auto-create="true" name="localeSelector" value="#{org.jboss.seam.international.localeSelector}"/>
+  <factory scope="stateless" auto-create="true" name="messages" value="#{org.jboss.seam.international.messages}"/>
+  <factory scope="stateless" auto-create="true" name="timeZone" value="#{org.jboss.seam.international.timeZone}"/>
+  <factory scope="stateless" auto-create="true" name="timeZoneSelector" value="#{org.jboss.seam.international.timeZoneSelector}"/>
 
   <factory scope="stateless" auto-create="true" name="currentTime" value="#{org.jboss.seam.framework.currentTime}"/>
   <factory scope="stateless" auto-create="true" name="currentDate" value="#{org.jboss.seam.framework.currentDate}"/>

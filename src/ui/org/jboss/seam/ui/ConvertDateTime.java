@@ -19,7 +19,7 @@ public class ConvertDateTime extends DateTimeConverter
    {
       if ( Contexts.isApplicationContextActive() )
       {
-         return org.jboss.seam.core.TimeZone.instance();
+         return org.jboss.seam.international.TimeZone.instance();
       }
       else
       {

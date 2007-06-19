@@ -6,7 +6,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
-import org.jboss.seam.core.Expressions;
+import org.jboss.seam.faces.FacesExpressions;
 
 public class ModelValidator implements Validator
 {
@@ -17,7 +17,7 @@ public class ModelValidator implements Validator
       ValueExpression valueExpression = component.getValueExpression("value");
       if (valueExpression!=null)
       {
-         Expressions.instance().validate( valueExpression.getExpressionString(), value );
+         FacesExpressions.instance().validate( valueExpression.getExpressionString(), value );
       }
    }
 

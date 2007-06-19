@@ -20,12 +20,12 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
-import org.jboss.seam.core.Exceptions;
 import org.jboss.seam.core.Init;
-import org.jboss.seam.core.Pages;
+import org.jboss.seam.exceptions.Exceptions;
 import org.jboss.seam.init.Initialization;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.web.AbstractFilter;
 
 @Name("org.jboss.seam.debug.hotDeployFilter")

@@ -3,8 +3,8 @@ import javax.faces.component.UIParameter;
 
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.core.Pages;
-import org.jboss.seam.pages.Page;
+import org.jboss.seam.navigation.Page;
+import org.jboss.seam.navigation.Pages;
 public class UIConversationId extends UIParameter
 {
    private String viewId;

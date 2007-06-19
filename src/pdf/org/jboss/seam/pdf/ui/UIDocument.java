@@ -1,7 +1,7 @@
 package org.jboss.seam.pdf.ui;
 
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.core.Pages;
+import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.pdf.DocumentData;
 import org.jboss.seam.pdf.ITextUtils;
 import org.jboss.seam.pdf.DocumentStore;

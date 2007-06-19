@@ -15,10 +15,10 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.core.ServletContexts;
 import org.jboss.seam.remoting.messaging.RemoteSubscriber;
 import org.jboss.seam.remoting.messaging.SubscriptionRegistry;
 import org.jboss.seam.remoting.messaging.SubscriptionRequest;
+import org.jboss.seam.web.ServletContexts;
 
 /**
  *

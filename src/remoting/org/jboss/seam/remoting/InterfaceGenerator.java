@@ -28,11 +28,11 @@ import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.WebRemote;
 import org.jboss.seam.contexts.ContextualHttpServletRequest;
-import org.jboss.seam.core.ServletContexts;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.util.EJB;
 import org.jboss.seam.util.Reflections;
+import org.jboss.seam.web.ServletContexts;
 
 /**
  * Generates JavaScript interface code.

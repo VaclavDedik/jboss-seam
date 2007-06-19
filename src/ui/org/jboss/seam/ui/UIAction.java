@@ -3,8 +3,8 @@ package org.jboss.seam.ui;
 import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
 
-import org.jboss.seam.core.Pages;
-import org.jboss.seam.core.SafeActions;
+import org.jboss.seam.navigation.Pages;
+import org.jboss.seam.navigation.SafeActions;
 
 public class UIAction extends UIParameter
 {
