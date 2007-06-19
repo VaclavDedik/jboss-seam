@@ -33,6 +33,23 @@
 		</xs:complexType>
 	</xs:element>
 
+	<xs:element name="process-state">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+			    <xs:element ref="sub-process" />
+				<xs:element ref="transition" />
+				<xs:element ref="event" />
+				<xs:element ref="exception-handler" />
+			</xs:choice>
+			<xs:attribute name="name" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="sub-process">
+			<xs:attribute name="name" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
 	<xs:element name="start-page">
 		<xs:complexType>
 			<xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -263,6 +280,7 @@
 		<xs:choice>
 			<xs:element ref="page" />
 			<xs:element ref="decision" />
+			<xs:element ref="process-state" />
 		</xs:choice>
 	</xs:group>
 
