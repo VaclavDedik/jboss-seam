@@ -3,48 +3,52 @@
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation="http://jboss.com/products/seam/components http://jboss.com/products/seam/components-1.3.xsd">
 
-  <factory scope="stateless" auto-create="true" name="actor" value="#{org.jboss.seam.core.actor}"/>
   <factory scope="stateless" auto-create="true" name="applicationContext" value="#{org.jboss.seam.core.applicationContext}"/>
-  <factory scope="stateless" auto-create="true" name="businessProcess" value="#{org.jboss.seam.core.businessProcess}"/>
   <factory scope="stateless" auto-create="true" name="businessProcessContext" value="#{org.jboss.seam.core.businessProcessContext}"/>
-  <factory scope="stateless" auto-create="true" name="conversation" value="#{org.jboss.seam.core.conversation}"/>
+  <factory scope="stateless" auto-create="true" name="methodContext" value="#{org.jboss.seam.core.methodContext}"/>
+  <factory scope="stateless" auto-create="true" name="eventContext" value="#{org.jboss.seam.core.eventContext}"/>
+  <factory scope="stateless" auto-create="true" name="sessionContext" value="#{org.jboss.seam.core.sessionContext}"/>
   <factory scope="stateless" auto-create="true" name="conversationContext" value="#{org.jboss.seam.core.conversationContext}"/>
+  <factory scope="stateless" auto-create="true" name="pageContext" value="#{org.jboss.seam.core.pageContext}"/>
+
+  <factory scope="stateless" auto-create="true" name="conversation" value="#{org.jboss.seam.core.conversation}"/>
   <factory scope="stateless" auto-create="true" name="conversationList" value="#{org.jboss.seam.core.conversationList}"/>
   <factory scope="stateless" auto-create="true" name="conversationStack" value="#{org.jboss.seam.core.conversationStack}"/>
-  <factory scope="stateless" auto-create="true" name="eventContext" value="#{org.jboss.seam.core.eventContext}"/>
   <factory scope="stateless" auto-create="true" name="events" value="#{org.jboss.seam.core.events}"/>
   <factory scope="stateless" auto-create="true" name="expressions" value="#{org.jboss.seam.core.expressions}"/>
-  <factory scope="stateless" auto-create="true" name="facesContext" value="#{org.jboss.seam.core.facesContext}"/>
-  <factory scope="stateless" auto-create="true" name="facesMessages" value="#{org.jboss.seam.core.facesMessages}"/>
-  <factory scope="stateless" auto-create="true" name="httpError" value="#{org.jboss.seam.core.httpError}"/>
   <factory scope="stateless" auto-create="true" name="interpolator" value="#{org.jboss.seam.core.interpolator}"/>
-  <factory scope="stateless" auto-create="true" name="isUserInRole" value="#{org.jboss.seam.core.isUserInRole}"/>
-  <factory scope="stateless" auto-create="true" name="methodContext" value="#{org.jboss.seam.core.methodContext}"/>
-  <factory scope="stateless" auto-create="true" name="jbpmContext" value="#{org.jboss.seam.core.jbpmContext}"/>
-  <factory scope="stateless" auto-create="true" name="pageContext" value="#{org.jboss.seam.core.pageContext}"/>
-  <factory scope="stateless" auto-create="true" name="pageflow" value="#{org.jboss.seam.core.pageflow}"/>
-  <factory scope="stateless" auto-create="true" name="pojoCache" value="#{org.jboss.seam.core.pojoCache}"/>
-  <factory scope="stateless" auto-create="true" name="pooledTask" value="#{org.jboss.seam.core.pooledTask}"/>
-  <factory scope="stateless" auto-create="true" name="pooledTaskInstanceList" value="#{org.jboss.seam.core.pooledTaskInstanceList}"/>
-  <factory scope="stateless" auto-create="true" name="processInstance" value="#{org.jboss.seam.core.processInstance}"/>
-  <factory scope="stateless" auto-create="true" name="processInstanceFinder" value="#{org.jboss.seam.core.processInstanceFinder}"/>
-  <factory scope="stateless" auto-create="true" name="processInstanceList" value="#{org.jboss.seam.core.processInstanceList}"/>
-  <factory scope="stateless" auto-create="true" name="redirect" value="#{org.jboss.seam.core.redirect}"/>
   <factory scope="stateless" auto-create="true" name="renderer" value="#{org.jboss.seam.core.renderer}"/>
   <factory scope="stateless" auto-create="true" name="resourceBundle" value="#{org.jboss.seam.core.resourceBundle}"/>
-  <factory scope="stateless" auto-create="true" name="sessionContext" value="#{org.jboss.seam.core.sessionContext}"/>
-  <factory scope="stateless" auto-create="true" name="switcher" value="#{org.jboss.seam.core.switcher}"/>
-  <factory scope="stateless" auto-create="true" name="taskInstance" value="#{org.jboss.seam.core.taskInstance}"/>
-  <factory scope="stateless" auto-create="true" name="taskInstanceList" value="#{org.jboss.seam.core.taskInstanceList}"/>
-  <factory scope="stateless" auto-create="true" name="taskInstanceListForType" value="#{org.jboss.seam.core.taskInstanceListForType}"/>
-  <factory scope="stateless" auto-create="true" name="taskInstancePriorityList" value="#{org.jboss.seam.core.taskInstancePriorityList}"/>
-  <factory scope="stateless" auto-create="true" name="transition" value="#{org.jboss.seam.core.transition}"/>
-  <factory scope="stateless" auto-create="true" name="uiComponent" value="#{org.jboss.seam.core.uiComponent}"/>
-  <factory scope="stateless" auto-create="true" name="userPrincipal" value="#{org.jboss.seam.core.userPrincipal}"/>
-  <factory scope="stateless" auto-create="true" name="validation" value="#{org.jboss.seam.core.validation}"/>
   <factory scope="stateless" auto-create="true" name="image" value="#{org.jboss.seam.core.image}" />
   <factory scope="stateless" auto-create="true" name="session" value="#{org.jboss.seam.core.servletSession}" />
   <factory scope="stateless" auto-create="true" name="transaction" value="#{org.jboss.seam.transaction.transaction}" />
+  <factory scope="stateless" auto-create="true" name="pojoCache" value="#{org.jboss.seam.core.pojoCache}"/>
+
+  <factory scope="stateless" auto-create="true" name="pageflow" value="#{org.jboss.seam.navigation.pageflow}"/>
+
+  <factory scope="stateless" auto-create="true" name="facesContext" value="#{org.jboss.seam.faces.facesContext}"/>
+  <factory scope="stateless" auto-create="true" name="facesMessages" value="#{org.jboss.seam.faces.facesMessages}"/>
+  <factory scope="stateless" auto-create="true" name="httpError" value="#{org.jboss.seam.faces.httpError}"/>
+  <factory scope="stateless" auto-create="true" name="isUserInRole" value="#{org.jboss.seam.faces.isUserInRole}"/>
+  <factory scope="stateless" auto-create="true" name="userPrincipal" value="#{org.jboss.seam.faces.userPrincipal}"/>
+  <factory scope="stateless" auto-create="true" name="uiComponent" value="#{org.jboss.seam.faces.uiComponent}"/>
+  <factory scope="stateless" auto-create="true" name="redirect" value="#{org.jboss.seam.faces.redirect}"/>
+  <factory scope="stateless" auto-create="true" name="switcher" value="#{org.jboss.seam.faces.switcher}"/>
+  <factory scope="stateless" auto-create="true" name="validation" value="#{org.jboss.seam.faces.validation}"/>
+
+  <factory scope="stateless" auto-create="true" name="transition" value="#{org.jboss.seam.bpm.transition}"/>
+  <factory scope="stateless" auto-create="true" name="actor" value="#{org.jboss.seam.bpm.actor}"/>
+  <factory scope="stateless" auto-create="true" name="businessProcess" value="#{org.jboss.seam.bpm.businessProcess}"/>
+  <factory scope="stateless" auto-create="true" name="jbpmContext" value="#{org.jboss.seam.bpm.jbpmContext}"/>
+  <factory scope="stateless" auto-create="true" name="pooledTask" value="#{org.jboss.seam.bpm.pooledTask}"/>
+  <factory scope="stateless" auto-create="true" name="pooledTaskInstanceList" value="#{org.jboss.seam.bpm.pooledTaskInstanceList}"/>
+  <factory scope="stateless" auto-create="true" name="processInstance" value="#{org.jboss.seam.bpm.processInstance}"/>
+  <factory scope="stateless" auto-create="true" name="processInstanceFinder" value="#{org.jboss.seam.bpm.processInstanceFinder}"/>
+  <factory scope="stateless" auto-create="true" name="processInstanceList" value="#{org.jboss.seam.bpm.processInstanceList}"/>
+  <factory scope="stateless" auto-create="true" name="taskInstance" value="#{org.jboss.seam.bpm.taskInstance}"/>
+  <factory scope="stateless" auto-create="true" name="taskInstanceList" value="#{org.jboss.seam.bpm.taskInstanceList}"/>
+  <factory scope="stateless" auto-create="true" name="taskInstanceListForType" value="#{org.jboss.seam.bpm.taskInstanceListForType}"/>
+  <factory scope="stateless" auto-create="true" name="taskInstancePriorityList" value="#{org.jboss.seam.bpm.taskInstancePriorityList}"/>
 
   <factory scope="stateless" auto-create="true" name="locale" value="#{org.jboss.seam.international.locale}"/>
   <factory scope="stateless" auto-create="true" name="localeSelector" value="#{org.jboss.seam.international.localeSelector}"/>
