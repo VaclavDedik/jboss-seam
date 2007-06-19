@@ -599,7 +599,7 @@
 		<taskdef name="antlrtask" classname="org.apache.tools.ant.taskdefs.optional.ANTLR">
 			<classpath>
 				<fileset dir="${lib.dir}">
-					<include name="ant-antlr-*.jar" />
+					<include name="ant-antlr*.jar" />
 					<include name="antlr-*.jar" />
 				</fileset>
 			</classpath>
@@ -607,7 +607,7 @@
 		<antlrtask target="seam-text.g" outputdirectory="${src.java.dir}/org/jboss/seam/text">
 			<classpath>
 				<fileset dir="${lib.dir}">
-					<include name="ant-antlr-*.jar" />
+					<include name="ant-antlr*.jar" />
 					<include name="antlr-*.jar" />
 				</fileset>
 			</classpath>
@@ -721,6 +721,7 @@
 		<ant dir="examples/hibernate" target="testexample" inheritall="false" />
 		<ant dir="examples/messages" target="testexample" inheritall="false" />
 		<ant dir="examples/numberguess" target="testexample" inheritall="false" />
+		<ant dir="examples/contactlist" target="testexample" inheritall="false" />
 		<ant dir="examples/registration" target="testexample" inheritall="false" />
 		<ant dir="examples/todo" target="testexample" inheritall="false" />
 		<ant dir="examples/blog" target="testexample" inheritall="false" />
