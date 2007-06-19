@@ -17,7 +17,6 @@ import javax.persistence.PersistenceContextType;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Begin;
-import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
@@ -89,7 +88,6 @@ public class ShowOrdersAction
         return null;
     }
 
-    @Destroy 
     @Remove
     public void destroy() {}
     

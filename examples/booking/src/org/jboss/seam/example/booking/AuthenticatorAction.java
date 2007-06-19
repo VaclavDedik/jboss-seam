@@ -15,7 +15,8 @@ import org.jboss.seam.annotations.Out;
 @Name("authenticator")
 public class AuthenticatorAction implements Authenticator
 {
-   @PersistenceContext EntityManager em;
+   @PersistenceContext 
+   private EntityManager em;
    
    @Out(required=false, scope = SESSION)
    private User user;

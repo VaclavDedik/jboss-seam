@@ -19,6 +19,7 @@ public class Admin
     implements Serializable
 {
    @Transient
+   @Override
    public boolean isAdmin() {
       return true;
    }

@@ -15,7 +15,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
 import org.jboss.seam.annotations.BeginTask;
-import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.EndTask;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
@@ -56,7 +55,6 @@ public class AcceptAction
         return "admin";
     }
 
-    @Destroy 
     @Remove
     public void destroy() {}
 }

@@ -1,17 +1,20 @@
 //$Id$
 package org.jboss.seam.example.booking;
+
 import java.util.List;
+
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.security.Restrict;
+
 @Stateful
 @Name("hotelSearch")
 @Scope(ScopeType.SESSION)
@@ -78,6 +81,6 @@ public class HotelSearchingAction implements HotelSearching
       this.searchString = searchString;
    }
    
-   @Destroy @Remove
+   @Remove
    public void destroy() {}
 }

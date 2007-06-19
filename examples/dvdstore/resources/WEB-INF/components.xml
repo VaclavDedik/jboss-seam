@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <components xmlns="http://jboss.com/products/seam/components"
             xmlns:core="http://jboss.com/products/seam/core"
+            xmlns:bpm="http://jboss.com/products/seam/bpm"
+            xmlns:persistence="http://jboss.com/products/seam/persistence"
             xmlns:security="http://jboss.com/products/seam/security"
             xmlns:framework="http://jboss.com/products/seam/framework"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation=
                 "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-1.3.xsd 
+                 http://jboss.com/products/seam/bpm http://jboss.com/products/seam/bpm-1.3.xsd 
+                 http://jboss.com/products/seam/persistence http://jboss.com/products/seam/persistence-1.3.xsd 
                  http://jboss.com/products/seam/security http://jboss.com/products/seam/security-1.3.xsd
                  http://jboss.com/products/seam/framework http://jboss.com/products/seam/framework-1.3.xsd
                  http://jboss.com/products/seam/components http://jboss.com/products/seam/components-1.3.xsd">
@@ -15,7 +19,7 @@
     <!-- 120 second conversation timeout -->
     <core:manager conversation-timeout="120000"/>
     
-    <core:jbpm>
+    <bpm:jbpm>
         <core:process-definitions>
             <value>ordermanagement1.jpdl.xml</value>
         </core:process-definitions>
@@ -23,13 +27,13 @@
             <value>checkout.jpdl.xml</value>
             <value>newuser.jpdl.xml</value>
         </core:pageflow-definitions>
-    </core:jbpm>
+    </bpm:jbpm>
 
     <security:identity authenticate-method="#{authenticator.authenticate}"/>
 
-    <core:managed-persistence-context name="entityManager"
+    <persistence:managed-persistence-context name="entityManager"
                                       auto-create="true"
-                                      persistence-unit-jndi-name="java:/dvdEntityManagerFactory" />
+                       persistence-unit-jndi-name="java:/dvdEntityManagerFactory" />
     
     <factory name="order" 
              value="#{orderHome.instance}" 

@@ -6,8 +6,8 @@ import javax.persistence.PersistenceException;
 
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.bpm.Actor;
 import org.jboss.seam.contexts.Context;
-import org.jboss.seam.core.Actor;
 import org.jboss.seam.security.Identity;
 
 @Stateless

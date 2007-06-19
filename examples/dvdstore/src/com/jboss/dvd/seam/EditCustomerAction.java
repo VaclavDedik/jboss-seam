@@ -20,13 +20,12 @@ import javax.persistence.PersistenceContext;
 import org.hibernate.validator.InvalidStateException;
 import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.annotations.Begin;
-import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
+import org.jboss.seam.bpm.Actor;
 import org.jboss.seam.contexts.Context;
-import org.jboss.seam.core.Actor;
-import org.jboss.seam.core.FacesMessages;
+import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.security.Identity;
 
 @Stateful
@@ -140,7 +139,6 @@ public class EditCustomerAction
         return map;
     }
 
-    @Destroy @Remove
-    public void destroy() {
-    }
+    @Remove
+    public void destroy() {}
 }

@@ -4,12 +4,10 @@
  * Distributable under LGPL license.
  * See terms of license at gnu.org.
  */ 
-
 package com.jboss.dvd.seam;
 
-import java.math.BigDecimal;
-
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,13 +21,12 @@ import javax.persistence.PersistenceContextType;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.CreateProcess;
-import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.core.FacesMessages;
+import org.jboss.seam.faces.FacesMessages;
 
 
 @Stateful
@@ -120,8 +117,6 @@ public class CheckoutAction
         return order;
     }
 
-
-    @Destroy 
     @Remove
     public void destroy() {}
     

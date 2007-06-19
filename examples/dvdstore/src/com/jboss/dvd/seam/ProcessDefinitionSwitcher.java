@@ -9,7 +9,7 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.core.Jbpm;
+import org.jboss.seam.bpm.Jbpm;
 import org.jbpm.JbpmContext;
 
 /**
@@ -25,7 +25,7 @@ public class ProcessDefinitionSwitcher
           "ordermanagement3.jpdl.xml" 
        };
 
-    @In(value="org.jboss.seam.core.jbpm")
+    @In(value="org.jboss.seam.bpm.jbpm")
     private Jbpm jbpm;
     
     @In

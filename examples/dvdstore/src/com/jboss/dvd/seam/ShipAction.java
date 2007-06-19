@@ -14,7 +14,6 @@ import javax.ejb.Stateful;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
 import org.jboss.seam.annotations.BeginTask;
-import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.EndTask;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
@@ -53,6 +52,6 @@ public class ShipAction
         return "admin";
     }
 
-    @Destroy @Remove
+    @Remove
     public void destroy() { }
 }

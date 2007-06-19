@@ -8,9 +8,8 @@ package com.jboss.dvd.seam;
 
 import static org.jboss.seam.ScopeType.SESSION;
 
-import java.math.BigDecimal;
-
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +21,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
-import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 
@@ -69,7 +67,6 @@ public class ShoppingCartBean
         return cartOrder.getTotalAmount();
     }
 
-
     public void updateCart() {
         List<OrderLine> newLines =  new ArrayList<OrderLine>();
 
@@ -91,7 +88,6 @@ public class ShoppingCartBean
         cartOrder = new Order();
     }
 
-    @Destroy
     @Remove
     public void destroy() {}
 
