@@ -47,7 +47,7 @@ import org.jbpm.graph.exe.ProcessInstance;
 @PerNestedConversation
 @Name("org.jboss.seam.navigation.pageflow")
 @Intercept(NEVER)
-@Install(dependencies="org.jboss.seam.core.jbpm", precedence=BUILT_IN, classDependencies="javax.faces.context.FacesContext")
+@Install(dependencies="org.jboss.seam.bpm.jbpm", precedence=BUILT_IN, classDependencies="javax.faces.context.FacesContext")
 public class Pageflow extends AbstractMutable implements Serializable
 {
    private static final long serialVersionUID = -2337682140346213333L;

@@ -28,7 +28,7 @@ import org.jboss.seam.util.Work;
 @Scope(ScopeType.STATELESS)
 @Name("org.jboss.seam.bpm.taskInstance")
 @Intercept(InterceptionType.NEVER)
-@Install(precedence=BUILT_IN, dependencies="org.jboss.seam.core.jbpm")
+@Install(precedence=BUILT_IN, dependencies="org.jboss.seam.bpm.jbpm")
 public class TaskInstance 
 {
    

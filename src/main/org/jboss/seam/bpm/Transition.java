@@ -23,8 +23,9 @@ import org.jboss.seam.core.AbstractMutable;
 @Name("org.jboss.seam.bpm.transition")
 @Scope(ScopeType.CONVERSATION)
 @Intercept(NEVER)
-@Install(precedence=BUILT_IN, dependencies="org.jboss.seam.core.jbpm")
-public class Transition extends AbstractMutable implements Serializable {
+@Install(precedence=BUILT_IN, dependencies="org.jboss.seam.bpm.jbpm")
+public class Transition extends AbstractMutable implements Serializable 
+{
    private static final long serialVersionUID = -3054558654376670239L;
    
    private String name;

@@ -43,7 +43,7 @@ import org.jbpm.svc.Services;
 @Scope(ScopeType.EVENT)
 @Name("org.jboss.seam.bpm.jbpmContext")
 @Intercept(NEVER)
-@Install(precedence=BUILT_IN, dependencies="org.jboss.seam.core.jbpm")
+@Install(precedence=BUILT_IN, dependencies="org.jboss.seam.bpm.jbpm")
 public class ManagedJbpmContext implements Synchronization
 {
    private static final LogProvider log = Logging.getLogProvider(ManagedJbpmContext.class);

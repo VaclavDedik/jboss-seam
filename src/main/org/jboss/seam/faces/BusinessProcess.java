@@ -21,7 +21,7 @@ import org.jboss.seam.annotations.Scope;
 @Scope(ScopeType.CONVERSATION)
 @Name("org.jboss.seam.core.businessProcess")
 @Intercept(NEVER)
-@Install(dependencies="org.jboss.seam.core.jbpm", precedence=FRAMEWORK, classDependencies="javax.faces.context.FacesContext")
+@Install(dependencies="org.jboss.seam.bpm.jbpm", precedence=FRAMEWORK, classDependencies="javax.faces.context.FacesContext")
 public class BusinessProcess extends org.jboss.seam.bpm.BusinessProcess
 {
    
