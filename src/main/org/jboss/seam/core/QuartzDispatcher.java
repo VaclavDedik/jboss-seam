@@ -139,6 +139,8 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzDispatcher.Quartz
         {
           CronTrigger trigger = new CronTrigger (triggerName, null);
           trigger.setCronExpression(cronSchedule.getCron());
+          trigger.setEndTime(cronSchedule.getFinalExpiration());
+
           if ( cronSchedule.getExpiration()!=null )
           {
             trigger.setStartTime (cronSchedule.getExpiration());
@@ -163,19 +165,19 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzDispatcher.Quartz
          TimerSchedule timerSchedule = (TimerSchedule) schedule;
          if ( timerSchedule.getExpiration()!=null )
          {
-            SimpleTrigger trigger = new SimpleTrigger(triggerName, null, timerSchedule.getExpiration(), null, SimpleTrigger.REPEAT_INDEFINITELY, timerSchedule.getIntervalDuration());
+            SimpleTrigger trigger = new SimpleTrigger(triggerName, null, timerSchedule.getExpiration(), timerSchedule.getFinalExpiration(), SimpleTrigger.REPEAT_INDEFINITELY, timerSchedule.getIntervalDuration());
             scheduler.scheduleJob( jobDetail, trigger );
 
          }
          else if ( timerSchedule.getDuration()!=null )
          {
-             SimpleTrigger trigger = new SimpleTrigger(triggerName, null, calculateDelayedDate(timerSchedule.getDuration()), null, SimpleTrigger.REPEAT_INDEFINITELY, timerSchedule.getIntervalDuration());
+             SimpleTrigger trigger = new SimpleTrigger(triggerName, null, calculateDelayedDate(timerSchedule.getDuration()), timerSchedule.getFinalExpiration(), SimpleTrigger.REPEAT_INDEFINITELY, timerSchedule.getIntervalDuration());
              scheduler.scheduleJob( jobDetail, trigger );
 
          }
          else
          {
-            SimpleTrigger trigger = new SimpleTrigger(triggerName, null, SimpleTrigger.REPEAT_INDEFINITELY, timerSchedule.getIntervalDuration());
+            SimpleTrigger trigger = new SimpleTrigger(triggerName, null, null, timerSchedule.getFinalExpiration(), SimpleTrigger.REPEAT_INDEFINITELY, timerSchedule.getIntervalDuration());
             scheduler.scheduleJob( jobDetail, trigger );
 
          }

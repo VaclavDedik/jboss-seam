@@ -6,9 +6,10 @@ import java.lang.reflect.Method;
 import java.util.Date;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.annotations.timer.Cron;
+import org.jboss.seam.annotations.timer.IntervalCron;
 import org.jboss.seam.annotations.timer.Duration;
 import org.jboss.seam.annotations.timer.Expiration;
+import org.jboss.seam.annotations.timer.FinalExpiration;
 import org.jboss.seam.annotations.timer.IntervalDuration;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
@@ -148,12 +149,18 @@ public abstract class AbstractDispatcher<T, S> implements Dispatcher<T, S>
       
    }
 
+   // TODO: Throw exception when there are multiple interval params
+   //       Make use of finalExpiration
+   //       Make use of NthBusinessDay
    protected Schedule createSchedule(InvocationContext invocation)
    {
       Long duration = null;
       Date expiration = null;
+      Date finalExpiration = null;
+
       Long intervalDuration = null;
       String cron = null;
+      // NthBusinessDay intervalBusinessDay = null;
 
       Annotation[][] parameterAnnotations = invocation.getMethod().getParameterAnnotations();
       for ( int i=0; i<parameterAnnotations.length; i++ )
@@ -173,7 +180,11 @@ public abstract class AbstractDispatcher<T, S> implements Dispatcher<T, S>
             {
                expiration = (Date) invocation.getParameters()[i];
             }
-            else if ( annotation.annotationType().equals(Cron.class) )
+            else if ( annotation.annotationType().equals(FinalExpiration.class) )
+            {
+               finalExpiration = (Date) invocation.getParameters()[i];
+            }
+            else if ( annotation.annotationType().equals(IntervalCron.class) )
             {
                cron = (String) invocation.getParameters()[i];
             }
@@ -182,11 +193,11 @@ public abstract class AbstractDispatcher<T, S> implements Dispatcher<T, S>
       
       if ( cron!=null ) 
       {
-        return new CronSchedule(duration, expiration, cron);
+        return new CronSchedule(duration, expiration, cron, finalExpiration);
       } 
       else 
       {
-        return new TimerSchedule(duration, expiration, intervalDuration);
+        return new TimerSchedule(duration, expiration, intervalDuration, finalExpiration);
       }
    }
    

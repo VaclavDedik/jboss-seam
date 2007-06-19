@@ -16,6 +16,7 @@ public class Schedule implements Serializable
 {
    private Long duration;
    private Date expiration;
+   private Date finalExpiration;
    
    Long getDuration()
    {
@@ -27,6 +28,11 @@ public class Schedule implements Serializable
       return expiration;
    }
    
+   Date getFinalExpiration()
+   {
+      return finalExpiration;
+   }
+
    /**
     * @param duration the delay before the event occurs
     * @param expiration the datetime at which the event occurs
@@ -35,6 +41,18 @@ public class Schedule implements Serializable
    {
       this.duration = duration;
       this.expiration = expiration;
+   }
+
+   /**
+    * @param duration the delay before the event occurs
+    * @param expiration the datetime at which the event occurs
+    * @param finalExpiration the datetime at which the event ends
+    */
+   Schedule(Long duration, Date expiration, Date finalExpiration)
+   {
+      this.duration = duration;
+      this.expiration = expiration;
+      this.finalExpiration = finalExpiration;
    }
 
    /**

@@ -38,9 +38,9 @@ public class CronSchedule extends Schedule
       this.cron = cron;
    }
 
-   CronSchedule(Long duration, Date expiration, String cron)
+   CronSchedule(Long duration, Date expiration, String cron, Date finalExpiration)
    {
-      super(duration, expiration);
+      super(duration, expiration, finalExpiration);
       this.cron = cron;
    }
 
