@@ -2,7 +2,7 @@
 package org.jboss.seam.example.numberguess.test;
 
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.core.Pageflow;
+import org.jboss.seam.navigation.Pageflow;
 import org.jboss.seam.example.numberguess.NumberGuess;
 import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;

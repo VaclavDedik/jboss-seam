@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <components xmlns="http://jboss.com/products/seam/components"
+            xmlns:bpm="http://jboss.com/products/seam/bpm"
+            xmlns:core="http://jboss.com/products/seam/core"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:schemaLocation="http://jboss.com/products/seam/components http://jboss.com/products/seam/components-1.3.xsd">
+            xsi:schemaLocation=
+                "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-1.3.xsd 
+                 http://jboss.com/products/seam/bpm http://jboss.com/products/seam/bpm-1.3.xsd 
+                 http://jboss.com/products/seam/components http://jboss.com/products/seam/components-1.3.xsd">
 
     <component name="numberGuess">
         <property name="maxGuesses">10</property>
     </component>
 
-    <component name="org.jboss.seam.core.init">
-        <property name="debug">true</property>
-    </component>
+    <core:init debug="true"/>
     
-    <component class="org.jboss.seam.core.Jbpm">
-        <property name="pageflowDefinitions">
+    <bpm:jbpm>
+        <bpm:pageflow-definitions>
             <value>cheat.jpdl.xml</value>
             <value>pageflow.jpdl.xml</value>
-        </property>
-    </component>
+        </bpm:pageflow-definitions>
+    </bpm:jbpm>
 
 </components>
