@@ -23,6 +23,8 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.ServletSession;
+import org.jboss.seam.init.DeploymentDescriptorInfo;
+import org.jboss.seam.init.DeploymentDescriptorInfo.EjbInfo;
 import org.jboss.seam.util.Strings;
 
 /**
@@ -33,7 +35,8 @@ import org.jboss.seam.util.Strings;
  */
 public class Seam
 {
-   
+   private static DeploymentDescriptorInfo deploymentInfo = new DeploymentDescriptorInfo();
+    
    private static final Map<Class, String> COMPONENT_NAME_CACHE = new ConcurrentHashMap<Class, String>();
 
    /**
@@ -42,9 +45,9 @@ public class Seam
     */
    public static ScopeType getComponentScope(Class<?> clazz)
    {
-      return clazz.isAnnotationPresent(Scope.class) ?
-            clazz.getAnnotation(Scope.class).value() :
-            getComponentType(clazz).getDefaultScope();
+       return clazz.isAnnotationPresent(Scope.class) ?
+               clazz.getAnnotation(Scope.class).value() :
+               getComponentType(clazz).getDefaultScope();
    }
    
    /**
@@ -63,25 +66,21 @@ public class Seam
     */
    public static ComponentType getComponentType(Class<?> clazz)
    {
-      if ( clazz.isAnnotationPresent(STATEFUL) )
-      {
-         return STATEFUL_SESSION_BEAN;
-      }
-      else if ( clazz.isAnnotationPresent(STATELESS) )
-      {
-         return STATELESS_SESSION_BEAN;
-      }
-      else if ( clazz.isAnnotationPresent(MESSAGE_DRIVEN) )
-      {
-         return MESSAGE_DRIVEN_BEAN;
-      }
-      else if ( clazz.isAnnotationPresent(Entity.class) )
-      {
-         return ENTITY_BEAN;
-      }
-      else 
-      {
-         return JAVA_BEAN;
+      if (clazz.isAnnotationPresent(STATEFUL)) {
+          return STATEFUL_SESSION_BEAN;
+      } else if (clazz.isAnnotationPresent(STATELESS)) {
+          return STATELESS_SESSION_BEAN;
+      } else if (clazz.isAnnotationPresent(MESSAGE_DRIVEN)) {
+          return MESSAGE_DRIVEN_BEAN;
+      } else if (clazz.isAnnotationPresent(Entity.class)) {
+          return ENTITY_BEAN;
+      } else {          
+          EjbInfo info = deploymentInfo.getBeanByClass(clazz.getName());
+          if (info != null) {
+              return info.getBeanType();
+          }
+          
+          return JAVA_BEAN;
       }      
    }
    
@@ -163,23 +162,37 @@ public class Seam
    
    public static String getEjbName(Class<?> clazz)
    {
-      switch ( getComponentType(clazz) )
-      {
-         case ENTITY_BEAN:
-         case JAVA_BEAN:
-            return null;
-         case STATEFUL_SESSION_BEAN:
-            String statefulName = name( clazz.getAnnotation(STATEFUL) );
-            return statefulName.equals("") ? unqualifyClassName(clazz) : statefulName;
-         case STATELESS_SESSION_BEAN:
-            String statelessName = name( clazz.getAnnotation(STATELESS) );
-            return statelessName.equals("") ? unqualifyClassName(clazz) : statelessName;
-         case MESSAGE_DRIVEN_BEAN:
-            String mdName = name( clazz.getAnnotation(MESSAGE_DRIVEN) );
-            return mdName.equals("") ? unqualifyClassName(clazz) : mdName;
-         default:
-            throw new IllegalArgumentException();
-      }
+       switch (getComponentType(clazz)) {
+           case ENTITY_BEAN:
+           case JAVA_BEAN:
+               return null;
+           case STATEFUL_SESSION_BEAN:
+               if (clazz.isAnnotationPresent(STATEFUL)) {
+                   String statefulName = name(clazz.getAnnotation(STATEFUL));
+                   return statefulName.equals("") ? unqualifyClassName(clazz) : statefulName;
+               } else {
+                   EjbInfo info = deploymentInfo.getBeanByClass(clazz.getName()); 
+                   return info.getName();                   
+               }
+           case STATELESS_SESSION_BEAN:
+               if (clazz.isAnnotationPresent(STATELESS)) {
+                   String statelessName = name(clazz.getAnnotation(STATELESS));
+                   return statelessName.equals("") ? unqualifyClassName(clazz) : statelessName;
+               } else {
+                   EjbInfo info = deploymentInfo.getBeanByClass(clazz.getName()); 
+                   return info.getName();
+               }
+           case MESSAGE_DRIVEN_BEAN:
+               if (clazz.isAnnotationPresent(MESSAGE_DRIVEN)) {
+                   String mdName = name(clazz.getAnnotation(MESSAGE_DRIVEN));
+                   return mdName.equals("") ? unqualifyClassName(clazz) : mdName;
+               } else {
+                   EjbInfo info = deploymentInfo.getBeanByClass(clazz.getName()); 
+                   return info.getName();
+               }
+           default:
+               throw new IllegalArgumentException();
+       }
    }
    private static String unqualifyClassName(Class<?> clazz) {
       return Strings.unqualify( Strings.unqualify( clazz.getName() ), '$' );
@@ -255,6 +268,9 @@ public class Seam
       Package pkg = Seam.class.getPackage();
       return (pkg != null ? pkg.getImplementationVersion() : null);      
    }
+  
+       
+   
    
    public static void clearComponentNameCache()
    {
