@@ -10,12 +10,14 @@
             <s:span styleClass="required" rendered="#{required}">*</s:span>
         </s:label>
         <span class="input #{invalid?'errors':''}">
-            <s:validateAll>
+           <s:validateAll>
                 <ui:insert/>
             </s:validateAll>
         </span>
-        <s:message styleClass="error errors"/>
-        <span class="description"><ui:insert name="description" /></span>
+        <div>
+	        <s:message styleClass="error errors"/>
+	    </div>
+        <div class="description"><ui:insert name="description" /></div>
     </div>
     
 </ui:composition>

@@ -34,7 +34,7 @@
 			</s:button>
 			
 			<h:outputText value="Page parameters" />
-			<s:link view="/linkAndButton.xhtml" value="Add a page parameter">
+			<s:link action="#{buttonLink.simpleAction}" value="Add a page parameter">
 				<f:param name="foo" value="bar" />
 			</s:link>
 			<s:button action="#{buttonLink.simpleAction}" value="Add a page parameter">

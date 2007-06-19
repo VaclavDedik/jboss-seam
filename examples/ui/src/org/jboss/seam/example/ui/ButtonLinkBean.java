@@ -1,7 +1,7 @@
 package org.jboss.seam.example.ui;
 
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.core.FacesMessages;
+import org.jboss.seam.faces.FacesMessages;
 
 @Name("buttonLink")
 public class ButtonLinkBean

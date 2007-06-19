@@ -14,9 +14,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.persistence.Transient;
 
 import org.hibernate.annotations.CollectionOfElements;
+import org.hibernate.validator.Length;
 
 @Entity
 public class Person implements Serializable
@@ -59,6 +59,7 @@ public class Person implements Serializable
    @Id @GeneratedValue
    private Integer id;
    
+   @Length(min=5)
    private String name;
    
    // A wikitext string

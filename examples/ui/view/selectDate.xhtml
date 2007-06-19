@@ -1,0 +1,35 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:s="http://jboss.com/products/seam/taglib"
+      template="template.xhtml"
+      >
+	<ui:param name="tagName" value="s:selectDate" />
+	<ui:define name="body">
+	<p>This example shows example usage of the <code>s:selectDate</code> tag being used.</p>
+	<p>The example also uses:</p>
+	<ul>
+		<li><code>s:conversationPropagation</code></li>
+		<li><code>s:decorate</code></li>
+		<li><code>s:convertDateTime</code></li>
+	</ul>
+
+	<h:form>
+		
+		<s:decorate template="decorateField.xhtml">
+			<h:inputText value="#{selectDate.date}" id="date">
+		    	<s:convertDateTime pattern="MM/dd/yyyy"/>
+ 			</h:inputText>
+			<s:selectDate for="date" startYear="1990" endYear="2020">
+				<img src="dtpick.gif"/>
+  			</s:selectDate>
+		</s:decorate>
+		
+		<h:commandButton value="Echo Date" action="#{selectDate.echo}">
+			<s:conversationPropagation type="join" />
+		</h:commandButton>
+		
+	</h:form>
+</ui:define>
+</ui:composition>

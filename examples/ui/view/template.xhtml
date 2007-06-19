@@ -6,6 +6,7 @@
 	xmlns:s="http://jboss.com/products/seam/taglib">
 <head>
 <title>UI Example: #{tagName}</title>
+<link href="date.css" rel="stylesheet" type="text/css" />
 <style>
 .label {
 	font-weight: bold;
@@ -41,16 +42,18 @@
 }
 
 .entry .input {
-	width: 560px;
+	width: 600px;
 	text-align: left;
 }
 .entry .error {
-	width: 560px;
+	width: 600px;
 	text-align: left;
+	margin-left: 270px;
 }
 
 .entry .description {
 	font-size: x-small;
+	margin-left: 270px;
 }
 
 .menu {
@@ -93,6 +96,9 @@
 		<li><s:link view="/graphicImage.xhtml">
 			<code>s:graphicImage</code>
 			<f:param name="personId" value="1" />
+		</s:link></li>
+		<li><s:link view="/selectDate.xhtml" propagation="join">
+			<code>s:selectDate</code>
 		</s:link></li>
 	</ul>
 </s:div>
