@@ -12,6 +12,7 @@ import java.util.Properties;
 
 import javax.naming.NamingException;
 
+import org.dom4j.Element;
 import org.hibernate.HibernateException;
 import org.hibernate.cfg.Environment;
 import org.hibernate.lob.ReaderInputStream;
@@ -35,6 +36,9 @@ import org.jboss.seam.util.Resources;
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
 import org.jbpm.graph.def.ProcessDefinition;
+import org.jbpm.graph.node.DbSubProcessResolver;
+import org.jbpm.graph.node.ProcessState;
+import org.jbpm.graph.node.SubProcessResolver;
 import org.jbpm.instantiation.UserCodeInterceptorConfig;
 import org.jbpm.jpdl.el.impl.JbpmExpressionEvaluator;
 import org.jbpm.persistence.db.DbPersistenceServiceFactory;
@@ -67,6 +71,7 @@ public class Jbpm
    public void startup() throws Exception
    {
       log.trace( "Starting jBPM" );
+      ProcessState.setDefaultSubProcessResolver( new SeamSubProcessResolver() );
       installProcessDefinitions();
       installPageflowDefinitions();
       JbpmExpressionEvaluator.setVariableResolver( new SeamVariableResolver() );
@@ -284,6 +289,17 @@ public class Jbpm
    protected void setJbpmConfigurationJndiName(String jbpmConfigurationJndiName)
    {
       this.jbpmConfigurationJndiName = jbpmConfigurationJndiName;
+   }
+   
+   private static final DbSubProcessResolver DB_SUB_PROCESS_RESOLVER = new DbSubProcessResolver();
+   class SeamSubProcessResolver implements SubProcessResolver
+   {
+      public ProcessDefinition findSubProcess(Element element)
+      {
+         String subProcessName = element.attributeValue("name");
+         ProcessDefinition pageflow = pageflowProcessDefinitions.get(subProcessName);
+         return pageflow==null ? DB_SUB_PROCESS_RESOLVER.findSubProcess(element) : pageflow;
+      }
    }
    
 }

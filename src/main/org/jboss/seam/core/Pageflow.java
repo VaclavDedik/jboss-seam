@@ -30,7 +30,6 @@ import org.jbpm.graph.def.Node;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.graph.exe.ProcessInstance;
-import org.jbpm.graph.exe.Token;
 
 /**
  * A Seam component that manages the current
@@ -99,7 +98,7 @@ public class Pageflow extends AbstractMutable implements Serializable
          String pageflowName = page.getPageflowName();
          String pageflowNodeName = page.getPageflowNodeName();
          boolean canReposition = getPage().isBackEnabled() && 
-               processInstance.getProcessDefinition().getName().equals(pageflowName) && //probably not necessary
+               getSubProcessInstance().getProcessDefinition().getName().equals(pageflowName) && //probably not necessary
                pageflowNodeName!=null; //probably not necessary
          if (canReposition)
          {
@@ -148,16 +147,33 @@ public class Pageflow extends AbstractMutable implements Serializable
    /**
     * Get the current Node of the pageflow.
     */
-   public Node getNode() 
+   public Node getNode()
    {
       if (processInstance==null) return null;
-      Token pageFlowToken = processInstance.getRootToken();
-      Node node = pageFlowToken.getNode();
+      Node node = getSubProcessInstance().getRootToken().getNode();
       if (node==null) 
       {
          throw new IllegalStateException("pageflow has not yet started");
       }
       return node;
+   }
+
+   public ProcessInstance getSubProcessInstance()
+   {
+      return getSubProcess(processInstance);
+   }
+   
+   private static ProcessInstance getSubProcess(ProcessInstance processInstance)
+   {
+      ProcessInstance subProcess = processInstance.getRootToken().getSubProcessInstance();
+      if (subProcess!=null)
+      {
+         return getSubProcess(subProcess);
+      }
+      else
+      {
+         return processInstance;
+      }
    }
    
    /**
@@ -171,15 +187,16 @@ public class Pageflow extends AbstractMutable implements Serializable
       {
          throw new IllegalStateException("no pageflow in progress");
       }
-      Node node = processInstance.getProcessDefinition().getNode(nodeName);
+      ProcessInstance subProcess = getSubProcessInstance();
+      Node node = subProcess.getProcessDefinition().getNode(nodeName);
       if (node==null)
       {
          throw new IllegalArgumentException(
                "no node named: " + nodeName + 
-               " for pageflow: " + processInstance.getProcessDefinition().getName()
+               " for pageflow: " + subProcess.getProcessDefinition().getName()
             );
       }
-      processInstance.getRootToken().setNode(node);
+      subProcess.getRootToken().setNode(node);
       setDirty();
    }
    
@@ -282,7 +299,9 @@ public class Pageflow extends AbstractMutable implements Serializable
     * Given the JSF action outcome, perform navigation according
     * to the current pageflow.
     */
-   public void navigate(FacesContext context, String outcome) {
+   public void navigate(FacesContext context, String outcome) 
+   {
+      ProcessInstance subProcess = getSubProcessInstance();
       if ( isNullOutcome(outcome) )
       {
          //if it has a default transition defined, trigger it,
@@ -291,20 +310,28 @@ public class Pageflow extends AbstractMutable implements Serializable
          {
             //we don't use jBPM's default transition,
             //instead we use the "anonymous" transition
-            PageflowHelper.signal(processInstance, null);
+            PageflowHelper.signal(subProcess, null);
             navigate(context);
          }
       }
       else
       {
          //trigger the named transition
-         PageflowHelper.signal(processInstance, outcome);
+         PageflowHelper.signal(subProcess, outcome);
          navigate(context);
       }
       
+      raiseEndEventIfNecessary();
+   }
+
+   protected void raiseEndEventIfNecessary()
+   {
       if ( processInstance.hasEnded() )
       {
-         Events.instance().raiseEvent("org.jboss.seam.endPageflow." + processInstance.getProcessDefinition().getName());
+         Events.instance().raiseEvent(
+                  "org.jboss.seam.endPageflow." + 
+                  processInstance.getProcessDefinition().getName()
+               );
       }
    }
 
@@ -359,10 +386,15 @@ public class Pageflow extends AbstractMutable implements Serializable
       
       setDirty();
       
-      Events.instance().raiseEvent("org.jboss.seam.beginPageflow." + pageflowDefinitionName);
+      raiseBeginEvent(pageflowDefinitionName);
       
       storePageflowToViewRootIfNecessary();
 
+   }
+
+   protected void raiseBeginEvent(String pageflowDefinitionName)
+   {
+      Events.instance().raiseEvent("org.jboss.seam.beginPageflow." + pageflowDefinitionName);
    }
 
    private void storePageflowToViewRootIfNecessary()
