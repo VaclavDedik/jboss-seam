@@ -22,6 +22,7 @@
          <action expression="#{numberGuess.guess}"/>
       </transition>
       <transition name="giveup" to="giveup"/>
+      <transition name="cheat" to="cheat"/>
    </start-page>
    
    <decision name="evaluateGuess" expression="#{numberGuess.correctGuess}">
@@ -40,6 +41,11 @@
       <transition name="no" to="displayGuess"/>
    </page>
    
+   <process-state name="cheat">
+      <sub-process name="cheat"/>
+      <transition to="displayGuess"/>
+   </process-state>
+
    <page name="win" view-id="/win.jspx">
       <redirect/>
       <end-conversation/>

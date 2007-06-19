@@ -15,22 +15,22 @@
 	    "http://jboss.com/products/seam/pageflow http://jboss.com/products/seam/pageflow-1.3.xsd"
 	name="cheat">
    
-   <start-page name="confirm" view-id="/confirm.jspx">
+   <start-state name="start">
+      <transition to="confirm"/>
+   </start-state>
+   
+   <page name="confirm" view-id="/confirm.jspx">
       <transition name="yes" to="cheat">
          <action expression="#{numberGuess.cheated}"/>
       </transition>
       <transition name="no" to="end"/>
-   </start-page>
-   
+   </page>
    
    <page name="cheat" view-id="/cheat.jspx">
       <redirect/>
       <transition to="end"/>
    </page>
    
-   <page name="end" view-id="/numberGuess.jspx">
-      <redirect/>
-      <end-conversation/>
-   </page>
+   <end-state name="end"/>
    
 </pageflow-definition>

@@ -50,7 +50,7 @@
           <s:selectItems value="#{numberGuess.possibilities}" var="i" label="#{i}"/>
         </h:selectOneRadio>
 		<h:commandButton value="Guess" action="guess"/>
-        <s:button value="Cheat" view="/confirm.jspx"/>
+        <s:button value="Cheat" action="cheat"/>
         <s:button value="Give up" action="giveup"/>
 		</div>
 		
