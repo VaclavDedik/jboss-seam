@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.faces.context.FacesContext;
 
 import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
@@ -113,13 +112,12 @@ public class Validators
    /**
     * Validate that a value can be assigned to the property
     * identified by a value expression.
-    * 
-    * @param context the FacesContext
     * @param propertyExpression a value expression
     * @param value the value that is to be assigned
+    * 
     * @return the validation failures, as InvalidValues
     */
-   public InvalidValue[] validate(FacesContext context, String propertyExpression, Object value)
+   public InvalidValue[] validate(String propertyExpression, Object value)
    {
       int dot = propertyExpression.lastIndexOf('.');
       int bracket = propertyExpression.lastIndexOf('[');
