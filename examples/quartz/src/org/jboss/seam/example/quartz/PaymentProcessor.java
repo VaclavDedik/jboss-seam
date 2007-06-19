@@ -12,8 +12,9 @@ import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.timer.Expiration;
+import org.jboss.seam.annotations.timer.FinalExpiration;
 import org.jboss.seam.annotations.timer.IntervalDuration;
-import org.jboss.seam.annotations.timer.Cron;
+import org.jboss.seam.annotations.timer.IntervalCron;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.core.QuartzDispatcher.QuartzTriggerHandle;
 
@@ -31,6 +32,7 @@ public class PaymentProcessor {
     @Transactional
     public QuartzTriggerHandle schedulePayment(@Expiration Date when, 
                                  @IntervalDuration Long interval, 
+                                 @FinalExpiration Date stoptime, 
                                  Payment payment) 
     { 
         payment = entityManager.merge(payment);
@@ -53,7 +55,8 @@ public class PaymentProcessor {
     @Asynchronous
     @Transactional
     public QuartzTriggerHandle schedulePayment(@Expiration Date when, 
-                                 @Cron String cron, 
+                                 @IntervalCron String cron, 
+                                 @FinalExpiration Date stoptime, 
                                  Payment payment) 
     { 
         payment = entityManager.merge(payment);

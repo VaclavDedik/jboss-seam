@@ -116,16 +116,23 @@
                             </h:inputText></td>
                         </tr>
                         <tr>
-                            <td>Date:</td>
-                            <td><h:inputText id="paymentDate" value="#{newPayment.paymentDate}" required="true"> 
-                                    <s:convertDateTime pattern="MM/dd/yyyy"/>
+                            <td>Start Date:</td>
+                            <td><h:inputText id="paymentStartDate" value="#{newPayment.paymentDate}" required="true"> 
+                                    <s:convertDateTime pattern="MM/dd/yyyy HH:mm"/>
                                 
                                 </h:inputText>
-                                <s:selectDate for="paymentDate">
-                                    <h:graphicImage url="img/dtpick.gif" />
-                                </s:selectDate>
 
-                                <h:message for="paymentDate" />
+                                <h:message for="paymentStartDate" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>End Date:</td>
+                            <td><h:inputText id="paymentEndDate" value="#{newPayment.paymentEndDate}"> 
+                                    <s:convertDateTime pattern="MM/dd/yyyy HH:mm"/>
+                                
+                                </h:inputText>
+
+                                <h:message for="paymentEndDate" />
                             </td>
                         </tr>
 

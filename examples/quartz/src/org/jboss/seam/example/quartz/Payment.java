@@ -41,6 +41,7 @@ public class Payment
     private boolean active = true;
 
     private String paymentCron;
+    private Date paymentEndDate;
 
     private Frequency paymentFrequency = Frequency.DAILY;
 
@@ -81,6 +82,13 @@ public class Payment
     }
     public void setPaymentDate(Date paymentDate) {
         this.paymentDate = paymentDate;
+    }  
+
+    public Date getPaymentEndDate() {
+        return paymentEndDate;
+    }
+    public void setPaymentEndDate(Date paymentEndDate) {
+        this.paymentEndDate = paymentEndDate;
     }  
 
     public Date getCreatedDate() {

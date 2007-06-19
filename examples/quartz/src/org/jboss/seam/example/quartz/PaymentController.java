@@ -10,6 +10,8 @@ import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.core.QuartzDispatcher.QuartzTriggerHandle;
 
+import java.util.Date;
+
 @Name("paymentHome")
 public class PaymentController 
     extends EntityHome<Payment>
@@ -24,10 +26,12 @@ public class PaymentController
         String result = persist();
         
         Payment payment = getInstance();
+        payment.setPaymentDate (new Date ());
         log.info("scheduling instance #0", payment);
 
         QuartzTriggerHandle handle = processor.schedulePayment(payment.getPaymentDate(), 
                                                 payment.getPaymentFrequency().getInterval(), 
+                                                payment.getPaymentEndDate(), 
                                                 payment);
         
         payment.setQuartzTriggerHandle( handle );
@@ -40,10 +44,12 @@ public class PaymentController
         String result = persist();
         
         Payment payment = getInstance();
+        payment.setPaymentDate (new Date ());
         log.info("scheduling instance #0", payment);
 
         QuartzTriggerHandle handle = processor.schedulePayment(payment.getPaymentDate(), 
                                                 payment.getPaymentCron(), 
+                                                payment.getPaymentEndDate(), 
                                                 payment);
         
         payment.setQuartzTriggerHandle( handle );
