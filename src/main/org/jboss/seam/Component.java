@@ -551,6 +551,7 @@ public class Component extends Model
          if ( method.getParameterTypes().length==0 )
          {
             defaultRemoveMethod = method;
+            lifecycleMethods.add(method);
          }
       }
       if ( method.isAnnotationPresent(Destroy.class) && method!=getDefaultRemoveMethod() )

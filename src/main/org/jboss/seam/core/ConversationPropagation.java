@@ -15,7 +15,7 @@ import org.jboss.seam.log.Logging;
 import org.jboss.seam.navigation.Page;
 import org.jboss.seam.navigation.Pages;
 
-@Name("conversationPropagation")
+@Name("org.jboss.seam.core.conversationPropagation")
 @Scope(ScopeType.EVENT)
 @Intercept(InterceptionType.NEVER)
 @Install(precedence=Install.BUILT_IN)
