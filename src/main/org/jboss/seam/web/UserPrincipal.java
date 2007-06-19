@@ -1,11 +1,12 @@
-package org.jboss.seam.faces;
+package org.jboss.seam.web;
 
 import static org.jboss.seam.InterceptionType.NEVER;
-import static org.jboss.seam.annotations.Install.FRAMEWORK;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.security.Principal;
 
-import javax.faces.context.FacesContext;
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
@@ -25,19 +26,19 @@ import org.jboss.seam.contexts.Contexts;
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
 @Name("org.jboss.seam.web.userPrincipal")
-@Install(precedence=FRAMEWORK, classDependencies="javax.faces.context.FacesContext")
-public class UserPrincipal extends org.jboss.seam.web.UserPrincipal
+@Install(precedence=BUILT_IN)
+public class UserPrincipal
 {
-   @Unwrap @Override
+   @Unwrap
    public Principal getUserPrincipal()
    {
-      FacesContext facesContext = FacesContext.getCurrentInstance();
-      if ( facesContext != null ) 
+      ServletRequest servletRequest = ServletContexts.instance().getRequest();
+      if ( servletRequest != null )
       {
-         return facesContext.getExternalContext().getUserPrincipal();
+         return ( (HttpServletRequest) servletRequest ).getUserPrincipal();
       }
       
-      return super.getUserPrincipal();
+      return null;
    }
    
    public static Principal instance()

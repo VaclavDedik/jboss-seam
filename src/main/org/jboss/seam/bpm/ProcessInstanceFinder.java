@@ -21,7 +21,7 @@ import org.jbpm.graph.exe.ProcessInstance;
  * 
  * @author Gavin King
  */
-@Name("org.jboss.seam.core.processInstanceFinder")
+@Name("org.jboss.seam.bpm.processInstanceFinder")
 @Install(precedence=BUILT_IN, dependencies="org.jboss.seam.core.jbpm")
 public class ProcessInstanceFinder
 {

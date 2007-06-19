@@ -4,7 +4,7 @@
 package org.jboss.seam.exceptions;
 
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.faces.JsfManager;
+import org.jboss.seam.faces.FacesManager;
 import org.jboss.seam.faces.RedirectException;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -20,7 +20,7 @@ public class DebugPageHandler extends ExceptionHandler
       log.error("redirecting to debug page", e);
       org.jboss.seam.faces.Redirect redirect = org.jboss.seam.faces.Redirect.instance();
       redirect.setViewId("/debug.xhtml");
-      JsfManager manager = JsfManager.instance();
+      FacesManager manager = FacesManager.instance();
       manager.beforeRedirect("/debug.xhtml");
       redirect.setParameter( manager.getConversationIdParameter(), manager.getCurrentConversationId() );
       

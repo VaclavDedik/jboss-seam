@@ -25,7 +25,7 @@ import org.jboss.seam.navigation.Pageflow;
  * @author Gavin King
  *
  */
-@Name("org.jboss.seam.core.facesPage")
+@Name("org.jboss.seam.faces.facesPage")
 @Intercept(InterceptionType.NEVER)
 @Install(precedence=BUILT_IN, classDependencies="javax.faces.context.FacesContext")
 @Scope(ScopeType.PAGE)

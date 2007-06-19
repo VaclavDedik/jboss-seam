@@ -39,7 +39,7 @@ import org.jboss.seam.navigation.Pages;
 @Scope(ScopeType.SESSION)
 @Name("org.jboss.seam.theme.themeSelector")
 @Intercept(NEVER)
-@Install(precedence=BUILT_IN)
+@Install(precedence=BUILT_IN, classDependencies="javax.faces.context.FacesContext")
 public class ThemeSelector extends Selector
 {
    private static final long serialVersionUID = 3920407140011388341L;

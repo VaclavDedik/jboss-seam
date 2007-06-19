@@ -27,7 +27,7 @@ import org.jboss.seam.core.Expressions;
 @Intercept(NEVER)
 @Install(precedence=FRAMEWORK, classDependencies="javax.faces.context.FacesContext")
 @Name("org.jboss.seam.core.expressions")
-public class JsfExpressions extends Expressions
+public class FacesExpressions extends Expressions
 {
    
    
@@ -74,9 +74,9 @@ public class JsfExpressions extends Expressions
       return FacesContext.getCurrentInstance()==null; 
    }
    
-   public static JsfExpressions instance()
+   public static FacesExpressions instance()
    {
-      return (JsfExpressions) Expressions.instance();
+      return (FacesExpressions) Expressions.instance();
    }
    
 }

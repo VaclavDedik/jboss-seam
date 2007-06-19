@@ -10,7 +10,6 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.bpm.BusinessProcess;
 
 /**
  * Holds the task and process ids for the current conversation,
@@ -23,7 +22,7 @@ import org.jboss.seam.bpm.BusinessProcess;
 @Name("org.jboss.seam.core.businessProcess")
 @Intercept(NEVER)
 @Install(dependencies="org.jboss.seam.core.jbpm", precedence=FRAMEWORK, classDependencies="javax.faces.context.FacesContext")
-public class JsfBusinessProcess extends BusinessProcess
+public class BusinessProcess extends org.jboss.seam.bpm.BusinessProcess
 {
    
    @Override

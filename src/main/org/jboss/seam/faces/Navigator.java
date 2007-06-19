@@ -43,7 +43,7 @@ public abstract class Navigator
          viewId = Pages.getCurrentViewId();
       }
       if ( log.isDebugEnabled() ) log.debug("redirecting to: " + viewId);
-      JsfManager.instance().redirect(viewId, parameters, true);
+      FacesManager.instance().redirect(viewId, parameters, true);
    }
    
    /**

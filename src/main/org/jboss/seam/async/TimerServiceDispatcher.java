@@ -31,7 +31,7 @@ import org.jboss.seam.intercept.InvocationContext;
  *
  */
 @Stateless
-@Name("org.jboss.seam.core.dispatcher")
+@Name("org.jboss.seam.async.dispatcher")
 @Interceptors(SeamInterceptor.class)
 @Install(value=false, precedence=BUILT_IN)
 public class TimerServiceDispatcher 

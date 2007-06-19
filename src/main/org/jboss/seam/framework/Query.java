@@ -10,7 +10,7 @@ import javax.faces.model.DataModel;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.core.Expressions.ValueExpression;
-import org.jboss.seam.faces.JsfProvider;
+import org.jboss.seam.faces.DataModels;
 import org.jboss.seam.persistence.QueryParser;
 
 /**
@@ -64,7 +64,7 @@ public abstract class Query<T>
    {
       if (dataModel==null)
       {
-         dataModel = JsfProvider.instance().getDataModel(this);
+         dataModel = DataModels.instance().getDataModel(this);
       }
       return dataModel;
    }

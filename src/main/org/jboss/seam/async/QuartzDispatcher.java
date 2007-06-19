@@ -34,7 +34,7 @@ import org.quartz.SimpleTrigger;
  *
  */
 @Scope(ScopeType.APPLICATION)
-@Name("org.jboss.seam.core.dispatcher")
+@Name("org.jboss.seam.async.dispatcher")
 @Install(value=false, precedence=BUILT_IN)
 public class QuartzDispatcher extends AbstractDispatcher<QuartzDispatcher.QuartzTriggerHandle, Schedule>
 {

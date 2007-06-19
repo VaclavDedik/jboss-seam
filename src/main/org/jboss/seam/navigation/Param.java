@@ -10,7 +10,7 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
 import org.jboss.seam.core.Expressions.ValueExpression;
-import org.jboss.seam.faces.JsfExpressions;
+import org.jboss.seam.faces.FacesExpressions;
 
 public final class Param
 {
@@ -195,7 +195,7 @@ public final class Param
       
       if (valueExpression!=null)
       {
-         JsfExpressions.instance().validate( valueExpression.getExpressionString(), value );
+         FacesExpressions.instance().validate( valueExpression.getExpressionString(), value );
       }
       
       return value;

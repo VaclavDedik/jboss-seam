@@ -14,13 +14,12 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.web.Parameters;
 
-@Name("org.jboss.seam.core.parameters")
+@Name("org.jboss.seam.web.parameters")
 @Intercept(InterceptionType.NEVER)
 @Scope(ScopeType.STATELESS)
 @Install(precedence=FRAMEWORK, classDependencies="javax.faces.context.FacesContext")
-public class JsfParameters extends Parameters
+public class Parameters extends org.jboss.seam.web.Parameters
 {
 
    @Override

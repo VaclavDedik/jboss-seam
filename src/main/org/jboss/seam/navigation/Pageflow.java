@@ -25,7 +25,7 @@ import org.jboss.seam.core.AbstractMutable;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.faces.FacesPage;
-import org.jboss.seam.faces.JsfManager;
+import org.jboss.seam.faces.FacesManager;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.pageflow.Page;
@@ -45,9 +45,9 @@ import org.jbpm.graph.exe.ProcessInstance;
  */
 @Scope(ScopeType.CONVERSATION)
 @PerNestedConversation
-@Name("org.jboss.seam.core.pageflow")
+@Name("org.jboss.seam.navigation.pageflow")
 @Intercept(NEVER)
-@Install(dependencies="org.jboss.seam.core.jbpm", precedence=BUILT_IN)
+@Install(dependencies="org.jboss.seam.core.jbpm", precedence=BUILT_IN, classDependencies="javax.faces.context.FacesContext")
 public class Pageflow extends AbstractMutable implements Serializable
 {
    private static final long serialVersionUID = -2337682140346213333L;
@@ -243,7 +243,7 @@ public class Pageflow extends AbstractMutable implements Serializable
     */
    protected void redirect(Page page)
    {
-      JsfManager.instance().redirect( getViewId(page) );
+      FacesManager.instance().redirect( getViewId(page) );
    }
 
    /**

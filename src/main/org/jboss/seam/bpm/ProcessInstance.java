@@ -26,7 +26,7 @@ import org.jboss.seam.util.Work;
  * @author Gavin King
  */
 @Scope(ScopeType.STATELESS)
-@Name("org.jboss.seam.core.processInstance")
+@Name("org.jboss.seam.bpm.processInstance")
 @Intercept(InterceptionType.NEVER)
 @Install(precedence=BUILT_IN, dependencies="org.jboss.seam.core.jbpm")
 public class ProcessInstance 

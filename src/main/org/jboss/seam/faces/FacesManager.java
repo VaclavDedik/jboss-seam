@@ -45,9 +45,9 @@ import org.jboss.seam.util.JSF;
 @Name("org.jboss.seam.core.manager")
 @Install(precedence=FRAMEWORK, classDependencies="javax.faces.context.FacesContext")
 @Intercept(NEVER)
-public class JsfManager extends Manager
+public class FacesManager extends Manager
 {
-   private static final LogProvider log = Logging.getLogProvider(JsfManager.class);
+   private static final LogProvider log = Logging.getLogProvider(FacesManager.class);
 
    private boolean controllingRedirect; 
    
@@ -280,9 +280,9 @@ public class JsfManager extends Manager
 
    }
 
-   public static JsfManager instance()
+   public static FacesManager instance()
    {
-      return (JsfManager) Manager.instance();
+      return (FacesManager) Manager.instance();
    }
 
 }

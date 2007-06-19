@@ -24,7 +24,7 @@ import org.jboss.seam.contexts.Contexts;
  */
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
-@Name("org.jboss.seam.core.httpError")
+@Name("org.jboss.seam.faces.httpError")
 @Install(precedence=BUILT_IN, classDependencies="javax.faces.context.FacesContext")
 public class HttpError
 {

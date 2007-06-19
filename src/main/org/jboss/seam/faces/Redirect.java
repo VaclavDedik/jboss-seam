@@ -27,7 +27,7 @@ import org.jboss.seam.navigation.Pages;
  * 
  * @author Gavin King
  */
-@Name("org.jboss.seam.core.redirect")
+@Name("org.jboss.seam.faces.redirect")
 @Intercept(InterceptionType.NEVER)
 @Scope(ScopeType.CONVERSATION)
 @Install(precedence=BUILT_IN, classDependencies="javax.faces.context.FacesContext")
@@ -137,7 +137,7 @@ public class Redirect extends AbstractMutable implements Serializable
     */
    public void execute()
    {
-      JsfManager.instance().redirect(viewId, parameters, conversationPropagationEnabled);
+      FacesManager.instance().redirect(viewId, parameters, conversationPropagationEnabled);
    }
    
    /**

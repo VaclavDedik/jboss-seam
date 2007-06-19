@@ -24,10 +24,9 @@ import org.jboss.seam.util.Work;
  * jBPM TaskInstance.
  * 
  * @author Gavin King
- * @version $Revision$
  */
 @Scope(ScopeType.STATELESS)
-@Name("org.jboss.seam.core.taskInstance")
+@Name("org.jboss.seam.bpm.taskInstance")
 @Intercept(InterceptionType.NEVER)
 @Install(precedence=BUILT_IN, dependencies="org.jboss.seam.core.jbpm")
 public class TaskInstance 

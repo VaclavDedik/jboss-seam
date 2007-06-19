@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.datamodel.DataModel;
-import org.jboss.seam.faces.JsfProvider;
+import org.jboss.seam.faces.DataModels;
 
 /**
  * Exposes a List, array, Map or Set to the UI as a JSF DataModel
@@ -26,7 +26,7 @@ public class DataModelBinder implements DataBinder<DataModel, Object, javax.face
 
    public javax.faces.model.DataModel wrap(DataModel out, Object value)
    {
-      return JsfProvider.instance().getDataModel(value);
+      return DataModels.instance().getDataModel(value);
    }
 
    public Object getWrappedData(DataModel out, javax.faces.model.DataModel wrapper)

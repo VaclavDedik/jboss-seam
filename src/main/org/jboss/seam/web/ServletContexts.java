@@ -26,7 +26,7 @@ import org.jboss.seam.contexts.Contexts;
  * @author Gavin King
  */
 @Scope(ScopeType.EVENT)
-@Name("org.jboss.seam.core.httpServletRequest")
+@Name("org.jboss.seam.web.servletContexts")
 @Intercept(InterceptionType.NEVER)
 @Install(precedence=BUILT_IN)
 public class ServletContexts 

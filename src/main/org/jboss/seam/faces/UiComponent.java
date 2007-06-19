@@ -17,7 +17,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 
-@Name("org.jboss.seam.core.uiComponent")
+@Name("org.jboss.seam.faces.uiComponent")
 @Intercept(NEVER)
 @Scope(STATELESS)
 @Install(precedence=BUILT_IN, classDependencies="javax.faces.context.FacesContext")

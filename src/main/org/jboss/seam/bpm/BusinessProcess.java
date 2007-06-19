@@ -26,9 +26,9 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
  *
  */
 @Scope(ScopeType.CONVERSATION)
-@Name("org.jboss.seam.core.businessProcess")
+@Name("org.jboss.seam.bpm.businessProcess")
 @Intercept(NEVER)
-@Install(dependencies="org.jboss.seam.core.jbpm", precedence=BUILT_IN)
+@Install(dependencies="org.jboss.seam.bpm.jbpm", precedence=BUILT_IN)
 public class BusinessProcess extends AbstractMutable implements Serializable 
 {
 

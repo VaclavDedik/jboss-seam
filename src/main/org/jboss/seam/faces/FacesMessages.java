@@ -34,7 +34,7 @@ import org.jboss.seam.util.Strings;
  * @author Gavin King
  */
 @Scope(ScopeType.CONVERSATION)
-@Name("org.jboss.seam.core.facesMessages")
+@Name("org.jboss.seam.faces.facesMessages")
 @Install(precedence=BUILT_IN, classDependencies="javax.faces.context.FacesContext")
 @Intercept(NEVER)
 public class FacesMessages implements Serializable

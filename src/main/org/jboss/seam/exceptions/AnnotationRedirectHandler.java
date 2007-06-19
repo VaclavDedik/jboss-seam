@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.jboss.seam.exceptions;
 
 import javax.faces.application.FacesMessage;

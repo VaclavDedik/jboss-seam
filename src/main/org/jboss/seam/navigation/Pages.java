@@ -63,8 +63,8 @@ import org.jboss.seam.web.Parameters;
  */
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
-@Name("org.jboss.seam.core.pages")
-@Install(precedence=BUILT_IN)
+@Name("org.jboss.seam.navigation.pages")
+@Install(precedence=BUILT_IN, classDependencies="javax.faces.context.FacesContext")
 public class Pages
 {   
    private static final LogProvider log = Logging.getLogProvider(Pages.class);

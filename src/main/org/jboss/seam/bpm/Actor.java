@@ -18,10 +18,10 @@ import org.jboss.seam.core.AbstractMutable;
  * 
  * @author Gavin King
  */
-@Name("org.jboss.seam.core.actor")
+@Name("org.jboss.seam.bpm.actor")
 @Scope(ScopeType.SESSION)
 @Intercept(NEVER)
-@Install(dependencies="org.jboss.seam.core.jbpm", precedence=BUILT_IN)
+@Install(dependencies="org.jboss.seam.bpm.jbpm", precedence=BUILT_IN)
 public class Actor extends AbstractMutable implements Serializable
 {
    private static final long serialVersionUID = -6515302276074415520L;

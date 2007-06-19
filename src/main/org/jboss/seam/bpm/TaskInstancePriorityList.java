@@ -21,7 +21,7 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
  * @see PooledTask
  * @author Gavin King
  */
-@Name("org.jboss.seam.core.taskInstancePriorityList")
+@Name("org.jboss.seam.bpm.taskInstancePriorityList")
 @Scope(APPLICATION)
 @Install(precedence=BUILT_IN, dependencies="org.jboss.seam.core.jbpm")
 public class TaskInstancePriorityList

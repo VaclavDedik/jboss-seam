@@ -41,7 +41,7 @@ import org.jbpm.svc.Services;
  * @author Gavin King
  */
 @Scope(ScopeType.EVENT)
-@Name("org.jboss.seam.core.jbpmContext")
+@Name("org.jboss.seam.bpm.jbpmContext")
 @Intercept(NEVER)
 @Install(precedence=BUILT_IN, dependencies="org.jboss.seam.core.jbpm")
 public class ManagedJbpmContext implements Synchronization

@@ -29,7 +29,7 @@ import org.jboss.seam.core.ServletSession;
  * @author Gavin King
  */
 @Scope(ScopeType.PAGE)
-@Name("org.jboss.seam.core.switcher")
+@Name("org.jboss.seam.faces.switcher")
 @Install(precedence=BUILT_IN, classDependencies="javax.faces.context.FacesContext")
 @Intercept(NEVER)
 public class Switcher implements Serializable 

@@ -16,7 +16,7 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 
-@Name("org.jboss.seam.core.parameters")
+@Name("org.jboss.seam.web.parameters")
 @Intercept(InterceptionType.NEVER)
 @Scope(ScopeType.STATELESS)
 @Install(precedence=BUILT_IN)

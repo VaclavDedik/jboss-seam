@@ -4,7 +4,7 @@ import javax.faces.application.NavigationHandler;
 import javax.faces.context.FacesContext;
 
 import org.jboss.seam.core.Init;
-import org.jboss.seam.faces.JsfManager;
+import org.jboss.seam.faces.FacesManager;
 import org.jboss.seam.navigation.Pageflow;
 import org.jboss.seam.navigation.Pages;
 
@@ -23,7 +23,7 @@ public class SeamNavigationHandler extends NavigationHandler {
       {
          if ( isOutcomeViewId(outcome) )
          {
-            JsfManager.instance().interpolateAndRedirect(outcome);
+            FacesManager.instance().interpolateAndRedirect(outcome);
          }
          else if ( Init.instance().isJbpmInstalled() && Pageflow.instance().isInProcess() && Pageflow.instance().hasTransition(outcome) )
          {

@@ -23,8 +23,8 @@ import org.jboss.seam.contexts.Contexts;
 
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
-@Name("org.jboss.seam.core.safeActions")
-@Install(precedence=BUILT_IN)
+@Name("org.jboss.seam.navigation.safeActions")
+@Install(precedence=BUILT_IN, classDependencies="javax.faces.context.FacesContext")
 public class SafeActions
 {
    

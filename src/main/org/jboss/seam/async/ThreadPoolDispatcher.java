@@ -24,7 +24,7 @@ import org.jboss.seam.intercept.InvocationContext;
  *
  */
 @Scope(ScopeType.APPLICATION)
-@Name("org.jboss.seam.core.dispatcher")
+@Name("org.jboss.seam.async.dispatcher")
 @Install(precedence=BUILT_IN)
 public class ThreadPoolDispatcher extends AbstractDispatcher<Future, TimerSchedule>
 {

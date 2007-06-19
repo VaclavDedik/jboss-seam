@@ -22,7 +22,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.faces.JsfManager;
+import org.jboss.seam.faces.FacesManager;
 import org.jboss.seam.navigation.Pages;
 
 /**
@@ -63,7 +63,7 @@ public class RedirectFilter extends AbstractFilter
                   {
                      url = Pages.instance().encodePageParameters( FacesContext.getCurrentInstance(), url, viewId );
                   }
-                  url = JsfManager.instance().appendConversationIdFromRedirectFilter(url, viewId);
+                  url = FacesManager.instance().appendConversationIdFromRedirectFilter(url, viewId);
                }
             }
             super.sendRedirect(url);

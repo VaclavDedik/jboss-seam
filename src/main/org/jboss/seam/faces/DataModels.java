@@ -22,11 +22,11 @@ import org.jboss.seam.jsf.ListDataModel;
 import org.jboss.seam.jsf.MapDataModel;
 import org.jboss.seam.jsf.SetDataModel;
 
-@Name("org.jboss.seam.jsf.jsfProvider")
+@Name("org.jboss.seam.faces.dataModels")
 @Install(precedence=BUILT_IN, classDependencies="javax.faces.context.FacesContext")
 @Scope(STATELESS)
 @Intercept(NEVER)
-public class JsfProvider
+public class DataModels
 {
    
    public DataModel getDataModel(Object value)
@@ -58,9 +58,9 @@ public class JsfProvider
       return getDataModel( query.getResultList() );
    }
    
-   public static JsfProvider instance()
+   public static DataModels instance()
    {
-      return (JsfProvider) Component.getInstance(JsfProvider.class, ScopeType.STATELESS);
+      return (DataModels) Component.getInstance(DataModels.class, ScopeType.STATELESS);
    }
    
 }

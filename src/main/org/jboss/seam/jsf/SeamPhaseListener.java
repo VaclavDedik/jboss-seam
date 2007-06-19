@@ -35,7 +35,7 @@ import org.jboss.seam.core.Manager;
 import org.jboss.seam.exceptions.Exceptions;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.faces.FacesPage;
-import org.jboss.seam.faces.JsfManager;
+import org.jboss.seam.faces.FacesManager;
 import org.jboss.seam.faces.Switcher;
 import org.jboss.seam.faces.Validation;
 import org.jboss.seam.log.LogProvider;
@@ -484,7 +484,7 @@ public class SeamPhaseListener implements PhaseListener
          FacesMessages.instance().beforeRenderResponse();
          //do this both before and after render, since conversations 
          //and pageflows can begin during render
-         JsfManager.instance().prepareBackswitch(facesContext); 
+         FacesManager.instance().prepareBackswitch(facesContext); 
       }
       
       FacesPage.instance().storeConversation();
@@ -501,7 +501,7 @@ public class SeamPhaseListener implements PhaseListener
    {
       //do this both before and after render, since conversations 
       //and pageflows can begin during render
-      JsfManager.instance().prepareBackswitch(facesContext);
+      FacesManager.instance().prepareBackswitch(facesContext);
       
       PersistenceContexts persistenceContexts = PersistenceContexts.instance();
       if (persistenceContexts != null) 

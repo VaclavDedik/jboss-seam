@@ -56,7 +56,7 @@ import org.xml.sax.InputSource;
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
 @Startup
-@Name("org.jboss.seam.core.jbpm")
+@Name("org.jboss.seam.bpm.jbpm")
 @Install(value=false, precedence=BUILT_IN)
 public class Jbpm 
 {
