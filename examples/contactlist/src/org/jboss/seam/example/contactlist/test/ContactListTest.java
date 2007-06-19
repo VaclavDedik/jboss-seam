@@ -17,7 +17,7 @@ public class ContactListTest extends SeamTest
          protected void renderResponse() throws Exception
          {
             List<Contact> contacts = (List<Contact>) getValue("#{contacts.resultList}");
-            assert contacts.size()==3;
+            assert contacts.size()==5;
          }
       }.run();
    }
