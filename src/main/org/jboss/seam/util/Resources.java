@@ -8,7 +8,8 @@ import javax.servlet.ServletContext;
 
 import org.jboss.seam.Seam;
 
-public class Resources {
+public class Resources 
+{
 
    public static InputStream getResourceAsStream(String resource) {
       String stripped = resource.startsWith("/") ? 

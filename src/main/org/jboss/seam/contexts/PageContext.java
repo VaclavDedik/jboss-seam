@@ -33,9 +33,9 @@ import org.jboss.seam.core.Events;
  * returns values from the page that was the source of the request.
  * 
  * @author Gavin King
- * @version $Revision$
  */
-public class PageContext implements Context {
+public class PageContext implements Context 
+{
 
    private Map<String, Object> previousPageMap;
    private Map<String, Object> nextPageMap;
@@ -97,7 +97,8 @@ public class PageContext implements Context {
       if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.postRemoveVariable." + name);
 	}
 
-   public String[] getNames() {
+   public String[] getNames() 
+   {
       Set<String> keys = getCurrentReadableMap().keySet();
       List<String> names = new ArrayList<String>( keys.size() );
       String prefix = getPrefix();
