@@ -24,12 +24,12 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Events;
-import org.jboss.seam.core.Locale;
-import org.jboss.seam.core.Messages;
-import org.jboss.seam.core.Pages;
-import org.jboss.seam.core.Selector;
+import org.jboss.seam.faces.Selector;
+import org.jboss.seam.international.Locale;
+import org.jboss.seam.international.Messages;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.navigation.Pages;
 
 /**
  * Selects the current user's theme

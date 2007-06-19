@@ -17,9 +17,9 @@ import org.jboss.seam.core.ConversationEntries;
 import org.jboss.seam.core.ConversationEntry;
 import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.core.Pageflow;
-import org.jboss.seam.core.PersistenceContexts;
 import org.jboss.seam.intercept.InvocationContext;
+import org.jboss.seam.navigation.Pageflow;
+import org.jboss.seam.persistence.PersistenceContexts;
 
 /**
  * After the end of the invocation, begin or end a long running
@@ -211,12 +211,12 @@ public class ConversationInterceptor extends AbstractInterceptor
    {
       if ( !Manager.instance().isLongRunningOrNestedConversation() )
       {
-         Manager.instance().beginConversation( getComponent().getName() );
+         Manager.instance().beginConversation( );
          beginNavigation(pageflowName);
       }
       else if (nested)
       {
-         Manager.instance().beginNestedConversation( getComponent().getName() );
+         Manager.instance().beginNestedConversation( );
          beginNavigation(pageflowName);
       }
    }

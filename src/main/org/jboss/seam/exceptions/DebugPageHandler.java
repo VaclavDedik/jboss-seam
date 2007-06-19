@@ -4,8 +4,8 @@
 package org.jboss.seam.exceptions;
 
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.core.Manager;
-import org.jboss.seam.core.RedirectException;
+import org.jboss.seam.faces.JsfManager;
+import org.jboss.seam.faces.RedirectException;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
@@ -18,9 +18,9 @@ public class DebugPageHandler extends ExceptionHandler
    public void handle(Exception e) throws Exception
    {
       log.error("redirecting to debug page", e);
-      org.jboss.seam.core.Redirect redirect = org.jboss.seam.core.Redirect.instance();
+      org.jboss.seam.faces.Redirect redirect = org.jboss.seam.faces.Redirect.instance();
       redirect.setViewId("/debug.xhtml");
-      Manager manager = Manager.instance();
+      JsfManager manager = JsfManager.instance();
       manager.beforeRedirect("/debug.xhtml");
       redirect.setParameter( manager.getConversationIdParameter(), manager.getCurrentConversationId() );
       

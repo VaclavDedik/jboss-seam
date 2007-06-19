@@ -8,8 +8,6 @@ package org.jboss.seam.interceptors;
 
 import java.lang.reflect.Method;
 
-import javax.faces.context.FacesContext;
-
 import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.BeginTask;
 import org.jboss.seam.annotations.CreateProcess;
@@ -17,11 +15,12 @@ import org.jboss.seam.annotations.EndTask;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.ResumeProcess;
 import org.jboss.seam.annotations.StartTask;
-import org.jboss.seam.core.BusinessProcess;
+import org.jboss.seam.bpm.BusinessProcess;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.web.Parameters;
 import org.jboss.util.Strings;
 
 /**
@@ -151,8 +150,8 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
       }
       else
       {
-         id = FacesContext.getCurrentInstance().getExternalContext()
-               .getRequestParameterMap().get(paramName);
+         String[] values = Parameters.instance().getRequestParameters().get(paramName);
+         id = values!=null && values.length==1 ? values[0] : null;
       }
       
       if (id==null)

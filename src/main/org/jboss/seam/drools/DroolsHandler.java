@@ -5,7 +5,7 @@ import java.util.List;
 import org.drools.FactHandle;
 import org.drools.WorkingMemory;
 import org.jboss.seam.Component;
-import org.jboss.seam.core.Actor;
+import org.jboss.seam.bpm.Actor;
 import org.jboss.seam.core.Expressions;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.jpdl.el.ELException;

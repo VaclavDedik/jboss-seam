@@ -2,17 +2,16 @@ package org.jboss.seam.contexts;
 
 import java.io.IOException;
 
-import javax.faces.event.PhaseId;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.seam.core.ConversationPropagation;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.core.ServletContexts;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.servlet.ServletRequestSessionMap;
+import org.jboss.seam.web.ServletContexts;
 
 public abstract class ContextualHttpServletRequest
 {
@@ -32,7 +31,6 @@ public abstract class ContextualHttpServletRequest
    public void run() throws ServletException, IOException
    {
       log.debug("beginning request");
-      Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
       Lifecycle.beginRequest(servletContext, request);
       ServletContexts.instance().setRequest(request);
       restoreConversationId();
@@ -66,7 +64,6 @@ public abstract class ContextualHttpServletRequest
       }
       finally
       {
-         Lifecycle.setPhaseId(null);
          log.debug("ended request");
       }
    }

@@ -9,9 +9,6 @@ import java.io.Serializable;
 
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-import javax.faces.validator.ValidatorException;
 
 import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
@@ -50,8 +47,7 @@ public class Expressions implements Serializable
     */
    public ELContext getELContext()
    {
-      FacesContext facesContext = FacesContext.getCurrentInstance();
-      return facesContext==null ? EL_CONTEXT : facesContext.getELContext();
+      return EL_CONTEXT;
    }
 
    public ValueExpression<Object> createValueExpression(String expression)
@@ -74,7 +70,7 @@ public class Expressions implements Serializable
          
          private javax.el.ValueExpression getExpression()
          {
-            if ( FacesContext.getCurrentInstance()==null )
+            if ( isFacesContextActive() )
             {
                if (seamValueExpression==null)
                {
@@ -129,7 +125,7 @@ public class Expressions implements Serializable
          
          private javax.el.MethodExpression getExpression()
          {
-            if ( FacesContext.getCurrentInstance()==null )
+            if ( isFacesContextActive() )
             {
                if (seamMethodExpression==null)
                {
@@ -177,6 +173,11 @@ public class Expressions implements Serializable
    {
       public T invoke(Object... args);
       public String getExpressionString();
+   }
+   
+   protected boolean isFacesContextActive()
+   {
+      return false;
    }
    
 
@@ -229,32 +230,6 @@ public class Expressions implements Serializable
       Object modelInstance = getExpressionFactory().createValueExpression( getELContext(), modelExpression, Object.class)
                .getValue( getELContext() ); //TODO: cache the ValueExpression object!
       return getValidator(modelInstance, componentName).getPotentialInvalidValues(propertyName, value);
-   }
-   
-   /**
-    * Validate that a value can be assigned to the property
-    * identified by a value expression.
-    * 
-    * @param propertyExpression a value expression
-    * @param value the value that is to be assigned
-    * 
-    * @throws ValidatorException is validation fails
-    */
-   public void validate(String propertyExpression, Object value)
-   {
-      InvalidValue[] ivs;
-      try
-      {
-         ivs = getInvalidValues(propertyExpression, value );
-      }
-      catch (Exception e)
-      {
-         throw new ValidatorException( new FacesMessage(FacesMessage.SEVERITY_ERROR, "model validation failed:" + e.getMessage(), null), e );
-      }
-      if ( ivs.length>0 )
-      {
-         throw new ValidatorException( FacesMessages.createFacesMessage( FacesMessage.SEVERITY_ERROR, ivs[0].getMessage() ) );
-      }
    }
 
    /**

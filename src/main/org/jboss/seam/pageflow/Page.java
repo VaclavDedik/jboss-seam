@@ -1,7 +1,7 @@
 package org.jboss.seam.pageflow;
 
 import org.dom4j.Element;
-import org.jboss.seam.core.BusinessProcess;
+import org.jboss.seam.bpm.BusinessProcess;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Interpolator;
 import org.jbpm.graph.def.Node;

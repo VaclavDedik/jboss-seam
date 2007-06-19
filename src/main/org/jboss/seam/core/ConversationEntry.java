@@ -24,7 +24,6 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    private Date lastDatetime;
    private String viewId;
    private List<String> conversationIdStack;
-   private String initiatorComponentName;
    private Integer timeout;
    private boolean removeAfterRedirect;
    private boolean ended;
@@ -135,23 +134,6 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    public List<String> getConversationIdStack() 
    {
       return conversationIdStack;
-   }
-   
-   /**
-    * @deprecated
-    * @return a component name
-    */
-   public String getInitiatorComponentName() 
-   {
-      return initiatorComponentName;
-   }
-   
-   /**
-    * @deprecated
-    */
-   void setInitiatorComponentName(String ownerComponentName) {
-      entries.setDirty(this.initiatorComponentName, ownerComponentName);
-      this.initiatorComponentName = ownerComponentName;
    }
    
    public boolean isDisplayable() 

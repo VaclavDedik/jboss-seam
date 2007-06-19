@@ -21,8 +21,6 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.core.Filter;
-import org.jboss.seam.core.ManagedPersistenceContext;
 import org.jboss.seam.core.Expressions.ValueExpression;
 
 /**
@@ -42,7 +40,7 @@ public class HibernatePersistenceProvider extends PersistenceProvider
    @Override
    public void setFlushModeManual(EntityManager entityManager)
    {
-      getSession(entityManager).setFlushMode(FlushMode.NEVER);
+      getSession(entityManager).setFlushMode(FlushMode.MANUAL);
    }
 
    @Override

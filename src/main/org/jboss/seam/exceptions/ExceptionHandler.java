@@ -3,7 +3,7 @@
  */
 package org.jboss.seam.exceptions;
 
-import org.jboss.seam.core.Navigator;
+import org.jboss.seam.faces.Navigator;
 
 public abstract class ExceptionHandler extends Navigator
 {

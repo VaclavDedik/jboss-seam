@@ -17,8 +17,6 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.core.Filter;
-import org.jboss.seam.core.ManagedPersistenceContext;
 
 /**
  * Abstraction layer for persistence providers (JPA implementations).

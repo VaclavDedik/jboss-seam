@@ -3,9 +3,6 @@ package org.jboss.seam.interceptors;
 
 import java.lang.reflect.Method;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.event.PhaseId;
-
 import org.jboss.seam.NoConversationException;
 import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Begin;
@@ -15,13 +12,9 @@ import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.StartTask;
-import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Events;
-import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.intercept.InvocationContext;
-import org.jboss.seam.log.LogProvider;
-import org.jboss.seam.log.Logging;
 
 /**
  * Check that a conversational bean is not being invoked
@@ -34,8 +27,6 @@ import org.jboss.seam.log.Logging;
 public class ConversationalInterceptor extends AbstractInterceptor
 {
    private static final long serialVersionUID = 1127583515811479385L;
-   
-   private static final LogProvider log = Logging.getLogProvider(ConversationalInterceptor.class);
 
    @AroundInvoke
    public Object aroundInvoke(InvocationContext invocation) throws Exception
@@ -44,46 +35,8 @@ public class ConversationalInterceptor extends AbstractInterceptor
 
       if ( isNoConversationForConversationalBean(method) )
       {
-         @SuppressWarnings("deprecation")
-         String outcome = methodIsConversational(method) ? 
-               method.getAnnotation(Conversational.class).ifNotBegunOutcome() :
-               getComponent().getBeanClass().getAnnotation(Conversational.class).ifNotBegunOutcome();
-         
-         if ( "".equals(outcome) )
-         {
-            Events.instance().raiseEvent("org.jboss.seam.noConversation");
-            throw new NoConversationException( "no long-running conversation for @Conversational bean: " + getComponent().getName() );
-         }
-         else
-         {
-            //Deprecated functionality:
-            if ( Lifecycle.getPhaseId()==PhaseId.INVOKE_APPLICATION )
-            {
-               
-               if ( log.isDebugEnabled() )
-               {
-                  log.debug( "no long-running conversation for @Conversational bean: " + getComponent().getName() );
-               }
-               
-               Events.instance().raiseEvent("org.jboss.seam.noConversation");
-               
-               FacesMessages.instance().addFromResourceBundleOrDefault( 
-                     FacesMessage.SEVERITY_WARN, 
-                     "org.jboss.seam.NoConversation", 
-                     "No conversation" 
-                  );
-               
-               if ( method.getReturnType().equals(String.class) )
-               {
-                  return outcome;
-               }
-               else if ( method.getReturnType().equals(void.class) )
-               {
-                  return null;
-               }
-            }
-         }
-         
+         Events.instance().raiseEvent("org.jboss.seam.noConversation");
+         throw new NoConversationException( "no long-running conversation for @Conversational bean: " + getComponent().getName() );         
       }
 
       return invocation.proceed();
@@ -93,7 +46,7 @@ public class ConversationalInterceptor extends AbstractInterceptor
    private boolean isNoConversationForConversationalBean(Method method)
    {
       boolean classlevelViolation = componentIsConversational() && 
-            ( !Manager.instance().isLongRunningOrNestedConversation() || ( componentShouldBeInitiator() && !componentIsInitiator() ) ) &&
+            !Manager.instance().isLongRunningOrNestedConversation()  &&
             !method.isAnnotationPresent(Begin.class) &&
             !method.isAnnotationPresent(StartTask.class) &&
             !method.isAnnotationPresent(BeginTask.class) &&
@@ -103,34 +56,20 @@ public class ConversationalInterceptor extends AbstractInterceptor
       if (classlevelViolation) return true;
       
       boolean methodlevelViolation = methodIsConversational(method) &&
-            ( !Manager.instance().isLongRunningOrNestedConversation() || ( componentShouldBeInitiator(method) && !componentIsInitiator() ) );
+            !Manager.instance().isLongRunningOrNestedConversation();
       
       return methodlevelViolation;
       
    }
 
-   private boolean methodIsConversational(Method method) {
+   private boolean methodIsConversational(Method method) 
+   {
       return method.isAnnotationPresent(Conversational.class);
    }
 
-   @SuppressWarnings("deprecation")
-   private boolean componentShouldBeInitiator(Method method) {
-      return method.getAnnotation(Conversational.class).initiator();
-   }
-
-   private boolean componentIsConversational() {
-      return getComponent().getBeanClass().isAnnotationPresent(Conversational.class);
-   }
-
-   @SuppressWarnings("deprecation")
-   private boolean componentShouldBeInitiator() {
-      return getComponent().getBeanClass().getAnnotation(Conversational.class).initiator();
-   }
-
-   @SuppressWarnings("deprecation")
-   private boolean componentIsInitiator()
+   private boolean componentIsConversational() 
    {
-      return getComponent().getName().equals( Manager.instance().getCurrentConversationInitiator() );
+      return getComponent().getBeanClass().isAnnotationPresent(Conversational.class);
    }
 
 }

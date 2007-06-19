@@ -1,7 +1,5 @@
 package org.jboss.seam.core;
 
-import javax.faces.context.FacesContext;
-
 import org.jboss.seam.Component;
 import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
@@ -32,12 +30,10 @@ public class ServletSession extends AbstractMutable
       setDirty();
    }
    
-   public boolean isInvalidDueToNewScheme()
+   public boolean isInvalidDueToNewScheme(String requestScheme)
    {
       if (invalidateOnSchemeChange)
       {
-         FacesContext facesContext = FacesContext.getCurrentInstance();
-         String requestScheme = Pages.getRequestScheme(facesContext);
          if ( currentScheme==null )
          {
             currentScheme = requestScheme;

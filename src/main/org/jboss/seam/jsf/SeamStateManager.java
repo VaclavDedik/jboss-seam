@@ -7,7 +7,7 @@ import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.core.Pages;
+import org.jboss.seam.navigation.Pages;
 
 /**
  * A wrapper for the JSF implementation's StateManager that allows

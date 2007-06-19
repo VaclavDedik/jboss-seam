@@ -6,10 +6,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Conversation;
-import org.jboss.seam.core.Pages;
-import org.jboss.seam.core.RedirectException;
+import org.jboss.seam.faces.RedirectException;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.navigation.Pages;
 
 public abstract class RedirectHandler extends ExceptionHandler
 {

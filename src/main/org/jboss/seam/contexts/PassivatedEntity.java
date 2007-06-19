@@ -7,8 +7,8 @@ import javax.persistence.EntityManager;
 import org.hibernate.Session;
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
-import org.jboss.seam.core.PersistenceContexts;
 import org.jboss.seam.persistence.HibernatePersistenceProvider;
+import org.jboss.seam.persistence.PersistenceContexts;
 import org.jboss.seam.persistence.PersistenceProvider;
 import org.jboss.seam.transaction.Transaction;
 

@@ -15,9 +15,9 @@ import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.ConversationPropagation;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.core.ServletContexts;
 import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.servlet.ServletRequestSessionMap;
+import org.jboss.seam.web.ServletContexts;
 import org.jboss.seam.ws.SeamWSRequestHandler;
 
 /**

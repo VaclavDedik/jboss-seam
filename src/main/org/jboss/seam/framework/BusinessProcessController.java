@@ -1,7 +1,7 @@
 package org.jboss.seam.framework;
 
-import org.jboss.seam.core.BusinessProcess;
-import org.jboss.seam.core.ManagedJbpmContext;
+import org.jboss.seam.bpm.BusinessProcess;
+import org.jboss.seam.bpm.ManagedJbpmContext;
 import org.jbpm.JbpmContext;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.taskmgmt.exe.TaskInstance;
@@ -29,12 +29,12 @@ public class BusinessProcessController extends Controller
    
    protected TaskInstance getTaskInstance()
    {
-      return org.jboss.seam.core.TaskInstance.instance();
+      return org.jboss.seam.bpm.TaskInstance.instance();
    }
    
    protected ProcessInstance getProcessInstance()
    {
-      return org.jboss.seam.core.ProcessInstance.instance();
+      return org.jboss.seam.bpm.ProcessInstance.instance();
    }
      
 }

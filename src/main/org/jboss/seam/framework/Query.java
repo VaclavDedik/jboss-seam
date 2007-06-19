@@ -10,7 +10,7 @@ import javax.faces.model.DataModel;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.core.Expressions.ValueExpression;
-import org.jboss.seam.jsf.JsfProvider;
+import org.jboss.seam.faces.JsfProvider;
 import org.jboss.seam.persistence.QueryParser;
 
 /**

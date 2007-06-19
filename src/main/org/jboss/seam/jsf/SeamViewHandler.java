@@ -9,7 +9,7 @@ import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.core.LocaleSelector;
+import org.jboss.seam.international.LocaleSelector;
 
 public class SeamViewHandler extends ViewHandler 
 {

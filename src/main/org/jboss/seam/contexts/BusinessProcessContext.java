@@ -13,10 +13,10 @@ import java.util.Set;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.bpm.ProcessInstance;
+import org.jboss.seam.bpm.TaskInstance;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Init;
-import org.jboss.seam.core.ProcessInstance;
-import org.jboss.seam.core.TaskInstance;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jbpm.context.exe.ContextInstance;

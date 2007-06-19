@@ -30,18 +30,19 @@ import org.jboss.seam.core.ConversationList;
 import org.jboss.seam.core.ConversationPropagation;
 import org.jboss.seam.core.ConversationStack;
 import org.jboss.seam.core.Events;
-import org.jboss.seam.core.Exceptions;
-import org.jboss.seam.core.FacesMessages;
-import org.jboss.seam.core.FacesPage;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.core.Pageflow;
-import org.jboss.seam.core.Pages;
-import org.jboss.seam.core.PersistenceContexts;
-import org.jboss.seam.core.Switcher;
-import org.jboss.seam.core.Validation;
+import org.jboss.seam.exceptions.Exceptions;
+import org.jboss.seam.faces.FacesMessages;
+import org.jboss.seam.faces.FacesPage;
+import org.jboss.seam.faces.JsfManager;
+import org.jboss.seam.faces.Switcher;
+import org.jboss.seam.faces.Validation;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.navigation.Pageflow;
+import org.jboss.seam.navigation.Pages;
+import org.jboss.seam.persistence.PersistenceContexts;
 import org.jboss.seam.transaction.Transaction;
 import org.jboss.seam.util.Reflections;
 
@@ -483,7 +484,7 @@ public class SeamPhaseListener implements PhaseListener
          FacesMessages.instance().beforeRenderResponse();
          //do this both before and after render, since conversations 
          //and pageflows can begin during render
-         Manager.instance().prepareBackswitch(facesContext); 
+         JsfManager.instance().prepareBackswitch(facesContext); 
       }
       
       FacesPage.instance().storeConversation();
@@ -500,7 +501,7 @@ public class SeamPhaseListener implements PhaseListener
    {
       //do this both before and after render, since conversations 
       //and pageflows can begin during render
-      Manager.instance().prepareBackswitch(facesContext);
+      JsfManager.instance().prepareBackswitch(facesContext);
       
       PersistenceContexts persistenceContexts = PersistenceContexts.instance();
       if (persistenceContexts != null) 

@@ -10,6 +10,7 @@ import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.transaction.Transaction;
+import org.jboss.seam.util.JSF;
 
 /**
  * Automatically sets the current transaction to rollback 
@@ -47,9 +48,20 @@ public class RollbackInterceptor extends AbstractInterceptor
    {
       boolean isJavaBean = getComponent().getType()==JAVA_BEAN;
       Class<? extends Exception> clazz = e.getClass();
-      return ( isJavaBean && (e instanceof RuntimeException) && !clazz.isAnnotationPresent(APPLICATION_EXCEPTION) && !clazz.isAnnotationPresent(ApplicationException.class) ) || 
+      return ( isSystemException(e, isJavaBean, clazz) ) || 
             ( isJavaBean && clazz.isAnnotationPresent(APPLICATION_EXCEPTION) && rollback( clazz.getAnnotation(APPLICATION_EXCEPTION) ) ) ||
             ( clazz.isAnnotationPresent(ApplicationException.class) && clazz.getAnnotation(ApplicationException.class).rollback() );
+   }
+
+   private boolean isSystemException(Exception e, boolean isJavaBean, Class<? extends Exception> clazz)
+   {
+      return isJavaBean && 
+            (e instanceof RuntimeException) && 
+            !clazz.isAnnotationPresent(APPLICATION_EXCEPTION) && 
+            !clazz.isAnnotationPresent(ApplicationException.class) &&
+            //TODO: this is hackish, maybe just turn off RollackInterceptor for @Converter/@Validator components
+            !JSF.VALIDATOR_EXCEPTION.isInstance(e) &&
+            !JSF.CONVERTER_EXCEPTION.isInstance(e);
    }
    
 }

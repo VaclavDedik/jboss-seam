@@ -20,7 +20,6 @@ import org.jboss.seam.annotations.Unwrap;
 
 /**
  * @author Gavin King
- * @version $Revision$
  */
 @Scope(ScopeType.PAGE)
 @Name("org.jboss.seam.core.conversationList")

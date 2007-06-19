@@ -4,9 +4,9 @@ import org.jboss.seam.InterceptorType;
 import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Asynchronous;
 import org.jboss.seam.annotations.Interceptor;
+import org.jboss.seam.async.AbstractDispatcher;
+import org.jboss.seam.async.Dispatcher;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.core.AbstractDispatcher;
-import org.jboss.seam.core.Dispatcher;
 import org.jboss.seam.intercept.InvocationContext;
 
 @Interceptor(stateless=true, type=InterceptorType.CLIENT)

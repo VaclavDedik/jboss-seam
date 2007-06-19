@@ -26,7 +26,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.core.Exceptions;
+import org.jboss.seam.exceptions.Exceptions;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.mock.MockApplication;

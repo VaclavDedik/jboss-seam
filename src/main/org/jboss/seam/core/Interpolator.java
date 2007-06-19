@@ -7,6 +7,7 @@ import static org.jboss.seam.annotations.Install.BUILT_IN;
 import java.text.MessageFormat;
 import java.util.StringTokenizer;
 
+import org.jboss.seam.international.Locale;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.Component;

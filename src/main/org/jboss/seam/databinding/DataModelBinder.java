@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.datamodel.DataModel;
-import org.jboss.seam.jsf.JsfProvider;
+import org.jboss.seam.faces.JsfProvider;
 
 /**
  * Exposes a List, array, Map or Set to the UI as a JSF DataModel

@@ -1,9 +1,9 @@
 package org.jboss.seam.jbpm;
 
+import org.jboss.seam.bpm.BusinessProcess;
+import org.jboss.seam.bpm.Jbpm;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.core.BusinessProcess;
-import org.jboss.seam.core.Jbpm;
 import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.graph.def.Action;
 import org.jbpm.graph.exe.ExecutionContext;

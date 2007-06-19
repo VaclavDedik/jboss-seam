@@ -26,9 +26,9 @@ import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.el.MethodExpression;
 import javax.el.ValueExpression;
-import javax.faces.event.FacesEvent;
 
 import org.jboss.el.lang.EvaluationContext;
+import org.jboss.seam.util.JSF;
 
 
 /**
@@ -75,7 +75,7 @@ public class SeamExpressionFactory extends ExpressionFactory
     @Override
     public MethodExpression createMethodExpression(ELContext elContext, String expression, Class returnType, Class[] paramTypes) 
     {
-        if ( paramTypes.length==1 && FacesEvent.class.isAssignableFrom( paramTypes[0] ) )
+        if ( paramTypes.length==1 && JSF.FACES_EVENT.isAssignableFrom( paramTypes[0] ) )
         {
          return new OptionalParameterMethodExpression(
                  expressionFactory.createMethodExpression( decorateELContext(elContext), expression, returnType, paramTypes ),

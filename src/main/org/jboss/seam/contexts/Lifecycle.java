@@ -1,8 +1,8 @@
 /*
- * JBoss, Home of Professional Open Source �
+ * JBoss, Home of Professional Open Source
  *
  * Distributable under LGPL license.
- * See terms of license at gnu.org. �
+ * See terms of license at gnu.org.
  */
 package org.jboss.seam.contexts;
 
@@ -10,13 +10,13 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.faces.context.ExternalContext;
-import javax.faces.event.PhaseId;
+import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.core.BusinessProcess;
+import org.jboss.seam.bpm.BusinessProcess;
 import org.jboss.seam.core.ConversationEntries;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Init;
@@ -25,6 +25,7 @@ import org.jboss.seam.core.Mutable;
 import org.jboss.seam.core.ServletSession;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.servlet.ServletApplicationMap;
 import org.jboss.seam.servlet.ServletRequestMap;
 import org.jboss.seam.servlet.ServletRequestSessionMap;
@@ -46,7 +47,7 @@ public class Lifecycle
       Contexts.applicationContext.set( new ApplicationContext( externalContext.getApplicationMap() ) );
       Contexts.sessionContext.set( new SessionContext( externalContext.getSessionMap() ) );
       ServletSession servletSession = ServletSession.getInstance();
-      if ( servletSession!=null && servletSession.isInvalidDueToNewScheme() )
+      if ( servletSession!=null && servletSession.isInvalidDueToNewScheme( Pages.getRequestScheme( FacesContext.getCurrentInstance() ) ) )
       {
          invalidateSession(externalContext);
       }
@@ -525,14 +526,14 @@ public class Lifecycle
       Contexts.businessProcessContext.set( new BusinessProcessContext() );
    }
 
-   private static ThreadLocal<PhaseId> phaseId = new ThreadLocal<PhaseId>();
+   private static ThreadLocal phaseId = new ThreadLocal();
 
-   public static PhaseId getPhaseId()
+   public static Object getPhaseId()
    {
       return phaseId.get();
    }
 
-   public static void setPhaseId(PhaseId phase)
+   public static void setPhaseId(Object phase)
    {
       phaseId.set(phase);
    }

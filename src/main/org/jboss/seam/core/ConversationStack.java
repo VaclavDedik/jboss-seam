@@ -21,7 +21,6 @@ import org.jboss.seam.annotations.Unwrap;
  * Support for "breadcrumbs".
  * 
  * @author Gavin King
- * @version $Revision$
  */
 @Scope(ScopeType.PAGE)
 @Name("org.jboss.seam.core.conversationStack")

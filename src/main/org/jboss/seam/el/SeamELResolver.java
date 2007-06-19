@@ -1,12 +1,14 @@
 package org.jboss.seam.el;
 
+import static org.jboss.seam.util.JSF.DATA_MODEL;
+import static org.jboss.seam.util.JSF.getRowCount;
+
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
 import javax.el.ELContext;
 import javax.el.ELResolver;
-import javax.faces.model.DataModel;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Contexts;
@@ -65,17 +67,17 @@ public class SeamELResolver extends ELResolver
          }
          return result;
       }
-      else if (base instanceof DataModel)
+      else if ( DATA_MODEL.isInstance(base) )
       {
          if ( "size".equals(property) )
          {
             context.setPropertyResolved(true);
-            return ( (DataModel) base ).getRowCount();
+            return getRowCount(base);
          }
          else if ( "empty".equals(property) )
          {
             context.setPropertyResolved(true);
-            return ( (DataModel) base ).getRowCount()==0;
+            return getRowCount(base)==0;
          }
          else
          {
@@ -131,7 +133,7 @@ public class SeamELResolver extends ELResolver
    public boolean isReadOnly(ELContext context, Object base, Object property)
    {
       return base!=null && 
-            ( (base instanceof DataModel) || (base instanceof Collection) || (base instanceof Map) );
+            ( DATA_MODEL.isInstance(base) || (base instanceof Collection) || (base instanceof Map) );
    }
 
    @Override

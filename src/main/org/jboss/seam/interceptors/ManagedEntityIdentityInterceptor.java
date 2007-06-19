@@ -1,10 +1,12 @@
 package org.jboss.seam.interceptors;
 
+import static org.jboss.seam.util.JSF.DATA_MODEL;
+import static org.jboss.seam.util.JSF.getWrappedData;
+import static org.jboss.seam.util.JSF.setWrappedData;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.List;
-
-import javax.faces.model.DataModel;
 
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.AroundInvoke;
@@ -12,8 +14,8 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.PassivatedEntity;
-import org.jboss.seam.core.PersistenceContexts;
 import org.jboss.seam.intercept.InvocationContext;
+import org.jboss.seam.persistence.PersistenceContexts;
 import org.jboss.seam.util.Reflections;
 
 /**
@@ -65,11 +67,11 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
                   Object value = getFieldValue(bean, field);
                   if (value!=null)
                   {
-                     DataModel dataModel = null;
-                     if (value instanceof DataModel)
+                     Object dataModel = null;
+                     if ( DATA_MODEL.isInstance(value) )
                      {
-                        dataModel = (DataModel) value;
-                        value = dataModel.getWrappedData();
+                        dataModel = value;
+                        value = getWrappedData(dataModel);
                      }
                      if ( isRef(value) )
                      {
@@ -95,10 +97,10 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
                if ( !ignore(field) )
                {
                   Object value = getFieldValue(bean, field);
-                  DataModel dataModel = null;
-                  if (value!=null && value instanceof DataModel)
+                  Object dataModel = null;
+                  if (value!=null && DATA_MODEL.isInstance(value) )
                   {
-                     dataModel = (DataModel) value;
+                     dataModel = value;
                   }
                   //TODO: be more selective
                   getFromWrapper(bean, field, dataModel);
@@ -139,7 +141,7 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
       return getComponent().getName() + '.' + field.getName();
    }
 
-   private void saveWrapper(Object bean, Field field, DataModel dataModel, Object value) throws Exception
+   private void saveWrapper(Object bean, Field field, Object dataModel, Object value) throws Exception
    {
       Contexts.getConversationContext().set( getFieldId(field), value );
       if (dataModel==null)
@@ -148,11 +150,11 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
       }
       else
       {
-         dataModel.setWrappedData(null);
+         setWrappedData(dataModel, null);
       }
    }
 
-   private void getFromWrapper(Object bean, Field field, DataModel dataModel) throws Exception
+   private void getFromWrapper(Object bean, Field field, Object dataModel) throws Exception
    {
       Object value = Contexts.getConversationContext().get( getFieldId(field) );
       if (value!=null)
@@ -163,7 +165,7 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
          }
          else
          {
-            dataModel.setWrappedData(value);
+            setWrappedData(dataModel, value);
          }
       }
    }

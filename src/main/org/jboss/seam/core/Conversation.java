@@ -7,13 +7,13 @@ import java.io.Serializable;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.persistence.PersistenceContexts;
 
 /**
  * Allows the conversation timeout to be set per-conversation,
@@ -111,12 +111,19 @@ public class Conversation implements Serializable
       //we need to flush this stuff asynchronously to handle 
       //nested and temporary conversations which have no
       //ConversationEntry
-      if ( !Manager.instance().isLongRunningConversation() )
+
+      Manager manager = Manager.instance();
+      
+      if ( !manager.isLongRunningConversation() )
       {
          throw new IllegalStateException("only long-running conversation outcomes are switchable");
       }
       
-      ConversationEntry entry = Manager.instance().getCurrentConversationEntry();
+      ConversationEntry entry = manager.getCurrentConversationEntry();
+      if (entry==null)
+      {
+         throw new IllegalStateException("missing conversation entry"); //should never happen
+      }
       if (viewId!=null)
       {
          entry.setViewId(viewId);
@@ -182,8 +189,7 @@ public class Conversation implements Serializable
    {
       end(endBeforeRedirect);
       Manager manager = Manager.instance();
-      String viewId = manager.getParentConversationViewId();
-      return redirect(manager, viewId);
+      return redirect( manager, manager.getParentConversationViewId() );
    }
    
    /**
@@ -215,7 +221,7 @@ public class Conversation implements Serializable
 
    private void reallyBegin()
    {
-      Manager.instance().beginConversation( Seam.getComponentName(Conversation.class) );
+      Manager.instance().beginConversation( );
    }
    
    /**
@@ -227,7 +233,7 @@ public class Conversation implements Serializable
    {
       if ( Manager.instance().isLongRunningConversation() )
       {
-         Manager.instance().beginNestedConversation( Seam.getComponentName(Conversation.class) );
+         Manager.instance().beginNestedConversation( );
       }
       else
       {
@@ -263,15 +269,6 @@ public class Conversation implements Serializable
       {
          return false;
       }
-   }
-   
-   /**
-    * @deprecated use org.jboss.seam.core.Pageflow.begin(String)
-    * @param pageflowName
-    */
-   public void beginPageflow(String pageflowName)
-   {
-      Pageflow.instance().begin(pageflowName);
    }
    
    /**

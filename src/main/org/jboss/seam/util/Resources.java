@@ -11,7 +11,8 @@ import org.jboss.seam.Seam;
 public class Resources 
 {
 
-   public static InputStream getResourceAsStream(String resource) {
+   public static InputStream getResourceAsStream(String resource) 
+   {
       String stripped = resource.startsWith("/") ? 
             resource.substring(1) : resource;
    
@@ -35,7 +36,8 @@ public class Resources
       return stream;
    }
 
-   public static InputStream getResourceAsStream(String resource, ServletContext servletContext) {
+   public static InputStream getResourceAsStream(String resource, ServletContext servletContext) 
+   {
       String stripped = resource.startsWith("/") ? 
             resource.substring(1) : resource;
    
@@ -59,13 +61,16 @@ public class Resources
    {
       ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
       InputStream stream = null;
-      if (classLoader!=null) {
+      if (classLoader!=null) 
+      {
          stream = classLoader.getResourceAsStream(stripped);
       }
-      if ( stream == null ) {
+      if ( stream == null ) 
+      {
          stream = Seam.class.getResourceAsStream(resource);
       }
-      if ( stream == null ) {
+      if ( stream == null ) 
+      {
          stream = Seam.class.getClassLoader().getResourceAsStream(stripped);
       }
       return stream;
@@ -93,7 +98,8 @@ public class Resources
          return url;
    }
    
-   public static URL getResource(String resource, ServletContext servletContext) {
+   public static URL getResource(String resource, ServletContext servletContext) 
+   {
       String stripped = resource.startsWith("/") ? 
             resource.substring(1) : resource;
    
@@ -117,13 +123,16 @@ public class Resources
    {
       ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
       URL url = null;
-      if (classLoader!=null) {
+      if (classLoader!=null) 
+      {
          url = classLoader.getResource(stripped);
       }
-      if ( url == null ) {
+      if ( url == null ) 
+      {
         url = Seam.class.getResource(resource);
       }
-      if ( url == null ) {
+      if ( url == null ) 
+      {
          url = Seam.class.getClassLoader().getResource(stripped);
       }
       return url;
