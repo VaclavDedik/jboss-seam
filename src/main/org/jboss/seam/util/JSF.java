@@ -18,7 +18,7 @@ public class JSF
    public static final Object INVOKE_APPLICATION;
    public static final Object RENDER_RESPONSE;
    
-   public static class Dummy {}
+   static class Dummy {}
    
    static
    {
