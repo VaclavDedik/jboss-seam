@@ -288,7 +288,7 @@ public class Jbpm
       this.jbpmConfigurationJndiName = jbpmConfigurationJndiName;
    }
    
-   public static JbpmConfiguration pageflowConfiguration = JbpmConfiguration.parseResource("org/jboss/seam/pageflow/jbpm.pageflow.cfg.xml");
+   public static JbpmConfiguration pageflowConfiguration = JbpmConfiguration.parseResource("org/jboss/seam/bpm/jbpm.pageflow.cfg.xml");
 
    public static JbpmContext createPageflowContext() 
    {
