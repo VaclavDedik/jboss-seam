@@ -77,6 +77,11 @@ public class Identity extends Selector
    
    private boolean authenticateEveryRequest = false;
    
+   /**
+    * Flag that indicates we are in the process of authenticating
+    */
+   private boolean authenticating = false;
+   
    @Override
    protected String getCookieName()
    {
@@ -160,7 +165,7 @@ public class Identity extends Selector
    
    public boolean isLoggedIn(boolean attemptLogin)
    {
-      if (attemptLogin && getPrincipal() == null && isCredentialsSet() &&
+      if (!authenticating && attemptLogin && getPrincipal() == null && isCredentialsSet() &&
           Contexts.isEventContextActive() &&
           !Contexts.getEventContext().isSet(LOGIN_TRIED))
       {
@@ -184,7 +189,7 @@ public class Identity extends Selector
    
    public boolean isCredentialsSet()
    {
-      return username != null;
+      return username != null && password != null;
    }
       
    /**
@@ -310,9 +315,17 @@ public class Identity extends Selector
    public void authenticate(LoginContext loginContext) 
       throws LoginException
    {
-      preAuthenticate();
-      loginContext.login();
-      postAuthenticate();
+      try
+      {
+         authenticating = true;
+         preAuthenticate();
+         loginContext.login();
+         postAuthenticate();         
+      }
+      finally
+      {
+         authenticating = false;
+      }
    }
    
    protected void preAuthenticate()
