@@ -12,7 +12,6 @@ import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
 import org.jboss.seam.Seam;
-import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.init.Initialization;
 import org.jboss.seam.log.LogProvider;
