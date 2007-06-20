@@ -92,7 +92,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>org.jboss.seam.core.facesContext</literal></term>
+                <term><literal>org.jboss.seam.faces.facesContext</literal></term>
                 <listitem>
                     <para>
                         Manager component for the <literal>FacesContext</literal> context 
@@ -116,7 +116,7 @@
         
          <variablelist>
             <varlistentry>
-                <term><literal>org.jboss.seam.core.facesMessages</literal></term>
+                <term><literal>org.jboss.seam.faces.facesMessages</literal></term>
                 <listitem>
                     <para>
                         Allows faces success messages to propagate across a browser redirect.
@@ -166,7 +166,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>org.jboss.seam.core.redirect</literal></term>
+                <term><literal>org.jboss.seam.faces.redirect</literal></term>
                 <listitem>
                     <para>
                         A convenient API for performing redirects with parameters (this
@@ -211,7 +211,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>org.jboss.seam.core.httpError</literal></term>
+                <term><literal>org.jboss.seam.faces.httpError</literal></term>
                 <listitem>
                     <para>
                         A convenient API for sending HTTP errors.
@@ -693,7 +693,7 @@
         
         <variablelist spacing="compact">
             <varlistentry>
-                <term><literal>org.jboss.seam.core.pageflow</literal></term>
+                <term><literal>org.jboss.seam.navigation.pageflow</literal></term>
                 <listitem>
                     <para>
                         API control of Seam pageflows.
@@ -727,7 +727,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>org.jboss.seam.core.actor</literal></term>
+                <term><literal>org.jboss.seam.bpm.actor</literal></term>
                 <listitem>
                     <para>
                         API for application control of attributes of the jBPM actor associated
@@ -751,7 +751,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>org.jboss.seam.core.transition</literal></term>
+                <term><literal>org.jboss.seam.bpm.transition</literal></term>
                 <listitem>
                     <para>
                         API for application control of the jBPM transition for the current
@@ -769,7 +769,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>org.jboss.seam.core.businessProcess</literal></term>
+                <term><literal>org.jboss.seam.bpm.businessProcess</literal></term>
                 <listitem>
                     <para>
                         API for programmatic control of the association between the
@@ -841,7 +841,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>org.jboss.seam.core.taskInstance</literal></term>
+                <term><literal>org.jboss.seam.bpm.taskInstance</literal></term>
                 <listitem>
                     <para>
                         Manager component for the jBPM <literal>TaskInstance</literal>.
@@ -849,7 +849,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>org.jboss.seam.core.processInstance</literal></term>
+                <term><literal>org.jboss.seam.bpm.processInstance</literal></term>
                 <listitem>
                     <para>
                         Manager component for the jBPM <literal>ProcessInstance</literal>.
@@ -857,7 +857,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>org.jboss.seam.core.jbpmContext</literal></term>
+                <term><literal>org.jboss.seam.bpm.jbpmContext</literal></term>
                 <listitem>
                     <para>
                         Manager component for an event-scoped <literal>JbpmContext</literal>.
@@ -865,7 +865,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>org.jboss.seam.core.taskInstanceList</literal></term>
+                <term><literal>org.jboss.seam.bpm.taskInstanceList</literal></term>
                 <listitem>
                     <para>
                         Manager component for the jBPM task list.
@@ -873,7 +873,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>org.jboss.seam.core.pooledTaskInstanceList</literal></term>
+                <term><literal>org.jboss.seam.bpm.pooledTaskInstanceList</literal></term>
                 <listitem>
                     <para>
                         Manager component for the jBPM pooled task list.
@@ -881,7 +881,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>org.jboss.seam.core.taskInstanceListForType</literal></term>
+                <term><literal>org.jboss.seam.bpm.taskInstanceListForType</literal></term>
                 <listitem>
                     <para>
                         Manager component for the jBPM task lists.
@@ -889,7 +889,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>org.jboss.seam.core.pooledTask</literal></term>
+                <term><literal>org.jboss.seam.bpm.pooledTask</literal></term>
                 <listitem>
                     <para>
                         Action handler for pooled task assignment.
@@ -897,7 +897,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>org.jboss.seam.core.processInstanceFinder</literal></term>
+                <term><literal>org.jboss.seam.bpm.processInstanceFinder</literal></term>
                 <listitem>
                     <para>
                         Manager for the process instance task list.
@@ -905,7 +905,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>org.jboss.seam.core.processInstanceList</literal></term>
+                <term><literal>org.jboss.seam.bpm.processInstanceList</literal></term>
                 <listitem>
                     <para>
                          The process instance task list.
@@ -1119,7 +1119,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>org.jboss.seam.core.pages</literal></term>
+                <term><literal>org.jboss.seam.navigation.pages</literal></term>
                 <listitem>
                     <para>
                         Internal component for Seam workspace management. Always installed.
@@ -1136,44 +1136,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>org.jboss.seam.core.ejb</literal></term>
-                <listitem>
-                    <para>
-                        Bootstraps the JBoss Embeddable EJB3 container. Install as
-                        class <literal>org.jboss.seam.core.Ejb</literal>. This
-                        is useful when using Seam with EJB components outside the
-                        context of a Java EE 5 application server.
-                    </para>
-                    <para>
-                        The basic Embedded EJB configuration is defined in 
-                        <literal>jboss-embedded-beans.xml</literal>. Additional 
-                        microcontainer configuration (for example, extra datasources) 
-                        may be specified by <literal>jboss-beans.xml</literal> or
-                        <literal>META-INF/jboss-beans.xml</literal> in the classpath.
-                    </para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term><literal>org.jboss.seam.core.microcontainer</literal></term>
-                <listitem>
-                    <para>
-                        Bootstraps the JBoss microcontainer. Install as
-                        class <literal>org.jboss.seam.core.Microcontainer</literal>.
-                        This is useful when using Seam with Hibernate and no EJB
-                        components outside the context of a Java EE application
-                        server. The microcontainer can provide a partial EE 
-                        environment with JNDI, JTA, a JCA datasource and Hibernate.
-                    </para>
-                    <para>
-                        The microcontainer configuration may be specified by
-                        <literal>jboss-beans.xml</literal> or 
-                        <literal>META-INF/jboss-beans.xml</literal> in the 
-                        classpath.
-                    </para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term><literal>org.jboss.seam.core.jbpm</literal></term>
+                <term><literal>org.jboss.seam.bpm.jbpm</literal></term>
                 <listitem>
                     <para>
                         Bootstraps a <literal>JbpmConfiguration</literal>. Install as class 
@@ -1207,7 +1170,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>org.jboss.seam.core.facesPage</literal></term>
+                <term><literal>org.jboss.seam.faces.facesPage</literal></term>
                 <listitem>
                     <para>
                         Internal page-scoped component recording the conversation context associated
@@ -1216,7 +1179,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>org.jboss.seam.core.persistenceContexts</literal></term>
+                <term><literal>org.jboss.seam.persistence.persistenceContexts</literal></term>
                 <listitem>
                     <para>
                         Internal component recording the persistence contexts which were used in
@@ -1269,10 +1232,19 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>org.jboss.seam.core.validation</literal></term>
+                <term><literal>org.jboss.seam.core.validators</literal></term>
                 <listitem>
                     <para>
-                        Internal component for Hibernate Validator support.
+                        Caches instances of Hibernate Validator ClassValidator.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.faces.validation</literal></term>
+                <listitem>
+                    <para>
+                        Allows the application to determine whether validation
+                        failed or was successful.
                     </para>
                 </listitem>
             </varlistentry>
@@ -1293,18 +1265,10 @@
                 </listitem>
             </varlistentry>    	    
             <varlistentry>
-                <term><literal>org.jboss.seam.core.exceptions</literal></term>
+                <term><literal>org.jboss.seam.exceptions.exceptions</literal></term>
                 <listitem>
                     <para>
                         Internal component for exception handling.
-                    </para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term><literal>org.jboss.seam.core.jbossELInstaller</literal></term>
-                <listitem>
-                    <para>
-                        Installs JBoss EL as the default EL in the JSF RI.
                     </para>
                 </listitem>
             </varlistentry>
@@ -1318,20 +1282,12 @@
                     </para>
                 </listitem>
             </varlistentry>
-            <varlistentry>
-                <term><literal>org.jboss.seam.core.validators</literal></term>
-                <listitem>
-                    <para>
-                          Caches instances of Hibernate Validator ClassValidator.  
-                    </para>
-                </listitem>
-             </varlistentry>
              <varlistentry>
-                <term><literal>org.jboss.seam.core.safeActions</literal></term>
+                <term><literal>org.jboss.seam.faces.safeActions</literal></term>
                 <listitem>
                     <para>
-                        Decides if an action expression in an incomming URL is safe.  This is done
-                        by checking that the action expression exists in the view.
+                        Decides if an action expression in an incoming URL is safe.  This 
+                        is done by checking that the action expression exists in the view.
                     </para>
                 </listitem>
              </varlistentry>
@@ -1401,12 +1357,12 @@
         </para>
         
         <programlisting><![CDATA[<component name="bookingDatabase"
-          class="org.jboss.seam.core.ManagedPersistenceContext">
+          class="org.jboss.seam.persistence.ManagedPersistenceContext">
     <property name="persistenceUnitJndiName">java:/comp/emf/bookingPersistence</property>
 </component>
 
 <component name="userDatabase"
-          class="org.jboss.seam.core.ManagedPersistenceContext">
+          class="org.jboss.seam.persistence.ManagedPersistenceContext">
     <property name="persistenceUnitJndiName">java:/comp/emf/userPersistence</property>
 </component>]]></programlisting>
         
@@ -1418,7 +1374,7 @@
     	<variablelist spacing="compact">
             <varlistentry>
                 <term><literal><emphasis>&lt;entityManager&gt;</emphasis></literal></term>
-                <term><literal>org.jboss.seam.core.ManagedPersistenceContext</literal></term>
+                <term><literal>org.jboss.seam.persistence.ManagedPersistenceContext</literal></term>
                 <listitem>
                     <para>
                         Manager component for a conversation scoped managed <literal>EntityManager</literal>
@@ -1442,7 +1398,7 @@
             </varlistentry>
             <varlistentry>
                 <term><literal><emphasis>&lt;entityManagerFactory&gt;</emphasis></literal></term>
-                <term><literal>org.jboss.seam.core.EntityManagerFactory</literal></term>
+                <term><literal>org.jboss.seam.persistence.EntityManagerFactory</literal></term>
                 <listitem>
                     <para>
                         Manages a JPA <literal>EntityManagerFactory</literal>. This is most useful
@@ -1463,7 +1419,7 @@
             </varlistentry>
             <varlistentry>
                 <term><literal><emphasis>&lt;session&gt;</emphasis></literal></term>
-                <term><literal>org.jboss.seam.core.ManagedSession</literal></term>
+                <term><literal>org.jboss.seam.persistence.ManagedSession</literal></term>
                 <listitem>
                     <para>
                         Manager component for a conversation scoped managed Hibernate <literal>Session</literal>.
@@ -1486,7 +1442,7 @@
             </varlistentry>
             <varlistentry>
                 <term><literal><emphasis>&lt;sessionFactory&gt;</emphasis></literal></term>
-                <term><literal>org.jboss.seam.core.HibernateSessionFactory</literal></term>
+                <term><literal>org.jboss.seam.persistence.HibernateSessionFactory</literal></term>
                 <listitem>
                     <para>
                         Manages a Hibernate <literal>SessionFactory</literal>.  
