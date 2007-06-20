@@ -22,7 +22,7 @@ import org.jboss.seam.log.Logging;
 public class Lifecycle
 {
 
-   static final LogProvider log = Logging.getLogProvider(Lifecycle.class);
+   private static final LogProvider log = Logging.getLogProvider(Lifecycle.class);
 
    private static ThreadLocal<Boolean> destroying = new ThreadLocal<Boolean>();
    private static Map<String, Object> application;

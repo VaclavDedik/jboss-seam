@@ -242,7 +242,7 @@ public class Contexts
    /**
     * Destroy all components in the given context
     */
-   public static void destroy(Context context)
+   static void destroy(Context context)
    {
       if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.preDestroyContext." + context.getType().toString());
       

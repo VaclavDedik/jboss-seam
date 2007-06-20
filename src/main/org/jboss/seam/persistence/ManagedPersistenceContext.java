@@ -217,7 +217,7 @@ public class ManagedPersistenceContext
          }
          catch (NamingException ne)
          {
-            throw new IllegalArgumentException("EntityManagerFactory not found in JNDI", ne);
+            throw new IllegalArgumentException("EntityManagerFactory not found in JNDI : " + persistenceUnitJndiName, ne);
          }
       }
       return result;

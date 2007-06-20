@@ -96,7 +96,7 @@ public class FacesLifecycle
     * (portlet or servlet). Why is this method not on ExternalContext?!
     * Oh boy, those crazy rascals in the JSF EG...
     */
-   public static void invalidateSession(ExternalContext externalContext)
+   private static void invalidateSession(ExternalContext externalContext)
    {
       Object session = externalContext.getSession(false);
       if (session!=null)

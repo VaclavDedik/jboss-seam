@@ -209,7 +209,7 @@ public class ManagedHibernateSession
          }
          catch (NamingException ne)
          {
-            throw new IllegalArgumentException("SessionFactory not found in JNDI", ne);
+            throw new IllegalArgumentException("SessionFactory not found in JNDI: " + sessionFactoryJndiName, ne);
          }
       }
       return result;
