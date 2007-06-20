@@ -1,29 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <components xmlns="http://jboss.com/products/seam/components"
             xmlns:core="http://jboss.com/products/seam/core"
+            xmlns:persistence="http://jboss.com/products/seam/persistence"
             xmlns:security="http://jboss.com/products/seam/security"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation=
                 "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-1.3.xsd
+                 http://jboss.com/products/seam/persistence http://jboss.com/products/seam/persistence-1.3.xsd
                  http://jboss.com/products/seam/security http://jboss.com/products/seam/security-1.3.xsd
                  http://jboss.com/products/seam/components http://jboss.com/products/seam/components-1.3.xsd">
 
-    <component name="org.jboss.seam.core.init">
-        <property name="debug">true</property>
-    </component>
+    <core:init debug="true"/>
 
     <!-- 120 second conversation timeout -->
-    <component name="org.jboss.seam.core.manager">
-        <property name="conversationTimeout">120000</property>
-    </component>
+    <core:manager conversation-timeout="120000"/>
     
     <!-- Bootstrap Hibernate -->
-    <component name="bookingDatabase" 
-        auto-create="true"
-              class="org.jboss.seam.core.ManagedHibernateSession"/>
+    <persistence:managed-hibernate-session name="bookingDatabase" 
+                                    auto-create="true"/>/>
               
-    <component name="hibernateSessionFactory"
-              class="org.jboss.seam.core.HibernateSessionFactory"/>
+    <persistence:hibernate-session-factory name="hibernateSessionFactory"/>
               
     <security:identity authenticate-method="#{authenticator.authenticate}"/>           
     
