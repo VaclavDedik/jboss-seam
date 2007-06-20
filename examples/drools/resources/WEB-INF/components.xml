@@ -16,6 +16,4 @@
         </core:pageflow-definitions>
     </core:jbpm>
 
-    <core:init debug="true"/>
-    
 </components>
