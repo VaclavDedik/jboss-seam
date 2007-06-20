@@ -99,7 +99,7 @@ final class Log4JProvider implements LogProvider
 
    public void trace(Object object, Throwable t)
    {
-      logger.log( getFQCN(), Level.DEBUG, object, t);
+      logger.log( getFQCN(), Level.TRACE, object, t);
    }
 
    public void warn(Object object)
