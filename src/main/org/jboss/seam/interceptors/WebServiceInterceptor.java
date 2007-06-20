@@ -33,7 +33,7 @@ public class WebServiceInterceptor extends AbstractInterceptor
    @AroundInvoke
    public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
-      if (Contexts.isEventContextActive())
+      if (Contexts.isEventContextActive() && Contexts.getEventContext().isSet(SeamWSRequestHandler.MESSAGE_CONTEXT))
       {
          try
          {
