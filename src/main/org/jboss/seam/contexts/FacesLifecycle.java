@@ -10,7 +10,6 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseId;
 
-import org.jboss.seam.core.Init;
 import org.jboss.seam.core.ServletSession;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -114,11 +113,10 @@ public class FacesLifecycle
 
    public static void resumeConversation(ExternalContext externalContext)
    {
-      Init init = Init.instance();
-      Context conversationContext = init.isClientSideConversations() ?
+      /*Context conversationContext = Init.instance().isClientSideConversations() ?
             (Context) new ClientConversationContext() :
-            (Context) new ServerConversationContext( externalContext.getSessionMap() );
-      Contexts.conversationContext.set( conversationContext );
+            (Context) new ServerConversationContext( externalContext.getSessionMap() );*/
+      Contexts.conversationContext.set( new ServerConversationContext( externalContext.getSessionMap() ) );
       Contexts.businessProcessContext.set( new BusinessProcessContext() );
    }
 

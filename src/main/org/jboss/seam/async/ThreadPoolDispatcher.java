@@ -102,7 +102,7 @@ public class ThreadPoolDispatcher extends AbstractDispatcher<Future, TimerSchedu
    
    static class RunnableAsynchronous implements Runnable
    {
-      private AbstractDispatcher.Asynchronous async;
+      private Asynchronous async;
       
       RunnableAsynchronous(Asynchronous async)
       {

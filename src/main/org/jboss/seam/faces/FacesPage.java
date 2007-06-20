@@ -135,14 +135,14 @@ public class FacesPage implements Serializable
          discardTemporaryConversation();
       }
 
-      if ( !sessionInvalid && Init.instance().isClientSideConversations()  )
+      /*if ( !sessionInvalid && Init.instance().isClientSideConversations()  )
       {
          // if we are using client-side conversations, put the
          // map containing the conversation context variables 
          // into the view root (or remove it for a temp 
          // conversation context)
          Contexts.getConversationContext().flush();
-      }
+      }*/
 
    }
 

@@ -373,14 +373,14 @@ public class Contexts
             log.debug("destroying conversation context");
             destroy( getConversationContext() );
          }
-         if ( !Init.instance().isClientSideConversations() )
-         {
+         /*if ( !Init.instance().isClientSideConversations() )
+         {*/
             //note that we need to flush even if the session is
             //about to be invalidated, since we still need
             //to destroy the conversation context in endSession()
             log.debug("flushing server-side conversation context");
             getConversationContext().flush();
-         }
+        //}
    
          //uses the event and session contexts
          if ( ServletSession.getInstance()!=null )

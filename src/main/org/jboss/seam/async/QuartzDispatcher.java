@@ -227,7 +227,7 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzDispatcher.Quartz
    
    public static class QuartzJob implements Job
    {
-      private AbstractDispatcher.Asynchronous async;
+      private Asynchronous async;
       
       public QuartzJob() { }
 
@@ -236,7 +236,7 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzDispatcher.Quartz
       {
          log.info("Start executing Quartz job");
          JobDataMap dataMap = context.getJobDetail().getJobDataMap();
-         async = (AbstractDispatcher.Asynchronous)dataMap.get("async");
+         async = (Asynchronous)dataMap.get("async");
          async.execute(null);
          log.info("End executing Quartz job");
       }

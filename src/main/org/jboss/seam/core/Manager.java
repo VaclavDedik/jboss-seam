@@ -325,14 +325,14 @@ public class Manager
          removeCurrentConversationAndDestroyNestedContexts(session);
       }
 
-      if ( !Init.instance().isClientSideConversations() ) 
-      {
+      /*if ( !Init.instance().isClientSideConversations() ) 
+      {*/
          // difficult question: is it really safe to do this here?
          // right now we do have to do it after committing the Seam
          // transaction because we can't close EMs inside a txn
          // (this might be a bug in HEM)
          Manager.instance().conversationTimeout(session);
-      }
+      //}
    }
    
    public void unlockConversation()

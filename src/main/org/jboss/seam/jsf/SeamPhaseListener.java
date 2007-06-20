@@ -299,8 +299,8 @@ public class SeamPhaseListener implements PhaseListener
       if ( Init.instance().isTransactionManagementEnabled() ) 
       {
          PhaseId phaseId = event.getPhaseId();
-         boolean beginTran = phaseId==PhaseId.RESTORE_VIEW || 
-               ( phaseId==PhaseId.RENDER_RESPONSE && !Init.instance().isClientSideConversations() );
+         boolean beginTran = phaseId==PhaseId.RESTORE_VIEW || phaseId==PhaseId.RENDER_RESPONSE;
+               //( phaseId==PhaseId.RENDER_RESPONSE && !Init.instance().isClientSideConversations() );
          
          if (beginTran) 
          {
@@ -317,7 +317,8 @@ public class SeamPhaseListener implements PhaseListener
          boolean commitTran = phaseId==PhaseId.INVOKE_APPLICATION || 
                event.getFacesContext().getRenderResponse() || //TODO: no need to commit the tx if we failed to restore the view
                event.getFacesContext().getResponseComplete() ||
-               ( phaseId==PhaseId.RENDER_RESPONSE && !Init.instance().isClientSideConversations() );
+               phaseId==PhaseId.RENDER_RESPONSE;
+               //( phaseId==PhaseId.RENDER_RESPONSE && !Init.instance().isClientSideConversations() );
          
          if (commitTran)
          { 

@@ -41,7 +41,7 @@ public class Init
    
    private Namespace rootNamespace = new Namespace(null);
    
-   private boolean isClientSideConversations = false;
+   //private boolean isClientSideConversations = false;
    private boolean jbpmInstalled;
    private String jndiPattern;
    private boolean debug;
@@ -97,7 +97,7 @@ public class Init
       return init;
    }
    
-   public boolean isClientSideConversations()
+   /*public boolean isClientSideConversations()
    {
       return isClientSideConversations;
    }
@@ -105,7 +105,7 @@ public class Init
    public void setClientSideConversations(boolean isClientSideConversations)
    {
       this.isClientSideConversations = isClientSideConversations;
-   }
+   }*/
    
    public static class FactoryMethod {
 	   private Method method;
