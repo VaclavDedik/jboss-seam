@@ -27,8 +27,8 @@ import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.navigation.ConversationIdParameter;
-import org.jboss.seam.navigation.Pageflow;
 import org.jboss.seam.navigation.Pages;
+import org.jboss.seam.pageflow.Pageflow;
 import org.jboss.seam.util.Id;
 
 /**

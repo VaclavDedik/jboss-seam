@@ -22,7 +22,7 @@ import org.jboss.seam.transaction.Transaction;
  * @author Gavin King
  *
  */
-public class PassivatedEntity implements Serializable
+class PassivatedEntity implements Serializable
 {
    private static final long serialVersionUID = 6565440294007267788L;
    
@@ -216,7 +216,7 @@ public class PassivatedEntity implements Serializable
       }
    }
 
-   public static boolean isTransactionRolledBackOrMarkedRollback()
+   static boolean isTransactionRolledBackOrMarkedRollback()
    {
       try
       {

@@ -13,9 +13,9 @@ import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.contexts.PassivatedEntity;
 import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.persistence.PersistenceContexts;
+import org.jboss.seam.transaction.Transaction;
 import org.jboss.seam.util.Reflections;
 
 /**
@@ -23,8 +23,6 @@ import org.jboss.seam.util.Reflections;
  * referential integrity even across passivation of the stateful 
  * bean or Seam-managed extended persistence context, and allowing 
  * for more efficient replication.
- * 
- * @see org.jboss.seam.contexts.PassivatedEntity
  * 
  * @author Gavin King
  *
@@ -45,10 +43,22 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
       }
       finally
       {
-         if ( !PassivatedEntity.isTransactionRolledBackOrMarkedRollback() )
+         if ( !isTransactionRolledBackOrMarkedRollback() )
          {
             entityRefsToIds(ctx);
          }
+      }
+   }
+   
+   private static boolean isTransactionRolledBackOrMarkedRollback()
+   {
+      try
+      {
+         return Transaction.instance().isRolledBackOrMarkedRollback();
+      }
+      catch (Exception e)
+      {
+         return false;
       }
    }
    

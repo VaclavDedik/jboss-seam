@@ -1,4 +1,4 @@
-package org.jboss.seam.jbpm;
+package org.jboss.seam.bpm;
 
 import java.lang.reflect.Method;
 
@@ -9,7 +9,7 @@ import org.jbpm.jpdl.el.FunctionMapper;
  * 
  * @author Shane Bryzak
  */
-public class SeamFunctionMapper implements FunctionMapper
+class SeamFunctionMapper implements FunctionMapper
 {
    private org.jboss.seam.el.SeamFunctionMapper mapper;
    

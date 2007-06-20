@@ -14,7 +14,7 @@ import java.util.Set;
  * @author Gavin King
  *
  */
-public class EntityBeanSet implements Wrapper
+class EntityBeanSet implements Wrapper
 {
    private static final long serialVersionUID = -2884601453783925804L;
    

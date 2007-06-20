@@ -1,7 +1,5 @@
-package org.jboss.seam.jbpm;
+package org.jboss.seam.bpm;
 
-import org.jboss.seam.bpm.BusinessProcess;
-import org.jboss.seam.bpm.Jbpm;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jbpm.context.exe.ContextInstance;
@@ -22,7 +20,7 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
  * @author Gavin King
  *
  */
-public class SeamUserCodeInterceptor implements UserCodeInterceptor
+class SeamUserCodeInterceptor implements UserCodeInterceptor
 {
    abstract static class ContextualCall
    {

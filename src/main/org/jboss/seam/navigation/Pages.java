@@ -48,6 +48,7 @@ import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.faces.Validation;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.pageflow.Pageflow;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.NotLoggedInException;
 import org.jboss.seam.util.Resources;

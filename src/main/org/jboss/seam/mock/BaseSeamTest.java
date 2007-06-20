@@ -38,7 +38,7 @@ import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.init.Initialization;
 import org.jboss.seam.jsf.SeamApplication;
 import org.jboss.seam.jsf.SeamPhaseListener;
-import org.jboss.seam.navigation.Pageflow;
+import org.jboss.seam.pageflow.Pageflow;
 import org.jboss.seam.servlet.ServletSessionMap;
 import org.jboss.seam.transaction.Transaction;
 import org.jboss.seam.util.Naming;

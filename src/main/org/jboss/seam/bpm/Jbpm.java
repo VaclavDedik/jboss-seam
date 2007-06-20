@@ -26,12 +26,8 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Init;
-import org.jboss.seam.jbpm.SeamFunctionMapper;
-import org.jboss.seam.jbpm.SeamUserCodeInterceptor;
-import org.jboss.seam.jbpm.SeamVariableResolver;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
-import org.jboss.seam.pageflow.PageflowHelper;
 import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Resources;
 import org.jbpm.JbpmConfiguration;
@@ -155,7 +151,7 @@ public class Jbpm
       {
          throw new IllegalArgumentException("pageflow resource not found: " + resourceName);
       }
-      return PageflowHelper.parseInputSource( new InputSource(resource) );
+      return Jbpm.parseInputSource( new InputSource(resource) );
    }
    
    public ProcessDefinition getProcessDefinitionFromResource(String resourceName) 
@@ -206,7 +202,7 @@ public class Jbpm
     */
    public ProcessDefinition getPageflowDefinitionFromXml(String pageflowDefinition)
    {
-      return PageflowHelper.parseInputSource( new InputSource( new ReaderInputStream( new StringReader(pageflowDefinition) ) ) );
+      return Jbpm.parseInputSource( new InputSource( new ReaderInputStream( new StringReader(pageflowDefinition) ) ) );
    }
    
    /**
@@ -292,6 +288,26 @@ public class Jbpm
       this.jbpmConfigurationJndiName = jbpmConfigurationJndiName;
    }
    
+   public static JbpmConfiguration pageflowConfiguration = JbpmConfiguration.parseResource("org/jboss/seam/pageflow/jbpm.pageflow.cfg.xml");
+
+   public static JbpmContext createPageflowContext() 
+   {
+      return pageflowConfiguration.createJbpmContext();
+   }
+
+   public static ProcessDefinition parseInputSource(InputSource inputSource) 
+   {
+      JbpmContext jbpmContext = createPageflowContext();
+      try 
+      {
+         return new PageflowParser(inputSource).readProcessDefinition();
+      } 
+      finally 
+      {
+         jbpmContext.close();
+      }
+   }
+
    private static final DbSubProcessResolver DB_SUB_PROCESS_RESOLVER = new DbSubProcessResolver();
    class SeamSubProcessResolver implements SubProcessResolver
    {

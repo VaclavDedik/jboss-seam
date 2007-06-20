@@ -18,7 +18,7 @@ import org.jboss.seam.core.ConversationEntry;
 import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.intercept.InvocationContext;
-import org.jboss.seam.navigation.Pageflow;
+import org.jboss.seam.pageflow.Pageflow;
 import org.jboss.seam.persistence.PersistenceContexts;
 
 /**

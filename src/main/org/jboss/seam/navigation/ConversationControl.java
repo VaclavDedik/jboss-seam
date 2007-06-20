@@ -3,6 +3,7 @@ package org.jboss.seam.navigation;
 import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Expressions.ValueExpression;
+import org.jboss.seam.pageflow.Pageflow;
 
 public class ConversationControl
 {

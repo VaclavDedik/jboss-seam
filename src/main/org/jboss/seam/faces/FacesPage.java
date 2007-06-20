@@ -15,7 +15,7 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.ServletSession;
-import org.jboss.seam.navigation.Pageflow;
+import org.jboss.seam.pageflow.Pageflow;
 
 /**
  * Book-keeping component that persists information

@@ -5,8 +5,8 @@ import javax.faces.context.FacesContext;
 
 import org.jboss.seam.core.Init;
 import org.jboss.seam.faces.FacesManager;
-import org.jboss.seam.navigation.Pageflow;
 import org.jboss.seam.navigation.Pages;
+import org.jboss.seam.pageflow.Pageflow;
 
 public class SeamNavigationHandler extends NavigationHandler {
    

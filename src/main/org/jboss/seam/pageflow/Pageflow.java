@@ -1,4 +1,4 @@
-package org.jboss.seam.navigation;
+package org.jboss.seam.pageflow;
 
 import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
@@ -23,13 +23,12 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.AbstractMutable;
 import org.jboss.seam.core.Events;
+import org.jboss.seam.faces.FacesManager;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.faces.FacesPage;
-import org.jboss.seam.faces.FacesManager;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
-import org.jboss.seam.pageflow.Page;
-import org.jboss.seam.pageflow.PageflowHelper;
+import org.jbpm.JbpmContext;
 import org.jbpm.graph.def.Action;
 import org.jbpm.graph.def.Event;
 import org.jbpm.graph.def.Node;
@@ -45,7 +44,7 @@ import org.jbpm.graph.exe.ProcessInstance;
  */
 @Scope(ScopeType.CONVERSATION)
 @PerNestedConversation
-@Name("org.jboss.seam.navigation.pageflow")
+@Name("org.jboss.seam.pageflow.pageflow")
 @Intercept(NEVER)
 @Install(dependencies="org.jboss.seam.bpm.jbpm", precedence=BUILT_IN, classDependencies="javax.faces.context.FacesContext")
 public class Pageflow extends AbstractMutable implements Serializable
@@ -316,14 +315,14 @@ public class Pageflow extends AbstractMutable implements Serializable
          {
             //we don't use jBPM's default transition,
             //instead we use the "anonymous" transition
-            PageflowHelper.signal(subProcess, null);
+            Pageflow.signal(subProcess, null);
             navigate(context);
          }
       }
       else
       {
          //trigger the named transition
-         PageflowHelper.signal(subProcess, outcome);
+         Pageflow.signal(subProcess, outcome);
          navigate(context);
       }
       
@@ -378,7 +377,7 @@ public class Pageflow extends AbstractMutable implements Serializable
          log.debug("beginning pageflow: " + pageflowDefinitionName);
       }
       
-      processInstance = PageflowHelper.newPageflowInstance( getPageflowProcessDefinition(pageflowDefinitionName) );
+      processInstance = Pageflow.createInstance( getPageflowProcessDefinition(pageflowDefinitionName) );
       
       //if ( Lifecycle.getPhaseId().equals(PhaseId.RENDER_RESPONSE) ) 
       //{
@@ -442,6 +441,34 @@ public class Pageflow extends AbstractMutable implements Serializable
       String name = processInstance==null ? 
             "null" : processInstance.getProcessDefinition().getName();
       return "Pageflow(" + name + ")";
+   }
+
+   private static ProcessInstance createInstance(ProcessDefinition processDefinition) 
+   {
+      JbpmContext jbpmContext = Jbpm.createPageflowContext();
+      try 
+      {
+         log.debug( "new pageflow instance for definition: " + processDefinition.getName() );
+         return processDefinition.createProcessInstance();
+      } 
+      finally 
+      {
+         jbpmContext.close();
+      }
+   }
+
+   private static void signal(ProcessInstance processInstance, String outcome) 
+   {
+      JbpmContext jbpmContext = Jbpm.createPageflowContext();
+      try 
+      {
+         log.debug("signaling pageflow transition for outcome: " + outcome);
+         processInstance.signal(outcome);
+      } 
+      finally 
+      {
+         jbpmContext.close();
+      }
    }
 
 }

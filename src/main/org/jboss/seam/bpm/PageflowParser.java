@@ -1,4 +1,4 @@
-package org.jboss.seam.pageflow;
+package org.jboss.seam.bpm;
 
 import java.io.Reader;
 
@@ -9,7 +9,13 @@ import org.jbpm.jpdl.xml.JpdlXmlReader;
 import org.jbpm.jpdl.xml.ProblemListener;
 import org.xml.sax.InputSource;
 
-public class PageflowParser extends JpdlXmlReader 
+/**
+ * A jPDL parser for Seam pageflow definitions
+ * 
+ * @author Tom Baeyens
+ *
+ */
+class PageflowParser extends JpdlXmlReader 
 {
 
   private static final long serialVersionUID = 1L;

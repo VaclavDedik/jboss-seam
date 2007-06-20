@@ -31,8 +31,8 @@ import org.jboss.seam.core.Manager;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.navigation.ConversationIdParameter;
-import org.jboss.seam.navigation.Pageflow;
 import org.jboss.seam.navigation.Pages;
+import org.jboss.seam.pageflow.Pageflow;
 import org.jboss.seam.util.JSF;
 
 /**
@@ -237,13 +237,13 @@ public class FacesManager extends Manager
       Conversation conversation = Conversation.instance();
 
       //stuff from jPDL takes precedence
-      org.jboss.seam.pageflow.Page pageflowPage = 
+      org.jboss.seam.pageflow.Page page = 
             Manager.instance().isLongRunningConversation() &&
             Init.instance().isJbpmInstalled() && 
             Pageflow.instance().isInProcess() ?
                   Pageflow.instance().getPage() : null;
       
-      if (pageflowPage==null)
+      if (page==null)
       {
          //handle stuff defined in pages.xml
          Pages pages = Pages.instance();
@@ -265,15 +265,15 @@ public class FacesManager extends Manager
       else
       {
          //use stuff from the pageflow definition
-         if ( pageflowPage.isSwitchEnabled() )
+         if ( page.isSwitchEnabled() )
          {
             conversation.setViewId( Pageflow.instance().getPageViewId() );
          }
-         if ( pageflowPage.hasDescription() )
+         if ( page.hasDescription() )
          {
-            conversation.setDescription( pageflowPage.getDescription() );
+            conversation.setDescription( page.getDescription() );
          }
-         conversation.setTimeout( pageflowPage.getTimeout() );
+         conversation.setTimeout( page.getTimeout() );
       }
       
       flushConversationMetadata();

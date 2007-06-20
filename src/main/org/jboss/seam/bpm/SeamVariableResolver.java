@@ -1,4 +1,4 @@
-package org.jboss.seam.jbpm;
+package org.jboss.seam.bpm;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.core.Init;
@@ -6,7 +6,13 @@ import org.jbpm.jpdl.el.ELException;
 import org.jbpm.jpdl.el.VariableResolver;
 import org.jbpm.jpdl.el.impl.JbpmVariableResolver;
 
-public class SeamVariableResolver implements VariableResolver 
+/**
+ * Resolves Seam variables for jBPM.
+ * 
+ * @author Gavin King
+ *
+ */
+class SeamVariableResolver implements VariableResolver 
 {
    
    private VariableResolver jbpmVariableResolver = new JbpmVariableResolver();
