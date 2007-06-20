@@ -1349,11 +1349,14 @@ public class Component extends Model
    private void injectParameters(Object bean)
    {
       Parameters params = Parameters.instance();
-      Map<String, String[]> requestParameters = params.getRequestParameters();
-      for (BijectedAttribute setter: parameterSetters)
+      if (params!=null) //check for unit tests
       {
-         Object convertedValue = params.convertMultiValueRequestParameter(requestParameters, setter.getName(), setter.getType());
-         setter.set(bean, convertedValue);
+         Map<String, String[]> requestParameters = params.getRequestParameters();
+         for (BijectedAttribute setter: parameterSetters)
+         {
+            Object convertedValue = params.convertMultiValueRequestParameter(requestParameters, setter.getName(), setter.getType());
+            setter.set(bean, convertedValue);
+         }
       }
    }
 
