@@ -13,7 +13,7 @@ import javax.el.MethodNotFoundException;
  * @author Gavin King
  *
  */
-public class OptionalParameterMethodExpression extends MethodExpression
+class OptionalParameterMethodExpression extends MethodExpression
 {
     
     private MethodExpression withParam;

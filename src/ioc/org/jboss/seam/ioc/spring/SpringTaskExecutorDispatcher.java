@@ -8,6 +8,9 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.async.AbstractDispatcher;
+import org.jboss.seam.async.Asynchronous;
+import org.jboss.seam.async.AsynchronousEvent;
+import org.jboss.seam.async.AsynchronousInvocation;
 import org.jboss.seam.async.Dispatcher;
 import org.jboss.seam.async.Schedule;
 import org.jboss.seam.async.TimerSchedule;
@@ -91,7 +94,7 @@ public class SpringTaskExecutorDispatcher<T, S> extends AbstractDispatcher<T, S>
     */
    static class RunnableAsynchronous implements Runnable
    {
-      private AbstractDispatcher.Asynchronous async;
+      private Asynchronous async;
 
       RunnableAsynchronous(Asynchronous async)
       {
