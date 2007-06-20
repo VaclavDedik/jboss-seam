@@ -10,7 +10,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Specifies the interception type of a Seam component.
+ * Disables interception of calls to a Seam component
+ * or Seam component method.
  * 
  * @author Gavin King
  */

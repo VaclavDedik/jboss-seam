@@ -14,10 +14,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Specifies the component name of a seam component.
+ * Specifies the component name of a Seam component.
  * 
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
- * @version $Revision$
+ * 
  */
 @Target(TYPE)
 @Retention(RUNTIME)

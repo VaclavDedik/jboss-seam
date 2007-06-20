@@ -12,7 +12,6 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.async.AbstractDispatcher;
 import org.jboss.seam.async.Dispatcher;
-import org.jboss.seam.async.LocalTransactionListener;
 import org.jboss.seam.async.TimerSchedule;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Expressions.MethodExpression;

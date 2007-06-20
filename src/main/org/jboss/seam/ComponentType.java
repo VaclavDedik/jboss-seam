@@ -6,7 +6,8 @@ import static org.jboss.seam.ScopeType.EVENT;
 import static org.jboss.seam.ScopeType.STATELESS;
 
 /**
- * The types of components understood by seam
+ * The types of components understood by Seam.
+ * 
  * @author Gavin King
  */
 public enum ComponentType

@@ -10,7 +10,7 @@ import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 
 /**
- * The available scopes (contexts).
+ * The scopes defined by Seam.
  * 
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  */
