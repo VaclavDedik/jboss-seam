@@ -84,7 +84,7 @@ public final class Log4JProvider implements LogProvider
 
    public boolean isTraceEnabled()
    {
-      return logger.isEnabledFor(Level.DEBUG);
+      return logger.isEnabledFor(Level.TRACE);
    }
 
    public boolean isWarnEnabled()
@@ -94,7 +94,7 @@ public final class Log4JProvider implements LogProvider
 
    public void trace(Object object)
    {
-      logger.log( getFQCN(), Level.DEBUG, object, null);
+      logger.log( getFQCN(), Level.TRACE, object, null);
    }
 
    public void trace(Object object, Throwable t)
