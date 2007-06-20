@@ -11,6 +11,7 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.core.AbstractMutable;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.log.Logging;
 
@@ -18,7 +19,7 @@ import org.jboss.seam.log.Logging;
 @Scope(ScopeType.SESSION)
 @Install(precedence = Install.BUILT_IN)
 @Intercept(InterceptionType.NEVER)
-public class GraphicImageStore implements Serializable
+public class GraphicImageStore extends AbstractMutable implements Serializable
 {
    
    private Log log = Logging.getLog(GraphicImageStore.class);
@@ -75,6 +76,7 @@ public class GraphicImageStore implements Serializable
          index++;
       }
       store.put(key, image);
+      setDirty();
       log.debug("Put image into to session with key #0", key);
       return key;
    }
@@ -89,7 +91,12 @@ public class GraphicImageStore implements Serializable
    public ImageWrapper remove(String key)
    {
       log.debug("Get image from session with key #0", key);
-      return store.remove(key);
+      ImageWrapper imageWrapper = store.remove(key);
+      if ( imageWrapper != null )
+      {
+         setDirty();
+      }
+      return imageWrapper;
    }
    
    public boolean contains(String key) 
