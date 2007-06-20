@@ -12,6 +12,7 @@ import javax.faces.component.UIData;
 import javax.faces.component.UIOutput;
 import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
+import javax.faces.el.MethodBinding;
 import javax.faces.event.ActionListener;
 import javax.faces.model.DataModel;
 
@@ -61,11 +62,12 @@ public abstract class UISeamCommandBase extends UIOutput implements ActionSource
             }
          }
 
-         if (getAction() != null || getOutcome() != null)
+         MethodBinding action = getAction();
+         if (action != null)
          {
 
             UIAction uiAction = new UIAction();
-            uiAction.setAction(getAction().getExpressionString() == null ? getOutcome() : getAction().getExpressionString());
+            uiAction.setAction( action.getExpressionString() );
             url.addParameter(uiAction);
          }
 
@@ -105,10 +107,6 @@ public abstract class UISeamCommandBase extends UIOutput implements ActionSource
    }
 
    public abstract void setView(String view);
-
-   public abstract String getOutcome();
-
-   public abstract void setOutcome(String outcome);
 
    public abstract String getPropagation();
 

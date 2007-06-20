@@ -86,5 +86,11 @@ public class SimpleActionMethodBinding extends MethodBinding implements StateHol
 	public String toString() {
 		return _outcome;
 	}
+   
+   @Override
+   public String getExpressionString()
+   {
+      return _outcome;
+   }
 }
 
