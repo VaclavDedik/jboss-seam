@@ -719,7 +719,7 @@
                     </para>
                 </listitem>
             </varlistentry>
-            <varlistentry id="transactional-annotation">
+            <varlistentry>
                 <term>
                     <literal>@ApplicationException</literal>
                 </term>
@@ -730,7 +730,7 @@
                     </para>
                 </listitem>
             </varlistentry>
-            <varlistentry id="transactional-annotation">
+            <varlistentry>
                 <term>
                     <literal>@Interceptors</literal>
                 </term>
