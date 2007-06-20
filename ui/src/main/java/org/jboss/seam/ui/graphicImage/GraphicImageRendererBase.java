@@ -6,7 +6,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
-import org.jboss.seam.core.Image;
 import org.jboss.seam.ui.graphicImage.GraphicImageStore.ImageWrapper;
 import org.jboss.seam.ui.util.HTML;
 import org.jboss.seam.ui.util.cdk.RendererBase;

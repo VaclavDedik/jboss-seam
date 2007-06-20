@@ -11,7 +11,6 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.core.Image;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.log.Logging;
 

@@ -11,11 +11,11 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.core.Image.Type;
 import org.jboss.seam.pdf.ITextUtils;
 import org.jboss.seam.ui.graphicImage.GraphicImageResource;
 import org.jboss.seam.ui.graphicImage.GraphicImageStore;
 import org.jboss.seam.ui.graphicImage.GraphicImageStore.ImageWrapper;
+import org.jboss.seam.ui.graphicImage.Image.Type;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.Plot;

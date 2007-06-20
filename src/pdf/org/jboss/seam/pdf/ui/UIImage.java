@@ -121,7 +121,7 @@ public class UIImage
         value = valueBinding(context, "value", value);        
               
         // instance() doesn't work here - we need a new instance           
-        org.jboss.seam.core.Image seamImage = new org.jboss.seam.core.Image();  
+        org.jboss.seam.ui.graphicImage.Image seamImage = new org.jboss.seam.ui.graphicImage.Image();  
         try {            
             if (value instanceof BufferedImage) {
                 seamImage.setBufferedImage((BufferedImage)value);

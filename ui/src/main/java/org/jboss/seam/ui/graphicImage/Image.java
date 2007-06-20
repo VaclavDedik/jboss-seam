@@ -1,4 +1,4 @@
-package org.jboss.seam.core;
+package org.jboss.seam.ui.graphicImage;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -38,8 +38,7 @@ import org.jboss.seam.util.Resources;
  * @author pmuir
  * 
  */
-@Name("org.jboss.seam.core.image")
-@Scope(ScopeType.CONVERSATION)
+@Name("org.jboss.seam.graphicImage.image")
 @Install(precedence = Install.BUILT_IN)
 @Intercept(InterceptionType.NEVER)
 public class Image implements Serializable

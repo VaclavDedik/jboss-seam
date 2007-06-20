@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import javax.faces.component.UIComponentBase;
 
-import org.jboss.seam.core.Image;
 
 public abstract class UITransformImageSize extends UIComponentBase implements ImageTransform
 {

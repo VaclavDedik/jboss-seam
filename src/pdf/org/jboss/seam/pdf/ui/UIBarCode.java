@@ -11,11 +11,11 @@ import javax.faces.context.ResponseWriter;
 import javax.imageio.ImageIO;
 
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.core.Image.Type;
 import org.jboss.seam.pdf.ui.ITextComponent;
 import org.jboss.seam.ui.graphicImage.GraphicImageResource;
 import org.jboss.seam.ui.graphicImage.GraphicImageStore;
 import org.jboss.seam.ui.graphicImage.GraphicImageStore.ImageWrapper;
+import org.jboss.seam.ui.graphicImage.Image.Type;
 
 import com.lowagie.text.Image;
 import com.lowagie.text.pdf.*;
