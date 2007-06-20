@@ -12,7 +12,6 @@ import javax.faces.component.UIData;
 import javax.faces.component.UIOutput;
 import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
-import javax.faces.el.MethodBinding;
 import javax.faces.event.ActionListener;
 import javax.faces.model.DataModel;
 
@@ -58,13 +57,12 @@ public abstract class UISeamCommandBase extends UIOutput implements ActionSource
             url.addParameter(uip);
          }
       }
-
-      MethodBinding action = getAction();
-      if (action != null)
+      
+      if (getAction() != null)
       {
 
          UIAction uiAction = new UIAction();
-         uiAction.setAction(action.getExpressionString());
+         uiAction.setAction(getAction().getExpressionString());
          url.addParameter(uiAction);
       }
 
@@ -163,19 +161,17 @@ public abstract class UISeamCommandBase extends UIOutput implements ActionSource
 
    public void removeActionListener(ActionListener listener)
    {
-      // TODO Auto-generated method stub
-
+      throw new UnsupportedOperationException("Action listeners not supported by s:link/s:button");
    }
 
    public ActionListener[] getActionListeners()
    {
-      // TODO Auto-generated method stub
-      return null;
+      throw new UnsupportedOperationException("Action listeners not supported by s:link/s:button");
    }
 
    public void addActionListener(ActionListener listener)
    {
-      // TODO Auto-generated method stub
+      throw new UnsupportedOperationException("Action listeners not supported by s:link/s:button");
 
    }
 

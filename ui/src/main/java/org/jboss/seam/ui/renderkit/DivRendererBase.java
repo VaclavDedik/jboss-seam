@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import javax.faces.context.ResponseWriter;
 
-import org.jboss.seam.ui.component.UIDiv;
 import org.jboss.seam.ui.component.UIStyle;
 
 public class DivRendererBase extends StyleRendererBase
@@ -13,7 +12,7 @@ public class DivRendererBase extends StyleRendererBase
    @Override
    protected Class getComponentClass()
    {
-      return UIDiv.class;
+      return UIStyle.class;
    }
 
    @Override

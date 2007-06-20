@@ -40,7 +40,7 @@ public class ValidateAllRendererBase extends RendererBase
          if (child instanceof EditableValueHolder)
          {
             EditableValueHolder evh =  (EditableValueHolder) child;
-            if ( evh.getValidators().length==0 && evh.getValidator()==null )
+            if ( evh.getValidators().length==0 && evh.getValidators().length == 0 )
             {
                evh.addValidator( new ModelValidator() );
             }

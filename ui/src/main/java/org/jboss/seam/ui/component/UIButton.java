@@ -27,10 +27,6 @@ package org.jboss.seam.ui.component;
  *
  */
 public abstract class UIButton extends UISeamCommandBase  {
-	
-	private static final String COMPONENT_TYPE = "org.jboss.seam.ui.Button";
-	
-	private static final String COMPONENT_FAMILY = "org.jboss.seam.ui.Button";
    
 	public abstract String getStyleClass();
    

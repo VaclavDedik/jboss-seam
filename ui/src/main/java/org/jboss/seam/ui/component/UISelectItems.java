@@ -43,10 +43,6 @@ import org.jboss.seam.ui.converter.NoSelectionConverter;
  *
  */
 public abstract class UISelectItems extends javax.faces.component.UISelectItems {
-	
-	private static final String COMPONENT_TYPE = "org.jboss.seam.ui.SelectItems";
-	
-	private static final String COMPONENT_FAMILY = "javax.faces.SelectItems";
    
    private Object value;
    

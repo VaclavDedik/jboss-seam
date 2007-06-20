@@ -30,16 +30,6 @@ import javax.faces.component.UIComponentBase;
  */
 public abstract class UICache extends UIComponentBase
 {
-
-   private static final String COMPONENT_TYPE = "org.jboss.seam.ui.Cache";
-
-   private static final String COMPONENT_FAMILY = "org.jboss.seam.ui.Cache";
-   
-   @Override
-   public String getFamily()
-   {
-      return COMPONENT_FAMILY;
-   }
    
    public abstract boolean isEnabled();
    

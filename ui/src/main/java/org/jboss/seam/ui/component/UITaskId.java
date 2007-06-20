@@ -35,8 +35,6 @@ public abstract class UITaskId extends UIParameter {
 	
 	private static final String COMPONENT_TYPE = "org.jboss.seam.ui.TaskId";
 	
-	private static final String COMPONENT_FAMILY = "org.jboss.seam.ui.TaskId";
-	
    @Override
    public String getName()
    {

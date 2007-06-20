@@ -24,10 +24,6 @@ public abstract class UIFileUpload extends UIInput
 
    private InputStream localInputStream;
 
-   private static final String COMPONENT_TYPE = "org.jboss.seam.ui.FileUpload";
-
-   private static final String COMPONENT_FAMILY = "org.jboss.seam.ui.FileUpload";
-
    @Override
    public void processUpdates(FacesContext context)
    {

@@ -36,10 +36,7 @@ import org.jboss.seam.navigation.Pages;
  */
 public abstract class UIConversationId extends UIParameter {
 	
-	private static final String COMPONENT_TYPE = "org.jboss.seam.ui.ConversationId";
-	
-	private static final String COMPONENT_FAMILY = "org.jboss.seam.ui.ConversationId";
-   
+	private static final String COMPONENT_TYPE = "org.jboss.seam.ui.ConversationId";   
    
    @Override
    public String getName()
@@ -79,7 +76,7 @@ public abstract class UIConversationId extends UIParameter {
       }
    }
 
-   public abstract String getViewId();;
+   public abstract String getViewId();
 
    public abstract void setViewId(String viewId);
    

@@ -27,8 +27,6 @@ import org.jboss.seam.contexts.Contexts;
 
 public class DateTimeConverter extends javax.faces.convert.DateTimeConverter{
 	
-	private static final String CONVERTER_ID = "org.jboss.seam.ui.DateTimeConverter";
-	
    public DateTimeConverter()
    {
       setTimeZone( getTimeZone() );

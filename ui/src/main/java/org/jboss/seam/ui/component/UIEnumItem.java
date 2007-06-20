@@ -11,10 +11,6 @@ import javax.faces.model.SelectItem;
 public abstract class UIEnumItem extends UISelectItem
 {
 
-   private static final String COMPONENT_TYPE = "org.jboss.seam.ui.EnumItem";
-
-   private static final String COMPONENT_FAMILY = "org.jboss.seam.ui.EnumItem";
-
    public abstract String getEnumValue();
 
    public abstract void setEnumValue(String enumValue);

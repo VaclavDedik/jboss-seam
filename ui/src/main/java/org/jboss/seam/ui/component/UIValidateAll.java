@@ -9,10 +9,7 @@ import javax.faces.component.UIComponentBase;
 public abstract class UIValidateAll extends UIComponentBase
 {
 
-   private static final String COMPONENT_TYPE = "org.jboss.seam.ui.ValidateAll";
-
-   private static final String COMPONENT_FAMILY = "org.jboss.seam.ui.ValidateAll";
-
+   // TODO Make this a hidden=true, el=false property in validateAll.xml
    private boolean validatorsAdded = false;
 
    public boolean isValidatorsAdded()

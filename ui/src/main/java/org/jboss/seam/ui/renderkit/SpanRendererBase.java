@@ -4,8 +4,6 @@ import java.io.IOException;
 
 import javax.faces.context.ResponseWriter;
 
-import org.jboss.seam.ui.component.UIDiv;
-import org.jboss.seam.ui.component.UISpan;
 import org.jboss.seam.ui.component.UIStyle;
 
 public class SpanRendererBase extends StyleRendererBase
@@ -14,7 +12,7 @@ public class SpanRendererBase extends StyleRendererBase
    @Override
    protected Class getComponentClass()
    {
-      return UISpan.class;
+      return UIStyle.class;
    }
 
    @Override

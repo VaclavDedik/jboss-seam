@@ -31,8 +31,6 @@ import javax.faces.context.FacesContext;
 public abstract class UIConversationPropagation extends UIParameter {
 	
 	private static final String COMPONENT_TYPE = "org.jboss.seam.ui.ConversationPropagation";
-	
-	private static final String COMPONENT_FAMILY = "org.jboss.seam.ui.ConversationPropagation";
    
    @Override
    public String getName()

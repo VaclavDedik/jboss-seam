@@ -5,7 +5,7 @@
 		<name>org.jboss.seam.ui.Span</name>
 		<family>org.jboss.seam.ui.Span</family>
 		<classname>org.jboss.seam.ui.component.html.HtmlSpan</classname>
-		<superclass>org.jboss.seam.ui.component.UISpan</superclass>
+		<superclass>org.jboss.seam.ui.component.UIStyle</superclass>
 		<description>
 			<![CDATA[Render a HTML <span>]]>
 		</description>

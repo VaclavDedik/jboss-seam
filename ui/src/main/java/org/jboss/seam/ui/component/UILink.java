@@ -27,10 +27,6 @@ package org.jboss.seam.ui.component;
  *
  */
 public abstract class UILink extends UISeamCommandBase {
-	
-	private static final String COMPONENT_TYPE = "org.jboss.seam.ui.Link";
-	
-	private static final String COMPONENT_FAMILY = "org.jboss.seam.ui.Link";
    
    public abstract String getStyleClass();
    

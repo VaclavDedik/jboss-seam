@@ -5,7 +5,7 @@
 		<name>org.jboss.seam.ui.Div</name>
 		<family>org.jboss.seam.ui.Div</family>
 		<classname>org.jboss.seam.ui.component.html.HtmlDiv</classname>
-		<superclass>org.jboss.seam.ui.component.UIDiv</superclass>
+		<superclass>org.jboss.seam.ui.component.UIStyle</superclass>
 		<description>
 			<![CDATA[Render a HTML <div>.]]>
 		</description>

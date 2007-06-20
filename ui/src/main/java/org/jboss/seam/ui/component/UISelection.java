@@ -34,8 +34,6 @@ import org.jboss.seam.contexts.Contexts;
 public abstract class UISelection extends UIParameter {
 	
 	private static final String COMPONENT_TYPE = "org.jboss.seam.ui.Selection";
-	
-	private static final String COMPONENT_FAMILY = "org.jboss.seam.ui.Selection";
    
    @Override
    public String getName()
