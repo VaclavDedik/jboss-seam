@@ -2,7 +2,6 @@ package org.jboss.seam.async;
 
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
-import java.io.Serializable;
 import java.rmi.server.UID;
 import java.util.Date;
 
@@ -13,6 +12,7 @@ import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -36,11 +36,13 @@ import org.quartz.SimpleTrigger;
 @Scope(ScopeType.APPLICATION)
 @Name("org.jboss.seam.async.dispatcher")
 @Install(value=false, precedence=BUILT_IN)
-public class QuartzDispatcher extends AbstractDispatcher<QuartzDispatcher.QuartzTriggerHandle, Schedule>
+@BypassInterceptors
+public class QuartzDispatcher extends AbstractDispatcher<QuartzTriggerHandle, Schedule>
 {
    
    private static final LogProvider log = Logging.getLogProvider(QuartzDispatcher.class);
-   private static Scheduler scheduler;
+   
+   private Scheduler scheduler;
 
    @Create
    public void initScheduler() 
@@ -225,7 +227,7 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzDispatcher.Quartz
       
    }
    
-   public static class QuartzJob implements Job
+   static class QuartzJob implements Job
    {
       private Asynchronous async;
       
@@ -241,34 +243,15 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzDispatcher.Quartz
          log.info("End executing Quartz job");
       }
    }
-   
-   public static class QuartzTriggerHandle implements Serializable
-   {
-      private String triggerName;
-        
-      public QuartzTriggerHandle(String triggerName) 
-      {
-         this.triggerName = triggerName; 
-      }
 
-      public void cancel() throws SchedulerException
-      {
-         log.info("Cancel executing Quartz job");
-         scheduler.unscheduleJob(triggerName, null);
-      }
-      
-      public void pause() throws SchedulerException
-      {
-         log.info("Pause executing Quartz job");
-         scheduler.pauseTrigger(triggerName, null);
-         
-      }
-      
-      public void resume() throws SchedulerException
-      {
-         log.info("Resume executing Quartz job");
-         scheduler.resumeTrigger(triggerName, null);
-      }
+   public Scheduler getScheduler()
+   {
+      return scheduler;
+   }
+
+   public static QuartzDispatcher instance()
+   {
+      return (QuartzDispatcher) AbstractDispatcher.instance();
    }
 
 }
