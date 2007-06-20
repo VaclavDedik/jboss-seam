@@ -190,14 +190,14 @@ public class RootInterceptor implements Serializable
    private String getInterceptionMessage(InvocationContext invocation, EventType eventType)
    {
       return getComponent().getName() + '.' + 
-            (eventType==EventType.AROUND_INVOKE ? invocation.getMethod().getName() : eventType );
+            ( eventType==EventType.AROUND_INVOKE ? invocation.getMethod().getName() : eventType );
    }
 
    private boolean isProcessInterceptors(Method method)
    {
       return isSeamComponent && 
             getComponent().isInterceptionEnabled() &&
-            !method.isAnnotationPresent(BypassInterceptors.class);
+            ( method==null || !method.isAnnotationPresent(BypassInterceptors.class) );
    }
    
    protected Component getComponent()
