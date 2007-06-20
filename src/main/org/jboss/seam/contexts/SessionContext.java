@@ -53,4 +53,10 @@ public class SessionContext extends BasicContext
       }      
    }
   
+   @Override
+   public String toString()
+   {
+      return "SessionContext";
+   }
+
 }

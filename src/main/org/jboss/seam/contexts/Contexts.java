@@ -6,9 +6,17 @@
  */
 package org.jboss.seam.contexts;
 
+import static org.jboss.seam.InterceptionType.NEVER;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
+
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.Component;
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Install;
+import org.jboss.seam.annotations.Intercept;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.core.Events;
 
 /**
@@ -16,8 +24,11 @@ import org.jboss.seam.core.Events;
  * 
  * @author Gavin King
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
- * @version $Revision$
  */
+@Name("org.jboss.seam.contexts.contexts")
+@Intercept(NEVER)
+@Install(precedence=BUILT_IN)
+@Scope(ScopeType.APPLICATION)
 public class Contexts 
 {
 

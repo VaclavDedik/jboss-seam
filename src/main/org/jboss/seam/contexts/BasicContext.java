@@ -80,4 +80,10 @@ public class BasicContext implements Context
 
    public void flush() {}
 
+   @Override
+   public String toString()
+   {
+      return "BasicContext(" + scope + ")";
+   }
+
 }
