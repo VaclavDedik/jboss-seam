@@ -10,7 +10,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.core.BusinessProcess;
+import org.jboss.seam.bpm.BusinessProcess;
 import org.jboss.seam.core.Renderer;
 import org.jboss.seam.log.Log;
 
