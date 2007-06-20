@@ -1,23 +1,31 @@
 /*
- * JBoss, Home of Professional Open Source
- *
- * Distributable under LGPL license.
- * See terms of license at gnu.org.
- */
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.contexts;
 
 import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
-import org.jboss.seam.log.LogProvider;
-import org.jboss.seam.log.Logging;
+import java.util.Map;
+
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.bpm.BusinessProcess;
 import org.jboss.seam.core.Events;
+import org.jboss.seam.core.Init;
+import org.jboss.seam.core.Manager;
+import org.jboss.seam.core.Mutable;
+import org.jboss.seam.core.ServletSession;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
+import org.jboss.seam.transaction.Transaction;
 
 /**
  * Provides access to the current contexts associated with the thread.
@@ -112,6 +120,9 @@ public class Contexts
         return businessProcessContext.get() != null;
     }
    
+    /**
+     * Remove the named component from all contexts.
+     */
    public static void removeFromAllContexts(String name)
    {
       log.debug("removing from all contexts: " + name);
@@ -145,6 +156,13 @@ public class Contexts
       }
    }
 
+   /**
+    * Search for a named attribute in all contexts, in the
+    * following order: method, event, page, conversation,
+    * session, business process, application.
+    * 
+    * @return the first component found, or null
+    */
    public static Object lookupInStatefulContexts(String name)
    {
       if (isMethodContextActive())
@@ -167,7 +185,7 @@ public class Contexts
          }
       }
       
-      if ( isPageContextActive() && Lifecycle.getPhaseId()!=null ) // phase id is null when third-party phase listeners try to do stuff
+      if ( isPageContextActive() )
       {
          Object result = getPageContext().get(name);
          if (result!=null)
@@ -221,6 +239,9 @@ public class Contexts
       
    }
    
+   /**
+    * Destroy all components in the given context
+    */
    public static void destroy(Context context)
    {
       if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.preDestroyContext." + context.getType().toString());
@@ -251,4 +272,166 @@ public class Contexts
       if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.postDestroyContext." + context.getType().toString());
    }
    
+   /**
+    * Startup all @Startup components in the given scope
+    */
+   static void startup(ScopeType scopeType)
+   {
+      Context context = Contexts.getApplicationContext();
+      for ( String name: context.getNames() )
+      {
+         Object object = context.get(name);
+         if ( object!=null && (object instanceof Component) )
+         {
+            Component component = (Component) object;
+            if ( component.isStartup() && component.getScope()==scopeType )
+            {
+               startup(component);
+            }
+         }
+      }
+   }
+
+   /**
+    * Startup a component and all its dependencies
+    */
+   static void startup(Component component)
+   {
+      if ( component.isStartup() )
+      {
+         for ( String dependency: component.getDependencies() )
+         {
+            Component dependentComponent = Component.forName(dependency);
+            if (dependentComponent!=null)
+            {
+               startup(dependentComponent);
+            }
+         }
+      }
+
+      if ( !component.getScope().getContext().isSet( component.getName() ) ) 
+      {
+         log.info( "starting up: " + component.getName() );
+         component.newInstance();
+      }
+   }
+
+   /**
+    * Does this context attribute need to be force-replicated?
+    */
+   static boolean isAttributeDirty(Object attribute)
+   {
+      return attribute instanceof Mutable && ( (Mutable) attribute ).clearDirty();
+   }
+
+   /**
+    * At the end of a request, flush all contexts to their underlying
+    * persistent stores, or destroy their attributes (one or the other!).
+    */
+   static void flushAndDestroyContexts()
+   {
+   
+      if ( isConversationContextActive() )
+      {
+   
+         if ( isBusinessProcessContextActive() )
+         {
+            boolean transactionActive = false;
+            try
+            {
+               transactionActive = Transaction.instance().isActive();
+            }
+            catch (Exception e)
+            {
+               log.error("could not discover transaction status");
+            }
+            if (transactionActive)
+            {
+               //in calls to MDBs and remote calls to SBs, the 
+               //transaction doesn't commit until after contexts
+               //are destroyed, so pre-emptively flush here:
+               getBusinessProcessContext().flush();
+            }
+            
+            //TODO: it would be nice if BP context spanned redirects along with the conversation
+            //      this would also require changes to BusinessProcessContext
+            boolean destroyBusinessProcessContext = !Init.instance().isJbpmInstalled() ||
+                  !BusinessProcess.instance().hasActiveProcess();
+            if (destroyBusinessProcessContext)
+            {
+               //TODO: note that this occurs from Lifecycle.endRequest(), after
+               //      the Seam-managed txn was committed, but Contexts.destroy()
+               //      calls BusinessProcessContext.getNames(), which hits the
+               //      database!
+               log.debug("destroying business process context");
+               destroy( getBusinessProcessContext() );
+            }
+         }
+   
+         if ( !Manager.instance().isLongRunningConversation() )
+         {
+            log.debug("destroying conversation context");
+            destroy( getConversationContext() );
+         }
+         if ( !Init.instance().isClientSideConversations() )
+         {
+            //note that we need to flush even if the session is
+            //about to be invalidated, since we still need
+            //to destroy the conversation context in endSession()
+            log.debug("flushing server-side conversation context");
+            getConversationContext().flush();
+         }
+   
+         //uses the event and session contexts
+         if ( ServletSession.getInstance()!=null )
+         {
+            Manager.instance().unlockConversation();
+         }
+   
+      }
+      
+      if ( isSessionContextActive() )
+      {
+         log.debug("flushing session context");
+         getSessionContext().flush();
+      }
+      
+      //destroy the event context after the
+      //conversation context, since we need
+      //the manager to flush() conversation
+      if ( isEventContextActive() )
+      {
+         log.debug("destroying event context");
+         destroy( getEventContext() );
+      }
+   
+   }
+
+   /**
+    * Destroy a conversation context that is not currently bound to the request, called 
+    * due to a timeout.
+    * 
+    * @param session the current session, to which both current and destroyed conversation belong
+    * @param conversationId the conversation id of the conversation to be destroyed
+    */
+   static void destroyConversationContext(Map<String, Object> session, String conversationId)
+   {
+      Context current = getConversationContext();
+      ServerConversationContext temp = new ServerConversationContext(session, conversationId);
+      conversationContext.set(temp);
+      try
+      {
+         destroy(temp);
+         if ( !ServletSession.instance().isInvalid() ) //its also unnecessary during a session timeout
+         {
+            temp.clear();
+            temp.flush();
+         }
+      }
+      finally
+      {
+         conversationContext.set(current);
+      }
+   }
+
 }

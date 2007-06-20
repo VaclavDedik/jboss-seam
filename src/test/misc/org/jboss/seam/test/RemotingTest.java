@@ -31,6 +31,7 @@ import org.dom4j.DocumentFactory;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.init.Initialization;
 import org.jboss.seam.mock.MockServletContext;
 import org.jboss.seam.remoting.CallContext;
@@ -724,8 +725,8 @@ public class RemotingTest
    {
       // Initialize Seam
       MockServletContext servletContext = new MockServletContext();
+      ServletLifecycle.beginApplication(servletContext);
       new Initialization(servletContext).init();
-      Lifecycle.setServletContext(servletContext);
 
       try
       {

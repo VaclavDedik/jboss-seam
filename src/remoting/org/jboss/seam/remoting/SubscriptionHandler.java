@@ -5,8 +5,6 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.event.PhaseId;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,6 +12,7 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.remoting.messaging.RemoteSubscriber;
 import org.jboss.seam.remoting.messaging.SubscriptionRegistry;
@@ -26,14 +25,6 @@ import org.jboss.seam.web.ServletContexts;
  */
 public class SubscriptionHandler extends BaseRequestHandler implements RequestHandler
 {
-
-  private ServletContext servletContext;
-
-  @Override
-  public void setServletContext(ServletContext ctx)
-  {
-    this.servletContext = ctx;
-  }
 
   /**
    * The entry point for handling a request.
@@ -64,14 +55,13 @@ public class SubscriptionHandler extends BaseRequestHandler implements RequestHa
       requests.add(new SubscriptionRequest(e.attributeValue("topic")));
     }
 
+    ServletLifecycle.beginRequest(request);
     try
     {
-      Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
-      Lifecycle.beginRequest(servletContext, request);
       ServletContexts.instance().setRequest(request);
 
       Manager.instance().initializeTemporaryConversation();
-      Lifecycle.resumeConversation(request);
+      ServletLifecycle.resumeConversation(request);
 
       for (SubscriptionRequest req : requests)
       {
@@ -100,7 +90,6 @@ public class SubscriptionHandler extends BaseRequestHandler implements RequestHa
     finally
     {
       Lifecycle.endRequest();
-      Lifecycle.setPhaseId(null);
     }
 
     // Package up the response

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -38,14 +37,6 @@ public class ExecutionHandler extends BaseRequestHandler implements RequestHandl
   private static final byte[] CONTEXT_TAG_OPEN = "<context>".getBytes();
   private static final byte[] CONTEXT_TAG_CLOSE = "</context>".getBytes();
 
-  private ServletContext servletContext;
-
-  @Override
-  public void setServletContext(ServletContext ctx)
-  {
-    this.servletContext = ctx;
-  }
-
   /**
    * The entry point for handling a request.
    *
@@ -66,7 +57,7 @@ public class ExecutionHandler extends BaseRequestHandler implements RequestHandl
       final RequestContext ctx = unmarshalContext(env);
       final List<Call> calls = unmarshalCalls(env);
 
-      new ContextualHttpServletRequest(request, servletContext)
+      new ContextualHttpServletRequest(request)
       {
          
          @Override

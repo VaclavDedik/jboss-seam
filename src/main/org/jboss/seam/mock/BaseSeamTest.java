@@ -30,7 +30,9 @@ import org.jboss.embedded.Bootstrap;
 import org.jboss.seam.Component;
 import org.jboss.seam.Model;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.contexts.FacesLifecycle;
+import org.jboss.seam.contexts.ServletLifecycle;
+import org.jboss.seam.contexts.TestLifecycle;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
@@ -147,14 +149,14 @@ public class BaseSeamTest
       
       public void run() throws Exception
       {
-         Lifecycle.beginTest( servletContext, new ServletSessionMap(session) );
+         TestLifecycle.beginTest( servletContext, new ServletSessionMap(session) );
          try
          {
             testComponents();
          }
          finally
          {
-            Lifecycle.endTest();
+            TestLifecycle.endTest();
          }
       }
    }
@@ -491,7 +493,7 @@ public class BaseSeamTest
          {
             if (Contexts.isEventContextActive())
             {
-               Lifecycle.endRequest(externalContext);
+               FacesLifecycle.endRequest(externalContext);
             }
          }
 
@@ -832,11 +834,12 @@ public class BaseSeamTest
    public void begin()
    {
       session = new MockHttpSession(servletContext);
+      ServletLifecycle.beginSession(session);
    }
 
    public void end()
    {
-      Lifecycle.endSession( servletContext, new ServletSessionMap(session) );
+      ServletLifecycle.endSession(session);
       session = null;
    }
 
@@ -849,7 +852,7 @@ public class BaseSeamTest
 
       servletContext = new MockServletContext();
       initServletContext( servletContext.getInitParameters() );
-      Lifecycle.setServletContext(servletContext);
+      ServletLifecycle.beginApplication(servletContext);
       new Initialization(servletContext).create().init();
 
       conversationViewRootAttributes = new HashMap<String, Map>();
@@ -857,7 +860,7 @@ public class BaseSeamTest
 
    public void cleanup() throws Exception
    {
-      Lifecycle.endApplication(servletContext);
+      ServletLifecycle.endApplication();
       conversationViewRootAttributes = null;
    }
 

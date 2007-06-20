@@ -17,7 +17,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -53,14 +52,6 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
    */
   private Map<String,byte[]> interfaceCache = new HashMap<String,byte[]>();
 
-  private ServletContext servletContext;
-
-  @Override
-  public void setServletContext(ServletContext ctx)
-  {
-    this.servletContext = ctx;
-  }
-
   /**
    *
    * @param request HttpServletRequest
@@ -70,7 +61,7 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
   public void handle(final HttpServletRequest request, final HttpServletResponse response)
       throws Exception
   {
-     new ContextualHttpServletRequest(request, servletContext)
+     new ContextualHttpServletRequest(request)
      {
         @Override
         public void process() throws Exception

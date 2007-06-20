@@ -25,7 +25,7 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
-import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.contexts.FacesLifecycle;
 import org.jboss.seam.exceptions.Exceptions;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -67,10 +67,11 @@ public class ExceptionFilter extends AbstractFilter
          log.error( "exception root cause", EJB.getCause(e) );
          endWebRequestAfterException( (HttpServletRequest) request, (HttpServletResponse) response, e);
       }
-      finally
+      //should we put this back in? why, who cares if its not cleaned up?
+      /*finally
       {
-         Lifecycle.setPhaseId(null);
-      }
+         Lifecycle.clearPhaseId();
+      }*/
    }
    
    protected void endWebRequestAfterException(HttpServletRequest request, HttpServletResponse response, Exception e) 
@@ -80,7 +81,7 @@ public class ExceptionFilter extends AbstractFilter
       //the FacesContext is gone - create a fake one for Redirect and HttpError to call
       MockFacesContext facesContext = createFacesContext(request, response);
       facesContext.setCurrent();
-      Lifecycle.beginExceptionRecovery( facesContext.getExternalContext() );
+      FacesLifecycle.beginExceptionRecovery( facesContext.getExternalContext() );
       try
       {
          rollbackTransactionIfNecessary();
@@ -102,7 +103,7 @@ public class ExceptionFilter extends AbstractFilter
       {
          try 
          {
-            Lifecycle.endRequest( facesContext.getExternalContext() );
+            FacesLifecycle.endRequest( facesContext.getExternalContext() );
             facesContext.release();
             log.debug("ended request");
          }

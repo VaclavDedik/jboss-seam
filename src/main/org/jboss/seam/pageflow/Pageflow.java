@@ -20,7 +20,7 @@ import org.jboss.seam.annotations.PerNestedConversation;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.bpm.Jbpm;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.contexts.FacesLifecycle;
 import org.jboss.seam.core.AbstractMutable;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.faces.FacesManager;
@@ -405,7 +405,7 @@ public class Pageflow extends AbstractMutable implements Serializable
    private void storePageflowToViewRootIfNecessary()
    {
       FacesContext facesContext = FacesContext.getCurrentInstance();
-      if ( facesContext!=null && Lifecycle.getPhaseId()==PhaseId.RENDER_RESPONSE )
+      if ( facesContext!=null && FacesLifecycle.getPhaseId()==PhaseId.RENDER_RESPONSE )
       {
          FacesPage.instance().storePageflow();
       }

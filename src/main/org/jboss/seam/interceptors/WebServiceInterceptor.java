@@ -12,6 +12,7 @@ import org.jboss.seam.annotations.ConversationId;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.core.ConversationPropagation;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Manager;
@@ -35,31 +36,24 @@ public class WebServiceInterceptor extends AbstractInterceptor
    {
       if (Contexts.isEventContextActive() && Contexts.getEventContext().isSet(SeamWSRequestHandler.MESSAGE_CONTEXT))
       {
-         try
-         {
-            MessageContext messageContext = (MessageContext) Contexts.getEventContext().get(
-                     SeamWSRequestHandler.MESSAGE_CONTEXT);
-            HttpServletRequest request = (HttpServletRequest) messageContext.get(
-                     MessageContext.SERVLET_REQUEST);
-            ServletContexts.instance().setRequest(request);
-            
-            ConversationPropagation.instance().setConversationId( extractConversationId(invocation) );
-            
-            Manager.instance().restoreConversation();
-            Lifecycle.resumeConversation(request);    
-            
-            Object result = invocation.proceed();
-            
-            messageContext.put("org.jboss.seam.conversationId", Manager.instance().getCurrentConversationId());
-            Manager.instance().endRequest( new ServletRequestSessionMap(request) );
-            Lifecycle.endRequest();        
-            
-            return result;
-         }
-         finally
-         {
-            Lifecycle.setPhaseId(null);         
-         }
+         MessageContext messageContext = (MessageContext) Contexts.getEventContext().get(
+                  SeamWSRequestHandler.MESSAGE_CONTEXT);
+         HttpServletRequest request = (HttpServletRequest) messageContext.get(
+                  MessageContext.SERVLET_REQUEST);
+         ServletContexts.instance().setRequest(request);
+         
+         ConversationPropagation.instance().setConversationId( extractConversationId(invocation) );
+         
+         Manager.instance().restoreConversation();
+         ServletLifecycle.resumeConversation(request);    
+         
+         Object result = invocation.proceed();
+         
+         messageContext.put("org.jboss.seam.conversationId", Manager.instance().getCurrentConversationId());
+         Manager.instance().endRequest( new ServletRequestSessionMap(request) );
+         Lifecycle.endRequest();        
+         
+         return result;
       }
       else
       {

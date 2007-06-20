@@ -15,7 +15,7 @@ import org.xml.sax.InputSource;
  * @author Tom Baeyens
  *
  */
-class PageflowParser extends JpdlXmlReader 
+public class PageflowParser extends JpdlXmlReader 
 {
 
   private static final long serialVersionUID = 1L;

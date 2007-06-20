@@ -14,7 +14,8 @@ import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.ApplicationContext;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.contexts.FacesLifecycle;
+import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.core.ConversationEntries;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Init;
@@ -40,6 +41,7 @@ public class InterceptorTest
    public void testBijectionInterceptor() throws Exception
    {
       MockServletContext servletContext = new MockServletContext();
+      ServletLifecycle.beginApplication(servletContext);
       MockExternalContext externalContext = new MockExternalContext(servletContext);
       Context appContext = new ApplicationContext( externalContext.getApplicationMap() );
       appContext.set( Seam.getComponentName(Init.class), new Init() );
@@ -60,10 +62,10 @@ public class InterceptorTest
             new Component(Factory.class, appContext) 
          );
 
-      Lifecycle.beginRequest( externalContext );
+      FacesLifecycle.beginRequest(externalContext);
       Manager.instance().setCurrentConversationId("1");
-      Lifecycle.resumeConversation( externalContext );
-      Lifecycle.setPhaseId(PhaseId.RENDER_RESPONSE);
+      FacesLifecycle.resumeConversation(externalContext);
+      FacesLifecycle.setPhaseId(PhaseId.RENDER_RESPONSE);
       
       final Bar bar = new Bar();
       final Foo foo = new Foo();
@@ -231,13 +233,14 @@ public class InterceptorTest
       assert "success".equals(result);
       assert Contexts.getConversationContext().get("name").equals("Gavin King");
 
-      Lifecycle.endApplication(servletContext);
+      ServletLifecycle.endApplication();
    }
    
    @Test
    public void testConversationInterceptor() throws Exception
    {
       MockServletContext servletContext = new MockServletContext();
+      ServletLifecycle.beginApplication(servletContext);
       MockExternalContext externalContext = new MockExternalContext(servletContext);
       Context appContext = new ApplicationContext( externalContext.getApplicationMap() );
       appContext.set( Seam.getComponentName(Init.class), new Init() );
@@ -253,9 +256,9 @@ public class InterceptorTest
             Seam.getComponentName(Manager.class) + ".component", 
             new Component(Manager.class, appContext) 
          );
-      Lifecycle.beginRequest( externalContext );
+      FacesLifecycle.beginRequest( externalContext );
       Manager.instance().setCurrentConversationId("1");
-      Lifecycle.resumeConversation(externalContext);
+      FacesLifecycle.resumeConversation(externalContext);
 
       ConversationInterceptor ci = new ConversationInterceptor();
       ci.setComponent( new Component(Foo.class, appContext) );
@@ -488,13 +491,14 @@ public class InterceptorTest
       assert !Manager.instance().isLongRunningConversation();
       assert "success".equals(result);
 
-      Lifecycle.endApplication(servletContext);
+      ServletLifecycle.endApplication();
    }
    
    @Test
    public void testConversationalInterceptor() throws Exception
    {
       MockServletContext servletContext = new MockServletContext();
+      ServletLifecycle.beginApplication(servletContext);
       MockExternalContext externalContext = new MockExternalContext(servletContext);
       Context appContext = new ApplicationContext( externalContext.getApplicationMap() );
       appContext.set( Seam.getComponentName(Init.class), new Init() );
@@ -514,10 +518,10 @@ public class InterceptorTest
                Seam.getComponentName(Events.class) + ".component", 
                new Component(Events.class, appContext) 
             );
-      Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
-      Lifecycle.beginRequest( externalContext );
+      FacesLifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
+      FacesLifecycle.beginRequest( externalContext );
       Manager.instance().setCurrentConversationId("1");
-      Lifecycle.resumeConversation(externalContext);
+      FacesLifecycle.resumeConversation(externalContext);
       
       ConversationalInterceptor ci = new ConversationalInterceptor();
       ci.setComponent( new Component(Bar.class, appContext) );
@@ -604,7 +608,7 @@ public class InterceptorTest
       //assert !Manager.instance().isLongRunningConversation();
       assert "ended".equals(result);
       
-      Lifecycle.endApplication(servletContext);
+      ServletLifecycle.endApplication();
       
    }
    
@@ -612,6 +616,7 @@ public class InterceptorTest
    public void testValidationInterceptor() throws Exception
    {
       MockServletContext servletContext = new MockServletContext();
+      ServletLifecycle.beginApplication(servletContext);
       ExternalContext externalContext = new MockExternalContext(servletContext);
       new MockFacesContext( externalContext, new MockApplication() ).setCurrent().createViewRoot();
       
@@ -633,10 +638,10 @@ public class InterceptorTest
             Seam.getComponentName(Interpolator.class) + ".component", 
             new Component(Interpolator.class, appContext)
          );
-      Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
-      Lifecycle.beginRequest(externalContext);
+      FacesLifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
+      FacesLifecycle.beginRequest(externalContext);
       Manager.instance().setCurrentConversationId("1");
-      Lifecycle.resumeConversation(externalContext);
+      FacesLifecycle.resumeConversation(externalContext);
       
       ValidationInterceptor vi = new ValidationInterceptor();
       vi.setComponent( new Component(Foo.class, appContext) );
@@ -715,13 +720,14 @@ public class InterceptorTest
       
       assert "bar".equals(result);
       
-      Lifecycle.endApplication(servletContext);
+      ServletLifecycle.endApplication();
    }
    
    @Test 
    public void testRemoveInterceptor() throws Exception
    {
       MockServletContext servletContext = new MockServletContext();
+      ServletLifecycle.beginApplication(servletContext);
       MockExternalContext externalContext = new MockExternalContext(servletContext);
       Context appContext = new ApplicationContext( externalContext.getApplicationMap() );
       appContext.set( Seam.getComponentName(Init.class), new Init() );
@@ -734,7 +740,7 @@ public class InterceptorTest
             new Component(Manager.class, appContext) 
          );
 
-      Lifecycle.beginRequest( externalContext );
+      FacesLifecycle.beginRequest( externalContext );
       Contexts.getSessionContext().set( "foo", new Foo() );
       
       RemoveInterceptor ri = new RemoveInterceptor();
@@ -760,7 +766,7 @@ public class InterceptorTest
       
       assert !Contexts.getSessionContext().isSet("foo");
       
-      Lifecycle.endApplication(servletContext);
+      ServletLifecycle.endApplication();
    }
 
    static Method getMethod(String name)

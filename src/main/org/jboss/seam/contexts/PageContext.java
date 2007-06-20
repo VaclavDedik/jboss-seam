@@ -7,6 +7,7 @@
 package org.jboss.seam.contexts;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -73,8 +74,15 @@ public class PageContext implements Context
    
    private Map<String, Object> getCurrentReadableMap()
    {
-      return isRenderResponsePhase() ?
-            nextPageMap : previousPageMap;
+      if ( !isInPhase() )
+      {
+         return Collections.EMPTY_MAP;
+      }
+      else
+      {
+         return isRenderResponsePhase() ?
+               nextPageMap : previousPageMap;
+      }
    }
 
    private Map<String, Object> getCurrentWritableMap()
@@ -148,12 +156,17 @@ public class PageContext implements Context
 
    private static PhaseId getPhaseId()
    {
-      Object phaseId = Lifecycle.getPhaseId();
+      PhaseId phaseId = FacesLifecycle.getPhaseId();
       if (phaseId==null)
       {
          throw new IllegalStateException("No phase id bound to current thread (make sure you do not have two SeamPhaseListener instances installed)");
       }
-      return (PhaseId) phaseId;
+      return phaseId;
+   }
+   
+   private static boolean isInPhase()
+   {
+      return FacesLifecycle.getPhaseId()!=null;
    }
 
    private static boolean isBeforeInvokeApplicationPhase()

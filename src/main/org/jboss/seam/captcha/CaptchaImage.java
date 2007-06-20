@@ -19,7 +19,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.servlet.AbstractResource;
 
 import com.octo.captcha.service.CaptchaServiceException;
@@ -80,14 +80,11 @@ public class CaptchaImage extends AbstractResource
    {
       ByteArrayOutputStream out = new ByteArrayOutputStream();
 
+      ServletLifecycle.beginRequest(request);         
       try
       {
-         Lifecycle.beginRequest( getServletContext(), request );         
-         
          String captchaId = request.getQueryString();
-
          BufferedImage challenge = service.getImageChallengeForID( captchaId, request.getLocale() );
-
          ImageIO.write(challenge, "jpeg", out);
       }
       catch (IllegalArgumentException e)
@@ -102,7 +99,7 @@ public class CaptchaImage extends AbstractResource
       }
       finally
       {
-         Lifecycle.endRequest();         
+         ServletLifecycle.endRequest(request);         
       }
 
       response.setHeader("Cache-Control", "no-store");

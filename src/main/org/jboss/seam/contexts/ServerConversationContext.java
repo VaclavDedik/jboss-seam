@@ -239,7 +239,7 @@ public class ServerConversationContext implements Context
          {
             String key = getKey(name);
             Object attribute = session.get(key);
-            if ( attribute!=null && Lifecycle.isAttributeDirty(attribute) )
+            if ( attribute!=null && Contexts.isAttributeDirty(attribute) )
             {
                session.put(key, attribute);
             }

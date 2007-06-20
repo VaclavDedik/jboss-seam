@@ -20,7 +20,7 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
-import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.servlet.AbstractResource;
@@ -65,7 +65,7 @@ public class Remoting extends AbstractResource
       {
          try
          {
-            Lifecycle.beginRequest( getServletContext(), request );
+            ServletLifecycle.beginRequest(request);
 
             StringBuilder sb = new StringBuilder();
             sb.append("\nSeam.Remoting.resourcePath = \"");
@@ -87,7 +87,7 @@ public class Remoting extends AbstractResource
          }
          finally
          {
-            Lifecycle.endRequest(request);
+            ServletLifecycle.endRequest(request);
          }
       }
    }   

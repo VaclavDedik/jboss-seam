@@ -17,7 +17,7 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
-import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.el.EL;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -77,7 +77,7 @@ public class SpringELResolver extends ELResolver
          // We only resolve root variable.
          return null;
       }
-      ServletContext servletContext = Lifecycle.getServletContext();
+      ServletContext servletContext = ServletLifecycle.getServletContext();
       if (servletContext == null)
       {
          log.debug("Could not locate seam stored servletContext.  Skipping.");

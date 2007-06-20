@@ -2,7 +2,6 @@ package org.jboss.seam.contexts;
 
 import java.io.IOException;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,12 +17,10 @@ public abstract class ContextualHttpServletRequest
    private static final LogProvider log = Logging.getLogProvider(ContextualHttpServletRequest.class);
 
    private final HttpServletRequest request;
-   private final ServletContext servletContext;
    
-   public ContextualHttpServletRequest(HttpServletRequest request, ServletContext servletContext)
+   public ContextualHttpServletRequest(HttpServletRequest request)
    {
       this.request = request;
-      this.servletContext = servletContext;
    }
    
    public abstract void process() throws Exception;
@@ -31,18 +28,18 @@ public abstract class ContextualHttpServletRequest
    public void run() throws ServletException, IOException
    {
       log.debug("beginning request");
-      Lifecycle.beginRequest(servletContext, request);
+      ServletLifecycle.beginRequest(request);
       ServletContexts.instance().setRequest(request);
       restoreConversationId();
       Manager.instance().restoreConversation();
-      Lifecycle.resumeConversation(request);
+      ServletLifecycle.resumeConversation(request);
       handleConversationPropagation();
       try
       {
          process();
          //TODO: conversation timeout
          Manager.instance().endRequest( new ServletRequestSessionMap(request)  );
-         Lifecycle.endRequest(request);
+         ServletLifecycle.endRequest(request);
       }
       catch (IOException ioe)
       {

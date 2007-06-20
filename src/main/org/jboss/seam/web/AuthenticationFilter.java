@@ -281,7 +281,7 @@ public class AuthenticationFilter extends AbstractFilter
    private void authenticate(HttpServletRequest request, final String username)
       throws ServletException, IOException
    {
-      new ContextualHttpServletRequest(request, getServletContext())
+      new ContextualHttpServletRequest(request)
       {
          @Override
          public void process() throws ServletException, IOException, LoginException

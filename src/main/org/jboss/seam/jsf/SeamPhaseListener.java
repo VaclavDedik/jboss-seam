@@ -25,7 +25,7 @@ import javax.faces.event.PhaseListener;
 import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.contexts.FacesLifecycle;
 import org.jboss.seam.core.ConversationList;
 import org.jboss.seam.core.ConversationPropagation;
 import org.jboss.seam.core.ConversationStack;
@@ -33,9 +33,9 @@ import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.exceptions.Exceptions;
+import org.jboss.seam.faces.FacesManager;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.faces.FacesPage;
-import org.jboss.seam.faces.FacesManager;
 import org.jboss.seam.faces.Switcher;
 import org.jboss.seam.faces.Validation;
 import org.jboss.seam.log.LogProvider;
@@ -102,7 +102,7 @@ public class SeamPhaseListener implements PhaseListener
    {
       log.trace( "before phase: " + event.getPhaseId() );
       
-      Lifecycle.setPhaseId( event.getPhaseId() );
+      FacesLifecycle.setPhaseId( event.getPhaseId() );
 
       try
       {
@@ -197,7 +197,7 @@ public class SeamPhaseListener implements PhaseListener
          }
       }
 
-      Lifecycle.setPhaseId(null);
+      FacesLifecycle.clearPhaseId();
       
    }
 
@@ -357,7 +357,7 @@ public class SeamPhaseListener implements PhaseListener
     */
    protected void beforeRestoreView(FacesContext facesContext)
    {
-      Lifecycle.beginRequest( facesContext.getExternalContext() );
+      FacesLifecycle.beginRequest( facesContext.getExternalContext() );
    }
    
    /**
@@ -365,11 +365,11 @@ public class SeamPhaseListener implements PhaseListener
     */
    protected void afterRestoreView(FacesContext facesContext)
    {
-      Lifecycle.resumePage();
+      FacesLifecycle.resumePage();
       Map parameters = facesContext.getExternalContext().getRequestParameterMap();
       ConversationPropagation.instance().restoreConversationId(parameters);
       boolean conversationFound = Manager.instance().restoreConversation();
-      Lifecycle.resumeConversation( facesContext.getExternalContext() );
+      FacesLifecycle.resumeConversation( facesContext.getExternalContext() );
       if (!conversationFound)
       {
          Pages.instance().redirectToNoConversationView();
@@ -476,7 +476,7 @@ public class SeamPhaseListener implements PhaseListener
          //workaround for a bug in MyFaces prior to 1.1.3
          if ( Init.instance().isMyFacesLifecycleBug() ) 
          {
-            Lifecycle.endRequest( facesContext.getExternalContext() );
+            FacesLifecycle.endRequest( facesContext.getExternalContext() );
          }
       }
       else //if the page actions did not call responseComplete()
@@ -511,7 +511,7 @@ public class SeamPhaseListener implements PhaseListener
       
       ExternalContext externalContext = facesContext.getExternalContext();
       Manager.instance().endRequest( externalContext.getSessionMap() );
-      Lifecycle.endRequest(externalContext);
+      FacesLifecycle.endRequest(externalContext);
    }
    
    protected void afterResponseComplete(FacesContext facesContext)
@@ -522,7 +522,7 @@ public class SeamPhaseListener implements PhaseListener
       //since a redirect is not the only reason for a responseComplete
       ExternalContext externalContext = facesContext.getExternalContext();
       Manager.instance().endRequest( externalContext.getSessionMap() );
-      Lifecycle.endRequest( facesContext.getExternalContext() );
+      FacesLifecycle.endRequest( facesContext.getExternalContext() );
    }
    
    private boolean preRenderPage(PhaseEvent event)
@@ -533,7 +533,7 @@ public class SeamPhaseListener implements PhaseListener
       }
       else
       {
-         Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
+         FacesLifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
          boolean actionsWereCalled = false;
          try
          {
@@ -542,7 +542,7 @@ public class SeamPhaseListener implements PhaseListener
          }
          finally
          {
-            Lifecycle.setPhaseId( PhaseId.RENDER_RESPONSE );
+            FacesLifecycle.setPhaseId(PhaseId.RENDER_RESPONSE);
             if (actionsWereCalled) 
             {
                FacesMessages.afterPhase();

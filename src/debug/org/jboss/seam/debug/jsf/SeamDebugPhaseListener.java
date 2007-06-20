@@ -11,7 +11,7 @@ import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.contexts.FacesLifecycle;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.navigation.Pages;
 
@@ -32,7 +32,7 @@ public class SeamDebugPhaseListener implements PhaseListener
 
    public void beforePhase(PhaseEvent event)
    {
-      Lifecycle.setPhaseId( event.getPhaseId() ); //since this gets called before SeamPhaseListener!
+      FacesLifecycle.setPhaseId( event.getPhaseId() ); //since this gets called before SeamPhaseListener!
       
       FacesContext facesContext = FacesContext.getCurrentInstance();
       String viewId = Pages.getViewId(facesContext);

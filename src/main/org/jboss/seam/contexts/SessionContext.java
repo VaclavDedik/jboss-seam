@@ -45,7 +45,7 @@ public class SessionContext extends BasicContext
       {
          Object attribute = get(name);
          boolean dirty = attribute!=null && 
-               ( Lifecycle.isAttributeDirty(attribute) || Seam.isEntityClass( attribute.getClass() ) );
+               ( Contexts.isAttributeDirty(attribute) || Seam.isEntityClass( attribute.getClass() ) );
          if ( dirty )
          {
             set(name, attribute);

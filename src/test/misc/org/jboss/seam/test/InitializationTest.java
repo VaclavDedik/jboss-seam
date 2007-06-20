@@ -3,6 +3,7 @@ package org.jboss.seam.test;
 
 import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.init.Initialization;
 import org.jboss.seam.mock.MockServletContext;
@@ -14,6 +15,7 @@ public class InitializationTest
    public void testInitialization()
    {
       MockServletContext servletContext = new MockServletContext();
+      ServletLifecycle.beginApplication(servletContext);
       new Initialization(servletContext).init();
 
       assert !servletContext.getAttributes().isEmpty();

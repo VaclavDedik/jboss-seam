@@ -1,9 +1,9 @@
 /*
- * JBoss, Home of Professional Open Source
- *
- * Distributable under LGPL license.
- * See terms of license at gnu.org.
- */
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.servlet;
 
 import javax.servlet.ServletContextEvent;
@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSessionListener;
 
 import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.init.Initialization;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -29,24 +30,24 @@ public class SeamListener implements ServletContextListener, HttpSessionListener
    
    public void contextInitialized(ServletContextEvent event) 
    {
-      log.info("Welcome to Seam " + Seam.getVersion());
-      Lifecycle.setServletContext( event.getServletContext() );
+      log.info( "Welcome to Seam " + Seam.getVersion() );
+      ServletLifecycle.beginApplication( event.getServletContext() );
       new Initialization( event.getServletContext() ).create().init();
    }
    
    public void contextDestroyed(ServletContextEvent event) 
    {
-      Lifecycle.endApplication( event.getServletContext() );
+      ServletLifecycle.endApplication();
    }
    
    public void sessionCreated(HttpSessionEvent event) 
    {
-      Lifecycle.beginSession( event.getSession().getServletContext(), new ServletSessionMap( event.getSession() ) );
+      ServletLifecycle.beginSession( event.getSession() );
    }
    
    public void sessionDestroyed(HttpSessionEvent event) 
    {
-      Lifecycle.endSession( event.getSession().getServletContext(), new ServletSessionMap( event.getSession() ) );
+      ServletLifecycle.endSession( event.getSession() );
    }
    
 }

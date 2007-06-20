@@ -19,7 +19,7 @@ public class DocumentStoreServlet
     protected void doGet(final HttpServletRequest request, final HttpServletResponse response) 
         throws ServletException, IOException 
     {
-        new ContextualHttpServletRequest( request, getServletContext() )
+        new ContextualHttpServletRequest(request)
         {
             @Override
             public void process() throws ServletException, IOException

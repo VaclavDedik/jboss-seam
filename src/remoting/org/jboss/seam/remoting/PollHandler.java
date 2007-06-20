@@ -9,7 +9,6 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.ObjectMessage;
 import javax.jms.TextMessage;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -50,14 +49,6 @@ public class PollHandler extends BaseRequestHandler implements RequestHandler
   private static final byte[] VALUE_TAG_OPEN = "<value>".getBytes();
   private static final byte[] VALUE_TAG_CLOSE = "</value>".getBytes();
 
-  private ServletContext servletContext;
-
-  @Override
-  public void setServletContext(ServletContext ctx)
-  {
-    this.servletContext = ctx;
-  }
-
   public void handle(HttpServletRequest request, final HttpServletResponse response)
       throws Exception
   {
@@ -71,7 +62,7 @@ public class PollHandler extends BaseRequestHandler implements RequestHandler
 
     final List<PollRequest> polls = unmarshalRequests(env);
 
-    new ContextualHttpServletRequest(request, servletContext)
+    new ContextualHttpServletRequest(request)
     {
        @Override
        public void process() throws Exception

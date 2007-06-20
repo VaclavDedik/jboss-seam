@@ -37,7 +37,7 @@ public class ContextFilter extends AbstractFilter
    public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain) 
        throws IOException, ServletException 
    {
-      new ContextualHttpServletRequest( (HttpServletRequest) request, getServletContext() )
+      new ContextualHttpServletRequest( (HttpServletRequest) request )
       {
          @Override
          public void process() throws ServletException, IOException

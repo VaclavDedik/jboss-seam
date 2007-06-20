@@ -38,7 +38,7 @@ import org.jboss.seam.annotations.Roles;
 import org.jboss.seam.bpm.Jbpm;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.PojoCache;
@@ -479,7 +479,7 @@ public class Initialization
    public Initialization init()
    {
       log.info("initializing Seam");
-      Lifecycle.beginInitialization(servletContext);
+      ServletLifecycle.beginInitialization();
       Contexts.getApplicationContext().set(Component.PROPERTIES, properties);
       RedeployableStrategy redeployStrategy = getRedeployableInitialization();
       scanForHotDeployableComponents(redeployStrategy);
@@ -497,7 +497,7 @@ public class Initialization
       addSpecialComponents(init);
       installComponents(init, redeployStrategy);
       
-      Lifecycle.endInitialization();
+      ServletLifecycle.endInitialization();
       log.info("done initializing Seam");
       return this;
    }
@@ -505,7 +505,7 @@ public class Initialization
    public Initialization redeploy(HttpServletRequest request)
    {
       log.info("redeploying");
-      Lifecycle.beginReinitialization(servletContext, request);
+      ServletLifecycle.beginReinitialization(request);
       Init init = Init.instance();
       for ( String name: init.getHotDeployableComponents() )
       {
@@ -526,7 +526,7 @@ public class Initialization
       init.setTimestamp( System.currentTimeMillis() );
       init.setHotDeployPaths(redeployStrategy.getPaths());
       installComponents(init, redeployStrategy);
-      Lifecycle.endInitialization();
+      ServletLifecycle.endInitialization();
       log.info("done redeploying");
       return this;
    }

@@ -8,6 +8,7 @@ import javax.xml.ws.handler.soap.SOAPHandler;
 
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.contexts.ServletLifecycle;
 
 /**
  * A SOAP request handler that instantiates the Seam contexts for a web service
@@ -19,9 +20,12 @@ public class SeamWSRequestHandler implements SOAPHandler
 {
    public static final String MESSAGE_CONTEXT = "org.jboss.seam.ws.messageContext";
    
-   public Set getHeaders()
-   {
-      return null;
+   public boolean handleMessage(MessageContext messageContext)
+   {  
+      HttpServletRequest request = (HttpServletRequest) messageContext.get(MessageContext.SERVLET_REQUEST);      
+      ServletLifecycle.beginRequest(request);
+      Contexts.getEventContext().set(MESSAGE_CONTEXT, messageContext);
+      return true;
    }
 
    public void close(MessageContext messageContext)
@@ -29,18 +33,13 @@ public class SeamWSRequestHandler implements SOAPHandler
       Lifecycle.endRequest();
    }
 
-   public boolean handleFault(MessageContext messageContext)
+   public Set getHeaders()
    {
-      return true;
+      return null;
    }
 
-   public boolean handleMessage(MessageContext messageContext)
-   {  
-      HttpServletRequest request = (HttpServletRequest) messageContext.get(MessageContext.SERVLET_REQUEST);      
-      Lifecycle.beginRequest(Lifecycle.getServletContext(), request);
-      
-      Contexts.getEventContext().set(MESSAGE_CONTEXT, messageContext);
-      
+   public boolean handleFault(MessageContext messageContext)
+   {
       return true;
    }
 

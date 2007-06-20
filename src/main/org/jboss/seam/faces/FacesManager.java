@@ -24,7 +24,7 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.contexts.FacesLifecycle;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Interpolator;
@@ -110,7 +110,7 @@ public class FacesManager extends Manager
    protected void storeConversationToViewRootIfNecessary()
    {
       FacesContext facesContext = FacesContext.getCurrentInstance();
-      if ( facesContext!=null && Lifecycle.getPhaseId()==PhaseId.RENDER_RESPONSE )
+      if ( facesContext!=null && FacesLifecycle.getPhaseId()==PhaseId.RENDER_RESPONSE )
       {
          FacesPage.instance().storeConversation();
       }
