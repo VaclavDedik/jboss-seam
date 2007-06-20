@@ -1,8 +1,10 @@
 package org.jboss.seam.drools;
+
 import java.util.List;
 import org.drools.WorkingMemory;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.graph.node.DecisionHandler;
+
 /**
  * A jBPM DecisionHandler that delegates to a Drools WorkingMemory
  * held in a Seam context variable. The decision outcome is returned

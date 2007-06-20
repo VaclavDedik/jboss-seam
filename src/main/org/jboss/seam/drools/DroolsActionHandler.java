@@ -1,7 +1,9 @@
 package org.jboss.seam.drools;
+
 import java.util.List;
 import org.jbpm.graph.def.ActionHandler;
 import org.jbpm.graph.exe.ExecutionContext;
+
 /**
  * A jBPM ActionHandler that delegates to a Drools WorkingMemory
  * held in a Seam context variable.
