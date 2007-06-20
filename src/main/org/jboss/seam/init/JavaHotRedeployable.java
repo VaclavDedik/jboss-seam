@@ -13,7 +13,7 @@ import org.jboss.seam.deployment.ComponentScanner;
  *
  * @author Emmanuel Bernard
  */
-public class JavaHotRedeployable implements RedeployableStrategy
+class JavaHotRedeployable implements RedeployableStrategy
 {
 
    protected File[] paths;

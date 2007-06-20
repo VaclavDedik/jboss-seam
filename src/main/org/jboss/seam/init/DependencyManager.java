@@ -7,27 +7,34 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class DependencyManager {
+class DependencyManager 
+{
     private Map<String, Set<ComponentDescriptor>> componentDescriptors;
     private Set<ComponentDescriptor> currentTestSet;
     private Set<ComponentDescriptor> installedSet;
 
-    public DependencyManager(Map<String, Set<ComponentDescriptor>> componentDescriptors) {        
+    public DependencyManager(Map<String, Set<ComponentDescriptor>> componentDescriptors) 
+    {
         this.componentDescriptors = new HashMap<String, Set<ComponentDescriptor>>(componentDescriptors);
     }
     
     
-    public Set<ComponentDescriptor> installedSet() {            
+    public Set<ComponentDescriptor> installedSet()
+    {
         computeInstallSet();
         return installedSet;        
     }
     
     private static final Comparator<ComponentDescriptor> ORDER = new Comparator<ComponentDescriptor>() 
     { 
-       public int compare(ComponentDescriptor x, ComponentDescriptor y) { return x.getName().compareTo( y.getName() ); } 
+       public int compare(ComponentDescriptor x, ComponentDescriptor y) 
+       { 
+          return x.getName().compareTo( y.getName() ); 
+       } 
     };
         
-    private void computeInstallSet() {
+    private void computeInstallSet() 
+    {
         installedSet = new TreeSet<ComponentDescriptor>(ORDER);
         Set<String> keys = componentDescriptors.keySet();
         for (String key: keys) {
@@ -41,30 +48,37 @@ public class DependencyManager {
         }        
     }
     
-    private boolean tryToInstall(String key) {       
+    private boolean tryToInstall(String key) 
+    {
         Set<ComponentDescriptor> descriptors = componentDescriptors.get(key);
-        if (descriptors == null) {
+        if (descriptors == null) 
+        {
             return false;
         }
         
-        for (ComponentDescriptor descriptor : descriptors) {
+        for (ComponentDescriptor descriptor : descriptors) 
+        {
             
             Set<ComponentDescriptor> saved = new HashSet<ComponentDescriptor>(currentTestSet);
-            if (tryToInstall(descriptor)) {                
+            if (tryToInstall(descriptor)) 
+            {                
                 return true;
-            } else {               
+            } 
+            else 
+            {               
                 currentTestSet = saved;
             }
             
-            
-        }            
+        }
         
         return false;
     }
     
 
-    private boolean tryToInstall(ComponentDescriptor descriptor) {        
-        if (isInInstallSet(descriptor.getName())) {            
+    private boolean tryToInstall(ComponentDescriptor descriptor) 
+    {        
+        if (isInInstallSet(descriptor.getName())) 
+        {            
             return true;
         }
         
@@ -73,7 +87,8 @@ public class DependencyManager {
         return checkAllDependencies(descriptor);
     }
     
-    private boolean checkAllDependencies(ComponentDescriptor descriptor) {
+    private boolean checkAllDependencies(ComponentDescriptor descriptor) 
+    {
         return descriptor.isInstalled() &&
                checkClassDependencies(descriptor) &&
                checkComponentDependencies(descriptor) &&
@@ -81,14 +96,18 @@ public class DependencyManager {
     }
     
     
-    private boolean checkComponentDependencies(ComponentDescriptor descriptor) {
+    private boolean checkComponentDependencies(ComponentDescriptor descriptor) 
+    {
         String[] dependencies = descriptor.getDependencies();
-        if (dependencies == null) { 
+        if (dependencies == null) 
+        { 
            return true;
         }
         
-        for (String componentName: dependencies) {
-            if (!tryToInstall(componentName)) {
+        for (String componentName: dependencies) 
+        {
+            if (!tryToInstall(componentName)) 
+            {
                 return false;
             }
         }
@@ -97,17 +116,23 @@ public class DependencyManager {
     }
 
 
-    private boolean checkClassDependencies(ComponentDescriptor descriptor) {
+    private boolean checkClassDependencies(ComponentDescriptor descriptor) 
+    {
         String[] classDependencies = descriptor.getClassDependencies();
         
-        if (classDependencies == null) {
+        if (classDependencies == null) 
+        {
             return true;   
         }
             
-        for (String className: classDependencies) {   
-            try {   
+        for (String className: classDependencies) 
+        {   
+            try 
+            {   
                 descriptor.getComponentClass().getClassLoader().loadClass(className);
-            } catch (Exception e){
+            } 
+            catch (Exception e)
+            {
                 return false;                 
             }
         }
@@ -115,17 +140,22 @@ public class DependencyManager {
         return true;
     }
     
-    private boolean checkGenericDependencies(ComponentDescriptor descriptor) {
+    private boolean checkGenericDependencies(ComponentDescriptor descriptor) 
+    {
         Class[] dependencies = descriptor.getGenericDependencies();
-        if (dependencies == null) {
+        if (dependencies == null) 
+        {
             return true;
         }
         
-        for (Class dependency: dependencies) {
-            if (!isInInstallSet(dependency)) {                                
+        for (Class dependency: dependencies) 
+        {
+            if (!isInInstallSet(dependency)) 
+            {                                
                 Set<String> searchList = findPotentialComponents(dependency);
                                
-                if (!tryToSatisfyDependencyUsing(dependency, searchList)) {
+                if (!tryToSatisfyDependencyUsing(dependency, searchList)) 
+                {
                     return false;
                 }
             }
@@ -135,15 +165,20 @@ public class DependencyManager {
     }
     
     
-    private boolean tryToSatisfyDependencyUsing(Class dependency, Set<String> searchList) {
-        for (String componentName:searchList) {
+    private boolean tryToSatisfyDependencyUsing(Class dependency, Set<String> searchList) 
+    {
+        for (String componentName:searchList) 
+        {
 
             Set<ComponentDescriptor> saved = new HashSet<ComponentDescriptor>(currentTestSet);
             
             // the second check is important for edge case
-            if (tryToInstall(componentName) && isInInstallSet(dependency)) {
+            if (tryToInstall(componentName) && isInInstallSet(dependency)) 
+            {
                 return true;
-            } else {                        
+            } 
+            else 
+            {                        
                 currentTestSet = saved;
             }
         }
@@ -151,11 +186,14 @@ public class DependencyManager {
     }
 
 
-    private Set<String> findPotentialComponents(Class dependency) {
+    private Set<String> findPotentialComponents(Class dependency) 
+    {
         Set<String> keys = new HashSet<String>();
         
-        for (String candidateKey: componentDescriptors.keySet()) {            
-            if (componentMightSatisfy(candidateKey, dependency)) {
+        for (String candidateKey: componentDescriptors.keySet()) 
+        {            
+            if (componentMightSatisfy(candidateKey, dependency)) 
+            {
                 keys.add(candidateKey);
             }
         }
@@ -163,9 +201,12 @@ public class DependencyManager {
         return keys;
     }
 
-    private boolean componentMightSatisfy(String candidateKey, Class dependency) {
-        for (ComponentDescriptor descriptor: componentDescriptors.get(candidateKey)) {            
-            if (descriptor.getComponentClass().equals(dependency)) {
+    private boolean componentMightSatisfy(String candidateKey, Class dependency) 
+    {
+        for (ComponentDescriptor descriptor: componentDescriptors.get(candidateKey)) 
+        {            
+            if (descriptor.getComponentClass().equals(dependency)) 
+            {
                 return true;
             }
         }
@@ -173,15 +214,20 @@ public class DependencyManager {
     }
 
 
-    private boolean isInInstallSet(Class dependency) {
-        for (ComponentDescriptor descriptor: currentTestSet) {
-            if (dependency.equals(descriptor.getComponentClass())) {
+    private boolean isInInstallSet(Class dependency) 
+    {
+        for (ComponentDescriptor descriptor: currentTestSet) 
+        {
+            if (dependency.equals(descriptor.getComponentClass())) 
+            {
                 return true;
             }
         }
         
-        for (ComponentDescriptor descriptor: installedSet) {
-            if (dependency.equals(descriptor.getComponentClass())) {
+        for (ComponentDescriptor descriptor: installedSet) 
+        {
+            if (dependency.equals(descriptor.getComponentClass())) 
+            {
                 return true;
             }
         }
@@ -191,15 +237,20 @@ public class DependencyManager {
 
 
     // install set is already installed or the current working set
-    private boolean isInInstallSet(String key) {
-        for (ComponentDescriptor descriptor: currentTestSet) {
-            if (key.equals(descriptor.getName())) {
+    private boolean isInInstallSet(String key) 
+    {
+        for (ComponentDescriptor descriptor: currentTestSet) 
+        {
+            if (key.equals(descriptor.getName())) 
+            {
                 return true;
             }
         }
         
-        for (ComponentDescriptor descriptor: installedSet) {
-            if (key.equals(descriptor.getName())) {
+        for (ComponentDescriptor descriptor: installedSet) 
+        {
+            if (key.equals(descriptor.getName())) 
+            {
                 return true;
             }
         }

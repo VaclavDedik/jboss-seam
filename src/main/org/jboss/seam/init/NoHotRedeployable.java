@@ -10,7 +10,7 @@ import org.jboss.seam.deployment.ComponentScanner;
  * 
  * @author Emmanuel Bernard
  */
-public class NoHotRedeployable implements RedeployableStrategy
+class NoHotRedeployable implements RedeployableStrategy
 {
    public NoHotRedeployable(File resource) {}
    

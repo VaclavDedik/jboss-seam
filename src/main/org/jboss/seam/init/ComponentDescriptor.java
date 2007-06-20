@@ -9,7 +9,7 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.servlet.AbstractResource;
 
-public class ComponentDescriptor 
+class ComponentDescriptor 
     implements Comparable<ComponentDescriptor>
 {
     protected String name;

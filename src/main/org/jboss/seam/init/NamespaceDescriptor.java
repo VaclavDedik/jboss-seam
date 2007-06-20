@@ -2,7 +2,7 @@ package org.jboss.seam.init;
 
 import org.jboss.seam.annotations.Namespace;
 
-public class NamespaceDescriptor
+class NamespaceDescriptor
 {
    private Namespace namespace;
    private Package pkg;

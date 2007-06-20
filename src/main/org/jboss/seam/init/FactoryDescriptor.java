@@ -2,7 +2,7 @@ package org.jboss.seam.init;
 
 import org.jboss.seam.ScopeType;
 
-public class FactoryDescriptor
+class FactoryDescriptor
 {
    private String name;
    private ScopeType scope;

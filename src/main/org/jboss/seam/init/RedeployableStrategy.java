@@ -12,7 +12,7 @@ import org.jboss.seam.deployment.ComponentScanner;
  *
  * @author Emmanuel Bernard
  */
-public interface RedeployableStrategy
+interface RedeployableStrategy
 {
    /*
     * Mandatory constructor

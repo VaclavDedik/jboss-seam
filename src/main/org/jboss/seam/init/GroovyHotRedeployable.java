@@ -15,7 +15,7 @@ import org.jboss.seam.deployment.GroovyComponentScanner;
  *
  * @author Emmanuel Bernard
  */
-public class GroovyHotRedeployable extends JavaHotRedeployable
+class GroovyHotRedeployable extends JavaHotRedeployable
 {
    private static final String DEFAULT_SCRIPT_EXTENSION = new CompilerConfiguration().getDefaultScriptExtension();
 
