@@ -1,4 +1,4 @@
-//$Id: ChangePasswordAction.java,v 1.15 2006/04/27 23:04:47 gavin Exp $
+//$Id: ChangePasswordAction.java,v 1.1 2006/11/20 05:19:01 gavin Exp $
 package org.jboss.seam.example.booking;
 
 import static org.jboss.seam.ScopeType.EVENT;
@@ -13,7 +13,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.core.FacesMessages;
+import org.jboss.seam.faces.FacesMessages;
 
 @Stateful
 @Scope(EVENT)

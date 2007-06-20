@@ -1,4 +1,4 @@
-//$Id: BookingListAction.java,v 1.2 2006/11/20 18:03:01 gavin Exp $
+//$Id: BookingListAction.java,v 1.3 2006/11/29 19:17:05 gavin Exp $
 package org.jboss.seam.example.booking;
 
 import static javax.ejb.TransactionAttributeType.REQUIRES_NEW;
@@ -23,7 +23,7 @@ import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
-import org.jboss.seam.core.FacesMessages;
+import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.log.Log;
 
 @Stateful

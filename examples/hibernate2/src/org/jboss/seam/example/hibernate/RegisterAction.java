@@ -9,7 +9,7 @@ import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.core.FacesMessages;
+import org.jboss.seam.faces.FacesMessages;
 
 import org.hibernate.Session;
 

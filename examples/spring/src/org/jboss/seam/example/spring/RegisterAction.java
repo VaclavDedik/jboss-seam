@@ -6,7 +6,7 @@ import static org.jboss.seam.ScopeType.EVENT;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.core.FacesMessages;
+import org.jboss.seam.faces.FacesMessages;
 
 @Scope(EVENT)
 @Name("register")

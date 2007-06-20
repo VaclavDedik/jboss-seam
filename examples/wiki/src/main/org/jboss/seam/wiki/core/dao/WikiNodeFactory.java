@@ -3,7 +3,7 @@ package org.jboss.seam.wiki.core.dao;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Component;
-import org.jboss.seam.core.FacesMessages;
+import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.wiki.core.model.Directory;
 import org.jboss.seam.wiki.core.model.Document;
 import org.jboss.seam.wiki.core.model.LinkProtocol;

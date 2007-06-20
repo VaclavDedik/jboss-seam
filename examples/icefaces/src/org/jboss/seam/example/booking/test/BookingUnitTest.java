@@ -7,7 +7,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import org.jboss.seam.core.Events;
-import org.jboss.seam.core.FacesMessages;
+import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.example.booking.Booking;
 import org.jboss.seam.example.booking.Hotel;
 import org.jboss.seam.example.booking.HotelBooking;

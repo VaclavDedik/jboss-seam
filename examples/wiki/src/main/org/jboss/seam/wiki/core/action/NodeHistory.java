@@ -9,7 +9,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.AuthorizationException;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.core.FacesMessages;
+import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.wiki.core.dao.NodeDAO;
 import org.jboss.seam.wiki.core.model.Node;
 import org.jboss.seam.wiki.core.model.Document;

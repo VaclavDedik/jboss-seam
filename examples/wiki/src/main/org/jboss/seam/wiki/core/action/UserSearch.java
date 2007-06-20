@@ -3,7 +3,7 @@ package org.jboss.seam.wiki.core.action;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.core.FacesMessages;
+import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.wiki.core.dao.UserDAO;
 import org.jboss.seam.wiki.core.model.User;
 

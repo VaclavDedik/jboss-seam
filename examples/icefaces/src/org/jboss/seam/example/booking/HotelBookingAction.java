@@ -1,4 +1,4 @@
-//$Id: HotelBookingAction.java,v 1.2 2006/11/20 09:22:11 gavin Exp $
+//$Id: HotelBookingAction.java,v 1.3 2007/02/26 20:20:54 gavin Exp $
 package org.jboss.seam.example.booking;
 
 import static javax.persistence.PersistenceContextType.EXTENDED;
@@ -18,7 +18,7 @@ import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.core.Events;
-import org.jboss.seam.core.FacesMessages;
+import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.log.Log;
 
 @Stateful
