@@ -693,7 +693,7 @@
         
         <variablelist spacing="compact">
             <varlistentry>
-                <term><literal>org.jboss.seam.navigation.pageflow</literal></term>
+                <term><literal>org.jboss.seam.pageflow.pageflow</literal></term>
                 <listitem>
                     <para>
                         API control of Seam pageflows.
