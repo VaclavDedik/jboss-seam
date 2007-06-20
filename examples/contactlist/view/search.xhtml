@@ -3,8 +3,7 @@
 	    		xmlns:ui="http://java.sun.com/jsf/facelets"
 	  			xmlns:h="http://java.sun.com/jsf/html"
 	  			xmlns:f="http://java.sun.com/jsf/core"
-	  			xmlns:s="http://jboss.com/products/seam/taglib"
-				template="template.xhtml">
+	  			xmlns:s="http://jboss.com/products/seam/taglib">
   <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>Contact List</title>
@@ -52,20 +51,20 @@
           <th>Zip</th>
           <th>Country</th>
         </tr>
-        <ui:repeat value="#{contacts.resultList}" var="contact">
+        <ui:repeat value="#{contacts.resultList}" var="cont">
           <tr>
             <td>
-              <s:link view="/viewContact.xhtml" value="#{contact.firstName} #{contact.lastName}">
-                <f:param name="contactId" value="#{contact.id}"/>
+              <s:link view="/viewContact.xhtml" value="#{cont.firstName} #{cont.lastName}">
+                <f:param name="contactId" value="#{cont.id}"/>
               </s:link>
             </td>
-            <td>#{contact.cellPhone}</td>
-            <td>#{contact.homePhone}</td>
-            <td>#{contact.address}</td>
-            <td>#{contact.city}</td>
-            <td>#{contact.state}</td>
-            <td>#{contact.zip}</td>
-            <td>#{contact.country}</td>
+            <td>#{cont.cellPhone}</td>
+            <td>#{cont.homePhone}</td>
+            <td>#{cont.address}</td>
+            <td>#{cont.city}</td>
+            <td>#{cont.state}</td>
+            <td>#{cont.zip}</td>
+            <td>#{cont.country}</td>
           </tr>
         </ui:repeat>
       </table>
