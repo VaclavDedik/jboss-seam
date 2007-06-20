@@ -1,4 +1,4 @@
-package org.jboss.seam.core;
+package org.jboss.seam.web;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
@@ -7,12 +7,13 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.core.AbstractMutable;
 
 @Scope(ScopeType.SESSION)
-@Name("org.jboss.seam.core.servletSession")
+@Name("org.jboss.seam.web.session")
 @BypassInterceptors
 @Startup
-public class ServletSession extends AbstractMutable
+public class Session extends AbstractMutable
 {
    private boolean isInvalid;
    private boolean invalidateOnSchemeChange;
@@ -67,22 +68,22 @@ public class ServletSession extends AbstractMutable
       this.invalidateOnSchemeChange = invalidateOnSchemeChange;
    }
    
-   public static ServletSession instance()
+   public static Session instance()
    {
       if ( !Contexts.isSessionContextActive() )
       {
          throw new IllegalStateException("No active session context");
       }
-      return (ServletSession) Component.getInstance(ServletSession.class, ScopeType.SESSION);
+      return (Session) Component.getInstance(Session.class, ScopeType.SESSION);
    }
 
-   public static ServletSession getInstance()
+   public static Session getInstance()
    {
       if ( !Contexts.isSessionContextActive() )
       {
          throw new IllegalStateException("No active session context");
       }
-      return (ServletSession) Component.getInstance(ServletSession.class, ScopeType.SESSION, false);
+      return (Session) Component.getInstance(Session.class, ScopeType.SESSION, false);
    }
 
 }

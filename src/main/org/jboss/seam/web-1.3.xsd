@@ -69,6 +69,14 @@
         <xs:attribute name="max-request-size" type="xs:integer"/>
     </xs:attributeGroup>
     
-   
+    <xs:element name="servlet-session">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="web:attlist.servlet-session"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.servlet-session">
+        <xs:attribute name="invalidate-on-scheme-change" type="xs:boolean"/>
+    </xs:attributeGroup>   
    
 </xs:schema>

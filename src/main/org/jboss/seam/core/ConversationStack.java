@@ -15,6 +15,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.web.Session;
 
 /**
  * Support for "breadcrumbs".
@@ -49,7 +50,7 @@ public class ConversationStack implements Serializable
             while ( ids.hasPrevious() )
             {
                ConversationEntry entry = conversationEntries.getConversationEntry( ids.previous() );
-               if ( entry.isDisplayable() && !ServletSession.instance().isInvalid() ) 
+               if ( entry.isDisplayable() && !Session.instance().isInvalid() ) 
                {
                   conversationEntryStack.add(entry);
                }

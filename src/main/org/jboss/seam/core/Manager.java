@@ -29,6 +29,7 @@ import org.jboss.seam.navigation.ConversationIdParameter;
 import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.pageflow.Pageflow;
 import org.jboss.seam.util.Id;
+import org.jboss.seam.web.Session;
 
 /**
  * The Seam conversation manager.
@@ -213,7 +214,7 @@ public class Manager
    {
       return isLongRunningConversation() && 
             !getCurrentConversationEntry().isRemoveAfterRedirect() &&
-            !ServletSession.instance().isInvalid();
+            !Session.instance().isInvalid();
    }
    
    public boolean isNestedConversation()
@@ -694,7 +695,7 @@ public class Manager
    private String encodeConversationIdParameter(String url, String paramName, String paramValue)
    {
          
-      if ( ServletSession.instance().isInvalid() || containsParameter(url, paramName) )
+      if ( Session.instance().isInvalid() || containsParameter(url, paramName) )
       {
          return url;
       }

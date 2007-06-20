@@ -1,6 +1,9 @@
 package org.jboss.seam.test;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;

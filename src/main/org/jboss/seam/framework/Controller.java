@@ -17,7 +17,6 @@ import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.core.Renderer;
-import org.jboss.seam.core.ServletSession;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.faces.HttpError;
 import org.jboss.seam.faces.Redirect;
@@ -26,6 +25,7 @@ import org.jboss.seam.international.Messages;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.transaction.Transaction;
+import org.jboss.seam.web.Session;
 
 /**
  * Base class for controller objects. Provides various
@@ -265,7 +265,7 @@ public abstract class Controller implements Serializable
    
    protected void invalidateSession()
    {
-      ServletSession.instance().invalidate();
+      Session.instance().invalidate();
    }
 
    protected boolean isTransactionMarkedRollback()

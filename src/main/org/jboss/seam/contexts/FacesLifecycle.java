@@ -10,10 +10,10 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseId;
 
-import org.jboss.seam.core.ServletSession;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.navigation.Pages;
+import org.jboss.seam.web.Session;
 
 /**
  * @author Gavin King
@@ -46,8 +46,8 @@ public class FacesLifecycle
       Contexts.eventContext.set( new EventContext( externalContext.getRequestMap() ) );
       Contexts.applicationContext.set( new ApplicationContext( externalContext.getApplicationMap() ) );
       Contexts.sessionContext.set( new SessionContext( externalContext.getSessionMap() ) );
-      ServletSession servletSession = ServletSession.getInstance();
-      if ( servletSession!=null && servletSession.isInvalidDueToNewScheme( Pages.getRequestScheme( FacesContext.getCurrentInstance() ) ) )
+      Session session = Session.getInstance();
+      if ( session!=null && session.isInvalidDueToNewScheme( Pages.getRequestScheme( FacesContext.getCurrentInstance() ) ) )
       {
          invalidateSession(externalContext);
       }
@@ -71,8 +71,8 @@ public class FacesLifecycle
       log.debug("After render response, destroying contexts");
       try
       {
-         ServletSession servletSession = ServletSession.getInstance();
-         boolean sessionInvalid = servletSession!=null && servletSession.isInvalid();
+         Session session = Session.getInstance();
+         boolean sessionInvalid = session!=null && session.isInvalid();
          
          Contexts.flushAndDestroyContexts();
 

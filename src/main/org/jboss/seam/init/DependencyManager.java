@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-class DependencyManager 
+public class DependencyManager 
 {
     private Map<String, Set<ComponentDescriptor>> componentDescriptors;
     private Set<ComponentDescriptor> currentTestSet;

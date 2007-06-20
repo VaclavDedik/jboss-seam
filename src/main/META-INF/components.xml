@@ -19,11 +19,12 @@
   <factory scope="stateless" auto-create="true" name="interpolator" value="#{org.jboss.seam.core.interpolator}"/>
   <factory scope="stateless" auto-create="true" name="renderer" value="#{org.jboss.seam.core.renderer}"/>
   <factory scope="stateless" auto-create="true" name="resourceBundle" value="#{org.jboss.seam.core.resourceBundle}"/>
-  <factory scope="stateless" auto-create="true" name="session" value="#{org.jboss.seam.core.servletSession}" />
   <factory scope="stateless" auto-create="true" name="transaction" value="#{org.jboss.seam.transaction.transaction}" />
   <factory scope="stateless" auto-create="true" name="pojoCache" value="#{org.jboss.seam.core.pojoCache}"/>
 
   <factory scope="stateless" auto-create="true" name="pageflow" value="#{org.jboss.seam.pageflow.pageflow}"/>
+
+  <factory scope="stateless" auto-create="true" name="session" value="#{org.jboss.seam.web.session}" />
 
   <factory scope="stateless" auto-create="true" name="facesContext" value="#{org.jboss.seam.faces.facesContext}"/>
   <factory scope="stateless" auto-create="true" name="facesMessages" value="#{org.jboss.seam.faces.facesMessages}"/>

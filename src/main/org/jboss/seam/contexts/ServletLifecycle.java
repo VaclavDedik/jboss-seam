@@ -12,13 +12,13 @@ import javax.servlet.http.HttpSession;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.core.Events;
-import org.jboss.seam.core.ServletSession;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.servlet.ServletApplicationMap;
 import org.jboss.seam.servlet.ServletRequestMap;
 import org.jboss.seam.servlet.ServletRequestSessionMap;
 import org.jboss.seam.servlet.ServletSessionMap;
+import org.jboss.seam.web.Session;
 
 /**
  * @author Gavin King
@@ -54,8 +54,8 @@ public class ServletLifecycle
       log.debug("After request, destroying contexts");
       try
       {
-         ServletSession servletSession = ServletSession.getInstance();
-         boolean sessionInvalid = servletSession!=null && servletSession.isInvalid();
+         Session session = Session.getInstance();
+         boolean sessionInvalid = session!=null && session.isInvalid();
          
          Contexts.flushAndDestroyContexts();
 

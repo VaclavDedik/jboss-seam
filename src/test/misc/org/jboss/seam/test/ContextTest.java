@@ -19,7 +19,6 @@ import org.jboss.seam.contexts.SessionContext;
 import org.jboss.seam.core.ConversationEntries;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.core.ServletSession;
 import org.jboss.seam.el.EL;
 import org.jboss.seam.el.SeamELResolver;
 import org.jboss.seam.mock.MockExternalContext;
@@ -30,6 +29,7 @@ import org.jboss.seam.servlet.ServletRequestMap;
 import org.jboss.seam.servlet.ServletRequestSessionMap;
 import org.jboss.seam.web.Parameters;
 import org.jboss.seam.web.ServletContexts;
+import org.jboss.seam.web.Session;
 import org.testng.annotations.Test;
 
 public class ContextTest
@@ -52,7 +52,7 @@ public class ContextTest
       //appContext.set( Seam.getComponentName(Init.class), new Init() );
       installComponent(appContext, ConversationEntries.class);
       installComponent(appContext, Manager.class);
-      installComponent(appContext, ServletSession.class);
+      installComponent(appContext, Session.class);
       installComponent(appContext, ServletContexts.class);
       installComponent(appContext, Parameters.class);
       appContext.set( Seam.getComponentName(Init.class), new Init() );

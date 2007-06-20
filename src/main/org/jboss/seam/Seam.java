@@ -22,10 +22,10 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.core.ServletSession;
 import org.jboss.seam.init.DeploymentDescriptorInfo;
 import org.jboss.seam.init.DeploymentDescriptorInfo.EjbInfo;
 import org.jboss.seam.util.Strings;
+import org.jboss.seam.web.Session;
 
 /**
  * Convenience methods for accessing annotated information
@@ -226,7 +226,7 @@ public class Seam
     */
    public static void invalidateSession()
    {
-      ServletSession.instance().invalidate();
+      Session.instance().invalidate();
    }
    
    /**
@@ -236,7 +236,7 @@ public class Seam
     */
    public static boolean isSessionInvalid()
    {
-      return ServletSession.instance().isInvalid();
+      return Session.instance().isInvalid();
    }
    
    /**

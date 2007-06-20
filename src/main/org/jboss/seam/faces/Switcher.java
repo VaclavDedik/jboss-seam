@@ -20,7 +20,7 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.core.ConversationEntries;
 import org.jboss.seam.core.ConversationEntry;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.core.ServletSession;
+import org.jboss.seam.web.Session;
 
 /**
  * Support for the conversation switcher drop-down menu.
@@ -54,7 +54,7 @@ public class Switcher implements Serializable
          selectItems = new ArrayList<SelectItem>( conversationEntries.size() );
          for ( ConversationEntry entry: orderedEntries )
          {
-            if ( entry.isDisplayable() && !ServletSession.instance().isInvalid() )
+            if ( entry.isDisplayable() && !Session.instance().isInvalid() )
             {
                selectItems.add( new SelectItem( entry.getId(), entry.getDescription() ) );
             }

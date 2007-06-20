@@ -23,7 +23,6 @@ import org.jboss.seam.core.ConversationPropagation;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.core.ServletSession;
 import org.jboss.seam.faces.FacesManager;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.faces.FacesPage;
@@ -36,6 +35,7 @@ import org.jboss.seam.mock.MockFacesContext;
 import org.jboss.seam.mock.MockLifecycle;
 import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.servlet.ServletRequestSessionMap;
+import org.jboss.seam.web.Session;
 import org.testng.annotations.Test;
 
 public class PhaseListenerTest
@@ -53,7 +53,7 @@ public class PhaseListenerTest
       installComponent(appContext, Pages.class);
       installComponent(appContext, Events.class);
       installComponent(appContext, Validation.class);
-      installComponent(appContext, ServletSession.class);
+      installComponent(appContext, Session.class);
       installComponent(appContext, ConversationPropagation.class);
    }
    

@@ -15,10 +15,10 @@ import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Mutable;
-import org.jboss.seam.core.ServletSession;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.transaction.Transaction;
+import org.jboss.seam.web.Session;
 
 /**
  * Provides access to the current contexts associated with the thread.
@@ -372,7 +372,7 @@ public class Contexts
         //}
    
          //uses the event and session contexts
-         if ( ServletSession.getInstance()!=null )
+         if ( Session.getInstance()!=null )
          {
             Manager.instance().unlockConversation();
          }
@@ -411,7 +411,7 @@ public class Contexts
       try
       {
          destroy(temp);
-         if ( !ServletSession.instance().isInvalid() ) //its also unnecessary during a session timeout
+         if ( !Session.instance().isInvalid() ) //its also unnecessary during a session timeout
          {
             temp.clear();
             temp.flush();

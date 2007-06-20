@@ -37,13 +37,13 @@ import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Expressions;
-import org.jboss.seam.core.ServletSession;
 import org.jboss.seam.core.Expressions.MethodExpression;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.faces.Selector;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.util.Strings;
+import org.jboss.seam.web.Session;
 
 @Name("org.jboss.seam.security.identity")
 @Scope(SESSION)
@@ -402,7 +402,7 @@ public class Identity extends Selector
    public void logout()
    {
       principal = null;
-      ServletSession.instance().invalidate();
+      Session.instance().invalidate();
    }
 
    /**

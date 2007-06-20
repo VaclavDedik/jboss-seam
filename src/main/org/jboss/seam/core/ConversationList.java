@@ -16,6 +16,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.web.Session;
 
 /**
  * @author Gavin King
@@ -45,7 +46,7 @@ public class ConversationList implements Serializable
          conversationEntryList = new ArrayList<ConversationEntry>( conversationEntries.size() );
          for ( ConversationEntry entry: orderedEntries )
          {
-            if ( entry.isDisplayable() && !ServletSession.instance().isInvalid() )
+            if ( entry.isDisplayable() && !Session.instance().isInvalid() )
             {
                conversationEntryList.add(entry);
             }

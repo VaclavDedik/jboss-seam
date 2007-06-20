@@ -13,8 +13,8 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.core.ServletSession;
 import org.jboss.seam.pageflow.Pageflow;
+import org.jboss.seam.web.Session;
 
 /**
  * Book-keeping component that persists information
@@ -119,8 +119,8 @@ public class FacesPage implements Serializable
       //we only need to execute this code when we are in the 
       //RENDER_RESPONSE phase, ie. not before redirects
    
-      ServletSession servletSession = ServletSession.getInstance();
-      boolean sessionInvalid = servletSession!=null && servletSession.isInvalid();
+      Session session = Session.getInstance();
+      boolean sessionInvalid = session!=null && session.isInvalid();
       if ( !sessionInvalid && manager.isLongRunningConversation() )
       {
          storeConversation( manager.getCurrentConversationId() );
