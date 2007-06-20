@@ -31,7 +31,6 @@ public class ViewUrlBuilder extends UrlBuilder
    public void addParameter(UIParameter parameter) throws UnsupportedEncodingException
    {
       String name = parameter.getName();
-      boolean append = true;
       if (!(name.equals(page.getConversationIdParameter().getParameterName())
                && getParameters().containsKey(name)))
       {
