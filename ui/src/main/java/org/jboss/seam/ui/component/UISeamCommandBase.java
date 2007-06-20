@@ -22,87 +22,84 @@ import org.jboss.seam.ui.util.ViewUrlBuilder;
 public abstract class UISeamCommandBase extends UIOutput implements ActionSource
 {
 
-   private String encodedUrl;
-
    public abstract String getView();
 
    public String getUrl() throws UnsupportedEncodingException
    {
-      if (encodedUrl == null)
+      String encodedUrl;
+      FacesContext context = getFacesContext();
+      String viewId = getView();
+      if (viewId == null)
       {
-         FacesContext context = getFacesContext();
-         String viewId = getView();
-         if (viewId == null)
-         {
-            viewId = Pages.getViewId(getFacesContext());
-         }
-
-         ViewUrlBuilder url = new ViewUrlBuilder(viewId, getFragment());
-
-         Set<String> usedParameters = new HashSet<String>();
-         for (Object child : getChildren())
-         {
-            if (child instanceof UIParameter)
-            {
-               usedParameters.add(((UIParameter) child).getName());
-               url.addParameter((UIParameter) child);
-            }
-         }
-
-         if (viewId != null)
-         {
-            Map<String, Object> pageParameters = Pages.instance().getConvertedParameters(context,
-                     viewId, usedParameters);
-            for (Map.Entry<String, Object> me : pageParameters.entrySet())
-            {
-               UIParameter uip = new UIParameter();
-               uip.setName(me.getKey());
-               uip.setValue(me.getValue());
-               url.addParameter(uip);
-            }
-         }
-
-         MethodBinding action = getAction();
-         if (action != null)
-         {
-
-            UIAction uiAction = new UIAction();
-            uiAction.setAction( action.getExpressionString() );
-            url.addParameter(uiAction);
-         }
-
-         if ("default".equals(getPropagation()) || "join".equals(getPropagation())
-                  || "nest".equals(getPropagation()) || "end".equals(getPropagation()))
-         {
-            UIConversationId uiConversationId = UIConversationId.newInstance();
-            uiConversationId.setViewId(viewId);
-            url.addParameter(uiConversationId);
-         }
-
-         if ("join".equals(getPropagation()) || "nest".equals(getPropagation())
-                  || "begin".equals(getPropagation()) || "end".equals(getPropagation()))
-         {
-            UIConversationPropagation uiPropagation = UIConversationPropagation.newInstance();
-            uiPropagation.setType(getPropagation());
-            uiPropagation.setPageflow(getPageflow());
-            url.addParameter(uiPropagation);
-         }
-
-         ValueExpression taskInstanceValueExpression = getValueExpression("taskInstance");
-         if (taskInstanceValueExpression != null)
-         {
-            UITaskId uiTaskId = UITaskId.newInstance();
-            uiTaskId.setValueExpression("taskInstance", taskInstanceValueExpression);
-            url.addParameter(uiTaskId);
-         }
-
-         UISelection uiSelection = getSelection();
-         if (uiSelection != null)
-         {
-            url.addParameter(uiSelection);
-         }
-         encodedUrl = url.getEncodedUrl();
+         viewId = Pages.getViewId(getFacesContext());
       }
+
+      ViewUrlBuilder url = new ViewUrlBuilder(viewId, getFragment());
+
+      Set<String> usedParameters = new HashSet<String>();
+      for (Object child : getChildren())
+      {
+         if (child instanceof UIParameter)
+         {
+            usedParameters.add(((UIParameter) child).getName());
+            url.addParameter((UIParameter) child);
+         }
+      }
+
+      if (viewId != null)
+      {
+         Map<String, Object> pageParameters = Pages.instance().getConvertedParameters(context,
+                  viewId, usedParameters);
+         for (Map.Entry<String, Object> me : pageParameters.entrySet())
+         {
+            UIParameter uip = new UIParameter();
+            uip.setName(me.getKey());
+            uip.setValue(me.getValue());
+            url.addParameter(uip);
+         }
+      }
+
+      MethodBinding action = getAction();
+      if (action != null)
+      {
+
+         UIAction uiAction = new UIAction();
+         uiAction.setAction(action.getExpressionString());
+         url.addParameter(uiAction);
+      }
+
+      if ("default".equals(getPropagation()) || "join".equals(getPropagation())
+               || "nest".equals(getPropagation()) || "end".equals(getPropagation()))
+      {
+         UIConversationId uiConversationId = UIConversationId.newInstance();
+         uiConversationId.setViewId(viewId);
+         url.addParameter(uiConversationId);
+      }
+
+      if ("join".equals(getPropagation()) || "nest".equals(getPropagation())
+               || "begin".equals(getPropagation()) || "end".equals(getPropagation()))
+      {
+         UIConversationPropagation uiPropagation = UIConversationPropagation.newInstance();
+         uiPropagation.setType(getPropagation());
+         uiPropagation.setPageflow(getPageflow());
+         url.addParameter(uiPropagation);
+      }
+
+      ValueExpression taskInstanceValueExpression = getValueExpression("taskInstance");
+      if (taskInstanceValueExpression != null)
+      {
+         UITaskId uiTaskId = UITaskId.newInstance();
+         uiTaskId.setValueExpression("taskInstance", taskInstanceValueExpression);
+         url.addParameter(uiTaskId);
+      }
+
+      UISelection uiSelection = getSelection();
+      if (uiSelection != null)
+      {
+         url.addParameter(uiSelection);
+      }
+      encodedUrl = url.getEncodedUrl();
+
       return encodedUrl;
    }
 
@@ -163,25 +160,23 @@ public abstract class UISeamCommandBase extends UIOutput implements ActionSource
       }
       return null;
    }
-   
 
-   
    public void removeActionListener(ActionListener listener)
    {
       // TODO Auto-generated method stub
-      
+
    }
-   
+
    public ActionListener[] getActionListeners()
    {
       // TODO Auto-generated method stub
       return null;
    }
-   
+
    public void addActionListener(ActionListener listener)
    {
       // TODO Auto-generated method stub
-      
+
    }
 
 }

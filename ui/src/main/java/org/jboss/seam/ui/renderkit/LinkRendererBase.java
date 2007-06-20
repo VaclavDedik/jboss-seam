@@ -23,10 +23,11 @@ public class LinkRendererBase extends RendererBase
    protected void doEncodeBegin(ResponseWriter writer, FacesContext context, UIComponent component) throws IOException
    {
       UILink link = (UILink) component;
+      String url = link.getUrl();
       writer.startElement(HTML.ANCHOR_ELEM, link);
-      if (link.getUrl() != null && !link.isDisabled())
+      if (url != null && !link.isDisabled())
       {
-         writer.writeAttribute(HTML.HREF_ATTR, link.getUrl(), HTML.HREF_ATTR);
+         writer.writeAttribute(HTML.HREF_ATTR, url, HTML.HREF_ATTR);
       }
       HTML.renderHTMLAttributes(writer, link, HTML.ANCHOR_PASSTHROUGH_ATTRIBUTES);
       if (link.getValue() != null)

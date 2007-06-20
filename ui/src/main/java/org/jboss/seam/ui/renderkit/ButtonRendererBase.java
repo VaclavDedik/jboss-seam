@@ -34,6 +34,7 @@ public class ButtonRendererBase extends RendererBase
    private String getOnClick(UIButton button) throws IOException
    {
       String onclick = button.getOnclick();
+      String url = button.getUrl();
       if (onclick == null)
       {
          onclick = "";
@@ -42,11 +43,18 @@ public class ButtonRendererBase extends RendererBase
       {
          onclick += ";";
       }
+      if (url != null)
+      {
+         onclick += "location.href='" + url + "'";
+      }
       if (!button.isDisabled())
       {
-         onclick += "location.href='" + button.getUrl() + "'";
+         return onclick;
       }
-      return onclick;
+      else
+      {
+         return null;
+      }
    }
    
    @Override
