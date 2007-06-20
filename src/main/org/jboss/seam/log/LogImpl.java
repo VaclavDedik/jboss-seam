@@ -12,7 +12,7 @@ import org.jboss.seam.core.Interpolator;
  * 
  * @author Gavin King
  */
-public class LogImpl implements Log, Externalizable
+class LogImpl implements Log, Externalizable
 {
    private static final long serialVersionUID = -1664298172030714342L;
    

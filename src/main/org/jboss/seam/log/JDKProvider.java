@@ -3,7 +3,7 @@ package org.jboss.seam.log;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class JDKProvider implements LogProvider
+class JDKProvider implements LogProvider
 {
    private final Logger logger;
    private final boolean isWrapped;
