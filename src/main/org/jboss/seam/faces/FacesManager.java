@@ -17,6 +17,7 @@ import java.util.StringTokenizer;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.event.PhaseId;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
@@ -33,7 +34,6 @@ import org.jboss.seam.log.Logging;
 import org.jboss.seam.navigation.ConversationIdParameter;
 import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.pageflow.Pageflow;
-import org.jboss.seam.util.JSF;
 
 /**
  * The Seam conversation manager.
@@ -110,7 +110,7 @@ public class FacesManager extends Manager
    protected void storeConversationToViewRootIfNecessary()
    {
       FacesContext facesContext = FacesContext.getCurrentInstance();
-      if ( facesContext!=null && Lifecycle.getPhaseId()==JSF.RENDER_RESPONSE )
+      if ( facesContext!=null && Lifecycle.getPhaseId()==PhaseId.RENDER_RESPONSE )
       {
          FacesPage.instance().storeConversation();
       }
