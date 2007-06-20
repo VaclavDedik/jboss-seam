@@ -24,6 +24,7 @@ import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.ServletSession;
+import org.jboss.seam.faces.FacesManager;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.faces.FacesPage;
 import org.jboss.seam.faces.Parameters;
@@ -45,7 +46,7 @@ public class PhaseListenerTest
       Init init = new Init();
       init.setTransactionManagementEnabled(false);
       appContext.set( Seam.getComponentName(Init.class), init );
-      installComponent(appContext, Manager.class);
+      installComponent(appContext, FacesManager.class);
       installComponent(appContext, ConversationEntries.class);
       installComponent(appContext, FacesPage.class);
       installComponent(appContext, Conversation.class);
