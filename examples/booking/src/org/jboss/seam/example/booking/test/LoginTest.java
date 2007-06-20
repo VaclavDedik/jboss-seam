@@ -2,7 +2,7 @@
 package org.jboss.seam.example.booking.test;
 
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.core.ServletSession;
+import org.jboss.seam.web.Session;
 import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
 
@@ -98,14 +98,14 @@ public class LoginTest extends SeamTest
             assert !Manager.instance().isLongRunningConversation();
             assert !isSessionInvalid();
             invokeMethod("#{identity.logout}");
-            assert ServletSession.instance().isInvalid();
+            assert Session.instance().isInvalid();
          }
 
          @Override
          protected void renderResponse()
          {
             assert getValue("#{identity.loggedIn}").equals(false);
-            assert ServletSession.instance().isInvalid();
+            assert Session.instance().isInvalid();
          }
          
       }.run();
