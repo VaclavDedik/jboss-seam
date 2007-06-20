@@ -25,9 +25,9 @@ import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.core.LocalTransactionListener;
-import org.jboss.seam.core.Mutable;
 import org.jboss.seam.core.TransactionListener;
+import org.jboss.seam.core.Mutable;
+import org.jboss.seam.core.AbstractTransactionListener;
 import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -115,7 +115,7 @@ public class ManagedHibernateSession
       if ( !synchronizationRegistered && !Lifecycle.isDestroying() && Transaction.instance().isActive() )
       {
          session.isOpen();
-         LocalTransactionListener transactionListener = TransactionListener.instance();
+         TransactionListener transactionListener = AbstractTransactionListener.instance();
          if (transactionListener!=null)
          {
             transactionListener.registerSynchronization(this);

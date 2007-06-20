@@ -123,9 +123,9 @@ public class Events
       getTransactionListener().scheduleEvent(type, parameters);
    }
 
-   private LocalTransactionListener getTransactionListener()
+   private TransactionListener getTransactionListener()
    {
-      LocalTransactionListener transactionListener = TransactionListener.instance();
+      TransactionListener transactionListener = AbstractTransactionListener.instance();
       if (transactionListener==null)
       {
          throw new IllegalStateException("org.jboss.seam.core.transactionListener is not installed");
