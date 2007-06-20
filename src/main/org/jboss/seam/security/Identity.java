@@ -14,6 +14,7 @@ import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
+import javax.faces.context.FacesContext;
 import javax.security.auth.Subject;
 import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.CallbackHandler;
@@ -111,6 +112,12 @@ public class Identity extends Selector
 
    private void initCredentialsFromCookie()
    {
+      FacesContext ctx = FacesContext.getCurrentInstance();
+      if (ctx != null)
+      {
+         setCookiePath(ctx.getExternalContext().getRequestContextPath());
+      }
+      
       username = getCookieValue();
       if (username!=null)
       {

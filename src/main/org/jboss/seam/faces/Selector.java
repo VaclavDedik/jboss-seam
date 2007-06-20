@@ -17,6 +17,7 @@ public abstract class Selector extends AbstractMutable implements Serializable
 {
    private boolean cookieEnabled;
    private int cookieMaxAge = 31536000; //1 year
+   private String cookiePath= "/";
    
    /**
     * Is the cookie enabled?
@@ -42,6 +43,16 @@ public abstract class Selector extends AbstractMutable implements Serializable
    public void setCookieMaxAge(int cookieMaxAge)
    {
       this.cookieMaxAge = cookieMaxAge;
+   }
+   
+   public String getCookiePath()
+   {
+      return cookiePath;
+   }
+   
+   public void setCookiePath(String cookiePath)
+   {
+      this.cookiePath = cookiePath;
    }
    
    /**
@@ -85,6 +96,7 @@ public abstract class Selector extends AbstractMutable implements Serializable
       {
          HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();         
          cookie.setValue(null);
+         cookie.setPath("/");
          cookie.setMaxAge(0);
          response.addCookie(cookie);
       }
@@ -102,6 +114,7 @@ public abstract class Selector extends AbstractMutable implements Serializable
          HttpServletResponse response = (HttpServletResponse) ctx.getExternalContext().getResponse();
          Cookie cookie = new Cookie( getCookieName(), value );
          cookie.setMaxAge( getCookieMaxAge() );
+         cookie.setPath(cookiePath);
          response.addCookie(cookie);
       }
    }
