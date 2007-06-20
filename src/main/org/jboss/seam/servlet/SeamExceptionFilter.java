@@ -12,9 +12,9 @@ import org.jboss.seam.web.ExceptionFilter;
  * As a last line of defence, rollback uncommitted transactions 
  * at the very end of the request.
  * 
+ * @deprecated use ExceptionFilter
  * @author Gavin King
  */
-@Deprecated
 public class SeamExceptionFilter extends ExceptionFilter
 {
 }
