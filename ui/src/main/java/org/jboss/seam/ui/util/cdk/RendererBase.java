@@ -47,10 +47,8 @@ public abstract class RendererBase extends Renderer {
 	protected static final String JAVASCRIPT_NAMESPACE = "JBossSeam";
    private static final RendererUtils utils = new RendererUtils();
 
-	/* (non-Javadoc)
-	 * @see javax.faces.render.Renderer#decode(javax.faces.context.FacesContext, javax.faces.component.UIComponent)
-	 */
-	public void decode(FacesContext context, UIComponent component) {
+	@Override
+   public void decode(FacesContext context, UIComponent component) {
 		// Test for correct parameters.
         if (context == null) throw new NullPointerException("Context must not be null");
         if (component == null) throw new NullPointerException("Component must not be null");
@@ -69,9 +67,7 @@ public abstract class RendererBase extends Renderer {
 		
 	}
 
-	/* (non-Javadoc)
-	 * @see javax.faces.render.Renderer#encodeBegin(javax.faces.context.FacesContext, javax.faces.component.UIComponent)
-	 */
+   @Override
 	public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
 		// Test for correct parameters.
       if (context == null) throw new NullPointerException("Context must not be null");
@@ -83,12 +79,8 @@ public abstract class RendererBase extends Renderer {
 			doEncodeBegin(writer, context, component);
 		}
 	}
-	
-	
 
-	/* (non-Javadoc)
-	 * @see javax.faces.render.Renderer#encodeChildren(javax.faces.context.FacesContext, javax.faces.component.UIComponent)
-	 */
+   @Override
 	public void encodeChildren(FacesContext context, UIComponent component) throws IOException {
 		// Test for correct parameters.
       if (context == null) throw new NullPointerException("Context must not be null");
@@ -101,9 +93,7 @@ public abstract class RendererBase extends Renderer {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see javax.faces.render.Renderer#encodeEnd(javax.faces.context.FacesContext, javax.faces.component.UIComponent)
-	 */
+   @Override
 	public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
 		// Test for correct parameters.
       if (context == null) throw new NullPointerException("Context must not be null");
@@ -115,18 +105,15 @@ public abstract class RendererBase extends Renderer {
 		}
 	}
 
-	
-
 	/**
 	 * Get base component slass , targetted for this renderer. Used for check arguments in decode/encode.
-	 * @return
 	 */
 	protected abstract Class getComponentClass();
 
 
 	/**
 	 * Template method for custom decoding of concrete renderer.
-	 * All parameters checking if performed in original {@see decode } method.
+	 * All parameters checking if performed in original decode() method.
 	 * @param context
 	 * @param component
 	 */
@@ -136,7 +123,7 @@ public abstract class RendererBase extends Renderer {
 
 	/**
 	 * Template method for custom start encoding of concrete renderer.
-	 * All parameters checking and writer is performed in original {@link encodeBegin } method.
+	 * All parameters checking and writer is performed in original encodeBegin() method.
 	 * @param writer
 	 * @param context
 	 * @param component
@@ -155,7 +142,7 @@ public abstract class RendererBase extends Renderer {
 
 	/**
 	 * Template method for custom finish encoding of concrete renderer.
-	 * All parameters checking and writer is performed in original {@link encodeEnd } method.
+	 * All parameters checking and writer is performed in original encodeEnd() method.
 	 * @param writer
 	 * @param context
 	 * @param component

@@ -28,14 +28,8 @@ import javax.faces.el.MethodBinding;
 import javax.faces.el.MethodNotFoundException;
 
 /**
- * @author shura (latest modification by $Author$)
- * @version $Revision$ $Date$
- *
- */
-/**
  * Simple method binding for constant action outcome.
  * @author asmirnov@exadel.com (latest modification by $Author$)
- * @version $Revision$ $Date$
  *
  */
 public class SimpleActionMethodBinding extends MethodBinding implements StateHolder {
@@ -48,11 +42,13 @@ public class SimpleActionMethodBinding extends MethodBinding implements StateHol
 		_outcome = outcome;
 	}
 
+   @Override
 	public Object invoke(FacesContext facescontext, Object aobj[])
 			throws EvaluationException, MethodNotFoundException {
 		return _outcome;
 	}
-
+   
+   @Override
 	public Class getType(FacesContext facescontext)
 			throws MethodNotFoundException {
 		return String.class;

@@ -2,10 +2,8 @@ package org.jboss.seam.ioc.spring;
 
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
-import org.jboss.remoting.samples.chat.exceptions.InvalidArgumentException;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;

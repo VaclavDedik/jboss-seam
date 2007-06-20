@@ -10,7 +10,6 @@ import javax.faces.context.ResponseWriter;
 
 import org.jboss.seam.ui.component.UIButton;
 import org.jboss.seam.ui.util.HTML;
-import org.jboss.seam.ui.util.JSF;
 import org.jboss.seam.ui.util.cdk.RendererBase;
 
 public class ButtonRendererBase extends RendererBase

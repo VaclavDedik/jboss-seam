@@ -21,7 +21,6 @@
 
 package org.jboss.seam.ui.util.cdk;
 
-import java.awt.Dimension;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -43,7 +42,6 @@ import javax.faces.convert.Converter;
  * Util class for common render operations - render passthru html attributes,
  * iterate over child components etc.
  * @author asmirnov@exadel.com (latest modification by $Author$)
- * @version $Revision$ $Date$
  *
  */
 public class RendererUtils {
@@ -305,9 +303,6 @@ public class RendererUtils {
 
 	/**
 	 * Encode id attribute with clientId component property 
-	 * @param context
-	 * @param component
-	 * @throws IOException
 	 */
 	public void encodeId(FacesContext context, UIComponent component) throws IOException {
 		encodeId(context,component,HTML.id_ATTRIBUTE);
@@ -315,10 +310,6 @@ public class RendererUtils {
 	
 	/**
 	 * Encode clientId to custom attribute ( for example, to control name )
-	 * @param context
-	 * @param component
-	 * @param attribute
-	 * @throws IOException
 	 */
 	public void encodeId(FacesContext context,UIComponent component, String attribute) throws IOException {
 		String clientId = null;
@@ -336,9 +327,6 @@ public class RendererUtils {
 	/**
 	 * Encode id attribute with clientId component property.
 	 * Encoded only if id not auto generated.  
-	 * @param context
-	 * @param component
-	 * @throws IOException
 	 */
 	public void encodeCustomId(FacesContext context, UIComponent component) throws IOException {
 		if(component.getId() != null && !component.getId().startsWith(UIViewRoot.UNIQUE_ID_PREFIX)){
@@ -348,9 +336,6 @@ public class RendererUtils {
 	
 	/**
 	 * Encode common pass-thru html attributes.
-	 * @param context
-	 * @param component
-	 * @throws IOException
 	 */
 	public void encodePassThru(FacesContext context, UIComponent component) throws IOException {
 		encodeAttributesFromArray(context,component,HTML.PASS_THRU);
@@ -384,11 +369,6 @@ public class RendererUtils {
 
 	/**
 	 * Encode one pass-thru attribute, with plain/boolean/url value, got from properly component attribute.
-	 * @param context
-	 * @param component
-	 * @param writer
-	 * @param attribute
-	 * @throws IOException
 	 */
 	public void encodePassThruAttribute(FacesContext context, Map attributes, ResponseWriter writer, String attribute) throws IOException {
 		Object value = attributeValue(attribute,attributes.get(getComponentAttributeName(attribute)));
@@ -427,13 +407,7 @@ public class RendererUtils {
 			encodeAttributesFromArray(context,component,attrsArray);
 		}
 	}
-	/**
-	 * @param context
-	 * @param component
-	 * @param string
-	 * @param string2
-	 * @throws IOException 
-	 */
+
 	public void encodeAttribute(FacesContext context, UIComponent component, Object property, String attributeName) throws IOException {
 		ResponseWriter writer = context.getResponseWriter();
 		Object value = component.getAttributes().get(property);
@@ -515,9 +489,6 @@ public class RendererUtils {
 
 	/**
 	 * Convert HTML attribute name to component property name.
-	 * 
-	 * @param key
-	 * @return
 	 */
 	protected Object getComponentAttributeName(Object key) {
 		Object converted = substitutions.get(key);
@@ -531,9 +502,7 @@ public class RendererUtils {
 	/**
 	 * Convert attribute value to proper object. For known html boolean attributes return name
 	 * for true value, otherthise - null. For non-boolean attributes return same value.
-	 * @param name attribute name.
-	 * @param value
-	 * @return
+	 * @param name attribute name
 	 */
 	protected Object attributeValue(String name, Object value){
 		if (null != value && Arrays.binarySearch(HTML.PASS_THRU_BOOLEAN,name)>=0) {
@@ -575,9 +544,6 @@ public class RendererUtils {
 	/**
 	 * Return converted value for {@link javax.faces.component.ValueHolder} as String,
 	 * perform nessesary convertions.
-	 * @param context
-	 * @param component
-	 * @return
 	 */
 	public String getValueAsString(FacesContext context, UIComponent component) {
 		// First - get submitted value for input components
@@ -599,9 +565,6 @@ public class RendererUtils {
 	/**
 	 * Convert any object value to string. If component instance of {@link ValueHolder } got {@link Converter} for formatting.
 	 * If not, attempt to use converter based on value type.
-	 * @param context
-	 * @param component
-	 * @return
 	 */
 	public String formatValue(FacesContext context, UIComponent component,Object value) {
 		if(value instanceof String) {
@@ -634,7 +597,6 @@ public class RendererUtils {
 	
     /**
      * Find nested form for given component
-     * @param component
      * @return nested <code>UIForm</code> component, or <code>null</code>
      */
     public  UIForm getNestingForm(FacesContext context,UIComponent component)
@@ -654,12 +616,6 @@ public class RendererUtils {
         return nestingForm;
     }
 
-	/**
-	 * @param context
-	 * @param component
-	 * @return
-	 * @throws IOException 
-	 */
 	public void encodeBeginFormIfNessesary(FacesContext context, UIComponent component) throws IOException {
 		UIForm form = getNestingForm(context, component);
 		if(null == form) {
@@ -670,13 +626,6 @@ public class RendererUtils {
 		}
 	}
 
-	/**
-	 * @param context
-	 * @param component
-	 * @param writer
-	 * @param clientId
-	 * @throws IOException
-	 */
 	public void encodeBeginForm(FacesContext context, UIComponent component, ResponseWriter writer, String clientId) throws IOException {
 		String actionURL = getActionUrl(context);
 		String encodeActionURL = context.getExternalContext().encodeActionURL(actionURL);
@@ -691,11 +640,6 @@ public class RendererUtils {
 		                         "action");
 	}
 
-	/**
-	 * @param context
-	 * @param component
-	 * @throws IOException 
-	 */
 	public void encodeEndFormIfNessesary(FacesContext context, UIComponent component) throws IOException {
 		UIForm form = getNestingForm(context, component);
 		if(null == form) {
@@ -705,18 +649,12 @@ public class RendererUtils {
 		}
 	}
 
-	/**
-	 * @param context
-	 * @param writer
-	 * @throws IOException
-	 */
 	public void encodeEndForm(FacesContext context, ResponseWriter writer) throws IOException {
 		
 		writer.endElement(HTML.FORM_ELEMENT);
 	}
 
     /**
-     * @param facesContext
      * @return String A String representing the action URL
      */
     public String getActionUrl(FacesContext facesContext)
@@ -726,9 +664,7 @@ public class RendererUtils {
         return viewHandler.getActionURL(facesContext, viewId);
     }
     /**
-     * Simplified version of {@link encodeId}
-     * @param context
-     * @param component
+     * Simplified version of encodeId()
      * @return client id of current component
      */
     public String clientId(FacesContext context, UIComponent component){
@@ -743,9 +679,6 @@ public class RendererUtils {
 
 	/**
 	 * Wtrie JavaScript with start/end elements and type.
-	 * @param context
-	 * @param tab
-	 * @param string
 	 */
 
 	public void writeScript(FacesContext context, UIComponent component, Object script) throws IOException {

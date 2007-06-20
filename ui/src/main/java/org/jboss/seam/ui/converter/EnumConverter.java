@@ -1,21 +1,11 @@
 package org.jboss.seam.ui.converter;
 
-import static org.jboss.seam.InterceptionType.NEVER;
-import static org.jboss.seam.annotations.Install.BUILT_IN;
-
 import java.util.Collection;
 
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
-
-import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.jsf.Converter;
 
 public class EnumConverter implements javax.faces.convert.Converter
 {

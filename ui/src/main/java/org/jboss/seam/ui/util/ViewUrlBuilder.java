@@ -27,6 +27,7 @@ public class ViewUrlBuilder extends UrlBuilder
       page = Pages.instance().getPage(viewId);
    }
 
+   @Override
    public void addParameter(UIParameter parameter) throws UnsupportedEncodingException
    {
       String name = parameter.getName();

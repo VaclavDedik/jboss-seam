@@ -1717,6 +1717,7 @@ public class Base64
          *
          * @since 1.3
          */
+        @Override
         public void close() throws java.io.IOException
         {
             // 1. Ensure that pending characters are written
