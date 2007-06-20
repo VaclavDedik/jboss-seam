@@ -27,7 +27,6 @@ import org.jboss.seam.core.ServletSession;
 import org.jboss.seam.faces.FacesManager;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.faces.FacesPage;
-import org.jboss.seam.faces.Parameters;
 import org.jboss.seam.faces.Validation;
 import org.jboss.seam.jsf.SeamPhaseListener;
 import org.jboss.seam.jsf.SeamStateManager;
@@ -53,7 +52,6 @@ public class PhaseListenerTest
       installComponent(appContext, FacesMessages.class);
       installComponent(appContext, Pages.class);
       installComponent(appContext, Events.class);
-      installComponent(appContext, Parameters.class);
       installComponent(appContext, Validation.class);
       installComponent(appContext, ServletSession.class);
       installComponent(appContext, ConversationPropagation.class);
