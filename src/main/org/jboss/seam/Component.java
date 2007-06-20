@@ -2159,12 +2159,12 @@ public class Component extends Model
             conversationManagementMethods.contains(method);
    }
 
-   public static interface InitialValue
+   static interface InitialValue
    {
       Object getValue(Class type);
    }
 
-   public static class ConstantInitialValue implements InitialValue
+   static class ConstantInitialValue implements InitialValue
    {
       private Object value;
 
@@ -2186,7 +2186,7 @@ public class Component extends Model
 
    }
 
-   public static class ELInitialValue implements InitialValue
+   static class ELInitialValue implements InitialValue
    {
       private String expression;
       //private ValueBinding vb;
@@ -2255,7 +2255,7 @@ public class Component extends Model
 
    }
 
-   public static class ListInitialValue implements InitialValue
+   static class ListInitialValue implements InitialValue
    {
       private InitialValue[] initialValues;
       private Class elementType;
@@ -2306,7 +2306,7 @@ public class Component extends Model
 
    }
    
-   public static class MapInitialValue implements InitialValue
+   static class MapInitialValue implements InitialValue
    {
       private Map<InitialValue, InitialValue> initialValues;
       private Class elementType;
@@ -2353,7 +2353,7 @@ public class Component extends Model
       public Object get(Object bean);
    }
 
-   public final class BijectedMethod<T extends Annotation> implements BijectedAttribute<T>
+   final class BijectedMethod<T extends Annotation> implements BijectedAttribute<T>
    {
       private final String name;
       private final Method method;
@@ -2396,7 +2396,7 @@ public class Component extends Model
       }
    }
    
-   public final class BijectedField<T extends Annotation> implements BijectedAttribute<T>
+   final class BijectedField<T extends Annotation> implements BijectedAttribute<T>
    {
       private final String name;
       private final Field field;
