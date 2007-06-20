@@ -14,7 +14,7 @@
                   concurrent-request-timeout="500"
                   conversation-id-parameter="cid"/>
 
-    <core:transaction-listener/>
+    <core:ejb-transaction-listener/>
 
     <security:identity authenticate-method="#{authenticator.authenticate}"/>
 
