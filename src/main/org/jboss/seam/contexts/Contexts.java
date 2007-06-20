@@ -6,16 +6,10 @@
  */
 package org.jboss.seam.contexts;
 
-import static org.jboss.seam.annotations.Install.BUILT_IN;
-
 import java.util.Map;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.bpm.BusinessProcess;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Init;
@@ -32,10 +26,6 @@ import org.jboss.seam.transaction.Transaction;
  * @author Gavin King
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  */
-@Name("org.jboss.seam.contexts.contexts")
-@BypassInterceptors
-@Install(precedence=BUILT_IN)
-@Scope(ScopeType.APPLICATION)
 public class Contexts 
 {
 
@@ -49,10 +39,10 @@ public class Contexts
    static final ThreadLocal<Context> conversationContext = new ThreadLocal<Context>();
    static final ThreadLocal<Context> businessProcessContext = new ThreadLocal<Context>();
 
-	public static Context getEventContext() 
+   public static Context getEventContext() 
    {
-		return eventContext.get();
-	}
+      return eventContext.get();
+   }
 
    public static Context getMethodContext() 
    {
@@ -64,35 +54,35 @@ public class Contexts
       return pageContext.get();
    }
 
-	public static Context getSessionContext() 
+   public static Context getSessionContext() 
    {
-		return sessionContext.get();
-	}
+      return sessionContext.get();
+   }
 
-	public static Context getApplicationContext() 
+   public static Context getApplicationContext() 
    {
-		return applicationContext.get();
-	}
+      return applicationContext.get();
+   }
 
-	public static Context getConversationContext() 
+   public static Context getConversationContext() 
    {
-		return conversationContext.get();
-	}
+      return conversationContext.get();
+   }
 
-    public static Context getBusinessProcessContext() 
-    {
-	    return businessProcessContext.get();
-    }
-
-	public static boolean isConversationContextActive() 
+   public static Context getBusinessProcessContext() 
    {
-		return getConversationContext() != null;
-	}
+      return businessProcessContext.get();
+   }
 
-	public static boolean isEventContextActive() 
+   public static boolean isConversationContextActive() 
    {
-		return eventContext.get() != null;
-	}
+      return getConversationContext() != null;
+   }
+
+   public static boolean isEventContextActive() 
+   {
+      return eventContext.get() != null;
+   }
 
    public static boolean isMethodContextActive() 
    {
@@ -104,15 +94,15 @@ public class Contexts
       return pageContext.get() != null;
    }
 
-	public static boolean isSessionContextActive() 
+   public static boolean isSessionContextActive() 
    {
-		return sessionContext.get() != null;
-	}
+      return sessionContext.get() != null;
+   }
 
-	public static boolean isApplicationContextActive() 
+   public static boolean isApplicationContextActive() 
    {
-		return applicationContext.get() != null;
-	}
+      return applicationContext.get() != null;
+   }
 
     public static boolean isBusinessProcessContextActive() 
     {

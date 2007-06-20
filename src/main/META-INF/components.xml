@@ -3,13 +3,13 @@
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation="http://jboss.com/products/seam/components http://jboss.com/products/seam/components-1.3.xsd">
 
-  <factory scope="stateless" auto-create="true" name="applicationContext" value="#{org.jboss.seam.contexts.contexts.applicationContext}"/>
-  <factory scope="stateless" auto-create="true" name="businessProcessContext" value="#{org.jboss.seam.contexts.contexts.businessProcessContext}"/>
-  <factory scope="stateless" auto-create="true" name="methodContext" value="#{org.jboss.seam.contexts.contexts.methodContext}"/>
-  <factory scope="stateless" auto-create="true" name="eventContext" value="#{org.jboss.seam.contexts.contexts.eventContext}"/>
-  <factory scope="stateless" auto-create="true" name="sessionContext" value="#{org.jboss.seam.contexts.contexts.sessionContext}"/>
-  <factory scope="stateless" auto-create="true" name="conversationContext" value="#{org.jboss.seam.contexts.contexts.conversationContext}"/>
-  <factory scope="stateless" auto-create="true" name="pageContext" value="#{org.jboss.seam.contexts.contexts.pageContext}"/>
+  <factory scope="stateless" auto-create="true" name="applicationContext" value="#{org.jboss.seam.core.contexts.applicationContext}"/>
+  <factory scope="stateless" auto-create="true" name="businessProcessContext" value="#{org.jboss.seam.core.contexts.businessProcessContext}"/>
+  <factory scope="stateless" auto-create="true" name="methodContext" value="#{org.jboss.seam.core.contexts.methodContext}"/>
+  <factory scope="stateless" auto-create="true" name="eventContext" value="#{org.jboss.seam.core.contexts.eventContext}"/>
+  <factory scope="stateless" auto-create="true" name="sessionContext" value="#{org.jboss.seam.core.contexts.sessionContext}"/>
+  <factory scope="stateless" auto-create="true" name="conversationContext" value="#{org.jboss.seam.core.contexts.conversationContext}"/>
+  <factory scope="stateless" auto-create="true" name="pageContext" value="#{org.jboss.seam.core.contexts.pageContext}"/>
 
   <factory scope="stateless" auto-create="true" name="conversation" value="#{org.jboss.seam.core.conversation}"/>
   <factory scope="stateless" auto-create="true" name="conversationList" value="#{org.jboss.seam.core.conversationList}"/>

@@ -228,7 +228,7 @@ public class Component extends Model
       {
          throw new IllegalArgumentException("component class is abstract: " + name);
       }
-
+      
       initNamespaces(componentName, applicationContext);
       initSynchronize();
       initStartup();
