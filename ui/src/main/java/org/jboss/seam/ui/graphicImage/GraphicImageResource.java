@@ -43,7 +43,7 @@ public class GraphicImageResource extends AbstractResource
       throws ServletException, IOException
    {
 
-      new ContextualHttpServletRequest(request, getServletContext())
+      new ContextualHttpServletRequest(request)
       {
          @Override
          public void process() throws IOException 

@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,7 +20,7 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
-import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.contexts.ContextualHttpServletRequest;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.servlet.AbstractResource;
 import org.jboss.seam.util.Resources;
@@ -49,34 +50,35 @@ public class StyleResource extends AbstractResource
    private static final String RESOURCE_PATH = "/style";
 
    @Override
-   public void getResource(HttpServletRequest request, HttpServletResponse response)
+   public void getResource(final HttpServletRequest request, final HttpServletResponse response)
+      throws ServletException, IOException
+   {
+
+      new ContextualHttpServletRequest(request)
+      {
+         @Override
+         public void process() throws IOException 
+         {
+            doWork(request, response);
+         }
+      }.run();
+      
+   }  
+   
+   public void doWork(HttpServletRequest request, HttpServletResponse response)
             throws IOException
    {
       String pathInfo = request.getPathInfo().substring(getResourcePath().length());
-
       InputStream in = Resources.getResourceAsStream(pathInfo);
 
       if (in != null)
-      {
-         try
-         {
-            Lifecycle.beginRequest( getServletContext(), request );
-            
-            CharSequence css = readFile(in);
-            
-            css = parseEL(css);
-            
-            String idPrefix = request.getParameter("idPrefix");
-            css = addIdPrefix(idPrefix, css);
-
-            response.getWriter().write(css.toString());
-
-            response.getWriter().flush();
-         }
-         finally
-         {
-            Lifecycle.endRequest();
-         }
+      {           
+         CharSequence css = readFile(in);
+         css = parseEL(css);
+         String idPrefix = request.getParameter("idPrefix");
+         css = addIdPrefix(idPrefix, css);
+         response.getWriter().write(css.toString());
+         response.getWriter().flush();
       }
       else
       {

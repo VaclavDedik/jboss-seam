@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE faces-config PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.1//EN"
+                              "http://java.sun.com/dtd/web-facesconfig_1_1.dtd">
+<faces-config>
+	
+
+
+  <validator>
+	<validator-id>org.jboss.seam.ui.ModelValidator</validator-id>
+	<validator-class>org.jboss.seam.ui.validator.ModelValidator</validator-class>
+		<description>Validate the JSF component against the model</description>
+			  </validator>
+
+  <converter>
+	<converter-id>org.jboss.seam.ui.DateTimeConverter</converter-id>
+	<converter-class>org.jboss.seam.ui.converter.DateTimeConverter</converter-class>
+		<description>Perform date or time conversions in the Seam timezone.</description>
+			  </converter>
+  <converter>
+	<converter-id>org.jboss.seam.ui.EntityConverter</converter-id>
+	<converter-class>org.jboss.seam.ui.converter.EntityConverter</converter-class>
+		<description>Convert an entity.</description>
+			  </converter>
+  <converter>
+	<converter-id>org.jboss.seam.ui.EnumConverter</converter-id>
+	<converter-class>org.jboss.seam.ui.converter.EnumConverter</converter-class>
+		<description>Convert an enum.</description>
+			  </converter>
+
+
+
+  <component>
+  	<description>A link that supports invocation of an action with control over conversation propagation. &amp;lt;i&amp;gt;Does not submit the form.&amp;lt;/i&amp;gt;</description>
+        <component-type>org.jboss.seam.ui.Button</component-type>
+    <component-class>org.jboss.seam.ui.component.html.HtmlButton</component-class>
+    
+	    <component-extension>
+      <component-family>org.jboss.seam.ui.Button</component-family>
+      <renderer-type>org.jboss.seam.ui.ButtonRenderer</renderer-type>
+    </component-extension>
+      </component>
+  <component>
+  	<description>Cache the rendered page fragment using JBoss Cache. Note that &amp;lt;s:cache&amp;gt; actually uses the instance of JBoss Cache managed by the built-in pojoCache component.</description>
+        <component-type>org.jboss.seam.ui.Cache</component-type>
+    <component-class>org.jboss.seam.ui.component.html.HtmlCache</component-class>
+    
+	    <component-extension>
+      <component-family>org.jboss.seam.ui.Cache</component-family>
+      <renderer-type>org.jboss.seam.ui.CacheRenderer</renderer-type>
+    </component-extension>
+      </component>
+  <component>
+  	<description>Add the conversation id to an output link (or similar JSF control).</description>
+        <component-type>org.jboss.seam.ui.ConversationId</component-type>
+    <component-class>org.jboss.seam.ui.component.html.HtmlConversationId</component-class>
+    
+	  </component>
+  <component>
+  	<description>Add a stylesheet to the &amp;lt;head&amp;gt; of the page.  Any EL in the CSS will be resolved.</description>
+        <component-type>org.jboss.seam.ui.LoadStyle</component-type>
+    <component-class>org.jboss.seam.ui.component.html.HtmlLoadStyle</component-class>
+    
+	  </component>
+  <component>
+  	<description>Customize the conversation propagation for a command link or button (or similar JSF control).</description>
+        <component-type>org.jboss.seam.ui.ConversationPropagation</component-type>
+    <component-class>org.jboss.seam.ui.component.html.HtmlConversationPropagation</component-class>
+    
+	  </component>
+  <component>
+  	<description>"Decorate" a JSF input field when validation fails or when required="true" is set.</description>
+        <component-type>org.jboss.seam.ui.Decorate</component-type>
+    <component-class>org.jboss.seam.ui.component.html.HtmlDecorate</component-class>
+    
+	    <component-extension>
+      <component-family>org.jboss.seam.ui.Decorate</component-family>
+      <renderer-type>org.jboss.seam.ui.DecorateRenderer</renderer-type>
+    </component-extension>
+      </component>
+  <component>
+  	<description>Render a HTML &amp;lt;div&amp;gt;.</description>
+        <component-type>org.jboss.seam.ui.Div</component-type>
+    <component-class>org.jboss.seam.ui.component.html.HtmlDiv</component-class>
+    
+	    <component-extension>
+      <component-family>org.jboss.seam.ui.Div</component-family>
+      <renderer-type>org.jboss.seam.ui.DivRenderer</renderer-type>
+    </component-extension>
+      </component>
+  <component>
+  	<description>Creates a SelectItem from an enum value.</description>
+        <component-type>org.jboss.seam.ui.EnumItem</component-type>
+    <component-class>org.jboss.seam.ui.component.html.HtmlEnumItem</component-class>
+    
+	  </component>
+  <component>
+  	<description>Renders a file upload control. This control must be used within a form with an encoding type of multipart/form-data, i.e:
+
+&amp;lt;h:form enctype="multipart/form-data"&amp;gt;
+                                    
+For multipart requests, the Seam Multipart servlet filter must also be configured in web.xml:                          
+    
+&amp;lt;filter&amp;gt;
+  &amp;lt;filter-name&amp;gt;Seam Filter&amp;lt;/filter-name&amp;gt;
+  &amp;lt;filter-class&amp;gt;org.jboss.seam.web.SeamFilter&amp;lt;/filter-class&amp;gt;
+&amp;lt;/filter&amp;gt;
+
+&amp;lt;filter-mapping&amp;gt;
+  &amp;lt;filter-name&amp;gt;Seam Filter&amp;lt;/filter-name&amp;gt;
+  &amp;lt;url-pattern&amp;gt;/*&amp;lt;/url-pattern&amp;gt;
+&amp;lt;/filter-mapping&amp;gt; 
+    
+The following configuration options for multipart requests may be configured in components.xml:
+
+* createTempFiles - if this option is set to true, uploaded files are streamed to a temporary file instead of in memory.
+* maxRequestSize - the maximum size of a file upload request, in bytes. 
+
+Here's an example:
+          
+&amp;lt;component class="org.jboss.seam.servlet.MultipartConfig"&amp;gt;
+    &amp;lt;property name="createTempFiles"&amp;gt;true&amp;lt;/property&amp;gt;
+    &amp;lt;property name="maxRequestSize"&amp;gt;1000000&amp;lt;/property&amp;gt;
+&amp;lt;/component&amp;gt;</description>
+        <component-type>org.jboss.seam.ui.FileUpload</component-type>
+    <component-class>org.jboss.seam.ui.component.html.HtmlFileUpload</component-class>
+    
+	    <component-extension>
+      <component-family>org.jboss.seam.ui.FileUpload</component-family>
+      <renderer-type>org.jboss.seam.ui.FileUploadRenderer</renderer-type>
+    </component-extension>
+      </component>
+  <component>
+  	<description>Output Seam Text.</description>
+        <component-type>org.jboss.seam.ui.FormattedText</component-type>
+    <component-class>org.jboss.seam.ui.component.html.HtmlFormattedText</component-class>
+    
+	    <component-extension>
+      <component-family>org.jboss.seam.ui.FormattedText</component-family>
+      <renderer-type>org.jboss.seam.ui.FormattedTextRenderer</renderer-type>
+    </component-extension>
+      </component>
+  <component>
+  	<description></description>
+        <component-type>org.jboss.seam.ui.Fragment</component-type>
+    <component-class>org.jboss.seam.ui.component.html.HtmlFragment</component-class>
+    
+	    <component-extension>
+      <component-family>org.jboss.seam.ui.Fragment</component-family>
+      <renderer-type>org.jboss.seam.ui.FragmentRenderer</renderer-type>
+    </component-extension>
+      </component>
+  <component>
+  	<description>A label associated with the nearest JSF input component</description>
+        <component-type>org.jboss.seam.ui.Label</component-type>
+    <component-class>org.jboss.seam.ui.component.html.HtmlLabel</component-class>
+    
+	  </component>
+  <component>
+  	<description>A link that supports invocation of an action with control over conversation propagation. Does not submit the form.</description>
+        <component-type>org.jboss.seam.ui.Link</component-type>
+    <component-class>org.jboss.seam.ui.component.html.HtmlLink</component-class>
+    
+	    <component-extension>
+      <component-family>org.jboss.seam.ui.Link</component-family>
+      <renderer-type>org.jboss.seam.ui.LinkRenderer</renderer-type>
+    </component-extension>
+      </component>
+  <component>
+  	<description>"Decorate" a JSF input field with the validation error message.</description>
+        <component-type>org.jboss.seam.ui.Message</component-type>
+    <component-class>org.jboss.seam.ui.component.html.HtmlMessage</component-class>
+    
+	  </component>
+  <component>
+  	<description>Creates a List&amp;lt;SelectItem&amp;gt; from a List, Set, DataModel or Array.</description>
+        <component-type>org.jboss.seam.ui.SelectItems</component-type>
+    <component-class>org.jboss.seam.ui.component.html.HtmlSelectItems</component-class>
+    
+	  </component>
+  <component>
+  	<description></description>
+        <component-type>org.jboss.seam.ui.Selection</component-type>
+    <component-class>org.jboss.seam.ui.component.html.HtmlSelection</component-class>
+    
+	  </component>
+  <component>
+  	<description>Render a HTML &amp;lt;span&amp;gt;</description>
+        <component-type>org.jboss.seam.ui.Span</component-type>
+    <component-class>org.jboss.seam.ui.component.html.HtmlSpan</component-class>
+    
+	    <component-extension>
+      <component-family>org.jboss.seam.ui.Span</component-family>
+      <renderer-type>org.jboss.seam.ui.SpanRenderer</renderer-type>
+    </component-extension>
+      </component>
+  <component>
+  	<description>Add the task id to an output link (or similar JSF control), when the task is available via #{task}.</description>
+        <component-type>org.jboss.seam.ui.TaskId</component-type>
+    <component-class>org.jboss.seam.ui.component.html.HtmlTaskId</component-class>
+    
+	  </component>
+  <component>
+  	<description>Validate all child JSF input fields against the bound propertys using Hibernate Validator.</description>
+        <component-type>org.jboss.seam.ui.ValidateAll</component-type>
+    <component-class>org.jboss.seam.ui.component.html.HtmlValidateAll</component-class>
+    
+	    <component-extension>
+      <component-family>org.jboss.seam.ui.ValidateAll</component-family>
+      <renderer-type>org.jboss.seam.ui.ValidateAllRenderer</renderer-type>
+    </component-extension>
+      </component>
+  <component>
+  	<description></description>
+        <component-type>org.jboss.seam.ui.graphicImage.GraphicImage</component-type>
+    <component-class>org.jboss.seam.ui.component.html.HtmlGraphicImage</component-class>
+    
+	    <component-extension>
+      <component-family>org.jboss.seam.ui.graphicImage.GraphicImage</component-family>
+      <renderer-type>org.jboss.seam.ui.GraphicImageRenderer</renderer-type>
+    </component-extension>
+      </component>
+  <component>
+  	<description></description>
+        <component-type>org.jboss.seam.ui.graphicImage.TransformImageBlur</component-type>
+    <component-class>org.jboss.seam.ui.component.html.HtmlTransformImageBlur</component-class>
+    
+	  </component>
+  <component>
+  	<description></description>
+        <component-type>org.jboss.seam.ui.graphicImage.TransformImageSize</component-type>
+    <component-class>org.jboss.seam.ui.component.html.HtmlTransformImageSize</component-class>
+    
+	  </component>
+  <component>
+  	<description></description>
+        <component-type>org.jboss.seam.ui.SelectDate</component-type>
+    <component-class>org.jboss.seam.ui.component.html.HtmlSelectDate</component-class>
+    
+	    <component-extension>
+      <component-family>org.jboss.seam.ui.SelectDate</component-family>
+      <renderer-type>org.jboss.seam.ui.SelectDateRenderer</renderer-type>
+    </component-extension>
+      </component>
+  <component>
+  	<description></description>
+        <component-type>org.jboss.seam.ui.graphicImage.TransformImageType</component-type>
+    <component-class>org.jboss.seam.ui.component.html.HtmlTransformImageType</component-class>
+    
+	  </component>
+
+  <render-kit>
+				<render-kit-id>HTML_BASIC</render-kit-id>
+							  		<renderer>
+			<component-family>org.jboss.seam.ui.Button</component-family>
+			<renderer-type>
+				org.jboss.seam.ui.ButtonRenderer
+			</renderer-type>
+			<renderer-class>
+				org.jboss.seam.ui.renderkit.ButtonRendererBase
+			</renderer-class>
+		</renderer>
+						  		<renderer>
+			<component-family>org.jboss.seam.ui.Cache</component-family>
+			<renderer-type>
+				org.jboss.seam.ui.CacheRenderer
+			</renderer-type>
+			<renderer-class>
+				org.jboss.seam.ui.renderkit.CacheRendererBase
+			</renderer-class>
+		</renderer>
+									  		<renderer>
+			<component-family>org.jboss.seam.ui.Decorate</component-family>
+			<renderer-type>
+				org.jboss.seam.ui.DecorateRenderer
+			</renderer-type>
+			<renderer-class>
+				org.jboss.seam.ui.renderkit.DecorateRendererBase
+			</renderer-class>
+		</renderer>
+						  		<renderer>
+			<component-family>org.jboss.seam.ui.Div</component-family>
+			<renderer-type>
+				org.jboss.seam.ui.DivRenderer
+			</renderer-type>
+			<renderer-class>
+				org.jboss.seam.ui.renderkit.DivRendererBase
+			</renderer-class>
+		</renderer>
+							  		<renderer>
+			<component-family>org.jboss.seam.ui.FileUpload</component-family>
+			<renderer-type>
+				org.jboss.seam.ui.FileUploadRenderer
+			</renderer-type>
+			<renderer-class>
+				org.jboss.seam.ui.renderkit.FileUploadRendererBase
+			</renderer-class>
+		</renderer>
+						  		<renderer>
+			<component-family>org.jboss.seam.ui.FormattedText</component-family>
+			<renderer-type>
+				org.jboss.seam.ui.FormattedTextRenderer
+			</renderer-type>
+			<renderer-class>
+				org.jboss.seam.ui.renderkit.FormattedTextRendererBase
+			</renderer-class>
+		</renderer>
+						  		<renderer>
+			<component-family>org.jboss.seam.ui.Fragment</component-family>
+			<renderer-type>
+				org.jboss.seam.ui.FragmentRenderer
+			</renderer-type>
+			<renderer-class>
+				org.jboss.seam.ui.renderkit.FragmentRendererBase
+			</renderer-class>
+		</renderer>
+							  		<renderer>
+			<component-family>org.jboss.seam.ui.Link</component-family>
+			<renderer-type>
+				org.jboss.seam.ui.LinkRenderer
+			</renderer-type>
+			<renderer-class>
+				org.jboss.seam.ui.renderkit.LinkRendererBase
+			</renderer-class>
+		</renderer>
+									  		<renderer>
+			<component-family>org.jboss.seam.ui.Span</component-family>
+			<renderer-type>
+				org.jboss.seam.ui.SpanRenderer
+			</renderer-type>
+			<renderer-class>
+				org.jboss.seam.ui.renderkit.SpanRendererBase
+			</renderer-class>
+		</renderer>
+							  		<renderer>
+			<component-family>org.jboss.seam.ui.ValidateAll</component-family>
+			<renderer-type>
+				org.jboss.seam.ui.ValidateAllRenderer
+			</renderer-type>
+			<renderer-class>
+				org.jboss.seam.ui.renderkit.ValidateAllRendererBase
+			</renderer-class>
+		</renderer>
+						  		<renderer>
+			<component-family>org.jboss.seam.ui.graphicImage.GraphicImage</component-family>
+			<renderer-type>
+				org.jboss.seam.ui.GraphicImageRenderer
+			</renderer-type>
+			<renderer-class>
+				org.jboss.seam.ui.graphicImage.GraphicImageRendererBase
+			</renderer-class>
+		</renderer>
+								  		<renderer>
+			<component-family>org.jboss.seam.ui.SelectDate</component-family>
+			<renderer-type>
+				org.jboss.seam.ui.SelectDateRenderer
+			</renderer-type>
+			<renderer-class>
+				org.jboss.seam.ui.renderkit.SelectDateRendererBase
+			</renderer-class>
+		</renderer>
+				  </render-kit>
+
+
+</faces-config>
