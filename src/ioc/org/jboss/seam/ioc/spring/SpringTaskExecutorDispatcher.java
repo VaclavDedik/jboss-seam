@@ -23,7 +23,7 @@ import org.springframework.core.task.TaskExecutor;
  * @author Mike Youngstrom
  */
 @Scope(ScopeType.APPLICATION)
-@Name("org.jboss.seam.core.dispatcher")
+@Name("org.jboss.seam.async.dispatcher")
 @Install(value=false, precedence=BUILT_IN)
 public class SpringTaskExecutorDispatcher<T, S> extends AbstractDispatcher<T, S>
 {

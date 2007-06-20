@@ -36,7 +36,7 @@ public abstract class AbstractDispatcher<T, S> implements Dispatcher<T, S>
       {
          throw new IllegalStateException("no application context active");
       }
-      return (Dispatcher) Component.getInstance("org.jboss.seam.core.dispatcher");         
+      return (Dispatcher) Component.getInstance("org.jboss.seam.async.dispatcher");         
    }
 
    public static abstract class Asynchronous implements Serializable

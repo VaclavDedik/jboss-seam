@@ -140,7 +140,7 @@ public class Events
       Dispatcher dispatcher = AbstractDispatcher.instance();
       if (dispatcher==null)
       {
-         throw new IllegalStateException("org.jboss.seam.core.dispatcher is not installed");
+         throw new IllegalStateException("org.jboss.seam.async.dispatcher is not installed");
       }
       return dispatcher;
    }

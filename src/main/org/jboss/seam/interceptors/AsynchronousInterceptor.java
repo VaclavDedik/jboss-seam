@@ -24,7 +24,7 @@ public class AsynchronousInterceptor extends AbstractInterceptor
          Dispatcher dispatcher = AbstractDispatcher.instance();
          if (dispatcher==null)
          {
-            throw new IllegalStateException("org.jboss.seam.core.dispatcher is not installed in components.xml");
+            throw new IllegalStateException("org.jboss.seam.async.dispatcher is not installed in components.xml");
          }
          Object timer = dispatcher.scheduleInvocation( invocation, getComponent() );
          //if the method returns a Timer, return it to the client

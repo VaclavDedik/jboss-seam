@@ -13,6 +13,14 @@
     </xs:element>
     <xs:attributeGroup name="attlist.timerServiceDispatcher"> </xs:attributeGroup>
 
+    <xs:element name="quartz-dispatcher">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="async:attlist.quartzDispatcher"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.quartzDispatcher"> </xs:attributeGroup>
+
     <xs:element name="thread-pool-dispatcher">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
