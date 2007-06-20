@@ -1346,7 +1346,7 @@
         
         <variablelist>
             <varlistentry>
-                <term><literal>org.jboss.seam.core.dispatcher</literal></term>
+                <term><literal>org.jboss.seam.async.dispatcher</literal></term>
                 <listitem>
                     <para>
                         Dispatcher stateless session bean for asynchronous methods.

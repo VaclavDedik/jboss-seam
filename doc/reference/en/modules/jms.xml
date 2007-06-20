@@ -43,7 +43,7 @@
             EJB 3.0, and add the following line to <literal>components.xml</literal>:
         </para>
         
-        <programlisting><![CDATA[<core:timer-service-dispatcher/>]]></programlisting>
+        <programlisting><![CDATA[<async:timer-service-dispatcher/>]]></programlisting>
         
         <para>
             then your asynchronous tasks will be processed by the container's EJB timer service. If 
@@ -54,14 +54,19 @@
         </para>
         
         <para>
-            Another alternative is to use the open source Quartz library to manage asynchronous method. You need to bundle the Quartz library JAR (found in the <literal>lib</literal> directory) in your EAR and declare it as a Java module in <literal>application.xml</literal>. In addition, you need to add the following line to <literal>components.xml</literal> to install the Quartz dispatcher.
+            Another alternative is to use the open source Quartz library to manage asynchronous method. 
+            You need to bundle the Quartz library JAR (found in the <literal>lib</literal> directory) 
+            in your EAR and declare it as a Java module in <literal>application.xml</literal>. In addition, 
+            you need to add the following line to <literal>components.xml</literal> to install the Quartz 
+            dispatcher.
         </para>
         
-        <programlisting><![CDATA[<component name="org.jboss.seam.core.dispatcher" 
-        class="org.jboss.seam.core.QuartzDispatcher"/>]]></programlisting>
+        <programlisting><![CDATA[<async:quartz-dispatcher/>]]></programlisting>
             
         <para>
-            The Seam API for the default <literal>ScheduledThreadPoolExecutor</literal>, the EJB3 <literal>Timer</literal>, and the Quartz <literal>Scheduler</literal> are largely the same. They can just "plug and play" by adding a line to <literal>components.xml</literal> as we shown above.
+            The Seam API for the default <literal>ScheduledThreadPoolExecutor</literal>, the EJB3 
+            <literal>Timer</literal>, and the Quartz <literal>Scheduler</literal> are largely the 
+            same. They can just "plug and play" by adding a line to <literal>components.xml</literal>.
         </para>
         
         <sect2>
@@ -305,8 +310,8 @@ public class CreatePaymentAction
         </para>
         
         <programlisting><![CDATA[<jms:managed-topic-publisher name="stockTickerPublisher" 
-                                                              auto-create="true" 
-                                                              topic-jndi-name="topic/stockTickerTopic"/>
+                             auto-create="true" 
+                             topic-jndi-name="topic/stockTickerTopic"/>
 
 <jms:managed-queue-sender name="paymentQueueSender" 
                           auto-create="true" 
