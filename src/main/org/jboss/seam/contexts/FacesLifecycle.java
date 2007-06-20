@@ -21,22 +21,23 @@ import org.jboss.seam.navigation.Pages;
  */
 public class FacesLifecycle
 {
+   private static ThreadLocal<PhaseId> phaseId = new ThreadLocal<PhaseId>();
 
    private static final LogProvider log = Logging.getLogProvider(FacesLifecycle.class);
    
    public static void setPhaseId(PhaseId phase)
    {
-      Lifecycle.setPhaseId(phase);
+      phaseId.set(phase);
    }
    
    public static PhaseId getPhaseId()
    {
-      return (PhaseId) Lifecycle.getPhaseId();
+      return phaseId.get();
    }
 
    public static void clearPhaseId()
    {
-      Lifecycle.setPhaseId(null);
+      setPhaseId(null);
    }
 
    public static void beginRequest(ExternalContext externalContext) 
@@ -78,7 +79,7 @@ public class FacesLifecycle
          if (sessionInvalid)
          {
             Lifecycle.clearThreadlocals();
-            Lifecycle.setPhaseId(null);
+            clearPhaseId();
             invalidateSession(externalContext);
             //actual session context will be destroyed from the listener
          }

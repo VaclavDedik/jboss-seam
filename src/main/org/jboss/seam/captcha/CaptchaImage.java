@@ -1,6 +1,5 @@
 package org.jboss.seam.captcha;
 
-import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
@@ -14,10 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.servlet.AbstractResource;
@@ -34,7 +33,7 @@ import com.octo.captcha.service.image.ImageCaptchaService;
 @Startup
 @Scope(APPLICATION)
 @Name("org.jboss.seam.captcha.captchaImage")
-@Intercept(NEVER)
+@BypassInterceptors
 @Install(precedence = BUILT_IN,  
          classDependencies="com.octo.captcha.service.image.ImageCaptchaService")
 public class CaptchaImage extends AbstractResource

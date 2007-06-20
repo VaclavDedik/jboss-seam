@@ -1,6 +1,5 @@
 package org.jboss.seam.remoting.gwt;
 
-import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
@@ -11,10 +10,10 @@ import java.util.Map;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.WebRemote;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.util.EJB;
 
 /**
@@ -24,7 +23,7 @@ import org.jboss.seam.util.EJB;
  */
 @Scope(APPLICATION)
 @Name("org.jboss.seam.remoting.gwt.gwtToSeamAdapter")
-@Intercept(NEVER)
+@BypassInterceptors
 @Install(precedence=BUILT_IN)
 public class GWTToSeamAdapter {
 

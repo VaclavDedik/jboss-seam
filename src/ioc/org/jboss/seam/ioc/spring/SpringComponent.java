@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
@@ -32,7 +31,7 @@ public class SpringComponent extends IoCComponent
 
     private BeanFactory beanfactory;
 
-    private InterceptionType interceptionType;
+    private Boolean interceptionEnabled;
 
     private String springBeanName;
 
@@ -56,10 +55,10 @@ public class SpringComponent extends IoCComponent
      * @param beanClassName the seam beanClass to use
      * @param scopeType the scope of this component
      * @param beanFactory the beanfactory this spring bean exists in
-     * @param interceptorType the InterceptorTyp to force the bean to use. Will override any annotations on the bean.
+     * @param intercept the InterceptorTyp to force the bean to use. Will override any annotations on the bean.
      */
     public static void addSpringComponent(String componentName, String springBeanName, String beanClassName,
-            ScopeType scopeType, BeanFactory beanFactory, InterceptionType interceptorType)
+            ScopeType scopeType, BeanFactory beanFactory, Boolean intercept)
     {
         // mock the application context
         // TODO reuse
@@ -84,7 +83,7 @@ public class SpringComponent extends IoCComponent
             Contexts.getApplicationContext().set(
                     componentName + Initialization.COMPONENT_SUFFIX,
                     new SpringComponent(beanClass, componentName, springBeanName, scopeType, beanFactory,
-                            interceptorType));
+                            intercept));
         }
         catch (ClassNotFoundException e)
         {
@@ -146,15 +145,15 @@ public class SpringComponent extends IoCComponent
      * @param springBeanName the spring bean name
      * @param scope component scope
      * @param factory the beanfactory this spring component should use
-     * @param interception the interception type
+     * @param intercept the interception type
      */
     public SpringComponent(Class clazz, String componentName, String springBeanName, ScopeType scope,
-            BeanFactory factory, InterceptionType interception)
+            BeanFactory factory, Boolean intercept)
     {
         super(clazz, componentName, scope);
         this.springBeanName = springBeanName;
         this.beanfactory = factory;
-        this.interceptionType = interception;
+        this.interceptionEnabled = intercept;
     }
 
     @Override
@@ -239,16 +238,16 @@ public class SpringComponent extends IoCComponent
     /**
      * Use the InterceptionType override if available otherwise use the annotation or seam default.
      *
-     * @see org.jboss.seam.Component#getInterceptionType()
+     * @see org.jboss.seam.Component#isInterceptionEnabled()
      */
     @Override
-    public InterceptionType getInterceptionType()
+    public boolean isInterceptionEnabled()
     {
-        if (interceptionType == null)
+        if (interceptionEnabled == null)
         {
-            return super.getInterceptionType();
+            return super.isInterceptionEnabled();
         }
-        return interceptionType;
+        return interceptionEnabled;
     }
     
     @Override

@@ -1,6 +1,5 @@
 package org.jboss.seam.ui.converter;
 
-import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.ScopeType.CONVERSATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
@@ -13,11 +12,11 @@ import javax.persistence.EntityManager;
 
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Role;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Transactional;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.annotations.jsf.Converter;
 import org.jboss.seam.core.Expressions.ValueExpression;
 
@@ -31,7 +30,7 @@ import org.jboss.seam.core.Expressions.ValueExpression;
 @Scope(CONVERSATION)
 @Install(precedence = BUILT_IN)
 @Converter
-@Intercept(NEVER)
+@BypassInterceptors
 public class EntityConverter implements
          javax.faces.convert.Converter, Serializable
 {
@@ -87,7 +86,9 @@ public class EntityConverter implements
       this.entityManager = entityManager;
    }
    
-   private EntityManager getEntityManager() {
-      return entityManager == null ? null : entityManager.getValue();
+   private EntityManager getEntityManager() 
+   {
+      return entityManager == null ? 
+            null : entityManager.getValue();
    }
 }

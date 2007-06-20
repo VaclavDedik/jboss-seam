@@ -10,8 +10,8 @@ import javax.servlet.http.HttpSessionEvent;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ComponentType;
-import org.jboss.seam.InterceptorType;
 import org.jboss.seam.annotations.ReadOnly;
+import org.jboss.seam.annotations.intercept.InterceptorType;
 import org.jboss.seam.core.Mutable;
 
 /**

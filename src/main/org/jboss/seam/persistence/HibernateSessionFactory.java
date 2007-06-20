@@ -1,8 +1,6 @@
 //$Id$
 package org.jboss.seam.persistence;
 
-import static org.jboss.seam.InterceptionType.NEVER;
-
 import java.io.File;
 import java.util.Hashtable;
 import java.util.List;
@@ -17,10 +15,10 @@ import org.hibernate.util.ReflectHelper;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.Unwrap;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.security.HibernateSecurityInterceptor;
 import org.jboss.seam.util.Naming;
 
@@ -54,7 +52,7 @@ import org.jboss.seam.util.Naming;
  * @author Christian Bauer
  */
 @Scope(ScopeType.APPLICATION)
-@Intercept(NEVER)
+@BypassInterceptors
 @Startup
 public class HibernateSessionFactory
 {

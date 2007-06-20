@@ -1,7 +1,6 @@
 package org.jboss.seam.trinidad;
 
 import static org.jboss.seam.ScopeType.PAGE;
-import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.util.ArrayList;
@@ -11,7 +10,7 @@ import javax.persistence.EntityManager;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Transactional;
@@ -26,7 +25,7 @@ import org.jboss.seam.framework.EntityIdentifier;
 
 @Name("org.jboss.seam.trinidad.entityKeyManager")
 @Scope(PAGE)
-@Intercept(NEVER)
+@BypassInterceptors
 @Install(precedence=BUILT_IN)
 public class EntityKeyManager extends AbstractMutable
 {

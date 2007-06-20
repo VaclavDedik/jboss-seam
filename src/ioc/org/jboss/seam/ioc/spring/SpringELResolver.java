@@ -1,7 +1,5 @@
 package org.jboss.seam.ioc.spring;
 
-import static org.jboss.seam.InterceptionType.NEVER;
-
 import java.beans.FeatureDescriptor;
 import java.util.Iterator;
 
@@ -13,10 +11,10 @@ import javax.servlet.ServletContext;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.el.EL;
 import org.jboss.seam.log.LogProvider;
@@ -34,7 +32,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 @Name("org.jboss.seam.ioc.spring.springELResolver")
 @Install(precedence = Install.FRAMEWORK, classDependencies="org.springframework.beans.factory.BeanFactory")
 @Startup
-@Intercept(NEVER)
+@BypassInterceptors
 public class SpringELResolver extends ELResolver
 {
    private static final LogProvider log = Logging.getLogProvider(SpringELResolver.class);

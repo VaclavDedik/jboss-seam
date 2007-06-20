@@ -1,6 +1,5 @@
 package org.jboss.seam.remoting;
 
-import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
@@ -16,10 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -29,7 +28,7 @@ import org.jboss.seam.servlet.AbstractResource;
 @Scope(APPLICATION)
 @Name("org.jboss.seam.remoting.remoting")
 @Install(precedence = BUILT_IN)
-@Intercept(NEVER)
+@BypassInterceptors
 public class Remoting extends AbstractResource
 {   
    public static final int DEFAULT_POLL_TIMEOUT = 10; // 10 seconds

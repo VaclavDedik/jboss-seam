@@ -11,7 +11,7 @@ import java.util.List;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Interceptor;
+import org.jboss.seam.annotations.intercept.Interceptor;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.persistence.PersistenceContexts;

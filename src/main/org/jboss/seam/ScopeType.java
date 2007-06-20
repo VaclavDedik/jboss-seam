@@ -13,7 +13,6 @@ import org.jboss.seam.contexts.Contexts;
  * The available scopes (contexts).
  * 
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
- * @version $Revision$
  */
 public enum ScopeType 
 {

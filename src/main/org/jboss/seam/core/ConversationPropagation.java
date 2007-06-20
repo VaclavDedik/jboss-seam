@@ -3,12 +3,11 @@ package org.jboss.seam.core;
 import java.util.Map;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -17,7 +16,7 @@ import org.jboss.seam.navigation.Pages;
 
 @Name("org.jboss.seam.core.conversationPropagation")
 @Scope(ScopeType.EVENT)
-@Intercept(InterceptionType.NEVER)
+@BypassInterceptors
 @Install(precedence=Install.BUILT_IN)
 public class ConversationPropagation
 {

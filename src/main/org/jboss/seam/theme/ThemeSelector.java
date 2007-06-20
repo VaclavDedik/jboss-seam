@@ -1,6 +1,5 @@
 package org.jboss.seam.theme;
 
-import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.util.ArrayList;
@@ -19,9 +18,9 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.faces.Selector;
@@ -38,7 +37,7 @@ import org.jboss.seam.navigation.Pages;
  */
 @Scope(ScopeType.SESSION)
 @Name("org.jboss.seam.theme.themeSelector")
-@Intercept(NEVER)
+@BypassInterceptors
 @Install(precedence=BUILT_IN, classDependencies="javax.faces.context.FacesContext")
 public class ThemeSelector extends Selector
 {

@@ -1,6 +1,5 @@
 package org.jboss.seam.pageflow;
 
-import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.Serializable;
@@ -14,10 +13,10 @@ import javax.faces.event.PhaseId;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.PerNestedConversation;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.bpm.Jbpm;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.FacesLifecycle;
@@ -45,7 +44,7 @@ import org.jbpm.graph.exe.ProcessInstance;
 @Scope(ScopeType.CONVERSATION)
 @PerNestedConversation
 @Name("org.jboss.seam.pageflow.pageflow")
-@Intercept(NEVER)
+@BypassInterceptors
 @Install(dependencies="org.jboss.seam.bpm.jbpm", precedence=BUILT_IN, classDependencies="javax.faces.context.FacesContext")
 public class Pageflow extends AbstractMutable implements Serializable
 {

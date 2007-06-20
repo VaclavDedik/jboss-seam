@@ -66,7 +66,6 @@ import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.EndTask;
 import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Interceptors;
 import org.jboss.seam.annotations.JndiName;
 import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.Out;
@@ -79,6 +78,8 @@ import org.jboss.seam.annotations.Synchronized;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.datamodel.DataModel;
+import org.jboss.seam.annotations.intercept.InterceptorType;
+import org.jboss.seam.annotations.intercept.Interceptors;
 import org.jboss.seam.annotations.jsf.Converter;
 import org.jboss.seam.annotations.jsf.Validator;
 import org.jboss.seam.annotations.security.Restrict;
@@ -143,7 +144,7 @@ public class Component extends Model
    private String name;
    private ScopeType scope;
    private String jndiName;
-   private InterceptionType interceptionType;
+   private boolean interceptionEnabled;
    private boolean startup;
    private String[] dependencies;
    private boolean synchronize;
@@ -217,7 +218,7 @@ public class Component extends Model
       name = componentName;
       scope = componentScope;
       type = Seam.getComponentType( getBeanClass() );
-      interceptionType = Seam.getInterceptionType (getBeanClass() );
+      interceptionEnabled = Seam.isInterceptionEnabled( getBeanClass() );
       
       if ( getBeanClass().isInterface() )
       {
@@ -252,7 +253,7 @@ public class Component extends Model
 
       businessInterfaces = getBusinessInterfaces( getBeanClass() );
 
-      if ( interceptionType!=InterceptionType.NEVER)
+      if ( interceptionEnabled )
       {
          initInterceptors();
       }
@@ -863,9 +864,9 @@ public class Component extends Model
       for (SortItem<Interceptor> si : siList)
       {
          Class<?> clazz = si.getObj().getUserInterceptorClass();
-         if ( clazz.isAnnotationPresent(org.jboss.seam.annotations.Interceptor.class) )
+         if ( clazz.isAnnotationPresent(org.jboss.seam.annotations.intercept.Interceptor.class) )
          {
-            org.jboss.seam.annotations.Interceptor interceptorAnn = clazz.getAnnotation(org.jboss.seam.annotations.Interceptor.class);
+            org.jboss.seam.annotations.intercept.Interceptor interceptorAnn = clazz.getAnnotation(org.jboss.seam.annotations.intercept.Interceptor.class);
             for (Class<?> cl : Arrays.asList( interceptorAnn.around() ) )
             {
                SortItem<Interceptor> sortItem = ht.get(cl);
@@ -1216,7 +1217,7 @@ public class Component extends Model
    protected Object instantiateJavaBean() throws Exception
    {
       Object bean = getBeanClass().newInstance();
-      if (interceptionType==InterceptionType.NEVER)
+      if ( !interceptionEnabled )
       {
          initialize(bean);
          callPostConstructMethod(bean);
@@ -2131,9 +2132,9 @@ public class Component extends Model
       }
    };
       
-   public InterceptionType getInterceptionType()
+   public boolean isInterceptionEnabled()
    {
-      return interceptionType;
+      return interceptionEnabled;
    }
 
    public boolean isStartup() 

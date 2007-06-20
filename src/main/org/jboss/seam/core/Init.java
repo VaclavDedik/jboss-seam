@@ -2,7 +2,6 @@
 package org.jboss.seam.core;
 
 
-import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.File;
@@ -19,9 +18,9 @@ import org.jboss.seam.Namespace;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Expressions.MethodExpression;
 import org.jboss.seam.core.Expressions.ValueExpression;
@@ -33,7 +32,7 @@ import org.jboss.seam.transaction.Transaction;
  * @author Gavin King
  */
 @Scope(ScopeType.APPLICATION)
-@Intercept(NEVER)
+@BypassInterceptors
 @Name("org.jboss.seam.core.init")
 @Install(value=false, precedence=BUILT_IN)
 public class Init

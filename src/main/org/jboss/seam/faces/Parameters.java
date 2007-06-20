@@ -8,15 +8,14 @@ import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 
-import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 
 @Name("org.jboss.seam.web.parameters")
-@Intercept(InterceptionType.NEVER)
+@BypassInterceptors
 @Scope(ScopeType.STATELESS)
 @Install(precedence=FRAMEWORK, classDependencies="javax.faces.context.FacesContext")
 public class Parameters extends org.jboss.seam.web.Parameters

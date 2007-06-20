@@ -9,15 +9,14 @@ import java.util.Map;
 import javax.servlet.ServletRequest;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 
 @Name("org.jboss.seam.web.parameters")
-@Intercept(InterceptionType.NEVER)
+@BypassInterceptors
 @Scope(ScopeType.STATELESS)
 @Install(precedence=BUILT_IN)
 public class Parameters

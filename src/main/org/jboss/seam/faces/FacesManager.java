@@ -6,7 +6,6 @@
  */
 package org.jboss.seam.faces;
 
-import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.FRAMEWORK;
 
 import java.io.IOException;
@@ -21,9 +20,9 @@ import javax.faces.event.PhaseId;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.FacesLifecycle;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Init;
@@ -44,7 +43,7 @@ import org.jboss.seam.pageflow.Pageflow;
 @Scope(ScopeType.EVENT)
 @Name("org.jboss.seam.core.manager")
 @Install(precedence=FRAMEWORK, classDependencies="javax.faces.context.FacesContext")
-@Intercept(NEVER)
+@BypassInterceptors
 public class FacesManager extends Manager
 {
    private static final LogProvider log = Logging.getLogProvider(FacesManager.class);

@@ -18,10 +18,10 @@ import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.persistence.EntityManagerProxy;
 import org.jboss.seam.Component;
-import org.jboss.seam.InterceptorType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.Component.BijectedAttribute;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.intercept.InterceptorType;
 
 /**
  * Controller interceptor for server-side interceptors of

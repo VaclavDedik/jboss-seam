@@ -1,6 +1,5 @@
 package org.jboss.seam.faces;
 
-import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.ScopeType.STATELESS;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
@@ -13,9 +12,9 @@ import javax.faces.model.DataModel;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.framework.Query;
 import org.jboss.seam.jsf.ArrayDataModel;
 import org.jboss.seam.jsf.ListDataModel;
@@ -25,7 +24,7 @@ import org.jboss.seam.jsf.SetDataModel;
 @Name("org.jboss.seam.faces.dataModels")
 @Install(precedence=BUILT_IN, classDependencies="javax.faces.context.FacesContext")
 @Scope(STATELESS)
-@Intercept(NEVER)
+@BypassInterceptors
 public class DataModels
 {
    

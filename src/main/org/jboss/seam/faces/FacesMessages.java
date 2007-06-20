@@ -1,6 +1,5 @@
 package org.jboss.seam.faces;
 
-import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.Serializable;
@@ -20,9 +19,9 @@ import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.core.ResourceBundle;
@@ -36,7 +35,7 @@ import org.jboss.seam.util.Strings;
 @Scope(ScopeType.CONVERSATION)
 @Name("org.jboss.seam.faces.facesMessages")
 @Install(precedence=BUILT_IN, classDependencies="javax.faces.context.FacesContext")
-@Intercept(NEVER)
+@BypassInterceptors
 public class FacesMessages implements Serializable
 {
    private static final long serialVersionUID = -5395975397632138270L;

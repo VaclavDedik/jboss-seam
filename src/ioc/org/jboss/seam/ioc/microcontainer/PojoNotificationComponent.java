@@ -27,10 +27,9 @@ import org.jboss.beans.metadata.plugins.AbstractBeanMetaData;
 import org.jboss.kernel.Kernel;
 import org.jboss.kernel.spi.dependency.KernelController;
 import org.jboss.seam.Component;
-import org.jboss.seam.InterceptionType;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Startup;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 
 /**
  * Notifies Seam components in current underlying Microcontainer Controller.
@@ -39,7 +38,7 @@ import org.jboss.seam.annotations.Startup;
  *
  * @author <a href="mailto:ales.justin@jboss.com">Ales Justin</a>
  */
-@Intercept(InterceptionType.NEVER)
+@BypassInterceptors
 @Startup
 @Install(value = false, precedence = Install.FRAMEWORK)
 public class PojoNotificationComponent extends ControllerNotificationComponent implements Serializable

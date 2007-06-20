@@ -3,11 +3,10 @@ package org.jboss.seam.persistence;
 import java.util.Map;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.core.Expressions.ValueExpression;
 
 /**
@@ -19,7 +18,7 @@ import org.jboss.seam.core.Expressions.ValueExpression;
  * @see ManagedPersistenceContext
  * @author Gavin King
  */
-@Intercept(InterceptionType.NEVER)
+@BypassInterceptors
 @Scope(ScopeType.APPLICATION)
 public class Filter
 {

@@ -1,6 +1,5 @@
 package org.jboss.seam.security;
 
-import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.ScopeType.SESSION;
 import static org.jboss.seam.annotations.Install.FRAMEWORK;
 
@@ -18,16 +17,16 @@ import org.drools.WorkingMemory;
 import org.drools.base.ClassObjectFilter;
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
 @Name("org.jboss.seam.security.identity")
 @Scope(SESSION)
-@Intercept(NEVER)
+@BypassInterceptors
 @Install(precedence=FRAMEWORK, classDependencies="org.drools.WorkingMemory")
 @Startup
 public class RuleBasedIdentity extends Identity

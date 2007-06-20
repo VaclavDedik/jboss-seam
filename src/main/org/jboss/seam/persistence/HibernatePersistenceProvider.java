@@ -13,14 +13,13 @@ import org.hibernate.Session;
 import org.hibernate.StaleStateException;
 import org.hibernate.metadata.ClassMetadata;
 import org.hibernate.type.VersionType;
-import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.core.Expressions.ValueExpression;
 
 /**
@@ -32,7 +31,7 @@ import org.jboss.seam.core.Expressions.ValueExpression;
  */
 @Name("org.jboss.seam.persistence.persistenceProvider")
 @Scope(ScopeType.STATELESS)
-@Intercept(InterceptionType.NEVER)
+@BypassInterceptors
 @Install(precedence=FRAMEWORK, classDependencies="org.hibernate.Session", genericDependencies=ManagedPersistenceContext.class)
 public class HibernatePersistenceProvider extends PersistenceProvider
 {

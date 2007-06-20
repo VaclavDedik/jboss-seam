@@ -1,6 +1,5 @@
 package org.jboss.seam.mail;
 
-import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
@@ -10,10 +9,10 @@ import org.buni.meldware.mail.management.AdminTool;
 import org.buni.meldware.mail.util.MMJMXUtil;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.log.Logging;
 
@@ -24,7 +23,7 @@ import org.jboss.seam.log.Logging;
 @Name("org.jboss.seam.mail.meldware")
 @Startup
 @Scope(APPLICATION)
-@Intercept(NEVER)
+@BypassInterceptors
 @Install(precedence=BUILT_IN, classDependencies="org.buni.meldware.mail.mailbox.Mailbox", value=false)
 public class Meldware
 {

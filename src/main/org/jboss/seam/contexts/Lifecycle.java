@@ -26,18 +26,7 @@ public class Lifecycle
 
    private static ThreadLocal<Boolean> destroying = new ThreadLocal<Boolean>();
    private static Map<String, Object> application;
-   private static ThreadLocal phaseId = new ThreadLocal();
 
-   public static Object getPhaseId()
-   {
-      return phaseId.get();
-   }
-
-   static void setPhaseId(Object phase)
-   {
-      phaseId.set(phase);
-   }
-   
    public static Map<String, Object> getApplication() 
    {
       if (application==null)

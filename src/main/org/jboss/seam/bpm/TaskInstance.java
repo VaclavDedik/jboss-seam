@@ -9,13 +9,12 @@ package org.jboss.seam.bpm;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.util.Work;
 
@@ -27,7 +26,7 @@ import org.jboss.seam.util.Work;
  */
 @Scope(ScopeType.STATELESS)
 @Name("org.jboss.seam.bpm.taskInstance")
-@Intercept(InterceptionType.NEVER)
+@BypassInterceptors
 @Install(precedence=BUILT_IN, dependencies="org.jboss.seam.bpm.jbpm")
 public class TaskInstance 
 {

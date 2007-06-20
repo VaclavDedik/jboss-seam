@@ -1,6 +1,5 @@
 package org.jboss.seam.navigation;
 
-import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.InputStream;
@@ -34,9 +33,9 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Expressions;
@@ -63,7 +62,7 @@ import org.jboss.seam.web.Parameters;
  * @author Gavin King
  */
 @Scope(ScopeType.APPLICATION)
-@Intercept(NEVER)
+@BypassInterceptors
 @Name("org.jboss.seam.navigation.pages")
 @Install(precedence=BUILT_IN, classDependencies="javax.faces.context.FacesContext")
 public class Pages

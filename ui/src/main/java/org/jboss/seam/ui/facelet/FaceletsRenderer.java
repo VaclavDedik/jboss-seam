@@ -8,12 +8,11 @@ import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
-import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.core.Renderer;
 import org.jboss.seam.mock.MockExternalContext;
 import org.jboss.seam.mock.MockFacesContext;
@@ -26,7 +25,7 @@ import com.sun.facelets.impl.DefaultFaceletFactory;
 import com.sun.facelets.impl.DefaultResourceResolver;
 
 @Scope(ScopeType.STATELESS)
-@Intercept(InterceptionType.NEVER)
+@BypassInterceptors
 @Name("org.jboss.seam.core.renderer")
 @Install(value = true, precedence = Install.BUILT_IN, classDependencies = { "com.sun.facelets.Facelet" })
 public class FaceletsRenderer extends Renderer

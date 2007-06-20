@@ -9,7 +9,7 @@ import javax.xml.ws.handler.MessageContext;
 import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Conversation;
 import org.jboss.seam.annotations.ConversationId;
-import org.jboss.seam.annotations.Interceptor;
+import org.jboss.seam.annotations.intercept.Interceptor;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.contexts.ServletLifecycle;

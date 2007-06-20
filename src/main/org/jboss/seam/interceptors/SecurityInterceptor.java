@@ -2,9 +2,9 @@ package org.jboss.seam.interceptors;
 
 import java.lang.reflect.Method;
 
-import org.jboss.seam.InterceptorType;
 import org.jboss.seam.annotations.AroundInvoke;
-import org.jboss.seam.annotations.Interceptor;
+import org.jboss.seam.annotations.intercept.Interceptor;
+import org.jboss.seam.annotations.intercept.InterceptorType;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.security.Identity;

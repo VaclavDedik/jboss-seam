@@ -8,7 +8,7 @@ import javassist.util.proxy.ProxyObject;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ComponentType;
-import org.jboss.seam.InterceptorType;
+import org.jboss.seam.annotations.intercept.InterceptorType;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 /**

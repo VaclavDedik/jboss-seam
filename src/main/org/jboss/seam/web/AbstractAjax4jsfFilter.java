@@ -1,6 +1,5 @@
 package org.jboss.seam.web;
 
-import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
@@ -14,14 +13,14 @@ import javax.servlet.ServletResponse;
 
 import org.jboss.seam.annotations.Filter;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 
 @Scope(APPLICATION)
 @Name("org.jboss.seam.web.ajax4jsfFilter")
 @Install(precedence = BUILT_IN, classDependencies="org.ajax4jsf.Filter")
-@Intercept(NEVER)
+@BypassInterceptors
 @Filter
 public class AbstractAjax4jsfFilter extends AbstractFilter
 {

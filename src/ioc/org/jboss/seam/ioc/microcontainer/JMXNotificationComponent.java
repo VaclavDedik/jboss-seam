@@ -21,18 +21,19 @@
 */
 package org.jboss.seam.ioc.microcontainer;
 
+import static org.jboss.seam.annotations.Install.FRAMEWORK;
+
 import java.io.Serializable;
+
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
 
 import org.jboss.mx.util.MBeanProxyExt;
 import org.jboss.mx.util.MBeanServerLocator;
 import org.jboss.seam.Component;
-import static org.jboss.seam.InterceptionType.NEVER;
 import org.jboss.seam.annotations.Install;
-import static org.jboss.seam.annotations.Install.FRAMEWORK;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Startup;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.system.ServiceControllerMBean;
 
 /**
@@ -42,7 +43,7 @@ import org.jboss.system.ServiceControllerMBean;
  *
  * @author <a href="mailto:ales.justin@jboss.com">Ales Justin</a>
  */
-@Intercept(NEVER)
+@BypassInterceptors
 @Startup
 @Install(value = false, precedence = FRAMEWORK)
 public class JMXNotificationComponent extends ControllerNotificationComponent implements JMXNotificationComponentMBean, Serializable

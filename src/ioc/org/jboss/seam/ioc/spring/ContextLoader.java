@@ -1,6 +1,5 @@
 package org.jboss.seam.ioc.spring;
 
-import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import javax.servlet.ServletContext;
@@ -9,10 +8,10 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.ServletLifecycle;
 import org.springframework.web.context.ConfigurableWebApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
@@ -24,7 +23,7 @@ import org.springframework.web.context.support.XmlWebApplicationContext;
  * @author Mike Youngstrom
  */
 @Scope(ScopeType.APPLICATION)
-@Intercept(NEVER)
+@BypassInterceptors
 @Startup(depends="org.jboss.seam.ioc.spring.springELResolver")
 @Name("org.jboss.seam.ioc.spring.contextLoader")
 @Install(value = false, precedence = BUILT_IN)

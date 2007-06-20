@@ -1,6 +1,5 @@
 package org.jboss.seam.core;
 
-import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.Serializable;
@@ -9,9 +8,9 @@ import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.persistence.PersistenceContexts;
 
@@ -27,7 +26,7 @@ import org.jboss.seam.persistence.PersistenceContexts;
 @Scope(ScopeType.CONVERSATION)
 @Name("org.jboss.seam.core.conversation")
 @Install(precedence=BUILT_IN)
-@Intercept(NEVER)
+@BypassInterceptors
 public class Conversation implements Serializable 
 {
    private static final long serialVersionUID = -6131304128727444876L;

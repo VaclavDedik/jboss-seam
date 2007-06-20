@@ -10,13 +10,12 @@ import javax.transaction.Synchronization;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.Entity;
-import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 
 /**
  * Abstraction layer for persistence providers (JPA implementations).
@@ -29,7 +28,7 @@ import org.jboss.seam.annotations.Scope;
  */
 @Name("org.jboss.seam.persistence.persistenceProvider")
 @Scope(ScopeType.STATELESS)
-@Intercept(InterceptionType.NEVER)
+@BypassInterceptors
 @Install(precedence=BUILT_IN, genericDependencies=ManagedPersistenceContext.class)
 public class PersistenceProvider
 {

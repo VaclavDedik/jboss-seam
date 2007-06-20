@@ -1,6 +1,5 @@
 package org.jboss.seam.navigation;
 
-import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.BufferedReader;
@@ -16,13 +15,13 @@ import javax.faces.context.FacesContext;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 
 @Scope(ScopeType.APPLICATION)
-@Intercept(NEVER)
+@BypassInterceptors
 @Name("org.jboss.seam.navigation.safeActions")
 @Install(precedence=BUILT_IN, classDependencies="javax.faces.context.FacesContext")
 public class SafeActions

@@ -11,8 +11,8 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.InterceptorType;
 import org.jboss.seam.annotations.AroundInvoke;
+import org.jboss.seam.annotations.intercept.InterceptorType;
 import org.jboss.seam.interceptors.OptimizedInterceptor;
 import org.jboss.seam.util.Reflections;
 
@@ -39,8 +39,8 @@ public final class Interceptor extends Reflections
 
    private boolean isStateless()
    {
-      return userInterceptorClass.isAnnotationPresent(org.jboss.seam.annotations.Interceptor.class) &&
-            userInterceptorClass.getAnnotation(org.jboss.seam.annotations.Interceptor.class).stateless();
+      return userInterceptorClass.isAnnotationPresent(org.jboss.seam.annotations.intercept.Interceptor.class) &&
+            userInterceptorClass.getAnnotation(org.jboss.seam.annotations.intercept.Interceptor.class).stateless();
    }
    
    public Object createUserInterceptor()
@@ -161,8 +161,8 @@ public final class Interceptor extends Reflections
          }
       }
 
-      type = userInterceptorClass.isAnnotationPresent(org.jboss.seam.annotations.Interceptor.class) ?
-            userInterceptorClass.getAnnotation(org.jboss.seam.annotations.Interceptor.class).type() :
+      type = userInterceptorClass.isAnnotationPresent(org.jboss.seam.annotations.intercept.Interceptor.class) ?
+            userInterceptorClass.getAnnotation(org.jboss.seam.annotations.intercept.Interceptor.class).type() :
             InterceptorType.SERVER;
             
       optimized = OptimizedInterceptor.class.isAssignableFrom(userInterceptorClass);

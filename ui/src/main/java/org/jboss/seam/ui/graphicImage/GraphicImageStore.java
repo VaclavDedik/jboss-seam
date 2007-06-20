@@ -5,12 +5,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.core.AbstractMutable;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.log.Logging;
@@ -18,7 +17,7 @@ import org.jboss.seam.log.Logging;
 @Name("org.jboss.seam.ui.graphicImage.graphicImageStore")
 @Scope(ScopeType.SESSION)
 @Install(precedence = Install.BUILT_IN)
-@Intercept(InterceptionType.NEVER)
+@BypassInterceptors
 public class GraphicImageStore extends AbstractMutable implements Serializable
 {
    

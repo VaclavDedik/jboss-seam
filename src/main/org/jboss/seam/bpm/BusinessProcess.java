@@ -1,6 +1,5 @@
 package org.jboss.seam.bpm;
 
-import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.Serializable;
@@ -8,9 +7,9 @@ import java.io.Serializable;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.AbstractMutable;
 import org.jboss.seam.core.Events;
@@ -27,7 +26,7 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
  */
 @Scope(ScopeType.CONVERSATION)
 @Name("org.jboss.seam.bpm.businessProcess")
-@Intercept(NEVER)
+@BypassInterceptors
 @Install(dependencies="org.jboss.seam.bpm.jbpm", precedence=BUILT_IN)
 public class BusinessProcess extends AbstractMutable implements Serializable 
 {

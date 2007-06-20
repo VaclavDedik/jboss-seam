@@ -7,7 +7,6 @@ import java.util.List;
 import javax.servlet.http.HttpSessionActivationListener;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
@@ -130,7 +129,7 @@ public class SeamTargetSource implements TargetSource, Serializable
       Component component = getComponent();
       // Attempt to piece together all of the possible interfaces to apply
       // to our proxy.
-      if (component != null && component.getInterceptionType() != InterceptionType.NEVER)
+      if ( component != null && component.isInterceptionEnabled() )
       {
          if (component.getType().isSessionBean())
          {

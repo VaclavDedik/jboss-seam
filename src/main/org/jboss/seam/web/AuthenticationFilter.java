@@ -1,6 +1,5 @@
 package org.jboss.seam.web;
 
-import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
@@ -19,11 +18,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Filter;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.ContextualHttpServletRequest;
 import org.jboss.seam.contexts.SessionContext;
@@ -46,7 +45,7 @@ import org.jboss.seam.util.Base64;
 @Scope(APPLICATION)
 @Name("org.jboss.seam.web.authenticationFilter")
 @Install(value = false, precedence = BUILT_IN)
-@Intercept(NEVER)
+@BypassInterceptors
 @Filter(within = "org.jboss.seam.web.exceptionFilter")
 public class AuthenticationFilter extends AbstractFilter
 {

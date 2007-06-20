@@ -9,12 +9,11 @@ import java.util.Map;
 import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.Component;
-import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 
 /**
@@ -24,7 +23,7 @@ import org.jboss.seam.contexts.Contexts;
  *
  */
 @Name("org.jboss.seam.core.validators")
-@Intercept(InterceptionType.NEVER)
+@BypassInterceptors
 @Scope(ScopeType.APPLICATION)
 @Install(precedence=BUILT_IN)
 public class Validators

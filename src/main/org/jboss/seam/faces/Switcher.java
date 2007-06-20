@@ -1,6 +1,5 @@
 package org.jboss.seam.faces;
 
-import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.Serializable;
@@ -15,9 +14,9 @@ import javax.faces.model.SelectItem;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.core.ConversationEntries;
 import org.jboss.seam.core.ConversationEntry;
 import org.jboss.seam.core.Manager;
@@ -31,7 +30,7 @@ import org.jboss.seam.core.ServletSession;
 @Scope(ScopeType.PAGE)
 @Name("org.jboss.seam.faces.switcher")
 @Install(precedence=BUILT_IN, classDependencies="javax.faces.context.FacesContext")
-@Intercept(NEVER)
+@BypassInterceptors
 public class Switcher implements Serializable 
 {
    

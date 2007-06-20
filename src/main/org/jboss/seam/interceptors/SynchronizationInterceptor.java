@@ -4,9 +4,9 @@ package org.jboss.seam.interceptors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.jboss.seam.InterceptorType;
 import org.jboss.seam.annotations.AroundInvoke;
-import org.jboss.seam.annotations.Interceptor;
+import org.jboss.seam.annotations.intercept.Interceptor;
+import org.jboss.seam.annotations.intercept.InterceptorType;
 import org.jboss.seam.intercept.InvocationContext;
 
 /**

@@ -3,7 +3,7 @@ package org.jboss.seam.interceptors;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.AroundInvoke;
-import org.jboss.seam.annotations.Interceptor;
+import org.jboss.seam.annotations.intercept.Interceptor;
 import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;

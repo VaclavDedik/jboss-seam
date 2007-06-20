@@ -1,6 +1,6 @@
 package org.jboss.seam.interceptors;
 import org.jboss.seam.annotations.AroundInvoke;
-import org.jboss.seam.annotations.Interceptor;
+import org.jboss.seam.annotations.intercept.Interceptor;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;

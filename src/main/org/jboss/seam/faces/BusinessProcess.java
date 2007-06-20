@@ -1,15 +1,14 @@
 package org.jboss.seam.faces;
 
-import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.FRAMEWORK;
 
 import javax.faces.application.FacesMessage;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 
 /**
  * Holds the task and process ids for the current conversation,
@@ -20,7 +19,7 @@ import org.jboss.seam.annotations.Scope;
  */
 @Scope(ScopeType.CONVERSATION)
 @Name("org.jboss.seam.bpm.businessProcess")
-@Intercept(NEVER)
+@BypassInterceptors
 @Install(dependencies="org.jboss.seam.bpm.jbpm", precedence=FRAMEWORK, classDependencies="javax.faces.context.FacesContext")
 public class BusinessProcess extends org.jboss.seam.bpm.BusinessProcess
 {

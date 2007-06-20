@@ -7,7 +7,7 @@ import static org.jboss.seam.util.EJB.rollback;
 
 import org.jboss.seam.annotations.ApplicationException;
 import org.jboss.seam.annotations.AroundInvoke;
-import org.jboss.seam.annotations.Interceptor;
+import org.jboss.seam.annotations.intercept.Interceptor;
 import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.transaction.Transaction;
 import org.jboss.seam.util.JSF;

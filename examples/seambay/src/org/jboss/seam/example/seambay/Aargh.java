@@ -1,6 +1,5 @@
 package org.jboss.seam.example.seambay;
 
-import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.ScopeType.APPLICATION;
 
 import java.util.Calendar;
@@ -15,7 +14,7 @@ import javax.transaction.UserTransaction;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Create;
-import org.jboss.seam.annotations.Intercept;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
@@ -30,7 +29,7 @@ import org.jboss.seam.annotations.Startup;
 @Startup
 @Name("aargh")
 @Scope(APPLICATION)
-@Intercept(NEVER)
+@BypassInterceptors
 public class Aargh
 {
    @Create

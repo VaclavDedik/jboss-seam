@@ -1,8 +1,8 @@
 package org.jboss.seam.interceptors;
 import java.lang.reflect.Method;
 import org.jboss.seam.annotations.AroundInvoke;
-import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.RaiseEvent;
+import org.jboss.seam.annotations.intercept.Interceptor;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.intercept.InvocationContext;
 /**

@@ -1,6 +1,5 @@
 package org.jboss.seam.ioc.spring;
 
-import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.core.Init;
 import org.springframework.beans.factory.BeanDefinitionStoreException;
@@ -102,7 +101,7 @@ public class SeamNamespaceHandler extends NamespaceHandlerSupport
     */
    private static class SeamComponentBeanDefinitionDecorator implements BeanDefinitionDecorator
    {
-      private static final String INTERCEPT_TYPE_ATTR = "intercept-type";
+      private static final String INTERCEPT_TYPE_ATTR = "intercept";
 
       private static final String SPRING_NAME_ATTR = "spring-name";
 
@@ -162,10 +161,10 @@ public class SeamNamespaceHandler extends NamespaceHandlerSupport
             springName = node.getAttributes().getNamedItem(SPRING_NAME_ATTR).getNodeValue();
          }
          // get the interception type to use
-         InterceptionType interceptionType = null;
+         Boolean interceptionType = null;
          if (node.getAttributes().getNamedItem(INTERCEPT_TYPE_ATTR) != null)
          {
-            interceptionType = InterceptionType.valueOf(node.getAttributes().getNamedItem(
+            interceptionType = Boolean.valueOf(node.getAttributes().getNamedItem(
                      INTERCEPT_TYPE_ATTR).getNodeValue());
          }
          // get the requested scope

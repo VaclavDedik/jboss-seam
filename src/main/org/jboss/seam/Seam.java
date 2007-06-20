@@ -16,10 +16,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.persistence.Entity;
 
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Role;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.ServletSession;
@@ -198,24 +198,24 @@ public class Seam
       return Strings.unqualify( Strings.unqualify( clazz.getName() ), '$' );
    }
    
-   public static InterceptionType getInterceptionType(Class<?> clazz)
+   public static boolean isInterceptionEnabled(Class<?> clazz)
    {
       ComponentType componentType = getComponentType(clazz);
       if ( componentType==ENTITY_BEAN )
       {
-         return InterceptionType.NEVER;
+         return false;
       }
       else if ( getComponentType(clazz)==MESSAGE_DRIVEN_BEAN )
       {
-         return InterceptionType.ALWAYS;
+         return true;
       }
-      else if ( clazz.isAnnotationPresent(Intercept.class) )
+      else if ( clazz.isAnnotationPresent(BypassInterceptors.class) )
       {
-         return clazz.getAnnotation(Intercept.class).value();
+         return false;
       }
       else 
       {
-         return InterceptionType.ALWAYS;
+         return true;
       }
    }
    /**

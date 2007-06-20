@@ -1,5 +1,4 @@
 package org.jboss.seam.web;
-import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
@@ -12,10 +11,10 @@ import javax.servlet.ServletResponse;
 
 import org.jboss.seam.annotations.Filter;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 /**
  * A servlet filter that lets you set the character encoding of 
  * submitted data. There are two init parameters: "encoding" and
@@ -28,7 +27,7 @@ import org.jboss.seam.annotations.Startup;
 @Scope(APPLICATION)
 @Name("org.jboss.seam.servlet.characterEncodingFilter")
 @Install(value=false, precedence = BUILT_IN)
-@Intercept(NEVER)
+@BypassInterceptors
 @Filter(within="org.jboss.seam.web.ajax4jsfFilter")
 public class CharacterEncodingFilter extends AbstractFilter
 {

@@ -8,13 +8,15 @@ package org.jboss.seam.intercept;
 
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.util.List;
 
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.Component;
-import org.jboss.seam.InterceptorType;
 import org.jboss.seam.Seam;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.annotations.intercept.InterceptorType;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.util.EJB;
@@ -121,7 +123,7 @@ public class RootInterceptor implements Serializable
 
    private InvocationContext createInvocationContext(InvocationContext invocation, EventType eventType) throws Exception
    {
-      if ( isProcessInterceptors() )
+      if ( isProcessInterceptors( invocation.getMethod() ) )
       {
          if ( log.isTraceEnabled() ) 
          {
@@ -129,7 +131,8 @@ public class RootInterceptor implements Serializable
          }
          return createSeamInvocationContext(invocation, eventType);
       }
-      else {
+      else 
+      {
          if ( log.isTraceEnabled() ) 
          {
             log.trace( "not intercepted: " + getInterceptionMessage(invocation, eventType) );
@@ -190,9 +193,11 @@ public class RootInterceptor implements Serializable
             (eventType==EventType.AROUND_INVOKE ? invocation.getMethod().getName() : eventType );
    }
 
-   private boolean isProcessInterceptors()
+   private boolean isProcessInterceptors(Method method)
    {
-      return isSeamComponent && getComponent().getInterceptionType().isActive();
+      return isSeamComponent && 
+            getComponent().isInterceptionEnabled() &&
+            !method.isAnnotationPresent(BypassInterceptors.class);
    }
    
    protected Component getComponent()

@@ -23,10 +23,9 @@ import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.InterceptionType;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.util.Resources;
 
@@ -38,7 +37,7 @@ import org.jboss.seam.util.Resources;
  */
 @Name("org.jboss.seam.graphicImage.image")
 @Install(precedence = Install.BUILT_IN)
-@Intercept(InterceptionType.NEVER)
+@BypassInterceptors
 public class Image implements Serializable
 {
 

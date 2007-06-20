@@ -156,25 +156,16 @@
                     </xsd:documentation>
                 </xsd:annotation>
             </xsd:attribute>
-            <xsd:attribute name="intercept-type" use="optional">
+            <xsd:attribute name="intercept" type="xsd:boolean" use="optional">
                 <xsd:annotation>
                     <xsd:documentation>
                         <![CDATA[
-                                 Overrides the default InterceptionType seam uses when determining if it's interceptors should be wrapped around a bean.
-                                 Seldom do you want the seam interceptors wrapped around a sprig singleton.  Auto will use choose NEVER for a singleton
-                                 and use seam standard rules otherwise.
+                                 Determines whether Seam interceptors should be wrapped around a bean, by overriding Seam's default rules. 
+                                 Seldom do you want the seam interceptors wrapped around a sprig singleton.  Auto will use choose no
+                                 interception for a singleton and use Seam standard rules otherwise.
                         ]]>
                     </xsd:documentation>
                 </xsd:annotation>
-                <xsd:simpleType>
-                    <xsd:restriction base="xsd:string">
-                        <xsd:enumeration value="NEVER" />
-                        <xsd:enumeration value="AFTER_RESTORE_VIEW" />
-                        <xsd:enumeration value="AFTER_UPDATE_MODEL_VALUES" />
-                        <xsd:enumeration value="INVOKE_APPLICATION" />
-                        <xsd:enumeration value="ALWAYS" />
-                    </xsd:restriction>
-                </xsd:simpleType>
             </xsd:attribute>
             <xsd:attribute name="auto-create" type="xsd:boolean" use="optional" default="true">
                 <xsd:annotation>

@@ -1,6 +1,5 @@
 package org.jboss.seam.mail;
 
-import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
@@ -15,10 +14,10 @@ import javax.naming.NamingException;
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.core.AbstractMutable;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -30,7 +29,7 @@ import org.jboss.seam.util.Naming;
 @Name("org.jboss.seam.mail.mailSession")
 @Install(precedence=BUILT_IN, classDependencies="javax.mail.Session")
 @Scope(APPLICATION)
-@Intercept(NEVER)
+@BypassInterceptors
 public class MailSession extends AbstractMutable implements Serializable
 {
    private static final LogProvider log = Logging.getLogProvider(MailSession.class);

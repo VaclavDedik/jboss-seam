@@ -1,6 +1,5 @@
 package org.jboss.seam.bpm;
 
-import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.InputStream;
@@ -20,10 +19,10 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.log.LogProvider;
@@ -50,7 +49,7 @@ import org.xml.sax.InputSource;
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  */
 @Scope(ScopeType.APPLICATION)
-@Intercept(NEVER)
+@BypassInterceptors
 @Startup
 @Name("org.jboss.seam.bpm.jbpm")
 @Install(value=false, precedence=BUILT_IN)

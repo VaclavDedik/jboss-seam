@@ -1,6 +1,5 @@
 package org.jboss.seam.core;
 
-import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.Serializable;
@@ -14,10 +13,10 @@ import java.util.MissingResourceException;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.navigation.Pages;
@@ -30,7 +29,7 @@ import org.jboss.seam.util.Strings;
  * @author Gavin King
  */
 @Scope(ScopeType.SESSION)
-@Intercept(NEVER)
+@BypassInterceptors
 @Name("org.jboss.seam.core.resourceBundle")
 @Install(precedence=BUILT_IN)
 public class ResourceBundle implements Serializable 

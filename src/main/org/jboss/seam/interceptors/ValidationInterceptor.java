@@ -13,8 +13,8 @@ import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.IfInvalid;
-import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.Outcome;
+import org.jboss.seam.annotations.intercept.Interceptor;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.intercept.InvocationContext;
 

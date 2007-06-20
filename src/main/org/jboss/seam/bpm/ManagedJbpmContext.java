@@ -6,7 +6,6 @@
  */
 package org.jboss.seam.bpm;
 
-import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import javax.naming.NamingException;
@@ -19,10 +18,10 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.async.LocalTransactionListener;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
@@ -42,7 +41,7 @@ import org.jbpm.svc.Services;
  */
 @Scope(ScopeType.EVENT)
 @Name("org.jboss.seam.bpm.jbpmContext")
-@Intercept(NEVER)
+@BypassInterceptors
 @Install(precedence=BUILT_IN, dependencies="org.jboss.seam.bpm.jbpm")
 public class ManagedJbpmContext implements Synchronization
 {

@@ -1,7 +1,5 @@
 package org.jboss.seam.drools;
 
-import static org.jboss.seam.InterceptionType.NEVER;
-
 import java.io.Serializable;
 
 import org.drools.RuleBase;
@@ -9,9 +7,9 @@ import org.drools.StatefulSession;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Destroy;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.core.Mutable;
 import org.jboss.seam.core.Expressions.ValueExpression;
 
@@ -22,7 +20,7 @@ import org.jboss.seam.core.Expressions.ValueExpression;
  *
  */
 @Scope(ScopeType.CONVERSATION)
-@Intercept(NEVER)
+@BypassInterceptors
 public class ManagedWorkingMemory implements Mutable, Serializable
 {
    private static final long serialVersionUID = -1746942080571374743L;

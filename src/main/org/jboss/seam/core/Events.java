@@ -1,6 +1,5 @@
 package org.jboss.seam.core;
 
-import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.util.List;
@@ -8,9 +7,9 @@ import java.util.List;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.async.AbstractDispatcher;
 import org.jboss.seam.async.Dispatcher;
 import org.jboss.seam.async.LocalTransactionListener;
@@ -29,7 +28,7 @@ import org.jboss.seam.log.Logging;
  *
  */
 @Scope(ScopeType.STATELESS)
-@Intercept(NEVER)
+@BypassInterceptors
 @Name("org.jboss.seam.core.events")
 @Install(precedence=BUILT_IN)
 public class Events 

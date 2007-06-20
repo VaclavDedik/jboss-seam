@@ -1,7 +1,5 @@
 package org.jboss.seam.drools;
 
-import static org.jboss.seam.InterceptionType.NEVER;
-
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -13,9 +11,9 @@ import org.drools.compiler.PackageBuilderConfiguration;
 import org.drools.lang.descr.PackageDescr;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.util.Resources;
 
 /**
@@ -25,7 +23,7 @@ import org.jboss.seam.util.Resources;
  *
  */
 @Scope(ScopeType.APPLICATION)
-@Intercept(NEVER)
+@BypassInterceptors
 public class RuleBase
 {
    private String[] ruleFiles;

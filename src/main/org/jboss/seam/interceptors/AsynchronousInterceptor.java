@@ -1,9 +1,9 @@
 package org.jboss.seam.interceptors;
 
-import org.jboss.seam.InterceptorType;
 import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Asynchronous;
-import org.jboss.seam.annotations.Interceptor;
+import org.jboss.seam.annotations.intercept.Interceptor;
+import org.jboss.seam.annotations.intercept.InterceptorType;
 import org.jboss.seam.async.AbstractDispatcher;
 import org.jboss.seam.async.Dispatcher;
 import org.jboss.seam.contexts.Contexts;

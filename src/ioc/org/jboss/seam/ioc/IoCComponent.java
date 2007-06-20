@@ -24,10 +24,10 @@ package org.jboss.seam.ioc;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.servlet.http.HttpSessionActivationListener;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.core.Mutable;
 import org.jboss.seam.intercept.Proxy;
@@ -72,7 +72,7 @@ public abstract class IoCComponent extends Component
       Object bean = instantiateIoCBean();
        // initialize the bean following Component.instantiateJavaBean()'s
        // pattern.
-       if (getInterceptionType() == InterceptionType.NEVER)
+       if ( !isInterceptionEnabled() )
        {
            // Only call postConstruct if the bean is not stateless otherwise in the case of a singleton it wowuld be
            // called every time seam request the bean not just when it is created.
@@ -81,7 +81,7 @@ public abstract class IoCComponent extends Component
                callPostConstructMethod(bean);
            }
        }
-       else if (!(bean instanceof Proxy))
+       else if ( !(bean instanceof Proxy) )
        {
            // Add all of the interfaces of the bean instance into the Seam
            // proxy bean because spring's proxies add a bunch of interfaces too

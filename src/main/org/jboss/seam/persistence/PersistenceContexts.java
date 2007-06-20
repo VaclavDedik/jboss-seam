@@ -1,6 +1,5 @@
 package org.jboss.seam.persistence;
 
-import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.Serializable;
@@ -12,15 +11,15 @@ import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.AbstractMutable;
 
 @Name("org.jboss.seam.persistence.persistenceContexts")
 @Scope(ScopeType.CONVERSATION)
-@Intercept(NEVER)
+@BypassInterceptors
 @Install(precedence=BUILT_IN)
 public class PersistenceContexts extends AbstractMutable implements Serializable
 {

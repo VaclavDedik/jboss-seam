@@ -1,7 +1,6 @@
 //$Id$
 package org.jboss.seam.faces;
 
-import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.FRAMEWORK;
 import static org.jboss.seam.el.EL.EL_CONTEXT;
 
@@ -13,9 +12,9 @@ import javax.faces.validator.ValidatorException;
 import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.core.Expressions;
 
 /**
@@ -24,7 +23,7 @@ import org.jboss.seam.core.Expressions;
  * @author Gavin King
  */
 @Scope(ScopeType.APPLICATION)
-@Intercept(NEVER)
+@BypassInterceptors
 @Install(precedence=FRAMEWORK, classDependencies="javax.faces.context.FacesContext")
 @Name("org.jboss.seam.core.expressions")
 public class FacesExpressions extends Expressions

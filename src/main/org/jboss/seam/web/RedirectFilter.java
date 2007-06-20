@@ -1,6 +1,5 @@
 package org.jboss.seam.web;
 
-import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
@@ -17,10 +16,10 @@ import javax.servlet.http.HttpServletResponseWrapper;
 
 import org.jboss.seam.annotations.Filter;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.faces.FacesManager;
 import org.jboss.seam.navigation.Pages;
@@ -37,7 +36,7 @@ import org.jboss.seam.navigation.Pages;
 @Scope(APPLICATION)
 @Name("org.jboss.seam.web.redirectFilter")
 @Install(precedence = BUILT_IN, classDependencies="javax.faces.FacesContext")
-@Intercept(NEVER)
+@BypassInterceptors
 @Filter(within="org.jboss.seam.web.ajax4jsfFilter")
 public class RedirectFilter extends AbstractFilter 
 {

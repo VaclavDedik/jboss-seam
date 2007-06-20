@@ -1,6 +1,5 @@
 package org.jboss.seam.ui.resource;
 
-import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
@@ -11,10 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.servlet.AbstractResource;
 import org.jboss.seam.util.Resources;
 
@@ -22,7 +21,7 @@ import org.jboss.seam.util.Resources;
 @Scope(APPLICATION)
 @Name("org.jboss.seam.ui.resource.webResource")
 @Install(precedence = BUILT_IN)
-@Intercept(NEVER)
+@BypassInterceptors
 public class WebResource extends AbstractResource
 {
    public static final String WEB_RESOURCE_PATH = "/seam/resource/web";
