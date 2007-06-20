@@ -2,9 +2,9 @@ package org.jboss.seam.example.seamspace;
 
 import java.security.MessageDigest;
 
-//import org.apache.commons.codec.binary.Hex;
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.util.Hex;
 
 @Name("hash")
 public class Hash {
@@ -16,8 +16,7 @@ public class Hash {
             MessageDigest md = MessageDigest.getInstance(hashFunction);
             md.update(password.getBytes(charset));
             byte[] raw = md.digest();
-            //return new String(Hex.encodeHex(raw));
-            return password;
+            return new String(Hex.encodeHex(raw));
         } 
         catch (Exception e) {
             throw new RuntimeException(e);        
