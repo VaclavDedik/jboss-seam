@@ -1,6 +1,8 @@
 <components xmlns:pay="http://jboss.com/products/seam/examples/seampay"
             xmlns:core="http://jboss.com/products/seam/core"
-            xmlns:framework="http://jboss.com/products/seam/framework">
+            xmlns:persistence="http://jboss.com/products/seam/persistence"
+            xmlns:framework="http://jboss.com/products/seam/framework"
+            xmlns:async="http://jboss.com/products/seam/async">
 
     <pay:payment-home name="paymentHome" 
                       new-instance="#{newPayment}" 
@@ -25,11 +27,11 @@
                             max-results="20" 
                             entity-manager="#{entityManager}" />
         
-    <core:managed-persistence-context name="entityManager"
+    <persistence:managed-persistence-context name="entityManager"
                                       auto-create="true"
                                       persistence-unit-jndi-name="java:/seampayEntityManagerFactory" />
 
-    <core:timer-service-dispatcher />
+    <async:timer-service-dispatcher />
 
     <core:init debug="true" jndi-pattern="@jndiPattern@" />
 

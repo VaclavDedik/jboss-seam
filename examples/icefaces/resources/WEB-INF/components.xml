@@ -17,7 +17,7 @@
         <property name="conversationIdParameter">cid</property>
     </component>
     
-    <component name="org.jboss.seam.core.pages">
+    <component name="org.jboss.seam.navigation.pages">
         <property name="noConversationViewId">/main.xhtml</property>
     </component>
 

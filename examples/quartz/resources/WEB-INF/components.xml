@@ -1,6 +1,7 @@
 <components xmlns:pay="http://jboss.com/products/seam/examples/quartz"
             xmlns:core="http://jboss.com/products/seam/core"
-            xmlns:framework="http://jboss.com/products/seam/framework">
+            xmlns:framework="http://jboss.com/products/seam/framework"
+            xmlns:persistence="http://jboss.com/products/seam/persistence">
 
     <pay:payment-home name="paymentHome" 
                       new-instance="#{newPayment}" 
@@ -25,12 +26,13 @@
                             max-results="20" 
                             entity-manager="#{entityManager}" />
         
-    <core:managed-persistence-context name="entityManager"
+    <persistence:managed-persistence-context name="entityManager"
                                       auto-create="true"
                                       persistence-unit-jndi-name="java:/seampayEntityManagerFactory" />
 
     <!-- Install the QuartzDispatcher -->
-    <component name="org.jboss.seam.core.dispatcher" class="org.jboss.seam.core.QuartzDispatcher"/>
+    <component name="org.jboss.seam.async.dispatcher" 
+               class="org.jboss.seam.async.QuartzDispatcher"/>
 
     <core:init debug="true" jndi-pattern="@jndiPattern@" />
 

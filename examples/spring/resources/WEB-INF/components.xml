@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <components xmlns="http://jboss.com/products/seam/components" 
             xmlns:core="http://jboss.com/products/seam/core"
+            xmlns:persistence="http://jboss.com/products/seam/persistence"
             xmlns:spring="http://jboss.com/products/seam/spring"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation="http://jboss.com/products/seam/core http://jboss.com/products/seam/core-1.3.xsd 
+                                http://jboss.com/products/seam/persistence http://jboss.com/products/seam/persistence-1.3.xsd
                                 http://jboss.com/products/seam/components http://jboss.com/products/seam/components-1.3.xsd
                                 http://jboss.com/products/seam/spring http://jboss.com/products/seam/spring-1.3.xsd">
 
@@ -12,7 +14,7 @@
                   concurrent-request-timeout="500" 
                   conversation-id-parameter="cid"/>
 
-    <core:managed-persistence-context name="entityManager"
+    <persistence:managed-persistence-context name="entityManager"
                                       auto-create="true" 
                                       persistence-unit-jndi-name="java:/springEntityManagerFactory" />
     
