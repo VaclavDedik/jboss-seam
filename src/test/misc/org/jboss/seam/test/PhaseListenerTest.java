@@ -21,19 +21,20 @@ import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.ConversationEntries;
 import org.jboss.seam.core.ConversationPropagation;
 import org.jboss.seam.core.Events;
-import org.jboss.seam.core.FacesMessages;
-import org.jboss.seam.core.FacesPage;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.core.Pages;
 import org.jboss.seam.core.ServletSession;
-import org.jboss.seam.core.Validation;
+import org.jboss.seam.faces.FacesMessages;
+import org.jboss.seam.faces.FacesPage;
+import org.jboss.seam.faces.Parameters;
+import org.jboss.seam.faces.Validation;
 import org.jboss.seam.jsf.SeamPhaseListener;
 import org.jboss.seam.jsf.SeamStateManager;
 import org.jboss.seam.mock.MockApplication;
 import org.jboss.seam.mock.MockExternalContext;
 import org.jboss.seam.mock.MockFacesContext;
 import org.jboss.seam.mock.MockLifecycle;
+import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.servlet.ServletRequestSessionMap;
 import org.testng.annotations.Test;
 
@@ -51,6 +52,7 @@ public class PhaseListenerTest
       installComponent(appContext, FacesMessages.class);
       installComponent(appContext, Pages.class);
       installComponent(appContext, Events.class);
+      installComponent(appContext, Parameters.class);
       installComponent(appContext, Validation.class);
       installComponent(appContext, ServletSession.class);
       installComponent(appContext, ConversationPropagation.class);
@@ -239,7 +241,7 @@ public class PhaseListenerTest
       
       phases.beforePhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, MockLifecycle.INSTANCE ) );
       
-      Manager.instance().beginConversation(null);
+      Manager.instance().beginConversation();
       
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, MockLifecycle.INSTANCE ) );
       

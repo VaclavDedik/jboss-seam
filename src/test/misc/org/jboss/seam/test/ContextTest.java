@@ -18,7 +18,6 @@ import org.jboss.seam.contexts.SessionContext;
 import org.jboss.seam.core.ConversationEntries;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.core.ServletContexts;
 import org.jboss.seam.core.ServletSession;
 import org.jboss.seam.el.EL;
 import org.jboss.seam.el.SeamELResolver;
@@ -28,6 +27,8 @@ import org.jboss.seam.mock.MockHttpSession;
 import org.jboss.seam.mock.MockServletContext;
 import org.jboss.seam.servlet.ServletRequestMap;
 import org.jboss.seam.servlet.ServletRequestSessionMap;
+import org.jboss.seam.web.Parameters;
+import org.jboss.seam.web.ServletContexts;
 import org.testng.annotations.Test;
 
 public class ContextTest
@@ -51,6 +52,7 @@ public class ContextTest
       installComponent(appContext, Manager.class);
       installComponent(appContext, ServletSession.class);
       installComponent(appContext, ServletContexts.class);
+      installComponent(appContext, Parameters.class);
       appContext.set( Seam.getComponentName(Init.class), new Init() );
       
       installComponent(appContext, Bar.class);
@@ -107,7 +109,7 @@ public class ContextTest
       assert !Contexts.isConversationContextActive();
       assert !Contexts.isApplicationContextActive();
       assert ((MockHttpSession)externalContext.getSession(false)).getAttributes().size()==4;
-      assert ((MockServletContext)externalContext.getContext()).getAttributes().size()==9;
+      assert ((MockServletContext)externalContext.getContext()).getAttributes().size()==10;
       
       Lifecycle.beginRequest(externalContext);
       
@@ -140,7 +142,7 @@ public class ContextTest
       assert Contexts.getSessionContext().get("foo")==foo;
       
       assert Contexts.getConversationContext().getNames().length==2;
-      assert Contexts.getApplicationContext().getNames().length==9;
+      assert Contexts.getApplicationContext().getNames().length==10;
       assert Contexts.getSessionContext().getNames().length==2;
       
       assert seamVariableResolver.getValue(EL.EL_CONTEXT, null, "zzz").equals("bar");
@@ -161,7 +163,7 @@ public class ContextTest
       assert !Contexts.isConversationContextActive();
       assert !Contexts.isApplicationContextActive();
       assert ((MockHttpSession)externalContext.getSession(false)).getAttributes().size()==2;
-      assert ((MockServletContext)externalContext.getContext()).getAttributes().size()==9;
+      assert ((MockServletContext)externalContext.getContext()).getAttributes().size()==10;
       
       Lifecycle.endSession( servletContext, new ServletRequestSessionMap( (HttpServletRequest) externalContext.getRequest() ) );
             

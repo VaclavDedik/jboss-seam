@@ -8,6 +8,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseId;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.NoConversationException;
 import org.jboss.seam.RequiredException;
 import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.ApplicationContext;
@@ -16,11 +17,10 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.ConversationEntries;
 import org.jboss.seam.core.Events;
-import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.core.PersistenceContexts;
+import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.interceptors.BijectionInterceptor;
 import org.jboss.seam.interceptors.ConversationInterceptor;
 import org.jboss.seam.interceptors.ConversationalInterceptor;
@@ -30,6 +30,7 @@ import org.jboss.seam.mock.MockApplication;
 import org.jboss.seam.mock.MockExternalContext;
 import org.jboss.seam.mock.MockFacesContext;
 import org.jboss.seam.mock.MockServletContext;
+import org.jboss.seam.persistence.PersistenceContexts;
 import org.testng.annotations.Test;
 
 public class InterceptorTest
@@ -522,25 +523,35 @@ public class InterceptorTest
       ci.setComponent( new Component(Bar.class, appContext) );
       
       assert !Manager.instance().isLongRunningConversation();
+      
+      try
+      {
 
+         String result = (String) ci.aroundInvoke( new MockInvocationContext() {
+            @Override
+            public Method getMethod()
+            {
+               return InterceptorTest.getMethod("foo");
+            }
+            @Override
+            public Object proceed() throws Exception
+            {
+               assert false;
+               return null;
+            }
+         });
+         
+         assert false;
+         
+      }
+      catch (Exception e)
+      {
+         assert e instanceof NoConversationException;
+      }
+      
+      assert !Manager.instance().isLongRunningConversation();
+      
       String result = (String) ci.aroundInvoke( new MockInvocationContext() {
-         @Override
-         public Method getMethod()
-         {
-            return InterceptorTest.getMethod("foo");
-         }
-         @Override
-         public Object proceed() throws Exception
-         {
-            assert false;
-            return null;
-         }
-      });
-      
-      //assert !Manager.instance().isLongRunningConversation();
-      assert "error".equals(result);
-      
-      result = (String) ci.aroundInvoke( new MockInvocationContext() {
          @Override
          public Method getMethod()
          {
@@ -554,7 +565,7 @@ public class InterceptorTest
       });
       
       Manager.instance().initializeTemporaryConversation();
-      Manager.instance().beginConversation("bar");
+      Manager.instance().beginConversation();
       
       //assert Manager.instance().isLongRunningConversation();
       assert "begun".equals(result);

@@ -21,11 +21,10 @@ import org.jboss.seam.annotations.Scope;
 
 /**
  * @author <a href="mailto:theute@jboss.org">Thomas Heute </a>
- * @version $Revision$
  */
 @Name("bar")
 @Scope(ScopeType.CONVERSATION)
-@Conversational(ifNotBegunOutcome="error")
+@Conversational
 public class Bar implements Serializable
 {
    private static final long serialVersionUID = -5325217160542604204L;
@@ -47,6 +46,7 @@ public class Bar implements Serializable
    {
       return "begun";
    }
+   
    public String foo()
    {
       string = "out";

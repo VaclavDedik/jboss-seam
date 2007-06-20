@@ -7,8 +7,8 @@ import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.core.ManagedHibernateSession;
-import org.jboss.seam.core.ManagedPersistenceContext;
+import org.jboss.seam.persistence.ManagedHibernateSession;
+import org.jboss.seam.persistence.ManagedPersistenceContext;
 import org.jboss.seam.core.Init;
 import org.testng.annotations.Test;
 
@@ -69,10 +69,10 @@ public class ComponentTest
       assert c.getBeanClass()==EjbBean.class;
       assert c.getType()==ComponentType.STATEFUL_SESSION_BEAN;
       assert c.getScope()==ScopeType.EVENT;
-      assert c.hasDestroyMethod();
+      assert !c.hasDestroyMethod();
       assert !c.hasCreateMethod();
       assert c.getCreateMethod()==null;
-      assert c.getDestroyMethod()!=null;
+      assert c.getDestroyMethod()==null;
       assert c.getInAttributes().size()==0;
       assert c.getUnwrapMethod()==null;
       assert c.getOutAttributes().size()==0;
