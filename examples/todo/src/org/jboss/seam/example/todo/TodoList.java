@@ -6,7 +6,8 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.StartTask;
 
 @Name("todoList")
-public class TodoList {
+public class TodoList 
+{
    
    private String description;
    

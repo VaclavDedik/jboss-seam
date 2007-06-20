@@ -3,8 +3,8 @@ package org.jboss.seam.example.todo.test;
 
 import java.util.List;
 
-import org.jboss.seam.core.Actor;
-import org.jboss.seam.core.TaskInstanceList;
+import org.jboss.seam.bpm.Actor;
+import org.jboss.seam.bpm.TaskInstanceList;
 import org.jboss.seam.mock.SeamTest;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 import org.testng.annotations.Test;

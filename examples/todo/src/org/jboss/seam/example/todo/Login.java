@@ -2,10 +2,11 @@ package org.jboss.seam.example.todo;
 
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.core.Actor;
+import org.jboss.seam.bpm.Actor;
 
 @Name("login")
-public class Login {
+public class Login 
+{
    
    @In private Actor actor;
    

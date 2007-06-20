@@ -10,9 +10,9 @@
 
     <!-- Bootstrap Hibernate -->
     <component name="bookingDatabase" 
-              class="org.jboss.seam.core.ManagedHibernateSession"/>    
+              class="org.jboss.seam.persistence.ManagedHibernateSession"/>    
     <component name="hibernateSessionFactory"
-              class="org.jboss.seam.core.HibernateSessionFactory"/>
+              class="org.jboss.seam.persistence.HibernateSessionFactory"/>
            
     <security:identity authenticate-method="#{authenticator.authenticate}"/>             
            
