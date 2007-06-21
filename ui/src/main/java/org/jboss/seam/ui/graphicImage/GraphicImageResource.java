@@ -19,6 +19,9 @@ import org.jboss.seam.contexts.ContextualHttpServletRequest;
 import org.jboss.seam.servlet.AbstractResource;
 import org.jboss.seam.ui.graphicImage.GraphicImageStore.ImageWrapper;
 
+/**
+ * Serves images from the image store
+ */
 @Startup
 @Scope(APPLICATION)
 @Name("org.jboss.seam.ui.graphicImage.graphicImageResource")
