@@ -46,7 +46,7 @@ import org.jboss.seam.util.EJB;
 @Startup
 @Scope(APPLICATION)
 @Name("org.jboss.seam.web.exceptionFilter")
-@Install(precedence = BUILT_IN)
+@Install(precedence = BUILT_IN, classDependencies="javax.faces.context.FacesContext")
 @BypassInterceptors
 @Filter(within="org.jboss.seam.web.ajax4jsfFilter")
 public class ExceptionFilter extends AbstractFilter
@@ -63,7 +63,7 @@ public class ExceptionFilter extends AbstractFilter
       }
       catch (Exception e)
       {
-         log.error("uncaught exception", e);
+         log.error( "uncaught exception in JSF phase: " + FacesLifecycle.getPhaseId(), e );
          log.error( "exception root cause", EJB.getCause(e) );
          endWebRequestAfterException( (HttpServletRequest) request, (HttpServletResponse) response, e);
       }
