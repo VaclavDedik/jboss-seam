@@ -32,11 +32,11 @@
     <!-- Uncomment the following 3 lines if you        -->
     <!-- want to use the jBPM identity mgmgt           -->
     <!-- component.                                    -->
-    <!-- identity mappings (begin) -->
+    <!-- identity mappings (begin) ===
     <mapping resource="org/jbpm/identity/User.hbm.xml"/>
     <mapping resource="org/jbpm/identity/Group.hbm.xml"/>
     <mapping resource="org/jbpm/identity/Membership.hbm.xml"/>
-    <!-- identity mappings (end) -->
+    ==== identity mappings (end) -->
     
     <!-- following mapping files have a dependendy on  -->
     <!-- the JCR API                                   -->

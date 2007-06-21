@@ -33,8 +33,4 @@
     <java>jbpm-jpdl.jar</java>
   </module>
   
-    <module>
-        <java>jbpm-identity.jar</java>
-    </module>
-    
 </application>
