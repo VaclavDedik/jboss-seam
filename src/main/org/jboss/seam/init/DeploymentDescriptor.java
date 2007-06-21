@@ -24,7 +24,7 @@ public class DeploymentDescriptor
         componentClass = clazz;
         try 
         {
-            InputStream ejbJarXml = clazz.getClassLoader().getResourceAsStream("/META-INF/ejb-jar.xml");
+            InputStream ejbJarXml = clazz.getClassLoader().getResourceAsStream("META-INF/ejb-jar.xml");
             if (ejbJarXml!=null)
             {
                parseEjbJarXml( XML.getRootElement(ejbJarXml) );
@@ -37,7 +37,7 @@ public class DeploymentDescriptor
 
         try 
         {
-            InputStream ormXml = clazz.getClassLoader().getResourceAsStream("/META-INF/orm.xml");
+            InputStream ormXml = clazz.getClassLoader().getResourceAsStream("META-INF/orm.xml");
             parseOrmXml( XML.getRootElement(ormXml) );
         } 
         catch (DocumentException e) 
