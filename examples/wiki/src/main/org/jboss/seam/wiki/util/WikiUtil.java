@@ -12,6 +12,7 @@ import javax.swing.*;
 import javax.imageio.ImageIO;
 import java.util.Collection;
 import java.util.List;
+import java.util.Collections;
 import java.math.BigDecimal;
 import java.awt.image.BufferedImage;
 import java.awt.*;
@@ -189,6 +190,23 @@ public class WikiUtil {
 
     public static int getSessionTimeoutSeconds() {
         return ((HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getMaxInactiveInterval();
+    }
+
+    /**
+     * Moves the element at <tt>oldPosition</tt> to <tt>newPosition</tt>.
+     * <p>
+     * Correctly handles forward and backward shifting of previous or subsequent elements.
+     *
+     * @param list the list that is affected
+     * @param oldPosition the position of the element to move
+     * @param newPosition the new position of the element
+     */
+    public static void shiftListElement(List list, int oldPosition, int newPosition) {
+        if (oldPosition> newPosition) {
+            Collections.rotate(list.subList(newPosition, oldPosition+1), +1);
+        } else if (oldPosition < newPosition) {
+            Collections.rotate(list.subList(oldPosition, newPosition+1), -1);
+        }
     }
 
     /**

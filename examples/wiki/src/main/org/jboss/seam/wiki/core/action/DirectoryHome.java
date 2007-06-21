@@ -9,6 +9,8 @@ import org.jboss.seam.wiki.core.model.Directory;
 import org.jboss.seam.wiki.core.model.Node;
 import org.jboss.seam.wiki.core.model.Document;
 import org.jboss.seam.wiki.core.model.Feed;
+import org.jboss.seam.wiki.util.WikiUtil;
+import org.ajax4jsf.dnd.event.DropEvent;
 
 import javax.faces.application.FacesMessage;
 import java.util.List;
@@ -131,20 +133,6 @@ public class DirectoryHome extends NodeHome<Directory> {
     /* -------------------------- Public Features ------------------------------ */
 
     @Restrict("#{s:hasPermission('Node', 'editMenu', directoryHome.instance)}")
-    public void moveNodeUpInList() {
-        int position = getInstance().getChildren().indexOf(selectedChildNode);
-        Collections.rotate(getInstance().getChildren().subList(position-1, position+1), 1);
-        refreshChildNodes();
-    }
-
-    @Restrict("#{s:hasPermission('Node', 'editMenu', directoryHome.instance)}")
-    public void moveNodeDownInList() {
-        int position = getInstance().getChildren().indexOf(selectedChildNode);
-        Collections.rotate(getInstance().getChildren().subList(position, position+2), 1);
-        refreshChildNodes();
-    }
-
-    @Restrict("#{s:hasPermission('Node', 'editMenu', directoryHome.instance)}")
     public void previewMenuItems() {
         refreshMenuItems();
     }
@@ -170,5 +158,20 @@ public class DirectoryHome extends NodeHome<Directory> {
                 "Queued removal of all feed entries from the syndication feed of this directory, please update to finalize");
         }
     }
+
+    @Restrict("#{s:hasPermission('Node', 'editMenu', directoryHome.instance)}")
+    public void dropMenuItem(DropEvent event) {
+
+        Node draggedObject = (Node)event.getDragValue();
+        int currentPosition = getInstance().getChildren().indexOf(draggedObject);
+        int newPosition = (Integer)event.getDropValue();
+
+        if (currentPosition != newPosition) {
+            WikiUtil.shiftListElement(getInstance().getChildren(), currentPosition, newPosition);
+            refreshChildNodes();
+        }
+
+    }
+
 
 }

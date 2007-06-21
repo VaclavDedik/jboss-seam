@@ -7,6 +7,7 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
                 xmlns:j4j="http://javascript4jsf.dev.java.net/"
+                xmlns:rich="http://richfaces.ajax4jsf.org/rich"
                 xmlns:a="https://ajax4jsf.dev.java.net/ajax"
                 template="themes/#{wikiPreferences.themeName}/template.xhtml">
 
@@ -53,7 +54,7 @@
 </s:span>
 
 
-<h:form>
+<h:form id="directoryEditForm">
 <div class="form">
 <div class="formHead">
     <h:outputText value="New directory: #{directoryHome.instance.name}"
@@ -109,6 +110,8 @@
         </div>
     </s:div>
 
+    <rich:dragIndicator id="rowDragIndicator"/>
+
     <s:div styleClass="entry"
            rendered="#{childNodes.rowCount>0 and s:hasPermission('Node', 'editMenu', directoryHome.instance)}">
         <div class="label">Menu items:</div>
@@ -117,49 +120,48 @@
                          value="#{childNodes}"
                          binding="#{wikiUtil.datatable}"
                          styleClass="datatable"
-                         columnClasses="onePercentColumn alignCenter, onePercentColumn alignCenter, onePercentColumn alignCenter,
-                                        onePercentColumn alignCenter, defaultColumn alignLeft"
+                         columnClasses="onePercentColumn alignCenter, onePercentColumn alignCenter, defaultColumn alignLeft"
                          rowClasses="rowEven,rowOdd"
                          cellpadding="0" cellspacing="0" border="0">
-
-                <h:column>
-                    <h:commandLink id="nodeUp" tabindex="1"
-                                   action="#{directoryHome.moveNodeUpInList}"
-                                   rendered="#{wikiUtil.datatable.rowIndex > 0}">
-                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/up.gif" width="18" height="18"/>
-                    </h:commandLink>
-                </h:column>
-
-                <h:column>
-                    <h:commandLink id="nodeDown" tabindex="2"
-                                   action="#{directoryHome.moveNodeDownInList}"
-                                   rendered="#{wikiUtil.datatable.rowIndex+1 lt wikiUtil.datatable.rowCount}">
-                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/down.gif" width="18" height="18"/>
-                    </h:commandLink>
-                </h:column>
 
                 <h:column>
                     <h:selectBooleanCheckbox value="#{node.menuItem}" tabindex="3"/>
                 </h:column>
 
                 <h:column>
-                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.dir.gif"
-                                    width="18" height="20"
-                                    rendered="#{wiki:isDirectory(node)}"/>
-                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.doc.gif"
-                                    width="18" height="20"
-                                    rendered="#{wiki:isDocument(node)}"/>
+                    <a:outputPanel>
+                        <rich:dragSupport dragIndicator=":directoryEditForm:rowDragIndicator"
+                                          dragType="node"
+                                          dragValue="#{node}">
+                            <rich:dndParam name="label" type="drag"><h:outputText value="#{node.name}"/></rich:dndParam>
+                        </rich:dragSupport>
+                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.dir.gif"
+                                        width="18" height="20" style="cursor:move"
+                                        rendered="#{wiki:isDirectory(node)}"/>
+                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.doc.gif"
+                                        width="18" height="20" style="cursor:move"
+                                        rendered="#{wiki:isDocument(node)}"/>
 
-                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/#{fileMetaMap[node.contentType].displayIcon}"
-                                    width="18" height="20"
-                                    rendered="#{wiki:isFile(node) and !empty fileMetaMap[node.contentType]}"/>
-                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/#{fileMetaMap['generic'].displayIcon}"
-                                    width="18" height="20"
-                                    rendered="#{wiki:isFile(node) and empty fileMetaMap[node.contentType]}"/>
+                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/#{fileMetaMap[node.contentType].displayIcon}"
+                                        width="18" height="20" style="cursor:move"
+                                        rendered="#{wiki:isFile(node) and !empty fileMetaMap[node.contentType]}"/>
+                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/#{fileMetaMap['generic'].displayIcon}"
+                                        width="18" height="20" style="cursor:move"
+                                        rendered="#{wiki:isFile(node) and empty fileMetaMap[node.contentType]}"/>
+                    </a:outputPanel>
                 </h:column>
 
                 <h:column>
-                    <h:outputText value="#{node.name}"/>
+                    <a:outputPanel>
+                        <rich:dropSupport id="dropZone" acceptedTypes="node" reRender="directoryFormTable"
+                                          dropListener="#{directoryHome.dropMenuItem}" dropValue="#{wikiUtil.datatable.rowIndex}"/>
+                        <rich:dragSupport dragIndicator=":directoryEditForm:rowDragIndicator"
+                                          dragType="node"
+                                          dragValue="#{node}">
+                            <rich:dndParam name="label" type="drag"><h:outputText value="#{node.name}"/></rich:dndParam>
+                        </rich:dragSupport>
+                        <h:outputText value="#{node.name}" style="cursor:move"/>
+                    </a:outputPanel>
                 </h:column>
 
             </h:dataTable>
