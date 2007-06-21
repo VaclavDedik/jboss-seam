@@ -1,5 +1,13 @@
 package org.jboss.seam.log;
 
+/**
+ * Factory for Seam Logs and LogProviders. If log4j exists
+ * in the classpath, the LogProvider will be log4j. Otherwise,
+ * it will be JDK logging.
+ * 
+ * @author Gavin King
+ *
+ */
 public class Logging
 {
    

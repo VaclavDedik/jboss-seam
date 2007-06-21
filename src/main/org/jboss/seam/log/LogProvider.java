@@ -1,5 +1,15 @@
 package org.jboss.seam.log;
 
+/**
+ * 
+ * Abstracts the underlying logging implementation
+ * (log4j or JDK logging). This saves us from having
+ * to use evil and absurdly overengineered stuff
+ * like commons-logging.
+ * 
+ * @author Gavin King
+ *
+ */
 public interface LogProvider
 {
    public void trace(Object object);
