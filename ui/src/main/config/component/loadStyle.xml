@@ -3,7 +3,7 @@
 <components>
 	<component>
 		<name>org.jboss.seam.ui.LoadStyle</name>
-		<family>org.jboss.seam.ui.LoadStyle</family>
+		<family>org.ajax4jsf.LoadStyle</family>
 		<classname>org.jboss.seam.ui.component.html.HtmlLoadStyle</classname>
 		<superclass>org.jboss.seam.ui.component.UILoadStyle</superclass>
 		<description>

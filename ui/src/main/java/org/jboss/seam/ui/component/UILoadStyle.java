@@ -11,6 +11,7 @@ import org.ajax4jsf.ajax.html.HtmlLoadStyle;
 import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.ui.resource.StyleResource;
 import org.jboss.seam.ui.util.UrlBuilder;
+import org.jboss.seam.util.Reflections;
 
 public abstract class UILoadStyle extends HtmlLoadStyle
 {
@@ -68,7 +69,15 @@ public abstract class UILoadStyle extends HtmlLoadStyle
    }
    
    public static UILoadStyle newInstance() {
-      return (UILoadStyle) FacesContext.getCurrentInstance().getApplication().createComponent(COMPONENT_TYPE);
+      // Avoid runtime dep on a4j
+      try
+      {
+         return (UILoadStyle) Reflections.classForName("org.jboss.seam.ui.component.html.HtmlLoadStyle").newInstance();
+      }
+      catch (Exception e)
+      {
+         throw new RuntimeException("Error loading UILoadStyle");
+      }
    }
 
 }
