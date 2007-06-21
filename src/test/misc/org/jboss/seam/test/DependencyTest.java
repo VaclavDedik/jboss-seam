@@ -166,7 +166,8 @@ public class DependencyTest {
                                ComponentDescriptor descriptor) 
     {
         Set<ComponentDescriptor> descriptors = dependencies.get(descriptor.getName());
-        if (descriptors == null) {
+        if (descriptors == null) 
+        {
             descriptors = new TreeSet<ComponentDescriptor>(new ComponentDescriptor.PrecedenceComparator());
             dependencies.put(descriptor.getName(), descriptors);
         }
