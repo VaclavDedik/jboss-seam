@@ -17,20 +17,23 @@ class EntityBean implements Wrapper
    
    private Object instance;
    private PassivatedEntity passivatedEntity;
+   private transient boolean initialized;
    
    public EntityBean(Object instance)
    {
       this.instance = instance;
+      initialized = true;
    }
    
    //TODO: use @Unwrap
    public Object getInstance()
    {
-      if ( passivatedEntity!=null && !passivatedEntity.isVersioned() ) 
+      if ( !initialized && passivatedEntity!=null ) 
       {
          //non-versioned entities can be lazily unpassivated 
          instance = passivatedEntity.toEntityReference(true);
       }
+      initialized = true;
       return instance;
    }
    
@@ -45,7 +48,7 @@ class EntityBean implements Wrapper
          else
          {
             passivatedEntity = passivateEntity(instance);
-            if (passivatedEntity!=null) instance = null;
+            if (passivatedEntity!=null) instance = null; //for performance of serialization
          }
          return true;
       }
@@ -62,6 +65,11 @@ class EntityBean implements Wrapper
       if ( passivatedEntity!=null && passivatedEntity.isVersioned() )
       {
          instance = passivatedEntity.toEntityReference(true);
+         initialized = true;
+      }
+      else
+      {
+         initialized = false;
       }
    }
    

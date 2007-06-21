@@ -2,20 +2,33 @@ package org.jboss.seam.contexts;
 
 abstract class AbstractEntityBeanCollection implements Wrapper
 {
+   private transient boolean initialized;
+   
+   protected AbstractEntityBeanCollection()
+   {
+      initialized = true;
+   }
+   
    public final void activate()
    {
       if ( isPassivatedEntitiesInitialized() && isAnyVersioned() )
       {
          activateAll();
+         initialized = true;
+      }
+      else
+      {
+         initialized = false;
       }
    }
 
    public final Object getInstance()
    {
-      if ( isPassivatedEntitiesInitialized() && !isAnyVersioned() )
+      if ( !initialized && isPassivatedEntitiesInitialized() )
       {
          activateAll();
       }
+      initialized = true;
       return getEntityCollection();
    }
    
