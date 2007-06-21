@@ -181,7 +181,8 @@ public class ComponentDescriptor
     public static class PrecedenceComparator    
          implements Comparator<ComponentDescriptor>
    {               
-        public int compare(ComponentDescriptor obj1, ComponentDescriptor obj2) {            
+        public int compare(ComponentDescriptor obj1, ComponentDescriptor obj2) 
+        {        
             return obj2.getPrecedence() - obj1.getPrecedence();
         }
     }

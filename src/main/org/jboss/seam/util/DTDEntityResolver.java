@@ -26,7 +26,8 @@ import org.xml.sax.InputSource;
  * rules result in returning null, which should force the SAX reader to
  * handle the entity reference in its default manner.
  */
-public class DTDEntityResolver implements EntityResolver, Serializable {
+public class DTDEntityResolver implements EntityResolver, Serializable 
+{
 
    private static final long serialVersionUID = -4553926061006790714L;
 
@@ -35,17 +36,22 @@ public class DTDEntityResolver implements EntityResolver, Serializable {
 	private static final String SEAM_NAMESPACE = "http://jboss.com/products/seam/";
 	private static final String USER_NAMESPACE = "classpath://";
 
-	public InputSource resolveEntity(String publicId, String systemId) {
-		if ( systemId != null ) {
+	public InputSource resolveEntity(String publicId, String systemId) 
+   {
+		if ( systemId != null ) 
+      {
 			log.debug( "trying to resolve system-id [" + systemId + "]" );
-			if ( systemId.startsWith( SEAM_NAMESPACE) ) {
+			if ( systemId.startsWith( SEAM_NAMESPACE) ) 
+         {
 				log.debug( "recognized Seam namespace; attempting to resolve on classpath under org/jboss/seam/" );
 				String path = "org/jboss/seam/" + systemId.substring( SEAM_NAMESPACE.length() );
-				InputStream dtdStream = resolveInSeamNamespace( path );
-				if ( dtdStream == null ) {
+				InputStream dtdStream = resolveInSeamNamespace(path);
+				if ( dtdStream == null ) 
+            {
 					log.debug( "unable to locate [" + systemId + "] on classpath" );
 				}
-				else {
+				else 
+            {
 					log.debug( "located [" + systemId + "] in classpath" );
 					InputSource source = new InputSource( dtdStream );
 					source.setPublicId( publicId );
@@ -53,14 +59,17 @@ public class DTDEntityResolver implements EntityResolver, Serializable {
 					return source;
 				}
 			}
-			else if ( systemId.startsWith( USER_NAMESPACE ) ) {
+			else if ( systemId.startsWith( USER_NAMESPACE ) ) 
+         {
 				log.debug( "recognized local namespace; attempting to resolve on classpath" );
 				String path = systemId.substring( USER_NAMESPACE.length() );
 				InputStream stream = resolveInLocalNamespace( path );
-				if ( stream == null ) {
+				if ( stream == null ) 
+            {
 					log.debug( "unable to locate [" + systemId + "] on classpath" );
 				}
-				else {
+				else 
+            {
 					log.debug( "located [" + systemId + "] in classpath" );
 					InputSource source = new InputSource( stream );
 					source.setPublicId( publicId );
@@ -73,15 +82,19 @@ public class DTDEntityResolver implements EntityResolver, Serializable {
 		return null;
 	}
 
-	protected InputStream resolveInSeamNamespace(String path) {
-		return this.getClass().getClassLoader().getResourceAsStream( path );
+	protected InputStream resolveInSeamNamespace(String path) 
+   {
+		return this.getClass().getClassLoader().getResourceAsStream(path);
 	}
 
-	protected InputStream resolveInLocalNamespace(String path) {
-		try {
-			return Resources.getResourceAsStream( path );
+	protected InputStream resolveInLocalNamespace(String path) 
+   {
+		try 
+      {
+			return Resources.getResourceAsStream(path);
 		}
-		catch( Throwable t ) {
+		catch( Throwable t ) 
+      {
 			return null;
 		}
 	}

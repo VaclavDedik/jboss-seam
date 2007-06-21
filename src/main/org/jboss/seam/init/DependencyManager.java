@@ -18,7 +18,6 @@ public class DependencyManager
         this.componentDescriptors = new HashMap<String, Set<ComponentDescriptor>>(componentDescriptors);
     }
     
-    
     public Set<ComponentDescriptor> installedSet()
     {
         computeInstallSet();

@@ -666,15 +666,15 @@ public class Initialization
 
    private void installScannedComponentAndRoles(Class<Object> scannedClass)
    {
-      if (scannedClass.isAnnotationPresent(Name.class))
+      if ( scannedClass.isAnnotationPresent(Name.class) )
       {
-         addComponentDescriptor(new ComponentDescriptor(scannedClass));
+         addComponentDescriptor( new ComponentDescriptor(scannedClass) );
       }
-      if (scannedClass.isAnnotationPresent(Role.class))
+      if ( scannedClass.isAnnotationPresent(Role.class) )
       {
-         installRole(scannedClass, scannedClass.getAnnotation(Role.class));
+         installRole( scannedClass, scannedClass.getAnnotation(Role.class) );
       }
-      if (scannedClass.isAnnotationPresent(Roles.class))
+      if ( scannedClass.isAnnotationPresent(Roles.class) )
       {
          Role[] roles = scannedClass.getAnnotation(Roles.class).value();
          for (Role role : roles)
