@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src/main"/>
+	<classpathentry kind="src" path="src/test/misc"/>
+	<classpathentry kind="src" path="ui/src/main/java"/>
 	<classpathentry kind="src" path="src/remoting"/>
 	<classpathentry kind="src" path="src/ioc"/>
 	<classpathentry kind="src" path="src/mail"/>
 	<classpathentry kind="src" path="src/pdf"/>
 	<classpathentry kind="src" path="src/debug"/>
 	<classpathentry kind="src" path="src/gen"/>
-	<classpathentry kind="src" path="ui/src/main/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/portlet-api-lib.jar"/>
 	<classpathentry kind="lib" path="lib/servlet-api.jar"/>
@@ -41,7 +42,7 @@
 	<classpathentry kind="lib" path="lib/jcaptcha-all-1.0-RC6.jar"/>
 	<classpathentry kind="lib" path="lib/ant.jar"/>
 	<classpathentry kind="lib" path="lib/thirdparty-all.jar"/>
-	<classpathentry kind="lib" path="lib/jbpm-identity.jar"/>
 	<classpathentry kind="lib" path="lib/bsh.jar"/>
+	<classpathentry kind="lib" path="lib/jsf-impl.jar"/>
 	<classpathentry kind="output" path="output/classes"/>
 </classpath>
