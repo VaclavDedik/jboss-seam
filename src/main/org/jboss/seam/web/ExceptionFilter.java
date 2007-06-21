@@ -63,7 +63,7 @@ public class ExceptionFilter extends AbstractFilter
       }
       catch (Exception e)
       {
-         log.error( "uncaught exception in JSF phase: " + FacesLifecycle.getPhaseId(), e );
+         log.error( "handling uncaught exception", e );
          log.error( "exception root cause", EJB.getCause(e) );
          endWebRequestAfterException( (HttpServletRequest) request, (HttpServletResponse) response, e);
       }
