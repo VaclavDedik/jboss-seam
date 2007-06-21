@@ -14,62 +14,75 @@ import java.util.Set;
  * @author Gavin King
  *
  */
-class EntityBeanSet implements Wrapper
+class EntityBeanSet extends AbstractEntityBeanCollection
 {
    private static final long serialVersionUID = -2884601453783925804L;
    
-   private Set instance;
+   private Set set;
    private List<PassivatedEntity> passivatedEntityList;
    
    public EntityBeanSet(Set instance)
    {
-      this.instance = instance;
+      this.set = instance;
    }
    
-   public void activate()
+   @Override
+   protected Iterable<PassivatedEntity> getPassivatedEntities() 
    {
-      if (passivatedEntityList!=null)
+      return passivatedEntityList;
+   }
+   
+   @Override
+   protected Object getEntityCollection()
+   {
+      return set;
+   }
+   
+   @Override
+   protected void clearPassivatedEntities()
+   {
+      passivatedEntityList = null;
+   }
+
+   @Override
+   protected boolean isPassivatedEntitiesInitialized()
+   {
+      return passivatedEntityList!=null;
+   }
+
+   @Override
+   protected void activateAll()
+   {
+      for ( PassivatedEntity pe: passivatedEntityList )
       {
-         for ( PassivatedEntity pe: passivatedEntityList )
-         {
-            instance.add( pe.toEntityReference(true) );
-         }
-         passivatedEntityList = null;
+         set.add( pe.toEntityReference(true) );
       }
+      passivatedEntityList = null;
    }
    
-   //TODO: use @Unwrap
-   public Object getInstance()
+   @Override
+   protected void passivateAll()
    {
-      return instance;
-   }
-   
-   public boolean passivate()
-   {
-      if ( !PassivatedEntity.isTransactionRolledBackOrMarkedRollback() )
+      passivatedEntityList = new ArrayList<PassivatedEntity>( set.size() );
+      boolean found = false;
+      for ( Object value: set )
       {
-         passivatedEntityList = new ArrayList<PassivatedEntity>( instance.size() );
-         boolean found = false;
-         for ( Object value: instance )
+         if (value!=null)
          {
-            if (value!=null)
+            PassivatedEntity passivatedEntity = PassivatedEntity.passivateEntity(value);
+            if (passivatedEntity!=null)
             {
-               PassivatedEntity passivatedEntity = PassivatedEntity.passivateEntity(value);
-               if (passivatedEntity!=null)
-               {
-                  if (!found) instance = new HashSet(instance);
-                  found=true;
-                  //this would be dangerous, except that we 
-                  //are doing it to a copy of the original 
-                  //list:
-                  instance.remove(value);
-                  passivatedEntityList.add(passivatedEntity);
-               }
+               if (!found) set = new HashSet(set);
+               found=true;
+               //this would be dangerous, except that we 
+               //are doing it to a copy of the original 
+               //list:
+               set.remove(value);
+               passivatedEntityList.add(passivatedEntity);
             }
          }
-         if (!found) passivatedEntityList=null;
       }
-      return true;
+      if (!found) passivatedEntityList=null;
    }
    
 }

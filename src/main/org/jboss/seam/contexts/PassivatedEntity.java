@@ -53,6 +53,11 @@ class PassivatedEntity implements Serializable
    {
       return entityClass;
    }
+   
+   public boolean isVersioned()
+   {
+      return version!=null;
+   }
 
    public Object toEntityReference(boolean checkVersion)
    {

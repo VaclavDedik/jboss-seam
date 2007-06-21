@@ -12,71 +12,80 @@ import java.util.List;
  * @author Gavin King
  *
  */
-class EntityBeanList implements Wrapper
+class EntityBeanList extends AbstractEntityBeanCollection
 {
    private static final long serialVersionUID = -2884601453783925804L;
    
-   private List instance;
+   private List list;
    private List<PassivatedEntity> passivatedEntityList;
    
    public EntityBeanList(List instance)
    {
-      this.instance = instance;
+      this.list = instance;
    }
    
-   public void activate()
+   @Override
+   protected Iterable<PassivatedEntity> getPassivatedEntities() 
    {
-      if (passivatedEntityList!=null)
+      return passivatedEntityList;
+   }
+   
+   @Override
+   protected Object getEntityCollection()
+   {
+      return list;
+   }
+   
+   @Override
+   protected void clearPassivatedEntities()
+   {
+      passivatedEntityList = null;
+   }
+
+   @Override
+   protected boolean isPassivatedEntitiesInitialized()
+   {
+      return passivatedEntityList!=null;
+   }
+   
+   @Override
+   protected void activateAll()
+   {
+      for (int i=0; i<passivatedEntityList.size(); i++)
       {
-         for (int i=0; i<passivatedEntityList.size(); i++)
+         PassivatedEntity passivatedEntity = passivatedEntityList.get(i);
+         if (passivatedEntity!=null)
          {
-            PassivatedEntity passivatedEntity = passivatedEntityList.get(i);
+            list.set( i, passivatedEntity.toEntityReference(true) );
+         }
+      }
+   }
+
+   @Override
+   protected void passivateAll()
+   {
+      passivatedEntityList = new ArrayList<PassivatedEntity>( list.size() );
+      boolean found = false;
+      for (int i=0; i<list.size(); i++ )
+      {
+         Object value = list.get(i);
+         PassivatedEntity passivatedEntity = null;
+         if (value!=null)
+         {
+            passivatedEntity = PassivatedEntity.passivateEntity(value);
             if (passivatedEntity!=null)
             {
-               instance.set( i, passivatedEntity.toEntityReference(true) );
+               if (!found) list = new ArrayList(list);
+               found=true;
+               //this would be dangerous, except that we 
+               //are doing it to a copy of the original 
+               //list:
+               list.set(i, null); 
             }
          }
-         passivatedEntityList = null;
+         passivatedEntityList.add(passivatedEntity);
       }
-   }
-   
-   public Object getInstance()
-      {
-      return instance;
-   }
-   
-   public boolean passivate()
-   {
-      if ( PassivatedEntity.isTransactionRolledBackOrMarkedRollback() )
-      {
-         passivatedEntityList = null;
-      }
-      else
-      {
-         passivatedEntityList = new ArrayList<PassivatedEntity>( instance.size() );
-         boolean found = false;
-         for (int i=0; i<instance.size(); i++ )
-         {
-            Object value = instance.get(i);
-            PassivatedEntity passivatedEntity = null;
-            if (value!=null)
-            {
-               passivatedEntity = PassivatedEntity.passivateEntity(value);
-               if (passivatedEntity!=null)
-               {
-                  if (!found) instance = new ArrayList(instance);
-                  found=true;
-                  //this would be dangerous, except that we 
-                  //are doing it to a copy of the original 
-                  //list:
-                  instance.set(i, null); 
-               }
-            }
-            passivatedEntityList.add(passivatedEntity);
-         }
-         if (!found) passivatedEntityList=null;
-      }
-      return true;
+      if (!found) passivatedEntityList=null;
    }
    
 }

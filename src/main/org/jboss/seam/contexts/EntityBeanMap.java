@@ -13,63 +13,76 @@ import java.util.Set;
  * @author Gavin King
  *
  */
-class EntityBeanMap implements Wrapper
+class EntityBeanMap extends AbstractEntityBeanCollection
 {
    private static final long serialVersionUID = -2884601453783925804L;
    
-   private Map instance;
+   private Map map;
    private Map<Object, PassivatedEntity> passivatedEntityMap;
    
    public EntityBeanMap(Map instance)
    {
-      this.instance = instance;
+      this.map = instance;
    }
    
-   public void activate()
+   @Override
+   protected Iterable<PassivatedEntity> getPassivatedEntities() 
    {
-      if (passivatedEntityMap!=null)
+      return passivatedEntityMap.values();
+   }
+   
+   @Override
+   protected Object getEntityCollection()
+   {
+      return map;
+   }
+   
+   @Override
+   protected void clearPassivatedEntities()
+   {
+      passivatedEntityMap = null;
+   }
+
+   @Override
+   protected boolean isPassivatedEntitiesInitialized()
+   {
+      return passivatedEntityMap!=null;
+   }
+
+   @Override
+   protected void activateAll()
+   {
+      for ( Map.Entry<Object, PassivatedEntity> me: passivatedEntityMap.entrySet() )
       {
-         for ( Map.Entry<Object, PassivatedEntity> me: passivatedEntityMap.entrySet() )
-         {
-            instance.put( me.getKey(), me.getValue().toEntityReference(true) );
-         }
-         passivatedEntityMap = null;
+         map.put( me.getKey(), me.getValue().toEntityReference(true) );
       }
+      clearPassivatedEntities();
    }
    
-   //TODO: use @Unwrap
-   public Object getInstance()
+   @Override
+   protected void passivateAll()
    {
-      return instance;
-   }
-   
-   public boolean passivate()
-   {
-      if ( !PassivatedEntity.isTransactionRolledBackOrMarkedRollback() )
+      passivatedEntityMap = new HashMap<Object, PassivatedEntity>( map.size() );
+      boolean found = false;
+      for ( Map.Entry me: (Set<Map.Entry>) map.entrySet() )
       {
-         passivatedEntityMap = new HashMap<Object, PassivatedEntity>( instance.size() );
-         boolean found = false;
-         for ( Map.Entry me: (Set<Map.Entry>) instance.entrySet() )
+         Object value = me.getValue();
+         if (value!=null)
          {
-            Object value = me.getValue();
-            if (value!=null)
+            PassivatedEntity passivatedEntity = PassivatedEntity.passivateEntity(value);
+            if (passivatedEntity!=null)
             {
-               PassivatedEntity passivatedEntity = PassivatedEntity.passivateEntity(value);
-               if (passivatedEntity!=null)
-               {
-                  if (!found) instance = new HashMap(instance);
-                  found=true;
-                  //this would be dangerous, except that we 
-                  //are doing it to a copy of the original 
-                  //list:
-                  instance.remove( me.getKey() ); 
-                  passivatedEntityMap.put( me.getKey(), passivatedEntity );
-               }
+               if (!found) map = new HashMap(map);
+               found=true;
+               //this would be dangerous, except that we 
+               //are doing it to a copy of the original 
+               //list:
+               map.remove( me.getKey() ); 
+               passivatedEntityMap.put( me.getKey(), passivatedEntity );
             }
          }
-         if (!found) passivatedEntityMap=null;
       }
-      return true;
+      if (!found) clearPassivatedEntities();
    }
    
 }

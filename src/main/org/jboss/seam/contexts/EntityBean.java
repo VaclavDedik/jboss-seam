@@ -26,13 +26,18 @@ class EntityBean implements Wrapper
    //TODO: use @Unwrap
    public Object getInstance()
    {
+      if ( passivatedEntity!=null && !passivatedEntity.isVersioned() ) 
+      {
+         //non-versioned entities can be lazily unpassivated 
+         instance = passivatedEntity.toEntityReference(true);
+      }
       return instance;
    }
    
    public boolean passivate()
    {
-      /*if (passivatedEntityKey==null) (ie. its new) or the version number changed!
-      {*/
+      if ( passivatedEntity==null || passivatedEntity.isVersioned() ) //and the version number changed!
+      {
          if ( PassivatedEntity.isTransactionRolledBackOrMarkedRollback() )
          {
             passivatedEntity = null;
@@ -43,17 +48,18 @@ class EntityBean implements Wrapper
             if (passivatedEntity!=null) instance = null;
          }
          return true;
-      /*}
+      }
       else
       {
          return false;
-      }*/
+      }
    }
    
    public void activate()
    {
-      //TODO: if not versioned, we can do this lazily!
-      if (passivatedEntity!=null)
+      //versioned entities must be unpassivated at the beginning 
+      //of the request 
+      if ( passivatedEntity!=null && passivatedEntity.isVersioned() )
       {
          instance = passivatedEntity.toEntityReference(true);
       }
