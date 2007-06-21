@@ -5,7 +5,6 @@ import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.timer.Duration;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Renderer;
 
 @Name("asynchronousMailProcessor")

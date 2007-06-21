@@ -1,17 +1,13 @@
 package org.jboss.seam.example.mail;
 
-import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.Begin;
-import org.jboss.seam.annotations.Create;
-import org.jboss.seam.annotations.Factory;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.util.Resources;
-
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.jboss.seam.annotations.Factory;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.core.ResourceLoader;
 
 @Name("person")
 public class Person implements Serializable
@@ -19,7 +15,7 @@ public class Person implements Serializable
    private String firstname;
    private String lastname;
    private String address;
-   private transient InputStream photo = Resources.getResourceAsStream("/no_image.png");
+   private transient InputStream photo = ResourceLoader.instance().getResourceAsStream("/no_image.png");
    
    @Factory("people")
    public List<Person> getPeople() {
@@ -38,7 +34,7 @@ public class Person implements Serializable
       this.firstname = firstname;
       this.lastname = lastname;
       this.address = address;
-      this.photo = Resources.getResourceAsStream(photoPath);
+      this.photo = ResourceLoader.instance().getResourceAsStream(photoPath);
    }
    
    public Person(String firstname, String lastname, String address)
