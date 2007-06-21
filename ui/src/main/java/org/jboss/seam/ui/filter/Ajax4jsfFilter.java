@@ -16,13 +16,12 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.util.EnumerationEnumeration;
-import org.jboss.seam.web.AbstractAjax4jsfFilter;
 
 @Name("org.jboss.seam.web.ajax4jsfFilter")
 @Install(precedence = FRAMEWORK, classDependencies="org.ajax4jsf.Filter")
 @Startup
 @BypassInterceptors
-public class Ajax4jsfFilter extends AbstractAjax4jsfFilter
+public class Ajax4jsfFilter extends org.jboss.seam.web.Ajax4jsfFilter
 {
    
    private class FilterConfigWrapper implements FilterConfig

@@ -22,7 +22,7 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 @Install(precedence = BUILT_IN, classDependencies="org.ajax4jsf.Filter")
 @BypassInterceptors
 @Filter
-public class AbstractAjax4jsfFilter extends AbstractFilter
+public class Ajax4jsfFilter extends AbstractFilter
 {
    
    private String forceParser;

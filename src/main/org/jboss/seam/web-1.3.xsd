@@ -53,6 +53,14 @@
         </xs:complexType>
     </xs:element>
     
+    <xs:element name="ajax4jsf-filter">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="web:attlist.filter"/>
+            <xs:attributeGroup ref="web:attlist.ajax4jsfFilter"/>
+        </xs:complexType>
+    </xs:element>
+    
     <xs:attributeGroup name="attlist.filter">
         <xs:attribute name="url-pattern" type="xs:string"/>
     </xs:attributeGroup>
@@ -67,6 +75,26 @@
             </xs:simpleType>
         </xs:attribute>                
         <xs:attribute name="max-request-size" type="xs:integer"/>
+    </xs:attributeGroup>
+    
+    <xs:attributeGroup name="attlist.ajax4jsfFilter">
+        <xs:attribute name="enable-cache">
+            <xs:simpleType>
+                <xs:restriction base="xs:token">
+                    <xs:enumeration value="true"/>
+                    <xs:enumeration value="false"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="force-parser">
+            <xs:simpleType>
+                <xs:restriction base="xs:token">
+                    <xs:enumeration value="true"/>
+                    <xs:enumeration value="false"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="log4j-init-file" type="xs:string"/>
     </xs:attributeGroup>
     
     <xs:element name="servlet-session">
