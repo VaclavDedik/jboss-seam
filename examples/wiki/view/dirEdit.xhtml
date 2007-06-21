@@ -130,6 +130,8 @@
 
                 <h:column>
                     <a:outputPanel>
+                        <rich:dropSupport id="dropZoneIcon" acceptedTypes="node" reRender="directoryFormTable"
+                                          dropListener="#{directoryHome.dropMenuItem}" dropValue="#{wikiUtil.datatable.rowIndex}"/>
                         <rich:dragSupport dragIndicator=":directoryEditForm:rowDragIndicator"
                                           dragType="node"
                                           dragValue="#{node}">
@@ -153,7 +155,7 @@
 
                 <h:column>
                     <a:outputPanel>
-                        <rich:dropSupport id="dropZone" acceptedTypes="node" reRender="directoryFormTable"
+                        <rich:dropSupport id="dropZoneText" acceptedTypes="node" reRender="directoryFormTable"
                                           dropListener="#{directoryHome.dropMenuItem}" dropValue="#{wikiUtil.datatable.rowIndex}"/>
                         <rich:dragSupport dragIndicator=":directoryEditForm:rowDragIndicator"
                                           dragType="node"
