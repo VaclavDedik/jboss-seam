@@ -32,17 +32,20 @@ public class DeploymentDescriptor
         } 
         catch (DocumentException e) 
         {
-            log.warn("Couldn't parse /META-INF/ejb-jar.xml for component types " + e.getMessage());
+            log.warn("Couldn't parse META-INF/ejb-jar.xml for component types " + e.getMessage());
         }
 
         try 
         {
             InputStream ormXml = clazz.getClassLoader().getResourceAsStream("META-INF/orm.xml");
-            parseOrmXml( XML.getRootElement(ormXml) );
+            if (ormXml!=null)
+            {
+               parseOrmXml( XML.getRootElement(ormXml) );
+            }
         } 
         catch (DocumentException e) 
         {
-            log.warn("Couldn't parse /META-INF/orm.xml for component types " + e.getMessage());
+            log.warn("Couldn't parse META-INF/orm.xml for component types " + e.getMessage());
         }
     }
     
