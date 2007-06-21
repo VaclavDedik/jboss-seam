@@ -794,6 +794,12 @@ public class BaseSeamTest
       {
          throw new UnsupportedOperationException();
       }
+      
+      @Override
+      protected final void invokeApplication() throws Exception
+      {
+         throw new UnsupportedOperationException();
+      }
 
    }
 
