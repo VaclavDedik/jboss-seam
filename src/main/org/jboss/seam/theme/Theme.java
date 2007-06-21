@@ -20,7 +20,8 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.core.Interpolator;
 
 /**
- * Support for an application-global resource bundle
+ * Support for a session-global resource bundle that may be
+ * used for skinning of the user interface.
  * 
  * @author Gavin King
  */
@@ -28,7 +29,9 @@ import org.jboss.seam.core.Interpolator;
 @BypassInterceptors
 @Name("org.jboss.seam.theme.theme")
 @Install(precedence=BUILT_IN)
-public class Theme implements Serializable {
+public class Theme implements Serializable 
+{
+   
    private static final long serialVersionUID = -7003055918970882103L;
    
    private transient Map messages;
