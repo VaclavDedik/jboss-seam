@@ -178,9 +178,9 @@ public class ComponentDescriptor
         return "ComponentDescriptor(" + getName() + ":" + getComponentClass() + ')';
     }
             
-    public static class PrecedenceComparator    
+    static class PrecedenceComparator    
          implements Comparator<ComponentDescriptor>
-   {               
+    {               
         public int compare(ComponentDescriptor obj1, ComponentDescriptor obj2) 
         {        
             return obj2.getPrecedence() - obj1.getPrecedence();
