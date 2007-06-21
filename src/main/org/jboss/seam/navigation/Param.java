@@ -12,6 +12,12 @@ import javax.faces.validator.ValidatorException;
 import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.faces.FacesExpressions;
 
+/**
+ * Metadata for a &lt;param/&gt; in pages.xml
+ * 
+ * @author Gavin King
+ *
+ */
 public final class Param
 {
    private final String name;

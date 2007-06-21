@@ -47,10 +47,11 @@ import org.jboss.seam.transaction.Transaction;
 import org.jboss.seam.util.Reflections;
 
 /**
- * Manages the Seam contexts associated with a JSF request.
- * 
- * Manages the thread/context associations throughout the
- * lifecycle of the JSF request.
+ * Manages the Seam contexts associated with a JSF request
+ * throughout the lifecycle of the request. Performs
+ * transaction demarcation when Seam transaction management
+ * is enabled. Hacks the JSF lifecyle to provide page
+ * actions and page parameters.
  *
  * @author Gavin King
  */

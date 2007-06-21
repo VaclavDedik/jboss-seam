@@ -7,6 +7,13 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * A JSF DataModel for lists - yes, I know, JSF has one, but its not
+ * serializable (go figure).
+ * 
+ * @author Gavin King
+ *
+ */
 public class ListDataModel extends javax.faces.model.ListDataModel implements Serializable
 {
    private static final long serialVersionUID = 5156131434571541698L;

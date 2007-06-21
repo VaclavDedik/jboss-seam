@@ -28,7 +28,8 @@ import org.jboss.seam.core.ResourceBundle;
 import org.jboss.seam.util.Strings;
 
 /**
- * A Seam component that TBD.
+ * A Seam component that propagates FacesMessages across redirects
+ * and interpolates EL expressions in the message string.
  * 
  * @author Gavin King
  */

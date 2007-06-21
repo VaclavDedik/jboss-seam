@@ -15,6 +15,12 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 
+/**
+ * Access to request parameters.
+ * 
+ * @author Gavin King
+ *
+ */
 @Name("org.jboss.seam.web.parameters")
 @BypassInterceptors
 @Scope(ScopeType.STATELESS)

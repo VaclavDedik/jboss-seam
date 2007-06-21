@@ -8,6 +8,13 @@ import javax.faces.el.EvaluationException;
 import javax.faces.el.MethodBinding;
 import javax.faces.el.MethodNotFoundException;
 
+/**
+ * Nobody should be using MethodBinding anymore, but if they 
+ * are, we need this.
+ * 
+ * @author Gavin King
+ *
+ */
 @SuppressWarnings("deprecation")
 @Deprecated
 public class UnifiedELMethodBinding extends MethodBinding implements Serializable

@@ -16,6 +16,12 @@ import java.util.Set;
 import javax.faces.model.DataModelEvent;
 import javax.faces.model.DataModelListener;
 
+/**
+ * A JSF DataModel for maps.
+ * 
+ * @author Gavin King
+ *
+ */
 public class MapDataModel extends javax.faces.model.DataModel implements
       Serializable
 {

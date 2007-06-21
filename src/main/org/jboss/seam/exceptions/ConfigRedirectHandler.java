@@ -2,7 +2,12 @@ package org.jboss.seam.exceptions;
 
 import javax.faces.application.FacesMessage.Severity;
 
-
+/**
+ * Implements &lt;redirect/&gt; for pages.xml
+ * 
+ * @author Gavin King
+ *
+ */
 public final class ConfigRedirectHandler extends RedirectHandler
 {
    private final String id;

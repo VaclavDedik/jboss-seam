@@ -14,6 +14,12 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.util.Resources;
 
+/**
+ * Access to application resources.
+ * 
+ * @author Gavin King
+ *
+ */
 @Scope(ScopeType.STATELESS)
 @BypassInterceptors
 @Install(precedence=BUILT_IN)

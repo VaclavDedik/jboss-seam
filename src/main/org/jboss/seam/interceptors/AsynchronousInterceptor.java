@@ -9,6 +9,14 @@ import org.jboss.seam.async.Dispatcher;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.intercept.InvocationContext;
 
+/**
+ * Dispatches method calls to @Asynchronous methods
+ * asynchronously, and returns the "timer" object
+ * if necessary.
+ * 
+ * @author Gavin King
+ *
+ */
 @Interceptor(stateless=true, type=InterceptorType.CLIENT)
 public class AsynchronousInterceptor extends AbstractInterceptor
 {

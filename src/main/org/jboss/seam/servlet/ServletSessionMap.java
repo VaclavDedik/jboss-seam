@@ -15,6 +15,9 @@ import java.util.Set;
 import javax.servlet.http.HttpSession;
 
 /**
+ * Abstracts the servlet API specific application context
+ * as a Map.
+ * 
  * @author Gavin King
  */
 public class ServletSessionMap implements Map<String, Object>

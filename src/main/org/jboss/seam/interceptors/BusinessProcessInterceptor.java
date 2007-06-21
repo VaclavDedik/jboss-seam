@@ -24,7 +24,7 @@ import org.jboss.seam.web.Parameters;
 import org.jboss.util.Strings;
 
 /**
- * Interceptor which handles interpretation of jBPM-related annotations.
+ * Implements annotation-based business-process demarcation.
  *
  * @author <a href="mailto:steve@hibernate.org">Steve Ebersole</a>
  * @author Gavin King

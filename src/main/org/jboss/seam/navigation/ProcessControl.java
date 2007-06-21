@@ -3,6 +3,11 @@ package org.jboss.seam.navigation;
 import org.jboss.seam.bpm.BusinessProcess;
 import org.jboss.seam.core.Expressions.ValueExpression;
 
+/**
+ * 
+ * Demarcation of the business process in pages.xml
+ *
+ */
 public class ProcessControl
 {
    private boolean isCreateProcess;

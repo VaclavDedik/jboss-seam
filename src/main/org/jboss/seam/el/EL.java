@@ -16,6 +16,12 @@ import org.jboss.el.ExpressionFactoryImpl;
 import org.jboss.el.lang.FunctionMapperImpl;
 import org.jboss.el.lang.VariableMapperImpl;
 
+/**
+ * An instance of JBoss EL.
+ * 
+ * @author Gavin King
+ *
+ */
 public class EL
 {
    private static final ELResolver EL_RESOLVER = createELResolver();

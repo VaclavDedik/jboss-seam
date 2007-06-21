@@ -4,6 +4,12 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Interpolator;
 
+/**
+ * Base implementation of HTTP error exception handlers.
+ * 
+ * @author Gavin King
+ *
+ */
 public abstract class ErrorHandler extends ExceptionHandler
 {
 

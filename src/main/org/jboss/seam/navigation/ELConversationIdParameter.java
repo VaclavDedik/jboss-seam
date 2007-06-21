@@ -8,8 +8,9 @@ import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.util.Id;
 
 /**
- * Represents a conversation parameter that can be used to create a "natural"
- * conversation ID, by defining a &lt;conversation/&gt; entry in pages.xml. 
+ * A conversation parameter strategy for "natural" conversation ids.
+ * Natural conversation ids are defined using &lt;conversation/&gt; in 
+ * pages.xml. 
  *  
  * @author Shane Bryzak
  */

@@ -8,7 +8,16 @@ import org.jboss.seam.faces.FacesManager;
 import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.pageflow.Pageflow;
 
-public class SeamNavigationHandler extends NavigationHandler {
+/**
+ * Adds three new navigation possibilities beyond the
+ * frumpy JSF navigatoion rules: returning the view id
+ * directly, pages.xml, and jPDL-based pageflows.
+ * 
+ * @author Gavin King
+ *
+ */
+public class SeamNavigationHandler extends NavigationHandler 
+{
    
    private final NavigationHandler baseNavigationHandler;
    
@@ -18,7 +27,8 @@ public class SeamNavigationHandler extends NavigationHandler {
    }
 
    @Override
-   public void handleNavigation(FacesContext context, String fromAction, String outcome) {
+   public void handleNavigation(FacesContext context, String fromAction, String outcome) 
+   {
       if ( !context.getResponseComplete() ) //workaround for a bug in MyFaces
       {
          if ( isOutcomeViewId(outcome) )

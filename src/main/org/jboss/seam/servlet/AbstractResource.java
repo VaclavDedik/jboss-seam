@@ -7,6 +7,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Superclass of Seam components that serve up "resources" to the client 
+ * via the Seam resource servlet.
+ * 
+ * @author Shane Bryzak
+ *
+ */
 public abstract class AbstractResource
 {
    private ServletContext context;

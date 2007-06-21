@@ -1,10 +1,14 @@
-/**
- * 
- */
 package org.jboss.seam.exceptions;
 
 import org.jboss.seam.annotations.HttpError;
 
+/**
+ * Implements @HttpError
+ * 
+ * @see HttpError
+ * @author Gavin King
+ *
+ */
 public class AnnotationErrorHandler extends ErrorHandler
 {
    @Override

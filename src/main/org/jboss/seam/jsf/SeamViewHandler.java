@@ -11,6 +11,15 @@ import javax.faces.context.FacesContext;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.international.LocaleSelector;
 
+/**
+ * Allows the JSF view locale to be integrated with
+ * the locale coming from Seam internationalization.
+ * 
+ * @see org.jboss.seam.international.Locale
+ * 
+ * @author Gavin King
+ *
+ */
 public class SeamViewHandler extends ViewHandler 
 {
    

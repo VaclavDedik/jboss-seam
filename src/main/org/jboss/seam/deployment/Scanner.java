@@ -23,6 +23,15 @@ import javassist.bytecode.annotation.MemberValue;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
+/**
+ * Abstract class for scanning archives in the
+ * Seam classpath.
+ * 
+ * @author Thomas Heute
+ * @author Gavin King
+ * @author Norman Richards
+ *
+ */
 public abstract class Scanner
 {
     private static final LogProvider log = Logging.getLogProvider(Scanner.class);

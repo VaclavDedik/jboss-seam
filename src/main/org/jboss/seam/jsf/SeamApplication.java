@@ -31,6 +31,13 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.el.SeamExpressionFactory;
 
+/**
+ * Proxies the JSF Application object, and adds all kinds
+ * of tasty extras.
+ * 
+ * @author Gavin King
+ *
+ */
 @SuppressWarnings("deprecation")
 public class SeamApplication extends Application
 {  

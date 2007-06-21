@@ -54,6 +54,8 @@ import org.jboss.seam.util.Strings;
 import org.jboss.seam.util.XML;
 
 /**
+ * Builds configuration metadata when Seam first initialized.
+ * 
  * @author Gavin King
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  */

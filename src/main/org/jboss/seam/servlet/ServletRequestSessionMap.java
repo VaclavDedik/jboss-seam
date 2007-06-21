@@ -17,6 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
+ * Abstracts the servlet API specific session context
+ * as a Map. Actual sessions are created lazily.
+ * 
  * @author Gavin King
  */
 public class ServletRequestSessionMap implements Map<String, Object>

@@ -7,8 +7,13 @@ import org.jboss.seam.annotations.Namespace;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
-public class NamespaceScanner
-    extends Scanner 
+/**
+ * Scanner for XML namespace declarations
+ * 
+ * @author Norman Richards
+ *
+ */
+public class NamespaceScanner extends Scanner 
 {
     private static final LogProvider log = Logging.getLogProvider(NamespaceScanner.class);
 

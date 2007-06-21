@@ -21,6 +21,12 @@ import org.jboss.seam.jsf.ListDataModel;
 import org.jboss.seam.jsf.MapDataModel;
 import org.jboss.seam.jsf.SetDataModel;
 
+/**
+ * Wraps collections as DataModels. May be overridden
+ * and extended if you don't like the built in collections
+ * which are supported: list, map, set, array.
+ *
+ */
 @Name("org.jboss.seam.faces.dataModels")
 @Install(precedence=BUILT_IN, classDependencies="javax.faces.context.FacesContext")
 @Scope(STATELESS)

@@ -12,6 +12,14 @@ import javassist.bytecode.ClassFile;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
+/**
+ * Scans archives in the Seam classpath for Seam components.
+ * 
+ * @author Thomas Heute
+ * @author Gavin King
+ * @author Norman Richards
+ *
+ */
 public class ComponentScanner extends Scanner
 {
    private static final LogProvider log = Logging.getLogProvider(ComponentScanner.class);

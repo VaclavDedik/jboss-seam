@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.jboss.seam.exceptions;
 
 import org.jboss.seam.contexts.Contexts;
@@ -9,6 +6,12 @@ import org.jboss.seam.faces.RedirectException;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
+/**
+ * Implements automagic redirection to the Seam debug page.
+ * 
+ * @author Gavin King
+ *
+ */
 public class DebugPageHandler extends ExceptionHandler
 {
 

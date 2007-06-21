@@ -29,7 +29,6 @@ import javax.el.ValueExpression;
 import org.jboss.el.lang.EvaluationContext;
 import org.jboss.seam.util.JSF;
 
-
 /**
  * Allows JSF action listener methods to not declare the
  * totally useless ActionEvent parameter if they don't

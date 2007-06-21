@@ -8,6 +8,12 @@ import javax.faces.context.FacesContext;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Expressions.ValueExpression;
 
+/**
+ * Metadata for an &lt;rule/&gt; in pages.xml
+ * 
+ * @author Gavin King
+ *
+ */
 public final class Rule
 {
    private String outcomeValue;

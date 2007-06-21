@@ -11,7 +11,7 @@ import org.jboss.seam.log.Logging;
 import org.jboss.seam.security.SecurityFunctions;
 
 /**
- * Resolves Seam EL functions to their corresponding methods.
+ * Resolves Seam Security EL functions, s:hasRole() and s:hasPermission()
  *  
  * @author Shane Bryzak
  */

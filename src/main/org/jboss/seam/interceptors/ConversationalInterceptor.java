@@ -18,7 +18,8 @@ import org.jboss.seam.intercept.InvocationContext;
 
 /**
  * Check that a conversational bean is not being invoked
- * outside the scope of a long-running conversation.
+ * outside the scope of a long-running conversation. If
+ * it is, throw an exception.
  * 
  * @author Gavin King
  */

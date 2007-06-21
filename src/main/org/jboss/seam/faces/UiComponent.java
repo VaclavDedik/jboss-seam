@@ -16,6 +16,12 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 
+/**
+ * Access to UIComponents in the current view, by id.
+ * 
+ * @author Gavin King
+ *
+ */
 @Name("org.jboss.seam.faces.uiComponent")
 @BypassInterceptors
 @Scope(STATELESS)

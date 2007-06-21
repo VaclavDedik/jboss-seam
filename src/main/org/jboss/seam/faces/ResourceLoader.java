@@ -12,6 +12,12 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.util.FacesResources;
 
+/**
+ * Access to application resources in tye JSF environment.
+ * 
+ * @author Gavin King
+ *
+ */
 @Scope(ScopeType.STATELESS)
 @BypassInterceptors
 @Install(precedence=FRAMEWORK, classDependencies="javax.faces.context.FacesContext")

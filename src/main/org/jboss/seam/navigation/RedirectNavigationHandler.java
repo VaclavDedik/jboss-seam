@@ -7,6 +7,12 @@ import java.util.Map;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
 
+/**
+ * Metadata for a &lt;redirect/&gt; in pages.xml
+ * 
+ * @author Gavin King
+ *
+ */
 public final class RedirectNavigationHandler extends NavigationHandler
 {
    private final String viewId;

@@ -5,6 +5,12 @@ import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.pageflow.Pageflow;
 
+/**
+ * 
+ * Demarcation of the conversation in pages.xml
+ *
+ * @author Gavin King
+ */
 public class ConversationControl
 {
 

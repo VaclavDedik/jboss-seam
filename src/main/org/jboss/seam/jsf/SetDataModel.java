@@ -14,6 +14,12 @@ import java.util.Set;
 import javax.faces.model.DataModelEvent;
 import javax.faces.model.DataModelListener;
 
+/**
+ * A JSF DataModel for sets.
+ * 
+ * @author Gavin King
+ *
+ */
 public class SetDataModel extends javax.faces.model.DataModel implements
       Serializable
 {

@@ -15,6 +15,9 @@ import java.util.Set;
 import javax.servlet.ServletRequest;
 
 /**
+ * Abstracts the servlet API specific request context
+ * as a Map.
+ * 
  * @author Gavin King
  */
 public class ServletRequestMap implements Map<String, Object>

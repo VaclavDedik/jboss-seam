@@ -20,6 +20,14 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 
+/**
+ * Maintains a set of "safe" actions that may be performed 
+ * by &lt;s:link/&gt;, as determined by actually parsing
+ * the view.
+ * 
+ * @author Gavin King
+ *
+ */
 @Scope(ScopeType.APPLICATION)
 @BypassInterceptors
 @Name("org.jboss.seam.navigation.safeActions")

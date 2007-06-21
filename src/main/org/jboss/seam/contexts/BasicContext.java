@@ -10,6 +10,9 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.core.Events;
 
 /**
+ * A basic implementation of Context that keeps the state 
+ * in a Map.
+ * 
  * @author Gavin King
  */
 public class BasicContext implements Context

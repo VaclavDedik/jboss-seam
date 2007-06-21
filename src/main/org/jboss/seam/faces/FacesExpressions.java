@@ -18,7 +18,7 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.core.Expressions;
 
 /**
- * Factory for method and value bindings
+ * Factory for method and value bindings in a JSF environment.
  * 
  * @author Gavin King
  */
@@ -28,7 +28,6 @@ import org.jboss.seam.core.Expressions;
 @Name("org.jboss.seam.core.expressions")
 public class FacesExpressions extends Expressions
 {
-   
    
    /**
     * Get an appropriate ELContext. If there is an active JSF request,

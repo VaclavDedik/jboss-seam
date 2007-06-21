@@ -6,6 +6,12 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
+/**
+ * A JSF DataModel for arrays.
+ * 
+ * @author Gavin King
+ *
+ */
 public class ArrayDataModel extends javax.faces.model.ArrayDataModel implements
       Serializable
 {

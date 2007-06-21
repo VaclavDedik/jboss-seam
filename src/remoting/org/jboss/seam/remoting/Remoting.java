@@ -24,6 +24,12 @@ import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.servlet.AbstractResource;
 
+/**
+ * Serves JavaScript implementation of Seam Remoting
+ * 
+ * @author Shane Bryzak
+ *
+ */
 @Startup
 @Scope(APPLICATION)
 @Name("org.jboss.seam.remoting.remoting")

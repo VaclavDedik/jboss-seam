@@ -1,9 +1,11 @@
-/**
- * 
- */
 package org.jboss.seam.exceptions;
 
-
+/**
+ * Implements &lt;http-error/&gt; for pages.xml
+ * 
+ * @author Gavin King
+ *
+ */
 public final class ConfigErrorHandler extends ErrorHandler
 {
    private final String message;

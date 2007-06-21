@@ -8,6 +8,13 @@ import javax.faces.el.EvaluationException;
 import javax.faces.el.PropertyNotFoundException;
 import javax.faces.el.ValueBinding;
 
+/**
+ * Nobody should be using ValueBinding anymore, but if they 
+ * are, we need this.
+ * 
+ * @author Gavin King
+ *
+ */
 @SuppressWarnings("deprecation")
 @Deprecated
 public class UnifiedELValueBinding extends ValueBinding implements Serializable

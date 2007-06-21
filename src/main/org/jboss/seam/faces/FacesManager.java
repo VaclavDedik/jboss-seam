@@ -35,7 +35,7 @@ import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.pageflow.Pageflow;
 
 /**
- * The Seam conversation manager.
+ * An extended conversation manager for the JSF environment.
  *
  * @author Gavin King
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>

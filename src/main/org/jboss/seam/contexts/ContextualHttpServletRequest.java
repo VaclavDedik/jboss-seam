@@ -12,6 +12,12 @@ import org.jboss.seam.log.Logging;
 import org.jboss.seam.servlet.ServletRequestSessionMap;
 import org.jboss.seam.web.ServletContexts;
 
+/**
+ * Perform work in a full set of Seam contexts
+ * 
+ * @author Gavin King
+ *
+ */
 public abstract class ContextualHttpServletRequest
 {
    private static final LogProvider log = Logging.getLogProvider(ContextualHttpServletRequest.class);

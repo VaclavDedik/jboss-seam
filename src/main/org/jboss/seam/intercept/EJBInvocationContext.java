@@ -3,6 +3,13 @@ package org.jboss.seam.intercept;
 import java.lang.reflect.Method;
 import java.util.Map;
 
+/**
+ * Wraps the invocation context coming from EJB3, and
+ * adapts it to the Seam version of the API.
+ * 
+ * @author Gavin King
+ *
+ */
 public class EJBInvocationContext implements InvocationContext, javax.interceptor.InvocationContext
 {
    private javax.interceptor.InvocationContext context;

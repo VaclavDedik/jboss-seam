@@ -11,6 +11,12 @@ import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.navigation.Pages;
 
+/**
+ * Base implementation of redirection exception handlers.
+ * 
+ * @author Gavin King
+ *
+ */
 public abstract class RedirectHandler extends ExceptionHandler
 {
 

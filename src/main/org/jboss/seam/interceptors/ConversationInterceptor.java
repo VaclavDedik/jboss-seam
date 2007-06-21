@@ -22,8 +22,7 @@ import org.jboss.seam.pageflow.Pageflow;
 import org.jboss.seam.persistence.PersistenceContexts;
 
 /**
- * After the end of the invocation, begin or end a long running
- * conversation, if necessary.
+ * Implements annotation-based conversation demarcation.
  * 
  * @author Gavin King
  */

@@ -3,6 +3,11 @@ package org.jboss.seam.jsf;
 import javax.faces.application.Application;
 import javax.faces.application.ApplicationFactory;
 
+/**
+ * @see SeamApplication
+ * @author Gavin King
+ *
+ */
 public class SeamApplicationFactory extends ApplicationFactory
 {
    

@@ -3,6 +3,12 @@ package org.jboss.seam.navigation;
 import org.jboss.seam.core.Expressions.MethodExpression;
 import org.jboss.seam.core.Expressions.ValueExpression;
 
+/**
+ * Metadata for an &lt;action/&gt; in pages.xml
+ * 
+ * @author Gavin King
+ *
+ */
 public class Action
 {
    private MethodExpression methodExpression;

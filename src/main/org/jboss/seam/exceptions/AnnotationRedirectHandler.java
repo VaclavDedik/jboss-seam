@@ -5,6 +5,13 @@ import javax.faces.application.FacesMessage.Severity;
 
 import org.jboss.seam.annotations.Redirect;
 
+/**
+ * Implements @Redirect
+ * 
+ * @see Redirect
+ * @author Gavin King
+ *
+ */
 public class AnnotationRedirectHandler extends RedirectHandler
 {
    @Override

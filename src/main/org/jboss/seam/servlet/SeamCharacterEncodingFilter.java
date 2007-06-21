@@ -1,17 +1,19 @@
 package org.jboss.seam.servlet;
+
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 
 import org.jboss.seam.web.CharacterEncodingFilter;
+
 /**
  * A servlet filter that lets you set the character encoding of 
  * submitted data. There are two init parameters: "encoding" and
  * "overrideClient".
  * 
+ * @deprecated
  * @author Gavin King
  * 
  */
-@Deprecated
 public class SeamCharacterEncodingFilter extends CharacterEncodingFilter
 {
    
