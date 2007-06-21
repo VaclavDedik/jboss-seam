@@ -19,6 +19,7 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.annotations.intercept.InterceptorType;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.core.Mutable;
 import org.jboss.seam.util.EJB;
 
 /**
@@ -123,7 +124,7 @@ public class RootInterceptor implements Serializable
 
    private InvocationContext createInvocationContext(InvocationContext invocation, EventType eventType) throws Exception
    {
-      if ( isProcessInterceptors( invocation.getMethod() ) )
+      if ( isProcessInterceptors( invocation.getMethod(), invocation.getTarget() ) )
       {
          if ( log.isTraceEnabled() ) 
          {
@@ -193,11 +194,25 @@ public class RootInterceptor implements Serializable
             ( eventType==EventType.AROUND_INVOKE ? invocation.getMethod().getName() : eventType );
    }
 
-   private boolean isProcessInterceptors(Method method)
+   private boolean isProcessInterceptors(Method method, Object bean)
    {
       return isSeamComponent && 
             getComponent().isInterceptionEnabled() &&
-            ( method==null || !method.isAnnotationPresent(BypassInterceptors.class) );
+            !isBypassed(method) &&
+            !isClearDirtyMethod(method, bean);
+   }
+
+   private boolean isBypassed(Method method)
+   {
+      return method!=null && method.isAnnotationPresent(BypassInterceptors.class);
+   }
+
+   private boolean isClearDirtyMethod(Method method, Object bean)
+   {
+      return bean instanceof Mutable &&
+            method!=null &&
+            method.getName().equals("clearDirty") &&
+            method.getParameterTypes().length==0;
    }
    
    protected Component getComponent()
