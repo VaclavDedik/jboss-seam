@@ -27,7 +27,7 @@ import com.sun.facelets.impl.DefaultResourceResolver;
 @Scope(ScopeType.STATELESS)
 @BypassInterceptors
 @Name("org.jboss.seam.core.renderer")
-@Install(value = true, precedence = Install.BUILT_IN, classDependencies = { "com.sun.facelets.Facelet" })
+@Install(value = true, precedence = Install.BUILT_IN, classDependencies="com.sun.facelets.Facelet")
 public class FaceletsRenderer extends Renderer
 {
    
@@ -144,12 +144,7 @@ public class FaceletsRenderer extends Renderer
    {
       UIViewRoot root = facesContext.getViewRoot();
       facelet.apply(facesContext, root);
-      JSF.renderChildren(facesContext, root);
-      
+      JSF.renderChildren(facesContext, root);  
    }
-   
-  
-   
-   
    
 }

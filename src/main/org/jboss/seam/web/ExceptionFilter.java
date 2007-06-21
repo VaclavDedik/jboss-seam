@@ -67,11 +67,6 @@ public class ExceptionFilter extends AbstractFilter
          log.error( "exception root cause", EJB.getCause(e) );
          endWebRequestAfterException( (HttpServletRequest) request, (HttpServletResponse) response, e);
       }
-      //should we put this back in? why, who cares if its not cleaned up?
-      /*finally
-      {
-         Lifecycle.clearPhaseId();
-      }*/
    }
    
    protected void endWebRequestAfterException(HttpServletRequest request, HttpServletResponse response, Exception e) 

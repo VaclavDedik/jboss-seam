@@ -21,8 +21,8 @@ import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.ContextualHttpServletRequest;
 import org.jboss.seam.core.Expressions;
-import org.jboss.seam.core.ResourceLoader;
 import org.jboss.seam.servlet.AbstractResource;
+import org.jboss.seam.util.Resources;
 
 /**
  * Serve up stylesheets which are have been run through the EL Interpolator.
@@ -68,7 +68,7 @@ public class StyleResource extends AbstractResource
             throws IOException
    {
       String pathInfo = request.getPathInfo().substring(getResourcePath().length());
-      InputStream in = ResourceLoader.instance().getResourceAsStream(pathInfo);
+      InputStream in = Resources.getResourceAsStream( pathInfo, getServletContext() );
 
       if (in != null)
       {           
