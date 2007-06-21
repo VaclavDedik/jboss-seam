@@ -92,14 +92,13 @@
             </para>
 
             <para>
-                For example, the following <literal>components.xml</literal> file installs the JBoss Embeddable 
-                EJB3 container: 
+                For example, the following <literal>components.xml</literal> file installs the jBPM: 
             </para>
 
             <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components" 
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xmlns:core="http://jboss.com/products/seam/core">
-    <core:ejb/>
+            xmlns:bpm="http://jboss.com/products/seam/bpm">
+    <bpm:jbpm/>
 </components>]]></programlisting>
 
             <para>
@@ -115,13 +114,13 @@
             </para>
 
             <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components" 
-            xmlns:core="http://jboss.com/products/seam/core"
+            xmlns:persistence="http://jboss.com/products/seam/persistence"
 
-    <core:managed-persistence-context name="customerDatabase"
-                persistence-unit-jndi-name="java:/customerEntityManagerFactory"/>
+    <persistence:managed-persistence-context name="customerDatabase"
+                       persistence-unit-jndi-name="java:/customerEntityManagerFactory"/>
         
-    <core:managed-persistence-context name="accountingDatabase"
-                persistence-unit-jndi-name="java:/accountingEntityManagerFactory"/>            
+    <persistence:managed-persistence-context name="accountingDatabase"
+                       persistence-unit-jndi-name="java:/accountingEntityManagerFactory"/>            
 
 </components>]]></programlisting>
 
@@ -131,12 +130,12 @@
 
             <programlisting><![CDATA[<components>
     <component name="customerDatabase" 
-              class="org.jboss.seam.core.ManagedPersistenceContext">
+              class="org.jboss.seam.persistence.ManagedPersistenceContext">
         <property name="persistenceUnitJndiName">java:/customerEntityManagerFactory</property>
     </component>
     
     <component name="accountingDatabase"
-              class="org.jboss.seam.core.ManagedPersistenceContext">
+              class="org.jboss.seam.persistence.ManagedPersistenceContext">
         <property name="persistenceUnitJndiName">java:/accountingEntityManagerFactory</property>
     </component>
 </components>]]></programlisting>
@@ -147,11 +146,11 @@
             </para>
 
             <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components" 
-            xmlns:core="http://jboss.com/products/seam/core"
+            xmlns:persistence="http://jboss.com/products/seam/persistence"
 
-  <core:managed-persistence-context name="productDatabase" 
-                                   scope="session"
-              persistence-unit-jndi-name="java:/productEntityManagerFactory"/>        
+  <persistence:managed-persistence-context name="productDatabase" 
+                                          scope="session"
+                     persistence-unit-jndi-name="java:/productEntityManagerFactory"/>        
 
 </components>]]></programlisting>
 
@@ -159,7 +158,7 @@
             
     <component name="productDatabase"
               scope="session"
-              class="org.jboss.seam.core.ManagedPersistenceContext">
+              class="org.jboss.seam.persistence.ManagedPersistenceContext">
         <property name="persistenceUnitJndiName">java:/productEntityManagerFactory</property>
     </component>
 
@@ -173,11 +172,11 @@
             </para>
 
             <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components" 
-            xmlns:core="http://jboss.com/products/seam/core"
+            xmlns:persistence="http://jboss.com/products/seam/persistence"
 
-  <core:managed-persistence-context name="productDatabase" 
-                             auto-create="true"
-              persistence-unit-jndi-name="java:/productEntityManagerFactory"/>        
+  <persistence:managed-persistence-context name="productDatabase" 
+                                    auto-create="true"
+                     persistence-unit-jndi-name="java:/productEntityManagerFactory"/>        
 
 </components>]]></programlisting>
 
@@ -185,7 +184,7 @@
             
     <component name="productDatabase"
         auto-create="true"
-              class="org.jboss.seam.core.ManagedPersistenceContext">
+              class="org.jboss.seam.persistence.ManagedPersistenceContext">
         <property name="persistenceUnitJndiName">java:/productEntityManagerFactory</property>
     </component>
 

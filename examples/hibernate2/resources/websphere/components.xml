@@ -16,7 +16,7 @@
                   concurrent-request-timeout="500"
                   conversation-id-parameter="cid"/>
                   
-    <core:hibernate-session-factory name="hibernateSessionFactory"/>
+    <persistence:hibernate-session-factory name="hibernateSessionFactory"/>
     
     <persistence:managed-hibernate-session name="bookingDatabase"
                                     auto-create="true"/>

@@ -653,7 +653,7 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
                 <literal>hibernate.cfg.xml</literal> file if you install a built-in component:
             </para>
 
-            <programlisting><![CDATA[<core:hibernate-session-factory name="hibernateSessionFactory"/>]]></programlisting>
+            <programlisting><![CDATA[<persistence:hibernate-session-factory name="hibernateSessionFactory"/>]]></programlisting>
 
             <para>
                 You will also need to configure a <emphasis>managed session</emphasis> if you want
@@ -670,7 +670,7 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
                 <literal>persistence.xml</literal> file if you install this built-in component:
             </para>
 
-            <programlisting><![CDATA[<core:entity-manager-factory name="entityManagerFactory"/>]]></programlisting>
+            <programlisting><![CDATA[<persistence:entity-manager-factory name="entityManagerFactory"/>]]></programlisting>
 
             <para>
                 You will also need to configure a <emphasis>managed persistencece context</emphasis>
@@ -833,16 +833,16 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
             <literal>components.xml</literal>:
         </para>
 
-        <programlisting><![CDATA[<core:jbpm>
-    <core:pageflow-definitions>
+        <programlisting><![CDATA[<bpm:jbpm>
+    <bpm:pageflow-definitions>
         <value>createDocument.jpdl.xml</value>
         <value>editDocument.jpdl.xml</value>
         <value>approveDocument.jpdl.xml</value>
-    </core:pageflow-definitions>
-    <core:process-definitions>
+    </bpm:pageflow-definitions>
+    <bpm:process-definitions>
         <value>documentLifecycle.jpdl.xml</value>
-    </core:process-definitions>
-</core:jbpm>]]></programlisting>
+    </bpm:process-definitions>
+</bpm:jbpm>]]></programlisting>
 
         <para>
             No further special configuration is needed if you only have pageflows.

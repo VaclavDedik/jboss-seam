@@ -220,9 +220,9 @@
             we can write:
         </para>
 
-        <programlisting><![CDATA[<core:managed-persistence-context name="bookingDatabase" 
-                           auto-create="true"
-            persistence-unit-jndi-name="java:/EntityManagerFactories/bookingData"/>]]></programlisting>
+        <programlisting><![CDATA[<persistence:managed-persistence-context name="bookingDatabase" 
+                                  auto-create="true"
+                   persistence-unit-jndi-name="java:/EntityManagerFactories/bookingData"/>]]></programlisting>
 
         <para>
             This configuration creates a conversation-scoped Seam component named 
@@ -255,11 +255,11 @@
             Seam-managed Hibernate sessions are similar. In <literal>components.xml</literal>:
         </para>
         
-        <programlisting><![CDATA[<core:hibernate-session-factory name="hibernateSessionFactory"/>
+        <programlisting><![CDATA[<persistence:hibernate-session-factory name="hibernateSessionFactory"/>
 
-<core:managed-hibernate-session name="bookingDatabase" 
-                         auto-create="true"
-           session-factory-jndi-name="java:/bookingSessionFactory"/>]]></programlisting>
+<persistence:managed-hibernate-session name="bookingDatabase" 
+                                auto-create="true"
+                  session-factory-jndi-name="java:/bookingSessionFactory"/>]]></programlisting>
 
         <para>
             Where <literal>java:/bookingSessionFactory</literal> is the name of the session factory 
@@ -459,29 +459,29 @@ public void init() {
             persistence provider.)
         </para>
         
-        <programlisting><![CDATA[<core:filter name="regionFilter">
-    <core:name>region</core:name>
-    <core:parameters>
+        <programlisting><![CDATA[<persistence:filter name="regionFilter">
+    <persistence:name>region</persistence:name>
+    <persistence:parameters>
         <key>regionCode</key>
         <value>#{region.code}</value>
-    </core:parameters>
-</core:filter>
+    </persistence:parameters>
+</persistence:filter>
 
-<core:filter name="currentFilter">
-    <core:name>current</core:name>
-    <core:parameters>
+<persistence:filter name="currentFilter">
+    <persistence:name>current</persistence:name>
+    <persistence:parameters>
         <key>date</key>
         <value>#{currentDate}</value>
-    </core:parameters>
-</core:filter>
+    </persistence:parameters>
+</persistence:filter>
 
-<core:managed-persistence-context name="personDatabase"
+<persistence:managed-persistence-context name="personDatabase"
     persistence-unit-jndi-name="java:/EntityManagerFactories/personDatabase">
     <core:filters>
         <value>#{regionFilter}</value>
         <value>#{currentFilter}</value>
     </core:filters>
-</core:managed-persistence-context>]]></programlisting>
+</persistence:managed-persistence-context>]]></programlisting>
         
     </section>    
 

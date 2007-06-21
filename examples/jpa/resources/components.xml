@@ -16,7 +16,7 @@
                   concurrent-request-timeout="500"
                   conversation-id-parameter="cid"/>
                   
-    <core:entity-manager-factory name="bookingDatabase"/>
+    <persistence:entity-manager-factory name="bookingDatabase"/>
     
     <persistence:managed-persistence-context name="em"
                                auto-create="true" 

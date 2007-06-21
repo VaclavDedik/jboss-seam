@@ -279,7 +279,7 @@ private BookingService bookingService;]]></programlisting>
 </bean>]]></programlisting>
 
 		<para>The <literal>component.xml</literal> might look like:</para>
-		<programlisting><![CDATA[<core:managed-persistence-context name="entityManager"
+		<programlisting><![CDATA[<persistence:managed-persistence-context name="entityManager"
 	auto-create="true" entity-manager-factory="#{entityManagerFactory}"/>]]></programlisting>
 
 
