@@ -25,21 +25,25 @@ class EntityBeanMap implements Wrapper
       this.instance = instance;
    }
    
-   //TODO: use @Unwrap
-   public Object getInstance()
+   public void activate()
    {
       if (passivatedEntityMap!=null)
       {
          for ( Map.Entry<Object, PassivatedEntity> me: passivatedEntityMap.entrySet() )
          {
-            instance.put( me.getKey(), me.getValue().toEntityReference() );
+            instance.put( me.getKey(), me.getValue().toEntityReference(true) );
          }
          passivatedEntityMap = null;
       }
+   }
+   
+   //TODO: use @Unwrap
+   public Object getInstance()
+   {
       return instance;
    }
    
-   public boolean clearDirty()
+   public boolean passivate()
    {
       if ( !PassivatedEntity.isTransactionRolledBackOrMarkedRollback() )
       {
@@ -50,7 +54,7 @@ class EntityBeanMap implements Wrapper
             Object value = me.getValue();
             if (value!=null)
             {
-               PassivatedEntity passivatedEntity = PassivatedEntity.createPassivatedEntity(value);
+               PassivatedEntity passivatedEntity = PassivatedEntity.passivateEntity(value);
                if (passivatedEntity!=null)
                {
                   if (!found) instance = new HashMap(instance);

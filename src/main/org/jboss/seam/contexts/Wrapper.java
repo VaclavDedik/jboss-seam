@@ -1,8 +1,9 @@
 package org.jboss.seam.contexts;
 
-import org.jboss.seam.core.Mutable;
 
-interface Wrapper extends Mutable
+interface Wrapper
 {
    public Object getInstance();
+   public void activate();
+   public boolean passivate();
 }

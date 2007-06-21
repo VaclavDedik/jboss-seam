@@ -131,9 +131,10 @@ public class ServletLifecycle
 
    public static void resumeConversation(HttpServletRequest request)
    {
-      Context conversationContext = new ServerConversationContext( new ServletRequestSessionMap(request) );
-      Contexts.conversationContext.set( conversationContext );
+      ServerConversationContext conversationContext = new ServerConversationContext( new ServletRequestSessionMap(request) );
+      Contexts.conversationContext.set(conversationContext);
       Contexts.businessProcessContext.set( new BusinessProcessContext() );
+      conversationContext.unflush();
    }
 
 }

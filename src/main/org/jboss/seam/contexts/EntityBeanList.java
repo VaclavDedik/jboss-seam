@@ -24,8 +24,7 @@ class EntityBeanList implements Wrapper
       this.instance = instance;
    }
    
-   //TODO: use @Unwrap
-   public Object getInstance()
+   public void activate()
    {
       if (passivatedEntityList!=null)
       {
@@ -34,17 +33,25 @@ class EntityBeanList implements Wrapper
             PassivatedEntity passivatedEntity = passivatedEntityList.get(i);
             if (passivatedEntity!=null)
             {
-               instance.set( i, passivatedEntity.toEntityReference() );
+               instance.set( i, passivatedEntity.toEntityReference(true) );
             }
          }
          passivatedEntityList = null;
       }
+   }
+   
+   public Object getInstance()
+      {
       return instance;
    }
    
-   public boolean clearDirty()
+   public boolean passivate()
    {
-      if ( !PassivatedEntity.isTransactionRolledBackOrMarkedRollback() )
+      if ( PassivatedEntity.isTransactionRolledBackOrMarkedRollback() )
+      {
+         passivatedEntityList = null;
+      }
+      else
       {
          passivatedEntityList = new ArrayList<PassivatedEntity>( instance.size() );
          boolean found = false;
@@ -54,7 +61,7 @@ class EntityBeanList implements Wrapper
             PassivatedEntity passivatedEntity = null;
             if (value!=null)
             {
-               passivatedEntity = PassivatedEntity.createPassivatedEntity(value);
+               passivatedEntity = PassivatedEntity.passivateEntity(value);
                if (passivatedEntity!=null)
                {
                   if (!found) instance = new ArrayList(instance);

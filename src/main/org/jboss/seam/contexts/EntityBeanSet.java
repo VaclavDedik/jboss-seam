@@ -26,21 +26,25 @@ class EntityBeanSet implements Wrapper
       this.instance = instance;
    }
    
-   //TODO: use @Unwrap
-   public Object getInstance()
+   public void activate()
    {
       if (passivatedEntityList!=null)
       {
          for ( PassivatedEntity pe: passivatedEntityList )
          {
-            instance.add( pe.toEntityReference() );
+            instance.add( pe.toEntityReference(true) );
          }
          passivatedEntityList = null;
       }
+   }
+   
+   //TODO: use @Unwrap
+   public Object getInstance()
+   {
       return instance;
    }
    
-   public boolean clearDirty()
+   public boolean passivate()
    {
       if ( !PassivatedEntity.isTransactionRolledBackOrMarkedRollback() )
       {
@@ -50,7 +54,7 @@ class EntityBeanSet implements Wrapper
          {
             if (value!=null)
             {
-               PassivatedEntity passivatedEntity = PassivatedEntity.createPassivatedEntity(value);
+               PassivatedEntity passivatedEntity = PassivatedEntity.passivateEntity(value);
                if (passivatedEntity!=null)
                {
                   if (!found) instance = new HashSet(instance);

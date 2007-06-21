@@ -222,6 +222,19 @@ public class ServerConversationContext implements Context
       removals.addAll( getNamesFromSession() );
    }
    
+   public void unflush()
+   {
+      for ( String name: getNamesFromSession() )
+      {
+         String key = getKey(name);
+         Object attribute = session.get(key);
+         if ( attribute!=null && attribute instanceof Wrapper ) 
+         {
+            ( (Wrapper) attribute ).activate();
+         }
+      }
+   }
+   
    /**
     * Propagate additions and removals to the HttpSession if 
     * the current conversation is long-running, or remove all 
@@ -239,7 +252,7 @@ public class ServerConversationContext implements Context
          {
             String key = getKey(name);
             Object attribute = session.get(key);
-            if ( attribute!=null && Contexts.isAttributeDirty(attribute) )
+            if ( attribute!=null && isAttributeDirty(attribute) )
             {
                session.put(key, attribute);
             }
@@ -265,6 +278,12 @@ public class ServerConversationContext implements Context
             session.remove( getKey(name) );
          }
       }
+   }
+
+   private boolean isAttributeDirty(Object attribute)
+   {
+      return Contexts.isAttributeDirty(attribute) || 
+            ( attribute instanceof Wrapper && ( (Wrapper) attribute ).passivate() );
    }
 
    private boolean isCurrent()

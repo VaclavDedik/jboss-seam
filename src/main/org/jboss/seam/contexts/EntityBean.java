@@ -1,5 +1,6 @@
 package org.jboss.seam.contexts;
 
+import static org.jboss.seam.contexts.PassivatedEntity.passivateEntity;
 
 /**
  * Swizzles entities held in the conversation context at
@@ -25,33 +26,36 @@ class EntityBean implements Wrapper
    //TODO: use @Unwrap
    public Object getInstance()
    {
-      if (passivatedEntity==null)
-      {
-         return instance;
-      }
-      else
-      {
-         return passivatedEntity.toEntityReference();
-      }
+      return instance;
    }
    
-   public boolean clearDirty()
+   public boolean passivate()
    {
-      if (passivatedEntity==null)
-      {
-         if ( !PassivatedEntity.isTransactionRolledBackOrMarkedRollback() )
+      /*if (passivatedEntityKey==null) (ie. its new) or the version number changed!
+      {*/
+         if ( PassivatedEntity.isTransactionRolledBackOrMarkedRollback() )
          {
-            passivatedEntity = PassivatedEntity.createPassivatedEntity(instance);
-            if (passivatedEntity!=null)
-            {
-               instance = null;
-            }
+            passivatedEntity = null;
+         }
+         else
+         {
+            passivatedEntity = passivateEntity(instance);
+            if (passivatedEntity!=null) instance = null;
          }
          return true;
-      }
+      /*}
       else
       {
          return false;
+      }*/
+   }
+   
+   public void activate()
+   {
+      //TODO: if not versioned, we can do this lazily!
+      if (passivatedEntity!=null)
+      {
+         instance = passivatedEntity.toEntityReference(true);
       }
    }
    

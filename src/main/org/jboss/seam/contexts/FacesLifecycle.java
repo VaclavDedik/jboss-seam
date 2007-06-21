@@ -61,9 +61,11 @@ public class FacesLifecycle
       Contexts.applicationContext.set( new ApplicationContext( externalContext.getApplicationMap() ) );
       Contexts.eventContext.set( new EventContext( externalContext.getRequestMap() ) );
       Contexts.sessionContext.set( new SessionContext( externalContext.getSessionMap() ) );
-      Contexts.conversationContext.set( new ServerConversationContext( externalContext.getSessionMap() ) );
+      ServerConversationContext conversationContext = new ServerConversationContext( externalContext.getSessionMap() );
+      Contexts.conversationContext.set(conversationContext);
       Contexts.pageContext.set(null);
       Contexts.businessProcessContext.set(null); //TODO: is this really correct?
+      conversationContext.unflush();
    }
 
    public static void endRequest(ExternalContext externalContext) 
@@ -114,11 +116,13 @@ public class FacesLifecycle
 
    public static void resumeConversation(ExternalContext externalContext)
    {
+      ServerConversationContext conversationContext = new ServerConversationContext( externalContext.getSessionMap() );
       /*Context conversationContext = Init.instance().isClientSideConversations() ?
             (Context) new ClientConversationContext() :
             (Context) new ServerConversationContext( externalContext.getSessionMap() );*/
-      Contexts.conversationContext.set( new ServerConversationContext( externalContext.getSessionMap() ) );
+      Contexts.conversationContext.set(conversationContext);
       Contexts.businessProcessContext.set( new BusinessProcessContext() );
+      conversationContext.unflush();
    }
 
    public static void resumePage()
