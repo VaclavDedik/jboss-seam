@@ -25,6 +25,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.FacesLifecycle;
+import org.jboss.seam.core.Manager;
 import org.jboss.seam.exceptions.Exceptions;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -81,6 +82,7 @@ public class ExceptionFilter extends AbstractFilter
       MockFacesContext facesContext = createFacesContext(request, response);
       facesContext.setCurrent();
       FacesLifecycle.beginExceptionRecovery( facesContext.getExternalContext() );
+      Manager.instance().initializeTemporaryConversation();
       try
       {
          rollbackTransactionIfNecessary();
