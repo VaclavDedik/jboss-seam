@@ -5,7 +5,6 @@
               xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
         
     <!-- Facelets support -->
-
     <application>
         <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
     </application>
