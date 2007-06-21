@@ -33,13 +33,13 @@
                   conversation-timeout="180000"
                   conversation-id-parameter="cid"/>
 
-    <core:filter name="accessLevelFilter">
-        <core:name>accessLevelFilter</core:name>
-        <core:parameters>
+    <persistence:filter name="accessLevelFilter">
+        <persistence:name>accessLevelFilter</persistence:name>
+        <persistence:parameters>
             <key>currentAccessLevel</key>
             <value>#{currentAccessLevel}</value>
-        </core:parameters>
-    </core:filter>
+        </persistence:parameters>
+    </persistence:filter>
 
     <!-- TODO: Required for testing but doesn't work with injection: persistence-unit-jndi-name="java:/EntityManagerFactories/wiki" -->
     <persistence:managed-persistence-context name="restrictedEntityManager"
@@ -56,12 +56,12 @@
     <persistence:entity-manager-factory installed="@seamPersistenceUnit@" name="wikiEntityManagerFactory" persistence-unit-name="wiki"/>
 
     <component name="restrictedEntityConverter" scope="CONVERSATION" precedence="20"
-               class="org.jboss.seam.ui.EntityConverter">
+               class="org.jboss.seam.ui.converter.EntityConverter">
         <property name="entityManager">#{restrictedEntityManager}</property>
     </component>
 
     <component name="entityConverter" scope="CONVERSATION" precedence="20"
-               class="org.jboss.seam.ui.EntityConverter">
+               class="org.jboss.seam.ui.converter.EntityConverter">
         <property name="entityManager">#{entityManager}</property>
     </component>
 

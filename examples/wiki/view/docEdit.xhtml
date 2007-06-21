@@ -6,6 +6,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+                xmlns:rich="http://richfaces.ajax4jsf.org/rich"
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
                 xmlns:j4j="http://javascript4jsf.dev.java.net/"
                 template="themes/#{wikiPreferences.themeName}/template.xhtml">
@@ -126,7 +127,7 @@
                                                          rows="#{docEditorPreferences.properties['regularEditAreaRows']}"
                                                          id="contentTextAreaWithPreview"
                                                          value="#{documentHome.formContent}">
-                                            <a:support event="onkeyup" reRender="preview" requestDelay="3000" eventQueue="editKeyPress"/>
+                                            <a:support event="onkeyup" reRender="preview" requestDelay="3000" eventsQueue="editKeyPress"/>
                                         </h:inputTextarea>
                                     </s:span>
                                     <s:span rendered="#{!documentHome.enabledPreview}">

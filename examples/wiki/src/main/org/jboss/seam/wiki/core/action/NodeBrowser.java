@@ -3,6 +3,8 @@ package org.jboss.seam.wiki.core.action;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Component;
+import org.jboss.seam.faces.FacesMessages;
+import org.jboss.seam.faces.FacesManager;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.*;
@@ -58,7 +60,7 @@ public class NodeBrowser implements Serializable {
     public void setNodeId(Long nodeId) { this.nodeId = nodeId; }
 
     @In
-    protected org.jboss.seam.core.Redirect redirect;
+    protected org.jboss.seam.faces.Redirect redirect;
 
     @In
     protected NodeDAO nodeDAO;
@@ -140,13 +142,13 @@ public class NodeBrowser implements Serializable {
                     FacesMessages messages = (FacesMessages)Component.getInstance("facesMessages");
 
                     log.debug("switching to entry-point conversation");
-                    entryPoint.switchConversation();
+                    FacesManager.instance().switchConversation(entryPoint.getId());
 
                     log.debug("propagating faces messages from the ended conversation into the destination conversation");
                     Contexts.getConversationContext().set("org.jboss.seam.core.facesMessages", messages);
                 } else {
                     log.debug("the entry-point of this conversation is gone, redirecting to wiki start page");
-                    Manager.instance().redirect("/display.xhtml", new HashMap<String,Object>(), true);
+                    FacesManager.instance().redirect("/display.xhtml", new HashMap<String,Object>(), true);
                 }
             } else {
                 log.debug("entry-point of this conversation has been a non-conversational page we remembered");

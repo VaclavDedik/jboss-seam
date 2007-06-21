@@ -23,9 +23,9 @@
     <ui:define name="dialogTitle">Delete confirmation</ui:define>
     <ui:define name="dialogContent"><p align="center">Are you sure you want to delete <br/>'#{home.instance}'?</p></ui:define>
     <ui:define name="dialogControls">
-        <h:commandLink id="delete" action="#{home.remove}" accesskey="O" styleClass="button">
+        <a:commandLink id="delete" action="#{home.remove}" accesskey="O" styleClass="button" reRender="#{reRender}">
             <span class="buttonLabel"><u>O</u>k</span>
-        </h:commandLink>
+        </a:commandLink>
     </ui:define>
 
 

@@ -2,7 +2,6 @@ package org.jboss.seam.wiki.util;
 
 import java.security.MessageDigest;
 
-import org.apache.commons.codec.binary.Hex;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.AutoCreate;
 
@@ -11,21 +10,26 @@ import org.jboss.seam.annotations.AutoCreate;
  * Should also iterate the hashing a few thousand times to make brute force
  * attacks more difficult. Basically, implement user password encryption with
  * the same technique as on a typical Linux distribution.
- *
+ * <p/>
  * TODO: Make this more secure - before releasing to public and breaking all stored passwords!
  */
 @Name("hashUtil")
 @AutoCreate
 public class Hash {
     String hashFunction = "MD5";
-    String charset      = "UTF-8";
+    String charset = "UTF-8";
+
+    private static final char[] DIGITS = {
+            '0', '1', '2', '3', '4', '5', '6', '7',
+            '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'
+    };
 
     public String hash(String text) {
         try {
             MessageDigest md = MessageDigest.getInstance(hashFunction);
             md.update(text.getBytes(charset));
             byte[] raw = md.digest();
-            return new String(Hex.encodeHex(raw));
+            return new String(encodeHex(raw));
         }
         catch (Exception e) {
             throw new RuntimeException(e);
@@ -46,6 +50,21 @@ public class Hash {
 
     public void setHashFunction(String hashFunction) {
         this.hashFunction = hashFunction;
+    }
+
+    public static char[] encodeHex(byte[] data) {
+
+        int l = data.length;
+
+        char[] out = new char[l << 1];
+
+        // two characters form the hex value.
+        for (int i = 0, j = 0; i < l; i++) {
+            out[j++] = DIGITS[(0xF0 & data[i]) >>> 4];
+            out[j++] = DIGITS[0x0F & data[i]];
+        }
+
+        return out;
     }
 
 }

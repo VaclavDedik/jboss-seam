@@ -88,7 +88,7 @@ public class CommentHome implements Serializable {
         comment.setDocument(entityManager.merge(currentDocument));
 
         // Null out the property so that the @Email validator doesn't fall over it...
-        // I hate JSF and it's "let's set an empty string" behavior
+        // I hate JSF and its "let's set an empty string" behavior
         comment.setFromUserEmail(
             comment.getFromUserEmail()!=null && comment.getFromUserEmail().length()>0
                 ? comment.getFromUserEmail()

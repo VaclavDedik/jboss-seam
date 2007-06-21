@@ -6,7 +6,7 @@
 <hibernate-mapping>
 
     <!-- TODO: Re-creating FK constraints with options not supported by Hibernate's @ForeignKey
-    This sucks big time... especially for MySQL which is too dumb to recognize two commands separater with a semicolon...
+    This sucks big time... especially for MySQL which is too dumb to recognize two commands separated with a semicolon...
     http://opensource.atlassian.com/projects/hibernate/browse/ANN-598
 
     You have to wonder how horrible MySQL really is deep inside:

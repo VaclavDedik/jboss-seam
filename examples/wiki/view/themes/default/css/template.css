@@ -456,6 +456,23 @@ ul {
     font-size: 95%;
 }
 
+.tableFormFields {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.tableFormFields .input {
+    font-size: 95%;
+}
+
+.tableFormFields .inputError input,
+.tableFormFields .inputError select {
+    font-size: 95%;
+    background-image: none;
+    background-color: #ffeeee;
+}
+
+
 /* Directory Browser
 ----------------------------------------------- */
 
@@ -599,6 +616,12 @@ ul {
 }
 .datatable .tenPercentColumn {
     width: 10%;
+    padding-left: 10px;
+    padding-right: 10px;
+    white-space: nowrap;
+}
+.datatable .fifteenPercentColumn {
+    width: 15%;
     padding-left: 10px;
     padding-right: 10px;
     white-space: nowrap;

@@ -70,7 +70,7 @@ public class Comment implements Serializable {
     @org.hibernate.search.annotations.DateBridge(resolution = org.hibernate.search.annotations.Resolution.DAY)
     @Searchable(description = "Created", type = SearchableType.PASTDATE)
     private Date createdOn = new Date();
-    
+
     public Comment () {}
 
     // Immutable properties

@@ -14,8 +14,9 @@ import javax.faces.FacesException;
 import javax.faces.component.UIComponent;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.faces.ResourceLoader;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.ui.UILoadStyle;
+import org.jboss.seam.ui.component.UILoadStyle;
 import org.jboss.seam.util.Resources;
 import org.jboss.seam.wiki.core.action.PluginPreferenceEditor;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
@@ -164,7 +165,7 @@ public class WikiFormattedTextHandler extends MetaTagHandler {
         if (currentViewId.equals(includeView)) return null;
 
         // Try to get the XHTML document
-        return Resources.getResource(includeView);
+        return ResourceLoader.instance().getResource(includeView);
     }
 
     private void includePluginFacelet(URL faceletURL, FaceletContext ctx, UIComponent parent) {
@@ -188,8 +189,9 @@ public class WikiFormattedTextHandler extends MetaTagHandler {
         // Try to get the CSS for it
         WikiPreferences wikiPrefs = (WikiPreferences) Component.getInstance("wikiPreferences");
         String css = "/themes/" + wikiPrefs.getThemeName() + "/css/" + macroName + ".css";
-        if (Resources.getResource(css) != null) {
-            UILoadStyle style = new UILoadStyle();
+        if (ResourceLoader.instance().getResource(css) != null) {
+            // TODO: For Pete to fix, UILoadStyle doesn't load the CSS anymore
+            UILoadStyle style = UILoadStyle.newInstance();
             style.setSrc(css);
             cmp.getChildren().add(style);
             // Clear these out in the next build phase

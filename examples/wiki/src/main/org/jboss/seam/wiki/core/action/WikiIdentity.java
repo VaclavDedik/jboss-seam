@@ -1,11 +1,11 @@
 package org.jboss.seam.wiki.core.action;
 
-import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.ScopeType.SESSION;
 import static org.jboss.seam.annotations.Install.APPLICATION;
 
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.annotations.*;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.wiki.core.model.User;
 import org.jboss.seam.wiki.core.model.Directory;
 import org.jboss.seam.wiki.core.model.Node;
@@ -19,7 +19,7 @@ import org.jboss.seam.Component;
  */
 @Name("org.jboss.seam.security.identity")
 @Scope(SESSION)
-@Intercept(NEVER)
+@BypassInterceptors
 @Install(precedence=APPLICATION)
 @Startup
 public class WikiIdentity extends Identity {

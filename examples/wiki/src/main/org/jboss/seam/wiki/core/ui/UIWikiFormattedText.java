@@ -11,9 +11,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.ui.util.JSF;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Conversation;
-import org.jboss.seam.ui.JSF;
 import org.jboss.seam.wiki.core.engine.WikiLink;
 import org.jboss.seam.wiki.core.engine.WikiTextParser;
 import org.jboss.seam.wiki.core.engine.WikiTextRenderer;

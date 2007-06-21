@@ -67,9 +67,8 @@ public class SearchRegistry {
         Class<?> entityClass = handler.getSearchableEntityClass();
 
         if (!entityClass.isAnnotationPresent(Searchable.class) ||
-                !entityClass.isAnnotationPresent(org.hibernate.search.annotations.Indexed.class)) {
-            log.error("Not indexed or not searchable but configured as searchable: " + entityClass.getName());
-            return null;
+            !entityClass.isAnnotationPresent(org.hibernate.search.annotations.Indexed.class)) {
+            throw new RuntimeException("Configured as searchable but missing @Searchable and/or @Indexed: " + entityClass.getName());
         }
 
         log.debug("extracting entity search information from: " + entityClass.getName());
