@@ -91,7 +91,7 @@
        </auth-constraint>
    </security-constraint>
    
-   <!-- Trinidad -->
+   <!-- Trinidad - as suggested by a4j-trinidad example-->
    
    <context-param>
       <param-name>org.apache.myfaces.trinidad.ALTERNATE_VIEW_HANDLER</param-name>
@@ -106,7 +106,17 @@
     <filter-mapping>
         <filter-name>Trinidad</filter-name>
         <url-pattern>*.seam</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
     </filter-mapping>
+    
+    <context-param>
+		<param-name>
+			org.apache.myfaces.trinidad.CACHE_VIEW_ROOT
+		</param-name>
+		<param-value>false</param-value>
+	</context-param>
     
     <servlet>
         <servlet-name>Trinidad Resources</servlet-name>

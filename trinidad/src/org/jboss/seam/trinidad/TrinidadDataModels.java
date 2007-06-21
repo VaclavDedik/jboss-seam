@@ -6,13 +6,13 @@ import static org.jboss.seam.annotations.Install.FRAMEWORK;
 import javax.faces.model.DataModel;
 
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.faces.DataModels;
 import org.jboss.seam.framework.EntityQuery;
 import org.jboss.seam.framework.HibernateEntityQuery;
 import org.jboss.seam.framework.Query;
-import org.jboss.seam.jsf.JsfProvider;
 
 /**
  * Provide enhanced features when Trinidad is used as a JSF component set
@@ -20,11 +20,11 @@ import org.jboss.seam.jsf.JsfProvider;
  *
  */
 
-@Name("org.jboss.seam.jsf.jsfProvider")
+@Name("org.jboss.seam.faces.dataModels")
 @Install(precedence=FRAMEWORK, classDependencies="org.apache.myfaces.trinidad.component.UIXComponent")
 @Scope(STATELESS)
 @BypassInterceptors
-public class TrinidadJsfProvider extends JsfProvider
+public class TrinidadDataModels extends DataModels
 {
    
    @Override

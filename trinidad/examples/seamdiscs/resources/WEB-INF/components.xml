@@ -2,11 +2,15 @@
 <components xmlns="http://jboss.com/products/seam/components"
 	xmlns:core="http://jboss.com/products/seam/core"
 	xmlns:security="http://jboss.com/products/seam/security"
+	xmlns:persistence="http://jboss.com/products/seam/persistence"
+	xmlns:web="http://jboss.com/products/seam/web"
 	xmlns:framework="http://jboss.com/products/seam/framework"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://jboss.com/products/seam/core http://jboss.com/products/seam/core-1.3.xsd 
                  http://jboss.com/products/seam/security http://jboss.com/products/seam/security-1.3.xsd
+                 http://jboss.com/products/seam/persistence http://jboss.com/products/seam/persistence-1.3.xsd
                  http://jboss.com/products/seam/components http://jboss.com/products/seam/components-1.3.xsd 
+                 http://jboss.com/products/seam/web http://jboss.com/products/seam/web-1.3.xsd 
                  http://jboss.com/products/seam/framework http://jboss.com/products/seam/framework-1.3.xsd">
 
 	<core:init debug="@debug@" jndi-pattern="@jndiPattern@" />
@@ -15,7 +19,7 @@
 		conversation-timeout="120000" 
 		conversation-id-parameter="cid"/>
 
-	<core:managed-persistence-context name="entityManager"
+	<persistence:managed-persistence-context name="entityManager"
 		auto-create="true"
 		persistence-unit-jndi-name="java:/seamdiscsEntityManagerFactory" />
 
@@ -29,6 +33,9 @@
     <event type="org.jboss.seam.postAuthenticate">
         <action expression="#{redirect.returnToCapturedView}"/>
     </event>   
+    
+    <!-- Work around a bug in ajax4jsf-trindiad integration -->
+	<web:ajax4jsf-filter enable-cache="false" />
 	
 	<framework:entity-query name="discs" ejbql="select disc from Disc disc" order="disc.name ASC" max-results="5"/>
 	
