@@ -452,6 +452,7 @@
     <property name="database.dir"        value="database"/>
     <target name="startdb" description="Run HSQL database server with clean content">
         <!-- Delete database files -->
+        <mkdir dir="${database.dir}"/>
         <delete>
             <fileset dir="${database.dir}">
                 <include name="db*"/>
@@ -459,7 +460,7 @@
         </delete>
         <java classname="org.hsqldb.Server"
               fork="yes"
-              classpath="${database.dir}/hsqldb.jar"
+              classpath="${seam.home}/seam-gen/lib/hsqldb.jar"
               failonerror="true">
             <arg value="-database.0"/>
             <arg value="file:${database.dir}/db"/>
