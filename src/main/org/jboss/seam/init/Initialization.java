@@ -139,8 +139,7 @@ public class Initialization
       try
       {
          Properties replacements = new Properties();
-         InputStream replaceStream = Thread.currentThread().getContextClassLoader()
-                  .getResourceAsStream("components.properties");
+         InputStream replaceStream = Resources.getResourceAsStream("components.properties", servletContext);
          if (replaceStream != null) replacements.load(replaceStream);
          return replacements;
       }

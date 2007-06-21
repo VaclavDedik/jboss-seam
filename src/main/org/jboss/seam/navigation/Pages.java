@@ -41,6 +41,7 @@ import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.core.ResourceLoader;
 import org.jboss.seam.core.Expressions.MethodExpression;
 import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.faces.FacesMessages;
@@ -50,7 +51,6 @@ import org.jboss.seam.log.Logging;
 import org.jboss.seam.pageflow.Pageflow;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.NotLoggedInException;
-import org.jboss.seam.util.Resources;
 import org.jboss.seam.util.Strings;
 import org.jboss.seam.util.XML;
 import org.jboss.seam.web.Parameters;
@@ -97,7 +97,7 @@ public class Pages
    {
       for (String resource: resources)
       {
-         InputStream stream = Resources.getResourceAsStream(resource);      
+         InputStream stream = ResourceLoader.instance().getResourceAsStream(resource);      
          if (stream==null)
          {
             log.info("no pages.xml file found: " + resource);
@@ -170,7 +170,7 @@ public class Pages
    {
       String resourceName = replaceExtension(viewId, ".page.xml");
       InputStream stream = resourceName==null ? 
-            null : Resources.getResourceAsStream( resourceName.substring(1) );
+            null : ResourceLoader.instance().getResourceAsStream( resourceName.substring(1) );
       if ( stream==null ) 
       {
          Page result = new Page(viewId);

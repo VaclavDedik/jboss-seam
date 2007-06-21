@@ -14,7 +14,7 @@ import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
-import org.jboss.seam.util.Resources;
+import org.jboss.seam.core.ResourceLoader;
 
 /**
  * Manager component for a Drools RuleBase
@@ -41,7 +41,7 @@ public class RuleBase
       {
          for (String ruleFile: ruleFiles)
          {
-            InputStream stream = Resources.getResourceAsStream(ruleFile);
+            InputStream stream = ResourceLoader.instance().getResourceAsStream(ruleFile);
             if (stream==null)
             {
                throw new IllegalStateException("could not locate rule file: " + ruleFile);
@@ -55,7 +55,7 @@ public class RuleBase
             }
             else
             {
-               Reader dslReader = new InputStreamReader( Resources.getResourceAsStream(dslFile) );
+               Reader dslReader = new InputStreamReader( ResourceLoader.instance().getResourceAsStream(dslFile) );
                packageDescr = new DrlParser().parse(drlReader, dslReader);
             }
             // pre build the package

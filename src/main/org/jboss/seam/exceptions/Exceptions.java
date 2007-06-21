@@ -21,12 +21,12 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Init;
+import org.jboss.seam.core.ResourceLoader;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.util.EJB;
 import org.jboss.seam.util.Reflections;
-import org.jboss.seam.util.Resources;
 import org.jboss.seam.util.Strings;
 import org.jboss.seam.util.XML;
 
@@ -112,7 +112,7 @@ public class Exceptions
    private ExceptionHandler parse(String fileName) throws DocumentException, ClassNotFoundException
    {
       ExceptionHandler anyhandler = null;
-      InputStream stream = Resources.getResourceAsStream(fileName);
+      InputStream stream = ResourceLoader.instance().getResourceAsStream(fileName);
       if (stream!=null)
       {
          log.debug("reading exception mappings from " + fileName);

@@ -14,8 +14,8 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.core.ResourceLoader;
 import org.jboss.seam.servlet.AbstractResource;
-import org.jboss.seam.util.Resources;
 
 @Startup
 @Scope(APPLICATION)
@@ -40,7 +40,7 @@ public class WebResource extends AbstractResource
    {
       String pathInfo = request.getPathInfo().substring(getResourcePath().length()); 
       
-      InputStream in = Resources.getResourceAsStream("/org/jboss/seam/ui/resource" + pathInfo);
+      InputStream in = ResourceLoader.instance().getResourceAsStream("/org/jboss/seam/ui/resource" + pathInfo);
       
       if (in != null)
       {

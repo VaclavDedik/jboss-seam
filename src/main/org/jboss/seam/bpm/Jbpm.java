@@ -25,10 +25,10 @@ import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Init;
+import org.jboss.seam.core.ResourceLoader;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.util.Naming;
-import org.jboss.seam.util.Resources;
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
 import org.jbpm.graph.def.ProcessDefinition;
@@ -145,7 +145,7 @@ public class Jbpm
    
    public ProcessDefinition getPageflowDefinitionFromResource(String resourceName)
    {
-      InputStream resource = Resources.getResourceAsStream(resourceName);
+      InputStream resource = ResourceLoader.instance().getResourceAsStream(resourceName);
       if (resource==null)
       {
          throw new IllegalArgumentException("pageflow resource not found: " + resourceName);
@@ -155,7 +155,7 @@ public class Jbpm
    
    public ProcessDefinition getProcessDefinitionFromResource(String resourceName) 
    {
-      InputStream resource = Resources.getResourceAsStream(resourceName);
+      InputStream resource = ResourceLoader.instance().getResourceAsStream(resourceName);
       if (resource==null)
       {
          throw new IllegalArgumentException("process definition resource not found: " + resourceName);

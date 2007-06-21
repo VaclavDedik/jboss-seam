@@ -27,7 +27,7 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.util.Resources;
+import org.jboss.seam.core.ResourceLoader;
 
 /**
  * Image manipulation and interrogation
@@ -391,7 +391,7 @@ public class Image implements Serializable
       }
       else if (input instanceof String)
       {
-         readImage(Resources.getResourceAsStream((String) input));
+         readImage(ResourceLoader.instance().getResourceAsStream((String) input));
       }
       else if (input instanceof InputStream)
       {

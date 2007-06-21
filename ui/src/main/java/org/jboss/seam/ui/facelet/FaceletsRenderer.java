@@ -14,10 +14,10 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.core.Renderer;
+import org.jboss.seam.core.ResourceLoader;
 import org.jboss.seam.mock.MockExternalContext;
 import org.jboss.seam.mock.MockFacesContext;
 import org.jboss.seam.ui.util.JSF;
-import org.jboss.seam.util.Resources;
 
 import com.sun.facelets.Facelet;
 import com.sun.facelets.compiler.SAXCompiler;
@@ -124,7 +124,7 @@ public class FaceletsRenderer extends Renderer
    protected URL resourceURL(String viewId)
    {
 
-      URL url = Resources.getResource(viewId);
+      URL url = ResourceLoader.instance().getResource(viewId);
 
       if (url == null)
       {

@@ -5,7 +5,7 @@ package org.jboss.seam.util;
 import java.io.InputStream;
 import java.io.Serializable;
 
-import org.jboss.seam.Seam;
+import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.xml.sax.EntityResolver;
@@ -92,9 +92,9 @@ public class DTDEntityResolver implements EntityResolver, Serializable
    {
 		try 
       {
-			return Seam.class.getResourceAsStream(path);
+			return Resources.getResourceAsStream( path, ServletLifecycle.getServletContext() );
 		}
-		catch( Throwable t ) 
+		catch (Throwable t) 
       {
 			return null;
 		}

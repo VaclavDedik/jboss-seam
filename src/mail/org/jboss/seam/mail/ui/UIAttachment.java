@@ -21,7 +21,7 @@ import javax.mail.util.ByteArrayDataSource;
 import org.jboss.seam.pdf.DocumentData;
 import org.jboss.seam.pdf.ui.UIDocument;
 import org.jboss.seam.ui.util.JSF;
-import org.jboss.seam.util.Resources;
+import org.jboss.seam.util.FacesResources;
 
 public class UIAttachment extends MailComponent implements ValueHolder
 {
@@ -86,7 +86,7 @@ public class UIAttachment extends MailComponent implements ValueHolder
          else if (getValue() instanceof String)
          {
             String string = (String) getValue();
-            ds = new URLDataSource(Resources.getResource(string));
+            ds = new URLDataSource( FacesResources.getResource( string, context.getExternalContext() ) );
          }
          else if (getValue() instanceof InputStream)
          {
