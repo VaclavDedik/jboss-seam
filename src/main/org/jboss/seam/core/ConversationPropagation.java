@@ -166,6 +166,9 @@ public class ConversationPropagation
       }
    }
 
+   /**
+    * @return the id of the current conversation
+    */
    public String getConversationId()
    {
       return conversationId;
@@ -176,6 +179,9 @@ public class ConversationPropagation
       this.conversationId = conversationId;
    }
 
+   /**
+    * @return the id of the parent of the current conversation
+    */
    public String getParentConversationId()
    {
       return parentConversationId;
@@ -186,6 +192,10 @@ public class ConversationPropagation
       this.parentConversationId = parentConversationId;
    }
 
+   /**
+    * Specifies that a redirect will occur if there is no
+    * conversation found on the server.
+    */
    public boolean isValidateLongRunningConversation()
    {
       return validateLongRunningConversation;
@@ -205,6 +215,9 @@ public class ConversationPropagation
       return (ConversationPropagation) Component.getInstance(ConversationPropagation.class, ScopeType.EVENT);
    }
 
+   /**
+    * @return the conversation propagation type specified in the request
+    */
    public String getPropagationType()
    {
       return propagationType;

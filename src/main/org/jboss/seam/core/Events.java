@@ -125,7 +125,7 @@ public class Events
 
    private TransactionListener getTransactionListener()
    {
-      TransactionListener transactionListener = AbstractTransactionListener.instance();
+      TransactionListener transactionListener = BasicTransactionListener.instance();
       if (transactionListener==null)
       {
          throw new IllegalStateException("org.jboss.seam.core.transactionListener is not installed");

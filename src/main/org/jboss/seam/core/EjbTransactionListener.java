@@ -15,9 +15,9 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 
 /**
- * Temporary solution for getting JTA transaction lifecycle
- * callbacks. Once all appservers support the new EE5 APIs,
- * this will be removed.
+ * A TransactionListener that works in an EJB container.
+ * Once all appservers support the new EE5 APIs, this can 
+ * be removed.
  * 
  * @author Gavin King
  *
@@ -26,7 +26,7 @@ import org.jboss.seam.annotations.Scope;
 @Scope(ScopeType.EVENT)
 @Name("org.jboss.seam.core.transactionListener")
 @Install(precedence=FRAMEWORK, value=false)
-public class EjbTransactionListener extends AbstractTransactionListener 
+public class EjbTransactionListener extends BasicTransactionListener 
       implements LocalTransactionListener, SessionSynchronization
 {
    public void afterCompletion(boolean success) throws EJBException, RemoteException
@@ -40,6 +40,18 @@ public class EjbTransactionListener extends AbstractTransactionListener
    }
    
    public void afterBegin() throws EJBException, RemoteException {}
+   
+   @Override
+   public void afterSeamManagedTransactionCompletion(boolean success)
+   {
+      //nopop, let JTA call
+   }
+   
+   @Override
+   public void beforeSeamManagedTransactionCompletion() 
+   {
+      //nopop, let JTA call
+   }
    
    @Remove
    public void destroy() {}

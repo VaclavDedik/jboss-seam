@@ -26,7 +26,7 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.TransactionListener;
 import org.jboss.seam.core.Mutable;
-import org.jboss.seam.core.AbstractTransactionListener;
+import org.jboss.seam.core.BasicTransactionListener;
 import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -110,7 +110,7 @@ public class ManagedPersistenceContext
       if ( !synchronizationRegistered && !Lifecycle.isDestroying() && Transaction.instance().isActive() )
       {
          entityManager.joinTransaction();
-         TransactionListener transactionListener = AbstractTransactionListener.instance();
+         TransactionListener transactionListener = BasicTransactionListener.instance();
          if (transactionListener!=null)
          {
             transactionListener.registerSynchronization(this);

@@ -19,17 +19,19 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.log.Log;
 
 /**
- * Temporary solution for getting JTA transaction lifecycle
- * callbacks. Once all appservers support the new EE5 APIs,
- * this will be removed.
+ * Base implementation of the TransactionListener interface.
+ * This one only works for Seam-managed transactions, but
+ * works in any environment.
+ * 
+ * @see EjbTransactionListener
  * 
  * @author Gavin King
  *
  */
 @Scope(ScopeType.EVENT)
 @Name("org.jboss.seam.core.transactionListener")
-@Install(value=false, precedence=BUILT_IN)
-public class AbstractTransactionListener implements TransactionListener
+@Install(precedence=BUILT_IN, classDependencies="javax.transaction.Status")
+public class BasicTransactionListener implements TransactionListener
 {
    private static @Logger Log log;
    
@@ -58,7 +60,7 @@ public class AbstractTransactionListener implements TransactionListener
       {
          throw new IllegalStateException("no event context active");
       }
-      return (TransactionListener) Component.getInstance(AbstractTransactionListener.class, ScopeType.EVENT);         
+      return (TransactionListener) Component.getInstance(BasicTransactionListener.class, ScopeType.EVENT);         
    }
       
    public void scheduleEvent(String type, Object... parameters)
@@ -117,6 +119,16 @@ public class AbstractTransactionListener implements TransactionListener
             log.error("Exception processing transaction Synchronization before completion", e);
          }
       }
+   }
+   
+   public void beforeSeamManagedTransactionCompletion()
+   {
+      beforeTransactionCompletion();
+   }
+   
+   public void afterSeamManagedTransactionCompletion(boolean success)
+   {
+      afterTransactionCompletion(success);
    }
    
 }

@@ -21,7 +21,9 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.el.SeamExpressionFactory;
 
 /**
- * Factory for method and value bindings
+ * Factory for EL method and value expressions.
+ * 
+ * This default implementation uses JBoss EL.
  * 
  * @author Gavin King
  */
@@ -49,16 +51,32 @@ public class Expressions implements Serializable
       return EL_CONTEXT;
    }
 
+   /**
+    * Create a value expression.
+    * 
+    * @param expression a JBoss EL value expression
+    */
    public ValueExpression<Object> createValueExpression(String expression)
    {
       return createValueExpression(expression, Object.class);
    }
    
+   /**
+    * Create a method expression.
+    * 
+    * @param expression a JBoss EL method expression
+    */
    public MethodExpression<Object> createMethodExpression(String expression)
    {
       return createMethodExpression(expression, Object.class);
    }
    
+   /**
+    * Create a value expression.
+    * 
+    * @param expression a JBoss EL value expression
+    * @param type the type of the value 
+    */
    public <T> ValueExpression<T> createValueExpression(final String expression, final Class<T> type)
    {
       
@@ -115,6 +133,13 @@ public class Expressions implements Serializable
       };
    }
    
+   /**
+    * Create a method expression.
+    * 
+    * @param expression a JBoss EL method expression
+    * @param type the method return type
+    * @param argTypes the method parameter types
+    */
    public <T> MethodExpression<T> createMethodExpression(final String expression, final Class<T> type, final Class... argTypes)
    {
       return new MethodExpression<T>()
@@ -160,6 +185,14 @@ public class Expressions implements Serializable
       };
    }
    
+   /**
+    * A value expression, an EL expression that evaluates to
+    * an attribute getter or get/set pair.
+    * 
+    * @author Gavin King
+    *
+    * @param <T> the type of the value
+    */
    public static interface ValueExpression<T> extends Serializable
    {
       public T getValue();
@@ -168,6 +201,14 @@ public class Expressions implements Serializable
       public Class<T> getType();
    }
    
+   /**
+    * A method expression, an EL expression that evaluates to
+    * a method.
+    * 
+    * @author Gavin King
+    *
+    * @param <T> the method return type
+    */
    public static interface MethodExpression<T> extends Serializable
    {
       public T invoke(Object... args);
@@ -179,7 +220,6 @@ public class Expressions implements Serializable
       return false;
    }
    
-
    /**
     * Validate that a value can be assigned to the property
     * identified by a value expression.
