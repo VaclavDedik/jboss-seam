@@ -22,6 +22,10 @@ public class UTTransaction extends UserTransaction
    UTTransaction(javax.transaction.UserTransaction delegate)
    {
       this.delegate = delegate;
+      if (delegate==null)
+      {
+         throw new IllegalArgumentException("null UserTransaction");
+      }
    }
    
    public void begin() throws NotSupportedException, SystemException

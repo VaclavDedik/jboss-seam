@@ -25,6 +25,10 @@ public class EJBTransaction extends UserTransaction
    public EJBTransaction(EJBContext ejbContext)
    {
       this.ejbContext = ejbContext;
+      if (ejbContext==null)
+      {
+         throw new IllegalArgumentException("null EJBContext");
+      }
    }
 
    public void begin() throws NotSupportedException, SystemException
