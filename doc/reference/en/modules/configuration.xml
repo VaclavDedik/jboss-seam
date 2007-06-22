@@ -100,7 +100,7 @@
             
             <programlisting><![CDATA[<servlet>
   <servlet-name>Seam Resource Servlet</servlet-name>
-  <servlet-class>org.jboss.seam.servlet.ResourceServlet</servlet-class>
+  <servlet-class>org.jboss.seam.servlet.SeamResourceServlet</servlet-class>
 </servlet>
     
 <servlet-mapping>
@@ -122,7 +122,7 @@
 
             <programlisting><![CDATA[<filter>
     <filter-name>Seam Filter</filter-name>
-    <filter-class>org.jboss.seam.web.SeamFilter</filter-class>
+    <filter-class>org.jboss.seam.servlet.SeamFilter</filter-class>
 </filter>
 
 <filter-mapping>
