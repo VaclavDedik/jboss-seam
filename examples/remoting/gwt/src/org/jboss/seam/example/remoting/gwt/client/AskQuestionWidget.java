@@ -18,30 +18,30 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class AskQuestionWidget extends Composite
 {
-
    private AbsolutePanel panel = new AbsolutePanel();
    
-   public AskQuestionWidget() {
-      
+   public AskQuestionWidget() 
+   {      
       Label lbl = new Label("OK, what do you want to know?");
       panel.add(lbl);
       final TextBox box = new TextBox();
       box.setText("What is the meaning of life?");
       panel.add(box);
       Button ok = new Button("Ask");
-      ok.addClickListener(new ClickListener() {
-
+      ok.addClickListener(new ClickListener() 
+      {
          public void onClick(Widget w)
          {
             ValidationUtility valid = new ValidationUtility();
-            if (!valid.isValid(box.getText())) {
+            if (!valid.isValid(box.getText())) 
+            {
                Window.alert("A question has to end with a '?'");
-            } else {
+            } 
+            else 
+            {
                askServer(box.getText());
-            }
-            
+            } 
          }
-         
       });
       panel.add(ok);
       
@@ -51,8 +51,8 @@ public class AskQuestionWidget extends Composite
    /** Now lets actually go to the server, using a callback - its called Ajax for a reason ! */
    private void askServer(String text)
    {
-      getService().askIt(text, new AsyncCallback() {
-
+      getService().askIt(text, new AsyncCallback() 
+      {
          public void onFailure(Throwable t)
          {
             Window.alert(t.getMessage());
@@ -61,27 +61,19 @@ public class AskQuestionWidget extends Composite
          public void onSuccess(Object data)
          {
             Window.alert((String) data);
-         }
-         
-      });
-      
+         }         
+      });      
    }
    
-  
    /**
     * This gets the async service client stub. 
     */
-   private MyServiceAsync getService() {
-      // define the service you want to call        
-      MyServiceAsync svc =
-          (MyServiceAsync) GWT.create(MyService.class);
-      ServiceDefTarget endpoint = (ServiceDefTarget) svc;
-      
+   private MyServiceAsync getService() 
+   {       
       String endpointURL = GWT.getModuleBaseURL() + "seam/resource/gwt";      
       
-      endpoint.setServiceEntryPoint(endpointURL);
-      return svc;
-     
-   }
-   
+      MyServiceAsync svc = (MyServiceAsync) GWT.create(MyService.class);
+      ((ServiceDefTarget) svc).setServiceEntryPoint(endpointURL);
+      return svc;     
+   }   
 }
