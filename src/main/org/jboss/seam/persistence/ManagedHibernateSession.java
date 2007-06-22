@@ -72,11 +72,11 @@ public class ManagedHibernateSession
          Class fullTextSessionProxyClass = Class.forName("org.jboss.seam.persistence.FullTextHibernateSessionProxy");
          Class fullTextSessionClass = Class.forName("org.hibernate.search.FullTextSession");
          FULL_TEXT_SESSION_PROXY_CONSTRUCTOR = fullTextSessionProxyClass.getDeclaredConstructor(fullTextSessionClass);
-         log.info("Hibernate Search is available :-)");
+         log.debug("Hibernate Search is available :-)");
       }
       catch (Exception e)
       {
-         log.info("no Hibernate Search, sorry :-(", e);
+         log.debug("no Hibernate Search, sorry :-(", e);
       }
    }
    
