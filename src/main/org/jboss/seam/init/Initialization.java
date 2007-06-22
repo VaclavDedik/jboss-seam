@@ -186,7 +186,14 @@ public class Initialization
       {
          String ns = elem.getNamespace().getURI();
          NamespaceDescriptor nsInfo = namespaceMap.get(ns);
-         if (nsInfo != null)
+         if (nsInfo == null )
+         {
+            if ( ns!=null && !ns.equals("http://jboss.com/products/seam/components") )
+            {
+               log.warn("namespace declared in components.xml does not resolve to a package annotated @Namespace: " + ns);
+            }
+         }
+         else
          {
             String name = elem.attributeValue("name");
             String elemName = toCamelCase( elem.getName(), true );
@@ -711,7 +718,11 @@ public class Initialization
          if (ns != null)
          {
             log.info("Namespace: " + ns.value() + ", package: " + pkg.getName() + ", prefix: " + ns.prefix());
-            namespaceMap.put(ns.value(), new NamespaceDescriptor(ns, pkg));
+            NamespaceDescriptor old = namespaceMap.put(ns.value(), new NamespaceDescriptor(ns, pkg));
+            if ( old!=null && !old.getPackage().equals(pkg) )
+            {
+               throw new IllegalStateException("two packages with the same @Namespace: " + ns.value());
+            }
          }
       }
    }
