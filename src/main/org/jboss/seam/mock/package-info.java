@@ -1,8 +1,8 @@
 /**
- * A test harness for Seam applications and
- * Seam components.
+ * An integration test harness for Seam applications and
+ * Seam components, with built-in support for TestNG.
  * 
- * @see SeamTest for TestNG support
- * @see BaseSeamTest if you want something you can use without TestNG
+ * @see SeamTest 
+ * @see BaseSeamTest 
  */
 package org.jboss.seam.mock;

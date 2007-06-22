@@ -2,6 +2,13 @@ package org.jboss.seam.init;
 
 import org.jboss.seam.ComponentType;
 
+/**
+ * Meta-data about an EJB, discovered from a deployment
+ * descriptor.
+ * 
+ * @author Norman Richards
+ *
+ */
 public class EjbDescriptor 
 {
      private String ejbName;

@@ -4,6 +4,12 @@ import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 
+/**
+ * A component for direct rendering of
+ * templates. Especially useful with
+ * Seam Mail. 
+ *
+ */
 @Name("org.jboss.seam.core.renderer")
 @Install(false)
 public abstract class Renderer

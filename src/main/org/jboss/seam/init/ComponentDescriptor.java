@@ -10,8 +10,7 @@ import org.jboss.seam.core.Init;
 import org.jboss.seam.servlet.AbstractResource;
 
 /**
- * Meta-data about an EJB, discovered from a deployment
- * descriptor.
+ * Meta-data about a Seam component.
  * 
  * @author Norman Richards
  *

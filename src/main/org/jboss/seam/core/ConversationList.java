@@ -19,6 +19,8 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.web.Session;
 
 /**
+ * Support for the conversation list
+ * 
  * @author Gavin King
  */
 @Scope(ScopeType.PAGE)

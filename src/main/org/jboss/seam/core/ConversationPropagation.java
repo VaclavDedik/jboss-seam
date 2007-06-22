@@ -14,6 +14,13 @@ import org.jboss.seam.log.Logging;
 import org.jboss.seam.navigation.Page;
 import org.jboss.seam.navigation.Pages;
 
+/**
+ * Overrideable component for extracting the conversation id
+ * from a request.
+ * 
+ * @author Gavin King
+ *
+ */
 @Name("org.jboss.seam.core.conversationPropagation")
 @Scope(ScopeType.EVENT)
 @BypassInterceptors

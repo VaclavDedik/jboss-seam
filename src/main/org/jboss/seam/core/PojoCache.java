@@ -17,6 +17,12 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
+/**
+ * Integration with JBoss Cache
+ * 
+ * @author Gavin King
+ *
+ */
 @Name("org.jboss.seam.core.pojoCache")
 @Scope(ScopeType.APPLICATION)
 @BypassInterceptors

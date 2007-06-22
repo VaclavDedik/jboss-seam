@@ -17,6 +17,13 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.AbstractMutable;
 
+/**
+ * Maintains the set of persistence contexts that have been
+ * touched in a conversation.
+ * 
+ * @author Gavin King
+ *
+ */
 @Name("org.jboss.seam.persistence.persistenceContexts")
 @Scope(ScopeType.CONVERSATION)
 @BypassInterceptors
