@@ -2,8 +2,6 @@
 package org.jboss.seam.persistence;
 
 import java.io.Serializable;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -61,25 +59,6 @@ public class ManagedHibernateSession
    
    private transient boolean synchronizationRegistered;
    
-   private static Constructor FULL_TEXT_SESSION_PROXY_CONSTRUCTOR;
-   private static Method FULL_TEXT_SESSION_CONSTRUCTOR;
-   static 
-   {
-      try
-      {
-         Class searchClass = Class.forName("org.hibernate.search.Search");
-         FULL_TEXT_SESSION_CONSTRUCTOR = searchClass.getDeclaredMethod("createFullTextSession", Session.class);
-         Class fullTextSessionProxyClass = Class.forName("org.jboss.seam.persistence.FullTextHibernateSessionProxy");
-         Class fullTextSessionClass = Class.forName("org.hibernate.search.FullTextSession");
-         FULL_TEXT_SESSION_PROXY_CONSTRUCTOR = fullTextSessionProxyClass.getDeclaredConstructor(fullTextSessionClass);
-         log.debug("Hibernate Search is available :-)");
-      }
-      catch (Exception e)
-      {
-         log.debug("no Hibernate Search, sorry :-(", e);
-      }
-   }
-   
    public boolean clearDirty()
    {
       return true;
@@ -100,15 +79,9 @@ public class ManagedHibernateSession
    private void initSession() throws Exception
    {
       session = getSessionFactoryFromJndiOrValueBinding().openSession();
-      if (FULL_TEXT_SESSION_PROXY_CONSTRUCTOR==null)
-      {
-         session = new HibernateSessionProxy(session);
-      }
-      else
-      {
-         session = (Session) FULL_TEXT_SESSION_PROXY_CONSTRUCTOR.newInstance( FULL_TEXT_SESSION_CONSTRUCTOR.invoke(null, session) );
-      }
       setSessionFlushMode( PersistenceContexts.instance().getFlushMode() );
+      session = HibernatePersistenceProvider.proxySession(session);
+      
       for (Filter f: filters)
       {
          if ( f.isFilterEnabled() )

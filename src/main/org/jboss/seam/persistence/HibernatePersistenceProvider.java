@@ -2,6 +2,8 @@ package org.jboss.seam.persistence;
 
 import static org.jboss.seam.annotations.Install.FRAMEWORK;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
@@ -21,6 +23,8 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.core.Expressions.ValueExpression;
+import org.jboss.seam.log.Log;
+import org.jboss.seam.log.Logging;
 
 /**
  * Support for non-standardized features of Hibernate, when
@@ -35,7 +39,53 @@ import org.jboss.seam.core.Expressions.ValueExpression;
 @Install(precedence=FRAMEWORK, classDependencies="org.hibernate.Session", genericDependencies=ManagedPersistenceContext.class)
 public class HibernatePersistenceProvider extends PersistenceProvider
 {
+   
+   private static Log log = Logging.getLog(HibernatePersistenceProvider.class);
 
+   private static Constructor FULL_TEXT_SESSION_PROXY_CONSTRUCTOR;
+   private static Method FULL_TEXT_SESSION_CONSTRUCTOR;
+   static 
+   {
+      try
+      {
+         Class searchClass = Class.forName("org.hibernate.search.Search");
+         FULL_TEXT_SESSION_CONSTRUCTOR = searchClass.getDeclaredMethod("createFullTextSession", Session.class);
+         Class fullTextSessionProxyClass = Class.forName("org.jboss.seam.persistence.FullTextHibernateSessionProxy");
+         Class fullTextSessionClass = Class.forName("org.hibernate.search.FullTextSession");
+         FULL_TEXT_SESSION_PROXY_CONSTRUCTOR = fullTextSessionProxyClass.getDeclaredConstructor(fullTextSessionClass);
+         log.debug("Hibernate Search is available :-)");
+      }
+      catch (Exception e)
+      {
+         log.debug("no Hibernate Search, sorry :-(", e);
+      }
+   }
+   
+   static Session proxySession(Session session) throws Exception
+   {
+      if (FULL_TEXT_SESSION_PROXY_CONSTRUCTOR==null)
+      {
+         return new HibernateSessionProxy(session);
+      }
+      else
+      {
+         return (Session) FULL_TEXT_SESSION_PROXY_CONSTRUCTOR.newInstance( FULL_TEXT_SESSION_CONSTRUCTOR.invoke(null, session) );
+      }
+   }
+   
+   @Override
+   public Object proxyDelegate(Object delegate)
+   {
+      try
+      {
+         return proxySession( (Session) delegate );
+      }
+      catch (Exception e)
+      {
+         throw new RuntimeException("could not proxy delegate", e);
+      }
+   }
+   
    @Override
    public void setFlushModeManual(EntityManager entityManager)
    {

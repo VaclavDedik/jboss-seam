@@ -125,5 +125,13 @@ public class PersistenceProvider
    {
       return FlushModeType.COMMIT;
    }
+   
+   /**
+    * Wrap the delegate before returning it to the application
+    */
+   public Object proxyDelegate(Object delegate)
+   {
+      return delegate;
+   }
 
 }
