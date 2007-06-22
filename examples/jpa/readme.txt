@@ -33,9 +33,10 @@ WebSphere 6.1:
   * Start the application
   * Access it at http://localhost:9080/context_root/index.html
 
-Tomcat (no embedded EJB3):
+Tomcat (the build is the same as JBoss 4.2.0 GA WAR):
   * Install Tomcat
-  * ant tomcat
+  * Install Embeddable JBoss
+  * ant 
   * Deploy build/jboss-seam-jpa.war
   * Start Tomcat
   * Access the app at http://localhost:8080/jboss-seam-jpa/

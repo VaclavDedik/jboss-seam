@@ -130,22 +130,20 @@
         <include name="jboss-seam-ui.jar" />
         <include name="jboss-seam-debug.jar" />
       </lib>
+      <!-- do not need the following for 4.0.4 and 4.0.5 
       <lib dir="${applib}">
-        <!-- do not need the following for 4.0.4 and 4.0.5 
         <include name="cglib.jar" />
-        -->
       </lib>
+      -->
+      <!--
       <lib dir="${hibernatelib}">
         <include name="*.jar" />
       </lib>
+      -->
       <lib dir="${lib}">
         <include name="jboss-el.jar" />
         <include name="jsf-facelets.jar" />
         <include name="ajax4jsf-*.jar" />
-        
-        <!-- needed by ajax4jsf -->
-        <include name="commons-digester*.jar" /> 
-        <include name="commons-beanutils*.jar" /> 
         <include name="oscache*.jar" />
         
         <!-- JSF impl -->
@@ -154,6 +152,7 @@
         <include name="jboss-el-api.jar" />
         
         <include name="commons*.jar" />
+        <include name="hibernate-all.jar" />
       </lib>
       <lib dir="${build.jars}">
         <include name="${projname}.jar" />
@@ -205,12 +204,15 @@
         <include name="jsf-facelets.jar" />
         <include name="jsf-api.jar" />
         <include name="jsf-impl.jar" />
+        <include name="hibernate-all.jar" />
         <include name="thirdparty-all.jar" />
         <include name="commons*.jar" />
       </lib>
+      <!--
       <lib dir="${hibernatelib}">
         <include name="*.jar" />
       </lib>
+      -->
       <lib dir="${build.jars}">
         <include name="${projname}.jar" />
       </lib>
@@ -263,11 +265,14 @@
         <include name="jsf-api.jar" />
         <include name="jsf-impl.jar" />
         <include name="thirdparty-all.jar" />
+        <include name="hibernate-all.jar" />
         <include name="commons*.jar" />
       </lib>
+      <!--
       <lib dir="${hibernatelib}">
         <include name="*.jar" />
       </lib>
+      -->
       <lib dir="${build.jars}">
         <include name="${projname}.jar" />
       </lib>
@@ -315,11 +320,14 @@
         <include name="oscache*.jar" />
         <include name="jsf-facelets.jar" />
         <include name="thirdparty-all.jar" />
+        <include name="hibernate-all.jar" />
         <include name="commons*.jar" />
       </lib>
+      <!--
       <lib dir="${hibernatelib}">
         <include name="*.jar" />
       </lib>
+      -->
       <lib dir="${build.jars}">
         <include name="${projname}.jar" />
       </lib>
