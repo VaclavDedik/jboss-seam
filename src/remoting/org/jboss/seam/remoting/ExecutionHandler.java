@@ -12,12 +12,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-import org.jboss.seam.contexts.ContextualHttpServletRequest;
 import org.jboss.seam.core.ConversationPropagation;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.remoting.wrapper.Wrapper;
+import org.jboss.seam.servlet.ContextualHttpServletRequest;
 
 /**
  * Unmarshals the calls from an HttpServletRequest, executes them in order and

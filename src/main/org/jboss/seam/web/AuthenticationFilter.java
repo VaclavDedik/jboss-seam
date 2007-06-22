@@ -24,7 +24,6 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Context;
-import org.jboss.seam.contexts.ContextualHttpServletRequest;
 import org.jboss.seam.contexts.SessionContext;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.security.Identity;
@@ -32,6 +31,7 @@ import org.jboss.seam.security.NotLoggedInException;
 import org.jboss.seam.security.digest.DigestRequest;
 import org.jboss.seam.security.digest.DigestUtils;
 import org.jboss.seam.security.digest.DigestValidationException;
+import org.jboss.seam.servlet.ContextualHttpServletRequest;
 import org.jboss.seam.servlet.ServletRequestSessionMap;
 import org.jboss.seam.util.Base64;
 

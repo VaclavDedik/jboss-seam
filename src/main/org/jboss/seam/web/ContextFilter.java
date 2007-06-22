@@ -17,7 +17,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
-import org.jboss.seam.contexts.ContextualHttpServletRequest;
+import org.jboss.seam.servlet.ContextualHttpServletRequest;
 
 /**
  * Manages the Seam contexts associated with a request to any servlet.

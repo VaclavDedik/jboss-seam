@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jboss.seam.contexts.ContextualHttpServletRequest;
+import org.jboss.seam.servlet.ContextualHttpServletRequest;
 import org.jboss.seam.web.Parameters;
 
 public class DocumentStoreServlet 

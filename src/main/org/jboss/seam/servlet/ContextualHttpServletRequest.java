@@ -1,15 +1,16 @@
-package org.jboss.seam.contexts;
+package org.jboss.seam.servlet;
 
 import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
+import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.core.ConversationPropagation;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
-import org.jboss.seam.servlet.ServletRequestSessionMap;
 import org.jboss.seam.web.ServletContexts;
 
 /**
