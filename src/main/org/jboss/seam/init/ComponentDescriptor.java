@@ -9,8 +9,14 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.servlet.AbstractResource;
 
-public class ComponentDescriptor 
-    implements Comparable<ComponentDescriptor>
+/**
+ * Meta-data about an EJB, discovered from a deployment
+ * descriptor.
+ * 
+ * @author Norman Richards
+ *
+ */
+public class ComponentDescriptor implements Comparable<ComponentDescriptor>
 {
     protected String name;
     protected Class<?> componentClass;

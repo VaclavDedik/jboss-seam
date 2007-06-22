@@ -18,6 +18,13 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.stat.SessionStatistics;
 
+/**
+ * Proxies the EntityManager, and implements EL interpolation
+ * in HQL
+ * 
+ * @author Gavin King
+ *
+ */
 public class HibernateSessionProxy implements Session
 {
    private Session delegate;

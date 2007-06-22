@@ -7,6 +7,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+/**
+ * Evaluates component dependencies to determine which
+ * components are installed.
+ * 
+ * @author Norman Richards
+ *
+ */
 public class DependencyManager 
 {
     private Map<String, Set<ComponentDescriptor>> componentDescriptors;

@@ -1,6 +1,13 @@
 package org.jboss.seam.intercept;
 
-public enum EventType
+/**
+ * The kinds of invocations that can be intercepted
+ * by an EJB3 interceptor.
+ * 
+ * @author Gavin King
+ *
+ */
+enum EventType
 {
    AROUND_INVOKE,
    PRE_DESTORY,

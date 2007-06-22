@@ -10,7 +10,7 @@ import java.util.Map;
  * @author Gavin King
  *
  */
-public class EJBInvocationContext implements InvocationContext, javax.interceptor.InvocationContext
+class EJBInvocationContext implements InvocationContext, javax.interceptor.InvocationContext
 {
    private javax.interceptor.InvocationContext context;
 

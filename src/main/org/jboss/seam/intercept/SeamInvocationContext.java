@@ -13,7 +13,7 @@ import org.jboss.seam.interceptors.OptimizedInterceptor;
  * 
  * @author Gavin King
  */
-public class SeamInvocationContext implements InvocationContext
+class SeamInvocationContext implements InvocationContext
 {
    
    private final EventType eventType;

@@ -8,6 +8,13 @@ import javax.persistence.FlushModeType;
 import javax.persistence.LockModeType;
 import javax.persistence.Query;
 
+/**
+ * Proxies the EntityManager, and implements EL interpolation
+ * in JPA-QL
+ * 
+ * @author Gavin King
+ *
+ */
 public class EntityManagerProxy implements EntityManager, Serializable
 {
    private EntityManager delegate;

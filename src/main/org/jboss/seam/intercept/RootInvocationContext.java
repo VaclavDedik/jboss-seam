@@ -12,7 +12,7 @@ import org.jboss.seam.util.Reflections;
  * @author Gavin King
  *
  */
-public class RootInvocationContext implements InvocationContext
+class RootInvocationContext implements InvocationContext
 {
    private final Object bean;
    private final Method method;

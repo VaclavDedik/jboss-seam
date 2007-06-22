@@ -12,6 +12,12 @@ import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.util.XML;
 
+/**
+ * Parser for ejb-jar.xml and orm.xml deployment descriptors
+ * 
+ * @author Norman Richards
+ *
+ */
 public class DeploymentDescriptor 
 { 
     private static final LogProvider log = Logging.getLogProvider(Initialization.class);
