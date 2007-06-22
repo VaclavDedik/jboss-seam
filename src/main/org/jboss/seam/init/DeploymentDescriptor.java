@@ -72,18 +72,21 @@ public class DeploymentDescriptor
             {
                 EjbDescriptor info = new EjbDescriptor();
                 info.setEjbName(bean.element("ejb-name").getTextTrim());
-                info.setEjbClassName(bean.element("ejb-class").getTextTrim());
-
-                Element sessionType = bean.element("session-type");
-                if (sessionType != null && sessionType.getTextTrim().equalsIgnoreCase("Stateful")) 
+                Element ejbClass = bean.element("ejb-class");
+                if (ejbClass != null)
                 {
-                    info.setBeanType(ComponentType.STATEFUL_SESSION_BEAN);            
-                } 
-                else 
-                {
-                    info.setBeanType(ComponentType.STATELESS_SESSION_BEAN);     
+                   info.setEjbClassName(ejbClass.getTextTrim());
+                   Element sessionType = bean.element("session-type");
+                   if (sessionType != null && sessionType.getTextTrim().equalsIgnoreCase("Stateful")) 
+                   {
+                       info.setBeanType(ComponentType.STATEFUL_SESSION_BEAN);            
+                   } 
+                   else 
+                   {
+                       info.setBeanType(ComponentType.STATELESS_SESSION_BEAN);     
+                   }
+                   add(info);
                 }
-                add(info);
             }          
             for (Element bean: (List<Element>) beans.elements("message-driven")) 
             {
