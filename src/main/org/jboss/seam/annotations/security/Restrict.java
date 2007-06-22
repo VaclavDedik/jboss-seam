@@ -23,6 +23,8 @@ public @interface Restrict
    /**
     * Restrictions may be expressed using any EL expression, and usually
     * include the use of s:hasRole(...) or s:hasPermission(..., /..).
+    * If no EL expression is explicitly specified, Seam security defaults
+    * the permission to be checked.
     * 
     * @return An EL expression that defines the restriction to be checked
     */
