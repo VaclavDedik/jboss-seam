@@ -11,6 +11,21 @@ final class Log4JProvider implements LogProvider
    private static final String LOG_IMPL_FQCN = LogImpl.class.getName();
    private static final String LOG_PROVIDER_FQCN = Log4JProvider.class.getName();
    
+   private static final Level TRACE;
+   static
+   {
+      Object trace;
+      try
+      {
+         trace = Level.class.getDeclaredField("TRACE").get(null);
+      }
+      catch (Exception e)
+      {
+         trace = Level.DEBUG;
+      }
+      TRACE = (Level) trace;
+   }
+   
    Log4JProvider(String category, boolean wrapped)
    {
       logger = Logger.getLogger(category);
@@ -84,7 +99,7 @@ final class Log4JProvider implements LogProvider
 
    public boolean isTraceEnabled()
    {
-      return logger.isEnabledFor(Level.TRACE);
+      return logger.isEnabledFor(TRACE);
    }
 
    public boolean isWarnEnabled()
@@ -94,12 +109,12 @@ final class Log4JProvider implements LogProvider
 
    public void trace(Object object)
    {
-      logger.log( getFQCN(), Level.TRACE, object, null);
+      logger.log( getFQCN(), TRACE, object, null);
    }
 
    public void trace(Object object, Throwable t)
    {
-      logger.log( getFQCN(), Level.TRACE, object, t);
+      logger.log( getFQCN(), TRACE, object, t);
    }
 
    public void warn(Object object)
