@@ -2,6 +2,8 @@
 package org.jboss.seam.persistence;
 
 import java.io.Serializable;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +12,6 @@ import javax.naming.NamingException;
 import javax.servlet.http.HttpSessionActivationListener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.transaction.Synchronization;
-import javax.transaction.SystemException;
 
 import org.hibernate.FlushMode;
 import org.hibernate.Session;
@@ -25,9 +26,9 @@ import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.core.TransactionListener;
-import org.jboss.seam.core.Mutable;
 import org.jboss.seam.core.AbstractTransactionListener;
+import org.jboss.seam.core.Mutable;
+import org.jboss.seam.core.TransactionListener;
 import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -60,6 +61,25 @@ public class ManagedHibernateSession
    
    private transient boolean synchronizationRegistered;
    
+   private static Constructor FULL_TEXT_SESSION_PROXY_CONSTRUCTOR;
+   private static Method FULL_TEXT_SESSION_CONSTRUCTOR;
+   static 
+   {
+      try
+      {
+         Class searchClass = Class.forName("org.hibernate.search.Search");
+         FULL_TEXT_SESSION_CONSTRUCTOR = searchClass.getDeclaredMethod("createFullTextSession", Session.class);
+         Class fullTextSessionProxyClass = Class.forName("org.jboss.seam.persistence.FullTextHibernateSessionProxy");
+         Class fullTextSessionClass = Class.forName("org.hibernate.search.FullTextSession");
+         FULL_TEXT_SESSION_PROXY_CONSTRUCTOR = fullTextSessionProxyClass.getDeclaredConstructor(fullTextSessionClass);
+         log.info("Hibernate Search is available :-)");
+      }
+      catch (Exception e)
+      {
+         log.info("no Hibernate Search, sorry :-(", e);
+      }
+   }
+   
    public boolean clearDirty()
    {
       return true;
@@ -77,10 +97,17 @@ public class ManagedHibernateSession
       PersistenceContexts.instance().touch(componentName);
    }
 
-   private void initSession()
+   private void initSession() throws Exception
    {
       session = getSessionFactoryFromJndiOrValueBinding().openSession();
-      session = new HibernateSessionProxy(session);
+      if (FULL_TEXT_SESSION_PROXY_CONSTRUCTOR==null)
+      {
+         session = new HibernateSessionProxy(session);
+      }
+      else
+      {
+         session = (Session) FULL_TEXT_SESSION_PROXY_CONSTRUCTOR.newInstance( FULL_TEXT_SESSION_CONSTRUCTOR.invoke(null, session) );
+      }
       setSessionFlushMode( PersistenceContexts.instance().getFlushMode() );
       for (Filter f: filters)
       {
@@ -107,7 +134,7 @@ public class ManagedHibernateSession
    }
    
    @Unwrap
-   public Session getSession() throws SystemException
+   public Session getSession() throws Exception
    {
       if (session==null) initSession();
       
