@@ -35,7 +35,7 @@ public class GraphicImageResource extends AbstractResource
    private static final String RESOURCE_PATH = "/graphicImage";
    
    @Override
-   protected String getResourcePath()
+   public String getResourcePath()
    {
       return RESOURCE_PATH;
    }

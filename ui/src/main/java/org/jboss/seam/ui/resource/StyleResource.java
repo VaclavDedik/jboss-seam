@@ -144,7 +144,7 @@ public class StyleResource extends AbstractResource
    }
 
    @Override
-   protected String getResourcePath()
+   public String getResourcePath()
    {
       return RESOURCE_PATH;
    }

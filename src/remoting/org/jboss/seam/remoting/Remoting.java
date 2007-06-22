@@ -59,7 +59,7 @@ public class Remoting extends AbstractResource
    private static final String REMOTING_RESOURCE_PATH = "resource";   
    
    @Override
-   protected String getResourcePath()
+   public String getResourcePath()
    {
       return "/remoting";
    }

@@ -29,7 +29,7 @@ public class WebResource extends AbstractResource
    private static final String RESOURCE_PATH = "/web";
    
    @Override
-   protected String getResourcePath()
+   public String getResourcePath()
    {
       return RESOURCE_PATH;
    }

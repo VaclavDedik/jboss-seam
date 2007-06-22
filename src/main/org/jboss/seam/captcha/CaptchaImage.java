@@ -68,7 +68,7 @@ public class CaptchaImage extends AbstractResource
    }
    
    @Override
-   protected String getResourcePath()
+   public String getResourcePath()
    {
       return "/captcha";
    }
