@@ -619,17 +619,21 @@ public class Initialization
       };
       
       Set<Class<Object>> scannedClasses = new HashSet<Class<Object>>();
-      for (ComponentScanner scanner: scanners) {
+      for (ComponentScanner scanner: scanners) 
+      {
           scannedClasses.addAll(scanner.getClasses());          
       }
             
-      for (Class<Object> scannedClass: scannedClasses) {
+      for (Class<Object> scannedClass: scannedClasses) 
+      {
           installScannedComponentAndRoles(scannedClass);
       }
       
-      for (ComponentScanner scanner: scanners) {
-          for (String name: scanner.getResources()) {
-              installComponentsFromDescriptor(name, scanner.getClassLoader());              
+      for (ComponentScanner scanner: scanners) 
+      {
+          for ( String name: scanner.getResources() ) 
+          {
+              installComponentsFromDescriptor( name, scanner.getClassLoader() );              
           }
       }
    }
@@ -648,19 +652,26 @@ public class Initialization
    {
       //note: this is correct, we do not need to scan other classloaders!
       InputStream stream = loader.getResourceAsStream(fileName); 
-      if (stream != null) {
-         try {
+      if (stream != null) 
+      {
+         try 
+         {
             Properties replacements = getReplacements();
             Element root = XML.getRootElement(stream);
-            if (root.getName().equals("components")) {
+            if (root.getName().equals("components")) 
+            {
                installComponentsFromXmlElements(root, replacements);
-            } else{
+            } 
+            else
+            {
                 installComponentFromXmlElement(root, 
                         root.attributeValue("name"), 
                         classFilenameFromDescriptor(fileName),
                         replacements);
             }
-         } catch (Exception e) {
+         } 
+         catch (Exception e) 
+         {
             throw new RuntimeException("error while reading " + fileName, e);
          }
       }
