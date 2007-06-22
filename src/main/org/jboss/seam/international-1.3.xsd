@@ -12,6 +12,7 @@
     </xs:element>
     <xs:attributeGroup name="attlist.localeSelector">
         <xs:attribute name="locale-string"/>
+        <xs:attribute name="cookie-max-age">
         <xs:attribute name="cookie-enabled">
             <xs:simpleType>
                 <xs:restriction base="xs:token">
@@ -30,6 +31,7 @@
     </xs:element>
     <xs:attributeGroup name="attlist.timeZoneSelector">
         <xs:attribute name="time-zone-id"/>
+        <xs:attribute name="cookie-max-age">
         <xs:attribute name="cookie-enabled">
             <xs:simpleType>
                 <xs:restriction base="xs:token">
