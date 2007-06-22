@@ -19,7 +19,8 @@
     <persistence:hibernate-session-factory name="hibernateSessionFactory"/>
     
     <persistence:managed-hibernate-session name="bookingDatabase"
-                                    auto-create="true"/>
+                                    auto-create="true"
+                      session-factory-jndi-name="bookingDatabase"/>
     
     <security:identity authenticate-method="#{authenticator.authenticate}"/>
 </components>
