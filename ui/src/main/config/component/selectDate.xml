@@ -48,5 +48,11 @@
 			<description></description>
 			<defaultvalue>-1</defaultvalue>
 		</property>
+		<property>
+		  <name>firstDayOfWeek</name>
+		  <classname>java.lang.Integer</classname>
+		  <description>Set to override the default first day of week</description>
+		  <defaultvalue>null</defaultvalue>
+		</property>
 	</component>
 </components>

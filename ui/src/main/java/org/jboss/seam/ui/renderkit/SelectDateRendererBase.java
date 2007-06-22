@@ -88,7 +88,9 @@ public class SelectDateRendererBase extends RendererBase
                .write("var CAL_MONTHS_MEDIUM = '" + commaSeparate(symbols.getShortMonths())
                         + "';\r");
       response.write("var CAL_MONTHS_LONG = '" + commaSeparate(symbols.getMonths()) + "';\r");
-      response.write("var CAL_FIRST_DAY_OF_WEEK = " + (cal.getFirstDayOfWeek() - 1) + ";\r");
+      response.write("var CAL_FIRST_DAY_OF_WEEK = " + (selectDate.getFirstDayOfWeek() != null ?
+               (selectDate.getFirstDayOfWeek().toString() + ";\r") : 
+               (cal.getFirstDayOfWeek() - 1) + ";\r"));
       response.write("var CAL_DATE_FORMAT = '" + selectDate.getDateFormat() + "';\r");
       
       if (selectDate.getStartYear() != -1 && selectDate.getEndYear() != -1)

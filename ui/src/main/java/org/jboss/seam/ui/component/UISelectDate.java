@@ -23,5 +23,9 @@ public abstract class UISelectDate extends UIComponentBase
    public abstract int getEndYear();
 
    public abstract void setEndYear(int endYear);
+   
+   public abstract Integer getFirstDayOfWeek();
+   
+   public abstract void setFirstDayOfWeek(Integer firstDayOfWeek);
 
 }
