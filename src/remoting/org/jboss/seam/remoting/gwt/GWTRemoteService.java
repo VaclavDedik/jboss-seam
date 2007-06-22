@@ -22,7 +22,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.remoting.gwt.GWTToSeamAdapter.ReturnedObject;
-import org.jboss.seam.servlet.AbstractResource;
+import org.jboss.seam.web.AbstractResource;
 
 import com.google.gwt.user.client.rpc.SerializableException;
 import com.google.gwt.user.client.rpc.SerializationException;

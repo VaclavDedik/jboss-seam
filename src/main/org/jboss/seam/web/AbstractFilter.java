@@ -54,7 +54,7 @@ public abstract class AbstractFilter implements Filter
     * @param request ServletRequest The request containing the path
     * @return boolean True if the path matches the pattern, false otherwise
     */
-   boolean matchesRequestPath(ServletRequest request)
+   public boolean isMappedToCurrentRequestPath(ServletRequest request)
    {
       if (!(request instanceof HttpServletRequest))
          return true;

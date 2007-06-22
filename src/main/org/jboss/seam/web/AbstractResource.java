@@ -1,4 +1,4 @@
-package org.jboss.seam.servlet;
+package org.jboss.seam.web;
 
 import java.io.IOException;
 
@@ -8,8 +8,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Superclass of Seam components that serve up "resources" to the client 
- * via the Seam resource servlet.
+ * Superclass of Seam components that serve up 
+ * "resources" to the client via the Seam 
+ * resource servlet. Note that since a filter is
+ * potentially called outside of a set of Seam
+ * contexts, it is not a true Seam component. 
+ * However, we are able to reuse the functionality
+ * for component scanning, installation and 
+ * configuration for filters. All resources
+ * must extend this class.
  * 
  * @author Shane Bryzak
  *
@@ -23,7 +30,7 @@ public abstract class AbstractResource
       return context;
    }
    
-   protected void setServletContext(ServletContext context)
+   public void setServletContext(ServletContext context)
    {
       this.context = context;
    }
@@ -31,5 +38,5 @@ public abstract class AbstractResource
    public abstract void getResource(HttpServletRequest request, HttpServletResponse response)
        throws ServletException, IOException;
    
-   protected abstract String getResourcePath();
+   public abstract String getResourcePath();
 }

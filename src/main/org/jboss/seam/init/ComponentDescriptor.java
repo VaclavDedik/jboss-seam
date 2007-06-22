@@ -7,7 +7,7 @@ import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.core.Init;
-import org.jboss.seam.servlet.AbstractResource;
+import org.jboss.seam.web.AbstractResource;
 
 /**
  * Meta-data about a Seam component.

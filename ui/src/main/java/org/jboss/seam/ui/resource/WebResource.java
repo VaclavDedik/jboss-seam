@@ -14,8 +14,8 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
-import org.jboss.seam.servlet.AbstractResource;
 import org.jboss.seam.util.Resources;
+import org.jboss.seam.web.AbstractResource;
 
 @Startup
 @Scope(APPLICATION)

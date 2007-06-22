@@ -22,7 +22,7 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
-import org.jboss.seam.servlet.AbstractResource;
+import org.jboss.seam.web.AbstractResource;
 
 /**
  * Serves JavaScript implementation of Seam Remoting

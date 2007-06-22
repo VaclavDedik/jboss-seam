@@ -21,8 +21,8 @@ import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.ContextualHttpServletRequest;
 import org.jboss.seam.core.Expressions;
-import org.jboss.seam.servlet.AbstractResource;
 import org.jboss.seam.util.Resources;
+import org.jboss.seam.web.AbstractResource;
 
 /**
  * Serve up stylesheets which are have been run through the EL Interpolator.
