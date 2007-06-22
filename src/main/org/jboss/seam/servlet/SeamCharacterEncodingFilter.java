@@ -10,7 +10,7 @@ import org.jboss.seam.web.CharacterEncodingFilter;
  * submitted data. There are two init parameters: "encoding" and
  * "overrideClient".
  * 
- * @deprecated
+ * @deprecated use CharacterEncodingFilter
  * @author Gavin King
  * 
  */
