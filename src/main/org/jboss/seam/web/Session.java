@@ -9,6 +9,20 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.AbstractMutable;
 
+/**
+ * Controls HttpSession invalidation in any
+ * servlet or JSF environment. Since Seam
+ * keeps internal state in the HttpSession,
+ * is is illegal to call HttpSession.invalidate()
+ * while Seam contexts are active.
+ * 
+ * Applications using Seam security should call
+ * Identity.logout() instead of calling this
+ * component directly.
+ * 
+ * @author Gavin King
+ *
+ */
 @Scope(ScopeType.SESSION)
 @Name("org.jboss.seam.web.session")
 @BypassInterceptors
@@ -19,17 +33,33 @@ public class Session extends AbstractMutable
    private boolean invalidateOnSchemeChange;
    private String currentScheme;
 
+   /**
+    * Is HttpSession invalidation scheduled
+    * for the end of this request?
+    */
    public boolean isInvalid()
    {
       return isInvalid;
    }
 
+   /**
+    * Schedule HttpSession invalidation at the
+    * end of the request.
+    *
+    */
    public void invalidate()
    {
       this.isInvalid = true;
       setDirty();
    }
    
+   /**
+    * Should we invalidate the session due to a change in
+    * the request scheme?
+    * 
+    * @param requestScheme the scheme of the current request
+    * @return true if we should invalidate the session
+    */
    public boolean isInvalidDueToNewScheme(String requestScheme)
    {
       if (invalidateOnSchemeChange)
@@ -57,11 +87,17 @@ public class Session extends AbstractMutable
       }
    }
 
+   /**
+    * Is session invalidation on scheme change enabled?
+    */
    public boolean isInvalidateOnSchemeChange()
    {
       return invalidateOnSchemeChange;
    }
 
+   /**
+    * Enable or disable session invalidation on scheme change?
+    */
    public void setInvalidateOnSchemeChange(boolean invalidateOnSchemeChange)
    {
       setDirty();

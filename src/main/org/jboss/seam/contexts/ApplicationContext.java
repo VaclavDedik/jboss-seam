@@ -11,6 +11,11 @@ import java.util.Map;
 import org.jboss.seam.ScopeType;
 
 /**
+ * Application context - state associated with a 
+ * deployment to a particular node. State is typically
+ * neither persistent across deployments, not 
+ * replicated to other nodes.
+ * 
  * @author Gavin King
  */
 public class ApplicationContext extends BasicContext 

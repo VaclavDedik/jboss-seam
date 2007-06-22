@@ -24,6 +24,18 @@ import org.jboss.seam.servlet.ServletApplicationMap;
 import org.jboss.seam.util.SortItem;
 import org.jboss.seam.util.Sorter;
 
+/**
+ * A servlet filter that orchestrates the stack of Seam
+ * component filters, and controls ordering. Filter
+ * ordering is specified via the @Filter annotation.
+ * Filters may optionally extend AbstractFilter.
+ * 
+ * @see org.jboss.seam.annotations.Filter
+ * @see AbstractFilter
+ * 
+ * @author Shane Bryzak
+ *
+ */
 public class SeamFilter implements Filter
 {
    private static final LogProvider log = Logging.getLogProvider(SeamFilter.class);   

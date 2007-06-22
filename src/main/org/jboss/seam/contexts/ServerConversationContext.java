@@ -22,7 +22,8 @@ import org.jboss.seam.core.Manager;
 
 /**
  * A conversation context is a logical context that lasts longer than 
- * a request but shorter than a login session
+ * a request but shorter than a login session. Conversation state
+ * may be passivated or replicated.
  * 
  * @author Gavin King
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>

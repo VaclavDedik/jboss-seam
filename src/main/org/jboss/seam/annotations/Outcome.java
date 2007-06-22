@@ -1,6 +1,7 @@
 //$Id$
 package org.jboss.seam.annotations;
 
+@Deprecated
 public class Outcome
 {
    /**

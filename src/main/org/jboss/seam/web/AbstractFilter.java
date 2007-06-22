@@ -7,6 +7,20 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Abstract superclass for Seam components that act
+ * as servlet filters. Note that since a filter is
+ * potentially called outside of a set of Seam
+ * contexts, it is not a true Seam component. 
+ * However, we are able to reuse the functionality
+ * for component scanning, installation and 
+ * configuration for filters. All filters must
+ * specify a @Filter annotation.
+ * 
+ * @see org.jboss.seam.annotations.Filter
+ * @author Shane Bryzak
+ *
+ */
 public abstract class AbstractFilter implements Filter
 {
    private ServletContext servletContext;

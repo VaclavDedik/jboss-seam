@@ -4,6 +4,9 @@ import javax.faces.application.Application;
 import javax.faces.application.ApplicationFactory;
 
 /**
+ * Factory for SeamApplication (how could you possibly
+ * have figured that out without JavaDoc?)
+ * 
  * @see SeamApplication
  * @author Gavin King
  *

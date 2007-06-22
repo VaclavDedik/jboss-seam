@@ -17,6 +17,12 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 
+/**
+ * A Seam filter component wrapper for the Ajax4JSF.
+ * 
+ * @author Pete Muir
+ * 
+ */
 @Scope(APPLICATION)
 @Name("org.jboss.seam.web.ajax4jsfFilter")
 @Install(precedence = BUILT_IN, classDependencies="org.ajax4jsf.Filter")

@@ -7,6 +7,14 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Init;
 
+/**
+ * Something that happens asynchronously, and with a full
+ * set of Seam contexts, including propagation of the 
+ * business process and task instances.
+ * 
+ * @author Gavin King
+ *
+ */
 public abstract class Asynchronous implements Serializable
 {
    static final long serialVersionUID = -551286304424595765L;

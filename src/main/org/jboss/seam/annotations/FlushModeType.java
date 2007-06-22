@@ -1,5 +1,13 @@
 package org.jboss.seam.annotations;
 
+/**
+ * A full set of flush modes, including MANUAL,
+ * which is a glaring missing feature of the JPA
+ * spec.
+ * 
+ * @author Gavin King
+ *
+ */
 public enum FlushModeType
 {
    

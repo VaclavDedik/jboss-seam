@@ -6,6 +6,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * A namespace for Seam component names. 
+ * 
+ * @author Gavin King
+ *
+ */
 public class Namespace extends AbstractMap<String, Object>
 {
    

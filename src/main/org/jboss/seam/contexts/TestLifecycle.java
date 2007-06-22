@@ -16,6 +16,9 @@ import org.jboss.seam.log.Logging;
 import org.jboss.seam.servlet.ServletApplicationMap;
 
 /**
+ * Methods for setup and teardown of Seam contexts at the
+ * beginning and end of a test.
+ * 
  * @author Gavin King
  */
 public class TestLifecycle

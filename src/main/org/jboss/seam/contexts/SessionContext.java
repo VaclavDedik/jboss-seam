@@ -1,9 +1,9 @@
 /*
- * JBoss, Home of Professional Open Source
- *
- * Distributable under LGPL license.
- * See terms of license at gnu.org.
- */
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.contexts;
 
 import java.util.ArrayList;
@@ -13,6 +13,9 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 
 /**
+ * Session context - state associated with a user session.
+ * Session state may be passivated or replicated.
+ * 
  * @author Gavin King
  */
 public class SessionContext extends BasicContext 

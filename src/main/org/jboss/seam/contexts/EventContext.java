@@ -11,6 +11,9 @@ import java.util.Map;
 import org.jboss.seam.ScopeType;
 
 /**
+ * Event context - spans a single request to
+ * the server.
+ * 
  * @author Gavin King
  */
 public class EventContext extends BasicContext 

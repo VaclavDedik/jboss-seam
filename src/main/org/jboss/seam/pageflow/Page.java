@@ -9,6 +9,13 @@ import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.jpdl.xml.JpdlXmlReader;
 import org.jbpm.jpdl.xml.Parsable;
 
+/**
+ * A page node in a jPDL pageflow
+ * 
+ * @author Tom Baeyens
+ * @author Gavin King
+ *
+ */
 public class Page extends Node implements Parsable 
 {
    

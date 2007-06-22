@@ -21,6 +21,9 @@ import org.jboss.seam.servlet.ServletSessionMap;
 import org.jboss.seam.web.Session;
 
 /**
+ * Methods for setup and teardown of Seam contexts at the
+ * beginning and end of servlet requests.
+ * 
  * @author Gavin King
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  */

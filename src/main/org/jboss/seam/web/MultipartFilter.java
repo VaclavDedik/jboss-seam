@@ -19,6 +19,13 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 
+/**
+ * A filter for decoding multipart requests, for
+ * use with the file upload control.
+ * 
+ * @author Shane Bryzak
+ *
+ */
 @Startup
 @Scope(APPLICATION)
 @Name("org.jboss.seam.web.multipartFilter")

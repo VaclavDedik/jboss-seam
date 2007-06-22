@@ -5,7 +5,6 @@ import java.util.concurrent.Callable;
 import javax.ejb.Local;
 import javax.ejb.Timer;
 
-
 /**
  * Local interface for TimerServiceDispatcher.
  * 

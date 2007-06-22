@@ -16,6 +16,8 @@ import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
 /**
+ * Methods for setup and teardown of Seam contexts.
+ * 
  * @author Gavin King
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  */

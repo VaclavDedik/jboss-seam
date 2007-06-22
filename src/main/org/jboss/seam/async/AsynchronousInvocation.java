@@ -6,6 +6,12 @@ import org.jboss.seam.Component;
 import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.util.Reflections;
 
+/**
+ * An asynchronous method invocation.
+ * 
+ * @author Gavin King
+ *
+ */
 public class AsynchronousInvocation extends Asynchronous
 {
    static final long serialVersionUID = 7426196491669891310L;

@@ -2,6 +2,12 @@ package org.jboss.seam.async;
 
 import org.jboss.seam.core.Events;
 
+/**
+ * An asynchronous event
+ * 
+ * @author Gavin King
+ *
+ */
 public class AsynchronousEvent extends Asynchronous
 {
    static final long serialVersionUID = 2074586442931427819L;
