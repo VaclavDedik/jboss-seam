@@ -44,5 +44,8 @@
 	<classpathentry kind="lib" path="lib/thirdparty-all.jar"/>
 	<classpathentry kind="lib" path="lib/bsh.jar"/>
 	<classpathentry kind="lib" path="lib/jsf-impl.jar"/>
+	<classpathentry kind="lib" path="lib/lucene-core-2.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/hibernate-search.jar"/>
+	<classpathentry kind="lib" path="lib/hibernate-commons-annotations.jar"/>
 	<classpathentry kind="output" path="output/classes"/>
 </classpath>
