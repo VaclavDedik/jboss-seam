@@ -3,11 +3,13 @@ package org.jboss.seam.drools;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.List;
 
 import org.drools.RuleBaseFactory;
 import org.drools.compiler.DrlParser;
 import org.drools.compiler.PackageBuilder;
 import org.drools.compiler.PackageBuilderConfiguration;
+import org.drools.compiler.ParserError;
 import org.drools.lang.descr.PackageDescr;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
@@ -15,6 +17,8 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.core.ResourceLoader;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 
 /**
  * Manager component for a Drools RuleBase
@@ -26,6 +30,8 @@ import org.jboss.seam.core.ResourceLoader;
 @BypassInterceptors
 public class RuleBase
 {
+   private static final LogProvider log = Logging.getLogProvider(RuleBase.class);
+   
    private String[] ruleFiles;
    private String dslFile;
    private org.drools.RuleBase ruleBase;
@@ -41,6 +47,7 @@ public class RuleBase
       {
          for (String ruleFile: ruleFiles)
          {
+            log.info("parsing rules: " + ruleFile);
             InputStream stream = ResourceLoader.instance().getResourceAsStream(ruleFile);
             if (stream==null)
             {
@@ -49,14 +56,23 @@ public class RuleBase
             // read in the source
             Reader drlReader = new InputStreamReader(stream);
             PackageDescr packageDescr;
+            DrlParser drlParser = new DrlParser();
             if (dslFile==null)
             {
-               packageDescr = new DrlParser().parse(drlReader);
+               packageDescr = drlParser.parse(drlReader);
             }
             else
             {
                Reader dslReader = new InputStreamReader( ResourceLoader.instance().getResourceAsStream(dslFile) );
-               packageDescr = new DrlParser().parse(drlReader, dslReader);
+               packageDescr = drlParser.parse(drlReader, dslReader);
+            }
+            if ( drlParser.hasErrors() )
+            {
+               log.error("errors parsing rules in: " + ruleFile);
+               for ( ParserError error: (List<ParserError>) drlParser.getErrors() )
+               {
+                  log.error( error.getMessage() + " (" + ruleFile + ':' + error.getRow() + ')' );
+               }
             }
             // pre build the package
             builder.addPackage(packageDescr);
