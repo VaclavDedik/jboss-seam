@@ -22,6 +22,7 @@
 <!ENTITY jms                    SYSTEM "modules/jms.xml">
 <!ENTITY cache                  SYSTEM "modules/cache.xml">
 <!ENTITY remoting               SYSTEM "modules/remoting.xml">
+<!ENTITY gwt                    SYSTEM "modules/gwt.xml">
 <!ENTITY spring                 SYSTEM "modules/spring.xml">
 <!ENTITY configuration          SYSTEM "modules/configuration.xml">
 <!ENTITY annotations            SYSTEM "modules/annotations.xml">
@@ -274,6 +275,7 @@
     &jms;
     &cache;
     &remoting;
+    &gwt;
     &spring;
     &configuration;
     &annotations;
@@ -282,5 +284,6 @@
     &elenhancements;
     &testing;
     &tools;
+    &dependencies;
 </book>
 
