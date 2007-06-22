@@ -782,6 +782,13 @@
                   <literal>endYear</literal> &#8212; The popup year selector range will end at this year.
                 </para>
               </listitem>
+              <listitem>
+                <para>
+                  <literal>firstDayOfWeek</literal> &#8212; Controls which day is the first day of the week 
+                  (0 = Sunday, 6 = Saturday).  If this attribute is not set, then the first day of the week will
+                  default based on the user's locale.
+                </para>
+              </listitem>
             </itemizedlist>
 
             <para><emphasis>Usage</emphasis></para>
