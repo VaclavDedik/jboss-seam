@@ -29,14 +29,13 @@ import org.jboss.seam.el.EL;
 /**
  * @author Gavin King
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
- * @version $Revision$
  */
 public class MockFacesContext extends FacesContext
 {
 
    private UIViewRoot viewRoot;// = new UIViewRoot();
 
-   private Map<FacesMessage, String> messages = new HashMap<FacesMessage, String>();
+   private final Map<FacesMessage, String> messages = new HashMap<FacesMessage, String>();
 
    private ExternalContext externalContext;
 
@@ -107,12 +106,19 @@ public class MockFacesContext extends FacesContext
       List list = new ArrayList();
       for (Map.Entry<FacesMessage, String> entry : messages.entrySet())
       {
-         if (clientId.equals(entry.getValue()))
+         String messageId = entry.getValue();
+         if ( idsAreEqual(clientId, messageId) )
          {
             list.add(entry.getKey());
          }
       }
       return list.iterator();
+   }
+
+   private boolean idsAreEqual(String clientId, String messageId)
+   {
+      return (clientId==null && messageId==null) || 
+            (clientId!=null && clientId.equals(messageId));
    }
 
    @Override
