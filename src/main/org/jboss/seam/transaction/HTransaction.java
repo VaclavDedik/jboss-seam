@@ -4,22 +4,22 @@ import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
+import javax.transaction.Status;
 import javax.transaction.SystemException;
 
 /**
- * Wraps JTA transaction management in a
+ * Wraps Hibernate transaction management in a
  * UserTransaction interface.
  * 
- * @author Mike Youngstrom
  * @author Gavin King
  * 
  */
-public class UTTransaction extends UserTransaction
+class HTransaction extends UserTransaction
 {
    
-   private javax.transaction.UserTransaction delegate;
+   private org.hibernate.Transaction delegate;
 
-   UTTransaction(javax.transaction.UserTransaction delegate)
+   HTransaction(org.hibernate.Transaction delegate)
    {
       this.delegate = delegate;
    }
@@ -37,7 +37,7 @@ public class UTTransaction extends UserTransaction
 
    public int getStatus() throws SystemException
    {
-      return delegate.getStatus();
+      return delegate.isActive() ? Status.STATUS_ACTIVE : Status.STATUS_NO_TRANSACTION;
    }
 
    public void rollback() throws IllegalStateException, SecurityException, SystemException
@@ -47,12 +47,12 @@ public class UTTransaction extends UserTransaction
 
    public void setRollbackOnly() throws IllegalStateException, SystemException
    {
-      delegate.setRollbackOnly();
+      delegate.rollback();
    }
 
    public void setTransactionTimeout(int timeout) throws SystemException
    {
-      delegate.setTransactionTimeout(timeout);
+      throw new UnsupportedOperationException();
    }
 
 }
