@@ -22,9 +22,16 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.search.annotations.DocumentId;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
+
 
 @Entity
 @Table(name="PRODUCTS")
+@Indexed
 public class Product
     implements Serializable
 {
@@ -41,6 +48,7 @@ public class Product
 
     @Id @GeneratedValue
     @Column(name="PROD_ID")
+    @DocumentId
     public long getProductId() {
         return productId;
     }                    
@@ -49,6 +57,7 @@ public class Product
     }     
 
     @Column(name="ASIN", length=16)
+    @Field(index=Index.UN_TOKENIZED)
     public String getASIN() {
         return asin;
     }
@@ -69,6 +78,7 @@ public class Product
     @JoinTable(name="PRODUCT_ACTORS",
                joinColumns=@JoinColumn(name="PROD_ID"),
                inverseJoinColumns=@JoinColumn(name="ACTOR_ID"))
+    @IndexedEmbedded
     public List<Actor> getActors() {
         return actors;
     }
@@ -89,6 +99,7 @@ public class Product
     }
     
     @Column(name="TITLE",nullable=false,length=100)
+    @Field(index=Index.TOKENIZED)
     public String getTitle() {
         return title;
     }

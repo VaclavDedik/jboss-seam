@@ -16,10 +16,15 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.search.annotations.DocumentId;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Indexed;
 
 @Entity
 @Table(name="CATEGORIES")
 @Cache(usage=CacheConcurrencyStrategy.READ_ONLY)
+@Indexed
 public class Category
     implements Serializable
 {
@@ -28,6 +33,7 @@ public class Category
 
     @Id @GeneratedValue
     @Column(name="CATEGORY")
+    @DocumentId
     public int getCategoryId() {
         return id;
     }
@@ -36,6 +42,7 @@ public class Category
     }
 
     @Column(name="NAME",nullable=false,unique=true,length=50)
+    @Field(index = Index.TOKENIZED)
     public String getName() {
         return name;
     }

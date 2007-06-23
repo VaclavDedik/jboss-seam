@@ -533,6 +533,13 @@ h3 {
 }
     
 
+.logo {
+	text-align: center;
+}
+
+.logo img {
+	width: 120px;
+}
 
 .productinfo {
    

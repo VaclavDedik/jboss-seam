@@ -7,21 +7,25 @@
 <dl>
 	<dt class="menuHeader">#{messages.browseSearchHeader}</dt>
 	<dd class="menuForm"><h:form>
-		<dl>
-			<dt><h:outputText value="#{messages.searchTitle}" /></dt>
-			<dd><h:inputText value="#{search.title}" size="15" /></dd>
+        <dl>
+           <dt class="logo">
+               <h:graphicImage value="img/JBossLogo1CG.png"/>
+           </dt>
+           
+           <ui:remove>
+           <dt><h:outputText value="#{messages.searchCategory}"/></dt>
+           <dd>
+               <h:selectOneMenu value="#{search.category}">
+                   <s:convertEntity />
+                   <s:selectItems value="#{allCategories.resultList}" 
+                                    var="category"
+                                  label="#{category.name}"/>
+               </h:selectOneMenu>
+           </dd>
+           </ui:remove>
 
-			<dt><h:outputText value="#{messages.searchActor}" /></dt>
-			<dd><h:inputText value="#{search.actor}" size="15" /></dd>
+           <dd><h:inputText value="#{search.searchQuery}" size="15" /></dd>
 
-			<dt><h:outputText value="#{messages.searchCategory}" /></dt>
-			<dd><h:selectOneMenu value="#{search.category}">
-				<s:convertEntity />
-				<ui:remove> <f:selectItem itemLabel="Any" itemValue="#{anyCategory}" /></ui:remove>
-				<s:selectItems value="#{allCategories.resultList}" var="category"				
-				               label="#{category.name}"
-				               noSelectionLabel="ANY" />
-			</h:selectOneMenu></dd>
 			<dt><h:outputText value="#{messages.searchPageSize}" /></dt>
 			<dd><h:selectOneMenu value="#{search.pageSize}">
 				<f:selectItem itemLabel="10" itemValue="10" />

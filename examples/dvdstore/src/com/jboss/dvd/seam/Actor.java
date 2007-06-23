@@ -14,8 +14,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.search.annotations.DocumentId;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Indexed;
+
 @Entity
 @Table(name="ACTORS")
+@Indexed
 public class Actor
     implements Serializable
 {
@@ -24,6 +30,7 @@ public class Actor
 
     @Id @GeneratedValue
     @Column(name="ID")
+    @DocumentId
     public long getId() {
         return id;
     }                    
@@ -32,6 +39,7 @@ public class Actor
     }     
 
     @Column(name="NAME", length=50)
+    @Field(index = Index.TOKENIZED)
     public String getName() {
         return name;
     }

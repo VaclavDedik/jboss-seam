@@ -18,7 +18,7 @@
     </module>
     
     <module>
-        <java>jboss-seam.jar</java>
+        <ejb>jboss-seam.jar</ejb>
     </module>
 
     <module>
@@ -27,6 +27,18 @@
     
     <module>
         <java>jboss-el.jar</java>
+    </module>
+    
+    <module>
+        <java>lucene-core-2.1.0.jar</java>
+    </module>
+    
+    <module>
+        <java>hibernate-search.jar</java>
+    </module>
+    
+    <module>
+        <java>hibernate-commons-annotations.jar</java>
     </module>
     
 </application>

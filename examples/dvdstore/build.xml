@@ -13,6 +13,7 @@
     <property name="example.seam.debug.lib"  value="yes"/>
     <property name="example.facelets.lib"    value="yes"/>
     <property name="example.jbpm.lib"        value="yes"/>
+	<property name="example.search.lib"      value="yes"/>
     <property name="example.ds"              value="dvd-ds.xml"/>
     <property name="src.java.dir"            value="src"/>
     <property name="src.test.dir"            value="src"/>
