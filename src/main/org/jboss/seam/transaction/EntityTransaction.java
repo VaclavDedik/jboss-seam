@@ -172,7 +172,7 @@ public class EntityTransaction extends UserTransaction
       return entityManager;
    }
 
-   public void setSession(ValueExpression<EntityManager> entityManager)
+   public void setEntityManager(ValueExpression<EntityManager> entityManager)
    {
       this.entityManager = entityManager;
    }
