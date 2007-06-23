@@ -227,7 +227,7 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzTriggerHandle, Sc
       
    }
    
-   static class QuartzJob implements Job
+   public static class QuartzJob implements Job
    {
       private Asynchronous async;
       
