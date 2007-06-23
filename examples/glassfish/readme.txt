@@ -19,6 +19,6 @@
 
 8. Deploy the "enterprise application" in the admin console: The app is located at SEAM_HOME/examples/glassfish/build/jboss-seam-glassfish.ear
 
-9. Checout the app at: http://localhost:8080/jboss-seam-glassfish/
+9. Checkout the app at: http://localhost:8080/jboss-seam-glassfish/
 
 10. Use the admin console to undeploy the app and stop server
