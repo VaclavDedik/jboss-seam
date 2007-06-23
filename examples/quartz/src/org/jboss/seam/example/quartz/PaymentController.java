@@ -8,7 +8,7 @@ import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.log.Log;
-import org.jboss.seam.core.QuartzDispatcher.QuartzTriggerHandle;
+import org.jboss.seam.async.QuartzTriggerHandle;
 
 import java.util.Date;
 

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import org.jboss.seam.core.QuartzDispatcher.QuartzTriggerHandle;
+import org.jboss.seam.async.QuartzTriggerHandle;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;

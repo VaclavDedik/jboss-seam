@@ -16,7 +16,7 @@ import org.jboss.seam.annotations.timer.FinalExpiration;
 import org.jboss.seam.annotations.timer.IntervalDuration;
 import org.jboss.seam.annotations.timer.IntervalCron;
 import org.jboss.seam.log.Log;
-import org.jboss.seam.core.QuartzDispatcher.QuartzTriggerHandle;
+import org.jboss.seam.async.QuartzTriggerHandle;
 
 
 @Name("processor")
