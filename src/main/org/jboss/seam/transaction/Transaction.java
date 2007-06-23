@@ -33,7 +33,7 @@ import org.jboss.seam.util.Naming;
  * 
  */
 @Name("org.jboss.seam.transaction.transaction")
-@Scope(ScopeType.STATELESS)
+@Scope(ScopeType.EVENT)
 @Install(precedence=BUILT_IN)
 @BypassInterceptors
 public class Transaction
@@ -55,7 +55,7 @@ public class Transaction
    
    public static UserTransaction instance()
    {
-      return (UserTransaction) Component.getInstance(Transaction.class, ScopeType.STATELESS);
+      return (UserTransaction) Component.getInstance(Transaction.class, ScopeType.EVENT);
    }
    
    @Unwrap

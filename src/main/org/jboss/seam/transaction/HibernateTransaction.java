@@ -2,50 +2,164 @@ package org.jboss.seam.transaction;
 
 import static org.jboss.seam.annotations.Install.FRAMEWORK;
 
-import javax.naming.NamingException;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.Status;
+import javax.transaction.SystemException;
 
 import org.hibernate.Session;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.core.Expressions.ValueExpression;
 
 /**
- * Support for Hibernate Transaction API
+ * Support for the Hibernate Transaction API.
+ * 
+ * Adapts Hibernate transaction management to a
+ * UserTransaction interface.
  * 
  * @author Gavin King
  * 
  */
 @Name("org.jboss.seam.transaction.transaction")
-@Scope(ScopeType.STATELESS)
+@Scope(ScopeType.EVENT)
 @Install(value=false, precedence=FRAMEWORK)
 @BypassInterceptors
-public class HibernateTransaction extends Transaction
+public class HibernateTransaction extends UserTransaction
 {
 
    private ValueExpression<Session> session;
+   private Session currentSession;
+   private boolean rollbackOnly; //Hibernate Transaction doesn't have a "rollback only" state
    
-   @Unwrap
-   @Override
-   public UserTransaction getTransaction() throws NamingException
+   private org.hibernate.Transaction getDelegate()
    {
-      Session s = session.getValue();
-      if ( s==null )
+      if (currentSession==null)
       {
-         return createNoTransaction();
+         //should never occur
+         throw new IllegalStateException("session is null");
       }
-      else
+      return currentSession.getTransaction();
+   }
+
+   private void initSession()
+   {
+      currentSession = session.getValue();
+      if (currentSession==null)
       {
-         return createHTransaction(s);
+         throw new IllegalStateException("session was null: " + session.getExpressionString());
       }
    }
 
-   protected UserTransaction createHTransaction(Session session)
+   public void begin() throws NotSupportedException, SystemException
    {
-      return new HTransaction( session.getTransaction() );
+      assertNotActive();
+      initSession();
+      try
+      {
+         getDelegate().begin();
+      }
+      catch (RuntimeException re)
+      {
+         clearSession();
+         throw re;
+      }
+   }
+
+   public void commit() throws RollbackException, HeuristicMixedException,
+            HeuristicRollbackException, SecurityException, IllegalStateException, SystemException
+   {
+      assertActive();
+      try
+      {
+         if (rollbackOnly)
+         {
+            getDelegate().rollback();
+            throw new RollbackException();
+         }
+         else
+         {
+            getDelegate().commit();
+         }
+      }
+      finally
+      {
+         clearSession();
+      }
+   }
+
+   public int getStatus() throws SystemException
+   {
+      if (rollbackOnly)
+      {
+         return Status.STATUS_MARKED_ROLLBACK;
+      }
+      else if ( isSessionSet() && getDelegate().isActive() )
+      {
+         return Status.STATUS_ACTIVE;
+      }
+      else
+      {
+         return Status.STATUS_NO_TRANSACTION;
+      }
+   }
+
+   public void rollback() throws IllegalStateException, SecurityException, SystemException
+   {
+      //TODO: translate exceptions that occur into the correct JTA exception
+      assertActive();
+      try
+      {
+         getDelegate().rollback();
+      }
+      finally
+      {
+         clearSession();
+      }
+   }
+
+   public void setRollbackOnly() throws IllegalStateException, SystemException
+   {
+      assertActive();
+      rollbackOnly = true;
+   }
+
+   public void setTransactionTimeout(int timeout) throws SystemException
+   {
+      assertActive();
+      getDelegate().setTimeout(timeout);
+   }
+   
+   private boolean isSessionSet()
+   {
+      return currentSession!=null;
+   }
+   
+   private void clearSession()
+   {
+      currentSession = null;
+   }
+
+   private void assertActive()
+   {
+      if ( !isSessionSet() )
+      {
+         throw new IllegalStateException("transaction is not active");
+      }
+   }
+
+   private void assertNotActive() throws NotSupportedException
+   {
+      //TODO: translate exceptions that occur into the correct JTA exception
+      if ( isSessionSet() )
+      {
+         throw new NotSupportedException("transaction is already active");
+      }
    }
 
    public ValueExpression<Session> getSession()
