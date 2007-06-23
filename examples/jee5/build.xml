@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="JEE5 Booking" basedir=".">
+
+	<description>JEE5 Booking</description>
+	<property name="projname" value="jboss-seam-jee5" />
+
+	<property name="seam.home" value="../../" />
+
+	<property file="../../build.properties" />
+
+	<property name="lib" location="../../lib" />
+	<property name="seamlib" location="../../" />
+	<property name="hibernatelib" location="../../hibernate/lib" />
+	<path id="lib.classpath">
+		<fileset dir="${lib}" includes="*.jar" />
+		<fileset dir="${seamlib}" includes="*.jar" />
+	</path>
+
+	<property name="resources" location="resources" />
+
+	<property name="src" location="src" />
+	<property name="view" location="view" />
+
+	<property name="build.classes" location="build/classes" />
+	<property name="build.jars" location="build/" />
+
+	<target name="clean" description="Clean up the build files">
+		<delete dir="build" />
+	</target>
+
+	<target name="glassfish" depends="ejb3-glassfish,war-glassfish,ear" description="Build the ear for glassfish" />
+
+	<target name="oc4j" depends="ejb3-oc4j,war-oc4j,ear-oc4j" description="Build the ear for OC4J" />
+
+	<target name="glassfish-toplink" depends="ejb3-toplink,war-glassfish,ear" description="Build the ear for glassfish, using TopLink as the JPA provider" />
+
+	<target name="compile">
+		<mkdir dir="${build.classes}" />
+		<javac destdir="${build.classes}" classpathref="lib.classpath" debug="true">
+			<src path="${src}" />
+		</javac>
+	</target>
+
+	<target name="ejb3-glassfish" depends="compile">
+		<mkdir dir="${build.jars}" />
+
+		<jar destfile="${build.jars}/${projname}.jar">
+			<fileset dir="${build.classes}">
+				<include name="**/*.class" />
+			</fileset>
+			<fileset dir="${resources}">
+				<include name="seam.properties" />
+				<include name="log4j.xml" />
+				<include name="import.sql" />
+			</fileset>
+			<metainf dir="${resources}/META-INF/">
+				<include name="ejb-jar.xml" />
+			</metainf>
+			<metainf dir="${resources}/glassfish">
+				<include name="persistence.xml" />
+			</metainf>
+		</jar>
+	</target>
+
+	<target name="ejb3-oc4j" depends="compile">
+		<mkdir dir="${build.jars}" />
+
+		<jar destfile="${build.jars}/${projname}.jar">
+			<fileset dir="${build.classes}">
+				<include name="**/*.class" />
+			</fileset>
+			<fileset dir="${resources}">
+				<include name="seam.properties" />
+				<include name="log4j.xml" />
+				<include name="import.sql" />
+			</fileset>
+			<metainf dir="${resources}/META-INF/">
+				<include name="ejb-jar.xml" />
+			</metainf>
+			<metainf dir="${resources}/oc4j">
+				<include name="persistence.xml" />
+			</metainf>
+		</jar>
+	</target>
+
+	<target name="ejb3-toplink" depends="compile">
+		<mkdir dir="${build.jars}" />
+
+		<jar destfile="${build.jars}/${projname}.jar">
+			<fileset dir="${build.classes}">
+				<include name="**/*.class" />
+			</fileset>
+			<fileset dir="${resources}">
+				<include name="seam.properties" />
+				<include name="import.sql" />
+			</fileset>
+			<metainf dir="${resources}/META-INF/">
+				<include name="ejb-jar.xml" />
+			</metainf>
+			<metainf dir="${resources}/toplink/">
+				<include name="persistence.xml" />
+			</metainf>
+		</jar>
+	</target>
+
+	<target name="war-glassfish" depends="compile">
+		<mkdir dir="${build.jars}" />
+
+		<war destfile="${build.jars}/${projname}.war" webxml="${resources}/WEB-INF/web.xml">
+			<webinf dir="${resources}/WEB-INF/">
+				<include name="faces-config.xml" />
+				<include name="pages.xml" />
+				<include name="components.xml" />
+			</webinf>
+			<lib dir="${lib}">
+				<include name="jsf-facelets.jar" />
+				<include name="ajax4jsf*.jar" />
+				<include name="oscache*.jar" />
+			</lib>
+			<lib dir="${seamlib}">
+				<include name="jboss-seam-ui.jar" />
+				<include name="jboss-seam-debug.jar" />
+			</lib>
+			<fileset dir="${view}" />
+		</war>
+	</target>
+
+	<target name="war-oc4j" depends="compile">
+		<mkdir dir="${build.jars}" />
+
+		<war destfile="${build.jars}/${projname}.war" webxml="${resources}/oc4j/web.xml">
+			<webinf dir="${resources}/WEB-INF/">
+				<include name="faces-config.xml" />
+				<include name="pages.xml" />
+				<include name="components.xml" />
+			</webinf>
+			<lib dir="${lib}">
+				<include name="jsf-facelets.jar" />
+				<include name="ajax4jsf*.jar" />
+				<include name="oscache*.jar" />
+			</lib>
+			<lib dir="${seamlib}">
+				<include name="jboss-seam-ui.jar" />
+				<include name="jboss-seam-debug.jar" />
+			</lib>
+			<fileset dir="${view}" />
+		</war>
+	</target>
+
+	<target name="ear">
+		<mkdir dir="${build.jars}" />
+		<mkdir dir="${build.jars}/lib" />
+
+		<copy todir="${build.jars}/lib">
+			<fileset dir="${lib}">
+				<include name="thirdparty-all.jar" />
+				<include name="commons-digester-*.jar" />
+				<include name="commons-beanutils-*.jar" />
+				<include name="jboss-el.jar" />
+				
+			</fileset>
+			<fileset dir="${hibernatelib}">
+				<include name="hibernate*.jar" />
+				<include name="jboss-common.jar" />
+			</fileset>
+		</copy>
+		<ear destfile="${build.jars}/${projname}.ear" appxml="${resources}/META-INF/application.xml">
+			<fileset dir="${seamlib}">
+				<include name="jboss-seam.jar" />
+			</fileset>
+			<fileset dir="${build.jars}">
+				<include name="${projname}.jar" />
+				<include name="${projname}.war" />
+				<include name="lib/*.jar" />
+			</fileset>
+		</ear>
+	</target>
+	
+	<target name="ear-oc4j">
+			<mkdir dir="${build.jars}" />
+			<mkdir dir="${build.jars}/lib" />
+
+			<copy todir="${build.jars}/lib">
+				<fileset dir="${lib}">
+					<include name="thirdparty-all.jar" />
+					<include name="commons-digester-*.jar" />
+					<include name="commons-beanutils-*.jar" />
+					<include name="jboss-el.jar" />
+					<include name="antlr-*.jar"/>
+					<include name="jbpm-*.jar"/>
+				</fileset>
+				<fileset dir="${hibernatelib}">
+					<include name="hibernate*.jar" />
+					<include name="jboss-common.jar" />
+				</fileset>
+				
+			</copy>
+			<ear destfile="${build.jars}/${projname}.ear" appxml="${resources}/META-INF/application.xml">
+				<fileset dir="${build.jars}">
+					<include name="${projname}.jar" />
+					<include name="${projname}.war" />
+					<include name="lib/*.jar" />
+				</fileset>
+				<fileset dir="${seamlib}">
+					<include name="jboss-seam.jar" />
+				</fileset>
+				<metainf dir="${resources}/oc4j">
+					<!--<include name="orion-application.xml"/>-->
+				</metainf>
+			</ear>
+		</target>
+
+</project>

@@ -8,17 +8,14 @@
     
     <module>
         <web>
-            <web-uri>jboss-seam-glassfish.war</web-uri>
-            <context-root>/jboss-seam-glassfish</context-root>
+            <web-uri>jboss-seam-jee5.war</web-uri>
+            <context-root>/seam-jee5</context-root>
         </web>
     </module>
     <module>
-        <ejb>jboss-seam-glassfish.jar</ejb>
+        <ejb>jboss-seam-jee5.jar</ejb>
     </module>
     <module>
         <ejb>jboss-seam.jar</ejb>
-    </module>
-    <module>
-        <java>jboss-el.jar</java>
     </module>
 </application>

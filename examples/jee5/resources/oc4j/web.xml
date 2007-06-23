@@ -73,52 +73,51 @@
     <listener-class>com.sun.faces.config.ConfigureListener</listener-class>    
   </listener>        
   
-  <!-- Glassfish EJB3 names -->
-  <ejb-local-ref>              
-    <ejb-ref-name>jboss-seam-glassfish/AuthenticatorAction/local</ejb-ref-name>           
+  <!-- OC4J EJB3 names -->
+  <ejb-local-ref>
+    <ejb-ref-name>jboss-seam-jee5/AuthenticatorAction/local</ejb-ref-name>           
     <ejb-ref-type>Session</ejb-ref-type>
-    <local-home/>
     <local>org.jboss.seam.example.booking.Authenticator</local>               
-    <ejb-link>AuthenticatorAction</ejb-link>        
+    <ejb-link>AuthenticatorAction</ejb-link>       
   </ejb-local-ref>	  
   
   <ejb-local-ref>       
-    <ejb-ref-name>jboss-seam-glassfish/BookingListAction/local</ejb-ref-name>       
+    <ejb-ref-name>jboss-seam-jee5/BookingListAction/local</ejb-ref-name>       
     <ejb-ref-type>Session</ejb-ref-type>       
     <local>org.jboss.seam.example.booking.BookingList</local>       
     <ejb-link>BookingListAction</ejb-link>    
   </ejb-local-ref>    
   
   <ejb-local-ref>       
-    <ejb-ref-name>jboss-seam-glassfish/RegisterAction/local</ejb-ref-name>       
+    <ejb-ref-name>jboss-seam-jee5/RegisterAction/local</ejb-ref-name>       
     <ejb-ref-type>Session</ejb-ref-type>       
     <local>org.jboss.seam.example.booking.Register</local>       
     <ejb-link>RegisterAction</ejb-link>    
   </ejb-local-ref>    
   
   <ejb-local-ref>       
-    <ejb-ref-name>jboss-seam-glassfish/ChangePasswordAction/local</ejb-ref-name>       
+    <ejb-ref-name>jboss-seam-jee5/ChangePasswordAction/local</ejb-ref-name>       
     <ejb-ref-type>Session</ejb-ref-type>       
     <local>org.jboss.seam.example.booking.ChangePassword</local>       
     <ejb-link>ChangePasswordAction</ejb-link>    
   </ejb-local-ref>    
   
   <ejb-local-ref>       
-    <ejb-ref-name>jboss-seam-glassfish/HotelBookingAction/local</ejb-ref-name>       
+    <ejb-ref-name>jboss-seam-jee5/HotelBookingAction/local</ejb-ref-name>       
     <ejb-ref-type>Session</ejb-ref-type>       
     <local>org.jboss.seam.example.booking.HotelBooking</local>       
     <ejb-link>HotelBookingAction</ejb-link>    
   </ejb-local-ref>    
   
   <ejb-local-ref>       
-    <ejb-ref-name>jboss-seam-glassfish/HotelSearchingAction/local</ejb-ref-name>       
+    <ejb-ref-name>jboss-seam-jee5/HotelSearchingAction/local</ejb-ref-name>       
     <ejb-ref-type>Session</ejb-ref-type>       
     <local>org.jboss.seam.example.booking.HotelSearching</local>       
     <ejb-link>HotelSearchingAction</ejb-link>    
   </ejb-local-ref>    
     
   <ejb-local-ref>       
-    <ejb-ref-name>jboss-seam-glassfish/EjbTransactionListener/local</ejb-ref-name>       
+    <ejb-ref-name>jboss-seam-jee5/EjbTransactionListener/local</ejb-ref-name>       
     <ejb-ref-type>Session</ejb-ref-type>       
     <local>org.jboss.seam.core.LocalTransactionListener</local>       
     <ejb-link>EjbTransactionListener</ejb-link>    

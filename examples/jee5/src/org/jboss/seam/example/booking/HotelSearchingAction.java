@@ -1,6 +1,7 @@
 //$Id$
 package org.jboss.seam.example.booking;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.Remove;
@@ -20,7 +21,7 @@ import org.jboss.seam.annotations.Factory;
 @Name("hotelSearch")
 @Scope(ScopeType.SESSION)
 // @LoggedIn
-public class HotelSearchingAction implements HotelSearching
+public class HotelSearchingAction implements HotelSearching, Serializable
 {
    
    @PersistenceContext

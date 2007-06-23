@@ -3,6 +3,7 @@ package org.jboss.seam.example.booking;
 
 import static org.jboss.seam.ScopeType.EVENT;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.Remove;
@@ -19,7 +20,7 @@ import org.jboss.seam.faces.FacesMessages;
 @Stateful
 @Scope(EVENT)
 @Name("register")
-public class RegisterAction implements Register
+public class RegisterAction implements Register, Serializable
 {
 
    @In

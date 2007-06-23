@@ -970,7 +970,7 @@
 				<include name="hibernate/**/*" />
 				<include name="hibernate2/**/*" />
 				<include name="jpa/**/*" />
-				<include name="glassfish/**/*" />
+				<include name="jee5/**/*" />
 				<include name="blog/**/*" />
 				<include name="contactlist/**/*" />
 				<include name="registration/**/*" />

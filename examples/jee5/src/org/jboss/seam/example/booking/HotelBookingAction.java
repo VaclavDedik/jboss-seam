@@ -4,6 +4,7 @@ package org.jboss.seam.example.booking;
 import static javax.persistence.PersistenceContextType.EXTENDED;
 import static org.jboss.seam.ScopeType.SESSION;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
 
@@ -26,7 +27,7 @@ import org.jboss.seam.log.Log;
 @Stateful
 @Name("hotelBooking")
 // @LoggedIn
-public class HotelBookingAction implements HotelBooking
+public class HotelBookingAction implements HotelBooking, Serializable
 {
    
    @PersistenceContext(type=EXTENDED)

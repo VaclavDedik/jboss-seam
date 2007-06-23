@@ -8,7 +8,7 @@
                  http://jboss.com/products/seam/security http://jboss.com/products/seam/security-1.3.xsd
                  http://jboss.com/products/seam/components http://jboss.com/products/seam/components-1.3.xsd">
 
-    <core:init jndi-pattern="java:comp/env/jboss-seam-glassfish/#{ejbName}/local" debug="true"/>    
+    <core:init jndi-pattern="java:comp/env/jboss-seam-jee5/#{ejbName}/local" debug="true"/>    
 
     <core:ejb-transaction-listener/>
 
@@ -16,5 +16,6 @@
                   concurrent-request-timeout="500"
                   conversation-id-parameter="cid"/>
                   
-    <security:identity authenticate-method="#{authenticator.authenticate}"/>                  
+    <security:identity authenticate-method="#{authenticator.authenticate}"/>
+    
 </components>

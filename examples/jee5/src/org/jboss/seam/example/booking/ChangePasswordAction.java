@@ -3,6 +3,8 @@ package org.jboss.seam.example.booking;
 
 import static org.jboss.seam.ScopeType.EVENT;
 
+import java.io.Serializable;
+
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
@@ -19,7 +21,7 @@ import org.jboss.seam.faces.FacesMessages;
 @Scope(EVENT)
 @Name("changePassword")
 // @LoggedIn
-public class ChangePasswordAction implements ChangePassword
+public class ChangePasswordAction implements ChangePassword, Serializable
 {
 
    @In @Out

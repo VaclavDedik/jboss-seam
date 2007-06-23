@@ -2,6 +2,7 @@ package org.jboss.seam.example.booking;
 
 import static org.jboss.seam.ScopeType.SESSION;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -13,7 +14,7 @@ import org.jboss.seam.annotations.Out;
 
 @Stateless
 @Name("authenticator")
-public class AuthenticatorAction implements Authenticator
+public class AuthenticatorAction implements Authenticator, Serializable
 {
    @PersistenceContext EntityManager em;
    

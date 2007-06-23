@@ -35,7 +35,7 @@ Tests
   - jpa
   - hibernate2
 * Sanity check the folowing example applications on GlassFish
-  - glassfish
+  - jee5
   - jpa
   - hibernate2
   
@@ -125,7 +125,7 @@ booking
 contactlist
 drools
 dvdstore
-glassfish
+jee5
 groovybooking
 hibernate
 hibernate2
