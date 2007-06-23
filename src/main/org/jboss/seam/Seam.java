@@ -256,6 +256,7 @@ public class Seam
          return true;
       }
    }
+   
    /**
     * Mark the session for invalidation at the end of the 
     * request cycle
