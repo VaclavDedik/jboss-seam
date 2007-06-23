@@ -6,11 +6,9 @@ import java.io.Reader;
 import java.util.List;
 
 import org.drools.RuleBaseFactory;
-import org.drools.compiler.DrlParser;
 import org.drools.compiler.PackageBuilder;
 import org.drools.compiler.PackageBuilderConfiguration;
 import org.drools.compiler.ParserError;
-import org.drools.lang.descr.PackageDescr;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Scope;
@@ -55,27 +53,25 @@ public class RuleBase
             }
             // read in the source
             Reader drlReader = new InputStreamReader(stream);
-            PackageDescr packageDescr;
-            DrlParser drlParser = new DrlParser();
+                                  
             if (dslFile==null)
             {
-               packageDescr = drlParser.parse(drlReader);
+               builder.addPackageFromDrl(drlReader);               
             }
             else
             {
                Reader dslReader = new InputStreamReader( ResourceLoader.instance().getResourceAsStream(dslFile) );
-               packageDescr = drlParser.parse(drlReader, dslReader);
+               builder.addPackageFromDrl(drlReader, dslReader);
             }
-            if ( drlParser.hasErrors() )
+            
+            if ( builder.hasErrors() )
             {
                log.error("errors parsing rules in: " + ruleFile);
-               for ( ParserError error: (List<ParserError>) drlParser.getErrors() )
+               for ( ParserError error: (List<ParserError>) builder.getErrors() )
                {
                   log.error( error.getMessage() + " (" + ruleFile + ':' + error.getRow() + ')' );
                }
             }
-            // pre build the package
-            builder.addPackage(packageDescr);
          }
       }
       
