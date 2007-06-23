@@ -14,8 +14,8 @@ hibernate/            The Seam Booking demo ported to Hibernate3
 icefaces/             The Seam Booking demo with ICEfaces, instead of 
                       Ajax4JSF
 
-glassfish/            The Seam Booking demo ported to the Java EE 5
-                      reference implementation
+jee5/            	  The Seam Booking demo ported to the Java EE 5 
+                      platforms
 
 dvdstore/             The Seam DVD Store demo demonstrating jBPM 
                       support in Seam
