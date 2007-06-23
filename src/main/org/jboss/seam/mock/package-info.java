@@ -2,7 +2,7 @@
  * An integration test harness for Seam applications and
  * Seam components, with built-in support for TestNG.
  * 
- * @see SeamTest 
- * @see BaseSeamTest 
+ * @see org.jboss.seam.mock.SeamTest 
+ * @see org.jboss.seam.mock.BaseSeamTest 
  */
 package org.jboss.seam.mock;
