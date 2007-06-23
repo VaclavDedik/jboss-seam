@@ -14,12 +14,14 @@ import javax.naming.NamingException;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
-public final class Naming {
+public final class Naming 
+{
    
     private static final LogProvider log = Logging.getLogProvider(Naming.class);
     private static Hashtable initialContextProperties;
 
-    public static InitialContext getInitialContext(Hashtable<String, String> props) throws NamingException {
+    public static InitialContext getInitialContext(Hashtable<String, String> props) throws NamingException 
+    {
        
         if (props==null)
         {
@@ -43,17 +45,20 @@ public final class Naming {
         
     }
     
-    public static InitialContext getInitialContext() throws NamingException {
+    public static InitialContext getInitialContext() throws NamingException 
+    {
        return getInitialContext(initialContextProperties);
     }
 
     private Naming() {}
     
-    public static void setInitialContextProperties(Hashtable initialContextProperties) {
+    public static void setInitialContextProperties(Hashtable initialContextProperties) 
+    {
        Naming.initialContextProperties = initialContextProperties;
     }
 
-    public static Hashtable getInitialContextProperties() {
+    public static Hashtable getInitialContextProperties() 
+    {
        return initialContextProperties;
     }
 

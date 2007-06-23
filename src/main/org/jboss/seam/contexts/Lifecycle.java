@@ -196,7 +196,7 @@ public class Lifecycle
          Contexts.destroy(tempEventContext);
          Contexts.eventContext.set(null);
       }
-       Contexts.sessionContext.set(oldSessionContext); //replace the one from sessionCreated() with the one from JSF, or null
+      Contexts.sessionContext.set(oldSessionContext); //replace the one from sessionCreated() with the one from JSF, or null
       if ( !applicationContextActive ) 
       {
          Contexts.applicationContext.set(null);
