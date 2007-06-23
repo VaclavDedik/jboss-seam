@@ -161,6 +161,12 @@ public class HibernateTransaction extends UserTransaction
          throw new NotSupportedException("transaction is already active");
       }
    }
+   
+   @Override
+   public boolean isConversationContextRequired()
+   {
+      return true;
+   }
 
    public ValueExpression<Session> getSession()
    {

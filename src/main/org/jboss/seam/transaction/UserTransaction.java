@@ -54,5 +54,10 @@ public abstract class UserTransaction implements javax.transaction.UserTransacti
    {
       return getStatus() == STATUS_COMMITTED;
    }
+   
+   public boolean isConversationContextRequired()
+   {
+      return false;
+   }
 
 }

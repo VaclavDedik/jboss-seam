@@ -41,7 +41,7 @@ public class EntityTransaction extends UserTransaction
       if (currentEntityManager==null)
       {
          //should never occur
-         throw new IllegalStateException("session is null");
+         throw new IllegalStateException("entity manager is null");
       }
       return currentEntityManager.getTransaction();
    }
@@ -51,7 +51,7 @@ public class EntityTransaction extends UserTransaction
       currentEntityManager = entityManager.getValue();
       if (currentEntityManager==null)
       {
-         throw new IllegalStateException("session was null: " + entityManager.getExpressionString());
+         throw new IllegalStateException("entity manager was null: " + entityManager.getExpressionString());
       }
    }
 
@@ -159,6 +159,12 @@ public class EntityTransaction extends UserTransaction
       {
          throw new NotSupportedException("transaction is already active");
       }
+   }
+
+   @Override
+   public boolean isConversationContextRequired()
+   {
+      return true;
    }
 
    public ValueExpression<EntityManager> getEntityManager()
