@@ -304,7 +304,7 @@ public class Seam
    public static String getVersion()
    {
       Package pkg = Seam.class.getPackage();
-      return (pkg != null ? pkg.getImplementationVersion() : null);      
+      return pkg != null ? pkg.getImplementationVersion() : null;      
    }
    
    public static void clearComponentNameCache()
