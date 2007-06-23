@@ -16,4 +16,5 @@
             <interceptor-class>org.jboss.seam.ejb.SeamInterceptor</interceptor-class>
         </interceptor-binding>
     </assembly-descriptor>
+    
 </ejb-jar>
