@@ -174,7 +174,8 @@ public class FullTextSearchAction
       boostPerField.put( "title", 4f );
       boostPerField.put( "description", 2f );
       boostPerField.put( "actors.name", 2f );
-      String[] productFields = {"title", "description", "actors.name"};
+      boostPerField.put( "categories.name", 0.5f );
+      String[] productFields = {"title", "description", "actors.name", "categories.name"};
       QueryParser parser = new MultiFieldQueryParser(productFields, new StandardAnalyzer(), boostPerField);
       parser.setAllowLeadingWildcard(true);
       org.apache.lucene.search.Query luceneQuery;

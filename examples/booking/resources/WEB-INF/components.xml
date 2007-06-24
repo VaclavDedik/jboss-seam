@@ -2,9 +2,11 @@
 <components xmlns="http://jboss.com/products/seam/components"
             xmlns:core="http://jboss.com/products/seam/core"
             xmlns:security="http://jboss.com/products/seam/security"
+            xmlns:transaction="http://jboss.com/products/seam/transaction"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation=
                 "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-1.3.xsd
+                 http://jboss.com/products/seam/transaction http://jboss.com/products/seam/transaction-1.3.xsd
                  http://jboss.com/products/seam/security http://jboss.com/products/seam/security-1.3.xsd
                  http://jboss.com/products/seam/components http://jboss.com/products/seam/components-1.3.xsd">
 
@@ -14,7 +16,7 @@
                   concurrent-request-timeout="500"
                   conversation-id-parameter="cid"/>
 
-    <core:ejb-transaction-listener/>
+    <transaction:ejb-transaction/>
 
     <security:identity authenticate-method="#{authenticator.authenticate}"/>
 
