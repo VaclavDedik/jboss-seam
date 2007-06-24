@@ -21,6 +21,7 @@
 <!ENTITY mail                   SYSTEM "modules/mail.xml">
 <!ENTITY jms                    SYSTEM "modules/jms.xml">
 <!ENTITY cache                  SYSTEM "modules/cache.xml">
+<!ENTITY webservices            SYSTEM "modules/webservices.xml">
 <!ENTITY remoting               SYSTEM "modules/remoting.xml">
 <!ENTITY gwt                    SYSTEM "modules/gwt.xml">
 <!ENTITY spring                 SYSTEM "modules/spring.xml">
@@ -274,6 +275,7 @@
     &mail;
     &jms;
     &cache;
+    &webservices;    
     &remoting;
     &gwt;
     &spring;
