@@ -20,5 +20,15 @@
     <property name="test.classpath"          value="test.eejb.classpath"/>
 	
     <import file="../../build.xml"/>
+	
+	<fileset id="example.validate.resources" dir="${example.resources.dir}">
+		<include name="META-INF/application.xml" />
+		<include name="META-INF/ejb-jar.xml" />
+		<include name="META-INF/persistence.xml" />
+		<include name="META-INF/jboss-app.xml" />
+		<include name="WEB-INF/faces-config.xml"/>
+		<include name="WEB-INF/web.xml"/>
+		<include name="hibernate.cfg.xml"/>
+	</fileset>
     
 </project>

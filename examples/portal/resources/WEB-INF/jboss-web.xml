@@ -1,8 +1,12 @@
+  <!DOCTYPE jboss-web PUBLIC
+    "-//JBoss//DTD Web Application 4.2//EN"
+    "http://www.jboss.org/j2ee/dtd/jboss-web_4_2.dtd">
+
 <jboss-web>
-   <context-root>seam-portal</context-root>
    <class-loading> 
       <loader-repository> 
       seam.jboss.org:loader=seam-portal
       </loader-repository> 
    </class-loading>
+   <context-root>seam-portal</context-root>
 </jboss-web> 

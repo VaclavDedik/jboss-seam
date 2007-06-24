@@ -248,6 +248,25 @@
 		<include name="*.xsd" />
 		<include name="*.drl" />
 	</zipfileset>
+	
+	<fileset id="example.validate.resources" dir="${example.resources.dir}">
+		<include name="META-INF/application.xml" />
+		<include name="META-INF/ejb-jar.xml" />
+		<include name="META-INF/persistence.xml" />
+		<include name="META-INF/jboss-app.xml" />
+		<include name="META-INF/orm.xml" />
+		<!-- Don't enable for now, as there is no way to tell it to use an alternative schema -->
+		<!--<include name="WEB-INF/components.xml"/>-->
+		<!--<include name="WEB-INF/pages.xml"/>-->
+		<include name="WEB-INF/faces-config.xml"/>
+		<include name="WEB-INF/web.xml"/>
+		<include name="WEB-INF/jboss-web.xml"/>
+		<include name="${example.ds}"/>
+		<include name="hibernate.cfg.xml"/>
+		<!-- Don't enable for now, as there is no way to tell it to use an alternative schema -->
+		<!--<include name="*.jpdl.xml"/>-->
+		<!--<exclude name=".gpd.*.jpdl.xml"/>-->
+	</fileset>
 
 	<fileset id="example.deploy" dir="${example.resources.dir}">
 		<include name="${example.ds}" />
@@ -743,7 +762,7 @@
 		<echo>Report available at ${basedir}/report/index.html</echo>
 	</target>
 
-	<target name="testexample" depends="compile" description="Run the example tests">
+	<target name="testexample" depends="compile, validate.xml" description="Run the example tests">
 
 		<taskdef resource="testngtasks" classpath="${testng.jar}" />
 
@@ -1348,5 +1367,37 @@
 		<delete file="${tomcat.home}/webapps/${example.name}.war" />
 		<delete dir="${tomcat.home}/webapps/${example.name}" />
 	</target>
+	
+	<pathconvert dirsep="/" property="components.xsd.file">
+		<path>
+		   	<pathelement location="${imported.basedir}/src/main/org/jboss/seam/components-${version}.xsd"/>
+		</path>
+	</pathconvert>
+	
+	<pathconvert dirsep="/" property="core.xsd.file">
+			<path>
+			   	<pathelement location="${imported.basedir}/src/main/org/jboss/seam/core-${version}.xsd"/>
+			</path>
+		</pathconvert>
+	
+	<presetdef name="xmlvalidate.xsd">
+		<xmlvalidate>
+			  <attribute name="http://xml.org/sax/features/validation" value="true"/>
+			  <attribute name="http://apache.org/xml/features/validation/schema"  value="true"/>
+			  <attribute name="http://xml.org/sax/features/namespaces" value="true"/>
+		</xmlvalidate>
+	</presetdef>
+	
+	<target name="validate.xml">
+		<xmlvalidate.xsd>
+			<fileset refid="example.validate.resources"/>
+		</xmlvalidate.xsd>
+	</target>
+	
+	
+	
+	<xmlcatalog>
+		
+</xmlcatalog>
 
 </project>
