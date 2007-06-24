@@ -1393,11 +1393,5 @@
 			<fileset refid="example.validate.resources"/>
 		</xmlvalidate.xsd>
 	</target>
-	
-	
-	
-	<xmlcatalog>
-		
-</xmlcatalog>
 
 </project>
