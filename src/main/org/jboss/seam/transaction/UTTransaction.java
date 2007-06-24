@@ -52,11 +52,6 @@ public class UTTransaction extends AbstractUserTransaction
       }
    }
 
-   public int getStatus() throws SystemException
-   {
-      return delegate.getStatus();
-   }
-
    public void rollback() throws IllegalStateException, SecurityException, SystemException
    {
       try
@@ -67,6 +62,11 @@ public class UTTransaction extends AbstractUserTransaction
       {
          parent.afterRollback();
       }
+   }
+
+   public int getStatus() throws SystemException
+   {
+      return delegate.getStatus();
    }
 
    public void setRollbackOnly() throws IllegalStateException, SystemException

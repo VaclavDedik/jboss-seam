@@ -193,6 +193,21 @@ public class ManagedPersistenceContext
    
    private void close()
    {
+      boolean transactionActive = false;
+      try
+      {
+         transactionActive = Transaction.instance().isActive();
+      }
+      catch (SystemException se)
+      {
+         log.debug("could not get transaction status while destroying persistence context");
+      }
+      
+      if ( transactionActive )
+      {
+         throw new IllegalStateException("attempting to destroy the persistence context while an active transaction exists (try installing <transaction:ejb-transaction/>)");
+      }
+      
       if ( log.isDebugEnabled() )
       {
          log.debug("destroying seam managed persistence context for persistence unit: " + persistenceUnitJndiName);

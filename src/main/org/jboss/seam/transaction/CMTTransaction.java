@@ -8,14 +8,14 @@ import javax.transaction.RollbackException;
 import javax.transaction.Status;
 import javax.transaction.Synchronization;
 import javax.transaction.SystemException;
+import javax.transaction.UserTransaction;
 
 /**
  * Wraps EJBContext transaction management in a
  * UserTransaction interface. Note that container managed
- * transaction cannot be controlled by the application,
- * so begin(), commit() and rollback() all throw
- * UnsupportOperationException.
- * 
+ * transactions cannot be controlled by the application,
+ * so begin(), commit() and rollback() are disallowed in
+ * a CMT.
  * 
  * @author Mike Youngstrom
  * @author Gavin King
@@ -39,13 +39,37 @@ public class CMTTransaction extends AbstractUserTransaction
 
    public void begin() throws NotSupportedException, SystemException
    {
-      throw new UnsupportedOperationException("container managed transaction");
+      ejbContext.getUserTransaction().begin();
    }
 
    public void commit() throws RollbackException, HeuristicMixedException,
             HeuristicRollbackException, SecurityException, IllegalStateException, SystemException
    {
-      throw new UnsupportedOperationException("container managed transaction");
+      UserTransaction userTransaction = ejbContext.getUserTransaction();
+      boolean success = false;
+      parent.beforeCommit();
+      try
+      {
+         userTransaction.commit();
+         success = true;
+      }
+      finally
+      {
+         parent.afterCommit(success);
+      }
+   }
+
+   public void rollback() throws IllegalStateException, SecurityException, SystemException
+   {
+      UserTransaction userTransaction = ejbContext.getUserTransaction();
+      try
+      {
+         userTransaction.rollback();
+      }
+      finally
+      {
+         parent.afterRollback();
+      }
    }
 
    public int getStatus() throws SystemException
@@ -63,13 +87,8 @@ public class CMTTransaction extends AbstractUserTransaction
       }
       catch (IllegalStateException ise)
       {
-         return Status.STATUS_NO_TRANSACTION;
+         return ejbContext.getUserTransaction().getStatus();
       }
-   }
-
-   public void rollback() throws IllegalStateException, SecurityException, SystemException
-   {
-      throw new UnsupportedOperationException("container managed transaction");
    }
 
    public void setRollbackOnly() throws IllegalStateException, SystemException
@@ -79,7 +98,7 @@ public class CMTTransaction extends AbstractUserTransaction
 
    public void setTransactionTimeout(int timeout) throws SystemException
    {
-      throw new UnsupportedOperationException("container managed transaction");
+      ejbContext.getUserTransaction().setTransactionTimeout(timeout);
    }
    
    @Override
