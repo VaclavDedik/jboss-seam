@@ -13,11 +13,14 @@ import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPHandler;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
-import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.contexts.ServletLifecycle;
+import org.jboss.seam.core.ConversationPropagation;
+import org.jboss.seam.core.Manager;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.servlet.ServletRequestSessionMap;
+import org.jboss.seam.web.ServletContexts;
 
 /**
  * A SOAP request handler for controling Seam's lifecycle and managing
@@ -28,12 +31,7 @@ import org.jboss.seam.log.Logging;
 public class SOAPRequestHandler implements SOAPHandler
 {
    /**
-    * The MessageContext is stored in event scope under this key
-    */
-   public static final String MESSAGE_CONTEXT = "org.jboss.seam.ws.messageContext";
-   
-   /**
-    * The QName for the conversation ID element
+    * The QName of the conversation ID element in the SOAP request header
     */
    public static final QName CIDQN = new QName("http://www.jboss.org/seam/ws", "conversationId", "seam");
    
@@ -71,12 +69,14 @@ public class SOAPRequestHandler implements SOAPHandler
       {
          HttpServletRequest request = (HttpServletRequest) messageContext.get(MessageContext.SERVLET_REQUEST);      
          ServletLifecycle.beginRequest(request);
-         Contexts.getEventContext().set(MESSAGE_CONTEXT, messageContext);
-         
+
+         ServletContexts.instance().setRequest(request);
+                 
          String conversationId = extractConversationId(messageContext);
+         ConversationPropagation.instance().setConversationId( conversationId );
+         Manager.instance().restoreConversation();
          
-         // put the clientid in the message context
-         messageContext.put("conversationId", conversationId);
+         ServletLifecycle.resumeConversation(request);             
    
          return true;
       }
@@ -86,11 +86,52 @@ public class SOAPRequestHandler implements SOAPHandler
          return false;
       }
    }
+
+   /**
+    * Sets the conversation ID in the outbound SOAP message.
+    * 
+    * @param messageContext The message context
+    * @return boolean true if processing should continue
+    */
+   public boolean handleOutbound(MessageContext messageContext)
+   {
+      try
+      {                
+         HttpServletRequest request = (HttpServletRequest) messageContext.get(MessageContext.SERVLET_REQUEST);
+         
+         String conversationId = Manager.instance().getCurrentConversationId();
+         if (conversationId != null)
+         {
+            SOAPMessageContext smc = (SOAPMessageContext) messageContext;
+            
+            SOAPElement element = smc.getMessage().getSOAPHeader().addChildElement(CIDQN);
+            element.addTextNode(conversationId);
+            
+            smc.getMessage().saveChanges();            
+         }
+         
+         Manager.instance().endRequest( new ServletRequestSessionMap(request) );
+         
+         return true;
+      }
+      catch (SOAPException ex)
+      {
+         log.error("Exception processing outbound message", ex);
+         return false;
+      }
+   }
    
-   private String extractConversationId(MessageContext msgContext)
+   /**
+    * Extracts the conversation ID from an incoming SOAP message
+    * 
+    * @param messageContext
+    * @return The conversation ID, or null if there is no conversation ID set
+    * @throws SOAPException
+    */
+   private String extractConversationId(MessageContext messageContext)
       throws SOAPException
    {
-      SOAPMessageContext smc = (SOAPMessageContext) msgContext;
+      SOAPMessageContext smc = (SOAPMessageContext) messageContext;
       SOAPHeader header = smc.getMessage().getSOAPHeader();
       
       Iterator iter = header.getChildElements(CIDQN);
@@ -104,32 +145,7 @@ public class SOAPRequestHandler implements SOAPHandler
          return null;
       }
    }
-
-   /**
-    * Our outbound message handler.  This is where we set the outbound conversation ID
-    * 
-    * @param msgContext The message context
-    * @return boolean true if processing should continue
-    */
-   public boolean handleOutbound(MessageContext msgContext)
-   {
-      try
-      {                
-         SOAPMessageContext smc = (SOAPMessageContext) msgContext;
-         
-         SOAPElement element = smc.getMessage().getSOAPHeader().addChildElement(CIDQN);
-         element.addTextNode(msgContext.get("org.jboss.seam.conversationId").toString());
-         
-         smc.getMessage().saveChanges();
-      }
-      catch (SOAPException ex)
-      {
-         throw new IllegalStateException("Cannot handle response", ex);
-      }
-
-      return true;
-   }
-
+   
    /**
     * Called just prior to dispatching a message, fault or exception. The 
     * Seam request lifecycle is ended here
