@@ -8,7 +8,7 @@ import javax.faces.model.ListDataModel;
 import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
 
-import com.jboss.dvd.seam.Search;
+import com.jboss.dvd.seam.FullTextSearch;
 
 public class SearchTest 
     extends SeamTest
@@ -19,11 +19,12 @@ public class SearchTest
     {
         
         new FacesRequest() {
-            Search search;
+           FullTextSearch search;
             @Override
             protected void updateModelValues()
             {
-                search = (Search) getInstance("search");
+                search = (FullTextSearch) getInstance("search");
+                search.setSearchQuery("king");
             }
             @Override
             protected void invokeApplication()
@@ -35,7 +36,7 @@ public class SearchTest
             protected void renderResponse()
             {
                 ListDataModel model = (ListDataModel) lookup("searchResults");
-                assertEquals("page size", 15, model.getRowCount());
+                assertEquals("page size", 4, model.getRowCount());
                 assertTrue("in conversation", isLongRunningConversation());
             }               
         }.run();
