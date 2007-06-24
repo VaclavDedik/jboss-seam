@@ -7,11 +7,9 @@ import javax.jws.WebMethod;
 import javax.jws.WebService;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.annotations.Name;
 import org.jboss.seam.security.Identity;
 
 @Stateless
-@Name("auctionService")
 @WebService(name = "AuctionService", serviceName = "AuctionService")
 public class AuctionService implements AuctionServiceRemote
 {           
