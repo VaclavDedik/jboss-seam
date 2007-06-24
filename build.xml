@@ -762,7 +762,7 @@
 		<echo>Report available at ${basedir}/report/index.html</echo>
 	</target>
 
-	<target name="testexample" depends="compile, validate.xml" description="Run the example tests">
+	<target name="testexample" depends="compile" description="Run the example tests">
 
 		<taskdef resource="testngtasks" classpath="${testng.jar}" />
 
