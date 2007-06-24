@@ -19,7 +19,7 @@ import org.jboss.seam.core.Manager;
 import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.servlet.ServletRequestSessionMap;
 import org.jboss.seam.web.ServletContexts;
-import org.jboss.seam.ws.SeamWSRequestHandler;
+import org.jboss.seam.webservice.SOAPRequestHandler;
 
 /**
  * Implements conversation management for web services.
@@ -34,10 +34,10 @@ public class WebServiceInterceptor extends AbstractInterceptor
    @AroundInvoke
    public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
-      if (Contexts.isEventContextActive() && Contexts.getEventContext().isSet(SeamWSRequestHandler.MESSAGE_CONTEXT))
+      if (Contexts.isEventContextActive() && Contexts.getEventContext().isSet(SOAPRequestHandler.MESSAGE_CONTEXT))
       {
          MessageContext messageContext = (MessageContext) Contexts.getEventContext().get(
-                  SeamWSRequestHandler.MESSAGE_CONTEXT);
+                  SOAPRequestHandler.MESSAGE_CONTEXT);
          HttpServletRequest request = (HttpServletRequest) messageContext.get(
                   MessageContext.SERVLET_REQUEST);
          ServletContexts.instance().setRequest(request);
