@@ -33,7 +33,7 @@ public class SOAPRequestHandler implements SOAPHandler
    /**
     * The QName of the conversation ID element in the SOAP request header
     */
-   public static final QName CIDQN = new QName("http://www.jboss.org/seam/ws", "conversationId", "seam");
+   public static final QName CIDQN = new QName("http://www.jboss.org/seam/webservice", "conversationId", "seam");
    
    private static final LogProvider log = Logging.getLogProvider(SOAPRequestHandler.class);   
    
