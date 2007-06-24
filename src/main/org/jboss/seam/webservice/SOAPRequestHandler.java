@@ -21,6 +21,7 @@ import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.servlet.ServletRequestSessionMap;
 import org.jboss.seam.web.ServletContexts;
+import org.w3c.dom.NodeList;
 
 /**
  * A SOAP request handler for controling Seam's lifecycle and managing
@@ -138,7 +139,7 @@ public class SOAPRequestHandler implements SOAPHandler
       if (iter.hasNext())
       {
          SOAPElement element = (SOAPElement) iter.next();
-         return element.getTextContent();
+         return element.getFirstChild().getNodeValue();
       }
       else
       {

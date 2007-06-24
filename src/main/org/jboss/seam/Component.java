@@ -112,7 +112,6 @@ import org.jboss.seam.interceptors.SecurityInterceptor;
 import org.jboss.seam.interceptors.SynchronizationInterceptor;
 import org.jboss.seam.interceptors.TransactionInterceptor;
 import org.jboss.seam.interceptors.ValidationInterceptor;
-import org.jboss.seam.interceptors.WebServiceInterceptor;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.util.Conversions;
@@ -951,10 +950,6 @@ public class Component extends Model
       if ( beanClassHasAnnotation(Restrict.class) )
       {
         addInterceptor( new Interceptor( new SecurityInterceptor(), this ) );
-      }
-      if ( beanClassHasAnnotation("javax.jws.WebService"))
-      {
-         addInterceptor( new Interceptor( new WebServiceInterceptor(), this ) );
       }
    }
 
