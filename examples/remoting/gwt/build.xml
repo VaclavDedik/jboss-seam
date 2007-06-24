@@ -10,7 +10,7 @@
 	<property name="example.webinf.lib.dir"    value="."/>
 	<property name="example.seam.remoting.lib" value="yes"/>
 	<property name="example.gwt.lib"           value="yes"/>
-	<property name="example.facelets.lib"      value="yes"/>	
+	<property name="example.facelets.lib"      value="no"/>	
   <property name="src.java.dir"              value="src"/>
   <property name="src.test.dir"              value="src"/>
   <property name="test.classpath"            value="test.eejb.classpath"/>
