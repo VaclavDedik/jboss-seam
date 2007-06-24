@@ -3,14 +3,18 @@ package org.jboss.seam.navigation;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import javax.el.ELContext;
+import javax.el.ELException;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
+import org.hibernate.validator.InvalidValue;
+import org.jboss.seam.core.Validators;
 import org.jboss.seam.core.Expressions.ValueExpression;
-import org.jboss.seam.faces.FacesExpressions;
+import org.jboss.seam.faces.FacesMessages;
 
 /**
  * Metadata for a &lt;param/&gt; in pages.xml
@@ -201,10 +205,37 @@ public final class Param
       
       if (valueExpression!=null)
       {
-         FacesExpressions.instance().validate( valueExpression.getExpressionString(), value );
+         //TODO: note that this code is duplicated from ModelValidator!!
+         ELContext elContext = facesContext.getELContext();
+         InvalidValue[] invalidValues;
+         try
+         {
+            invalidValues = Validators.instance().validate( valueExpression.toUnifiedValueExpression(), elContext, value );
+         }
+         catch (ELException ele)
+         {
+            Throwable cause = ele.getCause();
+            if (cause==null) cause = ele;
+            throw new ValidatorException( createMessage(cause), cause );
+         }
+         
+         if ( invalidValues.length>0 )
+         {
+            throw new ValidatorException( createMessage(invalidValues) );
+         }
       }
       
       return value;
+   }
+
+   private FacesMessage createMessage(InvalidValue[] invalidValues)
+   {
+      return FacesMessages.createFacesMessage( FacesMessage.SEVERITY_ERROR, invalidValues[0].getMessage() );
+   }
+
+   private FacesMessage createMessage(Throwable cause)
+   {
+      return new FacesMessage(FacesMessage.SEVERITY_ERROR, "model validation failed:" + cause, null);
    }
 
    private void addRequiredMessage(FacesContext facesContext)

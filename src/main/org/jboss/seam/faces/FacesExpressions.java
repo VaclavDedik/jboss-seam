@@ -5,11 +5,8 @@ import static org.jboss.seam.annotations.Install.FRAMEWORK;
 import static org.jboss.seam.el.EL.EL_CONTEXT;
 
 import javax.el.ELContext;
-import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.validator.ValidatorException;
 
-import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
@@ -40,41 +37,10 @@ public class FacesExpressions extends Expressions
       return facesContext==null ? EL_CONTEXT : facesContext.getELContext();
    }
    
-   /**
-    * Validate that a value can be assigned to the property
-    * identified by a value expression.
-    * 
-    * @param propertyExpression a value expression
-    * @param value the value that is to be assigned
-    * 
-    * @throws ValidatorException is validation fails
-    */
-   public void validate(String propertyExpression, Object value)
-   {
-      InvalidValue[] ivs;
-      try
-      {
-         ivs = getInvalidValues(propertyExpression, value );
-      }
-      catch (Exception e)
-      {
-         throw new ValidatorException( new FacesMessage(FacesMessage.SEVERITY_ERROR, "model validation failed:" + e.getMessage(), null), e );
-      }
-      if ( ivs.length>0 )
-      {
-         throw new ValidatorException( FacesMessages.createFacesMessage( FacesMessage.SEVERITY_ERROR, ivs[0].getMessage() ) );
-      }
-   }
-   
    @Override
    protected boolean isFacesContextActive()
    { 
       return FacesContext.getCurrentInstance()==null; 
-   }
-   
-   public static FacesExpressions instance()
-   {
-      return (FacesExpressions) Expressions.instance();
    }
    
 }

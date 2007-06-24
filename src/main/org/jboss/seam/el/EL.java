@@ -1,5 +1,7 @@
 package org.jboss.seam.el;
 
+import java.util.Locale;
+
 import javax.el.ArrayELResolver;
 import javax.el.BeanELResolver;
 import javax.el.CompositeELResolver;
@@ -62,6 +64,71 @@ public class EL
          public VariableMapper getVariableMapper()
          {
             return new VariableMapperImpl();
+         }
+         
+      };
+   }
+   
+   public static ELContext createELContext(final ELContext context, final ELResolver resolver)
+   {
+      return new ELContext()
+      {
+
+         @Override
+         public Locale getLocale()
+         {
+            return context.getLocale();
+         }
+         
+         @Override
+         public void setPropertyResolved(boolean value)
+         {
+            super.setPropertyResolved(value);
+            context.setPropertyResolved(value);
+         }
+         
+         /*@Override
+         public boolean isPropertyResolved()
+         {
+            return super.isPropertyResolved();
+         }*/
+         
+         @Override
+         public void putContext(Class clazz, Object object)
+         {
+            super.putContext(clazz, object);
+            context.putContext(clazz, object);
+         }
+         
+         @Override
+         public Object getContext(Class clazz)
+         {
+            return context.getContext(clazz);
+         }
+         
+         @Override
+         public void setLocale(Locale locale)
+         {
+            super.setLocale(locale);
+            context.setLocale(locale);
+         }
+         
+         @Override
+         public ELResolver getELResolver()
+         {
+            return resolver;
+         }
+
+         @Override
+         public FunctionMapper getFunctionMapper()
+         {
+            return context.getFunctionMapper();
+         }
+
+         @Override
+         public VariableMapper getVariableMapper()
+         {
+            return context.getVariableMapper();
          }
          
       };

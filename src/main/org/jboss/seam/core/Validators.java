@@ -2,19 +2,30 @@ package org.jboss.seam.core;
 
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
+import java.beans.FeatureDescriptor;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+
+import javax.el.ELContext;
+import javax.el.ELException;
+import javax.el.ELResolver;
+import javax.el.PropertyNotFoundException;
+import javax.el.PropertyNotWritableException;
+import javax.el.ValueExpression;
 
 import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.el.EL;
 
 /**
  * Caches instances of Hibernate Validator ClassValidator
@@ -53,6 +64,7 @@ public class Validators
    }
 
    //TODO: should use weak references here...
+   //TODO: use Model.forClass(...) instead!!
    private Map<Key, ClassValidator> classValidators = Collections.synchronizedMap( new HashMap<Key, ClassValidator>() ); 
    
    /**
@@ -64,6 +76,7 @@ public class Validators
    public <T> ClassValidator<T> getValidator(Class<T> modelClass, String name)
    {
       Key key = new Key( modelClass, ResourceBundle.instance().getLocale() );
+      //TODO: use Model.forClass(...) instead!!
       ClassValidator result = classValidators.get(key);
       if (result==null)
       {
@@ -108,40 +121,85 @@ public class Validators
    }
 
    /**
-    * Validate that a value can be assigned to the property
-    * identified by a value expression.
-    * @param propertyExpression a value expression
-    * @param value the value that is to be assigned
+    * Validate that the given value can be assigned to the property given by the value
+    * expression.
     * 
-    * @return the validation failures, as InvalidValues
+    * @param valueExpression a value expression, referring to a property
+    * @param elContext the ELContext in which to evaluate the expression
+    * @param value a value to be assigned to the property
+    * @return a set of potential InvalidValues, from Hibernate Validator
     */
-   public InvalidValue[] validate(String propertyExpression, Object value)
+   public InvalidValue[] validate(ValueExpression valueExpression, ELContext elContext, Object value)
    {
-      int dot = propertyExpression.lastIndexOf('.');
-      int bracket = propertyExpression.lastIndexOf('[');
-      if (dot<=0 && bracket<=0) 
-      {
-         return new InvalidValue[0];
-      }
-      String componentName;
-      String propertyName;
-      if (dot>bracket)
-      {
-         componentName = propertyExpression.substring(2, dot);
-         propertyName = propertyExpression.substring( dot+1, propertyExpression.length()-1 );
-      }
-      else
-      {
-         componentName = propertyExpression.substring(2, bracket);
-         propertyName = propertyExpression.substring( bracket+1, propertyExpression.length()-2 );
-      }
-      String modelExpression = propertyExpression.substring(0, dot) + '}';
-      
-      Object model = Expressions.instance().createValueExpression(modelExpression).getValue();
-      ClassValidator validator = getValidator( model.getClass(), componentName );
-      return validator.getPotentialInvalidValues(propertyName, value);
+      ValidatingResolver validatingResolver = new ValidatingResolver( elContext.getELResolver() );
+      ELContext decoratedContext = EL.createELContext(elContext, validatingResolver);
+      valueExpression.setValue(decoratedContext, value);
+      return validatingResolver.getInvalidValues();
    }
+   
+   class ValidatingResolver extends ELResolver
+   {
+      private ELResolver delegate;
+      private InvalidValue[] invalidValues;
 
+      public ValidatingResolver(ELResolver delegate)
+      {
+         this.delegate = delegate;
+      }
+      
+      public InvalidValue[] getInvalidValues()
+      {
+         return invalidValues;
+      }
+
+      @Override
+      public Class<?> getCommonPropertyType(ELContext context, Object value)
+      {
+         return delegate.getCommonPropertyType(context, value);
+      }
+
+      @Override
+      public Iterator<FeatureDescriptor> getFeatureDescriptors(ELContext context, Object value)
+      {
+         return delegate.getFeatureDescriptors(context, value);
+      }
+
+      @Override
+      public Class<?> getType(ELContext context, Object x, Object y) 
+            throws NullPointerException, PropertyNotFoundException, ELException
+      {
+         return delegate.getType(context, x, y);
+      }
+
+      @Override
+      public Object getValue(ELContext context, Object base, Object property) 
+            throws NullPointerException, PropertyNotFoundException, ELException
+      {
+         return delegate.getValue(context, base, property);
+      }
+
+      @Override
+      public boolean isReadOnly(ELContext context, Object base, Object property) 
+            throws NullPointerException, PropertyNotFoundException, ELException
+      {
+         return delegate.isReadOnly(context, base, property);
+      }
+
+      @Override
+      public void setValue(ELContext context, Object base, Object property, Object value) 
+            throws NullPointerException, PropertyNotFoundException, PropertyNotWritableException, ELException
+      {
+         if (base!=null && property!=null )
+         {
+            context.setPropertyResolved(true);
+            invalidValues = getValidator( base.getClass(), Seam.getComponentName( base.getClass() ) )
+                  .getPotentialInvalidValues( property.toString(), value );
+         }
+         
+      }
+      
+   }
+   
    public static Validators instance()
    {
       if ( !Contexts.isApplicationContextActive() )

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.el.ValueExpression;
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIViewRoot;
@@ -36,6 +37,7 @@ import org.jboss.seam.contexts.TestLifecycle;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.core.Validators;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.init.Initialization;
 import org.jboss.seam.jsf.SeamApplication;
@@ -432,12 +434,13 @@ public class BaseSeamTest
        */
       protected boolean validateValue(String valueExpression, Object value)
       {
-         InvalidValue[] ivs = Expressions.instance().getInvalidValues(valueExpression, value);
+         ValueExpression ve = application.getExpressionFactory()
+               .createValueExpression(facesContext.getELContext(), valueExpression, Object.class);
+         InvalidValue[] ivs = Validators.instance().validate(ve, facesContext.getELContext(), value);
          if (ivs.length > 0)
          {
             validationFailed = true;
-            facesContext.addMessage(null, FacesMessages.createFacesMessage(
-                     FacesMessage.SEVERITY_WARN, ivs[0].getMessage()));
+            facesContext.addMessage( null, FacesMessages.createFacesMessage(FacesMessage.SEVERITY_ERROR, ivs[0].getMessage()) );
             return false;
          }
          else

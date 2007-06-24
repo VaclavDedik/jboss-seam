@@ -9,10 +9,7 @@ import java.io.Serializable;
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 
-import org.hibernate.validator.ClassValidator;
-import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.Component;
-import org.jboss.seam.Model;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
@@ -85,7 +82,7 @@ public class Expressions implements Serializable
          private javax.el.ValueExpression facesValueExpression;
          private javax.el.ValueExpression seamValueExpression;
          
-         private javax.el.ValueExpression getExpression()
+         public javax.el.ValueExpression toUnifiedValueExpression()
          {
             if ( isFacesContextActive() )
             {
@@ -112,12 +109,12 @@ public class Expressions implements Serializable
          
          public T getValue()
          {
-            return (T) getExpression().getValue( getELContext() );
+            return (T) toUnifiedValueExpression().getValue( getELContext() );
          }
          
          public void setValue(T value)
          {
-            getExpression().setValue( getELContext(), value );
+            toUnifiedValueExpression().setValue( getELContext(), value );
          }
          
          public String getExpressionString()
@@ -127,7 +124,7 @@ public class Expressions implements Serializable
          
          public Class<T> getType()
          {
-            return (Class<T>) getExpression().getType( getELContext() );
+            return (Class<T>) toUnifiedValueExpression().getType( getELContext() );
          }
          
       };
@@ -147,7 +144,7 @@ public class Expressions implements Serializable
          private javax.el.MethodExpression facesMethodExpression;
          private javax.el.MethodExpression seamMethodExpression;
          
-         private javax.el.MethodExpression getExpression()
+         public javax.el.MethodExpression toUnifiedMethodExpression()
          {
             if ( isFacesContextActive() )
             {
@@ -174,7 +171,7 @@ public class Expressions implements Serializable
          
          public T invoke(Object... args)
          {
-            return (T) getExpression().invoke( getELContext(), args );
+            return (T) toUnifiedMethodExpression().invoke( getELContext(), args );
          }
          
          public String getExpressionString()
@@ -186,8 +183,10 @@ public class Expressions implements Serializable
    }
    
    /**
-    * A value expression, an EL expression that evaluates to
-    * an attribute getter or get/set pair.
+    * A value expression - an EL expression that evaluates to
+    * an attribute getter or get/set pair. This interface
+    * is just a genericized version of the Unified EL ValueExpression
+    * interface.
     * 
     * @author Gavin King
     *
@@ -199,11 +198,16 @@ public class Expressions implements Serializable
       public void setValue(T value);
       public String getExpressionString();
       public Class<T> getType();
+      /**
+       * @return the underlying Unified EL ValueExpression
+       */
+      public javax.el.ValueExpression toUnifiedValueExpression();
    }
    
    /**
-    * A method expression, an EL expression that evaluates to
-    * a method.
+    * A method expression - an EL expression that evaluates to
+    * a method. This interface is just a genericized version of 
+    * the Unified EL ValueExpression interface.
     * 
     * @author Gavin King
     *
@@ -213,65 +217,18 @@ public class Expressions implements Serializable
    {
       public T invoke(Object... args);
       public String getExpressionString();
+      /**
+       * @return the underlying Unified EL MethodExpression
+       */
+      public javax.el.MethodExpression toUnifiedMethodExpression();
    }
    
    protected boolean isFacesContextActive()
    {
       return false;
    }
-   
-   /**
-    * Validate that a value can be assigned to the property
-    * identified by a value expression.
-    * 
-    * @param propertyExpression a value expression
-    * @param value the value that is to be assigned
-    * 
-    * @return the validation failures, as InvalidValues
-    */
-   public InvalidValue[] getInvalidValues(String propertyExpression, Object value)
-   {
-      if (propertyExpression == null)
-      {
-         return new InvalidValue[0];
-      }
-      int dot = propertyExpression.lastIndexOf('.');
-      int bracket = propertyExpression.lastIndexOf('[');
-      if (dot<=0 && bracket<=0) 
-      {
-         return new InvalidValue[0];
-      }
-      String componentName;
-      String propertyName;
-      String modelExpression;
-      if (dot>bracket)
-      {
-         componentName = propertyExpression.substring(2, dot).trim();
-         propertyName = propertyExpression.substring( dot+1, propertyExpression.length()-1 ).trim();
-         modelExpression = propertyExpression.substring(0, dot).trim() + '}';
-      }
-      else
-      {
-         componentName = propertyExpression.substring(2, bracket).trim();
-         propertyName = propertyExpression.substring( bracket+1, propertyExpression.length()-2 ).trim();
-         if ( propertyName.startsWith("'") && propertyName.endsWith("'") )
-         {
-            propertyName = propertyName.substring( 1, propertyName.length()-1 );
-            //TODO: handle meaningless property names here!
-         }
-         else
-         {
-            return new InvalidValue[0];
-         }
-         modelExpression = propertyExpression.substring(0, bracket).trim() + '}';
-      }
-      
-      Object modelInstance = getExpressionFactory().createValueExpression( getELContext(), modelExpression, Object.class)
-               .getValue( getELContext() ); //TODO: cache the ValueExpression object!
-      return getValidator(modelInstance, componentName).getPotentialInvalidValues(propertyName, value);
-   }
 
-   /**
+   /*
     * Gets the validator from the Component object (if this is a Seam
     * component, we need to use the validator for the bean class, not
     * the proxy class) or from a Model object (if it is not a Seam
@@ -281,7 +238,7 @@ public class Expressions implements Serializable
     * @param componentName the name of the context variable, which might be a component name
     * @return a ClassValidator object
     */
-   private static ClassValidator getValidator(Object instance, String componentName)
+   /*private static ClassValidator getValidator(Object instance, String componentName)
    {
       if (instance==null || componentName==null )
       {
@@ -289,7 +246,7 @@ public class Expressions implements Serializable
       }
       Component component = Component.forName(componentName);
       return ( component==null ? Model.forClass( instance.getClass() ) : component ).getValidator();
-   }
+   }*/
    
    public static Expressions instance()
    {
