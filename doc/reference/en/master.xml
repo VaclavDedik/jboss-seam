@@ -25,6 +25,7 @@
 <!ENTITY remoting               SYSTEM "modules/remoting.xml">
 <!ENTITY gwt                    SYSTEM "modules/gwt.xml">
 <!ENTITY spring                 SYSTEM "modules/spring.xml">
+<!ENTITY hsearch                 SYSTEM "modules/hsearch.xml">
 <!ENTITY configuration          SYSTEM "modules/configuration.xml">
 <!ENTITY annotations            SYSTEM "modules/annotations.xml">
 <!ENTITY components             SYSTEM "modules/components.xml">
@@ -279,6 +280,7 @@
     &remoting;
     &gwt;
     &spring;
+	&hsearch;
     &configuration;
     &annotations;
     &components;

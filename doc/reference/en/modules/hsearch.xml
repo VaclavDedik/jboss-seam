@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter>
+  <title>Hibernate Search</title>
+
+  <section>
+    <title>Introduction</title>
+
+    <para>Full text search engines like Apache Lucene™ are a very powerful
+    technology to bring free text/efficient queries to applications. If
+    suffers several mismatches when dealing with a object domain model
+    (keeping the index up to date, mismatch between the index structure and
+    the domain model, querying mismatch...) Hibernate Search indexes your
+    domain model thanks to a few annotations, takes care of the database /
+    index synchronization and brings you back regular managed objects from
+    free text queries. Hibernate Search is using Apache Lucene under the
+    cover.</para>
+
+    <para>Hibernate Search has been designed to integrates nicely and as
+    naturally as possible with JPA and Hibernate. As a natural extension,
+    JBoss Seam provides an Hibernate Search integration.</para>
+
+    <para>Please refer to the <ulink url="???">Hibernate Search
+    documentation</ulink> for information specific to the Hibernate Search
+    project.</para>
+  </section>
+
+  <section>
+    <title>Configuration</title>
+
+    <para>Hibernate Search is configured either in the
+    <filename>META-INF/persistence.xml</filename> or
+    <filename>hibernate.cfg.xml</filename> file.</para>
+
+    <para>Hibernate Search configuration has sensible defaults for most
+    configuration parameters, Here is a description of the minimal
+    configuration to get started.</para>
+
+    <programlisting>   &lt;persistence-unit name="sample"&gt;
+      &lt;jta-data-source&gt;java:/DefaultDS&lt;/jta-data-source&gt;
+      &lt;properties&gt;
+         [...]
+         <emphasis role="bold">&lt;!-- use a file system based index --&gt;
+         &lt;property name="hibernate.search.default.directory_provider" 
+                   value="org.hibernate.search.store.FSDirectoryProvider"/&gt;
+         &lt;!-- directory where the indexes will be stored --&gt;
+         &lt;property name="hibernate.search.default.indexBase" 
+                   value="/Users/prod/apps/dvdstore/dvdindexes"/&gt;</emphasis>
+      &lt;/properties&gt;
+   &lt;/persistence-unit&gt;</programlisting>
+
+    <para>If you plan to target Hibernate Annotations or EntityManager 3.2.x
+    (embedded into JBoss AS 4.2.GA), you also need to configure the
+    appropriate event listeners.</para>
+
+    <programlisting>   &lt;persistence-unit name="sample"&gt;
+      &lt;jta-data-source&gt;java:/DefaultDS&lt;/jta-data-source&gt;
+      &lt;properties&gt;
+         [...]
+         &lt;!-- use a file system based index --&gt;
+         &lt;property name="hibernate.search.default.directory_provider" 
+                   value="org.hibernate.search.store.FSDirectoryProvider"/&gt;
+         &lt;!-- directory where the indexes will be stored --&gt;
+         &lt;property name="hibernate.search.default.indexBase" 
+                   value="/Users/prod/apps/dvdstore/dvdindexes"/&gt;
+
+         <emphasis role="bold">&lt;property name="hibernate.ejb.event.post-insert" 
+                   value="org.hibernate.search.event.FullTextIndexEventListener"/&gt;
+         &lt;property name="hibernate.ejb.event.post-update" 
+                   value="org.hibernate.search.event.FullTextIndexEventListener"/&gt;
+         &lt;property name="hibernate.ejb.event.post-delete" 
+                   value="org.hibernate.search.event.FullTextIndexEventListener"/&gt;</emphasis>
+
+      &lt;/properties&gt;
+   &lt;/persistence-unit&gt;</programlisting>
+
+    <note>
+      <para>This step is no longer useful if Hibernate Annotation or
+      EntityManager 3.3.x are used.</para>
+    </note>
+
+    <para>In addition to the configuration file, the following jars have to be
+    deployed: </para>
+
+    <itemizedlist>
+      <listitem>
+        <para>hibernate-search.jar</para>
+      </listitem>
+
+      <listitem>
+        <para>hibernate-commons-annotations.jar</para>
+      </listitem>
+
+      <listitem>
+        <para>lucene-core.jar</para>
+      </listitem>
+    </itemizedlist>
+
+    <note>
+      <para>If you deploy those in a EAR, don't forget to update
+      <filename>application.xml</filename></para>
+    </note>
+  </section>
+
+  <section>
+    <title>Usage</title>
+
+    <para>Hibernate Search uses annotations to map entities to a Lucene index,
+    check the <ulink
+    url="http://www.hibernate.org/hib_docs/search/reference/en/html_single/">reference
+    documentation</ulink> for more informations.</para>
+
+    <para>Hibernate Search is fully integrated with the API and semantic of
+    JPA / Hibernate. Switching from a HQL or Criteria based query requires
+    just a few lines of code. The main API the application interacts with is
+    the <classname>FullTextSession</classname> API (subclass of Hibernate's
+    <classname>Session</classname>).</para>
+
+    <para>When Hibernate Search is present, JBoss Seam injects a
+    <classname>FullTextSession</classname>.</para>
+
+    <programlisting>@Stateful
+@Name("search")
+public class FullTextSearchAction implements FullTextSearch, Serializable
+{   
+   @In
+   FullTextSession session;
+
+   public void search(String searchString) {
+      org.apache.lucene.query.Query luceneQuery = getLuceneQuery();
+      org.hibernate.Query query session.createFullTextQuery(luceneQuery, Product.class);
+      searchResults = query
+            .setMaxResults(pageSize + 1)
+            .setFirstResult(pageSize * currentPage)
+            .list();
+   }
+   [...]
+}  
+
+</programlisting>
+
+    <note>
+      <para><classname>FullTextSession</classname> extends
+      <classname>org.hibernate.Session</classname> so that it can be used as a
+      regular Hibernate Session</para>
+    </note>
+
+    <para>For people using the JPA APIs, the
+    <methodname>getDelegate</methodname> method returns a
+    <classname>FullTextSession</classname> object.</para>
+
+    <programlisting>@Stateful
+@Name("search")
+public class FullTextSearchAction implements FullTextSearch, Serializable
+{   
+   @In //or @PersistenceContext
+   EntityManager session;
+
+   public void search(String searchString) {
+      org.apache.lucene.query.Query luceneQuery = getLuceneQuery();
+      FullTextSession session = (FullTextSession) em.getDelegate();
+      org.hibernate.Query query session.createFullTextQuery(luceneQuery, Product.class);
+      searchResults =  query
+            .setMaxResults(pageSize + 1)
+            .setFirstResult(pageSize * currentPage)
+            .list();
+   }
+   [...]
+}  </programlisting>
+
+    <para>A smoother JPA integration is expected shortly.</para>
+
+    <para> </para>
+  </section>
+</chapter>
