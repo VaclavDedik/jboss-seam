@@ -14,6 +14,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.security.Restrict;
 
 /**
@@ -22,12 +23,15 @@ import org.jboss.seam.annotations.security.Restrict;
  *  
  * @author Shane Bryzak
  */
+@Transactional
 @Scope(CONVERSATION)
 @Name("auctionAction")
 @Restrict("#{identity.loggedIn}")
 public class AuctionAction implements Serializable
 {
    private static final long serialVersionUID = -6738397725125671313L;
+   
+   private static final int DEFAULT_AUCTION_DURATION = 7;
    
    @In EntityManager entityManager;
    
@@ -48,6 +52,8 @@ public class AuctionAction implements Serializable
          auction.setAccount(authenticatedAccount);
          auction.setStatus(Auction.STATUS_UNLISTED);   
       }
+      
+      durationDays = DEFAULT_AUCTION_DURATION;
    }   
    
    public void setDetails(String title, String description, int categoryId)
@@ -57,6 +63,11 @@ public class AuctionAction implements Serializable
       auction.setCategory(entityManager.find(Category.class, categoryId));      
    }
    
+   /**
+    * Allows the auction duration to be overidden from the default
+    * 
+    * @param days Number of days to set the auction duration to.
+    */
    public void setDuration(int days)
    {
       this.durationDays = days;
