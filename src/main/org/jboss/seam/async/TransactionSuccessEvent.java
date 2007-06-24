@@ -27,4 +27,10 @@ public class TransactionSuccessEvent extends AsynchronousEvent implements Synchr
    
    public void beforeCompletion() {}
    
+   @Override
+   public String toString()
+   {
+      return "TransactionSuccessEvent(" + getType() + ')';
+   }
+   
 }

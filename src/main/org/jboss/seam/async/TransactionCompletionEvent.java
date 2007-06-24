@@ -22,4 +22,10 @@ public class TransactionCompletionEvent extends AsynchronousEvent implements Syn
    
    public void beforeCompletion() {}
    
+   @Override
+   public String toString()
+   {
+      return "TransactionCompletionEvent(" + getType() + ')';
+   }
+   
 }

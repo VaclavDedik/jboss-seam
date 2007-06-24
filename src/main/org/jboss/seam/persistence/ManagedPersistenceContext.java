@@ -55,6 +55,7 @@ public class ManagedPersistenceContext
    private List<Filter> filters = new ArrayList<Filter>(0);
    
    private transient boolean synchronizationRegistered;
+   private transient boolean destroyed;
   
    public boolean clearDirty()
    {
@@ -127,6 +128,10 @@ public class ManagedPersistenceContext
    //we can't use @PrePassivate because it is intercept NEVER
    public void sessionWillPassivate(HttpSessionEvent event)
    {
+      if (synchronizationRegistered)
+      {
+         throw new IllegalStateException("cannot passivate persistence context with active transaction");
+      }
       //need to create a context, because this can get called
       //outside the JSF request, and we want to use the
       //PersistenceProvider object
@@ -152,6 +157,7 @@ public class ManagedPersistenceContext
    @Destroy
    public void destroy()
    {
+      destroyed = true;
       if ( !synchronizationRegistered )
       {
          //in requests that come through SeamPhaseListener,
@@ -170,7 +176,8 @@ public class ManagedPersistenceContext
    public void afterCompletion(int status)
    {
       synchronizationRegistered = false;
-      if ( !Contexts.isConversationContextActive() )
+      //if ( !Contexts.isConversationContextActive() )
+      if (destroyed)
       {
          //in calls to MDBs and remote calls to SBs, the 
          //transaction doesn't commit until after contexts

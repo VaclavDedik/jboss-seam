@@ -131,7 +131,7 @@ public class SessionBeanInterceptor extends RootInterceptor
             EntityManager entityManager = (EntityManager) ba.get(bean);
             if ( ! (entityManager instanceof EntityManagerProxy ) )
             {
-               ba.set( bean, new EntityManagerProxy( entityManager ) );
+               ba.set( bean, new EntityManagerProxy(entityManager) );
             }
          }
       }

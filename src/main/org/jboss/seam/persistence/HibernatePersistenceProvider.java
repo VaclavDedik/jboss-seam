@@ -61,6 +61,11 @@ public class HibernatePersistenceProvider extends PersistenceProvider
       }
    }
    
+   /**
+    * Wrap the Hibernate Session in a proxy that supports HQL
+    * EL interpolation and implements FullTextSession if Hibernate
+    * Search is available in the classpath.
+    */
    static Session proxySession(Session session) throws Exception
    {
       if (FULL_TEXT_SESSION_PROXY_CONSTRUCTOR==null)
@@ -73,6 +78,11 @@ public class HibernatePersistenceProvider extends PersistenceProvider
       }
    }
    
+   /**
+    * Wrap the delegate Hibernate Session in a proxy that supports HQL
+    * EL interpolation and implements FullTextSession if Hibernate
+    * Search is available in the classpath.
+    */
    @Override
    public Object proxyDelegate(Object delegate)
    {
@@ -130,6 +140,8 @@ public class HibernatePersistenceProvider extends PersistenceProvider
    @Override
    public boolean registerSynchronization(Synchronization sync, EntityManager entityManager)
    {
+      //TODO: just make sure that a Hibernate JPA EntityTransaction
+      //      delegates to the Hibernate Session transaction
       getSession(entityManager).getTransaction().registerSynchronization(sync);
       return true;
    }

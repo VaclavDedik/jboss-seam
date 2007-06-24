@@ -27,4 +27,15 @@ public class AsynchronousEvent extends Asynchronous
       Events.instance().raiseEvent(type, parameters);
    }
    
+   @Override
+   public String toString()
+   {
+      return "AsynchronousEvent(" + type + ')';
+   }
+   
+   protected String getType()
+   {
+      return type;
+   }
+   
 }

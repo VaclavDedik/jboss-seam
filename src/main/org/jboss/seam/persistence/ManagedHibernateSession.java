@@ -22,7 +22,6 @@ import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
-import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Mutable;
 import org.jboss.seam.core.Expressions.ValueExpression;
@@ -57,6 +56,7 @@ public class ManagedHibernateSession
    private List<Filter> filters = new ArrayList<Filter>(0);
    
    private transient boolean synchronizationRegistered;
+   private transient boolean destroyed;
    
    public boolean clearDirty()
    {
@@ -132,6 +132,10 @@ public class ManagedHibernateSession
    //we can't use @PrePassivate because it is intercept NEVER
    public void sessionWillPassivate(HttpSessionEvent event)
    {
+      if (synchronizationRegistered)
+      {
+         throw new IllegalStateException("cannot passivate persistence context with active transaction");
+      }
       if ( session!=null && !session.isDirty() )
       {
          session.close();
@@ -145,6 +149,7 @@ public class ManagedHibernateSession
    @Destroy
    public void destroy()
    {
+      destroyed = true;
       if ( !synchronizationRegistered )
       {
          //in requests that come through SeamPhaseListener,
@@ -163,7 +168,8 @@ public class ManagedHibernateSession
    public void afterCompletion(int status)
    {
       synchronizationRegistered = false;
-      if ( !Contexts.isConversationContextActive() )
+      //if ( !Contexts.isConversationContextActive() )
+      if (destroyed)
       {
          //in calls to MDBs and remote calls to SBs, the 
          //transaction doesn't commit until after contexts

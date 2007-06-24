@@ -12,11 +12,15 @@ import javax.transaction.Synchronization;
 import javax.transaction.SystemException;
 
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.core.Expressions.ValueExpression;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
+import org.jboss.seam.persistence.PersistenceProvider;
 
 /**
  * Support for the JPA EntityTransaction API.
@@ -33,9 +37,20 @@ import org.jboss.seam.core.Expressions.ValueExpression;
 @BypassInterceptors
 public class EntityTransaction extends AbstractUserTransaction
 {
+   private static final LogProvider log = Logging.getLogProvider(EntityTransaction.class);
+   
    private SynchronizationRegistry synchronizations = new SynchronizationRegistry();
    private ValueExpression<EntityManager> entityManager;
    private EntityManager currentEntityManager;
+   
+   @Create
+   public void validate()
+   {
+      if (entityManager==null)
+      {
+         throw new IllegalStateException("entity manager reference not set, use <transaction:entity-transaction entity-manager=...");
+      }
+   }
    
    private javax.persistence.EntityTransaction getDelegate()
    {
@@ -58,6 +73,7 @@ public class EntityTransaction extends AbstractUserTransaction
 
    public void begin() throws NotSupportedException, SystemException
    {
+      log.debug("beginning JPA resource-local transaction");
       //TODO: translate exceptions that occur into the correct JTA exception
       assertNotActive();
       initEntityManager();
@@ -75,11 +91,13 @@ public class EntityTransaction extends AbstractUserTransaction
    public void commit() throws RollbackException, HeuristicMixedException,
             HeuristicRollbackException, SecurityException, IllegalStateException, SystemException
    {
+      log.debug("committing JPA resource-local transaction");
       assertActive();
+      javax.persistence.EntityTransaction delegate = getDelegate();
+      clearEntityManager();
       boolean success = false;
       try
       {
-         javax.persistence.EntityTransaction delegate = getDelegate();
          if ( delegate.getRollbackOnly() )
          {
             delegate.rollback();
@@ -94,28 +112,30 @@ public class EntityTransaction extends AbstractUserTransaction
       }
       finally
       {
-         clearEntityManager();
          synchronizations.afterTransactionCompletion(success);
       }
    }
 
    public void rollback() throws IllegalStateException, SecurityException, SystemException
    {
+      log.debug("rolling back JPA resource-local transaction");
       //TODO: translate exceptions that occur into the correct JTA exception
       assertActive();
+      javax.persistence.EntityTransaction delegate = getDelegate();
+      clearEntityManager();
       try
       {
-         getDelegate().rollback();
+         delegate.rollback();
       }
       finally
       {
-         clearEntityManager();
          synchronizations.afterTransactionCompletion(false);
       }
    }
 
    public void setRollbackOnly() throws IllegalStateException, SystemException
    {
+      log.debug("marking JPA resource-local transaction for rollback");
       assertActive();
       getDelegate().setRollbackOnly();
    }
@@ -170,8 +190,18 @@ public class EntityTransaction extends AbstractUserTransaction
    @Override
    public void registerSynchronization(Synchronization sync)
    {
+      if ( log.isDebugEnabled() )
+      {
+         log.debug("registering synchronization: " + sync);
+      }
       assertActive();
-      synchronizations.registerSynchronization(sync);
+      //try to register the synchronization directly with the
+      //persistence provider, but if this fails, just hold
+      //on to it myself
+      if ( !PersistenceProvider.instance().registerSynchronization(sync, currentEntityManager) )
+      {
+         synchronizations.registerSynchronization(sync);
+      }
    }
 
    @Override

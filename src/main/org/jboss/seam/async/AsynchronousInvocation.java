@@ -51,4 +51,10 @@ public class AsynchronousInvocation extends Asynchronous
       
       Reflections.invokeAndWrap(method, target, args);
    }
+   
+   @Override
+   public String toString()
+   {
+      return "AsynchronousInvocation(" + componentName + '.' + methodName + "())";
+   }
 }

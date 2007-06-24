@@ -6,6 +6,8 @@ import org.jboss.seam.bpm.BusinessProcess;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Init;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 
 /**
  * Something that happens asynchronously, and with a full
@@ -17,6 +19,7 @@ import org.jboss.seam.core.Init;
  */
 public abstract class Asynchronous implements Serializable
 {
+   private static final LogProvider log = Logging.getLogProvider(Asynchronous.class);
    static final long serialVersionUID = -551286304424595765L;
    
    private Long processId;
@@ -39,7 +42,7 @@ public abstract class Asynchronous implements Serializable
       Contexts.getEventContext().set(AbstractDispatcher.EXECUTING_ASYNCHRONOUS_CALL, true);
       try
       {
-         executeInContexts(timer);         
+         executeInContexts(timer);
       }
       finally
       {
@@ -63,6 +66,11 @@ public abstract class Asynchronous implements Serializable
       if (timer!=null)
       {
          Contexts.getEventContext().set("timer", timer);
+      }
+      
+      if ( log.isDebugEnabled() )
+      {
+         log.debug("executing: " + this);
       }
     
       call();

@@ -11,12 +11,16 @@ import javax.transaction.Synchronization;
 import javax.transaction.SystemException;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.core.Expressions.ValueExpression;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 
 /**
  * Support for the Hibernate Transaction API.
@@ -33,10 +37,20 @@ import org.jboss.seam.core.Expressions.ValueExpression;
 @BypassInterceptors
 public class HibernateTransaction extends AbstractUserTransaction
 {
+   private static final LogProvider log = Logging.getLogProvider(HibernateTransaction.class);
 
    private ValueExpression<Session> session;
    private Session currentSession;
    private boolean rollbackOnly; //Hibernate Transaction doesn't have a "rollback only" state
+   
+   @Create
+   public void validate()
+   {
+      if (session==null)
+      {
+         throw new IllegalStateException("session reference not set, use <transaction:hibernate-transaction session=...");
+      }
+   }
    
    private org.hibernate.Transaction getDelegate()
    {
@@ -59,6 +73,7 @@ public class HibernateTransaction extends AbstractUserTransaction
 
    public void begin() throws NotSupportedException, SystemException
    {
+      log.debug("beginning Hibernate transaction");
       assertNotActive();
       initSession();
       try
@@ -75,41 +90,35 @@ public class HibernateTransaction extends AbstractUserTransaction
    public void commit() throws RollbackException, HeuristicMixedException,
             HeuristicRollbackException, SecurityException, IllegalStateException, SystemException
    {
+      log.debug("committing Hibernate transaction");
+      //TODO: translate exceptions that occur into the correct JTA exception
       assertActive();
-      try
+      Transaction delegate = getDelegate();
+      clearSession();
+      if (rollbackOnly)
       {
-         if (rollbackOnly)
-         {
-            getDelegate().rollback();
-            throw new RollbackException();
-         }
-         else
-         {
-            getDelegate().commit();
-         }
+         delegate.rollback();
+         throw new RollbackException();
       }
-      finally
+      else
       {
-         clearSession();
+         delegate.commit();
       }
    }
 
    public void rollback() throws IllegalStateException, SecurityException, SystemException
    {
+      log.debug("rolling back Hibernate transaction");
       //TODO: translate exceptions that occur into the correct JTA exception
       assertActive();
-      try
-      {
-         getDelegate().rollback();
-      }
-      finally
-      {
-         clearSession();
-      }
+      Transaction delegate = getDelegate();
+      clearSession();
+      delegate.rollback();
    }
 
    public void setRollbackOnly() throws IllegalStateException, SystemException
    {
+      log.debug("marking Hibernate transaction for rollback");
       assertActive();
       rollbackOnly = true;
    }
@@ -166,6 +175,10 @@ public class HibernateTransaction extends AbstractUserTransaction
    @Override
    public void registerSynchronization(Synchronization sync)
    {
+      if ( log.isDebugEnabled() )
+      {
+         log.debug("registering synchronization: " + sync);
+      }
       assertActive();
       getDelegate().registerSynchronization(sync);
    }

@@ -23,6 +23,9 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
  * optimized for performance and non-standardized features by extending
  * and overriding the methods. 
  * 
+ * The methods on this class are a great todo list for the next rev
+ * of the JPA spec ;-)
+ * 
  * @author Gavin King
  *
  */
