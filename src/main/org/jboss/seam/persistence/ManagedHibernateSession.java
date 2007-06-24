@@ -120,7 +120,7 @@ public class ManagedHibernateSession
          {
             transaction.registerSynchronization(this);
          }
-         catch (UnsupportedOperationException uoe)
+         catch (Exception e)
          {
             session.getTransaction().registerSynchronization(this);
          }

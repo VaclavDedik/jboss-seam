@@ -40,21 +40,28 @@ public class Transaction
 
    private static String userTransactionName = "UserTransaction";
 
-   private SynchronizationRegistry synchronizations = new SynchronizationRegistry();
+   private SynchronizationRegistry synchronizations;
    
    protected SynchronizationRegistry getSynchronizations()
    {
       return synchronizations;
    }
    
+   public void afterBegin()
+   {
+      synchronizations = new SynchronizationRegistry();
+   }
+   
    protected void afterCommit(boolean success)
    {
       synchronizations.afterTransactionCompletion(success);
+      synchronizations = null;
    }
    
    protected void afterRollback()
    {
       synchronizations.afterTransactionCompletion(false);
+      synchronizations = null;
    }
    
    protected void beforeCommit()
@@ -64,7 +71,14 @@ public class Transaction
    
    protected void registerSynchronization(Synchronization sync)
    {
-      synchronizations.registerSynchronization(sync);
+      if (synchronizations==null)
+      {
+         throw new IllegalStateException("no transaction active, or the transaction is a CMT (try installing <transaction:ejb-transaction/>)");
+      }
+      else
+      {
+         synchronizations.registerSynchronization(sync);
+      }
    }
    
    protected boolean isAwareOfContainerTransactions()

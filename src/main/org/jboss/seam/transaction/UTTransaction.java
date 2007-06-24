@@ -34,6 +34,7 @@ public class UTTransaction extends AbstractUserTransaction
    public void begin() throws NotSupportedException, SystemException
    {
       delegate.begin();
+      parent.afterBegin();
    }
 
    public void commit() throws RollbackException, HeuristicMixedException,

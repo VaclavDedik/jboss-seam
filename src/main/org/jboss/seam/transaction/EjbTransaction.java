@@ -37,7 +37,6 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 public class EjbTransaction extends Transaction 
       implements LocalEjbTransaction, SessionSynchronization
 {
-   public void afterBegin() throws EJBException, RemoteException {}
    
    public void beforeCompletion() throws EJBException, RemoteException
    {

@@ -116,7 +116,7 @@ public class ManagedPersistenceContext
             transaction.registerSynchronization(this);
             synchronizationRegistered = true;
          }
-         catch (UnsupportedOperationException uoe)
+         catch (Exception e)
          {
             synchronizationRegistered = PersistenceProvider.instance().registerSynchronization(this, entityManager);
          }

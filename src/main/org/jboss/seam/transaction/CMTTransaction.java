@@ -40,6 +40,7 @@ public class CMTTransaction extends AbstractUserTransaction
    public void begin() throws NotSupportedException, SystemException
    {
       ejbContext.getUserTransaction().begin();
+      parent.afterBegin();
    }
 
    public void commit() throws RollbackException, HeuristicMixedException,
@@ -76,6 +77,7 @@ public class CMTTransaction extends AbstractUserTransaction
    {
       try
       {
+         //TODO: not correct for SUPPORTS or NEVER!
          if ( !ejbContext.getRollbackOnly() )
          {
             return Status.STATUS_ACTIVE;
