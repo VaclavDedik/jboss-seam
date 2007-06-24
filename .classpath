@@ -47,5 +47,6 @@
 	<classpathentry kind="lib" path="lib/lucene-core-2.1.0.jar"/>
 	<classpathentry kind="lib" path="lib/hibernate-search.jar"/>
 	<classpathentry kind="lib" path="lib/hibernate-commons-annotations.jar"/>
+	<classpathentry kind="lib" path="lib/jboss-saaj.jar"/>
 	<classpathentry kind="output" path="output/classes"/>
 </classpath>
