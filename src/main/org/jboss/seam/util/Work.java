@@ -2,8 +2,6 @@ package org.jboss.seam.util;
 
 import javax.transaction.UserTransaction;
 
-import org.jboss.seam.core.BasicTransactionListener;
-import org.jboss.seam.core.TransactionListener;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.transaction.Transaction;
@@ -29,8 +27,6 @@ public abstract class Work<T>
       boolean transactionActive = Transaction.instance().isActiveOrMarkedRollback();
       boolean begin = isNewTransactionRequired(transactionActive);
       UserTransaction userTransaction = begin ? Transaction.instance() : null;
-      TransactionListener transactionListener = BasicTransactionListener.instance();
-      boolean success=false;
       
       if (begin) 
       {
@@ -44,9 +40,7 @@ public abstract class Work<T>
          if (begin) 
          {
             log.debug("committing transaction");
-            transactionListener.beforeSeamManagedTransactionCompletion();
             userTransaction.commit();
-            success = true;
          }
          return result;
       }
@@ -58,13 +52,6 @@ public abstract class Work<T>
             userTransaction.rollback();
          }
          throw e;
-      }
-      finally
-      {
-         if (begin)
-         {
-            transactionListener.afterSeamManagedTransactionCompletion(success);
-         }
       }
       
    }

@@ -24,11 +24,10 @@ import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.core.TransactionListener;
-import org.jboss.seam.core.BasicTransactionListener;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.transaction.Transaction;
+import org.jboss.seam.transaction.UserTransaction;
 import org.jbpm.JbpmContext;
 import org.jbpm.persistence.db.DbPersistenceServiceFactory;
 import org.jbpm.svc.Services;
@@ -71,19 +70,19 @@ public class ManagedJbpmContext implements Synchronization
    @Unwrap
    public JbpmContext getJbpmContext() throws NamingException, RollbackException, SystemException
    {
-      if ( !Transaction.instance().isActiveOrMarkedRollback() )
+      UserTransaction transaction = Transaction.instance();
+      if ( !transaction.isActiveOrMarkedRollback() )
       {
          throw new IllegalStateException("JbpmContext may only be used inside a transaction");
       }
-      if ( !synchronizationRegistered && !Lifecycle.isDestroying() && Transaction.instance().isActive() )
+      if ( !synchronizationRegistered && !Lifecycle.isDestroying() && transaction.isActive() )
       {
          jbpmContext.getSession().isOpen();
-         TransactionListener transactionListener = BasicTransactionListener.instance();
-         if (transactionListener!=null)
+         try //TODO: what we really want here is if (!cmt)
          {
-            transactionListener.registerSynchronization(this);
+            transaction.registerSynchronization(this);
          }
-         else
+         catch (UnsupportedOperationException uoe)
          {
             jbpmContext.getSession().getTransaction().registerSynchronization(this);
          }

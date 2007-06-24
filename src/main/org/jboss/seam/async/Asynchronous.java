@@ -34,33 +34,38 @@ public abstract class Asynchronous implements Serializable
    
    public void execute(Object timer)
    {
-      
-      //TODO: shouldn't this take place in a Seam context anyway??!? (bug in EJB3?)
-      
-      Lifecycle.beginCall();
+      boolean createContexts = !Contexts.isEventContextActive() && !Contexts.isApplicationContextActive();
+      if (createContexts) Lifecycle.beginCall();
       Contexts.getEventContext().set(AbstractDispatcher.EXECUTING_ASYNCHRONOUS_CALL, true);
       try
       {
-         if (taskId!=null)
-         {
-            BusinessProcess.instance().resumeTask(taskId);
-         }
-         else if (processId!=null)
-         {
-            BusinessProcess.instance().resumeProcess(processId);
-         }
-         
-         Contexts.getEventContext().set("timer", timer);
-      
-         call();
-         
+         executeInContexts(timer);         
       }
       finally
       {
          Contexts.getEventContext().remove(AbstractDispatcher.EXECUTING_ASYNCHRONOUS_CALL);
-         Lifecycle.endCall();
+         if (createContexts) Lifecycle.endCall();
       }
       
+   }
+
+   private void executeInContexts(Object timer)
+   {
+      if (taskId!=null)
+      {
+         BusinessProcess.instance().resumeTask(taskId);
+      }
+      else if (processId!=null)
+      {
+         BusinessProcess.instance().resumeProcess(processId);
+      }
+      
+      if (timer!=null)
+      {
+         Contexts.getEventContext().set("timer", timer);
+      }
+    
+      call();
    }
    
    protected abstract void call();

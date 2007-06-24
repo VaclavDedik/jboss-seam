@@ -120,27 +120,28 @@ public class Events
     */
    public void raiseTransactionSuccessEvent(String type, Object... parameters)
    {
-      getTransactionListener().scheduleEvent(type, parameters);
-   }
-
-   private TransactionListener getTransactionListener()
-   {
-      TransactionListener transactionListener = BasicTransactionListener.instance();
-      if (transactionListener==null)
-      {
-         throw new IllegalStateException("org.jboss.seam.core.transactionListener is not installed");
-      }
-      return transactionListener;
+      getDispatcher().scheduleTransactionSuccessEvent(type, parameters);
    }
    
+   /**
+    * Raise an event that is to be processed after the current transaction
+    * ends
+    * 
+    * @param type the event type
+    * @param parameters parameters to be passes to the listener method
+    */
+   public void raiseTransactionCompletionEvent(String type, Object... parameters)
+   {
+      getDispatcher().scheduleTransactionCompletionEvent(type, parameters);
+   }
+   
+   /**
+    * @return the Dispatcher object to use for dispatching asynchronous
+    * and timed events
+    */
    protected Dispatcher getDispatcher()
    {
-      Dispatcher dispatcher = AbstractDispatcher.instance();
-      if (dispatcher==null)
-      {
-         throw new IllegalStateException("org.jboss.seam.async.dispatcher is not installed");
-      }
-      return dispatcher;
+      return AbstractDispatcher.instance();
    }
    
    public static boolean exists()

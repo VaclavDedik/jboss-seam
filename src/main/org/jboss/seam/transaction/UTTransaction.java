@@ -4,23 +4,26 @@ import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
+import javax.transaction.Synchronization;
 import javax.transaction.SystemException;
 
 /**
- * Wraps JTA transaction management in a
- * UserTransaction interface.
+ * Wraps JTA transaction management in a Seam UserTransaction 
+ * interface.
  * 
  * @author Mike Youngstrom
  * @author Gavin King
  * 
  */
-public class UTTransaction extends UserTransaction
+public class UTTransaction extends AbstractUserTransaction
 {
    
-   private javax.transaction.UserTransaction delegate;
+   private final javax.transaction.UserTransaction delegate;
+   private final Transaction parent;
 
-   UTTransaction(javax.transaction.UserTransaction delegate)
+   UTTransaction(javax.transaction.UserTransaction delegate, Transaction parent)
    {
+      this.parent = parent;
       this.delegate = delegate;
       if (delegate==null)
       {
@@ -36,7 +39,17 @@ public class UTTransaction extends UserTransaction
    public void commit() throws RollbackException, HeuristicMixedException,
             HeuristicRollbackException, SecurityException, IllegalStateException, SystemException
    {
-      delegate.commit();
+      boolean success = false;
+      parent.beforeCommit();
+      try
+      {
+         delegate.commit();
+         success = true;
+      }
+      finally
+      {
+         parent.afterCommit(success);
+      }
    }
 
    public int getStatus() throws SystemException
@@ -46,7 +59,14 @@ public class UTTransaction extends UserTransaction
 
    public void rollback() throws IllegalStateException, SecurityException, SystemException
    {
-      delegate.rollback();
+      try
+      {
+         delegate.rollback();
+      }
+      finally
+      {
+         parent.afterRollback();
+      }
    }
 
    public void setRollbackOnly() throws IllegalStateException, SystemException
@@ -57,6 +77,12 @@ public class UTTransaction extends UserTransaction
    public void setTransactionTimeout(int timeout) throws SystemException
    {
       delegate.setTransactionTimeout(timeout);
+   }
+   
+   @Override
+   public void registerSynchronization(Synchronization sync)
+   {
+      parent.registerSynchronization(sync);
    }
 
 }

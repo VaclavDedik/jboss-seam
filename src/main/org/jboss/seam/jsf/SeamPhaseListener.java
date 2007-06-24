@@ -26,14 +26,12 @@ import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.FacesLifecycle;
-import org.jboss.seam.core.BasicTransactionListener;
 import org.jboss.seam.core.ConversationList;
 import org.jboss.seam.core.ConversationPropagation;
 import org.jboss.seam.core.ConversationStack;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.core.TransactionListener;
 import org.jboss.seam.exceptions.Exceptions;
 import org.jboss.seam.faces.FacesManager;
 import org.jboss.seam.faces.FacesMessages;
@@ -573,16 +571,12 @@ public class SeamPhaseListener implements PhaseListener
    
    void commitOrRollback(PhaseId phaseId) 
    {
-      boolean success=false;
-      TransactionListener transactionListener = BasicTransactionListener.instance();
       try 
       {
          if ( Transaction.instance().isActive() )
          {
             log.debug("committing transaction after phase: " + phaseId);
-            transactionListener.beforeSeamManagedTransactionCompletion();
             Transaction.instance().commit();
-            success=true;
          }
          else if ( Transaction.instance().isRolledBackOrMarkedRollback() )
          {
@@ -593,10 +587,6 @@ public class SeamPhaseListener implements PhaseListener
       catch (Exception e)
       {
          throw new IllegalStateException("Could not commit transaction", e);
-      }
-      finally
-      {
-         transactionListener.afterSeamManagedTransactionCompletion(success);
       }
    }
    

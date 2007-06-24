@@ -44,15 +44,6 @@
         <xs:attribute name="parent-conversation-id-parameter"/>
     </xs:attributeGroup>
     
-    <xs:element name="ejb-transaction-listener">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="components:attlist.ejbcomponent"/>
-            <xs:attributeGroup ref="core:attlist.transactionListener"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.transactionListener"> </xs:attributeGroup>
-
     <xs:element name="resource-bundle">
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">

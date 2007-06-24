@@ -6,24 +6,30 @@ import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.Status;
+import javax.transaction.Synchronization;
 import javax.transaction.SystemException;
 
 /**
  * Wraps EJBContext transaction management in a
- * UserTransaction interface.
+ * UserTransaction interface. Note that container managed
+ * transaction cannot be controlled by the application,
+ * so begin(), commit() and rollback() all throw
+ * UnsupportOperationException.
+ * 
  * 
  * @author Mike Youngstrom
  * @author Gavin King
  * 
  */
-public class EJBTransaction extends UserTransaction
+public class CMTTransaction extends AbstractUserTransaction
 {
    
-   private EJBContext ejbContext;
-   
+   private final EJBContext ejbContext;
+   private final Transaction parent;
 
-   public EJBTransaction(EJBContext ejbContext)
+   public CMTTransaction(EJBContext ejbContext, Transaction parent)
    {
+      this.parent = parent;
       this.ejbContext = ejbContext;
       if (ejbContext==null)
       {
@@ -33,13 +39,13 @@ public class EJBTransaction extends UserTransaction
 
    public void begin() throws NotSupportedException, SystemException
    {
-      throw new UnsupportedOperationException();
+      throw new UnsupportedOperationException("container managed transaction");
    }
 
    public void commit() throws RollbackException, HeuristicMixedException,
             HeuristicRollbackException, SecurityException, IllegalStateException, SystemException
    {
-      throw new UnsupportedOperationException();
+      throw new UnsupportedOperationException("container managed transaction");
    }
 
    public int getStatus() throws SystemException
@@ -63,7 +69,7 @@ public class EJBTransaction extends UserTransaction
 
    public void rollback() throws IllegalStateException, SecurityException, SystemException
    {
-      throw new UnsupportedOperationException();
+      throw new UnsupportedOperationException("container managed transaction");
    }
 
    public void setRollbackOnly() throws IllegalStateException, SystemException
@@ -73,7 +79,20 @@ public class EJBTransaction extends UserTransaction
 
    public void setTransactionTimeout(int timeout) throws SystemException
    {
-      throw new UnsupportedOperationException();
+      throw new UnsupportedOperationException("container managed transaction");
+   }
+   
+   @Override
+   public void registerSynchronization(Synchronization sync)
+   {
+      if ( parent.isAwareOfContainerTransactions() )
+      {
+         parent.registerSynchronization(sync);
+      }
+      else
+      {
+         throw new UnsupportedOperationException("cannot register synchronization with container transaction, use <transaction:ejb-transaction/>");
+      }
    }
 
 }

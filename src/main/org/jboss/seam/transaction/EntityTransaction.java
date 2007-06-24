@@ -8,6 +8,7 @@ import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.Status;
+import javax.transaction.Synchronization;
 import javax.transaction.SystemException;
 
 import org.jboss.seam.ScopeType;
@@ -20,8 +21,8 @@ import org.jboss.seam.core.Expressions.ValueExpression;
 /**
  * Support for the JPA EntityTransaction API.
  * 
- * Adapts JPA transaction management to a
- * UserTransaction interface.
+ * Adapts JPA transaction management to a Seam UserTransaction 
+ * interface.For use in non-JTA-capable environments.
  * 
  * @author Gavin King
  * 
@@ -30,9 +31,9 @@ import org.jboss.seam.core.Expressions.ValueExpression;
 @Scope(ScopeType.EVENT)
 @Install(value=false, precedence=FRAMEWORK)
 @BypassInterceptors
-public class EntityTransaction extends UserTransaction
+public class EntityTransaction extends AbstractUserTransaction
 {
-
+   private SynchronizationRegistry synchronizations = new SynchronizationRegistry();
    private ValueExpression<EntityManager> entityManager;
    private EntityManager currentEntityManager;
    
@@ -75,6 +76,7 @@ public class EntityTransaction extends UserTransaction
             HeuristicRollbackException, SecurityException, IllegalStateException, SystemException
    {
       assertActive();
+      boolean success = false;
       try
       {
          javax.persistence.EntityTransaction delegate = getDelegate();
@@ -85,13 +87,37 @@ public class EntityTransaction extends UserTransaction
          }
          else
          {
+            synchronizations.beforeTransactionCompletion();
             delegate.commit();
+            success = true;
          }
       }
       finally
       {
          clearEntityManager();
+         synchronizations.afterTransactionCompletion(success);
       }
+   }
+
+   public void rollback() throws IllegalStateException, SecurityException, SystemException
+   {
+      //TODO: translate exceptions that occur into the correct JTA exception
+      assertActive();
+      try
+      {
+         getDelegate().rollback();
+      }
+      finally
+      {
+         clearEntityManager();
+         synchronizations.afterTransactionCompletion(false);
+      }
+   }
+
+   public void setRollbackOnly() throws IllegalStateException, SystemException
+   {
+      assertActive();
+      getDelegate().setRollbackOnly();
    }
 
    public int getStatus() throws SystemException
@@ -108,26 +134,6 @@ public class EntityTransaction extends UserTransaction
       {
          return Status.STATUS_NO_TRANSACTION;
       }
-   }
-
-   public void rollback() throws IllegalStateException, SecurityException, SystemException
-   {
-      //TODO: translate exceptions that occur into the correct JTA exception
-      assertActive();
-      try
-      {
-         getDelegate().rollback();
-      }
-      finally
-      {
-         clearEntityManager();
-      }
-   }
-
-   public void setRollbackOnly() throws IllegalStateException, SystemException
-   {
-      assertActive();
-      getDelegate().setRollbackOnly();
    }
 
    public void setTransactionTimeout(int timeout) throws SystemException
@@ -159,6 +165,13 @@ public class EntityTransaction extends UserTransaction
       {
          throw new NotSupportedException("transaction is already active");
       }
+   }
+   
+   @Override
+   public void registerSynchronization(Synchronization sync)
+   {
+      assertActive();
+      synchronizations.registerSynchronization(sync);
    }
 
    @Override

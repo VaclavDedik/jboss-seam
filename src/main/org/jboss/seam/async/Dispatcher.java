@@ -23,6 +23,9 @@ public interface Dispatcher<T, S>
    /**
     * Schedule a timed (delayed and/or periodic) event
     * 
+    * @param type the event type
+    * @param schedule the schedule
+    * @param parameters parameters to pass to the event listener method
     * @return some kind of timer object, or null
     */
    public T scheduleTimedEvent(String type, S schedule, Object... parameters);
@@ -30,8 +33,27 @@ public interface Dispatcher<T, S>
    /**
     * Schedule an immediate asynchronous event
     * 
+    * @param type the event type
+    * @param parameters parameters to pass to the event listener method
     * @return some kind of timer object, or null
     */
    public T scheduleAsynchronousEvent(String type, Object... parameters);
+   
+   /**
+    * Schedule an event to be processed if and when the current transaction 
+    * completes successfully
+    * 
+    * @param type the event type
+    * @param parameters parameters to pass to the event listener method
+    */
+   public void scheduleTransactionSuccessEvent(String type, Object... parameters);
+   
+   /**
+    * Schedule an event to be processed when the current transaction ends
+    * 
+    * @param type the event type
+    * @param parameters parameters to pass to the event listener method
+    */
+   public void scheduleTransactionCompletionEvent(String type, Object... parameters);
    
 }

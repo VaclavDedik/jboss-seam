@@ -7,6 +7,7 @@ import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.Status;
+import javax.transaction.Synchronization;
 import javax.transaction.SystemException;
 
 import org.hibernate.Session;
@@ -20,8 +21,8 @@ import org.jboss.seam.core.Expressions.ValueExpression;
 /**
  * Support for the Hibernate Transaction API.
  * 
- * Adapts Hibernate transaction management to a
- * UserTransaction interface.
+ * Adapts Hibernate transaction management to a Seam UserTransaction 
+ * interface. For use in non-JTA-capable environments.
  * 
  * @author Gavin King
  * 
@@ -30,7 +31,7 @@ import org.jboss.seam.core.Expressions.ValueExpression;
 @Scope(ScopeType.EVENT)
 @Install(value=false, precedence=FRAMEWORK)
 @BypassInterceptors
-public class HibernateTransaction extends UserTransaction
+public class HibernateTransaction extends AbstractUserTransaction
 {
 
    private ValueExpression<Session> session;
@@ -93,22 +94,6 @@ public class HibernateTransaction extends UserTransaction
       }
    }
 
-   public int getStatus() throws SystemException
-   {
-      if (rollbackOnly)
-      {
-         return Status.STATUS_MARKED_ROLLBACK;
-      }
-      else if ( isSessionSet() && getDelegate().isActive() )
-      {
-         return Status.STATUS_ACTIVE;
-      }
-      else
-      {
-         return Status.STATUS_NO_TRANSACTION;
-      }
-   }
-
    public void rollback() throws IllegalStateException, SecurityException, SystemException
    {
       //TODO: translate exceptions that occur into the correct JTA exception
@@ -127,6 +112,22 @@ public class HibernateTransaction extends UserTransaction
    {
       assertActive();
       rollbackOnly = true;
+   }
+
+   public int getStatus() throws SystemException
+   {
+      if (rollbackOnly)
+      {
+         return Status.STATUS_MARKED_ROLLBACK;
+      }
+      else if ( isSessionSet() && getDelegate().isActive() )
+      {
+         return Status.STATUS_ACTIVE;
+      }
+      else
+      {
+         return Status.STATUS_NO_TRANSACTION;
+      }
    }
 
    public void setTransactionTimeout(int timeout) throws SystemException
@@ -160,6 +161,13 @@ public class HibernateTransaction extends UserTransaction
       {
          throw new NotSupportedException("transaction is already active");
       }
+   }
+   
+   @Override
+   public void registerSynchronization(Synchronization sync)
+   {
+      assertActive();
+      getDelegate().registerSynchronization(sync);
    }
    
    @Override

@@ -4,6 +4,7 @@ import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import javax.naming.NameNotFoundException;
 import javax.naming.NamingException;
+import javax.transaction.Synchronization;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
@@ -16,17 +17,13 @@ import org.jboss.seam.util.EJB;
 import org.jboss.seam.util.Naming;
 
 /**
- * Abstracts all possible transaction management APIs behind a 
- * JTA-compatible interface. Unfortunately, many 
- * otherwise-perfectly-intelligent-looking Java developers like 
- * to invent their own transaction management APIs when they get 
- * bored, even though JTA is well-known to be more than good
- * enough. For example, one of the co-authors of this class was 
- * present at the creation of not one but two "alternative" 
- * transaction APIs (org.hibernate.Transaction and 
- * javax.persistence.EntityTransaction), and is more 
- * embarrassed by this than by any other of his many professional
- * blunders.
+ * Supports injection of a Seam UserTransaction object that
+ * wraps the current JTA transaction or EJB container managed
+ * transaction. This base implementation does not have access
+ * to the JTA TransactionManager, so it is not fully aware
+ * of container managed transaction lifecycle, and is not
+ * able to register Synchronizations with a container managed 
+ * transaction.
  * 
  * @author Mike Youngstrom
  * @author Gavin King
@@ -43,6 +40,38 @@ public class Transaction
 
    private static String userTransactionName = "UserTransaction";
 
+   private SynchronizationRegistry synchronizations = new SynchronizationRegistry();
+   
+   protected SynchronizationRegistry getSynchronizations()
+   {
+      return synchronizations;
+   }
+   
+   protected void afterCommit(boolean success)
+   {
+      synchronizations.afterTransactionCompletion(success);
+   }
+   
+   protected void afterRollback()
+   {
+      synchronizations.afterTransactionCompletion(false);
+   }
+   
+   protected void beforeCommit()
+   {
+      synchronizations.beforeTransactionCompletion();
+   }
+   
+   protected void registerSynchronization(Synchronization sync)
+   {
+      synchronizations.registerSynchronization(sync);
+   }
+   
+   protected boolean isAwareOfContainerTransactions()
+   {
+      return false;
+   }
+   
    public static void setUserTransactionName(String name)
    {
       userTransactionName = name;
@@ -85,12 +114,12 @@ public class Transaction
 
    protected UserTransaction createEJBTransaction() throws NamingException
    {
-      return new EJBTransaction( EJB.getEJBContext() );
+      return new CMTTransaction( EJB.getEJBContext(), this );
    }
 
    protected UserTransaction createUTTransaction() throws NamingException
    {
-      return new UTTransaction( getUserTransaction() );
+      return new UTTransaction( getUserTransaction(), this );
    }
 
    protected javax.transaction.UserTransaction getUserTransaction() throws NamingException

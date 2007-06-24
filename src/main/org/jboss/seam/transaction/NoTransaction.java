@@ -5,28 +5,28 @@ import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.Status;
+import javax.transaction.Synchronization;
 import javax.transaction.SystemException;
 
 /**
- * When no kind of transaction management
- * exists.
+ * When no kind of transaction management exists.
  * 
  * @author Mike Youngstrom
  * @author Gavin King
  * 
  */
-public class NoTransaction extends UserTransaction
+public class NoTransaction extends AbstractUserTransaction
 {
    
    public void begin() throws NotSupportedException, SystemException
    {
-      throw new UnsupportedOperationException();
+      throw new UnsupportedOperationException("no transaction");
    }
 
    public void commit() throws RollbackException, HeuristicMixedException,
             HeuristicRollbackException, SecurityException, IllegalStateException, SystemException
    {
-      throw new UnsupportedOperationException();
+      throw new UnsupportedOperationException("no transaction");
    }
 
    public int getStatus() throws SystemException
@@ -36,17 +36,23 @@ public class NoTransaction extends UserTransaction
 
    public void rollback() throws IllegalStateException, SecurityException, SystemException
    {
-      throw new UnsupportedOperationException();
+      throw new UnsupportedOperationException("no transaction");
    }
 
    public void setRollbackOnly() throws IllegalStateException, SystemException
    {
-      throw new UnsupportedOperationException();
+      throw new UnsupportedOperationException("no transaction");
    }
 
    public void setTransactionTimeout(int timeout) throws SystemException
    {
-      throw new UnsupportedOperationException();
+      throw new UnsupportedOperationException("no transaction");
+   }
+   
+   @Override
+   public void registerSynchronization(Synchronization sync)
+   {
+      throw new UnsupportedOperationException("no transaction");
    }
 
 }
