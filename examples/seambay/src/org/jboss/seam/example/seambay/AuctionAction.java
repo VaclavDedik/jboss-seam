@@ -16,6 +16,12 @@ import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.security.Restrict;
 
+/**
+ * This component is used to create new auctions, and is invoked via both the
+ * web interface and the AuctionService web service. 
+ *  
+ * @author Shane Bryzak
+ */
 @Scope(CONVERSATION)
 @Name("auctionAction")
 @Restrict("#{identity.loggedIn}")
@@ -43,12 +49,6 @@ public class AuctionAction implements Serializable
          auction.setStatus(Auction.STATUS_UNLISTED);   
       }
    }   
-      
-   @Begin
-   public void editAuction(Integer auctionId)
-   {
-      auction = entityManager.find(Auction.class, auctionId);
-   }
    
    public void setDetails(String title, String description, int categoryId)
    {
@@ -70,8 +70,6 @@ public class AuctionAction implements Serializable
       auction.setEndDate(cal.getTime());
       auction.setStatus(Auction.STATUS_LIVE);
       entityManager.persist(auction);
-      
-      auction = null;
    }
 
    public Auction getAuction()

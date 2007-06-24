@@ -12,9 +12,9 @@ public interface AuctionServiceRemote
    
    Integer createAuction(String title, String description, int categoryId);   
    Auction getNewAuctionDetails();
-   void updateAuction(int auctionId, String title, String description, int categoryId);
+   void updateAuctionDetails(String title, String description, int categoryId);
    void setAuctionDuration(int days);
-   void confirmAuction(int auctionId);
+   void confirmAuction();
    
    Auction[] findAuctions(String searchTerm);
 }

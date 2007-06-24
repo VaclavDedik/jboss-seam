@@ -151,9 +151,6 @@ public class Auction implements Serializable
       
       timeLeft -= hours * 60 * 60;
       int minutes = (int) Math.floor(timeLeft / 60);
-      
-//      timeLeft -= minutes * 60;
-//      int seconds = (int) timeLeft;
 
       StringBuilder sb = new StringBuilder();
       

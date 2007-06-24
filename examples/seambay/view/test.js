@@ -60,7 +60,7 @@ svc.setRequest("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soa
                "\n  </soapenv:Body>" +
                "\n</soapenv:Envelope>");  
 
-svc = new ServiceMetadata("createAuction", "Create/Update Auction");
+svc = new ServiceMetadata("createAuction", "Create Auction");
 svc.setDescription("Create new auction");
 svc.setRequest("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" " +
                "\n    xmlns:seam=\"http://seambay.example.seam.jboss.org/\">\n  <soapenv:Header/>" +
@@ -76,25 +76,27 @@ svc.addParameter(new ServiceParam("Auction title", "title"));
 svc.addParameter(new ServiceParam("Description", "description"));
 svc.addParameter(new ServiceParam("Category ID", "categoryId"));         
 
-svc = new ServiceMetadata("updateAuction", "Create/Update Auction");
-svc.setDescription("Update an existing auction");
+svc = new ServiceMetadata("updateAuctionDetails", "Create Auction");
+svc.setDescription("Update auction details");
 svc.setRequest("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" " +
-               "\n    xmlns:seam=\"http://seambay.example.seam.jboss.org/\">\n  <soapenv:Header/>" +
+               "\n    xmlns:seam=\"http://seambay.example.seam.jboss.org/\">" +
+               "\n  <soapenv:Header>" +
+               "\n    <seam:conversationId xmlns:seam='http://www.jboss.org/seam/webservice'>#{conversationId}</seam:conversationId>" +
+               "\n  </soapenv:Header>" +               
                "\n  <soapenv:Body>" +
-               "\n    <seam:updateAuction>" +
-               "\n      <arg0>#{auctionId}</arg0>" +
-               "\n      <arg1>#{title}</arg1>" +
-               "\n      <arg2>#{description}</arg2>" +
-               "\n      <arg3>#{categoryId}</arg3>" +
-               "\n    </seam:updateAuction>" +
+               "\n    <seam:updateAuctionDetails>" +
+               "\n      <arg0>#{title}</arg0>" +
+               "\n      <arg1>#{description}</arg1>" +
+               "\n      <arg2>#{categoryId}</arg2>" +
+               "\n    </seam:updateAuctionDetails>" +
                "\n  </soapenv:Body>" +
                "\n</soapenv:Envelope>");
-svc.addParameter(new ServiceParam("Auction ID", "auctionId"));
 svc.addParameter(new ServiceParam("Auction title", "title"));
 svc.addParameter(new ServiceParam("Description", "description"));
 svc.addParameter(new ServiceParam("Category ID", "categoryId"));      
+svc.setConversational(true);
 
-svc = new ServiceMetadata("setAuctionDuration", "Create/Update Auction");
+svc = new ServiceMetadata("setAuctionDuration", "Create Auction");
 svc.setDescription("Set auction duration");
 svc.setRequest("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" " +
                "\n    xmlns:seam=\"http://seambay.example.seam.jboss.org/\">" +
@@ -110,28 +112,33 @@ svc.setRequest("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soa
 svc.addParameter(new ServiceParam("Duration in days", "duration"));
 svc.setConversational(true);
 
-svc = new ServiceMetadata("getNewAuctionDetails", "Create/Update Auction");
+svc = new ServiceMetadata("getNewAuctionDetails", "Create Auction");
 svc.setDescription("Get the auction details");
 svc.setRequest("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" " +
-               "\n    xmlns:seam=\"http://seambay.example.seam.jboss.org/\">\n  <soapenv:Header/>" +
+               "\n    xmlns:seam=\"http://seambay.example.seam.jboss.org/\">" +
+               "\n  <soapenv:Header>" +
+               "\n    <seam:conversationId xmlns:seam='http://www.jboss.org/seam/webservice'>#{conversationId}</seam:conversationId>" +
+               "\n  </soapenv:Header>" +
                "\n  <soapenv:Body>" +
                "\n    <seam:getNewAuctionDetails>" +
                "\n      <arg0>#{auctionId}</arg0>" +
                "\n    </seam:getNewAuctionDetails>" +
                "\n </soapenv:Body>" +
                "\n</soapenv:Envelope>");
+svc.setConversational(true);               
 
-svc = new ServiceMetadata("confirmAuction", "Create/Update Auction");
+svc = new ServiceMetadata("confirmAuction", "Create Auction");
 svc.setDescription("Confirm auction");
 svc.setRequest("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" " +
-               "\n    xmlns:seam=\"http://seambay.example.seam.jboss.org/\">\n  <soapenv:Header/>" +
+               "\n    xmlns:seam=\"http://seambay.example.seam.jboss.org/\">" +
+               "\n  <soapenv:Header>" +
+               "\n    <seam:conversationId xmlns:seam='http://www.jboss.org/seam/webservice'>#{conversationId}</seam:conversationId>" +
+               "\n  </soapenv:Header>" +               
                "\n  <soapenv:Body>" +
-               "\n    <seam:confirmAuction>" +
-               "\n      <arg0>#{auctionId}</arg0>" +
-               "\n    </seam:confirmAuction>" +
+               "\n    <seam:confirmAuction/>" +
                "\n  </soapenv:Body>" +
                "\n</soapenv:Envelope>");
-svc.addParameter(new ServiceParam("Auction ID", "auctionId"));               
+svc.setConversational(true);
 
 // end of web service definitions
 
@@ -234,6 +241,8 @@ function selectService(serviceName)
      td.appendChild(inp);
   }
   
+  document.getElementById("conversationId").readOnly = !svc.isConversational();
+  
   setAllParams();
 }
 
@@ -264,11 +273,48 @@ function receiveResponse(req)
     if (req.responseText)
       document.getElementById("serviceResponse").value = req.responseText;
       
+    if (req.responseXML)
+    {
+      var cid = extractConversationId(req.responseXML);
+      
+      if (cid)
+      {
+        document.getElementById("conversationId").value = cid;
+      }
+    }
+      
     if (req.status != 200)
     {
       alert("There was an error processing your request.  Error code: " + req.status);      
     }
   }  
+}
+
+function extractConversationId(doc)
+{
+  var headerNode;
+
+  if (doc.documentElement)
+  {
+    for (var i = 0; i < doc.documentElement.childNodes.length; i++)
+    {
+      var node = doc.documentElement.childNodes.item(i);
+      if (node.localName == "Header")
+        headerNode = node;
+    }
+  }
+
+  if (headerNode)
+  {
+    for (var i = 0; i < headerNode.childNodes.length; i++)
+    {
+      var node = headerNode.childNodes.item(i);
+      if (node.localName == "conversationId")
+      {
+        return node.firstChild.nodeValue;
+      }
+    }
+  }    
 }
 
 function initServices()

@@ -45,8 +45,7 @@ public class AuctionService implements AuctionServiceRemote
    @WebMethod
    public Integer createAuction(String title, String description, int categoryId)
    {
-      AuctionAction action = (AuctionAction) Component.getInstance(AuctionAction.class, true);
-      
+      AuctionAction action = getAuctionAction();      
       action.createAuction();
       action.setDetails(title, description, categoryId);
       
@@ -56,36 +55,31 @@ public class AuctionService implements AuctionServiceRemote
    @WebMethod
    public Auction getNewAuctionDetails()
    {
-      AuctionAction action = (AuctionAction) Component.getInstance(AuctionAction.class, true);
-      
-      // TODO remove the auction image from the result
-      
-      return action.getAuction();
+      return getAuctionAction().getAuction();
    }
    
    @WebMethod
-   public void updateAuction(int auctionId, String title, String description, int categoryId)
-   {
-      AuctionAction action = (AuctionAction) Component.getInstance(AuctionAction.class, true);
-      
-      action.editAuction(auctionId);
-      action.setDetails(title, description, categoryId);
+   public void updateAuctionDetails(String title, String description, int categoryId)
+   {     
+      getAuctionAction().setDetails(title, description, categoryId);
    }
    
    @WebMethod
    public void setAuctionDuration(int days)
    {
-      AuctionAction action = (AuctionAction) Component.getInstance(AuctionAction.class, true);
-      action.setDuration(days);
+      getAuctionAction().setDuration(days);
    }
    
    @WebMethod
-   public void confirmAuction(int auctionId)
+   public void confirmAuction()
    {
-      AuctionAction action = (AuctionAction) Component.getInstance(AuctionAction.class, true);
-      
-      action.confirm();
+      getAuctionAction().confirm();
    }
+      
+   private AuctionAction getAuctionAction()
+   {
+      return (AuctionAction) Component.getInstance(AuctionAction.class, true);
+   }   
    
    @WebMethod
    public Auction[] findAuctions(String searchTerm)
