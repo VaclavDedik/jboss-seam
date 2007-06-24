@@ -238,19 +238,17 @@ public class Jbpm
 
    private void installProcessDefinitions()
    {
-      if ( processDefinitions!=null && processDefinitions.length>0 )
+      if ( isProcessDeploymentEnabled() )
       {
          JbpmContext jbpmContext = getJbpmConfiguration().createJbpmContext();
          try
          {
-            for ( String definitionResource : processDefinitions )
+            if (processDefinitions!=null)
             {
-               ProcessDefinition processDefinition = ProcessDefinition.parseXmlResource( definitionResource );
-               if (log.isDebugEnabled())
+               for ( String definitionResource : processDefinitions )
                {
-                  log.debug( "deploying process definition : " + processDefinition.getName() );
+                  deployProcess(jbpmContext, definitionResource);
                }
-               jbpmContext.deployProcessDefinition(processDefinition);
             }
          }
          catch (RuntimeException e)
@@ -262,6 +260,21 @@ public class Jbpm
             jbpmContext.close();
          }
       }
+   }
+
+   private void deployProcess(JbpmContext jbpmContext, String definitionResource)
+   {
+      ProcessDefinition processDefinition = ProcessDefinition.parseXmlResource(definitionResource);
+      if (log.isDebugEnabled())
+      {
+         log.debug( "deploying process definition : " + processDefinition.getName() );
+      }
+      jbpmContext.deployProcessDefinition(processDefinition);
+   }
+
+   protected boolean isProcessDeploymentEnabled()
+   {
+      return processDefinitions!=null && processDefinitions.length>0;
    }
    
    public static Jbpm instance()
