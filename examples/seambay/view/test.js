@@ -13,6 +13,7 @@ ServiceMetadata = function(name, group)
   this.name = name;
   this.group = group;
   this.parameters = new Array();
+  this.conversational = false;
 
   webServices[name] = this;
 
@@ -21,6 +22,8 @@ ServiceMetadata = function(name, group)
   ServiceMetadata.prototype.addParameter = function(param) { this.parameters.push(param); };
   ServiceMetadata.prototype.setRequest = function(request) { this.request = request; };
   ServiceMetadata.prototype.getRequest = function() { return this.request; };
+  ServiceMetadata.prototype.setConversational = function(val) { this.conversational = val; };
+  ServiceMetadata.prototype.isConversational = function() { return this.conversational; };
 }
 
 // start of web service definitions
@@ -94,16 +97,18 @@ svc.addParameter(new ServiceParam("Category ID", "categoryId"));
 svc = new ServiceMetadata("setAuctionDuration", "Create/Update Auction");
 svc.setDescription("Set auction duration");
 svc.setRequest("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" " +
-               "\n    xmlns:seam=\"http://seambay.example.seam.jboss.org/\">\n  <soapenv:Header/>" +
+               "\n    xmlns:seam=\"http://seambay.example.seam.jboss.org/\">" +
+               "\n  <soapenv:Header>" +
+               "\n    <seam:conversationId xmlns:seam='http://www.jboss.org/seam/webservice'>#{conversationId}</seam:conversationId>" +
+               "\n  </soapenv:Header>" +
                "\n  <soapenv:Body>" +
                "\n    <seam:setAuctionDuration>" +
-               "\n      <arg0>#{auctionId}</arg0>" +
-               "\n      <arg1>#{duration}</arg1>" +
+               "\n      <arg0>#{duration}</arg0>" +
                "\n    </seam:setAuctionDuration>" +
                "\n  </soapenv:Body>" +
                "\n</soapenv:Envelope>");
-svc.addParameter(new ServiceParam("Auction ID", "auctionId"));
 svc.addParameter(new ServiceParam("Duration in days", "duration"));
+svc.setConversational(true);
 
 svc = new ServiceMetadata("getNewAuctionDetails", "Create/Update Auction");
 svc.setDescription("Get the auction details");
@@ -115,7 +120,6 @@ svc.setRequest("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soa
                "\n    </seam:getNewAuctionDetails>" +
                "\n </soapenv:Body>" +
                "\n</soapenv:Envelope>");
-svc.addParameter(new ServiceParam("Auction ID", "auctionId"));               
 
 svc = new ServiceMetadata("confirmAuction", "Create/Update Auction");
 svc.setDescription("Confirm auction");
@@ -152,6 +156,9 @@ function setAllParams()
     
     request = request.replace(search, param.value);
   } 
+  
+  // Set the conversation ID
+  request = request.replace("#{conversationId}", document.getElementById("conversationId").value);
   
   document.getElementById("serviceRequest").value = request;  
 }

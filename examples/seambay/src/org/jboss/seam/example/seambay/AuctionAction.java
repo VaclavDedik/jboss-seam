@@ -32,20 +32,19 @@ public class AuctionAction implements Serializable
    
    private int durationDays;
    
-   @Begin(pageflow="createAuction", join=true)
+   @Begin
    @SuppressWarnings("unchecked")
    public void createAuction()
    {
       if (auction == null)
       {
          auction = new Auction();
-         auction.setAuctionId(-123); // TODO create a temporary auction ID
          auction.setAccount(authenticatedAccount);
          auction.setStatus(Auction.STATUS_UNLISTED);   
       }
    }   
       
-   @Begin(join = true)
+   @Begin
    public void editAuction(Integer auctionId)
    {
       auction = entityManager.find(Auction.class, auctionId);

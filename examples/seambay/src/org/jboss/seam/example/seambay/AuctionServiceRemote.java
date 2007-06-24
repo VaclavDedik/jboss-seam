@@ -11,9 +11,9 @@ public interface AuctionServiceRemote
    Category[] listCategories();
    
    Integer createAuction(String title, String description, int categoryId);   
-   Auction getNewAuctionDetails(int auctionId);
+   Auction getNewAuctionDetails();
    void updateAuction(int auctionId, String title, String description, int categoryId);
-   void setAuctionDuration(int auctionId, int days);
+   void setAuctionDuration(int days);
    void confirmAuction(int auctionId);
    
    Auction[] findAuctions(String searchTerm);

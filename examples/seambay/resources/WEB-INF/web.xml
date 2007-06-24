@@ -18,7 +18,7 @@
     
     <filter-mapping>
       <filter-name>Seam Filter</filter-name>
-      <url-pattern>/*</url-pattern>
+      <url-pattern>*.seam</url-pattern>
     </filter-mapping>     
         
     <servlet>
