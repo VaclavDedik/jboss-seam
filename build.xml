@@ -451,7 +451,7 @@
 		<ant dir="examples/remoting/progressbar" target="clean" inheritall="false" />
 		<ant dir="examples/hibernate2" target="clean" inheritall="false" />
 		<ant dir="examples/jpa" target="clean" inheritall="false" />
-		<ant dir="examples/glassfish" target="clean" inheritall="false" />
+		<ant dir="examples/jee5" target="clean" inheritall="false" />
 		<ant dir="trinidad/examples/seamdiscs" target="clean" inheritall="false" />
 		<ant dir="examples/groovybooking" target="clean" inheritall="false" />
 		<ant dir="examples/quartz" target="clean" inheritall="false" />
