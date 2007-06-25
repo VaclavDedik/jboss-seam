@@ -11,6 +11,7 @@ import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.IOException;
 
+import javax.faces.component.UIViewRoot;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -112,7 +113,9 @@ public class ExceptionFilter extends AbstractFilter
    
    private MockFacesContext createFacesContext(HttpServletRequest request, HttpServletResponse response)
    {
-      return new MockFacesContext( new MockExternalContext(getServletContext(), request, response), new MockApplication() );
+      MockFacesContext mockFacesContext = new MockFacesContext( new MockExternalContext(getServletContext(), request, response), new MockApplication() );
+      mockFacesContext.setViewRoot( new UIViewRoot() );
+      return mockFacesContext;
    }
    
    protected void rollbackTransactionIfNecessary()
