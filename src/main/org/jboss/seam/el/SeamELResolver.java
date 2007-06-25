@@ -11,6 +11,7 @@ import javax.el.ELContext;
 import javax.el.ELResolver;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Init;
 
@@ -117,6 +118,19 @@ public class SeamELResolver extends ELResolver
          {
             context.setPropertyResolved(true);
             return ( (Map) base ).entrySet();
+         }
+         else
+         {
+            return null;
+         }
+      }
+      else if (base instanceof Context)
+      {
+         Context seamContext = (Context) base;
+         if ( seamContext.isSet( (String) property ) )
+         {
+            context.setPropertyResolved(true);
+            return seamContext.get( (String) property );
          }
          else
          {
