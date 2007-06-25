@@ -7,7 +7,7 @@
  * directly, or via EL, or may use them indirectly via
  * the annotations in org.jboss.seam.annotations.
  * 
- * @see org.jboss.seam.annotations
+ * @see org.jboss.seam.annotations.bpm
  */
 @Namespace(value="http://jboss.com/products/seam/bpm", prefix="org.jboss.seam.bpm")
 package org.jboss.seam.bpm;
