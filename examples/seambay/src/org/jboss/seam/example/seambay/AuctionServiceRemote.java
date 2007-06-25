@@ -10,7 +10,7 @@ public interface AuctionServiceRemote
    
    Category[] listCategories();
    
-   Integer createAuction(String title, String description, int categoryId);   
+   void createAuction(String title, String description, int categoryId);   
    Auction getNewAuctionDetails();
    void updateAuctionDetails(String title, String description, int categoryId);
    void setAuctionDuration(int days);

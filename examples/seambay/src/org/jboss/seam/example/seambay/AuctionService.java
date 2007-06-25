@@ -41,13 +41,11 @@ public class AuctionService implements AuctionServiceRemote
    }
    
    @WebMethod
-   public Integer createAuction(String title, String description, int categoryId)
+   public void createAuction(String title, String description, int categoryId)
    {
       AuctionAction action = getAuctionAction();      
       action.createAuction();
       action.setDetails(title, description, categoryId);
-      
-      return action.getAuction().getAuctionId();
    }
    
    @WebMethod
