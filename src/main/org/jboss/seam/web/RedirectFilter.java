@@ -35,7 +35,7 @@ import org.jboss.seam.navigation.Pages;
 @Startup
 @Scope(APPLICATION)
 @Name("org.jboss.seam.web.redirectFilter")
-@Install(precedence = BUILT_IN, classDependencies="javax.faces.FacesContext")
+@Install(precedence = BUILT_IN, classDependencies="javax.faces.context.FacesContext")
 @BypassInterceptors
 @Filter(within="org.jboss.seam.web.ajax4jsfFilter")
 public class RedirectFilter extends AbstractFilter 
