@@ -6,8 +6,7 @@ Updating version numbers
 * Update the version number embedded in:
   - readme.txt
   - changelog.txt
-  - build.xml
-  - doc/reference/en/master.xml
+  - build.properties
 
   (Actually, we should fix it so the last two
   version numbers can be pulled from build.properties.) 
@@ -17,7 +16,7 @@ Updating version numbers
 
 Tests
 -----
-* "ant cleanall testall", check report/index.html
+* "ant cleanall testall" with validate.xml = true in build.properties, check report/index.html
 * Sanity check the following example applications on JBoss 4.2.0
   - booking
   - dvdstore
@@ -105,6 +104,7 @@ seam-text.g
 seam.bat
 src
 trinidad
+ui
 
 * check that the following source directories exist in the dist "ls -1 src"
 
@@ -116,7 +116,6 @@ main
 pdf
 remoting
 test
-ui
 
 * check that the following examples exist in the dist "ls -1 examples"
 
