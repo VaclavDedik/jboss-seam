@@ -198,6 +198,9 @@
 		<include name="jboss-cache-jdk50.jar" if="example.cache.lib" />
 		<include name="jboss-aop-jdk50.jar" if="example.cache.lib" />
 		<include name="jgroups.jar" if="example.cache.lib" />
+		<include name="lucene*.jar" if="example.search.lib" />
+		<include name="hibernate-search.jar" if="example.search.lib" />
+		<include name="hibernate-commons-annotations.jar" if="example.search.lib" />
 	</zipfileset>
 
 	<zipfileset id="example.drools.jar" dir="${drools.lib.dir}" description="the Drools jars">
