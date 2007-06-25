@@ -25,7 +25,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.ComponentType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.WebRemote;
+import org.jboss.seam.annotations.remoting.WebRemote;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.servlet.ContextualHttpServletRequest;
