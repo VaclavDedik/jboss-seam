@@ -1,14 +1,10 @@
 //$Id$
 package org.jboss.seam.example.hibernate;
 
-import static org.jboss.seam.ScopeType.SESSION;
-import static javax.persistence.PersistenceContextType.EXTENDED;
-
 import java.util.Calendar;
-import java.util.List;
 
+import org.hibernate.Session;
 import org.jboss.seam.annotations.Begin;
-import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
@@ -17,8 +13,6 @@ import org.jboss.seam.annotations.Out;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.log.Log;
-
-import org.hibernate.Session;
 
 @Name("hotelBooking")
 public class HotelBookingAction
@@ -88,19 +82,13 @@ public class HotelBookingAction
       return bookingValid;
    }
 
-   @Out (required=false, scope=SESSION)
-   List <Booking> bookings;
-   
    @End
    public void confirm()
    {
       bookingDatabase.persist(booking);
       facesMessages.add("Thank you, #{user.name}, your confimation number for #{hotel.name} is #{booking.id}");
       log.info("New booking: #{booking.id} for #{user.username}");
-      // events.raiseTransactionSuccessEvent("bookingConfirmed");
-
-      // force refresh in main.xhtml
-      bookings = null;
+      events.raiseTransactionSuccessEvent("bookingConfirmed");
    }
    
    @End

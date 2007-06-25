@@ -3,17 +3,13 @@ package org.jboss.seam.example.hibernate;
 
 import java.util.List;
 
+import org.hibernate.Session;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.annotations.Factory;
+import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.datamodel.DataModel;
-
-import org.jboss.seam.annotations.In;
-
-import org.hibernate.Session;
-
-import org.jboss.seam.annotations.Factory;
 
 @Name("hotelSearch")
 @Scope(ScopeType.SESSION)

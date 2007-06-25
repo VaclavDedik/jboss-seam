@@ -7,21 +7,18 @@ import static org.jboss.seam.ScopeType.SESSION;
 import java.io.Serializable;
 import java.util.List;
 
-// import javax.ejb.TransactionAttribute;
-
-import org.jboss.seam.annotations.Destroy;
+import org.hibernate.Session;
 import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.log.Log;
-
-import org.hibernate.Session;
 
 @Scope(SESSION)
 @Name("bookingList")
@@ -44,7 +41,8 @@ public class BookingListAction implements Serializable
    private Log log;
    
    @Factory
-   // @Observer("bookingConfirmed")
+   @Observer("bookingConfirmed")
+   @Transactional
    public void getBookings()
    {
       bookings = bookingDatabase.createQuery("select b from Booking b where b.user.username = :username order by b.checkinDate")
