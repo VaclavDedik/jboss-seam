@@ -28,12 +28,14 @@ public class MethodContextInterceptor extends AbstractInterceptor
       String name = comp.getName();
       Object target = ctx.getTarget();
       Method method = ctx.getMethod();
+      Object[] parameters = ctx.getParameters();
       Context outerMethodContext = Lifecycle.beginMethod();
       try
       {
          Contexts.getMethodContext().set(name, target);
          Contexts.getMethodContext().set("org.jboss.seam.this", target);
          Contexts.getMethodContext().set("org.jboss.seam.method", method);
+         Contexts.getMethodContext().set("org.jboss.seam.parameters", parameters);
          Contexts.getMethodContext().set("org.jboss.seam.component", comp);
          return ctx.proceed();
       }
