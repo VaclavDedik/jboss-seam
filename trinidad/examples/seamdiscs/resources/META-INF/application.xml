@@ -17,16 +17,7 @@
       <ejb>seamdiscs.jar</ejb>
    </module>
    
-   <!-- Seam and EL -->
    <module>
-       <java>jboss-seam.jar</java>
+       <ejb>jboss-seam.jar</ejb>
    </module>   
-   <module>
-       <java>jboss-el.jar</java>
-   </module>
-   
-	<!-- Trinidad -->
-	<module>
-	   <java>trinidad-api-1.0.0-incubating.jar</java>
-	</module>
 </application>
