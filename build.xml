@@ -1025,7 +1025,7 @@
 		</copy>
 	</target>
 
-	<target name="build" depends="jarcore,jarui,jarpdf,jarioc,jarmail,jardebug,jargen,jarremoting" description="Build all four distribution .jar files" />
+	<target name="build" depends="jarcore,jarpdf,jarioc,jarmail,jarremoting,jardebug,jargen,jarui" description="Build all four distribution .jar files" />
 
 	<target name="jarcore" depends="compilecore" description="Build the distribution .jar file for the core package">
 		<mkdir dir="${dist.dir}" />
@@ -1192,11 +1192,15 @@
 
 	<target name="refdoc" description="Generate and copy reference documentation">
 
-		<ant dir="${doc.ref.dir}" inheritall="false" target="all.doc" />
-		<copy todir="${dist.ref.dir}">
-			<fileset dir="${doc.ref.dir}/build" />
+		<copy todir="${doc.ref.dir}/build">
+			<fileset dir="${doc.ref.dir}" />
 		</copy>
-
+		<replace dir="${doc.ref.dir}/build" token="@version@" value="${version}.${patchlevel}"/>
+		<ant dir="${doc.ref.dir}/build" inheritall="false" target="all.doc" />
+		<copy todir="${dist.ref.dir}">
+			<fileset dir="${doc.ref.dir}/build/build" />
+		</copy>
+		<delete dir="${doc.ref.dir}/build"/>
 	</target>
 
 	<target name="copyseamgen" description="Copy seam-gen directory to dist dir">
