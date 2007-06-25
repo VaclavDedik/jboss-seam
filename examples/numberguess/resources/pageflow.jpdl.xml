@@ -47,13 +47,13 @@
    </process-state>
 
    <page name="win" view-id="/win.jspx">
-      <redirect/>
       <end-conversation/>
+      <redirect/>
    </page>
    
    <page name="lose" view-id="/lose.jspx">
-      <redirect/>
       <end-conversation/>
+      <redirect/>
    </page>
    
 </pageflow-definition>

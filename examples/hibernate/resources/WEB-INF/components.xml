@@ -17,7 +17,7 @@
     
     <!-- Bootstrap Hibernate -->
     <persistence:managed-hibernate-session name="bookingDatabase" 
-                                    auto-create="true"/>/>
+                                    auto-create="true"/>
               
     <persistence:hibernate-session-factory name="hibernateSessionFactory"/>
               

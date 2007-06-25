@@ -6,8 +6,11 @@
 
     <xs:element name="managed-persistence-context">
         <xs:complexType mixed="true">
-            <xs:sequence minOccurs="0" maxOccurs="1">
-                <xs:element ref="persistence:filters"/>
+            <xs:sequence>
+            	<xs:choice minOccurs="0" maxOccurs="unbounded">
+    	            <xs:element ref="persistence:filters"/>
+	                <xs:element ref="persistence:persistence-unit-jndi-name" />
+                </xs:choice>
             </xs:sequence>
             <xs:attributeGroup ref="persistence:attlist.ManagedPersistenceContext"/>
             <xs:attributeGroup ref="components:attlist.component"/>
@@ -27,7 +30,11 @@
             <xs:attributeGroup ref="components:attlist.component"/>
         </xs:complexType>
     </xs:element>
+    
     <xs:element name="filters" type="components:multiValuedProperty"/>
+    
+    <xs:element name="persistence-unit-jndi-name" type="xs:string" />
+    
     <xs:attributeGroup name="attlist.ManagedHibernateSession">
         <xs:attribute name="session-factory"/>
         <xs:attribute name="session-factory-jndi-name"/>

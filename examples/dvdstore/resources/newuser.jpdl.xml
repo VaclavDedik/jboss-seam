@@ -41,8 +41,8 @@
     
     <page name="complete" view-id="/newuser/complete.xhtml"
           no-conversation-view-id="/newuser/account.xhtml">
-        <redirect/>
         <end-conversation/>
+        <redirect/>
     </page>
     
 </pageflow-definition>

@@ -1,5 +1,9 @@
-<process-definition
-	name="todo">
+<process-definition 
+	name="todo"
+	xmlns="urn:jbpm.org:jpdl-3.1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="urn:jbpm.org:jpdl-3.1 http://jbpm.org/xsd/jpdl-3.1.xsd"
+	>
    
    <start-state name="start">
       <transition to="todo"/>

@@ -20,13 +20,13 @@
     </page>
     
     <page name="complete" view-id="/complete.xhtml">
-        <redirect/>
         <end-conversation/>
+        <redirect/>
     </page>    
 
     <page name="cancel" view-id="/browse.xhtml">
-        <redirect/>
-        <end-conversation before-redirect="true"/>
+	    <end-conversation before-redirect="true"/>
+        <redirect/>    
     </page>
 
 </pageflow-definition>

@@ -12,6 +12,7 @@
 			<xs:choice minOccurs="0" maxOccurs="unbounded">
 				<xs:group ref="start-node-elements" />
 				<xs:group ref="node-elements" />
+				<xs:group ref="end-node-elements" />
 				<xs:group ref="action-elements" />
 				<xs:element ref="event" />
 				<xs:element ref="exception-handler" />
@@ -33,10 +34,20 @@
 		</xs:complexType>
 	</xs:element>
 
+	<xs:element name="end-state">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="event" />
+				<xs:element ref="exception-handler" />
+			</xs:choice>
+			<xs:attribute name="name" type="xs:string" use="required" />
+		</xs:complexType>
+	</xs:element>
+
 	<xs:element name="process-state">
 		<xs:complexType>
 			<xs:choice minOccurs="0" maxOccurs="unbounded">
-			    <xs:element ref="sub-process" />
+				<xs:element ref="sub-process" />
 				<xs:element ref="transition" />
 				<xs:element ref="event" />
 				<xs:element ref="exception-handler" />
@@ -46,7 +57,8 @@
 	</xs:element>
 
 	<xs:element name="sub-process">
-			<xs:attribute name="name" type="xs:string" use="required"/>
+		<xs:complexType>
+			<xs:attribute name="name" type="xs:string" use="required" />
 		</xs:complexType>
 	</xs:element>
 
@@ -97,13 +109,13 @@
 	<xs:element name="page">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:group ref="page-elements" />
 				<xs:choice minOccurs="0" maxOccurs="1">
 					<xs:element ref="end-conversation" />
 				</xs:choice>
 				<xs:choice minOccurs="0" maxOccurs="1">
 					<xs:element ref="end-task" />
 				</xs:choice>
+				<xs:group ref="page-elements" />
 			</xs:sequence>
 			<xs:attributeGroup ref="page-attributes" />
 		</xs:complexType>
@@ -283,6 +295,12 @@
 			<xs:element ref="process-state" />
 		</xs:choice>
 	</xs:group>
+	
+	<xs:group name="end-node-elements">
+		<xs:choice>
+			<xs:element ref="end-state" />
+		</xs:choice>
+	</xs:group>
 
 	<xs:group name="action-elements">
 		<xs:choice>
@@ -290,21 +308,19 @@
 		</xs:choice>
 	</xs:group>
 
-	<xs:group name="node-content-elements">
-		<xs:choice>
-			<xs:element ref="event" />
-			<xs:element ref="exception-handler" />
-			<xs:element ref="transition" />
-		</xs:choice>
-	</xs:group>
-
 	<xs:group name="page-elements">
-		<xs:choice minOccurs="0" maxOccurs="unbounded">
-			<xs:element ref="redirect" />
-			<xs:element ref="description" />
-			<xs:group ref="action-elements" />
-			<xs:group ref="node-content-elements" />
-		</xs:choice>
+		<xs:sequence>
+			<xs:choice minOccurs="0">
+				<xs:element ref="description" />
+				<xs:element ref="redirect" />
+			</xs:choice>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="event" />
+				<xs:element ref="exception-handler" />
+				<xs:element ref="transition" />
+				<xs:group ref="action-elements" />
+			</xs:choice>
+		</xs:sequence>
 	</xs:group>
 
 	<xs:attributeGroup name="page-attributes">
@@ -316,5 +332,5 @@
 		<xs:attribute name="view-id" type="xs:string" use="required" />
 		<xs:attribute name="name" type="xs:string" use="required" />
 	</xs:attributeGroup>
-	
+
 </xs:schema>
