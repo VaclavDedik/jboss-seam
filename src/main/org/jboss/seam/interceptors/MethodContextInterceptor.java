@@ -1,5 +1,6 @@
 package org.jboss.seam.interceptors;
 
+import org.jboss.seam.Component;
 import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.intercept.Interceptor;
 import org.jboss.seam.contexts.Context;
@@ -21,11 +22,15 @@ public class MethodContextInterceptor extends AbstractInterceptor
    @AroundInvoke
    public Object aroundInvoke(InvocationContext ctx) throws Exception
    {
-      String name = getComponent().getName();
+      Component comp = getComponent();
+      String name = comp.getName();
+      Object target = ctx.getTarget();
       Context outerMethodContext = Lifecycle.beginMethod();
       try
       {
-         Contexts.getMethodContext().set( name, ctx.getTarget() );
+         Contexts.getMethodContext().set(name, target);
+         Contexts.getMethodContext().set("org.jboss.seam.this", target);
+         Contexts.getMethodContext().set("org.jboss.seam.component", comp);
          return ctx.proceed();
       }
       finally
