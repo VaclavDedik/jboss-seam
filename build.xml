@@ -652,7 +652,7 @@
 		</javac>
 	</target>
 
-	<target name="compilepdf" depends="initpdf,select-compiler" description="Compile the Java source code for the PDF package">
+	<target name="compilepdf" depends="initpdf,select-compiler,jarui" description="Compile the Java source code for the PDF package">
 		<javac source="1.5" target="1.5" destdir="${pdfclasses.dir}" debug="${javac.debug}" deprecation="${javac.deprecation}" nowarn="on">
 			<src path="${src.pdf.dir}" />
 			<classpath>
