@@ -7,7 +7,7 @@ public class Outcome
    /**
     * Annotations may not specify a null String. This
     * value lets us specify a null outcome in an
-    * annotation such as @IfInvalid
+    * annotation such as @Begin(ifOutcome=...).
     * 
     * @deprecated
     */
