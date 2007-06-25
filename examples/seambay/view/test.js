@@ -248,6 +248,12 @@ function selectService(serviceName)
 
 function sendRequest()
 {
+  if (!selectedService)
+  {
+    alert("Please select a service first");
+    return;
+  }
+  
   document.getElementById("serviceResponse").value = null;
   
   var req;
