@@ -13,8 +13,8 @@ import javax.ejb.Stateful;
 
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
-import org.jboss.seam.annotations.BeginTask;
-import org.jboss.seam.annotations.EndTask;
+import org.jboss.seam.annotations.bpm.BeginTask;
+import org.jboss.seam.annotations.bpm.EndTask;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 

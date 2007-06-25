@@ -6,14 +6,14 @@ import java.util.Date;
 import javax.ejb.Timer;
 import javax.persistence.EntityManager;
 
-import org.jboss.seam.annotations.Asynchronous;
+import org.jboss.seam.annotations.async.Asynchronous;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Transactional;
-import org.jboss.seam.annotations.timer.Expiration;
-import org.jboss.seam.annotations.timer.IntervalDuration;
+import org.jboss.seam.annotations.async.Expiration;
+import org.jboss.seam.annotations.async.IntervalDuration;
 import org.jboss.seam.example.seampay.Payment;
 import org.jboss.seam.log.Log;
 

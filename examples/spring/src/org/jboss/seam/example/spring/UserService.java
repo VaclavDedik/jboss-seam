@@ -4,7 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
-import org.jboss.seam.annotations.Asynchronous;
+import org.jboss.seam.annotations.async.Asynchronous;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.transaction.annotation.Transactional;

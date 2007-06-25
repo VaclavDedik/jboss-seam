@@ -9,7 +9,7 @@ import org.hibernate.search.Search;
 import org.hibernate.search.store.DirectoryProvider;
 import org.hibernate.search.util.ContextHelper;
 import org.jboss.seam.Component;
-import org.jboss.seam.annotations.Asynchronous;
+import org.jboss.seam.annotations.async.Asynchronous;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.log.Log;

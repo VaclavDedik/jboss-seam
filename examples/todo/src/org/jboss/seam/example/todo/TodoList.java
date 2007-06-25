@@ -1,9 +1,9 @@
 package org.jboss.seam.example.todo;
 
-import org.jboss.seam.annotations.CreateProcess;
-import org.jboss.seam.annotations.EndTask;
+import org.jboss.seam.annotations.bpm.CreateProcess;
+import org.jboss.seam.annotations.bpm.EndTask;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.StartTask;
+import org.jboss.seam.annotations.bpm.StartTask;
 
 @Name("todoList")
 public class TodoList 

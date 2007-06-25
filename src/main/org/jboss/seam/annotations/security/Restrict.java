@@ -11,6 +11,8 @@ import java.lang.annotation.Target;
 
 /**
  * Used to restrict access to a Seam component, component method or entity.
+ * 
+ * @see org.jboss.seam.security.Identity
  *
  * @author Shane Bryzak
  */

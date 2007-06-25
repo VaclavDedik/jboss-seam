@@ -4,7 +4,6 @@
  * Applications usually don't need to call these APIs directly.
  * 
  * @see org.jboss.seam.annotations.async
- * @see org.jboss.seam.annotations.async.Asynchronous
  */
 @Namespace(value="http://jboss.com/products/seam/async", prefix="org.jboss.seam.async")
 package org.jboss.seam.async;

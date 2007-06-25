@@ -30,6 +30,7 @@ public class Transition extends AbstractMutable implements Serializable
    private static final long serialVersionUID = -3054558654376670239L;
    
    private String name;
+   
    public String getName() 
    {
       return name;
@@ -52,9 +53,11 @@ public class Transition extends AbstractMutable implements Serializable
       }
       return (Transition) Component.getInstance(Transition.class, ScopeType.CONVERSATION);
    }
+   
    @Override
    public String toString()
    {
       return "Transition(" + name + ")";
    }
+   
 }

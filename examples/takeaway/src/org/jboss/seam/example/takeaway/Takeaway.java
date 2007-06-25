@@ -2,7 +2,7 @@ package org.jboss.seam.example.takeaway;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
-import org.jboss.seam.annotations.CreateProcess;
+import org.jboss.seam.annotations.bpm.CreateProcess;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
