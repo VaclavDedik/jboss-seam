@@ -91,23 +91,29 @@ public class Exceptions
       
       deferredHandlers.add(parse("/WEB-INF/exceptions.xml")); // deprecated
       
-      for (String pageFile: Pages.instance().getResources()) {
+      for (String pageFile: Pages.instance().getResources()) 
+      {
           deferredHandlers.add(parse(pageFile));
       }
                     
       addHandler(new AnnotationRedirectHandler());
       addHandler(new AnnotationErrorHandler());
       
-      if (Init.instance().isDebug()) {
+      if (Init.instance().isDebug()) 
+      {
          addHandler(new DebugPageHandler());
       }
             
-      for (ExceptionHandler handler: deferredHandlers) {
+      for (ExceptionHandler handler: deferredHandlers) 
+      {
           addHandler(handler);
       }
    }
 
-   
+   private void addHandler(ExceptionHandler handler)
+   {
+      if (handler!=null) exceptionHandlers.add(handler);
+   }
    
    private ExceptionHandler parse(String fileName) throws DocumentException, ClassNotFoundException
    {
@@ -165,11 +171,13 @@ public class Exceptions
       return null;
    }
    
-   public void addHandler(ExceptionHandler handler)
+   /**
+    * @return the exception handler list, which supports addition and removal
+    *         of handlers
+    */
+   public List<ExceptionHandler> getHandlers()
    {
-      if (handler != null) {
-          exceptionHandlers.add(handler);
-      }
+      return exceptionHandlers;
    }
 
    public static Exceptions instance()
@@ -180,6 +188,5 @@ public class Exceptions
       }
       return (Exceptions) Component.getInstance(Exceptions.class, ScopeType.APPLICATION);
    }
-
 
 }
