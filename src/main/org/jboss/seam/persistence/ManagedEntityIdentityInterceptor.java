@@ -1,4 +1,4 @@
-package org.jboss.seam.interceptors;
+package org.jboss.seam.persistence;
 
 import static org.jboss.seam.util.JSF.DATA_MODEL;
 import static org.jboss.seam.util.JSF.getWrappedData;
@@ -13,8 +13,9 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.intercept.AroundInvoke;
 import org.jboss.seam.annotations.intercept.Interceptor;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.core.BijectionInterceptor;
+import org.jboss.seam.intercept.AbstractInterceptor;
 import org.jboss.seam.intercept.InvocationContext;
-import org.jboss.seam.persistence.PersistenceContexts;
 import org.jboss.seam.transaction.Transaction;
 import org.jboss.seam.util.Reflections;
 

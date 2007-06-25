@@ -1,6 +1,4 @@
-package org.jboss.seam.interceptors;
-
-import org.jboss.seam.intercept.InvocationContext;
+package org.jboss.seam.intercept;
 
 /**
  * Interface that may be optionally implemented by an

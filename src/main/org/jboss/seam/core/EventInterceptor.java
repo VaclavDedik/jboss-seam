@@ -1,11 +1,14 @@
-package org.jboss.seam.interceptors;
+package org.jboss.seam.core;
 
 import java.lang.reflect.Method;
 import org.jboss.seam.annotations.RaiseEvent;
 import org.jboss.seam.annotations.intercept.AroundInvoke;
 import org.jboss.seam.annotations.intercept.Interceptor;
-import org.jboss.seam.core.Events;
+import org.jboss.seam.bpm.BusinessProcessInterceptor;
+import org.jboss.seam.intercept.AbstractInterceptor;
 import org.jboss.seam.intercept.InvocationContext;
+import org.jboss.seam.transaction.RollbackInterceptor;
+import org.jboss.seam.transaction.TransactionInterceptor;
 
 /**
  * Raises Seam events connected with a bean lifecycle.

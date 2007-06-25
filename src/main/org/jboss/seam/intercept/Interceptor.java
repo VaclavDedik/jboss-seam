@@ -13,7 +13,6 @@ import java.lang.reflect.Method;
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.intercept.AroundInvoke;
 import org.jboss.seam.annotations.intercept.InterceptorType;
-import org.jboss.seam.interceptors.OptimizedInterceptor;
 import org.jboss.seam.util.Reflections;
 
 /**

@@ -1,5 +1,5 @@
 //$Id$
-package org.jboss.seam.interceptors;
+package org.jboss.seam.ejb;
 
 import java.lang.reflect.Method;
 import java.rmi.RemoteException;
@@ -12,6 +12,7 @@ import org.jboss.seam.log.Logging;
 import org.jboss.seam.annotations.intercept.AroundInvoke;
 import org.jboss.seam.annotations.intercept.Interceptor;
 import org.jboss.seam.annotations.intercept.InterceptorType;
+import org.jboss.seam.intercept.AbstractInterceptor;
 import org.jboss.seam.intercept.InvocationContext;
 
 /**

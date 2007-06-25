@@ -4,7 +4,7 @@
  * Distributable under LGPL license.
  * See terms of license at gnu.org.
  */
-package org.jboss.seam.interceptors;
+package org.jboss.seam.bpm;
 
 import java.lang.reflect.Method;
 
@@ -15,8 +15,9 @@ import org.jboss.seam.annotations.bpm.ResumeProcess;
 import org.jboss.seam.annotations.bpm.StartTask;
 import org.jboss.seam.annotations.intercept.AroundInvoke;
 import org.jboss.seam.annotations.intercept.Interceptor;
-import org.jboss.seam.bpm.BusinessProcess;
+import org.jboss.seam.core.BijectionInterceptor;
 import org.jboss.seam.core.Expressions;
+import org.jboss.seam.intercept.AbstractInterceptor;
 import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;

@@ -45,6 +45,16 @@ import org.jboss.seam.log.Logging;
 import org.jboss.seam.util.Strings;
 import org.jboss.seam.web.Session;
 
+/**
+ * API for authorization and authentication via
+ * Seam security. This base implementation 
+ * supports role-based authorization only.
+ * Subclasses may add more sophisticated 
+ * permissioning mechanisms.
+ * 
+ * @author Shane Bryzak
+ *
+ */
 @Name("org.jboss.seam.security.identity")
 @Scope(SESSION)
 @Install(precedence = BUILT_IN)

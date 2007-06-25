@@ -1,5 +1,5 @@
 //$Id$
-package org.jboss.seam.interceptors;
+package org.jboss.seam.core;
 
 import java.lang.reflect.Method;
 
@@ -12,8 +12,8 @@ import org.jboss.seam.annotations.bpm.BeginTask;
 import org.jboss.seam.annotations.bpm.StartTask;
 import org.jboss.seam.annotations.intercept.AroundInvoke;
 import org.jboss.seam.annotations.intercept.Interceptor;
-import org.jboss.seam.core.Events;
-import org.jboss.seam.core.Manager;
+import org.jboss.seam.bpm.BusinessProcessInterceptor;
+import org.jboss.seam.intercept.AbstractInterceptor;
 import org.jboss.seam.intercept.InvocationContext;
 
 /**

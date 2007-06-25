@@ -24,6 +24,13 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
+/**
+ * Identity implementation that supports permission
+ * checking via a Drools rulebase.
+ * 
+ * @author Shane Bryzak
+ *
+ */
 @Name("org.jboss.seam.security.identity")
 @Scope(SESSION)
 @BypassInterceptors

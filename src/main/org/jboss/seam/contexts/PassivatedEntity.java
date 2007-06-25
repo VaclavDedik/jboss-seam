@@ -17,7 +17,7 @@ import org.jboss.seam.transaction.Transaction;
  * id and persistence context name.
  * 
  * @see EntityBean
- * @see org.jboss.seam.interceptors.ManagedEntityIdentityInterceptor
+ * @see org.jboss.seam.persistence.ManagedEntityIdentityInterceptor
  * 
  * @author Gavin King
  *

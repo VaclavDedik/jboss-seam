@@ -1,4 +1,4 @@
-package org.jboss.seam.interceptors;
+package org.jboss.seam.core;
 
 import java.lang.reflect.Method;
 
@@ -8,7 +8,9 @@ import org.jboss.seam.annotations.intercept.Interceptor;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.intercept.AbstractInterceptor;
 import org.jboss.seam.intercept.InvocationContext;
+import org.jboss.seam.security.SecurityInterceptor;
 
 /**
  * Sets up the METHOD context and unproxies the SFSB 

@@ -1,5 +1,5 @@
 //$Id$
-package org.jboss.seam.interceptors;
+package org.jboss.seam.transaction;
 
 import static org.jboss.seam.ComponentType.JAVA_BEAN;
 import static org.jboss.seam.util.EJB.APPLICATION_EXCEPTION;
@@ -8,8 +8,8 @@ import static org.jboss.seam.util.EJB.rollback;
 import org.jboss.seam.annotations.ApplicationException;
 import org.jboss.seam.annotations.intercept.AroundInvoke;
 import org.jboss.seam.annotations.intercept.Interceptor;
+import org.jboss.seam.intercept.AbstractInterceptor;
 import org.jboss.seam.intercept.InvocationContext;
-import org.jboss.seam.transaction.Transaction;
 import org.jboss.seam.util.JSF;
 
 /**

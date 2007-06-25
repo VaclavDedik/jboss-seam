@@ -1,5 +1,5 @@
 //$Id$
-package org.jboss.seam.interceptors;
+package org.jboss.seam.core;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -13,10 +13,8 @@ import org.jboss.seam.annotations.bpm.EndTask;
 import org.jboss.seam.annotations.bpm.StartTask;
 import org.jboss.seam.annotations.intercept.AroundInvoke;
 import org.jboss.seam.annotations.intercept.Interceptor;
-import org.jboss.seam.core.ConversationEntries;
-import org.jboss.seam.core.ConversationEntry;
-import org.jboss.seam.core.Interpolator;
-import org.jboss.seam.core.Manager;
+import org.jboss.seam.bpm.BusinessProcessInterceptor;
+import org.jboss.seam.intercept.AbstractInterceptor;
 import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.pageflow.Pageflow;
 import org.jboss.seam.persistence.PersistenceContexts;

@@ -1,4 +1,4 @@
-package org.jboss.seam.interceptors;
+package org.jboss.seam.transaction;
 
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
@@ -6,6 +6,10 @@ import java.lang.reflect.Method;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.intercept.AroundInvoke;
 import org.jboss.seam.annotations.intercept.Interceptor;
+import org.jboss.seam.bpm.BusinessProcessInterceptor;
+import org.jboss.seam.core.BijectionInterceptor;
+import org.jboss.seam.core.ConversationInterceptor;
+import org.jboss.seam.intercept.AbstractInterceptor;
 import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.util.Work;
 

@@ -1,9 +1,10 @@
 //$Id$
-package org.jboss.seam.interceptors;
+package org.jboss.seam.core;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.intercept.AroundInvoke;
 import org.jboss.seam.annotations.intercept.Interceptor;
+import org.jboss.seam.intercept.AbstractInterceptor;
 import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
