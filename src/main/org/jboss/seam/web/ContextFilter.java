@@ -11,12 +11,12 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import org.jboss.seam.annotations.Filter;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.annotations.web.Filter;
 import org.jboss.seam.servlet.ContextualHttpServletRequest;
 
 /**

@@ -1,9 +1,9 @@
-package org.jboss.seam.exceptions;
+package org.jboss.seam.exception;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 
-import org.jboss.seam.annotations.Redirect;
+import org.jboss.seam.annotations.exception.Redirect;
 
 /**
  * Implements @Redirect

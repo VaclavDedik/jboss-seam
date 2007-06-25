@@ -1,4 +1,4 @@
-package org.jboss.seam.exceptions;
+package org.jboss.seam.exception;
 
 /**
  * Implements &lt;http-error/&gt; for pages.xml

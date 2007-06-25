@@ -22,7 +22,8 @@ import java.lang.annotation.Target;
 @Target(METHOD)
 @Retention(RUNTIME)
 @Documented
-public @interface End {
+public @interface End 
+{
 	/**
 	 * An empty outcome list is interpreted to mean any 
 	 * outcome except for the null (redisplay) outcome.

@@ -1,6 +1,6 @@
-package org.jboss.seam.exceptions;
+package org.jboss.seam.exception;
 
-import org.jboss.seam.annotations.HttpError;
+import org.jboss.seam.annotations.exception.HttpError;
 
 /**
  * Implements @HttpError

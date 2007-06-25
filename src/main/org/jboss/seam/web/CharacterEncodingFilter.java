@@ -9,12 +9,12 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-import org.jboss.seam.annotations.Filter;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.annotations.web.Filter;
 /**
  * A servlet filter that lets you set the character encoding of 
  * submitted data. There are two init parameters: "encoding" and

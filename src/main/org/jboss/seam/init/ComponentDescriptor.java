@@ -163,7 +163,7 @@ public class ComponentDescriptor implements Comparable<ComponentDescriptor>
         {
            for (Class clazz = componentClass; !Object.class.equals(clazz); clazz = clazz.getSuperclass())
            {
-              if (clazz.isAnnotationPresent(org.jboss.seam.annotations.Filter.class))
+              if (clazz.isAnnotationPresent(org.jboss.seam.annotations.web.Filter.class))
               {
                  return true;
               }

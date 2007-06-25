@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
  * configuration for filters. All filters must
  * specify a @Filter annotation.
  * 
- * @see org.jboss.seam.annotations.Filter
+ * @see org.jboss.seam.annotations.web.Filter
  * @author Shane Bryzak
  *
  */

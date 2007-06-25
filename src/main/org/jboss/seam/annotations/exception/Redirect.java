@@ -1,4 +1,4 @@
-package org.jboss.seam.annotations.exceptions;
+package org.jboss.seam.annotations.exception;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -8,10 +8,9 @@ import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import javax.servlet.http.HttpServletResponse;
-
 /**
- * Specifies that an exception results in a HTTP error.
+ * Specifies that an exception should result in a 
+ * browser redirect.
  * 
  * @author Gavin King
  *
@@ -20,22 +19,21 @@ import javax.servlet.http.HttpServletResponse;
 @Retention(RUNTIME)
 @Documented
 @Inherited
-public @interface HttpError
+public @interface Redirect
 {
    /**
-    * The message to be sent in the HTTP error, default
+    * The message to be displayed as a FacesMessage, default
     * to using the exception message.
     * 
     * @return a templated message
     */
    String message() default "";
-   
    /**
-    * The HTTP error code, default to 500.
+    * The view to redirect to, default to the current view.
     * 
-    * @return an error code
+    * @return a JSF view id
     */
-   int errorCode() default HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+   String viewId();
    /**
     * Should the current long-running conversation end
     * when this exception occurs.

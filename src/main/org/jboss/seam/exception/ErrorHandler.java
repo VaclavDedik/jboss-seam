@@ -1,4 +1,4 @@
-package org.jboss.seam.exceptions;
+package org.jboss.seam.exception;
 
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Conversation;

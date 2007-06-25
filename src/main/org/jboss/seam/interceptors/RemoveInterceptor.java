@@ -9,7 +9,7 @@ import javax.ejb.Remove;
 
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
-import org.jboss.seam.annotations.AroundInvoke;
+import org.jboss.seam.annotations.intercept.AroundInvoke;
 import org.jboss.seam.annotations.intercept.Interceptor;
 import org.jboss.seam.annotations.intercept.InterceptorType;
 import org.jboss.seam.intercept.InvocationContext;

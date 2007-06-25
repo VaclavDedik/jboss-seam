@@ -5,13 +5,13 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 
 import org.jboss.seam.annotations.ApplicationException;
-import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Begin;
-import org.jboss.seam.annotations.BeginTask;
 import org.jboss.seam.annotations.End;
-import org.jboss.seam.annotations.EndTask;
 import org.jboss.seam.annotations.FlushModeType;
-import org.jboss.seam.annotations.StartTask;
+import org.jboss.seam.annotations.bpm.BeginTask;
+import org.jboss.seam.annotations.bpm.EndTask;
+import org.jboss.seam.annotations.bpm.StartTask;
+import org.jboss.seam.annotations.intercept.AroundInvoke;
 import org.jboss.seam.annotations.intercept.Interceptor;
 import org.jboss.seam.core.ConversationEntries;
 import org.jboss.seam.core.ConversationEntry;

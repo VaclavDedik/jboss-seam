@@ -19,15 +19,15 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jboss.seam.annotations.Filter;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.annotations.web.Filter;
 import org.jboss.seam.contexts.FacesLifecycle;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.exceptions.Exceptions;
+import org.jboss.seam.exception.Exceptions;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.mock.MockApplication;

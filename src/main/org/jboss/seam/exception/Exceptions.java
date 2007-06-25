@@ -1,4 +1,4 @@
-package org.jboss.seam.exceptions;
+package org.jboss.seam.exception;
 
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 

@@ -32,7 +32,7 @@ import org.jboss.seam.core.ConversationStack;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.exceptions.Exceptions;
+import org.jboss.seam.exception.Exceptions;
 import org.jboss.seam.faces.FacesManager;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.faces.FacesPage;

@@ -31,7 +31,7 @@ import org.jboss.seam.web.AbstractFilter;
  * ordering is specified via the @Filter annotation.
  * Filters may optionally extend AbstractFilter.
  * 
- * @see org.jboss.seam.annotations.Filter
+ * @see org.jboss.seam.annotations.web.Filter
  * @see AbstractFilter
  * 
  * @author Shane Bryzak
@@ -104,7 +104,7 @@ public class SeamFilter implements Filter
 
       for (SortItem<Filter> sortItem : sortItems)
       {
-         org.jboss.seam.annotations.Filter filterAnn = getFilterAnnotation(sortItem.getObj().getClass());
+         org.jboss.seam.annotations.web.Filter filterAnn = getFilterAnnotation(sortItem.getObj().getClass());
          if ( filterAnn != null )
          {
             for (String s : Arrays.asList( filterAnn.around() ) )
@@ -148,13 +148,13 @@ public class SeamFilter implements Filter
       }
    }
    
-   private org.jboss.seam.annotations.Filter getFilterAnnotation(Class<?> clazz)
+   private org.jboss.seam.annotations.web.Filter getFilterAnnotation(Class<?> clazz)
    {
       while (!Object.class.equals(clazz))
       {
-         if (clazz.isAnnotationPresent(org.jboss.seam.annotations.Filter.class))
+         if (clazz.isAnnotationPresent(org.jboss.seam.annotations.web.Filter.class))
          {
-            return clazz.getAnnotation(org.jboss.seam.annotations.Filter.class);
+            return clazz.getAnnotation(org.jboss.seam.annotations.web.Filter.class);
          }
          else
          {

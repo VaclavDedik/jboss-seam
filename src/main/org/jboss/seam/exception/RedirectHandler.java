@@ -1,4 +1,4 @@
-package org.jboss.seam.exceptions;
+package org.jboss.seam.exception;
 
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;

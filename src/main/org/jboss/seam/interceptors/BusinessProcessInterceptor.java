@@ -8,12 +8,12 @@ package org.jboss.seam.interceptors;
 
 import java.lang.reflect.Method;
 
-import org.jboss.seam.annotations.AroundInvoke;
-import org.jboss.seam.annotations.BeginTask;
-import org.jboss.seam.annotations.CreateProcess;
-import org.jboss.seam.annotations.EndTask;
-import org.jboss.seam.annotations.ResumeProcess;
-import org.jboss.seam.annotations.StartTask;
+import org.jboss.seam.annotations.bpm.BeginTask;
+import org.jboss.seam.annotations.bpm.CreateProcess;
+import org.jboss.seam.annotations.bpm.EndTask;
+import org.jboss.seam.annotations.bpm.ResumeProcess;
+import org.jboss.seam.annotations.bpm.StartTask;
+import org.jboss.seam.annotations.intercept.AroundInvoke;
 import org.jboss.seam.annotations.intercept.Interceptor;
 import org.jboss.seam.bpm.BusinessProcess;
 import org.jboss.seam.core.Expressions;
@@ -119,10 +119,10 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
             log.trace( "encountered @EndTask" );
             BusinessProcess.instance().endTask( method.getAnnotation(EndTask.class).transition() );
          }
-         if ( method.isAnnotationPresent(org.jboss.seam.annotations.Transition.class) )
+         if ( method.isAnnotationPresent(org.jboss.seam.annotations.bpm.Transition.class) )
          {
             log.trace( "encountered @Transition" );
-            String transitionName = method.getAnnotation(org.jboss.seam.annotations.Transition.class).value();
+            String transitionName = method.getAnnotation(org.jboss.seam.annotations.bpm.Transition.class).value();
             if ( "".equals(transitionName) ) transitionName = method.getName();
             BusinessProcess.instance().transition(transitionName);
          }

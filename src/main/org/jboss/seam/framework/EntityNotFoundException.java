@@ -2,7 +2,7 @@ package org.jboss.seam.framework;
 
 import javax.ejb.ApplicationException;
 
-import org.jboss.seam.annotations.HttpError;
+import org.jboss.seam.annotations.exception.HttpError;
 
 @HttpError(errorCode=404)
 @ApplicationException(rollback=true) 

@@ -3,8 +3,8 @@ package org.jboss.seam.interceptors;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 
-import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Transactional;
+import org.jboss.seam.annotations.intercept.AroundInvoke;
 import org.jboss.seam.annotations.intercept.Interceptor;
 import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.util.Work;

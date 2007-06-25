@@ -4,11 +4,11 @@ import java.lang.annotation.Annotation;
 import java.util.Date;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.annotations.timer.IntervalCron;
-import org.jboss.seam.annotations.timer.Duration;
-import org.jboss.seam.annotations.timer.Expiration;
-import org.jboss.seam.annotations.timer.FinalExpiration;
-import org.jboss.seam.annotations.timer.IntervalDuration;
+import org.jboss.seam.annotations.async.Duration;
+import org.jboss.seam.annotations.async.Expiration;
+import org.jboss.seam.annotations.async.FinalExpiration;
+import org.jboss.seam.annotations.async.IntervalCron;
+import org.jboss.seam.annotations.async.IntervalDuration;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.transaction.Transaction;

@@ -1,4 +1,4 @@
-package org.jboss.seam.core;
+package org.jboss.seam.faces;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Install;

@@ -9,7 +9,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Synonym for javax.interceptors.ApplicationException, 
+ * Synonym for javax.ejb.ApplicationException, 
  * for use in a pre Java EE 5 environment.
  * 
  * @author Gavin King

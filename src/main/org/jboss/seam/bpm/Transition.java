@@ -17,7 +17,7 @@ import org.jboss.seam.core.AbstractMutable;
  * Allows the application to set the jBPM transition to be used when
  * an <tt>@EndTask</tt> method is encountered.
  * 
- * @see org.jboss.seam.annotations.EndTask
+ * @see org.jboss.seam.annotations.bpm.EndTask
  * 
  * @author Gavin King
  */
