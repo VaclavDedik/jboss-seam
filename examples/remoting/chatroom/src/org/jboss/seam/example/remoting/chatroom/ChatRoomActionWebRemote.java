@@ -3,7 +3,7 @@ package org.jboss.seam.example.remoting.chatroom;
 import java.util.Set;
 import javax.ejb.Local;
 
-import org.jboss.seam.annotations.WebRemote;
+import org.jboss.seam.annotations.remoting.WebRemote;
 
 @Local
 public interface ChatRoomActionWebRemote {

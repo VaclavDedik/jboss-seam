@@ -12,7 +12,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Transactional;
 
 @Name("filmConverter")
-@org.jboss.seam.annotations.jsf.Converter(forClass=Film.class)
+@org.jboss.seam.annotations.faces.Converter(forClass=Film.class)
 public class FilmConverter implements Converter, Serializable
 {
    

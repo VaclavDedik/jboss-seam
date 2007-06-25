@@ -1,7 +1,7 @@
 package org.jboss.seam.example.remoting.gwt.server;
 
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.WebRemote;
+import org.jboss.seam.annotations.remoting.WebRemote;
 import org.jboss.seam.example.remoting.gwt.client.MyService;
 import org.jboss.seam.example.remoting.gwt.client.ValidationUtility;
 

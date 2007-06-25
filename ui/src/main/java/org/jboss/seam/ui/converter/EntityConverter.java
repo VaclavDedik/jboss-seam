@@ -17,7 +17,7 @@ import org.jboss.seam.annotations.Role;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
-import org.jboss.seam.annotations.jsf.Converter;
+import org.jboss.seam.annotations.faces.Converter;
 import org.jboss.seam.core.Expressions.ValueExpression;
 
 /**

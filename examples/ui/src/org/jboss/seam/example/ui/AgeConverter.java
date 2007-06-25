@@ -6,7 +6,7 @@ import javax.faces.convert.ConverterException;
 
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
-import org.jboss.seam.annotations.jsf.Converter;
+import org.jboss.seam.annotations.faces.Converter;
 
 @Name("ageConverter")
 @BypassInterceptors

@@ -27,7 +27,7 @@ import java.util.LinkedHashMap;
 public class Converters {
 
     @Name("searchableEntityConverter")
-    @org.jboss.seam.annotations.jsf.Converter(forClass = SearchableEntity.class)
+    @org.jboss.seam.annotations.faces.Converter(forClass = SearchableEntity.class)
     public static class SearchableEntityConverter implements Converter, Serializable {
 
         @Transactional
@@ -49,7 +49,7 @@ public class Converters {
     }
 
     @Name("accessLevelConverter")
-    @org.jboss.seam.annotations.jsf.Converter(forClass = Role.AccessLevel.class)
+    @org.jboss.seam.annotations.faces.Converter(forClass = Role.AccessLevel.class)
     public static class AccessLevelConverter implements Converter, Serializable {
 
         @Transactional

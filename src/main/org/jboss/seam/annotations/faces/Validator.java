@@ -1,4 +1,4 @@
-package org.jboss.seam.annotations.jsf;
+package org.jboss.seam.annotations.faces;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;

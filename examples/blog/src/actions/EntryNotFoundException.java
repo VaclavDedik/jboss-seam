@@ -3,7 +3,7 @@ package actions;
 import javax.ejb.ApplicationException;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jboss.seam.annotations.HttpError;
+import org.jboss.seam.annotations.exception.HttpError;
 
 @ApplicationException(rollback=true)
 @HttpError(errorCode=HttpServletResponse.SC_NOT_FOUND)
