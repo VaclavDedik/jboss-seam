@@ -31,6 +31,9 @@
 
     
     <target name="init-properties">
+    	<!-- Import properties from seam itself -->
+    	<property file="../build.properties" />
+    	
         <!-- Give user a chance to override without editing this file or typing -D -->
         <property file="${basedir}/build.properties" />
     
@@ -89,6 +92,7 @@
             <filter token="jbossHome" value="${jboss.home}" />
             <filter token="hbm2ddl" value="${hibernate.hbm2ddl.auto}"/>
             <filter token="driverJar" value="${driver.file}"/>
+        	<filter token="schemaVersion" value="${version}" />
         </filterset>
         
     </target>
@@ -521,6 +525,9 @@
                 file="${basedir}/build-scripts/build.xml">
             <filterset refid="project"/>
         </copy>
+		<copy todir="${project.home}" overwrite="true">
+		    <fileset file="../validate.xml"/>
+		</copy>
         <copy todir="${project.home}/resources">
             <fileset dir="${basedir}/resources/">
             	<include name="META-INF/application.xml"/>

@@ -1,5 +1,9 @@
 <?xml version="1.0"?>
 
+<!DOCTYPE project [
+    <!ENTITY validate SYSTEM "./validate.xml">
+]>
+
 <project name="@projectName@" default="deploy" basedir=".">
 
         <!-- Give user a chance to override without editing this file or typing -D -->
@@ -28,7 +32,15 @@
         <property name="javac.debug" value="true" />
         <property name="javac.deprecation" value="false" />
         <property name="debug" value="false" />
-
+	
+		<!--Properties for validating configuration files -->
+		<property name="validate.resources.dir" value="${basedir}/exploded-archives" />
+		<property name="schema.dir" value="${basedir}/exploded-archives/schemas" />
+		<property name="src.schema.dir" value="${schema.dir}/org/jboss/seam"/>
+		<property name="schema.version" value="@schemaVersion@" />
+	
+	&validate;
+	
         <fileset id="lib" dir="${lib.dir}">
                 <include name="*.jar" />
         </fileset>
@@ -228,6 +240,7 @@
                 <delete dir="${ear.dir}"/>
                 <delete dir="${war.dir}"/>
                 <delete dir="${jar.dir}"/>
+        		<delete dir="${src.schema.dir}" failonerror="no"/>
                 <delete dir="${basedir}/test-report"/>
                 <delete dir="${basedir}/test-output"/>
                 <delete failonerror="no">
@@ -299,5 +312,15 @@
                         <xmlfileset dir="${test.dir}" includes="*Test.xml" />
                 </testng>
         </target>
+	
+	<target name="initValidateConfiguration" depends="war,ear,jar">
+		<mkdir dir="${schema.dir}"/>
+		<unjar src="${lib.dir}/jboss-seam.jar" dest="${schema.dir}">
+			<patternset>
+				<include name="org/jboss/seam/*.xsd"/>
+				<include name="org/jboss/seam/*.dtd"/>
+			</patternset>
+		</unjar>
+	</target>
         
 </project>
