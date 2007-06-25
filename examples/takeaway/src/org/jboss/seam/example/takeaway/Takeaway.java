@@ -6,7 +6,7 @@ import org.jboss.seam.annotations.CreateProcess;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.core.Renderer;
+import org.jboss.seam.faces.Renderer;
 import org.jboss.seam.log.Log;
 
 @Name("takeaway")

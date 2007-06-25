@@ -10,7 +10,7 @@ import org.jboss.seam.annotations.Name;
  * Seam Mail. 
  *
  */
-@Name("org.jboss.seam.core.renderer")
+@Name("org.jboss.seam.faces.renderer")
 @Install(false)
 public abstract class Renderer
 {

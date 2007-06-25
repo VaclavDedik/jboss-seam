@@ -1,6 +1,5 @@
 package org.jboss.seam.example.mail;
 
-
 import java.net.URL;
 
 import javax.faces.application.FacesMessage;
@@ -11,9 +10,9 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.core.Renderer;
 import org.jboss.seam.core.ResourceLoader;
 import org.jboss.seam.faces.FacesMessages;
+import org.jboss.seam.faces.Renderer;
 import org.jboss.seam.log.Log;
 
 @Name("mailExample")
