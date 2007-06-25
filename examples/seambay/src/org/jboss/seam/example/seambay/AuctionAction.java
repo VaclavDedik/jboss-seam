@@ -9,6 +9,7 @@ import java.util.GregorianCalendar;
 import javax.persistence.EntityManager;
 
 import org.jboss.seam.annotations.Begin;
+import org.jboss.seam.annotations.Conversational;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
@@ -22,6 +23,7 @@ import org.jboss.seam.annotations.security.Restrict;
  *  
  * @author Shane Bryzak
  */
+@Conversational
 @Scope(CONVERSATION)
 @Name("auctionAction")
 @Restrict("#{identity.loggedIn}")
