@@ -13,7 +13,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Specifies the configuration namespace of a seam component.
+ * Specifies the configuration namespace of a Java package 
+ * containing Seam components.
  * 
  * @author Norman Richards
  */
@@ -23,11 +24,13 @@ import java.lang.annotation.Target;
 public @interface Namespace 
 {
     /**
-     * @return the configuration namespace
+     * @return the configuration namespace for the package
      */
     String value();
     /**
-     *  The component package name prefix, if any
+     *  The qualifier used to get the component name of
+     *  components in this package from the XML element 
+     *  names
      */
     String prefix() default "";
 }
