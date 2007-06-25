@@ -136,7 +136,7 @@
                         <xs:element ref="pages:resume-process"/>
                     </xs:choice>
                     <xs:element minOccurs="0" maxOccurs="unbounded" ref="pages:out"/>
-                    <xs:element ref="pages:raise-event"/>
+                    <xs:element minOccurs="0" ref="pages:raise-event"/>
                     <xs:choice minOccurs="0">
                         <xs:element ref="pages:render"/>
                         <xs:element ref="pages:redirect"/>
@@ -164,7 +164,7 @@
                     <xs:element ref="pages:resume-process"/>
                 </xs:choice>
                 <xs:element minOccurs="0" maxOccurs="unbounded" ref="pages:out"/>
-                <xs:element ref="pages:raise-event"/>
+                <xs:element minOccurs="0" ref="pages:raise-event"/>
                 <xs:choice minOccurs="0">
                     <xs:element ref="pages:render"/>
                     <xs:element ref="pages:redirect"/>

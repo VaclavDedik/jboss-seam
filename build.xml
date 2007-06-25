@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
-
+<!DOCTYPE project [
+    <!ENTITY validate SYSTEM "./validate.xml">
+]>
 <project name="Seam" default="build" basedir=".">
+	
 	<tstamp />
 
 	<!-- Allow this to be overriden by others importing this project. -->
@@ -52,6 +55,7 @@
 
 	<property name="src.java.dir" value="src/main" />
 	<property name="src.ui.dir" value="ui/src" />
+	<property name="src.schema.dir" value="${imported.basedir}/src/main/org/jboss/seam" />
 	<property name="ui.dir" value="ui" />
 	<property name="src.pdf.dir" value="src/pdf" />
 	<property name="src.ioc.dir" value="src/ioc" />
@@ -248,25 +252,6 @@
 		<include name="*.xsd" />
 		<include name="*.drl" />
 	</zipfileset>
-	
-	<fileset id="example.validate.resources" dir="${example.resources.dir}">
-		<include name="META-INF/application.xml" />
-		<include name="META-INF/ejb-jar.xml" />
-		<include name="META-INF/persistence.xml" />
-		<include name="META-INF/jboss-app.xml" />
-		<include name="META-INF/orm.xml" />
-		<!-- Don't enable for now, as there is no way to tell it to use an alternative schema -->
-		<!--<include name="WEB-INF/components.xml"/>-->
-		<!--<include name="WEB-INF/pages.xml"/>-->
-		<include name="WEB-INF/faces-config.xml"/>
-		<include name="WEB-INF/web.xml"/>
-		<include name="WEB-INF/jboss-web.xml"/>
-		<include name="${example.ds}"/>
-		<include name="hibernate.cfg.xml"/>
-		<!-- Don't enable for now, as there is no way to tell it to use an alternative schema -->
-		<!--<include name="*.jpdl.xml"/>-->
-		<!--<exclude name=".gpd.*.jpdl.xml"/>-->
-	</fileset>
 
 	<fileset id="example.deploy" dir="${example.resources.dir}">
 		<include name="${example.ds}" />
@@ -428,6 +413,9 @@
 
 	<!-- ############################ Targets #############################-->
 
+	<!-- Import Configuration File Validation Task -->
+	&validate;
+	
 	<target name="clean" description="Cleans up the build directory">
 		<delete dir="${build.dir}" />
 		<delete dir="test-output" />
@@ -1368,30 +1356,4 @@
 		<delete dir="${tomcat.home}/webapps/${example.name}" />
 	</target>
 	
-	<pathconvert dirsep="/" property="components.xsd.file">
-		<path>
-		   	<pathelement location="${imported.basedir}/src/main/org/jboss/seam/components-${version}.xsd"/>
-		</path>
-	</pathconvert>
-	
-	<pathconvert dirsep="/" property="core.xsd.file">
-			<path>
-			   	<pathelement location="${imported.basedir}/src/main/org/jboss/seam/core-${version}.xsd"/>
-			</path>
-		</pathconvert>
-	
-	<presetdef name="xmlvalidate.xsd">
-		<xmlvalidate>
-			  <attribute name="http://xml.org/sax/features/validation" value="true"/>
-			  <attribute name="http://apache.org/xml/features/validation/schema"  value="true"/>
-			  <attribute name="http://xml.org/sax/features/namespaces" value="true"/>
-		</xmlvalidate>
-	</presetdef>
-	
-	<target name="validate.xml">
-		<xmlvalidate.xsd>
-			<fileset refid="example.validate.resources"/>
-		</xmlvalidate.xsd>
-	</target>
-
 </project>

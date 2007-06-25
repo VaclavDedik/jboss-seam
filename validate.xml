@@ -1,0 +1,62 @@
+<property name="seam.schemaLocations" value="
+	http://jboss.com/products/seam/async ${src.schema.dir}/async-${version}.xsd 
+	http://jboss.com/products/seam/bpm ${src.schema.dir}/bpm-${version}.xsd 
+	http://jboss.com/products/seam/components ${src.schema.dir}/components-${version}.xsd 
+	http://jboss.com/products/seam/core ${src.schema.dir}/core-${version}.xsd 
+	http://jboss.com/products/seam/drools ${src.schema.dir}/drools-${version}.xsd 
+	http://jboss.com/products/seam/framework ${src.schema.dir}/framework-${version}.xsd 
+	http://jboss.com/products/seam/international ${src.schema.dir}/international-${version}.xsd 
+	http://jboss.com/products/seam/jms ${src.schema.dir}/jms-${version}.xsd 
+	http://jboss.com/products/seam/mail ${src.schema.dir}/mail-${version}.xsd 
+	http://jboss.com/products/seam/navigation ${src.schema.dir}/navigation-${version}.xsd 
+	http://jboss.com/products/seam/pages ${src.schema.dir}/pages-${version}.xsd 
+	http://jboss.com/products/seam/pdf ${src.schema.dir}/pdf-${version}.xsd 
+	http://jboss.com/products/seam/persistence ${src.schema.dir}/persistence-${version}.xsd 
+	http://jboss.com/products/seam/remoting ${src.schema.dir}/remoting-${version}.xsd 
+	http://jboss.com/products/seam/security ${src.schema.dir}/security-${version}.xsd 
+	http://jboss.com/products/seam/theme ${src.schema.dir}/theme-${version}.xsd 
+	http://jboss.com/products/seam/transaction ${src.schema.dir}/transaction-${version}.xsd 
+	http://jboss.com/products/seam/web ${src.schema.dir}/web-${version}.xsd "
+/>
+	
+<taskdef name="xmlvalidate.task" classname="org.apache.tools.ant.taskdefs.optional.XMLValidateTask" classpathref="build.classpath" />
+
+<fileset id="validate.resources" dir="${basedir}/resources">
+	<include name="META-INF/application.xml" />
+	<include name="META-INF/ejb-jar.xml" />
+	<include name="META-INF/persistence.xml" />
+	<include name="META-INF/jboss-app.xml" />
+	<include name="META-INF/orm.xml" />
+	<include name="WEB-INF/components.xml" />
+	<include name="WEB-INF/pages.xml"/>
+	<include name="WEB-INF/faces-config.xml" />
+	<include name="WEB-INF/web.xml" />
+	<include name="WEB-INF/jboss-web.xml" />
+	<include name="${example.ds}" />
+	<include name="hibernate.cfg.xml" />
+	<include name="*.jpdl.xml"/>
+	<exclude name=".gpd.*.jpdl.xml"/>
+</fileset>
+
+<target name="validate.conf" description="Validate XML Configuration Files">
+	<validateConfiguration>
+		<fileset refid="validate.resources" />
+	</validateConfiguration>
+</target>
+
+<presetdef name="validateConfiguration">
+	<xmlvalidate.task>
+		<attribute name="http://xml.org/sax/features/validation" value="true" />
+		<attribute name="http://apache.org/xml/features/validation/schema" value="true" />
+		<attribute name="http://xml.org/sax/features/namespaces" value="true" />
+		<property name="http://apache.org/xml/properties/schema/external-schemaLocation" value="${seam.schemaLocations}" />
+		<xmlcatalog>
+        	<dtd 
+            	publicId="-//JBoss/Seam Component Configuration DTD 1.3//EN"
+           		location="${src.schema.dir}/components-${version}.dtd"/>
+           	<dtd 
+            	publicId="-//JBoss/Seam Pages Configuration DTD 1.3//EN"
+           		location="${src.schema.dir}/pages-${version}.dtd"/>
+    	</xmlcatalog>
+	</xmlvalidate.task>
+</presetdef>
