@@ -1,6 +1,6 @@
 JBoss Seam Changelog
 ====================
-Release Notes - JBoss Seam - Version 1.3.0.BETA1
+Release Notes - JBoss Seam - Version 2.0.0.BETA1
 
 Release Notes - JBoss Seam - Version 1.3.0.ALPHA
 
