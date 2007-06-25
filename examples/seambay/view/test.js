@@ -112,6 +112,22 @@ svc.setRequest("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soa
 svc.addParameter(new ServiceParam("Duration in days", "duration"));
 svc.setConversational(true);
 
+svc = new ServiceMetadata("setAuctionPrice", "Create Auction");
+svc.setDescription("Set starting price");
+svc.setRequest("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" " +
+               "\n    xmlns:seam=\"http://seambay.example.seam.jboss.org/\">" +
+               "\n  <soapenv:Header>" +
+               "\n    <seam:conversationId xmlns:seam='http://www.jboss.org/seam/webservice'>#{conversationId}</seam:conversationId>" +
+               "\n  </soapenv:Header>" +
+               "\n  <soapenv:Body>" +
+               "\n    <seam:setAuctionPrice>" +
+               "\n      <arg0>#{price}</arg0>" +
+               "\n    </seam:setAuctionPrice>" +
+               "\n  </soapenv:Body>" +
+               "\n</soapenv:Envelope>");
+svc.addParameter(new ServiceParam("Starting price", "price"));
+svc.setConversational(true);
+
 svc = new ServiceMetadata("getNewAuctionDetails", "Create Auction");
 svc.setDescription("Get the auction details");
 svc.setRequest("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" " +

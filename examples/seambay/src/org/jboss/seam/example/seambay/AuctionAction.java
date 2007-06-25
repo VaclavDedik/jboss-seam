@@ -46,13 +46,10 @@ public class AuctionAction implements Serializable
    @SuppressWarnings("unchecked")
    public void createAuction()
    {
-      if (auction == null)
-      {
-         auction = new Auction();
-         auction.setAccount(authenticatedAccount);
-         auction.setStatus(Auction.STATUS_UNLISTED);   
-      }
-      
+      auction = new Auction();
+      auction.setAccount(authenticatedAccount);
+      auction.setStatus(Auction.STATUS_UNLISTED);   
+     
       durationDays = DEFAULT_AUCTION_DURATION;
    }   
    

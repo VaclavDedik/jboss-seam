@@ -13,6 +13,18 @@ h1, h2, h3 {
   width: 240px;
 }
 
+#tip {
+  clear: left;
+  float: left;
+  width: 240px;
+}
+
+#tip div {
+  border: 1px solid #cccccc;
+  padding: 4px 4px 4px 4px;  
+  font-size: 9px;
+}
+
 #services div {
   border: 1px solid #cccccc;
   padding: 4px 4px 4px 4px;

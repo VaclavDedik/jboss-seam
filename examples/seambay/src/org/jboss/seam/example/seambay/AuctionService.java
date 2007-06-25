@@ -69,6 +69,12 @@ public class AuctionService implements AuctionServiceRemote
    }
    
    @WebMethod
+   public void setAuctionPrice(double price)
+   {
+      getAuctionAction().getAuction().setPrice(price);
+   }
+   
+   @WebMethod
    public void confirmAuction()
    {
       getAuctionAction().confirm();

@@ -14,6 +14,7 @@ public interface AuctionServiceRemote
    Auction getNewAuctionDetails();
    void updateAuctionDetails(String title, String description, int categoryId);
    void setAuctionDuration(int days);
+   void setAuctionPrice(double price);
    void confirmAuction();
    
    Auction[] findAuctions(String searchTerm);
