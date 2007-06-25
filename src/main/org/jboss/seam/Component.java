@@ -64,7 +64,6 @@ import org.jboss.seam.annotations.DataSelectorClass;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.EndTask;
-import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.JndiName;
 import org.jboss.seam.annotations.Observer;
@@ -111,7 +110,6 @@ import org.jboss.seam.interceptors.RollbackInterceptor;
 import org.jboss.seam.interceptors.SecurityInterceptor;
 import org.jboss.seam.interceptors.SynchronizationInterceptor;
 import org.jboss.seam.interceptors.TransactionInterceptor;
-import org.jboss.seam.interceptors.ValidationInterceptor;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.util.Conversions;
@@ -165,7 +163,6 @@ public class Component extends Model
    private Method postActivateMethod;
    
    private Map<String, Method> removeMethods = new HashMap<String, Method>();
-   private Set<Method> validateMethods = new HashSet<Method>();
    private Set<Method> lifecycleMethods = new HashSet<Method>();
    private Set<Method> conversationManagementMethods = new HashSet<Method>();
    
@@ -541,10 +538,6 @@ public class Component extends Model
 
    private void scanMethod(Context applicationContext, Map<Method, Annotation> selectionSetters, Set<String> dataModelNames, Method method)
    {
-      if ( method.isAnnotationPresent(IfInvalid.class) )
-      {
-         validateMethods.add(method);
-      }
       if ( method.isAnnotationPresent(REMOVE) )
       {
          removeMethods.put( method.getName(), method );
@@ -934,10 +927,6 @@ public class Component extends Model
       {
          addInterceptor( new Interceptor( new BijectionInterceptor(), this ) );
       }
-      if ( beanClassHasAnnotation(IfInvalid.class) )
-      {
-         addInterceptor( new Interceptor( new ValidationInterceptor(), this ) );
-      }
       addInterceptor( new Interceptor( new RollbackInterceptor(), this ) );
       if ( getType()==JAVA_BEAN && beanClassHasAnnotation(Transactional.class))
       {
@@ -1086,11 +1075,6 @@ public class Component extends Model
    public Method getRemoveMethod(String name)
    {
       return removeMethods.get(name);
-   }
-
-   public Set<Method> getValidateMethods()
-   {
-      return validateMethods;
    }
 
    public boolean hasPreDestroyMethod()

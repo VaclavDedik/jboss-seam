@@ -44,7 +44,6 @@ public class ComponentTest
       assert c.getUnwrapMethod()==null;
       assert c.getOutAttributes().size()==2;
       assert c.getRemoveMethods().size()==0;
-      assert c.getValidateMethods().size()==0;
       assert c.isInstance( new Bar() );
 
       c = new Component(Foo.class);
@@ -60,7 +59,6 @@ public class ComponentTest
       assert c.getUnwrapMethod()==null;
       assert c.getOutAttributes().size()==0;
       assert c.getRemoveMethods().size()==1;
-      assert c.getValidateMethods().size()==1;
       assert c.isInstance( new Foo() );
       
       c = new Component(EjbBean.class);
@@ -76,7 +74,6 @@ public class ComponentTest
       assert c.getUnwrapMethod()==null;
       assert c.getOutAttributes().size()==0;
       assert c.getRemoveMethods().size()==1;
-      assert c.getValidateMethods().size()==0;
       assert c.isInstance( new Ejb() {
          public void destroy() {}
          public void foo() {} 
@@ -98,7 +95,6 @@ public class ComponentTest
       assert c.getUnwrapMethod()==null;
       assert c.getOutAttributes().size()==0;
       assert c.getRemoveMethods().size()==0;
-      assert c.getValidateMethods().size()==0;
 
       c = new Component(Init.class);
       assert c.getName().equals("org.jboss.seam.settings");
@@ -113,8 +109,6 @@ public class ComponentTest
       assert c.getUnwrapMethod()==null;
       assert c.getOutAttributes().size()==0;
       assert c.getRemoveMethods().size()==0;
-      assert c.getValidateMethods().size()==0;
-
       c = new Component(ManagedPersistenceContext.class, "pc");
       assert c.getName().equals("pc");
       assert c.getBeanClass()==ManagedPersistenceContext.class;
@@ -128,7 +122,6 @@ public class ComponentTest
       assert c.getUnwrapMethod().getName().equals("getEntityManager");
       assert c.getOutAttributes().size()==0;
       assert c.getRemoveMethods().size()==0;
-      assert c.getValidateMethods().size()==0;
 
       c = new Component(ManagedHibernateSession.class, "pc");
       assert c.getName().equals("pc");
@@ -143,6 +136,5 @@ public class ComponentTest
       assert c.getUnwrapMethod().getName().equals("getSession");
       assert c.getOutAttributes().size()==0;
       assert c.getRemoveMethods().size()==0;
-      assert c.getValidateMethods().size()==0;
    }
 }

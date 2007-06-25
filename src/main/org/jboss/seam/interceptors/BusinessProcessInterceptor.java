@@ -29,8 +29,7 @@ import org.jboss.util.Strings;
  * @author <a href="mailto:steve@hibernate.org">Steve Ebersole</a>
  * @author Gavin King
  */
-@Interceptor(stateless=true,
-             around={ValidationInterceptor.class, BijectionInterceptor.class})
+@Interceptor(stateless=true, around=BijectionInterceptor.class)
 public class BusinessProcessInterceptor extends AbstractInterceptor
 {
    private static final long serialVersionUID = 758197867958840918L;

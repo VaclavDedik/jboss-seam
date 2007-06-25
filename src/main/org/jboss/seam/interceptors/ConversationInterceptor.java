@@ -27,7 +27,7 @@ import org.jboss.seam.persistence.PersistenceContexts;
  * @author Gavin King
  */
 @Interceptor(stateless=true,
-             around={ValidationInterceptor.class, BijectionInterceptor.class},
+             around=BijectionInterceptor.class,
              within=BusinessProcessInterceptor.class)
 public class ConversationInterceptor extends AbstractInterceptor
 {
@@ -131,6 +131,7 @@ public class ConversationInterceptor extends AbstractInterceptor
          );
    }
 
+   @SuppressWarnings("deprecation")
    private void beginConversationIfNecessary(Method method, Object result)
    {
       

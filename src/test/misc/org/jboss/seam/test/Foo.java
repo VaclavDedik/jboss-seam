@@ -14,7 +14,6 @@ import org.hibernate.validator.NotNull;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.End;
-import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 
@@ -47,7 +46,6 @@ public class Foo implements Serializable
       this.value = value;
    }
    
-   @IfInvalid(outcome="baz")
    public String bar()
    {
       return "bar";

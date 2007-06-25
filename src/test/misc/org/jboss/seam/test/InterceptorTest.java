@@ -4,7 +4,6 @@ package org.jboss.seam.test;
 import java.lang.reflect.Method;
 
 import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseId;
 
 import org.jboss.seam.Component;
@@ -26,7 +25,6 @@ import org.jboss.seam.interceptors.BijectionInterceptor;
 import org.jboss.seam.interceptors.ConversationInterceptor;
 import org.jboss.seam.interceptors.ConversationalInterceptor;
 import org.jboss.seam.interceptors.RemoveInterceptor;
-import org.jboss.seam.interceptors.ValidationInterceptor;
 import org.jboss.seam.mock.MockApplication;
 import org.jboss.seam.mock.MockExternalContext;
 import org.jboss.seam.mock.MockFacesContext;
@@ -531,7 +529,7 @@ public class InterceptorTest
       try
       {
 
-         String result = (String) ci.aroundInvoke( new MockInvocationContext() {
+         ci.aroundInvoke( new MockInvocationContext() {
             @Override
             public Method getMethod()
             {
@@ -642,83 +640,6 @@ public class InterceptorTest
       FacesLifecycle.beginRequest(externalContext);
       Manager.instance().setCurrentConversationId("1");
       FacesLifecycle.resumeConversation(externalContext);
-      
-      ValidationInterceptor vi = new ValidationInterceptor();
-      vi.setComponent( new Component(Foo.class, appContext) );
-
-      final Foo foo = new Foo();
-      
-      String result = (String) vi.aroundInvoke( new MockInvocationContext() {
-         @Override
-         public Method getMethod()
-         {
-            return InterceptorTest.getMethod("foo");
-         }
-         @Override
-         public Object getTarget()
-         {
-            return foo;
-         }
-
-         @Override
-         public Object proceed() throws Exception
-         {
-            return foo.foo();
-         }
-      });
-      
-      assert "foo".equals(result);
-      FacesMessages.afterPhase();
-      FacesMessages.instance().beforeRenderResponse();
-      assert !FacesContext.getCurrentInstance().getMessages().hasNext();      
-      
-      result = (String) vi.aroundInvoke( new MockInvocationContext() {
-         @Override
-         public Method getMethod()
-         {
-            return InterceptorTest.getMethod("bar");
-         }
-         @Override
-         public Object getTarget()
-         {
-            return foo;
-         }
-
-         @Override
-         public Object proceed() throws Exception
-         {
-            assert false;
-            return foo.bar();
-         }
-      });
-            
-      assert "baz".equals(result);
-      FacesMessages.afterPhase();
-      FacesMessages.instance().beforeRenderResponse();
-      assert FacesContext.getCurrentInstance().getMessages().hasNext();      
-
-      foo.setValue("not null");
-      
-      result = (String) vi.aroundInvoke( new MockInvocationContext() {
-         @Override
-         public Method getMethod()
-         {
-            return InterceptorTest.getMethod("bar");
-         }
-         @Override
-         public Object getTarget()
-         {
-            return foo;
-         }
-
-         @Override
-         public Object proceed() throws Exception
-         {
-            return foo.bar();
-         }
-      });
-      
-      assert "bar".equals(result);
       
       ServletLifecycle.endApplication();
    }
