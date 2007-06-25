@@ -26,7 +26,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
-import org.jboss.seam.annotations.RequestParameter;
+import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
 

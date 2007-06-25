@@ -12,6 +12,7 @@ import java.lang.annotation.Target;
 /**
  * Injects a request parameter value
  * 
+ * @see org.jboss.seam.web.Parameters
  * @author Gavin King
  */
 @Target({METHOD, FIELD/*, PARAMETER*/})

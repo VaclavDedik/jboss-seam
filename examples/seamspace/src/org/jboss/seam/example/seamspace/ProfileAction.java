@@ -16,7 +16,7 @@ import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
-import org.jboss.seam.annotations.RequestParameter;
+import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.annotations.Scope;
 
 @Stateful

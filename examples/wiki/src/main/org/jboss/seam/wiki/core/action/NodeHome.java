@@ -11,7 +11,7 @@ import org.jboss.seam.wiki.core.model.Node;
 import org.jboss.seam.wiki.util.WikiUtil;
 import org.jboss.seam.wiki.preferences.PreferenceProvider;
 import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.RequestParameter;
+import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.core.Events;

@@ -1,7 +1,7 @@
 package @actionPackage@;
 
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.RequestParameter;
+import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.framework.EntityQuery;
 
 @Name("@componentName@")

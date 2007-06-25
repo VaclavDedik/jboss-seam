@@ -12,6 +12,8 @@ import java.lang.annotation.Target;
  * by Seam's master filter and specifies its ordering 
  * with respect to other filters in the stack.
  * 
+ * @see org.jboss.seam.web.AbstractFilter
+ * 
  */
 @Target(TYPE)
 @Retention(RUNTIME)
