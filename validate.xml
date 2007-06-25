@@ -1,4 +1,9 @@
-<property name="seam.schemaLocations" value="
+<?xml version="1.0"?>
+<project basedir=".">
+	
+	<property name="imported.basedir" value="${basedir}" />
+
+	<property name="seam.schemaLocations" value="
 	http://jboss.com/products/seam/async ${src.schema.dir}/async-${schema.version}.xsd 
 	http://jboss.com/products/seam/bpm ${src.schema.dir}/bpm-${schema.version}.xsd 
 	http://jboss.com/products/seam/components ${src.schema.dir}/components-${schema.version}.xsd 
@@ -17,47 +22,50 @@
 	http://jboss.com/products/seam/security ${src.schema.dir}/security-${schema.version}.xsd 
 	http://jboss.com/products/seam/theme ${src.schema.dir}/theme-${schema.version}.xsd 
 	http://jboss.com/products/seam/transaction ${src.schema.dir}/transaction-${schema.version}.xsd 
-	http://jboss.com/products/seam/web ${src.schema.dir}/web-${schema.version}.xsd "
-/>
-	
-<taskdef name="xmlvalidate.task" classname="org.apache.tools.ant.taskdefs.optional.XMLValidateTask" classpathref="build.classpath" />
+	http://jboss.com/products/seam/web ${src.schema.dir}/web-${schema.version}.xsd " />
 
-<fileset id="validate.resources" dir="${validate.resources.dir}">
-	<include name="**/META-INF/application.xml" />
-	<include name="**/META-INF/ejb-jar.xml" />
-	<include name="**/META-INF/persistence.xml" />
-	<include name="**/META-INF/jboss-app.xml" />
-	<include name="**/META-INF/orm.xml" />
-	<include name="**/WEB-INF/components.xml" />
-	<include name="**/WEB-INF/pages.xml"/>
-	<include name="**/WEB-INF/faces-config.xml" />
-	<include name="**/WEB-INF/web.xml" />
-	<include name="**/WEB-INF/jboss-web.xml" />
-	<include name="**/${example.ds}" />
-	<include name="**/hibernate.cfg.xml" />
-	<include name="**/*.jpdl.xml"/>
-	<exclude name="**/.gpd.*.jpdl.xml"/>
-</fileset>
+	<taskdef name="xmlvalidate.task" classname="org.apache.tools.ant.taskdefs.optional.XMLValidateTask">
+		<classpath>
+			<fileset dir="${imported.basedir}/lib" />
+		</classpath>
+	</taskdef>
 
-<target name="validateConfiguration" depends="initValidateConfiguration" description="Validate XML Configuration Files">
-	<validateConfiguration>
-		<fileset refid="validate.resources" />
-	</validateConfiguration>
-</target>
+	<fileset id="validate.resources" dir="${validate.resources.dir}">
+		<include name="**/META-INF/application.xml" />
+		<include name="**/META-INF/ejb-jar.xml" />
+		<include name="**/META-INF/persistence.xml" />
+		<include name="**/META-INF/jboss-app.xml" />
+		<include name="**/META-INF/orm.xml" />
+		<include name="**/WEB-INF/components.xml" />
+		<include name="**/WEB-INF/pages.xml" />
+		<include name="**/WEB-INF/faces-config.xml" />
+		<include name="**/WEB-INF/web.xml" />
+		<include name="**/WEB-INF/jboss-web.xml" />
+		<include name="**/${example.ds}" />
+		<include name="**/hibernate.cfg.xml" />
+		<include name="**/*.jpdl.xml" />
+		<exclude name="**/.gpd.*.jpdl.xml" />
+	</fileset>
 
-<presetdef name="validateConfiguration">
-	<xmlvalidate.task>
-		<attribute name="http://xml.org/sax/features/validation" value="true" />
-		<attribute name="http://apache.org/xml/features/validation/schema" value="true" />
-		<attribute name="http://xml.org/sax/features/namespaces" value="true" />
-		<property name="http://apache.org/xml/properties/schema/external-schemaLocation" value="${seam.schemaLocations}" />
-		<xmlcatalog>
-        	<dtd 
-            	publicId="-//JBoss/Seam Component Configuration DTD 1.3//EN"
-           		location="${src.schema.dir}/components-${schema.version}.dtd"/>
-           	<dtd 
-            	publicId="-//JBoss/Seam Pages Configuration DTD 1.3//EN"
-           		location="${src.schema.dir}/pages-${schema.version}.dtd"/>
-    	</xmlcatalog>
-	</xmlvalidate.task>
-</presetdef>
+	<target name="validateConfiguration" description="Validate XML Configuration Files">
+		<validateConfiguration>
+			<fileset refid="validate.resources" />
+		</validateConfiguration>
+	</target>
+
+	<presetdef name="validateConfiguration" >
+		<xmlvalidate.task classname="org.apache.xerces.jaxp.SAXParserImpl$JAXPSAXParser">
+			<attribute name="http://xml.org/sax/features/validation" value="true" />
+			<attribute name="http://apache.org/xml/features/validation/schema" value="true" />
+			<attribute name="http://xml.org/sax/features/namespaces" value="true" />
+			<property name="http://apache.org/xml/properties/schema/external-schemaLocation" value="${seam.schemaLocations}" />
+			<xmlcatalog>
+				<dtd publicId="-//JBoss/Seam Component Configuration DTD 1.3//EN" location="${src.schema.dir}/components-${schema.version}.dtd" />
+				<dtd publicId="-//JBoss/Seam Pages Configuration DTD 1.3//EN" location="${src.schema.dir}/pages-${schema.version}.dtd" />
+			</xmlcatalog>
+			<classpath>
+				<fileset dir="${imported.basedir}/lib" />
+			</classpath>
+		</xmlvalidate.task>
+	</presetdef>
+</project>

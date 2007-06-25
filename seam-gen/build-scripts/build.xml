@@ -1,9 +1,5 @@
 <?xml version="1.0"?>
 
-<!DOCTYPE project [
-    <!ENTITY validate SYSTEM "./validate.xml">
-]>
-
 <project name="@projectName@" default="deploy" basedir=".">
 
         <!-- Give user a chance to override without editing this file or typing -D -->
@@ -38,8 +34,6 @@
 		<property name="schema.dir" value="${basedir}/exploded-archives/schemas" />
 		<property name="src.schema.dir" value="${schema.dir}/org/jboss/seam"/>
 		<property name="schema.version" value="@schemaVersion@" />
-	
-	&validate;
 	
         <fileset id="lib" dir="${lib.dir}">
                 <include name="*.jar" />
@@ -313,7 +307,7 @@
                 </testng>
         </target>
 	
-	<target name="initValidateConfiguration" depends="war,ear,jar">
+	<target name="validateConfiguration" depends="war,ear,jar" description="Validate the xml configuration files">
 		<mkdir dir="${schema.dir}"/>
 		<unjar src="${lib.dir}/jboss-seam.jar" dest="${schema.dir}">
 			<patternset>
@@ -321,6 +315,7 @@
 				<include name="org/jboss/seam/*.dtd"/>
 			</patternset>
 		</unjar>
+		<ant antfile="validate.xml" target="validateConfiguration" />
 	</target>
         
 </project>

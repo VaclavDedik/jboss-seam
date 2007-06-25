@@ -1,7 +1,4 @@
 <?xml version="1.0"?>
-<!DOCTYPE project [
-    <!ENTITY validate SYSTEM "./validate.xml">
-]>
 <project name="Seam" default="build" basedir=".">
 
 	<tstamp />
@@ -134,6 +131,10 @@
 	<property name="example.webinf.lib.dir" value="${example.resources.dir}/WEB-INF/lib" />
 	<property name="example.ds" value="${example.name}-ds.xml" />
 	<property name="validate.resources.dir" value="${example.resources.dir}" />
+	
+	<condition property="validate.xml.enabled">
+			<istrue value="${validate.xml}"/>
+	</condition>
 
 	<path id="example.path" />
 	<fileset id="example.local.jar" dir=".">
@@ -429,9 +430,6 @@
 	</patternset>
 
 	<!-- ############################ Targets #############################-->
-
-	<!-- Import Configuration File Validation Task -->
-	&validate;
 	
 	<target name="clean" description="Cleans up the build directory">
 		<delete dir="${build.dir}" />
@@ -767,8 +765,10 @@
 		<echo>Report available at ${basedir}/report/index.html</echo>
 	</target>
 
-	<target name="testexample" depends="validateConfiguration, compile" description="Run the example tests">
+	<target name="testexample" depends="validateexample, compile" description="Run the example tests">
 
+		
+		
 		<taskdef resource="testngtasks" classpath="${testng.jar}" />
 
 		<copy todir="${build.dir}/test">
@@ -788,6 +788,10 @@
 			<xmlfileset dir="${src.test.dir}" includes="**/*.xml" />
 		</testng>
 
+	</target>
+	
+	<target name="validateexample" description="Validate the example configuration files" if="validate.xml.enabled">
+		<ant antfile="${imported.basedir}/validate.xml" target="validateConfiguration" />
 	</target>
 
 	<target name="copysource" description="Copy sources to dist dir">
@@ -1374,10 +1378,6 @@
 	<target name="undeploy.tomcat" description="Undeploy the example from Tomcat">
 		<delete file="${tomcat.home}/webapps/${example.name}.war" />
 		<delete dir="${tomcat.home}/webapps/${example.name}" />
-	</target>
-
-	<target name="initValidateConfiguration">
-
 	</target>
 
 </project>
