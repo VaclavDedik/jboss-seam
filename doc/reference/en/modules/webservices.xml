@@ -68,8 +68,8 @@
     
     <para>
       An important thing to note is that the <literal>conversationId</literal> header element must be qualified
-      with a namespace of <literal>http://www.jboss.org/seam/webservice</literal>. Here's an example of a response
-      to the above request message:
+      with a namespace of <literal>http://www.jboss.org/seam/webservice</literal>, otherwise Seam will not be
+      able to read the conversation ID from the request. Here's an example of a response to the above request message:
     </para>
     
     <programlisting><![CDATA[<env:Envelope xmlns:env='http://schemas.xmlsoap.org/soap/envelope/'>
@@ -85,6 +85,32 @@
     <para>
       As you can see, the response message contains the same <literal>conversationId</literal> element as the request.
     </para>
+    
+    <sect2>
+      <title>A Recommended Strategy</title>
+      
+      <para>
+        As web services must be implemented as either a stateless session bean or POJO, it is recommended that for
+        conversational web services, the web service acts as a facade to a conversational Seam component.
+      </para>
+      
+      <mediaobject>
+        <imageobject role="fo">
+          <imagedata fileref="images/ws-strategy.png" align="center"/>
+        </imageobject>
+        <imageobject role="html">
+          <imagedata fileref="../shared/images/ws-strategy.png" align="center"/>
+        </imageobject>
+      </mediaobject>      
+      
+      <para>
+        If the web service is written as a stateless session bean, then it is also possible to make it a Seam
+        component by giving it a <literal>@Name</literal>.  Doing this allows Seam's bijection (and other) 
+        features to be used in the web service class itself. 
+      </para>
+      
+    </sect2>
+    
   </sect1>
   
   <sect1>
@@ -92,8 +118,9 @@
     
     <para>
       Let's walk through an example web service.  The code in this section all comes from the seamBay example
-      application in Seam's <literal>/examples</literal> directory.  Let's first take a look at the web service 
-      class and one of it's web service methods:
+      application in Seam's <literal>/examples</literal> directory, and follows the recommended strategy as
+      described in the previous section.  Let's first take a look at the web service class and one of its web 
+      service methods:
     </para>
     
     <programlisting><![CDATA[@Stateless
@@ -126,12 +153,47 @@ public class AuctionService implements AuctionServiceRemote
       declared in the remote interface of the web service class (when the web service is a stateless session bean).  
       In the above example, the <literal>AuctionServiceRemote</literal> interface must declare the <literal>login()</literal> 
       method as it is annotated as a <literal>@WebMethod</literal>.
+    </para>    
+    
+    <para>
+      As you can see in the above code, the web service implements a <literal>login()</literal> method that 
+      delegates to Seam's built-in <literal>Identity</literal> component.  In keeping with our recommended strategy,
+      the web service is written as a simple facade, passing off the real work to a Seam component.  This allows
+      for the greatest reuse of business logic between web services and other clients.
     </para>
     
     <para>
-      
+      Let's look at another example.  This web service method begins a new conversation by delegating to the
+      <literal>AuctionAction.createAuction()</literal> method:
+    </para>
+    
+    <programlisting><![CDATA[   @WebMethod
+   public void createAuction(String title, String description, int categoryId)
+   {
+      AuctionAction action = (AuctionAction) Component.getInstance(AuctionAction.class, true);
+      action.createAuction();
+      action.setDetails(title, description, categoryId);
+   }]]></programlisting>
+   
+    <para>
+      And here's the code from <literal>AuctionAction</literal>:
+    </para>
+    
+    <programlisting><![CDATA[   @Begin
+   public void createAuction()
+   {
+      auction = new Auction();
+      auction.setAccount(authenticatedAccount);
+      auction.setStatus(Auction.STATUS_UNLISTED);        
+      durationDays = DEFAULT_AUCTION_DURATION;
+   }]]></programlisting>
+   
+    <para>
+      From this we can see how web services can participate in long running conversations, by acting as a facade
+      and delegating the real work to a conversational Seam component.
     </para>
 
   </sect1>
+
 
 </chapter>
