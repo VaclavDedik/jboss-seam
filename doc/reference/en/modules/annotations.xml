@@ -75,15 +75,12 @@
             </varlistentry>
             <varlistentry id="intercept-annotation">
                 <term>
-                    <literal>@Intercept</literal>
+                    <literal>@BypassInterceptors</literal>
                 </term>
                 <listitem>
-                    <programlisting><![CDATA[@Intercept(InterceptionType.NEVER)]]></programlisting>
-                    <para> Determines when Seam interceptors are active. The possible values are defined by the
-                            <literal>InterceptionType</literal> enumeration: <literal>ALWAYS, AFTER_RESTORE_VIEW,
-                            AFTER_UPDATE_MODEL_VALUES, INVOKE_APPLICATION, NEVER</literal>. </para>
-                    <para> The default interception type for session beans, message
-                        driven beans and JavaBeans is <literal>ALWAYS</literal>. </para>
+                    <programlisting><![CDATA[@BypassInterceptors]]></programlisting>
+                    <para>Disables Seam all interceptors on a particular component
+                    or method of a component.</para>
                 </listitem>
             </varlistentry>
             <varlistentry id="jndiname-annotation">

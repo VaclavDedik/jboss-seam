@@ -310,12 +310,12 @@
                 <programlisting><![CDATA[@Startup
 @Scope(APPLICATION)
 @Name("org.jboss.seam.web.multipartFilter")
-@Intercept(NEVER)
+@BypassInterceptors
 @Filter(within="org.jboss.seam.web.ajax4jsfFilter")
 public class MultipartFilter extends AbstractFilter {]]></programlisting>
 
                 <para> Adding the <literal>@Startup</literal> annotation means thar the component is available during
-                    Seam startup; bijection isn't available here (<literal>@Intercept(NEVER)</literal>); and the filter
+                    Seam startup; bijection isn't available here (<literal>@BypassInterceptors</literal>); and the filter
                     should be further down the chain than the Ajax4jsf filter
                         (<literal>@Filter(within="org.jboss.seam.web.ajax4jsfFilter")</literal>). </para>
 

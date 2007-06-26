@@ -489,7 +489,6 @@ public class LoginAction implements Login {
 
             <programlisting><![CDATA[@Name("com.jboss.myapp.loginAction")
 @Stateless
-@Interceptors(SeamInterceptor.class)
 public class LoginAction implements Login { 
     ... 
 }]]></programlisting>
@@ -660,7 +659,6 @@ public class User {
 
         <programlisting><![CDATA[@Name("loginAction")
 @Stateless
-@Interceptors(SeamInterceptor.class)
 public class LoginAction implements Login { 
     @In User user;
     ... 
@@ -672,7 +670,6 @@ public class LoginAction implements Login {
 
         <programlisting><![CDATA[@Name("loginAction")
 @Stateless
-@Interceptors(SeamInterceptor.class)
 public class LoginAction implements Login { 
     User user;
     
@@ -709,7 +706,6 @@ public class LoginAction implements Login {
 
         <programlisting><![CDATA[@Name("loginAction")
 @Stateless
-@Interceptors(SeamInterceptor.class)
 public class LoginAction implements Login { 
     @In("#{user.username}") String username;
     ... 
@@ -726,7 +722,6 @@ public class LoginAction implements Login {
 
         <programlisting><![CDATA[@Name("loginAction")
 @Stateless
-@Interceptors(SeamInterceptor.class)
 public class LoginAction implements Login { 
     @Out User user;
     ... 
@@ -738,7 +733,6 @@ public class LoginAction implements Login {
 
         <programlisting><![CDATA[@Name("loginAction")
 @Stateless
-@Interceptors(SeamInterceptor.class)
 public class LoginAction implements Login { 
     User user;
     
@@ -756,7 +750,6 @@ public class LoginAction implements Login {
 
         <programlisting><![CDATA[@Name("loginAction")
 @Stateless
-@Interceptors(SeamInterceptor.class)
 public class LoginAction implements Login { 
     @In @Out User user;
     ... 
@@ -768,7 +761,6 @@ public class LoginAction implements Login {
 
         <programlisting><![CDATA[@Name("loginAction")
 @Stateless
-@Interceptors(SeamInterceptor.class)
 public class LoginAction implements Login { 
     User user;
     
