@@ -26,7 +26,31 @@ WebSphere 6.1:
   * Start the application
   * Access it at http://localhost:9080/context_root/index.html
 
-Tomcat (the build is the same as JBoss 4.2.0 GA WAR):
+Plain Tomcat
+  * Install Tomcat 5.5
+  * Copy the JARs in lib/tomcat into $TOMCAT_HOME/common/lib
+  * Copy the following Context element into $TOMCAT_HOME/conf/server.xml
+  * ant tomcat
+  * Deploy to $TOMCAT_HOME/webapps/jboss-seam-hibernate.war
+  * Start Tomcat
+  * Access the app at http://localhost:8080/jboss-seam-hibernate/
+Example of the Context element in server.xml:
+<Server ...>
+  <Service ...>
+    <Engine ...>
+      <Host ...>
+        <Context path="/jboss-seam-hibernate" docBase="jboss-seam-hibernate"
+                 debug="5" reloadable="true" crossContext="true">
+
+          <Resource name="jdbc/TestDB" auth="Container" 
+               type="javax.sql.DataSource"
+               maxActive="100" maxIdle="30" maxWait="10000"
+               username="sa" driverClassName="org.hsqldb.jdbcDriver"
+               url="jdbc:hsqldb:."/>
+
+        </Context>
+
+Tomcat with embeddable JBoss (the build is the same as JBoss 4.2.0 GA WAR):
   * Install Tomcat
   * Install Embeddable JBoss
   * ant

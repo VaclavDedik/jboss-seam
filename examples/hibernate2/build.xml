@@ -151,6 +151,71 @@
     </war>
   </target>
   
+  <target name="tomcat" depends="compile">
+    
+    <mkdir dir="${build.jars}"/>
+    
+    <jar destfile="${build.jars}/${projname}.jar">
+      <fileset dir="${build.classes}">
+        <include name="**/*.class"/>
+      </fileset>
+      <fileset dir="${resources}">
+        <include name="seam.properties" />
+        <include name="import.sql" />
+      </fileset>
+      <fileset dir="${resources}/tomcat">
+        <include name="hibernate.cfg.xml" />
+      </fileset>
+    </jar>
+
+    <war destfile="${build.jars}/${projname}.war"
+         webxml="${resources}/web.xml">
+      <webinf dir="${resources}">
+        <include name="faces-config.xml" />
+        <include name="pages.xml" />
+        <include name="jboss-web.xml" />
+      </webinf>
+      <webinf dir="${resources}/tomcat">
+        <include name="components.xml" />
+      </webinf>
+      <lib dir="${seamlib}">
+        <include name="jboss-seam.jar" />
+        <include name="jboss-seam-ui.jar" />
+        <include name="jboss-seam-debug.jar" />
+      </lib>
+      <lib dir="${applib}">
+        <include name="cglib.jar" />
+        <include name="el-api.jar" />
+        <include name="el-ri.jar" />
+      </lib>
+      <lib dir="${hibernatelib}">
+        <include name="*.jar" />
+      </lib>
+      <lib dir="${lib}">
+        <include name="ajax4jsf*.jar" />
+        <include name="oscache*.jar" />
+        <include name="jboss-el.jar" />
+        <include name="jboss-el-api.jar" />
+        <include name="jsf-facelets.jar" />
+        <include name="jsf-api.jar" />
+        <include name="jsf-impl.jar" />
+        <include name="thirdparty-all.jar" />
+        <include name="commons*.jar" />
+      </lib>
+      <lib dir="${applib}/mc">
+        <include name="*.*" /> 
+      </lib>
+      <lib dir="${build.jars}">
+        <include name="${projname}.jar" />
+      </lib>
+      <classes dir="${resources}/tomcat">
+        <include name="log4j.xml" />
+      </classes>
+      <fileset dir="${view}"/>
+    </war>
+  </target>
+
+  
   <target name="weblogic" depends="compile">
     
     <mkdir dir="${build.jars}"/>
