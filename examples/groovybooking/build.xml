@@ -47,13 +47,7 @@
         <mkdir dir="${classes.action.dir}" />
         <mkdir dir="${dist.dir}" />
         <!-- if a .groovy file is in model or action, set groovy.present -->
-        <available property="groovy.present" value="true" file="">
-          <filepath>
-            <fileset dir="${src.action.dir}">
-              <include name="**/*.groovy"/>
-            </fileset>
-          </filepath>
-        </available>
+        <property name="groovy.present" value="true"/>
         <condition property="groovy.dynamic" value="true">
             <and>
                 <isset property="groovy.present"/>
@@ -81,7 +75,7 @@
     </target>
 
     <!-- private task -->
-    <target name="compilemodel.groovy" if="groovy.present">
+    <target name="compilemodel.groovy" depends="init" if="groovy.present">
         <!-- model is always compiled -->
         <groovyc classpathref="build.classpath"
                destdir="${classes.model.dir}"
@@ -89,7 +83,7 @@
         </groovyc>
     </target>
     
-    <target name="compileactions" depends="init,compileactions.compilegroovy,compileactions.copygroovy"
+    <target name="compileactions" depends="init,compileactions.compilegroovy,compileactions.copygroovy,compilemodel"
             description="Compile the Java source code"
             unless="eclipse.running">
         <javac classpathref="build.classpath"
@@ -103,7 +97,7 @@
     </target>
 
     <!-- private task -->
-    <target name="compileactions.compilegroovy" if="groovy.static">
+    <target name="compileactions.compilegroovy" if="groovy.static" depends="init,compilemodel">
         <path id="groovy.action.classpath">
             <path refid="build.classpath"/>
             <dirset dir="${classes.model.dir}"/>
