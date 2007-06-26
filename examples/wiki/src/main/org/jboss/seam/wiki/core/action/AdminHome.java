@@ -10,6 +10,7 @@ import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.*;
+import org.jboss.seam.annotations.remoting.WebRemote;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
 import org.jboss.seam.annotations.security.Restrict;
@@ -118,7 +119,7 @@ public class AdminHome {
         entityManager.joinTransaction();
 
         // TODO: http://jira.jboss.com/jira/browse/JBSEAM-1297
-        ClassValidator<LinkProtocol> validator = Validators.instance().getValidator(LinkProtocol.class, null);
+        ClassValidator<LinkProtocol> validator = Validators.instance().getValidator(LinkProtocol.class);
         InvalidValue[] ivs = validator.getInvalidValues(linkProtocol);
         if (ivs.length>0) {
             for (InvalidValue iv : ivs) {

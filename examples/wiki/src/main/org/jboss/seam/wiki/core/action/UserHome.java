@@ -3,6 +3,7 @@ package org.jboss.seam.wiki.core.action;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.*;
+import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.contexts.Contexts;

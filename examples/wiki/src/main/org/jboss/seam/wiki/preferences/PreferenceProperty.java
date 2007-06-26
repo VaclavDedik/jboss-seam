@@ -1,5 +1,6 @@
 package org.jboss.seam.wiki.preferences;
 
+import org.jboss.seam.core.Validators;
 import org.jboss.seam.util.Reflections;
 import org.jboss.seam.Component;
 import org.hibernate.validator.InvalidValue;
@@ -83,7 +84,7 @@ public class PreferenceProperty implements Comparable, Serializable {
     }
 
     public InvalidValue[] validate(Component component, Object value) {
-        ClassValidator validator = component.getValidator();
+        ClassValidator validator = Validators.instance().getValidator( component.getBeanClass() );
         return validator.getPotentialInvalidValues( getName(), value );
     }
 

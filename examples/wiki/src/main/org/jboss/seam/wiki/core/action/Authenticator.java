@@ -1,6 +1,7 @@
 package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.annotations.*;
+import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.wiki.core.dao.UserDAO;
 import org.jboss.seam.wiki.core.dao.NodeDAO;
 import org.jboss.seam.wiki.core.dao.UserRoleAccessFactory;

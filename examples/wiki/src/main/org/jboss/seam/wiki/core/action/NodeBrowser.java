@@ -1,6 +1,7 @@
 package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.annotations.*;
+import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Component;
 import org.jboss.seam.faces.FacesMessages;
@@ -145,7 +146,7 @@ public class NodeBrowser implements Serializable {
                     FacesManager.instance().switchConversation(entryPoint.getId());
 
                     log.debug("propagating faces messages from the ended conversation into the destination conversation");
-                    Contexts.getConversationContext().set("org.jboss.seam.core.facesMessages", messages);
+                    Contexts.getConversationContext().set("org.jboss.seam.faces.facesMessages", messages);
                 } else {
                     log.debug("the entry-point of this conversation is gone, redirecting to wiki start page");
                     FacesManager.instance().redirect("/display.xhtml", new HashMap<String,Object>(), true);

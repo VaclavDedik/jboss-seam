@@ -2,6 +2,7 @@ package org.jboss.seam.wiki.plugin.blogdirectory;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.*;
+import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.faces.FacesMessages;
