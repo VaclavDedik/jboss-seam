@@ -25,6 +25,7 @@
 	<classpathentry kind="lib" path="lib/drools-core-4.0.0.MR2.jar"/>
 	<classpathentry kind="lib" path="lib/drools-compiler-4.0.0.MR2.jar"/>
 	<classpathentry kind="lib" path="lib/janino-2.5.6.jar"/>
+	<classpathentry kind="lib" path="lib/antlr-3.0b7.jar"/>
     <classpathentry kind="lib" path="lib/@driverJar@"/>
     <classpathentry kind="output" path="test-build"/>
 </classpath>
