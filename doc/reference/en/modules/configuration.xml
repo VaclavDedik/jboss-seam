@@ -363,6 +363,15 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
             <para> You'll have to experiment to find the right setting for other application servers. Note that some
                 servers (such as GlassFish) require you to specify JNDI names for all EJB components explicitly (and
                 tediously). In this case, you can pick your own pattern ;-) </para>
+                
+            <para>
+                In an EJB3 environment, we recommend the use of a special built-in component for transaction management,
+                that is fully aware of container transactions, and can correctly process transaction success events
+                registered with the <literal>Events</literal> component. If you don't add this line to your 
+                <literal>components.xml</literal> file, Seam won't know when container-managed transactions end:
+            </para>
+            
+            <programlisting><![CDATA[<transaction:ejb-transaction/>]]></programlisting>
 
         </sect2>
 
@@ -573,7 +582,26 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
     </sect1>
 
     <sect1>
-        <title>Configuring Seam in Java SE, with the JBoss Embedded</title>
+        <title>Configuring Seam in Java SE, without JBoss Embedded</title>
+
+        <para> It is possible to use Seam completely outside of an EE environment. In this case, you need to tell Seam
+            how to manage transactions, since there will be no JTA available. If you're using JPA, you can tell
+            Seam to use JPA resource-local transactions, ie. <literal>EntityTransaction</literal>, like so: </para>
+            
+        <programlisting><![CDATA[<transaction:entity-transaction entity-manager="#{entityManager}"/>]]></programlisting>
+        
+        <para> If you're using Hibernate, you can tell Seam to use the Hibernate transaction API like this: </para>
+            
+        <programlisting><![CDATA[<transaction:hibernate-transaction session="#{session}"/>]]></programlisting>
+        
+        <para> Of course, you'll also need to define a datasource.</para>
+        
+        <para> A better alternative is to use JBoss Embedded to get access to the EE APIs. </para>
+                
+    </sect1>
+
+    <sect1>
+        <title>Configuring Seam in Java SE, with JBoss Embedded</title>
 
         <para> JBoss Embedded lets you run EJB3 components outside the context of the Java EE 5 application server. This
             is especially, but not only, useful for testing. </para>
