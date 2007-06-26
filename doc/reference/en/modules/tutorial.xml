@@ -57,9 +57,9 @@
                 First, make sure you have Ant correctly installed, with <literal>$ANT_HOME</literal> and
                 <literal>$JAVA_HOME</literal> set correctly. Next, make sure you set the location of your Tomcat 
                 6.0 installation in the <literal>build.properties</literal> file in the root folder of your Seam
-                installation.  You will need to follow the instructions in
-                <xref linkend="config.install.embedded"/>
-                for installing JBoss Embedded on Tomcat 6.0.  JBoss embedded is required to run Seam applications on Tomcat.
+                installation.  You will need to follow the instructions in <xref linkend="config.install.embedded"/>
+                for installing JBoss Embedded on Tomcat 6.0.  JBoss Embedded is required to run the Seam demo
+                applications on Tomcat. (However, it is possible to use Seam on Tomcat without JBoss Embedded.)
             </para>
 
             <para> 
@@ -319,7 +319,7 @@ public class RegisterAction implements Register
       {
          em.persist(user);
          log.info("Registered new user #{user.username}");
-         return "/registered.jspx";
+         return "/registered.xhtml";
       }
       else
       {
@@ -457,7 +457,8 @@ public interface Register
                 </example>
 
                 <para> This code configures a property named <literal>jndiPattern</literal> of a built-in Seam component
-                    named <literal>org.jboss.seam.core.init</literal>. </para>
+                    named <literal>org.jboss.seam.core.init</literal>. The funny <literal>@</literal> symbols are
+                    there because our Ant build script puts the correct JNDI pattern in when we deploy the application.</para>
 
             </section>
 
@@ -486,12 +487,7 @@ public interface Register
     <listener>
         <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
     </listener>
-
-    <context-param>
-        <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
-        <param-value>client</param-value>
-    </context-param>
-
+    
     <context-param>
         <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
         <param-value>.xhtml</param-value>
@@ -503,7 +499,6 @@ public interface Register
         <load-on-startup>1</load-on-startup>
     </servlet>
 
-    <!-- Faces Servlet Mapping -->
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.seam</url-pattern>
@@ -570,9 +565,9 @@ public interface Register
          version="3.0">
          
    <interceptors>
-     <interceptor>
-       <interceptor-class>org.jboss.seam.ejb.SeamInterceptor</interceptor-class>
-     </interceptor>
+      <interceptor>
+         <interceptor-class>org.jboss.seam.ejb.SeamInterceptor</interceptor-class>
+      </interceptor>
    </interceptors>
    
    <assembly-descriptor>
@@ -599,13 +594,15 @@ public interface Register
              xsi:schemaLocation="http://java.sun.com/xml/ns/persistence 
                                  http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd" 
              version="1.0">
-    <persistence-unit name="userDatabase">
+
+   <persistence-unit name="userDatabase">
       <provider>org.hibernate.ejb.HibernatePersistence</provider>
       <jta-data-source>java:/DefaultDS</jta-data-source>
       <properties>
          <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
       </properties>
     </persistence-unit>
+    
 </persistence>]]></programlisting>
 
             </section>
@@ -625,33 +622,24 @@ public interface Register
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core">
 
-  <head>
-    <title>Register New User</title>
-  </head>
-  <body>
-    <f:view>
-      <h:form>
-        <table border="0">
-          <s:validateAll>
-            <tr>
-              <td>Username</td>
-              <td><h:inputText value="#{user.username}" required="true"/></td>
-            </tr>
-            <tr>
-              <td>Real Name</td>
-              <td><h:inputText value="#{user.name}" required="true"/></td>
-            </tr>
-            <tr>
-              <td>Password</td>
-              <td><h:inputSecret value="#{user.password}" required="true"/></td>
-            </tr>
-          </s:validateAll>
-        </table>
-        <h:messages/>
-        <h:commandButton value="Register" action="#{register.register}"/>
-      </h:form>
-    </f:view>
-  </body>
+   <head>
+      <title>Register New User</title>
+   </head>
+   <body>
+      <f:view>
+         <h:form>
+            <s:validateAll>
+               <h:panelGrid columns="2">
+                  Username: <h:inputText value="#{user.username}" required="true"/>
+                  Real Name: <h:inputText value="#{user.name}" required="true"/>
+                  Password: <h:inputSecret value="#{user.password}" required="true"/>
+               </h:panelGrid>
+            </s:validateAll>
+            <h:messages/>
+            <h:commandButton value="Register" action="#{register.register}"/>
+         </h:form>
+      </f:view>
+   </body>
 
 </html>]]></programlisting>
                 </example>
@@ -667,14 +655,14 @@ public interface Register
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://java.sun.com/jsf/core">
 
-  <head>
-    <title>Successfully Registered New User</title>
-  </head>
-  <body>
-    <f:view>
-      Welcome, #{user.name}, you are successfully registered as #{user.username}.
-    </f:view>
-  </body>
+   <head>
+      <title>Successfully Registered New User</title>
+   </head>
+   <body>
+      <f:view>
+         Welcome, #{user.name}, you are successfully registered as #{user.username}.
+      </f:view>
+   </body>
 
 </html>
 ]]></programlisting>
@@ -711,7 +699,7 @@ public interface Register
         <ejb>jboss-seam-registration.jar</ejb>
     </module>
     <module>
-        <java>jboss-seam.jar</java>
+        <ejb>jboss-seam.jar</ejb>
     </module>
     <module>
         <java>jboss-el.jar</java>
@@ -2548,21 +2536,21 @@ public class HotelBookingAction implements HotelBooking
             <example>
                 <programlistingco>
                     <areaspec>
-                        <area id="blog-seampc" coords="6"/>
+                        <area id="blog-seampc" coords="7"/>
                         <area id="blog-unwrap" coords="9"/>
                     </areaspec>
                     <programlisting><![CDATA[@Name("blog")
 @Scope(ScopeType.STATELESS)
+@AutoCreate
 public class BlogService 
 {
    
-   @In
-   private EntityManager entityManager;
+   @In EntityManager entityManager;
   
    @Unwrap
    public Blog getBlog()
    {
-      return (Blog) entityManager.createQuery("from Blog b left join fetch b.blogEntries")
+      return (Blog) entityManager.createQuery("select distinct b from Blog b left join fetch b.blogEntries")
             .setHint("org.hibernate.cacheable", true)
             .getSingleResult();
    }

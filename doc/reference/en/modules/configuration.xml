@@ -606,10 +606,10 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
 
 
             <para>Embedded JBoss must by installed into Tomcat for Seam applications to run correctly on it. Embedded
-                JBoss can be downloaded from <ulink
-                    url="http://sourceforge.net/project/showfiles.php?group_id=22866&amp;package_id=228977"/>. The
-                process for installing Embedded JBoss into Tomcat 6 is quite simple. First, you should copy the JBoss Embedded JARs and
-                configuration files into Tomcat. </para>
+                JBoss can be downloaded <ulink
+                url="http://sourceforge.net/project/showfiles.php?group_id=22866&amp;package_id=228977">here</ulink>. The
+                process for installing Embedded JBoss into Tomcat 6 is quite simple. First, you should copy the JBoss 
+                Embedded JARs and configuration files into Tomcat. </para>
 
             <itemizedlist>
 
@@ -647,8 +647,8 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
                 </listitem>
             </itemizedlist>
 
-            <para>For more configuration options, please see the Embedded JBoss Tomcat integration wiki entry at at
-                    <ulink url="http://wiki.jboss.org/wiki/Wiki.jsp?page=EmbeddedAndTomcat"/>.</para>
+            <para>For more configuration options, please see the Embedded JBoss Tomcat integration 
+                <ulink url="http://wiki.jboss.org/wiki/Wiki.jsp?page=EmbeddedAndTomcat">wiki entry</ulink>.</para>
 
         </sect2>
 
