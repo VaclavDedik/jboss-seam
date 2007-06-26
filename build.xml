@@ -471,6 +471,7 @@
 		<ant dir="examples/remoting/helloworld" target="clean" inheritall="false" />
 		<ant dir="examples/remoting/chatroom" target="clean" inheritall="false" />
 		<ant dir="examples/remoting/progressbar" target="clean" inheritall="false" />
+		<ant dir="examples/remoting/gwt" target="clean" inheritall="false" />
 		<ant dir="examples/hibernate2" target="clean" inheritall="false" />
 		<ant dir="examples/jpa" target="clean" inheritall="false" />
 		<ant dir="examples/jee5" target="clean" inheritall="false" />
@@ -502,6 +503,7 @@
 		<ant dir="examples/remoting/helloworld" target="undeploy" inheritall="false" />
 		<ant dir="examples/remoting/chatroom" target="undeploy" inheritall="false" />
 		<ant dir="examples/remoting/progressbar" target="undeploy" inheritall="false" />
+		<ant dir="examples/remoting/gwt" target="undeploy" inheritall="false" />
 		<ant dir="examples/hibernate2" target="undeploy" inheritall="false" />
 		<ant dir="examples/jpa" target="undeploy" inheritall="false" />
 		<ant dir="trinidad/examples/seamdiscs" target="undeploy" inheritall="false" />
@@ -524,6 +526,7 @@
 		<ant dir="examples/drools" target="undeploy.tomcat" inheritall="false" />
 		<ant dir="examples/numberguess" target="undeploy.tomcat" inheritall="false" />
 		<ant dir="examples/quartz" target="undeploy.tomcat" inheritall="false" />
+		<ant dir="examples/remoting/gwt" target="undeploy.tomcat" inheritall="false" />
 	</target>
 
 	<target name="deploypresentation" depends="build" description="Deploy the examples used in Seam presentations">
@@ -1016,6 +1019,7 @@
 				<include name="remoting/chatroom/**/*" />
 				<include name="remoting/helloworld/**/*" />
 				<include name="remoting/progressbar/**/*" />
+				<include name="remoting/gwt/**/*" />
 				<include name="readme.txt" />
 				<include name="seam-examples.html" />
 				<exclude name="*/build" />
