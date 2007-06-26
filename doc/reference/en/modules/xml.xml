@@ -92,7 +92,7 @@
             </para>
 
             <para>
-                For example, the following <literal>components.xml</literal> file installs the jBPM: 
+                For example, the following <literal>components.xml</literal> file installs jBPM: 
             </para>
 
             <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components" 
@@ -106,7 +106,7 @@
             </para>
 
             <programlisting><![CDATA[<components>
-    <component class="org.jboss.seam.core.Ejb"/>
+    <component class="org.jboss.seam.bpm.Jbpm"/>
 </components>]]></programlisting>
 
             <para>
@@ -302,7 +302,7 @@
                 Arrays, sets and lists of strings or primitives are also supported: 
             </para>
 
-            <programlisting><![CDATA[org.jboss.seam.core.jbpm.processDefinitions order.jpdl.xml, return.jpdl.xml, inventory.jpdl.xml]]></programlisting>
+            <programlisting><![CDATA[org.jboss.seam.bpm.jbpm.processDefinitions order.jpdl.xml, return.jpdl.xml, inventory.jpdl.xml]]></programlisting>
 
             <programlisting><![CDATA[<core:jbpm>
     <core:process-definitions>
@@ -312,7 +312,7 @@
     </core:process-definitions>
 </core:jbpm>]]></programlisting>
 
-            <programlisting><![CDATA[<component name="org.jboss.seam.core.jbpm">
+            <programlisting><![CDATA[<component name="org.jboss.seam.bpm.jbpm">
     <property name="processDefinitions">
         <value>order.jpdl.xml</value>
         <value>return.jpdl.xml</value>

@@ -109,7 +109,7 @@
                     <literal>@Startup</literal>
                 </term>
                 <listitem>
-                    <programlisting><![CDATA[@Scope(APPLICATION) @Startup(depends={"org.jboss.core.jndi", "org.jboss.core.jta"})]]></programlisting>
+                    <programlisting><![CDATA[@Scope(APPLICATION) @Startup(depends="org.jboss.seam.bpm.jbpm")]]></programlisting>
                     <para> Specifies that an application scope component is started immediately at initialization time.
                         This is mainly used for certain built-in components that bootstrap critical infrastructure such
                         as JNDI, datasources, etc. </para>
@@ -134,7 +134,7 @@
                         Specifies whether or not a component should be installed by default. The lack of an @Install
                         annotation indicates a component should be installed.
                     </para>
-                    <programlisting><![CDATA[@Install(dependencies="org.jboss.seam.core.jbpm")]]></programlisting>
+                    <programlisting><![CDATA[@Install(dependencies="org.jboss.seam.bpm.jbpm")]]></programlisting>
                     <para>
                         Specifies that a component should only be stalled if the components listed as dependencies
                         are also installed.
@@ -523,7 +523,7 @@
                         <listitem>
                             <para>
                                 <literal>pageflow</literal> &#8212; a process definition name of a jBPM process
-                                definition deployed via <literal>org.jboss.seam.core.jbpm.pageflowDefinitions.</literal>
+                                definition deployed via <literal>org.jboss.seam.bpm.jbpm.pageflowDefinitions.</literal>
                             </para>
                         </listitem>
                     </itemizedlist>
@@ -659,7 +659,7 @@
                         <listitem>
                             <para>
                                 <literal>definition</literal> &#8212; the name of the jBPM process definition
-                                deployed via <literal>org.jboss.seam.core.jbpm.processDefinitions</literal>. </para>
+                                deployed via <literal>org.jboss.seam.bpm.jbpm.processDefinitions</literal>. </para>
                         </listitem>
                     </itemizedlist>
                 </listitem>
@@ -1083,9 +1083,9 @@
                     <programlisting><![CDATA[@Namespace(value="http://jboss.com/products/seam/core", prefix="org.jboss.seam.core")]]></programlisting>
                     <para>Specifies a namespace to associate with a given package. Additionally, it specifies a
                         component name prefix to be applied to component names specified in the XML file. For example,
-                        an XML element named <literal>microcontainer</literal> that is associated with this namespace
+                        an XML element named <literal>init</literal> that is associated with this namespace
                         would be understood to actually refere to a component named
-                            <literal>org.jboss.seam.core.microcontainer</literal>. </para>
+                            <literal>org.jboss.seam.core.init</literal>. </para>
                 </listitem>
             </varlistentry>
 

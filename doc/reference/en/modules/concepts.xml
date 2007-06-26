@@ -584,26 +584,6 @@ public class User {
                 convenient static <literal>instance()</literal> methods: 
             </para>
             <programlisting><![CDATA[FacesMessages.instance().add("Welcome back, #{user.name}!");]]></programlisting>
-            <para> 
-                Seam was designed to integrate tightly in a Java EE 5 environment. However, we understand that there
-                are many projects which are not running in a full EE environment. We also realize the critical
-                importance of easy unit and integration testing using frameworks such as TestNG and JUnit. So, we've
-                made it easy to run Seam in Java SE environments by allowing you to boostrap certain critical
-                infrastructure normally only found in EE environments by installing built-in Seam components. 
-            </para>
-            <para> 
-                For example, you can run your EJB3 components in Tomcat or an integration test suite just by
-                installing the built-in component <literal>org.jboss.seam.core.ejb</literal>, which automatically
-                bootstraps the JBoss Embeddable EJB3 container and deploys your EJB components. 
-            </para>
-            <para> 
-                Or, if you're not quite ready for the Brave New World of EJB 3.0, you can write a Seam application
-                that uses only JavaBean components, together with Hibernate3 for persistence, by installing a built-in
-                component that manages a Hibernate <literal>SessionFactory</literal>. When using Hibernate outside of a J2EE
-                environment, you will also probably need a JTA transaction manager and JNDI server, which are available
-                via the built-in component <literal>org.jboss.seam.core.microcontainer</literal>. This lets you use the
-                bulletproof JTA/JCA pooling datasource from JBoss application server in an SE environment like Tomcat!
-            </para>
         </sect2>
 
     </sect1>

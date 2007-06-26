@@ -38,9 +38,9 @@
         <para>
             It is <emphasis>possible</emphasis> to set the locale
             manually via the Seam configuration properties
-            <literal>org.jboss.seam.core.localeSelector.language</literal>,
-            <literal>org.jboss.seam.core.localeSelector.country</literal> and
-            <literal>org.jboss.seam.core.localeSelector.variant</literal>, but 
+            <literal>org.jboss.seam.international.localeSelector.language</literal>,
+            <literal>org.jboss.seam.international.localeSelector.country</literal> and
+            <literal>org.jboss.seam.international.localeSelector.variant</literal>, but 
             we can't think of any good reason to ever do this.
         </para>
         
@@ -216,8 +216,8 @@ public class HelloBean implements Hello {
         <title>Timezones</title>
         <para>
             There is also a session-scoped instance of <literal>java.util.Timezone</literal>,
-            named <literal>org.jboss.seam.core.timezone</literal>, and a Seam component for changing 
-            the timezone named <literal>org.jboss.seam.core.timezoneSelector</literal>. By default, 
+            named <literal>org.jboss.seam.international.timezone</literal>, and a Seam component for changing 
+            the timezone named <literal>org.jboss.seam.international.timezoneSelector</literal>. By default, 
             the timezone is the default timezone of the server. Unfortunately, the JSF specification 
             says that all dates and times should be assumed to be UTC, and displayed as UTC, unless 
             a timezone is explicitly specified using <literal>&lt;f:convertDateTime&gt;</literal>. 
