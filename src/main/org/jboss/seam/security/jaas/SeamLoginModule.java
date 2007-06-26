@@ -98,6 +98,10 @@ public class SeamLoginModule implements LoginModule
       }
       
       MethodExpression mb = Identity.instance().getAuthenticateMethod();
+      if (mb==null)
+      {
+         throw new IllegalStateException("No authentication method defined - please define <security:authenticate-method/> for <security:identity/> in components.xml");
+      }
       
       try
       {
