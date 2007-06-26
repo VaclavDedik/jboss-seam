@@ -6,15 +6,18 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
 http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
     
     <!-- Ajax4jsf filter not needed, Seam Filter install it -->
+    
     <context-param>     
       <param-name>org.ajax4jsf.VIEW_HANDLERS</param-name>     
       <param-value>com.sun.facelets.FaceletViewHandler</param-value>   
     </context-param>    
     
-    <!-- Seam -->           
+    <!-- Seam -->
+    
     <listener>              
       <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>        
-    </listener>    
+    </listener>
+    
     <filter>
       <filter-name>Seam Filter</filter-name>
       <filter-class>org.jboss.seam.web.SeamFilter</filter-class>
@@ -36,26 +39,28 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
     </servlet-mapping>     
     
     
-    <!-- Faces Servlet -->    
+    <!-- Faces Servlet -->
+    
     <servlet>              
       <servlet-name>Faces Servlet</servlet-name>              
       <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>              
       <load-on-startup>1</load-on-startup>        
-    </servlet>    
-    <!-- Faces Servlet Mapping -->    
+    </servlet>
+    
+    <!-- Faces Servlet Mapping -->
+    
     <servlet-mapping>              
       <servlet-name>Faces Servlet</servlet-name>              
       <url-pattern>*.seam</url-pattern>        
     </servlet-mapping>
-    <!-- JSF parameters -->  
-    <context-param>              
-      <param-name>javax.faces.STATE_SAVING_METHOD</param-name>              
-      <param-value>client</param-value>        
-    </context-param>    
+    
+    <!-- JSF parameters -->
+    
     <context-param>        
       <param-name>javax.faces.DEFAULT_SUFFIX</param-name>        
       <param-value>.xhtml</param-value>    
-    </context-param>    
+    </context-param>
+    
     <context-param>        
       <param-name>facelets.DEVELOPMENT</param-name>        
       <param-value>true</param-value>    

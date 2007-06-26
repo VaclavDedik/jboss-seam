@@ -4,6 +4,8 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
     
+    <display-name>Seam Booking Example</display-name>
+    
     <!-- Ajax4jsf filter not needed, Seam Filter installs it for us -->
     
     <context-param>
@@ -38,11 +40,6 @@
     </filter-mapping>
     
     <!-- JSF -->
-    
-    <context-param>
-        <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
-        <param-value>client</param-value>
-    </context-param>
     
     <context-param>
         <param-name>javax.faces.DEFAULT_SUFFIX</param-name>

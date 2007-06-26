@@ -11,7 +11,8 @@
     <param-value>com.sun.facelets.FaceletViewHandler</param-value>	
   </context-param>        
   
-  <!-- Seam -->       
+  <!-- Seam -->
+  
   <listener>        
     <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>    
   </listener>    
@@ -36,30 +37,30 @@
     <url-pattern>/seam/resource/*</url-pattern>
   </servlet-mapping>   
   
-  <!-- JSF and Facelets -->        
-  <context-param>        
-    <param-name>javax.faces.STATE_SAVING_METHOD</param-name>        
-    <param-value>client</param-value>    
-  </context-param>    
+  <!-- JSF and Facelets -->
+  
   <context-param>        
     <param-name>javax.faces.DEFAULT_SUFFIX</param-name>        
     <param-value>.xhtml</param-value>    
-  </context-param>    
+  </context-param>
+    
   <context-param>        
     <param-name>facelets.DEVELOPMENT</param-name>        
     <param-value>true</param-value>    
   </context-param>    
   
   <!-- Faces Servlet -->
+  
   <servlet>        
     <servlet-name>Faces Servlet</servlet-name>        
     <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>        
     <load-on-startup>1</load-on-startup>    
-  </servlet>        
+  </servlet>
+  
   <servlet-mapping>        
     <servlet-name>Faces Servlet</servlet-name>        
     <url-pattern>*.seam</url-pattern>    
-  </servlet-mapping>        
+  </servlet-mapping>
   
   <!-- MyFaces -->    
   <!--    
@@ -68,12 +69,14 @@
   </listener>    
   -->        
   
-  <!-- JSF RI --> 
+  <!-- JSF RI -->
+  
   <listener>        
     <listener-class>com.sun.faces.config.ConfigureListener</listener-class>    
   </listener>        
   
   <!-- JEE5 EJB3 names -->
+  
   <ejb-local-ref>              
     <ejb-ref-name>jboss-seam-jee5/AuthenticatorAction/local</ejb-ref-name>           
     <ejb-ref-type>Session</ejb-ref-type>

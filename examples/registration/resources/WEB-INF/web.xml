@@ -13,12 +13,7 @@
 
     <listener>
         <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
-    </listener> 
-
-    <context-param>
-        <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
-        <param-value>client</param-value>
-    </context-param>
+    </listener>
 
     <context-param>
         <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
@@ -31,7 +26,6 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
     
-    <!-- Faces Servlet Mapping -->
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.seam</url-pattern>

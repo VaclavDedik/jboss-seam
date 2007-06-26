@@ -33,13 +33,8 @@
         
     <listener>
         <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
-    </listener>         
-            
-    <context-param>
-        <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
-        <param-value>client</param-value>
-    </context-param>
-
+    </listener>
+    
     <context-param>
         <param-name>facelets.DEVELOPMENT</param-name>
         <param-value>true</param-value>
