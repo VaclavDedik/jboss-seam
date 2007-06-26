@@ -1228,7 +1228,7 @@
 		</replace>
 	</target>
 
-	<target name="dist" depends="cleandist,build,javadoc,copysource,copylib,copyexamples,copyseamgen,copytrinidad,refdoc,extras" description="Build everything and package">
+	<target name="dist" depends="cleandist,build,javadoc,copysource,copylib,copyexamples,copyseamgen,refdoc,extras" description="Build everything and package">
 		<zip zipfile="${dist.dir}.zip">
 			<zipfileset prefix="${dist.name}" dir="${dist.dir}" />
 		</zip>
