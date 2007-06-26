@@ -1302,7 +1302,7 @@ public class Pages
       }
       param.setValidatorId(element.attributeValue("validatorId"));
       String validatorExpression = element.attributeValue("validator");
-      if (converterExpression!=null)
+      if (validatorExpression!=null)
       {
          param.setValidatorValueExpression(Expressions.instance().createValueExpression(validatorExpression));
       }
