@@ -38,7 +38,7 @@
 <book lang="en">
     <bookinfo>
         <title>Seam - Contextual Components</title>
-        <subtitle>A Framework for Java EE 5</subtitle>
+        <subtitle>A Framework for Enterprise Java</subtitle>
         <releaseinfo>@version@</releaseinfo>
     </bookinfo>
 
