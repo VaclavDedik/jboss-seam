@@ -304,6 +304,7 @@
               "Decorate" a JSF input field when validation fails or when
               <literal>required="true"</literal> is set.
             </para>
+            
             <para><emphasis>Attributes</emphasis></para>
             <itemizedlist>
               <listitem>
@@ -312,21 +313,42 @@
                 </para>
               </listitem>
             </itemizedlist>
+            <para>
+              <literal>#{invalid}</literal> and <literal>#{required}</literal> are 
+              available inside <literal>s:decorate</literal>; <literal>#{required}</literal> 
+              evaluates to <literal>true</literal> if you have set the input component 
+              being decorated as required, and <literal>#{invalid}</literal> evaluates 
+              to <literal>true</literal> if a validation error occurs.
+            </para>
             <para><emphasis>Usage</emphasis></para>
-            <programlisting><![CDATA[<f:facet name="afterInvalidField">
-  <s:span>
-    &#160;Error:&#160;
-    <s:message/>
-  </s:span>
-</f:facet>
-<f:facet name="aroundInvalidField">
-  <s:span styleClass="errors"/>
-</f:facet>
-
-<s:decorate>
-  <h:inputText value="#{blogEntry.id}" size="20" maxlength="20" 
-               required="true" id="id"/>
-</s:decorate>]]></programlisting>
+            <programlisting><![CDATA[<s:decorate template="edit.xhtml">
+  <ui:define name="label">Country:</ui:define>
+    <h:inputText value="#{location.country}" required="true"/>
+  </s:decorate>]]></programlisting>
+    <programlisting><![CDATA[<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:s="http://jboss.com/products/seam/taglib">
+                  
+  <div>   
+   
+    <s:label styleClass="#{invalid?'error':''}">
+      <ui:insert name="label"/>
+      <s:span styleClass="required" rendered="#{required}">*</s:span>
+    </s:label>
+        
+    <span class="#{invalid?'error':''}">
+      <s:validateAll>
+        <ui:insert/>
+      </s:validateAll>
+    </span>
+        
+    <s:message styleClass="error"/>     
+      
+  </div>   
+  
+</ui:composition>]]></programlisting>
           </entry>
         </row>
 
