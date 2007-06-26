@@ -663,7 +663,7 @@ public class Identity extends Selector
       if (e != null)
       {
          String name = Seam.getComponentName(entity.getClass());
-         if (name == null) name = entity.getClass().getName();  
+         if (name == null) name = e.getBeanClass().getName();  
          
          Method m = null;
          switch (action)
