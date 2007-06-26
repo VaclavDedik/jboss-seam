@@ -183,6 +183,8 @@ public class Entity extends Model
          throw new IllegalStateException("No application context active");
       }
       
+      clazz = Seam.getEntityClass(clazz);
+      
       String name = getModelName(clazz);
       Model model = (Model) Contexts.getApplicationContext().get(name);
       if ( model==null || !(model instanceof Entity) )

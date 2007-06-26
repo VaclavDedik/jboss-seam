@@ -175,15 +175,7 @@ public class Seam
     */
    public static boolean isEntityClass(Class<?> clazz)
    {
-      while ( clazz!=null && !Object.class.equals(clazz) )
-      {
-         if ( clazz.isAnnotationPresent(Entity.class) )
-         {
-            return true;
-         }
-         clazz = clazz.getSuperclass();
-      }
-      return false;
+      return getEntityClass(clazz)!=null;
    }
    
    public static String getEjbName(Class<?> clazz)

@@ -29,7 +29,6 @@ import org.hibernate.validator.InvalidValue;
 import org.jboss.deployers.spi.DeploymentException;
 import org.jboss.embedded.Bootstrap;
 import org.jboss.seam.Component;
-import org.jboss.seam.Model;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.FacesLifecycle;
 import org.jboss.seam.contexts.ServletLifecycle;
@@ -381,7 +380,7 @@ public class BaseSeamTest
        */
       protected void validate(Class modelClass, String property, Object value)
       {
-         ClassValidator validator = Model.forClass(modelClass).getValidator();
+         ClassValidator validator = Validators.instance().getValidator(modelClass);
          InvalidValue[] ivs = validator.getPotentialInvalidValues(property, value);
          if (ivs.length > 0)
          {

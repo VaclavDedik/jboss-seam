@@ -1,11 +1,6 @@
 package org.jboss.seam;
 
-import java.util.Hashtable;
-import java.util.Locale;
-
-import org.hibernate.validator.ClassValidator;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.core.ResourceBundle;
 
 /**
  * Base class of metamodels. For a class which
@@ -20,7 +15,6 @@ import org.jboss.seam.core.ResourceBundle;
 public class Model
 {
    private Class<?> beanClass;
-   private Hashtable<Locale, ClassValidator> validators = new Hashtable<Locale, ClassValidator>();
 
    public Model(Class<?> beanClass)
    {
@@ -32,23 +26,6 @@ public class Model
       return beanClass;
    }
 
-   public ClassValidator getValidator()
-   {
-      java.util.ResourceBundle bundle = Contexts.isApplicationContextActive() ? //yew, just for testing!
-            ResourceBundle.instance() : null;
-      Locale locale = bundle==null ?
-            new Locale("DUMMY") : bundle.getLocale();
-      ClassValidator validator = validators.get(locale);
-      if (validator==null)
-      {
-         validator = bundle==null ?
-               new ClassValidator(beanClass) :
-               new ClassValidator(beanClass, bundle);
-         validators.put(locale, validator);
-      }
-      return validator;
-   }
-   
    public static Model forClass(Class clazz)
    {
       if ( !Contexts.isApplicationContextActive() )

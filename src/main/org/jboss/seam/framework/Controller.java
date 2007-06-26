@@ -9,13 +9,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.validator.ClassValidator;
 import org.jboss.seam.Component;
-import org.jboss.seam.Model;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Interpolator;
+import org.jboss.seam.core.Validators;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.faces.HttpError;
 import org.jboss.seam.faces.Redirect;
@@ -175,7 +175,7 @@ public abstract class Controller implements Serializable
 
    protected <T> ClassValidator<T> getValidator(Class<T> modelClass)
    {
-      return Model.forClass(modelClass).getValidator();
+      return Validators.instance().getValidator(modelClass);
    } 
 
    protected void debug(Object object, Object... params)

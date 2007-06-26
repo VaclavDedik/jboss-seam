@@ -3,10 +3,10 @@ package org.jboss.seam.core;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.beans.FeatureDescriptor;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.el.ELContext;
 import javax.el.ELException;
@@ -19,7 +19,6 @@ import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -40,15 +39,20 @@ import org.jboss.seam.el.EL;
 public class Validators
 {
    
+   //TODO: should use weak references here...
+   private Map<Key, ClassValidator> classValidators = new ConcurrentHashMap<Key, ClassValidator>();
+   
    class Key
    {
       private Class validatableClass;
       private java.util.Locale locale;
+      
       public Key(Class validatableClass, java.util.Locale locale)
       {
          this.validatableClass = validatableClass;
          this.locale = locale;
       }
+      
       @Override
       public boolean equals(Object other)
       {
@@ -56,6 +60,7 @@ public class Validators
          return key.validatableClass.equals(validatableClass)
                && key.locale.equals(locale);
       }
+      
       @Override
       public int hashCode()
       {
@@ -63,29 +68,6 @@ public class Validators
       }
    }
 
-   //TODO: should use weak references here...
-   //TODO: use Model.forClass(...) instead!!
-   private Map<Key, ClassValidator> classValidators = Collections.synchronizedMap( new HashMap<Key, ClassValidator>() ); 
-   
-   /**
-    * Get the cached ClassValidator instance.
-    * 
-    * @param modelClass the class to be validated
-    * @param name the component name
-    */
-   public <T> ClassValidator<T> getValidator(Class<T> modelClass, String name)
-   {
-      Key key = new Key( modelClass, ResourceBundle.instance().getLocale() );
-      //TODO: use Model.forClass(...) instead!!
-      ClassValidator result = classValidators.get(key);
-      if (result==null)
-      {
-         result = createValidator(modelClass, name);
-         classValidators.put(key, result);
-      }
-      return result;
-   }
-   
    /**
     * Get the cached ClassValidator instance.
     * 
@@ -93,7 +75,16 @@ public class Validators
     */
    public <T> ClassValidator<T> getValidator(Class<T> modelClass)
    {
-      return getValidator(modelClass, null);
+      java.util.ResourceBundle bundle = ResourceBundle.instance();
+      Locale none = bundle==null ? new Locale("NONE") : bundle.getLocale();
+      Key key = new Key( modelClass, none );
+      ClassValidator result = classValidators.get(key);
+      if (result==null)
+      {
+         result = createValidator(modelClass);
+         classValidators.put(key, result);
+      }
+      return result;
    }
    
    /**
@@ -102,22 +93,13 @@ public class Validators
     * class.
     * 
     * @param modelClass the class to be validated
-    * @param name the component name
     */
-   protected ClassValidator createValidator(Class modelClass, String name)
+   protected <T> ClassValidator<T> createValidator(Class<T> modelClass)
    {
-      Component component = name==null ? null : Component.forName(name);
-      if (component==null)
-      {
-         java.util.ResourceBundle bundle = ResourceBundle.instance();
-         return bundle==null ? 
-               new ClassValidator(modelClass) : 
-               new ClassValidator(modelClass, bundle);
-      }
-      else
-      {
-         return component.getValidator();
-      }
+      java.util.ResourceBundle bundle = ResourceBundle.instance();
+      return bundle==null ? 
+            new ClassValidator(modelClass) : 
+            new ClassValidator(modelClass, bundle);
    }
 
    /**
@@ -192,7 +174,7 @@ public class Validators
          if (base!=null && property!=null )
          {
             context.setPropertyResolved(true);
-            invalidValues = getValidator( base.getClass(), Seam.getComponentName( base.getClass() ) )
+            invalidValues = getValidator( base.getClass() )
                   .getPotentialInvalidValues( property.toString(), value );
          }
          

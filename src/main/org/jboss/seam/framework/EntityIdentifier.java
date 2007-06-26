@@ -12,7 +12,7 @@ public class EntityIdentifier extends Identifier<EntityManager>
 {
    public EntityIdentifier(Object entity, EntityManager entityManager)
    {
-      super(Entity.forClass(deproxy(entity.getClass())).getBeanClass(), PersistenceProvider.instance().getId(entity, entityManager));
+      super(Entity.forClass(entity.getClass()).getBeanClass(), PersistenceProvider.instance().getId(entity, entityManager));
    }
    
    @Override
@@ -26,25 +26,4 @@ public class EntityIdentifier extends Identifier<EntityManager>
       return entityManager.find(getClazz(), getId());
    }
    
-   private static Class deproxy(Class clazz)
-   {
-      Class c = clazz;
-      /* Work our way up the inheritance hierachy, looking of @Entity, if we are unsuccessful,
-       * return the class we started with (possibly it's mapped in xml).
-       * 
-       * Workaround for lazy proxies and a lack of a way to do entityManager.getEntityClass(entity)
-       */
-      while (!Object.class.equals(c))
-      {
-         if (c.isAnnotationPresent(javax.persistence.Entity.class))
-         {
-              return c;
-         }
-         else
-         {
-            c = c.getSuperclass();
-         }
-      }
-      return clazz;
-   }
 }
