@@ -522,6 +522,9 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
             <para> You will also need to configure a <emphasis>managed session</emphasis> if you want a Seam managed
                 Hibernate <literal>Session</literal> to be available via injection. </para>
 
+            <programlisting><![CDATA[<persistence:managed-hibernate-session name="hibernateSessionFactory"
+                            session-factory="#{hibernateSessionFactory}"/>]]></programlisting>
+
         </sect2>
 
         <sect2>
@@ -532,8 +535,11 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
 
             <programlisting><![CDATA[<persistence:entity-manager-factory name="entityManagerFactory"/>]]></programlisting>
 
-            <para> You will also need to configure a <emphasis>managed persistencece context</emphasis> if you want a
+            <para> You will also need to configure a <emphasis>managed persistence context</emphasis> if you want a
                 Seam managed JPA <literal>EntityManager</literal> to be available via injection. </para>
+
+            <programlisting><![CDATA[<persistence:managed-persistence-context name="entityManager"
+                            session-factory="#{entityManagerFactory}"/>]]></programlisting>
 
         </sect2>
 
