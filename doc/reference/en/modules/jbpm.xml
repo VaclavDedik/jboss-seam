@@ -344,13 +344,13 @@
     <transition name="complete" to="complete"/>
 </page>]]></programlisting>
 
-        </section>
-    
-	    <para>
+
+    	    <para>
 	        In practice, both navigation models have their place, and you'll 
 	        quickly learn to recognize when to prefer one model over the other.
-	    </para>
-        
+	        </para>
+
+        </section>
     </section>
     
     <section>
@@ -604,7 +604,7 @@ public void begin() { ... }]]></programlisting>
    <end-state name="done"/>
    
 </process-definition>]]></programlisting>
-        </section>
+
         
         <mediaobject>
           <imageobject role="fo">
@@ -623,7 +623,8 @@ public void begin() { ... }]]></programlisting>
             corresponds to a whole pageflow 
             <literal>&lt;pageflow-definition&gt;</literal>
         </para>
-        
+        </section>
+    
         <section>
             <title>Using jPDL business process definitions</title>
         
@@ -805,16 +806,15 @@ public String completed() { ... }]]></programlisting>
             At this point, jBPM takes over and continues executing the business process
             definition. (In more complex processes, several tasks might need to be
             completed before process execution can resume.)
-        </para>
+        </para>                
         
-        </section>
-        
-        <para>
+            <para>
             Please refer to the jBPM documentation for a more thorough overview of 
             the sophisticated features that jBPM provides for managing complex
             business processes.
-        </para>
+            </para>
 
+        </section>
     </section>
     
 </chapter>

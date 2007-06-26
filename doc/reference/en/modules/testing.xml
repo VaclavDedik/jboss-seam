@@ -215,7 +215,7 @@ public class MockPaymentProcessor extends PaymentProcessor {
         </para>
         
         <para>
-            <lteral>SeamTest</lteral> lets you write <emphasis>scripted</emphasis> tests,
+            <literal>SeamTest</literal> lets you write <emphasis>scripted</emphasis> tests,
             in a simulated JSF environment. The role of a scripted test is to reproduce 
             the interaction between the view and the Seam components. In other words, you 
             get to pretend you are the JSF implementation!

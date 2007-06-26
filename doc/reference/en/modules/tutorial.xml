@@ -57,17 +57,9 @@
                 First, make sure you have Ant correctly installed, with <literal>$ANT_HOME</literal> and
                 <literal>$JAVA_HOME</literal> set correctly. Next, make sure you set the location of your Tomcat 
                 6.0 installation in the <literal>build.properties</literal> file in the root folder of your Seam
-                installation. 
-            </para>
-            
-            <para>
-                Next, follow the 
-                <ulink url="http://wiki.jboss.org/wiki/Wiki.jsp?page=EmbeddedAndTomcat">instructions</ulink>
-                for installing JBoss Embedded on Tomcat 6.0. (This is a straightforward process, you need
-                to copy some jars and files into the Tomcat <literal>lib/</literal> directory, and then
-                edit <literal>conf/server.xml</literal> and <literal>conf/context.xml</literal>, adding
-                the configurations required to bootstrap JBoss Embedded and enable scanning of WARs for
-                EJB components and datasources.)
+                installation.  You will need to follow the instructions in
+                <xref linkend="config.install.embedded"/>
+                for installing JBoss Embedded on Tomcat 6.0.  JBoss embedded is required to run Seam applications on Tomcat.
             </para>
 
             <para> 
@@ -1915,26 +1907,29 @@ public class NumberGuess implements Serializable {
 
             <itemizedlist>
                 <listitem>
-                    <literal>BookingListAction</literal> retrieves existing bookings for the currently logged in user. </listitem>
+                    <para><literal>BookingListAction</literal> retrieves existing bookings for the currently logged in user. </para>
+                </listitem>
                 <listitem>
-                    <literal>ChangePasswordAction</literal> updates the password of the currently logged in user. </listitem>
+                    <para><literal>ChangePasswordAction</literal> updates the password of the currently logged in user.</para>
+                </listitem>
                 <listitem>
-                    <literal>HotelBookingAction</literal> implements the core functionality of the application: hotel
+                    <para><literal>HotelBookingAction</literal> implements the core functionality of the application: hotel
                     room searching, selection, booking and booking confirmation. This functionality is implemented as a
-                        <emphasis>conversation</emphasis>, so this is the most interesting class in the application. </listitem>
+                        <emphasis>conversation</emphasis>, so this is the most interesting class in the application. </para></listitem>
                 <listitem>
-                    <literal>RegisterAction</literal> registers a new system user. </listitem>
+                    <para><literal>RegisterAction</literal> registers a new system user.</para>
+                </listitem>
             </itemizedlist>
 
             <para> Three entity beans implement the application's persistent domain model. </para>
 
             <itemizedlist>
                 <listitem>
-                    <literal>Hotel</literal> is an entity bean that represent a hotel </listitem>
+                    <para><literal>Hotel</literal> is an entity bean that represent a hotel </para></listitem>
                 <listitem>
-                    <literal>Booking</literal> is an entity bean that represents an existing booking </listitem>
+                    <para><literal>Booking</literal> is an entity bean that represents an existing booking </para></listitem>
                 <listitem>
-                    <literal>User</literal> is an entity bean to represents a user who can make hotel bookings
+                    <para><literal>User</literal> is an entity bean to represents a user who can make hotel bookings</para>
                 </listitem>
             </itemizedlist>
 

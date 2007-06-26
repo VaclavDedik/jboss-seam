@@ -2010,7 +2010,7 @@
                                 <listitem>
                                     <para>
                                         <literal>color</literal> &#8212; The color value. For gradient colors, this
-                                        the starting color. <link linkend="itext.colors"/>
+                                        the starting color. <xref linkend="itext.colors"/>
                                     </para>
                                 </listitem>
                                 <listitem>

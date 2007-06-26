@@ -20,18 +20,18 @@
         
         <itemizedlist>
             <listitem>
-                If there is a locale associated with the HTTP request
+                <para>If there is a locale associated with the HTTP request
                 (the browser locale), and that locale is in the list
                 of supported locales from <literal>faces-config.xml</literal>, 
-                use that locale for the rest of the session.
+                use that locale for the rest of the session.</para>
             </listitem>
             <listitem>
-                Otherwise, if a default locale was specified in the
+                <para>Otherwise, if a default locale was specified in the
                 <literal>faces-config.xml</literal>, use that locale 
-                for the rest of the session.
+                for the rest of the session.</para>
             </listitem>
             <listitem>
-                Otherwise, use the default locale of the server.
+                <para>Otherwise, use the default locale of the server.</para>
             </listitem>
         </itemizedlist>
         
