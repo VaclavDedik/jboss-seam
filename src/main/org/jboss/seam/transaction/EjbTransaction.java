@@ -40,12 +40,12 @@ public class EjbTransaction extends Transaction
    
    public void beforeCompletion() throws EJBException, RemoteException
    {
-      getSynchronizations().beforeTransactionCompletion();
+      synchronizations.peek().beforeTransactionCompletion();
    }
    
    public void afterCompletion(boolean success) throws EJBException, RemoteException
    {
-      getSynchronizations().afterTransactionCompletion(success);
+      synchronizations.pop().afterTransactionCompletion(success);
    }
    
    @Override

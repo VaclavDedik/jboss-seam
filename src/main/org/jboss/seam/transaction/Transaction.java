@@ -2,6 +2,8 @@ package org.jboss.seam.transaction;
 
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
+import java.util.Stack;
+
 import javax.naming.NameNotFoundException;
 import javax.naming.NamingException;
 import javax.transaction.Synchronization;
@@ -40,33 +42,26 @@ public class Transaction
 
    private static String userTransactionName = "UserTransaction";
 
-   private SynchronizationRegistry synchronizations;
-   
-   protected SynchronizationRegistry getSynchronizations()
-   {
-      return synchronizations;
-   }
+   protected Stack<SynchronizationRegistry> synchronizations = new Stack<SynchronizationRegistry>();
    
    public void afterBegin()
    {
-      synchronizations = new SynchronizationRegistry();
+      synchronizations.push( new SynchronizationRegistry() );
    }
    
    protected void afterCommit(boolean success)
    {
-      synchronizations.afterTransactionCompletion(success);
-      synchronizations = null;
+      synchronizations.pop().afterTransactionCompletion(success);
    }
    
    protected void afterRollback()
    {
-      synchronizations.afterTransactionCompletion(false);
-      synchronizations = null;
+      synchronizations.pop().afterTransactionCompletion(false);
    }
    
    protected void beforeCommit()
    {
-      synchronizations.beforeTransactionCompletion();
+      synchronizations.peek().beforeTransactionCompletion();
    }
    
    protected void registerSynchronization(Synchronization sync)
@@ -77,7 +72,7 @@ public class Transaction
       }
       else
       {
-         synchronizations.registerSynchronization(sync);
+         synchronizations.peek().registerSynchronization(sync);
       }
    }
    
