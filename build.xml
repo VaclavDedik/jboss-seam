@@ -451,8 +451,6 @@
 	<target name="cleanall" depends="clean,cleandist" description="Cleans up everything">
 
 		<ant dir="examples/booking" target="clean" inheritall="false" />
-		<ant dir="examples/hibernate" target="clean" inheritall="false" />
-		<ant dir="examples/icefaces" target="clean" inheritall="false" />
 		<ant dir="examples/blog" target="clean" inheritall="false" />
 		<ant dir="examples/dvdstore" target="clean" inheritall="false" />
 		<ant dir="examples/contactlist" target="clean" inheritall="false" />
@@ -484,8 +482,6 @@
 
 	<target name="undeployall" description="Undeploy all examples">
 		<ant dir="examples/booking" target="undeploy" inheritall="false" />
-		<ant dir="examples/hibernate" target="undeploy" inheritall="false" />
-		<ant dir="examples/icefaces" target="undeploy" inheritall="false" />
 		<ant dir="examples/blog" target="undeploy" inheritall="false" />
 		<ant dir="examples/dvdstore" target="undeploy" inheritall="false" />
 		<ant dir="examples/contactlist" target="undeploy" inheritall="false" />
@@ -512,8 +508,6 @@
 		<ant dir="examples/wiki" target="undeploy" inheritall="false" />
 
 		<ant dir="examples/booking" target="undeploy.tomcat" inheritall="false" />
-		<ant dir="examples/hibernate" target="undeploy.tomcat" inheritall="false" />
-		<ant dir="examples/icefaces" target="undeploy.tomcat" inheritall="false" />
 		<ant dir="examples/dvdstore" target="undeploy.tomcat" inheritall="false" />
 		<ant dir="examples/itext" target="undeploy.tomcat" inheritall="false" />
 		<ant dir="examples/mail" target="undeploy.tomcat" inheritall="false" />
@@ -740,7 +734,6 @@
 
 		<ant dir="examples/booking" target="testexample" inheritall="false" />
 		<ant dir="examples/dvdstore" target="testexample" inheritall="false" />
-		<ant dir="examples/hibernate" target="testexample" inheritall="false" />
 		<ant dir="examples/messages" target="testexample" inheritall="false" />
 		<ant dir="examples/numberguess" target="testexample" inheritall="false" />
 		<ant dir="examples/contactlist" target="testexample" inheritall="false" />
@@ -993,8 +986,6 @@
 				<exclude name="booking/alter.config" />
 				<exclude name="booking/alter.config/**/*" />
 				<exclude name="booking/build.alter.xml" />
-				<include name="icefaces/**/*" />
-				<include name="hibernate/**/*" />
 				<include name="hibernate2/**/*" />
 				<include name="jpa/**/*" />
 				<include name="jee5/**/*" />
