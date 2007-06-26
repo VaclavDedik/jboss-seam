@@ -15,6 +15,13 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.security.jaas.SeamLoginModule;
 
+/**
+ * Manager component for a JAAS Configuration used
+ * by Seam Security.
+ * 
+ * @author Shane Bryzak
+ *
+ */
 @Name("org.jboss.seam.security.configuration")
 @BypassInterceptors
 @Scope(ScopeType.APPLICATION)

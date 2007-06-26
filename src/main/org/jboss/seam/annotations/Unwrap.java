@@ -21,7 +21,4 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 @Documented
 @Inherited
-public @interface Unwrap
-{
-
-}
+public @interface Unwrap {}
