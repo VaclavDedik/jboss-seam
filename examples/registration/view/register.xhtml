@@ -6,32 +6,23 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core">
 
-  <head>
-    <title>Register New User</title>
-  </head>
-  <body>
-    <f:view>
-      <h:form>
-        <table border="0">
-          <s:validateAll>
-            <tr>
-              <td>Username</td>
-              <td><h:inputText value="#{user.username}" required="true"/></td>
-            </tr>
-            <tr>
-              <td>Real Name</td>
-              <td><h:inputText value="#{user.name}" required="true"/></td>
-            </tr>
-            <tr>
-              <td>Password</td>
-              <td><h:inputSecret value="#{user.password}" required="true"/></td>
-            </tr>
-          </s:validateAll>
-        </table>
-        <h:messages/>
-        <h:commandButton value="Register" action="#{register.register}"/>
-      </h:form>
-    </f:view>
-  </body>
+   <head>
+      <title>Register New User</title>
+   </head>
+   <body>
+      <f:view>
+         <h:form>
+            <s:validateAll>
+               <h:panelGrid columns="2">
+                  Username: <h:inputText value="#{user.username}" required="true"/>
+                  Real Name: <h:inputText value="#{user.name}" required="true"/>
+                  Password: <h:inputSecret value="#{user.password}" required="true"/>
+               </h:panelGrid>
+            </s:validateAll>
+            <h:messages/>
+            <h:commandButton value="Register" action="#{register.register}"/>
+         </h:form>
+      </f:view>
+   </body>
 
 </html>
