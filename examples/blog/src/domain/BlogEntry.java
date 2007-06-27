@@ -10,6 +10,10 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.DocumentId;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
 
 /**
  * Represents a blog entry.
@@ -18,18 +22,22 @@ import org.hibernate.validator.NotNull;
  */
 @Entity
 @Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Indexed
 public class BlogEntry {
 
   @Id @Length(min=1, max=20)
+  @DocumentId
   private String id;
   
   @NotNull @Length(max=70)
+  @Field(index = Index.TOKENIZED)
   private String title;
   
   @Length(max=200)
   private String excerpt;
   
   @NotNull @Length(max=1400)
+  @Field(index = Index.TOKENIZED)
   private String body;
   
   @NotNull

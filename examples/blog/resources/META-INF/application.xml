@@ -27,4 +27,13 @@
     <module>
         <java>jgroups.jar</java>
     </module>
+    <module>
+        <java>hibernate-search.jar</java>
+    </module>
+    <module>
+        <java>hibernate-commons-annotations.jar</java>
+    </module>
+    <module>
+        <java>lucene-core-2.1.0.jar</java>
+    </module>
 </application>
