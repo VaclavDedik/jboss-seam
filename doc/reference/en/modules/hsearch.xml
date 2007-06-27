@@ -79,7 +79,7 @@
     </note>
 
     <para>In addition to the configuration file, the following jars have to be
-    deployed: </para>
+    deployed:</para>
 
     <itemizedlist>
       <listitem>
@@ -169,6 +169,13 @@ public class FullTextSearchAction implements FullTextSearch, Serializable
 
     <para>A smoother JPA integration is expected shortly.</para>
 
-    <para> </para>
+    <caution>
+      <para>For people accustomed to Hibernate Search out of Seam, note that
+      using <methodname>Search.createFullTextSession</methodname> is not
+      necessary. </para>
+    </caution>
+
+    <para>Check the DVDStore or the blog examples of the JBoss Seam
+    distribution for a concrete use of Hibernate Search.</para>
   </section>
 </chapter>
