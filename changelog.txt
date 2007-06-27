@@ -1,6 +1,97 @@
 JBoss Seam Changelog
 ====================
+
 Release Notes - JBoss Seam - Version 2.0.0.BETA1
+
+** Bug
+    * [JBSEAM-313] - <s:validateAll> + facelets user tag
+    * [JBSEAM-669] - Scanner and components.xml inside packages
+    * [JBSEAM-798] - MDB + JBPM - problem with transaction
+    * [JBSEAM-919] - Form validation not working for Hibernate validation annotations when using Facelets composition components
+    * [JBSEAM-942] - Optimistic locking an seam persistence context replication
+    * [JBSEAM-943] - Collections and DataModels containing entities + persistence context replication
+    * [JBSEAM-1025] - Exception when parser meets a certain character.
+    * [JBSEAM-1076] - @Synchronized does not work for any Spring managed Seam components
+    * [JBSEAM-1094] - Javadoc enhancement for @CreateProcess (add note about handling of null result)
+    * [JBSEAM-1108] - Loosen restrictions around @PersistenceContext
+    * [JBSEAM-1112] - conversation switcher doesn't seem to work when the conversation is a pageflow
+    * [JBSEAM-1187] - s:convertEntity doesn't have a JSP tag
+    * [JBSEAM-1244] - s:fileUpload not work with jsp page
+    * [JBSEAM-1249] - Remoting calls do not work with session cookies disabled
+    * [JBSEAM-1254] - facesmessages are not always fully interpolated
+    * [JBSEAM-1319] - s:selectDate does not work on rich:modalPanel
+    * [JBSEAM-1330] - Cant use EL expressions for pdf colors
+    * [JBSEAM-1355] - ConverterChain.getAsString behaves incorrectly if the input is String already
+    * [JBSEAM-1458] - javax.interceptor.Interceptors referenced in QuartzDispatcher
+    * [JBSEAM-1459] - Remove "components:attlist.ejbcomponent" from thread-pool-dispatcher definition
+    * [JBSEAM-1472] - <el-resolver> should not be mentioned in the docs
+    * [JBSEAM-1478] - s:link in tomcat 6
+    * [JBSEAM-1479] - A4j resource framework not working with trinidad
+    * [JBSEAM-1481] - jbpm throws exceptions when used for pageflows 
+    * [JBSEAM-1482] - Seam-managed persistence contexts and MDBs / remote SBs
+    * [JBSEAM-1483] - EntityHome sometimes does not join the transaction
+    * [JBSEAM-1489] - equals() doesnt work for comparing timestamp version numbers
+    * [JBSEAM-1492] - NPE when invoking @WebMethods with JbossWS 1.2.1.GA and Seam-1.3Alpha
+    * [JBSEAM-1509] - parameters on s:link in a ui:repeat
+    * [JBSEAM-1513] - ajax4jsfFilter not accepting configuration through components.xml
+    * [JBSEAM-1529] - NPE in MockFacesContext
+    * [JBSEAM-1539] - s:validate and parameterized facelets tag files
+    * [JBSEAM-1550] - The new public method Exceptions.addHandler needs to add handlers to be head of the exceptionHandlers list.
+    * [JBSEAM-1551] - The resolution to JBSEAM-1294 has brought out another NPE exception condition.
+    * [JBSEAM-1553] - Parsing pages.xml creates null ValidatorValueExpression
+
+** Feature Request
+    * [JBSEAM-116] - Pluggable conversationId handler
+    * [JBSEAM-157] - Pageflow composition
+    * [JBSEAM-161] - Calendaring/scheduling
+    * [JBSEAM-256] - Entity-driven processes
+    * [JBSEAM-505] - Seam/WS
+    * [JBSEAM-506] - jBPM async calls and scheduling
+    * [JBSEAM-651] - Hibernate Search integration
+    * [JBSEAM-761] - Modify the default interception practices
+    * [JBSEAM-955] - Parse ejb-jar.xml, lookng for session beans and orm.xml looking for entity beans.
+    * [JBSEAM-963] - Remove dependancy on JSF
+    * [JBSEAM-992] - Use Spring configured EntityManagerFactory in spring example
+    * [JBSEAM-1013] - Port Seam JSF controls to Ajax4JSF CDK
+    * [JBSEAM-1031] - Transaction rollback rules for Seam JavaBean components
+    * [JBSEAM-1085] - Automagically associate the processinstance with the thread in action and decision handlers
+    * [JBSEAM-1216] - Can't use equals symbol in wiki text
+    * [JBSEAM-1217] - Port @Asynchronous Interceptor to Spring
+    * [JBSEAM-1223] - Better example usage of @Unwrap
+    * [JBSEAM-1247] - upgrade log4j lib
+    * [JBSEAM-1343] - Support for Word dash (em-dash) character in s:formattedText (SeamTextLexer)
+    * [JBSEAM-1377] - provide dispatcher for Spring TaskExecutor abstraction
+    * [JBSEAM-1443] - allow SeamTest to test navigation rules with "from-action"
+    * [JBSEAM-1445] - Selector should have configurable cookie path
+    * [JBSEAM-1460] - Automatic installation of SeamPhaseListener
+    * [JBSEAM-1466] - @BeginTask/@EndTask should work for events coming from jBPM
+    * [JBSEAM-1523] - attribute to manually set first day of week
+    * [JBSEAM-1540] - Ant tasks to validate XML configuration files as part of test targets
+    * [JBSEAM-1544] - Extend @Restrict annotation to allow specifying the "action" and "args" parameters for the s:hasPermission call.
+    * [JBSEAM-1547] - #{conversationContext['entityManager']}, etc
+    * [JBSEAM-1555] - Transaction abstraction layer
+
+** Patch
+    * [JBSEAM-1102] - Seam Remoting for GWT
+    * [JBSEAM-1463] - Remove Ajax4JSF filter from web.xml in seam-gen
+    * [JBSEAM-1477] - Error in Chapter 7 example
+
+** Task
+    * [JBSEAM-542] - Migrate back to seperate microcontainer/lib and embedded-ejb/lib distribution and create an ant/lib dir
+    * [JBSEAM-586] - ManagedEntityIdentityInterceptor could keep state as a EntityBeans in conversation context
+    * [JBSEAM-1130] - Upgrade to jBPM 3.2
+    * [JBSEAM-1403] - Test 1.3 on GlassFish, BLS, WAS, etc
+    * [JBSEAM-1405] - Migrate to JBoss Embedded beta2
+    * [JBSEAM-1449] - Change the "glassfish" example to "jee5" and include oc4j11 support
+    * [JBSEAM-1456] - Remove issues example from docs/readmes 
+    * [JBSEAM-1467] - Upgrade to TestNG 5.6
+    * [JBSEAM-1468] - GWT documentation
+    * [JBSEAM-1476] - Kick out commons-codec
+    * [JBSEAM-1488] - Document deployment to Tomcat / Embedded JBoss
+    * [JBSEAM-1510] - Refactor built-in components into smaller packages
+    * [JBSEAM-1549] - udpate XML version numbers
+    * [JBSEAM-1558] - seam-gen 1.3 alpha still includes Ajax4JSF filter in web.xml
+
 
 Release Notes - JBoss Seam - Version 1.3.0.ALPHA
 
