@@ -7,11 +7,7 @@
     <listener>
         <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
     </listener>
-
-    <listener>
-        <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
-    </listener> 
-
+    
     <filter>
         <filter-name>Seam Filter</filter-name>
         <filter-class>org.jboss.seam.web.SeamFilter</filter-class>

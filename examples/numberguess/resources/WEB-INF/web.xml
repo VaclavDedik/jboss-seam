@@ -23,10 +23,6 @@
         
     <!-- JSF -->
     
-    <listener>
-        <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
-    </listener>
-    
     <context-param>
         <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
         <param-value>.jspx</param-value>

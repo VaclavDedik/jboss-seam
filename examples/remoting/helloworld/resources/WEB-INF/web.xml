@@ -27,11 +27,7 @@
     <servlet-mapping>
       <servlet-name>Seam Resource Servlet</servlet-name>
       <url-pattern>/seam/resource/*</url-pattern>
-    </servlet-mapping>  
-
-    <listener>
-        <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
-    </listener> 
+    </servlet-mapping>
 
     <context-param>
         <param-name>facelets.DEVELOPMENT</param-name>
