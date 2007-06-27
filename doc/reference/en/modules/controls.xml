@@ -493,6 +493,11 @@
               </listitem>
               <listitem>
                 <para>
+                  <literal>fileSize</literal> &#8212; this value binding receives the file size (optional).
+                </para>
+              </listitem>
+              <listitem>
+                <para>
                   <literal>accept</literal> &#8212; a comma-separated list of content types to accept,
                   may not be supported by the browser.  E.g. <literal>"images/png,images/jpg"</literal>,
                   <literal>"images/*"</literal>.
