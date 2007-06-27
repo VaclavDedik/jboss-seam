@@ -16,9 +16,9 @@ Seam 2.0 has been tested on the following containers:
 Migration to JSF 1.2
 --------------------
 Seam 2.0 requires JSF 1.2. We now recommend Sun's JSF RI as the most 
-mature JSF implementation, and this is the version that ships with
-most EE 5 application servers, including JBoss 4.2. To switch to the
-JSF RI, you'll need to make some changes to web.xml:
+mature JSF implementation, and this is the version that ships with most 
+EE 5 application servers, including JBoss 4.2. To switch to the JSF RI, 
+you'll need to make some changes to web.xml:
 
 * remove the MyFaces StartupServletContextListener
 * remove the Ajax4JSF filter and mappings
@@ -35,15 +35,14 @@ You'll also need to make some changes to faces-config.xml:
              com.sun.facelets.FaceletViewHandler
 
 Since Seam 1.2, you didn't need any declarations of SeamExceptionFilter
-or SeamRedirectFilter in web.xml, just a single declaration of
-SeamFilter. Make sure you've already made that change.
+or SeamRedirectFilter in web.xml, just a single declaration of SeamFilter. 
+Make sure you've already made that change.
 
 Code migration
 --------------
-Seam's built-in components have undergone a major reorganization
-designed to organize them for easier learning, and to isolate 
-dependencies upon particular technologies like JSF into specific
-packages.
+Seam's built-in components have undergone a major reorganization designed 
+to organize them for easier learning, and to isolate dependencies upon 
+particular technologies like JSF into specific packages.
 
 * Persistence-related components moved to org.jboss.seam.persistence
 * jBPM related components moved to org.jboss.seam.bpm
@@ -54,8 +53,8 @@ packages.
 * The Pageflow component moved to org.jboss.seam.pageflow
 * The Pages component moved to org.jboss.seam.navigation
 
-Code which depends on these APIs will need to be changed to reflect
-the new Java package names.
+Code which depends on these APIs will need to be changed to reflect the 
+new Java package names.
 
 Annotations have also been reorganized:
 
@@ -73,7 +72,7 @@ Annotations have also been reorganized:
 
 Migration of components.xml
 ---------------------------
-The new packaging comes with new namespaces and new schemas for
+The new packaging comes with new namespaces and new schemas for 
 components.xml. The namespace for components in package
 
     org.jboss.seam.foobar
@@ -86,9 +85,9 @@ And the schema is:
 
     http://jboss.com/products/seam/foobar-2.0.xsd
 
-You'll need to update your components.xml file to reflect that chance.
-Take a look at the Seam examples if you're unsure of exactly what you
-need to do.
+You'll need to update your components.xml file to reflect the new schemas 
+and namespaces. Take a look at the Seam examples if you're unsure of 
+exactly what you need to do.
 
 Finally, some declarations must be removed completely:
 
@@ -104,9 +103,9 @@ Support for deployment to JBoss Embeddable EJB3 and JBoss Microcontainer
 has been removed. Instead, the new JBoss Embedded distribution gives you
 a full set of EE-compatible APIs with simplified deployment.
 
-For testing, you need the jars in Seam's lib/ directory, together with
-the bootstrap/ directory in your classpath. SeamTest will automatically
-start the container. Refer to the Seam examples, or seam-gen, if you have
+For testing, you need the jars in Seam's lib/ directory, together with the 
+bootstrap/ directory in your classpath. SeamTest will automatically start 
+the container. Refer to the Seam examples, or seam-gen, if you have
 trouble.
 
 For Tomcat deployment, follow the instructions in the user guide. You no
