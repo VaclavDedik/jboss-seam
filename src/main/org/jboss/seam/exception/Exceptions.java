@@ -38,7 +38,7 @@ import org.jboss.seam.util.XML;
 @Scope(ScopeType.APPLICATION)
 @BypassInterceptors
 @Install(precedence=BUILT_IN, classDependencies="javax.faces.context.FacesContext")
-@Name("org.jboss.seam.exceptions.exceptions")
+@Name("org.jboss.seam.exception.exceptions")
 public class Exceptions
 {
    private static final LogProvider log = Logging.getLogProvider(Exceptions.class);
