@@ -16,7 +16,7 @@ Updating version numbers
 
 Tests
 -----
-* "ant cleanall testall" with validate.xml = true in build.properties, check report/index.html
+* "ant cleanall testall testreport" with validate.xml = true in build.properties, check report/junit-noframes.html
 * Sanity check the following example applications on JBoss 4.2.0
   - booking
   - dvdstore
