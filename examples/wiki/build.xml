@@ -105,7 +105,6 @@
 
     <target name="clean" description="Cleans up all build artifacts">
         <delete dir="${build.dir}"/>
-        <mkdir dir="${build.dir}"/>
     </target>
 
     <!-- ################## COMPILE ####################### -->
