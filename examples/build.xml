@@ -1,0 +1,663 @@
+<?xml version="1.0"?>
+<!-- ###################### SEAM EXAMPLES BUILD FILE ###################### -->
+<!-- 
+  This build file is used for all the Seam examples.  Each example has a 
+  build.xml which is used to specify per project settings, and override targets
+  and filesets as necessary.
+  
+  By looking at the SEAM JARS WITH DEPENDENCIES and OPTIONAL DEPENDENCIES FOR 
+  USING SEAM sections you can see what jars are required (for use on JBoss AS)
+  for Seam, and if you want to use the integration with other projects
+-->
+<project name="SeamExample" default="deploy" basedir=".">
+
+	<tstamp />
+
+	<!-- Location of Seam -->
+	<dirname property="seam.dir" file="${ant.file.SeamExample}/../" />
+
+	<!-- Import build.properties for Seam -->
+	<property file="${seam.dir}/build.properties" />
+
+
+	<!-- ###################### PROPERTY DEFINITIONS ###################### -->
+
+	<!-- Source directories -->
+	<property name="src.java.dir" value="src" />
+	<property name="src.test.dir" value="src" />
+	<property name="view.dir" value="view" />
+	<property name="resources.dir" value="resources" />
+	<property name="validate.resources.dir" value="${resources.dir}" />
+
+	<!-- Deployment directories -->
+	<property name="deploy.dir" value="${jboss.home}/server/default/deploy" />
+	<property name="conf.dir" value="${jboss.home}/server/default/conf" />
+	<property name="webroot.dir" value="${deploy.dir}/jbossweb-tomcat55.sar/ROOT.war" />
+
+	<!-- Library directories -->
+	<property name="lib.dir" value="${seam.dir}/lib" />
+	<property name="drools.lib.dir" value="${seam.dir}/drools/lib" />
+	<property name="mail.dir" value="${seam.dir}/mail" />
+	<property name="meldware.dir" value="${mail.dir}/buni-meldware" />
+
+	<!-- Target directories -->
+	<property name="dist.dir" value="dist" />
+	<property name="ear.dir" value="exploded-archives/${example.name}.ear" />
+	<property name="jar.dir" value="exploded-archives/${example.name}.jar" />
+	<property name="war.dir" value="exploded-archives/${example.name}.war" />
+	<property name="ear.deploy.dir" value="${deploy.dir}/${example.name}.ear" />
+	<property name="jar.deploy.dir" value="${ear.deploy.dir}/${example.name}.jar" />
+	<property name="war.deploy.dir" value="${ear.deploy.dir}/${example.name}.war" />
+
+	<!-- Testing -->
+	<property name="test.dir" value="test-build" />
+	<property name="coverage.dir" value="${seam.dir}/build/coverage" />
+	<property name="test-report.dir" value="${seam.dir}/test-report" />
+	<property name="eejb.conf.dir" value="${seam.dir}/bootstrap" />
+	<property name="src.schema.dir" value="${seam.dir}/src/main/org/jboss/seam" />
+	<property name="schema.version" value="${version}" />
+	<property name="testng.jar" value="${seam.dir}/lib/testng-5.6-jdk15.jar" />
+
+	<!-- Enable validation (only if set true in build.properties) -->
+	<condition property="validate.xml.enabled">
+		<istrue value="${validate.xml}" />
+	</condition>
+
+	<property name="javac.debug" value="true" />
+	<property name="javac.deprecation" value="false" />
+
+
+	<!-- ################## PLACEHOLDERS FOR OVERRIDING ################### -->
+	<!-- 
+	   This allows build files which import this one to easily add extra 
+	   resources to the the build 
+	-->
+
+	<!-- Added to the build classpath -->
+	<path id="build.classpath.extras" />
+
+	<!-- Added to the test classpath -->
+	<path id="test.classpath.extras" />
+
+	<!-- Added to the ejb root on build-->
+	<fileset id="jar.extras" dir=".">
+		<exclude name="**/*" />
+	</fileset>
+
+	<!-- Added to the war root on build -->
+	<fileset id="war.extras" dir=".">
+		<exclude name="**/*" />
+	</fileset>
+
+	<!-- Added to the ear root on build -->
+	<fileset id="ear.extras" dir=".">
+		<exclude name="**/*" />
+	</fileset>
+
+	<!-- Added to the tomcat war root on build -->
+	<fileset id="tomcat.war.extras" dir=".">
+		<exclude name="**/*" />
+	</fileset>
+
+	<!-- Added to the tomcat jar root on build -->
+	<fileset id="tomcat.jar.extras" dir=".">
+		<exclude name="**/*" />
+	</fileset>
+
+
+	<!-- ############## SEAM JARS AND REQUIRED DEPENDENCIES ############### -->
+	<!-- 
+	  Seam is made up of a number of jars.  They are specified here, with
+	  dependencies for each one
+	-->
+
+	<!-- Seam core, with required dependencies -->
+	<fileset id="seam.jar" dir="${seam.dir}">
+		<include name="jboss-seam.jar" />
+	</fileset>
+
+	<!-- Seam ui, with required dependencies -->
+	<fileset id="seam.ui.jar" dir="${seam.dir}">
+		<include name="jboss-seam-ui.jar" if="seam.ui.lib" />
+		<include name="lib/commons-beanutils*.jar" if="seam.ui.lib" />
+	</fileset>
+
+	<!-- Seam  pdf, with required dependencies -->
+	<fileset id="seam.pdf.jar" dir="${seam.dir}">
+		<include name="jboss-seam-pdf.jar" if="seam.pdf.lib" />
+		<include name="lib/itext-*.jar" if="seam.pdf.lib" />
+		<include name="lib/jfreechart-*.jar" if="seam.pdf.lib" />
+		<include name="lib/jcommon-*.jar" if="seam.pdf.lib" />
+	</fileset>
+
+	<!-- Seam debug, with required dependencies -->
+	<fileset id="seam.debug.jar" dir="${seam.dir}">
+		<include name="jboss-seam-debug.jar" if="seam.debug.lib" />
+	</fileset>
+
+	<!-- Seam ioc, with required dependencies -->
+	<fileset id="seam.ioc.jar" dir="${seam.dir}">
+		<include name="jboss-seam-ioc.jar" if="seam.ioc.war.lib" />
+	</fileset>
+
+	<!-- Seam mail, with required dependencies -->
+	<fileset id="seam.mail.jar" dir="${seam.dir}">
+		<include name="jboss-seam-mail.jar" if="seam.mail.lib" />
+	</fileset>
+
+	<!-- Seam remoting, with required dependencies -->
+	<fileset id="seam.remoting.jar" dir="${seam.dir}">
+		<include name="jboss-seam-remoting.jar" if="seam.remoting.lib" />
+	</fileset>
+
+	<!-- jboss-el -->
+	<fileset id="jboss-el.jar" dir="${lib.dir}">
+		<include name="jboss-el.jar" />
+	</fileset>
+
+	<!-- Dependencies for using Seam with JSF - only needed if the server 
+	     doesn't come with JSF! -->
+	<fileset id="jsf.jar" dir="${lib.dir}">
+		<include name="jsf-*.jar" />
+		<include name="jstl-*.jar" />
+	</fileset>
+
+	<!-- ############## OPTIONAL DEPENDENCIES FOR USING SEAM ############## -->
+	<!--
+	  Seam provides tight integration with a number of libratries and 
+	  frameworks.  There are examples for these, and the dependencies
+	  for each are specified here 
+	-->
+
+	<!-- Dependencies for seam-remoting used with GWT -->
+	<fileset id="gwt.jar" dir="${lib.dir}">
+		<include name="gwt-servlet.jar" if="gwt.lib" />
+	</fileset>
+
+	<!-- Dependencies for seam used with the Quartz dispatcher -->
+	<fileset id="quartz.jar" dir="${lib.dir}">
+		<include name="quartz-1.6.0.jar" if="quartz.lib" />
+	</fileset>
+
+	<!-- Dependencies for seam-ioc used with Spring -->
+	<fileset id="spring.jar" dir="${lib.dir}">
+		<include name="spring*.jar" if="spring.lib" />
+	</fileset>
+
+	<!-- Optional UI jars -->
+
+	<!-- Dependencies for using Seam with facelets -->
+	<fileset id="facelets.jar" dir="${lib.dir}">
+		<include name="jsf-facelets.jar" if="facelets.lib" />
+	</fileset>
+
+	<!-- Dependencies for using Seam with Ajax4jsf -->
+	<fileset id="ajax4jsf.jar" dir="${lib.dir}">
+		<include name="ajax4jsf*.jar" if="ajax4jsf.lib" />
+		<include name="commons-beanutils*.jar" if="ajax4jsf.lib" />
+		<include name="commons-digester*.jar" if="ajax4jsf.lib" />
+	</fileset>
+
+	<!-- Dependencies for using Seam with JBPM -->
+	<fileset id="jbpm.jar" dir="${lib.dir}">
+		<include name="jbpm*.jar" if="jbpm.lib" />
+	</fileset>
+
+	<!-- Dependencies for using Seam with JBoss Cache (s:cache) -->
+	<fileset id="cache.jar" dir="${lib.dir}">
+		<include name="jboss-cache-jdk50.jar" if="cache.lib" />
+		<include name="jboss-aop-jdk50.jar" if="cache.lib" />
+		<include name="jgroups.jar" if="cache.lib" />
+	</fileset>
+
+	<!-- Dependencies for using Seam with Hibernate Search -->
+	<fileset id="search.jar" dir="${lib.dir}">
+		<include name="lucene*.jar" if="search.lib" />
+		<include name="hibernate-search.jar" if="search.lib" />
+		<include name="hibernate-commons-annotations.jar" if="search.lib" />
+	</fileset>
+
+	<!-- Dependencies for using Seam with Drools -->
+	<fileset id="drools.jar" dir="${drools.lib.dir}">
+		<include name="*.jar" if="drools.lib" />
+	</fileset>
+
+	<!-- Dependencies for using Seam with JCaptcha -->
+	<fileset id="jcaptcha.jar" dir="${lib.dir}">
+		<include name="jcaptcha-all*.jar" if="jcaptcha.lib" />
+	</fileset>
+
+	<!-- Dependencies for using Seam with URLRewrite -->
+	<fileset id="urlrewrite.jar" dir="${lib.dir}">
+		<include name="urlrewrite*.jar" if="urlrewrite.lib" />
+	</fileset>
+
+
+	<!-- ############################ MELDWARE ############################ -->
+	<!--
+	  Meldware from buni.org provides a java based mail server which Seam uses
+	  to demonstrate it's mail capabilities.  It's unlike other dependencies as
+	  it is deployed as a number of standalone wars, rars and ears.
+	-->
+
+	<!-- Meldware configuration -->
+	<patternset id="meldware.conf.files">
+		<exclude name="**/*" unless="deploy.meldware" />
+		<include name="meldware.store" if="deploy.meldware" />
+	</patternset>
+
+	<!-- Just the mail portion of meldware -->
+	<patternset id="meldware.files">
+		<exclude name="**/*" unless="deploy.meldware.mail" />
+		<include name="_mail.ear" if="deploy.meldware.mail" />
+		<include name="meldwarebase.sar" if="deploy.meldware.mail" />
+	</patternset>
+
+
+	<!-- ############### RESOURCES FOR EXAMPLES (JBOSS AS) ################ -->
+	<!--
+	  A number of configuration files are needed for Seam, and it's 
+	  dependencies.  The examples place all their configuration files in the
+	  resources directory.  They aren't split along packaging lines (as this
+	  varies depending on what platform you deploy to), but rather by location.
+	  Here, therefore, we split them into the ejb, the war and the ear. 
+	  Some resource are also placed in the deploy and conf directory of JBoss
+	  AS.
+	-->
+
+	<!-- View files -->
+	<fileset id="war.view" dir="${view.dir}">
+		<include name="**/*" />
+	</fileset>
+
+	<!-- resources to go in the war -->
+	<fileset id="war.resources" dir="${resources.dir}">
+		<include name="WEB-INF/*.xml" />
+		<include name="WEB-INF/*.sql" />
+	</fileset>
+
+	<!-- resources to go in the jar  -->
+	<fileset id="jar.resources" dir="${resources.dir}">
+		<include name="import.sql" />
+		<include name="seam.properties" />
+		<include name="META-INF/persistence.xml" />
+		<include name="META-INF/ejb-jar.xml" />
+		<include name="META-INF/orm.xml" />
+		<include name="META-INF/components.xml" />
+		<include name="META-INF/jboss.xml" />
+		<include name="META-INF/security-config.xml" />
+		<include name="META-INF/security-rules.drl" />
+		<include name="META-INF/standard-jaxws-endpoint-config.xml" />
+	</fileset>
+
+	<!-- Resources to go in the ear -->
+	<fileset id="ear.resources" dir="${resources.dir}">
+		<include name="META-INF/application.xml" />
+		<include name="META-INF/jboss-app.xml" />
+		<include name="META-INF/*-service.xml" />
+		<include name="META-INF/*-xmbean.xml" />
+		<include name="treecache.xml" />
+		<include name="*.jpdl.xml" />
+		<exclude name=".gpd.*" />
+		<include name="*.cfg.xml" />
+		<include name="*.xsd" />
+		<include name="*.drl" />
+	</fileset>
+
+	<!-- files for Seam Component jars -->
+	<patternset id="components-jar.files">
+		<include name="**/*.class" />
+		<include name="**/*.component.xml" />
+		<include name="**/components.xml" />
+	</patternset>
+
+	<!-- Build classpath -->
+	<path id="build.classpath">
+		<fileset dir="${lib.dir}">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="${seam.dir}">
+			<include name="jboss-seam.jar" />
+		</fileset>
+		<path refid="build.classpath.extras" />
+	</path>
+
+
+	<!-- #################### BUILD TARGETS (JBOSS AS) #################### -->
+	<!-- 
+	  The build targets for the examples.  Both unexploded (deploy, undeploy)
+	  and unexploded (explode, unexplode, restart) deployment is possible.
+	-->
+
+	<!-- Initialize the build -->
+	<target name="init">
+		<echo message="Building ${example.name}" />
+		<mkdir dir="${jar.dir}" />
+		<mkdir dir="${ear.dir}" />
+		<mkdir dir="${war.dir}" />
+		<mkdir dir="${dist.dir}" />
+	</target>
+
+	<target name="select-compiler">
+		<available classname="org.eclipse.jdt.core.JDTCompilerAdapter" property="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter" />
+	</target>
+
+	<!-- Compile the source code, directly into the jar -->
+	<target name="compile" depends="init, select-compiler" description="Compile the Java source code">
+		<javac classpathref="build.classpath" destdir="${jar.dir}" debug="${javac.debug}" deprecation="${javac.deprecation}" nowarn="on">
+			<src path="${src.java.dir}" />
+		</javac>
+	</target>
+
+	<target name="jar" depends="compile" description="Build the distribution .jar file">
+		<copy todir="${jar.dir}">
+			<fileset refid="jar.resources" />
+			<fileset refid="jar.extras" />
+		</copy>
+	</target>
+
+	<target name="war" depends="compile" description="Build the distribution .war file">
+		<copy todir="${war.dir}">
+			<fileset refid="war.view" />
+			<fileset refid="war.extras" />
+		</copy>
+		<copy todir="${war.dir}/WEB-INF/lib">
+			<fileset refid="seam.debug.jar" />
+			<fileset refid="seam.ioc.jar" />
+			<fileset refid="seam.mail.jar" />
+			<fileset refid="seam.pdf.jar" />
+			<fileset refid="seam.remoting.jar" />
+			<fileset refid="seam.ui.jar" />
+			<fileset refid="facelets.jar" />
+			<fileset refid="urlrewrite.jar" />
+			<fileset refid="ajax4jsf.jar" />
+			<mapper type="flatten" />
+		</copy>
+		<!-- Copy in resources, with filtering -->
+		<copy todir="${war.dir}">
+			<fileset refid="war.resources" />
+			<filterset>
+				<filter token="debug" value="${debug}" />
+				<filter token="jndiPattern" value="${example.name}/#{ejbName}/local" />
+				<filter token="embeddedEjb" value="false" />
+			</filterset>
+		</copy>
+		<!-- Put messages into the classpath -->
+		<copy todir="${war.dir}/WEB-INF/classes">
+			<fileset dir="${resources.dir}">
+				<include name="messages*.properties" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="ear" description="Build the distribution .ear">
+		<copy todir="${ear.dir}">
+			<fileset refid="seam.jar" />
+			<fileset refid="ear.extras" />
+			<fileset refid="ear.resources" />
+		</copy>
+		<mkdir dir="${ear.dir}/lib" />
+		<copy todir="${ear.dir}/lib">
+			<fileset refid="jboss-el.jar" />
+			<fileset refid="drools.jar" />
+			<fileset refid="jbpm.jar" />
+			<fileset refid="cache.jar" />
+			<fileset refid="search.jar" />
+			<fileset refid="gwt.jar" />
+			<fileset refid="quartz.jar" />
+			<fileset refid="spring.jar" />
+			<mapper type="flatten" />
+		</copy>
+	</target>
+
+	<target name="archive" depends="jar,war,ear" description="Package the archives">
+		<jar jarfile="${dist.dir}/${example.name}.jar" basedir="${jar.dir}" />
+		<jar jarfile="${dist.dir}/${example.name}.war" basedir="${war.dir}" />
+		<jar jarfile="${dist.dir}/${example.name}.ear">
+			<fileset dir="${ear.dir}" />
+			<fileset dir="${dist.dir}">
+				<include name="${example.name}.jar" />
+				<include name="${example.name}.war" />
+			</fileset>
+		</jar>
+	</target>
+
+	<!-- Deploy the target to JBoss AS -->
+	<target name="deploy" depends="archive, datasource, meldware" description="Deploy the example to JBoss AS">
+		<fail unless="jboss.home">
+			jboss.home not set, update build.properties
+		</fail>
+		<copy file="${dist.dir}/${example.name}.ear" todir="${deploy.dir}" />
+	</target>
+
+	<target name="meldware">
+		<copy todir="${deploy.dir}">
+			<fileset dir="${meldware.dir}">
+				<patternset refid="meldware.files" />
+			</fileset>
+		</copy>
+		<copy todir="${conf.dir}">
+			<fileset dir="${meldware.dir}">
+				<patternset refid="meldware.conf.files" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="undeploy" description="Undeploy the example from JBoss">
+		<delete file="${deploy.dir}/${example.name}.ear" />
+		<delete file="${deploy.dir}/${example.ds}" />
+		<delete>
+			<fileset dir="${deploy.dir}">
+				<patternset refid="meldware.files" />
+			</fileset>
+		</delete>
+	</target>
+
+	<target name="datasource">
+		<fail unless="jboss.home">jboss.home not set</fail>
+		<copy todir="${deploy.dir}">
+			<fileset dir="${resources.dir}">
+				<include name="${example.ds}" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="explode" depends="jar,war,ear,datasource" description="Deploy the exploded archive">
+		<fail unless="jboss.home">jboss.home not set</fail>
+
+		<mkdir dir="${jar.deploy.dir}" />
+		<mkdir dir="${war.deploy.dir}" />
+
+		<copy todir="${jar.deploy.dir}">
+			<fileset dir="${jar.dir}" />
+		</copy>
+		<copy todir="${war.deploy.dir}">
+			<fileset dir="${war.dir}" />
+		</copy>
+		<copy todir="${ear.deploy.dir}">
+			<fileset dir="${ear.dir}" />
+		</copy>
+	</target>
+
+	<target name="unexplode" description="Undeploy the exploded archive">
+		<delete failonerror="no">
+			<fileset dir="${ear.deploy.dir}">
+				<exclude name="**/*.jar" />
+			</fileset>
+		</delete>
+		<delete file="${deploy.dir}/${example.name}-ds.xml" failonerror="no" />
+		<delete dir="${ear.deploy.dir}" failonerror="no" />
+	</target>
+
+	<target name="restart" depends="explode" description="Restart the exploded archive">
+		<touch file="${ear.deploy.dir}/META-INF/application.xml" />
+	</target>
+
+	<!-- ################# RESOURCES FOR EXAMPLE (TOMCAT) ################# -->
+
+	<!-- Tomcat war resources -->
+	<!--	<fileset id="tomcat.war.resources" dir="resources">-->
+	<!--		<include name="WEB-INF/**/*.*" />-->
+	<!--	</fileset>-->
+
+
+	<!-- #################### BUILD TARGETS (TOMCAT) #################### -->
+
+	<!--	<target name="tomcat.jar" depends="compile">-->
+	<!--		<jar jarfile="${dist.dir}/${example.name}.jar">-->
+	<!--			<fileset dir="${classes.dir}">-->
+	<!--				<patternset refid="components-jar.files" />-->
+	<!--			</fileset>-->
+	<!--			<fileset refid="ejb3.resources" />-->
+	<!--			<fileset refid="tomcat.jar.extras" />-->
+	<!--		</jar>-->
+	<!--	</target>-->
+
+	<!--	<target name="tomcat.war" depends="compile, tomcat.jar">-->
+	<!--		<mkdir dir="${build.dir}/resources/WEB-INF/lib" />-->
+	<!---->
+	<!--		<copy todir="${build.dir}/resources/WEB-INF/lib">-->
+	<!--			<fileset refid="seam.jar" />-->
+	<!--			<fileset refid="seam.debug.jar" />-->
+	<!--			<fileset refid="seam.ui.jar" />-->
+	<!--			<fileset refid="seam.pdf.jar" />-->
+	<!--			<fileset refid="seam.ioc.jar" />-->
+	<!--			<fileset refid="seam.remoting.jar" />-->
+	<!--			<fileset refid="tomcat.war.extras" />-->
+	<!--			<fileset refid="drools.jar" />-->
+	<!--			<fileset refid="facelets.jar" />-->
+	<!--			<fileset refid="cache.jar" />-->
+	<!--			<fileset refid="jbpm.jar" />-->
+	<!--			<fileset refid="spring.jar" />-->
+	<!--			<fileset refid="gwt.jar" />-->
+	<!--			<fileset refid="ajax4jsf.jar" />-->
+	<!--			<fileset refid="jboss-el.jar" />-->
+	<!--			<fileset refid="jsf.jar" />-->
+	<!--			<fileset dir="${dist.dir}">-->
+	<!--				<include name="${example.name}.jar" />-->
+	<!--			</fileset>-->
+	<!--			<mapper type="flatten" />-->
+	<!--		</copy>-->
+	<!---->
+	<!--		<copy todir="${build.dir}/resources">-->
+	<!--			<fileset refid="tomcat.war.resources" />-->
+	<!--			<filterset>-->
+	<!--				<filter token="jndiPattern" value="#{ejbName}/local" />-->
+	<!--			</filterset>-->
+	<!--		</copy>-->
+	<!---->
+	<!--		<jar destfile="${dist.dir}/${example.name}.war" duplicate="preserve">-->
+	<!--			<fileset dir="${build.dir}/resources">-->
+	<!--				<include name="WEB-INF/**/*" />-->
+	<!--			</fileset>-->
+	<!--			<fileset refid="war.view" />-->
+	<!--		</jar>-->
+	<!---->
+	<!--	</target>-->
+
+	<!--	<target name="tomcat.build" depends="tomcat.war" description="Build the Example for tomcat to the dist dir" />-->
+
+	<!--	<target name="tomcat.deploy" depends="tomcat.undeploy,tomcat.build" description="Deploy the example to Tomcat">-->
+	<!--		<echo>Don't forget to set the path of tomcat.home to Tomcat root directory !</echo>-->
+	<!--		<copy file="${dist.dir}/${example.name}.war" todir="${tomcat.home}/webapps" />-->
+	<!--		<echo>After you start Tomcat, the example will be available at: http://localhost:8080/${example.name}</echo>-->
+	<!--	</target>-->
+
+	<!--	<target name="tomcat.undeploy" description="Undeploy the example from Tomcat">-->
+	<!--		<delete file="${tomcat.home}/webapps/${example.name}.war" />-->
+	<!--		<delete dir="${tomcat.home}/webapps/${example.name}" />-->
+	<!--	</target>-->
+
+
+	<!-- #################### TEST TARGETS (JBOSS AS) ##################### -->
+	<!--
+	  You can test the example by running the test target.  This will also
+	  validate the configuration files if enabled in the main build.properties.
+	-->
+
+	<path id="emma.classpath">
+		<pathelement location="${seam.dir}/extras/emma/emma.jar" />
+		<pathelement location="${seam.dir}/extras/emma/emma_ant.jar" />
+	</path>
+
+	<target name="validateConfiguration" if="validate.xml.enabled">
+		<ant antfile="${seam.dir}/validate.xml" target="validateConfiguration" />
+	</target>
+
+	<target name="test.1" depends="validateConfiguration, compile" description="Run the example tests">
+
+		<taskdef resource="testngtasks" classpath="${testng.jar}" />
+
+		<copy todir="${build.dir}/test">
+			<fileset dir="${classes.dir}" includes="**/*.*" />
+			<fileset dir="${resources.dir}">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+
+		<delete dir="test-output" />
+
+		<testng outputdir="test-output">
+			<classpath path="${coverage.dir}/classes" />
+			<!-- TODO: ugly! -->
+			<classpath path="${build.dir}/test" />
+			<classpath path="${eejb.conf.dir}" />
+			<classpath refid="build.classpath" />
+			<classpath refid="emma.classpath" />
+			<xmlfileset dir="${src.test.dir}" includes="**/*.xml" />
+			<classpath refid="test.classpath.extras" />
+		</testng>
+
+	</target>
+
+	<target name="compiletest" unless="eclipse.running" description="Compile the Java source code for the tests">
+		<mkdir dir="${test.dir}" />
+		<javac classpathref="build.classpath" destdir="${test.dir}" debug="${javac.debug}" deprecation="${javac.deprecation}" nowarn="on">
+			<src path="${src.java.dir}" />
+			<src path="${src.test.dir}" />
+		</javac>
+	</target>
+
+	<target name="buildtest" depends="compiletest" description="Build the tests">
+		<copy todir="${test.dir}">
+			<fileset dir="${resources.dir}">
+				<exclude name="${example.ds}.xml" />
+			</fileset>
+		</copy>
+		<copy todir="${test.dir}" flatten="true">
+			<fileset dir="${src.test.dir}">
+				<include name="**/*.xml" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="test" depends="buildtest" description="Run the tests">
+		<taskdef resource="testngtasks" classpath="${testng.jar}" />
+		<testng outputdir="${test-report.dir}">
+			<classpath path="${test.dir}" />
+			<classpath path="${eejb.conf.dir}" />
+			<classpath refid="build.classpath" />
+			<xmlfileset dir="${src.test.dir}" includes="**/*.xml" />
+		</testng>
+	</target>
+
+
+	<!-- #################### CLEAN TARGETS #################### -->
+
+	<target name="clean" description="Cleans up the build directory">
+		<delete dir="${dist.dir}" />
+		<delete dir="${ear.dir}" />
+		<delete dir="${war.dir}" />
+		<delete dir="${jar.dir}" />
+		<delete dir="${basedir}/test-report" />
+		<delete dir="${basedir}/test-output" />
+		<delete failonerror="no">
+			<fileset dir="${test.dir}">
+				<exclude name="**/*.class" if="eclipse.running" />
+			</fileset>
+		</delete>
+	</target>
+
+
+
+</project>

@@ -21,7 +21,4 @@
         <ejb>jboss-seam.jar</ejb>
     </module>
 
-    <module>
-        <java>jboss-el.jar</java>
-    </module>
 </application>

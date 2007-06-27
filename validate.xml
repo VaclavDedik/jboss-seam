@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project basedir=".">
 	
-	<property name="imported.basedir" value="${basedir}" />
+	<property name="seam.dir" value="${basedir}" />
 
 	<property name="seam.schemaLocations" value="
 	http://jboss.com/products/seam/async ${src.schema.dir}/async-${schema.version}.xsd 
@@ -26,7 +26,7 @@
 
 	<taskdef name="xmlvalidate.task" classname="org.apache.tools.ant.taskdefs.optional.XMLValidateTask">
 		<classpath>
-			<fileset dir="${imported.basedir}/lib" />
+			<fileset dir="${seam.dir}/lib" />
 		</classpath>
 	</taskdef>
 
@@ -64,7 +64,7 @@
 				<dtd publicId="-//JBoss/Seam Pages Configuration DTD 2.0//EN" location="${src.schema.dir}/pages-${schema.version}.dtd" />
 			</xmlcatalog>
 			<classpath>
-				<fileset dir="${imported.basedir}/lib" />
+				<fileset dir="${seam.dir}/lib" />
 			</classpath>
 		</xmlvalidate.task>
 	</presetdef>
