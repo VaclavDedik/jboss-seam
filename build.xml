@@ -733,7 +733,7 @@
 
 	<target name="testall" depends="testcore,build,compiletest" description="Run the core unit tests and all example tests">
 
-		<ant dir="examples/booking" target="testexample" inheritall="false" />
+		<ant dir="examples/booking" target="test" inheritall="false" />
 		<ant dir="examples/dvdstore" target="testexample" inheritall="false" />
 		<ant dir="examples/messages" target="testexample" inheritall="false" />
 		<ant dir="examples/numberguess" target="testexample" inheritall="false" />
@@ -761,9 +761,6 @@
 	</target>
 
 	<target name="testexample" depends="validateexample, compile" description="Run the example tests">
-
-		
-		
 		<taskdef resource="testngtasks" classpath="${testng.jar}" />
 
 		<copy todir="${build.dir}/test">
