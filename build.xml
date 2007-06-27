@@ -335,6 +335,7 @@
 		<exclude name="jboss-embedded-all.jar" />
 		<exclude name="hibernate-all.jar" />
 		<exclude name="thirdparty-all.jar" />
+		<exclude name="x*.jar"/>
 	</zipfileset>
 
 	<zipfileset id="example.tomcat.seam.jar" prefix="WEB-INF/lib" dir="${imported.basedir}">
