@@ -37,6 +37,10 @@
 			<classname>java.lang.String</classname>
 			<description>a pageflow definition to begin. (This is only useful when propagation="begin" or propagation="join".)</description>
 		</property>
+                <property>
+                    <name>taskInstance</name>
+                    <classname>org.jbpm.taskmgmt.exe.TaskInstance</classname>
+                </property>
 		<!-- Should be el="false" -->
 		<property>
 			<name>propagation</name>
