@@ -1167,7 +1167,9 @@ public class CustomerListManager
 @Scope(APPLICATION) 
 public class HenHouse {
     
-    private Set<Hen> hens;
+    Set<Hen> hens;
+    
+    @In(required=false) Hen hen;
     
     @Unwrap
     public List<Hen> getHens() {
@@ -1188,7 +1190,7 @@ public class HenHouse {
     }
     
     @Observer("foxGetsIn")
-    public addHen() {
+    public removeAllHens() {
         hens.clear();
     }
     ...
