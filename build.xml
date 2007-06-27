@@ -99,7 +99,7 @@
 	<property name="dist.api.dir" value="${dist.dir}/doc/api" />
 	<property name="dist.ref.dir" value="${dist.dir}/doc/reference" />
 	<property name="dist.src.java.dir" value="${dist.dir}/src/main" />
-	<property name="dist.src.ui.dir" value="${dist.dir}/ui/src" />
+	<property name="dist.ui.dir" value="${dist.dir}/ui" />
 	<property name="dist.src.pdf.dir" value="${dist.dir}/src/pdf" />
 	<property name="dist.src.ioc.dir" value="${dist.dir}/src/ioc" />
 	<property name="dist.src.mail.dir" value="${dist.dir}/src/mail" />
@@ -799,13 +799,11 @@
 			</fileset>
 		</copy>
 
-		<mkdir dir="${dist.src.ui.dir}" />
-		<copy todir="${dist.src.ui.dir}">
-			<fileset dir="${src.ui.dir}">
-				<patternset refid="src.files" />
-			</fileset>
-			<fileset dir="${src.ui.dir}">
-				<patternset refid="meta.files" />
+		<mkdir dir="${dist.ui.dir}" />
+		<copy todir="${dist.ui.dir}">
+			<fileset dir="${ui.dir}">
+				<include name="src/**/*"/>
+				<include name="pom.xml"/>
 			</fileset>
 		</copy>
 
@@ -1215,7 +1213,6 @@
 		<copy file="build.properties" todir="${dist.dir}" />
 		<copy file="build.xml" todir="${dist.dir}" />
 		<copy file="pom.xml" todir="${dist.dir}" />
-		<copy file="${ui.dir}/pom.xml" todir="${dist.src.ui.dir}" />
 		<copy file="seam" todir="${dist.dir}" />
 		<copy file="seam-text.g" todir="${dist.dir}" />
 		<copy file="seam.bat" todir="${dist.dir}" />
