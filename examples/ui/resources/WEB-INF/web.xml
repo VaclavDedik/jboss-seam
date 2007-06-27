@@ -14,9 +14,7 @@
     <!-- Seam -->
     
     <listener>
-        <listener-class>
-            org.jboss.seam.servlet.SeamListener
-        </listener-class>
+        <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
     </listener>
     
     <servlet>
@@ -31,7 +29,7 @@
     
     <filter>
         <filter-name>Seam Filter</filter-name>
-        <filter-class>org.jboss.seam.web.SeamFilter</filter-class>
+        <filter-class>org.jboss.seam.servlet.SeamFilter</filter-class>
     </filter>
 
     <filter-mapping>
