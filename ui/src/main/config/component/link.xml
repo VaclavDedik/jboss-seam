@@ -59,5 +59,10 @@
 			<name>disabled</name>
 			<classname>boolean</classname>
 		</property>
+		<property elonly="true"  transient="true" >
+			<name>taskInstance</name>
+			<classname>java.lang.Object</classname>
+			<description>Specify the task to operate on (e.g. for @StartTask)</description>
+		</property>
 	</component>
 </components>
