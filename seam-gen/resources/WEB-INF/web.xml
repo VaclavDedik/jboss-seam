@@ -24,7 +24,7 @@
     
     <filter>
         <filter-name>Seam Filter</filter-name>
-        <filter-class>org.jboss.seam.web.SeamFilter</filter-class>
+        <filter-class>org.jboss.seam.servlet.SeamFilter</filter-class>
     </filter>
 
     <filter-mapping>
@@ -41,10 +41,6 @@
       <servlet-name>Seam Resource Servlet</servlet-name>
       <url-pattern>/seam/resource/*</url-pattern>
    </servlet-mapping>
-   
-   <listener>
-      <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
-   </listener> 
    
    <!-- Facelets development mode (disable in production) -->
    
