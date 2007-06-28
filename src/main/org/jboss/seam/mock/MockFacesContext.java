@@ -7,8 +7,8 @@
 package org.jboss.seam.mock;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +37,7 @@ public class MockFacesContext extends FacesContext
 
    private UIViewRoot viewRoot;// = new UIViewRoot();
 
-   private final Map<FacesMessage, String> messages = new HashMap<FacesMessage, String>();
+   private final Map<FacesMessage, String> messages = new LinkedHashMap<FacesMessage, String>();
 
    private ExternalContext externalContext;
 
