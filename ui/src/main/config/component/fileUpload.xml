@@ -48,7 +48,11 @@ Here's an example:
 			</superclass>
 		</tag>
 		&ui_component_attributes;
+		&ui_input_attributes;
 		&html_style_attributes;
+		&html_input_attributes;
+		&html_events;
+		&html_input_events;
 		<property transient="true">
 			<name>accept</name>
 			<classname>java.lang.String</classname>

@@ -38,7 +38,7 @@ public class FileUploadRendererBase extends RendererBase
       writer.writeAttribute(HTML.NAME_ATTR, clientId, null);
       
       
-      if (fileUpload.getAccept() != null)
+      /*if (fileUpload.getAccept() != null)
       {
          writer.writeAttribute(HTML.ACCEPT_ATTR, fileUpload.getAccept(), "accept");
       }
@@ -51,7 +51,10 @@ public class FileUploadRendererBase extends RendererBase
       if (fileUpload.getStyle() != null)
       {
          writer.writeAttribute(HTML.STYLE_ATTR, fileUpload.getStyle(),  "style");
-      }
+      }*/
+      
+      HTML.renderHTMLAttributes(writer, component, HTML.INPUT_FILE_PASSTHROUGH_ATTRIBUTES_WITHOUT_DISABLED);
+      
       
       writer.endElement(HTML.INPUT_ELEM);
    }
