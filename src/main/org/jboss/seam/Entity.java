@@ -42,7 +42,7 @@ public class Entity extends Model
       for ( Class<?> clazz=beanClass; clazz!=Object.class; clazz = clazz.getSuperclass() )
       {
 
-         for ( Method method: getBeanClass().getDeclaredMethods() )
+         for ( Method method: clazz.getDeclaredMethods() )
          {
             //TODO: does the spec allow multiple lifecycle method
             //      in the entity class heirarchy?
@@ -79,7 +79,7 @@ public class Entity extends Model
          
          if (identifierGetter==null)
          {
-            for ( Field field: getBeanClass().getDeclaredFields() )
+            for ( Field field: clazz.getDeclaredFields() )
             {
                if ( field.isAnnotationPresent(Id.class) || field.isAnnotationPresent(EmbeddedId.class))
                {
