@@ -335,7 +335,7 @@
 
 	<!-- Initialize the build -->
 	<target name="init">
-		<echo message="Building ${example.name}" />
+		<echo message="Building ${Name} ${version}" />
 		<mkdir dir="${jar.dir}" />
 		<mkdir dir="${ear.dir}" />
 		<mkdir dir="${war.dir}" />
@@ -497,7 +497,7 @@
 		</copy>
 	</target>
 
-	<target name="explode" depends="jar,war,ear,datasource" description="Deploy the exploded archive">
+	<target name="explode" depends="jar,jboss.war,ear,datasource" description="Deploy the exploded archive">
 		<fail unless="jboss.home">jboss.home not set</fail>
 
 		<mkdir dir="${jar.deploy.dir}" />
