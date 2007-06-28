@@ -508,17 +508,17 @@
 		<ant dir="examples/quartz" target="undeploy" inheritall="false" />
 		<ant dir="examples/wiki" target="undeploy" inheritall="false" />
 
-		<ant dir="examples/booking" target="undeploy.tomcat" inheritall="false" />
-		<ant dir="examples/dvdstore" target="undeploy.tomcat" inheritall="false" />
-		<ant dir="examples/itext" target="undeploy.tomcat" inheritall="false" />
-		<ant dir="examples/mail" target="undeploy.tomcat" inheritall="false" />
+		<ant dir="examples/booking" target="tomcat.undeploy" inheritall="false" />
+		<ant dir="examples/dvdstore" target="tomcat.undeploy" inheritall="false" />
+		<ant dir="examples/itext" target="tomcat.undeploy" inheritall="false" />
+		<ant dir="examples/mail" target="tomcat.undeploy" inheritall="false" />
 		<ant dir="examples/spring" target="undeploy.tomcat" inheritall="false" />
-		<ant dir="examples/blog" target="undeploy.tomcat" inheritall="false" />
-		<ant dir="examples/contactlist" target="undeploy.tomcat" inheritall="false" />
+		<ant dir="examples/blog" target="tomcat.undeploy" inheritall="false" />
+		<ant dir="examples/contactlist" target="tomcat.undeploy" inheritall="false" />
 		<ant dir="examples/registration" target="undeploy.tomcat" inheritall="false" />
-		<ant dir="examples/messages" target="undeploy.tomcat" inheritall="false" />
+		<ant dir="examples/messages" target="tomcat.undeploy" inheritall="false" />
 		<ant dir="examples/todo" target="undeploy.tomcat" inheritall="false" />
-		<ant dir="examples/drools" target="undeploy.tomcat" inheritall="false" />
+		<ant dir="examples/drools" target="tomcat.undeploy" inheritall="false" />
 		<ant dir="examples/numberguess" target="undeploy.tomcat" inheritall="false" />
 		<ant dir="examples/quartz" target="undeploy.tomcat" inheritall="false" />
 		<ant dir="examples/remoting/gwt" target="undeploy.tomcat" inheritall="false" />
