@@ -18,36 +18,7 @@
     </module>
     
     <module>
-        <java>jboss-seam.jar</java>
+        <ejb>jboss-seam.jar</ejb>
     </module>
-    
-    <module>
-        <java>jboss-el.jar</java>
-    </module>
-    
-    <module>
-        <java>jbpm-jpdl.jar</java>
-    </module>
-    
-    <module>
-        <java>drools-compiler-4.0.0.MR2.jar</java>
-    </module>
-  
-    <module>
-        <java>drools-core-4.0.0.MR2.jar</java>
-    </module>
-  
-    <module>
-        <java>mvel14-1.2beta16.jar</java>
-    </module>
-  
-    <module>
-        <java>janino-2.5.6.jar</java>
-    </module>
-  
-    <module>
-        <java>antlr-3.0b7.jar</java>
-    </module>
-    
-    
+     
 </application>

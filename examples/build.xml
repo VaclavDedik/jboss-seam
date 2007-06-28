@@ -310,6 +310,13 @@
 		<include name="*.xsd" />
 		<include name="*.drl" />
 	</fileset>
+	
+	<!-- Property resources (e.g. themes, i8ln) get put on the classpath -->
+	<fileset id="properties" dir="${resources.dir}">
+		<exclude name="seam.properties" />
+		<exclude name="components.properties" />
+		<include name="*.properties" />
+	</fileset>
 
 	<!-- files for Seam Component jars -->
 	<patternset id="components-jar.files">
@@ -384,9 +391,7 @@
 		</copy>
 		<!-- Put properties into the classpath -->
 		<copy todir="${war.dir}/WEB-INF/classes">
-			<fileset dir="${resources.dir}">
-				<include name="*.properties" />
-			</fileset>
+			<fileset refid="properties" />
 		</copy>
 	</target>
 

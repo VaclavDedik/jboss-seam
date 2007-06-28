@@ -34,13 +34,13 @@
    </decision>
    
    <page name="win" view-id="/win.jsp">
+   	  <end-conversation />
       <redirect/>
-      <end-conversation />
    </page>
    
    <page name="lose" view-id="/lose.jsp">
-      <redirect/>
       <end-conversation />
+      <redirect/>
    </page>
    
 </pageflow-definition>

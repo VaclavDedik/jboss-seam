@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<pageflow-diagram name="numberGuess" width="724" height="516">
+<pageflow-diagram name="numberGuess" width="750" height="744">
   <node name="displayGuess" x="157" y="35" width="140" height="40">
     <transition name="guess">
       <label x="-44" y="-10"/>

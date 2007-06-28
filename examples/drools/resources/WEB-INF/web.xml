@@ -37,5 +37,10 @@
     <session-config>
         <session-timeout>10</session-timeout> 
     </session-config>
+      
+    <context-param>
+        <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+        <param-value>.jsp</param-value>
+    </context-param>
     
 </web-app>
