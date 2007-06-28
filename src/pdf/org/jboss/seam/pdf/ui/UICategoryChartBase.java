@@ -69,8 +69,8 @@ public abstract class UICategoryChartBase
     public void restoreState(FacesContext context, Object state)
     {
        Object[] values = (Object[]) state;
-       super.restoreState(context, values[0]);             
        
+       super.restoreState(context, values[0]);                    
        domainGridlinesVisible = (Boolean) values[1];
        domainGridlinePaint    = (String) values[2];
        domainGridlineStroke   = (String) values[3];
@@ -82,8 +82,8 @@ public abstract class UICategoryChartBase
     @Override
     public Object saveState(FacesContext context)
     {
-       Object[] values = new Object[7];
-
+       Object[] values = new Object[7];       
+       values[0] = super.saveState(context);
        values[1] = domainGridlinesVisible;
        values[2] = domainGridlinePaint;
        values[3] = domainGridlineStroke;

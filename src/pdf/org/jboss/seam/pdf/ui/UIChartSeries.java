@@ -93,12 +93,12 @@ public class UIChartSeries
        Object[] values = (Object[]) state;
        super.restoreState(context, values[0]);      
        
-       key                   = (String) values[1];
-       seriesPaint           = (String) values[2];
-       seriesFillPaint       = (String) values[3];
-       seriesOutlinePaint    = (String) values[4];
+       key                   = (String)  values[1];
+       seriesPaint           = (String)  values[2];
+       seriesFillPaint       = (String)  values[3];
+       seriesOutlinePaint    = (String)  values[4];
        seriesOutlineStroke   = (String)  values[5];
-       seriesStroke          = (String) values[6];
+       seriesStroke          = (String)  values[6];
        seriesVisible         = (Boolean) values[7];
        seriesVisibleInLegend = (Boolean) values[8];
     }
@@ -106,15 +106,17 @@ public class UIChartSeries
     @Override
     public Object saveState(FacesContext context)
     {
-       Object[] values = new Object[8];
+       Object[] values = new Object[9];
 
+       values[0] = super.saveState(context);
        values[1] = key;
        values[2] = seriesPaint;
        values[3] = seriesFillPaint;
        values[4] = seriesOutlinePaint;
        values[5] = seriesOutlineStroke;
        values[6] = seriesStroke;
-       values[7] = seriesVisibleInLegend;
+       values[7] = seriesVisible;
+       values[8] = seriesVisibleInLegend;
        
        return values;
     }

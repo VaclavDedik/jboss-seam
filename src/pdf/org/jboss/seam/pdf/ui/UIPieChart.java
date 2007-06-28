@@ -261,6 +261,7 @@ public class UIPieChart
     {
        Object[] values = new Object[24];
 
+       values[0] = super.saveState(context);
        values[1] = title;
        values[2] = label;
        values[3] = legend;

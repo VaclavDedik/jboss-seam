@@ -90,6 +90,7 @@ public class UILineChart
     {
        Object[] values = new Object[6];
 
+       values[0] = super.saveState(context);
        values[1] = title;
        values[2] = domainAxisLabel;
        values[3] = rangeAxisLabel;

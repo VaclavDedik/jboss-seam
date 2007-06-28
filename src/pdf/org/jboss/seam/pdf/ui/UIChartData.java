@@ -91,15 +91,17 @@ public class UIChartData
     @Override
     public Object saveState(FacesContext context)
     {
-       Object[] values = new Object[8];
+       Object[] values = new Object[9];
 
+       values[0] = super.saveState(context);
        values[1] = key;
        values[2] = columnKey;
        values[3] = rowKey;
-       values[4] = explodedPercent;
-       values[5] = sectionPaint;
-       values[6] = sectionOutlinePaint;
-       values[7] = sectionOutlineStroke;
+       values[4] = value;
+       values[5] = explodedPercent;
+       values[6] = sectionPaint;
+       values[7] = sectionOutlinePaint;
+       values[8] = sectionOutlineStroke;
        
        return values;
     }

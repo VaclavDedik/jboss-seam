@@ -87,6 +87,7 @@ public class UIBarChart
     {
        Object[] values = new Object[7];
 
+       values[0] = super.saveState(context);
        values[1] = title;
        values[2] = categoryAxisLabel;
        values[3] = valueAxisLabel;
