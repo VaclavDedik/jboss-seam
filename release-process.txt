@@ -77,12 +77,12 @@ Build + Upload
 * run "ant cleanall dist"
 * check that the following files/directories exist in the dist "ls -1"
 
+bootstrap
 build.properties
 build.xml
 changelog.txt
 doc
 drools
-embedded-ejb
 examples
 hibernate
 jboss-seam-debug.jar
@@ -96,14 +96,14 @@ jboss-seam.jar
 lgpl.txt
 lib
 mail
-microcontainer
+pom.xml
 readme.txt
 seam
 seam-gen
 seam-text.g
 seam.bat
+seam2migration.txt
 src
-trinidad
 ui
 
 * check that the following source directories exist in the dist "ls -1 src"
@@ -124,12 +124,10 @@ booking
 contactlist
 drools
 dvdstore
-jee5
 groovybooking
-hibernate
 hibernate2
-icefaces
 itext
+jee5
 jpa
 mail
 messages
