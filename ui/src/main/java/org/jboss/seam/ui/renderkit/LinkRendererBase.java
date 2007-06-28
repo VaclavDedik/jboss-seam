@@ -29,6 +29,10 @@ public class LinkRendererBase extends RendererBase
       {
          writer.writeAttribute(HTML.HREF_ATTR, url, HTML.HREF_ATTR);
       }
+      if (link.getId() != null)
+      {
+         writer.writeAttribute(HTML.ID_ATTR, link.getId(), HTML.ID_ATTR);
+      }
       HTML.renderHTMLAttributes(writer, link, HTML.ANCHOR_PASSTHROUGH_ATTRIBUTES);
       if (link.getValue() != null)
       {
