@@ -16,9 +16,6 @@
         <ejb>jboss-seam-contactlist.jar</ejb>
     </module>
     <module>
-        <java>jboss-seam.jar</java>
-    </module>
-    <module>
-        <java>jboss-el.jar</java>
+        <ejb>jboss-seam.jar</ejb>
     </module>
 </application>

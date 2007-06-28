@@ -42,9 +42,10 @@
 
 	<!-- Target directories -->
 	<property name="dist.dir" value="dist" />
-	<property name="ear.dir" value="exploded-archives/${example.name}.ear" />
-	<property name="jar.dir" value="exploded-archives/${example.name}.jar" />
-	<property name="war.dir" value="exploded-archives/${example.name}.war" />
+	<property name="exploded-archives.dir" value="exploded-archives" />
+	<property name="ear.dir" value="${exploded-archives.dir}/${example.name}.ear" />
+	<property name="jar.dir" value="${exploded-archives.dir}/${example.name}.jar" />
+	<property name="war.dir" value="${exploded-archives.dir}/${example.name}.war" />
 	<property name="ear.deploy.dir" value="${deploy.dir}/${example.name}.ear" />
 	<property name="jar.deploy.dir" value="${ear.deploy.dir}/${example.name}.jar" />
 	<property name="war.deploy.dir" value="${ear.deploy.dir}/${example.name}.war" />
@@ -391,9 +392,11 @@
 
 	<target name="clean" description="Cleans up the build directory">
 		<delete dir="${dist.dir}" />
+		<delete dir="${exploded-archives.dir}"/>
 		<delete dir="${ear.dir}" />
 		<delete dir="${war.dir}" />
 		<delete dir="${jar.dir}" />
+		<delete dir="${test.dir}" />
 		<delete dir="${basedir}/test-report" />
 		<delete dir="${basedir}/test-output" />
 		<delete failonerror="no">

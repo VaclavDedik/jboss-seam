@@ -737,7 +737,7 @@
 		<ant dir="examples/dvdstore" target="testexample" inheritall="false" />
 		<ant dir="examples/messages" target="testexample" inheritall="false" />
 		<ant dir="examples/numberguess" target="testexample" inheritall="false" />
-		<ant dir="examples/contactlist" target="testexample" inheritall="false" />
+		<ant dir="examples/contactlist" target="test" inheritall="false" />
 		<ant dir="examples/registration" target="testexample" inheritall="false" />
 		<ant dir="examples/todo" target="testexample" inheritall="false" />
 		<ant dir="examples/blog" target="test" inheritall="false" />
