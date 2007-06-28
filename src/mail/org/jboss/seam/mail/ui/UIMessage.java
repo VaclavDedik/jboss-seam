@@ -85,7 +85,7 @@ public class UIMessage extends MailComponent
    public void encodeBegin(FacesContext context) throws IOException
    {
       MailFacesContextImpl.start(getUrlBase()
-                  + context.getExternalContext().getRequestContextPath());
+                  + context.getExternalContext().getRequestContextPath() == null ? "" : context.getExternalContext().getRequestContextPath());
       mimeMessage = null;
       try
       {
