@@ -6,18 +6,16 @@
     <property name="Name"                   value="Seam Blog Example"/>
     <property name="example.name"           value="jboss-seam-blog"/>
 
-    <!-- Overrides -->
-	<property name="example.webinf.lib.dir"  value="."/>
-	<property name="example.seam.ui.lib"     value="yes"/>
-	<property name="example.seam.debug.lib"  value="yes"/>
-	<property name="example.facelets.lib"    value="yes"/>
-    <property name="example.search.lib"      value="yes"/>
-    <property name="example.cache.lib"       value="yes"/>
+    <!-- Libraries to include -->
+	<property name="seam.ui.lib"     value="yes"/>
+	<property name="seam.debug.lib"  value="yes"/>
+	<property name="facelets.lib"    value="yes"/>
+    <property name="search.lib"      value="yes"/>
+    <property name="cache.lib"       value="yes"/>
+	
+	<!-- Datasource -->
 	<property name="example.ds"              value="blog-ds.xml"/>
-    <property name="src.java.dir"            value="src"/>
-    <property name="src.test.dir"            value="src"/>
-    <property name="test.classpath"          value="test.eejb.classpath"/>
 
-    <import file="../../build.xml"/>
+    <import file="../build.xml"/>
     
 </project>

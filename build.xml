@@ -740,7 +740,7 @@
 		<ant dir="examples/contactlist" target="testexample" inheritall="false" />
 		<ant dir="examples/registration" target="testexample" inheritall="false" />
 		<ant dir="examples/todo" target="testexample" inheritall="false" />
-		<ant dir="examples/blog" target="testexample" inheritall="false" />
+		<ant dir="examples/blog" target="test" inheritall="false" />
 		<ant dir="examples/portal" target="testexample" inheritall="false" />
 
 	</target>

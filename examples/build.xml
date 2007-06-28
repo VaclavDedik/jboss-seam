@@ -293,6 +293,7 @@
 	<!-- resources to go in the jar for tomcat  -->
 	<fileset id="tomcat.jar.resources" dir="${resources.dir}">
 		<include name="${example.ds}" />
+		<include name="treecache.xml" />
 	</fileset>
 
 	<!-- Resources to go in the ear -->
@@ -380,10 +381,10 @@
 			<fileset refid="ajax4jsf.jar" />
 			<mapper type="flatten" />
 		</copy>
-		<!-- Put messages into the classpath -->
+		<!-- Put properties into the classpath -->
 		<copy todir="${war.dir}/WEB-INF/classes">
 			<fileset dir="${resources.dir}">
-				<include name="messages*.properties" />
+				<include name="*.properties" />
 			</fileset>
 		</copy>
 	</target>
@@ -554,6 +555,7 @@
 			<fileset refid="gwt.jar" />
 			<fileset refid="jboss-el.jar" />
 			<fileset refid="jsf.jar" />
+			<fileset refid="search.jar"/>
 			<mapper type="flatten" />
 		</copy>
 		<!-- Copy in resources, with filtering -->
