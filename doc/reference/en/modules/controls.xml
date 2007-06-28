@@ -3,13 +3,17 @@
   <para>
     Seam includes a number of JSF controls that are useful for working with
     Seam. These are intended to complement the built-in JSF controls, and
-    controls from other third-party libraries. We recommend the Ajax4JSF
-    and ADF faces (now Trinidad) tag libraries for use with Seam. We do not
-    recommend the use of the Tomahawk tag library.
+    controls from other third-party libraries. We recommend the JBoss Ajax4jsf, 
+    JBoss Richfaces, and Apache MyFaces Trinidad tag libraries for use with Seam.
+    We do not recommend the use of the Tomahawk tag library.
   </para>
 
+  <section>
+  	<title>Tags</title>
+
   <para>
-    To use these controls, define the "<literal>s</literal>" namespace in your page as follows (facelets only):
+    To use these tagsd, define the "<literal>s</literal>" namespace in your page 
+    as follows (facelets only):
   </para>
 
   <programlisting><![CDATA[<html xmlns="http://www.w3.org/1999/xhtml"
@@ -1123,5 +1127,76 @@
       </tbody>
     </tgroup>
   </table>
+</section>
+<section>
+  <title>Annotations</title>
+  
+  <para>
+    Seam also provides annotations to allow you to use Seam components as JSF
+    converters and validators:
+    
+  </para>
+  <variablelist spacing="compact">
+    <varlistentry>
+      <term>
+        <literal>@Converter</literal>
+      </term>
+      <listitem>
+        <programlisting>
+<![CDATA[@Name("fooConverter") 
+@BypassInterceptors 
+@Converter
+public class FooConverter implements Converter {
+
+  @In EntityManager entityManager;
+   
+  @Transactional
+  public Object getAsObject(FacesContext context, UIComponent cmp, String value) {
+    entityManager.joinTransaction();
+    // Do the conversion
+  }
+  
+  public String getAsString(FacesContext context, UIComponent cmp, Object value) {
+    // Do the conversion
+  }
+  
+}]]></programlisting>
+            <para>
+              Registers the Seam component as a JSF converter.  Shown here is a 
+              converter which is able to access the JPA EntityManager inside a 
+              JTA transaction, when converting the value back to it's object
+              representation.
+            </para>
+        </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>
+        <literal>@Validator</literal>
+      </term>
+      <listitem>
+        <programlisting>
+<![CDATA[@Name("barValidator") 
+@BypassInterceptors 
+@Validator
+public class BarValidator implements Validator {
+
+  @In FooController fooController;
+   
+  public void validate(FacesContext context, UIComponent cmp, Object value)
+    throws ValidatorException {
+    return fooController.validate(value);
+  }
+  
+}]]></programlisting>
+            <para>
+              Registers the Seam component as a JSF validator.  Shown here is a 
+              validator which injects another Seam component; the injected 
+              component is used to validate the value.
+            </para>
+        </listitem>
+    </varlistentry>
+  </variablelist>
+</section>
+
 
 </chapter>
