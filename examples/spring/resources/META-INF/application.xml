@@ -16,12 +16,6 @@
         <java>jboss-seam-spring.jar</java>
     </module>
     <module>
-        <java>jboss-seam.jar</java>
-    </module>
-    <module>
-        <java>jboss-el.jar</java>
-    </module>
-    <module>
-        <java>spring.jar</java>
+        <ejb>jboss-seam.jar</ejb>
     </module>
 </application>

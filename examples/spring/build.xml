@@ -5,26 +5,14 @@
     <property name="Name"                   value="spring integration example"/>
     <property name="example.name"           value="jboss-seam-spring"/>
 
-    <!-- Overrides -->
-    <property name="example.webinf.lib.dir"     value="" />
-    <property name="example.seam.ui.lib"        value="yes"/>
-    <property name="example.seam.debug.lib"     value="yes"/>
-    <property name="example.facelets.lib"       value="yes"/>
-    <property name="example.seam.ioc.war.lib"   value="yes"/>
-    <property name="example.spring.lib"         value="yes"/>
-    <property name="src.java.dir"               value="src"/>
-    <property name="src.test.dir"               value="src"/>
-    <property name="test.classpath"             value="test.eejb.classpath"/>
+    <!-- Libraries -->
+    <property name="seam.ui.lib"        value="yes"/>
+    <property name="seam.debug.lib"     value="yes"/>
+    <property name="facelets.lib"       value="yes"/>
+    <property name="seam.ioc.war.lib"   value="yes"/>
+    <property name="spring.lib"         value="yes"/>
 
-    <import file="../../build.xml"/>
-
-    <fileset id="example.ear.resources"
-             dir="${example.resources.dir}">
-        <include name="META-INF/application.xml"/>
-        <include name="META-INF/jboss-app.xml"/>
-        <include name="META-INF/spring.*" />
-        <include name="applicationContext.xml" />
-        <include name="hibernate*" />
-    </fileset>
+    <import file="../build.xml"/>
+	
 </project>
 
