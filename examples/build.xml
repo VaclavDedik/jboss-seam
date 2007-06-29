@@ -243,8 +243,8 @@
 
 	<!-- Meldware configuration -->
 	<patternset id="meldware.conf.files">
-		<exclude name="**/*" unless="deploy.meldware" />
-		<include name="meldware.store" if="deploy.meldware" />
+		<exclude name="**/*" unless="deploy.meldware.mail" />
+		<include name="meldware.store" if="deploy.meldware.mail" />
 	</patternset>
 
 	<!-- Just the mail portion of meldware -->
@@ -295,6 +295,7 @@
 	<fileset id="tomcat.jar.resources" dir="${resources.dir}">
 		<include name="${example.ds}" />
 		<include name="treecache.xml" />
+		<include name="*.jpdl.xml" />
 	</fileset>
 
 	<!-- Resources to go in the ear -->
@@ -506,7 +507,7 @@
 		</copy>
 	</target>
 
-	<target name="explode" depends="jar,jboss.war,ear,datasource" description="Deploy the exploded archive">
+	<target name="explode" depends="jar,jboss.war,ear,datasource, meldware" description="Deploy the exploded archive">
 		<fail unless="jboss.home">jboss.home not set</fail>
 
 		<mkdir dir="${jar.deploy.dir}" />
@@ -531,6 +532,11 @@
 		</delete>
 		<delete file="${deploy.dir}/${example.name}-ds.xml" failonerror="no" />
 		<delete dir="${ear.deploy.dir}" failonerror="no" />
+		<delete failonerror="no">
+			<fileset dir="${deploy.dir}">
+				<patternset refid="meldware.files" />
+			</fileset>
+		</delete>
 	</target>
 
 	<target name="restart" depends="explode" description="Restart the exploded archive">
