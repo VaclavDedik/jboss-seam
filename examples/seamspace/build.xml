@@ -4,21 +4,15 @@
 
     <!-- Example name -->
     <property name="Name"                   value="SeamSpace Security Example"/>
-    <property name="example.name"           value="seam-space"/>
+    <property name="example.name"           value="jboss-seam-space"/>
 
-    <!-- Overrides -->
-
-    <property name="example.webinf.lib.dir"  value="."/>
-    <property name="example.facelets.lib"    value="yes"/>
-    <property name="example.drools.lib"      value="yes"/>
-    <property name="example.seam.ui.lib"     value="yes"/>    
-    <property name="example.jcaptcha.lib"    value="yes"/>
-    <property name="example.ds"              value="seamspace-ds.xml"/>    
-    <property name="src.java.dir"            value="src"/>
-    <property name="src.test.dir"            value="src"/>
-    <property name="test.classpath"          value="test.eejb.classpath"/>
-
-    <import file="../../build.xml"/>
+    <!-- Libraries -->
+    <property name="facelets.lib"    value="yes"/>
+    <property name="drools.lib"      value="yes"/>
+    <property name="seam.ui.lib"     value="yes"/>    
+    <property name="jcaptcha.lib"    value="yes"/>
+	
+    <import file="../build.xml"/>
 
 </project>
 
