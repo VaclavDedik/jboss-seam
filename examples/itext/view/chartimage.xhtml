@@ -25,19 +25,44 @@
         </h:inputText>
         <br />
 
+        Orientation:
+        <h:selectOneMenu value="#{chart.orientation}">             
+            <f:selectItem  itemValue="horizontal" itemLabel="horizontal"/>  
+            <f:selectItem  itemValue="vertical" itemLabel="vertical" />  
+            <a:support  event="onchange" reRender="chart" />
+        </h:selectOneMenu> <br />
+
+        <br />
         Height: <h:inputText value="#{chart.height}" /> 
         Width: <h:inputText value="#{chart.width}" /> <br />
         Category Label: <h:inputText value="#{chart.categoryAxisLabel}" /> 
         Value Label: <h:inputText value="#{chart.valueAxisLabel}" />  <br />
 
 
+        plotBackground: 
+        <h:selectOneMenu value="#{chart.plotBackgroundPaint}">             
+            <s:selectItems value="#{colors}" var="i" label="#{i}"
+                           noSelectionLabel="Default ... "/> 
+            <a:support  event="onchange" reRender="chart" />
+        </h:selectOneMenu> <br />
 
+        borderPaint: 
+        <h:selectOneMenu value="#{chart.borderPaint}">             
+            <f:selectItem  itemValue="red" itemLabel="red"/>  
+            <f:selectItem  itemValue="blue" itemLabel="blue"/>  
+            <f:selectItem  itemValue="green" itemLabel="green"/>  
+            <f:selectItem  itemValue="black" itemLabel="black"/>  
+            <a:support  event="onchange" reRender="chart" />
+        </h:selectOneMenu> <br />
+        
 
         3D: <h:selectBooleanCheckbox value="#{chart.is3d}">
                 <a:support  event="onchange" reRender="chart" />
             </h:selectBooleanCheckbox>
-
         Legend: <h:selectBooleanCheckbox value="#{chart.legend}">
+                <a:support  event="onchange" reRender="chart" />
+            </h:selectBooleanCheckbox>
+        Border: <h:selectBooleanCheckbox value="#{chart.borderVisible}">
                 <a:support  event="onchange" reRender="chart" />
             </h:selectBooleanCheckbox>
         <br />
@@ -46,11 +71,16 @@
     </h:form>
 
     <a:outputPanel id="chart">
-        <p:barchart title="#{chart.title}"  orientation="vertical"
+        <p:barchart title="#{chart.title}"  orientation="#{chart.orientation}"
                     is3D="#{chart.is3d}"   legend="#{chart.legend}" 
                     width="#{chart.width}" height="#{chart.height}" 
                     categoryAxisLabel="#{chart.categoryAxisLabel}"
-                    valueAxisLabel="#{chart.valueAxisLabel}">
+                    valueAxisLabel="#{chart.valueAxisLabel}"
+                    borderVisible="#{chart.borderVisible}"
+                    borderPaint="#{chart.borderPaint}"
+                    borderBackgroundPaint="#{chart.borderBackgroundPaint}"
+                    plotOutlinePaint="#{plotOutlinePaint}"
+                    plotBackgroundPaint="#{chart.plotBackgroundPaint}">
             <p:series key="data1" seriesPaint="blue" seriesStroke="dot2"
                       seriesFillPaint="red" seriesVisibleInLegend="true"
                       seriesOutlinePaint="pink" seriesOutlineStroke="dot1">
@@ -62,6 +92,12 @@
             <p:series key="data2" seriesPaint="green"  seriesStroke="dot2">
                 <ui:repeat value="#{data.pieData}" var="item">
                     <p:data columnKey="#{item.name}" value="#{item.value+10}" />
+                </ui:repeat>
+            </p:series>
+
+            <p:series key="data3">
+                <ui:repeat value="#{data.pieData}" var="item">
+                    <p:data columnKey="#{item.name}" value="#{item.value-5}" />
                 </ui:repeat>
             </p:series>
         </p:barchart>

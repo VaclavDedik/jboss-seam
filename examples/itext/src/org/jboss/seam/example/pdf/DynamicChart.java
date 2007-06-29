@@ -9,9 +9,16 @@ public class DynamicChart{
     boolean is3d = false;
     boolean legend = true;
     
+    String title = "Dynamic Chart";
     String categoryAxisLabel = "Default Category Label"; 
     String valueAxisLabel = "Default Value Label";
-    String title = "Dynamic Chart";
+    
+    String orientation = "vertical";
+    String plotBackgroundPaint;
+    String plotOutlinePaint;
+    String borderPaint;
+    String borderBackgroundPaint;
+    
     
     float height = 300;
     float width  = 400;    
@@ -80,6 +87,46 @@ public class DynamicChart{
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getOrientation() {
+        return orientation;
+    }
+
+    public void setOrientation(String orientation) {
+        this.orientation = orientation;
+    }
+
+    public String getBorderBackgroundPaint() {
+        return borderBackgroundPaint;
+    }
+
+    public void setBorderBackgroundPaint(String borderBackgroundPaint) {
+        this.borderBackgroundPaint = borderBackgroundPaint;
+    }
+
+    public String getBorderPaint() {
+        return borderPaint;
+    }
+
+    public void setBorderPaint(String borderPaint) {
+        this.borderPaint = borderPaint;
+    }
+
+    public String getPlotBackgroundPaint() {
+        return plotBackgroundPaint;
+    }
+
+    public void setPlotBackgroundPaint(String plotBackgroundPaint) {
+        this.plotBackgroundPaint = plotBackgroundPaint;
+    }
+
+    public String getPlotOutlinePaint() {
+        return plotOutlinePaint;
+    }
+
+    public void setPlotOutlinePaint(String plotOutlinePaint) {
+        this.plotOutlinePaint = plotOutlinePaint;
     }
 
 
