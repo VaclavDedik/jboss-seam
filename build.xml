@@ -519,7 +519,7 @@
 		<ant dir="examples/messages" target="tomcat.undeploy" inheritall="false" />
 		<ant dir="examples/todo" target="undeploy.tomcat" inheritall="false" />
 		<ant dir="examples/drools" target="tomcat.undeploy" inheritall="false" />
-		<ant dir="examples/numberguess" target="undeploy.tomcat" inheritall="false" />
+		<ant dir="examples/numberguess" target="tomcat.undeploy" inheritall="false" />
 		<ant dir="examples/quartz" target="undeploy.tomcat" inheritall="false" />
 		<ant dir="examples/remoting/gwt" target="undeploy.tomcat" inheritall="false" />
 	</target>
