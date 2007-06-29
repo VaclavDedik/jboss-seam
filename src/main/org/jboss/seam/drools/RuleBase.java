@@ -85,20 +85,25 @@ public class RuleBase
    {
       return ruleBase;
    }
+   
    public String[] getRuleFiles()
    {
       return ruleFiles;
    }
+   
    public void setRuleFiles(String[] ruleFiles)
    {
       this.ruleFiles = ruleFiles;
    }
+   
    public String getDslFile()
    {
       return dslFile;
    }
+   
    public void setDslFile(String dslFile)
    {
       this.dslFile = dslFile;
    }
+   
 }

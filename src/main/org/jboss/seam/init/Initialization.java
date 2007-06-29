@@ -231,6 +231,8 @@ public class Initialization
                //there is no class implied by the XML element name so the
                //component must be defined some other way, assume that we are
                //just adding configuration, don't add a ComponentDescriptor 
+               //TODO: this is problematic, it results in elements getting 
+               //      ignored when mis-spelled or given the wrong namespace!!
                className = null;
             }
 
