@@ -69,6 +69,7 @@ Annotations have also been reorganized:
 * @Restrict moved to org.jboss.seam.annotations.security
 * Exception handling annotations moved to 
           org.jboss.seam.annotations.exception
+* Use @BypassInterceptors instead of @Intercept(NEVER)
 
 Migration of components.xml
 ---------------------------
