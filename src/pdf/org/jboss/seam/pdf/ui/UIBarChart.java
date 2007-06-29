@@ -68,6 +68,10 @@ public class UIBarChart
         this.is3D = true;
     }
     
+    public boolean getIs3D() {
+        return (Boolean) valueBinding("is3D", is3D);
+    }
+    
     @Override
     public void restoreState(FacesContext context, Object state)
     {
@@ -125,8 +129,8 @@ public class UIBarChart
     }
 
     @Override
-    public JFreeChart createChart(FacesContext context) {        
-        if (!is3D) {
+    public JFreeChart createChart(FacesContext context) {    
+        if (!getIs3D()) {
             return ChartFactory.createBarChart(getTitle(),
                     getCategoryAxisLabel(),
                     getValueAxisLabel(),
@@ -136,7 +140,7 @@ public class UIBarChart
                     false,
                     false);
         } else {
-            return ChartFactory.createBarChart3D(title,
+            return ChartFactory.createBarChart3D(getTitle(),
                     getCategoryAxisLabel(),
                     getValueAxisLabel(),
                     dataset,
