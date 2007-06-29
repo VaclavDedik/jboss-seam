@@ -16,13 +16,7 @@
         <ejb>jboss-seam-todo.jar</ejb>
     </module>
     <module>
-        <java>jboss-seam.jar</java>
-    </module>
-    <module>
-        <java>jbpm-jpdl.jar</java>
-    </module>
-    <module>
-        <java>jboss-el.jar</java>
+        <ejb>jboss-seam.jar</ejb>
     </module>
 
 </application>
