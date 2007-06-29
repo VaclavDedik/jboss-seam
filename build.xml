@@ -3,29 +3,25 @@
 
 	<tstamp />
 
-
-	<!-- Allow this to be overriden by others importing this project. -->
-	<dirname property="imported.basedir" file="${ant.file.Seam}" />
-
 	<!-- If build.properties doesn't exist, create it by copying build.properties.sample -->
 	<condition property="copy.default.properties">
 		<and>
-			<available file="${imported.basedir}/build.properties.sample" />
+			<available file="${basedir}/build.properties.sample" />
 			<not>
-				<available file="${imported.basedir}/build.properties" />
+				<available file="${basedir}/build.properties" />
 			</not>
 		</and>
 	</condition>
 
-	<copy todir="${imported.basedir}">
-		<fileset dir="${imported.basedir}">
+	<copy todir="${basedir}">
+		<fileset dir="${basedir}">
 			<include name="build.properties.sample" if="copy.default.properties" />
 		</fileset>
 		<mapper type="glob" from="build.properties.sample" to="build.properties" />
 	</copy>
 
 	<!-- Give user a chance to override without editing this file or typing -D -->
-	<property file="${imported.basedir}/build.properties" />
+	<property file="${basedir}/build.properties" />
 
 	<condition property="version" value="${DSTAMP}">
 		<not>
@@ -37,7 +33,6 @@
 			<isset property="patchelevel" />
 		</not>
 	</condition>
-
 
 	<!-- Name of project and version, used to create filenames -->
 	<property name="Name" value="JBoss Seam" />
@@ -60,12 +55,12 @@
 	<property name="coverage.dir" value="${build.dir}/coverage" />
 
 	<property name="trinidad.dir" value="trinidad" />
-	<property name="mail.dir" value="${imported.basedir}/mail" />
+	<property name="mail.dir" value="${basedir}/mail" />
 	<property name="meldware.dir" value="${mail.dir}/buni-meldware" />
 
 	<property name="src.java.dir" value="src/main" />
 	<property name="src.ui.dir" value="ui/src" />
-	<property name="src.schema.dir" value="${imported.basedir}/src/main/org/jboss/seam" />
+	<property name="src.schema.dir" value="${basedir}/src/main/org/jboss/seam" />
 	<property name="ui.dir" value="ui" />
 	<property name="src.pdf.dir" value="src/pdf" />
 	<property name="src.ioc.dir" value="src/ioc" />
@@ -75,16 +70,15 @@
 	<property name="src.remoting.dir" value="src/remoting" />
 	<property name="src.test.dir" value="src/test/misc" />
 
-	<property name="lib.dir" value="${imported.basedir}/lib" />
-	<property name="drools.lib.dir" value="${imported.basedir}/drools/lib" />
-	<property name="trinidad.lib.dir" value="${imported.basedir}/trinidad/lib" />
+	<property name="lib.dir" value="${basedir}/lib" />
+	<property name="drools.lib.dir" value="${basedir}/drools/lib" />
+	<property name="trinidad.lib.dir" value="${basedir}/trinidad/lib" />
 	<property name="meldware.lib.dir" value="${meldware.dir}/lib" />
-	<property name="eejb.conf.dir" value="${imported.basedir}/bootstrap" />
-	<property name="example.coverage.dir" value="${imported.basedir}/build/coverage" />
-	<property name="drools.dir" value="${imported.basedir}/drools" />
-	<property name="hibernate.dir" value="${imported.basedir}/hibernate" />
+	<property name="eejb.conf.dir" value="${basedir}/bootstrap" />
+	<property name="drools.dir" value="${basedir}/drools" />
+	<property name="hibernate.dir" value="${basedir}/hibernate" />
 
-	<property name="seamgen.dir" value="${imported.basedir}/seam-gen" />
+	<property name="seamgen.dir" value="${basedir}/seam-gen" />
 
 	<property name="doc.dir" value="doc" />
 	<property name="doc.api.dir" value="${doc.dir}/api" />
@@ -93,7 +87,7 @@
 
 	<property name="dist.name" value="${name}-${version}.${patchlevel}" />
 
-	<property name="dist.dir" value="${imported.basedir}/../${dist.name}" />
+	<property name="dist.dir" value="${basedir}/../${dist.name}" />
 	<property name="dist.ui.dir" value="${dist.dir}/ui" />
 	<property name="dist.doc.dir" value="${dist.dir}/doc" />
 	<property name="dist.api.dir" value="${dist.dir}/doc/api" />
@@ -120,253 +114,24 @@
 	<property name="conf.dir" value="${jboss.home}/server/default/conf" />
 	<property name="webroot.dir" value="${deploy.dir}/jbossweb-tomcat55.sar/ROOT.war" />
 
-	<property name="testng.jar" value="${imported.basedir}/lib/testng-5.6-jdk15.jar" />
+	<property name="testng.jar" value="${basedir}/lib/testng-5.6-jdk15.jar" />
 
 	<property name="javac.debug" value="true" />
 	<property name="javac.deprecation" value="false" />
 
-	<property name="example.docroot.dir" value="view" />
-	<property name="example.resources.dir" value="resources" />
-	<property name="example.webinf.dir" value="${example.resources.dir}/WEB-INF" />
-	<property name="example.webinf.lib.dir" value="${example.resources.dir}/WEB-INF/lib" />
-	<property name="example.ds" value="${example.name}-ds.xml" />
-	<property name="validate.resources.dir" value="${example.resources.dir}" />
-	
-	<condition property="validate.xml.enabled">
-			<istrue value="${validate.xml}"/>
-	</condition>
-
-	<path id="example.path" />
-	<fileset id="example.local.jar" dir=".">
-		<exclude name="**/*" />
-	</fileset>
-
-	<fileset id="lib" dir="${imported.basedir}" description="compile-time dependencies">
+	<fileset id="lib" dir="${basedir}" description="compile-time dependencies">
 		<include name="lib/*.jar" />
 		<include name="drools/lib/*.jar" />
 		<include name="mail/buni-meldware/lib/*.jar" />
 	</fileset>
 
-	<zipfileset id="example.seam.misc.jar" dir="${imported.basedir}" prefix="WEB-INF/lib" description="the Seam jars">
-		<include name="jboss-seam-debug.jar" if="example.seam.debug.lib" />
-		<include name="jboss-seam-ui.jar" if="example.seam.ui.lib" />
-		<include name="jboss-seam-pdf.jar" if="example.seam.pdf.lib" />
-		<include name="jboss-seam-ioc.jar" if="example.seam.ioc.war.lib" />
-		<include name="jboss-seam-mail.jar" if="example.seam.mail.lib" />
-		<include name="jboss-seam-remoting.jar" if="example.seam.remoting.lib" />
-	</zipfileset>
-
-	<zipfileset id="example.seam.ui.jar" dir="${lib.dir}" prefix="WEB-INF/lib" description="the jars needed for seam ui">
-		<include name="commons-beanutils*.jar" if="example.seam.ui.lib" />
-	</zipfileset>
-
-	<zipfileset id="example.itext.jar" dir="${lib.dir}" prefix="WEB-INF/lib" description="the itext jar">
-		<include name="itext-*.jar" if="example.seam.pdf.lib" />
-		<include name="jfreechart-*.jar" if="example.seam.pdf.lib" />
-		<include name="jcommon-*.jar" if="example.seam.pdf.lib" />
-	</zipfileset>
-
-	<zipfileset id="example.gwt.jar" dir="${lib.dir}" description="The GWT runtime">
-		<include name="gwt-servlet.jar" if="example.gwt.lib" />
-	</zipfileset>
-
-	<zipfileset id="example.quartz.jar" dir="${lib.dir}" description="The Quartz Jar">
-		<include name="quartz-1.6.0.jar" if="example.quartz.lib" />
-	</zipfileset>
-
-	<!-- prefix="WEB-INF/lib" -->
-	<zipfileset id="example.spring.jar" dir="${lib.dir}" description="the spring jar">
-		<include name="spring*.jar" if="example.spring.lib" />
-	</zipfileset>
-
-	<zipfileset id="example.seam.main.jar" dir="${imported.basedir}" description="the main Seam jar">
+	<fileset id="seam.jar" dir="${basedir}">
 		<include name="${name}.jar" />
-	</zipfileset>
-
-	<zipfileset id="example.seam.ioc.main.jar" dir="${imported.basedir}" description="the ioc Seam jar">
-		<include name="${name}-ioc.jar" if="example.seam.ioc.main.lib" />
-	</zipfileset>
-
-	<zipfileset id="example.facelets.jar" dir="${lib.dir}" prefix="WEB-INF/lib" description="the facelets jar">
-		<include name="jsf-facelets.jar" if="example.facelets.lib" />
-	</zipfileset>
-
-	<zipfileset id="example.ajax4jsf.jar" dir="${lib.dir}" prefix="WEB-INF/lib" description="the Ajax4JSF jar">
-		<include name="ajax4jsf*.jar" if="example.ajax4jsf.lib" />
-		<include name="commons*.jar" if="example.ajax4jsf.lib" />
-	</zipfileset>
-
-	<zipfileset id="example.trinidad.impl.jar" dir="${trinidad.lib.dir}" prefix="WEB-INF/lib" description="trinidad implementation">
-		<include name="trinidad-impl-*.jar" if="example.trinidad.lib" />
-		<include name="a4j-trinidad.jar" if="example.trinidad.lib and example.ajax4jsf.lib" />
-	</zipfileset>
-
-	<zipfileset id="example.trinidad.api.jar" dir="${trinidad.lib.dir}" description="trinidad api">
-		<include name="trinidad-api-*.jar" />
-	</zipfileset>
-
-	<zipfileset id="example.extra.jar" dir="${lib.dir}" description="extra jars for the EAR">
-		<!-- <include name="el-*.jar" /> -->
-		<include name="jboss-el.jar" />
-		<include name="jbpm*.jar" if="example.jbpm.lib" />
-		<include name="jboss-cache-jdk50.jar" if="example.cache.lib" />
-		<include name="jboss-aop-jdk50.jar" if="example.cache.lib" />
-		<include name="jgroups.jar" if="example.cache.lib" />
-		<include name="lucene*.jar" if="example.search.lib" />
-		<include name="hibernate-search.jar" if="example.search.lib" />
-		<include name="hibernate-commons-annotations.jar" if="example.search.lib" />
-	</zipfileset>
-
-	<zipfileset id="example.drools.jar" dir="${drools.lib.dir}" description="the Drools jars">
-		<include name="*.jar" if="example.drools.lib" />
-	</zipfileset>
-
-	<zipfileset id="example.jcaptcha.jar" dir="${lib.dir}" description="JCaptcha jar">
-		<include name="jcaptcha-all*.jar" if="example.jcaptcha.lib" />
-	</zipfileset>
-
-	<zipfileset id="example.urlrewrite.jar" dir="${lib.dir}" prefix="WEB-INF/lib" description="URL Rewrite Filter jar">
-		<include name="urlrewrite*.jar" if="example.urlrewrite.lib" />
-	</zipfileset>
-
-	<fileset id="example.resources" dir="${example.resources.dir}">
-		<include name="**/*.*" />
 	</fileset>
-
-	<zipfileset id="example.war.docroot" dir="${example.docroot.dir}">
-		<include name="**/*" />
-	</zipfileset>
-
-	<zipfileset id="example.war.webinf" prefix="WEB-INF" dir="${example.webinf.dir}">
-		<patternset refid="meta.files" />
-	</zipfileset>
-
-	<zipfileset id="example.war.webinf.lib" prefix="WEB-INF/lib" dir="${example.webinf.lib.dir}">
-		<include name="*.jar" />
-	</zipfileset>
-
-	<fileset id="example.ejb3.resources" dir="${example.resources.dir}">
-		<include name="import.sql" />
-		<include name="seam.properties" />
-		<include name="META-INF/persistence.xml" />
-		<include name="META-INF/ejb-jar.xml" />
-		<include name="META-INF/orm.xml" />
-		<include name="META-INF/components.xml" />
-		<include name="META-INF/jboss.xml" />
-		<include name="META-INF/security-config.xml" />
-		<include name="META-INF/security-rules.drl" />
-		<include name="META-INF/standard-jaxws-endpoint-config.xml" />
-	</fileset>
-
-	<zipfileset id="example.ear.resources" dir="${example.resources.dir}">
-		<include name="META-INF/application.xml" />
-		<include name="META-INF/jboss-app.xml" />
-		<include name="META-INF/*-service.xml" />
-		<include name="META-INF/*-xmbean.xml" />
-		<include name="treecache.xml" />
-		<include name="*.jpdl.xml" />
-		<exclude name=".gpd.*" />
-		<include name="*.cfg.xml" />
-		<include name="*.xsd" />
-		<include name="*.drl" />
-	</zipfileset>
-
-	<fileset id="example.deploy" dir="${example.resources.dir}">
-		<include name="${example.ds}" />
-	</fileset>
-
-	<patternset id="example.undeploy">
-		<include name="${example.ds}" />
-	</patternset>
-
-	<zipfileset id="meldware.mail.deploy" dir="${meldware.dir}" description="Mail server from meldware">
-		<include name="_mail.ear" if="example.seam.meldware.mail" />
-		<include name="meldwarebase.sar" if="example.seam.meldware.mail" />
-	</zipfileset>
-
-	<zipfileset id="meldware.deploy" dir="${meldware.dir}" description="The entire meldware server">
-		<include name="_calendar.ear" if="example.seam.meldware" />
-		<include name="_mail.ear" if="example.seam.meldware" />
-		<include name="meldwarebase.sar" if="example.seam.meldware" />
-		<include name="webadmin.war" if="example.seam.meldware" />
-		<include name="webmail.war" if="example.seam.meldware" />
-	</zipfileset>
-
-	<zipfileset id="meldware.conf.deploy" dir="${meldware.dir}" description="The meldware key store">
-		<include name="meldware.store" if="example.seam.meldware" />
-		<include name="meldware.store" if="example.seam.meldware.mail" />
-	</zipfileset>
-
-	<patternset id="meldware.undeploy">
-		<include name="_calendar.ear" if="example.seam.meldware" />
-		<include name="_mail.ear" if="example.seam.meldware" />
-		<include name="meldwarebase.sar" if="example.seam.meldware" />
-		<include name="webadmin.war" if="example.seam.meldware" />
-		<include name="webmail.war" if="example.seam.meldware" />
-	</patternset>
-
-	<patternset id="meldware.mail.undeploy">
-		<include name="_mail.ear" if="example.seam.meldware.mail" />
-		<include name="meldwarebase.sar" if="example.seam.meldware.mail" />
-	</patternset>
-
-	<zipfileset id="example.tomcat.war.webinf" prefix="WEB-INF" dir="resources/WEB-INF">
-		<include name="**/*.*" />
-	</zipfileset>
-
-	<fileset id="example.tomcat.resources" dir="resources">
-		<include name="**/*.*" />
-		<exclude name="WEB-INF/**/*.*" />
-	</fileset>
-
-	<zipfileset id="example.tomcat.lib" prefix="WEB-INF/lib" dir="${lib.dir}" description="run-time dependencies for tomcat deployment">
-		<include name="*.jar" />
-		<exclude name="jsf-facelets*.jar" />
-		<exclude name="jboss-*-jdk50.jar" />
-		<exclude name="richfaces*.jar" />
-		<exclude name="ajax4jsf*.jar" />
-		<exclude name="jgroups*.jar" />
-		<exclude name="jbpm*.jar" />
-		<exclude name="jsp-api.jar" />
-		<exclude name="jboss-el-api.jar" />
-		<exclude name="servlet-api.jar" />
-		<exclude name="ant*.jar" />
-		<exclude name="testng-*.jar" />
-		<exclude name="jboss-embedded-all.jar" />
-		<exclude name="hibernate-all.jar" />
-		<exclude name="thirdparty-all.jar" />
-		<exclude name="x*.jar"/>
-	</zipfileset>
-
-	<zipfileset id="example.tomcat.seam.jar" prefix="WEB-INF/lib" dir="${imported.basedir}">
-		<include name="${name}.jar" />
-		<include name="jboss-seam-debug.jar" if="example.seam.debug.lib" />
-		<include name="jboss-seam-ui.jar" if="example.seam.ui.lib" />
-		<include name="jboss-seam-pdf.jar" if="example.seam.pdf.lib" />
-		<include name="jboss-seam-ioc.jar" if="example.seam.ioc.war.lib" />
-		<include name="jboss-seam-remoting.jar" if="example.seam.remoting.lib" />
-	</zipfileset>
-
-	<zipfileset id="example.tomcat.drools.jar" prefix="WEB-INF/lib" dir="${drools.lib.dir}">
-		<include name="*.jar" if="example.drools.lib" />
-	</zipfileset>
-
-	<zipfileset id="example.tomcat.extra.jar" prefix="WEB-INF/lib" dir="${lib.dir}">
-		<include name="jsf-facelets.jar" if="example.facelets.lib" />
-		<include name="jboss-cache-jdk50.jar" if="example.cache.lib" />
-		<include name="jboss-aop-jdk50.jar" if="example.cache.lib" />
-		<include name="jgroups.jar" if="example.cache.lib" />
-		<include name="jbpm*.jar" if="example.jbpm.lib" />
-		<include name="spring*.jar" if="example.ioc.lib" />
-		<include name="gwt-servlet.jar" if="example.gwt.lib" />
-		<include name="ajax4jsf*.jar" if="example.ajax4jsf.lib" />
-		<include name="commons*.jar" if="example.ajax4jsf.lib" />
-	</zipfileset>
 
 	<path id="build.classpath">
-		<path refid="example.path" />
 		<fileset refid="lib" />
-		<fileset refid="example.seam.main.jar" />
+		<fileset refid="seam.jar" />
 	</path>
 
 	<property name="test.classpath" value="test.classpath" />
@@ -387,11 +152,6 @@
 	<path id="classpath.emma">
 		<pathelement location="${basedir}/extras/emma/emma.jar" />
 		<pathelement location="${basedir}/extras/emma/emma_ant.jar" />
-	</path>
-
-	<path id="example.classpath.emma">
-		<pathelement location="${imported.basedir}/extras/emma/emma.jar" />
-		<pathelement location="${imported.basedir}/extras/emma/emma_ant.jar" />
 	</path>
 
 	<fileset id="eejb.conf" dir="${eejb.conf.dir}">
@@ -431,15 +191,11 @@
 	</patternset>
 
 	<!-- ############################ Targets #############################-->
-	
+
 	<target name="clean" description="Cleans up the build directory">
 		<delete dir="${build.dir}" />
 		<delete dir="test-output" />
 		<delete dir="report" />
-		<antcall target="cleanui" />
-	</target>
-
-	<target name="cleanui" unless="example.name">
 		<antcall target="cdk">
 			<param name="maven-target" value="clean" />
 		</antcall>
@@ -465,7 +221,7 @@
 		<ant dir="examples/numberguess" target="clean" inheritall="false" />
 		<ant dir="examples/registration" target="clean" inheritall="false" />
 		<ant dir="examples/todo" target="clean" inheritall="false" />
-		<ant dir="examples/portal" target="clean" inheritall="false" />
+		<!--<ant dir="examples/portal" target="clean" inheritall="false" />-->
 		<ant dir="examples/drools" target="clean" inheritall="false" />
 		<ant dir="examples/remoting/helloworld" target="clean" inheritall="false" />
 		<ant dir="examples/remoting/chatroom" target="clean" inheritall="false" />
@@ -637,12 +393,6 @@
 		<available classname="org.eclipse.jdt.core.JDTCompilerAdapter" property="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter" />
 	</target>
 
-	<target name="compile" depends="init,select-compiler" description="Compile the Java source code of the example">
-		<javac source="1.5" target="1.5" destdir="${classes.dir}" classpathref="build.classpath" debug="${javac.debug}" deprecation="${javac.deprecation}" nowarn="on">
-			<src path="${src.java.dir}" />
-		</javac>
-	</target>
-
 	<target name="compilecore" depends="init,select-compiler,antlr" description="Compile the Java source code for the core package">
 		<javac source="1.5" target="1.5" destdir="${classes.dir}" classpathref="build.classpath" debug="${javac.debug}" deprecation="${javac.deprecation}" nowarn="on">
 			<src path="${src.java.dir}" />
@@ -654,7 +404,7 @@
 			<src path="${src.pdf.dir}" />
 			<classpath>
 				<path refid="build.classpath" />
-				<fileset dir="${imported.basedir}">
+				<fileset dir="${basedir}">
 					<include name="jboss-seam-ui.jar" />
 				</fileset>
 			</classpath>
@@ -675,7 +425,7 @@
 			<src path="${src.mail.dir}" />
 			<classpath>
 				<path refid="build.classpath" />
-				<fileset dir="${imported.basedir}">
+				<fileset dir="${basedir}">
 					<include name="jboss-seam-ui.jar" />
 					<include name="jboss-seam-pdf.jar" />
 				</fileset>
@@ -705,14 +455,14 @@
 		<javac source="1.5" target="1.5" destdir="${classes.dir}" classpathref="build.classpath" debug="${javac.debug}" deprecation="${javac.deprecation}" nowarn="on">
 			<src path="${src.test.dir}" />
 			<classpath>
-				<fileset dir="${imported.basedir}">
+				<fileset dir="${basedir}">
 					<include name="jboss-seam-remoting.jar" />
 				</fileset>
 			</classpath>
 		</javac>
 	</target>
 
-	<target name="testcore" depends="compile,compiletest" description="Run the core unit tests">
+	<target name="testcore" depends="compilecore,compiletest" description="Run the core unit tests">
 
 		<taskdef resource="testngtasks" classpath="${testng.jar}" />
 
@@ -740,7 +490,7 @@
 		<ant dir="examples/registration" target="test" inheritall="false" />
 		<ant dir="examples/todo" target="test" inheritall="false" />
 		<ant dir="examples/blog" target="test" inheritall="false" />
-		<ant dir="examples/portal" target="testexample" inheritall="false" />
+		<!--<ant dir="examples/portal" target="test" inheritall="false" />-->
 
 	</target>
 
@@ -759,32 +509,6 @@
 
 	</target>
 
-	<target name="testexample" depends="validateexample, compile" description="Run the example tests">
-		<taskdef resource="testngtasks" classpath="${testng.jar}" />
-
-		<copy todir="${build.dir}/test">
-			<fileset dir="${classes.dir}" includes="**/*.*" />
-			<fileset refid="example.resources" />
-		</copy>
-
-		<delete dir="test-output" />
-
-		<testng outputdir="test-output">
-			<classpath path="${example.coverage.dir}/classes" />
-			<!-- TODO: ugly! -->
-			<classpath path="${build.dir}/test" />
-			<classpath path="${eejb.conf.dir}" />
-			<classpath refid="${test.classpath}" />
-			<classpath refid="example.classpath.emma" />
-			<xmlfileset dir="${src.test.dir}" includes="**/*.xml" />
-		</testng>
-
-	</target>
-	
-	<target name="validateexample" description="Validate the example configuration files" if="validate.xml.enabled">
-		<ant antfile="${imported.basedir}/validate.xml" target="validateConfiguration" />
-	</target>
-
 	<target name="copysource" description="Copy sources to dist dir">
 		<mkdir dir="${dist.src.java.dir}" />
 		<copy todir="${dist.src.java.dir}">
@@ -799,8 +523,8 @@
 		<mkdir dir="${dist.ui.dir}" />
 		<copy todir="${dist.ui.dir}">
 			<fileset dir="${ui.dir}">
-				<include name="src/**/*"/>
-				<include name="pom.xml"/>
+				<include name="src/**/*" />
+				<include name="pom.xml" />
 			</fileset>
 		</copy>
 
@@ -919,7 +643,7 @@
 		</copy>
 	</target>
 
-	<target name="instrument" depends="compile">
+	<target name="instrument" depends="compilecore">
 
 		<taskdef resource="emma_ant.properties" classpathref="classpath.emma" />
 
@@ -977,7 +701,7 @@
 
 	<target name="copyexamples" description="Copy examples to dist dir">
 		<copy todir="${dist.dir}/examples">
-			<fileset dir="${imported.basedir}/examples">
+			<fileset dir="${basedir}/examples">
 				<include name="booking/**/*" />
 				<exclude name="booking/alter.config" />
 				<exclude name="booking/alter.config/**/*" />
@@ -1001,7 +725,7 @@
 				<include name="groovybooking/**/*" />
 				<include name="quartz/**/*" />
 				<include name="wiki/**/*" />
-				<include name="portal/**/*" />
+				<!--<include name="portal/**/*" />-->
 				<include name="drools/**/*" />
 				<include name="remoting/chatroom/**/*" />
 				<include name="remoting/helloworld/**/*" />
@@ -1187,12 +911,12 @@
 		<copy todir="${doc.ref.dir}/build">
 			<fileset dir="${doc.ref.dir}" />
 		</copy>
-		<replace dir="${doc.ref.dir}/build" token="@version@" value="${version}.${patchlevel}"/>
+		<replace dir="${doc.ref.dir}/build" token="@version@" value="${version}.${patchlevel}" />
 		<ant dir="${doc.ref.dir}/build" inheritall="false" target="all.doc" />
 		<copy todir="${dist.ref.dir}">
 			<fileset dir="${doc.ref.dir}/build/build" />
 		</copy>
-		<delete dir="${doc.ref.dir}/build"/>
+		<delete dir="${doc.ref.dir}/build" />
 	</target>
 
 	<target name="copyseamgen" description="Copy seam-gen directory to dist dir">
@@ -1231,141 +955,6 @@
 		<tar tarfile="${dist.dir}.tar.gz" compression="gzip">
 			<tarfileset prefix="${dist.name}" dir="${dist.dir}" />
 		</tar>
-	</target>
-
-	<!-- ############################ Examples #############################-->
-
-	<fileset id="example.classes" dir="${classes.dir}">
-		<include name="**/*.class" />
-		<include name="**/*.component.xml" />
-		<include name="**/components.xml" />
-		<exclude name="**/test/*.class" />
-	</fileset>
-
-	<target name="war" depends="compile">
-
-		<copy todir="${build.dir}/resources/WEB-INF">
-			<fileset refid="example.war.webinf" />
-			<filterset>
-				<filter token="jndiPattern" value="${example.name}/#{ejbName}/local" />
-			</filterset>
-		</copy>
-
-		<jar destfile="${build.dir}/${example.name}.war">
-			<zipfileset refid="example.war.docroot" />
-			<zipfileset refid="example.war.webinf.lib" />
-			<zipfileset refid="example.seam.ui.jar" />
-			<zipfileset refid="example.seam.misc.jar" />
-			<zipfileset refid="example.facelets.jar" />
-			<zipfileset refid="example.urlrewrite.jar" />
-			<zipfileset refid="example.ajax4jsf.jar" />
-			<zipfileset refid="example.itext.jar" />
-			<zipfileset dir="${build.dir}/resources">
-				<include name="WEB-INF/**/*.*" />
-			</zipfileset>
-		</jar>
-
-	</target>
-
-	<target name="ejb3" depends="compile">
-		<jar jarfile="${build.dir}/${example.name}.jar">
-			<fileset refid="example.classes" />
-			<fileset refid="example.ejb3.resources" />
-		</jar>
-	</target>
-
-	<target name="ear" depends="ejb3, war">
-		<jar destfile="${build.dir}/${example.name}.ear">
-			<fileset refid="example.seam.main.jar" />
-			<fileset refid="example.seam.ioc.main.jar" />
-			<fileset refid="example.drools.jar" />
-			<fileset refid="example.extra.jar" />
-			<fileset refid="example.local.jar" />
-			<fileset refid="example.jcaptcha.jar" />
-			<fileset refid="example.spring.jar" />
-			<fileset refid="example.gwt.jar" />
-			<fileset refid="example.quartz.jar" />
-
-			<zipfileset dir="${build.dir}">
-				<include name="${example.name}.jar" />
-			</zipfileset>
-			<zipfileset dir="${build.dir}">
-				<include name="${example.name}.war" />
-			</zipfileset>
-			<zipfileset refid="example.ear.resources" />
-		</jar>
-	</target>
-
-	<target name="deploy" depends="ear" description="Deploy the example to JBoss">
-		<property name="unit.ext" value="ear" />
-		<fail unless="jboss.home">jboss.home MUST be set. Update build.properties to point to a valid JBoss installation.</fail>
-		<copy todir="${deploy.dir}">
-			<fileset refid="example.deploy" />
-			<fileset refid="meldware.mail.deploy" />
-			<fileset refid="meldware.deploy" />
-		</copy>
-		<copy todir="${conf.dir}">
-			<fileset refid="meldware.conf.deploy" />
-		</copy>
-		<copy file="${build.dir}/${example.name}.${unit.ext}" todir="${deploy.dir}" />
-	</target>
-
-	<target name="undeploy" description="Undeploy the example from JBoss">
-		<property name="unit.ext" value="ear" />
-		<delete file="${deploy.dir}/${example.name}.${unit.ext}" />
-		<delete>
-			<fileset dir="${deploy.dir}">
-				<patternset refid="example.undeploy" />
-				<patternset refid="meldware.undeploy" />
-				<patternset refid="meldware.mail.undeploy" />
-			</fileset>
-		</delete>
-	</target>
-
-	<!-- ############################ Tomcat! #############################-->
-
-	<target name="war.tomcat" depends="compile">
-		<mkdir dir="${build.dir}/${example.name}/WEB-INF/lib" />
-
-		<jar jarfile="${build.dir}/${example.name}.jar">
-			<fileset refid="example.classes" />
-			<fileset refid="example.tomcat.resources" />
-		</jar>
-
-		<copy todir="${build.dir}/resources/WEB-INF">
-			<fileset refid="example.tomcat.war.webinf" />
-			<filterset>
-				<filter token="jndiPattern" value="#{ejbName}/local" />
-			</filterset>
-		</copy>
-
-		<jar destfile="${build.dir}/${example.name}.war" duplicate="preserve">
-			<zipfileset refid="example.tomcat.lib" />
-			<zipfileset refid="example.tomcat.seam.jar" />
-			<zipfileset refid="example.tomcat.drools.jar" />
-			<zipfileset refid="example.tomcat.extra.jar" />
-			<zipfileset refid="example.war.docroot" />
-			<zipfileset refid="example.war.webinf.lib" />
-			<zipfileset dir="${build.dir}/resources">
-				<include name="WEB-INF/**/*.*" />
-				<exclude name="WEB-INF/lib/*.jar" />
-			</zipfileset>
-			<zipfileset dir="${build.dir}" prefix="WEB-INF/lib">
-				<include name="${example.name}.jar" />
-			</zipfileset>
-		</jar>
-
-	</target>
-
-	<target name="deploy.tomcat" depends="undeploy.tomcat,war.tomcat" description="Deploy the example to Tomcat">
-		<echo>Don't forget to set the path of tomcat.home to Tomcat root directory !</echo>
-		<copy file="${build.dir}/${example.name}.war" todir="${tomcat.home}/webapps" />
-		<echo>After you start Tomcat, the example will be available at: http://localhost:8080/${example.name}</echo>
-	</target>
-
-	<target name="undeploy.tomcat" description="Undeploy the example from Tomcat">
-		<delete file="${tomcat.home}/webapps/${example.name}.war" />
-		<delete dir="${tomcat.home}/webapps/${example.name}" />
 	</target>
 
 </project>
