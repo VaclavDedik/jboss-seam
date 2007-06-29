@@ -15,6 +15,8 @@ import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.core.Validators;
 import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.faces.FacesMessages;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 
 /**
  * Metadata for a &lt;param/&gt; in pages.xml
@@ -24,6 +26,8 @@ import org.jboss.seam.faces.FacesMessages;
  */
 public final class Param
 {
+   private static final LogProvider log = Logging.getLogProvider(Param.class);
+   
    private final String name;
    private ValueExpression valueExpression;
    
@@ -139,6 +143,7 @@ public final class Param
          catch (RuntimeException re)
          {
             //YUCK! due to bad JSF/MyFaces error handling
+            log.warn("could not create converter for: " + name, re);
             return null;
          }
          
@@ -190,6 +195,7 @@ public final class Param
       catch (RuntimeException re)
       {
          //YUCK! due to bad JSF/MyFaces error handling
+         log.warn("could not create converter for: " + name, re);
          return null;
       }
       
