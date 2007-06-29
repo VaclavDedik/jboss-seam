@@ -8,29 +8,17 @@
 
   <module>
     <web>
-      <web-uri>seam-bay.war</web-uri>
+      <web-uri>jboss-seam-bay.war</web-uri>
       <context-root>/seam-bay</context-root>
     </web>
   </module>
   
   <module>
-    <ejb>seam-bay.jar</ejb>
+    <ejb>jboss-seam-bay.jar</ejb>
   </module>
   
   <module>
-    <java>jboss-seam.jar</java>
-  </module>
-  
-  <module>
-    <java>jcaptcha-all-1.0-RC6.jar</java>
-  </module>
-
-  <module>
-    <java>jboss-el.jar</java>
-  </module>
-  
-  <module>
-    <java>jbpm-jpdl.jar</java>
+    <ejb>jboss-seam.jar</ejb>
   </module>
   
 </application>

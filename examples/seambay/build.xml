@@ -4,22 +4,17 @@
 
     <!-- Example name -->
     <property name="Name"                    value="SeamBay Example"/>
-    <property name="example.name"            value="seam-bay"/>
+    <property name="example.name"            value="jboss-seam-bay"/>
 
-    <!-- Overrides -->
-    <property name="example.webinf.lib.dir"  value="."/>
-    <property name="example.facelets.lib"    value="yes"/>
-    <property name="example.seam.ui.lib"     value="yes"/>
-    <property name="example.seam.debug.lib"  value="yes"/>
-    <property name="example.jcaptcha.lib"    value="yes"/>
-    <property name="example.urlrewrite.lib"  value="yes"/>
-    <property name="example.jbpm.lib"        value="yes"/>    
-    <property name="example.ds"              value="seambay-ds.xml"/>
-    <property name="src.java.dir"            value="src"/>
-    <property name="src.test.dir"            value="src"/>
-    <property name="test.classpath"          value="test.eejb.classpath"/>
+    <!-- Libraries -->
+    <property name="facelets.lib"    value="yes"/>
+    <property name="seam.ui.lib"     value="yes"/>
+    <property name="seam.debug.lib"  value="yes"/>
+    <property name="jcaptcha.lib"    value="yes"/>
+    <property name="urlrewrite.lib"  value="yes"/>
+    <property name="jbpm.lib"        value="yes"/>    
 
-    <import file="../../build.xml"/>
+    <import file="../build.xml"/>
 
 </project>
 
