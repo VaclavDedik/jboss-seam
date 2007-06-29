@@ -1,0 +1,41 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:s="http://jboss.com/products/seam/taglib"
+      template="template.xhtml"
+      >
+	<ui:param name="tagName" value="s:selectItems" />
+	<ui:define name="body">
+	<p>
+		Here you can select which countries belong to which continets.  This
+		demonstrates using <code>s:selectItems</code> in a <code>h:dataTable</code>.
+	</p>
+	
+
+	<h:form>
+	
+		<h:dataTable value="#{continents.dataModel}" var="continent">
+			<h:column>
+				<f:facet name="header">
+					Continent
+				</f:facet>
+				<h:outputText value="#{continent.name}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					Countries
+				</f:facet>
+				<h:selectManyListbox value="#{continent.countries}" size="3">
+					<s:selectItems value="#{countries.resultList}" var="country" label="#{country.name}" />
+					<s:convertEntity />
+				</h:selectManyListbox>
+			</h:column>
+		</h:dataTable>
+		<h:commandButton value="Apply" action="#{personHome.update}">
+			<s:conversationPropagation type="join" />
+		</h:commandButton>
+		
+	</h:form>
+</ui:define>
+</ui:composition>

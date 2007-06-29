@@ -45,6 +45,7 @@ import org.jboss.seam.ui.converter.NoSelectionConverter;
 public abstract class UISelectItems extends javax.faces.component.UISelectItems {
    
    private Object value;
+   private Object originalValue;
    
    private class NullableSelectItem extends javax.faces.model.SelectItem
    {
@@ -90,9 +91,9 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
    @Override
    public Object getValue()
    {
-      if (value == null)
+      if (value == null || originalValue == null || !originalValue.equals(super.getValue()))
       {
-         Object originalValue = super.getValue();
+         originalValue = super.getValue();
          
          if (originalValue instanceof Iterable)
          {
