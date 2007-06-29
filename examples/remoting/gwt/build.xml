@@ -1,57 +1,60 @@
 <?xml version="1.0"?>
 
-<project name="SeamGWT" default="deploy" basedir="." xmlns:gwt="antlib:de.samaflost.gwttasks">
+<project name="GWT" default="deploy" basedir="." xmlns:gwt="antlib:de.samaflost.gwttasks">
 
-  <!-- Example name -->
-  <property name="Name"                   value="Seam Remoting GWT Example"/>
-  <property name="example.name"           value="seam-gwt"/>
+	<!-- Example name -->
+	<property name="Name" value="Seam Remoting GWT Example" />
+	<property name="example.name" value="jboss-seam-gwt" />
 
-  <!-- Overrides -->
-  <property name="example.webinf.lib.dir"    value="."/>
-  <property name="example.seam.remoting.lib" value="yes"/>
-  <property name="example.gwt.lib"           value="yes"/>
-  <property name="src.java.dir"              value="src"/>
-  <property name="src.test.dir"              value="src"/>
-  <property name="test.classpath"            value="test.eejb.classpath"/>
+	<!-- Overrides -->
+	<property name="seam.remoting.lib" value="yes" />
+	<property name="gwt.lib" value="yes" />
 
-  <import file="../../../build.xml"/>
+	<import file="../../build.xml" />
 
-	<taskdef uri="antlib:de.samaflost.gwttasks"
-	              resource="de/samaflost/gwttasks/antlib.xml"
-	              classpath="./lib/gwttasks.jar"/>
-	  
-	<property file="build.properties"/>
-	
+	<!-- EXTRAS -->
+	<taskdef 
+		uri="antlib:de.samaflost.gwttasks" 
+		resource="de/samaflost/gwttasks/antlib.xml" 
+		classpath="./lib/gwttasks.jar" />
+
+	<property file="build.properties" />
+
 	<!-- the "class bass" name of the gwt module you are including -->
-	<property name="gwt.module.name" value="org.jboss.seam.example.remoting.gwt.HelloWorld"/>
+	<property 
+		name="gwt.module.name" 
+		value="org.jboss.seam.example.remoting.gwt.HelloWorld" />
 
-	
-	
+
+
 	<!-- the following are are handy utilities for doing GWT development.
     	To use GWT, you will of course need to download GWT seperately -->
 	<target name="gwt-compile">
-		<!-- in this case, we are "re homing" the gwt generated stuff, so in this case
-		we can only have one GWT module - we are doing this deliberately to keep the URL short -->
+		<!-- in this case, we are "re homing" the gwt generated stuff, so in 
+		this case we can only have one GWT module - we are doing this deliberately
+		to keep the URL short -->
 		<delete>
-			<fileset dir="view"/>
+			<fileset dir="view" />
 		</delete>
-		<gwt:compile outDir="build/gwt" 
+		<gwt:compile 
+			outDir="build/gwt" 
 			gwtHome="${gwt.home}" 
 			classBase="${gwt.module.name}" 
-			sourceclasspath="src"/>
+			sourceclasspath="src" />
 		<copy todir="view">
-			<fileset dir="build/gwt/${gwt.module.name}"/>
+			<fileset dir="build/gwt/${gwt.module.name}" />
 		</copy>
 
 	</target>
 
 	<target name="gwt-shell">
-		<gwt:shell sourceclasspath="src" 
+		<gwt:shell 
+			sourceclasspath="src" 
 			bindir="target/classes" 
 			outDir="view" 
 			gwtHome="${gwt.home}" 
-			startPage="org.jboss.seam.examples.remoting.gwt/HelloWorld.html"/>
-	</target>	
-	
+			startPage="org.jboss.seam.examples.remoting.gwt/HelloWorld.html" />
+	</target>
+
 </project>
 

@@ -8,25 +8,17 @@
   
   <module>
     <web>
-      <web-uri>seam-gwt.war</web-uri>
+      <web-uri>jboss-seam-gwt.war</web-uri>
       <context-root>/seam-gwt</context-root>
     </web>
   </module>
   
   <module>
-    <ejb>seam-gwt.jar</ejb>
+    <ejb>jboss-seam-gwt.jar</ejb>
   </module>
   
   <module>
-    <java>jboss-seam.jar</java>
-  </module>
-  
-  <module>
-    <java>jboss-el.jar</java>
-  </module>
-  
-  <module>
-    <java>gwt-servlet.jar</java>
+    <ejb>jboss-seam.jar</ejb>
   </module>
 
 </application>

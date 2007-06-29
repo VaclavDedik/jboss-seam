@@ -4,18 +4,14 @@
 
     <!-- Example name -->
     <property name="Name"                   value="Seam Remoting Poker Example"/>
-    <property name="example.name"           value="seam-poker"/>
+    <property name="example.name"           value="jboss-seam-poker"/>
 
     <!-- Overrides -->
 
-    <property name="example.webinf.lib.dir"    value="."/>
-	<property name="example.facelets.lib"      value="yes"/>
-	<property name="example.seam.remoting.lib" value="yes"/>
-    <property name="src.java.dir"              value="src"/>
-    <property name="src.test.dir"              value="src"/>
-    <property name="test.classpath"            value="test.eejb.classpath"/>
+	<property name="facelets.lib"      value="yes"/>
+	<property name="seam.remoting.lib" value="yes"/>
 
-    <import file="../../../build.xml"/>
+    <import file="../../build.xml"/>
 
 </project>
 

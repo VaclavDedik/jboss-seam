@@ -8,27 +8,15 @@
     
     <module>
         <web>
-            <web-uri>seam-chatroom.war</web-uri>
+            <web-uri>jboss-seam-chatroom.war</web-uri>
             <context-root>/seam-chatroom</context-root>
         </web>
     </module>
     <module>
-        <ejb>seam-chatroom.jar</ejb>
+        <ejb>jboss-seam-chatroom.jar</ejb>
     </module>
     <module>
-        <java>jboss-seam.jar</java>
-    </module>
-    <module>
-        <java>jboss-el.jar</java>
-    </module>
-    <module>
-        <java>jboss-cache-jdk50.jar</java>
-    </module>
-    <module>
-        <java>jboss-aop-jdk50.jar</java>
-    </module>
-    <module>
-        <java>jgroups.jar</java>
+        <ejb>jboss-seam.jar</ejb>
     </module>
 
 </application>

@@ -8,17 +8,14 @@
     
     <module>
         <web>
-            <web-uri>seam-progressbar.war</web-uri>
+            <web-uri>jboss-seam-progressbar.war</web-uri>
             <context-root>/seam-progressbar</context-root>
         </web>
     </module>
     <module>
-        <ejb>seam-progressbar.jar</ejb>
+        <ejb>jboss-seam-progressbar.jar</ejb>
     </module>
     <module>
-        <java>jboss-seam.jar</java>
-    </module>
-    <module>
-        <java>jboss-el.jar</java>
+        <ejb>jboss-seam.jar</ejb>
     </module>
 </application>

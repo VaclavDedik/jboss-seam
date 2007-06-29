@@ -8,18 +8,15 @@
     
     <module>
         <web>
-            <web-uri>seam-helloworld.war</web-uri>
+            <web-uri>jboss-seam-helloworld.war</web-uri>
             <context-root>/seam-helloworld</context-root>
         </web>
     </module>
     <module>
-        <ejb>seam-helloworld.jar</ejb>
+        <ejb>jboss-seam-helloworld.jar</ejb>
     </module>
     <module>
         <java>jboss-seam.jar</java>
-    </module>
-    <module>
-        <java>jboss-el.jar</java>
     </module>
 
 </application>
