@@ -4,20 +4,15 @@
 
     <!-- Example name -->
     <property name="Name"                   value="Seam UI example"/>
-    <property name="example.name"           value="ui-example"/>
+    <property name="example.name"           value="jboss-seam-ui-example"/>
 
-    <!-- Overrides -->
-    <property name="example.webinf.lib.dir"  value="."/>
-    <property name="example.seam.ui.lib"     value="yes"/>
-    <property name="example.seam.debug.lib"  value="yes"/>
-    <property name="example.facelets.lib"    value="yes"/>
-    <!--<property name="example.ajax4jsf.lib"    value="no" />-->
-    <property name="example.cache.lib"       value="yes"/>
-    <property name="src.java.dir"            value="src"/>
-    <property name="src.test.dir"            value="src"/>
-    <property name="test.classpath"          value="test.eejb.classpath"/>
+    <!-- Libraries -->
+    <property name="seam.ui.lib"     value="yes"/>
+    <property name="seam.debug.lib"  value="yes"/>
+    <property name="facelets.lib"    value="yes"/>
+    <property name="cache.lib"       value="yes"/>
     
-    <import file="../../build.xml"/>
+    <import file="../build.xml"/>
 	
 </project>
 
