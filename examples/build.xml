@@ -28,6 +28,7 @@
 	<property name="view.dir" value="view" />
 	<property name="resources.dir" value="resources" />
 	<property name="validate.resources.dir" value="${resources.dir}" />
+	<property name="example.ds" value="${example.name}-ds.xml" />
 
 	<!-- Deployment directories -->
 	<property name="deploy.dir" value="${jboss.home}/server/default/deploy" />
