@@ -511,17 +511,16 @@
 		<ant dir="examples/booking" target="tomcat.undeploy" inheritall="false" />
 		<ant dir="examples/dvdstore" target="tomcat.undeploy" inheritall="false" />
 		<ant dir="examples/itext" target="tomcat.undeploy" inheritall="false" />
-		<ant dir="examples/mail" target="tomcat.undeploy" inheritall="false" />
-		<ant dir="examples/spring" target="undeploy.tomcat" inheritall="false" />
+		<ant dir="examples/spring" target="tomcat.undeploy" inheritall="false" />
 		<ant dir="examples/blog" target="tomcat.undeploy" inheritall="false" />
 		<ant dir="examples/contactlist" target="tomcat.undeploy" inheritall="false" />
-		<ant dir="examples/registration" target="undeploy.tomcat" inheritall="false" />
+		<ant dir="examples/registration" target="tomcat.undeploy" inheritall="false" />
 		<ant dir="examples/messages" target="tomcat.undeploy" inheritall="false" />
-		<ant dir="examples/todo" target="undeploy.tomcat" inheritall="false" />
+		<ant dir="examples/todo" target="tomcat.undeploy" inheritall="false" />
 		<ant dir="examples/drools" target="tomcat.undeploy" inheritall="false" />
 		<ant dir="examples/numberguess" target="tomcat.undeploy" inheritall="false" />
-		<ant dir="examples/quartz" target="undeploy.tomcat" inheritall="false" />
-		<ant dir="examples/remoting/gwt" target="undeploy.tomcat" inheritall="false" />
+		<ant dir="examples/quartz" target="tomcat.undeploy" inheritall="false" />
+		<ant dir="examples/remoting/gwt" target="tomcat.undeploy" inheritall="false" />
 	</target>
 
 	<target name="deploypresentation" depends="build" description="Deploy the examples used in Seam presentations">
@@ -734,12 +733,12 @@
 	<target name="testall" depends="testcore,build,compiletest" description="Run the core unit tests and all example tests">
 
 		<ant dir="examples/booking" target="test" inheritall="false" />
-		<ant dir="examples/dvdstore" target="testexample" inheritall="false" />
-		<ant dir="examples/messages" target="testexample" inheritall="false" />
-		<ant dir="examples/numberguess" target="testexample" inheritall="false" />
+		<ant dir="examples/dvdstore" target="test" inheritall="false" />
+		<ant dir="examples/messages" target="test" inheritall="false" />
+		<ant dir="examples/numberguess" target="test" inheritall="false" />
 		<ant dir="examples/contactlist" target="test" inheritall="false" />
-		<ant dir="examples/registration" target="testexample" inheritall="false" />
-		<ant dir="examples/todo" target="testexample" inheritall="false" />
+		<ant dir="examples/registration" target="test" inheritall="false" />
+		<ant dir="examples/todo" target="test" inheritall="false" />
 		<ant dir="examples/blog" target="test" inheritall="false" />
 		<ant dir="examples/portal" target="testexample" inheritall="false" />
 
