@@ -64,7 +64,7 @@ public abstract class UIChart
     }
     
     public String getBorderBackgroundPaint() {
-        return (String) valueBinding(FacesContext.getCurrentInstance(), "backgroundPaint", borderBackgroundPaint);
+        return (String) valueBinding(FacesContext.getCurrentInstance(), "borderBackgroundPaint", borderBackgroundPaint);
     }
     
     public void setBorderPaint(String borderPaint) {
@@ -174,6 +174,9 @@ public abstract class UIChart
     
     
     public static Paint findColor(String name) {
+        if (name == null || name.length() == 0) {
+            return null;
+        }
         UIComponent component = FacesContext.getCurrentInstance().getViewRoot().findComponent(name);
         
         if (component != null) {
@@ -249,26 +252,22 @@ public abstract class UIChart
     
    
 
-    public void configurePlot(Plot plot) {   
-        if (plotBackgroundAlpha != null) {
-            plot.setBackgroundAlpha(plotBackgroundAlpha);
+    public void configurePlot(Plot plot) {
+        if (getPlotBackgroundAlpha() != null)  {        
+            plot.setBackgroundAlpha(getPlotBackgroundAlpha()); 
         }
-        
-        if (plotForegroundAlpha != null) {
-            plot.setForegroundAlpha(plotForegroundAlpha);          
+        if (getPlotForegroundAlpha() != null) {
+            plot.setForegroundAlpha(getPlotForegroundAlpha());
         }
-        
-        if (plotBackgroundPaint != null) {
-            plot.setBackgroundPaint(findColor(plotBackgroundPaint));
+        if (getPlotBackgroundPaint() != null) {
+            plot.setBackgroundPaint(findColor(getPlotBackgroundPaint()));
         }
-        
-        if (plotOutlinePaint != null) {
-            plot.setOutlinePaint(findColor(plotOutlinePaint));
+        if (getPlotOutlinePaint() != null) {
+            plot.setOutlinePaint(findColor(getPlotOutlinePaint()));
         }
-        
-        if (plotOutlineStroke != null) { 
-            plot.setOutlineStroke(findStroke(plotOutlineStroke));
-        }        
+        if (getPlotOutlineStroke() != null) {
+            plot.setOutlineStroke(findStroke(getPlotOutlineStroke()));
+        }
     }
     
     public PlotOrientation plotOrientation(String orientation) {

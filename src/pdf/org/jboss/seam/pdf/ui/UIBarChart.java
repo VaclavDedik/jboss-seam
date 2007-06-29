@@ -135,7 +135,7 @@ public class UIBarChart
                     getCategoryAxisLabel(),
                     getValueAxisLabel(),
                     dataset,
-                    plotOrientation(orientation),
+                    plotOrientation(getOrientation()),
                     getLegend(),
                     false,
                     false);
@@ -144,7 +144,7 @@ public class UIBarChart
                     getCategoryAxisLabel(),
                     getValueAxisLabel(),
                     dataset,
-                    plotOrientation(orientation),
+                    plotOrientation(getOrientation()),
                     getLegend(),
                     false,
                     false);
