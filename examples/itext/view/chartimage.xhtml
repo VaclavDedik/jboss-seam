@@ -3,7 +3,8 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:s="http://jboss.com/products/seam/taglib"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:a="https://ajax4jsf.dev.java.net/ajax">
 <head>
     <title>Seam PDF</title>
 </head>
@@ -19,39 +20,52 @@
 
     <h:form>
         <s:validateAll>
-        Title: <h:inputText value="#{chart.title}" /> <br />
+        Title: <h:inputText value="#{chart.title}">
+            <a:support  event="onchange" reRender="chart" />
+        </h:inputText>
+        <br />
+
         Height: <h:inputText value="#{chart.height}" /> 
         Width: <h:inputText value="#{chart.width}" /> <br />
         Category Label: <h:inputText value="#{chart.categoryAxisLabel}" /> 
         Value Label: <h:inputText value="#{chart.valueAxisLabel}" />  <br />
 
 
-        3D: <h:selectBooleanCheckbox value="#{chart.is3d}" /> 
-        Legend: <h:selectBooleanCheckbox value="#{chart.legend}" /> <br />
-        </s:validateAll>
 
-        <h:commandButton value="change" />
+
+        3D: <h:selectBooleanCheckbox value="#{chart.is3d}">
+                <a:support  event="onchange" reRender="chart" />
+            </h:selectBooleanCheckbox>
+
+        Legend: <h:selectBooleanCheckbox value="#{chart.legend}">
+                <a:support  event="onchange" reRender="chart" />
+            </h:selectBooleanCheckbox>
+        <br />
+
+        </s:validateAll>
     </h:form>
 
-    <p:barchart title="#{chart.title}"  orientation="vertical"
-                is3D="#{chart.is3d}"   legend="#{chart.legend}" 
-                width="#{chart.width}" height="#{chart.height}" 
-                categoryAxisLabel="#{chart.categoryAxisLabel}"
-                valueAxisLabel="#{chart.valueAxisLabel}">
-        <p:series key="data1" seriesPaint="blue" seriesStroke="dot2"
-                  seriesFillPaint="red" seriesVisibleInLegend="true"
-                  seriesOutlinePaint="pink" seriesOutlineStroke="dot1">
-            
-            <ui:repeat value="#{data.pieData}" var="item">
-                <p:data columnKey="#{item.name}" value="#{item.value}" />
-            </ui:repeat>
-        </p:series>
-        <p:series key="data2" seriesPaint="green"  seriesStroke="dot2">
-            <ui:repeat value="#{data.pieData}" var="item">
-                <p:data columnKey="#{item.name}" value="#{item.value+10}" />
-            </ui:repeat>
-        </p:series>
-    </p:barchart>
+    <a:outputPanel id="chart">
+        <p:barchart title="#{chart.title}"  orientation="vertical"
+                    is3D="#{chart.is3d}"   legend="#{chart.legend}" 
+                    width="#{chart.width}" height="#{chart.height}" 
+                    categoryAxisLabel="#{chart.categoryAxisLabel}"
+                    valueAxisLabel="#{chart.valueAxisLabel}">
+            <p:series key="data1" seriesPaint="blue" seriesStroke="dot2"
+                      seriesFillPaint="red" seriesVisibleInLegend="true"
+                      seriesOutlinePaint="pink" seriesOutlineStroke="dot1">
+                
+                <ui:repeat value="#{data.pieData}" var="item">
+                    <p:data columnKey="#{item.name}" value="#{item.value}" />
+                </ui:repeat>
+            </p:series>
+            <p:series key="data2" seriesPaint="green"  seriesStroke="dot2">
+                <ui:repeat value="#{data.pieData}" var="item">
+                    <p:data columnKey="#{item.name}" value="#{item.value+10}" />
+                </ui:repeat>
+            </p:series>
+        </p:barchart>
+    </a:outputPanel>
     
 </body>
 </html>
