@@ -17,6 +17,8 @@ import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
+import org.jboss.seam.util.IteratorEnumeration;
+
 public class MockServletContext implements ServletContext
 {
 

@@ -4,6 +4,8 @@ import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -29,6 +31,7 @@ import org.jboss.seam.international.Messages;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.navigation.Pages;
+import org.jboss.seam.util.IteratorEnumeration;
 
 /**
  * Selects the current user's theme
@@ -156,7 +159,19 @@ public class ThemeSelector extends Selector
       catch (MissingResourceException mre)
       {
          log.debug("resource bundle missing: " + theme);
-         return null;
+         return new ResourceBundle()
+         {
+            @Override
+            public Enumeration<String> getKeys()
+            {
+               return new IteratorEnumeration( Collections.EMPTY_LIST.iterator() );
+            }
+            @Override
+            protected Object handleGetObject(String key)
+            {
+               return null;
+            }
+         };
       }
    }
 

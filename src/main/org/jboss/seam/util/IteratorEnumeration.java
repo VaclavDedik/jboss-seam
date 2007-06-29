@@ -1,5 +1,5 @@
 //$Id$
-package org.jboss.seam.mock;
+package org.jboss.seam.util;
 
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -9,7 +9,7 @@ public class IteratorEnumeration implements Enumeration
    
    private Iterator iterator;
    
-   IteratorEnumeration(Iterator iterator)
+   public IteratorEnumeration(Iterator iterator)
    {
       this.iterator = iterator;
    }
