@@ -1,5 +1,7 @@
 package org.jboss.seam.example.poker;
 
+import javax.ejb.Local;
+
 import org.jboss.seam.annotations.remoting.WebRemote;
 
 /**
@@ -7,6 +9,7 @@ import org.jboss.seam.annotations.remoting.WebRemote;
  *
  * @author Shane Bryzak
  */
+@Local
 public interface PlayerLocal
 {
   @WebRemote
