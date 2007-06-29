@@ -31,7 +31,10 @@ class SynchronizationRegistry
    
    void afterTransactionCompletion(boolean success)
    {
-      Events.instance().raiseEvent("org.jboss.seam.afterTransactionCompletion", success);
+      if ( Events.exists() ) 
+      {
+         Events.instance().raiseEvent("org.jboss.seam.afterTransactionCompletion", success);
+      }
       for (Synchronization sync: synchronizations)
       {
          try
@@ -48,7 +51,10 @@ class SynchronizationRegistry
 
    void beforeTransactionCompletion()
    {
-      Events.instance().raiseEvent("org.jboss.seam.beforeTransactionCompletion");
+      if ( Events.exists() )
+      {
+         Events.instance().raiseEvent("org.jboss.seam.beforeTransactionCompletion");
+      }
       for (Synchronization sync: synchronizations)
       {
          try
