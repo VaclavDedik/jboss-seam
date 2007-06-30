@@ -6,12 +6,13 @@ import static org.jboss.seam.annotations.Install.BUILT_IN;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Transactional;
-import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.framework.EntityIdentifier;
 import org.jboss.seam.framework.MutableEntityController;
@@ -24,7 +25,6 @@ import org.jboss.seam.framework.MutableEntityController;
 @Name("org.jboss.seam.ui.entityConverterStore")
 @Install(precedence=BUILT_IN)
 @Scope(PAGE)
-@BypassInterceptors
 public class EntityConverterStore extends MutableEntityController
 {
    
@@ -73,5 +73,15 @@ public class EntityConverterStore extends MutableEntityController
          throw new IllegalArgumentException("Page scope not active");
       }
       return (EntityConverterStore) Component.getInstance(EntityConverterStore.class);
+   }
+   
+   @Override
+   public EntityManager getEntityManager()
+   {
+      if (!super.getEntityManager().isOpen())
+      {
+         super.setEntityManager(null);
+      }
+      return super.getEntityManager();
    }
 }
