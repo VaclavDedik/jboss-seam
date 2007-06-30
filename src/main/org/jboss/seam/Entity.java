@@ -194,7 +194,7 @@ public class Entity extends Model
       Model model = (Model) Contexts.getApplicationContext().get(name);
       if ( model==null || !(model instanceof Entity) )
       {
-         Entity entity = new Entity(clazz);
+         Entity entity = new Entity(entityClass);
          Contexts.getApplicationContext().set(name, entity);
          return entity;
       }
