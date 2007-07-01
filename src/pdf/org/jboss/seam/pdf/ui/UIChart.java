@@ -191,6 +191,10 @@ public abstract class UIChart
     }
     
     public static Stroke findStroke(String id) {
+        if (id == null || id.length() ==0) {
+            return null;
+        }
+        
         UIComponent component = FacesContext.getCurrentInstance().getViewRoot().findComponent(id);
 
         if (component instanceof UIStroke) {
@@ -207,16 +211,17 @@ public abstract class UIChart
     }
         
     @Override
-    public void createITextObject(FacesContext context) {                        
-        if (borderBackgroundPaint != null) {
+    public void createITextObject(FacesContext context) {   
+        
+        if (getBorderBackgroundPaint() != null) {
             chart.setBackgroundPaint(findColor(getBorderBackgroundPaint()));
         }
         
-        if (borderPaint != null) {
+        if (getBorderPaint() != null) {
             chart.setBorderPaint(findColor(getBorderPaint()));
         }
-
-        if (borderStroke != null) {
+        
+        if (getBorderStroke() != null) {
             chart.setBorderStroke(findStroke(getBorderStroke()));
         }
 

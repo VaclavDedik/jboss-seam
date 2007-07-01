@@ -6,6 +6,7 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
+import org.jfree.chart.title.TextTitle;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.Dataset;
@@ -23,6 +24,9 @@ public class UIBarChart
     
     private boolean legend;
     private boolean is3D = false;
+
+    private String titleBackgroundPaint;
+    private String titlePaint;
 
     public void setTitle(String title) {
         this.title = title;
@@ -71,6 +75,22 @@ public class UIBarChart
     public boolean getIs3D() {
         return (Boolean) valueBinding("is3D", is3D);
     }
+
+    public void setTitleBackgroundPaint(String titleBackgroundPaint) {
+        this.titleBackgroundPaint = titleBackgroundPaint;
+    }
+    
+    public String getTitleBackgroundPaint() {
+        return (String) valueBinding("titleBackgroundPaint", titleBackgroundPaint);
+    }
+
+    public void setTitlePaint(String titlePaint) {
+        this.titlePaint = titlePaint;
+    }
+
+    public String getTitlePaint() {
+        return (String) valueBinding("titlePaint", titlePaint);
+    }
     
     @Override
     public void restoreState(FacesContext context, Object state)
@@ -82,14 +102,16 @@ public class UIBarChart
        categoryAxisLabel = (String) values[2];
        valueAxisLabel    = (String) values[3];
        orientation       = (String) values[4];
-       legend            = (Boolean) values[5];
+       legend            = (Boolean) values[5];       
        is3D              = (Boolean) values[6];
+       titlePaint        = (String) values[7];
+       titleBackgroundPaint = (String) values[8];
     }
 
     @Override
     public Object saveState(FacesContext context)
     {
-       Object[] values = new Object[7];
+       Object[] values = new Object[9];
 
        values[0] = super.saveState(context);
        values[1] = title;
@@ -98,6 +120,8 @@ public class UIBarChart
        values[4] = orientation;
        values[5] = legend;
        values[6] = is3D;
+       values[7] = titlePaint;
+       values[8] = titleBackgroundPaint;
 
        return values;
     }
@@ -120,18 +144,19 @@ public class UIBarChart
         super.configureRenderer(renderer);
         if (renderer instanceof BarRenderer) { 
             configureRenderer((BarRenderer) renderer);
-        }
+        }             
     }
     
     
     public void configureRenderer(BarRenderer renderer) {
-           
     }
 
     @Override
     public JFreeChart createChart(FacesContext context) {    
+        JFreeChart chart;
+        
         if (!getIs3D()) {
-            return ChartFactory.createBarChart(getTitle(),
+            chart = ChartFactory.createBarChart(getTitle(),
                     getCategoryAxisLabel(),
                     getValueAxisLabel(),
                     dataset,
@@ -140,7 +165,7 @@ public class UIBarChart
                     false,
                     false);
         } else {
-            return ChartFactory.createBarChart3D(getTitle(),
+            chart = ChartFactory.createBarChart3D(getTitle(),
                     getCategoryAxisLabel(),
                     getValueAxisLabel(),
                     dataset,
@@ -148,7 +173,16 @@ public class UIBarChart
                     getLegend(),
                     false,
                     false);
-        }
+        } 
+        
+        
+        TextTitle t = chart.getTitle();
+        t.setBackgroundPaint(findColor(getTitleBackgroundPaint()));
+        t.setPaint(findColor(getTitlePaint()));
+        // t.setFont(titleFont);
+        
+        
+        return chart;
     }
 
     @Override

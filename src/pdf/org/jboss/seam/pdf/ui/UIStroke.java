@@ -4,6 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Stroke;
 
 import javax.faces.component.UIComponentBase;
+import javax.faces.context.FacesContext;
 
 import org.jboss.seam.pdf.ITextUtils;
 
@@ -92,6 +93,37 @@ public class UIStroke
     public String getFamily() {
         return ITextComponent.COMPONENT_FAMILY;
     }     
+    
+    
+    @Override
+    public void restoreState(FacesContext context, Object state)
+    {
+       Object[] values = (Object[]) state;
+       super.restoreState(context, values[0]);
+
+       width        = (Float) values[1];
+       cap          = (String) values[2];
+       join         = (String) values[3];
+       miterLimit   = (Float) values[4];
+       dashString   = (String) values[5];
+       dashPhase    = (Float) values[6];       
+    }
+
+    @Override
+    public Object saveState(FacesContext context)
+    {
+       Object[] values = new Object[7];
+       
+       values[0] = super.saveState(context);
+       values[1] = width;
+       values[2] = cap;
+       values[3] = join;
+       values[4] = miterLimit;
+       values[5] = dashString;
+       values[6] = dashPhase;
+              
+       return values;
+    }
     
     public Stroke getStroke() {
         if (width == null) {
