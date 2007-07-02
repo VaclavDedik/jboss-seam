@@ -6,6 +6,7 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
+import org.jfree.chart.title.LegendTitle;
 import org.jfree.chart.title.TextTitle;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
@@ -27,6 +28,10 @@ public class UIBarChart
 
     private String titleBackgroundPaint;
     private String titlePaint;
+
+    private String legendBackgroundPaint;
+
+    private String legendItemPaint;
 
     public void setTitle(String title) {
         this.title = title;
@@ -92,6 +97,22 @@ public class UIBarChart
         return (String) valueBinding("titlePaint", titlePaint);
     }
     
+    public String getLegendBackgroundPaint() {
+        return legendBackgroundPaint;
+    }
+
+    public void setLegendBackgroundPaint(String legendBackgroundPaint) {
+        this.legendBackgroundPaint = legendBackgroundPaint;
+    }
+
+    public String getLegendItemPaint() {
+        return legendItemPaint;
+    }
+
+    public void setLegendItemPaint(String legendItemPaint) {
+        this.legendItemPaint = legendItemPaint;
+    }
+
     @Override
     public void restoreState(FacesContext context, Object state)
     {
@@ -175,12 +196,25 @@ public class UIBarChart
                     false);
         } 
         
+
+        TextTitle chartTitle = chart.getTitle();
+
+        if (findColor(getTitleBackgroundPaint()) != null) {
+            chartTitle.setBackgroundPaint(findColor(getTitleBackgroundPaint()));
+        }
         
-        TextTitle t = chart.getTitle();
-        t.setBackgroundPaint(findColor(getTitleBackgroundPaint()));
-        t.setPaint(findColor(getTitlePaint()));
+        if (findColor(getTitlePaint()) != null) {
+            chartTitle.setPaint(findColor(getTitlePaint()));
+        }
         // t.setFont(titleFont);
         
+        LegendTitle chartLegend = chart.getLegend();
+        if (findColor(getLegendBackgroundPaint())!=null) {
+            chartLegend.setBackgroundPaint(findColor(getLegendBackgroundPaint()));
+        }
+        if (findColor(getLegendItemPaint())!= null) {
+            chartLegend.setItemPaint(findColor(getLegendItemPaint()));
+        }
         
         return chart;
     }
