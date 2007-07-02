@@ -14,8 +14,8 @@ public class EnumConverter implements javax.faces.convert.Converter
    {
       ValueExpression expr = comp.getValueExpression("value");
 
-      Class enumType = expr.getType(context.getELContext());
-      if (enumType.isEnum())
+      Class enumType = expr == null ? null : expr.getType(context.getELContext());
+      if (enumType != null && enumType.isEnum())
       {
          return Enum.valueOf(enumType, value);
       }
@@ -27,7 +27,7 @@ public class EnumConverter implements javax.faces.convert.Converter
             {
                UIComponent c = (UIComponent) child;
                expr = c.getValueExpression("value");
-               Object val = expr.getValue(context.getELContext());
+               Object val = expr == null ? null : expr.getValue(context.getELContext());
                if (val == null)
                {
                   throw new ConverterException("Cannot get items");
