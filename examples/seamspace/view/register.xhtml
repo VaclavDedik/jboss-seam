@@ -66,8 +66,8 @@
               <div class="formRow">
                 <h:outputLabel for="gender">Gender<em>*</em></h:outputLabel>
                 <h:selectOneRadio id="gender" value="#{register.gender}" required="true">
-                  <f:selectItem itemValue="Male"/>
-                  <f:selectItem itemValue="Female"/>
+                  <f:selectItem itemValue="Male" itemLabel="Male" />
+                  <f:selectItem itemValue="Female" itemLabel="Female" />
                 </h:selectOneRadio>
                 <div class="validationError"><h:message for="gender"/></div>
               </div>                                                   
