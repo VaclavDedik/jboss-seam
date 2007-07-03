@@ -60,8 +60,9 @@ public class UnifiedELMethodBinding extends MethodBinding implements Serializabl
    {
       if (methodExpression==null)
       {
+         // In JSF 1.1 EL (argTypes = null) == (argTypes = new Class[0]), but not in Unified EL
          methodExpression = ctx.getApplication().getExpressionFactory()
-                  .createMethodExpression( ctx.getELContext(), expressionString, Object.class, argTypes );
+                  .createMethodExpression( ctx.getELContext(), expressionString, Object.class, argTypes == null ? new Class[0] : argTypes );
       }
       return methodExpression;
    }
