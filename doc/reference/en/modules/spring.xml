@@ -25,6 +25,9 @@
             <para>start a spring WebApplicationContext with a Seam component</para>
         </listitem>
         <listitem>
+            <para>Support for Spring PlatformTransactionManagement</para>
+        </listitem>
+        <listitem>
             <para>provides a Seam managed replacement for Spring's <literal>OpenEntityManagerInViewFilter</literal></para>
         </listitem>
         <listitem>
@@ -204,6 +207,22 @@ private BookingService bookingService;]]></programlisting>
     </property>
 </bean>]]></programlisting>
 
+    </section>
+    <section>
+        <title>Using Spring PlatformTransactionManagement</title>
+
+        <para>Spring provides an extensible transaction management abstraction with support for many
+        transaction managers (JPA, Hibernate, JDO, JTA, and other app server specific transaction managers) Spring
+        transaction management also has support for many advanced features such as nested
+        transactions and full J2EE transaction propagation rules like REQUIRES_NEW and NOT_SUPPORTED.  For more
+        information see the spring documentation
+        <a href="http://static.springframework.org/spring/docs/2.0.x/reference/transaction.html">here</a>.</para>
+
+        <para>Configure Seam to use Spring transactions like so:</para>
+
+        <programlisting>
+			<![CDATA[<spring:spring-transaction platform-transaction-manager="#{transactionManager}"/>]]>
+		</programlisting>
     </section>
     <section id="spring-persistence">
         <title>Using a Seam Managed Persistence Context in Spring</title>
