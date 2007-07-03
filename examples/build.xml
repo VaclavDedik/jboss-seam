@@ -450,6 +450,7 @@
 			<fileset refid="gwt.jar" />
 			<fileset refid="quartz.jar" />
 			<fileset refid="spring.jar" />
+			<fileset refid="jcaptcha.jar" />
 			<mapper type="flatten" />
 		</copy>
 	</target>
