@@ -76,6 +76,10 @@
 	<property name="eejb.conf.dir" value="${basedir}/bootstrap" />
 	<property name="drools.dir" value="${basedir}/drools" />
 	<property name="hibernate.dir" value="${basedir}/hibernate" />
+	
+	<!-- Build resources -->
+	<property name="build.dir" value="${basedir}/build" />
+	<property name="maven.dir" value="${build.dir}/maven" />
 
 	<!-- Documentation -->
 	<property name="doc.dir" value="doc" />
@@ -764,15 +768,15 @@
 		<sequential>
 			<java classname="org.codehaus.classworlds.Launcher" fork="true" dir="${basedir}">
 				<classpath>
-					<fileset dir="${basedir}/maven/core/boot">
+					<fileset dir="${maven.dir}/core/boot">
 						<include name="*.jar" />
 					</fileset>
-					<fileset dir="${basedir}/maven/bin">
+					<fileset dir="${maven.dir}/bin">
 						<include name="*.*" />
 					</fileset>
 				</classpath>
-				<sysproperty key="classworlds.conf" value="${basedir}/maven/bin/m2.conf" />
-				<sysproperty key="maven.home" value="${basedir}/maven" />
+				<sysproperty key="classworlds.conf" value="${maven.dir}/bin/m2.conf" />
+				<sysproperty key="maven.home" value="${maven.dir}" />
 				<sysproperty key="seam.dir" value="${basedir}" />
 				<sysproperty key="seam.version" value="${version}" />
 				<sysproperty key="tlddoc.dir" value="${dist.ui.tld.dir}" />
