@@ -455,7 +455,8 @@ function __Calendar(calendarNumber, name)
     var divs = document.getElementsByTagName("div");
     for (var i = 0; i < divs.length; i++)
     {
-      if (divs[i] != popupDiv && divs[i].style && !/\D/(divs[i].style.zIndex))
+      if (divs[i] != popupDiv && divs[i].style && 
+          (typeof(divs[i].style.zIndex) == "number" || !isNaN(parseInt(divs[i].style.zIndex))))
       {
         var divZIndex = (divs[i].style.zIndex * 1);        
         if (divZIndex >= zIndex) zIndex = divZIndex + 1;
