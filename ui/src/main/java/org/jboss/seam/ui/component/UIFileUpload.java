@@ -42,12 +42,15 @@ public abstract class UIFileUpload extends UIInput
             {
                ByteArrayOutputStream bos = new ByteArrayOutputStream();
                try
-               {
-                  while (localInputStream.available() > 0)
+               {                  
+                  byte[] buffer = new byte[512];
+                  int read = localInputStream.read(buffer);
+                  while (read != -1)
                   {
-                     bos.write(localInputStream.read());
-                     dataBinding.setValue(context.getELContext(), bos.toByteArray());
+                     bos.write(buffer, 0, read);
+                     read = localInputStream.read(buffer);
                   }
+                  dataBinding.setValue(context.getELContext(), bos.toByteArray());                  
                }
                catch (IOException e)
                {
