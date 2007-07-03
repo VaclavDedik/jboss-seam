@@ -44,8 +44,8 @@ public class SeamLifecycleUtils
       throw new IllegalStateException(
                "Seam application context not available and cannot be started.  "
                         + "Seam Managed Persistence Context not available.  "
-                        + "Try placing the spring bean call inside of a spring transaction or making the spring bean "
-                        + "a Seam Component.");
+                        + "Try placing the spring bean call inside of a spring transaction or try making the spring bean "
+                        + "a Seam Component using <seam:component/>.");
    }
 
    /**

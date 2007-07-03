@@ -74,6 +74,7 @@ public abstract class IoCComponent extends Component
        // pattern.
        if ( !isInterceptionEnabled() )
        {
+          initialize(bean);
            // Only call postConstruct if the bean is not stateless otherwise in the case of a singleton it wowuld be
            // called every time seam request the bean not just when it is created.
            if (getScope() != ScopeType.STATELESS)

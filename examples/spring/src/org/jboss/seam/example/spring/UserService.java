@@ -4,7 +4,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
+import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.async.Asynchronous;
+import org.jboss.seam.log.Log;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
  *
  */
 public class UserService {
+	@Logger
+	private static Log logger;
+
 	public static ThreadLocal<Boolean> currentThread = new ThreadLocal<Boolean>();
 
 	@PersistenceContext
@@ -68,6 +73,7 @@ public class UserService {
             throw new ValidationException("Username "+user.getUsername()+" already exists");
         }
         entityManager.persist(user);
+        logger.info("Created a new User: {0}", user.getName());
     }
 	
 	@Asynchronous
@@ -75,6 +81,6 @@ public class UserService {
 		if(currentThread.get() != null) {
 			throw new RuntimeException("Not really happening asyncrohously");
 		}
-		System.out.println("pretending to send email asyncronously");
+		logger.info("pretending to send email asyncronously");
 	}
 }

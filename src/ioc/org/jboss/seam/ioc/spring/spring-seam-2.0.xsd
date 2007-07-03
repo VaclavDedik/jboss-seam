@@ -160,9 +160,8 @@
                 <xsd:annotation>
                     <xsd:documentation>
                         <![CDATA[
-                                 Determines whether Seam interceptors should be wrapped around a bean, by overriding Seam's default rules. 
-                                 Seldom do you want the seam interceptors wrapped around a sprig singleton.  Auto will use choose no
-                                 interception for a singleton and use Seam standard rules otherwise.
+                                 Determines whether Seam interceptors should be wrapped around a bean, overriding
+                                 Seam's default which is currently "true". 
                         ]]>
                     </xsd:documentation>
                 </xsd:annotation>

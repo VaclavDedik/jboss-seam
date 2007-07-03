@@ -1,18 +1,102 @@
 <?xml version="1.0"?>
 
 <project name="spring" default="deploy" basedir=".">
-    <!-- Example name -->
-    <property name="Name"                   value="spring integration example"/>
-    <property name="example.name"           value="jboss-seam-spring"/>
+    
+  <description>A Spring+Seam+JPA Example</description>
+  <property name="projname" value="seam-spring" />
 
-    <!-- Libraries -->
-    <property name="seam.ui.lib"        value="yes"/>
-    <property name="seam.debug.lib"     value="yes"/>
-    <property name="facelets.lib"       value="yes"/>
-    <property name="seam.ioc.war.lib"   value="yes"/>
-    <property name="spring.lib"         value="yes"/>
+  <property file="../../build.properties"/>
 
-    <import file="../build.xml"/>
-	
+  <property name="lib" location="../../lib" />
+  <property name="applib" location="lib" />
+  <property name="seamlib" location="../../" />
+  <property name="hibernatelib" location="../../hibernate/lib" />
+  <path id="lib.classpath">
+    <fileset dir="${lib}" includes="*.jar"/>
+    <fileset dir="${applib}" includes="*.jar"/>
+    <fileset dir="${seamlib}" includes="*.jar"/>
+  </path>
+  
+  <property name="resources" location="resources" />
+  
+  <property name="src" location="src" />
+  <property name="view" location="view" />
+  
+  <property name="build.classes" location="build/classes" />
+  <property name="build.jars" location="build/" />
+
+  <target name="clean">
+    <delete dir="build"/>
+  </target>
+
+  <target name="main" depends="deploy"/>
+
+  <target name="compile">
+    <mkdir dir="${build.classes}"/>
+    <javac destdir="${build.classes}"
+           classpathref="lib.classpath"
+           debug="true">
+      <src path="${src}"/>
+    </javac>
+  </target>
+  
+  <target name="build" depends="compile">
+    
+    <mkdir dir="${build.jars}"/>
+    
+    <jar destfile="${build.jars}/${projname}.jar">
+      <fileset dir="${build.classes}">
+        <include name="**/*.class"/>
+      </fileset>
+      <fileset dir="${resources}">
+        <include name="seam.properties" />
+        <include name="import.sql" />
+      </fileset>
+      <metainf dir="${resources}">
+        <include name="persistence.xml" />
+      </metainf>
+    </jar>
+      
+    <war destfile="${build.jars}/${projname}.war"
+         webxml="${resources}/web.xml">
+      <webinf dir="${resources}">
+        <include name="faces-config.xml" />
+      	<include name="navigation.xml" />
+        <include name="pages.xml" />
+        <include name="components.xml" />
+      	<include name="applicationContext.xml" />
+      </webinf>
+      <lib dir="${seamlib}">
+        <include name="jboss-seam.jar" />
+        <include name="jboss-seam-ui.jar" />
+        <include name="jboss-seam-ioc.jar" />
+        <include name="jboss-seam-debug.jar" />
+      </lib>
+      <lib dir="${lib}">
+        <include name="jsf-facelets.jar" />
+        <include name="spring.jar" />
+        <include name="jboss-el.jar" />
+      </lib>
+      <lib dir="${build.jars}">
+        <include name="${projname}.jar" />
+      </lib>
+      <classes dir="${resources}">
+        <include name="log4j.xml" />
+      	<include name="seam.properties" />
+      </classes>
+      <fileset dir="${view}"/>
+    </war>
+  </target>
+
+  <target name="deploy" depends="build">
+    <copy file="${build.jars}/${projname}.war"
+      todir="${jboss.home}/server/default/deploy"/>
+  </target>
+  
+  <target name="undeploy">
+    <delete
+        file="${jboss.home}/server/default/deploy/${projname}.war"/>
+  </target>
+  
 </project>
 

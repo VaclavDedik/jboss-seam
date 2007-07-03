@@ -31,7 +31,6 @@ public class SeamManagedEntityManagerFactory implements EntityManagerFactory
 
    public SeamManagedEntityManagerFactory(String seamPersistenceContextName)
    {
-      super();
       if (seamPersistenceContextName == null || "".equals(seamPersistenceContextName))
       {
          throw new IllegalArgumentException("persistenceContextName cannot be null");
@@ -125,6 +124,7 @@ public class SeamManagedEntityManagerFactory implements EntityManagerFactory
             closed = true;
             return null;
          }
+         
          try
          {
             return method.invoke(delegate, args);

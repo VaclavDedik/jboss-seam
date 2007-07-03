@@ -13,19 +13,24 @@
     <core:manager conversation-timeout="120000" 
                   concurrent-request-timeout="500" 
                   conversation-id-parameter="cid"/>
+                  
+	<persistence:entity-manager-factory name="entityManagerFactory"
+		persistence-unit-name="bookingDatabase"/>
 
     <persistence:managed-persistence-context name="entityManager"
                                       auto-create="true" 
-                                      persistence-unit-jndi-name="java:/springEntityManagerFactory" />
+                                      entity-manager-factory="#{entityManagerFactory}" />
     
     <core:init debug="true"/>
     
-    <spring:context-loader/>
+    <spring:context-loader />
 
 	<!-- Install a ThreadPoolDispatcher to handle scheduled asynchronous event -->
 	<core:thread-pool-dispatcher name="threadPoolDispatcher"/>
     
     <!-- Install the SpringDispatcher as default -->
     <spring:task-executor-dispatcher schedule-dispatcher="#{threadPoolDispatcher}" task-executor="#{springThreadPoolTaskExecutor}"/>
-
+    
+    <spring:spring-transaction platform-transaction-manager="#{transactionManager}"/>
+    
 </components>
