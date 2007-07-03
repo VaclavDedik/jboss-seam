@@ -14,4 +14,4 @@ test-output
 testng-failures.xml
 report
 output
-build
+classes
