@@ -414,7 +414,7 @@ C:\Projects\jboss-seam&gt;</programlisting>
                     <literal>server/default/deploy/jbossweb-tomcat55.sar</literal>. You'll need to delete
                     <literal>myfaces-api.jar</literal> any <literal>myfaces-impl.jar</literal> from the
                     <literal>jsf-libs </literal>directory. Then, you'll need to copy <literal>jsf-api.jar</literal>,
-                    <literal>jsf-impl.jar</literal>, <literal>el-api.jar</literal>, and <literal>el-impl.jar</literal>
+                    <literal>jsf-impl.jar</literal>, <literal>el-api.jar</literal>, and <literal>el-ri.jar</literal>
                 to that directory. The JSF JARs can be found in the Seam <literal>lib</literal> directory. The el JARs
                 can be obtained from the Seam 1.2 release. </para>
 
