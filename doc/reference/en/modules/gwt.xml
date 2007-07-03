@@ -4,7 +4,12 @@
   <para>
     For those that prefer to use the Google Web Toolkit (GWT) to develop dynamic AJAX applications, Seam provides
     an integration layer that allows GWT widgets to interact directly with Seam components.
-
+  </para>
+  
+  <para>
+    To use GWT, we assume that you are already familiar with the GWT tools - more information can be found at
+    <ulink url="http://code.google.com/webtoolkit/">http://code.google.com/webtoolkit/</ulink>.  This chapter 
+    does not attempt to explain how GWT works or how to use it.
   </para>
   
   <sect1>
@@ -175,5 +180,68 @@ public class AskQuestionWidget extends Composite
       directory.
     </para>
   </sect1>
+  
+  <sect1>
+    <title>GWT Ant Targets</title>
+  
+    <para>
+      For deployment of GWT apps, there is a compile-to-Javascript step (which compacts and obfuscates the code).  There is an
+      ant utility which can be used instead of the command line or GUI utility that GWT provides.  To use this, you will need
+      to have the ant task jar in your ant classpath, as well as GWT downloaded (which you will need for hosted mode anyway).
+    </para>
+    
+    <para>
+      Then, in your ant file, place (near the top of your ant file):
+    </para>
+    
+    <programlisting><![CDATA[  <taskdef uri="antlib:de.samaflost.gwttasks"
+                resource="de/samaflost/gwttasks/antlib.xml"
+                classpath="./lib/gwttasks.jar"/>
+   
+  <property file="build.properties"/>]]></programlisting>
+  
+    <para>
+      Create a <literal>build.properties</literal> file, which has the contents:
+    </para>
+    
+    <programlisting><![CDATA[gwt.home=/gwt_home_dir]]></programlisting>
+    
+    <para>
+      This of course should point to the directory where GWT is installed.  Then to use it, create a target:
+    </para>
+    
+    <programlisting><![CDATA[  <!-- the following are are handy utilities for doing GWT development.
+      To use GWT, you will of course need to download GWT seperately -->
+  <target name="gwt-compile">
+      <!-- in this case, we are "re homing" the gwt generated stuff, so in this case
+      we can only have one GWT module - we are doing this deliberately to keep the URL short -->
+      <delete>
+          <fileset dir="view"/>
+      </delete>
+      <gwt:compile outDir="build/gwt"
+          gwtHome="${gwt.home}"
+          classBase="${gwt.module.name}"
+          sourceclasspath="src"/>
+      <copy todir="view">
+          <fileset dir="build/gwt/${gwt.module.name}"/>
+      </copy>
+  </target>]]></programlisting>
+  
+    <para>
+      This target when called will compile the GWT application, and copy it to the specified directory (which would be
+      in the <literal>webapp</literal> part of your war - remember GWT generates HTML and Javascript artifacts).  You
+      never edit the resulting code that <literal>gwt-compile</literal> generates - you always edit in the GWT source
+      directory.
+    </para>
+    
+    <para>
+      Remember that GWT comes with a hosted mode browser - you should be using that if you are developing with GWT.  If you
+      aren't using that, and are just compiling it each time, you aren't getting the most out of the toolkit (in fact, if
+      you can't or won't use the hosted mode browser, I would go far as to say you should NOT be using GWT at all - it's
+      that valuable!).
+    </para>
+    
+  </sect1>
+  
 
 </chapter>
