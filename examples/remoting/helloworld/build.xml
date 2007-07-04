@@ -8,9 +8,10 @@
 
     <!-- Overrides -->
 	<property name="seam.remoting.lib" value="yes"/>
+	<property name="seam.ui.lib"       value="yes"/>
 	<property name="facelets.lib"      value="yes"/>
 
-    <import file="../../build.xml"/>
+  <import file="../../build.xml"/>
 
 </project>
 
