@@ -259,6 +259,32 @@ else if (Seam.Component.getComponentName(instance) == "staff")
       </sect3>
     </sect2>
   </sect1>
+  
+  <sect1>
+    <title>Evaluating EL Expressions</title>
+    
+    <para>
+      Seam Remoting also supports the evaluation of EL expressions, which provides another convenient method for retrieving
+      data from the server.  Using the <literal>Seam.Remoting.eval()</literal> function, an EL expression can be remotely
+      evaluated on the server and the resulting value returned to a client-side callback method.  This function accepts two
+      parameters, the first being the EL expression to evaluate, and the second being the callback method to invoke with the
+      value of the expression.  Here's an example:
+    </para>
+    
+    <programlisting><![CDATA[  function customersCallback(customers) {
+    for (var i = 0; i < customers.length; i++) {
+      alert("Got customer: " + customers[i].getName());
+    }    
+  }
+    
+  Seam.Remoting.eval("#{customers}", customersCallback);  
+    ]]></programlisting>
+    
+    <para>
+      In this example, the expression <literal>#{customers}</literal> is evaluated by Seam, and the value of the expression
+      (in this case a list of Customer objects) is returned to the <literal>customersCallback()</literal> method.
+    </para>
+  </sect1>
 
   <sect1>
     <title>Client Interfaces</title>
