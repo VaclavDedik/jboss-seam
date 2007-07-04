@@ -53,16 +53,16 @@ public class ExecutionHandler extends BaseRequestHandler implements RequestHandl
       // Parse the incoming request as XML
       SAXReader xmlReader = new SAXReader();
       Document doc = xmlReader.read( request.getInputStream() );
-      Element env = doc.getRootElement();
+      final Element env = doc.getRootElement();
       final RequestContext ctx = unmarshalContext(env);
-      final List<Call> calls = unmarshalCalls(env);
 
       new ContextualHttpServletRequest(request)
       {
-         
          @Override
          public void process() throws Exception
          {
+            final List<Call> calls = unmarshalCalls(env);
+            
             // Extract the calls from the request
 
             // Execute each of the calls
