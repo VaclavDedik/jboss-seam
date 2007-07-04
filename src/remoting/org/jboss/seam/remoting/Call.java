@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.remoting.WebRemote;
+import org.jboss.seam.core.Expressions;
 import org.jboss.seam.remoting.wrapper.ConversionException;
 import org.jboss.seam.remoting.wrapper.ConversionScore;
 import org.jboss.seam.remoting.wrapper.Wrapper;
@@ -24,6 +25,7 @@ public class Call
   private String id;
   private String componentName;
   private String methodName;
+  private String expression;
 
   private List<Wrapper> params = new ArrayList<Wrapper> ();
 
@@ -45,6 +47,18 @@ public class Call
     this.componentName = componentName;
     this.methodName = methodName;
     this.context = new CallContext();
+  }
+  
+  /**
+   * 
+   * @param id
+   * @param expression
+   */
+  public Call(String id, String expression)
+  {
+     this.id = id;
+     this.expression = expression;
+     this.context = new CallContext();
   }
 
   /**
@@ -105,47 +119,65 @@ public class Call
   public void execute()
       throws Exception
   {
-    // Find the component we're calling
-    Component component = Component.forName(componentName);
+     if (componentName != null)
+     {
+        processInvocation();
+     }
+     else if (expression != null)
+     {
+        processExpression();
+     }
+  }
+  
+  private void processInvocation()
+     throws Exception
+  {     
+     // Find the component we're calling
+     Component component = Component.forName(componentName);
 
-    if (component == null)
-      throw new RuntimeException("No such component: " + componentName);
+     if (component == null)
+       throw new RuntimeException("No such component: " + componentName);
 
-    // Create an instance of the component
-    Object instance = Component.getInstance(componentName, true);
+     // Create an instance of the component
+     Object instance = Component.getInstance(componentName, true);
 
-    Class type = null;
+     Class type = null;
 
-    if (component.getType().isSessionBean() &&
-        component.getBusinessInterfaces().size() > 0)
-    {
-      for (Class c : component.getBusinessInterfaces())
-      {
-        if (c.isAnnotationPresent(EJB.LOCAL))
-        {
-          type = c;
-          break;
-        }
-      }
+     if (component.getType().isSessionBean() &&
+         component.getBusinessInterfaces().size() > 0)
+     {
+       for (Class c : component.getBusinessInterfaces())
+       {
+         if (c.isAnnotationPresent(EJB.LOCAL))
+         {
+           type = c;
+           break;
+         }
+       }
 
-      if (type == null)
-        throw new RuntimeException(String.format(
-        "Type cannot be determined for component [%s]. Please ensure that it has a local interface.", component));
-    }
+       if (type == null)
+         throw new RuntimeException(String.format(
+         "Type cannot be determined for component [%s]. Please ensure that it has a local interface.", component));
+     }
 
-    if (type == null)
-      type = component.getBeanClass();
+     if (type == null)
+       type = component.getBeanClass();
 
-    // Find the method according to the method name and the parameter classes
-    Method m = findMethod(methodName, type);
-    if (m == null)
-      throw new RuntimeException("No compatible method found.");
+     // Find the method according to the method name and the parameter classes
+     Method m = findMethod(methodName, type);
+     if (m == null)
+       throw new RuntimeException("No compatible method found.");
 
-    if (m.getAnnotation(WebRemote.class).exclude().length > 0)
-      constraints = Arrays.asList(m.getAnnotation(WebRemote.class).exclude());
+     if (m.getAnnotation(WebRemote.class).exclude().length > 0)
+       constraints = Arrays.asList(m.getAnnotation(WebRemote.class).exclude());
 
-    // Invoke!
-    result = m.invoke(instance, convertParams(m.getGenericParameterTypes()));
+     // Invoke!
+     result = m.invoke(instance, convertParams(m.getGenericParameterTypes()));     
+  }
+  
+  private void processExpression()
+  {
+     result = Expressions.instance().createValueExpression(expression).getValue();
   }
 
   /**

@@ -61,21 +61,20 @@ public class ExecutionHandler extends BaseRequestHandler implements RequestHandl
          @Override
          public void process() throws Exception
          {
-            final List<Call> calls = unmarshalCalls(env);
-            
-            // Extract the calls from the request
+            // Extract the calls from the request            
+            List<Call> calls = unmarshalCalls(env);
 
             // Execute each of the calls
             for (Call call : calls) 
             {
                call.execute();
-            }
+            }               
 
             // Store the conversation ID in the outgoing context
-            ctx.setConversationId( Manager.instance().getCurrentConversationId() );
-
+            ctx.setConversationId( Manager.instance().getCurrentConversationId() );               
+            
             // Package up the response
-            marshalResponse(calls, ctx, response.getOutputStream());
+            marshalResponse(calls, ctx, response.getOutputStream());               
          }
          
          @Override
@@ -133,7 +132,8 @@ public class ExecutionHandler extends BaseRequestHandler implements RequestHandl
 
       List<Element> callElements = env.element("body").elements("call");
 
-      for (Element e : callElements) {
+      for (Element e : callElements) 
+      {
         Call call = new Call(e.attributeValue("id"),
                              e.attributeValue("component"),
                              e.attributeValue("method"));
@@ -166,6 +166,13 @@ public class ExecutionHandler extends BaseRequestHandler implements RequestHandl
         }
 
         calls.add(call);
+      }
+      
+      List<Element> exprElements = env.element("body").elements("eval");
+      for (Element e : exprElements)
+      {
+         Call call = new Call(e.attributeValue("id"), e.attributeValue("expr"));
+         calls.add(call);
       }
 
       return calls;
