@@ -168,11 +168,11 @@ public class UIChartSeries
         if (getSeriesStroke() != null) {
             renderer.setSeriesStroke(seriesIndex, UIChart.findStroke(getSeriesStroke()));
         }
-
+        
         if (getSeriesVisible() != null) {
-            renderer.setSeriesVisible(seriesIndex, seriesVisible);
+            renderer.setSeriesVisible(seriesIndex, getSeriesVisible());
         }
-
+                
         if (getSeriesVisibleInLegend() != null) {
             renderer.setSeriesVisibleInLegend(seriesIndex, getSeriesVisibleInLegend());
         }      
