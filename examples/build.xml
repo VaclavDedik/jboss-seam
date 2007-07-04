@@ -200,6 +200,11 @@
 		<include name="commons-digester*.jar" if="ajax4jsf.lib" />
 	</fileset>
 
+	<!-- Dependencies for using Seam with Richfaces -->
+	<fileset id="richfaces.jar" dir="${lib.dir}">
+		<include name="richfaces*.jar" if="richfaces.lib" />
+	</fileset>
+
 	<!-- Dependencies for using Seam with JBPM -->
 	<fileset id="jbpm.jar" dir="${lib.dir}">
 		<include name="jbpm*.jar" if="jbpm.lib" />
@@ -389,6 +394,7 @@
 			<fileset refid="facelets.jar" />
 			<fileset refid="urlrewrite.jar" />
 			<fileset refid="ajax4jsf.jar" />
+			<fileset refid="richfaces.jar" />
 			<mapper type="flatten" />
 		</copy>
 		<!-- Put properties into the classpath -->
