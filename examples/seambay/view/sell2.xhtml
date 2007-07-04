@@ -25,18 +25,20 @@
         </div>
 
         <div class="sellSubHeader">
-          Find the category that most closely matches the item you're selling
+          Select the category that most closely matches the item you're selling
         </div>
 
         <h:form>
                 
           <div class="category">
-            <div class="categoryList">
-              Loading categories...
+            <div>
+              <select id="rootCategory" class="categoryList" size="8" onchange="selectCategory(this)">
+                <option>Loading categories...</option>
+              </select>
             </div>
           </div>
           
-          <!--h:inputHidden id="categoryId" value="#{auctionAction.categoryId}" /-->
+          <h:inputHidden id="categoryId" value="#{auctionAction.categoryId}" />
 
           <div class="navBar">
             <div class="navBarLeft">
@@ -59,7 +61,14 @@
       </div>
 
     </div>
-    
+       
     <script type="text/javascript" src="sell2.js"></script>
+    
+    <s:remote include="categoryAction"/>
+        
+    <script type="text/javascript">
+      // Make a remoting call to load the categories
+      Seam.Remoting.eval(CATEGORY_EXPR, loadCategories);
+    </script>
   </body>
 </html>

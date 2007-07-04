@@ -10,6 +10,7 @@
     <property name="facelets.lib"    value="yes"/>
     <property name="seam.ui.lib"     value="yes"/>
     <property name="seam.debug.lib"  value="yes"/>
+    <property name="seam.remoting.lib" value="yes"/>
     <property name="jcaptcha.lib"    value="yes"/>
     <property name="urlrewrite.lib"  value="yes"/>
     <property name="jbpm.lib"        value="yes"/>    

@@ -18,6 +18,9 @@ public class CategoryAction
    
    @Out(required = false)
    private List<Category> categories;
+   
+   @Out(required = false)
+   private List<Category> allCategories;
 
    @Out(required = false)
    private List<Category> leftCategories;
@@ -40,9 +43,11 @@ public class CategoryAction
    }
    
    @SuppressWarnings("unchecked")
+   @Factory("allCategories")
    public List<Category> getAllCategories()
    {
-      return entityManager.createQuery("from Category").getResultList();
+      allCategories = entityManager.createQuery("from Category").getResultList(); 
+      return allCategories;
    }
    
    private void loadLeftAndRight()
