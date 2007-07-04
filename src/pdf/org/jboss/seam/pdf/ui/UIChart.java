@@ -35,8 +35,8 @@ public abstract class UIChart
     private JFreeChart chart = null;
     private byte[] imageData;
        
-    private float height = 300;
-    private float width  = 400;    
+    private int height = 300;
+    private int width  = 400;    
     
     private String borderBackgroundPaint;
     private String borderPaint;
@@ -51,12 +51,20 @@ public abstract class UIChart
     
     
     
-    public void setHeight(float height) {
+    public void setHeight(int height) {
         this.height = height;
     }
     
-    public void setWidth(float width) {
+    public int getHeight() {
+        return (Integer) valueBinding(FacesContext.getCurrentInstance(), "height", height);
+    }
+
+    public void setWidth(int width) {
         this.width = width;
+    }
+    
+    public int getWidth() {
+        return (Integer) valueBinding(FacesContext.getCurrentInstance(), "width", width);        
     }
     
     public void setBorderBackgroundPaint(String backgroundPaint) {
@@ -138,8 +146,8 @@ public abstract class UIChart
        Object[] values = (Object[]) state;
        super.restoreState(context, values[0]);
        
-       height                = (Float) values[1];
-       width                 = (Float) values[2];
+       height                = (Integer) values[1];
+       width                 = (Integer) values[2];
        borderBackgroundPaint = (String) values[3];
        borderPaint           = (String) values[4];
        borderStroke          = (String) values[5];
@@ -229,23 +237,21 @@ public abstract class UIChart
         
         configurePlot(chart.getPlot());   
         
-        height = (Float) valueBinding(context, "height", height);
-        width =  (Float) valueBinding(context, "width", width);        
         
         try { 
             UIDocument doc = (UIDocument) findITextParent(getParent(), UIDocument.class);
             if (doc != null) {
                 PdfWriter writer = (PdfWriter) doc.getWriter();
                 PdfContentByte cb = writer.getDirectContent(); 
-                PdfTemplate tp = cb.createTemplate(width, height); 
-                Graphics2D g2 = tp.createGraphics(width, height, new DefaultFontMapper());             
-                chart.draw(g2, new Rectangle2D.Double(0, 0, width, height)); 
+                PdfTemplate tp = cb.createTemplate(getWidth(), getHeight()); 
+                Graphics2D g2 = tp.createGraphics(getWidth(), getHeight(), new DefaultFontMapper());             
+                chart.draw(g2, new Rectangle2D.Double(0, 0, getWidth(), getHeight())); 
                 g2.dispose(); 
 
                 image = new ImgTemplate(tp);
             } else {
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                ChartUtilities.writeChartAsJPEG(stream, chart, (int)width, (int)height);
+                ChartUtilities.writeChartAsJPEG(stream, chart, (int)getWidth(), (int)getHeight());
 
                 imageData = stream.toByteArray();
                 stream.close();
@@ -309,6 +315,9 @@ public abstract class UIChart
                          GraphicImageResource.GRAPHIC_IMAGE_RESOURCE_PATH + "/" + key + Type.IMAGE_JPEG.getExtension();
 
             response.writeAttribute("src", url, null);
+            
+            response.writeAttribute("height", getHeight(), null);
+            response.writeAttribute("width",  getWidth(),  null);
 
             response.endElement("img");
 
