@@ -136,9 +136,7 @@ svc.setRequest("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soa
                "\n    <seam:conversationId xmlns:seam='http://www.jboss.org/seam/webservice'>#{conversationId}</seam:conversationId>" +
                "\n  </soapenv:Header>" +
                "\n  <soapenv:Body>" +
-               "\n    <seam:getNewAuctionDetails>" +
-               "\n      <arg0>#{auctionId}</arg0>" +
-               "\n    </seam:getNewAuctionDetails>" +
+               "\n    <seam:getNewAuctionDetails/>" +
                "\n </soapenv:Body>" +
                "\n</soapenv:Envelope>");
 svc.setConversational(true);               
@@ -222,7 +220,6 @@ function selectService(serviceName)
   selectedService = svc;
   
   document.getElementById("selectedService").innerHTML = svc.getDescription();
- // document.getElementById("serviceRequest").value = svc.getRequest();
   document.getElementById("serviceResponse").value = null;
   
   var ctl = document.getElementById("parameters");
