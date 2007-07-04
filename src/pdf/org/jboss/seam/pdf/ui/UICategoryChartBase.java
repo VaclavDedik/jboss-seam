@@ -5,17 +5,117 @@ import javax.faces.context.FacesContext;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.Plot;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
+import org.jfree.chart.title.LegendTitle;
+import org.jfree.chart.title.TextTitle;
 
 public abstract class UICategoryChartBase 
     extends UIChart 
 {
+    private String orientation;
+    
+    private boolean legend;
+    private boolean is3D = false;
+
+    private String title;    
+    private String titleBackgroundPaint;
+    private String titlePaint;
+
+    private String legendBackgroundPaint;
+    private String legendItemPaint;
+
+    private String domainAxisLabel;
+    private String domainAxisPaint;
     private Boolean domainGridlinesVisible;
     private String domainGridlinePaint;
     private String domainGridlineStroke;
+    
+    private String rangeAxisLabel;
+    private String rangeAxisPaint;      
     private Boolean rangeGridlinesVisible;
     private String rangeGridlinePaint;
-    private String rangeGridlineStroke;      
-        
+    private String rangeGridlineStroke;
+    
+    public String getDomainAxisLabel() {
+        return (String) valueBinding("domainAxisLabel", domainAxisLabel);
+    }
+
+    public void setDomainAxisLabel(String categoryAxisLabel) {
+        this.domainAxisLabel = categoryAxisLabel;
+    }
+
+    public String getRangeAxisLabel() {
+        return (String) valueBinding("rangeAxisLabel", rangeAxisLabel);
+    }
+
+    public void setRangeAxisLabel(String valueAxisLabel) {
+        this.rangeAxisLabel = valueAxisLabel;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    
+    public String getTitle() {
+        return (String) valueBinding("title", title);
+    }
+    
+    public void setOrientation(String orientation) {
+        this.orientation = orientation;
+    }
+    
+    public String getOrientation() {
+        return (String) valueBinding("orientation", orientation);
+    }
+    
+ 
+    public void setLegend(boolean legend) {
+        this.legend = legend;
+    }
+    
+    public boolean getLegend() {
+        return (Boolean) valueBinding("legend", legend);
+    }
+
+    public void setIs3D(boolean is3D) {
+        this.is3D = true;
+    }
+    
+    public boolean getIs3D() {
+        return (Boolean) valueBinding("is3D", is3D);
+    }
+
+    public void setTitleBackgroundPaint(String titleBackgroundPaint) {
+        this.titleBackgroundPaint = titleBackgroundPaint;
+    }
+    
+    public String getTitleBackgroundPaint() {
+        return (String) valueBinding("titleBackgroundPaint", titleBackgroundPaint);
+    }
+
+    public void setTitlePaint(String titlePaint) {
+        this.titlePaint = titlePaint;
+    }
+
+    public String getTitlePaint() {
+        return (String) valueBinding("titlePaint", titlePaint);
+    }
+    
+    public String getLegendBackgroundPaint() {
+        return (String) valueBinding("legendBackgroundPaint", legendBackgroundPaint);
+    }
+
+    public void setLegendBackgroundPaint(String legendBackgroundPaint) {
+        this.legendBackgroundPaint = legendBackgroundPaint;
+    }
+
+    public String getLegendItemPaint() {
+        return (String) valueBinding("legendItemPaint", legendItemPaint);
+    }
+
+    public void setLegendItemPaint(String legendItemPaint) {
+        this.legendItemPaint = legendItemPaint;
+    }
+    
     public String getDomainGridlinePaint() {
         return (String) valueBinding("domainGridlinePaint", domainGridlinePaint);
     }
@@ -63,33 +163,73 @@ public abstract class UICategoryChartBase
     public void setRangeGridlinesVisible(Boolean rangeGridlinesVisible) {
         this.rangeGridlinesVisible = rangeGridlinesVisible;
     }
-    
-    
+        
+    public String getDomainAxisPaint() {
+        return (String) valueBinding("domainAxisPaint", domainAxisPaint);
+    }
+
+    public void setDomainAxisPaint(String domainAxisPaint) {
+        this.domainAxisPaint = domainAxisPaint;
+    }
+
+    public String getRangeAxisPaint() {
+        return (String) valueBinding("rangeAxisPaint", rangeAxisPaint);
+    }
+
+    public void setRangeAxisPaint(String rangeAxisPaint) {
+        this.rangeAxisPaint = rangeAxisPaint;
+    }
+
     @Override
     public void restoreState(FacesContext context, Object state)
     {
        Object[] values = (Object[]) state;
        
        super.restoreState(context, values[0]);                    
-       domainGridlinesVisible = (Boolean) values[1];
-       domainGridlinePaint    = (String) values[2];
-       domainGridlineStroke   = (String) values[3];
-       rangeGridlinesVisible  = (Boolean) values[4];
-       rangeGridlinePaint     = (String) values[5];
-       rangeGridlineStroke    = (String) values[6];
+       
+       orientation = (String) values[1];       
+       legend = (Boolean) values[2];
+       is3D = (Boolean) values[3];
+       title = (String) values[4];    
+       titleBackgroundPaint = (String) values[5];
+       titlePaint = (String) values[6];
+       legendBackgroundPaint = (String) values[7];
+       legendItemPaint = (String) values[8];
+       domainAxisLabel = (String) values[9];
+       domainAxisPaint = (String) values[10];
+       domainGridlinesVisible = (Boolean) values[11];
+       domainGridlinePaint = (String) values[12];
+       domainGridlineStroke = (String) values[13];       
+       rangeAxisLabel = (String) values[14];
+       rangeAxisPaint = (String) values[15];      
+       rangeGridlinesVisible = (Boolean) values[16];
+       rangeGridlinePaint = (String) values[17];
+       rangeGridlineStroke = (String) values[18];
     }
 
     @Override
     public Object saveState(FacesContext context)
     {
-       Object[] values = new Object[7];       
+       Object[] values = new Object[19];       
        values[0] = super.saveState(context);
-       values[1] = domainGridlinesVisible;
-       values[2] = domainGridlinePaint;
-       values[3] = domainGridlineStroke;
-       values[4] = rangeGridlinesVisible;
-       values[5] = rangeGridlinePaint;
-       values[6] = rangeGridlineStroke;
+       values[1] = orientation;       
+       values[2] = legend;
+       values[3] = is3D;
+       values[4] = title;    
+       values[5] = titleBackgroundPaint;
+       values[6] = titlePaint;
+       values[7] = legendBackgroundPaint;
+       values[8] = legendItemPaint;
+       values[9] = domainAxisLabel;
+       values[10] = domainAxisPaint;
+       values[11] = domainGridlinesVisible;
+       values[12] = domainGridlinePaint;
+       values[13] = domainGridlineStroke;       
+       values[14] = rangeAxisLabel;
+       values[15] = rangeAxisPaint;      
+       values[16] = rangeGridlinesVisible;
+       values[17] = rangeGridlinePaint;
+       values[18] = rangeGridlineStroke;
 
        return values;
     }
@@ -109,28 +249,32 @@ public abstract class UICategoryChartBase
         //plot.setDomainAxisLocation(arg0);
         //plot.setRangeAxisLocation(arg0);
         
-        if (domainGridlinesVisible != null) { 
-            plot.setDomainGridlinesVisible(domainGridlinesVisible);
-        }
-        //plot.setDomainGridlinePosition(CategoryAnchor)
-        if (domainGridlinePaint != null) {
-            plot.setDomainGridlinePaint(findColor(domainGridlinePaint));
-        }
-        if (domainGridlineStroke != null) {
-            plot.setDomainGridlineStroke(findStroke(domainGridlineStroke));
+        if (getDomainGridlinesVisible() != null) { 
+            plot.setDomainGridlinesVisible(getDomainGridlinesVisible());
         }
         
-        if (rangeGridlinesVisible != null) {
-        plot.setRangeGridlinesVisible(rangeGridlinesVisible);
+        if (findColor(getDomainGridlinePaint()) != null) {
+            plot.setDomainGridlinePaint(findColor(getDomainGridlinePaint()));
         }
-        //plot.setRangeGridlinePosition(CategoryAnchor)
-        if (rangeGridlinePaint!=null) {        
-            plot.setRangeGridlinePaint(findColor(rangeGridlinePaint));
+        if (findStroke(getDomainGridlineStroke()) != null) {
+            plot.setDomainGridlineStroke(findStroke(getDomainGridlineStroke()));
         }
-        if (rangeGridlineStroke!=null) {
-            plot.setRangeGridlineStroke(findStroke(rangeGridlineStroke));
+        if (findColor(getDomainAxisPaint()) != null) {
+            plot.getDomainAxis().setLabelPaint(findColor(getDomainAxisPaint()));
         }
-                        
+                
+        if (getRangeGridlinesVisible() != null) {
+            plot.setRangeGridlinesVisible(getRangeGridlinesVisible());
+        }
+        if (findColor(getRangeGridlinePaint())!=null) {        
+            plot.setRangeGridlinePaint(findColor(getRangeGridlinePaint()));
+        }
+        if (findStroke(getRangeGridlineStroke())!=null) { 
+            plot.setRangeGridlineStroke(findStroke(getRangeGridlineStroke()));
+        }
+        if (findColor(getRangeAxisPaint()) != null) {
+            plot.getRangeAxis().setLabelPaint(findColor(getRangeAxisPaint()));
+        }
         configureRenderer(plot.getRenderer());
     }
     
@@ -163,6 +307,25 @@ public abstract class UICategoryChartBase
       
       //renderer.setBaseOutlineStroke(new BasicStroke(2f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 10f, 
               //new float[] {10,3}, 0));     
+    }
+    
+    public void configureTitle(TextTitle chartTitle) {
+        if (findColor(getTitleBackgroundPaint()) != null) {
+            chartTitle.setBackgroundPaint(findColor(getTitleBackgroundPaint()));
+        }
+
+        if (findColor(getTitlePaint()) != null) {
+            chartTitle.setPaint(findColor(getTitlePaint()));
+        }
+    }
+    
+    void configureLegend(LegendTitle chartLegend) {
+        if (findColor(getLegendBackgroundPaint())!=null) {
+            chartLegend.setBackgroundPaint(findColor(getLegendBackgroundPaint()));
+        }
+        if (findColor(getLegendItemPaint())!= null) {
+            chartLegend.setItemPaint(findColor(getLegendItemPaint()));
+        }        
     }
 
 }

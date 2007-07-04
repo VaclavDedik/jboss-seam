@@ -1,6 +1,7 @@
 package org.jboss.seam.pdf.ui;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import javax.faces.context.FacesContext;
 
@@ -15,16 +16,60 @@ public class UIChartData
     private String key;
     private String columnKey;
     private String rowKey;
-    private Number value;
+    private Object value;
     private Float explodedPercent;
     
     private String sectionPaint;
     private String sectionOutlinePaint;
     private String sectionOutlineStroke;
     
+    public Object getValue() {
+        return (Object) valueBinding("value", value);
+    }
+
+    public void setValue(Object value) {
+        this.value = value;
+    }
+    
+    public Number getNumericValue() {        
+        Object val = getValue();
+        if (val instanceof Number) {
+            return (Number) getValue();
+        } else if (val instanceof String) {
+            return new BigDecimal((String)val);
+        } else {
+            throw new RuntimeException("Can't convert " + val.getClass().getName() + " to numeric value");
+        }
+    }
+
+    public String getColumnKey() {
+        return (String) valueBinding("columnKey", columnKey);
+    }
+
+
+
+    public String getKey() {
+        return (String) valueBinding("key", key);
+    }
+
+
+
+    public String getRowKey() {
+        String value = (String) valueBinding("rowkey", rowKey);
+        if (value == null) {
+            UIChartSeries series = (UIChartSeries) findITextParent(this, UIChartSeries.class);
+            value = series.getKey();
+        }
+        return value;
+    }
+
+
+
     public void setKey(String key) {
         this.key = key;
     }
+
+    
     
     public void setRowKey(String rowKey) {
         this.rowKey = rowKey;
@@ -113,46 +158,36 @@ public class UIChartData
     {
         super.encodeEnd(context);
         
-        key = (String) valueBinding("key", key);
-        rowKey = (String) valueBinding("rowkey", rowKey);
-        columnKey = (String) valueBinding("columnKey", columnKey);
-        value = (Number) valueBinding("value", value);
-        
         UIChart chart = (UIChart) findITextParent(getParent(), UIChart.class);
         if (chart != null) {            
             Dataset dataset = chart.getDataset();
             
             if (dataset instanceof DefaultPieDataset) {
                 DefaultPieDataset piedata = (DefaultPieDataset) dataset;
-                piedata.setValue(key, value);               
+                piedata.setValue(getKey(), getNumericValue());               
 
                 PiePlot plot = (PiePlot) chart.getChart().getPlot();
                 
-                if (explodedPercent != null) {
-                    plot.setExplodePercent(key, getExplodedPercent());
+                if (getExplodedPercent() != null) {
+                    plot.setExplodePercent(getKey(), getExplodedPercent());
                 }
                 
-                if (sectionPaint != null) {                    
-                    plot.setSectionPaint(key, UIChart.findColor(getSectionPaint()));
+                if (UIChart.findColor(getSectionPaint()) != null) {                    
+                    plot.setSectionPaint(getKey(), UIChart.findColor(getSectionPaint()));
                 }
                 
-                if (sectionOutlinePaint != null) {
-                    plot.setSectionOutlinePaint(key, UIChart.findColor(getSectionOutlinePaint()));
+                if (UIChart.findColor(getSectionOutlinePaint()) != null) {
+                    plot.setSectionOutlinePaint(getKey(), UIChart.findColor(getSectionOutlinePaint()));
                 }
                 
-                if (sectionOutlineStroke != null) {
-                    plot.setSectionOutlineStroke(key, UIChart.findStroke(getSectionOutlineStroke()));
+                if (UIChart.findStroke(getSectionOutlineStroke()) != null) {
+                    plot.setSectionOutlineStroke(getKey(), UIChart.findStroke(getSectionOutlineStroke()));
                 }                
             } else if (dataset instanceof DefaultCategoryDataset) {
                 DefaultCategoryDataset data = (DefaultCategoryDataset) dataset;
                 
                 //CategoryPlot plot = (CategoryPlot) chart.getChart().getPlot();
-
-                if (rowKey == null) {
-                    UIChartSeries series = (UIChartSeries) findITextParent(this, UIChartSeries.class);
-                    rowKey = series.getKey();
-                }
-                data.addValue(value, rowKey, columnKey);       
+                data.addValue(getNumericValue(), getRowKey(), getColumnKey());       
             } else {
                 throw new RuntimeException("Cannot add data to dataset of type " + dataset.getClass());
             }         

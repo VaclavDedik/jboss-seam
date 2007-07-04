@@ -132,7 +132,7 @@ public class UIChartSeries
             if (p instanceof CategoryPlot) {
                 CategoryPlot plot = (CategoryPlot) p;                
 
-                int seriesIndex = ((CategoryDataset) dataset).getRowIndex(key);
+                int seriesIndex = ((CategoryDataset) dataset).getRowIndex(getKey());
 
                 CategoryItemRenderer renderer = plot.getRenderer();
                 
@@ -149,36 +149,35 @@ public class UIChartSeries
     
     
     private void configureSeries(AbstractRenderer renderer, int seriesIndex) {
-        if (seriesPaint != null) {
+        if (getSeriesPaint() != null) {
             renderer.setSeriesPaint(seriesIndex, UIChart.findColor(getSeriesPaint()));
         }
 
-        if (seriesFillPaint != null) {
+        if (getSeriesFillPaint() != null) {
             renderer.setSeriesFillPaint(seriesIndex, UIChart.findColor(getSeriesFillPaint()));
         }
 
-        if (seriesOutlinePaint != null) {
+        if (getSeriesOutlinePaint() != null) {
             renderer.setSeriesOutlinePaint(seriesIndex, UIChart.findColor(getSeriesOutlinePaint()));
         }
 
-        if (seriesOutlineStroke != null) {
+        if (getSeriesOutlineStroke() != null) {
             renderer.setSeriesOutlineStroke(seriesIndex, UIChart.findStroke(getSeriesOutlineStroke()));
         }
 
-        if (seriesStroke != null) {
+        if (getSeriesStroke() != null) {
             renderer.setSeriesStroke(seriesIndex, UIChart.findStroke(getSeriesStroke()));
         }
 
-        if (seriesVisible != null) {
+        if (getSeriesVisible() != null) {
             renderer.setSeriesVisible(seriesIndex, seriesVisible);
         }
 
-        if (seriesVisibleInLegend != null) {
+        if (getSeriesVisibleInLegend() != null) {
             renderer.setSeriesVisibleInLegend(seriesIndex, getSeriesVisibleInLegend());
         }      
     }
 
-    
     @Override
     public void createITextObject(FacesContext context) {
     }
@@ -195,11 +194,4 @@ public class UIChartSeries
     @Override
     public void handleAdd(Object other) {
     }
-
-
-
-
-    
-    
-
 }
