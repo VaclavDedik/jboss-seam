@@ -59,7 +59,8 @@ public class RemoteRendererBase extends RendererBase
       response.startElement("script", null);
       response.writeAttribute("type", "text/javascript", null);
       response.writeAttribute("src", context.getExternalContext().getRequestContextPath()
-               + "/seam/resource/remoting/interface.js?" + remote.getInclude(), null);
+               + "/seam/resource/remoting/interface.js?" + 
+               remote.getInclude().replace(',', '&'), null);
       response.endElement("script");
    }
 }
