@@ -1,24 +1,46 @@
 package org.jboss.seam.example.pdf;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.*;
 
 @Name("chart")
 @Scope(ScopeType.SESSION)
-public class DynamicChart{
+public class DynamicChart {
+    List<Data> data = new ArrayList<Data>();
+    
     boolean is3d = false;
     boolean legend = true;
     
-    String title = "Dynamic Chart";
-    String categoryAxisLabel = "Default Category Label"; 
-    String valueAxisLabel = "Default Value Label";
+    String  title = "Dynamic Chart";
+    String  domainAxisLabel = "Domain Label";
+    String  domainAxisPaint;
+    boolean domainGridlinesVisible = true;
+    String  domainGridlinePaint;
+    String  domainGridlineStroke;
+    String  rangeAxisLabel = "Range Label";
+    String  rangeAxisPaint;
+    boolean rangeGridlinesVisible = true;
+    String  rangeGridlinePaint;
+    String  rangeGridlineStroke;
     
-    String orientation = "vertical";
-    String plotBackgroundPaint;
-    String plotOutlinePaint;
-    String borderPaint;
-    String borderBackgroundPaint;
+    String orientation           = "vertical";
+    String plotBackgroundPaint   = "white";
+    String plotOutlinePaint      = "black";
+    String plotOutlineStroke     = "solid-thin";
+    String borderPaint           = "black";
+    String borderBackgroundPaint = "white";
+    String borderStroke          = "solid-thick";
     
+    String titlePaint;
+    String titleBackgroundPaint;
+    String legendBackgroundPaint;
+    String legendItemPaint;
+    
+    Float plotBackgroundAlpha = .7f;
+    Float plotForegroundAlpha = 1f;
     
     float height = 300;
     float width  = 400;    
@@ -33,20 +55,20 @@ public class DynamicChart{
         this.is3d = is3d;
     }
 
-    public String getCategoryAxisLabel() {
-        return categoryAxisLabel;
+    public String getDomainAxisLabel() {
+        return domainAxisLabel;
     }
 
-    public void setCategoryAxisLabel(String categoryAxisLabel) {
-        this.categoryAxisLabel = categoryAxisLabel;
+    public void setDomainAxisLabel(String categoryAxisLabel) {
+        this.domainAxisLabel = categoryAxisLabel;
     }
 
-    public String getValueAxisLabel() {
-        return valueAxisLabel;
+    public String getRangeAxisLabel() {
+        return rangeAxisLabel;
     }
 
-    public void setValueAxisLabel(String valueAxisLabel) {
-        this.valueAxisLabel = valueAxisLabel;
+    public void setRangeAxisLabel(String valueAxisLabel) {
+        this.rangeAxisLabel = valueAxisLabel;
     }
 
     public boolean isBorderVisible() {
@@ -129,5 +151,159 @@ public class DynamicChart{
         this.plotOutlinePaint = plotOutlinePaint;
     }
 
+    public String getBorderStroke() {
+        return borderStroke;
+    }
+
+    public void setBorderStroke(String borderStroke) {
+        this.borderStroke = borderStroke;
+    }
+
+    public String getPlotOutlineStroke() {
+        return plotOutlineStroke;
+    }
+
+    public void setPlotOutlineStroke(String plotOutlineStroke) {
+        this.plotOutlineStroke = plotOutlineStroke;
+    }
+
+    public Float getPlotBackgroundAlpha() {
+        return plotBackgroundAlpha;
+    }
+
+    public void setPlotBackgroundAlpha(Float plotBackgroundAlpha) {
+        this.plotBackgroundAlpha = plotBackgroundAlpha;
+    }
+
+    public Float getPlotForegroundAlpha() {
+        return plotForegroundAlpha;
+    }
+
+    public void setPlotForegroundAlpha(Float plotForegroundAlpha) {
+        this.plotForegroundAlpha = plotForegroundAlpha;
+    }
+
+    public String getTitleBackgroundPaint() {
+        return titleBackgroundPaint;
+    }
+
+    public void setTitleBackgroundPaint(String titleBackgroundPaint) {
+        this.titleBackgroundPaint = titleBackgroundPaint;
+    }
+
+    public String getTitlePaint() {
+        return titlePaint;
+    }
+
+    public void setTitlePaint(String titlePaint) {
+        this.titlePaint = titlePaint;
+    }
+
+    public String getLegendBackgroundPaint() {
+        return legendBackgroundPaint;
+    }
+
+    public void setLegendBackgroundPaint(String legendBackgroundPaint) {
+        this.legendBackgroundPaint = legendBackgroundPaint;
+    }
+
+    public String getLegendItemPaint() {
+        return legendItemPaint;
+    }
+
+    public void setLegendItemPaint(String legendItemPaint) {
+        this.legendItemPaint = legendItemPaint;
+    }
+
+    public String getDomainAxisPaint() {
+        return domainAxisPaint;
+    }
+
+    public void setDomainAxisPaint(String domainAxisPaint) {
+        this.domainAxisPaint = domainAxisPaint;
+    }
+
+    public String getDomainGridlinePaint() {
+        return domainGridlinePaint;
+    }
+
+    public void setDomainGridlinePaint(String domainGridlinePaint) {
+        this.domainGridlinePaint = domainGridlinePaint;
+    }
+
+    public String getDomainGridlineStroke() {
+        return domainGridlineStroke;
+    }
+
+    public void setDomainGridlineStroke(String domainGridlineStroke) {
+        this.domainGridlineStroke = domainGridlineStroke;
+    }
+
+    public boolean isDomainGridlinesVisible() {
+        return domainGridlinesVisible;
+    }
+
+    public void setDomainGridlinesVisible(boolean domainGridlineVisible) {
+        this.domainGridlinesVisible = domainGridlineVisible;
+    }
+
+    public String getRangeAxisPaint() {
+        return rangeAxisPaint;
+    }
+
+    public void setRangeAxisPaint(String rangeAxisPaint) {
+        this.rangeAxisPaint = rangeAxisPaint;
+    }
+
+    public String getRangeGridlinePaint() {
+        return rangeGridlinePaint;
+    }
+
+    public void setRangeGridlinePaint(String rangeGridlinePaint) {
+        this.rangeGridlinePaint = rangeGridlinePaint;
+    }
+
+    public String getRangeGridlineStroke() {
+        return rangeGridlineStroke;
+    }
+
+    public void setRangeGridlineStroke(String rangeGridlineStroke) {
+        this.rangeGridlineStroke = rangeGridlineStroke;
+    }
+
+    public boolean isRangeGridlinesVisible() {
+        return rangeGridlinesVisible;
+    }
+
+    public void setRangeGridlinesVisible(boolean rangeGridlineVisible) {
+        this.rangeGridlinesVisible = rangeGridlineVisible;
+    }
+
+    
+    @Create
+    public void initData() {
+        Data set1 = new Data();
+        set1.setId("one");
+        set1.addValue("a", 10);
+        set1.addValue("b", 20);
+        set1.addValue("c", 30);
+        data.add(set1);
+
+        Data set2 = new Data();
+        set2.setId("two");
+        set2.addValue("a",9);
+        set2.addValue("b",18);
+        set2.addValue("c",36);        
+        data.add(set2);
+    }
+    
+    
+    public List<Data> getData() {
+        return data;
+    }
+    
+    public void newData() {
+        data.add(new Data());
+    }
 
 }

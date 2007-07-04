@@ -4,17 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.Unwrap;
 
 
-@Name("colors")
+@Name("random")
 @Scope(ScopeType.SESSION)
 public class Colors {
-
+    @Factory("strokes") 
+    public String[] getStrokes() {
+        return new String[] {
+                "solid-thin",
+                "solid-thick",
+                "dot1",
+                "dot2"
+        };
+    }
    
-    @Unwrap
+    @Factory("colors")
     public List getAll() {
         List<String> colors = new ArrayList<String>();
         
