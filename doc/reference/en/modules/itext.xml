@@ -408,7 +408,7 @@
 
                                 <para><literal>p:image</literal> inserts an image into the document. Images can be be
                                     loaded from the classpath or from the web application context using the
-                                        <literal>resource</literal> attribute. </para>
+                                        <literal>value</literal> attribute. </para>
 
 
 
@@ -424,11 +424,6 @@
                                 </para>
 
                                 <itemizedlist>
-                                    <listitem>
-                                        <para><literal>resource</literal> &#8212; The location of the image resource
-                                            to be included. Resources should be relative to the document root of the web
-                                            application. </para>
-                                    </listitem>
                                     <listitem>
                                         <para><literal>value</literal> &#8212; A resource name or a method
                                             expression binding to an application-generated image. </para>
