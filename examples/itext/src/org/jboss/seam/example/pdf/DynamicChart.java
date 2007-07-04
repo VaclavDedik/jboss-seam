@@ -2,6 +2,7 @@ package org.jboss.seam.example.pdf;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.*;
@@ -9,6 +10,9 @@ import org.jboss.seam.*;
 @Name("chart")
 @Scope(ScopeType.SESSION)
 public class DynamicChart {
+    private static final int CHART_RANGE = 50;
+    Random random = new Random();
+    
     List<Data> data = new ArrayList<Data>();
     
     boolean is3d = false;
@@ -17,7 +21,7 @@ public class DynamicChart {
     String  title = "Dynamic Chart";
     String  domainAxisLabel = "Domain Label";
     String  domainAxisPaint;
-    boolean domainGridlinesVisible = true;
+    boolean domainGridlinesVisible = false;
     String  domainGridlinePaint;
     String  domainGridlineStroke;
     String  rangeAxisLabel = "Range Label";
@@ -282,28 +286,46 @@ public class DynamicChart {
     
     @Create
     public void initData() {
-        Data set1 = new Data();
-        set1.setId("one");
-        set1.addValue("a", 10);
-        set1.addValue("b", 20);
-        set1.addValue("c", 30);
-        data.add(set1);
-
-        Data set2 = new Data();
-        set2.setId("two");
-        set2.addValue("a",9);
-        set2.addValue("b",18);
-        set2.addValue("c",36);        
-        data.add(set2);
+        newSeries();
+        newSeries();
     }
-    
-    
+        
     public List<Data> getData() {
         return data;
     }
-    
-    public void newData() {
-        data.add(new Data());
+
+    public void removeSeries(String id) {
+        System.out.println("REMOVE: " + id);
     }
+    
+    public void newSeries() {
+        String newId = findUniqueId();
+        Data set = new Data();
+        set.setId(newId);
+        set.addValue("first",  random.nextInt(CHART_RANGE));
+        set.addValue("second", random.nextInt(CHART_RANGE));
+        set.addValue("third",  random.nextInt(CHART_RANGE)); 
+        
+        data.add(set);
+    }
+
+    private String findUniqueId() {
+        for (int num=1; true; num++) {
+            String id = "Series " + num;
+            if (isUniqueId(id)) {
+                return id;
+            }
+        }
+    }
+
+    private boolean isUniqueId(String id) {
+        for (Data item: data) {
+            if (item.getId().equals(id)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
 
 }

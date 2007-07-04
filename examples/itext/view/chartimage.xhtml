@@ -1,9 +1,12 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:p="http://jboss.com/products/seam/pdf"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:s="http://jboss.com/products/seam/taglib"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:rich="http://richfaces.ajax4jsf.org/rich"
       xmlns:a="https://ajax4jsf.dev.java.net/ajax">
 <head>
     <title>Seam PDF</title>
@@ -11,11 +14,8 @@
 <body>
     <p:stroke id="solid-thin"  width="1" cap="round" join="bevel" dash="1" />
     <p:stroke id="solid-thick" width="4" cap="round" join="bevel" dash="1" />
-    <p:stroke id="dot1"  width="2" cap="round" join="bevel" dash="1 2 3 4" />
-    <p:stroke id="dot2"  width="2" cap="round" join="bevel" dash="2 3" />
-
-    <p:color id="foo" color="#0ff00f"/>
-    <p:color id="bar" color="#ff00ff" color2="#00ff00" point="50 50" point2="300 300"/>
+    <p:stroke id="dot1"  width="2" cap="round" join="bevel" dash="3 3" />
+    <p:stroke id="dot2"  width="2" cap="round" join="bevel" dash="2 4" />
 
     <a:outputPanel id="chart">
         <p:barchart title="#{chart.title}"  orientation="#{chart.orientation}"
@@ -46,188 +46,254 @@
                     titleBackgroundPaint="#{chart.titleBackgroundPaint}">
 
             <ui:repeat value="#{chart.data}" var="dataset">
-                <p:series key="#{dataset.id}">
+                <p:series key="#{dataset.id}" 
+                          seriesVisible="#{dataset.visible}"
+                          seriesVisibleInLegend="#{dataset.visibleInLegend}"
+                          seriesPaint="#{dataset.seriesPaint}"
+                          seriesFillPaint="#{dataset.seriesFillPaint}" 
+                          seriesStroke="#{dataset.seriesStroke}"
+                          seriesOutlinePaint="#{dataset.seriesOutlinePaint}" 
+                          seriesOutlineStroke="#{dataset.seriesOutlineStroke}">
+
                     <ui:repeat value="#{dataset.keys}" var="d">
                         <p:data columnKey="#{d}" value="#{dataset.values[d]}" />
                     </ui:repeat>
                 </p:series>
             </ui:repeat>
-
-<ui:remove>
-            <p:series key="data1" seriesPaint="blue" seriesStroke="dot2"
-                      seriesFillPaint="red" seriesVisibleInLegend="true"
-                      seriesOutlinePaint="pink" seriesOutlineStroke="dot1">
-                
-                <ui:repeat value="#{data.pieData}" var="item">
-                    <p:data columnKey="#{item.name}" value="#{item.value}" />
-                </ui:repeat>
-            </p:series>
-            <p:series key="data2" seriesPaint="green"  seriesStroke="dot2">
-                <ui:repeat value="#{data.pieData}" var="item">
-                    <p:data columnKey="#{item.name}" value="#{item.value+10}" />
-                </ui:repeat>
-            </p:series>
-
-            <p:series key="data3">
-                <ui:repeat value="#{data.pieData}" var="item">
-                    <p:data columnKey="#{item.name}" value="#{item.value-5}" />
-                </ui:repeat>
-            </p:series>
-</ui:remove>
         </p:barchart>
     </a:outputPanel>
 
     <h:form>
         <h3>Chart</h3>
-        <s:validateAll>
-        Title: <h:inputText value="#{chart.title}">
-            <a:support  event="onchange" reRender="chart" />
-        </h:inputText>
-        
-        Foreground:
-        <h:selectOneMenu value="#{chart.titlePaint}">             
-            <s:selectItems value="#{colors}" var="i" label="#{i}"
-                           noSelectionLabel="Default ... "/> 
-            <a:support  event="onchange" reRender="chart" />
-        </h:selectOneMenu> 
 
-        Background:
-        <h:selectOneMenu value="#{chart.titleBackgroundPaint}">             
-            <s:selectItems value="#{colors}" var="i" label="#{i}"
-                           noSelectionLabel="Default ... "/> 
-            <a:support  event="onchange" reRender="chart" />
-        </h:selectOneMenu> 
+        <rich:tabPanel switchType="ajax">
+            <rich:tab label="Title">
+                Label:
+                <h:inputText value="#{chart.title}">
+                    <a:support  event="onchange" reRender="chart" />
+                </h:inputText>
+                <br />
 
-        <br />
+                Title Foreground:
+                <h:selectOneMenu value="#{chart.titlePaint}">             
+                    <s:selectItems value="#{colors}" var="i" label="#{i}"
+                                   noSelectionLabel="Default ... "/> 
+                    <a:support  event="onchange" reRender="chart" />
+                </h:selectOneMenu> 
+                <br />
 
-        3D: 
-        <h:selectBooleanCheckbox value="#{chart.is3d}">
-            <a:support  event="onchange" reRender="chart" />
-        </h:selectBooleanCheckbox>
-        Orientation:
-        <h:selectOneMenu value="#{chart.orientation}">             
-            <f:selectItem  itemValue="horizontal" itemLabel="horizontal"/>  
-            <f:selectItem  itemValue="vertical" itemLabel="vertical" />  
-            <a:support  event="onchange" reRender="chart" />
-        </h:selectOneMenu>         
-
-        <br />
-
-        Height: <h:inputText value="#{chart.height}" /> 
-        Width: <h:inputText value="#{chart.width}" /> <br />
-
-        Domain: <h:inputText value="#{chart.domainAxisLabel}" />
-        <h:selectOneMenu value="#{chart.domainAxisPaint}">
-            <s:selectItems value="#{colors}" var="i" label="#{i}"
-                           noSelectionLabel="Default ... "/> 
-            <a:support  event="onchange" reRender="chart" />
-        </h:selectOneMenu> <br />
-        Gridline:
-        <h:selectBooleanCheckbox value="#{chart.domainGridlinesVisible}">
-            <a:support  event="onchange" reRender="chart" />
-        </h:selectBooleanCheckbox>
-        <h:selectOneMenu value="#{chart.domainGridlinePaint}">
-            <s:selectItems value="#{colors}" var="i" label="#{i}"
-                           noSelectionLabel="Default ... "/> 
-            <a:support  event="onchange" reRender="chart" />
-        </h:selectOneMenu>
-        <h:selectOneMenu value="#{chart.domainGridlineStroke}">
+                Title Background:
+                <h:selectOneMenu value="#{chart.titleBackgroundPaint}">             
+                    <s:selectItems value="#{colors}" var="i" label="#{i}"
+                                   noSelectionLabel="Default ... "/> 
+                    <a:support  event="onchange" reRender="chart" />
+                </h:selectOneMenu> 
+                
+            </rich:tab>
+            <rich:tab label="Style">
+                3D: 
+                <h:selectBooleanCheckbox value="#{chart.is3d}">
+                    <a:support  event="onchange" reRender="chart" />
+                </h:selectBooleanCheckbox>
+                Orientation:
+                <h:selectOneMenu value="#{chart.orientation}">             
+                    <f:selectItem  itemValue="horizontal" itemLabel="horizontal"/>  
+                    <f:selectItem  itemValue="vertical" itemLabel="vertical" />  
+                    <a:support  event="onchange" reRender="chart" />
+                </h:selectOneMenu>         
+                
+                <br />
+                
+                Height: <h:inputText value="#{chart.height}" /> 
+                Width: <h:inputText value="#{chart.width}" /> <br />
+            </rich:tab>
+            <rich:tab label="Domain">
+                Domain: <h:inputText value="#{chart.domainAxisLabel}">
+                <a:support  event="onchange" reRender="chart" />
+            </h:inputText>
+            <h:selectOneMenu value="#{chart.domainAxisPaint}">
+                <s:selectItems value="#{colors}" var="i" label="#{i}"
+                               noSelectionLabel="Default ... "/> 
+                <a:support  event="onchange" reRender="chart" />
+                </h:selectOneMenu> <br />
+                Gridline:
+                <h:selectBooleanCheckbox value="#{chart.domainGridlinesVisible}">
+                    <a:support  event="onchange" reRender="chart" />
+                </h:selectBooleanCheckbox>
+                <h:selectOneMenu value="#{chart.domainGridlinePaint}">
+                    <s:selectItems value="#{colors}" var="i" label="#{i}"
+                                   noSelectionLabel="Default ... "/> 
+                    <a:support  event="onchange" reRender="chart" />
+                </h:selectOneMenu>
+                <h:selectOneMenu value="#{chart.domainGridlineStroke}">
+                    <s:selectItems value="#{strokes}" var="i" label="#{i}" noSelectionLabel="Default..." />
+                    <a:support  event="onchange" reRender="chart" />
+                </h:selectOneMenu> 
+                
+            </rich:tab>
+            <rich:tab label="Range">
+                Range:<h:inputText value="#{chart.rangeAxisLabel}" />  
+                <h:selectOneMenu value="#{chart.rangeAxisPaint}">
+                    <s:selectItems value="#{colors}" var="i" label="#{i}"
+                                   noSelectionLabel="Default ... "/> 
+                    <a:support  event="onchange" reRender="chart" />
+                    </h:selectOneMenu> <br />
+                    Gridline:
+                    <h:selectBooleanCheckbox value="#{chart.rangeGridlinesVisible}">
+                        <a:support  event="onchange" reRender="chart" />
+                    </h:selectBooleanCheckbox>
+                    <h:selectOneMenu value="#{chart.rangeGridlinePaint}">             
+                        <s:selectItems value="#{colors}" var="i" label="#{i}"
+                                       noSelectionLabel="Default ... "/> 
+                        <a:support  event="onchange" reRender="chart" />
+                    </h:selectOneMenu> 
+                    <h:selectOneMenu value="#{chart.rangeGridlineStroke}">
             <s:selectItems value="#{strokes}" var="i" label="#{i}" noSelectionLabel="Default..." />
             <a:support  event="onchange" reRender="chart" />
-        </h:selectOneMenu> 
-        <br />
-        
-        Range:<h:inputText value="#{chart.rangeAxisLabel}" />  
-        <h:selectOneMenu value="#{chart.rangeAxisPaint}">
-            <s:selectItems value="#{colors}" var="i" label="#{i}"
-                           noSelectionLabel="Default ... "/> 
-            <a:support  event="onchange" reRender="chart" />
-        </h:selectOneMenu> <br />
-        Gridline:
-        <h:selectBooleanCheckbox value="#{chart.rangeGridlinesVisible}">
-            <a:support  event="onchange" reRender="chart" />
-        </h:selectBooleanCheckbox>
-        <h:selectOneMenu value="#{chart.rangeGridlinePaint}">             
-            <s:selectItems value="#{colors}" var="i" label="#{i}"
-                           noSelectionLabel="Default ... "/> 
-            <a:support  event="onchange" reRender="chart" />
-        </h:selectOneMenu> 
-        <h:selectOneMenu value="#{chart.rangeGridlineStroke}">
-            <s:selectItems value="#{strokes}" var="i" label="#{i}" noSelectionLabel="Default..." />
-            <a:support  event="onchange" reRender="chart" />
-        </h:selectOneMenu> 
-        
-        <h3>Plot</h3>
-        Background:
-        <h:selectOneMenu value="#{chart.plotBackgroundPaint}">             
-            <s:selectItems value="#{colors}" var="i" label="#{i}"
-                           noSelectionLabel="Default ... "/> 
-            <a:support  event="onchange" reRender="chart" />
-        </h:selectOneMenu> 
+                    </h:selectOneMenu> 
+            </rich:tab>
+            <rich:tab label="Plot">
+                Background:
+                <h:selectOneMenu value="#{chart.plotBackgroundPaint}">             
+                    <s:selectItems value="#{colors}" var="i" label="#{i}"
+                                   noSelectionLabel="Default ... "/> 
+                    <a:support  event="onchange" reRender="chart" />
+                </h:selectOneMenu> 
+                
+                Outline:
+                <h:selectOneMenu value="#{chart.plotOutlinePaint}">             
+                    <s:selectItems value="#{colors}" var="i" label="#{i}"
+                                   noSelectionLabel="Default ... "/> 
+                    <a:support  event="onchange" reRender="chart" />
+                </h:selectOneMenu>
+                <h:selectOneMenu value="#{chart.plotOutlineStroke}">
+                    <s:selectItems value="#{strokes}" var="i" label="#{i}" noSelectionLabel="Default..." />
+                    <a:support  event="onchange" reRender="chart" />
+                </h:selectOneMenu>
+                <br />
+                    
+                
+                Foreground Alpha: 
+                <rich:inputNumberSlider value="#{chart.plotForegroundAlpha}" 
+                                        maxValue="1"
+                                        step=".1">
+                    <a:support  event="onchange" reRender="chart" />
+                </rich:inputNumberSlider>
+                
+                Background Alpha: 
+                <rich:inputNumberSlider value="#{chart.plotBackgroundAlpha}" 
+                                        maxValue="1"
+                                        step=".1">
+                    <a:support  event="onchange" reRender="chart" />
+                </rich:inputNumberSlider>
+            </rich:tab>
+            <rich:tab label="Range">
+                Border: 
+                <h:selectBooleanCheckbox value="#{chart.borderVisible}">
+                    <a:support  event="onchange" reRender="chart" />
+                </h:selectBooleanCheckbox>
+                <h:selectOneMenu value="#{chart.borderPaint}">             
+                    <s:selectItems value="#{colors}" var="i" label="#{i}"
+                                   noSelectionLabel="Default ... "/> 
+                    <a:support  event="onchange" reRender="chart" />
+                </h:selectOneMenu> 
+                
+                <h:selectOneMenu value="#{chart.borderStroke}">
+                    <s:selectItems value="#{strokes}" var="i" label="#{i}" noSelectionLabel="Default..." />
+                    <a:support  event="onchange" reRender="chart" />
+                </h:selectOneMenu> 
+                
+                Background: 
+                <h:selectOneMenu value="#{chart.borderBackgroundPaint}">             
+                    <s:selectItems value="#{colors}" var="i" label="#{i}"
+                                   noSelectionLabel="Default ... "/> 
+                    <a:support event="onchange" reRender="chart" />
+                </h:selectOneMenu>
+            </rich:tab>
+            <rich:tab label="Legend">
+                Legend: 
+                <h:selectBooleanCheckbox value="#{chart.legend}">
+                    <a:support  event="onchange" reRender="chart" />
+                </h:selectBooleanCheckbox>
+                <h:selectOneMenu value="#{chart.legendItemPaint}">             
+                    <s:selectItems value="#{colors}" var="i" label="#{i}"
+                                   noSelectionLabel="Default ... "/> 
+                    <a:support  event="onchange" reRender="chart" />
+                </h:selectOneMenu> 
+                
+                Background:
+                <h:selectOneMenu value="#{chart.legendBackgroundPaint}">             
+                    <s:selectItems value="#{colors}" var="i" label="#{i}"
+                                   noSelectionLabel="Default ... "/> 
+                    <a:support  event="onchange" reRender="chart" />
+                </h:selectOneMenu> 
+                
+            </rich:tab>
+            <rich:tab label="Data">
+                <ui:repeat value="#{chart.data}" var="dataset">
 
-        Outline:
-        <h:selectOneMenu value="#{chart.plotOutlinePaint}">             
-            <s:selectItems value="#{colors}" var="i" label="#{i}"
-                           noSelectionLabel="Default ... "/> 
-            <a:support  event="onchange" reRender="chart" />
-        </h:selectOneMenu>
-        <h:selectOneMenu value="#{chart.plotOutlineStroke}">
-            <f:selectItem itemValue="solid-thin"  itemLabel="solid thin line" />
-            <f:selectItem itemValue="solid-thick" itemLabel="solid thick line" />
-            <f:selectItem itemValue="dot1" itemLabel="dot1" />
-            <f:selectItem itemValue="dot2" itemLabel="dot2" />
-            <a:support  event="onchange" reRender="chart" />
-        </h:selectOneMenu> 
+                    <rich:panel>
+                        Visible:
+                        <h:selectBooleanCheckbox value="#{dataset.visible}">
+                            <a:support  event="onchange" reRender="chart" />
+                        </h:selectBooleanCheckbox>
+                        
+                        In Legend:
+                        <h:selectBooleanCheckbox value="#{dataset.visibleInLegend}">
+                            <a:support  event="onchange" reRender="chart" />
+                        </h:selectBooleanCheckbox>
+                        
+                        <br />           
 
 
-        Foreground Alpha: <h:inputText value="#{chart.plotForegroundAlpha}" /> 
-        Background Alpha: <h:inputText value="#{chart.plotBackgroundAlpha}" /> <br />
+                        Series Name: <h:inputText value="#{dataset.id}">
+                            <a:support event="onchange" reRender="chart" />
+                        </h:inputText>
+                        <br />
 
-        <h3>Border</h3>
-        Border: <h:selectBooleanCheckbox value="#{chart.borderVisible}">
-                <a:support  event="onchange" reRender="chart" />
-            </h:selectBooleanCheckbox>
-        <h:selectOneMenu value="#{chart.borderPaint}">             
-            <s:selectItems value="#{colors}" var="i" label="#{i}"
-                           noSelectionLabel="Default ... "/> 
-            <a:support  event="onchange" reRender="chart" />
-        </h:selectOneMenu> 
+                    
+                        Style:
+                        <h:selectOneMenu value="#{dataset.seriesPaint}">             
+                            <s:selectItems value="#{colors}" var="i" label="#{i}"
+                                           noSelectionLabel="Default ... "/> 
+                            <a:support  event="onchange" reRender="chart" />
+                        </h:selectOneMenu> 
+                        
+                        <h:selectOneMenu value="#{dataset.seriesStroke}">
+                            <s:selectItems value="#{strokes}" var="i" label="#{i}" noSelectionLabel="Default..." />
+                            <a:support  event="onchange" reRender="chart" />
+                        </h:selectOneMenu> 
+                        
+                        <ui:remove><!-- fill only for custom shapes?-->
+                            Fill:
+                            <h:selectOneMenu value="#{dataset.seriesFillPaint}">             
+                                <s:selectItems value="#{colors}" var="i" label="#{i}"
+                                               noSelectionLabel="Default ... "/> 
+                                <a:support  event="onchange" reRender="chart" />
+                            </h:selectOneMenu> 
+                        </ui:remove>
+                        <br />
+                        
+                        Outline:
+                        <h:selectOneMenu value="#{dataset.seriesOutlinePaint}">             
+                            <s:selectItems value="#{colors}" var="i" label="#{i}"
+                                           noSelectionLabel="Default ... "/> 
+                            <a:support  event="onchange" reRender="chart" />
+                        </h:selectOneMenu>             
+                        <h:selectOneMenu value="#{dataset.seriesOutlineStroke}">
+                            <s:selectItems value="#{strokes}" var="i" label="#{i}" noSelectionLabel="Default..." />
+                            <a:support  event="onchange" reRender="chart" />
+                        </h:selectOneMenu> 
+                        
+                        <br />
+                        <s:button action="#{chart.removeSeries(dataset.id)}" />
+                    </rich:panel>
+                    <rich:spacer height="10" />
+                </ui:repeat>
 
-        <h:selectOneMenu value="#{chart.borderStroke}">
-            <f:selectItem itemValue="solid-thin"  itemLabel="solid thin line" />
-            <f:selectItem itemValue="solid-thick" itemLabel="solid thick line" />
-            <f:selectItem itemValue="dot1" itemLabel="dot1" />
-            <f:selectItem itemValue="dot2" itemLabel="dot2" />
-            <a:support  event="onchange" reRender="chart" />
-        </h:selectOneMenu> 
-
-        Background: 
-        <h:selectOneMenu value="#{chart.borderBackgroundPaint}">             
-            <s:selectItems value="#{colors}" var="i" label="#{i}"
-                           noSelectionLabel="Default ... "/> 
-            <a:support event="onchange" reRender="chart" />
-        </h:selectOneMenu>
-        
-        <h3>Legend</h3>
-        Legend: <h:selectBooleanCheckbox value="#{chart.legend}">
-                <a:support  event="onchange" reRender="chart" />
-            </h:selectBooleanCheckbox>
-        <h:selectOneMenu value="#{chart.legendItemPaint}">             
-            <s:selectItems value="#{colors}" var="i" label="#{i}"
-                           noSelectionLabel="Default ... "/> 
-            <a:support  event="onchange" reRender="chart" />
-        </h:selectOneMenu> 
-        
-        Background:
-        <h:selectOneMenu value="#{chart.legendBackgroundPaint}">             
-            <s:selectItems value="#{colors}" var="i" label="#{i}"
-                           noSelectionLabel="Default ... "/> 
-            <a:support  event="onchange" reRender="chart" />
-        </h:selectOneMenu> 
-
-        </s:validateAll>
+                <h:commandButton action="#{chart.newSeries}" value="Add New Series" />
+            </rich:tab>
+        </rich:tabPanel>
     </h:form>
-
-    
 </body>
 </html>

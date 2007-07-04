@@ -26,11 +26,18 @@ public class Colors {
     public List getAll() {
         List<String> colors = new ArrayList<String>();
         
-        colors.add("red");
-        colors.add("blue");
-        colors.add("green");
-        colors.add("black");
         colors.add("white");
+        colors.add("gray");
+        colors.add("lightgray");
+        colors.add("darkgray");
+        colors.add("black");
+        colors.add("red");
+        colors.add("pink");
+        colors.add("yellow");
+        colors.add("green");
+        colors.add("magenta");
+        colors.add("cyan");
+        colors.add("blue");
         
         return colors;        
     }

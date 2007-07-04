@@ -4,6 +4,29 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
     
+    <context-param>
+        <param-name>org.ajax4jsf.SKIN</param-name>
+        <param-value>EmeraldTown</param-value>
+    </context-param> 
+    <context-param>
+        <param-name>org.ajax4jsf.VIEW_HANDLERS</param-name>
+        <param-value>com.sun.facelets.FaceletViewHandler</param-value>
+    </context-param>
+
+    <filter> 
+        <display-name>Ajax4jsf Filter</display-name> 
+        <filter-name>ajax4jsf</filter-name> 
+        <filter-class>org.ajax4jsf.Filter</filter-class> 
+    </filter> 
+    <filter-mapping> 
+        <filter-name>ajax4jsf</filter-name> 
+        <servlet-name>Faces Servlet</servlet-name>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
+    </filter-mapping>
+    
+
     <listener>
         <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
     </listener>
@@ -17,6 +40,8 @@
         <filter-name>Seam Filter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+
+
     
     <context-param>
         <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
