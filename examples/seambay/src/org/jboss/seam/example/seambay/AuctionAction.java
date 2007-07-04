@@ -37,20 +37,22 @@ public class AuctionAction implements Serializable
    
    @In Account authenticatedAccount;
 
-   @Out
    private Auction auction;
    
    private int durationDays;
    
-   @Begin
+   @Begin(join = true)
    @SuppressWarnings("unchecked")
    public void createAuction()
    {
-      auction = new Auction();
-      auction.setAccount(authenticatedAccount);
-      auction.setStatus(Auction.STATUS_UNLISTED);   
-     
-      durationDays = DEFAULT_AUCTION_DURATION;
+      if (auction == null)
+      {
+         auction = new Auction();
+         auction.setAccount(authenticatedAccount);
+         auction.setStatus(Auction.STATUS_UNLISTED);   
+        
+         durationDays = DEFAULT_AUCTION_DURATION;
+      }
    }   
    
    public void setDetails(String title, String description, int categoryId)
@@ -83,5 +85,20 @@ public class AuctionAction implements Serializable
    public Auction getAuction()
    {
       return auction;
+   }
+   
+   public void setAuction(Auction auction)
+   {
+      this.auction = auction;
+   }
+   
+   public Integer getCategoryId()
+   {
+      return auction.getCategory() != null ? auction.getCategory().getCategoryId() : null;
+   }
+   
+   public void setCategoryId(Integer categoryId)
+   {
+      auction.setCategory(entityManager.find(Category.class, categoryId));
    }
 }

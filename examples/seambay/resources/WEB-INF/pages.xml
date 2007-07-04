@@ -5,10 +5,6 @@
 
        login-view-id="/login.xhtml">
 
-    <conversation name="createAuction"
-                  parameter-name="auctionid"
-                  parameter-value="#{auction.auctionId}"/>
-
     <page view-id="/search.xhtml">
         <param name="categoryId" value="#{auctionSearch.selectedCategoryId}"/>
     </page>
@@ -45,8 +41,15 @@
         </navigation>
     </page>
     
-    <page view-id="/sell2.xhtml" login-required="true" conversation="createAuction">
-
+    <page view-id="/sell2.xhtml" login-required="true">
+    
+        <navigation from-action="previous">
+            <redirect view-id="/sell.xhtml"/>
+        </navigation>
+        
+        <navigation from-action="next">
+            <redirect view-id="/sell3.xhtml"/>
+        </navigation>
     </page>
     
     <page view-id="/feedback.xhtml">

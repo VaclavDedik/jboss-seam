@@ -29,17 +29,23 @@
         </div>
 
         <h:form>
-
+        
           <s:validateAll>
             <div class="formRow">
-              <h:outputLabel for="title">Enter a title for your auction</h:outputLabel>
-              <h:inputText id="title" value="#{auction.title}" required="true"/>
+              <h:outputLabel for="title">Enter a short description of the item you wish to sell</h:outputLabel>
+              <h:inputText id="title" value="#{auctionAction.auction.title}" required="true" class="itemDescription"/>
               <div class="validationError"><h:message for="title"/></div>
             </div>
 
           </s:validateAll>
 
-          <h:commandButton action="next" value="Next >"/>
+          <div class="navBar">
+            <div class="navBarRight">
+              <h:commandButton action="next" value="Next >"/>
+            </div>
+            
+            <br class="clear"/>
+          </div>
 
           <hr class="thinLine"/>
 

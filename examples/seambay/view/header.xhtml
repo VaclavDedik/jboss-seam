@@ -41,7 +41,7 @@
     
     <s:fragment rendered="#{identity.loggedIn}">
       Hello, #{authenticatedAccount.name}. 
-      <span>(</span><s:link action="#{identity.logout}" value="Sign out"/><span>)</span>
+      <span>(</span><s:link action="#{identity.logout}" propagation="none" value="Sign out"/><span>)</span>
     </s:fragment>
     
   </ui:composition>
