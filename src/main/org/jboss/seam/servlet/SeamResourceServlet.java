@@ -68,6 +68,14 @@ public class SeamResourceServlet extends HttpServlet
          {
             provider.getResource(request, response);            
          }
+         else
+         {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+         }
+      }
+      else
+      {
+         response.sendError(HttpServletResponse.SC_NOT_FOUND);
       }
    }
 
