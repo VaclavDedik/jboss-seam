@@ -73,12 +73,34 @@ public class ExceptionFilter extends AbstractFilter
    protected void endWebRequestAfterException(HttpServletRequest request, HttpServletResponse response, Exception e) 
          throws ServletException, IOException
    {
-      log.debug("ending request");
+      //TODO: Are we really sure that someone flushes the "old" 
+      //      conversation context before we get to here? I guess
+      //      the phaselistener probably does it, but we want to
+      //      make sure of that...
+      
+      log.debug("running exception handlers");
       //the FacesContext is gone - create a fake one for Redirect and HttpError to call
       MockFacesContext facesContext = createFacesContext(request, response);
       facesContext.setCurrent();
+      
+      //Init the temp context objects
+      //TODO: note that this code is pretty dodgy since in theory 
+      //      Manager has already been destroyed, and now we are 
+      //      re-using it (and all other request-scoped objects).
+      //      Should create a new request context that does not 
+      //      map back to the servlet request context, and "copy"
+      //      the conversation id over.
       FacesLifecycle.beginExceptionRecovery( facesContext.getExternalContext() );
-      Manager.instance().initializeTemporaryConversation();
+      
+      //if there is an existing long-running conversation on
+      //the thread, propagate it
+      Manager manager = Manager.instance();
+      if ( !manager.isLongRunningOrNestedConversation() )
+      {
+         manager.initializeTemporaryConversation();
+      }
+      
+      //Now do the exception handling
       try
       {
          rollbackTransactionIfNecessary();
@@ -98,11 +120,12 @@ public class ExceptionFilter extends AbstractFilter
       }
       finally
       {
+         //finally, clean up the temp contexts
          try 
          {
             FacesLifecycle.endRequest( facesContext.getExternalContext() );
             facesContext.release();
-            log.debug("ended request");
+            log.debug("done running exception handlers");
          }
          catch (Exception ere)
          {
