@@ -40,6 +40,16 @@
 
     <programlisting><![CDATA[<script type="text/javascript" 
         src="seam/resource/remoting/interface.js?customerAction&accountAction"></script>]]></programlisting>
+        
+        
+    <para>
+      Alternatively, you may use the <literal>s:remote</literal> tag to import the required Javascript.  Separate each
+      component or class name you wish to import with a comma: 
+    </para>
+    
+    <programlisting><![CDATA[
+  <s:remote include="customerAction,accountAction"/>    
+    ]]></programlisting>
 
   </sect1>
 

@@ -771,6 +771,31 @@
 </f:facet>]]></programlisting>
           </entry>
         </row>
+        
+        <row>
+          <entry valign="top">
+            <para>
+              <literal>&lt;s:remote&gt;</literal>
+            </para>
+          </entry>
+          <entry valign="top">
+            <para><emphasis>Description</emphasis></para>
+            <para>
+              Generates the Javascript stubs required to use Seam Remoting.
+            </para>
+            <para><emphasis>Attributes</emphasis></para>
+            <itemizedlist>
+              <listitem>
+                <para>
+                  <literal>include</literal> &#8212; a comma-separated list of the component names (or fully qualified class names)
+                  for which to generate Seam Remoting Javascript stubs.  See <xref linkend="remoting"/> for more details.
+                </para>
+              </listitem>
+            </itemizedlist>
+            <para><emphasis>Usage</emphasis></para>
+            <programlisting><![CDATA[<s:remote include="customerAction,accountAction,com.acme.MyBean"/>]]></programlisting>
+          </entry>
+        </row>        
 
         <row>
           <entry valign="top">
