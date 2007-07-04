@@ -13,6 +13,7 @@ import org.hibernate.EntityMode;
 import org.hibernate.FlushMode;
 import org.hibernate.Session;
 import org.hibernate.StaleStateException;
+import org.hibernate.TransientObjectException;
 import org.hibernate.metadata.ClassMetadata;
 import org.hibernate.type.VersionType;
 import org.jboss.seam.ScopeType;
@@ -111,7 +112,14 @@ public class HibernatePersistenceProvider extends PersistenceProvider
    @Override
    public Object getId(Object bean, EntityManager entityManager) 
    {
-      return getSession(entityManager).getIdentifier(bean);
+      try
+      {
+         return getSession(entityManager).getIdentifier(bean);
+      }
+      catch (TransientObjectException e) 
+      {
+         return super.getId(bean, entityManager);
+      }
    }
 
    @Override
