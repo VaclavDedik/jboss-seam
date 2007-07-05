@@ -24,17 +24,17 @@
   <factory scope="stateless" auto-create="true" name="pageflow" value="#{org.jboss.seam.pageflow.pageflow}"/>
 
   <factory scope="stateless" auto-create="true" name="session" value="#{org.jboss.seam.web.session}" />
+  <factory scope="stateless" auto-create="true" name="isUserInRole" value="#{org.jboss.seam.web.isUserInRole}"/>
+  <factory scope="stateless" auto-create="true" name="userPrincipal" value="#{org.jboss.seam.web.userPrincipal}"/>
 
   <factory scope="stateless" auto-create="true" name="facesContext" value="#{org.jboss.seam.faces.facesContext}"/>
   <factory scope="stateless" auto-create="true" name="facesMessages" value="#{org.jboss.seam.faces.facesMessages}"/>
-  <factory scope="stateless" auto-create="true" name="httpError" value="#{org.jboss.seam.faces.httpError}"/>
-  <factory scope="stateless" auto-create="true" name="isUserInRole" value="#{org.jboss.seam.faces.isUserInRole}"/>
-  <factory scope="stateless" auto-create="true" name="userPrincipal" value="#{org.jboss.seam.faces.userPrincipal}"/>
   <factory scope="stateless" auto-create="true" name="uiComponent" value="#{org.jboss.seam.faces.uiComponent}"/>
-  <factory scope="stateless" auto-create="true" name="redirect" value="#{org.jboss.seam.faces.redirect}"/>
   <factory scope="stateless" auto-create="true" name="switcher" value="#{org.jboss.seam.faces.switcher}"/>
   <factory scope="stateless" auto-create="true" name="validation" value="#{org.jboss.seam.faces.validation}"/>
   <factory scope="stateless" auto-create="true" name="renderer" value="#{org.jboss.seam.faces.renderer}"/>
+  <factory scope="stateless" auto-create="true" name="httpError" value="#{org.jboss.seam.faces.httpError}"/>
+  <factory scope="stateless" auto-create="true" name="redirect" value="#{org.jboss.seam.faces.redirect}"/>
 
   <factory scope="stateless" auto-create="true" name="transition" value="#{org.jboss.seam.bpm.transition}"/>
   <factory scope="stateless" auto-create="true" name="actor" value="#{org.jboss.seam.bpm.actor}"/>
