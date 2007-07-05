@@ -66,6 +66,7 @@ div.category {
   border: 1px solid #aaaaaa;
   margin: 12px 4px 4px 4px;
   overflow: auto;
+  nowrap: true;
 }
 
 div.category div {
