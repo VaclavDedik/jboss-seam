@@ -24,7 +24,7 @@ import org.jboss.seam.core.Interpolator;
  * 
  * @author Gavin King
  */
-@Scope(ScopeType.SESSION)
+@Scope(ScopeType.EVENT)
 @BypassInterceptors
 @Name("org.jboss.seam.international.messages")
 @Install(precedence=BUILT_IN)

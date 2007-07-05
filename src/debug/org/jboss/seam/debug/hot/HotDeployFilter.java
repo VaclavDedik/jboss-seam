@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Install;
@@ -20,6 +21,7 @@ import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.annotations.web.Filter;
 import org.jboss.seam.core.Init;
+import org.jboss.seam.core.ResourceBundle;
 import org.jboss.seam.exception.Exceptions;
 import org.jboss.seam.init.Initialization;
 import org.jboss.seam.log.LogProvider;
@@ -59,6 +61,11 @@ public class HotDeployFilter extends AbstractFilter
       //TODO: check the timestamp, for a minor optimization
       getServletContext().removeAttribute( Seam.getComponentName(Pages.class) );
       getServletContext().removeAttribute( Seam.getComponentName(Exceptions.class) );
+      HttpSession session = ( (HttpServletRequest) request ).getSession(false);
+      if (session!=null)
+      {
+         session.removeAttribute( Seam.getComponentName(ResourceBundle.class) );
+      }
       
       chain.doFilter(request, response);
    }
