@@ -136,7 +136,7 @@ public class Auction implements Serializable
    @Transient
    public long getTimeLeft()
    {      
-      return (endDate.getTime() - System.currentTimeMillis()); 
+      return endDate != null ? (endDate.getTime() - System.currentTimeMillis()) : 0; 
    }   
    
    @Transient

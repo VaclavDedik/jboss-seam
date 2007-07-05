@@ -3,59 +3,94 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.0.xsd"
 
+       no-conversation-view-id="/home.xhtml"
        login-view-id="/login.xhtml">
 
     <page view-id="/search.xhtml">
         <param name="categoryId" value="#{auctionSearch.selectedCategoryId}"/>
     </page>
 
-    <page view-id="/home.xhtml">        
+    <page view-id="/home.xhtml">
         <navigation from-action="#{register.start}">
           <redirect view-id="/register.xhtml"/>
         </navigation>
-        
+
         <navigation from-action="#{auctionSearch.queryAuctions}">
             <redirect view-id="/search.xhtml"/>
         </navigation>
     </page>
-    
+
     <page view-id="/auction.xhtml">
         <param name="id" value="#{auctionDetail.selectedAuctionId}"/>
     </page>
-    
+
     <page view-id="/buy.xhtml">
         <navigation from-action="#{auctionSearch.queryAuctions}">
             <redirect view-id="/search.xhtml"/>
         </navigation>
     </page>
-    
-    <page view-id="/sell.xhtml" 
-          login-required="true"       
-          action="#{auctionAction.createAuction}">    
+
+    <page view-id="/sell.xhtml" login-required="true"
+          action="#{auctionAction.createAuction}">
         <navigation from-action="next">
             <redirect view-id="/sell2.xhtml"/>
-        </navigation>          
-        
+        </navigation>
+
         <navigation from-action="#{identity.logout}">
             <redirect view-id="/home.xhtml"/>
         </navigation>
     </page>
-    
-    <page view-id="/sell2.xhtml" login-required="true">
-    
+
+    <page view-id="/sell2.xhtml" login-required="true" conversation-required="true">
         <navigation from-action="previous">
             <redirect view-id="/sell.xhtml"/>
         </navigation>
-        
+
         <navigation from-action="next">
             <redirect view-id="/sell3.xhtml"/>
         </navigation>
     </page>
+
+    <page view-id="/sell3.xhtml" login-required="true" conversation-required="true">
+        <navigation from-action="previous">
+            <redirect view-id="/sell2.xhtml"/>
+        </navigation>
+
+        <navigation from-action="next">
+            <redirect view-id="/sell4.xhtml"/>
+        </navigation>
+    </page>
     
+    <page view-id="/sell4.xhtml" login-required="true" conversation-required="true">
+        <navigation from-action="previous">
+            <redirect view-id="/sell3.xhtml"/>
+        </navigation>
+
+        <navigation from-action="next">
+            <redirect view-id="/sell5.xhtml"/>
+        </navigation>
+    </page>    
+    
+    <page view-id="/sell5.xhtml" login-required="true" conversation-required="true">
+        <navigation from-action="previous">
+            <redirect view-id="/sell4.xhtml"/>
+        </navigation>
+
+        <navigation from-action="next">
+            <redirect view-id="/preview.xhtml"/>
+        </navigation>
+    </page>     
+    
+    <page view-id="/preview.xhtml" login-required="true" conversation-required="true">
+        <navigation from-action="previous">
+            <redirect view-id="/sell5.xhtml"/>
+        </navigation>
+    </page>         
+
     <page view-id="/feedback.xhtml">
         <param name="member" value="#{memberAction.memberName}"/>
     </page>
-    
+
     <page view-id="/login.xhtml">
         <navigation from-action="#{identity.login}">
             <rule if="#{identity.loggedIn}">
@@ -63,7 +98,7 @@
             </rule>
         </navigation>
     </page>
-    
+
     <page view-id="/register.xhtml" action="#{registerAction.newRegistration}">
         <navigation from-action="#{registerAction.register}">
             <rule if="#{identity.loggedIn}">
@@ -71,19 +106,19 @@
             </rule>
         </navigation>
     </page>
-    
+
     <page view-id="*">
         <navigation from-action="#{auctionSearch.queryAllAuctions}">
             <redirect view-id="/search.xhtml"/>
-        </navigation>    
+        </navigation>
     </page>
-          
+
     <exception class="org.jboss.seam.security.NotLoggedInException">
         <redirect view-id="/login.xhtml">
             <message severity="warn">You must be logged in to use this feature</message>
         </redirect>
     </exception>
-  
+
     <exception class="org.jboss.seam.security.AuthorizationException">
         <end-conversation/>
         <redirect view-id="/security_error.xhtml">

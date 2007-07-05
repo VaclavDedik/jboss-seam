@@ -80,3 +80,16 @@ select.categoryList {
   width: 160px;
   border: 1px solid #cccccc;  
 }
+
+textarea.description {
+  width: 740px;
+  height: 500px;
+  padding: 4px 4px 4px 4px;
+}
+
+div.preview {
+  margin-top: 8px;
+  margin-bottom: 8px;
+  border: 1px solid #000000;
+  padding: 2px 2px 2px 2px;
+}

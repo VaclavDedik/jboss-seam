@@ -3,8 +3,10 @@ package org.jboss.seam.example.seambay;
 import static org.jboss.seam.ScopeType.CONVERSATION;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 
@@ -13,9 +15,9 @@ import org.jboss.seam.annotations.Conversational;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.security.Restrict;
+import org.jboss.seam.faces.FacesMessages;
 
 /**
  * This component is used to create new auctions, and is invoked via both the
@@ -41,6 +43,12 @@ public class AuctionAction implements Serializable
    
    private int durationDays;
    
+   private List<AuctionImage> images = new ArrayList<AuctionImage>();
+   private byte[] imageData;
+   private String imageContentType;
+   private boolean primaryImage;
+   
+   
    @Begin(join = true)
    @SuppressWarnings("unchecked")
    public void createAuction()
@@ -49,7 +57,8 @@ public class AuctionAction implements Serializable
       {
          auction = new Auction();
          auction.setAccount(authenticatedAccount);
-         auction.setStatus(Auction.STATUS_UNLISTED);   
+         auction.setStatus(Auction.STATUS_UNLISTED);
+         auction.setPrice(0.01);
         
          durationDays = DEFAULT_AUCTION_DURATION;
       }
@@ -72,14 +81,51 @@ public class AuctionAction implements Serializable
       this.durationDays = days;
    }
    
+   public int getDuration()
+   {
+      return durationDays;
+   }
+   
+   public void uploadImage()
+   {
+      if (imageData == null || imageData.length == 0)
+      {
+         FacesMessages.instance().add("No image selected");
+      }
+      else
+      {
+         AuctionImage img = new AuctionImage();
+         img.setAuction(auction);
+         img.setData(imageData);
+         img.setContentType(imageContentType);
+         if (auction.getImage() == null || primaryImage)
+           auction.setImage(img);
+         images.add(img);
+         
+         imageData = null;
+         imageContentType = null;
+      }
+   }
+   
    @End
    public void confirm()
    {      
+      AuctionImage temp = auction.getImage();
+      auction.setImage(null);
+      
       Calendar cal = new GregorianCalendar(); 
       cal.add(Calendar.DAY_OF_MONTH, durationDays);
       auction.setEndDate(cal.getTime());
       auction.setStatus(Auction.STATUS_LIVE);
-      entityManager.persist(auction);      
+      entityManager.persist(auction);
+      
+      for (AuctionImage img : images)
+      {
+         entityManager.persist(img);
+      }
+      
+      auction.setImage(temp);
+      entityManager.merge(auction);
    }
 
    public Auction getAuction()
@@ -100,5 +146,25 @@ public class AuctionAction implements Serializable
    public void setCategoryId(Integer categoryId)
    {
       auction.setCategory(entityManager.find(Category.class, categoryId));
+   }
+   
+   public void setImageData(byte[] imageData)
+   {
+      this.imageData = imageData;
+   }
+   
+   public void setImageContentType(String contentType)
+   {
+      this.imageContentType = contentType;
+   }
+   
+   public void setPrimaryImage(boolean primary)
+   {
+      this.primaryImage = primary;
+   }
+   
+   public List<AuctionImage> getImages()
+   {
+      return images;
    }
 }

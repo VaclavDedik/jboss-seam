@@ -17,6 +17,7 @@ public class AuctionImage implements Serializable
    private Integer imageId;
    private Auction auction;
    private byte[] data;
+   private String contentType;
    
    @Id @GeneratedValue
    public Integer getImageId()
@@ -50,5 +51,15 @@ public class AuctionImage implements Serializable
    public void setData(byte[] data)
    {
       this.data = data;
+   }
+   
+   public String getContentType()
+   {
+      return contentType;
+   }
+   
+   public void setContentType(String contentType)
+   {
+      this.contentType = contentType;
    }
 }
