@@ -405,7 +405,6 @@
 		<ant dir="examples/booking" target="tomcat.undeploy" inheritall="false" />
 		<ant dir="examples/dvdstore" target="tomcat.undeploy" inheritall="false" />
 		<ant dir="examples/itext" target="tomcat.undeploy" inheritall="false" />
-		<ant dir="examples/spring" target="tomcat.undeploy" inheritall="false" />
 		<ant dir="examples/blog" target="tomcat.undeploy" inheritall="false" />
 		<ant dir="examples/contactlist" target="tomcat.undeploy" inheritall="false" />
 		<ant dir="examples/registration" target="tomcat.undeploy" inheritall="false" />
