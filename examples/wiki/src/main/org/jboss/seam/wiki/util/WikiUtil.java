@@ -89,6 +89,7 @@ public class WikiUtil {
     }
 
     public static String renderPermLink(Node node) {
+        if (node == null) return "";
         if (isFile(node)) return renderFileLink((File)node);
         WikiPreferences wikiPrefs = (WikiPreferences) Component.getInstance("wikiPreferences");
         String contextPath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
@@ -96,6 +97,7 @@ public class WikiUtil {
     }
 
     public  static String renderWikiLink(Node node) {
+        if (node == null) return "";
         String contextPath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
         if (node.getArea().getWikiname().equals(node.getWikiname()))
             return contextPath + "/" + node.getArea().getWikiname();
@@ -103,11 +105,14 @@ public class WikiUtil {
     }
 
     private static String renderFileLink(File file) {
+        if (file == null) return "";
         String contextPath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
         return contextPath + "/servlets/files/download.seam?fileId=" + file.getId();
     }
 
     public static String renderHomeURL(User user) {
+        if (user == null) return "";
+        if (user.getMemberHome() == null) throw new IllegalArgumentException("User does not have a home directory");
         String contextPath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
         return contextPath + "/" + user.getMemberHome().getParent().getWikiname() + "/" + user.getMemberHome().getWikiname();
 

@@ -15,7 +15,7 @@ import java.io.Serializable;
 /**
  * Holds the nodes that are displayed in the site menu
  * <p>
- * For performance reasons we cache this in the session contet and refresh it through observing of
+ * For performance reasons we cache this in the session context and refresh it through observing of
  * modification events. This might be PAGE scoped once we have a nested set model for the node tree.
  * </p>
  *
@@ -24,6 +24,10 @@ import java.io.Serializable;
 @Name("menu")
 @Scope(ScopeType.SESSION)
 public class Menu implements Serializable {
+
+    @In(required = false)
+    Directory menuBase;
+    Directory lastMenuBase;
 
     private List<MenuItem> items;
     public List<MenuItem> getItems() {
@@ -43,8 +47,16 @@ public class Menu implements Serializable {
     @Observer("Nodes.menuStructureModified")
     public void refreshMenuItems() {
         items = new ArrayList<MenuItem>();
-        for(Node area : ((Directory)Component.getInstance("restrictedWikiRoot")).getChildren())
-            addNodesToMenuTree(items, 0, area);
+        if (menuBase != null && lastMenuBase != menuBase) {
+            lastMenuBase = menuBase;
+        } else {
+            menuBase = (Directory)Component.getInstance("restrictedWikiRoot");
+        }
+        for(Node child: menuBase.getChildren())
+            addNodesToMenuTree(items, 0, child);
+
+
+
     }
 
     // Recursive

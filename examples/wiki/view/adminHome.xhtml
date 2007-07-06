@@ -20,20 +20,20 @@
     <h:outputText value="System Administration"/>
 </ui:define>
 
-<ui:define name="headerTopRight">
+<ui:define name="headerTopTwo">
     <ui:include src="includes/userControl.xhtml"/>
 </ui:define>
 
-<ui:define name="headerBottomLeft">&#160;</ui:define>
+<ui:define name="headerBottomOne">&#160;</ui:define>
 
 <ui:define name="sidebar">
     <ui:include src="includes/searchControl.xhtml"/>
     <ui:include src="includes/mainMenu.xhtml"/>
 </ui:define>
 
-<ui:define name="controlLeft">&#160;</ui:define>
+<ui:define name="controlOne">&#160;</ui:define>
 
-<ui:define name="controlRight">
+<ui:define name="controlTwo">
     <s:link id="exit" styleClass="linkNavigation"
             action="#{browser.exitConversation(true)}"
             accesskey="E"><u>E</u>xit</s:link>
@@ -71,8 +71,6 @@
     }
 </script>
 
-<div id="formMessageBox" class="messageBox"><table id="formMessageTable"/></div>
-
 <h:form><div class="form">
 
     <script type="text/javascript">jQuery(function() {
@@ -87,72 +85,75 @@
             <li id="systemPrefsTab"><a href="#systemPrefs">Preferences</a></li>
         </ul>
 
-        <div id="systemStats" style="padding:10px;">
+        <div id="systemStats">
+            <div class="formFields" style="padding: 20px;">
+                <a:region>
 
-            <a:region>
+                <a:jsFunction name="reloadIndexStatistics"
+                              reRender="indexStatistics"
+                              action="#{adminHome.loadIndexedEntities}"/>
+                <div id="indexingProgressbarContainer" class="progressbarContainer">
+                    <span id="indexingProgressbarLabel" class="progressbarLabel"/>
+                    <div id="indexingProgressbar" class="progressbar"/>
+                </div>
 
-            <a:jsFunction name="reloadIndexStatistics"
-                          reRender="indexStatistics" 
-                          action="#{adminHome.loadIndexedEntities}"/>
-            <div id="indexingProgressbarContainer" class="progressbarContainer">
-                <span id="indexingProgressbarLabel" class="progressbarLabel"/>
-                <div id="indexingProgressbar" class="progressbar"/>
+                <h:dataTable id="indexStatistics" var="ie"
+                             value="#{indexedEntities}"
+                             rendered="#{indexedEntities.rowCount >0}"
+                             styleClass="datatable topLeftBottomBorder"
+                             headerClass="regularHeader rightBorder"
+                             columnClasses="twentyPercentColumn rightBorder alignLeft,
+                                            tenPercentColumn rightBorder alignCenter,
+                                            tenPercentColumn rightBorder alignCenter,
+                                            tenPercentColumn rightBorder alignRight,
+                                            tenPercentColumn rightBorder alignCenter"
+                             rowClasses="rowOdd,rowEven"
+                             cellpadding="0" cellspacing="0" border="0">
+
+                    <h:column>
+                        <f:facet name="header">
+                            Search index
+                        </f:facet>
+                        #{ie.description}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            # of indexed documents
+                        </f:facet>
+                        #{ie.numOfIndexedDocuments}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            # of indexed terms
+                        </f:facet>
+                        #{ie.numOfIndexedTerms}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            Index size
+                        </f:facet>
+                        #{wiki:displayFilesize(ie.indexSizeInBytes)}
+                    </h:column>
+                    <h:column>
+                        <script type="text/javascript">
+                            jQuery(function(){ getIndexingProgress("#{ie.clazz.name}") });
+                        </script>
+                        <a:commandLink id="resetSearchIndex" styleClass="button resetIndexButton" reRender="indexStatistics"
+                                       action="#{adminHome.resetSearchIndex()}"><span class="buttonLabel">Rebuild Index</span></a:commandLink>
+                    </h:column>
+                </h:dataTable>
+
+                </a:region>
             </div>
-
-            <h:dataTable id="indexStatistics" var="ie"
-                         value="#{indexedEntities}"
-                         rendered="#{indexedEntities.rowCount >0}"
-                         styleClass="datatable topLeftBottomBorder"
-                         headerClass="regularHeader rightBorder"
-                         columnClasses="twentyPercentColumn rightBorder alignLeft,
-                                        tenPercentColumn rightBorder alignCenter,
-                                        tenPercentColumn rightBorder alignCenter,
-                                        tenPercentColumn rightBorder alignRight,
-                                        tenPercentColumn rightBorder alignCenter"
-                         rowClasses="rowOdd,rowEven"
-                         cellpadding="0" cellspacing="0" border="0">
-
-                <h:column>
-                    <f:facet name="header">
-                        Search index
-                    </f:facet>
-                    #{ie.description}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        # of indexed documents
-                    </f:facet>
-                    #{ie.numOfIndexedDocuments}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        # of indexed terms
-                    </f:facet>
-                    #{ie.numOfIndexedTerms}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        Index size
-                    </f:facet>
-                    #{wiki:displayFilesize(ie.indexSizeInBytes)}
-                </h:column>
-                <h:column>
-                    <script type="text/javascript">
-                        jQuery(function(){ getIndexingProgress("#{ie.clazz.name}") });
-                    </script>
-                    <a:commandLink id="resetSearchIndex" styleClass="button resetIndexButton" reRender="indexStatistics"
-                                   action="#{adminHome.resetSearchIndex()}"><span class="buttonLabel">Rebuild Index</span></a:commandLink>
-                </h:column>
-            </h:dataTable>
-            </a:region>
-
         </div>
 
         <div id="rolesPermissions">
             Not Implemented
         </div>
 
-        <div id="linkProtocols" style="padding:10px;">
+        <div id="linkProtocols">
+            <div class="formFields" style="padding: 20px;">
+            <a:region>
 
             <p>
                 Link protocols enable custom prefixes in wiki text links, e.g. you can write
@@ -161,7 +162,6 @@
                 rendered broken.
             </p>
 
-            <a:region>
             <h:dataTable id="linkProtocolTable" var="lp"
                          value="#{linkProtocols}"
                          rendered="#{linkProtocols.rowCount >0}"
@@ -213,15 +213,18 @@
                     </div>
                 </div>
             </s:div>
-            </a:region>
 
+            </a:region>
+            </div>
         </div>
 
         <div id="systemPrefs">
-            <ui:include src="includes/preferencesEditor.xhtml">
-                <ui:param name="tabId" value="systemPrefsTab"/>
-                <ui:param name="preferenceComponents" value="#{systemPreferenceComponents}"/>
-            </ui:include>
+            <div class="formFields">
+                <ui:include src="includes/preferencesEditor.xhtml">
+                    <ui:param name="tabId" value="systemPrefsTab"/>
+                    <ui:param name="preferenceComponents" value="#{systemPreferenceComponents}"/>
+                </ui:include>
+            </div>
         </div>
 
     </div>

@@ -9,18 +9,32 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import javax.el.ExpressionFactory;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.el.SeamExpressionFactory;
 import org.jboss.seam.ui.util.JSF;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Conversation;
+import org.jboss.seam.core.Expressions;
 import org.jboss.seam.wiki.core.engine.WikiLink;
 import org.jboss.seam.wiki.core.engine.WikiTextParser;
 import org.jboss.seam.wiki.core.engine.WikiTextRenderer;
+import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
 import org.jboss.seam.wiki.core.model.File;
+import org.jboss.seam.wiki.core.model.Document;
+import org.jboss.seam.wiki.core.model.Directory;
 import org.jboss.seam.wiki.util.WikiUtil;
 
 public class UIWikiFormattedText extends UIOutput {
+
+    public static final String ATTR_LINK_STYLE_CLASS                = "linkStyleClass";
+    public static final String ATTR_BROKEN_LINK_STYLE_CLASS         = "brokenLinkStyleClass";
+    public static final String ATTR_ATTACHMENT_LINK_STYLE_CLASS     = "attachmentLinkStyleClass";
+    public static final String ATTR_THUMBNAIL_LINK_STYLE_CLASS      = "thumbnailLinkStyleClass";
+    public static final String ATTR_UPDATE_RESOLVED_LINKS           = "updateResolvedLinks";
+    public static final String ATTR_RENDER_BASE_DOCUMENT            = "renderBaseDocument";
+    public static final String ATTR_RENDER_BASE_DIRECTORY           = "renderBaseDirectory";
 
     private List<String> plugins;
 
@@ -55,6 +69,14 @@ public class UIWikiFormattedText extends UIOutput {
         // Use the WikiTextParser to resolve macros
         WikiTextParser parser = new WikiTextParser((String) getValue(), false, true);
 
+        // Resolve the base document and directory we are resolving against
+        final Document baseDocument = (Document)getAttributes().get(ATTR_RENDER_BASE_DOCUMENT);
+        final Directory baseDirectory = (Directory)getAttributes().get(ATTR_RENDER_BASE_DIRECTORY);
+        parser.setCurrentDocument(baseDocument);
+        parser.setCurrentDirectory(baseDirectory);
+
+        parser.setResolver((WikiLinkResolver)Component.getInstance("wikiLinkResolver"));
+
         // Set a customized renderer for parser macro callbacks
         parser.setRenderer(new WikiTextRenderer() {
 
@@ -62,8 +84,8 @@ public class UIWikiFormattedText extends UIOutput {
                 return "<a href=\""
                         + (inlineLink.isBroken() ? inlineLink.getUrl() : WikiUtil.renderURL(inlineLink.getNode()))
                         + "\" class=\""
-                        + (inlineLink.isBroken() ? getAttributes().get("brokenLinkStyleClass")
-                        : getAttributes().get("linkStyleClass")) + "\">"
+                        + (inlineLink.isBroken() ? getAttributes().get(ATTR_BROKEN_LINK_STYLE_CLASS)
+                        : getAttributes().get(ATTR_LINK_STYLE_CLASS)) + "\">"
                         + inlineLink.getDescription() + "</a>";
             }
 
@@ -71,15 +93,16 @@ public class UIWikiFormattedText extends UIOutput {
                 return "<a href=\""
                         + externalLink.getUrl()
                         + "\" class=\""
-                        + (externalLink.isBroken() ? getAttributes().get("brokenLinkStyleClass")
-                        : getAttributes().get("linkStyleClass")) + "\">"
+                        + (externalLink.isBroken() ? getAttributes().get(ATTR_BROKEN_LINK_STYLE_CLASS)
+                        : getAttributes().get(ATTR_LINK_STYLE_CLASS)) + "\">"
                         + externalLink.getDescription() + "</a>";
             }
 
             public String renderFileAttachmentLink(int attachmentNumber, WikiLink attachmentLink) {
                 return "<a href=\""
+                        + WikiUtil.renderURL(baseDocument)
                         + "#attachment" + attachmentNumber + "\" class=\""
-                        + getAttributes().get("attachmentLinkStyleClass") + "\">"
+                        + getAttributes().get(ATTR_ATTACHMENT_LINK_STYLE_CLASS) + "\">"
                         + attachmentLink.getDescription() + "[" + attachmentNumber + "]" + "</a>";
             }
 
@@ -105,7 +128,7 @@ public class UIWikiFormattedText extends UIOutput {
                     return "<a href=\""
                             + (inlineLink.isBroken() ? inlineLink.getUrl() : WikiUtil.renderURL(inlineLink
                             .getNode())) + "\" class=\""
-                            + getAttributes().get("thumbnailLinkStyleClass") + "\"><img src=\""
+                            + getAttributes().get(ATTR_THUMBNAIL_LINK_STYLE_CLASS) + "\"><img src=\""
                             + thumbnailUrl + "\"/></a>";
 
                 }
@@ -140,22 +163,20 @@ public class UIWikiFormattedText extends UIOutput {
             }
 
             public void setAttachmentLinks(List<WikiLink> attachmentLinks) {
-                // Put attachments (wiki links...) into the event context for later
-                // rendering
+                // Put attachments (wiki links...) into the event context for later rendering
                 Contexts.getEventContext().set("wikiTextAttachments", attachmentLinks);
             }
 
             public void setExternalLinks(List<WikiLink> externalLinks) {
-                // Put external links (to targets not on this wiki) into the event
-                // context for later rendering
+                // Put external links (to targets not on this wiki) into the event context for later rendering
                 Contexts.getEventContext().set("wikiTextExternalLinks", externalLinks);
             }
         });
 
         // Run the parser (default to true for updating resolved links)
         Boolean updateResolvedLinks =
-                getAttributes().get("updatedResolvedLinks") == null
-                || Boolean.valueOf((String) getAttributes().get("updatedResolvedLinks"));
+                getAttributes().get(ATTR_UPDATE_RESOLVED_LINKS) == null
+                || Boolean.valueOf((String) getAttributes().get(ATTR_UPDATE_RESOLVED_LINKS));
         parser.parse(updateResolvedLinks);
 
         facesContext.getResponseWriter().write(parser.toString());

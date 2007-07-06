@@ -4,20 +4,7 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
          version="2.4">
 
-    <!-- Ajax4jsf (must come first!) -->
-
-    <filter>
-        <filter-name>ajax4jsf</filter-name>
-        <filter-class>org.ajax4jsf.Filter</filter-class>
-    </filter>
-
-    <filter-mapping>
-        <filter-name>ajax4jsf</filter-name>
-        <url-pattern>*.seam</url-pattern>
-		<dispatcher>REQUEST</dispatcher>
-		<dispatcher>FORWARD</dispatcher>
-		<dispatcher>INCLUDE</dispatcher>
-    </filter-mapping>
+    <!-- Ajax4JSF -->
 
     <context-param>
         <param-name>org.ajax4jsf.VIEW_HANDLERS</param-name>

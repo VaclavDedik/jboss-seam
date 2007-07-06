@@ -111,30 +111,30 @@ ul {
 	color: #fff;
     padding: 10px;
 }
-#headerTopLeft {
+#headerTopOne {
     float: left;
     margin-bottom: 5px;
 }
-#headerTopRight {
+#headerTopTwo {
     text-align: right;
     margin-bottom: 5px;
 }
-#headerBottomLeft {
+#headerBottomOne {
     clear: both;
     float: left;
 }
-#headerBottomRight {
+#headerBottomTwo {
     text-align: right;
 }
 
 #sidebar {
     background-color: #fff;
 	float: left;
-	width: 15%;
+	width: 20%;
 }
 #body {
     background-color: #fff;
-	margin-left: 15%;
+	margin-left: 20%;
     padding-left: 10px;
     padding-right: 10px;
     padding-top: 10px;
@@ -147,13 +147,13 @@ ul {
     vertical-align:bottom;
 }
 
-#controlLeft {
+#controlOne {
     float: left;
     padding-left: 15%;
     white-space: nowrap;
 }
 
-#controlRight {
+#controlTwo {
     padding-right: 15px;
 }
 

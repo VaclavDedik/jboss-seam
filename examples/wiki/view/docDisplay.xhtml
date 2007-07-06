@@ -19,11 +19,11 @@
 
 <ui:define name="screenname">#{currentDocument.name}</ui:define>
 
-<ui:define name="headerTopRight">
+<ui:define name="headerTopTwo">
     <ui:include src="includes/userControl.xhtml"/>
 </ui:define>
 
-<ui:define name="headerBottomLeft">
+<ui:define name="headerBottomOne">
     <ui:include src="includes/breadcrumb.xhtml"/>
 </ui:define>
 
@@ -32,7 +32,7 @@
     <ui:include src="includes/mainMenu.xhtml"/>
 </ui:define>
 
-<ui:define name="controlRight">
+<ui:define name="controlTwo">
 
     <s:link id="createDoc" styleClass="linkNavigation" action="createDoc" accesskey="C"
             rendered="#{s:hasPermission('Node', 'create', currentDirectory)}"><u>C</u>reate</s:link>
@@ -46,20 +46,29 @@
 
 <ui:define name="content">
 
-    <s:div id="documentDisplay" styleClass="documentDisplay">
-        <j4j:idProxy id="documentDisplay_" />
-        <s:div rendered="#{currentDocument.nameAsTitle}"><h1 class="documentTitle">#{currentDocument.name}</h1></s:div>
-        <wiki:formattedText value="#{currentDocument.content}"
-                            linkStyleClass="regularLink"
-                            brokenLinkStyleClass="brokenLink"
-                            attachmentLinkStyleClass="regularLink"
-                            thumbnailLinkStyleClass="regularLink"/>
+    <script type="text/javascript">jQuery(function() {
+        clearContentBackground();
+    });</script>
 
-        <ui:include src="includes/attachmentDisplay.xhtml"/>
-        <ui:include src="includes/commentsDisplay.xhtml"/>
-        <ui:include src="includes/commentForm.xhtml"/>
 
-    </s:div>
+    <div id="documentDisplayContainer" class="shadowContainer"><div class="shadow1"><div class="shadow2">
+        <s:div id="documentDisplay" styleClass="documentDisplay"><j4j:idProxy id="documentDisplay_" />
+            <s:div rendered="#{currentDocument.nameAsTitle}"><h1 class="documentTitle">#{currentDocument.name}</h1></s:div>
+            <wiki:formattedText value="#{currentDocument.content}"
+                                linkStyleClass="regularLink"
+                                brokenLinkStyleClass="brokenLink"
+                                attachmentLinkStyleClass="regularLink"
+                                thumbnailLinkStyleClass="regularLink"
+                                renderBaseDocument="#{currentDocument}"
+                                renderBaseDirectory="#{currentDirectory}"/>
+        </s:div>
+    </div></div></div>
+
+    <ui:include src="includes/attachmentDisplay.xhtml"/>
+
+    <ui:include src="includes/commentsDisplay.xhtml"/>
+
+    <ui:include src="includes/commentForm.xhtml"/>
 
 </ui:define>
 

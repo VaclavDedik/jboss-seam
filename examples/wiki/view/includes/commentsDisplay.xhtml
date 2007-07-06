@@ -1,13 +1,14 @@
-<div id="commentsDisplay"
+<s:div styleClass="shadowContainer" style="margin-top:25px"
+     rendered="#{not empty commentHome.comments and currentDocument.enableComments}"
      xmlns="http://www.w3.org/1999/xhtml"
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
      xmlns:a="https://ajax4jsf.dev.java.net/ajax"
-     xmlns:s="http://jboss.com/products/seam/taglib">
+     xmlns:s="http://jboss.com/products/seam/taglib"><div class="shadow1"><div class="shadow2">
+<s:div id="commentsDisplay">
 
-    <h:dataTable value="#{commentHome.comments}" var="c" style="margin-top:10px;"
-                 rendered="#{not empty commentHome.comments and currentDocument.enableComments}"
+    <h:dataTable value="#{commentHome.comments}" var="c"
                  styleClass="datatable rightBorder leftBorder topBorder bottomBorder"
                  headerClass="regularHeader alignLeft"
                  columnClasses="commentColumn"
@@ -42,7 +43,7 @@
 
             <div align="right">
                 <h:form rendered="#{s:hasPermission('Comment', 'delete', currentDocument)}">
-                    <a:commandLink action="#{commentHome.remove(c.id)}" reRender="body"
+                    <a:commandLink action="#{commentHome.remove(c.id)}" reRender="content"
                                    styleClass="button"><span class="buttonLabel">Remove Comment</span></a:commandLink>
                 </h:form>
             </div>
@@ -50,4 +51,5 @@
         </h:column>
     </h:dataTable>
 
-</div>
+</s:div>
+</div></div></s:div>

@@ -9,13 +9,14 @@
     <h:panelGroup>
         <ui:repeat var="directory" value="#{currentDirectoryPath}">
             <h:outputLink value="#{wiki:renderURL(directory)}" styleClass="itemLink" rendered="#{!empty directory.parent}">
-                #{directory.name}
+                <h:outputText value="#{wiki:truncateString(directory.name, 25, '...')}"/>
             </h:outputLink>
-            <h:outputText styleClass="itemSeparator" value="&#183;"
+            <!-- middot: &#183; -->
+            <h:outputText styleClass="itemSeparator" value="/"
                           rendered="#{!empty currentDocument and !empty directory.parent}"/>
         </ui:repeat>
 
-        <h:outputText styleClass="itemText" value="#{currentDocument.name}"/>
+        <h:outputText styleClass="itemText" value="#{wiki:truncateString(currentDocument.name, 40, '...')}"/>
 
     </h:panelGroup>
 

@@ -11,7 +11,7 @@
     <ui:define name="dialogInit">
         <script type="text/javascript">jQuery(function() {
             jsf('dialogOwnerSelectionPopup')
-                .css({ minWidth: "750px", maxWidth:"900px", minHeight: "420px", width: "750px;", height: "450px;", top: "100px", left: "100px"})
+                .css({ minWidth: "750px", maxWidth:"900px", minHeight: "420px", width: "750px;", height: "450px;", top: "100px", left: "150px"})
                 .jqm({
                     trigger: jsf("openDialogOwnerSelection"),
                     closeClass: "closeDialog",
@@ -24,7 +24,9 @@
     <ui:define name="dialogContent">
 
         <h:form>
-        <div class="form" id="userSearchControl" style="margin-bottom: 15px;">
+        <div class="shadowContainer"><div class="shadow1"><div class="shadow2">
+
+        <div class="form" id="userSearchControl">
             <h:panelGrid columns="6"
                          styleClass="datatable topLeftBottomBorder"
                          headerClass="regularHeader rightBorder"
@@ -53,7 +55,7 @@
                     <h:inputText id="email" value="#{userSearch.exampleUser.email}" maxlength="35" size="10" tabindex="20"/>
                 </h:panelGroup>
 
-                <a:commandLink id="find" styleClass="button" reRender="dialogOwnerSelectionContent"
+                <a:commandLink id="find" styleClass="buttonNonpersistent" reRender="dialogOwnerSelectionContent"
                                oncomplete="jQuery('#dialogOwnerSelection').jqmAddClose('.closeDialog')"
                                action="#{userSearch.find()}"
                                tabindex="20" accesskey="F"><span class="buttonLabel"><u>F</u>ind</span></a:commandLink>
@@ -104,7 +106,7 @@
             </h:panelGrid>
         </s:div>
 
-        <s:div id="userTableContainer" style="margin-bottom: 15px;">
+        <s:div id="userTableContainer">
             <h:dataTable id="userTable" var="u"
                          value="#{usersList}"
                          rendered="#{usersList.rowCount >0}"
@@ -183,6 +185,8 @@
 
             </h:dataTable>
         </s:div>
+
+        </div></div></div>
         </h:form>
 
     </ui:define>

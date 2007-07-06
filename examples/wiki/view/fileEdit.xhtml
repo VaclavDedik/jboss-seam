@@ -21,18 +21,18 @@
     <h:outputText value="Edit File" rendered="#{fileHome.managed}"/>
 </ui:define>
 
-<ui:define name="headerTopRight">
+<ui:define name="headerTopTwo">
     <ui:include src="includes/userControl.xhtml"/>
 </ui:define>
 
-<ui:define name="headerBottomLeft">&#160;</ui:define>
+<ui:define name="headerBottomOne">&#160;</ui:define>
 
 <ui:define name="sidebar">
     <ui:include src="includes/searchControl.xhtml"/>
     <ui:include src="includes/mainMenu.xhtml"/>
 </ui:define>
 
-<ui:define name="controlRight">
+<ui:define name="controlTwo">
     <s:link id="exit" styleClass="linkNavigation"
             action="#{browser.exitConversation(true)}"
             accesskey="E"><u>E</u>xit Editor</s:link>

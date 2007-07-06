@@ -3,15 +3,12 @@ package org.jboss.seam.wiki.core.search;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
 import org.hibernate.ScrollableResults;
-import org.hibernate.Session;
 import org.hibernate.search.FullTextSession;
-import org.hibernate.search.Search;
 import org.hibernate.search.store.DirectoryProvider;
-import org.hibernate.search.util.ContextHelper;
 import org.jboss.seam.Component;
-import org.jboss.seam.annotations.async.Asynchronous;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.async.Asynchronous;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.wiki.util.Progress;
 
@@ -51,10 +48,10 @@ public class IndexManager {
             userTx.begin();
 
             EntityManager em = (EntityManager) Component.getInstance("entityManager");
-            Session session = (Session) em.getDelegate();
+            FullTextSession ftSession = (FullTextSession)em.getDelegate();
 
             // Delete all documents with "_hibernate_class" term of the selected entity
-            DirectoryProvider dirProvider = ContextHelper.getSearchFactory(session).getDirectoryProvider(entityClass);
+            DirectoryProvider dirProvider = ftSession.getSearchFactory().getDirectoryProvider(entityClass);
             IndexReader reader = IndexReader.open(dirProvider.getDirectory());
 
             // TODO: This is using an internal term of HSearch
@@ -64,7 +61,7 @@ public class IndexManager {
             // Optimize index
             progress.setStatus("Optimizing index");
             log.debug("optimizing index (merging segments)");
-            Search.createFullTextSession(session).getSearchFactory().optimize(entityClass);
+            ftSession.getSearchFactory().optimize(entityClass);
 
             userTx.commit();
 
@@ -73,13 +70,12 @@ public class IndexManager {
 
             // Now re-index with HSearch
             em = (EntityManager) Component.getInstance("entityManager");
-            session = (Session) em.getDelegate();
-            FullTextSession ftSession = org.hibernate.search.Search.createFullTextSession(session);
+            ftSession = (FullTextSession)em.getDelegate();
 
             userTx.begin();
 
             // Use HQL instead of Criteria to eager fetch lazy properties
-            ScrollableResults cursor = session.createQuery("select o from " + entityClass.getName() + " o fetch all properties").scroll();
+            ScrollableResults cursor = ftSession.createQuery("select o from " + entityClass.getName() + " o fetch all properties").scroll();
 
             cursor.last();
             int count = cursor.getRowNumber() + 1;
@@ -92,7 +88,7 @@ public class IndexManager {
                 Object o = cursor.get(0);
                 log.debug("indexing: " + o);
                 ftSession.index(o);
-                if (i % batchSize == 0) session.clear(); // Clear persistence context for each batch
+                if (i % batchSize == 0) ftSession.clear(); // Clear persistence context for each batch
 
                 progress.setPercentComplete( (100/count) * i);
                 log.debug("percent of index update complete: " + progress);

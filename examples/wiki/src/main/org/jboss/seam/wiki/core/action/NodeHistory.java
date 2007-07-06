@@ -8,14 +8,15 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.Component;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.AuthorizationException;
-import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.wiki.core.dao.NodeDAO;
 import org.jboss.seam.wiki.core.model.Node;
 import org.jboss.seam.wiki.core.model.Document;
+import org.jboss.seam.wiki.core.model.Directory;
 import org.jboss.seam.wiki.core.engine.WikiLink;
 import org.jboss.seam.wiki.core.engine.WikiTextParser;
 import org.jboss.seam.wiki.core.engine.WikiTextRenderer;
+import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
 import org.jboss.seam.wiki.util.Diff;
 
 import javax.faces.application.FacesMessage;
@@ -71,13 +72,9 @@ public class NodeHistory implements Serializable {
 
     public void diff() {
 
-        // Wiki text parser needs these context variables but we don't really care because link resolving is turned off
-        Contexts.getConversationContext().set("currentDocument", currentNode);
-        Contexts.getConversationContext().set("currentDirectory", currentNode.getParent());
-        String revision = renderWikiText( ((Document)currentNode).getContent() );
-        Contexts.getConversationContext().set("currentDocument", selectedHistoricalNode);
-        Contexts.getConversationContext().set("currentDirectory", currentNode.getParent());
-        String original = renderWikiText( ((Document)selectedHistoricalNode).getContent() );
+        // Wiki text parser needs these nodes but we don't really care because links are not rendered and resolved
+        String revision = renderWikiText( (Document)currentNode, (Directory)currentNode.getParent(), ((Document)currentNode).getContent() );
+        String original = renderWikiText( (Document)selectedHistoricalNode, (Directory)currentNode.getParent(), ((Document)selectedHistoricalNode).getContent() );
 
         // Create diff by comparing rendered HTML
         Diff diff = new Diff() {
@@ -125,9 +122,15 @@ public class NodeHistory implements Serializable {
         return diffResult;
     }
 
-    private String renderWikiText(String wikiText) {
+    private String renderWikiText(Document currentDocument, Directory currentDirectory, String wikiText) {
         // Render the document to HTML for diff, don't resolve any wiki links (calls renderInlineLink() plain)
         WikiTextParser parser = new WikiTextParser(wikiText, true, false);
+
+        parser.setCurrentDocument(currentDocument);
+        parser.setCurrentDirectory(currentDirectory);
+
+        parser.setResolver((WikiLinkResolver)Component.getInstance("wikiLinkResolver"));
+        
         // This renderer is really just ignoring everything and renders a few placeholders
         parser.setRenderer(
             new WikiTextRenderer() {

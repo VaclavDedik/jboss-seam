@@ -18,7 +18,7 @@
 
     <!-- ##### WIKI USER CONFIGURATION ##### -->
 
-    <mail:mail-session host="localhost" port="2525" username="test" password="test"/>
+    <mail:mail-session host="localhost" port="25"/>
 
     <web:multipart-filter create-temp-files="true" max-request-size="10000000" url-pattern="*.seam"/>
 

@@ -22,18 +22,18 @@
     <h:outputText value="Edit directory" rendered="#{directoryHome.managed}"/>
 </ui:define>
 
-<ui:define name="headerTopRight">
+<ui:define name="headerTopTwo">
     <ui:include src="includes/userControl.xhtml"/>
 </ui:define>
 
-<ui:define name="headerBottomLeft">&#160;</ui:define>
+<ui:define name="headerBottomOne">&#160;</ui:define>
 
 <ui:define name="sidebar">
     <ui:include src="includes/searchControl.xhtml"/>
     <ui:include src="includes/mainMenu.xhtml"/>
 </ui:define>
 
-<ui:define name="controlRight">
+<ui:define name="controlTwo">
     <s:link id="exit" styleClass="linkNavigation"
             action="#{browser.exitConversation(true)}"
             accesskey="E"><u>E</u>xit Editor</s:link>
@@ -104,7 +104,7 @@
             <h:selectOneMenu value="#{directoryHome.instance.defaultDocument}" converter="#{restrictedEntityConverter}" tabindex="2">
                 <s:selectItems value="#{directoryHome.childDocuments}"
                                var="document"
-                               label="#{document.name}"
+                               label="#{wiki:truncateString(document.name, 40, '...')}"
                                noSelectionLabel="No default document"/>
             </h:selectOneMenu>
         </div>
@@ -162,7 +162,7 @@
                                           dragValue="#{node}">
                             <rich:dndParam name="label" type="drag"><h:outputText value="#{node.name}"/></rich:dndParam>
                         </rich:dragSupport>
-                        <h:outputText value="#{node.name}" style="cursor:move"/>
+                        <h:outputText value="#{wiki:truncateString(node.name, 40, '...')}" style="cursor:move"/>
                     </a:outputPanel>
                 </h:column>
 
@@ -176,7 +176,7 @@
             <h:selectBooleanCheckbox value="#{directoryHome.hasFeed}" tabindex="2"
                                      disabled="#{empty directoryHome.instance.parent}"/>
             Enable syndication feed (disabling invalidates subcriber link)
-            <a:commandLink id="resetFeed" reRender="messageBox"
+            <a:commandLink id="resetFeed" reRender="messageBoxContainer"
                            action="#{directoryHome.resetFeed}"
                            rendered="#{!empty directoryHome.instance.feed}"
                            styleClass="buttonNonpersistent"><span class="buttonLabel">Reset Feed</span></a:commandLink>

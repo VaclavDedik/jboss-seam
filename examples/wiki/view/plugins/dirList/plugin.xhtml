@@ -1,0 +1,102 @@
+<wiki:plugin id="dirListPlugin"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:c="http://java.sun.com/jstl/core"
+        xmlns:wiki="http://jboss.com/products/seam/wiki"
+        xmlns:s="http://jboss.com/products/seam/taglib">
+
+
+    <script type="text/javascript">jQuery(function() {
+        clearDocumentBackground();
+    });</script>
+
+    <s:div styleClass="shadowContainer"><div class="shadow1"><div class="shadow2"><div class="dirList">
+
+        <h:panelGrid columns="2" cellpadding="0" cellspacing="0" border="0"
+                     styleClass="dirListHeader"
+                     columnClasses="dirListHeaderSubscribe, dirListHeaderTitle">
+            <h:outputLink rendered="#{not empty currentDirectory.feed}"
+                          value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{currentDirectory.feed.id}">
+                <h:panelGrid columns="2" cellpadding="0" cellspacing="0" border="0">
+                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.atom.gif" width="18" height="18"/>
+                    <h:outputText styleClass="dirListHeaderSubscribeLink" value="Subscribe"/>
+                </h:panelGrid>
+            </h:outputLink>
+            <h:outputText styleClass="dirListHeaderTitleText" value="#{currentDirectory.name}"/>
+        </h:panelGrid>
+
+        <h:dataTable var="menuItem"
+                     value="#{menu.items}"
+                     styleClass="dirListTable"
+                     cellpadding="0" cellspacing="0" border="0"
+                     columnClasses="firstLevelItem"
+                     rendered="#{!empty menu.items}">
+
+            <h:column>
+                <h:outputLink value="#{wiki:renderURL(menuItem.node)}">
+                    <h:panelGrid columns="2">
+                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.dir.gif"
+                                        width="18" height="20"
+                                        rendered="#{wiki:isDirectory(menuItem.node)}"/>
+                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.doc.gif"
+                                        width="18" height="20"
+                                        rendered="#{wiki:isDocument(menuItem.node)}"/>
+                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/#{fileMetaMap[menuItem.node.contentType].displayIcon}"
+                                        width="18" height="20"
+                                        rendered="#{wiki:isFile(menuItem.node) and !empty fileMetaMap[menuItem.menuItem.node.contentType]}"/>
+                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/#{fileMetaMap['generic'].displayIcon}"
+                                        width="18" height="20"
+                                        rendered="#{wiki:isFile(menuItem.node) and empty fileMetaMap[menuItem.node.contentType]}"/>
+                        <s:div>
+                            <h:outputText styleClass="firstLevelItemLink" value="#{wiki:truncateString(menuItem.node.name, 35, '...')}"/>
+                        </s:div>
+
+                    </h:panelGrid>
+                </h:outputLink>
+
+                <h:dataTable var="subMenuItem"
+                             value="#{menuItem.subItems}"
+                             styleClass="dirListSubTable"
+                             cellpadding="0" cellspacing="0" border="0"
+                             columnClasses="secondLevelItem"
+                             rendered="#{!empty menuItem.subItems}">
+                    <h:column>
+                        <h:outputLink value="#{wiki:renderURL(subMenuItem.node)}">
+                            <h:panelGrid columns="2">
+                                <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.dir.gif"
+                                                width="18" height="20"
+                                                rendered="#{wiki:isDirectory(subMenuItem.node)}"/>
+                                <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.doc.gif"
+                                                width="18" height="20"
+                                                rendered="#{wiki:isDocument(subMenuItem.node)}"/>
+                                <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/#{fileMetaMap[subMenuItem.node.contentType].displayIcon}"
+                                                width="18" height="20"
+                                                rendered="#{wiki:isFile(subMenuItem.node) and !empty fileMetaMap[subMenuItem.subMenuItem.node.contentType]}"/>
+                                <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/#{fileMetaMap['generic'].displayIcon}"
+                                                width="18" height="20"
+                                                rendered="#{wiki:isFile(subMenuItem.node) and empty fileMetaMap[subMenuItem.node.contentType]}"/>
+                                <s:div>
+                                    <h:outputText styleClass="secondLevelItemLink" value="#{wiki:truncateString(subMenuItem.node.name, 30, '...')}"/>
+                                </s:div>
+
+                            </h:panelGrid>
+                        </h:outputLink>
+                    </h:column>
+                </h:dataTable>
+
+            </h:column>
+
+        </h:dataTable>
+
+
+        <div class="dirListFooter"/>
+
+    </div></div></div></s:div>
+
+    <!--
+
+    -->
+
+</wiki:plugin>

@@ -31,7 +31,7 @@
     <property name="dist.dir" value="dist" />
 
     <property name="seam.home" value="../../"/>
-    <property name="lib.dir"        value="${seam.home}/lib" />
+    <property name="global.lib.dir" value="${seam.home}/lib" />
     <property name="seamlibs.dir"   value="${seam.home}"/>
     <property name="local.lib.dir"  value="lib" />
     <property name="drools.lib.dir" value="${seam.home}/drools/lib"/>
@@ -40,10 +40,9 @@
 
     <!-- ################## ALIASES ####################### -->
 
-    <fileset id="lib" dir="${lib.dir}">
+    <fileset id="lib" dir="${global.lib.dir}">
         <include name="*.jar" />
-        <exclude name="hibernate-all*" /> <!-- TODO: Outdated Hibernate in Seam -->
-        <exclude name="testng-4*.jar"/> <!-- TODO: Outdated TestNG in Seam -->
+        <exclude name="hibernate*" /> <!-- TODO: Don't use the Hibernate in Seam -->
     </fileset>
 
     <fileset id="seamlibs" dir="${seamlibs.dir}">
@@ -186,7 +185,7 @@
         <copy todir="${exploded.war.dir}/WEB-INF/lib">
             <fileset refid="droolslibs"/>
             <fileset refid="seamlibs"/>
-            <fileset dir="${lib.dir}">
+            <fileset dir="${global.lib.dir}">
                 <include name="ajax4jsf*.jar" />
                 <include name="richfaces*.jar" />
                 <include name="oscache*.jar" />
@@ -197,6 +196,7 @@
                 <include name="jbpm*.jar" />
                 <include name="jboss-el.jar" />
                 <include name="urlrewrite*.jar" />
+                <include name="itext*.jar" />
             </fileset>
         </copy>
         <copy todir="${exploded.war.dir}/WEB-INF/lib">

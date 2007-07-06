@@ -3,7 +3,6 @@ package org.jboss.seam.wiki.core.search;
 import org.apache.lucene.search.*;
 import org.apache.lucene.search.Filter;
 import org.hibernate.Hibernate;
-import org.hibernate.Session;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.FullTextQuery;
 import org.hibernate.search.bridge.StringBridge;
@@ -177,8 +176,7 @@ public class WikiSearch implements Serializable {
 
         try {
 
-            FullTextSession ftSession = org.hibernate.search.Search.createFullTextSession(getSession());
-            FullTextQuery ftQuery = ftSession.createFullTextQuery(mainQuery, indexedEntities);
+            FullTextQuery ftQuery = getFullTextSession().createFullTextQuery(mainQuery, indexedEntities);
             ftQuery.setFirstResult(page * pageSize).setMaxResults(pageSize);
             totalCount = ftQuery.getResultSize();
             log.debug("total search hits (might be paginated next): " + totalCount);
@@ -203,9 +201,9 @@ public class WikiSearch implements Serializable {
         }
     }
 
-    private Session getSession() {
+    private FullTextSession getFullTextSession() {
         restrictedEntityManager.joinTransaction();
-        return ((Session) ((org.jboss.seam.persistence.EntityManagerProxy) restrictedEntityManager).getDelegate());
+        return (FullTextSession) restrictedEntityManager.getDelegate();
     }
 
     public void nextPage() {

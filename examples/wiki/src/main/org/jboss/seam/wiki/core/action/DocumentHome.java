@@ -42,7 +42,7 @@ public class DocumentHome extends NodeHome<Document> {
             getInstance().rollback(selectedHistoricalNode);
         }
 
-        // Wiki text parser and others needs it
+        // Wiki text parser and plugins need this
         Contexts.getConversationContext().set("currentDocument", getInstance());
         Contexts.getConversationContext().set("currentDirectory", getParentDirectory());
 
@@ -84,8 +84,10 @@ public class DocumentHome extends NodeHome<Document> {
 
         // Update feed entries
         if (getInstance().getReadAccessLevel() == UserRoleAccessFactory.GUESTROLE_ACCESSLEVEL) {
-            feedDAO.updateFeedEntry(isPushOnSiteFeed(), getInstance());
-            feedDAO.purgeOldFeedEntries(); // TODO: Move this into maintenance thread to run periodically
+            feedDAO.updateFeedEntry(getInstance(), isPushOnSiteFeed());
+            feedDAO.purgeOldFeedEntries();
+            // Feeds should not be removed by a maintenance thread: If there
+            // is no activity on the site, feeds shouldn't be empty but show the last updates.
         }
 
         // Write history log and prepare a new copy for further modification

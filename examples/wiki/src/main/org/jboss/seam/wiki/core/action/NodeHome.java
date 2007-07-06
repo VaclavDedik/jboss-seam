@@ -11,8 +11,8 @@ import org.jboss.seam.wiki.core.model.Node;
 import org.jboss.seam.wiki.util.WikiUtil;
 import org.jboss.seam.wiki.preferences.PreferenceProvider;
 import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.annotations.Out;
+import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.ScopeType;
@@ -52,10 +52,12 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
     /* -------------------------- Request Wiring ------------------------------ */
 
     // Required 'Edit' request parameter
-    @RequestParameter private Long nodeId;
+    @RequestParameter
+    private Long nodeId;
 
     // Required 'Edit' and 'Create' request parameter
-    @RequestParameter private Long parentDirId;
+    @RequestParameter
+    private Long parentDirId;
 
     /* -------------------------- Internal State ------------------------------ */
 
@@ -108,6 +110,9 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
         // The parentDirectory (and parentDirId) parameter can actually be null but this only happens
         // when the wiki root is edited... it can only be update()ed anyway, all the other code is null-safe.
         parentDirectory = nodeDAO.findDirectory(parentDirId);
+
+        if (parentDirectory == null)
+                throw new RuntimeException("############ REPRODUCE THIS BUG ####################");
 
         // Permission checks
         if (!isManaged() && !Identity.instance().hasPermission("Node", "create", getParentDirectory()) ) {

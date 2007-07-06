@@ -16,18 +16,18 @@
 
 <ui:define name="screenname">Member List</ui:define>
 
-<ui:define name="headerTopRight">
+<ui:define name="headerTopTwo">
     <ui:include src="includes/userControl.xhtml"/>
 </ui:define>
 
-<ui:define name="headerBottomLeft">&#160;</ui:define>
+<ui:define name="headerBottomOne">&#160;</ui:define>
 
 <ui:define name="sidebar">
     <ui:include src="includes/searchControl.xhtml"/>
     <ui:include src="includes/mainMenu.xhtml"/>
 </ui:define>
 
-<ui:define name="controlRight">
+<ui:define name="controlTwo">
     <s:link id="createUser" styleClass="linkNavigation" action="createUser" accesskey="C"
             rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}" propagation="none">
         <f:param name="lastConversationId" value="#{conversation.id}"/>
@@ -40,16 +40,16 @@
 
 <ui:define name="content">
 
-    <h:form id="main">
+    <h:form>
 
-        <div class="form" id="userSearchControl">
+    <div class="form" id="userSearchControl">
 
-            <h:panelGrid columns="6" style="margin-bottom: 15px;"
-                         styleClass="datatable topLeftBottomBorder"
-                         headerClass="regularHeader rightBorder"
+            <h:panelGrid columns="6"
+                         styleClass="datatable"
+                         headerClass="regularHeader"
                          columnClasses="tenPercentColumn formFields, tenPercentColumn formFields, tenPercentColumn formFields,
                                         tenPercentColumn formFields, twentyPercentColumn alignRight formFields,
-                                        defaultColumn alignRight rightBorder formFields"
+                                        defaultColumn alignRight formFields"
                          cellpadding="0" cellspacing="0" border="0">
 
                 <f:facet name="header">
@@ -85,7 +85,7 @@
                     </h:selectOneMenu>
                 </h:panelGroup>
 
-                <h:commandLink id="find" styleClass="button"
+                <h:commandLink id="find" styleClass="buttonNonpersistent"
                                action="#{userSearch.find()}"
                                tabindex="6" accesskey="F"><span class="buttonLabel"><u>F</u>ind</span></h:commandLink>
 
@@ -135,7 +135,8 @@
                                     twentyPercentColumn rightBorder alignLeft,
                                     twentyPercentColumn rightBorder alignLeft,
                                     twentyPercentColumn rightBorder alignLeft,
-                                    defaultColumn rightBorder alignCenter"
+                                    defaultColumn rightBorder alignLeft,
+                                    tenPercentColumn rightBorder alignCenter"
                      rowClasses="rowOdd,rowEven"
                      cellpadding="0" cellspacing="0" border="0">
 

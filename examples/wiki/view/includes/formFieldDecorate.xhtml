@@ -9,7 +9,7 @@
         <s:div rendered="#{not empty tabId}">
             <s:span rendered="#{invalid}">
                 <script type="text/javascript">jQuery(function() {
-                    formTabRaiseError("#{tabId}", "#{fieldId}", '<s:message/>');
+                    formTabRaiseError("#{tabId}", "#{fieldId}", '<ui:insert name="label"/>:&#160; <s:message/>');
                 });</script>
             </s:span>
             <s:span rendered="#{!invalid}">

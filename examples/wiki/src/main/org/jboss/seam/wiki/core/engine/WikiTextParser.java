@@ -15,14 +15,16 @@ import java.io.StringReader;
 /**
  * Parses SeamText markup and also resolves link and macro tags as wiki links and wiki plugins.
  * <p>
- * Requires and looks up the contextual variables <tt>currentDocument</tt> and <tt>currentDirectory</tt>.
+ * Don't forget to set the resolver and renderer base with <tt>setCurrentDirectory()</tt> and
+ * <tt>setCurrentDocument</tt>.
+ * </p><p>
  * Picks the <tt>WikiLinkResolver</tt> present in the contextual variable <tt>wikiLinkResolver</tt>. Calls
- * out to a <tt>WikiRender</tt> for the actual in-document rendering of wiki links and wiki plugins. Might update
+ * out to a <tt>WikiTextRender</tt> for the actual in-document rendering of wiki links and wiki plugins. Might update
  * the <tt>currentDocument</tt>'s content, this change should be flushed to the datastore after calling
  * the parser.
  * </p><p>
  * After parsing, all links to attachments and all external links are pushed onto the renderer, where they
- * can be used to render an attachment list or similar.
+ * can be used to render an attachment list or appendixes to the text.
  *
  * @author Christian Bauer
  */
@@ -45,15 +47,7 @@ public class WikiTextParser extends SeamTextParser {
         super(new SeamTextLexer(new StringReader(wikiText)));
         this.renderDuplicateMacros = renderDuplicateMacros;
         this.resolveLinks = resolveLinks;
-
-        resolver = (WikiLinkResolver)Component.getInstance("wikiLinkResolver");
-
-        currentDocument = (Document)Component.getInstance("currentDocument");
-        if (currentDocument == null) throw new RuntimeException("WikiTextParser needs the currentDocument context variable");
-        currentDirectory = (Directory)Component.getInstance("currentDirectory");
-        if (currentDirectory  == null) throw new RuntimeException("WikiTextParser needs the currentDirectory context variable");
     }
-
     /**
      * Mandatory, you need to set a renderer before starting the parer.
      *
@@ -64,15 +58,43 @@ public class WikiTextParser extends SeamTextParser {
     }
 
     /**
+     * Mandatory, you need to set a resolver before starting the parer.
+     *
+     * @param resolver an implementation of WikiLinkresolver
+     */
+    public void setResolver(WikiLinkResolver resolver) {
+        this.resolver = resolver;
+    }
+
+    /*
+     * The render/link resolving base
+     */
+    public void setCurrentDirectory(Directory currentDirectory) {
+        this.currentDirectory = currentDirectory;
+    }
+
+    /*
+     * The render/link resolving base
+     */
+    public void setCurrentDocument(Document currentDocument) {
+        this.currentDocument = currentDocument;
+    }
+
+    /**
      * Start parsing the wiki text and resolve wiki links and wiki plugins.
      * <p>
      * If <tt>updateResolvedLinks</tt> is enabled, the <t>currentDocument</tt>'s content will
      * be udpated after parsing the wiki text. This only occurs if we hit a link during link
-     * resolution that needs to be updated. You should flush this modification do the data store.
+     * resolution that needs to be updated. You should flush this modification to the data store.
      *
      * @param updateResolvedLinks Set updated content on <tt>currentDocument</tt>
      */
     public void parse(boolean updateResolvedLinks) {
+        if (resolver == null) throw new IllegalStateException("WikiTextParser requires setResolver() call");
+        if (renderer == null) throw new IllegalStateException("WikiTextParser requires setRenderer() call");
+        if (currentDocument == null) throw new IllegalStateException("WikiTextParser requires setCurrentDocument() call");
+        if (currentDirectory == null) throw new IllegalStateException("WikiTextParser requires setCurrentDirectory() call");
+
         try {
             startRule();
 
@@ -84,7 +106,7 @@ public class WikiTextParser extends SeamTextParser {
                         currentDocument.setContent(
                             resolver.convertToWikiProtocol(currentDirectory.getAreaNumber(), currentDocument.getContent())
                         );
-                        // Yes, this might happen during rendering, we flush() and UPDATE the document!
+                        // Yes, this might happen during rendering, you should lush() and UPDATE the document!
 
                         break; // One is enough
                     }
@@ -97,6 +119,7 @@ public class WikiTextParser extends SeamTextParser {
         }
         catch (ANTLRException re) {
             // TODO: Do we ever get this exception?
+            System.out.println("########################## FIXME: EXCEPTION IN PARSER ################################");
             throw new RuntimeException(re);
         }
     }

@@ -6,6 +6,7 @@ import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.engine.WikiTextParser;
 import org.jboss.seam.wiki.core.engine.WikiTextRenderer;
 import org.jboss.seam.wiki.core.engine.WikiLink;
+import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.Component;
 import org.jboss.seam.log.Log;
@@ -71,7 +72,7 @@ public class FeedDAO {
         }
     }
 
-    public void updateFeedEntry(boolean pushOnSiteFeed, Document document) {
+    public void updateFeedEntry(Document document, boolean pushOnSiteFeed) {
         restrictedEntityManager.joinTransaction();
 
         try {
@@ -136,6 +137,12 @@ public class FeedDAO {
     private String renderWikiText(String wikiText) {
         // Use the WikiTextParser to resolve macros
         WikiTextParser parser = new WikiTextParser(wikiText, true, true);
+
+        // TODO: hotfix
+        parser.setCurrentDocument((Document)Component.getInstance("currentDocument"));
+        parser.setCurrentDirectory((Directory)Component.getInstance("currentDirectory"));
+
+        parser.setResolver((WikiLinkResolver)Component.getInstance("wikiLinkResolver"));
 
         // Set a customized renderer for parser macro callbacks
         parser.setRenderer(

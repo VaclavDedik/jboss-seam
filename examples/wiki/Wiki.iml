@@ -566,24 +566,6 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/jbpm-identity.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/jcommon-1.0.6.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
           <root url="jar://$MODULE_DIR$/../../lib/ant-antlr.jar!/" />
         </CLASSES>
         <JAVADOC />
@@ -594,15 +576,6 @@
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/../../lib/bsh.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/hibernate-all.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -629,7 +602,52 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/jfreechart-1.0.3.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/jboss-saaj.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../lib/lucene-core-2.1.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../lib/xercesImpl.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../lib/xml-apis.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../lib/jcommon-1.0.10.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../lib/jfreechart-1.0.6.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -898,11 +916,6 @@
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/lib/hibernate-all.jar" />
-      <url>jar://$MODULE_DIR$/../../lib/hibernate-all.jar!/</url>
-    </containerElement>
-    <containerElement type="library" level="module">
-      <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib/itext-2.0.1.jar" />
       <url>jar://$MODULE_DIR$/../../lib/itext-2.0.1.jar!/</url>
     </containerElement>
@@ -933,8 +946,8 @@
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/lib/jbpm-identity.jar" />
-      <url>jar://$MODULE_DIR$/../../lib/jbpm-identity.jar!/</url>
+      <attribute name="URI" value="/WEB-INF/lib/jboss-saaj.jar" />
+      <url>jar://$MODULE_DIR$/../../lib/jboss-saaj.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />
@@ -948,13 +961,13 @@
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/lib/jcommon-1.0.6.jar" />
-      <url>jar://$MODULE_DIR$/../../lib/jcommon-1.0.6.jar!/</url>
+      <attribute name="URI" value="/WEB-INF/lib/jcommon-1.0.10.jar" />
+      <url>jar://$MODULE_DIR$/../../lib/jcommon-1.0.10.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/lib/jfreechart-1.0.3.jar" />
-      <url>jar://$MODULE_DIR$/../../lib/jfreechart-1.0.3.jar!/</url>
+      <attribute name="URI" value="/WEB-INF/lib/jfreechart-1.0.6.jar" />
+      <url>jar://$MODULE_DIR$/../../lib/jfreechart-1.0.6.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />
@@ -985,6 +998,11 @@
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib/jstl-1.1.0.jar" />
       <url>jar://$MODULE_DIR$/../../lib/jstl-1.1.0.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="1" />
+      <attribute name="URI" value="/WEB-INF/lib/lucene-core-2.1.0.jar" />
+      <url>jar://$MODULE_DIR$/../../lib/lucene-core-2.1.0.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />
@@ -1045,6 +1063,16 @@
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib/urlrewrite-3.0.4.jar" />
       <url>jar://$MODULE_DIR$/../../lib/urlrewrite-3.0.4.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="1" />
+      <attribute name="URI" value="/WEB-INF/lib/xercesImpl.jar" />
+      <url>jar://$MODULE_DIR$/../../lib/xercesImpl.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="1" />
+      <attribute name="URI" value="/WEB-INF/lib/xml-apis.jar" />
+      <url>jar://$MODULE_DIR$/../../lib/xml-apis.jar!/</url>
     </containerElement>
     <webroots>
       <root url="file://$MODULE_DIR$/view" relative="/" />

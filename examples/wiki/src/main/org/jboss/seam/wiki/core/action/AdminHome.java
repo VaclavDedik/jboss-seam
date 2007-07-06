@@ -5,6 +5,7 @@ import org.apache.lucene.index.TermEnum;
 import org.hibernate.Session;
 import org.hibernate.search.store.DirectoryProvider;
 import org.hibernate.search.util.ContextHelper;
+import org.hibernate.search.FullTextSession;
 import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.Component;
@@ -157,10 +158,9 @@ public class AdminHome {
         indexedEntities = registry.getSearchableEntities();
 
         EntityManager em = (EntityManager) Component.getInstance("entityManager");
-        Session session = (Session) em.getDelegate();
 
         for (SearchableEntity indexedEntity : indexedEntities) {
-            DirectoryProvider dirProvider = ContextHelper.getSearchFactory(session).getDirectoryProvider(indexedEntity.getClazz());
+            DirectoryProvider dirProvider = ((FullTextSession)em.getDelegate()).getSearchFactory().getDirectoryProvider(indexedEntity.getClazz());
             IndexReader reader = IndexReader.open(dirProvider.getDirectory());
 
             indexedEntity.setNumOfIndexedDocuments(reader.numDocs());

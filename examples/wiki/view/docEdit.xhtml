@@ -22,18 +22,18 @@
     <h:outputText value="Edit document" rendered="#{documentHome.managed}"/>
 </ui:define>
 
-<ui:define name="headerTopRight">
+<ui:define name="headerTopTwo">
     <ui:include src="includes/userControl.xhtml"/>
 </ui:define>
 
-<ui:define name="headerBottomLeft">&#160;</ui:define>
+<ui:define name="headerBottomOne">&#160;</ui:define>
 
 <ui:define name="sidebar">
     <ui:include src="includes/searchControl.xhtml"/>
     <ui:include src="includes/mainMenu.xhtml"/>
 </ui:define>
 
-<ui:define name="controlRight">
+<ui:define name="controlTwo">
 
     <s:link id="uploadFile" styleClass="linkNavigation" action="uploadFile" accesskey="F" propagation="none"
             rendered="#{s:hasPermission('Node', 'create', documentHome.parentDirectory)}">
@@ -49,7 +49,9 @@
 
 <ui:define name="content">
 
-    <div id="formMessageBox" class="messageBox"><table id="formMessageTable"/></div>
+    <script type="text/javascript">jQuery(function() {
+        clearContentBackground();
+    });</script>
 
     <s:span rendered="#{documentHome.managed}">
         <ui:include src="includes/directorySelector.xhtml">
@@ -69,6 +71,7 @@
         </ui:include>
     </s:span>
 
+    <div id="docEditFormContainer" class="shadowContainer"><div class="shadow1"><div class="shadow2">
     <h:form>
         <div class="form">
 
@@ -267,17 +270,31 @@
         </div>
     </h:form>
 
-    <s:div styleClass="documentDisplay" id="preview">
-        <s:div rendered="#{documentHome.enabledPreview}">
+    </div></div></div>
+
+    <br/>
+
+    <s:div id="preview">
+    <s:div id="documentDisplayContainer" rendered="#{documentHome.enabledPreview}" styleClass="shadowContainer"><div class="shadow1"><div class="shadow2">
+        <s:div id="documentDisplay" styleClass="documentDisplay"><j4j:idProxy id="documentDisplay_" />
             <s:div rendered="#{currentDocument.nameAsTitle}"><h1 class="documentTitle">#{currentDocument.name}</h1></s:div>
             <wiki:formattedText value="#{documentHome.instance.content}"
                                 linkStyleClass="regularLink"
                                 brokenLinkStyleClass="brokenLink"
                                 attachmentLinkStyleClass="regularLink"
-                                thumbnailLinkStyleClass="regularLink"/>
-            <ui:include src="includes/attachmentDisplay.xhtml"/>
+                                thumbnailLinkStyleClass="regularLink"
+                                renderBaseDocument="#{documentHome.instance}"
+                                renderBaseDirectory="#{currentDirectory}"/>
         </s:div>
+    </div></div></s:div>
+
+    <s:div rendered="#{documentHome.enabledPreview}">
+        <br/>
+        <ui:include src="includes/attachmentDisplay.xhtml"/>
     </s:div>
+
+    </s:div>
+
 
 </ui:define>
 

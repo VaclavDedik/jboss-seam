@@ -1,14 +1,14 @@
-<s:div
-     styleClass="attachmentDisplay"
+<s:div styleClass="shadowContainer" style="margin-top:25px"
      rendered="#{wiki:sizeOf(wikiTextAttachments) > 0}"
      xmlns="http://www.w3.org/1999/xhtml"
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:wiki="http://jboss.com/products/seam/wiki"
-     xmlns:s="http://jboss.com/products/seam/taglib">
+     xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+     xmlns:s="http://jboss.com/products/seam/taglib"><div class="shadow1"><div class="shadow2">
+<s:div id="attachmentDisplay" styleClass="attachmentDisplay">
 
-    <h:dataTable value="#{wikiTextAttachments}" var="link" style="width:450px;"
+    <h:dataTable value="#{wikiTextAttachments}" var="link"
          binding="#{wikiUtil.datatable}"
          styleClass="datatable rightBorder leftBorder topBorder bottomBorder"
          headerClass="regularHeader alignLeft"
@@ -36,3 +36,4 @@
     </h:dataTable>
 
 </s:div>
+</div></div></s:div>

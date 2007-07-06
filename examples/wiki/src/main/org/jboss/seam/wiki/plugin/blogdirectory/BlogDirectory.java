@@ -1,9 +1,11 @@
 package org.jboss.seam.wiki.plugin.blogdirectory;
 
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.core.Events;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.annotations.*;
-import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.annotations.Observer;
+import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.wiki.core.dao.NodeDAO;
@@ -30,7 +32,7 @@ public class BlogDirectory implements Serializable {
     Document currentDocument;
 
     @RequestParameter
-    Boolean blogIndex;
+    Boolean allEntries;
 
     @RequestParameter
     private void setBlogPage(Integer blogPage) {
@@ -59,6 +61,8 @@ public class BlogDirectory implements Serializable {
         orderByProperty = "createdOn";
         orderDescending = true;
         refreshBlogEntries();
+        Contexts.getPageContext().set("menuBase", currentDirectory);
+        Events.instance().raiseEvent("Nodes.menuStructureModified");
     }
 
     private void queryRowCount() {
@@ -106,7 +110,7 @@ public class BlogDirectory implements Serializable {
     }
 
     private void queryAllBlogEntries() {
-        if (blogIndex == null || !blogIndex) return; // Don't query if the index isn't displayed
+        if (allEntries == null || !allEntries) return; // Don't query if the index isn't displayed
         List<Document> documents =
                 nodeDAO.findWithParent(Document.class, currentDirectory, currentDocument, "createdOn", true, 0, 0);
 

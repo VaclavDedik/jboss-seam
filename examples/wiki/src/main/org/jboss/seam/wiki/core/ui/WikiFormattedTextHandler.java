@@ -17,7 +17,6 @@ import org.jboss.seam.Component;
 import org.jboss.seam.faces.ResourceLoader;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.ui.component.UILoadStyle;
-import org.jboss.seam.util.Resources;
 import org.jboss.seam.wiki.core.action.PluginPreferenceEditor;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 
@@ -80,17 +79,22 @@ public class WikiFormattedTextHandler extends MetaTagHandler {
     @Override
     protected void setAttributes(FaceletContext ctx, Object instance) {
         UIComponent cmp = (UIComponent) instance;
-        setAttribute(ctx, cmp, "linkStyleClass");
-        setAttribute(ctx, cmp, "brokenLinkStyleClass");
-        setAttribute(ctx, cmp, "attachmentLinkStyleClass");
-        setAttribute(ctx, cmp, "thumbnailLinkStyleClass");
-        setAttribute(ctx, cmp, "updateResolvedLinks");
+        setAttribute(ctx, cmp, UIWikiFormattedText.ATTR_LINK_STYLE_CLASS);
+        setAttribute(ctx, cmp, UIWikiFormattedText.ATTR_BROKEN_LINK_STYLE_CLASS);
+        setAttribute(ctx, cmp, UIWikiFormattedText.ATTR_ATTACHMENT_LINK_STYLE_CLASS);
+        setAttribute(ctx, cmp, UIWikiFormattedText.ATTR_THUMBNAIL_LINK_STYLE_CLASS);
+        setAttribute(ctx, cmp, UIWikiFormattedText.ATTR_UPDATE_RESOLVED_LINKS);
+        setAttribute(ctx, cmp, UIWikiFormattedText.ATTR_RENDER_BASE_DOCUMENT);
+        setAttribute(ctx, cmp, UIWikiFormattedText.ATTR_RENDER_BASE_DIRECTORY);
     }
 
     private void setAttribute(FaceletContext ctx, UIComponent cmp, String name) {
         TagAttribute attribute = this.getAttribute(name);
-        if (attribute != null)
-            cmp.getAttributes().put(name, attribute.getObject(ctx));
+        if (attribute != null) {
+            Object o = attribute.getObject(ctx);
+            if (o == null) throw new IllegalArgumentException("Attribute '" + name + "' resolved to null");
+            cmp.getAttributes().put(name, o);
+        }
     }
 
     @Override
@@ -199,10 +203,12 @@ public class WikiFormattedTextHandler extends MetaTagHandler {
         }
     }
 
+    /*
+     * If this plugin has preferences and editing is enabled, instantiate a
+     * plugin preferences editor and put it in the PAGE context
+     */
     private void createPreferencesEditor(String macroName) {
 
-        // If this plugin has preferences and editing is enabled, instantiate a
-        // plugin preferences editor and put it in the PAGE context
         String pluginPreferenceName = macroName + "Preferences";
         Boolean showPluginPreferences = (Boolean) Component.getInstance("showPluginPreferences");
         Object existingEditor = Contexts.getConversationContext()

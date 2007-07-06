@@ -1,4 +1,4 @@
-<wiki:plugin
+<wiki:plugin id="lastModifiedDocumentsPlugin"
        xmlns="http://www.w3.org/1999/xhtml"
        xmlns:ui="http://java.sun.com/jsf/facelets"
        xmlns:h="http://java.sun.com/jsf/html"
@@ -7,6 +7,7 @@
        xmlns:wiki="http://jboss.com/products/seam/wiki"
        xmlns:s="http://jboss.com/products/seam/taglib">
 
+<s:div id="lastModifiedDocumentsContainer" styleClass="shadowContainer"><div class="shadow1"><div class="shadow2">
 <s:div id="lastModifiedDocuments"
        styleClass="#{showPluginPreferences and !empty lastModifiedDocumentsPreferencesEditor ? 'pluginPreferencesBox' : null}">
 
@@ -21,7 +22,7 @@
         </div>
     </s:div>
 
-    <h:dataTable value="#{lastModifiedDocumentsPlugin.lastModifiedDocuments}" var="doc" style="width:300px"
+    <h:dataTable value="#{lastModifiedDocumentsPlugin.lastModifiedDocuments}" var="doc"
                  styleClass="datatable rightBorder leftBorder topBorder bottomBorder"
                  headerClass="regularHeader alignLeft"
                  columnClasses="tenPercentColumn alignLeft, tenPercentColumn alignLeft"
@@ -47,4 +48,5 @@
     </h:dataTable>
 
 </s:div>
+</div></div></s:div>
 </wiki:plugin>

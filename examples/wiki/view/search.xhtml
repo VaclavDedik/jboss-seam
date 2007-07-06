@@ -18,18 +18,18 @@
 
 <ui:define name="screenname">Search: #{wikiSearch.simpleQuery}</ui:define>
 
-<ui:define name="headerTopRight">
+<ui:define name="headerTopTwo">
     <ui:include src="includes/userControl.xhtml"/>
 </ui:define>
 
-<ui:define name="headerBottomLeft">&#160;</ui:define>
+<ui:define name="headerBottomOne">&#160;</ui:define>
 
 <ui:define name="sidebar">
     <ui:include src="includes/searchControl.xhtml"/>
     <ui:include src="includes/mainMenu.xhtml"/>
 </ui:define>
 
-<ui:define name="controlRight">
+<ui:define name="controlTwo">
     <s:link id="exit" styleClass="linkNavigation"
             action="#{browser.exitConversation(true)}"
             accesskey="E"><u>E</u>xit</s:link>
@@ -42,12 +42,12 @@
 
             <a:region>
 
-            <h:panelGrid columns="5" style="margin-bottom: 15px;"
+            <h:panelGrid columns="5"
                          styleClass="datatable topLeftBottomBorder"
                          headerClass="regularHeader rightBorder"
                          columnClasses="twentyPercentColumn formFields, twentyPercentColumn formFields,
                                         twentyPercentColumn formFields, twentyPercentColumn formFields,
-                                        tenPercentColumn alignRight rightBorder formFields"
+                                        defaultColumn alignCenter rightBorder formFields"
                          cellpadding="0" cellspacing="0" border="0">
 
                 <f:facet name="header">
@@ -56,8 +56,7 @@
 
                 <h:panelGrid columns="2" cellpadding="0" cellspacing="0" border="0">
                     <h:outputText styleClass="label" value="In:&#160;"/>
-                    <h:selectOneMenu value="#{wikiSearch.selectedSearchableEntity}" tabindex="1"
-                                     converter="searchableEntityConverter">
+                    <h:selectOneMenu value="#{wikiSearch.selectedSearchableEntity}" tabindex="1">
                         <s:selectItems value="#{searchRegistry.searchableEntities}"
                                        var="se"
                                        label="#{se.description}"
@@ -68,7 +67,7 @@
 
                 <h:panelGrid columns="2" rendered="#{empty wikiSearch.selectedSearchableEntity}" cellpadding="0" cellspacing="0" border="0">
                     <h:outputText styleClass="label" value="Terms:&#160;"/>
-                    <h:inputText value="#{wikiSearch.simpleQuery}" size="35" maxlength="1000" tabindex="1"/>
+                    <h:inputText value="#{wikiSearch.simpleQuery}" size="30" maxlength="1000" tabindex="1"/>
                 </h:panelGrid>
                 <s:span rendered="#{not empty wikiSearch.selectedSearchableEntity}">&#160;</s:span>
 
@@ -98,12 +97,12 @@
 
                 <s:div rendered="#{!empty wikiSearch.selectedSearchableEntity}">
 
-                    <h:dataTable id="searchOptionsTable" style="margin-bottom: 15px;"
+                    <h:dataTable id="searchOptionsTable"
                                  rendered="#{not empty wikiSearch.selectedSearchableEntity}"
                                  var="search"
                                  value="#{wikiSearch.searches[wikiSearch.selectedSearchableEntity]}"
                                  styleClass="datatable topBorder topLeftBottomBorder"
-                                 columnClasses="tenPercentColumn alignLeft, defaultColumn alignLeft formFields rightBorder"
+                                 columnClasses="tenPercentColumn alignLeft formFields, defaultColumn alignLeft formFields rightBorder"
                                  cellpadding="0" cellspacing="0" border="0">
 
                         <h:column>
@@ -197,7 +196,9 @@
 
             </h:dataTable>
 
-            <h:outputText value="No hits, please try again." rendered="#{wikiSearch.totalCount == 0}"/>
+            <s:div styleClass="formFields minorPadding" rendered="#{wikiSearch.totalCount == 0}">
+                <h:outputText value="No hits, please try again."/>
+            </s:div>
 
         </s:div>
 

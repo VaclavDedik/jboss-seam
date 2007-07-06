@@ -20,20 +20,20 @@
     <h:outputText value="Member Account '#{userHome.instance.username}'"/>
 </ui:define>
 
-<ui:define name="headerTopRight">
+<ui:define name="headerTopTwo">
     <ui:include src="includes/userControl.xhtml"/>
 </ui:define>
 
-<ui:define name="headerBottomLeft">&#160;</ui:define>
+<ui:define name="headerBottomOne">&#160;</ui:define>
 
 <ui:define name="sidebar">
     <ui:include src="includes/searchControl.xhtml"/>
     <ui:include src="includes/mainMenu.xhtml"/>
 </ui:define>
 
-<ui:define name="controlLeft">&#160;</ui:define>
+<ui:define name="controlOne">&#160;</ui:define>
 
-<ui:define name="controlRight">
+<ui:define name="controlTwo">
     <s:link id="exit" styleClass="linkNavigation"
             action="#{browser.exitConversation(true)}"
             accesskey="E"><u>E</u>xit</s:link>
@@ -47,8 +47,6 @@
     </ui:include>
 </s:span>
 
-<div id="formMessageBox" class="messageBox"><table id="formMessageTable"/></div>
-
 <h:form>
     <div class="form">
 
@@ -58,9 +56,9 @@
     <div id="formTabs">
 
         <ul>
-            <li id="userProfileTab"><a href="#userProfile">Profile</a></li>
-            <li id="userAccountTab"><a href="#userAccount">Account</a></li>
-            <li id="userPrefsTab"><a href="#userPreferences">Preferences</a></li>
+            <li id="userProfileTab"><a href="#userProfile" accesskey="o">Pr<u>o</u>file</a></li>
+            <li id="userAccountTab"><a href="#userAccount" accesskey="c">A<u>c</u>count</a></li>
+            <li id="userPrefsTab"><a href="#userPreferences" accesskey="r">P<u>r</u>eferences</a></li>
         </ul>
 
         <div id="userProfile">
@@ -168,7 +166,7 @@
         </div>
 
         <div id="userPreferences">
-            <div class="formFields wideLabels">
+            <div class="formFields">
                 <ui:include src="includes/preferencesEditor.xhtml">
                     <ui:param name="tabId" value="userPrefsTab"/>
                     <ui:param name="preferenceComponents" value="#{userPreferenceComponents}"/>

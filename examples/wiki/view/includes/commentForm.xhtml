@@ -1,12 +1,14 @@
-<div id="commentForm"
+<s:div styleClass="shadowContainer"  style="margin-top:25px"
+     rendered="#{currentDocument.enableComments and currentDocument.enableCommentForm}"
      xmlns="http://www.w3.org/1999/xhtml"
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
      xmlns:a="https://ajax4jsf.dev.java.net/ajax"
-     xmlns:s="http://jboss.com/products/seam/taglib">
+     xmlns:s="http://jboss.com/products/seam/taglib"><div class="shadow1"><div class="shadow2">
 
-    <h:form styleClass="commentForm" rendered="#{currentDocument.enableComments and currentDocument.enableCommentForm}">
+<div id="commentForm">
+    <h:form styleClass="commentForm">
         <div class="form">
             <div class="formHead">Post new comment:</div>
 
@@ -76,7 +78,7 @@
                     <div class="label">&#160;</div>
                     <div class="input">
 
-                        <a:commandLink action="#{commentHome.persist}" tabindex="102" reRender="documentDisplay"
+                        <a:commandLink action="#{commentHome.persist}" tabindex="102" reRender="content"
                                        styleClass="button"><span class="buttonLabel">Post Comment</span></a:commandLink>
 
                     </div>
@@ -87,3 +89,4 @@
     </h:form>
 
 </div>
+</div></div></s:div>

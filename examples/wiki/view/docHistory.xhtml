@@ -5,6 +5,7 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:a="https://ajax4jsf.dev.java.net/ajax"
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
                 template="themes/#{wikiPreferences.themeName}/template.xhtml">
 
@@ -16,18 +17,18 @@
 
 <ui:define name="screenname">Document History</ui:define>
 
-<ui:define name="headerTopRight">
+<ui:define name="headerTopTwo">
     <ui:include src="includes/userControl.xhtml"/>
 </ui:define>
 
-<ui:define name="headerBottomLeft">&#160;</ui:define>
+<ui:define name="headerBottomOne">&#160;</ui:define>
 
 <ui:define name="sidebar">
     <ui:include src="includes/searchControl.xhtml"/>
     <ui:include src="includes/mainMenu.xhtml"/>
 </ui:define>
 
-<ui:define name="controlRight">
+<ui:define name="controlTwo">
     <s:link id="exit" styleClass="linkNavigation"
             action="#{browser.exitConversation(true)}"
             accesskey="E"><u>E</u>xit</s:link>
@@ -38,8 +39,8 @@
 <h:form rendered="#{historicalNodeList.rowCount >0}">
 
 <div class="form">
-<div class="formHead">Document History: #{currentNode.name}</div>
-<div class="formFields formBorder wideLabels">
+    <div class="formHead">Document History: #{currentNode.name}</div>
+    <div class="formFields formBorder wideLabels">
 
         <s:div styleClass="entry">
             <div class="label">Current revision:</div>
@@ -82,20 +83,17 @@
                 <h:dataTable id="historyTable" var="hnode" style="width:50%"
                              value="#{historicalNodeList}"
                              styleClass="datatable topLeftBottomBorder"
-                             headerClass="sortableHeader rightBorder"
                              columnClasses="onePercentColumn rightBorder alignCenter,
                                             twentyPercentColumn rightBorder alignLeft,
-                                            defaultColumn rightBorder alignCenter"
-                             rowClasses="rowOdd,rowEven"
+                                            twentyPercentColumn rightBorder alignCenter"
+                             rowClasses="rowEven, rowOdd"
                              cellpadding="0" cellspacing="0" border="0">
 
                     <h:column>
-                        <f:facet name="header">#</f:facet>
                         #{hnode.revision}
                     </h:column>
 
                     <h:column>
-                        <f:facet name="header">Last Modified</f:facet>
                         <h:outputText value="#{hnode.lastModifiedOn}">
                             <f:convertDateTime type="both" timeZone="#{wikiPreferences.timeZone}"/>
                         </h:outputText>
@@ -103,9 +101,9 @@
                     </h:column>
 
                     <h:column>
-                        <h:commandLink id="diff"
-                                       action="#{nodeHistory.diff}"
-                                       tabindex="3" styleClass="buttonNonpersistent"><span class="buttonLabel">Diff</span></h:commandLink>
+                        <a:commandLink id="diff"
+                                       action="#{nodeHistory.diff}" reRender="messageBoxContainer, diffResult"
+                                       tabindex="3" styleClass="buttonNonpersistent"><span class="buttonLabel">Diff</span></a:commandLink>
                         <h:commandLink id="rollback"
                                        action="#{nodeHistory.rollback}"
                                        tabindex="4" styleClass="buttonNonpersistent"
@@ -118,12 +116,13 @@
         </s:div>
 
     </div>
-
 </div>
 </h:form>
 
-<s:div id="diffOutput" rendered="#{not empty nodeHistory.diffResult}">
-    <h:outputText value="#{nodeHistory.diffResult}" escape="false"/>
+<s:div id="diffResult">
+    <s:div id="diffOutput" rendered="#{not empty nodeHistory.diffResult}">
+        <h:outputText value="#{nodeHistory.diffResult}" escape="false"/>
+    </s:div>
 </s:div>
 
 </ui:define>
