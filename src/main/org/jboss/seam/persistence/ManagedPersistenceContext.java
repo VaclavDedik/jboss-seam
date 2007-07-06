@@ -106,11 +106,20 @@ public class ManagedPersistenceContext
    {
       if (entityManager==null) initEntityManager();
       
-      //join the transaction
-      if ( !synchronizationRegistered && !Lifecycle.isDestroying() && Transaction.instance().isActive() )
+      if ( !synchronizationRegistered && !Lifecycle.isDestroying() )
       {
-         entityManager.joinTransaction();
-         UserTransaction transaction = Transaction.instance();
+         joinTransaction();
+      }
+      
+      return entityManager;
+   }
+
+   private void joinTransaction() throws SystemException
+   {
+      UserTransaction transaction = Transaction.instance();
+      if ( transaction.isActive() )
+      {
+         transaction.enlist(entityManager);
          try
          {
             transaction.registerSynchronization(this);
@@ -121,8 +130,6 @@ public class ManagedPersistenceContext
             synchronizationRegistered = PersistenceProvider.instance().registerSynchronization(this, entityManager);
          }
       }
-      
-      return entityManager;
    }
    
    //we can't use @PrePassivate because it is intercept NEVER
@@ -311,6 +318,7 @@ public class ManagedPersistenceContext
             break;
       }
    }
+   
    @Override
    public String toString()
    {

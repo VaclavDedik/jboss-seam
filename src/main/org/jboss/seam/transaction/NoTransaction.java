@@ -1,5 +1,6 @@
 package org.jboss.seam.transaction;
 
+import javax.persistence.EntityManager;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
@@ -53,6 +54,12 @@ public class NoTransaction extends AbstractUserTransaction
    public void registerSynchronization(Synchronization sync)
    {
       throw new UnsupportedOperationException("no transaction");
+   }
+   
+   @Override
+   public void enlist(EntityManager entityManager) throws SystemException
+   {
+      //no-op
    }
 
 }

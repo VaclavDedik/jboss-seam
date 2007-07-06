@@ -1,12 +1,11 @@
-/**
- * 
- */
 package org.jboss.seam.framework;
 
 import javax.persistence.EntityManager;
+import javax.transaction.SystemException;
 
 import org.jboss.seam.Entity;
 import org.jboss.seam.persistence.PersistenceProvider;
+import org.jboss.seam.transaction.Transaction;
 
 public class EntityIdentifier extends Identifier<EntityManager>
 {
@@ -22,7 +21,14 @@ public class EntityIdentifier extends Identifier<EntityManager>
       {
          throw new IllegalArgumentException("EntityManager must not be null");
       }
-      entityManager.joinTransaction();
+      try
+      {
+         Transaction.instance().enlist(entityManager);
+      }
+      catch (SystemException se)
+      {
+         throw new RuntimeException("could not join transaction", se);
+      }
       return entityManager.find(getClazz(), getId());
    }
    

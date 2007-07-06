@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
+import javax.transaction.SystemException;
 
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.persistence.QueryParser;
+import org.jboss.seam.transaction.Transaction;
 
 /**
  * A Query object for JPA.
@@ -137,7 +139,8 @@ public class EntityQuery extends Query<EntityManager>
       
       evaluateAllParameters();
       
-      getEntityManager().joinTransaction();
+      joinTransaction();
+      
       javax.persistence.Query query = getEntityManager().createQuery( getRenderedEjbql() );
       setParameters( query, getQueryParameterValues(), 0 );
       setParameters( query, getRestrictionParameterValues(), getQueryParameterValues().size() );
@@ -159,7 +162,8 @@ public class EntityQuery extends Query<EntityManager>
 
       evaluateAllParameters();
 
-      getEntityManager().joinTransaction();
+      joinTransaction();
+      
       javax.persistence.Query query = getEntityManager().createQuery( getCountEjbql() );
       setParameters( query, getQueryParameterValues(), 0 );
       setParameters( query, getRestrictionParameterValues(), getQueryParameterValues().size() );
@@ -186,6 +190,18 @@ public class EntityQuery extends Query<EntityManager>
    public void setHints(Map<String, String> hints)
    {
       this.hints = hints;
+   }
+   
+   protected void joinTransaction()
+   {
+      try
+      {
+         Transaction.instance().enlist( getEntityManager() );
+      }
+      catch (SystemException se)
+      {
+         throw new RuntimeException("could not join transaction", se);
+      }
    }
 
 }

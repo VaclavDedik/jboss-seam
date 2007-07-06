@@ -111,11 +111,20 @@ public class ManagedHibernateSession
    {
       if (session==null) initSession();
       
-      //join the transaction
-      if ( !synchronizationRegistered && !Lifecycle.isDestroying() && Transaction.instance().isActive() )
+      if ( !synchronizationRegistered && !Lifecycle.isDestroying() )
+      {
+         joinTransaction();
+      }
+      
+      return session;
+   }
+
+   private void joinTransaction() throws SystemException
+   {
+      UserTransaction transaction = Transaction.instance();
+      if ( transaction.isActive() )
       {
          session.isOpen();
-         UserTransaction transaction = Transaction.instance();
          try
          {
             transaction.registerSynchronization(this);
@@ -126,8 +135,6 @@ public class ManagedHibernateSession
          }
          synchronizationRegistered = true;
       }
-      
-      return session;
    }
    
    //we can't use @PrePassivate because it is intercept NEVER

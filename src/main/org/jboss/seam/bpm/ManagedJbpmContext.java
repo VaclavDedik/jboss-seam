@@ -35,7 +35,7 @@ import org.jbpm.svc.Services;
 /**
  * Manages a reference to a JbpmContext.
  *
- * @author <a href="mailto:steve@hibernate.org">Steve Ebersole </a>
+ * @author <a href="mailto:steve@hibernate.org">Steve Ebersole</a>
  * @author Gavin King
  */
 @Scope(ScopeType.EVENT)
@@ -70,11 +70,19 @@ public class ManagedJbpmContext implements Synchronization
    @Unwrap
    public JbpmContext getJbpmContext() throws NamingException, RollbackException, SystemException
    {
+      joinTransaction();
+      return jbpmContext;
+   }
+
+   private void joinTransaction() throws SystemException
+   {
       UserTransaction transaction = Transaction.instance();
+      
       if ( !transaction.isActiveOrMarkedRollback() )
       {
          throw new IllegalStateException("JbpmContext may only be used inside a transaction");
       }
+      
       if ( !synchronizationRegistered && !Lifecycle.isDestroying() && transaction.isActive() )
       {
          jbpmContext.getSession().isOpen();
@@ -88,7 +96,6 @@ public class ManagedJbpmContext implements Synchronization
          }
          synchronizationRegistered = true;
       }
-      return jbpmContext;
    }
    
    public void beforeCompletion()

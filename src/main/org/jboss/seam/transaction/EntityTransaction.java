@@ -219,5 +219,11 @@ public class EntityTransaction extends AbstractUserTransaction
    {
       this.entityManager = entityManager;
    }
+   
+   @Override
+   public void enlist(EntityManager entityManager)
+   {
+      //no-op
+   }
 
 }

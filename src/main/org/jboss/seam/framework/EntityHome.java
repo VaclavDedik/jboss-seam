@@ -1,9 +1,11 @@
 package org.jboss.seam.framework;
 
 import javax.persistence.EntityManager;
+import javax.transaction.SystemException;
 
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.persistence.PersistenceProvider;
+import org.jboss.seam.transaction.Transaction;
 
 /**
  * Base class for Home objects of JPA entities.
@@ -81,7 +83,14 @@ public class EntityHome<E> extends Home<EntityManager, E>
    {
       if ( getEntityManager().isOpen() )
       {
-         getEntityManager().joinTransaction();
+         try
+         {
+            Transaction.instance().enlist( getEntityManager() );
+         }
+         catch (SystemException se)
+         {
+            throw new RuntimeException("could not join transaction", se);
+         }
       }
    }
    

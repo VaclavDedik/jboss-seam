@@ -2,6 +2,7 @@ package org.jboss.seam.transaction;
 
 import static org.jboss.seam.annotations.Install.FRAMEWORK;
 
+import javax.persistence.EntityManager;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
@@ -181,6 +182,12 @@ public class HibernateTransaction extends AbstractUserTransaction
       }
       assertActive();
       getDelegate().registerSynchronization(sync);
+   }
+   
+   @Override
+   public void enlist(EntityManager entityManager) throws SystemException
+   {
+      throw new UnsupportedOperationException("JPA EntityManager should not be used with Hibernate Transaction API");
    }
    
    @Override
