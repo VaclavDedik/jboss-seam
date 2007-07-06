@@ -100,11 +100,21 @@ public class Manager
       Contexts.getConversationContext().flush();
       
       ConversationEntry ce = ConversationEntries.instance().updateConversationId(currentConversationId, id);
+      String priorId = currentConversationId;
       setCurrentConversationId(id);
+      
       if (ce!=null)
       {
          setCurrentConversationIdStack( ce.getConversationIdStack() );
          //TODO: what about child conversations?!
+      } else {
+          // when ce is null, the id stack will be left with a reference to
+          // the old conversation id, so we need patch that up
+          int pos = currentConversationIdStack.indexOf(priorId);
+          if (pos != -1) {
+              currentConversationIdStack.set(pos, id);
+          }
+          
       }
       
       for (int i=0; i<names.length; i++)
