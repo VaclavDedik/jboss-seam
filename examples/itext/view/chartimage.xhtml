@@ -17,55 +17,56 @@
     <p:stroke id="dot1"  width="2" cap="round" join="bevel" dash="3 3" />
     <p:stroke id="dot2"  width="2" cap="round" join="bevel" dash="2 4" />
 
-    <a:outputPanel id="chart">
-        <p:barchart title="#{chart.title}"  orientation="#{chart.orientation}"
-                    is3D="#{chart.is3d}"   legend="#{chart.legend}" 
-                    width="#{chart.width}" height="#{chart.height}" 
-                    domainAxisLabel="#{chart.domainAxisLabel}"
-                    domainAxisPaint="#{chart.domainAxisPaint}"
-                    domainGridlinesVisible="#{chart.domainGridlinesVisible}"
-                    domainGridlinePaint="#{chart.domainGridlinePaint}"
-                    domainGridlineStroke="#{chart.domainGridlineStroke}"
-                    rangeAxisLabel="#{chart.rangeAxisLabel}"
-                    rangeAxisPaint="#{chart.rangeAxisPaint}"
-                    rangeGridlinesVisible="#{chart.rangeGridlinesVisible}"
-                    rangeGridlinePaint="#{chart.rangeGridlinePaint}"
-                    rangeGridlineStroke="#{chart.rangeGridlineStroke}"
-                    borderVisible="#{chart.borderVisible}"
-                    borderPaint="#{chart.borderPaint}"
-                    borderBackgroundPaint="#{chart.borderBackgroundPaint}"
-                    borderStroke="#{chart.borderStroke}"
-                    plotOutlinePaint="#{chart.plotOutlinePaint}"
-                    plotOutlineStroke="#{chart.plotOutlineStroke}"
-                    plotBackgroundPaint="#{chart.plotBackgroundPaint}"
-                    plotForegroundAlpha="#{chart.plotForegroundAlpha}"
-                    plotBackgroundAlpha="#{chart.plotBackgroundAlpha}"
-                    legendItemPaint="#{chart.legendItemPaint}"
-                    legendBackgroundPaint="#{chart.legendBackgroundPaint}"
-                    titlePaint="#{chart.titlePaint}"
-                    titleBackgroundPaint="#{chart.titleBackgroundPaint}">
+    <rich:panel>
+        <f:facet name="header">HTML Chart Demo</f:facet>
 
-            <ui:repeat value="#{chart.data}" var="dataset">
-                <p:series key="#{dataset.id}" 
-                          seriesVisible="#{dataset.visible}"
-                          seriesVisibleInLegend="#{dataset.visibleInLegend}"
-                          seriesPaint="#{dataset.seriesPaint}"
-                          seriesFillPaint="#{dataset.seriesFillPaint}" 
-                          seriesStroke="#{dataset.seriesStroke}"
-                          seriesOutlinePaint="#{dataset.seriesOutlinePaint}" 
-                          seriesOutlineStroke="#{dataset.seriesOutlineStroke}">
-
-                    <ui:repeat value="#{dataset.keys}" var="d">
-                        <p:data columnKey="#{d}" value="#{dataset.values[d]}" />
-                    </ui:repeat>
-                </p:series>
-            </ui:repeat>
-        </p:barchart>
-    </a:outputPanel>
-
+        <a:outputPanel id="chart">
+            <p:barchart title="#{chart.title}"  orientation="#{chart.orientation}"
+                        is3D="#{chart.is3d}"   legend="#{chart.legend}" 
+                        width="#{chart.width}" height="#{chart.height}" 
+                        domainAxisLabel="#{chart.domainAxisLabel}"
+                        domainAxisPaint="#{chart.domainAxisPaint}"
+                        domainGridlinesVisible="#{chart.domainGridlinesVisible}"
+                        domainGridlinePaint="#{chart.domainGridlinePaint}"
+                        domainGridlineStroke="#{chart.domainGridlineStroke}"
+                        rangeAxisLabel="#{chart.rangeAxisLabel}"
+                        rangeAxisPaint="#{chart.rangeAxisPaint}"
+                        rangeGridlinesVisible="#{chart.rangeGridlinesVisible}"
+                        rangeGridlinePaint="#{chart.rangeGridlinePaint}"
+                        rangeGridlineStroke="#{chart.rangeGridlineStroke}"
+                        borderVisible="#{chart.borderVisible}"
+                        borderPaint="#{chart.borderPaint}"
+                        borderBackgroundPaint="#{chart.borderBackgroundPaint}"
+                        borderStroke="#{chart.borderStroke}"
+                        plotOutlinePaint="#{chart.plotOutlinePaint}"
+                        plotOutlineStroke="#{chart.plotOutlineStroke}"
+                        plotBackgroundPaint="#{chart.plotBackgroundPaint}"
+                        plotForegroundAlpha="#{chart.plotForegroundAlpha}"
+                        plotBackgroundAlpha="#{chart.plotBackgroundAlpha}"
+                        legendItemPaint="#{chart.legendItemPaint}"
+                        legendBackgroundPaint="#{chart.legendBackgroundPaint}"
+                        titlePaint="#{chart.titlePaint}"
+                        titleBackgroundPaint="#{chart.titleBackgroundPaint}">
+                
+                <ui:repeat value="#{chart.data}" var="dataset">
+                    <p:series key="#{dataset.id}" 
+                              seriesVisible="#{dataset.visible}"
+                              seriesVisibleInLegend="#{dataset.visibleInLegend}"
+                              seriesPaint="#{dataset.seriesPaint}"
+                              seriesFillPaint="#{dataset.seriesFillPaint}" 
+                              seriesStroke="#{dataset.seriesStroke}"
+                              seriesOutlinePaint="#{dataset.seriesOutlinePaint}" 
+                              seriesOutlineStroke="#{dataset.seriesOutlineStroke}">
+                        
+                        <ui:repeat value="#{chart.categories}" var="category">
+                            <p:data columnKey="#{category}" value="#{dataset.values[category]}" />
+                        </ui:repeat>
+                    </p:series>
+                </ui:repeat>
+            </p:barchart>
+        </a:outputPanel>
+    </rich:panel>
     <h:form>
-        <h3>Chart</h3>
-
         <rich:tabPanel switchType="ajax">
             <rich:tab label="Title">
                 Label:
@@ -211,17 +212,35 @@
                 </h:selectOneMenu>
             </rich:tab>
             <rich:tab label="Legend">
-                Legend: 
-                <h:selectBooleanCheckbox value="#{chart.legend}">
-                    <a:support  event="onchange" reRender="chart" />
-                </h:selectBooleanCheckbox>
+                Show Legend: 
+                <rich:dataTable value="#{chart.data}" var="dataset">
+                    <f:facet name="header">
+                        <rich:columnGroup>
+                            <rich:column>Default</rich:column>
+                            <rich:column>
+                                <h:selectBooleanCheckbox value="#{chart.legend}">
+                                    <a:support  event="onchange" reRender="chart" />
+                                </h:selectBooleanCheckbox>
+                            </rich:column>
+                        </rich:columnGroup>
+                    </f:facet>
+                    <rich:column>#{dataset.id}</rich:column>
+                    <rich:column>
+                        <h:selectBooleanCheckbox value="#{dataset.visibleInLegend}">
+                            <a:support  event="onchange" reRender="chart" />
+                        </h:selectBooleanCheckbox>
+                    </rich:column>
+                </rich:dataTable>
+
+
+                Foreground Color:
                 <h:selectOneMenu value="#{chart.legendItemPaint}">             
                     <s:selectItems value="#{colors}" var="i" label="#{i}"
                                    noSelectionLabel="Default ... "/> 
                     <a:support  event="onchange" reRender="chart" />
                 </h:selectOneMenu> 
                 
-                Background:
+                Background Color:
                 <h:selectOneMenu value="#{chart.legendBackgroundPaint}">             
                     <s:selectItems value="#{colors}" var="i" label="#{i}"
                                    noSelectionLabel="Default ... "/> 
@@ -230,68 +249,71 @@
                 
             </rich:tab>
             <rich:tab label="Data">
-                <ui:repeat value="#{chart.data}" var="dataset">
+                <table class="dr-table rich-table" border="0" cellpadding="0" cellspacing="0">
+                    <thead>
+                        <tr class="dr-table-header rich-table-header">
+                            <td class="dr-table-headercell rich-table-headercell">Series Name</td>
+                            <ui:repeat value="#{chart.categories}" var="category">
+                                <td class="dr-table-headercell rich-table-headercell">
+                                    #{category}
+                                </td>
+                            </ui:repeat>
+                            <td class="dr-table-headercell rich-table-headercell">Visible</td>
+                            <td class="dr-table-headercell rich-table-headercell">Style</td>
+                            <td class="dr-table-headercell rich-table-headercell">Outline</td>
+                        </tr>
+                    </thead>
 
-                    <rich:panel>
-                        Visible:
-                        <h:selectBooleanCheckbox value="#{dataset.visible}">
-                            <a:support  event="onchange" reRender="chart" />
-                        </h:selectBooleanCheckbox>
-                        
-                        In Legend:
-                        <h:selectBooleanCheckbox value="#{dataset.visibleInLegend}">
-                            <a:support  event="onchange" reRender="chart" />
-                        </h:selectBooleanCheckbox>
-                        
-                        <br />           
+                    <ui:repeat value="#{chart.data}" var="dataset">
+                        <tr class="dr-table-row rich-table-row">
+                            <td class="dr-table-cell rich-table-cell">
+                                <h:inputText value="#{dataset.id}">
+                                    <a:support event="onchange" reRender="chart" />
+                                </h:inputText>
+                            </td>
+                            <ui:repeat value="#{chart.categories}" var="category">
+                                <td class="dr-table-cell rich-table-cell">
+                                    <rich:inputNumberSpinner value="#{dataset.values[category]}">
+                                        <a:support event="onchange" reRender="chart" />
+                                    </rich:inputNumberSpinner>
+                                </td>
+                            </ui:repeat>
 
+                            <td class="dr-table-cell rich-table-cell">
+                                <h:selectBooleanCheckbox value="#{dataset.visible}">
+                                    <a:support  event="onchange" reRender="chart" />
+                                </h:selectBooleanCheckbox>
+                            </td>
 
-                        Series Name: <h:inputText value="#{dataset.id}">
-                            <a:support event="onchange" reRender="chart" />
-                        </h:inputText>
-                        <br />
-
-                    
-                        Style:
-                        <h:selectOneMenu value="#{dataset.seriesPaint}">             
-                            <s:selectItems value="#{colors}" var="i" label="#{i}"
-                                           noSelectionLabel="Default ... "/> 
-                            <a:support  event="onchange" reRender="chart" />
-                        </h:selectOneMenu> 
-                        
-                        <h:selectOneMenu value="#{dataset.seriesStroke}">
-                            <s:selectItems value="#{strokes}" var="i" label="#{i}" noSelectionLabel="Default..." />
-                            <a:support  event="onchange" reRender="chart" />
-                        </h:selectOneMenu> 
-                        
-                        <ui:remove><!-- fill only for custom shapes?-->
-                            Fill:
-                            <h:selectOneMenu value="#{dataset.seriesFillPaint}">             
-                                <s:selectItems value="#{colors}" var="i" label="#{i}"
-                                               noSelectionLabel="Default ... "/> 
-                                <a:support  event="onchange" reRender="chart" />
-                            </h:selectOneMenu> 
-                        </ui:remove>
-                        <br />
-                        
-                        Outline:
-                        <h:selectOneMenu value="#{dataset.seriesOutlinePaint}">             
-                            <s:selectItems value="#{colors}" var="i" label="#{i}"
-                                           noSelectionLabel="Default ... "/> 
-                            <a:support  event="onchange" reRender="chart" />
-                        </h:selectOneMenu>             
-                        <h:selectOneMenu value="#{dataset.seriesOutlineStroke}">
-                            <s:selectItems value="#{strokes}" var="i" label="#{i}" noSelectionLabel="Default..." />
-                            <a:support  event="onchange" reRender="chart" />
-                        </h:selectOneMenu> 
-                        
-                        <br />
-                        <s:button action="#{chart.removeSeries(dataset.id)}" />
-                    </rich:panel>
-                    <rich:spacer height="10" />
-                </ui:repeat>
-
-                <h:commandButton action="#{chart.newSeries}" value="Add New Series" />
+                            <td class="dr-table-cell rich-table-cell">
+                                <h:selectOneMenu value="#{dataset.seriesPaint}">             
+                                    <s:selectItems value="#{colors}" var="i" label="#{i}"
+                                                   noSelectionLabel="Default ... "/> 
+                                    <a:support  event="onchange" reRender="chart" />
+                                </h:selectOneMenu> 
+                                
+                                <h:selectOneMenu value="#{dataset.seriesStroke}">
+                                    <s:selectItems value="#{strokes}" var="i" label="#{i}" noSelectionLabel="Default..." />
+                                    <a:support  event="onchange" reRender="chart" />
+                                </h:selectOneMenu> 
+                            </td>
+                            <td class="dr-table-cell rich-table-cell">
+                                <h:selectOneMenu value="#{dataset.seriesOutlinePaint}">             
+                                    <s:selectItems value="#{colors}" var="i" label="#{i}"
+                                                   noSelectionLabel="Default ... "/> 
+                                    <a:support  event="onchange" reRender="chart" />
+                                </h:selectOneMenu>             
+                                <h:selectOneMenu value="#{dataset.seriesOutlineStroke}">
+                                    <s:selectItems value="#{strokes}" var="i" label="#{i}" noSelectionLabel="Default..." />
+                                    <a:support  event="onchange" reRender="chart" />
+                                </h:selectOneMenu> 
+                            </td>
+                        </tr>
+                    </ui:repeat>
+                </table>
+                
+                <h:commandButton action="#{chart.newSeries}"   value="Add New Series" />
+                <h:commandButton action="#{chart.newCategory}" value="Add New Category" />
             </rich:tab>
         </rich:tabPanel>
     </h:form>

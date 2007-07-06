@@ -11,6 +11,10 @@ import org.jboss.seam.*;
 @Scope(ScopeType.SESSION)
 public class DynamicChart {
     private static final int CHART_RANGE = 50;
+    private List<String> categories = new ArrayList<String>();
+    private int nextSeries = 1;
+    private int nextCategory = 1;
+    
     Random random = new Random();
     
     List<Data> data = new ArrayList<Data>();
@@ -49,7 +53,7 @@ public class DynamicChart {
     float height = 300;
     float width  = 400;    
     
-    boolean borderVisible = true;
+    boolean borderVisible = true; 
     
     public boolean getIs3d() {
         return is3d;
@@ -286,6 +290,10 @@ public class DynamicChart {
     
     @Create
     public void initData() {
+        newCategory();
+        newCategory();
+        newCategory();
+
         newSeries();
         newSeries();
     }
@@ -294,38 +302,62 @@ public class DynamicChart {
         return data;
     }
 
+    public List<String> getCategories() {
+        return categories;
+    }
+    
     public void removeSeries(String id) {
         System.out.println("REMOVE: " + id);
     }
     
     public void newSeries() {
-        String newId = findUniqueId();
+        String newId = findUniqueSeriesId();
+        System.out.println("** series " + newId);
         Data set = new Data();
         set.setId(newId);
-        set.addValue("first",  random.nextInt(CHART_RANGE));
-        set.addValue("second", random.nextInt(CHART_RANGE));
-        set.addValue("third",  random.nextInt(CHART_RANGE)); 
+        
+        for (String category: categories) {
+            set.addValue(category,  random.nextInt(CHART_RANGE));
+        }        
         
         data.add(set);
     }
+    
+    public void newCategory() {
+        String newId = findUniqueCategoryId();
+        categories.add(newId);
 
-    private String findUniqueId() {
-        for (int num=1; true; num++) {
-            String id = "Series " + num;
-            if (isUniqueId(id)) {
+        for (Data set: data) {
+            set.addValue(newId,  random.nextInt(CHART_RANGE));
+        }        
+    }
+
+    private String findUniqueSeriesId() {
+        while (true) {
+            String id = "Series " + nextSeries++;
+            if (isUniqueSeriesId(id)) {
                 return id;
             }
         }
     }
 
-    private boolean isUniqueId(String id) {
+    private boolean isUniqueSeriesId(String id) {
         for (Data item: data) {
             if (item.getId().equals(id)) {
                 return false;
             }
         }
         return true;
-    }
+    }  
     
 
+    private String findUniqueCategoryId() {
+        while (true) {
+            String id = "Category " + nextCategory++;
+            if (!categories.contains(id)) {
+                return id;
+            }
+        }
+    }
+    
 }

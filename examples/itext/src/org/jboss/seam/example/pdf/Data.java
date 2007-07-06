@@ -1,8 +1,6 @@
 package org.jboss.seam.example.pdf;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Data {
@@ -14,11 +12,10 @@ public class Data {
     String seriesFillPaint;
     String seriesOutlinePaint;
     String seriesOutlineStroke;
-    String seriesStroke;;
-    
+    String seriesStroke;
     
     Map<String, Number> values = new HashMap<String, Number>();
-
+    
     public String getId() {
         return id;
     }
@@ -27,10 +24,6 @@ public class Data {
         this.id = id;
     }
 
-    public List<String> getKeys() {
-        return new ArrayList<String>(values.keySet());        
-    }
-    
     public Map<String,Number> getValues() {
         return values;
     }
