@@ -26,7 +26,7 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.TransactionSystemException;
 import org.springframework.transaction.UnexpectedRollbackException;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
-import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationAdapter;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 @Name("org.jboss.seam.transaction.transaction")
@@ -97,9 +97,14 @@ public class SpringTransaction extends AbstractUserTransaction
          try {
             if(currentTransaction == null) {
                transaction = platformTransactionManager.getValue().getTransaction(definition);
+               if(transaction.isNewTransaction()) {
+                  return Status.STATUS_COMMITTED;
+               }
             } else {
                transaction = currentTransaction;
             }
+            //If SynchronizationManager things it has an active transaction but our transaction is a new one
+            //then we must be in the middle of committing
             if(transaction.isCompleted()) {
                if(transaction.isRollbackOnly()) {
                   return Status.STATUS_ROLLEDBACK;
@@ -113,11 +118,7 @@ public class SpringTransaction extends AbstractUserTransaction
             }
          } finally {
             if(currentTransaction == null) {
-               if(transaction.isNewTransaction()) {
-                  throw new IllegalStateException("Our transactions are in a bad state");
-               } else {
-                  platformTransactionManager.getValue().commit(transaction);
-               }
+               platformTransactionManager.getValue().commit(transaction);
             }
          }
       }
@@ -209,8 +210,15 @@ public class SpringTransaction extends AbstractUserTransaction
    }
    
    
-   public class JtaSpringSynchronizationAdapter implements TransactionSynchronization
+   public class JtaSpringSynchronizationAdapter extends TransactionSynchronizationAdapter
    {
+      
+      @Override
+      public int getOrder()
+      {
+         return SeamLifecycleUtils.SEAM_LIFECYCLE_SYNCHRONIZATION_ORDER-1;
+      }
+      
       private final Synchronization sync;
 
       public JtaSpringSynchronizationAdapter(Synchronization sync)
@@ -218,22 +226,16 @@ public class SpringTransaction extends AbstractUserTransaction
          this.sync = sync;
       }
 
-      public void afterCommit() { }
-
+      @Override
       public void afterCompletion(int status)
       {
          sync.afterCompletion(status);
       }
 
-      public void beforeCommit(boolean arg0) { }
-
+      @Override
       public void beforeCompletion()
       {
          sync.beforeCompletion();
       }
-
-      public void resume() { }
-
-      public void suspend() { }
    }
 }
