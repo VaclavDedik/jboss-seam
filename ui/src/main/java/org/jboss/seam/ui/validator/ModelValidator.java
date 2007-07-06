@@ -41,7 +41,7 @@ public class ModelValidator implements Validator
             throw new ValidatorException( createMessage(cause), cause );
          }
          
-         if ( invalidValues.length>0 )
+         if ( invalidValues!=null && invalidValues.length>0 )
          {
             throw new ValidatorException( createMessage(invalidValues) );
          }
