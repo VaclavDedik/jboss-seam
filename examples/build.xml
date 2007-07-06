@@ -106,6 +106,10 @@
 		<exclude name="**/*" />
 	</fileset>
 
+	<!-- Added to the non-ejb war lib on build -->
+	<fileset id="noejb.war.extras" dir=".">
+		<exclude name="**/*" />
+	</fileset>
 
 	<!-- ############## SEAM JARS AND REQUIRED DEPENDENCIES ############### -->
 	<!-- 
@@ -663,4 +667,41 @@
 		</testng>
 	</target>
 
+	<!-- Extend the standard war target to add extras which non-ejb wars needs -->
+	<target name="noejb.war" depends="war">
+		<copy todir="${war.dir}/WEB-INF/lib">
+			<fileset refid="seam.jar" />
+			<fileset refid="noejb.war.extras" />
+			<fileset refid="drools.jar" />
+			<fileset refid="cache.jar" />
+			<fileset refid="jbpm.jar" />
+			<fileset refid="spring.jar" />
+			<fileset refid="gwt.jar" />
+			<fileset refid="jboss-el.jar" />
+			<fileset refid="search.jar"/>
+			<mapper type="flatten" />
+		</copy>
+		<copy todir="${war.dir}/WEB-INF/classes" failonerror="false">
+			<fileset dir="${resources.dir}/WEB-INF/classes" >
+                          <include name="**/*"/>
+                        </fileset>
+                </copy>
+		<!-- Copy in resources, with filtering -->
+		<copy todir="${war.dir}">
+			<fileset refid="war.resources" />
+			<filterset>
+				<filter token="debug" value="${debug}" />
+			</filterset>
+		</copy>
+	</target>
+
+	<target name="noejb.archive" depends="tomcat.jar,noejb.war" description="Package the archives for non-ejb war">
+		<jar jarfile="${dist.dir}/${example.name}.jar" basedir="${jar.dir}" />
+		<jar jarfile="${dist.dir}/${example.name}.war">
+			<fileset dir="${war.dir}" />
+			<zipfileset dir="${dist.dir}" prefix="WEB-INF/lib">
+				<include name="${example.name}.jar" />
+			</zipfileset>
+		</jar>
+	</target>
 </project>
