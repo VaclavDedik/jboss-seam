@@ -378,7 +378,7 @@ public class SeamPhaseListener implements PhaseListener
       Manager.instance().handleConversationPropagation(parameters);
       if ( Init.instance().isJbpmInstalled() )
       {
-         Pageflow.instance().validatePageflow();
+         Pageflow.instance().validatePageflow(facesContext);
       }
       
       if ( log.isDebugEnabled() )

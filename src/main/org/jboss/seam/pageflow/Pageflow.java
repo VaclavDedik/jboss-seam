@@ -27,6 +27,7 @@ import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.faces.FacesPage;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.navigation.Pages;
 import org.jbpm.JbpmContext;
 import org.jbpm.graph.def.Action;
 import org.jbpm.graph.def.Event;
@@ -94,7 +95,7 @@ public class Pageflow extends AbstractMutable implements Serializable
     * Check that the current state of the pageflow matches
     * what is expected by the faces request.
     */
-   public void validatePageflow() 
+   public void validatePageflow(FacesContext facesContext) 
    {
       if ( processInstance!=null )
       {
@@ -102,20 +103,22 @@ public class Pageflow extends AbstractMutable implements Serializable
          String pageflowName = page.getPageflowName();
          String pageflowNodeName = page.getPageflowNodeName();
          boolean canReposition = getPage().isBackEnabled() && 
-               getSubProcessInstance().getProcessDefinition().getName().equals(pageflowName) && //probably not necessary
-               pageflowNodeName!=null; //probably not necessary
+               getSubProcessInstance().getProcessDefinition().getName().equals(pageflowName) && //possibly not necessary?
+               pageflowNodeName!=null;
          if (canReposition)
          {
             //check the node name to make sure we are still on the same node
             if ( !pageflowNodeName.equals( getNode().getName() ) )
             {
-               //legal use of back/forward button, so reposition
+               //legal use of back/forward button, so reposition the pageflow
                reposition(pageflowNodeName);
             }
          }
          else
          {
             //check the counter to detect illegal use of backbutton
+            //(we user counter instead of view id since multiple
+            //nodes can share the same view id)
             Integer pageCounter = org.jboss.seam.faces.FacesPage.instance().getPageflowCounter();
             if ( pageCounter!=null && getPageflowCounter()!=pageCounter )
             {
@@ -123,6 +126,15 @@ public class Pageflow extends AbstractMutable implements Serializable
             }
          }
          
+         //now check that the restored view id matches what we expect
+         //from the pageflow node
+         //TODO: we need some way to disable this check, since users
+         //      might want some adhoc nav in and out of a pageflow?
+         String viewId = Pages.getViewId(facesContext);
+         if ( !viewId.equals( getPage().getViewId() ) )
+         {
+            illegalNavigationError();
+         }
       }
    }
 
