@@ -216,14 +216,8 @@ public class Component extends Model
       type = Seam.getComponentType( getBeanClass() );
       interceptionEnabled = Seam.isInterceptionEnabled( getBeanClass() );
       
-      if ( getBeanClass().isInterface() )
-      {
-         throw new IllegalArgumentException("component class is an interface: " + name);
-      }
-      if ( Modifier.isAbstract( getBeanClass().getModifiers() ) )
-      {
-         throw new IllegalArgumentException("component class is abstract: " + name);
-      }
+      checkName();  
+      checkNonabstract();
       
       initNamespaces(componentName, applicationContext);
       initSynchronize();
@@ -258,6 +252,29 @@ public class Component extends Model
       
       registerConverterOrValidator(applicationContext);
 
+   }
+
+   private void checkName()
+   {
+      for ( char c: name.toCharArray() )
+      {
+         if ( !Character.isJavaIdentifierPart(c) && c!='.' )
+         {
+            throw new IllegalStateException("not a valid Seam component name: " + name);
+         }
+      }
+   }
+
+   private void checkNonabstract()
+   {
+      if ( getBeanClass().isInterface() )
+      {
+         throw new IllegalArgumentException("component class is an interface: " + name);
+      }
+      if ( Modifier.isAbstract( getBeanClass().getModifiers() ) )
+      {
+         throw new IllegalArgumentException("component class is abstract: " + name);
+      }
    }
 
    private void initStartup()
