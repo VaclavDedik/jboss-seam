@@ -5,7 +5,6 @@ import java.io.UnsupportedEncodingException;
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIParameter;
-import javax.faces.context.FacesContext;
 
 import org.ajax4jsf.ajax.html.HtmlLoadStyle;
 import org.jboss.seam.navigation.Pages;
@@ -15,8 +14,6 @@ import org.jboss.seam.util.Reflections;
 
 public abstract class UILoadStyle extends HtmlLoadStyle
 {
-   
-   private static final String COMPONENT_TYPE = "org.jboss.seam.ui.LoadStyle";
 
    @Override
    public Object getSrc()
