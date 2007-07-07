@@ -636,6 +636,7 @@
 		</copy>
 		<delete dir="test-output" />
 		<testng>
+			<jvmarg value="-Djava.awt.headless=true" />
 			<classpath refid="test.classpath" />
 			<xmlfileset dir="${src.test.dir}" includes="**/*.xml" />
 		</testng>
