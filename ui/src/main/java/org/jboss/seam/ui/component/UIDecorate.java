@@ -2,11 +2,14 @@ package org.jboss.seam.ui.component;
 
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
+import javax.faces.context.FacesContext;
 
 import org.jboss.seam.ui.util.Decoration;
 
 public abstract class UIDecorate extends UIComponentBase
 {
+   
+   private static final String COMPONENT_TYPE = "org.jboss.seam.ui.Decorate";
 
    public boolean hasMessage()
    {
@@ -59,6 +62,11 @@ public abstract class UIDecorate extends UIComponentBase
    public UIComponent getDecoration(String name)
    {
       return Decoration.getDecoration(name, this);
+   }
+   
+   public static UIDecorate newInstance()
+   {
+      return (UIDecorate) FacesContext.getCurrentInstance().getApplication().createComponent(COMPONENT_TYPE);
    }
    
 }
