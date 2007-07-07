@@ -8,11 +8,6 @@ import org.jboss.seam.ui.util.Decoration;
 public abstract class UIDecorate extends UIComponentBase
 {
 
-   public static final String COMPONENT_TYPE = "org.jboss.seam.ui.UIDecorate";
-   public static final String COMPONENT_FAMILY = "org.jboss.seam.ui.Decorate";
-
-   
-
    public boolean hasMessage()
    {
       String clientId = getInputClientId();
