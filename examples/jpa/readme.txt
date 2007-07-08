@@ -18,17 +18,17 @@ JBoss AS 4.0.5 (with or without EJB3):
 
 WebLogic 9.2:
   * Install WebLogic 9.2
-  * ant weblogic
+  * ant weblogic92
   * Start the WebLogic "examples" server
   * Load the admin console http://localhost:7001/console/
-  * Deploy build/jboss-seam-jpa.war
+  * Deploy dist-weblogic92/jboss-seam-jpa.war
   * Access the app at http://localhost:7001/jboss-seam-jpa/
 
 WebSphere 6.1:
 
   * Install and run WebSphere 6.1
-  * ant websphere
-  * Install build/jboss-seam-jpa.war and specify a context_root
+  * ant websphere61
+  * Deploy dist-websphere61/jboss-seam-jpa.war and specify a context_root
   * From the "Enterprise Applications" list select: "jboss-seam-jpa" --> "Manager Modules" --> "jboss-seam-jpa.war" --> "Classes loaded with application class loader first", and then Apply
   * Start the application
   * Access it at http://localhost:9080/context_root/index.html
@@ -36,8 +36,8 @@ WebSphere 6.1:
 Tomcat (the build is the same as JBoss 4.2.0 GA WAR):
   * Install Tomcat
   * Install Embeddable JBoss
-  * ant 
-  * Deploy build/jboss-seam-jpa.war
+  * ant jboss
+  * Deploy dist-jboss/jboss-seam-jpa.war
   * Start Tomcat
   * Access the app at http://localhost:8080/jboss-seam-jpa/
 
@@ -46,7 +46,7 @@ Glassfish
   * ant glassfish
   * Start GlassFish
   * Load the admin console http://localhost:4848/
-  * Deploy bdist-glassfish/jboss-seam-jpa.war as Web App
+  * Deploy dist-glassfish/jboss-seam-jpa.war as Web App
   * Access the app at http://localhost:8080/jboss-seam-jpa/
 
 NOTES TO GLASSFISH:

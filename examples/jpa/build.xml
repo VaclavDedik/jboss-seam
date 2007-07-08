@@ -14,12 +14,23 @@
      	<ant antfile="build-glassfish.xml"/>
    </target>
 
+   <target name="weblogic92" description="Build the JPA artifacts, suitable for deployment to WebLogic 9.2">
+     	<ant antfile="build-weblogic92.xml"/>
+   </target>
+
+   <target name="websphere61" description="Build the JPA artifacts, suitable for deployment to WebSphere 6.1.0.9">
+     	<ant antfile="build-websphere61.xml"/>
+   </target>
 
    <target name="clean" description="Clean up the example">
      	<ant antfile="build-jboss.xml" target="clean" />
    	 	<ant antfile="build-jboss405.xml" target="clean" />
     	<ant antfile="build-glassfish.xml" target="clean" />
+    	<ant antfile="build-weblogic92.xml" target="clean" />
+    	<ant antfile="build-websphere61.xml" target="clean" />
    </target>
+
+   <target name="all" depends="jboss, jboss405, glassfish, weblogic92, websphere61"/>
 
 </project>
 

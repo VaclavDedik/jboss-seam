@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence>
+   <persistence-unit name="bookingDatabase" transaction-type="JTA">
+      <provider>org.hibernate.ejb.HibernatePersistence</provider>
+      <jta-data-source>DefaultDatasource</jta-data-source>
+      <properties>
+         <!--
+         <property name="hibernate.dialect" 
+                    value="org.hibernate.dialect.PointbaseDialect"/>
+         -->
+         <!-- From WAS 6.1.0.9, the embedded DB is switched to the same Derby DB in Glassfish -->
+         <property name="hibernate.dialect" 
+                   value="GlassfishDerbyDialect"/>
+         <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+         <property name="hibernate.show_sql" value="true"/>
+         <property name="hibernate.cache.provider_class" value="org.hibernate.cache.HashtableCacheProvider"/>
+         <property name="hibernate.transaction.manager_lookup_class" value="org.hibernate.transaction.WebSphereTransactionManagerLookup"/>
+         <!-- alternative
+         <property name="jboss.entity.manager.factory.jndi.name" 
+              value="java:/jpaBookingEntityManagerFactory"/>
+         -->
+      </properties>
+   </persistence-unit>
+</persistence>

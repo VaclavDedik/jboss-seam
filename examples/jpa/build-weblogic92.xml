@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<project name="JPA Booking" default="noejb.archive" basedir=".">
+
+    <!-- Naming -->
+    <property name="Name"                   value="The JPA Example for WebLogic 9.2"/>
+    <property name="example.name"           value="jboss-seam-jpa"/>
+
+    <!-- resources -->
+    <property name="resources.dir" value="resources-weblogic92" />
+	<property name="dist.dir" value="dist-weblogic92" />
+	<property name="exploded-archives.dir" value="exploded-archives-weblogic92" />
+       
+    <!-- Libraries to include -->
+    <property name="seam.ui.lib"    value="true"/>
+    <property name="seam.debug.lib" value="true"/>
+    <property name="facelets.lib"   value="true"/>
+    <property name="ajax4jsf.lib"   value="true"/>
+
+    <import file="../build.xml"/>
+
+    <fileset id="noejb.war.extras" dir="${seam.dir}">
+        <include name="lib/common*.jar"/>
+        <include name="lib/jsf-*.jar"/>
+        <include name="lib/jstl-*.jar"/>
+        <include name="hibernate/lib/*.jar"/>
+        <include name="lib/thirdparty-all.jar"/>
+        <!-- Needed since WLS 9.2 does not support JSP 2.0 -->
+        <include name="examples/jpa/lib/el-*.jar"/>
+    </fileset>
+       
+</project>
+
