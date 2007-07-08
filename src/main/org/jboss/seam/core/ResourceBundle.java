@@ -17,6 +17,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.navigation.Pages;
@@ -24,7 +25,7 @@ import org.jboss.seam.util.EnumerationEnumeration;
 import org.jboss.seam.util.Strings;
 
 /**
- * Support for an application-global resource bundle
+ * A session-scoped localized resource bundle
  * 
  * @author Gavin King
  */
@@ -206,6 +207,11 @@ public class ResourceBundle implements Serializable
 
    public static java.util.ResourceBundle instance()
    {
+      if ( !Contexts.isSessionContextActive() )
+      {
+         throw new IllegalStateException("no session context active");
+      }
       return (java.util.ResourceBundle) Component.getInstance(ResourceBundle.class, true);
    }
+   
 }

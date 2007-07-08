@@ -20,7 +20,7 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.core.Interpolator;
 
 /**
- * Support for an application-global resource bundle
+ * Access to interpolated messages via a Map
  * 
  * @author Gavin King
  */
@@ -30,6 +30,8 @@ import org.jboss.seam.core.Interpolator;
 @Install(precedence=BUILT_IN)
 public class Messages implements Serializable 
 {
+   //TODO: now we have ELResolver, it doesn't *have* to be a Map...
+   
    private static final long serialVersionUID = 1292464253307553295L;
    
    private transient Map<String, String> messages;

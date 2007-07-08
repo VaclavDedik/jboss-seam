@@ -9,7 +9,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 
 /**
- * Support for an application-global resource bundle
+ * A resource bundle aware of the selected locale
  * 
  * @author Gavin King
  */
