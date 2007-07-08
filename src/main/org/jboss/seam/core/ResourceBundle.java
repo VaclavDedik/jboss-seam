@@ -1,8 +1,8 @@
 package org.jboss.seam.core;
 
+import static org.jboss.seam.ScopeType.SESSION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -12,10 +12,10 @@ import java.util.MissingResourceException;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.log.LogProvider;
@@ -25,15 +25,18 @@ import org.jboss.seam.util.EnumerationEnumeration;
 import org.jboss.seam.util.Strings;
 
 /**
- * A session-scoped localized resource bundle
+ * Factory for a session-scoped localized resource bundle
+ * that searches for resources in delegate resource bundles
+ * specified in pages.xml, and a configurable list of 
+ * delegate resource bundles. 
  * 
  * @author Gavin King
  */
-@Scope(ScopeType.SESSION)
+@Scope(ScopeType.STATELESS)
 @BypassInterceptors
-@Name("org.jboss.seam.core.resourceBundle")
+@Name("org.jboss.seam.core.resourceBundleFactory")
 @Install(precedence=BUILT_IN)
-public class ResourceBundle implements Serializable 
+public class ResourceBundle 
 {
    
    protected java.util.Locale getCurrentLocale()
@@ -120,8 +123,12 @@ public class ResourceBundle implements Serializable
    private static final LogProvider log = Logging.getLogProvider(ResourceBundle.class);
 
    private String[] bundleNames = {"messages"};
-   private transient java.util.ResourceBundle bundle;
 
+   /**
+    * The configurable list of delegate resource bundle names
+    * 
+    * @return an array of resource bundle names
+    */
    public String[] getBundleNames() 
    {
       return bundleNames;
@@ -170,7 +177,7 @@ public class ResourceBundle implements Serializable
       }
    }
    
-   private void createUberBundle()
+   protected java.util.ResourceBundle createUberBundle()
    {
       final List<java.util.ResourceBundle> littleBundles = new ArrayList<java.util.ResourceBundle>();
       if (bundleNames!=null)
@@ -187,15 +194,21 @@ public class ResourceBundle implements Serializable
       java.util.ResourceBundle validatorDefaultBundle = loadBundle("org/hibernate/validator/resources/DefaultValidatorMessages");
       if (validatorDefaultBundle!=null) littleBundles.add(validatorDefaultBundle);
          
-      bundle = new UberResourceBundle(littleBundles);
-  
+      return new UberResourceBundle(littleBundles);
    }
 
-   @Unwrap
+   /**
+    * Create a ResourceBundle in the session scope. The session scope is used because
+    * creating the bundle is somewhat expensive, so it can be cached there because
+    * the session Locale changes infrequently. When the Locale is changed, LocaleSelector
+    * is responsible for removing the ResourceBundle from the session context.
+    * 
+    * @return a ResourceBundle that wraps all the delegate bundles
+    */
+   @Factory(value="org.jboss.seam.core.resourceBundle", autoCreate=true, scope=SESSION)
    public java.util.ResourceBundle getBundle()
    {
-      if (bundle==null) createUberBundle();
-      return bundle;
+      return createUberBundle();
    }
    
    @Override
@@ -205,13 +218,16 @@ public class ResourceBundle implements Serializable
       return "ResourceBundle(" + concat + ")";
    }
 
+   /**
+    * @return the ResourceBundle instance
+    */
    public static java.util.ResourceBundle instance()
    {
       if ( !Contexts.isSessionContextActive() )
       {
          throw new IllegalStateException("no session context active");
       }
-      return (java.util.ResourceBundle) Component.getInstance(ResourceBundle.class, true);
+      return (java.util.ResourceBundle) Component.getInstance("org.jboss.seam.core.resourceBundle", true);
    }
    
 }

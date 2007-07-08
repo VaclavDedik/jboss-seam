@@ -107,11 +107,14 @@ public class Manager
       {
          setCurrentConversationIdStack( ce.getConversationIdStack() );
          //TODO: what about child conversations?!
-      } else {
+      } 
+      else 
+      {
           // when ce is null, the id stack will be left with a reference to
           // the old conversation id, so we need patch that up
           int pos = currentConversationIdStack.indexOf(priorId);
-          if (pos != -1) {
+          if (pos != -1) 
+          {
               currentConversationIdStack.set(pos, id);
           }
           

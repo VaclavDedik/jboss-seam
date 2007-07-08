@@ -28,10 +28,12 @@ public class ManagedWorkingMemory implements Mutable, Serializable
    private String ruleBaseName;
    private StatefulSession statefulSession;
    private ValueExpression<RuleBase> ruleBase;
+   
    public boolean clearDirty()
    {
       return true;
    }
+   
    /**
     * The name of a Seam context variable holding an
     * instance of org.drools.RuleBase
@@ -90,12 +92,15 @@ public class ManagedWorkingMemory implements Mutable, Serializable
    {
       statefulSession.dispose();
    }
+   
    public ValueExpression<RuleBase> getRuleBase()
    {
       return ruleBase;
    }
+   
    public void setRuleBase(ValueExpression<RuleBase> ruleBase)
    {
       this.ruleBase = ruleBase;
    }
+   
 }

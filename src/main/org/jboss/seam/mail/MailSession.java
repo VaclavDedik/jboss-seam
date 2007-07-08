@@ -83,8 +83,6 @@ public class MailSession extends AbstractMutable implements Serializable
       // Enable debugging if set
       properties.put("mail.debug", isDebug());
   
-      
-  
       if ( getUsername()!=null && getPassword()==null )
       {
       	log.warn("username supplied without a password (if an empty password is required supply an empty string)");
@@ -106,7 +104,8 @@ public class MailSession extends AbstractMutable implements Serializable
          }
          
       }
-      if ( getPort()!=null ) {
+      if ( getPort()!=null ) 
+      {
          if (isSsl())
          {
             properties.put("mail.smtps.port", getPort().toString());
@@ -261,7 +260,8 @@ public class MailSession extends AbstractMutable implements Serializable
       this.ssl = ssl;
    }
 
-   public static Session instance() {
+   public static Session instance() 
+   {
       return (Session) Component.getInstance(MailSession.class);
    }
 

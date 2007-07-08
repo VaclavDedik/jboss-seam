@@ -1,8 +1,8 @@
 package org.jboss.seam.theme;
 
+import static org.jboss.seam.ScopeType.SESSION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
-import java.io.Serializable;
 import java.util.AbstractMap;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -12,42 +12,39 @@ import java.util.Set;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.core.Interpolator;
 
 /**
- * Support for a session-global resource bundle that may be
- * used for skinning of the user interface.
+ * Factory for a Map of resources that may be
+ * used for skinning the user interface.
  * 
  * @author Gavin King
  */
-@Scope(ScopeType.SESSION)
+@Scope(ScopeType.STATELESS)
 @BypassInterceptors
-@Name("org.jboss.seam.theme.theme")
+@Name("org.jboss.seam.theme.themeFactory")
 @Install(precedence=BUILT_IN)
-public class Theme implements Serializable 
+public class Theme
 {
    
-   private static final long serialVersionUID = -7003055918970882103L;
-   
-   private transient Map messages;
-   
-   private void init() 
+   protected Map<String, String> createMap() 
    {
       final java.util.ResourceBundle bundle = ThemeSelector.instance().getThemeResourceBundle();
       if (bundle!=null) 
       {
       
-         messages = new AbstractMap<String, String>()
+         return new AbstractMap<String, String>()
          {
             //private Map<String, String> cache = new HashMap<String, String>();
    
             @Override
-            public String get(Object key) {
+            public String get(Object key) 
+            {
                if (key instanceof String)
                {
                   String resourceKey = (String) key;
@@ -85,7 +82,8 @@ public class Theme implements Serializable
             }
             
             @Override
-            public Set<Map.Entry<String, String>> entrySet() {
+            public Set<Map.Entry<String, String>> entrySet() 
+            {
                Enumeration<String> keys = bundle.getKeys();
                Map<String, String> map = new HashMap<String, String>();
                while ( keys.hasMoreElements() )
@@ -99,17 +97,27 @@ public class Theme implements Serializable
          };
       
       }
+      else
+      {
+         return null;
+      }
    }
    
-   @Unwrap
+   /**
+    * Create a Map in the session scope. The session scope is used because
+    * creating the bundles is somewhat expensive, so it can be cached there because
+    * the session theme changes infrequently. When the theme is changed, ThemeSelector
+    * is responsible for removing the Map from the session context.
+    * 
+    */
+   @Factory(value="org.jboss.seam.theme.theme", autoCreate=true, scope=SESSION)
    public java.util.Map getTheme()
    {
-      if (messages==null) init();
-      return messages;
+      return createMap();
    }
    
    public static java.util.Map instance()
    {
-      return (java.util.Map) Component.getInstance(Theme.class, true );
+      return (java.util.Map) Component.getInstance("org.jboss.seam.theme.theme", true);
    }
 }

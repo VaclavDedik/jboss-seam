@@ -15,7 +15,7 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
  */
 @Scope(ScopeType.SESSION)
 @BypassInterceptors
-@Name("org.jboss.seam.core.resourceBundle")
+@Name("org.jboss.seam.core.resourceBundleFactory")
 @Install(precedence=FRAMEWORK, dependencies="org.jboss.seam.international.locale")
 public class ResourceBundle extends org.jboss.seam.core.ResourceBundle
 {

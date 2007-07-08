@@ -65,8 +65,8 @@ public class LocaleSelector extends Selector
    public void select()
    {
       FacesContext.getCurrentInstance().getViewRoot().setLocale( getLocale() );
-      Contexts.removeFromAllContexts( Seam.getComponentName(ResourceBundle.class) );
-      Contexts.removeFromAllContexts( Seam.getComponentName(Messages.class) );
+      Contexts.removeFromAllContexts("org.jboss.seam.core.resourcebundle");
+      Contexts.removeFromAllContexts("org.jboss.seam.international.messages");
       
       setCookieValueIfEnabled( getLocaleString() );
 

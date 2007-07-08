@@ -1,5 +1,7 @@
 package org.jboss.seam.security;
 
+import static org.jboss.seam.ScopeType.APPLICATION;
+
 import java.util.HashMap;
 
 import javax.security.auth.login.AppConfigurationEntry;
@@ -7,54 +9,56 @@ import javax.security.auth.login.AppConfigurationEntry.LoginModuleControlFlag;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.Create;
+import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.security.jaas.SeamLoginModule;
 
 /**
- * Manager component for a JAAS Configuration used
- * by Seam Security.
+ * Factory for the JAAS Configuration used by Seam Security.
  * 
  * @author Shane Bryzak
  *
  */
-@Name("org.jboss.seam.security.configuration")
+@Name("org.jboss.seam.security.configurationFactory")
 @BypassInterceptors
-@Scope(ScopeType.APPLICATION)
+@Scope(ScopeType.STATELESS)
 public class Configuration
 {
    static final String DEFAULT_JAAS_CONFIG_NAME = "default";   
 
-   private javax.security.auth.login.Configuration configuration;
-
-   @Create
-   public void init()
+   protected javax.security.auth.login.Configuration createConfiguration()
    {
-      configuration = new javax.security.auth.login.Configuration()
+      return new javax.security.auth.login.Configuration()
       {
-         private AppConfigurationEntry[] aces = { new AppConfigurationEntry( 
-                  SeamLoginModule.class.getName(), 
-                  LoginModuleControlFlag.REQUIRED, 
-                  new HashMap<String,String>() 
-               ) };
+         private AppConfigurationEntry[] aces = { createAppConfigurationEntry() };
+         
          @Override
          public AppConfigurationEntry[] getAppConfigurationEntry(String name)
          {
             return DEFAULT_JAAS_CONFIG_NAME.equals(name) ? aces : null;
          }
+         
          @Override
          public void refresh() {}
       };
    }
+
+   protected AppConfigurationEntry createAppConfigurationEntry()
+   {
+      return new AppConfigurationEntry( 
+            SeamLoginModule.class.getName(), 
+            LoginModuleControlFlag.REQUIRED, 
+            new HashMap<String,String>() 
+         );
+   }
    
-   @Unwrap
+   @Factory(value="org.jboss.seam.security.configuration", autoCreate=true, scope=APPLICATION)
    public javax.security.auth.login.Configuration getConfiguration()
    {
-      return configuration;
+      return createConfiguration();
    }
 
    public static javax.security.auth.login.Configuration instance()
@@ -63,6 +67,6 @@ public class Configuration
       {
          throw new IllegalStateException("No active application scope");
       }
-      return (javax.security.auth.login.Configuration) Component.getInstance(Configuration.class);
+      return (javax.security.auth.login.Configuration) Component.getInstance("org.jboss.seam.security.configuration");
    }
 }

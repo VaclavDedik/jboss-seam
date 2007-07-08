@@ -17,7 +17,6 @@ import javax.faces.model.SelectItem;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
@@ -83,7 +82,7 @@ public class ThemeSelector extends Selector
     */
    public void select()
    {
-      Contexts.removeFromAllContexts( Seam.getComponentName(Theme.class) );
+      Contexts.removeFromAllContexts("org.jboss.seam.theme.theme");
       FacesContext facesContext = FacesContext.getCurrentInstance();
       String viewId = Pages.getViewId(facesContext);
       UIViewRoot viewRoot = facesContext.getApplication().getViewHandler().createView(facesContext, viewId);

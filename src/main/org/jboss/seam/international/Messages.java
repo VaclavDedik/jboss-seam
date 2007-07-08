@@ -1,8 +1,8 @@
 package org.jboss.seam.international;
 
+import static org.jboss.seam.ScopeType.EVENT;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
-import java.io.Serializable;
 import java.util.AbstractMap;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -12,33 +12,33 @@ import java.util.Set;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Interpolator;
 
 /**
- * Access to interpolated messages via a Map
+ * Factory for a Map that interpolates messages defined in the
+ * Seam ResourceBundle.
+ * 
+ * @see org.jboss.seam.core.ResourceBundle
  * 
  * @author Gavin King
  */
-@Scope(ScopeType.EVENT)
+@Scope(ScopeType.STATELESS)
 @BypassInterceptors
-@Name("org.jboss.seam.international.messages")
+@Name("org.jboss.seam.international.messagesFactory")
 @Install(precedence=BUILT_IN)
-public class Messages implements Serializable 
+public class Messages
 {
    //TODO: now we have ELResolver, it doesn't *have* to be a Map...
-   
-   private static final long serialVersionUID = 1292464253307553295L;
-   
-   private transient Map<String, String> messages;
-   
-   private void init() 
+      
+   protected Map createMap() 
    {  
-      messages = new AbstractMap<String, String>()
+      return new AbstractMap<String, String>()
       {
          private java.util.ResourceBundle bundle = ResourceBundle.instance();
 
@@ -86,15 +86,27 @@ public class Messages implements Serializable
       };
    }
 
-   @Unwrap
+   /**
+    * Create the Map and cache it in the EVENT scope. No need to cache
+    * it in the SESSION scope, since it is inexpensive to create.
+    * 
+    * @return a Map that interpolates messages in the Seam ResourceBundle
+    */
+   @Factory(value="org.jboss.seam.international.messages", autoCreate=true, scope=EVENT)
    public Map<String, String> getMessages()
    {
-      if (messages==null) init();
-      return messages;
+      return createMap();
    }
    
+   /**
+    * @return the message Map instance
+    */
    public static Map<String, String> instance()
    {
-      return (Map<String, String>) Component.getInstance(Messages.class, true );
+      if ( !Contexts.isSessionContextActive() )
+      {
+         throw new IllegalStateException("no event context active");
+      }
+      return (Map<String, String>) Component.getInstance("org.jboss.seam.international.messages", true);
    }
 }
