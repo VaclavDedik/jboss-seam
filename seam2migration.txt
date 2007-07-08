@@ -97,6 +97,11 @@ Finally, some declarations must be removed completely:
 * remove <core:microcontainer/>
 * replace <core:transaction-listener/> with 
           <transaction:ejb-transaction/>
+          
+Note: Seam transaction management is now enabled by default. If you want
+      to disable use of Seam-managed transactions, use the following:
+      
+      <core:init transaction-management-enabled="false"/>	
 
 Migration to JBoss Embedded
 ---------------------------
@@ -114,5 +119,3 @@ longer need any special configuration or packaging for Tomcat deployments.
 
 Note that JBoss Embedded is able to bootstrap a datasource from a -ds.xml
 file, so there is no longer a need for jboss-beans.xml.
-
-
