@@ -321,7 +321,7 @@
 		<include name="*.xsd" />
 		<include name="*.drl" />
 	</fileset>
-	
+
 	<!-- Property resources (e.g. themes, i8ln) get put on the classpath -->
 	<fileset id="properties" dir="${resources.dir}">
 		<exclude name="seam.properties" />
@@ -409,7 +409,7 @@
 
 	<target name="clean" description="Cleans up the build directory">
 		<delete dir="${dist.dir}" />
-		<delete dir="${exploded-archives.dir}"/>
+		<delete dir="${exploded-archives.dir}" />
 		<delete dir="${ear.dir}" />
 		<delete dir="${war.dir}" />
 		<delete dir="${jar.dir}" />
@@ -581,7 +581,7 @@
 			<fileset refid="gwt.jar" />
 			<fileset refid="jboss-el.jar" />
 			<fileset refid="jsf.jar" />
-			<fileset refid="search.jar"/>
+			<fileset refid="search.jar" />
 			<mapper type="flatten" />
 		</copy>
 		<!-- Copy in resources, with filtering -->
@@ -615,6 +615,46 @@
 
 	<target name="tomcat.undeploy" description="Undeploy the example from Tomcat">
 		<delete file="${tomcat.deploy.dir}/${example.name}.war" />
+	</target>
+
+	<!-- #################### TEST TARGETS (NOEJB) ##################### -->
+
+	<!-- Extend the standard war target to add extras which non-ejb wars needs -->
+	<target name="noejb.war" depends="war">
+		<copy todir="${war.dir}/WEB-INF/lib">
+			<fileset refid="seam.jar" />
+			<fileset refid="noejb.war.extras" />
+			<fileset refid="drools.jar" />
+			<fileset refid="cache.jar" />
+			<fileset refid="jbpm.jar" />
+			<fileset refid="spring.jar" />
+			<fileset refid="gwt.jar" />
+			<fileset refid="jboss-el.jar" />
+			<fileset refid="search.jar" />
+			<mapper type="flatten" />
+		</copy>
+		<copy todir="${war.dir}/WEB-INF/classes" failonerror="false">
+			<fileset dir="${resources.dir}/WEB-INF/classes">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+		<!-- Copy in resources, with filtering -->
+		<copy todir="${war.dir}">
+			<fileset refid="war.resources" />
+			<filterset>
+				<filter token="debug" value="${debug}" />
+			</filterset>
+		</copy>
+	</target>
+
+	<target name="noejb.archive" depends="tomcat.jar,noejb.war" description="Package the archives for non-ejb war">
+		<jar jarfile="${dist.dir}/${example.name}.jar" basedir="${jar.dir}" />
+		<jar jarfile="${dist.dir}/${example.name}.war">
+			<fileset dir="${war.dir}" />
+			<zipfileset dir="${dist.dir}" prefix="WEB-INF/lib">
+				<include name="${example.name}.jar" />
+			</zipfileset>
+		</jar>
 	</target>
 
 
@@ -655,7 +695,7 @@
 			</fileset>
 		</copy>
 	</target>
-	
+
 	<!-- Placeholder for cruisecontrol -->
 	<target name="testexample" depends="test" />
 
@@ -668,43 +708,5 @@
 			<classpath refid="build.classpath" />
 			<xmlfileset dir="${src.test.dir}" includes="**/*.xml" />
 		</testng>
-	</target>
-
-	<!-- Extend the standard war target to add extras which non-ejb wars needs -->
-	<target name="noejb.war" depends="war">
-		<copy todir="${war.dir}/WEB-INF/lib">
-			<fileset refid="seam.jar" />
-			<fileset refid="noejb.war.extras" />
-			<fileset refid="drools.jar" />
-			<fileset refid="cache.jar" />
-			<fileset refid="jbpm.jar" />
-			<fileset refid="spring.jar" />
-			<fileset refid="gwt.jar" />
-			<fileset refid="jboss-el.jar" />
-			<fileset refid="search.jar"/>
-			<mapper type="flatten" />
-		</copy>
-		<copy todir="${war.dir}/WEB-INF/classes" failonerror="false">
-			<fileset dir="${resources.dir}/WEB-INF/classes" >
-                          <include name="**/*"/>
-                        </fileset>
-                </copy>
-		<!-- Copy in resources, with filtering -->
-		<copy todir="${war.dir}">
-			<fileset refid="war.resources" />
-			<filterset>
-				<filter token="debug" value="${debug}" />
-			</filterset>
-		</copy>
-	</target>
-
-	<target name="noejb.archive" depends="tomcat.jar,noejb.war" description="Package the archives for non-ejb war">
-		<jar jarfile="${dist.dir}/${example.name}.jar" basedir="${jar.dir}" />
-		<jar jarfile="${dist.dir}/${example.name}.war">
-			<fileset dir="${war.dir}" />
-			<zipfileset dir="${dist.dir}" prefix="WEB-INF/lib">
-				<include name="${example.name}.jar" />
-			</zipfileset>
-		</jar>
 	</target>
 </project>

@@ -2,23 +2,23 @@
 
 <project name="JPA Booking" default="jboss" basedir=".">
 
-   <target name="jboss">
-     <ant antfile="build-jboss.xml"/>
+   <target name="jboss" description="Build the JPA artifacts, suitable for deployment to JBoss 4.2.0.GA">
+     	<ant antfile="build-jboss.xml"/>
    </target>
 
-   <target name="jboss405">
-     <ant antfile="build-jboss405.xml"/>
+   <target name="jboss405" description="Build the JPA artifacts, suitable for deployment to JBoss 4.0.5.GA">
+     	<ant antfile="build-jboss405.xml"/>
    </target>
 
-   <target name="glassfish">
-     <ant antfile="build-glassfish.xml"/>
+   <target name="glassfish" description="Build the JPA artifacts, suitable for deployment to Glassfish V2">
+     	<ant antfile="build-glassfish.xml"/>
    </target>
 
 
-   <target name="clean">
-     <delete dir="build"/>
-     <delete dir="dist"/>
-     <delete dir="exploded-archives"/>
+   <target name="clean" description="Clean up the example">
+     	<ant antfile="build-jboss.xml" target="clean" />
+   	 	<ant antfile="build-jboss405.xml" target="clean" />
+    	<ant antfile="build-glassfish.xml" target="clean" />
    </target>
 
 </project>

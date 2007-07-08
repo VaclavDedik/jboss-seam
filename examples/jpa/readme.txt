@@ -5,14 +5,14 @@ the EJB3 container.
 JBoss AS 4.2.0:
   * Install JBoss AS 4.2.0 GA
   * ant jboss
-  * Deploy build/jboss-seam-jpa.war
+  * Deploy dist-jboss/jboss-seam-jpa.war
   * Start JBoss AS 
   * Access the app at http://localhost:8080/jboss-seam-jpa/
 
 JBoss AS 4.0.5 (with or without EJB3):
   * Install JBoss AS 4.0.5 with the default J2EE profile
   * ant jboss405
-  * Deploy build/jboss-seam-jpa.war
+  * Deploy dist-jboss405/jboss-seam-jpa.war
   * Start JBoss AS 
   * Access the app at http://localhost:8080/jboss-seam-jpa/
 
@@ -46,7 +46,7 @@ Glassfish
   * ant glassfish
   * Start GlassFish
   * Load the admin console http://localhost:4848/
-  * Deploy build/jboss-seam-jpa.war as Web App
+  * Deploy bdist-glassfish/jboss-seam-jpa.war as Web App
   * Access the app at http://localhost:8080/jboss-seam-jpa/
 
 NOTES TO GLASSFISH:

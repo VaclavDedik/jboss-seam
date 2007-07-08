@@ -8,6 +8,8 @@
 
     <!-- resources -->
     <property name="resources.dir" value="resources-glassfish" />
+	<property name="dist.dir" value="dist-glassfish" />
+	<property name="exploded-archives.dir" value="exploded-archives-glassfish" />
        
     <!-- Libraries to include -->
     <property name="seam.ui.lib"    value="true"/>

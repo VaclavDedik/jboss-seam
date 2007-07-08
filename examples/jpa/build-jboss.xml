@@ -3,11 +3,13 @@
 <project name="JPA Booking" default="noejb.archive" basedir=".">
 
     <!-- Naming -->
-    <property name="Name"                   value="The JPA Example for Glassfish"/>
+    <property name="Name"                   value="The JPA Example for JBoss 4.2.0.GA"/>
     <property name="example.name"           value="jboss-seam-jpa"/>
 
     <!-- resources -->
     <property name="resources.dir" value="resources-jboss" />
+	<property name="dist.dir" value="dist-jboss" />
+	<property name="exploded-archives.dir" value="exploded-archives-jboss" />
        
     <!-- Libraries to include -->
     <property name="seam.ui.lib"    value="true"/>
