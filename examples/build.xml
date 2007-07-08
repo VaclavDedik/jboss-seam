@@ -214,6 +214,11 @@
 		<include name="jbpm*.jar" if="jbpm.lib" />
 	</fileset>
 
+	<!-- Dependencies for using Seam with JBPM on Tomcat-->
+	<fileset id="tomcat.jbpm.jar" dir="${lib.dir}">
+		<include name="bsh.jar" if="jbpm.lib" />
+	</fileset>
+
 	<!-- Dependencies for using Seam with JBoss Cache (s:cache) -->
 	<fileset id="cache.jar" dir="${lib.dir}">
 		<include name="jboss-cache-jdk50.jar" if="cache.lib" />
@@ -306,6 +311,8 @@
 		<include name="${example.ds}" />
 		<include name="treecache.xml" />
 		<include name="*.jpdl.xml" />
+		<include name="jbpm.cfg.xml" />
+		<include name="hibernate.cfg.xml" />
 	</fileset>
 
 	<!-- Resources to go in the ear -->
@@ -577,6 +584,7 @@
 			<fileset refid="drools.jar" />
 			<fileset refid="cache.jar" />
 			<fileset refid="jbpm.jar" />
+			<fileset refid="tomcat.jbpm.jar" />
 			<fileset refid="spring.jar" />
 			<fileset refid="gwt.jar" />
 			<fileset refid="jboss-el.jar" />
