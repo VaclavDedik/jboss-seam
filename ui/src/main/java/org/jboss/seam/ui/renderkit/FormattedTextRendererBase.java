@@ -21,6 +21,10 @@ public class FormattedTextRendererBase extends RendererBase
    @Override
    protected void doEncodeBegin(ResponseWriter writer, FacesContext context, UIComponent component) throws IOException
    {
-     writer.write(((UIFormattedText) component).getFormattedText());
+      String formattedText = ((UIFormattedText) component).getFormattedText();
+      if (formattedText != null)
+      {
+         writer.write(formattedText);
+      }
    }
 }
