@@ -655,6 +655,9 @@
 			</fileset>
 		</copy>
 	</target>
+	
+	<!-- Placeholder for cruisecontrol -->
+	<target name="testexample" depends="test" />
 
 	<target name="test" depends="buildtest" description="Run the tests">
 		<taskdef resource="testngtasks" classpath="${testng.jar}" />
