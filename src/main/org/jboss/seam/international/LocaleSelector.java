@@ -65,12 +65,13 @@ public class LocaleSelector extends Selector
    public void select()
    {
       FacesContext.getCurrentInstance().getViewRoot().setLocale( getLocale() );
-      Contexts.removeFromAllContexts("org.jboss.seam.core.resourcebundle");
+      Contexts.removeFromAllContexts("org.jboss.seam.core.resourceBundle");
       Contexts.removeFromAllContexts("org.jboss.seam.international.messages");
       
       setCookieValueIfEnabled( getLocaleString() );
 
-      if ( Events.exists() ) {
+      if ( Events.exists() ) 
+      {
           Events.instance().raiseEvent( "org.jboss.seam.localeSelected", getLocaleString() );
       }
    }
@@ -179,32 +180,38 @@ public class LocaleSelector extends Selector
       return (LocaleSelector) Component.getInstance(LocaleSelector.class, ScopeType.SESSION);
    }
 
-   public String getCountry() {
+   public String getCountry() 
+   {
       if (country==null) return getLocale().getCountry();
       return country;
    }
 
-   public void setCountry(String country) {
+   public void setCountry(String country) 
+   {
       setDirty(this.country, country);
       this.country = country;
    }
 
-   public String getLanguage() {
+   public String getLanguage() 
+   {
       if (language==null) return getLocale().getLanguage();
       return language;
    }
 
-   public void setLanguage(String language) {
+   public void setLanguage(String language) 
+   {
       setDirty(this.language, language);
       this.language = language;
    }
 
-   public String getVariant() {
+   public String getVariant() 
+   {
       if (variant==null) return getLocale().getVariant();
       return variant;
    }
 
-   public void setVariant(String variant) {
+   public void setVariant(String variant) 
+   {
       setDirty(this.variant, variant);
       this.variant = variant;
    }
