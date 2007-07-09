@@ -15,6 +15,7 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.pdf.DocumentData.DocType;
+import org.jboss.seam.ui.util.Faces;
 
 @Name("org.jboss.seam.pdf.documentStore")
 @Scope(ScopeType.CONVERSATION)
@@ -73,7 +74,7 @@ public class DocumentStore implements Serializable
     public String preferredUrlForContent(String baseName, DocType docType, String contentId) 
     {
        FacesContext context = FacesContext.getCurrentInstance();
-       String url = context.getApplication().getViewHandler().getActionURL(context, "/seam-doc" + getDefaultSuffix(context));
+       String url = context.getApplication().getViewHandler().getActionURL(context, "/seam-doc" + Faces.getDefaultSuffix(context));
        String baseUrl = context.getExternalContext().encodeActionURL(url);
       
        if (useExtensions) 
@@ -85,11 +86,7 @@ public class DocumentStore implements Serializable
     }
     
     
-    private static String getDefaultSuffix(FacesContext context) throws FacesException {
-        ExternalContext externalContext = context.getExternalContext();
-        String viewSuffix = externalContext.getInitParameter(ViewHandler.DEFAULT_SUFFIX_PARAM_NAME);
-        return (viewSuffix != null) ? viewSuffix : ViewHandler.DEFAULT_SUFFIX;
-    }
+    
     
 }
    
