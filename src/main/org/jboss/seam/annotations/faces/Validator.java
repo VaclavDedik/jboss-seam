@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 /**
  * Allows a Seam component to act as a JSF validator. The
  * annotated class must be a Seam component, and must
- * implement javax.faces.convert.Validator.
+ * implement javax.faces.validator.Validator.
  * 
  * @author Gavin King
  *
