@@ -10,38 +10,41 @@
                            http://jboss.com/products/seam/spring-seam http://jboss.com/products/seam/spring-seam-2.0.xsd
                            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
 	default-lazy-init="true">
-	<!--
-	
-	Waiting for SPR-3645
-	
+
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.hsqldb.jdbcDriver"/>
         <property name="url" value="jdbc:hsqldb:mem:defaultDB"/>
         <property name="username" value="sa"/>
         <property name="password" value=""/>
     </bean>
-
+	<!-- Here we are using a spring configured EMF you can just as easily use a Seam configured EMF using
+	<persistence:entity-manager-factory/> unless your project depends upon some functionality spring
+	provides an EMF such as the ability to inject a dataSource.
+	-->
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="dataSource"/>
+		<property name="persistenceUnitName" value="bookingDatabase"/>
 	</bean>
 	
-	-->
+	<!-- This example uses resource local JpaTransactionManager.  You could just as easily use a JtaTransactionManager -->
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<!-- Be sure to specify the SeamManagedEntityManagerFactory since that will manage the EM that will be
+		beginning and ending transactions.-->
 	   	<property name="entityManagerFactory" ref="seamEntityManagerFactory"/>
 	</bean>
 
 	<tx:annotation-driven proxy-target-class="true" />
 
-	<bean id="userService" class="org.jboss.seam.example.spring.UserService">
-		<seam:component/>
-	</bean>
+	<!-- Example using PersistenceAnnotationBeanPostProcessor for persistence -->
+	<bean id="userService" class="org.jboss.seam.example.spring.UserService"/>
 
+	<!-- Example using JpaDaoSupport for persistence -->
 	<bean id="bookingService" class="org.jboss.seam.example.spring.BookingService">
 		<property name="entityManagerFactory" ref="seamEntityManagerFactory" />
 		<seam:component/>
 	</bean>
 
-	<!-- Testing out a seam scope -->
+	<!-- Testing out a seam scoped spring bean -->
 	<bean id="hotelSearch" class="org.jboss.seam.example.spring.HotelSearchingAction" scope="seam.SESSION">
 		<!-- Testing creation time injection -->
 		<property name="pageSize" value="10" />
@@ -49,34 +52,21 @@
 
 	<seam:configure-scopes />
 
-	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
+	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor">
+		<!-- Because we have multiple EntityManagerFactories in this applicaitonContext identify the
+		SeamManagedEntityManagerFactory as the default -->
+		<property name="defaultPersistenceUnitName" value="conversationScoped"/>
+	</bean>
 
+	<!-- EMF that wraps a Seam Managed EM instance for use in Spring -->
 	<bean id="seamEntityManagerFactory" class="org.jboss.seam.ioc.spring.SeamManagedEntityManagerFactoryBean">
+		<!-- The Seam managed-persistence-context component name. -->
 		<property name="persistenceContextName" value="entityManager" />
+		<!-- Optionally provide a unit name.  If not specified the default would be the persistenceContextName -->
+		<property name="persistenceUnitName" value="conversationScoped"/>
 	</bean>
 
-	<bean id="timerFactory" class="org.springframework.scheduling.timer.TimerFactoryBean" lazy-init="false">
-		<property name="scheduledTimerTasks">
-			<list>
-				<ref bean="scheduledTask" />
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="scheduledTask" class="org.springframework.scheduling.timer.ScheduledTimerTask">
-		<property name="delay" value="10000" />
-		<property name="period" value="50000" />
-		<property name="timerTask" ref="doIt" />
-	</bean>
-
-	<bean id="doIt" class="org.springframework.scheduling.timer.MethodInvokingTimerTaskFactoryBean">
-		<property name="targetObject">
-			 <!-- could just do a ref="bookingService" here but want to test seam:instance and using an EL expression
-			 asynchronously. --> 
-			<seam:instance name="#{bookingService}" />
-		</property>
-		<property name="targetMethod" value="testNonWebRequest" />
-	</bean>
-
+	<!-- TaskExecutor for example use of @Asynchronous -->
 	<bean id="springThreadPoolTaskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor" />
+
 </beans>

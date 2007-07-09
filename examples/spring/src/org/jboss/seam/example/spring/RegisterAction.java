@@ -32,9 +32,6 @@ public class RegisterAction
 
             try {
                 userService.createUser(user);
-                userService.currentThread.set(true);
-                userService.sendRegisterEmail();
-                userService.currentThread.set(null);
                 registered = true;
             } catch(ValidationException e) {
                 facesMessages.add(e.getMessage());

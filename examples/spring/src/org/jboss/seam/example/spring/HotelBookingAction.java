@@ -3,6 +3,8 @@ package org.jboss.seam.example.spring;
 
 import java.util.Calendar;
 import javax.faces.application.FacesMessage;
+
+import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.In;
@@ -75,6 +77,11 @@ public class HotelBookingAction {
             facesMessages.add(FacesMessage.SEVERITY_ERROR, e.getMessage());
             return null;
         }
+        
+        BookingService.currentThread.set(true);
+        //Cannot call this.sendRegisterEmail because it won't hit the @Asynchronous intercepter
+        bookingService.sendRegisterEmail(booking.getUser().getUsername());
+        BookingService.currentThread.set(null);
 
         facesMessages.add("Thank you, #{user.name}, your confimation number for #{hotel.name} is #{booking.id}");
         log.info("New booking: #{booking.id} for #{user.username}");
