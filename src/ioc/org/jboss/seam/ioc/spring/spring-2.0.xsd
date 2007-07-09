@@ -65,6 +65,15 @@
 						</xs:documentation>
 					</xs:annotation>
 			</xs:attribute>
+			<xs:attribute name="join-transaction" type="xs:boolean" use="optional">
+				<xs:annotation>
+					<xs:annotation>
+						<xs:documentation>
+							Should this transaction manager participate in request to join a transaction.  For JTA
+							transactions set to true. 
+						</xs:documentation>
+					</xs:annotation>
+			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>
