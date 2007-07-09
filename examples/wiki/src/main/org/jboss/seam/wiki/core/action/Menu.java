@@ -18,6 +18,10 @@ import java.io.Serializable;
  * For performance reasons we cache this in the session context and refresh it through observing of
  * modification events. This might be PAGE scoped once we have a nested set model for the node tree.
  * </p>
+ * Looks up the <tt>menuBase</tt> contextual variable; if present, this is the root <tt>Directory</tt>
+ * of the rendered menu. Otherwise, the wiki root is the base. Note that the menu is only rendered two
+ * levels deep visually but that it includes all subtree nodes that are menu items. Everything deeper
+ * than the second level is rendered on the second level.
  *
  * @author Christian Bauer
  */
@@ -37,15 +41,15 @@ public class Menu implements Serializable {
 
     /** 
      * This is very inefficient. There really is no better way if we want recursively have
-     * all documents and directories with isMenuItem() in the main menu. Not even a direct
+     * all documents and directories with isMenuItem() in the menu. Not even a direct
      * SQL query would help (multicolumn ordering would require by PK, not good). If this
      * can't be made performant with caching, we need to replace it with a simple one
      * or two level menu item search. Currently optimizing with batch fetching, future
-     * implementation might use a nested set approach (we need one anyway for recursive
-     * deletion of subtrees).
+     * implementation might use a nested set approach.
      */
     @Observer("Nodes.menuStructureModified")
     public void refreshMenuItems() {
+        System.out.println("################################ REFRESHING MENU ########################### ");
         items = new ArrayList<MenuItem>();
         if (menuBase != null && lastMenuBase != menuBase) {
             lastMenuBase = menuBase;
@@ -54,9 +58,6 @@ public class Menu implements Serializable {
         }
         for(Node child: menuBase.getChildren())
             addNodesToMenuTree(items, 0, child);
-
-
-
     }
 
     // Recursive
@@ -97,6 +98,5 @@ public class Menu implements Serializable {
         public String getUrl() { return url; }
         public void setUrl(String url) { this.url = url; }
     }
-
     
 }

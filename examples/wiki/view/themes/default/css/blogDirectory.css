@@ -1,19 +1,24 @@
-#blogHeader {
-    white-space: nowrap;
-    margin-bottom: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
+#blogDirectoryPlugin\:blogDirectory {
 }
 
-#blogTitle {
-    font-size: 145%;
-    font-weight: bold;
+#blogDirectoryPlugin\:blogHeader {
+    display:none;
+}
+
+#blogDirectoryPlugin\:blogFeedSubscribe {
+   display:none;
+}
+
+#blogDirectoryPlugin\:blogTitle {
+    display:none;
 }
 
 .blogEntry {
-    background: #fff url(#{themePath}/img/th.bg.inverse.gif) 0 0 repeat-x;
-    margin-bottom: 10px;
-    margin-top: 10px;
+    background-color: white;
+}
+
+.blogEntrySeparator {
+    height: 25px;
 }
 
 .blogEntryHeader {
@@ -21,38 +26,94 @@
     border-top: 1px solid #87786e;
     border-left: 1px solid #87786e;
     border-right: 1px solid #87786e;
+    background: #fff url(#{themePath}/img/th.bg.inverse.gif) 0 0 repeat-x;
+    height: 40px;
 }
 
 .blogEntryTitle {
-    font-size: 110%;
-    margin-bottom: 5px;
-    font-weight: bold;
+    font-size: 120%;
+    font-style: italic;
+    padding-left: 15px;
+    padding-top: 7px;
+    float:left;
+    width: 70%;
 }
 
-.blogEntryCreatedOnText {
-    font-size: 85%;
+.blogEntryCreatedOn {
+    white-space: nowrap;
+    margin-right: 15px;
+    text-align: right;
+    font-size: 80%;
     font-weight: normal;
 }
 
+.blogEntryCreatedOnText {
+}
+
+.blogEntryCreatedBy {
+    white-space: nowrap;
+    margin-right: 15px;
+    text-align: right;
+    font-size: 80%;
+    font-weight: normal;
+}
+
+.blogEntryCreatedByLink {
+    color: #962325;
+}
+
 .blogEntryLinks {
+    display:none;
     float: right;
-    font-size: 85%;
+    font-size: 80%;
     font-weight: bold;
 }
 
 .blogEntryBody {
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    line-height: 170%;
+    text-align:justify;
 }
 
 .blogEntryFooter {
-    border-left: 1px solid #87786e;
+    background: white url(#{themePath}/img/th.bg.gif) 0 0 repeat-x;
     border-bottom: 1px solid #87786e;
+    border-left: 1px solid #87786e;
     border-right: 1px solid #87786e;
-    padding: 10px;
-    text-align: right;
-    font-size: 85%;
-    font-weight: bold;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-weight: normal;
+    font-size: 80%;
+    color: #962325;
+	text-decoration: none;
+}
+
+.blogEntryFooterTable {}
+
+.blogEntryCommentCount,
+.blogEntryCommentLink,
+.blogEntryAttachmentsLink,
+.blogEntryPermLink,
+.blogEntryWikiLink {
+    padding-right: 25px;
+    text-align:left;
+}
+.blogEntryCommentCountText,
+.blogEntryCommentLinkText,
+.blogEntryAttachmentsLinkText,
+.blogEntryPermLinkText,
+.blogEntryWikiLinkText {
+    color: #962325;
+}
+.blogEntryCommentCountText:hover,
+.blogEntryCommentLinkText:hover,
+.blogEntryAttachmentsLinkText:hover,
+.blogEntryPermLinkText:hover,
+.blogEntryWikiLinkText:hover {
+    color: #962325;
 }
 
 .blogPagerTable {
@@ -76,33 +137,29 @@
 
 .blogColumn {
     vertical-align: top;
-    padding-left: 10px;
-    padding-right: 10px;
     width: 100%;
 }
 
-/* These links are broken when rendering just the blog directory entries, so hide them as best as we can */
-.blogDirectoryAttachmentLink {
-    color: #000000;
-    text-decoration: none;
-    cursor: default;
-}
-.blogDirectoryAttachmentLink:visited {
-    color: #000000;
-}
-
 .recentEntries {
-    background: #fff url(#{themePath}/img/th.bg.inverse.gif) 0 0 repeat-x;
-    margin-bottom: 10px;
-    margin-top: 10px;
+    background-color: white;
+    vertical-align: bottom;
 }
 
 .recentEntriesHeader {
-    padding: 10px;
+    text-align: right;
+    font-size: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 5px;
+    padding-bottom: 15px;
     border-top: 1px solid #87786e;
     border-left: 1px solid #87786e;
     border-right: 1px solid #87786e;
-    font-weight: bold;
+    background: white url(#{themePath}/img/th.bg.inverse.gif) 0 0 repeat-x;
+}
+
+.recentEntriesHeaderText {
+    font-size: 120%;
 }
 
 .recentEntriesDay {
@@ -111,48 +168,81 @@
 
 .recentEntriesItem {
     padding-left: 10px;
+    font-style:italic;
 }
 
 .recentEntriesFooter {
-    border-left: 1px solid #87786e;
+    background: white url(#{themePath}/img/th.bg.gif) 0 0 repeat-x;
     border-bottom: 1px solid #87786e;
+    border-left: 1px solid #87786e;
     border-right: 1px solid #87786e;
-    padding: 10px;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-weight: normal;
+    font-size: 80%;
+    color: #962325;
+	text-decoration: none;
     text-align: right;
-    font-size: 85%;
-    font-weight: bold;
+}
+
+.recentEntriesFooterText {
+    color: #962325;
+}
+
+.recentEntriesFooterText:hover {
+    color: #666;
 }
 
 .allEntries {
-    background: #fff url(#{themePath}/img/th.bg.inverse.gif) 0 0 repeat-x;
-    margin-bottom: 10px;
-    margin-top: 10px;
-    border-bottom: 1px solid #87786e;
-    margin-left: 10px;
-    margin-right: 10px;
+    background-color: white;
 }
 
 .allEntriesHeader {
-    padding: 10px;
+    text-align: left;
+    font-size: 120%;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 5px;
+    padding-bottom: 15px;
     border-top: 1px solid #87786e;
     border-left: 1px solid #87786e;
     border-right: 1px solid #87786e;
-    font-weight: bold;
+    background: white url(#{themePath}/img/th.bg.inverse.gif) 0 0 repeat-x;
 }
 
 .allEntriesMonth {
     font-weight: bold;
+    margin-top: 10px;
 }
 
 .allEntriesItem {
     padding-left: 10px;
+    padding-bottom: 5px;
 }
 
 .allEntriesReturn {
+    background: white url(#{themePath}/img/th.bg.gif) 0 0 repeat-x;
+    border-bottom: 1px solid #87786e;
     border-left: 1px solid #87786e;
     border-right: 1px solid #87786e;
-    padding: 10px;
-    text-align: right;
-    font-size: 85%;
-    font-weight: bold;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-weight: normal;
+    font-size: 80%;
+    color: #962325;
+	text-decoration: none;
+    text-align: left;
 }
+
+.allEntriesReturnText {
+    color: #962325;
+}
+
+.allEntriesReturnText:hover {
+    color: #666;
+}
+

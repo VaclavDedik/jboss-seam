@@ -36,10 +36,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.io.Serializable;
 
 @Name("adminHome")
 @Scope(ScopeType.CONVERSATION)
-public class AdminHome {
+public class AdminHome implements Serializable {
 
     @Logger
     static Log log;

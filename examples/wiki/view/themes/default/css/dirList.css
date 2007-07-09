@@ -1,0 +1,99 @@
+.dirList {
+    background-color: white;
+    vertical-align: bottom;
+}
+
+.dirListHeader {
+    text-align: right;
+    font-size: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 5px;
+    padding-bottom: 15px;
+    border-top: 1px solid #87786e;
+    border-left: 1px solid #87786e;
+    border-right: 1px solid #87786e;
+    background: white url(#{themePath}/img/th.bg.inverse.gif) 0 0 repeat-x;
+    width: 100%;
+}
+
+.dirListHeaderSubscribe {
+}
+
+.dirListHeaderSubscribeLink {
+    font-size: 80%;
+    margin-left: 5px;
+    margin-right: 5px;
+    color: #962325;
+}
+
+.dirListHeaderSubscribeLink:hover {color: #666}
+
+.dirListHeaderTitle {
+    text-align: right;
+}
+
+.dirListHeaderTitleText {
+    font-size: 120%;
+ }
+
+
+.dirListFooter {
+    background: white url(#{themePath}/img/th.bg.gif) 0 0 repeat-x;
+    border-bottom: 1px solid #87786e;
+    border-left: 1px solid #87786e;
+    border-right: 1px solid #87786e;
+    padding-top: 5px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-weight: normal;
+    font-size: 80%;
+    color: #962325;
+	text-decoration: none;
+    text-align: right;
+}
+
+
+.dirListTable {
+    width: 100%;
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.dirListTable .firstLevelItem {
+    padding-left: 10px;
+    white-space: nowrap;
+}
+
+.dirListTable .firstLevelItemLink {
+    text-decoration: none;
+    margin-left: 5px;
+    color: #962325;
+    font-size: 90%;
+}
+
+.dirListTable .firstLevelItemLink:hover {color: #666}
+
+
+.dirListSubTable {
+    width: 90%;
+    border: 0;
+    margin-left: 20px;
+    padding: 0;
+}
+
+.dirListSubTable .secondLevelItem {
+    white-space: nowrap;
+}
+
+.dirListSubTable .secondLevelItemLink {
+    text-decoration: none;
+    margin-left: 5px;
+    font-size: 80%;
+    color: #962325;
+}
+
+.dirListSubTable .secondLevelItemLink:hover {color: #666}   /* mouse over link */
+

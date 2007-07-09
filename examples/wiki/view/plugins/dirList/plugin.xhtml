@@ -24,6 +24,7 @@
                     <h:outputText styleClass="dirListHeaderSubscribeLink" value="Subscribe"/>
                 </h:panelGrid>
             </h:outputLink>
+            <s:span rendered="#{empty currentDirectory.feed}">&#160;</s:span>
             <h:outputText styleClass="dirListHeaderTitleText" value="#{currentDirectory.name}"/>
         </h:panelGrid>
 

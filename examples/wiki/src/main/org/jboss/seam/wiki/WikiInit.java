@@ -26,7 +26,7 @@ public class WikiInit {
     public void init() throws Exception {
         log.info("Starting LaceWiki...");
 
-        //System.out.println(listJNDITree(""));
+        System.out.println(listJNDITree("java:"));
 
         log.info("registering Hibernate statistics MBean");
         hibernateMBeanName = new ObjectName("Hibernate:type=statistics,application=laceWiki");

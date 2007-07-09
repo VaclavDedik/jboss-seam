@@ -12,11 +12,13 @@ import org.jboss.seam.wiki.util.WikiUtil;
 import org.jboss.seam.wiki.preferences.PreferenceProvider;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Out;
+import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Component;
+import org.jboss.seam.log.Log;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.security.AuthorizationException;
 import org.jboss.seam.security.Identity;
@@ -33,6 +35,8 @@ import java.util.Iterator;
  * @author Christian Bauer
  */
 public abstract class NodeHome<N extends Node> extends EntityHome<N> {
+
+    @Logger static Log log;
 
     /* -------------------------- Context Wiring ------------------------------ */
 
@@ -112,7 +116,7 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
         parentDirectory = nodeDAO.findDirectory(parentDirId);
 
         if (parentDirectory == null)
-                throw new RuntimeException("############ REPRODUCE THIS BUG ####################");
+                log.warn("######### THIS SHOULD NEVER BE NULL UNLESS WE EDIT THE WIKI ROOT");
 
         // Permission checks
         if (!isManaged() && !Identity.instance().hasPermission("Node", "create", getParentDirectory()) ) {
@@ -250,8 +254,7 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
     }
 
     protected void refreshMenuItems() {
-        if (getInstance().isMenuItem())
-            Events.instance().raiseEvent("Nodes.menuStructureModified");
+        Events.instance().raiseEvent("Nodes.menuStructureModified");
     }
 
     /* -------------------------- Subclass Callbacks ------------------------------ */

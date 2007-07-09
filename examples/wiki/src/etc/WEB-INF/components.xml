@@ -6,6 +6,7 @@
             xmlns:drools="http://jboss.com/products/seam/drools"
             xmlns:web="http://jboss.com/products/seam/web"
             xmlns:mail="http://jboss.com/products/seam/mail"
+            xmlns:transaction="http://jboss.com/products/seam/transaction"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation=
                 "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.0.xsd
@@ -14,6 +15,7 @@
                  http://jboss.com/products/seam/web http://jboss.com/products/seam/web-2.0.xsd
                  http://jboss.com/products/seam/drools http://jboss.com/products/seam/drools-2.0.xsd
                  http://jboss.com/products/seam/mail http://jboss.com/products/seam/mail-2.0.xsd
+                 http://jboss.com/products/seam/transaction http://jboss.com/products/seam/transaction-2.0.xsd
                  http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.0.xsd">
 
     <!-- ##### WIKI USER CONFIGURATION ##### -->
@@ -28,6 +30,9 @@
 
     <core:init debug="false" jndi-pattern="@jndiPattern@"/>
 
+    <!-- Enabled in embeddable JBoss container -->
+    <transaction:ejb-transaction installed="@ejbTransaction@"/>
+
     <!-- Conversation timeout: 30 minutes -->
     <core:manager concurrent-request-timeout="2000"
                   conversation-timeout="180000"
@@ -41,19 +46,23 @@
         </persistence:parameters>
     </persistence:filter>
 
-    <!-- TODO: Required for testing but doesn't work with injection: persistence-unit-jndi-name="java:/EntityManagerFactories/wiki" -->
+    <!-- Use the Seam-started PU or look it up from JNDI if running in Embeddable JBoss -->
+    <persistence:entity-manager-factory installed="@seamStartsPersistenceUnit@"
+                                        name="wikiEntityManagerFactory"
+                                        persistence-unit-name="wiki"/>
+
     <persistence:managed-persistence-context name="restrictedEntityManager"
                                       auto-create="true"
-                                      entity-manager-factory="#{wikiEntityManagerFactory}">
+                                      entity-manager-factory="#{wikiEntityManagerFactory}"
+                                      persistence-unit-jndi-name="java:/entityManagerFactories/wiki">
         <persistence:filters><value>#{accessLevelFilter}</value></persistence:filters>
     </persistence:managed-persistence-context>
 
     <persistence:managed-persistence-context name="entityManager"
                                       auto-create="true"
-                                      entity-manager-factory="#{wikiEntityManagerFactory}">
+                                      entity-manager-factory="#{wikiEntityManagerFactory}"
+                                      persistence-unit-jndi-name="java:/entityManagerFactories/wiki">
     </persistence:managed-persistence-context>
-
-    <persistence:entity-manager-factory installed="@seamPersistenceUnit@" name="wikiEntityManagerFactory" persistence-unit-name="wiki"/>
 
     <component name="restrictedEntityConverter" scope="CONVERSATION" precedence="20"
                class="org.jboss.seam.ui.converter.EntityConverter">

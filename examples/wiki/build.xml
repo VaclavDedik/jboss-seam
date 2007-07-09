@@ -35,14 +35,14 @@
     <property name="seamlibs.dir"   value="${seam.home}"/>
     <property name="local.lib.dir"  value="lib" />
     <property name="drools.lib.dir" value="${seam.home}/drools/lib"/>
-
-    <property name="embedded-ejb3.dir" value="${basedir}/embedded-ejb/conf" />
+    <property name="embedded-jboss.dir" value="${seam.home}/bootstrap"/>
 
     <!-- ################## ALIASES ####################### -->
 
-    <fileset id="lib" dir="${global.lib.dir}">
-        <include name="*.jar" />
-        <exclude name="hibernate*" /> <!-- TODO: Don't use the Hibernate in Seam -->
+    <fileset id="globallibs" dir="${global.lib.dir}">
+        <include name="*.jar"/>
+        <!-- TODO: Don't use the Hibernate in Seam, need newer local version for SequenceStyleGenerator  -->
+        <exclude name="hibernate*" />
     </fileset>
 
     <fileset id="seamlibs" dir="${seamlibs.dir}">
@@ -50,30 +50,46 @@
         <exclude name="jboss-seam-gen.jar"/>
     </fileset>
 
-    <zipfileset id="droolslibs"
-               dir="${drools.lib.dir}">
+    <zipfileset id="droolslibs" dir="${drools.lib.dir}">
         <include name="*.jar"/>
         <exclude name="commons-lang*.jar"/>
         <exclude name="commons-logging*.jar"/>
     </zipfileset>
 
     <path id="build.classpath">
-        <fileset refid="lib" />
+        <fileset refid="globallibs" />
         <fileset refid="seamlibs"/>
         <fileset refid="droolslibs"/>
         <fileset dir="${local.lib.dir}"/>
     </path>
 
     <path id="test.classpath">
-        <fileset refid="lib" />
+        <!-- THE ORDER IS CRITICALLY IMPORTANT! -->
+
+        <pathelement path="${testclasses.dir}"/>
+        <pathelement path="${embedded-jboss.dir}"/>
+
+        <fileset refid="globallibs"/>
+        <fileset dir="${local.lib.dir}">
+            <include name="*.jar" />
+            <exclude name="hibernate-tools*"/>
+        </fileset>
+
+        <!-- YOU NEED THIS FILESET AND IT CAN ONLY CONTAIN jboss-seam.jar AND NOTHING ELSE!
+             OTHERWISE THE EMBEDDABLE CONTAINER WON'T SCAN IT FOR EJBs (EjbTransaction, TimserServiceDispatcher, etc.)
+             IN THE jboss-seam.jar.
+        -->
+        <fileset dir="${seam.home}">
+            <include name="jboss-seam.jar" />
+        </fileset>
+
+        <!-- YES, THIS LOADS jboss-seam.jar AGAIN... -->
         <fileset refid="seamlibs"/>
-        <fileset refid="droolslibs"/>
-        <path path="${classes.dir}"/>
-        <path path="${testclasses.dir}"/>
+
     </path>
 
     <path id="tools.classpath">
-        <fileset dir="../../lib">
+        <fileset dir="${global.lib.dir}">
             <include name="thirdparty*.jar"/>
         </fileset>
         <fileset dir="${local.lib.dir}"/>
@@ -213,8 +229,8 @@
             <!-- Override components.xml setting -->
             <filterset>
                 <filter token="jndiPattern" value="${project.name}/#{ejbName}/local"/>
-                <filter token="seamPersistenceUnit" value="true"/>
-                <filter token="embeddedEjb" value="false"/>
+                <filter token="seamStartsPersistenceUnit" value="true"/>
+                <filter token="ejbTransaction" value="false"/>
             </filterset>
         </copy>
 
@@ -401,30 +417,29 @@
     <target name="configuretests" depends="compiletests"
             description="Copy resources to test path (call from IDE before tests)">
 
-        <!-- ######## Embeddable EJB container config ######## -->
+        <!-- ######## NEED TO COPY CLASSES TO TEST CLASSES DIRECTORY, SPLITTING DIRECTORIES NO LONGER WORKS -->
         <copy todir="${testclasses.dir}">
-            <fileset dir="${embedded-ejb3.dir}"/>
+            <fileset dir="${classes.dir}">
+                <include name="**/*"/>
+            </fileset>
         </copy>
 
         <!-- ######## Test config ######## -->
         <copy todir="${testclasses.dir}">
             <fileset dir="${src.etc.dir}">
+                <include name="**/*"/>
+                <!-- Handle these below -->
                 <exclude name="META-INF/persistence*.xml"/>
-                <exclude name="import*.sql"/>
                 <exclude name="${project.name}-*-ds.xml"/>
+                <exclude name="import*.sql"/>
             </fileset>
         </copy>
-
-        <!-- Override persistence.xml settings -->
         <copy tofile="${testclasses.dir}/META-INF/persistence.xml"
                 file="${src.etc.dir}/META-INF/persistence-test-war.xml"
-           overwrite="true">
-            <filterset>
-                <filter token="entityClassesDir" value="file:${basedir}/${classes.dir}"/>
-            </filterset>
-        </copy>
-
-        <!-- Test data import -->
+           overwrite="true"/>
+        <copy tofile="${testclasses.dir}/wiki-ds.xml"
+                file="${src.etc.dir}/wiki-test-ds.xml"
+           overwrite="true"/>
         <copy tofile="${testclasses.dir}/import.sql"
                 file="${src.etc.dir}/import-test.sql"
            overwrite="true"/>

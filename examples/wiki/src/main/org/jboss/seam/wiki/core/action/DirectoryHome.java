@@ -132,11 +132,6 @@ public class DirectoryHome extends NodeHome<Directory> {
 
     /* -------------------------- Public Features ------------------------------ */
 
-    @Restrict("#{s:hasPermission('Node', 'editMenu', directoryHome.instance)}")
-    public void previewMenuItems() {
-        refreshMenuItems();
-    }
-
     private boolean hasFeed;
 
     public boolean isHasFeed() {
