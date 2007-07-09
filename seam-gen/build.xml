@@ -31,12 +31,12 @@
 
     
     <target name="init-properties">
-    	<!-- Import properties from seam itself -->
-    	<property file="../build.properties" />
-    	
         <!-- Give user a chance to override without editing this file or typing -D -->
         <property file="${basedir}/build.properties" />
     
+    	<!-- Import properties from seam itself -->
+    	<property file="../build.properties" />
+    	
         <packageDirectory property="action.dir" package="action/${action.package}"/>
         <packageDirectory property="model.dir" package="model/${model.package}"/>
         <packageDirectory property="test.dir" package="test/${test.package}"/>
@@ -86,6 +86,8 @@
             <filter token="catalogProperty" value="${catalog.property}"/>
             <filter token="schemaProperty" value="${schema.property}"/>
         </filterset>
+    	
+    	<echo message="${jboss.home}"/>
         
         <filterset id="project">
             <filter token="projectName" value="${project.name}" />
