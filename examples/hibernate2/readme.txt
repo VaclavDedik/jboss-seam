@@ -5,23 +5,23 @@ the EJB3 container.
 JBoss AS 4.0.5 (with or without EJB3):
   * Install JBoss AS 4.0.5 with the default J2EE profile
   * ant jboss
-  * Deploy build/jboss-seam-hibernate.war
+  * Deploy dist-jboss/jboss-seam-hibernate.war
   * Start JBoss AS 
   * Access the app at http://localhost:8080/jboss-seam-hibernate/
 
 WebLogic 9.2:
   * Install WebLogic 9.2
-  * ant weblogic
+  * ant weblogic92
   * Start the WebLogic "examples" server
   * Load the admin console http://localhost:7001/console/
-  * Deploy build/jboss-seam-hibernate.war
+  * Deploy dist-weblogic92/jboss-seam-hibernate.war
   * Access the app at http://localhost:7001/jboss-seam-hibernate/
 
 WebSphere 6.1:
 
   * Install and run WebSphere 6.1
-  * ant websphere
-  * Install build/jboss-seam-hibernate.war and specify a context_root
+  * ant websphere61
+  * Install dist-websphere61/jboss-seam-hibernate.war and specify a context_root
   * From the "Enterprise Applications" list select: "jboss-seam-hibernate_war" --> "Manager Modules" --> "jboss-seam-hibernate.war" --> "Classes loaded with application class loader first", and then Apply
   * Start the application
   * Access it at http://localhost:9080/context_root/index.html
@@ -31,7 +31,7 @@ Plain Tomcat
   * Copy the JARs in lib/tomcat into $TOMCAT_HOME/common/lib
   * Copy the following Context element into $TOMCAT_HOME/conf/server.xml
   * ant tomcat
-  * Deploy to $TOMCAT_HOME/webapps/jboss-seam-hibernate.war
+  * Deploy dist-tomcat/jboss-seam-hibernate.war to $TOMCAT_HOME/webapps/jboss-seam-hibernate.war
   * Start Tomcat
   * Access the app at http://localhost:8080/jboss-seam-hibernate/
 Example of the Context element in server.xml:
@@ -53,8 +53,8 @@ Example of the Context element in server.xml:
 Tomcat with embeddable JBoss (the build is the same as JBoss 4.2.0 GA WAR):
   * Install Tomcat
   * Install Embeddable JBoss
-  * ant
-  * Deploy build/jboss-seam-hibernate.war
+  * ant jboss
+  * Deploy dist-jboss/jboss-seam-hibernate.war
   * Start Tomcat
   * Access the app at http://localhost:8080/jboss-seam-hibernate/
 
@@ -63,7 +63,7 @@ Glassfish
   * ant glassfish
   * Start GlassFish
   * Load the admin console http://localhost:4848/
-  * Deploy build/jboss-seam-hibernate.war as Web App
+  * Deploy dist-glassfish/jboss-seam-hibernate.war as Web App
   * Access the app at http://localhost:8080/jboss-seam-hibernate/
 
 NOTES TO GLASSFISH:

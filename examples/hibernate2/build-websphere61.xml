@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<project name="Hibernate Booking" default="noejb.archive" basedir=".">
+
+    <!-- Naming -->
+    <property name="Name"                   value="The Hibernate Example for WebSphere 6.1.0.9"/>
+    <property name="example.name"           value="jboss-seam-hibernate"/>
+
+    <!-- resources -->
+    <property name="resources.dir" value="resources-websphere61" />
+	<property name="dist.dir" value="dist-websphere61" />
+	<property name="exploded-archives.dir" value="exploded-archives-websphere61" />
+       
+    <!-- Libraries to include -->
+    <property name="seam.ui.lib"    value="true"/>
+    <property name="seam.debug.lib" value="true"/>
+    <property name="facelets.lib"   value="true"/>
+    <property name="ajax4jsf.lib"   value="true"/>
+
+    <import file="../build.xml"/>
+
+    <fileset id="noejb.war.extras" dir="${seam.dir}">
+        <include name="lib/common*.jar"/>
+        <include name="lib/jsf-*.jar"/>
+        <include name="lib/jstl-*.jar"/>
+        <include name="hibernate/lib/*.jar"/>
+        <include name="lib/thirdparty-all.jar"/>
+        <!-- Needed since WAS 6.1 does not support JSP 2.0 -->
+        <include name="examples/hibernate2/lib/el-*.jar"/>
+    </fileset>
+       
+</project>
+
