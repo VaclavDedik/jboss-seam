@@ -26,8 +26,6 @@
 	<classpathentry kind="lib" path="lib/jsp-api.jar"/>
 	<classpathentry kind="lib" path="lib/gwt-servlet.jar"/>
 	<classpathentry kind="lib" path="mail/buni-meldware/lib/mailapi.jar"/>
-	<classpathentry kind="lib" path="lib/jfreechart-1.0.3.jar"/>
-	<classpathentry kind="lib" path="lib/jcommon-1.0.6.jar"/>
 	<classpathentry kind="lib" path="drools/lib/drools-compiler-4.0.0.MR2.jar"/>
 	<classpathentry kind="lib" path="drools/lib/drools-core-4.0.0.MR2.jar"/>
 	<classpathentry kind="lib" path="lib/groovy-all-1.1-BETA-1.jar"/>
@@ -49,5 +47,7 @@
 	<classpathentry kind="lib" path="lib/hibernate-commons-annotations.jar"/>
 	<classpathentry kind="lib" path="lib/jboss-saaj.jar"/>
 	<classpathentry kind="lib" path="lib/ant-nodeps.jar"/>
+	<classpathentry kind="lib" path="lib/jcommon-1.0.10.jar"/>
+	<classpathentry kind="lib" path="lib/jfreechart-1.0.6.jar"/>
 	<classpathentry kind="output" path="output/classes"/>
 </classpath>
