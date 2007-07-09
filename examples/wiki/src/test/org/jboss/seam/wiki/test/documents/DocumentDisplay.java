@@ -12,7 +12,7 @@ public class DocumentDisplay extends SeamTest {
 
         new FacesRequest() {
             protected void invokeApplication() throws Exception {
-                Component.getInstance("entityManager");
+                Component.getInstance("restrictedEntityManager");
             }
         }.run();
 

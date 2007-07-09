@@ -1,7 +1,15 @@
 This is not a regular "Seam example", its a standalone seam-gen project structure. The build.xml
 references the existing Seam libraries and thirdparty libs, however, to avoid duplication.
 
-INSTALLATION WITH HSQL DB
+RUNNING THE UNIT TESTS
+==========================================================================================
+
+- Call 'ant test'
+
+- Verify the rest results in build/test-output/
+
+
+INSTALLATION WITH HSQL DB (development profile)
 ==========================================================================================
 
 - Install JBoss Application Server 4.2 GA
@@ -12,9 +20,10 @@ INSTALLATION WITH HSQL DB
 
 - Call 'ant deploy'
 
-- Access http://localhost:8080/wiki/
+- Start (if you haven't done so already) JBoss AS and access http://localhost:8080/wiki/
 
-INSTALLATION WITH MYSQL
+
+INSTALLATION WITH MYSQL (production profile)
 ==========================================================================================
 
 - Install JBoss Application Server 4.2 GA

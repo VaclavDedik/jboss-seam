@@ -190,11 +190,6 @@
         <div class="label">&#160;</div>
         <div class="input">
 
-            <h:commandLink id="preview" styleClass="buttonNonpersistent"
-                           action="#{directoryHome.previewMenuItems()}"
-                           rendered="#{childNodes.rowCount>0 and s:hasPermission('Node', 'editMenu', directoryHome.instance)}"
-                           tabindex="5" accesskey="P"><span class="buttonLabel"><u>P</u>review</span></h:commandLink>
-            
             <h:commandLink id="save" styleClass="button"
                            action="#{directoryHome.persist}"
                            rendered="#{!directoryHome.managed}"
