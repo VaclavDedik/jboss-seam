@@ -9,18 +9,28 @@
 
 	<repositories>
 		<repository>
-			<id>java.net</id>
+			<id>maven1.java.net</id>
 			<url>http://download.java.net/maven/1</url>
 			<layout>legacy</layout>
 		</repository>
 		<repository>
-            <id>gwt-maven</id>
-            <url>http://gwt-maven.googlecode.com/svn/trunk/mavenrepo/</url>
-        </repository>
-        <repository>
-            <id>jboss.org</id>
-            <url>http://repository.jboss.org/maven2/</url>
-        </repository>
+			<id>gwt-maven</id>
+			<url>
+				http://gwt-maven.googlecode.com/svn/trunk/mavenrepo/
+			</url>
+		</repository>
+		<repository>
+			<id>jboss.org</id>
+			<url>http://repository.jboss.org/maven2/</url>
+		</repository>
+		<repository>
+			<id>glassfish.java.net</id>
+			<url>http://download.java.net/maven/glassfish/</url>
+		</repository>
+		<repository>
+			<id>maven2.java.net</id>
+			<url>http://download.java.net/maven/2/</url>
+		</repository>
 	</repositories>
 
 	<dependencies>
@@ -28,123 +38,145 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate</artifactId>
 			<version>3.2.1.ga</version>
-			<exclusions>
-				<exclusion>
-					<groupId>javax.transaction</groupId>
-					<artifactId>jta</artifactId>
-				</exclusion>
-			</exclusions>
+			<scope>provided</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-annotations</artifactId>
 			<version>3.2.0.ga</version>
+			<scope>provided</scope>
 		</dependency>
-		<!-- Should be 3.5.CR1 -->
+
+		<!-- Should be 3.5.CR1, but this doesn't seem to exist -->
 		<dependency>
-			<groupId>jboss</groupId>
+			<groupId>javassist</groupId>
 			<artifactId>javassist</artifactId>
-			<version>3.4.ga</version>
+			<version>3.5-SNAPSHOT</version>
+			<scope>provided</scope>
 		</dependency>
-		<!-- Should be 1.1.0.jboss -->
+
+		<!-- Should be 1.1.0.jboss, but doesn't exist in Maven -->
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
 			<version>1.1</version>
+			<scope>provided</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>javax.portlet</groupId>
 			<artifactId>portlet-api</artifactId>
 			<version>1.0</version>
+			<scope>provided</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
 			<version>2.4</version>
+			<scope>provided</scope>
 		</dependency>
 
-		<!-- JBoss Cache -->
-
-		<dependency>
-			<groupId>com.sun.facelets</groupId>
-			<artifactId>jsf-facelets</artifactId>
-			<version>1.1.13</version>
-		</dependency>
-		
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
 			<version>1.4</version>
+			<scope>provided</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>javax.xml.ws</groupId>
 			<artifactId>jaxws-api</artifactId>
 			<version>2.0</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>javax.faces</groupId>
 			<artifactId>jsf-api</artifactId>
 			<version>1.2_04-p01</version>
+			<scope>provided</scope>
 		</dependency>
-		
-		<dependency>
-			<groupId>javax.faces</groupId>
-			<artifactId>jsf-impl</artifactId>
-			<version>1.2_04-p01</version>
-		</dependency>
-		
+
 		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>jsp-api</artifactId>
 			<version>2.1</version>
+			<scope>provided</scope>
 		</dependency>
-		
-		<!-- Meldware -->
-		
-		<!-- Drools -->
-		
-		<!-- Should be 1.6.0 -->
-		<dependency>
-			<groupId>opensymphony</groupId>
-			<artifactId>quartz</artifactId>
-			<version>1.5.0</version>
-		</dependency>
-		
-		<!--  EJB3 stuff -->
+
 		<dependency>
 			<groupId>javax.ejb</groupId>
 			<artifactId>ejb-api</artifactId>
 			<version>3.0</version>
+			<scope>provided</scope>
 		</dependency>
-		
-		<dependency>
-			<groupId>org.ajax4jsf</groupId>
-			<artifactId>ajax4jsf</artifactId>
-			<version>1.1.1</version>
-		</dependency>
-		
-		<!-- Testng -->
-		
-		<!-- JBPM -->
-		
+
 		<dependency>
 			<groupId>com.octo.captcha</groupId>
 			<artifactId>jcaptcha-all</artifactId>
 			<version>1.0-RC6</version>
 		</dependency>
-		
-		<!-- Thirdparty -->
-		
-		<!-- Hibernate search -->
-		
+
 		<dependency>
 			<groupId>javax.xml.soap</groupId>
 			<artifactId>saaj-api</artifactId>
 			<version>1.3</version>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>javax.jms</groupId>
+			<artifactId>jms-api</artifactId>
+			<version>1.1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.annotation</groupId>
+			<artifactId>jsr250-api</artifactId>
+			<version>1.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.transaction</groupId>
+			<artifactId>jta</artifactId>
+			<version>1.0.1B</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Nasty, this is needed to check if a String is empty -->
+		<dependency>
+			<groupId>jboss</groupId>
+			<artifactId>jboss-common</artifactId>
+			<version>4.0.4</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+			<version>1.1-BETA-1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.14</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- LEGACY
+			JBoss Cache
+			Meldware
+			Drools (once 4 goes GA this should be in Maven)
+			Quartz (pom missing on maven.org)
+			Some EJB3 stuff?
+			Testng 6 needs uploading to Maven
+			JBPM (old version on jboss repo, but incomplete pom)
+			Hibernate search
+		-->
+
 	</dependencies>
 
 

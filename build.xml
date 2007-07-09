@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="Seam" default="build" basedir=".">
+<project name="Seam" default="build" basedir="." xmlns:artifact="urn:maven-artifact-ant">
 
 	<tstamp />
 
@@ -79,6 +79,7 @@
 	
 	<!-- Build resources -->
 	<property name="build.dir" value="${basedir}/build" />
+	<property name="build.lib.dir" value="${build.dir}/lib" />
 	<property name="maven.dir" value="${build.dir}/maven" />
 
 	<!-- Documentation -->
@@ -176,6 +177,48 @@
 		<include name="**/*.png" />
 	</patternset>
 
+	
+	<!-- ########################## MAVEN2 #########################-->
+	
+	<target name="init.m2">
+		<path id="maven-ant-tasks.classpath" path="${build.lib.dir}/maven-ant-tasks.jar" />
+		<typedef 
+			resource="org/apache/maven/artifact/ant/antlib.xml" 
+			uri="urn:maven-artifact-ant" 
+			classpathref="maven-ant-tasks.classpath" />
+		
+		<artifact:pom file="${build.dir}/core.pom.xml" id="core.pom"/>
+		
+		<artifact:dependencies pathId="build.core.maven.path" versionsId="build.core.versions" useScope="compile">
+		     <pom refid="core.pom"/>
+		</artifact:dependencies>
+		
+		<path id="build.core.path">
+			<!-- Legacy jars -->
+			<fileset dir="${basedir}">
+				<!-- JBoss Cache (POJO), 1.4.1.GA -->
+				<include name="lib/jboss-cache-jdk50.jar" />
+				<include name="lib/jgroups.jar" />
+				<!-- Meldware -->
+				<include name="mail/buni-meldware/lib/*.jar" />
+				<!-- Drools -->
+				<include name="drools/lib/*.jar" />
+				<!-- Testng -->
+				<include name="lib/testng-*.jar" />
+				<!-- JBPM JPDL -->
+				<include name="lib/jbpm-jpdl.jar" />
+				<!-- Hibernate Search -->
+				<include name="lib/hibernate-search.jar" />
+				<include name="lib/hibernate-commons-annotations.jar" />
+				<!-- JBoss EL -->
+				<include name="lib/lucene-core-*.jar"/>
+				<include name="lib/jboss-el.jar" />
+				<!-- JBoss Embedded -->
+				<include name="lib/jboss-embedded-all.jar" />
+			</fileset>
+			<path refid="build.core.maven.path" />
+		</path>
+	</target>
 
 	<!-- ########################## BUILD TARGETS ##########################-->
 
@@ -225,8 +268,16 @@
 	<target name="compilecore" depends="initcore,select-compiler,antlr">
 		<compile classesdir="${classes.core.dir}" srcdir="${src.core.dir}" />
 	</target>
+	
+	<target name="compilecore.m2" depends="init.m2, initcore,select-compiler,antlr">
+		<compile classesdir="${classes.core.dir}" srcdir="${src.core.dir}" classpath="build.core.path" />
+	</target>
 
 	<target name="jarcore" depends="compilecore" description="Build the distribution .jar file for the core package">
+		<archive classesdir="${classes.core.dir}" module="jboss-seam" />
+	</target>
+	
+	<target name="jarcore.m2" depends="compilecore.m2" description="Build the distribution .jar file using M2 dependency management">
 		<archive classesdir="${classes.core.dir}" module="jboss-seam" />
 	</target>
 
@@ -394,9 +445,7 @@
 		<ant dir="examples/remoting/helloworld" target="undeploy" inheritall="false" />
 		<ant dir="examples/remoting/chatroom" target="undeploy" inheritall="false" />
 		<ant dir="examples/remoting/progressbar" target="undeploy" inheritall="false" />
-		<ant dir="examples/remoting/gwt" target="undeploy" inheritall="false" />
-		<ant dir="examples/hibernate2" target="undeploy" inheritall="false" />
-		<ant dir="examples/jpa" target="undeploy" inheritall="false" />
+		<ant dir="examples/remoting/gwt" target="undeploy" inheritall="false" />	
 		<ant dir="examples/groovybooking" target="undeploy" inheritall="false" />
 		<ant dir="examples/quartz" target="undeploy" inheritall="false" />
 		<ant dir="examples/wiki" target="undeploy" inheritall="false" />
@@ -733,11 +782,12 @@
 	<macrodef name="compile">
 		<attribute name="classesdir" />
 		<attribute name="srcdir" />
+		<attribute name="classpath" default="build.classpath"/>
 		<element name="compile.classpath" optional="true" />
 		<sequential>
 			<javac source="1.5" target="1.5" destdir="@{classesdir}" debug="${javac.debug}" deprecation="${javac.deprecation}" nowarn="on" srcdir="@{srcdir}">
 				<classpath>
-					<path refid="build.classpath" />
+					<path refid="@{classpath}" />
 					<compile.classpath />
 				</classpath>
 			</javac>
