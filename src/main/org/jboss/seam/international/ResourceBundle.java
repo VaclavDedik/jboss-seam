@@ -13,7 +13,7 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
  * 
  * @author Gavin King
  */
-@Scope(ScopeType.SESSION)
+@Scope(ScopeType.STATELESS)
 @BypassInterceptors
 @Name("org.jboss.seam.core.resourceBundleFactory")
 @Install(precedence=FRAMEWORK, dependencies="org.jboss.seam.international.locale")

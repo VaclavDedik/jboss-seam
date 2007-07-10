@@ -26,7 +26,6 @@ public class DroolsHandler
       
       for (String objectName: expressions)
       {
-         //TODO: delegate to jBPM instead of to JSF
          Object object = Expressions.instance().createValueExpression(objectName).getValue();
          //Object object = new SeamVariableResolver().resolveVariable(objectName);
          // assert the object into the rules engine

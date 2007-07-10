@@ -1,6 +1,6 @@
 package org.jboss.seam.core;
 
-import static org.jboss.seam.ScopeType.SESSION;
+import static org.jboss.seam.ScopeType.EVENT;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.util.ArrayList;
@@ -39,6 +39,11 @@ import org.jboss.seam.util.Strings;
 public class ResourceBundle 
 {
    
+   private static final long serialVersionUID = -3236251335438092538L;
+   private static final LogProvider log = Logging.getLogProvider(ResourceBundle.class);
+
+   private String[] bundleNames = {"messages"};
+
    protected java.util.Locale getCurrentLocale()
    {
       //TODO:
@@ -110,6 +115,8 @@ public class ResourceBundle
          String viewId = Pages.getCurrentViewId();
          if (viewId!=null)
          {
+            //we can't cache these bundles, since the viewId
+            //may change in the middle of a request
             return Pages.instance().getResourceBundles(viewId);
          }
          else
@@ -118,11 +125,6 @@ public class ResourceBundle
          }
       }
    }
-
-   private static final long serialVersionUID = -3236251335438092538L;
-   private static final LogProvider log = Logging.getLogProvider(ResourceBundle.class);
-
-   private String[] bundleNames = {"messages"};
 
    /**
     * The configurable list of delegate resource bundle names
@@ -198,14 +200,12 @@ public class ResourceBundle
    }
 
    /**
-    * Create a ResourceBundle in the session scope. The session scope is used because
-    * creating the bundle is somewhat expensive, so it can be cached there because
-    * the session Locale changes infrequently. When the Locale is changed, LocaleSelector
-    * is responsible for removing the ResourceBundle from the session context.
+    * Create a ResourceBundle in the event scope. When the Locale is changed, LocaleSelector
+    * is responsible for removing the ResourceBundle from the event context.
     * 
     * @return a ResourceBundle that wraps all the delegate bundles
     */
-   @Factory(value="org.jboss.seam.core.resourceBundle", autoCreate=true, scope=SESSION)
+   @Factory(value="org.jboss.seam.core.resourceBundle", autoCreate=true, scope=EVENT)
    public java.util.ResourceBundle getBundle()
    {
       return createUberBundle();

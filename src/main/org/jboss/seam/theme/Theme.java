@@ -1,6 +1,6 @@
 package org.jboss.seam.theme;
 
-import static org.jboss.seam.ScopeType.SESSION;
+import static org.jboss.seam.ScopeType.EVENT;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.util.AbstractMap;
@@ -104,13 +104,11 @@ public class Theme
    }
    
    /**
-    * Create a Map in the session scope. The session scope is used because
-    * creating the bundles is somewhat expensive, so it can be cached there because
-    * the session theme changes infrequently. When the theme is changed, ThemeSelector
-    * is responsible for removing the Map from the session context.
+    * Create a Map in the event scope. When the theme is changed, ThemeSelector
+    * is responsible for removing the Map from the event context.
     * 
     */
-   @Factory(value="org.jboss.seam.theme.theme", autoCreate=true, scope=SESSION)
+   @Factory(value="org.jboss.seam.theme.theme", autoCreate=true, scope=EVENT)
    public java.util.Map getTheme()
    {
       return createMap();

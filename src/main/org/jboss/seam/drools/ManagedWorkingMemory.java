@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import org.drools.RuleBase;
 import org.drools.StatefulSession;
+import org.drools.spi.GlobalResolver;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Destroy;
@@ -63,28 +64,39 @@ public class ManagedWorkingMemory implements Mutable, Serializable
    {
       if (statefulSession==null)
       {
-         RuleBase ruleBase;
-         if (this.ruleBase!=null)
-         {
-            ruleBase = this.ruleBase.getValue();
-         }
-         else if (ruleBaseName!=null)
-         {
-            //deprecated stuff
-            ruleBase = (RuleBase) Component.getInstance(ruleBaseName, true);
-         }
-         else
-         {
-            throw new IllegalStateException("No RuleBase");
-         }
-                
-         if (ruleBase==null)
-         {
-            throw new IllegalStateException("RuleBase not found: " + ruleBaseName);
-         }
-         statefulSession = ruleBase.newStatefulSession();
+         statefulSession = getRuleBaseFromValueBinding().newStatefulSession();
+         statefulSession.setGlobalResolver( createGlobalResolver() );
       }
       return statefulSession;
+   }
+
+   protected RuleBase getRuleBaseFromValueBinding()
+   {
+      RuleBase ruleBase;
+      if (this.ruleBase!=null)
+      {
+         ruleBase = this.ruleBase.getValue();
+      }
+      else if (ruleBaseName!=null)
+      {
+         //deprecated stuff
+         ruleBase = (RuleBase) Component.getInstance(ruleBaseName, true);
+      }
+      else
+      {
+         throw new IllegalStateException("No RuleBase");
+      }
+             
+      if (ruleBase==null)
+      {
+         throw new IllegalStateException("RuleBase not found: " + ruleBaseName);
+      }
+      return ruleBase;
+   }
+
+   protected GlobalResolver createGlobalResolver()
+   {
+      return new SeamGlobalResolver();
    }
    
    @Destroy

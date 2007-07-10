@@ -17,13 +17,15 @@ import org.jbpm.taskmgmt.exe.Assignable;
 public class DroolsAssignmentHandler extends DroolsHandler implements AssignmentHandler
 {
    private static final long serialVersionUID = -7114640047036854546L;
+   
    public String workingMemoryName;
    public List<String> assertObjects;
-   public void assign(Assignable assignable, ExecutionContext executionContext)
-         throws Exception
+   
+   public void assign(Assignable assignable, ExecutionContext executionContext) throws Exception
    {
       WorkingMemory workingMemory = getWorkingMemory(workingMemoryName, assertObjects, executionContext);
       workingMemory.setGlobal( "assignable", assignable );
       workingMemory.fireAllRules();
    }
+   
 }

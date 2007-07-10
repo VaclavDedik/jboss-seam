@@ -15,12 +15,10 @@ import org.jbpm.graph.exe.ExecutionContext;
 public class DroolsActionHandler extends DroolsHandler implements ActionHandler
 {
    private static final long serialVersionUID = 7752070876220597913L;
+   
    public List<String> assertObjects;
    public String workingMemoryName;
-   /**
-    * The FireRulesActionHandler gets variables from the Instance, and asserts
-    * them into the Rules Engine and invokes the rules.
-    */
+   
    public void execute(ExecutionContext executionContext) throws Exception
    {
       getWorkingMemory(workingMemoryName, assertObjects, executionContext).fireAllRules();
