@@ -18,7 +18,6 @@
 	<classpathentry kind="lib" path="lib/jsf-facelets.jar"/>
 	<classpathentry kind="lib" path="lib/activation.jar"/>
 	<classpathentry kind="lib" path="lib/spring.jar"/>
-	<classpathentry kind="lib" path="lib/itext-2.0.1.jar"/>
 	<classpathentry kind="lib" path="lib/jboss-jaxws.jar"/>
 	<classpathentry kind="lib" path="lib/jboss-el-api.jar"/>
 	<classpathentry kind="lib" path="lib/jboss-el.jar"/>
@@ -49,5 +48,6 @@
 	<classpathentry kind="lib" path="lib/ant-nodeps.jar"/>
 	<classpathentry kind="lib" path="lib/jcommon-1.0.10.jar"/>
 	<classpathentry kind="lib" path="lib/jfreechart-1.0.6.jar"/>
+	<classpathentry kind="lib" path="lib/itext-2.0.4.jar"/>
 	<classpathentry kind="output" path="output/classes"/>
 </classpath>

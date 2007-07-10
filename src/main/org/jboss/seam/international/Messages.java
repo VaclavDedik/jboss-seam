@@ -19,6 +19,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Interpolator;
+import org.jboss.seam.core.ResourceBundle;
 
 /**
  * Factory for a Map that interpolates messages defined in the
