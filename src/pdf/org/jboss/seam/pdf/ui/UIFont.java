@@ -1,11 +1,7 @@
 package org.jboss.seam.pdf.ui;
 
-import java.awt.Color;
-
 import javax.faces.context.*;
-
 import org.jboss.seam.pdf.ITextUtils;
-
 import com.lowagie.text.*;
 
 public class UIFont
@@ -15,13 +11,34 @@ public class UIFont
 
     Font   font; 
     
-    String familyName;
+    String name;
+    String encoding;
     int    size   = Font.UNDEFINED;
     String style; 
-    Color  color;
+    String color;
 
-    public void setFamily(String familyName) {
-        this.familyName = familyName;
+    public String getName() {
+        return (String) valueBinding("name", name);
+    }
+
+    public void setFamily(String name) {
+        this.name = name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+       
+    public String getEncoding() {
+        return (String) valueBinding("encoding", encoding);
+    }
+
+    public void setEncoding(String encoding) {
+        this.encoding = encoding;
+    }
+
+    public int getSize() {
+        return (Integer) valueBinding("size", size);
     }
 
     public void setSize(int size) {
@@ -31,11 +48,19 @@ public class UIFont
     public void setStyle(String style) {
         this.style = style;
     }
+    public String getStyle() {
+        return (String) valueBinding("style", style);
+    }
     
-    public void setColor(String color) {
-        this.color = ITextUtils.colorValue(color);
+    public String getColor() {
+        return (String) valueBinding("color", color);
     }
 
+    public void setColor(String color) {
+        this.color = color;
+    }
+    
+    
     @Override
     public Font getFont() {
         return font;
@@ -52,20 +77,19 @@ public class UIFont
     }
     
     @Override
-    public void createITextObject(FacesContext context) {
-        familyName = (String) valueBinding(context, "familyName", familyName);
-        int family = (familyName==null) ? Font.UNDEFINED :  Font.getFamilyIndex(familyName);        
-        size = (Integer) valueBinding(context, "size", size);        
-        
-        font = new Font(family, size);
-
-        style = (String) valueBinding(context, "style", style);
-        if (style != null) {
-            font.setStyle(style);
+    public void createITextObject(FacesContext context) {    
+        if (encoding == null) {
+            font = FontFactory.getFont(getName(), getSize());
+        } else {
+            font = FontFactory.getFont(getName(), getEncoding(), getSize());
         }
         
-        if (color != null) {
-            font.setColor(color);
+        if (getStyle() != null) {
+            font.setStyle(getStyle());
+        }
+        
+        if (getColor() != null) {
+            font.setColor(ITextUtils.colorValue(getColor()));
         }
     }
 
@@ -73,4 +97,6 @@ public class UIFont
     public void handleAdd(Object o) {
         addToITextParent(o);
     }
+
+
 }
