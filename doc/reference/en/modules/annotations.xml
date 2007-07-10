@@ -351,6 +351,13 @@
                                 <literal>scope</literal> &#8212; specifies the scope that Seam should bind the
                                 returned value to. Only meaningful for factory methods which return a value. </para>
                         </listitem>
+                        <listitem>
+                        	<para>
+                        		<literal>autoCreate</literal> &#8212; specifies that this factory method should be 
+                        		automatically called whenever the variable is asked for, even if @In does not specify 
+                        		create=true. 
+                        	</para>
+                        </listitem>
                     </itemizedlist>
                 </listitem>
             </varlistentry>
