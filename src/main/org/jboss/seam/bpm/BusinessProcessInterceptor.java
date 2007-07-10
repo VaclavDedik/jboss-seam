@@ -22,7 +22,6 @@ import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.web.Parameters;
-import org.jboss.util.Strings;
 
 /**
  * Implements annotation-based business-process demarcation.
@@ -144,7 +143,7 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
    private Long getProcessOrTaskId(String paramName, String el)
    {
       Object id;
-      if ( Strings.isEmpty(paramName) )
+      if ( paramName == null || "".equals(paramName) )
       {
          id = Expressions.instance().createValueExpression(el).getValue();
       }
