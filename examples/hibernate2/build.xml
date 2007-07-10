@@ -2,27 +2,27 @@
 
 <project name="Hibernate Booking" default="jboss" basedir=".">
 
-   <target name="jboss" description="Build the Hibernate artifacts, suitable for deployment to JBoss 4.2.0.GA">
+   <target name="jboss" description="Build the Hibernate Booking example artifacts, suitable for deployment to JBoss 4.2.0.GA">
      	<ant antfile="build-jboss.xml"/>
    </target>
 
-   <target name="jboss405" description="Build the Hibernate artifacts, suitable for deployment to JBoss 4.0.5.GA">
+   <target name="jboss405" description="Build the Hibernate Booking example artifacts, suitable for deployment to JBoss 4.0.5.GA">
      	<ant antfile="build-jboss405.xml"/>
    </target>
 
-   <target name="glassfish" description="Build the Hibernate artifacts, suitable for deployment to Glassfish V2">
+   <target name="glassfish" description="Build the Hibernate Booking example artifacts, suitable for deployment to Glassfish V2">
      	<ant antfile="build-glassfish.xml"/>
    </target>
 
-   <target name="weblogic92" description="Build the Hibernate artifacts, suitable for deployment to WebLogic 9.2">
+   <target name="weblogic92" description="Build the Hibernate Booking example artifacts, suitable for deployment to WebLogic 9.2">
      	<ant antfile="build-weblogic92.xml"/>
    </target>
 
-   <target name="websphere61" description="Build the Hibernate artifacts, suitable for deployment to WebSphere 6.1.0.9">
+   <target name="websphere61" description="Build the Hibernate Booking example artifacts, suitable for deployment to WebSphere 6.1.0.9">
      	<ant antfile="build-websphere61.xml"/>
    </target>
 
-   <target name="tomcat" description="Build the Hibernate artifacts, suitable for deployment to Tomcat 5.5">
+   <target name="tomcat" description="Build the Hibernate Booking example artifacts, suitable for deployment to Tomcat 5.5">
      	<ant antfile="build-tomcat.xml"/>
    </target>
 
@@ -35,7 +35,7 @@
     	<ant antfile="build-tomcat.xml" target="clean" />
    </target>
 
-   <target name="all" depends="jboss, jboss405, glassfish, weblogic92, websphere61, tomcat"/>
+   <target name="all" depends="jboss, jboss405, glassfish, weblogic92, websphere61, tomcat" description="Build Hibernate Booking example, for deployment to all supported application servers"/>
 
 </project>
 
