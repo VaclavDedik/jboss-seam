@@ -96,6 +96,11 @@
 		<exclude name="**/*" />
 	</fileset>
 
+	<!-- Added to the ear lib directory on build -->
+	<fileset id="ear.lib.extras" dir=".">
+		<exclude name="**/*" />
+	</fileset>
+
 	<!-- Added to the tomcat war root on build -->
 	<fileset id="tomcat.war.extras" dir=".">
 		<exclude name="**/*" />
@@ -459,6 +464,7 @@
 		</copy>
 		<mkdir dir="${ear.dir}/lib" />
 		<copy todir="${ear.dir}/lib">
+			<fileset refid="ear.lib.extras" />
 			<fileset refid="jboss-el.jar" />
 			<fileset refid="drools.jar" />
 			<fileset refid="jbpm.jar" />
