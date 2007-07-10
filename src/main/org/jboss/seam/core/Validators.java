@@ -75,9 +75,9 @@ public class Validators
     */
    public <T> ClassValidator<T> getValidator(Class<T> modelClass)
    {
-      java.util.ResourceBundle bundle = ResourceBundle.instance();
+      java.util.ResourceBundle bundle = SeamResourceBundle.getBundle();
       Locale none = bundle==null ? new Locale("NONE") : bundle.getLocale();
-      Key key = new Key( modelClass, none );
+      Key key = new Key(modelClass, none);
       ClassValidator result = classValidators.get(key);
       if (result==null)
       {
@@ -96,7 +96,7 @@ public class Validators
     */
    protected <T> ClassValidator<T> createValidator(Class<T> modelClass)
    {
-      java.util.ResourceBundle bundle = ResourceBundle.instance();
+      java.util.ResourceBundle bundle = SeamResourceBundle.getBundle();
       return bundle==null ? 
             new ClassValidator(modelClass) : 
             new ClassValidator(modelClass, bundle);

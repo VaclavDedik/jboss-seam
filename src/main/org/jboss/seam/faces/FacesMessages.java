@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
@@ -24,7 +25,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Interpolator;
-import org.jboss.seam.core.ResourceBundle;
+import org.jboss.seam.core.SeamResourceBundle;
 import org.jboss.seam.util.Strings;
 
 /**
@@ -68,9 +69,11 @@ public class FacesMessages implements Serializable
       FacesMessage toFacesMessage()
       {
          Severity severity = null;
-         for (Object o : FacesMessage.VALUES) {
+         for (Object o : FacesMessage.VALUES) 
+         {
             severity = (Severity) o;
-            if (severity.getOrdinal() == severityOrdinal) {
+            if (severity.getOrdinal() == severityOrdinal) 
+            {
                break;
             }
          }
@@ -313,12 +316,12 @@ public class FacesMessages implements Serializable
       addToTasks(id, severity, key, defaultMessageTemplate, params);
    }
 
-   private static String interpolateBundleMessage(String key, String defaultMessageTemplate)
+   private static String getBundleMessage(String key, String defaultMessageTemplate)
    {
       String messageTemplate = defaultMessageTemplate;
       if ( key!=null )
       {
-         java.util.ResourceBundle resourceBundle = ResourceBundle.instance();
+         ResourceBundle resourceBundle = SeamResourceBundle.getBundle();
          if ( resourceBundle!=null ) 
          {
             try
@@ -370,7 +373,7 @@ public class FacesMessages implements Serializable
    
    public static FacesMessage createFacesMessage(Severity severity, String key, String defaultMessageTemplate, Object... params)
    {
-      String message = interpolateBundleMessage(key, defaultMessageTemplate);
+      String message = getBundleMessage(key, defaultMessageTemplate);
       if ( !Strings.isEmpty(message) )
       {
          return createFacesMessage( severity, message, params );

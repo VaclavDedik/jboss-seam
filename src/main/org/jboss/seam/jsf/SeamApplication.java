@@ -194,15 +194,17 @@ public class SeamApplication extends Application
    @Override
    public String getMessageBundle()
    {
-      String messageBundle = application.getMessageBundle();
+      return application.getMessageBundle();
+      //obsolete, now handled by faces-config.xml:
+      /*String messageBundle = application.getMessageBundle();
       if (messageBundle!=null)
       {
          return messageBundle;
       }
       else
       {
-         return "org.jboss.seam.jsf.SeamApplicationMessageBundle";
-      }
+         return "org.jboss.seam.core.SeamResourceBundle";
+      }*/
    }
 
    @Override

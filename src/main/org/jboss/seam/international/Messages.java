@@ -18,14 +18,13 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.core.Interpolator;
-import org.jboss.seam.core.ResourceBundle;
+import org.jboss.seam.core.SeamResourceBundle;
 
 /**
- * Factory for a Map that interpolates messages defined in the
+ * Factory for a Map that contains interpolated messages defined in the
  * Seam ResourceBundle.
  * 
- * @see org.jboss.seam.core.ResourceBundle
+ * @see org.jboss.seam.core.SeamResourceBundle
  * 
  * @author Gavin King
  */
@@ -41,7 +40,7 @@ public class Messages
    {  
       return new AbstractMap<String, String>()
       {
-         private java.util.ResourceBundle bundle = ResourceBundle.instance();
+         private java.util.ResourceBundle bundle = SeamResourceBundle.getBundle();
 
          @Override
          public String get(Object key) 
@@ -61,9 +60,7 @@ public class Messages
                      //Just swallow
                   }
                }
-               return resource==null ?
-                     resourceKey :
-                     Interpolator.instance().interpolate(resource);
+               return resource==null ? resourceKey : resource;
             }
             else
             {

@@ -12,6 +12,7 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
 import org.hibernate.validator.InvalidValue;
+import org.jboss.seam.core.SeamResourceBundle;
 import org.jboss.seam.core.Validators;
 import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.faces.FacesMessages;
@@ -246,14 +247,7 @@ public final class Param
 
    private void addRequiredMessage(FacesContext facesContext)
    {
-      String bundleName = facesContext.getApplication().getMessageBundle();
-      if (bundleName==null) bundleName = FacesMessage.FACES_MESSAGES;
-      ResourceBundle resourceBundle = facesContext.getApplication().getResourceBundle(facesContext, bundleName);
-      //TODO: this should not be necessary!
-      if (resourceBundle==null)
-      {
-         resourceBundle = org.jboss.seam.core.ResourceBundle.instance();
-      }
+      ResourceBundle resourceBundle = SeamResourceBundle.getBundle();
       throw new ValidatorException( new FacesMessage(
                FacesMessage.SEVERITY_ERROR, 
                resourceBundle.getString("javax.faces.component.UIInput.REQUIRED"), 
