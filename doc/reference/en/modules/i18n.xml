@@ -11,7 +11,7 @@
         <para>
             Each user login session has an associated instance of
             <literal>java.util.Locale</literal> (available to the 
-            application as a session-scoped component named 
+            application as a component named 
             <literal>locale</literal>). Under normal circumstances,
             you won't need to do any special configuration to set
             the locale. Seam just delegates to JSF to determine

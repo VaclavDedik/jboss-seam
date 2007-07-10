@@ -1,6 +1,8 @@
-package org.jboss.seam.international;
+package org.jboss.seam.web;
 
 import static org.jboss.seam.annotations.Install.FRAMEWORK;
+
+import javax.servlet.ServletRequest;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
@@ -8,17 +10,16 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
-import org.jboss.seam.contexts.Contexts;
 
 /**
  * Manager component for the current locale that is
- * aware of the selected locale
+ * aware of the HTTP request locale
  * 
  * @author Gavin King
  */
 @Scope(ScopeType.STATELESS)
 @Name("org.jboss.seam.core.locale")
-@Install(precedence=FRAMEWORK, dependencies="org.jboss.seam.international.localeSelector")
+@Install(precedence=FRAMEWORK-1)
 @BypassInterceptors
 public class Locale extends org.jboss.seam.core.Locale
 {
@@ -26,9 +27,8 @@ public class Locale extends org.jboss.seam.core.Locale
    @Unwrap @Override
    public java.util.Locale getLocale()
    {
-      return Contexts.isSessionContextActive() ?
-            LocaleSelector.instance().getLocale() :
-            super.getLocale();
+      ServletRequest request = ServletContexts.instance().getRequest();
+      return request==null ? super.getLocale() : request.getLocale();
    }
    
 }

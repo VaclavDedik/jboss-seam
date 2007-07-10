@@ -15,7 +15,7 @@ import org.jboss.seam.international.LocaleSelector;
  * Allows the JSF view locale to be integrated with
  * the locale coming from Seam internationalization.
  * 
- * @see org.jboss.seam.international.Locale
+ * @see org.jboss.seam.international.LocaleSelector
  * 
  * @author Gavin King
  *

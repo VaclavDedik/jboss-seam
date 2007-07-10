@@ -13,7 +13,6 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.international.Locale;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 

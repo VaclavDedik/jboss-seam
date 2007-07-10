@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.Locale;
 import java.util.MissingResourceException;
 
 import org.jboss.seam.Component;
@@ -43,12 +42,6 @@ public class ResourceBundle
    private static final LogProvider log = Logging.getLogProvider(ResourceBundle.class);
 
    private String[] bundleNames = {"messages"};
-
-   protected java.util.Locale getCurrentLocale()
-   {
-      //TODO:
-      return Locale.getDefault();
-   }
    
    public class UberResourceBundle extends java.util.ResourceBundle
    {
@@ -62,7 +55,7 @@ public class ResourceBundle
       @Override
       public java.util.Locale getLocale()
       {
-         return getCurrentLocale();
+         return org.jboss.seam.core.Locale.instance();
       }
 
       @Override
@@ -166,7 +159,7 @@ public class ResourceBundle
       {
          java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle( 
                bundleName, 
-               getCurrentLocale(), 
+               org.jboss.seam.core.Locale.instance(), 
                Thread.currentThread().getContextClassLoader() 
             );
          log.debug("loaded resource bundle: " + bundleName);

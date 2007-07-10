@@ -283,10 +283,10 @@
         
     	<variablelist spacing="compact">
             <varlistentry>
-                <term><literal>org.jboss.seam.international.locale</literal></term>
+                <term><literal>org.jboss.seam.core.locale</literal></term>
                 <listitem>
                     <para>
-                        The Seam locale. The locale is session scoped.
+                        The Seam locale.
                     </para>
                 </listitem>
             </varlistentry>

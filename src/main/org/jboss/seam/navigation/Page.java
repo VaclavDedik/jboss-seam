@@ -10,7 +10,7 @@ import javax.faces.context.FacesContext;
 
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Interpolator;
-import org.jboss.seam.international.Locale;
+import org.jboss.seam.core.Locale;
 import org.jboss.seam.security.Identity;
 
 /**

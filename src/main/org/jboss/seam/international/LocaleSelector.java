@@ -12,11 +12,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
@@ -161,11 +159,7 @@ public class LocaleSelector extends Selector
       ServletRequest request = ServletContexts.instance().getRequest();
       if (request!=null)
       {
-         Locale requestLocale = ( (HttpServletRequest) request ).getLocale();
-         if (requestLocale!=null)
-         {
-            return calculateLocale(requestLocale);
-         }
+         return calculateLocale( request.getLocale() );
       }
 
       return calculateLocale( Locale.getDefault() );

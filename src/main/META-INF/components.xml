@@ -20,6 +20,7 @@
   <factory scope="stateless" auto-create="true" name="resourceBundle" value="#{org.jboss.seam.core.resourceBundle}"/>
   <factory scope="stateless" auto-create="true" name="transaction" value="#{org.jboss.seam.transaction.transaction}" />
   <factory scope="stateless" auto-create="true" name="pojoCache" value="#{org.jboss.seam.core.pojoCache}"/>
+  <factory scope="stateless" auto-create="true" name="locale" value="#{org.jboss.seam.core.locale}"/>
 
   <factory scope="stateless" auto-create="true" name="pageflow" value="#{org.jboss.seam.pageflow.pageflow}"/>
 
@@ -50,7 +51,6 @@
   <factory scope="stateless" auto-create="true" name="taskInstanceListForType" value="#{org.jboss.seam.bpm.taskInstanceListForType}"/>
   <factory scope="stateless" auto-create="true" name="taskInstancePriorityList" value="#{org.jboss.seam.bpm.taskInstancePriorityList}"/>
 
-  <factory scope="stateless" auto-create="true" name="locale" value="#{org.jboss.seam.international.locale}"/>
   <factory scope="stateless" auto-create="true" name="localeSelector" value="#{org.jboss.seam.international.localeSelector}"/>
   <factory scope="stateless" auto-create="true" name="messages" value="#{org.jboss.seam.international.messages}"/>
   <factory scope="stateless" auto-create="true" name="timeZone" value="#{org.jboss.seam.international.timeZone}"/>
