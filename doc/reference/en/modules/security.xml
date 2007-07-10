@@ -203,6 +203,31 @@ public class Authenticator {
         In this case, if the user record is not found and a <literal>NoResultException</literal> thrown, the
         authentication method returns <literal>false</literal> to indicate the authentication failed.
       </para>
+      
+      <sect3>
+        <title>Identity.addRole()</title>
+        
+        <para>
+          The <literal>Identity.addRole()</literal> method behaves differently depending on whether the current
+          session is authenticated or not.  If the session is not authenticated, then <literal>addRole()</literal> 
+          should <emphasis>only</emphasis> be called during the authentication process.  When called here, the
+          role name is placed into a temporary list of pre-authenticated roles.  Once authentication is successful,
+          the pre-authenticated roles then become "real" roles, and calling <literal>Identity.hasRole()</literal>
+          for those roles will then return true.  The following sequence diagram represents the list of pre-authenticated
+          roles as a first class object to show more clearly how it fits in to the authentication process.
+        
+        </para>
+        
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/security-addrole.png" align="center"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/security-addrole.png" align="center"/>
+          </imageobject>
+        </mediaobject>        
+        
+      </sect3>
 
     </sect2>
 
