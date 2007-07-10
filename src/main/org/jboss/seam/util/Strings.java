@@ -12,10 +12,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.StringTokenizer;
 
-
 /**
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
- * @version $Revision$
  */
 public class Strings
 {

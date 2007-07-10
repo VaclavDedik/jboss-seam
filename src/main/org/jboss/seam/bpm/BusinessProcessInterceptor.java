@@ -21,6 +21,7 @@ import org.jboss.seam.intercept.AbstractInterceptor;
 import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.util.Strings;
 import org.jboss.seam.web.Parameters;
 
 /**
@@ -143,7 +144,7 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
    private Long getProcessOrTaskId(String paramName, String el)
    {
       Object id;
-      if ( paramName == null || "".equals(paramName) )
+      if ( Strings.isEmpty(paramName) )
       {
          id = Expressions.instance().createValueExpression(el).getValue();
       }
