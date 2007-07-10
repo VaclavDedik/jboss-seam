@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pages xmlns="http://jboss.com/products/seam/pages"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.0.xsd">
+<pages xmlns="http://jboss.com/products/seam/pages" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.0.xsd">    
+    <exception class="org.jboss.seam.example.pdf.MeaninglessException">
+        <end-conversation />
+        <redirect view-id="/meaningless.xhtml">
+            <message severity="ERROR">Frobble!</message>
+        </redirect>
+    </exception>
 
-   <page view-id="/search.xhtml">
-      <param name="accountId" value="#{accountHome.id}" converterId="javax.faces.Long" />
-   </page>
-
-   <exception>
-      <end-conversation/>
-      <redirect view-id="/error.xhtml"/>
-   </exception>
+    <exception>
+        <end-conversation/>
+        <redirect view-id="/error.xhtml"/>
+    </exception>
 
 </pages>
