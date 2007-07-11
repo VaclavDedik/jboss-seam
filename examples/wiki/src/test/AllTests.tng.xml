@@ -3,9 +3,13 @@
 <suite name="AllTests" verbose="1">
 
     <test name="Documents">
+
+        <parameter name="datasourceJndiName" value="java:/wikiTestDatasource"/>
+
         <packages>
             <package name="org.jboss.seam.wiki.test.documents"/>
         </packages>
+
     </test>
 
 </suite>

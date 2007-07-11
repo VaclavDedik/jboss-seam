@@ -440,11 +440,6 @@
         <copy tofile="${testclasses.dir}/wiki-ds.xml"
                 file="${src.etc.dir}/wiki-test-ds.xml"
            overwrite="true"/>
-        <copy tofile="${testclasses.dir}/import.sql"
-                file="${src.etc.dir}/import-test.sql"
-           overwrite="true"/>
-        <!-- Replace @@LF@@ in import.sql with real SQL char(10) linefeed (concat)-->
-        <replace file="${testclasses.dir}/import.sql" token="@@LF@@" value="'||char(10)||'"/>
 
         <!-- ######## Test output ######## -->
         <delete  dir="${test.output.dir}"/>

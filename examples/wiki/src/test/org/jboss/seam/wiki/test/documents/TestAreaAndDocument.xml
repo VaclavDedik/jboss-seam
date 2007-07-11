@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+
+<dataset>
+
+    <NODE
+        NODE_ID  = "100"
+        NODE_TYPE = "DIRECTORY"
+        NODE_REVISION  = "1"
+        OBJ_VERSION  = "0"
+        AREA_NR  = "100"
+        PARENT_NODE_ID  = "1"
+        NODE_POSITION  = "1"
+
+        NAME  = "Test Area"
+        WIKINAME  = "TestArea"
+        READ_ACCESS_LEVEL  = "0"
+        WRITE_ACCESS_LEVEL  = "0"
+
+        MENU_ITEM  = "true"
+
+        CREATED_ON  = "2006-09-23 13:45:00"
+        CREATED_BY_USER_ID  = "1"
+
+        LAST_MODIFIED_ON  = "2006-09-23 13:45:00"
+        LAST_MODIFIED_BY_USER_ID  = "1"
+
+        DEFAULT_DOCUMENT_ID  = "4"
+
+        NAME_AS_TITLE  = "[NULL]"
+        ENABLE_COMMENT_FORM  = "[NULL]"
+        ENABLE_COMMENTS  = "[NULL]"
+        CONTENT  = "[NULL]"
+    />
+
+    <NODE
+        NODE_ID  = "101"
+        NODE_TYPE = "DOCUMENT"
+        NODE_REVISION  = "1"
+        OBJ_VERSION  = "0"
+        AREA_NR  = "100"
+        PARENT_NODE_ID  = "100"
+        NODE_POSITION  = "0"
+
+        NAME  = "Test Document"
+        WIKINAME  = "TestDocument"
+        READ_ACCESS_LEVEL  = "0"
+        WRITE_ACCESS_LEVEL  = "0"
+
+        MENU_ITEM  = "true"
+
+        CREATED_ON  = "2006-09-23 13:45:00"
+        CREATED_BY_USER_ID  = "1"
+
+        LAST_MODIFIED_ON  = "2006-09-23 13:45:00"
+        LAST_MODIFIED_BY_USER_ID  = "1"
+
+        DEFAULT_DOCUMENT_ID  = "[NULL]"
+
+        NAME_AS_TITLE  = "true"
+        ENABLE_COMMENT_FORM  = "true"
+        ENABLE_COMMENTS  = "true"
+        CONTENT  = "This is a *test* document."
+    />
+
+</dataset>

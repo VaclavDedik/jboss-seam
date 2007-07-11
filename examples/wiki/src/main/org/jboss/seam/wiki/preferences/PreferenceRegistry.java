@@ -1,6 +1,7 @@
 package org.jboss.seam.wiki.preferences;
 
 import org.jboss.seam.annotations.*;
+import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Component;
 import org.jboss.seam.log.Log;
@@ -27,7 +28,7 @@ public class PreferenceRegistry {
     SortedSet<PreferenceComponent> preferenceComponents = new TreeSet<PreferenceComponent>();
     Map<String, PreferenceComponent> preferenceComponentsByName = new HashMap<String, PreferenceComponent>();
 
-    @Create
+    @Observer("Wiki.started")
     public void scanPreferenceComponents() {
         log.debug("initializing preference registry");
 

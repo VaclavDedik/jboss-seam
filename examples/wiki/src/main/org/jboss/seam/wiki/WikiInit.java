@@ -2,6 +2,7 @@ package org.jboss.seam.wiki;
 
 import org.hibernate.jmx.StatisticsService;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.core.Events;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.log.Log;
@@ -22,8 +23,8 @@ public class WikiInit {
 
     private ObjectName hibernateMBeanName;
 
-    @Create
-    public void init() throws Exception {
+    @Observer("org.jboss.seam.postInitialization")
+    public void initWiki() throws Exception {
         log.info("Starting LaceWiki...");
 
         //System.out.println(listJNDITree("java:"));
@@ -34,6 +35,7 @@ public class WikiInit {
         mBean.setSessionFactoryJNDIName("SessionFactories/laceWikiSF");
         ManagementFactory.getPlatformMBeanServer().registerMBean(mBean, hibernateMBeanName);
 
+        Events.instance().raiseEvent("Wiki.started");
         log.info("Started LaceWiki");
     }
 

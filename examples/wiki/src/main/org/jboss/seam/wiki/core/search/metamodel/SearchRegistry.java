@@ -1,6 +1,7 @@
 package org.jboss.seam.wiki.core.search.metamodel;
 
 import org.jboss.seam.annotations.*;
+import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.wiki.core.search.annotations.*;
 import org.jboss.seam.core.Events;
@@ -25,7 +26,7 @@ import java.beans.Introspector;
  */
 @Name("searchRegistry")
 @Scope(ScopeType.APPLICATION)
-@Startup(depends = "wikiInit")
+@Startup
 public class SearchRegistry {
 
     @Logger
@@ -34,7 +35,7 @@ public class SearchRegistry {
     Map<String, SearchableEntity> searchableEntitiesByName = new HashMap<String, SearchableEntity>();
     List<SearchableEntity> searchableEntities = new ArrayList<SearchableEntity>();
 
-    @Create
+    @Observer("Wiki.started")
     public void scanForSearchSupportComponents() {
 
         log.debug("initializing search registry");
