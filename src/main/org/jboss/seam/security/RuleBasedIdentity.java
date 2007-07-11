@@ -13,7 +13,7 @@ import java.util.List;
 
 import org.drools.FactHandle;
 import org.drools.RuleBase;
-import org.drools.WorkingMemory;
+import org.drools.StatefulSession;
 import org.drools.base.ClassObjectFilter;
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Install;
@@ -42,7 +42,7 @@ public class RuleBasedIdentity extends Identity
    
    private static final LogProvider log = Logging.getLogProvider(RuleBasedIdentity.class);
    
-   private WorkingMemory securityContext;
+   private StatefulSession securityContext;
    
    private RuleBase securityRules;  
    
@@ -77,7 +77,7 @@ public class RuleBasedIdentity extends Identity
    {
       super.postAuthenticate();
       
-      WorkingMemory securityContext = getSecurityContext();
+      StatefulSession securityContext = getSecurityContext();
 
       if (securityContext != null)
       {
@@ -110,7 +110,7 @@ public class RuleBasedIdentity extends Identity
    @Override
    public boolean hasPermission(String name, String action, Object...arg)
    {      
-      WorkingMemory securityContext = getSecurityContext();
+      StatefulSession securityContext = getSecurityContext();
       
       if (securityContext == null) return false;      
       
@@ -152,7 +152,7 @@ public class RuleBasedIdentity extends Identity
    @Override
    protected void unAuthenticate()
    {
-      WorkingMemory securityContext = getSecurityContext();
+      StatefulSession securityContext = getSecurityContext();
       
       if (securityContext != null)
       {
@@ -171,7 +171,7 @@ public class RuleBasedIdentity extends Identity
    {
       if (super.addRole(role)) 
       {
-         WorkingMemory securityContext = getSecurityContext();
+         StatefulSession securityContext = getSecurityContext();
          
          if (securityContext != null)
          {
@@ -186,7 +186,7 @@ public class RuleBasedIdentity extends Identity
    @Override
    public void removeRole(String role)
    {
-      WorkingMemory securityContext = getSecurityContext();      
+      StatefulSession securityContext = getSecurityContext();      
       
       if (securityContext != null)
       {
@@ -207,12 +207,12 @@ public class RuleBasedIdentity extends Identity
    }
    
    
-   public WorkingMemory getSecurityContext()
+   public StatefulSession getSecurityContext()
    {
       return securityContext;
    }
    
-   public void setSecurityContext(WorkingMemory securityContext)
+   public void setSecurityContext(StatefulSession securityContext)
    {
       this.securityContext = securityContext;
    }
