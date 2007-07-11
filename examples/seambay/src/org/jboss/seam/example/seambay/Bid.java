@@ -4,12 +4,13 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
 public class Bid implements Serializable
 {
-   private static final long serialVersionUID = 1L;
+   private static final long serialVersionUID = -6214050645831251660L;
    
    private Integer bidId;
    private Auction auction;
@@ -17,7 +18,7 @@ public class Bid implements Serializable
    private Date bidDate;
    private double amount;
    
-   @Id
+   @Id @GeneratedValue
    public Integer getBidId()
    {
       return bidId;

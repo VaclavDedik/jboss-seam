@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html">
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>seamBay - Search Results</title>
+    <link href="#{facesContext.externalContext.requestContextPath}/style/common.css" rel="stylesheet" type="text/css"/>
+    <link href="#{facesContext.externalContext.requestContextPath}/style/bid.css" rel="stylesheet" type="text/css"/>    
+  </head>
+
+  <body>
+    <div class="container">
+      <ui:include src="header.xhtml"/>  
+      
+      <div class="banner"></div>
+      
+      <h:messages globalOnly="true"/>
+      
+      <br class="clear"/>
+                
+      <div class="actionHeader">
+        Please confirm your bid
+      </div>      
+      
+      <div class="actionContent">
+        <div class="actionTitle">
+          <span>You are bidding on: </span>
+          #{bidAction.bid.auction.title}
+        </div>      
+        
+        <div class="bidContent">
+
+          <hr class="blueLine"/>
+          
+          <h:form>
+
+            <div class="bidRow">
+              <h:outputLabel>Current bid:</h:outputLabel>
+              <span>$ </span><h:outputText value="#{auction.price}">
+                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>              
+              </h:outputText>
+            </div>
+          
+            <div class="bidRow">
+              <h:outputLabel for="bidAmount">Your maximum bid:</h:outputLabel>
+              <span>$ </span>
+              <h:inputText id="bidAmount" value="#{bidAction.bid.amount}" required="true">
+                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>              
+              </h:inputText>
+              <div class="validationError"><h:message for="bidAmount"/></div>
+            </div>
+            
+            <h:commandButton styleClass="placeBid" action="#{bidAction.confirmBid}" value="Confirm Bid >"/>
+            
+          </h:form>
+          
+        </div>
+      </div>
+        
+    </div>
+  </body>
+</html>

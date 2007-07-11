@@ -48,7 +48,6 @@ public class AuctionAction implements Serializable
    private String imageContentType;
    private boolean primaryImage;
    
-   
    @Begin(join = true)
    @SuppressWarnings("unchecked")
    public void createAuction()

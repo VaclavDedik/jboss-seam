@@ -150,3 +150,64 @@ div.descriptionContent hr {
 div.images {
   text-align: center;
 }
+
+div.actionHeader {
+  clear: both;
+  background-color: #eeeeff;
+  font-family: tahoma, verdana, arial, helvetica;
+  font-size: 18px;
+  font-weight: bold;
+  border-top: 1px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
+  padding: 4px 8px 4px 8px;
+  margin: 8px 8px 0px 8px;
+}
+
+div.actionContent {
+  background-color: #f0f0f0;
+  padding: 16px 24px 16px 24px;
+  margin: 1px 8px 8px 8px;
+}
+
+div.bidContent {
+  margin-top: 16px;
+  margin-bottom: 16px;
+  border: 1px solid #dddddd;
+  background-color: #ffffff;
+  padding: 12px 12px 12px 12px;
+}
+
+input.placeBid {
+  border: 0px;
+  background: url(../img/placebid.png) top left no-repeat;
+  margin-top: 8px;
+  margin-left: 132px;
+  width: 99px;
+  height: 20px;
+}
+
+div.actionTitle {
+  font-weight: bold;
+}
+
+div.actionTitle span {
+  color: #777777;
+}
+
+hr.blueLine {
+  border: 0px;
+  border-top: 1px solid #5566ee;
+}
+
+div.bidRow {
+  clear: both;
+  padding: 3px 4px 3px 2px;  
+}
+
+div.bidRow label {
+  float: left;
+  display: block;
+  vertical-align: top;
+  width: 120px;
+  margin-top: 4px;
+}

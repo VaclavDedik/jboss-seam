@@ -178,9 +178,45 @@
         <a name="pictures">
           <div class="images">
             <s:graphicImage rendered="#{auction.image ne null}" value="#{auction.image.data}"/>
-            
           </div>
         </a>
+      </div>
+      
+      <div class="actionHeader">
+        Take action on this item
+      </div>      
+      
+      <div class="actionContent">
+        <div class="actionTitle">
+          <span>Item title: </span>
+          #{auction.title}
+        </div>      
+        
+        <div class="bidContent">
+          <b>Place a bid</b>
+          <hr class="blueLine"/>
+          
+          <h:form>
+
+            <div class="bidRow">
+              <h:outputLabel>Current bid:</h:outputLabel>              
+              <span>$ </span><b><h:outputText value="#{auction.price}">
+                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>              
+              </h:outputText></b>
+            </div>
+          
+            <div class="bidRow">
+              <h:outputLabel for="bidAmount">Your maximum bid:</h:outputLabel>
+              <span>$ </span><h:inputText id="bidAmount" value="#{newBid.amount}" required="true">
+                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>              
+              </h:inputText>
+            </div>
+            
+            <h:commandButton styleClass="placeBid" action="#{bidAction.placeBid}"/>
+            
+          </h:form>
+          
+        </div>
       </div>
         
     </div>

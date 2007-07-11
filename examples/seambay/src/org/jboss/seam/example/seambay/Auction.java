@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 
 import org.hibernate.validator.NotNull;
 
@@ -208,5 +209,5 @@ public class Auction implements Serializable
    public void setStatus(int status)
    {
       this.status = status;
-   }
+   }   
 }
