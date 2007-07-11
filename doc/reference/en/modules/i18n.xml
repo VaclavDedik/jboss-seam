@@ -320,7 +320,7 @@ template /template.xhtml]]></programlisting>
     </theme:available-themes>
 </theme:theme-selector>
 
-<core:locale-selector cookie-enabled="true"/>]]></programlisting>
+<international:locale-selector cookie-enabled="true"/>]]></programlisting>
 
     </section>
     
