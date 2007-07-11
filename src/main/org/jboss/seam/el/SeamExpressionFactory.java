@@ -73,7 +73,7 @@ public class SeamExpressionFactory extends ExpressionFactory
     @Override
     public MethodExpression createMethodExpression(ELContext elContext, String expression, Class returnType, Class[] paramTypes) 
     {
-        if ( paramTypes.length==1 && JSF.FACES_EVENT.isAssignableFrom( paramTypes[0] ) )
+        if ( paramTypes!=null && paramTypes.length==1 && JSF.FACES_EVENT.isAssignableFrom( paramTypes[0] ) )
         {
          return new OptionalParameterMethodExpression(
                  expressionFactory.createMethodExpression( decorateELContext(elContext), expression, returnType, paramTypes ),
