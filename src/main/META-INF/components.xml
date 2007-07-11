@@ -18,13 +18,13 @@
   <factory scope="stateless" auto-create="true" name="expressions" value="#{org.jboss.seam.core.expressions}"/>
   <factory scope="stateless" auto-create="true" name="interpolator" value="#{org.jboss.seam.core.interpolator}"/>
   <factory scope="stateless" auto-create="true" name="resourceBundle" value="#{org.jboss.seam.core.resourceBundle}"/>
-  <factory scope="stateless" auto-create="true" name="transaction" value="#{org.jboss.seam.transaction.transaction}" />
+  <factory scope="stateless" auto-create="true" name="transaction" value="#{org.jboss.seam.transaction.transaction}"/>
   <factory scope="stateless" auto-create="true" name="pojoCache" value="#{org.jboss.seam.core.pojoCache}"/>
   <factory scope="stateless" auto-create="true" name="locale" value="#{org.jboss.seam.core.locale}"/>
 
   <factory scope="stateless" auto-create="true" name="pageflow" value="#{org.jboss.seam.pageflow.pageflow}"/>
 
-  <factory scope="stateless" auto-create="true" name="session" value="#{org.jboss.seam.web.session}" />
+  <factory scope="stateless" auto-create="true" name="session" value="#{org.jboss.seam.web.session}"/>
   <factory scope="stateless" auto-create="true" name="isUserInRole" value="#{org.jboss.seam.web.isUserInRole}"/>
   <factory scope="stateless" auto-create="true" name="userPrincipal" value="#{org.jboss.seam.web.userPrincipal}"/>
 
