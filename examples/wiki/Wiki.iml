@@ -224,24 +224,6 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/testng-5.5-jdk15.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/itext-2.0.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
           <root url="jar://$MODULE_DIR$/../../jboss-seam-gen.jar!/" />
         </CLASSES>
         <JAVADOC />
@@ -653,6 +635,24 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../bootstrap" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/dbunit-2.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntryProperties />
   </component>
   <component name="VcsManagerConfiguration">
@@ -669,6 +669,11 @@
     <setting name="RUN_JASPER_VALIDATION" value="false" />
   </component>
   <component name="WebModuleProperties">
+    <containerElement type="library" level="module">
+      <attribute name="method" value="1" />
+      <attribute name="URI" value="/WEB-INF/classes" />
+      <url>file://$MODULE_DIR$/../../bootstrap</url>
+    </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib/antlr-2.7.6.jar" />
@@ -743,6 +748,11 @@
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib/stringtemplate-2.3b6.jar" />
       <url>jar://$MODULE_DIR$/../../drools/lib/stringtemplate-2.3b6.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="1" />
+      <attribute name="URI" value="/WEB-INF/lib/dbunit-2.2.jar" />
+      <url>jar://$MODULE_DIR$/lib/dbunit-2.2.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />
@@ -916,11 +926,6 @@
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/lib/itext-2.0.1.jar" />
-      <url>jar://$MODULE_DIR$/../../lib/itext-2.0.1.jar!/</url>
-    </containerElement>
-    <containerElement type="library" level="module">
-      <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib/jboss-cache-jdk50.jar" />
       <url>jar://$MODULE_DIR$/../../lib/jboss-cache-jdk50.jar!/</url>
     </containerElement>
@@ -1043,11 +1048,6 @@
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib/spring.jar" />
       <url>jar://$MODULE_DIR$/../../lib/spring.jar!/</url>
-    </containerElement>
-    <containerElement type="library" level="module">
-      <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/lib/testng-5.5-jdk15.jar" />
-      <url>jar://$MODULE_DIR$/../../lib/testng-5.5-jdk15.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />

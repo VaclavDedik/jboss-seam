@@ -94,6 +94,13 @@
     
     <web:context-filter url-pattern="/servlets/*"/>
 
+    <component name="wikiUrlRewriteFilter" class="org.jboss.seam.wiki.core.ui.WikiUrlRewriteFilter" precedence="30">
+        <property name="initParameters">
+            <key>logLevel</key><value>WARN</value>
+            <key>statusEnabled</key><value>false</value>
+        </property>
+    </component>
+
     <factory name="themePath" scope="APPLICATION"
              value="#{facesContext.externalContext.request.contextPath}/themes/#{wikiPreferences.themeName}"/>
 
