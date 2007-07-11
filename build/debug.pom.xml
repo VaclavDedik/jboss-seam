@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jboss.seam</groupId>
-	<artifactId>jboss-seam-remoting</artifactId>
+	<artifactId>jboss-seam-debug</artifactId>
 	<parent>
 		<groupId>jboss</groupId>
 		<artifactId>jboss-seam</artifactId>
@@ -17,20 +17,15 @@
 			<groupId>jboss</groupId>
 			<artifactId>jboss-seam-core</artifactId>
 		</dependency>
-
+		
 		<dependency>
-			<groupId>com.google.gwt</groupId>
-			<artifactId>gwt-servlet</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>dom4j</groupId>
-			<artifactId>dom4j</artifactId>
+			<groupId>javax.faces</groupId>
+			<artifactId>jsf-api</artifactId>
 		</dependency>
 		
 		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate</artifactId>
+			<groupId>com.sun.facelets</groupId>
+			<artifactId>jsf-facelets</artifactId>
 		</dependency>
 		
 	</dependencies>

@@ -19,7 +19,7 @@
 		</fileset>
 		<mapper type="glob" from="build.properties.sample" to="build.properties" />
 	</copy>
-	
+
 	<!-- Give user a chance to override without editing this file or typing -D -->
 	<property file="${basedir}/build.properties" />
 
@@ -76,7 +76,7 @@
 	<property name="eejb.conf.dir" value="${basedir}/bootstrap" />
 	<property name="drools.dir" value="${basedir}/drools" />
 	<property name="hibernate.dir" value="${basedir}/hibernate" />
-	
+
 	<!-- Build resources -->
 	<property name="build.dir" value="${basedir}/build" />
 	<property name="build.lib.dir" value="${build.dir}/lib" />
@@ -90,7 +90,7 @@
 
 	<!-- Distribution targets -->
 	<property name="dist.name" value="${name}-${version}.${patchlevel}" />
-	
+
 	<property name="dist.dir" value="${basedir}/../${dist.name}" />
 	<property name="dist.ui.dir" value="${dist.dir}/ui" />
 	<property name="dist.doc.dir" value="${dist.dir}/doc" />
@@ -177,47 +177,176 @@
 		<include name="**/*.png" />
 	</patternset>
 
-	
+
 	<!-- ########################## MAVEN2 #########################-->
-	
-	<target name="init.m2">
-		<path id="maven-ant-tasks.classpath" path="${build.lib.dir}/maven-ant-tasks.jar" />
-		<typedef 
-			resource="org/apache/maven/artifact/ant/antlib.xml" 
-			uri="urn:maven-artifact-ant" 
-			classpathref="maven-ant-tasks.classpath" />
-		
-		<artifact:pom file="${build.dir}/core.pom.xml" id="core.pom"/>
-		
-		<artifact:dependencies pathId="build.core.maven.path" versionsId="build.core.versions" useScope="compile">
-		     <pom refid="core.pom"/>
+
+	<path id="maven-ant-tasks.classpath" path="${build.lib.dir}/maven-ant-tasks.jar" />
+	<typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="urn:maven-artifact-ant" classpathref="maven-ant-tasks.classpath" />
+
+	<target name="installExtraDependencies" description="Install extra Seam deps into local Maven 2 repository">
+
+		<!-- IText -->
+
+		<artifact:pom file="${build.dir}/thirdparty/itext.pom.xml" id="itext.pom" />
+		<artifact:install file="${lib.dir}/itext-2.0.4.jar">
+			<pom refid="itext.pom" />
+		</artifact:install>
+
+		<!-- JBoss POJO Cache -->
+
+		<artifact:pom file="${build.dir}/thirdparty/jboss-cache-jdk50.pom.xml" id="jboss-cache-jdk50.pom" />
+		<artifact:install file="${lib.dir}/jboss-cache-jdk50.jar">
+			<pom refid="jboss-cache-jdk50.pom" />
+		</artifact:install>
+
+		<!-- Meldware -->
+
+		<artifact:pom file="${build.dir}/thirdparty/meldware-mailapi.pom.xml" id="meldware-mailapi.pom" />
+		<artifact:install file="${mail.dir}/buni-meldware/lib/mailapi.jar">
+			<pom refid="meldware-mailapi.pom" />
+		</artifact:install>
+
+		<artifact:pom file="${build.dir}/thirdparty/meldware-mailjmx.pom.xml" id="meldware-mailjmx.pom" />
+		<artifact:install file="${mail.dir}/buni-meldware/lib/mailjmx.jar">
+			<pom refid="meldware-mailjmx.pom" />
+		</artifact:install>
+
+
+		<!-- Drools and dependencies -->
+		<artifact:pom file="${build.dir}/thirdparty/mvel14.pom.xml" id="mvel14.pom" />
+		<artifact:install file="${drools.lib.dir}/mvel14-1.2beta16.jar">
+			<pom refid="mvel14.pom" />
+		</artifact:install>
+
+		<artifact:pom file="${build.dir}/thirdparty/antlr.pom.xml" id="antlr.pom" />
+		<artifact:install file="${drools.lib.dir}/antlr-3.0b7.jar">
+			<pom refid="antlr.pom" />
+		</artifact:install>
+
+		<artifact:pom file="${build.dir}/thirdparty/janino.pom.xml" id="janino.pom" />
+		<artifact:install file="${drools.lib.dir}/janino-2.5.6.jar">
+			<pom refid="janino.pom" />
+		</artifact:install>
+
+		<artifact:pom file="${build.dir}/thirdparty/drools.pom.xml" id="drools.pom" />
+		<artifact:install>
+			<pom refid="drools.pom" />
+		</artifact:install>
+
+		<artifact:pom file="${build.dir}/thirdparty/drools-core.pom.xml" id="drools-core.pom" />
+		<artifact:install file="${drools.lib.dir}/drools-core-4.0.0.MR2.jar">
+			<pom refid="drools-core.pom" />
+		</artifact:install>
+
+		<artifact:pom file="${build.dir}/thirdparty/drools-compiler.pom.xml" id="drools-compiler.pom" />
+		<artifact:install file="${drools.lib.dir}/drools-compiler-4.0.0.MR2.jar">
+			<pom refid="drools-compiler.pom" />
+		</artifact:install>
+
+		<!-- Testng -->
+
+		<artifact:pom file="${build.dir}/thirdparty/testng.pom.xml" id="testng.pom" />
+		<artifact:install file="${lib.dir}/testng-5.6-jdk15.jar">
+			<pom refid="testng.pom" />
+		</artifact:install>
+
+		<!-- JBPM JPDL -->
+
+		<artifact:pom file="${build.dir}/thirdparty/jbpm-jpdl.pom.xml" id="jbpm-jpdl.pom" />
+		<artifact:install file="${lib.dir}/jbpm-jpdl.jar">
+			<pom refid="jbpm-jpdl.pom" />
+		</artifact:install>
+
+		<!-- Hibernate Search -->
+
+		<artifact:pom file="${build.dir}/thirdparty/hibernate-commons-annotations.pom.xml" id="hibernate-commons-annotations.pom" />
+		<artifact:install file="${lib.dir}/hibernate-commons-annotations.jar">
+			<pom refid="hibernate-commons-annotations.pom" />
+		</artifact:install>
+
+		<artifact:pom file="${build.dir}/thirdparty/hibernate-search.pom.xml" id="hibernate-search.pom" />
+		<artifact:install file="${lib.dir}/hibernate-search.jar">
+			<pom refid="hibernate-search.pom" />
+		</artifact:install>
+
+		<!-- JBoss EL -->
+
+		<artifact:pom file="${build.dir}/thirdparty/jboss-el.pom.xml" id="jboss-el.pom" />
+		<artifact:install file="${lib.dir}/jboss-el.jar">
+			<pom refid="jboss-el.pom" />
+		</artifact:install>
+
+		<!-- JBoss Embedded -->
+
+		<artifact:pom file="${build.dir}/thirdparty/jboss-embedded.pom.xml" id="jboss-embedded.pom" />
+		<artifact:install file="${lib.dir}/jboss-embedded-all.jar">
+			<pom refid="jboss-embedded.pom" />
+		</artifact:install>
+
+		<!-- Quartz -->
+
+		<artifact:pom file="${build.dir}/thirdparty/quartz.pom.xml" id="quartz.pom" />
+		<artifact:install file="${lib.dir}/quartz-1.6.0.jar">
+			<pom refid="quartz.pom" />
+		</artifact:install>
+
+	</target>
+
+	<target name="init.m2" depends="installExtraDependencies">
+		<!-- Install the parent pom -->
+		<artifact:pom file="${basedir}/pom.xml" id="seam.pom" />
+		<artifact:install>
+			<pom refid="seam.pom" />
+		</artifact:install>
+	</target>
+
+	<target name="initcore.m2" depends="init.m2">
+		<artifact:pom file="${build.dir}/core.pom.xml" id="core.pom" />
+		<artifact:dependencies pathId="build.core.path" versionsId="build.core.versions" useScope="compile">
+			<pom refid="core.pom" />
 		</artifact:dependencies>
-		
-		<path id="build.core.path">
-			<!-- Legacy jars -->
-			<fileset dir="${basedir}">
-				<!-- JBoss Cache (POJO), 1.4.1.GA -->
-				<include name="lib/jboss-cache-jdk50.jar" />
-				<include name="lib/jgroups.jar" />
-				<!-- Meldware -->
-				<include name="mail/buni-meldware/lib/*.jar" />
-				<!-- Drools -->
-				<include name="drools/lib/*.jar" />
-				<!-- Testng -->
-				<include name="lib/testng-*.jar" />
-				<!-- JBPM JPDL -->
-				<include name="lib/jbpm-jpdl.jar" />
-				<!-- Hibernate Search -->
-				<include name="lib/hibernate-search.jar" />
-				<include name="lib/hibernate-commons-annotations.jar" />
-				<!-- JBoss EL -->
-				<include name="lib/lucene-core-*.jar"/>
-				<include name="lib/jboss-el.jar" />
-				<!-- JBoss Embedded -->
-				<include name="lib/jboss-embedded-all.jar" />
-			</fileset>
-			<path refid="build.core.maven.path" />
-		</path>
+	</target>
+
+	<target name="initioc.m2" depends="init.m2, jarcore.m2">
+		<artifact:pom file="${build.dir}/ioc.pom.xml" id="ioc.pom" />
+		<artifact:dependencies pathId="build.ioc.path" versionsId="build.ioc.versions" useScope="compile">
+			<pom refid="ioc.pom" />
+		</artifact:dependencies>
+	</target>
+
+	<target name="initpdf.m2" depends="init.m2, jarcore.m2, jarui.m2">
+		<artifact:pom file="${build.dir}/pdf.pom.xml" id="pdf.pom" />
+		<artifact:dependencies pathId="build.pdf.path" versionsId="build.pdf.versions" useScope="compile">
+			<pom refid="pdf.pom" />
+		</artifact:dependencies>
+	</target>
+
+	<target name="initmail.m2" depends="init.m2, jarcore.m2, jarui.m2, jarpdf.m2">
+		<artifact:pom file="${build.dir}/mail.pom.xml" id="mail.pom" />
+		<artifact:dependencies pathId="build.mail.path" versionsId="build.mail.versions" useScope="compile">
+			<pom refid="mail.pom" />
+		</artifact:dependencies>
+	</target>
+
+	<target name="initremoting.m2" depends="init.m2, jarcore.m2">
+		<artifact:pom file="${build.dir}/remoting.pom.xml" id="remoting.pom" />
+		<artifact:dependencies pathId="build.remoting.path" versionsId="build.remoting.versions" useScope="compile">
+			<pom refid="remoting.pom" />
+		</artifact:dependencies>
+	</target>
+
+	<target name="initdebug.m2" depends="init.m2, jarcore.m2">
+		<artifact:pom file="${build.dir}/debug.pom.xml" id="debug.pom" />
+		<artifact:dependencies pathId="build.debug.path" versionsId="build.debug.versions" useScope="compile">
+			<pom refid="debug.pom" />
+		</artifact:dependencies>
+	</target>
+
+	<target name="initgen.m2" depends="init.m2, jarcore.m2">
+		<artifact:pom file="${build.dir}/gen.pom.xml" id="gen.pom" />
+		<artifact:dependencies pathId="build.gen.path" versionsId="build.gen.versions" useScope="compile">
+			<pom refid="gen.pom" />
+		</artifact:dependencies>
 	</target>
 
 	<!-- ########################## BUILD TARGETS ##########################-->
@@ -230,6 +359,8 @@
 	</target>
 
 	<target name="build" depends="jarcore,jarpdf,jarioc,jarmail,jarremoting,jardebug,jargen,jarui" description="Build all four distribution .jar files" />
+	
+	<target name="build.m2" depends="jarcore.m2,jarpdf.m2,jarioc.m2,jarmail.m2,jarremoting.m2,jardebug.m2,jargen.m2,jarui.m2" description="Build all four distribution .jar files" />
 
 	<target name="antlr" description="Generate ANTLR parser">
 		<mkdir dir="${src.core.dir}/org/jboss/seam/text" />
@@ -268,17 +399,20 @@
 	<target name="compilecore" depends="initcore,select-compiler,antlr">
 		<compile classesdir="${classes.core.dir}" srcdir="${src.core.dir}" />
 	</target>
-	
-	<target name="compilecore.m2" depends="init.m2, initcore,select-compiler,antlr">
+
+	<target name="compilecore.m2" depends="initcore.m2, initcore,select-compiler,antlr">
 		<compile classesdir="${classes.core.dir}" srcdir="${src.core.dir}" classpath="build.core.path" />
 	</target>
 
 	<target name="jarcore" depends="compilecore" description="Build the distribution .jar file for the core package">
 		<archive classesdir="${classes.core.dir}" module="jboss-seam" />
 	</target>
-	
+
 	<target name="jarcore.m2" depends="compilecore.m2" description="Build the distribution .jar file using M2 dependency management">
 		<archive classesdir="${classes.core.dir}" module="jboss-seam" />
+		<artifact:install file="${basedir}/jboss-seam.jar">
+			<pom refid="core.pom" />
+		</artifact:install>
 	</target>
 
 	<!-- ########################### PDF TARGETS ###########################-->
@@ -301,6 +435,19 @@
 		<archive classesdir="${classes.pdf.dir}" module="jboss-seam-pdf" />
 	</target>
 
+	<target name="compilepdf.m2" depends="initpdf, initpdf.m2, select-compiler">
+		<property name="cp" refid="build.pdf.path" />
+		<echo>${cp}</echo>
+		<compile classesdir="${classes.pdf.dir}" srcdir="${src.pdf.dir}" classpath="build.pdf.path" />
+	</target>
+
+	<target name="jarpdf.m2" depends="compilepdf.m2" description="Build the distribution .jar file for the PDF package">
+		<archive classesdir="${classes.pdf.dir}" module="jboss-seam-pdf" />
+		<artifact:install file="${basedir}/jboss-seam-pdf.jar">
+			<pom refid="pdf.pom" />
+		</artifact:install>
+	</target>
+
 
 	<!-- ########################### IOC TARGETS ###########################-->
 
@@ -314,6 +461,17 @@
 
 	<target name="jarioc" depends="compileioc" description="Build the distribution .jar file for the IOC package">
 		<archive classesdir="${classes.ioc.dir}" module="jboss-seam-ioc" />
+	</target>
+
+	<target name="compileioc.m2" depends="initioc, initioc.m2, select-compiler">
+		<compile classesdir="${classes.ioc.dir}" srcdir="${src.ioc.dir}" classpath="build.ioc.path" />
+	</target>
+
+	<target name="jarioc.m2" depends="compileioc.m2" description="Build the distribution .jar file for the IOC package">
+		<archive classesdir="${classes.ioc.dir}" module="jboss-seam-ioc" />
+		<artifact:install file="${basedir}/jboss-seam-ioc.jar">
+			<pom refid="ioc.pom" />
+		</artifact:install>
 	</target>
 
 
@@ -338,6 +496,17 @@
 		<archive classesdir="${classes.mail.dir}" module="jboss-seam-mail" />
 	</target>
 
+	<target name="compilemail.m2" depends="initmail, initmail.m2, select-compiler">
+		<compile classesdir="${classes.mail.dir}" srcdir="${src.mail.dir}" classpath="build.mail.path" />
+	</target>
+
+	<target name="jarmail.m2" depends="compilemail.m2" description="Build the distribution .jar file for the IOC package">
+		<archive classesdir="${classes.mail.dir}" module="jboss-seam-mail" />
+		<artifact:install file="${basedir}/jboss-seam-mail.jar">
+			<pom refid="mail.pom" />
+		</artifact:install>
+	</target>
+
 
 	<!-- ########################### DEBUG TARGETS ###########################-->
 
@@ -351,6 +520,17 @@
 
 	<target name="jardebug" depends="compiledebug" description="Build the distribution .jar file for the Debug package">
 		<archive classesdir="${classes.debug.dir}" module="jboss-seam-debug" />
+	</target>
+
+	<target name="compiledebug.m2" depends="initdebug, initdebug.m2, select-compiler">
+		<compile classesdir="${classes.debug.dir}" srcdir="${src.debug.dir}" classpath="build.debug.path" />
+	</target>
+
+	<target name="jardebug.m2" depends="compiledebug.m2" description="Build the distribution .jar file for the IOC package">
+		<archive classesdir="${classes.debug.dir}" module="jboss-seam-debug" />
+		<artifact:install file="${basedir}/jboss-seam-debug.jar">
+			<pom refid="debug.pom" />
+		</artifact:install>
 	</target>
 
 
@@ -368,6 +548,17 @@
 		<archive classesdir="${classes.gen.dir}" module="jboss-seam-gen" />
 	</target>
 
+	<target name="compilegen.m2" depends="initgen, initgen.m2, select-compiler">
+		<compile classesdir="${classes.gen.dir}" srcdir="${src.gen.dir}" classpath="build.gen.path" />
+	</target>
+
+	<target name="jargen.m2" depends="compilegen.m2" description="Build the distribution .jar file for the gen package">
+		<archive classesdir="${classes.gen.dir}" module="jboss-seam-gen" />
+		<artifact:install file="${basedir}/jboss-seam-gen.jar">
+			<pom refid="gen.pom" />
+		</artifact:install>
+	</target>
+
 
 	<!-- ########################### REMOTING TARGETS ###########################-->
 
@@ -375,7 +566,7 @@
 		<init classesdir="${classes.remoting.dir}" srcdir="${src.remoting.dir}" modulename="Remoting" />
 	</target>
 
-	<target name="compileremoting" depends="initremoting,select-compiler" >
+	<target name="compileremoting" depends="initremoting,select-compiler">
 		<compile classesdir="${classes.remoting.dir}" srcdir="${src.remoting.dir}" />
 	</target>
 
@@ -383,11 +574,29 @@
 		<archive classesdir="${classes.remoting.dir}" module="jboss-seam-remoting" />
 	</target>
 
+	<target name="compileremoting.m2" depends="initremoting, initremoting.m2, select-compiler">
+		<compile classesdir="${classes.remoting.dir}" srcdir="${src.remoting.dir}" classpath="build.remoting.path" />
+	</target>
+
+	<target name="jarremoting.m2" depends="compileremoting.m2" description="Build the distribution .jar file for the Remoting package">
+		<archive classesdir="${classes.remoting.dir}" module="jboss-seam-remoting" />
+		<artifact:install file="${basedir}/jboss-seam-remoting.jar">
+			<pom refid="remoting.pom" />
+		</artifact:install>
+	</target>
+
 	<!-- ########################### UI TARGETS ###########################-->
 
 	<target name="jarui" description="Build the distribution .jar file for the UI package based on A4J CDK">
 		<mkdir dir="${dist.dir}" />
 		<cdk target="package" />
+		<copy file="${ui.dir}/target/jboss-seam-ui.jar" tofile="${basedir}/${name}-ui.jar" />
+		<copy file="${basedir}/${name}-ui.jar" todir="${dist.dir}" />
+	</target>
+
+	<target name="jarui.m2" description="Build the distribution .jar file for the UI package based on A4J CDK" depends="init.m2, jarcore.m2">
+		<mkdir dir="${dist.dir}" />
+		<cdk target="install" />
 		<copy file="${ui.dir}/target/jboss-seam-ui.jar" tofile="${basedir}/${name}-ui.jar" />
 		<copy file="${basedir}/${name}-ui.jar" todir="${dist.dir}" />
 	</target>
@@ -445,7 +654,7 @@
 		<ant dir="examples/remoting/helloworld" target="undeploy" inheritall="false" />
 		<ant dir="examples/remoting/chatroom" target="undeploy" inheritall="false" />
 		<ant dir="examples/remoting/progressbar" target="undeploy" inheritall="false" />
-		<ant dir="examples/remoting/gwt" target="undeploy" inheritall="false" />	
+		<ant dir="examples/remoting/gwt" target="undeploy" inheritall="false" />
 		<ant dir="examples/groovybooking" target="undeploy" inheritall="false" />
 		<ant dir="examples/quartz" target="undeploy" inheritall="false" />
 		<ant dir="examples/wiki" target="undeploy" inheritall="false" />
@@ -782,7 +991,7 @@
 	<macrodef name="compile">
 		<attribute name="classesdir" />
 		<attribute name="srcdir" />
-		<attribute name="classpath" default="build.classpath"/>
+		<attribute name="classpath" default="build.classpath" />
 		<element name="compile.classpath" optional="true" />
 		<sequential>
 			<javac source="1.5" target="1.5" destdir="@{classesdir}" debug="${javac.debug}" deprecation="${javac.deprecation}" nowarn="on" srcdir="@{srcdir}">
