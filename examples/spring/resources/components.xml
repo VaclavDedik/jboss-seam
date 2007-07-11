@@ -18,6 +18,9 @@
                                       auto-create="true" 
                                       entity-manager-factory="#{entityManagerFactory}" />
     
+    <!-- Sample Hibernate Session -->
+    <persistence:managed-hibernate-session name="hibernateSession" auto-create="true" session-factory="#{sessionFactory}"/>
+     
     <core:init debug="true"/>
     
     <spring:context-loader />

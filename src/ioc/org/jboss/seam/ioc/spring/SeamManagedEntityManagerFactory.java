@@ -56,6 +56,7 @@ public class SeamManagedEntityManagerFactory implements EntityManagerFactory
       log.debug("Returning a Seam Managed PC from createEntityManager()");
       SeamLifecycleUtils.beginTransactionalSeamCall();
       EntityManager em = (EntityManager) Component.getInstance(persistenceContextName);
+      //Creating Proxy of EntityManager to ensure we implement all the interfaces 
       return (EntityManager) Proxy.newProxyInstance(getClass().getClassLoader(), ClassUtils
                .getAllInterfaces(em), new SeamManagedPersistenceContextHandler(em));
    }
@@ -98,6 +99,16 @@ public class SeamManagedEntityManagerFactory implements EntityManagerFactory
 
       public Object invoke(Object proxy, Method method, Object[] args) throws Throwable
       {
+         if (method.getName().equals("equals"))
+         {
+            // Only consider equal when proxies are identical.
+            return (proxy == args[0] ? Boolean.TRUE : Boolean.FALSE);
+         }
+         if (method.getName().equals("hashCode"))
+         {
+            // Use hashCode of EntityManager proxy.
+            return new Integer(hashCode());
+         }
          if (method.getName().equals("isOpen"))
          {
             return delegate.isOpen() && !closed;
@@ -116,11 +127,11 @@ public class SeamManagedEntityManagerFactory implements EntityManagerFactory
          }
          if (closed)
          {
-            throw new IllegalStateException("This EntityManager is closed.");
+            throw new IllegalStateException("This PersistenceContext is closed.");
          }
          if (method.getName().equals("close"))
          {
-            log.debug("Closing EntityManager Proxy.");
+            log.debug("Closing PersistenceContext Proxy.");
             closed = true;
             return null;
          }

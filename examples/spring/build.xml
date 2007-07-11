@@ -76,6 +76,8 @@
         <include name="jsf-facelets.jar" />
         <include name="spring.jar" />
         <include name="jboss-el.jar" />
+        <include name="lucene-core-2.1.0.jar" />
+      	<include name="hibernate-search.jar" />
       </lib>
       <lib dir="${build.jars}">
         <include name="${projname}.jar" />

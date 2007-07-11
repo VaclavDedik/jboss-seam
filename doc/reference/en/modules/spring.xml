@@ -6,7 +6,7 @@
         applications to take advantage of key Seam features like conversations and Seam's more sophisticated persistence
         context management.</para>
 
-    <para> Seam's support for Spring provides the ability to: </para>
+    <para>Seam's support for Spring provides the ability to: </para>
 
     <itemizedlist>
         <listitem>
@@ -28,7 +28,7 @@
             <para>Support for Spring PlatformTransactionManagement</para>
         </listitem>
         <listitem>
-            <para>provides a Seam managed replacement for Spring's <literal>OpenEntityManagerInViewFilter</literal></para>
+            <para>provides a Seam managed replacement for Spring's <literal>OpenEntityManagerInViewFilter</literal> and <literal>OpenSessionInViewFilter</literal></para>
         </listitem>
         <listitem>
             <para>Support for Spring <literal>TaskExecutors</literal> to back <literal>@Asynchronous</literal> calls</para>
@@ -309,6 +309,26 @@ private BookingService bookingService;]]></programlisting>
         <programlisting><![CDATA[<bean id="bookingService" class="org.jboss.seam.example.spring.BookingService">
 	<property name="entityManagerFactory" ref="seamEntityManagerFactory"/>
 </bean>]]></programlisting>
+    </section>
+    <section id="spring-hibernate">
+        <title>Using a Seam Managed Hibernate Session in Spring</title>
+
+        <para>The Seam Spring integration also provides support for complete access to a Seam managed Hibernate session 
+        using spring's tools.  This integration is very similar to the <link linkend="spring-persistence">JPA integration</link>.</para>
+
+        <para>Like Spring's JPA integration spring's propagation model allows only one open EntityManager per
+        EntityManagerFactory per transaction??? to be available to spring tools.  So, the Seam Session integration works
+        by wrapping a proxy SessionFactory around a Seam managed Hibernate session
+        context.</para>
+        	
+        <programlisting><![CDATA[<bean id="seamSessionFactory" class="org.jboss.seam.ioc.spring.SeamManagedSessionFactoryBean">
+	<property name="sessionName" value="hibernateSession"/>
+</bean>]]></programlisting>
+
+		<para>Where 'sessionName' is the name of the <liberal>persistence:managed-hibernate-session</liberal> component.
+		 This SessionFactory can then be used in any Spring provided tools.  The integration
+		 also provides support for calls to <liberal>SessionFactory.getCurrentInstance()</liberal> as long as you call
+		 getCurrentInstance() on the <liberal>SeamManagedSessionFactory</liberal>.</para>
     </section>
     <section>
         <title>Spring Application Context as a Seam Component</title>

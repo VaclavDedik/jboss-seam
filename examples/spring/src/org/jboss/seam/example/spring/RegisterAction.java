@@ -17,6 +17,9 @@ public class RegisterAction
 
     @In("#{userService}")
     private UserService userService;
+    
+    @In("#{hibernateTestService}")
+    private HibernateTestService hibernateTestService;
 
     @In
     private FacesMessages facesMessages;
@@ -32,6 +35,7 @@ public class RegisterAction
 
             try {
                 userService.createUser(user);
+                hibernateTestService.testHibernateIntegration();
                 registered = true;
             } catch(ValidationException e) {
                 facesMessages.add(e.getMessage());
