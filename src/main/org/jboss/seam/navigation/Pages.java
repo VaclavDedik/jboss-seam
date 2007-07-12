@@ -162,6 +162,7 @@ public class Pages
          }
       }
    }
+   
    /**
     * Create a new Page object for a JSF view id,
     * by searching for a viewId.page.xml file.
@@ -183,6 +184,7 @@ public class Pages
          return getCachedPage(viewId);
       }
    }
+   
    private Page getCachedPage(String viewId)
    {
       Page result = pagesByViewId.get(viewId);
@@ -1458,8 +1460,9 @@ public class Pages
    public static boolean isDebugPage()
    {
       return Init.instance().isDebug() &&
-            ( FacesContext.getCurrentInstance() != null ) &&
-            "/debug.xhtml".equals( getCurrentViewId() );
+            FacesContext.getCurrentInstance() != null &&
+            FacesContext.getCurrentInstance().getViewRoot() != null &&
+            getCurrentViewId().startsWith("/debug.");
    }
    
 }

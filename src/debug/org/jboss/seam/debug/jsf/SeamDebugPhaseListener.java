@@ -12,7 +12,6 @@ import javax.faces.event.PhaseListener;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jboss.seam.contexts.FacesLifecycle;
-import org.jboss.seam.core.Init;
 import org.jboss.seam.navigation.Pages;
 
 import com.sun.facelets.Facelet;
@@ -34,12 +33,11 @@ public class SeamDebugPhaseListener implements PhaseListener
    {
       FacesLifecycle.setPhaseId( event.getPhaseId() ); //since this gets called before SeamPhaseListener!
       
-      FacesContext facesContext = FacesContext.getCurrentInstance();
-      String viewId = Pages.getViewId(facesContext);
-      if ( viewId!=null && viewId.startsWith("/debug.") && Init.instance().isDebug() )
+      if ( Pages.isDebugPage() )
       {
          try
          {
+            FacesContext facesContext = FacesContext.getCurrentInstance();
             URL url = SeamDebugPhaseListener.class.getClassLoader().getResource("META-INF/debug.xhtml");
             Facelet f = new DefaultFaceletFactory( new SAXCompiler(), new DefaultResourceResolver() ).getFacelet(url);
             UIViewRoot root = facesContext.getViewRoot();

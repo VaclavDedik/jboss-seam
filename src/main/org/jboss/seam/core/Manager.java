@@ -481,7 +481,7 @@ public class Manager
          setCurrentConversationId( ce.getId() );
          setCurrentConversationIdStack( ce.getConversationIdStack() );
 
-         boolean removeAfterRedirect = ce.isRemoveAfterRedirect() && !Pages.isDebugPage();
+         boolean removeAfterRedirect = ce.isRemoveAfterRedirect() && !Pages.isDebugPage(); //TODO: hard dependency to JSF!!
          if (removeAfterRedirect)
          {
             setLongRunningConversation(false);
