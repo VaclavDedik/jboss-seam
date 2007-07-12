@@ -28,6 +28,10 @@ public class DeploymentDescriptor
     public DeploymentDescriptor(Class clazz) 
     {
         componentClass = clazz;
+        if (clazz.getClassLoader() == null) {
+            return;
+        }
+
         try 
         {
             InputStream ejbJarXml = clazz.getClassLoader().getResourceAsStream("META-INF/ejb-jar.xml");
