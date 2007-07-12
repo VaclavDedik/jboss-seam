@@ -587,7 +587,11 @@
 
 	<!-- ########################### UI TARGETS ###########################-->
 
-	<target name="jarui" description="Build the distribution .jar file for the UI package based on A4J CDK">
+	<target name="jarui" description="Build the distribution .jar file for the UI package based on A4J CDK" depends="init.m2">
+		<artifact:pom file="${build.dir}/core.pom.xml" id="core.pom" />
+		<artifact:install file="${basedir}/jboss-seam.jar">
+			<pom refid="core.pom" />
+		</artifact:install>
 		<mkdir dir="${dist.dir}" />
 		<cdk target="package" />
 		<copy file="${ui.dir}/target/jboss-seam-ui.jar" tofile="${basedir}/${name}-ui.jar" />
