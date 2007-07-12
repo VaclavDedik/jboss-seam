@@ -1,5 +1,6 @@
 package org.jboss.seam.test;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.jboss.seam.core.Interpolator;
@@ -26,8 +27,10 @@ public class InterpolatorTest
         Assert.assertEquals("There are no files.", interpolator.interpolate(CHOICE_EXPR, 0));
         Assert.assertEquals("There is one file.", interpolator.interpolate(CHOICE_EXPR, 1));
         Assert.assertEquals("There are 2 files.", interpolator.interpolate(CHOICE_EXPR, 2));
-                   
-        Assert.assertEquals("12/31/69", interpolator.interpolate("{0,date,short}", new Date(0)));
+        
+        Date date = new Date(0);
+                
+        Assert.assertEquals(new SimpleDateFormat("M/d/y").format(date), interpolator.interpolate("{0,date,short}", date));
  
         
         // test that a messageformat error doesn't blow up
