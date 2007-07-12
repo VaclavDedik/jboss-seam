@@ -7,6 +7,8 @@ import static org.jboss.seam.util.JSF.setWrappedData;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.In;
@@ -88,6 +90,14 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
                      {
                         saveWrapper(bean, field, dataModel, value);
                      }
+                     else
+                     {
+                        clearWrapper(field);
+                     }
+                  }
+                  else
+                  {
+                     clearWrapper(field);
                   }
                }
             }
@@ -123,8 +133,12 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
 
    private boolean isRef(Object value)
    {
-      //TODO: can do better than this for lists!
-      return value instanceof List || Seam.isEntityClass( value.getClass() );
+      //TODO: could do better by checking if the
+      //      collection really contains an entity
+      return value instanceof List || 
+            value instanceof Map || 
+            value instanceof Set || 
+            Seam.isEntityClass( value.getClass() );
    }
 
    private Object getFieldValue(Object bean, Field field) throws Exception
@@ -163,6 +177,11 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
       {
          setWrappedData(dataModel, null);
       }
+   }
+
+   private void clearWrapper(Field field) throws Exception
+   {
+      Contexts.getConversationContext().remove( getFieldId(field) );
    }
 
    private void getFromWrapper(Object bean, Field field, Object dataModel) throws Exception
