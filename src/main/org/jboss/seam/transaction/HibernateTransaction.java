@@ -98,6 +98,7 @@ public class HibernateTransaction extends AbstractUserTransaction
       clearSession();
       if (rollbackOnly)
       {
+         rollbackOnly = false;
          delegate.rollback();
          throw new RollbackException();
       }
@@ -114,6 +115,7 @@ public class HibernateTransaction extends AbstractUserTransaction
       assertActive();
       Transaction delegate = getDelegate();
       clearSession();
+      rollbackOnly = false;
       delegate.rollback();
    }
 
