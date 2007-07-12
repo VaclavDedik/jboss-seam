@@ -72,6 +72,12 @@ public abstract class Home<T, E> extends MutableController<T>
       }
       return instance;
    }
+   
+   public void clearInstance()
+   {
+      setInstance(null);
+      setId(null);
+   }
 
    protected void initInstance()
    {
