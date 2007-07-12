@@ -46,14 +46,14 @@
 
 	<!-- Targets -->
 	<property name="classes.dir" value="classes" />
-	<property name="classes.core.dir" value="${classes.dir}/classes" />
+	<property name="classes.core.dir" value="${classes.dir}/coreclasses" />
 	<property name="classes.pdf.dir" value="${classes.dir}/pdfclasses" />
 	<property name="classes.ioc.dir" value="${classes.dir}/iocclasses" />
 	<property name="classes.mail.dir" value="${classes.dir}/mailclasses" />
 	<property name="classes.debug.dir" value="${classes.dir}/debugclasses" />
 	<property name="classes.remoting.dir" value="${classes.dir}/remotingclasses" />
 	<property name="classes.gen.dir" value="${classes.dir}/genclasses" />
-	<property name="coverage.dir" value="${classes.dir}/coverage" />
+	<property name="classes.test.dir" value="${classes.dir}/testclasses" />
 
 	<property name="ui.dir" value="ui" />
 	<property name="seamgen.dir" value="${basedir}/seam-gen" />
@@ -116,7 +116,20 @@
 	<property name="deploy.dir" value="${jboss.home}/server/default/deploy" />
 	<property name="webroot.dir" value="${deploy.dir}/jbossweb-tomcat55.sar/ROOT.war" />
 
+	<!-- Tests -->
+
+	<property name="classes.test.dir" value="classes/test" />
+	<property name="classes.coverage.dir" value="classes/coverage" />
+	<property name="classes.test.core.dir" value="${classes.test.dir}/core" />
+	<property name="classes.coverage.core.dir" value="${classes.coverage.dir}/core" />
+
+	<property name="test.dir" value="${basedir}/test-output" />
+	<property name="report.dir" value="${basedir}/report" />
+	<property name="coverage.dir" value="${basedir}/coverage-output" />
+	
 	<property name="testng.jar" value="${basedir}/lib/testng-5.6-jdk15.jar" />
+
+
 
 	<property name="javac.debug" value="true" />
 	<property name="javac.deprecation" value="false" />
@@ -135,8 +148,9 @@
 	</path>
 
 	<path id="test.classpath">
-		<path path="${classes.dir}/test" />
-		<path path="${coverage.dir}/classes" />
+		<path path="${classes.test.core.dir}" />
+		<path path="${classes.coverage.core.dir}" />
+		<path path="${classes.test.dir}" />
 		<path refid="classpath.emma" />
 		<fileset refid="lib" />
 		<pathelement location="${basedir}/${name}-remoting.jar" />
@@ -353,13 +367,14 @@
 
 	<target name="clean" description="Cleans up the build directory">
 		<delete dir="${classes.dir}" />
-		<delete dir="test-output" />
-		<delete dir="report" />
+		<delete dir="${test.dir}" />
+		<delete dir="${report.dir}" />
+		<delete dir="${coverage.dir}"/>
 		<cdk target="clean" />
 	</target>
 
 	<target name="build" depends="jarcore,jarpdf,jarioc,jarmail,jarremoting,jardebug,jargen,jarui" description="Build all four distribution .jar files" />
-	
+
 	<target name="build.m2" depends="jarcore.m2,jarpdf.m2,jarioc.m2,jarmail.m2,jarremoting.m2,jardebug.m2,jargen.m2,jarui.m2" description="Build all four distribution .jar files" />
 
 	<target name="antlr" description="Generate ANTLR parser">
@@ -829,10 +844,10 @@
 	</target>
 
 	<target name="dist" depends="cleandist,build,javadoc,copysource,copylib,copyexamples,copyseamgen,refdoc,extras" description="Build everything and package">
-		<zip zipfile="${dist.dir}.zip">
+		<zip zipfile="${dist.name}.zip">
 			<zipfileset prefix="${dist.name}" dir="${dist.dir}" />
 		</zip>
-		<tar tarfile="${dist.dir}.tar.gz" compression="gzip">
+		<tar tarfile="${dist.name}.tar.gz" compression="gzip">
 			<tarfileset prefix="${dist.name}" dir="${dist.dir}" />
 		</tar>
 	</target>
@@ -881,7 +896,7 @@
 	<!-- ########################### TEST TARGETS ###########################-->
 
 	<target name="compiletest" depends="select-compiler,antlr,jarcore,jarremoting">
-		<javac source="1.5" target="1.5" destdir="${classes.core.dir}" classpathref="build.classpath" debug="${javac.debug}" deprecation="${javac.deprecation}" nowarn="on">
+		<javac source="1.5" target="1.5" destdir="${classes.test.dir}" classpathref="build.classpath" debug="${javac.debug}" deprecation="${javac.deprecation}" nowarn="on">
 			<src path="${src.test.dir}" />
 			<classpath>
 				<fileset dir="${basedir}">
@@ -891,12 +906,14 @@
 		</javac>
 	</target>
 
-	<target name="testcore" depends="compilecore,compiletest" description="Run the core unit tests">
-		<taskdef resource="testngtasks" classpath="${testng.jar}" />
-		<copy todir="${classes.dir}/test">
+	<target name="inittestcore" depends="compilecore">
+		<copy todir="${classes.test.core.dir}">
 			<fileset dir="${classes.core.dir}" includes="**/*.*" />
 		</copy>
-		<delete dir="test-output" />
+	</target>
+
+	<target name="testcore" depends="inittestcore,compiletest" description="Run the core unit tests">
+		<taskdef resource="testngtasks" classpath="${testng.jar}" />
 		<testng>
 			<jvmarg value="-Djava.awt.headless=true" />
 			<classpath refid="test.classpath" />
@@ -905,73 +922,47 @@
 	</target>
 
 	<target name="testreport" description="Create a pretty report">
-		<mkdir dir="report" />
+		<mkdir dir="${report.dir}" />
 
-		<junitreport todir="./report">
-			<fileset dir=".">
-				<include name="**/test-output/**/*.xml" />
-				<exclude name="**/testng-results.xml" />
+		<junitreport todir="${report.dir}">
+			<fileset dir="${test.dir}">
+				<include name="**/*.xml" />
+				<exclude name="**/testng-*.xml" />
 			</fileset>
-			<report format="noframes" todir="./report" />
+			<report format="noframes" todir="${report.dir}" />
 		</junitreport>
 
-		<echo>Report available at ${basedir}/report/junit-noframes.html</echo>
+		<echo>Report available at ${report.dir}/junit-noframes.html</echo>
 
 	</target>
 
-	<target name="instrument" depends="compilecore">
-
+	<target name="instrumentcore" depends="inittestcore">
 		<taskdef resource="emma_ant.properties" classpathref="classpath.emma" />
-
-		<copy todir="${classes.dir}/test">
-			<fileset dir="${classes.core.dir}" includes="**/*.*" />
-		</copy>
-
-		<mkdir dir="${coverage.dir}/classes" />
-
-		<!-- Apply instrumentation to the classes -->
+		<mkdir dir="${classes.coverage.core.dir}" />
+		<mkdir dir="${coverage.dir}/core"/>
+		<move todir="${classes.coverage.core.dir}">
+			<fileset dir="${classes.test.core.dir}" />
+		</move>
 		<emma>
-			<instr instrpath="${classes.dir}/test" destdir="${coverage.dir}/classes" mode="copy" metadatafile="${coverage.dir}/coverage.em">
+			<instr instrpath="${classes.coverage.core.dir}" mode="overwrite" metadatafile="${coverage.dir}/corecoverage.em">
 				<!-- Exclude packages we don't want coverage for -->
 				<filter excludes="org.jboss.seam.annotations.*" />
 				<filter excludes="org.jboss.seam.test.*" />
 			</instr>
 		</emma>
-
 	</target>
 
-	<target name="coverage" depends="instrument,testall" description="Generate a test coverage report">
+	<target name="coverageall" depends="corecoverage" description="Generate a test coverage report" />
 
-		<!-- Move the runtime coverage metadata to the coverage dir -->
-		<move file="coverage.ec" todir="${coverage.dir}" />
-
-		<!-- Generate code coverage report -->
+	<target name="corecoverage" depends="instrumentcore,testcore" description="Generate a test coverage report for the core tests">
+		<move file="${basedir}/coverage.ec" tofile="${coverage.dir}/corecoverage.ec"/>
 		<emma>
 			<report sourcepath="${src.core.dir}" depth="method">
-				<infileset dir="${coverage.dir}" includes="coverage.em,coverage.ec" />
-				<html outfile="./report/coverage.html" />
+				<infileset dir="${coverage.dir}" includes="corecoverage.em,corecoverage.ec" />
+				<html outfile="${report.dir}/coverage.html" />
 			</report>
 		</emma>
-
-		<echo>Code coverage report for core classes available at ${basedir}/report/coverage.html</echo>
-
-	</target>
-
-	<target name="corecoverage" depends="instrument,testcore" description="Generate a test coverage report for the core tests">
-
-		<!-- Move the runtime coverage metadata to the coverage dir -->
-		<move file="coverage.ec" todir="${coverage.dir}" />
-
-		<!-- Generate code coverage report -->
-		<emma>
-			<report sourcepath="${src.core.dir}" depth="method">
-				<infileset dir="${coverage.dir}" includes="coverage.em,coverage.ec" />
-				<html outfile="./report/coverage.html" />
-			</report>
-		</emma>
-
-		<echo>Code coverage report for core classes available at ${basedir}/report/coverage.html</echo>
-
+		<echo>Code coverage report for core classes available at ${report.dir}/coverage.html</echo>
 	</target>
 
 	<!-- ########################## MACRO DEFS ##########################-->

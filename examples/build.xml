@@ -54,7 +54,7 @@
 	<!-- Testing -->
 	<property name="test.dir" value="test-build" />
 	<property name="coverage.dir" value="${seam.dir}/build/coverage" />
-	<property name="test-report.dir" value="${seam.dir}/test-report" />
+	<property name="test-report.dir" value="${seam.dir}/test-output" />
 	<property name="eejb.conf.dir" value="${seam.dir}/bootstrap" />
 	<property name="src.schema.dir" value="${seam.dir}/src/main/org/jboss/seam" />
 	<property name="schema.version" value="${version}" />
