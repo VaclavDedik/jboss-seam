@@ -23,7 +23,7 @@ public class MeldwareUser
    
    private boolean administrator;
    
-   private List<String> aliases;
+   private List<String> aliases = new ArrayList<String>();
 
    public boolean isAdministrator()
    {
