@@ -118,9 +118,8 @@
 
 	<!-- Tests -->
 
-	<property name="classes.test.dir" value="classes/test" />
 	<property name="classes.coverage.dir" value="classes/coverage" />
-	<property name="classes.test.core.dir" value="${classes.test.dir}/core" />
+	<property name="classes.test.core.dir" value="${classes.dir}/test/core" />
 	<property name="classes.coverage.core.dir" value="${classes.coverage.dir}/core" />
 
 	<property name="test.dir" value="${basedir}/test-output" />
@@ -129,6 +128,7 @@
 	
 	<property name="testng.jar" value="${basedir}/lib/testng-5.6-jdk15.jar" />
 
+	<property name="bootstrap.dir" value="${basedir}/bootstrap"/>
 
 
 	<property name="javac.debug" value="true" />
@@ -619,6 +619,17 @@
 		<copy file="${ui.dir}/target/jboss-seam-ui.jar" tofile="${basedir}/${name}-ui.jar" />
 		<copy file="${basedir}/${name}-ui.jar" todir="${dist.dir}" />
 	</target>
+	
+	
+	<!-- ########################### TEST TARGETS ##########################-->
+
+		<target name="inittest">
+			<init classesdir="${classes.test.dir}" srcdir="${src.test.dir}" modulename="Tests" />
+		</target>
+
+		<target name="compiletest" depends="inittest,select-compiler,antlr,jarremoting">
+			<compile classesdir="${classes.test.dir}" srcdir="${src.test.dir}" classpath="test.classpath"/>
+		</target>
 
 
 	<!-- ########################## 'ALL' TARGETS ##########################-->
@@ -895,17 +906,6 @@
 
 	<!-- ########################### TEST TARGETS ###########################-->
 
-	<target name="compiletest" depends="select-compiler,antlr,jarcore,jarremoting">
-		<javac source="1.5" target="1.5" destdir="${classes.test.dir}" classpathref="build.classpath" debug="${javac.debug}" deprecation="${javac.deprecation}" nowarn="on">
-			<src path="${src.test.dir}" />
-			<classpath>
-				<fileset dir="${basedir}">
-					<include name="jboss-seam-remoting.jar" />
-				</fileset>
-			</classpath>
-		</javac>
-	</target>
-
 	<target name="inittestcore" depends="compilecore">
 		<copy todir="${classes.test.core.dir}">
 			<fileset dir="${classes.core.dir}" includes="**/*.*" />
@@ -914,6 +914,8 @@
 
 	<target name="testcore" depends="inittestcore,compiletest" description="Run the core unit tests">
 		<taskdef resource="testngtasks" classpath="${testng.jar}" />
+		<property name="test.cp" refid="test.classpath"/>
+		<echo message="${test.cp}"/>
 		<testng>
 			<jvmarg value="-Djava.awt.headless=true" />
 			<classpath refid="test.classpath" />
@@ -944,22 +946,25 @@
 			<fileset dir="${classes.test.core.dir}" />
 		</move>
 		<emma>
-			<instr instrpath="${classes.coverage.core.dir}" mode="overwrite" metadatafile="${coverage.dir}/corecoverage.em">
+			<instr instrpath="${classes.coverage.core.dir}" mode="overwrite" metadatafile="${coverage.dir}/coveragecore.em">
 				<!-- Exclude packages we don't want coverage for -->
 				<filter excludes="org.jboss.seam.annotations.*" />
 				<filter excludes="org.jboss.seam.test.*" />
+				<filter excludes="*.package-info.java" />
+				<filter excludes="org.jboss.seam.text.*" />
 			</instr>
 		</emma>
 	</target>
 
-	<target name="coverageall" depends="corecoverage" description="Generate a test coverage report" />
+	<target name="coverageall" depends="coveragecore" description="Generate a test coverage report" />
 
-	<target name="corecoverage" depends="instrumentcore,testcore" description="Generate a test coverage report for the core tests">
-		<move file="${basedir}/coverage.ec" tofile="${coverage.dir}/corecoverage.ec"/>
+	<target name="coveragecore" depends="instrumentcore,testcore" description="Generate a test coverage report for the core tests">
+		<move file="${basedir}/coverage.ec" tofile="${coverage.dir}/coveragecore.ec"/>
 		<emma>
 			<report sourcepath="${src.core.dir}" depth="method">
-				<infileset dir="${coverage.dir}" includes="corecoverage.em,corecoverage.ec" />
+				<infileset dir="${coverage.dir}" includes="coveragecore.em,coveragecore.ec" />
 				<html outfile="${report.dir}/coverage.html" />
+				<xml outfile="${report.dir}/coverage.xml" />
 			</report>
 		</emma>
 		<echo>Code coverage report for core classes available at ${report.dir}/coverage.html</echo>

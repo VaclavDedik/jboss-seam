@@ -15,7 +15,7 @@ import org.testng.annotations.Test;
 public class PageflowTest 
 {
   
-  /*JbpmConfiguration jbpmConfiguration = JbpmConfiguration.parseXmlString(
+  JbpmConfiguration jbpmConfiguration = JbpmConfiguration.parseXmlString(
     "<jbpm-configuration />"
   );
 
@@ -37,14 +37,14 @@ public class PageflowTest
   
   @Test
   public void testPageflowWithStartPage() {
-    JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
+    JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();    
+    StringReader stringReader = new StringReader(
+    "<pageflow-definition name='hoepla'>" +
+    "  <start-page name='start' view-id='/start.xhtml'/>" +
+    "</pageflow-definition>");
+    PageflowParser pageflowParser = new PageflowParser(stringReader);
+    ProcessDefinition processDefinition = pageflowParser.readProcessDefinition();
     
-    ProcessDefinition processDefinition = PageflowHelper.parseXmlString(
-      "<pageflow-definition name='hoepla'>" +
-      "  <start-page name='start' />" +
-      "</pageflow-definition>"
-    );
-        
     assert "start".equals(processDefinition.getStartState().getName());
     
     jbpmContext.close();
@@ -56,7 +56,7 @@ public class PageflowTest
     
     StringReader stringReader = new StringReader(
       "<pageflow-definition name='hoepla' start-page='start'>" +
-      "  <page name='start' />" +
+      "  <page name='start' view-id='/start.xhtml'/>" +
       "</pageflow-definition>"
     );
     PageflowParser pageflowParser = new PageflowParser(stringReader);
@@ -66,9 +66,9 @@ public class PageflowTest
     jbpmContext.close();
   }
   
-  @Test
+  /*@Test
   public void testOrderPageflow() {
-    ProcessDefinition pageflowDefinition = PageflowHelper.parseXmlString(
+     StringReader stringReader = new StringReader(
       "<pageflow-definition name='checkout'>" +
       "  <start-state name='start'>" +
       "    <transition to='confirm'/>" +
@@ -89,20 +89,22 @@ public class PageflowTest
       "  </page>" +
       "</pageflow-definition>"
     );
+    PageflowParser pageflowParser = new PageflowParser(stringReader);
+    ProcessDefinition processDefinition = pageflowParser.readProcessDefinition();
     
-    StartState start = (StartState) pageflowDefinition.getStartState();
-    Page confirm = (Page) pageflowDefinition.getNode("confirm");
-    Page complete = (Page) pageflowDefinition.getNode("complete");
-    Page cont = (Page) pageflowDefinition.getNode("continue");
+    StartState start = (StartState) processDefinition.getStartState();
+    Page confirm = (Page) processDefinition.getNode("confirm");
+    Page complete = (Page) processDefinition.getNode("complete");
+    Page cont = (Page) processDefinition.getNode("continue");
     assert confirm!=null;
     assert complete!=null;
     assert cont!=null;
     
-    ProcessInstance pageflowInstance = new ProcessInstance(pageflowDefinition);
-    Token token = pageflowInstance.getRootToken();
+    ProcessInstance processInstance = new ProcessInstance(processDefinition);
+    Token token = processInstance.getRootToken();
     assert start.equals(token.getNode());
     
-    pageflowInstance.signal();
+    processInstance.signal();
   }*/
   
 }

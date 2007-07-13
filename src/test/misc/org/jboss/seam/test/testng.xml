@@ -16,6 +16,12 @@
        <class name="org.jboss.seam.test.DependencyTest"/>
        <class name="org.jboss.seam.test.DependencyTest"/>
        <class name="org.jboss.seam.test.SeamTestTest"/>
+       <class name="org.jboss.seam.test.MailTest"/>
+       <class name="org.jboss.seam.test.ELTest"/>
+       <class name="org.jboss.seam.test.DataModelTest"/>
+       <class name="org.jboss.seam.test.TimeZoneTest"/>
+       <class name="org.jboss.seam.test.LocaleTest"/>
+       <class name="org.jboss.seam.test.PageflowTest"/>
      </classes>
    </test>
 </suite>

@@ -1,5 +1,8 @@
 package org.jboss.seam.test;
 
+import javax.faces.el.MethodBinding;
+
+import org.jboss.seam.jsf.UnifiedELMethodBinding;
 import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
 
@@ -22,13 +25,23 @@ public class SeamTestTest extends SeamTest
          @Override
          protected void updateModelValues() throws Exception
          {
-            setValue("#{user.name}", PETER_NAME);
+            setValue("#{person.name}", PETER_NAME);
          }
          
          @Override
          protected void renderResponse() throws Exception
          {
-            assert getValue("#{user.name}").equals(PETER_NAME);
+            assert getValue("#{person.name}").equals(PETER_NAME);
+         }
+         
+         @Override
+         protected void invokeApplication() throws Exception
+         {
+            MethodBinding methodBinding = new UnifiedELMethodBinding("#{action.go}", new Class[0]);
+            Object result = methodBinding.invoke(getFacesContext(), new Object[0]);
+            
+            assert result instanceof String;
+            assert "success".equals(result);
          }
       }.run();
    }
