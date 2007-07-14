@@ -132,7 +132,7 @@
 
 	<!-- CI -->
 
-	<property name="ci.dir" value="${basedir}/ci" />
+	<property name="ci.dir" value="${basedir}/build/jbossseam" />
 
 
 	<property name="javac.debug" value="true" />
@@ -766,11 +766,8 @@
 	</target>
 
 	<target name="copydownloadbletojbossorg">
-		<exec executable="ssh">
-			<arg line="jbossqa@download.jboss.org mkdir -p /htdocs/jbossseam/build"/>
-		</exec>
 		<exec executable="scp">
-			<arg line="-r ${ci.dir}/* jbossqa@download.jboss.org:/htdocs/jbossseam/build/"/>
+			<arg line="-r ${ci.dir} jbossqa@download.jboss.org:/htdocs"/>
 		</exec>
 	</target>
 
