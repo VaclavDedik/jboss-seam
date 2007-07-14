@@ -726,7 +726,7 @@
 	
 	<target name="instrumentall" depends="instrumentcore" />
 		
-	<target name="coverageall" depends="instrumentall, testall" description="Run the core unit tests and all example tests with code coverage" />
+	<target name="coverageall" depends="instrumentall, testall, coveragecore" description="Run the core unit tests and all example tests with code coverage" />
 	
 	<!-- Target for continuous integration, faster than running the targets indepently -->
 	<target name="ci" depends="cleanall, coverageall, copytestoutput, dist" />
