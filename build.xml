@@ -607,6 +607,7 @@
 		<artifact:install file="${basedir}/jboss-seam.jar">
 			<pom refid="core.pom" />
 		</artifact:install>
+		<echo message="Installed jboss-seam-core pom" />
 		<mkdir dir="${dist.dir}" />
 		<cdk target="package" />
 		<copy file="${ui.dir}/target/jboss-seam-ui.jar" tofile="${basedir}/${name}-ui.jar" />
@@ -722,6 +723,13 @@
 		<ant dir="examples/blog" target="test" inheritall="false" />
 		<!--<ant dir="examples/portal" target="test" inheritall="false" />-->
 	</target>
+	
+	<target name="instrumentall" depends="instrumentcore" />
+		
+	<target name="coverageall" depends="instrumentall, testall" description="Run the core unit tests and all example tests with code coverage" />
+	
+	<!-- Target for continuous integration, faster than running the targets indepently -->
+	<target name="ci" depends="cleanall, coverageall, copytestoutput, dist" />
 
 	<!-- ########################## DIST TARGETS ###########################-->
 
@@ -915,7 +923,6 @@
 	<target name="testcore" depends="inittestcore,compiletest" description="Run the core unit tests">
 		<taskdef resource="testngtasks" classpath="${testng.jar}" />
 		<property name="test.cp" refid="test.classpath"/>
-		<echo message="${test.cp}"/>
 		<testng>
 			<jvmarg value="-Djava.awt.headless=true" />
 			<classpath refid="test.classpath" />
@@ -925,7 +932,6 @@
 
 	<target name="testreport" description="Create a pretty report">
 		<mkdir dir="${report.dir}" />
-
 		<junitreport todir="${report.dir}">
 			<fileset dir="${test.dir}">
 				<include name="**/*.xml" />
@@ -933,9 +939,18 @@
 			</fileset>
 			<report format="noframes" todir="${report.dir}" />
 		</junitreport>
-
 		<echo>Report available at ${report.dir}/junit-noframes.html</echo>
-
+	</target>
+	
+	<target name="copytestoutput">
+		<mkdir dir="${report.dir}/tests" />
+		<copy todir="${report.dir}/tests">
+			<fileset dir="${test.dir}">
+				<include name="**/*.xml"/>
+				<exclude name="**/testng-*.xml"/>
+			</fileset>
+			<mapper type="flatten"/>
+		</copy>
 	</target>
 
 	<target name="instrumentcore" depends="inittestcore">
@@ -955,8 +970,6 @@
 			</instr>
 		</emma>
 	</target>
-
-	<target name="coverageall" depends="coveragecore" description="Generate a test coverage report" />
 
 	<target name="coveragecore" depends="instrumentcore,testcore" description="Generate a test coverage report for the core tests">
 		<move file="${basedir}/coverage.ec" tofile="${coverage.dir}/coveragecore.ec"/>
@@ -1036,10 +1049,6 @@
 				</classpath>
 				<sysproperty key="classworlds.conf" value="${maven.dir}/bin/m2.conf" />
 				<sysproperty key="maven.home" value="${maven.dir}" />
-				<sysproperty key="seam.dir" value="${basedir}" />
-				<sysproperty key="seam.version" value="${version}" />
-				<sysproperty key="tlddoc.dir" value="${dist.ui.tld.dir}" />
-				<sysproperty key="apidoc.dir" value="${dist.ui.api.dir}" />
 				<arg line="@{target}" />
 			</java>
 		</sequential>
