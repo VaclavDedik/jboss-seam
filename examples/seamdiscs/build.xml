@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+<project name="Seamdiscs" default="deploy" basedir=".">
+
+    <!-- Example name -->
+    <property name="Name"                   value="Seamdiscs"/>
+    <property name="example.name"           value="jboss-seam-discs"/>
+
+    <!-- Libraries -->
+    <property name="seam.ui.lib"     value="yes"/>
+    <property name="seam.debug.lib"  value="yes"/>
+    <property name="facelets.lib"    value="yes"/>
+	<property name="ajax4jsf.lib"    value="yes"/>
+	<property name="richfaces.lib"    value="yes"/>
+    
+    <import file="../build.xml"/>
+	
+	<fileset id="ear.lib.extras" dir="resources/ear-lib">
+		<include name="*.jar"/>
+	</fileset>
+	
+	<fileset id="war.extras" dir="resources">
+		<include name="WEB-INF/lib/*.jar"/>
+	</fileset>
+	
+	<path id="build.classpath.extras">
+		<fileset dir="resources/ear-lib">
+			<include name="*.jar"/>
+		</fileset>	
+	</path>
+	
+	
+	
+</project>
+

@@ -669,6 +669,7 @@
 		<ant dir="examples/groovybooking" target="clean" inheritall="false" />
 		<ant dir="examples/quartz" target="clean" inheritall="false" />
 		<ant dir="examples/wiki" target="clean" inheritall="false" />
+		<ant dir="examples/seamdiscs" target="clean" inheritall="false" />
 	</target>
 
 	<target name="undeployall" description="Undeploy all examples">
@@ -696,6 +697,7 @@
 		<ant dir="examples/groovybooking" target="undeploy" inheritall="false" />
 		<ant dir="examples/quartz" target="undeploy" inheritall="false" />
 		<ant dir="examples/wiki" target="undeploy" inheritall="false" />
+		<ant dir="examples/seamdiscs" target="undeploy" inheritall="false" />
 
 		<!-- Unexplode from JBoss -->
 		<ant dir="examples/booking" target="unexplode" inheritall="false" />
@@ -719,6 +721,7 @@
 		<ant dir="examples/remoting/gwt" target="unexplode" inheritall="false" />
 		<ant dir="examples/groovybooking" target="unexplode" inheritall="false" />
 		<ant dir="examples/quartz" target="unexplode" inheritall="false" />
+		<ant dir="examples/seamdiscs" target="unexplode" inheritall="false" />
 
 		<!-- Undeploy from Tomcat -->
 		<ant dir="examples/booking" target="tomcat.undeploy" inheritall="false" />
@@ -763,6 +766,7 @@
 		<ant dir="examples/registration" target="validateConfiguration" inheritall="false" />
 		<ant dir="examples/todo" target="validateConfiguration" inheritall="false" />
 		<ant dir="examples/blog" target="validateConfiguration" inheritall="false" />
+		<ant dir="examples/seamdiscs" target="validateConfiguration" inheritall="false" />
 		<!--<ant dir="examples/portal" target="validateConfiguration" inheritall="false" />-->
 	</target>
 
@@ -899,6 +903,7 @@
 				<include name="todo/**/*" />
 				<include name="numberguess/**/*" />
 				<include name="groovybooking/**/*" />
+				<include name="seamdiscs/**/*" />
 				<include name="quartz/**/*" />
 				<include name="wiki/**/*" />
 				<!--<include name="portal/**/*" />-->
