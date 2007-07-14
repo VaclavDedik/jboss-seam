@@ -13,54 +13,71 @@
   </head>
 
   <body>
-    <div class="container">
-      <ui:include src="header.xhtml"/>  
-      
-      <div class="banner"></div>
-      
-      <h:messages globalOnly="true"/>
-      
+    <div class="content">
+      <div class="seambay-logo"></div>
+  
       <br class="clear"/>
-                
-      <div class="actionHeader">
-        Please confirm your bid
-      </div>      
       
-      <div class="actionContent">
-        <div class="actionTitle">
-          <span>You are bidding on: </span>
-          #{bidAction.bid.auction.title}
-        </div>      
-        
-        <div class="bidContent">
-
-          <hr class="blueLine"/>
-          
-          <h:form>
-
-            <div class="bidRow">
-              <h:outputLabel>Current bid:</h:outputLabel>
-              <span>$ </span><h:outputText value="#{auction.price}">
-                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>              
-              </h:outputText>
-            </div>
-          
-            <div class="bidRow">
-              <h:outputLabel for="bidAmount">Your maximum bid:</h:outputLabel>
-              <span>$ </span>
-              <h:inputText id="bidAmount" value="#{bidAction.bid.amount}" required="true">
-                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>              
-              </h:inputText>
-              <div class="validationError"><h:message for="bidAmount"/></div>
-            </div>
-            
-            <h:commandButton styleClass="placeBid" action="#{bidAction.confirmBid}" value="Confirm Bid >"/>
-            
-          </h:form>
-          
-        </div>
+      <table width="100%" cellspacing="0" cellpadding="0" class="colourBar">
+        <tr>
+          <td class="lc1"/>
+          <td class="lc2"/>
+          <td class="lc3"/>
+          <td class="lc4"/>
+          <td class="lc5"/>
+          <td class="lc6"/>
+          <td class="lc7"/>
+        </tr>
+      </table>      
+     
+      <div class="headerTitle">
+        Review and Confirm your Bid
       </div>
+              
+      <div class="headerContent">
+        <b>Hello #{authenticatedAccount.name}!</b>
+      </div>
+      
+      <div class="bidImage">
+        <s:graphicImage rendered="#{bidAction.bid.auction.image ne null}" value="#{bidAction.bid.auction.image.data}">
+          <s:transformImageSize width="80" maintainRatio="true"/>
+        </s:graphicImage>        
+      </div>
+      
+      <div class="bidItem">
+        <b>Item you're bidding on:</b><br/>
+        ${bidAction.bid.auction.title}<br/>
         
+        <div class="itemDetailRow">
+          <label>Current bid:</label>
+          <div>
+            AU $<h:outputText value="#{bidAction.bid.auction.price}">
+              <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+            </h:outputText>
+          </div>
+        </div>
+        
+        <div class="itemDetailRow">
+          <label><b>Your maximum bid:</b></label>
+          <div>
+            <b>AU $<h:outputText value="#{bidAction.bid.amount}">
+              <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+            </h:outputText></b>
+          </div>
+        </div>
+      
+      </div>
+                       
+      <h:form>
+             
+        <div class="confirmBid">
+          <b>By clicking on the button below, you agree to buy this item if you're the
+            winning bidder.</b><br/>
+          <h:commandButton styleClass="placeBid" action="#{bidAction.confirmBid}" value="Confirm Bid"/>
+        </div>
+        
+      </h:form>          
+              
     </div>
   </body>
 </html>

@@ -17,28 +17,8 @@ div.navCategory {
   padding-top: 2px;
 }
 
-#itemHeader {
-  padding: 0px;
-  margin: 8px 8px 4px 8px;
-}
-
-div.headerTitle {
-  font-family: tahoma, verdana, arial, helvetica;
-  background-color: #ccccff;
-  border-bottom: 4px solid #5566ee;
-  font-size: 18px;
-  font-weight: bold;
-  padding: 4px 8px 8px 8px;
-}
-
 div.headerItemNumber {
   float: right;
-}
-
-div.headerStatus {
-  height: 20px;
-  background-color: #eeeeff;
-  border: 1px solid #ccccff;
 }
 
 #itemSummary {

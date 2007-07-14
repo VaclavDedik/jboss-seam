@@ -33,10 +33,12 @@
     </page>
     
     <page view-id="/bid.xhtml" conversation="PlaceBid" login-required="true">
-        <navigation from-action="#{bidAction.confirmBid}">
-            <redirect view-id="/auction.xhtml">
-                <param name="id" value="#{bidAction.bid.auction.auctionId}"/>
-            </redirect>
+        <navigation from-action="#{bidAction.confirmBid}">        
+            <rule if-outcome="success">
+                <redirect view-id="/auction.xhtml">
+                    <param name="id" value="#{bidAction.bid.auction.auctionId}"/>
+                </redirect>
+            </rule>        
         </navigation>
     </page>
 

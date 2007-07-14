@@ -34,7 +34,8 @@ public class Auction implements Serializable
    private int bids;
    private double price;
    
-   private int status;
+   private int status;   
+   private int version;
    
    @Id @GeneratedValue
    public Integer getAuctionId()
@@ -209,5 +210,22 @@ public class Auction implements Serializable
    public void setStatus(int status)
    {
       this.status = status;
-   }   
+   }
+   
+   @Version
+   public int getVersion()
+   {
+      return version;
+   }
+   
+   public void setVersion(int version)
+   {
+      this.version = version;
+   }
+   
+   @Transient
+   public double getNextBidInterval()
+   {
+      return getPrice() + 1;
+   }
 }

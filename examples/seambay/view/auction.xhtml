@@ -40,13 +40,13 @@
         <br class="clear"/>        
       </div>
       
-      <div id="itemHeader">
+      <div class="mainHeader">
         <div class="headerTitle">
           #{auction.title}
         </div>
                 
-        <div class="headerStatus">
-        
+        <div class="headerContent">
+          &nbsp;
         </div>
       </div>
       
@@ -207,9 +207,10 @@
           
             <div class="bidRow">
               <h:outputLabel for="bidAmount">Your maximum bid:</h:outputLabel>
-              <span>$ </span><h:inputText id="bidAmount" value="#{newBid.amount}" required="true">
-                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>              
-              </h:inputText>
+              <span>$ </span><h:inputText id="bidAmount" value="#{bidAmount}" required="true"/>
+              (Enter $ <h:outputText value="#{auction.nextBidInterval}">
+                  <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+               </h:outputText><b> or more</b>)
             </div>
             
             <h:commandButton styleClass="placeBid" action="#{bidAction.placeBid}"/>
