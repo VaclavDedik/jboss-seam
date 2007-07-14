@@ -766,9 +766,12 @@
 	</target>
 
 	<target name="copydownloadbletojbossorg">
-		<scp todir="jbossqa@download.jboss.org:/htdocs/jbossseam/build" keyfile="${ci.keyfile}" passphrase="${ci.passphrase}">
-			<fileset dir="${ci.dir}" />
-		</scp>
+		<exec executable="ssh">
+			<arg line="jbossqa@download.jboss.org mkdir -p /htdocs/jbossseam/build"/>
+		</exec>
+		<exec executable="scp">
+			<arg line="-r ${ci.dir}/* jbossqa@download.jboss.org:/htdocs/jbossseam/build/"/>
+		</exec>
 	</target>
 
 	<!-- ########################## DIST TARGETS ###########################-->
