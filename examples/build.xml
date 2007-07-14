@@ -420,11 +420,7 @@
 		<delete dir="${ear.dir}" />
 		<delete dir="${war.dir}" />
 		<delete dir="${jar.dir}" />
-		<delete failonerror="no">
-			<fileset dir="${test.dir}">
-				<exclude name="**/*.class" if="eclipse.running" />
-			</fileset>
-		</delete>
+		<fileset dir="${test.dir}" />
 	</target>
 
 
