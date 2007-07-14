@@ -125,10 +125,14 @@
 	<property name="test.dir" value="${basedir}/test-output" />
 	<property name="report.dir" value="${basedir}/report" />
 	<property name="coverage.dir" value="${basedir}/coverage-output" />
-	
+
 	<property name="testng.jar" value="${basedir}/lib/testng-5.6-jdk15.jar" />
 
-	<property name="bootstrap.dir" value="${basedir}/bootstrap"/>
+	<property name="bootstrap.dir" value="${basedir}/bootstrap" />
+
+	<!-- CI -->
+
+	<property name="ci.dir" value="${basedir}/ci" />
 
 
 	<property name="javac.debug" value="true" />
@@ -369,7 +373,8 @@
 		<delete dir="${classes.dir}" />
 		<delete dir="${test.dir}" />
 		<delete dir="${report.dir}" />
-		<delete dir="${coverage.dir}"/>
+		<delete dir="${coverage.dir}" />
+		<delete dir="${ci.dir}" />
 		<cdk target="clean" />
 	</target>
 
@@ -620,17 +625,17 @@
 		<copy file="${ui.dir}/target/jboss-seam-ui.jar" tofile="${basedir}/${name}-ui.jar" />
 		<copy file="${basedir}/${name}-ui.jar" todir="${dist.dir}" />
 	</target>
-	
-	
+
+
 	<!-- ########################### TEST TARGETS ##########################-->
 
-		<target name="inittest">
-			<init classesdir="${classes.test.dir}" srcdir="${src.test.dir}" modulename="Tests" />
-		</target>
+	<target name="inittest">
+		<init classesdir="${classes.test.dir}" srcdir="${src.test.dir}" modulename="Tests" />
+	</target>
 
-		<target name="compiletest" depends="inittest,select-compiler,antlr,jarremoting">
-			<compile classesdir="${classes.test.dir}" srcdir="${src.test.dir}" classpath="test.classpath"/>
-		</target>
+	<target name="compiletest" depends="inittest,select-compiler,antlr,jarremoting">
+		<compile classesdir="${classes.test.dir}" srcdir="${src.test.dir}" classpath="test.classpath" />
+	</target>
 
 
 	<!-- ########################## 'ALL' TARGETS ##########################-->
@@ -723,13 +728,48 @@
 		<ant dir="examples/blog" target="test" inheritall="false" />
 		<!--<ant dir="examples/portal" target="test" inheritall="false" />-->
 	</target>
-	
+
 	<target name="instrumentall" depends="instrumentcore" />
-		
+
 	<target name="coverageall" depends="instrumentall, testall, coveragecore" description="Run the core unit tests and all example tests with code coverage" />
-	
-	<!-- Target for continuous integration, faster than running the targets indepently -->
-	<target name="ci" depends="cleanall, coverageall, copytestoutput, dist" />
+
+	<!-- Target for continuous integration, including copying output to jboss.org -->
+	<target name="ci" depends="cleanall, coverageall, copytestoutput, dist, testreport, builddownloadable, copydownloadbletojbossorg" />
+
+	<target name="builddownloadable">
+		<mkdir dir="${ci.dir}" />
+		<copy todir="${ci.dir}">
+			<fileset dir="${build.dir}/ci">
+				<include name="**/*.template.html" />
+			</fileset>
+			<filterset>
+				<filter token="build.version" value="${version}.${patchlevel}" />
+				<filter token="build.file" value="${dist.name}.zip" />
+			</filterset>
+			<mapper type="glob" from="*.template.html" to="*.html" />
+		</copy>
+		<copy todir="${ci.dir}">
+			<fileset dir="${build.dir}/ci">
+				<exclude name="**/*.template.html" />
+			</fileset>
+		</copy>
+		<copy todir="${ci.dir}/build">
+			<fileset dir="${report.dir}">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+		<copy todir="${ci.dir}/build" file="${basedir}/${dist.name}.zip" />
+		<mkdir dir="${version}.${patchlevel}" />
+		<move todir="${ci.dir}/${version}.${patchlevel}">
+			<fileset dir="${ci.dir}/build" />
+		</move>
+	</target>
+
+	<target name="copydownloadbletojbossorg">
+		<scp todir="jbossqa@download.jboss.org:/htdocs/jbossseam/build">
+			<fileset dir="${ci.dir}" />
+		</scp>
+	</target>
 
 	<!-- ########################## DIST TARGETS ###########################-->
 
@@ -922,7 +962,7 @@
 
 	<target name="testcore" depends="inittestcore,compiletest" description="Run the core unit tests">
 		<taskdef resource="testngtasks" classpath="${testng.jar}" />
-		<property name="test.cp" refid="test.classpath"/>
+		<property name="test.cp" refid="test.classpath" />
 		<testng>
 			<jvmarg value="-Djava.awt.headless=true" />
 			<classpath refid="test.classpath" />
@@ -941,22 +981,22 @@
 		</junitreport>
 		<echo>Report available at ${report.dir}/junit-noframes.html</echo>
 	</target>
-	
+
 	<target name="copytestoutput">
 		<mkdir dir="${report.dir}/tests" />
 		<copy todir="${report.dir}/tests">
 			<fileset dir="${test.dir}">
-				<include name="**/*.xml"/>
-				<exclude name="**/testng-*.xml"/>
+				<include name="**/*.xml" />
+				<exclude name="**/testng-*.xml" />
 			</fileset>
-			<mapper type="flatten"/>
+			<mapper type="flatten" />
 		</copy>
 	</target>
 
 	<target name="instrumentcore" depends="inittestcore">
 		<taskdef resource="emma_ant.properties" classpathref="classpath.emma" />
 		<mkdir dir="${classes.coverage.core.dir}" />
-		<mkdir dir="${coverage.dir}/core"/>
+		<mkdir dir="${coverage.dir}/core" />
 		<move todir="${classes.coverage.core.dir}">
 			<fileset dir="${classes.test.core.dir}" />
 		</move>
@@ -972,7 +1012,7 @@
 	</target>
 
 	<target name="coveragecore" depends="instrumentcore,testcore" description="Generate a test coverage report for the core tests">
-		<move file="${basedir}/coverage.ec" tofile="${coverage.dir}/coveragecore.ec"/>
+		<move file="${basedir}/coverage.ec" tofile="${coverage.dir}/coveragecore.ec" />
 		<emma>
 			<report sourcepath="${src.core.dir}" depth="method">
 				<infileset dir="${coverage.dir}" includes="coveragecore.em,coveragecore.ec" />
