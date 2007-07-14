@@ -60,11 +60,6 @@
 	<property name="schema.version" value="${version}" />
 	<property name="testng.jar" value="${seam.dir}/lib/testng-5.6-jdk15.jar" />
 
-	<!-- Enable validation (only if set true in build.properties) -->
-	<condition property="validate.xml.enabled">
-		<istrue value="${validate.xml}" />
-	</condition>
-
 	<property name="javac.debug" value="true" />
 	<property name="javac.deprecation" value="false" />
 
@@ -671,8 +666,7 @@
 
 	<!-- #################### TEST TARGETS (JBOSS AS) ##################### -->
 	<!--
-	  You can test the example by running the test target.  This will also
-	  validate the configuration files if enabled in the main build.properties.
+	  You can test the example by running the test target.  
 	-->
 
 	<path id="emma.classpath">
@@ -680,8 +674,11 @@
 		<pathelement location="${seam.dir}/extras/emma/emma_ant.jar" />
 	</path>
 
-	<target name="validateConfiguration" if="validate.xml.enabled">
-		<ant antfile="${seam.dir}/validate.xml" target="validateConfiguration" />
+	<target name="validateConfiguration" description="Validate XML Configuration files">
+		<echo message="Validating configuaration files for ${Name}"/>
+		<ant antfile="${seam.dir}/validate.xml" target="validateConfiguration">
+			<reference refid="validate.resources" />
+		</ant>
 	</target>
 
 	<!-- Compile the test classes -->

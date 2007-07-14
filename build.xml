@@ -110,6 +110,7 @@
 	<property name="dist.drools.dir" value="${dist.dir}/drools" />
 	<property name="dist.hibernate.dir" value="${dist.dir}/hibernate" />
 	<property name="dist.mail.dir" value="${dist.dir}/mail" />
+	<property name="dist.build.dir" value="${dist.dir}/build" />
 	<property name="dist.seamgen.dir" value="${dist.dir}/seam-gen" />
 	<property name="dist.ui.api.dir" value="${dist.dir}/doc/ui" />
 
@@ -132,7 +133,7 @@
 
 	<!-- CI -->
 
-	<property name="ci.dir" value="${basedir}/build/jbossseam" />
+	<property name="ci.dir" value="${basedir}/ci" />
 
 
 	<property name="javac.debug" value="true" />
@@ -201,14 +202,14 @@
 	<path id="maven-ant-tasks.classpath" path="${build.lib.dir}/maven-ant-tasks.jar" />
 	<typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="urn:maven-artifact-ant" classpathref="maven-ant-tasks.classpath" />
 
-	<target name="installExtraDependencies" description="Install extra Seam deps into local Maven 2 repository">
+	<target name="installExtraDependencies">
 
 		<!-- IText -->
 
-		<artifact:pom file="${build.dir}/thirdparty/itext.pom.xml" id="itext.pom" />
+		<!--		<artifact:pom file="${build.dir}/thirdparty/itext.pom.xml" id="itext.pom" />
 		<artifact:install file="${lib.dir}/itext-2.0.4.jar">
 			<pom refid="itext.pom" />
-		</artifact:install>
+		</artifact:install>-->
 
 		<!-- JBoss POJO Cache -->
 
@@ -219,19 +220,19 @@
 
 		<!-- Meldware -->
 
-		<artifact:pom file="${build.dir}/thirdparty/meldware-mailapi.pom.xml" id="meldware-mailapi.pom" />
+		<!--		<artifact:pom file="${build.dir}/thirdparty/meldware-mailapi.pom.xml" id="meldware-mailapi.pom" />
 		<artifact:install file="${mail.dir}/buni-meldware/lib/mailapi.jar">
 			<pom refid="meldware-mailapi.pom" />
-		</artifact:install>
+		</artifact:install>-->
 
-		<artifact:pom file="${build.dir}/thirdparty/meldware-mailjmx.pom.xml" id="meldware-mailjmx.pom" />
+		<!--<artifact:pom file="${build.dir}/thirdparty/meldware-mailjmx.pom.xml" id="meldware-mailjmx.pom" />
 		<artifact:install file="${mail.dir}/buni-meldware/lib/mailjmx.jar">
 			<pom refid="meldware-mailjmx.pom" />
-		</artifact:install>
+		</artifact:install>-->
 
 
 		<!-- Drools and dependencies -->
-		<artifact:pom file="${build.dir}/thirdparty/mvel14.pom.xml" id="mvel14.pom" />
+		<!--<artifact:pom file="${build.dir}/thirdparty/mvel14.pom.xml" id="mvel14.pom" />
 		<artifact:install file="${drools.lib.dir}/mvel14-1.2beta16.jar">
 			<pom refid="mvel14.pom" />
 		</artifact:install>
@@ -259,7 +260,7 @@
 		<artifact:pom file="${build.dir}/thirdparty/drools-compiler.pom.xml" id="drools-compiler.pom" />
 		<artifact:install file="${drools.lib.dir}/drools-compiler-4.0.0.MR2.jar">
 			<pom refid="drools-compiler.pom" />
-		</artifact:install>
+		</artifact:install>-->
 
 		<!-- Testng -->
 
@@ -277,7 +278,7 @@
 
 		<!-- Hibernate Search -->
 
-		<artifact:pom file="${build.dir}/thirdparty/hibernate-commons-annotations.pom.xml" id="hibernate-commons-annotations.pom" />
+		<!--<artifact:pom file="${build.dir}/thirdparty/hibernate-commons-annotations.pom.xml" id="hibernate-commons-annotations.pom" />
 		<artifact:install file="${lib.dir}/hibernate-commons-annotations.jar">
 			<pom refid="hibernate-commons-annotations.pom" />
 		</artifact:install>
@@ -285,28 +286,28 @@
 		<artifact:pom file="${build.dir}/thirdparty/hibernate-search.pom.xml" id="hibernate-search.pom" />
 		<artifact:install file="${lib.dir}/hibernate-search.jar">
 			<pom refid="hibernate-search.pom" />
-		</artifact:install>
+		</artifact:install>-->
 
 		<!-- JBoss EL -->
 
-		<artifact:pom file="${build.dir}/thirdparty/jboss-el.pom.xml" id="jboss-el.pom" />
+		<!--<artifact:pom file="${build.dir}/thirdparty/jboss-el.pom.xml" id="jboss-el.pom" />
 		<artifact:install file="${lib.dir}/jboss-el.jar">
 			<pom refid="jboss-el.pom" />
-		</artifact:install>
+		</artifact:install>-->
 
 		<!-- JBoss Embedded -->
 
-		<artifact:pom file="${build.dir}/thirdparty/jboss-embedded.pom.xml" id="jboss-embedded.pom" />
+		<!--<artifact:pom file="${build.dir}/thirdparty/jboss-embedded.pom.xml" id="jboss-embedded.pom" />
 		<artifact:install file="${lib.dir}/jboss-embedded-all.jar">
 			<pom refid="jboss-embedded.pom" />
-		</artifact:install>
+		</artifact:install>-->
 
 		<!-- Quartz -->
 
-		<artifact:pom file="${build.dir}/thirdparty/quartz.pom.xml" id="quartz.pom" />
+		<!--<artifact:pom file="${build.dir}/thirdparty/quartz.pom.xml" id="quartz.pom" />
 		<artifact:install file="${lib.dir}/quartz-1.6.0.jar">
 			<pom refid="quartz.pom" />
-		</artifact:install>
+		</artifact:install>-->
 
 	</target>
 
@@ -318,54 +319,54 @@
 		</artifact:install>
 	</target>
 
-	<target name="initcore.m2" depends="init.m2">
+	<!--<target name="initcore.m2" depends="init.m2">
 		<artifact:pom file="${build.dir}/core.pom.xml" id="core.pom" />
 		<artifact:dependencies pathId="build.core.path" versionsId="build.core.versions" useScope="compile">
 			<pom refid="core.pom" />
 		</artifact:dependencies>
-	</target>
+	</target>-->
 
-	<target name="initioc.m2" depends="init.m2, jarcore.m2">
+	<!--<target name="initioc.m2" depends="init.m2, jarcore.m2">
 		<artifact:pom file="${build.dir}/ioc.pom.xml" id="ioc.pom" />
 		<artifact:dependencies pathId="build.ioc.path" versionsId="build.ioc.versions" useScope="compile">
 			<pom refid="ioc.pom" />
 		</artifact:dependencies>
-	</target>
+	</target>-->
 
-	<target name="initpdf.m2" depends="init.m2, jarcore.m2, jarui.m2">
+	<!--<target name="initpdf.m2" depends="init.m2, jarcore.m2, jarui.m2">
 		<artifact:pom file="${build.dir}/pdf.pom.xml" id="pdf.pom" />
 		<artifact:dependencies pathId="build.pdf.path" versionsId="build.pdf.versions" useScope="compile">
 			<pom refid="pdf.pom" />
 		</artifact:dependencies>
-	</target>
+	</target>-->
 
-	<target name="initmail.m2" depends="init.m2, jarcore.m2, jarui.m2, jarpdf.m2">
+	<!--<target name="initmail.m2" depends="init.m2, jarcore.m2, jarui.m2, jarpdf.m2">
 		<artifact:pom file="${build.dir}/mail.pom.xml" id="mail.pom" />
 		<artifact:dependencies pathId="build.mail.path" versionsId="build.mail.versions" useScope="compile">
 			<pom refid="mail.pom" />
 		</artifact:dependencies>
-	</target>
+	</target>-->
 
-	<target name="initremoting.m2" depends="init.m2, jarcore.m2">
+	<!--<target name="initremoting.m2" depends="init.m2, jarcore.m2">
 		<artifact:pom file="${build.dir}/remoting.pom.xml" id="remoting.pom" />
 		<artifact:dependencies pathId="build.remoting.path" versionsId="build.remoting.versions" useScope="compile">
 			<pom refid="remoting.pom" />
 		</artifact:dependencies>
-	</target>
+	</target>-->
 
-	<target name="initdebug.m2" depends="init.m2, jarcore.m2">
+	<!--<target name="initdebug.m2" depends="init.m2, jarcore.m2">
 		<artifact:pom file="${build.dir}/debug.pom.xml" id="debug.pom" />
 		<artifact:dependencies pathId="build.debug.path" versionsId="build.debug.versions" useScope="compile">
 			<pom refid="debug.pom" />
 		</artifact:dependencies>
-	</target>
+	</target>-->
 
-	<target name="initgen.m2" depends="init.m2, jarcore.m2">
+	<!--<target name="initgen.m2" depends="init.m2, jarcore.m2">
 		<artifact:pom file="${build.dir}/gen.pom.xml" id="gen.pom" />
 		<artifact:dependencies pathId="build.gen.path" versionsId="build.gen.versions" useScope="compile">
 			<pom refid="gen.pom" />
 		</artifact:dependencies>
-	</target>
+	</target>-->
 
 	<!-- ########################## BUILD TARGETS ##########################-->
 
@@ -375,12 +376,13 @@
 		<delete dir="${report.dir}" />
 		<delete dir="${coverage.dir}" />
 		<delete dir="${ci.dir}" />
+		<delete file="coverage.ec" failonerror="false" />
 		<cdk target="clean" />
 	</target>
 
 	<target name="build" depends="jarcore,jarpdf,jarioc,jarmail,jarremoting,jardebug,jargen,jarui" description="Build all four distribution .jar files" />
 
-	<target name="build.m2" depends="jarcore.m2,jarpdf.m2,jarioc.m2,jarmail.m2,jarremoting.m2,jardebug.m2,jargen.m2,jarui.m2" description="Build all four distribution .jar files" />
+	<!--<target name="build.m2" depends="jarcore.m2,jarpdf.m2,jarioc.m2,jarmail.m2,jarremoting.m2,jardebug.m2,jargen.m2,jarui.m2" description="Build all four distribution .jar files" />-->
 
 	<target name="antlr" description="Generate ANTLR parser">
 		<mkdir dir="${src.core.dir}/org/jboss/seam/text" />
@@ -420,20 +422,20 @@
 		<compile classesdir="${classes.core.dir}" srcdir="${src.core.dir}" />
 	</target>
 
-	<target name="compilecore.m2" depends="initcore.m2, initcore,select-compiler,antlr">
+	<!--<target name="compilecore.m2" depends="initcore.m2, initcore,select-compiler,antlr">
 		<compile classesdir="${classes.core.dir}" srcdir="${src.core.dir}" classpath="build.core.path" />
-	</target>
+	</target>-->
 
 	<target name="jarcore" depends="compilecore" description="Build the distribution .jar file for the core package">
 		<archive classesdir="${classes.core.dir}" module="jboss-seam" />
 	</target>
 
-	<target name="jarcore.m2" depends="compilecore.m2" description="Build the distribution .jar file using M2 dependency management">
+	<!--<target name="jarcore.m2" depends="compilecore.m2" description="Build the distribution .jar file using M2 dependency management">
 		<archive classesdir="${classes.core.dir}" module="jboss-seam" />
 		<artifact:install file="${basedir}/jboss-seam.jar">
 			<pom refid="core.pom" />
 		</artifact:install>
-	</target>
+	</target>-->
 
 	<!-- ########################### PDF TARGETS ###########################-->
 
@@ -455,18 +457,18 @@
 		<archive classesdir="${classes.pdf.dir}" module="jboss-seam-pdf" />
 	</target>
 
-	<target name="compilepdf.m2" depends="initpdf, initpdf.m2, select-compiler">
+	<!--<target name="compilepdf.m2" depends="initpdf, initpdf.m2, select-compiler">
 		<property name="cp" refid="build.pdf.path" />
 		<echo>${cp}</echo>
 		<compile classesdir="${classes.pdf.dir}" srcdir="${src.pdf.dir}" classpath="build.pdf.path" />
-	</target>
+	</target>-->
 
-	<target name="jarpdf.m2" depends="compilepdf.m2" description="Build the distribution .jar file for the PDF package">
+	<!--<target name="jarpdf.m2" depends="compilepdf.m2" description="Build the distribution .jar file for the PDF package">
 		<archive classesdir="${classes.pdf.dir}" module="jboss-seam-pdf" />
 		<artifact:install file="${basedir}/jboss-seam-pdf.jar">
 			<pom refid="pdf.pom" />
 		</artifact:install>
-	</target>
+	</target>-->
 
 
 	<!-- ########################### IOC TARGETS ###########################-->
@@ -483,16 +485,16 @@
 		<archive classesdir="${classes.ioc.dir}" module="jboss-seam-ioc" />
 	</target>
 
-	<target name="compileioc.m2" depends="initioc, initioc.m2, select-compiler">
+	<!--<target name="compileioc.m2" depends="initioc, initioc.m2, select-compiler">
 		<compile classesdir="${classes.ioc.dir}" srcdir="${src.ioc.dir}" classpath="build.ioc.path" />
-	</target>
+	</target>-->
 
-	<target name="jarioc.m2" depends="compileioc.m2" description="Build the distribution .jar file for the IOC package">
+	<!--<target name="jarioc.m2" depends="compileioc.m2" description="Build the distribution .jar file for the IOC package">
 		<archive classesdir="${classes.ioc.dir}" module="jboss-seam-ioc" />
 		<artifact:install file="${basedir}/jboss-seam-ioc.jar">
 			<pom refid="ioc.pom" />
 		</artifact:install>
-	</target>
+	</target>-->
 
 
 	<!-- ########################### MAIL TARGETS ###########################-->
@@ -516,16 +518,16 @@
 		<archive classesdir="${classes.mail.dir}" module="jboss-seam-mail" />
 	</target>
 
-	<target name="compilemail.m2" depends="initmail, initmail.m2, select-compiler">
+	<!--<target name="compilemail.m2" depends="initmail, initmail.m2, select-compiler">
 		<compile classesdir="${classes.mail.dir}" srcdir="${src.mail.dir}" classpath="build.mail.path" />
-	</target>
+	</target>-->
 
-	<target name="jarmail.m2" depends="compilemail.m2" description="Build the distribution .jar file for the IOC package">
+	<!--<target name="jarmail.m2" depends="compilemail.m2" description="Build the distribution .jar file for the IOC package">
 		<archive classesdir="${classes.mail.dir}" module="jboss-seam-mail" />
 		<artifact:install file="${basedir}/jboss-seam-mail.jar">
 			<pom refid="mail.pom" />
 		</artifact:install>
-	</target>
+	</target>-->
 
 
 	<!-- ########################### DEBUG TARGETS ###########################-->
@@ -542,16 +544,16 @@
 		<archive classesdir="${classes.debug.dir}" module="jboss-seam-debug" />
 	</target>
 
-	<target name="compiledebug.m2" depends="initdebug, initdebug.m2, select-compiler">
+	<!--<target name="compiledebug.m2" depends="initdebug, initdebug.m2, select-compiler">
 		<compile classesdir="${classes.debug.dir}" srcdir="${src.debug.dir}" classpath="build.debug.path" />
-	</target>
+	</target>-->
 
-	<target name="jardebug.m2" depends="compiledebug.m2" description="Build the distribution .jar file for the IOC package">
+	<!--<target name="jardebug.m2" depends="compiledebug.m2" description="Build the distribution .jar file for the IOC package">
 		<archive classesdir="${classes.debug.dir}" module="jboss-seam-debug" />
 		<artifact:install file="${basedir}/jboss-seam-debug.jar">
 			<pom refid="debug.pom" />
 		</artifact:install>
-	</target>
+	</target>-->
 
 
 	<!-- ########################### GEN TARGETS ###########################-->
@@ -568,16 +570,16 @@
 		<archive classesdir="${classes.gen.dir}" module="jboss-seam-gen" />
 	</target>
 
-	<target name="compilegen.m2" depends="initgen, initgen.m2, select-compiler">
+	<!--<target name="compilegen.m2" depends="initgen, initgen.m2, select-compiler">
 		<compile classesdir="${classes.gen.dir}" srcdir="${src.gen.dir}" classpath="build.gen.path" />
-	</target>
+	</target>-->
 
-	<target name="jargen.m2" depends="compilegen.m2" description="Build the distribution .jar file for the gen package">
+	<!--<target name="jargen.m2" depends="compilegen.m2" description="Build the distribution .jar file for the gen package">
 		<archive classesdir="${classes.gen.dir}" module="jboss-seam-gen" />
 		<artifact:install file="${basedir}/jboss-seam-gen.jar">
 			<pom refid="gen.pom" />
 		</artifact:install>
-	</target>
+	</target>-->
 
 
 	<!-- ########################### REMOTING TARGETS ###########################-->
@@ -594,16 +596,16 @@
 		<archive classesdir="${classes.remoting.dir}" module="jboss-seam-remoting" />
 	</target>
 
-	<target name="compileremoting.m2" depends="initremoting, initremoting.m2, select-compiler">
+	<!--<target name="compileremoting.m2" depends="initremoting, initremoting.m2, select-compiler">
 		<compile classesdir="${classes.remoting.dir}" srcdir="${src.remoting.dir}" classpath="build.remoting.path" />
-	</target>
+	</target>-->
 
-	<target name="jarremoting.m2" depends="compileremoting.m2" description="Build the distribution .jar file for the Remoting package">
+	<!--<target name="jarremoting.m2" depends="compileremoting.m2" description="Build the distribution .jar file for the Remoting package">
 		<archive classesdir="${classes.remoting.dir}" module="jboss-seam-remoting" />
 		<artifact:install file="${basedir}/jboss-seam-remoting.jar">
 			<pom refid="remoting.pom" />
 		</artifact:install>
-	</target>
+	</target>-->
 
 	<!-- ########################### UI TARGETS ###########################-->
 
@@ -619,12 +621,12 @@
 		<copy file="${basedir}/${name}-ui.jar" todir="${dist.dir}" />
 	</target>
 
-	<target name="jarui.m2" description="Build the distribution .jar file for the UI package based on A4J CDK" depends="init.m2, jarcore.m2">
+	<!--<target name="jarui.m2" description="Build the distribution .jar file for the UI package based on A4J CDK" depends="init.m2, jarcore.m2">
 		<mkdir dir="${dist.dir}" />
 		<cdk target="install" />
 		<copy file="${ui.dir}/target/jboss-seam-ui.jar" tofile="${basedir}/${name}-ui.jar" />
 		<copy file="${basedir}/${name}-ui.jar" todir="${dist.dir}" />
-	</target>
+	</target>-->
 
 
 	<!-- ########################### TEST TARGETS ##########################-->
@@ -695,6 +697,29 @@
 		<ant dir="examples/quartz" target="undeploy" inheritall="false" />
 		<ant dir="examples/wiki" target="undeploy" inheritall="false" />
 
+		<!-- Unexplode from JBoss -->
+		<ant dir="examples/booking" target="unexplode" inheritall="false" />
+		<ant dir="examples/blog" target="unexplode" inheritall="false" />
+		<ant dir="examples/dvdstore" target="unexplode" inheritall="false" />
+		<ant dir="examples/contactlist" target="unexplode" inheritall="false" />
+		<ant dir="examples/seampay" target="unexplode" inheritall="false" />
+		<ant dir="examples/seamspace" target="unexplode" inheritall="false" />
+		<ant dir="examples/itext" target="unexplode" inheritall="false" />
+		<ant dir="examples/mail" target="unexplode" inheritall="false" />
+		<ant dir="examples/ui" target="unexplode" inheritall="false" />
+		<!--<ant dir="examples/spring" target="unexplode" inheritall="false" />-->
+		<ant dir="examples/messages" target="unexplode" inheritall="false" />
+		<ant dir="examples/numberguess" target="unexplode" inheritall="false" />
+		<ant dir="examples/registration" target="unexplode" inheritall="false" />
+		<ant dir="examples/todo" target="unexplode" inheritall="false" />
+		<ant dir="examples/drools" target="unexplode" inheritall="false" />
+		<ant dir="examples/remoting/helloworld" target="unexplode" inheritall="false" />
+		<ant dir="examples/remoting/chatroom" target="unexplode" inheritall="false" />
+		<ant dir="examples/remoting/progressbar" target="unexplode" inheritall="false" />
+		<ant dir="examples/remoting/gwt" target="unexplode" inheritall="false" />
+		<ant dir="examples/groovybooking" target="unexplode" inheritall="false" />
+		<ant dir="examples/quartz" target="unexplode" inheritall="false" />
+
 		<!-- Undeploy from Tomcat -->
 		<ant dir="examples/booking" target="tomcat.undeploy" inheritall="false" />
 		<ant dir="examples/dvdstore" target="tomcat.undeploy" inheritall="false" />
@@ -728,13 +753,28 @@
 		<ant dir="examples/blog" target="test" inheritall="false" />
 		<!--<ant dir="examples/portal" target="test" inheritall="false" />-->
 	</target>
+	
+	<target name="validateall" description="Validate all example XML Configuration Files">
+		<ant dir="examples/booking" target="validateConfiguration" inheritall="false" />
+		<ant dir="examples/dvdstore" target="validateConfiguration" inheritall="false" />
+		<ant dir="examples/messages" target="validateConfiguration" inheritall="false" />
+		<ant dir="examples/numberguess" target="validateConfiguration" inheritall="false" />
+		<ant dir="examples/contactlist" target="validateConfiguration" inheritall="false" />
+		<ant dir="examples/registration" target="validateConfiguration" inheritall="false" />
+		<ant dir="examples/todo" target="validateConfiguration" inheritall="false" />
+		<ant dir="examples/blog" target="validateConfiguration" inheritall="false" />
+		<!--<ant dir="examples/portal" target="validateConfiguration" inheritall="false" />-->
+	</target>
 
 	<target name="instrumentall" depends="instrumentcore" />
 
 	<target name="coverageall" depends="instrumentall, testall, coveragecore" description="Run the core unit tests and all example tests with code coverage" />
 
-	<!-- Target for continuous integration, including copying output to jboss.org -->
-	<target name="ci" depends="cleanall, coverageall, copytestoutput, dist, testreport, builddownloadable, copydownloadbletojbossorg" />
+	<!-- ################## CONTINUOUS INTEGRATION TARGETS #################-->
+	
+	<!-- Continuous integration wrapper target -->
+	<!-- N.B. validateall must run last as it actually causes the build to fail rather than acting as a test (TODO Fix this) -->
+	<target name="ci" depends="cleanall, coverageall, copytestoutput, dist, testreport, builddownloadable, copydownloadbletojbossorg, validateall" />
 
 	<target name="builddownloadable">
 		<mkdir dir="${ci.dir}" />
@@ -767,7 +807,7 @@
 
 	<target name="copydownloadbletojbossorg">
 		<exec executable="scp">
-			<arg line="-r ${ci.dir} jbossqa@download.jboss.org:/htdocs"/>
+			<arg line="-r ${ci.dir} jbossqa@download.jboss.org:/htdocs" />
 		</exec>
 	</target>
 
@@ -827,6 +867,12 @@
 			</fileset>
 		</copy>
 
+		<copy todir="${dist.build.dir}">
+			<fileset dir="${build.dir}">
+				<include name="**/*.*" />
+			</fileset>
+		</copy>
+
 	</target>
 
 	<target name="copyexamples">
@@ -863,6 +909,7 @@
 				<include name="remoting/gwt/**/*" />
 				<include name="readme.txt" />
 				<include name="seam-examples.html" />
+				<include name="build.xml" />
 				<exclude name="*/exploded-archives" />
 				<exclude name="*/exploded-archives/**/*" />
 				<exclude name="*/test-build" />
@@ -891,6 +938,7 @@
 		<copy file="seam" todir="${dist.dir}" />
 		<copy file="seam-text.g" todir="${dist.dir}" />
 		<copy file="seam.bat" todir="${dist.dir}" />
+		<copy file="validate.xml" todir="${dist.dir}" />
 		<copy file="seam2migration.txt" todir="${dist.dir}" />
 		<replace file="${dist.dir}/build.xml">
 			<replacetoken>

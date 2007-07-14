@@ -15,37 +15,37 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate</artifactId>
-			<scope>provided</scope>
+			<optional>true</optional>
 		</dependency>
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-annotations</artifactId>
-			<scope>provided</scope>
+			<optional>true</optional>
 		</dependency>
 
 		<dependency>
 			<groupId>javassist</groupId>
 			<artifactId>javassist</artifactId>
-			<scope>provided</scope>
+			<optional>true</optional>
 		</dependency>
 
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
-			<scope>provided</scope>
+			<optional>true</optional>
 		</dependency>
 
 		<dependency>
 			<groupId>javax.portlet</groupId>
 			<artifactId>portlet-api</artifactId>
-			<scope>provided</scope>
+			<optional>true</optional>
 		</dependency>
 
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
-			<scope>provided</scope>
+			<optional>true</optional>
 		</dependency>
 
 		<dependency>
@@ -57,104 +57,115 @@
 		<dependency>
 			<groupId>javax.xml.ws</groupId>
 			<artifactId>jaxws-api</artifactId>
+			<optional>true</optional>
 		</dependency>
 
 		<dependency>
 			<groupId>javax.faces</groupId>
 			<artifactId>jsf-api</artifactId>
-			<scope>provided</scope>
+			<optional>true</optional>
 		</dependency>
 
 		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>jsp-api</artifactId>
-			<scope>provided</scope>
+			<optional>true</optional>
 		</dependency>
 
 		<dependency>
 			<groupId>javax.ejb</groupId>
 			<artifactId>ejb-api</artifactId>
-			<scope>provided</scope>
+			<optional>true</optional>
 		</dependency>
 
 		<dependency>
 			<groupId>com.octo.captcha</groupId>
 			<artifactId>jcaptcha-all</artifactId>
+			<optional>true</optional>
 		</dependency>
 
 		<dependency>
 			<groupId>javax.xml.soap</groupId>
 			<artifactId>saaj-api</artifactId>
+			<optional>true</optional>
 		</dependency>
 
 		<dependency>
 			<groupId>javax.jms</groupId>
 			<artifactId>jms-api</artifactId>
-			<scope>provided</scope>
+			<optional>true</optional>
 		</dependency>
 
 		<dependency>
 			<groupId>javax.annotation</groupId>
 			<artifactId>jsr250-api</artifactId>
-			<scope>provided</scope>
+			<optional>true</optional>
 		</dependency>
 
 		<dependency>
 			<groupId>javax.transaction</groupId>
 			<artifactId>jta</artifactId>
-			<scope>provided</scope>
+			<optional>true</optional>
 		</dependency>
 
 		<dependency>
 			<groupId>groovy</groupId>
 			<artifactId>groovy-all</artifactId>
+			<optional>true</optional>
 		</dependency>
 
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-			<scope>provided</scope>
+			<optional>true</optional>
 		</dependency>
 
 		<dependency>
 			<groupId>javax.el</groupId>
 			<artifactId>el-api</artifactId>
+			<optional>true</optional>
 		</dependency>
 
 		<dependency>
 			<groupId>javax.persistence</groupId>
 			<artifactId>persistence-api</artifactId>
-			<scope>provided</scope>
+			<optional>true</optional>
 		</dependency>
 		
 		<dependency>
 			<groupId>antlr</groupId>
 			<artifactId>antlr</artifactId>
+			<optional>true</optional>
 		</dependency>
 		
 		<dependency>
 			<groupId>jboss</groupId>
 			<artifactId>jboss-cache-jdk50</artifactId>
+			<optional>true</optional>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.buni</groupId>
 			<artifactId>meldware-mailjmx</artifactId>
+			<optional>true</optional>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.buni</groupId>
 			<artifactId>meldware-mailapi</artifactId>
+			<optional>true</optional>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.drools</groupId>
 			<artifactId>drools-core</artifactId>
+			<optional>true</optional>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.drools</groupId>
 			<artifactId>drools-compiler</artifactId>
+			<optional>true</optional>
 		</dependency>
 		
 		<!-- Surefire can't cope with such a new version of testng, so we have to specify it
@@ -163,31 +174,37 @@
 			<groupId>org.testng</groupId>
 		    <artifactId>testng</artifactId>
 		    <version>5.6-jboss-seam-2.0.0.BETA</version>
+		    <optional>true</optional>
 		</dependency>
 		
 		<dependency>
 			<groupId>jboss</groupId>
 		    <artifactId>jbpm-jpdl</artifactId>
+		    <optional>true</optional>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-search</artifactId>
+			<optional>true</optional>
 		</dependency>
 		
 		<dependency>
 			<groupId>jboss</groupId>
 			<artifactId>jboss-el</artifactId>
+			<optional>true</optional>
 		</dependency>
 		
 		<dependency>
 			<groupId>jboss</groupId>
 			<artifactId>jboss-embedded</artifactId>
+			<optional>true</optional>
 		</dependency>
 		
 		<dependency>
 			<groupId>quartz</groupId>
 			<artifactId>quartz</artifactId>
+			<optional>true</optional>
 		</dependency>
 
 	</dependencies>
