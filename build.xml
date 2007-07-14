@@ -766,7 +766,7 @@
 	</target>
 
 	<target name="copydownloadbletojbossorg">
-		<scp todir="jbossqa@download.jboss.org:/htdocs/jbossseam/build">
+		<scp todir="jbossqa@download.jboss.org:/htdocs/jbossseam/build" keyfile="${ci.keyfile}" passphrase="${ci.passphrase}">
 			<fileset dir="${ci.dir}" />
 		</scp>
 	</target>
