@@ -72,6 +72,7 @@ public class Jbpm
       installPageflowDefinitions();
       JbpmExpressionEvaluator.setVariableResolver( new SeamVariableResolver() );
       JbpmExpressionEvaluator.setFunctionMapper( new SeamFunctionMapper() );
+      JbpmExpressionEvaluator.setExpressionEvaluator( new SeamExpressionEvaludator() );
       UserCodeInterceptorConfig.setUserCodeInterceptor( new SeamUserCodeInterceptor() );
    }
 

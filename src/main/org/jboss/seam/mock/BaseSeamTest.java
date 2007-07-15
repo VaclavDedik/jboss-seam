@@ -29,6 +29,7 @@ import org.hibernate.validator.InvalidValue;
 import org.jboss.deployers.spi.DeploymentException;
 import org.jboss.embedded.Bootstrap;
 import org.jboss.seam.Component;
+import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.FacesLifecycle;
 import org.jboss.seam.contexts.ServletLifecycle;
@@ -862,7 +863,7 @@ public class BaseSeamTest
       initServletContext( servletContext.getInitParameters() );
       ServletLifecycle.beginApplication(servletContext);
       new Initialization(servletContext).create().init();
-
+      ( (Init) servletContext.getAttribute( Seam.getComponentName(Init.class) ) ).setDebug(false);
       conversationViewRootAttributes = new HashMap<String, Map>();
    }
 

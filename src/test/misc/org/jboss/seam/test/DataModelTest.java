@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.io.NotSerializableException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -20,7 +18,6 @@ import javax.faces.model.ListDataModel;
 
 import org.jboss.deployers.spi.DeploymentException;
 import org.jboss.seam.faces.DataModels;
-import org.jboss.seam.framework.EntityQuery;
 import org.jboss.seam.jsf.ArrayDataModel;
 import org.jboss.seam.jsf.MapDataModel;
 import org.jboss.seam.jsf.SetDataModel;
