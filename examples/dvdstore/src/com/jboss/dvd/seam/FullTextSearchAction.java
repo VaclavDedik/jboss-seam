@@ -37,209 +37,171 @@ import org.jboss.seam.annotations.datamodel.DataModelSelection;
 @Stateful
 @Name("search")
 public class FullTextSearchAction
-      implements FullTextSearch,
-      Serializable
+    implements FullTextSearch,
+               Serializable
 {
-   static final long serialVersionUID = -6536629890251170098L;
+    static final long serialVersionUID = -6536629890251170098L;
+    
+    @In(create = true)
+    ShoppingCart cart;
+    
+    @PersistenceContext
+    EntityManager em;
 
-   @In(create = true)
-   ShoppingCart cart;
+    @RequestParameter
+    Long id;
 
-   @PersistenceContext
-   EntityManager em;
+    int pageSize = 15;
+    int currentPage = 0;
+    boolean hasMore = false;
+    int numberOfResults;
+    
+    String searchQuery;
 
-   @RequestParameter
-   Long id;
+    @DataModel
+    List<Product> searchResults;
 
-   //Category category;
-   int pageSize = 15;
-   int currentPage = 0;
-   boolean hasMore = false;
-   int numberOfResults;
+    @DataModelSelection
+    Product selectedProduct;
 
-   String searchQuery;
+    @Out(required = false)
+    Product dvd;
 
-   @DataModel
-   List<Product> searchResults;
-
-   @DataModelSelection
-   Product selectedProduct;
-
-   @Out(required = false)
-   Product dvd;
-
-   @Out(scope = ScopeType.CONVERSATION, required = false)
-   Map<Product, Boolean> searchSelections;
-
-
-   public String getSearchQuery()
-   {
-      return searchQuery;
-   }
-
-   public void setSearchQuery(String searchQuery)
-   {
-      this.searchQuery = searchQuery;
-   }
+    @Out(scope = ScopeType.CONVERSATION, required = false)
+    Map<Product, Boolean> searchSelections;
 
 
-   public int getNumberOfResults()
-   {
-      return numberOfResults;
-   }
+    public String getSearchQuery() {
+        return searchQuery;
+    }
+    
+    public void setSearchQuery(String searchQuery) {
+        this.searchQuery = searchQuery;
+    }
+    
+    
+    public int getNumberOfResults() {
+        return numberOfResults;
+    }
+    
+    @Begin(join = true)
+    public String doSearch() {
+        currentPage = 0;
+        updateResults();
+        
+        return "browse";
+    }
+    
+    public void nextPage() {
+        if (!isLastPage()) {
+            currentPage++;
+            updateResults();
+        }
+    }
 
-   @Begin(join = true)
-   public String doSearch()
-   {
-      currentPage = 0;
-      updateResults();
+    public void prevPage() {
+        if (!isFirstPage()) {
+            currentPage--;
+            updateResults();
+        }
+    }
+    
+    @Begin(join = true)
+    public void selectFromRequest() {
+        if (id != null)  {
+            dvd = em.find(Product.class, id);
+        } else if (selectedProduct != null) {
+            dvd = selectedProduct;
+        }
+    }
 
-      return "browse";
-   }
+    public boolean isLastPage() {
+        return ( searchResults != null ) && !hasMore;
+    }
 
-   public void nextPage()
-   {
-      if (!isLastPage())
-      {
-         currentPage++;
-         updateResults();
-      }
-   }
+    public boolean isFirstPage() {
+        return ( searchResults != null ) && ( currentPage == 0 );
+    }
 
-   public void prevPage()
-   {
-      if (!isFirstPage())
-      {
-         currentPage--;
-         updateResults();
-      }
-   }
-
-   @Begin(join = true)
-   public void selectFromRequest()
-   {
-      if (id != null)
-      {
-         dvd = em.find(Product.class, id);
-      }
-      else if (selectedProduct != null)
-      {
-         dvd = selectedProduct;
-      }
-   }
-
-   public boolean isLastPage()
-   {
-      return ( searchResults != null ) && !hasMore;
-   }
-
-   public boolean isFirstPage()
-   {
-      return ( searchResults != null ) && ( currentPage == 0 );
-   }
-
-   private void updateResults()
-   {
-      FullTextQuery query;
-      try
-      {
-         query = searchQuery(searchQuery);
-      }
-      catch (ParseException pe) { return; }
+    private void updateResults() {
+        FullTextQuery query;
+        try {
+            query = searchQuery(searchQuery);
+        } catch (ParseException pe) { 
+            return; 
+        }
       
-      List<Product> items = query
+        List<Product> items = query
             .setMaxResults(pageSize + 1)
             .setFirstResult(pageSize * currentPage)
             .list();
-      numberOfResults = query.getResultSize();
+        numberOfResults = query.getResultSize();
+        
+        if (items.size() > pageSize) {
+            searchResults = new ArrayList(items.subList(0, pageSize));
+            hasMore = true;
+        } else {
+            searchResults = items;
+            hasMore = false;
+        }
 
-      if (items.size() > pageSize)
-      {
-         searchResults = new ArrayList(items.subList(0, pageSize));
-         hasMore = true;
-      }
-      else
-      {
-         searchResults = items;
-         hasMore = false;
-      }
+        searchSelections = new HashMap<Product, Boolean>();
+    }
 
-      searchSelections = new HashMap<Product, Boolean>();
-   }
+    private FullTextQuery searchQuery(String searchQuery) throws ParseException
+    {
+        Map<String,Float> boostPerField = new HashMap<String,Float>();
+        boostPerField.put("title", 4f);
+        boostPerField.put("description", 2f);
+        boostPerField.put("actors.name", 2f);
+        boostPerField.put("categories.name", 0.5f);
 
-   private FullTextQuery searchQuery(String searchQuery) throws ParseException
-   {
-      Map<String,Float> boostPerField = new HashMap<String,Float>();
-      boostPerField.put( "title", 4f );
-      boostPerField.put( "description", 2f );
-      boostPerField.put( "actors.name", 2f );
-      boostPerField.put( "categories.name", 0.5f );
-      String[] productFields = {"title", "description", "actors.name", "categories.name"};
-      QueryParser parser = new MultiFieldQueryParser(productFields, new StandardAnalyzer(), boostPerField);
-      parser.setAllowLeadingWildcard(true);
-      org.apache.lucene.search.Query luceneQuery;
-      luceneQuery = parser.parse(searchQuery);
-      return getFullTextSession().createFullTextQuery(luceneQuery, Product.class);
-   }
+        String[] productFields = {"title", "description", "actors.name", "categories.name"};
+        QueryParser parser = new MultiFieldQueryParser(productFields, new StandardAnalyzer(), boostPerField);
+        parser.setAllowLeadingWildcard(true);
+        org.apache.lucene.search.Query luceneQuery;
+        luceneQuery = parser.parse(searchQuery);
+        return getFullTextSession().createFullTextQuery(luceneQuery, Product.class);
+    }
 
-   private FullTextSession getFullTextSession()
-   {
-      return (FullTextSession) em.getDelegate();
-   }
+    private FullTextSession getFullTextSession() {
+        return (FullTextSession) em.getDelegate();
+    }
+    
+    /**
+     * Add the selected DVD to the cart
+     */
+    public void addToCart()
+    {
+        cart.addProduct(dvd, 1);
+    }
+    
+    /**
+     * Add many items to cart
+     */
+    public void addAllToCart()
+    {
+        for (Product item : searchResults) {
+            Boolean selected = searchSelections.get(item);
+            if (selected != null && selected) {
+                searchSelections.put(item, false);
+                cart.addProduct(item, 1);
+            }
+        }
+    }
+    
+    public int getPageSize() {
+        return pageSize;
+    }
+    
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+    
+    @End
+    public void reset() { }
 
-   /**
-    * Add the selected DVD to the cart
-    */
-   public void addToCart()
-   {
-      cart.addProduct(dvd, 1);
-   }
-
-   /**
-    * Add many items to cart
-    */
-   public void addAllToCart()
-   {
-      for (Product item : searchResults)
-      {
-         Boolean selected = searchSelections.get(item);
-         if (selected != null && selected)
-         {
-            searchSelections.put(item, false);
-            cart.addProduct(item, 1);
-         }
-      }
-   }
-
-   /*public void setCategory(Category category) 
-   {
-      this.category = category; 
-   }
-   
-   public Category getCategory() 
-   {
-      return category;
-   }*/
-
-   public int getPageSize()
-   {
-      return pageSize;
-   }
-
-   public void setPageSize(int pageSize)
-   {
-      this.pageSize = pageSize;
-   }
-
-   @End
-   public void reset()
-   {
-   }
-
-   @Destroy
-   @Remove
-   public void destroy()
-   {
-   }
-
+    @Destroy
+    @Remove
+    public void destroy() { }
 }
