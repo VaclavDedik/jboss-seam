@@ -803,7 +803,7 @@
 				<include name="**/*" />
 			</fileset>
 		</copy>
-		<copy todir="${ci.dir}/build" file="${basedir}/${dist.name}.zip" />
+		<copy todir="${ci.dir}/build" file="${dist.location}/${dist.name}.zip" />
 		<mkdir dir="${version}.${patchlevel}" />
 		<move todir="${ci.dir}/${version}.${patchlevel}">
 			<fileset dir="${ci.dir}/build" />
