@@ -141,7 +141,7 @@
         <copy todir="${war.dir}/WEB-INF/classes">
             <fileset dir="${basedir}/resources">
                 <include name="seam.properties" />
-                <include name="security.drl" />
+                <include name="*.drl" />
             </fileset>
         </copy>
         

@@ -144,7 +144,7 @@
                                 <include name="*jpdl.xml" />
                                 <include name="hibernate.cfg.xml" />
                                 <include name="jbpm.cfg.xml" />
-                                <include name="security.drl" />
+                                <include name="*.drl" />
                         </fileset>
                         <fileset dir="${lib.dir}">
                                 <include name="jboss-seam.jar" />
