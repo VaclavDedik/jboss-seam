@@ -70,9 +70,9 @@ public class Jbpm
       ProcessState.setDefaultSubProcessResolver( new SeamSubProcessResolver() );
       installProcessDefinitions();
       installPageflowDefinitions();
-      JbpmExpressionEvaluator.setVariableResolver( new SeamVariableResolver() );
-      JbpmExpressionEvaluator.setFunctionMapper( new SeamFunctionMapper() );
-      JbpmExpressionEvaluator.setExpressionEvaluator( new SeamExpressionEvaludator() );
+      //JbpmExpressionEvaluator.setVariableResolver( new SeamVariableResolver() );
+      //JbpmExpressionEvaluator.setFunctionMapper( new SeamFunctionMapper() );
+      JbpmExpressionEvaluator.setExpressionEvaluator( new SeamExpressionEvaluator() );
       UserCodeInterceptorConfig.setUserCodeInterceptor( new SeamUserCodeInterceptor() );
    }
 
