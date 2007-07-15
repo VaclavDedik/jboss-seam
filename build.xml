@@ -91,7 +91,8 @@
 	<!-- Distribution targets -->
 	<property name="dist.name" value="${name}-${version}.${patchlevel}" />
 
-	<property name="dist.dir" value="${basedir}/../${dist.name}" />
+	<property name="dist.location" value="${basedir}/../" />
+	<property name="dist.dir" value="${dist.location}/${dist.name}" />
 	<property name="dist.ui.dir" value="${dist.dir}/ui" />
 	<property name="dist.doc.dir" value="${dist.dir}/doc" />
 	<property name="dist.api.dir" value="${dist.dir}/doc/api" />
@@ -956,10 +957,10 @@
 	</target>
 
 	<target name="dist" depends="cleandist,build,javadoc,copysource,copylib,copyexamples,copyseamgen,refdoc,extras" description="Build everything and package">
-		<zip zipfile="${dist.name}.zip">
+		<zip zipfile="${dist.location}/${dist.name}.zip">
 			<zipfileset prefix="${dist.name}" dir="${dist.dir}" />
 		</zip>
-		<tar tarfile="${dist.name}.tar.gz" compression="gzip">
+		<tar tarfile="${dist.location}/${dist.name}.tar.gz" compression="gzip">
 			<tarfileset prefix="${dist.name}" dir="${dist.dir}" />
 		</tar>
 	</target>
