@@ -678,7 +678,7 @@
     	<echo message="Type 'seam restart' to update the exploded deployment"/>
     </target>
 
-    <target name="delete-project" depends="validate-project"
+    <target name="delete-project" depends="validate-project,unexplode,undeploy"
         description="Delete the project">
         <echo message="Deleting the entire project in ${project.home}" />
         <delete dir="${project.home}" />
