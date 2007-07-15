@@ -36,7 +36,6 @@ import org.jboss.seam.annotations.datamodel.DataModelSelection;
  */
 @Stateful
 @Name("search")
-@Install(precedence=Install.DEPLOYMENT)
 public class FullTextSearchAction
       implements FullTextSearch,
       Serializable
