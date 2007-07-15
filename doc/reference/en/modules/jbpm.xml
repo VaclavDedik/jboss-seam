@@ -713,9 +713,9 @@ public void createTodo() { ... }]]></programlisting>
             <title>Task assignment</title>
         
         <para>
-            When a process starts, task instances are created. These must be 
-            assigned to users or user groups. We can either hardcode our
-            actor ids, or delegate to a Seam component:
+            When a process reaches a task node, task instances are created. These must be 
+            assigned to users or user groups. We can either hardcode our actor ids, or 
+            delegate to a Seam component:
         </para>
         
         <programlisting><![CDATA[<task name="todo" description="#{todoList.description}">
