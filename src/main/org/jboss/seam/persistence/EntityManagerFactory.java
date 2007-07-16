@@ -37,6 +37,7 @@ public class EntityManagerFactory
    @Unwrap
    public javax.persistence.EntityManagerFactory getEntityManagerFactory()
    {
+//    TODO: eager/lazy modes
       return entityManagerFactory;
    }
    
@@ -47,7 +48,21 @@ public class EntityManagerFactory
       {
          persistenceUnitName = component.getName();
       }
-      
+      //TODO: eager/lazy modes
+      createEntityManagerFactory();
+   }
+
+   @Destroy
+   public void shutdown()
+   {
+      if (entityManagerFactory!=null)
+      {
+         entityManagerFactory.close();
+      }
+   }
+   
+   protected void createEntityManagerFactory()
+   {
       Map properties = new HashMap();
       Hashtable<String, String> jndiProperties = Naming.getInitialContextProperties();
       if ( jndiProperties!=null )
@@ -70,15 +85,6 @@ public class EntityManagerFactory
       else
       {
          entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnitName, properties);
-      }
-   }
-   
-   @Destroy
-   public void shutdown()
-   {
-      if (entityManagerFactory!=null)
-      {
-         entityManagerFactory.close();
       }
    }
    

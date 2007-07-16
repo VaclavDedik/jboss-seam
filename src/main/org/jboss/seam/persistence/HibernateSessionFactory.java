@@ -70,9 +70,26 @@ public class HibernateSessionFactory
    @Unwrap
    public SessionFactory getSessionFactory() throws Exception
    {
-      return createSessionFactory();
+      //TODO: eager/lazy modes
+      return sessionFactory;
    }
    
+   @Create
+   public void startup() throws Exception
+   {
+      //TODO: eager/lazy modes
+      sessionFactory = createSessionFactory();
+   }
+   
+   @Destroy
+   public void shutdown()
+   {
+      if (sessionFactory!=null)
+      {
+         sessionFactory.close();
+      }
+   }
+
    protected SessionFactory createSessionFactory() throws ClassNotFoundException
    {
       AnnotationConfiguration configuration = new AnnotationConfiguration();
@@ -150,18 +167,6 @@ public class HibernateSessionFactory
       return configuration.buildSessionFactory();
    }
    
-   @Create
-   public void startup() throws Exception
-   {
-      sessionFactory = createSessionFactory();
-   }
-   
-   @Destroy
-   public void shutdown()
-   {
-      sessionFactory.close();
-   }
-
    public String getCfgResourceName()
    {
       return cfgResourceName;
@@ -186,46 +191,57 @@ public class HibernateSessionFactory
    {
       return cfgProperties;
    }
+   
    public void setCfgProperties(Map<String, String> cfgProperties)
    {
       this.cfgProperties = cfgProperties;
    }
+   
    public List<String> getMappingClasses()
    {
       return mappingClasses;
    }
+   
    public void setMappingClasses(List<String> mappingClasses)
    {
       this.mappingClasses = mappingClasses;
    }
+   
    public List<String> getMappingFiles()
    {
       return mappingFiles;
    }
+   
    public void setMappingFiles(List<String> mappingFiles)
    {
       this.mappingFiles = mappingFiles;
    }
+   
    public List<String> getMappingJars()
    {
       return mappingJars;
    }
+   
    public void setMappingJars(List<String> mappingJars)
    {
       this.mappingJars = mappingJars;
    }
+   
    public List<String> getMappingPackages()
    {
       return mappingPackages;
    }
+   
    public void setMappingPackages(List<String> mappingPackages)
    {
       this.mappingPackages = mappingPackages;
    }
+   
    public List<String> getMappingResources()
    {
       return mappingResources;
    }
+   
    public void setMappingResources(List<String> mappingResources)
    {
       this.mappingResources = mappingResources;
