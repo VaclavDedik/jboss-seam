@@ -36,10 +36,14 @@ public class Parameters
 
    public Map<String, String[]> getRequestParameters()
    {
-      ServletRequest servletRequest = ServletContexts.instance().getRequest();
-      if ( servletRequest != null )
+      ServletContexts servletContexts = ServletContexts.getInstance();
+      if ( servletContexts!=null )
       {
-         return servletRequest.getParameterMap();
+         ServletRequest servletRequest = servletContexts.getRequest();
+         if ( servletRequest!=null )
+         {
+            return servletRequest.getParameterMap();
+         }
       }
       return Collections.EMPTY_MAP;
    }

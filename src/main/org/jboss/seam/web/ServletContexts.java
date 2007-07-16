@@ -41,6 +41,12 @@ public class ServletContexts
       }
       return (ServletContexts) Component.getInstance(ServletContexts.class, ScopeType.EVENT);
    }
+   
+   public static ServletContexts getInstance()
+   {
+      return Contexts.isEventContextActive() ? 
+               (ServletContexts) Component.getInstance(ServletContexts.class, ScopeType.EVENT) : null;
+   }
 
    public HttpServletRequest getRequest()
    {

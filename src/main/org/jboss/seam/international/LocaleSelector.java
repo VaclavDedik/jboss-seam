@@ -156,10 +156,14 @@ public class LocaleSelector extends Selector
          return facesContext.getApplication().getViewHandler().calculateLocale(facesContext);
       }
       
-      ServletRequest request = ServletContexts.instance().getRequest();
-      if (request!=null)
+      ServletContexts servletContexts = ServletContexts.getInstance();
+      if (servletContexts!=null)
       {
-         return calculateLocale( request.getLocale() );
+         ServletRequest request = servletContexts.getRequest();
+         if (request!=null)
+         {
+            return calculateLocale( request.getLocale() );
+         }
       }
 
       return calculateLocale( Locale.getDefault() );

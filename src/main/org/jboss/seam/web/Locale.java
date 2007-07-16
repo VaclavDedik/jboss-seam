@@ -27,7 +27,8 @@ public class Locale extends org.jboss.seam.core.Locale
    @Unwrap @Override
    public java.util.Locale getLocale()
    {
-      ServletRequest request = ServletContexts.instance().getRequest();
+      ServletContexts servletContexts = ServletContexts.getInstance();
+      ServletRequest request = servletContexts==null ? null : servletContexts.getRequest();
       return request==null ? super.getLocale() : request.getLocale();
    }
    
