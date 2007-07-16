@@ -30,14 +30,28 @@
         </tr>
       </table>      
      
-      <div class="headerTitle">
+      <s:div styleClass="headerTitle" rendered="#{bidAction.validBid}">
         Review and Confirm your Bid
-      </div>
+      </s:div>
+      
+      <s:div styleClass="headerTitle" rendered="#{not bidAction.validBid}">
+        Place Bid
+      </s:div>
               
       <div class="headerContent">
         <b>Hello #{authenticatedAccount.name}!</b>
       </div>
       
+      <s:div rendered="#{not bidAction.validBid}" styleClass="subSection">
+        <div class="alertImage"/>
+        <div class="alertContent">
+          <div class="error">The following must be corrected before continuing:</div>
+          Enter $<h:outputText value="#{bidAction.bid.auction.nextBidInterval}">
+            <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+          </h:outputText><span> <b>or more</b></span>
+        </div>   
+      </s:div>
+            
       <div class="bidImage">
         <s:graphicImage rendered="#{bidAction.bid.auction.image ne null}" value="#{bidAction.bid.auction.image.data}">
           <s:transformImageSize width="80" maintainRatio="true"/>
@@ -57,18 +71,35 @@
           </div>
         </div>
         
-        <div class="itemDetailRow">
+        <s:div styleClass="itemDetailRow" rendered="#{bidAction.validBid}">
           <label><b>Your maximum bid:</b></label>
           <div>
             <b>AU $<h:outputText value="#{bidAction.bid.amount}">
               <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
             </h:outputText></b>
           </div>
-        </div>
+        </s:div>
+        
+        <h:form rendered="#{not bidAction.validBid}">
+          <div class="maximumBidRow">
+            <label>Your maximum bid:</label>
+            <div>
+              <b>$ </b>
+              <h:inputText id="bidAmount" value="#{bidAmount}"/>
+              <span> (Enter $<h:outputText value="#{bidAction.bid.auction.nextBidInterval}">
+            <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+          </h:outputText> <b>or more</b>)</span>
+            </div>          
+          </div>
+          
+          <div class="placeBid">
+            <h:commandButton action="#{bidAction.updateBid}" value="Continue >"/>
+          </div>
+        </h:form>
       
       </div>
                        
-      <h:form>
+      <h:form rendered="#{bidAction.validBid}">
              
         <div class="confirmBid">
           <b>By clicking on the button below, you agree to buy this item if you're the

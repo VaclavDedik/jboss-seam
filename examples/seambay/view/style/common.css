@@ -134,3 +134,23 @@ div.headerContent {
   border: 1px solid #ccccff;
   padding: 4px 8px 12px 8px;
 }
+
+div.subSection {
+  background-color: #eeeeff;
+  border-left: 1px solid #ccccff;  
+  border-right: 1px solid #ccccff;
+  border-bottom: 1px solid #ccccff;  
+  padding: 4px 8px 12px 8px;
+}
+
+div.alertImage {
+  background: url(../img/alert.png) top left no-repeat;
+  float: left;
+  width: 40px;
+  height: 40px;
+}
+
+div.alertContent {
+  margin-left: 50px;
+  padding: 2px 2px 2px 2px;
+}

@@ -31,13 +31,24 @@ public class BidAction
    public void placeBid()
    {
       bid = new Bid();
-      bid.setAmount(Double.parseDouble(Contexts.getEventContext().get("bidAmount").toString()));
       bid.setAuction(auction);
+      bid.setUser(authenticatedUser);
+      
+      updateBid();
+   }
+   
+   public void updateBid()
+   {
+      double amount = Double.parseDouble(Contexts.getEventContext().get("bidAmount").toString());
+      
+      if (amount >= bid.getAuction().getNextBidInterval())
+      {
+         bid.setAmount(amount);
+      }      
    }
    
    public String confirmBid()
    {
-      bid.setUser(authenticatedUser);
       bid.setBidDate(new Date());
       
       entityManager.persist(bid);
@@ -50,4 +61,9 @@ public class BidAction
    {
       return bid;
    }   
+   
+   public boolean isValidBid()
+   {
+      return bid != null && bid.getAmount() >= bid.getAuction().getNextBidInterval();
+   }
 }

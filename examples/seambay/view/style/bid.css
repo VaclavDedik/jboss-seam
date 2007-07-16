@@ -5,8 +5,8 @@ div.bidImage {
 }
 
 div.bidItem {
-  float: left;
-  padding: 8px 8px 8px 8px;
+  margin-left: 104px;
+  padding: 8px 0px 8px 8px;
 }
 
 div.itemDetailRow {
@@ -24,6 +24,33 @@ div.itemDetailRow div {
   nowrap: true;
 }
 
+div.maximumBidRow {
+  background-color: #eeeeff;
+  border: 1px solid #ccccff;  
+  margin-top: 8px;
+  margin-bottom: 8px;
+  padding: 8px 8px 8px 8px;
+}
+
+div.maximumBidRow label {
+  float: left;
+  color: #ff0000;
+  font-weight: bold;
+}
+
+div.maximumBidRow div {
+  margin-left: 220px;
+  nowrap: true;
+}
+
+div.maximumBidRow div input {
+  width: 80px;
+}
+
+div.placeBid {
+  margin-left: 240px;
+}
+
 div.confirmBid {
   clear: both;
   border: 1px solid #ffdd00;
@@ -32,4 +59,11 @@ div.confirmBid {
 
 div.confirmBid input {
   margin-top: 12px;
+}
+
+div.error {
+  font-weight: bold;
+  color: #ff0000;
+  padding-top: 2px;
+  padding-bottom: 2px;
 }
