@@ -114,25 +114,6 @@
 
 <!-- sidebar -->
 <ui:define name="sidebar">
-
-<h1>State management in Seam</h1>
-<p>
-   State in Seam is <em>contextual</em>. When you click "Find Hotels", the application
-   retrieves a list of hotels from the database and caches it in the session context. When you
-   navigate to one of the hotel records by clicking the "View Hotel" link, a <em>conversation</em> 
-   begins. The conversation is attached to a particular tab, in a particular browser window. You can
-   navigate to multiple hotels using "open in new tab" or "open in new window" in your web browser.
-   Each window will execute in the context of a different conversation. The application keeps state
-   associated with your hotel booking in the conversation context, which ensures that the concurrent
-   conversations do not interfere with each other.
-</p>
-
-<p>
-   <a href="#" onclick="window.open('exp/mainExp.html','exp','width=752,height=500,scrollbars=yes');">
-      How does the search page work?
-   </a>
-</p>
-
 </ui:define>
 
 </ui:composition>
