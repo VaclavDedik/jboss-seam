@@ -41,8 +41,9 @@
 ... ...
 
 &lt;div class="buttonBox"&gt;
-    &lt;h:commandButton action="#{identity.login}" 
-                     value="Account Login" class="button" /&gt;
+    &lt;h:commandButton id="login"
+                     action="#{identity.login}" 
+                     value="Account Login" /&gt;
 &lt;/div&gt;
 </code>
 
@@ -75,8 +76,10 @@ public class User implements Serializable {
       this.password = password;
    }
    
+
    @Id
-   @Length(min=5, max=15)
+   @Length(min=4, max=15)
+   @Pattern(regex="^\\w*$", message="not a valid username")
    public String getUsername () {
       return username;
    }
@@ -107,13 +110,11 @@ public class User implements Serializable {
     </p>
 
 <code class="block">
-@Stateful
+@Stateless
 @Scope(EVENT)
 @Name("authenticator")
 public class AuthenticatorAction implements Authenticator
 {
-   @In Identity identity;
-   
    @PersistenceContext EntityManager em;
    
    @Out(required=false, scope = SESSION)
@@ -121,12 +122,10 @@ public class AuthenticatorAction implements Authenticator
    
    public boolean authenticate()
    {
-      List results = em.createQuery(
-            "select u from User u where u.username=:username " +
-              "and u.password=:password")
-            .setParameter("username", identity.getUsername())
-            .setParameter("password", identity.getPassword())
-            .getResultList();
+      List results = em.createQuery("select u from User u where" + 
+                                    " u.username=#{identity.username}" + 
+                                    " and u.password=#{identity.password}")
+                       .getResultList();
       
       if ( results.size()==0 )
       {
@@ -138,19 +137,17 @@ public class AuthenticatorAction implements Authenticator
          return true;
       }
    }
-   
-   @Remove @Destroy
-   public void destroy() {}
 }
 </code>
 
     <p>
-       The <code>@In</code> annotation tells Seam to inject an <code>Identity</code> 
-       (a built-in Seam component that provides security functionality)
-       when any method of <code>AuthenticatorAction</code> is invoked. The <code>@Out</code> 
+       The <code>@Out</code> 
        annotation indicates the <code>AuthenticatorAction</code> bean can change the
        value of the <code>user</code> context variable and make the new instance 
-       available to other session beans and JSF pages.
+       available to other session beans and JSF pages.  The query expression 
+       makes use of a special syntax in Seam that allows EL expressions to 
+       serve as query parameters.  This query references the <code>identity</code> component,
+       a built-in Seam component that provides security functionality.
     </p>
 
        <form>

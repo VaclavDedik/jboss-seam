@@ -50,16 +50,28 @@
 
     <p>
        We do need to specify what text will be displayed by <code>#{entry.description}</code>. 
-       We do this by creating a <code>pages.xml</code> file in our <code>WEB-INF</code> 
-       directory.
+       We do this by setting the <code>description</code> value for each page in <code>pages.xml</code>.
     </p>
 
 <code class="block">
 &lt;pages&gt;
-  &lt;page view-id="/hotel.xhtml"&gt;View hotel: #{hotel.name}&lt;/page&gt;
-  &lt;page view-id="/book.xhtml"&gt;Book hotel: #{hotel.name}&lt;/page&gt;
-  &lt;page view-id="/confirm.xhtml"&gt;Confirm: #{booking.description}&lt;/page&gt;
-&lt;/pages&gt;
+   &lt;!-- ... --&gt;
+   &lt;page view-id="/hotel.xhtml" 
+         conversation-required="true" 
+	 login-required="true"&gt;
+          
+       &lt;description&gt;View hotel: #{hotel.name}&lt;/description&gt;
+       &lt;!-- ... --&gt;
+    &lt;/page&gt;
+
+    &lt;page view-id="/book.xhtml" 
+             conversation-required="true" 
+	     login-required="true"&gt;
+      
+        &lt;description&gt;Book hotel: #{hotel.name}&lt;/description&gt;
+        &lt;!-- ... --&gt;
+    &lt;/page&gt;
+&lt;pages&gt;
 </code>
 
     <p>
@@ -69,7 +81,7 @@
 
     <p>
        <form>
-          <input type="button" value="Close Window" onclick="window.close()"/>
+      <input type="button" value="Close Window" onclick="window.close()"/>
        </form>
     </p>
 
