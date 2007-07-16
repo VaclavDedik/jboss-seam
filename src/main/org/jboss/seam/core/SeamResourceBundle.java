@@ -36,15 +36,15 @@ public class SeamResourceBundle extends java.util.ResourceBundle
    public static java.util.ResourceBundle getBundle()
    {
       return java.util.ResourceBundle.getBundle(SeamResourceBundle.class.getName(),
-               org.jboss.seam.core.Locale.instance());
+               org.jboss.seam.core.Locale.instance()); //note: it does not really matter what we pass here
    }
 
    private List<java.util.ResourceBundle> getBundlesForCurrentLocale()
    {
       Locale instance = org.jboss.seam.core.Locale.instance();
-      if (bundleCache.get(instance) == null)
+      if ( bundleCache.containsKey(instance) )
       {
-         bundleCache.put(instance, loadBundlesForCurrentLocale());
+         bundleCache.put( instance, loadBundlesForCurrentLocale() );
       }
       return bundleCache.get(instance);
 
