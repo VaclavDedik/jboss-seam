@@ -34,10 +34,15 @@ public class EntityManagerFactory
    private Map persistenceUnitProperties;
    private javax.persistence.EntityManagerFactory entityManagerFactory;
    
+   private boolean lazy;
+   
    @Unwrap
    public javax.persistence.EntityManagerFactory getEntityManagerFactory()
    {
-//    TODO: eager/lazy modes
+      if (lazy && entityManagerFactory==null)
+      {
+         entityManagerFactory = createEntityManagerFactory();
+      }
       return entityManagerFactory;
    }
    
@@ -48,8 +53,10 @@ public class EntityManagerFactory
       {
          persistenceUnitName = component.getName();
       }
-      //TODO: eager/lazy modes
-      createEntityManagerFactory();
+      if (!lazy)
+      {
+         entityManagerFactory = createEntityManagerFactory();
+      }
    }
 
    @Destroy
@@ -61,7 +68,7 @@ public class EntityManagerFactory
       }
    }
    
-   protected void createEntityManagerFactory()
+   protected javax.persistence.EntityManagerFactory createEntityManagerFactory()
    {
       Map properties = new HashMap();
       Hashtable<String, String> jndiProperties = Naming.getInitialContextProperties();
@@ -80,11 +87,11 @@ public class EntityManagerFactory
 
       if ( properties.isEmpty() )
       {
-         entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnitName);
+         return Persistence.createEntityManagerFactory(persistenceUnitName);
       }
       else
       {
-         entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnitName, properties);
+         return Persistence.createEntityManagerFactory(persistenceUnitName, properties);
       }
    }
    
@@ -112,6 +119,19 @@ public class EntityManagerFactory
    public void setPersistenceUnitProperties(Map persistenceUnitProperties)
    {
       this.persistenceUnitProperties = persistenceUnitProperties;
+   }
+
+   /**
+    * Should the EMF be created lazily when first needed?
+    */
+   public boolean isLazy()
+   {
+      return lazy;
+   }
+
+   public void setLazy(boolean lazy)
+   {
+      this.lazy = lazy;
    }
 
 }

@@ -67,18 +67,25 @@ public class HibernateSessionFactory
    private List<String> mappingResources;
    private NamingStrategy namingStrategy;
    
+   private boolean lazy;
+   
    @Unwrap
    public SessionFactory getSessionFactory() throws Exception
    {
-      //TODO: eager/lazy modes
+      if (lazy && sessionFactory==null)
+      {
+         sessionFactory = createSessionFactory();
+      }
       return sessionFactory;
    }
    
    @Create
    public void startup() throws Exception
    {
-      //TODO: eager/lazy modes
-      sessionFactory = createSessionFactory();
+      if (!lazy)
+      {
+         sessionFactory = createSessionFactory();
+      }
    }
    
    @Destroy
@@ -245,6 +252,16 @@ public class HibernateSessionFactory
    public void setMappingResources(List<String> mappingResources)
    {
       this.mappingResources = mappingResources;
+   }
+
+   public boolean isLazy()
+   {
+      return lazy;
+   }
+
+   public void setLazy(boolean lazy)
+   {
+      this.lazy = lazy;
    }
    
 }

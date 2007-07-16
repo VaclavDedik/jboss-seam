@@ -56,6 +56,7 @@
     </xs:element>
     <xs:attributeGroup name="attlist.HibernateSessionFactory">
         <xs:attribute name="cfg-resource-name"/>
+        <xs:attribute name="lazy" type="xs:boolean"/>
     </xs:attributeGroup>
 
     <xs:element name="entity-manager-factory">
@@ -69,6 +70,7 @@
     </xs:element>
     <xs:attributeGroup name="attlist.EntityManagerFactory">
         <xs:attribute name="persistence-unit-name"/>
+        <xs:attribute name="lazy" type="xs:boolean"/>
     </xs:attributeGroup>
 
     <xs:element name="filter">
