@@ -11,14 +11,16 @@ import javax.el.ELContext;
 import javax.el.ELResolver;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.Namespace;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Init;
 
 /**
- * Allows the use of #{dataModel.size}, #{dataModel.empty},
+ * Resolves Seam components and namespaces. Also
+ * allows the use of #{dataModel.size}, #{dataModel.empty},
  * #{collection.size}, #{map.size}, #{map.values}, #{map.keySet},
- * and #{map.entrySet}.
+ * and #{map.entrySet}. Also allows #{sessionContext['name']}.
  * 
  * @author Gavin King
  *
@@ -49,97 +51,136 @@ public class SeamELResolver extends ELResolver
    {
       if (base==null)
       {
-         if ( !Contexts.isApplicationContextActive() )
-         {
-            //if no Seam contexts, bypass straight through to JSF
-            return null;
-         }
-         
-         String name = (String) property;
-         Object result = Component.getInstance(name);
-         if (result==null)
-         {
-            result = Init.instance().getRootNamespace().getChild(name);
-         }
-         if (result!=null)
-         {
-            context.setPropertyResolved(true);
-         }
-         return result;
+         return resolveBase(context, property);
+      }
+      else if ( base instanceof Namespace )
+      {
+         return resolveInNamespace(context, base, property);
       }
       else if ( DATA_MODEL.isInstance(base) )
       {
-         if ( "size".equals(property) )
-         {
-            context.setPropertyResolved(true);
-            return getRowCount(base);
-         }
-         else if ( "empty".equals(property) )
-         {
-            context.setPropertyResolved(true);
-            return getRowCount(base)==0;
-         }
-         else
-         {
-            return null;
-         }
+         return resolveInDataModel(context, base, property);
       }
       else if (base instanceof Collection)
       {
-         if ( "size".equals(property) )
-         {
-            context.setPropertyResolved(true);
-            return ( (Collection) base ).size();
-         }
-         else
-         {
-            return null;
-         }
+         return resolveInCollection(context, base, property);
       }
       else if (base instanceof Map)
       {
-         if ( "size".equals(property) )
-         {
-            context.setPropertyResolved(true);
-            return ( (Map) base ).size();
-         }
-         else if ( "values".equals(property) )
-         {
-            context.setPropertyResolved(true);
-            return ( (Map) base ).values();
-         }
-         else if ( "keySet".equals(property) )
-         {
-            context.setPropertyResolved(true);
-            return ( (Map) base ).keySet();
-         }
-         else if ( "entrySet".equals(property) )
-         {
-            context.setPropertyResolved(true);
-            return ( (Map) base ).entrySet();
-         }
-         else
-         {
-            return null;
-         }
+         return resolveInMap(context, base, property);
       }
       else if (base instanceof Context)
       {
-         Context seamContext = (Context) base;
-         if ( seamContext.isSet( (String) property ) )
-         {
-            context.setPropertyResolved(true);
-            return seamContext.get( (String) property );
-         }
-         else
-         {
-            return null;
-         }
+         return resolveInContextObject(context, base, property);
       }
       else
       {
          return null;
       }
+   }
+
+   private Object resolveInContextObject(ELContext context, Object base, Object property)
+   {
+      Context seamContext = (Context) base;
+      if ( seamContext.isSet( (String) property ) )
+      {
+         context.setPropertyResolved(true);
+         return seamContext.get( (String) property );
+      }
+      else
+      {
+         return null;
+      }
+   }
+
+   private Object resolveInMap(ELContext context, Object base, Object property)
+   {
+      if ( "size".equals(property) )
+      {
+         context.setPropertyResolved(true);
+         return ( (Map) base ).size();
+      }
+      else if ( "values".equals(property) )
+      {
+         context.setPropertyResolved(true);
+         return ( (Map) base ).values();
+      }
+      else if ( "keySet".equals(property) )
+      {
+         context.setPropertyResolved(true);
+         return ( (Map) base ).keySet();
+      }
+      else if ( "entrySet".equals(property) )
+      {
+         context.setPropertyResolved(true);
+         return ( (Map) base ).entrySet();
+      }
+      else
+      {
+         return null;
+      }
+   }
+
+   private Object resolveInCollection(ELContext context, Object base, Object property)
+   {
+      if ( "size".equals(property) )
+      {
+         context.setPropertyResolved(true);
+         return ( (Collection) base ).size();
+      }
+      else
+      {
+         return null;
+      }
+   }
+
+   private Object resolveInDataModel(ELContext context, Object base, Object property)
+   {
+      if ( "size".equals(property) )
+      {
+         context.setPropertyResolved(true);
+         return getRowCount(base);
+      }
+      else if ( "empty".equals(property) )
+      {
+         context.setPropertyResolved(true);
+         return getRowCount(base)==0;
+      }
+      else
+      {
+         return null;
+      }
+   }
+
+   private Object resolveBase(ELContext context, Object property)
+   {
+      if ( !Contexts.isApplicationContextActive() )
+      {
+         //if no Seam contexts, bypass straight through to JSF
+         return null;
+      }
+      
+      String name = (String) property;
+      Object result = Component.getInstance(name);
+      if (result==null)
+      {
+         result = Init.instance().getRootNamespace().getChild(name);
+      }
+      if (result!=null)
+      {
+         context.setPropertyResolved(true);
+      }
+      return result;
+   }
+
+   private Object resolveInNamespace(ELContext context, Object base, Object property)
+   {
+      Object result = ( (Namespace) base ).get( (String) property );
+      if (result!=null)
+      {
+         context.setPropertyResolved(true);
+      }
+      return result;
    }
 
    @Override
