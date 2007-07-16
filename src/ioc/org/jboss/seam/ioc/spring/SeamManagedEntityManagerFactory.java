@@ -21,7 +21,7 @@ import org.springframework.util.ClassUtils;
  * 
  * @author Mike Youngstrom
  */
-public class SeamManagedEntityManagerFactory implements EntityManagerFactory
+public class SeamManagedEntityManagerFactory implements EntityManagerFactory, Serializable
 {
    private static final LogProvider log = Logging
             .getLogProvider(SeamManagedEntityManagerFactory.class);
