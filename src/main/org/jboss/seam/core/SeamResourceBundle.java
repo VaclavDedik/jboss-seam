@@ -42,7 +42,7 @@ public class SeamResourceBundle extends java.util.ResourceBundle
    private List<java.util.ResourceBundle> getBundlesForCurrentLocale()
    {
       Locale instance = org.jboss.seam.core.Locale.instance();
-      if ( bundleCache.containsKey(instance) )
+      if ( !bundleCache.containsKey(instance) )
       {
          bundleCache.put( instance, loadBundlesForCurrentLocale() );
       }
@@ -64,8 +64,7 @@ public class SeamResourceBundle extends java.util.ResourceBundle
       {
          bundles.add(bundle);
       }
-      bundle = resourceLoader
-               .loadBundle("org/hibernate/validator/resources/DefaultValidatorMessages");
+      bundle = resourceLoader.loadBundle("org/hibernate/validator/resources/DefaultValidatorMessages");
       if (bundle != null) bundles.add(bundle);
       bundle = resourceLoader.loadBundle("javax.faces.Messages");
       if (bundle != null) bundles.add(bundle);
