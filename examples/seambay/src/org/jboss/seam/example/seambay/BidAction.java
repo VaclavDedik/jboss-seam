@@ -3,8 +3,10 @@ package org.jboss.seam.example.seambay;
 import static org.jboss.seam.ScopeType.CONVERSATION;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.In;
@@ -25,14 +27,13 @@ public class BidAction
    private Auction auction;
    
    @In(required = false)
-   private User authenticatedUser;
+   private Account authenticatedAccount;
    
    @Begin(join = true)
    public void placeBid()
    {
       bid = new Bid();
       bid.setAuction(auction);
-      bid.setUser(authenticatedUser);
       
       updateBid();
    }
@@ -41,17 +42,72 @@ public class BidAction
    {
       double amount = Double.parseDouble(Contexts.getEventContext().get("bidAmount").toString());
       
-      if (amount >= bid.getAuction().getNextBidInterval())
+      if (amount >= bid.getAuction().getRequiredBid())
       {
-         bid.setAmount(amount);
+         bid.setMaxAmount(amount);
       }      
    }
    
+   @SuppressWarnings("unchecked")
    public String confirmBid()
    {
+      // We set the user here because the user may not be authenticated when placeBid() is called. 
+      bid.setAccount(authenticatedAccount);      
       bid.setBidDate(new Date());
       
-      entityManager.persist(bid);
+      // This is where the tricky bidding logic happens
+      
+      entityManager.lock(bid.getAuction(), LockModeType.WRITE);
+      entityManager.refresh(bid.getAuction());
+      
+      List<Bid> bids = entityManager.createQuery(
+            "from Bid b where b.auction = :auction")
+          .setParameter("auction", bid.getAuction())
+          .getResultList();
+      
+      Bid highBid = null;
+      
+      for (Bid b : bids)
+      {
+         if (highBid == null)
+         {
+            highBid = b;
+         }
+         else if (b.getMaxAmount() > highBid.getMaxAmount())
+         {
+            highBid.setActualAmount(highBid.getMaxAmount());
+            b.setActualAmount(Auction.getRequiredBid(highBid.getMaxAmount()));
+            highBid = b;
+         }
+         else if (b.getMaxAmount() == highBid.getMaxAmount() &&
+                  b.getBidDate().getTime() < highBid.getBidDate().getTime())
+         {
+            highBid.setActualAmount(highBid.getMaxAmount());
+            b.setActualAmount(highBid.getMaxAmount());
+            highBid = b;
+         }
+      }
+      
+      if (highBid == null)
+      {
+         // There are no bids so far...
+         bid.setActualAmount(bid.getAuction().getRequiredBid());
+         bid.getAuction().setHighBid(bid);
+      }
+      else if (bid.getMaxAmount() > highBid.getMaxAmount())
+      {
+         bid.setActualAmount(Auction.getRequiredBid(highBid.getMaxAmount()));
+         bid.getAuction().setHighBid(bid);         
+      }
+      else
+      {
+         bid.setActualAmount(bid.getMaxAmount());
+      }
+      
+      bid.getAuction().setBids(bid.getAuction().getBids() + 1);
+      
+      entityManager.persist(bid);      
+      entityManager.flush();
       
       Conversation.instance().end();
       return "success";
@@ -64,6 +120,6 @@ public class BidAction
    
    public boolean isValidBid()
    {
-      return bid != null && bid.getAmount() >= bid.getAuction().getNextBidInterval();
+      return bid != null && bid.getMaxAmount() >= bid.getAuction().getRequiredBid();
    }
 }

@@ -65,10 +65,10 @@
         <div class="itemDetails">
           <div class="itemDetailRow">
             <label>
-              <s:fragment rendered="#{auction.highBidder ne null}">
+              <s:fragment rendered="#{auction.highBid ne null}">
                 Current bid:
               </s:fragment>
-              <s:fragment rendered="#{auction.highBidder eq null}">
+              <s:fragment rendered="#{auction.highBid eq null}">
                 Starting price:
               </s:fragment>            
             </label>
@@ -114,8 +114,8 @@
           <div class="itemDetailRow">
             <label>High bidder:</label>
             <div>
-              <span>#{auction.highBidder.name}</span>
-              <h:outputText value="No bids" rendered="#{auction.highBidder eq null}"/>
+              <span>#{auction.highBid.account.name}</span>
+              <h:outputText value="No bids" rendered="#{auction.highBid eq null}"/>
             </div>
           </div>
 
@@ -208,7 +208,7 @@
             <div class="bidRow">
               <h:outputLabel for="bidAmount">Your maximum bid:</h:outputLabel>
               <span>$ </span><h:inputText id="bidAmount" value="#{bidAmount}" required="true"/>
-              (Enter $ <h:outputText value="#{auction.nextBidInterval}">
+              (Enter $ <h:outputText value="#{auction.requiredBid}">
                   <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                </h:outputText><b> or more</b>)
             </div>

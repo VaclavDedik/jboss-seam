@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import org.hibernate.validator.NotNull;
+
 @Entity
 public class Bid implements Serializable
 {
@@ -14,9 +16,10 @@ public class Bid implements Serializable
    
    private Integer bidId;
    private Auction auction;
-   private User user;
+   private Account account;
    private Date bidDate;
-   private double amount;
+   private double maxAmount;
+   private double actualAmount;
    
    @Id @GeneratedValue
    public Integer getBidId()
@@ -29,6 +32,7 @@ public class Bid implements Serializable
       this.bidId = bidId;
    }
    
+   @NotNull
    public Auction getAuction()
    {
       return auction;
@@ -39,16 +43,18 @@ public class Bid implements Serializable
       this.auction = auction;
    }
    
-   public User getUser()
+   @NotNull
+   public Account getAccount()
    {
-      return user;
+      return account;
    }
    
-   public void setUser(User user)
+   public void setAccount(Account account)
    {
-      this.user = user;
+      this.account = account;
    }
    
+   @NotNull
    public Date getBidDate()
    {
       return bidDate;
@@ -59,14 +65,24 @@ public class Bid implements Serializable
       this.bidDate = bidDate;
    }
    
-   public double getAmount()
+   public double getMaxAmount()
    {
-      return amount;
+      return maxAmount;
    }
    
-   public void setAmount(double amount)
+   public void setMaxAmount(double maxAmount)
    {
-      this.amount = amount;
+      this.maxAmount = maxAmount;
+   }
+   
+   public double getActualAmount()
+   {
+      return actualAmount;
+   }
+   
+   public void setActualAmount(double actualAmount)
+   {
+      this.actualAmount = actualAmount;
    }
 }
 

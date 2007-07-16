@@ -46,7 +46,7 @@
         <div class="alertImage"/>
         <div class="alertContent">
           <div class="error">The following must be corrected before continuing:</div>
-          Enter $<h:outputText value="#{bidAction.bid.auction.nextBidInterval}">
+          Enter $<h:outputText value="#{bidAction.bid.auction.requiredBid}">
             <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
           </h:outputText><span> <b>or more</b></span>
         </div>   
@@ -74,7 +74,7 @@
         <s:div styleClass="itemDetailRow" rendered="#{bidAction.validBid}">
           <label><b>Your maximum bid:</b></label>
           <div>
-            <b>AU $<h:outputText value="#{bidAction.bid.amount}">
+            <b>AU $<h:outputText value="#{bidAction.bid.maxAmount}">
               <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
             </h:outputText></b>
           </div>
@@ -86,7 +86,7 @@
             <div>
               <b>$ </b>
               <h:inputText id="bidAmount" value="#{bidAmount}"/>
-              <span> (Enter $<h:outputText value="#{bidAction.bid.auction.nextBidInterval}">
+              <span> (Enter $<h:outputText value="#{bidAction.bid.auction.requiredBid}">
             <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
           </h:outputText> <b>or more</b>)</span>
             </div>          

@@ -30,7 +30,7 @@ public class Auction implements Serializable
    private String description;
    private Date endDate;
    private AuctionImage image;
-   private Account highBidder;
+   private Bid highBid;
    private int bids;
    private double price;
    
@@ -48,6 +48,7 @@ public class Auction implements Serializable
       this.auctionId = auctionId;
    }
    
+   @NotNull
    @ManyToOne
    @JoinColumn(name = "ACCOUNT_ID")
    public Account getAccount()
@@ -60,6 +61,7 @@ public class Auction implements Serializable
       this.account = account;
    }
    
+   @NotNull   
    @ManyToOne
    @JoinColumn(name = "CATEGORY_ID")
    public Category getCategory()
@@ -72,6 +74,7 @@ public class Auction implements Serializable
       this.category = category;
    }
    
+   @NotNull
    public String getTitle()
    {
       return title;
@@ -82,6 +85,7 @@ public class Auction implements Serializable
       this.title = title;
    }
    
+   @NotNull
    public String getDescription()
    {
       return description;
@@ -115,14 +119,14 @@ public class Auction implements Serializable
       this.image = image;
    }
    
-   public Account getHighBidder()
+   public Bid getHighBid()
    {
-      return highBidder;
+      return highBid;
    }
    
-   public void setHighBidder(Account highBidder)
+   public void setHighBid(Bid highBid)
    {
-      this.highBidder = highBidder;
+      this.highBid = highBid;
    }
    
    public int getBids()
@@ -224,8 +228,57 @@ public class Auction implements Serializable
    }
    
    @Transient
-   public double getNextBidInterval()
+   public double getRequiredBid()
    {
-      return getPrice() + 1;
+      return getRequiredBid(getPrice());
+   }
+   
+   /**
+    * Returns the amount required to outbid the specified bid amount.
+    * 
+    * @param amount The current bid amount
+    * @return The bid amount required to outbid the current bid
+    */
+   @Transient
+   static double getRequiredBid(double amount)
+   {
+      if (amount < 100)
+      {
+         return Math.ceil(amount) + 1;
+      }
+      else if (amount < 200)
+      {
+         return Math.ceil(amount) + 2;
+      }
+      else if (amount < 500)
+      {
+         return Math.ceil(amount) + 5;
+      }
+      else if (amount < 1000)
+      {
+         return Math.ceil(amount) + 10;
+      }
+      else if (amount < 5000)
+      {
+         return Math.ceil(amount) + 20;
+      }
+      else if (amount < 20000)
+      {
+         return Math.ceil(amount) + 50;
+      }
+      else if (amount < 50000)
+      {
+         return Math.ceil(amount) + 100;
+      }
+      else if (amount < 100000)
+      {
+         return Math.ceil(amount) + 200;
+      }
+      else if (amount < 500000)
+      {
+         return Math.ceil(amount) + 500;
+      }
+
+      return Math.ceil(amount) + 1000;
    }
 }
