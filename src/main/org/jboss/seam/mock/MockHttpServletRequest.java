@@ -29,7 +29,6 @@ import org.jboss.seam.util.IteratorEnumeration;
 /**
  * @author Gavin King
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
- * @version $Revision$
  */
 public class MockHttpServletRequest implements HttpServletRequest
 {
@@ -41,6 +40,7 @@ public class MockHttpServletRequest implements HttpServletRequest
    private String principalName;
    private Set<String> principalRoles;
    private Cookie[] cookies;
+   private String method; 
    
    public MockHttpServletRequest(HttpSession session)
    {
@@ -49,15 +49,16 @@ public class MockHttpServletRequest implements HttpServletRequest
 
    public MockHttpServletRequest(HttpSession session, String principalName, Set<String> principalRoles)
    {
-      this(session, principalName, principalRoles, new Cookie[] {});
+      this(session, principalName, principalRoles, new Cookie[] {}, null);
    }
 
-   public MockHttpServletRequest(HttpSession session, String principalName, Set<String> principalRoles, Cookie[] cookies)
+   public MockHttpServletRequest(HttpSession session, String principalName, Set<String> principalRoles, Cookie[] cookies, String method)
    {
       this.session = session;
       this.principalName = principalName;
       this.principalRoles = principalRoles;
       this.cookies = cookies;
+      this.method = method;
       // The 1.2 RI NPEs if this header isn't present 
       headers.put("Accept", new String[0]);
    }
@@ -111,8 +112,7 @@ public class MockHttpServletRequest implements HttpServletRequest
 
    public String getMethod()
    {
-      //TODO
-      return null;
+      return method;
    }
 
    public String getPathInfo()

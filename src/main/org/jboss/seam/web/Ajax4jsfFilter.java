@@ -14,20 +14,25 @@ import javax.servlet.ServletResponse;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.annotations.web.Filter;
 
 /**
  * A Seam filter component wrapper for the Ajax4JSF.
+ * This class exists to allow the Ajax4JSF filter to
+ * be configured in the web: namespace. The subclass
+ * does the actual work.
  * 
  * @author Pete Muir
  * 
  */
 @Scope(APPLICATION)
 @Name("org.jboss.seam.web.ajax4jsfFilter")
-@Install(precedence = BUILT_IN, classDependencies="org.ajax4jsf.Filter")
+@Install(precedence = BUILT_IN, value=false)
 @BypassInterceptors
 @Filter
+@Startup
 public class Ajax4jsfFilter extends AbstractFilter
 {
    

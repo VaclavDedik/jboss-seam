@@ -41,7 +41,7 @@ public class SeamResourceBundle extends java.util.ResourceBundle
 
    private List<java.util.ResourceBundle> getBundlesForCurrentLocale()
    {
-      Locale instance = org.jboss.seam.core.Locale.instance();
+     Locale instance = org.jboss.seam.core.Locale.instance();
       List<ResourceBundle> bundles = bundleCache.get(instance);
       if ( bundles==null )
       {

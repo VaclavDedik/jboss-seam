@@ -19,8 +19,14 @@ import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 
@@ -43,6 +49,7 @@ import org.jboss.seam.init.Initialization;
 import org.jboss.seam.jsf.SeamApplication;
 import org.jboss.seam.jsf.SeamPhaseListener;
 import org.jboss.seam.pageflow.Pageflow;
+import org.jboss.seam.servlet.SeamFilter;
 import org.jboss.seam.servlet.ServletSessionMap;
 import org.jboss.seam.transaction.Transaction;
 import org.jboss.seam.util.Naming;
@@ -64,6 +71,7 @@ public class BaseSeamTest
    private SeamPhaseListener phases;
    private MockHttpSession session;
    private Map<String, Map> conversationViewRootAttributes;
+   private Filter seamFilter;
 
    protected boolean isSessionInvalid()
    {
@@ -183,6 +191,7 @@ public class BaseSeamTest
       private boolean invokeApplicationComplete;
       
       private HttpServletRequest request;
+      private HttpServletResponse response;
       private MockFacesContext facesContext;
       private MockExternalContext externalContext;
       private Map<String, Object> pageParameters = new HashMap<String, Object>();
@@ -485,10 +494,23 @@ public class BaseSeamTest
             init();
             beforeRequest();
             setStandardJspVariables();
-            if ( emulateJsfLifecycle() )
-            {
-               saveConversationViewRoot();
-            }
+            seamFilter.doFilter(request, response, new FilterChain() { 
+               public void doFilter(ServletRequest request, ServletResponse response) throws IOException, ServletException
+               {
+                  try
+                  {
+                     if ( emulateJsfLifecycle() )
+                     {
+                        saveConversationViewRoot();
+                     }
+                  }
+                  catch (Exception e)
+                  {
+                     throw new ServletException(e);
+                  }
+               }
+            } );
+            seamFilter.destroy();
             afterRequest();
             return conversationId;
          }
@@ -516,8 +538,9 @@ public class BaseSeamTest
       protected void init()
       {
          Cookie[] cookieArray = getCookies().toArray( new Cookie[]{} );
-         request = new MockHttpServletRequest(session, getPrincipalName(), getPrincipalRoles(), cookieArray);
-         externalContext = new MockExternalContext(servletContext, request);
+         request = new MockHttpServletRequest(session, getPrincipalName(), getPrincipalRoles(), cookieArray, isGetRequest() ? "GET" : "POST");
+         response = new MockHttpServletResponse();
+         externalContext = new MockExternalContext(servletContext, request, response);
          facesContext = new MockFacesContext(externalContext, application);
          facesContext.setCurrent();
       }
@@ -865,20 +888,28 @@ public class BaseSeamTest
       new Initialization(servletContext).create().init();
       ( (Init) servletContext.getAttribute( Seam.getComponentName(Init.class) ) ).setDebug(false);
       conversationViewRootAttributes = new HashMap<String, Map>();
+      seamFilter = createSeamFilter();
+
    }
 
    public void cleanup() throws Exception
    {
+      seamFilter.destroy();
       ServletLifecycle.endApplication();
       conversationViewRootAttributes = null;
+   }
+
+   protected Filter createSeamFilter() throws ServletException
+   {
+      SeamFilter seamFilter = new SeamFilter();
+      seamFilter.init( new MockFilterConfig(servletContext) );
+      return seamFilter;
    }
 
    /**
     * Override to set up any servlet context attributes.
     */
-   public void initServletContext(Map initParams)
-   {
-   }
+   public void initServletContext(Map initParams) {}
 
    protected InitialContext getInitialContext() throws NamingException
    {

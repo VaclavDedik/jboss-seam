@@ -18,7 +18,7 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.util.EnumerationEnumeration;
 
 @Name("org.jboss.seam.web.ajax4jsfFilter")
-@Install(precedence = FRAMEWORK, classDependencies="org.ajax4jsf.Filter")
+@Install(precedence = FRAMEWORK, classDependencies={"org.ajax4jsf.Filter", "org.apache.commons.digester.Digester"})
 @Startup
 @BypassInterceptors
 public class Ajax4jsfFilter extends org.jboss.seam.web.Ajax4jsfFilter
