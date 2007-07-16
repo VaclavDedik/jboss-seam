@@ -1,0 +1,50 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+		    xmlns:ice="http://www.icesoft.com/icefaces/component" 
+                template="layout/template.xhtml">
+                       
+<ui:define name="body">
+    
+    <h:messages globalOnly="true" styleClass="message"/>
+   
+ <ice:panelCollapsible expanded="true" styleClass="pnlClpsblDemo">
+    <f:facet name="header">
+        <ice:panelGroup styleClass="expandableStateIndicator">
+		<ice:outputText value="@masterPageName@"/>
+        </ice:panelGroup>
+	</f:facet>
+      <div class="results">
+     
+    		<h:outputText value="No @componentName@ exists" 
+            	rendered="#{empty @listName@.resultList}"/>
+    		<ice:dataTable id="@listName@" var="@componentName@"
+           			 value="#{@listName@.resultList}" 
+				columnClasses="allCols"
+           			rendered="#{not empty @listName@.resultList}">
+        		<ice:column>
+            		<f:facet name="header">Id</f:facet>
+            		#{@componentName@.id}
+        		</ice:column>
+        		<ice:column>
+           			<f:facet name="header">Name</f:facet>
+            		<s:link id="@componentName@" value="#{@componentName@.name}" view="/@pageName@.xhtml">
+                		<f:param name="@componentName@Id" value="#{@componentName@.id}"/>
+            		</s:link>
+        		</ice:column>
+    		</ice:dataTable>
+      </div>
+   </ice:panelCollapsible>
+   <div class="actionButtons">
+        <s:button id="done" value="Create @componentName@"
+            view="/@pageName@.xhtml"/>			  
+   </div>
+    
+</ui:define>
+
+</ui:composition>
+

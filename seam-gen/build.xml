@@ -78,6 +78,12 @@
 	    <not><isset property="hibernate.default_catalog"/></not>
 	</condition>
 
+        <condition property="icefaces.home" value="&#xa;         &lt;property name=&quot;icefaces.home&quot; value=&quot;${icefaces.home}&quot;/&gt;">
+            <isset property="icefaces.home"/>
+        </condition>
+        <condition property="icefaces.home" value="">
+            <not><isset property="icefaces.home"/></not>
+        </condition>
         <filterset id="jdbc">
             <filter token="jdbcUrl" value="${hibernate.connection.url}"/>
             <filter token="driverClass" value="${hibernate.connection.driver_class}"/>
@@ -111,6 +117,18 @@
     	<include name="img/*"/>
     	<exclude name="**/*.ftl"/>
     </fileset>
+    
+    <!-- have to define a fileset for icefaces-view jag 25-05-07 -->
+    <fileset id="icefaces-view" dir="${basedir}/icefaces/view">
+        <include name="home.xhtml"/>
+    	<include name="error.xhtml"/>
+    	<include name="login.xhtml"/>
+    	<include name="login.page.xml"/>
+        <include name="index.html"/>
+        <include name="layout/*"/>
+        <include name="stylesheet/*"/>
+    	<exclude name="**/*.ftl"/>
+    </fileset>	
 	
     <fileset id="seam" dir="../">
         <include name="jboss-seam*.jar"/>
@@ -142,15 +160,24 @@
     <target name="setup"
     	description="Prompt for settings">
         <property file="${basedir}/build.properties" prefix="old" />
-
-        <echo message="Welcome to seam-gen :-)"/>
+    	      
+        <!-- next 2 lines new jag May 25-07 -->
+        <echo message="Welcome to seam-gen"/>
+        <echo message="     (leave icefaces directory blank if non-ICEFaces application)"/>
         <property name="old.workspace.home" value="C:/Projects"/>
         <input addproperty="workspace.home.new" 
                    message="Enter your Java project workspace (the directory that contains your Seam projects) [${old.workspace.home}]" 
               defaultvalue="${old.workspace.home}"/>
     	<pathFixer property="workspace.home.new" />
         
-        <property name="old.jboss.home" value="C:/Program Files/jboss-4.2.0.GA"/>
+        <!-- next 5 lines new jag 25-05-07 -->
+        <property name="old.icefaces.home" value=""/>
+        <input addproperty="icefaces.home.new" 
+                   message="If you want to generate your view using IceFaces components, enter your icefaces home directory (SeamGen will generate a view using RichFaces components if you leave it blank)" 
+              defaultvalue="${old.icefaces.home}"/>
+    	<pathFixer property="icefaces.home.new" />
+        
+        <property name="old.jboss.home" value="C:/Servers/EJB3jboss-4.0.5.GA"/>
         <input addproperty="jboss.home.new" 
                    message="Enter your JBoss home directory [${old.jboss.home}]" 
               defaultvalue="${old.jboss.home}"/>
@@ -352,11 +379,13 @@
     	    <equals arg1="${hibernate.default_catalog.new}" arg2=""/>
     	</condition>
 
+        <!-- added icefaces.home property to be read in from properties file either has value or is blank -->
         <propertyfile file="build.properties">
             <entry key="workspace.home" value="${workspace.home.new}"/>
             <entry key="project.name" value="${project.name.new}"/>
             <entry key="project.type" value="${project.type.new}"/>
             <entry key="jboss.home" value="${jboss.home.new}"/>
+            <entry key="icefaces.home" value="${icefaces.home.new}"/> 
             <entry key="action.package" value="${action.package.new}"/>
             <entry key="model.package" value="${model.package.new}"/>
             <entry key="test.package" value="${test.package.new}"/>
@@ -475,13 +504,44 @@
     </target>
 
 
-
-    <target name="copy-lib">
-        <echo message="Copying Seam jars to the ${project.home}/lib directory..." />
+    <!-- if icefaces then we want to copy over the icefaces jars & not the jsf-facelets or ajax4jsf jars -->
+    <!-- next 3 targets have changed or are new  jag 25-05-2007 -->
+    <target name="copy-lib" depends="icefacesCheck, copy-lib-icefaces, copy-lib-regular">
+          <echo message="Copying Seam jars to the ${project.home}/lib directory..." />
+    
+    </target>
+        
+    <target name="copy-lib-regular" unless="icefaces.property">
+        <echo message="not an icefaces project"/>
 
         <copy todir="${project.home}/lib" overwrite="true">
             <fileset dir="../lib"/>
             <fileset dir="../drools/lib"/>
+            <fileset refid="seam"/>
+            <fileset file="${driver.jar}"/>
+        </copy>
+
+        <echo message="Copying JBoss Embedded configuration to the ${project.home}/bootstrap directory..." />
+          <copy todir="${project.home}/bootstrap" overwrite="true">
+            <fileset dir="../bootstrap" />
+        </copy>
+        
+    </target>
+    
+    <target name="copy-lib-icefaces" if="icefaces.property">
+        <echo message="This is an icefaces project"/>
+        <copy todir="${project.home}/lib" overwrite="true">
+            <fileset dir="../lib"> 
+	        <exclude name="jsf-facelets.jar" />
+	        <exclude name="ajax4jsf*.jar" />
+	    </fileset> 
+            <fileset dir="../drools/lib"/>
+	    <fileset dir="${icefaces.home}/lib"> 
+	             <include name="icefaces*.jar" /> 
+		     <include name="backport-util-concurrent.jar" /> 
+		     <include name="commons-fileupload.jar" />
+		     <include name="commons-digester.jar"/>
+	    </fileset> 
             <fileset refid="seam"/>
             <fileset file="${driver.jar}"/>
         </copy>
@@ -543,7 +603,8 @@
         </copy>
 	</target>
     
-    <target name="file-copy" depends="file-copy-war,file-copy-ear,setup-filters">
+     <!-- added target file-copy-icefaces -->
+    <target name="file-copy" depends="file-copy-war,file-copy-ear,setup-filters, file-copy-icefaces">
                 
         <copy todir="${project.home}/resources">
             <fileset dir="${basedir}/resources/">
@@ -641,6 +702,45 @@
         </copy>
 
     </target>
+    
+    <!-- next 2 targets new jag 25-05-07 -->
+    <target name="file-copy-icefaces" depends="icefacesCheck, copy-images" if="icefaces.property">
+        <copy todir="${project.home}/src/${action.dir}" file="${basedir}/icefaces/src/TimerBean.java" >
+            <filterset refid="filters"/>
+        </copy>    
+        <copy todir="${project.home}/src/${action.dir}" file="${basedir}/icefaces/src/TimerBeanImpl.java">
+            <filterset refid="filters"/>
+        </copy>
+        <copy todir="${project.home}/resources" overwrite="true">
+              <fileset dir="${basedir}/icefaces/resources/">
+                <include name="components.properties"/>
+            	<include name="META-INF/application.xml"/>
+            	<include name="WEB-INF/components.xml"/>
+            	<include name="WEB-INF/web.xml"/>
+            	<include name="WEB-INF/faces-config.xml"/>
+            </fileset>
+            <filterset refid="project"/>
+            <filterset refid="jdbc"/>
+        </copy>
+        <copy todir="${project.home}" overwrite="true">
+            <fileset dir="${basedir}/icefaces/build-scripts">
+            	<include name="build*.xml"/>
+            </fileset>
+            <filterset refid="project"/>
+        </copy>
+        <copy todir="${project.home}/view" overwrite="true">
+            <fileset refid="icefaces-view"/>
+            <filterset refid="project"/>
+        </copy>     
+           
+    </target>
+    
+    <target name="copy-images" if="icefaces.property">
+	   <copy todir="${project.home}/view/img" overwrite="true">
+		<fileset file="${basedir}/icefaces/view/img/*"/>
+	   </copy>
+    </target>
+        
     
     <target name="validate-project" depends="init-properties, validate-workspace">
         <fail message="No project name specified (run 'seam new-project' first)">
@@ -811,8 +911,8 @@
         <echo message="Type 'seam restart' and go to http://localhost:8080/${project.name}/${masterPage.name}.seam"/>
     </target>
 
-	<target name="generate-entities" depends="validate-project"
-        description="Reverse engineer entities from the database">
+    <target name="generate-entities" depends="validate-project, icefacesCheck"
+         description="Reverse engineer entities from the database">
 		
 		<echo message="Reverse engineering database using JDBC driver ${driver.jar}"/>
 
@@ -828,8 +928,9 @@
 	    </taskdef>
 		
 <echo>project=${project.home}</echo>
-<echo>model=${model.package}</echo>
-		<hibernate templatepath=".">
+<echo>model=${model.package}</echo>		
+	<!-- <hibernate templatepath="."> -->
+        <hibernate templatepath="${view.dir}">
             <jdbcconfiguration propertyfile="build.properties" 
                                 packagename="${model.package}"
                                  revengfile="${project.home}/resources/seam-gen.reveng.xml"
@@ -895,7 +996,9 @@
         <echo message="Type 'seam restart' and go to http://localhost:8080/${project.name}"/>
 
     </target>
-	
+   <target name="generate-icefaces" depends="icefacesCheck" if="icefaces.property">
+            
+    </target>	
     <target name="deploy" depends="validate-project"
         description="Deploy the EAR or WAR">
         <echo message="Deploying project '${project.name}' to JBoss" />
@@ -959,5 +1062,23 @@
     <target name="help">
         <print file="README"/>
     </target>
-
+  <target name="icefacesCheck" depends="cond-if,cond-else"/>
+   
+   <target name="check-icefaces">
+         <condition property="icefaces.property">
+             <and>
+                 <isset property="icefaces.home"/>
+                 <not><equals arg1="${icefaces.home}" arg2=""/></not>
+             </and>
+        </condition>
+        <echo message=" icefaces.property is ${icefaces.property}"/>
+   </target>
+    <target name="cond-if" depends="check-icefaces" if="icefaces.property">
+        <property name="view.dir" value="icefaces/."/>
+        <echo message="is icefaces and view.dir is ${view.dir}"/>
+    </target>
+    <target name="cond-else" depends="check-icefaces" unless="icefaces.property">
+        <property name="view.dir" value="."/>
+        <echo message="not icefaces and view.dir is ${view.dir}"/>
+    </target>
 </project>
