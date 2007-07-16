@@ -324,7 +324,10 @@ public class Initialization
       String precedenceString = component.attributeValue("precedence");
       int precedence = precedenceString==null ? Install.APPLICATION : Integer.valueOf(precedenceString);
       ScopeType scope = scopeName == null ? null : ScopeType.valueOf(scopeName.toUpperCase());
-      boolean autoCreate = "true".equals(component.attributeValue("auto-create"));
+      String autocreateAttribute = component.attributeValue("auto-create");
+      Boolean autoCreate = autocreateAttribute==null ? null : "true".equals(autocreateAttribute);
+      String startupAttribute = component.attributeValue("startup");
+      Boolean startup = startupAttribute==null ? null : "true".equals(startupAttribute);
       if (className != null)
       {
          Class<?> clazz = null;
@@ -360,7 +363,7 @@ public class Initialization
             name = clazz.getAnnotation(Name.class).value();
          }
 
-         ComponentDescriptor descriptor = new ComponentDescriptor(name, clazz, scope, autoCreate, jndiName, installed, precedence);
+         ComponentDescriptor descriptor = new ComponentDescriptor(name, clazz, scope, autoCreate, startup, jndiName, installed, precedence);
          addComponentDescriptor(descriptor);
          installedComponentClasses.add(clazz);
       }
@@ -386,6 +389,7 @@ public class Initialization
          boolean isProperty = !"name".equals(attributeName) && 
                !"installed".equals(attributeName) && 
                !"scope".equals(attributeName) &&
+               !"startup".equals(attributeName) &&
                !"class".equals(attributeName) &&
                !"jndi-name".equals(attributeName) &&
                !"precedence".equals(attributeName) &&
@@ -834,21 +838,26 @@ public class Initialization
       DependencyManager manager = new DependencyManager(componentDescriptors);
 
       Set<ComponentDescriptor> installable = manager.installedSet();      
-      for (ComponentDescriptor componentDescriptor: installable) {
+      for (ComponentDescriptor componentDescriptor: installable) 
+      {
           String compName = componentDescriptor.getName() + COMPONENT_SUFFIX;
 
-          if (!context.isSet(compName)) {
+          if ( !context.isSet(compName) ) 
+          {
               addComponent(componentDescriptor, context, redeployStrategy);
 
-              if (componentDescriptor.isAutoCreate()) {
+              if ( componentDescriptor.isAutoCreate() ) 
+              {
                   init.addAutocreateVariable( componentDescriptor.getName() );
               }
 
-              if (componentDescriptor.isFilter()) {
+              if ( componentDescriptor.isFilter() ) 
+              {
                   init.addInstalledFilter( componentDescriptor.getName() );
               }
 
-              if (componentDescriptor.isResourceProvider()) {
+              if ( componentDescriptor.isResourceProvider() ) 
+              {
                   init.addResourceProvider( componentDescriptor.getName() );
               }
           }
@@ -897,6 +906,7 @@ public class Initialization
                descriptor.getComponentClass(), 
                name, 
                descriptor.getScope(), 
+               descriptor.isStartup(),
                descriptor.getJndiName()
             );
          context.set(componentName, component);

@@ -6,6 +6,7 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Install;
+import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.web.AbstractResource;
 
@@ -22,14 +23,15 @@ public class ComponentDescriptor implements Comparable<ComponentDescriptor>
     protected ScopeType scope;
     protected String jndiName;
     protected Boolean installed;
-    protected boolean autoCreate;
+    protected Boolean autoCreate;
+    protected Boolean startup;
     protected Integer precedence;
 
     /**
      * For components.xml
      */
     public ComponentDescriptor(String name, Class<?> componentClass, ScopeType scope,
-            boolean autoCreate, String jndiName, Boolean installed, Integer precedence) 
+            Boolean autoCreate, Boolean startup, String jndiName, Boolean installed, Integer precedence) 
     {
         this.name = name;
         this.componentClass = componentClass;
@@ -38,6 +40,7 @@ public class ComponentDescriptor implements Comparable<ComponentDescriptor>
         this.installed = installed;
         this.autoCreate = autoCreate;
         this.precedence = precedence;
+        this.startup = startup;
     }
 
     /**
@@ -87,10 +90,15 @@ public class ComponentDescriptor implements Comparable<ComponentDescriptor>
     {
         return jndiName;
     }
+    
+    public boolean isStartup()
+    {
+       return startup!=null ? startup : componentClass.isAnnotationPresent(Startup.class);
+    }
 
     public boolean isAutoCreate()
     {
-        return autoCreate || componentClass.isAnnotationPresent(AutoCreate.class);
+        return autoCreate!=null ? autoCreate : componentClass.isAnnotationPresent(AutoCreate.class);
     }
 
     public String[] getDependencies()

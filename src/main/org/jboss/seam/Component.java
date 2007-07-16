@@ -193,26 +193,27 @@ public class Component extends Model
    // only used for tests
    public Component(Class<?> clazz, String componentName)
    {
-      this(clazz, componentName, Seam.getComponentScope(clazz), null);
+      this(clazz, componentName, Seam.getComponentScope(clazz), false, null);
    }
 
    // only used for tests
    public Component(Class<?> clazz, Context applicationContext)
    {
-      this( clazz, getComponentName(clazz), Seam.getComponentScope(clazz), null, applicationContext );
+      this( clazz, getComponentName(clazz), Seam.getComponentScope(clazz), false, null, applicationContext );
    }
 
-   public Component(Class<?> clazz, String componentName, ScopeType componentScope, String jndiName)
+   public Component(Class<?> clazz, String componentName, ScopeType componentScope, boolean startup, String jndiName)
    {
-      this(clazz, componentName, componentScope, jndiName, Contexts.getApplicationContext());
+      this(clazz, componentName, componentScope, startup, jndiName, Contexts.getApplicationContext());
    }
 
-   private Component(Class<?> beanClass, String componentName, ScopeType componentScope, String componentJndiName, Context applicationContext)
+   private Component(Class<?> beanClass, String componentName, ScopeType componentScope, boolean startup, String componentJndiName, Context applicationContext)
    {
       super(beanClass);
       
       name = componentName;
       scope = componentScope;
+      this.startup = startup;
       type = Seam.getComponentType( getBeanClass() );
       interceptionEnabled = Seam.isInterceptionEnabled( getBeanClass() );
       
@@ -279,14 +280,14 @@ public class Component extends Model
 
    private void initStartup()
    {
-      startup = getBeanClass().isAnnotationPresent(Startup.class);
       if (startup)
       {
          if (scope!=SESSION && scope!=APPLICATION)
          {
             throw new IllegalArgumentException("@Startup only supported for SESSION or APPLICATION scoped components: " + name);
          }
-         dependencies = getBeanClass().getAnnotation(Startup.class).depends();
+         Startup annotation = getBeanClass().getAnnotation(Startup.class);
+         dependencies = annotation==null ? new String[0] : annotation.depends();
       }
    }
 
