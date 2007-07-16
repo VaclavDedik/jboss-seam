@@ -1,20 +1,19 @@
 //$Id$
+package actions;
 
 import java.util.List;
-import javax.ejb.Stateful;
+
 import javax.ejb.Remove;
 import javax.persistence.EntityManager;
 
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Startup;
-import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Destroy;
-import org.jboss.seam.annotations.Create;
-import org.jboss.seam.ScopeType;
 import org.hibernate.search.FullTextSession;
-import org.hibernate.search.Search;
-import org.hibernate.Session;
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Create;
+import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Startup;
 
 /**
  * Index Blog entry at startup
