@@ -1,5 +1,6 @@
 package org.jboss.seam.ioc.spring;
 
+import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -82,7 +83,7 @@ public class SeamManagedEntityManagerFactory implements EntityManagerFactory
     * @author Mike Youngstrom
     * 
     */
-   public static class SeamManagedPersistenceContextHandler implements InvocationHandler
+   public static class SeamManagedPersistenceContextHandler implements InvocationHandler, Serializable
    {
       private static final LogProvider log = Logging
                .getLogProvider(SeamManagedPersistenceContextHandler.class);
