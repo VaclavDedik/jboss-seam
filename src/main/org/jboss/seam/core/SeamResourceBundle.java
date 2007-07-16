@@ -45,7 +45,8 @@ public class SeamResourceBundle extends java.util.ResourceBundle
       List<ResourceBundle> bundles = bundleCache.get(instance);
       if ( bundles==null )
       {
-         bundleCache.put( instance, loadBundlesForCurrentLocale() );
+         bundles = loadBundlesForCurrentLocale();
+         bundleCache.put(instance, bundles);
       }
       return bundles;
 
@@ -107,7 +108,7 @@ public class SeamResourceBundle extends java.util.ResourceBundle
       {
          try
          {
-               return interpolate( littleBundle.getObject(key) );
+            return interpolate( littleBundle.getObject(key) );
          }
          catch (MissingResourceException mre) {}
       }
