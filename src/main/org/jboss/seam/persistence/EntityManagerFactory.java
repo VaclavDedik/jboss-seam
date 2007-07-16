@@ -29,20 +29,14 @@ import org.jboss.seam.util.Naming;
 @Startup
 public class EntityManagerFactory
 {
+   private javax.persistence.EntityManagerFactory entityManagerFactory;
 
    private String persistenceUnitName;
    private Map persistenceUnitProperties;
-   private javax.persistence.EntityManagerFactory entityManagerFactory;
-   
-   private boolean lazy;
    
    @Unwrap
    public javax.persistence.EntityManagerFactory getEntityManagerFactory()
    {
-      if (lazy && entityManagerFactory==null)
-      {
-         entityManagerFactory = createEntityManagerFactory();
-      }
       return entityManagerFactory;
    }
    
@@ -53,10 +47,7 @@ public class EntityManagerFactory
       {
          persistenceUnitName = component.getName();
       }
-      if (!lazy)
-      {
-         entityManagerFactory = createEntityManagerFactory();
-      }
+      entityManagerFactory = createEntityManagerFactory();
    }
 
    @Destroy
@@ -119,19 +110,6 @@ public class EntityManagerFactory
    public void setPersistenceUnitProperties(Map persistenceUnitProperties)
    {
       this.persistenceUnitProperties = persistenceUnitProperties;
-   }
-
-   /**
-    * Should the EMF be created lazily when first needed?
-    */
-   public boolean isLazy()
-   {
-      return lazy;
-   }
-
-   public void setLazy(boolean lazy)
-   {
-      this.lazy = lazy;
    }
 
 }
