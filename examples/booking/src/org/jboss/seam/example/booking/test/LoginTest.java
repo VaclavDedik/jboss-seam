@@ -64,7 +64,7 @@ public class LoginTest extends SeamTest
          @Override
          protected void invokeApplication()
          {
-            invokeMethod("#{identity.login}");
+            invokeAction("#{identity.login}");
          }
 
          @Override

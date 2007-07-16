@@ -30,7 +30,7 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
     
     <servlet>
       <servlet-name>Seam Resource Servlet</servlet-name>
-      <servlet-class>org.jboss.seam.servlet.ResourceServlet</servlet-class>
+      <servlet-class>org.jboss.seam.servlet.SeamResourceServlet</servlet-class>
     </servlet>
     
     <servlet-mapping>

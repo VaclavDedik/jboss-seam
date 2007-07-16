@@ -34,7 +34,7 @@ public class BookingTest extends SeamTest
             Contexts.getSessionContext().set("user", new User("Gavin King", "foobar", "gavin"));
             setValue("#{identity.username}", "gavin");
             setValue("#{identity.password}", "foobar");            
-            invokeMethod("#{identity.login}");
+            invokeAction("#{identity.login}");
          }
          
       }.run();
@@ -50,7 +50,7 @@ public class BookingTest extends SeamTest
          @Override
          protected void invokeApplication()
          {
-            assert invokeMethod("#{hotelSearch.find}")==null;
+            assert invokeAction("#{hotelSearch.find}")==null;
          }
 
          @Override
@@ -91,7 +91,7 @@ public class BookingTest extends SeamTest
          @Override
          protected void invokeApplication()
          {
-            invokeMethod("#{hotelBooking.bookHotel}");
+            invokeAction("#{hotelBooking.bookHotel}");
          }
 
          @Override
@@ -179,7 +179,7 @@ public class BookingTest extends SeamTest
          @Override
          protected void invokeApplication()
          {
-            assert invokeMethod("#{hotelBooking.setBookingDetails}")==null;
+            assert invokeAction("#{hotelBooking.setBookingDetails}")==null;
          }
 
          @Override
@@ -214,7 +214,7 @@ public class BookingTest extends SeamTest
          @Override
          protected void invokeApplication()
          {
-            invokeMethod("#{hotelBooking.setBookingDetails}");
+            invokeAction("#{hotelBooking.setBookingDetails}");
          }
 
          @Override
@@ -236,7 +236,7 @@ public class BookingTest extends SeamTest
          @Override
          protected void invokeApplication()
          {
-            invokeMethod("#{hotelBooking.confirm}");
+            invokeAction("#{hotelBooking.confirm}");
          }
          
          @Override
@@ -270,7 +270,7 @@ public class BookingTest extends SeamTest
          {
             ListDataModel bookings = (ListDataModel) Contexts.getSessionContext().get("bookings");
             bookings.setRowIndex(0);
-            invokeMethod("#{bookingList.cancel}");
+            invokeAction("#{bookingList.cancel}");
          }
 
          @Override
