@@ -15,6 +15,7 @@ import org.dom4j.Element;
 import org.hibernate.HibernateException;
 import org.hibernate.cfg.Environment;
 import org.hibernate.lob.ReaderInputStream;
+import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
@@ -288,7 +289,7 @@ public class Jbpm
       {
          throw new IllegalStateException("jBPM support is not installed (use components.xml to install it)");
       }
-      return (Jbpm) Contexts.getApplicationContext().get(Jbpm.class);
+      return (Jbpm) Component.getInstance(Jbpm.class, ScopeType.APPLICATION);
    }
 
    protected String getJbpmConfigurationJndiName()
