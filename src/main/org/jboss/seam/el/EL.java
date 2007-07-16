@@ -27,7 +27,7 @@ import org.jboss.el.lang.VariableMapperImpl;
 public class EL
 {
    public static final ELResolver EL_RESOLVER = createELResolver();
-   public static final ELContext EL_CONTEXT = createELContext(EL_RESOLVER);
+   public static final ELContext EL_CONTEXT = createELContext( EL_RESOLVER, new FunctionMapperImpl() );
    
    public static final ExpressionFactory EXPRESSION_FACTORY = new ExpressionFactoryImpl();
    
@@ -43,10 +43,11 @@ public class EL
       return resolver;
    }
 
-   public static ELContext createELContext(final ELResolver resolver)
+   public static ELContext createELContext(final ELResolver resolver, final FunctionMapper functionMapper)
    {
       return new ELContext()
       {
+         final VariableMapperImpl variableMapper = new VariableMapperImpl();
 
          @Override
          public ELResolver getELResolver()
@@ -57,13 +58,13 @@ public class EL
          @Override
          public FunctionMapper getFunctionMapper()
          {
-            return new FunctionMapperImpl();
+            return functionMapper;
          }
 
          @Override
          public VariableMapper getVariableMapper()
          {
-            return new VariableMapperImpl();
+            return variableMapper;
          }
          
       };

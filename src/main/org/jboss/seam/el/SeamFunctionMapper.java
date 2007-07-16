@@ -12,23 +12,17 @@ import org.jboss.seam.security.SecurityFunctions;
 
 /**
  * Resolves Seam Security EL functions, s:hasRole() and s:hasPermission()
+ * by decorating a delegate Unified EL FunctionMapper
  *  
  * @author Shane Bryzak
  */
 public class SeamFunctionMapper extends FunctionMapper
 {
-   private static final String SEAM_EL_PREFIX = "s";
-   
    private static Map<String,Method> methodCache = new HashMap<String,Method>();
    
    private static final LogProvider log = Logging.getLogProvider(SeamFunctionMapper.class);
    
    private FunctionMapper functionMapper;
-   
-   public SeamFunctionMapper()
-   {
-      this(null);
-   }
    
    public SeamFunctionMapper(FunctionMapper functionMapper)
    {
@@ -46,7 +40,7 @@ public class SeamFunctionMapper extends FunctionMapper
    @Override 
    public Method resolveFunction(String prefix, String localName) 
    {
-      if (SEAM_EL_PREFIX.equals(prefix))
+      if ( "s".equals(prefix) )
       {
          return methodCache.get(localName);
       }
@@ -55,7 +49,9 @@ public class SeamFunctionMapper extends FunctionMapper
          return functionMapper.resolveFunction(prefix, localName);
       }
       else
+      {
          return null;
+      }
    }  
    
    private static void cacheMethod(String localName, Class cls, String name, Class[] params)
