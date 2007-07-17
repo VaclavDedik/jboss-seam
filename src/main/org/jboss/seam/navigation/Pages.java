@@ -349,11 +349,11 @@ public class Pages
    {
       //first store the page parameters into the viewroot, so 
       //that if a login redirect occurs, or if a failure
-      //occurs while applying to the model, we can still make
-      //Redirect.captureCurrentView() work.
-      boolean validationFailed = storeRequestParameterValuesInViewRoot(facesContext);
-      if (validationFailed) Validation.instance().fail();
+      //occurs while validating of applying to the model, we can 
+      //still make Redirect.captureCurrentView() work.
+      storeRequestParameterValuesInViewRoot(facesContext);
       
+      //check if we need to redirect
       String viewId = getViewId(facesContext);      
       for ( Page page: getPageStack(viewId) )
       {         
@@ -378,9 +378,19 @@ public class Pages
          }
       }
 
-      //now apply page parameters to the model
-      //(after checking permissions)
-      applyViewRootValues(facesContext);
+      //now validate the values we just stored in
+      //the view root, after the redirect checking
+      if ( validateViewRootValues(facesContext) ) 
+      {
+         Validation.instance().fail();
+         //and don't apply them to the model
+      }
+      else
+      {   
+         //finally apply page parameters to the model
+         //(after checking permissions)
+         applyViewRootValues(facesContext);
+      }
    }
    
    private boolean isNoConversationRedirectRequired(Page page)
@@ -714,30 +724,43 @@ public class Pages
       }
    }
    
-   private boolean storeRequestParameterValuesInViewRoot(FacesContext facesContext)
+   private void storeRequestParameterValuesInViewRoot(FacesContext facesContext)
    {
-      String viewId = getViewId(facesContext);
       Map<String, String[]> requestParameters = Parameters.instance().getRequestParameters();
+      for ( Page page: getPageStack( getViewId(facesContext) ) )
+      {
+         for ( Param pageParameter: page.getParameters() )
+         {  
+            Object value = pageParameter.getValueFromRequest(facesContext, requestParameters);
+            if (value==null)
+            {
+               //this should not be necessary, were it not for a MyFaces bug
+               if ( facesContext.getRenderResponse() ) //ie. for a non-faces request
+               {
+                  Contexts.getPageContext().remove( pageParameter.getName() );
+               }
+            }
+            else
+            {
+               Contexts.getPageContext().set( pageParameter.getName(), value );
+            }
+         }
+      }
+   }
+   
+   private boolean validateViewRootValues(FacesContext facesContext)
+   {
       boolean validationFailed = false;
-      for ( Page page: getPageStack(viewId) )
+      for ( Page page: getPageStack( getViewId(facesContext) ) )
       {
          for ( Param pageParameter: page.getParameters() )
          {  
             try
             {
-               Object value = pageParameter.getValueFromRequest(facesContext, requestParameters);
-               if (value==null)
+               Object value = Contexts.getPageContext().get( pageParameter.getName() );
+               if (value!=null)
                {
-                  if ( facesContext.getRenderResponse() ) //ie. for a non-faces request
-                  {
-                     //this should not be necessary, were it not for a MyFaces bug
-                     Contexts.getPageContext().remove( pageParameter.getName() );
-                  }
-                  //TODO: add some support for required=true
-               }
-               else
-               {
-                  Contexts.getPageContext().set( pageParameter.getName(), value );
+                  pageParameter.validateConvertedValue(facesContext, value);
                }
             }
             catch (ValidatorException ve)

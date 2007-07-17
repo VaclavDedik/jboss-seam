@@ -200,10 +200,18 @@ public final class Param
          return null;
       }
       
-      Object value = converter==null ? 
+      return converter==null ? 
             stringValue :
             converter.getAsObject( facesContext, facesContext.getViewRoot(), stringValue );
-      
+   }
+
+   /**
+    * Validate the pre-converted value of the parameter using the JSF
+    * validator specified in pages.xml, and using Hibernate Validator
+    * annotations specified on the model.
+    */
+   public void validateConvertedValue(FacesContext facesContext, Object value)
+   {
       Validator validator = getValidator();
       if (validator!=null)
       {
@@ -231,8 +239,6 @@ public final class Param
             throw new ValidatorException( createMessage(invalidValues) );
          }
       }
-      
-      return value;
    }
 
    private FacesMessage createMessage(InvalidValue[] invalidValues)
