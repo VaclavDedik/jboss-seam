@@ -29,13 +29,23 @@ public class BidAction
    @In(required = false)
    private Account authenticatedAccount;
    
+   private String outcome;
+   
    @Begin(join = true)
    public void placeBid()
    {
-      bid = new Bid();
-      bid.setAuction(auction);
-      
-      updateBid();
+      if (auction.getStatus() != Auction.STATUS_LIVE ||
+           auction.getEndDate().getTime() < System.currentTimeMillis())
+      {
+         outcome = "ended";
+      }
+      else
+      {
+         bid = new Bid();
+         bid.setAuction(auction);
+         
+         updateBid();
+      }
    }
    
    public void updateBid()
@@ -45,6 +55,11 @@ public class BidAction
       if (amount >= bid.getAuction().getRequiredBid())
       {
          bid.setMaxAmount(amount);
+         outcome = "confirm";
+      }      
+      else
+      {
+         outcome = "invalid";
       }      
    }
    
@@ -62,14 +77,16 @@ public class BidAction
       
       if (bid.getAuction().getStatus() != Auction.STATUS_LIVE)
       {
-         return "ended";
+         outcome = "ended";
+         return outcome;
       }
       else if (bid.getAuction().getEndDate().getTime() < bid.getBidDate().getTime())
       {
          bid.getAuction().setStatus(Auction.STATUS_COMPLETED);
-         return "ended";
+         outcome = "ended";
+         return outcome;
       }
-      
+            
       List<Bid> bids = entityManager.createQuery(
             "from Bid b where b.auction = :auction")
           .setParameter("auction", bid.getAuction())
@@ -103,6 +120,7 @@ public class BidAction
          // There are no bids so far...
          bid.setActualAmount(bid.getAuction().getRequiredBid());
          bid.getAuction().setHighBid(bid);
+         outcome = "success";
       }
       else if (bid.getMaxAmount() > highBid.getMaxAmount())
       {
@@ -119,28 +137,35 @@ public class BidAction
             bid.setActualAmount(highBid.getActualAmount());
          }
          bid.getAuction().setHighBid(bid);         
+         outcome = "success";
       }
       else
       {
+         // Set this bid, and the highest bid's, actual bid amount to this
+         // bid's maximum amount
+         highBid.setActualAmount(bid.getMaxAmount());
          bid.setActualAmount(bid.getMaxAmount());
+         outcome = "outbid";
+      }
+                        
+      if ("success".equals(outcome)) 
+      {
+         bid.getAuction().setBids(bid.getAuction().getBids() + 1);         
+         entityManager.persist(bid);      
+         entityManager.flush();         
+         Conversation.instance().end();
       }
       
-      bid.getAuction().setBids(bid.getAuction().getBids() + 1);
-      
-      entityManager.persist(bid);      
-      entityManager.flush();
-      
-      Conversation.instance().end();
-      return "success";
+      return outcome;
+   }
+   
+   public String getOutcome()
+   {
+      return outcome;
    }
    
    public Bid getBid()
    {
       return bid;
    }   
-   
-   public boolean isValidBid()
-   {
-      return bid != null && bid.getMaxAmount() >= bid.getAuction().getRequiredBid();
-   }
 }

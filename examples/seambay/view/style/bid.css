@@ -67,3 +67,37 @@ div.error {
   padding-top: 2px;
   padding-bottom: 2px;
 }
+
+div.outbidImage {
+  background: url(../img/cross.png) 8px 8px no-repeat;
+  float: left;
+  width: 46px;
+  height: 46px;
+}
+
+div.increaseBid {
+  clear: both;
+  background-color: #eeeeff;
+  border: 1px solid #ccccff;   
+  padding: 6px 12px 4px 10px;
+}
+
+div.increaseBid div input {
+  width: 80px;
+}
+
+input.bidAgain {
+  margin-top: 8px;
+  margin-left: 320px;
+}
+
+div.increaseBid label {
+  float: left;
+  font-weight: bold;
+  padding-top: 2px;
+}
+
+div.increaseBid div {
+  margin-left: 320px;
+  nowrap: true;
+}

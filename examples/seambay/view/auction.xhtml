@@ -73,16 +73,9 @@
               </s:fragment>            
             </label>
             <div>
-              <s:fragment rendered="#{auction.highBid ne null}">
-                $<b><h:outputText value="#{auction.highBid.actualAmount}">
-                  <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
-                </h:outputText></b>
-              </s:fragment>
-              <s:fragment rendered="#{auction.highBid eq null}">
-                $<b><h:outputText value="#{auction.price}">
-                  <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
-                </h:outputText></b>
-              </s:fragment>
+              $<b><h:outputText value="#{auction.currentPrice}">
+                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+              </h:outputText></b>
             </div>
           </div>
           
@@ -213,16 +206,9 @@
                 <label>Starting price:</label>
               </s:fragment>            
                             
-              <s:fragment rendered="#{auction.highBid ne null}">
-                <span>$ </span><b><h:outputText value="#{auction.highBid.actualAmount}">
-                  <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
-                </h:outputText></b>
-              </s:fragment>
-              <s:fragment rendered="#{auction.highBid eq null}">
-                <span>$ </span><b><h:outputText value="#{auction.price}">
-                  <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
-                </h:outputText></b>
-              </s:fragment>              
+              <span>$ </span><b><h:outputText value="#{auction.currentPrice}">
+                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+              </h:outputText></b>
               
             </div>
           

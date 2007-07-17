@@ -32,7 +32,7 @@ public class Auction implements Serializable
    private AuctionImage image;
    private Bid highBid;
    private int bids;
-   private double price;
+   private double startingPrice;
    
    private int status;   
    private int version;
@@ -119,6 +119,7 @@ public class Auction implements Serializable
       this.image = image;
    }
    
+   @OneToOne
    public Bid getHighBid()
    {
       return highBid;
@@ -196,14 +197,14 @@ public class Auction implements Serializable
       return sb.toString();      
    }
    
-   public double getPrice()
+   public double getStartingPrice()
    {
-      return price;
+      return startingPrice;
    }
    
-   public void setPrice(double price)
+   public void setStartingPrice(double startingPrice)
    {
-      this.price = price;
+      this.startingPrice = startingPrice;
    }
    
    public int getStatus()
@@ -227,11 +228,17 @@ public class Auction implements Serializable
       this.version = version;
    }
    
+   @Transient 
+   public double getCurrentPrice()
+   {
+      return highBid != null ? highBid.getActualAmount() : getStartingPrice();
+   }
+   
    @Transient
    public double getRequiredBid()
    {      
       return highBid != null ? getRequiredBid(highBid.getActualAmount()) : 
-         getPrice();
+         getStartingPrice();
    }
    
    /**

@@ -30,19 +30,23 @@
         </tr>
       </table>      
      
-      <s:div styleClass="headerTitle" rendered="#{bidAction.validBid}">
+      <s:div styleClass="headerTitle" rendered="#{bidAction.outcome == 'confirm'}">
         Review and Confirm your Bid
       </s:div>
       
-      <s:div styleClass="headerTitle" rendered="#{not bidAction.validBid}">
+      <s:div styleClass="headerTitle" rendered="#{bidAction.outcome == 'invalid'}">
         Place Bid
       </s:div>
+      
+      <s:div styleClass="headerTitle" rendered="#{bidAction.outcome == 'outbid'}">
+        Bid Confirmation
+      </s:div>      
               
       <div class="headerContent">
         <b>Hello #{authenticatedAccount.name}!</b>
       </div>
       
-      <s:div rendered="#{not bidAction.validBid}" styleClass="subSection">
+      <s:div rendered="#{bidAction.outcome == 'invalid'}" styleClass="subSection">
         <div class="alertImage"/>
         <div class="alertContent">
           <div class="error">The following must be corrected before continuing:</div>
@@ -50,6 +54,20 @@
             <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
           </h:outputText><span> <b>or more</b></span>
         </div>   
+      </s:div>
+      
+      <s:div rendered="#{bidAction.outcome == 'outbid'}" styleClass="subSection">
+        <div class="outbidImage"/>
+        <div class="alertContent">
+          <b>Your bid has been submitted</b>
+          
+          <h2>You've been outbid by another bidder</h2>
+          
+          <ul>
+            <li>Another bidder placed a higher maximum bid, or placed the same maximum bid before you placed yours.</li>
+            <li>You must increase your maximum bid for a chance to win this item</li>
+          </ul>
+        </div>
       </s:div>
             
       <div class="bidImage">
@@ -60,31 +78,52 @@
       
       <div class="bidItem">
         <b>Item you're bidding on:</b><br/>
-        ${bidAction.bid.auction.title}<br/>
+        
+        <s:fragment rendered="#{bidAction.outcome == 'outbid'}">          
+          <h:outputLink value="#{facesContext.externalContext.requestContextPath}/itemdetail/#{bidAction.bid.auction.auctionId}">
+            #{bidAction.bid.auction.title}
+          </h:outputLink><br/>
+          
+          <div class="itemDetailRow">
+            <label>Time left:</label>
+            <div>
+              #{bidAction.bid.auction.daysHoursLeft} [<h:outputText value="#{bidAction.bid.auction.endDate}">
+                <f:convertDateTime pattern="dd-MMM-yyyy H:mm:ss"/>
+              </h:outputText>]
+            </div>
+          </div>
+          
+          <div class="itemDetailRow">
+            <label>History:</label>
+            <div>
+              <s:link view="/bidhistory.seam" propagation="none">
+                #{bidAction.bid.auction.bids} bids                
+                <f:param name="auctionId" value="#{bidAction.bid.auction.auctionId}"/>
+              </s:link>            
+            </div>
+          </div>
+        </s:fragment>
+        
+        <s:fragment rendered="#{bidAction.outcome != 'outbid'}">        
+          #{bidAction.bid.auction.title}<br/>
+        </s:fragment>
         
         <div class="itemDetailRow">
-          <s:fragment rendered="#{auction.highBid ne null}">        
+          <s:fragment rendered="#{bidAction.bid.auction.highBid ne null}">        
             <label>Current bid:</label>
           </s:fragment>
-          <s:fragment rendered="#{auction.highBid eq null}">
+          <s:fragment rendered="#{bidAction.bid.auction.highBid eq null}">
             <label>Starting price:</label>
           </s:fragment>
           
           <div>                      
-            <s:fragment rendered="#{auction.highBid ne null}">
-              AU $<h:outputText value="#{bidAction.bid.auction.highBid.actualAmount}">
-                  <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
-               </h:outputText>
-            </s:fragment>              
-            <s:fragment rendered="#{auction.highBid eq null}">              
-              AU $<h:outputText value="#{bidAction.bid.auction.price}">
-                  <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
-               </h:outputText>
-            </s:fragment>            
+            AU $<h:outputText value="#{bidAction.bid.auction.currentPrice}">
+                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+             </h:outputText>
           </div>
         </div>
         
-        <s:div styleClass="itemDetailRow" rendered="#{bidAction.validBid}">
+        <s:div styleClass="itemDetailRow" rendered="#{bidAction.outcome != 'invalid'}">
           <label><b>Your maximum bid:</b></label>
           <div>
             <b>AU $<h:outputText value="#{bidAction.bid.maxAmount}">
@@ -93,12 +132,11 @@
           </div>
         </s:div>
         
-        <h:form rendered="#{not bidAction.validBid}">
+        <h:form rendered="#{bidAction.outcome == 'invalid'}">
           <div class="maximumBidRow">
             <label>Your maximum bid:</label>
             <div>
-              <b>$ </b>
-              <h:inputText id="bidAmount" value="#{bidAmount}"/>                            
+              <b>$ </b><h:inputText id="bidAmount" value="#{bidAmount}"/>                            
               <span> (Enter $<h:outputText value="#{bidAction.bid.auction.requiredBid}">
             <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
           </h:outputText> <b>or more</b>)</span>
@@ -111,9 +149,21 @@
         </h:form>
       
       </div>
+      
+      <h:form rendered="#{bidAction.outcome == 'outbid'}">
+        <div class="increaseBid" >
+          <label>Increase your maximum bid:</label>
+          <div>
+            <b>$ </b><h:inputText id="bidAmount" value="#{bidAmount}"/>
+              <span> (Enter $<h:outputText value="#{bidAction.bid.auction.requiredBid}">
+            <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+            </h:outputText> <b>or more</b>)</span>            
+          </div>
+        </div>
+        <h:commandButton styleClass="bidAgain" action="#{bidAction.updateBid}" value="Bid Again >"/>
+      </h:form>
                        
-      <h:form rendered="#{bidAction.validBid}">
-             
+      <h:form rendered="#{bidAction.outcome == 'confirm'}">
         <div class="confirmBid">
           <b>By clicking on the button below, you agree to buy this item if you're the
             winning bidder.</b><br/>

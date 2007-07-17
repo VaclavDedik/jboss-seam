@@ -129,6 +129,10 @@
         <navigation from-action="#{auctionSearch.queryAllAuctions}">
             <redirect view-id="/search.xhtml"/>
         </navigation>
+        
+        <navigation from-action="#{identity.logout}">
+            <redirect view-id="/home.xhtml"/>
+        </navigation>
     </page>
 
     <exception class="org.jboss.seam.security.NotLoggedInException">
