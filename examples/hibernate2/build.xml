@@ -32,7 +32,8 @@
     	<ant antfile="build-glassfish.xml" target="clean" />
     	<ant antfile="build-weblogic92.xml" target="clean" />
     	<ant antfile="build-websphere61.xml" target="clean" />
-    	<ant antfile="build-tomcat.xml" target="clean" />
+    	<ant antfile="build-tomcat55.xml" target="clean" />
+		<ant antfile="build-tomcat6.xml" target="clean" />
    </target>
 
    <target name="all" depends="jboss, jboss405, glassfish, weblogic92, websphere61, tomcat" description="Build Hibernate Booking example, for deployment to all supported application servers"/>
