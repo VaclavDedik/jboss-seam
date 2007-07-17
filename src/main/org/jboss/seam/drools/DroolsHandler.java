@@ -43,7 +43,7 @@ public class DroolsHandler
       }
       
       //workingMemory.setGlobal( "contextInstance", executionContext.getContextInstance() );
-      workingMemory.assertObject( Actor.instance() );
+      workingMemory.insert(Actor.instance());
 
       return workingMemory;
    }
@@ -53,11 +53,11 @@ public class DroolsHandler
       FactHandle fact = workingMemory.getFactHandle(element);
       if (fact==null)
       {
-         workingMemory.assertObject(element);
+         workingMemory.insert(element);
       }
       else
       {
-         workingMemory.modifyObject(fact, element);
+         workingMemory.update(fact, element);
       }
    }
 }

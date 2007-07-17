@@ -48,7 +48,7 @@ import java.util.StringTokenizer;
 
 import javassist.util.proxy.MethodFilter;
 import javassist.util.proxy.MethodHandler;
-import javassist.util.proxy.ProxyFactory;
+import org.jboss.seam.util.ProxyFactory;
 import javassist.util.proxy.ProxyObject;
 
 import javax.naming.NamingException;

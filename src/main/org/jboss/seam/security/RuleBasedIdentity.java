@@ -38,6 +38,8 @@ import org.jboss.seam.log.Logging;
 @Startup
 public class RuleBasedIdentity extends Identity
 {  
+   private static final long serialVersionUID = -2798083003251077858L;
+
    public static final String RULES_COMPONENT_NAME = "securityRules";   
    
    private static final LogProvider log = Logging.getLogProvider(RuleBasedIdentity.class);
@@ -90,12 +92,12 @@ public class RuleBasedIdentity extends Identity
                while ( e.hasMoreElements() )
                {
                   Principal role = (Principal) e.nextElement();
-                  securityContext.assertObject( new Role( role.getName() ) );
+                  securityContext.insert( new Role( role.getName() ) );
                }
             }     
          }
          
-         securityContext.assertObject(getPrincipal());
+         securityContext.insert(getPrincipal());
       }
    }
    
@@ -120,7 +122,7 @@ public class RuleBasedIdentity extends Identity
       
       synchronized( securityContext )
       {
-         handles.add( securityContext.assertObject(check) );
+         handles.add( securityContext.insert(check) );
          
          for (int i = 0; i < arg.length; i++)
          {
@@ -130,26 +132,27 @@ public class RuleBasedIdentity extends Identity
                {
                   if ( securityContext.getFactHandle(value) == null )
                   {
-                     handles.add( securityContext.assertObject(value) );
+                     handles.add( securityContext.insert(value) );
                   }
                }               
             }
             else
             {
-               handles.add( securityContext.assertObject(arg[i]) );
+               handles.add( securityContext.insert(arg[i]) );
             }
          }
    
          securityContext.fireAllRules();
    
          for (FactHandle handle : handles)
-            securityContext.retractObject(handle);
+            securityContext.retract(handle);
       }
       
       return check.isGranted();
    }
    
-   @Override
+   @SuppressWarnings("unchecked")
+   @Override   
    protected void unAuthenticate()
    {
       StatefulSession securityContext = getSecurityContext();
@@ -159,7 +162,7 @@ public class RuleBasedIdentity extends Identity
          Iterator<Role> iter = securityContext.iterateObjects(new ClassObjectFilter(Role.class)); 
          while (iter.hasNext()) 
          {
-            getSecurityContext().retractObject(securityContext.getFactHandle(iter.next()));
+            getSecurityContext().retract(securityContext.getFactHandle(iter.next()));
          }
       }
       
@@ -175,7 +178,7 @@ public class RuleBasedIdentity extends Identity
          
          if (securityContext != null)
          {
-            getSecurityContext().assertObject(new Role(role));
+            getSecurityContext().insert(new Role(role));
             return true;
          }
       }
@@ -183,6 +186,7 @@ public class RuleBasedIdentity extends Identity
       return false;
    }
    
+   @SuppressWarnings("unchecked")
    @Override
    public void removeRole(String role)
    {
@@ -197,7 +201,7 @@ public class RuleBasedIdentity extends Identity
             if (r.getName().equals(role))
             {
                FactHandle fh = getSecurityContext().getFactHandle(r);
-               getSecurityContext().retractObject(fh);
+               getSecurityContext().retract(fh);
                break;
             }
          }
