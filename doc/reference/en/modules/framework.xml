@@ -447,8 +447,8 @@ Person_updated=Person #{person.firstName} #{person.lastName} updated]]></program
                         order="lastName" 
                         max-results="20">
     <framework:restrictions>
-        <value>lower(firstName) like lower( #{examplePerson.firstName} + '%' )</value>
-        <value>lower(lastName) like lower( #{examplePerson.lastName} + '%' )</value>
+        <value>lower(firstName) like lower( concat(#{examplePerson.firstName},'%') )</value>
+        <value>lower(lastName) like lower( concat(#{examplePerson.lastName},'%') )</value>
     </framework:restrictions>
 </framework:entity-query>]]></programlisting>
 
