@@ -173,10 +173,6 @@ public class ComponentDescriptor implements Comparable<ComponentDescriptor>
            {
               if (clazz.isAnnotationPresent(org.jboss.seam.annotations.web.Filter.class))
               {
-                 if ( !clazz.isAnnotationPresent(Startup.class) )
-                 {
-                    throw new IllegalStateException("@Filter components must also specify @Startup");
-                 }
                  return true;
               }
            }

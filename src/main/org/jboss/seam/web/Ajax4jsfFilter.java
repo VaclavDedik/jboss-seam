@@ -4,19 +4,26 @@ import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
+import org.jboss.seam.Component;
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.annotations.web.Filter;
+import org.jboss.seam.util.EnumerationEnumeration;
 
 /**
  * A Seam filter component wrapper for the Ajax4JSF.
@@ -24,17 +31,19 @@ import org.jboss.seam.annotations.web.Filter;
  * be configured in the web: namespace. The subclass
  * does the actual work.
  * 
+ * @see org.jboss.seam.ui.filter.Ajax4jsfFilterInstantiator
  * @author Pete Muir
  * 
  */
 @Scope(APPLICATION)
 @Name("org.jboss.seam.web.ajax4jsfFilter")
-@Install(precedence = BUILT_IN, value=false)
+@Install(precedence = BUILT_IN, dependencies="org.jboss.seam.web.ajax4jsfFilterInstantiator")
 @BypassInterceptors
 @Filter
-@Startup
 public class Ajax4jsfFilter extends AbstractFilter
 {
+   
+   private javax.servlet.Filter delegate;
    
    private String forceParser;
    private String enableCache;
@@ -42,24 +51,42 @@ public class Ajax4jsfFilter extends AbstractFilter
    
    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException
    {
-      delegate.doFilter(servletRequest, servletResponse, chain);
+      if (delegate==null)
+      {
+         chain.doFilter(servletRequest, servletResponse);
+      }
+      else
+      {
+         delegate.doFilter(servletRequest, servletResponse, chain);
+      }
    }
-   
-   protected javax.servlet.Filter delegate;
    
    @Override
    public void init(FilterConfig filterConfig) throws ServletException
    {  
-      filterConfig = initFilterConfig(filterConfig);
       super.init(filterConfig);
-      delegate.init(filterConfig);
+      
+      delegate = (javax.servlet.Filter) Component.getInstance("org.jboss.seam.web.ajax4jsfFilterInstantiator", ScopeType.STATELESS);
+      if (delegate!=null)
+      {
+         Map<String, String> parameters = new HashMap<String, String>();
+         if ( getForceParser() != null )
+         {
+            parameters.put( "forceparser", getForceParser() );
+         }
+         if ( getEnableCache() != null )
+         {
+            parameters.put( "enable-cache", getEnableCache() );
+         }
+         if ( getLog4jInitFile() != null )
+         {
+            parameters.put( "log4j-init-file", getLog4jInitFile() );
+         }
+      
+         delegate.init( new FilterConfigWrapper(filterConfig, parameters) );
+      }
    }
    
-   protected FilterConfig initFilterConfig(FilterConfig filterConfig)
-   {
-      return filterConfig;
-   }
-
    public String getEnableCache()
    {
       return enableCache;
@@ -100,4 +127,49 @@ public class Ajax4jsfFilter extends AbstractFilter
       this.log4jInitFile = log4jInitFile;
    }
 
+   private class FilterConfigWrapper implements FilterConfig
+   {
+      
+      private FilterConfig delegate;
+      private Map<String, String> parameters;
+      
+      public FilterConfigWrapper(FilterConfig filterConfig, Map<String, String> parameters)
+      {
+         delegate = filterConfig;
+         this.parameters = parameters;
+      }
+
+      public String getFilterName()
+      {
+         return delegate.getFilterName();
+      }
+
+      public String getInitParameter(String name)
+      {
+         if ( parameters.containsKey(name) )
+         {
+            return parameters.get(name);
+         }
+         else
+         {
+            return delegate.getInitParameter(name);
+         }
+      }
+
+      public Enumeration getInitParameterNames()
+      {
+         Enumeration[] enumerations = {
+                  delegate.getInitParameterNames(), 
+                  Collections.enumeration( parameters.keySet() )
+               };
+         return new EnumerationEnumeration(enumerations);
+      }
+
+      public ServletContext getServletContext()
+      {
+         return delegate.getServletContext();
+      }
+      
+   }
+   
 }

@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletResponseWrapper;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.annotations.web.Filter;
 import org.jboss.seam.contexts.Contexts;
@@ -32,7 +31,6 @@ import org.jboss.seam.navigation.Pages;
  * 
  * @author Gavin King
  */
-@Startup
 @Scope(APPLICATION)
 @Name("org.jboss.seam.web.redirectFilter")
 @Install(precedence = BUILT_IN, classDependencies="javax.faces.context.FacesContext")

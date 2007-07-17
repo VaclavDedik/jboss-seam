@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.annotations.web.Filter;
 import org.jboss.seam.servlet.ContextualHttpServletRequest;
@@ -24,7 +23,6 @@ import org.jboss.seam.servlet.ContextualHttpServletRequest;
  * 
  * @author Gavin King
  */
-@Startup
 @Scope(APPLICATION)
 @Name("org.jboss.seam.web.contextFilter")
 @Install(value=false, precedence = BUILT_IN)

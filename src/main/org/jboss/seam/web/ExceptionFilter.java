@@ -22,7 +22,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.annotations.web.Filter;
 import org.jboss.seam.contexts.FacesLifecycle;
@@ -44,7 +43,6 @@ import org.jboss.seam.util.EJB;
  * 
  * @author Gavin King
  */
-@Startup
 @Scope(APPLICATION)
 @Name("org.jboss.seam.web.exceptionFilter")
 @Install(precedence = BUILT_IN, classDependencies="javax.faces.context.FacesContext")

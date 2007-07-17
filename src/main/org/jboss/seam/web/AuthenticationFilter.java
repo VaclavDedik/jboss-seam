@@ -20,7 +20,6 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.annotations.web.Filter;
 import org.jboss.seam.contexts.Context;
@@ -41,7 +40,6 @@ import org.jboss.seam.util.Base64;
  *  
  * @author Shane Bryzak
  */
-@Startup
 @Scope(APPLICATION)
 @Name("org.jboss.seam.web.authenticationFilter")
 @Install(value = false, precedence = BUILT_IN)

@@ -16,7 +16,6 @@ import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.annotations.web.Filter;
 import org.jboss.seam.core.Init;
@@ -28,7 +27,6 @@ import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.web.AbstractFilter;
 
 @Name("org.jboss.seam.debug.hotDeployFilter")
-@Startup
 @Install(debug=true, precedence=BUILT_IN)
 @BypassInterceptors
 @Scope(APPLICATION)

@@ -15,12 +15,11 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.contexts.ApplicationContext;
-import org.jboss.seam.contexts.Context;
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
-import org.jboss.seam.servlet.ServletApplicationMap;
 import org.jboss.seam.util.SortItem;
 import org.jboss.seam.util.Sorter;
 import org.jboss.seam.web.AbstractFilter;
@@ -41,7 +40,7 @@ public class SeamFilter implements Filter
 {
    private static final LogProvider log = Logging.getLogProvider(SeamFilter.class);   
    
-   private List<Filter> filters = new ArrayList<Filter>();   
+   private List<Filter> filters;
    
    private class FilterChainImpl implements FilterChain
    {  
@@ -87,21 +86,37 @@ public class SeamFilter implements Filter
 
    public void init(FilterConfig filterConfig) throws ServletException 
    {
-      Context tempApplicationContext = new ApplicationContext( new ServletApplicationMap( filterConfig.getServletContext() ) ); 
-      Init init = (Init) tempApplicationContext.get(Init.class);
-      
-      // Setup ready for sorting
+      Lifecycle.mockApplication();
+      try
+      {
+         filters = getSortedFilters();
+         for ( Filter filter : filters )
+         {
+            log.info( "Initializing filter: " + Component.getComponentName(filter.getClass()));
+            filter.init(filterConfig);
+         }
+      }
+      finally
+      {
+         Lifecycle.unmockApplication();
+      }
+   }
+
+   private List<Filter> getSortedFilters()
+   {
+      //retrieve the Filter instances from the application context
       Map<String, SortItem<Filter>> sortItemsMap = new HashMap<String, SortItem<Filter>>();
       List<SortItem<Filter>> sortItems = new ArrayList<SortItem<Filter>>();
       
-      for (String filterName : init.getInstalledFilters())
+      for (String filterName : Init.instance().getInstalledFilters())
       {
-         Filter filter = (Filter) tempApplicationContext.get(filterName);
+         Filter filter = (Filter) Component.getInstance(filterName, ScopeType.APPLICATION);
          SortItem<Filter> si = new SortItem<Filter>(filter);         
          sortItemsMap.put(filterName, si);
          sortItems.add(si);
       }
 
+      //create sort items
       for (SortItem<Filter> sortItem : sortItems)
       {
          org.jboss.seam.annotations.web.Filter filterAnn = getFilterAnnotation(sortItem.getObj().getClass());
@@ -123,15 +138,9 @@ public class SeamFilter implements Filter
       // Do the sort
       Sorter<Filter> sList = new Sorter<Filter>();
       sortItems = sList.sort(sortItems);
-      
-      // Set the sorted filters, initialize them
-      for (SortItem<Filter> sortItem : sortItems)
-      {
-         Filter filter = sortItem.getObj();
-         filters.add(filter);
-         log.info( "Initializing filter: " + Component.getComponentName(filter.getClass()));
-         filter.init(filterConfig);
-      }
+      List<Filter> sorted = new ArrayList<Filter>();
+      for (SortItem<Filter> si: sortItems) sorted.add( si.getObj() );
+      return sorted;
    }
    
    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
