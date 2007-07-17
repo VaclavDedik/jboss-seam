@@ -63,11 +63,24 @@
         ${bidAction.bid.auction.title}<br/>
         
         <div class="itemDetailRow">
-          <label>Current bid:</label>
-          <div>
-            AU $<h:outputText value="#{bidAction.bid.auction.price}">
-              <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
-            </h:outputText>
+          <s:fragment rendered="#{auction.highBid ne null}">        
+            <label>Current bid:</label>
+          </s:fragment>
+          <s:fragment rendered="#{auction.highBid eq null}">
+            <label>Starting price:</label>
+          </s:fragment>
+          
+          <div>                      
+            <s:fragment rendered="#{auction.highBid ne null}">
+              AU $<h:outputText value="#{bidAction.bid.auction.highBid.actualAmount}">
+                  <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+               </h:outputText>
+            </s:fragment>              
+            <s:fragment rendered="#{auction.highBid eq null}">              
+              AU $<h:outputText value="#{bidAction.bid.auction.price}">
+                  <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+               </h:outputText>
+            </s:fragment>            
           </div>
         </div>
         
@@ -85,7 +98,7 @@
             <label>Your maximum bid:</label>
             <div>
               <b>$ </b>
-              <h:inputText id="bidAmount" value="#{bidAmount}"/>
+              <h:inputText id="bidAmount" value="#{bidAmount}"/>                            
               <span> (Enter $<h:outputText value="#{bidAction.bid.auction.requiredBid}">
             <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
           </h:outputText> <b>or more</b>)</span>

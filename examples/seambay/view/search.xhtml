@@ -62,9 +62,11 @@
       	             rowClasses="resultRowOdd,resultRowEven"
       	             columnClasses="imageColumn,itemColumn,bidsColumn,priceColumn,timeColumn">
       	  <h:column>
-      	    <s:graphicImage rendered="#{auction.image ne null}" value="#{auction.image.data}">
-              <s:transformImageSize width="80" maintainRatio="true"/>
-      	    </s:graphicImage>
+      	    <h:outputLink value="#{facesContext.externalContext.requestContextPath}/itemdetail/#{auction.auctionId}">
+        	    <s:graphicImage rendered="#{auction.image ne null}" value="#{auction.image.data}" styleClass="thumbnail">
+                <s:transformImageSize width="80" maintainRatio="true"/>
+        	    </s:graphicImage>
+        	  </h:outputLink>
       	  </h:column>
       		<h:column>
       			<f:facet name="header">Item</f:facet>

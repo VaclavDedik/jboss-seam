@@ -60,6 +60,16 @@ public class BidAction
       entityManager.lock(bid.getAuction(), LockModeType.WRITE);
       entityManager.refresh(bid.getAuction());
       
+      if (bid.getAuction().getStatus() != Auction.STATUS_LIVE)
+      {
+         return "ended";
+      }
+      else if (bid.getAuction().getEndDate().getTime() < bid.getBidDate().getTime())
+      {
+         bid.getAuction().setStatus(Auction.STATUS_COMPLETED);
+         return "ended";
+      }
+      
       List<Bid> bids = entityManager.createQuery(
             "from Bid b where b.auction = :auction")
           .setParameter("auction", bid.getAuction())
@@ -96,7 +106,18 @@ public class BidAction
       }
       else if (bid.getMaxAmount() > highBid.getMaxAmount())
       {
-         bid.setActualAmount(Auction.getRequiredBid(highBid.getMaxAmount()));
+         // If this bid is higher than the previous maximum bid, and is from
+         // a different bidder, set the actual amount to the next required bid 
+         // amount for the auction
+         if (!bid.getAccount().equals(highBid.getAccount()))
+         {
+            bid.setActualAmount(Auction.getRequiredBid(highBid.getMaxAmount()));
+         }        
+         else
+         {
+            // Otherwise don't change the amount from the bidder's last bid
+            bid.setActualAmount(highBid.getActualAmount());
+         }
          bid.getAuction().setHighBid(bid);         
       }
       else

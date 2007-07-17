@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import org.hibernate.validator.NotNull;
 
@@ -33,6 +34,7 @@ public class Bid implements Serializable
    }
    
    @NotNull
+   @ManyToOne
    public Auction getAuction()
    {
       return auction;

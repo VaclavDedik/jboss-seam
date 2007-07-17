@@ -73,9 +73,16 @@
               </s:fragment>            
             </label>
             <div>
-              $<b><h:outputText value="#{auction.price}">
-                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
-              </h:outputText></b>
+              <s:fragment rendered="#{auction.highBid ne null}">
+                $<b><h:outputText value="#{auction.highBid.actualAmount}">
+                  <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                </h:outputText></b>
+              </s:fragment>
+              <s:fragment rendered="#{auction.highBid eq null}">
+                $<b><h:outputText value="#{auction.price}">
+                  <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                </h:outputText></b>
+              </s:fragment>
             </div>
           </div>
           
@@ -198,11 +205,25 @@
           
           <h:form>
 
-            <div class="bidRow">
-              <h:outputLabel>Current bid:</h:outputLabel>              
-              <span>$ </span><b><h:outputText value="#{auction.price}">
-                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>              
-              </h:outputText></b>
+            <div class="bidRow">              
+              <s:fragment rendered="#{auction.highBid ne null}">
+                <label>Current bid:</label>
+              </s:fragment>
+              <s:fragment rendered="#{auction.highBid eq null}">
+                <label>Starting price:</label>
+              </s:fragment>            
+                            
+              <s:fragment rendered="#{auction.highBid ne null}">
+                <span>$ </span><b><h:outputText value="#{auction.highBid.actualAmount}">
+                  <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                </h:outputText></b>
+              </s:fragment>
+              <s:fragment rendered="#{auction.highBid eq null}">
+                <span>$ </span><b><h:outputText value="#{auction.price}">
+                  <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                </h:outputText></b>
+              </s:fragment>              
+              
             </div>
           
             <div class="bidRow">

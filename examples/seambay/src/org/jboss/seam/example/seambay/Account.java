@@ -90,4 +90,20 @@ public class Account implements Serializable
    {
       this.location = location;
    }
+   
+   @Override
+   public boolean equals(Object value)
+   {
+      if (!(value instanceof Account)) return false;
+      
+      Account other = (Account) value;
+      
+      return other.accountId != null && other.accountId.equals(this.accountId);
+   }
+   
+   @Override
+   public int hashCode()
+   {
+      return accountId != null ? accountId.intValue() : super.hashCode();
+   }
 }

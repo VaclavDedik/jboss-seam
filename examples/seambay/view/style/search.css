@@ -104,3 +104,7 @@ td.timeColumn {
   text-align: center;
   nowrap: true;
 }
+
+img.thumbnail {
+  border: 0px;
+}

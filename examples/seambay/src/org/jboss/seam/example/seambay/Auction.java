@@ -229,8 +229,9 @@ public class Auction implements Serializable
    
    @Transient
    public double getRequiredBid()
-   {
-      return getRequiredBid(getPrice());
+   {      
+      return highBid != null ? getRequiredBid(highBid.getActualAmount()) : 
+         getPrice();
    }
    
    /**
