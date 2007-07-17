@@ -12,7 +12,6 @@ import javax.servlet.ServletRequest;
 
 import org.jboss.seam.ui.component.UIFileUpload;
 import org.jboss.seam.ui.util.HTML;
-import org.jboss.seam.ui.util.JSF;
 import org.jboss.seam.ui.util.cdk.RendererBase;
 import org.jboss.seam.web.MultipartRequest;
 
