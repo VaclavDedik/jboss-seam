@@ -135,9 +135,11 @@ public class Transaction
    {
       try
       {
-         return (javax.transaction.UserTransaction) Naming.getInitialContext().lookup(userTransactionName);
+         javax.transaction.UserTransaction ut = (javax.transaction.UserTransaction) Naming.getInitialContext().lookup(userTransactionName);
+         ut.getStatus(); //for glassfish, which can return an unusable UT
+         return ut;
       }
-      catch (NameNotFoundException nnfe)
+      catch (Exception e)
       {
          return (javax.transaction.UserTransaction) Naming.getInitialContext().lookup(STANDARD_USER_TRANSACTION_NAME);
       }

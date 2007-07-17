@@ -89,7 +89,14 @@ public class CMTTransaction extends AbstractUserTransaction
       }
       catch (IllegalStateException ise)
       {
-         return ejbContext.getUserTransaction().getStatus();
+         try
+         {
+            return ejbContext.getUserTransaction().getStatus();
+         }
+         catch (IllegalStateException is)
+         {
+            return Status.STATUS_NO_TRANSACTION;
+         }
       }
    }
 
