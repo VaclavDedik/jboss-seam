@@ -22,8 +22,12 @@
      	<ant antfile="build-websphere61.xml"/>
    </target>
 
-   <target name="tomcat" description="Build the Hibernate Booking example artifacts, suitable for deployment to Tomcat 5.5">
-     	<ant antfile="build-tomcat.xml"/>
+   <target name="tomcat55" description="Build the Hibernate Booking example artifacts, suitable for deployment to Tomcat 5.5">
+     	<ant antfile="build-tomcat55.xml"/>
+   </target>
+
+   <target name="tomcat6" description="Build the Hibernate Booking example artifacts, suitable for deployment to Tomcat 6">
+     	<ant antfile="build-tomcat6.xml"/>
    </target>
 
    <target name="clean" description="Clean up the example">
@@ -32,11 +36,16 @@
     	<ant antfile="build-glassfish.xml" target="clean" />
     	<ant antfile="build-weblogic92.xml" target="clean" />
     	<ant antfile="build-websphere61.xml" target="clean" />
+<<<<<<< build.xml
+    	<ant antfile="build-tomcat55.xml" target="clean" />
+    	<ant antfile="build-tomcat6.xml" target="clean" />
+=======
     	<ant antfile="build-tomcat55.xml" target="clean" />
 		<ant antfile="build-tomcat6.xml" target="clean" />
+>>>>>>> 1.21
    </target>
 
-   <target name="all" depends="jboss, jboss405, glassfish, weblogic92, websphere61, tomcat" description="Build Hibernate Booking example, for deployment to all supported application servers"/>
+   <target name="all" depends="jboss, jboss405, glassfish, weblogic92, websphere61, tomcat55, tomcat6" description="Build Hibernate Booking example, for deployment to all supported application servers"/>
 
 </project>
 
