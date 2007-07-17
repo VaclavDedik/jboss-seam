@@ -81,7 +81,7 @@ public class Lifecycle
       Contexts.sessionContext.set( new BasicContext(ScopeType.SESSION) );
       Contexts.conversationContext.set( new BasicContext(ScopeType.CONVERSATION) );
       Contexts.businessProcessContext.set( new BusinessProcessContext() );
-      Contexts.applicationContext.set( new ApplicationContext(application) );
+      Contexts.applicationContext.set( new ApplicationContext(getApplication()) );
    }
 
    public static void endCall()
@@ -104,7 +104,7 @@ public class Lifecycle
 
    public static void mockApplication()
    {
-      Contexts.applicationContext.set( new ApplicationContext(application) );
+      Contexts.applicationContext.set( new ApplicationContext(getApplication()) );
    }
 
    public static void unmockApplication()
