@@ -420,7 +420,7 @@
 		<delete dir="${ear.dir}" />
 		<delete dir="${war.dir}" />
 		<delete dir="${jar.dir}" />
-		<fileset dir="${test.dir}" />
+		<delete dir="${test.dir}" />
 	</target>
 
 
