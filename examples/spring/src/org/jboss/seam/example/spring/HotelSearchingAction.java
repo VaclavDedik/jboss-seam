@@ -1,12 +1,13 @@
 //$Id$
 package org.jboss.seam.example.spring;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.datamodel.DataModel;
 
-public class HotelSearchingAction
+public class HotelSearchingAction implements Serializable
 {
     @In("#{bookingService}")
     private BookingService bookingService;

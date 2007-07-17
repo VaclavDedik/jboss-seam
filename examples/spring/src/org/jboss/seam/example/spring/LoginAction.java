@@ -1,6 +1,8 @@
 //$Id$
 package org.jboss.seam.example.spring;
 
+import java.io.Serializable;
+
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.In;
@@ -13,7 +15,7 @@ import org.jboss.seam.faces.FacesMessages;
 @Scope(ScopeType.SESSION)
 @Synchronized
 @Name("login")
-public class LoginAction {
+public class LoginAction implements Serializable {
 
 	@In(required = false)
 	@Out(required = false)

@@ -5,10 +5,13 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.hibernate.HibernateException;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.classic.Session;
 import org.jboss.seam.Component;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -18,19 +21,23 @@ import org.springframework.orm.hibernate3.SessionFactoryUtils;
 import org.springframework.util.ClassUtils;
 
 /**
- * A SessionFactory that delegates requests to open a Session to a "managed-hibernate-session". 
+ * A SessionFactory that delegates requests to open a Session to a
+ * "managed-hibernate-session".
+ * 
  * @author Mike Youngstrom
  */
 public class SeamManagedSessionFactoryBean extends AbstractFactoryBean
 {
    private String sessionName;
+
    private SessionFactory baseSessionFactory;
-   
+
    @Override
    public void afterPropertiesSet() throws Exception
    {
       super.afterPropertiesSet();
-      if(sessionName == null || "".equals(sessionName)) {
+      if (sessionName == null || "".equals(sessionName))
+      {
          throw new IllegalArgumentException("SesssionName cannot be empty");
       }
    }
@@ -39,14 +46,18 @@ public class SeamManagedSessionFactoryBean extends AbstractFactoryBean
    protected Object createInstance() throws Exception
    {
       Class[] sessionFactoryInterfaces;
-      if(baseSessionFactory != null) {
+      if (baseSessionFactory != null)
+      {
          sessionFactoryInterfaces = ClassUtils.getAllInterfaces(baseSessionFactory);
-      } else {
-         sessionFactoryInterfaces = new Class[] {SessionFactory.class};
       }
-      //Create proxy of SessionFactory to implement all interfaces the baseSessionFactory did.
-      return Proxy.newProxyInstance(getClass().getClassLoader(),
-               sessionFactoryInterfaces, new SeamManagedSessionFactoryHandler(sessionName, baseSessionFactory));
+      else
+      {
+         sessionFactoryInterfaces = new Class[] { SessionFactory.class };
+      }
+      // Create proxy of SessionFactory to implement all interfaces the
+      // baseSessionFactory did.
+      return Proxy.newProxyInstance(getClass().getClassLoader(), sessionFactoryInterfaces,
+               new SeamManagedSessionFactoryHandler(sessionName, baseSessionFactory));
    }
 
    @Override
@@ -60,8 +71,10 @@ public class SeamManagedSessionFactoryBean extends AbstractFactoryBean
    }
 
    /**
-    * Optionally provide an instance of the SessionFactory we are wrapping.  Only necessary if the proxy
-    * needs to expose access to any interfaces besides SessionFactory.class.
+    * Optionally provide an instance of the SessionFactory we are wrapping. Only
+    * necessary if the proxy needs to expose access to any interfaces besides
+    * SessionFactory.class.
+    * 
     * @param baseSessionFactory
     */
    public void setBaseSessionFactory(SessionFactory baseSessionFactory)
@@ -71,6 +84,7 @@ public class SeamManagedSessionFactoryBean extends AbstractFactoryBean
 
    /**
     * The name of the Seam "managed-hibernate-session" component.
+    * 
     * @param sessionName
     */
    @Required
@@ -80,9 +94,11 @@ public class SeamManagedSessionFactoryBean extends AbstractFactoryBean
    }
 
    /**
-    * Proxy for a SessionFactory.  Returning a close suppressing proxy on calls to "openSession".
+    * Proxy for a SessionFactory. Returning a close suppressing proxy on calls
+    * to "openSession".
+    * 
     * @author Mike Youngstrom
-    *
+    * 
     */
    public static class SeamManagedSessionFactoryHandler implements InvocationHandler, Serializable
    {
@@ -157,7 +173,7 @@ public class SeamManagedSessionFactoryBean extends AbstractFactoryBean
          {
             try
             {
-               return SessionFactoryUtils.doGetSession((SessionFactory)proxy, false);
+               return SessionFactoryUtils.doGetSession((SessionFactory) proxy, false);
             }
             catch (IllegalStateException ex)
             {
@@ -169,10 +185,16 @@ public class SeamManagedSessionFactoryBean extends AbstractFactoryBean
             if (method.getParameterTypes().length == 0)
             {
                Session session = getSession();
-               // Return close suppressing Session Proxy that implements all interfaces the original did
-               return Proxy.newProxyInstance(this.getClass().getClassLoader(), ClassUtils
-                        .getAllInterfaces(session), new SeamManagedSessionHandler((SessionFactory)proxy,
-                        session));
+               // Return close suppressing Session Proxy that implements all
+               // interfaces the original did
+               ClassUtils.getAllInterfaces(session);
+               List<Class> interfaces = new ArrayList<Class>(Arrays.asList(ClassUtils
+                        .getAllInterfaces(session)));
+               //Have to bend Session implementation since HiberanteSessionProxy doesn't implement classic.Session.
+               interfaces.add(org.hibernate.classic.Session.class);
+               return Proxy.newProxyInstance(this.getClass().getClassLoader(), interfaces
+                        .toArray(new Class[interfaces.size()]), new SeamManagedSessionHandler(
+                        (SessionFactory) proxy, session));
             }
             else
             {
@@ -191,6 +213,10 @@ public class SeamManagedSessionFactoryBean extends AbstractFactoryBean
          }
          try
          {
+            if(method.getDeclaringClass().equals(org.hibernate.classic.Session.class) &&
+                     !(delegate instanceof org.hibernate.classic.Session)) {
+               throw new UnsupportedOperationException("Unable to execute method: "+method.toString()+" Seam managed session does not support classic.Session methods.");
+            }
             return method.invoke(delegate, args);
          }
          catch (InvocationTargetException ex)
@@ -201,7 +227,8 @@ public class SeamManagedSessionFactoryBean extends AbstractFactoryBean
    }
 
    /**
-    * Delegates calls to a hibernate session and suppresses calls to close. 
+    * Delegates calls to a hibernate session and suppresses calls to close.
+    * 
     * @author Mike Youngstrom
     */
    public static class SeamManagedSessionHandler implements InvocationHandler, Serializable

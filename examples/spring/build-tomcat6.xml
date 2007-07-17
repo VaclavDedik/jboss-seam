@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+
+<project name="Spring" default="noejb.archive" basedir=".">
+
+    <!-- Naming -->
+    <property name="Name"                   value="The Spring Example for plain Tomcat 6.0"/>
+    <property name="example.name"           value="jboss-seam-spring"/>
+
+    <!-- resources -->
+    <property name="resources.dir" value="resources" />
+	<property name="dist.dir" value="dist-tomcat6" />
+	<property name="exploded-archives.dir" value="exploded-archives-tomcat6" />
+       
+    <!-- Libraries to include -->
+    <property name="seam.ui.lib"    value="true"/>
+    <property name="seam.debug.lib" value="true"/>
+    <property name="facelets.lib"   value="true"/>
+    <property name="seam.ioc.war.lib"   value="true"/>
+	<property name="spring.lib"   value="true"/>
+
+    <import file="../build.xml"/>
+
+    <fileset id="noejb.war.extras" dir="${seam.dir}">
+        <include name="lib/common*.jar"/>
+        <include name="lib/jsf-*.jar"/>
+        <include name="lib/jstl-*.jar"/>
+        <include name="lib/hibernate-all.jar"/>
+    	<include name="hibernate/lib/jboss-archive-browsing.jar"/>
+        <include name="lib/thirdparty-all.jar"/>
+        <!-- Needed for Spring -->
+        <include name="examples/hibernate2/lib/cglib.jar"/>
+    	<!--Only needed for jta-->
+    	<include name="examples/hibernate2/lib/mc/jboss-j2ee.jar"/>
+    </fileset>
+       
+</project>
+
