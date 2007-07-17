@@ -30,7 +30,7 @@ public class DecorateRendererBase extends RendererBase
  
       boolean hasMessage = decorate.hasMessage();
       
-      writer.startElement("span", decorate);
+      writer.startElement("div", decorate);
       writer.writeAttribute("id", decorate.getClientId(context), "id");
       
       UIComponent aroundDecoration = decorate.getDecoration("aroundField");
@@ -65,7 +65,7 @@ public class DecorateRendererBase extends RendererBase
          aroundInvalidDecoration.setParent(decorate);
          aroundInvalidDecoration.encodeEnd(context);
       }
-      context.getResponseWriter().endElement("span");
+      context.getResponseWriter().endElement("div");
 
       Contexts.getEventContext().remove("invalid");
       Contexts.getEventContext().remove("required");
