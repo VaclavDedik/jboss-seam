@@ -234,17 +234,17 @@
 
 		<!-- Drools and dependencies -->
 		<!--<artifact:pom file="${build.dir}/thirdparty/mvel14.pom.xml" id="mvel14.pom" />
-		<artifact:install file="${drools.lib.dir}/mvel14-1.2beta16.jar">
+		<artifact:install file="${drools.lib.dir}/mvel14-1.2beta27.jar">
 			<pom refid="mvel14.pom" />
 		</artifact:install>
 
 		<artifact:pom file="${build.dir}/thirdparty/antlr.pom.xml" id="antlr.pom" />
-		<artifact:install file="${drools.lib.dir}/antlr-3.0b7.jar">
+		<artifact:install file="${drools.lib.dir}/antlr-runtime-3.0.jar">
 			<pom refid="antlr.pom" />
 		</artifact:install>
 
 		<artifact:pom file="${build.dir}/thirdparty/janino.pom.xml" id="janino.pom" />
-		<artifact:install file="${drools.lib.dir}/janino-2.5.6.jar">
+		<artifact:install file="${drools.lib.dir}/janino-2.5.7.jar">
 			<pom refid="janino.pom" />
 		</artifact:install>
 
