@@ -57,7 +57,7 @@ public class SubscriptionRegistry
 
   public static SubscriptionRegistry instance()
   {
-    SubscriptionRegistry registry = (SubscriptionRegistry) Component.getInstance(SubscriptionRegistry.class, true);
+    SubscriptionRegistry registry = (SubscriptionRegistry) Component.getInstance(SubscriptionRegistry.class);
 
     if (registry == null)
     {

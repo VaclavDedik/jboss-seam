@@ -10,7 +10,6 @@ import java.util.Map;
 import javax.el.ELContext;
 import javax.el.ELResolver;
 
-import org.jboss.seam.Component;
 import org.jboss.seam.Namespace;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
@@ -160,17 +159,37 @@ public class SeamELResolver extends ELResolver
          return null;
       }
       
-      String name = (String) property;
-      Object result = Component.getInstance(name);
-      if (result==null)
-      {
-         result = Init.instance().getRootNamespace().getChild(name);
-      }
+      String key = (String) property;
+      Init init = Init.instance();
+      
+      //look for a component in the root namespace
+      Object result = init.getRootNamespace().getComponentInstance(key);
       if (result!=null)
       {
          context.setPropertyResolved(true);
+         return result;
       }
-      return result;
+      else
+      {
+         //look for a component in the imported namespaces
+         for ( Namespace ns: init.getGlobalImports() )
+         {
+            result = ns.getComponentInstance(key);
+            if (result!=null)
+            {
+               context.setPropertyResolved(true);
+               return result;
+            }
+         }
+      }
+      
+      //look for a namespace
+      Namespace namespace = init.getRootNamespace().getChild(key);
+      if (namespace!=null)
+      {
+         context.setPropertyResolved(true);
+      }
+      return namespace;
    }
 
    private Object resolveInNamespace(ELContext context, Object base, Object property)

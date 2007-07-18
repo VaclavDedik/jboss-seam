@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -69,9 +70,10 @@ public class Initialization
    private Map<String, Set<ComponentDescriptor>> componentDescriptors = new HashMap<String, Set<ComponentDescriptor>>();
    private List<FactoryDescriptor> factoryDescriptors = new ArrayList<FactoryDescriptor>();
    private Set<Class> installedComponentClasses = new HashSet<Class>();
-   private Set<String> importedPackages = new HashSet<String>();
+   //private Set<String> importedPackages = new HashSet<String>();
    private Map<String, NamespaceDescriptor> namespaceMap = new HashMap<String, NamespaceDescriptor>();
-   private final Map<String, EventListenerDescriptor> eventListenerDescriptors = new HashMap<String, EventListenerDescriptor>();
+   private Map<String, EventListenerDescriptor> eventListenerDescriptors = new HashMap<String, EventListenerDescriptor>();
+   private Collection<String> globalImports = new ArrayList<String>();
 
    public Initialization(ServletContext servletContext)
    {
@@ -155,14 +157,20 @@ public class Initialization
    private void installComponentsFromXmlElements(Element rootElement, Properties replacements)
             throws DocumentException, ClassNotFoundException
    {
-      List<Element> importElements = rootElement.elements("import-java-package");
-      for (Element importElement : importElements)
+      /*List<Element> importJavaElements = rootElement.elements("import-java-package");
+      for (Element importElement : importJavaElements)
       {
          String pkgName = importElement.getTextTrim();
          importedPackages.add(pkgName);
-         addNamespace(Package.getPackage(pkgName));
-      }
+         addNamespace( Package.getPackage(pkgName) );
+      }*/
 
+      List<Element> importElements = rootElement.elements("import");
+      for (Element importElement : importElements)
+      {
+         globalImports.add( importElement.getTextTrim() );
+      }
+      
       List<Element> componentElements = rootElement.elements("component");
       for (Element component : componentElements)
       {
@@ -330,26 +338,7 @@ public class Initialization
       Boolean startup = startupAttribute==null ? null : "true".equals(startupAttribute);
       if (className != null)
       {
-         Class<?> clazz = null;
-         try
-         {
-            clazz = Reflections.classForName(className);
-         }
-         catch (ClassNotFoundException cnfe)
-         {
-            for (String pkg : importedPackages)
-            {
-               try
-               {
-                  clazz = Reflections.classForName(pkg + '.' + className);
-                  break;
-               }
-               catch (Exception e)
-               {
-               }
-            }
-            if (clazz == null) throw cnfe;
-         }
+         Class<?> clazz = getClassUsingImports(className);
 
          if (name == null)
          {
@@ -400,6 +389,31 @@ public class Initialization
             properties.put(qualifiedPropName, getPropertyValue(prop, replacements));
          }
       }
+   }
+
+   private Class<?> getClassUsingImports(String className) throws ClassNotFoundException
+   {
+      Class<?> clazz = null;
+      /*try
+      {*/
+         clazz = Reflections.classForName(className);
+      /*}
+      catch (ClassNotFoundException cnfe)
+      {
+         for (String pkg : importedPackages)
+         {
+            try
+            {
+               clazz = Reflections.classForName(pkg + '.' + className);
+               break;
+            }
+            catch (Exception e)
+            {
+            }
+         }
+         if (clazz == null) throw cnfe;
+      }*/
+      return clazz;
    }
 
    private void addComponentDescriptor(ComponentDescriptor descriptor)
@@ -510,6 +524,11 @@ public class Initialization
       
       addSpecialComponents(init);
       installComponents(init, redeployStrategy);
+      
+      for (String globalImport: globalImports)
+      {
+         init.importNamespace(globalImport);
+      }
       
       ServletLifecycle.endInitialization();
       log.info("done initializing Seam");

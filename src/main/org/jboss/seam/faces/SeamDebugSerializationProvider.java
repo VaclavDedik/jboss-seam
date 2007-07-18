@@ -52,6 +52,7 @@ public class SeamDebugSerializationProvider
             super(source);
         }
 
+        @Override
         protected Class<?> resolveClass(ObjectStreamClass desc) 
             throws IOException, 
                    ClassNotFoundException

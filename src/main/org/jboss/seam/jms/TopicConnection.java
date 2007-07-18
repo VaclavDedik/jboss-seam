@@ -72,7 +72,7 @@ public class TopicConnection
    
    public static javax.jms.TopicConnection instance()
    {
-      return (javax.jms.TopicConnection) Component.getInstance(TopicConnection.class, true );
+      return (javax.jms.TopicConnection) Component.getInstance(TopicConnection.class);
    }
 
    @Override

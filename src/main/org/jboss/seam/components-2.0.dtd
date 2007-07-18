@@ -31,6 +31,8 @@
 <!ELEMENT key (#PCDATA)>
 <!ELEMENT value (#PCDATA)>
 
+<!ELEMENT import (#PCDATA)>
+
 <!-- event handling -->
 
 <!ELEMENT event (action*)>

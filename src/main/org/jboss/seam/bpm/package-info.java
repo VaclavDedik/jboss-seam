@@ -10,6 +10,8 @@
  * @see org.jboss.seam.annotations.bpm
  */
 @Namespace(value="http://jboss.com/products/seam/bpm", prefix="org.jboss.seam.bpm")
+@AutoCreate
 package org.jboss.seam.bpm;
 
+import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Namespace;

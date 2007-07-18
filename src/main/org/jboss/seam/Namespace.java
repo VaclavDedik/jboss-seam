@@ -25,14 +25,39 @@ public class Namespace
     */
    public Object get(String key)
    {
-      String qualifiedName = name==null ? key.toString() : name + key.toString();
-      Object component = Component.getInstance(qualifiedName, true);
+      Object component = getComponentInstance(key);
       return component==null ? children.get(key) : component;
    }
    
    public Namespace getChild(String key)
    {
       return children.get(key);
+   }
+   
+   public Namespace getOrCreateChild(String key)
+   {
+      Namespace result = getChild(key);
+      if (result==null)
+      {
+         result = new Namespace( qualifyName(key) + '.' );
+         addChild(key, result);
+      }
+      return result;
+   }
+   
+   public Object getComponentInstance(String key)
+   {
+      return getComponentInstance(key, true);
+   }
+
+   public Object getComponentInstance(String key, boolean create)
+   {
+      return Component.getInstance( qualifyName(key), create );
+   }
+
+   private String qualifyName(String key)
+   {
+      return name==null ? key : name + key;
    }
    
    public boolean hasChild(String key)

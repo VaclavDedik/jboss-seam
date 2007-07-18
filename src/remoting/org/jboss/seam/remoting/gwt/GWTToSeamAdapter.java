@@ -32,7 +32,7 @@ public class GWTToSeamAdapter {
    
    public static GWTToSeamAdapter instance()
    {
-      GWTToSeamAdapter adapter = (GWTToSeamAdapter) Component.getInstance(GWTToSeamAdapter.class, true);
+      GWTToSeamAdapter adapter = (GWTToSeamAdapter) Component.getInstance(GWTToSeamAdapter.class);
 
      if (adapter == null)
      {

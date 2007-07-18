@@ -7,11 +7,13 @@ import static org.jboss.seam.annotations.Install.BUILT_IN;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.StringTokenizer;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.Namespace;
@@ -39,6 +41,8 @@ public class Init
 {
    
    private Namespace rootNamespace = new Namespace(null);
+   
+   private Collection<Namespace> globalImports = new ArrayList<Namespace>();
    
    //private boolean isClientSideConversations = false;
    private boolean jbpmInstalled;
@@ -363,6 +367,18 @@ public class Init
    {
       return rootNamespace;
    }
+   
+   public void importNamespace(String namespaceName)
+   {
+      Namespace namespace = getRootNamespace();
+      StringTokenizer tokens = new StringTokenizer(namespaceName, ".");
+      while ( tokens.hasMoreTokens() )
+      {
+         String key = tokens.nextToken();
+         namespace = namespace.getOrCreateChild(key);
+      }
+      globalImports.add(namespace);
+   }
 
    public void addInstalledFilter(String name)
    {
@@ -442,5 +458,10 @@ public class Init
    public void setTransactionManagementEnabled(boolean transactionManagementEnabled)
    {
       this.transactionManagementEnabled = transactionManagementEnabled;
+   }
+
+   public Collection<Namespace> getGlobalImports()
+   {
+      return globalImports;
    }
 }

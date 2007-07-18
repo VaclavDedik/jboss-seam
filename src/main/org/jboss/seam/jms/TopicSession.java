@@ -52,7 +52,7 @@ public class TopicSession
    
    public static javax.jms.TopicSession instance()
    {
-      return (javax.jms.TopicSession) Component.getInstance(TopicSession.class, true );
+      return (javax.jms.TopicSession) Component.getInstance(TopicSession.class);
    }
    
 }

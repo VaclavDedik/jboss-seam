@@ -51,7 +51,7 @@ public class Actor extends AbstractMutable implements Serializable
       {
          throw new IllegalStateException("No active session context");
       }
-      return (Actor) Component.getInstance(Actor.class, true);
+      return (Actor) Component.getInstance(Actor.class);
    }
    
    @Override

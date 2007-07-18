@@ -4,9 +4,6 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.faces.FacesException;
-import javax.faces.application.ViewHandler;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import org.jboss.seam.Component;
@@ -67,7 +64,7 @@ public class DocumentStore implements Serializable
     
     public static DocumentStore instance()
     {
-        return (DocumentStore) Component.getInstance(DocumentStore.class, true);
+        return (DocumentStore) Component.getInstance(DocumentStore.class);
     }
   
 

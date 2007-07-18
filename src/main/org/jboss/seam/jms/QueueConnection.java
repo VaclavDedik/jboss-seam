@@ -72,7 +72,7 @@ public class QueueConnection
    
    public static javax.jms.QueueConnection instance()
    {
-      return (javax.jms.QueueConnection) Component.getInstance(QueueConnection.class, true );
+      return (javax.jms.QueueConnection) Component.getInstance(QueueConnection.class);
    }
 
    @Override

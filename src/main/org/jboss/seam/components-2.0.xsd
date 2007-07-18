@@ -8,6 +8,7 @@
                 <xs:element ref="components:component"/>
                 <xs:element ref="components:factory"/>
                 <xs:element ref="components:event"/>
+                <xs:element ref="components:import"/>
                 <xs:any namespace="##other" processContents="strict"/>
             </xs:choice>
         </xs:complexType>
@@ -21,6 +22,8 @@
             <xs:attributeGroup ref="components:attlist.ejbcomponent"/>
         </xs:complexType>
     </xs:element>
+    
+    <xs:element name="import" type="xs:string"/>
 
     <xs:attributeGroup name="attlist.ejbcomponent">
         <xs:attribute name="jndi-name"/>

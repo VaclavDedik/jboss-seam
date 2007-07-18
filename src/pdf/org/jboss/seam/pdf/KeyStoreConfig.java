@@ -44,6 +44,6 @@ public class KeyStoreConfig {
     }
     
     public static KeyStoreConfig instance() {
-        return (KeyStoreConfig) Component.getInstance(KeyStoreConfig.class, true);
+        return (KeyStoreConfig) Component.getInstance(KeyStoreConfig.class);
     }      
 }

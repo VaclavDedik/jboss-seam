@@ -52,7 +52,7 @@ public class QueueSession
    
    public static javax.jms.QueueSession instance()
    {
-      return (javax.jms.QueueSession) Component.getInstance(QueueSession.class, true );
+      return (javax.jms.QueueSession) Component.getInstance(QueueSession.class);
    }
    
 }

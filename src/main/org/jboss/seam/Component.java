@@ -339,16 +339,13 @@ public class Component extends Model
          {
             Namespace namespace = init.getRootNamespace();
             StringTokenizer tokens = new StringTokenizer(componentName, ".");
-            StringBuffer path = new StringBuffer();
             while ( tokens.hasMoreTokens() )
             {
                String token = tokens.nextToken();
-               path.append(token).append('.');
-               if ( tokens.hasMoreTokens() && !namespace.hasChild(token) )
+               if ( tokens.hasMoreTokens() ) //we don't want to create a namespace for the name
                {
-                  namespace.addChild( token, new Namespace(path.toString()) );
+                  namespace.getOrCreateChild(token);
                }
-               namespace = namespace.getChild(token);
             }
          }
       }
@@ -2023,7 +2020,16 @@ public class Component extends Model
          {
             log.debug("trying to inject with hierarchical context search: " + name);
          }
-         result = getInstance( name, in.create() && !org.jboss.seam.contexts.Lifecycle.isDestroying() );
+         boolean create = in.create() && !org.jboss.seam.contexts.Lifecycle.isDestroying();
+         result = getInstance(name, create);
+         if (result==null)
+         {
+            for ( Namespace namespace: Init.instance().getGlobalImports() )
+            {
+               result = namespace.getComponentInstance(name, create);
+               if (result!=null) break; 
+            }
+         }
       }
       else
       {
