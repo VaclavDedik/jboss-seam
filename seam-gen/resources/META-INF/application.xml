@@ -32,10 +32,10 @@
     
    <!-- Drools and dependencies -->
    <module>
-      <java>drools-compiler-4.0.0.MR2.jar</java>
+      <java>drools-compiler-4.0.0.12865MR3.jar</java>
    </module>
    <module>
-      <java>drools-core-4.0.0.MR2.jar</java>
+      <java>drools-core-4.0.0.12865MR3.jar</java>
    </module>
    <module>
       <java>mvel14-1.2beta16.jar</java>

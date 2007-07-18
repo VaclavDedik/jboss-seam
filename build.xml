@@ -254,12 +254,12 @@
 		</artifact:install>
 
 		<artifact:pom file="${build.dir}/thirdparty/drools-core.pom.xml" id="drools-core.pom" />
-		<artifact:install file="${drools.lib.dir}/drools-core-4.0.0.MR2.jar">
+		<artifact:install file="${drools.lib.dir}/drools-core-4.0.0.12865MR3.jar">
 			<pom refid="drools-core.pom" />
 		</artifact:install>
 
 		<artifact:pom file="${build.dir}/thirdparty/drools-compiler.pom.xml" id="drools-compiler.pom" />
-		<artifact:install file="${drools.lib.dir}/drools-compiler-4.0.0.MR2.jar">
+		<artifact:install file="${drools.lib.dir}/drools-compiler-4.0.0.12865MR3.jar">
 			<pom refid="drools-compiler.pom" />
 		</artifact:install>-->
 
