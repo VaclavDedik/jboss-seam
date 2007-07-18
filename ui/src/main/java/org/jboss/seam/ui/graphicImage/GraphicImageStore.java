@@ -105,7 +105,7 @@ public class GraphicImageStore extends AbstractMutable implements Serializable
 
    public static GraphicImageStore instance()
    {
-      return (GraphicImageStore) Component.getInstance(GraphicImageStore.class, true);
+      return (GraphicImageStore) Component.getInstance(GraphicImageStore.class);
    }
 
 }

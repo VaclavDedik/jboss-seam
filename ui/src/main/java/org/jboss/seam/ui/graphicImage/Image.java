@@ -432,7 +432,7 @@ public class Image implements Serializable
       {
          throw new IllegalStateException("No active conversation scope");
       }
-      return (Image) Component.getInstance(Image.class, true);
+      return (Image) Component.getInstance(Image.class);
    }
 
    private void readImage(InputStream inputStream) throws IOException
