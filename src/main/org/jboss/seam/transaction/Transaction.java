@@ -107,7 +107,7 @@ public class Transaction
       {
          try
          {
-            return createEJBTransaction();
+            return createCMTTransaction();
          }
          catch (NameNotFoundException nnfe2)
          {
@@ -121,7 +121,7 @@ public class Transaction
       return new NoTransaction();
    }
 
-   protected UserTransaction createEJBTransaction() throws NamingException
+   protected UserTransaction createCMTTransaction() throws NamingException
    {
       return new CMTTransaction( EJB.getEJBContext(), this );
    }
