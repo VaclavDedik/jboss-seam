@@ -2,6 +2,7 @@ package org.jboss.seam.transaction;
 
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
+import javax.naming.InitialContext;
 import javax.naming.NameNotFoundException;
 import javax.naming.NamingException;
 
@@ -30,20 +31,6 @@ import org.jboss.seam.util.Naming;
 @BypassInterceptors
 public class Transaction
 {
-   private static final String STANDARD_USER_TRANSACTION_NAME = "java:comp/UserTransaction";
-
-   private static String userTransactionName = "UserTransaction";
-
-   public static void setUserTransactionName(String name)
-   {
-      userTransactionName = name;
-   }
-
-   public static String getUserTransactionName()
-   {
-      return userTransactionName;
-   }
-   
    public static UserTransaction instance()
    {
       return (UserTransaction) Component.getInstance(Transaction.class, ScopeType.EVENT);
@@ -86,15 +73,22 @@ public class Transaction
 
    protected javax.transaction.UserTransaction getUserTransaction() throws NamingException
    {
+      InitialContext context = Naming.getInitialContext();
       try
       {
-         javax.transaction.UserTransaction ut = (javax.transaction.UserTransaction) Naming.getInitialContext().lookup(userTransactionName);
-         ut.getStatus(); //for glassfish, which can return an unusable UT
-         return ut;
+         return (javax.transaction.UserTransaction) context.lookup("java:comp/UserTransaction");
       }
-      catch (Exception e)
+      catch (NameNotFoundException nnfe)
       {
-         return (javax.transaction.UserTransaction) Naming.getInitialContext().lookup(STANDARD_USER_TRANSACTION_NAME);
+         try
+         {
+            //Embedded JBoss has no java:comp/UserTransaction
+            return (javax.transaction.UserTransaction) context.lookup("UserTransaction");
+         }
+         catch (Exception e)
+         {
+            throw nnfe;
+         }
       }
    }
 

@@ -18,7 +18,6 @@ import java.util.StringTokenizer;
 import org.jboss.seam.Component;
 import org.jboss.seam.Namespace;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -26,7 +25,6 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Expressions.MethodExpression;
 import org.jboss.seam.core.Expressions.ValueExpression;
-import org.jboss.seam.transaction.Transaction;
 
 /**
  * A Seam component that holds Seam configuration settings
@@ -49,8 +47,6 @@ public class Init
    private String jndiPattern;
    private boolean debug;
    private boolean myFacesLifecycleBug;
-   private String userTransactionName;
-   //private String transactionManagerName;
    private boolean transactionManagementEnabled = true;
    
    private Map<String, List<ObserverMethod>> observerMethods = new HashMap<String, List<ObserverMethod>>();
@@ -71,19 +67,6 @@ public class Init
    
    private long timestamp;
    private File[] hotDeployPaths;
-   
-   @Create
-   public void create()
-   {
-      /*if (transactionManagerName!=null)
-      {
-         Transactions.setTransactionManagerName(transactionManagerName);
-      }*/
-      if (userTransactionName!=null)
-      {
-         Transaction.setUserTransactionName(userTransactionName);
-      }
-   }
    
    public static Init instance()
    {
@@ -338,19 +321,6 @@ public class Init
    public void setJbpmInstalled(boolean jbpmInstalled)
    {
       this.jbpmInstalled = jbpmInstalled;
-   }
-
-   /**
-    * The JNDI name of the JTA UserTransaction
-    */
-   public String getUserTransactionName()
-   {
-      return userTransactionName;
-   }
-
-   public void setUserTransactionName(String userTransactionName)
-   {
-      this.userTransactionName = userTransactionName;
    }
 
    public boolean isAutocreateVariable(String name)
