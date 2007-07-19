@@ -127,7 +127,7 @@ public class ExceptionFilter extends AbstractFilter
          }
          catch (Exception ere)
          {
-            log.error("could not destroy contexts", e);
+            log.error("could not destroy contexts", ere);
          }
       }
    }
