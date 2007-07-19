@@ -178,6 +178,14 @@
       <property name="serializable">false</property>
    </bean>
 
+   <!-- added for Seam because java:comp/UserTransaction not defined in standard dist -->
+   <bean name="JavaCompUserTransactionBinding" class="org.jboss.naming.JndiBinder">
+      <property name="target">
+         <inject bean="UserTransaction"/>
+      </property>
+      <property name="bindTo">java:comp/UserTransaction</property>
+      <property name="serializable">false</property>
+   </bean>
 
    <bean name="ResourcesToDeploy2" class="org.jboss.embedded.DeploymentScanner">
       <property name="filter">
