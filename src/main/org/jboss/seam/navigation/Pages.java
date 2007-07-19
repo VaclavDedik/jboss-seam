@@ -228,7 +228,7 @@ public class Pages
    private List<Page> createPageStack(String viewId)
    {
       List<Page> stack = new ArrayList<Page>(1);
-      if (viewId!=null)
+      if ( viewId!=null && !isDebugPage(viewId) )
       {
          for (String wildcard: wildcardViewIds)
          {
@@ -1478,6 +1478,11 @@ public class Pages
    public void setResources(String[] resources)
    {
       this.resources = resources;
+   }
+   
+   private static boolean isDebugPage(String viewId)
+   {
+      return Init.instance().isDebug() && viewId.startsWith("/debug.");
    }
    
    public static boolean isDebugPage()

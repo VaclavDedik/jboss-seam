@@ -143,7 +143,7 @@ public class SeamPhaseListener implements PhaseListener
       
       if ( event.getPhaseId() == RENDER_RESPONSE )
       {
-         beforeRender(event);
+         beforeRenderResponse( event.getFacesContext() );
       }
       
    }
@@ -164,7 +164,7 @@ public class SeamPhaseListener implements PhaseListener
       if ( event.getPhaseId() == RENDER_RESPONSE )
       {
          afterRestoreView(facesContext);         
-         beforeRender(event);
+         beforeRenderResponse( event.getFacesContext() );
       }
    }
 
@@ -216,7 +216,7 @@ public class SeamPhaseListener implements PhaseListener
       }
       else if ( event.getPhaseId() == PROCESS_VALIDATIONS )
       {
-         afterProcessValidations( event.getFacesContext() );
+         afterProcessValidations(facesContext);
       }
             
       //has to happen after, since restoreAnyConversationContext() 
@@ -227,7 +227,7 @@ public class SeamPhaseListener implements PhaseListener
             
       if ( event.getPhaseId() == RENDER_RESPONSE )
       {
-         afterRender(facesContext);
+         afterRenderResponse(facesContext);
       }
       else if ( facesContext.getResponseComplete() )
       {
@@ -249,7 +249,7 @@ public class SeamPhaseListener implements PhaseListener
       }
       else if ( event.getPhaseId() == PROCESS_VALIDATIONS )
       {
-         afterProcessValidations( event.getFacesContext() );
+         afterProcessValidations(facesContext);
       }
       
       FacesMessages.afterPhase();
@@ -260,7 +260,7 @@ public class SeamPhaseListener implements PhaseListener
       if ( event.getPhaseId() == RENDER_RESPONSE )
       {
          //writeConversationIdToResponse( facesContext.getExternalContext().getResponse() );
-         afterRender(facesContext);
+         afterRenderResponse(facesContext);
       }
       else if ( event.getPhaseId() == INVOKE_APPLICATION || facesContext.getRenderResponse() || facesContext.getResponseComplete() )
       {
@@ -327,12 +327,12 @@ public class SeamPhaseListener implements PhaseListener
       }
    }
    
-   protected void handleTransactionsAfterPageActions(PhaseEvent event)
+   protected void handleTransactionsAfterPageActions(FacesContext facesContext)
    {
       if ( Init.instance().isTransactionManagementEnabled() ) 
       {
          commitOrRollback(PhaseId.INVOKE_APPLICATION);
-         if ( !event.getFacesContext().getResponseComplete() )
+         if ( !facesContext.getResponseComplete() )
          {
             begin(PhaseId.INVOKE_APPLICATION);
          }
@@ -371,25 +371,9 @@ public class SeamPhaseListener implements PhaseListener
       ConversationPropagation.instance().restoreConversationId(parameters);
       boolean conversationFound = Manager.instance().restoreConversation();
       FacesLifecycle.resumeConversation( facesContext.getExternalContext() );
-      if (!conversationFound)
-      {
-         Pages.instance().redirectToNoConversationView();
-      }
-      Manager.instance().handleConversationPropagation(parameters);
-      if ( Init.instance().isJbpmInstalled() )
-      {
-         Pageflow.instance().validatePageflow(facesContext);
-      }
-      
-      if ( log.isDebugEnabled() )
-      {
-         log.debug( "After restoring conversation context: " + Contexts.getConversationContext() );
-      }
-      
-      Pages.instance().postRestore(facesContext);
-            
+      postRestorePage(facesContext, parameters, conversationFound);            
    }
-  
+
    public void raiseEventsBeforePhase(PhaseEvent event)
    {
       if ( Contexts.isApplicationContextActive() )
@@ -452,10 +436,8 @@ public class SeamPhaseListener implements PhaseListener
       catch (Exception e) {} //swallow silently, not important
    }
    
-   protected void beforeRender(PhaseEvent event)
+   protected void beforeRenderResponse(FacesContext facesContext)
    {  
-      
-      FacesContext facesContext = event.getFacesContext();
       
       if ( Contexts.isPageContextActive() )
       {
@@ -470,7 +452,7 @@ public class SeamPhaseListener implements PhaseListener
          pageContext.remove( Seam.getComponentName(ConversationStack.class) );
       }
       
-      preRenderPage(event);
+      preRenderPage(facesContext);
       
       if ( facesContext.getResponseComplete() )
       {
@@ -498,7 +480,7 @@ public class SeamPhaseListener implements PhaseListener
       }
    }
    
-   protected void afterRender(FacesContext facesContext)
+   protected void afterRenderResponse(FacesContext facesContext)
    {
       //do this both before and after render, since conversations 
       //and pageflows can begin during render
@@ -526,7 +508,27 @@ public class SeamPhaseListener implements PhaseListener
       FacesLifecycle.endRequest( facesContext.getExternalContext() );
    }
    
-   private boolean preRenderPage(PhaseEvent event)
+   private void postRestorePage(FacesContext facesContext, Map parameters, boolean conversationFound)
+   {
+      if ( !Pages.isDebugPage() )
+      {
+         if (!conversationFound)
+         {
+            Pages.instance().redirectToNoConversationView();
+         }
+         
+         Manager.instance().handleConversationPropagation(parameters);
+         
+         if ( Init.instance().isJbpmInstalled() )
+         {
+            Pageflow.instance().validatePageflow(facesContext);
+         }
+         
+         Pages.instance().postRestore(facesContext);
+      }
+   }
+  
+   private boolean preRenderPage(FacesContext facesContext)
    {
       if ( Pages.isDebugPage() )
       {
@@ -538,7 +540,7 @@ public class SeamPhaseListener implements PhaseListener
          boolean actionsWereCalled = false;
          try
          {
-            actionsWereCalled = Pages.instance().preRender( event.getFacesContext() );
+            actionsWereCalled = Pages.instance().preRender(facesContext);
             return actionsWereCalled;
          }
          finally
@@ -547,7 +549,7 @@ public class SeamPhaseListener implements PhaseListener
             if (actionsWereCalled) 
             {
                FacesMessages.afterPhase();
-               handleTransactionsAfterPageActions(event); //TODO: does it really belong in the finally?
+               handleTransactionsAfterPageActions(facesContext); //TODO: does it really belong in the finally?
             }
          }
       }

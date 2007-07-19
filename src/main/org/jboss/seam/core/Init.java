@@ -374,8 +374,7 @@ public class Init
       StringTokenizer tokens = new StringTokenizer(namespaceName, ".");
       while ( tokens.hasMoreTokens() )
       {
-         String key = tokens.nextToken();
-         namespace = namespace.getOrCreateChild(key);
+         namespace = namespace.getOrCreateChild( tokens.nextToken() );
       }
       globalImports.add(namespace);
    }

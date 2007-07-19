@@ -131,7 +131,7 @@ public class Pageflow extends AbstractMutable implements Serializable
          //TODO: we need some way to disable this check, since users
          //      might want some adhoc nav in and out of a pageflow?
          String viewId = Pages.getViewId(facesContext);
-         if ( !viewId.equals( getPage().getViewId() ) && !Pages.isDebugPage() )
+         if ( !viewId.equals( getPage().getViewId() ) )
          {
             illegalNavigationError();
          }

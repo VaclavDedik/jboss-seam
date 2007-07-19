@@ -61,6 +61,7 @@ import org.jboss.seam.annotations.DataBinderClass;
 import org.jboss.seam.annotations.DataSelectorClass;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.End;
+import org.jboss.seam.annotations.Import;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.JndiName;
 import org.jboss.seam.annotations.Observer;
@@ -181,6 +182,8 @@ public class Component extends Model
 
    private List<Field> logFields = new ArrayList<Field>();
    private List<org.jboss.seam.log.Log> logInstances = new ArrayList<org.jboss.seam.log.Log>();
+   
+   private Collection<Namespace> imports = new ArrayList<Namespace>();
 
    private Class<ProxyObject> factory;
 
@@ -221,6 +224,7 @@ public class Component extends Model
       checkNonabstract();
       
       initNamespaces(componentName, applicationContext);
+      initImports(applicationContext);
       initSynchronize();
       initStartup();
 
@@ -344,10 +348,43 @@ public class Component extends Model
                String token = tokens.nextToken();
                if ( tokens.hasMoreTokens() ) //we don't want to create a namespace for the name
                {
-                  namespace.getOrCreateChild(token);
+                  namespace = namespace.getOrCreateChild(token);
                }
             }
          }
+      }
+   }
+   
+   private void initImports(Context applicationContext)
+   {
+      if (applicationContext!=null) //for unit tests!
+      {
+         Init init = (Init) applicationContext.get( Seam.getComponentName(Init.class) );
+         if (init!=null)
+         {
+            if ( getBeanClass().isAnnotationPresent(Import.class) )
+            {
+               addImport( init, getBeanClass().getAnnotation(Import.class) );
+            }
+            if ( getBeanClass().getPackage().isAnnotationPresent(Import.class) )
+            {
+               addImport( init, getBeanClass().getPackage().getAnnotation(Import.class) );
+            }
+         }
+      }
+   }
+
+   private void addImport(Init init, Import imp)
+   {
+      for ( String ns: imp.value() )
+      {
+         Namespace namespace = init.getRootNamespace();
+         StringTokenizer tokens = new StringTokenizer(ns, ".");
+         while ( tokens.hasMoreTokens() )
+         {
+            namespace = namespace.getOrCreateChild( tokens.nextToken() );
+         }
+         imports.add(namespace);
       }
    }
 
@@ -2024,6 +2061,14 @@ public class Component extends Model
          result = getInstance(name, create);
          if (result==null)
          {
+            for ( Namespace namespace: getImports() )
+            {
+               result = namespace.getComponentInstance(name, create);
+               if (result!=null) break; 
+            }
+         }
+         if (result==null)
+         {
             for ( Namespace namespace: Init.instance().getGlobalImports() )
             {
                result = namespace.getComponentInstance(name, create);
@@ -2445,6 +2490,11 @@ public class Component extends Model
    public List<BijectedAttribute> getPersistenceContextAttributes()
    {
       return pcAttributes;
+   }
+
+   public Collection<Namespace> getImports()
+   {
+      return imports;
    }
    
 }
