@@ -267,13 +267,15 @@ options
 // '\u00a0'..'\u00ff'  Latin 1 supplement (no control characters) http://www.unicode.org/charts/PDF/U0080.pdf
 // '\u0100'..'\u017f'  Latin Extended A http://www.unicode.org/charts/PDF/U0100.pdf
 // '\u0180'..'\u024f'  Latin Extended B http://www.unicode.org/charts/PDF/U0180.pdf
-// '\u0230'..'\ufaff'  Various other languages, punctuation etc. (excluding "presentation forms")
+// '\u0250'..'\ufaff'  Various other languages, punctuation etc. (excluding "presentation forms")
+// '\uff00'..'\uffef'  Halfwidth and Fullwidth forms (including CJK punctuation)
 
 WORD: ('a'..'z'|'A'..'Z'|'0'..'9'|
       '\u00a0'..'\u00ff' |
       '\u0100'..'\u017f' |
       '\u0180'..'\u024f' |
-      '\u0250'..'\ufaff')+
+      '\u0250'..'\ufaff' |
+      '\uff00'..'\uffef')+
     ;
     
 PUNCTUATION: '-' | ';' | ':' | '(' | ')' | '{' | '}' | '?' | '!' | '@' | '%' | '.' | ',' | '\'' | '$'
