@@ -184,6 +184,7 @@ public class Component extends Model
    private List<org.jboss.seam.log.Log> logInstances = new ArrayList<org.jboss.seam.log.Log>();
    
    private Collection<Namespace> imports = new ArrayList<Namespace>();
+   private Namespace namespace;
 
    private Class<ProxyObject> factory;
 
@@ -223,7 +224,7 @@ public class Component extends Model
       checkName();  
       checkNonabstract();
       
-      initNamespaces(componentName, applicationContext);
+      initNamespace(componentName, applicationContext);
       initImports(applicationContext);
       initSynchronize();
       initStartup();
@@ -334,7 +335,7 @@ public class Component extends Model
       }
    }
 
-   private void initNamespaces(String componentName, Context applicationContext)
+   private void initNamespace(String componentName, Context applicationContext)
    {
       if (applicationContext!=null) //for unit tests!
       {
@@ -351,6 +352,7 @@ public class Component extends Model
                   namespace = namespace.getOrCreateChild(token);
                }
             }
+            this.namespace = namespace;
          }
       }
    }
@@ -2058,23 +2060,7 @@ public class Component extends Model
             log.debug("trying to inject with hierarchical context search: " + name);
          }
          boolean create = in.create() && !org.jboss.seam.contexts.Lifecycle.isDestroying();
-         result = getInstance(name, create);
-         if (result==null)
-         {
-            for ( Namespace namespace: getImports() )
-            {
-               result = namespace.getComponentInstance(name, create);
-               if (result!=null) break; 
-            }
-         }
-         if (result==null)
-         {
-            for ( Namespace namespace: Init.instance().getGlobalImports() )
-            {
-               result = namespace.getComponentInstance(name, create);
-               if (result!=null) break; 
-            }
-         }
+         result = getInstanceInAllNamespaces(name, create);
       }
       else
       {
@@ -2117,6 +2103,37 @@ public class Component extends Model
       {
          return result;
       }
+   }
+
+   private Object getInstanceInAllNamespaces(String name, boolean create)
+   {
+      Object result;
+      result = getInstance(name, create);
+      if (result==null)
+      {
+         for ( Namespace namespace: getImports() )
+         {
+            result = namespace.getComponentInstance(name, create);
+            if (result!=null) break; 
+         }
+      }
+      if (result==null)
+      {
+         for ( Namespace namespace: Init.instance().getGlobalImports() )
+         {
+            result = namespace.getComponentInstance(name, create);
+            if (result!=null) break; 
+         }
+      }
+      if (result==null)
+      {
+         Namespace namespace = getNamespace();
+         if (namespace!=null)
+         {
+            result = namespace.getComponentInstance(name, create);
+         }
+      }
+      return result;
    }
 
    private String getAttributeMessage(String attributeName)
@@ -2495,6 +2512,11 @@ public class Component extends Model
    public Collection<Namespace> getImports()
    {
       return imports;
+   }
+
+   public Namespace getNamespace()
+   {
+      return namespace;
    }
    
 }
