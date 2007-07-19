@@ -10,6 +10,9 @@ import javax.persistence.EntityManager;
 import javax.transaction.Synchronization;
 import javax.transaction.SystemException;
 
+import org.jboss.seam.Component;
+import org.jboss.seam.ScopeType;
+
 /**
  * Base implementation of UserTransaction
  * 
@@ -71,4 +74,9 @@ public abstract class AbstractUserTransaction implements UserTransaction
       }
    }
    
+   public static Synchronizations getSynchronizations()
+   {
+      return (Synchronizations) Component.getInstance("org.jboss.seam.transaction.synchronizations", ScopeType.EVENT);
+   }
+      
 }

@@ -39,7 +39,6 @@ public class EntityTransaction extends AbstractUserTransaction
 {
    private static final LogProvider log = Logging.getLogProvider(EntityTransaction.class);
    
-   private SynchronizationRegistry synchronizations = new SynchronizationRegistry();
    private ValueExpression<EntityManager> entityManager;
    private EntityManager currentEntityManager;
    
@@ -80,6 +79,7 @@ public class EntityTransaction extends AbstractUserTransaction
       try
       {
          getDelegate().begin();
+         getSynchronizations().afterBegin();
       }
       catch (RuntimeException re)
       {
@@ -105,14 +105,14 @@ public class EntityTransaction extends AbstractUserTransaction
          }
          else
          {
-            synchronizations.beforeTransactionCompletion();
+            getSynchronizations().beforeCommit();
             delegate.commit();
             success = true;
          }
       }
       finally
       {
-         synchronizations.afterTransactionCompletion(success);
+         getSynchronizations().afterCommit(success);
       }
    }
 
@@ -129,7 +129,7 @@ public class EntityTransaction extends AbstractUserTransaction
       }
       finally
       {
-         synchronizations.afterTransactionCompletion(false);
+         getSynchronizations().afterRollback();
       }
    }
 
@@ -200,7 +200,7 @@ public class EntityTransaction extends AbstractUserTransaction
       //on to it myself
       if ( !PersistenceProvider.instance().registerSynchronization(sync, currentEntityManager) )
       {
-         synchronizations.registerSynchronization(sync);
+         getSynchronizations().registerSynchronization(sync);
       }
    }
 

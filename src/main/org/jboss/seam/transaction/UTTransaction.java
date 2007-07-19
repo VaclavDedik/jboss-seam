@@ -19,11 +19,9 @@ public class UTTransaction extends AbstractUserTransaction
 {
    
    private final javax.transaction.UserTransaction delegate;
-   private final Transaction parent;
 
-   UTTransaction(javax.transaction.UserTransaction delegate, Transaction parent)
+   UTTransaction(javax.transaction.UserTransaction delegate)
    {
-      this.parent = parent;
       this.delegate = delegate;
       if (delegate==null)
       {
@@ -34,14 +32,15 @@ public class UTTransaction extends AbstractUserTransaction
    public void begin() throws NotSupportedException, SystemException
    {
       delegate.begin();
-      parent.afterBegin();
+      getSynchronizations().afterBegin();
    }
 
    public void commit() throws RollbackException, HeuristicMixedException,
             HeuristicRollbackException, SecurityException, IllegalStateException, SystemException
    {
       boolean success = false;
-      parent.beforeCommit();
+      Synchronizations synchronizations = getSynchronizations();
+      synchronizations.beforeCommit();
       try
       {
          delegate.commit();
@@ -49,7 +48,7 @@ public class UTTransaction extends AbstractUserTransaction
       }
       finally
       {
-         parent.afterCommit(success);
+         synchronizations.afterCommit(success);
       }
    }
 
@@ -61,7 +60,7 @@ public class UTTransaction extends AbstractUserTransaction
       }
       finally
       {
-         parent.afterRollback();
+         getSynchronizations().afterRollback();
       }
    }
 
@@ -79,11 +78,11 @@ public class UTTransaction extends AbstractUserTransaction
    {
       delegate.setTransactionTimeout(timeout);
    }
-   
+
    @Override
    public void registerSynchronization(Synchronization sync)
    {
-      parent.registerSynchronization(sync);
+      getSynchronizations().registerSynchronization(sync);
    }
-
+  
 }

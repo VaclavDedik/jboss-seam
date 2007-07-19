@@ -25,11 +25,9 @@ public class CMTTransaction extends AbstractUserTransaction
 {
    
    private final EJBContext ejbContext;
-   private final Transaction parent;
 
-   public CMTTransaction(EJBContext ejbContext, Transaction parent)
+   public CMTTransaction(EJBContext ejbContext)
    {
-      this.parent = parent;
       this.ejbContext = ejbContext;
       if (ejbContext==null)
       {
@@ -40,7 +38,7 @@ public class CMTTransaction extends AbstractUserTransaction
    public void begin() throws NotSupportedException, SystemException
    {
       ejbContext.getUserTransaction().begin();
-      parent.afterBegin();
+      getSynchronizations().afterBegin();
    }
 
    public void commit() throws RollbackException, HeuristicMixedException,
@@ -48,7 +46,8 @@ public class CMTTransaction extends AbstractUserTransaction
    {
       UserTransaction userTransaction = ejbContext.getUserTransaction();
       boolean success = false;
-      parent.beforeCommit();
+      Synchronizations synchronizations = getSynchronizations();
+      synchronizations.beforeCommit();
       try
       {
          userTransaction.commit();
@@ -56,7 +55,7 @@ public class CMTTransaction extends AbstractUserTransaction
       }
       finally
       {
-         parent.afterCommit(success);
+         synchronizations.afterCommit(success);
       }
    }
 
@@ -69,7 +68,7 @@ public class CMTTransaction extends AbstractUserTransaction
       }
       finally
       {
-         parent.afterRollback();
+         getSynchronizations().afterRollback();
       }
    }
 
@@ -113,9 +112,10 @@ public class CMTTransaction extends AbstractUserTransaction
    @Override
    public void registerSynchronization(Synchronization sync)
    {
-      if ( parent.isAwareOfContainerTransactions() )
+      Synchronizations synchronizations = getSynchronizations();
+      if ( synchronizations.isAwareOfContainerTransactions() )
       {
-         parent.registerSynchronization(sync);
+         synchronizations.registerSynchronization(sync);
       }
       else
       {

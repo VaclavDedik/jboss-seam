@@ -2,11 +2,8 @@ package org.jboss.seam.transaction;
 
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
-import java.util.Stack;
-
 import javax.naming.NameNotFoundException;
 import javax.naming.NamingException;
-import javax.transaction.Synchronization;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
@@ -21,10 +18,6 @@ import org.jboss.seam.util.Naming;
 /**
  * Supports injection of a Seam UserTransaction object that
  * wraps the current JTA transaction or EJB container managed
- * transaction. This base implementation does not have access
- * to the JTA TransactionManager, so it is not fully aware
- * of container managed transaction lifecycle, and is not
- * able to register Synchronizations with a container managed 
  * transaction.
  * 
  * @author Mike Youngstrom
@@ -37,50 +30,10 @@ import org.jboss.seam.util.Naming;
 @BypassInterceptors
 public class Transaction
 {
-
    private static final String STANDARD_USER_TRANSACTION_NAME = "java:comp/UserTransaction";
 
    private static String userTransactionName = "UserTransaction";
 
-   protected Stack<SynchronizationRegistry> synchronizations = new Stack<SynchronizationRegistry>();
-   
-   public void afterBegin()
-   {
-      synchronizations.push( new SynchronizationRegistry() );
-   }
-   
-   protected void afterCommit(boolean success)
-   {
-      synchronizations.pop().afterTransactionCompletion(success);
-   }
-   
-   protected void afterRollback()
-   {
-      synchronizations.pop().afterTransactionCompletion(false);
-   }
-   
-   protected void beforeCommit()
-   {
-      synchronizations.peek().beforeTransactionCompletion();
-   }
-   
-   protected void registerSynchronization(Synchronization sync)
-   {
-      if (synchronizations==null)
-      {
-         throw new IllegalStateException("no transaction active, or the transaction is a CMT (try installing <transaction:ejb-transaction/>)");
-      }
-      else
-      {
-         synchronizations.peek().registerSynchronization(sync);
-      }
-   }
-   
-   protected boolean isAwareOfContainerTransactions()
-   {
-      return false;
-   }
-   
    public static void setUserTransactionName(String name)
    {
       userTransactionName = name;
@@ -123,12 +76,12 @@ public class Transaction
 
    protected UserTransaction createCMTTransaction() throws NamingException
    {
-      return new CMTTransaction( EJB.getEJBContext(), this );
+      return new CMTTransaction( EJB.getEJBContext() );
    }
 
    protected UserTransaction createUTTransaction() throws NamingException
    {
-      return new UTTransaction( getUserTransaction(), this );
+      return new UTTransaction( getUserTransaction() );
    }
 
    protected javax.transaction.UserTransaction getUserTransaction() throws NamingException
