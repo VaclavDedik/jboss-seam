@@ -351,7 +351,7 @@ public class Pages
       //that if a login redirect occurs, or if a failure
       //occurs while validating of applying to the model, we can 
       //still make Redirect.captureCurrentView() work.
-      storeRequestParameterValuesInViewRoot(facesContext);
+      storeRequestStringValuesInPageContext(facesContext);
       
       //check if we need to redirect
       String viewId = getViewId(facesContext);      
@@ -380,7 +380,7 @@ public class Pages
 
       //now validate the values we just stored in
       //the view root, after the redirect checking
-      if ( validateViewRootValues(facesContext) ) 
+      if ( convertAndValidateStringValuesInPageContext(facesContext) ) 
       {
          Validation.instance().fail();
          //and don't apply them to the model
@@ -389,7 +389,7 @@ public class Pages
       {   
          //finally apply page parameters to the model
          //(after checking permissions)
-         applyViewRootValues(facesContext);
+         applyConvertedValidatedValuesToModel(facesContext);
       }
    }
    
@@ -581,6 +581,7 @@ public class Pages
       }
       return (Pages) Component.getInstance(Pages.class, ScopeType.APPLICATION);
    }
+   
    /**
     * Call the action requested by s:link or s:button.
     */
@@ -639,55 +640,10 @@ public class Pages
     * against the model and converting to String.
     * 
     * @param viewId the JSF view id
-    * @return a map of page parameter name to String value
-    */
-   public Map<String, Object> getConvertedParameters(FacesContext facesContext, String viewId)
-   {
-      return getConvertedParameters(facesContext, viewId, Collections.EMPTY_SET);
-   }
-   
-   /**
-    * Get the values of any page parameters by evaluating the value bindings
-    * against the model.
-    * 
-    * @param viewId the JSF view id
-    * @return a map of page parameter name to value
-    */
-   protected Map<String, Object> getParameters(String viewId)
-   {
-      Map<String, Object> parameters = new HashMap<String, Object>();
-      for ( Page page: getPageStack(viewId) )
-      {
-         for ( Param pageParameter: page.getParameters() )
-         {
-            ValueExpression valueExpression = pageParameter.getValueExpression();
-            Object value;
-            if (valueExpression==null)
-            {
-               value = Contexts.getPageContext().get( pageParameter.getName() );
-            }
-            else
-            {
-               value = valueExpression.getValue();
-            }
-            if (value!=null)
-            {
-               parameters.put( pageParameter.getName(), value );
-            }
-         }
-      }
-      return parameters;
-   }
-   
-   /**
-    * Get the values of any page parameters by evaluating the value bindings
-    * against the model and converting to String.
-    * 
-    * @param viewId the JSF view id
     * @param overridden excluded parameters
     * @return a map of page parameter name to String value
     */
-   public Map<String, Object> getConvertedParameters(FacesContext facesContext, String viewId, Set<String> overridden)
+   public Map<String, Object> getStringValuesFromModel(FacesContext facesContext, String viewId, Set<String> overridden)
    {
       Map<String, Object> parameters = new HashMap<String, Object>();
       for ( Page page: getPageStack(viewId) )
@@ -696,7 +652,15 @@ public class Pages
          {
             if ( !overridden.contains( pageParameter.getName() ) )
             {
-               Object value = getPageParameterValue(facesContext, pageParameter);
+               String value;
+               if ( pageParameter.getValueExpression()==null )
+               {
+                  value = (String) Contexts.getPageContext().get( pageParameter.getName() );
+               }
+               else
+               {
+                  value = pageParameter.getStringValueFromModel(facesContext);
+               }
                if (value!=null) 
                {
                   parameters.put( pageParameter.getName(), value );
@@ -707,31 +671,14 @@ public class Pages
       return parameters;
    }
    
-   /**
-    * Get the current value of a page parameter, looking in the page context
-    * if there is no value binding
-    */
-   private Object getPageParameterValue(FacesContext facesContext, Param pageParameter)
-   {
-      ValueExpression valueExpression = pageParameter.getValueExpression();
-      if (valueExpression==null)
-      {
-         return Contexts.getPageContext().get( pageParameter.getName() );
-      }
-      else
-      {
-         return pageParameter.getValueFromModel(facesContext);
-      }
-   }
-   
-   private void storeRequestParameterValuesInViewRoot(FacesContext facesContext)
+   private void storeRequestStringValuesInPageContext(FacesContext facesContext)
    {
       Map<String, String[]> requestParameters = Parameters.instance().getRequestParameters();
       for ( Page page: getPageStack( getViewId(facesContext) ) )
       {
          for ( Param pageParameter: page.getParameters() )
          {  
-            Object value = pageParameter.getValueFromRequest(facesContext, requestParameters);
+            String value = pageParameter.getStringValueFromRequest(facesContext, requestParameters);
             if (value==null)
             {
                //this should not be necessary, were it not for a MyFaces bug
@@ -748,7 +695,10 @@ public class Pages
       }
    }
    
-   private boolean validateViewRootValues(FacesContext facesContext)
+   /**
+    * Convert and validate page parameters passed as view root attributes or request parameters
+    */
+   private boolean convertAndValidateStringValuesInPageContext(FacesContext facesContext)
    {
       boolean validationFailed = false;
       for ( Page page: getPageStack( getViewId(facesContext) ) )
@@ -757,10 +707,12 @@ public class Pages
          {  
             try
             {
-               Object value = Contexts.getPageContext().get( pageParameter.getName() );
+               String value = (String) Contexts.getPageContext().get( pageParameter.getName() );
                if (value!=null)
                {
                   pageParameter.validateConvertedValue(facesContext, value);
+                  Object convertedValue = pageParameter.convertValueFromString(facesContext, value);
+                  Contexts.getEventContext().set( pageParameter.getName(), convertedValue );
                }
             }
             catch (ValidatorException ve)
@@ -779,9 +731,9 @@ public class Pages
    }
    
    /**
-    * Apply any page parameters passed as view root attributes to the model.
+    * Apply page parameters passed as view root attributes or request parameters to the model
     */
-   private void applyViewRootValues(FacesContext facesContext)
+   private void applyConvertedValidatedValuesToModel(FacesContext facesContext)
    {
       String viewId = getViewId(facesContext);
       for ( Page page: getPageStack(viewId) )
@@ -791,7 +743,7 @@ public class Pages
             ValueExpression valueExpression = pageParameter.getValueExpression();
             if (valueExpression!=null)
             {
-               Object object = Contexts.getPageContext().get( pageParameter.getName() );
+               Object object = Contexts.getEventContext().get( pageParameter.getName() );
                if (object!=null)
                {
                   valueExpression.setValue(object);
@@ -801,7 +753,11 @@ public class Pages
       }
    }
 
-   public Map<String, Object> getViewRootValues(FacesContext facesContext)
+   /**
+    * Get the page parameter values that were passed in the original request from
+    * the PAGE context
+    */
+   public Map<String, Object> getStringValuesFromPageContext(FacesContext facesContext)
    {
       Map<String, Object> parameters = new HashMap<String, Object>();
       String viewId = getViewId(facesContext);
@@ -820,17 +776,29 @@ public class Pages
    }
    
    /**
-    * The global setting for no-conversation-viewid.
-    * 
-    * @return a JSF view id
+    * Update the page parameter values stored in the PAGE context with the current
+    * values of the mapped attributes of the model
     */
-   public String getNoConversationViewId()
+   public void updateStringValuesInPageContextUsingModel(FacesContext facesContext)
    {
-      return noConversationViewId;
-   }
-   public void setNoConversationViewId(String noConversationViewId)
-   {
-      this.noConversationViewId = noConversationViewId;
+      for ( Page page: getPageStack( getViewId(facesContext) ) )
+      {
+         for ( Param pageParameter: page.getParameters() )
+         {
+            if ( pageParameter.getValueExpression()!=null )
+            {
+               String value = pageParameter.getStringValueFromModel(facesContext);
+               if (value==null)
+               {
+                  Contexts.getPageContext().remove( pageParameter.getName() );
+               }
+               else
+               {
+                  Contexts.getPageContext().set( pageParameter.getName(), value );
+               }
+            }
+         }
+      }
    }
    
    /**
@@ -855,20 +823,8 @@ public class Pages
     */
    public String encodePageParameters(FacesContext facesContext, String url, String viewId, Set<String> overridden)
    {
-      Map<String, Object> parameters = getConvertedParameters(facesContext, viewId, overridden);
+      Map<String, Object> parameters = getStringValuesFromModel(facesContext, viewId, overridden);
       return Manager.instance().encodeParameters(url, parameters);
-   }
-   
-   /**
-    * Store the page parameters to the JSF view root
-    */
-   public void storePageParameters(FacesContext facesContext)
-   {
-      String viewId = getViewId(facesContext);
-      for ( Map.Entry<String, Object> param: getParameters(viewId).entrySet() )
-      {
-         Contexts.getPageContext().set( param.getKey(), param.getValue() );
-      }
    }
    
    /**
@@ -1425,6 +1381,26 @@ public class Pages
       return result;
    }
    
+   /**
+    * The global setting for no-conversation-viewid.
+    * 
+    * @return a JSF view id
+    */
+   public String getNoConversationViewId()
+   {
+      return noConversationViewId;
+   }
+   
+   public void setNoConversationViewId(String noConversationViewId)
+   {
+      this.noConversationViewId = noConversationViewId;
+   }
+   
+   /**
+    * The global setting for login-viewid.
+    * 
+    * @return a JSF view id
+    */
    public String getLoginViewId()
    {
       return loginViewId;

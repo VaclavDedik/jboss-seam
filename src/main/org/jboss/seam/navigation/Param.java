@@ -127,7 +127,7 @@ public final class Param
     * Get the current value of a page or redirection parameter
     * from the model, and convert to a String
     */
-   public Object getValueFromModel(FacesContext facesContext)
+   public String getStringValueFromModel(FacesContext facesContext)
    {
       Object value = getValueExpression().getValue();
       if (value==null)
@@ -149,7 +149,7 @@ public final class Param
          }
          
          return converter==null ? 
-               value : 
+               value.toString() : 
                converter.getAsString( facesContext, facesContext.getViewRoot(), value );
       }
    }
@@ -157,7 +157,7 @@ public final class Param
    /**
     * Get the current value of a page parameter from the request parameters
     */
-   public Object getValueFromRequest(FacesContext facesContext, Map<String, String[]> requestParameters)
+   public String getStringValueFromRequest(FacesContext facesContext, Map<String, String[]> requestParameters)
             throws ValidatorException
    {
       String[] parameterValues = requestParameters.get( getName() );
@@ -176,18 +176,27 @@ public final class Param
          throw new IllegalArgumentException("page parameter may not be multi-valued: " + getName());
       }         
 
-      String stringValue = parameterValues[0];
+      String value = parameterValues[0];
       
       //Note: for not-required fields, we behave a
       //but different than JSF for empty strings.
       //is this a bad thing? (but we are the same
       //for required fields)
-      if ( stringValue.length()==0 && isRequired() )
+      if ( value.length()==0 && isRequired() )
       {
          addRequiredMessage(facesContext);
          return null;
       }
+      
+      return value;
+      
+   }
    
+   /**
+    * Convert the string value of a page parameter to the required type
+    */
+   public Object convertValueFromString(FacesContext facesContext, String value)
+   {
       Converter converter = null;
       try
       {
@@ -201,8 +210,8 @@ public final class Param
       }
       
       return converter==null ? 
-            stringValue :
-            converter.getAsObject( facesContext, facesContext.getViewRoot(), stringValue );
+            value :
+            converter.getAsObject( facesContext, facesContext.getViewRoot(), value );
    }
 
    /**

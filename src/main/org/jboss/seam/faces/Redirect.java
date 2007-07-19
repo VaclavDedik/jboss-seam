@@ -104,7 +104,7 @@ public class Redirect extends AbstractMutable implements Serializable
    public void captureCurrentView()
    {
       FacesContext context = FacesContext.getCurrentInstance();
-      parameters = Pages.instance().getViewRootValues(context);
+      parameters = Pages.instance().getStringValuesFromPageContext(context);
       viewId = Pages.getViewId(context);
       conversationBegun = Conversation.instance().begin(true, false);
       setDirty();

@@ -38,7 +38,7 @@ public final class RedirectNavigationHandler extends NavigationHandler
       Map<String, Object> parameters = new HashMap<String, Object>();
       for ( Param parameter: params )
       {
-         Object value = parameter.getValueFromModel(context);
+         String value = parameter.getStringValueFromModel(context);
          //render it even if the value is null, since we want it
          //to override page parameter values which would be
          //appended by the redirect filter

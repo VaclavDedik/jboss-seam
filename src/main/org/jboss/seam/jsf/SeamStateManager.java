@@ -58,7 +58,7 @@ public class SeamStateManager extends StateManager
       if ( Contexts.isPageContextActive() )
       {
          //store the page parameters in the view root
-         Pages.instance().storePageParameters(facesContext);
+         Pages.instance().updateStringValuesInPageContextUsingModel(facesContext);
       }
 
       return stateManager.saveSerializedView(facesContext);
@@ -83,7 +83,7 @@ public class SeamStateManager extends StateManager
       if ( Contexts.isPageContextActive() )
       {
          //store the page parameters in the view root
-         Pages.instance().storePageParameters(facesContext);
+         Pages.instance().updateStringValuesInPageContextUsingModel(facesContext);
       }
 
       return stateManager.saveView(facesContext);
