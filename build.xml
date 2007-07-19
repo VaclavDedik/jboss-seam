@@ -125,7 +125,7 @@
 	<property name="classes.coverage.core.dir" value="${classes.coverage.dir}/core" />
 
 	<property name="test.dir" value="${basedir}/test-output" />
-	<property name="report.dir" value="${basedir}/report" />
+	<property name="report.dir" value="${basedir}/test-report" />
 	<property name="coverage.dir" value="${basedir}/coverage-output" />
 
 	<property name="testng.jar" value="${basedir}/lib/testng-5.6-jdk15.jar" />
@@ -685,7 +685,7 @@
 		<ant dir="examples/itext" target="undeploy" inheritall="false" />
 		<ant dir="examples/mail" target="undeploy" inheritall="false" />
 		<ant dir="examples/ui" target="undeploy" inheritall="false" />
-		<ant dir="examples/spring" target="undeploy" inheritall="false" />
+		<!--<ant dir="examples/spring" target="undeploy" inheritall="false" />-->
 		<ant dir="examples/messages" target="undeploy" inheritall="false" />
 		<ant dir="examples/numberguess" target="undeploy" inheritall="false" />
 		<ant dir="examples/registration" target="undeploy" inheritall="false" />
