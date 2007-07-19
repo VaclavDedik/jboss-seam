@@ -119,10 +119,10 @@
   </ejb-local-ref>    
     
   <ejb-local-ref>       
-    <ejb-ref-name>jboss-seam-jee5/EjbTransaction/local</ejb-ref-name>       
+    <ejb-ref-name>jboss-seam-jee5/EjbSynchronizations/local</ejb-ref-name>       
     <ejb-ref-type>Session</ejb-ref-type>       
-    <local>org.jboss.seam.core.LocalEjbTransaction</local>       
-    <ejb-link>EjbTransaction</ejb-link>    
+    <local>org.jboss.seam.core.LocalEjbSynchronizations</local>       
+    <ejb-link>EjbSynchronizations</ejb-link>    
   </ejb-local-ref>
   
   <session-config>
