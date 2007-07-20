@@ -33,5 +33,13 @@
 			<classname>java.lang.String</classname>
 			<description></description>
 		</property>
+	    
+	    <property>	        
+	        <name>template</name>
+	        <classname>java.lang.String</classname>
+	        <description></description>
+	    </property>
+	    
 	</component>
+    
 </components>
