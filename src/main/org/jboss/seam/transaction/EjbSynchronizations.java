@@ -36,7 +36,7 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 @Install(precedence=FRAMEWORK, dependencies="org.jboss.seam.transaction.ejbTransaction")
 @BypassInterceptors
 @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-public class EjbSynchronizations implements LocalEjbSychronizations, SessionSynchronization
+public class EjbSynchronizations implements LocalEjbSynchronizations, SessionSynchronization
 {
    //maintain two lists to work around a bug in JBoss EJB3 where a new SessionSynchronization
    //gets registered each time the bean is called

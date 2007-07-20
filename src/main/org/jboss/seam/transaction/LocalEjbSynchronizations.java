@@ -9,7 +9,7 @@ import javax.ejb.Local;
  *
  */
 @Local
-public interface LocalEjbSychronizations extends Synchronizations
+public interface LocalEjbSynchronizations extends Synchronizations
 {
    public void destroy();
 }
