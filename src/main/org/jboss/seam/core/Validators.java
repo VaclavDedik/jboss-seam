@@ -3,6 +3,7 @@ package org.jboss.seam.core;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.beans.FeatureDescriptor;
+import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
@@ -19,12 +20,14 @@ import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.el.EL;
+import org.jboss.seam.util.Proxy;
 
 /**
  * Caches instances of Hibernate Validator ClassValidator
@@ -73,6 +76,7 @@ public class Validators
     * 
     * @param modelClass the class to be validated
     */
+   @SuppressWarnings("unchecked")
    public <T> ClassValidator<T> getValidator(Class<T> modelClass)
    {
       java.util.ResourceBundle bundle = SeamResourceBundle.getBundle();
@@ -94,14 +98,65 @@ public class Validators
     * 
     * @param modelClass the class to be validated
     */
+   @SuppressWarnings("unchecked")
    protected <T> ClassValidator<T> createValidator(Class<T> modelClass)
    {
       java.util.ResourceBundle bundle = SeamResourceBundle.getBundle();
+      
       return bundle==null ? 
-            new ClassValidator(modelClass) : 
-            new ClassValidator(modelClass, bundle);
+              new ClassValidator(getRealBeanClass(modelClass)) : 
+              new ClassValidator(getRealBeanClass(modelClass), bundle);
    }
 
+   /**
+    * Most of the time, the bean class (the source of annotation configurations) is
+    * either the class being passed in or a superclass of it. In the case of EJB components,
+    * this is not true and there is no way to derive the type of the implementing class from
+    * the proxy class.  In these cases, we try to lookup the Seam component for that interface
+    * and find the implementing bean class as a source of annotations.
+    */
+   private Class getRealBeanClass(Class modelClass) {
+       if (isSimpleProxy(modelClass)) {
+           Component matched = findComponentByBusinessInterfaces(modelClass);
+           if (matched != null) {
+               return matched.getBeanClass(); 
+           }
+       } 
+       return modelClass;
+   }
+   
+   
+   /**
+    *  Given an interfaces, find a component that uses it as the business interface
+    */
+   private Component findComponentByBusinessInterfaces(Class modelClass) {
+       for (String name: Contexts.getApplicationContext().getNames()) {
+
+           if (name.endsWith(".component")) {
+               Object obj = Contexts.getApplicationContext().get(name);
+
+               if (obj instanceof Component) {
+                   Component component = (Component) obj;
+                   for (Class iface : modelClass.getInterfaces()) {
+                       if (component.getBusinessInterfaces().contains(iface)) {
+                           return component;
+                       }
+                   }
+               }
+           }
+       }
+       return null;
+   }
+
+   /**
+    * checks to see if the object is a proxy whose only superclass is 
+    * Object. 
+    */
+   private boolean isSimpleProxy(Class c) {
+       return Proxy.deproxy(c).equals(Object.class);
+   }
+     
+   
    /**
     * Validate that the given value can be assigned to the property given by the value
     * expression.
