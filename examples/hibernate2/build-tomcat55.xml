@@ -29,7 +29,10 @@
         <include name="examples/hibernate2/lib/el-*.jar"/>
         <!-- Addition libs needed for Tomcat -->
         <include name="examples/hibernate2/lib/cglib.jar"/>
+        <include name="examples/hibernate2/lib/jta.jar"/>
+        <!--
         <include name="examples/hibernate2/lib/mc/*.jar"/>
+        -->
     </fileset>
        
 </project>

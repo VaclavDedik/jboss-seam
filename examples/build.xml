@@ -640,6 +640,11 @@
 				<include name="**/*" />
 			</fileset>
 		</copy>
+		<copy todir="${war.dir}/META-INF" failonerror="false">
+			<fileset dir="${resources.dir}/META-INF">
+				<include name="**/*" />
+			</fileset>
+		</copy>
 		<!-- Copy in resources, with filtering -->
 		<copy todir="${war.dir}">
 			<fileset refid="war.resources" />
