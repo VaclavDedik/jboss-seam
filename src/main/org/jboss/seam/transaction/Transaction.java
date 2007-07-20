@@ -83,7 +83,9 @@ public class Transaction
          try
          {
             //Embedded JBoss has no java:comp/UserTransaction
-            return (javax.transaction.UserTransaction) context.lookup("UserTransaction");
+            javax.transaction.UserTransaction ut = (javax.transaction.UserTransaction) context.lookup("UserTransaction");
+            ut.getStatus(); //for glassfish, which can return an unusable UT
+            return ut;
          }
          catch (Exception e)
          {
