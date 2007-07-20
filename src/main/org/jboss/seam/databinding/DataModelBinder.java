@@ -36,10 +36,11 @@ public class DataModelBinder implements DataBinder<DataModel, Object, javax.face
 
    public Object getSelection(DataModel out, javax.faces.model.DataModel wrapper)
    {
-      if ( wrapper.getRowCount()==0 || wrapper.getRowIndex()<0 )
+      if ( wrapper.getRowCount()==0 || wrapper.getRowIndex()<0 || 
+           wrapper.getRowIndex()>=wrapper.getRowCount())
       {
          return null;
-      }
+      } 
       else
       {
          Object rowData = wrapper.getRowData();
