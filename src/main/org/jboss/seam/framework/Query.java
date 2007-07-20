@@ -302,6 +302,9 @@ public abstract class Query<T>
       {
          Object parameterValue = valueBindings.get(i).getValue();
          Object lastParameterValue = lastParameterValues.get(i);
+         //treat empty strings as null, for consistency with isRestrictionParameterSet()
+         if ( "".equals(parameterValue) ) parameterValue = null;
+         if ( "".equals(lastParameterValue) ) lastParameterValue = null;
          if ( parameterValue!=lastParameterValue && ( parameterValue==null || !parameterValue.equals(lastParameterValue) ) )
          {
             return true;
