@@ -471,7 +471,7 @@ public class Manager
    {
       if ( ce!=null && ce.lock() )
       {
-         // do this asap, since there is a window where conversationTimeout() might  
+         // do this ASAP, since there is a window where conversationTimeout() might  
          // try to destroy the conversation, even if he cannot obtain the lock!
          touchConversationStack( ce.getConversationIdStack() );
 

@@ -30,22 +30,22 @@ public class SeSynchronizations implements Synchronizations
 {
    protected Stack<SynchronizationRegistry> synchronizations = new Stack<SynchronizationRegistry>();
    
-   public void afterBegin()
+   public void afterTransactionBegin()
    {
       synchronizations.push( new SynchronizationRegistry() );
    }
    
-   public void afterCommit(boolean success)
+   public void afterTransactionCommit(boolean success)
    {
       synchronizations.pop().afterTransactionCompletion(success);
    }
    
-   public void afterRollback()
+   public void afterTransactionRollback()
    {
       synchronizations.pop().afterTransactionCompletion(false);
    }
    
-   public void beforeCommit()
+   public void beforeTransactionCommit()
    {
       synchronizations.peek().beforeTransactionCompletion();
    }

@@ -79,7 +79,7 @@ public class EntityTransaction extends AbstractUserTransaction
       try
       {
          getDelegate().begin();
-         getSynchronizations().afterBegin();
+         getSynchronizations().afterTransactionBegin();
       }
       catch (RuntimeException re)
       {
@@ -105,14 +105,14 @@ public class EntityTransaction extends AbstractUserTransaction
          }
          else
          {
-            getSynchronizations().beforeCommit();
+            getSynchronizations().beforeTransactionCommit();
             delegate.commit();
             success = true;
          }
       }
       finally
       {
-         getSynchronizations().afterCommit(success);
+         getSynchronizations().afterTransactionCommit(success);
       }
    }
 
@@ -129,7 +129,7 @@ public class EntityTransaction extends AbstractUserTransaction
       }
       finally
       {
-         getSynchronizations().afterRollback();
+         getSynchronizations().afterTransactionRollback();
       }
    }
 

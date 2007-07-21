@@ -20,7 +20,7 @@ public class DebugPageHandler extends ExceptionHandler
    @Override
    public void handle(Exception e) throws Exception
    {
-      log.error("redirecting to debug page", e);
+      log.debug("redirecting to debug page", e); //no need to be noisy, ExceptionFilter already logs it
       org.jboss.seam.faces.Redirect redirect = org.jboss.seam.faces.Redirect.instance();
       redirect.setViewId("/debug.xhtml");
       FacesManager manager = FacesManager.instance();

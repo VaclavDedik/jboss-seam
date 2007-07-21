@@ -18,6 +18,8 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 
 /**
  * Receives JTA transaction completion notifications from 
@@ -38,6 +40,8 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 @TransactionAttribute(TransactionAttributeType.SUPPORTS)
 public class EjbSynchronizations implements LocalEjbSynchronizations, SessionSynchronization
 {
+   private static final LogProvider log = Logging.getLogProvider(EjbSynchronizations.class);
+   
    //maintain two lists to work around a bug in JBoss EJB3 where a new SessionSynchronization
    //gets registered each time the bean is called
    protected LinkedList<SynchronizationRegistry> synchronizations = new LinkedList<SynchronizationRegistry>();
@@ -45,11 +49,13 @@ public class EjbSynchronizations implements LocalEjbSynchronizations, SessionSyn
    
    public void afterBegin()
    {
+      log.debug("afterBegin");
       synchronizations.addLast( new SynchronizationRegistry() );
    }
    
    public void beforeCompletion() throws EJBException, RemoteException
    {
+      log.debug("beforeCompletion");
       SynchronizationRegistry sync = synchronizations.removeLast();
       sync.beforeTransactionCompletion();
       committing.addLast(sync);
@@ -57,7 +63,22 @@ public class EjbSynchronizations implements LocalEjbSynchronizations, SessionSyn
    
    public void afterCompletion(boolean success) throws EJBException, RemoteException
    {
-      committing.removeFirst().afterTransactionCompletion(success);
+      log.debug("afterCompletion");
+      if ( committing.isEmpty() )
+      {
+         if (success)
+         {
+            throw new IllegalStateException("beforeCompletion was never called");
+         }
+         else
+         {
+            synchronizations.removeLast().afterTransactionCompletion(false);
+         }
+      }
+      else
+      {
+         committing.removeFirst().afterTransactionCompletion(success);
+      }
    }
    
    public boolean isAwareOfContainerTransactions()
@@ -65,17 +86,22 @@ public class EjbSynchronizations implements LocalEjbSynchronizations, SessionSyn
       return true;
    }
    
-   public void afterCommit(boolean success)
+   public void afterTransactionBegin()
    {
       //noop, let JTA notify us
    }
    
-   public void afterRollback()
+   public void afterTransactionCommit(boolean success)
    {
       //noop, let JTA notify us
    }
    
-   public void beforeCommit()
+   public void afterTransactionRollback()
+   {
+      //noop, let JTA notify us
+   }
+   
+   public void beforeTransactionCommit()
    {
       //noop, let JTA notify us
    }

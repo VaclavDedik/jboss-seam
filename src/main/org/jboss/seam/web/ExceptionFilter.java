@@ -19,12 +19,15 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.annotations.web.Filter;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.FacesLifecycle;
+import org.jboss.seam.core.ConversationPropagation;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.exception.Exceptions;
 import org.jboss.seam.log.LogProvider;
@@ -73,7 +76,7 @@ public class ExceptionFilter extends AbstractFilter
    {
       //TODO: Are we really sure that someone flushes the "old" 
       //      conversation context before we get to here? I guess
-      //      the phaselistener probably does it, but we want to
+      //      the PhaseListener probably does it, but we want to
       //      make sure of that...
       
       log.debug("running exception handlers");
@@ -81,22 +84,22 @@ public class ExceptionFilter extends AbstractFilter
       MockFacesContext facesContext = createFacesContext(request, response);
       facesContext.setCurrent();
       
-      //Init the temp context objects
-      //TODO: note that this code is pretty dodgy since in theory 
-      //      Manager has already been destroyed, and now we are 
-      //      re-using it (and all other request-scoped objects).
-      //      Should create a new request context that does not 
-      //      map back to the servlet request context, and "copy"
-      //      the conversation id over.
+      //if the event context was cleaned up, fish the conversation id 
+      //directly out of the ServletRequest attributes
+      String conversationId = null;
+      if ( !Contexts.isEventContextActive() )
+      {
+         Manager oldManager =  (Manager) request.getAttribute( Seam.getComponentName(Manager.class) );
+         conversationId = oldManager.getCurrentConversationId(); 
+      }
+      
+      //Initialize the temporary context objects
       FacesLifecycle.beginExceptionRecovery( facesContext.getExternalContext() );
       
-      //if there is an existing long-running conversation on
-      //the thread, propagate it
-      Manager manager = Manager.instance();
-      if ( !manager.isLongRunningOrNestedConversation() )
-      {
-         manager.initializeTemporaryConversation();
-      }
+      //If there is an existing long-running conversation on
+      //the failed request, propagate it
+      ConversationPropagation.instance().setConversationId(conversationId);
+      Manager.instance().restoreConversation();
       
       //Now do the exception handling
       try
@@ -118,7 +121,7 @@ public class ExceptionFilter extends AbstractFilter
       }
       finally
       {
-         //finally, clean up the temp contexts
+         //Finally, clean up the contexts
          try 
          {
             FacesLifecycle.endRequest( facesContext.getExternalContext() );

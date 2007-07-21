@@ -38,7 +38,7 @@ public class CMTTransaction extends AbstractUserTransaction
    public void begin() throws NotSupportedException, SystemException
    {
       ejbContext.getUserTransaction().begin();
-      getSynchronizations().afterBegin();
+      getSynchronizations().afterTransactionBegin();
    }
 
    public void commit() throws RollbackException, HeuristicMixedException,
@@ -47,7 +47,7 @@ public class CMTTransaction extends AbstractUserTransaction
       UserTransaction userTransaction = ejbContext.getUserTransaction();
       boolean success = false;
       Synchronizations synchronizations = getSynchronizations();
-      synchronizations.beforeCommit();
+      synchronizations.beforeTransactionCommit();
       try
       {
          userTransaction.commit();
@@ -55,7 +55,7 @@ public class CMTTransaction extends AbstractUserTransaction
       }
       finally
       {
-         synchronizations.afterCommit(success);
+         synchronizations.afterTransactionCommit(success);
       }
    }
 
@@ -68,7 +68,7 @@ public class CMTTransaction extends AbstractUserTransaction
       }
       finally
       {
-         getSynchronizations().afterRollback();
+         getSynchronizations().afterTransactionRollback();
       }
    }
 

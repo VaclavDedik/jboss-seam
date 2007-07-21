@@ -10,6 +10,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseId;
 
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.navigation.Pages;
@@ -62,14 +63,42 @@ public class FacesLifecycle
    public static void beginExceptionRecovery(ExternalContext externalContext)
    {
       log.debug(">>> Begin exception recovery");
-      Contexts.applicationContext.set( new ApplicationContext( externalContext.getApplicationMap() ) );
-      Contexts.eventContext.set( new EventContext( externalContext.getRequestMap() ) );
+      
+      //application and session contexts are easy :-)
+      Contexts.applicationContext.set( new ApplicationContext( externalContext.getApplicationMap() ) );      
       Contexts.sessionContext.set( new SessionContext( externalContext.getSessionMap() ) );
-      ServerConversationContext conversationContext = new ServerConversationContext( externalContext.getSessionMap() );
-      Contexts.conversationContext.set(conversationContext);
+      
+      //don't really have anything good to do with these ones:
       Contexts.pageContext.set(null);
       Contexts.businessProcessContext.set(null); //TODO: is this really correct?
-      conversationContext.unflush();
+
+      //depending upon when the exception occurs, endRequest() may or may not get called
+      //by SeamPhaseListener - this is because the stupid JSF spec gives me know way to
+      //determine if an exception occurred during the phase :-/
+      if ( Contexts.isEventContextActive() )
+      {
+         //this means that endRequest() never ran, so the components in the EVENT context
+         //have not yet been destroyed, and we can re-use them
+         Contexts.eventContext.set( new EventContext( externalContext.getRequestMap() ) );
+      }
+      else
+      {
+         //the endRequest() method already ran, so the EVENT context is in principle empty, 
+         //but we can't use the actual ServletRequest, since it contains garbage components
+         //that have already been destroyed (we could change that in EventContext!) 
+         Contexts.eventContext.set( new BasicContext(ScopeType.EVENT) );
+      }
+      
+      //for the conversation context, we need to account for flushing
+      //note that since we can't guarantee that it's components get flushed 
+      //to the session, there is always a possibility of components that were
+      //newly created in the current request "leaking" (we could fix that by
+      //copying unflushed changes in the context object into the new context
+      //object, or we could fix it by flushing at the end of every phase)
+      boolean conversationContextFlushed = !Contexts.isConversationContextActive();
+      ServerConversationContext conversationContext = new ServerConversationContext( externalContext.getSessionMap() );
+      Contexts.conversationContext.set(conversationContext);
+      if (conversationContextFlushed) conversationContext.unflush();
    }
 
    public static void endRequest(ExternalContext externalContext) 

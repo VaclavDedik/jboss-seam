@@ -48,7 +48,7 @@ class EntityBean implements Wrapper
          else
          {
             passivatedEntity = passivateEntity(instance);
-            if (passivatedEntity!=null) instance = null; //for performance of serialization
+            //if (passivatedEntity!=null) instance = null; //for performance of serialization
          }
          return true;
       }

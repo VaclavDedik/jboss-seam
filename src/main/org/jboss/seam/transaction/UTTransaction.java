@@ -7,6 +7,9 @@ import javax.transaction.RollbackException;
 import javax.transaction.Synchronization;
 import javax.transaction.SystemException;
 
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
+
 /**
  * Wraps JTA transaction management in a Seam UserTransaction 
  * interface.
@@ -17,6 +20,7 @@ import javax.transaction.SystemException;
  */
 public class UTTransaction extends AbstractUserTransaction
 {
+   private static final LogProvider log = Logging.getLogProvider(UTTransaction.class);
    
    private final javax.transaction.UserTransaction delegate;
 
@@ -31,16 +35,18 @@ public class UTTransaction extends AbstractUserTransaction
    
    public void begin() throws NotSupportedException, SystemException
    {
+      log.debug("beginning JTA transaction");
       delegate.begin();
-      getSynchronizations().afterBegin();
+      getSynchronizations().afterTransactionBegin();
    }
 
    public void commit() throws RollbackException, HeuristicMixedException,
             HeuristicRollbackException, SecurityException, IllegalStateException, SystemException
    {
+      log.debug("committing JTA transaction");
       boolean success = false;
       Synchronizations synchronizations = getSynchronizations();
-      synchronizations.beforeCommit();
+      synchronizations.beforeTransactionCommit();
       try
       {
          delegate.commit();
@@ -48,19 +54,20 @@ public class UTTransaction extends AbstractUserTransaction
       }
       finally
       {
-         synchronizations.afterCommit(success);
+         synchronizations.afterTransactionCommit(success);
       }
    }
 
    public void rollback() throws IllegalStateException, SecurityException, SystemException
    {
+      log.debug("rolling back JTA transaction");
       try
       {
          delegate.rollback();
       }
       finally
       {
-         getSynchronizations().afterRollback();
+         getSynchronizations().afterTransactionRollback();
       }
    }
 
