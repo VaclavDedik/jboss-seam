@@ -1,6 +1,6 @@
-jboss.home = /Applications/jboss-4.2.0.GA
+jboss.home = /Applications/jboss-4.2.1.GA
 tomcat.home = /Applications/apache-tomcat-6.0
-#jboss.home = C:\\jboss-4.2.0.GA
+#jboss.home = C:\\jboss-4.2.1.GA
 #tomcat.home = C:\\Tomcat-6.0
 version = 2.0
 patchlevel = 0.BETA1
