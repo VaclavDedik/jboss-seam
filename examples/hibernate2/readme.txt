@@ -17,9 +17,10 @@ WebLogic 9.2:
   * Deploy dist-weblogic92/jboss-seam-hibernate.war
   * Access the app at http://localhost:7001/jboss-seam-hibernate/
 
-WebSphere 6.1:
+WebSphere 6.1: (Special thanks to Denis Forveille)
 
   * Install and run WebSphere 6.1
+  * In Application Servers -> <server> -> Web Container Settings -> Web Container -> Custom Properties, set "com.ibm.ws.webcontainer.invokefilterscompatibility" to "true"
   * ant websphere61
   * Install dist-websphere61/jboss-seam-hibernate.war and specify a context_root
   * From the "Enterprise Applications" list select: "jboss-seam-hibernate_war" --> "Manager Modules" --> "jboss-seam-hibernate.war" --> "Classes loaded with application class loader first", and then Apply
