@@ -319,7 +319,12 @@
             </para>
             <para> 
                 Stateless session beans are the least interesting kind of Seam component. 
-            </para>  
+            </para> 
+            <para>
+                Seam stateless session bean components may be instantiated using <literal>Component.getInstance()</literal>
+                or <literal>@In(create=true)</literal>. They should not be directly instantiated via JNDI lookup
+                or the <literal>new</literal> operator.
+            </para> 
         </sect2>
 
         <sect2>
@@ -345,6 +350,11 @@
             <para> 
                 Concurrent requests to session-scoped stateful session beans are always serialized by Seam. 
             </para>   
+            <para>
+                Seam stateful session bean components may be instantiated using <literal>Component.getInstance()</literal>
+                or <literal>@In(create=true)</literal>. They should not be directly instantiated via JNDI lookup
+                or the <literal>new</literal> operator.
+            </para> 
         </sect2>
 
         <sect2>
@@ -364,7 +374,8 @@
                 use an entity as a backing bean, together with a stateless session bean action listener to implement
                 create/update/delete type functionality. 
             </para>
-            <para> By default, entity beans are bound to the conversation context. They may never be bound to the
+            <para>
+                By default, entity beans are bound to the conversation context. They may never be bound to the
                 stateless context. 
             </para>
             <para> 
@@ -373,6 +384,10 @@
                 entity bean in a stateful session bean. For this reason, not all Seam applications define entity beans
                 to be Seam components. 
             </para>
+            <para>
+                Seam entity bean components may be instantiated using <literal>Component.getInstance()</literal>,
+                <literal>@In(create=true)</literal> or directly using the <literal>new</literal> operator.
+            </para> 
         </sect2>
 
         <sect2>
@@ -394,6 +409,11 @@
             <para> 
                 Concurrent requests to session-scoped JavaBeans are always serialized by Seam. 
             </para>
+            <para>
+                Seam JavaBean components may be instantiated using <literal>Component.getInstance()</literal>
+                or <literal>@In(create=true)</literal>. They should not be directly instantiated using the 
+                <literal>new</literal> operator.
+            </para> 
         </sect2>
 
         <sect2>
