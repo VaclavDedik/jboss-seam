@@ -125,12 +125,12 @@
             messages.
         </para>
 
-        <programlisting><![CDATA[<core:resource-bundle>
+        <programlisting><![CDATA[<core:resource-loader>
     <core:bundle-names>
         <value>mycompany_messages</value>
         <value>standard_messages</value>       
     </core:bundle-names>
-</core:resource-bundle>]]></programlisting>
+</core:resource-loader>]]></programlisting>
 
         <para>
             If you want to define a message just for a particular page, you

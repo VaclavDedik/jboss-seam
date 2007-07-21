@@ -97,6 +97,7 @@ Finally, some declarations must be removed completely:
 * remove <core:microcontainer/>
 * replace <core:transaction-listener/> with 
           <transaction:ejb-transaction/>
+* replace <core:resource-bundle/> with <core:resource-loader/>
           
 Note: Seam transaction management is now enabled by default. If you want
       to disable use of Seam-managed transactions, use the following:
