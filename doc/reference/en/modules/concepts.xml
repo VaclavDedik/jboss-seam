@@ -428,6 +428,10 @@
                 conversation state of their "caller". However, they do support bijection and some other Seam
                 functionality. 
             </para>
+            <para>
+                Message-driven beans are never instantiated by the application. They are instantiated by the EJB
+                container when a message is received.
+            </para>
         </sect2>
 
         <sect2>
