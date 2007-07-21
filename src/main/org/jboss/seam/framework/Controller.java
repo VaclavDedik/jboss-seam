@@ -178,6 +178,11 @@ public abstract class Controller implements Serializable
       return Validators.instance().getValidator(modelClass);
    } 
 
+   protected <T> ClassValidator<T> getValidator(T model)
+   {
+      return Validators.instance().getValidator(model);
+   } 
+
    protected void debug(Object object, Object... params)
    {
       log.debug(object, params);

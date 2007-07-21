@@ -18,13 +18,11 @@ package org.jboss.seam.util;
  * License.
  */
 
-import javassist.util.proxy.*;
-
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Member;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.security.ProtectionDomain;
 import java.util.HashMap;
@@ -33,7 +31,20 @@ import java.util.Map;
 import java.util.Set;
 
 import javassist.CannotCompileException;
-import javassist.bytecode.*;
+import javassist.bytecode.AccessFlag;
+import javassist.bytecode.Bytecode;
+import javassist.bytecode.ClassFile;
+import javassist.bytecode.ConstPool;
+import javassist.bytecode.Descriptor;
+import javassist.bytecode.ExceptionsAttribute;
+import javassist.bytecode.FieldInfo;
+import javassist.bytecode.MethodInfo;
+import javassist.bytecode.Opcode;
+import javassist.util.proxy.FactoryHelper;
+import javassist.util.proxy.MethodFilter;
+import javassist.util.proxy.MethodHandler;
+import javassist.util.proxy.ProxyObject;
+import javassist.util.proxy.RuntimeSupport;
 
 /**
  * Factory of dynamic proxy classes.
@@ -289,7 +300,6 @@ public class ProxyFactory {
         cf.addField(finfo2);
 
         HashMap allMethods = getMethods(superClass, interfaces);
-        int size = allMethods.size();
         makeConstructors(classname, cf, pool, classname);
         int s = overrideMethods(cf, pool, classname, allMethods);
         addMethodsHolder(cf, pool, classname, s);

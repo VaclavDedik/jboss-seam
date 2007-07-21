@@ -46,6 +46,10 @@ public class ClientSideInterceptor extends RootInterceptor
          {
             return this;
          }
+         else if ( "getComponent".equals(methodName) )
+         {
+            return getComponent();
+         }
       }
       Object result = invoke( createInvocationContext(method, params), EventType.AROUND_INVOKE );
       return sessionBeanReturnedThis(result) ? proxy : result;
