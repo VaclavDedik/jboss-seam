@@ -14,7 +14,7 @@
          <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
          <property name="hibernate.show_sql" value="true"/>
          <property name="hibernate.cache.provider_class" value="org.hibernate.cache.HashtableCacheProvider"/>
-         <property name="hibernate.transaction.manager_lookup_class" value="org.hibernate.transaction.WebSphereTransactionManagerLookup"/>
+         <property name="hibernate.transaction.manager_lookup_class" value="org.hibernate.transaction.WebSphereExtendedJTATransactionLookup"/>
          <!-- alternative
          <property name="jboss.entity.manager.factory.jndi.name" 
               value="java:/jpaBookingEntityManagerFactory"/>

@@ -642,7 +642,10 @@
 		</copy>
 		<copy todir="${war.dir}/META-INF" failonerror="false">
 			<fileset dir="${resources.dir}/META-INF">
-				<include name="**/*" />
+                                <!-- needed for plain tomcat -->
+				<include name="context.xml" />
+                                <!-- This is a WebSphere Hack -->
+				<include name="*.taglib.xml" />
 			</fileset>
 		</copy>
 		<!-- Copy in resources, with filtering -->
