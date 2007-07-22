@@ -1,4 +1,4 @@
-
+// WebSphere specific hack contributed by Denis Forveille
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -64,8 +64,8 @@ public class SeamFilterWebSphereHack implements Filter
             {
                AbstractFilter bf = (AbstractFilter) filter;
 
-               log.info("URL pattern in SeamFiler:" + bf.getUrlPattern());
-               log.info("Set it to null for WebSphere (ugly hack)");
+               log.info(index + ": " + bf.toString() + " URL pattern: " + bf.getUrlPattern());
+               log.info("Hack: Set it to null for WebSphere");
                bf.setUrlPattern(null);
 
                if ( bf.isMappedToCurrentRequestPath(request) )
