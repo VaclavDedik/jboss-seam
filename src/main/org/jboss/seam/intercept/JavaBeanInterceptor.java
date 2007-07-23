@@ -59,6 +59,10 @@ public class JavaBeanInterceptor extends RootInterceptor
                dirty = false;
                return result;
             }
+            else if ( "getComponent".equals(methodName) )
+            {
+               return getComponent();
+            }
          }
          else if ( params.length==1 && (params[0] instanceof HttpSessionEvent) )
          {

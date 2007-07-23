@@ -2172,7 +2172,6 @@ public class Component extends Model
       Set<Class> interfaces = new HashSet<Class>();
       if ( type.isSessionBean() )
       {
-          interfaces.add(Instance.class);
           interfaces.addAll(businessInterfaces);
       }
       else
@@ -2180,7 +2179,7 @@ public class Component extends Model
          interfaces.add(HttpSessionActivationListener.class);
          interfaces.add(Mutable.class);
       }
-      
+      interfaces.add(Instance.class);
       interfaces.add(Proxy.class);
 
       ProxyFactory factory = new ProxyFactory();
