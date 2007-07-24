@@ -428,14 +428,6 @@ public class Component extends Model
       }
    }
 
-   private void checkDefaultRemoveMethod()
-   {
-      if ( type==STATEFUL_SESSION_BEAN && getDefaultRemoveMethod()==null )
-      {
-         throw new IllegalArgumentException("Stateful session bean component must have a method with no parameters marked @Remove: " + name);
-      }
-   }
-
    private String getJndiName(Context applicationContext)
    {
       if ( getBeanClass().isAnnotationPresent(JndiName.class) )
@@ -534,7 +526,6 @@ public class Component extends Model
       }
    }
 
-
    private void initMembers(Class<?> clazz, Context applicationContext)
    {
       Map<Method, Annotation> selectionSetters = new HashMap<Method, Annotation>();
@@ -553,7 +544,7 @@ public class Component extends Model
             scanField(selectionFields, dataModelNames, field);
          }
       }
-
+      
       final boolean hasMultipleDataModels = dataModelGetters.size() > 1;
       String defaultDataModelName = null;
       if ( !hasMultipleDataModels )
@@ -564,7 +555,7 @@ public class Component extends Model
          }
       }
 
-      for (Map.Entry<Method, Annotation> annotatedMethod: selectionSetters.entrySet())
+      for ( Map.Entry<Method, Annotation> annotatedMethod: selectionSetters.entrySet() )
       {
          Method method = annotatedMethod.getKey();
          Annotation ann = annotatedMethod.getValue();
@@ -576,7 +567,7 @@ public class Component extends Model
          }
       }
 
-      for (Map.Entry<Field, Annotation> annotatedField: selectionFields.entrySet())
+      for ( Map.Entry<Field, Annotation> annotatedField: selectionFields.entrySet() )
       {
          Field field = annotatedField.getKey();
          Annotation ann = annotatedField.getValue();
@@ -590,23 +581,45 @@ public class Component extends Model
 
    }
 
-   private void scanMethod(Context applicationContext, Map<Method, Annotation> selectionSetters, Set<String> dataModelNames, Method method)
+   private void checkDefaultRemoveMethod()
    {
-      if ( method.isAnnotationPresent(REMOVE) )
+      if (type==STATEFUL_SESSION_BEAN)
       {
-         removeMethods.put( method.getName(), method );
-         if (method.getParameterTypes().length==0 )
+         if ( destroyMethod!=null && destroyMethod.isAnnotationPresent(REMOVE) ) //TODO: @Remove is not declared @Inherited, but does the EJB container emulate that?
          {
-            // use the first no-arg remove method unless a later one is marked as the destroy method
-            if (defaultRemoveMethod == null || method.isAnnotationPresent(Destroy.class)) {
-                defaultRemoveMethod = method;
+            //we don't need to worry about default remove methods
+            defaultRemoveMethod = null;
+         }
+         else
+         {
+            //check that we have a default remove method
+            if ( defaultRemoveMethod==null )
+            {
+               throw new IllegalArgumentException("Stateful session bean component must have a method with no parameters marked @Remove: " + name);
             }
-            lifecycleMethods.add(method);
+            
+            //check that it is unique
+            boolean found = false;
+            for ( Method remove: removeMethods.values() )
+            {
+               if ( remove.getParameterTypes().length==0 )
+               {
+                  if (found)
+                  {
+                     throw new IllegalStateException("Duplicate default @Remove method for component:" + name);
+                  }
+                  found = true;
+               }
+            }
          }
       }
-      if ( method.isAnnotationPresent(Destroy.class))
+   }
+
+   private void scanMethod(Context applicationContext, Map<Method, Annotation> selectionSetters, Set<String> dataModelNames, Method method)
+   {
+      if ( method.isAnnotationPresent(Destroy.class) )
       {
-         /*if ( method.getParameterTypes().length>0 ) and it doesnt take a Component paramater
+         /*if ( method.getParameterTypes().length>0 ) and it doesn't take a Component parameter
          {
             throw new IllegalStateException("@Destroy methods may not have parameters: " + name);
          }*/
@@ -614,20 +627,31 @@ public class Component extends Model
          {
             throw new IllegalArgumentException("Only JavaBeans and stateful session beans support @Destroy methods: " + name);
          }
-         if ( destroyMethod!=null&& !destroyMethod.getName().equals( method.getName() ) )
+         if ( destroyMethod!=null && !destroyMethod.getName().equals( method.getName() ) )
          {
             throw new IllegalStateException("component has two @Destroy methods: " + name);
          }
          
-         if (destroyMethod==null && method!=getDefaultRemoveMethod())
+         if ( destroyMethod==null ) //ie. ignore the one on the superclass
          {
             destroyMethod = method;
             lifecycleMethods.add(method);
          }
       }
+      
+      if ( method.isAnnotationPresent(REMOVE) )
+      {
+         removeMethods.put( method.getName(), method );
+         if ( method.getParameterTypes().length==0 )
+         {
+            defaultRemoveMethod = method;
+            lifecycleMethods.add(method);
+         }
+      }
+      
       if ( method.isAnnotationPresent(Create.class) )
       {
-         /*if ( method.getParameterTypes().length>0 ) and it doesnt take a Component paramater
+         /*if ( method.getParameterTypes().length>0 ) and it doesn't take a Component parameter
          {
             throw new IllegalStateException("@Create methods may not have parameters: " + name);
          }*/
@@ -645,18 +669,21 @@ public class Component extends Model
             lifecycleMethods.add(method);
          }
       }
+      
       if ( method.isAnnotationPresent(In.class) )
       {
          In in = method.getAnnotation(In.class);
          String name = toName( in.value(), method );
          inAttributes.add( new BijectedMethod(name, method, in) );
       }
+      
       if ( method.isAnnotationPresent(Out.class) )
       {
          Out out = method.getAnnotation(Out.class);
          String name = toName( out.value(), method );
          outAttributes.add( new BijectedMethod(name, method, out) );
       }
+      
       if ( method.isAnnotationPresent(Unwrap.class) )
       {
          if ( unwrapMethod!=null && !unwrapMethod.getName().equals( method.getName() )  )
@@ -668,10 +695,12 @@ public class Component extends Model
             unwrapMethod = method;
          }
       }
+      
       if ( method.isAnnotationPresent(DataModel.class) ) //TODO: generalize
       {
          checkDataModelScope( method.getAnnotation(DataModel.class) );
       }
+      
       if ( method.isAnnotationPresent(org.jboss.seam.annotations.Factory.class) )
       {
          Init init = (Init) applicationContext.get( Seam.getComponentName(Init.class) ); //can't use Init.instance() here 'cos of unit tests
@@ -682,6 +711,7 @@ public class Component extends Model
             init.addAutocreateVariable(contextVariable);
          }
       }
+      
       if ( method.isAnnotationPresent(Observer.class) )
       {
          Init init = (Init) applicationContext.get( Seam.getComponentName(Init.class) ); //can't use Init.instance() here 'cos of unit tests
@@ -692,37 +722,44 @@ public class Component extends Model
             init.addObserverMethod( eventType, method, this, observer.create() );
          }
       }
+      
       if ( method.isAnnotationPresent(RequestParameter.class) )
       {
          RequestParameter rp = method.getAnnotation(RequestParameter.class);
          String name = toName( rp.value(), method );
          parameterSetters.add( new BijectedMethod(name, method, rp) );
       }
+      
       if ( method.isAnnotationPresent(PRE_PASSIVATE) )
       {
          prePassivateMethod = method;
          lifecycleMethods.add(method);
       }
+      
       if ( method.isAnnotationPresent(POST_ACTIVATE) )
       {
          postActivateMethod = method;
          lifecycleMethods.add(method);
       }
+      
       if ( method.isAnnotationPresent(POST_CONSTRUCT) )
       {
          postConstructMethod = method;
          lifecycleMethods.add(method);
       }
+      
       if ( method.isAnnotationPresent(PRE_DESTROY) )
       {
          preDestroyMethod = method;
          lifecycleMethods.add(method);
       }
+      
       if ( method.isAnnotationPresent(PERSISTENCE_CONTEXT) )
       {
          checkPersistenceContextForComponentType();
          pcAttributes.add( new BijectedMethod( toName(null, method), method, null ) );
       }
+      
       if ( method.isAnnotationPresent(Begin.class) || 
            method.isAnnotationPresent(End.class) || 
            method.isAnnotationPresent(StartTask.class) ||
@@ -765,22 +802,26 @@ public class Component extends Model
          String name = toName( in.value(), field );
          inAttributes.add( new BijectedField(name, field, in) );
       }
+      
       if ( field.isAnnotationPresent(Out.class) )
       {
          Out out = field.getAnnotation(Out.class);
          String name = toName( out.value(), field );
          outAttributes.add(new BijectedField(name, field, out) );
       }
+      
       if ( field.isAnnotationPresent(DataModel.class) ) //TODO: generalize
       {
          checkDataModelScope( field.getAnnotation(DataModel.class) );
       }
+      
       if ( field.isAnnotationPresent(RequestParameter.class) )
       {
          RequestParameter rp = field.getAnnotation(RequestParameter.class);
          String name = toName( rp.value(), field );
          parameterSetters.add( new BijectedField(name, field, rp) );
       }
+      
       if ( field.isAnnotationPresent(org.jboss.seam.annotations.Logger.class) )
       {
          String category = field.getAnnotation(org.jboss.seam.annotations.Logger.class).value();
@@ -803,11 +844,13 @@ public class Component extends Model
             logInstances.add(logInstance);
          }
       }
+      
       if ( field.isAnnotationPresent(PERSISTENCE_CONTEXT) )
       {
          checkPersistenceContextForComponentType();
          pcAttributes.add( new BijectedField( toName(null, field), field, null ) );
       }
+      
       for ( Annotation ann: field.getAnnotations() )
       {
          if ( ann.annotationType().isAnnotationPresent(DataBinderClass.class) )
@@ -821,6 +864,7 @@ public class Component extends Model
             selectionFields.put(field, ann);
          }
       }
+      
    }
 
    protected void checkPersistenceContextForComponentType()
