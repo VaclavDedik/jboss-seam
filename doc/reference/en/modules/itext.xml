@@ -10,7 +10,7 @@
             controls, which are used to construct views that can render to PDF, and the DocumentStore component, which
             serves the rendered documents to the user. To include PDF support in your application, included
                 <literal>jboss-seam-pdf.jar</literal> in your <literal>WEB-INF/lib</literal> directory along with the
-            iText JAR file. There is no further configuration needed to use Seam's iText support. </para>
+            iText JAR file. There is no further configuration needed to use Seam's iText supportfon. </para>
         <para> The Seam iText module requires the use of Facelets as the view technology. Future versions of the library
             may also support the use of JSP. Additionally, it requires the use of the seam-ui package.</para>
 
@@ -319,8 +319,7 @@
 
                                 <itemizedlist>
                                     <listitem>
-                                        <para><literal>family</literal> &#8212; The font family. One of:
-                                                <literal>COURIER</literal>, <literal>HELVETICA</literal>,
+                                        <para><literal>name</literal> &#8212; The font name, for example:                                                <literal>COURIER</literal>, <literal>HELVETICA</literal>,
                                                 <literal>TIMES-ROMAN</literal>, <literal>SYMBOL</literal> or
                                                 <literal>ZAPFDINGBATS</literal>.</para>
                                     </listitem>
@@ -335,6 +334,10 @@
                                             <literal>ITALIC</literal>, <literal>OBLIQUE</literal>,
                                             <literal>UNDERLINE</literal>, <literal>LINE-THROUGH</literal></para>
 
+                                    </listitem>
+                                    
+                                    <listitem>
+                                        <para><literal>encoding</literal> &#8212; The character set encoding.</para>
                                     </listitem>
                                 </itemizedlist>
                                 <para>
