@@ -595,13 +595,16 @@ public class Component extends Model
       if ( method.isAnnotationPresent(REMOVE) )
       {
          removeMethods.put( method.getName(), method );
-         if ( method.getParameterTypes().length==0 )
+         if (method.getParameterTypes().length==0 )
          {
-            defaultRemoveMethod = method;
+            // use the first no-arg remove method unless a later one is marked as the destroy method
+            if (defaultRemoveMethod == null || method.isAnnotationPresent(Destroy.class)) {
+                defaultRemoveMethod = method;
+            }
             lifecycleMethods.add(method);
          }
       }
-      if ( method.isAnnotationPresent(Destroy.class) && method!=getDefaultRemoveMethod() )
+      if ( method.isAnnotationPresent(Destroy.class))
       {
          /*if ( method.getParameterTypes().length>0 ) and it doesnt take a Component paramater
          {
@@ -615,7 +618,8 @@ public class Component extends Model
          {
             throw new IllegalStateException("component has two @Destroy methods: " + name);
          }
-         if (destroyMethod==null)
+         
+         if (destroyMethod==null && method!=getDefaultRemoveMethod())
          {
             destroyMethod = method;
             lifecycleMethods.add(method);
