@@ -319,7 +319,8 @@
 
                                 <itemizedlist>
                                     <listitem>
-                                        <para><literal>name</literal> &#8212; The font name, for example:                                                <literal>COURIER</literal>, <literal>HELVETICA</literal>,
+                                        <para><literal>name</literal> &#8212; The font name, for example:
+                                                <literal>COURIER</literal>, <literal>HELVETICA</literal>,
                                                 <literal>TIMES-ROMAN</literal>, <literal>SYMBOL</literal> or
                                                 <literal>ZAPFDINGBATS</literal>.</para>
                                     </listitem>
@@ -335,7 +336,7 @@
                                             <literal>UNDERLINE</literal>, <literal>LINE-THROUGH</literal></para>
 
                                     </listitem>
-                                    
+
                                     <listitem>
                                         <para><literal>encoding</literal> &#8212; The character set encoding.</para>
                                     </listitem>
@@ -1016,20 +1017,6 @@
                 every 3 cells will automatically form a row. Header and footer rows can be declared, and the headers and
                 footers will be repeated in the event a table structure spans multiple pages.</para>
 
-            <programlisting>&lt;p:document xmlns:p=&quot;http://jboss.com/products/seam/pdf&quot;   
-            xmlns:ui=&quot;http://java.sun.com/jsf/facelets&quot;
-            title=&quot;Hello&quot;&gt;   
-   &lt;p:table columns=&quot;3&quot; headerRows=&quot;1&quot;&gt;
-      &lt;p:cell&gt;name&lt;/p:cell&gt;
-      &lt;p:cell&gt;owner&lt;/p:cell&gt;
-      &lt;p:cell&gt;size&lt;/p:cell&gt;
-      &lt;ui:repeat value=&quot;#{documents}&quot; var=&quot;doc&quot;&gt;
-         &lt;p:cell&gt;#{doc.name}&lt;/p:cell&gt;
-         &lt;p:cell&gt;#{doc.user.name}&lt;/p:cell&gt;
-         &lt;p:cell&gt;#{doc.size}&lt;/p:cell&gt;
-      &lt;/ui:repeat&gt;
-   &lt;/p:table&gt;
-&lt;/p:document&gt;  </programlisting>
 
 
 
@@ -1175,7 +1162,17 @@
                                 <para>
                                     <emphasis>Usage</emphasis>
                                 </para>
-                                <programlisting>...</programlisting>
+                                <programlisting>&lt;p:table columns=&quot;3&quot; headerRows=&quot;1&quot;&gt;
+  &lt;p:cell&gt;name&lt;/p:cell&gt;
+  &lt;p:cell&gt;owner&lt;/p:cell&gt;
+  &lt;p:cell&gt;size&lt;/p:cell&gt;
+  &lt;ui:repeat value=&quot;#{documents}&quot; var=&quot;doc&quot;&gt;
+    &lt;p:cell&gt;#{doc.name}&lt;/p:cell&gt;
+    &lt;p:cell&gt;#{doc.user.name}&lt;/p:cell&gt;
+    &lt;p:cell&gt;#{doc.size}&lt;/p:cell&gt;
+  &lt;/ui:repeat&gt;
+&lt;/p:table&gt;</programlisting>
+
 
                             </entry>
                         </row>
@@ -1360,7 +1357,7 @@
                                 <para>
                                     <emphasis>Usage</emphasis>
                                 </para>
-                                <programlisting>...</programlisting>
+                                <programlisting>&lt;p:cell&gt;...&lt;/p:cell&gt;</programlisting>
 
                             </entry>
                         </row>
@@ -1473,84 +1470,188 @@
                             </para>
 
                             <itemizedlist>
-                                <!--- UICategoryChartBase -->
                                 <listitem>
                                     <para>
-                                        <literal>domainGridlinesVisible</literal>
+                                        <literal>borderVisible</literal> &#8212; Controls whether or not a border is
+                                        displayed around the entire chart. </para>
+                                </listitem>
+
+                                <listitem>
+                                    <para>
+                                        <literal>borderPaint</literal> &#8212; The color of the border, if visible;
                                     </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>domainGridlinePaint</literal>
+                                        <literal>borderBackgroundPaint</literal> &#8212; The default background
+                                        color of the chart. </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        <literal>borderStroke</literal> &#8212; </para>
+                                </listitem>
+
+
+                                <listitem>
+                                    <para>
+                                        <literal>domainAxisLabel</literal> &#8212; The text label for the domain
+                                        axis. </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        <literal>domainAxisPaint</literal> &#8212; The color of the domain axis
+                                        label. </para>
+                                </listitem>
+
+                                <listitem>
+                                    <para>
+                                        <literal>domainGridlinesVisible</literal>&#8212; Controls whether or not
+                                        gridlines for the domain axis are shown on the chart. </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        <literal>domainGridlinePaint</literal>&#8212; The color of the domain
+                                        gridlines, if visible. </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        <literal>domainGridlineStroke</literal> &#8212; The stroke style of the
+                                        domain gridleines, if visible. </para>
+                                </listitem>
+
+                                <listitem>
+                                    <para>
+                                        <literal>height</literal> &#8212; The height of the chart. </para>
+                                </listitem>
+
+                                <listitem>
+                                    <para>
+                                        <literal>width</literal> &#8212; The width of the chart. </para>
+                                </listitem>
+
+                                <listitem>
+                                    <para>
+                                        <literal>is3D</literal> &#8212; A boolean value indicating that the chart
+                                        should be rendered in 3D instead of 2D. </para>
+                                </listitem>
+
+                                <listitem>
+                                    <para>
+                                        <literal>legend</literal> &#8212; A boolean value indicating whether or not
+                                        the chart should include a legend. </para>
+                                </listitem>
+
+                                <listitem>
+                                    <para>
+                                        <literal>legendItemPaint</literal>&#8212; The default color of the text
+                                        labels in the legend. </para>
+                                </listitem>
+
+                                <listitem>
+                                    <para>
+                                        <literal>legendItemBackgoundPaint</literal>&#8212; The background color for
+                                        the legend, if different from the chart background color.</para>
+                                </listitem>
+
+                                <listitem>
+                                    <para>
+                                        <literal>orientation</literal> &#8212; The orientation of the plot, either
+                                            <code>vertical</code> (the default) or <code>horizontal</code>. </para>
+                                </listitem>
+
+                                <listitem>
+                                    <para>
+                                        <literal>plotBackgroundPaint</literal>&#8212; The color of the plot
+                                        background.</para>
+                                </listitem>
+
+                                <listitem>
+                                    <para>
+                                        <literal>plotBackgroundAlpha</literal>&#8212; The alpha (transparency) level
+                                        of the plot background. It should be a number between 0 (completely transparent)
+                                        and 1 (completely opaque). </para>
+                                </listitem>
+
+                                <listitem>
+                                    <para>
+                                        <literal>plotForegroundAlpha</literal>&#8212; The alpha (transparency) level
+                                        of the plot. It should be a number between 0 (completely transparent) and 1
+                                        (completely opaque). </para>
+                                </listitem>
+
+                                <listitem>
+                                    <para>
+                                        <literal>plotOutlinePaint</literal>&#8212; The color of the range gridlines,
+                                        if visible. </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        <literal>plotOutlineStroke</literal> &#8212; The stroke style of the range
+                                        gridleines, if visible. </para>
+                                </listitem>
+
+                                <listitem>
+                                    <para>
+                                        <literal>rangeAxisLabel</literal> &#8212; The text label for the range axis.
                                     </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>domainGridlineStroke</literal>
-                                    </para>
-                                </listitem>
-                                <listitem>
-                                    <para>
-                                        <literal>rangeGridlinesVisible</literal>
-                                    </para>
-                                </listitem>
-                                <listitem>
-                                    <para>
-                                        <literal>rangeGridlinesVisible</literal>
-                                    </para>
-                                </listitem>
-                                <listitem>
-                                    <para>
-                                        <literal>rangeGridlinePaint</literal>
+                                        <literal>rangeAxisPaint</literal> &#8212; The color of the range axis label.
                                     </para>
                                 </listitem>
 
                                 <listitem>
                                     <para>
-                                        <literal>rangeGridlinePaint</literal>
-                                    </para>
-                                </listitem>
-                                <!--- UIBarChart -->
-
-
-
-                                <listitem>
-                                    <para>
-                                        <literal>title</literal>
-                                    </para>
+                                        <literal>rangeGridlinesVisible</literal>&#8212; Controls whether or not
+                                        gridlines for the range axis are shown on the chart. </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>categoryAxisLabel</literal>
-                                    </para>
+                                        <literal>rangeGridlinePaint</literal>&#8212; The color of the range
+                                        gridlines, if visible. </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>valueAxisLabel</literal>
-                                    </para>
-                                </listitem>
-                                <listitem>
-                                    <para>
-                                        <literal>orientation</literal>
-                                    </para>
-                                </listitem>
-                                <listitem>
-                                    <para>
-                                        <literal>legend</literal>
-                                    </para>
-                                </listitem>
-                                <listitem>
-                                    <para>
-                                        <literal>is3D</literal>
-                                    </para>
+                                        <literal>rangeGridlineStroke</literal> &#8212; The stroke style of the range
+                                        gridleines, if visible. </para>
                                 </listitem>
 
+                                <listitem>
+                                    <para>
+                                        <literal>title</literal> &#8212; The chart title text. </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        <literal>titlePaint</literal>&#8212; The color of the chart title text.
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        <literal>titleBackgroundPaint</literal>&#8212; The background color around
+                                        the chart title.</para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        <literal>width</literal> &#8212; The width of the chart. </para>
+                                </listitem>
 
                             </itemizedlist>
                             <para>
                                 <emphasis>Usage</emphasis>
                             </para>
-                            <programlisting/>
+                            <programlisting>
+&lt;p:barchart title=&quot;Bar Chart&quot; legend=&quot;true&quot;
+            width=&quot;500&quot; height=&quot;500&quot;&gt;
+    &lt;p:series key=&quot;Last Year&quot;&gt;
+        &lt;p:data columnKey=&quot;Joe&quot; value=&quot;100&quot; /&gt;
+        &lt;p:data columnKey=&quot;Bob&quot; value=&quot;120&quot; /&gt;
+    &lt;/p:series&gt;        &lt;p:series key=&quot;This Year&quot;&gt;
+        &lt;p:data columnKey=&quot;Joe&quot; value=&quot;125&quot; /&gt;
+        &lt;p:data columnKey=&quot;Bob&quot; value=&quot;115&quot; /&gt;
+    &lt;/p:series&gt;
+&lt;/p:barchart&gt;                                
+                            </programlisting>
 
                         </entry>
                     </row>
@@ -1581,83 +1682,186 @@
                             </para>
 
                             <itemizedlist>
-
-                                <!--- UICategoryChartBase -->
                                 <listitem>
                                     <para>
-                                        <literal>domainGridlinesVisible</literal>
-                                    </para>
-                                </listitem>
-                                <listitem>
-                                    <para>
-                                        <literal>domainGridlinePaint</literal>
-                                    </para>
-                                </listitem>
-                                <listitem>
-                                    <para>
-                                        <literal>domainGridlineStroke</literal>
-                                    </para>
-                                </listitem>
-                                <listitem>
-                                    <para>
-                                        <literal>rangeGridlinesVisible</literal>
-                                    </para>
-                                </listitem>
-                                <listitem>
-                                    <para>
-                                        <literal>rangeGridlinesVisible</literal>
-                                    </para>
-                                </listitem>
-                                <listitem>
-                                    <para>
-                                        <literal>rangeGridlinePaint</literal>
-                                    </para>
+                                        <literal>borderVisible</literal> &#8212; Controls whether or not a border is
+                                        displayed around the entire chart. </para>
                                 </listitem>
 
                                 <listitem>
                                     <para>
-                                        <literal>rangeGridlinePaint</literal>
+                                        <literal>borderPaint</literal> &#8212; The color of the border, if visible;
                                     </para>
                                 </listitem>
-                                <!--- UILineChart -->
+                                <listitem>
+                                    <para>
+                                        <literal>borderBackgroundPaint</literal> &#8212; The default background
+                                        color of the chart. </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        <literal>borderStroke</literal> &#8212; </para>
+                                </listitem>
+
 
                                 <listitem>
                                     <para>
-                                        <literal>title</literal>
+                                        <literal>domainAxisLabel</literal> &#8212; The text label for the domain
+                                        axis. </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        <literal>domainAxisPaint</literal> &#8212; The color of the domain axis
+                                        label. </para>
+                                </listitem>
+
+                                <listitem>
+                                    <para>
+                                        <literal>domainGridlinesVisible</literal>&#8212; Controls whether or not
+                                        gridlines for the domain axis are shown on the chart. </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        <literal>domainGridlinePaint</literal>&#8212; The color of the domain
+                                        gridlines, if visible. </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        <literal>domainGridlineStroke</literal> &#8212; The stroke style of the
+                                        domain gridleines, if visible. </para>
+                                </listitem>
+
+                                <listitem>
+                                    <para>
+                                        <literal>height</literal> &#8212; The height of the chart. </para>
+                                </listitem>
+
+                                <listitem>
+                                    <para>
+                                        <literal>width</literal> &#8212; The width of the chart. </para>
+                                </listitem>
+
+                                <listitem>
+                                    <para>
+                                        <literal>is3D</literal> &#8212; A boolean value indicating that the chart
+                                        should be rendered in 3D instead of 2D. </para>
+                                </listitem>
+
+                                <listitem>
+                                    <para>
+                                        <literal>legend</literal> &#8212; A boolean value indicating whether or not
+                                        the chart should include a legend. </para>
+                                </listitem>
+
+                                <listitem>
+                                    <para>
+                                        <literal>legendItemPaint</literal>&#8212; The default color of the text
+                                        labels in the legend. </para>
+                                </listitem>
+
+                                <listitem>
+                                    <para>
+                                        <literal>legendItemBackgoundPaint</literal>&#8212; The background color for
+                                        the legend, if different from the chart background color.</para>
+                                </listitem>
+
+                                <listitem>
+                                    <para>
+                                        <literal>orientation</literal> &#8212; The orientation of the plot, either
+                                            <code>vertical</code> (the default) or <code>horizontal</code>. </para>
+                                </listitem>
+
+                                <listitem>
+                                    <para>
+                                        <literal>plotBackgroundPaint</literal>&#8212; The color of the plot
+                                        background.</para>
+                                </listitem>
+
+                                <listitem>
+                                    <para>
+                                        <literal>plotBackgroundAlpha</literal>&#8212; The alpha (transparency) level
+                                        of the plot background. It should be a number between 0 (completely transparent)
+                                        and 1 (completely opaque). </para>
+                                </listitem>
+
+                                <listitem>
+                                    <para>
+                                        <literal>plotForegroundAlpha</literal>&#8212; The alpha (transparency) level
+                                        of the plot. It should be a number between 0 (completely transparent) and 1
+                                        (completely opaque). </para>
+                                </listitem>
+
+                                <listitem>
+                                    <para>
+                                        <literal>plotOutlinePaint</literal>&#8212; The color of the range gridlines,
+                                        if visible. </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        <literal>plotOutlineStroke</literal> &#8212; The stroke style of the range
+                                        gridleines, if visible. </para>
+                                </listitem>
+
+                                <listitem>
+                                    <para>
+                                        <literal>rangeAxisLabel</literal> &#8212; The text label for the range axis.
                                     </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>domainAxisLabel</literal>
-                                    </para>
-                                </listitem>
-                                <listitem>
-                                    <para>
-                                        <literal>rangeAxisLabel</literal>
-                                    </para>
-                                </listitem>
-                                <listitem>
-                                    <para>
-                                        <literal>orientation</literal>
-                                    </para>
-                                </listitem>
-                                <listitem>
-                                    <para>
-                                        <literal>legend</literal>
-                                    </para>
-                                </listitem>
-                                <listitem>
-                                    <para>
-                                        <literal>is3D</literal>
+                                        <literal>rangeAxisPaint</literal> &#8212; The color of the range axis label.
                                     </para>
                                 </listitem>
 
+                                <listitem>
+                                    <para>
+                                        <literal>rangeGridlinesVisible</literal>&#8212; Controls whether or not
+                                        gridlines for the range axis are shown on the chart. </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        <literal>rangeGridlinePaint</literal>&#8212; The color of the range
+                                        gridlines, if visible. </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        <literal>rangeGridlineStroke</literal> &#8212; The stroke style of the range
+                                        gridleines, if visible. </para>
+                                </listitem>
+
+                                <listitem>
+                                    <para>
+                                        <literal>title</literal> &#8212; The chart title text. </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        <literal>titlePaint</literal>&#8212; The color of the chart title text.
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        <literal>titleBackgroundPaint</literal>&#8212; The background color around
+                                        the chart title.</para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        <literal>width</literal> &#8212; The width of the chart. </para>
+                                </listitem>
 
                             </itemizedlist>
                             <para>
                                 <emphasis>Usage</emphasis>
                             </para>
-                            <programlisting/>
+                            <programlisting>&lt;p:linechart title=&quot;Line Chart&quot;
+            width=&quot;500&quot; height=&quot;500&quot;&gt;
+    &lt;p:series key=&quot;Prices&quot;&gt;
+        &lt;p:data columnKey=&quot;2003&quot; value=&quot;7.36&quot; /&gt;
+        &lt;p:data columnKey=&quot;2004&quot; value=&quot;11.50&quot; /&gt;
+        &lt;p:data columnKey=&quot;2005&quot; value=&quot;34.625&quot; /&gt;
+        &lt;p:data columnKey=&quot;2006&quot; value=&quot;76.30&quot; /&gt;
+        &lt;p:data columnKey=&quot;2007&quot; value=&quot;85.05&quot; /&gt;
+    &lt;/p:series&gt;
+&lt;/p:linechart&gt;</programlisting>
 
                         </entry>
                     </row>
@@ -1846,58 +2050,56 @@
                                     <para>
                                         <literal>key</literal> &#8212; The series name. </para>
                                 </listitem>
+                                <!--
                                 <listitem>
                                     <para>
-                                        <literal>seriesPaint</literal>
+                                        <literal>seriesFillPaint</literal>  &#8212; 
                                     </para>
+                                </listitem>
+                                -->
+                                <listitem>
+                                    <para>
+                                        <literal>seriesPaint</literal> &#8212; The color of each item in the series
+                                    </para>
+                                </listitem>
+
+                                <listitem>
+                                    <para>
+                                        <literal>seriesOutlinePaint</literal> &#8212; The outline color for each
+                                        item in the series. </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>seriesFillPaint</literal>
-                                    </para>
+                                        <literal>seriesOutlineStroke</literal> &#8212; The stroke used to draw each
+                                        item in the series. </para>
                                 </listitem>
-                                <listitem>
-                                    <para>
-                                        <literal>seriesOutlinePaint</literal>
-                                    </para>
-                                </listitem>
-                                <listitem>
-                                    <para>
-                                        <literal>seriesOutlineStroke</literal>
-                                    </para>
-                                </listitem>
+                                <!--
                                 <listitem>
                                     <para>
                                         <literal>seriesStroke</literal>
                                     </para>
                                 </listitem>
+                                -->
                                 <listitem>
                                     <para>
-                                        <literal>seriesVisible</literal>
-                                    </para>
+                                        <literal>seriesVisible</literal> &#8212; A boolean indicating if the series
+                                        should be displayed. </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>seriesVisibleInLegend</literal>
-                                    </para>
+                                        <literal>seriesVisibleInLegend</literal> &#8212; A boolean indiciating if
+                                        the series should be listed in the legend. </para>
                                 </listitem>
 
                             </itemizedlist>
                             <para>
                                 <emphasis>Usage</emphasis>
                             </para>
-                            <programlisting>&lt;p:barchart title=&quot;Bar Chart3D&quot;&gt;
-    &lt;p:series key=&quot;data1&quot;&gt;
-        &lt;ui:repeat value=&quot;#{data.pieData1}&quot; var=&quot;item&quot;&gt;
-            &lt;p:data columnKey=&quot;#{item.name}&quot; value=&quot;#{item.value}&quot; /&gt;
-        &lt;/ui:repeat&gt;
-    &lt;/p:series&gt;    
-    &lt;p:series key=&quot;data2&quot; seriesPaint=&quot;green&quot;  seriesStroke=&quot;dot2&quot;&gt;
-        &lt;ui:repeat value=&quot;#{data.pieData2}&quot; var=&quot;item&quot;&gt;
-            &lt;p:data columnKey=&quot;#{item.name}&quot; value=&quot;#{item.value}&quot; /&gt;
-        &lt;/ui:repeat&gt;
-    &lt;/p:series&gt;           
-&lt;/p:barchart&gt;</programlisting>
+                            <programlisting>&lt;p:series key=&quot;data1&quot;&gt;
+    &lt;ui:repeat value=&quot;#{data.pieData1}&quot; var=&quot;item&quot;&gt;
+        &lt;p:data columnKey=&quot;#{item.name}&quot; value=&quot;#{item.value}&quot; /&gt;
+    &lt;/ui:repeat&gt;
+&lt;/p:series&gt;</programlisting>
 
                         </entry>
                     </row>
@@ -1929,49 +2131,47 @@
                             <itemizedlist>
                                 <listitem>
                                     <para>
-                                        <literal>key</literal>
-                                    </para>
+                                        <literal>key</literal> &#8212; The name of the data item. </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>columnKey</literal>
-                                    </para>
+                                        <literal>series</literal> &#8212; The series name, when not embedded inside
+                                        a <code>&lt;p:series&gt;</code>. </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>rowKey</literal>
-                                    </para>
+                                        <literal>value</literal> &#8212; The numeric data value. </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>value</literal>
-                                    </para>
+                                        <literal>explodedPercent</literal> &#8212; For pie charts, indicates how
+                                        exploded a from the pie a piece is. </para>
+                                </listitem>
+
+                                <listitem>
+                                    <para>
+                                        <literal>sectionOutlinePaint</literal> &#8212; For bar charts, the color of the section outline.</para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>explodedPercent</literal>
-                                    </para>
+                                        <literal>sectionOutlineStroke</literal> &#8212; For bar charts, the stroke type for the section outline.</para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>sectionPaint</literal>
-                                    </para>
-                                </listitem>
-                                <listitem>
-                                    <para>
-                                        <literal>sectionOutlinePaint</literal>
-                                    </para>
-                                </listitem>
-                                <listitem>
-                                    <para>
-                                        <literal>sectionOutlineStroke</literal>
-                                    </para>
+                                        <literal>sectionPaint</literal> &#8212; For bar charts, the color of the section.</para>
                                 </listitem>
                             </itemizedlist>
                             <para>
                                 <emphasis>Usage</emphasis>
                             </para>
-                            <programlisting/>
+
+
+
+                            <programlisting>&lt;p:data key=&quot;foo&quot; value=&quot;20&quot; sectionPaint=&quot;#111111&quot; 
+        explodedPercent=&quot;.2&quot; /&gt;
+&lt;p:data key=&quot;bar&quot; value=&quot;30&quot; sectionPaint=&quot;#333333&quot; /&gt;
+&lt;p:data key=&quot;baz&quot; value=&quot;40&quot; sectionPaint=&quot;#555555&quot; 
+        sectionOutlineStroke=&quot;my-dot-style&quot; /&gt;</programlisting>
 
                         </entry>
                     </row>
