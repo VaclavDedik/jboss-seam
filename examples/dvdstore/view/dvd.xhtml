@@ -21,7 +21,7 @@
         
         <ui:define name="body">
             <div class="productbox">
-                <f:subview rendered="#{dvd.imageURL != null}">
+                <f:subview id="dvdimage" rendered="#{dvd.imageURL != null}">
                     <div class="productimage">
                         <img src="#{dvd.imageURL}" />
                     </div>

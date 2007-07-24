@@ -56,7 +56,7 @@
             
             <h2>Task Assignment</h2>
 
-            <f:subview rendered="#{empty pooledTaskInstanceList}">
+            <f:subview id="no_pooled_tasks" rendered="#{empty pooledTaskInstanceList}">
                 <p>There are no pooled tasks to be assigned.</p>
             </f:subview>
             
@@ -93,7 +93,7 @@
             
             
             <h2>Order Acceptance</h2>
-            <f:subview rendered="#{empty taskInstanceListForType['approve']}">
+            <f:subview id="no_orders" rendered="#{empty taskInstanceListForType['approve']}">
                 <p>There are no orders to be accepted.</p>
             </f:subview>
 
@@ -125,7 +125,7 @@
             </h:dataTable>
             
             <h2>Shipping</h2>
-            <f:subview rendered="#{empty taskInstanceListForType['ship']}">
+            <f:subview id="no_shipping" rendered="#{empty taskInstanceListForType['ship']}">
                 <p>There are no orders to be shipped.</p>
             </f:subview>
             <h:dataTable rendered="#{not empty taskInstanceListForType['ship']}"

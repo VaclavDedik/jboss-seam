@@ -21,11 +21,11 @@
         <ui:define name="body">
             <h1>Your orders:</h1>
 
-            <f:subview rendered="#{!orders.rowAvailable}">
+            <f:subview id="no_orders" rendered="#{!orders.rowAvailable}">
                 <p>You have not placed any orders.</p>
             </f:subview>
 
-            <f:subview rendered="#{orders.rowAvailable}">
+            <f:subview id="ordersummary" rendered="#{orders.rowAvailable}">
                 
             <h:dataTable value="#{orders}" var="item"
                          styleClass="dvdtable" 
@@ -55,7 +55,7 @@
                 </h:column>
             </h:dataTable>
 
-            <f:subview rendered="#{myorder != null}">
+            <f:subview id="orderdetails" rendered="#{myorder != null}">
                 <div class="cntInfo">
                     <h2>Order Details</h2>
 

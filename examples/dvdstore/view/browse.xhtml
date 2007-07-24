@@ -22,7 +22,7 @@
         </ui:define>
         
         <ui:define name="body">
-            <f:subview rendered="#{searchResults==null}">
+            <f:subview id="noresults" rendered="#{searchResults==null}">
                 <p> This is the DVD search screen.  Use the search box
                 to the right to search for DVDs.  The search component
                 is a conversational Seam component.  You can perform
@@ -51,7 +51,7 @@
                 </div>
             </f:subview>
             
-            <f:subview rendered="#{searchResults.rowCount == 0}">
+            <f:subview id="searchresults" rendered="#{searchResults.rowCount == 0}">
                 <h2>
                     <h:outputText value="#{messages.noSearchResultsHeader}" />
                 </h2>

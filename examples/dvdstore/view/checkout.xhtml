@@ -26,7 +26,7 @@
                 to define the flow of the user interaction.
             </p>
         
-            <f:subview rendered="#{empty cart.cart}">
+            <f:subview id="emptycart" rendered="#{empty cart.cart}">
                 <p>Your cart is empty.</p>
 
                 <h:form>
@@ -34,7 +34,7 @@
                 </h:form>
             </f:subview>
 
-            <f:subview rendered="#{not empty cart.cart}">
+            <f:subview id="cartdetails" rendered="#{not empty cart.cart}">
                 <h:form>
                     <h:dataTable value="#{cart.cart}" var="item"
                                  styleClass="dvdtable" 
@@ -105,7 +105,7 @@
                         </h:panelGrid>
                         
                         
-                        <f:subview rendered="#{identity.loggedIn}">
+                        <f:subview id="purchaseaction" rendered="#{identity.loggedIn}">
                             <h:form>
                                 <h:commandButton action="#{checkout.createOrder}"  
                                                  value="#{messages.checkoutPurchaseButton}"  />
@@ -113,7 +113,7 @@
                         </f:subview>
                     </div>
                     
-                    <f:subview rendered="#{!identity.loggedIn}">
+                    <f:subview id="notloggedin" rendered="#{!identity.loggedIn}">
                         <p class="warning">You must be logged in to place an order</p>
                     </f:subview>
                 </div>

@@ -19,11 +19,11 @@
         <ui:define name="body">
             <h1>Confirm Order</h1>
             
-            <f:subview rendered="#{currentOrder==null}">
+            <f:subview id="no_order" rendered="#{currentOrder==null}">
                 <p>You have no order.</p>
             </f:subview>
 
-            <f:subview rendered="#{currentOrder != null}">
+            <f:subview id="orderdetail" rendered="#{currentOrder != null}">
                 <h:form>
                     <h:dataTable value="#{currentOrder.orderLines}" var="line"
                                  styleClass="dvdtable" 

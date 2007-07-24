@@ -46,10 +46,10 @@
                 </tr>
           </ui:repeat>
         </table>
-        <h:outputText value="No accounts found" rendered="#{empty accounts.resultList}" class="message"/>
+        <h:outputText value="No accounts found" rendered="#{empty accounts.resultList}" styleClass="message"/>
         
 
-        <f:subview rendered="#{accountHome.idDefined}">
+        <f:subview id="accountView" rendered="#{accountHome.idDefined}">
             <h2>Payments from Account #{accountHome.instance.accountNumber}</h2>
             <table class="results">
                 <tr>

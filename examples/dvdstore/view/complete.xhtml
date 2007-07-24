@@ -17,7 +17,7 @@
         </ui:define>
 
         <ui:define name="body">
-            <f:subview rendered="#{completedOrder == null}">
+            <f:subview id="no_order" rendered="#{completedOrder == null}">
                 <p>Your order could not be completed.</p>
 
                 <h:form>
@@ -25,7 +25,7 @@
                 </h:form>
             </f:subview>
             
-            <f:subview rendered="#{completedOrder != null}">
+            <f:subview id="orderdetail" rendered="#{completedOrder != null}">
                 <h2>#{messages.checkoutCompleteHeader}</h2>
                 <h:form>
                     <h:dataTable value="#{completedOrder.orderLines}" 

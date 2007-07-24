@@ -22,7 +22,7 @@
         <ui:define name="body">
             <h2>Active Process Status</h2>
             
-            <f:subview rendered="#{empty processInstanceList}">
+            <f:subview id="no_processes" rendered="#{empty processInstanceList}">
                 <p>There are no active processes.</p>
             </f:subview>
                     
