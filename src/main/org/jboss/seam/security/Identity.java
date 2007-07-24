@@ -124,7 +124,7 @@ public class Identity extends Selector
       this.authenticateEveryRequest = authenticateEveryRequest;
    }
 
-   private void initCredentialsFromCookie()
+   protected void initCredentialsFromCookie()
    {
       FacesContext ctx = FacesContext.getCurrentInstance();
       if (ctx != null)
