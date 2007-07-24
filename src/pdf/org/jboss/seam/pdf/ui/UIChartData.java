@@ -14,8 +14,7 @@ public class UIChartData
     extends ITextComponent 
 { 
     private String key;
-    private String columnKey;
-    private String rowKey;
+    private String series;
     private Object value;
     private Float explodedPercent;
     
@@ -42,20 +41,18 @@ public class UIChartData
         }
     }
 
-    public String getColumnKey() {
-        return (String) valueBinding("columnKey", columnKey);
-    }
-
-
-
     public String getKey() {
         return (String) valueBinding("key", key);
     }
 
+    public void setKey(String key) {
+        this.key = key;
+    }
+        
 
 
-    public String getRowKey() {
-        String value = (String) valueBinding("rowkey", rowKey);
+    public String getSeries() {
+        String value = (String) valueBinding("series", series);
         if (value == null) {
             UIChartSeries series = (UIChartSeries) findITextParent(this, UIChartSeries.class);
             value = series.getKey();
@@ -63,21 +60,10 @@ public class UIChartData
         return value;
     }
 
-
-
-    public void setKey(String key) {
-        this.key = key;
-    }
-
-    
-    
-    public void setRowKey(String rowKey) {
-        this.rowKey = rowKey;
+    public void setSeries(String series) {
+        this.series = series;
     }
     
-    public void setColumnKey(String columnKey) {
-        this.columnKey = columnKey;
-    }
 
     public void setValue(Double value) {        
         this.value = value;
@@ -124,8 +110,8 @@ public class UIChartData
        super.restoreState(context, values[0]);
       
        key                  = (String) values[1];
-       columnKey            = (String) values[2];
-       rowKey               = (String) values[3];
+       //columnKey            = (String) values[2];
+       series               = (String) values[3];
        value                = (Number) values[4];
        explodedPercent      = (Float)  values[5];
        sectionPaint         = (String) values[6];
@@ -140,8 +126,8 @@ public class UIChartData
 
        values[0] = super.saveState(context);
        values[1] = key;
-       values[2] = columnKey;
-       values[3] = rowKey;
+       //values[2] = columnKey;
+       values[3] = series;
        values[4] = value;
        values[5] = explodedPercent;
        values[6] = sectionPaint;
@@ -187,7 +173,7 @@ public class UIChartData
                 DefaultCategoryDataset data = (DefaultCategoryDataset) dataset;
                 
                 //CategoryPlot plot = (CategoryPlot) chart.getChart().getPlot();
-                data.addValue(getNumericValue(), getRowKey(), getColumnKey());       
+                data.addValue(getNumericValue(), getSeries(), getKey());       
             } else {
                 throw new RuntimeException("Cannot add data to dataset of type " + dataset.getClass());
             }         

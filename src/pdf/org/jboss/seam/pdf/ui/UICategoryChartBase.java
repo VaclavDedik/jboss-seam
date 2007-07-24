@@ -310,22 +310,26 @@ public abstract class UICategoryChartBase
     }
     
     public void configureTitle(TextTitle chartTitle) {
-        if (findColor(getTitleBackgroundPaint()) != null) {
-            chartTitle.setBackgroundPaint(findColor(getTitleBackgroundPaint()));
-        }
-
-        if (findColor(getTitlePaint()) != null) {
-            chartTitle.setPaint(findColor(getTitlePaint()));
+        if (chartTitle!=null) {
+            if (findColor(getTitleBackgroundPaint()) != null) {
+                chartTitle.setBackgroundPaint(findColor(getTitleBackgroundPaint()));
+            }
+            
+            if (findColor(getTitlePaint()) != null) {
+                chartTitle.setPaint(findColor(getTitlePaint()));
+            }
         }
     }
     
     void configureLegend(LegendTitle chartLegend) {
-        if (findColor(getLegendBackgroundPaint())!=null) {
-            chartLegend.setBackgroundPaint(findColor(getLegendBackgroundPaint()));
+        if (chartLegend!=null) {
+            if (findColor(getLegendBackgroundPaint())!=null) {
+                chartLegend.setBackgroundPaint(findColor(getLegendBackgroundPaint()));
+            }
+            if (findColor(getLegendItemPaint())!= null) {
+                chartLegend.setItemPaint(findColor(getLegendItemPaint()));
+            }        
         }
-        if (findColor(getLegendItemPaint())!= null) {
-            chartLegend.setItemPaint(findColor(getLegendItemPaint()));
-        }        
     }
 
 }
