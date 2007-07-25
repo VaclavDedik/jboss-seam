@@ -20,7 +20,7 @@
 	<h1>Search Hotels</h1>
 	<fieldset> 
 	   <h:inputText id="searchString" value="#{hotelSearch.searchString}" style="width: 165px;">
-         <a:support event="onkeyup" actionListener="#{hotelSearch.find}" reRender="searchResults" requestDelay="500" eventQueue="findQueue" ignoreDupResponses="true"/>
+         <a:support event="onkeyup" actionListener="#{hotelSearch.find}" reRender="searchResults" />
        </h:inputText>
        &#160;
 	   <a:commandButton id="findHotels" value="Find Hotels" action="#{hotelSearch.find}" reRender="searchResults"/>
