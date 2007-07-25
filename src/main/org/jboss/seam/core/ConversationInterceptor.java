@@ -214,7 +214,7 @@ public class ConversationInterceptor extends AbstractInterceptor
       }
       else if (nested)
       {
-         Manager.instance().beginNestedConversation( );
+         Manager.instance().beginNestedConversation();
          beginNavigation(pageflowName);
       }
    }

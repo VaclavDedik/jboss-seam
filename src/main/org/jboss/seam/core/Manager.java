@@ -406,7 +406,7 @@ public class Manager
             throw new IllegalStateException("long-running conversation already active");
          }
          beginConversation();
-         if (propagation.length()>6)
+         if ( propagation.length()>6 )
          {
             Pageflow.instance().begin( propagation.substring(6) );
          }
@@ -416,7 +416,7 @@ public class Manager
          if ( !isLongRunningConversation )
          {
             beginConversation();
-            if (propagation.length()>5)
+            if ( propagation.length()>5 )
             {
                Pageflow.instance().begin( propagation.substring(5) );
             }
@@ -424,13 +424,16 @@ public class Manager
       }
       else if ( propagation!=null && propagation.startsWith("nest") )
       {          
-         if (isLongRunningOrNestedConversation()) {
-             beginNestedConversation();    
-         } else {
+         if ( isLongRunningOrNestedConversation() ) 
+         {
+             beginNestedConversation();
+         }
+         else 
+         {
              beginConversation();
          }
          
-         if (propagation.length()>5)
+         if ( propagation.length()>5 )
          {
             Pageflow.instance().begin( propagation.substring(5) );
          }
