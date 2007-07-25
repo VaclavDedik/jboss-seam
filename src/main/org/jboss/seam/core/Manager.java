@@ -396,8 +396,7 @@ public class Manager
     * @param parameters the request parameters
     */
    public void handleConversationPropagation(Map parameters)
-   {
-      
+   {      
       String propagation = ConversationPropagation.instance().getPropagationType();
       
       if ( propagation!=null && propagation.startsWith("begin") )
@@ -424,8 +423,13 @@ public class Manager
          }
       }
       else if ( propagation!=null && propagation.startsWith("nest") )
-      {
-         beginNestedConversation();
+      {          
+         if (isLongRunningOrNestedConversation()) {
+             beginNestedConversation();    
+         } else {
+             beginConversation();
+         }
+         
          if (propagation.length()>5)
          {
             Pageflow.instance().begin( propagation.substring(5) );
@@ -551,7 +555,7 @@ public class Manager
    /**
     * Begin a new nested conversation.
     */
-   public void beginNestedConversation()
+   public void beginNestedConversation()   
    {
       log.debug("Beginning nested conversation");
       List<String> oldStack = getCurrentConversationIdStack();
@@ -559,8 +563,9 @@ public class Manager
       {
          throw new IllegalStateException("No long-running conversation active");
       }
+
       String id = Id.nextId();
-      setCurrentConversationId(id);
+      setCurrentConversationId(id);      
       createCurrentConversationIdStack(id).addAll(oldStack);
       createConversationEntry();
       storeConversationToViewRootIfNecessary();
