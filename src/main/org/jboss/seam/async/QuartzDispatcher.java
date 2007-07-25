@@ -26,6 +26,7 @@ import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SchedulerFactory;
 import org.quartz.SimpleTrigger;
+import org.quartz.NthIncludedDayTrigger;
 
 /**
  * Dispatcher implementation that uses the Quartz library.
@@ -158,6 +159,52 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzTriggerHandle, Sc
         catch (Exception e) 
         {
           log.error ("Cannot submit cron job");
+          e.printStackTrace ();
+          return null;
+        }
+      } 
+      else if (schedule instanceof NthBusinessDaySchedule) 
+      {
+        NthBusinessDaySchedule nthBusinessDaySchedule = (NthBusinessDaySchedule) schedule; 
+        try 
+        {
+          String calendarName = nextUniqueName();
+          scheduler.addCalendar(calendarName, nthBusinessDaySchedule.getNthBusinessDay().getHolidayCalendar(), false, false);
+          
+          NthIncludedDayTrigger trigger = new NthIncludedDayTrigger (triggerName, null);
+          trigger.setN(nthBusinessDaySchedule.getNthBusinessDay().getN());
+          trigger.setFireAtTime(nthBusinessDaySchedule.getNthBusinessDay().getFireAtTime());
+          trigger.setEndTime(nthBusinessDaySchedule.getFinalExpiration());
+          trigger.setCalendarName(calendarName);
+
+
+          switch(nthBusinessDaySchedule.getNthBusinessDay().getInterval()) {
+            case WEEKLY:   
+              trigger.setIntervalType(NthIncludedDayTrigger.INTERVAL_TYPE_WEEKLY); 
+              break;
+            case MONTHLY:
+              trigger.setIntervalType(NthIncludedDayTrigger.INTERVAL_TYPE_MONTHLY); 
+              break;
+            case YEARLY:
+              trigger.setIntervalType(NthIncludedDayTrigger.INTERVAL_TYPE_YEARLY); 
+              break;
+          }
+
+          if ( nthBusinessDaySchedule.getExpiration()!=null )
+          {
+            trigger.setStartTime (nthBusinessDaySchedule.getExpiration());
+          }
+          else if ( nthBusinessDaySchedule.getDuration()!=null )
+          {
+            trigger.setStartTime (calculateDelayedDate(nthBusinessDaySchedule.getDuration()));
+          }
+
+          scheduler.scheduleJob( jobDetail, trigger );
+
+        } 
+        catch (Exception e) 
+        {
+          log.error ("Cannot submit nth business day job");
           e.printStackTrace ();
           return null;
         }

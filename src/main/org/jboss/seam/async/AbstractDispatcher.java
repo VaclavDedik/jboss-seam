@@ -9,6 +9,7 @@ import org.jboss.seam.annotations.async.Expiration;
 import org.jboss.seam.annotations.async.FinalExpiration;
 import org.jboss.seam.annotations.async.IntervalCron;
 import org.jboss.seam.annotations.async.IntervalDuration;
+import org.jboss.seam.annotations.async.IntervalBusinessDay;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.transaction.Transaction;
@@ -43,9 +44,6 @@ public abstract class AbstractDispatcher<T, S> implements Dispatcher<T, S>
       Transaction.instance().registerSynchronization( new TransactionCompletionEvent(type, parameters) );
    }
 
-   // TODO: Throw exception when there are multiple interval params
-   //       Make use of finalExpiration
-   //       Make use of NthBusinessDay
    protected Schedule createSchedule(InvocationContext invocation)
    {
       Long duration = null;
@@ -54,7 +52,9 @@ public abstract class AbstractDispatcher<T, S> implements Dispatcher<T, S>
 
       Long intervalDuration = null;
       String cron = null;
-      // NthBusinessDay intervalBusinessDay = null;
+      NthBusinessDay intervalBusinessDay = null;
+      
+      int intervalParamCount = 0;
 
       Annotation[][] parameterAnnotations = invocation.getMethod().getParameterAnnotations();
       for ( int i=0; i<parameterAnnotations.length; i++ )
@@ -69,6 +69,7 @@ public abstract class AbstractDispatcher<T, S> implements Dispatcher<T, S>
             else if ( annotation.annotationType().equals(IntervalDuration.class) )
             {
                intervalDuration = (Long) invocation.getParameters()[i];
+               intervalParamCount++;
             }
             else if ( annotation.annotationType().equals(Expiration.class) )
             {
@@ -81,14 +82,28 @@ public abstract class AbstractDispatcher<T, S> implements Dispatcher<T, S>
             else if ( annotation.annotationType().equals(IntervalCron.class) )
             {
                cron = (String) invocation.getParameters()[i];
+               intervalParamCount++;
+            }
+            else if ( annotation.annotationType().equals(IntervalBusinessDay.class) )
+            {
+               intervalBusinessDay = (NthBusinessDay) invocation.getParameters()[i];
+               intervalParamCount++;
             }
          }
+      }
+      
+      if (intervalParamCount > 1) {
+        throw new RuntimeException ("Cannot have more than one @Interval arguments in asynchrnous method");
       }
       
       if ( cron!=null ) 
       {
         return new CronSchedule(duration, expiration, cron, finalExpiration);
       } 
+      else if (intervalBusinessDay != null)
+      {
+        return new NthBusinessDaySchedule(duration, expiration, intervalBusinessDay, finalExpiration);
+      }
       else 
       {
         return new TimerSchedule(duration, expiration, intervalDuration, finalExpiration);
