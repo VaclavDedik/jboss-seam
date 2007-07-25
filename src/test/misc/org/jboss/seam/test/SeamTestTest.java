@@ -1,8 +1,5 @@
 package org.jboss.seam.test;
 
-import javax.faces.el.MethodBinding;
-
-import org.jboss.seam.jsf.UnifiedELMethodBinding;
 import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
 
@@ -37,10 +34,8 @@ public class SeamTestTest extends SeamTest
          @Override
          protected void invokeApplication() throws Exception
          {
-            MethodBinding methodBinding = new UnifiedELMethodBinding("#{action.go}", new Class[0]);
-            Object result = methodBinding.invoke(getFacesContext(), new Object[0]);
-            
-            assert result instanceof String;
+            invokeAction("#{action.go}");
+            String result = getOutcome();
             assert "success".equals(result);
          }
       }.run();

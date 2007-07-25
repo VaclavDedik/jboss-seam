@@ -1,7 +1,5 @@
 package org.jboss.seam.test;
 
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.ArrayList;
 
 import javax.mail.NoSuchProviderException;
@@ -10,8 +8,6 @@ import javax.naming.NamingException;
 
 import org.jboss.seam.mail.MailSession;
 import org.jboss.seam.mail.MeldwareUser;
-import org.jboss.seam.text.SeamTextLexer;
-import org.jboss.seam.text.SeamTextParser;
 import org.testng.annotations.Test;
 
 import com.sun.mail.smtp.SMTPSSLTransport;
@@ -361,7 +357,7 @@ public class MailTest
       // We can't get a Session from JNDI without a full container.
       try
       {
-         Session session = mailSession.getSession();
+         mailSession.getSession();
       }
       catch (Exception e)
       {

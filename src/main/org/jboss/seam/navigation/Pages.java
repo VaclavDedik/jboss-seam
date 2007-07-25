@@ -673,23 +673,27 @@ public class Pages
    
    private void storeRequestStringValuesInPageContext(FacesContext facesContext)
    {
-      Map<String, String[]> requestParameters = Parameters.instance().getRequestParameters();
-      for ( Page page: getPageStack( getViewId(facesContext) ) )
+      Parameters parameters = Parameters.instance();
+      if (parameters!=null) //for unit tests
       {
-         for ( Param pageParameter: page.getParameters() )
-         {  
-            String value = pageParameter.getStringValueFromRequest(facesContext, requestParameters);
-            if (value==null)
-            {
-               //this should not be necessary, were it not for a MyFaces bug
-               if ( facesContext.getRenderResponse() ) //ie. for a non-faces request
+         Map<String, String[]> requestParameters = parameters.getRequestParameters();
+         for ( Page page: getPageStack( getViewId(facesContext) ) )
+         {
+            for ( Param pageParameter: page.getParameters() )
+            {  
+               String value = pageParameter.getStringValueFromRequest(facesContext, requestParameters);
+               if (value==null)
                {
-                  Contexts.getPageContext().remove( pageParameter.getName() );
+                  //this should not be necessary, were it not for a MyFaces bug
+                  if ( facesContext.getRenderResponse() ) //ie. for a non-faces request
+                  {
+                     Contexts.getPageContext().remove( pageParameter.getName() );
+                  }
                }
-            }
-            else
-            {
-               Contexts.getPageContext().set( pageParameter.getName(), value );
+               else
+               {
+                  Contexts.getPageContext().set( pageParameter.getName(), value );
+               }
             }
          }
       }

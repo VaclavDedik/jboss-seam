@@ -36,10 +36,7 @@ public class ServletLifecycle
 
    public static ServletContext getServletContext() 
    {
-      if (servletContext==null)
-      {
-         throw new IllegalStateException("Attempted to invoke a Seam component outside the context of a web application");
-      }
+      //don't throw an exception if null, because of unit tests
       return servletContext;
    }
 

@@ -41,11 +41,14 @@ public class Resources
    
       URL url  = null; 
 
-      try
+      if (servletContext!=null)
       {
-         url = servletContext.getResource(resource);
+         try
+         {
+            url = servletContext.getResource(resource);
+         }
+         catch (Exception e) {}
       }
-      catch (Exception e) {}
       
       if (url==null)
       {

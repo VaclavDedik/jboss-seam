@@ -1967,7 +1967,15 @@ public class Component extends Model
 
    private void callDefaultRemoveMethod(Object instance)
    {
-      callComponentMethod( instance, getDefaultRemoveMethod() );
+      if ( hasDefaultRemoveMethod() )
+      {
+         callComponentMethod( instance, getDefaultRemoveMethod() );
+      }
+   }
+   
+   public boolean hasDefaultRemoveMethod()
+   {
+      return defaultRemoveMethod!=null;
    }
 
    public Method getDefaultRemoveMethod()

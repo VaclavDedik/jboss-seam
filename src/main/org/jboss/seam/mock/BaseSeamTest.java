@@ -331,6 +331,14 @@ public class BaseSeamTest
       {
          this.outcome = outcome;
       }
+      
+      /**
+       * The outcome of the INVOKE_APPLICATION phase
+       */
+      protected String getOutcome()
+      {
+         return outcome;
+      }
 
       /**
        * Get the outcome of the INVOKE_APPLICATION phase

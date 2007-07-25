@@ -66,7 +66,7 @@ public class PageflowTest
     jbpmContext.close();
   }
   
-  /*@Test
+  @Test
   public void testOrderPageflow() {
      StringReader stringReader = new StringReader(
       "<pageflow-definition name='checkout'>" +
@@ -105,6 +105,6 @@ public class PageflowTest
     assert start.equals(token.getNode());
     
     processInstance.signal();
-  }*/
+  }
   
 }

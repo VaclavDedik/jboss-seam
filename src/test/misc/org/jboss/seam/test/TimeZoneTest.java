@@ -1,14 +1,12 @@
 package org.jboss.seam.test;
 
 import java.io.IOException;
-import java.util.Locale;
 import java.util.TimeZone;
 
 import javax.faces.component.UIOutput;
 import javax.faces.event.ValueChangeEvent;
 
 import org.jboss.deployers.spi.DeploymentException;
-import org.jboss.seam.international.LocaleSelector;
 import org.jboss.seam.international.TimeZoneSelector;
 import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;

@@ -361,7 +361,7 @@ public class Initialization
          throw new IllegalArgumentException("must specify either class or name in <component/> declaration");
       }
 
-      for (Element prop : (List<Element>) component.elements())
+      for ( Element prop : (List<Element>) component.elements() )
       {
          String propName = prop.attributeValue("name");
          if (propName == null)
@@ -369,10 +369,10 @@ public class Initialization
             propName = prop.getQName().getName();
          }
          String qualifiedPropName = name + '.' + toCamelCase(propName, false);
-         properties.put(qualifiedPropName, getPropertyValue(prop, qualifiedPropName, replacements));
+         properties.put( qualifiedPropName, getPropertyValue(prop, qualifiedPropName, replacements) );
       }
       
-      for (Attribute prop: (List<Attribute>) component.attributes())
+      for ( Attribute prop: (List<Attribute>) component.attributes() )
       {
          String attributeName = prop.getName();
          boolean isProperty = !"name".equals(attributeName) && 
@@ -386,7 +386,7 @@ public class Initialization
          if (isProperty)
          {
             String qualifiedPropName = name + '.' + toCamelCase( prop.getQName().getName(), false );
-            properties.put(qualifiedPropName, getPropertyValue(prop, replacements));
+            properties.put( qualifiedPropName, getPropertyValue(prop, replacements) );
          }
       }
    }

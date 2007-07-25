@@ -272,7 +272,7 @@ public class Conversions
       {
          if (string==null)
          {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("null value");
          }
          this.string = string;
       }
