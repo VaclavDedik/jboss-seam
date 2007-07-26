@@ -10,7 +10,7 @@ import org.jboss.seam.pageflow.Pageflow;
 
 /**
  * Adds three new navigation possibilities beyond the
- * frumpy JSF navigatoion rules: returning the view id
+ * frumpy JSF navigation rules: returning the view id
  * directly, pages.xml, and jPDL-based pageflows.
  * 
  * @author Gavin King
