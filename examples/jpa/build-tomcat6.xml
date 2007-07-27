@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+
+<project name="JPA Booking" default="noejb.archive" basedir=".">
+
+    <!-- Naming -->
+    <property name="Name"                   value="The JPA Example for plain Tomcat 6.0"/>
+    <property name="example.name"           value="jboss-seam-jpa"/>
+
+    <!-- resources -->
+    <property name="resources.dir" value="resources-tomcat" />
+	<property name="dist.dir" value="dist-tomcat6" />
+	<property name="exploded-archives.dir" value="exploded-archives-tomcat6" />
+       
+    <!-- Libraries to include -->
+    <property name="seam.ui.lib"    value="true"/>
+    <property name="seam.debug.lib" value="true"/>
+    <property name="facelets.lib"   value="true"/>
+    <property name="ajax4jsf.lib"   value="true"/>
+
+    <import file="../build.xml"/>
+
+    <fileset id="noejb.war.extras" dir="${seam.dir}">
+        <include name="lib/common*.jar"/>
+        <include name="lib/jsf-*.jar"/>
+        <include name="lib/jstl-*.jar"/>
+        <include name="hibernate/lib/*.jar"/>
+        <include name="lib/thirdparty-all.jar"/>
+        <!-- Addition libs needed for Tomcat -->
+        <include name="examples/jpa/lib/cglib.jar"/>
+        <include name="examples/jpa/lib/jta.jar"/>
+        <!--
+        <include name="examples/hibernate2/lib/mc/*.jar"/>
+        -->
+    </fileset>
+       
+</project>
+
