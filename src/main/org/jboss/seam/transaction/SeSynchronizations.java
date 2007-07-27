@@ -52,7 +52,15 @@ public class SeSynchronizations implements Synchronizations
    
    public void registerSynchronization(Synchronization sync)
    {
-      synchronizations.peek().registerSynchronization(sync);
+      if (synchronizations.isEmpty())
+      {
+         throw new IllegalStateException("Transaction begin not detected, " +
+         "try installing transaction:ejb-transaction in components.xml");         
+      }
+      else
+      {
+         synchronizations.peek().registerSynchronization(sync);
+      }
    }
    
    public boolean isAwareOfContainerTransactions()
