@@ -47,7 +47,13 @@ public class UiComponent
             if ( !(key instanceof String) ) return null;
             try
             {
-               return FacesContext.getCurrentInstance().getViewRoot().findComponent( (String) key );
+                FacesContext context = FacesContext.getCurrentInstance();
+
+                if (context == null) {
+                    return null;
+                }
+
+                return context.getViewRoot().findComponent( (String) key );
             }
             catch (IllegalArgumentException iae)
             {
