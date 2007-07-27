@@ -37,12 +37,12 @@
                   seriesOutlinePaint="pink" seriesOutlineStroke="dot1">
             
             <ui:repeat value="#{data.pieData}" var="item">
-                <p:data columnKey="#{item.name}" value="#{item.value}" />
+                <p:data key="#{item.name}" value="#{item.value}" />
             </ui:repeat>
         </p:series>
         <p:series key="data2" seriesPaint="green"  seriesStroke="dot2">
             <ui:repeat value="#{data.pieData}" var="item">
-                <p:data columnKey="#{item.name}" value="#{item.value+10}" />
+                <p:data key="#{item.name}" value="#{item.value+10}" />
             </ui:repeat>
         </p:series>
     </p:barchart>
@@ -53,12 +53,12 @@
                   seriesOutlinePaint="pink" seriesOutlineStroke="dot1">
             
             <ui:repeat value="#{data.pieData}" var="item">
-                <p:data columnKey="#{item.name}" value="#{item.value}" />
+                <p:data key="#{item.name}" value="#{item.value}" />
             </ui:repeat>
         </p:series>
         <p:series key="data2" seriesPaint="green"  seriesStroke="dot2">
             <ui:repeat value="#{data.pieData}" var="item">
-                <p:data columnKey="#{item.name}" value="#{item.value-10}" />
+                <p:data key="#{item.name}" value="#{item.value-10}" />
             </ui:repeat>
         </p:series>
     </p:barchart>
@@ -70,22 +70,22 @@
 
         <p:series key="data1" seriesPaint="bar"  seriesStroke="dot2">
             <ui:repeat value="#{data.pieData}" var="item">
-                <p:data columnKey="#{item.name}" value="#{item.value}" />
+                <p:data key="#{item.name}" value="#{item.value}" />
             </ui:repeat>
-            <p:data columnKey="foo" value="75.1" />
+            <p:data key="foo" value="75.1" />
         </p:series>
 
         <p:series key="data2" seriesPaint="green"  seriesStroke="dot2">
-            <p:data columnKey="foo" value="75.1" />
+            <p:data key="foo" value="75.1" />
             <ui:repeat value="#{data.pieData}" var="item">
-                <p:data columnKey="#{item.name}" value="#{item.value+5}" />
+                <p:data key="#{item.name}" value="#{item.value+5}" />
             </ui:repeat>
         </p:series>
 
         <p:series key="data3">
-            <p:data columnKey="foo" value="10" />
+            <p:data key="foo" value="10" />
             <ui:repeat value="#{data.pieData}" var="item">
-                <p:data columnKey="#{item.name}" value="#{item.value+12}" />
+                <p:data key="#{item.name}" value="#{item.value+12}" />
             </ui:repeat>
         </p:series>
 
@@ -97,22 +97,22 @@
 
         <p:series key="data1" seriesPaint="green"  seriesStroke="dot2">
             <ui:repeat value="#{data.pieData}" var="item">
-                <p:data columnKey="#{item.name}" value="#{item.value}" />
+                <p:data key="#{item.name}" value="#{item.value}" />
             </ui:repeat>
-            <p:data columnKey="foo" value="75.1" />
+            <p:data key="foo" value="75.1" />
         </p:series>
 
         <p:series key="data2" seriesPaint="bar"  seriesStroke="dot2">
-            <p:data columnKey="foo" value="75.1" />
+            <p:data key="foo" value="75.1" />
             <ui:repeat value="#{data.pieData}" var="item">
-                <p:data columnKey="#{item.name}"  value="#{item.value+5}" />
+                <p:data key="#{item.name}"  value="#{item.value+5}" />
             </ui:repeat>
         </p:series>
 
         <p:series key="data3">
-            <p:data columnKey="foo" value="10" />
+            <p:data key="foo" value="10" />
             <ui:repeat value="#{data.pieData}" var="item">
-                <p:data columnKey="#{item.name}" value="#{item.value+6}" />
+                <p:data key="#{item.name}" value="#{item.value+6}" />
             </ui:repeat>
         </p:series>
 

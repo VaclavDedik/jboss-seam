@@ -59,7 +59,7 @@
                               seriesOutlineStroke="#{dataset.seriesOutlineStroke}">
                         
                         <ui:repeat value="#{chart.categories}" var="category">
-                            <p:data columnKey="#{category}" value="#{dataset.values[category]}" />
+                            <p:data key="#{category}" value="#{dataset.values[category]}" />
                         </ui:repeat>
                     </p:series>
                 </ui:repeat>
@@ -188,7 +188,7 @@
                     <a:support  event="onchange" reRender="chart" />
                 </rich:inputNumberSlider>
             </rich:tab>
-            <rich:tab label="Range">
+            <rich:tab label="Border">
                 Border: 
                 <h:selectBooleanCheckbox value="#{chart.borderVisible}">
                     <a:support  event="onchange" reRender="chart" />
@@ -296,6 +296,15 @@
                                     <s:selectItems value="#{strokes}" var="i" label="#{i}" noSelectionLabel="Default..." />
                                     <a:support  event="onchange" reRender="chart" />
                                 </h:selectOneMenu> 
+
+                                <ui:remove>
+                                <h:selectOneMenu value="#{dataset.seriesFillPaint}">             
+                                    <s:selectItems value="#{colors}" var="i" label="#{i}"
+                                                   noSelectionLabel="Fill ... "/> 
+                                    <a:support  event="onchange" reRender="chart" />
+                                </h:selectOneMenu> 
+                                </ui:remove>
+
                             </td>
                             <td class="dr-table-cell rich-table-cell">
                                 <h:selectOneMenu value="#{dataset.seriesOutlinePaint}">             
