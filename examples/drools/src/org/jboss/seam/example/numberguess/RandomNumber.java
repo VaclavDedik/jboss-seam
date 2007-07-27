@@ -6,6 +6,7 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Unwrap;
 
 @Name("randomNumber")
 @Scope(ScopeType.CONVERSATION)
@@ -19,6 +20,7 @@ public class RandomNumber
       randomNumber = new Random().nextInt(100);
    }
    
+   @Unwrap
    public int getValue() 
    {
       return randomNumber;

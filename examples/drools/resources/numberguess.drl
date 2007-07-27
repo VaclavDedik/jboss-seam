@@ -3,36 +3,33 @@ package org.jboss.seam.example.numberguess
 import org.jboss.seam.drools.Decision
 
 global Decision decision
+global int randomNumber
+global Game game
 
 rule High
    when 
-      RandomNumber(randomValue:value)
-      Guess(guess: value>randomValue)
-      game: GameHistory()
+      Guess(guess: value>randomNumber)
    then 
-      game.setBiggest(guess.intValue()-1);
+      game.setBiggest(guess-1);
 end
 
 rule Low
-   when 
-      RandomNumber(randomValue:value)
-      Guess(guess: value<randomValue)
-      game: GameHistory()
+   when
+      Guess(guess: value<randomNumber)
    then 
-      game.setSmallest(guess.intValue()+1);
+      game.setSmallest(guess+1);
 end
 
 rule Win
    when 
-      RandomNumber(randomValue:value)
-      Guess(value==randomValue)
+      Guess(value==randomNumber)
    then 
       decision.setOutcome("win");
 end
 
 rule Lose
    when 
-      GameHistory(guessCount==9)
+      Game(guessCount==9)
    then
       if ( decision.getOutcome()==null )
       {
@@ -40,10 +37,10 @@ rule Lose
       }
 end
 
-rule Incremement
+rule Increment
    salience -10
    when
-      game: GameHistory()
+      Guess()
    then
       game.incrementGuessCount();
 end

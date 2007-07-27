@@ -21,8 +21,7 @@
       <handler class="org.jboss.seam.drools.DroolsDecisionHandler">
          <workingMemoryName>workingMemory</workingMemoryName>
          <assertObjects>
-            <element>#{randomNumber}</element>
-            <element>#{gameHistory}</element>
+            <element>#{game}</element>
             <element>#{guess}</element>
          </assertObjects>
       </handler>

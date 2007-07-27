@@ -8,17 +8,17 @@
 <h1>Guess a number...</h1>
 <f:view>
 	<h:form>
-	    <h:outputText value="Higher!" rendered="#{randomNumber.value>guess.value}" />
-	    <h:outputText value="Lower!" rendered="#{randomNumber.value<guess.value}" />
+	    <h:outputText value="Higher!" rendered="#{randomNumber>guess.value}" />
+	    <h:outputText value="Lower!" rendered="#{randomNumber<guess.value}" />
 		<br />
-        I'm thinking of a number between <h:outputText value="#{gameHistory.smallest}" /> and 
-        <h:outputText value="#{gameHistory.biggest}" />.
+        I'm thinking of a number between <h:outputText value="#{game.smallest}" /> and 
+        <h:outputText value="#{game.biggest}" />.
         <br />
         Your guess: 
         <h:inputText value="#{guess.value}" id="guess" required="true">
             <f:validateLongRange
-                maximum="#{gameHistory.biggest}" 
-                minimum="#{gameHistory.smallest}"/>
+                maximum="#{game.biggest}" 
+                minimum="#{game.smallest}"/>
         </h:inputText>
 		<h:commandButton type="submit" value="Guess" action="guess" />
 		<br/>
