@@ -3,13 +3,11 @@ package org.jboss.seam.drools;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.util.List;
 
 import org.drools.RuleBaseFactory;
 import org.drools.compiler.DroolsError;
 import org.drools.compiler.PackageBuilder;
 import org.drools.compiler.PackageBuilderConfiguration;
-import org.drools.compiler.ParserError;
 import org.drools.compiler.RuleError;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;

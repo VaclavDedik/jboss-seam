@@ -13,28 +13,35 @@ import org.jboss.seam.core.Init;
  */
 class SeamGlobalResolver implements GlobalResolver
 {
-   public Object resolve(String name)
+   private GlobalResolver delegate;
+   
+   public SeamGlobalResolver(GlobalResolver delegate)
+   {
+      this.delegate = delegate;
+   }
+
+   public void setGlobal(String name, Object value)
+   {
+      //TODO: is this the right thing to do??
+      //or: Contexts.getConversationContext().set(name, value);
+      delegate.setGlobal(name, value);
+   }
+   
+   public Object resolveGlobal(String name)
    {
       if ( !Contexts.isApplicationContextActive() )
       {
-         //TODO: Drools should let us chain GlobalResolvers
-         //return resolver.resolve(name)
-         return null;
+         return delegate.resolveGlobal(name);
       }
       else
       {
          Object instance = Component.getInstance(name);
          if (instance==null)
          {
-            /*instance = resolver.resolve(name);
-            if (instance==null)
-            {*/
-               return Init.instance().getRootNamespace().getChild(name);
-            /*}
-            else
-            {
-               return instance;
-            }*/
+            instance = delegate.resolveGlobal(name);
+            return instance==null ?
+                  Init.instance().getRootNamespace().getChild(name) :
+                  instance;
          }
          else
          {

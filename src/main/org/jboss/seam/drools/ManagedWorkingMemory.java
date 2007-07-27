@@ -65,7 +65,7 @@ public class ManagedWorkingMemory implements Mutable, Serializable
       if (statefulSession==null)
       {
          statefulSession = getRuleBaseFromValueBinding().newStatefulSession();
-         statefulSession.setGlobalResolver( createGlobalResolver() );
+         statefulSession.setGlobalResolver( createGlobalResolver( statefulSession.getGlobalResolver() ) );
       }
       return statefulSession;
    }
@@ -94,9 +94,9 @@ public class ManagedWorkingMemory implements Mutable, Serializable
       return ruleBase;
    }
 
-   protected GlobalResolver createGlobalResolver()
+   protected GlobalResolver createGlobalResolver(GlobalResolver delegate)
    {
-      return new SeamGlobalResolver();
+      return new SeamGlobalResolver(delegate);
    }
    
    @Destroy
