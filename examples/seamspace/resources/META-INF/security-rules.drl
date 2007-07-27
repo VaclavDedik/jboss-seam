@@ -17,7 +17,7 @@ when
   Role(name == "admin")
   not Role(name == "user")
 then
-  assert(new Role("user"));
+  insert(new Role("user"));
 end
 
 rule ViewImage

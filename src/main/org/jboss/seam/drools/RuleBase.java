@@ -6,9 +6,11 @@ import java.io.Reader;
 import java.util.List;
 
 import org.drools.RuleBaseFactory;
+import org.drools.compiler.DroolsError;
 import org.drools.compiler.PackageBuilder;
 import org.drools.compiler.PackageBuilderConfiguration;
 import org.drools.compiler.ParserError;
+import org.drools.compiler.RuleError;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Scope;
@@ -38,7 +40,6 @@ public class RuleBase
    public void compileRuleBase() throws Exception
    {
       PackageBuilderConfiguration conf = new PackageBuilderConfiguration();
-      conf.setCompiler(PackageBuilderConfiguration.JANINO);
       PackageBuilder builder = new PackageBuilder(conf);
       
       if (ruleFiles!=null)
@@ -66,10 +67,18 @@ public class RuleBase
             
             if ( builder.hasErrors() )
             {
-               log.error("errors parsing rules in: " + ruleFile);
-               for ( ParserError error: (List<ParserError>) builder.getErrors() )
+               log.error("errors parsing rules in: " + ruleFile);               
+               for ( DroolsError error: builder.getErrors().getErrors() )
                {
-                  log.error( error.getMessage() + " (" + ruleFile + ':' + error.getRow() + ')' );
+                  if (error instanceof RuleError)
+                  {
+                     RuleError ruleError = (RuleError) error;
+                     log.error( ruleError.getMessage() + " (" + ruleFile + ':' + ruleError.getLine() + ')' );                     
+                  }
+                  else
+                  {
+                     log.error( error.getMessage() + " (" + ruleFile + ')' );                     
+                  }
                }
             }
          }
