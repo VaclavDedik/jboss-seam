@@ -451,7 +451,7 @@ function __Calendar(calendarNumber, name)
     getStyleObject(POPUP_DIV).left = locX + "px";
     getStyleObject(POPUP_DIV).top = locY + "px";
     
-    var zIndex = 0;
+    var zIndex = 200;
     var divs = document.getElementsByTagName("div");
     for (var i = 0; i < divs.length; i++)
     {
