@@ -225,22 +225,30 @@ public class CreatePaymentAction
         <title>Asynchronous methods with the Quartz Dispatcher</title>
         
         <para>
-            The Quartz dispatcher (see earlier on how to install it) allows you to use the <literal>@Asynchronous</literal>, <literal>@Duration</literal>, <literal>@Expiration</literal>, and <literal>@IntervalDuration</literal> annotations as above. But it has some powerful additional features. The Quartz dispatcher supports a new <literal>@Cron</literal> annotation that supports Unix cron job syntax for task scheduling. For instance, the following asynchronous method runs at 2:10pm and at 2:44pm every Wednesday in the month of March.
+            The Quartz dispatcher (see earlier on how to install it) allows you to use the <literal>@Asynchronous</literal>, <literal>@Duration</literal>, <literal>@Expiration</literal>, and <literal>@IntervalDuration</literal> annotations as above. But it has some powerful additional features. The Quartz dispatcher supports three new annotations.
         </para>
         
-        <programlisting><![CDATA[String cron = "0 10,44 14 ? 3 WED";
-    ... ...
-    
+        <para>The <literal>@FinalExpiration</literal> annotation specifies an end date for the recurring task.</para>
+        
+        <programlisting><![CDATA[
+    // Defines the method in the "processor" component
     @Asynchronous
     public QuartzTriggerHandle schedulePayment(@Expiration Date when, 
-                                 @Cron String cron, 
+                                 @IntervalDuration Long interval,
+                                 @FinalExpiration Date endDate, 
                                  Payment payment) 
     { 
-        // do the repeating or long running task
+        // do the repeating or long running task until endDate
     }
+    
+    ... ...
+    
+    // Schedule the task in the business logic processing code
+    // Starts now, repeats every hour, and ends on May 10th, 2010
+    Calendar cal = Calendar.getInstance ();
+    cal.set (2010, Calendar.MAY, 10);
+    processor.schedulePayment(new Date(), 60*60*1000, cal.getTime(), payment);
 ]]></programlisting>
-
-        <para>The <literal>@Cron</literal> annotation and the <literal>@IntervalDuration</literal> annotation are mutually exclusive. If they are used in the same method, the <literal>@Cron</literal> annotation will be used, and the <literal>@IntervalDuration</literal> discarded.</para>
 
         <para>Note that the method returns the <literal>QuartzTriggerHandle</literal> object, which you can use later to stop, pause, and resume the scheduler. The <literal>QuartzTriggerHandle</literal> object is serializable, so you can save it into the database if you need to keep it around for extended period of time.</para>
         
@@ -257,6 +265,76 @@ public class CreatePaymentAction
         // Cancel the remaining scheduled tasks
         payment.getQuartzTriggerHandle().cancel();
 ]]></programlisting>
+            
+        <para>The <literal>@IntervalCron</literal> annotation supports Unix cron job syntax for task scheduling. For instance, the following asynchronous method runs at 2:10pm and at 2:44pm every Wednesday in the month of March.
+        </para>
+        
+        <programlisting><![CDATA[
+    // Define the method
+    @Asynchronous
+    public QuartzTriggerHandle schedulePayment(@Expiration Date when, 
+                                 @IntervalCron String cron, 
+                                 Payment payment) 
+    { 
+        // do the repeating or long running task
+    }
+    
+    ... ...
+    
+    // Schedule the task in the business logic processing code
+    QuartzTriggerHandle handle = 
+      processor.schedulePayment(new Date(), "0 10,44 14 ? 3 WED", payment);
+]]></programlisting>
+
+        <para>The <literal>@IntervalBusinessDay</literal> annotation supports invocation on the "nth Business Day" scenario. For instance, the following asynchronous method runs at 14:00 on the 2nd business day of each month. By default, it excludes all weekends and US federal holidays until 2010 from the business days.
+        </para>
+        
+        <programlisting><![CDATA[
+    // Define the method
+    @Asynchronous
+    public QuartzTriggerHandle schedulePayment(@Expiration Date when, 
+                                 @IntervalBusinessDay NthBusinessDay nth, 
+                                 Payment payment) 
+    { 
+        // do the repeating or long running task
+    }
+    
+    ... ...
+    
+    // Schedule the task in the business logic processing code
+    QuartzTriggerHandle handle = 
+      processor.schedulePayment(new Date(), 
+          new NthBusinessDay(2, "14:00", WEEKLY), payment);
+]]></programlisting>
+
+        <para>The <literal>NthBusinessDay</literal> object contains the configuration of the invocation trigger. You can specify more holidays (e.g., company holidays, non-US holidays etc.) via the <literal>additionalHolidays</literal> property.</para>
+        
+        <programlisting><![CDATA[
+public class NthBusinessDay implements Serializable
+{
+      int n;
+      String fireAtTime;
+      List <Date> additionalHolidays;
+      BusinessDayIntervalType interval;
+      boolean excludeWeekends;
+      boolean excludeUsFederalHolidays;
+
+      public enum BusinessDayIntervalType { WEEKLY, MONTHLY, YEARLY }
+
+      public NthBusinessDay ()
+      {
+        n = 1;
+        fireAtTime = "12:00";
+        additionalHolidays = new ArrayList <Date> ();
+        interval = BusinessDayIntervalType.WEEKLY;
+        excludeWeekends = true;
+        excludeUsFederalHolidays = true;
+      }     
+      ... ...
+}
+]]></programlisting>
+
+        <para>The <literal>@IntervalDuration</literal>, <literal>@IntervalCron</literal>, and <literal>@IntervalNthBusinessDay</literal> annotations are mutually exclusive. If they are used in the same method, a <literal>RuntimeException</literal> will be thrown.</para>
         
         </sect2>
         
