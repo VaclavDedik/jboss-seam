@@ -56,6 +56,24 @@ public class PaymentController
 
         return result;
     }
+    
+    public String saveAndScheduleNthBusinessDay()
+    {
+        String result = persist();
+        
+        Payment payment = getInstance();
+        payment.setPaymentDate (new Date ());
+        log.info("scheduling instance #0", payment);
+
+        QuartzTriggerHandle handle = processor.schedulePayment(payment.getPaymentDate(), 
+                                                payment.getPaymentNthBusinessDay(), 
+                                                payment.getPaymentEndDate(), 
+                                                payment);
+        
+        payment.setQuartzTriggerHandle( handle );
+
+        return result;
+    }
 
     @Override
     public Object getId() {

@@ -15,9 +15,10 @@ import org.jboss.seam.annotations.async.Expiration;
 import org.jboss.seam.annotations.async.FinalExpiration;
 import org.jboss.seam.annotations.async.IntervalDuration;
 import org.jboss.seam.annotations.async.IntervalCron;
+import org.jboss.seam.annotations.async.IntervalBusinessDay;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.async.QuartzTriggerHandle;
-
+import org.jboss.seam.async.NthBusinessDay;
 
 @Name("processor")
 @AutoCreate
@@ -56,6 +57,27 @@ public class PaymentProcessor {
     @Transactional
     public QuartzTriggerHandle schedulePayment(@Expiration Date when, 
                                  @IntervalCron String cron, 
+                                 @FinalExpiration Date stoptime, 
+                                 Payment payment) 
+    { 
+        payment = entityManager.merge(payment);
+        
+        log.info("[#0] Processing cron payment #1", System.currentTimeMillis(), payment.getId());
+
+        if (payment.getActive()) {
+            BigDecimal balance = payment.getAccount().adjustBalance(payment.getAmount().negate());
+            log.info(":: balance is now #0", balance);
+            payment.setLastPaid(new Date());
+
+        }
+
+        return null;
+    }
+    
+    @Asynchronous
+    @Transactional
+    public QuartzTriggerHandle schedulePayment(@Expiration Date when, 
+                                 @IntervalBusinessDay NthBusinessDay nth, 
                                  @FinalExpiration Date stoptime, 
                                  Payment payment) 
     { 

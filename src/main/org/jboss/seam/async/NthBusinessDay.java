@@ -1,5 +1,6 @@
 package org.jboss.seam.async;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,7 +14,7 @@ import org.quartz.impl.calendar.HolidayCalendar;
  * @author Michael Yuan
  *
  */
-public class NthBusinessDay
+public class NthBusinessDay implements Serializable
 {
       int n;
       String fireAtTime;
