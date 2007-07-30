@@ -1,6 +1,7 @@
 package org.jboss.seam.security;
 
 import static org.jboss.seam.ScopeType.APPLICATION;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.util.HashMap;
 
@@ -10,6 +11,7 @@ import javax.security.auth.login.AppConfigurationEntry.LoginModuleControlFlag;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Factory;
+import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
@@ -25,6 +27,7 @@ import org.jboss.seam.security.jaas.SeamLoginModule;
 @Name("org.jboss.seam.security.configurationFactory")
 @BypassInterceptors
 @Scope(ScopeType.STATELESS)
+@Install(precedence = BUILT_IN)
 public class Configuration
 {
    static final String DEFAULT_JAAS_CONFIG_NAME = "default";   
