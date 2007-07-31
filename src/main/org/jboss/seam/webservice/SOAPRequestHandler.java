@@ -134,16 +134,17 @@ public class SOAPRequestHandler implements SOAPHandler
       SOAPMessageContext smc = (SOAPMessageContext) messageContext;
       SOAPHeader header = smc.getMessage().getSOAPHeader();
       
-      Iterator iter = header.getChildElements(CIDQN);
-      if (iter.hasNext())
+      if (header != null)
       {
-         SOAPElement element = (SOAPElement) iter.next();
-         return element.getFirstChild().getNodeValue();
+         Iterator iter = header.getChildElements(CIDQN);
+         if (iter.hasNext())
+         {
+            SOAPElement element = (SOAPElement) iter.next();
+            return element.getFirstChild().getNodeValue();
+         }
       }
-      else
-      {
-         return null;
-      }
+      
+      return null;
    }
    
    /**
