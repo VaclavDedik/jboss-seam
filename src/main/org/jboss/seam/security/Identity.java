@@ -318,7 +318,11 @@ public class Identity extends Selector
    public void authenticate() 
       throws LoginException
    {
-      authenticate( getLoginContext() );
+      // If we're already authenticated, then don't authenticate again
+      if (!isLoggedIn())
+      {
+         authenticate( getLoginContext() );
+      }
    }
 
    public void authenticate(LoginContext loginContext) 
