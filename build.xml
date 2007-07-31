@@ -812,7 +812,7 @@
 
 	<target name="copydownloadbletojbossorg">
 		<exec executable="scp">
-			<arg line="-r ${ci.dir}/* jbossqa@download.jboss.org:/htdocs/jbossseam" />
+			<arg line="-r ${ci.dir}/${version}.${patchlevel} ${ci.dir}/latest.html jbossqa@download.jboss.org:/htdocs/jbossseam" />
 		</exec>
 	</target>
 

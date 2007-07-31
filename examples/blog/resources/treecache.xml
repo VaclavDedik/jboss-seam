@@ -42,7 +42,7 @@
                              INVALIDATION_ASYNC
                              INVALIDATION_SYNC
         -->
-        <attribute name="CacheMode">REPL_ASYNC</attribute>
+        <attribute name="CacheMode">LOCAL</attribute>
 
         <!--
         Just used for async repl: use a replication queue
