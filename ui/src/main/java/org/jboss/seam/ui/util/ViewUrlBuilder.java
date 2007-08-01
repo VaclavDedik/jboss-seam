@@ -16,7 +16,11 @@ public class ViewUrlBuilder extends UrlBuilder
 
    public ViewUrlBuilder(String viewId, String fragment)
    {
-      super(fragment);
+      super(fragment, FacesContext.getCurrentInstance().getResponseWriter().getCharacterEncoding());
+      if (viewId == null)
+      {
+         throw new NullPointerException("viewId must not be null");
+      }
       FacesContext facesContext = FacesContext.getCurrentInstance();
       String url = facesContext.getApplication().getViewHandler().getActionURL(facesContext,
                viewId);

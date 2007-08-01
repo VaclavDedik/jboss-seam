@@ -17,22 +17,25 @@ public class UrlBuilder
    
    private Map<String, String> parameters;
 
-   protected UrlBuilder(String fragment)
+   protected UrlBuilder(String fragment, String characterEncoding)
    {
       this.fragment = fragment;
       parameters = new HashMap<String, String>();
-      FacesContext facesContext = FacesContext.getCurrentInstance();
-      characterEncoding = facesContext.getResponseWriter().getCharacterEncoding();
+      this.characterEncoding = characterEncoding;
    }
    
-   public UrlBuilder(String url, String fragment)
+   public UrlBuilder(String url, String fragment, String characterEncoding)
    {
-      this(fragment);
+      this(fragment, characterEncoding);
       setUrl(url);
    }
    
    protected void setUrl(String url)
    {
+      if (url == null)
+      {
+         throw new NullPointerException("url must not be null");
+      }
       this.url = url;
    }
    
@@ -56,7 +59,12 @@ public class UrlBuilder
 
    public String getEncodedUrl()
    {
-      return url + getParametersAsString() + getFragment();
+      String params = getParametersAsString();
+      if (!"".equals(params) && !url.contains("?")) 
+      {
+         params = "?" + params.substring(1);
+      }
+      return url + params + getFragment();
    }
    
    protected String getParametersAsString()
@@ -65,10 +73,6 @@ public class UrlBuilder
       for (String key : parameters.keySet())
       {
          params += "&" + key + "=" + parameters.get(key);
-      }
-      if (!"".equals(params))
-      {
-         params = "?" + params.substring(1);
       }
       return params;
    }
