@@ -9,7 +9,7 @@
                  http://jboss.com/products/seam/persistence http://jboss.com/products/seam/persistence-2.0.xsd 
                  http://jboss.com/products/seam/framework http://jboss.com/products/seam/framework-2.0.xsd">
 	
-	<core:init jndi-name="jboss-seam-ui-example/#{ejbName}/local" debug="true"/>
+	<core:init jndi-pattern="jboss-seam-ui-example/#{ejbName}/local" debug="true"/>
 
 	<core:manager conversation-timeout="120000"/>
 	
