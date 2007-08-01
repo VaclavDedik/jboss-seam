@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIParameter;
+import javax.faces.context.FacesContext;
 
 import org.ajax4jsf.ajax.html.HtmlLoadStyle;
 import org.jboss.seam.navigation.Pages;
@@ -23,7 +24,7 @@ public abstract class UILoadStyle extends HtmlLoadStyle
       uiConversationId.setViewId(Pages.getViewId(getFacesContext()));
       try
       {
-         UrlBuilder urlBuilder = new UrlBuilder(StyleResource.WEB_RESOURCE_PATH + super.getSrc(), null);
+         UrlBuilder urlBuilder = new UrlBuilder(StyleResource.WEB_RESOURCE_PATH + super.getSrc(), null, FacesContext.getCurrentInstance().getResponseWriter().getCharacterEncoding());
          urlBuilder.addParameter(uiConversationId);
          if (isIsolated())
          {
