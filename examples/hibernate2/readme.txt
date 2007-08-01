@@ -1,10 +1,20 @@
+Seam Hibernate2 Example
+=======================
+
 This is the Hotel Booking example implemented in Seam and Hibernate POJOs.
-It can be deployed in JBoss AS 4.x, WebLogic, Glassfish, Tomcat without
+It can be deployed in JBoss AS 4.x, WebLogic, Glassfish and Tomcat without
 the EJB3 container.
 
-JBoss AS 4.0.5 (with or without EJB3):
-  * Install JBoss AS 4.0.5 with the default J2EE profile
+JBoss AS 4.2.x:
+  * Install JBoss AS with the default profile
   * ant jboss
+  * Deploy dist-jboss/jboss-seam-hibernate.war
+  * Start JBoss AS 
+  * Access the app at http://localhost:8080/jboss-seam-hibernate/
+
+JBoss AS 4.0.5.GA:
+  * Install JBoss AS with the default profile (with or without EJB3)
+  * ant jboss405
   * Deploy dist-jboss/jboss-seam-hibernate.war
   * Start JBoss AS 
   * Access the app at http://localhost:8080/jboss-seam-hibernate/
@@ -51,11 +61,11 @@ Glassfish
   * Deploy dist-glassfish/jboss-seam-hibernate.war as Web App
   * Access the app at http://localhost:8080/jboss-seam-hibernate/
 
-NOTES TO GLASSFISH:
+NOTES FOR GLASSFISH USERS:
   In order for the app to work out of the box with Glassfish, we have
-  used the Derby (i.e., Java DB) database in Glassfish. However,
+  used the Derby (i.e. Java DB) database in Glassfish. However,
   we strongly recommend you to use a non-Derby data source (e.g., HSQL
-  is a much better embeded DB) if possible. The 
+  is a much better embedded DB) if possible. The 
   WEB/classes/GlassfishDerbyDialect.class is a special hack to get around 
   a Derby bug in Glassfish TM. You must use it as your Hibernate dialect
-  if you were to use Derby with Glassfish.
+  if you are using Derby with Glassfish.

@@ -1,8 +1,15 @@
-The seamdiscs example is a simple example built using seam-gen and the Seam 
-Application Framework which allows you to record your favourite albums and 
-artists.  It intentionally uses a mix of RichFaces and Trinidad components. 
-It also uses the "inplace editing" pattern; the same facelets are used for
-editing and display of data (login to edit a disc or artist).
+SeamDiscs Example
+=================================
+
+This example runs on both JBoss AS and Tomcat.  Visit 
+http://localhost:8080/seam-discs (on JBoss AS) or 
+http://localhost:8080/jboss-seam-discs (on Tomcat).
+
+The seamdiscs example is a simple example built using the Seam Application 
+Framework which allows you to record your favourite albums and artists.  It 
+uses a mix of RichFaces and Trinidad components. It also uses the "inplace 
+editing" pattern; the same facelets are used for editing and display of data 
+(login to edit a disc or artist).
 
 The Seam-Trinidad integration (for now built into the example) provides a 
 DataModel which, when backed by a Seam Application Framework Query, provides 

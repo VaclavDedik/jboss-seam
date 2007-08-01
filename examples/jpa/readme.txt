@@ -1,3 +1,6 @@
+Seam JPA Example
+================
+
 This is the Hotel Booking example implemented in Seam POJO and Hibernate JPA.
 It can be deployed in JBoss AS 4.x, WebLogic, Glassfish, Tomcat without
 the EJB3 container.
@@ -49,12 +52,12 @@ Glassfish
   * Deploy dist-glassfish/jboss-seam-jpa.war as Web App
   * Access the app at http://localhost:8080/jboss-seam-jpa/
 
-NOTES TO GLASSFISH:
+NOTES FOR GLASSFISH USERS:
   In order for the app to work out of the box with Glassfish, we have
   used the Derby (i.e., Java DB) database in Glassfish. However,
   we strongly recommend you to use a non-Derby data source (e.g., HSQL
   is a much better embeded DB) if possible. The
   WEB/classes/GlassfishDerbyDialect.class is a special hack to get around
   a Derby bug in Glassfish TM. You must use it as your Hibernate dialect
-  if you were to use Derby with Glassfish.
+  if you use Derby with Glassfish.
 

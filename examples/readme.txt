@@ -74,3 +74,92 @@ wiki/                 A fully featured wiki system based on Seam, please
                       read wiki/README.txt for installation instructions
                       
 seamdiscs/            Demonstrates Seam, Trinidad, Ajax4jsf and Richfaces
+
+
+Deploying and Testing an Example Application
+============================================
+
+These are general instructions for deploying Seam examples. Take a look at the 
+readme.txt in the example to see if there are any specific instructions.
+
+How to Build and Deploy an Example on JBoss AS
+----------------------------------------------
+
+1. Download and unzip JBoss AS 4.2.1.GA from:
+   
+   http://labs.jboss.com/jbossas/downloads
+
+2. Make sure you have an up to date version of Seam: 
+
+   http://labs.jboss.com/jbossseam/download
+
+3. Edit the "build.properties" file and change jboss.home to your 
+   JBoss AS directory (Seam uses the default profile)
+
+4. (Optional) Build Seam by running "ant" the Seam root directory
+
+5. Build and deploy the example by running "ant" in the Seam
+   "examples/${example.name}" directory
+
+6. Start JBoss AS by typing "./run.sh" (on Linux/Unix) or "run" (on Windows) 
+   in the jboss-4.2.1.GA/bin directory
+
+7. Point your web browser to:
+
+   http://localhost:8080/seam-${example.name}/
+
+NOTE: The examples use the HSQL database embedded in JBoss AS
+
+
+How to Build and Deploy the Example on Tomcat
+---------------------------------------------
+
+1. Download and install Tomcat 6
+
+   NOTE: Due to a bug, you must install Tomcat to a directory
+   path with no spaces. The example does not work in a default
+   install of Tomcat.
+   
+2. Make sure you have an up to date version of Seam: 
+
+   http://labs.jboss.com/jbossseam/download
+
+3. Edit the "build.properties" file and change tomcat.home to your 
+   Tomcat directory
+
+4. (Optional) Build Seam by running "ant" the Seam root directory
+
+5. Build and deploy the example by running "ant deploy.tomcat" 
+   in the Seam "examples/${example.name}" directory
+
+6. Start Tomcat
+
+7. Point your web browser to:
+
+   http://localhost:8080/jboss-seam-${example.name}
+   
+   
+Running The TestNG Tests
+------------------------
+
+In the "examples/${example.name}" directory, type "ant test"
+
+
+Running the TestNG Tests in Eclipse
+-----------------------------------
+
+1. Install the TestNG Eclipse plugin from http://beust.com/eclipse
+
+2. Create the jboss-seam Eclipse project with the following directories
+   in your source path:
+   
+   src/main/
+   examples/${example.name}/src/
+   examples/${example.name}/resources/
+   bootstrap/
+   
+   And all jar files from the following directories in your classpath:
+   
+   lib/
+   
+3. Locate and run the testng.xml file using the TestNG plugin
