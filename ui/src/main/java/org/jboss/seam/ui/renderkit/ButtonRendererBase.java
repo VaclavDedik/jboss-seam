@@ -87,6 +87,10 @@ public class ButtonRendererBase extends RendererBase
          writer.writeAttribute(HTML.DISABLED_ATTR, true, HTML.DISABLED_ATTR);
       }
       writer.writeAttribute(HTML.TYPE_ATTR, getType(button), HTML.TYPE_ATTR);
+      if (button.getImage() != null)
+      {
+         writer.writeAttribute(HTML.SRC_ATTR, button.getImage(), HTML.SRC_ATTR);
+      } 
    }
    
    @Override
