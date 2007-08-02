@@ -89,29 +89,37 @@ public class UIMessage extends MailComponent
       mimeMessage = null;
       try
       {
-         if (Importance.HIGH.equalsIgnoreCase(getImportance()))
+         try
          {
-            // Various mail client's use different headers for indicating
-            // importance
-            // This is a common set, more may need to be added.
-            getMimeMessage().addHeader("X-Prioity", "1");
-            getMimeMessage().addHeader("Priority", "Urgent");
-            getMimeMessage().addHeader("Importance", "high");
+            if (Importance.HIGH.equalsIgnoreCase(getImportance()))
+            {
+               // Various mail client's use different headers for indicating
+               // importance
+               // This is a common set, more may need to be added.
+               getMimeMessage().addHeader("X-Prioity", "1");
+               getMimeMessage().addHeader("Priority", "Urgent");
+               getMimeMessage().addHeader("Importance", "high");
+            }
+            else if (Importance.LOW.equalsIgnoreCase(getImportance()))
+            {
+               getMimeMessage().addHeader("X-Priority", "5");
+               getMimeMessage().addHeader("Priority", "Non-urgent");
+               getMimeMessage().addHeader("Importance", "low");
+            }
+            if (getPrecedence() != null)
+            {
+               getMimeMessage().addHeader("Precedence", getPrecedence());
+            }
          }
-         else if (Importance.LOW.equalsIgnoreCase(getImportance()))
+         catch (MessagingException e)
          {
-            getMimeMessage().addHeader("X-Priority", "5");
-            getMimeMessage().addHeader("Priority", "Non-urgent");
-            getMimeMessage().addHeader("Importance", "low");
-         }
-         if (getPrecedence() != null)
-         {
-            getMimeMessage().addHeader("Precedence", getPrecedence());
+            throw new FacesException(e.getMessage(), e);
          }
       }
-      catch (MessagingException e)
+      catch (RuntimeException e) 
       {
-         throw new FacesException(e.getMessage(), e);
+         MailFacesContextImpl.stop();
+         throw e;
       }
    }
 
@@ -152,7 +160,15 @@ public class UIMessage extends MailComponent
    @Override
    public void encodeChildren(FacesContext context) throws IOException
    {
-      JSF.renderChildren(FacesContext.getCurrentInstance(), this);
+      try
+      {
+         JSF.renderChildren(FacesContext.getCurrentInstance(), this);
+      }
+      catch (RuntimeException e)
+      {
+         MailFacesContextImpl.stop();
+         throw e;
+      }
    }
 
    public String getImportance()
