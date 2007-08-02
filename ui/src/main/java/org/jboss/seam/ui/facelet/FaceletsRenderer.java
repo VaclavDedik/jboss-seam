@@ -9,6 +9,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -27,6 +28,7 @@ import com.sun.facelets.impl.DefaultResourceResolver;
 @Scope(ScopeType.STATELESS)
 @BypassInterceptors
 @Name("org.jboss.seam.faces.renderer")
+@AutoCreate
 @Install(value = true, precedence = Install.BUILT_IN, classDependencies="com.sun.facelets.Facelet")
 public class FaceletsRenderer extends Renderer
 {
