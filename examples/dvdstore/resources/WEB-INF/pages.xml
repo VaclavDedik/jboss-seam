@@ -34,7 +34,7 @@
         </navigation>
 
         <navigation from-action="#{identity.login}">
-            <rule if="#{currentUser.admin}">
+            <rule if="#{s:hasRole('admin')}">
                 <redirect view-id="/admin/admin.xhtml"/>
             </rule>
         </navigation>

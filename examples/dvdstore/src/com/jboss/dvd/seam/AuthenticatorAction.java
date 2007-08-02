@@ -6,6 +6,7 @@ import javax.persistence.PersistenceException;
 
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Out;
 import org.jboss.seam.bpm.Actor;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.security.Identity;
@@ -14,40 +15,34 @@ import org.jboss.seam.security.Identity;
 @Name("authenticator")
 public class AuthenticatorAction implements Authenticator
 {
-   private static final String USER_VAR = "currentUser";
+    private static final String USER_VAR = "currentUser";
+    
+    @In 
+    private EntityManager entityManager;
 
-   @In
-   private EntityManager entityManager;
+    @In Actor actor;
+    @In Identity identity;
 
-   @In Context sessionContext;
+    @Out(required=false) User currentUser;
 
-   @In Actor actor;
+    public boolean authenticate()
+    {
+        try {
+            currentUser = (User) 
+                entityManager.createQuery("select u from User u where u.userName = #{identity.username} and u.password = #{identity.password}")       
+                             .getSingleResult();
+        } catch (PersistenceException e) {
+            return false;
+        }
 
-   @In Identity identity;
+        actor.setId(identity.getUsername());
 
-   public boolean authenticate()
-   {
-       
-      User found;
-      try {
-          found = (User) 
-              entityManager.createQuery("select u from User u where u.userName = #{identity.username} and u.password = #{identity.password}")       
-                           .getSingleResult();
-      } catch (PersistenceException e) {
-          return false;
-      }
-
-      sessionContext.set(USER_VAR, found);
-
-      actor.setId(identity.getUsername());
-
-      if (found instanceof Admin)
-      {
-         actor.getGroupActorIds().add("shippers");
-         actor.getGroupActorIds().add("reviewers");
-         identity.addRole("admin");
-      }
+        if (currentUser instanceof Admin) {
+            actor.getGroupActorIds().add("shippers");
+            actor.getGroupActorIds().add("reviewers");
+            identity.addRole("admin");
+        }
       
-      return true;
-   }
+        return true;
+    }
 }
