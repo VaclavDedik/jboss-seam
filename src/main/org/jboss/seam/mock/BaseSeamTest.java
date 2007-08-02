@@ -32,8 +32,6 @@ import javax.transaction.UserTransaction;
 
 import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
-import org.jboss.deployers.spi.DeploymentException;
-import org.jboss.embedded.Bootstrap;
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Contexts;
@@ -951,32 +949,26 @@ public class BaseSeamTest
    
    private static boolean started;
    
-   protected void startJbossEmbeddedIfNecessary() throws DeploymentException, IOException
+   protected void startJbossEmbeddedIfNecessary()
+       throws Exception
    {
-      if ( !started )
-      {
-         Bootstrap bootstrap = Bootstrap.getInstance();
-         bootstrap.bootstrap();
-         started = true;
-         if ( resourceExists("seam.properties") ) 
-         {
-            bootstrap.deployResourceBase("seam.properties");
-         }
-         if ( resourceExists("META-INF/components.xml") ) 
-         {
-            bootstrap.deployResourceBase("META-INF/components.xml");
-         }
-         if ( resourceExists("META-INF/seam.properties") ) 
-         {
-            bootstrap.deployResourceBase("META-INF/seam.properties");
-         }
+      if (!started && embeddedJBossAvailable()) {         
+          (new EmbeddedBootstrap()).startAndDeployResources();         
       }
+      
+      started = true;
    }
 
-   
-   private boolean resourceExists(String name)
-   {
-      return Thread.currentThread().getContextClassLoader().getResource(name)!=null;
+   private boolean embeddedJBossAvailable()
+   {       
+      try {
+         Class.forName("org.jboss.embedded.Bootstrap");
+         return true;
+      } catch (ClassNotFoundException e) {
+         return false;
+      }      
    }
+   
+
 
 }
