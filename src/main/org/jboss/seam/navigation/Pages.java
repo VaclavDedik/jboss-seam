@@ -286,17 +286,29 @@ public class Pages
          }
       }
 
-      //run the page actions, check permissions,
-      //handle conversation begin/end
-      boolean result = false;
-      for ( Page page: pageStack )
-      {         
-         result = page.preRender(facesContext) || result;
-      }
-      
-      //run the s:link / s:button action after checking the
-      //conversation existence!
-      result = callAction(facesContext) || result;
+      boolean result = callAction(facesContext); 
+
+      //If responseComplete then we're probably doing a redirect so don't call the page actions now. 
+      if (!facesContext.getResponseComplete()) { 
+          String newViewId = getViewId(facesContext); 
+
+          for ( Page page: getPageStack(newViewId) ) { 
+              if ( isNoConversationRedirectRequired(page) ) { 
+                  redirectToNoConversationView(); 
+                  return false; 
+              } else if ( isLoginRedirectRequired(newViewId, page) ) { 
+                  redirectToLoginView(); 
+                  return false; 
+              } 
+          } 
+
+          //run the page actions, check permissions, 
+          //handle conversation begin/end 
+
+          for ( Page page: getPageStack(newViewId) ) { 
+              result = page.preRender(facesContext) || result; 
+          } 
+      } 
       
       return result;
    }
