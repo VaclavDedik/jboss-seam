@@ -17,7 +17,7 @@ lazy loading of data for paging, sorting in the Persistence Context and strong
 row keys.  If you want to use, you'll need to copy the classes in 
 org.jboss.seam.trinidad to your own project.  This may be offered as a 
 standalone jar in the Seam project in the future.  One caveat is that you must 
-ensure the rows property on the Query is the same as the maxResults 
+ensure the rows property on the <tr:table> is the same as the maxResults 
 property on the Query.
 
 Example
