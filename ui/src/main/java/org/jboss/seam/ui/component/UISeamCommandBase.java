@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.el.ValueExpression;
-import javax.faces.component.ActionSource;
+import javax.faces.component.ActionSource2;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIData;
 import javax.faces.component.UIOutput;
@@ -18,7 +18,7 @@ import javax.faces.model.DataModel;
 import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.ui.util.ViewUrlBuilder;
 
-public abstract class UISeamCommandBase extends UIOutput implements ActionSource
+public abstract class UISeamCommandBase extends UIOutput implements ActionSource2
 {
 
    public abstract String getView();
@@ -57,11 +57,11 @@ public abstract class UISeamCommandBase extends UIOutput implements ActionSource
          }
       }
       
-      if (getAction() != null)
+      if (getActionExpression() != null)
       {
 
          UIAction uiAction = new UIAction();
-         uiAction.setAction(getAction().getExpressionString());
+         uiAction.setAction(getActionExpression().getExpressionString());
          url.addParameter(uiAction);
       }
 
