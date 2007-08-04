@@ -74,6 +74,29 @@ public class PooledTask
    }
    
    /**
+    * Unassign the TaskInstance with the id passed
+    * in the request parameter named "taskId" from
+    * the actor to which it is assigned, and return
+    * it to the pool it came from.
+    * 
+    * @return a null outcome only if the task was not found
+    */
+   @Transactional
+   public String unassign()
+   {
+      TaskInstance taskInstance = getTaskInstance();
+      if (taskInstance!=null)
+      {
+         taskInstance.setActorId(null);
+         return "taskUnassigned";
+      }
+      else
+      {
+         return null;
+      }
+   }
+   
+   /**
     * @return the TaskInstance with the id passed
     * in the request parameter named "taskId".
     */
