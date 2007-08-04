@@ -1480,8 +1480,7 @@ public class Pages
    public static boolean isDebugPage()
    {
       return Init.instance().isDebug() &&
-            FacesContext.getCurrentInstance() != null &&
-            FacesContext.getCurrentInstance().getViewRoot() != null &&
+            getCurrentViewId() != null &&
             getCurrentViewId().startsWith("/debug.");
    }
    
