@@ -80,9 +80,9 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
    
    public abstract void setVar(String var);
    
-   public abstract Object getLabel();
+   public abstract String getLabel();
    
-   public abstract void setLabel(Object label);
+   public abstract void setLabel(String label);
    
    public abstract Boolean getDisabled();
    
@@ -152,7 +152,7 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
       for (Object o : iterable)
       {
          initVar(o);
-         selectItems.add(new javax.faces.model.SelectItem(o, getLabel() == null ? null : getLabel().toString(), "", getDisabled() == null ? false : getDisabled()));
+         selectItems.add(new javax.faces.model.SelectItem(o, getLabel() == null ? null : getLabel(), "", getDisabled() == null ? false : getDisabled()));
          destroyVar();
       }
       return selectItems;

@@ -30,7 +30,7 @@
 		</property>
 		<property >
 			<name>label</name>
-			<classname>java.lang.Object</classname>
+			<classname>java.lang.String</classname>
 			<description>the label to be used when rendering the SelectItem. Can reference the var variable</description>
 		</property>
 		<property>
