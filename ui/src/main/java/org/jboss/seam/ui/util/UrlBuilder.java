@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.faces.component.UIParameter;
-import javax.faces.context.FacesContext;
 
 public class UrlBuilder
 {
