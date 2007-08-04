@@ -22,6 +22,7 @@
 			</superclass>
 		</tag>
 		&ui_component_attributes;
+		&ui_output_attributes;
 	</component>
 	
 </components>
