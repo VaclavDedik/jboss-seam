@@ -5,9 +5,9 @@
 		<id>org.jboss.seam.ui.DateTimeConverter</id>
 		<family>org.jboss.seam.ui.DateTimeConverter</family>
 		<classname>org.jboss.seam.ui.converter.DateTimeConverter</classname>
-		<description>
+		<!-- <description>
 			<![CDATA[Perform date or time conversions in the Seam timezone.]]>
-		</description>
+		</description>-->
 		<tag>
 			<name>convertDateTime</name>
 			<classname>org.jboss.seam.ui.taglib.ConvertDateTimeTag</classname>

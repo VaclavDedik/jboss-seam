@@ -5,9 +5,9 @@
 		<id>org.jboss.seam.ui.EntityConverter</id>
 		<family>org.jboss.seam.ui.EntityConverter</family>
 		<classname>org.jboss.seam.ui.converter.EntityConverter</classname>
-		<description>
+		<!-- <description>
 			<![CDATA[Convert an entity.]]>
-		</description>
+		</description>-->
 		<tag generate="false">
 			<name>convertEntity</name>
 			<classname>org.jboss.seam.ui.taglib.ConvertEntityTag</classname>
