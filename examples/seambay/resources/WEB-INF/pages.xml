@@ -32,6 +32,10 @@
         </navigation>
     </page>
     
+    <page view-id="/bidhistory.xhtml">
+        <param name="id" value="#{auctionDetail.selectedAuctionId}"/>
+    </page>
+    
     <page view-id="/bid.xhtml" conversation="PlaceBid" login-required="true">
         <navigation from-action="#{bidAction.confirmBid}">        
             <rule if-outcome="success">

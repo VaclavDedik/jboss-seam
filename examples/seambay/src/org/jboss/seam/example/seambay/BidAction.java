@@ -50,17 +50,26 @@ public class BidAction
    
    public void updateBid()
    {
-      double amount = Double.parseDouble(Contexts.getEventContext().get("bidAmount").toString());
+      String amt = Contexts.getEventContext().isSet("bidAmount") ?
+            Contexts.getEventContext().get("bidAmount").toString() : null;
       
-      if (amount >= bid.getAuction().getRequiredBid())
+      if (amt != null)
       {
-         bid.setMaxAmount(amount);
-         outcome = "confirm";
-      }      
+         double amount = Double.parseDouble(amt.toString());            
+         if (amt != null && amount >= bid.getAuction().getRequiredBid())
+         {        
+            bid.setMaxAmount(amount);
+            outcome = "confirm";
+         }      
+         else
+         {
+            outcome = "invalid";
+         }               
+      }
       else
       {
-         outcome = "invalid";
-      }      
+         outcome = "required";
+      }
    }
    
    @SuppressWarnings("unchecked")
@@ -141,11 +150,18 @@ public class BidAction
       }
       else
       {
-         // Set this bid, and the highest bid's, actual bid amount to this
-         // bid's maximum amount
-         highBid.setActualAmount(bid.getMaxAmount());
-         bid.setActualAmount(bid.getMaxAmount());
-         outcome = "outbid";
+         if (!bid.getAccount().equals(highBid.getAccount()))
+         {
+            // Set this bid, and the highest bid's, actual bid amount to this
+            // bid's maximum amount
+            highBid.setActualAmount(bid.getMaxAmount());
+            bid.setActualAmount(bid.getMaxAmount());
+            outcome = "outbid";
+         }
+         else
+         {
+            outcome = "invalid";
+         }
       }
                         
       if ("success".equals(outcome)) 
@@ -158,7 +174,7 @@ public class BidAction
       
       return outcome;
    }
-   
+      
    public String getOutcome()
    {
       return outcome;

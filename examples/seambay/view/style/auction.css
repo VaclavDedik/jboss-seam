@@ -73,11 +73,17 @@ div.itemDetailRow {
   nowrap: true;
   margin-top: 4px;
   margin-bottom: 6px;
+  vertical-align: middle;
 }
 
 div.itemDetailRow div {
-  margin-left: 90px;
+  margin-left: 104px;
   nowrap: true;
+  vertical-align: middle;
+}
+
+div.itemDetailRow div input {
+  margin-left: 120px;
 }
 
 #sellerDetail {
@@ -160,10 +166,13 @@ div.bidContent {
 input.placeBid {
   border: 0px;
   background: url(../img/placebid.png) top left no-repeat;
-  margin-top: 8px;
-  margin-left: 132px;
   width: 99px;
   height: 20px;
+}
+
+div.indented {
+  margin-top: 8px;
+  margin-left: 132px;
 }
 
 div.actionTitle {
@@ -190,4 +199,24 @@ div.bidRow label {
   vertical-align: top;
   width: 120px;
   margin-top: 4px;
+}
+
+div.outbidImage {
+  background: url(../img/cross.png) 8px 8px no-repeat;
+  float: left;
+  width: 46px;
+  height: 46px;
+}
+
+span.outbidHeader {
+  font-weight: bold;
+  font-size: 16px;
+  color: #550000;
+}
+
+div.outbidMessage {
+  clear: both;
+  border: 1px solid #550000;
+  padding: 2px 2px 2px 4px;
+  margin: 12px 120px 8px 8px;
 }

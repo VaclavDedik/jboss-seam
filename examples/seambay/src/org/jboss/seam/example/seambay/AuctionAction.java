@@ -57,7 +57,7 @@ public class AuctionAction implements Serializable
          auction = new Auction();
          auction.setAccount(authenticatedAccount);
          auction.setStatus(Auction.STATUS_UNLISTED);
-         auction.setPrice(0.01);
+         auction.setStartingPrice(0.01);
         
          durationDays = DEFAULT_AUCTION_DURATION;
       }

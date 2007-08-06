@@ -34,7 +34,7 @@
         Review and Confirm your Bid
       </s:div>
       
-      <s:div styleClass="headerTitle" rendered="#{bidAction.outcome == 'invalid'}">
+      <s:div styleClass="headerTitle" rendered="#{bidAction.outcome == 'invalid' or bidAction.outcome == 'required'}">
         Place Bid
       </s:div>
       
@@ -123,7 +123,7 @@
           </div>
         </div>
         
-        <s:div styleClass="itemDetailRow" rendered="#{bidAction.outcome != 'invalid'}">
+        <s:div styleClass="itemDetailRow" rendered="#{bidAction.outcome != 'invalid' and bidAction.outcome != 'required'}">
           <label><b>Your maximum bid:</b></label>
           <div>
             <b>AU $<h:outputText value="#{bidAction.bid.maxAmount}">
@@ -132,7 +132,7 @@
           </div>
         </s:div>
         
-        <h:form rendered="#{bidAction.outcome == 'invalid'}">
+        <h:form rendered="#{bidAction.outcome == 'invalid' or bidAction.outcome == 'required'}">
           <div class="maximumBidRow">
             <label>Your maximum bid:</label>
             <div>
