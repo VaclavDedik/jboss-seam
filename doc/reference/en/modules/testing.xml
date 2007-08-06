@@ -133,7 +133,7 @@ public class RegisterAction implements Register
         <para>
             The approach taken by Seam is to let you write tests that exercise your
             components while running inside a pruned down container environment (Seam,
-            together with the JBoss Embeddable EJB container).
+            together with the JBoss Embedded container).
         </para>
         
 <programlisting><![CDATA[public class RegisterTest extends SeamTest
