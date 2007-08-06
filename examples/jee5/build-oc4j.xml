@@ -17,6 +17,7 @@
     <property name="facelets.lib"   value="true"/>
     <property name="ajax4jsf.lib"   value="true"/>
     <property name="jbpm.lib"   value="true"/>
+	<property name="drools.lib" value="true" />
 
     <import file="../build.xml"/>
 

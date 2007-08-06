@@ -91,9 +91,9 @@ OC4J 11g Technology Preview
     * You may get an ClassNotFoundException relating to org.jboss.logging.util.OnlyOnceErrorHandler,
       this doesn't impact on the running of the app.  We are working to get rid of this error!
 
-10. Checout the app at: http://localhost:8888/seam-jee5
+10. Checkout the app at: http://localhost:8888/seam-jee5
 
-11. You can stop the server by pressing CTRL-c in the console on which the server is running.
+11. You can stop the server by pressing CTRL-C in the console on which the server is running.
 
 
 Workarounds for OC4J 11g
