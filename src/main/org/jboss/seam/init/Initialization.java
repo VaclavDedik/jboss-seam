@@ -711,21 +711,25 @@ public class Initialization
 
    private void installScannedComponentAndRoles(Class<Object> scannedClass)
    {
-      if ( scannedClass.isAnnotationPresent(Name.class) )
-      {
-         addComponentDescriptor( new ComponentDescriptor(scannedClass) );
-      }
-      if ( scannedClass.isAnnotationPresent(Role.class) )
-      {
-         installRole( scannedClass, scannedClass.getAnnotation(Role.class) );
-      }
-      if ( scannedClass.isAnnotationPresent(Roles.class) )
-      {
-         Role[] roles = scannedClass.getAnnotation(Roles.class).value();
-         for (Role role : roles)
+      try {
+         if ( scannedClass.isAnnotationPresent(Name.class) )
          {
-            installRole(scannedClass, role);
+            addComponentDescriptor( new ComponentDescriptor(scannedClass) );
          }
+         if ( scannedClass.isAnnotationPresent(Role.class) )
+         {
+            installRole( scannedClass, scannedClass.getAnnotation(Role.class) );
+         }
+         if ( scannedClass.isAnnotationPresent(Roles.class) )
+         {
+            Role[] roles = scannedClass.getAnnotation(Roles.class).value();
+            for (Role role : roles)
+            {
+               installRole(scannedClass, role);
+            }
+         }
+      } catch(TypeNotPresentException e) {
+         log.info("Failed to install "+scannedClass.getName()+": "+e.getMessage());
       }
    }
 
