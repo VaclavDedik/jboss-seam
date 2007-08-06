@@ -130,11 +130,11 @@
           <div class="itemDetailRow">
             <label>History:</label>
             <div>
-              <s:link view="/bidhistory.seam" propagation="none">
+                          
+              <h:outputLink value="#{facesContext.externalContext.requestContextPath}/bidhistory/#{auction.auctionId}">
                 #{auction.bids} bids
-
-                <f:param name="id" value="#{auction.auctionId}"/>
-              </s:link>
+              </h:outputLink>              
+              
             </div>
           </div>
 

@@ -15,5 +15,10 @@
      <from>^/itemdetail/([0-9]*)$</from>
      <to last="true">/auction.seam?id=$1</to>
    </rule>
+   
+   <rule>
+     <from>^/bidhistory/([0-9]*)$</from>
+     <to last="true">/bidhistory.seam?id=$1</to>
+   </rule>
 
 </urlrewrite>

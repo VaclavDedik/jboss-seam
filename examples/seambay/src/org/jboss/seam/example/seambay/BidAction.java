@@ -164,12 +164,24 @@ public class BidAction
          }
       }
                         
-      if ("success".equals(outcome)) 
-      {
-         bid.getAuction().setBids(bid.getAuction().getBids() + 1);         
-         entityManager.persist(bid);      
-         entityManager.flush();         
-         Conversation.instance().end();
+      if ("success".equals(outcome) || "outbid".equals(outcome)) 
+      {         
+         bid.getAuction().setBids(bid.getAuction().getBids() + 1);
+         
+         entityManager.persist(bid);        
+         entityManager.flush();        
+         
+         if ("success".equals(outcome))
+         {
+            Conversation.instance().end();
+         }
+         else
+         {
+            Bid newBid = new Bid();
+            newBid.setAuction(bid.getAuction());
+            newBid.setMaxAmount(bid.getMaxAmount());
+            bid = newBid;
+         }
       }
       
       return outcome;
