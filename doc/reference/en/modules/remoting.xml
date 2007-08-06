@@ -341,7 +341,7 @@ else if (Seam.Component.getComponentName(instance) == "staff")
         of the view before making the remote call.  This small snippet of JavaScript will set the
         conversation ID that is used for remoting calls to the current view's conversation ID: </para>
         
-      <programlisting><![CDATA[Seam.Remoting.getContext().setConversationId( #{conversationId} );]]></programlisting>
+      <programlisting><![CDATA[Seam.Remoting.getContext().setConversationId( #{conversation.id} );]]></programlisting>
     </sect2>
   </sect1>
 
