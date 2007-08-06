@@ -1,6 +1,7 @@
 package org.jboss.seam.ui.graphicImage;
 
 import java.io.Serializable;
+import java.rmi.server.UID;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +21,6 @@ import org.jboss.seam.log.Logging;
 @BypassInterceptors
 public class GraphicImageStore extends AbstractMutable implements Serializable
 {
-   
    private Log log = Logging.getLog(GraphicImageStore.class);
 
    public static class ImageWrapper implements Serializable
@@ -49,8 +49,6 @@ public class GraphicImageStore extends AbstractMutable implements Serializable
 
    private Map<String, ImageWrapper> store = new HashMap<String, ImageWrapper>();
 
-   private int index = 0;
-
    /**
     * Put a image into the store
     * @param image
@@ -71,8 +69,7 @@ public class GraphicImageStore extends AbstractMutable implements Serializable
    {
       if (key == null)
       {
-         key = "org.jboss.seam.ui.GraphicImageStore." + index;
-         index++;
+         key = "org.jboss.seam.ui.GraphicImageStore." + new UID().toString().replace(":", "-");
       }
       store.put(key, image);
       setDirty();
