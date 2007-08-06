@@ -453,7 +453,7 @@ public void publish(Payment payment) {
         <title>Receiving messages in the client</title>
         <para>
             Seam Remoting lets you subscribe to a JMS topic from client-side JavaScript. This is
-            described in the next chapter.
+            described in <xref linkend="remoting"/>.
         </para>
     </sect2>
     
