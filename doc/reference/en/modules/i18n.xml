@@ -91,12 +91,10 @@
     <section>
         <title>Defining labels</title>
         <para>
-            Each login session has an associated instance of 
-            <literal>java.util.ResourceBundle</literal> (available to the 
-            application as a session-scoped component named 
-            <literal>org.jboss.seam.core.resourceBundle</literal>). You'll need to 
-            make your internationalized labels available via this special resource 
-            bundle. By default, the resource bundle used by Seam is named 
+            Seam provides a <literal>java.util.ResourceBundle</literal> (available 
+            to the application as a <literal>org.jboss.seam.core.resourceBundle</literal>). 
+            You'll need to make your internationalized labels available via this special 
+            resource bundle. By default, the resource bundle used by Seam is named 
             <literal>messages</literal> and so you'll need to define your labels 
             in files named <literal>messages.properties</literal>, 
             <literal>messages_en.properties</literal>,
@@ -120,7 +118,7 @@
         <para>
             You can select a different name for the resource bundle by setting
             the Seam configuration property named
-            <literal>org.jboss.seam.core.resourceBundle.bundleNames</literal>. You can even specify
+            <literal>org.jboss.seam.core.resourceLoader.bundleNames</literal>. You can even specify
             a list of resource bundle names to be searched (depth first) for
             messages.
         </para>

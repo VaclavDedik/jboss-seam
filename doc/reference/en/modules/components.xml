@@ -302,15 +302,24 @@
                 <term><literal>org.jboss.seam.core.resourceBundle</literal></term>
                 <listitem>
                     <para>
-                        The Seam resource bundle. The resource bundle is session scoped. The Seam
+                        The Seam resource bundle. The resource bundle is stateless. The Seam
                         resource bundle performs a depth-first search for keys in a list of Java
                         resource bundles.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.resourceLoader</literal></term>
+                <listitem>
+                    <para>
+                        The resource loader provides access to application resources and resource bundles.
                     </para>
                     <itemizedlist>
                         <listitem>
                         <para>
-                            <literal>resourceBundle.bundleNames</literal> &#8212; the names of 
-                            the Java resource bundles to search. Default to <literal>messages</literal>.
+                            <literal>resourceLoader.bundleNames</literal> &#8212; the names of 
+                            the Java resource bundles to search when the Seam resource bundle is
+                            used. Default to <literal>messages</literal>.
                         </para>
                         </listitem>
                     </itemizedlist>
