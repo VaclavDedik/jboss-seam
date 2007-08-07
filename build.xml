@@ -666,7 +666,8 @@
 		<ant dir="examples/remoting/gwt" target="clean" inheritall="false" />
 		<ant dir="examples/hibernate2" target="clean" inheritall="false" />
 		<ant dir="examples/jpa" target="clean" inheritall="false" />
-		<ant dir="examples/jee5" target="clean" inheritall="false" />
+		<ant dir="examples/jee5/booking" target="clean" inheritall="false" />
+		<ant dir="examples/jee5/remoting" target="clean" inheritall="false" />
 		<ant dir="examples/groovybooking" target="clean" inheritall="false" />
 		<ant dir="examples/quartz" target="clean" inheritall="false" />
 		<ant dir="examples/wiki" target="clean" inheritall="false" />
