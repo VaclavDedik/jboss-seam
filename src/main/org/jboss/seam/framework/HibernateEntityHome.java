@@ -101,4 +101,10 @@ public class HibernateEntityHome<E> extends Home<Session, E>
       return "session";
    }
    
+   @Override
+   protected String getEntityName()
+   {
+      return getSession().getEntityName(getInstance());
+   }
+   
 }

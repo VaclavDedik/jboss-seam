@@ -199,5 +199,10 @@ public class HibernatePersistenceProvider extends PersistenceProvider
       }
       return classMetadata;
    }
+   
+   public String getName(Object bean, EntityManager entityManager)
+   {
+      return getSession(entityManager).getEntityName(bean);
+   }
 
 }

@@ -51,7 +51,7 @@
         
         <programlisting><![CDATA[<start-page name="hello" view-id="/hello.jsp">
     <transition to="hello">
-        <action execute="#{helloWorld.sayHello}"/>
+        <action expression="#{helloWorld.sayHello}"/>
     </transition>
 </start-page>]]></programlisting>
 
@@ -113,8 +113,8 @@
         
         <programlisting><![CDATA[<pages>
     <page view-id="/hello.jsp">
-        <action execute="#{helloWorld.sayHello}" if="#{not validation.failed}"/>
-        <action execute="#{hitCount.increment}"/>
+        <action expression="#{helloWorld.sayHello}" if="#{not validation.failed}"/>
+        <action expression="#{hitCount.increment}"/>
     </page>
 </pages>]]></programlisting>
 
@@ -503,8 +503,8 @@
             
         <programlisting><![CDATA[<components>
     <event type="hello">
-        <action execute="#{helloListener.sayHelloBack}"/>
-        <action execute="#{logger.logHello}"/>
+        <action expression="#{helloListener.sayHelloBack}"/>
+        <action expression="#{logger.logHello}"/>
     </event>
 </components>]]></programlisting>
 
@@ -628,9 +628,11 @@ public class HelloListener {
             <listitem><para><literal>org.jboss.seam.preAuthenticate.&lt;name&gt; </literal>&#8212; called before attempting to authenticate a user</para></listitem>
             <listitem><para><literal>org.jboss.seam.notLoggedIn</literal> &#8212; called there is no authenticated user and authentication is required</para></listitem>
             <listitem><para><literal>org.jboss.seam.rememberMe</literal> &#8212; occurs when Seam security detects the username in a cookie</para></listitem>
-            <listitem><para><literal>org.jboss.seam.exceptionHandled.&lt;Type&gt;</literal> &#8212; called when an uncaught exception is handled by Seam</para></listitem>
+            <listitem><para><literal>org.jboss.seam.exceptionHandled.&lt;type&gt;</literal> &#8212; called when an uncaught exception is handled by Seam</para></listitem>
             <listitem><para><literal>org.jboss.seam.exceptionHandled</literal> &#8212; called when an uncaught exception is handled by Seam</para></listitem>
             <listitem><para><literal>org.jboss.seam.exceptionNotHandled</literal> &#8212; called when there was no handler for an uncaught exception</para></listitem>
+            <listitem><para><literal>org.jboss.seam.afterTransactionSuccess</literal> &#8212; called when a transaction succeeds in the Seam Application Framework</para></listitem>
+            <listitem><para><literal>org.jboss.seam.afterTransactionSuccess.&lt;name&gt;</literal> &#8212; called when a transaction succeeds in the Seam Application Framework which manages an entity called <literal>&lt;name&gt;</literal></para></listitem>
             </itemizedlist>
              
              <para>

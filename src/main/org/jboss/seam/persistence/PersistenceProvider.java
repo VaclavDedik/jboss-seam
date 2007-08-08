@@ -27,6 +27,7 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
  * of the JPA spec ;-)
  * 
  * @author Gavin King
+ * @author Pete Muir
  *
  */
 @Name("org.jboss.seam.persistence.persistenceProvider")
@@ -65,6 +66,18 @@ public class PersistenceProvider
    public Object getId(Object bean, EntityManager entityManager)
    {
       return Entity.forClass( bean.getClass() ).getIdentifier(bean);
+   }
+   
+   /**
+    * Get the name of the entity
+    * 
+    * @param bean
+    * @param entityManager
+    * @return
+    */
+   public String getName(Object bean, EntityManager entityManager)
+   {
+      return Entity.forClass(bean.getClass()).getName();
    }
    
    /**

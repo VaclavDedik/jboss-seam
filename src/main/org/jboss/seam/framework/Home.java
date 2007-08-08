@@ -9,7 +9,6 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Transactional;
-import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Expressions.ValueExpression;
 
 /**
@@ -247,7 +246,16 @@ public abstract class Home<T, E> extends MutableController<T>
    
    protected void raiseAfterTransactionSuccessEvent()
    {
-      raiseEvent("org.jboss.seam.afterTransactionSuccess");
+      raiseTransactionSuccessEvent("org.jboss.seam.afterTransactionSuccess");
+      raiseTransactionSuccessEvent("org.jboss.seam.afterTransactionSuccess." + getSimpleEntityName());
    }
+   
+   protected String getSimpleEntityName()
+   {
+      String name = getEntityName();
+      return name.lastIndexOf(".") > 0 && name.lastIndexOf(".") < name.length()  ? name.substring(name.lastIndexOf(".") + 1, name.length()) : name;
+   }
+   
+   protected abstract String getEntityName();
    
 }

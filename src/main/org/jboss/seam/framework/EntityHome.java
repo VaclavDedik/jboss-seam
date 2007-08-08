@@ -51,7 +51,7 @@ public class EntityHome<E> extends Home<EntityManager, E>
       getEntityManager().flush();
       assignId( PersistenceProvider.instance().getId( getInstance(), getEntityManager() ) );
       createdMessage();
-      raiseAfterTransactionSuccessEvent()
+      raiseAfterTransactionSuccessEvent();
       return "persisted";
    }
    
@@ -111,6 +111,12 @@ public class EntityHome<E> extends Home<EntityManager, E>
    protected String getPersistenceContextName()
    {
       return "entityManager";
+   }
+   
+   @Override
+   protected String getEntityName()
+   {
+      return PersistenceProvider.instance().getName(getInstance(), getEntityManager());
    }
    
 }

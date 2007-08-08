@@ -295,6 +295,13 @@ public class PersonHome extends EntityHome<Person> {
     
 }]]></programlisting>
 
+		<para>
+			The Home object raises an <literal>org.jboss.seam.afterTransactionSuccess</literal> 
+			event when a transaction succeeds (a call to <literal>persist()</literal>, 
+			<literal>update()</literal> or <literal>remove()</literal> succeeds).  By observing 
+			this event we can refresh our queries when the underlying entities are changed.
+		</para>
+
         <para>
             The Home object automatically displays faces messages when an operation is
             successful. To customize these messages we can, again, use configuration:
@@ -470,6 +477,15 @@ Person_updated=Person #{person.firstName} #{person.lastName} updated]]></program
         </s:link>
     </h:column>
 </h:dataTable>]]></programlisting>
+
+		<para>
+			To update the query when the underlying entities change we observe the
+			<literal>org.jboss.seam.afterTransactionSuccess</literal> event:
+		</para>
+		
+		<programlisting><![CDATA[<event type="org.jboss.seam.afterTransactionSuccess">
+    <action execute="#{people.refresh}" />
+</event>]]></programlisting>
 
         <para>
             The examples in this section have all shown reuse by configuration. However,

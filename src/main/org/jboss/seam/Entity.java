@@ -34,10 +34,23 @@ public class Entity extends Model
    private Field identifierField;
    private Method versionGetter;
    private Field versionField;
+   private String name;
 
    public Entity(Class<?> beanClass)
    {
       super(beanClass);
+      
+      if (beanClass.isAnnotationPresent(javax.persistence.Entity.class))
+      {
+         if (!"".equals(beanClass.getAnnotation(javax.persistence.Entity.class).name()))
+         {
+            name = beanClass.getAnnotation(javax.persistence.Entity.class).name();
+         }
+         else
+         {
+            name = beanClass.getName();
+         }
+      }
       
       for ( Class<?> clazz=beanClass; clazz!=Object.class; clazz = clazz.getSuperclass() )
       {
@@ -174,6 +187,11 @@ public class Entity extends Model
       {
          return null;
       }
+   }
+   
+   public String getName()
+   {
+      return name;
    }
 
    public static Entity forClass(Class clazz)
