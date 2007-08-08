@@ -107,6 +107,16 @@
 	</fileset>
 
 	<!-- Added to the non-ejb war lib on build -->
+	<fileset id="noejb.war.lib.extras" dir=".">
+		<exclude name="**/*" />
+	</fileset>
+
+	<!-- Added to the non-ejb jar root on build -->
+	<fileset id="noejb.jar.extras" dir=".">
+		<exclude name="**/*" />
+	</fileset>
+	
+	<!-- Added to the non-ejb war root on build -->
 	<fileset id="noejb.war.extras" dir=".">
 		<exclude name="**/*" />
 	</fileset>
@@ -315,6 +325,15 @@
 		<include name="hibernate.cfg.xml" />
 	</fileset>
 
+	<!-- resources to go in the jar for jbosswar  -->
+	<fileset id="jbosswar.jar.resources" dir="${resources.dir}">
+		<include name="${example.ds}" />
+		<include name="treecache.xml" />
+		<include name="*.jpdl.xml" />
+		<include name="jbpm.cfg.xml" />
+		<include name="hibernate.cfg.xml" />
+	</fileset>
+
 	<!-- Resources to go in the ear -->
 	<fileset id="ear.resources" dir="${resources.dir}">
 		<include name="META-INF/application.xml" />
@@ -424,7 +443,7 @@
 	</target>
 
 
-	<!-- #################### BUILD TARGETS (JBOSS AS) #################### -->
+	<!-- #################### BUILD TARGETS (JBOSS AS EAR) #################### -->
 	<!-- 
 	  The build targets for the examples.  Both unexploded (deploy, undeploy)
 	  and unexploded (explode, unexplode, restart) deployment is possible.
@@ -556,6 +575,7 @@
 		<touch file="${ear.deploy.dir}/META-INF/application.xml" />
 	</target>
 
+
 	<!-- #################### BUILD TARGETS (TOMCAT) #################### -->
 
 
@@ -619,13 +639,24 @@
 		<delete file="${tomcat.deploy.dir}/${example.name}.war" />
 	</target>
 
-	<!-- #################### TEST TARGETS (NOEJB) ##################### -->
+
+
+	<!-- #################### BUILD TARGETS (NOEJB) ##################### -->
+
+	<target name="noejb.jar" depends="jar">
+		<copy todir="${war.dir}/WEB-INF/classes">
+			<fileset dir="${jar.dir}">
+				<exclude name="**/ejb-jar.xml" />
+			</fileset>
+			<fileset refid="noejb.jar.extras" />
+		</copy>
+	</target>
 
 	<!-- Extend the standard war target to add extras which non-ejb wars needs -->
 	<target name="noejb.war" depends="war">
 		<copy todir="${war.dir}/WEB-INF/lib">
 			<fileset refid="seam.jar" />
-			<fileset refid="noejb.war.extras" />
+			<fileset refid="noejb.war.lib.extras" />
 			<fileset refid="drools.jar" />
 			<fileset refid="cache.jar" />
 			<fileset refid="jbpm.jar" />
@@ -635,30 +666,21 @@
 			<fileset refid="search.jar" />
 			<mapper type="flatten" />
 		</copy>
-		<copy todir="${war.dir}/WEB-INF/classes" failonerror="false">
-			<fileset dir="${resources.dir}/WEB-INF/classes">
-				<include name="**/*" />
-			</fileset>
-		</copy>
-		<copy todir="${war.dir}/META-INF" failonerror="false">
-			<fileset dir="${resources.dir}/META-INF">
-                                <!-- needed for plain tomcat -->
-				<include name="context.xml" />
-                                <!-- This is a WebSphere Hack -->
-				<include name="*.taglib.xml" />
-			</fileset>
+		<copy todir="${war.dir}">
+			<fileset refid="noejb.war.extras" />
 		</copy>
 		<!-- Copy in resources, with filtering -->
 		<copy todir="${war.dir}">
 			<fileset refid="war.resources" />
 			<filterset>
 				<filter token="debug" value="${debug}" />
+				<filter token="jndiPattern" value="#{ejbName}/local" />
+				<filter token="embeddedEjb" value="false" />
 			</filterset>
 		</copy>
 	</target>
 
-	<target name="noejb.archive" depends="tomcat.jar,noejb.war" description="Package the archives for non-ejb war">
-		<jar jarfile="${dist.dir}/${example.name}.jar" basedir="${jar.dir}" />
+	<target name="noejb.archive" depends="noejb.jar,noejb.war" description="Package the archives for non-ejb war">
 		<jar jarfile="${dist.dir}/${example.name}.war">
 			<fileset dir="${war.dir}" />
 			<zipfileset dir="${dist.dir}" prefix="WEB-INF/lib">
@@ -667,6 +689,18 @@
 		</jar>
 	</target>
 
+	<!-- #################### BUILD TARGETS (JBOSS AS WAR) #################### -->
+
+	<target name="jbosswar.deploy" depends="noejb.archive" description="Deploy the example to JBoss AS">
+		<fail unless="jboss.home">
+			jboss.home not set, update build.properties
+		</fail>
+		<copy file="${dist.dir}/${example.name}.war" todir="${deploy.dir}" />
+	</target>
+
+	<target name="jbosswar.undeploy" description="Undeploy the example from JBoss">
+		<delete file="${deploy.dir}/${example.name}.war" />
+	</target>
 
 	<!-- #################### TEST TARGETS (JBOSS AS) ##################### -->
 	<!--
@@ -679,7 +713,7 @@
 	</path>
 
 	<target name="validateConfiguration" description="Validate XML Configuration files">
-		<echo message="Validating configuaration files for ${Name}"/>
+		<echo message="Validating configuaration files for ${Name}" />
 		<ant antfile="${seam.dir}/validate.xml" target="validateConfiguration">
 			<reference refid="validate.resources" />
 		</ant>

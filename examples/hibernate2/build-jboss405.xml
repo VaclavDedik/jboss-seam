@@ -19,7 +19,7 @@
 
     <import file="../build.xml"/>
 
-    <fileset id="noejb.war.extras" dir="${seam.dir}">
+    <fileset id="noejb.war.lib.extras" dir="${seam.dir}">
         <include name="lib/common*.jar"/>
         <include name="lib/jsf-*.jar"/>
         <include name="lib/jstl-*.jar"/>

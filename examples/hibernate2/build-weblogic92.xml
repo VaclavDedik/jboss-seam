@@ -19,7 +19,7 @@
 
     <import file="../build.xml"/>
 
-    <fileset id="noejb.war.extras" dir="${seam.dir}">
+    <fileset id="noejb.war.lib.extras" dir="${seam.dir}">
         <include name="lib/common*.jar"/>
         <include name="lib/jsf-*.jar"/>
         <include name="lib/jstl-*.jar"/>
@@ -28,6 +28,10 @@
         <!-- Needed since WLS 9.2 does not support JSP 2.0 -->
         <include name="examples/hibernate2/lib/el-*.jar"/>
     </fileset>
+	
+	<fileset id="noejb.war.extras" dir="${resources.dir}">
+		<include name="WEB-INF/classes/**/*" />
+	</fileset>
        
 </project>
 
