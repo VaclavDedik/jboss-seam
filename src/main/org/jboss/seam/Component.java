@@ -774,7 +774,7 @@ public class Component extends Model
          if ( ann.annotationType().isAnnotationPresent(DataBinderClass.class) )
          {
             String name = toName( createWrapper(ann).getVariableName(ann), method );
-            dataModelGetters.add( new BijectedMethod(name, method, ann) );
+            dataModelGetters.add( new BijectedProperty(name, method, ann) );
             dataModelNames.add(name);
          }
          if ( ann.annotationType().isAnnotationPresent(DataSelectorClass.class) )
@@ -2516,6 +2516,60 @@ public class Component extends Model
       {
          return "BijectedMethod(" + name + ')';
       }
+   }
+   
+   final class BijectedProperty<T extends Annotation> implements BijectedAttribute<T>
+   {
+      
+      private BijectedMethod<T> getter;
+      private BijectedMethod<T> setter;
+      
+      public BijectedProperty(String name, Method getter, Method setter, T annotation)
+      {
+         this.getter = new BijectedMethod(name, getter, annotation);
+         this.setter = new BijectedMethod(name, setter, annotation);
+      }
+      
+      public BijectedProperty(String name, Method getter, T annotation)
+      {
+         this.getter = new BijectedMethod(name, getter, annotation);
+         Method setterMethod;
+         try
+         {
+            setterMethod = Reflections.getSetterMethod(getter.getDeclaringClass(), name);
+         }
+         catch (IllegalArgumentException e)
+         {
+            throw new IllegalArgumentException("Component must have a getter/setter pair for property " + name + " annotated with @" + annotation.annotationType().getSimpleName(), e);
+         }
+         this.setter = new BijectedMethod(name, setterMethod, annotation);
+      }
+
+      public Object get(Object bean)
+      {
+         return getter.get(bean);
+      }
+
+      public T getAnnotation()
+      {
+         return getter.getAnnotation();
+      }
+
+      public String getName()
+      {
+         return getter.getName();
+      }
+
+      public Class getType()
+      {
+         return getter.getType();
+      }
+
+      public void set(Object bean, Object value)
+      {
+         setter.set(bean, value); 
+      }
+      
    }
    
    final class BijectedField<T extends Annotation> implements BijectedAttribute<T>
