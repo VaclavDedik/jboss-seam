@@ -8,20 +8,20 @@
       <jta-data-source>jdbc/__default</jta-data-source>
       <properties>
          <!-- The following two properties are for Glassfish -->
-         <property name="hibernate.dialect" 
+         <!-- <property name="hibernate.dialect" 
               value="org.hibernate.dialect.DerbyDialect"/>
          <property name="hibernate.transaction.manager_lookup_class" 
-            value="org.hibernate.transaction.SunONETransactionManagerLookup"/>
+            value="org.hibernate.transaction.SunONETransactionManagerLookup"/> -->
         
               
-         <!-- The following three properties are OC4J
+         <!-- The following three properties are OC4J -->
          <property name="hibernate.dialect" 
                    value="org.hibernate.dialect.HSQLDialect"/>
          <property name="hibernate.query.factory_class" 
             value="org.hibernate.hql.classic.ClassicQueryTranslatorFactory"/>
          <property name="hibernate.transaction.manager_lookup_class" 
             value="org.hibernate.transaction.OrionTransactionManagerLookup"/>
-         -->
+         
          
          <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
          <property name="hibernate.show_sql" value="true"/>
