@@ -1,16 +1,16 @@
 <?xml version="1.0"?>
 
-<project name="Spring Example" default="tomcat6" basedir=".">
+<project name="Spring Example" default="all" basedir=".">
 
-   <target name="tomcat6" description="Build the Spring example artifacts, suitable for deployment to Tomcat 6">
-     	<ant antfile="build-tomcat6.xml"/>
+   <target name="jbosswar" description="Build the Spring example artifacts, suitable for deployment to JBoss as a WAR">
+     	<ant antfile="build-jbosswar.xml"/>
    </target>
 
    <target name="clean" description="Clean up the example">
-     	<ant antfile="build-tomcat6.xml" target="clean" />
+     	<ant antfile="build-jbosswar.xml" target="clean" />
    </target>
 
-   <target name="all" depends="tomcat6" description="Build Spring Booking example, for deployment to all supported application servers"/>
+   <target name="all" depends="jbosswar" description="Build Spring Booking example, for deployment to all supported application servers"/>
 
 </project>
 
