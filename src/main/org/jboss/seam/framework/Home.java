@@ -9,6 +9,7 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Transactional;
+import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Expressions.ValueExpression;
 
 /**
@@ -242,6 +243,11 @@ public abstract class Home<T, E> extends MutableController<T>
    protected String getDeletedMessageKey()
    {
       return getMessageKeyPrefix() + "deleted";
+   }
+   
+   protected void raiseAfterTransactionSuccessEvent()
+   {
+      raiseEvent("org.jboss.seam.afterTransactionSuccess");
    }
    
 }

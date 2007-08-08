@@ -38,6 +38,7 @@ public class HibernateEntityHome<E> extends Home<Session, E>
    {
       getSession().flush();
       updatedMessage();
+      raiseAfterTransactionSuccessEvent();
       return "updated";
    }
    
@@ -48,6 +49,7 @@ public class HibernateEntityHome<E> extends Home<Session, E>
       getSession().flush();
       assignId( getSession().getIdentifier( getInstance() ) );
       createdMessage();
+      raiseAfterTransactionSuccessEvent();
       return "persisted";
    }
    
@@ -57,6 +59,7 @@ public class HibernateEntityHome<E> extends Home<Session, E>
       getSession().delete( getInstance() );
       getSession().flush();
       deletedMessage();
+      raiseAfterTransactionSuccessEvent();
       return "removed";
    }
    

@@ -40,6 +40,7 @@ public class EntityHome<E> extends Home<EntityManager, E>
       joinTransaction();
       getEntityManager().flush();
       updatedMessage();
+      raiseAfterTransactionSuccessEvent();
       return "updated";
    }
    
@@ -50,6 +51,7 @@ public class EntityHome<E> extends Home<EntityManager, E>
       getEntityManager().flush();
       assignId( PersistenceProvider.instance().getId( getInstance(), getEntityManager() ) );
       createdMessage();
+      raiseAfterTransactionSuccessEvent()
       return "persisted";
    }
    
@@ -59,6 +61,7 @@ public class EntityHome<E> extends Home<EntityManager, E>
       getEntityManager().remove( getInstance() );
       getEntityManager().flush();
       deletedMessage();
+      raiseAfterTransactionSuccessEvent();
       return "removed";
    }
    
