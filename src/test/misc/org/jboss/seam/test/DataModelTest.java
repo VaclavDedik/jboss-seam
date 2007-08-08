@@ -14,7 +14,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
+import javax.servlet.ServletException;
 
 import org.jboss.deployers.spi.DeploymentException;
 import org.jboss.seam.faces.DataModels;
@@ -304,6 +306,26 @@ public class DataModelTest extends SeamTest
       assert serializedSetDataModel.getRowIndex() == 1;
       assert serializedSet.contains(gavin);
       assert serializedSet.contains(tom);
+   }
+   
+   @Test
+   public void testDataModelOutjection() throws Exception
+   {
+      new FacesRequest()
+      {
+         
+         @Override
+         protected void renderResponse() throws Exception
+         {
+            Object people = getValue("#{peopleList}");
+            assert people instanceof DataModel;
+            DataModel dataModel = (DataModel) people;
+            assert dataModel.getRowCount() == 4;
+            dataModel.setRowIndex(1);
+         }     
+         
+      }.run();
+      
    }
 
 }
