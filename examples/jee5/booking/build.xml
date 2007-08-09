@@ -17,18 +17,17 @@
     <property name="facelets.lib"   value="true"/>
     <property name="ajax4jsf.lib"   value="true"/>
     <!-- add drools and jbpm for oc4j (broken classloading) -->
-    <!-- <property name="jbpm.lib" value="true"/> -->
-	<!-- <property name="drools.lib" value="true"/> --> 
+    <!--<property name="jbpm.lib" value="true"/>
+	<property name="drools.lib" value="true"/>--> 
 	
     <import file="../../build.xml"/>
 
     <fileset id="ear.lib.extras" dir="${seam.dir}">
-        <include name="lib/common*.jar"/>
         <include name="lib/thirdparty-all.jar"/>
         <include name="hibernate/lib/*.jar"/>
 
         <!-- add this for oc4j -->
-        <!-- <include name="lib/antlr-*.jar"/> -->
+        <!--<include name="lib/antlr-*.jar"/>-->
     </fileset>
        
 </project>
