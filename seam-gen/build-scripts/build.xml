@@ -146,14 +146,16 @@
                                 <include name="jbpm.cfg.xml" />
                                 <include name="*.drl" />
                         </fileset>
-                        <fileset dir="${lib.dir}">
-                                <include name="jboss-seam.jar" />
-                                <include name="jbpm*.jar" />
-                                <include name="jboss-el.jar" />
-                                <include name="drools-*.jar"/>
-                                <include name="janino-*.jar"/>
-                                <include name="antlr-*.jar"/>
-                                <include name="mvel*.jar"/>
+                		<fileset dir="${lib.dir}">
+                				<include name="jboss-seam.jar" />
+                		</fileset>
+                        <fileset dir="${basedir}">
+                                <include name="lib/jbpm*.jar" />
+                                <include name="lib/jboss-el.jar" />
+                                <include name="lib/drools-*.jar"/>
+                                <include name="lib/janino-*.jar"/>
+                                <include name="lib/antlr-*.jar"/>
+                                <include name="lib/mvel*.jar"/>
                         </fileset>
                 </copy>
                 <copy todir="${ear.dir}/META-INF">
