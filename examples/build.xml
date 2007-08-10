@@ -257,6 +257,11 @@
 	<fileset id="urlrewrite.jar" dir="${lib.dir}">
 		<include name="urlrewrite*.jar" if="urlrewrite.lib" />
 	</fileset>
+	
+	<!-- Dependencies for using with antlr (if not shipped with server) -->
+	<fileset id="antlr.jar" dir="${lib.dir}">
+		<include name="antlr-*.jar" if="antlr.lib" />
+	</fileset>
 
 
 	<!-- ############################ MELDWARE ############################ -->
@@ -481,6 +486,7 @@
 			<fileset refid="quartz.jar" />
 			<fileset refid="spring.jar" />
 			<fileset refid="jcaptcha.jar" />
+			<fileset refid="antlr.jar" />
 			<mapper type="flatten" />
 		</copy>
 	</target>
