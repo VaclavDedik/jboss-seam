@@ -11,13 +11,13 @@ public class EmbeddedBootstrap
        bootstrap.bootstrap();
 
        if (resourceExists("seam.properties")) {
-           bootstrap.deployResourceBase("seam.properties");
+           bootstrap.deployResourceBases("seam.properties");
        }
        if (resourceExists("META-INF/components.xml")) {
-           bootstrap.deployResourceBase("META-INF/components.xml");
+           bootstrap.deployResourceBases("META-INF/components.xml");
        }
        if (resourceExists("META-INF/seam.properties")) {
-           bootstrap.deployResourceBase("META-INF/seam.properties");
+           bootstrap.deployResourceBases("META-INF/seam.properties");
        }
    }
 
