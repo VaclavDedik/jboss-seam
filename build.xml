@@ -780,42 +780,8 @@
 	
 	<!-- Continuous integration wrapper target -->
 	<!-- N.B. validateall must run last as it actually causes the build to fail rather than acting as a test (TODO Fix this) -->
-	<target name="ci" depends="cleanall, coverageall, copytestoutput, dist, testreport, builddownloadable, copydownloadbletojbossorg, validateall" />
+	<target name="ci" depends="cleanall, coverageall, copytestoutput, dist, testreport, validateall" />
 
-	<target name="builddownloadable">
-		<mkdir dir="${ci.dir}" />
-		<copy todir="${ci.dir}">
-			<fileset dir="${build.dir}/ci">
-				<include name="**/*.template.html" />
-			</fileset>
-			<filterset>
-				<filter token="build.version" value="${version}.${patchlevel}" />
-				<filter token="build.file" value="${dist.name}.zip" />
-			</filterset>
-			<mapper type="glob" from="*.template.html" to="*.html" />
-		</copy>
-		<copy todir="${ci.dir}">
-			<fileset dir="${build.dir}/ci">
-				<exclude name="**/*.template.html" />
-			</fileset>
-		</copy>
-		<copy todir="${ci.dir}/build">
-			<fileset dir="${report.dir}">
-				<include name="**/*" />
-			</fileset>
-		</copy>
-		<copy todir="${ci.dir}/build" file="${dist.location}/${dist.name}.zip" />
-		<mkdir dir="${version}.${patchlevel}" />
-		<move todir="${ci.dir}/${version}.${patchlevel}">
-			<fileset dir="${ci.dir}/build" />
-		</move>
-	</target>
-
-	<target name="copydownloadbletojbossorg">
-		<exec executable="scp">
-			<arg line="-r ${ci.dir}/${version}.${patchlevel} ${ci.dir}/latest.html jbossqa@download.jboss.org:/htdocs/jbossseam" />
-		</exec>
-	</target>
 
 	<!-- ########################## DIST TARGETS ###########################-->
 
@@ -1033,6 +999,7 @@
 				<exclude name="**/testng-*.xml" />
 			</fileset>
 			<report format="noframes" todir="${report.dir}" />
+			
 		</junitreport>
 		<echo>Report available at ${report.dir}/junit-noframes.html</echo>
 	</target>
