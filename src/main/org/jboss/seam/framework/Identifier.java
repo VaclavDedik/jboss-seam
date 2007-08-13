@@ -2,6 +2,12 @@ package org.jboss.seam.framework;
 
 import java.io.Serializable;
 
+/**
+ * Wrapper class that identifies an entity
+ * 
+ * @author Pete Muir
+ *
+ */
 public abstract class Identifier<T> implements Serializable
 {
 
@@ -31,9 +37,9 @@ public abstract class Identifier<T> implements Serializable
    @Override
    public boolean equals(Object other)
    {
-      if (other instanceof EntityIdentifier)
+      if (other instanceof Identifier)
       {
-         EntityIdentifier that = (EntityIdentifier) other; 
+         Identifier that = (Identifier) other; 
          if (id == null || clazz == null)
          {
             throw new IllegalArgumentException("Class and Id must not be null");

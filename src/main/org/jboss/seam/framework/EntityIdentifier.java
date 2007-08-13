@@ -19,7 +19,7 @@ public class EntityIdentifier extends Identifier<EntityManager>
    {
       if (entityManager == null)
       {
-         throw new IllegalArgumentException("EntityManager must not be null");
+         throw new NullPointerException("EntityManager must not be null");
       }
       try
       {
