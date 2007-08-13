@@ -27,65 +27,66 @@ public abstract class UIFileUpload extends UIInput
    @Override
    public void processUpdates(FacesContext context)
    {
-
-      if (getLocalInputStream() != null)
+      ValueExpression dataBinding = getValueExpression("data");
+      if (dataBinding != null)
       {
-         ValueExpression dataBinding = getValueExpression("data");
-         if (dataBinding != null)
+         Class clazz = dataBinding.getType(context.getELContext());
+         if (clazz.isAssignableFrom(InputStream.class))
          {
-            Class clazz = dataBinding.getType(context.getELContext());
-            if (clazz.isAssignableFrom(InputStream.class))
-            {
-               dataBinding.setValue(context.getELContext(), localInputStream);
-            }
-            else if (clazz.isAssignableFrom(byte[].class))
+            dataBinding.setValue(context.getELContext(), getLocalInputStream());
+         }
+         else if (clazz.isAssignableFrom(byte[].class))
+         {
+            byte[] bytes = null;
+            if (getLocalInputStream() != null)
             {
                ByteArrayOutputStream bos = new ByteArrayOutputStream();
                try
                {                  
                   byte[] buffer = new byte[512];
-                  int read = localInputStream.read(buffer);
+                  int read = getLocalInputStream().read(buffer);
                   while (read != -1)
                   {
                      bos.write(buffer, 0, read);
-                     read = localInputStream.read(buffer);
+                     read = getLocalInputStream().read(buffer);
                   }
-                  dataBinding.setValue(context.getELContext(), bos.toByteArray());                  
+                  bytes = bos.toByteArray();              
                }
                catch (IOException e)
                {
                   throw new RuntimeException(e);
                }
             }
-            
-            if (getLocalContentType() != null)
+            dataBinding.setValue(context.getELContext(), bytes);
+         }
+         
+         if (getLocalContentType() != null)
+         {
+            ValueExpression valueExpression = getValueExpression("contentType");
+            if (valueExpression != null) 
             {
-               ValueExpression valueExpression = getValueExpression("contentType");
-               if (valueExpression != null) 
-               {
-                  valueExpression.setValue(context.getELContext(), getLocalContentType());
-               }
-            }
-   
-            if (getLocalFileName() != null)
-            {
-               ValueExpression valueExpression = getValueExpression("fileName");
-               if (valueExpression != null)
-               {
-                  valueExpression.setValue(context.getELContext(), getLocalFileName());
-               }
-            }
-   
-            if (getLocalFileSize() != null)
-            {
-               ValueExpression valueExpression = getValueExpression("fileSize");
-               if (valueExpression != null)
-               {
-                  valueExpression.setValue(context.getELContext(), getLocalFileSize());
-               }
+               valueExpression.setValue(context.getELContext(), getLocalContentType());
             }
          }
-      }
+
+         if (getLocalFileName() != null)
+         {
+            ValueExpression valueExpression = getValueExpression("fileName");
+            if (valueExpression != null)
+            {
+               valueExpression.setValue(context.getELContext(), getLocalFileName());
+            }
+         }
+
+         if (getLocalFileSize() != null)
+         {
+            ValueExpression valueExpression = getValueExpression("fileSize");
+            if (valueExpression != null)
+            {
+               valueExpression.setValue(context.getELContext(), getLocalFileSize());
+            }
+         }
+      }    
    }
 
    public String getLocalContentType()
