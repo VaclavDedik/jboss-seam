@@ -12,14 +12,11 @@ import javax.ejb.PostActivate;
 import javax.ejb.PrePassivate;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
-import javax.persistence.EntityManager;
 
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
-import org.jboss.seam.persistence.EntityManagerProxy;
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
-import org.jboss.seam.Component.BijectedAttribute;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.intercept.InterceptorType;
 
@@ -37,7 +34,7 @@ public class SessionBeanInterceptor extends RootInterceptor
    public static ThreadLocal<Component> COMPONENT = new ThreadLocal<Component>();
 
    /**
-    * Called when instatiated by EJB container.
+    * Called when instantiated by EJB container.
     * (In this case it might be a Seam component,
     * but we won't know until postConstruct() is
     * called.)
@@ -62,7 +59,6 @@ public class SessionBeanInterceptor extends RootInterceptor
    @PostActivate
    public void postActivate(InvocationContext invocation)
    {
-      proxyPersistenceContexts( invocation.getTarget() ); //just in case the container does some special handling of PC serialization
       invokeAndHandle( new EJBInvocationContext(invocation), EventType.POST_ACTIVATE);
    }
    
@@ -114,27 +110,9 @@ public class SessionBeanInterceptor extends RootInterceptor
          initNonSeamComponent();
       }
       
-      proxyPersistenceContexts(bean);
-      
       postConstruct(bean);
       invokeAndHandle( new EJBInvocationContext(invocation), EventType.POST_CONSTRUCT );
    }
-
-   //TODO: really we should do this stuff in a Seam interceptor, I suppose
-   private void proxyPersistenceContexts(Object bean)
-   {
-      if ( isSeamComponent() )
-      {
-         //wrap any @PersistenceContext attributes in our proxy
-         for ( BijectedAttribute ba: getComponent().getPersistenceContextAttributes() )
-         {
-            EntityManager entityManager = (EntityManager) ba.get(bean);
-            if ( ! (entityManager instanceof EntityManagerProxy ) )
-            {
-               ba.set( bean, new EntityManagerProxy(entityManager) );
-            }
-         }
-      }
-   }
+ 
 
 }

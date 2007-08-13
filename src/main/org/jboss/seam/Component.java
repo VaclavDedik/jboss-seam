@@ -10,6 +10,7 @@ import static org.jboss.seam.ComponentType.ENTITY_BEAN;
 import static org.jboss.seam.ComponentType.JAVA_BEAN;
 import static org.jboss.seam.ComponentType.MESSAGE_DRIVEN_BEAN;
 import static org.jboss.seam.ComponentType.STATEFUL_SESSION_BEAN;
+import static org.jboss.seam.ComponentType.STATELESS_SESSION_BEAN;
 import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.ScopeType.CONVERSATION;
 import static org.jboss.seam.ScopeType.EVENT;
@@ -109,7 +110,9 @@ import org.jboss.seam.intercept.JavaBeanInterceptor;
 import org.jboss.seam.intercept.Proxy;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.persistence.HibernateSessionProxyInterceptor;
 import org.jboss.seam.persistence.ManagedEntityIdentityInterceptor;
+import org.jboss.seam.persistence.EntityManagerProxyInterceptor;
 import org.jboss.seam.security.SecurityInterceptor;
 import org.jboss.seam.transaction.RollbackInterceptor;
 import org.jboss.seam.transaction.TransactionInterceptor;
@@ -1001,6 +1004,14 @@ public class Component extends Model
       if ( getType()==STATEFUL_SESSION_BEAN )
       {
          addInterceptor( new Interceptor( new RemoveInterceptor(), this ) );
+      }
+      if ( getType()==STATEFUL_SESSION_BEAN || getType()==STATELESS_SESSION_BEAN )
+      {
+         if (Reflections.isClassAvailable("org.hibernate.Session"))
+         {
+            addInterceptor( new Interceptor ( new HibernateSessionProxyInterceptor(), this ) );
+         }
+         addInterceptor( new Interceptor ( new EntityManagerProxyInterceptor(), this ) );
       }
       if ( getType()!=ENTITY_BEAN )
       {

@@ -164,6 +164,21 @@ public class Reflections
          return Class.forName(name);
       }
    }
+   
+   /**
+    * Return's true if the class can be loaded using Reflections.classForName()
+    */
+   public static boolean isClassAvailable(String name)
+   {
+      try 
+      {
+         classForName(name);
+      }
+      catch (ClassNotFoundException e) {
+         return false;
+      }
+      return true;
+   }
 
    public static Class getCollectionElementType(Type collectionType)
    {
