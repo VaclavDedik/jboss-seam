@@ -43,6 +43,7 @@ public class MailSession extends AbstractMutable implements Serializable
 	private boolean debug = false;
    private String sessionJndiName;
    private boolean ssl;
+   private boolean tls = true;
 
    @Unwrap
    public Session getSession() throws NamingException
@@ -159,8 +160,11 @@ public class MailSession extends AbstractMutable implements Serializable
       	};
       }
       
-      // Use TLS (if supported) by default.
-      properties.put("mail.smtp.starttls.enable", "true");
+      // Use TLS (if supported)
+      if (isTls())
+      {
+         properties.put("mail.smtp.starttls.enable", "true");
+      }
   
       session = javax.mail.Session.getInstance(properties, authenticator);
       session.setDebug( isDebug() );
@@ -258,6 +262,16 @@ public class MailSession extends AbstractMutable implements Serializable
    public void setSsl(boolean ssl)
    {
       this.ssl = ssl;
+   }
+   
+   public boolean isTls()
+   {
+      return tls;
+   }
+   
+   public void setTls(boolean tls)
+   {
+      this.tls = tls;
    }
 
    public static Session instance() 

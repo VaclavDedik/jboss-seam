@@ -975,6 +975,9 @@
                         <para>
                             <literal>org.jboss.seam.mail.mailSession.ssl</literal> &#8212; enable SSL connection to SMTP (will default to port 465)
                         </para>
+                         <para>
+                            <literal>org.jboss.seam.mail.mailSession.tls</literal> &#8212; by default true, enable TLS support in the mail session
+                        </para>
                         </listitem>
                         <listitem>
                         <para>
