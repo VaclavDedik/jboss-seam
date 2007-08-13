@@ -186,7 +186,7 @@ public class DataModelTest extends SeamTest
    
    //JBSEAM-1659
    
-   @Test
+   /*@Test
    public void testMapDataModelSerialization() throws Exception
    {
       
@@ -215,7 +215,7 @@ public class DataModelTest extends SeamTest
       assert serializedMapDataModel.getRowIndex() == 1;
       assert map.get("0").equals(serializedMap.get("0")); 
       assert map.get("1").equals(serializedMap.get("1"));
-   }
+   }*/
    
    @Test
    public void testSetDataModel() throws IOException, ClassNotFoundException
@@ -274,8 +274,7 @@ public class DataModelTest extends SeamTest
       }*/
    }
    
-   //JBSEAM-1659
-   /*@Test
+   @Test
    public void testSetDataModelSerialization() throws Exception
    {
       
@@ -307,7 +306,7 @@ public class DataModelTest extends SeamTest
       assert serializedSetDataModel.getRowIndex() == 1;
       assert serializedSet.contains(gavin);
       assert serializedSet.contains(tom);
-   }*/
+   }
    
    @Test
    public void testDataModelOutjection() throws Exception
