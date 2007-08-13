@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.el.ELResolver;
 import javax.el.ValueExpression;
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
@@ -896,6 +897,11 @@ public class BaseSeamTest
       conversationViewRootAttributes = new HashMap<String, Map>();
       seamFilter = createSeamFilter();
 
+      for (ELResolver elResolver : getELResolvers())
+      {
+         application.addELResolver(elResolver);
+      }
+      
    }
 
    public void cleanup() throws Exception
@@ -969,6 +975,9 @@ public class BaseSeamTest
       }      
    }
    
-
+   protected ELResolver[] getELResolvers() 
+   {
+      return new ELResolver[0];
+   }
 
 }

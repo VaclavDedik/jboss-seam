@@ -44,6 +44,8 @@ public class MockFacesContext extends FacesContext
    private ResponseWriter responseWriter;
 
    private RenderKitFactory renderKitFactory;
+   
+   private ELContext elContext;
 
    public MockFacesContext(ExternalContext externalContext, Application application)
    {
@@ -227,7 +229,11 @@ public class MockFacesContext extends FacesContext
    @Override
    public ELContext getELContext()
    {
-      return EL.EL_CONTEXT;
+      if (elContext == null)
+      {
+         elContext = EL.createELContext(EL.EL_CONTEXT, getApplication().getELResolver());
+      }
+      return elContext;
    }
 
 }

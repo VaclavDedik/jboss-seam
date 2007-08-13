@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.el.CompositeELResolver;
 import javax.el.ExpressionFactory;
 import javax.faces.FacesException;
 import javax.faces.application.Application;
@@ -37,7 +38,7 @@ import javax.faces.el.VariableResolver;
 import javax.faces.event.ActionListener;
 import javax.faces.validator.Validator;
 
-import org.jboss.seam.el.SeamELResolver;
+import org.jboss.seam.el.EL;
 import org.jboss.seam.el.SeamExpressionFactory;
 import org.jboss.seam.jsf.SeamNavigationHandler;
 import org.jboss.seam.jsf.SeamStateManager;
@@ -49,6 +50,14 @@ import org.jboss.seam.util.Reflections;
 @SuppressWarnings("deprecation")
 public class MockApplication extends Application
 {
+   
+   private javax.el.CompositeELResolver elResolver; 
+   
+   public MockApplication()
+   {
+     elResolver = new CompositeELResolver();
+     elResolver.add(EL.EL_RESOLVER); 
+   }
    
    @Override
    public Object evaluateExpressionGet(FacesContext context, String expression, Class type) throws javax.el.ELException 
@@ -65,7 +74,7 @@ public class MockApplication extends Application
    @Override
    public void addELResolver(javax.el.ELResolver r) 
    {
-      throw new UnsupportedOperationException();
+      elResolver.add(r);
    }
    
    @Override
@@ -80,7 +89,7 @@ public class MockApplication extends Application
       throw new UnsupportedOperationException();
    }
    
-   private javax.el.ELResolver elResolver = new SeamELResolver(); 
+   
    
    @Override
    public javax.el.ELResolver getELResolver() 

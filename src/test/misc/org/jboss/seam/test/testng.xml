@@ -22,6 +22,7 @@
        <class name="org.jboss.seam.test.TimeZoneTest"/>
        <class name="org.jboss.seam.test.LocaleTest"/>
        <class name="org.jboss.seam.test.PageflowTest"/>
+       <class name="org.jboss.seam.test.SeamMockELResolverTest" />
      </classes>
    </test>
 </suite>
