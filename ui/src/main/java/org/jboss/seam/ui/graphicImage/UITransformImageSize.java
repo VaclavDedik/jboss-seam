@@ -42,6 +42,11 @@ public abstract class UITransformImageSize extends UIComponentBase implements Im
       }
       else
       {
+         if (getWidth() == null || getHeight() == null)
+         {
+            throw new UnsupportedOperationException(
+            "If not specifying a factor or maintain ratio you must specify width and heigh");
+         }
          image.resize(new Integer(getWidth()), new Integer(getHeight()));
       }
    }
