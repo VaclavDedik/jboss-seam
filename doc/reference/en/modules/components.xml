@@ -1087,6 +1087,34 @@
                             conversation entry is not found on the server side.
                         </para>
                         </listitem>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.navigation.pages.loginViewId</literal> 
+                            &#8212; global setting for the view id to redirect to when an 
+                            unauthenticated user tries to access a protected view.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.navigation.pages.http-port</literal> 
+                            &#8212; global setting for the port to use when the http scheme 
+                            is requested.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.navigation.pages.https-port</literal> 
+                            &#8212; global setting for the port to use when the https scheme 
+                            is requested.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.navigation.pages.resources</literal> 
+                            &#8212; a list of resources to search for <literal>pages.xml</literal>
+                            style resources.  Defaults to <literal>WEB-INF/pages.xml</literal>.
+                        </para>
+                        </listitem>
                     </itemizedlist>
                 </listitem>
             </varlistentry>
