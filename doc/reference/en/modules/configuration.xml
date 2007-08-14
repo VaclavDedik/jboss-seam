@@ -539,7 +539,7 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
                 Seam managed JPA <literal>EntityManager</literal> to be available via injection. </para>
 
             <programlisting><![CDATA[<persistence:managed-persistence-context name="entityManager"
-                            session-factory="#{entityManagerFactory}"/>]]></programlisting>
+                            entity-manager-factory="#{entityManagerFactory}"/>]]></programlisting>
 
         </sect2>
 
@@ -765,6 +765,7 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
           </bean>
        </factory>
     </service>
+    <service name="tx" factory="org.jbpm.tx.TxServiceFactory" />
     <service name="message" factory="org.jbpm.msg.db.DbMessageServiceFactory" />
     <service name="scheduler" factory="org.jbpm.scheduler.db.DbSchedulerServiceFactory" />
     <service name="logging" factory="org.jbpm.logging.db.DbLoggingServiceFactory" />

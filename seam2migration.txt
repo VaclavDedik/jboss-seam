@@ -120,3 +120,9 @@ longer need any special configuration or packaging for Tomcat deployments.
 
 Note that JBoss Embedded is able to bootstrap a datasource from a -ds.xml
 file, so there is no longer a need for jboss-beans.xml.
+
+Migration to JBPM 3.2
+---------------------
+If you are using JBPM for business processes (not just pageflows), you need 
+to add the tx service to jbpm.cfg.xml: 
+  <service name="tx" factory="org.jbpm.tx.TxServiceFactory" />
