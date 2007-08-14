@@ -1096,14 +1096,14 @@
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>org.jboss.seam.navigation.pages.http-port</literal> 
+                            <literal>org.jboss.seam.navigation.pages.httpPort</literal> 
                             &#8212; global setting for the port to use when the http scheme 
                             is requested.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>org.jboss.seam.navigation.pages.https-port</literal> 
+                            <literal>org.jboss.seam.navigation.pages.httpsPort</literal> 
                             &#8212; global setting for the port to use when the https scheme 
                             is requested.
                         </para>
