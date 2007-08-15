@@ -33,7 +33,7 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 @Name("org.jboss.seam.persistence.persistenceProvider")
 @Scope(ScopeType.STATELESS)
 @BypassInterceptors
-@Install(precedence=BUILT_IN, genericDependencies=ManagedPersistenceContext.class)
+@Install(precedence=BUILT_IN, classDependencies="javax.persistence.EntityManager")
 public class PersistenceProvider
 {
 
@@ -73,7 +73,6 @@ public class PersistenceProvider
     * 
     * @param bean
     * @param entityManager
-    * @return
     */
    public String getName(Object bean, EntityManager entityManager)
    {
@@ -112,7 +111,7 @@ public class PersistenceProvider
     * since we well know that other products don't have such cool
     * features. 
     */
-   public void enableFilter(Filter f, EntityManager entityManager)
+   public void enableFilter(Filter filter, EntityManager entityManager)
    {
       throw new UnsupportedOperationException("For filters, please use Hibernate as the persistence provider");
    }

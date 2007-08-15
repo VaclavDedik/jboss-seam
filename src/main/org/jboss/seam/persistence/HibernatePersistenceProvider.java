@@ -37,7 +37,7 @@ import org.jboss.seam.log.Logging;
 @Name("org.jboss.seam.persistence.persistenceProvider")
 @Scope(ScopeType.STATELESS)
 @BypassInterceptors
-@Install(precedence=FRAMEWORK, classDependencies="org.hibernate.Session", genericDependencies=ManagedPersistenceContext.class)
+@Install(precedence=FRAMEWORK, classDependencies={"org.hibernate.Session", "javax.persistence.EntityManager"})
 public class HibernatePersistenceProvider extends PersistenceProvider
 {
    
@@ -200,6 +200,7 @@ public class HibernatePersistenceProvider extends PersistenceProvider
       return classMetadata;
    }
    
+   @Override
    public String getName(Object bean, EntityManager entityManager)
    {
       return getSession(entityManager).getEntityName(bean);
