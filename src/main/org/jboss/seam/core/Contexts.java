@@ -24,7 +24,7 @@ import org.jboss.seam.contexts.Context;
 @Name("org.jboss.seam.core.contexts")
 @BypassInterceptors
 @Install(precedence=BUILT_IN)
-@Scope(ScopeType.APPLICATION)
+@Scope(ScopeType.STATELESS)
 public class Contexts 
 {
 
