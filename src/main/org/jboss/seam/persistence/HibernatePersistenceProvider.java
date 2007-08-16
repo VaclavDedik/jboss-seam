@@ -32,6 +32,7 @@ import org.jboss.seam.log.Logging;
  * used as the JPA persistence provider.
  * 
  * @author Gavin King
+ * @author Pete Muir
  *
  */
 @Name("org.jboss.seam.persistence.persistenceProvider")
@@ -203,7 +204,14 @@ public class HibernatePersistenceProvider extends PersistenceProvider
    @Override
    public String getName(Object bean, EntityManager entityManager)
    {
-      return getSession(entityManager).getEntityName(bean);
+      try 
+      {
+         return getSession(entityManager).getEntityName(bean);
+      } 
+      catch (TransientObjectException e) 
+      {
+         return super.getName(bean, entityManager);
+      }
    }
 
 }
