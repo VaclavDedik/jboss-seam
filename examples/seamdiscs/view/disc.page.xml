@@ -17,5 +17,9 @@
    			<end-conversation/>
    			<redirect view-id="/discs.xhtml" />
    		</rule>
+   		<rule if-outcome="removed">
+   			<end-conversation/>
+   			<redirect view-id="/discs.xhtml" />
+   		</rule>
    </navigation>
 </page>

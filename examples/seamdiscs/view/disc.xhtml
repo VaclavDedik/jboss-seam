@@ -26,7 +26,7 @@
 			    		<tr:inputText label="Disc" value="#{disc.name}" readOnly="#{not identity.loggedIn}" required="true" />
 			    		<tr:inputNumberSpinbox label="Release Date" value="#{disc.release}" minimum="1900" maximum="2010" stepSize="1" readOnly="#{not identity.loggedIn}" />           
 		    			<tr:selectOneChoice value="#{disc.artist}" label="Artist" required="true" readOnly="#{not identity.loggedIn}">
-		    				<s:selectItems value="#{artists.resultList}" var="artist" label="#{artist.name}" noSelectionLabel="Please Select..." hideNoSelectionLabel="true" />
+		    				<s:selectItems value="#{allArtists.resultList}" var="artist" label="#{artist.name}" noSelectionLabel="Please Select..." hideNoSelectionLabel="true" />
 		    				<s:convertEntity />
 		    			</tr:selectOneChoice>
 		    			<tr:panelLabelAndMessage label="Details">
@@ -44,6 +44,7 @@
 		    	<tr:panelButtonBar rendered="#{identity.loggedIn}">
 			    	<h:commandButton action="#{discHome.update}" value="Save" rendered="#{discHome.managed}" />
 			    	<h:commandButton action="#{discHome.persist}" value="Save" rendered="#{not discHome.managed}" />
+			    	<h:commandButton action="#{discHome.remove}" value="Delete" rendered="#{discHome.managed}" />
 			    	<s:button action="cancel" value="Cancel" />
 			    </tr:panelButtonBar>
 	    	</tr:form>
