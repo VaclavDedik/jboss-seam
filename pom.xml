@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>jboss</groupId>
+	<groupId>org.jboss.seam</groupId>
 	<artifactId>jboss-seam</artifactId>
 	<url>http://jboss.com/products/seam</url>
 	<version>2.0.0.BETA</version>
@@ -50,6 +50,11 @@
 			<id>maven2.java.net</id>
 			<url>http://download.java.net/maven/2/</url>
 		</repository>
+		<repository>
+			<id>local</id>
+			<name>Local Repository</name>
+			<url>file://${basedir}/../build/repository</url>
+		</repository>
 	</repositories>
 
 	<dependencyManagement>
@@ -62,22 +67,35 @@
 			<!-- All Seam modules -->
 
 			<dependency>
-				<groupId>jboss</groupId>
+				<groupId>org.jboss.seam</groupId>
 				<artifactId>jboss-seam-core</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
-				<groupId>jboss</groupId>
+				<groupId>org.jboss.seam</groupId>
 				<artifactId>jboss-seam-ui</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
-				<groupId>jboss</groupId>
+				<groupId>org.jboss.seam</groupId>
 				<artifactId>jboss-seam-pdf</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+			
+			<dependency>
+				<groupId>org.jboss.seam</groupId>
+				<artifactId>jboss-seam-remoting</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.jboss.seam</groupId>
+				<artifactId>jboss-seam-ioc</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+		
 
 			<dependency>
 				<groupId>javax.servlet</groupId>
@@ -104,27 +122,39 @@
 			</dependency>
 
 			<dependency>
+				<groupId>org.richfaces</groupId>
+				<artifactId>richfaces</artifactId>
+				<version>3.0.1</version>
+			</dependency>
+
+			<dependency>
 				<groupId>javax.faces</groupId>
 				<artifactId>jsf-api</artifactId>
-				<version>1.2_04-p01</version>
+				<version>1.2_04-p02</version>
 			</dependency>
 
 			<dependency>
-				<groupId>jboss</groupId>
+				<groupId>javax.faces</groupId>
+				<artifactId>jsf-impl</artifactId>
+				<version>1.2_04-p02</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jbpm</groupId>
 				<artifactId>jbpm-jpdl</artifactId>
-				<version>3.2.1-jboss-seam-2.0.0.BETA</version>
+				<version>3.2.1</version>
 			</dependency>
 
 			<dependency>
-				<groupId>jboss</groupId>
+				<groupId>org.jboss</groupId>
 				<artifactId>jboss-cache-jdk50</artifactId>
-				<version>1.4.1.GA-jboss-seam-2.0.0.BETA</version>
+				<version>1.4.1.GA</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate</artifactId>
-				<version>3.2.1.ga</version>
+				<version>3.2.4.sp1</version>
 			</dependency>
 
 			<dependency>
@@ -146,12 +176,6 @@
 			</dependency>
 
 			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>3.8.1</version>
-			</dependency>
-
-			<dependency>
 				<groupId>javax.persistence</groupId>
 				<artifactId>persistence-api</artifactId>
 				<version>1.0</version>
@@ -160,13 +184,19 @@
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-annotations</artifactId>
-				<version>3.2.0.ga</version>
+				<version>3.2.1.ga</version>
+
 			</dependency>
 
 			<dependency>
 				<groupId>jboss</groupId>
 				<artifactId>jboss-system</artifactId>
 				<version>4.2.0.GA</version>
+			</dependency>
+			<dependency>
+				<groupId>jboss</groupId>
+				<artifactId>jbossxb</artifactId>
+				<version>1.0.0.CR8</version>
 			</dependency>
 
 			<dependency>
@@ -175,20 +205,14 @@
 				<version>4.2.0.GA</version>
 			</dependency>
 
-			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>3.8.1</version>
-			</dependency>
-
-			<!-- Should be 3.5.CR1, but this doesn't seem to exist -->
+			<!-- Should be 3.3.GA to be in sync with AS, but this doesn't seem to exist -->
 			<dependency>
 				<groupId>javassist</groupId>
 				<artifactId>javassist</artifactId>
-				<version>3.5-SNAPSHOT</version>
+				<version>3.4.GA</version>
 			</dependency>
 
-			<!-- Should be 1.1.0.jboss, but doesn't exist in Maven -->
+			<!-- Should be 1.0.5.GA-jboss, to be in sync with AS but doesn't exist in Maven -->
 			<dependency>
 				<groupId>commons-logging</groupId>
 				<artifactId>commons-logging</artifactId>
@@ -262,51 +286,51 @@
 			</dependency>
 
 			<dependency>
-				<groupId>org.buni</groupId>
+				<groupId>org.buni.meldware</groupId>
 				<artifactId>meldware-mailjmx</artifactId>
-				<version>1.0M8-jboss-seam-2.0.0.BETA</version>
+				<version>1.0M8</version>
 			</dependency>
 
 			<dependency>
-				<groupId>org.buni</groupId>
+				<groupId>org.buni.meldware</groupId>
 				<artifactId>meldware-mailapi</artifactId>
-				<version>1.0M8-jboss-seam-2.0.0.BETA</version>
+				<version>1.0M8</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.drools</groupId>
 				<artifactId>drools-core</artifactId>
-				<version>4.0.0.MR2-jboss-seam-2.0.0.BETA</version>
+				<version>4.0.0</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.drools</groupId>
 				<artifactId>drools-compiler</artifactId>
-				<version>4.0.0.MR2-jboss-seam-2.0.0.BETA</version>
+				<version>4.0.0</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-search</artifactId>
-				<version>3.0.0.Beta3-jboss-seam-2.0.0.BETA</version>
+				<version>3.0.0.Beta4</version>
 			</dependency>
 
 			<dependency>
-				<groupId>jboss</groupId>
+				<groupId>org.jboss.seam</groupId>
 				<artifactId>jboss-el</artifactId>
-				<version>jboss-seam-2.0.0.BETA</version>
+				<version>2.0.0.BETA</version>
 			</dependency>
 
 			<dependency>
-				<groupId>jboss</groupId>
-				<artifactId>jboss-embedded</artifactId>
-				<version>beta2-jboss-seam-2.0.0.BETA</version>
+				<groupId>org.jboss.embedded</groupId>
+				<artifactId>jboss-embedded-api</artifactId>
+				<version>beta2</version>
 			</dependency>
 
 			<dependency>
 				<groupId>quartz</groupId>
 				<artifactId>quartz</artifactId>
-				<version>1.6.0-jboss-seam-2.0.0.BETA</version>
+				<version>1.6.0</version>
 			</dependency>
 
 			<dependency>
@@ -330,7 +354,7 @@
 			<dependency>
 				<groupId>com.lowagie</groupId>
 				<artifactId>itext</artifactId>
-				<version>2.0.4-jboss-seam-2.0.0.BETA</version>
+				<version>2.0.4</version>
 			</dependency>
 
 			<dependency>
@@ -349,6 +373,18 @@
 				<groupId>dom4j</groupId>
 				<artifactId>dom4j</artifactId>
 				<version>1.6.1-jboss</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.beanshell</groupId>
+				<artifactId>bsh</artifactId>
+				<version>2.0b4</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.tuckey</groupId>
+				<artifactId>urlrewritefilter</artifactId>
+				<version>3.0.4</version>
 			</dependency>
 
 		</dependencies>

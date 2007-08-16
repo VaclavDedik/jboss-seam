@@ -6,7 +6,7 @@
 	<groupId>org.jboss.seam</groupId>
 	<artifactId>jboss-seam-remoting</artifactId>
 	<parent>
-		<groupId>jboss</groupId>
+		<groupId>org.jboss.seam</groupId>
 		<artifactId>jboss-seam</artifactId>
 		<version>2.0.0.BETA</version>
 	</parent>
@@ -14,26 +14,66 @@
 	<dependencies>
 
 		<dependency>
-			<groupId>jboss</groupId>
+			<groupId>org.jboss.seam</groupId>
 			<artifactId>jboss-seam-core</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-servlet</artifactId>
+			<optional>true</optional>
 		</dependency>
 
 		<dependency>
 			<groupId>dom4j</groupId>
 			<artifactId>dom4j</artifactId>
+			<scope>provided</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>junit</groupId>
+            		<artifactId>junit</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>xpp3</groupId>
+					<artifactId>xpp3</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate</artifactId>
+			<scope>provided</scope>
+			<optional>true</optional>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-collections</groupId>
+					<artifactId>commons-collections</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+            		<artifactId>commons-logging</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>net.sf.ehcache</groupId>
+                    <artifactId>ehcache</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
-		
-	</dependencies>
 
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.jms</groupId>
+			<artifactId>jms-api</artifactId>
+			<scope>provided</scope>
+			<optional>true</optional>
+		</dependency>
+
+	</dependencies>
 
 </project>

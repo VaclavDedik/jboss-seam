@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.jboss.seam.profile</groupId>
+	<artifactId>seam-ajax</artifactId>
+	<packaging>pom</packaging>
+	<parent>
+		<groupId>org.jboss.seam</groupId>
+		<artifactId>jboss-seam</artifactId>
+		<version>2.0.0.BETA</version>
+	</parent>
+	
+	<description>Seam with Ajax functionality provided by Ajax4jsf</description>
+
+	<dependencies>
+	
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-seam-core</artifactId>
+		</dependency>
+		
+		<!-- TODO Do we need commons-XXX -->
+		
+		<dependency>
+			<groupId>org.ajax4jsf</groupId>
+			<artifactId>ajax4jsf</artifactId>
+		</dependency>
+		
+	</dependencies>
+
+
+</project>

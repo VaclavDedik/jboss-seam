@@ -377,6 +377,10 @@
 		</fileset>
 		<path refid="build.classpath.extras" />
 	</path>
+	
+	<path id="emma.classpath">
+		<fileset dir="${seam.dir}/extras/emma/*.jar" />
+	</path>
 
 
 	<!-- ##################### BUILD TARGETS (COMMON) ##################### -->
@@ -755,6 +759,7 @@
 			<classpath path="${test.dir}" />
 			<classpath path="${eejb.conf.dir}" />
 			<classpath refid="build.classpath" />
+			<classpath refid="emma.classpath" />
 			<xmlfileset dir="${src.test.dir}" includes="**/*.xml" />
 		</testng>
 	</target>

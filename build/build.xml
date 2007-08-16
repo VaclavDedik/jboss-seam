@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<project name="Seam2 Build Utilities" basedir="." default="help" xmlns:artifact="urn:maven-artifact-ant">
+	<path id="maven-ant-tasks.classpath" path="lib/maven-ant-tasks.jar" />
+	<typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="urn:maven-artifact-ant" classpathref="maven-ant-tasks.classpath" />
+
+	<artifact:remoteRepository id="local.repository" url="file://${basedir}/repository" />
+
+	<target name="deployLocal" description="Deploy a pom and jar to local (development) repository">
+		<echo message="Deploying ${pom.groupId}.${pom.artifactId} to local repository" />
+		<artifact:deploy file="${jar}">
+			<pom file="@{pom}" />
+			<remoteRepository refid="local.repository" />
+		</artifact:deploy>
+	</target>
+
+	<target name="deployLocalPomOnly" description="Deploy a pom to the (development) repository">
+		<echo message="Deploying ${pom.groupId}.${pom.artifactId} to local repository (pom only)" />
+		<artifact:deploy>
+			<pom file="@{pom}" />
+			<remoteRepository refid="local.repository" />
+		</artifact:deploy>
+	</target>
+
+	<target name="deployLocalJarOnly" description="Deploy a jar (generating the pom) to local (development) repository">
+		<echo message="Deploying ${pom.groupId}.${pom.artifactId} to local repository (generating pom)" />
+		<artifact:deploy file="${pom}">
+			<remoteRepository refid="local.repository" />
+		</artifact:deploy>
+	</target>
+	
+	<target name="deployProfiles" description="Deploy all profiles to the local (development) repository">
+		<deployProfile pom="profiles/seam-ajax4jsf.pom.xml" />
+		<deployProfile pom="profiles/seam-drools.pom.xml" />
+		<deployProfile pom="profiles/seam-facelets.pom.xml" />
+		<deployProfile pom="profiles/seam-gwt.pom.xml" />
+		<deployProfile pom="profiles/seam-hibernate-search.pom.xml" />
+		<deployProfile pom="profiles/seam-jboss-cache.pom.xml" />
+		<deployProfile pom="profiles/seam-jbpm-jpdl.pom.xml" />
+		<deployProfile pom="profiles/seam-jbpm-jpdl-tomcat.pom.xml" />
+		<deployProfile pom="profiles/seam-jcaptcha.pom.xml" />
+		<deployProfile pom="profiles/seam-quartz.pom.xml" />
+		<deployProfile pom="profiles/seam-richfaces.pom.xml" />
+		<deployProfile pom="profiles/seam-spring.pom.xml" />
+		<deployProfile pom="profiles/seam-urlrewrite.pom.xml" />
+	</target>
+		
+	<target name="help">
+		<echo>Examples:</echo>
+		<echo>---------</echo>
+		<echo />
+		<echo>Deploy both a pom and the associated jar: </echo>
+		<echo>   ant deployLocal -Dpom=jboss-el.pom.xml -Djar=jboss-el.jar</echo>
+		<echo />
+		<echo>Deploy a pom only (useful if packaging is set to pom):</echo>
+		<echo>   ant deployLocalPomOnly -Dpom=jboss-el.pom.xml</echo>
+		<echo />
+		<echo>Deploy a jar and generate a basic pom:</echo>
+		<echo>   ant deployLocal -Dpom=jboss-el.pom.xml -Djar=jboss-el.jar</echo>
+		<echo />
+		<echo>Deploy all profiles to local repository:</echo>
+		<echo>   ant deployProfiles</echo>
+	</target>
+	
+	<macrodef name="deployProfile">
+		<attribute name="pom"/>
+		<sequential>
+			<artifact:deploy>
+				<pom file="@{pom}"/>
+				<remoteRepository refid="local.repository" />
+			</artifact:deploy>
+		</sequential>
+	</macrodef>
+</project>

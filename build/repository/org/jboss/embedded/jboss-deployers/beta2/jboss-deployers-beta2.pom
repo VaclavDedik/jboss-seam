@@ -1,0 +1,7 @@
+<?xml version="1.0"?><project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.jboss.embedded</groupId>
+  <artifactId>jboss-deployers</artifactId>
+  <name>JBoss Deployers</name>
+  <version>beta2</version>
+</project>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?><metadata>
+  <groupId>org.jboss.embedded</groupId>
+  <artifactId>jboss-deployers</artifactId>
+  <version>beta2</version>
+  <versioning>
+    <versions>
+      <version>beta2</version>
+    </versions>
+    <lastUpdated>20070815130606</lastUpdated>
+  </versioning>
+</metadata>
