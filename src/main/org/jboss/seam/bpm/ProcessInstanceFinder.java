@@ -31,7 +31,7 @@ public class ProcessInstanceFinder
    private Boolean processInstanceEnded = false;
    private Boolean sortDescending = false;
    
-   @Factory("org.jboss.seam.bpm.processInstanceList")
+   @Factory(value="org.jboss.seam.bpm.processInstanceList", autoCreate=true)
    @Transactional
    public List<ProcessInstance> getProcessInstanceList()
    {
