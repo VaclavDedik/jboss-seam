@@ -537,6 +537,7 @@
 		<ant dir="examples/registration" target="test" inheritall="false" />
 		<ant dir="examples/todo" target="test" inheritall="false" />
 		<ant dir="examples/blog" target="test" inheritall="false" />
+		<ant dir="examples/ui" target="test" inheritall="false" />
 		<!--<ant dir="examples/wiki" target="test" inheritall="false" />-->
 		<!--<ant dir="examples/portal" target="test" inheritall="false" />-->
 	</target>

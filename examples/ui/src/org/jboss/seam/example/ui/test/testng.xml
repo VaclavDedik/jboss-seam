@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
+
+<suite name="UI Example Tests" verbose="2" parallel="false">
+
+   <test name="UI Example: Core">
+     <classes>
+       <class name="org.jboss.seam.example.ui.test.PageContextTest"/>
+     </classes>
+   </test>
+	
+</suite>
