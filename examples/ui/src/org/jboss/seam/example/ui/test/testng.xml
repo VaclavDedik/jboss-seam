@@ -5,6 +5,7 @@
    <test name="UI Example: Core">
      <classes>
        <class name="org.jboss.seam.example.ui.test.PageContextTest"/>
+       <class name="org.jboss.seam.example.ui.test.MiscTests"/>
      </classes>
    </test>
 	
