@@ -3,6 +3,7 @@ package org.jboss.seam.framework;
 import java.io.Serializable;
 
 import org.hibernate.Session;
+import org.hibernate.TransientObjectException;
 import org.jboss.seam.annotations.Transactional;
 
 /**
@@ -104,7 +105,14 @@ public class HibernateEntityHome<E> extends Home<Session, E>
    @Override
    protected String getEntityName()
    {
-      return getSession().getEntityName(getInstance());
+      try
+      {
+         return getSession().getEntityName(getInstance());
+      }
+      catch (TransientObjectException e) 
+      {
+         return getSession().getSessionFactory().getClassMetadata(getInstance().getClass()).getEntityName();
+      }
    }
    
 }
