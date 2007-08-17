@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="Seam2" default="build" basedir="." xmlns:artifact="urn:maven-artifact-ant">
+<project name="Seam2" default="build" basedir=".">
 
 	<tstamp />
 
@@ -43,7 +43,6 @@
 
 	<!-- set global properties for this build -->
 
-
 	<!-- Targets -->
 	<property name="classes.dir" value="classes" />
 	<property name="classes.core.dir" value="${classes.dir}/coreclasses" />
@@ -57,6 +56,18 @@
 
 	<property name="ui.dir" value="ui" />
 	<property name="seamgen.dir" value="${basedir}/seam-gen" />
+
+	<!-- Build resources -->
+	<property name="build.dir" value="${basedir}/build" />
+	<property name="build.thirdparty.dir" value="${basedir}/build/thirdparty" />
+	<property name="build.lib.dir" value="${build.dir}/lib" />
+	<property name="maven.dir" value="${build.dir}/maven" />
+	<property name="seam.dir" value="${basedir}" />
+
+	<path id="maven-ant-tasks.classpath" path="${build.lib.dir}/maven-ant-tasks.jar" />
+	<typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="urn:maven-artifact-ant" classpathref="maven-ant-tasks.classpath" />
+
+	<import file="${build.dir}/utilities.xml" />
 
 	<!-- Source directories -->
 	<property name="src.core.dir" value="src/main" />
@@ -75,11 +86,15 @@
 	<property name="drools.dir" value="${basedir}/drools" />
 	<property name="hibernate.dir" value="${basedir}/hibernate" />
 
-	<!-- Build resources -->
-	<property name="build.dir" value="${basedir}/build" />
-	<property name="build.thirdparty.dir" value="${basedir}/build/thirdparty" />
-	<property name="build.lib.dir" value="${build.dir}/lib" />
-	<property name="maven.dir" value="${build.dir}/maven" />
+	<!-- POMs -->
+	<pomfile name="core.pom" value="${build.dir}/core.pom.xml" />
+	<pomfile name="debug.pom" value="${build.dir}/debug.pom.xml" />
+	<pomfile name="gen.pom" value="${build.dir}/gen.pom.xml" />
+	<pomfile name="ioc.pom" value="${build.dir}/ioc.pom.xml" />
+	<pomfile name="mail.pom" value="${build.dir}/mail.pom.xml" />
+	<pomfile name="pdf.pom" value="${build.dir}/pdf.pom.xml" />
+	<pomfile name="remoting.pom" value="${build.dir}/remoting.pom.xml" />
+	<pomfile name="ui.pom" value="${ui.dir}/pom.xml" />
 
 	<!-- Documentation -->
 	<property name="doc.dir" value="doc" />
@@ -180,18 +195,7 @@
 		<include name="**/*.png" />
 	</patternset>
 
-
-	<!-- ########################## MAVEN2 #########################-->
-
-	<path id="maven-ant-tasks.classpath" path="${build.lib.dir}/maven-ant-tasks.jar" />
-	<typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="urn:maven-artifact-ant" classpathref="maven-ant-tasks.classpath" />
-
-	<target name="init">
-		<artifact:pom file="${basedir}/pom.xml" id="seam.pom" />
-		<artifact:install>
-			<pom refid="seam.pom" />
-		</artifact:install>
-	</target>
+	<target name="init" />
 
 
 	<!-- ########################## BUILD TARGETS ##########################-->
@@ -218,14 +222,7 @@
 
 
 	<target name="initcore" depends="init">
-		<artifact:pom file="${build.dir}/core.pom.xml" id="core.pom" />
-		<init classesdir="${classes.core.dir}" srcdir="${src.core.dir}" modulename="Core" />
-		<artifact:dependencies pathId="compile.core.path" useScope="compile">
-			<pom refid="core.pom" />
-		</artifact:dependencies>
-		<artifact:dependencies filesetId="compile.core.fileset" versionsId="compile.core.versions" useScope="compile">
-			<pom refid="core.pom" />
-		</artifact:dependencies>
+		<init classesdir="${classes.core.dir}" srcdir="${src.core.dir}" modulename="core" pom="${core.pom}" />
 	</target>
 
 	<target name="antlr" description="Generate ANTLR parser" depends="initcore">
@@ -243,23 +240,13 @@
 	</target>
 
 	<target name="jarcore" depends="compilecore" description="Build the distribution .jar file using M2 dependency management">
-		<archive classesdir="${classes.core.dir}" module="jboss-seam" />
-		<artifact:install file="${basedir}/jboss-seam.jar">
-			<pom refid="core.pom" />
-		</artifact:install>
+		<archive classesdir="${classes.core.dir}" module="jboss-seam" pom="${core.pom}" />
 	</target>
 
 	<!-- ########################### PDF TARGETS ###########################-->
 
 	<target name="initpdf" depends="init, jarcore, jarui">
-		<artifact:pom file="${build.dir}/pdf.pom.xml" id="pdf.pom" />
-		<init classesdir="${classes.pdf.dir}" srcdir="${src.pdf.dir}" modulename="PDF" />
-		<artifact:dependencies pathId="compile.pdf.path" useScope="compile">
-			<pom refid="pdf.pom" />
-		</artifact:dependencies>
-		<artifact:dependencies filesetId="compile.pdf.fileset" versionsId="compile.pdf.versions" useScope="compile">
-			<pom refid="pdf.pom" />
-		</artifact:dependencies>
+		<init classesdir="${classes.pdf.dir}" srcdir="${src.pdf.dir}" modulename="pdf" pom="${pdf.pom}" />
 	</target>
 
 	<target name="compilepdf" depends="initpdf, select-compiler">
@@ -267,24 +254,14 @@
 	</target>
 
 	<target name="jarpdf" depends="compilepdf" description="Build the distribution .jar file for the PDF package">
-		<archive classesdir="${classes.pdf.dir}" module="jboss-seam-pdf" />
-		<artifact:install file="${basedir}/jboss-seam-pdf.jar">
-			<pom refid="pdf.pom" />
-		</artifact:install>
+		<archive classesdir="${classes.pdf.dir}" module="jboss-seam-pdf" pom="${pdf.pom}" />
 	</target>
 
 
 	<!-- ########################### IOC TARGETS ###########################-->
 
 	<target name="initioc" depends="init, jarcore">
-		<init classesdir="${classes.ioc.dir}" srcdir="${src.ioc.dir}" modulename="ioc" />
-		<artifact:pom file="${build.dir}/ioc.pom.xml" id="ioc.pom" />
-		<artifact:dependencies pathId="compile.ioc.path" useScope="compile">
-			<pom refid="ioc.pom" />
-		</artifact:dependencies>
-		<artifact:dependencies filesetId="compile.ioc.fileset" versionsId="compile.ioc.versions" useScope="compile">
-			<pom refid="ioc.pom" />
-		</artifact:dependencies>
+		<init classesdir="${classes.ioc.dir}" srcdir="${src.ioc.dir}" modulename="ioc" pom="${ioc.pom}" />
 	</target>
 
 	<target name="compileioc" depends="initioc, select-compiler">
@@ -292,24 +269,14 @@
 	</target>
 
 	<target name="jarioc" depends="compileioc" description="Build the distribution .jar file for the IOC package">
-		<archive classesdir="${classes.ioc.dir}" module="jboss-seam-ioc" />
-		<artifact:install file="${basedir}/jboss-seam-ioc.jar">
-			<pom refid="ioc.pom" />
-		</artifact:install>
+		<archive classesdir="${classes.ioc.dir}" module="jboss-seam-ioc" pom="${ioc.pom}" />
 	</target>
 
 
 	<!-- ########################### MAIL TARGETS ###########################-->
 
 	<target name="initmail" depends="init, jarcore, jarui, jarpdf">
-		<init classesdir="${classes.mail.dir}" srcdir="${src.mail.dir}" modulename="Mail" />
-		<artifact:pom file="${build.dir}/mail.pom.xml" id="mail.pom" />
-		<artifact:dependencies pathId="compile.mail.path" useScope="compile">
-			<pom refid="mail.pom" />
-		</artifact:dependencies>
-		<artifact:dependencies filesetId="compile.mail.fileset" versionsId="compile.mail.versions" useScope="compile">
-			<pom refid="mail.pom" />
-		</artifact:dependencies>
+		<init classesdir="${classes.mail.dir}" srcdir="${src.mail.dir}" modulename="mail" pom="${mail.pom}" />
 	</target>
 
 	<target name="compilemail" depends="initmail, select-compiler">
@@ -317,24 +284,14 @@
 	</target>
 
 	<target name="jarmail" depends="compilemail" description="Build the distribution .jar file for the IOC package">
-		<archive classesdir="${classes.mail.dir}" module="jboss-seam-mail" />
-		<artifact:install file="${basedir}/jboss-seam-mail.jar">
-			<pom refid="mail.pom" />
-		</artifact:install>
+		<archive classesdir="${classes.mail.dir}" module="jboss-seam-mail" pom="${mail.pom}" />
 	</target>
 
 
 	<!-- ########################### DEBUG TARGETS ###########################-->
 
 	<target name="initdebug" depends="init, jarcore">
-		<init classesdir="${classes.debug.dir}" srcdir="${src.debug.dir}" modulename="Debug" />
-		<artifact:pom file="${build.dir}/debug.pom.xml" id="debug.pom" />
-		<artifact:dependencies pathId="compile.debug.path" useScope="compile">
-			<pom refid="debug.pom" />
-		</artifact:dependencies>
-		<artifact:dependencies filesetId="compile.debug.fileset" versionsId="compile.debug.versions" useScope="compile">
-			<pom refid="debug.pom" />
-		</artifact:dependencies>
+		<init classesdir="${classes.debug.dir}" srcdir="${src.debug.dir}" modulename="debug" pom="${debug.pom}" />
 	</target>
 
 	<target name="compiledebug" depends="initdebug, select-compiler">
@@ -342,24 +299,14 @@
 	</target>
 
 	<target name="jardebug" depends="compiledebug" description="Build the distribution .jar file for the IOC package">
-		<archive classesdir="${classes.debug.dir}" module="jboss-seam-debug" />
-		<artifact:install file="${basedir}/jboss-seam-debug.jar">
-			<pom refid="debug.pom" />
-		</artifact:install>
+		<archive classesdir="${classes.debug.dir}" module="jboss-seam-debug" pom="${debug.pom}" />
 	</target>
 
 
 	<!-- ########################### GEN TARGETS ###########################-->
 
 	<target name="initgen" depends="init, jarcore">
-		<init classesdir="${classes.gen.dir}" srcdir="${src.gen.dir}" modulename="GEN" />
-		<artifact:pom file="${build.dir}/gen.pom.xml" id="gen.pom" />
-		<artifact:dependencies pathId="compile.gen.path" useScope="compile">
-			<pom refid="gen.pom" />
-		</artifact:dependencies>
-		<artifact:dependencies filesetId="compile.gen.fileset" versionsId="compile.gen.versions" useScope="compile">
-			<pom refid="gen.pom" />
-		</artifact:dependencies>
+		<init classesdir="${classes.gen.dir}" srcdir="${src.gen.dir}" modulename="gen" pom="${gen.pom}" />
 	</target>
 
 	<target name="compilegen" depends="initgen, select-compiler">
@@ -367,25 +314,14 @@
 	</target>
 
 	<target name="jargen" depends="compilegen" description="Build the distribution .jar file for the gen package">
-		<archive classesdir="${classes.gen.dir}" module="jboss-seam-gen" />
-		<artifact:install file="${basedir}/jboss-seam-gen.jar">
-			<pom refid="gen.pom" />
-		</artifact:install>
+		<archive classesdir="${classes.gen.dir}" module="jboss-seam-gen" pom="${gen.pom}" />
 	</target>
 
 
 	<!-- ########################### REMOTING TARGETS ###########################-->
 
 	<target name="initremoting" depends="init, jarcore">
-		<init classesdir="${classes.remoting.dir}" srcdir="${src.remoting.dir}" modulename="Remoting" />
-		<artifact:pom file="${build.dir}/remoting.pom.xml" id="remoting.pom" />
-		<artifact:dependencies pathId="compile.remoting.path" useScope="compile">
-			<pom refid="remoting.pom" />
-		</artifact:dependencies>
-		<artifact:pom file="${build.dir}/remoting.pom.xml" id="remoting.pom" />
-		<artifact:dependencies filesetId="compile.remoting.fileset" versionsId="compile.remoting.versions" useScope="compile">
-			<pom refid="remoting.pom" />
-		</artifact:dependencies>
+		<init classesdir="${classes.remoting.dir}" srcdir="${src.remoting.dir}" modulename="remoting" pom="${remoting.pom}" />
 	</target>
 
 	<target name="compileremoting" depends="initremoting, select-compiler">
@@ -393,25 +329,16 @@
 	</target>
 
 	<target name="jarremoting" depends="compileremoting" description="Build the distribution .jar file for the Remoting package">
-		<archive classesdir="${classes.remoting.dir}" module="jboss-seam-remoting" />
-		<artifact:install file="${basedir}/jboss-seam-remoting.jar">
-			<pom refid="remoting.pom" />
-		</artifact:install>
+		<archive classesdir="${classes.remoting.dir}" module="jboss-seam-remoting" pom="${remoting.pom}" />
 	</target>
 
 	<!-- ########################### UI TARGETS ###########################-->
 
 	<target name="initui" depends="init, jarcore">
-		<artifact:pom file="${ui.dir}/pom.xml" id="ui.pom" />
-		<artifact:dependencies pathId="compile.ui.path" useScope="compile">
-			<pom refid="ui.pom" />
-		</artifact:dependencies>
-		<artifact:dependencies filesetId="compile.ui.fileset" versionsId="compile.ui.versions" useScope="compile">
-			<pom refid="ui.pom" />
-		</artifact:dependencies>
+		<dependencies id="ui" scope="compile" pom="${ui.pom}" />
 	</target>
 
-	<target name="jarui" description="Build the distribution .jar file for the UI package based on A4J CDK" depends="init, jarcore">
+	<target name="jarui" description="Build the distribution .jar file for the UI package based on A4J CDK" depends="initui">
 		<mkdir dir="${dist.dir}" />
 		<cdk target="install" />
 		<copy file="${ui.dir}/target/jboss-seam-ui.jar" tofile="${basedir}/${name}-ui.jar" />
@@ -842,6 +769,7 @@
 		<attribute name="modulename" />
 		<attribute name="classesdir" />
 		<attribute name="srcdir" />
+		<attribute name="pom" />
 		<attribute name="message" default="Build ${Name} @{modulename} ${version}" />
 		<sequential>
 			<echo message="@{message}" />
@@ -851,6 +779,7 @@
 					<patternset refid="meta.files" />
 				</fileset>
 			</copy>
+			<dependencies id="@{modulename}" scope="compile" pom="@{pom}" />
 		</sequential>
 	</macrodef>
 
@@ -872,6 +801,7 @@
 	<macrodef name="archive">
 		<attribute name="module" />
 		<attribute name="classesdir" />
+		<attribute name="pom" />
 		<sequential>
 			<jar jarfile="${basedir}/@{module}.jar" basedir="@{classesdir}">
 				<include name="**/*.class" />
@@ -884,6 +814,7 @@
 			</jar>
 			<mkdir dir="${dist.dir}" />
 			<copy file="${basedir}/@{module}.jar" todir="${dist.dir}" />
+			<install jar="${basedir}/@{module}.jar" pom="@{pom}" />
 		</sequential>
 	</macrodef>
 
@@ -922,7 +853,7 @@
 			</copy>
 		</sequential>
 	</macrodef>
-	
+
 	<macrodef name="copylib">
 		<attribute name="fileset" />
 		<attribute name="versions" />

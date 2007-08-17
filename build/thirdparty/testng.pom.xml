@@ -40,7 +40,7 @@
     <groupId>org.testng</groupId>
     <artifactId>testng</artifactId>
     <name>TestNG</name>
-    <version>5.6-jboss-seam-2.0.0.BETA</version>
+    <version>5.6</version>
     <description>TestNG is a unit testing framework.</description>
     <url>http://testng.org</url>
     <licenses>

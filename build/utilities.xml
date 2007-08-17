@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<project basedir="." xmlns:artifact="urn:maven-artifact-ant">
+	
+	<artifact:remoteRepository id="local.repository" url="file://${seam.dir}/build/repository" />
+
+	<macrodef name="pomfile">
+		<attribute name="name" />
+		<attribute name="value" />
+		<sequential>
+			<mkdir dir="${classes.dir}/poms" />
+			<copy file="@{value}" tofile="${classes.dir}/poms/@{name}" overwrite="on">
+				<filterset>
+					<filter token="seam.version" value="${version}.${patchlevel}" />
+					<filter token="seam.dir" value="${version}.${patchlevel}" />
+				</filterset>
+			</copy>
+			<property name="@{name}" value="${classes.dir}/poms/@{name}" />
+		</sequential>
+	</macrodef>
+
+	<macrodef name="dependencies">
+		<attribute name="id" />
+		<attribute name="scope" />
+		<attribute name="pom" />
+		<sequential>
+			<artifact:dependencies pathId="@{scope}.@{id}.path" filesetId="@{scope}.@{id}.fileset" versionsId="@{scope}.@{id}.versions" useScope="@{scope}">
+				<pom file="@{pom}" />
+				<remoterepository refid="local.repository" />
+			</artifact:dependencies>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="install">
+		<attribute name="pom" default="" />
+		<attribute name="jar" default="" />
+		<sequential>
+			<artifact:install file="@{jar}">
+				<pom file="@{pom}" />
+			</artifact:install>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="deploy">
+		<attribute name="pom" default="" />
+		<attribute name="jar" default="" />
+		<attribute name="repositoryId" default="" />
+		<sequential>
+			<artifact:deploy file="@{jar}">
+				<pom file="@{pom}" />
+				<remoteRepository refId="@{repositoryId}" />
+			</artifact:deploy>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="deployLocal">
+		<attribute name="pom" default="" />
+		<attribute name="jar" default="" />
+		<sequential>
+			<deploy pom="@{pom}" jar="@{jar}" repositoryId="local.repository" />
+		</sequential>
+	</macrodef>
+	
+	<pomfile name="seam.pom" value="${seam.dir}/pom.xml" />
+	<install pom="${seam.pom}" />
+
+</project>

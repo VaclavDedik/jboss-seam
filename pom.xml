@@ -6,7 +6,7 @@
 	<groupId>org.jboss.seam</groupId>
 	<artifactId>jboss-seam</artifactId>
 	<url>http://jboss.com/products/seam</url>
-	<version>2.0.0.BETA</version>
+	<version>@seam.version@</version>
 	<name>JBoss Seam</name>
 	<packaging>pom</packaging>
 	<modules>
@@ -15,10 +15,6 @@
 	<pluginRepositories>
 		<pluginRepository>
 			<releases />
-			<snapshots>
-				<enabled>false</enabled>
-				<updatePolicy>never</updatePolicy>
-			</snapshots>
 			<id>repository.jboss.com</id>
 			<name>JBoss Repository</name>
 			<url>http://repository.jboss.com/maven2</url>
@@ -49,11 +45,6 @@
 		<repository>
 			<id>maven2.java.net</id>
 			<url>http://download.java.net/maven/2/</url>
-		</repository>
-		<repository>
-			<id>local</id>
-			<name>Local Repository</name>
-			<url>file://${basedir}/../build/repository</url>
 		</repository>
 	</repositories>
 
@@ -185,7 +176,6 @@
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-annotations</artifactId>
 				<version>3.2.1.ga</version>
-
 			</dependency>
 
 			<dependency>

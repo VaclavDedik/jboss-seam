@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<project name="ui-example2" default="deploy" basedir=".">
+
+    <!-- Example name -->
+    <property name="Name"                   value="Seam UI example"/>
+    <property name="example.name"           value="jboss-seam-ui-example"/>
+    
+    <import file="../build.2.xml"/>
+	
+</project>
+

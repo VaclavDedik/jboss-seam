@@ -4,12 +4,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jboss.seam.profile</groupId>
-	<artifactId>seam-jpa</artifactId>
+	<artifactId>seam-ejb3</artifactId>
 	<packaging>pom</packaging>
 	<parent>
 		<groupId>org.jboss.seam</groupId>
 		<artifactId>jboss-seam</artifactId>
-		<version>2.0.0.BETA</version>
+		<version>@seam.version@</version>
 	</parent>
 	
 	<description>Seam with support for EJB3</description>
@@ -24,6 +24,8 @@
 		<dependency>
 			<groupId>org.jboss.seam.profile</groupId>
 			<artifactId>seam-jpa</artifactId>
+			<version>${project.version}</version>
+			<type>pom</type>
 		</dependency>
 		
 		<dependency>

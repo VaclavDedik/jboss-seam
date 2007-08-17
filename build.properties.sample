@@ -7,5 +7,5 @@ patchlevel = 0.BETA1
 #validate.xml=true
 
 # Compiled Seam artifacts (JARs, documentation, etc.) will be copied to this directory if specified,
-# otherwise ../jboss-seam-<timestamp>.<randomnumber>/ is used
+# otherwise ../jboss-seam-<version>.<patchlevel>/ is used
 #dist.dir=../jboss-seam-dist

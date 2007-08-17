@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>org.jboss.seam</groupId>
 		<artifactId>jboss-seam</artifactId>
-		<version>2.0.0.BETA</version>
+		<version>@seam.version@</version>
 	</parent>
 	
 	<description>Seam with support for JPA</description>

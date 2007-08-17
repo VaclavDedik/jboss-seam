@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><project>
   <modelVersion>4.0.0</modelVersion>
-  <groupId>jboss</groupId>
+  <groupId>org.jbpm</groupId>
   <artifactId>jbpm-jpdl</artifactId>
-  <version>3.2.1-jboss-seam-2.0.0.BETA</version>
+  <version>3.2.1</version>
   <description>POM was created from deploy:deploy-file</description>
 </project>

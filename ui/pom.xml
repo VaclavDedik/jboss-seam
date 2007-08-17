@@ -4,12 +4,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<parent>
 		<artifactId>jboss-seam</artifactId>
-		<groupId>jboss</groupId>
-		<version>2.0.0.BETA</version>
+		<groupId>org.jboss.seam</groupId>
+		<version>2.0.0.BETA1</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>jboss</groupId>
+	<groupId>org.jboss.seam</groupId>
 	<artifactId>jboss-seam-ui</artifactId>
 	<url>http://jboss.com/products/seam/taglib</url>
 	<name>Seam JSF Controls</name>
@@ -54,12 +54,16 @@
 			</plugin>
 		</plugins>
 	</build>
+	
+	<!-- TODO This is exporting commons logging.  Why? -->
+	
 	<dependencies>
 
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
 			<scope>provided</scope>
+			<optional>true</optional>
 		</dependency>
 
 		<dependency>
@@ -69,13 +73,14 @@
 		</dependency>
 
 		<dependency>
-			<groupId>jboss</groupId>
+			<groupId>org.jboss.seam</groupId>
 			<artifactId>jboss-seam-core</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>antlr</groupId>
 			<artifactId>antlr</artifactId>
+			<scope>provided</scope>
 			<optional>true</optional>
 		</dependency>
 
@@ -83,6 +88,20 @@
 			<groupId>org.ajax4jsf</groupId>
 			<artifactId>ajax4jsf</artifactId>
 			<optional>true</optional>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-collections</groupId>
+					<artifactId>commons-collections</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+            		<artifactId>commons-logging</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>junit</groupId>
+            		<artifactId>junit</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -92,13 +111,13 @@
 		</dependency>
 
 		<dependency>
-			<groupId>jboss</groupId>
+			<groupId>org.jbpm</groupId>
 			<artifactId>jbpm-jpdl</artifactId>
 			<optional>true</optional>
 		</dependency>
 
 		<dependency>
-			<groupId>jboss</groupId>
+			<groupId>org.jboss</groupId>
 			<artifactId>jboss-cache-jdk50</artifactId>
 			<optional>true</optional>
 		</dependency>
@@ -106,7 +125,22 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate</artifactId>
-			<scope>true</scope>
+			<optional>true</optional>
+			<scope>provided</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-collections</groupId>
+					<artifactId>commons-collections</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+            		<artifactId>commons-logging</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>net.sf.ehcache</groupId>
+                    <artifactId>ehcache</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -118,50 +152,45 @@
 		<dependency>
 			<groupId>javax.el</groupId>
 			<artifactId>el-api</artifactId>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+            		<artifactId>commons-logging</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>junit</groupId>
+            		<artifactId>junit</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
 			<groupId>javax.persistence</groupId>
 			<artifactId>persistence-api</artifactId>
 			<scope>provided</scope>
+			<optional>true</optional>
 		</dependency>
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-annotations</artifactId>
 			<scope>provided</scope>
+			<optional>true</optional>
 		</dependency>
 
 		<dependency>
-			<groupId>jboss</groupId>
-			<artifactId>jboss-system</artifactId>
-			<scope>provided</scope>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>5.1</version>
+			<scope>test</scope>
+			<classifier>jdk15</classifier>
 		</dependency>
 
-		<dependency>
-			<groupId>jboss</groupId>
-			<artifactId>jboss-jmx</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		
-		 <dependency>
-		    <groupId>org.testng</groupId>
-		    <artifactId>testng</artifactId>
-		    <version>5.1</version>
-		    <scope>test</scope>
-		    <classifier>jdk15</classifier>
-		</dependency>
-		
 	</dependencies>
 </project>

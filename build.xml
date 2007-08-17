@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="Seam" default="build" basedir="." xmlns:artifact="urn:maven-artifact-ant">
+<project name="Seam" default="build" basedir=".">
 
 	<tstamp />
 
@@ -81,6 +81,13 @@
 	<property name="build.dir" value="${basedir}/build" />
 	<property name="build.lib.dir" value="${build.dir}/lib" />
 	<property name="maven.dir" value="${build.dir}/maven" />
+	<property name="seam.dir" value="${basedir}" />
+	<path id="maven-ant-tasks.classpath" path="${build.lib.dir}/maven-ant-tasks.jar" />
+	<typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="urn:maven-artifact-ant" classpathref="maven-ant-tasks.classpath" />
+
+	<import file="${build.dir}/utilities.xml" />
+	<pomfile name="seam.pom" value="${basedir}/pom.xml" />
+	<pomfile name="core.pom" value="${build.dir}/core.pom.xml" />
 
 	<!-- Documentation -->
 	<property name="doc.dir" value="doc" />
@@ -200,40 +207,16 @@
 
 	<!-- ########################## MAVEN2 #########################-->
 
-	<path id="maven-ant-tasks.classpath" path="${build.lib.dir}/maven-ant-tasks.jar" />
-	<typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="urn:maven-artifact-ant" classpathref="maven-ant-tasks.classpath" />
-
-	<target name="installExtraDependencies">
-
-		<!-- JBoss POJO Cache -->
-
-		<artifact:pom file="${build.dir}/thirdparty/jboss-cache-jdk50.pom.xml" id="jboss-cache-jdk50.pom" />
-		<artifact:install file="${lib.dir}/jboss-cache-jdk50.jar">
-			<pom refid="jboss-cache-jdk50.pom" />
-		</artifact:install>
-
-		<!-- Testng -->
-
-		<artifact:pom file="${build.dir}/thirdparty/testng.pom.xml" id="testng.pom" />
-		<artifact:install file="${lib.dir}/testng-5.6-jdk15.jar">
-			<pom refid="testng.pom" />
-		</artifact:install>
-
-		<!-- JBPM JPDL -->
-
-		<artifact:pom file="${build.dir}/thirdparty/jbpm-jpdl.pom.xml" id="jbpm-jpdl.pom" />
-		<artifact:install file="${lib.dir}/jbpm-jpdl.jar">
-			<pom refid="jbpm-jpdl.pom" />
-		</artifact:install>
-
+	<target name="installExtraDependencies">	
+		<install pom="${build.dir}/thirdparty/jboss-cache-jdk50.pom.xml" jar="${lib.dir}/jboss-cache-jdk50.jar" />
+		<install pom="${build.dir}/thirdparty/testng.pom.xml" jar="${lib.dir}/testng-5.6-jdk15.jar" />
+		<install pom="${build.dir}/thirdparty/jbpm-jpdl.pom.xml" jar="${lib.dir}/jbpm-jpdl.jar" />
+		<install pom="${build.dir}/thirdparty/jboss-el.pom.xml" jar="${lib.dir}/jboss-el.jar" />
 	</target>
 
 	<target name="init.m2" depends="installExtraDependencies">
 		<!-- Install the parent pom -->
-		<artifact:pom file="${basedir}/pom.xml" id="seam.pom" />
-		<artifact:install>
-			<pom refid="seam.pom" />
-		</artifact:install>
+		<install pom="${seam.pom}" />
 	</target>
 
 	<!-- ########################## BUILD TARGETS ##########################-->
@@ -249,8 +232,6 @@
 	</target>
 
 	<target name="build" depends="jarcore,jarpdf,jarioc,jarmail,jarremoting,jardebug,jargen,jarui" description="Build all four distribution .jar files" />
-
-	<!--<target name="build.m2" depends="jarcore.m2,jarpdf.m2,jarioc.m2,jarmail.m2,jarremoting.m2,jardebug.m2,jargen.m2,jarui.m2" description="Build all four distribution .jar files" />-->
 
 	<target name="antlr" description="Generate ANTLR parser">
 		<mkdir dir="${src.core.dir}/org/jboss/seam/text" />
@@ -399,10 +380,7 @@
 	<!-- ########################### UI TARGETS ###########################-->
 
 	<target name="jarui" description="Build the distribution .jar file for the UI package based on A4J CDK" depends="init.m2">
-		<artifact:pom file="${build.dir}/core.pom.xml" id="core.pom" />
-		<artifact:install file="${basedir}/jboss-seam.jar">
-			<pom refid="core.pom" />
-		</artifact:install>
+		<install pom="${core.pom}" jar="${basedir}/jboss-seam.jar" />
 		<echo message="Installed jboss-seam-core pom" />
 		<mkdir dir="${dist.dir}" />
 		<cdk target="package" />
@@ -821,7 +799,7 @@
 		</emma>
 		<echo>Code coverage report for core classes available at ${report.dir}/coverage.html</echo>
 	</target>
-	
+
 	<target name="coverageall" depends="coveragecore" description="Run all unit tests with coverage" />
 
 
