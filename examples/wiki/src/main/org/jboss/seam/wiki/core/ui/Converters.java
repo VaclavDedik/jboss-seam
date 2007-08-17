@@ -1,3 +1,9 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.core.ui;
 
 import org.jboss.seam.annotations.Name;
@@ -78,6 +84,7 @@ public class Converters {
     @Name("treeNodeAdapter")
     public static class TreeNodeAdapter {
 
+        /* TODO: Fixme
         @Factory(value = "writableDirectoryTree", scope = ScopeType.CONVERSATION, autoCreate = true)
         public TreeNode loadWritableDirectoryTree() {
             Directory wikiroot = (Directory) Component.getInstance("restrictedWikiRoot");
@@ -131,6 +138,7 @@ public class Converters {
                 // Immutable
             }
         }
+        */
 
     }
 

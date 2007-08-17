@@ -7,30 +7,12 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
                 xmlns:j4j="http://javascript4jsf.dev.java.net/"
-                xmlns:rich="http://richfaces.ajax4jsf.org/rich"
                 xmlns:a="https://ajax4jsf.dev.java.net/ajax"
                 template="themes/#{wikiPreferences.themeName}/template.xhtml">
-
-<ui:define name="includeHeaders">
-    <link href="#{themePath}/css/userControl.css" rel="stylesheet" type="text/css"/>
-    <link href="#{themePath}/css/searchControl.css" rel="stylesheet" type="text/css"/>
-    <link href="#{themePath}/css/mainMenu.css" rel="stylesheet" type="text/css"/>
-</ui:define>
 
 <ui:define name="screenname">
     <h:outputText value="Create directory" rendered="#{!directoryHome.managed}"/>
     <h:outputText value="Edit directory" rendered="#{directoryHome.managed}"/>
-</ui:define>
-
-<ui:define name="headerTopTwo">
-    <ui:include src="includes/userControl.xhtml"/>
-</ui:define>
-
-<ui:define name="headerBottomOne">&#160;</ui:define>
-
-<ui:define name="sidebar">
-    <ui:include src="includes/searchControl.xhtml"/>
-    <ui:include src="includes/mainMenu.xhtml"/>
 </ui:define>
 
 <ui:define name="controlTwo">
@@ -41,13 +23,13 @@
 
 <ui:define name="content">
 
-<s:span rendered="#{s:hasPermission('User', 'isAdmin', currentUser) and directoryHome.managed}">
+<s:span rendered="#{s:hasPermission('User', 'isAdmin', currentUser) and directoryHome.managed and directoryHome.instance.id != wikiPreferences.memberAreaId}">
     <ui:include src="includes/ownerSelector.xhtml">
         <ui:param name="home" value="#{directoryHome}"/>
     </ui:include>
 </s:span>
 
-<s:span rendered="#{directoryHome.managed and !empty directoryHome.instance.parent}">
+<s:span rendered="#{directoryHome.managed and !empty directoryHome.instance.parent and directoryHome.instance.id != wikiPreferences.memberAreaId}">
     <ui:include src="includes/deleteConfirmation.xhtml">
         <ui:param name="home" value="#{directoryHome}"/>
     </ui:include>
@@ -70,7 +52,7 @@
         <s:div styleClass="entry" rendered="#{!empty directoryHome.parentDirectory}">
             <div class="label">Parent:</div>
             <div class="output">
-                <h:outputText value="#{directoryHome.parentDirectory}"/>
+                <h:outputText value="#{directoryHome.parentDirectory.name}"/>
             </div>
         </s:div>
 
@@ -82,7 +64,7 @@
                 </h:outputText>
                 <s:span id="ownerDisplay">&#160;(#{directoryHome.instance.createdBy.username})</s:span>
                 <h:outputLink id="selectOwner" value="#" tabindex="1" styleClass="buttonNonpersistent"
-                              rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}"><j4j:idProxy
+                              rendered="#{s:hasPermission('User', 'isAdmin', currentUser) and directoryHome.instance.id != wikiPreferences.memberAreaId}"><j4j:idProxy
                                 id="openDialogOwnerSelection"/><span class="buttonLabel">...</span></h:outputLink>
             </div>
         </s:div>
@@ -94,35 +76,52 @@
             </h:inputText>
         </s:decorate>
 
-        <ui:include src="includes/accessLevelSelector.xhtml"/>
+        <s:span rendered="#{directoryHome.instance.id != wikiPreferences.memberAreaId}">
+            <ui:include src="includes/accessLevelSelector.xhtml"/>
+        </s:span>
 
     </s:validateAll>
 
-    <s:div styleClass="entry" rendered="#{directoryHome.managed and !empty directoryHome.instance.parent}">
-        <div class="label">Default document:</div>
-        <div class="input">
-            <h:selectOneMenu value="#{directoryHome.instance.defaultDocument}" converter="#{restrictedEntityConverter}" tabindex="2">
-                <s:selectItems value="#{directoryHome.childDocuments}"
-                               var="document"
-                               label="#{wiki:truncateString(document.name, 40, '...')}"
-                               noSelectionLabel="No default document"/>
-            </h:selectOneMenu>
-        </div>
-    </s:div>
-
-    <rich:dragIndicator id="rowDragIndicator"/>
+    <s:span id="defaultDocumentSelector">
+        <s:div styleClass="entry" rendered="#{directoryHome.managed and !empty directoryHome.instance.parent and !empty directoryHome.childDocuments}">
+            <div class="label">Default document:</div>
+            <div class="input">
+                <h:selectOneMenu value="#{directoryHome.instance.defaultDocument}" converter="#{restrictedEntityConverter}" tabindex="2">
+                    <s:selectItems value="#{directoryHome.childDocuments}"
+                                   var="document"
+                                   label="#{wiki:truncateString(document.name, 40, '...')}"
+                                   noSelectionLabel="No default document"/>
+                </h:selectOneMenu>
+            </div>
+        </s:div>
+    </s:span>
 
     <s:div styleClass="entry"
-           rendered="#{childNodes.rowCount>0 and s:hasPermission('Node', 'editMenu', directoryHome.instance)}">
+           rendered="#{!empty directoryHome.instance.children and s:hasPermission('Node', 'editMenu', directoryHome.instance)}">
         <div class="label">Menu items:</div>
         <div class="input">
-            <h:dataTable id="directoryFormTable" var="node" style="width:50%"
-                         value="#{childNodes}"
-                         binding="#{wikiUtil.datatable}"
+
+            <h:dataTable id="menuItemTable" var="node" style="width:50%"
+                         value="#{directoryHome.instance.children}"
                          styleClass="datatable"
-                         columnClasses="onePercentColumn alignCenter, onePercentColumn alignCenter, defaultColumn alignLeft"
+                         columnClasses="onePercentColumn alignCenter, onePercentColumn alignCenter, onePercentColumn alignCenter, onePercentColumn alignCenter, defaultColumn alignLeft"
                          rowClasses="rowEven,rowOdd"
                          cellpadding="0" cellspacing="0" border="0">
+
+                <h:column>
+                    <a:commandLink rendered="#{uiComponent['directoryEditForm:menuItemTable'].rowIndex != 0}"
+                                   action="#{directoryHome.moveNode(uiComponent['directoryEditForm:menuItemTable'].rowIndex, uiComponent['directoryEditForm:menuItemTable'].rowIndex-1)}"
+                                   reRender="menuItemTable, defaultDocumentSelector">
+                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/up.gif" width="18" height="18"/>
+                    </a:commandLink>
+                </h:column>
+                <h:column>
+                    <a:commandLink rendered="#{uiComponent['directoryEditForm:menuItemTable'].rowIndex != uiComponent['directoryEditForm:menuItemTable'].rowCount-1}"
+                                   action="#{directoryHome.moveNode(uiComponent['directoryEditForm:menuItemTable'].rowIndex, uiComponent['directoryEditForm:menuItemTable'].rowIndex+1)}"
+                                   reRender="menuItemTable, defaultDocumentSelector">
+                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/down.gif" width="18" height="18"/>
+                    </a:commandLink>
+                </h:column>
 
                 <h:column>
                     <h:selectBooleanCheckbox value="#{node.menuItem}" tabindex="3"/>
@@ -130,43 +129,29 @@
 
                 <h:column>
                     <a:outputPanel>
-                        <rich:dropSupport id="dropZoneIcon" acceptedTypes="node" reRender="directoryFormTable"
-                                          dropListener="#{directoryHome.dropMenuItem}" dropValue="#{wikiUtil.datatable.rowIndex}"/>
-                        <rich:dragSupport dragIndicator=":directoryEditForm:rowDragIndicator"
-                                          dragType="node"
-                                          dragValue="#{node}">
-                            <rich:dndParam name="label" type="drag"><h:outputText value="#{node.name}"/></rich:dndParam>
-                        </rich:dragSupport>
                         <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.dir.gif"
-                                        width="18" height="20" style="cursor:move"
+                                        width="18" height="20"
                                         rendered="#{wiki:isDirectory(node)}"/>
                         <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.doc.gif"
-                                        width="18" height="20" style="cursor:move"
+                                        width="18" height="20"
                                         rendered="#{wiki:isDocument(node)}"/>
-
                         <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/#{fileMetaMap[node.contentType].displayIcon}"
-                                        width="18" height="20" style="cursor:move"
+                                        width="18" height="20"
                                         rendered="#{wiki:isFile(node) and !empty fileMetaMap[node.contentType]}"/>
                         <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/#{fileMetaMap['generic'].displayIcon}"
-                                        width="18" height="20" style="cursor:move"
+                                        width="18" height="20"
                                         rendered="#{wiki:isFile(node) and empty fileMetaMap[node.contentType]}"/>
                     </a:outputPanel>
                 </h:column>
 
                 <h:column>
                     <a:outputPanel>
-                        <rich:dropSupport id="dropZoneText" acceptedTypes="node" reRender="directoryFormTable"
-                                          dropListener="#{directoryHome.dropMenuItem}" dropValue="#{wikiUtil.datatable.rowIndex}"/>
-                        <rich:dragSupport dragIndicator=":directoryEditForm:rowDragIndicator"
-                                          dragType="node"
-                                          dragValue="#{node}">
-                            <rich:dndParam name="label" type="drag"><h:outputText value="#{node.name}"/></rich:dndParam>
-                        </rich:dragSupport>
-                        <h:outputText value="#{wiki:truncateString(node.name, 40, '...')}" style="cursor:move"/>
+                        <h:outputText value="#{wiki:truncateString(node.name, 40, '...')}"/>
                     </a:outputPanel>
                 </h:column>
 
             </h:dataTable>
+
         </div>
     </s:div>
 
@@ -201,7 +186,7 @@
                            tabindex="7" accesskey="U"><span class="buttonLabel"><u>U</u>pdate</span></h:commandLink>
 
             <h:outputLink id="delete" value="#" tabindex="8" accesskey="D" styleClass="button"
-                          rendered="#{directoryHome.managed and !empty directoryHome.instance.parent}"><j4j:idProxy
+                          rendered="#{directoryHome.managed and !empty directoryHome.instance.parent and directoryHome.instance.id != wikiPreferences.memberAreaId}"><j4j:idProxy
                     id="openDialogDelete"/><span class="buttonLabel"><u>D</u>elete</span></h:outputLink>
 
         </div>
@@ -211,6 +196,7 @@
 
 </div>
 </h:form>
+
 
 </ui:define>
 

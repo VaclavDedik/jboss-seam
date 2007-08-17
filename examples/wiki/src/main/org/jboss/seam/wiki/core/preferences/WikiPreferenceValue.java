@@ -1,3 +1,9 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.core.preferences;
 
 import org.hibernate.annotations.TypeDefs;
@@ -47,13 +53,13 @@ public class WikiPreferenceValue implements PreferenceValue, Serializable, Compa
     private Long id;
 
     @Version
-    @Column(name = "OBJ_VERSION")
+    @Column(name = "OBJ_VERSION", nullable = false)
     private int version;
 
-    @Column(name = "COMPONENT_NAME")
+    @Column(name = "COMPONENT_NAME", nullable = false)
     private String componentName;
 
-    @Column(name = "PROPERTY_NAME")
+    @Column(name = "PROPERTY_NAME", nullable = false)
     private String propertyName;
 
     @ManyToOne(fetch = FetchType.EAGER)

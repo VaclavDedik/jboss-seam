@@ -1,13 +1,27 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.core.model;
 
 import javax.persistence.*;
 
 @Entity
 @DiscriminatorValue("DIRECTORY")
+@SecondaryTable(
+    name = "NODE_DIRECTORY",
+    pkJoinColumns = @PrimaryKeyJoinColumn(name = "DIRECTORY_ID")
+)
+@org.hibernate.annotations.Table(
+    appliesTo = "NODE_DIRECTORY",
+    foreignKey = @org.hibernate.annotations.ForeignKey(name = "FK_NODE_DIRECTORY_DIRECTORY_ID")
+)
 public class Directory extends Node {
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "DEFAULT_DOCUMENT_ID", nullable = true)
+    @JoinColumn(table = "NODE_DIRECTORY", name = "DEFAULT_DOCUMENT_ID", nullable = true)
     @org.hibernate.annotations.ForeignKey(name = "FK_DIRECTORY_DEFAULT_DOCUMENT_ID")
     private Document defaultDocument;
 
@@ -36,14 +50,6 @@ public class Directory extends Node {
 
     public void setDefaultDocument(Document defaultDocument) {
         this.defaultDocument = defaultDocument;
-    }
-
-    public String toString() {
-        return getName();
-    }
-
-    public Directory getParent() {
-        return (Directory)super.getParent();
     }
 
     public Feed getFeed() {

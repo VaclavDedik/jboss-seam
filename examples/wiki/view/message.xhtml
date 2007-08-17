@@ -10,19 +10,11 @@
 
 <ui:define name="screenname">Message</ui:define>
 
-<ui:define name="headerTopTwo">&#160;</ui:define>
-<ui:define name="headerBottomOne">&#160;</ui:define>
-<ui:define name="headerBottomTwo">&#160;</ui:define>
-
-<ui:define name="sidebar">&#160;</ui:define>
-
-<ui:define name="control">&#160;</ui:define>
-
 <ui:define name="content">
 
     <s:div id="stackTraceHandled" rendered="#{not empty org.jboss.seam.handledException}">
         Handled exception:
-        <pre style="font-size:90%;">
+        <pre style="font-size:75%;">
 
 Top level exception : #{org.jboss.seam.handledException.class.name}: #{org.jboss.seam.handledException.message}
 =========================================================================================================================
@@ -40,7 +32,7 @@ Root cause exception: #{wiki:unwrap(org.jboss.seam.handledException).class.name}
 
     <s:div id="stackTrace" rendered="#{not empty org.jboss.seam.exception}">
         Unhandled exception:
-        <pre style="font-size:90%;">
+        <pre style="font-size:75%;">
 
 Top level exception : #{org.jboss.seam.exception.class.name}: #{org.jboss.seam.exception.message}
 =========================================================================================================================

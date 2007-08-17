@@ -1,19 +1,21 @@
 package org.jboss.seam.wiki.plugin.feedTeasers;
 
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.Observer;
+import org.hibernate.validator.NotNull;
+import org.hibernate.validator.Range;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.wiki.preferences.PreferenceVisibility;
+import org.jboss.seam.annotations.AutoCreate;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Observer;
+import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.wiki.preferences.Preference;
 import org.jboss.seam.wiki.preferences.PreferenceSupport;
-import org.hibernate.validator.Range;
-import org.hibernate.validator.NotNull;
+import org.jboss.seam.wiki.preferences.PreferenceVisibility;
 
 import java.io.Serializable;
 
 @Name("feedTeasersPreferences")
 @Scope(ScopeType.CONVERSATION)
+@AutoCreate
 @Preference(description = "Plugin: Feed Teasers", visibility = PreferenceVisibility.INSTANCE)
 public class FeedTeasersPreferences extends PreferenceSupport implements Serializable {
 
@@ -36,10 +38,30 @@ public class FeedTeasersPreferences extends PreferenceSupport implements Seriali
     private Long numberOfTeasers;
 
     @Preference(description = "04. Truncate teaser text after characters", visibility = PreferenceVisibility.INSTANCE)
-    @Range(min = 10l, max = 500l)
+    @Range(min = 10l, max = 5000l)
     @NotNull
     private Long truncateDescription;
 
     @Preference(description = "05. Show author name", visibility = PreferenceVisibility.INSTANCE)
     private Boolean showAuthor;
+
+    public String getTeaserTitle() {
+        return teaserTitle;
+    }
+
+    public Long getFeedIdentifier() {
+        return feedIdentifier;
+    }
+
+    public Long getNumberOfTeasers() {
+        return numberOfTeasers;
+    }
+
+    public Long getTruncateDescription() {
+        return truncateDescription;
+    }
+
+    public Boolean getShowAuthor() {
+        return showAuthor;
+    }
 }

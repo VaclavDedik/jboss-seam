@@ -443,6 +443,10 @@ ul {
     width: 30%;
 }
 
+.entry .label .buttonLabel {
+    font-size: 100%;
+}
+
 .errorDiv {
     background-color: #ffeeee;
 }
@@ -470,6 +474,24 @@ ul {
     font-size: 95%;
     background-image: none;
     background-color: #ffeeee;
+}
+
+.textEditResizable {
+    margin-left: 17%;
+    margin-bottom: 15px;
+
+}
+
+.textEditResizable.wideLabels {
+    margin-left: 32%;
+}
+
+.textEditResizeHandle {
+    width: 25px;
+    height: 10px;
+    background: #bbb url(../img/icon.resize_s.gif) 0 0 no-repeat;
+    cursor: s-resize;
+    position: absolute;
 }
 
 
@@ -738,23 +760,6 @@ ul {
 }
 
 
-/* Document editor
------------------------------------------------*/
-
-#contentTextEdit {
-    margin-left: 17%;
-    margin-bottom: 15px;
-}
-
-#contentTextEditResizeHandle {
-    width: 25px;
-    height: 10px;
-    background: #bbb url(../img/icon.resize_s.gif) 0 0 no-repeat;
-    cursor: s-resize;
-    position: absolute;
-}
-
-
 /* Popups
 -----------------------------------------------*/
 
@@ -935,4 +940,15 @@ ul {
 .progressbarLabel {
     font-weight: bold;
     font-size: 85%;
+}
+
+/* Misc page elements
+----------------------------------------------- */
+
+#searchForm\:searchPager {
+    margin-top: 15px;
+}
+
+#searchForm\:searchOptionsTable {
+    margin-top: 15px;
 }

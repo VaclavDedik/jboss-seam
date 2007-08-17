@@ -1,3 +1,9 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.core.search.metamodel;
 
 import org.jboss.seam.annotations.Observer;
@@ -50,7 +56,7 @@ public abstract class SearchSupport {
      * <p>
      * Pass in a <tt>NullFragmenter</tt> if you don't want any fragmentation by terms but
      * simply the hits highlighted. Otherwise, you will most likely use <tt>SimpleFragmenter</tt>.
-     * The text you supply must be the same that was indexed, it will be run through the same
+     * The text you supply must be the same that was indexed, it will go through the same
      * analysis procedure to find the hits. Do not pass a different String than the one indexed
      * by Hibernate Search! If you use transparent string bridge with Hibernate Search, run the
      * bridge before passing the string into this method.
@@ -138,7 +144,7 @@ public abstract class SearchSupport {
     }
 
     /**
-     * Create an return any <tt>SearchableEntityHandler</tt> you require search functionality for.
+     * Create and return any <tt>SearchableEntityHandler</tt> you require search functionality for.
      * <p>
      * This is called on startup only by the internal registry, to assemble all handlers.
      *

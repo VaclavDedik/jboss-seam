@@ -1,3 +1,9 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.core.ui;
 
 import java.io.IOException;
@@ -33,6 +39,7 @@ import com.sun.facelets.tag.jsf.ComponentSupport;
  * text with real plugin includes/JSF components in the tree.
  *
  * @author Peter Muir
+ * @author Christian Bauer
  */
 public class WikiFormattedTextHandler extends MetaTagHandler {
 
@@ -86,6 +93,7 @@ public class WikiFormattedTextHandler extends MetaTagHandler {
         setAttribute(ctx, cmp, UIWikiFormattedText.ATTR_UPDATE_RESOLVED_LINKS);
         setAttribute(ctx, cmp, UIWikiFormattedText.ATTR_RENDER_BASE_DOCUMENT);
         setAttribute(ctx, cmp, UIWikiFormattedText.ATTR_RENDER_BASE_DIRECTORY);
+        setAttribute(ctx, cmp, UIWikiFormattedText.ATTR_ENABLE_PLUGINS);
     }
 
     private void setAttribute(FaceletContext ctx, UIComponent cmp, String name) {
@@ -122,6 +130,13 @@ public class WikiFormattedTextHandler extends MetaTagHandler {
         UIWikiFormattedText wikiFormattedText = (UIWikiFormattedText) parent;
 
         String unparsed = valueAttribute.getValue(ctx);
+
+        if (getAttribute(UIWikiFormattedText.ATTR_ENABLE_PLUGINS) == null ||
+            !getAttribute(UIWikiFormattedText.ATTR_ENABLE_PLUGINS).getValue().equals("true")) {
+            wikiFormattedText.setValue(unparsed);
+            return;
+        }
+
         Matcher matcher = Pattern.compile(REGEX_MACRO).matcher(unparsed);
         StringBuffer parsed = new StringBuffer();
         while (matcher.find()) {

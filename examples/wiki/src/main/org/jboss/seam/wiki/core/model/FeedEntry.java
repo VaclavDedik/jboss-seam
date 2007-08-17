@@ -1,11 +1,15 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.core.model;
 
 import org.hibernate.validator.Length;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 import java.io.Serializable;
 
 @Entity
@@ -18,7 +22,7 @@ public class FeedEntry implements Serializable, Comparable {
     private Long id;
 
     @Version
-    @Column(name = "OBJ_VERSION")
+    @Column(name = "OBJ_VERSION", nullable = false)
     protected Integer version;
 
     @Column(name = "LINK", nullable = false)

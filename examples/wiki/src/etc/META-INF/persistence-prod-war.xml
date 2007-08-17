@@ -63,6 +63,12 @@
             <property name="hibernate.ejb.classcache.org.jboss.seam.wiki.core.model.Comment"
                       value="nonstrict-read-write, WikiComment"/>
 
+            <!-- Nested Set handling through special Hibernate event listeners -->
+            <property name="hibernate.ejb.event.post-insert"
+                      value="org.jboss.seam.wiki.core.nestedset.NestedSetPostInsertEventListener"/>
+            <property name="hibernate.ejb.event.post-delete"
+                      value="org.jboss.seam.wiki.core.nestedset.NestedSetPostDeleteEventListener"/>
+
         </properties>
     </persistence-unit>
 

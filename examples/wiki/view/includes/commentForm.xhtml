@@ -7,12 +7,23 @@
      xmlns:a="https://ajax4jsf.dev.java.net/ajax"
      xmlns:s="http://jboss.com/products/seam/taglib"><div class="shadow1"><div class="shadow2">
 
-<div id="commentForm">
-    <h:form styleClass="commentForm">
+<div>
+    <h:form id="commentForm" styleClass="commentForm">
         <div class="form">
-            <div class="formHead">Post new comment:</div>
+            <div class="formHead bottomBorder">
 
-            <div class="formFields formBorder wideLabels">
+                <a:commandLink tabindex="102" rendered="#{!param.showCommentForm}" accesskey="T"
+                               onclick="jQuery('.hiddenCommentForm').show();jQuery('#commentForm\\:commentTextArea').focus();">
+                    <span>Pos<u>t</u> Comment</span>
+                </a:commandLink>
+
+                <s:fragment rendered="#{param.showCommentForm}">
+                    Post Comment
+                </s:fragment>
+
+            </div>
+
+            <div style="#{!param.showCommentForm ? 'display:none;' : ''}" class="hiddenCommentForm formFields formBorder wideLabels">
 
                 <s:decorate id="userNameDecorate" template="formFieldDecorate.xhtml">
                     <ui:define name="label">Name</ui:define>
@@ -44,16 +55,16 @@
                     </h:inputText>
                 </s:decorate>
 
-                <s:decorate id="commentDecorate" template="formFieldDecorate.xhtml">
-                    <ui:define name="label">Comment</ui:define>
-                    <h:inputTextarea tabindex="102" required="true"
-                                     cols="40"
-                                     rows="10"
-                                     id="commentTextInput"
-                                     value="#{commentHome.comment.text}">
-                        <a:support event="onblur" reRender="commentDecorate"/>
-                    </h:inputTextarea>
-                </s:decorate>
+                <ui:include src="wikiTextEditor.xhtml">
+                    <ui:param name="textEditorId" value="comment"/>
+                    <ui:param name="namingContainer" value="commentForm"/>
+                    <ui:param name="label" value="Comment"/>
+                    <ui:param name="valueBinding" value="#{commentHome.comment.text}"/>
+                    <ui:param name="valueMaxLength" value="8000"/>
+                    <ui:param name="valueRequired" value="true"/>
+                    <ui:param name="previewBaseDocument" value="#{currentDocument}"/>
+                    <ui:param name="previewBaseDirectory" value="#{currentDirectory}"/>
+                </ui:include>
 
                 <s:div rendered="#{!identity.loggedIn}">
                     <s:div styleClass="entry">
@@ -64,7 +75,7 @@
                     </s:div>
 
                     <s:decorate id="verifyCaptchaDecorate" template="formFieldDecorate.xhtml">
-                        <ui:define name="label">Enter repsonse</ui:define>
+                        <ui:define name="label">Enter respsonse</ui:define>
                         <h:inputSecret tabindex="102" size="5" maxlength="5" required="true"
                                        redisplay="true" id="verifyCaptcha" value="#{captcha.response}">
                         </h:inputSecret>
@@ -73,13 +84,14 @@
 
             </div>
 
-            <div class="formControls wideLabels">
+            <div style="#{!param.showCommentForm ? 'display:none;' : ''}" class="hiddenCommentForm formControls wideLabels">
                 <div class="entry">
                     <div class="label">&#160;</div>
                     <div class="input">
 
-                        <a:commandLink action="#{commentHome.persist}" tabindex="102" reRender="content"
-                                       styleClass="button"><span class="buttonLabel">Post Comment</span></a:commandLink>
+                        <a:commandLink action="#{commentHome.persist}" tabindex="102" reRender="commentsDisplay, commentForm" accesskey="S"
+                                       oncomplete="jQuery('.hiddenCommentForm').show();jQuery('#commentForm\\:userNameDecorate\\:userName').focus();"
+                                       styleClass="button"><span class="buttonLabel">Po<u>s</u>t Comment</span></a:commandLink>
 
                     </div>
                 </div>

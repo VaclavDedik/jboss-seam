@@ -69,10 +69,12 @@
         <pathelement path="${testclasses.dir}"/>
         <pathelement path="${embedded-jboss.dir}"/>
 
-        <fileset refid="globallibs"/>
+        <fileset dir="${global.lib.dir}">
+            <include name="*.jar" />
+            <exclude name="hibernate-*"/>
+        </fileset>
         <fileset dir="${local.lib.dir}">
             <include name="*.jar" />
-            <exclude name="hibernate-tools*"/>
         </fileset>
 
         <!-- YOU NEED THIS FILESET AND IT CAN ONLY CONTAIN jboss-seam.jar AND NOTHING ELSE!
@@ -213,6 +215,7 @@
                 <include name="jboss-el.jar" />
                 <include name="urlrewrite*.jar" />
                 <include name="itext*.jar" />
+                <include name="lucene*.jar" />
             </fileset>
         </copy>
         <copy todir="${exploded.war.dir}/WEB-INF/lib">
@@ -454,7 +457,7 @@
             <classpath refid="test.classpath"/>
             <xmlfileset dir="${src.test.dir}" includes="*.tng.xml" />
         </testng>
-
+        <echo message="Please read the test output in directory: ${test.output.dir}"/>
     </target>
 
 

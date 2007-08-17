@@ -44,6 +44,15 @@
 
     <database-object>
         <create>
+            alter table NODE drop constraint FK_NODE_PARENT_NODE_ID;
+            alter table NODE add constraint FK_NODE_PARENT_NODE_ID foreign key (PARENT_NODE_ID) references NODE on delete cascade;
+        </create>
+        <drop></drop>
+        <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
             alter table NODE drop constraint FK_NODE_LAST_MODIFIED_BY_USER_ID;
             alter table NODE add constraint FK_NODE_LAST_MODIFIED_BY_USER_ID foreign key (LAST_MODIFIED_BY_USER_ID) references USERS on delete set null;
         </create>
@@ -53,8 +62,26 @@
 
     <database-object>
         <create>
-            alter table NODE drop constraint FK_DIRECTORY_DEFAULT_DOCUMENT_ID;
-            alter table NODE add constraint FK_DIRECTORY_DEFAULT_DOCUMENT_ID foreign key (DEFAULT_DOCUMENT_ID) references NODE on delete set null;
+            alter table NODE_DIRECTORY drop constraint FK_DIRECTORY_DEFAULT_DOCUMENT_ID;
+            alter table NODE_DIRECTORY add constraint FK_DIRECTORY_DEFAULT_DOCUMENT_ID foreign key (DEFAULT_DOCUMENT_ID) references NODE on delete set null;
+        </create>
+        <drop></drop>
+        <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            alter table NODE_DOCUMENT drop constraint FK_NODE_DOCUMENT_DOCUMENT_ID;
+            alter table NODE_DOCUMENT add constraint FK_NODE_DOCUMENT_DOCUMENT_ID foreign key (DOCUMENT_ID) references NODE on delete cascade;
+        </create>
+        <drop></drop>
+        <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            alter table NODE_DIRECTORY drop constraint FK_NODE_DIRECTORY_DIRECTORY_ID;
+            alter table NODE_DIRECTORY add constraint FK_NODE_DIRECTORY_DIRECTORY_ID foreign key (DIRECTORY_ID) references NODE on delete cascade;
         </create>
         <drop></drop>
         <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
@@ -96,6 +123,14 @@
         <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
     </database-object>
 
+    <database-object>
+        <create>
+            alter table USERS drop constraint FK_USER_USER_PROFILE_ID;
+            alter table USERS add constraint FK_USER_USER_PROFILE_ID foreign key (USER_PROFILE_ID) references USER_PROFILE on delete cascade;
+        </create>
+        <drop></drop>
+        <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
+    </database-object>
 
     <database-object>
         <create>
@@ -162,6 +197,22 @@
 
     <database-object>
         <create>
+            alter table NODE drop foreign key FK_NODE_PARENT_NODE_ID;
+        </create>
+        <drop></drop>
+        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+    </database-object>
+    <database-object>
+        <create>
+            alter table NODE
+                add constraint FK_NODE_PARENT_NODE_ID foreign key (PARENT_NODE_ID) references NODE (NODE_ID) on delete cascade;
+        </create>
+        <drop></drop>
+        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
             alter table NODE drop foreign key FK_NODE_LAST_MODIFIED_BY_USER_ID;
         </create>
         <drop></drop>
@@ -178,14 +229,44 @@
 
     <database-object>
         <create>
-            alter table NODE drop foreign key FK_DIRECTORY_DEFAULT_DOCUMENT_ID;
+            alter table NODE_DIRECTORY drop foreign key FK_DIRECTORY_DEFAULT_DOCUMENT_ID;
         </create>
         <drop></drop>
         <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
     </database-object>
     <database-object>
         <create>
-            alter table NODE add constraint FK_DIRECTORY_DEFAULT_DOCUMENT_ID foreign key (DEFAULT_DOCUMENT_ID) references NODE (NODE_ID) on delete set null;
+            alter table NODE_DIRECTORY add constraint FK_DIRECTORY_DEFAULT_DOCUMENT_ID foreign key (DEFAULT_DOCUMENT_ID) references NODE (NODE_ID) on delete set null;
+        </create>
+        <drop></drop>
+        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            alter table NODE_DOCUMENT drop foreign key FK_NODE_DOCUMENT_DOCUMENT_ID;
+        </create>
+        <drop></drop>
+        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+    </database-object>
+    <database-object>
+        <create>
+            alter table NODE_DOCUMENT add constraint FK_NODE_DOCUMENT_DOCUMENT_ID foreign key (DOCUMENT_ID) references NODE (NODE_ID) on delete cascade;
+        </create>
+        <drop></drop>
+        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            alter table NODE_DIRECTORY drop foreign key FK_NODE_DIRECTORY_DIRECTORY_ID;
+        </create>
+        <drop></drop>
+        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+    </database-object>
+    <database-object>
+        <create>
+            alter table NODE_DIRECTORY add constraint FK_NODE_DIRECTORY_DIRECTORY_ID foreign key (DIRECTORY_ID) references NODE (NODE_ID) on delete cascade;
         </create>
         <drop></drop>
         <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
@@ -251,7 +332,21 @@
         <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
     </database-object>
 
-    
+    <database-object>
+        <create>
+            alter table USERS drop foreign key FK_USER_USER_PROFILE_ID;
+        </create>
+        <drop></drop>
+        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+    </database-object>
+    <database-object>
+        <create>
+            alter table USERS add constraint FK_USER_USER_PROFILE_ID foreign key (USER_PROFILE_ID) references USER_PROFILE (USER_PROFILE_ID) on delete cascade;
+        </create>
+        <drop></drop>
+        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+    </database-object>
+
     <database-object>
         <create>
             create index IDX_COMPONENT_NAME on PREFERENCE (COMPONENT_NAME);

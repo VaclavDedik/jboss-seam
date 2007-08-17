@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module relativePaths="true" type="J2EE_WEB_MODULE" version="4">
-  <component name="AppServerSpecificValidatorsManager" />
+<module relativePaths="true" type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="jsf" name="JSF">
+      <configuration />
+    </facet>
+  </component>
   <component name="ModuleRootManager" />
   <component name="NewModuleRootManager" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/build/classes" />
@@ -377,15 +381,6 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/lucene-core-2.1.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/hibernate-tools.jar!/" />
         </CLASSES>
         <JAVADOC />
@@ -405,51 +400,6 @@
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/lucene-highlighter-2.1.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../drools/lib/drools-compiler-4.0.0.MR2.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../drools/lib/drools-core-4.0.0.MR2.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../drools/lib/antlr-3.0b7.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../drools/lib/janino-2.5.6.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../drools/lib/mvel14-1.2beta16.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -593,15 +543,6 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/lucene-core-2.1.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
           <root url="jar://$MODULE_DIR$/../../lib/xercesImpl.jar!/" />
         </CLASSES>
         <JAVADOC />
@@ -653,6 +594,15 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../lib/lucene-core-2.2.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntryProperties />
   </component>
   <component name="VcsManagerConfiguration">
@@ -667,6 +617,7 @@
     <setting name="BUILD_MODULE_ON_FRAME_DEACTIVATION" value="false" />
     <setting name="BUILD_EXTERNAL_DEPENDENCIES" value="false" />
     <setting name="RUN_JASPER_VALIDATION" value="false" />
+    <setting name="BUILD_ONLY_WEB_RESOURCES" value="false" />
   </component>
   <component name="WebModuleProperties">
     <containerElement type="library" level="module">
@@ -678,11 +629,6 @@
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib/antlr-2.7.6.jar" />
       <url>jar://$MODULE_DIR$/../../drools/lib/antlr-2.7.6.jar!/</url>
-    </containerElement>
-    <containerElement type="library" level="module">
-      <attribute name="method" value="0" />
-      <attribute name="URI" value="/WEB-INF/lib/antlr-3.0b7.jar" />
-      <url>jar://$MODULE_DIR$/../../drools/lib/antlr-3.0b7.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />
@@ -715,34 +661,14 @@
       <url>jar://$MODULE_DIR$/../../drools/lib/drools-compiler-3.0.5.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
-      <attribute name="method" value="0" />
-      <attribute name="URI" value="/WEB-INF/lib/drools-compiler-4.0.0.MR2.jar" />
-      <url>jar://$MODULE_DIR$/../../drools/lib/drools-compiler-4.0.0.MR2.jar!/</url>
-    </containerElement>
-    <containerElement type="library" level="module">
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib/drools-core-3.0.5.jar" />
       <url>jar://$MODULE_DIR$/../../drools/lib/drools-core-3.0.5.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
-      <attribute name="method" value="0" />
-      <attribute name="URI" value="/WEB-INF/lib/drools-core-4.0.0.MR2.jar" />
-      <url>jar://$MODULE_DIR$/../../drools/lib/drools-core-4.0.0.MR2.jar!/</url>
-    </containerElement>
-    <containerElement type="library" level="module">
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib/janino-2.4.3.jar" />
       <url>jar://$MODULE_DIR$/../../drools/lib/janino-2.4.3.jar!/</url>
-    </containerElement>
-    <containerElement type="library" level="module">
-      <attribute name="method" value="0" />
-      <attribute name="URI" value="/WEB-INF/lib/janino-2.5.6.jar" />
-      <url>jar://$MODULE_DIR$/../../drools/lib/janino-2.5.6.jar!/</url>
-    </containerElement>
-    <containerElement type="library" level="module">
-      <attribute name="method" value="0" />
-      <attribute name="URI" value="/WEB-INF/lib/mvel14-1.2beta16.jar" />
-      <url>jar://$MODULE_DIR$/../../drools/lib/mvel14-1.2beta16.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />
@@ -1074,11 +1000,11 @@
       <attribute name="URI" value="/WEB-INF/lib/xml-apis.jar" />
       <url>jar://$MODULE_DIR$/../../lib/xml-apis.jar!/</url>
     </containerElement>
+    <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/build/exploded/wiki.war/WEB-INF/classes/META-INF/persistence.xml" optional="false" version="1.0" />
     <webroots>
       <root url="file://$MODULE_DIR$/view" relative="/" />
       <root url="file://$MODULE_DIR$/src/etc/WEB-INF" relative="/WEB-INF" />
     </webroots>
   </component>
-  <component name="WeblogicWebModuleProperties" />
 </module>
 

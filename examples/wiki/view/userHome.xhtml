@@ -10,33 +10,16 @@
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
                 template="themes/#{wikiPreferences.themeName}/template.xhtml">
 
-<ui:define name="includeHeaders">
-    <link href="#{themePath}/css/userControl.css" rel="stylesheet" type="text/css"/>
-    <link href="#{themePath}/css/searchControl.css" rel="stylesheet" type="text/css"/>
-    <link href="#{themePath}/css/mainMenu.css" rel="stylesheet" type="text/css"/>
-</ui:define>
-
 <ui:define name="screenname">
     <h:outputText value="Member Account '#{userHome.instance.username}'"/>
 </ui:define>
 
-<ui:define name="headerTopTwo">
-    <ui:include src="includes/userControl.xhtml"/>
-</ui:define>
-
-<ui:define name="headerBottomOne">&#160;</ui:define>
-
-<ui:define name="sidebar">
-    <ui:include src="includes/searchControl.xhtml"/>
-    <ui:include src="includes/mainMenu.xhtml"/>
-</ui:define>
-
-<ui:define name="controlOne">&#160;</ui:define>
-
 <ui:define name="controlTwo">
+
     <s:link id="exit" styleClass="linkNavigation"
             action="#{browser.exitConversation(true)}"
             accesskey="E"><u>E</u>xit</s:link>
+
 </ui:define>
 
 <ui:define name="content">
@@ -47,7 +30,7 @@
     </ui:include>
 </s:span>
 
-<h:form>
+<h:form id="userHomeForm" enctype="multipart/form-data">
     <div class="form">
 
     <script type="text/javascript">jQuery(function() {
@@ -56,18 +39,13 @@
     <div id="formTabs">
 
         <ul>
-            <li id="userProfileTab"><a href="#userProfile" accesskey="o">Pr<u>o</u>file</a></li>
-            <li id="userAccountTab"><a href="#userAccount" accesskey="c">A<u>c</u>count</a></li>
-            <li id="userPrefsTab"><a href="#userPreferences" accesskey="r">P<u>r</u>eferences</a></li>
+            <li id="userAccountTab"><a href="#userAccount" accesskey="N">Accou<u>n</u>t</a></li>
+            <li id="userProfileTab"><a href="#userProfile" accesskey="F">Pro<u>f</u>ile</a></li>
+            <li id="userPrefsTab"><a href="#userPreferences" accesskey="R">P<u>r</u>eferences</a></li>
         </ul>
-
-        <div id="userProfile">
-            Not Implemented
-        </div>
 
         <div id="userAccount">
 
-            <a:region>
             <div class="formFields wideLabels">
                 <s:validateAll>
 
@@ -161,8 +139,81 @@
 
                 </s:validateAll>
             </div>
-            </a:region>
-            
+
+        </div>
+
+        <div id="userProfile">
+
+            <div class="formFields wideLabels">
+                <s:validateAll>
+
+                    <s:div styleClass="entry" rendered="#{!empty userHome.instance.profile.image}">
+                        <div class="label">Portrait:</div>
+                        <div class="output">
+                            <s:graphicImage value="#{userHome.instance.profile.image}" style="border: 1px solid black;"/>
+                        </div>
+                    </s:div>
+
+                    <s:decorate id="uploadDecorate" template="includes/formFieldDecorate.xhtml">
+                        <ui:param name="tabId" value="userProfileTab"/>
+                        <ui:param name="fieldId" value="userimage"/>
+                        <ui:define name="label">Upload Portrait (max. #{wiki:displayFilesize(200000)})</ui:define>
+                        <s:fileUpload id="upload" data="#{userHome.portraitImageData}"
+                                                  contentType="#{userHome.portraitContentType}"/>
+                    </s:decorate>
+
+                    <ui:include src="includes/wikiTextEditor.xhtml">
+                        <ui:param name="tabId" value="userProfileTab"/>
+                        <ui:param name="textEditorId" value="bio"/>
+                        <ui:param name="namingContainer" value="userHomeForm"/>
+                        <ui:param name="label" value="Bio"/>
+                        <ui:param name="valueBinding" value="#{userHome.instance.profile.bio}"/>
+                        <ui:param name="valueMaxLength" value="1000"/>
+                        <ui:param name="previewBaseDocument" value="#{wikiStart}"/>
+                        <ui:param name="previewBaseDirectory" value="#{wikiStart.parent}"/>
+                    </ui:include>
+
+                    <s:decorate id="websiteDecorate" template="includes/formFieldDecorate.xhtml">
+                        <ui:param name="tabId" value="userProfileTab"/>
+                        <ui:param name="fieldId" value="website"/>
+                        <ui:define name="label">Website</ui:define>
+                        <h:inputText tabindex="1" size="60" maxlength="1000" value="#{userHome.instance.profile.website}">
+                            <a:support event="onblur" reRender="websiteDecorate"/>
+                        </h:inputText>
+                    </s:decorate>
+
+                    <s:decorate id="locationDecorate" template="includes/formFieldDecorate.xhtml">
+                        <ui:param name="tabId" value="userProfileTab"/>
+                        <ui:param name="fieldId" value="location"/>
+                        <ui:define name="label">Location</ui:define>
+                        <h:inputText tabindex="1" size="40" maxlength="255" value="#{userHome.instance.profile.location}">
+                            <a:support event="onblur" reRender="locationDecorate"/>
+                        </h:inputText>
+                    </s:decorate>
+
+                    <s:decorate id="occupationDecorate" template="includes/formFieldDecorate.xhtml">
+                        <ui:param name="tabId" value="userProfileTab"/>
+                        <ui:param name="fieldId" value="occupation"/>
+                        <ui:define name="label">Occupation</ui:define>
+                        <h:inputText tabindex="1" size="60" maxlength="1000" value="#{userHome.instance.profile.occupation}">
+                            <a:support event="onblur" reRender="occupationDecorate"/>
+                        </h:inputText>
+                    </s:decorate>
+
+                    <ui:include src="includes/wikiTextEditor.xhtml">
+                        <ui:param name="tabId" value="userProfileTab"/>
+                        <ui:param name="textEditorId" value="signature"/>
+                        <ui:param name="namingContainer" value="userHomeForm"/>
+                        <ui:param name="label" value="Signature"/>
+                        <ui:param name="valueBinding" value="#{userHome.instance.profile.signature}"/>
+                        <ui:param name="valueMaxLength" value="1000"/>
+                        <ui:param name="previewBaseDocument" value="#{wikiStart}"/>
+                        <ui:param name="previewBaseDirectory" value="#{wikiStart.parent}"/>
+                    </ui:include>
+
+                </s:validateAll>
+            </div>
+
         </div>
 
         <div id="userPreferences">
@@ -188,9 +239,9 @@
                                            and s:hasPermission('User', 'isAdmin', currentUser)}"
                                action="#{userHome.createHomeDirectory}"><span class="buttonLabel">Create Home Directory</span></h:commandLink>
 
-                <a:commandLink id="update" styleClass="button saveButton" reRender="body"
+                <h:commandLink id="update" styleClass="button saveButton"
                                action="#{userHome.update}"
-                               tabindex="9" accesskey="S"><span class="buttonLabel"><u>S</u>ave Settings</span></a:commandLink>
+                               tabindex="9" accesskey="S"><span class="buttonLabel"><u>S</u>ave Settings</span></h:commandLink>
 
                 <h:outputLink id="delete" value="#" tabindex="9" accesskey="D" styleClass="button"
                               rendered="#{s:hasPermission('User', 'delete', userHome.instance)}"><j4j:idProxy

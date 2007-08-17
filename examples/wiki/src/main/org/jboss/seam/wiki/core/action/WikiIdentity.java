@@ -1,3 +1,9 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.core.action;
 
 import static org.jboss.seam.ScopeType.SESSION;
@@ -7,7 +13,6 @@ import org.jboss.seam.security.Identity;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.wiki.core.model.User;
-import org.jboss.seam.wiki.core.model.Directory;
 import org.jboss.seam.wiki.core.model.Node;
 import org.jboss.seam.wiki.core.dao.UserRoleAccessFactory;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
@@ -40,7 +45,7 @@ public class WikiIdentity extends Identity {
         }
 
         if ("Node".equals(name) && "create".equals(action)) {
-            return checkCreateAccess( (Directory)args[0]);
+            return checkCreateAccess( (Node)args[0]);
         } else
         if ("Node".equals(name) && "edit".equals(action)) {
             return checkEditAccess((Node)args[0]);
@@ -78,7 +83,7 @@ public class WikiIdentity extends Identity {
         User either needs to have the access level of the parent directory
         or the user is the creator of the parent directory
     */
-    private boolean checkCreateAccess(Directory directory) {
+    private boolean checkCreateAccess(Node directory) {
         if (directory.getId().equals(wikiPrefs.getMemberAreaId())) return false; // Member home dir is immutable
         if (directory.getWriteAccessLevel() == UserRoleAccessFactory.GUESTROLE_ACCESSLEVEL) return true;
         int dirWriteAccessLevel = directory.getWriteAccessLevel();
@@ -114,7 +119,6 @@ public class WikiIdentity extends Identity {
         User either needs to have the access level of the edited node or has to be the creator
     */
     private boolean checkEditAccess(Node node) {
-        if (node.getId() != null && node.getId().equals(wikiPrefs.getMemberAreaId())) return false; // Member home dir is immutable
         if (node.getWriteAccessLevel() == UserRoleAccessFactory.GUESTROLE_ACCESSLEVEL) return true;
         int nodeWriteAccessLevel = node.getWriteAccessLevel();
         User nodeCreator = node.getCreatedBy();

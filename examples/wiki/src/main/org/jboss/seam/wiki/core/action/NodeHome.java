@@ -1,3 +1,9 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.core.action;
 
 import static javax.faces.application.FacesMessage.SEVERITY_ERROR;
@@ -113,6 +119,7 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
         // Load the parent directory (needs to be called first)
         // The parentDirectory (and parentDirId) parameter can actually be null but this only happens
         // when the wiki root is edited... it can only be update()ed anyway, all the other code is null-safe.
+        log.trace("loading parent directory: " + parentDirId);
         parentDirectory = nodeDAO.findDirectory(parentDirId);
 
         if (parentDirectory == null)
@@ -145,9 +152,11 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
         setWikiName();
 
         // Link the node with its parent directory
+        log.trace("linking new node with its parent directory");
         getParentDirectory().addChild(getInstance());
 
         // Set created by user
+        log.trace("setting created by user: " + getCurrentUser());
         getInstance().setCreatedBy(getCurrentUser());
 
         // Set its area number (if subclass didn't already set it)
@@ -158,11 +167,14 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
         if (!isValidModel()) return null;
 
         if (!beforePersist()) return null;
+        log.trace("persisting new node");
         String outcome = super.persist();
 
         // Notify any plugin preferences editors to also flush
+        log.trace("notifying preference editors to also flush");
         Events.instance().raiseEvent("PreferenceEditor.flushAll");
 
+        log.trace("completed persistsing of new node");
         return outcome;
     }
 
@@ -185,11 +197,10 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
         if (!beforeUpdate()) return null;
         String outcome = super.update();
 
-        // Refresh UI
-        refreshMenuItems();
-
         // Notify any plugin preferences editors to also flush
         Events.instance().raiseEvent("PreferenceEditor.flushAll");
+
+        Events.instance().raiseEvent("Nodes.menuStructureModified");
 
         return outcome;
     }
@@ -199,10 +210,7 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
         if (!prepareRemove()) return null;
 
         // Unlink the node from its directory
-        getInstance().getParent().removeChild(getInstance());
-
-        // Refresh UI
-        refreshMenuItems();
+        getParentDirectory().removeChild(getInstance());
 
         if (!beforeRemove()) return null;
 
@@ -210,10 +218,15 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
         PreferenceProvider provider = (PreferenceProvider) Component.getInstance("preferenceProvider");
         provider.deleteInstancePreferences(getInstance());
 
-        return super.remove();
+        String outcome = super.remove();
+
+        Events.instance().raiseEvent("Nodes.menuStructureModified");
+
+        return outcome;
     }
 
     protected boolean isValidModel() {
+        log.trace("validating model");
         if (getParentDirectory() == null) return true; // Special case, editing the wiki root
 
         // Unique wiki name
@@ -234,27 +247,29 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
     /* -------------------------- Internal Methods ------------------------------ */
 
     protected void setWikiName() {
+        log.trace("setting wiki name of new node");
         getInstance().setWikiname(WikiUtil.convertToWikiName(getInstance().getName()));
     }
 
     protected void setLastModifiedMetadata() {
+        log.trace("setting last modified metadata");
         getInstance().setLastModifiedBy(currentUser);
         getInstance().setLastModifiedOn(new Date());
     }
 
     protected void checkNodeAccessLevelChangePermission() {
+        /*
+        log.trace("checking access level change permission");
         if (!Identity.instance().hasPermission("Node", "changeAccessLevel", getInstance()))
             throw new AuthorizationException("You don't have permission for this operation");
+            */
     }
 
     protected void removeAsDefaultDocument(Directory directory) {
+        log.trace("removing node as the default document from directory: " + directory);
         if (directory.getDefaultDocument() != null &&
             directory.getDefaultDocument().getId().equals(getInstance().getId())
            ) directory.setDefaultDocument(null);
-    }
-
-    protected void refreshMenuItems() {
-        Events.instance().raiseEvent("Nodes.menuStructureModified");
     }
 
     /* -------------------------- Subclass Callbacks ------------------------------ */
@@ -320,7 +335,7 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
             removeAsDefaultDocument(oldParentDirectory);
 
             // Attach to new parent
-            parentDirectory.addChild(getInstance()); // Disconnects from old parent
+            getInstance().setParent(parentDirectory); // TODO: Disconnects from old parent?
             getInstance().setAreaNumber(parentDirectory.getAreaNumber());
 
             afterNodeMoved(oldParentDirectory, parentDirectory);

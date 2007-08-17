@@ -1,3 +1,9 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.core.model;
 
 import javax.persistence.*;
@@ -97,20 +103,12 @@ public class File extends Node {
         this.imageMetaInfo = imageMetaInfo;
     }
 
-    public Directory getParent() {
-        return (Directory)super.getParent();
-    }
-
     public void addChild(Node child) {
         throw new UnsupportedOperationException("Files can't have children");
     }
 
-    public void removeChild(Node child) {
+    public Node removeChild(Node child) {
         throw new UnsupportedOperationException("Files can't have children");
-    }
-
-    public String toString() {
-        return getName();
     }
 
 }

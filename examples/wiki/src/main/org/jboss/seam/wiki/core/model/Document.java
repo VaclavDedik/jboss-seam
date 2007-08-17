@@ -1,32 +1,54 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.core.model;
 
 import org.hibernate.validator.Length;
 import org.jboss.seam.wiki.core.search.annotations.Searchable;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import java.util.List;
 
 @Entity
 @DiscriminatorValue("DOCUMENT")
 @org.hibernate.search.annotations.Indexed
 @Searchable(description = "Documents")
 @org.hibernate.annotations.BatchSize(size = 10)
+@SecondaryTable(
+    name = "NODE_DOCUMENT",
+    pkJoinColumns = @PrimaryKeyJoinColumn(name = "DOCUMENT_ID")
+)
+@org.hibernate.annotations.Table(
+    appliesTo = "NODE_DOCUMENT",
+    foreignKey = @org.hibernate.annotations.ForeignKey(name = "FK_NODE_DOCUMENT_DOCUMENT_ID")
+)
 public class Document extends Node {
 
-    @Column(name = "CONTENT")
+    @Column(table = "NODE_DOCUMENT", name = "CONTENT", nullable = false)
     @Length(min = 0, max = 32768)
     @Basic(fetch = FetchType.LAZY) // Lazy loaded through bytecode instrumentation
     @org.hibernate.search.annotations.Field(index = org.hibernate.search.annotations.Index.TOKENIZED)
     @Searchable(description = "Content")
     private String content;
 
-    @Column(name = "NAME_AS_TITLE")
+    @Column(table = "NODE_DOCUMENT", name = "NAME_AS_TITLE")
     private Boolean nameAsTitle = true;
 
-    @Column(name = "ENABLE_COMMENTS")
+    @Column(table = "NODE_DOCUMENT", name = "ENABLE_COMMENTS")
     private Boolean enableComments = false;
 
-    @Column(name = "ENABLE_COMMENT_FORM")
+    @Column(table = "NODE_DOCUMENT", name = "ENABLE_COMMENT_FORM")
     private Boolean enableCommentForm = true;
+
+    @OneToMany(mappedBy = "document", fetch = FetchType.LAZY)
+    @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
+    @org.hibernate.annotations.OrderBy(clause = "CREATED_ON desc")
+    @org.hibernate.annotations.LazyCollection(org.hibernate.annotations.LazyCollectionOption.EXTRA)
+    private List<Comment> comments;
 
     public Document() {
         super("New Document");
@@ -75,20 +97,16 @@ public class Document extends Node {
         this.enableCommentForm = enableCommentForm;
     }
 
-    public Directory getParent() {
-        return (Directory)super.getParent();
+    public List<Comment> getComments() {
+        return comments;
     }
 
     public void addChild(Node child) {
         throw new UnsupportedOperationException("Documents can't have children");
     }
 
-    public void removeChild(Node child) {
+    public Node removeChild(Node child) {
         throw new UnsupportedOperationException("Documents can't have children");
-    }
-
-    public String toString() {
-        return getName();
     }
 
     public void rollback(Node revision) {

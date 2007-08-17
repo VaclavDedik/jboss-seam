@@ -8,24 +8,7 @@
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
                 template="themes/#{wikiPreferences.themeName}/template.xhtml">
 
-<ui:define name="includeHeaders">
-    <link href="#{themePath}/css/userControl.css" rel="stylesheet" type="text/css"/>
-    <link href="#{themePath}/css/searchControl.css" rel="stylesheet" type="text/css"/>
-    <link href="#{themePath}/css/mainMenu.css" rel="stylesheet" type="text/css"/>
-</ui:define>
-
 <ui:define name="screenname">#{currentDirectory.name}</ui:define>
-
-<ui:define name="headerTopTwo">
-    <ui:include src="includes/userControl.xhtml"/>
-</ui:define>
-
-<ui:define name="headerBottomOne">&#160;</ui:define>
-
-<ui:define name="sidebar">
-    <ui:include src="includes/searchControl.xhtml"/>
-    <ui:include src="includes/mainMenu.xhtml"/>
-</ui:define>
 
 <ui:define name="controlTwo">
 
@@ -96,8 +79,8 @@
                  styleClass="datatable topLeftBottomBorder"
                  headerClass="regularHeader rightBorder"
                  columnClasses="onePercentColumn rightBorder alignCenter, defaultColumn rightBorder alignLeft,
-                                tenPercentColumn rightBorder alignLeft, twentyPercentColumn rightBorder alignLeft,
-                                twentyPercentColumn rightBorder alignLeft,twentyPercentColumn rightBorder alignCenter"
+                                tenPercentColumn rightBorder alignLeft, fifteenPercentColumn rightBorder alignLeft,
+                                fifteenPercentColumn rightBorder alignLeft,twentyPercentColumn rightBorder alignCenter"
                  rowClasses="rowOdd,rowEven"
                  cellpadding="0" cellspacing="0" border="0">
 

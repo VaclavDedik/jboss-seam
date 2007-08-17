@@ -1,3 +1,9 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.core.model;
 
 import org.hibernate.validator.Length;
@@ -16,15 +22,15 @@ public class LinkProtocol {
     private Long id;
 
     @Version
-    @Column(name = "OBJ_VERSION")
+    @Column(name = "OBJ_VERSION", nullable = false)
     protected Integer version;
 
-    @Column(name = "PREFIX")
+    @Column(name = "PREFIX", nullable = false)
     @Length(min = 2, max = 10)
     @org.hibernate.validator.Pattern(regex="[a-zA-Z]+", message="Prefix must only contain letters")
     private String prefix;
 
-    @Column(name = "LINK")
+    @Column(name = "LINK", nullable = false)
     @Length(min = 3, max = 1000)
     private String link;
 

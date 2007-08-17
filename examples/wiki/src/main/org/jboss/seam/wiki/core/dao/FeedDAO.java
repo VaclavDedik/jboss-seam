@@ -1,7 +1,12 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.core.dao;
 
 import org.jboss.seam.annotations.*;
-import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.engine.WikiTextParser;
 import org.jboss.seam.wiki.core.engine.WikiTextRenderer;
@@ -32,6 +37,16 @@ public class FeedDAO {
     @Logger static Log log;
 
     @In protected EntityManager restrictedEntityManager;
+
+    public List<FeedEntry> findLastFeedEntries(Long feedId, int maxResults) {
+        restrictedEntityManager.joinTransaction();
+        return (List<FeedEntry>) restrictedEntityManager
+                .createQuery("select fe from Feed f join f.feedEntries fe where f.id = :feedId order by f.publishedDate desc")
+                .setParameter("feedId", feedId)
+                .setHint("org.hibernate.cacheable", true)
+                .setMaxResults(maxResults)
+                .getResultList();
+    }
 
     public Feed findFeed(Long feedId) {
         restrictedEntityManager.joinTransaction();
@@ -117,14 +132,15 @@ public class FeedDAO {
     private Set<Feed> getAvailableFeeds(boolean includeSiteFeed, Document document) {
         // Walk up the directory tree and extract all the feeds from directories
         Set<Feed> feeds = new HashSet<Feed>();
-        Directory temp = document.getParent();
+        Node temp = document.getParent();
         while (temp.getParent() != null) {
-            if (temp.getFeed() != null) feeds.add(temp.getFeed());
+            if (temp instanceof Directory && ((Directory)temp).getFeed() != null)
+                feeds.add( ((Directory)temp).getFeed());
             temp = temp.getParent();
         }
 
         // If the user wants it on the site feed, that's the wiki root feed which is the top of the dir tree
-        if (includeSiteFeed) feeds.add(temp.getFeed());
+        if (includeSiteFeed) feeds.add( ((Directory)temp).getFeed());
 
         return feeds;
     }

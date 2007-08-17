@@ -1,3 +1,9 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.core.model;
 
 import org.hibernate.validator.Length;
@@ -16,7 +22,7 @@ public class Role implements Serializable, Comparable {
     private Long id = null;
 
     @Version
-    @Column(name = "OBJ_VERSION")
+    @Column(name = "OBJ_VERSION", nullable = false)
     private int version = 0;
 
     @Column(name = "NAME", length = 255, nullable = false, unique = true)

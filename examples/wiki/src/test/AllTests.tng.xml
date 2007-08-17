@@ -1,15 +1,43 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="AllTests" verbose="1">
+<suite name="Lacewiki - Core" verbose="1">
 
-    <test name="Documents">
+    <test name="Browsing">
 
         <parameter name="datasourceJndiName" value="java:/wikiTestDatasource"/>
 
         <packages>
-            <package name="org.jboss.seam.wiki.test.documents"/>
+            <package name="org.jboss.seam.wiki.test.browse"/>
         </packages>
 
     </test>
+
+    <test name="Editing">
+
+        <parameter name="datasourceJndiName" value="java:/wikiTestDatasource"/>
+
+        <packages>
+            <package name="org.jboss.seam.wiki.test.editing"/>
+        </packages>
+
+    </test>
+
+    <test name="NestedSet">
+
+        <parameter name="datasourceJndiName" value="java:/wikiTestDatasource"/>
+
+        <packages>
+            <package name="org.jboss.seam.wiki.test.nestedset"/>
+        </packages>
+    </test>
+
+    <!--
+    <test name="Misc">
+
+        <packages>
+            <package name="org.jboss.seam.wiki.test.misc"/>
+        </packages>
+    </test>
+    -->
 
 </suite>

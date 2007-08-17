@@ -1,12 +1,17 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.core.engine;
 
 import org.jboss.seam.text.SeamTextParser;
 import org.jboss.seam.text.SeamTextLexer;
 import org.jboss.seam.wiki.core.model.File;
 import org.jboss.seam.wiki.core.model.Document;
-import org.jboss.seam.wiki.core.model.Directory;
+import org.jboss.seam.wiki.core.model.Node;
 import org.jboss.seam.wiki.util.WikiUtil;
-import org.jboss.seam.Component;
 import antlr.ANTLRException;
 
 import java.util.*;
@@ -31,9 +36,8 @@ import java.io.StringReader;
 public class WikiTextParser extends SeamTextParser {
 
     private WikiTextRenderer renderer;
-
     private WikiLinkResolver resolver;
-    private Directory currentDirectory;
+    private Node currentDirectory;
     private Document currentDocument;
 
     private Map<String, WikiLink> resolvedLinks = new HashMap<String, WikiLink>();
@@ -69,7 +73,7 @@ public class WikiTextParser extends SeamTextParser {
     /*
      * The render/link resolving base
      */
-    public void setCurrentDirectory(Directory currentDirectory) {
+    public void setCurrentDirectory(Node currentDirectory) {
         this.currentDirectory = currentDirectory;
     }
 

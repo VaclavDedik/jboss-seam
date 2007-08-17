@@ -81,7 +81,7 @@
     <function>
         <function-name>length</function-name>
         <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
-        <function-signature>int lenth(java.lang.String)</function-signature>
+        <function-signature>int length(java.lang.String)</function-signature>
     </function>
 
     <function>
@@ -100,6 +100,12 @@
         <function-name>getSessionTimeoutSeconds</function-name>
         <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
         <function-signature>int getSessionTimeoutSeconds()</function-signature>
+    </function>
+
+    <function>
+        <function-name>hasMessage</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>boolean hasMessage(java.lang.String,java.lang.String)</function-signature>
     </function>
 
     <tag>

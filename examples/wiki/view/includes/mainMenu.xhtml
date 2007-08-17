@@ -3,43 +3,13 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:wiki="http://jboss.com/products/seam/wiki"
+     xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+     xmlns:rich="http://richfaces.ajax4jsf.org/rich"
      xmlns:s="http://jboss.com/products/seam/taglib">
 
-    <h:dataTable id="menuList" var="menuItem"
-                 value="#{menu.items}"
-                 styleClass="menuTable"
-                 cellpadding="0" cellspacing="0" border="0"
-                 columnClasses="firstLevelItem"
-                 rendered="#{!empty menu.items}">
-
-        <h:column>
-            <h:outputLink styleClass="firstLevelItemLink"
-                          value="#{menuItem.url}">#{menuItem.node.name}
-            </h:outputLink>
-
-            <h:dataTable id="subMenuList" var="subMenuItem"
-                         value="#{menuItem.subItems}"
-                         styleClass="subMenuTable"
-                         cellpadding="0" cellspacing="0" border="0"
-                         columnClasses="secondLevelItem"
-                         rendered="#{!empty menuItem.subItems}">
-                <h:column>
-                    <h:outputLink styleClass="secondLevelItemLink"
-                                  value="#{subMenuItem.url}">
-                        #{subMenuItem.node.name}
-                    </h:outputLink>
-                </h:column>
-            </h:dataTable>
-
-        </h:column>
-
-    </h:dataTable>
-
-    <s:div styleClass="feeds">
-        <h:outputLink value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{wikiRoot.feed.id}">
-            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.atom.gif" width="18" height="18"/>
-            <span class="feedText">Subscribe to site</span>
-        </h:outputLink>
-    </s:div>
+    <ui:include src="mainMenuItem.xhtml">
+        <ui:param name="node" value="#{menu.root}"/>
+    </ui:include>
 
 </div>

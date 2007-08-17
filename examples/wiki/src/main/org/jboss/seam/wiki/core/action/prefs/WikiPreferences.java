@@ -1,3 +1,9 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.core.action.prefs;
 
 import org.jboss.seam.annotations.Name;
@@ -56,6 +62,24 @@ public class WikiPreferences extends PreferenceSupport implements Serializable {
     @NotNull
     private Long purgeFeedEntriesAfterDays;
 
+    @Preference(description = "09. Replace @ symbol in e-mail addresses with", visibility = PreferenceVisibility.SYSTEM)
+    @Length(min = 1, max = 20)
+    @NotNull
+    private String atSymbolReplacement;
+
+    @Preference(description = "10. Flatten main menu to levels", visibility = PreferenceVisibility.SYSTEM)
+    @Range(min = 1l, max = 5l)
+    @NotNull
+    private Long mainMenuLevels;
+
+    @Preference(description = "11. Maximum depth of main menu nodes", visibility = PreferenceVisibility.SYSTEM)
+    @Range(min = 1l, max = 99l)
+    @NotNull
+    private Long mainMenuDepth;
+
+    @Preference(description = "12. Show only nodes owned by system administrator in main menu", visibility = PreferenceVisibility.SYSTEM)
+    private Boolean mainMenuShowAdminOnly;
+
     public String getBaseUrl() {
         return baseUrl;
     }
@@ -88,4 +112,19 @@ public class WikiPreferences extends PreferenceSupport implements Serializable {
         return purgeFeedEntriesAfterDays;
     }
 
+    public String getAtSymbolReplacement() {
+        return atSymbolReplacement;
+    }
+
+    public Long getMainMenuLevels() {
+        return mainMenuLevels;
+    }
+
+    public Long getMainMenuDepth() {
+        return mainMenuDepth;
+    }
+
+    public Boolean isMainMenuShowAdminOnly() {
+        return mainMenuShowAdminOnly;
+    }
 }

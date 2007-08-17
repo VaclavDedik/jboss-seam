@@ -1,3 +1,9 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.core.dao;
 
 import org.jboss.seam.annotations.*;
@@ -17,6 +23,7 @@ import java.io.Serializable;
 import java.util.*;
 
 @Name("wikiNodeFactory")
+@Transactional
 public class WikiNodeFactory implements Serializable {
 
     @In
@@ -25,9 +32,7 @@ public class WikiNodeFactory implements Serializable {
     @In
     protected EntityManager restrictedEntityManager;
 
-
     @Factory(value = "wikiRoot", scope = ScopeType.CONVERSATION, autoCreate = true)
-    @Transactional
     public Directory loadWikiRoot() {
         entityManager.joinTransaction();
         try {
@@ -41,7 +46,6 @@ public class WikiNodeFactory implements Serializable {
     }
 
     @Factory(value = "wikiStart", scope = ScopeType.CONVERSATION, autoCreate = true)
-    @Transactional
     public Document loadWikiStart() {
         restrictedEntityManager.joinTransaction();
         WikiPreferences wikiPreferences = (WikiPreferences) Component.getInstance("wikiPreferences");
@@ -61,7 +65,6 @@ public class WikiNodeFactory implements Serializable {
 
     // Loads the same instance into a different persistence context
     @Factory(value = "restrictedWikiRoot", scope = ScopeType.CONVERSATION, autoCreate = true)
-    @Transactional
     public Directory loadWikiRootRestricted() {
         Directory wikiroot = (Directory) Component.getInstance("wikiRoot");
 
@@ -78,7 +81,6 @@ public class WikiNodeFactory implements Serializable {
     }
 
     @Factory(value = "memberArea", scope = ScopeType.CONVERSATION, autoCreate = true)
-    @Transactional
     public Directory loadMemberArea() {
         Long memberAreaId = ((WikiPreferences)Component.getInstance("wikiPreferences")).getMemberAreaId();
         entityManager.joinTransaction();
@@ -89,7 +91,6 @@ public class WikiNodeFactory implements Serializable {
                     .setHint("org.hibernate.cacheable", true)
                     .getSingleResult();
         } catch (RuntimeException ex) {
-            System.out.println("######################### MESSAGE ###############################");
             FacesMessages.instance().addFromResourceBundleOrDefault(
                 FacesMessage.SEVERITY_ERROR,
                 "memberHomeDirectoryNotFound",
@@ -99,7 +100,6 @@ public class WikiNodeFactory implements Serializable {
     }
 
     @Factory(value = "linkProtocolMap", scope = ScopeType.CONVERSATION, autoCreate = true)
-    @Transactional
     public Map<String, LinkProtocol> loadLinkProtocols() {
         entityManager.joinTransaction();
         Map<String, LinkProtocol> linkProtocols = new TreeMap<String, LinkProtocol>();

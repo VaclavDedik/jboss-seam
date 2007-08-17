@@ -6,12 +6,10 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.wiki.core.dao.FeedDAO;
 import org.jboss.seam.wiki.core.model.FeedEntry;
-import org.jboss.seam.wiki.core.model.Feed;
 import org.jboss.seam.ScopeType;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.ArrayList;
 
 @Name("feedTeasersPlugin")
 @Scope(ScopeType.PAGE)
@@ -20,11 +18,8 @@ public class FeedTeasers implements Serializable {
     @In
     FeedDAO feedDAO;
 
-    @In("#{feedTeasersPreferences.properties['numberOfTeasers']}")
-    private Long numberOfTeasers;
-
-    @In("#{feedTeasersPreferences.properties['feedIdentifier']}")
-    private Long feedIdentifier;
+    @In
+    FeedTeasersPreferences feedTeasersPreferences;
 
     private List<FeedEntry> teasers;
 
@@ -35,8 +30,11 @@ public class FeedTeasers implements Serializable {
 
     @Observer("Preferences.feedTeasersPreferences")
     public void loadTeasers() {
-        Feed feed = feedDAO.findFeed(feedIdentifier);
-        teasers = new ArrayList<FeedEntry>(feed.getFeedEntries());
+        teasers =
+            feedDAO.findLastFeedEntries(
+                feedTeasersPreferences.getFeedIdentifier(),
+                feedTeasersPreferences.getNumberOfTeasers().intValue()
+            );
     }
 
 }

@@ -25,6 +25,11 @@
         <to last="true">/display.seam?areaName=$1&amp;nodeName=$2</to>
     </rule>
 
+    <rule>
+        <from>^/$</from>
+        <to>/display.seam</to>
+    </rule>
+
     <!--
 
     INSTALLATION

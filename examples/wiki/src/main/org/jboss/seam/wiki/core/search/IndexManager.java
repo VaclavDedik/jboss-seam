@@ -81,22 +81,24 @@ public class IndexManager {
             int count = cursor.getRowNumber() + 1;
             log.debug("total documents in database: " + count);
 
-            cursor.first(); // Reset to first result row
-            int i = 0;
-            while (true) {
-                i++;
-                Object o = cursor.get(0);
-                log.debug("indexing: " + o);
-                ftSession.index(o);
-                if (i % batchSize == 0) ftSession.clear(); // Clear persistence context for each batch
+            if (count > 0) {
+                cursor.first(); // Reset to first result row
+                int i = 0;
+                while (true) {
+                    i++;
+                    Object o = cursor.get(0);
+                    log.debug("indexing: " + o);
+                    ftSession.index(o);
+                    if (i % batchSize == 0) ftSession.clear(); // Clear persistence context for each batch
 
-                progress.setPercentComplete( (100/count) * i);
-                log.debug("percent of index update complete: " + progress);
+                    progress.setPercentComplete( (100/count) * i);
+                    log.debug("percent of index update complete: " + progress);
 
-                if (cursor.isLast())
-                    break;
-                else
-                    cursor.next();
+                    if (cursor.isLast())
+                        break;
+                    else
+                        cursor.next();
+                }
             }
             cursor.close();
             userTx.commit();

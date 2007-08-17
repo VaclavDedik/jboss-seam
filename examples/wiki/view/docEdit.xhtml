@@ -6,45 +6,28 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:a="https://ajax4jsf.dev.java.net/ajax"
-                xmlns:rich="http://richfaces.ajax4jsf.org/rich"
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
                 xmlns:j4j="http://javascript4jsf.dev.java.net/"
                 template="themes/#{wikiPreferences.themeName}/template.xhtml">
-
-<ui:define name="includeHeaders">
-    <link href="#{themePath}/css/userControl.css" rel="stylesheet" type="text/css"/>
-    <link href="#{themePath}/css/searchControl.css" rel="stylesheet" type="text/css"/>
-    <link href="#{themePath}/css/mainMenu.css" rel="stylesheet" type="text/css"/>
-</ui:define>
 
 <ui:define name="screenname">
     <h:outputText value="Create document" rendered="#{!documentHome.managed}"/>
     <h:outputText value="Edit document" rendered="#{documentHome.managed}"/>
 </ui:define>
 
-<ui:define name="headerTopTwo">
-    <ui:include src="includes/userControl.xhtml"/>
-</ui:define>
-
-<ui:define name="headerBottomOne">&#160;</ui:define>
-
-<ui:define name="sidebar">
-    <ui:include src="includes/searchControl.xhtml"/>
-    <ui:include src="includes/mainMenu.xhtml"/>
-</ui:define>
-
 <ui:define name="controlTwo">
 
-    <s:link id="uploadFile" styleClass="linkNavigation" action="uploadFile" accesskey="F" propagation="none"
+    <s:link id="uploadFile" styleClass="linkNavigation" action="uploadFile" accesskey="I" propagation="none"
             rendered="#{s:hasPermission('Node', 'create', documentHome.parentDirectory)}">
         <f:param name="lastConversationId" value="#{conversation.id}"/>
         <f:param name="parentDirId" value="#{documentHome.parentDirectory.id}"/>
-        Upload <u>F</u>ile
+        Upload F<u>i</u>le
     </s:link>
 
     <s:link id="exit" styleClass="linkNavigation"
             action="#{browser.exitConversation(true)}"
             accesskey="E"><u>E</u>xit Editor</s:link>
+
 </ui:define>
 
 <ui:define name="content">
@@ -109,10 +92,9 @@
 
                             <s:decorate id="contentDecorate" template="includes/formFieldDecorate.xhtml">
                                 <ui:param name="tabId" value="docContentTab"/>
-                                <ui:param name="fieldId" value="content"/>
+                                <ui:param name="fieldId" value="contentTextArea"/>
                                 <ui:define name="label">Content</ui:define>
                                 <script type="text/javascript">if(!$.browser.safari){jQuery(function() {
-                                    jQuery("#contentTextEdit").append('&lt;div id="contentTextEditResizeHandle"/>');
                                     jQuery("#contentTextEdit").Resizable({
                                         minHeight: 50,
                                         handlers: {
@@ -123,23 +105,17 @@
                                         }
                                     });
                                 })};</script>
-                                <div id="contentTextEdit">
-                                    <s:span rendered="#{documentHome.enabledPreview}">
-                                        <h:inputTextarea tabindex="3"
-                                                         cols="#{docEditorPreferences.properties['regularEditAreaColumns']}"
-                                                         rows="#{docEditorPreferences.properties['regularEditAreaRows']}"
-                                                         id="contentTextAreaWithPreview"
-                                                         value="#{documentHome.formContent}">
-                                            <a:support event="onkeyup" reRender="preview" requestDelay="3000" eventsQueue="editKeyPress"/>
-                                        </h:inputTextarea>
-                                    </s:span>
-                                    <s:span rendered="#{!documentHome.enabledPreview}">
-                                        <h:inputTextarea tabindex="3"
-                                                         cols="#{docEditorPreferences.properties['regularEditAreaColumns']}"
-                                                         rows="#{docEditorPreferences.properties['regularEditAreaRows']}"
-                                                         id="contentTextArea"
-                                                         value="#{documentHome.formContent}"/>
-                                    </s:span>
+                                <div id="contentTextEdit" class="textEditResizable">
+                                    <h:inputTextarea tabindex="3"
+                                                     required="true"
+                                                     cols="#{docEditorPreferences.properties['regularEditAreaColumns']}"
+                                                     rows="#{docEditorPreferences.properties['regularEditAreaRows']}"
+                                                     id="contentTextArea"
+                                                     value="#{documentHome.formContent}">
+                                        <a:support rendered="#{documentHome.enabledPreview}" event="onkeyup" reRender="preview" requestDelay="3000" eventsQueue="editKeyPress"/>
+                                        <a:support event="onblur" reRender="contentDecorate"/>
+                                    </h:inputTextarea>
+                                    <div id="contentTextEditResizeHandle" class="textEditResizeHandle"/>
                                 </div>
                             </s:decorate>
 
@@ -275,26 +251,26 @@
     <br/>
 
     <s:div id="preview">
-    <s:div id="documentDisplayContainer" rendered="#{documentHome.enabledPreview}" styleClass="shadowContainer"><div class="shadow1"><div class="shadow2">
-        <s:div id="documentDisplay" styleClass="documentDisplay"><j4j:idProxy id="documentDisplay_" />
-            <s:div rendered="#{currentDocument.nameAsTitle}"><h1 class="documentTitle">#{currentDocument.name}</h1></s:div>
-            <wiki:formattedText value="#{documentHome.instance.content}"
-                                linkStyleClass="regularLink"
-                                brokenLinkStyleClass="brokenLink"
-                                attachmentLinkStyleClass="regularLink"
-                                thumbnailLinkStyleClass="regularLink"
-                                renderBaseDocument="#{documentHome.instance}"
-                                renderBaseDirectory="#{currentDirectory}"/>
+        <s:div id="documentDisplayContainer"
+               rendered="#{documentHome.enabledPreview}"
+               styleClass="shadowContainer"><div class="shadow1"><div class="shadow2">
+            <s:div id="documentDisplay" styleClass="documentDisplay"><j4j:idProxy id="documentDisplay_" />
+                <s:div rendered="#{currentDocument.nameAsTitle}"><h1 class="documentTitle">#{currentDocument.name}</h1></s:div>
+                <wiki:formattedText value="#{documentHome.instance.content}"
+                                    linkStyleClass="regularLink"
+                                    brokenLinkStyleClass="brokenLink"
+                                    attachmentLinkStyleClass="regularLink"
+                                    thumbnailLinkStyleClass="regularLink"
+                                    renderBaseDocument="#{documentHome.instance}"
+                                    renderBaseDirectory="#{currentDirectory}"
+                                    enablePlugins="true"/>
+            </s:div>
+        </div></div></s:div>
+
+        <s:div rendered="#{documentHome.enabledPreview}">
+            <ui:include src="includes/attachmentDisplay.xhtml"/>
         </s:div>
-    </div></div></s:div>
-
-    <s:div rendered="#{documentHome.enabledPreview}">
-        <br/>
-        <ui:include src="includes/attachmentDisplay.xhtml"/>
     </s:div>
-
-    </s:div>
-
 
 </ui:define>
 

@@ -1,3 +1,9 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.core.ui;
 
 import java.io.IOException;
@@ -9,21 +15,18 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-import javax.el.ExpressionFactory;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.el.SeamExpressionFactory;
 import org.jboss.seam.ui.util.JSF;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Conversation;
-import org.jboss.seam.core.Expressions;
 import org.jboss.seam.wiki.core.engine.WikiLink;
 import org.jboss.seam.wiki.core.engine.WikiTextParser;
 import org.jboss.seam.wiki.core.engine.WikiTextRenderer;
 import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
 import org.jboss.seam.wiki.core.model.File;
 import org.jboss.seam.wiki.core.model.Document;
-import org.jboss.seam.wiki.core.model.Directory;
+import org.jboss.seam.wiki.core.model.Node;
 import org.jboss.seam.wiki.util.WikiUtil;
 
 public class UIWikiFormattedText extends UIOutput {
@@ -35,6 +38,7 @@ public class UIWikiFormattedText extends UIOutput {
     public static final String ATTR_UPDATE_RESOLVED_LINKS           = "updateResolvedLinks";
     public static final String ATTR_RENDER_BASE_DOCUMENT            = "renderBaseDocument";
     public static final String ATTR_RENDER_BASE_DIRECTORY           = "renderBaseDirectory";
+    public static final String ATTR_ENABLE_PLUGINS                  = "enablePlugins";
 
     private List<String> plugins;
 
@@ -71,7 +75,7 @@ public class UIWikiFormattedText extends UIOutput {
 
         // Resolve the base document and directory we are resolving against
         final Document baseDocument = (Document)getAttributes().get(ATTR_RENDER_BASE_DOCUMENT);
-        final Directory baseDirectory = (Directory)getAttributes().get(ATTR_RENDER_BASE_DIRECTORY);
+        final Node baseDirectory = (Node)getAttributes().get(ATTR_RENDER_BASE_DIRECTORY);
         parser.setCurrentDocument(baseDocument);
         parser.setCurrentDirectory(baseDirectory);
 
@@ -91,11 +95,11 @@ public class UIWikiFormattedText extends UIOutput {
 
             public String renderExternalLink(WikiLink externalLink) {
                 return "<a href=\""
-                        + externalLink.getUrl()
+                        + WikiUtil.escapeEmailAddress(externalLink.getUrl())
                         + "\" class=\""
                         + (externalLink.isBroken() ? getAttributes().get(ATTR_BROKEN_LINK_STYLE_CLASS)
                         : getAttributes().get(ATTR_LINK_STYLE_CLASS)) + "\">"
-                        + externalLink.getDescription() + "</a>";
+                        + WikiUtil.escapeEmailAddress(externalLink.getDescription()) + "</a>";
             }
 
             public String renderFileAttachmentLink(int attachmentNumber, WikiLink attachmentLink) {

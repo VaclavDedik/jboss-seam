@@ -1,0 +1,80 @@
+<wiki:plugin id="userProfilePlugin"
+             xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns:f="http://java.sun.com/jsf/core"
+             xmlns:wiki="http://jboss.com/products/seam/wiki"
+             xmlns:s="http://jboss.com/products/seam/taglib">
+
+
+    <script type="text/javascript">jQuery(function() {
+        clearDocumentBackground();
+    });</script>
+
+    <s:div styleClass="shadowContainer"><div class="shadow1"><div class="shadow2"><div class="userProfile">
+
+        <div class="userProfileHeader"><span class="userProfileHeaderText">#{currentDocument.createdBy.fullname}</span></div>
+
+        <s:div rendered="#{!empty currentDocument.createdBy.profile.imageContentType}" styleClass="userProfilePortrait">
+            <s:graphicImage value="#{currentDocument.createdBy.profile.image}">
+                <s:transformImageSize width="120" maintainRatio="true"/>
+            </s:graphicImage>
+        </s:div>
+
+        <s:div styleClass="userProfileBio"
+               rendered="#{empty currentDocument.createdBy.profile.bio and !empty currentDocument.createdBy.profile.imageContentType}">
+            <wiki:formattedText value="If you are #{currentDocument.createdBy.fullname}, please login and edit your bio in your profile."
+                                linkStyleClass="regularLink"
+                                brokenLinkStyleClass="brokenLink"
+                                attachmentLinkStyleClass="regularLink"
+                                thumbnailLinkStyleClass="regularLink"
+                                renderBaseDocument="#{currentDocument}"
+                                renderBaseDirectory="#{currentDirectory}"
+                                enablePlugins="false"/>
+        </s:div>
+
+        <s:div styleClass="userProfileBio" rendered="#{!empty currentDocument.createdBy.profile.bio}">
+            <wiki:formattedText value="#{currentDocument.createdBy.profile.bio}"
+                                linkStyleClass="regularLink"
+                                brokenLinkStyleClass="brokenLink"
+                                attachmentLinkStyleClass="regularLink"
+                                thumbnailLinkStyleClass="regularLink"
+                                renderBaseDocument="#{currentDocument}"
+                                renderBaseDirectory="#{currentDirectory}"
+                                enablePlugins="false"/>
+        </s:div>
+
+        <div style="clear:both;"/>
+        <s:div rendered="#{!empty currentDocument.createdBy.profile.website}">
+            <span class="userProfileEntryLabel">Website:</span>
+            <span class="userProfileEntryLink">
+                <h:outputLink value="#{currentDocument.createdBy.profile.website}">#{currentDocument.createdBy.profile.website}</h:outputLink>
+            </span>
+        </s:div>
+        <s:div rendered="#{!empty currentDocument.createdBy.profile.location}">
+            <span class="userProfileEntryLabel">Location:</span>
+            <span class="userProfileEntryText">
+                <h:outputText value="#{currentDocument.createdBy.profile.location}"/>
+            </span>
+        </s:div>
+        <s:div rendered="#{!empty currentDocument.createdBy.profile.occupation}">
+            <span class="userProfileEntryLabel">Occupation:</span>
+            <span class="userProfileEntryText">
+                <h:outputText value="#{currentDocument.createdBy.profile.occupation}"/>
+            </span>
+        </s:div>
+
+        <s:div styleClass="userProfileNotFound" rendered="#{
+                empty currentDocument.createdBy.profile.imageContentType
+            and empty currentDocument.createdBy.profile.bio
+            and empty currentDocument.createdBy.profile.website
+            and empty currentDocument.createdBy.profile.location
+            and empty currentDocument.createdBy.profile.occupation}">
+            If you are #{currentDocument.createdBy.fullname}, please login and edit your profile.
+        </s:div>
+
+        <s:div styleClass="userProfileFooter"/>
+
+    </div></div></div></s:div>
+
+</wiki:plugin>

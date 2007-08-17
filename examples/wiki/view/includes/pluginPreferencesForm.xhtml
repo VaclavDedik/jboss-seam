@@ -6,7 +6,10 @@
         xmlns:wiki="http://jboss.com/products/seam/wiki"
         xmlns:s="http://jboss.com/products/seam/taglib">
 
-    <h:panelGrid columns="2" style="margin-bottom:10px;" cellpadding="0" cellspacing="0" border="0">
+
+    #{pluginPreferencesEditor.preferenceComponent.description}
+
+    <h:panelGrid columns="2" style="margin-top:10px;margin-bottom:10px;" cellpadding="0" cellspacing="0" border="0">
 
         <h:dataTable var="v" style="width:10%;"
                      value="#{pluginPreferencesEditor.preferenceValues}"

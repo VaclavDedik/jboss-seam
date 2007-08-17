@@ -1,3 +1,9 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.core.engine;
 
 import java.util.Map;
@@ -51,8 +57,9 @@ public interface WikiLinkResolver {
     public static final String REGEX_WIKILINK_CROSSAREA = "^(.+)" + Pattern.quote("|") + "(.*)$";
 
     /**
-     * Replaces clear text links such as <tt>[=>Target Name]</tt> in <tt>wikiText</tt> with
-     * <tt>[=>wiki://id]</tt> strings, usually resolves the target name as a unique wiki name in some data store.
+     * Replaces clear text links such as <tt>[Link description=>Target Name]</tt> in <tt>wikiText</tt> with
+     * <tt>[Link description=>wiki://id]</tt> strings, usually resolves the target name as a unique wiki name
+     * in some data store.
      * The <tt>currentAreaNumber</tt> of the current document is supplied and can be used as the namespace for scoped resolving.
      * <p>
      * This method should be called whenever a wiki document is stored, we want to store the permanent
@@ -98,7 +105,7 @@ public interface WikiLinkResolver {
      * users can edit the link again in clear text.
      * </p><p>
      * Either parse by hand or use the <tt>REGEX_WIKILINK_REVERSE</tt> pattern, which matches
-     * <tt>[GROUP1=>wiki://GROUP2]. Replace with <tt>[GROUP1=>Target Name]</tt> or, if the target is not in
+     * <tt>[GROUP1=>(wiki://GROUP2)]. Replace with <tt>[GROUP1=>Target Name]</tt> or, if the target is not in
      * the same namespace as the given <tt>area</tt> parameter, append the area:
      * <tt>[GROUP1=>Target Area|Target Name]</tt>.
      *
@@ -107,7 +114,6 @@ public interface WikiLinkResolver {
      * @return The <tt>wikiText</tt> with all <tt>[=>wiki://id]<tt> links replaced with <tt>[=>Target Name]</tt>
      */
     public String convertFromWikiProtocol(Long currentAreaNumber, String wikiText);
-
 
     /**
      * Resolve the given <tt>linkText</tt> to an instance of <tt>WikiLink</tt> and put it in the <tt>links</tt> map.

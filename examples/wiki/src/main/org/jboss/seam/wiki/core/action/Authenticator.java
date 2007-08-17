@@ -1,3 +1,9 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.annotations.*;
@@ -89,6 +95,7 @@ public class Authenticator {
         homeDirectory.setCreatedBy(user);
         homeDirectory.setWriteAccessLevel(UserRoleAccessFactory.ADMINROLE_ACCESSLEVEL);
         homeDirectory.setReadAccessLevel(UserRoleAccessFactory.GUESTROLE_ACCESSLEVEL);
+        homeDirectory.setMenuItem(true);
         memberArea.addChild(homeDirectory);
         user.setMemberHome(homeDirectory);
 
@@ -106,12 +113,16 @@ public class Authenticator {
         homePage.setWikiname(WikiUtil.convertToWikiName(homePage.getName()));
         homePage.setCreatedBy(user);
         homePage.setAreaNumber(homeDirectory.getAreaNumber());
-        homePage.setContent("This is the homepage of " + user.getFullname() + ".");
+        homePage.setContent(
+            ((UserManagementPreferences)Component.getInstance("userManagementPreferences")).getHomepageDefaultContent()
+        );
         homePage.setWriteAccessLevel(UserRoleAccessFactory.ADMINROLE_ACCESSLEVEL);
         homePage.setReadAccessLevel(UserRoleAccessFactory.GUESTROLE_ACCESSLEVEL);
+        homePage.setMenuItem(true);
         homeDirectory.addChild(homePage);
         homeDirectory.setDefaultDocument(homePage);
-        nodeDAO.makePersistent(homeDirectory);
+
+        nodeDAO.makePersistent(homePage);
     }
 
     public String logout() {

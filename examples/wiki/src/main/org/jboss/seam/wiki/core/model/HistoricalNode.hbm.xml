@@ -33,7 +33,7 @@ Maps only properties we want to keep a history of.
         <subclass name="Document" entity-name="HistoricalDocument" discriminator-value="DOCUMENT">
             <property name="content" column="CONTENT" length="32768"/>
         </subclass>
-
+<!-- TODO: Versioning for files
         <subclass name="File" entity-name="HistoricalFile" discriminator-value="FILE">
             <property name="filename" length="255" column="FILENAME"/>
             <property name="filesize" column="FILESIZE"/>
@@ -45,7 +45,7 @@ Maps only properties we want to keep a history of.
                 <property name="thumbnail" column="IMAGE_THUMBNAIL"/>
             </component>
         </subclass>
-
+-->
     </class>
 
 </hibernate-mapping>

@@ -1,3 +1,9 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.core.model;
 
 import javax.persistence.*;
@@ -14,20 +20,14 @@ public class Feed implements Serializable {
     private Long id;
 
     @Version
-    @Column(name = "OBJ_VERSION")
+    @Column(name = "OBJ_VERSION", nullable = false)
     protected Integer version;
 
     @Column(name = "TITLE", nullable = false)
     private String title;
 
-    @Column(name = "DESCRIPTION", nullable = true)
-    private String description;
-
-    @Column(name = "AUTHOR", nullable = true)
+    @Column(name = "AUTHOR", nullable = false)
     private String author;
-
-    @Column(name = "COPYRIGHT", nullable = true)
-    private String copyright;
 
     @Column(name = "PUBLISHED_ON", nullable = false, updatable = false)
     private Date publishedDate = new Date();
@@ -65,28 +65,12 @@ public class Feed implements Serializable {
         this.title = title;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getAuthor() {
         return author;
     }
 
     public void setAuthor(String author) {
         this.author = author;
-    }
-
-    public String getCopyright() {
-        return copyright;
-    }
-
-    public void setCopyright(String copyright) {
-        this.copyright = copyright;
     }
 
     public Date getPublishedDate() {

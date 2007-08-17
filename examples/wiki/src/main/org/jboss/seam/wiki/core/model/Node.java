@@ -1,15 +1,22 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.core.model;
 
 import org.hibernate.validator.Length;
 import org.hibernate.validator.Pattern;
+import org.jboss.seam.wiki.core.nestedset.AbstractNestedSetNode;
 import org.jboss.seam.wiki.core.preferences.WikiPreferenceValue;
 import org.jboss.seam.wiki.core.search.PaddedIntegerBridge;
 import org.jboss.seam.wiki.core.search.annotations.Searchable;
 import org.jboss.seam.wiki.core.search.annotations.SearchableType;
 
 import javax.persistence.*;
-import java.util.*;
 import java.io.Serializable;
+import java.util.*;
 
 @Entity
 @Table(
@@ -34,7 +41,7 @@ import java.io.Serializable;
     name = "accessLevelFilter",
     condition = "READ_ACCESS_LEVEL <= :currentAccessLevel"
 )
-public abstract class Node implements Serializable {
+public abstract class Node extends AbstractNestedSetNode<Node> implements Serializable {
 
     // Uses Hibernates ability to map the same class twice, see HistoricalNode.hbm.xml
     @Transient
@@ -49,7 +56,7 @@ public abstract class Node implements Serializable {
     protected Long nodeId;
 
     @Version
-    @Column(name = "OBJ_VERSION")
+    @Column(name = "OBJ_VERSION", nullable = false)
     protected Integer version;
 
     @Column(name = "NAME", length = 255, nullable = false)
@@ -68,18 +75,23 @@ public abstract class Node implements Serializable {
     @Column(name = "AREA_NR", nullable = false)
     private Long areaNumber;
 
-    // Required EAGER loading, we cast this to 'Directory' sometimes and proxy wouldn't work
     @ManyToOne(fetch = FetchType.EAGER)
+    // The generated DDL doesn't have a NOT NULL (the root node of the tree has a NULL parent)
     @JoinColumn(name = "PARENT_NODE_ID", nullable = true, insertable = false, updatable = false)
     @org.hibernate.annotations.ForeignKey(name = "FK_NODE_PARENT_NODE_ID")
-    @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
     protected Node parent;
 
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PARENT_NODE_ID", nullable = true)
-    @org.hibernate.annotations.IndexColumn(name = "NODE_POSITION")
-    @org.hibernate.annotations.BatchSize(size = 5) // Helps with walking the node tree
+    // TODO: The NOT NULL constraint here is a hack so ON DELETE CASCADE works, it's not in the DDL
+    // Without this setting, Hibernate would null the PARENT_NODE_ID column of children when it deletes a parent,
+    // we don't want that because there is a FK constraint with cascading delete on it in the database!
+    @JoinColumn(name = "PARENT_NODE_ID", nullable = false)
+    @org.hibernate.annotations.IndexColumn(name = "DISPLAY_POSITION")
     private List<Node> children = new ArrayList<Node>();
+
+    @Column(name = "DISPLAY_POSITION", nullable = false, updatable = false, insertable = false)
+    // Hibernate would complain for newly persistent instances if it is null...
+    private Integer displayPosition = Integer.MAX_VALUE;
 
     @Column(name = "CREATED_ON", nullable = false, updatable = false)
     @org.hibernate.search.annotations.Field(
@@ -178,14 +190,6 @@ public abstract class Node implements Serializable {
         this.wikiname = wikiname;
     }
 
-    public boolean isMenuItem() {
-        return menuItem;
-    }
-
-    public void setMenuItem(boolean menuItem) {
-        this.menuItem = menuItem;
-    }
-
     public Long getAreaNumber() {
         return areaNumber;
     }
@@ -194,27 +198,12 @@ public abstract class Node implements Serializable {
         this.areaNumber = areaNumber;
     }
 
-    public Node getParent() {
-        return parent;
+    public boolean isMenuItem() {
+        return menuItem;
     }
 
-    public void setParent(Node parent) {
-        this.parent = parent;
-    }
-
-    public List<Node> getChildren() {
-        return children;
-    }
-
-    public void addChild(Node child) {
-        if (child.getParent() != null) child.getParent().getChildren().remove(child);
-        child.setParent(this);
-        this.getChildren().add(child);
-    }
-
-    public void removeChild(Node child) {
-        child.setParent(null);
-        this.getChildren().remove(child);
+    public void setMenuItem(boolean menuItem) {
+        this.menuItem = menuItem;
     }
 
     public User getCreatedBy() {
@@ -270,15 +259,55 @@ public abstract class Node implements Serializable {
         this.preferences = preferences;
     }
 
+    public String getTreeSuperclassEntityName() {
+        return "Node";
+    }
+
+    // TODO: http://opensource.atlassian.com/projects/hibernate/browse/HHH-1615
+    public String[] getTreeSuperclassPropertiesForGrouping() {
+        return new String[]{
+            "id", "class", "version",
+            "nsLeft", "nsRight", "nsThread", "parent",
+            "areaNumber", "createdBy", "createdOn", "lastModifiedBy", "lastModifiedOn", "menuItem", "name", "displayPosition", 
+            "readAccessLevel", "revision", "wikiname", "writeAccessLevel",
+            "contentType", "filename", "filesize", "imageMetaInfo.sizeX", "imageMetaInfo.sizeY", "imageMetaInfo.thumbnail", "imageMetaInfo.thumbnailData",
+            "defaultDocument", "enableComments", "enableCommentForm", "nameAsTitle",
+        };
+    }
+
+    public Directory getParent() {
+        return (Directory)parent; // No proxies here!
+    }
+
+    public void setParent(Node parent) {
+        this.parent = parent;
+    }
+
+    public List<Node> getChildren() {
+        return children;
+    }
+
+    public Integer getDisplayPosition() {
+        return displayPosition;
+    }
+
+    public void setDisplayPosition(Integer displayPosition) {
+        this.displayPosition = displayPosition;
+    }
+
     // Misc methods
 
-    public Directory getArea() {
+    public String toString() {
+        return getName() + " (ID: " + getId() + ")";
+    }
+
+    public Node getArea() {
         Node currentNode = this;
         // TODO: This is hardcoding the "parentless parent" logic for the wiki root
         while (currentNode.getParent() != null && currentNode.getParent().getParent() != null) {
             currentNode = currentNode.getParent();
         }
-        return (Directory)currentNode;
+        return currentNode;
     }
 
     public void incrementRevision() {

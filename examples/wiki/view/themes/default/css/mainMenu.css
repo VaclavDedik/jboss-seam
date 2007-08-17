@@ -1,93 +1,69 @@
-#mainMenu tbody, table, tr, td {
-    border: 0;
-    margin: 0;
-    padding: 0;
-}
-#mainMenu .menuTable {
-    width: 100%;
-    border: 0;
-    margin: 0;
-    padding: 0;
-}
-#mainMenu .subMenuTable {
-    width: 90%;
-    border: 0;
-    margin-top: 5px;
-    margin-left: auto;
-    padding: 0;
-}
-#mainMenu .firstLevelItem {
+#mainMenu .level1 {
     background: #3e3532 url(../img/menu.bg.gif) 0 0 repeat-x;
-    border-style: none;
+}
+
+#mainMenu .level1Body {
     padding-top: 3px;
     padding-bottom: 3px;
 }
 
-#mainMenu .firstLevelItemLink {
+#mainMenu .level1Marker {
+    display: none;
+}
+
+#mainMenu .level1Link {
     font-weight: bold;
     color: #fff;
-    font-size: 90%;
+    font-size: 95%;
     font-family: Verdana, Arial, Helvetica, sans-serif;
     text-decoration: none;
     margin-left: 10px;
 }
 
-#mainMenu .firstLevelItemLink:hover {color: #ccc}   /* mouse over link */
+#mainMenu .level1Link:hover {color: #ccc}
 
-#mainMenu .secondLevelItem {
+#mainMenu .level1Children {
     background-color: #3e3532;
     border-style: none;
-    padding-top: 3px;
-    padding-bottom: 3px;
+    margin-left: 10px;
 }
 
-#mainMenu .secondLevelItemLink {
-    font-size: 75%;
+#mainMenu .level2 {
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+#mainMenu .level2Marker {
+    display: none;
+}
+
+#mainMenu .level2Link {
+    font-size: 80%;
     font-weight: bold;
     color: #fff;
     font-family: Verdana, Arial, Helvetica, sans-serif;
     text-decoration: none;
-    margin-left: 10px;
     white-space: nowrap;
 }
 
-#mainMenu .secondLevelItemLink:hover {color: #ccc}   /* mouse over link */
+#mainMenu .level2Link:hover {color: #ccc}
 
-#mainMenu .menuTableHeader {
-    background: #3e3532 url(../img/menu.bg.gif) 0 0 repeat-x;
-    border-style: none;
-    padding-top: 3px;
-    padding-bottom: 3px;
+#mainMenu .level3 {}
+
+#mainMenu .level3Marker {
+    padding-left: 2px;
+    padding-right: 2px;
+    font-size: 80%;
     color: #fff;
-    font-weight: bold;
-    font-size: 90%;
     font-family: Verdana, Arial, Helvetica, sans-serif;
-    text-decoration: none;
 }
 
-#mainMenu .menuTableItem {
-    background-color: #3e3532;
-    border-style: none;
-    padding-top: 3px;
-    padding-bottom: 3px;
-}
-
-#mainMenu .menuTableItemLink {
-    font-size: 75%;
-    font-weight: bold;
+#mainMenu .level3Link {
+    font-size: 80%;
     color: #fff;
     font-family: Verdana, Arial, Helvetica, sans-serif;
     text-decoration: none;
-    margin-left: 10px;
     white-space: nowrap;
 }
 
-#mainMenu .menuTableItemLinkSelected {
-    font-size: 75%;
-    font-weight: bold;
-    color: #fff;
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    text-decoration: underline;
-    margin-left: 10px;
-    white-space: nowrap;
-}
+#mainMenu .level3Link:hover {color: #ccc}

@@ -1,3 +1,9 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.annotations.*;
@@ -9,9 +15,6 @@ import org.jboss.seam.wiki.core.action.prefs.DocumentEditorPreferences;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.contexts.Contexts;
-
-import java.util.List;
-import java.util.ArrayList;
 
 @Name("documentHome")
 @Scope(ScopeType.CONVERSATION)
@@ -104,6 +107,11 @@ public class DocumentHome extends NodeHome<Document> {
         return true;
     }
 
+    protected boolean beforeRemove() {
+        removeAsDefaultDocument(getParentDirectory());
+        return super.beforeRemove();
+    }
+
     protected void afterNodeMoved(Directory oldParent, Directory newParent) {
         // Update view
         syncFormToInstance(oldParent); // Resolve existing links in old directory
@@ -168,11 +176,4 @@ public class DocumentHome extends NodeHome<Document> {
         return showPluginPrefs != null ? showPluginPrefs : false;
     }
 
-    public List<String> autoCompleteLink(Object incompleteLink) {
-        System.out.printf("################# COMPLETE THIS: " + incompleteLink);
-        return new ArrayList<String>() {{
-            add("Foo");
-            add("Bar");
-        }};
-    }
 }

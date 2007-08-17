@@ -1,8 +1,12 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.plugin.blogdirectory;
 
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.core.Events;
-import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.web.RequestParameter;
@@ -61,8 +65,6 @@ public class BlogDirectory implements Serializable {
         orderByProperty = "createdOn";
         orderDescending = true;
         refreshBlogEntries();
-        Contexts.getPageContext().set("menuBase", currentDirectory);
-        Events.instance().raiseEvent("Nodes.menuStructureModified");
     }
 
     private void queryRowCount() {

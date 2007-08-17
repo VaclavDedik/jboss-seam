@@ -1,3 +1,9 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.core.ui;
 
 import com.sun.syndication.feed.synd.*;
@@ -55,7 +61,7 @@ public class FeedServlet extends HttpServlet {
             syndFeed.setFeedType(feedType);
             syndFeed.setTitle(feed.getTitle());
             syndFeed.setLink(request.getRequestURL().toString() + "?feedId=" + feedId);
-            syndFeed.setDescription(feed.getDescription());
+            syndFeed.setAuthor(feed.getAuthor());
             syndFeed.setPublishedDate(feed.getPublishedDate());
 
             // Create feed entries

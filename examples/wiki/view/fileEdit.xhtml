@@ -10,32 +10,17 @@
                 xmlns:a="https://ajax4jsf.dev.java.net/ajax"
                 template="themes/#{wikiPreferences.themeName}/template.xhtml">
 
-<ui:define name="includeHeaders">
-    <link href="#{themePath}/css/userControl.css" rel="stylesheet" type="text/css"/>
-    <link href="#{themePath}/css/searchControl.css" rel="stylesheet" type="text/css"/>
-    <link href="#{themePath}/css/mainMenu.css" rel="stylesheet" type="text/css"/>
-</ui:define>
-
 <ui:define name="screenname">
     <h:outputText value="Upload File" rendered="#{!fileHome.managed}"/>
     <h:outputText value="Edit File" rendered="#{fileHome.managed}"/>
 </ui:define>
 
-<ui:define name="headerTopTwo">
-    <ui:include src="includes/userControl.xhtml"/>
-</ui:define>
-
-<ui:define name="headerBottomOne">&#160;</ui:define>
-
-<ui:define name="sidebar">
-    <ui:include src="includes/searchControl.xhtml"/>
-    <ui:include src="includes/mainMenu.xhtml"/>
-</ui:define>
-
 <ui:define name="controlTwo">
+
     <s:link id="exit" styleClass="linkNavigation"
             action="#{browser.exitConversation(true)}"
             accesskey="E"><u>E</u>xit Editor</s:link>
+
 </ui:define>
 
 <ui:define name="content">

@@ -1,3 +1,9 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.wiki.preferences.*;
@@ -15,6 +21,20 @@ import javax.faces.application.FacesMessage;
 import java.util.*;
 import java.io.Serializable;
 
+/**
+ * Inline editor for preference values, e.g. during document edit.
+ * <p>
+ * Fires the event <tt>PreferenceEditor.refresh.seamNameOfThePreferenceComponent</tt> after the values
+ * of a preference components are changed, used inside a conversation to re-read the state from the
+ * edited prefrence value holders into the preference component instances.
+ * </p>
+ * <p>
+ * Fires the event <tt>PreferenceComponent.refresh.seamNameOfThePreferenceComponent</tt> after the
+ * preference component instances are refreshed. This allows clients of theses components to reload
+ * their state, e.g. re-render themselves with new settings.
+ * </p>
+ * @author Christian Bauer
+ */
 public class PluginPreferenceEditor implements Serializable {
 
     private String pluginPreferenceName;
@@ -38,6 +58,10 @@ public class PluginPreferenceEditor implements Serializable {
             preferenceValues = new ArrayList<PreferenceValue>(provider.load(preferenceComponent, user, instance, false));
         }
 
+    }
+
+    public PreferenceComponent getPreferenceComponent() {
+        return preferenceComponent;
     }
 
     public List<PreferenceValue> getPreferenceValues() {
@@ -67,7 +91,11 @@ public class PluginPreferenceEditor implements Serializable {
                 PreferenceProvider provider = (PreferenceProvider)Component.getInstance("preferenceProvider");
                 preferenceValues = new ArrayList<PreferenceValue>(provider.store(preferenceComponent, new HashSet<PreferenceValue>(preferenceValues), user, instance));
 
+                // Reload the preference values from the edited value holders into the preference component instance
                 Events.instance().raiseEvent("PreferenceEditor.refresh." + preferenceComponent.getName());
+
+                // Notify users of the preference component
+                Events.instance().raiseEvent("PreferenceComponent.refresh." + preferenceComponent.getName());
             }
         }
 

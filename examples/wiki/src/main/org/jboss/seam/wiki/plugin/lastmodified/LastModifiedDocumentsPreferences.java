@@ -1,14 +1,14 @@
 package org.jboss.seam.wiki.plugin.lastmodified;
 
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.Observer;
-import org.jboss.seam.wiki.preferences.Preference;
-import org.jboss.seam.wiki.preferences.PreferenceVisibility;
-import org.jboss.seam.wiki.preferences.PreferenceSupport;
-import org.jboss.seam.ScopeType;
-import org.hibernate.validator.Range;
 import org.hibernate.validator.NotNull;
+import org.hibernate.validator.Range;
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Observer;
+import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.wiki.preferences.Preference;
+import org.jboss.seam.wiki.preferences.PreferenceSupport;
+import org.jboss.seam.wiki.preferences.PreferenceVisibility;
 
 import java.io.Serializable;
 
@@ -21,7 +21,9 @@ public class LastModifiedDocumentsPreferences extends PreferenceSupport implemen
     public String getCurrentInstanceVariable() { return "currentDocument"; }
 
     @Observer("PreferenceEditor.refresh.lastModifiedDocumentsPreferences")
-    public void refreshProperties() { super.refreshProperties(); }
+    public void refreshProperties() {
+        super.refreshProperties();
+    }
 
     @Preference(description = "01. Number of items shown in list", visibility = PreferenceVisibility.INSTANCE)
     @Range(min = 3l, max = 25l)
@@ -36,4 +38,15 @@ public class LastModifiedDocumentsPreferences extends PreferenceSupport implemen
     @NotNull
     private Long documentTitleLength;
 
+    public Long getNumberOfItems() {
+        return numberOfItems;
+    }
+
+    public Boolean getShowUsernames() {
+        return showUsernames;
+    }
+
+    public Long getDocumentTitleLength() {
+        return documentTitleLength;
+    }
 }

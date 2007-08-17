@@ -1,20 +1,22 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.annotations.security.Restrict;
-import org.jboss.seam.annotations.datamodel.DataModel;
-import org.jboss.seam.annotations.datamodel.DataModelSelection;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.wiki.core.model.Directory;
 import org.jboss.seam.wiki.core.model.Node;
 import org.jboss.seam.wiki.core.model.Document;
 import org.jboss.seam.wiki.core.model.Feed;
 import org.jboss.seam.wiki.util.WikiUtil;
-import org.ajax4jsf.dnd.event.DropEvent;
 
 import javax.faces.application.FacesMessage;
 import java.util.List;
-import java.util.Collections;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -24,11 +26,6 @@ public class DirectoryHome extends NodeHome<Directory> {
 
     /* -------------------------- Context Wiring ------------------------------ */
 
-    @DataModel
-    List<Node> childNodes;
-
-    @DataModelSelection
-    Node selectedChildNode;
 
     /* -------------------------- Internal State ------------------------------ */
 
@@ -84,6 +81,8 @@ public class DirectoryHome extends NodeHome<Directory> {
         return super.beforeUpdate();
     }
 
+    
+
     protected boolean prepareRemove() {
         if (getInstance().getParent() == null) return false; // Veto wiki root delete
         return true;
@@ -92,8 +91,8 @@ public class DirectoryHome extends NodeHome<Directory> {
     /* -------------------------- Internal Methods ------------------------------ */
 
     private void refreshChildNodes() {
-        childNodes = getInstance().getChildren();
-        for (Node childNode : childNodes) {
+        childDocuments.clear();
+        for (Node childNode : getInstance().getChildren()) {
             if (childNode instanceof Document) childDocuments.add((Document)childNode);
         }
     }
@@ -155,18 +154,20 @@ public class DirectoryHome extends NodeHome<Directory> {
     }
 
     @Restrict("#{s:hasPermission('Node', 'editMenu', directoryHome.instance)}")
-    public void dropMenuItem(DropEvent event) {
-
-        Node draggedObject = (Node)event.getDragValue();
-        int currentPosition = getInstance().getChildren().indexOf(draggedObject);
-        int newPosition = (Integer)event.getDropValue();
+    public void moveNode(int currentPosition, int newPosition) {
 
         if (currentPosition != newPosition) {
+
+            // Shift and refresh displayed list
             WikiUtil.shiftListElement(getInstance().getChildren(), currentPosition, newPosition);
+
+            // Required update, this is only refreshed on database load
+            for (Node node : getInstance().getChildren()) {
+                node.setDisplayPosition( getInstance().getChildren().indexOf(node) );
+            }
+
             refreshChildNodes();
         }
-
     }
-
 
 }

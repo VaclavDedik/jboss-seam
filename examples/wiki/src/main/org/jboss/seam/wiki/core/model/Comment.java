@@ -1,3 +1,9 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.core.model;
 
 import org.hibernate.validator.Length;
@@ -30,13 +36,12 @@ public class Comment implements Serializable {
     private Long id = null;
 
     @Version
-    @Column(name = "OBJ_VERSION")
+    @Column(name = "OBJ_VERSION", nullable = false)
     private int version = 0;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "DOCUMENT_ID", nullable = false)
     @org.hibernate.annotations.ForeignKey(name = "FK_COMMENT_DOCUMENT_ID")
-    @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
     private Document document;
 
     @Column(name = "SUBJECT", nullable = false)
@@ -58,7 +63,7 @@ public class Comment implements Serializable {
     private String fromUserHomepage;
 
     @Column(name = "COMMENT_TEXT", nullable = false)
-    @Length(min = 1, max = 32768)
+    @Length(min = 1, max = 8192)
     @org.hibernate.search.annotations.Field(index = org.hibernate.search.annotations.Index.TOKENIZED)
     private String text;
 

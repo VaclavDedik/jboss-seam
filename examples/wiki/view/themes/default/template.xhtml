@@ -14,6 +14,9 @@
         <ui:insert name="screenname"/>
     </title>
     <link href="#{themePath}/css/template.css" rel="stylesheet" type="text/css"/>
+    <link href="#{themePath}/css/userControl.css" rel="stylesheet" type="text/css"/>
+    <link href="#{themePath}/css/searchControl.css" rel="stylesheet" type="text/css"/>
+    <link href="#{themePath}/css/mainMenu.css" rel="stylesheet" type="text/css"/>
     <ui:insert name="includeHeaders"/>
 
     <script type="text/javascript" src="#{themePath}/js/jquery.js"></script>
@@ -22,6 +25,7 @@
     <script type="text/javascript" src="#{themePath}/js/jqTabs.js"></script>
     <script type="text/javascript" src="#{themePath}/js/jqHistoryRemote.js"></script>
     <script type="text/javascript" src="#{themePath}/js/jqProgressBar.js"></script>
+    <script type="text/javascript" src="#{themePath}/js/jqDimensions.js"></script>
     <script type="text/javascript">
 
         // ###################### jQuery Integration #################################
@@ -202,6 +206,7 @@
             </div>
         </div>
         <div id="headerTopTwo">
+            <ui:include src="../../includes/userControl.xhtml"/>
             <ui:insert name="headerTopTwo"/>
         </div>
         <div id="headerBottomOne">
@@ -229,7 +234,19 @@
     <div id="controlSeparator">&#160;</div>
 
     <s:div id="sidebar">
+
+        <ui:include src="../../includes/searchControl.xhtml"/>
+
         <ui:insert name="sidebar"/>
+
+        <ui:include src="../../includes/mainMenu.xhtml"/>
+
+        <s:div styleClass="feeds">
+            <h:outputLink value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{wikiRoot.feed.id}">
+                <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.atom.gif" width="18" height="18"/>
+                <span class="feedText">Subscribe to site</span>
+            </h:outputLink>
+        </s:div>
     </s:div>
 
     <s:div id="body">

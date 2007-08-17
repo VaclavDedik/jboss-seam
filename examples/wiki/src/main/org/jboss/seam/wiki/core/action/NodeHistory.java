@@ -1,6 +1,7 @@
 package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.annotations.*;
+import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
@@ -37,12 +38,15 @@ public class NodeHistory implements Serializable {
     @DataModel
     private List<Node> historicalNodeList;
 
+    @RequestParameter
+    Long nodeId;
+
     @DataModelSelection
     @Out(required = false, scope = ScopeType.CONVERSATION)
-    private Node selectedHistoricalNode;
+    private Document selectedHistoricalNode;
 
-    @In @Out(scope = ScopeType.CONVERSATION)
-    private Node currentNode;
+    @In(required = false) @Out(scope = ScopeType.CONVERSATION)
+    private Document currentNode;
 
     private String diffResult;
 
@@ -54,6 +58,7 @@ public class NodeHistory implements Serializable {
 
     @Create
     public void create() {
+        currentNode = nodeDAO.findDocument(nodeId);
         if (!Identity.instance().hasPermission("Node", "read", currentNode) ) {
             throw new AuthorizationException("You don't have permission for this operation");
         }
@@ -73,8 +78,8 @@ public class NodeHistory implements Serializable {
     public void diff() {
 
         // Wiki text parser needs these nodes but we don't really care because links are not rendered and resolved
-        String revision = renderWikiText( (Document)currentNode, (Directory)currentNode.getParent(), ((Document)currentNode).getContent() );
-        String original = renderWikiText( (Document)selectedHistoricalNode, (Directory)currentNode.getParent(), ((Document)selectedHistoricalNode).getContent() );
+        String revision = renderWikiText( currentNode, currentNode.getParent(), currentNode.getContent() );
+        String original = renderWikiText( selectedHistoricalNode, currentNode.getParent(), selectedHistoricalNode.getContent() );
 
         // Create diff by comparing rendered HTML
         Diff diff = new Diff() {

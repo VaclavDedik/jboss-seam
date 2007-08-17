@@ -9,7 +9,9 @@
     xmlns:s="http://jboss.com/products/seam/taglib">
     <j4j:idProxy id="#{dialogId}Popup"/>
 
-    <ui:insert name="dialogInit"/>
+    <s:span id="#{dialogId}Init">
+        <ui:insert name="dialogInit"/>
+    </s:span>
 
     <script type="text/javascript">jQuery(function() {
         jsf('#{dialogId}Popup').Resizable({
@@ -26,13 +28,11 @@
     </s:div>
 
     <s:div styleClass="popupDialogControls" id="#{dialogId}Controls">
-        <h:form>
-            <h:panelGroup>
-                <ui:insert name="dialogControls"/>
-                <h:outputLink id="cancel" value="#" rendered="#{!hideCancelButton}"
-                              styleClass="buttonNonpersistent closeDialog"><span class="buttonLabel"><u>C</u>ancel</span></h:outputLink>
-            </h:panelGroup>
-        </h:form>
+        <h:panelGroup>
+            <ui:insert name="dialogControls"/>
+            <h:outputLink value="#" rendered="#{!hideCancelButton}"
+                          styleClass="buttonNonpersistent closeDialog"><span class="buttonLabel"><u>C</u>ancel</span></h:outputLink>
+        </h:panelGroup>
     </s:div>
 
     <div class="popupDialogResizeHandle" id="#{dialogId}ResizeHandle"/>

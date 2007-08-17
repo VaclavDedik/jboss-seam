@@ -1,9 +1,16 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Create;
+import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.wiki.core.model.Node;
 import org.jboss.seam.wiki.core.model.Role;
 import org.jboss.seam.wiki.core.dao.UserRoleAccessFactory;
@@ -46,6 +53,7 @@ public class NodePermissions implements Serializable {
         return writeAccessLevel;
     }
 
+    @Restrict("#{s:hasPermission('Node', 'changeAccessLevel', currentNode)}")
     public void setWriteAccessLevel(Role.AccessLevel writeAccessLevel) {
         this.writeAccessLevel = writeAccessLevel;
         currentNode.setWriteAccessLevel(
@@ -57,6 +65,7 @@ public class NodePermissions implements Serializable {
         return readAccessLevel;
     }
 
+    @Restrict("#{s:hasPermission('Node', 'changeAccessLevel', currentNode)}")
     public void setReadAccessLevel(Role.AccessLevel readAccessLevel) {
         this.readAccessLevel = readAccessLevel;
         currentNode.setReadAccessLevel(

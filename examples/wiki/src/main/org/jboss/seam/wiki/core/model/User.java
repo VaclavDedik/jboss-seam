@@ -1,3 +1,9 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.core.model;
 
 import org.hibernate.validator.NotNull;
@@ -19,7 +25,7 @@ public class User implements Serializable {
     private Long id = null;
 
     @Version
-    @Column(name = "OBJ_VERSION")
+    @Column(name = "OBJ_VERSION", nullable = false)
     private int version = 0;
 
     @Column(name = "FIRSTNAME", length = 63, nullable = false)
@@ -67,10 +73,15 @@ public class User implements Serializable {
     @org.hibernate.annotations.ForeignKey(name = "USER_ROLE_USER_ID", inverseName = "USER_ROLE_ROLE_ID")
     private List<Role> roles = new ArrayList<Role>();
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_HOME_NODE_ID", nullable = true)
     @org.hibernate.annotations.ForeignKey(name = "FK_USER_MEMBER_HOME_NODE_ID")
     private Directory memberHome;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "USER_PROFILE_ID", nullable = false, unique = true)
+    @org.hibernate.annotations.ForeignKey(name = "FK_USER_USER_PROFILE_ID")
+    private UserProfile profile = new UserProfile();
 
     public User() {}
 
@@ -121,6 +132,9 @@ public class User implements Serializable {
 
     public List<Role> getRoles() { return roles; }
     public void setRoles(List<Role> roles) { this.roles = roles; }
+
+    public UserProfile getProfile() { return profile; }
+    public void setProfile(UserProfile profile) { this.profile = profile; }
 
     // Misc methods
 

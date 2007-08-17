@@ -1,3 +1,9 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.Component;
@@ -17,13 +23,16 @@ import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.core.dao.UserDAO;
 import org.jboss.seam.wiki.core.model.Role;
 import org.jboss.seam.wiki.core.model.User;
+import org.jboss.seam.wiki.core.ui.FileMetaMap;
 import org.jboss.seam.wiki.preferences.PreferenceComponent;
 import org.jboss.seam.wiki.preferences.PreferenceVisibility;
 import org.jboss.seam.wiki.util.Hash;
+import org.jboss.seam.wiki.util.WikiUtil;
 
 import javax.faces.application.FacesMessage;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -49,8 +58,11 @@ public class UserHome extends EntityHome<User> {
     @In
     private Hash hashUtil;
 
-    @In
+    @In(create = true)
     private Renderer renderer;
+
+    @In
+    Map<String, FileMetaMap.FileMetaInfo> fileMetaMap;
 
     @DataModel
     private List<PreferenceComponent> userPreferenceComponents;
@@ -61,6 +73,9 @@ public class UserHome extends EntityHome<User> {
     private String passwordControl;
     private List<Role> roles;
     private org.jboss.seam.wiki.core.model.Role defaultRole;
+    private String portraitContentType;
+    // TODO: This should really use an InputStream and directly stream into the BLOB without consuming server memory
+    private byte[] portraitImageData;
 
     @Override
     public Object getId() {
@@ -200,6 +215,25 @@ public class UserHome extends EntityHome<User> {
         // User changed his username
         if (!getInstance().getUsername().equals(oldUsername)) loginCredentialsModified = true;
 
+        // Profile image upload
+        if (portraitImageData != null && portraitImageData.length > 0) {
+
+            if (fileMetaMap.get(portraitContentType) != null &&
+                fileMetaMap.get(portraitContentType).image) {
+                getLog().debug("updating portrait file data/type");
+                getInstance().getProfile().setImageContentType(portraitContentType);
+                getInstance().getProfile().setImage(
+                        WikiUtil.resizeImage(portraitImageData, portraitContentType, 120)
+                );
+            } else {
+                facesMessages.addFromResourceBundleOrDefault(
+                    FacesMessage.SEVERITY_ERROR,
+                    getMessageKeyPrefix() + "wrongPortraitImageType",
+                    "The file type '" + portraitContentType + "' is not supported, the portrait hasn't been updated."
+                );
+            }
+        }
+
         String outcome = super.update();
         if (outcome != null) {
 
@@ -262,6 +296,12 @@ public class UserHome extends EntityHome<User> {
 
     public String getPasswordControl() { return passwordControl; }
     public void setPasswordControl(String passwordControl) { this.passwordControl = passwordControl; }
+
+    public String getPortraitContentType() { return portraitContentType; }
+    public void setPortraitContentType(String portraitContentType) { this.portraitContentType = portraitContentType; }
+
+    public byte[] getPortraitImageData() { return portraitImageData; }
+    public void setPortraitImageData(byte[] portraitImageData) { this.portraitImageData = portraitImageData; }
 
     public List<Role> getRoles() { return roles; }
     @Restrict("#{s:hasPermission('User', 'editRoles', currentUser)}")

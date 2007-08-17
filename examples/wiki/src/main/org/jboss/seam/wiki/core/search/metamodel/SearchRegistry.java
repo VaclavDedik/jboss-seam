@@ -26,7 +26,6 @@ import java.beans.Introspector;
  */
 @Name("searchRegistry")
 @Scope(ScopeType.APPLICATION)
-@Startup
 public class SearchRegistry {
 
     @Logger

@@ -1,23 +1,27 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.util;
 
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.wiki.core.model.*;
-import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.Component;
+import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
+import org.jboss.seam.wiki.core.model.*;
 
-import javax.faces.component.UIData;
 import javax.faces.context.FacesContext;
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
 import javax.swing.*;
-import javax.imageio.ImageIO;
-import java.util.Collection;
-import java.util.List;
-import java.util.Collections;
-import java.math.BigDecimal;
-import java.awt.image.BufferedImage;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Adds stuff to and for JSF that should be there but isn't. Also stuff that is exposed
@@ -26,7 +30,6 @@ import java.io.IOException;
  *
  * @author Christian Bauer
  */
-@Name("wikiUtil")
 public class WikiUtil {
 
     // Creates clean alphanumeric UpperCaseCamelCase
@@ -89,7 +92,7 @@ public class WikiUtil {
     }
 
     public static String renderPermLink(Node node) {
-        if (node == null) return "";
+        if (node == null || node.getId() == null) return "";
         if (isFile(node)) return renderFileLink((File)node);
         WikiPreferences wikiPrefs = (WikiPreferences) Component.getInstance("wikiPreferences");
         String contextPath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
@@ -97,7 +100,7 @@ public class WikiUtil {
     }
 
     public  static String renderWikiLink(Node node) {
-        if (node == null) return "";
+        if (node == null || node.getId() == null) return "";
         String contextPath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
         if (node.getArea().getWikiname().equals(node.getWikiname()))
             return contextPath + "/" + node.getArea().getWikiname();
@@ -105,7 +108,7 @@ public class WikiUtil {
     }
 
     private static String renderFileLink(File file) {
-        if (file == null) return "";
+        if (file == null || file.getId() == null) return "";
         String contextPath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
         return contextPath + "/servlets/files/download.seam?fileId=" + file.getId();
     }
@@ -129,6 +132,13 @@ public class WikiUtil {
         } else {
             return new BigDecimal(fileSizeInBytes) + " Bytes";
         }
+    }
+
+    public static String escapeEmailAddress(String string) {
+        WikiPreferences wikiPrefs = (WikiPreferences) Component.getInstance("wikiPreferences");
+        return string.length() >= 7 && string.substring(0, 7).equals("mailto:")
+                ? string.replaceAll("@", wikiPrefs.getAtSymbolReplacement()) 
+                : string;
     }
 
     public static String escapeHtml(String string) {
@@ -180,7 +190,6 @@ public class WikiUtil {
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
-
     }
 
     public static Throwable unwrap(Throwable throwable) throws IllegalArgumentException {
@@ -215,15 +224,6 @@ public class WikiUtil {
     }
 
     /**
-     * Need to bind UI components to non-conversational backing beans.
-     * That this is even needed makes no sense. Why can't I call the UI components
-     * in the EL directly? Don't try #{components['id']}, it won't work.
-     */
-    private UIData datatable;
-    public UIData getDatatable() { return datatable; }
-    public void setDatatable(UIData datatable) { this.datatable = datatable; }
-
-    /**
      * Can't use col.size() in a value binding. Why can't I call arbitrary methods, even
      * with arguments, in a value binding? Java needs properties badly.
      */
@@ -231,7 +231,19 @@ public class WikiUtil {
         return col == null ? 0 : col.size();
     }
 
-    public static int lenth(String string) {
-        return string.length();
+    /**
+     * EL doesn't support a String lenth() operator.
+     */
+    public static int length(String string) {
+        return string == null ? 0 : string.length();
     }
+
+    /**
+     * Used for conditional rendering of JSF messages, again, inflexible EL can't take value bindings with arguments
+     * or support simple String concat...
+     */
+    public static boolean hasMessage(String namingContainer, String componentId) {
+        return FacesContext.getCurrentInstance().getMessages(namingContainer + ":" + componentId).hasNext();
+    }
+
 }

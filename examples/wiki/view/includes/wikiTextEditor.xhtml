@@ -1,0 +1,196 @@
+<s:fragment
+        xmlns:s="http://jboss.com/products/seam/taglib"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+        xmlns:wiki="http://jboss.com/products/seam/wiki">
+
+<!-- TODO: Most of this Javascript could be made generic and not rendered for each and every text editor... -->
+
+<script type="text/javascript">if (!$.browser.safari) {
+    /* Assign resize handle to text area */
+    jQuery(function() {
+        jQuery("##{namingContainer}\\:#{textEditorId}TextEditDiv").Resizable({
+            minHeight: 50,
+            handlers: {
+                s: '##{namingContainer}\\:#{textEditorId}TextEditResizeHandle'
+            },
+            onResize: function(size) {
+                jQuery("##{namingContainer}\\:#{textEditorId}TextArea").css({ height: size.height + "px" });
+            }
+        });
+    })
+}
+;
+jQuery(function() {
+    /* Switch access keys to currently active text editor and preview window when the user tabs through several editors */
+    jQuery("##{namingContainer}\\:#{textEditorId}TextArea").focus(
+        function() {
+            jQuery(".closeDialog", "##{namingContainer}\\:#{textEditorId}Preview").attr("accesskey", "C");
+            jQuery('##{namingContainer}\\:#{textEditorId}PreviewTrigger').attr("accesskey", "O");
+        }
+    );
+});
+</script>
+
+<div class="entry">
+
+    <s:div id="#{textEditorId}Message" styleClass="#{wiki:hasMessage(namingContainer, wiki:concat(textEditorId, 'TextArea'))?'errorDiv':''}">
+        <h:panelGrid columns="2" rendered="#{wiki:hasMessage(namingContainer, wiki:concat(textEditorId, 'TextArea'))}">
+            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/attention.gif"
+                            width="18" height="18"
+                            styleClass="attentionImage"/>
+            <s:span styleClass="attentionMessage">&#160;<h:message for="#{textEditorId}TextArea"/></s:span>
+        </h:panelGrid>
+    </s:div>
+
+    <div class="label">
+
+        <s:div id="#{textEditorId}TabErrors">
+
+            <s:div rendered="#{!empty tabId}">
+                <s:span rendered="#{wiki:hasMessage(namingContainer, wiki:concat(textEditorId, 'TextArea'))}">
+                    <script type="text/javascript">jQuery(function() {
+                        formTabRaiseError("#{tabId}", "#{textEditorId}TextArea", '#{label}:&#160; <h:message for="#{textEditorId}TextArea"/>');
+                    });</script>
+                </s:span>
+                <s:span rendered="#{!wiki:hasMessage(namingContainer, wiki:concat(textEditorId, 'TextArea'))}">
+                    <script type="text/javascript">jQuery(function() {
+                        formTabClearError("#{tabId}", "#{textEditorId}TextArea");
+                    });</script>
+                </s:span>
+            </s:div>
+        </s:div>
+
+        <s:div id="#{textEditorId}Label" styleClass="#{wiki:hasMessage(namingContainer, wiki:concat(textEditorId, 'TextArea'))?'errorDiv':''}">
+            #{label}&#160;(#{valueMaxLength - wiki:length(valueBinding)} wiki text characters):
+        </s:div>
+
+        <s:div id="#{textEditorId}PreviewTriggerContainer">
+            <a:commandLink id="#{textEditorId}PreviewTrigger" onclick="setPreviewPopupPosition#{textEditorId}()"
+                           reRender="#{textEditorId}Label, #{textEditorId}Message, #{textEditorId}TabErrors, #{textEditorId}PreviewContent"
+                           styleClass="buttonNonpersistent" tabindex="1"><span class="buttonLabel"><u>O</u>pen Preview</span></a:commandLink>
+        </s:div>
+    </div>
+
+    <script type="text/javascript">
+        function setPreviewPopupPosition#{textEditorId}() {
+
+            /* Set the default or custom position of the preview popup */
+
+            var defaultTopOffset = jQuery('##{namingContainer}\\:#{textEditorId}TextEditDiv').position().top + 30;
+            var defaultLeftOffset = jQuery('##{namingContainer}\\:#{textEditorId}TextEditDiv').position().left - 100;
+
+            var customOffsetTop = "#{previewOffsetTop}";
+            var customOffsetLeft = "#{previewOffsetLeft}";
+
+            var topOffset   = (customOffsetTop.length > 0 ? customOffsetTop : defaultTopOffset) + "px";
+            var leftOffset  = (customOffsetLeft.length > 0 ? customOffsetLeft : defaultLeftOffset) + "px";
+
+            jsf('#{textEditorId}PreviewPopup').css({
+                top: topOffset,
+                left: leftOffset
+            });
+        }
+   </script>
+
+    <div class="input">
+        <s:validateAll>
+
+        <s:div id="#{textEditorId}TextEditDiv" styleClass="textEditResizable wideLabels">
+            <h:inputTextarea tabindex="1"
+                             cols="#{empty textEditorColumns ? '58' : textEditorColumns}"
+                             rows="#{empty textEditorRows ? 5 : textEditorRows}"
+                             id="#{textEditorId}TextArea"
+                             required="#{valueRequired}"
+                             value="#{valueBinding}">
+                <!-- TODO: Ideally this should only fire when the preview popup is open... maybe use jquery.bind()/unbind() event handling-->
+                <a:support event="onkeyup" reRender="#{textEditorId}Label, #{textEditorId}Message, #{textEditorId}TabErrors, #{textEditorId}PreviewContent"
+                           requestDelay="3000" ajaxSingle="true"
+                           eventsQueue="editKeyPress"/>
+            </h:inputTextarea>
+            <s:div id="#{textEditorId}TextEditResizeHandle" styleClass="textEditResizeHandle"/>
+        </s:div>
+
+        </s:validateAll>
+    </div>
+</div>
+
+
+<ui:decorate template="popupDialog.xhtml"
+             xmlns:s="http://jboss.com/products/seam/taglib"
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:f="http://java.sun.com/jsf/core"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+             xmlns:wiki="http://jboss.com/products/seam/wiki">
+
+    <ui:param name="dialogId" value="#{textEditorId}Preview"/>
+    <ui:param name="hideCancelButton" value="true"/>
+
+    <ui:define name="dialogInit">
+        <script type="text/javascript">jQuery(function() {
+
+            /* Create the preview popup and assign the open/close triggers */
+
+            var defaultWidth = 350;
+            var defaultHeight = 350;
+            var customWidth = "#{previewWidth}";
+            var customHeight = "#{previewHeight}";
+            var width       = (customWidth.length > 0 ? customWidth : defaultWidth) + "px";
+            var height      = (customHeight.length > 0 ? customHeight: defaultHeight) + "px";
+
+            var showPopupAndHideTrigger = function(hash) {
+                hash.w.show();
+                jQuery("##{namingContainer}\\:#{textEditorId}PreviewTriggerContainer").hide();
+                jQuery("##{namingContainer}\\:#{textEditorId}TextArea").focus();
+            };
+
+            var hidePopupAndShowTrigger = function(hash) {
+                hash.w.hide();
+                jQuery("##{namingContainer}\\:#{textEditorId}PreviewTriggerContainer").show();
+                jQuery('##{namingContainer}\\:#{textEditorId}TextArea').focus();
+            };
+
+            jsf('#{textEditorId}PreviewPopup')
+                .css({
+                    minWidth: height, width: width,
+                    minHeight: jQuery("##{namingContainer}\\:#{textEditorId}PreviewContent").height() + 115 + "px",
+                    height: jQuery("##{namingContainer}\\:#{textEditorId}PreviewContent").height() + 115 + "px",
+                })
+                .jqm({
+                    trigger: jQuery("##{namingContainer}\\:#{textEditorId}PreviewTrigger"),
+                    closeClass: "closeDialog",
+                    onShow: showPopupAndHideTrigger,
+                    onHide: hidePopupAndShowTrigger,
+                    overlay: 0
+                });
+        });</script>
+    </ui:define>
+    <ui:define name="dialogTitle">Automatic Preview: #{label}</ui:define>
+    <ui:define name="dialogContent">
+        <wiki:formattedText value="#{valueBinding}"
+                            linkStyleClass="regularLink"
+                            brokenLinkStyleClass="brokenLink"
+                            attachmentLinkStyleClass="regularLink"
+                            thumbnailLinkStyleClass="regularLink"
+                            renderBaseDocument="#{previewBaseDocument}"
+                            renderBaseDirectory="#{previewBaseDirectory}"
+                            enablePlugins="false"/>
+        <script type="text/javascript">jQuery(function() {
+            jsf('#{textEditorId}PreviewPopup').css({
+                minHeight: jQuery("##{namingContainer}\\:#{textEditorId}PreviewContent").height() + 115 + "px",
+                height: jQuery("##{namingContainer}\\:#{textEditorId}PreviewContent").height() + 115 + "px"
+            })
+        });</script>
+        <s:div rendered="#{empty valueBinding}" style="text-align:center">(Please enter some wiki markup, this preview window will refresh automatically.)</s:div>
+    </ui:define>
+    <ui:define name="dialogControls">
+        <h:outputLink styleClass="buttonNonpersistent closeDialog" tabindex="1"><span class="buttonLabel"><u>C</u>lose Preview</span></h:outputLink>
+    </ui:define>
+
+</ui:decorate>
+
+</s:fragment>
+

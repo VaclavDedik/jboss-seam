@@ -1,6 +1,13 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.annotations.*;
+import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Component;
@@ -181,11 +188,14 @@ public class NodeBrowser implements Serializable {
     public void captureConversationEntryPoint() {
         if (lastConversationId != null) {
             ConversationEntries allConversations = ConversationEntries.instance();
-            Contexts.getConversationContext()
-                    .set("conversationEntryPoint", allConversations.getConversationEntry(lastConversationId));
+            if (allConversations.getConversationEntry(lastConversationId) != null) {
+                Contexts.getConversationContext()
+                        .set("conversationEntryPoint", allConversations.getConversationEntry(lastConversationId));
+            }
         }
     }
 
+    @Observer("NodeBrowser.prepare")
     @Transactional
     public String prepare() {
 
@@ -208,7 +218,7 @@ public class NodeBrowser implements Serializable {
 
             } else {
                 // Document found, take its directory
-                currentDirectory = currentDocument.getParent();
+                currentDirectory = (Directory)currentDocument.getParent();
             }
 
         // Have we been called with an areaName and nodeName request parameter

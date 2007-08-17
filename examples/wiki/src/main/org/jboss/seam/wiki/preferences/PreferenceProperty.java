@@ -67,7 +67,6 @@ public class PreferenceProperty implements Comparable, Serializable {
         Component component = Component.forName(Component.getComponentName(componentInstance.getClass()));
 
         // Validate first
-        // TODO: The exception is currently swallowed... but ideally we should never have invalid input here (from user or database)
         InvalidValue[] invalidValues = validate(component, value);
         if (invalidValues.length >0)
             throw new InvalidStateException(invalidValues, component.getName() + "." + getName());

@@ -16,7 +16,7 @@
                           rendered="#{!empty currentDocument and !empty directory.parent}"/>
         </ui:repeat>
 
-        <h:outputText styleClass="itemText" value="#{wiki:truncateString(currentDocument.name, 40, '...')}"/>
+        <h:outputText styleClass="itemText" value="#{wiki:truncateString(currentDocument.name, 30, '...')}"/>
 
     </h:panelGroup>
 

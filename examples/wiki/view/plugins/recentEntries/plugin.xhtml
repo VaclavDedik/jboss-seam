@@ -12,7 +12,7 @@
         clearDocumentBackground();
     });</script>
 
-<s:div id="recentEntries">
+<s:div id="recentEntries" rendered="#{recentBlogEntries.rowCount > 0}">
 
     <s:div styleClass="shadowContainer"
            rendered="#{empty param.allEntries}"><div class="shadow1"><div class="shadow2"><div class="recentEntries">

@@ -1,27 +1,31 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.core.dao;
 
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.AutoCreate;
-import org.jboss.seam.wiki.core.model.Node;
-import org.jboss.seam.wiki.core.model.Directory;
-import org.jboss.seam.wiki.core.model.Document;
-import org.jboss.seam.wiki.core.model.File;
+import org.jboss.seam.wiki.core.model.*;
+import org.jboss.seam.wiki.core.nestedset.NestedSetNode;
+import org.jboss.seam.wiki.core.nestedset.NestedSetNodeWrapper;
+import org.jboss.seam.wiki.core.nestedset.NestedSetResultTransformer;
 import org.jboss.seam.Component;
 import org.hibernate.Session;
 import org.hibernate.Criteria;
 import org.hibernate.ScrollableResults;
+import org.hibernate.Query;
 import org.hibernate.transform.DistinctRootEntityResultTransformer;
 import org.hibernate.criterion.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * DAO for nodes, transparently respects security access levels.
@@ -79,6 +83,7 @@ public class NodeDAO {
                     .createQuery("select n from Node n where n.areaNumber = :areaNumber and n.wikiname = :wikiname")
                     .setParameter("areaNumber", areaNumber)
                     .setParameter("wikiname", wikiname)
+                    .setHint("org.hibernate.comment", "Find node in area")
                     .setHint("org.hibernate.cacheable", true)
                     .getSingleResult();
         } catch (EntityNotFoundException ex) {
@@ -95,6 +100,7 @@ public class NodeDAO {
                     .createQuery("select d from Document d where d.areaNumber = :areaNumber and d.wikiname = :wikiname")
                     .setParameter("areaNumber", areaNumber)
                     .setParameter("wikiname", wikiname)
+                    .setHint("org.hibernate.comment", "Find document in area")
                     .setHint("org.hibernate.cacheable", true)
                     .getSingleResult();
         } catch (EntityNotFoundException ex) {
@@ -111,6 +117,7 @@ public class NodeDAO {
                     .createQuery("select d from Directory d where d.areaNumber = :areaNumber and d.wikiname = :wikiname")
                     .setParameter("areaNumber", areaNumber)
                     .setParameter("wikiname", wikiname)
+                    .setHint("org.hibernate.comment", "Find directory in area")
                     .setHint("org.hibernate.cacheable", true)
                     .getSingleResult();
         } catch (EntityNotFoundException ex) {
@@ -127,6 +134,7 @@ public class NodeDAO {
                     .createQuery("select d from Directory d where d.parent = :root and d.wikiname = :wikiname")
                     .setParameter("root", Component.getInstance("wikiRoot"))
                     .setParameter("wikiname", wikiname)
+                    .setHint("org.hibernate.comment", "Find area by wikiname")
                     .setHint("org.hibernate.cacheable", true)
                     .getSingleResult();
         } catch (EntityNotFoundException ex) {
@@ -143,6 +151,7 @@ public class NodeDAO {
                     .createQuery("select d from Directory d where d.parent = :root and d.areaNumber = :areaNumber")
                     .setParameter("root", Component.getInstance("wikiRoot"))
                     .setParameter("areaNumber", areaNumber)
+                    .setHint("org.hibernate.comment", "Find area by area number")
                     .setHint("org.hibernate.cacheable", true)
                     .getSingleResult();
         } catch (EntityNotFoundException ex) {
@@ -156,6 +165,7 @@ public class NodeDAO {
         return (List<Document>)restrictedEntityManager
                 .createQuery("select d from Document d where d.parent = :parentDir order by d.createdOn desc")
                 .setParameter("parentDir", directory)
+                .setHint("org.hibernate.comment", "Find documents in directory order by createdOn")
                 .setFirstResult(firstResult)
                 .setMaxResults(maxResults)
                 .getResultList();
@@ -165,6 +175,7 @@ public class NodeDAO {
         //noinspection unchecked
         return (List<Document>)restrictedEntityManager
                 .createQuery("select d from Document d order by d.lastModifiedOn desc")
+                .setHint("org.hibernate.comment", "Find documents order by lastModified")
                 .setMaxResults(maxResults)
                 .getResultList();
     }
@@ -207,6 +218,7 @@ public class NodeDAO {
             return (Document) restrictedEntityManager
                     .createQuery("select d from Document d where d.id = :id")
                     .setParameter("id", documentId)
+                    .setHint("org.hibernate.comment", "Find document by id")
                     .setHint("org.hibernate.cacheable", true)
                     .getSingleResult();
         } catch (EntityNotFoundException ex) {
@@ -222,6 +234,7 @@ public class NodeDAO {
             return (Directory) restrictedEntityManager
                     .createQuery("select d from Directory d where d.id = :id")
                     .setParameter("id", directoryId)
+                    .setHint("org.hibernate.comment", "Find directory by id")
                     .setHint("org.hibernate.cacheable", true)
                     .getSingleResult();
         } catch (EntityNotFoundException ex) {
@@ -237,6 +250,7 @@ public class NodeDAO {
             return (File) restrictedEntityManager
                     .createQuery("select f from File f where f.id = :id")
                     .setParameter("id", fileId)
+                    .setHint("org.hibernate.comment", "Find file by id")
                     .setHint("org.hibernate.cacheable", true)
                     .getSingleResult();
         } catch (EntityNotFoundException ex) {
@@ -245,7 +259,7 @@ public class NodeDAO {
         return null;
     }
 
-    public Document findDefaultDocument(Directory directory) {
+    public Document findDefaultDocument(Node directory) {
         if (directory == null) return null;
         restrictedEntityManager.joinTransaction();
         try {
@@ -253,6 +267,7 @@ public class NodeDAO {
                     .createQuery("select doc from Document doc, Directory dir" +
                                  " where doc.id = dir.defaultDocument.id and dir.id = :did")
                     .setParameter("did", directory.getId())
+                    .setHint("org.hibernate.comment", "Find default document")
                     .setHint("org.hibernate.cacheable", true)
                     .getSingleResult();
         } catch (EntityNotFoundException ex) {
@@ -264,8 +279,9 @@ public class NodeDAO {
     public Map<Long,Long> findCommentCount(Directory directory) {
         //noinspection unchecked
         List<Object[]> result = restrictedEntityManager
-                .createQuery("select n.nodeId, count(c) from Node n, Comment c where c.document = n and n.parent is :parent group by n.nodeId")
+                .createQuery("select n.nodeId, count(c) from Node n, Comment c where c.document = n and n.parent = :parent group by n.nodeId")
                 .setParameter("parent", directory)
+                .setHint("org.hibernate.comment", "Find comment cound for all nodes in directory")
                 .getResultList();
 
         Map<Long,Long> resultMap = new HashMap<Long,Long>(result.size());
@@ -273,6 +289,81 @@ public class NodeDAO {
             resultMap.put((Long)objects[0], (Long)objects[1]);
         }
         return resultMap;
+    }
+
+    public NestedSetNodeWrapper<Node> findMenuItems(Node startNode, Long maxDepth, Long flattenToLevel, boolean showAdminOnly) {
+
+        // Needs to be equals() safe (SortedSet):
+        // - compare by display position, if equal
+        // - compare by name, if equal
+        // - compare by id
+        Comparator<NestedSetNodeWrapper<Node>> comp =
+            new Comparator<NestedSetNodeWrapper<Node>>() {
+                public int compare(NestedSetNodeWrapper<Node> o1, NestedSetNodeWrapper<Node> o2) {
+                    Node node1 = o1.getWrappedNode();
+                    Node node2 = o2.getWrappedNode();
+                    if (node1.getDisplayPosition().compareTo(node2.getDisplayPosition()) != 0) {
+                        return node1.getDisplayPosition().compareTo(node2.getDisplayPosition());
+                    } else if (node1.getName().compareTo(node2.getName()) != 0) {
+                        return node1.getName().compareTo(node2.getName());
+                    }
+                    return node1.getId().compareTo(node2.getId());
+                }
+            };
+
+        NestedSetNodeWrapper<Node> startNodeWrapper = new NestedSetNodeWrapper<Node>(startNode, comp);
+        NestedSetResultTransformer<Node> transformer = new NestedSetResultTransformer<Node>(startNodeWrapper, flattenToLevel);
+
+        appendNestedSetNodes(transformer, maxDepth, showAdminOnly, "n1.menuItem = true");
+        return startNodeWrapper;
+    }
+
+    public <N extends NestedSetNode> void appendNestedSetNodes(NestedSetResultTransformer<N> transformer,
+                                                               Long maxDepth,
+                                                               boolean showAdminOnly,
+                                                               String... restrictionFragment) {
+
+        N startNode = transformer.getRootWrapper().getWrappedNode();
+        StringBuffer queryString = new StringBuffer();
+
+        queryString.append("select").append(" ");
+        queryString.append("count(n1.id) as nestedSetNodeLevel").append(", ");
+        queryString.append("n1 as nestedSetNode").append(" ");
+        queryString.append("from ").append(startNode.getTreeSuperclassEntityName()).append(" n1, ");
+        queryString.append(startNode.getTreeSuperclassEntityName()).append(" n2 ");
+        queryString.append("where n1.nsThread = :thread and n2.nsThread = :thread").append(" ");
+        queryString.append("and n1.nsLeft between n2.nsLeft and n2.nsRight").append(" ");
+        queryString.append("and n2.nsLeft > :startLeft and n2.nsRight < :startRight").append(" ");
+        if (showAdminOnly) {
+            queryString.append("and n1.createdBy = :adminUser").append(" ");
+        }
+        for (String fragment: restrictionFragment) {
+            queryString.append("and ").append(fragment).append(" ");
+        }
+        queryString.append("group by").append(" ");
+        for (int i = 0; i < startNode.getTreeSuperclassPropertiesForGrouping().length; i++) {
+            queryString.append("n1.").append(startNode.getTreeSuperclassPropertiesForGrouping()[i]);
+            if (i != startNode.getTreeSuperclassPropertiesForGrouping().length-1) queryString.append(", ");
+        }
+        queryString.append(" ");
+
+        if (maxDepth != null) {
+            queryString.append("having count(n1.id) <= :maxDepth").append(" ");
+        }
+
+        queryString.append("order by n1.nsLeft");
+
+        Query nestedSetQuery = getSession().createQuery(queryString.toString());
+        nestedSetQuery.setParameter("thread", startNode.getNsThread());
+        nestedSetQuery.setParameter("startLeft", startNode.getNsLeft());
+        nestedSetQuery.setParameter("startRight", startNode.getNsRight());
+        if (showAdminOnly) nestedSetQuery.setParameter("adminUser", Component.getInstance("adminUser"));
+        if (maxDepth != null) nestedSetQuery.setParameter("maxDepth", maxDepth);
+
+        nestedSetQuery.setCacheable(true);
+
+        nestedSetQuery.setResultTransformer(transformer);
+        nestedSetQuery.list(); // Append all children hierarchically to the startNodeWrapper
     }
 
     public <N extends Node> List<N> findWithParent(Class<N> nodeType, Directory directory, Node ignoreNode,

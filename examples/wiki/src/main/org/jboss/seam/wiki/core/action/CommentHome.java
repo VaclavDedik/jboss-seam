@@ -1,3 +1,9 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.annotations.*;
@@ -6,10 +12,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.AuthorizationException;
 import org.jboss.seam.faces.FacesMessages;
-import org.jboss.seam.wiki.core.model.Document;
-import org.jboss.seam.wiki.core.model.User;
-import org.jboss.seam.wiki.core.model.Directory;
-import org.jboss.seam.wiki.core.model.Comment;
+import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.util.WikiUtil;
 
@@ -33,7 +36,7 @@ public class CommentHome implements Serializable {
     Document currentDocument;
 
     @In
-    Directory currentDirectory;
+    Node currentDirectory;
 
     @In
     User currentUser;
@@ -85,7 +88,9 @@ public class CommentHome implements Serializable {
     public void persist() {
 
         entityManager.joinTransaction();
-        comment.setDocument(entityManager.merge(currentDocument));
+        currentDocument = entityManager.merge(currentDocument);
+        comment.setDocument(currentDocument);
+        currentDocument.getComments().add(comment);
 
         // Null out the property so that the @Email validator doesn't fall over it...
         // I hate JSF and its "let's set an empty string" behavior

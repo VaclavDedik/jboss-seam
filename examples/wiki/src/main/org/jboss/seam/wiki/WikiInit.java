@@ -1,3 +1,9 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki;
 
 import org.hibernate.jmx.StatisticsService;
@@ -13,9 +19,13 @@ import java.lang.management.ManagementFactory;
 import java.lang.reflect.Proxy;
 import java.util.Properties;
 
+/**
+ * Doesn't do much useful stuff except printing a log message and firing the "Wiki.started" event.
+ *
+ * @author Christian Bauer
+ */
 @Name("wikiInit")
 @Scope(ScopeType.APPLICATION)
-@Startup
 public class WikiInit {
 
     @Logger

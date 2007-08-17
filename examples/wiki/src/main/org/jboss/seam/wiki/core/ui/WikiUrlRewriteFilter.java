@@ -1,3 +1,9 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.core.ui;
 
 import org.jboss.seam.ScopeType;
@@ -14,13 +20,17 @@ import java.util.Enumeration;
 import java.util.Collections;
 import java.util.Map;
 
+/**
+ * Adapts the Tuckey URLRewrite filter to the Seam filter chain.
+ *
+ * @author Christian Bauer
+ */
 @Startup
 @Scope(ScopeType.APPLICATION)
 @Name("wikiUrlRewriteFilter")
 @BypassInterceptors
 @Filter(within = "org.jboss.seam.web.ajax4jsfFilter")
-@Install(classDependencies = "org.tuckey.web.filters.urlrewrite.UrlRewriteFilter",
-        precedence = Install.APPLICATION)
+@Install(classDependencies = "org.tuckey.web.filters.urlrewrite.UrlRewriteFilter", precedence = Install.APPLICATION)
 public class WikiUrlRewriteFilter extends AbstractFilter {
 
     private UrlRewriteFilter urlRewriteFilter;

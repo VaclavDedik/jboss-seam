@@ -12,6 +12,7 @@
         <!-- End any pending long-running conversation that was propagated into his view -->
         <end-conversation/>
 
+        <!-- These are the "start pages", outcomes of browser.prepare() and various request parameters -->
         <navigation>
             <rule if-outcome="search">
                 <redirect view-id="/search.xhtml">
@@ -36,6 +37,7 @@
 
         <navigation>
             <rule if-outcome="createDoc">
+                <raise-event type="NodeBrowser.prepare"/>
                 <begin-conversation flush-mode="MANUAL"/>
                 <redirect view-id="/docEdit.xhtml">
                     <param name="parentDirId" value="#{currentDirectory.id}"/>
@@ -43,6 +45,7 @@
             </rule>
 
             <rule if-outcome="editDoc">
+                <raise-event type="NodeBrowser.prepare"/>
                 <begin-conversation flush-mode="MANUAL"/>
                 <redirect view-id="/docEdit.xhtml">
                     <param name="nodeId"        value="#{currentDocument.id}"/>
@@ -51,13 +54,15 @@
             </rule>
 
             <rule if-outcome="showHistory">
+                <raise-event type="NodeBrowser.prepare"/>
                 <begin-conversation flush-mode="MANUAL"/>
-                <out name="currentNode" value="#{currentDocument}"/>
-                <redirect view-id="/docHistory.xhtml"/>
+                <redirect view-id="/docHistory.xhtml">
+                    <param name="nodeId"        value="#{currentDocument.id}"/>
+                </redirect>
             </rule>
 
             <rule if-outcome="browseDir">
-                <render view-id="/dirDisplay.xhtml"/>
+                <redirect view-id="/dirDisplay.xhtml"/>
             </rule>
 
         </navigation>
@@ -108,12 +113,14 @@
 
         <navigation>
             <rule if-outcome="createDir">
+                <raise-event type="NodeBrowser.prepare"/>
                 <begin-conversation flush-mode="MANUAL"/>
                 <redirect view-id="/dirEdit.xhtml">
                     <param name="parentDirId" value="#{currentDirectory.id}"/>
                 </redirect>
             </rule>
             <rule if-outcome="editDir">
+                <raise-event type="NodeBrowser.prepare"/>
                 <begin-conversation flush-mode="MANUAL"/>
                 <redirect view-id="/dirEdit.xhtml">
                     <param name="nodeId" value="#{currentDirectory.id}"/>
@@ -121,18 +128,21 @@
                 </redirect>
             </rule>
             <rule if-outcome="createDoc">
+                <raise-event type="NodeBrowser.prepare"/>
                 <begin-conversation flush-mode="MANUAL"/>
                 <redirect view-id="/docEdit.xhtml">
                     <param name="parentDirId" value="#{currentDirectory.id}"/>
                 </redirect>
             </rule>
             <rule if-outcome="uploadFile">
+                <raise-event type="NodeBrowser.prepare"/>
                 <begin-conversation flush-mode="MANUAL"/>
                 <redirect view-id="/fileEdit.xhtml">
                     <param name="parentDirId" value="#{currentDirectory.id}"/>
                 </redirect>
             </rule>
             <rule if-outcome="editFile">
+                <raise-event type="NodeBrowser.prepare"/>
                 <begin-conversation flush-mode="MANUAL"/>
                 <redirect view-id="/fileEdit.xhtml">
                     <param name="nodeId" value="#{param.fileId}"/>
@@ -240,18 +250,21 @@
             </rule>
 
             <rule if-outcome="register">
+                <raise-event type="NodeBrowser.prepare"/>
                 <begin-conversation flush-mode="MANUAL"/>
                 <redirect view-id="/userRegister.xhtml">
                     <param name="lastConversationId" value="#{param.lastConversationId}"/>
                 </redirect>
             </rule>
             <rule if-outcome="listUsers">
+                <raise-event type="NodeBrowser.prepare"/>
                 <begin-conversation flush-mode="MANUAL"/>
                 <redirect view-id="/userList.xhtml">
                     <param name="lastConversationId" value="#{param.lastConversationId}"/>
                 </redirect>
             </rule>
             <rule if-outcome="editUser">
+                <raise-event type="NodeBrowser.prepare"/>
                 <begin-conversation flush-mode="MANUAL"/>
                 <redirect view-id="/userHome.xhtml">
                     <param name="lastConversationId" value="#{param.lastConversationId}"/>
@@ -260,6 +273,7 @@
             </rule>
 
             <rule if-outcome="adminHome">
+                <raise-event type="NodeBrowser.prepare"/>
                 <begin-conversation flush-mode="MANUAL"/>
                 <redirect view-id="/adminHome.xhtml">
                     <param name="lastConversationId" value="#{param.lastConversationId}"/>
@@ -268,6 +282,7 @@
 
             <!-- 'Find' postback starts a new root conversation, see /search.xhtml -->
             <rule if-outcome="search">
+                <raise-event type="NodeBrowser.prepare"/>
                 <redirect view-id="/search.xhtml">
                     <param name="conversationPropagation" value="#{'none'}"/>
                     <param name="lastConversationId" value="#{conversation.id}"/>

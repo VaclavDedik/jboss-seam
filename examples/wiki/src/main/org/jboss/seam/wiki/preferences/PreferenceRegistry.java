@@ -20,7 +20,6 @@ import java.util.*;
  */
 @Name("preferenceRegistry")
 @Scope(ScopeType.APPLICATION)
-@Startup(depends = "wikiInit")
 public class PreferenceRegistry {
 
     @Logger static Log log;

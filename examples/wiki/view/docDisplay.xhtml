@@ -11,25 +11,13 @@
                 template="themes/#{wikiPreferences.themeName}/template.xhtml">
 
 <ui:define name="includeHeaders">
-    <link href="#{themePath}/css/userControl.css" rel="stylesheet" type="text/css"/>
-    <link href="#{themePath}/css/searchControl.css" rel="stylesheet" type="text/css"/>
     <link href="#{themePath}/css/breadcrumb.css" rel="stylesheet" type="text/css"/>
-    <link href="#{themePath}/css/mainMenu.css" rel="stylesheet" type="text/css"/>
 </ui:define>
 
 <ui:define name="screenname">#{currentDocument.name}</ui:define>
 
-<ui:define name="headerTopTwo">
-    <ui:include src="includes/userControl.xhtml"/>
-</ui:define>
-
 <ui:define name="headerBottomOne">
     <ui:include src="includes/breadcrumb.xhtml"/>
-</ui:define>
-
-<ui:define name="sidebar">
-    <ui:include src="includes/searchControl.xhtml"/>
-    <ui:include src="includes/mainMenu.xhtml"/>
 </ui:define>
 
 <ui:define name="controlTwo">
@@ -42,6 +30,7 @@
 
     <s:link id="showHistory" styleClass="linkNavigation" action="showHistory" accesskey="I">H<u>i</u>story</s:link>
     <s:link id="browseDir" styleClass="linkNavigation" action="browseDir" accesskey="B"><u>B</u>rowse</s:link>
+
 </ui:define>
 
 <ui:define name="content">
@@ -60,7 +49,8 @@
                                 attachmentLinkStyleClass="regularLink"
                                 thumbnailLinkStyleClass="regularLink"
                                 renderBaseDocument="#{currentDocument}"
-                                renderBaseDirectory="#{currentDirectory}"/>
+                                renderBaseDirectory="#{currentDirectory}"
+                                enablePlugins="true"/>
         </s:div>
     </div></div></div>
 

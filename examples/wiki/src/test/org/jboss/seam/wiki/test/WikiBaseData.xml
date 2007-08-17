@@ -2,6 +2,11 @@
 
 <dataset>
 
+    <USER_PROFILE
+        USER_PROFILE_ID = "1"
+        OBJ_VERSION = "0"
+        CREATED_ON = "2006-06-27 13:45:00"
+    />
     <USERS
         USER_ID = "1"
         OBJ_VERSION = "0"
@@ -10,9 +15,15 @@
         PASSWORDHASH = "21232f297a57a5a743894a0e4a801fc3"
         EMAIL = "admin@email.tld"
         ACTIVATED = "true"
+        USER_PROFILE_ID = "1"
         CREATED_ON = "2006-06-27 13:45:00"
     />
 
+    <USER_PROFILE
+        USER_PROFILE_ID = "2"
+        OBJ_VERSION = "0"
+        CREATED_ON = "2006-06-27 13:45:00"
+    />
     <USERS
         USER_ID = "2"
         OBJ_VERSION = "0"
@@ -21,6 +32,7 @@
         PASSWORDHASH = "guest"
         EMAIL = "guest"
         ACTIVATED = "false"
+        USER_PROFILE_ID = "2"
         CREATED_ON = "2006-06-27 13:45:00"
     />
 
@@ -36,9 +48,6 @@
         NODE_TYPE = "DIRECTORY"
         NODE_REVISION  = "1"
         OBJ_VERSION  = "0"
-        AREA_NR  = "0"
-        PARENT_NODE_ID  = "[NULL]"
-        NODE_POSITION  = "0"
 
         NAME  = "ROOT" WIKINAME  = "ROOT"
         READ_ACCESS_LEVEL  = "0" WRITE_ACCESS_LEVEL  = "1000"
@@ -48,22 +57,21 @@
         CREATED_ON  = "2006-09-23 13:45:00" CREATED_BY_USER_ID  = "1"
         LAST_MODIFIED_ON  = "[NULL]" LAST_MODIFIED_BY_USER_ID  = "[NULL]"
 
-        DEFAULT_DOCUMENT_ID  = "[NULL]"
-
-        NAME_AS_TITLE  = "[NULL]"
-        ENABLE_COMMENT_FORM  = "[NULL]"
-        ENABLE_COMMENTS  = "[NULL]"
-        CONTENT  = "[NULL]"
+        AREA_NR  = "1"
+        PARENT_NODE_ID  = "[NULL]"
+        DISPLAY_POSITION = "0"
+        NS_THREAD = "1"
+        NS_LEFT = "1"
+        NS_RIGHT = "999999"
     />
+
+    <NODE_DIRECTORY DIRECTORY_ID = "1" DEFAULT_DOCUMENT_ID  = "[NULL]"/>
 
     <NODE
         NODE_ID  = "2"
         NODE_TYPE = "DIRECTORY"
         NODE_REVISION  = "1"
         OBJ_VERSION  = "0"
-        AREA_NR  = "2"
-        PARENT_NODE_ID  = "1"
-        NODE_POSITION  = "0"
 
         NAME  = "Member Area" WIKINAME  = "MemberArea"
         READ_ACCESS_LEVEL  = "0" WRITE_ACCESS_LEVEL  = "1000"
@@ -73,22 +81,21 @@
         CREATED_ON  = "2006-09-23 13:45:00" CREATED_BY_USER_ID  = "1"
         LAST_MODIFIED_ON  = "[NULL]" LAST_MODIFIED_BY_USER_ID  = "[NULL]"
 
-        DEFAULT_DOCUMENT_ID  = "[NULL]"
-
-        NAME_AS_TITLE  = "[NULL]"
-        ENABLE_COMMENT_FORM  = "[NULL]"
-        ENABLE_COMMENTS  = "[NULL]"
-        CONTENT  = "[NULL]"
+        AREA_NR  = "2"
+        PARENT_NODE_ID  = "1"
+        DISPLAY_POSITION = "0"
+        NS_THREAD = "1"
+        NS_LEFT = "2"
+        NS_RIGHT = "3"
     />
+
+    <NODE_DIRECTORY DIRECTORY_ID = "2" DEFAULT_DOCUMENT_ID  = "[NULL]"/>
 
     <NODE
         NODE_ID  = "3"
         NODE_TYPE = "DIRECTORY"
         NODE_REVISION  = "1"
         OBJ_VERSION  = "0"
-        AREA_NR  = "3"
-        PARENT_NODE_ID  = "1"
-        NODE_POSITION  = "1"
 
         NAME  = "Start Area" WIKINAME  = "StartArea"
         READ_ACCESS_LEVEL  = "0" WRITE_ACCESS_LEVEL  = "0"
@@ -98,22 +105,21 @@
         CREATED_ON  = "2006-09-23 13:45:00" CREATED_BY_USER_ID  = "1"
         LAST_MODIFIED_ON  = "2006-09-23 13:45:00" LAST_MODIFIED_BY_USER_ID  = "1"
 
-        DEFAULT_DOCUMENT_ID  = "4"
-
-        NAME_AS_TITLE  = "[NULL]"
-        ENABLE_COMMENT_FORM  = "[NULL]"
-        ENABLE_COMMENTS  = "[NULL]"
-        CONTENT  = "[NULL]"
+        AREA_NR  = "3"
+        PARENT_NODE_ID  = "1"
+        DISPLAY_POSITION = "1"
+        NS_THREAD = "1"
+        NS_LEFT = "4"
+        NS_RIGHT = "7"
     />
+
+    <NODE_DIRECTORY DIRECTORY_ID = "3" DEFAULT_DOCUMENT_ID  = "4"/>
 
     <NODE
         NODE_ID  = "4"
         NODE_TYPE = "DOCUMENT"
         NODE_REVISION  = "1"
         OBJ_VERSION  = "0"
-        AREA_NR  = "3"
-        PARENT_NODE_ID  = "3"
-        NODE_POSITION  = "0"
 
         NAME  = "Start Document" WIKINAME  = "StartDocument"
         READ_ACCESS_LEVEL  = "0" WRITE_ACCESS_LEVEL  = "0"
@@ -123,8 +129,16 @@
         CREATED_ON  = "2006-09-23 13:45:00" CREATED_BY_USER_ID  = "1"
         LAST_MODIFIED_ON  = "2006-09-23 13:45:00" LAST_MODIFIED_BY_USER_ID  = "1"
 
-        DEFAULT_DOCUMENT_ID  = "[NULL]"
+        AREA_NR  = "3"
+        PARENT_NODE_ID  = "3"
+        DISPLAY_POSITION = "0"
+        NS_THREAD = "1"
+        NS_LEFT = "5"
+        NS_RIGHT = "6"
+    />
 
+    <NODE_DOCUMENT
+        DOCUMENT_ID = "4"
         NAME_AS_TITLE  = "true"
         ENABLE_COMMENT_FORM  = "true"
         ENABLE_COMMENTS  = "true"
@@ -135,9 +149,7 @@
         FEED_ID = "1"
         OBJ_VERSION = "0"
         TITLE = "ROOT"
-        DESCRIPTION = "Lacewiki"
-        AUTHOR = "[NULL]"
-        COPYRIGHT = "[NULL]"
+        AUTHOR = "Lacewiki"
         PUBLISHED_ON = "1976-06-26 11:11:11"
         DIRECTORY_ID = "1"
     />
@@ -177,6 +189,22 @@
     <PREFERENCE PREF_ID = "8" OBJ_VERSION = "0"
         COMPONENT_NAME = "wikiPreferences" PROPERTY_NAME = "purgeFeedEntriesAfterDays"
         STRING_VALUE = "[NULL]" LONG_VALUE = "30" BOOLEAN_VALUE = "[NULL]"
+    />
+    <PREFERENCE PREF_ID = "9" OBJ_VERSION = "0"
+        COMPONENT_NAME = "wikiPreferences" PROPERTY_NAME = "atSymbolReplacement"
+        STRING_VALUE = "(AT)" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "[NULL]"
+    />
+    <PREFERENCE PREF_ID = "10" OBJ_VERSION = "0"
+        COMPONENT_NAME = "wikiPreferences" PROPERTY_NAME = "mainMenuLevels"
+        STRING_VALUE = "[NULL]" LONG_VALUE = "3" BOOLEAN_VALUE = "[NULL]"
+    />
+    <PREFERENCE PREF_ID = "11" OBJ_VERSION = "0"
+        COMPONENT_NAME = "wikiPreferences" PROPERTY_NAME = "mainMenuDepth"
+        STRING_VALUE = "[NULL]" LONG_VALUE = "3" BOOLEAN_VALUE = "[NULL]"
+    />
+    <PREFERENCE PREF_ID = "12" OBJ_VERSION = "0"
+        COMPONENT_NAME = "wikiPreferences" PROPERTY_NAME = "mainMenuShowAdminOnly"
+        STRING_VALUE = "[NULL]" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "true"
     />
 
     <PREFERENCE PREF_ID = "20" OBJ_VERSION = "0"
@@ -281,5 +309,14 @@
         STRING_VALUE = "/AnotherArea/Forums" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "[NULL]"
     />
 
+    <PREFERENCE PREF_ID = "170" OBJ_VERSION = "0"
+        COMPONENT_NAME = "dirMenuPreferences" PROPERTY_NAME = "menuLevels"
+        STRING_VALUE = "[NULL]" LONG_VALUE = "3" BOOLEAN_VALUE = "[NULL]"
+    />
+    <PREFERENCE PREF_ID = "171" OBJ_VERSION = "0"
+        COMPONENT_NAME = "dirMenuPreferences" PROPERTY_NAME = "menuDepth"
+        STRING_VALUE = "[NULL]" LONG_VALUE = "3" BOOLEAN_VALUE = "[NULL]"
+    />
+    
 </dataset>
 

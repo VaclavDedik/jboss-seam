@@ -1,0 +1,120 @@
+.dirMenu {
+    background-color: white;
+    vertical-align: bottom;
+}
+
+.dirMenuHeader {
+    text-align: right;
+    font-size: 100%;
+    padding-left: 10px;
+    padding-right: 15px;
+    padding-top: 5px;
+    padding-bottom: 15px;
+    border-top: 1px solid #87786e;
+    border-left: 1px solid #87786e;
+    border-right: 1px solid #87786e;
+    background: white url(#{themePath}/img/th.bg.inverse.gif) 0 0 repeat-x;
+    width: 100%;
+}
+
+.dirMenuSubscribe {
+}
+
+.dirMenuSubscribeLink {
+    font-size: 80%;
+    margin-left: 5px;
+    margin-right: 5px;
+    color: #962325;
+}
+
+.dirMenuSubscribeLink:hover {color: #666}
+
+.dirMenuTitle {
+    text-align: right;
+}
+
+.dirMenuTitleText {
+    font-size: 120%;
+ }
+
+
+.dirMenuFooter {
+    background: white url(#{themePath}/img/th.bg.gif) 0 0 repeat-x;
+    border-bottom: 1px solid #87786e;
+    border-left: 1px solid #87786e;
+    border-right: 1px solid #87786e;
+    padding-top: 5px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-weight: normal;
+    font-size: 100%;
+    color: #962325;
+	text-decoration: none;
+}
+
+.dirMenu .level1 {
+    margin-left: 10px;
+}
+
+.dirMenu .level1Body {
+    background-color: white;
+}
+
+.dirMenu .level1Marker {
+    display: none;
+}
+
+.dirMenu .level1Link {
+    color: #962325;
+    font-size: 95%;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    text-decoration: none;
+}
+
+.dirMenu .level1Link:hover {color: #666}
+
+.dirMenu .level1Children {
+    background-color: white;
+}
+
+.dirMenu .level2 {
+}
+
+.dirMenu .level2Marker {
+    padding-left: 2px;
+    padding-right: 2px;
+    font-size: 80%;
+    color: #962325;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+.dirMenu .level2Link {
+    font-size: 80%;
+    color: #962325;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.dirMenu .level2Link:hover {color: #666}
+
+.dirMenu .level3 {}
+
+.dirMenu .level3Marker {
+    padding-left: 2px;
+    padding-right: 2px;
+    font-size: 80%;
+    color: #962325;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+.dirMenu .level3Link {
+    font-size: 80%;
+    color: #962325;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.dirMenu .level3Link:hover {color: #666}

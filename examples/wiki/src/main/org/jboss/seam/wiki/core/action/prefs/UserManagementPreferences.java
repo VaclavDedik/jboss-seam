@@ -39,6 +39,9 @@ public class UserManagementPreferences extends PreferenceSupport implements Seri
     @Preference(description = "05. Create home directory for new user after activation", visibility = PreferenceVisibility.SYSTEM)
     private Boolean createHomeAfterUserActivation;
 
+    @Preference(description = "06. Content of created home page", visibility = PreferenceVisibility.SYSTEM)
+    private String homepageDefaultContent;
+
     public String getActivationCodeSalt() {
         return activationCodeSalt;
     }
@@ -57,5 +60,9 @@ public class UserManagementPreferences extends PreferenceSupport implements Seri
 
     public Boolean isCreateHomeAfterUserActivation() {
         return createHomeAfterUserActivation;
+    }
+
+    public String getHomepageDefaultContent() {
+        return homepageDefaultContent;
     }
 }

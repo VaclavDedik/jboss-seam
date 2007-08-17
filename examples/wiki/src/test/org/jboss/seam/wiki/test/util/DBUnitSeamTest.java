@@ -1,3 +1,9 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.test.util;
 
 import org.dbunit.database.DatabaseConfig;
@@ -56,8 +62,8 @@ import java.util.List;
  * </p>
  * <dl>
  * <li>A TestNG test parameter named <tt>datasourceJndiName</tt> is provided by the TestNG test runner, which
- * automatically calls <tt>setDatasourceJndiName()</tt> on the test class before a logical test runs.</li
- * >
+ * automatically calls <tt>setDatasourceJndiName()</tt> on the test class before a logical test runs.</li>
+ * 
  * <li>An instance of a test class is created manually and the <tt>datasourceJndiName</tt> is passed as a
  * constructor argument.</li>
  *
@@ -94,7 +100,7 @@ public abstract class DBUnitSeamTest extends SeamTest {
         this.datasourceJndiName = datasourceJndiName;
     }
 
-    @BeforeTest
+    @BeforeClass
     @Parameters("datasourceJndiName")
     public void setDatasourceJndiName(String datasourceJndiName) {
         this.datasourceJndiName = datasourceJndiName;
@@ -122,13 +128,24 @@ public abstract class DBUnitSeamTest extends SeamTest {
     }
 
     private void executeOperations(List<DataSetOperation> list) {
-        IDatabaseConnection con = getConnection();
-        disableReferentialIntegrity(con);
-        for (DataSetOperation op : list) {
-            log.info("executing DBUnit operation: " + op);
-            op.execute(con);
+        IDatabaseConnection con = null;
+        try {
+            con = getConnection();
+            disableReferentialIntegrity(con);
+            for (DataSetOperation op : list) {
+                log.info("executing DBUnit operation: " + op);
+                op.execute(con);
+            }
+            enableReferentialIntegrity(con);
+        } finally {
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (Exception ex) {
+                    ex.printStackTrace(System.err);
+                }
+            }
         }
-        enableReferentialIntegrity(con);
     }
 
     protected class DataSetOperation {
