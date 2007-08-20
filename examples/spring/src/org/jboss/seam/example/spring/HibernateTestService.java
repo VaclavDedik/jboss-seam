@@ -20,9 +20,9 @@ import org.springframework.transaction.support.TransactionTemplate;
  * @author Mike Youngstrom
  */
 public class HibernateTestService extends HibernateDaoSupport {
-	private static final String HIBERNATE_HOTEL_NAME = "This is the Hibernate Hotel";
+	public static final String HIBERNATE_HOTEL_NAME = "This is the Hibernate Hotel";
 
-	private static final String HIBERNATE_HOTEL_ADDRESS = "Hibernate Address";
+	public static final String HIBERNATE_HOTEL_ADDRESS = "Hibernate Address";
 
 	private TransactionTemplate hibernateTransactionTemplate;
 
