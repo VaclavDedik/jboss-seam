@@ -61,8 +61,5 @@
 			<deploy pom="@{pom}" jar="@{jar}" repositoryId="local.repository" />
 		</sequential>
 	</macrodef>
-	
-	<pomfile name="seam.pom" value="${seam.dir}/pom.xml" />
-	<install pom="${seam.pom}" />
 
 </project>

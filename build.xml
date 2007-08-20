@@ -84,10 +84,9 @@
 	<property name="seam.dir" value="${basedir}" />
 	<path id="maven-ant-tasks.classpath" path="${build.lib.dir}/maven-ant-tasks.jar" />
 	<typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="urn:maven-artifact-ant" classpathref="maven-ant-tasks.classpath" />
-
+	
+	
 	<import file="${build.dir}/utilities.xml" />
-	<pomfile name="seam.pom" value="${basedir}/pom.xml" />
-	<pomfile name="core.pom" value="${build.dir}/core.pom.xml" />
 
 	<!-- Documentation -->
 	<property name="doc.dir" value="doc" />
@@ -207,21 +206,23 @@
 
 	<!-- ########################## MAVEN2 #########################-->
 
-	<target name="installExtraDependencies">	
+	<target name="installExtraDependencies" depends="init.m2">	
 		<install pom="${build.dir}/thirdparty/jboss-cache-jdk50.pom.xml" jar="${lib.dir}/jboss-cache-jdk50.jar" />
 		<install pom="${build.dir}/thirdparty/testng.pom.xml" jar="${lib.dir}/testng-5.6-jdk15.jar" />
 		<install pom="${build.dir}/thirdparty/jbpm-jpdl.pom.xml" jar="${lib.dir}/jbpm-jpdl.jar" />
 		<install pom="${build.dir}/thirdparty/jboss-el.pom.xml" jar="${lib.dir}/jboss-el.jar" />
 	</target>
 
-	<target name="init.m2" depends="installExtraDependencies">
+	<target name="init.m2">
 		<!-- Install the parent pom -->
+		<pomfile name="seam.pom" value="${basedir}/pom.xml" />
+		<pomfile name="core.pom" value="${build.dir}/core.pom.xml" />
 		<install pom="${seam.pom}" />
 	</target>
 
 	<!-- ########################## BUILD TARGETS ##########################-->
 
-	<target name="clean" description="Cleans up the build directory">
+	<target name="clean" description="Cleans up the build directory" depends="init.m2">
 		<delete dir="${classes.dir}" />
 		<delete dir="${test.dir}" />
 		<delete dir="${report.dir}" />
@@ -254,9 +255,6 @@
 
 	<target name="select-compiler">
 		<available classname="org.eclipse.jdt.core.JDTCompilerAdapter" property="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter" />
-	</target>
-
-	<target name="init">
 	</target>
 
 
@@ -378,7 +376,7 @@
 
 	<!-- ########################### UI TARGETS ###########################-->
 
-	<target name="jarui" description="Build the distribution .jar file for the UI package based on A4J CDK" depends="init.m2">
+	<target name="jarui" description="Build the distribution .jar file for the UI package based on A4J CDK" depends="init.m2, installExtraDependencies">
 		<install pom="${core.pom}" jar="${basedir}/jboss-seam.jar" />
 		<echo message="Installed jboss-seam-core pom" />
 		<mkdir dir="${dist.dir}" />
@@ -538,10 +536,8 @@
 	<!-- Continuous integration wrapper target -->
 	<!-- N.B. validateall must run last as it actually causes the build to fail rather than acting as a test (TODO Fix this) -->
 	<target name="ci">
-		<antcall target="cleandist" />
 		<antcall target="cleanall" />
 		<antcall target="dist" />
-		<antcall target="cleandist" />
 		<antcall target="cleanall" />
 		<antcall target="coverageall" />
 		<antcall target="copytestoutput" />
