@@ -226,7 +226,6 @@
 		<delete dir="${test.dir}" />
 		<delete dir="${report.dir}" />
 		<delete dir="${coverage.dir}" />
-		<delete dir="${ci.dir}" />
 		<delete file="coverage.ec" failonerror="false" />
 		<cdk target="clean" />
 	</target>
@@ -540,12 +539,13 @@
 	<!-- N.B. validateall must run last as it actually causes the build to fail rather than acting as a test (TODO Fix this) -->
 	<target name="ci">
 		<antcall target="cleandist" />
+		<antcall target="cleanall" />
+		<antcall target="dist" />
+		<antcall target="cleandist" />
+		<antcall target="cleanall" />
 		<antcall target="coverageall" />
 		<antcall target="copytestoutput" />
 		<antcall target="testreport" />
-		<antcall target="cleandist" />
-		<antcall target="cleanall" />
-		<antcall target="dist" />
 		<antcall target="validateall" />
 	</target>
 
