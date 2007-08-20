@@ -775,6 +775,40 @@
         <row>
           <entry valign="top">
             <para>
+              <literal>&lt;s:label&gt;</literal>
+            </para>
+          </entry>
+          <entry valign="top">
+            <para><emphasis>Description</emphasis></para>
+            <para>
+              "Decorate" a JSF input field with the label.  The label is placed inside 
+              the HTML <literal>&lt;label&gt;</literal> tag, and is associated with the
+              nearest JSF input component.  It is often used with <literal>&lt;s:decorate&gt;</literal>.
+            </para>
+            <para><emphasis>Attributes</emphasis></para>
+            <itemizedlist>
+              <listitem>
+                <para>
+                  <literal>style</literal> &#8212; The control's style
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  <literal>styleClass</literal> &#8212; The control's style class
+                </para>
+              </listitem>
+            </itemizedlist>
+            <para><emphasis>Usage</emphasis></para>
+            <programlisting><![CDATA[<s:label styleClass="label">
+  Country:
+</s:label>
+<h:inputText value="#{location.country}" required="true"/>]]></programlisting>
+          </entry>
+        </row>
+        
+        <row>
+          <entry valign="top">
+            <para>
               <literal>&lt;s:remote&gt;</literal>
             </para>
           </entry>
