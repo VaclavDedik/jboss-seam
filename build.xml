@@ -538,7 +538,16 @@
 
 	<!-- Continuous integration wrapper target -->
 	<!-- N.B. validateall must run last as it actually causes the build to fail rather than acting as a test (TODO Fix this) -->
-	<target name="ci" depends="cleanall, coverageall, copytestoutput, testreport, cleanall, dist, validateall" />
+	<target name="ci">
+		<antcall target="cleandist" />
+		<antcall target="coverageall" />
+		<antcall target="copytestoutput" />
+		<antcall target="testreport" />
+		<antcall target="cleandist" />
+		<antcall target="cleanall" />
+		<antcall target="dist" />
+		<antcall target="validateall" />
+	</target>
 
 
 	<!-- ########################## DIST TARGETS ###########################-->
@@ -858,6 +867,7 @@
 	<macrodef name="cdk">
 		<attribute name="target" />
 		<sequential>
+			<pomfile name="ui.pom" value="${build.dir}/ui.pom.xml" tofile="${ui.dir}/pom.xml" />
 			<java classname="org.codehaus.classworlds.Launcher" fork="true" dir="${basedir}">
 				<classpath>
 					<fileset dir="${maven.dir}/core/boot">
@@ -869,8 +879,10 @@
 				</classpath>
 				<sysproperty key="classworlds.conf" value="${maven.dir}/bin/m2.conf" />
 				<sysproperty key="maven.home" value="${maven.dir}" />
+				<arg line="-Dseam.version=${version}.${patchlevel}" />
 				<arg line="@{target}" />
 			</java>
+			<delete file="${ui.dir}/pom.xml"/>
 		</sequential>
 	</macrodef>
 

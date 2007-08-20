@@ -6,15 +6,17 @@
 	<macrodef name="pomfile">
 		<attribute name="name" />
 		<attribute name="value" />
+		<attribute name="todir" default="${classes.dir}/poms" />
+		<attribute name="tofile" default="@{todir}/@{name}" />
 		<sequential>
-			<mkdir dir="${classes.dir}/poms" />
-			<copy file="@{value}" tofile="${classes.dir}/poms/@{name}" overwrite="on">
+			<mkdir dir="@{todir}" />
+			<copy file="@{value}" tofile="@{tofile}" overwrite="on">
 				<filterset>
 					<filter token="seam.version" value="${version}.${patchlevel}" />
 					<filter token="seam.dir" value="${version}.${patchlevel}" />
 				</filterset>
 			</copy>
-			<property name="@{name}" value="${classes.dir}/poms/@{name}" />
+			<property name="@{name}" value="@{tofile}" />
 		</sequential>
 	</macrodef>
 
