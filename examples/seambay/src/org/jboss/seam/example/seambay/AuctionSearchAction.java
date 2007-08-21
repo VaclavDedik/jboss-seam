@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
 
 import javax.persistence.EntityManager;
@@ -61,7 +63,7 @@ public class AuctionSearchAction implements Serializable
       
       if (searchCategory != null)
       {
-         qry.append(" and a.category = #{searchCategory}");
+         qry.append(" and a.category in (#{subCategories})");
       }
             
       auctions = entityManager.createQuery(qry.toString())
@@ -71,12 +73,21 @@ public class AuctionSearchAction implements Serializable
       
       searchCategories.clear();
       
-      for (Object[] result : (List<Object[]>) entityManager.createQuery(
-            "select a.category.categoryId, count(a) from Auction a " +
+      StringBuilder catQuery = new StringBuilder();
+      catQuery.append("select a.category.categoryId, count(a) from Auction a " +
             "where lower(a.title) like #{searchPattern} " +
-            "and a.endDate >= #{currentDatetime} and a.status = 1 " +
-            "group by a.category.categoryId")
-            .getResultList())
+            "and a.endDate >= #{currentDatetime} and a.status = 1 ");
+      
+      if (searchCategory != null)
+      {
+         catQuery.append("and a.category in (#{subCategories}) ");
+      }
+             
+      catQuery.append("group by a.category.categoryId");
+      
+      
+      for (Object[] result : (List<Object[]>) entityManager.createQuery(
+           catQuery.toString()).getResultList())
       {
          searchCategories.put(entityManager.find(Category.class, result[0]), (Long) result[1]);
       }
@@ -143,7 +154,30 @@ public class AuctionSearchAction implements Serializable
       queryAuctions();
    }
    
-   @Factory(value="searchCategory", scope=ScopeType.EVENT)
+   @Factory(value="subCategories", scope=ScopeType.EVENT)
+   public Set<Category> getSubCategories()
+   {
+      Set<Category> categories = new HashSet<Category>();
+      categories.add(searchCategory);      
+      addSubCategories(searchCategory, categories);      
+      return categories;
+   }
+
+   @SuppressWarnings("unchecked")
+   private void addSubCategories(Category parent, Set<Category> categories)
+   {
+      List<Category> children = entityManager.createQuery(
+            "from Category where parent = :parent")
+            .setParameter("parent", parent)
+            .getResultList();
+      
+      for (Category child : children)
+      {
+         categories.add(child);
+         addSubCategories(child, categories);
+      }      
+   }
+   
    public Category getSearchCategory()
    {
       return searchCategory;
