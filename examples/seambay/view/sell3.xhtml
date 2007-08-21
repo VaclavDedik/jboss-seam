@@ -40,7 +40,7 @@
             
             <div class="formRow">
               <h:outputLabel for="price">Please enter the starting price for your auction $</h:outputLabel>
-              <h:inputText id="price" value="#{auctionAction.auction.price}" required="true">
+              <h:inputText id="price" value="#{auctionAction.auction.startingPrice}" required="true">
                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" minIntegerDigits="1"/>
               </h:inputText>
               <div class="validationError"><h:message for="price"/></div>

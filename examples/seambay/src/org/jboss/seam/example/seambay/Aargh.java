@@ -15,6 +15,7 @@ import javax.transaction.UserTransaction;
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
@@ -32,6 +33,8 @@ import org.jboss.seam.annotations.Startup;
 @BypassInterceptors
 public class Aargh
 {
+   @In AuctionEndAction auctionEnd;
+   
    @Create
    public void create()
    {
@@ -58,6 +61,8 @@ public class Aargh
             cal.add(Calendar.MINUTE, 30 + r.nextInt(1410));
             auction.setEndDate(cal.getTime());
             em.merge(auction);
+            
+            auctionEnd.endAuction(auction.getAuctionId(), auction.getEndDate());
          }
          
          t.commit();

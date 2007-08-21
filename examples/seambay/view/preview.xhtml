@@ -72,15 +72,10 @@
             <div class="itemDetails">
               <div class="itemDetailRow">
                 <label>
-                  <s:fragment rendered="#{auctionAction.auction.highBidder ne null}">
-                    Current bid:
-                  </s:fragment>
-                  <s:fragment rendered="#{auctionAction.auction.highBidder eq null}">
-                    Starting price:
-                  </s:fragment>            
+                  Starting price:
                 </label>
                 <div>
-                  $<b><h:outputText value="#{auctionAction.auction.price}">
+                  $<b><h:outputText value="#{auctionAction.auction.currentPrice}">
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                   </h:outputText></b>
                 </div>
@@ -117,8 +112,8 @@
               <div class="itemDetailRow">
                 <label>High bidder:</label>
                 <div>
-                  <span>#{auctionAction.auction.highBidder.name}</span>
-                  <h:outputText value="No bids" rendered="#{auctionAction.auction.highBidder eq null}"/>
+                  <span>#{auctionAction.auction.highBid.account.name}</span>
+                  <h:outputText value="No bids" rendered="#{auctionAction.auction.highBid.account.name eq null}"/>
                 </div>
               </div>
     

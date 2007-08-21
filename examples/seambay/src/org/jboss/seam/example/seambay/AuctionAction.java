@@ -5,6 +5,7 @@ import static org.jboss.seam.ScopeType.CONVERSATION;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -38,6 +39,8 @@ public class AuctionAction implements Serializable
    @In EntityManager entityManager;
    
    @In Account authenticatedAccount;
+   
+   @In(create = true) AuctionEndAction auctionEnd;
 
    private Auction auction;
    
@@ -125,6 +128,9 @@ public class AuctionAction implements Serializable
       
       auction.setImage(temp);
       entityManager.merge(auction);
+      
+      // End the auction at the correct time
+      auctionEnd.endAuction(auction.getAuctionId(), auction.getEndDate());
    }
 
    public Auction getAuction()

@@ -4,6 +4,7 @@
             xmlns:persistence="http://jboss.com/products/seam/persistence"
             xmlns:security="http://jboss.com/products/seam/security"
             xmlns:drools="http://jboss.com/products/seam/drools"
+            xmlns:async="http://jboss.com/products/seam/async"
             xmlns:web="http://jboss.com/products/seam/web"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation=
@@ -11,6 +12,7 @@
                  http://jboss.com/products/seam/persistence http://jboss.com/products/seam/persistence-2.0.xsd 
                  http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.0.xsd
                  http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.0.xsd
+                 http://jboss.com/products/seam/async http://jboss.com/products/seam/async-2.0.xsd
                  http://jboss.com/products/seam/web http://jboss.com/products/seam/web-2.0.xsd
                  http://jboss.com/products/seam/drools http://jboss.com/products/seam/drools-2.0.xsd">
 
@@ -24,6 +26,8 @@
     
     <persistence:managed-persistence-context name="entityManager" auto-create="true"
                 persistence-unit-jndi-name="java:/seambayEntityManagerFactory"/>
+                
+    <async:quartz-dispatcher/>
     
     <event type="org.jboss.seam.notLoggedIn">
         <action expression="#{redirect.captureCurrentView}"/>
