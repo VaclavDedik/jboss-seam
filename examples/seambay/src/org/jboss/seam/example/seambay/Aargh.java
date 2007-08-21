@@ -13,9 +13,11 @@ import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
@@ -32,9 +34,7 @@ import org.jboss.seam.annotations.Startup;
 @Scope(APPLICATION)
 @BypassInterceptors
 public class Aargh
-{
-   @In AuctionEndAction auctionEnd;
-   
+{   
    @Create
    public void create()
    {
@@ -62,6 +62,7 @@ public class Aargh
             auction.setEndDate(cal.getTime());
             em.merge(auction);
             
+            AuctionEndAction auctionEnd = (AuctionEndAction) Component.getInstance(AuctionEndAction.class, true);
             auctionEnd.endAuction(auction.getAuctionId(), auction.getEndDate());
          }
          
