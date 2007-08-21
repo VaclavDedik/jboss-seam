@@ -581,7 +581,8 @@
 
 		<copy todir="${dist.eejb.conf.dir}">
 			<fileset dir="${eejb.conf.dir}">
-				<patternset refid="meta.files" />
+				<include name="**/*" />
+				<exclude name="tmp/**/*"/>
 			</fileset>
 		</copy>
 		<copy file="${eejb.conf.dir}/readme.txt" todir="${dist.eejb.conf.dir}" />
