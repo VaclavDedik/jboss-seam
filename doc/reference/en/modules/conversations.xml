@@ -848,6 +848,25 @@ public class GridEditor
     ...
 }]]></programlisting>
 
+       <para>
+          Alternatively, you can access the JSF component tree through the implicit <literal>uiComponent</literal>
+          handle. The following example accesses <literal>getRowIndex()</literal>of the
+          <literal>UIData</literal> component which backs the data table during iteration, it prints
+          the current row number:
+       </para>
+
+        <programlisting><![CDATA[
+<h:dataTable id="lineItemTable" var="lineItem" value="#{orderHome.lineItems}">
+   <h:column>
+      Row: #{uiComponent['lineItemTable'].rowIndex}
+   </h:column>
+   ...
+</h:dataTable>]]></programlisting>
+
+       <para>
+          JSF UI components are available with their client identifier in this map.
+       </para>
+
     </section>
         
 </chapter>
