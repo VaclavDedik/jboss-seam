@@ -386,7 +386,19 @@ public class Initialization
          if (isProperty)
          {
             String qualifiedPropName = name + '.' + toCamelCase( prop.getQName().getName(), false );
-            properties.put( qualifiedPropName, getPropertyValue(prop, replacements) );
+            Conversions.PropertyValue propValue = null;
+            try
+            {
+               propValue = getPropertyValue(prop, replacements);
+               properties.put( qualifiedPropName, propValue );
+            }
+            catch (Exception ex)
+            {
+               throw new IllegalArgumentException(String.format(
+                        "Exception setting property %s on component %s.  Expression %s evaluated to %s.",
+                        qualifiedPropName, name, prop.getValue(), propValue), ex);
+                        
+            }
          }
       }
    }
