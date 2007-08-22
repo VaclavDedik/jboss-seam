@@ -36,13 +36,10 @@
 	<xs:element name="task-executor-dispatcher">
 		<xs:complexType mixed="true">
 			<xs:attributeGroup ref="components:attlist.component" />
-			<xs:attributeGroup ref="spring:attlist.taskExecutorDispatcher" />
+			<xs:attribute name="task-executor" use="required" />
+			<xs:attribute name="schedule-dispatcher" />
 		</xs:complexType>
 	</xs:element>
-	<xs:attributeGroup name="attlist.taskExecutorDispatcher">
-		<xs:attribute name="task-executor" use="required" />
-		<xs:attribute name="schedule-dispatcher" />
-	</xs:attributeGroup>
 	<xs:element name="spring-transaction">
 		<xs:complexType mixed="true">
 			<xs:attributeGroup ref="components:attlist.component" />
@@ -55,24 +52,22 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
-			<xs:attribute name="conversation-context-required" type="xs:boolean" use="required" default="true">
+			<xs:attribute name="conversation-context-required" type="xs:boolean" use="optional" default="true">
 				<xs:annotation>
-					<xs:annotation>
-						<xs:documentation>
-							Specify if this transaction manager requires a conversation context to be available or not.
-							Set to true if you're using a JpaTransactionManager with a conversation scoped persistence
-							context.
-						</xs:documentation>
-					</xs:annotation>
+					<xs:documentation>
+						Specify if this transaction manager requires a conversation context to be available or not.
+						Set to true if you're using a JpaTransactionManager with a conversation scoped persistence
+						context.
+					</xs:documentation>
+				</xs:annotation>
 			</xs:attribute>
 			<xs:attribute name="join-transaction" type="xs:boolean" use="optional">
 				<xs:annotation>
-					<xs:annotation>
-						<xs:documentation>
-							Should this transaction manager participate in request to join a transaction.  For JTA
-							transactions set to true. 
-						</xs:documentation>
-					</xs:annotation>
+					<xs:documentation>
+						Should this transaction manager participate in request to join a transaction.  For JTA
+						transactions set to true. 
+					</xs:documentation>
+				</xs:annotation>
 			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
