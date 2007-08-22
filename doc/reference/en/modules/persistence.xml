@@ -77,113 +77,185 @@
     </section>
     
     <section id="persistence.seam-managed-transactions">
-        <title>Seam managed transactions</title>
-        <para>
+    	<title>Seam managed transactions</title>
+    	<para>
             EJB session beans feature declarative transaction management. The EJB container is able
             to start a transaction transparently when the bean is invoked, and end it when the
             invocation ends. If we write a session bean method that acts as a JSF action listener, 
             we can do all the work associated with that action in one transaction, and be sure that
             it is committed or rolled back when we finish processing the action. This is a great feature, 
             and all that is needed by some Seam applications.
-        </para>
-        
-        <para>
+    	</para>
+
+    	<para>
             However, there is a problem with this approach. A Seam application may not perform all data
             access for a request from a single method call to a session bean.
-        </para>
-        
-        <itemizedlist>
-            <listitem>
-                <para>
+    	</para>
+
+    	<itemizedlist>
+    		<listitem>
+    			<para>
                     The request might require processing by several loosly-coupled components, each
                     of which is called independently from the web layer. It is common to see several
                     or even many calls per request from the web layer to EJB components in Seam.
-                </para>
-            </listitem>
-            <listitem>
+    			</para>
+    		</listitem>
+    		<listitem>
                 <para>
                     Rendering of the view might require lazy fetching of associations.
                 </para>
-            </listitem>
-        </itemizedlist>
-        
-        <para>
+    		</listitem>
+    	</itemizedlist>
+
+    	<para>
             The more transactions per request, the more likely we are to encounter atomicity
             and isolation problems when our application is processing many concurrent requests.
             Certainly, all write operations should occur in the same transaction!
-        </para>
-        
-        <para>
+    	</para>
+
+    	<para>
             Hibernate users developed the <emphasis>"open session in view"</emphasis> pattern to work 
             around this problem. In the Hibernate community, "open session in view" was historically 
             even more important because frameworks like Spring use transaction-scoped persistence contexts. 
             So rendering the view would cause <literal>LazyInitializationException</literal>s when 
             unfetched associations were accessed.
-        </para>
-       
-        <para>
+    	</para>
+
+    	<para>
             This pattern is usually implemented as a single transaction which spans the entire request. 
             There are several problems with this implementation, the most serious being that we 
             can never be sure that a transaction is successful until we commit it&#8212;but by the 
             time the "open session in view" transaction is committed, the view is fully rendered, and 
             the rendered response may already have been flushed to the client. How can we notify the 
             user that their transaction was unsuccessful? 
-        </para>
-        
-        <para>
+    	</para>
+
+    	<para>
             Seam solves both the transaction isolation problem and the association fetching problem, 
             while working around the problems with "open session in view". The solution comes in two 
             parts:
-        </para>
-        
-        <itemizedlist>
-            <listitem>
-                <para>
+    	</para>
+
+    	<itemizedlist>
+    		<listitem>
+    			<para>
                     use an extended persistence context that is scoped to the conversation, 
                     instead of to the transaction
-                </para>
-            </listitem>
-            <listitem>
-                <para>
+    			</para>
+    		</listitem>
+    		<listitem>
+    			<para>
                     use two transactions per request; the first spans the beginning of the update model
                     values phase until the end of the invoke application phase; the second spans the
                     render response phase
-                </para>
-            </listitem>
-        </itemizedlist>
-        
-        <para>
+    			</para>
+    		</listitem>
+    	</itemizedlist>
+
+    	<para>
             In the next section, we'll tell you how to set up a conversation-scope persistence
             context. But first we need to tell you how to enable Seam transaction management.
             Note that you can use conversation-scoped persistence contexts without Seam
             transaction management, and there are good reasons to use Seam transaction management
             even when you're not using Seam-managed persistence contexts. However, the two
             facilities were designed to work together, and work best when used together.
-        </para>
-        
-        <para>
+    	</para>
+
+    	<para>
             Seam transaction management is useful even if you're using EJB 3.0 
             container-managed persistence contexts. But it is especially useful
             if you use Seam outside a Java EE 5 environment, or in any other
             case where you would use a Seam-managed persistence context.
-        </para>
-            
-        <section>
-            <title>Disabling Seam-managed transactions</title>
-        
-            <para>
+    	</para>
+
+    	<section>
+    		<title>Disabling Seam-managed transactions</title>
+
+    		<para>
                 Seam transaction management is enabled by default for all JSF requests.
                 If you want to <emphasis>disable</emphasis> this feature, you can do it
                 in <literal>components.xml</literal>:
-            </para>
-        
-            <programlisting><![CDATA[<core:init transaction-management-enabled="false"/>]]></programlisting>
+    		</para>
 
-        </section>
-        
+    		<programlisting><![CDATA[<core:init transaction-management-enabled="false"/>]]></programlisting>
+
+    	</section>
+
+    	<section>
+    		<title>Configuring a Seam transaction manager</title>
+
+    		<para>
+    			Seam provides a transaction management abstraction for beginning, committing, rolling back, and
+    			synchronizing with a transaction. By default Seam uses a JTA transaction component that integrates with
+    			Container Managed and programmatic EJB transactions. If JTA is not available then Seam will disable
+    			Seam-managed transactions unless an alternative transaction component is configured.
+    		</para>
+    		<para>
+    			Out of the box Seam provides transaction components for the following additional transaction APIs:
+    		</para>
+    		<ul>
+    			<li>
+    				JPA RESOURCE_LOCAL transactions with the
+    				<literal>javax.persistence.EntityTransaction</literal>
+    				interface.
+    			</li>
+    			<li>
+    				Hibernate managed transactions with the
+    				<literal>org.hibernate.Transaction</literal>
+    				interface.
+    			</li>
+    			<li>
+    				Spring managed transactions with the
+    				<literal>org.springframework.transaction.PlatformTransactionManager</literal>
+    				interface.
+    			</li>
+    		</ul>
+    		<para>
+    			Configure JPA RESOURCE_LOCAL transaction management by adding the following to your components.xml where
+    			<literal>#{entityManager}</literal>
+    			is the name of the
+    			<literal>persistence:managed-persistence-context</literal>
+    			component. (see
+    			<link linkend="persistence.seam-managed-persistence-contexts">Seam-managed persistence contexts</link>
+    			)
+    		</para>
+    		<programlisting><![CDATA[<transaction:entity-transaction entity-manager="#{entityManager}"/>]]></programlisting>
+    		<para>
+    			To configure Hibernate managed transactions declare the following in your components.xml where
+    			<literal>#{hiberanteSession}</literal>
+    			is the name of the project's
+    			<literal>persistence:managed-hibernate-session</literal>
+    			component. (see
+    			<link linkend="persistence.seam-managed-persistence-contexts">Seam-managed persistence contexts</link>
+    			)
+    		</para>
+    		<programlisting><![CDATA[<transaction:hibernate-transaction session="#{hiberanteSession}"/>]]></programlisting>
+    		<para>
+    			For configuring Spring managed transactions see
+    			<link linkend="spring-transactions">using Spring PlatformTransactionManagement</link>
+    			.
+    		</para>
+    	</section>
+    	<section>
+    		<title>Transaction synchronization</title>
+
+    		<para>
+    			Transaction synchronization is the ability to provide callbacks for various transaction related events
+    			such as
+    			<literal>beforeCompletion()</literal>
+    			and
+    			<literal>afterCompletion()</literal>
+    			. By default Seam uses it's own transaction synchronization component which requires explicit use of the
+    			Seam transaction component when committing a transaction to ensure synchronization callbacks are
+    			correctly executed. If in a Java EE 5 environment the
+    			<literal>&lt;transaction:ejb-transaction/&gt;</literal>
+    			component should be be declared in the components.xml to ensure that Seam synchronization callbacks are
+    			correctly called if the container commits a transaction outside of Seam's knowledge.
+    		</para>
+    	</section>
     </section>
-    
-    <section>
+
+    <section id="persistence.seam-managed-persistence-contexts">
         <title>Seam-managed persistence contexts</title>
 
         <para>

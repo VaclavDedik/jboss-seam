@@ -208,7 +208,7 @@ private BookingService bookingService;]]></programlisting>
 </bean>]]></programlisting>
 
     </section>
-    <section>
+    <section id="spring-transactions">
         <title>Using Spring PlatformTransactionManagement</title>
 
         <para>Spring provides an extensible transaction management abstraction with support for many
@@ -224,6 +224,11 @@ private BookingService bookingService;]]></programlisting>
         <programlisting>
 			<![CDATA[<spring:spring-transaction platform-transaction-manager="#{transactionManager}"/>]]>
 		</programlisting>
+		
+		<para>
+			The <literal>spring:spring-transaction</literal> component will utilize Springs transaction synchronization
+			capabilities for synchronization callbacks.
+		</para>
     </section>
     <section id="spring-persistence">
         <title>Using a Seam Managed Persistence Context in Spring</title>
