@@ -66,8 +66,13 @@ public class SeamLifecycleUtils
       @Override
       public void afterCompletion(int status)
       {
-         log.debug("Ending Transactional Seam Call");
-         Lifecycle.endCall();
+         //Close the seam call we started if it is still active.
+         if(ScopeType.APPLICATION.isContextActive()) {
+            log.debug("Ending Transactional Seam Call");
+            Lifecycle.endCall();
+         } else {
+            log.warn("Spring started a transactional Seam call but somebody else closed before it before the transaction committed.");
+         }
       }
    }
 }
