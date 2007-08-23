@@ -617,7 +617,9 @@ Seam.Remoting.sendAjaxRequest = function(envelope, path, callback, silent)
   else
     asyncReq = new ActiveXObject("Microsoft.XMLHTTP");
 
-  asyncReq.onreadystatechange = function() {Seam.Remoting.requestCallback(asyncReq, callback); }
+  asyncReq.onreadystatechange = function() {
+    if (Seam) Seam.Remoting.requestCallback(asyncReq, callback);     
+  }
 
   if (Seam.Remoting.encodedSessionId)
   {
