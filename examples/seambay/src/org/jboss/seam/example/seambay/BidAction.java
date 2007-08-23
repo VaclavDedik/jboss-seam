@@ -81,6 +81,11 @@ public class BidAction
       
       // This is where the tricky bidding logic happens
       
+      if (!entityManager.contains(bid.getAuction()))
+      {
+         bid.setAuction(entityManager.find(Auction.class, bid.getAuction().getAuctionId()));
+      }
+      
       entityManager.lock(bid.getAuction(), LockModeType.WRITE);
       entityManager.refresh(bid.getAuction());
       

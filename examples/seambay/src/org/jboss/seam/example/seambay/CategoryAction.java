@@ -50,6 +50,11 @@ public class CategoryAction
       return allCategories;
    }
    
+   /**
+    * On the "Buy" screen the list of categories are split into two columns,
+    * the left column and the right column.  This procedure loads the categories
+    * and separates them into two lists to populate these columns.
+    */
    private void loadLeftAndRight()
    {
       if (categories == null) loadCategories();
