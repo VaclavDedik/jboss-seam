@@ -34,6 +34,7 @@ import org.jboss.seam.web.AbstractFilter;
  * @see AbstractFilter
  * 
  * @author Shane Bryzak
+ * @author Pete Muir
  *
  */
 public class SeamFilter implements Filter
