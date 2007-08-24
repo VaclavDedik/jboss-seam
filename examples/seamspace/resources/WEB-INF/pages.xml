@@ -16,7 +16,7 @@
         </navigation>
     </page>
        
-    <page view-id="/comment.xhtml" login-required="true">    
+    <page view-id="/comment.xhtml" login-required="true">
       <restrict/>
       
       <param name="name" value="#{selectedMember.memberName}"/>
@@ -57,8 +57,7 @@
     </page>   
     
     <page view-id="/blogentry.xhtml">
-      <param name="name" value="#{selectedMember.memberName}"/>
-      <param name="blogId" value="#{latestBlog.blogId}"/>
+
     </page>
     
     <page view-id="/admin.xhtml">
