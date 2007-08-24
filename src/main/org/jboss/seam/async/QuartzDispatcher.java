@@ -13,6 +13,7 @@ import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.log.LogProvider;
@@ -36,6 +37,7 @@ import org.quartz.NthIncludedDayTrigger;
  * @author Michael Yuan
  *
  */
+@Startup
 @Scope(ScopeType.APPLICATION)
 @Name("org.jboss.seam.async.dispatcher")
 @Install(value=false, precedence=BUILT_IN)
