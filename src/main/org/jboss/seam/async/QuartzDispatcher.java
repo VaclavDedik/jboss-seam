@@ -4,6 +4,7 @@ import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.rmi.server.UID;
 import java.util.Date;
+import java.io.InputStream;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
@@ -25,6 +26,7 @@ import org.quartz.JobExecutionException;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SchedulerFactory;
+import org.quartz.impl.StdSchedulerFactory;
 import org.quartz.SimpleTrigger;
 import org.quartz.NthIncludedDayTrigger;
 
@@ -48,9 +50,21 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzTriggerHandle, Sc
    @Create
    public void initScheduler() 
    {
-     SchedulerFactory schedulerFactory = new org.quartz.impl.StdSchedulerFactory();
+     StdSchedulerFactory schedulerFactory = new StdSchedulerFactory();
+
      try 
      {
+       InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("/seam.quartz.properties");
+       if (is != null) {
+         schedulerFactory.initialize(is);
+         log.info("Found seam.quartz.properties file. Use it for Quartz config.");
+       // } else if () {
+       //  log.info("Delpoy in JBoss AS, use HSQL for default job store");
+       } else {
+         schedulerFactory.initialize();
+         log.info("No seam.quartz.properties file. Use in-memory job store.");
+       }
+
        scheduler = schedulerFactory.getScheduler();
        scheduler.start();
        log.info("The QuartzDispatcher has started");
