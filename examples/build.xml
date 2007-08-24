@@ -375,6 +375,9 @@
 		<fileset dir="${seam.dir}">
 			<include name="jboss-seam.jar" />
 		</fileset>
+		<fileset dir="${drools.lib.dir}">
+		  <include name="*.jar"/>
+		</fileset>
 		<path refid="build.classpath.extras" />
 	</path>
 	
