@@ -17,23 +17,14 @@ import org.jboss.seam.wiki.core.model.Node;
 import org.jboss.seam.wiki.util.WikiUtil;
 import org.jboss.seam.wiki.preferences.PreferenceProvider;
 import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Out;
-import org.jboss.seam.annotations.Logger;
-import org.jboss.seam.annotations.web.RequestParameter;
+import org.jboss.seam.annotations.RaiseEvent;
 import org.jboss.seam.annotations.security.Restrict;
-import org.jboss.seam.core.Events;
-import org.jboss.seam.ScopeType;
 import org.jboss.seam.Component;
-import org.jboss.seam.log.Log;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.security.AuthorizationException;
 import org.jboss.seam.security.Identity;
-import org.richfaces.component.html.HtmlTree;
-import org.richfaces.component.TreeRowKey;
-import org.richfaces.component.events.NodeSelectedEvent;
 
 import java.util.Date;
-import java.util.Iterator;
 
 /**
  * Superclass for all creating and editing documents, directories, files, etc.
@@ -42,54 +33,77 @@ import java.util.Iterator;
  */
 public abstract class NodeHome<N extends Node> extends EntityHome<N> {
 
-    @Logger static Log log;
-
     /* -------------------------- Context Wiring ------------------------------ */
 
-    @In private NodeDAO nodeDAO;
-    @In private UserDAO userDAO;
-    @In private User currentUser;
+    @In
+    private NodeDAO nodeDAO;
+    @In
+    private UserDAO userDAO;
+    @In
+    private User currentUser;
     protected NodeDAO getNodeDAO() { return nodeDAO; }
     protected UserDAO getUserDAO() { return userDAO; }
     protected User getCurrentUser() { return currentUser; }
 
-    @Override
-    @Out(value = "currentNode", scope = ScopeType.CONVERSATION)
-    public N getInstance() {
-        return super.getInstance();
-    }
-
     /* -------------------------- Request Wiring ------------------------------ */
 
-    // Required 'Edit' request parameter
-    @RequestParameter
-    private Long nodeId;
-
-    // Required 'Edit' and 'Create' request parameter
-    @RequestParameter
-    private Long parentDirId;
-
-    /* -------------------------- Internal State ------------------------------ */
+    private Long parentDirectoryId;
+    public Long getParentDirectoryId() {
+        return parentDirectoryId;
+    }
+    public void setParentDirectoryId(Long parentDirectoryId) {
+        this.parentDirectoryId = parentDirectoryId;
+    }
 
     private Directory parentDirectory;
-    public Directory getParentDirectory() { return parentDirectory; }
-    public void setParentDirectory(Directory parentDirectory) { this.parentDirectory = parentDirectory; }
+    public Directory getParentDirectory() {
+        return parentDirectory;
+    }
+    public void setParentDirectory(Directory parentDirectory) {
+        this.parentDirectory = parentDirectory;
+    }
+
+    public void setNodeId(Long o) {
+        super.setId(o);
+    }
+
+    public Long getNodeId() {
+        return (Long)super.getId();
+    }
+
+    public String init() {
+
+        getLog().debug("initializing node home");
+
+        // Load the parent instance
+        if (!isIdDefined() && parentDirectoryId == null) {
+            return "missingParameters";
+        }
+
+        if (!isIdDefined()) {
+            getLog().debug("no instance identifier, getting parent directory with id: " + parentDirectoryId);
+            parentDirectory = nodeDAO.findDirectory(parentDirectoryId);
+        } else {
+            getLog().debug("using parent of instance: " + getInstance());
+            parentDirectory = getInstance().getParent();
+            if (parentDirectory != null) // Wiki Root doesn't have a parent
+                parentDirectoryId = parentDirectory.getId();
+        }
+
+        getLog().debug("initalized with parent directory: " + parentDirectory);
+
+        // Outject current node (required for polymorphic UI, e.g. access level dropdown boxes)
+        Contexts.getPageContext().set("currentNode", getInstance());
+
+        return null;
+    }
 
     /* -------------------------- Basic Overrides ------------------------------ */
+
 
     @Override
     protected String getPersistenceContextName() {
         return "restrictedEntityManager";
-    }
-
-    // 'Edit' or 'Create'
-    @Override
-    public Object getId() {
-        if (nodeId == null) {
-            return super.getId();
-        } else {
-            return nodeId;
-        }
     }
 
     // Access level filtered DAO for retrieval by identifier
@@ -104,46 +118,28 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
     @Override
     protected N createInstance() {
         N node = super.createInstance();
-
+        if (parentDirectory == null) {
+            throw new IllegalStateException("Call the init() method before you use NodeHome");
+        }
         // Set default permissions for new nodes - default to same access as parent directory
-        node.setWriteAccessLevel(getParentDirectory().getWriteAccessLevel());
-        node.setReadAccessLevel(getParentDirectory().getReadAccessLevel());
+        node.setWriteAccessLevel(parentDirectory.getWriteAccessLevel());
+        node.setReadAccessLevel(parentDirectory.getReadAccessLevel());
 
         return node;
-    }
-
-    @Override
-    public void create() {
-        super.create();
-
-        // Load the parent directory (needs to be called first)
-        // The parentDirectory (and parentDirId) parameter can actually be null but this only happens
-        // when the wiki root is edited... it can only be update()ed anyway, all the other code is null-safe.
-        log.trace("loading parent directory: " + parentDirId);
-        parentDirectory = nodeDAO.findDirectory(parentDirId);
-
-        if (parentDirectory == null)
-                log.warn("######### THIS SHOULD NEVER BE NULL UNLESS WE EDIT THE WIKI ROOT");
-
-        // Permission checks
-        if (!isManaged() && !Identity.instance().hasPermission("Node", "create", getParentDirectory()) ) {
-            throw new AuthorizationException("You don't have permission for this operation");
-        } else if ( isManaged() && !Identity.instance().hasPermission("Node", "edit", getInstance()) ) {
-            throw new AuthorizationException("You don't have permission for this operation");
-        }
-
-        // Outject current node
-        Contexts.getConversationContext().set("currentNode", getInstance());
     }
 
     /* -------------------------- Custom CUD ------------------------------ */
 
     @Override
+    @RaiseEvent("PreferenceEditor.flushAll")
     public String persist() {
+        checkPersistPermissions();
+
         if (!preparePersist()) return null;
 
-        // Permission checks
-        checkNodeAccessLevelChangePermission();
+        // Link the node with its parent directory
+        getLog().trace("linking new node with its parent directory");
+        parentDirectory.addChild(getInstance());
 
         // Last modified metadata
         setLastModifiedMetadata();
@@ -151,39 +147,28 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
         // Wiki name conversion
         setWikiName();
 
-        // Link the node with its parent directory
-        log.trace("linking new node with its parent directory");
-        getParentDirectory().addChild(getInstance());
-
         // Set created by user
-        log.trace("setting created by user: " + getCurrentUser());
+        getLog().trace("setting created by user: " + getCurrentUser());
         getInstance().setCreatedBy(getCurrentUser());
 
         // Set its area number (if subclass didn't already set it)
         if (getInstance().getAreaNumber() == null)
-            getInstance().setAreaNumber(parentDirectory.getAreaNumber());
+            getInstance().setAreaNumber(getInstance().getParent().getAreaNumber());
 
         // Validate
         if (!isValidModel()) return null;
 
         if (!beforePersist()) return null;
-        log.trace("persisting new node");
-        String outcome = super.persist();
 
-        // Notify any plugin preferences editors to also flush
-        log.trace("notifying preference editors to also flush");
-        Events.instance().raiseEvent("PreferenceEditor.flushAll");
-
-        log.trace("completed persistsing of new node");
-        return outcome;
+        return super.persist();
     }
 
     @Override
+    @RaiseEvent({"PreferenceEditor.flushAll", "Nodes.menuStructureModified"})
     public String update() {
-        if (!prepareUpdate()) return null;
+        checkUpdatePermissions();
 
-        // Permission checks
-        checkNodeAccessLevelChangePermission();
+        if (!prepareUpdate()) return null;
 
         // Last modified metadata
         setLastModifiedMetadata();
@@ -195,22 +180,19 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
         if (!isValidModel()) return null;
 
         if (!beforeUpdate()) return null;
-        String outcome = super.update();
 
-        // Notify any plugin preferences editors to also flush
-        Events.instance().raiseEvent("PreferenceEditor.flushAll");
-
-        Events.instance().raiseEvent("Nodes.menuStructureModified");
-
-        return outcome;
+        return super.update();
     }
 
     @Override
+    @RaiseEvent("Nodes.menuStructureModified")
     public String remove() {
+        checkRemovePermissions();
+
         if (!prepareRemove()) return null;
 
         // Unlink the node from its directory
-        getParentDirectory().removeChild(getInstance());
+        getInstance().getParent().removeChild(getInstance());
 
         if (!beforeRemove()) return null;
 
@@ -218,15 +200,11 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
         PreferenceProvider provider = (PreferenceProvider) Component.getInstance("preferenceProvider");
         provider.deleteInstancePreferences(getInstance());
 
-        String outcome = super.remove();
-
-        Events.instance().raiseEvent("Nodes.menuStructureModified");
-
-        return outcome;
+        return super.remove();
     }
 
     protected boolean isValidModel() {
-        log.trace("validating model");
+        getLog().trace("validating model");
         if (getParentDirectory() == null) return true; // Special case, editing the wiki root
 
         // Unique wiki name
@@ -247,29 +225,36 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
     /* -------------------------- Internal Methods ------------------------------ */
 
     protected void setWikiName() {
-        log.trace("setting wiki name of new node");
+        getLog().trace("setting wiki name of node");
         getInstance().setWikiname(WikiUtil.convertToWikiName(getInstance().getName()));
     }
 
     protected void setLastModifiedMetadata() {
-        log.trace("setting last modified metadata");
+        getLog().trace("setting last modified metadata");
         getInstance().setLastModifiedBy(currentUser);
         getInstance().setLastModifiedOn(new Date());
     }
 
-    protected void checkNodeAccessLevelChangePermission() {
-        /*
-        log.trace("checking access level change permission");
+    protected void checkPersistPermissions() {
+        getLog().trace("checking persist permissions");
+        if (!Identity.instance().hasPermission("Node", "create", getParentDirectory()) )
+            throw new AuthorizationException("You don't have permission for this operation");
         if (!Identity.instance().hasPermission("Node", "changeAccessLevel", getInstance()))
             throw new AuthorizationException("You don't have permission for this operation");
-            */
     }
 
-    protected void removeAsDefaultDocument(Directory directory) {
-        log.trace("removing node as the default document from directory: " + directory);
-        if (directory.getDefaultDocument() != null &&
-            directory.getDefaultDocument().getId().equals(getInstance().getId())
-           ) directory.setDefaultDocument(null);
+    protected void checkUpdatePermissions() {
+        getLog().trace("checking update permissions");
+        if (!Identity.instance().hasPermission("Node", "edit", getInstance()) )
+            throw new AuthorizationException("You don't have permission for this operation");
+        if (!Identity.instance().hasPermission("Node", "changeAccessLevel", getInstance()))
+            throw new AuthorizationException("You don't have permission for this operation");
+    }
+
+    protected void checkRemovePermissions() {
+        getLog().trace("checking remove permissions");
+        if (!Identity.instance().hasPermission("Node", "edit", getInstance()) )
+            throw new AuthorizationException("You don't have permission for this operation");
     }
 
     /* -------------------------- Subclass Callbacks ------------------------------ */
@@ -319,6 +304,7 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
 
     /* -------------------------- Public Features ------------------------------ */
 
+    /* Moving of nodes in the tree is not supported right now
     public void parentDirectorySelected(NodeSelectedEvent nodeSelectedEvent) {
         // TODO: There is really no API in RichFaces to get the selection! Already shouted at devs...
         TreeRowKey rowkey = (TreeRowKey)((HtmlTree)nodeSelectedEvent.getSource()).getRowKey();
@@ -341,6 +327,7 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
             afterNodeMoved(oldParentDirectory, parentDirectory);
         }
     }
+    */
 
     @Restrict("#{s:hasPermission('User', 'isAdmin', currentUser)}")
     public void selectOwner(Long creatorId) {

@@ -16,9 +16,7 @@
 
 <ui:define name="controlTwo">
 
-    <s:link id="exit" styleClass="linkNavigation"
-            action="#{browser.exitConversation(true)}"
-            accesskey="E"><u>E</u>xit</s:link>
+    <s:link id="close" styleClass="linkNavigation" view="/wiki.xhtml" propagation="end" accesskey="E">Clos<u>e</u></s:link>
 
 </ui:define>
 
@@ -34,15 +32,20 @@
     <div class="form">
 
     <script type="text/javascript">jQuery(function() {
-        jQuery('#formTabs').tabs({onClick: function(){formTabClicked()} });
+        jQuery('#formTabs').tabs(2, {onClick: function(){formTabClicked()} });
     });</script>
     <div id="formTabs">
 
         <ul>
+            <li class="formTabsTitle">
+                <h:outputText value="Edit user"/>
+            </li>
             <li id="userAccountTab"><a href="#userAccount" accesskey="N">Accou<u>n</u>t</a></li>
             <li id="userProfileTab"><a href="#userProfile" accesskey="F">Pro<u>f</u>ile</a></li>
             <li id="userPrefsTab"><a href="#userPreferences" accesskey="R">P<u>r</u>eferences</a></li>
         </ul>
+
+        <div id="formTabsTitle"/>
 
         <div id="userAccount">
 

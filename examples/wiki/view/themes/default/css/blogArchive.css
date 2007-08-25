@@ -1,0 +1,42 @@
+.blogArchive {
+    background-color: #fff;
+}
+
+.blogArchiveHeader {
+    text-align: right;
+    font-size: 100%;
+    padding-left: 10px;
+    padding-right: 15px;
+    padding-top: 5px;
+    padding-bottom: 15px;
+    background: white url(#{themePath}/img/th.bg.inverse.gif) 0 0 repeat-x;
+}
+
+.blogArchiveHeaderText {
+    font-size: 120%;
+    font-family: "Lucida Sans", Arial, sans-serif;
+}
+
+.blogArchiveSelector {
+    text-align: center;
+}
+.blogArchiveCombo {
+    border: 0;
+    margin: 10px;
+    color: #000;
+    font-size: 91%;
+    font-weight: normal;
+    font-family: "Lucida Sans", Arial, Helvetica, sans-serif;
+}
+
+.blogArchiveFooter {
+    background: white url(#{themePath}/img/th.bg.gif) 0 0 repeat-x;
+    padding-top: 5px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-weight: normal;
+    font-size: 100%;
+    color: #962325;
+	text-decoration: none;
+}

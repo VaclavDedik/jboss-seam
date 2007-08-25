@@ -32,141 +32,105 @@
   <component name="ChangeListManager">
     <list default="true" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/blogdirectory/BlogDirectory.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/blogdirectory/BlogDirectory.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/AbstractNestedSetNode.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/dirMenu/DirMenu.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/Authenticator.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/Authenticator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/FeedEntry.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/FeedEntry.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/Document.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/Document.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.xml" afterPath="$PROJECT_DIR$/build.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/includes/previewPopup.xhtml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/includes/userControl.xhtml" afterPath="$PROJECT_DIR$/view/includes/userControl.xhtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/plugins/recentEntries/plugin.xhtml" afterPath="$PROJECT_DIR$/view/plugins/recentEntries/plugin.xhtml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/NestedSetNodeDuplicator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/etc/META-INF/persistence-prod-war.xml" afterPath="$PROJECT_DIR$/src/etc/META-INF/persistence-prod-war.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/nestedset/NestedSetTests.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/view/themes/default/css/dirList.css" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/nestedset/NestedSetTests.java" afterPath="$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/nestedset/NestedSetTests.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/etc/META-INF/persistence-dev-war.xml" afterPath="$PROJECT_DIR$/src/etc/META-INF/persistence-dev-war.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/dirDisplay.xhtml" afterPath="$PROJECT_DIR$/view/dirDisplay.xhtml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/FileHome.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/FileHome.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/userRegister.xhtml" afterPath="$PROJECT_DIR$/view/userRegister.xhtml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/plugins/feedTeasers/plugin.xhtml" afterPath="$PROJECT_DIR$/view/plugins/feedTeasers/plugin.xhtml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/userList.xhtml" afterPath="$PROJECT_DIR$/view/userList.xhtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/adminHome.xhtml" afterPath="$PROJECT_DIR$/view/adminHome.xhtml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/docDisplay.xhtml" afterPath="$PROJECT_DIR$/view/docDisplay.xhtml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/adminHome.xhtml" afterPath="$PROJECT_DIR$/view/adminHome.xhtml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/util/DBUnitSeamTest.java" afterPath="$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/util/DBUnitSeamTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wiki.iws" afterPath="$PROJECT_DIR$/Wiki.iws" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/etc/META-INF/wiki.taglib.xml" afterPath="$PROJECT_DIR$/src/etc/META-INF/wiki.taglib.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/Node.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/Node.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/dao/NodeDAO.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/dao/NodeDAO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/etc/META-INF/wiki.taglib.xml" afterPath="$PROJECT_DIR$/src/etc/META-INF/wiki.taglib.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wiki.iws" afterPath="$PROJECT_DIR$/Wiki.iws" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/preferences/PreferenceProperty.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/preferences/PreferenceProperty.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/ui/WikiUrlRewriteFilter.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/ui/WikiUrlRewriteFilter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/dao/NodeDAO.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/dao/NodeDAO.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/includes/attachmentDisplay.xhtml" afterPath="$PROJECT_DIR$/view/includes/attachmentDisplay.xhtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/preferences/WikiPreferenceValue.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/preferences/WikiPreferenceValue.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/CommentHome.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/CommentHome.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/plugins/dirMenu/plugin.xhtml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/NodeHome.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/NodeHome.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/etc/WEB-INF/pages.xml" afterPath="$PROJECT_DIR$/src/etc/WEB-INF/pages.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/WikiInit.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/WikiInit.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/plugins/userProfile/plugin.xhtml" afterPath="$PROJECT_DIR$/view/plugins/userProfile/plugin.xhtml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/UserHome.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/UserHome.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/Comment.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/Comment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/prefs/UserManagementPreferences.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/prefs/UserManagementPreferences.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/includes/popupDialog.xhtml" afterPath="$PROJECT_DIR$/view/includes/popupDialog.xhtml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/includes/wikiTextEditor.xhtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/lastmodified/LastModifiedDocumentsPreferences.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/lastmodified/LastModifiedDocumentsPreferences.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/plugins/blogDirectory/plugin.xhtml" afterPath="$PROJECT_DIR$/view/plugins/blogDirectory/plugin.xhtml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/fileEdit.xhtml" afterPath="$PROJECT_DIR$/view/fileEdit.xhtml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/view/plugins/blogDirectory/entryPages.xhtml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/NodeHistory.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/NodeHistory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/ui/WikiFormattedTextHandler.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/ui/WikiFormattedTextHandler.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/WikiRequestResolver.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/themes/default/template.xhtml" afterPath="$PROJECT_DIR$/view/themes/default/template.xhtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/Role.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/Role.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/search/metamodel/SearchSupport.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/search/metamodel/SearchSupport.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/dirMenu/DirMenuPreferences.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/themes/default/css/mainMenu.css" afterPath="$PROJECT_DIR$/view/themes/default/css/mainMenu.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/engine/WikiTextParser.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/engine/WikiTextParser.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/browse/TestAreaAndDocument.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/browse/DisplayNodes.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/includes/mainMenuItem.xhtml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/ui/WikiFormattedTextHandler.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/ui/WikiFormattedTextHandler.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/NodeHistory.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/NodeHistory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/NestedSetNodeWrapper.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/NestedSetNodeWrapper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/nestedset/Item.java" afterPath="$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/nestedset/Item.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/ui/UIWikiFormattedText.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/ui/UIWikiFormattedText.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/lucene-core-2.1.0.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/NodeBrowser.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/includes/breadcrumb.xhtml" afterPath="$PROJECT_DIR$/view/includes/breadcrumb.xhtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/search/metamodel/SearchRegistry.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/search/metamodel/SearchRegistry.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/editing/NestedNodes.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/browse/DisplayNodes.java" afterPath="$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/browse/DisplayNodes.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/dirMenu/DirMenu.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/dirMenu/DirMenu.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/etc/import-prod.sql" afterPath="$PROJECT_DIR$/src/etc/import-prod.sql" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/UserProfile.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/WikiIdentity.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/WikiIdentity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/File.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/File.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/package.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/WikiIdentity.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/WikiIdentity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/docEdit.xhtml" afterPath="$PROJECT_DIR$/view/docEdit.xhtml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/themes/default/css/blogArchive.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/WikiBaseData.xml" afterPath="$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/WikiBaseData.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/editing/BasicNodeOperations.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/includes/pluginPreferencesForm.xhtml" afterPath="$PROJECT_DIR$/view/includes/pluginPreferencesForm.xhtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/DocumentHome.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/DocumentHome.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/docHistory.xhtml" afterPath="$PROJECT_DIR$/view/docHistory.xhtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/HistoricalNode.hbm.xml" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/HistoricalNode.hbm.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/DocumentHome.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/DocumentHome.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/etc/WEB-INF/urlrewrite.xml" afterPath="$PROJECT_DIR$/src/etc/WEB-INF/urlrewrite.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/NodePermissions.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/NodePermissions.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/NestedSetPostDeleteEventListener.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/log4j.xml" afterPath="$PROJECT_DIR$/src/test/log4j.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/themes/default/css/breadcrumb.css" afterPath="$PROJECT_DIR$/view/themes/default/css/breadcrumb.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.properties" afterPath="$PROJECT_DIR$/build.properties" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/DeleteNestedSetOperation.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/NestedSetResultTransformer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/util/Diff.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/util/Diff.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/view/plugins/dirList/plugin.xhtml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/prefs/WikiPreferences.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/prefs/WikiPreferences.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wiki.iml" afterPath="$PROJECT_DIR$/Wiki.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/search/WikiSearch.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/search/WikiSearch.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/editing/OptionalNodeOperations.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/themes/default/css/blogDirectory.css" afterPath="$PROJECT_DIR$/view/themes/default/css/blogDirectory.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/plugins/blogArchive/plugin.xhtml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/blogdirectory/BlogDAO.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/AllTests.tng.xml" afterPath="$PROJECT_DIR$/src/test/AllTests.tng.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/includes/mainMenu.xhtml" afterPath="$PROJECT_DIR$/view/includes/mainMenu.xhtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/ImageMetaInfo.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/ImageMetaInfo.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/plugins/dirMenu/dirMenuItem.xhtml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/NestedSetNodeWrapper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/AbstractNestedSetNode.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/AbstractNestedSetNode.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/NestedSetNode.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/NestedSetNode.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/ui/FileServlet.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/ui/FileServlet.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/PluginPreferenceEditor.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/PluginPreferenceEditor.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/NestedSetOperation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/themes/default/js/jquery.js" afterPath="$PROJECT_DIR$/view/themes/default/js/jquery.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/etc/wiki-test-ds.xml" afterPath="$PROJECT_DIR$/src/etc/wiki-test-ds.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/nestedset/Item.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/NestedSetPostInsertEventListener.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/NestedSetPostInsertEventListener.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/DirectoryHome.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/DirectoryHome.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/search.xhtml" afterPath="$PROJECT_DIR$/view/search.xhtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/ui/FeedServlet.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/ui/FeedServlet.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/includes/wikiTextEditor.xhtml" afterPath="$PROJECT_DIR$/view/includes/wikiTextEditor.xhtml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/plugins/dirMenu/plugin.xhtml" afterPath="$PROJECT_DIR$/view/plugins/dirMenu/plugin.xhtml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/dao/FeedDAO.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/dao/FeedDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/feedTeasers/FeedTeasers.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/feedTeasers/FeedTeasers.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/dirEdit.xhtml" afterPath="$PROJECT_DIR$/view/dirEdit.xhtml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/themes/default/css/userProfile.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/NodeBrowser.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/NodeBrowser.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/feedTeasers/FeedTeasers.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/feedTeasers/FeedTeasers.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/userHome.xhtml" afterPath="$PROJECT_DIR$/view/userHome.xhtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/captcha/WikiCaptcha.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/captcha/WikiCaptcha.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/view/plugins/recentEntries/plugin.xhtml" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/message.xhtml" afterPath="$PROJECT_DIR$/view/message.xhtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/preferences/PreferenceRegistry.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/preferences/PreferenceRegistry.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/Feed.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/Feed.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/nestedset/ItemData.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/User.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/User.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/browse/TestAreaAndDocument.xml" afterPath="$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/browse/TestAreaAndDocument.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/dao/UserDAO.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/dao/UserDAO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/editing/NestedNodes.xml" afterPath="$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/editing/NestedNodes.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/util/WikiUtil.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/util/WikiUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/LinkProtocol.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/LinkProtocol.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/includes/deleteConfirmation.xhtml" afterPath="$PROJECT_DIR$/view/includes/deleteConfirmation.xhtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/engine/WikiLinkResolver.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/engine/WikiLinkResolver.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/Directory.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/Directory.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/NestedSetPostInsertEventListener.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/InsertNestedSetOperation.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/includes/commentsDisplay.xhtml" afterPath="$PROJECT_DIR$/view/includes/commentsDisplay.xhtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/etc/WEB-INF/web.xml" afterPath="$PROJECT_DIR$/src/etc/WEB-INF/web.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/dbunit-2.2.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/blogdirectory/BlogEntryCount.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/editing/BasicNodeOperations.java" afterPath="$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/editing/BasicNodeOperations.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Wiki.ipr" afterPath="$PROJECT_DIR$/Wiki.ipr" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/includes/searchControl.xhtml" afterPath="$PROJECT_DIR$/view/includes/searchControl.xhtml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/DatabaseObjects.hbm.xml" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/DatabaseObjects.hbm.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/commons-logging.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/themes/default/css/template.css" afterPath="$PROJECT_DIR$/view/themes/default/css/template.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/etc/import-dev.sql" afterPath="$PROJECT_DIR$/src/etc/import-dev.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/feedTeasers/FeedTeasersPreferences.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/feedTeasers/FeedTeasersPreferences.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/preferences/PreferenceSupport.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/preferences/PreferenceSupport.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/view/index.html" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/dao/WikiNodeFactory.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/dao/WikiNodeFactory.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/plugins/userProfile/plugin.xhtml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/NestedSetNode.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/themes/default/css/dirMenu.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/themes/default/js/jqDimensions.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/themes/default/css/blogRecentEntries.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/Menu.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/Menu.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/log4j.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/UserImage.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/search/IndexManager.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/search/IndexManager.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/Breadcrumb.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/themes/default/img/icon.atom.ongrey.gif" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/plugins/blogRecentEntries/plugin.xhtml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/ui/Converters.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/ui/Converters.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/lastmodified/LastModifiedDocuments.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/lastmodified/LastModifiedDocuments.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/includes/preferencesEditor.xhtml" afterPath="$PROJECT_DIR$/view/includes/preferencesEditor.xhtml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/includes/commentForm.xhtml" afterPath="$PROJECT_DIR$/view/includes/commentForm.xhtml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/blogdirectory/BlogEntry.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/blogdirectory/BlogEntry.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/NestedSetPostDeleteEventListener.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/NestedSetPostDeleteEventListener.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.txt" afterPath="$PROJECT_DIR$/README.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/NestedSetResultTransformer.java" afterPath="$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/NestedSetResultTransformer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/etc/META-INF/persistence-test-war.xml" afterPath="$PROJECT_DIR$/src/etc/META-INF/persistence-test-war.xml" />
     </list>
   </component>
@@ -256,8 +220,16 @@
   </component>
   <component name="ErrorOptionsConfigurable.UI">
     <option name="proportions">
-      <SplitterProportionsDataImpl />
+      <SplitterProportionsDataImpl>
+        <option name="proportions">
+          <collection>
+            <option value="0.11111111" />
+            <option value="0.60142857" />
+          </collection>
+        </option>
+      </SplitterProportionsDataImpl>
     </option>
+    <option name="lastEditedConfigurable" value="Default" />
   </component>
   <component name="ErrorTreeViewConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
@@ -428,70 +400,6 @@
           <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/view/themes" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/view/themes/inrelationto" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-      </PATH>
-      <PATH>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="Wiki" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="Wiki" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/view" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/view/themes" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/view/themes/inrelationto" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/view/themes/inrelationto/js" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-      </PATH>
-      <PATH>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="Wiki" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="Wiki" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/view" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/view/themes" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/view/themes/inrelationto" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/view/themes/inrelationto/css" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
       </PATH>
       <PATH>
         <PATH_ELEMENT>
@@ -652,10 +560,6 @@
           <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/view/plugins" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/view/plugins/recentEntries" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
       </PATH>
       <PATH>
         <PATH_ELEMENT>
@@ -808,6 +712,10 @@
           <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/view/plugins" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/view/plugins/blogRecentEntries" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
       </PATH>
       <PATH>
         <PATH_ELEMENT>
@@ -832,6 +740,32 @@
         </PATH_ELEMENT>
         <PATH_ELEMENT>
           <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/view/plugins/blogDirectory" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/view" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/view/plugins" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/view/plugins/blogArchive" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -897,6 +831,152 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/test" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/test" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/nestedset" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/test" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/misc" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/test" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/editing" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/test" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/browse" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
           <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/main" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
@@ -924,6 +1004,36 @@
         </PATH_ELEMENT>
         <PATH_ELEMENT>
           <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/main/org/jboss/seam/wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/main" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/main/org/jboss/seam/wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/main/org/jboss/seam/wiki/util" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -983,7 +1093,245 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/blogdirectory" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/main" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/main/org/jboss/seam/wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
           <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/main" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/main/org/jboss/seam/wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/ui" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/main" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/main/org/jboss/seam/wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/search" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/main" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/main/org/jboss/seam/wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/main" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/main/org/jboss/seam/wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/main" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/main/org/jboss/seam/wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/engine" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/main" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/main/org/jboss/seam/wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/dao" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -1076,6 +1424,10 @@
           <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/etc" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
       </PATH>
       <PATH>
         <PATH_ELEMENT>
@@ -1091,7 +1443,41 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/lib" />
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/etc" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/etc/WEB-INF" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Wiki" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/etc" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/etc/META-INF" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -1121,9 +1507,9 @@
       <showLibraryContents />
       <hideEmptyPackages ProjectPane="true" />
       <abbreviatePackageNames />
-      <showStructure Favorites="false" Scope="false" PackagesPane="false" ProjectPane="false" />
+      <showStructure ProjectPane="false" Scope="false" PackagesPane="false" Favorites="false" />
       <autoscrollToSource />
-      <autoscrollFromSource />
+      <autoscrollFromSource ProjectPane="false" />
       <sortByType />
     </navigator>
   </component>
@@ -1219,7 +1605,7 @@
     </key>
   </component>
   <component name="RestoreUpdateTree">
-    <UpdateInfo date="8/17/07 9:00 AM" ActionInfo="_Update">
+    <UpdateInfo date="8/24/07 8:31 PM" ActionInfo="Chec_k Status">
       <UpdatedFiles>
         <FILE-GROUP>
           <option name="myUpdateName" value="Updated from server" />
@@ -1233,7 +1619,6 @@
             <option name="mySupportsDeletion" value="false" />
             <option name="myCanBeAbsent" value="false" />
             <option name="myId" value="UPDATED" />
-            <PATH>$PROJECT_DIR$/view/index.html</PATH>
           </FILE-GROUP>
           <FILE-GROUP>
             <option name="myUpdateName" value="Created" />
@@ -1263,105 +1648,92 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="MODIFIED" />
+          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/dao/UserDAO.java</PATH>
+          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/AbstractNestedSetNode.java</PATH>
+          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/blogdirectory/BlogEntry.java</PATH>
+          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/dirMenu/DirMenu.java</PATH>
           <PATH>$PROJECT_DIR$/view/docHistory.xhtml</PATH>
           <PATH>$PROJECT_DIR$/src/etc/META-INF/persistence-dev-war.xml</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/dao/WikiNodeFactory.java</PATH>
-          <PATH>$PROJECT_DIR$/src/etc/wiki-test-ds.xml</PATH>
+          <PATH>$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/nestedset/NestedSetTests.java</PATH>
           <PATH>$PROJECT_DIR$/src/etc/META-INF/wiki.taglib.xml</PATH>
-          <PATH>$PROJECT_DIR$/view/includes/deleteConfirmation.xhtml</PATH>
           <PATH>$PROJECT_DIR$/src/test/AllTests.tng.xml</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/prefs/WikiPreferences.java</PATH>
           <PATH>$PROJECT_DIR$/view/dirDisplay.xhtml</PATH>
+          <PATH>$PROJECT_DIR$/view/themes/default/css/blogDirectory.css</PATH>
           <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/dao/FeedDAO.java</PATH>
-          <PATH>$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/WikiBaseData.xml</PATH>
           <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/DatabaseObjects.hbm.xml</PATH>
+          <PATH>$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/WikiBaseData.xml</PATH>
+          <PATH>$PROJECT_DIR$/view/plugins/dirMenu/plugin.xhtml</PATH>
           <PATH>$PROJECT_DIR$/view/themes/default/template.xhtml</PATH>
           <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/WikiIdentity.java</PATH>
           <PATH>$PROJECT_DIR$/view/includes/commentsDisplay.xhtml</PATH>
           <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/dao/NodeDAO.java</PATH>
+          <PATH>$PROJECT_DIR$/view/includes/preferencesEditor.xhtml</PATH>
           <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/DirectoryHome.java</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/ui/FeedServlet.java</PATH>
           <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/preferences/PreferenceProperty.java</PATH>
+          <PATH>$PROJECT_DIR$/view/includes/wikiTextEditor.xhtml</PATH>
           <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/prefs/UserManagementPreferences.java</PATH>
           <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/ui/WikiFormattedTextHandler.java</PATH>
+          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/FileHome.java</PATH>
           <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/feedTeasers/FeedTeasers.java</PATH>
           <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/PluginPreferenceEditor.java</PATH>
           <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/Directory.java</PATH>
-          <PATH>$PROJECT_DIR$/view/includes/pluginPreferencesForm.xhtml</PATH>
           <PATH>$PROJECT_DIR$/view/message.xhtml</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/ImageMetaInfo.java</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/LinkProtocol.java</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/preferences/PreferenceSupport.java</PATH>
+          <PATH>$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/browse/TestAreaAndDocument.xml</PATH>
           <PATH>$PROJECT_DIR$/view/dirEdit.xhtml</PATH>
           <PATH>$PROJECT_DIR$/view/plugins/feedTeasers/plugin.xhtml</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/preferences/WikiPreferenceValue.java</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/ui/WikiUrlRewriteFilter.java</PATH>
+          <PATH>$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/browse/DisplayNodes.java</PATH>
           <PATH>$PROJECT_DIR$/src/etc/WEB-INF/pages.xml</PATH>
-          <PATH>$PROJECT_DIR$/view/includes/popupDialog.xhtml</PATH>
           <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/ui/Converters.java</PATH>
-          <PATH>$PROJECT_DIR$/view/plugins/recentEntries/plugin.xhtml</PATH>
-          <PATH>$PROJECT_DIR$/view/themes/default/css/mainMenu.css</PATH>
+          <PATH>$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/editing/NestedNodes.xml</PATH>
           <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/Menu.java</PATH>
-          <PATH>$PROJECT_DIR$/src/etc/META-INF/persistence-test-war.xml</PATH>
           <PATH>$PROJECT_DIR$/view/docDisplay.xhtml</PATH>
-          <PATH>$PROJECT_DIR$/Wiki.iml</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/captcha/WikiCaptcha.java</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/WikiInit.java</PATH>
+          <PATH>$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/editing/BasicNodeOperations.java</PATH>
+          <PATH>$PROJECT_DIR$/view/includes/searchControl.xhtml</PATH>
+          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/NestedSetPostDeleteEventListener.java</PATH>
           <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/util/WikiUtil.java</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/Document.java</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/lastmodified/LastModifiedDocuments.java</PATH>
           <PATH>$PROJECT_DIR$/src/etc/import-dev.sql</PATH>
           <PATH>$PROJECT_DIR$/view/includes/commentForm.xhtml</PATH>
           <PATH>$PROJECT_DIR$/build.properties</PATH>
           <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/File.java</PATH>
           <PATH>$PROJECT_DIR$/view/userHome.xhtml</PATH>
           <PATH>$PROJECT_DIR$/view/includes/attachmentDisplay.xhtml</PATH>
-          <PATH>$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/util/DBUnitSeamTest.java</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/Comment.java</PATH>
           <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/UserHome.java</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/HistoricalNode.hbm.xml</PATH>
+          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/NestedSetResultTransformer.java</PATH>
+          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/NestedSetNodeWrapper.java</PATH>
           <PATH>$PROJECT_DIR$/view/userRegister.xhtml</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/lastmodified/LastModifiedDocumentsPreferences.java</PATH>
           <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/NodeHome.java</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/feedTeasers/FeedTeasersPreferences.java</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/User.java</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/Role.java</PATH>
-          <PATH>$PROJECT_DIR$/src/etc/WEB-INF/web.xml</PATH>
+          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/search/WikiSearch.java</PATH>
+          <PATH>$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/nestedset/Item.java</PATH>
           <PATH>$PROJECT_DIR$/build.xml</PATH>
           <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/ui/UIWikiFormattedText.java</PATH>
+          <PATH>$PROJECT_DIR$/view/themes/default/css/breadcrumb.css</PATH>
           <PATH>$PROJECT_DIR$/view/includes/breadcrumb.xhtml</PATH>
           <PATH>$PROJECT_DIR$/view/search.xhtml</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/Authenticator.java</PATH>
           <PATH>$PROJECT_DIR$/view/fileEdit.xhtml</PATH>
           <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/blogdirectory/BlogDirectory.java</PATH>
           <PATH>$PROJECT_DIR$/Wiki.ipr</PATH>
+          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/NestedSetPostInsertEventListener.java</PATH>
           <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/NodeHistory.java</PATH>
-          <PATH>$PROJECT_DIR$/view/docEdit.xhtml</PATH>
           <PATH>$PROJECT_DIR$/src/etc/WEB-INF/urlrewrite.xml</PATH>
+          <PATH>$PROJECT_DIR$/view/docEdit.xhtml</PATH>
           <PATH>$PROJECT_DIR$/view/adminHome.xhtml</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/search/IndexManager.java</PATH>
           <PATH>$PROJECT_DIR$/view/includes/userControl.xhtml</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/engine/WikiTextParser.java</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/search/metamodel/SearchSupport.java</PATH>
           <PATH>$PROJECT_DIR$/view/includes/mainMenu.xhtml</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/preferences/PreferenceRegistry.java</PATH>
-          <PATH>$PROJECT_DIR$/view/themes/default/js/jquery.js</PATH>
+          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/ui/FileServlet.java</PATH>
           <PATH>$PROJECT_DIR$/view/userList.xhtml</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/util/Diff.java</PATH>
           <PATH>$PROJECT_DIR$/Wiki.iws</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/Feed.java</PATH>
+          <PATH>$PROJECT_DIR$/view/plugins/userProfile/plugin.xhtml</PATH>
           <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/Node.java</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/FeedEntry.java</PATH>
+          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/NestedSetNode.java</PATH>
           <PATH>$PROJECT_DIR$/view/themes/default/css/template.css</PATH>
+          <PATH>$PROJECT_DIR$/src/test/log4j.xml</PATH>
           <PATH>$PROJECT_DIR$/view/plugins/blogDirectory/plugin.xhtml</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/NodePermissions.java</PATH>
           <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/NodeBrowser.java</PATH>
           <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/DocumentHome.java</PATH>
           <PATH>$PROJECT_DIR$/src/etc/META-INF/persistence-prod-war.xml</PATH>
           <PATH>$PROJECT_DIR$/src/etc/import-prod.sql</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/engine/WikiLinkResolver.java</PATH>
+          <PATH>$PROJECT_DIR$/README.txt</PATH>
           <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/CommentHome.java</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/search/metamodel/SearchRegistry.java</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Skipped" />
@@ -1391,6 +1763,7 @@
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="UNKNOWN" />
           <PATH>$PROJECT_DIR$/prod-mysql-default-db.sql</PATH>
+          <PATH>$PROJECT_DIR$/test.ddl</PATH>
           <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/util/NewDiff.java</PATH>
           <PATH>$PROJECT_DIR$/view/themes/default/mailtemplates/test.xhtml</PATH>
           <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/TestBean.java</PATH>
@@ -1412,6 +1785,7 @@
           <PATH>$PROJECT_DIR$/moon.jpg</PATH>
           <PATH>$PROJECT_DIR$/inrelationto.psd</PATH>
           <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/Test.java</PATH>
+          <PATH>$PROJECT_DIR$/color.awk</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Locally added" />
@@ -1419,38 +1793,17 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="LOCALLY_ADDED" />
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/AbstractNestedSetNode.java</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/dirMenu/DirMenu.java</PATH>
-          <PATH>$PROJECT_DIR$/view/includes/previewPopup.xhtml</PATH>
-          <PATH>$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/nestedset/NestedSetTests.java</PATH>
-          <PATH>$PROJECT_DIR$/view/plugins/dirMenu/plugin.xhtml</PATH>
-          <PATH>$PROJECT_DIR$/view/includes/wikiTextEditor.xhtml</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/dirMenu/DirMenuPreferences.java</PATH>
-          <PATH>$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/browse/TestAreaAndDocument.xml</PATH>
-          <PATH>$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/browse/DisplayNodes.java</PATH>
-          <PATH>$PROJECT_DIR$/view/includes/mainMenuItem.xhtml</PATH>
-          <PATH>$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/editing/NestedNodes.xml</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/UserProfile.java</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/package.html</PATH>
-          <PATH>$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/editing/BasicNodeOperations.java</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/NestedSetPostDeleteEventListener.java</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/DeleteNestedSetOperation.java</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/NestedSetResultTransformer.java</PATH>
-          <PATH>$PROJECT_DIR$/view/plugins/dirMenu/dirMenuItem.xhtml</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/NestedSetNodeWrapper.java</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/NestedSetOperation.java</PATH>
-          <PATH>$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/nestedset/Item.java</PATH>
-          <PATH>$PROJECT_DIR$/view/themes/default/css/userProfile.css</PATH>
-          <PATH>$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/nestedset/ItemData.xml</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/NestedSetPostInsertEventListener.java</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/InsertNestedSetOperation.java</PATH>
-          <PATH>$PROJECT_DIR$/lib/dbunit-2.2.jar</PATH>
-          <PATH>$PROJECT_DIR$/src/test/commons-logging.properties</PATH>
-          <PATH>$PROJECT_DIR$/view/plugins/userProfile/plugin.xhtml</PATH>
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/NestedSetNode.java</PATH>
-          <PATH>$PROJECT_DIR$/view/themes/default/css/dirMenu.css</PATH>
-          <PATH>$PROJECT_DIR$/view/themes/default/js/jqDimensions.js</PATH>
-          <PATH>$PROJECT_DIR$/src/test/log4j.xml</PATH>
+          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/nestedset/NestedSetNodeDuplicator.java</PATH>
+          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/WikiRequestResolver.java</PATH>
+          <PATH>$PROJECT_DIR$/view/themes/default/css/blogArchive.css</PATH>
+          <PATH>$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/editing/OptionalNodeOperations.java</PATH>
+          <PATH>$PROJECT_DIR$/view/plugins/blogArchive/plugin.xhtml</PATH>
+          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/blogdirectory/BlogDAO.java</PATH>
+          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/blogdirectory/BlogEntryCount.java</PATH>
+          <PATH>$PROJECT_DIR$/view/themes/default/css/blogRecentEntries.css</PATH>
+          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/Breadcrumb.java</PATH>
+          <PATH>$PROJECT_DIR$/view/themes/default/img/icon.atom.ongrey.gif</PATH>
+          <PATH>$PROJECT_DIR$/view/plugins/blogRecentEntries/plugin.xhtml</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Locally removed" />
@@ -1458,11 +1811,7 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="LOCALLY_REMOVED" />
-          <PATH>$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/UserImage.java</PATH>
-          <PATH>$PROJECT_DIR$/lib/lucene-core-2.1.0.jar</PATH>
-          <PATH>$PROJECT_DIR$/view/plugins/dirList/plugin.xhtml</PATH>
-          <PATH>$PROJECT_DIR$/view/plugins/blogDirectory/entryPages.xhtml</PATH>
-          <PATH>$PROJECT_DIR$/view/themes/default/css/dirList.css</PATH>
+          <PATH>$PROJECT_DIR$/view/plugins/recentEntries/plugin.xhtml</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Unknown" />
@@ -1502,24 +1851,12 @@
       </UpdatedFiles>
     </UpdateInfo>
   </component>
-  <component name="RunManager" selected="Application.Test">
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$PROJECT_DIR$/../../../../../../../Desktop/IntelliJ IDEA.app/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-    </configuration>
-    <configuration default="true" type="#com.intellij.j2ee.web.jsr45.JSR45ConfigurationFactory" factoryName="Local">
+  <component name="RunManager" selected="Remote.Debug TestNG">
+    <configuration default="true" type="#com.intellij.j2ee.web.jsr45.JSR45ConfigurationFactory" factoryName="Remote">
       <option name="WORKING_DIRECTORY" />
       <option name="HOST" value="localhost" />
       <option name="PORT" value="8080" />
-      <option name="LOCAL" value="true" />
+      <option name="LOCAL" value="false" />
       <option name="OPEN_IN_BROWSER" value="true" />
       <option name="OPEN_IN_BROWSER_URL" value="/" />
       <option name="COMMON_VM_ARGUMENTS" value="" />
@@ -1527,6 +1864,13 @@
       <option name="VM_OPTS" value="VM_OPTS" />
       <option name="USE_WEBSPHERE51_LINEMAPPING_MODEL" value="false" />
       <option name="LOCAL_PORT" value="80" />
+    </configuration>
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
     </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG" enabled="false" merge="false">
       <module name="" />
@@ -1553,6 +1897,18 @@
         <option name="Run ant target" value="true" />
       </method>
     </configuration>
+    <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local">
+      <option name="WORKING_DIRECTORY" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="8080" />
+      <option name="LOCAL" value="true" />
+      <option name="OPEN_IN_BROWSER" value="true" />
+      <option name="OPEN_IN_BROWSER_URL" value="/" />
+      <option name="COMMON_VM_ARGUMENTS" value="" />
+      <option name="DEPLOY_TOMCAT_MANAGER" value="false" />
+      <option name="BASE_DIRECTORY_NAME" value="" />
+      <predefined_log_file id="TOMCAT_LOCALHOST_LOG_ID" enabled="true" />
+    </configuration>
     <configuration default="true" type="WebLogic Instance" factoryName="Local">
       <option name="WORKING_DIRECTORY" />
       <option name="HOST" value="localhost" />
@@ -1569,17 +1925,7 @@
       <predefined_log_file id="WEBLOGIC_DOMAIN_LOG_FILE" enabled="true" />
       <predefined_log_file id="WEBLOGIC_SERVER_LOG_FILE" enabled="true" />
     </configuration>
-    <configuration default="true" type="Application" factoryName="Application" enabled="false" merge="false">
-      <option name="MAIN_CLASS_NAME" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <module name="" />
-    </configuration>
-    <configuration default="true" type="#com.intellij.j2ee.web.jsr45.JSR45ConfigurationFactory" factoryName="Remote">
+    <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Remote">
       <option name="WORKING_DIRECTORY" />
       <option name="HOST" value="localhost" />
       <option name="PORT" value="8080" />
@@ -1587,10 +1933,9 @@
       <option name="OPEN_IN_BROWSER" value="true" />
       <option name="OPEN_IN_BROWSER_URL" value="/" />
       <option name="COMMON_VM_ARGUMENTS" value="" />
-      <option name="JSP_PACKAGE" value="" />
-      <option name="VM_OPTS" value="VM_OPTS" />
-      <option name="USE_WEBSPHERE51_LINEMAPPING_MODEL" value="false" />
-      <option name="LOCAL_PORT" value="80" />
+      <option name="DEPLOY_TOMCAT_MANAGER" value="false" />
+      <option name="BASE_DIRECTORY_NAME" value="" />
+      <predefined_log_file id="TOMCAT_LOCALHOST_LOG_ID" enabled="true" />
     </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit" enabled="false" merge="false">
       <module name="" />
@@ -1611,17 +1956,27 @@
         <option name="Make" value="true" />
       </method>
     </configuration>
-    <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Remote">
-      <option name="WORKING_DIRECTORY" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="8080" />
-      <option name="LOCAL" value="false" />
-      <option name="OPEN_IN_BROWSER" value="true" />
-      <option name="OPEN_IN_BROWSER_URL" value="/" />
-      <option name="COMMON_VM_ARGUMENTS" value="" />
-      <option name="DEPLOY_TOMCAT_MANAGER" value="false" />
-      <option name="BASE_DIRECTORY_NAME" value="" />
-      <predefined_log_file id="TOMCAT_LOCALHOST_LOG_ID" enabled="true" />
+    <configuration default="true" type="Application" factoryName="Application" enabled="false" merge="false">
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <module name="" />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$PROJECT_DIR$/../../../../../../../Desktop/IntelliJ IDEA.app/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
     </configuration>
     <configuration default="true" type="WebLogic Instance" factoryName="Remote">
       <option name="WORKING_DIRECTORY" />
@@ -1639,7 +1994,7 @@
       <predefined_log_file id="WEBLOGIC_DOMAIN_LOG_FILE" enabled="true" />
       <predefined_log_file id="WEBLOGIC_SERVER_LOG_FILE" enabled="true" />
     </configuration>
-    <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local">
+    <configuration default="true" type="#com.intellij.j2ee.web.jsr45.JSR45ConfigurationFactory" factoryName="Local">
       <option name="WORKING_DIRECTORY" />
       <option name="HOST" value="localhost" />
       <option name="PORT" value="8080" />
@@ -1647,16 +2002,10 @@
       <option name="OPEN_IN_BROWSER" value="true" />
       <option name="OPEN_IN_BROWSER_URL" value="/" />
       <option name="COMMON_VM_ARGUMENTS" value="" />
-      <option name="DEPLOY_TOMCAT_MANAGER" value="false" />
-      <option name="BASE_DIRECTORY_NAME" value="" />
-      <predefined_log_file id="TOMCAT_LOCALHOST_LOG_ID" enabled="true" />
-    </configuration>
-    <configuration default="true" type="Remote" factoryName="Remote">
-      <option name="USE_SOCKET_TRANSPORT" value="true" />
-      <option name="SERVER_MODE" value="false" />
-      <option name="SHMEM_ADDRESS" value="javadebug" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="5005" />
+      <option name="JSP_PACKAGE" value="" />
+      <option name="VM_OPTS" value="VM_OPTS" />
+      <option name="USE_WEBSPHERE51_LINEMAPPING_MODEL" value="false" />
+      <option name="LOCAL_PORT" value="80" />
     </configuration>
     <configuration default="false" name="Test" type="Application" factoryName="Application" enabled="false" merge="false">
       <option name="MAIN_CLASS_NAME" value="org.jboss.seam.wiki.test.diff.BasicDiff" />
@@ -1680,6 +2029,22 @@
       </method>
     </configuration>
     <configuration default="false" name="Debug JBoss AS" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="5005" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="false" />
+      </RunnerSettings>
+      <ConfigurationWrapper RunnerId="Debug" />
+      <method>
+        <option name="Make" value="false" />
+      </method>
+    </configuration>
+    <configuration default="false" name="Debug TestNG" type="Remote" factoryName="Remote">
       <option name="USE_SOCKET_TRANSPORT" value="true" />
       <option name="SERVER_MODE" value="false" />
       <option name="SHMEM_ADDRESS" value="javadebug" />
@@ -1811,26 +2176,26 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="2560" height="1530" extended-state="0" />
+    <frame x="0" y="22" width="2560" height="1530" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="SQL" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5358885" order="16" />
+      <window_info id="SQL" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.574216" order="16" x="11" y="253" width="1391" height="477" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6435374" order="7" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21704501" order="0" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31916377" order="1" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15053764" order="0" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3163763" order="1" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24970132" order="1" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.23205575" order="12" x="24" y="688" width="925" height="442" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4912892" order="12" x="24" y="688" width="925" height="442" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" order="5" />
       <window_info id="Module Dependencies" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32961783" order="7" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3954481" order="13" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="5" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13420948" order="1" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.09757069" order="1" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298466" order="14" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3512195" order="2" x="-1442" y="805" width="1440" height="900" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24970132" order="2" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.62090594" order="3" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.55818814" order="3" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" order="0" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="15" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32543555" order="11" />
@@ -1974,116 +2339,177 @@
     <option name="myLastEditedConfigurable" value="Default" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/view/plugins/blogDirectory/plugin.xhtml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="77" column="0" selection-start="3522" selection-end="4171" vertical-scroll-proportion="0.51134646">
-          <folding />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/view/includes/userControl.xhtml">
       <provider editor-type-id="HtmlPreview">
         <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/plugins/feedTeasers/plugin.xhtml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="0" selection-start="2342" selection-end="2342" vertical-scroll-proportion="0.43267778">
+        <state line="34" column="0" selection-start="1688" selection-end="1688" vertical-scroll-proportion="0.3343419">
           <folding />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/etc/WEB-INF/urlrewrite.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="19" selection-start="323" selection-end="323" vertical-scroll-proportion="0.114035085">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/userRegister.xhtml">
       <provider editor-type-id="HtmlPreview">
         <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/search/IndexManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="103" column="0" selection-start="3935" selection-end="3935" vertical-scroll-proportion="0.82599276">
+        <state line="30" column="22" selection-start="1280" selection-end="1280" vertical-scroll-proportion="0.29500756">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/view/themes/inrelationto/css/feedTeasers.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="0" selection-start="644" selection-end="644" vertical-scroll-proportion="0.4036101">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/themes/inrelationto/css/blogDirectory.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="60" column="0" selection-start="1053" selection-end="1053" vertical-scroll-proportion="0.5631769">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/themes/inrelationto/js/jqTabs.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="5307" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/model/Document.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/themes/inrelationto/template.xhtml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="65" column="0" selection-start="2870" selection-end="2870" vertical-scroll-proportion="0.63918304">
-          <folding />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/view/userList.xhtml">
       <provider editor-type-id="HtmlPreview">
         <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/themes/inrelationto/js/all.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="159" column="0" selection-start="38587" selection-end="38587" vertical-scroll-proportion="0.9715328">
+        <state line="18" column="57" selection-start="938" selection-end="938" vertical-scroll-proportion="0.17700455">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/view/themes/inrelationto/js/interface.js">
+    <entry file="file://$PROJECT_DIR$/view/userHome.xhtml">
+      <provider editor-type-id="HtmlPreview">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="79374" vertical-scroll-proportion="0.0">
+        <state line="18" column="57" selection-start="901" selection-end="901" vertical-scroll-proportion="0.17700455">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/view/themes/inrelationto/js/jqDimensions.js">
+    <entry file="file://$PROJECT_DIR$/view/search.xhtml">
+      <provider editor-type-id="HtmlPreview">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="4230" vertical-scroll-proportion="0.0">
+        <state line="16" column="57" selection-start="858" selection-end="858" vertical-scroll-proportion="0.15733737">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/view/themes/inrelationto/js/jqHistoryRemote.js">
+    <entry file="file://$PROJECT_DIR$/view/docHistory.xhtml">
+      <provider editor-type-id="HtmlPreview">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="2283" vertical-scroll-proportion="0.0">
+        <state line="15" column="57" selection-start="777" selection-end="777" vertical-scroll-proportion="0.14750378">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/view/themes/inrelationto/js/jqModal.js">
+    <entry file="file://$PROJECT_DIR$/view/adminHome.xhtml">
+      <provider editor-type-id="HtmlPreview">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="3105" vertical-scroll-proportion="0.0">
+        <state line="18" column="57" selection-start="876" selection-end="876" vertical-scroll-proportion="0.17700455">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/view/themes/inrelationto/js/jqProgressBar.js">
+    <entry file="file://$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/WikiRequestResolver.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="1872" vertical-scroll-proportion="0.0">
+        <state line="37" column="6" selection-start="1447" selection-end="1447" vertical-scroll-proportion="0.29747292">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/view/themes/inrelationto/js/jquery.js">
+    <entry file="file://$PROJECT_DIR$/src/etc/WEB-INF/pages.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="21557" vertical-scroll-proportion="0.0">
+        <state line="191" column="0" selection-start="8506" selection-end="8506" vertical-scroll-proportion="0.7032164">
+          <folding>
+            <marker date="1188041163000" expanded="true" signature="1084:1433" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="1220:1421" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="1270:1399" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="1511:2376" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="1755:2364" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="1805:2030" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="1893:2010" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="2071:2342" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="2123:2322" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="2451:3786" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="2833:3774" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="2883:3012" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="3056:3185" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="3231:3483" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="3345:3463" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="3523:3752" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="3614:3732" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="3826:4178" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="3965:4166" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="4015:4144" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="4253:5597" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="4642:5585" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="4692:4821" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="4865:4994" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="5040:5293" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="5154:5273" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="5333:5563" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="5424:5543" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="5673:6790" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="6027:6778" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="6077:6206" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="6243:6491" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="6357:6471" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="6531:6756" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="6622:6736" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="6826:7038" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="7115:7326" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="7406:8159" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="7626:8147" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="7724:7954" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="7836:7934" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="7996:8125" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="8235:8976" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="8504:8964" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="8562:8796" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="8670:8776" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="8836:8942" placeholder="..." />
+            <marker date="1188041163000" expanded="true" signature="9014:9171" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/UserHome.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="39" column="13" selection-start="1403" selection-end="1403" vertical-scroll-proportion="0.33285198">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/org/jboss/seam/wiki/core/action/Authenticator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="129" column="24" selection-start="4734" selection-end="4734" vertical-scroll-proportion="0.7277978">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/org/jboss/seam/wiki/test/util/DBUnitSeamTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="235" column="14" selection-start="8720" selection-end="8720" vertical-scroll-proportion="0.42743683">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/etc/wiki-test-ds.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="100" selection-start="877" selection-end="877" vertical-scroll-proportion="0.2375731">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/etc/META-INF/persistence-test-war.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="0" selection-start="693" selection-end="693" vertical-scroll-proportion="0.12353801">
           <folding />
         </state>
       </provider>

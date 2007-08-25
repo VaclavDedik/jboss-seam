@@ -39,6 +39,19 @@ public abstract class AbstractNestedSetNode<N extends NestedSetNode> implements 
     @Column(name = "NS_RIGHT", nullable = false,  updatable = false)
     private Long nsRight = 0l;
 
+    protected AbstractNestedSetNode() {};
+
+    protected AbstractNestedSetNode(N original) {
+        if (original == null) return;
+        this.nsThread = original.getNsThread();
+        this.nsLeft = original.getNsLeft();
+        this.nsRight = original.getNsRight();
+    }
+
+    public boolean vetoNestedSetUpdate() {
+        return false;
+    }
+
     public void addChild(N child) {
         if (child.getParent() != null) {
             child.getParent().getChildren().remove(child);
@@ -88,4 +101,9 @@ public abstract class AbstractNestedSetNode<N extends NestedSetNode> implements 
     public String getTreeSuperclassEntityName() {
         return getClass().getSimpleName();
     }
+
+    public String toString() {
+        return "(ID: " + getId() + " THREAD: " + getNsThread() + " LEFT: " + getNsLeft() + " RIGHT: " + getNsRight() +")";
+    }
+
 }

@@ -9,6 +9,8 @@ public class BlogEntry implements Serializable {
     Document entryDocument;
     Long commentCount;
 
+    public BlogEntry() {}
+
     public BlogEntry(Document entryDocument) {
         this.entryDocument = entryDocument;
     }
@@ -32,5 +34,9 @@ public class BlogEntry implements Serializable {
 
     public void setCommentCount(Long commentCount) {
         this.commentCount = commentCount;
+    }
+
+    public String toString() {
+        return "BlogEntry: " + entryDocument + " Comments: " + commentCount;
     }
 }

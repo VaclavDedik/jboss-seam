@@ -9,6 +9,7 @@ package org.jboss.seam.wiki.core.model;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.Pattern;
 import org.jboss.seam.wiki.core.nestedset.AbstractNestedSetNode;
+import org.jboss.seam.wiki.core.nestedset.NestedSetNode;
 import org.jboss.seam.wiki.core.preferences.WikiPreferenceValue;
 import org.jboss.seam.wiki.core.search.PaddedIntegerBridge;
 import org.jboss.seam.wiki.core.search.annotations.Searchable;
@@ -145,7 +146,7 @@ public abstract class Node extends AbstractNestedSetNode<Node> implements Serial
     }
 
     /**
-     * Creates copy for history archiving, increments originals revision.
+     * Creates copy for display or history archiving.
      * <p>
      * Does <b>NOT</b> copy the node id and object version, so the copy might as well be
      * considered transient and can be persisted right away. If you want to store the
@@ -155,12 +156,17 @@ public abstract class Node extends AbstractNestedSetNode<Node> implements Serial
      * @param original The node to make a copy of
      */
     public Node(Node original) {
-        if (original == null) return;
+        super(original);
+        // For history/audit logging
         this.revision = original.revision;
         this.name = original.name;
         this.wikiname = original.wikiname;
         this.lastModifiedOn = original.lastModifiedOn;
         this.lastModifiedByUsername = original.lastModifiedBy != null ? original.lastModifiedBy.getUsername() : null;
+
+        // For display
+        this.displayPosition = original.getDisplayPosition();
+        this.areaNumber = original.getAreaNumber();
     }
 
     // Immutable properties
@@ -259,8 +265,16 @@ public abstract class Node extends AbstractNestedSetNode<Node> implements Serial
         this.preferences = preferences;
     }
 
+    public boolean vetoNestedSetUpdate() {
+        return historicalNodeId != null; // Historical nodes do not cause updates of the nested set tree!
+    }
+
     public String getTreeSuperclassEntityName() {
         return "Node";
+    }
+
+    public Class getTreeSuperclass() {
+        return Node.class;
     }
 
     // TODO: http://opensource.atlassian.com/projects/hibernate/browse/HHH-1615
@@ -298,7 +312,8 @@ public abstract class Node extends AbstractNestedSetNode<Node> implements Serial
     // Misc methods
 
     public String toString() {
-        return getName() + " (ID: " + getId() + ")";
+        return getName();
+        // Debug return getName() + " " + super.toString();
     }
 
     public Node getArea() {

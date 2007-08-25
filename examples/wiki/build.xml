@@ -456,6 +456,7 @@
         <testng outputdir="${test.output.dir}">
             <classpath refid="test.classpath"/>
             <xmlfileset dir="${src.test.dir}" includes="*.tng.xml" />
+            <jvmarg line="${testng.jvmargs}"/>
         </testng>
         <echo message="Please read the test output in directory: ${test.output.dir}"/>
     </target>

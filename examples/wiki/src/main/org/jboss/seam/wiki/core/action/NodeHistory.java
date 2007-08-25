@@ -38,14 +38,21 @@ public class NodeHistory implements Serializable {
     @DataModel
     private List<Node> historicalNodeList;
 
-    @RequestParameter
     Long nodeId;
+
+    public Long getNodeId() {
+        return nodeId;
+    }
+
+    public void setNodeId(Long nodeId) {
+        this.nodeId = nodeId;
+    }
 
     @DataModelSelection
     @Out(required = false, scope = ScopeType.CONVERSATION)
     private Document selectedHistoricalNode;
 
-    @In(required = false) @Out(scope = ScopeType.CONVERSATION)
+    @In(required = false) @Out(required = false, scope = ScopeType.CONVERSATION)
     private Document currentNode;
 
     private String diffResult;
@@ -56,23 +63,15 @@ public class NodeHistory implements Serializable {
             historicalNodeList = nodeDAO.findHistoricalNodes(currentNode);
     }
 
-    @Create
-    public void create() {
+    public String init() {
+        if (nodeId == null) return "missingParameter";
+
         currentNode = nodeDAO.findDocument(nodeId);
         if (!Identity.instance().hasPermission("Node", "read", currentNode) ) {
             throw new AuthorizationException("You don't have permission for this operation");
         }
-
         historicalNodeList = nodeDAO.findHistoricalNodes(currentNode);
-
-        if (historicalNodeList.size() == 0) {
-            facesMessages.addFromResourceBundleOrDefault(
-                FacesMessage.SEVERITY_INFO,
-                "noHistory",
-                "No stored history for this document, you are looking at the only existing revision.");
-            NodeBrowser browser = (NodeBrowser) Component.getInstance("browser");
-            browser.exitConversation(false);
-        }
+        return null;
     }
 
     public void diff() {

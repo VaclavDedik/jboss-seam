@@ -95,29 +95,29 @@ public class WikiUtil {
         if (node == null || node.getId() == null) return "";
         if (isFile(node)) return renderFileLink((File)node);
         WikiPreferences wikiPrefs = (WikiPreferences) Component.getInstance("wikiPreferences");
-        String contextPath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
-        return contextPath + "/" + node.getId() + wikiPrefs.getPermlinkSuffix();
+        WikiPreferences prefs = (WikiPreferences)Component.getInstance("wikiPreferences");
+        return prefs.getBaseUrl() + "/" + node.getId() + wikiPrefs.getPermlinkSuffix();
     }
 
     public  static String renderWikiLink(Node node) {
         if (node == null || node.getId() == null) return "";
-        String contextPath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+        WikiPreferences prefs = (WikiPreferences)Component.getInstance("wikiPreferences");
         if (node.getArea().getWikiname().equals(node.getWikiname()))
-            return contextPath + "/" + node.getArea().getWikiname();
-        return contextPath + "/" + node.getArea().getWikiname()  + "/" + node.getWikiname();
+            return prefs.getBaseUrl() + "/" + node.getArea().getWikiname();
+        return prefs.getBaseUrl() + "/" + node.getArea().getWikiname()  + "/" + node.getWikiname();
     }
 
     private static String renderFileLink(File file) {
         if (file == null || file.getId() == null) return "";
-        String contextPath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
-        return contextPath + "/servlets/files/download.seam?fileId=" + file.getId();
+        WikiPreferences prefs = (WikiPreferences)Component.getInstance("wikiPreferences");
+        return prefs.getBaseUrl() + "/servlets/files/download.seam?fileId=" + file.getId();
     }
 
     public static String renderHomeURL(User user) {
         if (user == null) return "";
         if (user.getMemberHome() == null) throw new IllegalArgumentException("User does not have a home directory");
-        String contextPath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
-        return contextPath + "/" + user.getMemberHome().getParent().getWikiname() + "/" + user.getMemberHome().getWikiname();
+        WikiPreferences prefs = (WikiPreferences)Component.getInstance("wikiPreferences");
+        return prefs.getBaseUrl() + "/" + user.getMemberHome().getParent().getWikiname() + "/" + user.getMemberHome().getWikiname();
 
     }
 
@@ -134,16 +134,21 @@ public class WikiUtil {
         }
     }
 
-    public static String escapeEmailAddress(String string) {
+    public static String escapeEmailURL(String string) {
         WikiPreferences wikiPrefs = (WikiPreferences) Component.getInstance("wikiPreferences");
         return string.length() >= 7 && string.substring(0, 7).equals("mailto:")
-                ? string.replaceAll("@", wikiPrefs.getAtSymbolReplacement()) 
+                ? string.replaceAll("@", wikiPrefs.getAtSymbolReplacement())
                 : string;
+    }
+
+    public static String escapeAtSymbol(String string) {
+        WikiPreferences wikiPrefs = (WikiPreferences) Component.getInstance("wikiPreferences");
+        return string.replaceAll("@", wikiPrefs.getAtSymbolReplacement());
     }
 
     public static String escapeHtml(String string) {
         if (string == null) return null;
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         String htmlEntity;
         char c;
         for (int i = 0; i < string.length(); ++i) {

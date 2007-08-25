@@ -19,6 +19,9 @@ import org.jboss.seam.wiki.core.nestedset.NestedSetNodeWrapper;
 import org.jboss.seam.wiki.core.nestedset.NestedSetResultTransformer;
 import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
 import org.jboss.seam.wiki.util.WikiUtil;
+import org.jboss.seam.core.Conversation;
+import org.jboss.seam.faces.Redirect;
+import org.jboss.seam.Component;
 import org.testng.annotations.Test;
 
 import java.util.Comparator;
@@ -50,22 +53,33 @@ public class BasicNodeOperations extends DBUnitSeamTest {
     @Test
     public void deleteDocument() throws Exception {
 
+        final String conversationId = new NonFacesRequest("/docEdit.xhtml") {
+            protected void beforeRequest() {
+                setParameter("documentId", TEST_DOCUMENT1_ID.toString());
+                setParameter("parentDirectoryId", TEST_DIRECTORY1_ID.toString());
+            }
+        }.run();
+
         new FacesRequest("/docEdit.xhtml") {
 
             protected void beforeRequest() {
-                setParameter("nodeId", TEST_DOCUMENT1_ID.toString());
-                setParameter("parentDirId", TEST_DIRECTORY1_ID.toString());
+                setParameter("cid", conversationId);
             }
 
             protected void invokeApplication() throws Exception {
+                assert Conversation.instance().isLongRunning();
 
-                assert checkNestedSetNodeInMemory( (Node)getValue("#{documentHome.instance}"), 9, 10);
-                assert checkNestedSetNodeInMemory( (Node)getValue("#{documentHome.parentDirectory}"), 8, 23);
+                DocumentHome docHome = (DocumentHome)getInstance("documentHome");
+                assert checkNestedSetNodeInMemory( docHome.getInstance(), 9, 10);
+                assert checkNestedSetNodeInMemory( docHome.getParentDirectory(), 8, 23);
 
                 assert invokeMethod("#{documentHome.remove}").equals("removed");
-            }
 
-            protected void renderResponse() throws Exception {
+                // TODO: SeamTest doesn't do navigation but we don't want to have /docEdit.xhtml in the RENDER RESPONSE
+                Conversation.instance().end();
+                Redirect.instance().setViewId("/dirDisplay.xhtml");
+                Redirect.instance().execute();
+
                 assert checkNestedSetNodeInDatabase(TEST_DIRECTORY1_ID, 8, 21);
                 assert checkNestedSetNodeInDatabase(TEST_DOCUMENT2_ID, 9, 10);
                 assert checkNestedSetNodeInDatabase(TEST_DOCUMENT3_ID, 11, 12);
@@ -85,14 +99,22 @@ public class BasicNodeOperations extends DBUnitSeamTest {
     @Test
     public void deleteDirectory() throws Exception {
 
+        final String conversationId = new NonFacesRequest("/dirEdit.xhtml") {
+            protected void beforeRequest() {
+                setParameter("directoryId", TEST_DIRECTORY2_ID.toString());
+                setParameter("parentDirectoryId", TEST_DIRECTORY1_ID.toString());
+            }
+        }.run();
+
         new FacesRequest("/dirEdit.xhtml") {
 
             protected void beforeRequest() {
-                setParameter("nodeId", TEST_DIRECTORY2_ID.toString());
-                setParameter("parentDirId", TEST_DIRECTORY1_ID.toString());
+                setParameter("cid", conversationId);
             }
 
             protected void invokeApplication() throws Exception {
+                DirectoryHome dirHome = (DirectoryHome)getInstance("directoryHome");
+                dirHome.init(); // TODO: Seam test doesn't call page actions
                 assert checkNestedSetNodeInDatabase(TEST_DIRECTORY1_ID, 8, 23);
                 assert checkNestedSetNodeInDatabase(TEST_DOCUMENT1_ID, 9, 10);
                 assert checkNestedSetNodeInDatabase(TEST_DOCUMENT2_ID, 11, 12);
@@ -102,13 +124,16 @@ public class BasicNodeOperations extends DBUnitSeamTest {
                 assert checkNestedSetNodeInDatabase(TEST_DOCUMENT6_ID, 18, 19);
                 assert checkNestedSetNodeInDatabase(TEST_DOCUMENT7_ID, 21, 22);
 
-                assert checkNestedSetNodeInMemory( (Node)getValue("#{directoryHome.instance}"), 15, 20);
-                assert checkNestedSetNodeInMemory( (Node)getValue("#{directoryHome.parentDirectory}"), 8, 23);
+                assert checkNestedSetNodeInMemory( dirHome.getInstance(), 15, 20);
+                assert checkNestedSetNodeInMemory( dirHome.getParentDirectory(), 8, 23);
 
                 assert invokeMethod("#{directoryHome.remove}").equals("removed");
-            }
 
-            protected void renderResponse() throws Exception {
+                // TODO: SeamTest doesn't do navigation but we don't want to have /dirEdit.xhtml in the RENDER RESPONSE
+                Conversation.instance().end();
+                Redirect.instance().setViewId("/dirDisplay.xhtml");
+                Redirect.instance().execute();
+
                 assert checkNestedSetNodeInDatabase(TEST_DIRECTORY1_ID, 8, 17);
                 assert checkNestedSetNodeInDatabase(TEST_DOCUMENT1_ID, 9, 10);
                 assert checkNestedSetNodeInDatabase(TEST_DOCUMENT2_ID, 11, 12);
@@ -128,10 +153,16 @@ public class BasicNodeOperations extends DBUnitSeamTest {
     @Test
     public void createDocumentInArea() throws Exception {
 
+        final String conversationId = new NonFacesRequest("/docEdit.xhtml") {
+            protected void beforeRequest() {
+                setParameter("parentDirectoryId", TEST_DIRECTORY1_ID.toString());
+            }
+        }.run();
+
         new FacesRequest("/docEdit.xhtml") {
 
             protected void beforeRequest() {
-                setParameter("parentDirId", TEST_DIRECTORY1_ID.toString());
+                setParameter("cid", conversationId);
             }
 
             protected void invokeApplication() throws Exception {
@@ -151,9 +182,10 @@ public class BasicNodeOperations extends DBUnitSeamTest {
                 assert checkNestedSetNodeInDatabase(TEST_DOCUMENT6_ID, 18, 19);
                 assert checkNestedSetNodeInDatabase(TEST_DOCUMENT7_ID, 21, 22);
 
-                assert checkNestedSetNodeInMemory( (Node)getValue("#{documentHome.parentDirectory}"), 8, 23);
+                assert checkNestedSetNodeInMemory( docHome.getParentDirectory(), 8, 23);
 
                 assert invokeMethod("#{documentHome.persist}").equals("persisted");
+
             }
 
             protected void renderResponse() throws Exception {
@@ -183,14 +215,21 @@ public class BasicNodeOperations extends DBUnitSeamTest {
     @Test
     public void createDocumentInSubdirectory() throws Exception {
 
+        final String conversationId = new NonFacesRequest("/docEdit.xhtml") {
+            protected void beforeRequest() {
+                setParameter("parentDirectoryId", TEST_DIRECTORY2_ID.toString());
+            }
+        }.run();
+
         new FacesRequest("/docEdit.xhtml") {
 
             protected void beforeRequest() {
-                setParameter("parentDirId", TEST_DIRECTORY2_ID.toString());
+                setParameter("cid", conversationId);
             }
 
             protected void invokeApplication() throws Exception {
                 DocumentHome docHome = (DocumentHome)getInstance("documentHome");
+
                 docHome.getInstance().setName("Testname");
                 docHome.getInstance().setReadAccessLevel(0);
                 docHome.getInstance().setWriteAccessLevel(0);
@@ -205,7 +244,7 @@ public class BasicNodeOperations extends DBUnitSeamTest {
                 assert checkNestedSetNodeInDatabase(TEST_DOCUMENT6_ID, 18, 19);
                 assert checkNestedSetNodeInDatabase(TEST_DOCUMENT7_ID, 21, 22);
 
-                assert checkNestedSetNodeInMemory( (Node)getValue("#{documentHome.parentDirectory}"), 15, 20);
+                assert checkNestedSetNodeInMemory( docHome.getParentDirectory(), 15, 20);
 
                 assert invokeMethod("#{documentHome.persist}").equals("persisted");
             }
@@ -236,11 +275,17 @@ public class BasicNodeOperations extends DBUnitSeamTest {
     @Test
     public void moveDirectoryLeft() throws Exception {
 
+        final String conversationId = new NonFacesRequest("/dirEdit.xhtml") {
+            protected void beforeRequest() {
+                setParameter("directoryId", TEST_DIRECTORY1_ID.toString());
+                setParameter("parentDirectoryId", TEST_WIKI_ROOT_ID.toString());
+            }
+        }.run();
+
         new FacesRequest("/dirEdit.xhtml") {
 
             protected void beforeRequest() {
-                setParameter("nodeId", TEST_DIRECTORY1_ID.toString());
-                setParameter("parentDirId", TEST_WIKI_ROOT_ID.toString());
+                setParameter("cid", conversationId);
             }
 
             protected void invokeApplication() throws Exception {
@@ -279,11 +324,17 @@ public class BasicNodeOperations extends DBUnitSeamTest {
     @Test
     public void moveDocumentRight() throws Exception {
 
+        final String conversationId = new NonFacesRequest("/dirEdit.xhtml") {
+            protected void beforeRequest() {
+                setParameter("directoryId", TEST_DIRECTORY1_ID.toString());
+                setParameter("parentDirectoryId", TEST_WIKI_ROOT_ID.toString());
+            }
+        }.run();
+
         new FacesRequest("/dirEdit.xhtml") {
 
             protected void beforeRequest() {
-                setParameter("nodeId", TEST_DIRECTORY1_ID.toString());
-                setParameter("parentDirId", TEST_WIKI_ROOT_ID.toString());
+                setParameter("cid", conversationId);
             }
 
             protected void invokeApplication() throws Exception {
@@ -362,7 +413,7 @@ public class BasicNodeOperations extends DBUnitSeamTest {
         }
     }
     private void displayNodes(NestedSetNodeWrapper<Node> startNode) {
-        StringBuffer levelMarkers = new StringBuffer();
+        StringBuilder levelMarkers = new StringBuilder();
         for (int i = 1; i <= startNode.getLevel(); i++) {
             levelMarkers.append("#");
         }

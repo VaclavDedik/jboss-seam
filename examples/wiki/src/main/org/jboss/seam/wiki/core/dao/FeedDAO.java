@@ -41,7 +41,7 @@ public class FeedDAO {
     public List<FeedEntry> findLastFeedEntries(Long feedId, int maxResults) {
         restrictedEntityManager.joinTransaction();
         return (List<FeedEntry>) restrictedEntityManager
-                .createQuery("select fe from Feed f join f.feedEntries fe where f.id = :feedId order by f.publishedDate desc")
+                .createQuery("select fe from Feed f join f.feedEntries fe where f.id = :feedId order by fe.publishedDate desc")
                 .setParameter("feedId", feedId)
                 .setHint("org.hibernate.cacheable", true)
                 .setMaxResults(maxResults)

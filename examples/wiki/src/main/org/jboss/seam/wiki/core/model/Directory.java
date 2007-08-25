@@ -35,6 +35,10 @@ public class Directory extends Node {
         super(name);
     }
 
+    public Directory(Directory original) {
+        super(original);
+    }
+
     // Mutable properties
 
     /**

@@ -6,6 +6,7 @@ import org.jboss.seam.Component;
 import org.hibernate.validator.InvalidValue;
 import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidStateException;
+import org.hibernate.validator.Length;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Field;
@@ -79,6 +80,17 @@ public class PreferenceProperty implements Comparable, Serializable {
             Method setterMethod = Reflections.getSetterMethod(componentInstance.getClass(), getName());
             setterMethod.setAccessible(true);
             Reflections.invoke(setterMethod, componentInstance, value);
+        }
+    }
+
+    public boolean isLongStringAllowed() {
+        if (fieldAccess) {
+            Field field = Reflections.getField(preferenceComponent.getComponent().getBeanClass(), getName());
+            return field.getAnnotation(Length.class) != null && field.getAnnotation(Length.class).max() > 1000;
+
+        } else {
+            Method setterMethod = Reflections.getSetterMethod(preferenceComponent.getComponent().getBeanClass(), getName());
+            return setterMethod.getAnnotation(Length.class) != null && setterMethod.getAnnotation(Length.class).max() > 1000;
         }
     }
 

@@ -23,11 +23,9 @@ public class NestedSetPostDeleteEventListener extends EJB3PostDeleteEventListene
     public void onPostDelete(PostDeleteEvent event) {
         super.onPostDelete(event);
 
-        if (event.getEntity() instanceof NestedSetNode) {
-            if (event.getEntity() instanceof NestedSetNode) {
-                log.debug("executing nested set delete operation, recalculating the tree");
-                new DeleteNestedSetOperation( (NestedSetNode)event.getEntity() ).execute(event.getSession());
-             }
+        if ( event.getEntity() instanceof NestedSetNode && !((NestedSetNode)event.getEntity()).vetoNestedSetUpdate() ) {
+            log.debug("executing nested set delete operation, recalculating the tree");
+            new DeleteNestedSetOperation( (NestedSetNode)event.getEntity() ).execute(event.getSession());
         }
     }
 

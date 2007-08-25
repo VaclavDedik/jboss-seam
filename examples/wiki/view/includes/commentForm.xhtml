@@ -1,5 +1,5 @@
 <s:div styleClass="shadowContainer"  style="margin-top:25px"
-     rendered="#{currentDocument.enableComments and currentDocument.enableCommentForm}"
+     rendered="#{documentHome.instance.enableComments and documentHome.instance.enableCommentForm}"
      xmlns="http://www.w3.org/1999/xhtml"
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
@@ -12,18 +12,14 @@
         <div class="form">
             <div class="formHead bottomBorder">
 
-                <a:commandLink tabindex="102" rendered="#{!param.showCommentForm}" accesskey="T"
-                               onclick="jQuery('.hiddenCommentForm').show();jQuery('#commentForm\\:commentTextArea').focus();">
-                    <span>Pos<u>t</u> Comment</span>
-                </a:commandLink>
+                <h:outputLink tabindex="102" rendered="#{empty param.showCommentForm}" accesskey="T"
+                              value="#{wiki:renderURL(currentDocument)}?showCommentForm=true#commentForm">Pos<u>t</u> Comment</h:outputLink>
 
-                <s:fragment rendered="#{param.showCommentForm}">
-                    Post Comment
-                </s:fragment>
+                <s:fragment rendered="#{not empty param.showCommentForm}">Post Comment</s:fragment>
 
             </div>
 
-            <div style="#{!param.showCommentForm ? 'display:none;' : ''}" class="hiddenCommentForm formFields formBorder wideLabels">
+            <div style="#{empty param.showCommentForm ? 'display:none;' : ''}" class="hiddenCommentForm formFields formBorder wideLabels">
 
                 <s:decorate id="userNameDecorate" template="formFieldDecorate.xhtml">
                     <ui:define name="label">Name</ui:define>
@@ -62,8 +58,8 @@
                     <ui:param name="valueBinding" value="#{commentHome.comment.text}"/>
                     <ui:param name="valueMaxLength" value="8000"/>
                     <ui:param name="valueRequired" value="true"/>
-                    <ui:param name="previewBaseDocument" value="#{currentDocument}"/>
-                    <ui:param name="previewBaseDirectory" value="#{currentDirectory}"/>
+                    <ui:param name="previewBaseDocument" value="#{documentHome.instance}"/>
+                    <ui:param name="previewBaseDirectory" value="#{documentHome.instance.parent}"/>
                 </ui:include>
 
                 <s:div rendered="#{!identity.loggedIn}">
@@ -84,12 +80,12 @@
 
             </div>
 
-            <div style="#{!param.showCommentForm ? 'display:none;' : ''}" class="hiddenCommentForm formControls wideLabels">
+            <div style="#{empty param.showCommentForm? 'display:none;' : ''}" class="hiddenCommentForm formControls wideLabels">
                 <div class="entry">
                     <div class="label">&#160;</div>
                     <div class="input">
 
-                        <a:commandLink action="#{commentHome.persist}" tabindex="102" reRender="commentsDisplay, commentForm" accesskey="S"
+                        <a:commandLink action="#{commentHome.persist}" tabindex="102" reRender="comments, commentForm" accesskey="S"
                                        oncomplete="jQuery('.hiddenCommentForm').show();jQuery('#commentForm\\:userNameDecorate\\:userName').focus();"
                                        styleClass="button"><span class="buttonLabel">Po<u>s</u>t Comment</span></a:commandLink>
 

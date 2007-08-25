@@ -1,0 +1,41 @@
+<wiki:plugin id="blogArchivePlugin"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+        xmlns:wiki="http://jboss.com/products/seam/wiki"
+        xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <script type="text/javascript">jQuery(function() {
+        clearDocumentBackground();
+    });</script>
+
+    <s:div styleClass="shadowContainer"><div class="shadow1"><div class="shadow2"><div class="blogArchive">
+
+        <div class="blogArchiveHeader"><h:outputText styleClass="blogArchiveHeaderText" value="Archive"/></div>
+
+        <div class="blogArchiveSelector">
+            <select id="blogArchiveCombo" class="blogArchiveCombo"
+                    onchange="location.href = jQuery('#blogArchiveCombo')[0].options[jQuery('#blogArchiveCombo')[0].selectedIndex].value;">
+                <option value="#{wiki:renderURL(currentDocument)}">All entries</option>
+                <ui:repeat var="beCount" value="#{blogDirectory.blogEntryCountsByYearAndMonth}">
+                    <s:fragment rendered="#{blogDirectory.dateUrl != beCount.asString}">
+                        <option value="#{wiki:renderURL(currentDocument)}#{beCount.asString}">
+                            #{converters.monthNames[beCount.month]}&#160;#{beCount.year}&#160;(#{beCount.numOfEntries})
+                        </option>
+                    </s:fragment>
+                    <s:fragment rendered="#{blogDirectory.dateUrl == beCount.asString}">
+                        <option value="#{wiki:renderURL(currentDocument)}#{beCount.asString}" selected="true">
+                            #{converters.monthNames[beCount.month]}&#160;#{beCount.year}&#160;(#{beCount.numOfEntries})
+                        </option>
+                    </s:fragment>
+                </ui:repeat>
+            </select>
+        </div>
+
+        <div class="blogArchiveFooter"/>
+
+    </div></div></div></s:div>
+
+</wiki:plugin>

@@ -6,19 +6,14 @@
  */
 package org.jboss.seam.wiki.core.ui;
 
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Transactional;
-import org.jboss.seam.annotations.Factory;
-import org.jboss.seam.wiki.core.model.Role;
-import org.jboss.seam.wiki.core.model.Node;
-import org.jboss.seam.wiki.core.model.Directory;
-import org.jboss.seam.wiki.core.search.metamodel.SearchableEntity;
-import org.jboss.seam.wiki.core.search.metamodel.SearchRegistry;
-import org.jboss.seam.wiki.util.WikiUtil;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.security.Identity;
-import org.richfaces.component.TreeNode;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Transactional;
+import org.jboss.seam.wiki.core.model.Role;
+import org.jboss.seam.wiki.core.search.metamodel.SearchRegistry;
+import org.jboss.seam.wiki.core.search.metamodel.SearchableEntity;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -26,11 +21,15 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
+
+@Name("converters")
+@Scope(ScopeType.APPLICATION)
 
 public class Converters {
+
+    public String[] getMonthNames() {
+        return new String[]{"NULL","January","February","March","April","May","June","July","August","September","October","November","December"};
+    }
 
     @Name("searchableEntityConverter")
     @org.jboss.seam.annotations.faces.Converter(forClass = SearchableEntity.class)

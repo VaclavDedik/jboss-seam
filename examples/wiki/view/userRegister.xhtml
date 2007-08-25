@@ -13,9 +13,7 @@
 
 <ui:define name="controlTwo">
 
-    <s:link id="exit" styleClass="linkNavigation"
-            action="#{browser.exitConversation(true)}"
-            accesskey="E"><u>E</u>xit</s:link>
+    <s:link id="close" styleClass="linkNavigation" view="/wiki.xhtml" propagation="end" accesskey="E">Clos<u>e</u></s:link>
 
 </ui:define>
 
@@ -83,7 +81,7 @@
                 </s:div>
 
                 <s:decorate id="verifyCaptchaDecorate" template="includes/formFieldDecorate.xhtml">
-                    <ui:define name="label">Enter repsonse</ui:define>
+                    <ui:define name="label">Enter response</ui:define>
                     <h:inputSecret tabindex="7" size="5" maxlength="5" required="true"
                                    redisplay="true" id="verifyCaptcha" value="#{captcha.response}">
                     </h:inputSecret>

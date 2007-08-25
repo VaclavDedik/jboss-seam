@@ -10,6 +10,7 @@ import static org.jboss.seam.ScopeType.SESSION;
 import static org.jboss.seam.annotations.Install.APPLICATION;
 
 import org.jboss.seam.security.Identity;
+import org.jboss.seam.security.AuthorizationException;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.wiki.core.model.User;
@@ -17,6 +18,7 @@ import org.jboss.seam.wiki.core.model.Node;
 import org.jboss.seam.wiki.core.dao.UserRoleAccessFactory;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.Component;
+import org.jboss.seam.core.Events;
 
 /**
  * Need this until Drools fixes bugs and becomes usable/debuggable.
@@ -26,12 +28,21 @@ import org.jboss.seam.Component;
 @Scope(SESSION)
 @BypassInterceptors
 @Install(precedence=APPLICATION)
-@Startup
+@AutoCreate
 public class WikiIdentity extends Identity {
 
     private User currentUser;
     private Integer currentAccessLevel;
     private WikiPreferences wikiPrefs;
+
+    // We don't care if a user is logged in, just check it...
+    public void checkRestriction(String expr) {
+        if (!evaluateExpression(expr)) {
+            Events.instance().raiseEvent("org.jboss.seam.notAuthorized");
+            throw new AuthorizationException(String.format(
+                    "Authorization check failed for expression [%s]", expr));
+        }
+    }
 
     public boolean hasPermission(String name, String action, Object... args) {
 
@@ -84,7 +95,7 @@ public class WikiIdentity extends Identity {
         or the user is the creator of the parent directory
     */
     private boolean checkCreateAccess(Node directory) {
-        if (directory.getId().equals(wikiPrefs.getMemberAreaId())) return false; // Member home dir is immutable
+        //if (directory.getId().equals(wikiPrefs.getMemberAreaId())) return false; // Member home dir is immutable
         if (directory.getWriteAccessLevel() == UserRoleAccessFactory.GUESTROLE_ACCESSLEVEL) return true;
         int dirWriteAccessLevel = directory.getWriteAccessLevel();
         User dirCreator = directory.getCreatedBy();
@@ -137,7 +148,7 @@ public class WikiIdentity extends Identity {
         he has, unless he is the creator
     */
     private boolean checkRaiseAccessLevel(Node node) {
-        if (node.getId() != null && node.getId().equals(wikiPrefs.getMemberAreaId())) return false; // Member home dir is immutable
+        //if (node.getId() != null && node.getId().equals(wikiPrefs.getMemberAreaId())) return false; // Member home dir is immutable
         int desiredWriteAccessLevel = node.getWriteAccessLevel();
         int desiredReadAccessLevel = node.getReadAccessLevel();
         User nodeCreator = node.getCreatedBy();
@@ -187,10 +198,11 @@ public class WikiIdentity extends Identity {
     }
 
     /*
-        Only admins can edit the main menu
+        Admins can edit all menus, owners can edit their own.
     */
     private boolean checkEditMenu(Node node) {
         if (currentAccessLevel == UserRoleAccessFactory.ADMINROLE_ACCESSLEVEL) return true;
+        if (node.getCreatedBy().getId().equals(currentUser.getId())) return true;
         return false;
     }
 

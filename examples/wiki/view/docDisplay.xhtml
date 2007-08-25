@@ -14,7 +14,7 @@
     <link href="#{themePath}/css/breadcrumb.css" rel="stylesheet" type="text/css"/>
 </ui:define>
 
-<ui:define name="screenname">#{currentDocument.name}</ui:define>
+<ui:define name="screenname">#{documentHome.instance.name}</ui:define>
 
 <ui:define name="headerBottomOne">
     <ui:include src="includes/breadcrumb.xhtml"/>
@@ -22,14 +22,17 @@
 
 <ui:define name="controlTwo">
 
-    <s:link id="createDoc" styleClass="linkNavigation" action="createDoc" accesskey="C"
-            rendered="#{s:hasPermission('Node', 'create', currentDirectory)}"><u>C</u>reate</s:link>
+    <s:link id="editDoc" styleClass="linkNavigation" accesskey="E" view="/docEdit.xhtml"
+            rendered="#{s:hasPermission('Node', 'edit', documentHome.instance)}"><u>E</u>dit</s:link>
 
-    <s:link id="editDoc" styleClass="linkNavigation" action="editDoc" accesskey="E"
-            rendered="#{s:hasPermission('Node', 'edit', currentDocument)}"><u>E</u>dit</s:link>
+    <s:link id="showHistory" styleClass="linkNavigation" accesskey="I" view="/docHistory.xhtml"
+            rendered="#{documentHome.historicalNodesPresent}">H<u>i</u>story
+        <f:param name="nodeId" value="#{documentHome.nodeId}"/>
+    </s:link>
 
-    <s:link id="showHistory" styleClass="linkNavigation" action="showHistory" accesskey="I">H<u>i</u>story</s:link>
-    <s:link id="browseDir" styleClass="linkNavigation" action="browseDir" accesskey="B"><u>B</u>rowse</s:link>
+    <s:link id="browseDir" styleClass="linkNavigation" accesskey="B" view="/dirDisplay.xhtml"><u>B</u>rowse
+        <f:param name="directoryId" value="#{documentHome.parentDirectory.id}"/>
+    </s:link>
 
 </ui:define>
 
@@ -39,17 +42,16 @@
         clearContentBackground();
     });</script>
 
-
     <div id="documentDisplayContainer" class="shadowContainer"><div class="shadow1"><div class="shadow2">
         <s:div id="documentDisplay" styleClass="documentDisplay"><j4j:idProxy id="documentDisplay_" />
-            <s:div rendered="#{currentDocument.nameAsTitle}"><h1 class="documentTitle">#{currentDocument.name}</h1></s:div>
-            <wiki:formattedText value="#{currentDocument.content}"
+            <s:div rendered="#{documentHome.instance.nameAsTitle}"><h1 class="documentTitle">#{documentHome.instance.name}</h1></s:div>
+            <wiki:formattedText value="#{documentHome.instance.content}"
                                 linkStyleClass="regularLink"
                                 brokenLinkStyleClass="brokenLink"
                                 attachmentLinkStyleClass="regularLink"
                                 thumbnailLinkStyleClass="regularLink"
-                                renderBaseDocument="#{currentDocument}"
-                                renderBaseDirectory="#{currentDirectory}"
+                                renderBaseDocument="#{documentHome.instance}"
+                                renderBaseDirectory="#{documentHome.parentDirectory}"
                                 enablePlugins="true"/>
         </s:div>
     </div></div></div>

@@ -28,7 +28,7 @@ public class FeedTeasers implements Serializable {
         return teasers;
     }
 
-    @Observer("Preferences.feedTeasersPreferences")
+    @Observer("PreferenceComponent.refresh.feedTeasersPreferences")
     public void loadTeasers() {
         teasers =
             feedDAO.findLastFeedEntries(

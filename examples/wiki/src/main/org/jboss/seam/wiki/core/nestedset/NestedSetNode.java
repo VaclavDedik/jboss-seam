@@ -25,6 +25,19 @@ public interface NestedSetNode<N extends NestedSetNode> {
     public Long getId();
 
     /**
+     * A node can veto any nested set updates.
+     * <p>
+     * This is useful if a particular instance doesn't really belong into the tree but has
+     * the same type. For example, if you have <tt>FileSystemNode</tt> implements
+     * <tt>NestedSetNode</tt> and <tt>HistoricalFileSystemNode</tt> (for audit logging, saved
+     * to a completely different table than the tree) then <tt>HistoricalFileSystemNode</tt>
+     * can return a veto when it is saved, so that the main tree will not be updated.
+     *
+     * @return true if a particular instance should not trigger nested set tree updates
+     */
+    public boolean vetoNestedSetUpdate();
+
+    /**
      * Nested set updates require that direct DML is executed by event listeners, this is
      * the name of the entity that is used by the event listeners. You can in most cases
      * return the simple class name of an instance, unless you customize your persistent
@@ -37,6 +50,7 @@ public interface NestedSetNode<N extends NestedSetNode> {
      * @return the persistent entity name of the superclass that implements this interface
      */
     public String getTreeSuperclassEntityName();
+    public Class getTreeSuperclass();
 
     /**
      * Utility method required until TODO: http://opensource.atlassian.com/projects/hibernate/browse/HHH-1615

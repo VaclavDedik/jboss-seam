@@ -14,6 +14,7 @@ import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.nestedset.NestedSetNode;
 import org.jboss.seam.wiki.core.nestedset.NestedSetNodeWrapper;
 import org.jboss.seam.wiki.core.nestedset.NestedSetResultTransformer;
+import org.jboss.seam.wiki.core.nestedset.NestedSetNodeDuplicator;
 import org.jboss.seam.Component;
 import org.hibernate.Session;
 import org.hibernate.Criteria;
@@ -200,6 +201,14 @@ public class NodeDAO {
                             .setParameter("nodeId", node.getId())
                             .list();
     }
+
+    public Long findNumberOfHistoricalNodes(Node node) {
+        if (node == null) return null;
+        return (Long)getSession().createQuery("select count(n) from HistoricalNode n where n.nodeId = :nodeId")
+                                  .setParameter("nodeId", node.getId())
+                                  .uniqueResult();
+
+    }
     
     // Multi-row constraint validation
     public boolean isUniqueWikiname(Node node) {
@@ -314,7 +323,59 @@ public class NodeDAO {
         NestedSetNodeWrapper<Node> startNodeWrapper = new NestedSetNodeWrapper<Node>(startNode, comp);
         NestedSetResultTransformer<Node> transformer = new NestedSetResultTransformer<Node>(startNodeWrapper, flattenToLevel);
 
+        // Make hollow copies for menu display so that changes to the model in the persistence context don't appear
+        transformer.setNestedSetNodeDuplicator(
+            new NestedSetNodeDuplicator<Node>() {
+                public Node duplicate(Node nestedSetNode) {
+                    Node copy = null;
+                    if (nestedSetNode instanceof Document) {
+                        copy = new Document((Document)nestedSetNode);
+                    } else if (nestedSetNode instanceof Directory) {
+                        copy = new Directory((Directory)nestedSetNode);
+                    } else if (nestedSetNode instanceof File) {
+                        copy = new File((File)nestedSetNode);
+                    }
+                    if (copy != null) {
+                        copy.setId(nestedSetNode.getId());
+                        copy.setParent(nestedSetNode.getParent());
+                    }
+                    return copy;
+                }
+            }
+        );
+
         appendNestedSetNodes(transformer, maxDepth, showAdminOnly, "n1.menuItem = true");
+        return startNodeWrapper;
+    }
+
+    // TODO: Not used
+    public NestedSetNodeWrapper<Node> findWithCommentCountOrderedByCreatedOn(Node startNode, Long maxDepth, Long flattenToLevel) {
+        // Needs to be equals() safe (SortedSet):
+        // - compare by creation date (note: don't compare data/timestamp), if equal
+        // - compare by name, if equal
+        // - compare by id
+        Comparator<NestedSetNodeWrapper<Node>> comp =
+            new Comparator<NestedSetNodeWrapper<Node>>() {
+                public int compare(NestedSetNodeWrapper<Node> o1, NestedSetNodeWrapper<Node> o2) {
+                    Node node1 = o1.getWrappedNode();
+                    Node node2 = o2.getWrappedNode();
+                    if (node1.getCreatedOn().getTime() != node2.getCreatedOn().getTime()) {
+                        return node1.getCreatedOn().getTime() > node2.getCreatedOn().getTime() ? -1 : 1;
+                    } else if (node1.getName().compareTo(node2.getName()) != 0) {
+                        return node1.getName().compareTo(node2.getName());
+                    }
+                    return node1.getId().compareTo(node2.getId());
+                }
+            };
+
+        Map<String, String> additionalProjections = new LinkedHashMap<String, String>();
+        additionalProjections.put("commentCount", "(select count(c) from Comment c where c.document.id = n1.id)");
+
+        NestedSetNodeWrapper<Node> startNodeWrapper = new NestedSetNodeWrapper<Node>(startNode, comp);
+        NestedSetResultTransformer<Node> transformer =
+                new NestedSetResultTransformer<Node>(startNodeWrapper, flattenToLevel, additionalProjections);
+
+        appendNestedSetNodes(transformer, maxDepth, false);
         return startNodeWrapper;
     }
 
@@ -324,11 +385,14 @@ public class NodeDAO {
                                                                String... restrictionFragment) {
 
         N startNode = transformer.getRootWrapper().getWrappedNode();
-        StringBuffer queryString = new StringBuffer();
+        StringBuilder queryString = new StringBuilder();
 
         queryString.append("select").append(" ");
         queryString.append("count(n1.id) as nestedSetNodeLevel").append(", ");
         queryString.append("n1 as nestedSetNode").append(" ");
+        for (Map.Entry<String, String> entry : transformer.getAdditionalProjections().entrySet()) {
+            queryString.append(", ").append(entry.getValue()).append(" as ").append(entry.getKey()).append(" ");
+        }
         queryString.append("from ").append(startNode.getTreeSuperclassEntityName()).append(" n1, ");
         queryString.append(startNode.getTreeSuperclassEntityName()).append(" n2 ");
         queryString.append("where n1.nsThread = :thread and n2.nsThread = :thread").append(" ");

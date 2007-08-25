@@ -7,7 +7,7 @@
         <param name="Target" value="System.out"/>
         <layout class="org.apache.log4j.PatternLayout">
             <!-- The default pattern: Date Priority [Category] Message\n -->
-            <param name="ConversionPattern" value="%d{ABSOLUTE} %-5p [%c{1}] %m%n"/>
+            <param name="ConversionPattern" value="%-5p [%c{6}] %m%n"/>
         </layout>
     </appender>
 
@@ -33,14 +33,13 @@
         <priority value="WARN"/>
     </category>
 
+    <!--
     <category name="org.hibernate.SQL">
         <priority value="TRACE"/>
     </category>
     <category name="org.hibernate.type">
         <priority value="TRACE"/>
     </category>
-
-    <!--
     <category name="org.hibernate.SQL">
         <priority value="TRACE"/>
     </category>
@@ -57,11 +56,10 @@
 
     <!-- ############### Seam logging ################### -->
     <category name="org.jboss.seam">
-        <priority value="TRACE"/>
+        <priority value="WARN"/>
     </category>
 
     <!-- These things are too noisy
-    -->
     <category name="org.jboss.seam.jsf.SeamVariableResolver">
         <priority value="INFO"/>
     </category>
@@ -83,6 +81,7 @@
     <category name="org.jboss.seam.core.Events">
         <priority value="INFO"/>
     </category>
+    -->
 
     <!-- Debugging conversations and persistence contexts
     <category name="org.jboss.seam.core.Manager">

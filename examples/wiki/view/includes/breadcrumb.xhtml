@@ -6,18 +6,26 @@
      xmlns:wiki="http://jboss.com/products/seam/wiki"
      xmlns:s="http://jboss.com/products/seam/taglib">
 
-    <h:panelGroup>
-        <ui:repeat var="directory" value="#{currentDirectoryPath}">
-            <h:outputLink value="#{wiki:renderURL(directory)}" styleClass="itemLink" rendered="#{!empty directory.parent}">
-                <h:outputText value="#{wiki:truncateString(directory.name, 25, '...')}"/>
+    <h:panelGroup styleClass="breadcrumbPanel">
+
+        <h:outputLink value="#{wiki:renderURL(node)}" styleClass="itemLink breadcrumbRoot">
+            <h:outputText value="#{wiki:truncateString(wikiRoot.name, 25, '...')}"/>
+        </h:outputLink>
+        <h:outputText styleClass="itemSeparator breadcrumbRoot" value="&#183;"/>
+
+        <ui:repeat var="node" value="#{breadcrumb}">
+
+            <h:outputLink value="#{wiki:renderURL(node)}" styleClass="itemLink" rendered="#{wiki:isDirectory(node)}">
+                <h:outputText value="#{wiki:truncateString(node.name, 25, '...')}"/>
             </h:outputLink>
-            <!-- middot: &#183; -->
-            <h:outputText styleClass="itemSeparator" value="/"
-                          rendered="#{!empty currentDocument and !empty directory.parent}"/>
+
+            <h:outputLink value="#{wiki:renderURL(node)}" styleClass="itemText" rendered="#{!wiki:isDirectory(node)}">
+                <h:outputText value="#{wiki:truncateString(node.name, 30, '...')}"/>
+            </h:outputLink>
+
+            <h:outputText styleClass="itemSeparator" value="&#183;" rendered="#{wiki:isDirectory(node)}"/>
+
         </ui:repeat>
-
-        <h:outputText styleClass="itemText" value="#{wiki:truncateString(currentDocument.name, 30, '...')}"/>
-
     </h:panelGroup>
 
 </div>

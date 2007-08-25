@@ -27,23 +27,27 @@ public class DirectoryHome extends NodeHome<Directory> {
     /* -------------------------- Context Wiring ------------------------------ */
 
 
-    /* -------------------------- Internal State ------------------------------ */
+    /* -------------------------- Request Wiring ------------------------------ */
 
-    private List<Document> childDocuments = new ArrayList<Document>();
-    public List<Document> getChildDocuments() { return childDocuments; }
-
-    /* -------------------------- Basic Overrides ------------------------------ */
-
-    @Override
-    public void create() {
-        super.create();
+    @Observer("DirectoryHome.init")
+    public String init() {
+        String result = super.init();
+        if (result != null) return result;
 
         // Fill the datamodel for outjection
         refreshChildNodes();
 
         // Feed checkbox
         hasFeed = getInstance().getFeed()!=null;
+
+        return null;
     }
+
+    /* -------------------------- Internal State ------------------------------ */
+
+    private List<Document> childDocuments = new ArrayList<Document>();
+    public List<Document> getChildDocuments() { return childDocuments; }
+
 
     /* -------------------------- Custom CUD ------------------------------ */
 
@@ -80,8 +84,6 @@ public class DirectoryHome extends NodeHome<Directory> {
         createOrRemoveFeed();
         return super.beforeUpdate();
     }
-
-    
 
     protected boolean prepareRemove() {
         if (getInstance().getParent() == null) return false; // Veto wiki root delete

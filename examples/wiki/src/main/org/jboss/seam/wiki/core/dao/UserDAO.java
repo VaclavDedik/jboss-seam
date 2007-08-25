@@ -37,7 +37,7 @@ public class UserDAO {
     public User findUser(String username, boolean onlyActivated, boolean caseSensitive) {
         entityManager.joinTransaction();
 
-        StringBuffer query = new StringBuffer("select u from User u where");
+        StringBuilder query = new StringBuilder("select u from User u where");
         if (caseSensitive)
             query.append(" u.username = :username");
         else
@@ -58,7 +58,7 @@ public class UserDAO {
     public User findUserWithActivationCode(String activationCode) {
         entityManager.joinTransaction();
 
-        StringBuffer query = new StringBuffer("select u from User u where u.activationCode = :activationCode");
+        StringBuilder query = new StringBuilder("select u from User u where u.activationCode = :activationCode");
         try {
             return (User) entityManager
                     .createQuery(query.toString())

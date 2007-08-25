@@ -1,0 +1,49 @@
+<wiki:plugin id="blogRecentEntriesPlugin"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:c="http://java.sun.com/jstl/core"
+        xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+        xmlns:wiki="http://jboss.com/products/seam/wiki"
+        xmlns:s="http://jboss.com/products/seam/taglib">
+
+
+    <script type="text/javascript">jQuery(function() {
+        clearDocumentBackground();
+    });</script>
+
+    <s:div styleClass="shadowContainer"><div class="shadow1"><div class="shadow2"><div class="blogRecentEntries">
+
+        <div class="blogRecentEntriesHeader"><span class="blogRecentEntriesHeaderText">Recent Entries</span></div>
+
+        <h:dataTable value="#{recentBlogEntries}" var="dayMap"
+                     rendered="#{recentBlogEntries.rowCount > 0}"
+                     styleClass="datatable"
+                     columnClasses="defaultColumn"
+                     cellpadding="0" cellspacing="0" border="0">
+            <h:column>
+                <div class="blogRecentEntriesDay">
+                    <h:outputText value="#{dayMap.key}">
+                        <f:convertDateTime pattern="dd. MMM yyyy" timeZone="#{wikiPreferences.timeZone}"/>
+                    </h:outputText>
+                </div>
+
+                <h:dataTable value="#{dayMap.value}" var="be"
+                             columnClasses="blogRecentEntriesItem"
+                             cellpadding="0" cellspacing="0" border="0">
+                    <h:column>
+                        <h:outputLink value="#{wiki:renderURL(be.entryDocument)}">
+                            #{wiki:truncateString(be.entryDocument.name, 40, '...')}
+                        </h:outputLink>
+                    </h:column>
+                </h:dataTable>
+
+            </h:column>
+        </h:dataTable>
+
+        <div class="blogRecentEntriesFooter"/>
+
+    </div></div></div></s:div>
+
+</wiki:plugin>

@@ -16,9 +16,7 @@
 
 <ui:define name="controlTwo">
 
-    <s:link id="exit" styleClass="linkNavigation"
-            action="#{browser.exitConversation(true)}"
-            accesskey="E"><u>E</u>xit</s:link>
+    <s:link id="close" styleClass="linkNavigation" view="/wiki.xhtml" propagation="end" accesskey="E">Clos<u>e</u></s:link>
 
 </ui:define>
 
@@ -62,10 +60,10 @@
     <div id="formTabs">
 
         <ul>
-            <li id="systemStatsTab"><a href="#systemStats">System Statistics</a></li>
-            <li id="rolesPermissionsTab"><a href="#rolesPermissions">Roles &amp; Permissions</a></li>
-            <li id="linkProtocolsTab"><a href="#linkProtocols">Link Protocols</a></li>
-            <li id="systemPrefsTab"><a href="#systemPrefs">Preferences</a></li>
+            <li id="systemStatsTab"><a href="#systemStats" accesskey="Y">S<u>y</u>stem Statistics</a></li>
+            <li id="rolesPermissionsTab"><a href="#rolesPermissions" accesskey="O">R<u>o</u>les &amp; Permissions</a></li>
+            <li id="linkProtocolsTab"><a href="#linkProtocols" accesskey="L"><u>L</u>ink Protocols</a></li>
+            <li id="systemPrefsTab"><a href="#systemPrefs" accesskey="R">P<u>r</u>eferences</a></li>
         </ul>
 
         <div id="systemStats">

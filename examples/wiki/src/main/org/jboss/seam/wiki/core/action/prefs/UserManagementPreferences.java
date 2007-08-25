@@ -40,6 +40,7 @@ public class UserManagementPreferences extends PreferenceSupport implements Seri
     private Boolean createHomeAfterUserActivation;
 
     @Preference(description = "06. Content of created home page", visibility = PreferenceVisibility.SYSTEM)
+    @Length(min = 0, max = 32768)
     private String homepageDefaultContent;
 
     public String getActivationCodeSalt() {

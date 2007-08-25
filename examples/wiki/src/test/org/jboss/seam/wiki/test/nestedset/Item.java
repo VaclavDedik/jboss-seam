@@ -73,6 +73,10 @@ public class Item extends AbstractNestedSetNode<Item> {
         return new String[] { "nsThread", "nsLeft", "nsRight", "id", "parent", "name"};
     }
 
+    public Class getTreeSuperclass() {
+        return Item.class;
+    }
+
     public String toString() {
         return getName() + " (" + getId() + ") THREAD: " + getNsThread() + " " + getNsLeft() + "|" + getNsRight(); 
     }

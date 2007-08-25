@@ -26,6 +26,8 @@ public class FileHome extends NodeHome<File> {
     @In
     Map<String, FileMetaMap.FileMetaInfo> fileMetaMap;
 
+    /* -------------------------- Request Wiring ------------------------------ */
+
     /* -------------------------- Internal State ------------------------------ */
 
     private String filename;

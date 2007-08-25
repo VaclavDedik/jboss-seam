@@ -27,6 +27,9 @@ public class BlogDirectory implements Serializable {
     NodeDAO nodeDAO;
 
     @In
+    BlogDAO blogDAO;
+
+    @In
     FacesMessages facesMessages;
 
     @In
@@ -38,23 +41,36 @@ public class BlogDirectory implements Serializable {
     @RequestParameter
     Boolean allEntries;
 
+    private Integer year;
+    private Integer  month;
+    private Integer  day;
+    private Integer page = 0;
+
     @RequestParameter
-    private void setBlogPage(Integer blogPage) {
-        if (blogPage != null) this.page = blogPage;
+    public void setPage(Integer page) {
+        if (page != null) {
+            this.page = page;
+        }
     }
-
+    @RequestParameter
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+    @RequestParameter
+    public void setMonth(Integer month) {
+        this.month = month;
+    }
+    @RequestParameter
+    public void setDay(Integer day) {
+        this.day = day;
+    }
+    private long numOfBlogEntries;
     private List<BlogEntry> blogEntries;
-
-    // Need to expose this as a datamodel so Seam can convert our map to a bunch of Map.Entry objects
+    private List<BlogEntryCount> blogEntryCountsByYearAndMonth;
+    // Need to expose this as a datamodel so Seam can convert our map to a collection of Map.Entry objects
     @DataModel
     private Map<Date, List<BlogEntry>> recentBlogEntries;
-    @DataModel
-    private Map<Date, List<BlogEntry>> allBlogEntries;
-   
-    private String orderByProperty;
-    private boolean orderDescending;
-    private int totalRowCount;
-    private int page;
+
     @In("#{blogDirectoryPreferences.properties['pageSize']}")
     private long pageSize;
     @In("#{blogDirectoryPreferences.properties['recentHeadlines']}")
@@ -62,39 +78,53 @@ public class BlogDirectory implements Serializable {
 
     @Create
     public void initialize() {
-        orderByProperty = "createdOn";
-        orderDescending = true;
         refreshBlogEntries();
     }
 
-    private void queryRowCount() {
-        totalRowCount = nodeDAO.getRowCountWithParent(Document.class, currentDirectory, currentDocument);
+    private void queryNumOfBlogEntries() {
+        numOfBlogEntries = blogDAO.countBlogEntries(currentDirectory, currentDocument, 99l, year, month, day);
     }
 
     private void queryBlogEntries() {
-        // TODO: This could be done in one query but I'm too lazy to write the GROUP BY clause because Hibernate doesn't do it for me
-        List<Document> documents =
-                nodeDAO.findWithParent(Document.class, currentDirectory, currentDocument,
-                                       orderByProperty, orderDescending, page * pageSize, pageSize);
-        Map<Long,Long> commentCounts = nodeDAO.findCommentCount(currentDirectory);
-
-        for (Document document : documents) {
-            blogEntries.add(
-                new BlogEntry(document, commentCounts.get(document.getId()) )
+        blogEntries =
+            blogDAO.findBlogEntriesWithCommentCount(
+                    currentDirectory,
+                    currentDocument,
+                    99l,
+                    "createdOn",
+                    true,
+                    page * pageSize,
+                    pageSize,
+                    year, month, day
             );
-        }
     }
 
-    private void queryRecentBlogEntries() {
-        List<Document> documents =
-                nodeDAO.findWithParent(Document.class, currentDirectory, currentDocument, "createdOn", true, 0, recentBlogEntriesCount);
+    private void queryBlogEntryCountsByYearAndMonth() {
+        blogEntryCountsByYearAndMonth = blogDAO.countAllBlogEntriesGroupByYearMonth(currentDirectory, currentDocument, 99l);
+    }
 
+    @Factory(value = "recentBlogEntries")
+    @Observer("PreferenceComponent.refresh.blogDirectoryPreferences")
+    public void queryRecentBlogEntries() {
+        List<BlogEntry> recentBlogEntriesNonAggregated =
+            blogDAO.findBlogEntriesWithCommentCount(
+                    currentDirectory,
+                    currentDocument,
+                    99l,
+                    "createdOn",
+                    true,
+                    0,
+                    recentBlogEntriesCount,
+                    null, null, null
+            );
+
+        // Now aggregate by day
         recentBlogEntries = new LinkedHashMap<Date, List<BlogEntry>>();
-        for (Document document : documents) {
+        for (BlogEntry blogEntry : recentBlogEntriesNonAggregated) {
 
             // Find the day (ignore the hours, minutes, etc.)
             Calendar createdOn = new GregorianCalendar();
-            createdOn.setTime(document.getCreatedOn());
+            createdOn.setTime(blogEntry.getEntryDocument().getCreatedOn());
             GregorianCalendar createdOnDay = new GregorianCalendar(
                 createdOn.get(Calendar.YEAR), createdOn.get(Calendar.MONTH), createdOn.get(Calendar.DAY_OF_MONTH)
             );
@@ -106,55 +136,33 @@ public class BlogDirectory implements Serializable {
                 ? recentBlogEntries.get(createdOnDate)
                 : new ArrayList<BlogEntry>();
 
-            entriesForDay.add(new BlogEntry(document));
+            entriesForDay.add(blogEntry);
             recentBlogEntries.put(createdOnDate, entriesForDay);
         }
     }
 
-    private void queryAllBlogEntries() {
-        if (allEntries == null || !allEntries) return; // Don't query if the index isn't displayed
-        List<Document> documents =
-                nodeDAO.findWithParent(Document.class, currentDirectory, currentDocument, "createdOn", true, 0, 0);
-
-        allBlogEntries = new LinkedHashMap<Date, List<BlogEntry>>();
-        for (Document document : documents) {
-
-            // Find the month (ignore the days, hours, minutes, etc.)
-            Calendar createdOn = new GregorianCalendar();
-            createdOn.setTime(document.getCreatedOn());
-            GregorianCalendar createdOnMonth = new GregorianCalendar(
-                createdOn.get(Calendar.YEAR), createdOn.get(Calendar.MONTH), 1
-            );
-            Date createdOnDate = createdOnMonth.getTime(); // Jesus, this API is just bad...
-
-            // Aggregate by month
-            List<BlogEntry> entriesForMonth =
-                allBlogEntries.containsKey(createdOnDate)
-                ? allBlogEntries.get(createdOnDate)
-                : new ArrayList<BlogEntry>();
-
-            entriesForMonth.add(new BlogEntry(document));
-            allBlogEntries.put(createdOnDate, entriesForMonth);
+    @Observer("PreferenceComponent.refresh.blogDirectoryPreferences")
+    public void refreshBlogEntries() {
+        blogEntries = new ArrayList<BlogEntry>();
+        queryNumOfBlogEntries();
+        if (numOfBlogEntries != 0){
+            queryBlogEntries();
         }
     }
 
-    @Observer("Preferences.blogDirectoryPreferences")
-    public void refreshBlogEntries() {
-        blogEntries = new ArrayList<BlogEntry>();
-        queryRowCount();
-        if (totalRowCount != 0) {
-            queryBlogEntries();
-            queryRecentBlogEntries();
-            queryAllBlogEntries();
-        }
+    public long getNumOfBlogEntries() {
+        return numOfBlogEntries;
     }
 
     public List<BlogEntry> getBlogEntries() {
         return blogEntries;
     }
 
-    public int getTotalRowCount() {
-        return totalRowCount;
+    public List<BlogEntryCount> getBlogEntryCountsByYearAndMonth() {
+        if (blogEntryCountsByYearAndMonth == null) {
+            queryBlogEntryCountsByYearAndMonth();
+        }
+        return blogEntryCountsByYearAndMonth;
     }
 
     public int getNextPage() {
@@ -174,22 +182,46 @@ public class BlogDirectory implements Serializable {
     }
 
     public long getLastRow() {
-        return (page * pageSize + pageSize) > totalRowCount
-                ? totalRowCount
+        return (page * pageSize + pageSize) > numOfBlogEntries
+                ? numOfBlogEntries
                 : page * pageSize + pageSize;
     }
 
     public long getLastPage() {
-        long lastPage = (totalRowCount / pageSize);
-        if (totalRowCount % pageSize == 0) lastPage--;
+        long lastPage = (numOfBlogEntries / pageSize);
+        if (numOfBlogEntries % pageSize == 0) lastPage--;
         return lastPage;
     }
 
     public boolean isNextPageAvailable() {
-        return blogEntries != null && totalRowCount > ((page * pageSize) + pageSize);
+        return blogEntries != null && numOfBlogEntries > ((page * pageSize) + pageSize);
     }
 
     public boolean isPreviousPageAvailable() {
         return blogEntries != null && page > 0;
     }
+
+    public String getDateUrl() {
+        return dateAsString(year, month, day);
+    }
+
+    // Utilities
+
+    public static String dateAsString(Integer year, Integer month, Integer day) {
+        StringBuilder dateUrl = new StringBuilder();
+        if (year != null) dateUrl.append("/").append(year);
+        if (month != null) dateUrl.append("/").append(padInteger(month, 2));
+        if (day != null) dateUrl.append("/").append(padInteger(day, 2));
+        return dateUrl.toString();
+    }
+
+    private static String padInteger(Integer raw, int padding) {
+        String rawInteger = raw.toString();
+        StringBuilder paddedInteger = new StringBuilder( );
+        for ( int padIndex = rawInteger.length() ; padIndex < padding; padIndex++ ) {
+            paddedInteger.append('0');
+        }
+        return paddedInteger.append( rawInteger ).toString();
+    }
+
 }

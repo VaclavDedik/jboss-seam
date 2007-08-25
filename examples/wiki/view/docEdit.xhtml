@@ -17,15 +17,10 @@
 
 <ui:define name="controlTwo">
 
-    <s:link id="uploadFile" styleClass="linkNavigation" action="uploadFile" accesskey="I" propagation="none"
-            rendered="#{s:hasPermission('Node', 'create', documentHome.parentDirectory)}">
-        <f:param name="lastConversationId" value="#{conversation.id}"/>
-        <f:param name="parentDirId" value="#{documentHome.parentDirectory.id}"/>
-        Upload F<u>i</u>le
-    </s:link>
+    <s:link id="exitManaged" styleClass="linkNavigation" rendered="#{documentHome.managed}" action="exitManaged"
+            accesskey="E"><u>E</u>xit Editor</s:link>
 
-    <s:link id="exit" styleClass="linkNavigation"
-            action="#{browser.exitConversation(true)}"
+    <s:link id="exitUnmanaged" styleClass="linkNavigation" rendered="#{!documentHome.managed}" action="exitUnmanaged"
             accesskey="E"><u>E</u>xit Editor</s:link>
 
 </ui:define>
@@ -59,25 +54,43 @@
         <div class="form">
 
             <script type="text/javascript">jQuery(function() {
-                jQuery('#formTabs').tabs({onClick: function(){formTabClicked()} });
+                jQuery('#formTabs').tabs(2, {onClick: function(){formTabClicked()} });
             });</script>
-            <div id="formTabs">
+            <div id="formTabs" class="formTabs">
 
                 <ul>
-                    <li id="docContentTab"><a href="#docContent">Content</a></li>
-                    <li id="docPropertiesTab"><a href="#docProperties">Properties</a></li>
+                    <li class="formTabsTitle">
+                        <h:outputText value="Create document" rendered="#{!documentHome.managed}"/>
+                        <h:outputText value="Edit document" rendered="#{documentHome.managed}"/>
+                    </li>
+                    <li id="docContentTab"><a href="#docContent" accesskey="C"><u>C</u>ontent</a></li>
+                    <li id="docPropertiesTab"><a href="#docProperties" accesskey="O">Pr<u>o</u>perties</a></li>
                 </ul>
+
+                <div id="formTabsTitle"/>
 
                 <div id="docContent">
 
                     <a:region>
                         <div class="formFields">
 
+                            <s:div styleClass="entry">
+                                <div class="label">Directory:</div>
+                                <div class="output">
+                                    <s:span id="directoryNameDisplay">#{documentHome.parentDirectory.name}</s:span>
+
+                                    <h:outputLink id="selectDirectory" rendered="#{documentHome.managed}" 
+                                                  value="#" tabindex="1"
+                                                  styleClass="buttonNonpersistent"><j4j:idProxy
+                                            id="openDialogDirectorySelection"/><span class="buttonLabel">...</span></h:outputLink>
+                                </div>
+                            </s:div>
+
                             <s:decorate id="nameDecorate" template="includes/formFieldDecorate.xhtml">
                                 <ui:param name="tabId" value="docContentTab"/>
                                 <ui:param name="fieldId" value="name"/>
                                 <ui:define name="label">Name</ui:define>
-                                <h:inputText tabindex="2" size="80" maxlength="255" required="true" value="#{documentHome.instance.name}">
+                                <h:inputText tabindex="2" size="70" maxlength="255" required="true" value="#{documentHome.instance.name}">
                                     <a:support event="onblur" reRender="nameDecorate"/>
                                 </h:inputText>
                             </s:decorate>
@@ -90,21 +103,42 @@
                                 </div>
                             </s:div>
 
+                            <s:div styleClass="entry" rendered="#{documentHome.managed}">
+                                <div class="label">&#160;</div>
+                                <div class="input">
+                                    <h:selectBooleanCheckbox value="#{documentHome.minorRevision}" tabindex="3"/>
+                                    Minor change, don't create a new revision
+                                </div>
+                            </s:div>
+
+                            <s:div id="feedSwitch">
+                                <s:div styleClass="entry">
+                                    <div class="label">&#160;</div>
+                                    <div class="input">
+                                        <h:selectBooleanCheckbox value="#{documentHome.pushOnSiteFeed}" tabindex="3"/>
+                                        Push document onto site news syndication feed
+                                    </div>
+                                </s:div>
+                            </s:div>
+
                             <s:decorate id="contentDecorate" template="includes/formFieldDecorate.xhtml">
                                 <ui:param name="tabId" value="docContentTab"/>
                                 <ui:param name="fieldId" value="contentTextArea"/>
                                 <ui:define name="label">Content</ui:define>
-                                <script type="text/javascript">if(!$.browser.safari){jQuery(function() {
-                                    jQuery("#contentTextEdit").Resizable({
-                                        minHeight: 50,
-                                        handlers: {
-                                            s: '#contentTextEditResizeHandle'
-                                        },
-                                        onResize: function(size) {
-                                            jQuery("textarea", this).css({ height: size.height + "px" });
-                                        }
-                                    });
-                                })};</script>
+                                <script type="text/javascript">if(!$.browser.safari &amp;&amp; !$.browser.msie){
+                                    jQuery(function() {
+                                        jQuery("#contentTextEdit").Resizable({
+                                            minHeight: 50,
+                                            handlers: {
+                                                s: '#contentTextEditResizeHandle'
+                                            },
+                                            onResize: function(size) {
+                                                jQuery("textarea", this).css({ height: size.height + "px" });
+                                            }
+                                        });
+                                        jQuery("#contentTextEditResizeHandle").show();
+                                    }
+                                )};</script>
                                 <div id="contentTextEdit" class="textEditResizable">
                                     <h:inputTextarea tabindex="3"
                                                      required="true"
@@ -115,7 +149,7 @@
                                         <a:support rendered="#{documentHome.enabledPreview}" event="onkeyup" reRender="preview" requestDelay="3000" eventsQueue="editKeyPress"/>
                                         <a:support event="onblur" reRender="contentDecorate"/>
                                     </h:inputTextarea>
-                                    <div id="contentTextEditResizeHandle" class="textEditResizeHandle"/>
+                                    <div id="contentTextEditResizeHandle" class="textEditResizeHandle" style="display:none"/>
                                 </div>
                             </s:decorate>
 
@@ -152,16 +186,6 @@
                         <div class="formFields">
 
                             <s:div styleClass="entry" rendered="#{documentHome.managed}">
-                                <div class="label">In directory:</div>
-                                <div class="output">
-                                    <s:span id="directoryNameDisplay">#{documentHome.parentDirectory}</s:span>
-
-                                    <h:outputLink id="selectDirectory" value="#" tabindex="1" styleClass="buttonNonpersistent"><j4j:idProxy
-                                                    id="openDialogDirectorySelection"/><span class="buttonLabel">...</span></h:outputLink>
-                                </div>
-                            </s:div>
-
-                            <s:div styleClass="entry" rendered="#{documentHome.managed}">
                                 <div class="label">Created On:</div>
                                 <div class="output">
                                     <h:outputText value="#{documentHome.instance.createdOn}">
@@ -193,24 +217,6 @@
                                     <div class="input">
                                         <h:selectBooleanCheckbox value="#{documentHome.instance.enableCommentForm}" tabindex="3"/>
                                         Allow posting of new comments
-                                    </div>
-                                </s:div>
-                            </s:div>
-
-                            <s:div styleClass="entry" rendered="#{documentHome.managed}">
-                                <div class="label">&#160;</div>
-                                <div class="input">
-                                    <h:selectBooleanCheckbox value="#{documentHome.minorRevision}" tabindex="3"/>
-                                    Minor change, don't create a new revision
-                                </div>
-                            </s:div>
-
-                            <s:div id="feedSwitch">
-                                <s:div styleClass="entry">
-                                    <div class="label">&#160;</div>
-                                    <div class="input">
-                                        <h:selectBooleanCheckbox value="#{documentHome.pushOnSiteFeed}" tabindex="3"/>
-                                        Push document onto site news syndication feed
                                     </div>
                                 </s:div>
                             </s:div>
@@ -255,14 +261,14 @@
                rendered="#{documentHome.enabledPreview}"
                styleClass="shadowContainer"><div class="shadow1"><div class="shadow2">
             <s:div id="documentDisplay" styleClass="documentDisplay"><j4j:idProxy id="documentDisplay_" />
-                <s:div rendered="#{currentDocument.nameAsTitle}"><h1 class="documentTitle">#{currentDocument.name}</h1></s:div>
+                <s:div rendered="#{documentHome.instance.nameAsTitle}"><h1 class="documentTitle">#{documentHome.instance.name}</h1></s:div>
                 <wiki:formattedText value="#{documentHome.instance.content}"
                                     linkStyleClass="regularLink"
                                     brokenLinkStyleClass="brokenLink"
                                     attachmentLinkStyleClass="regularLink"
                                     thumbnailLinkStyleClass="regularLink"
                                     renderBaseDocument="#{documentHome.instance}"
-                                    renderBaseDirectory="#{currentDirectory}"
+                                    renderBaseDirectory="#{documentHome.parentDirectory}"
                                     enablePlugins="true"/>
             </s:div>
         </div></div></s:div>

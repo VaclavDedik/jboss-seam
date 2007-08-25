@@ -62,6 +62,13 @@ import java.io.Serializable;
  * deeper than 3 levels. This is useful for certain kinds of tree display.
  * </p>
  * <p>
+ * This transformer accepts a <tt>NestedSetNodeDuplicator</tt> instance which will be used, if not null, to
+ * copy every <tt>nestedSetNode</tt> returned by the query. This is useful if you do not want or require the
+ * original <tt>nestedSetNode</tt> instances wrapped, for example, if changes on these instances should not
+ * be reflected by the wrapped instances. You can effectively generate a stable copy of the tree, e.g. for
+ * display purposes.
+ * </p>
+ * <p>
  * A note about restrictions: If the only restriction condition in your query is the one shown above, limiting
  * the returned tuples to the nodes of the subtree, you will have a whole and complete subtree, hence, you will
  * not have any gaps in the in-memory tree of {@link NestedSetNodeWrapper}s returned by the transformer. However,
@@ -83,14 +90,22 @@ public class NestedSetResultTransformer<N extends NestedSetNode> implements Resu
     NestedSetNodeWrapper<N> rootWrapper;
     NestedSetNodeWrapper<N> currentParent;
     long flattenToLevel = 0;
-
-    public NestedSetResultTransformer(NestedSetNodeWrapper<N> rootWrapper, long flattenToLevel) {
-        this(rootWrapper);
-        this.flattenToLevel = flattenToLevel;
-    }
+    Map<String, String> additionalProjections = new HashMap<String, String>();
+    NestedSetNodeDuplicator<N> nestedSetNodeDuplicator = null;
 
     public NestedSetResultTransformer(NestedSetNodeWrapper<N> rootWrapper) {
+        this(rootWrapper, 0l);
+    }
+
+    public NestedSetResultTransformer(NestedSetNodeWrapper<N> rootWrapper, long flattenToLevel) {
+        this(rootWrapper, flattenToLevel, new HashMap<String, String>());
+    }
+
+    public NestedSetResultTransformer(NestedSetNodeWrapper<N> rootWrapper, long flattenToLevel, Map<String, String> additionalProjections) {
         this.rootWrapper = rootWrapper;
+        this.flattenToLevel = flattenToLevel;
+        this.additionalProjections = additionalProjections;
+
         this.comparator = rootWrapper.getComparator();
         currentParent = rootWrapper;
     }
@@ -99,23 +114,41 @@ public class NestedSetResultTransformer<N extends NestedSetNode> implements Resu
         return rootWrapper;
     }
 
+    public Map<String, String> getAdditionalProjections() {
+        return additionalProjections;
+    }
+
+    public void setNestedSetNodeDuplicator(NestedSetNodeDuplicator<N> nestedSetNodeDuplicator) {
+        this.nestedSetNodeDuplicator = nestedSetNodeDuplicator;
+    }
+
     public Object transformTuple(Object[] objects, String[] aliases) {
 
         if (!"nestedSetNodeLevel".equals(aliases[0]))
             throw new RuntimeException("Missing alias 'nestedSetNodeLevel' as the first projected value in the nested set query");
         if (!"nestedSetNode".equals(aliases[1]))
             throw new RuntimeException("Missing alias 'nestedSetNode' as the second projected value in the nested set query");
-        if (objects.length != 2) {
-            throw new RuntimeException("Nested set query needs to return two values, the level and the nested set node instance");
+        if (objects.length < 2) {
+            throw new RuntimeException("Nested set query needs to at least return two values, the level and the nested set node instance");
         }
 
         Long nestedSetNodeLevel = (Long)objects[0];
         N nestedSetNode = (N)objects[1];
 
+        Long nestedSetNodeParentId = nestedSetNode.getParent().getId(); // Store the parent id before making a duplicate
+        if (nestedSetNodeDuplicator != null) nestedSetNode = nestedSetNodeDuplicator.duplicate(nestedSetNode);
+        if (nestedSetNode == null) return null; // Continue in loop if the duplicator didn't make a proper copy
+
+        Map<String, Object> additionalProjectionValues = new LinkedHashMap<String, Object>();
+        int i = 2;
+        for (Map.Entry<String, String> entry : additionalProjections.entrySet()) {
+            additionalProjectionValues.put(entry.getKey(), objects[i++]);
+        }
+
         // Connect the tree hierarchically (child to parent, skip child if parent isn't present)
-        NestedSetNodeWrapper<N> nodeWrapper = new NestedSetNodeWrapper<N>(nestedSetNode, comparator, nestedSetNodeLevel);
-        if (!nodeWrapper.getWrappedNode().getParent().getId().equals(currentParent.getWrappedNode().getId())) {
-            NestedSetNodeWrapper<N> foundParent = findParentInTree(nodeWrapper.getWrappedNode().getParent().getId(), currentParent);
+        NestedSetNodeWrapper<N> nodeWrapper = new NestedSetNodeWrapper<N>(nestedSetNode, comparator, nestedSetNodeLevel, additionalProjectionValues);
+        if (!nestedSetNodeParentId.equals(currentParent.getWrappedNode().getId())) {
+            NestedSetNodeWrapper<N> foundParent = findParentInTree(nestedSetNodeParentId, currentParent);
             if (foundParent != null) {
                 currentParent = foundParent;
             } else {
@@ -126,7 +159,7 @@ public class NestedSetResultTransformer<N extends NestedSetNode> implements Resu
         currentParent.getWrappedChildren().add(nodeWrapper);
         currentParent = nodeWrapper;
 
-        return rootWrapper; // Need to return something so that transformList() is called afterwards
+        return rootWrapper; // Return just something so that transformList() will be called when we are done
     }
 
     private NestedSetNodeWrapper<N> findParentInTree(Serializable parentId, NestedSetNodeWrapper<N> startNode) {
@@ -147,12 +180,13 @@ public class NestedSetResultTransformer<N extends NestedSetNode> implements Resu
             }
             rootWrapper.setWrappedChildren(flatChildren);
         }
-        return new ArrayList();
+        return new ArrayList(); // Nothing is returned from this transformer
     }
 
     // Recursively flatten tree
     private void flattenTree(List<NestedSetNodeWrapper<N>> flatChildren, long i, NestedSetNodeWrapper<N> wrapper) {
-        NestedSetNodeWrapper<N> newWrapper = new NestedSetNodeWrapper<N>(wrapper.getWrappedNode(), comparator, i);
+        NestedSetNodeWrapper<N> newWrapper =
+                new NestedSetNodeWrapper<N>(wrapper.getWrappedNode(), comparator, i, wrapper.getAdditionalProjections());
         flatChildren.add( newWrapper );
         if (wrapper.getWrappedChildren().size() > 0 && wrapper.getLevel() < flattenToLevel) {
             i++;

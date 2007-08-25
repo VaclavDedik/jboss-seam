@@ -12,7 +12,7 @@
 
     </test>
 
-    <test name="Editing">
+   <test name="Editing">
 
         <parameter name="datasourceJndiName" value="java:/wikiTestDatasource"/>
 
@@ -32,11 +32,11 @@
     </test>
 
     <!--
-    <test name="Misc">
-
-        <packages>
-            <package name="org.jboss.seam.wiki.test.misc"/>
-        </packages>
+    <test name="Adhoc">
+        <parameter name="datasourceJndiName" value="java:/wikiTestDatasource"/>
+        <classes>
+            <class name="org.jboss.seam.wiki.test.editing.OptionalNodeOperations"/>
+        </classes>
     </test>
     -->
 

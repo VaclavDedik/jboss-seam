@@ -233,6 +233,7 @@ public abstract class DBUnitSeamTest extends SeamTest {
     protected void disableReferentialIntegrity(IDatabaseConnection con) {
         try {
             con.getConnection().prepareStatement("set referential_integrity FALSE").execute(); // HSQL DB
+            //con.getConnection().prepareStatement("set foreign_key_checks=0").execute(); // MySQL > 4.1.1
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
@@ -249,6 +250,7 @@ public abstract class DBUnitSeamTest extends SeamTest {
     protected void enableReferentialIntegrity(IDatabaseConnection con) {
         try {
             con.getConnection().prepareStatement("set referential_integrity TRUE").execute();  // HSQL DB
+            //con.getConnection().prepareStatement("set foreign_key_checks=1").execute(); // MySQL > 4.1.1
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }

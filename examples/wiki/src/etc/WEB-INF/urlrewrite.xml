@@ -1,85 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 3.0//EN"
-        "http://tuckey.org/res/dtds/urlrewrite3.0.dtd">
+<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 3.0//EN" "http://tuckey.org/res/dtds/urlrewrite3.0.dtd">
 
 <!--
 
-    Configuration file for UrlRewriteFilter
-    http://tuckey.org/urlrewrite/
+    Rewrite various Wiki-like URL paths to request parameters (http://tuckey.org/urlrewrite/)
+
+    @author Christian Bauer
 
 -->
 <urlrewrite>
 
+    <!-- /123.lace -->
     <rule>
          <from>^/([0-9]+)\.[a-zA-z]+$</from>
-         <to last="true">/display.seam?nodeId=$1</to>
+         <to last="true">/wiki.seam?nodeId=$1</to>
      </rule>
 
+    <!-- /Foo -->
     <rule>
         <from casesensitive="true">^/([A-Za-z0-9]+[A-Za-z0-9]*)$</from>
-        <to last="true">/display.seam?areaName=$1</to>
+        <to last="true">/wiki.seam?areaName=$1</to>
     </rule>
 
+    <!-- /Foo/Bar -->
     <rule>
         <from casesensitive="true">^/([A-Z0-9]+[A-Za-z0-9]*)/([A-Z0-9]+[A-Za-z0-9]*)$</from>
-        <to last="true">/display.seam?areaName=$1&amp;nodeName=$2</to>
+        <to last="true">/wiki.seam?areaName=$1&amp;nodeName=$2</to>
     </rule>
 
+    <!-- /Foo/Bar/2007 -->
+    <rule>
+        <from casesensitive="true">^/([A-Z0-9]+[A-Za-z0-9]*)/([A-Z0-9]+[A-Za-z0-9]*)/([0-9]{4})$</from>
+        <to last="true">/wiki.seam?areaName=$1&amp;nodeName=$2&amp;year=$3</to>
+    </rule>
+
+    <!-- /Foo/Bar/2007/08 -->
+    <rule>
+        <from casesensitive="true">^/([A-Z0-9]+[A-Za-z0-9]*)/([A-Z0-9]+[A-Za-z0-9]*)/([0-9]{4})/([0-9]{2})$</from>
+        <to last="true">/wiki.seam?areaName=$1&amp;nodeName=$2&amp;year=$3&amp;month=$4</to>
+    </rule>
+
+    <!-- /Foo/Bar/2007/08/23 -->
+    <rule>
+        <from casesensitive="true">^/([A-Z0-9]+[A-Za-z0-9]*)/([A-Z0-9]+[A-Za-z0-9]*)/([0-9]{4})/([0-9]{2})/([0-9]{2})$</from>
+        <to last="true">/wiki.seam?areaName=$1&amp;nodeName=$2&amp;year=$3&amp;month=$4&amp;day=$5</to>
+    </rule>
+
+    <!-- /Foo/Bar/Page/3 -->
+    <rule>
+        <from casesensitive="true">^/([A-Z0-9]+[A-Za-z0-9]*)/([A-Z0-9]+[A-Za-z0-9]*)/Page/([0-9]+)$</from>
+        <to last="true">/wiki.seam?areaName=$1&amp;nodeName=$2&amp;page=$3</to>
+    </rule>
+
+    <!-- /Foo/Bar/2007/Page/3 -->
+    <rule>
+        <from casesensitive="true">^/([A-Z0-9]+[A-Za-z0-9]*)/([A-Z0-9]+[A-Za-z0-9]*)/([0-9]{4})/Page/([0-9]+)$</from>
+        <to last="true">/wiki.seam?areaName=$1&amp;nodeName=$2&amp;year=$3&amp;page=$4</to>
+    </rule>
+
+    <!-- /Foo/Bar/2007/08/Page/3 -->
+    <rule>
+        <from casesensitive="true">^/([A-Z0-9]+[A-Za-z0-9]*)/([A-Z0-9]+[A-Za-z0-9]*)/([0-9]{4})/([0-9]{2})/Page/([0-9]+)$</from>
+        <to last="true">/wiki.seam?areaName=$1&amp;nodeName=$2&amp;year=$3&amp;month=$4&amp;page=$5</to>
+    </rule>
+
+    <!-- /Foo/Bar/2007/08/23/Page/3 -->
+    <rule>
+        <from casesensitive="true">^/([A-Z0-9]+[A-Za-z0-9]*)/([A-Z0-9]+[A-Za-z0-9]*)/([0-9]{4})/([0-9]{2})/([0-9]{2})/Page/([0-9]+)$</from>
+        <to last="true">/wiki.seam?areaName=$1&amp;nodeName=$2&amp;year=$3&amp;month=$4&amp;day=$5&amp;page=$6</to>
+    </rule>
+
+    <!-- /Foo/Bar/2007/Summary-->
+    <rule>
+        <from casesensitive="true">^/([A-Z0-9]+[A-Za-z0-9]*)/([A-Z0-9]+[A-Za-z0-9]*)/([0-9]{4})/Summary$</from>
+        <to last="true">/wiki.seam?areaName=$1&amp;nodeName=$2&amp;year=$3&amp;summary=true</to>
+    </rule>
+
+    <!-- /Foo/Bar/2007/08/Summary -->
+    <rule>
+        <from casesensitive="true">^/([A-Z0-9]+[A-Za-z0-9]*)/([A-Z0-9]+[A-Za-z0-9]*)/([0-9]{4})/([0-9]{2})/Summary$</from>
+        <to last="true">/wiki.seam?areaName=$1&amp;nodeName=$2&amp;year=$3&amp;month=$4&amp;summary=true</to>
+    </rule>
+
+    <!-- /Foo/Bar/2007/08/23/Summary -->
+    <rule>
+        <from casesensitive="true">^/([A-Z0-9]+[A-Za-z0-9]*)/([A-Z0-9]+[A-Za-z0-9]*)/([0-9]{4})/([0-9]{2})/([0-9]{2})/Summary$</from>
+        <to last="true">/wiki.seam?areaName=$1&amp;nodeName=$2&amp;year=$3&amp;month=$4&amp;day=$5&amp;summary=true</to>
+    </rule>
+
+    <!-- / -->
     <rule>
         <from>^/$</from>
-        <to>/display.seam</to>
+        <to>/wiki.seam</to>
     </rule>
-
-    <!--
-
-    INSTALLATION
-
-        in your web.xml add...
-
-        <filter>
-            <filter-name>UrlRewriteFilter</filter-name>
-            <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
-            <init-param>
-                <param-name>logLevel</param-name>
-                <param-value>WARN</param-value>
-            </init-param>
-        </filter>
-        <filter-mapping>
-            <filter-name>UrlRewriteFilter</filter-name>
-            <url-pattern>/*</url-pattern>
-        </filter-mapping>
-
-     EXAMPLES
-
-     Redirect one url
-        <rule>
-            <from>/some/old/page.html</from>
-            <to type="redirect">/very/new/page.html</to>
-        </rule>
-
-    Redirect a directory
-        <rule>
-            <from>/some/olddir/(.*)</from>
-            <to type="redirect">/very/newdir/$1</to>
-        </rule>
-
-    Clean a url
-        <rule>
-            <from>/products/([0-9]+)</from>
-            <to>/products/index.jsp?product_id=$1</to>
-        </rule>
-    eg, /products/1234 will be passed on to /products/index.jsp?product_id=1234 without the user noticing.
-
-    Browser detection
-        <rule>
-            <condition name="user-agent">Mozilla/[1-4]</condition>
-            <from>/some/page.html</from>
-            <to>/some/page-for-old-browsers.html</to>
-        </rule>
-    eg, will pass the request for /some/page.html on to /some/page-for-old-browsers.html only for older
-    browsers whose user agent srtings match Mozilla/1, Mozilla/2, Mozilla/3 or Mozilla/4.
-
-    -->
 
 </urlrewrite>
 

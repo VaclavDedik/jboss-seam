@@ -14,10 +14,8 @@ insert into USER_ROLE (USER_ID, ROLE_ID) values (1,1)
 insert into USER_ROLE (USER_ID, ROLE_ID) values (2,2)
 
 insert into NODE (NODE_ID, NODE_TYPE, NODE_REVISION, CREATED_BY_USER_ID, AREA_NR, OBJ_VERSION, NAME, WIKINAME, MENU_ITEM, CREATED_ON, WRITE_ACCESS_LEVEL, READ_ACCESS_LEVEL, NS_THREAD, NS_LEFT, NS_RIGHT, DISPLAY_POSITION) values (1, 'DIRECTORY', 1, 1, 1, 0, 'ROOT', 'ROOT', false, '1976-06-26 11:11:11', 1000, 0, 1, 1, 50, 0)
-insert into NODE_DIRECTORY (DIRECTORY_ID, DEFAULT_DOCUMENT_ID) values (1, null)
 insert into FEED (FEED_ID, OBJ_VERSION, TITLE, AUTHOR, PUBLISHED_ON, DIRECTORY_ID) values (1, 0, 'ROOT', 'Lacewiki', '1976-06-26 11:11:11', 1)
 insert into NODE (NODE_ID, NODE_TYPE, NODE_REVISION, CREATED_BY_USER_ID, AREA_NR, PARENT_NODE_ID, OBJ_VERSION, NAME, WIKINAME, MENU_ITEM, CREATED_ON, LAST_MODIFIED_ON, WRITE_ACCESS_LEVEL, READ_ACCESS_LEVEL, NS_THREAD, NS_LEFT, NS_RIGHT, DISPLAY_POSITION) values (2, 'DIRECTORY', 1, 1, 2, 1, 0, 'Member Area', 'MemberArea', true, '2005-06-27 13:45:00', '2005-06-27 13:45:00', 1000, 0, 1, 2, 35, 0)
-insert into NODE_DIRECTORY (DIRECTORY_ID, DEFAULT_DOCUMENT_ID) values (2, null)
 
 -- Link protocols, can be customized
 
@@ -29,7 +27,7 @@ insert into LINK_PROTOCOL (LINK_PROTOCOL_ID, OBJ_VERSION, PREFIX, LINK) values (
 
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, STRING_VALUE)   values (1, 0, 'wikiPreferences', 'baseUrl', 'http://localhost:8080/wiki')
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, STRING_VALUE)   values (2, 0, 'wikiPreferences', 'timeZone', 'CET')
-insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, STRING_VALUE)   values (3, 0, 'wikiPreferences', 'themeName', 'inrelationto')
+insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, STRING_VALUE)   values (3, 0, 'wikiPreferences', 'themeName', 'default')
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (4, 0, 'wikiPreferences', 'memberAreaId', '2')
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (5, 0, 'wikiPreferences', 'defaultDocumentId', '10')
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, BOOLEAN_VALUE)  values (6, 0, 'wikiPreferences', 'renderPermlinks', false)
@@ -42,14 +40,14 @@ insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, BOOL
 
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, BOOLEAN_VALUE)  values (20, 0, 'docEditorPreferences', 'minorRevisionEnabled', true)
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (21, 0, 'docEditorPreferences', 'regularEditAreaRows', '15')
-insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (22, 0, 'docEditorPreferences', 'regularEditAreaColumns', '80')
+insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (22, 0, 'docEditorPreferences', 'regularEditAreaColumns', '70')
 
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, STRING_VALUE)   values (30, 0, 'userManagementPreferences', 'activationCodeSalt', 'MySecretSalt123')
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, STRING_VALUE)   values (31, 0, 'userManagementPreferences', 'passwordRegex', '^[0-9A-Za-z]{6,15}')
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, STRING_VALUE)   values (32, 0, 'userManagementPreferences', 'newUserInRole', 'member')
-insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, BOOLEAN_VALUE)  values (33, 0, 'userManagementPreferences', 'enableRegistration', true)
+insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, BOOLEAN_VALUE)  values (33, 0, 'userManagementPreferences', 'enableRegistration', false)
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, BOOLEAN_VALUE)  values (34, 0, 'userManagementPreferences', 'createHomeAfterUserActivation', false)
-insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, STRING_VALUE)   values (35, 0, 'userManagementPreferences', 'homepageDefaultContent', '<div style="float:right; width:33%;">@@LF@@ <div>[<=userProfile]</div>@@LF@@ <div style="margin-top:15px;">[<=dirMenu]</div>@@LF@@ <div style="margin-top:15px;">[<=recentEntries]</div>@@LF@@</div>@@LF@@<div style="width:65%;">[<=blogDirectory]</div>@@LF@@@@LF@@')
+insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, STRING_VALUE)   values (35, 0, 'userManagementPreferences', 'homepageDefaultContent', '<div style="float:right; width:33%;">@@LF@@ <div>[<=userProfile]</div>@@LF@@ <div style="margin-top:15px;">[<=blogRecentEntries]</div>@@LF@@ <div style="margin-top:15px;">[<=blogArchive]</div>@@LF@@</div>@@LF@@<div style="width:65%;">[<=blogDirectory]</div>@@LF@@@@LF@@')
 
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (40, 0, 'lastModifiedDocumentsPreferences', 'numberOfItems', '5')
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, BOOLEAN_VALUE)  values (41, 0, 'lastModifiedDocumentsPreferences', 'showUsernames', true)
@@ -86,7 +84,7 @@ insert into NODE_DIRECTORY (DIRECTORY_ID, DEFAULT_DOCUMENT_ID) values (3, null)
 update USERS set MEMBER_HOME_NODE_ID = '3' where USER_ID = '3'
 insert into FEED (FEED_ID, OBJ_VERSION, TITLE, AUTHOR, PUBLISHED_ON, DIRECTORY_ID) values (2, 0, 'Member', 'Regular Member', '1976-06-26 11:11:11', 3)
 insert into NODE (NODE_ID, NODE_TYPE, NODE_REVISION, CREATED_BY_USER_ID, AREA_NR, PARENT_NODE_ID, OBJ_VERSION, NAME, WIKINAME, MENU_ITEM, CREATED_ON, LAST_MODIFIED_ON, WRITE_ACCESS_LEVEL, READ_ACCESS_LEVEL, NS_THREAD, NS_LEFT, NS_RIGHT, DISPLAY_POSITION) values (4, 'DOCUMENT', 1, 3, 2, 3, 0, 'Home of member', 'HomeOfMember', false, '2005-06-27 13:45:00', '2005-06-27 13:45:00', 1000, 0, 1, 4, 5, 0)
-insert into NODE_DOCUMENT (DOCUMENT_ID, CONTENT, NAME_AS_TITLE, ENABLE_COMMENTS, ENABLE_COMMENT_FORM) values (4, '<div style="float:right; width:33%;">@@LF@@ <div>[<=userProfile]</div>@@LF@@ <div style="margin-top:15px;">[<=dirMenu]</div>@@LF@@ <div style="margin-top:15px;">[<=recentEntries]</div>@@LF@@</div>@@LF@@<div style="width:65%;">[<=blogDirectory]</div>@@LF@@@@LF@@', false, false, false)
+insert into NODE_DOCUMENT (DOCUMENT_ID, CONTENT, NAME_AS_TITLE, ENABLE_COMMENTS, ENABLE_COMMENT_FORM) values (4, '<div style="float:right; width:33%;">@@LF@@ <div>[<=userProfile]</div>@@LF@@ <div style="margin-top:15px;">[<=blogRecentEntries]</div>@@LF@@ <div style="margin-top:15px;">[<=blogArchive]</div>@@LF@@</div>@@LF@@<div style="width:65%;">[<=blogDirectory]</div>@@LF@@@@LF@@', false, false, false)
 update NODE_DIRECTORY set DEFAULT_DOCUMENT_ID = '4' where DIRECTORY_ID = '3'
 
 insert into USER_PROFILE (USER_PROFILE_ID, OBJ_VERSION, CREATED_ON) values (4, 0, '2006-06-27 13:45:00')
@@ -121,6 +119,7 @@ insert into NODE_DIRECTORY (DIRECTORY_ID, DEFAULT_DOCUMENT_ID) values (9, null)
 
 insert into NODE (NODE_ID, NODE_TYPE, NODE_REVISION, CREATED_BY_USER_ID, AREA_NR, PARENT_NODE_ID, OBJ_VERSION, NAME, WIKINAME, MENU_ITEM, CREATED_ON, LAST_MODIFIED_ON, WRITE_ACCESS_LEVEL, READ_ACCESS_LEVEL, NS_THREAD, NS_LEFT, NS_RIGHT, DISPLAY_POSITION) values (10, 'DOCUMENT', 1, 1, 9, 9, 0, 'Welcome!', 'Welcome', true,'2005-06-27 13:45:00', '2005-06-27 13:45:00', 0, 0, 1, 37, 38, 0)
 insert into NODE_DOCUMENT (DOCUMENT_ID, CONTENT, NAME_AS_TITLE, ENABLE_COMMENTS, ENABLE_COMMENT_FORM) values (10, '++ A secondary headline@@LF@@@@LF@@You should see an image on the right, embedded in the page.@@LF@@@@LF@@+++ A tertiary headline@@LF@@@@LF@@<div style="float:right;border: 1px solid grey; padding:4px;margin-left:10px;margin-bottom:1px;">[=>wiki://13]</div>Login with admin-admin, member-member, special-member, or super-member to try different access levels.@@LF@@@@LF@@To attach or embedd a file, click /Browse/, upload it, and then simply link to it like you would link to another document.@@LF@@@@LF@@++++ A fourth level headline@@LF@@@@LF@@[This guy=>Member Area|member] has a blog.@@LF@@@@LF@@Testing [a link=>wiki://11] to some page, this should be a [broken link=>wiki://99999], a normal link without alternative text [=>wiki://12], a link to to some nonexistent [=>page] and a link to a [different area=>Member Area|member]. This is [a link=>jbseam://1151] to JBoss Seam JIRA and this is a link to Hibernate JIRA: [=>hhh://2549].@@LF@@@@LF@@A plugin:@@LF@@@@LF@@<div style="width:300px;float:left;margin-right:10px;">[<=feedTeasers]</div>@@LF@@@@LF@@Seam Text is a human-friendly language for formatting text in blogs, forums and wikis. It''s easy to enter text in *bold*, /italic/, |monospace|, ~deleted~ or ^superscript^; you can easily enter links, lists, quotes and code blocks.@@LF@@@@LF@@[This is a regular link to the Hibernate website.=>http://hibernate.org]@@LF@@@@LF@@You can *not* enter HTML entities, even escaped: \&amp; \&lt; \&gt; \&quot; \&nbsp;@@LF@@@@LF@@And even emoticons: ;) :-) :-{ ;-)@@LF@@@@LF@@Another plugin on the right:@@LF@@@@LF@@<div style="float:right;margin-left:10px;">[<=lastModifiedDocuments]</div>@@LF@@@@LF@@Here is an ordered list:@@LF@@@@LF@@#JBoss@@LF@@#Seam@@LF@@#Hibernate@@LF@@@@LF@@And this is an unordered list:@@LF@@@@LF@@=jBPM@@LF@@=Drools@@LF@@=Ajax4JSF@@LF@@=Facelets@@LF@@@@LF@@<hr/>@@LF@@@@LF@@"Here is a quote from someone else"@@LF@@@@LF@@`<p>Here is some code</p>`@@LF@@@@LF@@And some plain HTML (restricted subset):@@LF@@@@LF@@<b>Foo</b>@@LF@@@@LF@@', true, true, true)
+--insert into NODE_DOCUMENT (DOCUMENT_ID, CONTENT, NAME_AS_TITLE, ENABLE_COMMENTS, ENABLE_COMMENT_FORM) values (10, 'This is just a test page.', true, true, true)
 update NODE_DIRECTORY set DEFAULT_DOCUMENT_ID = '10' where DIRECTORY_ID='9'
 
 insert into NODE (NODE_ID, NODE_TYPE, NODE_REVISION, CREATED_BY_USER_ID, AREA_NR, PARENT_NODE_ID, OBJ_VERSION, NAME, WIKINAME, MENU_ITEM, CREATED_ON, LAST_MODIFIED_ON, WRITE_ACCESS_LEVEL, READ_ACCESS_LEVEL, NS_THREAD, NS_LEFT, NS_RIGHT, DISPLAY_POSITION) values (11, 'DOCUMENT', 1, 1, 9, 9, 0, 'Forums', 'Forums', true, '2005-06-27 13:45:00', '2005-06-27 13:45:00', 1, 0, 1, 39, 40, 2)
@@ -136,9 +135,7 @@ insert into NODE_FILE(FILE_ID, FILENAME, FILESIZE, FILEDATA, CONTENT_TYPE, IMAGE
 
 -- More directories
 insert into NODE (NODE_ID, NODE_TYPE, NODE_REVISION, CREATED_BY_USER_ID, AREA_NR, PARENT_NODE_ID, OBJ_VERSION, NAME, WIKINAME, MENU_ITEM, CREATED_ON, LAST_MODIFIED_ON, WRITE_ACCESS_LEVEL, READ_ACCESS_LEVEL, NS_THREAD, NS_LEFT, NS_RIGHT, DISPLAY_POSITION) values (14, 'DIRECTORY', 1, 1, 14, 1, 0, 'Third Area', 'ThirdArea', true, '2005-06-27 13:45:00', '2005-06-27 13:45:00', 0, 0, 1, 46, 47, 2)
-insert into NODE_DIRECTORY (DIRECTORY_ID, DEFAULT_DOCUMENT_ID) values (14, null)
 insert into NODE (NODE_ID, NODE_TYPE, NODE_REVISION, CREATED_BY_USER_ID, AREA_NR, PARENT_NODE_ID, OBJ_VERSION, NAME, WIKINAME, MENU_ITEM, CREATED_ON, LAST_MODIFIED_ON, WRITE_ACCESS_LEVEL, READ_ACCESS_LEVEL, NS_THREAD, NS_LEFT, NS_RIGHT, DISPLAY_POSITION) values (15, 'DIRECTORY', 1, 1, 15, 1, 0, 'Public Area', 'PublicArea', true, '2005-06-27 13:45:00', '2005-06-27 13:45:00', 0, 0, 1, 48, 49, 3)
-insert into NODE_DIRECTORY (DIRECTORY_ID, DEFAULT_DOCUMENT_ID) values (15, null)
 
 -- Some weblog entries for 'member'
 insert into NODE (NODE_ID, NODE_TYPE, NODE_REVISION, CREATED_BY_USER_ID, AREA_NR, PARENT_NODE_ID, OBJ_VERSION, NAME, WIKINAME, MENU_ITEM, CREATED_ON, LAST_MODIFIED_ON, WRITE_ACCESS_LEVEL, READ_ACCESS_LEVEL, NS_THREAD, NS_LEFT, NS_RIGHT, DISPLAY_POSITION) values (16, 'DOCUMENT', 1, 3, 2, 3, 0, 'Entry One', 'EntryOne', true, '2007-01-01 01:02:03', '2007-01-01 01:02:03', 1000, 0, 1, 6, 7, 1)
@@ -180,11 +177,8 @@ insert into COMMENTS (COMMENT_ID, OBJ_VERSION, SUBJECT, FROM_USER_NAME, FROM_USE
 -- Some more subdirectories in the members home
 
 insert into NODE (NODE_ID, NODE_TYPE, NODE_REVISION, CREATED_BY_USER_ID, AREA_NR, PARENT_NODE_ID, OBJ_VERSION, NAME, WIKINAME, MENU_ITEM, CREATED_ON, LAST_MODIFIED_ON, WRITE_ACCESS_LEVEL, READ_ACCESS_LEVEL, NS_THREAD, NS_LEFT, NS_RIGHT, DISPLAY_POSITION) values (50, 'DIRECTORY', 1, 3, 2, 3, 0, 'A subdirectory in a members home ', 'ASubdirectoryInAMembersHome', true , '2007-01-01 01:02:03', '2007-01-01 01:02:03', 1000, 0, 1, 20, 21, 8)
-insert into NODE_DIRECTORY (DIRECTORY_ID, DEFAULT_DOCUMENT_ID) values (50, null)
 insert into NODE (NODE_ID, NODE_TYPE, NODE_REVISION, CREATED_BY_USER_ID, AREA_NR, PARENT_NODE_ID, OBJ_VERSION, NAME, WIKINAME, MENU_ITEM, CREATED_ON, LAST_MODIFIED_ON, WRITE_ACCESS_LEVEL, READ_ACCESS_LEVEL, NS_THREAD, NS_LEFT, NS_RIGHT, DISPLAY_POSITION) values (51, 'DIRECTORY', 1, 3, 2, 3, 0, 'Second Subdirectory', 'SecondSubdirectory', true , '2007-01-01 01:02:03', '2007-01-01 01:02:03', 1000, 0, 1, 22, 23, 9)
-insert into NODE_DIRECTORY (DIRECTORY_ID, DEFAULT_DOCUMENT_ID) values (51, null)
 insert into NODE (NODE_ID, NODE_TYPE, NODE_REVISION, CREATED_BY_USER_ID, AREA_NR, PARENT_NODE_ID, OBJ_VERSION, NAME, WIKINAME, MENU_ITEM, CREATED_ON, LAST_MODIFIED_ON, WRITE_ACCESS_LEVEL, READ_ACCESS_LEVEL, NS_THREAD, NS_LEFT, NS_RIGHT, DISPLAY_POSITION) values (52, 'DIRECTORY', 1, 3, 2, 3, 0, 'Third one with a longer name', 'ThirdOneWithALongerName', true , '2007-01-01 01:02:03', '2007-01-01 01:02:03', 1000, 0, 1, 24, 25, 10)
-insert into NODE_DIRECTORY (DIRECTORY_ID, DEFAULT_DOCUMENT_ID) values (52, null)
 
 -- Add some forum entries/posts
 

@@ -25,21 +25,6 @@
             </div>
         </s:div>
 
-        <s:div id="blogHeader" rendered="#{!empty blogDirectory.blogEntries}">
-            <s:div id="blogTitle">
-                #{currentDocument.name}
-            </s:div>
-
-            <s:div id="blogFeedSubscribe" rendered="#{not empty currentDirectory.feed}">
-                <h:outputLink
-                        value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{currentDirectory.feed.id}">
-                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.atom.gif" width="18"
-                                    height="18"/>
-                    <span class="feedText">Subscribe to weblog</span>
-                </h:outputLink>
-            </s:div>
-        </s:div>
-
         <s:div id="blogEntries">
         <s:div rendered="#{!empty blogDirectory.blogEntries}">
 
@@ -49,25 +34,15 @@
                 <div class="blogEntry">
 
                     <div class="blogEntryHeader">
-                        <div class="blogEntryLinks">
-                            <div class="blogEntryPermLink>">
-                                <h:outputLink value="#{wiki:renderPermLink(blogEntry.entryDocument)}">Permlink</h:outputLink>
-                            </div>
-                            <div class="blogEntryWikiLink>">
-                                <h:outputLink value="#{wiki:renderWikiLink(blogEntry.entryDocument)}">WikiLink</h:outputLink>
-                            </div>
-                        </div>
                         <div class="blogEntryTitle">
                             <h:outputText value="#{blogEntry.entryDocument.name}"/>
                         </div>
-                        <div class="blogEntryCreatedOn">
+                        <div class="blogEntryCreatenOnAndBy">
                             <h:outputText styleClass="blogEntryCreatedOnText" value="#{blogEntry.entryDocument.createdOn}">
                                 <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
                             </h:outputText>
                             <h:outputText value="&#160;#{wikiPreferences.timeZone}"/>
-                        </div>
-                        <div class="blogEntryCreatedBy">
-                            by&#160;
+                            <h:outputText value=",&#160;by&#160;"/>
                             <h:outputLink value="#{wiki:renderHomeURL(blogEntry.entryDocument.createdBy)}"
                                           rendered="#{!empty blogEntry.entryDocument.createdBy.memberHome}">
                                 <h:outputText styleClass="blogEntryCreatedByLink"
@@ -75,10 +50,8 @@
                             </h:outputLink>
                             <h:outputText rendered="#{empty blogEntry.entryDocument.createdBy.memberHome}"
                                           value="#{blogEntry.entryDocument.createdBy.fullname}"/>
-
                         </div>
                     </div>
-
                     <div class="blogEntryBody">
                         <wiki:formattedText value="#{blogEntry.entryDocument.content}"
                                             linkStyleClass="regularLink"
@@ -93,22 +66,28 @@
 
                     <div class="blogEntryFooter">
                         <h:panelGrid styleClass="blogEntryFooterTable" columns="5" cellpadding="0" cellspacing="0" border="0">
-                            <s:div styleClass="blogEntryAttachmentsLink"
-                                    rendered="#{wiki:sizeOf(wikiTextAttachments) > 0}">
-                                <h:outputLink value="#{wiki:renderURL(blogEntry.entryDocument)}#attachmentDisplay">
-                                    <span class="blogEntryAttachmentsLinkText">#{wiki:sizeOf(wikiTextAttachments)} attachment(s)</span>
-                                </h:outputLink>
-                            </s:div>
                             <s:div styleClass="blogEntryCommentCount"
-                                   rendered="#{!empty blogEntry.commentCount and blogEntry.entryDocument.enableComments}">
-                                <h:outputLink value="#{wiki:renderPermLink(blogEntry.entryDocument)}#commentsDisplay">
-                                    <span class="blogEntryCommentCountText">#{blogEntry.commentCount} comment(s)</span>
+                                   rendered="#{blogEntry.commentCount > 0 and blogEntry.entryDocument.enableComments}">
+                                <h:outputLink value="#{wiki:renderPermLink(blogEntry.entryDocument)}#comments">
+                                    <span class="blogEntryCommentCountText">
+                                        <h:outputText value="#{blogEntry.commentCount}&#160;"/>
+                                        <h:outputText value="#{blogEntry.commentCount>1 ? 'comments' : 'comment'}"/>
+                                    </span>
                                 </h:outputLink>
                             </s:div>
                             <s:div styleClass="blogEntryCommentLink"
                                    rendered="#{blogEntry.entryDocument.enableComments and blogEntry.entryDocument.enableCommentForm}">
                                 <h:outputLink value="#{wiki:renderURL(blogEntry.entryDocument)}?showCommentForm=true#commentForm">
                                     <span class="blogEntryCommentLinkText">Post comment</span>
+                                </h:outputLink>
+                            </s:div>
+                            <s:div styleClass="blogEntryAttachmentsLink"
+                                    rendered="#{wiki:sizeOf(wikiTextAttachments) > 0}">
+                                <h:outputLink value="#{wiki:renderURL(blogEntry.entryDocument)}#attachments">
+                                    <span class="blogEntryAttachmentsLinkText">
+                                        <h:outputText value="#{wiki:sizeOf(wikiTextAttachments)}&#160;"/>
+                                        <h:outputText value="#{wiki:sizeOf(wikiTextAttachments)>1 ? 'attachments' : 'attachment'}"/>
+                                    </span>
                                 </h:outputLink>
                             </s:div>
                             <s:div styleClass="blogEntryPermLink">
@@ -132,50 +111,52 @@
             </c:forEach>
         </s:div>
 
-        <s:div id="noBlogEntriesContainer" rendered="#{empty blogDirectory.blogEntries}">
-            No blog entries found, create documents in this directory to create blog entries. Note that this plugin
-            only works after you saved the document you placed it on.
-        </s:div>
-
-        <h:panelGrid columns="5" rendered="#{blogDirectory.totalRowCount > blogDirectoryPreferences.properties['pageSize']}"
+        <h:panelGrid columns="5" rendered="#{blogDirectory.numOfBlogEntries > blogDirectoryPreferences.properties['pageSize']}"
                      styleClass="blogPagerTable"
                      columnClasses="blogPagerColumn, blogPagerColumn, blogPagerTextColumn, blogPagerColumn, blogPagerColumn, "
                      cellpadding="0" cellspacing="0" border="0">
 
-            <h:outputLink rendered="#{blogDirectory.previousPageAvailable}" value="#{wiki:renderURL(currentDocument)}">
+            <h:outputLink rendered="#{blogDirectory.previousPageAvailable}"
+                          value="#{wiki:renderURL(currentDocument)}#{blogDirectory.dateUrl}">
                 <div style="width:30px;">
-                <f:param name="blogPage" value="#{blogDirectory.firstPage}"/>
                 <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.first.gif" width="13" height="11"/>
                 </div>
             </h:outputLink>
             <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
                             rendered="#{!blogDirectory.previousPageAvailable}"/>
 
-            <h:outputLink rendered="#{blogDirectory.previousPageAvailable}" value="#{wiki:renderURL(currentDocument)}">
+            <h:outputLink rendered="#{blogDirectory.previousPageAvailable}"
+                          value="#{wiki:renderURL(currentDocument)}#{blogDirectory.dateUrl}/Page/#{blogDirectory.previousPage}">
                 <div style="width:30px;">
-                <f:param name="blogPage" value="#{blogDirectory.previousPage}"/>
                 <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.previous.gif" width="13" height="11"/>
                 </div>
             </h:outputLink>
             <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
                             rendered="#{!blogDirectory.previousPageAvailable}"/>
 
-            <h:outputText value="Showing #{blogDirectory.firstRow} to
-                                         #{blogDirectory.lastRow} of
-                                         #{blogDirectory.totalRowCount} blog entries"/>
+            <s:span>
+                <h:outputText value="Showing #{blogDirectory.firstRow} to
+                                             #{blogDirectory.lastRow} of
+                                             #{blogDirectory.numOfBlogEntries} blog entries"/>
 
-            <h:outputLink rendered="#{blogDirectory.nextPageAvailable}" value="#{wiki:renderURL(currentDocument)}">
+                <h:outputText rendered="#{!empty param.day || !empty param.month || !empty param.year}" value="&#160;in"/>
+                <h:outputText rendered="#{!empty param.day}" value="&#160;#{param.day}."/>
+                <h:outputText rendered="#{!empty param.month}" value="&#160;#{converters.monthNames[param.month]}"/>
+                <h:outputText rendered="#{!empty param.year}" value="&#160;#{param.year}"/>
+            </s:span>
+
+            <h:outputLink rendered="#{blogDirectory.nextPageAvailable}"
+                          value="#{wiki:renderURL(currentDocument)}#{blogDirectory.dateUrl}/Page/#{blogDirectory.nextPage}">
                 <div style="width:30px;">
-                <f:param name="blogPage" value="#{blogDirectory.nextPage}"/>
                 <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.next.gif" width="13" height="11"/>
                 </div>
             </h:outputLink>
             <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
                             rendered="#{!blogDirectory.nextPageAvailable}"/>
 
-            <h:outputLink rendered="#{blogDirectory.nextPageAvailable}" value="#{wiki:renderURL(currentDocument)}">
+            <h:outputLink rendered="#{blogDirectory.nextPageAvailable}"
+                          value="#{wiki:renderURL(currentDocument)}/#{blogDirectory.dateUrl}Page/#{blogDirectory.lastPage}">
                 <div style="width:30px;">
-                <f:param name="blogPage" value="#{blogDirectory.lastPage}"/>
                 <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.last.gif" width="13" height="11"/>
                 </div>
             </h:outputLink>
@@ -186,6 +167,9 @@
 
         </s:div>
 
+        <s:div id="noBlogEntriesContainer" rendered="#{empty blogDirectory.blogEntries}">
+            No blog entries found.
+        </s:div>
 
     </s:div>
 

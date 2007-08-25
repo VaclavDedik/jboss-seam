@@ -95,11 +95,11 @@ public class UIWikiFormattedText extends UIOutput {
 
             public String renderExternalLink(WikiLink externalLink) {
                 return "<a href=\""
-                        + WikiUtil.escapeEmailAddress(externalLink.getUrl())
+                        + WikiUtil.escapeEmailURL(externalLink.getUrl())
                         + "\" class=\""
                         + (externalLink.isBroken() ? getAttributes().get(ATTR_BROKEN_LINK_STYLE_CLASS)
                         : getAttributes().get(ATTR_LINK_STYLE_CLASS)) + "\">"
-                        + WikiUtil.escapeEmailAddress(externalLink.getDescription()) + "</a>";
+                        + WikiUtil.escapeEmailURL(externalLink.getDescription()) + "</a>";
             }
 
             public String renderFileAttachmentLink(int attachmentNumber, WikiLink attachmentLink) {
@@ -112,12 +112,11 @@ public class UIWikiFormattedText extends UIOutput {
 
             public String renderThumbnailImageInlineLink(WikiLink inlineLink) {
                 File file = (File) inlineLink.getNode();
-                Conversation conversation = (Conversation) Component.getInstance("conversation");
 
                 if (file.getImageMetaInfo().getThumbnail() == 'F') {
                     // Full size display, no thumbnail
 
-                    String imageUrl = WikiUtil.renderURL(inlineLink.getNode()) + "&amp;cid=" + conversation.getId();
+                    String imageUrl = WikiUtil.renderURL(inlineLink.getNode()) + "&amp;cid=" + Conversation.instance().getId();
                     return "<img src='"+ imageUrl + "'" +
                             " width='"+ file.getImageMetaInfo().getSizeX()+"'" +
                             " height='"+ file.getImageMetaInfo().getSizeY() +"'/>";
@@ -127,7 +126,7 @@ public class UIWikiFormattedText extends UIOutput {
                     // I have no idea why this needs HTML entities for the & symbol -
                     // Firefox complains about invalid XML if an & is in an attribute
                     // value!
-                    String thumbnailUrl = WikiUtil.renderURL(inlineLink.getNode()) + "&amp;thumbnail=true&amp;cid=" + conversation.getId();
+                    String thumbnailUrl = WikiUtil.renderURL(inlineLink.getNode()) + "&amp;thumbnail=true&amp;cid=" + Conversation.instance().getId();
 
                     return "<a href=\""
                             + (inlineLink.isBroken() ? inlineLink.getUrl() : WikiUtil.renderURL(inlineLink

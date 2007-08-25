@@ -14,9 +14,7 @@
 
 <ui:define name="controlTwo">
 
-    <s:link id="exit" styleClass="linkNavigation"
-            action="#{browser.exitConversation(true)}"
-            accesskey="E"><u>E</u>xit</s:link>
+    <s:link id="close" styleClass="linkNavigation" view="/wiki.xhtml" propagation="end" accesskey="E">Clos<u>e</u></s:link>
 
 </ui:define>
 
@@ -52,18 +50,18 @@
 
                 <h:panelGrid columns="2" rendered="#{empty wikiSearch.selectedSearchableEntity}" cellpadding="0" cellspacing="0" border="0">
                     <h:outputText styleClass="label" value="Terms:&#160;"/>
-                    <h:inputText value="#{wikiSearch.simpleQuery}" size="30" maxlength="1000" tabindex="1"/>
+                    <h:inputText value="#{wikiSearch.simpleQuery}" size="28" maxlength="1000" tabindex="1"/>
                 </h:panelGrid>
                 <s:span rendered="#{not empty wikiSearch.selectedSearchableEntity}">&#160;</s:span>
 
                 <h:panelGrid columns="2" rendered="#{empty wikiSearch.selectedSearchableEntity}" cellpadding="0" cellspacing="0" border="0">
                     <h:selectBooleanCheckbox value="#{wikiSearch.simpleQueryMatchExactPhrase}" tabindex="1"/>
-                    <h:outputText styleClass="label" value="&#160;Match exact phrase"/>
+                    <h:outputText styleClass="label" style="white-space:nowrap;" value="&#160;Exact phrase"/>
                 </h:panelGrid>
                 <s:span rendered="#{not empty wikiSearch.selectedSearchableEntity}">&#160;</s:span>
 
                 <h:panelGrid columns="2" cellpadding="0" cellspacing="0" border="0">
-                    <h:outputText styleClass="label" value="Show results:&#160;"/>
+                    <h:outputText styleClass="label" value="Results:&#160;"/>
                     <h:selectOneMenu value="#{wikiSearch.pageSize}" id="pageSize" tabindex="1">
                         <f:selectItem itemLabel="5" itemValue="5"/>
                         <f:selectItem itemLabel="15" itemValue="15"/>
@@ -72,7 +70,7 @@
                     </h:selectOneMenu>
                 </h:panelGrid>
 
-                <a:commandLink id="find" styleClass="buttonNonpersistent" reRender="searchControl, searchPager, searchResult"
+                <a:commandLink id="find" styleClass="buttonNonpersistent" reRender="workspaceSwitcher, searchControl, searchPager, searchResult"
                                action="#{wikiSearch.search()}"
                                tabindex="1" accesskey="F"><span class="buttonLabel"><u>F</u>ind</span></a:commandLink>
 

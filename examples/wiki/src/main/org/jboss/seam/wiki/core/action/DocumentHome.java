@@ -14,16 +14,49 @@ import org.jboss.seam.wiki.core.dao.UserRoleAccessFactory;
 import org.jboss.seam.wiki.core.action.prefs.DocumentEditorPreferences;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.log.Log;
 import org.jboss.seam.contexts.Contexts;
 
 @Name("documentHome")
 @Scope(ScopeType.CONVERSATION)
 public class DocumentHome extends NodeHome<Document> {
 
+    @Logger
+    static Log log;
+
     /* -------------------------- Context Wiring ------------------------------ */
 
-    @In(required = false) private Node selectedHistoricalNode;
-    @In private FeedDAO feedDAO;
+    @In(required = false)
+    private Node selectedHistoricalNode;
+    @In
+    private FeedDAO feedDAO;
+
+    /* -------------------------- Request Wiring ------------------------------ */
+
+    @Observer("DocumentHome.init")
+    public String init() {
+        String result = super.init();
+        if (result != null) return result;
+
+        // Rollback to historical revision?
+        if (selectedHistoricalNode != null) {
+            getLog().debug("rolling back to revision: " + selectedHistoricalNode.getRevision());
+            getInstance().rollback(selectedHistoricalNode);
+        }
+
+        // Make a copy
+        historicalCopy = new Document(getInstance());
+        minorRevision = (Boolean)((DocumentEditorPreferences)Component
+                .getInstance("docEditorPreferences")).getProperties().get("minorRevisionEnabled");
+
+        // Wiki text parser and plugins need this
+        log.debug("setting current document: " + getInstance());
+        Contexts.getPageContext().set("currentDocument", getInstance());
+        log.debug("setting current directory: " + getParentDirectory());
+        Contexts.getPageContext().set("currentDirectory", getParentDirectory());
+
+        return null;
+    }
 
     /* -------------------------- Internal State ------------------------------ */
 
@@ -35,26 +68,6 @@ public class DocumentHome extends NodeHome<Document> {
 
     /* -------------------------- Basic Overrides ------------------------------ */
 
-    @Override
-    public void create() {
-        super.create();
-
-        // Rollback to historical revision?
-        if (selectedHistoricalNode != null) {
-            getLog().debug("rolling back to revision: " + selectedHistoricalNode.getRevision());
-            getInstance().rollback(selectedHistoricalNode);
-        }
-
-        // Wiki text parser and plugins need this
-        Contexts.getConversationContext().set("currentDocument", getInstance());
-        Contexts.getConversationContext().set("currentDirectory", getParentDirectory());
-
-        // Make a copy
-        historicalCopy = new Document(getInstance());
-        minorRevision = (Boolean)((DocumentEditorPreferences)Component
-                .getInstance("docEditorPreferences")).getProperties().get("minorRevisionEnabled");
-
-    }
 
     /* -------------------------- Custom CUD ------------------------------ */
 
@@ -102,14 +115,14 @@ public class DocumentHome extends NodeHome<Document> {
             // New historical copy in conversation
             historicalCopy = new Document(getInstance());
 
+            // Reset form
+            setMinorRevision(
+                (Boolean)((DocumentEditorPreferences)Component
+                    .getInstance("docEditorPreferences")).getProperties().get("minorRevisionEnabled")
+            );
         }
 
         return true;
-    }
-
-    protected boolean beforeRemove() {
-        removeAsDefaultDocument(getParentDirectory());
-        return super.beforeRemove();
     }
 
     protected void afterNodeMoved(Directory oldParent, Directory newParent) {
@@ -167,13 +180,17 @@ public class DocumentHome extends NodeHome<Document> {
     }
 
     public void setShowPluginPrefs(boolean showPluginPrefs) {
-        Contexts.getConversationContext().set("showPluginPreferences", showPluginPrefs);
-
+        Contexts.getPageContext().set("showPluginPreferences", showPluginPrefs);
     }
 
     public boolean isShowPluginPrefs() {
-        Boolean showPluginPrefs = (Boolean)Contexts.getConversationContext().get("showPluginPreferences");
+        Boolean showPluginPrefs = (Boolean)Contexts.getPageContext().get("showPluginPreferences");
         return showPluginPrefs != null ? showPluginPrefs : false;
+    }
+
+    public boolean isHistoricalNodesPresent() {
+        Long numOfNodes = getNodeDAO().findNumberOfHistoricalNodes(getInstance());
+        return numOfNodes != null && numOfNodes > 0;
     }
 
 }

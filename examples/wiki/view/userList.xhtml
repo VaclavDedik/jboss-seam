@@ -12,14 +12,11 @@
 
 <ui:define name="controlTwo">
 
-    <s:link id="createUser" styleClass="linkNavigation" action="createUser" accesskey="C"
-            rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}" propagation="none">
-        <f:param name="lastConversationId" value="#{conversation.id}"/>
-        <u>C</u>reate Account</s:link>
+    <s:link id="createUser" styleClass="linkNavigation" accesskey="C" view="/userRegister.xhtml" propagation="none"
+            rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}"><u>C</u>reate Account
+    </s:link>
 
-    <s:link id="exit" styleClass="linkNavigation"
-            action="#{browser.exitConversation(true)}"
-            accesskey="E"><u>E</u>xit</s:link>
+    <s:link id="close" styleClass="linkNavigation" view="/wiki.xhtml" propagation="end" accesskey="E">Clos<u>e</u></s:link>
 
 </ui:define>
 
@@ -43,22 +40,22 @@
 
                 <h:panelGroup>
                     <h:outputText styleClass="label" value="Username:"/>&#160;
-                    <h:inputText id="username" value="#{userSearch.exampleUser.username}" maxlength="35" size="10" tabindex="1"/>
+                    <h:inputText id="username" value="#{userSearch.exampleUser.username}" maxlength="35" size="8" tabindex="1"/>
                 </h:panelGroup>
 
                 <h:panelGroup>
                     <h:outputText styleClass="label" value="First name:"/>&#160;
-                    <h:inputText id="firstname" value="#{userSearch.exampleUser.firstname}" maxlength="35" size="10" tabindex="2"/>
+                    <h:inputText id="firstname" value="#{userSearch.exampleUser.firstname}" maxlength="35" size="8" tabindex="2"/>
                 </h:panelGroup>
 
                 <h:panelGroup>
                     <h:outputText styleClass="label" value="Last name:"/>&#160;
-                    <h:inputText id="lastname" value="#{userSearch.exampleUser.lastname}" maxlength="35" size="10" tabindex="3"/>
+                    <h:inputText id="lastname" value="#{userSearch.exampleUser.lastname}" maxlength="35" size="8" tabindex="3"/>
                 </h:panelGroup>
 
                 <h:panelGroup>
                     <h:outputText styleClass="label" value="E-mail:"/>&#160;
-                    <h:inputText id="email" value="#{userSearch.exampleUser.email}" maxlength="35" size="10" tabindex="4"/>
+                    <h:inputText id="email" value="#{userSearch.exampleUser.email}" maxlength="35" size="8" tabindex="4"/>
                 </h:panelGroup>
 
                 <h:panelGroup>
@@ -176,7 +173,7 @@
                         E-mail address
                     </h:commandLink>
                 </f:facet>
-                #{u.email}
+                <h:outputLink value="#{wiki:escapeEmailURL(wiki:concat('mailto:', u.email))}">#{wiki:escapeAtSymbol(u.email)}</h:outputLink>
             </h:column>
 
             <h:column>
@@ -195,9 +192,7 @@
             </h:column>
 
             <h:column rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}">
-                <s:link action="editUser" propagation="none"
-                               styleClass="buttonNonpersistent">
-                    <f:param name="lastConversationId" value="#{conversation.id}"/>
+                <s:link styleClass="buttonNonpersistent" view="/userHome.xhtml" propagation="none">
                     <f:param name="userId" value="#{u.id}"/>
                     <span class="buttonLabel">Edit</span>
                 </s:link>

@@ -45,7 +45,7 @@ public class DirMenu implements Serializable {
         return root;
     }
 
-    @Observer("Preferences.dirMenuPreferences")
+    @Observer("PreferenceComponent.refresh.dirMenuPreferences")
     public void refreshRoot() {
         root = nodeDAO.findMenuItems(currentDirectory, dirMenuPreferences.getMenuDepth(), dirMenuPreferences.getMenuLevels(), false);
     }

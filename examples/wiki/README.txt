@@ -12,7 +12,7 @@ RUNNING THE UNIT TESTS
 INSTALLATION WITH HSQL DB (development profile)
 ==========================================================================================
 
-- Install JBoss Application Server 4.2 GA
+- Install JBoss Application Server 4.2.1 GA
 
 - Edit build.properties
 
@@ -26,7 +26,7 @@ INSTALLATION WITH HSQL DB (development profile)
 INSTALLATION WITH MYSQL (production profile)
 ==========================================================================================
 
-- Install JBoss Application Server 4.2 GA
+- Install JBoss Application Server 4.2.1 GA
 
 - Install MySQL 5.x
 
@@ -34,9 +34,9 @@ INSTALLATION WITH MYSQL (production profile)
 
 - Call 'ant -Dprofile=prod dist'
 
-- Deploy the SQL schema generated in the dist/wiki-ddl.sql on your MySQL database
+- Deploy the SQL schema generated in dist/wiki-ddl.sql on your MySQL database
 
-- Deploy the SQL data generated in the dist/wiki-data.sql on your MySQL database
+- Deploy the SQL data generated in dist/wiki-data.sql on your MySQL database
 
 - Copy the file dist/wiki-ds.xml to server/default/deploy/ directory and edit your MySQL connection settings
 

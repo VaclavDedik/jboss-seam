@@ -367,7 +367,7 @@ public class NestedSetTests extends DBUnitSeamTest {
 
             StatelessSession session = getStatelessSession();
 
-            StringBuffer queryString = new StringBuffer();
+            StringBuilder queryString = new StringBuilder();
 
             queryString.append("select").append(" ");
             queryString.append("count(n1.id) as nestedSetNodeLevel").append(", ");
@@ -415,7 +415,7 @@ public class NestedSetTests extends DBUnitSeamTest {
         }
     }
     private void displayNodes(NestedSetNodeWrapper<Item> startNode) {
-        StringBuffer levelMarkers = new StringBuffer();
+        StringBuilder levelMarkers = new StringBuilder();
         for (int i = 1; i <= startNode.getLevel(); i++) {
             levelMarkers.append("#");
         }

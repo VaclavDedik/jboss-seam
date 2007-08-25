@@ -47,9 +47,6 @@
             <property name="hibernate.ejb.classcache.org.jboss.seam.wiki.core.preferences.WikiPreferenceValue"
                       value="read-write, WikiPreference"/>
 
-            <property name="hibernate.ejb.classcache.org.jboss.seam.wiki.core.model.Node"
-                      value="read-write, WikiNode"/>
-
             <property name="hibernate.ejb.classcache.org.jboss.seam.wiki.core.model.LinkProtocol"
                       value="nonstrict-read-write, WikiLinkProtocol"/>
 

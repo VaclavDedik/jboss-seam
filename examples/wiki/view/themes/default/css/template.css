@@ -675,6 +675,33 @@ ul {
 /* Workspace switcher
 -----------------------------------------------*/
 
+#workspaceBreadcrumb {
+    display: inline;
+    text-align:right;
+}
+
+#workspaceBreadcrumb .workspaceBreadcrumbLabel {
+    color: #000;
+    font-weight: bold;
+    font-size: 75%;
+    text-decoration: none;
+}
+
+#workspaceBreadcrumb .workspaceBreadcrumbLink {
+    font-weight: bold;
+    font-size: 75%;
+	color: #C7B299;
+	text-decoration: none;
+}
+
+#workspaceBreadcrumb .workspaceBreadcrumbSeparator {
+    padding-left: 5px;
+    padding-right: 5px;
+    color: #000;
+    font-weight: bold;
+    font-size: 75%;
+}
+
 #workspaceSwitcher {
     display: inline;
 }

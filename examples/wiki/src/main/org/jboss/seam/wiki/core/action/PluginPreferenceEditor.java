@@ -117,7 +117,7 @@ public class PluginPreferenceEditor implements Serializable {
             editors.add(editor);
         }
 
-        @Observer("PreferenceEditor.flushAll")
+        @Observer(value = "PreferenceEditor.flushAll", create = false)
         public void flushEditors() {
             for (PluginPreferenceEditor editor : editors) {
                 editor.flush();

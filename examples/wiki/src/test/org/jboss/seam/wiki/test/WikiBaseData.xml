@@ -65,8 +65,6 @@
         NS_RIGHT = "999999"
     />
 
-    <NODE_DIRECTORY DIRECTORY_ID = "1" DEFAULT_DOCUMENT_ID  = "[NULL]"/>
-
     <NODE
         NODE_ID  = "2"
         NODE_TYPE = "DIRECTORY"
@@ -88,8 +86,6 @@
         NS_LEFT = "2"
         NS_RIGHT = "3"
     />
-
-    <NODE_DIRECTORY DIRECTORY_ID = "2" DEFAULT_DOCUMENT_ID  = "[NULL]"/>
 
     <NODE
         NODE_ID  = "3"

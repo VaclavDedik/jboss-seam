@@ -8,8 +8,16 @@
      xmlns:rich="http://richfaces.ajax4jsf.org/rich"
      xmlns:s="http://jboss.com/products/seam/taglib">
 
-    <ui:include src="mainMenuItem.xhtml">
-        <ui:param name="node" value="#{menu.root}"/>
-    </ui:include>
+    <s:div styleClass="shadowContainer"><div class="shadow1"><div class="shadow2"><div class="mainMenuContainer">
+
+        <div class="mainMenuHeader"><ui:insert name="mainMenuHeader">&#160;</ui:insert></div>
+
+        <ui:include src="mainMenuItem.xhtml">
+            <ui:param name="node" value="#{menu.root}"/>
+        </ui:include>
+
+        <div class="mainMenuFooter"><ui:insert name="mainMenuFooter">&#160;</ui:insert></div>
+
+    </div></div></div></s:div>
 
 </div>

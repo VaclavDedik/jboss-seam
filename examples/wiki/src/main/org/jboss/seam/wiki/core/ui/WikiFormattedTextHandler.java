@@ -220,14 +220,13 @@ public class WikiFormattedTextHandler extends MetaTagHandler {
 
     /*
      * If this plugin has preferences and editing is enabled, instantiate a
-     * plugin preferences editor and put it in the PAGE context
+     * plugin preferences editor and put it in the conversation context
      */
     private void createPreferencesEditor(String macroName) {
 
         String pluginPreferenceName = macroName + "Preferences";
-        Boolean showPluginPreferences = (Boolean) Component.getInstance("showPluginPreferences");
-        Object existingEditor = Contexts.getConversationContext()
-                .get(pluginPreferenceName + "Editor");
+        Boolean showPluginPreferences = (Boolean) Contexts.getPageContext().get("showPluginPreferences");
+        Object existingEditor = Contexts.getConversationContext().get(pluginPreferenceName + "Editor");
         if (showPluginPreferences != null && showPluginPreferences && existingEditor == null) {
             PluginPreferenceEditor pluginPreferenceEditor = new PluginPreferenceEditor(
                     pluginPreferenceName);

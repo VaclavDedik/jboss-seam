@@ -48,10 +48,14 @@
                     </s:div>
 
                     <s:div rendered="#{v.preferenceProperty.type.simpleName == 'String'}">
-                        <h:inputText value="#{v.value}" size="32">
+                        <h:inputText value="#{v.value}" size="25" rendered="#{!v.preferenceProperty.longStringAllowed}">
                             <a:support event="onblur" action="#{preferenceEditor.validate}"
                                        reRender="preferenceValidationErrors, preferenceComponentList"/>
                         </h:inputText>
+                        <h:inputTextarea value="#{v.value}" rows="10" cols="35" style="margin:5px;" rendered="#{v.preferenceProperty.longStringAllowed}">
+                            <a:support event="onblur" action="#{preferenceEditor.validate}"
+                                       reRender="preferenceValidationErrors, preferenceComponentList"/>
+                        </h:inputTextarea>
                     </s:div>
 
                     <s:div rendered="#{v.preferenceProperty.type.simpleName == 'Long'}">

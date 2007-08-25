@@ -61,6 +61,10 @@ public class File extends Node {
         super(name);
     }
 
+    public File(File original) {
+        super(original);
+    }
+
     // Mutable properties
 
     public String getFilename() {

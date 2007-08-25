@@ -8,7 +8,7 @@
 
 <!-- TODO: Most of this Javascript could be made generic and not rendered for each and every text editor... -->
 
-<script type="text/javascript">if (!$.browser.safari) {
+<script type="text/javascript">if (!$.browser.safari &amp;&amp; !$.browser.msie) {
     /* Assign resize handle to text area */
     jQuery(function() {
         jQuery("##{namingContainer}\\:#{textEditorId}TextEditDiv").Resizable({
@@ -20,6 +20,7 @@
                 jQuery("##{namingContainer}\\:#{textEditorId}TextArea").css({ height: size.height + "px" });
             }
         });
+        jQuery("##{namingContainer}\\:#{textEditorId}TextEditResizeHandle").show();
     })
 }
 ;
@@ -110,7 +111,7 @@ jQuery(function() {
                            requestDelay="3000" ajaxSingle="true"
                            eventsQueue="editKeyPress"/>
             </h:inputTextarea>
-            <s:div id="#{textEditorId}TextEditResizeHandle" styleClass="textEditResizeHandle"/>
+            <s:div id="#{textEditorId}TextEditResizeHandle" styleClass="textEditResizeHandle" style="display:none;"/>
         </s:div>
 
         </s:validateAll>

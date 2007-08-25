@@ -1,18 +1,20 @@
-<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:s="http://jboss.com/products/seam/taglib"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:wiki="http://jboss.com/products/seam/wiki"
-                template="themes/#{wikiPreferences.themeName}/template.xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml"
+            xmlns:s="http://jboss.com/products/seam/taglib"
+            xmlns:ui="http://java.sun.com/jsf/facelets"
+            xmlns:f="http://java.sun.com/jsf/core"
+            xmlns:h="http://java.sun.com/jsf/html"
+            xmlns:wiki="http://jboss.com/products/seam/wiki">
 
-<ui:define name="screenname">Message</ui:define>
+<head>
+    <title>Message</title>
+</head>
+<body>
 
-<ui:define name="content">
+<div id="messageBox">
+    <h:messages/>
+</div>
 
-    <s:div id="stackTraceHandled" rendered="#{not empty org.jboss.seam.handledException}">
+    <s:div id="stackTraceHandled" rendered="#{init.debug and not empty org.jboss.seam.handledException}">
         Handled exception:
         <pre style="font-size:75%;">
 
@@ -30,7 +32,7 @@ Root cause exception: #{wiki:unwrap(org.jboss.seam.handledException).class.name}
         <hr/>
     </s:div>
 
-    <s:div id="stackTrace" rendered="#{not empty org.jboss.seam.exception}">
+    <s:div id="stackTrace" rendered="#{init.debug and not empty org.jboss.seam.exception}">
         Unhandled exception:
         <pre style="font-size:75%;">
 
@@ -49,9 +51,7 @@ Root cause exception: #{wiki:unwrap(org.jboss.seam.exception).class.name}: #{wik
     </s:div>
 
 
-</ui:define>
 
-<ui:define name="footer">&#160;</ui:define>
-
-</ui:composition>
+</body>
+</html>
 

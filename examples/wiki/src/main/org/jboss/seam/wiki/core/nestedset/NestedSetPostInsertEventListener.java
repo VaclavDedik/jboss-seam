@@ -23,7 +23,7 @@ public class NestedSetPostInsertEventListener extends EJB3PostInsertEventListene
     public void onPostInsert(PostInsertEvent event) {
         super.onPostInsert(event);
 
-        if (event.getEntity() instanceof NestedSetNode) {
+        if ( event.getEntity() instanceof NestedSetNode && !((NestedSetNode)event.getEntity()).vetoNestedSetUpdate() ) {
             log.debug("executing nested set insert operation, recalculating the tree");
             new InsertNestedSetOperation( (NestedSetNode)event.getEntity() ).execute(event.getSession());
         }

@@ -33,10 +33,7 @@ public class CommentHome implements Serializable {
     FacesMessages facesMessages;
 
     @In
-    Document currentDocument;
-
-    @In
-    Node currentDirectory;
+    DocumentHome documentHome;
 
     @In
     User currentUser;
@@ -55,7 +52,7 @@ public class CommentHome implements Serializable {
         refreshComments();
     }
 
-    @Observer("Preferences.commentsPreferences")
+    @Observer(value = {"org.jboss.seam.postAuthenticate", "PreferenceComponent.refresh.commentsPreferences"}, create = false)
     @Transactional
     public void refreshComments() {
         entityManager.joinTransaction();
@@ -66,7 +63,7 @@ public class CommentHome implements Serializable {
         comments = entityManager
                 .createQuery("select c from Comment c where c.document is :doc" +
                              " order by c.createdOn " + (listCommentsAscending ? "asc" : "desc") )
-                .setParameter("doc", currentDocument)
+                .setParameter("doc", documentHome.getInstance())
                 .setHint("org.hibernate.cacheable", true)
                 .getResultList();
 
@@ -76,19 +73,19 @@ public class CommentHome implements Serializable {
             comment.setFromUserEmail(currentUser.getEmail());
             comment.setFromUserHomepage(
                 currentUser.getMemberHome() != null
-                    ? ((WikiPreferences)Component.getInstance("wikiPreferences")).getBaseUrl()+WikiUtil.renderHomeURL(currentUser)
+                    ? WikiUtil.renderHomeURL(currentUser)
                     : null);
         }
 
         // Default to title of document as subject
-        comment.setSubject(currentDocument.getName());
+        comment.setSubject(documentHome.getInstance().getName());
     }
 
     @Transactional
     public void persist() {
 
         entityManager.joinTransaction();
-        currentDocument = entityManager.merge(currentDocument);
+        Document currentDocument = entityManager.merge(documentHome.getInstance());
         comment.setDocument(currentDocument);
         currentDocument.getComments().add(comment);
 
@@ -114,12 +111,13 @@ public class CommentHome implements Serializable {
     @Transactional
     public void remove(Long commentId) {
         entityManager.joinTransaction();
-        if (!Identity.instance().hasPermission("Comment", "delete", entityManager.merge(currentDocument)) ) {
-            throw new AuthorizationException("You don't have permission for this operation");
-        }
 
         Comment foundCommment = entityManager.find(Comment.class, commentId);
         if (foundCommment != null) {
+            if (!Identity.instance().hasPermission("Comment", "delete", foundCommment.getDocument()) ) {
+                throw new AuthorizationException("You don't have permission for this operation");
+            }
+
             entityManager.remove(foundCommment);
             facesMessages.addFromResourceBundleOrDefault(
                 FacesMessage.SEVERITY_INFO,

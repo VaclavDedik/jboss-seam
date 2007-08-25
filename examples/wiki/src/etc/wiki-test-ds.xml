@@ -5,18 +5,33 @@
     "http://www.jboss.org/j2ee/dtd/jboss-ds_1_5.dtd">
 
 <datasources>
+
     <local-tx-datasource>
         <jndi-name>wikiTestDatasource</jndi-name>
-
-        <!-- Use in-process HSQL DB for testing -->
-        <!--
         <connection-url>jdbc:hsqldb:.</connection-url>
-        -->
-        <connection-url>jdbc:hsqldb:hsql://localhost:9001</connection-url>
-
         <driver-class>org.hsqldb.jdbcDriver</driver-class>
         <user-name>sa</user-name>
         <password></password>
     </local-tx-datasource>
+
+    <!--
+    <local-tx-datasource>
+        <jndi-name>wikiTestDatasource</jndi-name>
+        <connection-url>jdbc:hsqldb:hsql://localhost:9001</connection-url>
+        <driver-class>org.hsqldb.jdbcDriver</driver-class>
+        <user-name>sa</user-name>
+        <password></password>
+    </local-tx-datasource>
+
+    MySQL also requires changes to persistence-test.xml and DBUnitSeamTest.java (foreign key checks)
+    <local-tx-datasource>
+        <jndi-name>wikiTestDatasource</jndi-name>
+        <connection-url>jdbc:mysql://localhost/test?characterEncoding=UTF-8</connection-url>
+        <driver-class>com.mysql.jdbc.Driver</driver-class>
+        <user-name>test</user-name>
+        <password></password>
+    </local-tx-datasource>
+    -->
+
 </datasources>
 

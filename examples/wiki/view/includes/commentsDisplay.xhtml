@@ -1,4 +1,4 @@
-<s:span id="commentsDisplay"
+<s:span id="comments" styleClass="commentsDisplay"
      xmlns="http://www.w3.org/1999/xhtml"
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
@@ -7,7 +7,7 @@
      xmlns:s="http://jboss.com/products/seam/taglib">
 
 <s:div styleClass="shadowContainer" style="margin-top:25px"
-     rendered="#{not empty commentHome.comments and currentDocument.enableComments}"><div class="shadow1"><div class="shadow2">
+     rendered="#{not empty commentHome.comments and documentHome.instance.enableComments}"><div class="shadow1"><div class="shadow2">
 
     <h:dataTable value="#{commentHome.comments}" var="c"
                  styleClass="datatable rightBorder leftBorder topBorder bottomBorder"
@@ -25,16 +25,19 @@
             </div>
 
             <div class="commentAuthorDate">
-            <span class="commentDate"><h:outputText value="#{c.createdOn}">
-                <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
-            </h:outputText></span>
+            <span class="commentDate">
+                <h:outputText value="#{c.createdOn}">
+                    <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
+                </h:outputText>
+                <h:outputText value="&#160;#{wikiPreferences.timeZone}"/>
+            </span>
                 <s:span>&#160;(
                     <s:span styleClass="commentAuthor" rendered="#{empty c.fromUserHomepage}">#{c.fromUserName}</s:span>
                     <s:span styleClass="commentAuthor" rendered="#{!empty c.fromUserHomepage}"><a
                             href="http://#{c.fromUserHomepage}">#{c.fromUserName}</a></s:span>
-                    <s:span styleClass="commentAuthor" rendered="#{!empty c.fromUserEmail}">, <a
-                            href="mailto:#{c.fromUserEmail}">#{c.fromUserEmail}</a></s:span>
-                    )
+                    <s:span styleClass="commentAuthor" rendered="#{!empty c.fromUserEmail}">,&#160;
+                        <h:outputLink value="#{wiki:escapeEmailURL(wiki:concat('mailto:', c.fromUserEmail))}">#{wiki:escapeAtSymbol(c.fromUserEmail)}</h:outputLink>
+                    </s:span>)
                 </s:span>
             </div>
 
@@ -43,7 +46,7 @@
             </s:div>
 
             <div align="right">
-                <h:form rendered="#{s:hasPermission('Comment', 'delete', currentDocument)}">
+                <h:form rendered="#{s:hasPermission('Comment', 'delete', documentHome.instance)}">
                     <a:commandLink action="#{commentHome.remove(c.id)}" reRender="content"
                                    styleClass="button"><span class="buttonLabel">Remove Comment</span></a:commandLink>
                 </h:form>

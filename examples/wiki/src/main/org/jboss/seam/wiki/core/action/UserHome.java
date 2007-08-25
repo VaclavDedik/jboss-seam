@@ -9,7 +9,6 @@ package org.jboss.seam.wiki.core.action;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.*;
-import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.contexts.Contexts;
@@ -40,8 +39,13 @@ import java.util.regex.Pattern;
 @Scope(ScopeType.CONVERSATION)
 public class UserHome extends EntityHome<User> {
 
-    @RequestParameter
-    private Long userId;
+    public Long getUserId() {
+        return (Long)getId();
+    }
+
+    public void setUserId(Long userId) {
+        setId(userId);
+    }
 
     @In
     private FacesMessages facesMessages;
@@ -51,9 +55,6 @@ public class UserHome extends EntityHome<User> {
 
     @In
     private UserManagementPreferences userManagementPreferences;
-
-    @In
-    NodeBrowser browser;
 
     @In
     private Hash hashUtil;
@@ -77,36 +78,23 @@ public class UserHome extends EntityHome<User> {
     // TODO: This should really use an InputStream and directly stream into the BLOB without consuming server memory
     private byte[] portraitImageData;
 
-    @Override
-    public Object getId() {
-
-        if (userId == null) {
-            return super.getId();
-        } else {
-            return userId;
-        }
-    }
-
-    @Transactional
-    public void create() {
-        super.create();
-
+    public void init() {
         if (isManaged()) {
             if (!Identity.instance().hasPermission("User", "edit", getInstance()) ) {
                 throw new AuthorizationException("You don't have permission for this operation");
             }
-            roles = getInstance().getRoles();
-            oldUsername = getInstance().getUsername();
+            if (roles == null) roles = getInstance().getRoles();
+            if (oldUsername == null) oldUsername = getInstance().getUsername();
 
         } else {
             UserManagementPreferences userMgmtPrefs =
                     (UserManagementPreferences) Component.getInstance("userManagementPreferences");
             if (!userMgmtPrefs.isEnableRegistration() &&
                 !Identity.instance().hasPermission("User", "isAdmin", Component.getInstance("currentUser"))) {
-                throw new RuntimeException("User registration has been disabled");
+                throw new AuthorizationException("User registration is disabled");
             }
 
-            defaultRole = (Role)Component.getInstance("newUserDefaultRole");
+            if (defaultRole == null) defaultRole = (Role)Component.getInstance("newUserDefaultRole");
         }
     }
 
@@ -164,8 +152,6 @@ public class UserHome extends EntityHome<User> {
                         "Activiate account: /confirmRegistration.seam?activationCode=" + getInstance().getActivationCode());
                     */
 
-                    browser.exitConversation(false);
-
                 } catch (Exception ex) {
                     facesMessages.add(FacesMessage.SEVERITY_ERROR, "Couldn't send confirmation email: " + ex.getMessage());
                     return "error";
@@ -182,9 +168,16 @@ public class UserHome extends EntityHome<User> {
         if (!isUniqueUsername())
                 return null;
 
-        // Roles
-        getInstance().setRoles(new ArrayList<Role>()); // Clear out the collection
-        getInstance().getRoles().addAll(roles);
+        User adminUser = (User)Component.getInstance("adminUser");
+        User guestUser = (User)Component.getInstance("guestUser");
+
+        if ( !getInstance().getId().equals(adminUser.getId()) &&
+             !getInstance().getId().equals(guestUser.getId()) &&
+             roles != null && roles.size() > 0) {
+            // Roles
+            getInstance().setRoles(new ArrayList<Role>()); // Clear out the collection
+            getInstance().getRoles().addAll(roles);
+        }
 
         // Preferences
         if (preferenceEditor != null) {
@@ -223,7 +216,7 @@ public class UserHome extends EntityHome<User> {
                 getLog().debug("updating portrait file data/type");
                 getInstance().getProfile().setImageContentType(portraitContentType);
                 getInstance().getProfile().setImage(
-                        WikiUtil.resizeImage(portraitImageData, portraitContentType, 120)
+                    WikiUtil.resizeImage(portraitImageData, portraitContentType, 80)
                 );
             } else {
                 facesMessages.addFromResourceBundleOrDefault(
@@ -241,16 +234,12 @@ public class UserHome extends EntityHome<User> {
             if (getInstance().getId().equals(currentUser.getId())) {
                 // Updated profile of currently logged-in user
                 Contexts.getSessionContext().set("currentUser", getInstance());
-
+                
                 // TODO: If identity.logout() wouldn't kill my session, I could call it here...
                 // And I don't have cleartext password in all cases, so I can't relogin the user automatically
                 if (loginCredentialsModified) {
-                    facesMessages.addFromResourceBundleOrDefault(
-                        FacesMessage.SEVERITY_INFO,
-                        getMessageKeyPrefix() + "reloginRequired",
-                        "Credentials updated, please logout and authenticate yourself with the new credentials."
-                    );
-                    browser.exitConversation(false);
+                    Identity.instance().logout();
+                    return "updatedCurrentCredentials";
                 }
             }
         }
@@ -264,11 +253,7 @@ public class UserHome extends EntityHome<User> {
         // All nodes created by this user are reset to be created by the admin user
         userDAO.resetNodeCreatorToAdmin(getInstance());
 
-        String outcome = super.remove();
-        if (outcome != null) {
-            browser.exitConversation(false);
-        }
-        return outcome;
+        return super.remove();
     }
 
     protected String getCreatedMessageKey() {

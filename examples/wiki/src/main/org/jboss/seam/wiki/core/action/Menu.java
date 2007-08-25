@@ -25,7 +25,7 @@ import java.io.Serializable;
  * @author Christian Bauer
  */
 @Name("menu")
-@Scope(ScopeType.PAGE)
+@Scope(ScopeType.CONVERSATION)
 public class Menu implements Serializable {
 
     @In
@@ -38,7 +38,6 @@ public class Menu implements Serializable {
     WikiPreferences wikiPreferences;
 
     NestedSetNodeWrapper<Node> root;
-
     public NestedSetNodeWrapper<Node> getRoot() {
         if (root == null) {
             refreshRoot();
@@ -46,7 +45,7 @@ public class Menu implements Serializable {
         return root;
     }
 
-    @Observer("Nodes.menuStructureModified")
+    @Observer(value = "Nodes.menuStructureModified", create = false)
     public void refreshRoot() {
         root = nodeDAO.findMenuItems(
                 wikiRoot,

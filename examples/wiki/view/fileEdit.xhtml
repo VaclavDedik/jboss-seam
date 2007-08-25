@@ -17,9 +17,7 @@
 
 <ui:define name="controlTwo">
 
-    <s:link id="exit" styleClass="linkNavigation"
-            action="#{browser.exitConversation(true)}"
-            accesskey="E"><u>E</u>xit Editor</s:link>
+    <s:link id="exitxitManaged" styleClass="linkNavigation" action="exit" accesskey="E"><u>E</u>xit Editor</s:link>
 
 </ui:define>
 
@@ -46,18 +44,19 @@
     <h:form enctype="multipart/form-data">
         <div class="form">
             <div class="formHead">
-                <h:outputText value="New file: #{fileHome.instance.name}" rendered="#{!fileHome.managed}"/>
-                <h:outputText value="Editing file: #{fileHome.instance.name}" rendered="#{fileHome.managed}"/>
+                <h:outputText value="Create file" rendered="#{!fileHome.managed}"/>
+                <h:outputText value="Edit file" rendered="#{fileHome.managed}"/>
             </div>
 
             <div class="formFields formBorder wideLabels">
 
-                <s:div styleClass="entry" rendered="#{fileHome.managed}">
-                    <div class="label">In directory:</div>
+                <s:div styleClass="entry">
+                    <div class="label">Directory:</div>
                     <div class="output">
-                        <s:span id="directoryNameDisplay">#{fileHome.parentDirectory}</s:span>
+                        <s:span id="directoryNameDisplay">#{fileHome.parentDirectory.name}</s:span>
 
-                        <h:outputLink id="selectDirectory" value="#" tabindex="1" styleClass="buttonNonpersistent"><j4j:idProxy
+                        <h:outputLink rendered="#{fileHome.managed}" id="selectDirectory"
+                                      value="#" tabindex="1" styleClass="buttonNonpersistent"><j4j:idProxy
                                         id="openDialogDirectorySelection"/><span class="buttonLabel">...</span></h:outputLink>
                     </div>
                 </s:div>
