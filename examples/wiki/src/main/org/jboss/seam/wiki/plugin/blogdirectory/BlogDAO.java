@@ -104,7 +104,8 @@ public class BlogDAO {
         queryString.append("and n1.nsLeft between n2.nsLeft and n2.nsRight").append(" ");
         queryString.append("and n2.nsLeft > :startLeft and n2.nsRight < :startRight").append(" ");
         queryString.append("and n2.class = :clazz").append(" ");
-        queryString.append("and not n1 = :ignoreNode").append(" ");
+        if (ignoreNode.getId() != null)
+            queryString.append("and not n1 = :ignoreNode").append(" ");
 
         if (limitYear != null) queryString.append("and year(n1.createdOn) = :limitYear").append(" ");
         if (limitMonth!= null) queryString.append("and month(n1.createdOn) = :limitMonth").append(" ");
@@ -127,8 +128,8 @@ public class BlogDAO {
         nestedSetQuery.setParameter("startLeft", startNode.getNsLeft());
         nestedSetQuery.setParameter("startRight", startNode.getNsRight());
         nestedSetQuery.setParameter("clazz", "DOCUMENT"); // TODO: Hibernate can't bind the discriminator? Not even with Hibernate.CLASS type...
-        nestedSetQuery.setParameter("ignoreNode", ignoreNode);
-
+        if (ignoreNode.getId() != null)
+            nestedSetQuery.setParameter("ignoreNode", ignoreNode);
         if (limitYear != null) nestedSetQuery.setParameter("limitYear", limitYear);
         if (limitMonth!= null) nestedSetQuery.setParameter("limitMonth", limitMonth);
         if (limitDay != null) nestedSetQuery.setParameter("limitDay", limitDay);
