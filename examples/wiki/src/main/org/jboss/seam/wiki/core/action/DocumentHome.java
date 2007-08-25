@@ -64,6 +64,7 @@ public class DocumentHome extends NodeHome<Document> {
     private boolean minorRevision;
     private String formContent;
     private boolean enabledPreview = false;
+    private boolean pushOnFeeds = false;
     private boolean pushOnSiteFeed = false;
 
     /* -------------------------- Basic Overrides ------------------------------ */
@@ -85,7 +86,7 @@ public class DocumentHome extends NodeHome<Document> {
         String outcome = super.persist();
 
         // Create feed entries (needs identifiers assigned, so we run after persist())
-        if (outcome != null && getInstance().getReadAccessLevel() == UserRoleAccessFactory.GUESTROLE_ACCESSLEVEL) {
+        if (outcome != null && getInstance().getReadAccessLevel() == UserRoleAccessFactory.GUESTROLE_ACCESSLEVEL && isPushOnFeeds()) {
             feedDAO.createFeedEntry(isPushOnSiteFeed(), getInstance());
             getEntityManager().flush();
         }
@@ -169,6 +170,14 @@ public class DocumentHome extends NodeHome<Document> {
     public void setEnabledPreview(boolean enabledPreview) {
         this.enabledPreview = enabledPreview;
         syncFormToInstance(getParentDirectory());
+    }
+
+    public boolean isPushOnFeeds() {
+        return pushOnFeeds;
+    }
+
+    public void setPushOnFeeds(boolean pushOnFeeds) {
+        this.pushOnFeeds = pushOnFeeds;
     }
 
     public boolean isPushOnSiteFeed() {

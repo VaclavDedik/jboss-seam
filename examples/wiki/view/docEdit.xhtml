@@ -111,12 +111,22 @@
                                 </div>
                             </s:div>
 
-                            <s:div id="feedSwitch">
-                                <s:div styleClass="entry">
+                            <s:div styleClass="entry">
+                                <div class="label">&#160;</div>
+                                <div class="input">
+                                    <h:selectBooleanCheckbox value="#{documentHome.pushOnFeeds}" tabindex="3">
+                                        <a:support event="onchange" reRender="pushOnSiteFeedSwitch"/>
+                                    </h:selectBooleanCheckbox>
+                                    Push changes onto feeds of parent directories
+                                </div>
+                            </s:div>
+
+                            <s:div id="pushOnSiteFeedSwitch">
+                                <s:div styleClass="entry" rendered="#{documentHome.pushOnFeeds}">
                                     <div class="label">&#160;</div>
                                     <div class="input">
                                         <h:selectBooleanCheckbox value="#{documentHome.pushOnSiteFeed}" tabindex="3"/>
-                                        Push document onto site news syndication feed
+                                        Push changes onto global site news syndication feed
                                     </div>
                                 </s:div>
                             </s:div>
