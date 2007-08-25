@@ -111,25 +111,58 @@
                                 </div>
                             </s:div>
 
-                            <s:div styleClass="entry">
-                                <div class="label">&#160;</div>
-                                <div class="input">
-                                    <h:selectBooleanCheckbox value="#{documentHome.pushOnFeeds}" tabindex="3">
-                                        <a:support event="onchange" reRender="pushOnSiteFeedSwitch"/>
-                                    </h:selectBooleanCheckbox>
-                                    Push changes onto feeds of parent directories
-                                </div>
-                            </s:div>
-
-                            <s:div id="pushOnSiteFeedSwitch">
-                                <s:div styleClass="entry" rendered="#{documentHome.pushOnFeeds}">
+                            <s:fragment rendered="#{not documentHome.managed}">
+                                <s:div styleClass="entry">
                                     <div class="label">&#160;</div>
                                     <div class="input">
-                                        <h:selectBooleanCheckbox value="#{documentHome.pushOnSiteFeed}" tabindex="3"/>
-                                        Push changes onto global site news syndication feed
+                                        <h:selectBooleanCheckbox value="#{documentHome.pushOnFeeds}" tabindex="3">
+                                            <a:support event="onchange" reRender="pushOnSiteFeedSwitchUnmanaged"/>
+                                        </h:selectBooleanCheckbox>
+                                        Create entry on parent directory feeds
                                     </div>
                                 </s:div>
-                            </s:div>
+                                <s:div id="pushOnSiteFeedSwitchUnmanaged">
+                                    <s:div styleClass="entry" rendered="#{documentHome.pushOnFeeds}">
+                                        <div class="label">&#160;</div>
+                                        <div class="input">
+                                            <h:selectBooleanCheckbox value="#{documentHome.pushOnSiteFeed}" tabindex="3"/>
+                                            Create entry on global site feed
+                                        </div>
+                                    </s:div>
+                                </s:div>
+                            </s:fragment>
+
+                            <s:fragment rendered="#{documentHome.managed}">
+                                <s:fragment rendered="#{documentHome.siteFeedEntryPresent}">
+                                    <s:div styleClass="entry">
+                                        <div class="label">&#160;</div>
+                                        <div class="input">
+                                            <h:selectBooleanCheckbox value="#{documentHome.pushOnFeeds}" tabindex="3"/>
+                                            Push changes onto feeds
+                                        </div>
+                                    </s:div>
+                                </s:fragment>
+                                <s:fragment rendered="#{not documentHome.siteFeedEntryPresent}">
+                                    <s:div styleClass="entry">
+                                        <div class="label">&#160;</div>
+                                        <div class="input">
+                                            <h:selectBooleanCheckbox value="#{documentHome.pushOnFeeds}" tabindex="3">
+                                                <a:support event="onchange" reRender="pushOnSiteFeedSwitch"/>
+                                            </h:selectBooleanCheckbox>
+                                            Push changes onto feeds of parent directories
+                                        </div>
+                                    </s:div>
+                                    <s:div id="pushOnSiteFeedSwitch">
+                                        <s:div styleClass="entry" rendered="#{documentHome.pushOnFeeds}">
+                                            <div class="label">&#160;</div>
+                                            <div class="input">
+                                                <h:selectBooleanCheckbox value="#{documentHome.pushOnSiteFeed}" tabindex="3"/>
+                                                Create entry on  global site feed
+                                            </div>
+                                        </s:div>
+                                    </s:div>
+                                </s:fragment>
+                            </s:fragment>
 
                             <s:decorate id="contentDecorate" template="includes/formFieldDecorate.xhtml">
                                 <ui:param name="tabId" value="docContentTab"/>

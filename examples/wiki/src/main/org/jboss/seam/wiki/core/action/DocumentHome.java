@@ -87,8 +87,10 @@ public class DocumentHome extends NodeHome<Document> {
 
         // Create feed entries (needs identifiers assigned, so we run after persist())
         if (outcome != null && getInstance().getReadAccessLevel() == UserRoleAccessFactory.GUESTROLE_ACCESSLEVEL && isPushOnFeeds()) {
-            feedDAO.createFeedEntry(isPushOnSiteFeed(), getInstance());
+            feedDAO.createFeedEntry(getInstance(), isPushOnSiteFeed());
             getEntityManager().flush();
+            pushOnFeeds = false;
+            pushOnSiteFeed = false;
         }
 
         return outcome;
@@ -100,12 +102,14 @@ public class DocumentHome extends NodeHome<Document> {
         syncFormToInstance(getParentDirectory());
 
         // Update feed entries
-        if (getInstance().getReadAccessLevel() == UserRoleAccessFactory.GUESTROLE_ACCESSLEVEL) {
+        if (getInstance().getReadAccessLevel() == UserRoleAccessFactory.GUESTROLE_ACCESSLEVEL && isPushOnFeeds()) {
             feedDAO.updateFeedEntry(getInstance(), isPushOnSiteFeed());
-            feedDAO.purgeOldFeedEntries();
-            // Feeds should not be removed by a maintenance thread: If there
-            // is no activity on the site, feeds shouldn't be empty but show the last updates.
+            pushOnFeeds = false;
+            pushOnSiteFeed = false;
         }
+        // Feeds should not be removed by a maintenance thread: If there
+        // is no activity on the site, feeds shouldn't be empty but show the last updates.
+        feedDAO.purgeOldFeedEntries();
 
         // Write history log and prepare a new copy for further modification
         if (!isMinorRevision()) {
@@ -170,6 +174,10 @@ public class DocumentHome extends NodeHome<Document> {
     public void setEnabledPreview(boolean enabledPreview) {
         this.enabledPreview = enabledPreview;
         syncFormToInstance(getParentDirectory());
+    }
+
+    public boolean isSiteFeedEntryPresent() {
+        return feedDAO.findSiteFeedEntry(getInstance()) != null;
     }
 
     public boolean isPushOnFeeds() {

@@ -61,10 +61,24 @@ public class FeedDAO {
         return null;
     }
 
-    public void createFeedEntry(boolean pushOnSiteFeed, Document document) {
+    public FeedEntry findSiteFeedEntry(Document document) {
+        restrictedEntityManager.joinTransaction();
+        try {
+            return (FeedEntry) restrictedEntityManager
+                    .createQuery("select fe from Feed f join f.feedEntries fe where f = :feed and fe.document = :document")
+                    .setParameter("feed", ((Directory)Component.getInstance("wikiRoot")).getFeed() )
+                    .setParameter("document", document)
+                    .setHint("org.hibernate.cacheable", true)
+                    .getSingleResult();
+        } catch (EntityNotFoundException ex) {
+        } catch (NoResultException ex) {}
+        return null;
+    }
+
+    public void createFeedEntry(Document document, boolean pushOnSiteFeed) {
         restrictedEntityManager.joinTransaction();
 
-        Set<Feed> feeds = getAvailableFeeds(pushOnSiteFeed, document);
+        Set<Feed> feeds = getAvailableFeeds(document, pushOnSiteFeed);
 
         // Now create a feedentry and link it to all the feeds
         if (feeds.size() >0) {
@@ -104,7 +118,7 @@ public class FeedDAO {
             fe.setDescriptionValue(renderWikiText(document.getContent()));
 
             // Link feed entry with all feeds (there might be new feeds since this feed entry was created)
-            Set<Feed> feeds = getAvailableFeeds(pushOnSiteFeed, document);
+            Set<Feed> feeds = getAvailableFeeds(document, pushOnSiteFeed);
             for (Feed feed : feeds) {
                 log.debug("linking feed entry with feed: " + feed.getId());
                 feed.getFeedEntries().add(fe);
@@ -112,7 +126,7 @@ public class FeedDAO {
         } catch (NoResultException ex) {
             // Couldn't find feed entry for this document, create a new one
             log.debug("no feed entry for updating found");
-            createFeedEntry(pushOnSiteFeed, document);
+            createFeedEntry(document, pushOnSiteFeed);
         }
     }
 
@@ -129,7 +143,7 @@ public class FeedDAO {
         log.debug("cleaned up " + result + " outdated feed entries");
     }
 
-    private Set<Feed> getAvailableFeeds(boolean includeSiteFeed, Document document) {
+    private Set<Feed> getAvailableFeeds(Document document, boolean includeSiteFeed) {
         // Walk up the directory tree and extract all the feeds from directories
         Set<Feed> feeds = new HashSet<Feed>();
         Node temp = document.getParent();
