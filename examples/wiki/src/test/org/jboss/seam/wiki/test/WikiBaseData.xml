@@ -139,6 +139,7 @@
         ENABLE_COMMENT_FORM  = "true"
         ENABLE_COMMENTS  = "true"
         CONTENT  = "This is a *start* document."
+        PLUGINS_USED = ""
     />
 
     <FEED

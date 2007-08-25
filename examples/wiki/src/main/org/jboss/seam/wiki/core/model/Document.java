@@ -50,6 +50,9 @@ public class Document extends Node {
     @org.hibernate.annotations.LazyCollection(org.hibernate.annotations.LazyCollectionOption.EXTRA)
     private List<Comment> comments;
 
+    @Column(table = "NODE_DOCUMENT", name = "PLUGINS_USED", nullable = false)
+    private String pluginsUsed;
+
     public Document() {
         super("New Document");
         content = "Edit this text..."; // Don't know why the interactive preview doesn't work without content
@@ -99,6 +102,14 @@ public class Document extends Node {
 
     public List<Comment> getComments() {
         return comments;
+    }
+
+    public String getPluginsUsed() {
+        return pluginsUsed;
+    }
+
+    public void setPluginsUsed(String pluginsUsed) {
+        this.pluginsUsed = pluginsUsed;
     }
 
     public void addChild(Node child) {

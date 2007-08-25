@@ -9,6 +9,9 @@ package org.jboss.seam.wiki.core.action;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
+import org.jboss.seam.wiki.core.engine.WikiTextParser;
+import org.jboss.seam.wiki.core.engine.WikiTextRenderer;
+import org.jboss.seam.wiki.core.engine.WikiLink;
 import org.jboss.seam.wiki.core.dao.FeedDAO;
 import org.jboss.seam.wiki.core.dao.UserRoleAccessFactory;
 import org.jboss.seam.wiki.core.action.prefs.DocumentEditorPreferences;
@@ -16,6 +19,8 @@ import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.contexts.Contexts;
+
+import java.util.List;
 
 @Name("documentHome")
 @Scope(ScopeType.CONVERSATION)
@@ -145,11 +150,35 @@ public class DocumentHome extends NodeHome<Document> {
         getInstance().setContent(
             wikiLinkResolver.convertToWikiProtocol(dir.getAreaNumber(), formContent)
         );
+        getInstance().setPluginsUsed( findPluginsUsed() );
     }
 
     private void syncInstanceToForm(Directory dir) {
         WikiLinkResolver wikiLinkResolver = (WikiLinkResolver)Component.getInstance("wikiLinkResolver");
         formContent = wikiLinkResolver.convertFromWikiProtocol(dir.getAreaNumber(), getInstance().getContent());
+    }
+
+    private String findPluginsUsed() {
+        final StringBuilder usedPlugins = new StringBuilder();
+        WikiTextParser parser = new WikiTextParser(formContent, false, false);
+        parser.setCurrentDocument(getInstance());
+        parser.setCurrentDirectory(getParentDirectory());
+        parser.setResolver((WikiLinkResolver)Component.getInstance("wikiLinkResolver"));
+        parser.setRenderer(
+            new WikiTextRenderer() {
+                public String renderInlineLink(WikiLink inlineLink) { return null; }
+                public String renderExternalLink(WikiLink externalLink) { return null; }
+                public String renderFileAttachmentLink(int attachmentNumber, WikiLink attachmentLink) { return null; }
+                public String renderThumbnailImageInlineLink(WikiLink inlineLink) { return null; }
+                public void setAttachmentLinks(List<WikiLink> attachmentLinks) {}
+                public void setExternalLinks(List<WikiLink> externalLinks) {}
+                public String renderMacro(String macroName) {
+                    usedPlugins.append(macroName).append(" ");
+                    return null;
+                }
+            }
+        ).parse(false);
+        return usedPlugins.toString();
     }
 
     /* -------------------------- Public Features ------------------------------ */

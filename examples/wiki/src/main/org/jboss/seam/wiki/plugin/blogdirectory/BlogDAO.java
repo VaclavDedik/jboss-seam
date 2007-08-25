@@ -22,7 +22,6 @@ public class BlogDAO {
 
     public List<BlogEntry> findBlogEntriesWithCommentCount(Node startNode,
                                                            Node ignoreNode,
-                                                           Long maxDepth,
                                                            String orderByProperty,
                                                            boolean orderDescending,
                                                            long firstResult,
@@ -44,6 +43,7 @@ public class BlogDAO {
         queryString.append("and n2.nsLeft > :startLeft and n2.nsRight < :startRight").append(" ");
         queryString.append("and n2.class = :clazz").append(" ");
         queryString.append("and not n1 = :ignoreNode").append(" ");
+        queryString.append("and not n1.pluginsUsed like '%blogDirectory%'").append(" ");
 
         if (year != null) queryString.append("and year(n1.createdOn) = :limitYear").append(" ");
         if (month != null) queryString.append("and month(n1.createdOn) = :limitMonth").append(" ");
@@ -77,15 +77,15 @@ public class BlogDAO {
         return (List<BlogEntry>)nestedSetQuery.list();
     }
 
-    public Long countBlogEntries(Node startNode, Node ignoreNode, Long maxDepth, Integer year, Integer month, Integer day ) {
-        return countBlogEntries(startNode, ignoreNode, maxDepth, false, false, false, year, month, day).get(0).getNumOfEntries();
+    public Long countBlogEntries(Node startNode, Node ignoreNode, Integer year, Integer month, Integer day ) {
+        return countBlogEntries(startNode, ignoreNode, false, false, false, year, month, day).get(0).getNumOfEntries();
     }
 
-    public List<BlogEntryCount> countAllBlogEntriesGroupByYearMonth(Node startNode, Node ignoreNode, Long maxDepth) {
-        return countBlogEntries(startNode, ignoreNode, maxDepth, true, true, false, null, null, null);
+    public List<BlogEntryCount> countAllBlogEntriesGroupByYearMonth(Node startNode, Node ignoreNode) {
+        return countBlogEntries(startNode, ignoreNode, true, true, false, null, null, null);
     }
 
-    private List<BlogEntryCount> countBlogEntries(Node startNode, Node ignoreNode, Long maxDepth,
+    private List<BlogEntryCount> countBlogEntries(Node startNode, Node ignoreNode,
                                                  boolean projectYear, boolean projectMonth, boolean projectDay,
                                                  Integer limitYear, Integer limitMonth, Integer limitDay) {
 
@@ -104,6 +104,8 @@ public class BlogDAO {
         queryString.append("and n1.nsLeft between n2.nsLeft and n2.nsRight").append(" ");
         queryString.append("and n2.nsLeft > :startLeft and n2.nsRight < :startRight").append(" ");
         queryString.append("and n2.class = :clazz").append(" ");
+        queryString.append("and not n1.pluginsUsed like '%blogDirectory%'").append(" ");
+
         if (ignoreNode.getId() != null)
             queryString.append("and not n1 = :ignoreNode").append(" ");
 
@@ -143,7 +145,5 @@ public class BlogDAO {
         restrictedEntityManager.joinTransaction();
         return ((Session)((org.jboss.seam.persistence.EntityManagerProxy) restrictedEntityManager).getDelegate());
     }
-
-
 
 }

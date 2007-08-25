@@ -56,32 +56,40 @@ public class WikiTextParser extends SeamTextParser {
      * Mandatory, you need to set a renderer before starting the parer.
      *
      * @param renderer an implementation of WikiTextRenderer
+     * @return the called instance
      */
-    public void setRenderer(WikiTextRenderer renderer) {
+    public WikiTextParser setRenderer(WikiTextRenderer renderer) {
         this.renderer = renderer;
+        return this;
     }
 
     /**
      * Mandatory, you need to set a resolver before starting the parer.
      *
      * @param resolver an implementation of WikiLinkresolver
+     * @return the called instance
      */
-    public void setResolver(WikiLinkResolver resolver) {
+    public WikiTextParser setResolver(WikiLinkResolver resolver) {
         this.resolver = resolver;
+        return this;
     }
 
     /*
      * The render/link resolving base
+     * @return the called instance
      */
-    public void setCurrentDirectory(Node currentDirectory) {
+    public WikiTextParser setCurrentDirectory(Node currentDirectory) {
         this.currentDirectory = currentDirectory;
+        return this;
     }
 
     /*
      * The render/link resolving base
+     * @return the called instance
      */
-    public void setCurrentDocument(Document currentDocument) {
+    public WikiTextParser setCurrentDocument(Document currentDocument) {
         this.currentDocument = currentDocument;
+        return this;
     }
 
     /**

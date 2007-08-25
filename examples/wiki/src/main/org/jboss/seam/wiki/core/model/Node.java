@@ -285,7 +285,7 @@ public abstract class Node extends AbstractNestedSetNode<Node> implements Serial
             "areaNumber", "createdBy", "createdOn", "lastModifiedBy", "lastModifiedOn", "menuItem", "name", "displayPosition", 
             "readAccessLevel", "revision", "wikiname", "writeAccessLevel",
             "contentType", "filename", "filesize", "imageMetaInfo.sizeX", "imageMetaInfo.sizeY", "imageMetaInfo.thumbnail", "imageMetaInfo.thumbnailData",
-            "defaultDocument", "enableComments", "enableCommentForm", "nameAsTitle",
+            "defaultDocument", "enableComments", "enableCommentForm", "nameAsTitle", "pluginsUsed",
         };
     }
 

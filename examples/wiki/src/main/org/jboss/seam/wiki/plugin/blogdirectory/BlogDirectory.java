@@ -82,7 +82,7 @@ public class BlogDirectory implements Serializable {
     }
 
     private void queryNumOfBlogEntries() {
-        numOfBlogEntries = blogDAO.countBlogEntries(currentDirectory, currentDocument, 99l, year, month, day);
+        numOfBlogEntries = blogDAO.countBlogEntries(currentDirectory, currentDocument, year, month, day);
     }
 
     private void queryBlogEntries() {
@@ -90,7 +90,6 @@ public class BlogDirectory implements Serializable {
             blogDAO.findBlogEntriesWithCommentCount(
                     currentDirectory,
                     currentDocument,
-                    99l,
                     "createdOn",
                     true,
                     page * pageSize,
@@ -100,7 +99,7 @@ public class BlogDirectory implements Serializable {
     }
 
     private void queryBlogEntryCountsByYearAndMonth() {
-        blogEntryCountsByYearAndMonth = blogDAO.countAllBlogEntriesGroupByYearMonth(currentDirectory, currentDocument, 99l);
+        blogEntryCountsByYearAndMonth = blogDAO.countAllBlogEntriesGroupByYearMonth(currentDirectory, currentDocument);
     }
 
     @Factory(value = "recentBlogEntries")
@@ -110,7 +109,6 @@ public class BlogDirectory implements Serializable {
             blogDAO.findBlogEntriesWithCommentCount(
                     currentDirectory,
                     currentDocument,
-                    99l,
                     "createdOn",
                     true,
                     0,

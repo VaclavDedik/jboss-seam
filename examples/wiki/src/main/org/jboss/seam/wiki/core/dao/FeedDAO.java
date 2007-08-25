@@ -165,13 +165,10 @@ public class FeedDAO {
     }
 
     private String renderWikiText(String wikiText) {
-        // Use the WikiTextParser to resolve macros
         WikiTextParser parser = new WikiTextParser(wikiText, true, true);
 
-        // TODO: hotfix
         parser.setCurrentDocument((Document)Component.getInstance("currentDocument"));
         parser.setCurrentDirectory((Directory)Component.getInstance("currentDirectory"));
-
         parser.setResolver((WikiLinkResolver)Component.getInstance("wikiLinkResolver"));
 
         // Set a customized renderer for parser macro callbacks

@@ -75,7 +75,7 @@ insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG
 insert into NODE (NODE_ID, NODE_TYPE, NODE_REVISION, CREATED_BY_USER_ID, AREA_NR, PARENT_NODE_ID, OBJ_VERSION, NAME, WIKINAME, MENU_ITEM, CREATED_ON, LAST_MODIFIED_ON, WRITE_ACCESS_LEVEL, READ_ACCESS_LEVEL, NS_THREAD, NS_LEFT, NS_RIGHT, DISPLAY_POSITION) values  (3, 'DIRECTORY', 1, 1, 3, 1, 0, 'LaceWiki Home', 'LaceWikiHome', true, '2005-06-27 13:45:00', '2005-06-27 13:45:00', 0, 0, 1, 4, 7, 1)
 insert into NODE_DIRECTORY (DIRECTORY_ID, DEFAULT_DOCUMENT_ID) values (3, null)
 insert into NODE (NODE_ID, NODE_TYPE, NODE_REVISION, CREATED_BY_USER_ID, AREA_NR, PARENT_NODE_ID, OBJ_VERSION, NAME, WIKINAME, MENU_ITEM, CREATED_ON, LAST_MODIFIED_ON, WRITE_ACCESS_LEVEL, READ_ACCESS_LEVEL, NS_THREAD, NS_LEFT, NS_RIGHT, DISPLAY_POSITION)  values (4, 'DOCUMENT', 1, 1, 3, 3, 0, 'Welcome!', 'Welcome', true,'2005-06-27 13:45:00', '2005-06-27 13:45:00', 0, 0, 1, 5, 6, 0)
-insert into NODE_DOCUMENT (DOCUMENT_ID, CONTENT, NAME_AS_TITLE, ENABLE_COMMENTS, ENABLE_COMMENT_FORM) values (4, 'You need to login as /admin/ with password /admin/ to change settings.@@LF@@@@LF@@Do not forget to change the admin password!', true, false, false)
+insert into NODE_DOCUMENT (DOCUMENT_ID, CONTENT, NAME_AS_TITLE, ENABLE_COMMENTS, ENABLE_COMMENT_FORM, PLUGINS_USED) values (4, 'You need to login as /admin/ with password /admin/ to change settings.@@LF@@@@LF@@Do not forget to change the admin password!', true, false, false, '')
 update NODE_DIRECTORY set DEFAULT_DOCUMENT_ID = 4 where DIRECTORY_ID = 3
 
 -- More MySQL magic!
