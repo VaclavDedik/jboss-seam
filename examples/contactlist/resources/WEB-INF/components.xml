@@ -37,8 +37,8 @@
         <fwk:ejbql>from Contact</fwk:ejbql>
         <fwk:order>lastName</fwk:order>
         <fwk:restrictions>
-            <value>lower(firstName) like lower( #{exampleContact.firstName} + '%' )</value>
-            <value>lower(lastName) like lower( #{exampleContact.lastName} + '%' )</value>
+            <value>lower(firstName) like lower( concat( #{exampleContact.firstName}, '%' ) )</value>
+            <value>lower(lastName) like lower( concat( #{exampleContact.lastName}, '%' ) )</value>
         </fwk:restrictions>
     </fwk:entity-query>
     
