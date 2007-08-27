@@ -6,6 +6,8 @@
  */
 package org.jboss.seam.wiki.core.model;
 
+import org.hibernate.validator.Length;
+
 import javax.persistence.*;
 
 @Entity
@@ -19,6 +21,10 @@ import javax.persistence.*;
     foreignKey = @org.hibernate.annotations.ForeignKey(name = "FK_NODE_DIRECTORY_DIRECTORY_ID")
 )
 public class Directory extends Node {
+
+    @Column(table = "NODE_DIRECTORY", name = "DESCRIPTION", nullable = true)
+    @Length(min = 0, max = 512)
+    private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(table = "NODE_DIRECTORY", name = "DEFAULT_DOCUMENT_ID", nullable = true)
@@ -40,6 +46,14 @@ public class Directory extends Node {
     }
 
     // Mutable properties
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     /**
      * Careful calling this, it always returns the assigned Document, even if

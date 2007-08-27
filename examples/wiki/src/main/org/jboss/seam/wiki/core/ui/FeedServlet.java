@@ -62,6 +62,7 @@ public class FeedServlet extends HttpServlet {
             syndFeed.setTitle(feed.getTitle());
             syndFeed.setLink(request.getRequestURL().toString() + "?feedId=" + feedId);
             syndFeed.setAuthor(feed.getAuthor());
+            syndFeed.setDescription(feed.getDescription());
             syndFeed.setPublishedDate(feed.getPublishedDate());
 
             // Create feed entries

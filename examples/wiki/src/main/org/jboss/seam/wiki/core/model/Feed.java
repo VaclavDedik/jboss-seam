@@ -26,6 +26,9 @@ public class Feed implements Serializable {
     @Column(name = "TITLE", nullable = false)
     private String title;
 
+    @Column(name = "DESCRIPTION", nullable = true)
+    private String description;
+
     @Column(name = "AUTHOR", nullable = false)
     private String author;
 
@@ -63,6 +66,14 @@ public class Feed implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getAuthor() {

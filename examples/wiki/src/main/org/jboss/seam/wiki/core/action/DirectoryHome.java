@@ -102,11 +102,12 @@ public class DirectoryHome extends NodeHome<Directory> {
     @Transactional
     private void createOrRemoveFeed() {
         if (hasFeed && getInstance().getFeed() == null) {
-            // Does have no feed but user wants one, create it
+            // Does not have a feed but user wants one, create it
             Feed feed = new Feed();
             feed.setDirectory(getInstance());
             feed.setAuthor(getInstance().getCreatedBy().getFullname());
             feed.setTitle(getInstance().getName());
+            feed.setDescription(getInstance().getDescription());
             getInstance().setFeed(feed);
 
             getFacesMessages().addFromResourceBundleOrDefault(
@@ -128,6 +129,7 @@ public class DirectoryHome extends NodeHome<Directory> {
             // Does have a feed and user still wants it, update the feed
             getInstance().getFeed().setTitle(getInstance().getName());
             getInstance().getFeed().setAuthor(getInstance().getCreatedBy().getFullname());
+            getInstance().getFeed().setDescription(getInstance().getDescription());
         }
     }
 

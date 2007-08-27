@@ -73,8 +73,15 @@
 
         <s:decorate id="nameDecorate" template="includes/formFieldDecorate.xhtml">
             <ui:define name="label">Name</ui:define>
-            <h:inputText size="40" maxlength="255" required="true" tabindex="1" value="#{directoryHome.instance.name}">
+            <h:inputText size="25" maxlength="255" required="true" tabindex="1" value="#{directoryHome.instance.name}">
                 <a:support event="onblur" reRender="nameDecorate"/>
+            </h:inputText>
+        </s:decorate>
+
+        <s:decorate id="descriptionDecorate" template="includes/formFieldDecorate.xhtml">
+            <ui:define name="label">Description</ui:define>
+            <h:inputText size="50" maxlength="512" required="false" tabindex="1" value="#{directoryHome.instance.description}">
+                <a:support event="onblur" reRender="descriptionDecorate"/>
             </h:inputText>
         </s:decorate>
 
