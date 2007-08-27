@@ -193,23 +193,23 @@
     		<para>
     			Out of the box Seam provides transaction components for the following additional transaction APIs:
     		</para>
-    		<ul>
-    			<li>
+    		<itemizedlist>
+    			<listitem>
     				JPA RESOURCE_LOCAL transactions with the
     				<literal>javax.persistence.EntityTransaction</literal>
     				interface.
-    			</li>
-    			<li>
+    			</listitem>
+    			<listitem>
     				Hibernate managed transactions with the
     				<literal>org.hibernate.Transaction</literal>
     				interface.
-    			</li>
-    			<li>
+    			</listitem>
+    			<listitem>
     				Spring managed transactions with the
     				<literal>org.springframework.transaction.PlatformTransactionManager</literal>
     				interface.
-    			</li>
-    		</ul>
+    			</listitem>
+    		</itemizedlist>
     		<para>
     			Configure JPA RESOURCE_LOCAL transaction management by adding the following to your components.xml where
     			<literal>#{entityManager}</literal>
