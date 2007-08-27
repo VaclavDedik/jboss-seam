@@ -33,6 +33,7 @@
 <!ENTITY elenhancements         SYSTEM "modules/elenhancements.xml">
 <!ENTITY testing                SYSTEM "modules/testing.xml">
 <!ENTITY tools                  SYSTEM "modules/tools.xml">
+<!ENTITY oc4j                   SYSTEM "modules/oc4j.xml">
 ]>
 
 <book lang="en">
@@ -359,6 +360,7 @@
     &spring;
 	&hsearch;
     &configuration;
+    &oc4j;
     &annotations;
     &components;
     &controls;

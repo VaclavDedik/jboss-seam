@@ -63,10 +63,6 @@ font-size: 100%;
     background-color: #F4F4F4;
 }
 
-UL, OL, LI {
-    list-style: disc;
-}
-
 HR  {
     width: 100%;
     height: 1px;
