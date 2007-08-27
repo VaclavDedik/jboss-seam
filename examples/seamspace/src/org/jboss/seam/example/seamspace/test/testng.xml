@@ -7,5 +7,11 @@
        <class name="org.jboss.seam.example.seamspace.test.RegisterTest"/>
      </classes>
    </test>
+   
+   <test name="SeamSpace: Blog">
+     <classes>
+       <class name="org.jboss.seam.example.seamspace.test.BlogTest"/>
+     </classes>
+   </test>   
 	
 </suite>
