@@ -617,8 +617,10 @@ Seam.Remoting.sendAjaxRequest = function(envelope, path, callback, silent)
   else
     asyncReq = new ActiveXObject("Microsoft.XMLHTTP");
 
+  var rcb = Seam.Remoting.requestCallback;
+  
   asyncReq.onreadystatechange = function() {
-    if (Seam) Seam.Remoting.requestCallback(asyncReq, callback);     
+    if (rcb) rcb(asyncReq, callback);     
   }
 
   if (Seam.Remoting.encodedSessionId)
@@ -640,12 +642,14 @@ Seam.Remoting.requestCallback = function(req, callback)
 {
   if (req.readyState == 4)
   {
-    Seam.Remoting.hideLoadingMessage();
+    var inScope = typeof(Seam) == "undefined" ? false : true;
+    
+    if (inScope) Seam.Remoting.hideLoadingMessage();
     req.onreadystatechange = function() {};
 
     if (req.status == 200)
     {
-      Seam.Remoting.log("Response packet:\n" + req.responseText);
+      if (inScope) Seam.Remoting.log("Response packet:\n" + req.responseText);
 
       if (callback)
         callback(req.responseXML);
@@ -659,6 +663,10 @@ Seam.Remoting.processResponse = function(doc)
 {
   var headerNode;
   var bodyNode;
+
+  var inScope = typeof(Seam) == "undefined" ? false : true;
+  if (!inScope) return;    
+  
   var context = new Seam.Remoting.__Context;
 
   if (doc.documentElement)
@@ -685,7 +693,7 @@ Seam.Remoting.processResponse = function(doc)
         break;
       }
     }
-    if (contextNode)
+    if (contextNode && context)
     {
       Seam.Remoting.unmarshalContext(contextNode, context);
       if (context.getConversationId() && Seam.Remoting.getContext().getConversationId() == null)
