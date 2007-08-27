@@ -172,7 +172,6 @@ public abstract class Node extends AbstractNestedSetNode<Node> implements Serial
     // Immutable properties
 
     public Integer getVersion() { return version; }
-    public Date getCreatedOn() { return createdOn; }
     public int getRevision() { return revision; }
     public Long getHistoryId() { return historicalNodeId; }
 
@@ -220,6 +219,14 @@ public abstract class Node extends AbstractNestedSetNode<Node> implements Serial
         this.createdBy = createdBy;
     }
 
+    public Date getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(Date createdOn) {
+        this.createdOn = createdOn;
+    }
+
     public Date getLastModifiedOn() {
         return lastModifiedOn;
     }
@@ -257,6 +264,7 @@ public abstract class Node extends AbstractNestedSetNode<Node> implements Serial
         this.readAccessLevel = readAccessLevel;
     }
 
+    // TODO: Do we still need this?
     public Set<WikiPreferenceValue> getPreferences() {
         return preferences;
     }

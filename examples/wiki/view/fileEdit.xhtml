@@ -86,10 +86,29 @@
                     <div class="entry">
                         <div class="label">File Details:</div>
                         <div class="output">
-                            <h:outputText value="(#{fileHome.instance.filename}, #{wiki:displayFilesize(fileHome.instance.filesize)}, #{fileHome.instance.contentType})"/>
+                            <h:panelGroup>
+                                <h:outputLink value="#{wiki:renderURL(fileHome.instance)}">
+                                    <h:outputText value="#{fileHome.instance.filename}, #{wiki:displayFilesize(fileHome.instance.filesize)}, #{fileHome.instance.contentType}"/>
+                                </h:outputLink>
+                            </h:panelGroup>
                         </div>
                     </div>
 
+                </s:div>
+
+                <s:div rendered="#{fileHome.managed and empty fileHome.instance.imageMetaInfo and not empty fileHome.availableImporters}">
+                    <div class="entry">
+                        <div class="label">Converters:</div>
+                        <div class="input">
+                            <h:selectOneMenu value="#{fileHome.selectedImporter}" tabindex="1">
+                                <s:selectItems value="#{fileHome.availableImporters}"
+                                               var="imp"
+                                               label="#{imp.description}"
+                                               noSelectionLabel="Don't convert file"/>
+                                <a:support event="onchange" reRender="uploadControl"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </div>
                 </s:div>
 
                 <s:div rendered="#{fileHome.managed and not empty fileHome.instance.imageMetaInfo}">
@@ -105,10 +124,13 @@
                             <h:panelGrid columns="1">
                                 <h:panelGroup>
                                     <a:region>
-                                        <a:commandLink id="zoomOut" tabindex="2" action="#{fileHome.zoomPreviewOut}" reRender="imagePreview">
+                                        <a:commandLink id="zoomOut" tabindex="2" action="#{fileHome.zoomPreviewOut}" reRender="imagePreview" alt="Zoom Out">
                                             <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/minus.gif" width="18" height="18"/>
                                         </a:commandLink>
-                                        <a:commandLink id="zoomIn" tabindex="3" action="#{fileHome.zoomPreviewIn}" reRender="imagePreview">
+                                        <a:commandLink id="actualSize" tabindex="2" action="#{fileHome.zoomActualSize}" reRender="imagePreview" alt="Actual Size">
+                                            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/equals.gif" width="18" height="18"/>
+                                        </a:commandLink>
+                                        <a:commandLink id="zoomIn" tabindex="2" action="#{fileHome.zoomPreviewIn}" reRender="imagePreview" alt="Zoom In">
                                             <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/plus.gif" width="18" height="18"/>
                                         </a:commandLink>
                                     </a:region>
@@ -137,10 +159,12 @@
 
                 </s:div>
 
-                <s:decorate id="uploadDecorate" template="includes/formFieldDecorate.xhtml">
-                    <ui:define name="label">Upload (max. #{wiki:displayFilesize(org.jboss.seam.web.multipartFilter.maxRequestSize)})</ui:define>
-                    <s:fileUpload id="upload" data="#{fileHome.filedata}" contentType="#{fileHome.contentType}" fileName="#{fileHome.filename}"/>
-                </s:decorate>
+                <s:div id="uploadControl">
+                    <s:decorate id="uploadDecorate" template="includes/formFieldDecorate.xhtml" rendered="#{empty fileHome.selectedImporter}">
+                        <ui:define name="label">Upload (max. #{wiki:displayFilesize(org.jboss.seam.web.multipartFilter.maxRequestSize)})</ui:define>
+                        <s:fileUpload id="upload" data="#{fileHome.filedata}" contentType="#{fileHome.contentType}" fileName="#{fileHome.filename}"/>
+                    </s:decorate>
+                </s:div>
 
             </div>
             <div class="formControls wideLabels">

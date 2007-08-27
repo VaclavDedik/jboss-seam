@@ -220,6 +220,11 @@ public class NodeDAO {
         }
     }
 
+    public boolean isUniqueWikiname(Long areaNumber, String wikiname) {
+        Node foundNode = findNodeInArea(areaNumber, wikiname, entityManager);
+        return foundNode == null;
+    }
+
     public Document findDocument(Long documentId) {
         restrictedEntityManager.joinTransaction();
 

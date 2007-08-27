@@ -261,37 +261,37 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
 
     /**
      * Called before the superclass does its preparation;
-     * @return boolean continue or veto
+     * @return boolean continue processing
      */
     protected boolean preparePersist() { return true; }
 
     /**
      * Called after superclass did its preparation right before the actual persist()
-     * @return boolean continue or veto
+     * @return boolean continue processing
      */
     protected boolean beforePersist() { return true; }
 
     /**
      * Called before the superclass does its preparation;
-     * @return boolean continue or veto
+     * @return boolean continue processing
      */
     protected boolean prepareUpdate() { return true; }
 
     /**
      * Called after superclass did its preparation right before the actual update()
-     * @return boolean continue or veto
+     * @return boolean continue processing
      */
     protected boolean beforeUpdate() { return true; }
 
     /**
      * Called before the superclass does its preparation;
-     * @return boolean continue or veto
+     * @return boolean continue processing
      */
     protected boolean prepareRemove() { return true; }
 
     /**
      * Called after superclass did its preparation right before the actual remove()
-     * @return boolean continue or veto
+     * @return boolean continue processing
      */
     protected boolean beforeRemove() { return true; }
 

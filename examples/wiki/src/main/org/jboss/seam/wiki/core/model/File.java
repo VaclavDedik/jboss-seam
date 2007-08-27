@@ -115,4 +115,19 @@ public class File extends Node {
         throw new UnsupportedOperationException("Files can't have children");
     }
 
+    public String getFilenameWithoutExtension() {
+        if (getFilename().contains(".")) {
+            return getFilename().substring(0, getFilename().length()-getExtension().length()-1);
+        } else {
+            return getFilename();
+        }
+    }
+    public String getExtension() {
+        if (getFilename().contains(".")) {
+            return getFilename().substring( getFilename().lastIndexOf(".")+1, getFilename().length());
+        } else {
+            return null;
+        }
+    }
+
 }

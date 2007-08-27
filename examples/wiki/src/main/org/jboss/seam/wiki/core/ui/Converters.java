@@ -14,6 +14,8 @@ import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.wiki.core.model.Role;
 import org.jboss.seam.wiki.core.search.metamodel.SearchRegistry;
 import org.jboss.seam.wiki.core.search.metamodel.SearchableEntity;
+import org.jboss.seam.wiki.core.importers.metamodel.Importer;
+import org.jboss.seam.wiki.core.importers.metamodel.ImporterRegistry;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -29,6 +31,29 @@ public class Converters {
 
     public String[] getMonthNames() {
         return new String[]{"NULL","January","February","March","April","May","June","July","August","September","October","November","December"};
+    }
+
+
+    @Name("importerConverter")
+    @org.jboss.seam.annotations.faces.Converter(forClass = Importer.class)
+    public static class ImporterConverter implements Converter, Serializable {
+
+        @Transactional
+        public Object getAsObject(FacesContext arg0,
+                                  UIComponent arg1,
+                                  String arg2) throws ConverterException {
+            if (arg2 == null) return null;
+            ImporterRegistry importerRegistry = (ImporterRegistry)Component.getInstance("importerRegistry");
+            return importerRegistry.getImportersByName().get(arg2);
+        }
+
+        public String getAsString(FacesContext arg0, UIComponent arg1, Object arg2) throws ConverterException {
+            if (arg2 instanceof Importer) {
+                return ((Importer)arg2).getComponentName();
+            } else {
+                return null;
+            }
+        }
     }
 
     @Name("searchableEntityConverter")

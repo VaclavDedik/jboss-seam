@@ -6,25 +6,35 @@ import javax.swing.ImageIcon;
 
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Component;
 import org.jboss.seam.wiki.core.ui.FileMetaMap;
 import org.jboss.seam.wiki.core.model.File;
 import org.jboss.seam.wiki.core.model.ImageMetaInfo;
+import org.jboss.seam.wiki.core.importers.metamodel.Importer;
+import org.jboss.seam.wiki.core.importers.metamodel.AbstractImporter;
+import org.jboss.seam.wiki.core.importers.metamodel.ImporterRegistry;
 import org.jboss.seam.wiki.util.WikiUtil;
 
-import java.util.Map;
+import java.util.*;
+
+import net.sf.jmimemagic.Magic;
+import net.sf.jmimemagic.MagicMatchNotFoundException;
 
 @Name("fileHome")
 @Scope(ScopeType.CONVERSATION)
 public class FileHome extends NodeHome<File> {
 
-    public static final int PREVIEW_SIZE_MIN  = 240;
-    public static final int PREVIEW_SIZE_MAX  = 1600;
-    public static final int PREVIEW_ZOOM_STEP = 240;
+    public static final int PREVIEW_SIZE_MIN  = 60;
+    public static final int PREVIEW_SIZE_MAX  = 1320;
+    public static final int PREVIEW_ZOOM_STEP = 120;
 
     /* -------------------------- Context Wiring ------------------------------ */
 
     @In
     Map<String, FileMetaMap.FileMetaInfo> fileMetaMap;
+
+    @In
+    ImporterRegistry importerRegistry;
 
     /* -------------------------- Request Wiring ------------------------------ */
 
@@ -34,7 +44,7 @@ public class FileHome extends NodeHome<File> {
     private String contentType;
     // TODO: This should really use an InputStream and directly stream into the BLOB without consuming server memory
     private byte[] filedata;
-    private int imagePreviewSize = 240;
+    private int imagePreviewSize = PREVIEW_SIZE_MIN;
 
     public String getFilename() { return filename; }
     public void setFilename(String filename) { this.filename = filename; }
@@ -46,6 +56,10 @@ public class FileHome extends NodeHome<File> {
     public void setFiledata(byte[] filedata) { this.filedata = filedata; }
 
     public int getImagePreviewSize() { return imagePreviewSize; }
+
+    private Importer selectedImporter;
+    public Importer getSelectedImporter() { return selectedImporter; }
+    public void setSelectedImporter(Importer selectedImporter) { this.selectedImporter = selectedImporter; }
 
     /* -------------------------- Custom CUD ------------------------------ */
 
@@ -67,10 +81,16 @@ public class FileHome extends NodeHome<File> {
     }
 
     protected boolean prepareUpdate() {
-        // Sync file instance with form data
-        syncFile();
 
-        return true;
+        if (selectedImporter != null) {
+            AbstractImporter importer = (AbstractImporter) Component.getInstance(selectedImporter.getComponentName());
+            return importer.handleImport(getEntityManager(), getInstance());
+        } else {
+            // Sync file instance with form data
+            syncFile();
+
+            return true;
+        }
     }
 
     /* -------------------------- Internal Methods ------------------------------ */
@@ -82,7 +102,14 @@ public class FileHome extends NodeHome<File> {
             getInstance().setFilename(filename);
             getInstance().setFilesize(filedata.length); // Don't trust the browsers headers!
             getInstance().setData(filedata);
-            getInstance().setContentType(contentType);
+
+            String mimeType;
+            try {
+                mimeType = Magic.getMagicMatch(filedata).getMimeType();
+            } catch (Exception ex) {
+                mimeType = contentType; // Default to what the browser tells us
+            }
+            getInstance().setContentType(mimeType);
 
             // Handle image/picture meta info
             if (fileMetaMap.get(getInstance().getContentType()) != null &&
@@ -125,12 +152,31 @@ public class FileHome extends NodeHome<File> {
 
     /* -------------------------- Public Features ------------------------------ */
 
+    public List<Importer> getAvailableImporters() {
+        List<Importer> availableImporters = new ArrayList<Importer>();
+        for (Importer importer : importerRegistry.getImporters()) {
+            List<String> supportedMimeTypes = Arrays.asList(importer.getHandledMimeTypes());
+            List<String> supportedExtensions = Arrays.asList(importer.getHandledExtensions());
+            if (supportedMimeTypes.contains(getInstance().getContentType()) &&
+                supportedExtensions.contains(getInstance().getExtension()) ) {
+                availableImporters.add(importer);
+            }
+        }
+        return availableImporters;
+    }
+
+    public void zoomActualSize() {
+        imagePreviewSize = getInstance().getImageMetaInfo().getSizeX();
+    }
+
     public void zoomPreviewIn() {
         if (imagePreviewSize < PREVIEW_SIZE_MAX) imagePreviewSize = imagePreviewSize + PREVIEW_ZOOM_STEP;
     }
 
     public void zoomPreviewOut() {
-        if (imagePreviewSize > PREVIEW_SIZE_MIN) imagePreviewSize = imagePreviewSize - PREVIEW_ZOOM_STEP;
+        if (imagePreviewSize > PREVIEW_SIZE_MIN && (imagePreviewSize - PREVIEW_ZOOM_STEP) > PREVIEW_SIZE_MIN)
+            imagePreviewSize = imagePreviewSize - PREVIEW_ZOOM_STEP;
+        else imagePreviewSize = PREVIEW_SIZE_MIN;
     }
 
 }
