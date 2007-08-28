@@ -3,6 +3,7 @@ package org.jboss.seam.mail.ui;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Method;
 import java.net.URL;
 
 import javax.activation.DataHandler;
@@ -18,10 +19,9 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.util.ByteArrayDataSource;
 
-import org.jboss.seam.pdf.DocumentData;
-import org.jboss.seam.pdf.ui.UIDocument;
 import org.jboss.seam.ui.util.JSF;
 import org.jboss.seam.util.FacesResources;
+import org.jboss.seam.util.Reflections;
 
 public class UIAttachment extends MailComponent implements ValueHolder
 {
@@ -53,9 +53,10 @@ public class UIAttachment extends MailComponent implements ValueHolder
    public void encodeBegin(FacesContext context) throws IOException
    {
       if (this.getChildCount() > 0) {
-         if (this.getChildren().get(0) instanceof UIDocument) {
-            UIDocument document = (UIDocument) this.getChildren().get(0);
-            document.setSendRedirect(false);
+         if (Reflections.isInstanceOf(this.getChildren().get(0).getClass(), "org.jboss.seam.pdf.ui.UIDocument")) 
+         {
+            Method method = Reflections.getSetterMethod(this.getChildren().get(0).getClass(), "sendRedirect");
+            Reflections.invokeAndWrap(method, this.getChildren().get(0), false);
             JSF.renderChildren(context, this);
          } else {
             setValue(encode(context).getBytes());
@@ -66,7 +67,7 @@ public class UIAttachment extends MailComponent implements ValueHolder
          }
       }
    }
-
+   
    @Override
    public void encodeEnd(FacesContext context) throws IOException
    {
@@ -93,10 +94,13 @@ public class UIAttachment extends MailComponent implements ValueHolder
             InputStream is = (InputStream) getValue();
             ds = new ByteArrayDataSource(is, getContentType());
          }
-         else if (getValue() instanceof DocumentData)
+         else if (Reflections.isInstanceOf(getValue().getClass(), "org.jboss.seam.pdf.DocumentData"))
          {
-            DocumentData documentData = (DocumentData) getValue();
-            ds = new ByteArrayDataSource(documentData.getData(), documentData.getDocType().getMimeType());
+            Method dataGetter = Reflections.getGetterMethod(getValue().getClass(), "data");
+            Method docTypeGetter = Reflections.getGetterMethod(getValue().getClass(), "docType");
+            Object docType = Reflections.invokeAndWrap(docTypeGetter, getValue());
+            Method mimeTypeGetter = Reflections.getGetterMethod(docType.getClass(), "mimeType");
+            ds = new ByteArrayDataSource((byte[]) Reflections.invokeAndWrap(dataGetter, getValue()), (String) Reflections.invokeAndWrap(mimeTypeGetter, docType));
          }
          else if (getValue() != null && getValue().getClass().isArray())
          {

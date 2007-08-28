@@ -11,6 +11,8 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import sun.reflect.Reflection;
+
 public class Reflections
 {
    
@@ -313,6 +315,29 @@ public class Reflections
       {
          return null;
       }
+   }
+   
+   public static boolean isInstanceOf(Class clazz, String name)
+   {
+      if (name == null)
+      {
+         throw new IllegalArgumentException("name cannot be null");
+      }
+      for (Class c = clazz; c != Object.class; c = c.getSuperclass())
+      {
+         if (name.equals(c.getName()))
+         {
+            return true;
+         }
+      }
+      for (Class c : clazz.getInterfaces())
+      {
+         if (name.equals(c.getName()))
+         {
+            return true;
+         }
+      }
+      return false;
    }
 
 }
