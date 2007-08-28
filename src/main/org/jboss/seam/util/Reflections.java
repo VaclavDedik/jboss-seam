@@ -65,8 +65,9 @@ public class Reflections
       }
       catch (IllegalArgumentException iae)
       {
+         // target may be null if field is static so use field.getDeclaringClass() instead
          String message = "Could not set field value by reflection: " + toString(field) +
-            " on: " + target.getClass().getName();
+            " on: " + field.getDeclaringClass().getName();
          if (value==null)
          {
             message += " with null value";
