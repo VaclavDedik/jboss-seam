@@ -421,8 +421,8 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
 
             <programlisting><![CDATA[my-application.ear/
     jboss-seam.jar
-    jboss-el.jar
-    jboss-el-api.jar
+    lib/
+        jboss-el.jar
     META-INF/
         MANIFEST.MF
         application.xml
@@ -454,12 +454,12 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
                     RegisterBean.class
                     ...]]></programlisting>
 
-            <para> You must include <literal>jboss-seam.jar</literal>, <literal>jboss-el.jar</literal> and
-                    <literal>jboss-el-api.jar</literal> in the EAR classpath. Make sure you reference all of these JARs
-                from <literal>application.xml</literal>. </para>
+            <para>
+                You should declare <literal>jboss-seam.jar</literal> as an ejb module in <literal>META-INF/application.xml</literal>; 
+               <literal>jboss-el.jar</literal> should be placed in the EAR's lib directory (putting it in the EAR classpath.
+            </para>
 
-            <para> If you want to use jBPM or Drools, you must include the needed jars in the EAR classpath. Make sure
-                you reference all of the jars from <literal>application.xml</literal>. </para>
+            <para> If you want to use jBPM or Drools, you must include the needed jars in the EAR's lib directory.</para>
 
             <para> If you want to use facelets (our recommendation), you must include
                 <literal>jsf-facelets.jar</literal> in the <literal>WEB-INF/lib</literal> directory of the WAR. </para>
@@ -788,9 +788,9 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
 
             <programlisting><![CDATA[my-application.ear/
     jboss-seam.jar
-    jboss-el.jar
-    jboss-el-api.jar
-    jbpm-3.1.jar
+    lib/
+       jboss-el.jar
+       jbpm-3.1.jar
     META-INF/
         MANIFEST.MF
         application.xml
@@ -827,8 +827,6 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
     editDocument.jpdl.xml
     approveDocument.jpdl.xml
     documentLifecycle.jpdl.xml]]></programlisting>
-
-            <para> Remember to add <literal>jbpm-3.1.jar</literal> to the manifest of your EJB-JAR and WAR. </para>
 
         </sect2>
 
