@@ -1488,7 +1488,10 @@ public class Component extends Model
       Object dataModel = getOutScope(scope, this).getContext().get(name);
       if ( dataModel!=null )
       {
-         dataModelGetter.set(bean, wrapper.getWrappedData(dataModelAnn, dataModel));
+         if ( PAGE.equals(scope) )
+         {
+            dataModelGetter.set(bean, wrapper.getWrappedData(dataModelAnn, dataModel));
+         }
       
          Object selectedIndex = wrapper.getSelection(dataModelAnn, dataModel);
       
@@ -2544,16 +2547,12 @@ public class Component extends Model
       public BijectedProperty(String name, Method getter, T annotation)
       {
          this.getter = new BijectedMethod(name, getter, annotation);
-         Method setterMethod;
          try
          {
-            setterMethod = Reflections.getSetterMethod(getter.getDeclaringClass(), name);
+            Method setterMethod = Reflections.getSetterMethod(getter.getDeclaringClass(), name);
+            this.setter = new BijectedMethod(name, setterMethod, annotation);
          }
-         catch (IllegalArgumentException e)
-         {
-            throw new IllegalArgumentException("Component must have a getter/setter pair for property " + name + " annotated with @" + annotation.annotationType().getSimpleName(), e);
-         }
-         this.setter = new BijectedMethod(name, setterMethod, annotation);
+         catch (IllegalArgumentException e) {}        
       }
 
       public Object get(Object bean)
@@ -2578,6 +2577,10 @@ public class Component extends Model
 
       public void set(Object bean, Object value)
       {
+         if (setter == null)
+         {
+            throw new IllegalArgumentException("Component must have a setter for " + name);
+         }
          setter.set(bean, value); 
       }
       
