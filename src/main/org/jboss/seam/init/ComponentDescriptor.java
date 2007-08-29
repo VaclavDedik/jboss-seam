@@ -103,8 +103,12 @@ public class ComponentDescriptor implements Comparable<ComponentDescriptor>
 
     private boolean isAutoCreateAnnotationPresent()
     {
-        return componentClass.isAnnotationPresent(AutoCreate.class) || 
-           componentClass.getPackage().isAnnotationPresent(AutoCreate.class);
+        if (componentClass.isAnnotationPresent(AutoCreate.class)) {
+           return true;
+        }
+   
+        Package pkg = componentClass.getPackage();
+        return pkg!=null && pkg.isAnnotationPresent(AutoCreate.class);
     }
 
     public String[] getDependencies()

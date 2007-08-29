@@ -371,7 +371,9 @@ public class Component extends Model
             {
                addImport( init, getBeanClass().getAnnotation(Import.class) );
             }
-            if ( getBeanClass().getPackage().isAnnotationPresent(Import.class) )
+            
+            Package pkg = getBeanClass().getPackage();
+            if ( pkg!=null && pkg.isAnnotationPresent(Import.class) )
             {
                addImport( init, getBeanClass().getPackage().getAnnotation(Import.class) );
             }
