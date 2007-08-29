@@ -7,22 +7,28 @@ import org.jboss.seam.wiki.core.importers.metamodel.AbstractImporter;
 import org.jboss.seam.wiki.core.importers.annotations.FileImporter;
 import org.jboss.seam.wiki.core.model.File;
 import org.jboss.seam.wiki.core.model.ImageMetaInfo;
+import org.jboss.seam.wiki.core.model.Node;
 import org.jboss.seam.wiki.core.dao.NodeDAO;
 import org.jboss.seam.wiki.core.ui.FileMetaMap;
 import org.jboss.seam.wiki.util.WikiUtil;
 import org.jboss.seam.log.Log;
+import org.jboss.seam.core.Validators;
+import org.hibernate.validator.ClassValidator;
+import org.hibernate.validator.InvalidValue;
 
 import javax.persistence.EntityManager;
 import javax.faces.application.FacesMessage;
 import javax.swing.*;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 import java.util.Date;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.io.*;
 
 import net.sf.jmimemagic.Magic;
-import net.sf.jmimemagic.MagicMatchNotFoundException;
 
 @Name("zipImporter")
 @FileImporter(
@@ -36,13 +42,15 @@ public class ZipImporter extends AbstractImporter {
     Log log;
 
     @In
-    NodeDAO nodeDAO;
+    protected NodeDAO nodeDAO;
 
     @In
-    Map<String, FileMetaMap.FileMetaInfo> fileMetaMap;
+    protected Map<String, FileMetaMap.FileMetaInfo> fileMetaMap;
 
     public boolean handleImport(EntityManager em, File zipFile) {
         if (zipFile.getData().length == 0) return true;
+
+        SortedMap<Date, Node> newNodes = new TreeMap<Date, Node>();
 
         ByteArrayInputStream byteStream = null;
         ZipInputStream zipInputStream = null;
@@ -54,81 +62,27 @@ public class ZipImporter extends AbstractImporter {
             ZipEntry              ze;
             ByteArrayOutputStream baos;
             byte[]                buffer = new byte[bufferSize];
-            byte[]                uncommpressedBytes;
+            byte[]                uncompressedBytes;
             int                   bytesRead;
 
             while ((ze = zipInputStream.getNextEntry()) != null) {
                 log.debug("extracting zip entry: " + ze.getName());
 
-                File wikiFile = new File();
-                wikiFile.setFilename(ze.getName());
+                if (ze.getName().contains("/") && !handleDirectory(em, zipFile, ze)) continue;
 
-                wikiFile.setName(wikiFile.getFilenameWithoutExtension());
-                wikiFile.setWikiname(WikiUtil.convertToWikiName(wikiFile.getName()));
-                wikiFile.setAreaNumber(zipFile.getAreaNumber());
-                wikiFile.setCreatedBy(zipFile.getCreatedBy());
-                wikiFile.setLastModifiedBy(wikiFile.getCreatedBy());
-                wikiFile.setCreatedOn(new Date(ze.getTime()));
-                wikiFile.setLastModifiedOn(new Date());
-                wikiFile.setReadAccessLevel(zipFile.getReadAccessLevel());
-                wikiFile.setWriteAccessLevel(zipFile.getWriteAccessLevel());
+                if (!continueUncompressing(em, zipFile, ze)) continue;
 
-                if ( !nodeDAO.isUniqueWikiname(zipFile.getAreaNumber(), wikiFile.getWikiname()) ) {
-                    getFacesMessages().addFromResourceBundleOrDefault(
-                        FacesMessage.SEVERITY_ERROR,
-                        "duplicateImportedName",
-                        "Skipping file '" + ze.getName() + "', name is already used in this area..."
-                    );
-                    continue;
-                }
-
-                if (ze.getName().contains("/")) {
-                    getFacesMessages().addFromResourceBundleOrDefault(
-                        FacesMessage.SEVERITY_ERROR,
-                        "notImportingDirectory",
-                        "Skipping directory '" + ze.getName() + "', importing not supported..."
-                    );
-                    continue;
-                }
                 baos = new ByteArrayOutputStream();
                 while ((bytesRead = zipInputStream.read(buffer, 0, bufferSize)) > 0) {
                     baos.write(buffer, 0, bytesRead);
                 }
                 baos.close();
-                uncommpressedBytes = baos.toByteArray();
+                uncompressedBytes = baos.toByteArray();
 
-                log.debug("detecting mime type of zip entry: " + ze.getName());
-                String mimeType;
-                try {
-                    mimeType = Magic.getMagicMatch(uncommpressedBytes).getMimeType();
-                } catch (MagicMatchNotFoundException ex) {
-                    mimeType = "application/octet-stream"; // Default to binary
+                Node newNode = createNewNode(em, zipFile, ze, uncompressedBytes);
+                if (newNode != null) {
+                    newNodes.put(newNode.getCreatedOn(), newNode);
                 }
-
-                log.debug("creating new file data from zip entry: " + ze.getName());
-                wikiFile.setContentType(mimeType);
-                wikiFile.setData(uncommpressedBytes);
-                wikiFile.setFilesize(uncommpressedBytes.length);
-
-                // TODO: Make this generic, duplicated here and in FileHome
-                if (fileMetaMap.get(wikiFile.getContentType()) != null &&
-                    fileMetaMap.get(wikiFile.getContentType()).image) {
-                    wikiFile.setImageMetaInfo(new ImageMetaInfo());
-                    ImageIcon icon = new ImageIcon(wikiFile.getData());
-                    int imageSizeX = icon.getImage().getWidth(null);
-                    int imageSizeY = icon.getImage().getHeight(null);
-                    wikiFile.getImageMetaInfo().setSizeX(imageSizeX);
-                    wikiFile.getImageMetaInfo().setSizeY(imageSizeY);
-                }
-
-                zipFile.getParent().addChild(wikiFile);
-                em.persist(wikiFile);
-
-                getFacesMessages().addFromResourceBundleOrDefault(
-                    FacesMessage.SEVERITY_INFO,
-                    "importedFile",
-                    "Created file '" + ze.getName() + "' in current directory"
-                );
 
                 zipInputStream.closeEntry();
             }
@@ -144,7 +98,117 @@ public class ZipImporter extends AbstractImporter {
             }
         }
 
+        int i = 0;
+        for (Map.Entry<Date, Node> entry : newNodes.entrySet()) {
+            log.debug("validating new node");
+
+            ClassValidator validator = Validators.instance().getValidator(entry.getValue().getClass());
+            InvalidValue[] invalidValues = validator.getInvalidValues(entry.getValue());
+            if (invalidValues != null && invalidValues.length > 0) {
+                log.debug("new node is invalid: " + entry.getValue());
+                for (InvalidValue invalidValue : invalidValues) {
+                    getFacesMessages().addFromResourceBundleOrDefault(
+                        FacesMessage.SEVERITY_ERROR,
+                        "invalidImportedDocumentName",
+                        "Skipping entry '" + entry.getValue().getName() + "', invalid: " + invalidValue.getMessage()
+                    );
+                }
+                continue;
+            }
+
+            log.debug("persisting newly imported node: " + entry.getValue());
+            zipFile.getParent().addChild(entry.getValue());
+            em.persist(entry.getValue());
+            getFacesMessages().addFromResourceBundleOrDefault(
+                FacesMessage.SEVERITY_INFO,
+                "importedFile",
+                "Created file '" + entry.getValue().getName() + "' in current directory"
+            );
+
+            // Batch the work (we can't clear because of nested set updates, unfortunately)
+            i++;
+            if (i==100) {
+                em.flush();
+                i = 0;
+            }
+
+        }
+
         return true;
     }
+
+    protected boolean handleDirectory(EntityManager em, File zipFile, ZipEntry zipEntry) {
+        log.debug("skipping directory: " + zipEntry.getName());
+        getFacesMessages().addFromResourceBundleOrDefault(
+            FacesMessage.SEVERITY_ERROR,
+            "notImportingDirectory",
+            "Skipping directory '" + zipEntry.getName() + "', importing not supported..."
+        );
+        return false; // Not supported
+    }
+
+    protected boolean continueUncompressing(EntityManager em, File zipFile, ZipEntry zipEntry) {
+        return validateNewWikiname(zipFile, WikiUtil.convertToWikiName(zipEntry.getName()));
+    }
+
+    protected boolean validateNewWikiname(File zipFile, String newWikiname) {
+        log.debug("validating wiki name of new file: " + newWikiname);
+        if (nodeDAO.isUniqueWikiname(zipFile.getAreaNumber(), newWikiname) ) {
+            log.debug("new name is unique and valid");
+            return true;
+        } else {
+            log.debug("new name is not unique and invalid");
+            getFacesMessages().addFromResourceBundleOrDefault(
+                FacesMessage.SEVERITY_ERROR,
+                "duplicateImportedName",
+                "Skipping file '" + newWikiname + "', name is already used in this area..."
+            );
+            return false;
+        }
+    }
+
+    protected Node createNewNode(EntityManager em, File zipFile, ZipEntry zipEntry, byte[] uncompressedBytes) {
+        log.debug("creating new file from zip entry: " + zipEntry.getName());
+
+        File wikiFile = new File();
+        wikiFile.setFilename(zipEntry.getName());
+        wikiFile.setName(zipEntry.getName());
+        wikiFile.setWikiname(WikiUtil.convertToWikiName(wikiFile.getName()));
+
+        wikiFile.setAreaNumber(zipFile.getAreaNumber());
+        wikiFile.setCreatedBy(zipFile.getCreatedBy());
+        wikiFile.setLastModifiedBy(wikiFile.getCreatedBy());
+        wikiFile.setCreatedOn(new Date(zipEntry.getTime()));
+        wikiFile.setLastModifiedOn(new Date());
+        wikiFile.setReadAccessLevel(zipFile.getReadAccessLevel());
+        wikiFile.setWriteAccessLevel(zipFile.getWriteAccessLevel());
+
+        log.debug("detecting mime type of zip entry: " + zipEntry.getName());
+        String mimeType;
+        try {
+            mimeType = Magic.getMagicMatch(uncompressedBytes).getMimeType();
+            log.debug("mime type of zip entry is: " + mimeType);
+        } catch (Exception ex) {
+            log.debug("could not detect mime type, defaulting to binary");
+            mimeType = "application/octet-stream";
+        }
+        wikiFile.setContentType(mimeType);
+        wikiFile.setData(uncompressedBytes);
+        wikiFile.setFilesize(uncompressedBytes.length);
+
+        // TODO: Make this generic, duplicated here and in FileHome
+        if (fileMetaMap.get(wikiFile.getContentType()) != null &&
+            fileMetaMap.get(wikiFile.getContentType()).image) {
+            wikiFile.setImageMetaInfo(new ImageMetaInfo());
+            ImageIcon icon = new ImageIcon(wikiFile.getData());
+            int imageSizeX = icon.getImage().getWidth(null);
+            int imageSizeY = icon.getImage().getHeight(null);
+            wikiFile.getImageMetaInfo().setSizeX(imageSizeX);
+            wikiFile.getImageMetaInfo().setSizeY(imageSizeY);
+        }
+
+        return wikiFile;
+    }
+
 
 }

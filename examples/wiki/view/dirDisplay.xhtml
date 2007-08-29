@@ -31,6 +31,7 @@
 
         <s:link id="uploadFile" styleClass="linkNavigation" accesskey="U" view="/fileEdit.xhtml"
                 rendered="#{s:hasPermission('Node', 'create', directoryHome.instance)}"><u>U</u>pload File
+            <f:param name="fileId"/>
             <f:param name="parentDirectoryId" value="#{directoryHome.instance.id}"/>
         </s:link>
 

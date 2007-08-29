@@ -42,7 +42,10 @@ public class BlogDAO {
         queryString.append("and n1.nsLeft between n2.nsLeft and n2.nsRight").append(" ");
         queryString.append("and n2.nsLeft > :startLeft and n2.nsRight < :startRight").append(" ");
         queryString.append("and n2.class = :clazz").append(" ");
-        queryString.append("and not n1 = :ignoreNode").append(" ");
+
+        if (ignoreNode.getId() != null)
+            queryString.append("and not n1 = :ignoreNode").append(" ");
+
         queryString.append("and not n1.pluginsUsed like '%blogDirectory%'").append(" ");
 
         if (year != null) queryString.append("and year(n1.createdOn) = :limitYear").append(" ");
@@ -64,7 +67,8 @@ public class BlogDAO {
         nestedSetQuery.setParameter("startLeft", startNode.getNsLeft());
         nestedSetQuery.setParameter("startRight", startNode.getNsRight());
         nestedSetQuery.setParameter("clazz", "DOCUMENT"); // TODO: Hibernate can't bind the discriminator? Not even with Hibernate.CLASS type...
-        nestedSetQuery.setParameter("ignoreNode", ignoreNode);
+        if (ignoreNode.getId() != null)
+            nestedSetQuery.setParameter("ignoreNode", ignoreNode);
 
         if (year != null) nestedSetQuery.setParameter("limitYear", year);
         if (month != null) nestedSetQuery.setParameter("limitMonth", month);

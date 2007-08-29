@@ -25,7 +25,7 @@
     <h:dataTable value="#{lastModifiedDocumentsPlugin.lastModifiedDocuments}" var="doc"
                  styleClass="datatable rightBorder leftBorder topBorder bottomBorder"
                  headerClass="regularHeader alignLeft"
-                 columnClasses="tenPercentColumn alignLeft, tenPercentColumn alignLeft"
+                 columnClasses="onePercentColumn alignLeft, tenPercentColumn alignLeft"
                  rowClasses="rowOdd,rowEven"
                  cellpadding="0" cellspacing="0" border="0">
         <h:column>
@@ -36,6 +36,7 @@
                           rendered="#{!empty doc.lastModifiedOn}">
                 <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
             </h:outputText>
+            <h:outputText value="&#160;#{wikiPreferences.timeZone}"/>
             <h:outputText value=" (#{doc.lastModifiedBy.username})"
                           rendered="#{!empty doc.lastModifiedBy and lastModifiedDocumentsPreferences.properties['showUsernames']}">
             </h:outputText>

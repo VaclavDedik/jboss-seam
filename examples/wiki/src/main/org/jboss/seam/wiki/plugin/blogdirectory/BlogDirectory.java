@@ -65,6 +65,7 @@ public class BlogDirectory implements Serializable {
         this.day = day;
     }
     private long numOfBlogEntries;
+    private long totalNumOfBlogEntries;
     private List<BlogEntry> blogEntries;
     private List<BlogEntryCount> blogEntryCountsByYearAndMonth;
     // Need to expose this as a datamodel so Seam can convert our map to a collection of Map.Entry objects
@@ -100,6 +101,9 @@ public class BlogDirectory implements Serializable {
 
     private void queryBlogEntryCountsByYearAndMonth() {
         blogEntryCountsByYearAndMonth = blogDAO.countAllBlogEntriesGroupByYearMonth(currentDirectory, currentDocument);
+        for (BlogEntryCount blogEntryCount : blogEntryCountsByYearAndMonth) {
+            totalNumOfBlogEntries = totalNumOfBlogEntries + blogEntryCount.getNumOfEntries();
+        }
     }
 
     @Factory(value = "recentBlogEntries")
@@ -146,6 +150,13 @@ public class BlogDirectory implements Serializable {
         if (numOfBlogEntries != 0){
             queryBlogEntries();
         }
+    }
+
+    public long getTotalNumOfBlogEntries() {
+        if (blogEntryCountsByYearAndMonth == null) {
+            queryBlogEntryCountsByYearAndMonth();
+        }
+        return totalNumOfBlogEntries;
     }
 
     public long getNumOfBlogEntries() {

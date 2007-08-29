@@ -51,7 +51,7 @@ public class Document extends Node {
     private List<Comment> comments;
 
     @Column(table = "NODE_DOCUMENT", name = "PLUGINS_USED", nullable = false)
-    private String pluginsUsed;
+    private String pluginsUsed = "";
 
     public Document() {
         super("New Document");
