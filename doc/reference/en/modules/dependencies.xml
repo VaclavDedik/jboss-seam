@@ -285,7 +285,7 @@
           
           <row>
             <entry>
-              <para><literal>jcaptcha-all.jar.jar</literal></para>
+              <para><literal>jcaptcha-all.jar</literal></para>
             </entry>
             <entry align="center">
               <para>ear</para>
@@ -296,7 +296,22 @@
             <entry>
               <para>Required for Captcha support</para>
             </entry>
-          </row>                                          
+          </row>          
+          
+          <row>
+            <entry>
+              <para><literal>quartz.jar</literal></para>
+            </entry>
+            <entry align="center">
+              <para>ear</para>
+            </entry>
+            <entry align="center">
+              <para>yes</para>
+            </entry>
+            <entry>
+              <para>Required when you wish to use Quartz with Seam's asynchronous features</para>
+            </entry>
+          </row>                                            
           
         </tbody>
       </tgroup>
@@ -673,5 +688,60 @@
     </table>
     
   </sect1>        
+  
+  <sect1>
+    <title>Spring</title>
+    
+    <para>
+      These libraries are required if you with to use the Spring Framework with your Seam application.
+    </para>
+    
+    <table>
+      <title>Spring Framework dependencies</title>
+   
+      <tgroup cols="4">
+        <colspec colnum="1" colwidth="4*" />
+        <colspec colnum="2" colwidth="2*" />
+        <colspec colnum="3" colwidth="3*" />
+        <colspec colnum="4" colwidth="5*" />
+  
+        <thead>
+          <row>
+            <entry align="center">
+              <para>Name</para>
+            </entry>
+            <entry align="center">
+              <para>Scope</para>
+            </entry>
+            <entry align="center">
+              <para>Provided by JBoss AS 4.2.x</para>
+            </entry>    
+            <entry align="center">
+              <para>Notes</para>
+            </entry>
+          </row>
+        </thead>
+  
+        <tbody>    
+          <row>
+            <entry>
+              <para><literal>spring.jar</literal></para>
+            </entry>
+            <entry align="center">
+              <para>ear</para>
+            </entry>
+            <entry align="center">
+              <para>no</para>
+            </entry>
+            <entry>
+              <para>The Spring Framework library</para>
+            </entry>
+          </row>
+  
+        </tbody>
+      </tgroup>
+    </table>
+    
+  </sect1>     
 
 </chapter>
