@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import org.drools.agent.RuleAgent;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Scope;
@@ -19,11 +18,11 @@ import org.jboss.seam.util.Resources;
  */
 @Scope(ScopeType.APPLICATION)
 @BypassInterceptors
-public class BrmsRuleBase
+public class RuleAgent
 {
-   private static final LogProvider log = Logging.getLogProvider(BrmsRuleBase.class);
+   private static final LogProvider log = Logging.getLogProvider(RuleAgent.class);
    
-   private org.drools.RuleBase ruleBase;
+   private org.drools.agent.RuleAgent agent;
    private String configurationFile;  
    
    
@@ -34,6 +33,60 @@ public class BrmsRuleBase
    private String poll;
    private String configName;
    
+   @Create
+   public void createAgent() throws Exception
+   {  
+      Properties properties = new Properties();
+      
+      loadFromPath(properties, configurationFile);
+      setLocalProperties(properties);
+      
+      agent = org.drools.agent.RuleAgent.newRuleAgent(properties);    
+   }
+   
+   protected void setLocalProperties(Properties properties)
+   {
+      if (newInstance != null) {
+         properties.setProperty(org.drools.agent.RuleAgent.NEW_INSTANCE, newInstance);
+      }
+      if (files != null) {
+         properties.setProperty(org.drools.agent.RuleAgent.FILES, files);
+      }
+      if (url != null) {
+         properties.setProperty(org.drools.agent.RuleAgent.URLS, url);
+      }
+      if (localCacheDir != null) {
+         properties.setProperty(org.drools.agent.RuleAgent.LOCAL_URL_CACHE, localCacheDir);
+      }
+      if (poll != null) {
+         properties.setProperty(org.drools.agent.RuleAgent.POLL_INTERVAL, poll);
+      }
+      if (files != null) {
+         properties.setProperty(org.drools.agent.RuleAgent.CONFIG_NAME, configName);
+      }
+
+   }
+
+   protected void loadFromPath(Properties properties, String configurationFile)
+      throws IOException
+      {
+      if (configurationFile != null) {
+         InputStream inputStream = Resources.getResourceAsStream(configurationFile, null);
+         if (inputStream != null) {
+            try {
+               properties.load(inputStream);
+            } finally {
+               inputStream.close();
+            }         
+         }
+      }
+   }
+
+   @Unwrap
+   public org.drools.RuleBase getRuleBase()
+   {
+      return  agent.getRuleBase();   
+   }
    
    public String getNewInstance()
    {
@@ -94,69 +147,7 @@ public class BrmsRuleBase
    {
       this.configName = name;
    }
-
-   public void setRuleBase(org.drools.RuleBase ruleBase)
-   {
-      this.ruleBase = ruleBase;
-   }
-
-   @Create
-   public void compileRuleBase() throws Exception
-   {  
-      Properties properties = new Properties();
-      
-      loadFromPath(properties, configurationFile);
-      setLocalProperties(properties);
-      
-      RuleAgent agent = RuleAgent.newRuleAgent(properties);
-      ruleBase = agent.getRuleBase();       
-   }
-   
-   protected void setLocalProperties(Properties properties)
-   {
-      if (newInstance != null) {
-         properties.setProperty(RuleAgent.NEW_INSTANCE, newInstance);
-      }
-      if (files != null) {
-         properties.setProperty(RuleAgent.FILES, files);
-      }
-      if (url != null) {
-         properties.setProperty(RuleAgent.URLS, url);
-      }
-      if (localCacheDir != null) {
-         properties.setProperty(RuleAgent.LOCAL_URL_CACHE, localCacheDir);
-      }
-      if (poll != null) {
-         properties.setProperty(RuleAgent.POLL_INTERVAL, poll);
-      }
-      if (files != null) {
-         properties.setProperty(RuleAgent.CONFIG_NAME, configName);
-      }
-
-   }
-
-   protected void loadFromPath(Properties properties, String configurationFile)
-      throws IOException
-      {
-      if (configurationFile != null) {
-         InputStream inputStream = Resources.getResourceAsStream(configurationFile, null);
-         if (inputStream != null) {
-            try {
-               properties.load(inputStream);
-            } finally {
-               inputStream.close();
-            }         
-         }
-      }
-   }
-
-   @Unwrap
-   public org.drools.RuleBase getRuleBase()
-   {
-      return ruleBase;
-   }
-   
- 
+  
    public String getConfigurationFile()
    {
       return configurationFile;
@@ -166,4 +157,8 @@ public class BrmsRuleBase
    {
       this.configurationFile = brmsConfig;
    }
+   
+   
+   
+
 }

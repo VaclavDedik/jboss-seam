@@ -19,13 +19,13 @@
         <xs:attribute name="rule-files" type="xs:string"/>        
     </xs:attributeGroup>
 
-    <xs:element name="brms-rule-base">
+    <xs:element name="rule-agent">
     	<xs:complexType mixed="true">    		
     		<xs:attributeGroup ref="components:attlist.component" />
-    		<xs:attributeGroup ref="drools:attlist.BRMSRuleBase" />
+    		<xs:attributeGroup ref="drools:attlist.RuleAgent" />
     	</xs:complexType>
     </xs:element>
-    <xs:attributeGroup name="attlist.BRMSRuleBase">
+    <xs:attributeGroup name="attlist.RuleAgent">
         <xs:attribute name="configuration-file" type="xs:string" />
         <xs:attribute name="config-name" type="xs:string" />
         <xs:attribute name="new-instance" type="xs:string" />
