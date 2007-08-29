@@ -393,11 +393,7 @@ public class FacesMessages implements Serializable
    private static String getClientId(UIComponent component, String id, FacesContext facesContext)
    {
       String componentId = component.getId();
-      if (component.getClientId(facesContext).equals(id))
-      {
-         return id;
-      }
-      else if (componentId!=null && componentId.equals(id))
+      if (componentId!=null && componentId.equals(id))
       {
          return component.getClientId(facesContext);
       }
