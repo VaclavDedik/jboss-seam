@@ -984,7 +984,7 @@
 	                </term>
 	                <listitem>
 	                    <programlisting><![CDATA[@DataModel("variableName")]]></programlisting>
-	                    <para> Exposes an attribute of type <literal>List</literal>, <literal>Map</literal>,
+	                    <para> Outjects a property of type <literal>List</literal>, <literal>Map</literal>,
 	                        <literal>Set</literal> or <literal>Object[]</literal> as a JSF <literal>DataModel</literal> into
 	                        the scope of the owning component (or the <literal>EVENT</literal> scope if the owning component
 	                        is <literal>STATELESS</literal>). In the case of <literal>Map</literal>, each row of the
@@ -1012,6 +1012,11 @@
 	                    <programlisting><![CDATA[@DataModelSelection]]></programlisting>
 	                    <para> Injects the selected value from the JSF <literal>DataModel</literal> (this is the element of
 	                        the underlying collection, or the map value). </para>
+                        <para> If <literal>PAGE</literal> scope is specified on the associated <literal>@DataModel</literal>,
+                            then, in addition to the DataModel Selection being injected, the associated DataModel will
+                            also be injected.  In this case, if the property annotated with <literal>@DataModel</literal> is
+                            a getter method, then a setter method for the property must also be part of the Business API of 
+                            the containing Seam Component.</para> 
 	                    <itemizedlist>
 	                        <listitem>
 	                            <para>
