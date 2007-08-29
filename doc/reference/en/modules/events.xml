@@ -134,92 +134,133 @@
             </para>
             
             <para>
-                Seam lets us provide a value binding that maps a named request parameter 
-                to an attribute of a model object.
+                You can use page parameters with or without an action method.
             </para>
             
-        <programlisting><![CDATA[<pages>
-    <page view-id="/hello.jsp" action="#{helloWorld.sayHello}">
-        <param name="firstName" value="#{person.firstName}"/>
-        <param name="lastName" value="#{person.lastName}"/>
-    </page>
-</pages>]]></programlisting>
+            <sect4>
+                <title>Mapping request parameters to the model</title>
+            
+              <para>
+                  Seam lets us provide a value binding that maps a named request parameter 
+                  to an attribute of a model object.
+              </para>
+              
+          <programlisting><![CDATA[<pages>
+      <page view-id="/hello.jsp" action="#{helloWorld.sayHello}">
+          <param name="firstName" value="#{person.firstName}"/>
+          <param name="lastName" value="#{person.lastName}"/>
+      </page>
+  </pages>]]></programlisting>
+  
+              <para>
+                  The <literal>&lt;param&gt;</literal> declaration is bidirectional, just
+                  like a value binding for a JSF input:
+              </para>
+              
+              <itemizedlist>
+                  <listitem>
+                      <para>
+                          When a non-faces (GET) request for the view id occurs, Seam sets 
+                          the value of the named request parameter onto the model object, 
+                          after performing appropriate type conversions.
+                      </para>
+                  </listitem>
+                  <listitem>
+                      <para>
+                          Any <literal>&lt;s:link&gt;</literal> or <literal>&lt;s:button&gt;</literal> 
+                          transparently includes the request parameter. The value of the parameter is 
+                          determined by evaluating the value binding during the render phase (when the 
+                          <literal>&lt;s:link&gt;</literal> is rendered).
+                      </para>
+                  </listitem>
+                  <listitem>
+                      <para>
+                          Any navigation rule with a <literal>&lt;redirect/&gt;</literal> to
+                          the view id transparently includes the request parameter. The value 
+                          of the parameter is determined by evaluating the value binding at
+                          the end of the invoke application phase.
+                      </para>
+                  </listitem>
+                  <listitem>
+                      <para>
+                          The value is transparently propagated with any JSF form submission
+                          for the page with the given view id. This means that view parameters
+                          behave like <literal>PAGE</literal>-scoped context variables for
+                          faces requests.
+                      </para>
+                  </listitem>
+              </itemizedlist>
+              
+              <para>
+                  The essential idea behind all this is that <emphasis>however</emphasis>
+                  we get from any other page to <literal>/hello.jsp</literal> (or from 
+                  <literal>/hello.jsp</literal> back to <literal>/hello.jsp</literal>), 
+                  the value of the model attribute referred to in the value binding is
+                  "remembered", without the need for a conversation (or other server-side
+                  state).
+              </para>
+
+            </sect4>
+            
+            <sect4>
+                <title>Propagating request parameters</title>
+                
+                <para>
+                    If just the <literal>name</literal> attribute is specified then the
+                    request parameter is propagated using the <literal>PAGE</literal> context
+                    (it isn't mapped to model property).
+                </para>
+              
+          <programlisting><![CDATA[<pages>
+      <page view-id="/hello.jsp" action="#{helloWorld.sayHello}">
+          <param name="firstName" />
+          <param name="lastName" />
+      </page>
+  </pages>]]></programlisting>
+  
+               <para>
+                  Propagation of page parameters is especially useful if you want to build multi-layer 
+                  master-detail CRUD pages.  You can use it to "remember" which view you were previously
+                  on (e.g. when pressing the Save button), and which entity you were editing.
+               </para>
+  
+               <itemizedlist>
+                  <listitem>
+                      <para>
+                          Any <literal>&lt;s:link&gt;</literal> or <literal>&lt;s:button&gt;</literal> 
+                          transparently propagates the request parameter if that parameter is listed
+                          as a page parameter for the view.
+                      </para>
+                  </listitem>
+                  <listitem>
+                      <para>
+                          The value is transparently propagated with any JSF form submission
+                          for the page with the given view id. (This means that view parameters
+                          behave like <literal>PAGE</literal>-scoped context variables for
+                          faces requests.
+                      </para>
+                  </listitem>
+              </itemizedlist>
+            </sect4>
+            
+            <para>
+                  This all sounds pretty complex, and you're probably wondering if such an
+                  exotic construct is really worth the effort. Actually, the idea is very
+                  natural once you "get it". It is definitely worth taking the time to 
+                  understand this stuff. Page parameters are the most elegant way to 
+                  propagate state across a non-faces request. They are especially cool for 
+                  problems like search screens with bookmarkable results pages, where we 
+                  would like to be able to write our application code to handle both POST 
+                  and GET requests with the same code. Page parameters eliminate repetitive 
+                  listing of request parameters in the view definition and make redirects
+                  much easier to code.
+              </para>
+            
+            <sect4>
+                <title>Conversion and Validation</title>
 
             <para>
-                The <literal>&lt;param&gt;</literal> declaration is bidirectional, just
-                like a value binding for a JSF input:
-            </para>
-            
-            <itemizedlist>
-                <listitem>
-                    <para>
-                        When a non-faces (GET) request for the view id occurs, Seam sets 
-                        the value of the named request parameter onto the model object, 
-                        after performing appropriate type conversions.
-                    </para>
-                </listitem>
-                <listitem>
-                    <para>
-                        Any <literal>&lt;s:link&gt;</literal> or <literal>&lt;s:button&gt;</literal> 
-                        transparently includes the request parameter. The value of the parameter is 
-                        determined by evaluating the value binding during the render phase (when the 
-                        <literal>&lt;s:link&gt;</literal> is rendered).
-                    </para>
-                </listitem>
-                <listitem>
-                    <para>
-                        Any navigation rule with a <literal>&lt;redirect/&gt;</literal> to
-                        the view id transparently includes the request parameter. The value 
-                        of the parameter is determined by evaluating the value binding at
-                        the end of the invoke application phase.
-                    </para>
-                </listitem>
-                <listitem>
-                    <para>
-                        The value is transparently propagated with any JSF form submission
-                        for the page with the given view id. (This means that view parameters
-                        behave like <literal>PAGE</literal>-scoped context variables for
-                        faces requests.
-                    </para>
-                </listitem>
-            </itemizedlist>
-            
-            <para>
-                The essential idea behind all this is that <emphasis>however</emphasis>
-                we get from any other page to <literal>/hello.jsp</literal> (or from 
-                <literal>/hello.jsp</literal> back to <literal>/hello.jsp</literal>), 
-                the value of the model attribute referred to in the value binding is
-                "remembered", without the need for a conversation (or other server-side
-                state).
-            </para>
-            
-            <para>
-                This all sounds pretty complex, and you're probably wondering if such an
-                exotic construct is really worth the effort. Actually, the idea is very
-                natural once you "get it". It is definitely worth taking the time to 
-                understand this stuff. Page parameters are the most elegant way to 
-                propagate state across a non-faces request. They are especially cool for 
-                problems like search screens with bookmarkable results pages, where we 
-                would like to be able to write our application code to handle both POST 
-                and GET requests with the same code. Page parameters eliminate repetitive 
-                listing of request parameters in the view definition and make redirects
-                much easier to code.
-            </para>
-            
-            <para>
-                Note that you don't need an actual page action method binding to use
-                a page parameter. The following is perfectly valid:
-            </para>
-            
-            <programlisting><![CDATA[<pages>
-    <page view-id="/hello.jsp">
-        <param name="firstName" value="#{person.firstName}"/>
-        <param name="lastName" value="#{person.lastName}"/>
-    </page>
-</pages>]]></programlisting>
-
-            <para>
-                You can even specify a JSF converter:
+                You can a JSF converter for complex model propreties:
             </para>
 
             <programlisting><![CDATA[<pages>
@@ -278,6 +319,8 @@
                 When type conversion or validation fails, a global <literal>FacesMessage</literal>
                 is added to the <literal>FacesContext</literal>.
             </para>
+            
+            </sect4>
 
         </sect3>
         
