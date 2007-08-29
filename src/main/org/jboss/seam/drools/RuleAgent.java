@@ -14,7 +14,7 @@ import org.jboss.seam.log.Logging;
 import org.jboss.seam.util.Resources;
 
 /**
- * Manager component for a BRMS RuleBase
+ * Manager component for a rule base loaded from a drools RulesAgent
  */
 @Scope(ScopeType.APPLICATION)
 @BypassInterceptors
@@ -24,8 +24,7 @@ public class RuleAgent
    
    private org.drools.agent.RuleAgent agent;
    private String configurationFile;  
-   
-   
+
    private String newInstance;
    private String files;
    private String url;
@@ -42,6 +41,7 @@ public class RuleAgent
       setLocalProperties(properties);
       
       agent = org.drools.agent.RuleAgent.newRuleAgent(properties);    
+      log.debug("Creating new rules agent");
    }
    
    protected void setLocalProperties(Properties properties)
@@ -69,7 +69,7 @@ public class RuleAgent
 
    protected void loadFromPath(Properties properties, String configurationFile)
       throws IOException
-      {
+   {
       if (configurationFile != null) {
          InputStream inputStream = Resources.getResourceAsStream(configurationFile, null);
          if (inputStream != null) {
@@ -85,7 +85,7 @@ public class RuleAgent
    @Unwrap
    public org.drools.RuleBase getRuleBase()
    {
-      return  agent.getRuleBase();   
+      return agent.getRuleBase();   
    }
    
    public String getNewInstance()
@@ -158,7 +158,4 @@ public class RuleAgent
       this.configurationFile = brmsConfig;
    }
    
-   
-   
-
 }
