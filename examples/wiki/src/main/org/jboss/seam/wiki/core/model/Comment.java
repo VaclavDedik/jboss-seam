@@ -39,7 +39,7 @@ public class Comment implements Serializable {
     @Column(name = "OBJ_VERSION", nullable = false)
     private int version = 0;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DOCUMENT_ID", nullable = false)
     @org.hibernate.annotations.ForeignKey(name = "FK_COMMENT_DOCUMENT_ID")
     private Document document;
@@ -67,6 +67,9 @@ public class Comment implements Serializable {
     @org.hibernate.search.annotations.Field(index = org.hibernate.search.annotations.Index.TOKENIZED)
     private String text;
 
+    @Column(name = "USE_WIKI_TEXT", nullable = false)
+    private boolean useWikiText = true;
+
     @Column(name = "CREATED_ON", nullable = false, updatable = false)
     @org.hibernate.search.annotations.Field(
         index = org.hibernate.search.annotations.Index.UN_TOKENIZED,
@@ -82,9 +85,16 @@ public class Comment implements Serializable {
 
     public Long getId() { return id; }
     public Integer getVersion() { return version; }
-    public Date getCreatedOn() { return createdOn; }
 
     // Mutable properties
+
+    public Date getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(Date createdOn) {
+        this.createdOn = createdOn;
+    }
 
     public Document getDocument() {
         return document;
@@ -132,6 +142,14 @@ public class Comment implements Serializable {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public boolean isUseWikiText() {
+        return useWikiText;
+    }
+
+    public void setUseWikiText(boolean useWikiText) {
+        this.useWikiText = useWikiText;
     }
 
     // Misc methods

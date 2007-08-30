@@ -80,7 +80,7 @@ public class FileHome extends NodeHome<File> {
         return true;
     }
 
-    protected boolean prepareUpdate() {
+    protected boolean beforeUpdate() {
 
         if (selectedImporter != null) {
             AbstractImporter importer = (AbstractImporter) Component.getInstance(selectedImporter.getComponentName());

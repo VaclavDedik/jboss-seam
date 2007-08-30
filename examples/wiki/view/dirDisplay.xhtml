@@ -153,9 +153,11 @@
                 </s:link>
                 <h:outputText value=" (#{wiki:displayFilesize(node.filesize)}, #{node.contentType})"/>
             </s:span>
-            <s:span rendered="#{wiki:isFile(node) and !s:hasPermission('Node', 'edit', node)}">
-                <h:outputText value="#{wiki:truncateString(node.name, 30, '...')} (#{wiki:displayFilesize(node.filesize)}, #{node.contentType})"/>
-            </s:span>
+            <h:panelGroup rendered="#{wiki:isFile(node) and !s:hasPermission('Node', 'edit', node)}">
+                <h:outputLink value="#{wiki:renderURL(node)}">
+                    <h:outputText value="#{wiki:truncateString(node.name, 30, '...')} (#{wiki:displayFilesize(node.filesize)}, #{node.contentType})"/>
+                </h:outputLink>
+            </h:panelGroup>
 
         </h:column>
 

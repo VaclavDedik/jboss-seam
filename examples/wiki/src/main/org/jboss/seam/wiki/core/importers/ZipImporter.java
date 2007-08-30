@@ -21,11 +21,7 @@ import javax.faces.application.FacesMessage;
 import javax.swing.*;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-import java.util.Date;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.*;
 import java.io.*;
 
 import net.sf.jmimemagic.Magic;
@@ -50,7 +46,7 @@ public class ZipImporter extends AbstractImporter {
     public boolean handleImport(EntityManager em, File zipFile) {
         if (zipFile.getData().length == 0) return true;
 
-        SortedMap<Date, Node> newNodes = new TreeMap<Date, Node>();
+        Map<String, Object> newObjects = new HashMap<String, Object>();
 
         ByteArrayInputStream byteStream = null;
         ZipInputStream zipInputStream = null;
@@ -79,9 +75,9 @@ public class ZipImporter extends AbstractImporter {
                 baos.close();
                 uncompressedBytes = baos.toByteArray();
 
-                Node newNode = createNewNode(em, zipFile, ze, uncompressedBytes);
-                if (newNode != null) {
-                    newNodes.put(newNode.getCreatedOn(), newNode);
+                Object newObject = createNewObject(em, zipFile, ze, uncompressedBytes);
+                if (newObject != null) {
+                    newObjects.put(ze.getName(), newObject);
                 }
 
                 zipInputStream.closeEntry();
@@ -98,41 +94,18 @@ public class ZipImporter extends AbstractImporter {
             }
         }
 
-        int i = 0;
-        for (Map.Entry<Date, Node> entry : newNodes.entrySet()) {
-            log.debug("validating new node");
-
-            ClassValidator validator = Validators.instance().getValidator(entry.getValue().getClass());
-            InvalidValue[] invalidValues = validator.getInvalidValues(entry.getValue());
-            if (invalidValues != null && invalidValues.length > 0) {
-                log.debug("new node is invalid: " + entry.getValue());
-                for (InvalidValue invalidValue : invalidValues) {
-                    getFacesMessages().addFromResourceBundleOrDefault(
-                        FacesMessage.SEVERITY_ERROR,
-                        "invalidImportedDocumentName",
-                        "Skipping entry '" + entry.getValue().getName() + "', invalid: " + invalidValue.getMessage()
-                    );
+        // By default append them to the
+        persistNewNodesSorted(
+            em,
+            zipFile,
+            newObjects,
+            new Comparator() {
+                public int compare(Object o, Object o1) {
+                    if ( !(o instanceof Node) &&  !(o1 instanceof Node) ) return 0;
+                    return ((Node)o).getWikiname().compareTo( ((Node)o1).getWikiname() );
                 }
-                continue;
             }
-
-            log.debug("persisting newly imported node: " + entry.getValue());
-            zipFile.getParent().addChild(entry.getValue());
-            em.persist(entry.getValue());
-            getFacesMessages().addFromResourceBundleOrDefault(
-                FacesMessage.SEVERITY_INFO,
-                "importedFile",
-                "Created file '" + entry.getValue().getName() + "' in current directory"
-            );
-
-            // Batch the work (we can't clear because of nested set updates, unfortunately)
-            i++;
-            if (i==100) {
-                em.flush();
-                i = 0;
-            }
-
-        }
+        );
 
         return true;
     }
@@ -167,7 +140,7 @@ public class ZipImporter extends AbstractImporter {
         }
     }
 
-    protected Node createNewNode(EntityManager em, File zipFile, ZipEntry zipEntry, byte[] uncompressedBytes) {
+    protected Object createNewObject(EntityManager em, File zipFile, ZipEntry zipEntry, byte[] uncompressedBytes) {
         log.debug("creating new file from zip entry: " + zipEntry.getName());
 
         File wikiFile = new File();
@@ -208,6 +181,52 @@ public class ZipImporter extends AbstractImporter {
         }
 
         return wikiFile;
+    }
+
+    protected void persistNewNodesSorted(EntityManager em, File zipFile, Map<String, Object> newObjects, Comparator comparator) {
+
+        List<Node> newNodes = new ArrayList<Node>();
+        for (Object newObject : newObjects.values()) {
+            if (newObject instanceof Node) {
+                newNodes.add((Node)newObject);
+            }
+        }
+        Collections.sort(newNodes, comparator);
+
+        int i = 0;
+        for (Node newNode : newNodes) {
+            log.debug("validating new node");
+
+            ClassValidator validator = Validators.instance().getValidator(newNode.getClass());
+            InvalidValue[] invalidValues = validator.getInvalidValues(newNode);
+            if (invalidValues != null && invalidValues.length > 0) {
+                log.debug("new node is invalid: " + newNode);
+                for (InvalidValue invalidValue : invalidValues) {
+                    getFacesMessages().addFromResourceBundleOrDefault(
+                        FacesMessage.SEVERITY_ERROR,
+                        "invalidImportedDocumentName",
+                        "Skipping entry '" + newNode.getName() + "', invalid: " + invalidValue.getMessage()
+                    );
+                }
+                continue;
+            }
+
+            log.debug("persisting newly imported node: " + newNode);
+            zipFile.getParent().addChild(newNode);
+            em.persist(newNode);
+            getFacesMessages().addFromResourceBundleOrDefault(
+                FacesMessage.SEVERITY_INFO,
+                "importedFile",
+                "Created file '" + newNode.getName() + "' in current directory"
+            );
+
+            // Batch the work (we can't clear because of nested set updates, unfortunately)
+            i++;
+            if (i==100) {
+                em.flush();
+                i = 0;
+            }
+        }
     }
 
 

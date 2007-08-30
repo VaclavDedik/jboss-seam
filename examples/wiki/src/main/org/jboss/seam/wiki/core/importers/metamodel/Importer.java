@@ -41,7 +41,7 @@ public class Importer implements Comparable {
     }
 
     public String toString() {
-        return "importer class: " + getClazz().getName() + " mime type: " + getHandledMimeTypes() + " extension: " + getHandledExtensions();
+        return "importer class: " + getClazz().getName();
     }
 
     public int compareTo(Object o) {

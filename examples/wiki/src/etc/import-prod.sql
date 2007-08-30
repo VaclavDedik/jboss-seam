@@ -47,7 +47,7 @@ insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, STRI
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, STRING_VALUE)   values (32, 0, 'userManagementPreferences', 'newUserInRole', 'member')
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, BOOLEAN_VALUE)  values (33, 0, 'userManagementPreferences', 'enableRegistration', true)
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, BOOLEAN_VALUE)  values (34, 0, 'userManagementPreferences', 'createHomeAfterUserActivation', false)
-insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, STRING_VALUE)   values (35, 0, 'userManagementPreferences', 'homepageDefaultContent', '<div style="float:right; width:33%;">@@LF@@ <div>[<=userProfile]</div>@@LF@@ <div style="margin-top:15px;">[<=dirMenu]</div>@@LF@@ <div style="margin-top:15px;">[<=recentEntries]</div>@@LF@@</div>@@LF@@<div style="width:65%;">[<=blogDirectory]</div>@@LF@@@@LF@@')
+insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, STRING_VALUE)   values (35, 0, 'userManagementPreferences', 'homepageDefaultContent', 'This is your homepage, login to edit it.')
 
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (40, 0, 'lastModifiedDocumentsPreferences', 'numberOfItems', '5')
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, BOOLEAN_VALUE)  values (41, 0, 'lastModifiedDocumentsPreferences', 'showUsernames', true)

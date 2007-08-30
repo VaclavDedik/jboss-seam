@@ -120,6 +120,12 @@
         <function-signature>java.lang.String escapeAtSymbol(java.lang.String)</function-signature>
     </function>
 
+    <function>
+        <function-name>escapeHTML</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>java.lang.String escapeHtml(java.lang.String,boolean)</function-signature>
+    </function>
+
     <tag>
         <tag-name>formattedText</tag-name>
 		<handler-class>org.jboss.seam.wiki.core.ui.WikiFormattedTextHandler</handler-class> 

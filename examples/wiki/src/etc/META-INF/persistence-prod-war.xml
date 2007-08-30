@@ -9,7 +9,7 @@
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         <jta-data-source>wikiDatasource</jta-data-source>
         <properties>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLInnoDBDialect"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
             <property name="hibernate.transaction.manager_lookup_class"
                       value="org.hibernate.transaction.JBossTransactionManagerLookup"/>
 

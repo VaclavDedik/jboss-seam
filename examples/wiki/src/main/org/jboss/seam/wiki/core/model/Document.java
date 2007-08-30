@@ -12,6 +12,7 @@ import org.jboss.seam.wiki.core.search.annotations.Searchable;
 import javax.persistence.*;
 import javax.persistence.Entity;
 import java.util.List;
+import java.util.ArrayList;
 
 @Entity
 @DiscriminatorValue("DOCUMENT")
@@ -44,11 +45,11 @@ public class Document extends Node {
     @Column(table = "NODE_DOCUMENT", name = "ENABLE_COMMENT_FORM")
     private Boolean enableCommentForm = true;
 
-    @OneToMany(mappedBy = "document", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "document", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
     @org.hibernate.annotations.OrderBy(clause = "CREATED_ON desc")
     @org.hibernate.annotations.LazyCollection(org.hibernate.annotations.LazyCollectionOption.EXTRA)
-    private List<Comment> comments;
+    private List<Comment> comments = new ArrayList<Comment>();
 
     @Column(table = "NODE_DOCUMENT", name = "PLUGINS_USED", nullable = false)
     private String pluginsUsed = "";

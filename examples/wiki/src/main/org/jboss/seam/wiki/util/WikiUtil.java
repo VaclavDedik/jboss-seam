@@ -146,7 +146,7 @@ public class WikiUtil {
         return string.replaceAll("@", wikiPrefs.getAtSymbolReplacement());
     }
 
-    public static String escapeHtml(String string) {
+    public static String escapeHtml(String string, boolean convertNewlines) {
         if (string == null) return null;
         StringBuilder sb = new StringBuilder();
         String htmlEntity;
@@ -165,6 +165,9 @@ public class WikiUtil {
             } else {
                 sb.append(c);
             }
+        }
+        if (convertNewlines) {
+            return sb.toString().replaceAll("\n", "<br/>");
         }
         return sb.toString();
     }

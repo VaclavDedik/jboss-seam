@@ -1,6 +1,5 @@
 package org.jboss.seam.wiki.core.importers.blosxom;
 
-import net.sf.jmimemagic.Magic;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.log.Log;
@@ -9,13 +8,14 @@ import org.jboss.seam.wiki.core.importers.annotations.FileImporter;
 import org.jboss.seam.wiki.core.model.Document;
 import org.jboss.seam.wiki.core.model.File;
 import org.jboss.seam.wiki.core.model.Node;
+import org.jboss.seam.wiki.core.model.Comment;
 import org.jboss.seam.wiki.util.WikiUtil;
+import org.hibernate.validator.ClassValidator;
+import org.hibernate.validator.InvalidValue;
 
 import javax.faces.application.FacesMessage;
 import javax.persistence.EntityManager;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
@@ -35,11 +35,12 @@ public class BlosxomImporter extends ZipImporter {
     private static final String META_AUTHOR = "meta-author";
 
     protected boolean continueUncompressing(EntityManager em, File zipFile, ZipEntry zipEntry) {
-        return zipEntry.getName().endsWith(".txt"); // Skip comments for now
+        return zipEntry.getName().endsWith(".txt") || zipEntry.getName().contains("txt.pollxn");
     }
 
-    protected Node createNewNode(EntityManager em, File zipFile, ZipEntry zipEntry, byte[] uncompressedBytes) {
-        
+    protected Object createNewObject(EntityManager em, File zipFile, ZipEntry zipEntry, byte[] uncompressedBytes) {
+
+        /* Let's just hope for the best... jmimemagic sucks anyway and can't reliably detect a simple text file...
         log.debug("detecting mime type of zip entry: " + zipEntry.getName());
         String mimeType = null;
         try {
@@ -54,7 +55,18 @@ public class BlosxomImporter extends ZipImporter {
             );
             return null;
         }
+        */
 
+        Object newObject = null;
+        if (zipEntry.getName().endsWith(".txt")) {
+            newObject = createBlogEntry(zipFile, zipEntry, uncompressedBytes);
+        } else if (zipEntry.getName().contains(".txt.pollxn")){
+            newObject = createComment(zipFile, zipEntry, uncompressedBytes);
+        }
+        return newObject;
+    }
+
+    Document createBlogEntry(File zipFile, ZipEntry zipEntry, byte[] uncompressedBytes) {
         log.debug("parsing blog entry");
         Map<String,String> metadata = new HashMap<String,String>();
         StringBuffer content = new StringBuffer();
@@ -70,25 +82,124 @@ public class BlosxomImporter extends ZipImporter {
 
         content = new StringBuffer(handleBlock(metadata, content.toString()));
 
-        Document wikiDocument = new Document();
+        Document blogDocument = new Document();
 
-        wikiDocument.setName(documentTitle);
-        wikiDocument.setWikiname(WikiUtil.convertToWikiName(wikiDocument .getName()));
-        wikiDocument.setContent(content.toString());
+        blogDocument.setName(documentTitle);
+        blogDocument.setWikiname(WikiUtil.convertToWikiName(blogDocument .getName()));
+        blogDocument.setContent(content.toString());
 
-        wikiDocument.setAreaNumber(zipFile.getAreaNumber());
-        wikiDocument.setCreatedBy(zipFile.getCreatedBy());
-        wikiDocument.setLastModifiedBy(wikiDocument.getCreatedBy());
-        wikiDocument.setCreatedOn(new Date(zipEntry.getTime()));
-        wikiDocument.setLastModifiedOn(new Date());
-        wikiDocument.setReadAccessLevel(zipFile.getReadAccessLevel());
-        wikiDocument.setWriteAccessLevel(zipFile.getWriteAccessLevel());
+        blogDocument.setAreaNumber(zipFile.getAreaNumber());
+        blogDocument.setCreatedBy(zipFile.getCreatedBy());
+        blogDocument.setLastModifiedBy(blogDocument.getCreatedBy());
+        blogDocument.setCreatedOn(new Date(zipEntry.getTime()));
+        blogDocument.setLastModifiedOn(new Date());
+        blogDocument.setReadAccessLevel(zipFile.getReadAccessLevel());
+        blogDocument.setWriteAccessLevel(zipFile.getWriteAccessLevel());
 
-        wikiDocument.setEnableComments(true);
-        wikiDocument.setEnableCommentForm(true);
-        wikiDocument.setNameAsTitle(true);
+        blogDocument.setEnableComments(true);
+        blogDocument.setEnableCommentForm(true);
+        blogDocument.setNameAsTitle(true);
 
-        return wikiDocument;
+        return blogDocument;
+    }
+
+    Comment createComment(File zipFile, ZipEntry zipEntry, byte[] uncompressedBytes) {
+        log.debug("parsing comment entry");
+
+        ClassValidator commentValidator = new ClassValidator(Comment.class);
+        Comment newComment = new Comment();
+
+        Map<String,String> metadata = new HashMap<String,String>();
+        StringBuffer content = new StringBuffer();
+        // Remove carriage returns and split at linefeeds
+        String[] lines = new String(uncompressedBytes).replaceAll("\r", "").split("\n");
+        for (int i = 0; i < lines.length; i++) {
+            String line = lines[i];
+            if (i == 0) {
+                newComment.setCreatedOn(new Date(new Long(line.trim())*1000));
+                continue;
+            }
+            if (i == 1) {
+                if (line.trim().length() >0) {
+                    InvalidValue[] invalidValues = commentValidator.getPotentialInvalidValues("fromUserName", line.trim());
+                    if (invalidValues.length == 0) {
+                        newComment.setFromUserName(line.trim().replaceAll("[^\\p{ASCII}]", ""));
+                    } else {
+                        newComment.setFromUserName("Anonymous Guest");
+                    }
+                } else {
+                    newComment.setFromUserName("Anonymous Guest");
+                }
+                continue;
+            }
+            if (i == 2) {
+                if (line.trim().length() >0) {
+                    InvalidValue[] invalidValues = commentValidator.getPotentialInvalidValues("fromUserEmail", line.trim());
+                    if (invalidValues.length == 0) newComment.setFromUserEmail(line.trim());
+                }
+                continue;
+            }
+            if (i >3) {
+                content.append(line.endsWith("__endpollxn") ? line.substring(0, line.indexOf("__endpollxn")):line).append("\n");
+            }
+        }
+
+        newComment.setText(content.toString().replaceAll("[^\\p{ASCII}]", ""));
+        newComment.setUseWikiText(false);
+
+        InvalidValue[] invalidValues = commentValidator.getInvalidValues(newComment);
+        if (invalidValues.length >0) {
+            getFacesMessages().addFromResourceBundleOrDefault(
+                FacesMessage.SEVERITY_ERROR,
+                "commentFailedValidation",
+                "Skipping file '" + zipEntry.getName() + "', comment failed validation"
+            );
+            return null;
+        }
+
+        return newComment;
+    }
+
+    protected void persistNewNodesSorted(EntityManager em, File zipFile, Map<String, Object> newObjects, Comparator comparator) {
+
+        // Link comments to document
+        Map<String,Comment> newComments = new HashMap<String,Comment>();
+        for (Map.Entry<String, Object> entry : newObjects.entrySet()) {
+            if (entry.getValue() instanceof Comment) {
+                newComments.put(entry.getKey(), (Comment)entry.getValue());
+            }
+        }
+        for (Map.Entry<String, Comment> entry : newComments.entrySet()) {
+            String zipEntryName = entry.getKey();
+            Comment newComment = entry.getValue();
+            newObjects.remove(zipEntryName); // Remove comment from main set of new objects
+            String documentZipEntryName = zipEntryName.substring(0, zipEntryName.indexOf(".pollxn"));
+            Object documentForComment = newObjects.get(documentZipEntryName);
+            if (documentForComment != null && documentForComment instanceof Document) {
+                newComment.setSubject(((Document)documentForComment).getName());
+                newComment.setDocument((Document)documentForComment);
+                ((Document)documentForComment).getComments().add(newComment);
+            } else {
+                // Skip comment if we can't find a document for it
+            }
+        }
+
+        // Override default comparator, append to parent directory in creation date order
+        comparator = new Comparator() {
+            public int compare(Object o1, Object o2) {
+                if ( !(o1 instanceof Node) &&  !(o2 instanceof Node) ) return 0;
+                Node node1 = (Node)o1;
+                Node node2 = (Node)o2;
+                if (node1.getCreatedOn().getTime() != node2.getCreatedOn().getTime()) {
+                    return node1.getCreatedOn().getTime() < node2.getCreatedOn().getTime() ? -1 : 1;
+                } else if (node1.getName().compareTo(node2.getName()) != 0) {
+                    return node1.getName().compareTo(node2.getName());
+                }
+                return node1.getWikiname().compareTo(node2.getWikiname());
+            }
+        };
+
+        super.persistNewNodesSorted(em, zipFile, newObjects, comparator);
     }
 
     void handleLine(Map<String,String> metadata, StringBuffer result, int lineNumber, String line) {
@@ -163,7 +274,7 @@ public class BlosxomImporter extends ZipImporter {
         matcher = Pattern.compile("^([=]+)\\s(.+)$").matcher(line);
         inline = new StringBuffer();
         while (matcher.find()) {
-            matcher.appendReplacement(inline, matcher.group(1).replaceAll("=", "+") + " $2");
+            matcher.appendReplacement(inline, matcher.group(1).replaceAll("=", "\n+") + " $2");
         }
         matcher.appendTail(inline);
         line = inline.toString();
@@ -173,7 +284,7 @@ public class BlosxomImporter extends ZipImporter {
         matcher = Pattern.compile(REGEX_LISTITEM).matcher(line);
         inline = new StringBuffer();
         while (matcher.find()) {
-            matcher.appendReplacement(inline, "= $2\n");
+            matcher.appendReplacement(inline, "\n= $2\n");
         }
         matcher.appendTail(inline);
         line = inline.toString();
@@ -211,16 +322,20 @@ public class BlosxomImporter extends ZipImporter {
         StringBuffer replaced = new StringBuffer(original.length());
         String[] lines = original.split("\n");
         boolean inCodeblock = false;
+        int numberOfWhitespaces = 0;
         for (String line : lines) {
             if (line.matches("^\\s+[^\\s]+.*$") && !inCodeblock) {
-                replaced.append( line.replaceAll("^(\\s+[^\\s]+.*)$", "`\n$1") ).append("\n");
+                char[] chars = line.toCharArray();
+                for (int i = 0; chars[i] == ' '; i++) numberOfWhitespaces++;
+                replaced.append( line.replaceAll("^(\\s+[^\\s]+.*)$", "`\n$1").replaceAll("`\\n\\s+(.*)", "\n`\n$1") ).append("\n");
                 inCodeblock = true;
             } else if (line.matches("^\\s+.*$") && inCodeblock) {
-                replaced.append( line.replaceAll("^(\\s+.*)$", "$1") ).append("\n");
+                replaced.append( line.replaceAll("^(\\s+.*)$", "$1").substring(numberOfWhitespaces) ).append("\n");
             } else if (line.matches("\\n|^([^\\s].*)$") && inCodeblock) {
                 replaced = new StringBuffer(replaced.substring(0, replaced.length()-1));
                 replaced.append("`\n\n").append( line.replaceAll("^([^\\s].*)$", "$1") ).append("\n");
                 inCodeblock = false;
+                numberOfWhitespaces = 0;
             } else {
                 replaced.append(line).append("\n");
             }

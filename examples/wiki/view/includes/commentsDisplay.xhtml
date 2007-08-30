@@ -21,7 +21,7 @@
             </f:facet>
 
             <div class="commentSubject">
-                #{c.subject}
+                <h:outputText value="#{c.subject}" rendered="#{documentHome.instance.name != c.subject}"/>
             </div>
 
             <div class="commentAuthorDate">
@@ -41,8 +41,14 @@
                 </s:span>
             </div>
 
-            <s:div styleClass="commentText">
+            <s:div styleClass="commentText" rendered="#{c.useWikiText}">
                 <s:formattedText value="#{c.text}"/>
+            </s:div>
+            <s:div styleClass="commentText" rendered="#{not c.useWikiText and documentHome.instance.name != c.subject}" style="margin-top:15px;">
+                <h:outputText value="#{wiki:escapeHTML(c.text, true)}" escape="false"/>
+            </s:div>
+            <s:div styleClass="commentText" rendered="#{not c.useWikiText and documentHome.instance.name == c.subject}">
+                <h:outputText value="#{wiki:escapeHTML(c.text, true)}" escape="false"/>
             </s:div>
 
             <div align="right">
