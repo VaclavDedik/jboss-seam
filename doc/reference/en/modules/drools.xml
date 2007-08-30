@@ -11,11 +11,7 @@
         
         <para>
             The first step is to make an instance of <literal>org.drools.RuleBase</literal>
-            available in a Seam context variable. In most rules-driven applications,
-            rules need to be dynamically deployable, so you will need to implement
-            some solution that allows you to deploy rules and make them available to
-            Seam (a future release of Drools will provide a Rule Server that
-            solves this problem). For testing purposes, Seam provides a built-in component
+            available in a Seam context variable. For testing purposes, Seam provides a built-in component
             that compiles a static set of rules from the classpath. You can install
             this component via <literal>components.xml</literal>:
         </para>
@@ -45,12 +41,41 @@
     </drools:rule-files>
 </drools:rule-base>]]></programlisting>
 
+        <para>
+        In most rules-driven applications,
+            rules need to be dynamically deployable, so a production application will want to use a
+            Drools RuleAgent to manage the RuleBase.  The RuleAgent can connect to a Drools rule server (BRMS) 
+            or hot deploy rules packages from a local file repository.  The RulesAgent-managed RuleBase is
+            also configurable in <literal>components.xml</literal>:
+        </para>
+        
+                <programlisting><![CDATA[<drools:rule-agent name="insuranceRules" 
+                    configurationFile="/WEB-INF/deployedrules.properties" />]]></programlisting>
+        
+        <para>The properties file contains properties specific to the RulesAgent. Here is an example configuration file from the
+        Drools example distribution.</para>
+        
+                <programlisting>newInstance=true
+url=http://localhost:8080/drools-jbrms/org.drools.brms.JBRMS/package/org.acme.insurance/fmeyer
+localCacheDir=/Users/fernandomeyer/projects/jbossrules/drools-examples/drools-examples-brms/cache
+poll=30
+name=insuranceconfig</programlisting>
+        
+        
+        <para>It is also possible to configure the options on the component directly, bypassing the configuration file.</para>
+
+       <programlisting>&lt;drools:rule-agent name=&quot;insuranceRules&quot;
+                   url=&quot;http://localhost:8080/drools-jbrms/org.drools.brms.JBRMS/package/org.acme.insurance/fmeyer&quot;
+                   local-cache-dir=&quot;/Users/fernandomeyer/projects/jbossrules/drools-examples/drools-examples-brms/cache&quot;
+                   poll=&quot;30&quot;
+                   configuration-name=&quot;insuranceconfig&quot; /&gt;</programlisting>
+        
          <para>
              Next, we need to make an instance of <literal>org.drools.WorkingMemory</literal>
              available to each conversation. (Each <literal>WorkingMemory</literal>
              accumulates facts relating to the current conversation.)
          </para>
-
+        
          <programlisting><![CDATA[<drools:managed-working-memory name="policyPricingWorkingMemory" auto-create="true" rule-base="#{policyPricingRules}"/>]]></programlisting>
 
          <para>
