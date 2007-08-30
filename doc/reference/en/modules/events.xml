@@ -260,7 +260,7 @@
                 <title>Conversion and Validation</title>
 
             <para>
-                You can a JSF converter for complex model propreties:
+                You can specify a JSF converter for complex model propreties:
             </para>
 
             <programlisting><![CDATA[<pages>
