@@ -433,6 +433,36 @@
           
           <row>
             <entry>
+              <para><literal>mail.jar</literal></para>
+            </entry>
+            <entry align="center">
+              <para>ear</para>
+            </entry>
+            <entry align="center">
+              <para>no</para>
+            </entry>
+            <entry>
+              <para>Required for outgoing mail support</para>
+            </entry>
+          </row>    
+          
+          <row>
+            <entry>
+              <para><literal>mail-ra.jar</literal></para>
+            </entry>
+            <entry align="center">
+              <para>ear</para>
+            </entry>
+            <entry align="center">
+              <para>no</para>
+            </entry>
+            <entry>
+              <para>Required for incoming mail support</para>
+            </entry>
+          </row>                  
+          
+          <row>
+            <entry>
               <para><literal>jboss-seam-mail.jar</literal></para>
             </entry>
             <entry align="center">
@@ -450,6 +480,102 @@
       </tgroup>
     </table>
   </sect1>
+  
+  <sect1>
+    <title>Seam PDF</title>    
+
+    <table>
+      <title>Seam PDF Dependencies</title>
+   
+      <tgroup cols="4">
+        <colspec colnum="1" colwidth="4*" />
+        <colspec colnum="2" colwidth="2*" />
+        <colspec colnum="3" colwidth="3*" />
+        <colspec colnum="4" colwidth="5*" />
+  
+        <thead>
+          <row>
+            <entry align="center">
+              <para>Name</para>
+            </entry>
+            <entry align="center">
+              <para>Scope</para>
+            </entry>
+            <entry align="center">
+              <para>Provided by JBoss AS 4.2.x</para>
+            </entry>            
+            <entry align="center">
+              <para>Notes</para>
+            </entry>
+          </row>
+        </thead>
+  
+        <tbody>
+  
+          <row>
+            <entry>
+              <para><literal>itext.jar</literal></para>
+            </entry>
+            <entry align="center">
+              <para>ear</para>
+            </entry>
+            <entry align="center">
+              <para>no</para>
+            </entry>
+            <entry>
+              <para>PDF Library</para>
+            </entry>
+          </row>
+          
+          <row>
+            <entry>
+              <para><literal>jfreechart.jar</literal></para>
+            </entry>
+            <entry align="center">
+              <para>ear</para>
+            </entry>
+            <entry align="center">
+              <para>no</para>
+            </entry>
+            <entry>
+              <para>Charting library</para>
+            </entry>
+          </row>         
+          
+          <row>
+            <entry>
+              <para><literal>jcommon.jar</literal></para>
+            </entry>
+            <entry align="center">
+              <para>ear</para>
+            </entry>
+            <entry align="center">
+              <para>no</para>
+            </entry>
+            <entry>
+              <para>Required by JFreeChart</para>
+            </entry>
+          </row>            
+          
+          <row>
+            <entry>
+              <para><literal>jboss-seam-pdf.jar</literal></para>
+            </entry>
+            <entry align="center">
+              <para>ear</para>
+            </entry>
+            <entry align="center">
+              <para>no</para>
+            </entry>
+            <entry>
+              <para>Seam PDF core library</para>
+            </entry>
+          </row>                
+          
+        </tbody>
+      </tgroup>
+    </table>
+  </sect1>  
   
   <sect1>
     <title>JBoss Rules</title>
@@ -743,5 +869,60 @@
     </table>
     
   </sect1>     
+  
+  <sect1>
+    <title>Groovy</title>
+    
+    <para>
+      These libraries are required if you with to use Groovy with your Seam application.
+    </para>
+    
+    <table>
+      <title>Groovy dependencies</title>
+   
+      <tgroup cols="4">
+        <colspec colnum="1" colwidth="4*" />
+        <colspec colnum="2" colwidth="2*" />
+        <colspec colnum="3" colwidth="3*" />
+        <colspec colnum="4" colwidth="5*" />
+  
+        <thead>
+          <row>
+            <entry align="center">
+              <para>Name</para>
+            </entry>
+            <entry align="center">
+              <para>Scope</para>
+            </entry>
+            <entry align="center">
+              <para>Provided by JBoss AS 4.2.x</para>
+            </entry>    
+            <entry align="center">
+              <para>Notes</para>
+            </entry>
+          </row>
+        </thead>
+  
+        <tbody>    
+          <row>
+            <entry>
+              <para><literal>groovy-all.jar</literal></para>
+            </entry>
+            <entry align="center">
+              <para>ear</para>
+            </entry>
+            <entry align="center">
+              <para>no</para>
+            </entry>
+            <entry>
+              <para>The Groovy libs</para>
+            </entry>
+          </row>
+  
+        </tbody>
+      </tgroup>
+    </table>
+    
+  </sect1>  
 
 </chapter>
