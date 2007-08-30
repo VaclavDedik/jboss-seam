@@ -17,6 +17,7 @@ import javax.faces.model.DataModel;
 
 import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.ui.util.ViewUrlBuilder;
+import org.jboss.seam.ui.util.cdk.MethodBindingToMethodExpression;
 
 public abstract class UISeamCommandBase extends UIOutput implements ActionSource2
 {
@@ -171,7 +172,18 @@ public abstract class UISeamCommandBase extends UIOutput implements ActionSource
    public void addActionListener(ActionListener listener)
    {
       throw new UnsupportedOperationException("Action listeners not supported by s:link/s:button");
-
    }
-
+ 
+   @Deprecated
+   public void setAction(javax.faces.el.MethodBinding methodBinding)
+   {
+      setActionExpression(new MethodBindingToMethodExpression(methodBinding));
+   }
+   
+   @Deprecated
+   public javax.faces.el.MethodBinding getAction()
+   {
+      return new org.jboss.seam.ui.util.cdk.MethodExpressionToMethodBinding(getActionExpression());
+   }
+   
 }

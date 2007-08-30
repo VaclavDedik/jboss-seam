@@ -43,6 +43,7 @@ import javax.faces.webapp.UIComponentTag;
  * @version $Revision$ $Date$
  *
  */
+@Deprecated
 public abstract class UIComponentTagBase extends UIComponentTag {
 
     //Special UIComponent attributes (ValueHolder, ConvertibleValueHolder)
@@ -64,6 +65,7 @@ public abstract class UIComponentTagBase extends UIComponentTag {
       _value = value;
    }
 
+   @Override
    public void release() {
         super.release();
 
@@ -71,7 +73,8 @@ public abstract class UIComponentTagBase extends UIComponentTag {
         _converter=null;
     }
 
-    protected void setProperties(UIComponent component)
+    @Override
+   protected void setProperties(UIComponent component)
     {
         super.setProperties(component);
 

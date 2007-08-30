@@ -32,6 +32,7 @@ import javax.faces.el.MethodNotFoundException;
  * @author asmirnov@exadel.com (latest modification by $Author$)
  *
  */
+@Deprecated
 public class SimpleActionMethodBinding extends MethodBinding implements StateHolder {
 	// private static final Log log =
 	// LogFactory.getLog(SimpleActionMethodBinding.class);
@@ -83,7 +84,8 @@ public class SimpleActionMethodBinding extends MethodBinding implements StateHol
 		_transient = flag;
 	}
 
-	public String toString() {
+	@Override
+   public String toString() {
 		return _outcome;
 	}
    
