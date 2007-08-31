@@ -340,11 +340,6 @@ ul {
 .linkNavigation:hover {color: #ccc}
 .linkNavigation:active {color: #aaa}
 
-.pluginPreferencesBox {
-    padding: 10px;
-    background-color: #ded;
-}
-
 .feeds {
     padding: 5px;
 }
@@ -588,6 +583,10 @@ ul {
 
 .minorPadding {
     padding: 5px;
+}
+
+.fullWidth {
+    width: 100%;
 }
 
 .datatable .rowOdd {
@@ -967,6 +966,57 @@ ul {
 .progressbarLabel {
     font-weight: bold;
     font-size: 85%;
+}
+
+/* Plugin Preferences Editor
+----------------------------------------------- */
+
+.pluginPreferencesBox {
+    background-color: #ded;
+}
+
+.pluginPreferencesMessage {
+    font-size: 85%;
+    color: #600;
+}
+
+.pluginPreferencesEditor {
+    text-align: center;
+    padding: 10px;
+}
+
+.pluginPreferencesEditorHeader {
+    background: #fff url(../img/th.bg.inverse.gif) 0 0 repeat-x;
+    width: 100%;
+}
+
+.pluginPreferencesEditorTitle {
+    text-align: left;
+    padding-left: 5px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+
+.pluginPreferencesEditorTitleText {
+}
+
+.pluginPreferencesEditorAction {
+    text-align: right;
+}
+
+.pluginPreferencesEditorAction .buttonNonpersistent {
+    margin: 0;
+}
+
+.pluginPreferencesEditorFormTable {
+    width: 100%;
+}
+
+.pluginPreferencesEditorPropertyDescription {
+    font-size: 85%;
+}
+
+.pluginPreferencesEditorPropertyInput {
 }
 
 /* Misc page elements

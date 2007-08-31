@@ -9,14 +9,15 @@
 
 <s:div id="lastModifiedDocumentsContainer" styleClass="shadowContainer"><div class="shadow1"><div class="shadow2">
 <s:div id="lastModifiedDocuments"
-       styleClass="#{showPluginPreferences and !empty lastModifiedDocumentsPreferencesEditor ? 'pluginPreferencesBox' : null}">
+       styleClass="#{showPluginPreferences and !empty lastModifiedDocumentsPreferencesEditor ? 'pluginPreferencesBox' : ''}">
 
     <s:div id="lastModifiedDocumentsPreferences"
            rendered="#{showPluginPreferences and !empty lastModifiedDocumentsPreferencesEditor}">
         <div align="center">
-            <h:message for="lastModifiedDocumentsPreferences" styleClass="attentionMessage"/>
+            <h:message for="lastModifiedDocumentsPreferences" styleClass="pluginPreferencesMessage"/>
 
             <ui:include src="../../includes/pluginPreferencesForm.xhtml">
+                <ui:param name="pluginDiv" value="lastModifiedDocuments"/>
                 <ui:param name="pluginPreferencesEditor" value="#{lastModifiedDocumentsPreferencesEditor}"/>
             </ui:include>
         </div>

@@ -88,7 +88,32 @@
         <to last="true">/wiki.seam?areaName=$1&amp;nodeName=$2&amp;year=$3&amp;month=$4&amp;day=$5&amp;summary=true</to>
     </rule>
 
-    <!-- / -->
+
+    <!-- Blosxom migration from blog.hibernate.org, the best we can do:
+
+        http://blog.hibernate.org/cgi-bin/blosxom.cgi
+        http://blog.hibernate.org/cgi-bin/blosxom.cgi/2007/08/
+        http://blog.hibernate.org/cgi-bin/blosxom.cgi/2007/08/01/
+        http://blog.hibernate.org/cgi-bin/blosxom.cgi/index.rss
+    -->
+    <rule>
+        <from casesensitive="true">^/cgi-bin/blosxom.cgi$</from>
+        <to last="true" type="permanent-redirect">%{scheme}://%{server-name}:%{port}%{context-path}/</to>
+    </rule>
+    <rule>
+        <from casesensitive="true">^/cgi-bin/blosxom.cgi/([0-9]{4})/([0-9]{2})/?$</from>
+        <to last="true" type="permanent-redirect">%{scheme}://%{server-name}:%{port}%{context-path}/Bloggers/Browser/$1/$2</to>
+    </rule>
+    <rule>
+        <from casesensitive="true">^/cgi-bin/blosxom.cgi/([0-9]{4})/([0-9]{2})/([0-9]{2})/?$</from>
+        <to last="true" type="permanent-redirect">%{scheme}://%{server-name}:%{port}%{context-path}/Bloggers/Browser/$1/$2/$3</to>
+    </rule>
+    <rule>
+        <from casesensitive="true">^/cgi-bin/blosxom.cgi/index.rss$</from>
+        <to last="true" type="permanent-redirect">%{scheme}://%{server-name}:%{port}%{context-path}/servlets/feeds/atom.seam?feedId=1</to>
+    </rule>
+
+    <!-- ROOT / -->
     <rule>
         <from>^/$</from>
         <to>/wiki.seam</to>

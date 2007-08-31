@@ -12,14 +12,15 @@
     });</script>
 
     <s:div id="blogDirectory"
-         styleClass="#{showPluginPreferences and !empty blogDirectoryPreferencesEditor ? 'pluginPreferencesBox' : null}">
+         styleClass="#{showPluginPreferences and !empty blogDirectoryPreferencesEditor ? 'pluginPreferencesBox' : ''}">
 
         <s:div id="blogDirectoryPreferences"
                rendered="#{showPluginPreferences and !empty blogDirectoryPreferencesEditor}">
             <div align="center">
-                <h:message for="blogDirectoryPreferences" styleClass="attentionMessage"/>
+                <h:message for="blogDirectoryPreferences" styleClass="pluginPreferencesMessage"/>
 
                 <ui:include src="../../includes/pluginPreferencesForm.xhtml">
+                    <ui:param name="pluginDiv" value="blogDirectory"/>
                     <ui:param name="pluginPreferencesEditor" value="#{blogDirectoryPreferencesEditor}"/>
                 </ui:include>
             </div>

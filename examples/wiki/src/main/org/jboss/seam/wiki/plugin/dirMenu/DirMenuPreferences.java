@@ -41,11 +41,18 @@ public class DirMenuPreferences extends PreferenceSupport implements Serializabl
     @NotNull
     private Long menuDepth;
 
+    @Preference(description = "03. Show 'Subscribe' icon", visibility = PreferenceVisibility.INSTANCE)
+    private Boolean showSubscribeIcon;
+
     public Long getMenuLevels() {
         return menuLevels;
     }
 
     public Long getMenuDepth() {
         return menuDepth;
+    }
+
+    public Boolean getShowSubscribeIcon() {
+        return showSubscribeIcon;
     }
 }

@@ -1,12 +1,11 @@
 .blogRecentEntries {
     background-color: white;
-    vertical-align: bottom;
 }
 
 .blogRecentEntriesHeader {
     text-align: right;
     font-size: 100%;
-    padding-left: 15px;
+    padding-left: 10px;
     padding-right: 15px;
     padding-top: 5px;
     padding-bottom: 15px;
@@ -16,7 +15,23 @@
     background: white url(#{themePath}/img/th.bg.inverse.gif) 0 0 repeat-x;
 }
 
-.blogRecentEntriesHeaderText {
+.blogRecentEntriesSubscribe {
+}
+
+.blogRecentEntriesSubscribeLink {
+    font-size: 80%;
+    margin-left: 5px;
+    margin-right: 5px;
+    color: #962325;
+}
+
+.blogRecentEntriesSubscribeLink:hover {color: #666}
+
+.blogRecentEntriesTitle {
+    text-align: right;
+}
+
+.blogRecentEntriesTitleText {
     font-size: 120%;
 }
 

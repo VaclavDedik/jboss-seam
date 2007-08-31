@@ -6,61 +6,74 @@
         xmlns:wiki="http://jboss.com/products/seam/wiki"
         xmlns:s="http://jboss.com/products/seam/taglib">
 
+    <h:panelGrid columns="1" styleClass="pluginPreferencesEditor"
+        cellpadding="0" cellspacing="0" border="0">
 
-    #{pluginPreferencesEditor.preferenceComponent.description}
-
-    <h:panelGrid columns="2" style="margin-top:10px;margin-bottom:10px;" cellpadding="0" cellspacing="0" border="0">
-
-        <h:dataTable var="v" style="width:10%;"
-                     value="#{pluginPreferencesEditor.preferenceValues}"
-                     styleClass="datatable topLeftBottomBorder"
-                     columnClasses="tenPercentColumn alignLeft minorPadding, tenPercentColumn alignLeft rightBorder"
-                     rowClasses="rowEven,rowOdd"
+        <h:panelGrid columns="2" styleClass="pluginPreferencesEditorHeader"
+                     columnClasses="pluginPreferencesEditorTitle, pluginPreferencesEditorAction"
                      cellpadding="0" cellspacing="0" border="0">
 
-            <h:column>
-                    <h:outputText value="#{v.preferenceProperty.description}"/>
-            </h:column>
-            <h:column>
+            <h:outputText styleClass="pluginPreferencesEditorTitleText" value="#{pluginPreferencesEditor.preferenceComponent.description}"/>
 
-                <s:div rendered="#{v.preferenceProperty.type.simpleName == 'Boolean'}">
-                    <h:selectBooleanCheckbox value="#{v.value}"/>
-                </s:div>
+            <a:commandLink action="#{pluginPreferencesEditor.apply}" tabindex="1"
+                           reRender="#{pluginDiv}"
+                           styleClass="buttonNonpersistent"><span class="buttonLabel">Apply</span></a:commandLink>
 
-                <s:div rendered="#{v.preferenceProperty.type.simpleName == 'String'}">
-                    <h:inputText value="#{v.value}" size="32"/>
-                </s:div>
+        </h:panelGrid>
 
-                <s:div rendered="#{v.preferenceProperty.type.simpleName == 'Long'}">
-                    <h:inputText value="#{v.value}" size="5">
-                        <f:converter converterId="javax.faces.Long"/>
-                    </h:inputText>
-                </s:div>
+        <h:panelGrid columns="1"
+                     styleClass="pluginPreferencesEditorFormTable"
+                     cellpadding="0" cellspacing="0" border="0">
 
-                <s:div rendered="#{v.preferenceProperty.type.simpleName == 'Double'}">
-                    <h:inputText value="#{v.value}" size="10">
-                        <f:converter converterId="javax.faces.Double"/>
-                    </h:inputText>
-                </s:div>
+            <h:dataTable var="v" style="width:10%;"
+                         value="#{pluginPreferencesEditor.preferenceValues}"
+                         styleClass="datatable topLeftBottomBorder"
+                         columnClasses="tenPercentColumn alignLeft minorPadding pluginPreferencesEditorPropertyDescription,
+                                        tenPercentColumn alignLeft rightBorder pluginPreferencesEditorPropertyInput"
+                         rowClasses="rowEven,rowOdd"
+                         cellpadding="0" cellspacing="0" border="0">
 
-                <s:div rendered="#{v.preferenceProperty.type.simpleName == 'Date'}">
-                    <h:inputText id="dt" value="#{v.value}">
-                        <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
-                    </h:inputText>
-                    <s:selectDate for="dt" dateFormat="dd. MMM yyyy, HH:mm">
-                        <h:graphicImage style="vertical-align:bottom;margin-bottom:2px;"
-                                        value="/themes/#{wikiPreferences.themeName}/img/icon.calendar.gif" width="16"
-                                        height="16"/>
-                    </s:selectDate>
-                </s:div>
+                <h:column>
+                        <h:outputText value="#{v.preferenceProperty.description}"/>
+                </h:column>
+                <h:column>
 
-            </h:column>
+                    <s:div rendered="#{v.preferenceProperty.type.simpleName == 'Boolean'}">
+                        <h:selectBooleanCheckbox value="#{v.value}" tabindex="1"/>
+                    </s:div>
 
-        </h:dataTable>
+                    <s:div rendered="#{v.preferenceProperty.type.simpleName == 'String'}">
+                        <h:inputText value="#{v.value}" size="32" tabindex="1"/>
+                    </s:div>
 
-        <a:commandLink action="#{pluginPreferencesEditor.apply}"
-                       reRender="preview"
-                       styleClass="buttonNonpersistent"><span class="buttonLabel">Apply</span></a:commandLink>
+                    <s:div rendered="#{v.preferenceProperty.type.simpleName == 'Long'}">
+                        <h:inputText value="#{v.value}" size="5" tabindex="1">
+                            <f:converter converterId="javax.faces.Long"/>
+                        </h:inputText>
+                    </s:div>
+
+                    <s:div rendered="#{v.preferenceProperty.type.simpleName == 'Double'}">
+                        <h:inputText value="#{v.value}" size="10" tabindex="1">
+                            <f:converter converterId="javax.faces.Double"/>
+                        </h:inputText>
+                    </s:div>
+
+                    <s:div rendered="#{v.preferenceProperty.type.simpleName == 'Date'}">
+                        <h:inputText id="dt" value="#{v.value}" tabindex="1">
+                            <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
+                        </h:inputText>
+                        <s:selectDate for="dt" dateFormat="dd. MMM yyyy, HH:mm">
+                            <h:graphicImage style="vertical-align:bottom;margin-bottom:2px;"
+                                            value="/themes/#{wikiPreferences.themeName}/img/icon.calendar.gif" width="16"
+                                            height="16"/>
+                        </s:selectDate>
+                    </s:div>
+
+                </h:column>
+
+            </h:dataTable>
+
+        </h:panelGrid>
 
     </h:panelGrid>
 

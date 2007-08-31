@@ -13,41 +13,51 @@
     });</script>
 
 
-    <s:div styleClass="shadowContainer"><div class="shadow1"><div class="shadow2"><s:div
-           styleClass="#{showPluginPreferences and !empty dirMenuPreferencesEditor ? 'dirMenu pluginPreferencesBox' : 'dirMenu'}">
+    <s:div styleClass="shadowContainer"><div class="shadow1"><div class="shadow2"><s:div id="dirMenuPluginDiv"
+           styleClass="#{showPluginPreferences and !empty dirMenuPreferencesEditor ? 'pluginPreferencesBox' : ''}">
 
         <s:div id="dirMenuPreferences"
               rendered="#{showPluginPreferences and !empty dirMenuPreferencesEditor}">
            <div align="center">
-               <h:message for="dirMenuPreferences" styleClass="attentionMessage"/>
+               <h:message for="dirMenuPreferences" styleClass="pluginPreferencesMessage"/>
 
                <ui:include src="../../includes/pluginPreferencesForm.xhtml">
+                   <ui:param name="pluginDiv" value="dirMenuPluginDiv"/>
                    <ui:param name="pluginPreferencesEditor" value="#{dirMenuPreferencesEditor}"/>
                </ui:include>
            </div>
         </s:div>
 
-        <h:panelGrid columns="2" cellpadding="0" cellspacing="0" border="0"
-                     styleClass="dirMenuHeader"
-                     columnClasses="dirMenuSubscribe, dirMenuTitle">
+        <s:div styleClass="dirMenu">
 
-            <h:outputLink rendered="#{not empty currentDirectory.feed}"
-                          value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{currentDirectory.feed.id}">
-                <h:panelGrid columns="2" cellpadding="0" cellspacing="0" border="0">
-                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.atom.ongrey.gif" width="18" height="18" alt="Atom"/>
-                    <h:outputText styleClass="dirMenuSubscribeLink" value="Subscribe"/>
-                </h:panelGrid>
-            </h:outputLink>
+            <s:div styleClass="dirMenuHeader dirMenuTitle" rendered="#{not dirMenuPreferences.showSubscribeIcon}">
+                <h:outputText styleClass="dirMenuTitleText" value="Menu"/>
+            </s:div>
 
-            <h:outputText styleClass="dirMenuTitleText" value="Menu"/>
+            <h:panelGrid rendered="#{dirMenuPreferences.showSubscribeIcon}"
+                         columns="2" cellpadding="0" cellspacing="0" border="0"
+                         styleClass="dirMenuHeader fullWidth"
+                         columnClasses="dirMenuSubscribe, dirMenuTitle">
 
-        </h:panelGrid>
+                <h:outputLink rendered="#{not empty currentDirectory.feed}"
+                              value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{currentDirectory.feed.id}">
+                    <h:panelGrid columns="2" cellpadding="0" cellspacing="0" border="0">
+                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.atom.ongrey.gif" width="18" height="18" alt="Atom"/>
+                        <h:outputText styleClass="dirMenuSubscribeLink" value="Subscribe"/>
+                    </h:panelGrid>
+                </h:outputLink>
 
-        <ui:include src="dirMenuItem.xhtml">
-            <ui:param name="node" value="#{dirMenu.root}"/>
-        </ui:include>
+                <h:outputText styleClass="dirMenuTitleText" value="Menu"/>
 
-        <s:div styleClass="dirMenuFooter"/>
+            </h:panelGrid>
+
+            <ui:include src="dirMenuItem.xhtml">
+                <ui:param name="node" value="#{dirMenu.root}"/>
+            </ui:include>
+
+            <s:div styleClass="dirMenuFooter"/>
+
+        </s:div>
 
     </s:div></div></div></s:div>
 

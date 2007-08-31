@@ -7,6 +7,7 @@
 package org.jboss.seam.wiki.plugin.blogdirectory;
 
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Component;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.web.RequestParameter;
@@ -41,10 +42,10 @@ public class BlogDirectory implements Serializable {
     @RequestParameter
     Boolean allEntries;
 
-    private Integer year;
-    private Integer  month;
-    private Integer  day;
     private Integer page = 0;
+    private Integer year;
+    private Integer month;
+    private Integer day;
 
     @RequestParameter
     public void setPage(Integer page) {
@@ -64,6 +65,7 @@ public class BlogDirectory implements Serializable {
     public void setDay(Integer day) {
         this.day = day;
     }
+
     private long numOfBlogEntries;
     private long totalNumOfBlogEntries;
     private List<BlogEntry> blogEntries;
@@ -72,14 +74,21 @@ public class BlogDirectory implements Serializable {
     @DataModel
     private Map<Date, List<BlogEntry>> recentBlogEntries;
 
-    @In("#{blogDirectoryPreferences.properties['pageSize']}")
     private long pageSize;
-    @In("#{blogDirectoryPreferences.properties['recentHeadlines']}")
     private long recentBlogEntriesCount;
 
     @Create
     public void initialize() {
+        initializePreferences();
         refreshBlogEntries();
+    }
+
+    // Lazier than @In, would be too many injections because of c:forEach iteration on blog entry list
+    private void initializePreferences() {
+        pageSize = 
+                ((BlogDirectoryPreferences) Component.getInstance("blogDirectoryPreferences")).getPageSize();
+        recentBlogEntriesCount =
+                ((BlogRecentEntriesPreferences)Component.getInstance("blogRecentEntriesPreferences")).getRecentHeadlines();
     }
 
     private void queryNumOfBlogEntries() {
@@ -107,8 +116,9 @@ public class BlogDirectory implements Serializable {
     }
 
     @Factory(value = "recentBlogEntries")
-    @Observer("PreferenceComponent.refresh.blogDirectoryPreferences")
+    @Observer("PreferenceComponent.refresh.blogRecentEntriesPreferences")
     public void queryRecentBlogEntries() {
+        initializePreferences();
         List<BlogEntry> recentBlogEntriesNonAggregated =
             blogDAO.findBlogEntriesWithCommentCount(
                     currentDirectory,
@@ -145,6 +155,7 @@ public class BlogDirectory implements Serializable {
 
     @Observer("PreferenceComponent.refresh.blogDirectoryPreferences")
     public void refreshBlogEntries() {
+        initializePreferences();
         blogEntries = new ArrayList<BlogEntry>();
         queryNumOfBlogEntries();
         if (numOfBlogEntries != 0){

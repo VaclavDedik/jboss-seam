@@ -70,6 +70,13 @@ insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG
 
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (110, 0, 'dirMenuPreferences', 'menuLevels', '3')
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (111, 0, 'dirMenuPreferences', 'menuDepth', '3')
+insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, BOOLEAN_VALUE)  values (112, 0, 'dirMenuPreferences', 'showSubscribeIcon', true)
+
+insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (120, 0, 'blogRecentEntriesPreferences', 'recentHeadlines', '10')
+insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (121, 0, 'blogRecentEntriesPreferences', 'truncateItemText', '40')
+insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, BOOLEAN_VALUE)  values (123, 0, 'blogRecentEntriesPreferences', 'showSubscribeIcon', true)
+
+insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, BOOLEAN_VALUE)  values (130, 0, 'blogArchivePreferences', 'showSubscribeIcon', false)
 
 -- Start document
 insert into NODE (NODE_ID, NODE_TYPE, NODE_REVISION, CREATED_BY_USER_ID, AREA_NR, PARENT_NODE_ID, OBJ_VERSION, NAME, WIKINAME, MENU_ITEM, CREATED_ON, LAST_MODIFIED_ON, WRITE_ACCESS_LEVEL, READ_ACCESS_LEVEL, NS_THREAD, NS_LEFT, NS_RIGHT, DISPLAY_POSITION) values  (3, 'DIRECTORY', 1, 1, 3, 1, 0, 'LaceWiki Home', 'LaceWikiHome', true, '2005-06-27 13:45:00', '2005-06-27 13:45:00', 0, 0, 1, 4, 7, 1)

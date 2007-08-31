@@ -6,14 +6,15 @@
      xmlns:wiki="http://jboss.com/products/seam/wiki"
      xmlns:s="http://jboss.com/products/seam/taglib">
 
-<s:div styleClass="#{showPluginPreferences and !empty flashPreferencesEditor ? 'pluginPreferencesBox' : null}">
+<s:div id="flashPluginDiv" styleClass="#{showPluginPreferences and !empty flashPreferencesEditor ? 'pluginPreferencesBox' : ''}">
 
     <s:div id="flashPreferences"
            rendered="#{showPluginPreferences and !empty flashPreferencesEditor}">
         <div align="center">
-            <h:message for="flashPreferences" styleClass="attentionMessage"/>
+            <h:message for="flashPreferences" styleClass="pluginPreferencesMessage"/>
 
             <ui:include src="../../includes/pluginPreferencesForm.xhtml">
+                <ui:param name="pluginDiv" value="flashPluginDiv"/>
                 <ui:param name="pluginPreferencesEditor" value="#{flashPreferencesEditor}"/>
             </ui:include>
         </div>

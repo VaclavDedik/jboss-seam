@@ -1,6 +1,5 @@
 .dirMenu {
     background-color: white;
-    vertical-align: bottom;
 }
 
 .dirMenuHeader {
@@ -14,7 +13,6 @@
     border-left: 1px solid #87786e;
     border-right: 1px solid #87786e;
     background: white url(#{themePath}/img/th.bg.inverse.gif) 0 0 repeat-x;
-    width: 100%;
 }
 
 .dirMenuSubscribe {

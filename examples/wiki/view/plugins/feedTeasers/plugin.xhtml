@@ -7,16 +7,16 @@
        xmlns:wiki="http://jboss.com/products/seam/wiki"
        xmlns:s="http://jboss.com/products/seam/taglib">
 
-<div id="feedTeasersContainer" class="shadowContainer"><div class="shadow1"><div class="shadow2">
-<s:div id="feedTeasers"
-       styleClass="#{showPluginPreferences and !empty feedTeasersPreferencesEditor ? 'pluginPreferencesBox' : null}">
+<div id="feedTeasersContainer" class="shadowContainer"><div class="shadow1"><div class="shadow2"><s:div id="feedTeasers"
+       styleClass="#{showPluginPreferences and !empty feedTeasersPreferencesEditor ? 'pluginPreferencesBox' : ''}">
 
     <s:div id="feedTeasersPreferences"
            rendered="#{showPluginPreferences and !empty feedTeasersPreferencesEditor}">
         <div align="center">
-            <h:message for="feedTeasersPreferences" styleClass="attentionMessage"/>
+            <h:message for="feedTeasersPreferences" styleClass="pluginPreferencesMessage"/>
 
             <ui:include src="../../includes/pluginPreferencesForm.xhtml">
+                <ui:param name="pluginDiv" value="feedTeasers"/>
                 <ui:param name="pluginPreferencesEditor" value="#{feedTeasersPreferencesEditor}"/>
             </ui:include>
         </div>
@@ -67,7 +67,6 @@
         </h:column>
     </h:dataTable>
 
-</s:div>
-</div></div></div>
+</s:div></div></div></div>
     
 </wiki:plugin>

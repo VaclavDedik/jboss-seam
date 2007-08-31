@@ -12,23 +12,21 @@ import org.hibernate.validator.NotNull;
 
 import java.io.Serializable;
 
-@Name("blogDirectoryPreferences")
+@Name("blogArchivePreferences")
 @Scope(ScopeType.CONVERSATION)
-@Preference(description = "Plugin: Blog Directory", visibility = PreferenceVisibility.INSTANCE)
-public class BlogDirectoryPreferences extends PreferenceSupport implements Serializable {
+@Preference(description = "Plugin: Blog Archive", visibility = PreferenceVisibility.INSTANCE)
+public class BlogArchivePreferences extends PreferenceSupport implements Serializable {
 
     public String getCurrentUserVariable() { return "currentUser"; }
     public String getCurrentInstanceVariable() { return "currentDocument"; }
 
-    @Observer("PreferenceEditor.refresh.blogDirectoryPreferences")
+    @Observer("PreferenceEditor.refresh.blogArchivePreferences")
     public void refreshProperties() { super.refreshProperties(); }
 
-    @Preference(description = "01. Number of blog entries per page", visibility = PreferenceVisibility.INSTANCE)
-    @Range(min = 1l, max = 100l)
-    @NotNull
-    private Long pageSize;
+    @Preference(description = "01. Show 'Subscribe' icon", visibility = PreferenceVisibility.INSTANCE)
+    private Boolean showSubscribeIcon;
 
-    public Long getPageSize() {
-        return pageSize;
+    public Boolean getShowSubscribeIcon() {
+        return showSubscribeIcon;
     }
 }

@@ -68,10 +68,17 @@ insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, STRI
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (81, 0, 'flashPreferences', 'objectWidth', 350)
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (82, 0, 'flashPreferences', 'objectHeight', 425)
 
--- insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, STRING_VALUE)   values (90, 0, 'boardsPreferences', 'relativePath', '/AnotherArea/Forums')
-
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (110, 0, 'dirMenuPreferences', 'menuLevels', '3')
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (111, 0, 'dirMenuPreferences', 'menuDepth', '3')
+insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, BOOLEAN_VALUE)  values (112, 0, 'dirMenuPreferences', 'showSubscribeIcon', true)
+
+insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (120, 0, 'blogRecentEntriesPreferences', 'recentHeadlines', '10')
+insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (121, 0, 'blogRecentEntriesPreferences', 'truncateItemText', '40')
+insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, BOOLEAN_VALUE)  values (123, 0, 'blogRecentEntriesPreferences', 'showSubscribeIcon', true)
+
+insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, BOOLEAN_VALUE)  values (130, 0, 'blogArchivePreferences', 'showSubscribeIcon', false)
+
+-- insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, STRING_VALUE)   values (555, 0, 'boardsPreferences', 'relativePath', '/AnotherArea/Forums')
 
 -- Development test data
 
