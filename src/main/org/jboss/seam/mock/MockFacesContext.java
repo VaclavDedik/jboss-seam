@@ -232,6 +232,7 @@ public class MockFacesContext extends FacesContext
       if (elContext == null)
       {
          elContext = EL.createELContext(EL.EL_CONTEXT, getApplication().getELResolver());
+         elContext.putContext(FacesContext.class, this);
       }
       return elContext;
    }
