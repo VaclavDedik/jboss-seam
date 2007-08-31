@@ -111,7 +111,7 @@
            timeToLiveSeconds="6000"
            diskPersistent="false"
            memoryStoreEvictionPolicy="LRU"/>
-
+<!--
     <cache name="WikiNode"
            maxElementsInMemory="1000"
            eternal="false"
@@ -120,7 +120,7 @@
            timeToLiveSeconds="6000"
            diskPersistent="false"
            memoryStoreEvictionPolicy="LRU"/>
-
+-->
     <cache name="WikiLinkProtocol"
            maxElementsInMemory="50"
            eternal="false"
@@ -141,7 +141,9 @@
 
     <cache name="WikiFeedEntry"
            maxElementsInMemory="1000"
-           eternal="true"
+           eternal="false"
+           timeToIdleSeconds="86400"
+           timeToLiveSeconds="259200"
            overflowToDisk="false"
            diskPersistent="false"
            memoryStoreEvictionPolicy="LRU"/>

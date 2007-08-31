@@ -48,6 +48,26 @@ public class FeedDAO {
                 .getResultList();
     }
 
+    public void removeFeedEntry(Document document) {
+        try {
+            FeedEntry fe = (FeedEntry)
+                    restrictedEntityManager.createQuery("select fe from FeedEntry fe where not fe.document is null and fe.document = :doc")
+                .setParameter("doc", document)
+                .getSingleResult();
+            if (fe != null) {
+                // Unlink feed entry from all feeds
+                Set<Feed> feeds = getAvailableFeeds(document, true);
+                for (Feed feed : feeds) {
+                    log.debug("remove feed entry from feed: " + feed.getId());
+                    feed.getFeedEntries().remove(fe);
+                }
+                log.debug("deleting feed entry");
+                restrictedEntityManager.remove(fe);
+            }
+        } catch (EntityNotFoundException ex) {
+        } catch (NoResultException ex) {}
+    }
+
     public Feed findFeed(Long feedId) {
         restrictedEntityManager.joinTransaction();
         try {

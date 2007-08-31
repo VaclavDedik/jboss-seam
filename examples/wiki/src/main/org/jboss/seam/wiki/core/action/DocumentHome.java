@@ -135,6 +135,14 @@ public class DocumentHome extends NodeHome<Document> {
         return true;
     }
 
+    protected boolean prepareRemove() {
+
+        // Remove feed entry before removing document
+        feedDAO.removeFeedEntry(getInstance());
+
+        return super.prepareRemove();
+    }
+
     protected void afterNodeMoved(Directory oldParent, Directory newParent) {
         // Update view
         syncFormToInstance(oldParent); // Resolve existing links in old directory

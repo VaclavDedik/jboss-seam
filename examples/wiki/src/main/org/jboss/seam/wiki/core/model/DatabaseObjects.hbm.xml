@@ -18,7 +18,7 @@
     <database-object>
         <create>
             alter table FEEDENTRY drop constraint FK_FEEDENTRY_DOCUMENT_ID;
-            alter table FEEDENTRY add constraint FK_FEEDENTRY_DOCUMENT_ID foreign key (DOCUMENT_ID) references NODE on delete set null;
+            alter table FEEDENTRY add constraint FK_FEEDENTRY_DOCUMENT_ID foreign key (DOCUMENT_ID) references NODE on delete cascade;
         </create>
         <drop></drop>
         <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
@@ -181,7 +181,7 @@
     <database-object>
         <create>
             alter table FEEDENTRY
-                add constraint FK_FEEDENTRY_DOCUMENT_ID foreign key (DOCUMENT_ID) references NODE (NODE_ID) on delete set null;
+                add constraint FK_FEEDENTRY_DOCUMENT_ID foreign key (DOCUMENT_ID) references NODE (NODE_ID) on delete cascade;
         </create><drop></drop><dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
     </database-object>
 

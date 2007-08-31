@@ -21,6 +21,12 @@
 
 <ui:define name="controlTwo">
 
+    <s:link id="createDoc" styleClass="linkNavigation" accesskey="C" view="/docEdit.xhtml"
+            rendered="#{s:hasPermission('Node', 'create', documentHome.instance.parent)}"><u>C</u>reate
+        <f:param name="documentId"/>
+        <f:param name="parentDirectoryId" value="#{documentHome.instance.parent.id}"/>
+    </s:link>
+
     <s:link id="editDoc" styleClass="linkNavigation" accesskey="E" view="/docEdit.xhtml"
             rendered="#{s:hasPermission('Node', 'edit', documentHome.instance)}"><u>E</u>dit</s:link>
 
