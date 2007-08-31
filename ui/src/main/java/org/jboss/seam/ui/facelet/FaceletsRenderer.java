@@ -33,10 +33,10 @@ import com.sun.facelets.impl.DefaultResourceResolver;
 public class FaceletsRenderer extends Renderer
 {
    
-   private class Context 
+   private abstract class RenderingContext 
    {
       
-      public Context(String viewId)
+      public RenderingContext(String viewId)
       {
          this.viewId = viewId;
       }
@@ -48,7 +48,20 @@ public class FaceletsRenderer extends Renderer
       private UIViewRoot originalViewRoot;
       private StringWriter writer = new StringWriter();
       
-      public Context wrap() 
+      public void run() 
+      {
+         try
+         {
+            init();
+            process();
+         }
+         finally
+         {
+            cleanup();
+         }
+      }
+      
+      private void init()
       {
          // Make sure we are using the correct ClassLoader
          originalClassLoader = Thread.currentThread().getContextClassLoader();
@@ -76,10 +89,9 @@ public class FaceletsRenderer extends Renderer
          viewRoot.setViewId(viewId);
          viewRoot.setLocale(originalViewRoot.getLocale());
          facesContext.setViewRoot(viewRoot);
-         return this;
       }
       
-      public void unwrap() 
+      private void cleanup()
       {
          FacesContext facesContext = FacesContext.getCurrentInstance();
          if (originalResponseWriter != null)
@@ -90,37 +102,42 @@ public class FaceletsRenderer extends Renderer
          {
             facesContext.setViewRoot(originalViewRoot);
          }
-         Thread.currentThread().setContextClassLoader(originalClassLoader);
-         
+         Thread.currentThread().setContextClassLoader(originalClassLoader);       
       }
       
-      public String getWrittenOutput() 
+      public String getOutput() 
       {
          return writer.getBuffer().toString(); 
       }
+      
+      public abstract void process();
       
    }
    
 
    @Override
-   public String render(String viewId)
+   public String render(final String viewId)
    {
-      Context context = new Context(viewId);
-      try
-      {
-         context.wrap();
-         FacesContext facesContext = FacesContext.getCurrentInstance();
-         renderFacelet(facesContext, faceletForURL(resourceURL(viewId)));
-         return context.getWrittenOutput();
-      }
-      catch (IOException e)
-      {
-         throw new RuntimeException(e);
-      }
-      finally
-      {
-         context.unwrap();
-      }
+      RenderingContext context = new RenderingContext(viewId) {
+         
+         @Override
+         public void process()
+         {
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            try
+            {
+               renderFacelet(facesContext, faceletForURL(resourceURL(viewId)));
+            }
+            catch (IOException e)
+            {
+               throw new RuntimeException("Error rendering view", e);
+            }
+         }
+         
+      };
+      context.run();
+      
+      return context.getOutput();
    }
 
    protected URL resourceURL(String viewId)
