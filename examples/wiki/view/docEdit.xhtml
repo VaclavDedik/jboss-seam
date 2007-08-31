@@ -49,9 +49,12 @@
         </ui:include>
     </s:span>
 
+
     <div id="docEditFormContainer" class="shadowContainer"><div class="shadow1"><div class="shadow2">
-    <h:form>
+    <h:form id="docEditForm">
         <div class="form">
+
+            <ui:include src="includes/statusIndicator.xhtml"/>
 
             <script type="text/javascript">jQuery(function() {
                 jQuery('#formTabs').tabs(2, {onClick: function(){formTabClicked()} });
@@ -91,7 +94,7 @@
                                 <ui:param name="fieldId" value="name"/>
                                 <ui:define name="label">Name</ui:define>
                                 <h:inputText tabindex="2" size="70" maxlength="255" required="true" value="#{documentHome.instance.name}">
-                                    <a:support event="onblur" reRender="nameDecorate"/>
+                                    <a:support status="docEditForm:status" event="onblur" reRender="nameDecorate"/>
                                 </h:inputText>
                             </s:decorate>
 
@@ -116,7 +119,7 @@
                                     <div class="label">&#160;</div>
                                     <div class="input">
                                         <h:selectBooleanCheckbox value="#{documentHome.pushOnFeeds}" tabindex="3">
-                                            <a:support event="onchange" reRender="pushOnSiteFeedSwitchUnmanaged"/>
+                                            <a:support status="docEditForm:status" event="onchange" reRender="pushOnSiteFeedSwitchUnmanaged"/>
                                         </h:selectBooleanCheckbox>
                                         Create entry on parent directory feeds
                                     </div>
@@ -147,7 +150,7 @@
                                         <div class="label">&#160;</div>
                                         <div class="input">
                                             <h:selectBooleanCheckbox value="#{documentHome.pushOnFeeds}" tabindex="3">
-                                                <a:support event="onchange" reRender="pushOnSiteFeedSwitch"/>
+                                                <a:support status="docEditForm:status" event="onchange" reRender="pushOnSiteFeedSwitch"/>
                                             </h:selectBooleanCheckbox>
                                             Push changes onto feeds of parent directories
                                         </div>
@@ -189,8 +192,8 @@
                                                      rows="#{docEditorPreferences.properties['regularEditAreaRows']}"
                                                      id="contentTextArea"
                                                      value="#{documentHome.formContent}">
-                                        <a:support rendered="#{documentHome.enabledPreview}" event="onkeyup" reRender="preview" requestDelay="3000" eventsQueue="editKeyPress"/>
-                                        <a:support event="onblur" reRender="contentDecorate"/>
+                                        <a:support status="docEditForm:status" rendered="#{documentHome.enabledPreview}" event="onkeyup" reRender="preview" requestDelay="3000" eventsQueue="editKeyPress"/>
+                                        <a:support status="docEditForm:status" event="onblur" reRender="contentDecorate"/>
                                     </h:inputTextarea>
                                     <div id="contentTextEditResizeHandle" class="textEditResizeHandle" style="display:none"/>
                                 </div>
@@ -200,7 +203,7 @@
                                 <div class="label">&#160;</div>
                                 <div class="input">
                                     <h:selectBooleanCheckbox value="#{documentHome.enabledPreview}" tabindex="3">
-                                        <a:support event="onchange" reRender="preview,contentDecorate,pluginSwitch"/>
+                                        <a:support status="docEditForm:status" event="onchange" reRender="preview,contentDecorate,pluginSwitch"/>
                                     </h:selectBooleanCheckbox>
                                     Show interactive preview
                                 </div>
@@ -211,7 +214,7 @@
                                     <div class="label">&#160;</div>
                                     <div class="input">
                                         <h:selectBooleanCheckbox value="#{documentHome.showPluginPrefs}" tabindex="3">
-                                            <a:support event="onchange" reRender="preview"/>
+                                            <a:support status="docEditForm:status" event="onchange" reRender="preview"/>
                                         </h:selectBooleanCheckbox>
                                         Show plugin settings in preview
                                     </div>
@@ -248,7 +251,7 @@
                                 <div class="label">Options:</div>
                                 <div class="input">
                                     <h:selectBooleanCheckbox value="#{documentHome.instance.enableComments}" tabindex="3">
-                                        <a:support event="onchange" reRender="commentFormSwitch"/>
+                                        <a:support status="docEditForm:status" event="onchange" reRender="commentFormSwitch"/>
                                     </h:selectBooleanCheckbox>
                                     Enable comments
                                 </div>

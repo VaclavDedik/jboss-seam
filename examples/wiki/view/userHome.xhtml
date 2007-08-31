@@ -31,10 +31,12 @@
 <h:form id="userHomeForm" enctype="multipart/form-data">
     <div class="form">
 
-    <script type="text/javascript">jQuery(function() {
-        jQuery('#formTabs').tabs(2, {onClick: function(){formTabClicked()} });
-    });</script>
-    <div id="formTabs">
+        <ui:include src="includes/statusIndicator.xhtml"/>
+
+        <script type="text/javascript">jQuery(function() {
+            jQuery('#formTabs').tabs(2, {onClick: function(){formTabClicked()} });
+        });</script>
+        <div id="formTabs">
 
         <ul>
             <li class="formTabsTitle">
@@ -57,7 +59,7 @@
                         <ui:param name="fieldId" value="firstname"/>
                         <ui:define name="label">First name</ui:define>
                         <h:inputText tabindex="1" size="40" maxlength="63" required="true" value="#{userHome.instance.firstname}">
-                            <a:support event="onblur" reRender="firstnameDecorate"/>
+                            <a:support status="userHomeForm:status" event="onblur" reRender="firstnameDecorate"/>
                         </h:inputText>
                     </s:decorate>
 
@@ -66,7 +68,7 @@
                         <ui:param name="fieldId" value="lastname"/>
                         <ui:define name="label">Last name</ui:define>
                         <h:inputText tabindex="1" size="40" maxlength="63" required="true" value="#{userHome.instance.lastname}">
-                            <a:support event="onblur" reRender="lastnameDecorate"/>
+                            <a:support status="userHomeForm:status" event="onblur" reRender="lastnameDecorate"/>
                         </h:inputText>
                     </s:decorate>
 
@@ -76,7 +78,7 @@
                         <ui:define name="label">E-Mail</ui:define>
                         <h:inputText tabindex="3" size="40" maxlength="255" required="true" value="#{userHome.instance.email}"
                                      disabled="#{userHome.instance.username == guestUser.username}">
-                            <a:support event="onblur" reRender="emailDecorate"/>
+                            <a:support status="userHomeForm:status" event="onblur" reRender="emailDecorate"/>
                         </h:inputText>
                     </s:decorate>
 
@@ -87,7 +89,7 @@
                         <h:inputText tabindex="4" size="16" maxlength="16" required="true" value="#{userHome.instance.username}"
                                      disabled="#{userHome.instance.username == adminUser.username
                                                  or userHome.instance.username == guestUser.username}">
-                            <a:support event="onblur" action="#{userHome.validateUsername}" reRender="usernameDecorate"/>
+                            <a:support status="userHomeForm:status" event="onblur" action="#{userHome.validateUsername}" reRender="usernameDecorate"/>
                         </h:inputText>
                     </s:decorate>
 
@@ -98,7 +100,7 @@
                         <h:inputSecret tabindex="5" size="15" maxlength="15"
                                        redisplay="true" value="#{userHome.password}"
                                        disabled="#{userHome.instance.username == guestUser.username}">
-                            <a:support event="onblur" action="#{userHome.validatePassword}" reRender="passwordDecorate"/>
+                            <a:support status="userHomeForm:status" event="onblur" action="#{userHome.validatePassword}" reRender="passwordDecorate"/>
                         </h:inputSecret>
                     </s:decorate>
 
@@ -109,7 +111,7 @@
                         <h:inputSecret tabindex="6" size="15" maxlength="15"
                                        redisplay="true" value="#{userHome.passwordControl}"
                                        disabled="#{userHome.instance.username == guestUser.username}">
-                            <a:support event="onblur" action="#{userHome.validatePasswordControl}" reRender="passwordControlDecorate"/>
+                            <a:support status="userHomeForm:status" event="onblur" action="#{userHome.validatePasswordControl}" reRender="passwordControlDecorate"/>
                         </h:inputSecret>
                     </s:decorate>
 
@@ -181,7 +183,7 @@
                         <ui:param name="fieldId" value="website"/>
                         <ui:define name="label">Website</ui:define>
                         <h:inputText tabindex="1" size="60" maxlength="1000" value="#{userHome.instance.profile.website}">
-                            <a:support event="onblur" reRender="websiteDecorate"/>
+                            <a:support status="userHomeForm:status" event="onblur" reRender="websiteDecorate"/>
                         </h:inputText>
                     </s:decorate>
 
@@ -190,7 +192,7 @@
                         <ui:param name="fieldId" value="location"/>
                         <ui:define name="label">Location</ui:define>
                         <h:inputText tabindex="1" size="40" maxlength="255" value="#{userHome.instance.profile.location}">
-                            <a:support event="onblur" reRender="locationDecorate"/>
+                            <a:support status="userHomeForm:status" event="onblur" reRender="locationDecorate"/>
                         </h:inputText>
                     </s:decorate>
 
@@ -199,7 +201,7 @@
                         <ui:param name="fieldId" value="occupation"/>
                         <ui:define name="label">Occupation</ui:define>
                         <h:inputText tabindex="1" size="60" maxlength="1000" value="#{userHome.instance.profile.occupation}">
-                            <a:support event="onblur" reRender="occupationDecorate"/>
+                            <a:support status="userHomeForm:status" event="onblur" reRender="occupationDecorate"/>
                         </h:inputText>
                     </s:decorate>
 

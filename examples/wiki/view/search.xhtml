@@ -23,6 +23,8 @@
     <h:form id="searchForm">
         <s:div styleClass="form" id="searchControl">
 
+            <ui:include src="includes/statusIndicator.xhtml"/>
+
             <a:region>
 
             <h:panelGrid columns="5"
@@ -44,7 +46,7 @@
                                        var="se"
                                        label="#{se.description}"
                                        noSelectionLabel="All"/>
-                        <a:support event="onchange" reRender="searchControl, searchPager, searchResult" action="#{wikiSearch.search}"/>
+                        <a:support status="searchForm:status" event="onchange" reRender="searchControl, searchPager, searchResult" action="#{wikiSearch.search}"/>
                     </h:selectOneMenu>
                 </h:panelGrid>
 
@@ -66,11 +68,12 @@
                         <f:selectItem itemLabel="5" itemValue="5"/>
                         <f:selectItem itemLabel="15" itemValue="15"/>
                         <f:selectItem itemLabel="50" itemValue="50"/>
-                        <a:support event="onchange" reRender="searchControl, searchPager, searchResult" action="#{wikiSearch.search}"/>
+                        <a:support status="searchForm:status" event="onchange" reRender="searchControl, searchPager, searchResult" action="#{wikiSearch.search}"/>
                     </h:selectOneMenu>
                 </h:panelGrid>
 
                 <a:commandLink id="find" styleClass="buttonNonpersistent" reRender="workspaceSwitcher, searchControl, searchPager, searchResult"
+                               status="searchForm:status"
                                action="#{wikiSearch.search()}"
                                tabindex="1" accesskey="F"><span class="buttonLabel"><u>F</u>ind</span></a:commandLink>
 

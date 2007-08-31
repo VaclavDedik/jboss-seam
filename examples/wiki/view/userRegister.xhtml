@@ -19,8 +19,11 @@
 
 <ui:define name="content">
 
-<h:form>
+<h:form id="userRegisterForm">
     <div class="form">
+
+        <ui:include src="includes/statusIndicator.xhtml"/>
+
         <div class="formHead">
             <h:outputText rendered="#{not s:hasPermission('User', 'isAdmin', currentUser)}" value="Register new account"/>
             <h:outputText rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}" value="Create new account"/>
@@ -31,28 +34,28 @@
             <s:decorate id="firstnameDecorate" template="includes/formFieldDecorate.xhtml">
                 <ui:define name="label">First name</ui:define>
                 <h:inputText tabindex="1" size="40" maxlength="63" required="true" value="#{userHome.instance.firstname}">
-                    <a:support event="onblur" reRender="firstnameDecorate"/>
+                    <a:support status="userRegisterForm:status" event="onblur" reRender="firstnameDecorate"/>
                 </h:inputText>
             </s:decorate>
 
             <s:decorate id="lastnameDecorate" template="includes/formFieldDecorate.xhtml">
                 <ui:define name="label">Last name</ui:define>
                 <h:inputText tabindex="1" size="40" maxlength="63" required="true" value="#{userHome.instance.lastname}">
-                    <a:support event="onblur" reRender="lastnameDecorate"/>
+                    <a:support status="userRegisterForm:status" event="onblur" reRender="lastnameDecorate"/>
                 </h:inputText>
             </s:decorate>
 
             <s:decorate id="emailDecorate" template="includes/formFieldDecorate.xhtml">
                 <ui:define name="label">E-Mail</ui:define>
                 <h:inputText tabindex="3" size="40" maxlength="255" required="true" value="#{userHome.instance.email}">
-                    <a:support event="onblur" reRender="emailDecorate"/>
+                    <a:support status="userRegisterForm:status" event="onblur" reRender="emailDecorate"/>
                 </h:inputText>
             </s:decorate>
 
             <s:decorate id="usernameDecorate" template="includes/formFieldDecorate.xhtml">
                 <ui:define name="label">Username</ui:define>
                 <h:inputText tabindex="4" size="16" maxlength="16" required="true" id="username" value="#{userHome.instance.username}">
-                    <a:support event="onblur" action="#{userHome.validateUsername}" reRender="usernameDecorate"/>
+                    <a:support status="userRegisterForm:status" event="onblur" action="#{userHome.validateUsername}" reRender="usernameDecorate"/>
                 </h:inputText>
             </s:decorate>
 
@@ -60,7 +63,7 @@
                 <ui:define name="label">Password</ui:define>
                 <h:inputSecret tabindex="5" size="15" maxlength="15"
                                redisplay="true" value="#{userHome.password}">
-                    <a:support event="onblur" action="#{userHome.validatePassword}" reRender="passwordDecorate"/>
+                    <a:support status="userRegisterForm:status" event="onblur" action="#{userHome.validatePassword}" reRender="passwordDecorate"/>
                 </h:inputSecret>
             </s:decorate>
 
@@ -68,7 +71,7 @@
                 <ui:define name="label">Repeat password</ui:define>
                 <h:inputSecret tabindex="6" size="15" maxlength="15"
                                redisplay="true" value="#{userHome.passwordControl}">
-                    <a:support event="onblur" action="#{userHome.validatePasswordControl}" reRender="passwordControlDecorate"/>
+                    <a:support status="userRegisterForm:status" event="onblur" action="#{userHome.validatePasswordControl}" reRender="passwordControlDecorate"/>
                 </h:inputSecret>
             </s:decorate>
 

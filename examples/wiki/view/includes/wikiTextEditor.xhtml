@@ -70,6 +70,7 @@ jQuery(function() {
 
         <s:div id="#{textEditorId}PreviewTriggerContainer">
             <a:commandLink id="#{textEditorId}PreviewTrigger" onclick="setPreviewPopupPosition#{textEditorId}()"
+                           status="#{namingContainer}:status"
                            reRender="#{textEditorId}Label, #{textEditorId}Message, #{textEditorId}TabErrors, #{textEditorId}PreviewContent"
                            styleClass="buttonNonpersistent" tabindex="1"><span class="buttonLabel"><u>O</u>pen Preview</span></a:commandLink>
         </s:div>
@@ -108,6 +109,7 @@ jQuery(function() {
                              value="#{valueBinding}">
                 <!-- TODO: Ideally this should only fire when the preview popup is open... maybe use jquery.bind()/unbind() event handling-->
                 <a:support event="onkeyup" reRender="#{textEditorId}Label, #{textEditorId}Message, #{textEditorId}TabErrors, #{textEditorId}PreviewContent"
+                           status="#{namingContainer}:status"
                            requestDelay="3000" ajaxSingle="true"
                            eventsQueue="editKeyPress"/>
             </h:inputTextarea>

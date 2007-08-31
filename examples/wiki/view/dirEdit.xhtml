@@ -42,6 +42,9 @@
 
 <h:form id="directoryEditForm">
 <div class="form">
+
+<ui:include src="includes/statusIndicator.xhtml"/>
+
 <div class="formHead">
     <h:outputText value="New directory" rendered="#{!directoryHome.managed}"/>
     <h:outputText value="Edit directory" rendered="#{directoryHome.managed}"/>
@@ -74,14 +77,14 @@
         <s:decorate id="nameDecorate" template="includes/formFieldDecorate.xhtml">
             <ui:define name="label">Name</ui:define>
             <h:inputText size="25" maxlength="255" required="true" tabindex="1" value="#{directoryHome.instance.name}">
-                <a:support event="onblur" reRender="nameDecorate"/>
+                <a:support status="directoryEditForm:status" event="onblur" reRender="nameDecorate"/>
             </h:inputText>
         </s:decorate>
 
         <s:decorate id="descriptionDecorate" template="includes/formFieldDecorate.xhtml">
             <ui:define name="label">Description</ui:define>
             <h:inputText size="50" maxlength="512" required="false" tabindex="1" value="#{directoryHome.instance.description}">
-                <a:support event="onblur" reRender="descriptionDecorate"/>
+                <a:support status="directoryEditForm:status" event="onblur" reRender="descriptionDecorate"/>
             </h:inputText>
         </s:decorate>
 
@@ -119,6 +122,7 @@
 
                 <h:column>
                     <a:commandLink rendered="#{uiComponent['directoryEditForm:menuItemTable'].rowIndex != 0}"
+                                   status="directoryEditForm:status"
                                    action="#{directoryHome.moveNode(uiComponent['directoryEditForm:menuItemTable'].rowIndex, uiComponent['directoryEditForm:menuItemTable'].rowIndex-1)}"
                                    reRender="menuItemTable, defaultDocumentSelector">
                         <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/up.gif" width="18" height="18"/>
@@ -126,6 +130,7 @@
                 </h:column>
                 <h:column>
                     <a:commandLink rendered="#{uiComponent['directoryEditForm:menuItemTable'].rowIndex != uiComponent['directoryEditForm:menuItemTable'].rowCount-1}"
+                                   status="directoryEditForm:status"
                                    action="#{directoryHome.moveNode(uiComponent['directoryEditForm:menuItemTable'].rowIndex, uiComponent['directoryEditForm:menuItemTable'].rowIndex+1)}"
                                    reRender="menuItemTable, defaultDocumentSelector">
                         <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/down.gif" width="18" height="18"/>

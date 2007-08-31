@@ -359,6 +359,18 @@ ul {
     margin-top: 10px;
 }
 
+.form .statusIndicator {
+    float: right;
+}
+
+.form .statusIndicator .statusStart {
+    background: white;
+}
+
+.form .statusIndicator .statusStop {
+    background: white;
+}
+
 .formListGridColumn {
     vertical-align: top;
     padding: 10px;
