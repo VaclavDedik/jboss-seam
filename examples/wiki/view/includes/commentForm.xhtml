@@ -10,6 +10,9 @@
 <div>
     <h:form id="commentForm" styleClass="commentForm">
         <div class="form">
+
+            <ui:include src="statusIndicator.xhtml"/>
+
             <div class="formHead bottomBorder">
 
                 <h:outputLink tabindex="102" rendered="#{empty param.showCommentForm}" accesskey="T"
@@ -25,7 +28,7 @@
                     <ui:define name="label">Name</ui:define>
                     <h:inputText tabindex="102" size="40" maxlength="100" required="true"
                                  id="userName" value="#{commentHome.comment.fromUserName}">
-                        <a:support event="onblur" reRender="userNameDecorate"/>
+                        <a:support status="commentForm:status" event="onblur" reRender="userNameDecorate"/>
                     </h:inputText>
                 </s:decorate>
 
@@ -47,7 +50,7 @@
                     <ui:define name="label">Subject</ui:define>
                     <h:inputText tabindex="102" size="40" maxlength="255" required="true"
                                  id="subject" value="#{commentHome.comment.subject}">
-                        <a:support event="onblur" reRender="subjectDecorate"/>
+                        <a:support status="commentForm:status" event="onblur" reRender="subjectDecorate"/>
                     </h:inputText>
                 </s:decorate>
 
@@ -86,6 +89,7 @@
                     <div class="input">
 
                         <a:commandLink action="#{commentHome.persist}" tabindex="102" reRender="comments, commentForm" accesskey="S"
+                                       status="commentForm:status" 
                                        oncomplete="jQuery('.hiddenCommentForm').show();jQuery('#commentForm\\:userNameDecorate\\:userName').focus();"
                                        styleClass="button"><span class="buttonLabel">Po<u>s</u>t Comment</span></a:commandLink>
 
