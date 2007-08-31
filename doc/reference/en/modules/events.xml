@@ -977,6 +977,70 @@ throw new AuthorizationException("You are not allowed to do this!");
          </para>
 
         </sect2>
+        
+        <sect2>
+            <title>Some common exceptions</title>
+            
+            <para>
+                If you are using JPA:
+            </para>
+            
+            <programlisting><![CDATA[<exception class="javax.persistence.EntityNotFoundException">
+   <redirect view-id="/error.xhtml">
+      <message>Not found</message>
+   </redirect>
+</exception>
+
+<exception class="javax.persistence.OptimisticLockException">
+   <end-conversation/>
+   <redirect view-id="/error.xhtml">
+      <message>Another user changed the same data, please try again</message>
+   </redirect>
+</exception>]]></programlisting>
+
+            <para>
+                If you are using the Seam Application Framework:
+            </para>
+            
+            <programlisting><![CDATA[<exception class="org.jboss.seam.framework.EntityNotFoundException">
+   <redirect view-id="/error.xhtml">
+      <message>Not found</message>
+   </redirect>
+</exception>]]></programlisting>
+    
+            <para>
+                If you are using Seam Security:
+            </para>
+    
+            <programlisting><![CDATA[<exception class="org.jboss.seam.security.AuthorizationException">
+   <redirect>
+      <message>You don't have permission to do this</message>
+   </redirect>
+</exception>
+    
+<exception class="org.jboss.seam.security.NotLoggedInException">
+   <redirect view-id="/login.xhtml">
+      <message>Please log in first</message>
+   </redirect>
+</exception>]]></programlisting>
+
+            <para>
+               And, for JSF:
+            </para>
+    
+            <programlisting><![CDATA[<exception class="javax.faces.application.ViewExpiredException">
+   <redirect view-id="/error.xhtml">
+      <message>Your session has timed out, please try again</message>
+   </redirect>
+</exception>]]></programlisting>
+
+            <para>
+                A <literal>ViewExpiredException</literal> occurs if the user posts back
+                to a page once their session has expired.  <literal>no-conversation-view-id</literal>
+                and <literal>conversation-required</literal> give you finer grained control over
+                session expiration if you are inside a conversation.
+            </para>
+        </sect2>
 
     </sect1>
     

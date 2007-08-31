@@ -44,6 +44,12 @@
             <message>Please log in first</message>
         </redirect>
     </exception>
+    
+    <exception class="javax.faces.application.ViewExpiredException">
+        <redirect view-id="/error.xhtml">
+            <message>Your session has timed out, please try again</message>
+        </redirect>
+    </exception>
      
     <exception>
         <redirect view-id="/error.xhtml">
