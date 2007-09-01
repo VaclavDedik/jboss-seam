@@ -6,26 +6,20 @@
  */
 package org.jboss.seam.wiki.core.dao;
 
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Transactional;
-import org.jboss.seam.annotations.AutoCreate;
+import org.jboss.seam.annotations.*;
 import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.nestedset.NestedSetNode;
 import org.jboss.seam.wiki.core.nestedset.NestedSetNodeWrapper;
 import org.jboss.seam.wiki.core.nestedset.NestedSetResultTransformer;
 import org.jboss.seam.wiki.core.nestedset.NestedSetNodeDuplicator;
 import org.jboss.seam.Component;
+import org.jboss.seam.log.Log;
 import org.hibernate.Session;
-import org.hibernate.Criteria;
-import org.hibernate.ScrollableResults;
-import org.hibernate.Query;
-import org.hibernate.transform.DistinctRootEntityResultTransformer;
-import org.hibernate.criterion.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
+import javax.persistence.Query;
 import java.util.*;
 
 /**
@@ -42,16 +36,15 @@ import java.util.*;
 @Transactional
 public class NodeDAO {
 
+    @Logger
+    static Log log;
+
     // Most of the DAO methods use this
     @In protected EntityManager restrictedEntityManager;
 
     // Some run unrestricted (e.g. internal unique key validation of wiki names)
     // Make sure that these methods do not return detached objects!
     @In protected EntityManager entityManager;
-
-    public void flushRegularEntityManager() {
-        restrictedEntityManager.flush();
-    }
 
     public void makePersistent(Node node) {
         entityManager.joinTransaction();
@@ -161,17 +154,6 @@ public class NodeDAO {
         return null;
     }
 
-    public List<Document> findDocumentsInDirectoryOrderByCreatedOn(Directory directory, int firstResult, int maxResults) {
-        //noinspection unchecked
-        return (List<Document>)restrictedEntityManager
-                .createQuery("select d from Document d where d.parent = :parentDir order by d.createdOn desc")
-                .setParameter("parentDir", directory)
-                .setHint("org.hibernate.comment", "Find documents in directory order by createdOn")
-                .setFirstResult(firstResult)
-                .setMaxResults(maxResults)
-                .getResultList();
-    }
-
     public List<Document> findDocumentsOrderByLastModified(int maxResults) {
         //noinspection unchecked
         return (List<Document>)restrictedEntityManager
@@ -182,29 +164,29 @@ public class NodeDAO {
     }
 
     public Node findHistoricalNode(Long historyId) {
-        Node historicalNode = (Node)getSession().get("HistoricalDocument", historyId);
-        getSession().evict(historicalNode);
+        Node historicalNode = (Node)getSession(true).get("HistoricalDocument", historyId);
+        getSession(true).evict(historicalNode);
         return historicalNode;
     }
 
     public void persistHistoricalNode(Node historicalNode) {
         // TODO: Ugh, concatenating class names to get the entity name?!
-        getSession().persist("Historical"+historicalNode.getClass().getSimpleName(), historicalNode);
-        getSession().flush();
-        getSession().evict(historicalNode);
+        getSession(true).persist("Historical"+historicalNode.getClass().getSimpleName(), historicalNode);
+        getSession(true).flush();
+        getSession(true).evict(historicalNode);
     }
 
     @SuppressWarnings({"unchecked"})
     public List<Node> findHistoricalNodes(Node node) {
         if (node == null) return null;
-        return getSession().createQuery("select n from HistoricalNode n where n.nodeId = :nodeId order by n.revision desc")
-                            .setParameter("nodeId", node.getId())
-                            .list();
+        return getSession(true).createQuery("select n from HistoricalNode n where n.nodeId = :nodeId order by n.revision desc")
+                                .setParameter("nodeId", node.getId())
+                                .list();
     }
 
     public Long findNumberOfHistoricalNodes(Node node) {
         if (node == null) return null;
-        return (Long)getSession().createQuery("select count(n) from HistoricalNode n where n.nodeId = :nodeId")
+        return (Long)getSession(true).createQuery("select count(n) from HistoricalNode n where n.nodeId = :nodeId")
                                   .setParameter("nodeId", node.getId())
                                   .uniqueResult();
 
@@ -290,19 +272,38 @@ public class NodeDAO {
         return null;
     }
 
-    public Map<Long,Long> findCommentCount(Directory directory) {
-        //noinspection unchecked
-        List<Object[]> result = restrictedEntityManager
-                .createQuery("select n.nodeId, count(c) from Node n, Comment c where c.document = n and n.parent = :parent group by n.nodeId")
-                .setParameter("parent", directory)
-                .setHint("org.hibernate.comment", "Find comment cound for all nodes in directory")
-                .getResultList();
+    public void removeChildren(Directory dir) {
 
-        Map<Long,Long> resultMap = new HashMap<Long,Long>(result.size());
-        for (Object[] objects : result) {
-            resultMap.put((Long)objects[0], (Long)objects[1]);
+        // Find all nested documents so we can delete them one by one, updating the second-level cache
+        StringBuilder queryString = new StringBuilder();
+
+        queryString.append("select").append(" ");
+        queryString.append("n1 as nestedSetNode").append(" ");
+        queryString.append("from ").append(dir.getTreeSuperclassEntityName()).append(" n1, ");
+        queryString.append(dir.getTreeSuperclassEntityName()).append(" n2 ");
+        queryString.append("where n1.nsThread = :thread and n2.nsThread = :thread").append(" ");
+        queryString.append("and n1.nsLeft between n2.nsLeft and n2.nsRight").append(" ");
+        queryString.append("and n2.nsLeft > :startLeft and n2.nsRight < :startRight").append(" ");
+        queryString.append("and n2.class = :clazz").append(" ");
+        queryString.append("group by").append(" ");
+        for (int i = 0; i < dir.getTreeSuperclassPropertiesForGrouping().length; i++) {
+            queryString.append("n1.").append(dir.getTreeSuperclassPropertiesForGrouping()[i]);
+            if (i != dir.getTreeSuperclassPropertiesForGrouping().length-1) queryString.append(", ");
         }
-        return resultMap;
+        queryString.append(" ");
+
+        Query nestedSetQuery = entityManager.createQuery(queryString.toString());
+        nestedSetQuery.setParameter("thread", dir.getNsThread());
+        nestedSetQuery.setParameter("startLeft", dir.getNsLeft());
+        nestedSetQuery.setParameter("startRight", dir.getNsRight());
+        nestedSetQuery.setParameter("clazz", "DOCUMENT");
+
+        List<Document> docs = nestedSetQuery.getResultList();
+        for (Document doc : docs) {
+            log.debug("recursive directory delete, deleting: " + doc);
+            entityManager.remove(doc);
+        }
+        entityManager.flush();
     }
 
     public NestedSetNodeWrapper<Node> findMenuItems(Node startNode, Long maxDepth, Long flattenToLevel, boolean showAdminOnly) {
@@ -353,37 +354,6 @@ public class NodeDAO {
         return startNodeWrapper;
     }
 
-    // TODO: Not used
-    public NestedSetNodeWrapper<Node> findWithCommentCountOrderedByCreatedOn(Node startNode, Long maxDepth, Long flattenToLevel) {
-        // Needs to be equals() safe (SortedSet):
-        // - compare by creation date (note: don't compare data/timestamp), if equal
-        // - compare by name, if equal
-        // - compare by id
-        Comparator<NestedSetNodeWrapper<Node>> comp =
-            new Comparator<NestedSetNodeWrapper<Node>>() {
-                public int compare(NestedSetNodeWrapper<Node> o1, NestedSetNodeWrapper<Node> o2) {
-                    Node node1 = o1.getWrappedNode();
-                    Node node2 = o2.getWrappedNode();
-                    if (node1.getCreatedOn().getTime() != node2.getCreatedOn().getTime()) {
-                        return node1.getCreatedOn().getTime() > node2.getCreatedOn().getTime() ? -1 : 1;
-                    } else if (node1.getName().compareTo(node2.getName()) != 0) {
-                        return node1.getName().compareTo(node2.getName());
-                    }
-                    return node1.getId().compareTo(node2.getId());
-                }
-            };
-
-        Map<String, String> additionalProjections = new LinkedHashMap<String, String>();
-        additionalProjections.put("commentCount", "(select count(c) from Comment c where c.document.id = n1.id)");
-
-        NestedSetNodeWrapper<Node> startNodeWrapper = new NestedSetNodeWrapper<Node>(startNode, comp);
-        NestedSetResultTransformer<Node> transformer =
-                new NestedSetResultTransformer<Node>(startNodeWrapper, flattenToLevel, additionalProjections);
-
-        appendNestedSetNodes(transformer, maxDepth, false);
-        return startNodeWrapper;
-    }
-
     public <N extends NestedSetNode> void appendNestedSetNodes(NestedSetResultTransformer<N> transformer,
                                                                Long maxDepth,
                                                                boolean showAdminOnly,
@@ -422,7 +392,7 @@ public class NodeDAO {
 
         queryString.append("order by n1.nsLeft");
 
-        Query nestedSetQuery = getSession().createQuery(queryString.toString());
+        org.hibernate.Query nestedSetQuery = getSession(true).createQuery(queryString.toString());
         nestedSetQuery.setParameter("thread", startNode.getNsThread());
         nestedSetQuery.setParameter("startLeft", startNode.getNsLeft());
         nestedSetQuery.setParameter("startRight", startNode.getNsRight());
@@ -435,56 +405,14 @@ public class NodeDAO {
         nestedSetQuery.list(); // Append all children hierarchically to the startNodeWrapper
     }
 
-    public <N extends Node> List<N> findWithParent(Class<N> nodeType, Directory directory, Node ignoreNode,
-                                                   String orderByProperty, boolean orderDescending, long firstResult, long maxResults) {
 
-        Criteria crit = prepareCriteria(nodeType, orderByProperty, orderDescending);
-        crit.add(Restrictions.eq("parent", directory));
-        if (ignoreNode != null)
-            crit.add(Restrictions.ne("id", ignoreNode.getId()));
-        if ( !(firstResult == 0 && maxResults == 0) )
-            crit.setFirstResult(Long.valueOf(firstResult).intValue()).setMaxResults(Long.valueOf(maxResults).intValue());
-        //noinspection unchecked
-        return crit.list();
-    }
-
-    public int getRowCountWithParent(Class nodeType, Directory directory, Node ignoreNode) {
-        Criteria crit = prepareCriteria(nodeType, null, false);
-        crit.add(Restrictions.eq("parent", directory));
-        if (ignoreNode != null)
-            crit.add(Restrictions.ne("id", ignoreNode.getId()));
-        return getRowCount(crit);
-    }
-
-    public <N extends Node> int getRowCountByExample(N exampleNode, String... ignoreProperty) {
-        Criteria crit = prepareCriteria(exampleNode.getClass(), null, false);
-        appendExample(crit, exampleNode, ignoreProperty);
-        return getRowCount(crit);
-    }
-
-    private int getRowCount(Criteria criteria) {
-        ScrollableResults cursor = criteria.scroll();
-        cursor.last();
-        int count = cursor.getRowNumber() + 1;
-        cursor.close();
-        return count;
-    }
-
-    private Criteria prepareCriteria(Class rootClass, String orderByProperty, boolean orderDescending) {
-        Criteria crit = getSession().createCriteria(rootClass);
-        if (orderByProperty != null)
-                crit.addOrder( orderDescending ? Order.desc(orderByProperty) : Order.asc(orderByProperty) );
-        return crit.setResultTransformer(new DistinctRootEntityResultTransformer());
-    }
-
-    private <N extends Node> void appendExample(Criteria criteria, N exampleNode, String... ignoreProperty) {
-        Example example =  Example.create(exampleNode).enableLike(MatchMode.ANYWHERE).ignoreCase();
-        for (String s : ignoreProperty) example.excludeProperty(s);
-        criteria.add(example);
-    }
-
-    private Session getSession() {
-        restrictedEntityManager.joinTransaction();
-        return ((Session)((org.jboss.seam.persistence.EntityManagerProxy) restrictedEntityManager).getDelegate());
+    private Session getSession(boolean restricted) {
+        if (restricted) {
+            restrictedEntityManager.joinTransaction();
+            return ((Session)((org.jboss.seam.persistence.EntityManagerProxy) restrictedEntityManager).getDelegate());
+        } else {
+            entityManager.joinTransaction();
+            return ((Session)((org.jboss.seam.persistence.EntityManagerProxy) entityManager).getDelegate());
+        }
     }
 }

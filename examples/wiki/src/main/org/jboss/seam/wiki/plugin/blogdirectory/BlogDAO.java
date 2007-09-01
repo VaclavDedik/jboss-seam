@@ -47,6 +47,7 @@ public class BlogDAO {
             queryString.append("and not n1 = :ignoreNode").append(" ");
 
         queryString.append("and not n1.pluginsUsed like '%blogDirectory%'").append(" ");
+        queryString.append("and not n1.pluginsUsed like '%feedTeasers%'").append(" ");
 
         if (year != null) queryString.append("and year(n1.createdOn) = :limitYear").append(" ");
         if (month != null) queryString.append("and month(n1.createdOn) = :limitMonth").append(" ");

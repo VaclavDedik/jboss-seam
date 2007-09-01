@@ -90,6 +90,13 @@ public class DirectoryHome extends NodeHome<Directory> {
         return true;
     }
 
+    protected boolean beforeRemove() {
+        // Remove all children (nested, recursively, udpates the second-level cache)
+        getNodeDAO().removeChildren(getInstance());
+
+        return true;
+    }
+
     /* -------------------------- Internal Methods ------------------------------ */
 
     private void refreshChildNodes() {
