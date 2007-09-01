@@ -27,7 +27,7 @@ insert into LINK_PROTOCOL (LINK_PROTOCOL_ID, OBJ_VERSION, PREFIX, LINK) values (
 
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, STRING_VALUE)   values (1, 0, 'wikiPreferences', 'baseUrl', 'http://localhost:8080/wiki')
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, STRING_VALUE)   values (2, 0, 'wikiPreferences', 'timeZone', 'CET')
-insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, STRING_VALUE)   values (3, 0, 'wikiPreferences', 'themeName', 'inrelationto')
+insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, STRING_VALUE)   values (3, 0, 'wikiPreferences', 'themeName', 'default')
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (4, 0, 'wikiPreferences', 'memberAreaId', '2')
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (5, 0, 'wikiPreferences', 'defaultDocumentId', '10')
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, BOOLEAN_VALUE)  values (6, 0, 'wikiPreferences', 'renderPermlinks', false)
