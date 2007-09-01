@@ -10,6 +10,7 @@ import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
 import javax.activation.URLDataSource;
+import javax.el.ValueExpression;
 import javax.faces.FacesException;
 import javax.faces.component.ValueHolder;
 import javax.faces.context.FacesContext;
@@ -19,18 +20,41 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.util.ByteArrayDataSource;
 
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.ui.util.JSF;
 import org.jboss.seam.util.FacesResources;
+import org.jboss.seam.util.RandomStringUtils;
 import org.jboss.seam.util.Reflections;
 
 public class UIAttachment extends MailComponent implements ValueHolder
 {
 
+   public class AttachmentStatus 
+   {
+      
+      private String contentId;
+      
+      public String getContentId()
+      {
+         return contentId;
+      }
+      
+      public void setContentId(String contentId)
+      {
+         this.contentId = contentId;
+      }
+      
+   }
+   
    private Object value;
 
    private String contentType;
 
    private String fileName;
+   
+   private String status;
+   
+   private String disposition = "attachment";
 
    public Object getValue()
    {
@@ -47,6 +71,16 @@ public class UIAttachment extends MailComponent implements ValueHolder
    public void setValue(Object value)
    {
       this.value = value;
+   }
+   
+   public String getStatus()
+   {
+      return status;
+   }
+   
+   public void setStatus(String status)
+   {
+      this.status = status;
    }
    
    @Override
@@ -112,10 +146,20 @@ public class UIAttachment extends MailComponent implements ValueHolder
          }
          if (ds != null)
          {
-            BodyPart attachment = new MimeBodyPart();
+            MimeBodyPart attachment = new MimeBodyPart();
+            // Need to manually set the contentid
+            String contentId = RandomStringUtils.randomAlphabetic(20).toLowerCase();
+            attachment.setContentID("<" + contentId + ">");
             attachment.setDataHandler(new DataHandler(ds));
             attachment.setFileName(getName(ds.getName()));
+            attachment.setDisposition(getDisposition());
             super.getRootMultipart().addBodyPart(attachment);
+            if (getStatus() != null)
+            {
+               AttachmentStatus attachmentStatus = new AttachmentStatus();
+               attachmentStatus.setContentId(contentId);
+               Contexts.getEventContext().set(getStatus(), attachmentStatus);
+            }
          }
       }
       catch (MessagingException e)
@@ -196,5 +240,17 @@ public class UIAttachment extends MailComponent implements ValueHolder
    {
       throw new UnsupportedOperationException("Cannot attach a converter to an attachment");
    }
-
+   
+   public String getDisposition()
+   {
+      return disposition;
+   }
+   
+   public void setDisposition(String disposition)
+   {
+      if ("attachment".equals(disposition) || "inline".equals(disposition))
+      {
+         this.disposition = disposition;
+      }
+   }
 }

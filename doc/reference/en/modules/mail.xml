@@ -99,6 +99,17 @@ public void send() {
     <m:attachment value="#{person.photo}" contentType="image/jpeg" fileName="#{person.firstname}_#{person.lastname}.jpg"/>
 </ui:repeat>]]></programlisting>
    		
+        <para>And if you want to display an attached image inline:</para>
+
+        <programlisting><![CDATA[<m:attachment value="#{person.photo}" contentType="image/jpeg" fileName="#{person.firstname}_#{person.lastname}.jpg" status="personPhoto" disposition="inline" />
+<img src="cid:#{personPhoto.contentId}" />]]></programlisting>
+
+         <para>You may be wondering what <literal>cid:#{...}</literal> does. Well, the IETF specified that by
+         putting this as the src for your image, the attachments will be looked at (by <literal>Content-ID</literal>)
+          - magic!</para>
+          
+          <para>You must declare the attachment before trying to access the status object.</para>
+      
    		</section>
     
 	    <section>
