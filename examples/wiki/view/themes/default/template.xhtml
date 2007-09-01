@@ -163,19 +163,11 @@
         // ###################### Design #################################
 
         function clearDocumentBackground() {
-            /*
+            jQuery("#documentDisplayContainer").parents(".shadowContainer").removeClass("shadowContainer");
+            jQuery("#documentDisplayContainer").parents(".shadow1").removeClass("shadow1");
+            jQuery("#documentDisplayContainer").parents(".shadow2").removeClass("shadow2");
             jQuery("#documentDisplayContainer").css("background", "none");
-            jQuery("#documentDisplayContainer").css("padding", "0 0 0 0");
-            jQuery("#documentDisplayContainer").css("padding", "0");
-            jQuery("#documentDisplayContainer > div").css("background", "none");
-            jQuery("#documentDisplayContainer > div").css("padding", "0 0 0 0");
-            jQuery("#documentDisplayContainer > div > div").css("background", "none");
-            jQuery("#documentDisplayContainer > div > div").css("padding", "0 0 0 0");
-            jQuery("#documentDisplayContainer > div > div").css("border", "none");
-            jsf("documentDisplay_").css("background", "none");
-            jsf("documentDisplay_").css("padding", "0 0 0 0");
-            jsf("documentDisplay_").css("border", "none");
-            */
+            jQuery("#documentDisplayContainer > #documentDisplay").css("padding", "0 0 0 0").css("border", "none");
         }
 
         // Wrap boxes with border and shadow
@@ -183,6 +175,7 @@
             jQuery(".box").wrap('&lt;div class="shadowContainer">&lt;div class="shadow1">&lt;div class="shadow2">&lt;/div>&lt;/div>&lt;/div>');
             jQuery(".box").removeClass("box").addClass("boxShadowed");
         }
+
         jQuery(function() {
             wrapBoxes();
         });
