@@ -292,18 +292,18 @@ public class NodeDAO {
         }
         queryString.append(" ");
 
-        Query nestedSetQuery = entityManager.createQuery(queryString.toString());
+        org.hibernate.Query nestedSetQuery = getSession(true).createQuery(queryString.toString());
         nestedSetQuery.setParameter("thread", dir.getNsThread());
         nestedSetQuery.setParameter("startLeft", dir.getNsLeft());
         nestedSetQuery.setParameter("startRight", dir.getNsRight());
         nestedSetQuery.setParameter("clazz", "DOCUMENT");
 
-        List<Document> docs = nestedSetQuery.getResultList();
+        getSession(true).disableFilter("accessLevelFilter"); // All of them
+        List<Document> docs = nestedSetQuery.list();
         for (Document doc : docs) {
             log.debug("recursive directory delete, deleting: " + doc);
-            entityManager.remove(doc);
+            getSession(true).delete(doc);
         }
-        entityManager.flush();
     }
 
     public NestedSetNodeWrapper<Node> findMenuItems(Node startNode, Long maxDepth, Long flattenToLevel, boolean showAdminOnly) {
