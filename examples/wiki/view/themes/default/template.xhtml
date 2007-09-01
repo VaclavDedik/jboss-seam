@@ -162,19 +162,6 @@
 
         // ###################### Design #################################
 
-        // TODO: This could be done a lot nicer
-        function clearContentBackground() {
-            /*
-            jQuery("#contentContainer").css("background", "none");
-            jQuery("#contentContainer").css("padding", "0 0 0 0");
-            jQuery("#contentContainer > div").css("background", "none");
-            jQuery("#contentContainer > div").css("padding", "0 0 0 0");
-            jQuery("#contentContainer > div > div").css("background", "none");
-            jQuery("#contentContainer > div > div").css("padding", "0 0 0 0");
-            jQuery("#contentContainer > div > div").css("border", "none");
-            */
-        }
-
         function clearDocumentBackground() {
             /*
             jQuery("#documentDisplayContainer").css("background", "none");
@@ -191,6 +178,14 @@
             */
         }
 
+        // Wrap boxes with border and shadow
+        function wrapBoxes() {
+            jQuery(".box").wrap('&lt;div class="shadowContainer">&lt;div class="shadow1">&lt;div class="shadow2">&lt;/div>&lt;/div>&lt;/div>');
+            jQuery(".box").removeClass("box").addClass("boxShadowed");
+        }
+        jQuery(function() {
+            wrapBoxes();
+        });
     </script>
 
 </head>
@@ -263,7 +258,7 @@
         </h:form>
 
         <s:div id="messageBoxContainer"><j4j:idProxy id="messageBoxContainer_"/>
-        <s:div styleClass="shadowContainer" rendered="#{!empty facesMessages.currentGlobalMessages}"><div class="shadow1"><div class="shadow2">
+        <s:div styleClass="box" rendered="#{!empty facesMessages.currentGlobalMessages}">
             <div id="messageBox" class="messageBox">
                 <ui:repeat var="message" value="#{facesMessages.currentGlobalMessages}">
                     <h:panelGrid styleClass="messageBoxTable" columns="2" cellpadding="0" cellspacing="0" border="0">
@@ -286,25 +281,23 @@
                     jsf("messageBoxContainer_").css("margin-bottom", "10px");
                 });</script>
             </div>
-        </div></div></s:div>
+        </s:div>
         </s:div>
 
         <s:div id="clientMessageBoxContainer" style="display:none;"><j4j:idProxy id="clientMessageBoxContainer_"/>
-        <s:div styleClass="shadowContainer"><div class="shadow1"><div class="shadow2">
+        <s:div styleClass="box">
             <div id="clientMessageBox" class="messageBox">
                 <table id="clientMessageBoxTable" class="messageBoxTable" cellpadding="0" cellspacing="0" border="0"/>
                 <script type="text/javascript">jQuery(function() {
                     jsf("clientMessageBoxContainer_").css("margin-bottom", "10px");
                 });</script>
             </div>
-        </div></div></s:div>
+        </s:div>
         </s:div>
 
-        <s:div id="contentContainer" styleClass="shadowContainer"><div class="shadow1"><div class="shadow2">
-            <s:div id="content" styleClass="content">
-                <ui:insert name="content"/>
-            </s:div>
-        </div></div></s:div>
+        <s:div id="content" styleClass="content">
+            <ui:insert name="content"/>
+        </s:div>
 
     </s:div>
 

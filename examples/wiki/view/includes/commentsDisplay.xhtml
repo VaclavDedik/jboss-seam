@@ -6,8 +6,8 @@
      xmlns:a="https://ajax4jsf.dev.java.net/ajax"
      xmlns:s="http://jboss.com/products/seam/taglib">
 
-<s:div styleClass="shadowContainer" style="margin-top:25px"
-     rendered="#{not empty commentHome.comments and documentHome.instance.enableComments}"><div class="shadow1"><div class="shadow2">
+<s:div styleClass="box" style="margin-top:25px"
+     rendered="#{not empty commentHome.comments and documentHome.instance.enableComments}">
 
     <h:dataTable value="#{commentHome.comments}" var="c"
                  styleClass="datatable rightBorder leftBorder topBorder bottomBorder"
@@ -61,5 +61,5 @@
         </h:column>
     </h:dataTable>
 
-</div></div></s:div>
+</s:div>
 </s:span>

@@ -22,16 +22,18 @@
 
 <ui:define name="content">
 
-    <h:form>
+    <h:form id="userSearchForm">
 
-    <div class="form" id="userSearchControl">
+        <div class="form" id="userSearchControl">
+
+            <ui:include src="includes/statusIndicator.xhtml"/>
 
             <h:panelGrid columns="6"
-                         styleClass="datatable"
-                         headerClass="regularHeader"
+                         styleClass="datatable topLeftBottomBorder"
+                         headerClass="regularHeader rightBorder"
                          columnClasses="tenPercentColumn formFields, tenPercentColumn formFields, tenPercentColumn formFields,
                                         tenPercentColumn formFields, twentyPercentColumn alignRight formFields,
-                                        defaultColumn alignRight formFields"
+                                        defaultColumn alignRight formFields rightBorder"
                          cellpadding="0" cellspacing="0" border="0">
 
                 <f:facet name="header">
@@ -75,38 +77,40 @@
 
         </div>
 
-        <h:panelGrid columns="5" styleClass="pager"
-                     columnClasses="pagerIconColumn,pagerIconColumn,pagerTextColumn,pagerIconColumn,pagerIconColumn"
-                     cellpadding="0" cellspacing="0" border="0"
-                     rendered="#{userSearch.rowCount > 0}">
+        <s:div id="userListPager">
+            <h:panelGrid columns="5" styleClass="pager"
+                         columnClasses="pagerIconColumn,pagerIconColumn,pagerTextColumn,pagerIconColumn,pagerIconColumn"
+                         cellpadding="0" cellspacing="0" border="0"
+                         rendered="#{userSearch.rowCount > 0}">
 
-            <h:commandLink action="#{userSearch.firstPage()}" rendered="#{userSearch.previousPageAvailable}" tabindex="7">
-                <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.first.gif" width="13" height="11"/>
-            </h:commandLink>
-            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
-                            rendered="#{!userSearch.previousPageAvailable}"/>
+                <h:commandLink action="#{userSearch.firstPage()}" rendered="#{userSearch.previousPageAvailable}" tabindex="7">
+                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.first.gif" width="13" height="11"/>
+                </h:commandLink>
+                <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
+                                rendered="#{!userSearch.previousPageAvailable}"/>
 
-            <h:commandLink action="#{userSearch.previousPage()}" rendered="#{userSearch.previousPageAvailable}" tabindex="7">
-                <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.previous.gif" width="13" height="11"/>
-            </h:commandLink>
-            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
-                            rendered="#{!userSearch.previousPageAvailable}"/>
+                <h:commandLink action="#{userSearch.previousPage()}" rendered="#{userSearch.previousPageAvailable}" tabindex="7">
+                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.previous.gif" width="13" height="11"/>
+                </h:commandLink>
+                <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
+                                rendered="#{!userSearch.previousPageAvailable}"/>
 
-            <h:outputText value="Found: #{userSearch.rowCount} member(s)"/>
+                <h:outputText value="Found: #{userSearch.rowCount} member(s)"/>
 
-            <h:commandLink action="#{userSearch.nextPage()}" rendered="#{userSearch.nextPageAvailable}" tabindex="7">
-                <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.next.gif" width="13" height="11"/>
-            </h:commandLink>
-            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
-                            rendered="#{!userSearch.nextPageAvailable}"/>
+                <h:commandLink action="#{userSearch.nextPage()}" rendered="#{userSearch.nextPageAvailable}" tabindex="7">
+                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.next.gif" width="13" height="11"/>
+                </h:commandLink>
+                <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
+                                rendered="#{!userSearch.nextPageAvailable}"/>
 
-            <h:commandLink action="#{userSearch.lastPage()}" rendered="#{userSearch.nextPageAvailable}" tabindex="7">
-                <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.last.gif" width="13" height="11"/>
-            </h:commandLink>
-            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
-                            rendered="#{!userSearch.nextPageAvailable}"/>
+                <h:commandLink action="#{userSearch.lastPage()}" rendered="#{userSearch.nextPageAvailable}" tabindex="7">
+                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.last.gif" width="13" height="11"/>
+                </h:commandLink>
+                <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
+                                rendered="#{!userSearch.nextPageAvailable}"/>
 
-        </h:panelGrid>
+            </h:panelGrid>
+        </s:div>
 
         <h:dataTable id="userTable" var="u"
                      value="#{usersList}"

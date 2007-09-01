@@ -1,3 +1,7 @@
+#lastModifiedDocumentsPlugin\:lastModifiedDocuments {
+    width: 100%;
+}
+
 .lastModifiedLink:link {color: #962325}
 .lastModifiedLink:visited {color: #962325}
 .lastModifiedLink:hover {color: #000}

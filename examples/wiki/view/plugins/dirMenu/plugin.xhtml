@@ -7,14 +7,8 @@
         xmlns:wiki="http://jboss.com/products/seam/wiki"
         xmlns:s="http://jboss.com/products/seam/taglib">
 
-
-    <script type="text/javascript">jQuery(function() {
-        clearDocumentBackground();
-    });</script>
-
-
-    <s:div styleClass="shadowContainer"><div class="shadow1"><div class="shadow2"><s:div id="dirMenuPluginDiv"
-           styleClass="#{showPluginPreferences and !empty dirMenuPreferencesEditor ? 'pluginPreferencesBox' : ''}">
+    <s:div id="dirMenuPluginDiv"
+           styleClass="#{showPluginPreferences and !empty dirMenuPreferencesEditor ? 'pluginPreferencesBox box' : 'box'}">
 
         <s:div id="dirMenuPreferences"
               rendered="#{showPluginPreferences and !empty dirMenuPreferencesEditor}">
@@ -30,35 +24,37 @@
 
         <s:div styleClass="dirMenu">
 
-            <s:div styleClass="dirMenuHeader dirMenuTitle" rendered="#{not dirMenuPreferences.showSubscribeIcon}">
-                <h:outputText styleClass="dirMenuTitleText" value="Menu"/>
+            <s:div styleClass="boxHeader" rendered="#{not dirMenuPreferences.showSubscribeIcon}">
+                <h:outputText value="Menu"/>
             </s:div>
 
             <h:panelGrid rendered="#{dirMenuPreferences.showSubscribeIcon}"
                          columns="2" cellpadding="0" cellspacing="0" border="0"
-                         styleClass="dirMenuHeader fullWidth"
-                         columnClasses="dirMenuSubscribe, dirMenuTitle">
+                         styleClass="boxHeader fullWidth">
 
-                <h:outputLink rendered="#{not empty currentDirectory.feed}"
-                              value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{currentDirectory.feed.id}">
-                    <h:panelGrid columns="2" cellpadding="0" cellspacing="0" border="0">
+                <h:panelGrid rendered="#{not empty currentDirectory.feed}" columns="2" cellpadding="0" cellspacing="0" border="0">
+                    <h:outputLink value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{currentDirectory.feed.id}">
                         <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.atom.ongrey.gif" width="18" height="18" alt="Atom"/>
-                        <h:outputText styleClass="dirMenuSubscribeLink" value="Subscribe"/>
-                    </h:panelGrid>
-                </h:outputLink>
+                    </h:outputLink>
+                    <h:outputLink value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{currentDirectory.feed.id}">
+                        <h:outputText value="Subscribe"/>
+                    </h:outputLink>
+                </h:panelGrid>
 
-                <h:outputText styleClass="dirMenuTitleText" value="Menu"/>
+                <h:outputText value="Menu"/>
 
             </h:panelGrid>
 
-            <ui:include src="dirMenuItem.xhtml">
-                <ui:param name="node" value="#{dirMenu.root}"/>
-            </ui:include>
+            <div class="boxContent">
+                <ui:include src="dirMenuItem.xhtml">
+                    <ui:param name="node" value="#{dirMenu.root}"/>
+                </ui:include>
+            </div>
 
-            <s:div styleClass="dirMenuFooter"/>
+            <s:div styleClass="boxFooter"/>
 
         </s:div>
 
-    </s:div></div></div></s:div>
+    </s:div>
 
 </wiki:plugin>

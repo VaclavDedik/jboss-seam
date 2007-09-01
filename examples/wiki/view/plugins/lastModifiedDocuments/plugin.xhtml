@@ -7,48 +7,47 @@
        xmlns:wiki="http://jboss.com/products/seam/wiki"
        xmlns:s="http://jboss.com/products/seam/taglib">
 
-<s:div id="lastModifiedDocumentsContainer" styleClass="shadowContainer"><div class="shadow1"><div class="shadow2">
-<s:div id="lastModifiedDocuments"
-       styleClass="#{showPluginPreferences and !empty lastModifiedDocumentsPreferencesEditor ? 'pluginPreferencesBox' : ''}">
+    <s:div id="lastModifiedDocuments"
+           styleClass="#{showPluginPreferences and !empty lastModifiedDocumentsPreferencesEditor ? 'pluginPreferencesBox box' : 'box'}">
 
-    <s:div id="lastModifiedDocumentsPreferences"
-           rendered="#{showPluginPreferences and !empty lastModifiedDocumentsPreferencesEditor}">
-        <div align="center">
-            <h:message for="lastModifiedDocumentsPreferences" styleClass="pluginPreferencesMessage"/>
+        <s:div id="lastModifiedDocumentsPreferences"
+               rendered="#{showPluginPreferences and !empty lastModifiedDocumentsPreferencesEditor}">
+            <div align="center">
+                <h:message for="lastModifiedDocumentsPreferences" styleClass="pluginPreferencesMessage"/>
 
-            <ui:include src="../../includes/pluginPreferencesForm.xhtml">
-                <ui:param name="pluginDiv" value="lastModifiedDocuments"/>
-                <ui:param name="pluginPreferencesEditor" value="#{lastModifiedDocumentsPreferencesEditor}"/>
-            </ui:include>
-        </div>
+                <ui:include src="../../includes/pluginPreferencesForm.xhtml">
+                    <ui:param name="pluginDiv" value="lastModifiedDocuments"/>
+                    <ui:param name="pluginPreferencesEditor" value="#{lastModifiedDocumentsPreferencesEditor}"/>
+                </ui:include>
+            </div>
+        </s:div>
+
+        <h:dataTable value="#{lastModifiedDocumentsPlugin.lastModifiedDocuments}" var="doc"
+                     styleClass="datatable rightBorder leftBorder topBorder bottomBorder"
+                     headerClass="regularHeader alignLeft"
+                     columnClasses="onePercentColumn alignLeft, tenPercentColumn alignLeft"
+                     rowClasses="rowOdd,rowEven"
+                     cellpadding="0" cellspacing="0" border="0">
+            <h:column>
+                <f:facet name="header">
+                    Last #{lastModifiedDocumentsPreferences.properties['numberOfItems']} modified documents:
+                </f:facet>
+                <h:outputText value="#{doc.lastModifiedOn}"
+                              rendered="#{!empty doc.lastModifiedOn}">
+                    <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
+                </h:outputText>
+                <h:outputText value="&#160;#{wikiPreferences.timeZone}"/>
+                <h:outputText value=" (#{doc.lastModifiedBy.username})"
+                              rendered="#{!empty doc.lastModifiedBy and lastModifiedDocumentsPreferences.properties['showUsernames']}">
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <h:outputLink value="#{wiki:renderURL(doc)}" styleClass="lastModifiedLink">
+                    <h:outputText value="#{wiki:truncateString(doc.name, lastModifiedDocumentsPreferences.properties['documentTitleLength'],'...')}"/>
+                </h:outputLink>
+            </h:column>
+        </h:dataTable>
+
     </s:div>
 
-    <h:dataTable value="#{lastModifiedDocumentsPlugin.lastModifiedDocuments}" var="doc"
-                 styleClass="datatable rightBorder leftBorder topBorder bottomBorder"
-                 headerClass="regularHeader alignLeft"
-                 columnClasses="onePercentColumn alignLeft, tenPercentColumn alignLeft"
-                 rowClasses="rowOdd,rowEven"
-                 cellpadding="0" cellspacing="0" border="0">
-        <h:column>
-            <f:facet name="header">
-                Last #{lastModifiedDocumentsPreferences.properties['numberOfItems']} modified documents:
-            </f:facet>
-            <h:outputText value="#{doc.lastModifiedOn}"
-                          rendered="#{!empty doc.lastModifiedOn}">
-                <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
-            </h:outputText>
-            <h:outputText value="&#160;#{wikiPreferences.timeZone}"/>
-            <h:outputText value=" (#{doc.lastModifiedBy.username})"
-                          rendered="#{!empty doc.lastModifiedBy and lastModifiedDocumentsPreferences.properties['showUsernames']}">
-            </h:outputText>
-        </h:column>
-        <h:column>
-            <h:outputLink value="#{wiki:renderURL(doc)}" styleClass="lastModifiedLink">
-                <h:outputText value="#{wiki:truncateString(doc.name, lastModifiedDocumentsPreferences.properties['documentTitleLength'],'...')}"/>
-            </h:outputLink>
-        </h:column>
-    </h:dataTable>
-
-</s:div>
-</div></div></s:div>
 </wiki:plugin>

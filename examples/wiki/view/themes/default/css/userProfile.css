@@ -1,78 +1,43 @@
-.userProfile {
-    background-color: white;
-}
-
-.userProfileHeader {
-    text-align: right;
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-top: 5px;
-    padding-bottom: 15px;
-    border-top: 1px solid #87786e;
-    border-left: 1px solid #87786e;
-    border-right: 1px solid #87786e;
-    background: white url(#{themePath}/img/th.bg.inverse.gif) 0 0 repeat-x;
-}
-
-.userProfileHeaderText {
-    font-size: 120%;
- }
-
 .userProfilePortrait {
-    border: 1px solid #87786e;
-    float: right;
     margin-left: 10px;
     margin-right: 10px;
-    margin-top: 15px;
+    margin-top: 3px;
+    margin-bottom: 5px;
+    float: left;
+}
+
+.userProfilePortraitImage {
+    border: 1px solid #87786e;
 }
 
 .userProfileBio{
-    font-size: 90%;
+    font-size: 75%;
     margin-right: 10px;
     margin-left: 10px;
     color: #000;
     text-align: justify;
+    line-height: 130%;
+}
+
+.userProfileEntry {
+    clear: both;
+    margin-bottom: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 75%;
+    color: #000;
+    line-height: 140%;
 }
 
 .userProfileEntryLabel {
-    font-size: 90%;
     font-weight: bold;
-    margin-left: 10px;
-    margin-right: 5px;
-    color: #000;
 }
 
 .userProfileEntryText {
-    font-size: 90%;
-    color: #000;
 }
 
 .userProfileEntryLink {
-    font-size: 90%;
     color: #962325;
 }
 
 .userProfileEntryLink:hover {color: #666}
-
-.userProfileNotFound {
-    font-size: 90%;
-    margin-right: 10px;
-    margin-left: 10px;
-    color: #000;
-}
-
-.userProfileFooter {
-    margin-top: 10px;
-    background: white url(#{themePath}/img/th.bg.gif) 0 0 repeat-x;
-    border-bottom: 1px solid #87786e;
-    border-left: 1px solid #87786e;
-    border-right: 1px solid #87786e;
-    padding-top: 5px;
-    padding-bottom: 10px;
-    padding-left: 15px;
-    padding-right: 15px;
-    font-weight: normal;
-    font-size: 100%;
-    color: #962325;
-	text-decoration: none;
-}

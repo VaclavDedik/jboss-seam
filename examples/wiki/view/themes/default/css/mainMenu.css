@@ -15,7 +15,6 @@
     font-weight: bold;
     color: #fff;
     font-size: 95%;
-    font-family: Verdana, Arial, Helvetica, sans-serif;
     text-decoration: none;
     margin-left: 10px;
 }
@@ -41,7 +40,6 @@
     font-size: 80%;
     font-weight: bold;
     color: #fff;
-    font-family: Verdana, Arial, Helvetica, sans-serif;
     text-decoration: none;
     white-space: nowrap;
 }
@@ -55,13 +53,11 @@
     padding-right: 2px;
     font-size: 80%;
     color: #fff;
-    font-family: Verdana, Arial, Helvetica, sans-serif;
 }
 
 #mainMenu .level3Link {
     font-size: 80%;
     color: #fff;
-    font-family: Verdana, Arial, Helvetica, sans-serif;
     text-decoration: none;
     white-space: nowrap;
 }

@@ -1,31 +1,19 @@
-.blogEntry {
-    background-color: white;
-}
-
-.blogEntrySeparator {
-    height: 25px;
-}
-
 .blogEntryHeader {
     border-top: 1px solid #87786e;
     border-left: 1px solid #87786e;
     border-right: 1px solid #87786e;
     background: #fff url(#{themePath}/img/th.bg.inverse.gif) 0 0 repeat-x;
-}
-
-.blogEntryTitle {
     font-size: 120%;
-    font-family: "Lucida Sans", Arial, sans-serif;
     padding-left: 15px;
     padding-right: 15px;
     padding-top: 5px;
     padding-bottom: 5px;
 }
 
-.blogEntryCreatenOnAndBy {
+.blogEntryHeader div {
     text-align: right;
     white-space: nowrap;
-    font-size: 75%;
+    font-size: 70%;
     font-weight: normal;
     padding-left: 15px;
     padding-right: 15px;
@@ -39,7 +27,7 @@
     color: #962325;
 }
 
-.blogEntryBody {
+.blogEntryContent {
     padding-left: 15px;
     padding-right: 15px;
     line-height: 150%;
@@ -84,6 +72,10 @@
 .blogEntryPermLinkText:hover,
 .blogEntryWikiLinkText:hover {
     color: #962325;
+}
+
+.blogEntrySeparator {
+    height: 25px;
 }
 
 .blogPagerTable {

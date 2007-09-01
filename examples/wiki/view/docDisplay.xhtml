@@ -43,11 +43,7 @@
 
 <ui:define name="content">
 
-    <script type="text/javascript">jQuery(function() {
-        clearContentBackground();
-    });</script>
-
-    <div id="documentDisplayContainer" class="shadowContainer"><div class="shadow1"><div class="shadow2">
+    <div id="documentDisplayContainer" class="box">
         <s:div id="documentDisplay" styleClass="documentDisplay"><j4j:idProxy id="documentDisplay_" />
             <s:div rendered="#{documentHome.instance.nameAsTitle}"><h1 class="documentTitle">#{documentHome.instance.name}</h1></s:div>
             <wiki:formattedText value="#{documentHome.instance.content}"
@@ -59,7 +55,7 @@
                                 renderBaseDirectory="#{documentHome.parentDirectory}"
                                 enablePlugins="true"/>
         </s:div>
-    </div></div></div>
+    </div>
 
     <ui:include src="includes/attachmentDisplay.xhtml"/>
 

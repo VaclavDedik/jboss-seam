@@ -1,22 +1,33 @@
 .teaserColumn {
-    padding: 5px;
+    padding: 10px;
 }
 
 .teaserTitle {
-    font-weight: bold;
-    font-size: 100%;
-    text-decoration:none;
-    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 120%;
+    font-style: italic;
+    padding-top: 15px;
+    padding-bottom: 15px;
 }
 
-
 .teaserAuthorDate {
-    text-align:right;
-    font-size: 95%;
+    float: right;
+    font-size: 100%;
+    text-align: right;
 }
 
 .teaserAuthor {
 }
 
+.teaserAuthorLink {
+    color: #962325;
+    text-decoration: none;
+}
+
 .teaserDate {
+}
+
+.teaserBody {
+    font-size: 110%;
+    line-height: 150%;
+    text-align:justify;
 }

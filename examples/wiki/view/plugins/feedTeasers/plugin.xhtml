@@ -1,4 +1,4 @@
-<wiki:plugin
+<wiki:plugin id="feedTeasersPlugin"
        xmlns="http://www.w3.org/1999/xhtml"
        xmlns:ui="http://java.sun.com/jsf/facelets"
        xmlns:h="http://java.sun.com/jsf/html"
@@ -7,66 +7,66 @@
        xmlns:wiki="http://jboss.com/products/seam/wiki"
        xmlns:s="http://jboss.com/products/seam/taglib">
 
-<div id="feedTeasersContainer" class="shadowContainer"><div class="shadow1"><div class="shadow2"><s:div id="feedTeasers"
-       styleClass="#{showPluginPreferences and !empty feedTeasersPreferencesEditor ? 'pluginPreferencesBox' : ''}">
+    <s:div id="feedTeasers"
+           styleClass="#{showPluginPreferences and !empty feedTeasersPreferencesEditor ? 'pluginPreferencesBox box' : 'box'}">
 
-    <s:div id="feedTeasersPreferences"
-           rendered="#{showPluginPreferences and !empty feedTeasersPreferencesEditor}">
-        <div align="center">
-            <h:message for="feedTeasersPreferences" styleClass="pluginPreferencesMessage"/>
+        <s:div id="feedTeasersPreferences"
+               rendered="#{showPluginPreferences and !empty feedTeasersPreferencesEditor}">
+            <div align="center">
+                <h:message for="feedTeasersPreferences" styleClass="pluginPreferencesMessage"/>
 
-            <ui:include src="../../includes/pluginPreferencesForm.xhtml">
-                <ui:param name="pluginDiv" value="feedTeasers"/>
-                <ui:param name="pluginPreferencesEditor" value="#{feedTeasersPreferencesEditor}"/>
-            </ui:include>
-        </div>
+                <ui:include src="../../includes/pluginPreferencesForm.xhtml">
+                    <ui:param name="pluginDiv" value="feedTeasers"/>
+                    <ui:param name="pluginPreferencesEditor" value="#{feedTeasersPreferencesEditor}"/>
+                </ui:include>
+            </div>
+        </s:div>
+
+        <h:dataTable value="#{feedTeasersPlugin.teasers}" var="fe"
+                     styleClass="datatable rightBorder leftBorder topBorder bottomBorder feedTeaserTable"
+                     headerClass="regularHeader alignLeft feedTeaserHeader"
+                     columnClasses="teaserColumn"
+                     rowClasses="rowOdd, rowEven"
+                     cellpadding="0" cellspacing="0" border="0">
+            <h:column>
+                <f:facet name="header"><h:outputText value="#{feedTeasersPreferences.properties['teaserTitle']}"/></f:facet>
+
+                <div class="teaserAuthorDate">
+                    <s:span styleClass="teaserDate">
+                        <h:outputText value="#{fe.updatedDate}"><f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/></h:outputText>
+                        <h:outputText value="&#160;#{wikiPreferences.timeZone}"/>
+                    </s:span>
+                    <s:span rendered="#{feedTeasersPreferences.properties['showAuthor']}">,&#160;by&#160;
+                        <h:outputLink value="#{wiki:renderHomeURL(fe.document.createdBy)}"
+                                      rendered="#{!empty fe.document.createdBy.memberHome}">
+                            <h:outputText styleClass="teaserAuthorLink" value="#{fe.document.createdBy.fullname}"/>
+                        </h:outputLink>
+                        <h:outputText styleClass="teaserAuthor" rendered="#{empty fe.document.createdBy.memberHome}" value="#{fe.author}"/>
+                    </s:span>
+                    <br/>
+                    <s:span rendered="#{fe.document.enableComments and wiki:sizeOf(fe.document.comments) > 0}">
+                        <h:outputLink styleClass="feedTeaserComments" value="#{wiki:renderPermLink(fe.document)}#comments">
+                            #{wiki:sizeOf(fe.document.comments)}&#160;
+                            <h:outputText value="#{wiki:sizeOf(fe.document.comments)>1 ? 'comments' : 'comment'}"/>
+                        </h:outputLink>
+                    </s:span>
+                </div>
+
+                <div class="teaserTitle">
+                    <h:outputLink value="#{fe.link}">#{fe.title}</h:outputLink>
+                </div>
+
+                <h:outputText styleClass="teaserBody"
+                              value="#{wiki:truncateString(fe.descriptionValueStripped, feedTeasersPreferences.properties['truncateDescription'], '')}"/>
+                <h:outputLink styleClass="teaserBody"
+                              value="#{fe.link}"
+                              rendered="#{wiki:length(fe.descriptionValueStripped) > feedTeasersPreferences.properties['truncateDescription']}">
+                    &#160;more...
+                </h:outputLink>
+
+            </h:column>
+        </h:dataTable>
+
     </s:div>
-
-    <h:dataTable value="#{feedTeasersPlugin.teasers}" var="fe"
-                 styleClass="datatable rightBorder leftBorder topBorder bottomBorder feedTeaserTable"
-                 headerClass="regularHeader alignLeft feedTeaserHeader"
-                 columnClasses="teaserColumn"
-                 rowClasses="rowOdd, rowEven"
-                 cellpadding="0" cellspacing="0" border="0">
-        <h:column>
-            <f:facet name="header"><h:outputText value="#{feedTeasersPreferences.properties['teaserTitle']}"/></f:facet>
-
-            <div class="teaserAuthorDate">
-                <s:span styleClass="teaserDate">
-                    <h:outputText value="#{fe.updatedDate}"><f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/></h:outputText>
-                    <h:outputText value="&#160;#{wikiPreferences.timeZone}"/>
-                </s:span>
-                <s:span rendered="#{feedTeasersPreferences.properties['showAuthor']}">,&#160;by&#160;
-                    <h:outputLink value="#{wiki:renderHomeURL(fe.document.createdBy)}"
-                                  rendered="#{!empty fe.document.createdBy.memberHome}">
-                        <h:outputText styleClass="teaserAuthorLink" value="#{fe.document.createdBy.fullname}"/>
-                    </h:outputLink>
-                    <h:outputText styleClass="teaserAuthor" rendered="#{empty fe.document.createdBy.memberHome}" value="#{fe.author}"/>
-                </s:span>
-                <br/>
-                <s:span rendered="#{fe.document.enableComments and wiki:sizeOf(fe.document.comments) > 0}">
-                    <h:outputLink styleClass="feedTeaserComments" value="#{wiki:renderPermLink(fe.document)}#comments">
-                        #{wiki:sizeOf(fe.document.comments)}&#160;
-                        <h:outputText value="#{wiki:sizeOf(fe.document.comments)>1 ? 'comments' : 'comment'}"/>
-                    </h:outputLink>
-                </s:span>
-            </div>
-
-            <div class="teaserTitle">
-                <h:outputLink value="#{fe.link}">#{fe.title}</h:outputLink>
-            </div>
-
-            <h:outputText styleClass="teaserBody"
-                          value="#{wiki:truncateString(fe.descriptionValueStripped, feedTeasersPreferences.properties['truncateDescription'], '')}"/>
-            <h:outputLink styleClass="teaserBody"
-                          value="#{fe.link}"
-                          rendered="#{wiki:length(fe.descriptionValueStripped) > feedTeasersPreferences.properties['truncateDescription']}">
-                &#160;more...
-            </h:outputLink>
-
-        </h:column>
-    </h:dataTable>
-
-</s:div></div></div></div>
     
 </wiki:plugin>

@@ -7,12 +7,8 @@
         xmlns:wiki="http://jboss.com/products/seam/wiki"
         xmlns:s="http://jboss.com/products/seam/taglib">
 
-    <script type="text/javascript">jQuery(function() {
-        clearDocumentBackground();
-    });</script>
-
-    <s:div styleClass="shadowContainer"><div class="shadow1"><div class="shadow2"><s:div id="blogArchivePluginDiv"
-           styleClass="#{showPluginPreferences and !empty blogArchivePreferencesEditor ? 'pluginPreferencesBox' : ''}">
+    <s:div id="blogArchivePluginDiv"
+           styleClass="#{showPluginPreferences and !empty blogArchivePreferencesEditor ? 'pluginPreferencesBox box' : 'box'}">
 
         <s:div id="blogArchivePreferences"
               rendered="#{showPluginPreferences and !empty blogArchivePreferencesEditor}">
@@ -28,28 +24,28 @@
 
         <s:div styleClass="blogArchive">
 
-            <s:div styleClass="blogArchiveHeader blogArchiveTitle" rendered="#{not blogArchivePreferences.showSubscribeIcon}">
-                <h:outputText styleClass="blogArchiveTitleText" value="Archive"/>
+            <s:div styleClass="boxHeader" rendered="#{not blogArchivePreferences.showSubscribeIcon}">
+                <h:outputText value="Archive"/>
             </s:div>
 
             <h:panelGrid rendered="#{blogArchivePreferences.showSubscribeIcon}"
                          columns="2" cellpadding="0" cellspacing="0" border="0"
-                         styleClass="blogArchiveHeader fullWidth"
-                         columnClasses="blogArchiveSubscribe, blogArchiveTitle">
+                         styleClass="boxHeader fullWidth">
 
-                <h:outputLink rendered="#{not empty currentDirectory.feed}"
-                              value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{currentDirectory.feed.id}">
-                    <h:panelGrid columns="2" cellpadding="0" cellspacing="0" border="0">
+                <h:panelGrid rendered="#{not empty currentDirectory.feed}" columns="2" cellpadding="0" cellspacing="0" border="0">
+                    <h:outputLink value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{currentDirectory.feed.id}">
                         <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.atom.ongrey.gif" width="18" height="18" alt="Atom"/>
-                        <h:outputText styleClass="blogArchiveSubscribeLink" value="Subscribe"/>
-                    </h:panelGrid>
-                </h:outputLink>
+                    </h:outputLink>
+                    <h:outputLink value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{currentDirectory.feed.id}">
+                        <h:outputText value="Subscribe"/>
+                    </h:outputLink>
+                </h:panelGrid>
 
-                <h:outputText styleClass="blogArchiveTitleText" value="Archive"/>
+                <h:outputText value="Archive"/>
 
             </h:panelGrid>
 
-            <div class="blogArchiveSelector">
+            <div class="blogArchiveSelector boxContent">
                 <select id="blogArchiveCombo" class="blogArchiveCombo"
                         onchange="location.href = jQuery('#blogArchiveCombo')[0].options[jQuery('#blogArchiveCombo')[0].selectedIndex].value;">
                     <option value="#{wiki:renderURL(currentDocument)}">All entries (#{blogDirectory.totalNumOfBlogEntries})</option>
@@ -68,10 +64,10 @@
                 </select>
             </div>
 
-            <div class="blogArchiveFooter"/>
+            <div class="boxFooter"/>
 
         </s:div>
 
-    </s:div></div></div></s:div>
+    </s:div>
 
 </wiki:plugin>

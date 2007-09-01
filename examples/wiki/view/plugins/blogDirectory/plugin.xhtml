@@ -7,10 +7,6 @@
         xmlns:wiki="http://jboss.com/products/seam/wiki"
         xmlns:s="http://jboss.com/products/seam/taglib">
 
-    <script type="text/javascript">jQuery(function() {
-        clearDocumentBackground();
-    });</script>
-
     <s:div id="blogDirectory"
          styleClass="#{showPluginPreferences and !empty blogDirectoryPreferencesEditor ? 'pluginPreferencesBox' : ''}">
 
@@ -31,14 +27,11 @@
 
             <c:forEach var="blogEntry" items="#{blogDirectory.blogEntries}">
 
-                <s:div styleClass="shadowContainer"><div class="shadow1"><div class="shadow2">
-                <div class="blogEntry">
+                <div class="box">
 
                     <div class="blogEntryHeader">
-                        <div class="blogEntryTitle">
-                            <h:outputText value="#{blogEntry.entryDocument.name}"/>
-                        </div>
-                        <div class="blogEntryCreatenOnAndBy">
+                        <h:outputText value="#{blogEntry.entryDocument.name}"/>
+                        <div>
                             <h:outputText styleClass="blogEntryCreatedOnText" value="#{blogEntry.entryDocument.createdOn}">
                                 <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
                             </h:outputText>
@@ -53,7 +46,8 @@
                                           value="#{blogEntry.entryDocument.createdBy.fullname}"/>
                         </div>
                     </div>
-                    <div class="blogEntryBody">
+
+                    <div class="blogEntryContent">
                         <wiki:formattedText value="#{blogEntry.entryDocument.content}"
                                             linkStyleClass="regularLink"
                                             brokenLinkStyleClass="brokenLink"
@@ -65,7 +59,7 @@
                                             enablePlugins="true"/>
                     </div>
 
-                    <div class="blogEntryFooter">
+                    <div class="boxFooter">
                         <h:panelGrid styleClass="blogEntryFooterTable" columns="5" cellpadding="0" cellspacing="0" border="0">
                             <s:div styleClass="blogEntryCommentCount"
                                    rendered="#{blogEntry.commentCount > 0 and blogEntry.entryDocument.enableComments}">
@@ -84,7 +78,7 @@
                             </s:div>
                             <s:div styleClass="blogEntryAttachmentsLink"
                                     rendered="#{wiki:sizeOf(wikiTextAttachments) > 0}">
-                                <h:outputLink value="#{wiki:renderURL(blogEntry.entryDocument)}#attachments">
+                                <h:outputLink value="#{wiki:renderPermLink(blogEntry.entryDocument)}#attachments">
                                     <span class="blogEntryAttachmentsLinkText">
                                         <h:outputText value="#{wiki:sizeOf(wikiTextAttachments)}&#160;"/>
                                         <h:outputText value="#{wiki:sizeOf(wikiTextAttachments)>1 ? 'attachments' : 'attachment'}"/>
@@ -105,7 +99,6 @@
                     </div>
 
                 </div>
-                </div></div></s:div>
 
                 <div class="blogEntrySeparator"/>
 

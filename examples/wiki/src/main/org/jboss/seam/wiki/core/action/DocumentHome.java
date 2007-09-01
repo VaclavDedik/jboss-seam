@@ -43,6 +43,10 @@ public class DocumentHome extends NodeHome<Document> {
         String result = super.init();
         if (result != null) return result;
 
+        // Preferences
+        minorRevision = (Boolean)((DocumentEditorPreferences)Component
+                .getInstance("docEditorPreferences")).getProperties().get("minorRevisionEnabled");
+
         // Rollback to historical revision?
         if (selectedHistoricalNode != null) {
             getLog().debug("rolling back to revision: " + selectedHistoricalNode.getRevision());
@@ -51,8 +55,6 @@ public class DocumentHome extends NodeHome<Document> {
 
         // Make a copy
         historicalCopy = new Document(getInstance());
-        minorRevision = (Boolean)((DocumentEditorPreferences)Component
-                .getInstance("docEditorPreferences")).getProperties().get("minorRevisionEnabled");
 
         // Wiki text parser and plugins need this
         log.debug("setting current document: " + getInstance());
