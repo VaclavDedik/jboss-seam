@@ -25,6 +25,17 @@ import com.sun.facelets.compiler.SAXCompiler;
 import com.sun.facelets.impl.DefaultFaceletFactory;
 import com.sun.facelets.impl.DefaultResourceResolver;
 
+/**
+ * 
+ * Implementation of Renderer using Facelets
+ * 
+ * Especially useful for sending email using Seam Mail
+ * 
+ * @author Pete Muir
+ * @author Norman Richards
+ *
+ */
+
 @Scope(ScopeType.STATELESS)
 @BypassInterceptors
 @Name("org.jboss.seam.faces.renderer")
@@ -32,8 +43,16 @@ import com.sun.facelets.impl.DefaultResourceResolver;
 @Install(value = true, precedence = Install.BUILT_IN, classDependencies="com.sun.facelets.Facelet")
 public class FaceletsRenderer extends Renderer
 {
-   
-   private abstract class RenderingContext 
+   /**
+    * Sets up and tears down the rendering (FacesContext, ExternalContext) using 
+    * Seam's mock contexts if JSF is not currently running.  Also switches out the
+    * ViewRoot for the duration.  Any output written to the ResponseWriter is
+    * buffered.
+    * 
+    * @author Pete Muir
+    *
+    */
+   protected abstract class RenderingContext 
    {
       
       public RenderingContext(String viewId)
@@ -48,6 +67,9 @@ public class FaceletsRenderer extends Renderer
       private UIViewRoot originalViewRoot;
       private StringWriter writer = new StringWriter();
       
+      /**
+       * Call to execute the process method inside the RenderingContext
+       */
       public void run() 
       {
          try
@@ -105,16 +127,25 @@ public class FaceletsRenderer extends Renderer
          Thread.currentThread().setContextClassLoader(originalClassLoader);       
       }
       
+      /**
+       * Return any output written to the ResponseWriter as a String
+       */
       public String getOutput() 
       {
          return writer.getBuffer().toString(); 
       }
       
-      public abstract void process();
+      /**
+       * Override to execute within a RenderingContext
+       */
+      protected abstract void process();
       
    }
    
-
+   /**
+    * Render the viewId, anything written to the JSF ResponseWriter is
+    * returned
+    */
    @Override
    public String render(final String viewId)
    {
@@ -140,6 +171,9 @@ public class FaceletsRenderer extends Renderer
       return context.getOutput();
    }
 
+   /**
+    * Get a viewId as a URL
+    */
    protected URL resourceURL(String viewId)
    {
 
@@ -153,12 +187,18 @@ public class FaceletsRenderer extends Renderer
       return url;
    }
 
+   /**
+    * Get a Facelet for a URL
+    */
    protected Facelet faceletForURL(URL url) throws IOException
    {
       return new DefaultFaceletFactory(new SAXCompiler(), new DefaultResourceResolver())
                .getFacelet(url);
    }
 
+   /**
+    * Render a Facelet
+    */
    protected void renderFacelet(FacesContext facesContext, Facelet facelet) throws IOException
    {
       UIViewRoot root = facesContext.getViewRoot();

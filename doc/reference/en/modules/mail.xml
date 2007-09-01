@@ -105,7 +105,8 @@ public void send() {
 <img src="cid:#{personPhoto.contentId}" />]]></programlisting>
 
          <para>You may be wondering what <literal>cid:#{...}</literal> does. Well, the IETF specified that by
-         putting this as the src for your image, the attachments will be looked at (by <literal>Content-ID</literal>)
+         putting this as the src for your image, the attachments will be looked at when trying to locate the
+         image (the <literal>Content-ID</literal>'s must matchs)
           - magic!</para>
           
           <para>You must declare the attachment before trying to access the status object.</para>
@@ -179,7 +180,18 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.</f:facet>
 <ui:define name="body">
     <p>This example demonstrates that you can easily use <i>facelets templating</i> in email!</p>
 </ui:define>]]></programlisting>
-
+            
+            <para>You can also use facelets source tags in your email, but you must place them in
+            a jar in <literal>WEB-INF/lib</literal> - referencing the <literal>.taglib.xml</literal>
+            from <literal>web.xml</literal> isn't reliable when using Seam Mail (if you send your
+            mail asynchrounously Seam Mail doesn't have access to the full JSF or Servlet context,
+            and so doesn't know about <literal>web.xml</literal> configuration parameters).</para>
+            
+            <para>If you do need more configure Facelets or JSF when sending mail, you'll need to
+            override the Renderer component and do the configuration programmatically - only for
+            advanced users!</para>
+            
+            
 	    </section>
 	    
 	    <section>
