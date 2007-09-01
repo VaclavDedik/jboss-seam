@@ -89,6 +89,7 @@ public abstract class Node extends AbstractNestedSetNode<Node> implements Serial
     // we don't want that because there is a FK constraint with cascading delete on it in the database!
     @JoinColumn(name = "PARENT_NODE_ID", nullable = false)
     @org.hibernate.annotations.IndexColumn(name = "DISPLAY_POSITION")
+    @org.hibernate.annotations.OptimisticLock(excluded = true)
     private List<Node> children = new ArrayList<Node>();
 
     @Column(name = "DISPLAY_POSITION", nullable = false, updatable = false, insertable = false)

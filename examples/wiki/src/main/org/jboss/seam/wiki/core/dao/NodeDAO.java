@@ -12,6 +12,7 @@ import org.jboss.seam.wiki.core.nestedset.NestedSetNode;
 import org.jboss.seam.wiki.core.nestedset.NestedSetNodeWrapper;
 import org.jboss.seam.wiki.core.nestedset.NestedSetResultTransformer;
 import org.jboss.seam.wiki.core.nestedset.NestedSetNodeDuplicator;
+import org.jboss.seam.wiki.preferences.PreferenceProvider;
 import org.jboss.seam.Component;
 import org.jboss.seam.log.Log;
 import org.hibernate.Session;
@@ -304,6 +305,7 @@ public class NodeDAO {
             log.debug("recursive directory delete, deleting: " + doc);
             getSession(true).delete(doc);
         }
+        getSession(true).flush();
     }
 
     public NestedSetNodeWrapper<Node> findMenuItems(Node startNode, Long maxDepth, Long flattenToLevel, boolean showAdminOnly) {
