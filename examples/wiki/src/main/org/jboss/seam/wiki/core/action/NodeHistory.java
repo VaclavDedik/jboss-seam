@@ -1,7 +1,6 @@
 package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.annotations.*;
-import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
@@ -55,6 +54,11 @@ public class NodeHistory implements Serializable {
     @In(required = false) @Out(required = false, scope = ScopeType.CONVERSATION)
     private Document currentNode;
 
+    private Document displayedHistoricalNode;
+    public Document getDisplayedHistoricalNode() {
+        return displayedHistoricalNode;
+    }
+
     private String diffResult;
 
     @Factory("historicalNodeList")
@@ -74,38 +78,74 @@ public class NodeHistory implements Serializable {
         return null;
     }
 
+    public void displayHistoricalRevision() {
+        displayedHistoricalNode = selectedHistoricalNode;
+        diffResult = null;
+
+        facesMessages.addFromResourceBundleOrDefault(
+            FacesMessage.SEVERITY_INFO,
+            "diffOldVersionDisplayed",
+            "Showing historical revision " + selectedHistoricalNode.getRevision());
+    }
+
     public void diff() {
+        displayedHistoricalNode = null;
 
         // Wiki text parser needs these nodes but we don't really care because links are not rendered and resolved
         String revision = renderWikiText( currentNode, currentNode.getParent(), currentNode.getContent() );
         String original = renderWikiText( selectedHistoricalNode, currentNode.getParent(), selectedHistoricalNode.getContent() );
 
-        // Create diff by comparing rendered HTML
-        Diff diff = new Diff() {
-            protected String getDeletionStartMarker() {
-                return "<div class=\"diffDeleted\">";
+        String[] a = original.split("\n");
+        String[] b = revision.split("\n");
+        StringBuilder result = new StringBuilder();
+        List<Diff.Difference> differences = new Diff(a, b).diff();
+
+        for (Diff.Difference diff : differences) {
+            int        delStart = diff.getDeletedStart();
+            int        delEnd   = diff.getDeletedEnd();
+            int        addStart = diff.getAddedStart();
+            int        addEnd   = diff.getAddedEnd();
+            String     type     = delEnd != Diff.NONE && addEnd != Diff.NONE ? "changed" : (delEnd == Diff.NONE ? "added" : "deleted");
+
+            // Info line
+            result.append("<div class=\"diffInfo\">");
+            result.append("From ");
+            result.append(delStart == delEnd || delEnd == Diff.NONE ? "line" : "lines");
+            result.append(" ");
+            result.append(delStart);
+            if (delEnd != Diff.NONE && delStart != delEnd) {
+                result.append(" to ").append(delEnd);
             }
-
-            protected String getDeletionEndMarker() {
-                return "</div>";
+            result.append(" ").append(type).append(" to ");
+            result.append(addStart == addEnd || addEnd == Diff.NONE ? "line" : "lines");
+            result.append(" ");
+            result.append(addStart);
+            if (addEnd != Diff.NONE && addStart != addEnd) {
+                result.append(" to ").append(addEnd);
             }
+            result.append(":");
+            result.append("</div>\n");
 
-            protected String getAdditionStartMarker() {
-                return "<div class=\"diffAdded\">";
+            if (delEnd != Diff.NONE) {
+                result.append("<div class=\"diffDeleted\">");
+                for (int lnum = delStart; lnum <= delEnd; ++lnum) {
+                    result.append(a[lnum]);
+                }
+                result.append("</div>");
+                if (addEnd != Diff.NONE) {
+                    //result.append("----------------------------").append("\n");
+                }
             }
-
-            protected String getAdditionEndMarker() {
-                return "</div>";
+            if (addEnd != Diff.NONE) {
+                result.append("<div class=\"diffAdded\">");
+                for (int lnum = addStart; lnum <= addEnd; ++lnum) {
+                    result.append(b[lnum]);
+                }
+                result.append("</div>");
             }
-        };
+        }
 
-        // Diff is line-based only
-        String[] x = original.split("\r\n");
-        String[] y = revision.split("\r\n");
-        String[] result = diff.createDiff(x, y, "\r\n", "\r", "\n");
-
-        // Now render the combined string array
-        diffResult = Diff.renderWithDelimiter(result, "\r\n");
+        diffResult = result.toString();
 
         facesMessages.addFromResourceBundleOrDefault(
             FacesMessage.SEVERITY_INFO,

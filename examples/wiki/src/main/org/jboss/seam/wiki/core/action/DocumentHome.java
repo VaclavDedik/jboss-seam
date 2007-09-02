@@ -54,7 +54,9 @@ public class DocumentHome extends NodeHome<Document> {
         }
 
         // Make a copy
-        historicalCopy = new Document(getInstance());
+        if (historicalCopy == null) {
+            historicalCopy = new Document(getInstance());
+        }
 
         // Wiki text parser and plugins need this
         log.debug("setting current document: " + getInstance());

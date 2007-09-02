@@ -792,6 +792,12 @@ ul {
     margin: 10px;
 }
 
+.diffInfo {
+    font-size: 85%;
+    font-weight: bold;
+    color: #666;
+}
+
 .diffDeleted {
     background-color: #ffaaaa;
 }

@@ -38,6 +38,12 @@
         <action execute="#{nodeHistory.init}"/>
         <begin-conversation flush-mode="MANUAL" join="true"/>
         <navigation>
+            <rule if-outcome="exit">
+                <end-conversation before-redirect="true"/>
+                <redirect view-id="/docDisplay.xhtml">
+                    <param name="documentId"          value="#{currentNode.id}"/>
+                </redirect>
+            </rule>
             <rule if-outcome="missingParameters">
                 <end-conversation/>
                 <redirect view-id="/message.xhtml">

@@ -13,7 +13,7 @@
 
 <ui:define name="controlTwo">
 
-    <s:link id="close" styleClass="linkNavigation" view="/wiki.xhtml" propagation="end" accesskey="E">Clos<u>e</u></s:link>
+    <s:link id="close" styleClass="linkNavigation" action="exit" accesskey="E">Clos<u>e</u></s:link>
 
 </ui:define>
 
@@ -85,8 +85,13 @@
                     </h:column>
 
                     <h:column>
+                        <a:commandLink id="show"
+                                       action="#{nodeHistory.displayHistoricalRevision}"
+                                       reRender="messageBoxContainer, diffResult, historicalPreview"
+                                       tabindex="3" styleClass="buttonNonpersistent"><span class="buttonLabel">Show</span></a:commandLink>
                         <a:commandLink id="diff"
-                                       action="#{nodeHistory.diff}" reRender="messageBoxContainer, diffResult"
+                                       action="#{nodeHistory.diff}"
+                                       reRender="messageBoxContainer, diffResult, historicalPreview"
                                        tabindex="3" styleClass="buttonNonpersistent"><span class="buttonLabel">Diff</span></a:commandLink>
                         <h:commandLink id="rollback"
                                        action="#{nodeHistory.rollback}"
@@ -108,6 +113,27 @@
         <h:outputText value="#{nodeHistory.diffResult}" escape="false"/>
     </s:div>
 </s:div>
+
+<s:div id="historicalPreview">
+    <s:div id="documentDisplayContainer"
+           rendered="#{not empty nodeHistory.displayedHistoricalNode}"
+           styleClass="box">
+        <script type="text/javascript">jQuery(function() {
+            wrapBoxes();
+        });</script>
+        <s:div id="documentDisplay" styleClass="documentDisplay">
+            <wiki:formattedText value="#{nodeHistory.displayedHistoricalNode.content}"
+                                linkStyleClass="regularLink"
+                                brokenLinkStyleClass="brokenLink"
+                                attachmentLinkStyleClass="regularLink"
+                                thumbnailLinkStyleClass="regularLink"
+                                renderBaseDocument="#{currentNode}"
+                                renderBaseDirectory="#{currentNode.parent}"
+                                enablePlugins="true"/>
+        </s:div>
+    </s:div>
+</s:div>
+
 
 </ui:define>
 
