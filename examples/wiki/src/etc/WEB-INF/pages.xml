@@ -41,9 +41,17 @@
             <rule if-outcome="exit">
                 <end-conversation before-redirect="true"/>
                 <redirect view-id="/docDisplay.xhtml">
-                    <param name="documentId"          value="#{currentNode.id}"/>
+                    <param name="documentId"          value="#{nodeHistory.currentNode.id}"/>
                 </redirect>
             </rule>
+            <rule if-outcome="purgedHistory">
+                <end-conversation before-redirect="true"/>
+                <redirect view-id="/wiki.xhtml">
+                    <param name="nodeId"    value="#{nodeHistory.currentNode.id}"/>
+                    <param name="message"       value="purgedHistory"/>
+                </redirect>
+            </rule>
+
             <rule if-outcome="missingParameters">
                 <end-conversation/>
                 <redirect view-id="/message.xhtml">
@@ -52,8 +60,8 @@
             </rule>
             <rule if-outcome="rollback">
                 <redirect view-id="/docEdit.xhtml">
-                    <param name="documentId"          value="#{currentNode.id}"/>
-                    <param name="parentDirectoryId"   value="#{currentNode.parent.id}"/>
+                    <param name="documentId"          value="#{nodeHistory.currentNode.id}"/>
+                    <param name="parentDirectoryId"   value="#{nodeHistory.currentNode.parent.id}"/>
                 </redirect>
             </rule>
         </navigation>

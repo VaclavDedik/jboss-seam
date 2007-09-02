@@ -190,7 +190,13 @@ public class NodeDAO {
         return (Long)getSession(true).createQuery("select count(n) from HistoricalNode n where n.nodeId = :nodeId")
                                   .setParameter("nodeId", node.getId())
                                   .uniqueResult();
+    }
 
+    public void removeHistoricalNodes(Node node) {
+        if (node == null) return;
+        getSession(true).createQuery("delete from HistoricalNode n where n.nodeId = :nodeId")
+                         .setParameter("nodeId", node.getId())
+                         .executeUpdate();
     }
     
     // Multi-row constraint validation

@@ -18,11 +18,19 @@ import org.jboss.seam.wiki.core.engine.WikiTextParser;
 import org.jboss.seam.wiki.core.engine.WikiTextRenderer;
 import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
 import org.jboss.seam.wiki.util.Diff;
+import org.jboss.seam.wiki.util.WikiUtil;
 
 import javax.faces.application.FacesMessage;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Diff for historical documents.
+ *
+ * TODO: Only supports documents, name implies that it should support other stuff.
+ *
+ * @author Christian Bauer
+ */
 @Name("nodeHistory")
 @Scope(ScopeType.CONVERSATION)
 @AutoCreate
@@ -37,29 +45,22 @@ public class NodeHistory implements Serializable {
     @DataModel
     private List<Node> historicalNodeList;
 
-    Long nodeId;
-
-    public Long getNodeId() {
-        return nodeId;
-    }
-
-    public void setNodeId(Long nodeId) {
-        this.nodeId = nodeId;
-    }
-
     @DataModelSelection
     @Out(required = false, scope = ScopeType.CONVERSATION)
     private Document selectedHistoricalNode;
 
-    @In(required = false) @Out(required = false, scope = ScopeType.CONVERSATION)
+    Long nodeId;
+    public Long getNodeId() { return nodeId; }
+    public void setNodeId(Long nodeId) { this.nodeId = nodeId; }
+
     private Document currentNode;
+    public Node getCurrentNode() { return currentNode;    }
 
     private Document displayedHistoricalNode;
-    public Document getDisplayedHistoricalNode() {
-        return displayedHistoricalNode;
-    }
+    public Document getDisplayedHistoricalNode() { return displayedHistoricalNode; }
 
     private String diffResult;
+    public String getDiffResult() { return diffResult; }
 
     @Factory("historicalNodeList")
     public void initializeHistoricalNodeList() {
@@ -70,11 +71,16 @@ public class NodeHistory implements Serializable {
     public String init() {
         if (nodeId == null) return "missingParameter";
 
-        currentNode = nodeDAO.findDocument(nodeId);
-        if (!Identity.instance().hasPermission("Node", "read", currentNode) ) {
-            throw new AuthorizationException("You don't have permission for this operation");
+        if (currentNode == null) {
+            currentNode = nodeDAO.findDocument(nodeId);
+            if (!Identity.instance().hasPermission("Node", "read", currentNode) ) {
+                throw new AuthorizationException("You don't have permission for this operation");
+            }
         }
-        historicalNodeList = nodeDAO.findHistoricalNodes(currentNode);
+
+        if (historicalNodeList == null) {
+            historicalNodeList = nodeDAO.findHistoricalNodes(currentNode);
+        }
         return null;
     }
 
@@ -91,12 +97,9 @@ public class NodeHistory implements Serializable {
     public void diff() {
         displayedHistoricalNode = null;
 
-        // Wiki text parser needs these nodes but we don't really care because links are not rendered and resolved
-        String revision = renderWikiText( currentNode, currentNode.getParent(), currentNode.getContent() );
-        String original = renderWikiText( selectedHistoricalNode, currentNode.getParent(), selectedHistoricalNode.getContent() );
+        String[] a = selectedHistoricalNode.getContent().split("\n");
+        String[] b = currentNode.getContent().split("\n");
 
-        String[] a = original.split("\n");
-        String[] b = revision.split("\n");
         StringBuilder result = new StringBuilder();
         List<Diff.Difference> differences = new Diff(a, b).diff();
 
@@ -129,7 +132,7 @@ public class NodeHistory implements Serializable {
             if (delEnd != Diff.NONE) {
                 result.append("<div class=\"diffDeleted\">");
                 for (int lnum = delStart; lnum <= delEnd; ++lnum) {
-                    result.append(a[lnum]);
+                    result.append( WikiUtil.escapeHtml(a[lnum], false) ).append("<br/>");
                 }
                 result.append("</div>");
                 if (addEnd != Diff.NONE) {
@@ -139,7 +142,7 @@ public class NodeHistory implements Serializable {
             if (addEnd != Diff.NONE) {
                 result.append("<div class=\"diffAdded\">");
                 for (int lnum = addStart; lnum <= addEnd; ++lnum) {
-                    result.append(b[lnum]);
+                    result.append( WikiUtil.escapeHtml(b[lnum], false) ).append("<br/>");
                 }
                 result.append("</div>");
             }
@@ -153,7 +156,7 @@ public class NodeHistory implements Serializable {
             "Comparing current revision with historical revision " + selectedHistoricalNode.getRevision());
     }
 
-    @Restrict("#{s:hasPermission('Node', 'edit', currentNode)}")
+    @Restrict("#{s:hasPermission('Node', 'edit', nodeHistory.currentNode)}")
     public String rollback() {
         facesMessages.addFromResourceBundleOrDefault(
             FacesMessage.SEVERITY_INFO,
@@ -162,39 +165,10 @@ public class NodeHistory implements Serializable {
         return "rollback";
     }
 
-    public String getDiffResult() {
-        return diffResult;
-    }
-
-    private String renderWikiText(Document currentDocument, Directory currentDirectory, String wikiText) {
-        // Render the document to HTML for diff, don't resolve any wiki links (calls renderInlineLink() plain)
-        WikiTextParser parser = new WikiTextParser(wikiText, true, false);
-
-        parser.setCurrentDocument(currentDocument);
-        parser.setCurrentDirectory(currentDirectory);
-
-        parser.setResolver((WikiLinkResolver)Component.getInstance("wikiLinkResolver"));
-        
-        // This renderer is really just ignoring everything and renders a few placeholders
-        parser.setRenderer(
-            new WikiTextRenderer() {
-                public String renderInlineLink(WikiLink inlineLink) {
-                    return "<span class=\"diffLink\">[" + inlineLink.getDescription() + "=>" + inlineLink.getUrl() + "]</span>";
-                }
-                public String renderExternalLink(WikiLink externalLink) { return null; }
-                public String renderFileAttachmentLink(int attachmentNumber, WikiLink attachmentLink) { return null; }
-                public String renderThumbnailImageInlineLink(WikiLink inlineLink) { return null; }
-                public String renderMacro(String macroName) {
-                    return "<span class=\"diffPlugin\">Plugin: " + macroName + "</span>";
-                }
-                public void setAttachmentLinks(List<WikiLink> attachmentLinks) {}
-                public void setExternalLinks(List<WikiLink> externalLinks) {}
-            }
-        );
-
-        // Run the parser
-        parser.parse(false);
-        return parser.toString();
+    @Restrict("#{s:hasPermission('User', 'isAdmin', currentUser)}")
+    public String purgeHistory() {
+        nodeDAO.removeHistoricalNodes(getCurrentNode());
+        return "purgedHistory";
     }
 
 }

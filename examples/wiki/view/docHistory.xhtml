@@ -19,43 +19,43 @@
 
 <ui:define name="content">
 
-<h:form rendered="#{historicalNodeList.rowCount >0}">
+<h:form rendered="#{historicalNodeList.rowCount >0}" styleClass="box">
 
 <div class="form">
-    <div class="formHead">Document History: #{currentNode.name}</div>
-    <div class="formFields formBorder wideLabels">
+    <div class="formHead">Document History: #{nodeHistory.currentNode.name}</div>
+    <div class="formFields formBorder">
 
         <s:div styleClass="entry">
             <div class="label">Current revision:</div>
             <div class="output">
-                <h:outputText value="#{currentNode.revision}"/>
+                <h:outputText value="#{nodeHistory.currentNode.revision}"/>
             </div>
         </s:div>
 
         <s:div styleClass="entry">
             <div class="label">Parent:</div>
             <div class="output">
-                <h:outputText value="#{currentNode.parent.name}"/>
+                <h:outputText value="#{nodeHistory.currentNode.parent.name}"/>
             </div>
         </s:div>
 
         <s:div styleClass="entry">
             <div class="label">Created On:</div>
             <div class="output">
-                <h:outputText value="#{currentNode.createdOn}">
+                <h:outputText value="#{nodeHistory.currentNode.createdOn}">
                     <f:convertDateTime type="both" timeZone="#{wikiPreferences.timeZone}"/>
                 </h:outputText>
-                (#{currentNode.createdBy.username})
+                (#{nodeHistory.currentNode.createdBy.username})
             </div>
         </s:div>
 
-        <s:div styleClass="entry" rendered="#{!empty currentNode.lastModifiedBy}">
+        <s:div styleClass="entry" rendered="#{!empty nodeHistory.currentNode.lastModifiedBy}">
             <div class="label">Last Modified On:</div>
             <div class="output">
-                <h:outputText value="#{currentNode.lastModifiedOn}">
+                <h:outputText value="#{nodeHistory.currentNode.lastModifiedOn}">
                     <f:convertDateTime type="both" timeZone="#{wikiPreferences.timeZone}"/>
                 </h:outputText>
-                (#{currentNode.lastModifiedBy.username})
+                (#{nodeHistory.currentNode.lastModifiedBy.username})
             </div>
         </s:div>
 
@@ -96,7 +96,7 @@
                         <h:commandLink id="rollback"
                                        action="#{nodeHistory.rollback}"
                                        tabindex="4" styleClass="buttonNonpersistent"
-                                       rendered="#{s:hasPermission('Node', 'edit', currentNode)}"><span class="buttonLabel">Rollback</span></h:commandLink>
+                                       rendered="#{s:hasPermission('Node', 'edit', nodeHistory.currentNode)}"><span class="buttonLabel">Rollback</span></h:commandLink>
                     </h:column>
 
                 </h:dataTable>
@@ -105,11 +105,31 @@
         </s:div>
 
     </div>
+
+    <s:fragment rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}">
+        <div class="formControls">
+            <div class="entry">
+                <div class="label">&#160;</div>
+                <div class="input">
+
+                    <h:commandLink id="purge" action="#{nodeHistory.purgeHistory}"
+                               tabindex="4" accesskey="U" styleClass="button"><span class="buttonLabel">P<u>u</u>rge History</span></h:commandLink>
+    
+                </div>
+            </div>
+        </div>
+    </s:fragment>
+
 </div>
 </h:form>
 
+<br/>
+
 <s:div id="diffResult">
-    <s:div styleClass="diffOutput" rendered="#{not empty nodeHistory.diffResult}">
+    <s:div styleClass="box diffOutput" rendered="#{not empty nodeHistory.diffResult}">
+        <script type="text/javascript">jQuery(function() {
+            wrapBoxes();
+        });</script>
         <h:outputText value="#{nodeHistory.diffResult}" escape="false"/>
     </s:div>
 </s:div>
@@ -127,9 +147,9 @@
                                 brokenLinkStyleClass="brokenLink"
                                 attachmentLinkStyleClass="regularLink"
                                 thumbnailLinkStyleClass="regularLink"
-                                renderBaseDocument="#{currentNode}"
-                                renderBaseDirectory="#{currentNode.parent}"
-                                enablePlugins="true"/>
+                                renderBaseDocument="#{nodeHistory.currentNode}"
+                                renderBaseDirectory="#{nodeHistory.currentNode.parent}"
+                                enablePlugins="false"/>
         </s:div>
     </s:div>
 </s:div>
