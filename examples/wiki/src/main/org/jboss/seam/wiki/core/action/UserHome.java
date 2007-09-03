@@ -227,6 +227,13 @@ public class UserHome extends EntityHome<User> {
             }
         }
 
+        if (Identity.instance().hasPermission("User", "isAdmin", Component.getInstance("currentUser"))) {
+            // Current user is admin and activated an account
+            if (getInstance().isActivated()) {
+                getInstance().setActivationCode(null);
+            }
+        }
+
         String outcome = super.update();
         if (outcome != null) {
 

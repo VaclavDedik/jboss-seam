@@ -221,6 +221,21 @@
         <begin-conversation flush-mode="MANUAL" join="true"/>
     </page>
 
+    <page view-id="/confirmRegistration.xhtml" action="#{authenticator.activate}">
+        <navigation>
+            <rule if-outcome="activated">
+                <redirect view-id="/wiki.xhtml">
+                    <param name="message" value="accountActivatedPleaseLogin"/>
+                </redirect>
+            </rule>
+            <rule if-outcome="notFound">
+                <redirect view-id="/wiki.xhtml">
+                    <param name="message" value="invalidActivationCode"/>
+                </redirect>
+            </rule>
+        </navigation>
+    </page>
+
     <page view-id="/*">
 
         <navigation>
@@ -244,6 +259,24 @@
         </navigation>
 
     </page>
+
+    <!-- Mobile browsers get a mini version of the site -->
+
+    <page view-id="/mobile/wiki.xhtml">
+        <param name="nodeId" value="#{wikiRequestResolver.nodeId}"/>
+        <action execute="#{wikiRequestResolver.resolve}"/>
+        <navigation>
+            <rule if-outcome="docDisplay">
+                <raise-event type="DocumentHome.init"/>
+                <render view-id="/mobile/docDisplay.xhtml"/>
+            </rule>
+            <rule if-outcome="dirDisplay">
+                <raise-event type="DirectoryHome.init"/>
+                <render view-id="/mobile/dirDisplay.xhtml"/>
+            </rule>
+        </navigation>
+    </page>
+
 
     <exception class="org.jboss.seam.framework.EntityNotFoundException">
         <end-conversation/>
