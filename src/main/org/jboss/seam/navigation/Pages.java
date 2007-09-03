@@ -332,7 +332,7 @@ public class Pages
             String var = dataModelSelection.substring(0, colonLoc);
             String name = dataModelSelection.substring(colonLoc+1, bracketLoc);
             int index = Integer.parseInt( dataModelSelection.substring( bracketLoc+1, dataModelSelection.length()-1 ) );
-            Object value = Contexts.lookupInStatefulContexts(name);
+            Object value = Component.getInstance(name, true);
             if (value!=null)
             {
                DataModel dataModel = (DataModel) value;
@@ -1344,7 +1344,8 @@ public class Pages
          Severity severity = severityName==null ? 
                   FacesMessage.SEVERITY_INFO : 
                   getFacesMessageValuesMap().get( severityName.toUpperCase() );
-         rule.addNavigationHandler( new RenderNavigationHandler(viewId, message, severity, control) );
+         rule.addNavigationHandler( new RenderNavigationHandler(viewId == null ? null : 
+            Expressions.instance().createValueExpression(viewId, String.class), message, severity, control) );
       }
       
       Element redirect = element.element("redirect");
@@ -1364,7 +1365,8 @@ public class Pages
          Severity severity = severityName==null ? 
                   FacesMessage.SEVERITY_INFO : 
                   getFacesMessageValuesMap().get( severityName.toUpperCase() );
-         rule.addNavigationHandler( new RedirectNavigationHandler(viewId, params, message, severity, control) );
+         rule.addNavigationHandler( new RedirectNavigationHandler(viewId == null ? null : 
+            Expressions.instance().createValueExpression(viewId, String.class), params, message, severity, control) );
       }
       
       List<Element> childElements = element.elements("out");

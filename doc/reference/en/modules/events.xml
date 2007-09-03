@@ -503,6 +503,18 @@
     
 </page>]]></programlisting>
 
+            <para>
+                The view-id may be given as a JSF EL expression:
+            </para>
+            
+            <programlisting><![CDATA[<page view-id="/editDocument.xhtml">
+
+    <navigation if-outcome="success">
+        <redirect view-id="/#{userAgent}/displayDocument.xhtml"/>
+    </navigation>
+    
+</page>]]></programlisting>
+
         </sect3>
 
         <sect3>
