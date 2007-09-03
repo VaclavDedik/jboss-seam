@@ -36,7 +36,7 @@
           <h:form>
 
             <h:outputLabel for="introduction">Please type an introduction message</h:outputLabel><br/>
-            <h:inputTextarea name="introduction" value="#{friendRequest.introduction}"/><br/>
+            <h:inputTextarea id="introduction" value="#{friendRequest.introduction}"/><br/>
 
             <div class="buttons">
               <h:commandButton action="#{friend.saveRequest}" value="Send request" styleClass="action"/>

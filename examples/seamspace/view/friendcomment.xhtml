@@ -42,7 +42,7 @@
             <h:form>
               
               <h:outputLabel for="comment">Please type your comment for #{friendComment.member.memberName}</h:outputLabel><br/>
-              <h:inputTextarea name="comment" value="#{friendComment.comment}"/><br/>
+              <h:inputTextarea id="comment" value="#{friendComment.comment}"/><br/>
 
               <div class="buttons">
                 <h:commandButton action="#{friend.saveComment}" value="Add comment" styleClass="action"/>            
