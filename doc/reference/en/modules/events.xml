@@ -916,6 +916,10 @@ public class UnrecoverableApplicationException extends RuntimeException { ... }]
             Note that <literal>@Redirect</literal> does not work for exceptions
             which occur during the render phase of the JSF lifecycle.
         </para>
+        
+        <para>
+            You can also use EL to specify the <literal>viewId</literal> to redirect to.
+        </para>
 
         <para>
             This exception results in a redirect, along with a message to the user, when it 
@@ -963,7 +967,11 @@ public class SystemException extends RuntimeException { ... }]]></programlisting
             and is a catch-all for any exception for which handling is not otherwise specified
             via annotations or in <literal>pages.xml</literal>.
         </para>
-
+        
+        <para>
+            You can also use EL to specify the <literal>view-id</literal> to redirect to.
+        </para>
+        
         <para>
            You can also access the handled exception instance through EL, Seam places it in the
            conversation context, e.g. to access the message of the exception:

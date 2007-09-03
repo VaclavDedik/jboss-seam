@@ -770,7 +770,8 @@
                     <itemizedlist>
                         <listitem>
                             <para>
-                                <literal>viewId</literal> &#8212; specifies the JSF view id to redirect to. </para>
+                                <literal>viewId</literal> &#8212; specifies the JSF view id to redirect to.  You can use
+                                EL here. </para>
                         </listitem>
                         <listitem>
                             <para>
