@@ -407,7 +407,7 @@
 public void beginClaimWizard() {
     claim = em.find(Claim.class, claimId);
 }]]></programlisting>
-
+        
         <para>
             Now, the <literal>claim</literal> object remains managed by the persistence context
             for the rest ot the conversation. We can make changes to the claim:
@@ -427,6 +427,13 @@ public void beginClaimWizard() {
 public void commitClaim() {
     em.flush();
 }]]></programlisting>
+
+         <para>
+            Of course, you could set the <literal>flushMode</literal> to <literal>MANUAL</literal>
+            from pages.xml, for example in a navigation rule:
+        </para>
+        
+        <programlisting><![CDATA[<begin-conversation flush-mode="MANUAL" />]]></programlisting>
 
     </section>
 
