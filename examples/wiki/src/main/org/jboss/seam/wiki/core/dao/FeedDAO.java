@@ -13,6 +13,7 @@ import org.jboss.seam.wiki.core.engine.WikiTextRenderer;
 import org.jboss.seam.wiki.core.engine.WikiLink;
 import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
+import org.jboss.seam.wiki.util.WikiUtil;
 import org.jboss.seam.Component;
 import org.jboss.seam.log.Log;
 
@@ -180,8 +181,11 @@ public class FeedDAO {
     }
 
     private String renderFeedURL(Node node) {
+        /*
         WikiPreferences wikiPrefs = (WikiPreferences) Component.getInstance("wikiPreferences");
         return wikiPrefs.getBaseUrl() + "/" + node.getId() + wikiPrefs.getPermlinkSuffix();
+        */
+        return WikiUtil.renderURL(node);
     }
 
     private String renderWikiText(String wikiText) {

@@ -95,6 +95,9 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
         // Outject current node (required for polymorphic UI, e.g. access level dropdown boxes)
         Contexts.getPageContext().set("currentNode", getInstance());
 
+        // Outjects current node or parent directory, e.g. for breadcrumb rendering
+        Contexts.getPageContext().set("currentLocation", !isManaged() ? getParentDirectory() : getInstance());
+
         return null;
     }
 

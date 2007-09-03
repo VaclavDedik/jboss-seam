@@ -9,15 +9,7 @@
                 xmlns:j4j="http://javascript4jsf.dev.java.net/"
                 template="themes/#{wikiPreferences.themeName}/template.xhtml">
 
-<ui:define name="includeHeaders">
-    <link href="#{themePath}/css/breadcrumb.css" rel="stylesheet" type="text/css"/>
-</ui:define>
-
 <ui:define name="screenname">#{documentHome.instance.name}</ui:define>
-
-<ui:define name="headerBottomOne">
-    <ui:include src="includes/breadcrumb.xhtml"/>
-</ui:define>
 
 <ui:define name="controlTwo">
 

@@ -23,7 +23,8 @@
                 <h:outputText value="#{wiki:truncateString(node.name, 30, '...')}"/>
             </h:outputLink>
 
-            <h:outputText styleClass="itemSeparator" value="&#183;" rendered="#{wiki:isDirectory(node)}"/>
+            <h:outputText rendered="#{breadcrumb.indexOf(node) &lt; breadcrumb.size()-1}"
+                          styleClass="itemSeparator" value="&#183;"/>
 
         </ui:repeat>
     </h:panelGroup>

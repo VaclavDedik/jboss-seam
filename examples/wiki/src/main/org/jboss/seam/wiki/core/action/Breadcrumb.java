@@ -16,24 +16,26 @@ import java.util.Collections;
 @Scope(ScopeType.PAGE)
 public class Breadcrumb implements Serializable {
 
-    @In
-    Node currentNode;
+    @In(required = false)
+    Node currentLocation;
 
     @Factory(value = "breadcrumb", autoCreate = true)
     public List<Node> unwrap() {
         // TODO: Maybe a nested set query would be more efficient?
-        List<Node> currentDirectoryPath = new ArrayList<Node>();
-        addDirectoryToPath(currentDirectoryPath, currentNode);
-        Collections.reverse(currentDirectoryPath);
-        return currentDirectoryPath;
+        List<Node> currentPath = new ArrayList<Node>();
+        if (currentLocation == null) return currentPath;
+        addToPath(currentPath, currentLocation);
+        Collections.reverse(currentPath);
+        return currentPath;
     }
 
-    protected void addDirectoryToPath(List<Node> path, Node currentNode) {
-        if (Identity.instance().hasPermission("Node", "read", currentNode) &&
-            !currentNode.getId().equals( ((Directory) Component.getInstance("wikiRoot")).getId() ) )
-            path.add(currentNode);
-        if (currentNode.getParent() != null ) {
-            addDirectoryToPath(path, currentNode.getParent());
+    protected void addToPath(List<Node> path, Node currentLocation) {
+        if (Identity.instance().hasPermission("Node", "read", currentLocation) &&
+            currentLocation.getId() != null &&
+            !currentLocation.getId().equals( ((Directory) Component.getInstance("wikiRoot")).getId() ) )
+            path.add(currentLocation);
+        if (currentLocation.getParent() != null ) {
+            addToPath(path, currentLocation.getParent());
         }
     }
 
