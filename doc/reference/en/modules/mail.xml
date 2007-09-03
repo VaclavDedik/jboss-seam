@@ -106,7 +106,7 @@ public void send() {
 
          <para>You may be wondering what <literal>cid:#{...}</literal> does. Well, the IETF specified that by
          putting this as the src for your image, the attachments will be looked at when trying to locate the
-         image (the <literal>Content-ID</literal>'s must matchs)
+         image (the <literal>Content-ID</literal>'s must match)
           - magic!</para>
           
           <para>You must declare the attachment before trying to access the status object.</para>
