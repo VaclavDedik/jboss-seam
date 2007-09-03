@@ -12,38 +12,24 @@ public class TaskControl
 
    private boolean isEndTask;
 
-   private ValueExpression taskId;
+   private ValueExpression<Long> taskId;
 
-   private String transition;
+   private ValueExpression<String> transition;
 
    public void beginOrEndTask()
    {
       if ( endTask() )
       {
          BusinessProcess.instance().validateTask();
-         BusinessProcess.instance().endTask(transition);
+         BusinessProcess.instance().endTask(transition == null ? null : transition.getValue());
       }
       if ( beginTask() || startTask() )
       {
-         Object id = taskId.getValue();
-         if (id==null)
+         if (taskId==null || taskId.getValue() == null)
          {
-            throw new IllegalStateException("task id may not be null");
+            throw new NullPointerException("task id may not be null");
          }
-         Long taskId;
-         if ( id instanceof Long )
-         {
-            taskId = (Long) id;
-         }
-         else if (id instanceof String) 
-         {
-            taskId = new Long( (String) id );
-         }
-         else
-         {
-            throw new IllegalArgumentException("task id must be a string or long");
-         }
-         BusinessProcess.instance().resumeTask(taskId);
+         BusinessProcess.instance().resumeTask(taskId.getValue());
       }
       if ( startTask() )
       {
@@ -96,22 +82,22 @@ public class TaskControl
       this.isStartTask = isStartTask;
    }
 
-   public void setTaskId(ValueExpression<String> taskId)
+   public void setTaskId(ValueExpression<Long> taskId)
    {
       this.taskId = taskId;
    }
 
-   public ValueExpression<String> getTaskId()
+   public ValueExpression<Long> getTaskId()
    {
       return taskId;
    }
    
-   public String getTransition()
+   public ValueExpression<String> getTransition()
    {
       return transition;
    }
    
-   public void setTransition(String transition)
+   public void setTransition(ValueExpression<String> transition)
    {
       this.transition = transition;
    }

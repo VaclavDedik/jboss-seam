@@ -1143,7 +1143,11 @@ public class Pages
       if ( endTask!=null )
       {
          control.setEndTask(true);
-         control.setTransition( endTask.attributeValue("transition") );
+         String transition = endTask.attributeValue("transition");
+         if (transition != null)
+         {
+            control.setTransition( Expressions.instance().createValueExpression(transition, String.class) );
+         }
       }
       
       Element beginTask = element.element("begin-task");
@@ -1155,7 +1159,7 @@ public class Pages
          {
            taskId = "#{param.taskId}";
          }
-         control.setTaskId( Expressions.instance().createValueExpression(taskId, String.class) );
+         control.setTaskId( Expressions.instance().createValueExpression(taskId, Long.class) );
       }
       
       Element startTask = element.element("start-task");
@@ -1167,7 +1171,7 @@ public class Pages
          {
            taskId = "#{param.taskId}";
          }
-         control.setTaskId( Expressions.instance().createValueExpression(taskId, String.class) );
+         control.setTaskId( Expressions.instance().createValueExpression(taskId, Long.class) );
       }
       
       if ( control.isBeginTask() && control.isEndTask() )
