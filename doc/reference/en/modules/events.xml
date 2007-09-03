@@ -74,7 +74,8 @@
 </pages>]]></programlisting>
 
         <para>
-            Or we can use a wildcard to specify an action that applies to all 
+            Or we can use a <literal>*</literal> wildcard as a suffix to the
+            <literal>view-id</literal> to specify an action that applies to all 
             view ids that match the pattern:
         </para>
 
