@@ -4,6 +4,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 
 import org.jboss.seam.annotations.exception.Redirect;
+import org.jboss.seam.core.Expressions;
+import org.jboss.seam.core.Expressions.ValueExpression;
 
 /**
  * Implements @Redirect
@@ -35,7 +37,7 @@ public class AnnotationRedirectHandler extends RedirectHandler
    @Override
    protected String getViewId(Exception e)
    {
-      return e.getClass().getAnnotation(Redirect.class).viewId();
+      return Expressions.instance().createValueExpression(e.getClass().getAnnotation(Redirect.class).viewId(), String.class).getValue();
    }
    
    @Override

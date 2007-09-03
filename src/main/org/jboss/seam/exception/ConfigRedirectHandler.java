@@ -2,6 +2,9 @@ package org.jboss.seam.exception;
 
 import javax.faces.application.FacesMessage.Severity;
 
+import org.jboss.seam.core.Expressions;
+import org.jboss.seam.core.Expressions.ValueExpression;
+
 /**
  * Implements &lt;redirect/&gt; for pages.xml
  * 
@@ -10,19 +13,29 @@ import javax.faces.application.FacesMessage.Severity;
  */
 public final class ConfigRedirectHandler extends RedirectHandler
 {
-   private final String id;
+   private final ValueExpression<String> id;
    private final Class clazz;
    private final boolean conversation;
    private final String message;
    private final Severity messageSeverity;
 
-   public ConfigRedirectHandler(String id, Class clazz, boolean conversation, String message, Severity messageSeverity)
+   /**
+    * Construct a ConfigRedirectHandler.
+    * 
+    */
+   public ConfigRedirectHandler(ValueExpression<String> id, Class clazz, boolean conversation, String message, Severity messageSeverity)
    {
       this.id = id;
       this.clazz = clazz;
       this.conversation = conversation;
       this.message = message;
       this.messageSeverity = messageSeverity;
+   }
+   
+   @Deprecated
+   public ConfigRedirectHandler(String id, Class clazz, boolean conversation, String message, Severity messageSeverity)
+   {
+      this(Expressions.instance().createValueExpression(id, String.class), clazz, conversation, message, messageSeverity);
    }
 
    @Override
@@ -34,7 +47,7 @@ public final class ConfigRedirectHandler extends RedirectHandler
    @Override
    protected String getViewId(Exception e)
    {
-      return id;
+      return id.getValue();
    }
 
    @Override

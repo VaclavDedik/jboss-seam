@@ -20,6 +20,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Events;
+import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.ResourceLoader;
 import org.jboss.seam.log.LogProvider;
@@ -154,7 +155,7 @@ public class Exceptions
          Severity severity = severityName==null ? 
                   FacesMessage.SEVERITY_INFO : 
                   Pages.getFacesMessageValuesMap().get( severityName.toUpperCase() );
-         return new ConfigRedirectHandler(viewId, clazz, endConversation, message, severity);
+         return new ConfigRedirectHandler(Expressions.instance().createValueExpression(viewId, String.class), clazz, endConversation, message, severity);
       }
       
       Element error = exception.element("http-error");
