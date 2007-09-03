@@ -822,8 +822,7 @@ public String completed() { ... }]]></programlisting>
 </page>]]></programlisting>
 
         <para>
-            (Alternatively, we could have used <literal>&lt;end-conversation&gt;</literal>
-            as shown above.)
+            You can also use EL to specify the transition in pages.xml.
         </para>
 
         <para>
