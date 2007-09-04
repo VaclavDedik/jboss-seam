@@ -64,7 +64,7 @@ public class SafeActions
       String action = "\"#{" + id.substring(loc+1) + "}\"";
       
       InputStream is = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream(viewId);
-      if (is==null) throw new IllegalStateException("Unable to read view " + "/" + viewId);
+      if (is==null) throw new IllegalStateException("Unable to read view " + "/" + viewId + " to execute action " + action);
       BufferedReader reader = new BufferedReader( new InputStreamReader(is) );
       try
       {
@@ -80,7 +80,7 @@ public class SafeActions
       }
       catch (IOException ioe)
       {
-         throw new RuntimeException("Error parsing view " + "/" + viewId, ioe);
+         throw new RuntimeException("Error parsing view " + "/" + viewId + " to execute action " + action, ioe);
       }
       finally
       {
