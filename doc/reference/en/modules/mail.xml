@@ -319,10 +319,14 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.</f:facet>
     
     <para>
       If you are using EJB then you can use a MDB (Message Driven Bean) to 
-      receive email.  Seam comes with an improved version of <literal>mail-ra.rar</literal>
-      as distributed in JBoss AS; until the improvements make there way into
-	a released version of JBoss AS, replacing the default <literal>rar</literal> 
-      with the one distributed with Seam is recommended.
+      receive email.  JBoss provides a JCA adaptor &#8212; 
+      <literal>mail-ra.rar</literal> &#8212; but the version distributed with
+      JBoss AS has a number of limitations (and isn't bundled in some versions)
+      therefore we recommend using the <literal>mail-ra.rar</literal> 
+      distributed with Seam is recommended (it's in the <literal>mail</literal>
+      directory in the Seam bundle).  <literal>mail-ra.rar</literal> should 
+      be placed in <literal>$JBOSS_HOME/server/default/deploy</literal>; if the
+      version of JBoss AS you use already has this file, replace it.
     </para>
     
     <para>
@@ -357,21 +361,13 @@ public class MailListenerMDB implements MailListener {
     </para>
 
     <para>
-      You can find more information on the default <literal>mail-ra.rar</literal>
+      You can find more information on<literal>mail-ra.rar</literal>
       at <ulink url="http://wiki.jboss.org/wiki/Wiki.jsp?page=InboundJavaMail">http://wiki.jboss.org/wiki/Wiki.jsp?page=InboundJavaMail</ulink>.
-      The version distributed with Seam also includes a <literal>debug</literal>
-      property to enable JavaMail debugging, a <literal>flush</literal>
-      property (by default true) to disable flushing a <literal>POP3</literal> 
-      mailbox after successfullying delivering a message to your MDB and a
-      <literal>port</literal> property to override the default TCP port. Beware
-      that the api for this may be altered as changes make their way into JBoss
-      AS.
     </para>
 		
     <para>
       If you aren't using JBoss AS you can still use <literal>mail-ra.rar</literal> 
-      (included with Seam in the mail directory), or you may find your 
-      application server includes a similar adapter.
+      or you may find your application server includes a similar adapter.
     </para>
 	
   </section>
