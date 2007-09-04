@@ -59,12 +59,12 @@ public class SafeActions
       if ( safeActions.contains(id) ) return true;
       
       int loc = id.indexOf(':');
-      if (loc<0) throw new IllegalArgumentException();
+      if (loc<0) throw new IllegalArgumentException("Invalid action method " + id);
       String viewId = id.substring(0, loc);
       String action = "\"#{" + id.substring(loc+1) + "}\"";
       
       InputStream is = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream(viewId);
-      if (is==null) throw new IllegalStateException();
+      if (is==null) throw new IllegalStateException("Unable to read view " + "/" + viewId);
       BufferedReader reader = new BufferedReader( new InputStreamReader(is) );
       try
       {
@@ -80,7 +80,7 @@ public class SafeActions
       }
       catch (IOException ioe)
       {
-         throw new RuntimeException(ioe);
+         throw new RuntimeException("Error parsing view " + "/" + viewId, ioe);
       }
       finally
       {
