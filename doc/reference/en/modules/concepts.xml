@@ -241,7 +241,7 @@
 
         </sect2>
 
-        <sect2>
+        <sect2 id="concurrency">
             <title>Concurrency model</title>
             <para> 
                 Neither the servlet nor EJB specifications define any facilities for managing concurrent requests
