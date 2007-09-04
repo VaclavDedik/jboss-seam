@@ -998,14 +998,30 @@ public int getTotal() {
         </listitem>
         <listitem>
           <para>
-            <literal>ignoreDupRequests</literal> &#8212; if a duplicate request
-            occurs, the unfinished event will be aborted
+            <literal>ignoreDupResponses</literal> &#8212; ignore the response 
+            produced by the request if a more recent 'similar' request is
+            already in the queue. ignoreDupResponses="true" does <emphasis>not 
+            cancel</emphasis> the the processing of the request on the server
+            side &#8212; just prevents unnecessary updates on the client side.
+          </para>
+          <para>
+            This option should be used with care with Seam's conversations as
+            it allows multiple concurrent requests to be made.
           </para>
         </listitem>
         <listitem>
           <para>
-            <literal>requestDelay</literal> &#8212; Delays the sending of the
-            request to the server
+            <literal>requestDelay</literal> &#8212; defines the time (in ms.)
+            that the request will be remain on the queue. If the request has
+            not been processed by after this time the request will be sent 
+            (regardless of whether a response has been received) or discarded
+            (if there is a more recent similar event on the queue).
+          </para>
+          <para>
+            This option should be used with care with Seam's conversations as
+            it allows multiple concurrent requests to be made.  You need to be
+            sure that the delay you set (in combination with the concurrent
+            request timeout) is longer than the action will take to execute.
           </para>
         </listitem>
         <listitem>
