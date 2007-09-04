@@ -164,8 +164,8 @@
         <s:div id="searchResult">
 
             <h:dataTable id="searchResultTable" var="hit"
-                         value="#{searchResult}"
-                         rendered="#{wikiSearch.totalCount>0}"
+                         value="#{wikiSearch.searchResult}"
+                         rendered="#{wikiSearch.searchResult.size() > 0}"
                          styleClass="datatable topLeftBottomBorder"
                          columnClasses="rightBorder alignLeft minorPadding"
                          rowClasses="rowOdd,rowEven"

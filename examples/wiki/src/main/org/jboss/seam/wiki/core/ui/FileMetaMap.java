@@ -18,6 +18,7 @@ public class FileMetaMap {
             put("image/jpg",                    new FileMetaInfo("icon.fileimg.gif", true));
             put("image/jpeg",                   new FileMetaInfo("icon.fileimg.gif", true));
             put("image/png",                    new FileMetaInfo("icon.fileimg.gif", true));
+            put("image/gif",                    new FileMetaInfo("icon.fileimg.gif", false));
             put("text/plain",                   new FileMetaInfo("icon.filetxt.gif", false));
             put("application/pdf",              new FileMetaInfo("icon.filepdf.gif", false));
             put("application/octet-stream",     new FileMetaInfo("icon.filegeneric.gif", false));
@@ -25,6 +26,7 @@ public class FileMetaMap {
         }
     };
 
+    // TODO: Yeah, typo here... do it later
     @Unwrap
     public Map<String, FileMetaInfo> getFielMetaMap() {
         return metamap;

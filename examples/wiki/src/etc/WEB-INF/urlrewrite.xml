@@ -10,10 +10,18 @@
 -->
 <urlrewrite>
 
+    <!-- Mobile browser -->
+    <rule>
+        <from>.*</from>
+        <condition next="or" name="user-agent">Windows CE</condition>
+        <condition name="user-agent">BlackBerry</condition>
+        <set type="session" name="skin">m</set>
+    </rule>
+
     <!-- /123.lace -->
     <rule>
-         <from>^/([0-9]+)\.[a-zA-z]+$</from>
-         <to last="true">/wiki.seam?nodeId=$1</to>
+        <from>^/([0-9]+)\.[a-zA-z]+$</from>
+        <to last="true">/wiki.seam?nodeId=$1</to>
      </rule>
 
     <!-- /Foo -->

@@ -12,7 +12,7 @@
 
 <ui:define name="controlTwo">
 
-    <s:link id="createUser" styleClass="linkNavigation" accesskey="C" view="/userRegister.xhtml" propagation="none"
+    <s:link id="createUser" styleClass="linkNavigation" accesskey="C" view="/userRegister_#{skin}.xhtml" propagation="none"
             rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}"><u>C</u>reate Account
     </s:link>
 
@@ -196,7 +196,7 @@
             </h:column>
 
             <h:column rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}">
-                <s:link styleClass="buttonNonpersistent" view="/userHome.xhtml" propagation="none">
+                <s:link styleClass="buttonNonpersistent" view="/userHome_#{skin}.xhtml" propagation="none">
                     <f:param name="userId" value="#{u.id}"/>
                     <span class="buttonLabel">Edit</span>
                 </s:link>

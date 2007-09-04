@@ -1,0 +1,145 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:wiki="http://jboss.com/products/seam/wiki"
+                template="themes/#{wikiPreferences.themeName}/#{skin}/template.xhtml">
+
+<ui:define name="screenname">#{documentHome.instance.name}</ui:define>
+
+<ui:define name="control">
+
+    <s:link id="createDoc" styleClass="linkNavigation" view="/docEdit_#{skin}.xhtml"
+            rendered="#{s:hasPermission('Node', 'create', documentHome.instance.parent)}">Create
+        <f:param name="documentId" value=""/>
+        <f:param name="parentDirectoryId" value="#{documentHome.instance.parent.id}"/>
+    </s:link>
+
+    <s:link id="editDoc" styleClass="linkNavigation" view="/docEdit_#{skin}.xhtml"
+            rendered="#{s:hasPermission('Node', 'edit', documentHome.instance)}">Edit</s:link>
+
+    <s:link id="showHistory" styleClass="linkNavigation" view="/docHistory_#{skin}.xhtml"
+            rendered="#{documentHome.historicalNodesPresent}">History
+        <f:param name="nodeId" value="#{documentHome.nodeId}"/>
+    </s:link>
+
+    <s:link id="browseDir" styleClass="linkNavigation" view="/dirDisplay_#{skin}.xhtml">Browse
+        <f:param name="directoryId" value="#{documentHome.parentDirectory.id}"/>
+    </s:link>
+
+</ui:define>
+
+<ui:define name="content">
+
+    <s:div id="documentDisplay" styleClass="documentDisplay">
+        <s:div rendered="#{documentHome.instance.nameAsTitle}"><h1 class="documentTitle">#{documentHome.instance.name}</h1></s:div>
+        <wiki:formattedText value="#{wiki:disableFloats(documentHome.instance.content)}"
+                            linkStyleClass="regularLink"
+                            brokenLinkStyleClass="brokenLink"
+                            attachmentLinkStyleClass="regularLink"
+                            thumbnailLinkStyleClass="regularLink"
+                            renderBaseDocument="#{documentHome.instance}"
+                            renderBaseDirectory="#{documentHome.parentDirectory}"
+                            enablePlugins="true"/>
+    </s:div>
+
+    <ui:include src="includes/attachmentDisplay.xhtml"/>
+
+    <s:fragment rendered="#{not empty commentHome.comments and documentHome.instance.enableComments}">
+        <br/>
+        <h:dataTable value="#{commentHome.comments}" var="c"
+                     rowClasses="rowOdd,rowEven"
+                     cellpadding="0" cellspacing="0" border="0">
+            <h:column>
+                <f:facet name="header">
+                    #{wiki:sizeOf(commentHome.comments)} comment(s):
+                </f:facet>
+
+                <div class="commentSubject">
+                    <h:outputText value="#{c.subject}" rendered="#{documentHome.instance.name != c.subject}"/>
+                </div>
+
+                <div class="commentAuthorDate">
+                <span class="commentDate">
+                    <h:outputText value="#{c.createdOn}">
+                        <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
+                    </h:outputText>
+                    <h:outputText value="&#160;#{wikiPreferences.timeZone}"/>
+                </span>
+                    <s:span>&#160;(
+                        <s:span styleClass="commentAuthor" rendered="#{empty c.fromUserHomepage}">#{c.fromUserName}</s:span>
+                        <s:span styleClass="commentAuthor" rendered="#{!empty c.fromUserHomepage}"><a
+                                href="http://#{c.fromUserHomepage}">#{c.fromUserName}</a></s:span>
+                        <s:span styleClass="commentAuthor" rendered="#{!empty c.fromUserEmail}">,&#160;
+                            <h:outputLink value="#{wiki:escapeEmailURL(wiki:concat('mailto:', c.fromUserEmail))}">#{wiki:escapeAtSymbol(c.fromUserEmail)}</h:outputLink>
+                        </s:span>)
+                    </s:span>
+                </div>
+
+                <s:div styleClass="commentText" rendered="#{c.useWikiText}">
+                    <s:formattedText value="#{c.text}"/>
+                </s:div>
+                <s:div styleClass="commentText" rendered="#{not c.useWikiText and documentHome.instance.name != c.subject}" style="margin-top:15px;">
+                    <h:outputText value="#{wiki:escapeHTML(c.text, true)}" escape="false"/>
+                </s:div>
+                <s:div styleClass="commentText" rendered="#{not c.useWikiText and documentHome.instance.name == c.subject}">
+                    <h:outputText value="#{wiki:escapeHTML(c.text, true)}" escape="false"/>
+                </s:div>
+
+                <div align="right">
+                    <h:form rendered="#{s:hasPermission('Comment', 'delete', documentHome.instance)}">
+                        <h:commandButton action="#{commentHome.remove(c.id)}" value="Remove Comment"/>
+                    </h:form>
+                </div>
+
+            </h:column>
+        </h:dataTable>
+    </s:fragment>
+
+    <s:fragment rendered="#{documentHome.instance.enableComments and documentHome.instance.enableCommentForm}">
+        <br/>
+        <div class="boxHeader">Post Comment:</div>
+        <h:form id="commentForm"><s:validateAll>
+
+            <div class="errorMessage"><h:message for="userName"/></div>
+            <div>Name:&#160;<br/><h:inputText size="30" maxlength="100" required="true" id="userName" value="#{commentHome.comment.fromUserName}"/></div>
+
+            <div class="errorMessage"><h:message for="userEmail"/></div>
+            <div>E-mail address (optional):&#160;<br/><h:inputText size="30" maxlength="255" required="false" id="userEmail" value="#{commentHome.comment.fromUserEmail}"/></div>
+
+            <div class="errorMessage"><h:message for="userHomepage"/></div>
+            <div>Homepage URL (optional):&#160;<br/><h:inputText size="30" maxlength="1000" required="false" id="userHomepage" value="#{commentHome.comment.fromUserHomepage}"/></div>
+
+            <div class="errorMessage"><h:message for="subject"/></div>
+            <div>Subject:&#160;<br/><h:inputText size="30" maxlength="255" required="true" id="subject" value="#{commentHome.comment.subject}"/></div>
+
+            <div class="errorMessage"><h:message for="comment"/></div>
+            <div>
+                <h:inputTextarea required="true"
+                                 cols="45"
+                                 rows="5"
+                                 id="comment"
+                                 value="#{commentHome.comment.text}"/>
+            </div>
+
+            <s:div rendered="#{!identity.loggedIn}">
+                <div>Verification question:&#160;What is the result of&#160;<h:outputText value="#{captcha.question}"/>?</div>
+                <div class="errorMessage"><h:message for="verifyCaptcha"/></div>
+                <div>Enter response:&#160;</div>
+                <h:inputText size="5" maxlength="5" required="true" id="verifyCaptcha" value="#{captcha.response}"/>
+            </s:div>
+
+            <div class="formControls">
+                <h:commandButton action="#{commentHome.persist}" value="Post Comment"/>
+            </div>
+    
+        </s:validateAll></h:form>
+    </s:fragment>
+
+
+</ui:define>
+
+</ui:composition>

@@ -58,7 +58,7 @@ public class DisplayNodes extends DBUnitSeamTest {
                 assert currentDirectoryPath.get(0).getId().equals( ((Directory)getValue("#{currentDirectory}")).getId() );
                 assert currentDirectoryPath.get(1).getId().equals( ((Document)getValue("#{currentDocument}")).getId()  );
 
-                assert getRenderedViewId().equals("/docDisplay.xhtml");
+                assert getRenderedViewId().equals("/docDisplay_d.xhtml");
             }
             
         }.run();
@@ -81,7 +81,7 @@ public class DisplayNodes extends DBUnitSeamTest {
                 Directory dir = dirHome.getInstance();
                 assert dir != null;
                 assert dir.getId().equals(TEST_DIRECTORY2_ID);
-                assert getRenderedViewId().equals("/dirDisplay.xhtml");
+                assert getRenderedViewId().equals("/dirDisplay_d.xhtml");
             }
         }.run();
     }
@@ -105,7 +105,7 @@ public class DisplayNodes extends DBUnitSeamTest {
                 assert dir != null;
                 assert dir.getId().equals(TEST_DIRECTORY1_ID);
 
-                assert getRenderedViewId().equals("/docDisplay.xhtml");
+                assert getRenderedViewId().equals("/docDisplay_d.xhtml");
             }
         }.run();
     }
@@ -128,7 +128,7 @@ public class DisplayNodes extends DBUnitSeamTest {
                 assert dir != null;
                 assert dir.getId().equals(TEST_DIRECTORY1_ID);
 
-                assert getRenderedViewId().equals("/docDisplay.xhtml");
+                assert getRenderedViewId().equals("/docDisplay_d.xhtml");
             }
         }.run();
     }
@@ -151,7 +151,7 @@ public class DisplayNodes extends DBUnitSeamTest {
                 assert dir != null;
                 assert dir.getId().equals(TEST_DIRECTORY2_ID);
 
-                assert getRenderedViewId().equals("/dirDisplay.xhtml");
+                assert getRenderedViewId().equals("/dirDisplay_d.xhtml");
             }
         }.run();
     }

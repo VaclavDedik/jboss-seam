@@ -88,11 +88,14 @@ public class WikiSearch implements Serializable {
         maxPageSize = 100;
     }
 
-    @DataModel
     List<SearchHit> searchResult;
 
+    public List<SearchHit> getSearchResult() {
+        if (searchResult == null) search();
+        return searchResult;
+    }
+
     @Transactional
-    @Factory("searchResult")
     public void search() {
         page = 0;
         searchEntities = new TreeSet<SearchableEntity>();

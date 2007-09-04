@@ -172,6 +172,13 @@ public class WikiUtil {
         return sb.toString();
     }
 
+    // TODO: This would be the job of a more flexible seam text parser...
+    public static String disableFloats(String string) {
+        return string.replaceAll("float:\\s?(right)|(left)", "float:none")
+                     .replaceAll("width:\\s?[0-9]+\\s?(px)", "width:100%")
+                     .replaceAll("width:\\s?[0-9]+\\s?(%)", "width:100%");
+    }
+
     public static byte[] resizeImage(byte[] imageData, String contentType, int width) {
         ImageIcon icon = new ImageIcon(imageData);
 

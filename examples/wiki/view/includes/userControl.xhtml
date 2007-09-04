@@ -16,11 +16,11 @@
             <h:inputSecret styleClass="userControlInput" id="loginPassword" value="#{identity.password}" size="8" tabindex="50"/>
             <h:commandLink styleClass="userControlLink" action="#{identity.login}" tabindex="50" accesskey="L"><u>L</u>ogin</h:commandLink>
 
-            <s:link styleClass="userControlLink" tabindex="50" accesskey="R" view="/userRegister.xhtml" propagation="none"
+            <s:link styleClass="userControlLink" tabindex="50" accesskey="R" view="/userRegister_#{skin}.xhtml" propagation="none"
                     rendered="#{userManagementPreferences.properties['enableRegistration']}"><u>R</u>egister
             </s:link>
 
-            <s:link styleClass="userControlLink" tabindex="50" accesskey="M" view="/userList.xhtml" propagation="none"><u>M</u>embers</s:link>
+            <s:link styleClass="userControlLink" tabindex="50" accesskey="M" view="/userList_#{skin}.xhtml" propagation="none"><u>M</u>embers</s:link>
 
         </h:panelGroup>
 
@@ -36,13 +36,13 @@
             <h:outputLink styleClass="userControlLink" tabindex="70" accesskey="H" value="#{wiki:renderHomeURL(currentUser)}"
                     rendered="#{!empty currentUser.memberHome}"><u>H</u>ome</h:outputLink>
 
-            <s:link styleClass="userControlLink" tabindex="70" accesskey="P" view="/userHome.xhtml" propagation="none"><u>P</u>rofile
+            <s:link styleClass="userControlLink" tabindex="70" accesskey="P" view="/userHome_#{skin}.xhtml" propagation="none"><u>P</u>rofile
                 <f:param name="userId" value="#{currentUser.id}"/>
             </s:link>
 
-            <s:link styleClass="userControlLink" tabindex="70" accesskey="M" view="/userList.xhtml" propagation="none"><u>M</u>embers</s:link>
+            <s:link styleClass="userControlLink" tabindex="70" accesskey="M" view="/userList_#{skin}.xhtml" propagation="none"><u>M</u>embers</s:link>
 
-            <s:link styleClass="userControlLink" tabindex="70" accesskey="A" view="/adminHome.xhtml" propagation="none"
+            <s:link styleClass="userControlLink" tabindex="70" accesskey="A" view="/adminHome_#{skin}.xhtml" propagation="none"
                     rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}"><u>A</u>dmin
             </s:link>
 

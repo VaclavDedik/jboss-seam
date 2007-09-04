@@ -53,14 +53,14 @@ public class BasicNodeOperations extends DBUnitSeamTest {
     @Test
     public void deleteDocument() throws Exception {
 
-        final String conversationId = new NonFacesRequest("/docEdit.xhtml") {
+        final String conversationId = new NonFacesRequest("/docEdit_d.xhtml") {
             protected void beforeRequest() {
                 setParameter("documentId", TEST_DOCUMENT1_ID.toString());
                 setParameter("parentDirectoryId", TEST_DIRECTORY1_ID.toString());
             }
         }.run();
 
-        new FacesRequest("/docEdit.xhtml") {
+        new FacesRequest("/docEdit_d.xhtml") {
 
             protected void beforeRequest() {
                 setParameter("cid", conversationId);
@@ -75,7 +75,7 @@ public class BasicNodeOperations extends DBUnitSeamTest {
 
                 assert invokeMethod("#{documentHome.remove}").equals("removed");
 
-                // TODO: SeamTest doesn't do navigation but we don't want to have /docEdit.xhtml in the RENDER RESPONSE
+                // TODO: SeamTest doesn't do navigation but we don't want to have /docEdit_d.xhtml in the RENDER RESPONSE
                 Conversation.instance().end();
                 Redirect.instance().setViewId("/dirDisplay.xhtml");
                 Redirect.instance().execute();
@@ -99,14 +99,14 @@ public class BasicNodeOperations extends DBUnitSeamTest {
     @Test
     public void deleteDirectory() throws Exception {
 
-        final String conversationId = new NonFacesRequest("/dirEdit.xhtml") {
+        final String conversationId = new NonFacesRequest("/dirEdit_d.xhtml") {
             protected void beforeRequest() {
                 setParameter("directoryId", TEST_DIRECTORY2_ID.toString());
                 setParameter("parentDirectoryId", TEST_DIRECTORY1_ID.toString());
             }
         }.run();
 
-        new FacesRequest("/dirEdit.xhtml") {
+        new FacesRequest("/dirEdit_d.xhtml") {
 
             protected void beforeRequest() {
                 setParameter("cid", conversationId);
@@ -129,7 +129,7 @@ public class BasicNodeOperations extends DBUnitSeamTest {
 
                 assert invokeMethod("#{directoryHome.remove}").equals("removed");
 
-                // TODO: SeamTest doesn't do navigation but we don't want to have /dirEdit.xhtml in the RENDER RESPONSE
+                // TODO: SeamTest doesn't do navigation but we don't want to have /dirEdit_d.xhtml in the RENDER RESPONSE
                 Conversation.instance().end();
                 Redirect.instance().setViewId("/dirDisplay.xhtml");
                 Redirect.instance().execute();
@@ -153,13 +153,13 @@ public class BasicNodeOperations extends DBUnitSeamTest {
     @Test
     public void createDocumentInArea() throws Exception {
 
-        final String conversationId = new NonFacesRequest("/docEdit.xhtml") {
+        final String conversationId = new NonFacesRequest("/docEdit_d.xhtml") {
             protected void beforeRequest() {
                 setParameter("parentDirectoryId", TEST_DIRECTORY1_ID.toString());
             }
         }.run();
 
-        new FacesRequest("/docEdit.xhtml") {
+        new FacesRequest("/docEdit_d.xhtml") {
 
             protected void beforeRequest() {
                 setParameter("cid", conversationId);
@@ -215,13 +215,13 @@ public class BasicNodeOperations extends DBUnitSeamTest {
     @Test
     public void createDocumentInSubdirectory() throws Exception {
 
-        final String conversationId = new NonFacesRequest("/docEdit.xhtml") {
+        final String conversationId = new NonFacesRequest("/docEdit_d.xhtml") {
             protected void beforeRequest() {
                 setParameter("parentDirectoryId", TEST_DIRECTORY2_ID.toString());
             }
         }.run();
 
-        new FacesRequest("/docEdit.xhtml") {
+        new FacesRequest("/docEdit_d.xhtml") {
 
             protected void beforeRequest() {
                 setParameter("cid", conversationId);
@@ -275,14 +275,14 @@ public class BasicNodeOperations extends DBUnitSeamTest {
     @Test
     public void moveDirectoryLeft() throws Exception {
 
-        final String conversationId = new NonFacesRequest("/dirEdit.xhtml") {
+        final String conversationId = new NonFacesRequest("/dirEdit_d.xhtml") {
             protected void beforeRequest() {
                 setParameter("directoryId", TEST_DIRECTORY1_ID.toString());
                 setParameter("parentDirectoryId", TEST_WIKI_ROOT_ID.toString());
             }
         }.run();
 
-        new FacesRequest("/dirEdit.xhtml") {
+        new FacesRequest("/dirEdit_d.xhtml") {
 
             protected void beforeRequest() {
                 setParameter("cid", conversationId);
@@ -324,14 +324,14 @@ public class BasicNodeOperations extends DBUnitSeamTest {
     @Test
     public void moveDocumentRight() throws Exception {
 
-        final String conversationId = new NonFacesRequest("/dirEdit.xhtml") {
+        final String conversationId = new NonFacesRequest("/dirEdit_d.xhtml") {
             protected void beforeRequest() {
                 setParameter("directoryId", TEST_DIRECTORY1_ID.toString());
                 setParameter("parentDirectoryId", TEST_WIKI_ROOT_ID.toString());
             }
         }.run();
 
-        new FacesRequest("/dirEdit.xhtml") {
+        new FacesRequest("/dirEdit_d.xhtml") {
 
             protected void beforeRequest() {
                 setParameter("cid", conversationId);

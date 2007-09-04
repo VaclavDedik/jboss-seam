@@ -126,6 +126,12 @@
         <function-signature>java.lang.String escapeHtml(java.lang.String,boolean)</function-signature>
     </function>
 
+    <function>
+        <function-name>disableFloats</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>java.lang.String disableFloats(java.lang.String)</function-signature>
+    </function>
+
     <tag>
         <tag-name>formattedText</tag-name>
 		<handler-class>org.jboss.seam.wiki.core.ui.WikiFormattedTextHandler</handler-class> 

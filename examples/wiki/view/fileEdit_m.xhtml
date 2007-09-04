@@ -1,0 +1,84 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:wiki="http://jboss.com/products/seam/wiki"
+                template="themes/#{wikiPreferences.themeName}/#{skin}/template.xhtml">
+
+<ui:define name="screenname">
+    <h:outputText value="Upload File" rendered="#{!fileHome.managed}"/>
+    <h:outputText value="Edit File" rendered="#{fileHome.managed}"/>
+</ui:define>
+
+<ui:define name="control">
+
+    <s:link id="exit" styleClass="linkNavigation" action="exit">Exit</s:link>
+
+</ui:define>
+
+<ui:define name="content">
+
+    <h:form enctype="multipart/form-data"><s:validateAll>
+
+        <div>Directory:&#160;#{fileHome.parentDirectory.name}</div>
+        <div class="errorMessage"><h:message for="name"/></div>
+        <div>Name:&#160;
+            <h:inputText id="name" size="30" maxlength="255" required="true" value="#{fileHome.instance.name}"/>
+        </div>
+        <s:div rendered="#{fileHome.managed}">
+            File Details:&#160;
+            <h:panelGroup>
+                <h:outputLink value="#{wiki:renderURL(fileHome.instance)}">
+                    <h:outputText value="#{fileHome.instance.filename}, #{wiki:displayFilesize(fileHome.instance.filesize)}, #{fileHome.instance.contentType}"/>
+                </h:outputLink>
+            </h:panelGroup>
+        </s:div>
+
+        <s:div rendered="#{fileHome.managed and not empty fileHome.instance.imageMetaInfo}">
+            <div>
+                Original Image Size:&#160;#{fileHome.instance.imageMetaInfo.sizeX} x #{fileHome.instance.imageMetaInfo.sizeY} pixel
+            </div>
+            <h:panelGrid columns="1">
+                <h:panelGroup>
+                    <h:commandButton id="zoomOut" action="#{fileHome.zoomPreviewOut}" value="Zoom Out"/>
+                    <h:commandButton id="actualSize" action="#{fileHome.zoomActualSize}" value="Actual Size"/>
+                    <h:commandButton id="zoomIn" action="#{fileHome.zoomPreviewIn}" value="Zoom In"/>
+                </h:panelGroup>
+                <h:outputLink value="#{facesContext.externalContext.requestContextPath}/servlets/files/download.seam?fileId=#{fileHome.instance.id}">
+                    <s:graphicImage value="#{fileHome.instance.data}" style="border: 1px solid black;">
+                        <s:transformImageSize width="#{fileHome.imagePreviewSize}" maintainRatio="true"/>
+                    </s:graphicImage>
+                </h:outputLink>
+            </h:panelGrid>
+            <div>Show in documents:&#160;
+                <h:selectOneMenu value="#{fileHome.instance.imageMetaInfo.thumbnail}">
+                    <f:selectItem itemLabel="Small thumbnail" itemValue="S"/>
+                    <f:selectItem itemLabel="Medium thumbnail" itemValue="M"/>
+                    <f:selectItem itemLabel="Large thumbnail" itemValue="L"/>
+                    <f:selectItem itemLabel="Full size " itemValue="F"/>
+                    <f:selectItem itemLabel="As attachment" itemValue="A"/>
+                </h:selectOneMenu>
+            </div>
+        </s:div>
+
+        <div>
+            Upload (max. #{wiki:displayFilesize(org.jboss.seam.web.multipartFilter.maxRequestSize)}):&#160;
+            <s:fileUpload id="upload" data="#{fileHome.filedata}" contentType="#{fileHome.contentType}" fileName="#{fileHome.filename}"/>
+        </div>
+
+        <div class="formControls">
+
+            <h:commandButton action="#{fileHome.persist}" rendered="#{!fileHome.managed}" value="Save"/>
+            <h:commandButton action="#{fileHome.update}" rendered="#{fileHome.managed}" value="Update"/>
+            <h:commandButton action="#{fileHome.remove}" rendered="#{fileHome.managed}" value="Delete"/>
+
+        </div>
+
+    </s:validateAll></h:form>
+
+</ui:define>
+
+</ui:composition>

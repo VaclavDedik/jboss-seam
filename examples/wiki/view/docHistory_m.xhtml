@@ -1,0 +1,98 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:wiki="http://jboss.com/products/seam/wiki"
+                template="themes/#{wikiPreferences.themeName}/#{skin}/template.xhtml">
+
+<ui:define name="screenname">Document History: #{nodeHistory.currentNode.name}</ui:define>
+
+<ui:define name="control">
+    <s:link id="close" styleClass="linkNavigation" action="exit">Close</s:link>
+</ui:define>
+
+<ui:define name="content">
+
+<h:form rendered="#{historicalNodeList.rowCount >0}" styleClass="box">
+
+    <div>Current revision:&#160;<h:outputText value="#{nodeHistory.currentNode.revision}"/></div>
+    <div>Parent:&#160;<h:outputText value="#{nodeHistory.currentNode.parent.name}"/></div>
+    <div>Created On:&#160;
+        <h:outputText value="#{nodeHistory.currentNode.createdOn}">
+            <f:convertDateTime type="both" timeZone="#{wikiPreferences.timeZone}"/>
+        </h:outputText>
+        (#{nodeHistory.currentNode.createdBy.username})
+    </div>
+    <div>Last Modified On:&#160;
+        <h:outputText value="#{nodeHistory.currentNode.lastModifiedOn}">
+            <f:convertDateTime type="both" timeZone="#{wikiPreferences.timeZone}"/>
+        </h:outputText>
+        (#{nodeHistory.currentNode.lastModifiedBy.username})
+    </div>
+    <div>Historical revisions:</div>
+
+    <h:dataTable id="historyTable" var="hnode"
+                 value="#{historicalNodeList}"
+                 rowClasses="rowEven, rowOdd"
+                 cellpadding="5" cellspacing="0" border="1">
+
+        <h:column>
+            #{hnode.revision}
+        </h:column>
+
+        <h:column>
+            <h:outputText value="#{hnode.lastModifiedOn}">
+                <f:convertDateTime type="both" timeZone="#{wikiPreferences.timeZone}"/>
+            </h:outputText>
+            <h:outputText value="&#160;(#{hnode.lastModifiedByUsername})" rendered="#{!empty hnode.lastModifiedByUsername}"/>
+            <h:outputText value="&#160;(unknown)" rendered="#{empty hnode.lastModifiedByUsername}"/>
+        </h:column>
+
+        <h:column>
+            <h:commandButton action="#{nodeHistory.displayHistoricalRevision}" value="Show"/>
+        </h:column>
+        <h:column>
+            <h:commandButton action="#{nodeHistory.diff}" value="Diff"/>
+        </h:column>
+        <h:column>
+            <h:commandButton action="#{nodeHistory.rollback}" value="Rollback"
+                             rendered="#{s:hasPermission('Node', 'edit', nodeHistory.currentNode)}"/>
+        </h:column>
+
+    </h:dataTable>
+
+    <s:div rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}" styleClass="formControls">
+        <h:commandButton id="purge" action="#{nodeHistory.purgeHistory}" value="Purge History"/>
+    </s:div>
+
+</h:form>
+
+<br/>
+
+<s:div id="diffResult">
+    <s:div rendered="#{not empty nodeHistory.diffResult}">
+        <h:outputText value="#{nodeHistory.diffResult}" escape="false"/>
+    </s:div>
+</s:div>
+
+<s:div id="historicalPreview">
+    <s:div id="documentDisplayContainer"
+           rendered="#{not empty nodeHistory.displayedHistoricalNode}">
+        <s:div id="documentDisplay" styleClass="documentDisplay">
+            <wiki:formattedText value="#{nodeHistory.displayedHistoricalNode.content}"
+                                linkStyleClass="regularLink"
+                                brokenLinkStyleClass="brokenLink"
+                                attachmentLinkStyleClass="regularLink"
+                                thumbnailLinkStyleClass="regularLink"
+                                renderBaseDocument="#{nodeHistory.currentNode}"
+                                renderBaseDirectory="#{nodeHistory.currentNode.parent}"
+                                enablePlugins="false"/>
+        </s:div>
+    </s:div>
+</s:div>
+</ui:define>
+
+</ui:composition>

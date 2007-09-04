@@ -36,14 +36,14 @@ public class OptionalNodeOperations extends DBUnitSeamTest {
     @Test
     public void setDefaultDocument() throws Exception {
 
-        final String conversationId = new NonFacesRequest("/dirEdit.xhtml") {
+        final String conversationId = new NonFacesRequest("/dirEdit_d.xhtml") {
             protected void beforeRequest() {
                 setParameter("directoryId", TEST_DIRECTORY1_ID.toString());
                 setParameter("parentDirectoryId", TEST_WIKI_ROOT_ID.toString());
             }
         }.run();
 
-        new FacesRequest("/dirEdit.xhtml") {
+        new FacesRequest("/dirEdit_d.xhtml") {
 
             Long newDefaultDocumentId = null;
 
@@ -74,14 +74,14 @@ public class OptionalNodeOperations extends DBUnitSeamTest {
     @Test
     public void changeDefaultDocument() throws Exception {
 
-        final String conversationId = new NonFacesRequest("/dirEdit.xhtml") {
+        final String conversationId = new NonFacesRequest("/dirEdit_d.xhtml") {
             protected void beforeRequest() {
                 setParameter("directoryId", TEST_DIRECTORY2_ID.toString());
                 setParameter("parentDirectoryId", TEST_DIRECTORY1_ID.toString());
             }
         }.run();
 
-        new FacesRequest("/dirEdit.xhtml") {
+        new FacesRequest("/dirEdit_d.xhtml") {
 
             Long newDefaultDocumentId = null;
 

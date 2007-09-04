@@ -91,7 +91,7 @@
                        remember-me="false"/>
 
     <!-- Misc Settings -->
-    
+
     <web:context-filter url-pattern="/servlets/*"/>
 
     <component name="wikiUrlRewriteFilter" class="org.jboss.seam.wiki.core.ui.WikiUrlRewriteFilter" precedence="30">
@@ -103,5 +103,7 @@
 
     <factory name="themePath" scope="APPLICATION"
              value="#{facesContext.externalContext.request.contextPath}/themes/#{wikiPreferences.themeName}"/>
+
+    <factory name="skin" scope="SESSION" value="d"/>
 
 </components>

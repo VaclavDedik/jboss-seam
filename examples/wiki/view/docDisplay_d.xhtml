@@ -13,21 +13,21 @@
 
 <ui:define name="controlTwo">
 
-    <s:link id="createDoc" styleClass="linkNavigation" accesskey="C" view="/docEdit.xhtml"
+    <s:link id="createDoc" styleClass="linkNavigation" accesskey="C" view="/docEdit_#{skin}.xhtml"
             rendered="#{s:hasPermission('Node', 'create', documentHome.instance.parent)}"><u>C</u>reate
-        <f:param name="documentId"/>
+        <f:param name="documentId" value=""/>
         <f:param name="parentDirectoryId" value="#{documentHome.instance.parent.id}"/>
     </s:link>
 
-    <s:link id="editDoc" styleClass="linkNavigation" accesskey="E" view="/docEdit.xhtml"
+    <s:link id="editDoc" styleClass="linkNavigation" accesskey="E" view="/docEdit_#{skin}.xhtml"
             rendered="#{s:hasPermission('Node', 'edit', documentHome.instance)}"><u>E</u>dit</s:link>
 
-    <s:link id="showHistory" styleClass="linkNavigation" accesskey="I" view="/docHistory.xhtml"
+    <s:link id="showHistory" styleClass="linkNavigation" accesskey="I" view="/docHistory_#{skin}.xhtml"
             rendered="#{documentHome.historicalNodesPresent}">H<u>i</u>story
         <f:param name="nodeId" value="#{documentHome.nodeId}"/>
     </s:link>
 
-    <s:link id="browseDir" styleClass="linkNavigation" accesskey="B" view="/dirDisplay.xhtml"><u>B</u>rowse
+    <s:link id="browseDir" styleClass="linkNavigation" accesskey="B" view="/dirDisplay_#{skin}.xhtml"><u>B</u>rowse
         <f:param name="directoryId" value="#{documentHome.parentDirectory.id}"/>
     </s:link>
 
