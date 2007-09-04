@@ -186,7 +186,9 @@
                        required="true"
 </#if>
                           value="${'#'}{${homeName}.instance.${property.name}}"
-                           size="${column.precision+6}"/>
+                           size="${column.precision+6}">
+                    <a:support event="onblur" reRender="${property.name}Decoration" bypassUpdates="true"/>
+                </h:inputText>
 <#elseif propertyType == "boolean" || propertyType == "yes_no" || propertyType == "true_false">
                 <h:selectBooleanCheckbox id="${property.name}"
 <#if !column.nullable>
