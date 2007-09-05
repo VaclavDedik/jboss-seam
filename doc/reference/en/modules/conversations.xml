@@ -114,8 +114,9 @@
     </itemizedlist>
     
         <para>
-            Seam transparently propagates the conversation context across JSF postbacks
-            and redirects. If you don't do anything special, a <emphasis>non-faces request</emphasis>
+            Seam transparently propagates the conversation context (including
+            the temporary conversation context) across JSF postbacks and 
+            redirects. If you don't do anything special, a <emphasis>non-faces request</emphasis>
             (a GET request for example) will not propagate the conversation context and
             will be processed in a new temporary conversation. This is usually - but not
             always - the desired behavior.
