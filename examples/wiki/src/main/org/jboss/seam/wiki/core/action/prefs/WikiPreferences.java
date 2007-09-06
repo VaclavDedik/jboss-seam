@@ -80,6 +80,9 @@ public class WikiPreferences extends PreferenceSupport implements Serializable {
     @Preference(description = "12. Show only nodes owned by system administrator in main menu", visibility = PreferenceVisibility.SYSTEM)
     private Boolean mainMenuShowAdminOnly;
 
+    @Preference(description = "13. Show document creator/edit history in document footer", visibility = PreferenceVisibility.SYSTEM)
+    private Boolean showDocumentCreatorHistory;
+
     public String getBaseUrl() {
         return baseUrl;
     }
@@ -126,5 +129,9 @@ public class WikiPreferences extends PreferenceSupport implements Serializable {
 
     public Boolean isMainMenuShowAdminOnly() {
         return mainMenuShowAdminOnly;
+    }
+
+    public Boolean getShowDocumentCreatorHistory() {
+        return showDocumentCreatorHistory;
     }
 }

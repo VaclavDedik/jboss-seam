@@ -174,13 +174,20 @@ public abstract class Node extends AbstractNestedSetNode<Node> implements Serial
     // Immutable properties
 
     public Integer getVersion() { return version; }
-    public int getRevision() { return revision; }
     public Long getHistoryId() { return historicalNodeId; }
 
     // Mutable properties
 
     public Long getId() { return nodeId; }
     public void setId(Long nodeId) { this.nodeId = nodeId; }
+
+    public int getRevision() {
+        return revision;
+    }
+
+    public void setRevision(int revision) {
+        this.revision = revision;
+    }
 
     public String getName() {
          return name;

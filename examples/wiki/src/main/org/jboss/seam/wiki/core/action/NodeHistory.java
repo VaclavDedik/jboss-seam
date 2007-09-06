@@ -53,6 +53,10 @@ public class NodeHistory implements Serializable {
     public Long getNodeId() { return nodeId; }
     public void setNodeId(Long nodeId) { this.nodeId = nodeId; }
 
+    Long historicalNodeId;
+    public Long getHistoricalNodeId() { return historicalNodeId; }
+    public void setHistoricalNodeId(Long historicalNodeId) { this.historicalNodeId = historicalNodeId; }
+
     private Document currentNode;
     public Node getCurrentNode() { return currentNode;    }
 
@@ -95,7 +99,11 @@ public class NodeHistory implements Serializable {
     }
 
     public void diff() {
+        init(); // TODO: Why doesn't Seam execute my page action but instead s:link action="diff" in a fake RENDER RESPONSE?!?
         displayedHistoricalNode = null;
+
+        if (historicalNodeId == null) return;
+        selectedHistoricalNode = (Document)nodeDAO.findHistoricalNode(historicalNodeId);
 
         String[] a = selectedHistoricalNode.getContent().split("\n");
         String[] b = currentNode.getContent().split("\n");

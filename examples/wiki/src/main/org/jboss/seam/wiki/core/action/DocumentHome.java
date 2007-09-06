@@ -75,6 +75,7 @@ public class DocumentHome extends NodeHome<Document> {
     private boolean enabledPreview = false;
     private boolean pushOnFeeds = false;
     private boolean pushOnSiteFeed = false;
+    private List<Node> historicalNodes;
 
     /* -------------------------- Basic Overrides ------------------------------ */
 
@@ -249,6 +250,12 @@ public class DocumentHome extends NodeHome<Document> {
     public boolean isHistoricalNodesPresent() {
         Long numOfNodes = getNodeDAO().findNumberOfHistoricalNodes(getInstance());
         return numOfNodes != null && numOfNodes > 0;
+    }
+
+    public List<Node> getHistoricalNodes() {
+        if (historicalNodes == null)
+            historicalNodes = getNodeDAO().findHistoricalNodes(getInstance());
+        return historicalNodes;
     }
 
 }

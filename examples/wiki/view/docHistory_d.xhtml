@@ -89,10 +89,9 @@
                                        action="#{nodeHistory.displayHistoricalRevision}"
                                        reRender="messageBoxContainer, diffResult, historicalPreview"
                                        tabindex="3" styleClass="buttonNonpersistent"><span class="buttonLabel">Show</span></a:commandLink>
-                        <a:commandLink id="diff"
-                                       action="#{nodeHistory.diff}"
-                                       reRender="messageBoxContainer, diffResult, historicalPreview"
-                                       tabindex="3" styleClass="buttonNonpersistent"><span class="buttonLabel">Diff</span></a:commandLink>
+                        <s:link id="diff" action="#{nodeHistory.diff}" tabindex="3" styleClass="buttonNonpersistent"><span class="buttonLabel">Diff</span>
+                            <f:param name="historicalNodeId" value="#{hnode.historyId}"/>
+                        </s:link>
                         <h:commandLink id="rollback"
                                        action="#{nodeHistory.rollback}"
                                        tabindex="4" styleClass="buttonNonpersistent"

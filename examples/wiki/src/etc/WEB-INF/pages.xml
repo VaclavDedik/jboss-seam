@@ -34,6 +34,7 @@
 
     <page view-id="/docHistory*" no-conversation-view-id="/wiki.xhtml">
         <param name="nodeId" value="#{nodeHistory.nodeId}"/>
+        <param name="historicalNodeId" value = "#{nodeHistory.historicalNodeId}"/>
         <action execute="#{nodeHistory.init}"/>
         <begin-conversation flush-mode="MANUAL" join="true"/>
         <navigation>
@@ -311,9 +312,7 @@
 
     <exception class="org.jboss.seam.framework.EntityNotFoundException">
         <end-conversation/>
-        <redirect view-id="/message.xhtml">
-            <message severity="ERROR">Entity not found.</message>
-        </redirect>
+        <http-error error-code="404"/>
     </exception>
 
     <exception class="org.jboss.seam.security.AuthorizationException">

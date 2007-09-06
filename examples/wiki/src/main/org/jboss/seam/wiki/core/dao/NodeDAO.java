@@ -179,7 +179,7 @@ public class NodeDAO {
 
     @SuppressWarnings({"unchecked"})
     public List<Node> findHistoricalNodes(Node node) {
-        if (node == null) return null;
+        if (node == null || node.getId() == null) return null;
         return getSession(true).createQuery("select n from HistoricalNode n where n.nodeId = :nodeId order by n.revision desc")
                                 .setParameter("nodeId", node.getId())
                                 .list();

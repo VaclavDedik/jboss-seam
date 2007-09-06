@@ -37,6 +37,7 @@ insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, STRI
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (10, 0, 'wikiPreferences', 'mainMenuLevels', '3')
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (11, 0, 'wikiPreferences', 'mainMenuDepth', '3')
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, BOOLEAN_VALUE)  values (12, 0, 'wikiPreferences', 'mainMenuShowAdminOnly', false)
+insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, BOOLEAN_VALUE)  values (13, 0, 'wikiPreferences', 'showDocumentCreatorHistory', true)
 
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, BOOLEAN_VALUE)  values (20, 0, 'docEditorPreferences', 'minorRevisionEnabled', true)
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (21, 0, 'docEditorPreferences', 'regularEditAreaRows', '15')
@@ -91,7 +92,7 @@ insert into NODE_DIRECTORY (DIRECTORY_ID, DEFAULT_DOCUMENT_ID) values (3, null)
 update USERS set MEMBER_HOME_NODE_ID = '3' where USER_ID = '3'
 insert into FEED (FEED_ID, OBJ_VERSION, TITLE, AUTHOR, PUBLISHED_ON, DIRECTORY_ID) values (2, 0, 'Member', 'Regular Member', '1976-06-26 11:11:11', 3)
 insert into NODE (NODE_ID, NODE_TYPE, NODE_REVISION, CREATED_BY_USER_ID, AREA_NR, PARENT_NODE_ID, OBJ_VERSION, NAME, WIKINAME, MENU_ITEM, CREATED_ON, LAST_MODIFIED_ON, WRITE_ACCESS_LEVEL, READ_ACCESS_LEVEL, NS_THREAD, NS_LEFT, NS_RIGHT, DISPLAY_POSITION) values (4, 'DOCUMENT', 1, 3, 2, 3, 0, 'Home of member', 'HomeOfMember', false, '2005-06-27 13:45:00', '2005-06-27 13:45:00', 1000, 0, 1, 4, 5, 0)
-insert into NODE_DOCUMENT (DOCUMENT_ID, CONTENT, NAME_AS_TITLE, ENABLE_COMMENTS, ENABLE_COMMENT_FORM, PLUGINS_USED) values (4, '<div style="float:right; width:33%;">@@LF@@ <div>[<=userProfile]</div>@@LF@@ <div style="margin-top:15px;">[<=blogRecentEntries]</div>@@LF@@ <div style="margin-top:15px;">[<=blogArchive]</div>@@LF@@</div>@@LF@@<div style="width:65%;">[<=blogDirectory]</div>@@LF@@@@LF@@', false, false, false, 'userProfile blogDirectory blogRecentEntries blogArchive')
+insert into NODE_DOCUMENT (DOCUMENT_ID, CONTENT, NAME_AS_TITLE, ENABLE_COMMENTS, ENABLE_COMMENT_FORM, PLUGINS_USED) values (4, '[<=hideCreatorHistory]@@LF@@@@LF@@<div style="float:right; width:33%;">@@LF@@ <div>[<=userProfile]</div>@@LF@@ <div style="margin-top:15px;">[<=blogRecentEntries]</div>@@LF@@ <div style="margin-top:15px;">[<=blogArchive]</div>@@LF@@</div>@@LF@@<div style="width:65%;">[<=blogDirectory]</div>@@LF@@@@LF@@', false, false, false, 'userProfile blogDirectory blogRecentEntries blogArchive')
 update NODE_DIRECTORY set DEFAULT_DOCUMENT_ID = '4' where DIRECTORY_ID = '3'
 
 insert into USER_PROFILE (USER_PROFILE_ID, OBJ_VERSION, CREATED_ON) values (4, 0, '2006-06-27 13:45:00')

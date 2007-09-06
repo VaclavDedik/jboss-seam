@@ -310,6 +310,16 @@ ul {
     margin-top: 10px;
 }
 
+.documentCreatorHistory {
+    border-top: 1px solid #C3BBB6;
+    white-space: nowrap;
+    font-size: 70%;
+    font-weight: normal;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    line-height: 125%;
+}
+
 .attachmentDisplay {
     padding-top: 10px;
     padding-bottom: 10px;

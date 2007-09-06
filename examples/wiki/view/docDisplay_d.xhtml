@@ -47,6 +47,58 @@
                                 renderBaseDirectory="#{documentHome.parentDirectory}"
                                 enablePlugins="true"/>
         </s:div>
+        <s:div rendered="#{wikiPreferences.showDocumentCreatorHistory and not documentHome.instance.pluginsUsed.contains('hideCreatorHistory')}"
+               styleClass="documentCreatorHistory undecoratedLink">
+            <s:div>
+                Created:&#160;
+                <h:outputText value="#{documentHome.instance.createdOn}">
+                    <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
+                </h:outputText>
+                <h:outputText value="&#160;#{wikiPreferences.timeZone}&#160;("/>
+                <h:outputLink value="#{wiki:renderHomeURL(documentHome.instance.createdBy)}"
+                              rendered="#{!empty documentHome.instance.createdBy.memberHome}">
+                    <h:outputText value="#{documentHome.instance.createdBy.fullname}"/>
+                </h:outputLink>
+                <h:outputText rendered="#{empty documentHome.instance.createdBy.memberHome}"
+                              value="#{documentHome.instance.createdBy.fullname}"/>
+                <h:outputText value=")"/>
+            </s:div>
+            <s:div rendered="#{not empty documentHome.instance.lastModifiedBy}">
+                Last Modified:&#160;
+                <h:outputText value="#{documentHome.instance.lastModifiedOn}">
+                    <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
+                </h:outputText>
+                <h:outputText value="&#160;#{wikiPreferences.timeZone}&#160;("/>
+                <h:outputLink value="#{wiki:renderHomeURL(documentHome.instance.lastModifiedBy)}"
+                              rendered="#{!empty documentHome.instance.lastModifiedBy.memberHome}">
+                    <h:outputText value="#{documentHome.instance.lastModifiedBy.fullname}"/>
+                </h:outputLink>
+                <h:outputText rendered="#{empty documentHome.instance.lastModifiedBy.memberHome}"
+                              value="#{documentHome.instance.lastModifiedBy.fullname}"/>
+                <h:outputText value=")"/>
+            </s:div>
+            <s:div rendered="#{documentHome.historicalNodesPresent}">
+                Revisions:&#160;
+                <ui:repeat var="hnode" value="#{documentHome.historicalNodes}">
+
+                    <h:outputText value="#{hnode.lastModifiedOn}">
+                        <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
+                    </h:outputText>
+                    <h:outputText value="&#160;#{wikiPreferences.timeZone}&#160;(#{hnode.lastModifiedByUsername})"/>
+
+                    &#160;
+                    <s:link view="/docHistory_#{skin}.xhtml" action="#{nodeHistory.diff}">Diff
+                        <f:param name="nodeId" value="#{documentHome.instance.id}"/>
+                        <f:param name="historicalNodeId" value="#{hnode.historyId}"/>
+                    </s:link>
+
+                    <h:outputText rendered="#{documentHome.historicalNodes.indexOf(hnode) &lt; documentHome.historicalNodes.size()-1}"
+                                  value="&#160;|&#160;"/>
+
+                </ui:repeat>
+            </s:div>
+
+        </s:div>
     </div>
 
     <ui:include src="includes/attachmentDisplay.xhtml"/>
