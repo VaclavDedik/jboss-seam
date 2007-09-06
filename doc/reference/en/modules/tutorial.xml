@@ -1980,7 +1980,7 @@ public class NumberGuess implements Serializable {
                 of these hotels, a conversation begins, and a conversation scoped component calls back to the session
                 scoped component to retrieve the selected hotel. </para>
 
-            <para> The booking example also demonstrates the use of Ajax4JSF to implement rich client behavior without
+            <para> The booking example also demonstrates the use of RichFaces Ajax to implement rich client behavior without
                 the use of handwritten JavaScript. </para>
 
             <para> The search functionality is implemented using a session-scope stateful session bean, similar to the
@@ -2179,18 +2179,18 @@ public class HotelSearchingAction implements HotelSearching
 </a:outputPanel>    ]]></programlisting>
                     <calloutlist>
                         <callout arearefs="booking-support-element">
-                            <para> The Ajax4JSF <literal>&lt;a:support&gt;</literal> tag allows a JSF action
+                            <para> The RichFaces Ajax <literal>&lt;a:support&gt;</literal> tag allows a JSF action
                                 event listener to be called by asynchronous <literal>XMLHttpRequest</literal> when a
                                 JavaScript event like <literal>onkeyup</literal> occurs. Even better, the
                                     <literal>reRender</literal> attribute lets us render a fragment of the JSF page and
                                 perform a partial page update when the asynchronous response is received. </para>
                         </callout>
                         <callout arearefs="booking-status-element">
-                            <para> The Ajax4JSF <literal>&lt;a:status&gt;</literal> tag lets us display a cheesy
+                            <para> The RichFaces Ajax <literal>&lt;a:status&gt;</literal> tag lets us display a cheesy
                                 annimated image while we wait for asynchronous requests to return. </para>
                         </callout>
                         <callout arearefs="booking-outputpanel-element">
-                            <para> The Ajax4JSF <literal>&lt;a:outputPanel&gt;</literal> tag defines a region of
+                            <para> The RichFaces Ajax <literal>&lt;a:outputPanel&gt;</literal> tag defines a region of
                                 the page which can be re-rendered by an asynchronous request. </para>
                         </callout>
                         <callout arearefs="booking-link-element">
@@ -2380,7 +2380,7 @@ public class HotelBookingAction implements HotelBooking
                 later that <literal>&lt;s:link&gt;</literal> also offers a number of other useful features,
                 including conversation propagation rules. </para>
 
-            <para> The booking application uses some other Seam and Ajax4JSF controls, especially on the
+            <para> The booking application uses some other Seam and RichFaces Ajax controls, especially on the
                     <literal>/book.xhtml</literal> page. We won't get into the details of those controls here, but if
                 you want to understand this code, please refer to the chapter covering Seam's functionality for JSF form
                 validation. </para>

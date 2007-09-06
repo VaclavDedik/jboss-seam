@@ -67,8 +67,14 @@
           </listitem>
           <listitem>
             <para>
-              <literal>ajax4jsf-1.1.1.jar</literal> &#8212; which requires Apache 
+              <literal>richfaces-api.jar</literal> &#8212; which requires Apache 
               commons-digester and commons-beanutils
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              <literal>richfaces-impl.jar</literal> and <literal>richfaces-ui.jar</literal> &#8212;
+              which requires Apache commons-digester and commons-beanutils
             </para>
           </listitem>
         </itemizedlist>

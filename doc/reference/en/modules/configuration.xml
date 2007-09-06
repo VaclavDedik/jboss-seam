@@ -221,11 +221,15 @@
             </sect3>
 
             <sect3>
-                <title>Ajax4jsf</title>
+                <title>RichFaces</title>
 
-                <para> If Ajax4jsf is used in your project, Seam will install the Ajax4jsf filter for you, making sure
-                    to install it before all other built-in filters. You don't need to install the Ajax4jsf filter in
-                        <literal>web.xml</literal> yourself. </para>
+                <para> 
+                  If RichFaces is used in your project, Seam will install the
+                  RichFaces Ajax filter for you, making sure to install it
+                  before all other built-in filters. You don't need to install
+                  the RichFaces Ajax filter in <literal>web.xml</literal>
+                  yourself.
+                </para>
 
                 <para> To override the default settings, add the following entry to <literal>components.xml</literal>.
                     The options are the same as those specified in the Ajax4jsf Developer Guide: </para>
@@ -238,7 +242,7 @@
                     <listitem>
                         <para>
                             <literal>force-parser</literal> &#8212; forces all JSF pages to be validated by
-                            Ajax4jsf's XML syntax checker. If <literal>false</literal>, only AJAX responses are
+                            Richfaces's XML syntax checker. If <literal>false</literal>, only AJAX responses are
                             validated and converted to well-formed XML. Setting <literal>force-parser</literal> to
                                 <literal>false</literal> improves performance, but can provide visual artifacts on AJAX
                             updates. </para>
@@ -316,7 +320,7 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
 
                 <para> Adding the <literal>@Startup</literal> annotation means thar the component is available during
                     Seam startup; bijection isn't available here (<literal>@BypassInterceptors</literal>); and the filter
-                    should be further down the chain than the Ajax4jsf filter
+                    should be further down the chain than the RichFaces filter
                         (<literal>@Filter(within="org.jboss.seam.web.ajax4jsfFilter")</literal>). </para>
 
             </sect3>

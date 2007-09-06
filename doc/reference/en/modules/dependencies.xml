@@ -320,10 +320,10 @@
   </sect1>
   
   <sect1>
-    <title>Ajax4JSF / RichFaces</title>
+    <title>RichFaces</title>
 
     <table>
-      <title>Ajax4JSF dependencies</title>
+      <title>RichFaces dependencies</title>
    
       <tgroup cols="4">
         <colspec colnum="1" colwidth="4*" />
@@ -352,22 +352,25 @@
         
           <row>
             <entry>
-              <para><literal>ajax4jsf.jar</literal></para>
+              <para><literal>richfaces-api.jar</literal></para>
             </entry>
             <entry align="center">
-              <para>war</para>
+              <para>ear</para>
             </entry>
             <entry align="center">
               <para>no</para>
             </entry>
             <entry>
-              <para>Required to use Ajax4JSF.</para>
+              <para>
+                Required to use RichFaces.  Provides API classes that you may
+                wish to use from your application e.g. to create a tree
+              </para>
             </entry>
           </row>  
           
           <row>
             <entry>
-              <para><literal>richfaces.jar</literal></para>
+              <para><literal>richfaces-impl.jar</literal></para>
             </entry>
             <entry align="center">
               <para>war</para>
@@ -378,7 +381,22 @@
             <entry>
               <para>Required to use RichFaces.</para>
             </entry>
-          </row>            
+          </row>
+          
+          <row>
+            <entry>
+              <para><literal>richfaces-ui.jar</literal></para>
+            </entry>
+            <entry align="center">
+              <para>war</para>
+            </entry>
+            <entry align="center">
+              <para>no</para>
+            </entry>
+            <entry>
+              <para>Required to use RichFaces.  Provides all the UI components.</para>
+            </entry>
+          </row>                        
           
         </tbody>
       </tgroup>

@@ -219,7 +219,7 @@
 </h:form>]]></programlisting>
 
     <para>
-        Finally, we can use Ajax4JSF to display validation messages as the user 
+        Finally, we can use RichFaces Ajax to display validation messages as the user 
         is navigating around the form:
     </para>
 

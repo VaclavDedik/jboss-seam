@@ -126,3 +126,10 @@ Migration to JBPM 3.2
 If you are using JBPM for business processes (not just pageflows), you need 
 to add the tx service to jbpm.cfg.xml: 
   <service name="tx" factory="org.jbpm.tx.TxServiceFactory" />
+  
+Migration to RichFaces 3.1
+--------------------------
+If you are using RichFaces or Ajax4jsf, a major reorganisation of the codebase
+has occurred.  ajax4jsf.jar and richfaces.jar have been replaced by 
+richfaces-api.jar (which should go in your ear lib/ directory) and 
+richfaces-impl.jar and richfaces-ui.jar (both of which go in WEB-INF/lib).
