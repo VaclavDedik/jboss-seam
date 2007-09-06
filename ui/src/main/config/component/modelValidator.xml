@@ -4,9 +4,9 @@
 	<validator generate="false">
 		<id>org.jboss.seam.ui.ModelValidator</id>
 		<classname>org.jboss.seam.ui.validator.ModelValidator</classname>
-		<!-- <description>
+		<description>
 			<![CDATA[Validate the JSF component against the model]]>
-		</description>-->
+		</description>
 		<tag>
 			<name>validate</name>
 			<classname>org.jboss.seam.ui.taglib.ModelValidatorTag</classname>
