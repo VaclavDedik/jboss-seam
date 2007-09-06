@@ -15,7 +15,7 @@
     <property name="seam.ui.lib"    value="true"/>
     <property name="seam.debug.lib" value="true"/>
     <property name="facelets.lib"   value="true"/>
-    <property name="ajax4jsf.lib"   value="true"/>
+    <property name="richfaces.lib"   value="true"/>
     <!-- add drools and jbpm for oc4j (broken classloading) -->
     <!--<property name="jbpm.lib" value="true"/>
 	<property name="drools.lib" value="true"/>--> 

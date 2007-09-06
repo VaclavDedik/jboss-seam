@@ -133,3 +133,6 @@ If you are using RichFaces or Ajax4jsf, a major reorganisation of the codebase
 has occurred.  ajax4jsf.jar and richfaces.jar have been replaced by 
 richfaces-api.jar (which should go in your ear lib/ directory) and 
 richfaces-impl.jar and richfaces-ui.jar (both of which go in WEB-INF/lib).
+
+s:selectDate has been deprecated in favor of rich:calendar.  No more 
+development will be done on s:selectDate.

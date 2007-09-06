@@ -4,6 +4,7 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:rich="http://richfaces.org/rich"
                 template="template.xhtml">
 
     <!-- content -->
@@ -54,12 +55,7 @@
                             <div class="label"><h:outputLabel for="checkinDate">Check In Date:</h:outputLabel></div>
                             <div class="input">
                                 <s:decorate>
-                                    <h:inputText id="checkinDate" value="#{booking.checkinDate}" required="true">
-                                        <s:convertDateTime pattern="MM/dd/yyyy"/>
-                                    </h:inputText>
-                                    <s:selectDate for="checkinDate">
-                                        <h:graphicImage url="img/dtpick.gif" style="margin-left:5px"/>
-                                    </s:selectDate>
+                                    <rich:calendar id="checkinDate" value="#{booking.checkinDate}" required="true" datePattern="MM/dd/yyyy" event="onblur" reRender="checkinDateDecorate" />
                                     <br/>
                                     <s:message/>
                                 </s:decorate>
@@ -70,12 +66,6 @@
                             <div class="label"><h:outputLabel for="checkoutDate">Check Out Date:</h:outputLabel></div>
                             <div class="input">
                                 <s:decorate>
-                                    <h:inputText id="checkoutDate" value="#{booking.checkoutDate}" required="true">
-                                        <s:convertDateTime pattern="MM/dd/yyyy"/>
-                                    </h:inputText>
-                                    <s:selectDate for="checkoutDate">
-                                        <h:graphicImage url="img/dtpick.gif" style="margin-left:5px"/>
-                                    </s:selectDate>
                                     <br/>
                                 </s:decorate>
                             </div>

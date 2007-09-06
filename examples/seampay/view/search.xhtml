@@ -4,6 +4,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:s="http://jboss.com/products/seam/taglib"
+      xmlns:rich="http://richfaces.org/rich"
       template="template.xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
@@ -115,14 +116,8 @@
                         </tr>
                         <tr>
                             <td>Date:</td>
-                            <td><h:inputText id="paymentDate" value="#{newPayment.paymentDate}" required="true"> 
-                                    <s:convertDateTime pattern="MM/dd/yyyy"/>
-                                
-                                </h:inputText>
-                                <s:selectDate for="paymentDate">
-                                    <h:graphicImage url="img/dtpick.gif" />
-                                </s:selectDate>
-
+                            <td>
+								<rich:calendar id="paymentDate" value="#{newPayment.paymentDate}" required="true" datePattern="MM/dd/yyyy"  />
                                 <h:message for="paymentDate" />
                             </td>
                         </tr>

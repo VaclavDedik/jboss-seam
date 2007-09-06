@@ -4,7 +4,8 @@
 	  			xmlns:h="http://java.sun.com/jsf/html"
 	  			xmlns:f="http://java.sun.com/jsf/core"
 	  			xmlns:s="http://jboss.com/products/seam/taglib"
-                xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+                xmlns:a="http://richfaces.org/a4j"
+                xmlns:rich="http://richfaces.org/rich"
 				template="template.xhtml">
 
 <!-- content -->
@@ -26,24 +27,12 @@
 			
 		<s:decorate id="checkinDateDecorate" template="edit.xhtml">
 			<ui:define name="label">Check In Date:</ui:define>
-			<h:inputText id="checkinDate" value="#{booking.checkinDate}" required="true">
-				<s:convertDateTime pattern="MM/dd/yyyy"/>
-				<a:support event="onblur" reRender="checkinDateDecorate"/>
-			</h:inputText>
-			<s:selectDate for="checkinDate">
-				<h:graphicImage url="img/dtpick.gif" style="margin-left:5px;cursor:pointer"/>
-			</s:selectDate>
+			<rich:calendar id="checkinDate" value="#{booking.checkinDate}" required="true" datePattern="MM/dd/yyyy" event="onblur" reRender="checkinDateDecorate" />
 		</s:decorate>
 		
 		<s:decorate id="checkoutDateDecorate" template="edit.xhtml">
 			<ui:define name="label">Check Out Date:</ui:define>
-			<h:inputText id="checkoutDate" value="#{booking.checkoutDate}" required="true">
-				<s:convertDateTime pattern="MM/dd/yyyy"/>
-				<a:support event="onblur" reRender="checkoutDateDecorate"/>
-			</h:inputText>
-			<s:selectDate for="checkoutDate">
-				<h:graphicImage url="img/dtpick.gif" style="margin-left:5px;cursor:pointer"/>
-			</s:selectDate>
+			<rich:calendar id="checkoutDate" value="#{booking.checkoutDate}" required="true" datePattern="MM/dd/yyyy" event="onblur" reRender="checkoutDateDecorate" />
 		</s:decorate>
 		
 		<s:decorate id="bedsDecorate" template="edit.xhtml">

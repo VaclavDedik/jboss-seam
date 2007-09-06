@@ -7,7 +7,7 @@
 		<classname>org.jboss.seam.ui.component.html.HtmlSelectDate</classname>
 		<superclass>org.jboss.seam.ui.component.UISelectDate</superclass>
 		<description>
-			<![CDATA[]]>
+			<![CDATA[Deprecated.  You should use <rich:calendar /> instead.]]>
 		</description>
 		<renderer generate="false" override="false">
 			<name>org.jboss.seam.ui.SelectDateRenderer</name>

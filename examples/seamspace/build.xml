@@ -11,6 +11,7 @@
     <property name="drools.lib"      value="yes"/>
     <property name="seam.ui.lib"     value="yes"/>    
     <property name="jcaptcha.lib"    value="yes"/>
+	<property name="richfaces.lib"   value="yes"/>
 	
     <import file="../build.xml"/>
 

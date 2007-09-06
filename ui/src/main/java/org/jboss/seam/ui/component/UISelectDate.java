@@ -2,6 +2,7 @@ package org.jboss.seam.ui.component;
 
 import javax.faces.component.UIComponentBase;
 
+@Deprecated
 public abstract class UISelectDate extends UIComponentBase
 {
 

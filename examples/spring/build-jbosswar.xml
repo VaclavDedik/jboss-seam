@@ -19,6 +19,7 @@
 	<property name="spring.lib"   value="true"/>
 	<!-- needed because jboss must include hibernate search -->
 	<property name="search.lib"   value="true"/>
+	<property name="richfaces.lib" value="true"/>
 
     <import file="../build.xml"/>
 </project>

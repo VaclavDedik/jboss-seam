@@ -14,6 +14,7 @@ import org.jboss.seam.ui.component.UISelectDate;
 import org.jboss.seam.ui.resource.WebResource;
 import org.jboss.seam.ui.util.cdk.RendererBase;
 
+@Deprecated
 public class SelectDateRendererBase extends RendererBase
 {
 

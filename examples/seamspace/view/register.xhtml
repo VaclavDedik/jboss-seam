@@ -3,7 +3,8 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:s="http://jboss.com/products/seam/taglib">
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:rich="http://richfaces.org/rich">
 
   <ui:composition template="template.xhtml">
     <ui:define name="content">
@@ -74,10 +75,9 @@
 
               <div class="formRow">
                 <h:outputLabel for="dob">Date of birth<em>*</em></h:outputLabel>
-                <h:inputText id="dob" value="#{newMember.dob}" required="true">
-                  <s:convertDateTime pattern="MM/dd/yyyy"/>
-                </h:inputText>
-                <s:selectDate for="dob" startYear="1910" endYear="2007"><img src="images/ellipsis.png" class="ellipsis"/></s:selectDate>
+                <!-- TODO Add in start and end of range -->
+                <!-- TODO Change image -->
+                	<rich:calendar id="dob" value="#{newMember.dob}" required="true" datePattern="MM/dd/yyyy" buttonIcon="images/ellipses.png" />
                 <div class="validationError"><h:message for="dob"/></div>
               </div>           
               
