@@ -32,7 +32,6 @@
 	<classpathentry kind="lib" path="lib/jboss-embedded-all.jar"/>
 	<classpathentry kind="lib" path="bootstrap"/>
 	<classpathentry kind="lib" path="lib/mail.jar"/>
-	<classpathentry kind="lib" path="lib/ajax4jsf-1.1.1.jar"/>
 	<classpathentry kind="lib" path="mail/buni-meldware/lib/mailjmx.jar"/>
 	<classpathentry kind="lib" path="lib/testng-5.6-jdk15.jar"/>
 	<classpathentry kind="lib" path="lib/jbpm-jpdl.jar"/>
@@ -51,5 +50,8 @@
 	<classpathentry kind="lib" path="drools/lib/drools-core-4.0.0.jar"/>
 	<classpathentry kind="lib" path="drools/lib/drools-compiler-4.0.0.jar"/>
 	<classpathentry kind="lib" path="lib/lucene-core-2.2.0.jar"/>
+	<classpathentry kind="lib" path="lib/richfaces-api-3.1.0-rc5.jar"/>
+	<classpathentry kind="lib" path="lib/richfaces-impl-3.1.0-rc5.jar"/>
+	<classpathentry kind="lib" path="lib/richfaces-ui-3.1.0-rc5.jar"/>
 	<classpathentry kind="output" path="output/classes"/>
 </classpath>
