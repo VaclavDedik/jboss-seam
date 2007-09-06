@@ -405,6 +405,22 @@ public class Pages
       }
    }
    
+   /**
+    * Check if a login redirect is required for the current FacesContext
+    * 
+    * @param facesContext The faces context containing the view ID
+    * @return boolean Returns true if a login redirect is required
+    */
+   public boolean isLoginRedirectRequired(FacesContext facesContext)
+   {
+      String viewId = getViewId(facesContext);      
+      for ( Page page: getPageStack(viewId) )
+      {         
+         if ( isLoginRedirectRequired(viewId, page) ) return true;
+      }
+      return false;
+   }
+   
    private boolean isNoConversationRedirectRequired(Page page)
    {
       return page.isConversationRequired() && 

@@ -512,7 +512,8 @@ public class SeamPhaseListener implements PhaseListener
    {
       if ( !Pages.isDebugPage() )
       {
-         if (!conversationFound)
+         // Only redirect to no-conversation-view if a login redirect isn't required
+         if (!conversationFound && !Pages.instance().isLoginRedirectRequired(facesContext))
          {
             Pages.instance().redirectToNoConversationView();
          }
