@@ -207,16 +207,16 @@
 		<include name="jsf-facelets.jar" if="facelets.lib" />
 	</fileset>
 
-	<!-- Dependencies for using Seam with Ajax4jsf -->
-	<fileset id="ajax4jsf.jar" dir="${lib.dir}">
-		<include name="ajax4jsf*.jar" if="ajax4jsf.lib" />
-		<include name="commons-beanutils*.jar" if="ajax4jsf.lib" />
-		<include name="commons-digester*.jar" if="ajax4jsf.lib" />
-	</fileset>
-
 	<!-- Dependencies for using Seam with Richfaces -->
-	<fileset id="richfaces.jar" dir="${lib.dir}">
-		<include name="richfaces*.jar" if="richfaces.lib" />
+	<fileset id="richfaces-api.jar" dir="${lib.dir}">
+		<include name="richfaces-api*.jar" if="richfaces.lib" />
+		<include name="commons-beanutils*.jar" if="richfaces.lib" />
+		<include name="commons-digester*.jar" if="richfaces.lib" />
+	</fileset>
+	
+	<fileset id="richfaces-impl.jar" dir="${lib.dir}">
+		<include name="richfaces-impl*.jar" if="richfaces.lib" />
+		<include name="richfaces-ui*.jar" if="richfaces.lib" />
 	</fileset>
 
 	<!-- Dependencies for using Seam with JBPM -->
@@ -436,8 +436,7 @@
 			<fileset refid="seam.ui.jar" />
 			<fileset refid="facelets.jar" />
 			<fileset refid="urlrewrite.jar" />
-			<fileset refid="ajax4jsf.jar" />
-			<fileset refid="richfaces.jar" />
+			<fileset refid="richfaces-impl.jar" />
 			<mapper type="flatten" />
 		</copy>
 		<!-- Put properties into the classpath -->
@@ -484,6 +483,7 @@
 		</copy>
 		<mkdir dir="${ear.dir}/lib" />
 		<copy todir="${ear.dir}/lib">
+			<fileset refid="richfaces-api.jar" />
 			<fileset refid="ear.lib.extras" />
 			<fileset refid="jboss-el.jar" />
 			<fileset refid="drools.jar" />
@@ -678,6 +678,7 @@
 			<fileset refid="gwt.jar" />
 			<fileset refid="jboss-el.jar" />
 			<fileset refid="search.jar" />
+			<fileset refid="richfaces-api.jar" />
 			<mapper type="flatten" />
 		</copy>
 		<copy todir="${war.dir}">

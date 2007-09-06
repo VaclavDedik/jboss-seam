@@ -179,8 +179,7 @@
         <copy todir="${war.dir}/WEB-INF/lib">
             <fileset dir="${seam.lib.dir}">
                 <include name="jboss-el.jar" />
-                <include name="ajax4jsf*.jar" />
-                <include name="richfaces*.jar" />
+                <include name="richfaces-*.jar" />
                 <include name="oscache*.jar" />
                 <include name="commons*.jar" />
                 <include name="jsf-facelets.jar" />

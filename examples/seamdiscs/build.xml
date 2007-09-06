@@ -10,7 +10,6 @@
     <property name="seam.ui.lib"     value="yes"/>
     <property name="seam.debug.lib"  value="yes"/>
     <property name="facelets.lib"    value="yes"/>
-	<property name="ajax4jsf.lib"    value="yes"/>
 	<property name="richfaces.lib"    value="yes"/>
     
     <import file="../build.xml"/>

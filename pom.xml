@@ -14,18 +14,27 @@
 	</modules>
 	<pluginRepositories>
 		<pluginRepository>
-			<releases />
-			<id>repository.jboss.com</id>
+			<id>repository.jboss.org</id>
 			<name>JBoss Repository</name>
-			<url>http://repository.jboss.com/maven2</url>
+			<url>http://repository.jboss.org/maven2</url>
 		</pluginRepository>
+        <pluginRepository>
+            <id>snapshots.jboss.org</id>
+            <name>JBoss Snapshot Repository</name>
+            <url>http://snapshots.jboss.org/maven2</url>
+        </pluginRepository>
 	</pluginRepositories>
 	<repositories>
 		<repository>
-			<id>repository.jboss.com</id>
+			<id>repository.jboss.org</id>
 			<name>JBoss Repository</name>
-			<url>http://repository.jboss.com/maven2</url>
+			<url>http://repository.jboss.org/maven2</url>
 		</repository>
+        <repository>
+            <id>snapshots.jboss.org</id>
+            <name>JBoss Snapshot Repository</name>
+            <url>http://snapshots.jboss.org/maven2</url>
+        </repository>
 		<repository>
 			<id>maven1.java.net</id>
 			<name>Java.net Maven1 Repositiory</name>
@@ -107,16 +116,22 @@
 			</dependency>
 
 			<dependency>
-				<groupId>org.ajax4jsf</groupId>
-				<artifactId>ajax4jsf</artifactId>
-				<version>1.1.1</version>
+				<groupId>org.richfaces.framework</groupId>
+				<artifactId>richfaces-api</artifactId>
+				<version>3.1.0-rc5</version>
 			</dependency>
-
-			<dependency>
-				<groupId>org.richfaces</groupId>
-				<artifactId>richfaces</artifactId>
-				<version>3.0.1</version>
-			</dependency>
+      
+            <dependency>
+                <groupId>org.richfaces.framework</groupId>
+                <artifactId>richfaces-impl</artifactId>
+                <version>3.1.0-rc5</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>org.richfaces.ui</groupId>
+                <artifactId>richfaces-ui</artifactId>
+                <version>3.1.0-rc5</version>
+            </dependency>
 
 			<dependency>
 				<groupId>javax.faces</groupId>

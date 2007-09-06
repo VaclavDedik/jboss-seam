@@ -7,7 +7,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
 
-import org.ajax4jsf.ajax.html.HtmlLoadStyle;
+import org.ajax4jsf.component.html.HtmlLoadStyle;
 import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.ui.resource.StyleResource;
 import org.jboss.seam.ui.util.UrlBuilder;

@@ -121,8 +121,8 @@
                 </copy>         
                 <copy todir="${war.dir}/WEB-INF/lib">
                         <fileset dir="${lib.dir}">
-                                <include name="ajax4jsf*.jar" />
-                                <include name="richfaces*.jar" />
+                                <include name="richfaces-impl*.jar" />
+                        		<include name="richfaces-ui*.jar" />
                                 <include name="oscache*.jar" />
                                 <include name="commons-digester-*.jar" />
                                 <include name="commons-beanutils-*.jar" />
@@ -156,6 +156,7 @@
                                 <include name="lib/janino-*.jar"/>
                                 <include name="lib/antlr-*.jar"/>
                                 <include name="lib/mvel*.jar"/>
+                        		<include name="lib/richfaces-api*.jar" />
                         </fileset>
                 </copy>
                 <copy todir="${ear.dir}/META-INF">

@@ -10,8 +10,8 @@
     <property name="seam.pdf.lib"    value="yes"/>
     <property name="seam.debug.lib"  value="yes"/>
     <property name="facelets.lib"    value="yes"/>
-    <property name="ajax4jsf.lib"    value="yes"/>
-    <property name="richfaces.lib"   value="yes"/>
+    <property name="richfaces.lib"    value="yes"/>
+    <property name="richfaces-ui.lib"   value="yes"/>
 
     <import file="../build.xml"/>
 
