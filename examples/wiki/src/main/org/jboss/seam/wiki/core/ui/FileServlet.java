@@ -119,9 +119,9 @@ public class FileServlet extends HttpServlet {
                 // If it's not a picture or if it's a picture that is an attachment, tell the browser to download
                 // the file instead of displaying it
                 // TODO: What about PDFs? Lot's of people want to show PDFs inline...
-                if ( file.getImageMetaInfo() == null ||
-                     (file.getImageMetaInfo() != null && file.getImageMetaInfo().getThumbnail() == 'A')
-                    ) {
+                if ( file != null &&
+                    ( file.getImageMetaInfo() == null || (file.getImageMetaInfo() != null && file.getImageMetaInfo().getThumbnail() == 'A') )
+                   ) {
                     response.setHeader("Content-Disposition", "attachement; filename=\"" + file.getFilename() + "\"" );
                 }
                 response.getOutputStream().write(data);
