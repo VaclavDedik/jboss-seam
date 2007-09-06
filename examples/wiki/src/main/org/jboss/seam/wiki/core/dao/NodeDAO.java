@@ -194,6 +194,8 @@ public class NodeDAO {
 
     public void removeHistoricalNodes(Node node) {
         if (node == null) return;
+        ((Node)getSession(true).load(Node.class, node.getId())).setRevision(0);
+        getSession(true).flush();
         getSession(true).createQuery("delete from HistoricalNode n where n.nodeId = :nodeId")
                          .setParameter("nodeId", node.getId())
                          .executeUpdate();
