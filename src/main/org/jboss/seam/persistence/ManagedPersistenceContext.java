@@ -77,14 +77,15 @@ public class ManagedPersistenceContext
    private void initEntityManager()
    {
       entityManager = getEntityManagerFactoryFromJndiOrValueBinding().createEntityManager();
-      entityManager = new EntityManagerProxy(entityManager);
+      PersistenceProvider persistenceProvider = PersistenceProvider.instance();
+      entityManager = persistenceProvider.proxyEntityManager(entityManager);
       setEntityManagerFlushMode( PersistenceContexts.instance().getFlushMode() );
 
       for (Filter f: filters)
       {
          if ( f.isFilterEnabled() )
          {
-            PersistenceProvider.instance().enableFilter(f, entityManager);
+            persistenceProvider.enableFilter(f, entityManager);
          }
       }
 

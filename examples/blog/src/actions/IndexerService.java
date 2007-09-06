@@ -7,6 +7,7 @@ import javax.ejb.Remove;
 import javax.persistence.EntityManager;
 
 import org.hibernate.search.FullTextSession;
+import org.hibernate.search.jpa.FullTextEntityManager;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
@@ -26,14 +27,13 @@ import org.jboss.seam.annotations.Startup;
 public class IndexerService
 {
    @In
-   private EntityManager entityManager;
+   private FullTextEntityManager entityManager;
 
    @Create
    public void index() {
       List blogEntries = entityManager.createQuery("select be from BlogEntry be").getResultList();
-      FullTextSession session = (FullTextSession) entityManager.getDelegate();
       for (Object be : blogEntries) {
-         session.index(be);   
+         entityManager.index(be);
       }
    }
 

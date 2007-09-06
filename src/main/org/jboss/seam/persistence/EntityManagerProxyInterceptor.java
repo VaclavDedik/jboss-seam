@@ -50,11 +50,9 @@ public class EntityManagerProxyInterceptor extends AbstractInterceptor
          Object object = ba.get(bean);
          if ( ! ( object instanceof EntityManagerProxy ) && object instanceof EntityManager )
          {
-            ba.set( bean, new EntityManagerProxy( (EntityManager) object ) );
+            PersistenceProvider provider = PersistenceProvider.instance();
+            ba.set( bean, provider.proxyEntityManager( (EntityManager) object ) );
          }
       }
    }
-   
-   
-
 }

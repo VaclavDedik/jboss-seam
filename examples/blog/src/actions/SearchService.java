@@ -11,6 +11,7 @@ import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
 import org.hibernate.search.FullTextSession;
+import org.hibernate.search.jpa.FullTextEntityManager;
 import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
@@ -27,7 +28,7 @@ public class SearchService
 {
    
    @In
-   private EntityManager entityManager;
+   private FullTextEntityManager entityManager;
    
    private String searchPattern;
    
@@ -59,10 +60,10 @@ public class SearchService
          {
             return null;
          }
-         FullTextSession session = (FullTextSession) entityManager.getDelegate();
-         return session.createFullTextQuery(luceneQuery, BlogEntry.class)
+
+         return entityManager.createFullTextQuery(luceneQuery, BlogEntry.class)
                .setMaxResults(100)
-               .list();
+               .getResultList();
       }
    }
 

@@ -149,4 +149,11 @@ public class PersistenceProvider
       return delegate;
    }
 
+   /**
+    * Wrap the entityManager before returning it to the application
+    */
+   public EntityManager proxyEntityManager(EntityManager entityManager) {
+      return new EntityManagerProxy(entityManager);
+   }
+
 }

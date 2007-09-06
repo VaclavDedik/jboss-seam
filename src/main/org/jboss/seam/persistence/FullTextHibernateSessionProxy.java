@@ -100,6 +100,16 @@ public class FullTextHibernateSessionProxy extends HibernateSessionProxy impleme
       return fullTextSession.getSearchFactory();
    }
 
+   public void purge(Class aClass, Serializable serializable)
+   {
+      fullTextSession.purge(aClass, serializable);
+   }
+
+   public void purgeAll(Class aClass)
+   {
+      fullTextSession.purgeAll(aClass);
+   }
+
    public Iterator iterate(String arg0, Object arg1, Type arg2) throws HibernateException
    {
       return fullTextSession.iterate(arg0, arg1, arg2);

@@ -1,11 +1,8 @@
 package org.jboss.seam.persistence;
 
-import static org.jboss.seam.annotations.Install.FRAMEWORK;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.Map;
-
 import javax.persistence.EntityManager;
 import javax.transaction.Synchronization;
 
@@ -20,6 +17,7 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.annotations.Install;
+import static org.jboss.seam.annotations.Install.FRAMEWORK;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
@@ -46,7 +44,9 @@ public class HibernatePersistenceProvider extends PersistenceProvider
 
    private static Constructor FULL_TEXT_SESSION_PROXY_CONSTRUCTOR;
    private static Method FULL_TEXT_SESSION_CONSTRUCTOR;
-   static 
+   private static Constructor FULL_TEXT_ENTITYMANAGER_PROXY_CONSTRUCTOR;
+   private static Method FULL_TEXT_ENTITYMANAGER_CONSTRUCTOR;
+   static
    {
       try
       {
@@ -55,6 +55,11 @@ public class HibernatePersistenceProvider extends PersistenceProvider
          Class fullTextSessionProxyClass = Class.forName("org.jboss.seam.persistence.FullTextHibernateSessionProxy");
          Class fullTextSessionClass = Class.forName("org.hibernate.search.FullTextSession");
          FULL_TEXT_SESSION_PROXY_CONSTRUCTOR = fullTextSessionProxyClass.getDeclaredConstructor(fullTextSessionClass);
+         Class jpaSearchClass = Class.forName("org.hibernate.search.jpa.Search");
+         FULL_TEXT_ENTITYMANAGER_CONSTRUCTOR = jpaSearchClass.getDeclaredMethod("createFullTextEntityManager", EntityManager.class);
+         Class fullTextEntityManagerProxyClass = Class.forName("org.jboss.seam.persistence.FullTextEntityManagerProxy");
+         Class fullTextEntityManagerClass = Class.forName("org.hibernate.search.jpa.FullTextEntityManager");
+         FULL_TEXT_ENTITYMANAGER_PROXY_CONSTRUCTOR = fullTextEntityManagerProxyClass.getDeclaredConstructor(fullTextEntityManagerClass);
          log.debug("Hibernate Search is available :-)");
       }
       catch (Exception e)
@@ -214,4 +219,24 @@ public class HibernatePersistenceProvider extends PersistenceProvider
       }
    }
 
+   @Override
+   public EntityManager proxyEntityManager(EntityManager entityManager)
+   {
+      if (FULL_TEXT_ENTITYMANAGER_PROXY_CONSTRUCTOR==null)
+      {
+         return super.proxyEntityManager(entityManager);
+      }
+      else
+      {
+         try
+         {
+            return (EntityManager) FULL_TEXT_ENTITYMANAGER_PROXY_CONSTRUCTOR.newInstance( FULL_TEXT_ENTITYMANAGER_CONSTRUCTOR.invoke(null, entityManager) );
+         }
+         catch (Exception e)
+         {
+            throw new RuntimeException("could not proxy FullTextEntityManager", e);
+
+         }
+      }
+   }
 }

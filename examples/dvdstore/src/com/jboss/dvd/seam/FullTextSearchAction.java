@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
@@ -16,19 +15,18 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
-import org.hibernate.search.FullTextQuery;
-import org.hibernate.search.FullTextSession;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
-import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
+import org.jboss.seam.annotations.web.RequestParameter;
+import org.hibernate.search.jpa.FullTextQuery;
+import org.hibernate.search.jpa.FullTextEntityManager;
 
 /**
  * Hibernate Search version of the store querying mechanism
@@ -134,7 +132,7 @@ public class FullTextSearchAction
         List<Product> items = query
             .setMaxResults(pageSize + 1)
             .setFirstResult(pageSize * currentPage)
-            .list();
+            .getResultList();
         numberOfResults = query.getResultSize();
         
         if (items.size() > pageSize) {
@@ -161,11 +159,7 @@ public class FullTextSearchAction
         parser.setAllowLeadingWildcard(true);
         org.apache.lucene.search.Query luceneQuery;
         luceneQuery = parser.parse(searchQuery);
-        return getFullTextSession().createFullTextQuery(luceneQuery, Product.class);
-    }
-
-    private FullTextSession getFullTextSession() {
-        return (FullTextSession) em.getDelegate();
+        return ( (FullTextEntityManager) em ).createFullTextQuery(luceneQuery, Product.class);
     }
     
     /**
