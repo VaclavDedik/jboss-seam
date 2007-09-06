@@ -8,7 +8,7 @@
 		<description>
 			<![CDATA[Convert an entity.]]>
 		</description>
-		<tag generate="false">
+		<tag>
 			<name>convertEntity</name>
 			<classname>org.jboss.seam.ui.taglib.ConvertEntityTag</classname>
 			<superclass>
