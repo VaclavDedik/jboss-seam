@@ -19,8 +19,8 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.util.Naming;
 
 /**
- * A Seam component that boostraps an EntityManagerFactory,
- * for use of JPA outside of Java EE 5 / Embeddable EJB3.
+ * A Seam component that bootstraps an EntityManagerFactory,
+ * for use of JPA outside of Java EE 5 / Embedded JBoss.
  * 
  * @author Gavin King
  */

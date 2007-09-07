@@ -26,6 +26,7 @@ class LogImpl implements Log, Externalizable
       this.category = category;
       this.log = Logging.getLogProvider(category, true);
    }
+   
    public boolean isDebugEnabled()
    {
       return log.isDebugEnabled();
@@ -146,11 +147,13 @@ class LogImpl implements Log, Externalizable
          return object;
       }
    }
+   
    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException
    {
       category = (String) in.readObject();
       log = Logging.getLogProvider(category, true);
    }
+   
    public void writeExternal(ObjectOutput out) throws IOException
    {
       out.writeObject(category);

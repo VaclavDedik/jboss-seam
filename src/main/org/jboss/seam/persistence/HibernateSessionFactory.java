@@ -23,27 +23,27 @@ import org.jboss.seam.security.HibernateSecurityInterceptor;
 import org.jboss.seam.util.Naming;
 
 /**
- * A Seam component that boostraps a Hibernate SessionFactory
+ * A Seam component that bootstraps a Hibernate SessionFactory
  * 
  * <p>
  * Loads Hibernate configuration options by checking:
  * <li>hibernate.properties in root of the classpath
  * <li>hibernate.cfg.xml in root of the classpath
  * <li>cfgResourceName as location of a cfg.xml file
- * <li>factory-suplied cfgProperties options
+ * <li>factory-supplied cfgProperties options
  * <p>
  * Note that this factory only supports cfg.xml files <b>or</b> programmatic
  * <tt>cfgProperties</tt> supplied to the factory. Any
  * <tt>hibernate.properties</tt> are always loaded from the classpath.
  * <p>
- * Mapping metadata can be supplied through:
+ * Mapping metadata can be supplied via
  * <li>mappingClasses: equivalent to &lt;mapping class="..."/>
  * <li>mappingFiles: equivalent to &lt;mapping file="..."/>
  * <li>mappingJars: equivalent to &lt;mapping jar="..."/>
  * <li>mappingPackages: equivalent to &lt;mapping package="..."/>
  * <li>mappingResources: equivalent to &lt;mapping resource="..."/>
  * <p>
- * or through cfg.xml files.
+ * or via cfg.xml files.
  * <p>
  * The <tt>jndiProperties</tt> are convenience, the factory will automatically
  * prefix regular JNDI properties for use as Hibernate configuration properties.
