@@ -526,12 +526,6 @@ public class BaseSeamTest
          {
             if (Contexts.isEventContextActive())
             {
-               // If there is still an active transaction, roll it back
-               if (!Transaction.instance().isNoTransaction())
-               {
-                  Transaction.instance().rollback();
-               }
-               
                FacesLifecycle.endRequest(externalContext);
             }
          }
