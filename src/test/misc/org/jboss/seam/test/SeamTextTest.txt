@@ -28,7 +28,7 @@ x=y*z/2`
 
 We wrap quoted text in double quotes:
 
-"This is a quote with /formatting/. The quote can cross multiple 
+"This is a block quote with /formatting/. The quote can cross multiple 
 lines, but a blank line does not start a new paragraph. If you
 need multiple paragraphs in a quote, you have to use \<p\>."
 
@@ -94,10 +94,11 @@ And "a quote" in it.
 
 Oh, and one last thing:
 
-"This is a quote with
+"This is a block quote with
 
 = a list,
 = with 2 items
 
-and `some code` and <a href="http://jboss.com/products/seam"><i>yet 
+and <i>some HTML</i> formatting and `some code` and
+and <a href="http://jboss.com/products/seam"><i>yet 
 another</i> link</a>."
