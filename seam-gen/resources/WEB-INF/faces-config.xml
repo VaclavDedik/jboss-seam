@@ -5,7 +5,6 @@
               xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
 
    <application>
-      <message-bundle>messages</message-bundle>
       <locale-config>
     		<default-locale>en</default-locale>
       </locale-config>
