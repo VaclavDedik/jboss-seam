@@ -61,24 +61,31 @@ options
 startRule: (newline)* ( (heading (newline)* )? text (heading (newline)* text)* )?
     ;
 
-text: ( (paragraph|special|html) (newline)* )+
+text: ( (paragraph|preformatted|blockquote|list|html) (newline)* )+
     ;
-    
-special: (preformatted|quoted|list) newlineOrEof
-    ;
-
+        
 paragraph: { append("<p>\n"); } (line newlineOrEof)+ { append("</p>\n"); } newlineOrEof
     ;
     
 line: (plain|formatted) (plain|formatted|preformatted|quoted|html)*
     ;
     
-formatted: bold|underline|italic|monospace|superscript|deleted
+blockquote: DOUBLEQUOTE { append("<blockquote>\n"); }
+            (plain|formatted|preformatted|newline|html|list)*
+            DOUBLEQUOTE newlineOrEof { append("</blockquote>\n"); }
     ;
-
+    
+preformatted: BACKTICK { append("<pre>"); }
+              (word|punctuation|specialChars|moreSpecialChars|htmlSpecialChars|space|newline)*
+              BACKTICK { append("</pre>"); }
+    ;
+    
 plain: word|punctuation|escape|space|link|macro
     ;
   
+formatted: bold|underline|italic|monospace|superscript|deleted
+    ;
+
 word: w:WORD { append( w.getText() ); }
     ;
 
@@ -178,13 +185,8 @@ deleted: TWIDDLE { append("<del>"); }
          TWIDDLE { append("</del>"); }
     ;
     
-preformatted: BACKTICK { append("<pre>"); }
-              (word|punctuation|specialChars|moreSpecialChars|htmlSpecialChars|space|newline)*
-              BACKTICK { append("</pre>"); }
-    ;
-    
 quoted: DOUBLEQUOTE { append("<q>"); }
-        (plain|formatted|preformatted|html|(list newline)|newline)*
+        (plain|bold|underline|italic|monospace|superscript|deleted|newline)+
         DOUBLEQUOTE { append("</q>"); }
     ;
 
@@ -203,7 +205,7 @@ h3: PLUS PLUS PLUS { append("<h3>"); } line { append("</h3>"); }
 h4: PLUS PLUS PLUS PLUS { append("<h4>"); } line { append("</h4>"); }
     ;
  
-list: olist | ulist
+list: ( olist | ulist ) newlineOrEof
     ;
     
 olist: { append("<ol>\n"); } (olistLine newlineOrEof)+ { append("</ol>\n"); }
@@ -230,7 +232,7 @@ newlineOrEof: newline | EOF
 html: openTag ( space | space attribute )* ( ( beforeBody body closeTagWithBody ) | closeTagWithNoBody ) 
     ;
 
-body: (plain|formatted|preformatted|quoted|html|(list newline)|newline)*
+body: (plain|formatted|preformatted|quoted|html|list|newline)*
     ;
 
 openTag: LT name:WORD { validateElement(name); append("<"); append(name.getText()); }
