@@ -880,19 +880,19 @@ public class GridEditor
         &#8212; accessing conversational components from AJAX requests.
         We're going to discuss the options that a Ajax client library should
         provide to control events originating at the client &#8212; and we'll
-        look at the options RichFaces Ajax gives you.
+        look at the options RichFaces gives you.
       </para>
     
       <para>
         Conversational components don't allow real concurrent access therefore
         Seam queues each request to process them serially.  This allows each
-        request to be executed in a deterministic fashion and the result 
-        returned to the client. However, a simple queue isn't that great &#8212;
-        firstly, if a method is, for some reason, taking a very long time to
-        complete, running over and over again whenever the client generates a
-        request is bad (potential for Denial of Service attacks), and secondly,
-        AJAX is often to used to provide a quick status update to the user, so
-        continuing to run the action after a long time isn't useful. 
+        request to be executed in a deterministic fashion. However, a simple
+        queue isn't that great &#8212; firstly, if a method is, for some
+        reason, taking a very long time to complete, running it over and over
+        again whenever the client generates a request is bad idea (potential
+        for Denial of Service attacks), and, secondly, AJAX is often to used
+        to provide a quick status update to the user, so continuing to run the
+        action after a long time isn't useful. 
       </para>
       
       <para>
@@ -909,39 +909,45 @@ public class GridEditor
       </para>
       
       <programlisting><![CDATA[<core:manager concurrent-request-timeout="500" />]]></programlisting>
-      
-      <para>
+      <!-- TODO -->
+      <!-- <para>
         We can also fine tune the concurrent request timeout for a request:
       </para>
        
       <programlisting><![CDATA[public void getTotal() {
    Manager.instance().setConcurrentRequestTimeout(1000);
    return someReallyComplicatedCalculation();
-}]]></programlisting>
+}]]></programlisting>-->
 
     <para>
-      So far we've discussed synchronous AJAX requests - the client tells the
+      So far we've discussed "synchronous" AJAX requests - the client tells the
       server that an event has occur, and then rerenders part of the page based
-      on the result. But we could also use asynchronous (poll based) requests 
-      &#8212; the client sends an AJAX request to the server, which causes an
-      action to be executed asynchronously on the server (so the the response
-      to the client is immediate); the client then polls the server for
-      updates.  This is useful when you have a long-running action for which it
-      is important that every action executes (you don't want some to be 
-      dropped as duplicates, or to timeout).
+      on the result.  This approach is great when the AJAX request is
+      lightweight (the methods called are simple e.g. calculating the sum of a
+      column of numbers).  But what if we need to do a complex computation? 
+    </para>
+    <para>
+      For heavy computation we should use a truly asynchronous (poll based) 
+      approach &#8212; the client sends an AJAX request to the server, which
+      causes action to be executed asynchronously on the server (so the the
+      response to the client is immediate); the client then polls the server 
+      for updates.  This is useful when you have a long-running action for
+      which it is important that every action executes (you don't want some to
+      be dropped as duplicates, or to timeout).
     </para>
     
     <para>
-      <emphasis>But how should we design our conversational AJAX application?</emphasis>
+      <emphasis>How should we design our conversational AJAX application?</emphasis>
     </para>
     
     <para>
-      Well first, you need to decide whether you want to use the simpler push-
-      style or whether you want to add using a poll-style approach.
+      Well first, you need to decide whether you want to use the simpler 
+      "synchronous" request or whether you want to add using a poll-style
+      approach.
     </para>
     
     <para>
-      If you go for a synchronous request approach, then you need to make an
+      If you go for a "synchronous" approach, then you need to make an
       estimate of how long your AJAX request will take to complete - is it much
       shorter than the concurrent request timeout? If not, you probably want to
       alter the concurrent request timeout for this method (as discussed 
@@ -985,7 +991,7 @@ public int getTotal() {
       <title>RichFaces Ajax</title>
     
       <para>
-        RichFaces Ajax is the most common Ajax library used with Seam, and
+        RichFaces Ajax is the AJAX library most commonly used with Seam, and
         provides all the controls discussed above:
       </para>
       
@@ -994,7 +1000,10 @@ public int getTotal() {
           <para>
             <literal>eventsQueue</literal> &#8212; provide a queue in which 
             events are placed.  All events are queued and requests are sent to
-            the server serially.
+            the server serially.  This is useful if the request can to the
+            server can take some time to execute (e.g. heavy computation,
+            retrieving information from a slow source) as the server isn't
+            flooded.
           </para>
         </listitem>
         <listitem>
