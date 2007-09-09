@@ -4,62 +4,74 @@
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core"
      xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+     xmlns:wiki="http://jboss.com/products/seam/wiki"
+     xmlns:c="http://java.sun.com/jstl/core"
      xmlns:s="http://jboss.com/products/seam/taglib">
 
 <s:div styleClass="box" style="margin-top:25px"
      rendered="#{not empty commentHome.comments and documentHome.instance.enableComments}">
 
-    <h:dataTable value="#{commentHome.comments}" var="c"
+    <h:panelGrid columns="1"
                  styleClass="datatable rightBorder leftBorder topBorder bottomBorder"
-                 headerClass="regularHeader alignLeft"
-                 columnClasses="commentColumn"
-                 rowClasses="rowOdd,rowEven"
+                 columnClasses="commentColumn" rowClasses="rowOdd, rowEven"
                  cellpadding="0" cellspacing="0" border="0">
-        <h:column>
-            <f:facet name="header">
-                #{wiki:sizeOf(commentHome.comments)} comment(s):
-            </f:facet>
-
-            <div class="commentSubject">
-                <h:outputText value="#{c.subject}" rendered="#{documentHome.instance.name != c.subject}"/>
-            </div>
-
-            <div class="commentAuthorDate">
-            <span class="commentDate">
-                <h:outputText value="#{c.createdOn}">
-                    <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
-                </h:outputText>
-                <h:outputText value="&#160;#{wikiPreferences.timeZone}"/>
-            </span>
-                <s:span>&#160;(
-                    <s:span styleClass="commentAuthor" rendered="#{empty c.fromUserHomepage}">#{c.fromUserName}</s:span>
-                    <s:span styleClass="commentAuthor" rendered="#{!empty c.fromUserHomepage}"><a
-                            href="http://#{c.fromUserHomepage}">#{c.fromUserName}</a></s:span>
-                    <s:span styleClass="commentAuthor" rendered="#{!empty c.fromUserEmail}">,&#160;
-                        <h:outputLink value="#{wiki:escapeEmailURL(wiki:concat('mailto:', c.fromUserEmail))}">#{wiki:escapeAtSymbol(c.fromUserEmail)}</h:outputLink>
-                    </s:span>)
-                </s:span>
-            </div>
-
-            <s:div styleClass="commentText" rendered="#{c.useWikiText}">
-                <s:formattedText value="#{c.text}"/>
+        <f:facet name="header">
+            <s:div styleClass="regularHeader alignLeft">
+                <h:outputText value="#{wiki:sizeOf(commentHome.comments)}&#160;comment:" rendered="#{wiki:sizeOf(commentHome.comments) == 1}"/>
+                <h:outputText value="#{wiki:sizeOf(commentHome.comments)}&#160;comments:" rendered="#{wiki:sizeOf(commentHome.comments) > 1}"/>
             </s:div>
-            <s:div styleClass="commentText" rendered="#{not c.useWikiText and documentHome.instance.name != c.subject}" style="margin-top:15px;">
-                <h:outputText value="#{wiki:escapeHTML(c.text, true)}" escape="false"/>
-            </s:div>
-            <s:div styleClass="commentText" rendered="#{not c.useWikiText and documentHome.instance.name == c.subject}">
-                <h:outputText value="#{wiki:escapeHTML(c.text, true)}" escape="false"/>
-            </s:div>
+        </f:facet>
+        <c:forEach var="c" items="#{commentHome.comments}">
+            <s:span>
 
-            <div align="right">
-                <h:form rendered="#{s:hasPermission('Comment', 'delete', documentHome.instance)}">
-                    <a:commandLink action="#{commentHome.remove(c.id)}" reRender="content"
-                                   styleClass="button"><span class="buttonLabel">Remove Comment</span></a:commandLink>
-                </h:form>
-            </div>
+                <div class="commentSubject">
+                    <h:outputText value="#{c.subject}" rendered="#{documentHome.instance.name != c.subject}"/>
+                </div>
 
-        </h:column>
-    </h:dataTable>
+                <div class="commentAuthorDate">
+                <span class="commentDate">
+                    <h:outputText value="#{c.createdOn}">
+                        <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
+                    </h:outputText>
+                    <h:outputText value="&#160;#{wikiPreferences.timeZone}"/>
+                </span>
+                    <s:span>&#160;(
+                        <s:span styleClass="commentAuthor" rendered="#{empty c.fromUserHomepage}">#{c.fromUserName}</s:span>
+                        <s:span styleClass="commentAuthor" rendered="#{!empty c.fromUserHomepage}"><a
+                                href="http://#{c.fromUserHomepage}">#{c.fromUserName}</a></s:span>
+                        <s:span styleClass="commentAuthor" rendered="#{!empty c.fromUserEmail}">,&#160;
+                            <h:outputLink value="#{wiki:escapeEmailURL(wiki:concat('mailto:', c.fromUserEmail))}">#{wiki:escapeAtSymbol(c.fromUserEmail)}</h:outputLink>
+                        </s:span>)
+                    </s:span>
+                </div>
+
+                <s:div styleClass="commentText" rendered="#{c.useWikiText}">
+                    <wiki:formattedText value="#{c.text}"
+                                        linkStyleClass="regularLink"
+                                        brokenLinkStyleClass="brokenLink"
+                                        attachmentLinkStyleClass="regularLink"
+                                        thumbnailLinkStyleClass="regularLink"
+                                        renderBaseDocument="#{documentHome.instance}"
+                                        renderBaseDirectory="#{documentHome.parentDirectory}"
+                                        enablePlugins="false"/>
+                </s:div>
+                <s:div styleClass="commentText" rendered="#{not c.useWikiText and documentHome.instance.name != c.subject}" style="margin-top:15px;">
+                    <h:outputText value="#{wiki:escapeHTML(c.text, true)}" escape="false"/>
+                </s:div>
+                <s:div styleClass="commentText" rendered="#{not c.useWikiText and documentHome.instance.name == c.subject}">
+                    <h:outputText value="#{wiki:escapeHTML(c.text, true)}" escape="false"/>
+                </s:div>
+
+                <div align="right">
+                    <h:form rendered="#{s:hasPermission('Comment', 'delete', documentHome.instance)}">
+                        <a:commandLink action="#{commentHome.remove(c.id)}" reRender="content"
+                                       styleClass="button"><span class="buttonLabel">Remove Comment</span></a:commandLink>
+                    </h:form>
+                </div>
+
+            </s:span>
+        </c:forEach>
+    </h:panelGrid>
 
 </s:div>
 </s:span>
