@@ -399,6 +399,11 @@ public class Manager
    {      
       ConversationPropagation propagation = ConversationPropagation.instance();
       
+      if (propagation.getPropagationType() == null)
+      {
+         return;
+      }
+
       switch (propagation.getPropagationType())
       {
          case BEGIN:
