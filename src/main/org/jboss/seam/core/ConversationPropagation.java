@@ -28,11 +28,12 @@ import org.jboss.seam.navigation.Pages;
 public class ConversationPropagation
 {
    private static final LogProvider log = Logging.getLogProvider(ConversationPropagation.class);
-   
+
    private String conversationId;
    private String parentConversationId;
    private boolean validateLongRunningConversation;
-   private String propagationType; //TODO: make it an enum!
+   private PropagationType propagationType;   
+   private String pageflow;
 
    /**
     * Initialize the request conversation id, taking
@@ -47,19 +48,19 @@ public class ConversationPropagation
       restoreNaturalConversationId(parameters);
       restoreSyntheticConversationId(parameters);
       restorePageContextConversationId();
-      propagationType = getPropagationFromRequestParameter(parameters);
+      getPropagationFromRequestParameter(parameters);
       handlePropagationType(parameters);
    }
 
    private void handlePropagationType(Map parameters)
    {
-      if ( "none".equals(propagationType) )
+      if ( propagationType == PropagationType.NONE )
       {
          conversationId = null;
          parentConversationId = null;
          validateLongRunningConversation = false;
       }
-      else if ( "end".equals(propagationType) )
+      else if ( propagationType == PropagationType.END )
       {
          validateLongRunningConversation = false;
       }
@@ -111,20 +112,51 @@ public class ConversationPropagation
       }
    }
 
-   private String getPropagationFromRequestParameter(Map parameters)
+   private void getPropagationFromRequestParameter(Map parameters)
    {
       Object type = parameters.get("conversationPropagation");
-      if (type==null)
+      String value = null;      
+      
+      if (type == null)
       {
-         return null;
+         return;
       }
       else if (type instanceof String)
       {
-         return (String) type;
+         value = (String) type;
+      }
+      else 
+      {
+         value = ((String[]) type)[0];
+      }
+      
+      if (value.startsWith("begin"))
+      {
+         propagationType = PropagationType.BEGIN;
+         if ( value.length()>6 )
+         {
+            pageflow = value.substring(6);
+         }         
+      }
+      else if (value.startsWith("join"))
+      {
+         propagationType = PropagationType.JOIN;
+         if ( value.length()>5 )
+         {
+            pageflow = value.substring(5);
+         }         
+      }
+      else if (value.startsWith("nest"))
+      {
+         propagationType = PropagationType.NEST;
+         if ( value.length()>5 )
+         {
+            pageflow = value.substring(5);
+         }         
       }
       else
       {
-         return ( (String[]) type )[0];
+         propagationType = PropagationType.valueOf(value.toUpperCase());
       }
    }
 
@@ -218,14 +250,18 @@ public class ConversationPropagation
    /**
     * @return the conversation propagation type specified in the request
     */
-   public String getPropagationType()
+   public PropagationType getPropagationType()
    {
       return propagationType;
    }
 
-   public void setPropagationType(String propagationType)
+   public void setPropagationType(PropagationType propagationType)
    {
       this.propagationType = propagationType;
    }
 
+   public String getPageflow()
+   {
+      return pageflow;
+   }
 }

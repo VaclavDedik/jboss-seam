@@ -397,52 +397,52 @@ public class Manager
     */
    public void handleConversationPropagation(Map parameters)
    {      
-      String propagation = ConversationPropagation.instance().getPropagationType();
+      ConversationPropagation propagation = ConversationPropagation.instance();
       
-      if ( propagation!=null && propagation.startsWith("begin") )
+      switch (propagation.getPropagationType())
       {
-         if ( isLongRunningConversation )
-         {
-            throw new IllegalStateException("long-running conversation already active");
-         }
-         beginConversation();
-         if ( propagation.length()>6 )
-         {
-            Pageflow.instance().begin( propagation.substring(6) );
-         }
-      }
-      else if ( propagation!=null && propagation.startsWith("join") )
-      {
-         if ( !isLongRunningConversation )
-         {
-            beginConversation();
-            if ( propagation.length()>5 )
+         case BEGIN:
+            if ( isLongRunningConversation )
             {
-               Pageflow.instance().begin( propagation.substring(5) );
+               throw new IllegalStateException("long-running conversation already active");
             }
-         }
+            beginConversation();
+            
+            if (propagation.getPageflow() != null)
+            {
+               Pageflow.instance().begin( propagation.getPageflow() );
+            }
+            break;
+         case JOIN:
+            if ( !isLongRunningConversation )
+            {
+               beginConversation();
+               
+               if (propagation.getPageflow() != null)
+               {
+                  Pageflow.instance().begin( propagation.getPageflow() );
+               }
+            }
+            break;
+         case NEST:
+            if ( isLongRunningOrNestedConversation() ) 
+            {
+                beginNestedConversation();
+            }
+            else 
+            {
+                beginConversation();
+            }
+            
+            if (propagation.getPageflow() != null)
+            {
+               Pageflow.instance().begin( propagation.getPageflow() );
+            }
+            break;
+         case END:
+            endConversation(false);
+            break;
       }
-      else if ( propagation!=null && propagation.startsWith("nest") )
-      {          
-         if ( isLongRunningOrNestedConversation() ) 
-         {
-             beginNestedConversation();
-         }
-         else 
-         {
-             beginConversation();
-         }
-         
-         if ( propagation.length()>5 )
-         {
-            Pageflow.instance().begin( propagation.substring(5) );
-         }
-      }
-      else if ( "end".equals(propagation) )
-      {
-         endConversation(false);
-      }
-
    }
    
    /**
