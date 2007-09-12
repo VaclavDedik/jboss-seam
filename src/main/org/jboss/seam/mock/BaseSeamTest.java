@@ -608,20 +608,25 @@ public class BaseSeamTest
          phases.beforePhase(new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE,
                   MockLifecycle.INSTANCE));
   
-         updateConversationId();
-         
-         renderResponseBegun = true;
-  
-         renderResponse();
-  
-         renderResponseComplete = true;
-  
-         facesContext.getApplication().getStateManager().saveView(facesContext);
-  
-         updateConversationId();
-  
-         phases.afterPhase(new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE,
+         try
+         {
+            updateConversationId();
+            
+            renderResponseBegun = true;
+     
+            renderResponse();
+     
+            renderResponseComplete = true;
+     
+            facesContext.getApplication().getStateManager().saveView(facesContext);
+     
+            updateConversationId();
+         }
+         finally
+         {
+            phases.afterPhase(new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE,
                   MockLifecycle.INSTANCE));
+         }
       }
 
       private void invokeApplicationPhase() throws Exception
