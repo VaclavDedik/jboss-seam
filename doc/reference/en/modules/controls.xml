@@ -841,6 +841,7 @@
             <para><emphasis>Description</emphasis></para>
             <para>
               <emphasis>Deprecated.  Use <literal>&lt;rich:calendar /&gt;</literal> instead.</emphasis>
+            </para>
             <para>
                Displays a dynamic date picker component that selects a date for the specified input field.
                The body of the <literal>selectDate</literal> element should contain HTML elements, such as
