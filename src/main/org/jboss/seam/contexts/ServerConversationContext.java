@@ -198,19 +198,45 @@ public class ServerConversationContext implements Context
    }
 
    private Set<String> getNamesFromSession() 
-   {
-      HashSet<String> results = new HashSet<String>();
-      String prefix = getPrefix( getId() );
-      for ( String name: session.keySet() ) 
-      {
-         if ( name.startsWith(prefix) )
-         {
-            name = name.substring( prefix.length() );
-            if ( !removals.contains(name) ) results.add(name);
-         }
-      }
-      return results;
+   {       
+       HashSet<String> results = new HashSet<String>();
+       
+       String prefix = getPrefix(getId());
+       for (String name: session.keySet()) {
+           if (name.startsWith(prefix)) {
+               name = name.substring(prefix.length());
+               if (!removals.contains(name)) {
+                   results.add(name);
+               }
+           }
+       }
+
+       return results;
    }
+   
+   private Set<String> getNamesForAllConversationsFromSession() 
+   {       
+       Set<String> results = new HashSet<String>();
+       
+       List<String> ids = Manager.instance().getCurrentConversationIdStack();
+       
+       if (ids != null) {
+           for (String conversationId: ids) {
+               String prefix = getPrefix(conversationId);
+               for (String name: session.keySet()) {
+                   if (name.startsWith(prefix)) {
+                       String shortName = name.substring(prefix.length());
+                       if (!removals.contains(shortName)) {
+                           results.add(name);
+                       }
+                   }
+               }
+           }
+       }
+
+       return results;
+   }
+   
 
    public Object get(Class clazz)
    {
@@ -225,9 +251,8 @@ public class ServerConversationContext implements Context
    
    public void unflush()
    {
-      for ( String name: getNamesFromSession() )
+      for ( String key: getNamesForAllConversationsFromSession() )
       {
-         String key = getKey(name);
          Object attribute = session.get(key);
          if ( attribute!=null && attribute instanceof Wrapper ) 
          {
@@ -246,30 +271,27 @@ public class ServerConversationContext implements Context
    public void flush()
    {      
       boolean longRunning = !isCurrent() || Manager.instance().isLongRunningConversation();  
+          
       if ( longRunning )
       {
-         //force update for dirty mutable objects
-         for ( String name: getNamesFromSession() )
-         {
-            String key = getKey(name);
-            Object attribute = session.get(key);
-            if ( attribute!=null && isAttributeDirty(attribute) )
-            {
-               session.put(key, attribute);
-            }
-         }
-         //remove removed objects
-         for (String name: removals)
-         {
-            session.remove( getKey(name) );
-         }
-         removals.clear();
-         //add new objects
-         for (Map.Entry<String, Object> entry: additions.entrySet())
-         {
-            session.put( getKey( entry.getKey() ), entry.getValue() );
-         }
-         additions.clear();
+          //force update for dirty mutable objects
+          for (String key: getNamesForAllConversationsFromSession())  {
+              Object attribute = session.get(key);
+            
+              if ( attribute!=null && isAttributeDirty(attribute) ) {
+                  session.put(key, attribute);
+              }
+          }
+          //remove removed objects
+          for (String name: removals) {
+              session.remove(getKey(name));
+          }
+          removals.clear();
+          //add new objects
+          for (Map.Entry<String, Object> entry: additions.entrySet())  {
+              session.put( getKey( entry.getKey() ), entry.getValue() );
+          }
+          additions.clear();
       }
       else
       {
