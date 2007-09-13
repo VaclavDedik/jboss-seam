@@ -50,8 +50,8 @@
 	<classpathentry kind="lib" path="drools/lib/drools-core-4.0.0.jar"/>
 	<classpathentry kind="lib" path="drools/lib/drools-compiler-4.0.0.jar"/>
 	<classpathentry kind="lib" path="lib/lucene-core-2.2.0.jar"/>
-	<classpathentry kind="lib" path="lib/richfaces-api-3.1.0-rc5.jar"/>
-	<classpathentry kind="lib" path="lib/richfaces-impl-3.1.0-rc5.jar"/>
-	<classpathentry kind="lib" path="lib/richfaces-ui-3.1.0-rc5.jar"/>
+	<classpathentry kind="lib" path="lib/richfaces-api-3.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/richfaces-impl-3.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/richfaces-ui-3.1.0.jar"/>
 	<classpathentry kind="output" path="output/classes"/>
 </classpath>

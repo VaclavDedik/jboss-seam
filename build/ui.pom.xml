@@ -20,7 +20,7 @@
 			<plugin>
 				<groupId>org.richfaces.cdk</groupId>
 				<artifactId>maven-cdk-plugin</artifactId>
-				<version>3.1.0-rc5</version>
+				<version>3.1.0</version>
 				<executions>
 					<execution>
 						<phase>generate-sources</phase>
