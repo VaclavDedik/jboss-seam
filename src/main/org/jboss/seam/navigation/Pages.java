@@ -1017,6 +1017,12 @@ public class Pages
          if ( !Strings.isEmpty(expr) ) page.setRestriction(expr);
       }
    }
+   
+   public ConversationIdParameter getConversationIdParameter(String conversationName)
+   {
+      return conversations.get(conversationName);
+   }
+   
    /**
     * Parse the attributes of page
     */

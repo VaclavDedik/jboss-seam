@@ -16,6 +16,8 @@ import org.jboss.seam.annotations.intercept.Interceptor;
 import org.jboss.seam.bpm.BusinessProcessInterceptor;
 import org.jboss.seam.intercept.AbstractInterceptor;
 import org.jboss.seam.intercept.InvocationContext;
+import org.jboss.seam.navigation.ConversationIdParameter;
+import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.pageflow.Pageflow;
 import org.jboss.seam.persistence.PersistenceContexts;
 
@@ -86,9 +88,12 @@ public class ConversationInterceptor extends AbstractInterceptor
       if ( !Manager.instance().isLongRunningConversation() )
       {
          String id = null;
+         String conversation = null;
+         
          if ( method.isAnnotationPresent(Begin.class) )
          {
             id = method.getAnnotation(Begin.class).id();
+            conversation = method.getAnnotation(Begin.class).conversation();
          }
          else if ( method.isAnnotationPresent(BeginTask.class) )
          {
@@ -111,6 +116,18 @@ public class ConversationInterceptor extends AbstractInterceptor
             {
                return ce.redirect();
             }
+         }
+         else if (conversation != null && !"".equals(conversation))
+         {
+            ConversationIdParameter param = Pages.instance().getConversationIdParameter(conversation);
+            if (param != null)
+            {
+               ConversationEntry ce = ConversationEntries.instance().getConversationEntry(param.getConversationId());
+               if (ce != null)
+               {
+                  return ce.redirect();
+               }
+            }            
          }
       }
       
