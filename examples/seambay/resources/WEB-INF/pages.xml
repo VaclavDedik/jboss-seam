@@ -8,7 +8,7 @@
        
     <conversation name="PlaceBid"
                   parameter-name="auctionId"
-                  parameter-value="#{bidAction.bid.auction.auctionId}"/>
+                  parameter-value="#{auction.auctionId}"/>
 
     <page view-id="/search.xhtml">
         <param name="categoryId" value="#{auctionSearch.selectedCategoryId}"/>
@@ -28,7 +28,7 @@
         <param name="id" value="#{auctionDetail.selectedAuctionId}"/>
         
         <navigation from-action="#{bidAction.placeBid}">
-            <redirect view-id="/bid.xhtml"/>
+          <redirect view-id="/bid.xhtml"/>
         </navigation>
     </page>
     

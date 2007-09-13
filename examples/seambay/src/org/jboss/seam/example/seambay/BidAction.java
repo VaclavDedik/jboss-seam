@@ -11,6 +11,7 @@ import javax.persistence.LockModeType;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Conversation;
@@ -23,7 +24,7 @@ public class BidAction
    
    private Bid bid;
    
-   @In(required = false)
+   @In(required = false) @Out(required = false)
    private Auction auction;
    
    @In(required = false)
@@ -31,7 +32,7 @@ public class BidAction
    
    private String outcome;
    
-   @Begin(join = true)
+   @Begin(join = true, conversation = "PlaceBid")
    public void placeBid()
    {
       if (auction.getStatus() != Auction.STATUS_LIVE ||
@@ -201,4 +202,9 @@ public class BidAction
    {
       return bid;
    }   
+   
+   public Auction getAuction()
+   {
+      return auction;
+   }
 }
