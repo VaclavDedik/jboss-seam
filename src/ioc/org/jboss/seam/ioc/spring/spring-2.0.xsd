@@ -36,10 +36,14 @@
 	<xs:element name="task-executor-dispatcher">
 		<xs:complexType mixed="true">
 			<xs:attributeGroup ref="components:attlist.component" />
-			<xs:attribute name="task-executor" use="required" />
-			<xs:attribute name="schedule-dispatcher" />
+			<xs:attributeGroup ref="spring:attlist.taskExecutorDispatcher" />
 		</xs:complexType>
 	</xs:element>
+	<xs:attributeGroup name="attlist.taskExecutorDispatcher">
+		<xs:attribute name="task-executor" use="required" />
+		<xs:attribute name="schedule-dispatcher" />
+	</xs:attributeGroup>
+
 	<xs:element name="spring-transaction">
 		<xs:complexType mixed="true">
 			<xs:attributeGroup ref="components:attlist.component" />
