@@ -28,6 +28,11 @@ public class SyntheticConversationIdParameter implements ConversationIdParameter
       return Manager.instance().getCurrentConversationId();
    }
    
+   public String getParameterValue(String value)
+   {
+      return value;
+   }
+   
    public String getInitialConversationId(Map parameters)
    {
       return Id.nextId();  

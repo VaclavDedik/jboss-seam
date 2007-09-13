@@ -77,4 +77,9 @@ public class ELConversationIdParameter implements ConversationIdParameter
       }
    }
    
+   public String getParameterValue(String value)
+   {
+      return value.startsWith(name + ":") ? value.substring(name.length() + 1) : value;
+   }
+   
 }

@@ -715,12 +715,11 @@ public class Manager
    {
       //DONT BREAK, icefaces uses this
       ConversationIdParameter cip = Pages.instance().getPage(viewId).getConversationIdParameter();
-      return encodeConversationIdParameter( url, cip.getParameterName(), conversationId );
+      return encodeConversationIdParameter( url, cip.getParameterName(), cip.getParameterValue(conversationId) );
    }
  
    private String encodeConversationIdParameter(String url, String paramName, String paramValue)
-   {
-         
+   {         
       if ( Session.instance().isInvalid() || containsParameter(url, paramName) )
       {
          return url;
