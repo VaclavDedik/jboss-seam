@@ -30,29 +30,30 @@ import org.jboss.seam.util.Reflections;
  * @author Gavin King
  *
  */
-@Interceptor(around=BijectionInterceptor.class, stateless=true)
+@Interceptor(around=BijectionInterceptor.class)
 public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
 {
- 
-   //TODO: cache the non-ignored fields, probably on Component
+    private boolean reentrant;
+    //TODO: cache the non-ignored fields, probably on Component
    
-   @AroundInvoke
-   public Object aroundInvoke(InvocationContext ctx) throws Exception
-   {
-      entityIdsToRefs(ctx);
-      try
-      {
-         return ctx.proceed();
-      }
-      finally
-      {
-         if ( !isTransactionRolledBackOrMarkedRollback() )
-         {
-            entityRefsToIds(ctx);
-         }
-      }
-   }
-   
+    @AroundInvoke
+    public Object aroundInvoke(InvocationContext ctx) throws Exception
+    {
+        if (reentrant) {
+            return ctx.proceed();
+        } else {
+            reentrant = true;
+            entityIdsToRefs(ctx);
+            try  {
+                return ctx.proceed();
+            } finally {
+                if (!isTransactionRolledBackOrMarkedRollback()) {
+                    entityRefsToIds(ctx);
+                }
+            }
+        }
+    }
+    
    private static boolean isTransactionRolledBackOrMarkedRollback()
    {
       try
@@ -157,8 +158,8 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
 
    private boolean touchedContextsExist()
    {
-      PersistenceContexts touchedContexts = PersistenceContexts.instance();
-      return touchedContexts!=null && touchedContexts.getTouchedContexts().size()>0;
+       PersistenceContexts touchedContexts = PersistenceContexts.instance();
+       return touchedContexts!=null && touchedContexts.getTouchedContexts().size()>0;
    }
 
    private String getFieldId(Field field)
