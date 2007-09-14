@@ -2,8 +2,12 @@
 
 <project name="Spring Example" default="all" basedir=".">
 
-   <target name="jbosswar" description="Build the Spring example artifacts, suitable for deployment to JBoss as a WAR">
+   <target name="jbosswar" description="Build the Spring example artifacts and deploy to JBoss as a WAR">
      	<ant antfile="build-jbosswar.xml"/>
+   </target>
+	
+   <target name="jbosswar.undeploy" description="Undeploy the Spring example from JBoss AS">
+     	<ant antfile="build-jbosswar.xml" target="jbosswar.undeploy"/>
    </target>
 
    <target name="clean" description="Clean up the example">

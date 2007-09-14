@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project name="Spring JBossWar" default="noejb.archive" basedir=".">
+<project name="Spring JBossWar" default="jbosswar.deploy" basedir=".">
 
     <!-- Naming -->
     <property name="Name"                   value="The Spring Example for JBoss War"/>

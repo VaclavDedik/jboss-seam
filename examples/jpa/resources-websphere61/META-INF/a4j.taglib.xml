@@ -3,7 +3,7 @@
   "-//Sun Microsystems, Inc.//DTD Facelet Taglib 1.0//EN"
   "http://java.sun.com/dtd/facelet-taglib_1_0.dtd">
 <facelet-taglib xmlns="http://java.sun.com/JSF/Facelet">
-	<namespace>https://ajax4jsf.dev.java.net/ajax</namespace>
+	<namespace>http://richfaces.org/a4j</namespace>
 
 
  <tag>
