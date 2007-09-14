@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project name="JPA Booking" default="noejb.archive" basedir=".">
+<project name="JPA Booking" default="jbosswar.deploy" basedir=".">
 
     <!-- Naming -->
     <property name="Name"                   value="The JPA Example for JBoss 4.2.0.GA"/>
