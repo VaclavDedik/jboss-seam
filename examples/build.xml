@@ -332,7 +332,7 @@
 	</fileset>
 
 	<!-- resources to go in the jar for jbosswar  -->
-	<fileset id="jbosswar.jar.resources" dir="${resources.dir}">
+	<fileset id="noejb.jar.resources" dir="${resources.dir}">
 		<include name="${example.ds}" />
 		<include name="treecache.xml" />
 		<include name="*.jpdl.xml" />
@@ -663,6 +663,7 @@
 				<exclude name="**/ejb-jar.xml" />
 			</fileset>
 			<fileset refid="noejb.jar.extras" />
+			<fileset refid="noejb.jar.resources" />
 		</copy>
 	</target>
 
