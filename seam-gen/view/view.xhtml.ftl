@@ -11,7 +11,7 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+                xmlns:rich="http://richfaces.org/rich"
                 template="layout/template.xhtml">
                        
 <ui:define name="body">
