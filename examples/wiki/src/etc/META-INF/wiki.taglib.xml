@@ -55,6 +55,12 @@
     </function>
 
     <function>
+        <function-name>getType</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>java.lang.String getType(org.jboss.seam.wiki.core.model.Node)</function-signature>
+    </function>
+
+    <function>
         <function-name>truncateString</function-name>
         <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
         <function-signature>java.lang.String truncateString(java.lang.String,int,java.lang.String)</function-signature>

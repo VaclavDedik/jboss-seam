@@ -51,7 +51,7 @@ public class IndexManager {
             FullTextSession ftSession = (FullTextSession)em.getDelegate();
 
             // Delete all documents with "_hibernate_class" term of the selected entity
-            DirectoryProvider dirProvider = ftSession.getSearchFactory().getDirectoryProvider(entityClass);
+            DirectoryProvider dirProvider = ftSession.getSearchFactory().getDirectoryProviders(entityClass)[0];
             IndexReader reader = IndexReader.open(dirProvider.getDirectory());
 
             // TODO: This is using an internal term of HSearch

@@ -32,7 +32,7 @@ public class WikiNodeFactory implements Serializable {
     @In
     protected EntityManager restrictedEntityManager;
 
-    @Factory(value = "wikiRoot", scope = ScopeType.CONVERSATION, autoCreate = true)
+    @Factory(value = "wikiRoot", scope = ScopeType.PAGE, autoCreate = true)
     public Directory loadWikiRoot() {
         entityManager.joinTransaction();
         try {
@@ -45,7 +45,7 @@ public class WikiNodeFactory implements Serializable {
         }
     }
 
-    @Factory(value = "wikiStart", scope = ScopeType.CONVERSATION, autoCreate = true)
+    @Factory(value = "wikiStart", scope = ScopeType.PAGE, autoCreate = true)
     public Document loadWikiStart() {
         restrictedEntityManager.joinTransaction();
         WikiPreferences wikiPreferences = (WikiPreferences) Component.getInstance("wikiPreferences");
@@ -64,7 +64,7 @@ public class WikiNodeFactory implements Serializable {
     }
 
     // Loads the same instance into a different persistence context
-    @Factory(value = "restrictedWikiRoot", scope = ScopeType.CONVERSATION, autoCreate = true)
+    @Factory(value = "restrictedWikiRoot", scope = ScopeType.PAGE, autoCreate = true)
     public Directory loadWikiRootRestricted() {
         Directory wikiroot = (Directory) Component.getInstance("wikiRoot");
 
@@ -80,7 +80,7 @@ public class WikiNodeFactory implements Serializable {
         }
     }
 
-    @Factory(value = "memberArea", scope = ScopeType.CONVERSATION, autoCreate = true)
+    @Factory(value = "memberArea", scope = ScopeType.PAGE, autoCreate = true)
     public Directory loadMemberArea() {
         Long memberAreaId = ((WikiPreferences)Component.getInstance("wikiPreferences")).getMemberAreaId();
         entityManager.joinTransaction();

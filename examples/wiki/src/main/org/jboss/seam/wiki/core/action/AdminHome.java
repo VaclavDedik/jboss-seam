@@ -161,7 +161,7 @@ public class AdminHome implements Serializable {
         EntityManager em = (EntityManager) Component.getInstance("entityManager");
 
         for (SearchableEntity indexedEntity : indexedEntities) {
-            DirectoryProvider dirProvider = ((FullTextSession)em.getDelegate()).getSearchFactory().getDirectoryProvider(indexedEntity.getClazz());
+            DirectoryProvider dirProvider = ((FullTextSession)em.getDelegate()).getSearchFactory().getDirectoryProviders(indexedEntity.getClazz())[0];
             IndexReader reader = IndexReader.open(dirProvider.getDirectory());
 
             indexedEntity.setNumOfIndexedDocuments(reader.numDocs());

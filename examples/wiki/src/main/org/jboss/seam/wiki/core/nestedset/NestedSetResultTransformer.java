@@ -146,7 +146,8 @@ public class NestedSetResultTransformer<N extends NestedSetNode> implements Resu
         }
 
         // Connect the tree hierarchically (child to parent, skip child if parent isn't present)
-        NestedSetNodeWrapper<N> nodeWrapper = new NestedSetNodeWrapper<N>(nestedSetNode, comparator, nestedSetNodeLevel, additionalProjectionValues);
+        NestedSetNodeWrapper<N> nodeWrapper =
+                createNestedSetNodeWrapper(nestedSetNode, comparator, rootWrapper.getLevel()+nestedSetNodeLevel, additionalProjectionValues);
         if (!nestedSetNodeParentId.equals(currentParent.getWrappedNode().getId())) {
             NestedSetNodeWrapper<N> foundParent = findParentInTree(nestedSetNodeParentId, currentParent);
             if (foundParent != null) {
@@ -156,7 +157,7 @@ public class NestedSetResultTransformer<N extends NestedSetNode> implements Resu
             }
         }
         nodeWrapper.setWrappedParent(currentParent);
-        currentParent.getWrappedChildren().add(nodeWrapper);
+        currentParent.addWrappedChild(nodeWrapper);
         currentParent = nodeWrapper;
 
         return rootWrapper; // Return just something so that transformList() will be called when we are done
@@ -184,10 +185,11 @@ public class NestedSetResultTransformer<N extends NestedSetNode> implements Resu
     }
 
     // Recursively flatten tree
-    private void flattenTree(List<NestedSetNodeWrapper<N>> flatChildren, long i, NestedSetNodeWrapper<N> wrapper) {
+    public void flattenTree(List<NestedSetNodeWrapper<N>> flatChildren, long i, NestedSetNodeWrapper<N> wrapper) {
         NestedSetNodeWrapper<N> newWrapper =
-                new NestedSetNodeWrapper<N>(wrapper.getWrappedNode(), comparator, i, wrapper.getAdditionalProjections());
+                createNestedSetNodeWrapper(wrapper.getWrappedNode(), comparator, i, wrapper.getAdditionalProjections());
         flatChildren.add( newWrapper );
+
         if (wrapper.getWrappedChildren().size() > 0 && wrapper.getLevel() < flattenToLevel) {
             i++;
             for (NestedSetNodeWrapper<N> child : wrapper.getWrappedChildrenSorted()) {
@@ -198,6 +200,13 @@ public class NestedSetResultTransformer<N extends NestedSetNode> implements Resu
                 flattenTree(flatChildren, i, child);
             }
         }
+    }
+
+    public NestedSetNodeWrapper<N> createNestedSetNodeWrapper(N nestedSetNode,
+                                                              Comparator<NestedSetNodeWrapper<N>> comparator,
+                                                              Long nestedSetNodeLevel,
+                                                              Map<String, Object> additionalProjectionValues) {
+        return new NestedSetNodeWrapper<N>(nestedSetNode, comparator, nestedSetNodeLevel, additionalProjectionValues);
     }
 
 }

@@ -55,7 +55,6 @@ insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, BOOL
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (42, 0, 'lastModifiedDocumentsPreferences', 'documentTitleLength', '20')
 
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (50, 0, 'blogDirectoryPreferences', 'pageSize', '5')
-insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (51, 0, 'blogDirectoryPreferences', 'recentHeadlines', '10')
 
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, STRING_VALUE)   values (60, 0, 'feedTeasersPreferences', 'teaserTitle', 'Site news feed:')
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (61, 0, 'feedTeasersPreferences', 'feedIdentifier', '1')

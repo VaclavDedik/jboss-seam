@@ -25,7 +25,7 @@ import java.io.Serializable;
  * @author Christian Bauer
  */
 @Name("menu")
-@Scope(ScopeType.CONVERSATION)
+@Scope(ScopeType.PAGE)
 public class Menu implements Serializable {
 
     @In

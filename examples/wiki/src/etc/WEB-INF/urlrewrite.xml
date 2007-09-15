@@ -109,19 +109,19 @@
     -->
     <rule>
         <from casesensitive="true">^/cgi-bin/blosxom.cgi$</from>
-        <to last="true" type="permanent-redirect">%{scheme}://%{server-name}:%{port}%{context-path}/</to>
+        <to last="true" type="permanent-redirect">%{scheme}://%{server-name}%{context-path}/</to>
     </rule>
     <rule>
         <from casesensitive="true">^/cgi-bin/blosxom.cgi/([0-9]{4})/([0-9]{2})/?$</from>
-        <to last="true" type="permanent-redirect">%{scheme}://%{server-name}:%{port}%{context-path}/Bloggers/Everyone/$1/$2</to>
+        <to last="true" type="permanent-redirect">%{scheme}://%{server-name}%{context-path}/Bloggers/Everyone/$1/$2</to>
     </rule>
     <rule>
         <from casesensitive="true">^/cgi-bin/blosxom.cgi/([0-9]{4})/([0-9]{2})/([0-9]{2})/?$</from>
-        <to last="true" type="permanent-redirect">%{scheme}://%{server-name}:%{port}%{context-path}/Bloggers/Everyone/$1/$2/$3</to>
+        <to last="true" type="permanent-redirect">%{scheme}://%{server-name}%{context-path}/Bloggers/Everyone/$1/$2/$3</to>
     </rule>
     <rule>
         <from casesensitive="true">^/cgi-bin/blosxom.cgi/index.rss$</from>
-        <to last="true" type="permanent-redirect">%{scheme}://%{server-name}:%{port}%{context-path}/servlets/feeds/atom.seam?feedId=1</to>
+        <to last="true" type="permanent-redirect">%{scheme}://%{server-name}%{context-path}/servlets/feeds/atom.seam?feedId=1</to>
     </rule>
 
     <!-- ROOT / -->

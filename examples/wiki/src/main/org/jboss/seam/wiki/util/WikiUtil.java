@@ -62,6 +62,13 @@ public class WikiUtil {
         return node != null && File.class.isAssignableFrom(node.getClass());
     }
 
+    public static String getType(Node node) {
+        if (isDirectory(node)) return "Directory";
+        if (isDocument(node)) return "Document";
+        if (isFile(node)) return "File";
+        return "UNKNOWN TYPE";
+    }
+
     // EL is weak
     public static String truncateString(String string, int length, String appendString) {
         if (string.length() <= length) return string;

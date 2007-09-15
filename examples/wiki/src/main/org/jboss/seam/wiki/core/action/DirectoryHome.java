@@ -7,18 +7,16 @@
 package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.annotations.*;
+import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.wiki.core.model.Directory;
-import org.jboss.seam.wiki.core.model.Node;
-import org.jboss.seam.wiki.core.model.Document;
-import org.jboss.seam.wiki.core.model.Feed;
+import org.jboss.seam.wiki.core.model.*;
+import org.jboss.seam.wiki.core.dao.WikiTreeNodeAdapter;
 import org.jboss.seam.wiki.util.WikiUtil;
+import org.richfaces.model.TreeNode;
 
 import javax.faces.application.FacesMessage;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 
 @Name("directoryHome")
 @Scope(ScopeType.CONVERSATION)
@@ -141,6 +139,32 @@ public class DirectoryHome extends NodeHome<Directory> {
     }
 
     /* -------------------------- Public Features ------------------------------ */
+
+    @In(required=false)
+    @Out(required = false, scope=ScopeType.PAGE)
+    WikiTreeNodeAdapter directoryTree;
+
+    public TreeNode getTree() {
+        if (directoryTree == null) {
+            directoryTree = new WikiTreeNodeAdapter(getInstance(), getNodeDAO().getComparatorDisplayPosition(), 2l);
+            directoryTree.loadChildren();
+        }
+        return directoryTree;
+        /*
+        TreeNode root = new TreeNodeImpl();
+        TreeNode bar = new TreeNodeImpl();
+        TreeNode baz = new TreeNodeImpl();
+        TreeNode faz  = new TreeNodeImpl();
+        root.setData("Foo");
+        bar.setData("bar");
+        baz.setData("baz");
+        faz.setData("faz");
+        root.addChild("1", bar);
+        root.addChild("2", baz);
+        root.addChild("3", faz);
+        return root;
+        */
+    }
 
     private boolean hasFeed;
 

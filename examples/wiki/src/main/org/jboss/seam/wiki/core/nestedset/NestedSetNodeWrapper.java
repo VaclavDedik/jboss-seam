@@ -49,6 +49,7 @@ public class NestedSetNodeWrapper<N extends NestedSetNode> {
     Comparator<NestedSetNodeWrapper<N>> comparator;
     Long level;
     Map<String, Object> additionalProjections = new HashMap<String, Object>();
+    public boolean childrenLoaded = false;
 
     public NestedSetNodeWrapper(N wrappedNode, Comparator<NestedSetNodeWrapper<N>> comparator) {
         this(wrappedNode, comparator, 0l);
@@ -79,6 +80,7 @@ public class NestedSetNodeWrapper<N extends NestedSetNode> {
 
     public void setWrappedParent(NestedSetNodeWrapper<N> wrappedParent) {
         this.wrappedParent = wrappedParent;
+        childrenLoaded = true;
     }
 
     public List<NestedSetNodeWrapper<N>> getWrappedChildren() {
@@ -87,6 +89,11 @@ public class NestedSetNodeWrapper<N extends NestedSetNode> {
 
     public void setWrappedChildren(List<NestedSetNodeWrapper<N>> wrappedChildren) {
         this.wrappedChildren = wrappedChildren;
+    }
+
+    public void addWrappedChild(NestedSetNodeWrapper<N> wrappedChild) {
+        getWrappedChildren().add(wrappedChild);
+        childrenLoaded = true;
     }
 
     public Comparator<NestedSetNodeWrapper<N>> getComparator() {

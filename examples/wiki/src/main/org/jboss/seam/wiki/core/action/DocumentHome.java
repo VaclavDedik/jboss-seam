@@ -15,8 +15,10 @@ import org.jboss.seam.wiki.core.engine.WikiLink;
 import org.jboss.seam.wiki.core.dao.FeedDAO;
 import org.jboss.seam.wiki.core.dao.UserRoleAccessFactory;
 import org.jboss.seam.wiki.core.action.prefs.DocumentEditorPreferences;
+import org.jboss.seam.wiki.preferences.PreferenceSupport;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.core.Conversation;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.contexts.Contexts;
 

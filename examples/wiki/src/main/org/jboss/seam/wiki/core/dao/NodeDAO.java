@@ -12,7 +12,6 @@ import org.jboss.seam.wiki.core.nestedset.NestedSetNode;
 import org.jboss.seam.wiki.core.nestedset.NestedSetNodeWrapper;
 import org.jboss.seam.wiki.core.nestedset.NestedSetResultTransformer;
 import org.jboss.seam.wiki.core.nestedset.NestedSetNodeDuplicator;
-import org.jboss.seam.wiki.preferences.PreferenceProvider;
 import org.jboss.seam.Component;
 import org.jboss.seam.log.Log;
 import org.hibernate.Session;
@@ -20,7 +19,6 @@ import org.hibernate.Session;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
-import javax.persistence.Query;
 import java.util.*;
 
 /**
@@ -318,25 +316,7 @@ public class NodeDAO {
 
     public NestedSetNodeWrapper<Node> findMenuItems(Node startNode, Long maxDepth, Long flattenToLevel, boolean showAdminOnly) {
 
-        // Needs to be equals() safe (SortedSet):
-        // - compare by display position, if equal
-        // - compare by name, if equal
-        // - compare by id
-        Comparator<NestedSetNodeWrapper<Node>> comp =
-            new Comparator<NestedSetNodeWrapper<Node>>() {
-                public int compare(NestedSetNodeWrapper<Node> o1, NestedSetNodeWrapper<Node> o2) {
-                    Node node1 = o1.getWrappedNode();
-                    Node node2 = o2.getWrappedNode();
-                    if (node1.getDisplayPosition().compareTo(node2.getDisplayPosition()) != 0) {
-                        return node1.getDisplayPosition().compareTo(node2.getDisplayPosition());
-                    } else if (node1.getName().compareTo(node2.getName()) != 0) {
-                        return node1.getName().compareTo(node2.getName());
-                    }
-                    return node1.getId().compareTo(node2.getId());
-                }
-            };
-
-        NestedSetNodeWrapper<Node> startNodeWrapper = new NestedSetNodeWrapper<Node>(startNode, comp);
+        NestedSetNodeWrapper<Node> startNodeWrapper = new NestedSetNodeWrapper<Node>(startNode, getComparatorDisplayPosition());
         NestedSetResultTransformer<Node> transformer = new NestedSetResultTransformer<Node>(startNodeWrapper, flattenToLevel);
 
         // Make hollow copies for menu display so that changes to the model in the persistence context don't appear
@@ -424,5 +404,25 @@ public class NodeDAO {
             entityManager.joinTransaction();
             return ((Session)((org.jboss.seam.persistence.EntityManagerProxy) entityManager).getDelegate());
         }
+    }
+
+    public Comparator<NestedSetNodeWrapper<Node>> getComparatorDisplayPosition() {
+        // Needs to be equals() safe (SortedSet):
+        // - compare by display position, if equal
+        // - compare by name, if equal
+        // - compare by id
+        return
+            new Comparator<NestedSetNodeWrapper<Node>>() {
+                public int compare(NestedSetNodeWrapper<Node> o1, NestedSetNodeWrapper<Node> o2) {
+                    Node node1 = o1.getWrappedNode();
+                    Node node2 = o2.getWrappedNode();
+                    if (node1.getDisplayPosition().compareTo(node2.getDisplayPosition()) != 0) {
+                        return node1.getDisplayPosition().compareTo(node2.getDisplayPosition());
+                    } else if (node1.getName().compareTo(node2.getName()) != 0) {
+                        return node1.getName().compareTo(node2.getName());
+                    }
+                    return node1.getId().compareTo(node2.getId());
+                }
+            };
     }
 }

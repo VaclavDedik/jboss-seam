@@ -7,11 +7,15 @@
 package org.jboss.seam.wiki.preferences;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Logger;
+import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.core.Events;
+import org.jboss.seam.core.Conversation;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.wiki.plugin.lastmodified.LastModifiedDocumentsPreferences;
+import org.jboss.seam.wiki.core.action.prefs.DocumentEditorPreferences;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -73,14 +77,14 @@ public abstract class PreferenceSupport {
 
     @Create
     public void materialize() {
-        this.properties = loadPropertyValues();
+        this.properties = loadPropertyValues(this);
     }
 
     public Map<String, Object> getProperties() {
         return properties;
     }
 
-    private Map<String, Object> loadPropertyValues() {
+    private Map<String, Object> loadPropertyValues(Object componentInstance) {
         PreferenceRegistry registry = (PreferenceRegistry) Component.getInstance("preferenceRegistry");
         PreferenceProvider provider = (PreferenceProvider) Component.getInstance("preferenceProvider");
         Object user = getCurrentUserVariable() != null ? Component.getInstance(getCurrentUserVariable()) : null;
@@ -98,7 +102,7 @@ public abstract class PreferenceSupport {
                           + "' value is: '" + valueHolder.getValue() + "'");
 
                 // Write onto instance so users can call #{myPrefs.thisPreferenceSetting}
-                valueHolder.getPreferenceProperty().write(this, valueHolder.getValue());
+                valueHolder.getPreferenceProperty().write(componentInstance, valueHolder.getValue());
 
                 // Keep a duplicate in this map so users can call #{myPrefs.properties['thisPreferenceSetting']}
                 loadedProperties.put(valueHolder.getPreferenceProperty().getName(), valueHolder.getValue());
@@ -114,7 +118,7 @@ public abstract class PreferenceSupport {
 
     public void refreshProperties() {
         log.debug("refreshing preference component property values");
-        this.properties = loadPropertyValues();
+        this.properties = loadPropertyValues(this);
     }
 
     public String getCurrentUserVariable() { return null; }

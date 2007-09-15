@@ -5,7 +5,8 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:wiki="http://jboss.com/products/seam/wiki"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:richtree="http://labs.jboss.com/jbossrichfaces/ui/treeModel"
                 template="themes/#{wikiPreferences.themeName}/template.xhtml">
 
 <ui:define name="screenname">#{directoryHome.instance.name}</ui:define>
@@ -202,6 +203,64 @@
         </h:column>
 
     </h:dataTable>
+
+
+    <h:form id="dirTree" rendered="false">
+        <ui:include src="includes/statusIndicator.xhtml"/>
+
+        #{directoryHome.instance.name}:
+        <rich:tree value="#{directoryHome.tree}" var="nodeWrapper"
+                   switchType="ajax" status="dirTree\:status"
+                   nodeFace="#{wiki:getType(nodeWrapper.wrappedNode)}">
+
+            <rich:treeNode type="Directory">
+                <f:facet name="icon">
+                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.dir.gif" width="18" height="20"/>
+                </f:facet>
+                <f:facet name="iconLeaf">
+                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.dir.gif" width="18" height="20"/>
+                </f:facet>
+                <h:outputText value="#{nodeWrapper.wrappedNode.name}"/> (#{nodeWrapper.level})
+            </rich:treeNode>
+
+            <rich:treeNode type="Document">
+                <f:facet name="icon">
+                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.doc.gif" width="18" height="20"
+                                    rendered="#{nodeWrapper.wrappedNode != nodeWrapper.wrappedParent.wrappedNode.defaultDocument}"/>
+                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.doc.default.gif" width="18" height="20"
+                                    rendered="#{nodeWrapper.wrappedNode == nodeWrapper.wrappedParent.wrappedNode.defaultDocument}"/>
+                </f:facet>
+                <f:facet name="iconLeaf">
+                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.doc.gif" width="18" height="20"
+                                    rendered="#{nodeWrapper.wrappedNode != nodeWrapper.wrappedParent.wrappedNode.defaultDocument}"/>
+                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.doc.default.gif" width="18" height="20"
+                                    rendered="#{nodeWrapper.wrappedNode == nodeWrapper.wrappedParent.wrappedNode.defaultDocument}"/>
+                </f:facet>
+                <h:outputText value="#{nodeWrapper.wrappedNode.name}"/> (#{nodeWrapper.level})
+            </rich:treeNode>
+
+            <rich:treeNode type="File">
+                <f:facet name="icon">
+                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/#{fileMetaMap[nodeWrapper.wrappedNode.contentType].displayIcon}"
+                                    width="18" height="20"
+                                    rendered="#{!empty fileMetaMap[nodeWrapper.wrappedNode.contentType]}"/>
+                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/#{fileMetaMap['generic'].displayIcon}"
+                                    width="18" height="20"
+                                    rendered="#{empty fileMetaMap[nodeWrapper.wrappedNode.contentType]}"/>
+                </f:facet>
+                <f:facet name="iconLeaf">
+                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/#{fileMetaMap[nodeWrapper.wrappedNode.contentType].displayIcon}"
+                                    width="18" height="20"
+                                    rendered="#{!empty fileMetaMap[nodeWrapper.wrappedNode.contentType]}"/>
+                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/#{fileMetaMap['generic'].displayIcon}"
+                                    width="18" height="20"
+                                    rendered="#{empty fileMetaMap[nodeWrapper.wrappedNode.contentType]}"/>
+                </f:facet>
+                <h:outputText value="#{nodeWrapper.wrappedNode.name}"/> (#{nodeWrapper.level})
+            </rich:treeNode>
+
+        </rich:tree>
+    </h:form>
 
 </div>
 </ui:define>
