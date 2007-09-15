@@ -32,7 +32,7 @@
     
     <target name="init-properties">
         <!-- Give user a chance to override without editing this file or typing -D -->
-        <property file="${basedir}/build.properties" />
+        <property file="./build.properties" />
     
     	<!-- Import properties from seam itself -->
     	<property file="../build.properties" />
@@ -77,6 +77,28 @@
 	<condition property="catalog.property" value="">
 	    <not><isset property="hibernate.default_catalog"/></not>
 	</condition>
+        
+        <condition property="base.dir" value="icefaces-staging" else=".">
+             <and>
+                 <isset property="icefaces.home"/>
+                 <not><equals arg1="${icefaces.home}" arg2=""/></not>
+             </and>
+        </condition>
+
+        <condition property="icefaces.lib" value="${icefaces.home}/lib" else="../lib">
+             <and>
+                 <isset property="icefaces.home"/>
+                 <not><equals arg1="${icefaces.home}" arg2=""/></not>
+             </and>
+         </condition>
+
+         <condition property="icefaces.property">
+             <and>
+                 <isset property="icefaces.home"/>
+                 <not><equals arg1="${icefaces.home}" arg2=""/></not>
+             </and>
+         </condition>
+         
 
         <filterset id="jdbc">
             <filter token="jdbcUrl" value="${hibernate.connection.url}"/>
@@ -92,25 +114,13 @@
         <filterset id="project">
             <filter token="projectName" value="${project.name}" />
             <filter token="jbossHome" value="${jboss.home}" />
+            <filter token="iceHome" value="${icefaces.home}" />
             <filter token="hbm2ddl" value="${hibernate.hbm2ddl.auto}"/>
             <filter token="driverJar" value="${driver.file}"/>
         	<filter token="schemaVersion" value="${version}" />
         </filterset>
         
     </target>
-        
-    
-    <fileset id="view" dir="${basedir}/view">
-        <include name="home.xhtml"/>
-    	<include name="error.xhtml"/>
-    	<include name="login.xhtml"/>
-    	<include name="login.page.xml"/>
-        <include name="index.html"/>
-        <include name="layout/*"/>
-        <include name="stylesheet/*"/>
-    	<include name="img/*"/>
-    	<exclude name="**/*.ftl"/>
-    </fileset>
 	
     <fileset id="seam" dir="../">
         <include name="jboss-seam*.jar"/>
@@ -141,7 +151,7 @@
     
     <target name="setup"
     	description="Prompt for settings">
-        <property file="${basedir}/build.properties" prefix="old" />
+        <property file="./build.properties" prefix="old" />
 
         <echo message="Welcome to seam-gen :-)"/>
         <property name="old.workspace.home" value="C:/Projects"/>
@@ -352,11 +362,18 @@
     	    <equals arg1="${hibernate.default_catalog.new}" arg2=""/>
     	</condition>
 
+        <property name="old.icefaces.home" value=""/>
+        <input addproperty="icefaces.home.new"
+                   message="Enter your ICEfaces home directory (leave blank to omit ICEfaces) [${old.icefaces.home}]"
+              defaultvalue="${old.icefaces.home}"/>
+        <pathFixer property="icefaces.home.new" />
+
         <propertyfile file="build.properties">
             <entry key="workspace.home" value="${workspace.home.new}"/>
             <entry key="project.name" value="${project.name.new}"/>
             <entry key="project.type" value="${project.type.new}"/>
             <entry key="jboss.home" value="${jboss.home.new}"/>
+            <entry key="icefaces.home" value="${icefaces.home.new}"/>
             <entry key="action.package" value="${action.package.new}"/>
             <entry key="model.package" value="${model.package.new}"/>
             <entry key="test.package" value="${test.package.new}"/>
@@ -377,8 +394,33 @@
         
     	<echo message="Installing JDBC driver jar to JBoss server"/>
         <copy file="${driver.jar.new}" todir="${jboss.home.new}/server/default/lib"/>
-        
+
         <echo message="Type 'seam new-project' to create the new project"/>
+    </target>
+
+    <target name="icefaces-staging-copy" if="icefaces.property">
+        <echo message="Set up the icefaces directory"/>
+        <copy todir="icefaces-staging">
+            <fileset dir=".">
+                <include name="build-scripts/**"/>
+                <include name="hibernatetools/**"/>
+                <include name="lib/**"/>
+                <include name="resources/**"/>
+                <include name="pojo/**"/>
+                <include name="src/**"/>
+                <include name="test/**"/>
+                <include name="view/**"/>
+                <include name="nbproject/**"/>
+            </fileset>
+        </copy>
+        <copy todir="icefaces-staging" overwrite="true">
+            <fileset dir="icefaces">
+                <include name="build-scripts/**"/>
+                <include name="resources/**"/>
+                <include name="src/**"/>
+                <include name="view/**"/>
+            </fileset>
+        </copy>
     </target>
     
     <target name="action-input">
@@ -480,10 +522,20 @@
         <echo message="Copying Seam jars to the ${project.home}/lib directory..." />
 
         <copy todir="${project.home}/lib" overwrite="true">
-            <fileset dir="../lib"/>
+            <fileset dir="../lib">
+                <exclude name="jsf-facelets.jar" if="icefaces.property"/>
+                <exclude name="ajax4jsf*.jar" if="icefaces.property"/>
+                <exclude name="richfaces*.jar" if="icefaces.property"/>
+            </fileset>
             <fileset dir="../drools/lib"/>
             <fileset refid="seam"/>
             <fileset file="${driver.jar}"/>
+            <fileset dir="${icefaces.lib}" >
+                <include name="icefaces*.jar" if="icefaces.property"/>
+                <include name="backport-util-concurrent.jar" if="icefaces.property"/>
+                <include name="commons-fileupload.jar" if="icefaces.property"/>
+                <include name="commons-digester.jar" if="icefaces.property"/>
+            </fileset>
         </copy>
 
         <echo message="Copying JBoss Embedded configuration to the ${project.home}/bootstrap directory..." />
@@ -497,41 +549,41 @@
         <echo message="Copying resources needed for WAR deployment to the ${project.home}/resources directory..." />
 
 		<copy tofile="${project.home}/resources/WEB-INF/components.xml" 
-                file="${basedir}/resources/WEB-INF/components-war.xml">
+                file="${base.dir}/resources/WEB-INF/components-war.xml">
             <filterset refid="project"/>
         </copy>
         <copy tofile="${project.home}/build.xml" 
-                file="${basedir}/build-scripts/build-war.xml">
+                file="${base.dir}/build-scripts/build-war.xml">
             <filterset refid="project"/>
         </copy>
         <copy todir="${project.home}/resources">
-            <fileset dir="${basedir}/resources/">
+            <fileset dir="${base.dir}/resources/">
             	<include name="META-INF/persistence*-war.xml"/>
             	<include name="WEB-INF/jboss-web.xml"/>
             </fileset>
             <filterset refid="project"/>
             <filterset refid="jdbc"/>
         </copy>
-		<copy todir="${project.home}/src/action" file="${basedir}/resources/seam.properties"/>
-		<copy todir="${project.home}/src/model" file="${basedir}/resources/seam.properties"/>
+		<copy todir="${project.home}/src/action" file="${base.dir}/resources/seam.properties"/>
+		<copy todir="${project.home}/src/model" file="${base.dir}/resources/seam.properties"/>
 	</target>
     
 	<target name="file-copy-ear" unless="project.war">
         <echo message="Copying resources needed for EAR deployment to the ${project.home}/resources directory..." />
 		
 	    <copy tofile="${project.home}/resources/WEB-INF/components.xml" 
-	             file="${basedir}/resources/WEB-INF/components.xml">
+	             file="${base.dir}/resources/WEB-INF/components.xml">
 	         <filterset refid="project"/>
 	     </copy>
         <copy tofile="${project.home}/build.xml" 
-                file="${basedir}/build-scripts/build.xml">
+                file="${base.dir}/build-scripts/build.xml">
             <filterset refid="project"/>
         </copy>
 		<copy todir="${project.home}" overwrite="true">
 		    <fileset file="../validate.xml"/>
 		</copy>
         <copy todir="${project.home}/resources">
-            <fileset dir="${basedir}/resources/">
+            <fileset dir="${base.dir}/resources/">
             	<include name="META-INF/application.xml"/>
             	<include name="META-INF/jboss-app.xml"/>
             	<include name="META-INF/ejb-jar.xml"/>
@@ -546,7 +598,7 @@
     <target name="file-copy" depends="file-copy-war,file-copy-ear,setup-filters">
                 
         <copy todir="${project.home}/resources">
-            <fileset dir="${basedir}/resources/">
+            <fileset dir="${base.dir}/resources/">
             	<exclude name="datasource-ds.xml"/>
             	<exclude name="import.sql"/>
             	<exclude name="WEB-INF/components*.xml"/>
@@ -561,12 +613,12 @@
         </copy>
 
         <copy tofile="${project.home}/${project.name}.launch" 
-                file="${basedir}/hibernatetools/hibernate-console.launch">
+                file="${base.dir}/hibernatetools/hibernate-console.launch">
             <filterset refid="project"/>
         </copy>
 
         <copy tofile="${project.home}/hibernate-console.properties" 
-                file="${basedir}/hibernatetools/hibernate-console.properties">
+                file="${base.dir}/hibernatetools/hibernate-console.properties">
             <filterset refid="project"/>
             <filterset refid="jdbc"/>
         	<filterset>
@@ -575,56 +627,75 @@
         </copy>
 
         <copy tofile="${project.home}/resources/seam-gen.reveng.xml" 
-                file="${basedir}/hibernatetools/seam-gen.reveng.xml">
+                file="${base.dir}/hibernatetools/seam-gen.reveng.xml">
             <filterset refid="project"/>
         </copy>
 
         <copy tofile="${project.home}/.settings/org.hibernate.eclipse.console.prefs" 
-                file="${basedir}/hibernatetools/.settings/org.hibernate.eclipse.console.prefs">
+                file="${base.dir}/hibernatetools/.settings/org.hibernate.eclipse.console.prefs">
             <filterset refid="project"/>
         </copy>
 
         <copy tofile="${project.home}/resources/${project.name}-dev-ds.xml" 
-                file="${basedir}/resources/datasource-ds.xml">
+                file="${base.dir}/resources/datasource-ds.xml">
             <filterset refid="project"/>
             <filterset refid="jdbc"/>
         </copy>
         
         <copy tofile="${project.home}/resources/${project.name}-prod-ds.xml" 
-                file="${basedir}/resources/datasource-ds.xml">
+                file="${base.dir}/resources/datasource-ds.xml">
             <filterset refid="project"/>
             <filterset refid="jdbc"/>
         </copy>
         
         <copy tofile="${project.home}/resources/import-dev.sql" 
-                file="${basedir}/resources/import.sql">
+                file="${base.dir}/resources/import.sql">
             <filterset refid="project"/>
             <filterset refid="jdbc"/>
         </copy>
         
         <copy tofile="${project.home}/resources/import-prod.sql" 
-                file="${basedir}/resources/import.sql">
+                file="${base.dir}/resources/import.sql">
             <filterset refid="project"/>
             <filterset refid="jdbc"/>
         </copy>
         
         <copy tofile="${project.home}/resources/import-test.sql" 
-                file="${basedir}/resources/import.sql">
+                file="${base.dir}/resources/import.sql">
             <filterset refid="project"/>
             <filterset refid="jdbc"/>
         </copy>
         
         <copy todir="${project.home}/view">
-            <fileset refid="view"/>
+            <fileset id="view" dir="${base.dir}/view">
+                <include name="home.xhtml"/>
+                <include name="error.xhtml"/>
+                <include name="login.xhtml"/>
+                <include name="login.page.xml"/>
+                <include name="index.html"/>
+                <include name="layout/*"/>
+                <include name="stylesheet/*"/>
+                <exclude name="**/*.ftl"/>
+            </fileset>
             <filterset refid="project"/>
         </copy>
+        <!-- Images have to be copied without filter -->
+        <copy todir="${project.home}/view">
+            <fileset id="view" dir="${base.dir}/view">
+                <include name="img/*"/>
+            </fileset>
+        </copy>
     	
-        <copy todir="${project.home}/src/${action.dir}" file="${basedir}/src/Authenticator.java">
+        <copy todir="${project.home}/src/${action.dir}">
+            <fileset dir="${base.dir}/src/">
+                <include name="Authenticator.java"/>
+                <include name="Timer*.java" if="icefaces.property"/>
+            </fileset>
             <filterset refid="filters"/>
         </copy>
         
         <copy todir="${project.home}">
-            <fileset dir="${basedir}/build-scripts">
+            <fileset dir="${base.dir}/build-scripts">
             	<exclude name="build*.xml"/>
             </fileset>
             <filterset refid="project"/>
@@ -636,7 +707,7 @@
 
         <mkdir dir="${project.home}/nbproject"/>
         <copy todir="${project.home}/nbproject">
-            <fileset dir="${basedir}/nbproject" />
+            <fileset dir="${base.dir}/nbproject" />
             <filterset refid="project"/>
         </copy>
 
@@ -664,7 +735,7 @@
         </fail>
     </target>
 
-    <target name="new-project" depends="validate-project,copy-lib,file-copy"
+    <target name="new-project" depends="validate-project,icefaces-staging-copy,copy-lib,file-copy"
             description="Create a new project">
         <echo message="A new Seam project named '${project.name}' was created in the ${workspace.home} directory"/>
     	<echo message="Type 'seam explode' and go to http://localhost:8080/${project.name}"/>
@@ -691,19 +762,19 @@
 
     <target name="new-action-ear" depends="validate-project,action-input,setup-filters" unless="project.war">
         <echo message="Creating a new stateless session bean component with an action method" />
-        <copy file="src/ActionBean.java" tofile="${bean.file}">
+        <copy file="${base.dir}/src/ActionBean.java" tofile="${bean.file}">
             <filterset refid="filters"/>
         </copy>
-        <copy file="src/Action.java" tofile="${interface.file}">
+        <copy file="${base.dir}/src/Action.java" tofile="${interface.file}">
             <filterset refid="filters"/>
         </copy>
-        <copy file="test/ActionTest.java" tofile="${test.file}">
+        <copy file="${base.dir}/test/ActionTest.java" tofile="${test.file}">
             <filterset refid="filters"/>
         </copy>
-        <copy file="test/testng.xml" tofile="${testng.file}">
+        <copy file="${base.dir}/test/testng.xml" tofile="${testng.file}">
             <filterset refid="filters"/>
         </copy>
-        <copy file="view/action.xhtml" tofile="${page.file}">
+        <copy file="${base.dir}/view/action.xhtml" tofile="${page.file}">
             <filterset refid="filters"/>
         </copy>
         <echo message="Type 'seam restart' and go to http://localhost:8080/${project.name}/${page.name}.seam"/>
@@ -711,16 +782,16 @@
 
     <target name="new-action-war" depends="validate-project,action-input,setup-filters" if="project.war">
         <echo message="Creating a new JavaBean component with an action method" />
-        <copy file="src/ActionJavaBean.java" tofile="${interface.file}">
+        <copy file="${base.dir}/src/ActionJavaBean.java" tofile="${interface.file}">
             <filterset refid="filters"/>
         </copy>
-        <copy file="test/ActionTest.java" tofile="${test.file}">
+        <copy file="${base.dir}/test/ActionTest.java" tofile="${test.file}">
             <filterset refid="filters"/>
         </copy>
-        <copy file="test/testng.xml" tofile="${testng.file}">
+        <copy file="${base.dir}/test/testng.xml" tofile="${testng.file}">
             <filterset refid="filters"/>
         </copy>
-        <copy file="view/action.xhtml" tofile="${page.file}">
+        <copy file="${base.dir}/view/action.xhtml" tofile="${page.file}">
             <filterset refid="filters"/>
         </copy>
         <echo message="Type 'seam restart' and go to http://localhost:8080/${project.name}/${page.name}.seam"/>
@@ -728,16 +799,16 @@
 
     <target name="new-form-war" depends="validate-project,action-input,setup-filters" if="project.war">
         <echo message="Creating a new JavaBean component with an action method" />
-        <copy file="src/FormActionJavaBean.java" tofile="${interface.file}">
+        <copy file="${base.dir}/src/FormActionJavaBean.java" tofile="${interface.file}">
             <filterset refid="filters"/>
         </copy>
-        <copy file="test/FormTest.java" tofile="${test.file}">
+        <copy file="${base.dir}/test/FormTest.java" tofile="${test.file}">
             <filterset refid="filters"/>
         </copy>
-        <copy file="view/form.xhtml" tofile="${page.file}">
+        <copy file="${base.dir}/view/form.xhtml" tofile="${page.file}">
             <filterset refid="filters"/>
         </copy>
-        <copy file="test/testng.xml" tofile="${testng.file}">
+        <copy file="${base.dir}/test/testng.xml" tofile="${testng.file}">
             <filterset refid="filters"/>
         </copy>
         <echo message="Type 'seam restart' and go to http://localhost:8080/${project.name}/${page.name}.seam"/>
@@ -745,19 +816,19 @@
 
     <target name="new-form-ear" depends="validate-project,action-input,setup-filters" unless="project.war">
         <echo message="Creating a new stateful session bean component with an action method" />
-        <copy file="src/FormActionBean.java" tofile="${bean.file}">
+        <copy file="${base.dir}/src/FormActionBean.java" tofile="${bean.file}">
             <filterset refid="filters"/>
         </copy>
-        <copy file="src/FormAction.java" tofile="${interface.file}">
+        <copy file="${base.dir}/src/FormAction.java" tofile="${interface.file}">
             <filterset refid="filters"/>
         </copy>
-        <copy file="test/FormTest.java" tofile="${test.file}">
+        <copy file="${base.dir}/test/FormTest.java" tofile="${test.file}">
             <filterset refid="filters"/>
         </copy>
-        <copy file="view/form.xhtml" tofile="${page.file}">
+        <copy file="${base.dir}/view/form.xhtml" tofile="${page.file}">
             <filterset refid="filters"/>
         </copy>
-        <copy file="test/testng.xml" tofile="${testng.file}">
+        <copy file="${base.dir}/test/testng.xml" tofile="${testng.file}">
             <filterset refid="filters"/>
         </copy>
         <echo message="Type 'seam restart' and go to http://localhost:8080/${project.name}/${page.name}.seam"/>
@@ -765,11 +836,11 @@
 
     <target name="new-query" depends="validate-project,query-input,setup-filters">
         <echo message="Creating a new query" />
-        <copy file="src/Query.java" tofile="${query.file}">
+        <copy file="${base.dir}/src/Query.java" tofile="${query.file}">
             <filterset refid="filters"/>
         </copy>
 
-        <copy file="view/query.xhtml" tofile="${page.file}">
+        <copy file="${base.dir}/view/query.xhtml" tofile="${page.file}">
             <filterset refid="filters"/>
         </copy>
 
@@ -778,13 +849,13 @@
 
     <target name="new-conversation" depends="validate-project,action-input,setup-filters">
         <echo message="Creating a new stateful session bean component with @Begin and @End methods" />
-        <copy file="src/ConversationBean.java" tofile="${bean.file}">
+        <copy file="${base.dir}/src/ConversationBean.java" tofile="${bean.file}">
             <filterset refid="filters"/>
         </copy>
-        <copy file="src/Conversation.java" tofile="${interface.file}">
+        <copy file="${base.dir}/src/Conversation.java" tofile="${interface.file}">
             <filterset refid="filters"/>
         </copy>
-        <copy file="view/conversation.xhtml" tofile="${page.file}">
+        <copy file="${base.dir}/view/conversation.xhtml" tofile="${page.file}">
             <filterset refid="filters"/>
         </copy>
         <echo message="Type 'seam restart' and go to http://localhost:8080/${project.name}/${page.name}.seam"/>
@@ -793,19 +864,19 @@
     <target name="new-entity" depends="validate-project,entity-input,setup-filters"
         description="Create a new entity">
         <echo message="Creating a new entity bean, with home and list components" />
-        <copy file="src/Entity.java" tofile="${entity.file}">
+        <copy file="${base.dir}/src/Entity.java" tofile="${entity.file}">
             <filterset refid="filters"/>
         </copy>
-        <copy file="src/EntityHome.java" tofile="${home.file}">
+        <copy file="${base.dir}/src/EntityHome.java" tofile="${home.file}">
             <filterset refid="filters"/>
         </copy>
-        <copy file="src/EntityList.java" tofile="${list.file}">
+        <copy file="${base.dir}/src/EntityList.java" tofile="${list.file}">
             <filterset refid="filters"/>
         </copy>
-        <copy file="view/edit.xhtml" tofile="${page.file}">
+        <copy file="${base.dir}/view/edit.xhtml" tofile="${page.file}">
             <filterset refid="filters"/>
         </copy>
-        <copy file="view/list.xhtml" tofile="${masterPage.file}">
+        <copy file="${base.dir}/view/list.xhtml" tofile="${masterPage.file}">
             <filterset refid="filters"/>
         </copy>
         <echo message="Type 'seam restart' and go to http://localhost:8080/${project.name}/${masterPage.name}.seam"/>
@@ -827,9 +898,9 @@
 	        </classpath>
 	    </taskdef>
 		
-<echo>project=${project.home}</echo>
-<echo>model=${model.package}</echo>
-		<hibernate templatepath=".">
+        <echo>project=${project.home}</echo>
+        <echo>model=${model.package}</echo>
+		<hibernate templatepath="${base.dir}">
             <jdbcconfiguration propertyfile="build.properties" 
                                 packagename="${model.package}"
                                  revengfile="${project.home}/resources/seam-gen.reveng.xml"
@@ -947,6 +1018,7 @@
             description="Print the settings">
         <echo message="Java project workspace: ${workspace.home}"/>
         <echo message="JBoss home: ${jboss.home}"/>
+        <echo message="IceFaces home: ${icefaces.home}"/>
         <echo message="Project name: ${project.name}"/>
         <echo message="Project type: ${project.type}"/>
         <echo message="Hibernate dialect: ${hibernate.dialect}"/>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+    <classpathentry kind="src" output="classes/model" path="src/model"/>
+    <classpathentry kind="src" output="classes/action" path="src/action"/>
+    <classpathentry kind="src" output="classes/test" path="src/test"/>
+    <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+    <classpathentry kind="lib" path="bootstrap"/>
+    <classpathentry kind="lib" path="lib/jboss-embedded-all.jar"/>
+    <classpathentry kind="lib" path="lib/hibernate-all.jar"/>
+    <classpathentry kind="lib" path="lib/thirdparty-all.jar"/>
+    <classpathentry kind="lib" path="lib/jboss-seam.jar"/>
+    <classpathentry kind="lib" path="lib/jboss-seam-debug.jar"/>
+    <classpathentry kind="lib" path="lib/jboss-cache-jdk50.jar"/>
+    <classpathentry kind="lib" path="lib/jbpm-jpdl.jar"/>
+    <classpathentry kind="lib" path="lib/antlr-2.7.6.jar"/>
+    <classpathentry kind="lib" path="lib/jgroups.jar"/>
+    <classpathentry kind="lib" path="lib/jsf-facelets.jar"/>
+    <classpathentry kind="lib" path="lib/jstl-1.1.0.jar"/>
+    <classpathentry kind="lib" path="lib/jsf-api.jar"/>
+    <classpathentry kind="lib" path="lib/servlet-api.jar"/>
+    <classpathentry kind="lib" path="lib/testng-5.6-jdk15.jar"/>
+    <classpathentry kind="lib" path="lib/jboss-el.jar"/>
+    <classpathentry kind="lib" path="lib/jboss-el-api.jar"/>
+	<classpathentry kind="lib" path="lib/mvel14-1.2rc1.jar"/>
+	<classpathentry kind="lib" path="lib/drools-core-4.0.0.jar"/>
+	<classpathentry kind="lib" path="lib/drools-compiler-4.0.0.jar"/>
+	<classpathentry kind="lib" path="lib/janino-2.5.7.jar"/>
+	<classpathentry kind="lib" path="lib/antlr-runtime-3.0.jar"/>
+    <classpathentry kind="lib" path="lib/@driverJar@"/>
+    <classpathentry kind="output" path="test-build"/>
+	<classpathentry kind="lib" path="lib/icefaces.jar"/>
+	<classpathentry kind="lib" path="lib/icefaces-comps.jar"/>
+	<classpathentry kind="lib" path="lib/icefaces-facelets.jar"/>
+</classpath>
