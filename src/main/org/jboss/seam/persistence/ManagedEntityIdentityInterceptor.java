@@ -49,6 +49,7 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
             } finally {
                 if (!isTransactionRolledBackOrMarkedRollback()) {
                     entityRefsToIds(ctx);
+                    reentrant = false;
                 }
             }
         }
