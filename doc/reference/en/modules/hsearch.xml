@@ -7,7 +7,7 @@
 
     <para>Full text search engines like Apache Lucene™ are a very powerful
     technology to bring free text/efficient queries to applications. If
-    suffers several mismatches when dealing with a object domain model
+    suffers several mismatches when dealing with an object domain model
     (keeping the index up to date, mismatch between the index structure and
     the domain model, querying mismatch...) Hibernate Search indexes your
     domain model thanks to a few annotations, takes care of the database /
@@ -123,7 +123,7 @@
 public class FullTextSearchAction implements FullTextSearch, Serializable
 {   
    @In
-   FullTextSession session;
+   <emphasis role="bold">FullTextSession session;</emphasis>
 
    public void search(String searchString) {
       org.apache.lucene.query.Query luceneQuery = getLuceneQuery();
@@ -144,35 +144,65 @@ public class FullTextSearchAction implements FullTextSearch, Serializable
       regular Hibernate Session</para>
     </note>
 
-    <para>For people using the JPA APIs, the
-    <methodname>getDelegate</methodname> method returns a
-    <classname>FullTextSession</classname> object.</para>
+    <para>If the Java Persistence API is used, a smoother integration is
+    proposed.</para>
+
+    <programlisting>@Name("search")
+public class FullTextSearchAction implements FullTextSearch, Serializable
+{   
+   @In
+   <emphasis role="bold">FullTextEntityManager em;</emphasis>
+
+   public void search(String searchString) {
+      org.apache.lucene.query.Query luceneQuery = getLuceneQuery();
+      javax.persistence.Query query = em.createFullTextQuery(luceneQuery, Product.class);
+      searchResults = query
+            .setMaxResults(pageSize + 1)
+            .setFirstResult(pageSize * currentPage)
+            .getResultList();
+   }
+   [...]
+}  </programlisting>
+
+    <para>When Hibernate Search is present, a
+    <classname>FulltextEntityManager</classname> is injected.
+    <classname>FullTextEntityManager</classname> extends
+    <classname>EntityManager</classname> with search specific methods, the
+    same way <classname>FullTextSession</classname> extends
+    <classname>Session</classname>.</para>
+
+    <para>When an EJB 3.0 Session or Message Driven Bean injection is used (ie
+    Bean using @PersistenceContext), replacing the
+    <classname>EntityManager</classname> interface by the
+    <classname>FullTextEntityManager</classname> interface is not possible.
+    However, the implementation injected will be a FullTextEntityManager
+    implementation: downcasting is then possible.</para>
 
     <programlisting>@Stateful
 @Name("search")
 public class FullTextSearchAction implements FullTextSearch, Serializable
 {   
-   @In //or @PersistenceContext
-   EntityManager session;
+   @PersistenceContext
+   EntityManager em;
 
    public void search(String searchString) {
       org.apache.lucene.query.Query luceneQuery = getLuceneQuery();
-      FullTextSession session = (FullTextSession) em.getDelegate();
-      org.hibernate.Query query session.createFullTextQuery(luceneQuery, Product.class);
-      searchResults =  query
+      <emphasis role="bold">FullTextEntityManager ftEm = (FullTextEntityManager) em;</emphasis>
+      javax.persistence.Query query = ftEm.createFullTextQuery(luceneQuery, Product.class);
+      searchResults = query
             .setMaxResults(pageSize + 1)
             .setFirstResult(pageSize * currentPage)
-            .list();
+            .getResultList();
    }
    [...]
 }  </programlisting>
 
-    <para>A smoother JPA integration is expected shortly.</para>
+    <para></para>
 
     <caution>
       <para>For people accustomed to Hibernate Search out of Seam, note that
       using <methodname>Search.createFullTextSession</methodname> is not
-      necessary. </para>
+      necessary.</para>
     </caution>
 
     <para>Check the DVDStore or the blog examples of the JBoss Seam
