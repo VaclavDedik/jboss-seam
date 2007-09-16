@@ -513,10 +513,11 @@
 		<ant dir="examples/todo" target="test" inheritall="false" />
 		<ant dir="examples/blog" target="test" inheritall="false" />
 		<ant dir="examples/ui" target="test" inheritall="false" />
-		<!--<ant dir="examples/wiki" target="test" inheritall="false" />-->
+		<ant dir="examples/wiki" target="test" inheritall="false" >
+			<property name="test.output.dir" value="${test.dir}/wiki" />
+		</ant>
 		<!--<ant dir="examples/portal" target="test" inheritall="false" />-->
 	</target>
-
 	<target name="validateall" description="Validate all example XML Configuration Files">
 		<ant dir="examples/booking" target="validateConfiguration" inheritall="false" />
 		<ant dir="examples/dvdstore" target="validateConfiguration" inheritall="false" />
