@@ -15,7 +15,7 @@
     	<p>This example was built using seam-gen.  To add in Trinidad, the trinidad-api jar was added to 
     	the ear (and referenced from <a href="javascript:Richfaces.showModalPanel('applicationxml')">
     	<code>application.xml</code></a>) and the trinidad-impl jar, <code>jboss-seam-trinidad.jar</code> 
-    	(Seam-Trinidad integration) &amp; <code>a4j-trinidad.jar</code> (Ajax4jsf-Trinidad integration) 
+    	(Seam-Trinidad integration) &amp; <code>a4j-trinidad.jar</code> (RichFaces Ajax-Trinidad integration) 
     	were added to <code>WEB-INF/lib</code>.</p>
     	
     	<p>A few alterations were needed in <a href="javascript:Richfaces.showModalPanel('webxml')">
@@ -91,7 +91,7 @@
 	    </f:facet>
     	<pre class="source-code"><code>
 &lt;application&gt;    
-   &lt;!-- Disabled when using Ajax4JSF or Trinidad --&gt;
+   &lt;!-- Disabled when using RichFaces or Trinidad --&gt;
    &lt;!--
    &lt;view-handler&gt;
       com.sun.facelets.FaceletViewHandler
@@ -119,12 +119,12 @@
     
     <rich:modalPanel id="ajax" width="450" height="230">
 		<f:facet name="header">
-			Ajax4jsf and Trinidad: Different partial page models
+			RichFaces Ajax and Trinidad: Different partial page models
 		</f:facet>
 		<f:facet name="controls">
 	        <a href="javascript:Richfaces.hideModalPanel('ajax')">X</a>
 	    </f:facet>
-    	<p>Trinidad and Ajax4jsf both provide partial page refresh and submit.  For Trinidad PPR to work, it needs to be surrounded by a component
+    	<p>Trinidad and RichFaces Ajax both provide partial page refresh and submit.  For Trinidad PPR to work, it needs to be surrounded by a component
     	which enables PPR.  The example uses <code>&lt;tr:panelPartialRoot /&gt;</code> to achieve this:</p>
     	<pre class="source-code"><code>
 &lt;tr:panelPartialRoot&gt;
@@ -399,7 +399,7 @@ public TreeModel getTree() {
 				<a href="javascript:Richfaces.showModalPanel('creating')">Creating SeamDiscs</a>
 			</s:fragment>
 			<s:fragment>
-				<a href="javascript:Richfaces.showModalPanel('ajax')">Ajax4jsf and Trinidad</a>
+				<a href="javascript:Richfaces.showModalPanel('ajax')">RichFaces Ajax and Trinidad</a>
 			</s:fragment>
 			<s:fragment>
 				<a href="javascript:Richfaces.showModalPanel('inplace')">Inplace Editing</a>
