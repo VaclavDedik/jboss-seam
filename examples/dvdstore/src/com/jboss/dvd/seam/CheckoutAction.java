@@ -74,21 +74,16 @@ public class CheckoutAction
     public void submitOrder() {
         try {
             completedOrder = purchase(customer, currentOrder);
-
+            
             orderId      = completedOrder.getOrderId();
             amount       = completedOrder.getNetAmount();
             customerName = completedOrder.getCustomer().getUserName();
-
-            //return "complete;"
+    
         } catch (InsufficientQuantityException e) {
             for (Product product: e.getProducts()) {
                 Contexts.getEventContext().set("prod", product);
                 FacesMessages.instance().addFromResourceBundle("checkoutInsufficientQuantity");
             }
-            
-            //return null;
-        } catch (Throwable t) {
-            t.printStackTrace();
         }
     }
 

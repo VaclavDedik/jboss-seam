@@ -4,6 +4,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
@@ -15,15 +16,14 @@ import org.jboss.seam.security.Identity;
 @Name("authenticator")
 public class AuthenticatorAction implements Authenticator
 {
-    private static final String USER_VAR = "currentUser";
-    
     @In 
     private EntityManager entityManager;
 
     @In Actor actor;
     @In Identity identity;
 
-    @Out(required=false) User currentUser;
+    @Out(required=false, scope=ScopeType.SESSION) 
+    User currentUser;
 
     public boolean authenticate()
     {
@@ -43,6 +43,7 @@ public class AuthenticatorAction implements Authenticator
             identity.addRole("admin");
         }
       
+        System.out.println("CURRENT USER IS " + currentUser);
         return true;
     }
 }
