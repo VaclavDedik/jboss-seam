@@ -172,11 +172,12 @@ public class FullTextSearchAction implements FullTextSearch, Serializable
     <classname>Session</classname>.</para>
 
     <para>When an EJB 3.0 Session or Message Driven Bean injection is used (ie
-    Bean using @PersistenceContext), replacing the
+    Bean using @PersistenceContext), it is not possible to replace the
     <classname>EntityManager</classname> interface by the
-    <classname>FullTextEntityManager</classname> interface is not possible.
-    However, the implementation injected will be a FullTextEntityManager
-    implementation: downcasting is then possible.</para>
+    <classname>FullTextEntityManager</classname> interface in the declaration
+    statement. However, the implementation injected will be a
+    <classname>FullTextEntityManager</classname> implementation: downcasting
+    is then possible.</para>
 
     <programlisting>@Stateful
 @Name("search")
