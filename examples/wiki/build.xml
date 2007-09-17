@@ -88,6 +88,9 @@
         <!-- YES, THIS LOADS jboss-seam.jar AGAIN... -->
         <fileset refid="seamlibs"/>
 
+    	<!-- Add EMMA to the classpath for coverage support -->
+    	<pathelement location="${seam.home}/extras/emma/emma.jar" />
+    	<pathelement location="${seam.home}/extras/emma/emma_ant.jar" />
     </path>
 
     <path id="tools.classpath">
