@@ -68,6 +68,30 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
 
    private static final String NO_SELECTION_VALUE = null;
 
+   /* Kinder impl of get/setLabel */
+   
+   private String label;
+   
+   public String getLabel()
+   {
+      ValueExpression ve = getValueExpression("label");
+      if (ve != null)
+      {
+         Object object = ve.getValue(getFacesContext().getELContext());
+         if (object != null)
+         {
+            return object.toString();
+         }
+      }
+      return label;
+   }
+   
+   public void setLabel(String label)
+   {
+      this.label = label;
+   }
+
+
    public abstract void setHideNoSelectionLabel(Boolean hideNoSelectionLabel);
    
    public abstract Boolean getHideNoSelectionLabel();
@@ -79,11 +103,7 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
    public abstract String getVar();
    
    public abstract void setVar(String var);
-   
-   public abstract String getLabel();
-   
-   public abstract void setLabel(String label);
-   
+      
    public abstract Boolean getDisabled();
    
    public abstract void setDisabled(Boolean disabled);
