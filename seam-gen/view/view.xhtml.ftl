@@ -179,7 +179,7 @@
     </div>
     
     <div class="actionButtons">
-        <s:button id="add${childName}" 
+        <s:button 
                value="Add ${childName}"
                 view="/${childEditPageName}.xhtml">
             <f:param name="${componentName}${util.upper(pojo.identifierProperty.name)}" 
