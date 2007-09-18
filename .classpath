@@ -2,8 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src/main"/>
 	<classpathentry kind="src" path="src/test/misc"/>
-	<classpathentry kind="src" path="examples/blog/src"/>
-	<classpathentry kind="src" path="examples/blog/resources"/>
 	<classpathentry kind="src" path="ui/src/main/java"/>
 	<classpathentry kind="src" path="src/remoting"/>
 	<classpathentry kind="src" path="src/ioc"/>
@@ -50,8 +48,8 @@
 	<classpathentry kind="lib" path="drools/lib/drools-core-4.0.0.jar"/>
 	<classpathentry kind="lib" path="drools/lib/drools-compiler-4.0.0.jar"/>
 	<classpathentry kind="lib" path="lib/lucene-core-2.2.0.jar"/>
-	<classpathentry kind="lib" path="lib/richfaces-api-3.1.0.jar"/>
-	<classpathentry kind="lib" path="lib/richfaces-impl-3.1.0.jar"/>
-	<classpathentry kind="lib" path="lib/richfaces-ui-3.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/richfaces-api-3.1.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/richfaces-impl-3.1.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/richfaces-ui-3.1.1-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="output/classes"/>
 </classpath>
