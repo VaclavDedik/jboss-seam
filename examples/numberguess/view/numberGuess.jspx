@@ -43,11 +43,11 @@
         </h:inputText>
         <h:selectOneMenu value="#{numberGuess.currentGuess}" id="selectGuessMenu" required="true"
                        rendered="#{(numberGuess.biggest-numberGuess.smallest) le 20 and (numberGuess.biggest-numberGuess.smallest) gt 4}">
-          <s:selectItems value="#{numberGuess.possibilities}" var="i" label="#{i.toString()}"/>
+          <s:selectItems value="#{numberGuess.possibilities}" var="i" label="#{i}"/>
         </h:selectOneMenu>
         <h:selectOneRadio value="#{numberGuess.currentGuess}" id="selectGuessRadio" required="true"
                        rendered="#{(numberGuess.biggest-numberGuess.smallest) le 4}">
-          <s:selectItems value="#{numberGuess.possibilities}" var="i" label="#{i.toString()}"/>
+          <s:selectItems value="#{numberGuess.possibilities}" var="i" label="#{i}"/>
         </h:selectOneRadio>
 		<h:commandButton value="Guess" action="guess"/>
         <s:button value="Cheat" action="cheat"/>
