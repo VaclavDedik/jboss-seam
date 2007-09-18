@@ -1,7 +1,7 @@
-#Fri Nov 17 09:07:16 PST 2006
+#Fri Aug 31 15:15:15 CDT 2007
 eclipse.preferences.version=1
-formatter_profile=_Seam
-formatter_settings_version=10
+formatter_profile=_my settings
+formatter_settings_version=11
 internal.default.compliance=default
 org.eclipse.jdt.ui.exception.name=e
 org.eclipse.jdt.ui.gettersetter.use.is=true

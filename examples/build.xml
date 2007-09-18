@@ -761,7 +761,8 @@
 	<target name="test" depends="buildtest" description="Run the tests">
 		<taskdef resource="testngtasks" classpath="${testng.jar}" />
 		<testng outputdir="${test-report.dir}">
-			<jvmarg value="-Djava.awt.headless=true" />
+                    <jvmarg value="-Xmx800M" />
+                    <jvmarg value="-Djava.awt.headless=true" />
 			<classpath path="${test.dir}" />
 			<classpath path="${eejb.conf.dir}" />
 			<classpath refid="build.classpath" />

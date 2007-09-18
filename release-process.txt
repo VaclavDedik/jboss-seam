@@ -8,16 +8,13 @@ Updating version numbers
   - changelog.txt
   - build.properties
 
-  (Actually, we should fix it so the last two
-  version numbers can be pulled from build.properties.) 
-
 * Finally, update the changelog, by copy/pasting
   the JIRA text release notes.
 
 Tests
 -----
 * "ant cleanall testall testreport" with validate.xml = true in build.properties, check report/junit-noframes.html
-* Sanity check the following example applications on JBoss 4.2.0
+* Sanity check the following example applications on JBoss 4.2.1
   - booking
   - dvdstore
   - jpa
