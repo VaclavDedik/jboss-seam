@@ -75,6 +75,7 @@ Build + Upload
 * check that the following files/directories exist in the dist "ls -1"
 
 bootstrap
+build
 build.properties
 build.xml
 changelog.txt
@@ -102,6 +103,7 @@ seam.bat
 seam2migration.txt
 src
 ui
+validate.xml
 
 * check that the following source directories exist in the dist "ls -1 src"
 
