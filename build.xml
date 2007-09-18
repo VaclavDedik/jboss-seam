@@ -22,7 +22,7 @@
 
 	<!-- Give user a chance to override without editing this file or typing -D -->
 	<property file="${basedir}/build.properties" />
-
+	
 	<!-- Set the version if not set in build.properties -->
 	<condition property="version" value="${DSTAMP}">
 		<not>
@@ -140,7 +140,7 @@
 
 	<!-- CI -->
 
-	<property name="ci.dir" value="${basedir}/ci" />
+	<property name="quietclean" value="false" />
 
 
 	<property name="javac.debug" value="true" />
@@ -223,11 +223,11 @@
 	<!-- ########################## BUILD TARGETS ##########################-->
 
 	<target name="clean" description="Cleans up the build directory" depends="init.m2">
-		<delete dir="${classes.dir}" />
-		<delete dir="${test.dir}" />
-		<delete dir="${report.dir}" />
-		<delete dir="${coverage.dir}" />
-		<delete file="coverage.ec" failonerror="false" />
+		<delete dir="${classes.dir}" quiet="${quietclean}"/>
+		<delete dir="${test.dir}" quiet="${quietclean}" />
+		<delete dir="${report.dir}" quiet="${quietclean}" />
+		<delete dir="${coverage.dir}" quiet="${quietclean}" />
+		<delete file="coverage.ec" failonerror="false" quiet="${quietclean}"/>
 		<cdk target="clean" />
 	</target>
 
@@ -550,7 +550,7 @@
 	<!-- ########################## DIST TARGETS ###########################-->
 
 	<target name="cleandist" description="Cleans up the dist directory">
-		<delete dir="${dist.dir}" />
+		<delete dir="${dist.dir}" quiet="${quietclean}" />
 	</target>
 
 	<target name="copysource">
