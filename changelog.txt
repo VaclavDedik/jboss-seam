@@ -1,6 +1,201 @@
 JBoss Seam Changelog
 ====================
 
+Release Notes - JBoss Seam - Version 2.0.0.CR1
+
+** Bug
+    * [JBSEAM-783] - Examples should support explode target
+    * [JBSEAM-1039] - National characters in PDF
+    * [JBSEAM-1041] - Pages: isLoginRedirectRequired should be called before applying request parameter values
+    * [JBSEAM-1163] - <s:decorate> should nest children with <div> not <span>
+    * [JBSEAM-1423] - "Conversation Id Already In Use" exception with <conversation> tag in pages.xml
+    * [JBSEAM-1426] - Seam pdf documentation incorrect
+    * [JBSEAM-1440] - Custom pdf tag does not render in email when using renderer.render
+    * [JBSEAM-1451] - NPE in NodeHome
+    * [JBSEAM-1487] - Changes to entity converter requires selectable entities to be managed.
+    * [JBSEAM-1494] - add javax.el.LocalStrings
+    * [JBSEAM-1501] - label attribute on s:selectItems is registered as Object, should be String
+    * [JBSEAM-1511] - UISeamCommandBase uses legacy (JSF 1.1) methods
+    * [JBSEAM-1528] - <s:selectItems> only gets value once in a dataTable.
+    * [JBSEAM-1559] - taskInstance attribute missing on s:button and s:link
+    * [JBSEAM-1561] - Exceptionhandling for converter creation
+    * [JBSEAM-1564] - NullPointerException in ServerConversationContext.flush
+    * [JBSEAM-1571] - Stack overflow in ThemeSelector.instance().getThemeResourceBundle(); if resource bundle not present
+    * [JBSEAM-1574] - pages.xml actions are not called when using "render" with s:link and s:button
+    * [JBSEAM-1576] - Query object in framework does not consistently treat "" and null as equivelant.
+    * [JBSEAM-1577] - MockFacesContext.getMessages() does not have stable order
+    * [JBSEAM-1578] - dvdstore example not running in tomcat
+    * [JBSEAM-1579] - Component with @WebRemote methods can't use @RequestParameter injection
+    * [JBSEAM-1580] - Transaction won't commit from MDB Seam2 component
+    * [JBSEAM-1581] - StateException: EntityManager when using s:convertEntity
+    * [JBSEAM-1582] - DataModel with <s:link> or <s:button> Error
+    * [JBSEAM-1583] - seam:component intercept uses Seam standard rules by default
+    * [JBSEAM-1586] - Redirect filter fails to redirect propertly when handing a redirect before seam is full initialized for a request.
+    * [JBSEAM-1588] - Seam Component name "session" reserved keyword
+    * [JBSEAM-1590] - Problem when deploying seam application as directory deployment in glassfish
+    * [JBSEAM-1593] - New processing for stateful bean @Destroy and @Remove causes problems.
+    * [JBSEAM-1594] - jBPM mail templates don't resolve correctly
+    * [JBSEAM-1595] - EnumConverter NPE when missing value
+    * [JBSEAM-1599] - remoting error  when passing entity type argument
+    * [JBSEAM-1602] - exception handler not recognizing end-conversation
+    * [JBSEAM-1604] - Problems with EjbTransaction component and ExceptionFilter when processing an exception.
+    * [JBSEAM-1605] - NotLoggedInExceptions handled by the ExceptionFilter arent propegating the conversation correctly.
+    * [JBSEAM-1608] - Seam application can not start because of  faces-config configuration in seam-ui.jar
+    * [JBSEAM-1609] - Nested conversations - potential bug in Manager.beginNestedConversation
+    * [JBSEAM-1614] - entityManager.joinTransaction() should not be called on non JTA transaction managers
+    * [JBSEAM-1615] - @Begin with conversation id can't use conversation-scoped components
+    * [JBSEAM-1616] - Seam should validate component names and eliminate things that aren't valid EL identifiers
+    * [JBSEAM-1617] - DVD Store Tomcat deployment is broken
+    * [JBSEAM-1620] - "java.lang.IllegalStateException: No application context active" thrown on legacy components.xml declaration
+    * [JBSEAM-1621] - DetachedCriteria#getExecutableCriteria throws ClassCastException: FullTextHibernateSessionProxy
+    * [JBSEAM-1622] - NPE in PassivatedEntity
+    * [JBSEAM-1624] - seam-gen generates incorrect jboss.home property in build.properties
+    * [JBSEAM-1626] - Validation and non-entity components
+    * [JBSEAM-1628] - Injecting uiComponent with required = false fails against Sun RI when component is not present
+    * [JBSEAM-1632] - ResourceBundle and UberResourceBundle should be Serializable
+    * [JBSEAM-1636] - Cannot inject Spring-bound HibernateSessionFactory to Seam-managed Hibernate Session
+    * [JBSEAM-1640] - <international:locale-selector  cookie-enabled="true"/> instead of <core:locale-selector  cookie-enabled="true"/>
+    * [JBSEAM-1645] - Hot deploy JSF deserialization
+    * [JBSEAM-1650] - NPE thrown when attempting to configure HashMap as Seam component
+    * [JBSEAM-1651] - HibernateTransaction: @Transactional + Transaction.setRollbackOnly() issue
+    * [JBSEAM-1652] - Directory "view/exp" is missing for sample "hibernate2" in seam 2.0 beta
+    * [JBSEAM-1654] - ManagedEntityIdentityInterceptor does not clear values in conversation context
+    * [JBSEAM-1656] - passivated entities in parent conversations cause version problems when they're updated
+    * [JBSEAM-1658] - Only one instance of SeamResourceBundle for one locale is created per app
+    * [JBSEAM-1665] - Problem with jpa example in glassfish with seam 2.0 beta1
+    * [JBSEAM-1666] - copy *.drl instead of security.drl in the seam-gen generated build.xml
+    * [JBSEAM-1667] - Validators not working for ValueBindings from Trinidad
+    * [JBSEAM-1673] - ResourceServlet is deprecated
+    * [JBSEAM-1674] - HibernateSessionFactory creates a Factory on every DB operation
+    * [JBSEAM-1677] - SeamResourceBundle bundleCache always empty
+    * [JBSEAM-1681] - NPE thrown when activating/passivinting the session in tomcat
+    * [JBSEAM-1682] - query restriction example: in ejbql the use of + operator appears to be wrong
+    * [JBSEAM-1686] - s:button image does not copy image URL to output
+    * [JBSEAM-1688] - SMPC is broken on Glassfish
+    * [JBSEAM-1691] - MockHttpServletRequest getRequestURI should return same value as getRequestURL
+    * [JBSEAM-1696] - EmptyStackException in Transaction.java
+    * [JBSEAM-1698] - Seam Text can not parse Chinese punctuations
+    * [JBSEAM-1701] - local interface of EjbTransactionSynchronizations is mis-spelled
+    * [JBSEAM-1702] - <s:entityConverter> gives NPE
+    * [JBSEAM-1706] - EL fails reading from anonymous inner class
+    * [JBSEAM-1713] - Change access specifier on initCredentialsFromCookie()
+    * [JBSEAM-1714] - WebService and JBPM
+    * [JBSEAM-1719] - UrlBuilder doesnt construct a correct url when the base url already has request params in place.
+    * [JBSEAM-1725] - <s:convertEntity> doesn't work when using binding instead of value
+    * [JBSEAM-1730] - Injecting uiComponent with required = false fails with NPE if FacesContext is not available
+    * [JBSEAM-1736] - WS and seam:conversationId
+    * [JBSEAM-1742] - Examples code cleanup
+    * [JBSEAM-1744] - s:convertEntity fails with an java.lang.IllegalArgumentException: Unknown entity: my.Entity_$$_javassist_3
+    * [JBSEAM-1750] - Accessing handledException through EL broken
+    * [JBSEAM-1757] - @DataModel on a getter broken on Statefull beans.
+    * [JBSEAM-1759] - role-name NONE in web.xml is wrong
+    * [JBSEAM-1760] - Latest fails to deploy in Websphere
+    * [JBSEAM-1771] - transaction:ejb-transaction and SeamTest fails when executing tests
+    * [JBSEAM-1774] - org.jboss.seam.core.Contexts factories put *Context components into application scope
+    * [JBSEAM-1776] - Exception handling redirects to incorrect URL
+    * [JBSEAM-1784] - LocaleSelector should use "_" instead of "-_" when tokenizing localeStrings
+    * [JBSEAM-1785] - SeamTest to consider ELResolver from faces-config
+    * [JBSEAM-1787] - Injecting a Hibernate session with @PersistenceContext causes ClassCastException with the Seam Interceptor
+    * [JBSEAM-1789] - s:transformImageSize maintainRatio=false and only width or height set causes NPE
+    * [JBSEAM-1790] - s:fileUpload does not set property to null if user uploads nothing
+    * [JBSEAM-1791] - Bootstrap should be initialized using bootstrap.deployResourceBases instead of bootstrap.deployResourceBase
+    * [JBSEAM-1794] - The equals method in org.jboss.seam.framework.Identifier refrences derived subtype
+    * [JBSEAM-1798] - EntityManagerProxy#getDelegate throws a NPE
+    * [JBSEAM-1799] - Mistyped in documents regarding setting up Seam environment
+    * [JBSEAM-1803] - UIFormattedText does not set the renderer type to null
+    * [JBSEAM-1809] - raise-event should be optional on rule and navigation in pages.dtd
+    * [JBSEAM-1825] - Not all files from bootstrap copied to dist
+    * [JBSEAM-1829] - seam-gen not adding mail files to the eclipse .classpath
+    * [JBSEAM-1840] - Serious nasty problem with ManagedEntityIdentityInterceptor
+    * [JBSEAM-1845] - spring schema has validation problems.
+    * [JBSEAM-1857] - ManagedEntityIdentityInterceptor nulls fields incorrectly in reentrant calls to conversation scoped components
+    * [JBSEAM-1860] - login-required and no-conversation-view-id causes infinite redirect after session timeout on POST request
+    * [JBSEAM-1865] - Remoting.js error on Firefox 2
+    * [JBSEAM-1866] - Seam 2Beta - Examples - Todo Example - button attribute
+    * [JBSEAM-1867] - NPE in org.jboss.seam.util.Reflections when an exception arise while accessing a static field
+    * [JBSEAM-1868] - @DataModel should not require a setter
+    * [JBSEAM-1873] - Packaging recommendations in the docs
+    * [JBSEAM-1876] - m:attachment has runtime dependencies on Seam PDF
+    * [JBSEAM-1877] - s:link, PAGE scope and datamodelselection
+    * [JBSEAM-1880] - Hibernate validator does not use the seam locale
+    * [JBSEAM-1887] - Session timeout results in javax.faces.application.ViewExpiredException
+    * [JBSEAM-1888] - Minor issues in Seam security documentation
+    * [JBSEAM-1890] - Seam Text renders block "quote" as <q>, not <blockquote>
+    * [JBSEAM-1892] - org.jboss.seam.Entity constructor gets methods and fields from wrong instance.
+    * [JBSEAM-1894] - missing a:support for BigInteger in editproperty.xhtml.ftl
+    * [JBSEAM-1919] - Reference doc is not built in latests snapshots
+
+** Feature Request
+    * [JBSEAM-974] - Document Seam dependencies
+    * [JBSEAM-992] - Use Spring configured EntityManagerFactory in spring example
+    * [JBSEAM-1061] - Support EL expressions in remoting calls
+    * [JBSEAM-1068] - Seam JSF component library demonstration
+    * [JBSEAM-1346] - Make seam managed Session replacement for Spring OpenSessionInView
+    * [JBSEAM-1447] - Upgrade to embeddable JBoss
+    * [JBSEAM-1490] - jboss-el for jBPM
+    * [JBSEAM-1538] - BaseSeamTest should not be dependant on JBoss Embedded
+    * [JBSEAM-1575] - Add support for Spring managed transactions in jboss-seam-ioc
+    * [JBSEAM-1601] - Add Content-ID to attachments
+    * [JBSEAM-1606] - Seam variable resolver for drools
+    * [JBSEAM-1607] - s:graphicImage should use a more unique URL
+    * [JBSEAM-1610] - Add log4j diagnostic context filter to Seam logging package
+    * [JBSEAM-1627] - implement the barCode UCC/EAN 128
+    * [JBSEAM-1635] - Migrating to Drools 4.0.0 MR3
+    * [JBSEAM-1641] - redirect do proper page in pageflow as out of order request comes in
+    * [JBSEAM-1646] - don't read external DTDs if we don't have to
+    * [JBSEAM-1657] - Add getAttributes() / setAttribute() to BaseSeamTest.Request
+    * [JBSEAM-1676] - startup="true|false" in components.xml
+    * [JBSEAM-1700] - Raise after transaction success events from EntityHome, HibernateEntityHome
+    * [JBSEAM-1723] - Add jboss support to spring example
+    * [JBSEAM-1724] - Add support for build a jboss war to common example build system
+    * [JBSEAM-1746] - let view-id attribute of <render> or <redirect> NavigationHandlers be a ValueExpression
+    * [JBSEAM-1764] - Create / Extend / Modify  Seam RuleBase component to utilize JBoss Rules 4.0 BRMS rule pkg deployment model.
+    * [JBSEAM-1782] - Embed Hibernate Search 3.0.0.Beta4 and Lucene 2.2
+    * [JBSEAM-1783] - Add Hibernate Search support for JPA
+    * [JBSEAM-1795] - Add ability to disable TLS
+    * [JBSEAM-1813] - Evaluate EL in exception redirect view-id
+    * [JBSEAM-1837] - Atomic persistence contexts for any JPA implementation
+    * [JBSEAM-1864] - Entity-query of Contact List sample does not run against Oracle
+
+** Patch
+    * [JBSEAM-1520] - image files should not be filtered (property replacement)
+    * [JBSEAM-1565] - error in observer example
+    * [JBSEAM-1669] - delete-project should call unexplode and undeploy
+    * [JBSEAM-1727] - messages_de.properties for seam-gen
+
+** Task
+    * [JBSEAM-1321] - Could possibly remove the requirement to specify SeamListener in web.xml
+    * [JBSEAM-1435] - Implement community-oriented user profile screen
+    * [JBSEAM-1450] - Pass Quartz Trigger and end time in @Asynchronous methods
+    * [JBSEAM-1480] - Split examples build targets out from main build.xml
+    * [JBSEAM-1504] - Write unit tests for SeamSpace example
+    * [JBSEAM-1548] - Remaining tasks for seambay (web services) example
+    * [JBSEAM-1568] - Move all examples back onto shared build file
+    * [JBSEAM-1570] - Alter all examples so they use ear/lib
+    * [JBSEAM-1573] - Review all readme files in examples directories
+    * [JBSEAM-1603] - remove "CRUD-Application Generator" section from docs
+    * [JBSEAM-1618] - Improve the documentation for Identity.addRole()
+    * [JBSEAM-1637] - document "autoCreate" option on @Factory
+    * [JBSEAM-1684] - Clean up icefaces stuff in the seam-gen build
+    * [JBSEAM-1695] - s.tld is missing 'template' attribute for s:decorate
+    * [JBSEAM-1705] - update i18n docs
+    * [JBSEAM-1754] - Upgrade to jsf-1.2_4-p02
+    * [JBSEAM-1761] - Remove EntityConverterTag
+    * [JBSEAM-1763] - Renable description elements in converters and validators
+    * [JBSEAM-1777] - Update seam-gen to use ear lib
+    * [JBSEAM-1778] - Update seam-gen web.xml to 2.5 version
+    * [JBSEAM-1815] - Upgrade HSQL lib for seam-gen to 1.8.0.7
+    * [JBSEAM-1817] - document s:label
+    * [JBSEAM-1828] - JBossAS 4.2.x no longer use mail-ra.rar
+    * [JBSEAM-1834] - Docs for org.jboss.seam.transaction
+    * [JBSEAM-1847] - document page parameter usage with no value attribute
+    * [JBSEAM-1861] - document flush-mode attribute in <begin-conversation>
+    * [JBSEAM-1870] - Deprecate s:selectDate
+    * [JBSEAM-1871] - Documentation for OC4J 11g
+    * [JBSEAM-1907] - Upgrade Ajax4jsf and Richfaces to Richfaces 3.1rc5
+    * [JBSEAM-1920] - Upgrade to Richfaces 3.1.0 GA
+
+
 Release Notes - JBoss Seam - Version 2.0.0.BETA1
 
 ** Bug
