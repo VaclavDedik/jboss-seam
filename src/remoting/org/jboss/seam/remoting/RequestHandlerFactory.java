@@ -23,8 +23,17 @@ public class RequestHandlerFactory
   {
     registerHandler(REQUEST_PATH_EXECUTE, new ExecutionHandler());
     registerHandler(REQUEST_PATH_SUBSCRIPTION, new SubscriptionHandler());
-    registerHandler(REQUEST_PATH_POLL, new PollHandler());
     registerHandler(REQUEST_PATH_INTERFACE, new InterfaceGenerator());
+    
+    try
+    {
+       Class.forName("javax.jms.Message");
+       registerHandler(REQUEST_PATH_POLL, new PollHandler());
+    }
+    catch (ClassNotFoundException ex) 
+    { 
+        // Don't register PollHandler, swallow the exception
+    }
   }
 
   public void registerHandler(String path, RequestHandler handler)
