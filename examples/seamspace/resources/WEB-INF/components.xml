@@ -37,6 +37,8 @@
 
     <persistence:managed-persistence-context name="entityManager" auto-create="true"
                 persistence-unit-jndi-name="java:/seamspaceEntityManagerFactory"/>
+                
+    <component name="org.jboss.seam.captcha.captchaImage" service="#{customCaptcha.service}"/>
     
     <event type="org.jboss.seam.notLoggedIn">
         <action expression="#{redirect.captureCurrentView}"/>

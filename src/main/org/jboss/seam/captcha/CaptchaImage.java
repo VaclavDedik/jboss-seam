@@ -19,6 +19,7 @@ import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.ServletLifecycle;
+import org.jboss.seam.core.Expressions;
 import org.jboss.seam.web.AbstractResource;
 
 import com.octo.captcha.service.CaptchaServiceException;
@@ -37,7 +38,7 @@ import com.octo.captcha.service.image.ImageCaptchaService;
 @Install(precedence = BUILT_IN,  
          classDependencies="com.octo.captcha.service.image.ImageCaptchaService")
 public class CaptchaImage extends AbstractResource
-{
+{   
    private ImageCaptchaService service;
    
    public static CaptchaImage instance()
@@ -64,7 +65,10 @@ public class CaptchaImage extends AbstractResource
    @Create
    public void create()
    {
-      service = new DefaultManageableImageCaptchaService();
+      if (service == null)
+      {
+         service = new DefaultManageableImageCaptchaService();
+      }
    }
    
    @Override
@@ -110,4 +114,13 @@ public class CaptchaImage extends AbstractResource
       response.getOutputStream().close();
    }
    
+   public ImageCaptchaService getService()
+   {
+      return service;
+   }
+   
+   public void setService(ImageCaptchaService service)
+   {
+      this.service = service;
+   }
 }
