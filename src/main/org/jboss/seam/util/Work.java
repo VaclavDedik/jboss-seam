@@ -24,7 +24,8 @@ public abstract class Work<T>
    
    public final T workInTransaction() throws Exception
    {
-      boolean transactionActive = Transaction.instance().isActiveOrMarkedRollback();
+      boolean transactionActive = Transaction.instance().isActiveOrMarkedRollback()
+              || Transaction.instance().isRolledBack(); //TODO: temp workaround, what should we really do in this case??
       boolean begin = isNewTransactionRequired(transactionActive);
       UserTransaction userTransaction = begin ? Transaction.instance() : null;
       
