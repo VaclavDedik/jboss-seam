@@ -428,6 +428,7 @@
 		<ant dir="examples/quartz" target="clean" inheritall="false" />
 		<ant dir="examples/wiki" target="clean" inheritall="false" />
 		<ant dir="examples/seamdiscs" target="clean" inheritall="false" />
+		<ant dir="examples/seambay" target="clean" inheritall="false" />
 	</target>
 
 	<target name="undeployall" description="Undeploy all examples">
@@ -456,6 +457,7 @@
 		<ant dir="examples/quartz" target="undeploy" inheritall="false" />
 		<ant dir="examples/wiki" target="undeploy" inheritall="false" />
 		<ant dir="examples/seamdiscs" target="undeploy" inheritall="false" />
+		<ant dir="examples/seambay" target="undeploy" inheritall="false" />
 
 		<!-- Unexplode from JBoss -->
 		<ant dir="examples/booking" target="unexplode" inheritall="false" />
@@ -480,6 +482,7 @@
 		<ant dir="examples/groovybooking" target="unexplode" inheritall="false" />
 		<ant dir="examples/quartz" target="unexplode" inheritall="false" />
 		<ant dir="examples/seamdiscs" target="unexplode" inheritall="false" />
+		<ant dir="examples/seambay" target="unexplode" inheritall="false" />
 
 		<!-- Undeploy from Tomcat -->
 		<ant dir="examples/booking" target="tomcat.undeploy" inheritall="false" />
@@ -513,6 +516,7 @@
 		<ant dir="examples/todo" target="test" inheritall="false" />
 		<ant dir="examples/blog" target="test" inheritall="false" />
 		<ant dir="examples/ui" target="test" inheritall="false" />
+		<ant dir="examples/seambay" target="test" inheritall="false" />
 		<ant dir="examples/wiki" target="test" inheritall="false" >
 			<property name="test.output.dir" value="${test.dir}/wiki" />
 		</ant>
@@ -639,6 +643,7 @@
 				<include name="seamdiscs/**/*" />
 				<include name="quartz/**/*" />
 				<include name="wiki/**/*" />
+				<include name="seambay/**/*" />
 				<!--<include name="portal/**/*" />-->
 				<include name="drools/**/*" />
 				<include name="remoting/chatroom/**/*" />
