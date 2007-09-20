@@ -136,3 +136,6 @@ richfaces-impl.jar and richfaces-ui.jar (both of which go in WEB-INF/lib).
 
 s:selectDate has been deprecated in favor of rich:calendar.  No more 
 development will be done on s:selectDate.
+
+You should check the RichFaces documentation for more information on parameter
+name changes and namespace changes.
