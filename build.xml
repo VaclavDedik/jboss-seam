@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="Seam" default="build" basedir=".">
+<project name="Seam" default="build" basedir="."  xmlns:artifact="urn:maven-artifact-ant">
 
 	<tstamp />
 
@@ -315,8 +315,7 @@
 	<target name="jarui" description="Build the distribution .jar file for the UI package based on A4J CDK" depends="initui">
 		<mkdir dir="${dist.dir}" />
 		<cdk target="install" />
-		<copy file="${ui.dir}/target/jboss-seam-ui.jar" tofile="${basedir}/${name}-ui.jar" />
-		<copy file="${basedir}/${name}-ui.jar" todir="${dist.dir}" />
+		<copy file="${ui.dir}/target/jboss-seam-ui.jar" tofile="${basedir}/lib/${name}-ui.jar" />
 	</target>
 
 
@@ -659,8 +658,8 @@
 
 	<!-- ########################### TEST TARGETS ###########################-->
 
-	<target name="compiletest" depends="inittestcore,select-compiler,antlr,jarremoting">
-		<compile classesdir="${classes.test.dir}" srcdir="${src.test.dir}" classpath="test.core.path" />
+	<target name="compiletest" depends="inittestcore,select-compiler,antlr">
+		<compile classesdir="${classes.test.dir}" srcdir="${src.test.dir}" classpath="test.compile.path" />
 	</target>
 	
 	<target name="inittestcore" depends="build">
@@ -668,6 +667,14 @@
 		<copy todir="${classes.test.core.dir}">
 			<fileset dir="${classes.core.dir}" includes="**/*.*" />
 		</copy>
+		<artifact:dependencies pathId="remoting.path">
+			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-remoting" version="${version}.${patchlevel}" />
+		</artifact:dependencies>
+		<path id="test.compile.path">
+			<path refid="test.core.path" />
+			<path path="${classes.test.core.dir}" />
+			<path refid="remoting.path" />
+		</path>
 	</target>
 
 
@@ -766,7 +773,7 @@
 		<attribute name="classesdir" />
 		<attribute name="srcdir" />
 		<attribute name="classpath" />
-		<element name="compile.classpath" optional="true" />
+		<element name="compile.classpath" optional="true" implicit="true"/>
 		<sequential>
 			<javac source="1.5" target="1.5" destdir="@{classesdir}" debug="${javac.debug}" deprecation="${javac.deprecation}" nowarn="on" srcdir="@{srcdir}">
 				<classpath>

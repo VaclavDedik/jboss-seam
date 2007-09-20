@@ -533,7 +533,7 @@
                 <exclude name="ajax4jsf*.jar" if="icefaces.property"/>
                 <exclude name="richfaces*.jar" if="icefaces.property"/>
             	<exclude name="jboss-container.jar" />
-            	<exclude name="test/jboss-deployers.jar" />
+            	<exclude name="test/jboss-deplyers.jar" />
             	<exclude name="test/jboss-embedded-api.jar" />
             </fileset>
             <fileset file="${driver.jar}"/>
