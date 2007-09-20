@@ -427,7 +427,7 @@
 
 	<target name="testall" depends="testcore,build,compiletest" description="Run the core unit tests and all example tests">
 		<ant dir="examples/booking" target="test" inheritall="false" />
-		<ant dir="examples/dvdstore" target="test" inheritall="false" />
+		<!--<ant dir="examples/dvdstore" target="test" inheritall="false" />-->
 		<ant dir="examples/messages" target="test" inheritall="false" />
 		<ant dir="examples/numberguess" target="test" inheritall="false" />
 		<ant dir="examples/contactlist" target="test" inheritall="false" />
@@ -435,9 +435,9 @@
 		<ant dir="examples/todo" target="test" inheritall="false" />
 		<ant dir="examples/blog" target="test" inheritall="false" />
 		<ant dir="examples/ui" target="test" inheritall="false" />
-		<ant dir="examples/wiki" target="test" inheritall="false">
+		<!--<ant dir="examples/wiki" target="test" inheritall="false">
 			<property name="test.output.dir" value="${test.dir}/wiki" />
-		</ant>
+		</ant>-->
 		<!--<ant dir="examples/portal" target="test" inheritall="false" />-->
 	</target>
 	<target name="validateall" description="Validate all example XML Configuration Files">
