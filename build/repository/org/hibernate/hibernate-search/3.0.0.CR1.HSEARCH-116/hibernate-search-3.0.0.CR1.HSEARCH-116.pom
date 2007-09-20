@@ -1,0 +1,62 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.hibernate</groupId>
+	<artifactId>hibernate-search</artifactId>
+	<packaging>jar</packaging>
+	<name>Hibernate Search</name>
+	<version>3.0.0.CR1.HSEARCH-116</version>
+	<url>http://search.hibernate.org</url>
+	<licenses>
+		<license>
+			<name>GNU LESSER GENERAL PUBLIC LICENSE</name>
+			<url>http://www.gnu.org/licenses/lgpl.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<description>Hibernate Search brings the power of full text search engines to the persistence domain model and Hibernate experience, through transparent configuration (Hibernate Annotations) and a common API.</description>
+	<scm>
+		<url>scm:svn:http://anonsvn.jboss.org/repos/hibernate/search/trunk</url>
+	</scm>	
+<!-- From README.txt
+Hibernate Search dependencies
+=============================
+
+Core
+====
+hibernate-commons-annotations.jar: required
+hibernate3.jar: required
+hibernate core dependencies: required (see Hibernate Core for more information)
+lucene-core-*.jar: required (used version 2.2.0)
+jms.jar: optional (needed for JMS based clustering strategy, usually available with your application server)
+
+Test
+====
+hibernate-annotations.jar: required
+hibernate-entitymanager.jar: required
+-->
+	<dependencies>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-commons-annotations</artifactId>
+			<version>3.0.0.ga</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate</artifactId>
+			<version>3.2.4.ga</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-core</artifactId>
+			<version>2.2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.jms</groupId>
+			<artifactId>jms</artifactId>
+			<version>1.1</version>
+			<optional>true</optional>
+		</dependency>
+	</dependencies>
+</project>

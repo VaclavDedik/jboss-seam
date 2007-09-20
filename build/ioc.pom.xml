@@ -82,10 +82,6 @@
 					<groupId>apache-slide</groupId>
 					<artifactId>webdavlib</artifactId>
 				</exclusion>
-				<exclusion>
-					<groupId>jboss</groupId>
-                    <artifactId>jboss-container</artifactId>
-                </exclusion>
 			</exclusions>
 		</dependency>
 
