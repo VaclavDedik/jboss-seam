@@ -110,10 +110,6 @@
 
     <!-- ################## CUSTOM TASKS ####################### -->
 
-    <taskdef name="hibernatetool"
-             classname="org.hibernate.tool.ant.HibernateToolTask"
-             classpathref="tools.classpath"/>
-
 
     <!-- ################## SETUP ####################### -->
 
@@ -121,6 +117,9 @@
         <mkdir dir="${classes.dir}"/>
         <mkdir dir="${testclasses.dir}"/>
         <mkdir dir="${exploded.war.dir}"/>
+    	<taskdef name="hibernatetool"
+    	             classname="org.hibernate.tool.ant.HibernateToolTask"
+    	             classpathref="tools.classpath"/>
     </target>
 
     <target name="clean" description="Cleans up all build artifacts">
