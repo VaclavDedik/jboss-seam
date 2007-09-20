@@ -139,3 +139,9 @@ development will be done on s:selectDate.
 
 You should check the RichFaces documentation for more information on parameter
 name changes and namespace changes.
+
+Packaging changes
+-----------------
+You should place all the dependencies which you previously declared as modules
+in application.xml in the lib/ directory of your ear *except* jboss-seam.jar
+which should be declared as an ejb module in application.xml
