@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<parent>
-		<artifactId>jboss-seam</artifactId>
+		<artifactId>root</artifactId>
 		<groupId>org.jboss.seam</groupId>
 		<version>@seam.version@</version>
 	</parent>
@@ -20,7 +20,7 @@
 			<plugin>
 				<groupId>org.richfaces.cdk</groupId>
 				<artifactId>maven-cdk-plugin</artifactId>
-				<version>3.1.0</version>
+				<version>3.1.1-SNAPSHOT</version>
 				<executions>
 					<execution>
 						<phase>generate-sources</phase>
@@ -74,7 +74,7 @@
 
 		<dependency>
 			<groupId>org.jboss.seam</groupId>
-			<artifactId>jboss-seam-core</artifactId>
+			<artifactId>jboss-seam</artifactId>
 		</dependency>
 
 		<dependency>

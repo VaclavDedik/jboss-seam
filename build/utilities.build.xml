@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<!-- Ant build file containing utility targets and macrodefs -->
+
+<!-- This file makes use of the following properties:
+   version
+   patchlevel
+   tmp.dir - temporary build area
+   -->
+<project basedir="." xmlns:artifact="urn:maven-artifact-ant">
+
+	<macrodef name="pomfile">
+		<attribute name="name" />
+		<attribute name="value" />
+		<attribute name="todir" default="${tmp.dir}/poms" />
+		<attribute name="tofile" default="@{todir}/@{name}" />
+		<sequential>
+			<mkdir dir="@{todir}" />
+			<copy file="@{value}" tofile="@{tofile}" overwrite="on" verbose="false">
+				<filterset>
+					<filter token="seam.version" value="${version}.${patchlevel}" />
+				</filterset>
+			</copy>
+			<property name="@{name}" value="@{tofile}" />
+		</sequential>
+	</macrodef>
+
+	<macrodef name="dependencies">
+		<attribute name="id" />
+		<attribute name="scope" />
+		<attribute name="pom" />
+		<sequential>
+			<artifact:dependencies pathId="@{scope}.@{id}.path" filesetId="@{scope}.@{id}.fileset" versionsId="@{scope}.@{id}.versions" useScope="@{scope}">
+				<pom file="@{pom}" />
+				<remoterepository refid="local.repository" />
+			</artifact:dependencies>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="install">
+		<attribute name="pom" default="" />
+		<attribute name="jar" default="" />
+		<sequential>
+			<artifact:install file="@{jar}">
+				<pom file="@{pom}" />
+			</artifact:install>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="deploy">
+		<attribute name="pom" default="" />
+		<attribute name="jar" default="" />
+		<attribute name="repositoryId" default="" />
+		<sequential>
+			<echo>@{jar}</echo>
+			<artifact:deploy file="@{jar}">
+				<pom file="@{pom}" />
+				<remoteRepository refId="@{repositoryId}" />
+			</artifact:deploy>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="deployLocal">
+		<attribute name="pom" default="" />
+		<attribute name="jar" default="" />
+		<sequential>
+			<deploy pom="@{pom}" jar="@{jar}" repositoryId="local.repository" />
+		</sequential>
+	</macrodef>
+
+	<!-- Copy dependencies from a given pom/scope to a directory, flattening 
+	the directory structure and version information -->
+	<macrodef name="copyDependencies">
+		<attribute name="id" />
+		<attribute name="scope" />
+		<attribute name="pom" />
+		<attribute name="todir" />
+		<sequential>
+			<dependencies id="@{id}" scope="@{scope}" pom="@{pom}" />
+			<copy todir="@{todir}">
+				<fileset refid="@{scope}.@{id}.fileset" />
+				<mapper classpathref="maven-ant-tasks.classpath" classname="org.apache.maven.artifact.ant.VersionMapper" from="${@{scope}.@{id}.versions}" to="flatten" />
+			</copy>
+		</sequential>
+	</macrodef>
+
+</project>

@@ -4,12 +4,13 @@
 	<path id="maven-ant-tasks.classpath" path="lib/maven-ant-tasks.jar" />
 	<typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="urn:maven-artifact-ant" classpathref="maven-ant-tasks.classpath" />
 
-	<property name="classes.dir" value="../classes" />
 	<property name="seam.dir" value="${basedir}/../" />
-	
+	<property name="tmp.dir" value="${seam.dir}/classes" />
+	<property name="build.dir" value="${basedir}" />
 	<property file="${seam.dir}/build.properties" />
 
-	<import file="utilities.xml" />
+	<import file="utilities.build.xml" />
+	<import file="common.build.xml" />
 
 	<target name="deployLocal" description="Deploy a pom and jar to local (development) repository">
 		<pomfile name="pom.file" value="${pom}" />

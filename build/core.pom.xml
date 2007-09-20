@@ -4,10 +4,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jboss.seam</groupId>
-	<artifactId>jboss-seam-core</artifactId>
+	<artifactId>jboss-seam</artifactId>
 	<parent>
 		<groupId>org.jboss.seam</groupId>
-		<artifactId>jboss-seam</artifactId>
+		<artifactId>root</artifactId>
 		<version>@seam.version@</version>
 	</parent>
 
@@ -120,10 +120,6 @@
 			<artifactId>jcaptcha-all</artifactId>
 			<optional>true</optional>
 			<exclusions>
-				<exclusion>
-					<groupId>commons-collections</groupId>
-					<artifactId>commons-collections</artifactId>
-				</exclusion>
 				<exclusion>
 					<groupId>commons-dbcp</groupId>
            			<artifactId>commons-dbcp</artifactId>
@@ -296,10 +292,6 @@
 			<artifactId>drools-compiler</artifactId>
 			<optional>true</optional>
 			<exclusions>
-				<exclusion> 
-					<groupId>org.eclipse.jdt</groupId>
-        			<artifactId>core</artifactId>
-				</exclusion>
 				<exclusion>
 					<groupId>junit</groupId>
             		<artifactId>junit</artifactId>

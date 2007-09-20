@@ -1,36 +1,47 @@
 <?xml version="1.0"?>
 
-<project name="seam-gen" default="help" basedir=".">
+<project name="seam-gen" default="help" basedir="."  xmlns:artifact="urn:maven-artifact-ant">
 
-    <!-- taskdefs -->
+	<property name="seam.dir" value="${ant.file.seam-gen}/../../" />
 	
-    <taskdef name="packageDirectory" 
-        classname="org.jboss.seam.tool.PackageDirectoryTask" 
-        classpath="../jboss-seam-gen.jar"/>
-    
-    <taskdef name="pathFilename" 
-        classname="org.jboss.seam.tool.PathFilenameTask" 
-        classpath="../jboss-seam-gen.jar"/>
-    
-    <taskdef name="lowercaseProperty" 
-        classname="org.jboss.seam.tool.LowercasePropertyTask" 
-        classpath="../jboss-seam-gen.jar"/>
-    
-    <taskdef name="uppercaseProperty" 
-        classname="org.jboss.seam.tool.UppercasePropertyTask" 
-        classpath="../jboss-seam-gen.jar"/>
-    
-    <taskdef name="print" 
-        classname="org.jboss.seam.tool.PrintTask"
-        classpath="../jboss-seam-gen.jar"/>
+	<!-- Build resources -->
+	<property name="build.dir" value="${seam.dir}/build" />
+	<property name="tmp.dir" value="${seam.dir}/classes" />
+	<property name="lib.dir" value="${seam.dir}/lib" />
+	<import file="${build.dir}/utilities.build.xml" />
+	<import file="${build.dir}/common.build.xml" />
 	
-    <taskdef name="pathFixer" 
-             classname="org.jboss.seam.tool.FixPathTask" 
-             classpath="../jboss-seam-gen.jar"/>
+	<target name="init">
+		<artifact:dependencies pathId="seam-gen.path">
+			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-gen" version="${version}.${patchlevel}" />
+		</artifact:dependencies>
+    	<!-- taskdefs -->
+	    <taskdef name="packageDirectory" 
+	        classname="org.jboss.seam.tool.PackageDirectoryTask" 
+	        classpathref="seam-gen.path"/>
+	    
+	    <taskdef name="pathFilename" 
+	        classname="org.jboss.seam.tool.PathFilenameTask" 
+	        classpathref="seam-gen.path"/>
+	    
+	    <taskdef name="lowercaseProperty" 
+	        classname="org.jboss.seam.tool.LowercasePropertyTask" 
+	        classpathref="seam-gen.path"/>
+	    
+	    <taskdef name="uppercaseProperty" 
+	        classname="org.jboss.seam.tool.UppercasePropertyTask" 
+	        classpathref="seam-gen.path"/>
+	    
+	    <taskdef name="print" 
+	        classname="org.jboss.seam.tool.PrintTask"
+	        classpathref="seam-gen.path"/>
+		
+	    <taskdef name="pathFixer" 
+	             classname="org.jboss.seam.tool.FixPathTask" 
+	             classpathref="seam-gen.path"/>	
+	</target>
     
-
-    
-    <target name="init-properties">
+    <target name="init-properties" depends="init">
         <!-- Give user a chance to override without editing this file or typing -D -->
         <property file="./build.properties" />
     
@@ -68,15 +79,15 @@
             <isset property="hibernate.default_schema"/>
         </condition>
         <condition property="schema.property" value="">
-	    <not><isset property="hibernate.default_schema"/></not>
-	</condition>
-	
-	<condition property="catalog.property" value="&#xa;         &lt;property name=&quot;hibernate.default_catalog&quot; value=&quot;${hibernate.default_catalog}&quot;/&gt;">
-	    <isset property="hibernate.default_catalog"/>
-	</condition>
-	<condition property="catalog.property" value="">
-	    <not><isset property="hibernate.default_catalog"/></not>
-	</condition>
+	    	<not><isset property="hibernate.default_schema"/></not>
+		</condition>
+		
+		<condition property="catalog.property" value="&#xa;         &lt;property name=&quot;hibernate.default_catalog&quot; value=&quot;${hibernate.default_catalog}&quot;/&gt;">
+		    <isset property="hibernate.default_catalog"/>
+		</condition>
+		<condition property="catalog.property" value="">
+		    <not><isset property="hibernate.default_catalog"/></not>
+		</condition>
         
         <condition property="base.dir" value="icefaces-staging" else=".">
              <and>
@@ -121,11 +132,6 @@
         </filterset>
         
     </target>
-	
-    <fileset id="seam" dir="../">
-        <include name="jboss-seam*.jar"/>
-        <exclude name="jboss-seam-gen.jar"/>
-    </fileset>
     
 	<!-- targets -->
 
@@ -150,7 +156,7 @@
     </target>
     
     <target name="setup"
-    	description="Prompt for settings">
+    	description="Prompt for settings" depends="init">
         <property file="./build.properties" prefix="old" />
 
         <echo message="Welcome to seam-gen :-)"/>
@@ -423,7 +429,7 @@
         </copy>
     </target>
     
-    <target name="action-input">
+    <target name="action-input" depends="init">
         
         <input addproperty="component.name" message="Enter the Seam component name"/>
         
@@ -455,7 +461,7 @@
 
     </target>
     
-    <target name="entity-input">
+    <target name="entity-input" depends="init">
     
         <input addproperty="entity.name" message="Enter the entity class name"/>
         <lowercaseProperty name="component.name" value="${entity.name}"/>
@@ -518,17 +524,18 @@
 
 
 
-    <target name="copy-lib">
-        <echo message="Copying Seam jars to the ${project.home}/lib directory..." />
-
+    <target name="copy-lib" depends="copyseam, copyseamdependencies, copyjbossembedded">
+        <echo message="Copying Seam and depdencies to the ${project.home}/lib directory..." />
+    	
         <copy todir="${project.home}/lib" overwrite="true">
             <fileset dir="../lib">
                 <exclude name="jsf-facelets.jar" if="icefaces.property"/>
                 <exclude name="ajax4jsf*.jar" if="icefaces.property"/>
                 <exclude name="richfaces*.jar" if="icefaces.property"/>
+            	<exclude name="jboss-container.jar" />
+            	<exclude name="test/jboss-deployers.jar" />
+            	<exclude name="test/jboss-embedded-api.jar" />
             </fileset>
-            <fileset dir="../drools/lib"/>
-            <fileset refid="seam"/>
             <fileset file="${driver.jar}"/>
             <fileset dir="${icefaces.lib}" >
                 <include name="icefaces*.jar" if="icefaces.property"/>
@@ -1028,7 +1035,7 @@
         <echo message="Database password: ${hibernate.connection.password}"/>
     </target>
     
-    <target name="help">
+    <target name="help" depends="init">
         <print file="README"/>
     </target>
 

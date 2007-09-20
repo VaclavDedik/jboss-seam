@@ -7,7 +7,7 @@
 	<artifactId>jboss-seam-ioc</artifactId>
 	<parent>
 		<groupId>org.jboss.seam</groupId>
-		<artifactId>jboss-seam</artifactId>
+		<artifactId>root</artifactId>
 		<version>@seam.version@</version>
 	</parent>
 
@@ -31,7 +31,7 @@
 
 		<dependency>
 			<groupId>org.jboss.seam</groupId>
-			<artifactId>jboss-seam-core</artifactId>
+			<artifactId>jboss-seam</artifactId>
 		</dependency>
 
 		<dependency>
@@ -82,6 +82,10 @@
 					<groupId>apache-slide</groupId>
 					<artifactId>webdavlib</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>jboss</groupId>
+                    <artifactId>jboss-container</artifactId>
+                </exclusion>
 			</exclusions>
 		</dependency>
 

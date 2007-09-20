@@ -18,6 +18,13 @@
 
 	<!-- Import build.properties for Seam -->
 	<property file="${seam.dir}/build.properties" />
+	
+	<!-- Build resources -->
+	<property name="build.dir" value="${seam.dir}/build" />
+	<property name="tmp.dir" value="${seam.dir}/classes" />
+
+	<import file="${build.dir}/utilities.build.xml" />
+	<import file="${build.dir}/common.build.xml" />
 
 
 	<!-- ###################### PROPERTY DEFINITIONS ###################### -->
@@ -37,7 +44,6 @@
 
 	<!-- Library directories -->
 	<property name="lib.dir" value="${seam.dir}/lib" />
-	<property name="drools.lib.dir" value="${seam.dir}/drools/lib" />
 	<property name="mail.dir" value="${seam.dir}/mail" />
 	<property name="meldware.dir" value="${mail.dir}/buni-meldware" />
 
@@ -128,41 +134,41 @@
 	-->
 
 	<!-- Seam core, with required dependencies -->
-	<fileset id="seam.jar" dir="${seam.dir}">
+	<fileset id="seam.jar" dir="${lib.dir}">
 		<include name="jboss-seam.jar" />
 	</fileset>
 
 	<!-- Seam ui, with required dependencies -->
-	<fileset id="seam.ui.jar" dir="${seam.dir}">
+	<fileset id="seam.ui.jar" dir="${lib.dir}">
 		<include name="jboss-seam-ui.jar" if="seam.ui.lib" />
-		<include name="lib/commons-beanutils*.jar" if="seam.ui.lib" />
+		<include name="commons-beanutils.jar" if="seam.ui.lib" />
 	</fileset>
 
 	<!-- Seam  pdf, with required dependencies -->
-	<fileset id="seam.pdf.jar" dir="${seam.dir}">
+	<fileset id="seam.pdf.jar" dir="${lib.dir}">
 		<include name="jboss-seam-pdf.jar" if="seam.pdf.lib" />
-		<include name="lib/itext-*.jar" if="seam.pdf.lib" />
-		<include name="lib/jfreechart-*.jar" if="seam.pdf.lib" />
-		<include name="lib/jcommon-*.jar" if="seam.pdf.lib" />
+		<include name="itext.jar" if="seam.pdf.lib" />
+		<include name="jfreechart.jar" if="seam.pdf.lib" />
+		<include name="jcommon.jar" if="seam.pdf.lib" />
 	</fileset>
 
 	<!-- Seam debug, with required dependencies -->
-	<fileset id="seam.debug.jar" dir="${seam.dir}">
+	<fileset id="seam.debug.jar" dir="${lib.dir}">
 		<include name="jboss-seam-debug.jar" if="seam.debug.lib" />
 	</fileset>
 
 	<!-- Seam ioc, with required dependencies -->
-	<fileset id="seam.ioc.jar" dir="${seam.dir}">
+	<fileset id="seam.ioc.jar" dir="${lib.dir}">
 		<include name="jboss-seam-ioc.jar" if="seam.ioc.war.lib" />
 	</fileset>
 
 	<!-- Seam mail, with required dependencies -->
-	<fileset id="seam.mail.jar" dir="${seam.dir}">
+	<fileset id="seam.mail.jar" dir="${lib.dir}">
 		<include name="jboss-seam-mail.jar" if="seam.mail.lib" />
 	</fileset>
 
 	<!-- Seam remoting, with required dependencies -->
-	<fileset id="seam.remoting.jar" dir="${seam.dir}">
+	<fileset id="seam.remoting.jar" dir="${lib.dir}">
 		<include name="jboss-seam-remoting.jar" if="seam.remoting.lib" />
 	</fileset>
 
@@ -174,8 +180,9 @@
 	<!-- Dependencies for using Seam with JSF - only needed if the server 
 	     doesn't come with JSF! -->
 	<fileset id="jsf.jar" dir="${lib.dir}">
-		<include name="jsf-*.jar" />
-		<include name="jstl-*.jar" />
+		<include name="jsf-api.jar" />
+		<include name="jsf-impl.jar" />
+		<include name="jstl.jar" />
 	</fileset>
 
 	<!-- ############## OPTIONAL DEPENDENCIES FOR USING SEAM ############## -->
@@ -192,12 +199,12 @@
 
 	<!-- Dependencies for seam used with the Quartz dispatcher -->
 	<fileset id="quartz.jar" dir="${lib.dir}">
-		<include name="quartz-1.6.0.jar" if="quartz.lib" />
+		<include name="quartz.jar" if="quartz.lib" />
 	</fileset>
 
 	<!-- Dependencies for seam-ioc used with Spring -->
 	<fileset id="spring.jar" dir="${lib.dir}">
-		<include name="spring*.jar" if="spring.lib" />
+		<include name="spring.jar" if="spring.lib" />
 	</fileset>
 
 	<!-- Optional UI jars -->
@@ -209,19 +216,19 @@
 
 	<!-- Dependencies for using Seam with Richfaces -->
 	<fileset id="richfaces-api.jar" dir="${lib.dir}">
-		<include name="richfaces-api*.jar" if="richfaces.lib" />
-		<include name="commons-beanutils*.jar" if="richfaces.lib" />
-		<include name="commons-digester*.jar" if="richfaces.lib" />
+		<include name="richfaces-api.jar" if="richfaces.lib" />
+		<include name="commons-beanutils.jar" if="richfaces.lib" />
+		<include name="commons-digester.jar" if="richfaces.lib" />
 	</fileset>
 	
 	<fileset id="richfaces-impl.jar" dir="${lib.dir}">
-		<include name="richfaces-impl*.jar" if="richfaces.lib" />
-		<include name="richfaces-ui*.jar" if="richfaces.lib" />
+		<include name="richfaces-impl.jar" if="richfaces.lib" />
+		<include name="richfaces-ui.jar" if="richfaces.lib" />
 	</fileset>
 
 	<!-- Dependencies for using Seam with JBPM -->
 	<fileset id="jbpm.jar" dir="${lib.dir}">
-		<include name="jbpm*.jar" if="jbpm.lib" />
+		<include name="jbpm-jpdl.jar" if="jbpm.lib" />
 	</fileset>
 
 	<!-- Dependencies for using Seam with JBPM on Tomcat-->
@@ -232,20 +239,25 @@
 	<!-- Dependencies for using Seam with JBoss Cache (s:cache) -->
 	<fileset id="cache.jar" dir="${lib.dir}">
 		<include name="jboss-cache-jdk50.jar" if="cache.lib" />
-		<include name="jboss-aop-jdk50.jar" if="cache.lib" />
+		<include name="jboss-aop.jar" if="cache.lib" />
 		<include name="jgroups.jar" if="cache.lib" />
 	</fileset>
 
 	<!-- Dependencies for using Seam with Hibernate Search -->
 	<fileset id="search.jar" dir="${lib.dir}">
-		<include name="lucene*.jar" if="search.lib" />
+		<include name="lucene-core.jar" if="search.lib" />
 		<include name="hibernate-search.jar" if="search.lib" />
 		<include name="hibernate-commons-annotations.jar" if="search.lib" />
 	</fileset>
 
 	<!-- Dependencies for using Seam with Drools -->
-	<fileset id="drools.jar" dir="${drools.lib.dir}">
-		<include name="*.jar" if="drools.lib" />
+	<fileset id="drools.jar" dir="${lib.dir}">
+		<include name="antlr-runtime.jar" if="drools.lib" />
+		<include name="core-*.jar" if="drools.lib" />
+		<include name="janino-*.jar" if="drools.lib" />
+		<include name="mvel-*.jar" if="drools.lib" />
+		<include name="drools-core-*.jar" if="drools.lib" />
+		<include name="drools-compiler-*.jar" if="drools.lib" />
 	</fileset>
 
 	<!-- Dependencies for using Seam with JCaptcha -->
@@ -372,12 +384,8 @@
 	<path id="build.classpath">
 		<fileset dir="${lib.dir}">
 			<include name="*.jar" />
-		</fileset>
-		<fileset dir="${seam.dir}">
-			<include name="jboss-seam.jar" />
-		</fileset>
-		<fileset dir="${drools.lib.dir}">
-		  <include name="*.jar"/>
+			<!-- Horrible hack around jbossembedded -->
+			<exclude name="jboss-container.jar" />
 		</fileset>
 		<path refid="build.classpath.extras" />
 	</path>
@@ -393,7 +401,7 @@
 	-->
 
 	<!-- Initialize the build -->
-	<target name="init">
+	<target name="init" depends="copyseam, copyseamdependencies">
 		<echo message="Building ${Name} ${version}" />
 		<mkdir dir="${jar.dir}" />
 		<mkdir dir="${ear.dir}" />
@@ -736,7 +744,7 @@
 	</target>
 
 	<!-- Compile the test classes -->
-	<target name="compiletest" unless="eclipse.running">
+	<target name="compiletest" unless="eclipse.running" depends="init">
 		<mkdir dir="${test.dir}" />
 		<javac classpathref="build.classpath" destdir="${test.dir}" debug="${javac.debug}" deprecation="${javac.deprecation}" nowarn="on">
 			<src path="${src.java.dir}" />
@@ -758,15 +766,23 @@
 		</copy>
 	</target>
 
-	<target name="test" depends="buildtest" description="Run the tests">
-		<taskdef resource="testngtasks" classpath="${testng.jar}" />
+	<target name="test" depends="buildtest, copyjbossembedded" description="Run the tests">
+		<path id="test.classpath">
+			<path path="${test.dir}" />
+			<fileset dir="${lib.dir}/test">
+				<include name="*-all.jar" />
+			</fileset>
+			<path path="${eejb.conf.dir}" />
+			<path refid="build.classpath" />
+			<path refid="emma.classpath" />
+		</path>
+		<property name="cp" refid="test.classpath" />
+		<echo file="output">${cp}</echo>
+		<taskdef resource="testngtasks" classpathref="build.classpath" />
 		<testng outputdir="${test-report.dir}">
                     <jvmarg value="-Xmx800M" />
                     <jvmarg value="-Djava.awt.headless=true" />
-			<classpath path="${test.dir}" />
-			<classpath path="${eejb.conf.dir}" />
-			<classpath refid="build.classpath" />
-			<classpath refid="emma.classpath" />
+			<classpath refid="test.classpath" />
 			<xmlfileset dir="${src.test.dir}" includes="**/*.xml" />
 		</testng>
 	</target>
